@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include "hsMatrix44.h"
+#include "CoreLib/hsTArray.hpp"
 
 int main(int argc, char** argv) {
-    hsMatrix44 mat1;
-    hsMatrix44 mat2;
+    hsTArray<hsMatrix44> mar;
+    mar.addNew();
+    mar.addNew();
+    hsMatrix44 &mat1 = *mar[0];
+    hsMatrix44 &mat2 = *mar[1];
     
     mat1(0, 0) = 2.0f;
     mat1(0, 1) = -3.0f;
@@ -23,7 +27,7 @@ int main(int argc, char** argv) {
     mat1(3, 3) = 4.0f;
     
     mat2 = mat1 * .5f;
-    printf("%s\n\n%s\n", mat1.toString(), mat2.toString());
+    printf("%s\n\n%s\n", mar[0]->toString(), mar[1]->toString());
     
     mat1 = mat1 * mat2;
     printf("\n%s\n", mat1.toString());

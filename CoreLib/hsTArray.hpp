@@ -12,7 +12,7 @@ private:
     void ensureCap(int cap) {
         if (max < cap) {
             while (cap > max) max += TARR_CAP_INCREMENT;
-            T* newData[] = new T*[max];
+            T** newData = new T*[max];
             for (int i=0; i<count; i++)
                 newData[i] = data[i];
             data = newData;
@@ -36,6 +36,29 @@ public:
         count = 0;
         max = TARR_CAP_INCREMENT;
         data = new T*[max];
+    }
+
+    void add(T * item) {
+        ensureCap(count+1);
+        data[count++] = item;
+    }
+
+    T * addNew() {
+        ensureCap(count+1);
+        data[count] = new T;
+        return data[count++];
+    }
+
+    T * del(int idx) {
+        T * dItm = data[idx];
+        for (int i=idx; i<count; i++)
+            data[i] = data[i+1];
+        data[--count] = NULL;
+        return dItm;
+    }
+
+    T * operator[](int idx) {
+        return data[idx];
     }
 
     void read(hsStream *S) {
