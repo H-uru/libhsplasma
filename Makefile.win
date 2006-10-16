@@ -1,0 +1,45 @@
+# Project: Plasma
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = PlasmaTest.o DynLib/PageID.o CoreLib/hsStream.o NucleusLib/pnKeyedObject/plKey.o CoreLib/plEncryptedStream.o hsMatrix44.o $(RES)
+LINKOBJ  = PlasmaTest.o DynLib/PageID.o CoreLib/hsStream.o NucleusLib/pnKeyedObject/plKey.o CoreLib/plEncryptedStream.o hsMatrix44.o $(RES)
+LIBS =  -L"D:/Dev/Libs/Directx-10/Lib" -L"D:/Dev/Dev-Cpp/lib"  
+INCS =  -I"D:/Dev/Dev-Cpp/include" 
+CXXINCS =  -I"D:/Dev/Libs/Directx-10/Include"  -I"D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2/backward"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2"  -I"D:/Dev/Dev-Cpp/include" 
+BIN  = Plasma.exe
+CXXFLAGS = $(CXXINCS)  
+CFLAGS = $(INCS)  
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before Plasma.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "Plasma.exe" $(LIBS)
+
+PlasmaTest.o: PlasmaTest.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h hsMatrix44.h
+	$(CPP) -c PlasmaTest.cpp -o PlasmaTest.o $(CXXFLAGS)
+
+DynLib/PageID.o: DynLib/PageID.cpp DynLib/PageID.h DynLib/PlasmaVersions.h   DynLib/../CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   DynLib/../CoreLib/../DynLib/PlasmaVersions.h
+	$(CPP) -c DynLib/PageID.cpp -o DynLib/PageID.o $(CXXFLAGS)
+
+CoreLib/hsStream.o: CoreLib/hsStream.cpp D:/Dev/Dev-Cpp/include/string.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h
+	$(CPP) -c CoreLib/hsStream.cpp -o CoreLib/hsStream.o $(CXXFLAGS)
+
+NucleusLib/pnKeyedObject/plKey.o: NucleusLib/pnKeyedObject/plKey.cpp   D:/Dev/Dev-Cpp/include/stdlib.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/include/string.h   NucleusLib/pnKeyedObject/../../PlasmaConstants.h   NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h
+	$(CPP) -c NucleusLib/pnKeyedObject/plKey.cpp -o NucleusLib/pnKeyedObject/plKey.o $(CXXFLAGS)
+
+CoreLib/plEncryptedStream.o: CoreLib/plEncryptedStream.cpp 
+	$(CPP) -c CoreLib/plEncryptedStream.cpp -o CoreLib/plEncryptedStream.o $(CXXFLAGS)
+
+hsMatrix44.o: hsMatrix44.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h hsMatrix44.h
+	$(CPP) -c hsMatrix44.cpp -o hsMatrix44.o $(CXXFLAGS)
