@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "hsMatrix44.h"
 #include "CoreLib/hsTArray.hpp"
+#include "DynLib/PageID.h"
 
 int main(int argc, char** argv) {
     hsTArray<hsMatrix44> mar;
@@ -31,6 +32,13 @@ int main(int argc, char** argv) {
     
     mat1 = mat1 * mat2;
     printf("\n%s\n", mat1.toString());
+
+    PageID * pid = new PageID();
+    pid->setVer(pvLive);
+    pid->setID(0x60030);
+    printf("\n%d:%d\n", pid->getSeqPrefix(), pid->getPageNum());
+    pid->setVer(pvPrime, true);
+    printf("\n%d:%d\n", pid->getSeqPrefix(), pid->getPageNum());
 
     getchar();
     return 0;

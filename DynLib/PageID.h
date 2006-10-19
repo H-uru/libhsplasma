@@ -23,6 +23,8 @@ public:
     bool isGlobal();
     int getPageNum();
     int getSeqPrefix();
+    void setPageNum(int pn);
+    void setSeqPrefix(int sp);
 
     void read(hsStream *S);
     void write(hsStream *S);

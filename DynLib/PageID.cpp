@@ -13,11 +13,13 @@ PlasmaVer PageID::getVer() {
 }
 
 void PageID::setVer(PlasmaVer pv, bool mutate) {
-    if (mutate) {
-        // Mutate the stored ID to match pv
-        // Or it would if I decide to add this version mutating stuff ;)
-    }
+    register int sp = getSeqPrefix();
+    register int pn = getPageNum();
     ver = pv;
+    if (mutate) {
+        setPageNum(pn);
+        setSeqPrefix(sp);
+    }
 }
 
 void PageID::read(hsStream *S) {
@@ -47,3 +49,26 @@ int PageID::getSeqPrefix() {
     if (getPageNum() < 0) sp--;
     return sp;
 }
+
+void PageID::setPageNum(int pn) {
+    if (isGlobal())
+        if (ver == pvLive)
+            id = (id & 0xFFFF0000) | ((pn & 0xFFFF) + 1);
+        else
+            id = (id & 0xFFFFFF00) | ((pn & 0xFF) + 1);
+    else
+        if (ver == pvLive)
+            id = (id & 0xFFFF0000) | ((pn & 0xFFFF) + 0x31);
+        else
+            id = (id & 0xFFFFFF00) | ((pn & 0xFF) + 0x21);
+}
+
+void PageID::setSeqPrefix(int sp) {
+    if (sp < 0)
+        sp = (sp & 0xFFFFFF00) | (~(sp & 0xFF)) + 1;
+    if (getPageNum() < 0) sp++;
+    sp <<= (ver == pvLive) ? 16 : 8;
+    id &= (ver == pvLive) ? 0xFFFF : 0xFF;
+    id |= sp;
+}
+
