@@ -16,4 +16,4 @@ hsMatrix44.o: hsMatrix44.cpp
 	g++ $(GCCOPTS) -c hsMatrix44.cpp -o hsMatrix44.o
 
 clean:
-	rm *.o
+	rm $(OBJFILES)
