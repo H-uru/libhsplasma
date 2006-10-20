@@ -30,8 +30,11 @@ int main(int argc, char** argv) {
     mat2 = mat1 * .5f;
     printf("%s\n\n%s\n", mar[0]->toString(), mar[1]->toString());
     
-    mat1 = mat1 * mat2;
-    printf("\n%s\n", mat1.toString());
+    mar.add(&(mat1 * mat2));
+    printf("\n%s\n", mar[2]->toString());
+    
+    mar.add(&mat1.scale(2.0f, 1.5f, .5f));
+    printf("\n%s\n", mar[3]->toString());
 
     PageID * pid = new PageID();
     pid->setVer(pvLive);

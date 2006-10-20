@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "hsMatrix44.h"
 
 hsMatrix44::hsMatrix44() {
@@ -23,7 +24,7 @@ float& hsMatrix44::operator()(int y, int x) {
     return data[y][x];
 }
 
-const hsMatrix44& hsMatrix44::operator+(const hsMatrix44 &other) {
+hsMatrix44& hsMatrix44::operator+(const hsMatrix44 &other) {
     hsMatrix44 rmat;
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
@@ -31,7 +32,7 @@ const hsMatrix44& hsMatrix44::operator+(const hsMatrix44 &other) {
     return rmat;
 }
 
-const hsMatrix44& hsMatrix44::operator*(const hsMatrix44 &other) {
+hsMatrix44& hsMatrix44::operator*(const hsMatrix44 &other) {
     hsMatrix44 rmat;
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
@@ -42,7 +43,7 @@ const hsMatrix44& hsMatrix44::operator*(const hsMatrix44 &other) {
     return rmat;
 }
 
-const hsMatrix44& hsMatrix44::operator*(const float mult) {
+hsMatrix44& hsMatrix44::operator*(const float mult) {
     hsMatrix44 rmat;
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
@@ -50,9 +51,50 @@ const hsMatrix44& hsMatrix44::operator*(const float mult) {
     return rmat;
 }
 
+hsMatrix44& hsMatrix44::translate(float x, float y, float z) {
+    hsMatrix44 transMat;
+    transMat(0, 3) = x;
+    transMat(1, 3) = y;
+    transMat(2, 3) = z;
+    return (*this) * transMat;
+}
+
+hsMatrix44& hsMatrix44::scale(float x, float y, float z) {
+    hsMatrix44 scaleMat;
+    scaleMat(0, 0) = x;
+    scaleMat(1, 1) = y;
+    scaleMat(2, 2) = z;
+    return (*this) * scaleMat;
+}
+
+hsMatrix44& hsMatrix44::rotate(float x, float y, float z) {
+    // Note: This is only for rotation around the global axes.
+    //   You should get Local-To-World coordinates first before using this
+    //   function if you want a local axis rotation.
+    hsMatrix44 rotMat, result;
+    rotMat(1, 1) = cos(x);
+    rotMat(1, 2) = sin(x);
+    rotMat(2, 1) = -sin(x);
+    rotMat(2, 2) = cos(x);
+    result = (*this) * rotMat;
+    rotMat.Identity();
+    rotMat(0, 0) = cos(y);
+    rotMat(0, 2) = -sin(y);
+    rotMat(2, 0) = sin(y);
+    rotMat(2, 2) = cos(y);
+    result = result * rotMat;
+    rotMat.Identity();
+    rotMat(0, 0) = cos(z);
+    rotMat(0, 1) = sin(z);
+    rotMat(1, 0) = -sin(z);
+    rotMat(1, 1) = cos(z);
+    result = result * rotMat;
+    return result;
+}
+
 const char* hsMatrix44::toString() {
     char* s = new char[4096];
-    sprintf(s, "[ %4.1f %4.1f %4.1f %4.1f\n  %4.1f %4.1f %4.1f %4.1f\n  %4.1f %4.1f %4.1f %4.1f\n  %4.1f %4.1f %4.1f %4.1f ]",
+    sprintf(s, "[ %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f ]",
         data[0][0], data[0][1], data[0][2], data[0][3],
         data[1][0], data[1][1], data[1][2], data[1][3],
         data[2][0], data[2][1], data[2][2], data[2][3],

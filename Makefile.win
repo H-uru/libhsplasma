@@ -26,7 +26,7 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o "Plasma.exe" $(LIBS)
 
-PlasmaTest.o: PlasmaTest.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h hsMatrix44.h
+PlasmaTest.o: PlasmaTest.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h hsMatrix44.h CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h CoreLib/hsStream.h   CoreLib/../DynLib/PlasmaVersions.h
 	$(CPP) -c PlasmaTest.cpp -o PlasmaTest.o $(CXXFLAGS)
 
 DynLib/PageID.o: DynLib/PageID.cpp DynLib/PageID.h DynLib/PlasmaVersions.h   DynLib/../CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   DynLib/../CoreLib/../DynLib/PlasmaVersions.h
@@ -41,5 +41,5 @@ NucleusLib/pnKeyedObject/plKey.o: NucleusLib/pnKeyedObject/plKey.cpp   D:/Dev/De
 CoreLib/plEncryptedStream.o: CoreLib/plEncryptedStream.cpp 
 	$(CPP) -c CoreLib/plEncryptedStream.cpp -o CoreLib/plEncryptedStream.o $(CXXFLAGS)
 
-hsMatrix44.o: hsMatrix44.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h hsMatrix44.h
+hsMatrix44.o: hsMatrix44.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h D:/Dev/Dev-Cpp/include/math.h   hsMatrix44.h
 	$(CPP) -c hsMatrix44.cpp -o hsMatrix44.o $(CXXFLAGS)
