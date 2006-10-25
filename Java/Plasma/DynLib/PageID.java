@@ -17,9 +17,13 @@ public class PageID {
     public PageID() {
         this(0, PlasmaVer.UNKNOWN);
     }
+    public PageID(PageID init) {
+        id = init.id;
+        ver = init.ver;
+    }
 
-    private int getID() { return id; }
-    private void setID(int pid) { id = pid; }
+    public int getID() { return id; }
+    public void setID(int pid) { id = pid; }
 
     public PlasmaVer getVer() { return ver; }
     public void setVer(PlasmaVer pv, boolean mutate) {

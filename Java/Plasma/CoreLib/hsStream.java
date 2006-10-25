@@ -73,7 +73,7 @@ public class hsStream {
         return new String(buf);
     }
 
-    public void writeByte(char v) throws IOException {
+    public void writeByte(byte v) throws IOException {
         F.writeByte(v);
     }
     public void writeShort(short v) throws IOException {
