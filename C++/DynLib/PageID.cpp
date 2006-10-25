@@ -23,12 +23,14 @@ void PageID::setVer(PlasmaVer pv, bool mutate) {
 }
 
 void PageID::read(hsStream *S) {
-    id = S->readLong();
+    id = S->readInt();
     ver = S->getVer();
 }
 
 void PageID::write(hsStream *S) {
-    S->writeLong(id);
+    if (S->getVer() != pvUnknown)
+        this->setVer(S->getVer(), true);
+    S->writeInt(id);
 }
 
 bool PageID::isGlobal() {
