@@ -1,6 +1,8 @@
 #ifndef _HSMATRIX44_H
 #define _HSMATRIX44_H
 
+#include "CoreLib/hsStream.h"
+
 class hsMatrix44 {
 private:
     float data[4][4];
@@ -24,6 +26,9 @@ public:
     hsMatrix44& scale(float x, float y, float z);
     hsMatrix44& rotate(float x, float y, float z);
     
+    void read(hsStream *S);
+    void write(hsStream *S);
+
     const char* toString();
 };
 

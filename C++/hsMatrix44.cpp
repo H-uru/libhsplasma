@@ -25,30 +25,30 @@ float& hsMatrix44::operator()(int y, int x) {
 }
 
 hsMatrix44& hsMatrix44::operator+(const hsMatrix44 &other) {
-    hsMatrix44 rmat;
+    hsMatrix44 * rmat = new hsMatrix44();
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
-            rmat.data[y][x] = data[y][x] + other.data[y][x];
-    return rmat;
+            rmat->data[y][x] = data[y][x] + other.data[y][x];
+    return (*rmat);
 }
 
 hsMatrix44& hsMatrix44::operator*(const hsMatrix44 &other) {
-    hsMatrix44 rmat;
+    hsMatrix44 * rmat = new hsMatrix44();
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
-            rmat.data[y][x] = (data[y][0] * other.data[0][x]) +
-                              (data[y][1] * other.data[1][x]) +
-                              (data[y][2] * other.data[2][x]) +
-                              (data[y][3] * other.data[3][x]);
-    return rmat;
+            rmat->data[y][x] = (data[y][0] * other.data[0][x]) +
+                               (data[y][1] * other.data[1][x]) +
+                               (data[y][2] * other.data[2][x]) +
+                               (data[y][3] * other.data[3][x]);
+    return (*rmat);
 }
 
 hsMatrix44& hsMatrix44::operator*(const float mult) {
-    hsMatrix44 rmat;
+    hsMatrix44 * rmat = new hsMatrix44();
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
-            rmat.data[y][x] = data[y][x] * mult;
-    return rmat;
+            rmat->data[y][x] = data[y][x] * mult;
+    return (*rmat);
 }
 
 hsMatrix44& hsMatrix44::translate(float x, float y, float z) {
@@ -71,25 +71,38 @@ hsMatrix44& hsMatrix44::rotate(float x, float y, float z) {
     // Note: This is only for rotation around the global axes.
     //   You should get Local-To-World coordinates first before using this
     //   function if you want a local axis rotation.
-    hsMatrix44 rotMat, result;
+    hsMatrix44 rotMat;
+    hsMatrix44 * result;
     rotMat(1, 1) = cos(x);
     rotMat(1, 2) = sin(x);
     rotMat(2, 1) = -sin(x);
     rotMat(2, 2) = cos(x);
-    result = (*this) * rotMat;
+    *result = (*this) * rotMat;
     rotMat.Identity();
     rotMat(0, 0) = cos(y);
     rotMat(0, 2) = -sin(y);
     rotMat(2, 0) = sin(y);
     rotMat(2, 2) = cos(y);
-    result = result * rotMat;
+    *result = (*result )* rotMat;
     rotMat.Identity();
     rotMat(0, 0) = cos(z);
     rotMat(0, 1) = sin(z);
     rotMat(1, 0) = -sin(z);
     rotMat(1, 1) = cos(z);
-    result = result * rotMat;
-    return result;
+    *result = (*result) * rotMat;
+    return (*result);
+}
+
+void hsMatrix44::read(hsStream *S) {
+    for (int y=0; y<4; y++)
+        for (int x=0; x<4; x++)
+            data[y][x] = S->readFloat();
+}
+
+void hsMatrix44::write(hsStream *S) {
+    for (int y=0; y<4; y++)
+        for (int x=0; x<4; x++)
+            S->writeFloat(data[y][x]);
 }
 
 const char* hsMatrix44::toString() {
