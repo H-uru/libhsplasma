@@ -1,20 +1,16 @@
 package Plasma.CoreLib;
 
-import java.io.IOException;
-import Plasma.CoreLib.hsStream;
-import Plasma.plCreatable;
-
-public class hsTArray<T extends plCreatable> {
+public class hsTBasicArray<T> {
     private static final int INIT_CAPACITY = 10;
 
-    private T[] data;
-    private int szInc = INIT_CAPACITY;
-    private int count = 0;
+    protected T[] data;
+    protected int szInc = INIT_CAPACITY;
+    protected int count = 0;
 
-    public hsTArray() {
+    public hsTBasicArray() {
         data = (T[]) new Object[szInc];
     }
-    public hsTArray(int sizeInc) {
+    public hsTBasicArray(int sizeInc) {
         data = (T[]) new Object[sizeInc];
         szInc = sizeInc;
     }
@@ -59,18 +55,5 @@ public class hsTArray<T extends plCreatable> {
     }
 
     public int size() { return count; }
-
-    public void read(hsStream S) throws IOException {
-        count = S.readInt();
-        data = (T[]) new Object[count];
-        for (int i=0; i<count; i++)
-            data[i].read(S);
-    }
-
-    public void write(hsStream S) throws IOException {
-        S.writeInt(count);
-        for (int i=0; i<count; i++)
-            data[i].write(S);
-    }
 }
 

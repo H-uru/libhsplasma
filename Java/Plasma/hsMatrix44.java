@@ -1,5 +1,8 @@
 package Plasma;
 
+import java.io.IOException;
+import Plasma.CoreLib.hsStream;
+
 public class hsMatrix44 {
     private float[][] data = new float[4][4];
 
@@ -52,6 +55,18 @@ public class hsMatrix44 {
                                     data[y][2] * other.data[2][x] +
                                     data[y][3] * other.data[3][x];
         return result;
+    }
+
+    public void read(hsStream S) throws IOException {
+        for (int y=0; y<4; y++)
+            for (int x=0; x<4; x++)
+                data[y][x] = S.readFloat();
+    }
+
+    public void write(hsStream S) throws IOException {
+        for (int y=0; y<4; y++)
+            for (int x=0; x<4; x++)
+                S.writeFloat(data[y][x]);
     }
 
     public hsMatrix44 scale(float x, float y, float z) {

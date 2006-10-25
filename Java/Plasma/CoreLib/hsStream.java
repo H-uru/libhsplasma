@@ -37,6 +37,15 @@ public class hsStream {
     public long readLong() throws IOException {
         return F.readLong();
     }
+    public float readFloat() throws IOException {
+        return F.readFloat();
+    }
+    public double readDouble() throws IOException {
+        return F.readDouble();
+    }
+    public boolean readBool() throws IOException {
+        return (F.readByte() != 0);
+    }
     public char readChar() throws IOException {
         return (char) F.readByte();
     }
@@ -75,6 +84,15 @@ public class hsStream {
     }
     public void writeLong(long v) throws IOException {
         F.writeLong(v);
+    }
+    public void writeFloat(float v) throws IOException {
+        F.writeFloat(v);
+    }
+    public void writeDouble(double v) throws IOException {
+        F.writeDouble(v);
+    }
+    public void writeBool(boolean v) throws IOException {
+        F.writeByte(v ? 1 : 0);
     }
     public void writeChar(char v) throws IOException {
         F.writeByte((byte)v);
