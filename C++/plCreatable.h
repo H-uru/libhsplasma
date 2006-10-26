@@ -9,6 +9,9 @@ protected:
     virtual const int getTypeNum();
 
 public:
+    plCreatable();
+    ~plCreatable();
+
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);
 };
