@@ -19,6 +19,19 @@ private:
         }
     }
 
+    void baseRead(hsStream * S) {
+        ensureCap(count);
+        for (int i=0; i<count; i++) {
+            data[i] = new T;
+            data[i]->read(S);
+        }
+    }
+
+    void baseWrite(hsStream * S) {
+        for (int i=0; i<count; i++)
+            data[i]->write(S);
+    }
+
 public:
     hsTArray() : count(0), max(TARR_CAP_INCREMENT) {
         data = new T*[TARR_CAP_INCREMENT];
@@ -29,7 +42,7 @@ public:
         delete [] data;
     }
 
-    void empty() {
+    void clear() {
         for (int i=0; i<count; i++)
             delete data[i];
         delete [] data;
@@ -61,19 +74,24 @@ public:
         return data[idx];
     }
 
-    void read(hsStream *S) {
-        count = S->readLong();
-        ensureCap(count);
-        for (int i=0; i<count; i++) {
-            data[i] = new T;
-            data[i]->read(S);
-        }
+    void read(hsStream * S) {
+        count = S->readInt();
+        baseRead(S);
     }
 
-    void write(hsStream *S) {
-        S->writeLong(count);
-        for (int i=0; i<count; i++)
-            data[i]->write(S);
+    void write(hsStream * S) {
+        S->writeInt(count);
+        baseWrite(S);
+   }
+
+    void read16(hsStream * S) {
+        count = S->readShort();
+        baseRead(S);
+    }
+
+    void write16(hsStream * S) {
+        S->writeShort(count);
+        baseWrite(S);
     }
 };
 
