@@ -19,7 +19,7 @@ public class hsTArray<T extends plCreatable> {
         szInc = sizeInc;
     }
 
-    public void empty() {
+    public void clear() {
         count = 0;
         data = (T[]) new Object[szInc];
     }
@@ -60,17 +60,35 @@ public class hsTArray<T extends plCreatable> {
 
     public int size() { return count; }
 
-    public void read(hsStream S) throws IOException {
-        count = S.readInt();
+    private void readBase(hsStream S) throws IOException {
         data = (T[]) new Object[count];
         for (int i=0; i<count; i++)
             data[i].read(S);
     }
 
-    public void write(hsStream S) throws IOException {
-        S.writeInt(count);
+    public void read(hsStream S) throws IOException {
+        count = S.readInt();
+        readBase(S);
+    }
+
+    public void read16(hsStream S) throws IOException {
+        count = (int)S.readShort();
+        readBase(S);
+    }
+
+    private void writeBase(hsStream S) throws IOException {
         for (int i=0; i<count; i++)
             data[i].write(S);
+    }
+
+    public void write(hsStream S) throws IOException {
+        S.writeInt(count);
+        writeBase(S);
+    }
+
+    public void write16(hsStream S) throws IOException {
+        S.writeShort((short)count);
+        writeBase(S);
     }
 }
 

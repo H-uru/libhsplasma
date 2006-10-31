@@ -102,7 +102,7 @@ public class plKey extends plCreatable {
         if (exists) write(S);
     }
 
-    public int getTypeID() { return -1; }
+    public int getTypeNum() { return -1; }
     public String getTypeName() { return "plKey"; }
 }
 
