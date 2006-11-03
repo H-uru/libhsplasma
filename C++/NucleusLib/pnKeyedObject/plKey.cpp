@@ -11,6 +11,7 @@ plKey::plKey() : flags(0), pageType(PAGE_NORMAL), extra1(0), objType(0),
 
 plKey::plKey(plKey * init) {
     flags = init->flags;
+    delete pageID;
     pageID = new PageID(init->pageID->getID(), init->pageID->getVer());
     pageType = init->pageType;
     extra1 = init->extra1;

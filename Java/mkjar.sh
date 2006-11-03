@@ -22,6 +22,10 @@ echo " * Compiling Plasma"
 javac Plasma/*.java
 echo
 echo " * Making Plasma.jar"
-jar cf Plasma.jar Plasma/*.class Plasma/CoreLib/*.class Plasma/DynLib/*.class Plasma/NucleusLib/pnKeyedObject/*.class Plasma/NucleusLib/pnMessage/*.class Plasma/NucleusLib/pnNetCommon/*.class Plasma/PubUtilLib/plGImage/*.class
+jar cf Plasma.jar Plasma/*.class Plasma/CoreLib/*.class Plasma/DynLib/*.class \
+       Plasma/NucleusLib/pnKeyedObject/*.class \
+       Plasma/NucleusLib/pnMessage/*.class \
+       Plasma/NucleusLib/pnNetCommon/*.class \
+       Plasma/PubUtilLib/plGImage/*.class
 echo
 
