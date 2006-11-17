@@ -5,28 +5,28 @@ CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = PlasmaTest.o DynLib/PageID.o CoreLib/hsStream.o NucleusLib/pnKeyedObject/plKey.o CoreLib/plEncryptedStream.o hsMatrix44.o $(RES)
-LINKOBJ  = PlasmaTest.o DynLib/PageID.o CoreLib/hsStream.o NucleusLib/pnKeyedObject/plKey.o CoreLib/plEncryptedStream.o hsMatrix44.o $(RES)
+OBJ  = PlasmaTest.o DynLib/PageID.o CoreLib/hsStream.o NucleusLib/pnKeyedObject/plKey.o CoreLib/plEncryptedStream.o hsMatrix44.o plCreatable.o plReceiver.o NucleusLib/pnKeyedObject/hsKeyedObject.o DynLib/plString.o NucleusLib/pnNetCommon/plSynchedObject.o PubUtilLib/plGImage/plBitmap.o $(RES)
+LINKOBJ  = PlasmaTest.o DynLib/PageID.o CoreLib/hsStream.o NucleusLib/pnKeyedObject/plKey.o CoreLib/plEncryptedStream.o hsMatrix44.o plCreatable.o plReceiver.o NucleusLib/pnKeyedObject/hsKeyedObject.o DynLib/plString.o NucleusLib/pnNetCommon/plSynchedObject.o PubUtilLib/plGImage/plBitmap.o $(RES)
 LIBS =  -L"D:/Dev/Libs/Directx-10/Lib" -L"D:/Dev/Dev-Cpp/lib"  
 INCS =  -I"D:/Dev/Dev-Cpp/include" 
 CXXINCS =  -I"D:/Dev/Libs/Directx-10/Include"  -I"D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2/backward"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2"  -I"D:/Dev/Dev-Cpp/include" 
-BIN  = Plasma.exe
-CXXFLAGS = $(CXXINCS)  
-CFLAGS = $(INCS)  
+BIN  = bin/Plasma.exe
+CXXFLAGS = $(CXXINCS)   -fexpensive-optimizations -O2
+CFLAGS = $(INCS)   -fexpensive-optimizations -O2
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before Plasma.exe all-after
+all: all-before bin/Plasma.exe all-after
 
 
 clean: clean-custom
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	$(CPP) $(LINKOBJ) -o "Plasma.exe" $(LIBS)
+	$(CPP) $(LINKOBJ) -o "bin\Plasma.exe" $(LIBS)
 
-PlasmaTest.o: PlasmaTest.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h hsMatrix44.h CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h CoreLib/hsStream.h   CoreLib/../DynLib/PlasmaVersions.h
+PlasmaTest.o: PlasmaTest.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h hsMatrix44.h CoreLib/hsStream.h   CoreLib/../DynLib/PlasmaVersions.h CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h CoreLib/hsStream.h DynLib/PageID.h   DynLib/PlasmaVersions.h DynLib/../CoreLib/hsStream.h
 	$(CPP) -c PlasmaTest.cpp -o PlasmaTest.o $(CXXFLAGS)
 
 DynLib/PageID.o: DynLib/PageID.cpp DynLib/PageID.h DynLib/PlasmaVersions.h   DynLib/../CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   DynLib/../CoreLib/../DynLib/PlasmaVersions.h
@@ -41,5 +41,23 @@ NucleusLib/pnKeyedObject/plKey.o: NucleusLib/pnKeyedObject/plKey.cpp   D:/Dev/De
 CoreLib/plEncryptedStream.o: CoreLib/plEncryptedStream.cpp 
 	$(CPP) -c CoreLib/plEncryptedStream.cpp -o CoreLib/plEncryptedStream.o $(CXXFLAGS)
 
-hsMatrix44.o: hsMatrix44.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h D:/Dev/Dev-Cpp/include/math.h   hsMatrix44.h
+hsMatrix44.o: hsMatrix44.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h D:/Dev/Dev-Cpp/include/math.h   hsMatrix44.h CoreLib/hsStream.h CoreLib/../DynLib/PlasmaVersions.h
 	$(CPP) -c hsMatrix44.cpp -o hsMatrix44.o $(CXXFLAGS)
+
+plCreatable.o: plCreatable.cpp plCreatable.h CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h
+	$(CPP) -c plCreatable.cpp -o plCreatable.o $(CXXFLAGS)
+
+plReceiver.o: plReceiver.cpp plReceiver.h plCreatable.h   CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h
+	$(CPP) -c plReceiver.cpp -o plReceiver.o $(CXXFLAGS)
+
+NucleusLib/pnKeyedObject/hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.cpp   NucleusLib/pnKeyedObject/hsKeyedObject.h   NucleusLib/pnKeyedObject/../../plReceiver.h   NucleusLib/pnKeyedObject/../../plCreatable.h   NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h
+	$(CPP) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o NucleusLib/pnKeyedObject/hsKeyedObject.o $(CXXFLAGS)
+
+DynLib/plString.o: DynLib/plString.cpp D:/Dev/Dev-Cpp/include/string.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h DynLib/plString.h   DynLib/../plCreatable.h DynLib/../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   DynLib/../CoreLib/../DynLib/PlasmaVersions.h   DynLib/../CoreLib/hsStream.h
+	$(CPP) -c DynLib/plString.cpp -o DynLib/plString.o $(CXXFLAGS)
+
+NucleusLib/pnNetCommon/plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.cpp   NucleusLib/pnNetCommon/plSynchedObject.h   NucleusLib/pnNetCommon/../pnKeyedObject/hsKeyedObject.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../plReceiver.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../plCreatable.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   NucleusLib/pnNetCommon/../../CoreLib/hsStream.h   NucleusLib/pnNetCommon/../../DynLib/plString.h   NucleusLib/pnNetCommon/../../DynLib/../plCreatable.h   NucleusLib/pnNetCommon/../../DynLib/../CoreLib/hsStream.h
+	$(CPP) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o NucleusLib/pnNetCommon/plSynchedObject.o $(CXXFLAGS)
+
+PubUtilLib/plGImage/plBitmap.o: PubUtilLib/plGImage/plBitmap.cpp   PubUtilLib/plGImage/plBitmap.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/hsKeyedObject.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../plReceiver.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../plCreatable.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   PubUtilLib/plGImage/../../CoreLib/hsStream.h
+	$(CPP) -c PubUtilLib/plGImage/plBitmap.cpp -o PubUtilLib/plGImage/plBitmap.o $(CXXFLAGS)
