@@ -16,6 +16,9 @@ hsStream::hsStream(const char* file, FileMode mode) {
       case fmReadWrite:
         fm = "r+b";
         break;
+      default:
+        fm = "";
+        break;
     }
     F = fopen(file, fm);
 }

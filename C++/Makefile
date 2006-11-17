@@ -1,45 +1,57 @@
-GCCOPTS=-O2
+CC=g++
+GCCOPTS=-O2 -fPIC -Wall
 OBJFILES=CoreLib/hsStream.o \
 	DynLib/PageID.o DynLib/plString.o \
 	NucleusLib/pnKeyedObject/plKey.o NucleusLib/pnKeyedObject/hsKeyedObject.o \
 	NucleusLib/pnNetCommon/plSynchedObject.o \
 	PubUtilLib/plGImage/plBitmap.o \
 	hsMatrix44.o plCreatable.o plReceiver.o
+PLSLIB=lib/libPlasma.so.1.0.1
 
-all: PlasmaTest
+all: $(PLSLIB) bin/PlasmaTest
 
-PlasmaTest: PlasmaTest.cpp $(OBJFILES)
-	g++ $(GCCOPTS) $(OBJFILES) PlasmaTest.cpp -o PlasmaTest
+lib/libPlasma.so.1.0.1: $(OBJFILES)
+	$(CC) $(GCCOPTS) -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB) $(OBJFILES)
+
+bin/PlasmaTest: PlasmaTest.cpp $(PLSLIB)
+	$(CC) $(GCCOPTS) -Llib/ -lPlasma PlasmaTest.cpp -o bin/PlasmaTest
 
 CoreLib/hsStream.o: CoreLib/hsStream.cpp
-	g++ $(GCCOPTS) -c CoreLib/hsStream.cpp -o CoreLib/hsStream.o
+	$(CC) $(GCCOPTS) -c CoreLib/hsStream.cpp -o CoreLib/hsStream.o
 
 DynLib/PageID.o: DynLib/PageID.cpp
-	g++ $(GCCOPTS) -c DynLib/PageID.cpp -o DynLib/PageID.o
+	$(CC) $(GCCOPTS) -c DynLib/PageID.cpp -o DynLib/PageID.o
 
 DynLib/plString.o: DynLib/plString.cpp
-	g++ $(GCCOPTS) -c DynLib/plString.cpp -o DynLib/plString.o
+	$(CC) $(GCCOPTS) -c DynLib/plString.cpp -o DynLib/plString.o
 
 NucleusLib/pnKeyedObject/plKey.o: NucleusLib/pnKeyedObject/plKey.cpp
-	g++ $(GCCOPTS) -c NucleusLib/pnKeyedObject/plKey.cpp -o NucleusLib/pnKeyedObject/plKey.o
+	$(CC) $(GCCOPTS) -c NucleusLib/pnKeyedObject/plKey.cpp -o NucleusLib/pnKeyedObject/plKey.o
 
 NucleusLib/pnKeyedObject/hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.cpp
-	g++ $(GCCOPTS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o NucleusLib/pnKeyedObject/hsKeyedObject.o
+	$(CC) $(GCCOPTS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o NucleusLib/pnKeyedObject/hsKeyedObject.o
 
 NucleusLib/pnNetCommon/plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.cpp
-	g++ $(GCCOPTS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o NucleusLib/pnNetCommon/plSynchedObject.o
+	$(CC) $(GCCOPTS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o NucleusLib/pnNetCommon/plSynchedObject.o
 
 PubUtilLib/plGImage/plBitmap.o: PubUtilLib/plGImage/plBitmap.cpp
-	g++ $(GCCOPTS) -c PubUtilLib/plGImage/plBitmap.cpp -o PubUtilLib/plGImage/plBitmap.o
+	$(CC) $(GCCOPTS) -c PubUtilLib/plGImage/plBitmap.cpp -o PubUtilLib/plGImage/plBitmap.o
 
 hsMatrix44.o: hsMatrix44.cpp
-	g++ $(GCCOPTS) -c hsMatrix44.cpp -o hsMatrix44.o
+	$(CC) $(GCCOPTS) -c hsMatrix44.cpp -o hsMatrix44.o
 
 plCreatable.o: plCreatable.cpp
-	g++ $(GCCOPTS) -c plCreatable.cpp -o plCreatable.o
+	$(CC) $(GCCOPTS) -c plCreatable.cpp -o plCreatable.o
 
 plReceiver.o: plReceiver.cpp
-	g++ $(GCCOPTS) -c plReceiver.cpp -o plReceiver.o
+	$(CC) $(GCCOPTS) -c plReceiver.cpp -o plReceiver.o
+
+install:
+	cp lib/* /usr/local/lib
 
 clean:
 	rm $(OBJFILES)
+
+distclean:
+	rm $(PLSLIB)
+	rm bin/PlasmaTest

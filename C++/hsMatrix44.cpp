@@ -72,7 +72,7 @@ hsMatrix44& hsMatrix44::rotate(float x, float y, float z) {
     //   You should get Local-To-World coordinates first before using this
     //   function if you want a local axis rotation.
     hsMatrix44 rotMat;
-    hsMatrix44 * result;
+    hsMatrix44 *result = NULL;
     rotMat(1, 1) = cos(x);
     rotMat(1, 2) = sin(x);
     rotMat(2, 1) = -sin(x);

@@ -10,7 +10,7 @@ protected:
 
 public:
     plCreatable();
-    ~plCreatable();
+    virtual ~plCreatable();
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);
