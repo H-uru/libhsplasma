@@ -47,7 +47,8 @@ plReceiver.o: plReceiver.cpp
 	$(CC) $(GCCOPTS) -c plReceiver.cpp -o plReceiver.o
 
 install:
-	cp lib/* /usr/local/lib
+	cp $(PLSLIB) /usr/local/lib
+	ldconfig
 
 clean:
 	rm $(OBJFILES)
