@@ -59,6 +59,11 @@ void plKey::setObjName(const char* name) {
     strcpy(objName, name);
 }
 
+bool plKey::operator==(plKey &other) {
+    return ((*pageID) == (*other.pageID) && objType == other.objType &&
+            (strcmp(objName, other.objName) == 0));
+}
+
 void plKey::read(hsStream *S) {
     flags = S->readByte();
     pageID->read(S);

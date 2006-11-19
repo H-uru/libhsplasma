@@ -21,6 +21,7 @@ public:
     //const hsMatrix44& operator+=(const hsMatrix44 &other);
     //const hsMatrix44& operator*=(const hsMatrix44 &other);
     //const hsMatrix44& operator*=(const float mult);
+    bool operator==(const hsMatrix44 &other);
     
     hsMatrix44& translate(float x, float y, float z);
     hsMatrix44& scale(float x, float y, float z);

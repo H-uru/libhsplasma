@@ -22,6 +22,11 @@ void PageID::setVer(PlasmaVer pv, bool mutate) {
     }
 }
 
+bool PageID::operator==(PageID &other) {
+    return (getPageNum() == other.getPageNum() &&
+            getSeqPrefix() == other.getSeqPrefix());
+}
+
 void PageID::read(hsStream *S) {
     id = S->readInt();
     ver = S->getVer();

@@ -26,6 +26,8 @@ public:
     void setPageNum(int pn);
     void setSeqPrefix(int sp);
 
+    bool operator==(PageID &other);
+
     void read(hsStream *S);
     void write(hsStream *S);
 };

@@ -35,6 +35,8 @@ public:
     void setObjID(int id);
     void setObjName(const char* name);
 
+    bool operator==(plKey &other);
+
     void read(hsStream *S);
     void write(hsStream *S);
     

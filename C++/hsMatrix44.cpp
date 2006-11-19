@@ -51,6 +51,14 @@ hsMatrix44& hsMatrix44::operator*(const float mult) {
     return (*rmat);
 }
 
+bool hsMatrix44::operator==(const hsMatrix44 &other) {
+    for (int y=0; y<4; y++)
+        for (int x=0; x<4; x++)
+            if (data[y][x] != other.data[y][x])
+                return false;
+    return true;
+}
+
 hsMatrix44& hsMatrix44::translate(float x, float y, float z) {
     hsMatrix44 transMat;
     transMat(0, 3) = x;

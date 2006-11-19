@@ -12,16 +12,6 @@ private:
     int count, max;
     T** data;
 
-    void ensureCap(int cap) {
-        if (max < cap) {
-            while (cap > max) max += TARR_CAP_INCREMENT;
-            T** newData = new T*[max];
-            for (int i=0; i<count; i++)
-                newData[i] = data[i];
-            data = newData;
-        }
-    }
-
     void baseRead(hsStream * S) {
         ensureCap(count);
         for (int i=0; i<count; i++) {
@@ -52,6 +42,19 @@ public:
         count = 0;
         max = TARR_CAP_INCREMENT;
         data = new T*[max];
+    }
+
+    int getSize() { return count; }
+    int getCap()  { return max;   }
+
+    void ensureCap(int cap) {
+        if (max < cap) {
+            while (cap > max) max += TARR_CAP_INCREMENT;
+            T** newData = new T*[max];
+            for (int i=0; i<count; i++)
+                newData[i] = data[i];
+            data = newData;
+        }
     }
 
     void add(T * item) {

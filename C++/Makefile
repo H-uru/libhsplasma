@@ -11,9 +11,12 @@ OBJFILES=CoreLib/hsStream.o CoreLib/hsBitVector.o \
 	NucleusLib/pnSceneObject/plCoordinateInterface.o \
 	NucleusLib/pnSceneObject/plDrawInterface.o \
 	NucleusLib/pnSceneObject/plSimulationInterface.o \
+	NucleusLib/pnSceneObject/plSceneObject.o \
 	PubUtilLib/plAvatar/plClothingItem.o \
 	PubUtilLib/plGImage/plBitmap.o \
 	PubUtilLib/plGImage/plFont.o \
+	PubUtilLib/plScene/plSceneNode.o \
+	PubUtilLib/plSurface/hsGMaterial.o \
 	hsMatrix44.o plCreatable.o plReceiver.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
@@ -58,6 +61,9 @@ NucleusLib/pnSceneObject/plDrawInterface.o: NucleusLib/pnSceneObject/plDrawInter
 NucleusLib/pnSceneObject/plObjInterface.o: NucleusLib/pnSceneObject/plObjInterface.cpp
 	$(CC) $(GCCOPTS) -c NucleusLib/pnSceneObject/plObjInterface.cpp -o NucleusLib/pnSceneObject/plObjInterface.o
 
+NucleusLib/pnSceneObject/plSceneObject.o: NucleusLib/pnSceneObject/plSceneObject.cpp
+	$(CC) $(GCCOPTS) -c NucleusLib/pnSceneObject/plSceneObject.cpp -o NucleusLib/pnSceneObject/plSceneObject.o
+
 NucleusLib/pnSceneObject/plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface.cpp
 	$(CC) $(GCCOPTS) -c NucleusLib/pnSceneObject/plSimulationInterface.cpp -o NucleusLib/pnSceneObject/plSimulationInterface.o
 
@@ -69,6 +75,12 @@ PubUtilLib/plGImage/plBitmap.o: PubUtilLib/plGImage/plBitmap.cpp
 
 PubUtilLib/plGImage/plFont.o: PubUtilLib/plGImage/plFont.cpp
 	$(CC) $(GCCOPTS) -c PubUtilLib/plGImage/plFont.cpp -o PubUtilLib/plGImage/plFont.o
+
+PubUtilLib/plScene/plSceneNode.o: PubUtilLib/plScene/plSceneNode.cpp
+	$(CC) $(GCCOPTS) -c PubUtilLib/plScene/plSceneNode.cpp -o PubUtilLib/plScene/plSceneNode.o
+
+PubUtilLib/plSurface/hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.cpp
+	$(CC) $(GCCOPTS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o PubUtilLib/plSurface/hsGMaterial.o
 
 hsMatrix44.o: hsMatrix44.cpp
 	$(CC) $(GCCOPTS) -c hsMatrix44.cpp -o hsMatrix44.o

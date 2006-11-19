@@ -13,7 +13,7 @@ void plSimulationInterface::read(hsStream *S) {
 
     SimFlags.read(S);
     Unknown = S->readInt();
-    Physical->read(S);
+    Physical->readRef(S);
 }
 
 void plSimulationInterface::write(hsStream *S) {
@@ -21,6 +21,6 @@ void plSimulationInterface::write(hsStream *S) {
 
     SimFlags.write(S);
     S->writeInt(Unknown);
-    Physical->write(S);
+    Physical->writeRef(S);
 }
 
