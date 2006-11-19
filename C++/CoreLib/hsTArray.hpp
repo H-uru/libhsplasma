@@ -1,3 +1,6 @@
+#ifndef _HSTARRAY_H
+#define _HSTARRAY_H
+
 #include <stdlib.h>
 #include "hsStream.h"
 
@@ -94,4 +97,6 @@ public:
         baseWrite(S);
     }
 };
+
+#endif
 

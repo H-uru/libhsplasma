@@ -1,22 +1,27 @@
 #include "plObjInterface.h"
 
 plObjInterface::plObjInterface() {
-    SceneObj = new plKey();
+    Owner = new plKey();
 }
 
 plObjInterface::~plObjInterface() {
-    delete SceneObj;
+    delete Owner;
+}
+
+bool plObjInterface::msgReceive(plMessage msg) {
+    // Later
+    return false;
 }
 
 void plObjInterface::read(hsStream *S) {
     plSynchedObject::read(S);
-    SceneObj->read(S);
-    ifFlags.read(S);
+    Owner->readRef(S);
+    Properties.read(S);
 }
 
 void plObjInterface::write(hsStream *S) {
     plSynchedObject::write(S);
-    SceneObj->write(S);
-    ifFlags.write(S);
+    Owner->writeRef(S);
+    Properties.write(S);
 }
 

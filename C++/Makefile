@@ -1,10 +1,16 @@
 CC=g++
 GCCOPTS=-O2 -fPIC -Wall
+
 OBJFILES=CoreLib/hsStream.o CoreLib/hsBitVector.o \
 	DynLib/PageID.o DynLib/plString.o \
-	NucleusLib/pnKeyedObject/plKey.o NucleusLib/pnKeyedObject/hsKeyedObject.o \
+	NucleusLib/pnKeyedObject/plKey.o \
+	NucleusLib/pnKeyedObject/hsKeyedObject.o \
 	NucleusLib/pnNetCommon/plSynchedObject.o \
 	NucleusLib/pnSceneObject/plObjInterface.o \
+	NucleusLib/pnSceneObject/plAudioInterface.o \
+	NucleusLib/pnSceneObject/plCoordinateInterface.o \
+	NucleusLib/pnSceneObject/plDrawInterface.o \
+	NucleusLib/pnSceneObject/plSimulationInterface.o \
 	PubUtilLib/plAvatar/plClothingItem.o \
 	PubUtilLib/plGImage/plBitmap.o \
 	PubUtilLib/plGImage/plFont.o \
@@ -14,7 +20,7 @@ PLSLIB=lib/libPlasma.so.1.0.1
 all: $(PLSLIB) bin/PlasmaTest
 
 lib/libPlasma.so.1.0.1: $(OBJFILES)
-	$(CC) $(GCCOPTS) -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB) $(OBJFILES)
+	$(CC) $(GCCOPTS) $(OBJFILES) -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
 
 bin/PlasmaTest: PlasmaTest.cpp $(PLSLIB)
 	$(CC) $(GCCOPTS) -Llib/ -lPlasma PlasmaTest.cpp -o bin/PlasmaTest
@@ -40,8 +46,20 @@ NucleusLib/pnKeyedObject/hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject
 NucleusLib/pnNetCommon/plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.cpp
 	$(CC) $(GCCOPTS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o NucleusLib/pnNetCommon/plSynchedObject.o
 
+NucleusLib/pnSceneObject/plAudioInterface.o: NucleusLib/pnSceneObject/plAudioInterface.cpp
+	$(CC) $(GCCOPTS) -c NucleusLib/pnSceneObject/plAudioInterface.cpp -o NucleusLib/pnSceneObject/plAudioInterface.o
+
+NucleusLib/pnSceneObject/plCoordinateInterface.o: NucleusLib/pnSceneObject/plCoordinateInterface.cpp
+	$(CC) $(GCCOPTS) -c NucleusLib/pnSceneObject/plCoordinateInterface.cpp -o NucleusLib/pnSceneObject/plCoordinateInterface.o
+
+NucleusLib/pnSceneObject/plDrawInterface.o: NucleusLib/pnSceneObject/plDrawInterface.cpp
+	$(CC) $(GCCOPTS) -c NucleusLib/pnSceneObject/plDrawInterface.cpp -o NucleusLib/pnSceneObject/plDrawInterface.o
+
 NucleusLib/pnSceneObject/plObjInterface.o: NucleusLib/pnSceneObject/plObjInterface.cpp
 	$(CC) $(GCCOPTS) -c NucleusLib/pnSceneObject/plObjInterface.cpp -o NucleusLib/pnSceneObject/plObjInterface.o
+
+NucleusLib/pnSceneObject/plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface.cpp
+	$(CC) $(GCCOPTS) -c NucleusLib/pnSceneObject/plSimulationInterface.cpp -o NucleusLib/pnSceneObject/plSimulationInterface.o
 
 PubUtilLib/plAvatar/plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.cpp
 	$(CC) $(GCCOPTS) -c PubUtilLib/plAvatar/plClothingItem.cpp -o PubUtilLib/plAvatar/plClothingItem.o
