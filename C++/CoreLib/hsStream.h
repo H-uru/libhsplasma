@@ -39,7 +39,7 @@ public:
     double readDouble();
     bool readBool();
     char* readStr(int len);
-    //char* readZStr();
+    char* readStrZ(int len);
     char* readSafeStr();
 
     void writeByte(const char v);
