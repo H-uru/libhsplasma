@@ -1,7 +1,11 @@
 CC=g++
 GCCOPTS=-O2 -fPIC -Wall
 
-OBJFILES=CoreLib/hsStream.o CoreLib/hsBitVector.o \
+OBJFILES=\
+	CoreLib/hsStream.o \
+	CoreLib/hsElfStream.o \
+	CoreLib/hsBitVector.o \
+	CoreLib/hsBounds.o \
 	DynLib/PageID.o DynLib/plString.o \
 	NucleusLib/pnKeyedObject/plKey.o \
 	NucleusLib/pnKeyedObject/hsKeyedObject.o \
@@ -13,11 +17,12 @@ OBJFILES=CoreLib/hsStream.o CoreLib/hsBitVector.o \
 	NucleusLib/pnSceneObject/plSimulationInterface.o \
 	NucleusLib/pnSceneObject/plSceneObject.o \
 	PubUtilLib/plAvatar/plClothingItem.o \
+	PubUtilLib/plDrawable/plSpan.o \
 	PubUtilLib/plGImage/plBitmap.o \
 	PubUtilLib/plGImage/plFont.o \
 	PubUtilLib/plScene/plSceneNode.o \
 	PubUtilLib/plSurface/hsGMaterial.o \
-	hsMatrix44.o plCreatable.o plReceiver.o
+	hsMatrix44.o hsScalarTriple.o Vertex3.o plCreatable.o plReceiver.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
 all: $(PLSLIB) bin/PlasmaTest
@@ -31,8 +36,14 @@ bin/PlasmaTest: PlasmaTest.cpp $(PLSLIB)
 CoreLib/hsStream.o: CoreLib/hsStream.cpp
 	$(CC) $(GCCOPTS) -c CoreLib/hsStream.cpp -o CoreLib/hsStream.o
 
+CoreLib/hsElfStream.o: CoreLib/hsElfStream.cpp
+	$(CC) $(GCCOPTS) -c CoreLib/hsElfStream.cpp -o CoreLib/hsElfStream.o
+
 CoreLib/hsBitVector.o: CoreLib/hsBitVector.cpp
 	$(CC) $(GCCOPTS) -c CoreLib/hsBitVector.cpp -o CoreLib/hsBitVector.o
+
+CoreLib/hsBounds.o: CoreLib/hsBounds.cpp
+	$(CC) $(GCCOPTS) -c CoreLib/hsBounds.cpp -o CoreLib/hsBounds.o
 
 DynLib/PageID.o: DynLib/PageID.cpp
 	$(CC) $(GCCOPTS) -c DynLib/PageID.cpp -o DynLib/PageID.o
@@ -70,6 +81,9 @@ NucleusLib/pnSceneObject/plSimulationInterface.o: NucleusLib/pnSceneObject/plSim
 PubUtilLib/plAvatar/plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.cpp
 	$(CC) $(GCCOPTS) -c PubUtilLib/plAvatar/plClothingItem.cpp -o PubUtilLib/plAvatar/plClothingItem.o
 
+PubUtilLib/plDrawable/plSpan.o: PubUtilLib/plDrawable/plSpan.cpp
+	$(CC) $(GCCOPTS) -c PubUtilLib/plDrawable/plSpan.cpp -o PubUtilLib/plDrawable/plSpan.o
+
 PubUtilLib/plGImage/plBitmap.o: PubUtilLib/plGImage/plBitmap.cpp
 	$(CC) $(GCCOPTS) -c PubUtilLib/plGImage/plBitmap.cpp -o PubUtilLib/plGImage/plBitmap.o
 
@@ -85,11 +99,17 @@ PubUtilLib/plSurface/hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.cpp
 hsMatrix44.o: hsMatrix44.cpp
 	$(CC) $(GCCOPTS) -c hsMatrix44.cpp -o hsMatrix44.o
 
+hsScalarTriple.o: hsScalarTriple.cpp
+	$(CC) $(GCCOPTS) -c hsScalarTriple.cpp -o hsScalarTriple.o
+
 plCreatable.o: plCreatable.cpp
 	$(CC) $(GCCOPTS) -c plCreatable.cpp -o plCreatable.o
 
 plReceiver.o: plReceiver.cpp
 	$(CC) $(GCCOPTS) -c plReceiver.cpp -o plReceiver.o
+
+Vertex3.o: Vertex3.cpp
+	$(CC) $(GCCOPTS) -c Vertex3.cpp -o Vertex3.o
 
 install:
 	cp $(PLSLIB) /usr/local/lib
