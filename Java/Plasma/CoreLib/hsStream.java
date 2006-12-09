@@ -13,17 +13,20 @@ public class hsStream {
     private RandomAccessFile F;
     private PlasmaVer ver;
     
-    public hsStream(String fileName, int mode) {
+    public hsStream(String fileName, int mode) throws FileNotFoundException {
         String modes = "";
         if ((mode & MODE_READ) != 0) modes += "r";
         if ((mode & MODE_WRITE) != 0) modes += "w";
+        F = new RandomAccessFile(fileName, modes);
     }
-    public hsStream(String fileName) {
+    public hsStream(String fileName) throws FileNotFoundException {
         this(fileName, MODE_READ & MODE_WRITE);
     }
 
     public PlasmaVer getVer() { return ver; }
     public void setVer(PlasmaVer pv) { ver = pv; }
+
+    public long pos() throws IOException { return F.getFilePointer(); }
 
     public byte readByte() throws IOException {
         return F.readByte();

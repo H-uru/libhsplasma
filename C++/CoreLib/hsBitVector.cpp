@@ -34,6 +34,7 @@ bool hsBitVector::isEmpty() {
 void hsBitVector::clear() {
     delete bits;
     bits = new int[0];
+    bLen = 0;
 }
 
 void hsBitVector::deleteBit(int idx) {

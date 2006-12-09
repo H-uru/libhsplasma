@@ -12,7 +12,7 @@ public:
     ~hsElfStream();
 
     const char* readLine();
-    void writeLine(const char* ln);
+    //void writeLine(const char* ln);
 };
 
 #endif

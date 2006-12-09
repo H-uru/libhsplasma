@@ -28,7 +28,7 @@ public class hsTArray<T extends plCreatable> {
         return (count == 0);
     }
 
-    private void ensureCapacity(int cap) {
+    public void ensureCapacity(int cap) {
         int curCap = data.length;
         while (cap > curCap) curCap += szInc;
         if (curCap != data.length) {
@@ -42,6 +42,13 @@ public class hsTArray<T extends plCreatable> {
         ensureCapacity(count+1);
         data[count] = item;
         count++;
+    }
+
+    public T addNew() {
+        ensureCapacity(count+1);
+        data[count] = (T)(new Object());
+        count++;
+        return data[count-1];
     }
 
     public void remove(int idx) {

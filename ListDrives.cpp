@@ -2,10 +2,10 @@
 #include <windows.h>
 
 int main(int argc, char *argv) {
-    char *volName = new char[256];
+    char volName[256];
     DWORD serialNum, maxComponentLen, FSFlags;
-    char *FSName = new char[256];
-    char *DriveName = new char[4];
+    char FSName[256];
+    char DriveName[4];
     
     DWORD Drives = GetLogicalDrives();
     Drives &= (Drives << 2);
