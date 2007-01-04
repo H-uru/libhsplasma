@@ -22,7 +22,8 @@ OBJFILES=\
 	PubUtilLib/plGImage/plFont.o \
 	PubUtilLib/plScene/plSceneNode.o \
 	PubUtilLib/plSurface/hsGMaterial.o \
-	hsMatrix44.o hsScalarTriple.o Vertex3.o plCreatable.o plReceiver.o
+	hsRefCount.o plCreatable.o plReceiver.o \
+	hsMatrix44.o hsScalarTriple.o Vertex3.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
 all: $(PLSLIB) bin/PlasmaTest
@@ -96,17 +97,20 @@ PubUtilLib/plScene/plSceneNode.o: PubUtilLib/plScene/plSceneNode.cpp
 PubUtilLib/plSurface/hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.cpp
 	$(CC) $(GCCOPTS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o PubUtilLib/plSurface/hsGMaterial.o
 
-hsMatrix44.o: hsMatrix44.cpp
-	$(CC) $(GCCOPTS) -c hsMatrix44.cpp -o hsMatrix44.o
-
-hsScalarTriple.o: hsScalarTriple.cpp
-	$(CC) $(GCCOPTS) -c hsScalarTriple.cpp -o hsScalarTriple.o
+hsRefCount.o: hsRefCount.cpp
+	$(CC) $(GCCOPTS) -c hsRefCount.cpp -o hsRefCount.o
 
 plCreatable.o: plCreatable.cpp
 	$(CC) $(GCCOPTS) -c plCreatable.cpp -o plCreatable.o
 
 plReceiver.o: plReceiver.cpp
 	$(CC) $(GCCOPTS) -c plReceiver.cpp -o plReceiver.o
+
+hsMatrix44.o: hsMatrix44.cpp
+	$(CC) $(GCCOPTS) -c hsMatrix44.cpp -o hsMatrix44.o
+
+hsScalarTriple.o: hsScalarTriple.cpp
+	$(CC) $(GCCOPTS) -c hsScalarTriple.cpp -o hsScalarTriple.o
 
 Vertex3.o: Vertex3.cpp
 	$(CC) $(GCCOPTS) -c Vertex3.cpp -o Vertex3.o

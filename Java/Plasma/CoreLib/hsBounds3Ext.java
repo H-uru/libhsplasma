@@ -5,10 +5,10 @@ import Plasma.CoreLib.hsStream;
 import Plasma.hsScalarTriple;
 
 public class hsBounds3Ext extends hsBounds3 {
-    int Flags = 0;
-    hsScalarTriple ST34 = new hsScalarTriple();
-    hsScalarTriple[] ST40 = new hsScalarTriple[3];
-    float f64[] = new float[6];
+    protected int Flags = 0;
+    protected hsScalarTriple ST34 = new hsScalarTriple();
+    protected hsScalarTriple[] ST40 = new hsScalarTriple[3];
+    protected float[] f64 = new float[6];
 
     public void read(hsStream S) throws IOException {
         Flags = S.readInt();

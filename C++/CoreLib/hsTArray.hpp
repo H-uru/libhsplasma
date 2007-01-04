@@ -68,12 +68,16 @@ public:
         return data[count++];
     }
 
-    T * del(int idx) {
+    T * take(int idx) {
         T * dItm = data[idx];
         for (int i=idx; i<count; i++)
             data[i] = data[i+1];
         data[--count] = NULL;
         return dItm;
+    }
+
+    void del(int idx) {
+        delete take(idx);
     }
 
     T * operator[](int idx) {

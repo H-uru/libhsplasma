@@ -5,7 +5,7 @@ import Plasma.CoreLib.hsStream;
 import Plasma.Vertex3;
 
 public class hsBounds3 extends hsBounds {
-    Vertex3 min, max;
+    protected Vertex3 min, max;
 
     public hsBounds3() {
         min = new Vertex3();

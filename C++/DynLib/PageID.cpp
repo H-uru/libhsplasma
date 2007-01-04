@@ -58,16 +58,10 @@ int PageID::getSeqPrefix() {
 }
 
 void PageID::setPageNum(int pn) {
-    if (isGlobal())
-        if (ver == pvLive)
-            id = (id & 0xFFFF0000) | ((pn & 0xFFFF) + 1);
-        else
-            id = (id & 0xFFFFFF00) | ((pn & 0xFF) + 1);
+    if (ver == pvLive)
+        id = (id & 0xFFFF0000) | ((pn & 0xFFFF) + (isGlobal() ? 1 : 0x31));
     else
-        if (ver == pvLive)
-            id = (id & 0xFFFF0000) | ((pn & 0xFFFF) + 0x31);
-        else
-            id = (id & 0xFFFFFF00) | ((pn & 0xFF) + 0x21);
+        id = (id & 0xFFFFFF00) | ((pn & 0xFF) + (isGlobal() ? 1 : 0x21));
 }
 
 void PageID::setSeqPrefix(int sp) {

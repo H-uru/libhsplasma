@@ -4,7 +4,7 @@ import java.io.IOException;
 import Plasma.CoreLib.hsStream;
 
 public class hsBounds {
-    int Unknown = 0;
+    protected int Unknown = 0;
 
     public void read(hsStream S) throws IOException {
         Unknown = S.readInt();
