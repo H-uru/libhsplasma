@@ -57,6 +57,14 @@ public class hsMatrix44 {
         return result;
     }
 
+    public boolean equals(hsMatrix44 other) {
+        for (int y=0; y<4; y++)
+            for (int x=0; x<4; x++)
+                if (data[y][x] != other.data[y][x])
+                    return false;
+        return true;
+    }
+
     public void read(hsStream S) throws IOException {
         for (int y=0; y<4; y++)
             for (int x=0; x<4; x++)

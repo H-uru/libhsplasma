@@ -10,6 +10,7 @@ endif
 " Shared language features
 syn keyword sdlConstant     true false nil
 syn match   sdlNumber       display "-\=\<\d\+\>"
+syn match   sdlComment      "#.*$"
 syn region  sdlString       matchgroup=Normal start=+"+ end=+"+
 
 
@@ -22,7 +23,6 @@ if ! exists("g:urusdl_noUru")
   syn keyword sdlType         CREATABLE TIME AGETIMEOFDAY PLKEY
   syn keyword sdlConstant     VAULT red hidden
   syn match   sdlIdentifier   "$\h\w*"
-  syn match   sdlComment      "#.*$"
 endif
 
 
