@@ -4,7 +4,9 @@
 #include "../../plReceiver.h"
 
 class plMessage : public plReceiver {
-    //
+public:
+    plMessage();
+    ~plMessage();
 };
 
 #endif

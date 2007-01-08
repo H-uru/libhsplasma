@@ -14,7 +14,7 @@ public:
     plObjInterface();
     ~plObjInterface();
 
-    bool msgReceive(plMessage msg);
+    bool msgReceive(plMessage * msg);
 
     void read(hsStream *S);
     void write(hsStream *S);

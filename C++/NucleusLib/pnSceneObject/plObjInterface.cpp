@@ -8,7 +8,7 @@ plObjInterface::~plObjInterface() {
     delete Owner;
 }
 
-bool plObjInterface::msgReceive(plMessage msg) {
+bool plObjInterface::msgReceive(plMessage * msg) {
     // Later
     return false;
 }

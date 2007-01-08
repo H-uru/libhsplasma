@@ -8,9 +8,6 @@ public:
     hsKeyedObject();
     ~hsKeyedObject();
 
-    const char* getTypeName();
-    const int getTypeNum();
-
     void read(hsStream * S);
     void write(hsStream * S);
 };

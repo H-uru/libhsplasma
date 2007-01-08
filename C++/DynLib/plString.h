@@ -21,9 +21,6 @@ public:
 
     void read(hsStream * S);
     void write(hsStream * S);
-
-    virtual const char* getTypeName();
-    virtual const int getTypeNum();
 };
 
 #endif

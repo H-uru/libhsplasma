@@ -38,6 +38,3 @@ void plString::write(hsStream * S) {
     S->writeSafeStr(str);
 }
 
-const char* plString::getTypeName() { return ""; }
-const int plString::getTypeNum() { return -1; }
-

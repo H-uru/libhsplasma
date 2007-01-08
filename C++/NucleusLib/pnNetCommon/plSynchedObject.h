@@ -17,9 +17,6 @@ public:
 
     void read(hsStream * S);
     void write(hsStream * S);
-
-    const char* getTypeName();
-    const int getTypeNum();
 };
 
 #endif

@@ -9,20 +9,11 @@ class plReceiver : public plCreatable {
 protected:
     plKey key;
 
-    virtual void read(hsStream * S);
-    virtual void write(hsStream * S);
-
 public:
     plReceiver();
     ~plReceiver();
 
-    plKey * getKey();
-    void setKey(plKey * k);
-
-    //virtual bool msgReceive(plMessage * msg);
-
-    virtual const char* getTypeName();
-    virtual const int getTypeNum();
+    bool msgReceive(class plMessage * msg);
 };
 
 #endif

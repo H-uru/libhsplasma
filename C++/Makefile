@@ -9,6 +9,7 @@ OBJFILES=\
 	DynLib/PageID.o DynLib/plString.o \
 	NucleusLib/pnKeyedObject/plKey.o \
 	NucleusLib/pnKeyedObject/hsKeyedObject.o \
+	NucleusLib/pnMessage/plMessage.o \
 	NucleusLib/pnNetCommon/plSynchedObject.o \
 	NucleusLib/pnSceneObject/plObjInterface.o \
 	NucleusLib/pnSceneObject/plAudioInterface.o \
@@ -57,6 +58,9 @@ NucleusLib/pnKeyedObject/plKey.o: NucleusLib/pnKeyedObject/plKey.cpp
 
 NucleusLib/pnKeyedObject/hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.cpp
 	$(CC) $(GCCOPTS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o NucleusLib/pnKeyedObject/hsKeyedObject.o
+
+NucleusLib/pnMessage/plMessage.o: NucleusLib/pnMessage/plMessage.cpp
+	$(CC) $(GCCOPTS) -c NucleusLib/pnMessage/plMessage.cpp -o NucleusLib/pnMessage/plMessage.o
 
 NucleusLib/pnNetCommon/plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.cpp
 	$(CC) $(GCCOPTS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o NucleusLib/pnNetCommon/plSynchedObject.o

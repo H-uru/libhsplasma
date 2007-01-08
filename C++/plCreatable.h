@@ -5,16 +5,12 @@
 #include "CoreLib/hsStream.h"
 
 class plCreatable : public hsRefCount {
-protected:
-    virtual const char* getTypeName();
-    virtual const int getTypeNum();
-
 public:
     plCreatable();
-    virtual ~plCreatable();
+    ~plCreatable();
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    void read(hsStream *S);
+    void write(hsStream *S);
 };
 
 #endif

@@ -24,6 +24,3 @@ void plSynchedObject::write(hsStream * S) {
         SDLKeys.write16(S);
 }
 
-const char* plSynchedObject::getTypeName() { return "plSynchedObject"; }
-const int plSynchedObject::getTypeNum() { return 0x28; }
-

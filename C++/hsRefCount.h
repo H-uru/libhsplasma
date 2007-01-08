@@ -3,15 +3,15 @@
 
 class hsRefCount {
 protected:
-    static int refCount;
+    int refCount;
 
 public:
     hsRefCount();
     ~hsRefCount();
 
-    static int getRefCount();
-    static int RemoveRef();
-    static void AddRef();
+    int getRefCount();
+    int UnRef();
+    void Ref();
 };
 
 #endif

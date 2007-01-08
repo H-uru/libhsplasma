@@ -36,6 +36,3 @@ void plBitmap::write(hsStream * S) {
     S->writeShort(Unk2);
 }
 
-const char* plBitmap::getTypeName() { return "plBitmap"; }
-const int plBitmap::getTypeNum() { return 3; }
-

@@ -1,17 +1,18 @@
 #include "hsRefCount.h"
 
-int hsRefCount::refCount = 0;
-
-hsRefCount::hsRefCount() {  }
+hsRefCount::hsRefCount() : refCount(1) {  }
 hsRefCount::~hsRefCount() { }
 
 int hsRefCount::getRefCount() { return refCount; }
 
-int hsRefCount::RemoveRef() {
+int hsRefCount::UnRef() {
+    if (refCount == 1)
+        delete this;
+
     return --refCount;
 }
 
-void hsRefCount::AddRef() {
+void hsRefCount::Ref() {
     refCount++;
 }
 
