@@ -1,11 +1,11 @@
 #include "plObjInterface.h"
 
-plObjInterface::plObjInterface() {
+plObjInterface::plObjInterface(PlasmaVer pv) {
     Owner = new plKey();
 }
 
 plObjInterface::~plObjInterface() {
-    delete Owner;
+    Owner->UnRef();
 }
 
 bool plObjInterface::msgReceive(plMessage * msg) {

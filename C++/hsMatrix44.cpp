@@ -5,10 +5,10 @@
 hsMatrix44::hsMatrix44() {
     Identity();
 }
-hsMatrix44::hsMatrix44(hsMatrix44 * init) {
+hsMatrix44::hsMatrix44(hsMatrix44& init) {
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
-            data[y][x] = init->data[y][x];
+            data[y][x] = init.data[y][x];
 }
 
 hsMatrix44::~hsMatrix44() { }
@@ -24,7 +24,7 @@ float& hsMatrix44::operator()(int y, int x) {
     return data[y][x];
 }
 
-hsMatrix44& hsMatrix44::operator+(const hsMatrix44 &other) {
+hsMatrix44& hsMatrix44::operator+(const hsMatrix44& other) {
     hsMatrix44 * rmat = new hsMatrix44();
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
@@ -32,7 +32,7 @@ hsMatrix44& hsMatrix44::operator+(const hsMatrix44 &other) {
     return (*rmat);
 }
 
-hsMatrix44& hsMatrix44::operator*(const hsMatrix44 &other) {
+hsMatrix44& hsMatrix44::operator*(const hsMatrix44& other) {
     hsMatrix44 * rmat = new hsMatrix44();
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
@@ -51,7 +51,14 @@ hsMatrix44& hsMatrix44::operator*(const float mult) {
     return (*rmat);
 }
 
-bool hsMatrix44::operator==(const hsMatrix44 &other) {
+hsMatrix44& hsMatrix44::operator=(const hsMatrix44& other) {
+    for (int y=0; y<4; y++)
+        for (int x=0; x<4; x++)
+            data[y][x] = other.data[y][x];
+    return (*this);
+}
+
+bool hsMatrix44::operator==(const hsMatrix44& other) {
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
             if (data[y][x] != other.data[y][x])

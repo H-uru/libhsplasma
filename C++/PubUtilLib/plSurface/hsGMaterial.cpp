@@ -1,6 +1,6 @@
 #include "hsGMaterial.h"
 
-hsGMaterial::hsGMaterial() : Unknown(0), LayerFlags(0) { }
+hsGMaterial::hsGMaterial(PlasmaVer pv) : Unknown(0), LayerFlags(0) { }
 hsGMaterial::~hsGMaterial() { }
 
 void hsGMaterial::read(hsStream *S) {

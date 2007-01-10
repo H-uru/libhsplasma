@@ -8,7 +8,7 @@ protected:
     plKey * Audible;
 
 public:
-    plAudioInterface();
+    plAudioInterface(PlasmaVer pv = pvUnknown);
     ~plAudioInterface();
 
     void read(hsStream *S);

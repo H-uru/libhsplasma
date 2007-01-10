@@ -10,7 +10,7 @@ protected:
     plKey key;
 
 public:
-    plReceiver();
+    plReceiver(PlasmaVer pv = pvUnknown);
     ~plReceiver();
 
     bool msgReceive(class plMessage * msg);

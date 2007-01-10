@@ -3,8 +3,9 @@
 
 #include "../../CoreLib/hsStream.h"
 #include "../../DynLib/PageID.h"
+#include "../../hsRefCount.h"
 
-class plKey {
+class plKey : public hsRefCount {
 protected:
     char flags;
     PageID * pageID;

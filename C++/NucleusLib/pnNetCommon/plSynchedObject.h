@@ -12,7 +12,7 @@ protected:
     hsTArray<plString> SDLKeys2;
 
 public:
-    plSynchedObject();
+    plSynchedObject(PlasmaVer pv = pvUnknown);
     ~plSynchedObject();
 
     void read(hsStream * S);

@@ -16,7 +16,7 @@ public:
     plKey * SceneNode;
 
 public:
-    plSceneObject();
+    plSceneObject(PlasmaVer pv = pvUnknown);
     ~plSceneObject();
 
     void read(hsStream *S);

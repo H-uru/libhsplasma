@@ -5,7 +5,7 @@
 
 class plMessage : public plReceiver {
 public:
-    plMessage();
+    plMessage(PlasmaVer pv = pvUnknown);
     ~plMessage();
 };
 

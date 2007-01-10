@@ -10,7 +10,7 @@ public:
     hsTArray<plKeyRef> OtherObjects;
 
 public:
-    plSceneNode();
+    plSceneNode(PlasmaVer pv = pvUnknown);
     ~plSceneNode();
 
     void read(hsStream *S);

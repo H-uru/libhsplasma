@@ -1,17 +1,19 @@
 #include <string.h>
 #include "plString.h"
 
-plString::plString() {
+plString::plString(PlasmaVer pv) {
     str = "";
 }
 
-plString::plString(plString * init) {
+plString::plString(plString * init, PlasmaVer pv)
+  : plCreatable::plCreatable(pv) {
     int len = strlen(init->str);
     str = new char[len+1];
     strcpy(str, init->str);
 }
 
-plString::plString(const char* init) {
+plString::plString(const char* init, PlasmaVer pv)
+  : plCreatable::plCreatable(pv) {
     int len = strlen(init);
     str = new char[len+1];
     strcpy(str, init);

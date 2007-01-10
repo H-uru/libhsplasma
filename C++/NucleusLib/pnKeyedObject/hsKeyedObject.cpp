@@ -1,6 +1,6 @@
 #include "hsKeyedObject.h"
 
-hsKeyedObject::hsKeyedObject() { }
+hsKeyedObject::hsKeyedObject(PlasmaVer pv) { }
 hsKeyedObject::~hsKeyedObject() { }
 
 void hsKeyedObject::read(hsStream * S) {

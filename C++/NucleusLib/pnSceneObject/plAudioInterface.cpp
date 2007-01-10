@@ -1,11 +1,11 @@
 #include "plAudioInterface.h"
 
-plAudioInterface::plAudioInterface() {
+plAudioInterface::plAudioInterface(PlasmaVer pv) {
     Audible = new plKey();
 }
 
 plAudioInterface::~plAudioInterface() {
-    delete Audible;
+    Audible->UnRef();
 }
 
 void plAudioInterface::read(hsStream *S) {

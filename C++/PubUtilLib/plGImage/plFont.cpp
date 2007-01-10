@@ -1,14 +1,15 @@
 #include "plFont.h"
 #include <string.h>
 
-plFont::plFont() : FontSize(-1), FontFlags(0), imgWidth(0), imgHeight(0),
-                   maxHeight(0), bpp(0), bmpData(NULL), unknown(0),
-                   numLetters(256) {
+plFont::plFont(PlasmaVer pv) : FontSize(-1), FontFlags(0), imgWidth(0),
+                   imgHeight(0), maxHeight(0), bpp(0), bmpData(NULL),
+                   unknown(0), numLetters(256) {
     memset(FontName, '\0', 256);
     Letters = new FontLetterDef[numLetters];
 }
 
-plFont::plFont(const char* FileName) {
+plFont::plFont(const char* FileName, PlasmaVer pv)
+       : hsKeyedObject::hsKeyedObject(pv) {
     hsStream *FS = new hsStream(FileName, fmRead);
     readP2F(FS);
     delete FS;
@@ -42,7 +43,7 @@ void plFont::readP2F(hsStream *S) {
     maxHeight = S->readInt();
     bpp = S->readByte();
 
-    bmpData = S->readStr(imgWidth * imgHeight);
+    bmpData = S->readStr((bpp * imgWidth * imgHeight) >> 3);
     unknown = S->readShort();
 
     numLetters = S->readInt();
@@ -66,9 +67,10 @@ void plFont::writeP2F(hsStream *S) {
     S->writeInt(maxHeight);
     S->writeByte(bpp);
 
-    S->writeStr(bmpData, (imgWidth * imgHeight));
+    S->writeStr(bmpData, (bpp * imgWidth * imgHeight) >> 3);
     S->writeShort(unknown);
 
+    S->writeInt(numLetters);
     for (int i=0; i<numLetters; i++) {
         S->writeInt(Letters[i].Offset);
         S->writeInt(Letters[i].lHeight);

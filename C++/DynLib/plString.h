@@ -9,9 +9,9 @@ private:
     char* str;  // Yes, I like C-style strings, ok?
 
 public:
-    plString();
-    plString(plString * init);
-    plString(const char* init);
+    plString(PlasmaVer pv = pvUnknown);
+    plString(plString * init, PlasmaVer pv = pvUnknown);
+    plString(const char* init, PlasmaVer pv = pvUnknown);
     ~plString();
 
     const char* value();

@@ -11,7 +11,8 @@ plKey::plKey() : flags(0), pageType(PAGE_NORMAL), extra1(0), objType(0),
 
 plKey::plKey(plKey * init) {
     flags = init->flags;
-    pageID = new PageID(init->pageID->getID(), init->pageID->getVer());
+    pageID = init->pageID;
+    init->pageID->Ref();
     pageType = init->pageType;
     extra1 = init->extra1;
     objType = init->objType;
@@ -27,11 +28,11 @@ plKey::~plKey() {
     if (objName)
         delete objName;
     if (pageID)
-        delete pageID;
+        pageID->UnRef();
 }
 
 PageID * plKey::getPageID() {
-    return new PageID(pageID->getID(), pageID->getVer());
+    return pageID;
 }
 
 short plKey::getPageType() { return pageType; }
@@ -45,8 +46,9 @@ char* plKey::getObjName() {
 }
 
 void plKey::setPageID(PageID * pid) {
-    if (pageID) delete pageID;
-    pageID = new PageID(pid->getID(), pageID->getVer());
+    if (pageID) pageID->UnRef();
+    pageID = pid;
+    pid->Ref();
 }
 
 void plKey::setPageType(short pt) { pageType = pt; }

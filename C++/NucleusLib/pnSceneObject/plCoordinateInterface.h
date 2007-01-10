@@ -18,7 +18,7 @@ public: // Might as well make 'em public...
     plCoordinateInterface * Parent;
 
 public:
-    plCoordinateInterface();
+    plCoordinateInterface(PlasmaVer pv = pvUnknown);
     ~plCoordinateInterface();
 
     plCoordinateInterface * getRoot();

@@ -11,7 +11,7 @@ private:
     hsBitVector Properties;
 
 public:
-    plObjInterface();
+    plObjInterface(PlasmaVer pv = pvUnknown);
     ~plObjInterface();
 
     bool msgReceive(plMessage * msg);

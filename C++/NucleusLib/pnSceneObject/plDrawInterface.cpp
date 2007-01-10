@@ -16,7 +16,8 @@ void plDrawableKeyRef::write(hsStream *S) {
 
 
 /* plDrawInterface */
-plDrawInterface::plDrawInterface() { }
+
+plDrawInterface::plDrawInterface(PlasmaVer pv) { }
 plDrawInterface::~plDrawInterface() { }
 
 void plDrawInterface::read(hsStream *S) {

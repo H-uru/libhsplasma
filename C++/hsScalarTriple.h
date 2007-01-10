@@ -5,12 +5,19 @@
 
 class hsScalarTriple {
 private:
-    float a, b, c;
+    float X, Y, Z;
 
 public:
     hsScalarTriple();
-    hsScalarTriple(float f1, float f2, float f3);
+    hsScalarTriple(float x, float y, float z);
     ~hsScalarTriple();
+
+    float getX();
+    float getY();
+    float getZ();
+    void setX(float x);
+    void setY(float y);
+    void setZ(float z);
 
     void read(hsStream *S);
     void write(hsStream *S);

@@ -8,21 +8,25 @@
 #define IMG_DXT  1
 #define IMG_JPEG 2
 
+#define BITMAPVER (char)2
+
 class plBitmap : public hsKeyedObject {
 protected:
-    char version;
     char BPP, CPB;
     short flags;
     char imgType;
     char texelSize, texelType;
-    short Unk1, Unk2;
+    int Unk1, Unk2;
 
 public:
-    plBitmap();
+    plBitmap(PlasmaVer pv = pvUnknown);
     ~plBitmap();
 
     void read(hsStream * S);
     void write(hsStream * S);
+
+    void readData(hsStream * S);
+    void writeData(hsStream * S);
 };
 
 #endif

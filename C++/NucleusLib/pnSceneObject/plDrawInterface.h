@@ -20,7 +20,7 @@ public:
     hsTArray<plKeyRef> Objects;
 
 public:
-    plDrawInterface();
+    plDrawInterface(PlasmaVer pv = pvUnknown);
     ~plDrawInterface();
 
     void read(hsStream *S);

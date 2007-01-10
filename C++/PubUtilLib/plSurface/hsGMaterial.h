@@ -10,7 +10,7 @@ private:
     hsTArray<plKeyRef> Layers1, Layers2;
 
 public:
-    hsGMaterial();
+    hsGMaterial(PlasmaVer pv = pvUnknown);
     ~hsGMaterial();
 
     void read(hsStream *S);

@@ -1,6 +1,6 @@
 #include "plSceneNode.h"
 
-plSceneNode::plSceneNode() { }
+plSceneNode::plSceneNode(PlasmaVer pv) { }
 plSceneNode::~plSceneNode() { }
 
 void plSceneNode::read(hsStream *S) {

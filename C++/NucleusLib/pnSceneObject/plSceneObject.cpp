@@ -1,6 +1,6 @@
 #include "plSceneObject.h"
 
-plSceneObject::plSceneObject() {
+plSceneObject::plSceneObject(PlasmaVer pv) {
     DrawIntf = new plKey();
     SimIntf = new plKey();
     CoordIntf = new plKey();
@@ -9,11 +9,11 @@ plSceneObject::plSceneObject() {
 }
 
 plSceneObject::~plSceneObject() {
-    delete DrawIntf;
-    delete SimIntf;
-    delete CoordIntf;
-    delete AudioIntf;
-    delete SceneNode;
+    DrawIntf->UnRef();
+    SimIntf->UnRef();
+    CoordIntf->UnRef();
+    AudioIntf->UnRef();
+    SceneNode->UnRef();
 }
 
 void plSceneObject::read(hsStream *S) {

@@ -1,11 +1,11 @@
 #include "plSimulationInterface.h"
 
-plSimulationInterface::plSimulationInterface() : Unknown(0) {
+plSimulationInterface::plSimulationInterface(PlasmaVer pv) : Unknown(0) {
     Physical = new plKey();
 }
 
 plSimulationInterface::~plSimulationInterface() {
-    delete Physical;
+    Physical->UnRef();
 }
 
 void plSimulationInterface::read(hsStream *S) {

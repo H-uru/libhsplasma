@@ -10,7 +10,7 @@ protected:
     plKey * Physical;
 
 public:
-    plSimulationInterface();
+    plSimulationInterface(PlasmaVer pv = pvUnknown);
     ~plSimulationInterface();
 
     void read(hsStream *S);

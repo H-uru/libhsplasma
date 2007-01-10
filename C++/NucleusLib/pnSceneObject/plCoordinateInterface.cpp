@@ -1,6 +1,6 @@
 #include "plCoordinateInterface.h"
 
-plCoordinateInterface::plCoordinateInterface() /* : Member60(0) */ {
+plCoordinateInterface::plCoordinateInterface(PlasmaVer pv) /* : Member60(0) */ {
     LocalToParent.Identity();
     ParentToLocal.Identity();
     LocalToWorld.Identity();

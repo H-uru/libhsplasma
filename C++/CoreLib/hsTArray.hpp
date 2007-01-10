@@ -31,13 +31,13 @@ public:
     }
     ~hsTArray<T>() {
         for (int i=0; i<count; i++)
-            delete data[i];
+            data[i]->UnRef();
         delete [] data;
     }
 
     void clear() {
         for (int i=0; i<count; i++)
-            delete data[i];
+            data[i]->UnRef();
         delete [] data;
         count = 0;
         max = TARR_CAP_INCREMENT;
@@ -77,7 +77,7 @@ public:
     }
 
     void del(int idx) {
-        delete take(idx);
+        take(idx)->UnRef();
     }
 
     T * operator[](int idx) {

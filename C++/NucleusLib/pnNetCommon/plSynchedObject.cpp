@@ -1,6 +1,6 @@
 #include "plSynchedObject.h"
 
-plSynchedObject::plSynchedObject() { }
+plSynchedObject::plSynchedObject(PlasmaVer pv) { }
 plSynchedObject::~plSynchedObject() { }
 
 void plSynchedObject::read(hsStream * S) {

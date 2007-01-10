@@ -3,8 +3,9 @@
 
 #include "PlasmaVersions.h"
 #include "../CoreLib/hsStream.h"
+#include "../hsRefCount.h"
 
-class PageID {
+class PageID : public hsRefCount {
 private:
     int id;
     PlasmaVer ver;

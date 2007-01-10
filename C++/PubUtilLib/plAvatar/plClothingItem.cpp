@@ -6,6 +6,8 @@ Clothing_FeatureSet::Clothing_FeatureSet() : FeatureName(""), TexCount(0) {
 }
 
 Clothing_FeatureSet::~Clothing_FeatureSet() {
+    for (int i=0; i<TexCount; i++)
+        Textures[i].Texture->UnRef();
     delete [] Textures;
     delete FeatureName;
 }
@@ -13,12 +15,15 @@ Clothing_FeatureSet::~Clothing_FeatureSet() {
 void Clothing_FeatureSet::read(hsStream *S) {
     delete FeatureName;
     FeatureName = S->readSafeStr();
-    TexCount = S->readByte();
+    for (int i=0; i<TexCount; i++)
+        Textures[i].Texture->UnRef();
     delete [] Textures;
+    TexCount = S->readByte();
     Textures = new Clothing_Texture[TexCount];
     for (unsigned char i=0; i<TexCount; i++) {
         Textures[i].TexID = S->readByte();
-        Textures[i].Texture.read(S);
+        Textures[i].Texture = new plKey();
+        Textures[i].Texture->read(S);
     }
 }
 
@@ -27,7 +32,7 @@ void Clothing_FeatureSet::write(hsStream *S) {
     S->writeByte(TexCount);
     for (unsigned char i=0; i<TexCount; i++) {
         S->writeByte(Textures[i].TexID);
-        Textures[i].Texture.write(S);
+        Textures[i].Texture->write(S);
     }
 }
 
@@ -46,7 +51,7 @@ plMipMap* Clothing_FeatureSet::getTexture(int id) {
 
 
 /* plClothingItem */
-plClothingItem::plClothingItem() : ItemName(""), ClothingGroup(0),
+plClothingItem::plClothingItem(PlasmaVer pv) : ItemName(""), ClothingGroup(0),
                   ClothingType(0), ClosetCategory(0), Unknown(false),
                   AttrList(""), FriendlyName(""), Icon(NULL), HQMesh(NULL),
                   MQMesh(NULL), LQMesh(NULL) {
@@ -57,10 +62,10 @@ plClothingItem::plClothingItem() : ItemName(""), ClothingGroup(0),
 }
 
 plClothingItem::~plClothingItem() {
-    if (Icon) delete Icon;
-    if (HQMesh) delete HQMesh;
-    if (MQMesh) delete MQMesh;
-    if (LQMesh) delete LQMesh;
+    if (Icon) Icon->UnRef();
+    if (HQMesh) HQMesh->UnRef();
+    if (MQMesh) MQMesh->UnRef();
+    if (LQMesh) LQMesh->UnRef();
     delete ClothingItem;
     delete ItemName;
     delete AttrList;
@@ -83,7 +88,7 @@ void plClothingItem::read(hsStream *S) {
     FriendlyName = S->readSafeStr();
 
     if (Icon) {
-        delete Icon;
+        Icon->UnRef();
         Icon = NULL;
     }
     if (S->readBool()) {
@@ -94,7 +99,7 @@ void plClothingItem::read(hsStream *S) {
     Features.read(S);
 
     if (HQMesh) {
-        delete HQMesh;
+        HQMesh->UnRef();
         HQMesh = NULL;
     }
     if (S->readBool()) {
@@ -102,7 +107,7 @@ void plClothingItem::read(hsStream *S) {
         HQMesh->readRef(S);
     }
     if (MQMesh) {
-        delete MQMesh;
+        MQMesh->UnRef();
         MQMesh = NULL;
     }
     if (S->readBool()) {
@@ -110,7 +115,7 @@ void plClothingItem::read(hsStream *S) {
         MQMesh->readRef(S);
     }
     if (LQMesh) {
-        delete LQMesh;
+        LQMesh->UnRef();
         LQMesh = NULL;
     }
     if (S->readBool()) {
@@ -118,7 +123,7 @@ void plClothingItem::read(hsStream *S) {
         LQMesh->readRef(S);
     }
 
-    delete ClothingItem;
+    ClothingItem->UnRef();
     ClothingItem = new plKey();
     ClothingItem->readRef(S);
 

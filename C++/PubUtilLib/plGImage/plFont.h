@@ -29,8 +29,8 @@ protected:
     FontLetterDef * Letters;
 
 public:
-    plFont();
-    plFont(const char* FileName);
+    plFont(PlasmaVer pv = pvUnknown);
+    plFont(const char* FileName, PlasmaVer pv = pvUnknown);
     ~plFont();
 
     FontLetterDef& operator[](int idx);

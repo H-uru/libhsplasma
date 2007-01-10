@@ -5,7 +5,7 @@
 
 class hsKeyedObject : public plReceiver {
 public:
-    hsKeyedObject();
+    hsKeyedObject(PlasmaVer pv = pvUnknown);
     ~hsKeyedObject();
 
     void read(hsStream * S);

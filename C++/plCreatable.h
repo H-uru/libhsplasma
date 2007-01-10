@@ -3,11 +3,20 @@
 
 #include "hsRefCount.h"
 #include "CoreLib/hsStream.h"
+#include "DynLib/PlasmaVersions.h"
 
 class plCreatable : public hsRefCount {
+protected:
+    PlasmaVer ver;
+
 public:
-    plCreatable();
+    plCreatable(PlasmaVer pv = pvUnknown);
     ~plCreatable();
+
+    short ClassIndex();
+    
+    PlasmaVer getVersion();
+    void setVersion(PlasmaVer pv, bool mutate = false);
 
     void read(hsStream *S);
     void write(hsStream *S);
