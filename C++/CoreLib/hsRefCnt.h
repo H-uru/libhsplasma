@@ -1,15 +1,15 @@
 #ifndef _HSREFCOUNT_H
 #define _HSREFCOUNT_H
 
-class hsRefCount {
+class hsRefCnt {
 protected:
     int refCount;
 
 public:
-    hsRefCount();
-    ~hsRefCount();
+    hsRefCnt();
+    ~hsRefCnt();
 
-    int getRefCount();
+    int RefCnt();
     int UnRef();
     void Ref();
 };

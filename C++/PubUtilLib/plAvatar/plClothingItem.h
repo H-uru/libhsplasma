@@ -4,14 +4,14 @@
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "../../NucleusLib/pnKeyedObject/plKey.h"
 #include "../../CoreLib/hsTArray.hpp"
-#include "../../hsRefCount.h"
+#include "../../CoreLib/hsRefCnt.h"
 
 typedef struct Clothing_Texture {
     char TexID;
     plKey * Texture;
 };
 
-class Clothing_FeatureSet : public hsRefCount {
+class Clothing_FeatureSet : public hsRefCnt {
 private:
     char* FeatureName;
     unsigned char TexCount;

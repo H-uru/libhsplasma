@@ -1,7 +1,7 @@
 #ifndef _PLSTRING_H
 #define _PLSTRING_H
 
-#include "../plCreatable.h"
+#include "../NucleusLib/pnFactory/plCreatable.h"
 #include "../CoreLib/hsStream.h"
 
 class plString : public plCreatable {

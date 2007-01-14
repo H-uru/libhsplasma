@@ -1,7 +1,13 @@
 #include <string.h>
 #include "hsStream.h"
 
-hsStream::hsStream(const char* file, FileMode mode) {
+hsStream::hsStream() : F(NULL) { }
+
+hsStream::~hsStream() {
+    close();
+}
+
+void hsStream::open(const char* file, FileMode mode) {
     char* fm;
     switch (mode) {
       case fmRead:
@@ -23,11 +29,12 @@ hsStream::hsStream(const char* file, FileMode mode) {
     F = fopen(file, fm);
 }
 
-hsStream::~hsStream() {
-    fclose(F);
+void hsStream::close() {
+    if (F) fclose(F);
+    F = NULL;
 }
 
-void hsStream::setVer(PlasmaVer pv) { ver = pv; }
+void hsStream::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 PlasmaVer hsStream::getVer() { return ver; }
 
 long long hsStream::size() {
@@ -50,12 +57,31 @@ void hsStream::seek(long long pos) {
     fseek(F, pos, SEEK_SET);
 }
 
-void hsStream::fastForward(long long count) {
+void hsStream::skip(long long count) {
     fseek(F, count, SEEK_CUR);
 }
 
-void hsStream::rewind(long long count) {
-    fseek(F, 0-count, SEEK_CUR);
+void hsStream::fastForward() {
+    fseek(F, 0, SEEK_SET);
+}
+
+void hsStream::rewind() {
+    fseek(F, 0, SEEK_END);
+}
+
+void SwapByteOrder(int* value) {
+    union {
+        int i;
+        char c[4];
+    } v;
+    v.i = *value;
+    char t = v.c[3];
+    v.c[3] = v.c[0];
+    v.c[0] = t;
+    t = v.c[2];
+    v.c[2] = v.c[1];
+    v.c[1] = t;
+    *value = v.i;
 }
 
 char hsStream::readByte() {
@@ -73,6 +99,13 @@ short hsStream::readShort() {
 int hsStream::readInt() {
     int v;
     fread(&v, sizeof(v), 1, F);
+    return v;
+}
+
+int hsStream::readIntSwap() {
+    int v;
+    fread(&v, sizeof(v), 1, F);
+    SwapByteOrder(&v);
     return v;
 }
 
@@ -141,6 +174,12 @@ void hsStream::writeShort(const short v) {
 
 void hsStream::writeInt(const int v) {
     fwrite(&v, sizeof(v), 1, F);
+}
+
+void hsStream::writeIntSwap(const int v) {
+    int tv = v;
+    SwapByteOrder(&tv);
+    fwrite(&tv, sizeof(tv), 1, F);
 }
 
 void hsStream::writeLong(const long long v) {

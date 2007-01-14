@@ -1,11 +1,11 @@
 #ifndef _PLCREATABLE_H
 #define _PLCREATABLE_H
 
-#include "hsRefCount.h"
-#include "CoreLib/hsStream.h"
-#include "DynLib/PlasmaVersions.h"
+#include "../../CoreLib/hsRefCnt.h"
+#include "../../CoreLib/hsStream.h"
+#include "../../DynLib/PlasmaVersions.h"
 
-class plCreatable : public hsRefCount {
+class plCreatable : public hsRefCnt {
 protected:
     PlasmaVer ver;
 

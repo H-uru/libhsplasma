@@ -1,7 +1,7 @@
 #ifndef _PLFACTORY_H
 #define _PLFACTORY_H
 
-#include "../../plCreatable.h"
+#include "plCreatable.h"
 
 class plFactory {
 private:

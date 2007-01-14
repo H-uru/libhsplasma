@@ -2,13 +2,18 @@ CC = g++
 CFLAGS += -O2 -fPIC -Wall
 
 OBJFILES=\
+	CoreLib/hsRefCnt.o \
 	CoreLib/hsStream.o \
 	CoreLib/hsElfStream.o \
 	CoreLib/hsBitVector.o \
+	CoreLib/hsMatrix44.o \
+	CoreLib/hsGeometry3.o \
 	CoreLib/hsBounds.o \
 	DynLib/PageID.o DynLib/plString.o \
+	NucleusLib/pnFactory/plCreatable.o \
 	NucleusLib/pnFactory/plFactory.o \
 	NucleusLib/pnKeyedObject/plKey.o \
+	NucleusLib/pnKeyedObject/plReceiver.o \
 	NucleusLib/pnKeyedObject/hsKeyedObject.o \
 	NucleusLib/pnMessage/plMessage.o \
 	NucleusLib/pnNetCommon/plSynchedObject.o \
@@ -24,9 +29,7 @@ OBJFILES=\
 	PubUtilLib/plGImage/plFont.o \
 	PubUtilLib/plPipeline/plFogEnvironment.o \
 	PubUtilLib/plScene/plSceneNode.o \
-	PubUtilLib/plSurface/hsGMaterial.o \
-	hsRefCount.o plCreatable.o plReceiver.o \
-	hsMatrix44.o hsScalarTriple.o Vertex3.o
+	PubUtilLib/plSurface/hsGMaterial.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
 all: $(PLSLIB) bin/PlasmaTest
@@ -37,29 +40,44 @@ lib/libPlasma.so.1.0.1: $(OBJFILES)
 bin/PlasmaTest: PlasmaTest.cpp $(PLSLIB)
 	$(CC) $(CFLAGS) -Llib/ -lPlasma PlasmaTest.cpp -o bin/PlasmaTest
 
-CoreLib/hsStream.o: CoreLib/hsStream.cpp
+CoreLib/hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsRefCnt.cpp -o CoreLib/hsRefCnt.o
+
+CoreLib/hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsStream.cpp -o CoreLib/hsStream.o
 
 CoreLib/hsElfStream.o: CoreLib/hsElfStream.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsElfStream.cpp -o CoreLib/hsElfStream.o
 
-CoreLib/hsBitVector.o: CoreLib/hsBitVector.cpp
+CoreLib/hsBitVector.o: CoreLib/hsBitVector.h CoreLib/hsBitVector.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsBitVector.cpp -o CoreLib/hsBitVector.o
 
-CoreLib/hsBounds.o: CoreLib/hsBounds.cpp
+CoreLib/hsMatrix44.o: CoreLib/hsMatrix44.h CoreLib/hsMatrix44.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsMatrix44.cpp -o CoreLib/hsMatrix44.o
+
+CoreLib/hsGeometry3.o: CoreLib/hsGeometry3.h CoreLib/hsGeometry3.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsGeometry3.cpp -o CoreLib/hsGeometry3.o
+
+CoreLib/hsBounds.o: CoreLib/hsBounds.h CoreLib/hsBounds.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsBounds.cpp -o CoreLib/hsBounds.o
 
-DynLib/PageID.o: DynLib/PageID.cpp
+DynLib/PageID.o: DynLib/PageID.h DynLib/PageID.cpp
 	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o DynLib/PageID.o
 
-DynLib/plString.o: DynLib/plString.cpp
+DynLib/plString.o: DynLib/plString.h DynLib/plString.cpp
 	$(CC) $(CFLAGS) -c DynLib/plString.cpp -o DynLib/plString.o
+
+NucleusLib/pnFactory/plCreatable.o: NucleusLib/pnFactory/plCreatable.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plCreatable.cpp -o NucleusLib/pnFactory/plCreatable.o
 
 NucleusLib/pnFactory/plFactory.o: NucleusLib/pnFactory/plFactory.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plFactory.cpp -o NucleusLib/pnFactory/plFactory.o
 
 NucleusLib/pnKeyedObject/plKey.o: NucleusLib/pnKeyedObject/plKey.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plKey.cpp -o NucleusLib/pnKeyedObject/plKey.o
+
+NucleusLib/pnKeyedObject/plReceiver.o: NucleusLib/pnKeyedObject/plReceiver.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plReceiver.cpp -o NucleusLib/pnKeyedObject/plReceiver.o
 
 NucleusLib/pnKeyedObject/hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o NucleusLib/pnKeyedObject/hsKeyedObject.o
@@ -108,24 +126,6 @@ PubUtilLib/plScene/plSceneNode.o: PubUtilLib/plScene/plSceneNode.cpp
 
 PubUtilLib/plSurface/hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o PubUtilLib/plSurface/hsGMaterial.o
-
-hsRefCount.o: hsRefCount.cpp
-	$(CC) $(CFLAGS) -c hsRefCount.cpp -o hsRefCount.o
-
-plCreatable.o: plCreatable.cpp
-	$(CC) $(CFLAGS) -c plCreatable.cpp -o plCreatable.o
-
-plReceiver.o: plReceiver.cpp
-	$(CC) $(CFLAGS) -c plReceiver.cpp -o plReceiver.o
-
-hsMatrix44.o: hsMatrix44.cpp
-	$(CC) $(CFLAGS) -c hsMatrix44.cpp -o hsMatrix44.o
-
-hsScalarTriple.o: hsScalarTriple.cpp
-	$(CC) $(CFLAGS) -c hsScalarTriple.cpp -o hsScalarTriple.o
-
-Vertex3.o: Vertex3.cpp
-	$(CC) $(CFLAGS) -c Vertex3.cpp -o Vertex3.o
 
 install:
 	cp $(PLSLIB) /usr/local/lib

@@ -1,7 +1,7 @@
 #ifndef _HSKEYEDOBJECT_H
 #define _HSKEYEDOBJECT_H
 
-#include "../../plReceiver.h"
+#include "plReceiver.h"
 
 class hsKeyedObject : public plReceiver {
 public:

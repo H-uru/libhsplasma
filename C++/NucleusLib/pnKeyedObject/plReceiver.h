@@ -1,8 +1,8 @@
 #ifndef _PLRECEIVER_H
 #define _PLRECEIVER_H
 
-#include "plCreatable.h"
-#include "NucleusLib/pnKeyedObject/plKey.h"
+#include "../pnFactory/plCreatable.h"
+#include "plKey.h"
 //#include "NucleusLib/pnMessage/plMessage.h"
 
 class plReceiver : public plCreatable {

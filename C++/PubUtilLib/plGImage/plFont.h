@@ -30,7 +30,6 @@ protected:
 
 public:
     plFont(PlasmaVer pv = pvUnknown);
-    plFont(const char* FileName, PlasmaVer pv = pvUnknown);
     ~plFont();
 
     FontLetterDef& operator[](int idx);

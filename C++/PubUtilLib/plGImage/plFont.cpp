@@ -8,13 +8,6 @@ plFont::plFont(PlasmaVer pv) : FontSize(-1), FontFlags(0), imgWidth(0),
     Letters = new FontLetterDef[numLetters];
 }
 
-plFont::plFont(const char* FileName, PlasmaVer pv)
-       : hsKeyedObject::hsKeyedObject(pv) {
-    hsStream *FS = new hsStream(FileName, fmRead);
-    readP2F(FS);
-    delete FS;
-}
-
 plFont::~plFont() {
     if (bmpData) delete bmpData;
     delete [] Letters;

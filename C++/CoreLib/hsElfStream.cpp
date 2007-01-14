@@ -1,7 +1,6 @@
 #include "hsElfStream.h"
 
-hsElfStream::hsElfStream(const char* file, FileMode mode) :
-    hsStream::hsStream(file, mode) { }
+hsElfStream::hsElfStream() { }
 
 hsElfStream::~hsElfStream() { }
 

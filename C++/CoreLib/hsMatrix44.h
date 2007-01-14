@@ -1,10 +1,10 @@
 #ifndef _HSMATRIX44_H
 #define _HSMATRIX44_H
 
-#include "CoreLib/hsStream.h"
-#include "hsRefCount.h"
+#include "hsStream.h"
+#include "hsRefCnt.h"
 
-class hsMatrix44 : public hsRefCount {
+class hsMatrix44 : public hsRefCnt {
 private:
     float data[4][4];
 

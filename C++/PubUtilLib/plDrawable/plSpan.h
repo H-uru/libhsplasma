@@ -1,7 +1,7 @@
 #ifndef _PLSPAN_H
 #define _PLSPAN_H
 
-#include "../../hsMatrix44.h"
+#include "../../CoreLib/hsMatrix44.h"
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsBounds.h"
 

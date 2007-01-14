@@ -8,19 +8,19 @@ enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 
 static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
-/**
- * Generic file-based stream -- don't mess with the other stream types for now
- **/
 class hsStream {
 protected:
     PlasmaVer ver;
     FILE * F;
 
 public:
-    hsStream(const char* file, FileMode mode);
+    hsStream();
     ~hsStream();
 
-    void setVer(PlasmaVer pv);
+    void open(const char* file, FileMode mode);
+    void close();
+
+    void setVer(PlasmaVer pv, bool mutate=false);
     PlasmaVer getVer();
 
     long long size();
@@ -28,12 +28,14 @@ public:
     bool eof();
     
     void seek(long long pos);
-    void fastForward(long long count);
-    void rewind(long long count);
+    void skip(long long count);
+    void fastForward();
+    void rewind();
 
     char readByte();
     short readShort();
     int readInt();
+    int readIntSwap();
     long long readLong();
     float readFloat();
     double readDouble();
@@ -45,6 +47,7 @@ public:
     void writeByte(const char v);
     void writeShort(const short v);
     void writeInt(const int v);
+    void writeIntSwap(const int v);
     void writeLong(const long long v);
     void writeFloat(const float v);
     void writeDouble(const double v);

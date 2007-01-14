@@ -3,7 +3,7 @@
 
 #include "plObjInterface.h"
 #include "../../CoreLib/hsTArray.hpp"
-#include "../../hsMatrix44.h"
+#include "../../CoreLib/hsMatrix44.h"
 
 class plCoordinateInterface : public plObjInterface {
 public: // Might as well make 'em public...

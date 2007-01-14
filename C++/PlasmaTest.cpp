@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "hsMatrix44.h"
+#include "CoreLib/hsMatrix44.h"
 #include "CoreLib/hsTArray.hpp"
 #include "DynLib/PageID.h"
 

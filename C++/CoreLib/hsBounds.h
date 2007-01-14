@@ -2,8 +2,7 @@
 #define _HSBOUNDS_H
 
 #include "hsStream.h"
-#include "../Vertex3.h"
-#include "../hsScalarTriple.h"
+#include "hsGeometry3.h"
 
 class hsBounds {
 protected:

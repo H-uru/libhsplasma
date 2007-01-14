@@ -8,9 +8,9 @@ private:
     void decipher(char* v, int size, char key);
 
 public:
-    hsElfStream(const char* file, FileMode mode);
+    hsElfStream();
     ~hsElfStream();
-
+    
     const char* readLine();
     //void writeLine(const char* ln);
 };
