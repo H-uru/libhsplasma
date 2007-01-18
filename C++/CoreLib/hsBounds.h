@@ -6,7 +6,7 @@
 
 class hsBounds {
 protected:
-    int Unknown;
+    int fType;
 
 public:
     hsBounds();
@@ -18,7 +18,8 @@ public:
 
 class hsBounds3 : public hsBounds {
 protected:
-    Vertex3 min, max;
+    int fBounds3Flags;
+    hsPoint3 fMins, fMaxs, fCenter;
 
 public:
     hsBounds3();
@@ -30,10 +31,11 @@ public:
 
 class hsBounds3Ext : public hsBounds3 {
 protected:
-    int Flags;
-    hsScalarTriple ST34;
-    hsScalarTriple ST40[3];
-    float f64[6];
+    int fExtFlags;
+    hsPoint3 fCorner;
+    hsPoint3 fAxes[3];
+    hsFloatPoint2 fDists[3];
+    float fRadius;
 
 public:
     hsBounds3Ext();

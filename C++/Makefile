@@ -1,131 +1,133 @@
 CC = g++
 CFLAGS += -O2 -fPIC -Wall
 
+LIBDIR=lib/
 OBJFILES=\
-	CoreLib/hsRefCnt.o \
-	CoreLib/hsStream.o \
-	CoreLib/hsElfStream.o \
-	CoreLib/hsBitVector.o \
-	CoreLib/hsMatrix44.o \
-	CoreLib/hsGeometry3.o \
-	CoreLib/hsBounds.o \
-	DynLib/PageID.o DynLib/plString.o \
-	NucleusLib/pnFactory/plCreatable.o \
-	NucleusLib/pnFactory/plFactory.o \
-	NucleusLib/pnKeyedObject/plKey.o \
-	NucleusLib/pnKeyedObject/plReceiver.o \
-	NucleusLib/pnKeyedObject/hsKeyedObject.o \
-	NucleusLib/pnMessage/plMessage.o \
-	NucleusLib/pnNetCommon/plSynchedObject.o \
-	NucleusLib/pnSceneObject/plObjInterface.o \
-	NucleusLib/pnSceneObject/plAudioInterface.o \
-	NucleusLib/pnSceneObject/plCoordinateInterface.o \
-	NucleusLib/pnSceneObject/plDrawInterface.o \
-	NucleusLib/pnSceneObject/plSimulationInterface.o \
-	NucleusLib/pnSceneObject/plSceneObject.o \
-	PubUtilLib/plAvatar/plClothingItem.o \
-	PubUtilLib/plDrawable/plSpan.o \
-	PubUtilLib/plGImage/plBitmap.o \
-	PubUtilLib/plGImage/plFont.o \
-	PubUtilLib/plPipeline/plFogEnvironment.o \
-	PubUtilLib/plScene/plSceneNode.o \
-	PubUtilLib/plSurface/hsGMaterial.o
-PLSLIB=lib/libPlasma.so.1.0.1
+	$(LIBDIR)hsRefCnt.o \
+	$(LIBDIR)hsStream.o \
+	$(LIBDIR)hsElfStream.o \
+	$(LIBDIR)hsBitVector.o \
+	$(LIBDIR)hsMatrix44.o \
+	$(LIBDIR)hsGeometry3.o \
+	$(LIBDIR)hsBounds.o \
+	$(LIBDIR)PageID.o \
+	$(LIBDIR)plString.o \
+	$(LIBDIR)plCreatable.o \
+	$(LIBDIR)plFactory.o \
+	$(LIBDIR)plKey.o \
+	$(LIBDIR)plReceiver.o \
+	$(LIBDIR)hsKeyedObject.o \
+	$(LIBDIR)plMessage.o \
+	$(LIBDIR)plSynchedObject.o \
+	$(LIBDIR)plObjInterface.o \
+	$(LIBDIR)plAudioInterface.o \
+	$(LIBDIR)plCoordinateInterface.o \
+	$(LIBDIR)plDrawInterface.o \
+	$(LIBDIR)plSimulationInterface.o \
+	$(LIBDIR)plSceneObject.o \
+	$(LIBDIR)plClothingItem.o \
+	$(LIBDIR)plSpan.o \
+	$(LIBDIR)plBitmap.o \
+	$(LIBDIR)plFont.o \
+	$(LIBDIR)plFogEnvironment.o \
+	$(LIBDIR)plSceneNode.o \
+	$(LIBDIR)hsGMaterial.o
+PLSLIB=bin/libPlasma.so.1.0.1
 
 all: $(PLSLIB) bin/PlasmaTest
 
-lib/libPlasma.so.1.0.1: $(OBJFILES)
+$(PLSLIB): $(OBJFILES)
 	$(CC) $(CFLAGS) $(OBJFILES) -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
 
 bin/PlasmaTest: PlasmaTest.cpp $(PLSLIB)
-	$(CC) $(CFLAGS) -Llib/ -lPlasma PlasmaTest.cpp -o bin/PlasmaTest
+	$(CC) $(CFLAGS) -Lbin/ -lPlasma PlasmaTest.cpp -o bin/PlasmaTest
 
-CoreLib/hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
-	$(CC) $(CFLAGS) -c CoreLib/hsRefCnt.cpp -o CoreLib/hsRefCnt.o
+$(LIBDIR)hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsRefCnt.cpp -o $(LIBDIR)hsRefCnt.o
 
-CoreLib/hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
-	$(CC) $(CFLAGS) -c CoreLib/hsStream.cpp -o CoreLib/hsStream.o
+$(LIBDIR)hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsStream.cpp -o $(LIBDIR)hsStream.o
 
-CoreLib/hsElfStream.o: CoreLib/hsElfStream.cpp
-	$(CC) $(CFLAGS) -c CoreLib/hsElfStream.cpp -o CoreLib/hsElfStream.o
+$(LIBDIR)hsElfStream.o: CoreLib/hsElfStream.h CoreLib/hsElfStream.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsElfStream.cpp -o $(LIBDIR)hsElfStream.o
 
-CoreLib/hsBitVector.o: CoreLib/hsBitVector.h CoreLib/hsBitVector.cpp
-	$(CC) $(CFLAGS) -c CoreLib/hsBitVector.cpp -o CoreLib/hsBitVector.o
+$(LIBDIR)hsBitVector.o: CoreLib/hsBitVector.h CoreLib/hsBitVector.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsBitVector.cpp -o $(LIBDIR)hsBitVector.o
 
-CoreLib/hsMatrix44.o: CoreLib/hsMatrix44.h CoreLib/hsMatrix44.cpp
-	$(CC) $(CFLAGS) -c CoreLib/hsMatrix44.cpp -o CoreLib/hsMatrix44.o
+$(LIBDIR)hsMatrix44.o: CoreLib/hsMatrix44.h CoreLib/hsMatrix44.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsMatrix44.cpp -o $(LIBDIR)hsMatrix44.o
 
-CoreLib/hsGeometry3.o: CoreLib/hsGeometry3.h CoreLib/hsGeometry3.cpp
-	$(CC) $(CFLAGS) -c CoreLib/hsGeometry3.cpp -o CoreLib/hsGeometry3.o
+$(LIBDIR)hsGeometry3.o: CoreLib/hsGeometry3.h CoreLib/hsGeometry3.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsGeometry3.cpp -o $(LIBDIR)hsGeometry3.o
 
-CoreLib/hsBounds.o: CoreLib/hsBounds.h CoreLib/hsBounds.cpp
-	$(CC) $(CFLAGS) -c CoreLib/hsBounds.cpp -o CoreLib/hsBounds.o
+$(LIBDIR)hsBounds.o: CoreLib/hsBounds.h CoreLib/hsBounds.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsBounds.cpp -o $(LIBDIR)hsBounds.o
 
-DynLib/PageID.o: DynLib/PageID.h DynLib/PageID.cpp
-	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o DynLib/PageID.o
+$(LIBDIR)PageID.o: DynLib/PageID.h DynLib/PageID.cpp
+	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o $(LIBDIR)PageID.o
 
-DynLib/plString.o: DynLib/plString.h DynLib/plString.cpp
-	$(CC) $(CFLAGS) -c DynLib/plString.cpp -o DynLib/plString.o
+$(LIBDIR)plString.o: DynLib/plString.h DynLib/plString.cpp
+	$(CC) $(CFLAGS) -c DynLib/plString.cpp -o $(LIBDIR)plString.o
 
-NucleusLib/pnFactory/plCreatable.o: NucleusLib/pnFactory/plCreatable.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plCreatable.cpp -o NucleusLib/pnFactory/plCreatable.o
+$(LIBDIR)plCreatable.o: NucleusLib/pnFactory/plCreatable.h NucleusLib/pnFactory/plCreatable.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plCreatable.cpp -o $(LIBDIR)plCreatable.o
 
-NucleusLib/pnFactory/plFactory.o: NucleusLib/pnFactory/plFactory.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plFactory.cpp -o NucleusLib/pnFactory/plFactory.o
+$(LIBDIR)plFactory.o: NucleusLib/pnFactory/plFactory.h NucleusLib/pnFactory/plFactory.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plFactory.cpp -o $(LIBDIR)plFactory.o
 
-NucleusLib/pnKeyedObject/plKey.o: NucleusLib/pnKeyedObject/plKey.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plKey.cpp -o NucleusLib/pnKeyedObject/plKey.o
+$(LIBDIR)plKey.o: NucleusLib/pnKeyedObject/plKey.h NucleusLib/pnKeyedObject/plKey.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plKey.cpp -o $(LIBDIR)plKey.o
 
-NucleusLib/pnKeyedObject/plReceiver.o: NucleusLib/pnKeyedObject/plReceiver.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plReceiver.cpp -o NucleusLib/pnKeyedObject/plReceiver.o
+$(LIBDIR)plReceiver.o: NucleusLib/pnKeyedObject/plReceiver.h NucleusLib/pnKeyedObject/plReceiver.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plReceiver.cpp -o $(LIBDIR)plReceiver.o
 
-NucleusLib/pnKeyedObject/hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o NucleusLib/pnKeyedObject/hsKeyedObject.o
+$(LIBDIR)hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.h NucleusLib/pnKeyedObject/hsKeyedObject.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o $(LIBDIR)hsKeyedObject.o
 
-NucleusLib/pnMessage/plMessage.o: NucleusLib/pnMessage/plMessage.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnMessage/plMessage.cpp -o NucleusLib/pnMessage/plMessage.o
+$(LIBDIR)plMessage.o: NucleusLib/pnMessage/plMessage.h NucleusLib/pnMessage/plMessage.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnMessage/plMessage.cpp -o $(LIBDIR)plMessage.o
 
-NucleusLib/pnNetCommon/plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o NucleusLib/pnNetCommon/plSynchedObject.o
+$(LIBDIR)plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.h NucleusLib/pnNetCommon/plSynchedObject.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o $(LIBDIR)plSynchedObject.o
 
-NucleusLib/pnSceneObject/plAudioInterface.o: NucleusLib/pnSceneObject/plAudioInterface.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plAudioInterface.cpp -o NucleusLib/pnSceneObject/plAudioInterface.o
+$(LIBDIR)plAudioInterface.o: NucleusLib/pnSceneObject/plAudioInterface.h NucleusLib/pnSceneObject/plAudioInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plAudioInterface.cpp -o $(LIBDIR)plAudioInterface.o
 
-NucleusLib/pnSceneObject/plCoordinateInterface.o: NucleusLib/pnSceneObject/plCoordinateInterface.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plCoordinateInterface.cpp -o NucleusLib/pnSceneObject/plCoordinateInterface.o
+$(LIBDIR)plCoordinateInterface.o: NucleusLib/pnSceneObject/plCoordinateInterface.h NucleusLib/pnSceneObject/plCoordinateInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plCoordinateInterface.cpp -o $(LIBDIR)plCoordinateInterface.o
 
-NucleusLib/pnSceneObject/plDrawInterface.o: NucleusLib/pnSceneObject/plDrawInterface.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plDrawInterface.cpp -o NucleusLib/pnSceneObject/plDrawInterface.o
+$(LIBDIR)plDrawInterface.o: NucleusLib/pnSceneObject/plDrawInterface.h NucleusLib/pnSceneObject/plDrawInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plDrawInterface.cpp -o $(LIBDIR)plDrawInterface.o
 
-NucleusLib/pnSceneObject/plObjInterface.o: NucleusLib/pnSceneObject/plObjInterface.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plObjInterface.cpp -o NucleusLib/pnSceneObject/plObjInterface.o
+$(LIBDIR)plObjInterface.o: NucleusLib/pnSceneObject/plObjInterface.h NucleusLib/pnSceneObject/plObjInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plObjInterface.cpp -o $(LIBDIR)plObjInterface.o
 
-NucleusLib/pnSceneObject/plSceneObject.o: NucleusLib/pnSceneObject/plSceneObject.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plSceneObject.cpp -o NucleusLib/pnSceneObject/plSceneObject.o
+$(LIBDIR)plSceneObject.o: NucleusLib/pnSceneObject/plSceneObject.h NucleusLib/pnSceneObject/plSceneObject.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plSceneObject.cpp -o $(LIBDIR)plSceneObject.o
 
-NucleusLib/pnSceneObject/plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plSimulationInterface.cpp -o NucleusLib/pnSceneObject/plSimulationInterface.o
+$(LIBDIR)plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface.h NucleusLib/pnSceneObject/plSimulationInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plSimulationInterface.cpp -o $(LIBDIR)plSimulationInterface.o
 
-PubUtilLib/plAvatar/plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.cpp
-	$(CC) $(CFLAGS) -c PubUtilLib/plAvatar/plClothingItem.cpp -o PubUtilLib/plAvatar/plClothingItem.o
+$(LIBDIR)plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.h PubUtilLib/plAvatar/plClothingItem.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAvatar/plClothingItem.cpp -o $(LIBDIR)plClothingItem.o
 
-PubUtilLib/plDrawable/plSpan.o: PubUtilLib/plDrawable/plSpan.cpp
-	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSpan.cpp -o PubUtilLib/plDrawable/plSpan.o
+$(LIBDIR)plSpan.o: PubUtilLib/plDrawable/plSpan.h PubUtilLib/plDrawable/plSpan.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSpan.cpp -o $(LIBDIR)plSpan.o
 
-PubUtilLib/plGImage/plBitmap.o: PubUtilLib/plGImage/plBitmap.cpp
-	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plBitmap.cpp -o PubUtilLib/plGImage/plBitmap.o
+$(LIBDIR)plBitmap.o: PubUtilLib/plGImage/plBitmap.h PubUtilLib/plGImage/plBitmap.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plBitmap.cpp -o $(LIBDIR)plBitmap.o
 
-PubUtilLib/plGImage/plFont.o: PubUtilLib/plGImage/plFont.cpp
-	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plFont.cpp -o PubUtilLib/plGImage/plFont.o
+$(LIBDIR)plFont.o: PubUtilLib/plGImage/plFont.h PubUtilLib/plGImage/plFont.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plFont.cpp -o $(LIBDIR)plFont.o
 
-PubUtilLib/plPipeline/plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.cpp
-	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o PubUtilLib/plPipeline/plFogEnvironment.o
+$(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o
 
-PubUtilLib/plScene/plSceneNode.o: PubUtilLib/plScene/plSceneNode.cpp
-	$(CC) $(CFLAGS) -c PubUtilLib/plScene/plSceneNode.cpp -o PubUtilLib/plScene/plSceneNode.o
+$(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSceneNode.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plScene/plSceneNode.cpp -o $(LIBDIR)plSceneNode.o
 
-PubUtilLib/plSurface/hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.cpp
-	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o PubUtilLib/plSurface/hsGMaterial.o
+$(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/hsGMaterial.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o $(LIBDIR)hsGMaterial.o
 
 install:
 	cp $(PLSLIB) /usr/local/lib

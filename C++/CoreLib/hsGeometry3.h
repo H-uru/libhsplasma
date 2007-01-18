@@ -3,8 +3,8 @@
 
 #include "hsStream.h"
 
-class hsScalarTriple {
-private:
+struct hsScalarTriple {
+public:
     float X, Y, Z;
 
 public:
@@ -12,46 +12,28 @@ public:
     hsScalarTriple(float x, float y, float z);
     ~hsScalarTriple();
 
-    float getX();
-    float getY();
-    float getZ();
-    void setX(float x);
-    void setY(float y);
-    void setZ(float z);
-
     void read(hsStream *S);
     void write(hsStream *S);
 };
 
-class Vertex3 {
-private:
-    float X, Y, Z;
-
+struct hsPoint3 : public hsScalarTriple {
 public:
-    Vertex3();
-    Vertex3(float x, float y, float z);
-    Vertex3(Vertex3& other);
-    Vertex3(hsScalarTriple& st);
-    ~Vertex3();
-
-    float getX();
-    float getY();
-    float getZ();
-    void setX(float x);
-    void setY(float y);
-    void setZ(float z);
+    hsPoint3();
+    hsPoint3(float x, float y, float z);
+    ~hsPoint3();
 
     void Zero();
 
-    Vertex3& operator+(const Vertex3& other);
-    Vertex3& operator*(const Vertex3& other);
-    Vertex3& operator*(const float mult);
-    Vertex3& operator=(const Vertex3& other);
-    Vertex3& operator=(hsScalarTriple& st);
-    bool operator==(const Vertex3& other);
+    hsPoint3& operator+(const hsPoint3& other);
+    hsPoint3& operator*(const hsPoint3& other);
+    hsPoint3& operator*(const float mult);
+    hsPoint3& operator=(const hsPoint3& other);
+    bool operator==(const hsPoint3& other);
+};
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+struct hsFloatPoint2 {
+public:
+    float X, Y;
 };
 
 #endif

@@ -11,9 +11,9 @@ protected:
 
 public:
     plReceiver(PlasmaVer pv = pvUnknown);
-    ~plReceiver();
+    virtual ~plReceiver();
 
-    bool msgReceive(class plMessage * msg);
+    virtual bool msgReceive(class plMessage * msg);
 };
 
 #endif

@@ -6,10 +6,10 @@
 class hsKeyedObject : public plReceiver {
 public:
     hsKeyedObject(PlasmaVer pv = pvUnknown);
-    ~hsKeyedObject();
+    virtual ~hsKeyedObject();
 
-    void read(hsStream * S);
-    void write(hsStream * S);
+    virtual void read(hsStream * S);
+    virtual void write(hsStream * S);
 };
 
 #endif

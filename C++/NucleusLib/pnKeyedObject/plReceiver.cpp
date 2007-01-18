@@ -3,5 +3,5 @@
 plReceiver::plReceiver(PlasmaVer pv) { }
 plReceiver::~plReceiver() { }
 
-bool msgReceive(plMessage * msg) { return false; }
+bool plReceiver::msgReceive(plMessage * msg) { return false; }
 
