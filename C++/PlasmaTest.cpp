@@ -5,19 +5,19 @@
 
 int main(int argc, char** argv) {
     hsTArray<hsMatrix44> mar;
-    mar.addNew();
-    mar.addNew();
-    hsMatrix44 &mat1 = *mar[0];
-    hsMatrix44 &mat2 = *mar[1];
+    hsMatrix44 mat1;
+    hsMatrix44 mat2;
+    mar.append(mat1);
+    mar.append(mat2);
     
     mat2 = mat1 * .5f;
-    printf("%s\n\n%s\n", mar[0]->toString(), mar[1]->toString());
+    printf("%s\n\n%s\n", mar[0].toString(), mar[1].toString());
     
-    mar.add(&(mat1 * mat2));
-    printf("\n%s\n", mar[2]->toString());
+    mar.append(mat1 * mat2);
+    printf("\n%s\n", mar[2].toString());
     
-    mar.add(&mat1.scale(2.0f, 1.5f, .5f));
-    printf("\n%s\n", mar[3]->toString());
+    mar.append(mat1.scale(2.0f, 1.5f, .5f));
+    printf("\n%s\n", mar[3].toString());
 
     hsMatrix44 mat3;
     hsMatrix44 * mat4;

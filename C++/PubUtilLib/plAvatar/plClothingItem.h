@@ -20,10 +20,10 @@ public:
     Clothing_Texture* Textures;
 
     Clothing_FeatureSet();
-    ~Clothing_FeatureSet();
+    virtual ~Clothing_FeatureSet();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 
     const char* getFeatureName();
     const char getTexCount();
@@ -51,10 +51,10 @@ protected:
 
 public:
     plClothingItem(PlasmaVer pv = pvUnknown);
-    ~plClothingItem();
+    virtual ~plClothingItem();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

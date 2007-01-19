@@ -10,10 +10,10 @@ protected:
 
 public:
     plFogEnvironment(PlasmaVer pv = pvUnknown);
-    ~plFogEnvironment();
+    virtual ~plFogEnvironment();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

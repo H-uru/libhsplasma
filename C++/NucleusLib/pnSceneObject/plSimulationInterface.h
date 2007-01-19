@@ -11,10 +11,10 @@ protected:
 
 public:
     plSimulationInterface(PlasmaVer pv = pvUnknown);
-    ~plSimulationInterface();
+    virtual ~plSimulationInterface();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

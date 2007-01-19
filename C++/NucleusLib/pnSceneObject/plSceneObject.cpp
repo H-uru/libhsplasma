@@ -23,8 +23,14 @@ void plSceneObject::read(hsStream *S) {
     SimIntf->readRef(S);
     CoordIntf->readRef(S);
     AudioIntf->readRef(S);
-    Interfaces.read(S);
-    Modifiers.read(S);
+
+    Interfaces.setSize(S->readInt());
+    for (int i=0; i<Interfaces.getSize(); i++)
+        Interfaces[i].readRef(S);
+    Modifiers.setSize(S->readInt());
+    for (int i=0; i<Modifiers.getSize(); i++)
+        Modifiers[i].readRef(S);
+
     SceneNode->readRef(S);
 }
 
@@ -35,8 +41,13 @@ void plSceneObject::write(hsStream *S) {
     SimIntf->writeRef(S);
     CoordIntf->writeRef(S);
     AudioIntf->writeRef(S);
-    Interfaces.write(S);
-    Modifiers.write(S);
+
+    S->writeInt(Interfaces.getSize());
+    for (int i=0; i<Interfaces.getSize(); i++)
+        Interfaces[i].writeRef(S);
+    S->writeInt(Modifiers.getSize());
+    for (int i=0; i<Modifiers.getSize(); i++)
+        Modifiers[i].writeRef(S);
     SceneNode->writeRef(S);
 }
 

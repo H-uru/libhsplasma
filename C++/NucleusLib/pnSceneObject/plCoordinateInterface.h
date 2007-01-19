@@ -11,7 +11,7 @@ public: // Might as well make 'em public...
     hsMatrix44 ParentToLocal;
     hsMatrix44 LocalToWorld;
     hsMatrix44 WorldToLocal;
-    hsTArray<plKeyRef> SceneObjects;
+    hsTArray<plKey> SceneObjects;
 
     //short Member60;
     //hsTArray<plSceneObject> Children;
@@ -19,14 +19,14 @@ public: // Might as well make 'em public...
 
 public:
     plCoordinateInterface(PlasmaVer pv = pvUnknown);
-    ~plCoordinateInterface();
+    virtual ~plCoordinateInterface();
 
     plCoordinateInterface * getRoot();
 
     // More to do later...
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

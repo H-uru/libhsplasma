@@ -14,6 +14,7 @@ public:
     ~hsMatrix44();
     
     void Identity();
+    bool IsIdentity();
     
     float& operator()(int y, int x);
     hsMatrix44& operator+(const hsMatrix44& other);

@@ -1,17 +1,27 @@
 #include "plDrawInterface.h"
 
 /*plDrawableKeyRef */
-plDrawableKeyRef::plDrawableKeyRef() : DrawKey(0) { }
-plDrawableKeyRef::~plDrawableKeyRef() { }
+plDrawableKey::plDrawableKey() : DrawKey(0) { }
+plDrawableKey::~plDrawableKey() { }
 
-void plDrawableKeyRef::read(hsStream *S) {
+void plDrawableKey::read(hsStream *S) {
     DrawKey = S->readInt();
-    plKeyRef::read(S);
+    plKey::read(S);
 }
 
-void plDrawableKeyRef::write(hsStream *S) {
+void plDrawableKey::write(hsStream *S) {
     S->writeInt(DrawKey);
-    plKeyRef::write(S);
+    plKey::write(S);
+}
+
+void plDrawableKey::readRef(hsStream *S) {
+    S->writeInt(DrawKey);
+    plKey::readRef(S);
+}
+
+void plDrawableKey::writeRef(hsStream *S) {
+    S->writeInt(DrawKey);
+    plKey::writeRef(S);
 }
 
 
@@ -22,13 +32,25 @@ plDrawInterface::~plDrawInterface() { }
 
 void plDrawInterface::read(hsStream *S) {
     plObjInterface::read(S);
-    Drawables.read(S);
-    Objects.read(S);
+    int count = S->readInt();
+    Drawables.clear();
+    Drawables.setSize(count);
+    for (int i=0; i<count; i++)
+        Drawables[i].readRef(S);
+    count = S->readInt();
+    Objects.clear();
+    Objects.setSize(count);
+    for (int i=0; i<count; i++)
+        Objects[i].readRef(S);
 }
 
 void plDrawInterface::write(hsStream *S) {
     plObjInterface::write(S);
-    Drawables.write(S);
-    Objects.write(S);
+    S->writeInt(Drawables.getSize());
+    for (int i=0; i<Drawables.getSize(); i++)
+        Drawables[i].writeRef(S);
+    S->writeInt(Objects.getSize());
+    for (int i=0; i<Objects.getSize(); i++)
+        Objects[i].writeRef(S);
 }
 

@@ -45,10 +45,4 @@ public:
     void writeRef(hsStream *S);
 };
 
-class plKeyRef : public plKey {
-public:
-    void read(hsStream *S);
-    void write(hsStream *S);
-};
-
 #endif

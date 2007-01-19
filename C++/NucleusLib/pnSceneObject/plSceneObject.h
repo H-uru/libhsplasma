@@ -10,17 +10,17 @@ public:
     plKey * CoordIntf;
     plKey * AudioIntf;
 
-    hsTArray<plKeyRef> Interfaces;
-    hsTArray<plKeyRef> Modifiers;
+    hsTArray<plKey> Interfaces;
+    hsTArray<plKey> Modifiers;
 
     plKey * SceneNode;
 
 public:
     plSceneObject(PlasmaVer pv = pvUnknown);
-    ~plSceneObject();
+    virtual ~plSceneObject();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

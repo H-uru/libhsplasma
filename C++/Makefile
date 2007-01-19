@@ -11,7 +11,6 @@ OBJFILES=\
 	$(LIBDIR)hsGeometry3.o \
 	$(LIBDIR)hsBounds.o \
 	$(LIBDIR)PageID.o \
-	$(LIBDIR)plString.o \
 	$(LIBDIR)plCreatable.o \
 	$(LIBDIR)plFactory.o \
 	$(LIBDIR)plKey.o \
@@ -65,9 +64,6 @@ $(LIBDIR)hsBounds.o: CoreLib/hsBounds.h CoreLib/hsBounds.cpp
 
 $(LIBDIR)PageID.o: DynLib/PageID.h DynLib/PageID.cpp
 	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o $(LIBDIR)PageID.o
-
-$(LIBDIR)plString.o: DynLib/plString.h DynLib/plString.cpp
-	$(CC) $(CFLAGS) -c DynLib/plString.cpp -o $(LIBDIR)plString.o
 
 $(LIBDIR)plCreatable.o: NucleusLib/pnFactory/plCreatable.h NucleusLib/pnFactory/plCreatable.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plCreatable.cpp -o $(LIBDIR)plCreatable.o

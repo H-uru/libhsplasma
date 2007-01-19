@@ -10,10 +10,10 @@ protected:
 
 public:
     hsBounds();
-    ~hsBounds();
+    virtual ~hsBounds();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 class hsBounds3 : public hsBounds {
@@ -23,10 +23,10 @@ protected:
 
 public:
     hsBounds3();
-    ~hsBounds3();
+    virtual ~hsBounds3();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 class hsBounds3Ext : public hsBounds3 {
@@ -39,10 +39,10 @@ protected:
 
 public:
     hsBounds3Ext();
-    ~hsBounds3Ext();
+    virtual ~hsBounds3Ext();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

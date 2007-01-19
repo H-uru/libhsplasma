@@ -30,12 +30,12 @@ protected:
 
 public:
     plFont(PlasmaVer pv = pvUnknown);
-    ~plFont();
+    virtual ~plFont();
 
     FontLetterDef& operator[](int idx);
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
     void readP2F(hsStream *S);
     void writeP2F(hsStream *S);
 };

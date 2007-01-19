@@ -4,104 +4,59 @@
 #include <stdlib.h>
 #include "hsStream.h"
 
-#define TARR_CAP_INCREMENT  32
-
 template <class T>
 class hsTArray {
 private:
-    int count, max;
-    T** data;
-
-    void baseRead(hsStream * S) {
-        ensureCap(count);
-        for (int i=0; i<count; i++) {
-            data[i] = new T;
-            data[i]->read(S);
-        }
-    }
-
-    void baseWrite(hsStream * S) {
-        for (int i=0; i<count; i++)
-            data[i]->write(S);
-    }
+    unsigned short max, count;
+    T* data;
 
 public:
-    hsTArray() : count(0), max(TARR_CAP_INCREMENT) {
-        data = new T*[TARR_CAP_INCREMENT];
+    hsTArray() : max(0), count(0) {
+        data = NULL;
     }
     ~hsTArray<T>() {
-        for (int i=0; i<count; i++)
-            data[i]->UnRef();
-        delete [] data;
+        if (data != NULL)
+            delete[] data;
     }
 
     void clear() {
-        for (int i=0; i<count; i++)
-            data[i]->UnRef();
-        delete [] data;
+        if (data != NULL)
+            delete[] data;
+        data = NULL;
         count = 0;
-        max = TARR_CAP_INCREMENT;
-        data = new T*[max];
+        max = 0;
     }
 
     int getSize() { return count; }
     int getCap()  { return max;   }
 
-    void ensureCap(int cap) {
-        if (max < cap) {
-            while (cap > max) max += TARR_CAP_INCREMENT;
-            T** newData = new T*[max];
-            for (int i=0; i<count; i++)
-                newData[i] = data[i];
-            data = newData;
-        }
+    void setSize(int cap) {
+        if (max == cap) return;
+        max = cap;
+        T* newData = new T[max];
+        int m = (count > cap) ? cap : count;
+        for (int i=0; i<m; i++)
+            newData[i] = data[i];
+        if (data != NULL)
+            delete[] data;
+        data = newData;
     }
 
-    void add(T * item) {
-        ensureCap(count+1);
+    void append(T& item) {
+        setSize(count+1);
         data[count++] = item;
     }
 
-    T * addNew() {
-        ensureCap(count+1);
-        data[count] = new T;
-        return data[count++];
-    }
-
-    T * take(int idx) {
-        T * dItm = data[idx];
+    T& remove(int idx) {
+        T dItm = data[idx];
         for (int i=idx; i<count; i++)
             data[i] = data[i+1];
         data[--count] = NULL;
         return dItm;
     }
 
-    void del(int idx) {
-        take(idx)->UnRef();
-    }
-
-    T * operator[](int idx) {
+    T& operator[](int idx) {
         return data[idx];
-    }
-
-    void read(hsStream * S) {
-        count = S->readInt();
-        baseRead(S);
-    }
-
-    void write(hsStream * S) {
-        S->writeInt(count);
-        baseWrite(S);
-   }
-
-    void read16(hsStream * S) {
-        count = S->readShort();
-        baseRead(S);
-    }
-
-    void write16(hsStream * S) {
-        S->writeShort(count);
-        baseWrite(S);
     }
 };
 

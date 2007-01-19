@@ -13,13 +13,13 @@ void hsGMaterial::read(hsStream *S) {
 
     int i;
     Layers1.clear();
-    Layers1.ensureCap(l1Count);
+    Layers1.setSize(l1Count);
     for (i=0; i<l1Count; i++)
-        Layers1.addNew()->readRef(S);
+        Layers1[i].readRef(S);
     Layers2.clear();
-    Layers2.ensureCap(l2Count);
+    Layers2.setSize(l2Count);
     for (i=0; i<l2Count; i++)
-        Layers2.addNew()->readRef(S);
+        Layers2[i].readRef(S);
 }
 
 void hsGMaterial::write(hsStream *S) {
@@ -32,8 +32,8 @@ void hsGMaterial::write(hsStream *S) {
 
     int i;
     for (i=0; i<Layers1.getSize(); i++)
-        Layers1[i]->write(S);
+        Layers1[i].writeRef(S);
     for (i=0; i<Layers2.getSize(); i++)
-        Layers2[i]->write(S);
+        Layers2[i].writeRef(S);
 }
 

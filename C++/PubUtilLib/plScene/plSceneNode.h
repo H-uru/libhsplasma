@@ -6,15 +6,15 @@
 
 class plSceneNode : public hsKeyedObject {
 public:
-    hsTArray<plKeyRef> SceneObjects;
-    hsTArray<plKeyRef> OtherObjects;
+    hsTArray<plKey> SceneObjects;
+    hsTArray<plKey> OtherObjects;
 
 public:
     plSceneNode(PlasmaVer pv = pvUnknown);
-    ~plSceneNode();
+    virtual ~plSceneNode();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

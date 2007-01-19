@@ -120,11 +120,3 @@ void plKey::writeRef(hsStream *S) {
     if (exists) write(S);
 }
 
-void plKeyRef::read(hsStream *S) {
-    readRef(S);
-}
-
-void plKeyRef::write(hsStream *S) {
-    writeRef(S);
-}
-

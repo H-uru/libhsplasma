@@ -9,10 +9,10 @@ protected:
 
 public:
     plAudioInterface(PlasmaVer pv = pvUnknown);
-    ~plAudioInterface();
+    virtual ~plAudioInterface();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

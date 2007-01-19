@@ -3,20 +3,19 @@
 
 #include "../pnKeyedObject/hsKeyedObject.h"
 #include "../../CoreLib/hsTArray.hpp"
-#include "../../DynLib/plString.h"
 
 class plSynchedObject : public hsKeyedObject {
 protected:
     int flags;
-    hsTArray<plString> SDLKeys;
-    hsTArray<plString> SDLKeys2;
+    hsTArray<char*> SDLKeys;
+    hsTArray<char*> SDLKeys2;
 
 public:
     plSynchedObject(PlasmaVer pv = pvUnknown);
-    ~plSynchedObject();
+    virtual ~plSynchedObject();
 
-    void read(hsStream * S);
-    void write(hsStream * S);
+    virtual void read(hsStream * S);
+    virtual void write(hsStream * S);
 };
 
 #endif

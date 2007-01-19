@@ -2,20 +2,21 @@
 #define _PLFACTORY_H
 
 #include "plCreatable.h"
+#include "../../CoreLib/hsRefCnt.h"
 
-class plFactory {
+class plFactory : hsRefCnt {
 private:
     PlasmaVer ver;
 
 public:
     plFactory();
     plFactory(PlasmaVer pv);
-    ~plFactory();
+    virtual ~plFactory();
 
     PlasmaVer getVer();
-    void setVer(PlasmaVer pv, bool mutate = false);
+    virtual void setVer(PlasmaVer pv, bool mutate = false);
 
-    plCreatable* Create(short typeIdx);
+    virtual plCreatable* Create(short typeIdx);
 };
 
 #endif

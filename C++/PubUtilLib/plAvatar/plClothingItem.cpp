@@ -96,7 +96,10 @@ void plClothingItem::read(hsStream *S) {
         Icon->readRef(S);
     }
 
-    Features.read(S);
+    Features.clear();
+    Features.setSize(S->readInt());
+    for (int i=0; i<Features.getSize(); i++)
+        Features[i].read(S);
 
     if (HQMesh) {
         HQMesh->UnRef();
@@ -149,7 +152,9 @@ void plClothingItem::write(hsStream *S) {
     } else
         S->writeBool(false);
 
-    Features.write(S);
+    S->writeInt(Features.getSize());
+    for (int i=0; i<Features.getSize(); i++)
+        Features[i].write(S);
 
     if (HQMesh) {
         S->writeBool(true);

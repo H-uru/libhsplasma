@@ -13,11 +13,15 @@ hsMatrix44::hsMatrix44(hsMatrix44& init) {
 
 hsMatrix44::~hsMatrix44() { }
 
+bool hsMatrix44::IsIdentity() {
+    return false;
+}
+
 void hsMatrix44::Identity() {
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
-            if (x == y) data[y][x] = 1;
-            else data[y][x] = 0;
+            if (x == y) data[y][x] = 1.0;
+            else data[y][x] = 0.0;
 }
 
 float& hsMatrix44::operator()(int y, int x) {
@@ -109,15 +113,31 @@ hsMatrix44& hsMatrix44::rotate(float x, float y, float z) {
 }
 
 void hsMatrix44::read(hsStream *S) {
-    for (int y=0; y<4; y++)
-        for (int x=0; x<4; x++)
-            data[y][x] = S->readFloat();
+    bool hasData = true;
+    if (S->getVer() == pvLive)
+        hasData = S->readBool();
+
+    if (hasData) {
+        for (int y=0; y<4; y++)
+            for (int x=0; x<4; x++)
+                data[y][x] = S->readFloat();
+    } else {
+        Identity();
+    }
 }
 
 void hsMatrix44::write(hsStream *S) {
-    for (int y=0; y<4; y++)
-        for (int x=0; x<4; x++)
-            S->writeFloat(data[y][x]);
+    bool hasData = true;
+    if (S->getVer() == pvLive) {
+        hasData = !IsIdentity();
+        S->writeBool(hasData);
+    }
+    
+    if (hasData) {
+        for (int y=0; y<4; y++)
+            for (int x=0; x<4; x++)
+                S->writeFloat(data[y][x]);
+    }
 }
 
 const char* hsMatrix44::toString() {

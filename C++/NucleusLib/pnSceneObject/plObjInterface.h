@@ -12,12 +12,12 @@ private:
 
 public:
     plObjInterface(PlasmaVer pv = pvUnknown);
-    ~plObjInterface();
+    virtual ~plObjInterface();
 
-    bool msgReceive(plMessage * msg);
+    virtual bool msgReceive(plMessage * msg);
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

@@ -11,15 +11,15 @@ protected:
 
 public:
     plCreatable(PlasmaVer pv = pvUnknown);
-    ~plCreatable();
+    virtual ~plCreatable();
 
-    short ClassIndex();
+    virtual short ClassIndex();
     
     PlasmaVer getVersion();
-    void setVersion(PlasmaVer pv, bool mutate = false);
+    virtual void setVersion(PlasmaVer pv, bool mutate = false);
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
 };
 
 #endif

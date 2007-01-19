@@ -7,11 +7,11 @@ protected:
 
 public:
     hsRefCnt();
-    ~hsRefCnt();
+    virtual ~hsRefCnt();
 
-    int RefCnt();
-    int UnRef();
-    void Ref();
+    virtual int RefCnt();
+    virtual int UnRef();
+    virtual void Ref();
 };
 
 #endif

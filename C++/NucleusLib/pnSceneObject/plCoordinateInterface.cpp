@@ -22,7 +22,12 @@ void plCoordinateInterface::read(hsStream *S) {
     ParentToLocal.read(S);
     LocalToWorld.read(S);
     WorldToLocal.read(S);
-    SceneObjects.read(S);
+
+    int soCount = S->readInt();
+    SceneObjects.clear();
+    SceneObjects.setSize(soCount);
+    for (int i=0; i<soCount; i++)
+        SceneObjects[i].readRef(S);
 }
 
 void plCoordinateInterface::write(hsStream *S) {
@@ -32,6 +37,9 @@ void plCoordinateInterface::write(hsStream *S) {
     ParentToLocal.write(S);
     LocalToWorld.write(S);
     WorldToLocal.write(S);
-    SceneObjects.write(S);
+
+    S->writeInt(SceneObjects.getSize());
+    for (int i=0; i<SceneObjects.getSize(); i++)
+        SceneObjects[i].writeRef(S);
 }
 
