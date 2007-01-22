@@ -1,7 +1,9 @@
 #include <string.h>
 #include "hsStream.h"
 
-hsStream::hsStream() : F(NULL) { }
+hsStream::hsStream(PlasmaVer pv) : F(NULL) {
+    setVer(pv);
+}
 
 hsStream::~hsStream() {
     close();
@@ -69,6 +71,14 @@ void hsStream::rewind() {
     fseek(F, 0, SEEK_END);
 }
 
+void hsStream::read(unsigned int size, void* buf) {
+    fread(buf, size, 1, F);
+}
+
+void hsStream::write(unsigned int size, const void* buf) {
+    fwrite(buf, size, 1, F);
+}
+
 void SwapByteOrder(int* value) {
     union {
         int i;
@@ -86,62 +96,83 @@ void SwapByteOrder(int* value) {
 
 char hsStream::readByte() {
     char v;
-    fread(&v, sizeof(v), 1, F);
+    read(sizeof(v), &v);
     return v;
+}
+
+void hsStream::readBytes(unsigned int count, char* buf) {
+    read(count * sizeof(char), buf);
 }
 
 short hsStream::readShort() {
     short v;
-    fread(&v, sizeof(v), 1, F);
+    read(sizeof(v), &v);
     return v;
+}
+
+void hsStream::readShorts(unsigned int count, short* buf) {
+    read(count * sizeof(short), buf);
 }
 
 int hsStream::readInt() {
     int v;
-    fread(&v, sizeof(v), 1, F);
+    read(sizeof(v), &v);
     return v;
+}
+
+void hsStream::readInts(unsigned int count, int* buf) {
+    read(count * sizeof(int), buf);
 }
 
 int hsStream::readIntSwap() {
     int v;
-    fread(&v, sizeof(v), 1, F);
+    read(sizeof(v), &v);
     SwapByteOrder(&v);
     return v;
 }
 
 long long hsStream::readLong() {
     long long v;
-    fread(&v, sizeof(v), 1, F);
+    read(sizeof(v), &v);
     return v;
 }
 
 float hsStream::readFloat() {
     float v;
-    fread(&v, sizeof(v), 1, F);
+    read(sizeof(v), &v);
     return v;
+}
+
+void hsStream::readFloats(unsigned int count, float* buf) {
+    read(count * sizeof(float), buf);
 }
 
 double hsStream::readDouble() {
     double v;
-    fread(&v, sizeof(v), 1, F);
+    read(sizeof(v), &v);
     return v;
 }
 
 bool hsStream::readBool() {
     char v;
-    fread(&v, sizeof(v), 1, F);
+    read(sizeof(v), &v);
     return v ? true : false;
+}
+
+void hsStream::readBools(unsigned int count, bool* buf) {
+    for (unsigned int i=0; i<count; i++)
+        buf[i] = readBool();
 }
 
 char* hsStream::readStr(int len) {
     char* buf = new char[len];
-    fread(buf, sizeof(char), len, F);
+    read(len * sizeof(char), buf);
     return buf;
 }
 
 char* hsStream::readStrZ(int len) {
     char* buf = new char[len+1];
-    fread(buf, sizeof(char), len, F);
+    read(len * sizeof(char), buf);
     buf[len] = '\0';
     return buf;
 }
@@ -165,42 +196,63 @@ char* hsStream::readSafeStr() {
 }
 
 void hsStream::writeByte(const char v) {
-    fwrite(&v, sizeof(v), 1, F);
+    write(sizeof(v), &v);
+}
+
+void hsStream::writeBytes(unsigned int count, const char* buf) {
+    write(count * sizeof(char), buf);
 }
 
 void hsStream::writeShort(const short v) {
-    fwrite(&v, sizeof(v), 1, F);
+    write(sizeof(v), &v);
+}
+
+void hsStream::writeShorts(unsigned int count, const short* buf) {
+    write(count * sizeof(short), buf);
 }
 
 void hsStream::writeInt(const int v) {
-    fwrite(&v, sizeof(v), 1, F);
+    write(sizeof(v), &v);
+}
+
+void hsStream::writeInts(unsigned int count, const int* buf) {
+    write(count * sizeof(int), buf);
 }
 
 void hsStream::writeIntSwap(const int v) {
     int tv = v;
     SwapByteOrder(&tv);
-    fwrite(&tv, sizeof(tv), 1, F);
+    write(sizeof(tv), &tv);
 }
 
 void hsStream::writeLong(const long long v) {
-    fwrite(&v, sizeof(v), 1, F);
+    write(sizeof(v), &v);
 }
 
 void hsStream::writeFloat(const float v) {
-    fwrite(&v, sizeof(v), 1, F);
+    write(sizeof(v), &v);
+}
+
+void hsStream::writeFloats(unsigned int count, const float* buf) {
+    write(count * sizeof(float), buf);
 }
 
 void hsStream::writeDouble(const double v) {
-    fwrite(&v, sizeof(v), 1, F);
+    write(sizeof(v), &v);
 }
 
 void hsStream::writeBool(const bool v) {
     char b = v ? 1 : 0;
-    fwrite(&b, sizeof(b), 1, F);
+    write(sizeof(b), &b);
+}
+
+void hsStream::writeBools(unsigned int count, const bool* buf) {
+    for (unsigned int i=0; i<count; i++)
+        writeBool(buf[i]);
 }
 
 void hsStream::writeStr(const char* buf, int len) {
-    fwrite(buf, sizeof(char), len, F);
+    write(len * sizeof(char), buf);
 }
 
 void hsStream::writeStr(const char* buf) {
@@ -225,3 +277,4 @@ void hsStream::writeSafeStr(const char* buf) {
         writeStr(wbuf, ssInfo & 0x0FFF);
     }
 }
+

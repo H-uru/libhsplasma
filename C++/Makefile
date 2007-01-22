@@ -1,10 +1,11 @@
 CC = g++
 CFLAGS += -O2 -fPIC -Wall
 
-LIBDIR=lib/
+LIBDIR=out/
 OBJFILES=\
 	$(LIBDIR)hsRefCnt.o \
 	$(LIBDIR)hsStream.o \
+	$(LIBDIR)plResManager.o \
 	$(LIBDIR)hsElfStream.o \
 	$(LIBDIR)hsBitVector.o \
 	$(LIBDIR)hsMatrix44.o \
@@ -28,10 +29,12 @@ OBJFILES=\
 	$(LIBDIR)plSpan.o \
 	$(LIBDIR)plBitmap.o \
 	$(LIBDIR)plFont.o \
+	$(LIBDIR)plMipmap.o \
+	$(LIBDIR)plCubicEnvironmap.o \
 	$(LIBDIR)plFogEnvironment.o \
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)hsGMaterial.o
-PLSLIB=bin/libPlasma.so.1.0.1
+PLSLIB=lib/libPlasma.so.1.0.1
 
 all: $(PLSLIB) bin/PlasmaTest
 
@@ -39,7 +42,7 @@ $(PLSLIB): $(OBJFILES)
 	$(CC) $(CFLAGS) $(OBJFILES) -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
 
 bin/PlasmaTest: PlasmaTest.cpp $(PLSLIB)
-	$(CC) $(CFLAGS) -Lbin/ -lPlasma PlasmaTest.cpp -o bin/PlasmaTest
+	$(CC) $(CFLAGS) -Llib/ -lPlasma PlasmaTest.cpp -o bin/PlasmaTest
 
 $(LIBDIR)hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsRefCnt.cpp -o $(LIBDIR)hsRefCnt.o
@@ -113,11 +116,20 @@ $(LIBDIR)plSpan.o: PubUtilLib/plDrawable/plSpan.h PubUtilLib/plDrawable/plSpan.c
 $(LIBDIR)plBitmap.o: PubUtilLib/plGImage/plBitmap.h PubUtilLib/plGImage/plBitmap.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plBitmap.cpp -o $(LIBDIR)plBitmap.o
 
+$(LIBDIR)plCubicEnvironmap.o: PubUtilLib/plGImage/plCubicEnvironmap.h PubUtilLib/plGImage/plCubicEnvironmap.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plCubicEnvironmap.cpp -o $(LIBDIR)plCubicEnvironmap.o
+
 $(LIBDIR)plFont.o: PubUtilLib/plGImage/plFont.h PubUtilLib/plGImage/plFont.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plFont.cpp -o $(LIBDIR)plFont.o
 
+$(LIBDIR)plMipmap.o: PubUtilLib/plGImage/plMipmap.h PubUtilLib/plGImage/plMipmap.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plMipmap.cpp -o $(LIBDIR)plMipmap.o
+
 $(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o
+
+$(LIBDIR)plResManager.o: PubUtilLib/plResMgr/plResManager.h PubUtilLib/plResMgr/plResManager.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plResManager.cpp -o $(LIBDIR)plResManager.o
 
 $(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSceneNode.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plScene/plSceneNode.cpp -o $(LIBDIR)plSceneNode.o

@@ -1,6 +1,9 @@
 #include "plCreatable.h"
 
-plCreatable::plCreatable(PlasmaVer pv) : ver(pv) { }
+plCreatable::plCreatable(PlasmaVer pv) {
+    setVersion(pv);
+}
+
 plCreatable::~plCreatable() { }
 
 short plCreatable::ClassIndex() { return -1; }

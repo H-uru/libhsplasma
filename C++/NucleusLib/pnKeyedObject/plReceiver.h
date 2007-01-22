@@ -6,9 +6,6 @@
 //#include "NucleusLib/pnMessage/plMessage.h"
 
 class plReceiver : public plCreatable {
-protected:
-    plKey key;
-
 public:
     plReceiver(PlasmaVer pv = pvUnknown);
     virtual ~plReceiver();

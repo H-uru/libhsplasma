@@ -12,6 +12,8 @@ void plFactory::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 #include "../pnSceneObject/plSceneObject.h"
 //#include "../pnKeyedObject/hsKeyedObject.h"
 #include "../../PubUtilLib/plGImage/plBitmap.h"
+#include "../../PubUtilLib/plGImage/plMipmap.h"
+#include "../../PubUtilLib/plGImage/plCubicEnvironmap.h"
 #include "../../PubUtilLib/plSurface/hsGMaterial.h"
 #include "../pnSceneObject/plObjInterface.h"
 #include "../pnSceneObject/plAudioInterface.h"
@@ -33,8 +35,8 @@ plCreatable* plFactory::Create(short typeIdx) {
             case 0x0001: return new plSceneObject(ver);
             case 0x0002: return new hsKeyedObject(ver);
             case 0x0003: return new plBitmap(ver);
-            //case 0x0004: return new plMipmap(ver);
-            //case 0x0005: return new plCubicEnvironmap(ver);
+            case 0x0004: return new plMipmap(ver);
+            case 0x0005: return new plCubicEnvironmap(ver);
             //case 0x0006: return new plLayer(ver);
             case 0x0007: return new hsGMaterial(ver);
             //case 0x0008: return new plParticleSystem(ver);
@@ -442,8 +444,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         case 0x0001: return new plSceneObject(ver);
         case 0x0002: return new hsKeyedObject(ver);
         case 0x0003: return new plBitmap(ver);
-        //case 0x0004: return new plMipmap(ver);
-        //case 0x0005: return new plCubicEnvironmap(ver);
+        case 0x0004: return new plMipmap(ver);
+        case 0x0005: return new plCubicEnvironmap(ver);
         //case 0x0006: return new plLayer(ver);
         case 0x0007: return new hsGMaterial(ver);
         //case 0x0008: return new plParticleSystem(ver);
