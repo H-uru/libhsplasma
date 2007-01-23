@@ -7,7 +7,7 @@ class hsGMaterial : public plSynchedObject {
 private:
     int Unknown;
     int LayerFlags;
-    hsTArray<plKey> Layers1, Layers2;
+    hsTArray<plKey*> Layers1, Layers2;
 
 public:
     hsGMaterial(PlasmaVer pv = pvUnknown);

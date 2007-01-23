@@ -3,9 +3,8 @@
 
 #include "PlasmaVersions.h"
 #include "../CoreLib/hsStream.h"
-#include "../CoreLib/hsRefCnt.h"
 
-class PageID : public hsRefCnt {
+class PageID {
 private:
     int id;
     PlasmaVer ver;
@@ -31,6 +30,10 @@ public:
 
     void read(hsStream *S);
     void write(hsStream *S);
+};
+
+struct PageComparator {
+    bool operator()(PageID pid1, PageID pid2) const;
 };
 
 #endif

@@ -3,24 +3,11 @@
 
 #include "plObjInterface.h"
 
-class plDrawableKey : public plKey {
-public:
-    int DrawKey;
-public:
-    plDrawableKey();
-    virtual ~plDrawableKey();
-
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
-
-    virtual void readRef(hsStream* S);
-    virtual void writeRef(hsStream* S);
-};
-
 class plDrawInterface : public plObjInterface {
 public:
-    hsTArray<plDrawableKey> Drawables;
-    hsTArray<plKey> Objects;
+    hsTArray<plKey*> Drawables;
+    hsTArray<plKey*> Objects;
+    hsTArray<int> DrawableKeys;
 
 public:
     plDrawInterface(PlasmaVer pv = pvUnknown);

@@ -1,4 +1,5 @@
 #include "hsGMaterial.h"
+#include "../plResMgr/plResManager.h"
 
 hsGMaterial::hsGMaterial(PlasmaVer pv) : Unknown(0), LayerFlags(0) { }
 hsGMaterial::~hsGMaterial() { }
@@ -14,12 +15,16 @@ void hsGMaterial::read(hsStream *S) {
     int i;
     Layers1.clear();
     Layers1.setSize(l1Count);
-    for (i=0; i<l1Count; i++)
-        Layers1[i].readRef(S);
+    for (i=0; i<l1Count; i++) {
+        Layers1[i] = plResManager::inst->readKey(S);
+        Layers1[i]->Ref();
+    }
     Layers2.clear();
     Layers2.setSize(l2Count);
-    for (i=0; i<l2Count; i++)
-        Layers2[i].readRef(S);
+    for (i=0; i<l2Count; i++) {
+        Layers2[i] = plResManager::inst->readKey(S);
+        Layers2[i]->Ref();
+    }
 }
 
 void hsGMaterial::write(hsStream *S) {
@@ -32,8 +37,8 @@ void hsGMaterial::write(hsStream *S) {
 
     int i;
     for (i=0; i<Layers1.getSize(); i++)
-        Layers1[i].writeRef(S);
+        plResManager::inst->writeKey(S, Layers1[i]);
     for (i=0; i<Layers2.getSize(); i++)
-        Layers2[i].writeRef(S);
+        plResManager::inst->writeKey(S, Layers2[i]);
 }
 

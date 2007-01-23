@@ -6,8 +6,8 @@
 
 class plSceneNode : public hsKeyedObject {
 public:
-    hsTArray<plKey> SceneObjects;
-    hsTArray<plKey> OtherObjects;
+    hsTArray<plKey*> SceneObjects;
+    hsTArray<plKey*> OtherObjects;
 
 public:
     plSceneNode(PlasmaVer pv = pvUnknown);

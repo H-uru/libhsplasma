@@ -1,4 +1,5 @@
 #include "plCoordinateInterface.h"
+#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plCoordinateInterface::plCoordinateInterface(PlasmaVer pv) /* : Member60(0) */ {
     LocalToParent.Identity();
@@ -7,7 +8,10 @@ plCoordinateInterface::plCoordinateInterface(PlasmaVer pv) /* : Member60(0) */ {
     WorldToLocal.Identity();
 }
 
-plCoordinateInterface::~plCoordinateInterface() { }
+plCoordinateInterface::~plCoordinateInterface() {
+    for (int i=0; i<SceneObjects.getSize(); i++)
+        SceneObjects[i]->UnRef();
+}
 
 plCoordinateInterface* plCoordinateInterface::getRoot() {
     plCoordinateInterface * cur = this;
@@ -26,8 +30,10 @@ void plCoordinateInterface::read(hsStream *S) {
     int soCount = S->readInt();
     SceneObjects.clear();
     SceneObjects.setSize(soCount);
-    for (int i=0; i<soCount; i++)
-        SceneObjects[i].readRef(S);
+    for (int i=0; i<soCount; i++) {
+        SceneObjects[i] = plResManager::inst->readKey(S);
+        SceneObjects[i]->Ref();
+    }
 }
 
 void plCoordinateInterface::write(hsStream *S) {
@@ -40,6 +46,6 @@ void plCoordinateInterface::write(hsStream *S) {
 
     S->writeInt(SceneObjects.getSize());
     for (int i=0; i<SceneObjects.getSize(); i++)
-        SceneObjects[i].writeRef(S);
+        plResManager::inst->writeKey(S, SceneObjects[i]);
 }
 

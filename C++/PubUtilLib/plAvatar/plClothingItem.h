@@ -47,7 +47,8 @@ protected:
     plKey * LQMesh;
     plKey * ClothingItem;
 
-    short Extra[3];
+    unsigned char DefaultTint1[3];
+    unsigned char DefaultTint2[3];
 
 public:
     plClothingItem(PlasmaVer pv = pvUnknown);

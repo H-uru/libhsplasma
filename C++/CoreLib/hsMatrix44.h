@@ -2,9 +2,8 @@
 #define _HSMATRIX44_H
 
 #include "hsStream.h"
-#include "hsRefCnt.h"
 
-class hsMatrix44 : public hsRefCnt {
+struct hsMatrix44 {
 private:
     float data[4][4];
 

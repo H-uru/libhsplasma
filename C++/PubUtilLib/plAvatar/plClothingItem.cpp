@@ -1,4 +1,5 @@
 #include "plClothingItem.h"
+#include "../plResMgr/plResManager.h"
 
 /* Clothing_FeatureSet */
 Clothing_FeatureSet::Clothing_FeatureSet() : FeatureName(""), TexCount(0) {
@@ -23,7 +24,7 @@ void Clothing_FeatureSet::read(hsStream *S) {
     for (unsigned char i=0; i<TexCount; i++) {
         Textures[i].TexID = S->readByte();
         Textures[i].Texture = new plKey();
-        Textures[i].Texture->read(S);
+        Textures[i].Texture = plResManager::inst->readKey(S);
     }
 }
 
@@ -32,7 +33,7 @@ void Clothing_FeatureSet::write(hsStream *S) {
     S->writeByte(TexCount);
     for (unsigned char i=0; i<TexCount; i++) {
         S->writeByte(Textures[i].TexID);
-        Textures[i].Texture->write(S);
+        plResManager::inst->writeKey(S, Textures[i].Texture);
     }
 }
 
@@ -56,9 +57,9 @@ plClothingItem::plClothingItem(PlasmaVer pv) : ItemName(""), ClothingGroup(0),
                   AttrList(""), FriendlyName(""), Icon(NULL), HQMesh(NULL),
                   MQMesh(NULL), LQMesh(NULL) {
     ClothingItem = new plKey();
-    Extra[0] = 0;
-    Extra[1] = 0;
-    Extra[2] = 0;
+    DefaultTint1[0] = DefaultTint2[0] = 255;
+    DefaultTint1[1] = DefaultTint2[1] = 255;
+    DefaultTint1[2] = DefaultTint2[2] = 255;
 }
 
 plClothingItem::~plClothingItem() {
@@ -66,7 +67,7 @@ plClothingItem::~plClothingItem() {
     if (HQMesh) HQMesh->UnRef();
     if (MQMesh) MQMesh->UnRef();
     if (LQMesh) LQMesh->UnRef();
-    delete ClothingItem;
+    ClothingItem->UnRef();
     delete ItemName;
     delete AttrList;
     delete FriendlyName;
@@ -80,7 +81,7 @@ void plClothingItem::read(hsStream *S) {
     ClothingGroup = S->readByte();
     ClothingType = S->readByte();
     ClosetCategory = S->readByte();
-    Unknown = S->readBool();
+    Unknown = S->readByte();
 
     delete AttrList;
     AttrList = S->readSafeStr();
@@ -92,8 +93,8 @@ void plClothingItem::read(hsStream *S) {
         Icon = NULL;
     }
     if (S->readBool()) {
-        Icon = new plKey();
-        Icon->readRef(S);
+        Icon = plResManager::inst->readKey(S);
+        Icon->Ref();
     }
 
     Features.clear();
@@ -106,32 +107,34 @@ void plClothingItem::read(hsStream *S) {
         HQMesh = NULL;
     }
     if (S->readBool()) {
-        HQMesh = new plKey();
-        HQMesh->readRef(S);
+        HQMesh = plResManager::inst->readKey(S);
+        HQMesh->Ref();
     }
     if (MQMesh) {
         MQMesh->UnRef();
         MQMesh = NULL;
     }
     if (S->readBool()) {
-        MQMesh = new plKey();
-        MQMesh->readRef(S);
+        MQMesh = plResManager::inst->readKey(S);
+        MQMesh->Ref();
     }
     if (LQMesh) {
         LQMesh->UnRef();
         LQMesh = NULL;
     }
     if (S->readBool()) {
-        LQMesh = new plKey();
-        LQMesh->readRef(S);
+        LQMesh = plResManager::inst->readKey(S);
+        LQMesh->Ref();
     }
 
     ClothingItem->UnRef();
-    ClothingItem = new plKey();
-    ClothingItem->readRef(S);
+    ClothingItem = plResManager::inst->readKey(S);
+    ClothingItem->Ref();
 
-    for (int i=0; i<3; i++)
-        Extra[i] = S->readShort();
+    for (int i=0; i<3; i++) {
+        DefaultTint1[i] = S->readByte();
+        DefaultTint2[i] = S->readByte();
+    }
 }
 
 void plClothingItem::write(hsStream *S) {
@@ -141,14 +144,14 @@ void plClothingItem::write(hsStream *S) {
     S->writeByte(ClothingGroup);
     S->writeByte(ClothingType);
     S->writeByte(ClosetCategory);
-    S->writeBool(Unknown);
+    S->writeByte(Unknown);
 
     S->writeSafeStr(AttrList);
     S->writeSafeStr(FriendlyName);
 
     if (Icon) {
         S->writeBool(true);
-        Icon->writeRef(S);
+        plResManager::inst->writeKey(S, Icon);
     } else
         S->writeBool(false);
 
@@ -158,23 +161,25 @@ void plClothingItem::write(hsStream *S) {
 
     if (HQMesh) {
         S->writeBool(true);
-        HQMesh->writeRef(S);
+        plResManager::inst->writeKey(S, HQMesh);
     } else
         S->writeBool(false);
     if (MQMesh) {
         S->writeBool(true);
-        MQMesh->writeRef(S);
+        plResManager::inst->writeKey(S, MQMesh);
     } else
         S->writeBool(false);
     if (LQMesh) {
         S->writeBool(true);
-        LQMesh->writeRef(S);
+        plResManager::inst->writeKey(S, LQMesh);
     } else
         S->writeBool(false);
 
-    ClothingItem->writeRef(S);
+    plResManager::inst->writeKey(S, ClothingItem);
 
-    for (int i=0; i<3; i++)
-        S->writeShort(Extra[i]);
+    for (int i=0; i<3; i++) {
+        S->writeByte(DefaultTint1[i]);
+        S->writeByte(DefaultTint2[i]);
+    }
 }
 

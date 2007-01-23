@@ -6,9 +6,9 @@
 #include "../../CoreLib/hsRefCnt.h"
 
 class plKey : public hsRefCnt {
-protected:
+public:
     char flags;
-    PageID * pageID;
+    PageID pageID;
     short pageType;
     char extra1;
     short objType;
@@ -16,33 +16,24 @@ protected:
     char* objName;
     int someID, clientID;
     char eoaExtra2;
+    class hsKeyedObject* objPtr;
 
-public:
     bool exists;
 
+public:
     plKey();
     plKey(plKey * init);
     ~plKey();
 
-    PageID * getPageID();
-    short getPageType();
-    short getObjType();
-    int getObjID();
-    char* getObjName();
-    
-    void setPageID(PageID * pid);
-    void setPageType(short pt);
-    void setObjType(short ot);
-    void setObjID(int id);
-    void setObjName(const char* name);
-
     bool operator==(plKey &other);
 
+    /*
     void read(hsStream *S);
     void write(hsStream *S);
     
     void readRef(hsStream *S);
     void writeRef(hsStream *S);
+    */
 };
 
 #endif

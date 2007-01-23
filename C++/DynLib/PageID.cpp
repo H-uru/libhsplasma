@@ -73,3 +73,12 @@ void PageID::setSeqPrefix(int sp) {
     id |= sp;
 }
 
+
+/* PageComparator */
+
+bool PageComparator::operator()(PageID pid1, PageID pid2) const {
+    if (pid1.getSeqPrefix() == pid2.getSeqPrefix())
+        return (pid1.getPageNum() < pid2.getPageNum());
+    return (pid1.getSeqPrefix() < pid2.getSeqPrefix());
+}
+

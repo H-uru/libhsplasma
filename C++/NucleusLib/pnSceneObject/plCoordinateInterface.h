@@ -11,7 +11,7 @@ public: // Might as well make 'em public...
     hsMatrix44 ParentToLocal;
     hsMatrix44 LocalToWorld;
     hsMatrix44 WorldToLocal;
-    hsTArray<plKey> SceneObjects;
+    hsTArray<plKey*> SceneObjects;
 
     //short Member60;
     //hsTArray<plSceneObject> Children;

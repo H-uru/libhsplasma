@@ -1,31 +1,5 @@
 #include "plDrawInterface.h"
-
-/*plDrawableKeyRef */
-plDrawableKey::plDrawableKey() : DrawKey(0) { }
-plDrawableKey::~plDrawableKey() { }
-
-void plDrawableKey::read(hsStream *S) {
-    DrawKey = S->readInt();
-    plKey::read(S);
-}
-
-void plDrawableKey::write(hsStream *S) {
-    S->writeInt(DrawKey);
-    plKey::write(S);
-}
-
-void plDrawableKey::readRef(hsStream *S) {
-    S->writeInt(DrawKey);
-    plKey::readRef(S);
-}
-
-void plDrawableKey::writeRef(hsStream *S) {
-    S->writeInt(DrawKey);
-    plKey::writeRef(S);
-}
-
-
-/* plDrawInterface */
+#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plDrawInterface::plDrawInterface(PlasmaVer pv) { }
 plDrawInterface::~plDrawInterface() { }
@@ -35,22 +9,31 @@ void plDrawInterface::read(hsStream *S) {
     int count = S->readInt();
     Drawables.clear();
     Drawables.setSize(count);
-    for (int i=0; i<count; i++)
-        Drawables[i].readRef(S);
+    DrawableKeys.clear();
+    DrawableKeys.setSize(count);
+    for (int i=0; i<count; i++) {
+        DrawableKeys[i] = S->readInt();
+        Drawables[i] = plResManager::inst->readKey(S);
+        Drawables[i]->Ref();
+    }
     count = S->readInt();
     Objects.clear();
     Objects.setSize(count);
-    for (int i=0; i<count; i++)
-        Objects[i].readRef(S);
+    for (int i=0; i<count; i++) {
+        Objects[i] = plResManager::inst->readKey(S);
+        Objects[i]->Ref();
+    }
 }
 
 void plDrawInterface::write(hsStream *S) {
     plObjInterface::write(S);
     S->writeInt(Drawables.getSize());
-    for (int i=0; i<Drawables.getSize(); i++)
-        Drawables[i].writeRef(S);
+    for (int i=0; i<Drawables.getSize(); i++) {
+        S->writeInt(DrawableKeys[i]);
+        plResManager::inst->writeKey(S, Drawables[i]);
+    }
     S->writeInt(Objects.getSize());
     for (int i=0; i<Objects.getSize(); i++)
-        Objects[i].writeRef(S);
+        plResManager::inst->writeKey(S, Objects[i]);
 }
 

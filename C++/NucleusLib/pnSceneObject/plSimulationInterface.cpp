@@ -1,4 +1,5 @@
 #include "plSimulationInterface.h"
+#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plSimulationInterface::plSimulationInterface(PlasmaVer pv) : Unknown(0) {
     Physical = new plKey();
@@ -13,7 +14,8 @@ void plSimulationInterface::read(hsStream *S) {
 
     SimFlags.read(S);
     Unknown = S->readInt();
-    Physical->readRef(S);
+    Physical = plResManager::inst->readKey(S);
+    Physical->Ref();
 }
 
 void plSimulationInterface::write(hsStream *S) {
@@ -21,6 +23,6 @@ void plSimulationInterface::write(hsStream *S) {
 
     SimFlags.write(S);
     S->writeInt(Unknown);
-    Physical->writeRef(S);
+    plResManager::inst->writeKey(S, Physical);
 }
 

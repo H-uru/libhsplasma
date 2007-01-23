@@ -10,8 +10,8 @@ public:
     plKey * CoordIntf;
     plKey * AudioIntf;
 
-    hsTArray<plKey> Interfaces;
-    hsTArray<plKey> Modifiers;
+    hsTArray<plKey*> Interfaces;
+    hsTArray<plKey*> Modifiers;
 
     plKey * SceneNode;
 

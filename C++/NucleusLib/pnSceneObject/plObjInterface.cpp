@@ -1,4 +1,5 @@
 #include "plObjInterface.h"
+#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plObjInterface::plObjInterface(PlasmaVer pv) {
     Owner = new plKey();
@@ -15,13 +16,14 @@ bool plObjInterface::msgReceive(plMessage * msg) {
 
 void plObjInterface::read(hsStream *S) {
     plSynchedObject::read(S);
-    Owner->readRef(S);
+    Owner = plResManager::inst->readKey(S);
+    Owner->Ref();
     Properties.read(S);
 }
 
 void plObjInterface::write(hsStream *S) {
     plSynchedObject::write(S);
-    Owner->writeRef(S);
+    plResManager::inst->writeKey(S, Owner);
     Properties.write(S);
 }
 

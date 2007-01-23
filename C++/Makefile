@@ -6,6 +6,7 @@ OBJFILES=\
 	$(LIBDIR)hsRefCnt.o \
 	$(LIBDIR)hsStream.o \
 	$(LIBDIR)plResManager.o \
+	$(LIBDIR)plKeyCollector.o \
 	$(LIBDIR)hsElfStream.o \
 	$(LIBDIR)hsBitVector.o \
 	$(LIBDIR)hsMatrix44.o \
@@ -127,6 +128,9 @@ $(LIBDIR)plMipmap.o: PubUtilLib/plGImage/plMipmap.h PubUtilLib/plGImage/plMipmap
 
 $(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o
+
+$(LIBDIR)plKeyCollector.o: PubUtilLib/plResMgr/plKeyCollector.h PubUtilLib/plResMgr/plKeyCollector.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plKeyCollector.cpp -o $(LIBDIR)plKeyCollector.o
 
 $(LIBDIR)plResManager.o: PubUtilLib/plResMgr/plResManager.h PubUtilLib/plResMgr/plResManager.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plResManager.cpp -o $(LIBDIR)plResManager.o
