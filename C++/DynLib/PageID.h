@@ -6,12 +6,11 @@
 
 class PageID {
 private:
-    int id;
+    int seqPrefix, pageID;
     PlasmaVer ver;
 
 public:
-    PageID();
-    PageID(int pid, PlasmaVer pv=pvUnknown);
+    PageID(PlasmaVer pv=pvUnknown);
     ~PageID();
 
     int getID();
@@ -26,8 +25,11 @@ public:
     void setPageNum(int pn);
     void setSeqPrefix(int sp);
 
-    bool operator==(PageID &other);
+    bool operator==(PageID& other);
+    PageID& operator=(PageID& other);
 
+    void parse(unsigned int id);
+    unsigned int unparse();
     void read(hsStream *S);
     void write(hsStream *S);
 };

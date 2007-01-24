@@ -94,6 +94,7 @@ void plMipmap::readData(hsStream* S) {
 
     IBuildLevelSizes();
     ImageData = malloc(totalSize);
+    printf("DEBUG: compressionType = %d\n", compressionType);
     switch (compressionType) {
     case kJPEGCompression:
         IReadJPEGImage(S);
@@ -201,6 +202,7 @@ void plMipmap::IWriteJPEGImage(hsStream* S) {
 }
 
 void plMipmap::IReadRawImage(hsStream* S) {
+    printf("DEBUG: pixelSize=%d\n", pixelSize);
     if (pixelSize == 32) {
         if (numLevels <= 0) return;
         int* dataPtr = (int*)ImageData;

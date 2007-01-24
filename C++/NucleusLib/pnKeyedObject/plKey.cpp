@@ -5,7 +5,8 @@
 
 plKey::plKey() : flags(0), pageID(), pageType(PAGE_NORMAL), extra1(0),
                  objType(0), objID(0), objName(NULL), someID(0), clientID(0),
-                 eoaExtra2(0), objPtr(NULL), exists(true) { }
+                 eoaExtra2(0), objPtr(NULL), exists(true), fileOff(0),
+                 objSize(0) { }
 
 plKey::plKey(plKey * init) {
     flags = init->flags;

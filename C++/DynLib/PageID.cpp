@@ -1,76 +1,89 @@
 #include "PageID.h"
 #include "../CoreLib/hsStream.h"
 
-PageID::PageID() : id(-1), ver(pvUnknown) { }
-PageID::PageID(int pid, PlasmaVer pv) : id(pid), ver(pv) { }
+PageID::PageID(PlasmaVer pv) : seqPrefix(-1), pageID(-1), ver(pv) { }
 PageID::~PageID() { }
-
-int PageID::getID()         { return id; }
-void PageID::setID(int pid) { id = pid;  }
 
 PlasmaVer PageID::getVer() {
     return ver;
 }
 
 void PageID::setVer(PlasmaVer pv, bool mutate) {
-    register int sp = getSeqPrefix();
-    register int pn = getPageNum();
     ver = pv;
-    if (mutate) {
-        setPageNum(pn);
-        setSeqPrefix(sp);
-    }
 }
 
-bool PageID::operator==(PageID &other) {
+bool PageID::operator==(PageID& other) {
     return (getPageNum() == other.getPageNum() &&
             getSeqPrefix() == other.getSeqPrefix());
 }
 
+PageID& PageID::operator=(PageID& other) {
+    pageID = other.pageID;
+    seqPrefix = other.seqPrefix;
+    ver = other.ver;
+    return *this;
+}
+
+void PageID::parse(unsigned int id) {
+    seqPrefix = id >> (ver == pvLive ? 16 :  8);
+    if (id & 0x80000000)
+        seqPrefix = (seqPrefix & 0xFFFFFF00) | (~(seqPrefix & 0xFF) + 1);
+
+    if (id & 0x80000000)
+        pageID = (ver == pvLive) ? (id & 0xFFFF) - 1 : (id & 0xFF) - 1;
+    else
+        pageID = (ver == pvLive) ? (id & 0xFFFF) - 0x21 : (id & 0xFF) - 0x21;
+
+    if (pageID < 0) seqPrefix--;
+}
+
+unsigned int PageID::unparse() {
+    unsigned int id = pageID;
+    if (ver == pvLive)
+        id = (pageID + (seqPrefix < 0 ? 1 : 0x21)) & 0xFFFF;
+    else
+        id = (pageID + (seqPrefix < 0 ? 1 : 0x21)) & 0xFF;
+
+    int sp = seqPrefix;
+    if (sp < 0)
+        sp = (sp & 0xFFFFFF00) | (~(sp & 0xFF) + 1);
+    sp &= (ver == pvLive) ? 0xFFFF : 0xFF;
+    if (pageID < 0) sp++;
+    sp <<= (ver == pvLive) ? 16 : 8;
+    id |= sp;
+    return id;
+}
+
 void PageID::read(hsStream *S) {
-    id = S->readInt();
+    int id = S->readInt();
     ver = S->getVer();
+    parse(id);
 }
 
 void PageID::write(hsStream *S) {
     if (S->getVer() != pvUnknown)
         this->setVer(S->getVer(), true);
-    S->writeInt(id);
+    S->writeInt(unparse());
 }
 
 bool PageID::isGlobal() {
-    return (id & 0x80000000);
+    return (seqPrefix < 0);
 }
 
 int PageID::getPageNum() {
-    if (isGlobal())
-        return (ver == pvLive) ? (id & 0xFFFF) - 1 : (id & 0xFF) - 1;
-    else
-        return (ver == pvLive) ? (id & 0xFFFF) - 0x31 : (id & 0xFF) - 0x21;
+    return pageID;
 }
 
 int PageID::getSeqPrefix() {
-    int sp = (ver == pvLive) ? (id >> 16) : (id >> 8);
-    if (isGlobal())
-        sp = (sp & 0xFFFFFF00) | (~(sp & 0xFF)) + 1;
-    if (getPageNum() < 0) sp--;
-    return sp;
+    return seqPrefix;
 }
 
 void PageID::setPageNum(int pn) {
-    if (ver == pvLive)
-        id = (id & 0xFFFF0000) | ((pn & 0xFFFF) + (isGlobal() ? 1 : 0x31));
-    else
-        id = (id & 0xFFFFFF00) | ((pn & 0xFF) + (isGlobal() ? 1 : 0x21));
+    pageID = pn;
 }
 
 void PageID::setSeqPrefix(int sp) {
-    if (sp < 0)
-        sp = (sp & 0xFFFFFF00) | (~(sp & 0xFF)) + 1;
-    if (getPageNum() < 0) sp++;
-    sp <<= (ver == pvLive) ? 16 : 8;
-    id &= (ver == pvLive) ? 0xFFFF : 0xFF;
-    id |= sp;
+    seqPrefix = sp;
 }
 
 

@@ -15,8 +15,8 @@ public:
 
     virtual short ClassIndex();
     
-    PlasmaVer getVersion();
-    virtual void setVersion(PlasmaVer pv, bool mutate = false);
+    PlasmaVer getVer();
+    virtual void setVer(PlasmaVer pv, bool mutate = false);
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

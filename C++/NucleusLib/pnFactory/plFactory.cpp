@@ -26,7 +26,7 @@ void plFactory::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 #include "../../PubUtilLib/plGImage/plFont.h"
 // End types
 
-plCreatable* plFactory::Create(short typeIdx) {
+plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
     if (ver == pvPrime || ver == pvPots || ver == pvLive) {
         if (typeIdx < 0x0200) {
             switch(typeIdx) {

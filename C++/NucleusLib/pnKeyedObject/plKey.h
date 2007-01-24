@@ -19,6 +19,9 @@ public:
     class hsKeyedObject* objPtr;
 
     bool exists;
+    
+    unsigned long fileOff;
+    unsigned long objSize;
 
 public:
     plKey();

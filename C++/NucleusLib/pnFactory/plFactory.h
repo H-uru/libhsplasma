@@ -16,7 +16,7 @@ public:
     PlasmaVer getVer();
     virtual void setVer(PlasmaVer pv, bool mutate = false);
 
-    virtual plCreatable* Create(short typeIdx);
+    static plCreatable* Create(short typeIdx, PlasmaVer ver);
 };
 
 #endif

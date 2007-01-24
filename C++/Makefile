@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS += -O2 -fPIC -Wall
+CFLAGS += -O2 -fPIC -Wall -g
 
 LIBDIR=out/
 OBJFILES=\
