@@ -33,6 +33,13 @@ bool plKey::operator==(plKey &other) {
             (strcmp(objName, other.objName) == 0));
 }
 
+const char* plKey::toString() {
+    char* str;
+    str = new char[256];
+    sprintf(str, "%s[%04X]%s", pageID.toString(), objType, objName);
+    return str;
+}
+
 /*
 void plKey::read(hsStream *S) {
     flags = S->readByte();

@@ -66,16 +66,6 @@ void plMipmap::setConfig(int cfg) {
     }
 }
 
-void plMipmap::read(hsStream* S) {
-    hsKeyedObject::read(S);
-    readData(S);
-}
-
-void plMipmap::write(hsStream* S) {
-    hsKeyedObject::write(S);
-    writeData(S);
-}
-
 void plMipmap::readData(hsStream* S) {
     plBitmap::readData(S);
     
@@ -94,7 +84,6 @@ void plMipmap::readData(hsStream* S) {
 
     IBuildLevelSizes();
     ImageData = malloc(totalSize);
-    printf("DEBUG: compressionType = %d\n", compressionType);
     switch (compressionType) {
     case kJPEGCompression:
         IReadJPEGImage(S);
@@ -181,7 +170,7 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     if (rleFlag & kColorDataRLE)
         img = IReadRLEImage(S);
     else {
-        throw "Unsupported configuration";
+        throw "JPEG not yet supported";
     }
     if (img == NULL) return;
     CopyFrom(img);
@@ -189,7 +178,7 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     if (rleFlag & kAlphaDataRLE)
         alpha = IReadRLEImage(S);
     else
-        throw "Unsupported configuration";
+        throw "JPEG not yet supported";
     if (alpha != NULL) {
         IRecombineAlpha(alpha);
         delete alpha;
@@ -202,7 +191,6 @@ void plMipmap::IWriteJPEGImage(hsStream* S) {
 }
 
 void plMipmap::IReadRawImage(hsStream* S) {
-    printf("DEBUG: pixelSize=%d\n", pixelSize);
     if (pixelSize == 32) {
         if (numLevels <= 0) return;
         int* dataPtr = (int*)ImageData;

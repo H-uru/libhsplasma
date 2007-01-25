@@ -11,10 +11,10 @@ plKeyCollector::~plKeyCollector() {
 }
 
 plKey* plKeyCollector::findKey(plKey* match) {
-    std::vector<plKey*> kv = keys[match->pageID][match->objType];
     plKey* key = NULL;
-    for (unsigned int i=0; i < kv.size(); i++)
-        if (*(kv[i]) == *match) key = kv[i];
+    for (unsigned int i=0; i < keys[match->pageID][match->objType].size(); i++)
+        if (*(keys[match->pageID][match->objType][i]) == *match)
+            key = keys[match->pageID][match->objType][i];
     return key;
 }
 

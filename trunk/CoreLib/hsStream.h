@@ -23,12 +23,12 @@ public:
     virtual void setVer(PlasmaVer pv, bool mutate=false);
     PlasmaVer getVer();
 
-    virtual long long size();
-    virtual long long pos();
+    virtual unsigned int size();
+    virtual unsigned int pos();
     virtual bool eof();
     
-    virtual void seek(long long pos);
-    virtual void skip(long long count);
+    virtual void seek(unsigned int pos);
+    virtual void skip(unsigned int count);
     virtual void fastForward();
     virtual void rewind();
 

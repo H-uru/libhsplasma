@@ -39,15 +39,15 @@ void hsStream::close() {
 void hsStream::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 PlasmaVer hsStream::getVer() { return ver; }
 
-long long hsStream::size() {
-    long register p = ftell(F);
+unsigned int hsStream::size() {
+    unsigned int p = ftell(F);
     fseek(F, 0, SEEK_END);
-    long long sz = ftell(F);
+    unsigned int sz = ftell(F);
     fseek(F, p, SEEK_SET);
     return sz;
 }
 
-long long hsStream::pos() {
+unsigned int hsStream::pos() {
     return ftell(F);
 }
 
@@ -55,11 +55,11 @@ bool hsStream::eof() {
     return feof(F);
 }
 
-void hsStream::seek(long long pos) {
+void hsStream::seek(unsigned int pos) {
     fseek(F, pos, SEEK_SET);
 }
 
-void hsStream::skip(long long count) {
+void hsStream::skip(unsigned int count) {
     fseek(F, count, SEEK_CUR);
 }
 
@@ -154,9 +154,7 @@ double hsStream::readDouble() {
 }
 
 bool hsStream::readBool() {
-    char v;
-    read(sizeof(v), &v);
-    return v ? true : false;
+    return readByte() == 0 ? false : true;
 }
 
 void hsStream::readBools(unsigned int count, bool* buf) {

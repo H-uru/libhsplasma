@@ -24,6 +24,12 @@ PageID& PageID::operator=(PageID& other) {
     return *this;
 }
 
+const char* PageID::toString() {
+    char* str = new char[16];
+    sprintf(str, "<%d|%d>", seqPrefix, pageID);
+    return str;
+}
+
 void PageID::parse(unsigned int id) {
     seqPrefix = id >> (ver == pvLive ? 16 :  8);
     if (id & 0x80000000)

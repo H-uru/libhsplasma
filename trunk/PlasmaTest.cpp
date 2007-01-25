@@ -5,20 +5,17 @@ int main(int argc, char** argv) {
     plResManager rm;
 
     for (int i=1; i<argc; i++) {
-        plAgeSettings* age = rm.ReadPage(argv[i]);
-        printf("PageID: %d.%d (%08X)\n", age->pageID.getSeqPrefix(),
-                                  age->pageID.getPageNum(),
-                                  age->pageID.unparse());
-        printf("Page Type: %d\n", age->pageType);
-        printf("Age Name: %s\n", age->ageName);
-        printf("Page Name: %s\n", age->pageName);
-        printf("Plasma Version: %d\n", age->ver);
-        printf("Keyring: %d keys\n", rm.keys.countKeys(age->pageID));
-        printf("Objects Read: %d\n\n", age->nObjects);
+        plPageSettings* page = rm.ReadPage(argv[i]);
+        printf("PageID: %s (%08X)\n", page->pageID.toString(), page->pageID.unparse());
+        printf("Page Type: %d\n", page->pageType);
+        printf("Age Name: %s\n", page->ageName);
+        printf("Page Name: %s\n", page->pageName);
+        printf("Plasma Version: %d\n", page->ver);
+        printf("Keyring: %d keys\n", rm.keys.countKeys(page->pageID));
+        printf("Objects Read: %d\n\n", page->nObjects);
     }
 
     printf("Done!  Successfully parsed %d files!", argc-1);
     getchar();
     return 0;
 }
-

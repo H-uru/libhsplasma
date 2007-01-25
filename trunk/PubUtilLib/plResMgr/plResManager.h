@@ -9,7 +9,7 @@
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsTArray.hpp"
 #include "plKeyCollector.h"
-#include "plAgeSettings.h"
+#include "plPageSettings.h"
 
 class plResManager : hsRefCnt {
 protected:
@@ -17,13 +17,15 @@ protected:
 
 public:
     plKeyCollector keys;
-    std::map<PageID, plAgeSettings*, PageComparator> ages;
+    std::vector<plPageSettings*> pages;
 
 private:
     plKey* readKeyBase(hsStream* S);
     void writeKeyBase(hsStream* S, plKey* key);
     void ReadKeyring(hsStream* S, PageID& pid);
     unsigned int ReadObjects(hsStream* S, PageID& pid);
+    void WriteKeyring(hsStream* S, PageID& pid);
+    unsigned int WriteObjects(hsStream* S, PageID& pid);
 
 public:
     static plResManager* inst;
@@ -35,10 +37,12 @@ public:
     PlasmaVer getVer();
 
     plKey* readKey(hsStream* S);
+    plKey* readRealKey(hsStream* S);
     void writeKey(hsStream* S, plKey* key);
+    void writeRealKey(hsStream* S, plKey* key);
     hsKeyedObject* getObject(plKey& key);
 
-    plAgeSettings* ReadPage(const char* filename);
+    plPageSettings* ReadPage(const char* filename);
     void WritePage(const char* filename);
 };
 

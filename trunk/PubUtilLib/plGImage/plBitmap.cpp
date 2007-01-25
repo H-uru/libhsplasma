@@ -10,6 +10,11 @@ void plBitmap::read(hsStream * S) {
     readData(S);
 }
 
+void plBitmap::write(hsStream * S) {
+    hsKeyedObject::write(S);
+    writeData(S);
+}
+
 void plBitmap::readData(hsStream * S) {
     S->readByte();  // Version == 2
     pixelSize = S->readByte();
@@ -19,16 +24,11 @@ void plBitmap::readData(hsStream * S) {
     if (compressionType == kUncompressed || compressionType == kJPEGCompression)
         uncompressedInfo.type = S->readByte();
     else {
-        dxInfo.compressionType = S->readByte();
         dxInfo.blockSize = S->readByte();
+        dxInfo.compressionType = S->readByte();
     }
     lowModTime = S->readInt();
     highModTime = S->readInt();
-}
-
-void plBitmap::write(hsStream * S) {
-    hsKeyedObject::write(S);
-    writeData(S);
 }
 
 void plBitmap::writeData(hsStream * S) {
@@ -40,8 +40,8 @@ void plBitmap::writeData(hsStream * S) {
     if (compressionType == kUncompressed || compressionType == kJPEGCompression)
         S->writeByte(uncompressedInfo.type);
     else {
-        S->writeByte(dxInfo.compressionType);
         S->writeByte(dxInfo.blockSize);
+        S->writeByte(dxInfo.compressionType);
     }
     S->writeInt(lowModTime);
     S->writeInt(highModTime);

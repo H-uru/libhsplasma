@@ -68,9 +68,6 @@ public:
     void create(int w, int h, int cfg, char nLevels, char compType, char format);
     void setConfig(int cfg);
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
-
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
 

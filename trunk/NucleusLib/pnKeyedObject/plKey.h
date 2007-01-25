@@ -20,8 +20,8 @@ public:
 
     bool exists;
     
-    unsigned long fileOff;
-    unsigned long objSize;
+    unsigned int fileOff;
+    unsigned int objSize;
 
 public:
     plKey();
@@ -30,6 +30,8 @@ public:
 
     bool operator==(plKey &other);
 
+    const char* toString();
+    
     /*
     void read(hsStream *S);
     void write(hsStream *S);

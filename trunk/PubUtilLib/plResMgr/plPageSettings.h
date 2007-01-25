@@ -1,10 +1,10 @@
-#ifndef _PLAGESETTINGS_H
-#define _PLAGESETTINGS_H
+#ifndef _PLPAGESETTINGS_H
+#define _PLPAGESETTINGS_H
 
 #include "../../DynLib/PlasmaVersions.h"
 #include "../../DynLib/PageID.h"
 
-struct plAgeSettings {
+struct plPageSettings {
     PageID pageID;
     short pageType;
     char* ageName;

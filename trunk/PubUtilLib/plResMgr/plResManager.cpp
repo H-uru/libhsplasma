@@ -12,9 +12,8 @@ plResManager::plResManager(PlasmaVer pv) {
 
 plResManager::~plResManager() {
     inst = NULL;
-    std::map<PageID, plAgeSettings*, PageComparator>::iterator i;
-    for (i = ages.begin(); i != ages.end(); i++)
-        delete i->second;
+    for (unsigned int i=0; i<pages.size(); i++)
+        delete pages[i];
 }
 
 void plResManager::setVer(PlasmaVer pv, bool mutate) {
@@ -38,6 +37,19 @@ plKey* plResManager::readKey(hsStream* S) {
         } else {
             keys.add(k);
         }
+    }
+    return k;
+}
+
+plKey* plResManager::readForcedKey(hsStream* S) {
+    plKey* k = new plKey();
+    k->exists = true;
+    k = readKeyBase(S);
+    if (plKey* xkey = keys.findKey(k)) {
+        delete k;
+        k = xkey;
+    } else {
+        keys.add(k);
     }
     return k;
 }
@@ -101,34 +113,34 @@ hsKeyedObject* plResManager::getObject(plKey& key) {
     return fk->objPtr;
 }
 
-plAgeSettings* plResManager::ReadPage(const char* filename) {
+plPageSettings* plResManager::ReadPage(const char* filename) {
     hsStream* S = new hsStream();
     setVer(S->getVer());
     S->open(filename, fmRead);
-    plAgeSettings* age = new plAgeSettings;
+    plPageSettings* page = new plPageSettings;
     unsigned int datSize = 0, datOff = 0, idxOff = 0;
     int ver = S->readInt();
     if (ver == 6) {
-        age->ver = pvEoa;
-        S->setVer(age->ver);
+        page->ver = pvEoa;
+        S->setVer(page->ver);
         // Later...
     } else if (ver == 5) {
         unsigned int tempPid = S->readInt();
-        age->pageType = S->readShort();
-        age->ageName = S->readSafeStr();
+        page->pageType = S->readShort();
+        page->ageName = S->readSafeStr();
         S->readSafeStr(); // District
-        age->pageName = S->readSafeStr();
+        page->pageName = S->readSafeStr();
         short maj, min;
         maj = S->readShort();
         min = S->readShort();
-        if (maj == 69) age->ver = pvLive;
-        else if (min == 11) age->ver = pvPrime;
-        else if (min == 12) age->ver = pvPots;
+        if (maj == 69) page->ver = pvLive;
+        else if (min == 11) page->ver = pvPrime;
+        else if (min == 12) page->ver = pvPots;
         else throw "Unsupported Plasma version!";
-        S->setVer(age->ver);
-        age->pageID.setVer(age->ver);
-        age->pageID.parse(tempPid);
-        setVer(age->ver);
+        S->setVer(page->ver);
+        page->pageID.setVer(page->ver);
+        page->pageID.parse(tempPid);
+        setVer(page->ver);
         S->readInt(); // 0
         S->readInt(); // 8
         datSize = S->readInt();
@@ -136,14 +148,14 @@ plAgeSettings* plResManager::ReadPage(const char* filename) {
         idxOff = S->readInt();
     } else
         throw "Unsupported page format!";
-    ages[age->pageID] = age;
+    pages.push_back(page);
 
     S->seek(idxOff);
-    ReadKeyring(S, age->pageID);
-    age->nObjects = ReadObjects(S, age->pageID);
+    ReadKeyring(S, page->pageID);
+    page->nObjects = ReadObjects(S, page->pageID);
     S->close();
     delete S;
-    return age;
+    return page;
 }
 
 void plResManager::WritePage(const char* filename) {
@@ -184,8 +196,12 @@ unsigned int plResManager::ReadObjects(hsStream* S, PageID& pid) {
                     nRead++;
                 } catch (const char* e) {
                     printf("%s\n", e);
+                    delete kList[j]->objPtr;
+                    kList[j]->objPtr = NULL;
                 } catch (...) {
                     printf("Undefined error\n");
+                    delete kList[j]->objPtr;
+                    kList[j]->objPtr = NULL;
                 }
             }
         }

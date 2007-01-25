@@ -28,6 +28,8 @@ public:
     bool operator==(PageID& other);
     PageID& operator=(PageID& other);
 
+    const char* toString();
+
     void parse(unsigned int id);
     unsigned int unparse();
     void read(hsStream *S);

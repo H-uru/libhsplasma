@@ -1,21 +1,21 @@
 #include "hsKeyedObject.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-hsKeyedObject::hsKeyedObject(PlasmaVer pv) : koFlags(0) {
-    myKey = new plKey();
-}
+hsKeyedObject::hsKeyedObject(PlasmaVer pv) : myKey(NULL), koFlags(0) { }
 
 hsKeyedObject::~hsKeyedObject() {
-    myKey->UnRef();
+    if (myKey != NULL)
+        myKey->UnRef();
 }
 
 void hsKeyedObject::read(hsStream * S) {
-    myKey = plResManager::inst->readKey(S);
+    if (myKey != NULL)
+        myKey->UnRef();
+    myKey = plResManager::inst->readRealKey(S);
     myKey->Ref();
     myKey->objPtr = this;
 }
 
 void hsKeyedObject::write(hsStream * S) {
-    plResManager::inst->writeKey(S, myKey);
+    plResManager::inst->writeRealKey(S, myKey);
 }
-
