@@ -55,3 +55,17 @@ std::vector<PageID> plKeyCollector::getPages() {
     return *pages;
 }
 
+void plKeyCollector::copyType(PageID& pid, short tFrom, short tTo) {
+    for (unsigned int i=0; i<keys[pid][tFrom].size(); i++)
+        keys[pid][tTo][i] = keys[pid][tFrom][i];
+}
+
+void plKeyCollector::delType(PageID& pid, short t) {
+    keys[pid].erase(t);
+}
+
+void plKeyCollector::moveType(PageID& pid, short tFrom, short tTo) {
+    delType(pid, tTo);
+    copyType(pid, tFrom, tTo);
+    delType(pid, tFrom);
+}

@@ -21,7 +21,10 @@ public:
     std::vector<plKey*>& getKeys(PageID& pid, short type);
     std::vector<short> getTypes(PageID& pid);
     std::vector<PageID> getPages();
+
+    void copyType(PageID& pid, short tFrom, short tTo);
+    void delType(PageID& pid, short t);
+    void moveType(PageID& pid, short tFrom, short tTo);
 };
 
 #endif
-

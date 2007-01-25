@@ -43,7 +43,7 @@ public:
     hsKeyedObject* getObject(plKey& key);
 
     plPageSettings* ReadPage(const char* filename);
-    void WritePage(const char* filename);
+    void WritePage(const char* filename, plPageSettings* page);
 };
 
 #endif
