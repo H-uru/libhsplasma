@@ -1,0 +1,3 @@
+Expects a file named types.txt in the same directory.
+The file should contain the "*** TYPES" section of a pdb dump.
+Outputs class definitions to same directory.
