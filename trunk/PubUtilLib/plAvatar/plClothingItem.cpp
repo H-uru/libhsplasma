@@ -21,10 +21,10 @@ void Clothing_FeatureSet::read(hsStream *S) {
     delete [] Textures;
     TexCount = S->readByte();
     Textures = new Clothing_Texture[TexCount];
-    for (unsigned char i=0; i<TexCount; i++) {
-        Textures[i].TexID = S->readByte();
-        Textures[i].Texture = new plKey();
-        Textures[i].Texture = plResManager::inst->readKey(S);
+    for (unsigned char j=0; j<TexCount; j++) {
+        Textures[j].TexID = S->readByte();
+        Textures[j].Texture = new plKey();
+        Textures[j].Texture = plResManager::inst->readKey(S);
     }
 }
 
@@ -99,7 +99,8 @@ void plClothingItem::read(hsStream *S) {
 
     Features.clear();
     Features.setSize(S->readInt());
-    for (int i=0; i<Features.getSize(); i++)
+	int i;
+    for (i=0; i<Features.getSize(); i++)
         Features[i].read(S);
 
     if (HQMesh) {
@@ -131,7 +132,7 @@ void plClothingItem::read(hsStream *S) {
     ClothingItem = plResManager::inst->readKey(S);
     ClothingItem->Ref();
 
-    for (int i=0; i<3; i++) {
+    for (i=0; i<3; i++) {
         DefaultTint1[i] = S->readByte();
         DefaultTint2[i] = S->readByte();
     }
@@ -156,7 +157,8 @@ void plClothingItem::write(hsStream *S) {
         S->writeBool(false);
 
     S->writeInt(Features.getSize());
-    for (int i=0; i<Features.getSize(); i++)
+	int i;
+    for (i=0; i<Features.getSize(); i++)
         Features[i].write(S);
 
     if (HQMesh) {
@@ -177,7 +179,7 @@ void plClothingItem::write(hsStream *S) {
 
     plResManager::inst->writeKey(S, ClothingItem);
 
-    for (int i=0; i<3; i++) {
+    for (i=0; i<3; i++) {
         S->writeByte(DefaultTint1[i]);
         S->writeByte(DefaultTint2[i]);
     }

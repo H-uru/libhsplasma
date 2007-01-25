@@ -131,8 +131,8 @@ int hsStream::readIntSwap() {
     return v;
 }
 
-long long hsStream::readLong() {
-    long long v;
+__int64 hsStream::readLong() {
+    __int64 v;
     read(sizeof(v), &v);
     return v;
 }
@@ -223,7 +223,7 @@ void hsStream::writeIntSwap(const int v) {
     write(sizeof(tv), &tv);
 }
 
-void hsStream::writeLong(const long long v) {
+void hsStream::writeLong(const __int64 v) {
     write(sizeof(v), &v);
 }
 

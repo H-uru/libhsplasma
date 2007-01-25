@@ -1,0 +1,106 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Plasma - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\Tahgtahv\LOCALS~1\Temp\RSP150.tmp" with contents
+[
+/nologo /MLd /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "Tahg" /FR"Debug/" /Fp"Debug/Plasma.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\Personal\SVN\ZraxPlasma\trunk\PubUtilLib\plScene\plSceneNode.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\Tahgtahv\LOCALS~1\Temp\RSP150.tmp" 
+Creating temporary file "C:\DOCUME~1\Tahgtahv\LOCALS~1\Temp\RSP151.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Plasma.pdb" /debug /machine:I386 /out:"Debug/Plasma.exe" /pdbtype:sept 
+.\Debug\hsBitVector.obj
+.\Debug\hsBounds.obj
+.\Debug\hsElfStream.obj
+.\Debug\hsGeometry3.obj
+.\Debug\hsMatrix44.obj
+.\Debug\hsRefCnt.obj
+.\Debug\hsStream.obj
+.\Debug\plEncryptedStream.obj
+.\Debug\PageID.obj
+.\Debug\plCreatable.obj
+.\Debug\plFactory.obj
+.\Debug\hsKeyedObject.obj
+.\Debug\plKey.obj
+.\Debug\plReceiver.obj
+.\Debug\plAudioInterface.obj
+.\Debug\plCoordinateInterface.obj
+.\Debug\plDrawInterface.obj
+.\Debug\plObjInterface.obj
+.\Debug\plSceneObject.obj
+.\Debug\plSimulationInterface.obj
+.\Debug\plMessage.obj
+.\Debug\plSynchedObject.obj
+.\Debug\plClothingItem.obj
+.\Debug\plKeyCollector.obj
+.\Debug\plResManager.obj
+.\Debug\plFogEnvironment.obj
+.\Debug\plSceneNode.obj
+.\Debug\hsGMaterial.obj
+.\Debug\plBitmap.obj
+.\Debug\plCubicEnvironmap.obj
+.\Debug\plFont.obj
+.\Debug\plMipmap.obj
+.\Debug\plSpan.obj
+.\Debug\PlasmaTest.obj
+]
+Creating command line "link.exe @C:\DOCUME~1\Tahgtahv\LOCALS~1\Temp\RSP151.tmp"
+<h3>Output Window</h3>
+Compiling...
+Skipping... (no relevant changes detected)
+plSceneNode.cpp
+Linking...
+Creating temporary file "C:\DOCUME~1\Tahgtahv\LOCALS~1\Temp\RSP152.tmp" with contents
+[
+/nologo /o"Debug/Plasma.bsc" 
+.\Debug\hsBitVector.sbr
+.\Debug\hsBounds.sbr
+.\Debug\hsElfStream.sbr
+.\Debug\hsGeometry3.sbr
+.\Debug\hsMatrix44.sbr
+.\Debug\hsRefCnt.sbr
+.\Debug\hsStream.sbr
+.\Debug\plEncryptedStream.sbr
+.\Debug\PageID.sbr
+.\Debug\plCreatable.sbr
+.\Debug\plFactory.sbr
+.\Debug\hsKeyedObject.sbr
+.\Debug\plKey.sbr
+.\Debug\plReceiver.sbr
+.\Debug\plAudioInterface.sbr
+.\Debug\plCoordinateInterface.sbr
+.\Debug\plDrawInterface.sbr
+.\Debug\plObjInterface.sbr
+.\Debug\plSceneObject.sbr
+.\Debug\plSimulationInterface.sbr
+.\Debug\plMessage.sbr
+.\Debug\plSynchedObject.sbr
+.\Debug\plClothingItem.sbr
+.\Debug\plKeyCollector.sbr
+.\Debug\plResManager.sbr
+.\Debug\plFogEnvironment.sbr
+.\Debug\plSceneNode.sbr
+.\Debug\hsGMaterial.sbr
+.\Debug\plBitmap.sbr
+.\Debug\plCubicEnvironmap.sbr
+.\Debug\plFont.sbr
+.\Debug\plMipmap.sbr
+.\Debug\plSpan.sbr
+.\Debug\PlasmaTest.sbr]
+Creating command line "bscmake.exe @C:\DOCUME~1\Tahgtahv\LOCALS~1\Temp\RSP152.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+Plasma.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

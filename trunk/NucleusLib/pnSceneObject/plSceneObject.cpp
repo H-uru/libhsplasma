@@ -15,9 +15,10 @@ plSceneObject::~plSceneObject() {
     CoordIntf->UnRef();
     AudioIntf->UnRef();
     SceneNode->UnRef();
-    for (int i=0; i<Interfaces.getSize(); i++)
+	int i;
+    for (i=0; i<Interfaces.getSize(); i++)
         Interfaces[i]->UnRef();
-    for (int i=0; i<Modifiers.getSize(); i++)
+    for (i=0; i<Modifiers.getSize(); i++)
         Modifiers[i]->UnRef();
 }
 
@@ -34,12 +35,13 @@ void plSceneObject::read(hsStream *S) {
     AudioIntf->Ref();
 
     Interfaces.setSize(S->readInt());
-    for (int i=0; i<Interfaces.getSize(); i++) {
+	int i;
+    for (i=0; i<Interfaces.getSize(); i++) {
         Interfaces[i] = plResManager::inst->readKey(S);
         Interfaces[i]->Ref();
     }
     Modifiers.setSize(S->readInt());
-    for (int i=0; i<Modifiers.getSize(); i++) {
+    for (i=0; i<Modifiers.getSize(); i++) {
         Modifiers[i] = plResManager::inst->readKey(S);
         Modifiers[i]->Ref();
     }
@@ -57,10 +59,11 @@ void plSceneObject::write(hsStream *S) {
     plResManager::inst->writeKey(S, AudioIntf);
 
     S->writeInt(Interfaces.getSize());
-    for (int i=0; i<Interfaces.getSize(); i++)
+	int i;
+    for (i=0; i<Interfaces.getSize(); i++)
         plResManager::inst->writeKey(S, Interfaces[i]);
     S->writeInt(Modifiers.getSize());
-    for (int i=0; i<Modifiers.getSize(); i++)
+    for (i=0; i<Modifiers.getSize(); i++)
         plResManager::inst->writeKey(S, Modifiers[i]);
     plResManager::inst->writeKey(S, SceneNode);
 }

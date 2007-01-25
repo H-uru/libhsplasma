@@ -26,7 +26,7 @@ public:
     void setSeqPrefix(int sp);
 
     bool operator==(PageID& other);
-    PageID& operator=(PageID& other);
+    PageID& operator=(const PageID& other);
 
     const char* toString();
 

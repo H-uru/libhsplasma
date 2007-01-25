@@ -17,7 +17,7 @@ bool PageID::operator==(PageID& other) {
             getSeqPrefix() == other.getSeqPrefix());
 }
 
-PageID& PageID::operator=(PageID& other) {
+PageID& PageID::operator=(const PageID& other) {
     pageID = other.pageID;
     seqPrefix = other.seqPrefix;
     ver = other.ver;

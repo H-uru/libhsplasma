@@ -24,7 +24,7 @@ void hsElfStream::decipher(char* v, int size, char key) {
 }
 
 const char* hsElfStream::readLine() {
-    long long p = pos();
+    __int64 p = pos();
     unsigned short segHead = readShort();
     unsigned short segSize = segHead ^ (p & 0xFFFF);
     char key = p & 0xFF;
