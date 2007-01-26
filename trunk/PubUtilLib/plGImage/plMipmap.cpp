@@ -16,6 +16,8 @@ plMipmap::~plMipmap() {
         delete[] levelSizes;
 }
 
+short plMipmap::ClassIndex() { return 4; }
+
 void plMipmap::create(int w, int h, int cfg, char nLevels, char compType,
                       char format) {
     setConfig(cfg);

@@ -22,6 +22,8 @@ plSceneObject::~plSceneObject() {
         Modifiers[i]->UnRef();
 }
 
+short plSceneObject::ClassIndex() { return 0x0001; }
+
 void plSceneObject::read(hsStream *S) {
     plSynchedObject::read(S);
 

@@ -4,6 +4,8 @@
 hsGMaterial::hsGMaterial(PlasmaVer pv) : Unknown(0), LayerFlags(0) { }
 hsGMaterial::~hsGMaterial() { }
 
+short hsGMaterial::ClassIndex() { return 0x0007; }
+
 void hsGMaterial::read(hsStream *S) {
     plSynchedObject::read(S);
 

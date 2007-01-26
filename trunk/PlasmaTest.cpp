@@ -14,14 +14,13 @@ int main(int argc, char** argv) {
         printf("Keyring: %d keys\n", rm.keys.countKeys(page->pageID));
         printf("Objects Read: %d\n", page->nObjects);
         
-        //rm.setVer(pvPots, true);
+        rm.setVer(pvPrime, true);
         char fn[256];
         sprintf(fn, "%s.conv", argv[i]);
         rm.WritePage(fn, page);
         printf("Objects Written: %d\n\n", page->nObjects);
     }
 
-    printf("Done!  Successfully transcoded %d files!", argc-1);
-    getchar();
+    printf("Done!  Successfully transcoded %d files!\n", argc-1);
     return 0;
 }

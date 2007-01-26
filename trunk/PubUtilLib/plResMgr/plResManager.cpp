@@ -1,5 +1,6 @@
 #include "plResManager.h"
 #include "../../NucleusLib/pnFactory/plFactory.h"
+#include "../plJPEG/plJPEG.h"
 
 plResManager* plResManager::inst = NULL;
 
@@ -8,6 +9,7 @@ plResManager::plResManager(PlasmaVer pv) {
     if (inst != NULL)
         throw "Never construct me more than once!";
     inst = this;
+    plJPEG::inst = new plJPEG;
 }
 
 plResManager::~plResManager() {
@@ -247,7 +249,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, PageID& pid) {
     
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey*> kList = keys.getKeys(pid, types[i]);
-        printf("* Reading %d objects of type [%04X]\n", kList.size(), types[i]);
+        //printf("* Reading %d objects of type [%04X]\n", kList.size(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->fileOff <= 0) continue;
             S->seek(kList[j]->fileOff);
@@ -281,9 +283,10 @@ unsigned int plResManager::WriteObjects(hsStream* S, PageID& pid) {
 
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey*> kList = keys.getKeys(pid, types[i]);
-        printf("* Writing %d objects of type [%04X]\n", kList.size(), types[i]);
+        //printf("* Writing %d objects of type [%04X]\n", kList.size(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->fileOff = S->pos();
+            kList[j]->objID = j;
             if (kList[j]->objPtr != NULL) {
                 try {
                     printf("Attempting write of [%04X]%s: ",

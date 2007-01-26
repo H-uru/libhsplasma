@@ -14,6 +14,8 @@ protected:
 public:
     plCubicEnvironmap(PlasmaVer pv = pvUnknown);
     virtual ~plCubicEnvironmap();
+    
+    virtual short ClassIndex();
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

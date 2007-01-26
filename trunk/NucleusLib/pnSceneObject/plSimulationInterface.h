@@ -13,6 +13,8 @@ public:
     plSimulationInterface(PlasmaVer pv = pvUnknown);
     virtual ~plSimulationInterface();
 
+    virtual short ClassIndex();
+
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);
 };

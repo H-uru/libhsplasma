@@ -4,6 +4,8 @@
 plDrawInterface::plDrawInterface(PlasmaVer pv) { }
 plDrawInterface::~plDrawInterface() { }
 
+short plDrawInterface::ClassIndex() { return 0x0016; }
+
 void plDrawInterface::read(hsStream *S) {
     plObjInterface::read(S);
     int count = S->readInt();

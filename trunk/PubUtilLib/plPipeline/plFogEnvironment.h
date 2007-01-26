@@ -12,6 +12,8 @@ public:
     plFogEnvironment(PlasmaVer pv = pvUnknown);
     virtual ~plFogEnvironment();
 
+    virtual short ClassIndex();
+
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);
 };

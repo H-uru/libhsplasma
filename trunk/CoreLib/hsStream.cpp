@@ -131,12 +131,6 @@ int hsStream::readIntSwap() {
     return v;
 }
 
-__int64 hsStream::readLong() {
-    __int64 v;
-    read(sizeof(v), &v);
-    return v;
-}
-
 float hsStream::readFloat() {
     float v;
     read(sizeof(v), &v);
@@ -221,10 +215,6 @@ void hsStream::writeIntSwap(const int v) {
     int tv = v;
     SwapByteOrder(&tv);
     write(sizeof(tv), &tv);
-}
-
-void hsStream::writeLong(const __int64 v) {
-    write(sizeof(v), &v);
 }
 
 void hsStream::writeFloat(const float v) {

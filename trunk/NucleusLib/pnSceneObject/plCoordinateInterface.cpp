@@ -13,6 +13,8 @@ plCoordinateInterface::~plCoordinateInterface() {
         SceneObjects[i]->UnRef();
 }
 
+short plCoordinateInterface::ClassIndex() { return 0x0015; }
+
 plCoordinateInterface* plCoordinateInterface::getRoot() {
     plCoordinateInterface * cur = this;
     while (cur->Parent) cur = cur->Parent;

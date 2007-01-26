@@ -32,6 +32,8 @@ public:
     plFont(PlasmaVer pv = pvUnknown);
     virtual ~plFont();
 
+    virtual short ClassIndex();
+
     FontLetterDef& operator[](int idx);
 
     virtual void read(hsStream *S);

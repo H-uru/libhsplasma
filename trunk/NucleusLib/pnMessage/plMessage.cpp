@@ -11,6 +11,10 @@ plMessage::~plMessage() {
         fReceivers[i]->UnRef();
 }
 
+short plMessage::ClassIndex() {
+    return (ver == pvEoa ? 0x0201 : 0x0202);
+}
+
 void plMessage::IMsgRead(hsStream* S) {
     fSender = plResManager::inst->readKey(S);
     fSender->Ref();

@@ -42,7 +42,6 @@ public:
     int readInt();
     void readInts(unsigned int count, int* buf);
     int readIntSwap();
-    long long readLong();
     float readFloat();
     void readFloats(unsigned int count, float* buf);
     double readDouble();
@@ -59,7 +58,6 @@ public:
     void writeInt(const int v);
     void writeInts(unsigned int count, const int* buf);
     void writeIntSwap(const int v);
-    void writeLong(const long long v);
     void writeFloat(const float v);
     void writeFloats(unsigned int count, const float* buf);
     void writeDouble(const double v);

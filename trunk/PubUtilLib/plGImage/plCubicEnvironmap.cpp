@@ -3,6 +3,8 @@
 plCubicEnvironmap::plCubicEnvironmap(PlasmaVer pv) { }
 plCubicEnvironmap::~plCubicEnvironmap() { }
 
+short plCubicEnvironmap::ClassIndex() { return 0x0005; }
+
 void plCubicEnvironmap::read(hsStream* S) {
     hsKeyedObject::read(S);
     readData(S);

@@ -5,6 +5,11 @@ plFogEnvironment::plFogEnvironment(PlasmaVer pv) : c10(0), f14(0.0f), f18(0.0f),
 
 plFogEnvironment::~plFogEnvironment() { }
 
+short plFogEnvironment::ClassIndex() {
+    if (ver == pvEoa) return 0x004D;
+    else return 0x0050;
+}
+
 void plFogEnvironment::read(hsStream *S) {
     hsKeyedObject::read(S);
     c10 = S->readByte();

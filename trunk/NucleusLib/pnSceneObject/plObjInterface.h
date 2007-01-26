@@ -14,7 +14,7 @@ public:
     plObjInterface(PlasmaVer pv = pvUnknown);
     virtual ~plObjInterface();
 
-    virtual bool msgReceive(plMessage * msg);
+    virtual short ClassIndex();
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

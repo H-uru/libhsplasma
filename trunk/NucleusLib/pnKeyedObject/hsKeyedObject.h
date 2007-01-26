@@ -19,11 +19,10 @@ public:
     hsKeyedObject(PlasmaVer pv = pvUnknown);
     virtual ~hsKeyedObject();
 
+    virtual short ClassIndex();
+
     virtual void read(hsStream * S);
     virtual void write(hsStream * S);
-#ifdef Tahg
-protected: static unsigned short hsKeyedObject::hsKeyedObjectClassIndex;
-#endif
 };
 
 #endif

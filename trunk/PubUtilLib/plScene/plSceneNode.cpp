@@ -1,9 +1,10 @@
 #include "plSceneNode.h"
 #include "../plResMgr/plResManager.h"
 
-unsigned short plSceneNode::plSceneNodeClassIndex;
 plSceneNode::plSceneNode(PlasmaVer pv) { }
 plSceneNode::~plSceneNode() { }
+
+short plSceneNode::ClassIndex() { return 0x0000; }
 
 void plSceneNode::read(hsStream *S) {
     hsKeyedObject::read(S);

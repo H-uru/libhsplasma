@@ -9,6 +9,8 @@ plAudioInterface::~plAudioInterface() {
     Audible->UnRef();
 }
 
+short plAudioInterface::ClassIndex() { return 0x0011; }
+
 void plAudioInterface::read(hsStream *S) {
     plObjInterface::read(S);
     Audible = plResManager::inst->readKey(S);

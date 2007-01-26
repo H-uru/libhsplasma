@@ -21,6 +21,8 @@ public:
     plCoordinateInterface(PlasmaVer pv = pvUnknown);
     virtual ~plCoordinateInterface();
 
+    virtual short ClassIndex();
+
     plCoordinateInterface * getRoot();
 
     // More to do later...

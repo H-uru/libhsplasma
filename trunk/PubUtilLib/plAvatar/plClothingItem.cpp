@@ -73,6 +73,11 @@ plClothingItem::~plClothingItem() {
     delete FriendlyName;
 }
 
+short plClothingItem::ClassIndex() {
+    if (ver == pvEoa) return -1;
+    else return 0x00B5;
+}
+
 void plClothingItem::read(hsStream *S) {
     hsKeyedObject::read(S);
 

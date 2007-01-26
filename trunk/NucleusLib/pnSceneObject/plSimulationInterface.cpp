@@ -9,6 +9,8 @@ plSimulationInterface::~plSimulationInterface() {
     Physical->UnRef();
 }
 
+short plSimulationInterface::ClassIndex() { return 0x001C; }
+
 void plSimulationInterface::read(hsStream *S) {
     plObjInterface::read(S);
 

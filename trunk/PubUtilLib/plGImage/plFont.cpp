@@ -13,6 +13,11 @@ plFont::~plFont() {
     delete [] Letters;
 }
 
+short plFont::ClassIndex() {
+    if (ver == pvEoa) return -1;
+    else return 0x011C;
+}
+
 FontLetterDef& plFont::operator[](int idx) {
     return Letters[idx];
 }

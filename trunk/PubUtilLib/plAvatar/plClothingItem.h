@@ -54,6 +54,8 @@ public:
     plClothingItem(PlasmaVer pv = pvUnknown);
     virtual ~plClothingItem();
 
+    virtual short ClassIndex();
+
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);
 };

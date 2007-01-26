@@ -1,13 +1,14 @@
 #include "hsKeyedObject.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-unsigned short hsKeyedObject::hsKeyedObjectClassIndex;
 hsKeyedObject::hsKeyedObject(PlasmaVer pv) : myKey(NULL), koFlags(0) { }
 
 hsKeyedObject::~hsKeyedObject() {
     if (myKey != NULL)
         myKey->UnRef();
 }
+
+short hsKeyedObject::ClassIndex() { return 0x0002; }
 
 void hsKeyedObject::read(hsStream * S) {
     if (myKey != NULL)
