@@ -4,7 +4,7 @@
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "../../CoreLib/hsStream.h"
 
-typedef struct FontLetterDef {
+struct FontLetterDef {
     unsigned int Offset;
     int lHeight;
     int stHeight;
@@ -32,7 +32,7 @@ public:
     plFont(PlasmaVer pv = pvUnknown);
     virtual ~plFont();
 
-    virtual short ClassIndex();
+    virtual unsigned short ClassIndex();
 
     FontLetterDef& operator[](int idx);
 

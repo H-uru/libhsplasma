@@ -9,7 +9,7 @@ plObjInterface::~plObjInterface() {
     Owner->UnRef();
 }
 
-short plObjInterface::ClassIndex() { return 0x0010; }
+unsigned short plObjInterface::ClassIndex() { return 0x0010; }
 
 void plObjInterface::read(hsStream *S) {
     plSynchedObject::read(S);

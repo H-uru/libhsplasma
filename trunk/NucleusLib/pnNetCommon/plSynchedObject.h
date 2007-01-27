@@ -14,7 +14,7 @@ public:
     plSynchedObject(PlasmaVer pv = pvUnknown);
     virtual ~plSynchedObject();
 
-    virtual short ClassIndex();
+    virtual unsigned short ClassIndex();
 
     virtual void read(hsStream * S);
     virtual void write(hsStream * S);

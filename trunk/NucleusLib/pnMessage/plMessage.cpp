@@ -11,7 +11,7 @@ plMessage::~plMessage() {
         fReceivers[i]->UnRef();
 }
 
-short plMessage::ClassIndex() {
+unsigned short plMessage::ClassIndex() {
     return (ver == pvEoa ? 0x0201 : 0x0202);
 }
 

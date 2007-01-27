@@ -6,7 +6,7 @@
 #include "../../CoreLib/hsTArray.hpp"
 #include "../../CoreLib/hsRefCnt.h"
 
-typedef struct Clothing_Texture {
+struct Clothing_Texture {
     char TexID;
     plKey * Texture;
 };
@@ -54,7 +54,7 @@ public:
     plClothingItem(PlasmaVer pv = pvUnknown);
     virtual ~plClothingItem();
 
-    virtual short ClassIndex();
+    virtual unsigned short ClassIndex();
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

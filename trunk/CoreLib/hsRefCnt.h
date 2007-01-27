@@ -13,6 +13,13 @@ public:
     virtual int UnRef();
     virtual void Ref();
 };
+class plRefFlags
+{
+public:
+	enum Type {
+		None
+	};
+};
 
 #endif
 

@@ -41,7 +41,7 @@ public:
     plMessage(PlasmaVer pv = pvUnknown);
     virtual ~plMessage();
     
-    virtual short ClassIndex();
+    virtual unsigned short ClassIndex();
 
     void IMsgRead(hsStream* S);
     void IMsgWrite(hsStream* S);

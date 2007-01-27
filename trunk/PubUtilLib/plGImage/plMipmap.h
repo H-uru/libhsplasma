@@ -65,7 +65,7 @@ public:
              PlasmaVer pv = pvUnknown);
     virtual ~plMipmap();
 
-    virtual short ClassIndex();
+    virtual unsigned short ClassIndex();
 
     void create(int w, int h, int cfg, char nLevels, char compType, char format);
     void setConfig(int cfg);

@@ -58,7 +58,7 @@ public:
     plBitmap(PlasmaVer pv = pvUnknown);
     virtual ~plBitmap();
     
-    virtual short ClassIndex();
+    virtual unsigned short ClassIndex();
 
     virtual void read(hsStream * S);
     virtual void write(hsStream * S);

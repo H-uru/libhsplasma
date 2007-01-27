@@ -20,14 +20,17 @@ public:
     }
 
     void clear() {
+		Reset();
+    }
+	inline void Reset() { 
         if (data != NULL)
             delete[] data;
         data = NULL;
         count = 0;
         max = 0;
-    }
+	}
 
-    int getSize() { return count; }
+    inline int getSize() { return count; }
     int getCap()  { return max;   }
 
     void setSize(int cap) {

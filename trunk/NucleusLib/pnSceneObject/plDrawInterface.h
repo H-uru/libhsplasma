@@ -13,7 +13,7 @@ public:
     plDrawInterface(PlasmaVer pv = pvUnknown);
     virtual ~plDrawInterface();
 
-    virtual short ClassIndex();
+    virtual unsigned short ClassIndex();
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

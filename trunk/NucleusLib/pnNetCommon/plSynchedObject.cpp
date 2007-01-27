@@ -3,7 +3,7 @@
 plSynchedObject::plSynchedObject(PlasmaVer pv) { }
 plSynchedObject::~plSynchedObject() { }
 
-short plSynchedObject::ClassIndex() { return 0x0028; }
+unsigned short plSynchedObject::ClassIndex() { return 0x0028; }
 
 void plSynchedObject::read(hsStream * S) {
     hsKeyedObject::read(S);

@@ -32,7 +32,6 @@ void hsBounds3::write(hsStream *S) {
 
 /* hsBounds3Ext */
 hsBounds3Ext::hsBounds3Ext() : fExtFlags(0), fRadius(0.0f) { }
-hsBounds3Ext::~hsBounds3Ext() { }
 
 void hsBounds3Ext::read(hsStream *S) {
     fExtFlags = S->readInt();

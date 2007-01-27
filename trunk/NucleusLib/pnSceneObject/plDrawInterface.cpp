@@ -1,10 +1,10 @@
 #include "plDrawInterface.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plDrawInterface::plDrawInterface(PlasmaVer pv) { }
+plDrawInterface::plDrawInterface(PlasmaVer pv) : plObjInterface(pv) { }
 plDrawInterface::~plDrawInterface() { }
 
-short plDrawInterface::ClassIndex() { return 0x0016; }
+unsigned short plDrawInterface::ClassIndex() { return 0x0016; }
 
 void plDrawInterface::read(hsStream *S) {
     plObjInterface::read(S);

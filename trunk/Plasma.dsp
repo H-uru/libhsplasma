@@ -118,6 +118,10 @@ SOURCE=.\CoreLib\hsStream.cpp
 
 SOURCE=.\CoreLib\plEncryptedStream.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\PubUtilLib\plMessage\plNodeCleanupMsg.cpp
+# End Source File
 # End Group
 # Begin Group "DynLib"
 
@@ -202,6 +206,18 @@ SOURCE=.\NucleusLib\pnMessage\plMessage.cpp
 SOURCE=.\NucleusLib\pnNetCommon\plSynchedObject.cpp
 # End Source File
 # End Group
+# Begin Group "inc"
+
+# PROP Default_Filter ".cpp"
+# Begin Source File
+
+SOURCE=.\NucleusLib\inc\pnSingletons.cpp
+# End Source File
+# End Group
+# Begin Group "pnDispatch"
+
+# PROP Default_Filter ""
+# End Group
 # End Group
 # Begin Group "PubUtilLib"
 
@@ -278,6 +294,30 @@ SOURCE=.\PubUtilLib\plGImage\plMipmap.cpp
 SOURCE=.\PubUtilLib\plDrawable\plSpan.cpp
 # End Source File
 # End Group
+# Begin Group "plMessage"
+
+# PROP Default_Filter ""
+# End Group
+# Begin Group "plJPEG"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\PubUtilLib\plJPEG\plJPEG.cpp
+# End Source File
+# End Group
+# End Group
+# Begin Group "CoreLibExe"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\CoreLibExe\hsExeError.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\CoreLibExe\hsExeMalloc.cpp
+# End Source File
 # End Group
 # Begin Source File
 
@@ -287,6 +327,38 @@ SOURCE=.\PlasmaTest.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\CoreLib\hsmalloc.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\NucleusLib\inc\hsResMgr.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\CoreLib\hsthread_win.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\NucleusLib\pnDispatch\plDispatch.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\NucleusLib\inc\plDrawable.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\NucleusLib\inc\plgDispatch.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\PubUtilLib\plMessage\plNodeCleanupMsg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\NucleusLib\inc\pnSingletons.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 

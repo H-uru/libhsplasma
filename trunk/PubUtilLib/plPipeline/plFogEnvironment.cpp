@@ -5,7 +5,7 @@ plFogEnvironment::plFogEnvironment(PlasmaVer pv) : c10(0), f14(0.0f), f18(0.0f),
 
 plFogEnvironment::~plFogEnvironment() { }
 
-short plFogEnvironment::ClassIndex() {
+unsigned short plFogEnvironment::ClassIndex() {
     if (ver == pvEoa) return 0x004D;
     else return 0x0050;
 }
