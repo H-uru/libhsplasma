@@ -1,7 +1,7 @@
 #ifndef PLGDISPATCH_H
 #define PLGDISPATCH_H
 #include "../pnFactory/plCreatable.h"
-class plDispatchBase : plCreatable {
+class plDispatchBase : public plCreatable {
 
 public:
   const char * plDispatchBase::ClassName();

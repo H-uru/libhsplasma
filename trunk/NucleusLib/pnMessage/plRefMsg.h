@@ -3,7 +3,7 @@
 
 #include "plMessage.h"
 
-class plRefMsg : plMessage {
+class plRefMsg : public plMessage {
   class hsKeyedObject * fRef; //this+0x28
   class hsKeyedObject * fOldRef; //this+0x2c
   unsigned char fContext; //this+0x30

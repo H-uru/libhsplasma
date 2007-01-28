@@ -1,7 +1,7 @@
 #include "plJPEG.h"
 #include <jpeglib.h>
 
-// Uses IJL's libjpeg
+// Uses IJG's libjpeg
 
 plJPEG* plJPEG::inst = NULL;
 
