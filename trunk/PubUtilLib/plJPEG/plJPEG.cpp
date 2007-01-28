@@ -1,7 +1,10 @@
 #include "plJPEG.h"
 #include <jpeglib.h>
 
-// Uses IJG's libjpeg
+// Uses IJG's libjpeg...  Unless someone knows of something better ;)
+// I think IJL (what Cyan used) is commercial, but if it isn't and it's easy
+// to set up for the three major platforms (Lin, Win & Mac), I'm all for using
+// it too.
 
 plJPEG* plJPEG::inst = NULL;
 

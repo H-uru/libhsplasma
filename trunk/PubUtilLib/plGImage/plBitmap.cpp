@@ -5,7 +5,7 @@ plBitmap::plBitmap(PlasmaVer pv) : pixelSize(0), space(0), flags(0),
 
 plBitmap::~plBitmap() { }
 
-unsigned short plBitmap::ClassIndex() { return 3; }
+short plBitmap::ClassIndex() { return 3; }
 
 void plBitmap::read(hsStream * S) {
     hsKeyedObject::read(S);

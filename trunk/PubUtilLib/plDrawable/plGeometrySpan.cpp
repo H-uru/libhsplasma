@@ -2,36 +2,38 @@
 
 plGeometrySpan::plGeometrySpan(PlasmaVer pv) { }
 
-void plGeometrySpan::Read(hsStream *stream)
-{
+void plGeometrySpan::Read(hsStream *S) {
 	ClearBuffers();
-    fLocalToWorld.read(stream);
-    fWorldToLocal.read(stream);
-    fLocalBounds.read(stream);
-    if (fWorldBounds != fLocalBounds)
-        fWorldBounds.Reset(fLocalBounds);
-    fWorldBounds.Transform(&fLocalToWorld);
-    fOBBToLocal.read(stream);
-    fLocalToOBB.read(stream);
-    fBaseMatrix = stream->readInt();
-    fNumMatrices = stream->readByte();
-    fLocalUVWChans = stream->readShort();
-    fMaxBoneIdx = stream->readShort();
-    fPenBoneIdx = stream->readShort();
-    fMinDist = stream->readFloat();
-    fMaxDist = stream->readFloat();
-    fFormat = stream->readByte();
-    fProps = stream->readInt();
-    fNumVerts = stream->readInt();
-    fNumIndices = stream->readInt();
-    stream->readInt();  // Discarded
-    stream->readByte(); // Discarded
-    fDecalLevel = stream->readInt();
+    fLocalToWorld.read(S);
+    fWorldToLocal.read(S);
+    fLocalBounds.read(S);
+    //if (fWorldBounds != fLocalBounds)
+    //    fWorldBounds.Reset(fLocalBounds);
+    //fWorldBounds.Transform(&fLocalToWorld);
+    fOBBToLocal.read(S);
+    fLocalToOBB.read(S);
+    
+    fBaseMatrix = S->readInt();
+    fNumMatrices = S->readByte();
+    fLocalUVWChans = S->readShort();
+    fMaxBoneIdx = S->readShort();
+    fPenBoneIdx = S->readShort();
+    fMinDist = S->readFloat();
+    fMaxDist = S->readFloat();
+    fFormat = S->readByte();
+    fProps = S->readInt();
+    fNumVerts = S->readInt();
+    fNumIndices = S->readInt();
+    S->readInt();  // Discarded
+    S->readByte(); // Discarded
+    fDecalLevel = S->readInt();
+    
     if (fProps & kWaterHeight)
-        fWaterHeight = stream->readFloat();
+        fWaterHeight = S->readFloat();
+    
     if (fNumVerts > 0) {
         // this is hsPoint3[UVCount] + fPosition + fNormal.
-        unsigned int size = ((fFormat & kUVCountMask) + 2) * sizeof(hsPoint3); // 12
+        unsigned int size = ((fFormat & kUVCountMask) + 2) * sizeof(hsPoint3);
         if (fFormat & kSkin3Weights == kSkin1Weight)
             size += 4;  // 1 float
         else if (fFormat & kSkin3Weights == kSkin2Weights)
@@ -41,23 +43,24 @@ void plGeometrySpan::Read(hsStream *stream)
         if (fFormat & kSkinIndices)
             size += 4;  // uint32
         fVertexData = malloc(fNumVerts * size);
-        stream->read(fNumVerts * size, fVertexData);
+        S->read(fNumVerts * size, fVertexData);
+        
         fMultColor = new hsColorRGBA[fNumVerts];
         fAddColor = new hsColorRGBA[fNumVerts];
         for (int i=0; i<fNumVerts; i++) {
-            fMultColor[i].r = stream->readFloat();
-            fMultColor[i].g = stream->readFloat();
-            fMultColor[i].b = stream->readFloat();
-            fMultColor[i].a = stream->readFloat();
-            fAddColor[i].r = stream->readFloat();
-            fAddColor[i].g = stream->readFloat();
-            fAddColor[i].b = stream->readFloat();
-            fAddColor[i].a = stream->readFloat();
+            fMultColor[i].r = S->readFloat();
+            fMultColor[i].g = S->readFloat();
+            fMultColor[i].b = S->readFloat();
+            fMultColor[i].a = S->readFloat();
+            fAddColor[i].r = S->readFloat();
+            fAddColor[i].g = S->readFloat();
+            fAddColor[i].b = S->readFloat();
+            fAddColor[i].a = S->readFloat();
         }
         fDiffuseRGBA = new unsigned int[fNumVerts];
         fSpecularRGBA = new unsigned int[fNumVerts];
-        stream->readIntArr(fNumVerts, fDiffuseRGBA);
-        stream->readIntArr(fNumVerts, fSpecularRGBA);
+        stream->readInts(fNumVerts, fDiffuseRGBA);
+        stream->readInts(fNumVerts, fSpecularRGBA);
     } else {
         fVertexData = NULL;
         fMultColor = NULL;
@@ -67,13 +70,13 @@ void plGeometrySpan::Read(hsStream *stream)
     }
     if (fNumIndices > 0) {
         fIndexData = new unsigned short[fNumVerts];
-        stream->readShortArr(fNumVerts, fIndexData);
+        stream->readShorts(fNumVerts, fIndexData);
     } else {
         fIndexData = NULL;
     }
-    fInstanceGroup = stream->readInt();
+    fInstanceGroup = S->readInt();
     if (fInstanceGroup != 0) {
-        fInstanceRefs = plGeometrySpan::IGetInstanceGroup(fInstanceGroup, stream->readInt());
+        fInstanceRefs = IGetInstanceGroup(fInstanceGroup, stream->readInt());
         fInstanceRefs->append(this);
     }
 }

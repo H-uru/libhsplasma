@@ -15,7 +15,7 @@ public:
     plCubicEnvironmap(PlasmaVer pv = pvUnknown);
     virtual ~plCubicEnvironmap();
     
-    virtual unsigned short ClassIndex();
+    virtual short ClassIndex();
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
@@ -25,4 +25,3 @@ public:
 };
 
 #endif
-

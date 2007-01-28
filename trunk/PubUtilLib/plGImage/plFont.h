@@ -32,7 +32,7 @@ public:
     plFont(PlasmaVer pv = pvUnknown);
     virtual ~plFont();
 
-    virtual unsigned short ClassIndex();
+    virtual short ClassIndex();
 
     FontLetterDef& operator[](int idx);
 

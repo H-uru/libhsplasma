@@ -73,7 +73,7 @@ plClothingItem::~plClothingItem() {
     delete FriendlyName;
 }
 
-unsigned short plClothingItem::ClassIndex() {
+short plClothingItem::ClassIndex() {
     if (ver == pvEoa) return -1;
     else return 0x00B5;
 }

@@ -17,6 +17,12 @@ public:
 };
 
 class hsBounds3 : public hsBounds {
+public:
+    enum {
+        kCenterValid = 0x1,
+        kIsSphere = 0x2
+    };
+
 protected:
     int fBounds3Flags;
     hsPoint3 fMins, fMaxs, fCenter;
@@ -30,23 +36,35 @@ public:
 };
 
 class hsBounds3Ext : public hsBounds3 {
-//    hsBounds3Ext();
-//    virtual ~hsBounds3Ext();
 public:
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    enum {
+        kAxisAligned = 0x1,
+        kSphereSet = 0x2,
+        kDistsSet = 0x4,
+        kAxisZeroZero = 0x100000,
+        kAxisOneZero = 0x200000,
+        kAxisTwoZero = 0x400000
+    };
+
 protected:
-	unsigned long fExtFlags; //this+0x30
-	struct hsPoint3 fCorner; //this+0x34
-	struct hsVector3 fAxes[3]; //this+0x40
-	struct hsFloatPoint2 fDists[3]; //this+0x64
-	float fRadius; //this+0x7c
+    unsigned int fExtFlags;
+    hsPoint3 fCorner;
+    hsVector3 fAxes[3];
+    hsFloatPoint2 fDists[3];
+    float fRadius;
 
 public:
-	hsBounds3Ext(const class hsBounds3Ext &);
-	hsBounds3Ext(const class hsBounds3 &);
-	hsBounds3Ext();
-	 hsBounds3Ext & operator=(const class hsBounds3 &);
+    hsBounds3Ext();
+    hsBounds3Ext(const class hsBounds3Ext &);
+    hsBounds3Ext(const class hsBounds3 &);
+    virtual ~hsBounds3Ext();
+    
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
+
+#ifdef Tahg
+public:
+	hsBounds3Ext& operator=(const class hsBounds3 &);
 	void Reset(int, const struct hsPoint3 *);
 	void Reset(const struct hsPoint3 *){}
 	void Reset(const class hsBounds3 *);
@@ -83,17 +101,28 @@ public:
 	unsigned long ISectLine(const struct hsPoint3 *, const struct hsPoint3 *);
 	unsigned long ISectCone(const struct hsPoint3 *, const struct hsPoint3 *, float);
 	unsigned long ISectRayBS(const struct hsPoint3 &, const struct hsPoint3 &, struct hsPoint3 &);
-	void Read(class hsStream *);
-	void Write(class hsStream *);
-
-private:
 
 protected:
 	unsigned long  IAxisIsZero(unsigned long);
 	void  IMakeSphere();
 	void  IMakeDists();
 	void  IMakeMinsMaxs();
+#endif
+};
 
+class hsBoundsOriented : public hsBounds {
+protected:
+    unsigned int fCenterValid;
+    hsPoint3 fCenter;
+    hsPlane3* fPlanes;
+    unsigned int fNumPlanes;
+
+public:
+    hsBoundsOriented();
+    ~hsBoundsOriented();
+
+    void read(hsStream* S);
+    void write(hsStream* S);
 };
 
 #endif

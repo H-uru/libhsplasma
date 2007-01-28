@@ -20,9 +20,10 @@ public:
     }
 
     void clear() {
-		Reset();
+        Reset();
     }
-	inline void Reset() { 
+    
+    inline void Reset() {
         if (data != NULL)
             delete[] data;
         data = NULL;
@@ -31,7 +32,7 @@ public:
 	}
 
     inline int getSize() { return count; }
-    int getCap()  { return max;   }
+    int getCap() { return max; }
 
     void setSize(int cap) {
         if (max == cap) return;

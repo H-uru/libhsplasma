@@ -8,7 +8,7 @@ hsKeyedObject::~hsKeyedObject() {
         myKey->UnRef();
 }
 
-unsigned short hsKeyedObject::ClassIndex() { return 0x0002; }
+short hsKeyedObject::ClassIndex() { return 0x0002; }
 
 void hsKeyedObject::read(hsStream * S) {
     if (myKey != NULL)

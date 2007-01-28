@@ -41,6 +41,24 @@ public:
     void readShorts(unsigned int count, short* buf);
     int readInt();
     void readInts(unsigned int count, int* buf);
+<<<<<<< .mine
+    int readIntSwap();
+    float readFloat();
+    void readFloats(unsigned int count, float* buf);
+    double readDouble();
+    bool readBool();
+    void readBools(unsigned int count, bool* buf);
+    char* readStr(int len);
+    char* readStrZ(int len);
+    char* readSafeStr();
+
+    void writeByte(const char v);
+    void writeBytes(unsigned int count, const char* buf);
+    void writeShort(const short v);
+    void writeShorts(unsigned int count, const short* buf);
+    void writeInt(const int v);
+    void writeInts(unsigned int count, const int* buf);
+=======
     int readIntSwap();
 	int ReadSwap32() { return readIntSwap(); }
     float readFloat();
@@ -58,6 +76,22 @@ public:
     void writeShorts(unsigned int count, const short* buf);
     void writeInt(const int v);
     void writeInts(unsigned int count, const int* buf);
+>>>>>>> .r49
+<<<<<<< .mine
+    void writeIntSwap(const int v);
+    void writeFloat(const float v);
+    void writeFloats(unsigned int count, const float* buf);
+    void writeDouble(const double v);
+    void writeBool(const bool v);
+    void writeBools(unsigned int count, const bool* buf);
+    void writeStr(const char* buf, int len);
+    void writeStr(const char* buf);
+    //void writeZStr(char* buf);
+    void writeSafeStr(const char* buf);
+};
+
+#endif
+=======
     void writeIntSwap(const int v);
 	void WriteSwap32(const int v) { writeIntSwap(v); }
     void writeFloat(const float v);
@@ -72,3 +106,4 @@ public:
 };
 
 #endif
+>>>>>>> .r49

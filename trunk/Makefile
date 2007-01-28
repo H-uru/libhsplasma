@@ -19,6 +19,8 @@ OBJFILES=\
 	$(LIBDIR)plReceiver.o \
 	$(LIBDIR)hsKeyedObject.o \
 	$(LIBDIR)plMessage.o \
+	$(LIBDIR)plModifier.o \
+	$(LIBDIR)plMultiModifier.o \
 	$(LIBDIR)plSynchedObject.o \
 	$(LIBDIR)plObjInterface.o \
 	$(LIBDIR)plAudioInterface.o \
@@ -87,6 +89,12 @@ $(LIBDIR)hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.h NucleusLib/pn
 
 $(LIBDIR)plMessage.o: NucleusLib/pnMessage/plMessage.h NucleusLib/pnMessage/plMessage.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnMessage/plMessage.cpp -o $(LIBDIR)plMessage.o
+
+$(LIBDIR)plModifier.o: NucleusLib/pnModifier/plModifier.h NucleusLib/pnModifier/plModifier.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnModifier/plModifier.cpp -o $(LIBDIR)plModifier.o
+
+$(LIBDIR)plMultiModifier.o: NucleusLib/pnModifier/plMultiModifier.h NucleusLib/pnModifier/plMultiModifier.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnModifier/plMultiModifier.cpp -o $(LIBDIR)plMultiModifier.o
 
 $(LIBDIR)plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.h NucleusLib/pnNetCommon/plSynchedObject.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o $(LIBDIR)plSynchedObject.o

@@ -1,7 +1,7 @@
 #include "plAudioInterface.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plAudioInterface::plAudioInterface(PlasmaVer pv) : plObjInterface(pv) {
+plAudioInterface::plAudioInterface(PlasmaVer pv) {
     Audible = new plKey();
 }
 
@@ -9,7 +9,7 @@ plAudioInterface::~plAudioInterface() {
     Audible->UnRef();
 }
 
-unsigned short plAudioInterface::ClassIndex() { return 0x0011; }
+short plAudioInterface::ClassIndex() { return 0x0011; }
 
 void plAudioInterface::read(hsStream *S) {
     plObjInterface::read(S);

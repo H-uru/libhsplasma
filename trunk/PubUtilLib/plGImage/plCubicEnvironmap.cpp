@@ -3,7 +3,7 @@
 plCubicEnvironmap::plCubicEnvironmap(PlasmaVer pv) { }
 plCubicEnvironmap::~plCubicEnvironmap() { }
 
-unsigned short plCubicEnvironmap::ClassIndex() { return 0x0005; }
+short plCubicEnvironmap::ClassIndex() { return 0x0005; }
 
 void plCubicEnvironmap::read(hsStream* S) {
     hsKeyedObject::read(S);
@@ -26,4 +26,3 @@ void plCubicEnvironmap::writeData(hsStream* S) {
     for (int i=0; i<6; i++)
         faces[i].writeData(S);
 }
-

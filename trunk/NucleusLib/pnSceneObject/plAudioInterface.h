@@ -11,7 +11,7 @@ public:
     plAudioInterface(PlasmaVer pv = pvUnknown);
     virtual ~plAudioInterface();
 
-    virtual unsigned short ClassIndex();
+    virtual short ClassIndex();
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

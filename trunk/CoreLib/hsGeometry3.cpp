@@ -27,6 +27,13 @@ void hsScalarTriple::write(hsStream *S) {
 
 hsPoint3::hsPoint3() { }
 hsPoint3::hsPoint3(float x, float y, float z) { }
+
+hsPoint3::hsPoint3(const hsScalarTriple& src) {
+    X = src.X;
+    Y = src.Y;
+    Z = src.Z;
+}
+
 hsPoint3::~hsPoint3() { }
 
 void hsPoint3::Zero() {
@@ -70,3 +77,28 @@ bool hsPoint3::operator==(const hsPoint3& other) {
     return (X == other.X) && (Y == other.Y) && (Z == other.Z);
 }
 
+/* hsVector3 */
+hsVector3::hsVector3() { }
+hsVector3::hsVector3(float x, float y, float z) { }
+
+hsVector3::hsVector3(const hsScalarTriple& src) {
+    X = src.X;
+    Y = src.Y;
+    Z = src.Z;
+}
+
+hsVector3::~hsVector3() { }
+
+/* hsPlane3 */
+hsPlane3::hsPlane3() : fN(), fD(0.0f) { }
+hsPlane3::~hsPlane3() { }
+
+void hsPlane3::read(hsStream* S) {
+    fN.read(S);
+    fD = S->readFloat();
+}
+
+void hsPlane3::write(hsStream* S) {
+    fN.write(S);
+    S->writeFloat(fD);
+}

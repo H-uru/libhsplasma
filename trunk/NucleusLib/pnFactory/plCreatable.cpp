@@ -6,8 +6,6 @@ plCreatable::plCreatable(PlasmaVer pv) {
 
 plCreatable::~plCreatable() { }
 
-unsigned short plCreatable::ClassIndex() { return -1; }
-
 PlasmaVer plCreatable::getVer() { return ver; }
 void plCreatable::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 

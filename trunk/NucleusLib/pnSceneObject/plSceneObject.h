@@ -19,7 +19,7 @@ public:
     plSceneObject(PlasmaVer pv = pvUnknown);
     virtual ~plSceneObject();
 
-    virtual unsigned short ClassIndex();
+    virtual short ClassIndex();
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

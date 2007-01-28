@@ -13,7 +13,7 @@ plFont::~plFont() {
     delete [] Letters;
 }
 
-unsigned short plFont::ClassIndex() {
+short plFont::ClassIndex() {
     if (ver == pvEoa) return -1;
     else return 0x011C;
 }

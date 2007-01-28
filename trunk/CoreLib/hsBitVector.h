@@ -3,12 +3,12 @@
 
 #include "hsStream.h"
 
-#define BVMASK  0x1F
+#define BVMASK  31
 
 class hsBitVector {
 private:
     int* bits;
-    int bLen;
+    int nVectors;
 
 public:
     hsBitVector();
@@ -16,6 +16,7 @@ public:
 
     bool get(int idx);
     void set(int idx, bool b);
+    bool operator[](int idx);
 
     bool isEmpty();
     void clear();

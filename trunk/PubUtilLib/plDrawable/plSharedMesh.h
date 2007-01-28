@@ -7,21 +7,19 @@
 #include "../../CoreLib/hsTArray.hpp"
 
 class plSharedMesh : public hsKeyedObject {
-
 public:
-	hsTArray<plSceneObject const*> fActiveInstances; //this+0x18
-    unsigned char fFlags; //this+0x24
+	hsTArray<plSceneObject const*> fActiveInstances;
+    unsigned char fFlags;
 
 public:
 	plSharedMesh(PlasmaVer pv = pvUnknown);
-   // virtual ~plSharedMesh();
+    virtual ~plSharedMesh();
 
-    virtual unsigned short ClassIndex();
-	virtual const char* ClassName();
+    virtual short ClassIndex();
 
-    /*virtual void read(hsStream *S);
-    virtual void write(hsStream *S);*/
-	virtual int MsgReceive(plMessage *msg);
+    virtual void read(hsStream *S);
+    virtual void write(hsStream *S);
+	//virtual bool MsgReceive(plMessage *msg);
 };
 
 #endif

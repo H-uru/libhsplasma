@@ -1,7 +1,7 @@
 #include "plSimulationInterface.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plSimulationInterface::plSimulationInterface(PlasmaVer pv) : plObjInterface(pv), Unknown(0) {
+plSimulationInterface::plSimulationInterface(PlasmaVer pv) : Unknown(0) {
     Physical = new plKey();
 }
 
@@ -9,7 +9,7 @@ plSimulationInterface::~plSimulationInterface() {
     Physical->UnRef();
 }
 
-unsigned short plSimulationInterface::ClassIndex() { return 0x001C; }
+short plSimulationInterface::ClassIndex() { return 0x001C; }
 
 void plSimulationInterface::read(hsStream *S) {
     plObjInterface::read(S);
