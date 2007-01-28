@@ -20,8 +20,10 @@ void plFactory::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 #include "../pnSceneObject/plCoordinateInterface.h"
 #include "../pnSceneObject/plDrawInterface.h"
 #include "../pnSceneObject/plSimulationInterface.h"
+#include "../pnModifier/plModifier.h"
 #include "../pnNetCommon/plSynchedObject.h"
 #include "../../PubUtilLib/plPipeline/plFogEnvironment.h"
+#include "../../FeatureLib/pfPython/plPythonFileMod.h"
 #include "../../PubUtilLib/plAvatar/plClothingItem.h"
 #include "../../PubUtilLib/plGImage/plFont.h"
 // End types
@@ -61,7 +63,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //case 0x001B: return new plPhysicalMesh(ver);
             case 0x001C: return new plSimulationInterface(ver);
             //case 0x001D: return new plCameraModifier(ver);
-            //case 0x001E: return new plModifier(ver);
+            case 0x001E: return new plModifier(ver);
             //case 0x001F: return new plSingleModifier(ver);
             //case 0x0020: return new plSimpleModifier(ver);
             //case 0x0021: return new plSimpleTMModifier(ver);
@@ -70,7 +72,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //case 0x0024: return new plDetectorModifier(ver);
             //case 0x0025: return new plSimplePhysicalMesh(ver);
             //case 0x0026: return new plCompoundPhysicalMesh(ver);
-            //case 0x0027: return new plMultiModifier(ver);
+            case 0x0027: return new plMultiModifier(ver);
             case 0x0028: return new plSynchedObject(ver);
             //case 0x0029: return new plSoundBuffer(ver);
             //case 0x002A: return new plAliasModifier(ver);
@@ -198,7 +200,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //case 0x009F: return new plCameraBrain1_Fixed(ver);
             //case 0x00A0: return new plCameraBrain1_POAFixed(ver);
             //case 0x00A1: return new pfGUIButtonMod(ver);
-            //case 0x00A2: return new plPythonFileMod(ver);
+            case 0x00A2: return new plPythonFileMod(ver);
             //case 0x00A3: return new pfGUIControlMod(ver);
             //case 0x00A4: return new plExcludeRegionModifier(ver);
             //case 0x00A5: return new pfGUIDraggableMod(ver);
@@ -470,7 +472,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         //case 0x001B: return new plCrossfade(ver);
         case 0x001C: return new plSimulationInterface(ver);
         //case 0x001D: return new plParticleFadeOutEffect(ver);
-        //case 0x001E: return new plModifier(ver);
+        case 0x001E: return new plModifier(ver);
         //case 0x001F: return new plSingleModifier(ver);
         //case 0x0020: return new plSimpleModifier(ver);
         //case 0x0021: return new plWindBoneMod(ver);
@@ -479,7 +481,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         //case 0x0024: return new plDetectorModifier(ver);
         //case 0x0025: return new pfSubtitleMgr(ver);
         //case 0x0026: return new plPythonFileModCOnditionalObject(ver);
-        //case 0x0027: return new plMultiModifier(ver);
+        case 0x0027: return new plMultiModifier(ver);
         case 0x0028: return new plSynchedObject(ver);
         //case 0x0029: return new plSoundBuffer(ver);
         //case 0x002A: return new plPickingDetector(ver);
@@ -576,7 +578,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         //case 0x0085: return new plCameraBrain1_Follow(ver);
         //case 0x0086: return new plCameraBrain1_Fixed(ver);
         //case 0x0087: return new pfGUIButtonMod(ver);
-        //case 0x0088: return new plPythonFileMod(ver);
+        case 0x0088: return new plPythonFileMod(ver);
         //case 0x0089: return new pfGUIControlMod(ver);
         //case 0x008A: return new plExcludeRegionModifier(ver);
         //case 0x008B: return new pfGUIDraggableMod(ver);

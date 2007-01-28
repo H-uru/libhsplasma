@@ -2,6 +2,7 @@
 #define _PLSCENEOBJECT_H
 
 #include "../pnNetCommon/plSynchedObject.h"
+#include "../../CoreLib/hsTArray.hpp"
 
 class plSceneObject : public plSynchedObject {
 public:

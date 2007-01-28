@@ -36,13 +36,12 @@ public:
 
     void setSize(int cap) {
         if (max == cap) return;
-        max = cap;
-        T* newData = new T[max];
-        int m = (count > cap) ? cap : count;
-        for (int i=0; i<m; i++)
+        T* newData = new T[cap];
+        for (int i=0; i<count; i++)
             newData[i] = data[i];
         if (data != NULL)
             delete[] data;
+        max = count = cap;
         data = newData;
     }
 

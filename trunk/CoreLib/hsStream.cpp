@@ -157,15 +157,9 @@ void hsStream::readBools(unsigned int count, bool* buf) {
 }
 
 char* hsStream::readStr(int len) {
-    char* buf = new char[len];
-    read(len * sizeof(char), buf);
-    return buf;
-}
-
-char* hsStream::readStrZ(int len) {
     char* buf = new char[len+1];
     read(len * sizeof(char), buf);
-    buf[len] = '\0';
+    buf[len] = 0;
     return buf;
 }
 
@@ -173,12 +167,12 @@ char* hsStream::readSafeStr() {
     unsigned short ssInfo = (unsigned short) readShort();
     char* buf;
     if (ver == pvEoa) {
-        buf = readStrZ(ssInfo);
+        buf = readStr(ssInfo);
         for (int i=0; i<ssInfo; i++)
             buf[i] ^= eoaStrKey[i%8];
     } else {
         if (!(ssInfo & 0xF000)) readByte(); // Discarded - debug
-        buf = readStrZ(ssInfo & 0x0FFF);
+        buf = readStr(ssInfo & 0x0FFF);
         if (ssInfo & 0xF000) {
             for (int i=0; i<(ssInfo & 0x0FFF); i++)
                 buf[i] = ~buf[i];

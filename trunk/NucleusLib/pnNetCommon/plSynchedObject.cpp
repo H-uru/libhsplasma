@@ -7,32 +7,47 @@ short plSynchedObject::ClassIndex() { return 0x0028; }
 
 void plSynchedObject::read(hsStream * S) {
     hsKeyedObject::read(S);
-    SDLKeys.clear();
-    SDLKeys2.clear();
+    SDLExcludeList.clear();
+    SDLVolatileList.clear();
     flags = S->readInt();
 
-    if (flags & 0x10) {
-        SDLKeys.setSize(S->readShort());
-        for (int i=0; i<SDLKeys.getSize(); i++)
-            SDLKeys[i] = S->readSafeStr();
+    unsigned short count, len, i;
+    if (flags & kExcludePersistentState) {
+        count = S->readShort();
+        for (i=0; i<count; i++) {
+            len = S->readShort();
+            SDLExcludeList.push_back(S->readStr(len));
+        }
     }
-    if (flags & 0x40) {
-        SDLKeys2.setSize(S->readShort());
-        for (int i=0; i<SDLKeys2.getSize(); i++)
-            SDLKeys2[i] = S->readSafeStr();
+    if (flags & kHasVolatileState) {
+        count = S->readShort();
+        for (i=0; i<count; i++) {
+            len = S->readShort();
+            SDLVolatileList.push_back(S->readStr(len));
+        }
     }
 }
 
 void plSynchedObject::write(hsStream * S) {
     hsKeyedObject::write(S);
     S->writeInt(flags);
-    if (flags & 0x10) {
-        for (int i=0; i<SDLKeys.getSize(); i++)
-            S->writeSafeStr(SDLKeys[i]);
+
+    unsigned short len, i;
+    if (flags & kExcludePersistentState) {
+        S->writeShort(SDLExcludeList.size());
+        for (i=0; i<SDLExcludeList.size(); i++) {
+            len = strlen(SDLExcludeList[i]);
+            S->writeShort(len);
+            S->writeStr(SDLExcludeList[i], len);
+        }
     }
-    if (flags & 0x40) {
-        for (int i=0; i<SDLKeys2.getSize(); i++)
-            S->writeSafeStr(SDLKeys2[i]);
+    if (flags & kHasVolatileState) {
+        S->writeShort(SDLVolatileList.size());
+        for (i=0; i<SDLVolatileList.size(); i++) {
+            len = strlen(SDLVolatileList[i]);
+            S->writeShort(len);
+            S->writeStr(SDLVolatileList[i], len);
+        }
     }
 }
 

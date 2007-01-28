@@ -48,7 +48,6 @@ public:
     bool readBool();
     void readBools(unsigned int count, bool* buf);
     char* readStr(int len);
-    char* readStrZ(int len);
     char* readSafeStr();
 
     void writeByte(const char v);

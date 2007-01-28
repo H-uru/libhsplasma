@@ -20,7 +20,6 @@ OBJFILES=\
 	$(LIBDIR)hsKeyedObject.o \
 	$(LIBDIR)plMessage.o \
 	$(LIBDIR)plModifier.o \
-	$(LIBDIR)plMultiModifier.o \
 	$(LIBDIR)plSynchedObject.o \
 	$(LIBDIR)plObjInterface.o \
 	$(LIBDIR)plAudioInterface.o \
@@ -37,7 +36,8 @@ OBJFILES=\
 	$(LIBDIR)plCubicEnvironmap.o \
 	$(LIBDIR)plFogEnvironment.o \
 	$(LIBDIR)plSceneNode.o \
-	$(LIBDIR)hsGMaterial.o
+	$(LIBDIR)hsGMaterial.o \
+	$(LIBDIR)plPythonFileMod.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
 all: $(PLSLIB) bin/PlasmaTest
@@ -92,9 +92,6 @@ $(LIBDIR)plMessage.o: NucleusLib/pnMessage/plMessage.h NucleusLib/pnMessage/plMe
 
 $(LIBDIR)plModifier.o: NucleusLib/pnModifier/plModifier.h NucleusLib/pnModifier/plModifier.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnModifier/plModifier.cpp -o $(LIBDIR)plModifier.o
-
-$(LIBDIR)plMultiModifier.o: NucleusLib/pnModifier/plMultiModifier.h NucleusLib/pnModifier/plMultiModifier.cpp
-	$(CC) $(CFLAGS) -c NucleusLib/pnModifier/plMultiModifier.cpp -o $(LIBDIR)plMultiModifier.o
 
 $(LIBDIR)plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.h NucleusLib/pnNetCommon/plSynchedObject.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o $(LIBDIR)plSynchedObject.o
@@ -152,6 +149,9 @@ $(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSc
 
 $(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/hsGMaterial.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o $(LIBDIR)hsGMaterial.o
+
+$(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o
 
 install:
 	cp $(PLSLIB) /usr/local/lib
