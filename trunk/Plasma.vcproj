@@ -269,6 +269,10 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\CoreLib\hsColorRGBA.cpp"
+					>
+				</File>
+				<File
 					RelativePath="CoreLib\hsElfStream.cpp"
 					>
 					<FileConfiguration
@@ -974,6 +978,10 @@
 				<Filter
 					Name="plDrawable"
 					>
+					<File
+						RelativePath=".\PubUtilLib\plDrawable\plGeometrySpan.cpp"
+						>
+					</File>
 					<File
 						RelativePath=".\PubUtilLib\plDrawable\plSharedMesh.cpp"
 						>
