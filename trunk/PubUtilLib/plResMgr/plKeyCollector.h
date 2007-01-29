@@ -8,7 +8,7 @@
 
 class plKeyCollector {
 private:
-    std::map<PageID, std::map<short, std::vector<plKey*> >, PageComparator> keys;
+    std::map<PageID, std::vector<plKey*>, PageComparator> keys;
 
 public:
     ~plKeyCollector();
@@ -21,10 +21,6 @@ public:
     std::vector<plKey*>& getKeys(PageID& pid, short type);
     std::vector<short> getTypes(PageID& pid);
     std::vector<PageID> getPages();
-
-    void copyType(PageID& pid, short tFrom, short tTo);
-    void delType(PageID& pid, short t);
-    void moveType(PageID& pid, short tFrom, short tTo);
 };
 
 #endif

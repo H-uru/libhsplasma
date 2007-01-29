@@ -22,7 +22,7 @@ void plResManager::setVer(PlasmaVer pv, bool mutate) {
     if (ver == pv) return;
     ver = pv;
 
-    // This is where the actual typeID conversion takes place...
+    //
 }
 
 PlasmaVer plResManager::getVer() { return ver; }
@@ -233,7 +233,8 @@ void plResManager::WriteKeyring(hsStream* S, PageID& pid) {
     S->writeInt(types.size());
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey*> kList = keys.getKeys(pid, types[i]);
-        S->writeShort(types[i]);
+        if (kList.size() <= 0) continue;
+        S->writeShort(kList[0]->objType);
         S->writeInt(kList.size());
         for (unsigned int j=0; j<kList.size(); j++) {
             writeKeyBase(S, kList[j]);
@@ -256,17 +257,16 @@ unsigned int plResManager::ReadObjects(hsStream* S, PageID& pid) {
             kList[j]->objPtr = (hsKeyedObject*)plFactory::Create(S->readShort(), ver);
             if (kList[j]->objPtr != NULL) {
                 try {
-                    printf("Attempting read of [%04X]%s: ",
-                            kList[j]->objType, kList[j]->objName);
                     kList[j]->objPtr->read(S);
-                    printf("SUCCESS\n");
                     nRead++;
                 } catch (const char* e) {
-                    printf("%s\n", e);
+                    printf("Failed reading [%04X]%s: %s\n",
+                           kList[j]->objType, kList[j]->objName, e);
                     delete kList[j]->objPtr;
                     kList[j]->objPtr = NULL;
                 } catch (...) {
-                    printf("Undefined error\n");
+                    printf("Undefined error reading [%04X]%s\n",
+                           kList[j]->objType, kList[j]->objName);
                     delete kList[j]->objPtr;
                     kList[j]->objPtr = NULL;
                 }
@@ -289,16 +289,15 @@ unsigned int plResManager::WriteObjects(hsStream* S, PageID& pid) {
             kList[j]->objID = j;
             if (kList[j]->objPtr != NULL) {
                 try {
-                    printf("Attempting write of [%04X]%s: ",
-                           kList[j]->objType, kList[j]->objName);
                     S->writeShort(kList[j]->objType);
                     kList[j]->objPtr->write(S);
-                    printf("SUCCESS\n");
                     nWritten++;
                 } catch (const char* e) {
-                    printf("%s\n", e);
+                    printf("Failed writing [%04X]%s: %s\n",
+                           kList[j]->objType, kList[j]->objName, e);
                 } catch (...) {
-                    printf("Undefined error\n");
+                    printf("Undefined error writing [%04X]%s\n",
+                           kList[j]->objType, kList[j]->objName);
                 }
             }
             kList[j]->objSize = S->pos() - kList[j]->fileOff;

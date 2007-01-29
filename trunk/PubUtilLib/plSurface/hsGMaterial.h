@@ -2,6 +2,7 @@
 #define _HSGMATERIAL_H
 
 #include "../../NucleusLib/pnNetCommon/plSynchedObject.h"
+#include "../../CoreLib/hsTArray.hpp"
 
 class hsGMaterial : public plSynchedObject {
 private:

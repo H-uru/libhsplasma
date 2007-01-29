@@ -4,68 +4,65 @@ plKeyCollector::~plKeyCollector() {
     std::vector<PageID> pages = getPages();
     for (unsigned int i=0; i<pages.size(); i++) {
         std::vector<short> types = getTypes(pages[i]);
-        for (unsigned int j=0; j<types.size(); j++)
-            for (unsigned int k=0; k<keys[pages[i]][types[j]].size(); k++)
-                keys[pages[i]][types[j]][k]->UnRef();
+        for (unsigned int j=0; j<keys[pages[i]].size(); j++)
+            keys[pages[i]][j]->UnRef();
     }
 }
 
 plKey* plKeyCollector::findKey(plKey* match) {
     plKey* key = NULL;
-    for (unsigned int i=0; i < keys[match->pageID][match->objType].size(); i++)
-        if (*(keys[match->pageID][match->objType][i]) == *match)
-            key = keys[match->pageID][match->objType][i];
+    for (unsigned int i=0; i < keys[match->pageID].size(); i++)
+        if (*(keys[match->pageID][i]) == *match)
+            key = keys[match->pageID][i];
     return key;
 }
 
 void plKeyCollector::add(plKey* key) {
-    keys[key->pageID][key->objType].push_back(key);
+    keys[key->pageID].push_back(key);
     key->Ref();
 }
 
 unsigned int plKeyCollector::countTypes(PageID& pid) {
-    return keys[pid].size();
+    unsigned int nTypes = 0;
+    short lastType = -1;
+    for (unsigned int i=0; i<keys[pid].size(); i++) {
+        if (keys[pid][i]->objType != lastType) {
+            nTypes++;
+            lastType = keys[pid][i]->objType;
+        }
+    }
+    return nTypes;
 }
 
 unsigned int plKeyCollector::countKeys(PageID& pid) {
-    std::vector<short> types = getTypes(pid);
-    unsigned int ct = 0;
-    for (unsigned int i=0; i<types.size(); i++)
-        ct += keys[pid][types[i]].size();
-    return ct;
+    return keys[pid].size();
 }
 
 std::vector<plKey*>& plKeyCollector::getKeys(PageID& pid, short type) {
-    return keys[pid][type];
+    std::vector<plKey*>* kList = new std::vector<plKey*>;
+    for (unsigned int i=0; i<keys[pid].size(); i++) {
+        if (keys[pid][i]->objType == type)
+            kList->push_back(keys[pid][i]);
+    }
+    return *kList;
 }
 
 std::vector<short> plKeyCollector::getTypes(PageID& pid) {
     std::vector<short>* types = new std::vector<short>;
-    std::map<short, std::vector<plKey*> >::iterator i;
-    for (i = keys[pid].begin(); i != keys[pid].end(); i++)
-        types->push_back(i->first);
+    short lastType = -1;
+    for (unsigned int i=0; i<keys[pid].size(); i++) {
+        if (keys[pid][i]->objType != lastType) {
+            lastType = keys[pid][i]->objType;
+            types->push_back(lastType);
+        }
+    }
     return *types;
 }
 
 std::vector<PageID> plKeyCollector::getPages() {
     std::vector<PageID>* pages = new std::vector<PageID>;
-    std::map<PageID, std::map<short, std::vector<plKey*> >, PageComparator>::iterator i;
+    std::map<PageID, std::vector<plKey*>, PageComparator>::iterator i;
     for (i = keys.begin(); i != keys.end(); i++)
         pages->push_back(i->first);
     return *pages;
-}
-
-void plKeyCollector::copyType(PageID& pid, short tFrom, short tTo) {
-    for (unsigned int i=0; i<keys[pid][tFrom].size(); i++)
-        keys[pid][tTo][i] = keys[pid][tFrom][i];
-}
-
-void plKeyCollector::delType(PageID& pid, short t) {
-    keys[pid].erase(t);
-}
-
-void plKeyCollector::moveType(PageID& pid, short tFrom, short tTo) {
-    delType(pid, tTo);
-    copyType(pid, tFrom, tTo);
-    delType(pid, tFrom);
 }

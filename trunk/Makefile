@@ -40,13 +40,10 @@ OBJFILES=\
 	$(LIBDIR)plPythonFileMod.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
-all: $(PLSLIB) bin/PlasmaTest
+all: $(PLSLIB)
 
 $(PLSLIB): $(OBJFILES)
 	$(CC) $(CFLAGS) $(OBJFILES) -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
-
-bin/PlasmaTest: PlasmaTest.cpp $(PLSLIB)
-	$(CC) $(CFLAGS) -Llib/ -lPlasma PlasmaTest.cpp -o bin/PlasmaTest
 
 $(LIBDIR)hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsRefCnt.cpp -o $(LIBDIR)hsRefCnt.o
@@ -162,4 +159,3 @@ clean:
 
 distclean:
 	rm $(PLSLIB)
-	rm bin/PlasmaTest
