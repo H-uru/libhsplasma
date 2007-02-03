@@ -125,13 +125,20 @@ plPageSettings* plResManager::ReadPage(const char* filename) {
     setVer(S->getVer());
     S->open(filename, fmRead);
     plPageSettings* page = new plPageSettings;
-    unsigned int datSize = 0, datOff = 0, idxOff = 0;
-    int prpver = S->readInt();
+    short prpver = S->readShort();
     if (prpver == 6) {
         page->ver = pvEoa;
         S->setVer(page->ver);
-        // Later...
+        page->pageID.setVer(page->ver);
+        setVer(page->ver);
+        unsigned short nTypes = S->readShort();
+        S->skip(nTypes * 4); // Type info table...
+        page->pageID.read(S);
+        page->pageType = S->readByte();
+        page->ageName = S->readSafeStr();
+        page->pageName = S->readSafeStr();
     } else if (prpver == 5) {
+        S->readShort(); // prpver is 32-bits in Uru PRPs
         unsigned int tempPid = S->readInt();
         page->pageType = S->readShort();
         page->ageName = S->readSafeStr();
@@ -150,12 +157,13 @@ plPageSettings* plResManager::ReadPage(const char* filename) {
         setVer(page->ver);
         S->readInt(); // 0
         S->readInt(); // 8
-        datSize = S->readInt();
-        datOff = S->readInt();
-        idxOff = S->readInt();
     } else
         throw "Unsupported page format!";
     pages.push_back(page);
+        
+    /*unsigned int datSize =*/ S->readInt();
+    /*unsigned int datOff =*/ S->readInt();
+    unsigned int idxOff = S->readInt();
 
     S->seek(idxOff);
     ReadKeyring(S, page->pageID);
@@ -170,10 +178,15 @@ void plResManager::WritePage(const char* filename, plPageSettings* page) {
     page->pageID.setVer(ver, true);
     S->open(filename, fmWrite);
     S->setVer(ver, true);
-    unsigned int datSize = 0, datOff = 0, idxOff = 0;
     if (ver == pvEoa) {
-        S->writeInt(6);
-        // Later...
+        S->writeShort(6);
+        throw "Incomplete";
+        // unsigned short nTypes = S->readShort();
+        //S->skip(nTypes * 4); // Type info table...
+        page->pageID.write(S);
+        S->writeByte(page->pageType);
+        S->writeSafeStr(page->ageName);
+        S->writeSafeStr(page->pageName);
     } else {
         S->writeInt(5);
         page->pageID.write(S);
@@ -198,6 +211,7 @@ void plResManager::WritePage(const char* filename, plPageSettings* page) {
         S->writeInt(8);
     }
     
+    unsigned int datSize = 0, datOff = 0, idxOff = 0;
     S->writeInt(0);
     S->writeInt(0);
     S->writeInt(0);
@@ -218,6 +232,10 @@ void plResManager::ReadKeyring(hsStream* S, PageID& pid) {
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         S->readShort(); // objType
+        if (S->getVer() == pvEoa) {
+            S->readInt(); // dataSize
+            S->readByte(); // flag
+        }
         unsigned int oCount = S->readInt();
         for (unsigned int j=0; j<oCount; j++) {
             plKey* key = readKeyBase(S);
@@ -235,6 +253,9 @@ void plResManager::WriteKeyring(hsStream* S, PageID& pid) {
         std::vector<plKey*> kList = keys.getKeys(pid, types[i]);
         if (kList.size() <= 0) continue;
         S->writeShort(kList[0]->objType);
+        if (S->getVer() == pvEoa) {
+            throw "Incomplete";
+        }
         S->writeInt(kList.size());
         for (unsigned int j=0; j<kList.size(); j++) {
             writeKeyBase(S, kList[j]);

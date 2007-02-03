@@ -6,8 +6,6 @@
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 
-static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
-
 class hsStream {
 protected:
     PlasmaVer ver;
@@ -49,6 +47,7 @@ public:
     void readBools(unsigned int count, bool* buf);
     char* readStr(int len);
     char* readSafeStr();
+    virtual char* readLine();
 
     void writeByte(const char v);
     void writeBytes(unsigned int count, const char* buf);
@@ -64,8 +63,8 @@ public:
     void writeBools(unsigned int count, const bool* buf);
     void writeStr(const char* buf, int len);
     void writeStr(const char* buf);
-    //void writeZStr(char* buf);
     void writeSafeStr(const char* buf);
+    virtual void writeLine(const char* ln, bool winEOL = false);
 };
 
 #endif

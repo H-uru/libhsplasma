@@ -22,7 +22,9 @@ void plFactory::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 #include "../pnSceneObject/plSimulationInterface.h"
 #include "../pnModifier/plModifier.h"
 #include "../pnNetCommon/plSynchedObject.h"
+#include "../../PubUtilLib/plDrawable/plDrawableSpans.h"
 #include "../../PubUtilLib/plPipeline/plFogEnvironment.h"
+#include "../../PubUtilLib/plGLight/plLightInfo.h"
 #include "../../FeatureLib/pfPython/plPythonFileMod.h"
 #include "../../PubUtilLib/plAvatar/plClothingItem.h"
 #include "../../PubUtilLib/plGImage/plFont.h"
@@ -56,7 +58,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //case 0x0014: return new plWinAudible(ver);
             case 0x0015: return new plCoordinateInterface(ver);
             case 0x0016: return new plDrawInterface(ver);
-            //case 0x0017: return new plDrawable(ver);
+            case 0x0017: return new plDrawable(ver);
             //case 0x0018: return new plDrawableMesh(ver);
             //case 0x0019: return new plDrawableIce(ver);
             //case 0x001A: return new plPhysical(ver);
@@ -114,7 +116,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //case 0x0049: return new plWin32Sound(ver);
             //case 0x004A: return new plLayerOr(ver);
             //case 0x004B: return new plAudioSystem(ver);
-            //case 0x004C: return new plDrawableSpans(ver);
+            case 0x004C: return new plDrawableSpans(ver);
             //case 0x004D: return new plDrawablePatchSet(ver);
             //case 0x004E: return new plInputManager(ver);
             //case 0x004F: return new plLogicModBase(ver);
@@ -122,7 +124,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //case 0x0051: return new plNetApp(ver);
             //case 0x0052: return new plNetClientMgr(ver);
             //case 0x0053: return new pl2WayWinAudible(ver);
-            //case 0x0054: return new plLightInfo(ver);
+            case 0x0054: return new plLightInfo(ver);
             //case 0x0055: return new plDirectionalLightInfo(ver);
             //case 0x0056: return new plOmniLightInfo(ver);
             //case 0x0057: return new plSpotLightInfo(ver);
@@ -465,7 +467,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         //case 0x0014: return new plWinAudible(ver);
         case 0x0015: return new plCoordinateInterface(ver);
         case 0x0016: return new plDrawInterface(ver);
-        //case 0x0017: return new plDrawable(ver);
+        case 0x0017: return new plDrawable(ver);
         //case 0x0018: return new plAutoWalkRegion(ver);
         //case 0x0019: return new plDrawableIce(ver);
         //case 0x001A: return new plPhysical(ver);
@@ -515,13 +517,13 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         //case 0x0046: return new plWin32Sound(ver);
         //case 0x0047: return new plLayerOr(ver);
         //case 0x0048: return new plAudioSystem(ver);
-        //case 0x0049: return new plDrawableSpans(ver);
+        case 0x0049: return new plDrawableSpans(ver);
         //case 0x004A: return new plDrawablePatchSet(ver);
         //case 0x004B: return new plInputManager(ver);
         //case 0x004C: return new plLogicModBase(ver);
         case 0x004D: return new plFogEnvironment(ver);
         //case 0x004E: return new plLineFollowModBase(ver);
-        //case 0x004F: return new plLightInfo(ver);
+        case 0x004F: return new plLightInfo(ver);
         //case 0x0050: return new plDirectionalLightInfo(ver);
         //case 0x0051: return new plOmniLightInfo(ver);
         //case 0x0052: return new plSpotLightInfo(ver);

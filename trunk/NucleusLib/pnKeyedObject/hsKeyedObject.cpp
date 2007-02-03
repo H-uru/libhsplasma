@@ -21,3 +21,7 @@ void hsKeyedObject::read(hsStream * S) {
 void hsKeyedObject::write(hsStream * S) {
     plResManager::inst->writeRealKey(S, myKey);
 }
+
+plKey* hsKeyedObject::getKey() {
+    return myKey;
+}

@@ -23,6 +23,8 @@ public:
 
     virtual void read(hsStream * S);
     virtual void write(hsStream * S);
+    
+    plKey* getKey();
 
 #ifdef Tahg
 public:
@@ -35,7 +37,6 @@ public:
     static int HasBaseClass(unsigned short);
     class plCreatable * GetInterface(unsigned short);
     const class plCreatable * GetConstInterface(unsigned short);
-    const class plKey & GetKey();
     const char * GetKeyName();
     void Validate();
     int IsFinal();

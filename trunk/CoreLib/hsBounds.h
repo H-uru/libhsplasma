@@ -14,6 +14,8 @@ public:
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);
+
+    void setType(int type);
 };
 
 class hsBounds3 : public hsBounds {

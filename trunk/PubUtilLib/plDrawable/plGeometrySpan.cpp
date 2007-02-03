@@ -1,86 +1,140 @@
 #include "plGeometrySpan.h"
 
 plGeometrySpan::plGeometrySpan(PlasmaVer pv) { }
+plGeometrySpan::~plGeometrySpan() { }
 
-void plGeometrySpan::Read(hsStream *S) {
-	ClearBuffers();
-    fLocalToWorld.read(S);
-    fWorldToLocal.read(S);
-    fLocalBounds.read(S);
-    //if (fWorldBounds != fLocalBounds)
-    //    fWorldBounds.Reset(fLocalBounds);
-    //fWorldBounds.Transform(&fLocalToWorld);
-    fOBBToLocal.read(S);
-    fLocalToOBB.read(S);
+void plGeometrySpan::read(hsStream *S) {
+	//ClearBuffers();
+    localToWorld.read(S);
+    worldToLocal.read(S);
+    localBounds.read(S);
+    //if (worldBounds != localBounds)
+    //    worldBounds.Reset(localBounds);
+    //worldBounds.Transform(&localToWorld);
+    OBBToLocal.read(S);
+    localToOBB.read(S);
     
-    fBaseMatrix = S->readInt();
-    fNumMatrices = S->readByte();
-    fLocalUVWChans = S->readShort();
-    fMaxBoneIdx = S->readShort();
-    fPenBoneIdx = S->readShort();
-    fMinDist = S->readFloat();
-    fMaxDist = S->readFloat();
-    fFormat = S->readByte();
-    fProps = S->readInt();
-    fNumVerts = S->readInt();
-    fNumIndices = S->readInt();
+    baseMatrix = S->readInt();
+    numMatrices = S->readByte();
+    localUVWChans = S->readShort();
+    maxBoneIdx = S->readShort();
+    penBoneIdx = S->readShort();
+    minDist = S->readFloat();
+    maxDist = S->readFloat();
+    format = S->readByte();
+    props = S->readInt();
+    numVerts = S->readInt();
+    numIndices = S->readInt();
     S->readInt();  // Discarded
     S->readByte(); // Discarded
-    fDecalLevel = S->readInt();
+    decalLevel = S->readInt();
     
-    if (fProps & kWaterHeight)
-        fWaterHeight = S->readFloat();
+    if (props & kWaterHeight)
+        waterHeight = S->readFloat();
     
-    if (fNumVerts > 0) {
-        // this is hsPoint3[UVCount] + fPosition + fNormal.
-        unsigned int size = ((fFormat & kUVCountMask) + 2) * sizeof(hsPoint3);
-        if (fFormat & kSkin3Weights == kSkin1Weight)
+    if (numVerts > 0) {
+        // this is hsPoint3[UVCount] + position + normal.
+        unsigned int size = ((format & kUVCountMask) + 2) * sizeof(hsPoint3);
+        if (format & kSkinWeightMask == kSkin1Weight)
             size += 4;  // 1 float
-        else if (fFormat & kSkin3Weights == kSkin2Weights)
+        else if (format & kSkinWeightMask == kSkin2Weights)
             size += 8;  // 2 floats
-        else if (fFormat & kSkin3Weights == kSkin3Weights)
+        else if (format & kSkinWeightMask == kSkin3Weights)
             size += 12; // 3 floats
-        if (fFormat & kSkinIndices)
+        if (format & kSkinIndices)
             size += 4;  // uint32
-        fVertexData = malloc(fNumVerts * size);
-        S->read(fNumVerts * size, fVertexData);
+        vertexData = (unsigned char*)malloc(numVerts * size);
+        S->read(numVerts * size, vertexData);
         
-        fMultColor = new hsColorRGBA[fNumVerts];
-        fAddColor = new hsColorRGBA[fNumVerts];
-        for (int i=0; i<fNumVerts; i++) {
-            fMultColor[i].r = S->readFloat();
-            fMultColor[i].g = S->readFloat();
-            fMultColor[i].b = S->readFloat();
-            fMultColor[i].a = S->readFloat();
-            fAddColor[i].r = S->readFloat();
-            fAddColor[i].g = S->readFloat();
-            fAddColor[i].b = S->readFloat();
-            fAddColor[i].a = S->readFloat();
+        multColor = new hsColorRGBA[numVerts];
+        addColor = new hsColorRGBA[numVerts];
+        for (unsigned int i=0; i<numVerts; i++) {
+            multColor[i].read(S);
+            addColor[i].read(S);
         }
-        fDiffuseRGBA = new unsigned int[fNumVerts];
-        fSpecularRGBA = new unsigned int[fNumVerts];
-        stream->readInts(fNumVerts, fDiffuseRGBA);
-        stream->readInts(fNumVerts, fSpecularRGBA);
+        diffuseRGBA = new unsigned int[numVerts];
+        specularRGBA = new unsigned int[numVerts];
+        S->readInts(numVerts, (int*)diffuseRGBA);
+        S->readInts(numVerts, (int*)specularRGBA);
     } else {
-        fVertexData = NULL;
-        fMultColor = NULL;
-        fAddColor = NULL;
-        fDiffuseRGBA = NULL;
-        fSpecularRGBA = NULL;
+        vertexData = NULL;
+        multColor = NULL;
+        addColor = NULL;
+        diffuseRGBA = NULL;
+        specularRGBA = NULL;
     }
-    if (fNumIndices > 0) {
-        fIndexData = new unsigned short[fNumVerts];
-        stream->readShorts(fNumVerts, fIndexData);
+    if (numIndices > 0) {
+        indexData = new unsigned short[numIndices];
+        S->readShorts(numIndices, (short*)indexData);
     } else {
-        fIndexData = NULL;
+        indexData = NULL;
     }
-    fInstanceGroup = S->readInt();
-    if (fInstanceGroup != 0) {
-        fInstanceRefs = IGetInstanceGroup(fInstanceGroup, stream->readInt());
-        fInstanceRefs->append(this);
+    instanceGroup = S->readInt();
+    if (instanceGroup != 0) {
+        throw "Incomplete";
+        //instanceRefs = IGetInstanceGroup(instanceGroup, S->readInt());
+        //instanceRefs->append(this);
     }
 }
 
+void plGeometrySpan::write(hsStream *S) {
+    localToWorld.write(S);
+    worldToLocal.write(S);
+    localBounds.write(S);
+    OBBToLocal.write(S);
+    localToOBB.write(S);
+    
+    S->writeInt(baseMatrix);
+    S->writeByte(numMatrices);
+    S->writeShort(localUVWChans);
+    S->writeShort(maxBoneIdx);
+    S->writeShort(penBoneIdx);
+    S->writeFloat(minDist);
+    S->writeFloat(maxDist);
+    S->writeByte(format);
+    S->writeInt(props);
+    S->writeInt(numVerts);
+    S->writeInt(numIndices);
+    S->writeInt(0);
+    S->writeByte(0);
+    S->writeInt(decalLevel);
+    
+    if (props & kWaterHeight)
+        S->writeFloat(waterHeight);
+    
+    if (numVerts > 0) {
+        // this is hsPoint3[UVCount] + position + normal.
+        unsigned int size = ((format & kUVCountMask) + 2) * sizeof(hsPoint3);
+        if (format & kSkinWeightMask == kSkin1Weight)
+            size += 4;  // 1 float
+        else if (format & kSkinWeightMask == kSkin2Weights)
+            size += 8;  // 2 floats
+        else if (format & kSkinWeightMask == kSkin3Weights)
+            size += 12; // 3 floats
+        if (format & kSkinIndices)
+            size += 4;  // uint32
+        S->write(numVerts * size, vertexData);
+        
+        for (unsigned int i=0; i<numVerts; i++) {
+            multColor[i].write(S);
+            addColor[i].write(S);
+        }
+        S->writeInts(numVerts, (int*)diffuseRGBA);
+        S->writeInts(numVerts, (int*)specularRGBA);
+        
+    }
+    if (numIndices > 0) {
+        S->writeShorts(numIndices, (short*)indexData);
+    }
+    S->writeInt(instanceGroup);
+    if (instanceGroup != 0) {
+        throw "Incomplete";
+    }
+}
+
+void plGeometrySpan::setMaterial(hsGMaterial* mat) { material = mat; }
+
+#ifdef Tahg
 void plGeometrySpan::IClearMembers() {
     fVertexData = NULL;
     fIndexData = NULL;
@@ -140,3 +194,4 @@ void plGeometrySpan::ClearBuffers() {
     fDiffuseRGBA = NULL;
     fSpecularRGBA = NULL;
 }
+#endif

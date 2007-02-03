@@ -1,50 +1,52 @@
 #include "plSpan.h"
 
-plSpan::plSpan() : DrawableType(0), MatIndex(0), Flags(0), c98(0), i94(0),
-                  s9A(0), s9C(0), s9E(0), Dist1(0.0f), Dist2(0.0f), f1B0(0.0f) {
-    LocalToWorld.Identity();
-    WorldToLocal.Identity();
-}
-
+plSpan::plSpan() { }
 plSpan::~plSpan() { }
 
 void plSpan::read(hsStream *S) {
-    DrawableType = S->readInt();
-    MatIndex = S->readInt();
-    LocalToWorld.read(S);
-    WorldToLocal.read(S);
-    Flags = S->readInt();
-    bounds1.read(S);
-    bounds2.read(S);
-    c98 = S->readInt();
-    i94 = S->readInt();
-    s9A = S->readShort();
-    s9C = S->readShort();
-    s9E = S->readShort();
-    Dist1 = S->readFloat();
-    Dist2 = S->readFloat();
-    if (Flags & 0x10)
-        f1B0 = S->readFloat();
-    else
-        f1B0 = 0.0f;
+    subType = S->readInt();
+    fogEnvironment = NULL;
+    materialIdx = S->readInt();
+    localToWorld.read(S);
+    worldToLocal.read(S);
+    props = S->readInt();
+    localBounds.read(S);
+    worldBounds.read(S);
+    numMatrices = S->readInt();
+    baseMatrix = S->readInt();
+    localUVWChans = S->readShort();
+    maxBoneIdx = S->readShort();
+    penBoneIdx = S->readShort();
+    minDist = S->readFloat();
+    maxDist = S->readFloat();
+    if (props & kWaterHeight)
+        waterHeight = S->readFloat();
 }
 
 void plSpan::write(hsStream *S) {
-    S->writeInt(DrawableType);
-    S->writeInt(MatIndex);
-    LocalToWorld.write(S);
-    WorldToLocal.write(S);
-    S->writeInt(Flags);
-    bounds1.write(S);
-    bounds2.write(S);
-    S->writeInt(c98);
-    S->writeInt(i94);
-    S->writeShort(s9A);
-    S->writeShort(s9C);
-    S->writeShort(s9E);
-    S->writeFloat(Dist1);
-    S->writeFloat(Dist2);
-    if (Flags & 0x10)
-        S->writeFloat(f1B0);
+    S->writeInt(subType);
+    S->writeInt(materialIdx);
+    localToWorld.write(S);
+    worldToLocal.write(S);
+    S->writeInt(props);
+    localBounds.write(S);
+    worldBounds.write(S);
+    S->writeInt(numMatrices);
+    S->writeInt(baseMatrix);
+    S->writeShort(localUVWChans);
+    S->writeShort(maxBoneIdx);
+    S->writeShort(penBoneIdx);
+    S->writeFloat(minDist);
+    S->writeFloat(maxDist);
+    if (props & kWaterHeight)
+        S->writeFloat(waterHeight);
 }
 
+unsigned short plSpan::getTypeMask() { return typeMask; }
+unsigned int plSpan::getMaterialIdx() { return materialIdx; }
+unsigned char plSpan::getNumMatrices() { return numMatrices; }
+unsigned int plSpan::getProps() { return props; }
+
+void plSpan::setFogEnviron(plKey* fog) { fogEnvironment = (plFogEnvironment*)fog->objPtr; }
+void plSpan::setPermaLight(plKey* light) { permaLights.append((plLightInfo*&)light->objPtr); }
+void plSpan::setPermaProj(plKey* proj) { permaProjs.append((plLightInfo*&)proj->objPtr); }

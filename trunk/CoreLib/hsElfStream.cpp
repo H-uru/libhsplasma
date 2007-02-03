@@ -23,7 +23,13 @@ void hsElfStream::decipher(char* v, int size, char key) {
     }
 }
 
-const char* hsElfStream::readLine() {
+void hsElfStream::encipher(char* v, int size, char key) {
+    char a, b, c, d;
+
+    //
+}
+
+char* hsElfStream::readLine() {
     unsigned int p = pos();
     unsigned short segHead = readShort();
     unsigned short segSize = segHead ^ (p & 0xFFFF);
@@ -32,5 +38,10 @@ const char* hsElfStream::readLine() {
     char* ln = readStr(segSize);
     decipher(ln, segSize, key);
     return ln;
+}
+
+void hsElfStream::writeLine(const char* ln) {
+    unsigned int p = pos();
+    //
 }
 

@@ -6,13 +6,14 @@
 class hsElfStream : private hsStream {
 private:
     void decipher(char* v, int size, char key);
+    void encipher(char* v, int size, char key);
 
 public:
     hsElfStream();
-    ~hsElfStream();
+    virtual ~hsElfStream();
     
-    const char* readLine();
-    //void writeLine(const char* ln);
+    virtual char* readLine();
+    virtual void writeLine(const char* ln);
 };
 
 #endif

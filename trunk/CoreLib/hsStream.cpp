@@ -1,6 +1,8 @@
 #include <string.h>
 #include "hsStream.h"
 
+static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
+
 hsStream::hsStream(PlasmaVer pv) : F(NULL) {
     setVer(pv);
 }
@@ -181,6 +183,22 @@ char* hsStream::readSafeStr() {
     return buf;
 }
 
+char* hsStream::readLine() {
+    char* buf = new char[4096];
+    unsigned int i = 0;
+    char c = readByte();
+    while (c != '\n' && c != '\r') {
+        buf[i++] = c;
+        c = readByte();
+        if (i >= 4096)
+            throw "Line too long!";
+    }
+    buf[i] = 0;
+    if (c == '\r')
+        readByte(); // Eat the \n in Windows-style EOLs
+    return buf;
+}
+
 void hsStream::writeByte(const char v) {
     write(sizeof(v), &v);
 }
@@ -258,5 +276,12 @@ void hsStream::writeSafeStr(const char* buf) {
             wbuf[i] = ~buf[i];
         writeStr(wbuf, ssInfo & 0x0FFF);
     }
+}
+
+void hsStream::writeLine(const char* ln, bool winEOL) {
+    writeStr(ln, strlen(ln));
+    if (winEOL)
+        writeByte('\r');
+    writeByte('\n');
 }
 

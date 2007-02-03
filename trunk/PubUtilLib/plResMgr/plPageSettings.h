@@ -10,7 +10,8 @@ struct plPageSettings {
     char* ageName;
     char* pageName;
     PlasmaVer ver;
-    int nObjects;
+    unsigned int nObjects;
+    unsigned int loadFlags;
 };
 
 #endif

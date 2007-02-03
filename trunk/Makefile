@@ -5,9 +5,10 @@ LIBDIR=out/
 OBJFILES=\
 	$(LIBDIR)hsRefCnt.o \
 	$(LIBDIR)hsStream.o \
+	$(LIBDIR)plEncryptedStream.o \
+	$(LIBDIR)hsElfStream.o \
 	$(LIBDIR)plResManager.o \
 	$(LIBDIR)plKeyCollector.o \
-	$(LIBDIR)hsElfStream.o \
 	$(LIBDIR)hsBitVector.o \
 	$(LIBDIR)hsMatrix44.o \
 	$(LIBDIR)hsGeometry3.o \
@@ -28,13 +29,21 @@ OBJFILES=\
 	$(LIBDIR)plSimulationInterface.o \
 	$(LIBDIR)plSceneObject.o \
 	$(LIBDIR)plClothingItem.o \
+	$(LIBDIR)plDrawableSpans.o \
 	$(LIBDIR)plSpan.o \
+	$(LIBDIR)plVertexSpan.o \
+	$(LIBDIR)plIcicle.o \
+	$(LIBDIR)plGeometrySpan.o \
+	$(LIBDIR)plSpaceTree.o \
 	$(LIBDIR)plBitmap.o \
 	$(LIBDIR)plFont.o \
 	$(LIBDIR)plMipmap.o \
+	$(LIBDIR)plLightInfo.o \
 	$(LIBDIR)plJPEG.o \
 	$(LIBDIR)plCubicEnvironmap.o \
 	$(LIBDIR)plFogEnvironment.o \
+	$(LIBDIR)hsGDeviceRef.o \
+	$(LIBDIR)plGBufferGroup.o \
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plPythonFileMod.o
@@ -50,6 +59,9 @@ $(LIBDIR)hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
 
 $(LIBDIR)hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsStream.cpp -o $(LIBDIR)hsStream.o
+
+$(LIBDIR)plEncryptedStream.o: CoreLib/plEncryptedStream.h CoreLib/plEncryptedStream.cpp
+	$(CC) $(CFLAGS) -c CoreLib/plEncryptedStream.cpp -o $(LIBDIR)plEncryptedStream.o
 
 $(LIBDIR)hsElfStream.o: CoreLib/hsElfStream.h CoreLib/hsElfStream.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsElfStream.cpp -o $(LIBDIR)hsElfStream.o
@@ -114,8 +126,23 @@ $(LIBDIR)plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface
 $(LIBDIR)plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.h PubUtilLib/plAvatar/plClothingItem.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plAvatar/plClothingItem.cpp -o $(LIBDIR)plClothingItem.o
 
+$(LIBDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(LIBDIR)plDrawableSpans.o
+
 $(LIBDIR)plSpan.o: PubUtilLib/plDrawable/plSpan.h PubUtilLib/plDrawable/plSpan.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSpan.cpp -o $(LIBDIR)plSpan.o
+
+$(LIBDIR)plVertexSpan.o: PubUtilLib/plDrawable/plVertexSpan.h PubUtilLib/plDrawable/plVertexSpan.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plVertexSpan.cpp -o $(LIBDIR)plVertexSpan.o
+
+$(LIBDIR)plIcicle.o: PubUtilLib/plDrawable/plIcicle.h PubUtilLib/plDrawable/plIcicle.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plIcicle.cpp -o $(LIBDIR)plIcicle.o
+
+$(LIBDIR)plGeometrySpan.o: PubUtilLib/plDrawable/plGeometrySpan.h PubUtilLib/plDrawable/plGeometrySpan.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plGeometrySpan.cpp -o $(LIBDIR)plGeometrySpan.o
+
+$(LIBDIR)plSpaceTree.o: PubUtilLib/plDrawable/plSpaceTree.h PubUtilLib/plDrawable/plSpaceTree.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSpaceTree.cpp -o $(LIBDIR)plSpaceTree.o
 
 $(LIBDIR)plBitmap.o: PubUtilLib/plGImage/plBitmap.h PubUtilLib/plGImage/plBitmap.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plBitmap.cpp -o $(LIBDIR)plBitmap.o
@@ -129,11 +156,20 @@ $(LIBDIR)plFont.o: PubUtilLib/plGImage/plFont.h PubUtilLib/plGImage/plFont.cpp
 $(LIBDIR)plMipmap.o: PubUtilLib/plGImage/plMipmap.h PubUtilLib/plGImage/plMipmap.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plMipmap.cpp -o $(LIBDIR)plMipmap.o
 
+$(LIBDIR)plLightInfo.o: PubUtilLib/plGLight/plLightInfo.h PubUtilLib/plGLight/plLightInfo.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGLight/plLightInfo.cpp -o $(LIBDIR)plLightInfo.o
+
 $(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(LIBDIR)plJPEG.o
 
 $(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o
+
+$(LIBDIR)hsGDeviceRef.o: PubUtilLib/plPipeline/hsGDeviceRef.h PubUtilLib/plPipeline/hsGDeviceRef.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/hsGDeviceRef.cpp -o $(LIBDIR)hsGDeviceRef.o
+
+$(LIBDIR)plGBufferGroup.o: PubUtilLib/plPipeline/plGBufferGroup.h PubUtilLib/plPipeline/plGBufferGroup.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plGBufferGroup.cpp -o $(LIBDIR)plGBufferGroup.o
 
 $(LIBDIR)plKeyCollector.o: PubUtilLib/plResMgr/plKeyCollector.h PubUtilLib/plResMgr/plKeyCollector.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plKeyCollector.cpp -o $(LIBDIR)plKeyCollector.o

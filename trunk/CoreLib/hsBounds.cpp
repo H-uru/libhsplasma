@@ -12,6 +12,8 @@ void hsBounds::write(hsStream *S) {
     S->writeInt(fType);
 }
 
+void hsBounds::setType(int type) { fType = type; }
+
 
 /* hsBounds3 */
 hsBounds3::hsBounds3() { }
