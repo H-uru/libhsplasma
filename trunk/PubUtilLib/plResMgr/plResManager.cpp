@@ -14,8 +14,11 @@ plResManager::plResManager(PlasmaVer pv) {
 
 plResManager::~plResManager() {
     inst = NULL;
-    for (unsigned int i=0; i<pages.size(); i++)
+    for (unsigned int i=0; i<pages.size(); i++) {
+        delete[] pages[i]->ageName;
+        delete[] pages[i]->pageName;
         delete pages[i];
+    }
 }
 
 void plResManager::setVer(PlasmaVer pv, bool mutate) {
@@ -142,7 +145,7 @@ plPageSettings* plResManager::ReadPage(const char* filename) {
         unsigned int tempPid = S->readInt();
         page->pageType = S->readShort();
         page->ageName = S->readSafeStr();
-        S->readSafeStr(); // District
+        delete[] S->readSafeStr(); // District
         page->pageName = S->readSafeStr();
         short maj, min;
         maj = S->readShort();
@@ -327,3 +330,10 @@ unsigned int plResManager::WriteObjects(hsStream* S, PageID& pid) {
 
     return nWritten;
 }
+
+plSceneNode* plResManager::getSceneNode(PageID &pid) {
+    std::vector<plKey*> kList = keys.getKeys(pid, 0x0000);
+    if (kList.size() < 1) return NULL;
+    return (plSceneNode*)kList[0]->objPtr;
+}
+

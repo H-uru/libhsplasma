@@ -10,6 +10,8 @@ public:
     plReceiver(PlasmaVer pv = pvUnknown);
     virtual ~plReceiver();
 
+    virtual short ClassIndex();
+
     virtual bool msgReceive(class plMessage * msg);
 };
 

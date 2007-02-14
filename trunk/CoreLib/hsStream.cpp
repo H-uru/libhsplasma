@@ -12,25 +12,26 @@ hsStream::~hsStream() {
 }
 
 void hsStream::open(const char* file, FileMode mode) {
-    char* fm;
+    char* fms;
     switch (mode) {
       case fmRead:
-        fm = "rb";
+        fms = "rb";
         break;
       case fmWrite:
-        fm = "wb";
+        fms = "wb";
         break;
       case fmCreate:
-        fm = "w+b";
+        fms = "w+b";
         break;
       case fmReadWrite:
-        fm = "r+b";
+        fms = "r+b";
         break;
       default:
-        fm = "";
+        fms = "";
         break;
     }
-    F = fopen(file, fm);
+    F = fopen(file, fms);
+    fm = mode;
 }
 
 void hsStream::close() {

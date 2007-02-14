@@ -22,6 +22,7 @@ void plFactory::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 #include "../pnSceneObject/plSimulationInterface.h"
 #include "../pnModifier/plModifier.h"
 #include "../pnNetCommon/plSynchedObject.h"
+#include "../../PubUtilLib/plSurface/plLayerInterface.h"
 #include "../../PubUtilLib/plDrawable/plDrawableSpans.h"
 #include "../../PubUtilLib/plPipeline/plFogEnvironment.h"
 #include "../../PubUtilLib/plGLight/plLightInfo.h"
@@ -105,7 +106,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //    case pvLive:  return new plPXPhysical(ver);
             //    } return NULL;
             //case 0x0040: return new plViewFaceModifier(ver);
-            //case 0x0041: return new plLayerInterface(ver);
+            case 0x0041: return new plLayerInterface(ver);
             //case 0x0042: return new plLayerWrapper(ver);
             //case 0x0043: return new plLayerAnimation(ver);
             //case 0x0044: return new plLayerDepth(ver);
@@ -507,7 +508,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         //case 0x003C: return new plSpawnModifier(ver);
         //case 0x003D: return new plFacingConditionalObject(ver);
         //case 0x003E: return new plViewFaceModifier(ver);
-        //case 0x003F: return new plLayerInterface(ver);
+        case 0x003F: return new plLayerInterface(ver);
         //case 0x0040: return new plLayerAnimation(ver);
         //case 0x0041: return new plLayerDepth(ver);
         //case 0x0042: return new plLayerMovie(ver);

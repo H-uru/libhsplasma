@@ -6,6 +6,7 @@
 #include "../../DynLib/PageID.h"
 #include "../../NucleusLib/pnKeyedObject/plKey.h"
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "../../PubUtilLib/plScene/plSceneNode.h"
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsTArray.hpp"
 #include "plKeyCollector.h"
@@ -73,6 +74,8 @@ public:
 
     plPageSettings* ReadPage(const char* filename);
     void WritePage(const char* filename, plPageSettings* page);
+
+    plSceneNode* getSceneNode(PageID& pid);
 };
 
 #endif

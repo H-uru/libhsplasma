@@ -13,7 +13,7 @@ public:
     plCreatable(PlasmaVer pv = pvUnknown);
     virtual ~plCreatable();
 
-    virtual short ClassIndex() = 0;
+    virtual short ClassIndex();
     
     PlasmaVer getVer();
     virtual void setVer(PlasmaVer pv, bool mutate = false);

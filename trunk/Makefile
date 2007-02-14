@@ -46,6 +46,7 @@ OBJFILES=\
 	$(LIBDIR)plGBufferGroup.o \
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)hsGMaterial.o \
+	$(LIBDIR)plLayerInterface.o \
 	$(LIBDIR)plPythonFileMod.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
@@ -182,6 +183,9 @@ $(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSc
 
 $(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/hsGMaterial.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o $(LIBDIR)hsGMaterial.o
+
+$(LIBDIR)plLayerInterface.o: PubUtilLib/plSurface/plLayerInterface.h PubUtilLib/plSurface/plLayerInterface.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/plLayerInterface.cpp -o $(LIBDIR)plLayerInterface.o
 
 $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
 	$(CC) $(CFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o

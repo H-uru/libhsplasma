@@ -20,6 +20,8 @@ class plSceneNode : public hsKeyedObject {
 protected:
     bool filterGenerics;
     short depth;
+
+public:
     hsTArray<plKey*> SceneObjects;
     hsTArray<plKey*> OtherObjects;
     //class hsTArray<plDrawable *> drawPool;

@@ -53,7 +53,6 @@ protected:
 
 public:
     plSpaceTree(PlasmaVer pv = pvUnknown);
-    plSpaceTree();
     virtual ~plSpaceTree();
     
     virtual short ClassIndex();

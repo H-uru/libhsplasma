@@ -1,4 +1,5 @@
 #include "plEncryptedStream.h"
+#include <string.h>
 
 static const int uruKey[4] = { 0x6c0a5452, 0x03827d0f, 0x3a170b92, 0x16db7fc2 };
 static const unsigned char eoaKey[16] = { 240, 77, 37, 51, 172, 93, 39, 90,
@@ -6,9 +7,10 @@ static const unsigned char eoaKey[16] = { 240, 77, 37, 51, 172, 93, 39, 90,
 
 static const char* uruMagic = "whatdoyousee";
 static const char* uruMagic2 = "BriceIsSmart";
+static const char* liveMagic = "notthedroids";
 static const int eoaMagic = 0x0D874288;
 
-plEncryptedStream::plEncryptedStream(PlasmaVer pv) : bufPage(0) { }
+plEncryptedStream::plEncryptedStream(PlasmaVer pv) { }
 plEncryptedStream::~plEncryptedStream() { }
 
 void plEncryptedStream::TeaDecipher(unsigned int *v1, unsigned int *v2) {
@@ -81,20 +83,191 @@ void plEncryptedStream::TeaEncipher(unsigned int *v1, unsigned int *v2) {
 }
 
 void plEncryptedStream::AesDecipher(char* buffer, int count) {
-
+    throw "Incomplete";
 }
 
 void plEncryptedStream::AesEncipher(char* buffer, int count) {
-
+    throw "Incomplete";
 }
 
-void plEncryptedStream::IAdvanceBuffer() {
-    if (ver == pvUnknown)
-        throw "Plasma version is unknown!";
-    //else if (ver == pvEoa)
-    //    ...
+void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num) {
+    unsigned int key = (52 / num + 6) * 0x9E3779B9;
+    while (key != 0) {
+        unsigned int xorkey = (key >> 2) & 3;
+        unsigned int numloop = num - 1;
+        while (numloop != 0) {
+            buf[numloop] -=
+              (((buf[numloop - 1] << 4) ^ (buf[numloop - 1] >> 3)) +
+              ((buf[numloop - 1] >> 5) ^ (buf[numloop - 1] << 2))) ^
+              ((droidKey[(numloop & 3) ^ xorkey] ^ buf[numloop - 1]) +
+              (key ^ buf[numloop - 1]));
+            numloop--;
+        }
+        buf[0] -=
+          (((buf[num - 1] << 4) ^ (buf[num - 1] >> 3)) +
+          ((buf[num - 1] >> 5) ^ (buf[num - 1] << 2))) ^
+          ((droidKey[(0 & 3) ^ xorkey] ^ buf[num - 1]) +
+          (key ^ buf[num - 1]));
+        key -= 0x9E3779B9;
+    }
 }
 
-void plEncryptedStream::IRegressBuffer() {
-
+void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
+    throw "Unimplemented";
 }
+
+const char* EncrErr = "Error: File is not encrypted";
+void plEncryptedStream::open(const char* file, FileMode mode) {
+    hsStream::open(file, mode);
+
+    if (mode == fmRead || mode == fmReadWrite) {
+        fseek(F, 0, SEEK_END);
+        unsigned int sz = ftell(F);
+        fseek(F, 0, SEEK_SET);
+        if (sz < 8) throw EncrErr;
+        int magicN = 0;
+        fread(&magicN, sizeof(magicN), 1, F);
+        if (magicN == eoaMagic) {
+            ver = pvEoa;
+            fread(&dataSize, sizeof(dataSize), 1, F);
+        } else {
+            char magicS[12];
+            fread(magicS, 12, 1, F);
+            if (strncmp(magicS, uruMagic, 12) == 0 ||
+                strncmp(magicS, uruMagic2, 12) == 0) {
+                ver = pvPrime;
+                fread(&dataSize, sizeof(dataSize), 1, F);
+            } else if (strncmp(magicS, liveMagic, 12) == 0) {
+                ver = pvLive;
+                fread(&dataSize, sizeof(dataSize), 1, F);
+            } else {
+                throw EncrErr;
+            }
+        }
+    } else {
+        if (ver == pvUnknown)
+            throw "Invalid Plasma Version";
+        unsigned int blah = 0;
+        if (ver == pvEoa) {
+            fwrite(&blah, sizeof(blah), 1, F);
+            fwrite(&blah, sizeof(blah), 1, F);
+        } else {
+            fwrite(&blah, sizeof(blah), 1, F);
+            fwrite(&blah, sizeof(blah), 1, F);
+            fwrite(&blah, sizeof(blah), 1, F);
+            fwrite(&blah, sizeof(blah), 1, F);
+        }
+        dataSize = 0;
+    }
+
+    dataPos = 0;
+}
+
+void plEncryptedStream::close() {
+    if (fm == fmWrite || fm == fmCreate) {
+        // Flush the last buffer
+        fwrite(LBuffer, (ver == pvEoa ? 16 : 8), 1, F);
+
+        // Write header info
+        fseek(F, 0, SEEK_SET);
+        if (ver == pvEoa)
+            fwrite(&eoaMagic, sizeof(eoaMagic), 1, F);
+        else if (ver == pvLive)
+            fwrite(&liveMagic, 12, 1, F);
+        else
+            fwrite(&uruMagic, 12, 1, F);
+        fwrite(&dataSize, sizeof(dataSize), 1, F);
+    }
+
+    hsStream::close();
+}
+
+void plEncryptedStream::setDroidKey(unsigned int* keys) {
+    droidKey[0] = keys[0];
+    droidKey[1] = keys[1];
+    droidKey[2] = keys[2];
+    droidKey[3] = keys[3];
+}
+
+unsigned int plEncryptedStream::size() { return dataSize; }
+unsigned int plEncryptedStream::pos() { return dataPos; }
+bool plEncryptedStream::eof() { return dataPos >= dataSize; }
+
+void plEncryptedStream::seek(unsigned int pos) {
+    fseek(F, (ver == pvEoa ? 8 : 16), SEEK_SET);
+    dataPos = 0;
+    skip(pos);
+}
+
+void plEncryptedStream::skip(unsigned int count) {
+    char* ignore = new char[count];
+    read(count, ignore);
+    delete[] ignore;
+}
+
+void plEncryptedStream::read(unsigned int size, void* buf) {
+    if (dataPos + size > dataSize)
+        throw "Read beyond end of stream!";
+    
+    unsigned int szInc = (ver == pvEoa ? 16 : 8);
+    unsigned int pp = dataPos, bp = 0, lp = dataPos % szInc;
+    while (bp < size) {
+        if (lp == 0) {
+            // Advance the buffer
+            if (ver == pvEoa) {
+                fread(LBuffer, 16, 1, F);
+                AesDecipher(LBuffer, 16);
+            } else if (ver == pvLive) {
+                fread(LBuffer, 8, 1, F);
+                DroidDecipher((unsigned int*)&LBuffer[0], 2);
+            } else {
+                fread(LBuffer, 8, 1, F);
+                TeaDecipher((unsigned int*)&LBuffer[0], (unsigned int*)&LBuffer[4]);
+            }
+        }
+        if (lp + (size - bp) >= szInc) {
+            memcpy(((char*)buf)+bp, LBuffer+lp, szInc - lp);
+            bp += szInc - lp;
+            pp += szInc - lp;
+            lp = 0;
+        } else {
+            memcpy(((char*)buf)+bp, LBuffer+lp, size - bp);
+            bp = size; // end loop
+        }
+    }
+
+    dataPos += size;
+}
+
+void plEncryptedStream::write(unsigned int size, const void* buf) {
+    unsigned int szInc = (ver == pvEoa ? 16 : 8);
+    unsigned int pp = dataPos, bp = 0, lp = dataPos % szInc;
+    while (bp < size) {
+        if (lp == 0) {
+            // Flush the buffer
+            if (ver == pvEoa) {
+                AesEncipher(LBuffer, 16);
+                fwrite(LBuffer, 16, 1, F);
+            } else if (ver == pvLive) {
+                DroidEncipher((unsigned int*)&LBuffer[0], 2);
+                fwrite(LBuffer, 8, 1, F);
+            } else {
+                TeaEncipher((unsigned int*)&LBuffer[0], (unsigned int*)&LBuffer[4]);
+                fwrite(LBuffer, 8, 1, F);
+            }
+            memset(LBuffer, 0, 16);
+        }
+        if (lp + (size - bp) >= szInc) {
+            memcpy(LBuffer+lp, ((char*)buf)+bp, szInc - lp);
+            bp += szInc - lp;
+            pp += szInc - lp;
+            lp = 0;
+        } else {
+            memcpy(LBuffer+lp, ((char*)buf)+bp, size - bp);
+            bp = size; // end loop
+        }
+    }
+
+    dataPos += size;
+}
+

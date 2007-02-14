@@ -8,7 +8,8 @@ public:
     static plJPEG* inst;
 
 public:
-    plJPEG::plJPEG(PlasmaVer pv = pvUnknown);
+    plJPEG(PlasmaVer pv = pvUnknown);
+    ~plJPEG();
 
     plMipmap* IRead(hsStream* S);
     void IWrite(plMipmap* source, hsStream* S);

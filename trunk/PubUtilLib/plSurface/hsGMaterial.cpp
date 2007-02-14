@@ -1,46 +1,49 @@
 #include "hsGMaterial.h"
 #include "../plResMgr/plResManager.h"
 
-hsGMaterial::hsGMaterial(PlasmaVer pv) : Unknown(0), LayerFlags(0) { }
+hsGMaterial::hsGMaterial(PlasmaVer pv) { }
 hsGMaterial::~hsGMaterial() { }
 
 short hsGMaterial::ClassIndex() { return 0x0007; }
 
 void hsGMaterial::read(hsStream *S) {
     plSynchedObject::read(S);
-
-    Unknown = S->readInt();
-    LayerFlags = S->readInt();
-    int l1Count = S->readInt();
-    int l2Count = S->readInt();
+    readData(S);
 
     int i;
-    Layers1.clear();
-    Layers1.setSize(l1Count);
-    for (i=0; i<l1Count; i++) {
-        Layers1[i] = plResManager::inst->readKey(S);
-        Layers1[i]->Ref();
+    for (i=0; i<Layers.getSize(); i++) {
+        Layers[i] = plResManager::inst->readKey(S);
+        Layers[i]->Ref();
     }
-    Layers2.clear();
-    Layers2.setSize(l2Count);
-    for (i=0; i<l2Count; i++) {
-        Layers2[i] = plResManager::inst->readKey(S);
-        Layers2[i]->Ref();
+    for (i=0; i<PiggyBacks.getSize(); i++) {
+        PiggyBacks[i] = plResManager::inst->readKey(S);
+        PiggyBacks[i]->Ref();
     }
 }
 
 void hsGMaterial::write(hsStream *S) {
     plSynchedObject::write(S);
-
-    S->writeInt(Unknown);
-    S->writeInt(LayerFlags);
-    S->writeInt(Layers1.getSize());
-    S->writeInt(Layers2.getSize());
+    writeData(S);
 
     int i;
-    for (i=0; i<Layers1.getSize(); i++)
-        plResManager::inst->writeKey(S, Layers1[i]);
-    for (i=0; i<Layers2.getSize(); i++)
-        plResManager::inst->writeKey(S, Layers2[i]);
+    for (i=0; i<Layers.getSize(); i++)
+        plResManager::inst->writeKey(S, Layers[i]);
+    for (i=0; i<PiggyBacks.getSize(); i++)
+        plResManager::inst->writeKey(S, PiggyBacks[i]);
 }
 
+void hsGMaterial::readData(hsStream *S) {
+    loadFlags = S->readInt();
+    compFlags = S->readInt();
+    Layers.clear();
+    PiggyBacks.clear();
+    Layers.setSize(S->readInt());
+    PiggyBacks.setSize(S->readInt());
+}
+
+void hsGMaterial::writeData(hsStream *S) {
+    S->writeInt(loadFlags);
+    S->writeInt(compFlags);
+    S->writeInt(Layers.getSize());
+    S->writeInt(PiggyBacks.getSize());
+}

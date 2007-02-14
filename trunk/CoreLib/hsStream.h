@@ -10,6 +10,7 @@ class hsStream {
 protected:
     PlasmaVer ver;
     FILE * F;
+    FileMode fm;
 
 public:
     hsStream(PlasmaVer pv = pvUnknown);

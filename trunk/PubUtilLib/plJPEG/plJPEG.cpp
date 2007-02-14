@@ -14,6 +14,10 @@ plJPEG::plJPEG(PlasmaVer pv) {
     inst = this;
 }
 
+plJPEG::~plJPEG() {
+    inst = NULL;
+}
+
 plMipmap* plJPEG::IRead(hsStream* S) {
     struct jpeg_decompress_struct cinfo;
     JSAMPARRAY buffer;
