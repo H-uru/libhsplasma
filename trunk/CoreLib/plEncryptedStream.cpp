@@ -1,5 +1,6 @@
 #include "plEncryptedStream.h"
 #include <string.h>
+#include "../rijndael.h"
 
 static const int uruKey[4] = { 0x6c0a5452, 0x03827d0f, 0x3a170b92, 0x16db7fc2 };
 static const unsigned char eoaKey[16] = { 240, 77, 37, 51, 172, 93, 39, 90,
@@ -83,11 +84,21 @@ void plEncryptedStream::TeaEncipher(unsigned int *v1, unsigned int *v2) {
 }
 
 void plEncryptedStream::AesDecipher(char* buffer, int count) {
-    throw "Incomplete";
+    Rijndael aes;
+    aes.init(Rijndael::ECB, Rijndael::Decrypt, eoaKey, Rijndael::Key16Bytes);
+    char* tmpBuf = new char[count];
+    memcpy(tmpBuf, buffer, count);
+    aes.blockDecrypt((UINT8*)tmpBuf, count*8, (UINT8*)buffer);
+    delete[] tmpBuf;
 }
 
 void plEncryptedStream::AesEncipher(char* buffer, int count) {
-    throw "Incomplete";
+    Rijndael aes;
+    aes.init(Rijndael::ECB, Rijndael::Encrypt, eoaKey, Rijndael::Key16Bytes);
+    char* tmpBuf = new char[count];
+    memcpy(tmpBuf, buffer, count);
+    aes.blockEncrypt((UINT8*)tmpBuf, count*8, (UINT8*)buffer);
+    delete[] tmpBuf;
 }
 
 void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num) {
@@ -116,7 +127,7 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
     throw "Unimplemented";
 }
 
-const char* EncrErr = "Error: File is not encrypted";
+const char* EncrErr = "File is not encrypted";
 void plEncryptedStream::open(const char* file, FileMode mode) {
     hsStream::open(file, mode);
 
@@ -131,6 +142,7 @@ void plEncryptedStream::open(const char* file, FileMode mode) {
             ver = pvEoa;
             fread(&dataSize, sizeof(dataSize), 1, F);
         } else {
+            fseek(F, 0, SEEK_SET);
             char magicS[12];
             fread(magicS, 12, 1, F);
             if (strncmp(magicS, uruMagic, 12) == 0 ||
@@ -147,16 +159,12 @@ void plEncryptedStream::open(const char* file, FileMode mode) {
     } else {
         if (ver == pvUnknown)
             throw "Invalid Plasma Version";
-        unsigned int blah = 0;
-        if (ver == pvEoa) {
-            fwrite(&blah, sizeof(blah), 1, F);
-            fwrite(&blah, sizeof(blah), 1, F);
-        } else {
-            fwrite(&blah, sizeof(blah), 1, F);
-            fwrite(&blah, sizeof(blah), 1, F);
-            fwrite(&blah, sizeof(blah), 1, F);
-            fwrite(&blah, sizeof(blah), 1, F);
-        }
+        // Skip header info for now
+        memset(LBuffer, 0, 16);
+        if (ver == pvEoa)
+            fwrite(LBuffer, 8, 1, F);
+        else
+            fwrite(LBuffer, 16, 1, F);
         dataSize = 0;
     }
 
@@ -165,24 +173,21 @@ void plEncryptedStream::open(const char* file, FileMode mode) {
 
 void plEncryptedStream::close() {
     if (fm == fmWrite || fm == fmCreate) {
-        // Flush the last buffer
-        fwrite(LBuffer, (ver == pvEoa ? 16 : 8), 1, F);
-
         // Write header info
         fseek(F, 0, SEEK_SET);
         if (ver == pvEoa)
             fwrite(&eoaMagic, sizeof(eoaMagic), 1, F);
         else if (ver == pvLive)
-            fwrite(&liveMagic, 12, 1, F);
+            fwrite(liveMagic, 12, 1, F);
         else
-            fwrite(&uruMagic, 12, 1, F);
+            fwrite(uruMagic, 12, 1, F);
         fwrite(&dataSize, sizeof(dataSize), 1, F);
     }
 
     hsStream::close();
 }
 
-void plEncryptedStream::setDroidKey(unsigned int* keys) {
+void plEncryptedStream::setKey(unsigned int* keys) {
     droidKey[0] = keys[0];
     droidKey[1] = keys[1];
     droidKey[2] = keys[2];
@@ -194,8 +199,7 @@ unsigned int plEncryptedStream::pos() { return dataPos; }
 bool plEncryptedStream::eof() { return dataPos >= dataSize; }
 
 void plEncryptedStream::seek(unsigned int pos) {
-    fseek(F, (ver == pvEoa ? 8 : 16), SEEK_SET);
-    dataPos = 0;
+    rewind();
     skip(pos);
 }
 
@@ -203,6 +207,11 @@ void plEncryptedStream::skip(unsigned int count) {
     char* ignore = new char[count];
     read(count, ignore);
     delete[] ignore;
+}
+
+void plEncryptedStream::rewind() {
+    fseek(F, (ver == pvEoa ? 8 : 16), SEEK_SET);
+    dataPos = 0;
 }
 
 void plEncryptedStream::read(unsigned int size, void* buf) {
@@ -243,6 +252,15 @@ void plEncryptedStream::write(unsigned int size, const void* buf) {
     unsigned int szInc = (ver == pvEoa ? 16 : 8);
     unsigned int pp = dataPos, bp = 0, lp = dataPos % szInc;
     while (bp < size) {
+        if (lp + (size - bp) >= szInc) {
+            memcpy(LBuffer+lp, ((char*)buf)+bp, szInc - lp);
+            bp += szInc - lp;
+            pp += szInc - lp;
+            lp = 0;
+        } else {
+            memcpy(LBuffer+lp, ((char*)buf)+bp, size - bp);
+            bp = size; // end loop
+        }
         if (lp == 0) {
             // Flush the buffer
             if (ver == pvEoa) {
@@ -257,17 +275,9 @@ void plEncryptedStream::write(unsigned int size, const void* buf) {
             }
             memset(LBuffer, 0, 16);
         }
-        if (lp + (size - bp) >= szInc) {
-            memcpy(LBuffer+lp, ((char*)buf)+bp, szInc - lp);
-            bp += szInc - lp;
-            pp += szInc - lp;
-            lp = 0;
-        } else {
-            memcpy(LBuffer+lp, ((char*)buf)+bp, size - bp);
-            bp = size; // end loop
-        }
     }
 
     dataPos += size;
+    if (dataPos > dataSize) dataSize = dataPos;
 }
 

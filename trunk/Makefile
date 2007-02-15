@@ -1,5 +1,6 @@
 CC = g++
 CFLAGS += -O2 -fPIC -Wall -g
+CFLAGSEXTERN = -O2 -fPIC -g
 
 LIBDIR=out/
 OBJFILES=\
@@ -47,7 +48,8 @@ OBJFILES=\
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
-	$(LIBDIR)plPythonFileMod.o
+	$(LIBDIR)plPythonFileMod.o \
+	$(LIBDIR)rijndael.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
 all: $(PLSLIB)
@@ -189,6 +191,9 @@ $(LIBDIR)plLayerInterface.o: PubUtilLib/plSurface/plLayerInterface.h PubUtilLib/
 
 $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
 	$(CC) $(CFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o
+
+$(LIBDIR)rijndael.o: rijndael.h rijndael.cpp
+	$(CC) $(CFLAGSEXTERN) -c rijndael.cpp -o $(LIBDIR)rijndael.o
 
 install:
 	cp $(PLSLIB) /usr/local/lib

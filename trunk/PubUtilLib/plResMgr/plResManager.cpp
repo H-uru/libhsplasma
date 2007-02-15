@@ -231,6 +231,79 @@ void plResManager::WritePage(const char* filename, plPageSettings* page) {
     delete S;
 }
 
+plAgeSettings* plResManager::ReadAge(const char* filename) {
+    plEncryptedStream* S = new plEncryptedStream();
+    S->open(filename, fmRead);
+
+    char* ln;
+    plAgeSettings* age = new plAgeSettings;
+    while (!S->eof()) {
+        ln = S->readLine();
+        if (strncmp(ln, "StartDateTime=", 14) == 0) {
+            age->startDateTime = atoi(&ln[14]);
+        } else if (strncmp(ln, "DayLength=", 10) == 0) {
+            age->dayLength = atoi(&ln[10]);
+        } else if (strncmp(ln, "MaxCapacity=", 12) == 0) {
+            age->maxCapacity = atoi(&ln[12]);
+        } else if (strncmp(ln, "LingerTime=", 11) == 0) {
+            age->lingerTime = atoi(&ln[11]);
+        } else if (strncmp(ln, "SequencePrefix=", 15) == 0) {
+            age->sequencePrefix = atoi(&ln[15]);
+        } else if (strncmp(ln, "ReleaseVersion=", 15) == 0) {
+            age->releaseVersion = atoi(&ln[15]);
+        } else if (strncmp(ln, "Page=", 5) == 0) {
+            char* pageName = &ln[5];
+            char* pageIdx = strchr(pageName, ',');
+            char* pageFlag = strchr(pageIdx, ',');
+            char* pageFileName = new char[256];
+            strcpy(pageFileName, filename);
+            char* afName = strrchr(pageFileName, '.');
+            sprintf(afName, "_District_%*s.prp", pageIdx - pageName, pageName);
+            plPageSettings* page = ReadPage(pageFileName);
+            page->loadFlags = (pageFlag ? atoi(&pageFlag[1]) : 0);
+            age->pages.push_back(page);
+            delete[] pageFileName;
+        }
+    }
+
+    S->close();
+    delete S;
+    return age;
+}
+
+void plResManager::WriteAge(const char* filename, plAgeSettings* age) {
+    plEncryptedStream* S = new plEncryptedStream();
+    if (ver == pvEoa) S->setVer(pvEoa);
+    else S->setVer(pvPrime);
+    S->open(filename, fmCreate);
+
+    char* lnBuf = new char[4096];
+    sprintf(lnBuf, "StartDateTime=%d", age->startDateTime);
+    S->writeLine(lnBuf);
+    sprintf(lnBuf, "DayLength=%d", age->dayLength);
+    S->writeLine(lnBuf);
+    sprintf(lnBuf, "MaxCapacity=%d", age->maxCapacity);
+    S->writeLine(lnBuf);
+    sprintf(lnBuf, "LingerTime=%d", age->lingerTime);
+    S->writeLine(lnBuf);
+    sprintf(lnBuf, "SequencePrefix=%d", age->sequencePrefix);
+    S->writeLine(lnBuf);
+    sprintf(lnBuf, "ReleaseVersion=%d", age->releaseVersion);
+    S->writeLine(lnBuf);
+    for (unsigned int i=0; i<age->pages.size(); i++) {
+        if (age->pages[i]->loadFlags == 0)
+            sprintf(lnBuf, "Page=%s,%d", age->pages[i]->pageName,
+                                 age->pages[i]->pageID.getPageNum());
+        else
+            sprintf(lnBuf, "Page=%s,%d,%d", age->pages[i]->pageName,
+                                 age->pages[i]->pageID.getPageNum(), 1);
+        S->writeLine(lnBuf);
+    }
+
+    S->close();
+    delete S;
+}
+
 void plResManager::ReadKeyring(hsStream* S, PageID& pid) {
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {

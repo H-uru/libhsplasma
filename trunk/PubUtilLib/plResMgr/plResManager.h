@@ -7,7 +7,7 @@
 #include "../../NucleusLib/pnKeyedObject/plKey.h"
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "../../PubUtilLib/plScene/plSceneNode.h"
-#include "../../CoreLib/hsStream.h"
+#include "../../CoreLib/plEncryptedStream.h"
 #include "../../CoreLib/hsTArray.hpp"
 #include "plKeyCollector.h"
 #include "plPageSettings.h"
@@ -18,13 +18,14 @@
   #include <xmemory>
 #endif
 
-class plResManager /* : hsResMgr */ {
+class plResManager /* : public hsResMgr */ {
 protected:
     PlasmaVer ver;
 
 public:
     plKeyCollector keys;
     std::vector<plPageSettings*> pages;
+    std::vector<plAgeSettings*> ages;
 
 private:
     plKey* readKeyBase(hsStream* S);
@@ -74,6 +75,9 @@ public:
 
     plPageSettings* ReadPage(const char* filename);
     void WritePage(const char* filename, plPageSettings* page);
+
+    plAgeSettings* ReadAge(const char* filename);
+    void WriteAge(const char* filename, plAgeSettings* age);
 
     plSceneNode* getSceneNode(PageID& pid);
 };

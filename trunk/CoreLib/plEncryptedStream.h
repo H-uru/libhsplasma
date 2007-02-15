@@ -3,7 +3,7 @@
 
 #include "hsStream.h"
 
-class plEncryptedStream : hsStream {
+class plEncryptedStream : public hsStream {
 private:
     char LBuffer[16]; // Uru modes use only the first 8 bytes
     unsigned int dataSize;
@@ -24,14 +24,15 @@ public:
 
     virtual void open(const char* file, FileMode mode);
     virtual void close();
-    void setDroidKey(unsigned int* keys);
+    void setKey(unsigned int* keys);
 
     virtual unsigned int size();
     virtual unsigned int pos();
     virtual bool eof();
 
-    virtual void seek(unsigned int pos);
+    virtual void seek(unsigned int pos);    // Less efficient than skip...
     virtual void skip(unsigned int count);
+    virtual void rewind();
 
     virtual void read(unsigned int size, void* buf);
     virtual void write(unsigned int size, const void* buf);

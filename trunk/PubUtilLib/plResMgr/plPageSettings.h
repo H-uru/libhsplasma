@@ -14,5 +14,12 @@ struct plPageSettings {
     unsigned int loadFlags;
 };
 
+struct plAgeSettings {
+    unsigned int startDateTime, dayLength, maxCapacity, lingerTime;
+    signed int sequencePrefix;
+    unsigned int releaseVersion;
+    std::vector<plPageSettings*> pages;
+};
+
 #endif
 
