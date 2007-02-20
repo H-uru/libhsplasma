@@ -14,9 +14,11 @@ public:
     virtual void Ref();
 };
 
+/*
 class plRefFlags {
 public:
-    enum Type { None };
+    enum Type { kNone };
 };
+*/
 
 #endif

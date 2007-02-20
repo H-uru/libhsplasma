@@ -5,6 +5,7 @@ all:
 	(cd trunk ; make)
 	(make Tools/PageConvert)
 	(make Tools/PlasmaCrypt)
+	(cd AgeMaker ; make)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert
@@ -14,6 +15,8 @@ Tools/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp
 
 install:
 	(cd trunk ; make install)
+	cp Tools/PageConvert /usr/local/bin/
+	cp Tools/PlasmaCrypt /usr/local/bin/
 
 clean:
 	(cd trunk ; make clean)

@@ -1,11 +1,12 @@
 #ifndef _PLMESSAGE_H
 #define _PLMESSAGE_H
 
-#include "../pnKeyedObject/plReceiver.h"
+#include "../pnFactory/plCreatable.h"
 #include "../../CoreLib/hsTArray.hpp"
+#include "../pnKeyedObject/plKey.h"
 #include <vector>
 
-class plMessage : public plReceiver {
+class plMessage : public plCreatable {
 public:
     enum plBCastFlags {
         kBCastNone = 0x0,

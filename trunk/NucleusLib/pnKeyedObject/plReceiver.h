@@ -2,6 +2,7 @@
 #define _PLRECEIVER_H
 
 #include "../pnFactory/plCreatable.h"
+#include "../pnMessage/plMessage.h"
 #include "plKey.h"
 //#include "NucleusLib/pnMessage/plMessage.h"
 
@@ -12,7 +13,7 @@ public:
 
     virtual short ClassIndex();
 
-    virtual bool msgReceive(class plMessage * msg);
+    virtual bool msgReceive(plMessage * msg);
 };
 
 #endif
