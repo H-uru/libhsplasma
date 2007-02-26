@@ -11,7 +11,7 @@ hsStream::~hsStream() {
     close();
 }
 
-void hsStream::open(const char* file, FileMode mode) {
+bool hsStream::open(const char* file, FileMode mode) {
     char* fms;
     switch (mode) {
       case fmRead:
@@ -31,7 +31,11 @@ void hsStream::open(const char* file, FileMode mode) {
         break;
     }
     F = fopen(file, fms);
-    fm = mode;
+    if (F != NULL) {
+        fm = mode;
+        return true;
+    }
+    return false;
 }
 
 void hsStream::close() {

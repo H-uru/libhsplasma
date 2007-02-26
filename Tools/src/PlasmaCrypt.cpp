@@ -21,6 +21,7 @@ void doHelp() {
            "                    default.  For droid encryption, this must always be\n"
            "                    present.  This should be entered as 32 hex digits, in\n"
            "                    network (big-endian) byte order.\n"
+           "                    NOTE:  This option is not available for AES encryption.\n"
            "          -help     Displays this help screen\n\n");
     printf("Input encryption type is automatically determined.\n\n");
 }
@@ -94,7 +95,7 @@ int main(int argc, char** argv) {
     }
 
     int nFiles = 0;
-    unsigned int droidKey[4];
+    unsigned int uruKey[4];
     bool haveKey = false;
     for (int i=0; i<realargc; i++) {
         if (realargv[i][0] == '-') {
@@ -111,7 +112,7 @@ int main(int argc, char** argv) {
                     return 0;
                 }
                 for (int j=0; j<4; j++)
-                    droidKey[j] = parseKey(&realargv[i][j*8]);
+                    uruKey[j] = parseKey(&realargv[i][j*8]);
                 haveKey = true;
             } else {
                 printf("Error: Unrecognized option %s\n", realargv[i]);
@@ -124,7 +125,7 @@ int main(int argc, char** argv) {
                 printf("Error: Droid key not set!\n");
                 return 0;
             }
-            if (haveKey) SF.setKey(droidKey);
+            if (haveKey) SF.setKey(uruKey);
             try {
                 SF.open(realargv[i], fmRead);
             } catch (const char* e) {
@@ -172,7 +173,7 @@ int main(int argc, char** argv) {
                 printf("Error: Droid key not set!\n");
                 return 0;
             }
-            if (haveKey) DF.setKey(droidKey);
+            if (haveKey) DF.setKey(uruKey);
             if (doReplace) DF.open(realargv[i], fmCreate);
             else DF.open(getNextOutFile(realargv[i]), fmCreate);
             DF.write(dataSize, buf);

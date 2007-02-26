@@ -35,8 +35,11 @@ plKey* plResManager::readKeyBase(hsStream* S) {
     k->flags = S->readByte();
     k->pageID.setVer(S->getVer());
     k->pageID.read(S);
-    k->pageType = S->readShort();
-    if ((k->flags & 0x02) || S->getVer() == pvEoa)
+    if (S->getVer() == pvEoa)
+        k->pageType = S->readByte();
+    else
+        k->pageType = S->readShort();
+    if ((k->flags & 0x02) && S->getVer() != pvEoa)
         k->extra1 = S->readByte();
     else k->extra1 = 0;
     k->objType = S->readShort();
@@ -90,8 +93,11 @@ void plResManager::writeKeyBase(hsStream* S, plKey* key) {
     S->writeByte(key->flags);
     key->pageID.setVer(S->getVer(), true);
     key->pageID.write(S);
-    S->writeShort(key->pageType);
-    if ((key->flags & 0x02) || S->getVer() == pvEoa)
+    if (S->getVer() == pvEoa)
+        S->writeByte(key->pageType);
+    else
+        S->writeShort(key->pageType);
+    if ((key->flags & 0x02) && S->getVer() != pvEoa)
         S->writeByte(key->extra1);
     S->writeShort(key->objType);
     if (S->getVer() == pvEoa || S->getVer() == pvLive)
@@ -126,7 +132,8 @@ hsKeyedObject* plResManager::getObject(plKey& key) {
 plPageSettings* plResManager::ReadPage(const char* filename) {
     hsStream* S = new hsStream();
     setVer(S->getVer());
-    S->open(filename, fmRead);
+    if (!S->open(filename, fmRead))
+        throw "Error reading file!";
     plPageSettings* page = new plPageSettings;
     short prpver = S->readShort();
     if (prpver == 6) {
@@ -307,7 +314,7 @@ void plResManager::WriteAge(const char* filename, plAgeSettings* age) {
 void plResManager::ReadKeyring(hsStream* S, PageID& pid) {
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
-        S->readShort(); // objType
+        short type = S->readShort(); // objType
         if (S->getVer() == pvEoa) {
             S->readInt(); // dataSize
             S->readByte(); // flag

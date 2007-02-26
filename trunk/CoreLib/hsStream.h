@@ -16,7 +16,7 @@ public:
     hsStream(PlasmaVer pv = pvUnknown);
     virtual ~hsStream();
 
-    virtual void open(const char* file, FileMode mode);
+    virtual bool open(const char* file, FileMode mode);
     virtual void close();
 
     virtual void setVer(PlasmaVer pv, bool mutate=false);

@@ -8,11 +8,11 @@ private:
     char LBuffer[16]; // Uru modes use only the first 8 bytes
     unsigned int dataSize;
     unsigned int dataPos;
-    unsigned int droidKey[4];
+    unsigned int eKey[4];
 
 protected:
-    void TeaDecipher(unsigned int *v1, unsigned int *v2);
-    void TeaEncipher(unsigned int *v1, unsigned int *v2);
+    void TeaDecipher(unsigned int* buf);
+    void TeaEncipher(unsigned int* buf);
     void AesDecipher(char* buffer, int count);
     void AesEncipher(char* buffer, int count);
     void DroidDecipher(unsigned int* buf, unsigned int num);
@@ -22,7 +22,7 @@ public:
     plEncryptedStream(PlasmaVer pv = pvUnknown);
     virtual ~plEncryptedStream();
 
-    virtual void open(const char* file, FileMode mode);
+    virtual bool open(const char* file, FileMode mode);
     virtual void close();
     void setKey(unsigned int* keys);
 

@@ -11,76 +11,40 @@ static const char* uruMagic2 = "BriceIsSmart";
 static const char* liveMagic = "notthedroids";
 static const int eoaMagic = 0x0D874288;
 
-plEncryptedStream::plEncryptedStream(PlasmaVer pv) { }
+plEncryptedStream::plEncryptedStream(PlasmaVer pv) {
+    eKey[0] = uruKey[0];
+    eKey[1] = uruKey[1];
+    eKey[2] = uruKey[2];
+    eKey[3] = uruKey[3];
+}
 plEncryptedStream::~plEncryptedStream() { }
 
-void plEncryptedStream::TeaDecipher(unsigned int *v1, unsigned int *v2) {
-    unsigned int o1 = *v1, o2 = *v2, base = 0xc6ef3720;
-    unsigned int t1, t2;
+void plEncryptedStream::TeaDecipher(unsigned int* buf) {
+    unsigned int second = buf[1], first = buf[0], key = 0xC6EF3720;
     
-    for (int index = 0x20; index>0; index--) {
-        // First word
-        t1 = t2 = o1;
-        t1 >>= 5;
-        t2 <<= 4;
-        t1 = (t1 ^ t2) + o1;
-        
-        t2 = (base >> 0x0B) & 0x03;
-        t2 = uruKey[t2] + base;
-        base += 0x61c88647;
-        
-        t1 ^= t2;
-        o2 -= t1;
-        
-        // Second word
-        t1 = t2 = o2;
-        t1 >>= 5;
-        t2 <<= 4;
-        t1 = (t1 ^ t2) + o2;
-        
-        t2 = base & 0x03;
-        t2 = uruKey[t2] + base;
-        
-        t1 ^= t2;
-        o1 -= t1;
-     }
-     *v1 = o1;
-     *v2 = o2;
+    for (int i=0; i<32; i++) {
+        second -= (((first >> 5) ^ (first << 4)) + first)
+                ^ (eKey[(key >> 11) & 3] + key);
+        key += 0x61C88647;
+        first -= (((second >> 5) ^ (second << 4)) + second)
+               ^ (eKey[key & 3] + key);
+    }
+    buf[0] = first;
+    buf[1] = second;
 }
 
-void plEncryptedStream::TeaEncipher(unsigned int *v1, unsigned int *v2) {
-    unsigned int o1 = *v1, o2 = *v2, base = 0;
-    unsigned int t1, t2;
+void plEncryptedStream::TeaEncipher(unsigned int* buf) {
+    unsigned int first = buf[0], second = buf[1], key = 0;
 
-    for (int index = 0x20; index > 0; index--) {
-        // Second word
-        t1 = t2 = o2;
-        t1 >>= 5;
-        t2 <<= 4;
-        t1 = (t1 ^ t2) + o2;
-
-        t2 = base & 0x03;
-        t2 = uruKey[t2] + base;
-        base -= 0x61c88647;
-
-        t1 ^= t2;
-        o1 += t1;
-
-        // First word
-        t1 = t2 = o1;
-        t1 >>= 5;
-        t2 <<= 4;
-        t1 = (t1 ^ t2) + o1;
-
-        t2 = (base >> 0x0B) & 0x03;
-        t2 = uruKey[t2] + base;
-
-        t1 ^= t2;
-        o2 += t1;
+    for (int i=0; i<32; i++) {
+        first += (((second >> 5) ^ (second << 4)) + second)
+               ^ (eKey[key & 3] + key);
+        key -= 0x61C88647;
+        second += (((first >> 5) ^ (first << 4)) + first)
+                ^ (eKey[(key >> 11) & 3] + key);
     }
-
-    *v1 = o1;
-    *v2 = o2;
+    buf[1] = second;
+    buf[0] = first;
 }
 
 void plEncryptedStream::AesDecipher(char* buffer, int count) {
@@ -110,26 +74,46 @@ void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num) {
             buf[numloop] -=
               (((buf[numloop - 1] << 4) ^ (buf[numloop - 1] >> 3)) +
               ((buf[numloop - 1] >> 5) ^ (buf[numloop - 1] << 2))) ^
-              ((droidKey[(numloop & 3) ^ xorkey] ^ buf[numloop - 1]) +
+              ((eKey[(numloop & 3) ^ xorkey] ^ buf[numloop - 1]) +
               (key ^ buf[numloop - 1]));
             numloop--;
         }
         buf[0] -=
           (((buf[num - 1] << 4) ^ (buf[num - 1] >> 3)) +
           ((buf[num - 1] >> 5) ^ (buf[num - 1] << 2))) ^
-          ((droidKey[(0 & 3) ^ xorkey] ^ buf[num - 1]) +
+          ((eKey[(numloop & 3) ^ xorkey] ^ buf[num - 1]) +
           (key ^ buf[num - 1]));
         key -= 0x9E3779B9;
     }
 }
 
 void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
-    throw "Unimplemented";
+    unsigned int key = 0;
+    unsigned int count = 52 / num + 6;
+    while (count != 0) {
+        key -= 0x61C88647;
+        unsigned int xorkey = (key >> 2) & 3;
+        unsigned int numloop = 0;
+        while (numloop < num - 1) {
+            buf[numloop] +=
+              (((buf[numloop] << 4) ^ (buf[numloop] >> 3)) +
+              ((buf[numloop] >> 3) ^ (buf[numloop] << 2))) ^
+              ((eKey[(numloop & 3) ^ xorkey] ^ buf[numloop]) +
+              (key ^ buf[numloop]));
+            numloop++;
+        }
+        buf[num - 1] +=
+          (((buf[num - 1] << 4) ^ (buf[num - 1] >> 3)) +
+          ((buf[num - 1] >> 5) ^ (buf[num - 1] << 2))) ^
+          ((eKey[(numloop & 3) ^ xorkey] ^ buf[num - 1]) +
+          (key ^ buf[num - 1]));
+        count--;
+    }
 }
 
 const char* EncrErr = "File is not encrypted";
-void plEncryptedStream::open(const char* file, FileMode mode) {
-    hsStream::open(file, mode);
+bool plEncryptedStream::open(const char* file, FileMode mode) {
+    if (!hsStream::open(file, mode)) return false;
 
     if (mode == fmRead || mode == fmReadWrite) {
         fseek(F, 0, SEEK_END);
@@ -169,6 +153,7 @@ void plEncryptedStream::open(const char* file, FileMode mode) {
     }
 
     dataPos = 0;
+    return true;
 }
 
 void plEncryptedStream::close() {
@@ -188,10 +173,10 @@ void plEncryptedStream::close() {
 }
 
 void plEncryptedStream::setKey(unsigned int* keys) {
-    droidKey[0] = keys[0];
-    droidKey[1] = keys[1];
-    droidKey[2] = keys[2];
-    droidKey[3] = keys[3];
+    eKey[0] = keys[0];
+    eKey[1] = keys[1];
+    eKey[2] = keys[2];
+    eKey[3] = keys[3];
 }
 
 unsigned int plEncryptedStream::size() { return dataSize; }
@@ -231,7 +216,7 @@ void plEncryptedStream::read(unsigned int size, void* buf) {
                 DroidDecipher((unsigned int*)&LBuffer[0], 2);
             } else {
                 fread(LBuffer, 8, 1, F);
-                TeaDecipher((unsigned int*)&LBuffer[0], (unsigned int*)&LBuffer[4]);
+                TeaDecipher((unsigned int*)&LBuffer[0]);
             }
         }
         if (lp + (size - bp) >= szInc) {
@@ -270,7 +255,7 @@ void plEncryptedStream::write(unsigned int size, const void* buf) {
                 DroidEncipher((unsigned int*)&LBuffer[0], 2);
                 fwrite(LBuffer, 8, 1, F);
             } else {
-                TeaEncipher((unsigned int*)&LBuffer[0], (unsigned int*)&LBuffer[4]);
+                TeaEncipher((unsigned int*)&LBuffer[0]);
                 fwrite(LBuffer, 8, 1, F);
             }
             memset(LBuffer, 0, 16);
