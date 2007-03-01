@@ -111,6 +111,31 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
     }
 }
 
+bool plEncryptedStream::isFileEncrypted(const char* file) {
+    FILE* tF = fopen(file, "rb");
+    if (tF == NULL) return false;
+    fseek(tF, 0, SEEK_END);
+    unsigned int sz = ftell(tF);
+    fseek(tF, 0, SEEK_SET);
+    if (sz < 8) return false;
+    int magicN = 0;
+    fread(&magicN, sizeof(magicN), 1, tF);
+    if (magicN == eoaMagic) {
+        fclose(tF);
+        return true;
+    } else {
+        fseek(tF, 0, SEEK_SET);
+        char magicS[12];
+        fread(magicS, 1, 12, tF);
+        fclose(tF);
+        if (strncmp(magicS, uruMagic, 12) == 0 ||
+            strncmp(magicS, uruMagic2, 12) == 0 ||
+            strncmp(magicS, liveMagic, 12) == 0)
+            return true;
+        return false;
+    }
+}
+
 const char* EncrErr = "File is not encrypted";
 bool plEncryptedStream::open(const char* file, FileMode mode) {
     if (!hsStream::open(file, mode)) return false;
@@ -128,7 +153,7 @@ bool plEncryptedStream::open(const char* file, FileMode mode) {
         } else {
             fseek(F, 0, SEEK_SET);
             char magicS[12];
-            fread(magicS, 12, 1, F);
+            fread(magicS, 1, 12, F);
             if (strncmp(magicS, uruMagic, 12) == 0 ||
                 strncmp(magicS, uruMagic2, 12) == 0) {
                 ver = pvPrime;

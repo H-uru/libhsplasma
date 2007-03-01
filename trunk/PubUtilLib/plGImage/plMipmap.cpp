@@ -1,8 +1,10 @@
 #include "plMipmap.h"
+#include "../plJPEG/plJPEG.h"
 #include <string.h>
 #include <stdlib.h>
 
-plMipmap::plMipmap(PlasmaVer pv) : ImageData(NULL), levelSizes(NULL) { }
+plMipmap::plMipmap(PlasmaVer pv) : ImageData(NULL), JPEGData(NULL),
+                                   levelSizes(NULL) { }
 
 plMipmap::plMipmap(int w, int h, int cfg, char nLevels, char compType,
                    char format, PlasmaVer pv) : plBitmap(pv) {
@@ -67,6 +69,14 @@ void plMipmap::setConfig(int cfg) {
         break;
     }
 }
+
+void plMipmap::setJPEGData(const unsigned char* jpData, unsigned int jpSize) {
+    memcpy(JPEGData, jpData, jpSize);
+    JPEGSize = jpSize;
+}
+
+const unsigned char* plMipmap::getJPEGData() { return JPEGData; }
+unsigned int plMipmap::getJPEGSize() { return JPEGSize; }
 
 void plMipmap::readData(hsStream* S) {
     plBitmap::readData(S);
@@ -171,16 +181,15 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     plMipmap* img, * alpha;
     if (rleFlag & kColorDataRLE)
         img = IReadRLEImage(S);
-    else {
-        throw "JPEG not yet supported";
-    }
+    else
+        img = plJPEG::inst->IRead(S);
     if (img == NULL) return;
     CopyFrom(img);
 
     if (rleFlag & kAlphaDataRLE)
         alpha = IReadRLEImage(S);
     else
-        throw "JPEG not yet supported";
+        alpha = plJPEG::inst->IRead(S);
     if (alpha != NULL) {
         IRecombineAlpha(alpha);
         delete alpha;

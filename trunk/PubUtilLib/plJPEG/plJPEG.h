@@ -6,6 +6,7 @@
 class plJPEG {
 public:
     static plJPEG* inst;
+    unsigned char writeQuality;
 
 public:
     plJPEG(PlasmaVer pv = pvUnknown);

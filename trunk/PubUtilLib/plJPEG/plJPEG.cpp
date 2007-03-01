@@ -25,9 +25,23 @@ plMipmap* plJPEG::IRead(hsStream* S) {
 
     //jpeg_create_decompress(&cinfo);
     
-    return NULL;
+    plMipmap* newMipmap = NULL;
+    unsigned char* jpegSrcBuffer = NULL;
+    unsigned int size = S->readInt();
+    jpegSrcBuffer = (unsigned char*)malloc(size);
+    S->read(size, jpegSrcBuffer);
+    
+    newMipmap = new plMipmap(S->getVer());
+    newMipmap->setJPEGData(jpegSrcBuffer, size);
+
+    // To be implemented later...
+    
+    free(jpegSrcBuffer);
+    return newMipmap;
 }
 
 void plJPEG::IWrite(plMipmap* source, hsStream* S) {
-    //
+    S->writeInt(source->getJPEGSize());
+    S->write(source->getJPEGSize(), source->getJPEGData());
 }
+

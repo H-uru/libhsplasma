@@ -94,6 +94,6 @@
             <Color type="Specular" red="0.0" green="0.8" blue="0.1" alpha="1.0" />
         </Layer>
     </District>
-    <District name="Dummy" autoload="false" src="Districts/Dummy.prc" />
+    <District name="Dummy" hold="true" src="Districts/Dummy.prc" />
 </Age>
 

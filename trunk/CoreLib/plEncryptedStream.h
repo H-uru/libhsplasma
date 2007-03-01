@@ -36,6 +36,8 @@ public:
 
     virtual void read(unsigned int size, void* buf);
     virtual void write(unsigned int size, const void* buf);
+
+    static bool isFileEncrypted(const char* file);
 };
 
 #endif

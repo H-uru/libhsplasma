@@ -49,6 +49,9 @@ public:
 
 protected:
     void* ImageData;
+    unsigned char* JPEGData;
+    unsigned int JPEGSize;
+    
     unsigned int width, height, stride, totalSize;
     unsigned char numLevels;
     unsigned int* levelSizes;
@@ -69,6 +72,10 @@ public:
 
     void create(int w, int h, int cfg, char nLevels, char compType, char format);
     void setConfig(int cfg);
+    void setJPEGData(const unsigned char* jpData, unsigned int jpSize);
+
+    const unsigned char* getJPEGData();
+    unsigned int getJPEGSize();
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);

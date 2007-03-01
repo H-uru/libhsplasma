@@ -1,0 +1,13 @@
+#!/bin/sh
+
+FILE=$1
+TMPFILE=/tmp/$1.$$.tmp
+shift
+cp $FILE $TMPFILE
+PlasmaCrypt decrypt -quiet $TMPFILE
+
+$EDITOR $TMPFILE $@
+
+PlasmaCrypt encrypt aes -quiet $TMPFILE
+cp $TMPFILE $FILE
+

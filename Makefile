@@ -17,12 +17,16 @@ install:
 	(cd trunk ; make install)
 	cp Tools/PageConvert /usr/local/bin/
 	cp Tools/PlasmaCrypt /usr/local/bin/
+	chmod +x Tools/eoaedit Tools/uruedit
+	cp Tools/eoaedit Tools/uruedit /usr/local/bin/
 
 clean:
 	(cd trunk ; make clean)
+	(cd AgeMaker ; make clean)
 
 distclean:
 	(cd trunk ; make distclean)
 	rm Tools/PageConvert
 	rm Tools/PlasmaCrypt
+	(cd AgeMaker ; make distclean)
 
