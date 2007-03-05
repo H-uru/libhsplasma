@@ -1,10 +1,11 @@
 #ifndef _PAGEID_H
 #define _PAGEID_H
 
+#include "../PlasmaDefs.h"
 #include "PlasmaVersions.h"
 #include "../CoreLib/hsStream.h"
 
-class PageID {
+class DllExport PageID {
 private:
     int seqPrefix, pageID;
     PlasmaVer ver;

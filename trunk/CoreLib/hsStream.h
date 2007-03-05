@@ -1,12 +1,13 @@
 #ifndef _HSSTREAM_H
 #define _HSSTREAM_H
 
+#include "../PlasmaDefs.h"
 #include <stdio.h>
 #include "../DynLib/PlasmaVersions.h"
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 
-class hsStream {
+class DllExport hsStream {
 protected:
     PlasmaVer ver;
     FILE * F;

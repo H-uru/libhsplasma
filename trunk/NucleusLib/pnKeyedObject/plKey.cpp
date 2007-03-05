@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
-#include "../../PlasmaConstants.h"
 #include "plKey.h"
 
-plKey::plKey() : flags(0), pageID(), pageType(PAGE_NORMAL), extra1(0),
+plKey::plKey() : flags(0), pageID(), pageType(kPageNormal), extra1(0),
                  objType(0), objID(0), objName(NULL), someID(0), clientID(0),
                  eoaExtra2(0), objPtr(NULL), exists(true), fileOff(0),
                  objSize(0) { }

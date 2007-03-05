@@ -7,6 +7,11 @@
 
 class plKey : public hsRefCnt {
 public:
+    enum PageTypes {
+        kPageNormal = 0x0, kPageGlobal = 0x4, kPageAgeGlobal = 0x8
+    };
+
+public:
     char flags;
     PageID pageID;
     short pageType;

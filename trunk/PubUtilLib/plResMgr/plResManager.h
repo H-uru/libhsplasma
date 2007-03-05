@@ -1,6 +1,7 @@
 #ifndef _PLRESMANAGER_H
 #define _PLRESMANAGER_H
 
+#include "../../PlasmaDefs.h"
 #include "../../CoreLib/hsRefCnt.h"
 #include "../../DynLib/PlasmaVersions.h"
 #include "../../DynLib/PageID.h"
@@ -18,11 +19,11 @@
   #include <xmemory>
 #endif
 
-class plResManager /* : public hsResMgr */ {
+class DllExport plResManager /* : public hsResMgr */ {
 protected:
     PlasmaVer ver;
 
-public:
+protected:
     plKeyCollector keys;
     std::vector<plPageSettings*> pages;
     std::vector<plAgeSettings*> ages;
