@@ -2,85 +2,43 @@
 #include <string.h>
 #include "plKey.h"
 
-plKey::plKey() : flags(0), pageID(), pageType(kPageNormal), extra1(0),
-                 objType(0), objID(0), objName(NULL), someID(0), clientID(0),
-                 eoaExtra2(0), objPtr(NULL), exists(true), fileOff(0),
-                 objSize(0) { }
-
-plKey::plKey(plKey * init) {
-    flags = init->flags;
-    pageID = init->pageID;
-    pageType = init->pageType;
-    extra1 = init->extra1;
-    objType = init->objType;
-    objID = init->objID;
-    objName = init->objName;
-    someID = init->someID;
-    clientID = init->clientID;
-    eoaExtra2 = init->eoaExtra2;
-    exists = init->exists;
-    objPtr = init->objPtr;
-}
-
-plKey::~plKey() {
-    if (objName)
-        delete objName;
-}
+plKey::plKey() : uoid(), objPtr(NULL), exists(true), fileOff(0), objSize(0) { }
+plKey::~plKey() { }
 
 bool plKey::operator==(plKey &other) {
-    return (pageID == other.pageID && objType == other.objType &&
-            (strcmp(objName, other.objName) == 0));
+    return (uoid == other.uoid);
 }
 
 const char* plKey::toString() {
-    char* str;
-    str = new char[256];
-    sprintf(str, "%s[%04X]%s", pageID.toString(), objType, objName);
-    return str;
+    return uoid.toString();
 }
 
-/*
 void plKey::read(hsStream *S) {
-    flags = S->readByte();
-    pageID.read(S);
-    pageType = S->readShort();
-    if ((flags & 0x02) || S->getVer() == pvEoa)
-        extra1 = S->readByte();
-    else extra1 = 0;
-    objType = S->readShort();
-    if (S->getVer() == pvEoa || S->getVer() == pvLive)
-        objID = S->readInt();
-    objName = S->readSafeStr();
-    if ((flags & 0x01) && S->getVer() != pvEoa) {
-        someID = S->readInt();
-        clientID = S->readInt();
-    } else {
-        someID = clientID = 0;
-    }
-    if ((flags & 0x06) && S->getVer() == pvEoa)
-        eoaExtra2 = S->readByte();
-    else eoaExtra2 = 0;
-    exists = true;
+    uoid.read(S);
+    fileOff = S->readInt();
+    objSize = S->readInt();
 }
 
 void plKey::write(hsStream *S) {
-    S->writeByte(flags);
-    pageID.write(S);
-    S->writeShort(pageType);
-    if ((flags & 0x02) || S->getVer() == pvEoa)
-        S->writeByte(extra1);
-    S->writeShort(objType);
-    if (S->getVer() == pvEoa || S->getVer() == pvLive)
-        S->writeInt(objID);
-    S->writeSafeStr(objName);
-    if ((flags & 0x01) && S->getVer() != pvEoa) {
-        S->writeInt(someID);
-        S->writeInt(clientID);
-    }
-    if ((flags & 0x06) && S->getVer() == pvEoa)
-        S->writeByte(eoaExtra2);
+    uoid.write(S);
+    S->writeInt(fileOff);
+    S->writeInt(objSize);
 }
 
+void plKey::readUoid(hsStream* S) {
+    uoid.read(S);
+}
+
+void plKey::writeUoid(hsStream* S) {
+    uoid.write(S);
+}
+
+short plKey::getType() { return uoid.getType(); }
+PageID& plKey::getPageID() { return uoid.getPageID(); }
+const char* plKey::getName() { return uoid.getName(); }
+void plKey::setID(unsigned int id) { uoid.setID(id); }
+
+/*
 void plKey::readRef(hsStream *S) {
     exists = true;
     if (S->getVer() != pvEoa)

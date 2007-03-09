@@ -11,6 +11,7 @@
 #include "../../CoreLib/plEncryptedStream.h"
 #include "../../CoreLib/hsTArray.hpp"
 #include "plKeyCollector.h"
+#include "plPageInfo.h"
 #include "plPageSettings.h"
 #ifdef Tahg
   #include "../../NucleusLib/inc/hsResMgr.h"
@@ -19,22 +20,22 @@
   #include <xmemory>
 #endif
 
-class DllExport plResManager /* : public hsResMgr */ {
+DllClass plResManager /* : public hsResMgr */ {
 protected:
     PlasmaVer ver;
 
-protected:
+public:
     plKeyCollector keys;
-    std::vector<plPageSettings*> pages;
+    std::vector<plPageInfo*> pages;
     std::vector<plAgeSettings*> ages;
 
 private:
     plKey* readKeyBase(hsStream* S);
     void writeKeyBase(hsStream* S, plKey* key);
-    void ReadKeyring(hsStream* S, PageID& pid);
-    unsigned int ReadObjects(hsStream* S, PageID& pid);
-    void WriteKeyring(hsStream* S, PageID& pid);
-    unsigned int WriteObjects(hsStream* S, PageID& pid);
+    void ReadKeyring(hsStream* S, plLocation& loc);
+    unsigned int ReadObjects(hsStream* S, plLocation& loc);
+    void WriteKeyring(hsStream* S, plLocation& loc);
+    unsigned int WriteObjects(hsStream* S, plLocation& loc);
 
 #ifdef Tahg
     bool fInited;
@@ -69,18 +70,18 @@ public:
     PlasmaVer getVer();
 
     plKey* readKey(hsStream* S);
-    plKey* readRealKey(hsStream* S);
+    plKey* readUoidKey(hsStream* S);
     void writeKey(hsStream* S, plKey* key);
-    void writeRealKey(hsStream* S, plKey* key);
+    void writeUoidKey(hsStream* S, plKey* key);
     hsKeyedObject* getObject(plKey& key);
 
-    plPageSettings* ReadPage(const char* filename);
-    void WritePage(const char* filename, plPageSettings* page);
+    plPageInfo* ReadPage(const char* filename);
+    void WritePage(const char* filename, plPageInfo* page);
 
     plAgeSettings* ReadAge(const char* filename);
     void WriteAge(const char* filename, plAgeSettings* age);
 
-    plSceneNode* getSceneNode(PageID& pid);
+    plSceneNode* getSceneNode(plLocation& loc);
 };
 
 #endif

@@ -10,20 +10,20 @@ hsBitVector::~hsBitVector() {
 }
 
 bool hsBitVector::get(int idx) {
-    if ((idx / 32) >= nVectors) return false;
-    return (bits[idx / 32] & (1 << (idx & BVMASK))) != 0;
+    if ((idx >> BVSHIFT) >= nVectors) return false;
+    return (bits[idx >> BVSHIFT] & (1 << (idx & BVMASK))) != 0;
 }
 
 void hsBitVector::set(int idx, bool b) {
-    if ((idx / 32) < nVectors) {
-        nVectors = (idx / 32) + 1;
+    if ((idx >> BVSHIFT) < nVectors) {
+        nVectors = (idx >> BVSHIFT) + 1;
         int* newBits = new int[nVectors];
         memcpy(newBits, bits, sizeof(int)*nVectors);
         delete bits;
         bits = newBits;
     }
-    if (b) bits[idx / 32] |=  (1 << (idx & BVMASK));
-    else   bits[idx / 32] &= ~(1 << (idx & BVMASK));
+    if (b) bits[idx >> BVSHIFT] |=  (1 << (idx & BVMASK));
+    else   bits[idx >> BVSHIFT] &= ~(1 << (idx & BVMASK));
 }
 
 bool hsBitVector::operator[](int idx) {
@@ -41,7 +41,7 @@ void hsBitVector::clear() {
 }
 
 void hsBitVector::deleteBit(int idx) {
-    int b = idx >> 5;
+    int b = idx >> BVSHIFT;
     idx &= BVMASK;
     int mask = (1 << idx) - 1;
     bits[b] = (bits[b] & mask) | ((bits[b] & ~mask) >> 1);

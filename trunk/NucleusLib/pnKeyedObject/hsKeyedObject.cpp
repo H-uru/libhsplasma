@@ -13,13 +13,13 @@ short hsKeyedObject::ClassIndex() { return 0x0002; }
 void hsKeyedObject::read(hsStream * S) {
     if (myKey != NULL)
         myKey->UnRef();
-    myKey = plResManager::inst->readRealKey(S);
+    myKey = plResManager::inst->readUoidKey(S);
     myKey->Ref();
     myKey->objPtr = this;
 }
 
 void hsKeyedObject::write(hsStream * S) {
-    plResManager::inst->writeRealKey(S, myKey);
+    plResManager::inst->writeUoidKey(S, myKey);
 }
 
 plKey* hsKeyedObject::getKey() {

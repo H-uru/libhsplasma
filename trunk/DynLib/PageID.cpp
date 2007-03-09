@@ -62,36 +62,24 @@ unsigned int PageID::unparse() {
 
 void PageID::read(hsStream *S) {
     int id = S->readInt();
-    ver = S->getVer();
+    setVer(S->getVer());
     parse(id);
 }
 
 void PageID::write(hsStream *S) {
     if (S->getVer() != pvUnknown)
-        this->setVer(S->getVer(), true);
+        setVer(S->getVer(), true);
     S->writeInt(unparse());
 }
 
-bool PageID::isGlobal() {
-    return (seqPrefix < 0);
-}
+bool PageID::isGlobal() { return (seqPrefix < 0); }
+int PageID::getPageNum() { return pageID; }
+int PageID::getSeqPrefix() { return seqPrefix; }
+void PageID::setPageNum(int pn) { pageID = pn; }
+void PageID::setSeqPrefix(int sp) { seqPrefix = sp; }
 
-int PageID::getPageNum() {
-    return pageID;
-}
-
-int PageID::getSeqPrefix() {
-    return seqPrefix;
-}
-
-void PageID::setPageNum(int pn) {
-    pageID = pn;
-}
-
-void PageID::setSeqPrefix(int sp) {
-    seqPrefix = sp;
-}
-
+void PageID::invalidate() { parse(0xFFFFFFFF); }
+bool PageID::isValid() { return (unparse() != 0xFFFFFFFF); }
 
 /* PageComparator */
 

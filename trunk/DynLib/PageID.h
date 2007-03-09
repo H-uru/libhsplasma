@@ -5,7 +5,7 @@
 #include "PlasmaVersions.h"
 #include "../CoreLib/hsStream.h"
 
-class DllExport PageID {
+DllClass PageID {
 private:
     int seqPrefix, pageID;
     PlasmaVer ver;
@@ -35,6 +35,9 @@ public:
     unsigned int unparse();
     void read(hsStream *S);
     void write(hsStream *S);
+
+    void invalidate();
+    bool isValid();
 };
 
 struct PageComparator {

@@ -19,8 +19,8 @@ public:
     unsigned int countTypes(PageID& pid);
     unsigned int countKeys(PageID& pid);
     std::vector<plKey*>& getKeys(PageID& pid, short type);
-    std::vector<short> getTypes(PageID& pid);
-    std::vector<PageID> getPages();
+    std::vector<short>& getTypes(PageID& pid);
+    std::vector<PageID>& getPages();
 };
 
 #endif

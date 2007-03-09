@@ -7,7 +7,7 @@
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 
-class DllExport hsStream {
+DllClass hsStream {
 protected:
     PlasmaVer ver;
     FILE * F;

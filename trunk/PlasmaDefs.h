@@ -10,5 +10,6 @@
 #else
   #define DllExport
 #endif
+#define DllClass class DllExport
 
 #endif

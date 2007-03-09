@@ -3,7 +3,7 @@
 
 #include "hsStream.h"
 
-class DllExport plEncryptedStream : public hsStream {
+DllClass plEncryptedStream : public hsStream {
 private:
     char LBuffer[16]; // Uru modes use only the first 8 bytes
     unsigned int dataSize;

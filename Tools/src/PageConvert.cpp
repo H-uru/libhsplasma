@@ -45,13 +45,14 @@ int main(int argc, char** argv) {
             if (strcmp(argv[i], "-help") == 0)
                 doHelp();
         } else {
-            plPageSettings* page = rm.ReadPage(argv[i]);
-            printf("PageID: %s (%08X)\n", page->pageID.toString(), page->pageID.unparse());
-            printf("Page Type: %d\n", page->pageType);
-            printf("Age Name: %s\n", page->ageName);
-            printf("Page Name: %s\n", page->pageName);
-            printf("Plasma Version: %d\n", page->ver);
-            printf("Keyring: %d keys\n", rm.keys.countKeys(page->pageID));
+            plPageInfo* page = rm.ReadPage(argv[i]);
+            printf("PageID: %s (%08X)\n", page->getLocation().toString(),
+                                          page->getLocation().pageID.unparse());
+            printf("Page Flags: %d\n", page->getLocation().flags);
+            printf("Age Name: %s\n", page->getAge());
+            printf("Page Name: %s\n", page->getPage());
+            printf("Plasma Version: %d\n", rm.getVer());
+            printf("Keyring: %d keys\n", rm.keys.countKeys(page->getLocation().pageID));
             printf("Objects Read: %d\n", page->nObjects);
             
             rm.setVer(toVer, true);

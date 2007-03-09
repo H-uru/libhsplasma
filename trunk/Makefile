@@ -8,18 +8,21 @@ OBJFILES=\
 	$(LIBDIR)hsStream.o \
 	$(LIBDIR)plEncryptedStream.o \
 	$(LIBDIR)hsElfStream.o \
+	$(LIBDIR)plPageInfo.o \
 	$(LIBDIR)plResManager.o \
 	$(LIBDIR)plKeyCollector.o \
 	$(LIBDIR)hsBitVector.o \
 	$(LIBDIR)hsMatrix44.o \
 	$(LIBDIR)hsGeometry3.o \
 	$(LIBDIR)hsBounds.o \
+	$(LIBDIR)plLoadMask.o \
 	$(LIBDIR)PageID.o \
 	$(LIBDIR)plCreatable.o \
 	$(LIBDIR)plFactory.o \
 	$(LIBDIR)plKey.o \
 	$(LIBDIR)plReceiver.o \
 	$(LIBDIR)hsKeyedObject.o \
+	$(LIBDIR)plUoid.o \
 	$(LIBDIR)plMessage.o \
 	$(LIBDIR)plModifier.o \
 	$(LIBDIR)plSynchedObject.o \
@@ -81,6 +84,9 @@ $(LIBDIR)hsGeometry3.o: CoreLib/hsGeometry3.h CoreLib/hsGeometry3.cpp
 $(LIBDIR)hsBounds.o: CoreLib/hsBounds.h CoreLib/hsBounds.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsBounds.cpp -o $(LIBDIR)hsBounds.o
 
+$(LIBDIR)plLoadMask.o: CoreLib/plLoadMask.h CoreLib/plLoadMask.cpp
+	$(CC) $(CFLAGS) -c CoreLib/plLoadMask.cpp -o $(LIBDIR)plLoadMask.o
+
 $(LIBDIR)PageID.o: DynLib/PageID.h DynLib/PageID.cpp
 	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o $(LIBDIR)PageID.o
 
@@ -98,6 +104,9 @@ $(LIBDIR)plReceiver.o: NucleusLib/pnKeyedObject/plReceiver.h NucleusLib/pnKeyedO
 
 $(LIBDIR)hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.h NucleusLib/pnKeyedObject/hsKeyedObject.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o $(LIBDIR)hsKeyedObject.o
+
+$(LIBDIR)plUoid.o: NucleusLib/pnKeyedObject/plUoid.h NucleusLib/pnKeyedObject/plUoid.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plUoid.cpp -o $(LIBDIR)plUoid.o
 
 $(LIBDIR)plMessage.o: NucleusLib/pnMessage/plMessage.h NucleusLib/pnMessage/plMessage.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnMessage/plMessage.cpp -o $(LIBDIR)plMessage.o
@@ -176,6 +185,9 @@ $(LIBDIR)plGBufferGroup.o: PubUtilLib/plPipeline/plGBufferGroup.h PubUtilLib/plP
 
 $(LIBDIR)plKeyCollector.o: PubUtilLib/plResMgr/plKeyCollector.h PubUtilLib/plResMgr/plKeyCollector.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plKeyCollector.cpp -o $(LIBDIR)plKeyCollector.o
+
+$(LIBDIR)plPageInfo.o: PubUtilLib/plResMgr/plPageInfo.h PubUtilLib/plResMgr/plPageInfo.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plPageInfo.cpp -o $(LIBDIR)plPageInfo.o
 
 $(LIBDIR)plResManager.o: PubUtilLib/plResMgr/plResManager.h PubUtilLib/plResMgr/plResManager.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plResManager.cpp -o $(LIBDIR)plResManager.o

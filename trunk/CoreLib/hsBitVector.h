@@ -3,7 +3,8 @@
 
 #include "hsStream.h"
 
-#define BVMASK  31
+#define BVMASK 0x1F
+#define BVSHIFT 5
 
 class hsBitVector {
 private:

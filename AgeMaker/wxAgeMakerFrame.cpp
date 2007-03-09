@@ -40,23 +40,23 @@ wxAgeMakerFrame::wxAgeMakerFrame(wxApp* owner)
     glc->SwapBuffers();
     if (owner->argc > 1 && wxFileExists(owner->argv[1])) {
         plResManager rm;
-        plPageSettings* page = rm.ReadPage(owner->argv[1]);
-        wxTreeItemId tidPage = objTree->AppendItem(objTree->AddRoot(page->ageName), page->pageName);
-        plSceneNode* sn = rm.getSceneNode(page->pageID);
+        plPageInfo* page = rm.ReadPage(owner->argv[1]);
+        wxTreeItemId tidPage = objTree->AppendItem(objTree->AddRoot(page->getAge()), page->getPage());
+        plSceneNode* sn = rm.getSceneNode(page->getLocation());
         if (sn != NULL) {
             for (int i=0; i<sn->SceneObjects.getSize(); i++)
-                objTree->AppendItem(tidPage, wxT(sn->SceneObjects[i]->objName));
+                objTree->AppendItem(tidPage, wxT(sn->SceneObjects[i]->getName()));
             for (int j=0; j<sn->OtherObjects.getSize(); j++)
-                objTree->AppendItem(tidPage, wxT(sn->OtherObjects[j]->objName));
+                objTree->AppendItem(tidPage, wxT(sn->OtherObjects[j]->getName()));
         }
     
         props->AddPage("Alphabetical");
         props->Append(wxPropertyCategory("Page Settings"));
-        props->Append(wxStringProperty("Page ID", "The PageID", wxT(page->pageID.toString())));
-        props->Append(wxEnumProperty("Page Type", "Type of page",
-            enPageTypes, evPageTypes, page->pageType));
-        props->Append(wxStringProperty("Age Name", wxPG_LABEL, wxT(page->ageName)));
-        props->Append(wxStringProperty("Page Name", wxPG_LABEL, wxT(page->pageName)));
+        props->Append(wxStringProperty("Page ID", "The PageID", wxT(page->getLocation().toString())));
+        props->Append(wxEnumProperty("Page Type", "Flags",
+            enPageTypes, evPageTypes, page->getLocation().flags));
+        props->Append(wxStringProperty("Age Name", wxPG_LABEL, wxT(page->getAge())));
+        props->Append(wxStringProperty("Page Name", wxPG_LABEL, wxT(page->getPage())));
     }
 }
 
