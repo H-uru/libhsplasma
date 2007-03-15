@@ -2,7 +2,7 @@
 #define _PLASMA_DEFS_H
 
 #ifdef WIN32
-  #ifdef _MAKEDLL_
+  #ifdef MAKEDLL
     #define DllExport __declspec(dllexport)
   #else
     #define DllExport __declspec(dllimport)

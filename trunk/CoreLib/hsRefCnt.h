@@ -1,7 +1,9 @@
 #ifndef _HSREFCOUNT_H
 #define _HSREFCOUNT_H
 
-class hsRefCnt {
+#include "../PlasmaDefs.h"
+
+DllClass hsRefCnt {
 protected:
     int refCount;
 

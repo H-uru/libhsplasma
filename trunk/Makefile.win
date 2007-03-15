@@ -1,114 +1,218 @@
-# Project: Plasma
-# Makefile created by Dev-C++ 4.9.9.2
+CC = g++
+CFLAGS = -O2 -Wall -DMAKEDLL
+CFLAGSEXTERN = -O2
 
-CPP  = g++.exe
-CC   = gcc.exe
-WINDRES = windres.exe
-RES  = 
-OBJ  = PlasmaTest.o DynLib/PageID.o CoreLib/hsStream.o NucleusLib/pnKeyedObject/plKey.o CoreLib/plEncryptedStream.o hsMatrix44.o plCreatable.o plReceiver.o NucleusLib/pnKeyedObject/hsKeyedObject.o DynLib/plString.o NucleusLib/pnNetCommon/plSynchedObject.o PubUtilLib/plGImage/plBitmap.o CoreLib/hsBitVector.o NucleusLib/pnSceneObject/plObjInterface.o PubUtilLib/plGImage/plFont.o PubUtilLib/plAvatar/plClothingItem.o NucleusLib/pnSceneObject/plAudioInterface.o NucleusLib/pnSceneObject/plCoordinateInterface.o NucleusLib/pnSceneObject/plDrawInterface.o NucleusLib/pnSceneObject/plSimulationInterface.o Vertex3.o hsRefCount.o hsScalarTriple.o PubUtilLib/plDrawable/plSpan.o PubUtilLib/plScene/plSceneNode.o PubUtilLib/plSurface/hsGMaterial.o NucleusLib/pnSceneObject/plSceneObject.o CoreLib/hsBounds.o CoreLib/hsElfStream.o $(RES)
-LINKOBJ  = PlasmaTest.o DynLib/PageID.o CoreLib/hsStream.o NucleusLib/pnKeyedObject/plKey.o CoreLib/plEncryptedStream.o hsMatrix44.o plCreatable.o plReceiver.o NucleusLib/pnKeyedObject/hsKeyedObject.o DynLib/plString.o NucleusLib/pnNetCommon/plSynchedObject.o PubUtilLib/plGImage/plBitmap.o CoreLib/hsBitVector.o NucleusLib/pnSceneObject/plObjInterface.o PubUtilLib/plGImage/plFont.o PubUtilLib/plAvatar/plClothingItem.o NucleusLib/pnSceneObject/plAudioInterface.o NucleusLib/pnSceneObject/plCoordinateInterface.o NucleusLib/pnSceneObject/plDrawInterface.o NucleusLib/pnSceneObject/plSimulationInterface.o Vertex3.o hsRefCount.o hsScalarTriple.o PubUtilLib/plDrawable/plSpan.o PubUtilLib/plScene/plSceneNode.o PubUtilLib/plSurface/hsGMaterial.o NucleusLib/pnSceneObject/plSceneObject.o CoreLib/hsBounds.o CoreLib/hsElfStream.o $(RES)
-LIBS =  -L"D:/Dev/Libs/Directx-10/Lib" -L"D:/Dev/Dev-Cpp/lib"  
-INCS =  -I"D:/Dev/Dev-Cpp/include" 
-CXXINCS =  -I"D:/Dev/Libs/Directx-10/Include"  -I"D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2/backward"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"D:/Dev/Dev-Cpp/include/c++/3.4.2"  -I"D:/Dev/Dev-Cpp/include" 
-BIN  = bin/Plasma.exe
-CXXFLAGS = $(CXXINCS)   -fexpensive-optimizations -O2
-CFLAGS = $(INCS)   -fexpensive-optimizations -O2
-RM = rm -f
+LIBDIR=out/
+OBJFILES=\
+	$(LIBDIR)hsRefCnt.o \
+	$(LIBDIR)hsStream.o \
+	$(LIBDIR)plEncryptedStream.o \
+	$(LIBDIR)hsElfStream.o \
+	$(LIBDIR)plPageInfo.o \
+	$(LIBDIR)plResManager.o \
+	$(LIBDIR)plKeyCollector.o \
+	$(LIBDIR)hsBitVector.o \
+	$(LIBDIR)hsMatrix44.o \
+	$(LIBDIR)hsGeometry3.o \
+	$(LIBDIR)hsBounds.o \
+	$(LIBDIR)plLoadMask.o \
+	$(LIBDIR)PageID.o \
+	$(LIBDIR)plCreatable.o \
+	$(LIBDIR)plFactory.o \
+	$(LIBDIR)plKey.o \
+	$(LIBDIR)plReceiver.o \
+	$(LIBDIR)hsKeyedObject.o \
+	$(LIBDIR)plUoid.o \
+	$(LIBDIR)plMessage.o \
+	$(LIBDIR)plModifier.o \
+	$(LIBDIR)plSynchedObject.o \
+	$(LIBDIR)plObjInterface.o \
+	$(LIBDIR)plAudioInterface.o \
+	$(LIBDIR)plCoordinateInterface.o \
+	$(LIBDIR)plDrawInterface.o \
+	$(LIBDIR)plSimulationInterface.o \
+	$(LIBDIR)plSceneObject.o \
+	$(LIBDIR)plClothingItem.o \
+	$(LIBDIR)plDrawableSpans.o \
+	$(LIBDIR)plSpan.o \
+	$(LIBDIR)plVertexSpan.o \
+	$(LIBDIR)plIcicle.o \
+	$(LIBDIR)plGeometrySpan.o \
+	$(LIBDIR)plSpaceTree.o \
+	$(LIBDIR)plBitmap.o \
+	$(LIBDIR)plFont.o \
+	$(LIBDIR)plMipmap.o \
+	$(LIBDIR)plLightInfo.o \
+	$(LIBDIR)plJPEG.o \
+	$(LIBDIR)plCubicEnvironmap.o \
+	$(LIBDIR)plFogEnvironment.o \
+	$(LIBDIR)hsGDeviceRef.o \
+	$(LIBDIR)plGBufferGroup.o \
+	$(LIBDIR)plSceneNode.o \
+	$(LIBDIR)hsGMaterial.o \
+	$(LIBDIR)plLayerInterface.o \
+	$(LIBDIR)plPythonFileMod.o \
+	$(LIBDIR)rijndael.o
+PLSLIB=lib/libPlasma.dll
 
-.PHONY: all all-before all-after clean clean-custom
+all: $(PLSLIB)
 
-all: all-before bin/Plasma.exe all-after
+$(PLSLIB): $(OBJFILES)
+	$(CC) $(CFLAGS) $(OBJFILES) -shared -o $(PLSLIB)
 
+$(LIBDIR)hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsRefCnt.cpp -o $(LIBDIR)hsRefCnt.o
 
-clean: clean-custom
-	${RM} $(OBJ) $(BIN)
+$(LIBDIR)hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsStream.cpp -o $(LIBDIR)hsStream.o
 
-$(BIN): $(OBJ)
-	$(CPP) $(LINKOBJ) -o "bin\Plasma.exe" $(LIBS)
+$(LIBDIR)plEncryptedStream.o: CoreLib/plEncryptedStream.h CoreLib/plEncryptedStream.cpp
+	$(CC) $(CFLAGS) -c CoreLib/plEncryptedStream.cpp -o $(LIBDIR)plEncryptedStream.o
 
-PlasmaTest.o: PlasmaTest.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h hsMatrix44.h CoreLib/hsStream.h   CoreLib/../DynLib/PlasmaVersions.h CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h CoreLib/hsStream.h DynLib/PageID.h   DynLib/PlasmaVersions.h DynLib/../CoreLib/hsStream.h
-	$(CPP) -c PlasmaTest.cpp -o PlasmaTest.o $(CXXFLAGS)
+$(LIBDIR)hsElfStream.o: CoreLib/hsElfStream.h CoreLib/hsElfStream.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsElfStream.cpp -o $(LIBDIR)hsElfStream.o
 
-DynLib/PageID.o: DynLib/PageID.cpp DynLib/PageID.h DynLib/PlasmaVersions.h   DynLib/../CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   DynLib/../CoreLib/../DynLib/PlasmaVersions.h
-	$(CPP) -c DynLib/PageID.cpp -o DynLib/PageID.o $(CXXFLAGS)
+$(LIBDIR)hsBitVector.o: CoreLib/hsBitVector.h CoreLib/hsBitVector.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsBitVector.cpp -o $(LIBDIR)hsBitVector.o
 
-CoreLib/hsStream.o: CoreLib/hsStream.cpp D:/Dev/Dev-Cpp/include/string.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h
-	$(CPP) -c CoreLib/hsStream.cpp -o CoreLib/hsStream.o $(CXXFLAGS)
+$(LIBDIR)hsMatrix44.o: CoreLib/hsMatrix44.h CoreLib/hsMatrix44.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsMatrix44.cpp -o $(LIBDIR)hsMatrix44.o
 
-NucleusLib/pnKeyedObject/plKey.o: NucleusLib/pnKeyedObject/plKey.cpp   D:/Dev/Dev-Cpp/include/stdlib.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/include/string.h   NucleusLib/pnKeyedObject/../../PlasmaConstants.h   NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h
-	$(CPP) -c NucleusLib/pnKeyedObject/plKey.cpp -o NucleusLib/pnKeyedObject/plKey.o $(CXXFLAGS)
+$(LIBDIR)hsGeometry3.o: CoreLib/hsGeometry3.h CoreLib/hsGeometry3.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsGeometry3.cpp -o $(LIBDIR)hsGeometry3.o
 
-CoreLib/plEncryptedStream.o: CoreLib/plEncryptedStream.cpp 
-	$(CPP) -c CoreLib/plEncryptedStream.cpp -o CoreLib/plEncryptedStream.o $(CXXFLAGS)
+$(LIBDIR)hsBounds.o: CoreLib/hsBounds.h CoreLib/hsBounds.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsBounds.cpp -o $(LIBDIR)hsBounds.o
 
-hsMatrix44.o: hsMatrix44.cpp D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h D:/Dev/Dev-Cpp/include/math.h   hsMatrix44.h CoreLib/hsStream.h CoreLib/../DynLib/PlasmaVersions.h
-	$(CPP) -c hsMatrix44.cpp -o hsMatrix44.o $(CXXFLAGS)
+$(LIBDIR)plLoadMask.o: CoreLib/plLoadMask.h CoreLib/plLoadMask.cpp
+	$(CC) $(CFLAGS) -c CoreLib/plLoadMask.cpp -o $(LIBDIR)plLoadMask.o
 
-plCreatable.o: plCreatable.cpp plCreatable.h hsRefCount.h   CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h
-	$(CPP) -c plCreatable.cpp -o plCreatable.o $(CXXFLAGS)
+$(LIBDIR)PageID.o: DynLib/PageID.h DynLib/PageID.cpp
+	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o $(LIBDIR)PageID.o
 
-plReceiver.o: plReceiver.cpp plReceiver.h plCreatable.h hsRefCount.h   CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h
-	$(CPP) -c plReceiver.cpp -o plReceiver.o $(CXXFLAGS)
+$(LIBDIR)plCreatable.o: NucleusLib/pnFactory/plCreatable.h NucleusLib/pnFactory/plCreatable.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plCreatable.cpp -o $(LIBDIR)plCreatable.o
 
-NucleusLib/pnKeyedObject/hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.cpp   NucleusLib/pnKeyedObject/hsKeyedObject.h   NucleusLib/pnKeyedObject/../../plReceiver.h   NucleusLib/pnKeyedObject/../../plCreatable.h   NucleusLib/pnKeyedObject/../../hsRefCount.h   NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h
-	$(CPP) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o NucleusLib/pnKeyedObject/hsKeyedObject.o $(CXXFLAGS)
+$(LIBDIR)plFactory.o: NucleusLib/pnFactory/plFactory.h NucleusLib/pnFactory/plFactory.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plFactory.cpp -o $(LIBDIR)plFactory.o
 
-DynLib/plString.o: DynLib/plString.cpp D:/Dev/Dev-Cpp/include/string.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h DynLib/plString.h   DynLib/../plCreatable.h DynLib/../hsRefCount.h   DynLib/../CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   DynLib/../CoreLib/../DynLib/PlasmaVersions.h   DynLib/../CoreLib/hsStream.h
-	$(CPP) -c DynLib/plString.cpp -o DynLib/plString.o $(CXXFLAGS)
+$(LIBDIR)plKey.o: NucleusLib/pnKeyedObject/plKey.h NucleusLib/pnKeyedObject/plKey.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plKey.cpp -o $(LIBDIR)plKey.o
 
-NucleusLib/pnNetCommon/plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.cpp   NucleusLib/pnNetCommon/plSynchedObject.h   NucleusLib/pnNetCommon/../pnKeyedObject/hsKeyedObject.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../plReceiver.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../plCreatable.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../hsRefCount.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   NucleusLib/pnNetCommon/../../CoreLib/hsStream.h   NucleusLib/pnNetCommon/../../DynLib/plString.h   NucleusLib/pnNetCommon/../../DynLib/../plCreatable.h   NucleusLib/pnNetCommon/../../DynLib/../CoreLib/hsStream.h
-	$(CPP) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o NucleusLib/pnNetCommon/plSynchedObject.o $(CXXFLAGS)
+$(LIBDIR)plReceiver.o: NucleusLib/pnKeyedObject/plReceiver.h NucleusLib/pnKeyedObject/plReceiver.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plReceiver.cpp -o $(LIBDIR)plReceiver.o
 
-PubUtilLib/plGImage/plBitmap.o: PubUtilLib/plGImage/plBitmap.cpp   PubUtilLib/plGImage/plBitmap.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/hsKeyedObject.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../plReceiver.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../plCreatable.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../hsRefCount.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   PubUtilLib/plGImage/../../CoreLib/hsStream.h
-	$(CPP) -c PubUtilLib/plGImage/plBitmap.cpp -o PubUtilLib/plGImage/plBitmap.o $(CXXFLAGS)
+$(LIBDIR)hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.h NucleusLib/pnKeyedObject/hsKeyedObject.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o $(LIBDIR)hsKeyedObject.o
 
-CoreLib/hsBitVector.o: CoreLib/hsBitVector.cpp CoreLib/hsBitVector.h   CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h   D:/Dev/Dev-Cpp/include/string.h
-	$(CPP) -c CoreLib/hsBitVector.cpp -o CoreLib/hsBitVector.o $(CXXFLAGS)
+$(LIBDIR)plUoid.o: NucleusLib/pnKeyedObject/plUoid.h NucleusLib/pnKeyedObject/plUoid.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plUoid.cpp -o $(LIBDIR)plUoid.o
 
-NucleusLib/pnSceneObject/plObjInterface.o: NucleusLib/pnSceneObject/plObjInterface.cpp   NucleusLib/pnSceneObject/plObjInterface.h   NucleusLib/pnSceneObject/../../CoreLib/hsBitVector.h   NucleusLib/pnSceneObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnSceneObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/plSynchedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/hsKeyedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plReceiver.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../hsRefCount.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/plString.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnMessage/plMessage.h   NucleusLib/pnSceneObject/../pnMessage/../../plReceiver.h
-	$(CPP) -c NucleusLib/pnSceneObject/plObjInterface.cpp -o NucleusLib/pnSceneObject/plObjInterface.o $(CXXFLAGS)
+$(LIBDIR)plMessage.o: NucleusLib/pnMessage/plMessage.h NucleusLib/pnMessage/plMessage.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnMessage/plMessage.cpp -o $(LIBDIR)plMessage.o
 
-PubUtilLib/plGImage/plFont.o: PubUtilLib/plGImage/plFont.cpp PubUtilLib/plGImage/plFont.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/hsKeyedObject.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../plReceiver.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../plCreatable.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../hsRefCount.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   PubUtilLib/plGImage/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   PubUtilLib/plGImage/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/string.h
-	$(CPP) -c PubUtilLib/plGImage/plFont.cpp -o PubUtilLib/plGImage/plFont.o $(CXXFLAGS)
+$(LIBDIR)plModifier.o: NucleusLib/pnModifier/plModifier.h NucleusLib/pnModifier/plModifier.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnModifier/plModifier.cpp -o $(LIBDIR)plModifier.o
 
-PubUtilLib/plAvatar/plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.cpp   PubUtilLib/plAvatar/plClothingItem.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/hsKeyedObject.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../plReceiver.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../plCreatable.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../hsRefCount.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   PubUtilLib/plAvatar/../../NucleusLib/pnKeyedObject/plKey.h   PubUtilLib/plAvatar/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   PubUtilLib/plAvatar/../../CoreLib/hsStream.h
-	$(CPP) -c PubUtilLib/plAvatar/plClothingItem.cpp -o PubUtilLib/plAvatar/plClothingItem.o $(CXXFLAGS)
+$(LIBDIR)plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.h NucleusLib/pnNetCommon/plSynchedObject.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o $(LIBDIR)plSynchedObject.o
 
-NucleusLib/pnSceneObject/plAudioInterface.o: NucleusLib/pnSceneObject/plAudioInterface.cpp   NucleusLib/pnSceneObject/plAudioInterface.h   NucleusLib/pnSceneObject/plObjInterface.h   NucleusLib/pnSceneObject/../../CoreLib/hsBitVector.h   NucleusLib/pnSceneObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnSceneObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/plSynchedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/hsKeyedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plReceiver.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../hsRefCount.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/plString.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnMessage/plMessage.h   NucleusLib/pnSceneObject/../pnMessage/../../plReceiver.h
-	$(CPP) -c NucleusLib/pnSceneObject/plAudioInterface.cpp -o NucleusLib/pnSceneObject/plAudioInterface.o $(CXXFLAGS)
+$(LIBDIR)plAudioInterface.o: NucleusLib/pnSceneObject/plAudioInterface.h NucleusLib/pnSceneObject/plAudioInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plAudioInterface.cpp -o $(LIBDIR)plAudioInterface.o
 
-NucleusLib/pnSceneObject/plCoordinateInterface.o: NucleusLib/pnSceneObject/plCoordinateInterface.cpp pp   NucleusLib/pnSceneObject/plCoordinateInterface.h   NucleusLib/pnSceneObject/plObjInterface.h   NucleusLib/pnSceneObject/../../CoreLib/hsBitVector.h   NucleusLib/pnSceneObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnSceneObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/plSynchedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/hsKeyedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plReceiver.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../hsRefCount.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/plString.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnMessage/plMessage.h   NucleusLib/pnSceneObject/../pnMessage/../../plReceiver.h   NucleusLib/pnSceneObject/../../CoreLib/hsTArray.hpp   NucleusLib/pnSceneObject/../../hsMatrix44.h   NucleusLib/pnSceneObject/../../CoreLib/hsStream.h
-	$(CPP) -c NucleusLib/pnSceneObject/plCoordinateInterface.cpp -o NucleusLib/pnSceneObject/plCoordinateInterface.o $(CXXFLAGS)
+$(LIBDIR)plCoordinateInterface.o: NucleusLib/pnSceneObject/plCoordinateInterface.h NucleusLib/pnSceneObject/plCoordinateInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plCoordinateInterface.cpp -o $(LIBDIR)plCoordinateInterface.o
 
-NucleusLib/pnSceneObject/plDrawInterface.o: NucleusLib/pnSceneObject/plDrawInterface.cpp   NucleusLib/pnSceneObject/plDrawInterface.h   NucleusLib/pnSceneObject/plObjInterface.h   NucleusLib/pnSceneObject/../../CoreLib/hsBitVector.h   NucleusLib/pnSceneObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnSceneObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/plSynchedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/hsKeyedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plReceiver.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../hsRefCount.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/plString.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnMessage/plMessage.h   NucleusLib/pnSceneObject/../pnMessage/../../plReceiver.h
-	$(CPP) -c NucleusLib/pnSceneObject/plDrawInterface.cpp -o NucleusLib/pnSceneObject/plDrawInterface.o $(CXXFLAGS)
+$(LIBDIR)plDrawInterface.o: NucleusLib/pnSceneObject/plDrawInterface.h NucleusLib/pnSceneObject/plDrawInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plDrawInterface.cpp -o $(LIBDIR)plDrawInterface.o
 
-NucleusLib/pnSceneObject/plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface.cpp pp   NucleusLib/pnSceneObject/plSimulationInterface.h   NucleusLib/pnSceneObject/plObjInterface.h   NucleusLib/pnSceneObject/../../CoreLib/hsBitVector.h   NucleusLib/pnSceneObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnSceneObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/plSynchedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/hsKeyedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plReceiver.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../hsRefCount.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/plString.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnMessage/plMessage.h   NucleusLib/pnSceneObject/../pnMessage/../../plReceiver.h
-	$(CPP) -c NucleusLib/pnSceneObject/plSimulationInterface.cpp -o NucleusLib/pnSceneObject/plSimulationInterface.o $(CXXFLAGS)
+$(LIBDIR)plObjInterface.o: NucleusLib/pnSceneObject/plObjInterface.h NucleusLib/pnSceneObject/plObjInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plObjInterface.cpp -o $(LIBDIR)plObjInterface.o
 
-Vertex3.o: Vertex3.cpp Vertex3.h CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h
-	$(CPP) -c Vertex3.cpp -o Vertex3.o $(CXXFLAGS)
+$(LIBDIR)plSceneObject.o: NucleusLib/pnSceneObject/plSceneObject.h NucleusLib/pnSceneObject/plSceneObject.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plSceneObject.cpp -o $(LIBDIR)plSceneObject.o
 
-hsRefCount.o: hsRefCount.cpp hsRefCount.h
-	$(CPP) -c hsRefCount.cpp -o hsRefCount.o $(CXXFLAGS)
+$(LIBDIR)plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface.h NucleusLib/pnSceneObject/plSimulationInterface.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plSimulationInterface.cpp -o $(LIBDIR)plSimulationInterface.o
 
-hsScalarTriple.o: hsScalarTriple.cpp hsScalarTriple.h CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h
-	$(CPP) -c hsScalarTriple.cpp -o hsScalarTriple.o $(CXXFLAGS)
+$(LIBDIR)plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.h PubUtilLib/plAvatar/plClothingItem.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAvatar/plClothingItem.cpp -o $(LIBDIR)plClothingItem.o
 
-PubUtilLib/plDrawable/plSpan.o: PubUtilLib/plDrawable/plSpan.cpp PubUtilLib/plDrawable/plSpan.h   PubUtilLib/plDrawable/../../hsMatrix44.h   PubUtilLib/plDrawable/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   PubUtilLib/plDrawable/../../CoreLib/../DynLib/PlasmaVersions.h   PubUtilLib/plDrawable/../../CoreLib/hsStream.h   PubUtilLib/plDrawable/../../CoreLib/hsBounds.h   PubUtilLib/plDrawable/../../CoreLib/hsStream.h   PubUtilLib/plDrawable/../../CoreLib/../Vertex3.h   PubUtilLib/plDrawable/../../CoreLib/../CoreLib/hsStream.h   PubUtilLib/plDrawable/../../CoreLib/../hsScalarTriple.h
-	$(CPP) -c PubUtilLib/plDrawable/plSpan.cpp -o PubUtilLib/plDrawable/plSpan.o $(CXXFLAGS)
+$(LIBDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(LIBDIR)plDrawableSpans.o
 
-PubUtilLib/plScene/plSceneNode.o: PubUtilLib/plScene/plSceneNode.cpp   PubUtilLib/plScene/plSceneNode.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/hsKeyedObject.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../plReceiver.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../plCreatable.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../hsRefCount.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   PubUtilLib/plScene/../../NucleusLib/pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   PubUtilLib/plScene/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   PubUtilLib/plScene/../../CoreLib/hsStream.h
-	$(CPP) -c PubUtilLib/plScene/plSceneNode.cpp -o PubUtilLib/plScene/plSceneNode.o $(CXXFLAGS)
+$(LIBDIR)plSpan.o: PubUtilLib/plDrawable/plSpan.h PubUtilLib/plDrawable/plSpan.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSpan.cpp -o $(LIBDIR)plSpan.o
 
-PubUtilLib/plSurface/hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.cpp   PubUtilLib/plSurface/hsGMaterial.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/plSynchedObject.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/hsKeyedObject.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../plReceiver.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../plCreatable.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../hsRefCount.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../../CoreLib/hsStream.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../../DynLib/plString.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../../DynLib/../plCreatable.h   PubUtilLib/plSurface/../../NucleusLib/pnNetCommon/../../DynLib/../CoreLib/hsStream.h
-	$(CPP) -c PubUtilLib/plSurface/hsGMaterial.cpp -o PubUtilLib/plSurface/hsGMaterial.o $(CXXFLAGS)
+$(LIBDIR)plVertexSpan.o: PubUtilLib/plDrawable/plVertexSpan.h PubUtilLib/plDrawable/plVertexSpan.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plVertexSpan.cpp -o $(LIBDIR)plVertexSpan.o
 
-NucleusLib/pnSceneObject/plSceneObject.o: NucleusLib/pnSceneObject/plSceneObject.cpp   NucleusLib/pnSceneObject/plSceneObject.h   NucleusLib/pnSceneObject/../pnNetCommon/plSynchedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/hsKeyedObject.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plReceiver.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../hsRefCount.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../CoreLib/../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/plKey.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PageID.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/PlasmaVersions.h   NucleusLib/pnSceneObject/../pnNetCommon/../pnKeyedObject/../../NucleusLib/pnKeyedObject/../../DynLib/../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsTArray.hpp   D:/Dev/Dev-Cpp/include/stdlib.h   NucleusLib/pnSceneObject/../pnNetCommon/../../CoreLib/hsStream.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/plString.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../plCreatable.h   NucleusLib/pnSceneObject/../pnNetCommon/../../DynLib/../CoreLib/hsStream.h
-	$(CPP) -c NucleusLib/pnSceneObject/plSceneObject.cpp -o NucleusLib/pnSceneObject/plSceneObject.o $(CXXFLAGS)
+$(LIBDIR)plIcicle.o: PubUtilLib/plDrawable/plIcicle.h PubUtilLib/plDrawable/plIcicle.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plIcicle.cpp -o $(LIBDIR)plIcicle.o
 
-CoreLib/hsBounds.o: CoreLib/hsBounds.cpp CoreLib/hsBounds.h CoreLib/hsStream.h   D:/Dev/Dev-Cpp/include/stdio.h D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h   CoreLib/../Vertex3.h CoreLib/../CoreLib/hsStream.h   CoreLib/../hsScalarTriple.h
-	$(CPP) -c CoreLib/hsBounds.cpp -o CoreLib/hsBounds.o $(CXXFLAGS)
+$(LIBDIR)plGeometrySpan.o: PubUtilLib/plDrawable/plGeometrySpan.h PubUtilLib/plDrawable/plGeometrySpan.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plGeometrySpan.cpp -o $(LIBDIR)plGeometrySpan.o
 
-CoreLib/hsElfStream.o: CoreLib/hsElfStream.cpp CoreLib/hsElfStream.h   CoreLib/hsStream.h D:/Dev/Dev-Cpp/include/stdio.h   D:/Dev/Dev-Cpp/include/_mingw.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stddef.h   D:/Dev/Dev-Cpp/lib/gcc/mingw32/3.4.2/include/stdarg.h   D:/Dev/Dev-Cpp/include/sys/types.h CoreLib/../DynLib/PlasmaVersions.h
-	$(CPP) -c CoreLib/hsElfStream.cpp -o CoreLib/hsElfStream.o $(CXXFLAGS)
+$(LIBDIR)plSpaceTree.o: PubUtilLib/plDrawable/plSpaceTree.h PubUtilLib/plDrawable/plSpaceTree.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSpaceTree.cpp -o $(LIBDIR)plSpaceTree.o
+
+$(LIBDIR)plBitmap.o: PubUtilLib/plGImage/plBitmap.h PubUtilLib/plGImage/plBitmap.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plBitmap.cpp -o $(LIBDIR)plBitmap.o
+
+$(LIBDIR)plCubicEnvironmap.o: PubUtilLib/plGImage/plCubicEnvironmap.h PubUtilLib/plGImage/plCubicEnvironmap.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plCubicEnvironmap.cpp -o $(LIBDIR)plCubicEnvironmap.o
+
+$(LIBDIR)plFont.o: PubUtilLib/plGImage/plFont.h PubUtilLib/plGImage/plFont.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plFont.cpp -o $(LIBDIR)plFont.o
+
+$(LIBDIR)plMipmap.o: PubUtilLib/plGImage/plMipmap.h PubUtilLib/plGImage/plMipmap.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGImage/plMipmap.cpp -o $(LIBDIR)plMipmap.o
+
+$(LIBDIR)plLightInfo.o: PubUtilLib/plGLight/plLightInfo.h PubUtilLib/plGLight/plLightInfo.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGLight/plLightInfo.cpp -o $(LIBDIR)plLightInfo.o
+
+$(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(LIBDIR)plJPEG.o
+
+$(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o
+
+$(LIBDIR)hsGDeviceRef.o: PubUtilLib/plPipeline/hsGDeviceRef.h PubUtilLib/plPipeline/hsGDeviceRef.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/hsGDeviceRef.cpp -o $(LIBDIR)hsGDeviceRef.o
+
+$(LIBDIR)plGBufferGroup.o: PubUtilLib/plPipeline/plGBufferGroup.h PubUtilLib/plPipeline/plGBufferGroup.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plGBufferGroup.cpp -o $(LIBDIR)plGBufferGroup.o
+
+$(LIBDIR)plKeyCollector.o: PubUtilLib/plResMgr/plKeyCollector.h PubUtilLib/plResMgr/plKeyCollector.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plKeyCollector.cpp -o $(LIBDIR)plKeyCollector.o
+
+$(LIBDIR)plPageInfo.o: PubUtilLib/plResMgr/plPageInfo.h PubUtilLib/plResMgr/plPageInfo.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plPageInfo.cpp -o $(LIBDIR)plPageInfo.o
+
+$(LIBDIR)plResManager.o: PubUtilLib/plResMgr/plResManager.h PubUtilLib/plResMgr/plResManager.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plResManager.cpp -o $(LIBDIR)plResManager.o
+
+$(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSceneNode.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plScene/plSceneNode.cpp -o $(LIBDIR)plSceneNode.o
+
+$(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/hsGMaterial.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o $(LIBDIR)hsGMaterial.o
+
+$(LIBDIR)plLayerInterface.o: PubUtilLib/plSurface/plLayerInterface.h PubUtilLib/plSurface/plLayerInterface.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/plLayerInterface.cpp -o $(LIBDIR)plLayerInterface.o
+
+$(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o
+
+$(LIBDIR)rijndael.o: rijndael.h rijndael.cpp
+	$(CC) $(CFLAGSEXTERN) -c rijndael.cpp -o $(LIBDIR)rijndael.o
+
+install:
+	cp $(PLSLIB) /usr/local/lib
+	ldconfig
+
+clean:
+	rm $(OBJFILES)
+
+distclean:
+	rm $(PLSLIB)

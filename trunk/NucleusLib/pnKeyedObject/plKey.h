@@ -5,7 +5,7 @@
 #include "../../CoreLib/hsRefCnt.h"
 #include "plUoid.h"
 
-class plKey : public hsRefCnt {
+DllClass plKey : public hsRefCnt {
 public:
     plUoid uoid;
     class hsKeyedObject* objPtr;

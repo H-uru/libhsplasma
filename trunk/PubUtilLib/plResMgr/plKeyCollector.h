@@ -6,7 +6,7 @@
 #include <map>
 #include <vector>
 
-class plKeyCollector {
+DllClass plKeyCollector {
 private:
     std::map<PageID, std::vector<plKey*>, PageComparator> keys;
 

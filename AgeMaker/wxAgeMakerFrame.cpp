@@ -3,33 +3,39 @@
 #include "PubUtilLib/plScene/plSceneNode.h"
 #include <GL/gl.h>
 
-wxAgeMakerFrame::wxAgeMakerFrame(wxApp* owner)
-               : wxFrame((wxFrame*)NULL, -1, "AgeMaker") {
+wxAgeMakerFrame::wxAgeMakerFrame(wxApp* creator)
+    : wxFrame(NULL, -1, "AgeMaker", wxDefaultPosition, wxSize(800, 600)) {
+    owner = creator;
     wxFlexGridSizer* sz1 = new wxFlexGridSizer(1, 2, 0, 4);
+    //sz1->AddGrowableCol(0);
+    sz1->AddGrowableCol(1);
+    sz1->AddGrowableRow(0);
+    sz1->SetFlexibleDirection(wxBOTH);
     
     wxFlexGridSizer* sz2 = new wxFlexGridSizer(2, 1, 4, 0);
+    sz2->AddGrowableCol(0);
+    sz2->AddGrowableRow(0);
+    sz2->AddGrowableRow(1);
+    sz2->SetFlexibleDirection(wxBOTH);
+
     objTree = new wxTreeCtrl(this);
     objTree->SetMinSize(wxSize(200, 200));
-    sz2->Add(objTree);
-    props = new wxPropertyGridManager(this, -1, wxDefaultPosition, wxDefaultSize,
+    sz2->Add(objTree, 1, wxEXPAND, 0);
+    props = new wxPropertyGridManager(this, -1, wxDefaultPosition, wxSize(200, -1),
                                       wxPGMAN_DEFAULT_STYLE | wxPG_AUTO_SORT |
-                                      wxPG_SPLITTER_AUTO_CENTER | wxPG_TOOLBAR |
-                                      wxPG_BOLD_MODIFIED | wxPG_DESCRIPTION);
+                                      wxPG_TOOLBAR | wxPG_DESCRIPTION);
     props->SetMinSize(wxSize(200, 200));
-    sz2->Add(props);
+    sz2->Add(props, 1, wxEXPAND, 0);
     
-    sz1->Add(sz2);
-    glc = new wxGLCanvas(this, -1, wxDefaultPosition, wxDefaultSize);
-    glc->SetMinSize(wxSize(400, 400));
+    sz1->Add(sz2, 1, wxEXPAND, 0);
+    glc = new wxGLCanvas(this, -1, wxDefaultPosition, wxSize(200, -1));
+    //glc->SetMinSize(wxSize(400, 400));
 #if wxCHECK_VERSION(2, 7, 0)
     wxGLContext(glc).SetCurrent(*glc);
 #else
     glc->SetCurrent();
 #endif
-    sz1->Add(glc);
-    sz1->AddGrowableCol(1);
-    sz1->AddGrowableRow(0);
-    sz1->SetFlexibleDirection(wxBOTH);
+    sz1->Add(glc, 1, wxEXPAND, 0);
     
     statBar = new wxStatusBar(this, -1, wxST_SIZEGRIP, "statBar");
     SetStatusBar(statBar);

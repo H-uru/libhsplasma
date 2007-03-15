@@ -31,6 +31,7 @@ private:
     wxGLCanvas* glc;
     wxPropertyGridManager* props;
     wxTreeCtrl* objTree;
+    wxApp* owner;
     
 public:
     wxAgeMakerFrame(wxApp* owner);

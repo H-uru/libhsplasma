@@ -45,7 +45,16 @@ int main(int argc, char** argv) {
             if (strcmp(argv[i], "-help") == 0)
                 doHelp();
         } else {
-            plPageInfo* page = rm.ReadPage(argv[i]);
+            plPageInfo* page;
+            try {
+                page = rm.ReadPage(argv[i]);
+            } catch (const char* e) {
+                fprintf(stderr, "%s\n", e);
+                return 1;
+            } catch (...) {
+                fprintf(stderr, "Undefined error!\n");
+                return 1;
+            }
             printf("PageID: %s (%08X)\n", page->getLocation().toString(),
                                           page->getLocation().pageID.unparse());
             printf("Page Flags: %d\n", page->getLocation().flags);

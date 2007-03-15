@@ -5,7 +5,7 @@
 #include "../../CoreLib/plLoadMask.h"
 #include "../../DynLib/PageID.h"
 
-class plLocation {
+DllClass plLocation {
 public:
     enum LocFlags {
         kLocalOnly = 0x1,

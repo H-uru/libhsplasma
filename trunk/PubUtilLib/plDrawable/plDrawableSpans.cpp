@@ -47,7 +47,7 @@ void plDrawableSpans::read(hsStream* S) {
     for (i=0; i<count; i++) {
         unsigned int idx = S->readInt();
         if (idx & 0xC0000000) {
-          if (idx & 0xC0000000 == 0xC0000000)
+          if ((idx & 0xC0000000) == 0xC0000000)
               spans.append(((plSpan*&)particleSpans[idx & 0x3FFFFFFF]));
         } else {
             spans.append((plSpan*&)icicles[idx & 0x3FFFFFFF]);

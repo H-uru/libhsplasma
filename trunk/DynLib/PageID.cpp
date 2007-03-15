@@ -31,32 +31,28 @@ const char* PageID::toString() {
 }
 
 void PageID::parse(unsigned int id) {
-    seqPrefix = id >> (ver == pvLive ? 16 :  8);
+    pageID = id & (ver == pvLive ? 0x0000FFFF : 0x000000FF);
+    if (id & 0x80000000) {
+        id -= 1;
+        pageID -= 1;
+    } else {
+        id -= 0x21;
+        pageID -= 0x21;
+    }
+    seqPrefix = (signed int)id >> (ver == pvLive ? 16 : 8);
     if (id & 0x80000000)
-        seqPrefix = (seqPrefix & 0xFFFFFF00) | (~(seqPrefix & 0xFF) + 1);
-
-    if (id & 0x80000000)
-        pageID = (ver == pvLive) ? (id & 0xFFFF) - 1 : (id & 0xFF) - 1;
-    else
-        pageID = (ver == pvLive) ? (id & 0xFFFF) - 0x21 : (id & 0xFF) - 0x21;
-
-    if (pageID < 0) seqPrefix--;
+        seqPrefix = (seqPrefix & 0xFFFFFF00) | (0x100 - seqPrefix);
 }
 
 unsigned int PageID::unparse() {
-    unsigned int id = pageID;
-    if (ver == pvLive)
-        id = (pageID + (seqPrefix < 0 ? 1 : 0x21)) & 0xFFFF;
-    else
-        id = (pageID + (seqPrefix < 0 ? 1 : 0x21)) & 0xFF;
-
     int sp = seqPrefix;
-    if (sp < 0)
-        sp = (sp & 0xFFFFFF00) | (~(sp & 0xFF) + 1);
-    sp &= (ver == pvLive) ? 0xFFFF : 0xFF;
-    if (pageID < 0) sp++;
-    sp <<= (ver == pvLive) ? 16 : 8;
-    id |= sp;
+    if (sp < 0) 
+        sp = (sp & 0xFFFFFF00) | (0x100 - sp);
+    if (pageID < 0)
+        sp++;
+    unsigned int id = sp << (ver == pvLive ? 16 : 8);
+    id += pageID + (seqPrefix < 0 ? 1 : 0x21);
+    
     return id;
 }
 

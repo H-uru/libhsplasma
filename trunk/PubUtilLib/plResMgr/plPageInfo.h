@@ -4,7 +4,7 @@
 #include "../../CoreLib/hsStream.h"
 #include "../../NucleusLib/pnKeyedObject/plUoid.h"
 
-class plPageInfo {
+DllClass plPageInfo {
 public:
     enum Flags {
         kPartialPatchFile = 0x1,

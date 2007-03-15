@@ -23,15 +23,7 @@ void plKeyCollector::add(plKey* key) {
 }
 
 unsigned int plKeyCollector::countTypes(PageID& pid) {
-    unsigned int nTypes = 0;
-    short lastType = -1;
-    for (unsigned int i=0; i<keys[pid].size(); i++) {
-        if (keys[pid][i]->getType() != lastType) {
-            nTypes++;
-            lastType = keys[pid][i]->getType();
-        }
-    }
-    return nTypes;
+    return getTypes(pid).size();
 }
 
 unsigned int plKeyCollector::countKeys(PageID& pid) {
