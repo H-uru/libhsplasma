@@ -109,6 +109,16 @@ void plPageInfo::writeSums(hsStream* S) {
     S->seek(pos);
 }
 
+void plPageInfo::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    prc->startTag(S, "Page");
+    prc->writeParam(S, "AgeName", age);
+    prc->writeParam(S, "PageName", page);
+    prc->writeParam(S, "SeqPrefix", location.pageID.getSeqPrefix());
+    prc->writeParam(S, "SeqSuffix", location.pageID.getPageNum());
+    prc->writeParam(S, "Flags", location.flags);
+    prc->finishTag(S);
+}
+
 const char* plPageInfo::getAge() { return age; }
 const char* plPageInfo::getChapter() { return "District"; }
 const char* plPageInfo::getPage() { return page; }

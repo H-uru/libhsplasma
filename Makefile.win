@@ -6,16 +6,20 @@ all:
 	make -fMakefile.win Tools/PageConvert.exe
 	make -fMakefile.win Tools/PlasmaCrypt.exe
 	make -fMakefile.win Tools/PrpPack.exe
+	make -fMakefile.win Tools/PrcExtract.exe
 	#(cd AgeMaker ; make -fMakefile.win)
 
 Tools/PageConvert.exe: trunk/lib/libPlasma.dll Tools/src/PageConvert.cpp
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert.exe
 
 Tools/PlasmaCrypt.exe: trunk/lib/libPlasma.dll Tools/src/PlasmaCrypt.cpp
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt.exe
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt.exe
 
 Tools/PrpPack.exe: trunk/lib/libPlasma.dll Tools/src/PrpPack.cpp
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrpPack.cpp -o Tools/PrpPack.exe
+
+Tools/PrcExtract.exe: trunk/lib/libPlasma.dll Tools/src/PrcExtract.cpp
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract.exe
 
 clean:
 	(cd trunk ; make clean)
@@ -26,4 +30,5 @@ distclean:
 	rm Tools/PageConvert.exe
 	rm Tools/PlasmaCrypt.exe
 	rm Tools/PrpPack.exe
+	rm Tools/PrcExtract.exe
 	#(cd AgeMaker ; make distclean)

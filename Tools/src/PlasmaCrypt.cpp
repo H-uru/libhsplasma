@@ -54,10 +54,17 @@ bool parseKey(char* buf, unsigned int* val) {
             return false;
         }
     }
+#ifdef LEKEY
+    *val = (kMap[buf[0]] * 0x00000010) + (kMap[buf[1]] * 0x00000001) +
+           (kMap[buf[2]] * 0x00001000) + (kMap[buf[3]] * 0x00000100) +
+           (kMap[buf[4]] * 0x00100000) + (kMap[buf[5]] * 0x00010000) +
+           (kMap[buf[6]] * 0x10000000) + (kMap[buf[7]] * 0x01000000);
+#else
     *val = (kMap[buf[0]] * 0x10000000) + (kMap[buf[1]] * 0x01000000) +
            (kMap[buf[2]] * 0x00100000) + (kMap[buf[3]] * 0x00010000) +
            (kMap[buf[4]] * 0x00001000) + (kMap[buf[5]] * 0x00000100) +
            (kMap[buf[6]] * 0x00000010) + (kMap[buf[7]] * 0x00000001);
+#endif
     return true;
 }
 

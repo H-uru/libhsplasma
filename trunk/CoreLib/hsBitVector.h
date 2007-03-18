@@ -2,6 +2,7 @@
 #define _HSBITVECTOR_H
 
 #include "hsStream.h"
+#include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
 #define BVMASK 0x1F
 #define BVSHIFT 5
@@ -25,6 +26,8 @@ public:
 
     void read(hsStream *S);
     void write(hsStream *S);
+
+    void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "../../CoreLib/hsRefCnt.h"
 #include "../../CoreLib/hsStream.h"
 #include "../../DynLib/PlasmaVersions.h"
+#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 
 class plCreatable : public hsRefCnt {
 protected:
@@ -18,8 +19,11 @@ public:
     PlasmaVer getVer();
     virtual void setVer(PlasmaVer pv, bool mutate = false);
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    
+    //virtual void prcRead();
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

@@ -18,10 +18,12 @@ syn region  sdlString       matchgroup=Normal start=+"+ end=+"+
 if ! exists("g:urusdl_noUru")
   syn keyword sdlKeyword      STATEDESC VERSION VAR
   syn keyword sdlOption       DEFAULT DEFAULTOPTION DISPLAYOPTION
-  syn keyword sdlType         BOOL INT SHORT BYTE FLOAT STRING32
-  syn keyword sdlType         RGB8 POINT3 VECTOR3 QUATERNION
-  syn keyword sdlType         CREATABLE TIME AGETIMEOFDAY PLKEY
-  syn keyword sdlConstant     VAULT red hidden
+  syn keyword sdlOption       INTERNAL PHASED
+  syn case ignore
+  syn keyword sdlType         bool int short byte float double string32
+  syn keyword sdlType         rgb rgba rgb8 rgba8 point3 vector3 quat quaternion
+  syn keyword sdlType         creatable time ageTimeOfDay plKey message
+  syn keyword sdlConstant     vault hidden
   syn match   sdlIdentifier   "$\h\w*"
 endif
 

@@ -52,6 +52,7 @@ OBJFILES=\
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
 	$(LIBDIR)plPythonFileMod.o \
+	$(LIBDIR)pfPrcHelper.o \
 	$(LIBDIR)rijndael.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
@@ -203,6 +204,9 @@ $(LIBDIR)plLayerInterface.o: PubUtilLib/plSurface/plLayerInterface.h PubUtilLib/
 
 $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
 	$(CC) $(CFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o
+
+$(LIBDIR)pfPrcHelper.o: FeatureLib/pfPRC/pfPrcHelper.h FeatureLib/pfPRC/pfPrcHelper.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfPRC/pfPrcHelper.cpp -o $(LIBDIR)pfPrcHelper.o
 
 $(LIBDIR)rijndael.o: rijndael.h rijndael.cpp
 	$(CC) $(CFLAGSEXTERN) -c rijndael.cpp -o $(LIBDIR)rijndael.o

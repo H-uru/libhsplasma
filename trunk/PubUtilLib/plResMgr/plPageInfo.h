@@ -3,6 +3,7 @@
 
 #include "../../CoreLib/hsStream.h"
 #include "../../NucleusLib/pnKeyedObject/plUoid.h"
+#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 
 DllClass plPageInfo {
 public:
@@ -38,6 +39,8 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void writeSums(hsStream* S);
+    
+    void prcWrite(hsStream* S, pfPrcHelper* prc);
 
     const char* getAge();
     const char* getChapter();
