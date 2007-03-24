@@ -88,7 +88,7 @@ void plPageInfo::write(hsStream* S) {
             minorVer = 12;
         if (S->getVer() == pvLive) {
             majorVer = 69;
-            minorVer = 4;
+            minorVer = 5;
         }
         S->writeShort(majorVer);
         S->writeShort(minorVer);
@@ -113,9 +113,7 @@ void plPageInfo::prcWrite(hsStream* S, pfPrcHelper* prc) {
     prc->startTag(S, "Page");
     prc->writeParam(S, "AgeName", age);
     prc->writeParam(S, "PageName", page);
-    prc->writeParam(S, "SeqPrefix", location.pageID.getSeqPrefix());
-    prc->writeParam(S, "SeqSuffix", location.pageID.getPageNum());
-    prc->writeParam(S, "Flags", location.flags);
+    location.prcWrite(S, prc);
     prc->finishTag(S);
 }
 

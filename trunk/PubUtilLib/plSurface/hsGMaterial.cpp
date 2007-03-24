@@ -5,8 +5,9 @@ hsGMaterial::hsGMaterial(PlasmaVer pv) { }
 hsGMaterial::~hsGMaterial() { }
 
 short hsGMaterial::ClassIndex() { return 0x0007; }
+const char* hsGMaterial::ClassName() { return "hsGMaterial"; }
 
-void hsGMaterial::read(hsStream *S) {
+void hsGMaterial::read(hsStream* S) {
     plSynchedObject::read(S);
     readData(S);
 
@@ -21,7 +22,7 @@ void hsGMaterial::read(hsStream *S) {
     }
 }
 
-void hsGMaterial::write(hsStream *S) {
+void hsGMaterial::write(hsStream* S) {
     plSynchedObject::write(S);
     writeData(S);
 
@@ -32,7 +33,7 @@ void hsGMaterial::write(hsStream *S) {
         plResManager::inst->writeKey(S, PiggyBacks[i]);
 }
 
-void hsGMaterial::readData(hsStream *S) {
+void hsGMaterial::readData(hsStream* S) {
     loadFlags = S->readInt();
     compFlags = S->readInt();
     Layers.clear();
@@ -41,9 +42,30 @@ void hsGMaterial::readData(hsStream *S) {
     PiggyBacks.setSize(S->readInt());
 }
 
-void hsGMaterial::writeData(hsStream *S) {
+void hsGMaterial::writeData(hsStream* S) {
     S->writeInt(loadFlags);
     S->writeInt(compFlags);
     S->writeInt(Layers.getSize());
     S->writeInt(PiggyBacks.getSize());
+}
+
+void hsGMaterial::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(S, prc);
+
+    prc->startTag(S, "LoadFlags");
+    prc->writeParam(S, "value", loadFlags);
+    prc->finishTag(S, true);
+    prc->startTag(S, "CompFlags");
+    prc->writeParam(S, "value", compFlags);
+    prc->finishTag(S, true);
+
+    int i;
+    prc->writeSimpleTag(S, "Layers");
+    for (i=0; i<Layers.getSize(); i++)
+        Layers[i]->prcWrite(S, prc);
+    prc->endTag(S);
+    prc->writeSimpleTag(S, "PiggyBacks");
+    for (i=0; i<PiggyBacks.getSize(); i++)
+        PiggyBacks[i]->prcWrite(S, prc);
+    prc->endTag(S);
 }

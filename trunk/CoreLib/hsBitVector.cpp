@@ -66,14 +66,10 @@ void hsBitVector::write(hsStream *S) {
 }
 
 void hsBitVector::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    char buf[11];
-    prc->writeSimpleTag(S, "hsBitVector");
     for (int i=0; i<nVectors; i++) {
-        sprintf(buf, "%d", bits[i]);
-        prc->startTag(S, "BitField");
-        prc->writeParam(S, "value", buf);
+        prc->startTag(S, "BitVector");
+        prc->writeParam(S, "value", bits[i]);
         prc->finishTag(S, true);
     }
-    prc->endTag(S);
 }
 

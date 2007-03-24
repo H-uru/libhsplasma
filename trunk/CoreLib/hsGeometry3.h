@@ -30,14 +30,6 @@ public:
     hsPoint3& operator+(const hsPoint3& other);
     hsPoint3& operator*(const hsPoint3& other);
     hsPoint3& operator*(const float mult);
-
-#ifdef Tahg
-    hsPoint3 * Set(const struct hsScalarTriple *);
-    hsPoint3 * Set(float, float, float);
-    bool operator!=(const hsPoint3& other);
-    hsPoint3 & operator+=(const struct hsScalarTriple &);
-    hsPoint3 & operator*=(const float);
-#endif
 };
 
 struct hsVector3 : hsScalarTriple {
@@ -46,20 +38,6 @@ public:
     hsVector3(float x, float y, float z);
     hsVector3();
     ~hsVector3();
-
-#ifdef Tahg
-    hsVector3(const hsPoint3*, const hsPoint3*);
-    hsVector3 * hsVector3::Set(const hsScalarTriple *, const hsScalarTriple *);
-    hsVector3 * hsVector3::Set(const hsScalarTriple *);
-    hsVector3 * hsVector3::Set(float, float, float);
-    void hsVector3::Normalize();
-    void Renormalize();
-    unsigned long hsVector3::operator==(const hsVector3 &);
-    hsVector3 & hsVector3::operator+=(const hsScalarTriple &);
-    hsVector3 & operator-=(const hsScalarTriple &);
-    hsVector3 & hsVector3::operator*=(const float);
-    hsVector3 & hsVector3::operator/=(const float);
-#endif
 };
 
 struct hsPlane3 {

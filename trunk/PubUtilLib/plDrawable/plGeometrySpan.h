@@ -64,40 +64,40 @@ public:
     };
 
 protected:
-    hsGMaterial* material;
-    hsMatrix44 localToWorld;
-    hsMatrix44 worldToLocal;
-    hsBounds3Ext localBounds;
-    hsBounds3Ext worldBounds;
-    plFogEnvironment* fogEnviron;
-    unsigned int baseMatrix;
-    unsigned char numMatrices;
-    unsigned short localUVWChans;
-    unsigned short maxBoneIdx;
-    unsigned int penBoneIdx;
-    float minDist;
-    float maxDist;
-    float waterHeight;
-    unsigned char format;
-    unsigned int props;
-    unsigned int numVerts;
-    unsigned int numIndices;
-    unsigned char* vertexData;
-    unsigned short* indexData;
-    unsigned int decalLevel;
-    hsColorRGBA* multColor;
-    hsColorRGBA* addColor;
-    unsigned int* diffuseRGBA;
-    unsigned int* specularRGBA;
-    hsTArray<plGeometrySpan*>* instanceRefs;
-    unsigned int instanceGroup;
-    unsigned char* maxOwner;
-    unsigned int spanRefIndex;
-    hsMatrix44 localToOBB;
-    hsMatrix44 OBBToLocal;
-    bool creating;
-    hsTArray<TempVertex> vertAccum;
-    hsTArray<unsigned short> indexAccum;
+    hsGMaterial* fMaterial;
+    hsMatrix44 fLocalToWorld;
+    hsMatrix44 fWorldToLocal;
+    hsBounds3Ext fLocalBounds;
+    hsBounds3Ext fWorldBounds;
+    plFogEnvironment* fFogEnviron;
+    unsigned int fBaseMatrix;
+    unsigned char fNumMatrices;
+    unsigned short fLocalUVWChans;
+    unsigned short fMaxBoneIdx;
+    unsigned int fPenBoneIdx;
+    float fMinDist;
+    float fMaxDist;
+    float fWaterHeight;
+    unsigned char fFormat;
+    unsigned int fProps;
+    unsigned int fNumVerts;
+    unsigned int fNumIndices;
+    unsigned char* fVertexData;
+    unsigned short* fIndexData;
+    unsigned int fDecalLevel;
+    hsColorRGBA* fMultColor;
+    hsColorRGBA* fAddColor;
+    unsigned int* fDiffuseRGBA;
+    unsigned int* fSpecularRGBA;
+    hsTArray<plGeometrySpan*>* fInstanceRefs;
+    unsigned int fInstanceGroup;
+    unsigned char* fMaxOwner;
+    unsigned int fSpanRefIndex;
+    hsMatrix44 fLocalToOBB;
+    hsMatrix44 fOBBToLocal;
+    bool fCreating;
+    hsTArray<TempVertex> fVertAccum;
+    hsTArray<unsigned short> fIndexAccum;
     
 public:
     plGeometrySpan(PlasmaVer pv = pvUnknown);
@@ -108,10 +108,8 @@ public:
 
     void setMaterial(hsGMaterial* mat);
 
-#ifdef Tahg
     void IClearMembers();
     void ClearBuffers();
-#endif
 };
 
 #endif

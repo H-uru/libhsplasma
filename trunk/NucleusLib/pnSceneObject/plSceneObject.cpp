@@ -23,6 +23,7 @@ plSceneObject::~plSceneObject() {
 }
 
 short plSceneObject::ClassIndex() { return 0x0001; }
+const char* plSceneObject::ClassName() { return "plSceneObject"; }
 
 void plSceneObject::read(hsStream *S) {
     plSynchedObject::read(S);
@@ -61,7 +62,7 @@ void plSceneObject::write(hsStream *S) {
     plResManager::inst->writeKey(S, AudioIntf);
 
     S->writeInt(Interfaces.getSize());
-	int i;
+    int i;
     for (i=0; i<Interfaces.getSize(); i++)
         plResManager::inst->writeKey(S, Interfaces[i]);
     S->writeInt(Modifiers.getSize());
@@ -70,3 +71,33 @@ void plSceneObject::write(hsStream *S) {
     plResManager::inst->writeKey(S, SceneNode);
 }
 
+void plSceneObject::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(S, prc);
+    
+    prc->writeSimpleTag(S, "DrawInterface");
+      DrawIntf->prcWrite(S, prc);
+    prc->endTag(S);
+    prc->writeSimpleTag(S, "SimulationInterface");
+      SimIntf->prcWrite(S, prc);
+    prc->endTag(S);
+    prc->writeSimpleTag(S, "CoordinateInterface");
+      CoordIntf->prcWrite(S, prc);
+    prc->endTag(S);
+    prc->writeSimpleTag(S, "AudioInterface");
+      AudioIntf->prcWrite(S, prc);
+    prc->endTag(S);
+
+    int i;
+    prc->writeSimpleTag(S, "Interfaces");
+    for (i=0; i<Interfaces.getSize(); i++)
+        Interfaces[i]->prcWrite(S, prc);
+    prc->endTag(S);
+    prc->writeSimpleTag(S, "Modifiers");
+    for (i=0; i<Modifiers.getSize(); i++)
+        Modifiers[i]->prcWrite(S, prc);
+    prc->endTag(S);
+    
+    prc->writeSimpleTag(S, "SceneNode");
+      SceneNode->prcWrite(S, prc);
+    prc->endTag(S);
+}

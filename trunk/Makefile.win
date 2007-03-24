@@ -216,7 +216,7 @@ install:
 	ldconfig
 
 clean:
-	rm $(OBJFILES)
+	rm -f $(OBJFILES)
 
 distclean:
-	rm $(PLSLIB)
+	rm -f $(PLSLIB)

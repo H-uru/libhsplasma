@@ -5,136 +5,135 @@ plGeometrySpan::~plGeometrySpan() { }
 
 void plGeometrySpan::read(hsStream *S) {
 	//ClearBuffers();
-    localToWorld.read(S);
-    worldToLocal.read(S);
-    localBounds.read(S);
-    //if (worldBounds != localBounds)
-    //    worldBounds.Reset(localBounds);
-    //worldBounds.Transform(&localToWorld);
-    OBBToLocal.read(S);
-    localToOBB.read(S);
+    fLocalToWorld.read(S);
+    fWorldToLocal.read(S);
+    fLocalBounds.read(S);
+    //if (fWorldBounds != fLocalBounds)
+    //    fWorldBounds.Reset(fLocalBounds);
+    //fWorldBounds.Transform(&fLocalToWorld);
+    fOBBToLocal.read(S);
+    fLocalToOBB.read(S);
     
-    baseMatrix = S->readInt();
-    numMatrices = S->readByte();
-    localUVWChans = S->readShort();
-    maxBoneIdx = S->readShort();
-    penBoneIdx = S->readShort();
-    minDist = S->readFloat();
-    maxDist = S->readFloat();
-    format = S->readByte();
-    props = S->readInt();
-    numVerts = S->readInt();
-    numIndices = S->readInt();
+    fBaseMatrix = S->readInt();
+    fNumMatrices = S->readByte();
+    fLocalUVWChans = S->readShort();
+    fMaxBoneIdx = S->readShort();
+    fPenBoneIdx = S->readShort();
+    fMinDist = S->readFloat();
+    fMaxDist = S->readFloat();
+    fFormat = S->readByte();
+    fProps = S->readInt();
+    fNumVerts = S->readInt();
+    fNumIndices = S->readInt();
     S->readInt();  // Discarded
     S->readByte(); // Discarded
-    decalLevel = S->readInt();
+    fDecalLevel = S->readInt();
     
-    if (props & kWaterHeight)
-        waterHeight = S->readFloat();
+    if (fProps & kWaterHeight)
+        fWaterHeight = S->readFloat();
     
-    if (numVerts > 0) {
-        // this is hsPoint3[UVCount] + position + normal.
-        unsigned int size = ((format & kUVCountMask) + 2) * sizeof(hsPoint3);
-        if (format & kSkinWeightMask == kSkin1Weight)
+    if (fNumVerts > 0) {
+        // this is hsPoint3[UVCount] + fPosition + fNormal.
+        unsigned int size = ((fFormat & kUVCountMask) + 2) * sizeof(hsPoint3);
+        if (fFormat & kSkinWeightMask == kSkin1Weight)
             size += 4;  // 1 float
-        else if (format & kSkinWeightMask == kSkin2Weights)
+        else if (fFormat & kSkinWeightMask == kSkin2Weights)
             size += 8;  // 2 floats
-        else if (format & kSkinWeightMask == kSkin3Weights)
+        else if (fFormat & kSkinWeightMask == kSkin3Weights)
             size += 12; // 3 floats
-        if (format & kSkinIndices)
+        if (fFormat & kSkinIndices)
             size += 4;  // uint32
-        vertexData = (unsigned char*)malloc(numVerts * size);
-        S->read(numVerts * size, vertexData);
+        fVertexData = (unsigned char*)malloc(fNumVerts * size);
+        S->read(fNumVerts * size, fVertexData);
         
-        multColor = new hsColorRGBA[numVerts];
-        addColor = new hsColorRGBA[numVerts];
-        for (unsigned int i=0; i<numVerts; i++) {
-            multColor[i].read(S);
-            addColor[i].read(S);
+        fMultColor = new hsColorRGBA[fNumVerts];
+        fAddColor = new hsColorRGBA[fNumVerts];
+        for (unsigned int i=0; i<fNumVerts; i++) {
+            fMultColor[i].read(S);
+            fAddColor[i].read(S);
         }
-        diffuseRGBA = new unsigned int[numVerts];
-        specularRGBA = new unsigned int[numVerts];
-        S->readInts(numVerts, (int*)diffuseRGBA);
-        S->readInts(numVerts, (int*)specularRGBA);
+        fDiffuseRGBA = new unsigned int[fNumVerts];
+        fSpecularRGBA = new unsigned int[fNumVerts];
+        S->readInts(fNumVerts, (int*)fDiffuseRGBA);
+        S->readInts(fNumVerts, (int*)fSpecularRGBA);
     } else {
-        vertexData = NULL;
-        multColor = NULL;
-        addColor = NULL;
-        diffuseRGBA = NULL;
-        specularRGBA = NULL;
+        fVertexData = NULL;
+        fMultColor = NULL;
+        fAddColor = NULL;
+        fDiffuseRGBA = NULL;
+        fSpecularRGBA = NULL;
     }
-    if (numIndices > 0) {
-        indexData = new unsigned short[numIndices];
-        S->readShorts(numIndices, (short*)indexData);
+    if (fNumIndices > 0) {
+        fIndexData = new unsigned short[fNumIndices];
+        S->readShorts(fNumIndices, (short*)fIndexData);
     } else {
-        indexData = NULL;
+        fIndexData = NULL;
     }
-    instanceGroup = S->readInt();
-    if (instanceGroup != 0) {
+    fInstanceGroup = S->readInt();
+    if (fInstanceGroup != 0) {
         throw "Incomplete";
-        //instanceRefs = IGetInstanceGroup(instanceGroup, S->readInt());
-        //instanceRefs->append(this);
+        //fInstanceRefs = IGetInstanceGroup(fInstanceGroup, S->readInt());
+        //fInstanceRefs->append(this);
     }
 }
 
 void plGeometrySpan::write(hsStream *S) {
-    localToWorld.write(S);
-    worldToLocal.write(S);
-    localBounds.write(S);
-    OBBToLocal.write(S);
-    localToOBB.write(S);
+    fLocalToWorld.write(S);
+    fWorldToLocal.write(S);
+    fLocalBounds.write(S);
+    fOBBToLocal.write(S);
+    fLocalToOBB.write(S);
     
-    S->writeInt(baseMatrix);
-    S->writeByte(numMatrices);
-    S->writeShort(localUVWChans);
-    S->writeShort(maxBoneIdx);
-    S->writeShort(penBoneIdx);
-    S->writeFloat(minDist);
-    S->writeFloat(maxDist);
-    S->writeByte(format);
-    S->writeInt(props);
-    S->writeInt(numVerts);
-    S->writeInt(numIndices);
+    S->writeInt(fBaseMatrix);
+    S->writeByte(fNumMatrices);
+    S->writeShort(fLocalUVWChans);
+    S->writeShort(fMaxBoneIdx);
+    S->writeShort(fPenBoneIdx);
+    S->writeFloat(fMinDist);
+    S->writeFloat(fMaxDist);
+    S->writeByte(fFormat);
+    S->writeInt(fProps);
+    S->writeInt(fNumVerts);
+    S->writeInt(fNumIndices);
     S->writeInt(0);
     S->writeByte(0);
-    S->writeInt(decalLevel);
+    S->writeInt(fDecalLevel);
     
-    if (props & kWaterHeight)
-        S->writeFloat(waterHeight);
+    if (fProps & kWaterHeight)
+        S->writeFloat(fWaterHeight);
     
-    if (numVerts > 0) {
-        // this is hsPoint3[UVCount] + position + normal.
-        unsigned int size = ((format & kUVCountMask) + 2) * sizeof(hsPoint3);
-        if (format & kSkinWeightMask == kSkin1Weight)
+    if (fNumVerts > 0) {
+        // this is hsPoint3[UVCount] + fPosition + fNormal.
+        unsigned int size = ((fFormat & kUVCountMask) + 2) * sizeof(hsPoint3);
+        if (fFormat & kSkinWeightMask == kSkin1Weight)
             size += 4;  // 1 float
-        else if (format & kSkinWeightMask == kSkin2Weights)
+        else if (fFormat & kSkinWeightMask == kSkin2Weights)
             size += 8;  // 2 floats
-        else if (format & kSkinWeightMask == kSkin3Weights)
+        else if (fFormat & kSkinWeightMask == kSkin3Weights)
             size += 12; // 3 floats
-        if (format & kSkinIndices)
+        if (fFormat & kSkinIndices)
             size += 4;  // uint32
-        S->write(numVerts * size, vertexData);
+        S->write(fNumVerts * size, fVertexData);
         
-        for (unsigned int i=0; i<numVerts; i++) {
-            multColor[i].write(S);
-            addColor[i].write(S);
+        for (unsigned int i=0; i<fNumVerts; i++) {
+            fMultColor[i].write(S);
+            fAddColor[i].write(S);
         }
-        S->writeInts(numVerts, (int*)diffuseRGBA);
-        S->writeInts(numVerts, (int*)specularRGBA);
+        S->writeInts(fNumVerts, (int*)fDiffuseRGBA);
+        S->writeInts(fNumVerts, (int*)fSpecularRGBA);
         
     }
-    if (numIndices > 0) {
-        S->writeShorts(numIndices, (short*)indexData);
+    if (fNumIndices > 0) {
+        S->writeShorts(fNumIndices, (short*)fIndexData);
     }
-    S->writeInt(instanceGroup);
-    if (instanceGroup != 0) {
+    S->writeInt(fInstanceGroup);
+    if (fInstanceGroup != 0) {
         throw "Incomplete";
     }
 }
 
-void plGeometrySpan::setMaterial(hsGMaterial* mat) { material = mat; }
+void plGeometrySpan::setMaterial(hsGMaterial* mat) { fMaterial = mat; }
 
-#ifdef Tahg
 void plGeometrySpan::IClearMembers() {
     fVertexData = NULL;
     fIndexData = NULL;
@@ -170,6 +169,8 @@ void plGeometrySpan::ClearBuffers() {
         IClearMembers();
         return;
     }
+    throw "Dependancies Incomplete";
+    /*
     if (fInstanceRefs != NULL) {
         if (fInstanceRefs->getSize() != 1) {
             delete fInstanceRefs;
@@ -193,5 +194,5 @@ void plGeometrySpan::ClearBuffers() {
     fIndexData = NULL;
     fDiffuseRGBA = NULL;
     fSpecularRGBA = NULL;
+    */
 }
-#endif

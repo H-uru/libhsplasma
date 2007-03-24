@@ -10,6 +10,7 @@ public:
     plModifier(PlasmaVer pv = pvUnknown);
 
     virtual short ClassIndex();
+    virtual const char* ClassName();
 };
 
 
@@ -22,9 +23,11 @@ public:
     plMultiModifier(PlasmaVer pv = pvUnknown);
 
     virtual short ClassIndex();
+    virtual const char* ClassName();
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

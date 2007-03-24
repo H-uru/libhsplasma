@@ -15,16 +15,14 @@ public:
     virtual ~plCreatable();
 
     virtual short ClassIndex() = 0;
+    virtual const char* ClassName() = 0;
     
     PlasmaVer getVer();
     virtual void setVer(PlasmaVer pv, bool mutate = false);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    
-    //virtual void prcRead();
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc) = 0;
 };
 
 #endif
-

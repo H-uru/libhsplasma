@@ -83,6 +83,7 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
     plPageInfo* page = new plPageInfo;
     page->read(S);
     pages.push_back(page);
+    setVer(S->getVer());
 
     S->seek(page->getIndexStart());
     ReadKeyring(S, page->getLocation());
@@ -105,6 +106,24 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     page->writeSums(S);
     S->close();
     delete S;
+}
+
+void plResManager::WritePrc(hsStream* S, pfPrcHelper* prc, plPageInfo* page) {
+    page->prcWrite(S, prc); // starts <Page>
+    
+    // Objects:
+    std::vector<short> types = keys.getTypes(page->getLocation().pageID);
+    for (unsigned int i=0; i<types.size(); i++) {
+        std::vector<plKey*> kList = keys.getKeys(page->getLocation().pageID, types[i]);
+        for (unsigned int j=0; j<kList.size(); j++) {
+            if (kList[j]->objPtr != NULL) {
+                kList[j]->objPtr->prcWrite(S, prc);
+                prc->endTag(S);
+            }
+        }
+    }
+    
+    prc->endTag(S);
 }
 
 plAgeSettings* plResManager::ReadAge(const char* filename) {
@@ -181,6 +200,7 @@ void plResManager::WriteAge(const char* filename, plAgeSettings* age) {
 }
 
 void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
+    //printf("* Reading Keyring\n");
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = S->readShort(); // objType
@@ -189,10 +209,12 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
             S->readByte(); // flag
         }
         unsigned int oCount = S->readInt();
+        //printf("  * Indexing %d objects of type [%04X]\n", oCount, type);
         for (unsigned int j=0; j<oCount; j++) {
             plKey* key = new plKey();
             key->read(S);
             keys.add(key);
+            //printf("    * Key %s\n", key->toString());
         }
     }
 }
@@ -214,12 +236,13 @@ void plResManager::WriteKeyring(hsStream* S, plLocation& loc) {
 }
 
 unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
+    //printf("* Reading Objects\n");
     std::vector<short> types = keys.getTypes(loc.pageID);
     unsigned int nRead = 0;
     
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey*> kList = keys.getKeys(loc.pageID, types[i]);
-        //printf("* Reading %d objects of type [%04X]\n", kList.size(), types[i]);
+        //printf("  * Reading %d objects of type [%04X]\n", kList.size(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->fileOff <= 0) continue;
             S->seek(kList[j]->fileOff);

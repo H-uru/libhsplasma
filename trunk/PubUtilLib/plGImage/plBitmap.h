@@ -43,6 +43,10 @@ public:
     };
 
     enum { kUncompressed, kDirectXCompression, kJPEGCompression };
+    
+    static const char* compressionTypeNames[];
+    static const char* uncompressedTypeNames[];
+    static const char* compressedTypeNames[];
 
 protected:
     char pixelSize, space;
@@ -59,12 +63,14 @@ public:
     virtual ~plBitmap();
     
     virtual short ClassIndex();
+    virtual const char* ClassName();
 
-    virtual void read(hsStream * S);
-    virtual void write(hsStream * S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
 
-    virtual void readData(hsStream * S);
-    virtual void writeData(hsStream * S);
+    virtual void readData(hsStream* S);
+    virtual void writeData(hsStream* S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

@@ -33,6 +33,10 @@ void plKey::writeUoid(hsStream* S) {
     uoid.write(S);
 }
 
+void plKey::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    if (exists) uoid.prcWrite(S, prc);
+}
+
 short plKey::getType() { return uoid.getType(); }
 PageID& plKey::getPageID() { return uoid.getPageID(); }
 const char* plKey::getName() { return uoid.getName(); }

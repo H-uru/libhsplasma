@@ -40,6 +40,6 @@ out/propgrid/props.o: wxPropertyGrid/contrib/src/propgrid/props.cpp
 	$(CC) $(PROPGRIDFLAGS) -c wxPropertyGrid/contrib/src/propgrid/props.cpp -o out/propgrid/props.o
 
 clean:
-	rm $(OBJFILES)
-	rm $(PROPGRIDOBJ)
+	rm -f $(OBJFILES)
+	rm -f $(PROPGRIDOBJ)
 

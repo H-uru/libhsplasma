@@ -28,6 +28,8 @@ public:
     void readUoid(hsStream* S);
     void writeUoid(hsStream* S);
 
+    void prcWrite(hsStream* S, pfPrcHelper* prc);
+
     short getType();
     PageID& getPageID();
     const char* getName();

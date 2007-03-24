@@ -139,7 +139,7 @@ int main(int argc, char** argv) {
         if (S->getVer() == pvPots) min = 12;
         if (S->getVer() == pvLive) {
             maj = 69;
-            min = 4;
+            min = 5;
         }
         OS->writeShort(maj);
         OS->writeShort(min);

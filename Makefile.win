@@ -27,8 +27,8 @@ clean:
 
 distclean:
 	(cd trunk ; make distclean)
-	rm Tools/PageConvert.exe
-	rm Tools/PlasmaCrypt.exe
-	rm Tools/PrpPack.exe
-	rm Tools/PrcExtract.exe
+	rm -f Tools/PageConvert.exe
+	rm -f Tools/PlasmaCrypt.exe
+	rm -f Tools/PrpPack.exe
+	rm -f Tools/PrcExtract.exe
 	#(cd AgeMaker ; make distclean)

@@ -26,7 +26,6 @@ public:
 
     void read(hsStream *S);
     void write(hsStream *S);
-
     void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 

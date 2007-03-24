@@ -18,6 +18,3 @@ void plCreatable::write(hsStream* S) {
     if (S->getVer() != pvUnknown)
         setVer(S->getVer(), true);
 }
-
-void plCreatable::prcWrite(hsStream* S, pfPrcHelper* prc) { }
-

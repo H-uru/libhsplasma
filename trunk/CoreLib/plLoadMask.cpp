@@ -4,13 +4,18 @@ plLoadMask::plLoadMask() : mask(0xFFFF) { }
 plLoadMask::~plLoadMask() { }
 
 void plLoadMask::read(hsStream* S) {
-    quality[0] = S->readByte();
-    quality[1] = S->readByte();
+    unsigned char mask = S->readByte();
+    quality[0] = (mask >> 4) | 0xF0;
+    quality[1] = mask | 0xF0;
 }
 
 void plLoadMask::write(hsStream* S) {
-    S->writeByte(quality[0]);
-    S->writeByte(quality[1]);
+    unsigned char mask = (quality[1] & 0x0F) | (quality[0] << 4);
+    S->writeByte(mask);
+}
+
+void plLoadMask::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    prc->writeParam(S, "LoadMask", mask);
 }
 
 bool plLoadMask::isUsed() {
@@ -27,4 +32,3 @@ plLoadMask& plLoadMask::setAlways() {
     mask = 0xFFFF;
     return *this;
 }
-

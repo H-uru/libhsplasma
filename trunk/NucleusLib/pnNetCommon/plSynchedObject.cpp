@@ -4,6 +4,7 @@ plSynchedObject::plSynchedObject(PlasmaVer pv) { }
 plSynchedObject::~plSynchedObject() { }
 
 short plSynchedObject::ClassIndex() { return 0x0028; }
+const char* plSynchedObject::ClassName() { return "plSynchedObject"; }
 
 void plSynchedObject::read(hsStream * S) {
     hsKeyedObject::read(S);
@@ -51,3 +52,30 @@ void plSynchedObject::write(hsStream * S) {
     }
 }
 
+void plSynchedObject::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    hsKeyedObject::prcWrite(S, prc);
+    
+    prc->startTag(S, "SynchFlags");
+    prc->writeParam(S, "value", flags);
+    prc->finishTag(S, true);
+
+    unsigned int i;
+    if (flags & kExcludePersistentState) {
+        prc->writeSimpleTag(S, "ExcludePersistentStates");
+        for (i=0; i<SDLExcludeList.size(); i++) {
+            prc->startTag(S, "State");
+            prc->writeParam(S, "name", SDLExcludeList[i]);
+            prc->finishTag(S, true);
+        }
+        prc->endTag(S);
+    }
+    if (flags & kHasVolatileState) {
+        prc->writeSimpleTag(S, "VolatileStates");
+        for (i=0; i<SDLVolatileList.size(); i++) {
+            prc->startTag(S, "State");
+            prc->writeParam(S, "name", SDLVolatileList[i]);
+            prc->finishTag(S, true);
+        }
+        prc->endTag(S);
+    }
+}

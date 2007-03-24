@@ -1,6 +1,6 @@
 CC = g++
-CFLAGS += -O2 -fPIC -Wall -g
-CFLAGSEXTERN = -O2 -fPIC -g
+CFLAGS += -fPIC -Wall -g
+CFLAGSEXTERN = -fPIC -g
 
 LIBDIR=out/
 OBJFILES=\
@@ -216,7 +216,7 @@ install:
 	ldconfig
 
 clean:
-	rm $(OBJFILES)
+	rm -f $(OBJFILES)
 
 distclean:
-	rm $(PLSLIB)
+	rm -f $(PLSLIB)

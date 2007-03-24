@@ -2,6 +2,17 @@
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
 /* plPythonParameter */
+
+const char* plPythonParameter::valueTypeNames[] = {
+    "(Invalid)",
+    "Int", "Float", "Boolean", "String", "SceneObject", "SceneObjectList",
+    "ActivatorList", "ResponderList", "DynamicText", "GUIDialog",
+    "ExcludeRegion", "Animation", "AnimationName", "Behavior", "Material",
+    "GUIPopUpMenu", "GUISkin", "WaterComponent", "SwimCurrentInterface",
+    "ClusterComponentList", "MaterialAnimation", "GrassShaderComponent",
+    "None"
+};
+
 plPythonParameter::plPythonParameter(PlasmaVer pv) : ID(0), valueType(kNone) { }
 
 plPythonParameter::~plPythonParameter() {
@@ -73,6 +84,41 @@ void plPythonParameter::write(hsStream* S) {
     }
 }
 
+void plPythonParameter::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    prc->startTag(S, "plPythonParameter");
+    
+    prc->writeParam(S, "ID", ID);
+    if (valueType >= kInt && valueType <= kNone)
+        prc->writeParam(S, "Type", valueTypeNames[valueType]);
+    else
+        prc->writeParam(S, "Type", valueType);
+    
+    switch (valueType) {
+    case kInt:
+        prc->writeParam(S, "Value", intValue);
+        prc->finishTag(S, true);
+        return;
+    case kBoolean:
+        prc->writeParam(S, "Value", boolValue);
+        prc->finishTag(S, true);
+        return;
+    case kFloat:
+        prc->writeParam(S, "Value", floatValue);
+        prc->finishTag(S, true);
+        return;
+    case kString:
+    case kAnimationName:
+        prc->writeParam(S, "Value", strValue);
+        prc->finishTag(S, true);
+        return;
+    default:
+        prc->finishTag(S, false);
+        objKey->prcWrite(S, prc);
+        prc->endTag(S);
+        return;
+    }
+}
+
 
 /* plPythonFileMod */
 plPythonFileMod::plPythonFileMod(PlasmaVer pv) : pythonFile(NULL) { }
@@ -87,6 +133,7 @@ plPythonFileMod::~plPythonFileMod() {
 short plPythonFileMod::ClassIndex() {
     return (ver == pvEoa ? 0x0088 : 0x00A2);
 }
+const char* plPythonFileMod::ClassName() { return "plPythonFileMod"; }
 
 void plPythonFileMod::read(hsStream* S) {
     plMultiModifier::read(S);
@@ -117,4 +164,23 @@ void plPythonFileMod::write(hsStream* S) {
     S->writeInt(parameters.getSize());
     for (i=0; i<parameters.getSize(); i++)
         parameters[i].write(S);
+}
+
+void plPythonFileMod::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    plMultiModifier::prcWrite(S, prc);
+
+    prc->startTag(S, "PythonFile");
+    prc->writeParam(S, "name", pythonFile);
+    prc->finishTag(S, true);
+
+    int i;
+    prc->writeSimpleTag(S, "Receivers");
+    for (i=0; i<receivers.getSize(); i++)
+        receivers[i]->prcWrite(S, prc);
+    prc->endTag(S);
+    
+    prc->writeSimpleTag(S, "Parameters");
+    for (i=0; i<parameters.getSize(); i++)
+        parameters[i].prcWrite(S, prc);
+    prc->endTag(S);
 }

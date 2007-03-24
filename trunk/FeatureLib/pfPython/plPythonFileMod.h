@@ -18,6 +18,8 @@ public:
         kNone
     };
 
+    static const char* valueTypeNames[];
+
     unsigned int ID, valueType;
     plKey* objKey;
 
@@ -34,6 +36,7 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
+    void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 
@@ -76,9 +79,11 @@ public:
     virtual ~plPythonFileMod();
 
     virtual short ClassIndex();
+    virtual const char* ClassName();
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

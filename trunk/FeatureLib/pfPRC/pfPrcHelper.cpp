@@ -29,9 +29,25 @@ void pfPrcHelper::writeParam(hsStream* S, const char* name, const int value) {
     S->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(hsStream* S, const char* name, const float value) {
+void pfPrcHelper::writeParam(hsStream* S, const char* name, const unsigned int value) {
     char buf[256];
-    sprintf(buf, " %s=\"%f\"", name, value);
+    sprintf(buf, " %s=\"%u\"", name, value);
+    S->writeStr(buf);
+}
+
+void pfPrcHelper::writeParam(hsStream* S, const char* name, const float value) {
+    writeParam(S, name, value);
+}
+
+void pfPrcHelper::writeParam(hsStream* S, const char* name, const double value) {
+    char buf[256];
+    sprintf(buf, " %s=\"%g\"", name, value);
+    S->writeStr(buf);
+}
+
+void pfPrcHelper::writeParam(hsStream* S, const char* name, const bool value) {
+    char buf[256];
+    sprintf(buf, " %s=\"%s\"", name, value ? "True" : "False");
     S->writeStr(buf);
 }
 
@@ -57,6 +73,12 @@ void pfPrcHelper::endTag(hsStream* S) {
     sprintf(buf, "</%s>\n", openTags.back());
     openTags.pop_back();
     writeTabbed(S, buf);
+}
+
+void pfPrcHelper::writeComment(hsStream* S, const char* comment) {
+    writeTabbed(S, "<!-- ");
+    S->writeStr(comment);
+    S->writeStr(" -->\n");
 }
 
 void pfPrcHelper::startPrc(hsStream* S) {

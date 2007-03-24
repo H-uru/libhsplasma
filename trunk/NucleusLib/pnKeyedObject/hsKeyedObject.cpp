@@ -9,6 +9,7 @@ hsKeyedObject::~hsKeyedObject() {
 }
 
 short hsKeyedObject::ClassIndex() { return 0x0002; }
+const char* hsKeyedObject::ClassName() { return "hsKeyedObject"; }
 
 void hsKeyedObject::read(hsStream * S) {
     if (myKey != NULL)
@@ -24,4 +25,11 @@ void hsKeyedObject::write(hsStream * S) {
 
 plKey* hsKeyedObject::getKey() {
     return myKey;
+}
+
+void hsKeyedObject::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    prc->writeSimpleTag(S, ClassName());
+    prc->writeSimpleTag(S, "MyKey");
+      myKey->prcWrite(S, prc); // Short tag
+    prc->endTag(S);
 }

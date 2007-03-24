@@ -5,8 +5,6 @@
 #define PLS_MAJ_LIVE    69
 #define PLS_MIN_PRIME   11
 #define PLS_MIN_POTS    12
-#define PLS_MIN_LIVE2    2
-#define PLS_MIN_LIVE3    3
 
 #define PRP_URU 5
 #define PRP_EOA 6

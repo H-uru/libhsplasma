@@ -2,6 +2,7 @@
 #define _PLLOADMASK_H
 
 #include "hsStream.h"
+#include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
 class plLoadMask {
 protected:
@@ -16,6 +17,7 @@ public:
     
     void read(hsStream* S);
     void write(hsStream* S);
+    void prcWrite(hsStream* S, pfPrcHelper* prc);
 
     bool isUsed();
     plLoadMask& setMask(unsigned char m1, unsigned char m2);

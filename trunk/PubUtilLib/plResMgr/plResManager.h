@@ -10,15 +10,10 @@
 #include "../../PubUtilLib/plScene/plSceneNode.h"
 #include "../../CoreLib/plEncryptedStream.h"
 #include "../../CoreLib/hsTArray.hpp"
+#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 #include "plKeyCollector.h"
 #include "plPageInfo.h"
 #include "plPageSettings.h"
-#ifdef Tahg
-  #include "../../NucleusLib/inc/hsResMgr.h"
-  #include "../../NucleusLib/pnDispatch/plDispatch.h"
-  #include <vector>
-  #include <xmemory>
-#endif
 
 DllClass plResManager /* : public hsResMgr */ {
 protected:
@@ -37,29 +32,6 @@ private:
     void WriteKeyring(hsStream* S, plLocation& loc);
     unsigned int WriteObjects(hsStream* S, plLocation& loc);
 
-#ifdef Tahg
-    bool fInited;
-    unsigned short fPageOutHint;
-    class plRegistry * fRegistry;
-    bool fReadingObject;
-    //class std::vector<plKey> fQueuedReads;
-    class plUoidAliasMgr * fpAliases;
-    unsigned char fLoaded;
-    class plDispatch * fDispatch;
-    class hsStream * fInitialState;
-    unsigned long fCurCloneID;
-    unsigned long fCurClonePlayerID;
-    unsigned long fCloningCounter;
-    //class std::map<std::string, plRegistrySource*> fIOSources;
-    //class hsTArray<plResAgeHolder *> fHoldingAges;
-    //class hsTArray<plResManager::plVersionPair> fReadVersionStack;
-    //function * fProgressProc;
-    class plResManagerHelper * fMyHelper;
-    bool fLogReadTimes;
-public:
-	virtual plDispatchBase * Dispatch(){ return fDispatch; }
-#endif
-
 public:
     static plResManager* inst;
 
@@ -77,6 +49,7 @@ public:
 
     plPageInfo* ReadPage(const char* filename);
     void WritePage(const char* filename, plPageInfo* page);
+    void WritePrc(hsStream* S, pfPrcHelper* prc, plPageInfo* page);
 
     plAgeSettings* ReadAge(const char* filename);
     void WriteAge(const char* filename, plAgeSettings* age);

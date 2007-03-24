@@ -1,4 +1,5 @@
 #include "plUoid.h"
+#include "../pnFactory/plFactory.h"
 #include <string.h>
 #include <malloc.h>
 
@@ -36,6 +37,13 @@ void plLocation::write(hsStream* S) {
         S->writeByte(flags);
     else
         S->writeShort(flags);
+}
+
+void plLocation::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    char buf[32];
+    sprintf(buf, "%d;%d", pageID.getSeqPrefix(), pageID.getPageNum());
+    prc->writeParam(S, "Location", buf);
+    prc->writeParam(S, "LocFlag", flags);
 }
 
 void plLocation::invalidate() {
@@ -114,6 +122,20 @@ void plUoid::write(hsStream* S) {
     }
     if ((contents & 0x06) && S->getVer() == pvEoa)
         S->writeByte(eoaExtra);
+}
+
+void plUoid::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    prc->startTag(S, "Key");
+    prc->writeParam(S, "Name", objName);
+    prc->writeParam(S, "Type", plFactory::ClassName(classType, S->getVer()));
+    location.prcWrite(S, prc);
+    if (loadMask.isUsed())
+        loadMask.prcWrite(S, prc);
+    if (cloneID != 0) {
+        prc->writeParam(S, "CloneID", cloneID);
+        prc->writeParam(S, "ClonePlayerID", clonePlayerID);
+    }
+    prc->finishTag(S, true);
 }
 
 const char* plUoid::toString() {

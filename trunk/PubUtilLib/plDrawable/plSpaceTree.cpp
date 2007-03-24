@@ -33,6 +33,8 @@ short plSpaceTree::ClassIndex() {
     }
 }
 
+const char* plSpaceTree::ClassName() { return "plSpaceTree"; }
+
 void plSpaceTree::read(hsStream* S) {
     fRoot = S->readShort();
     fNumLeaves = S->readInt();
@@ -49,4 +51,9 @@ void plSpaceTree::write(hsStream* S) {
     S->writeInt(fTree.getSize());
     for (int i=0; i<fTree.getSize(); i++)
         fTree[i].write(S);
+}
+
+void plSpaceTree::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    prc->writeSimpleTag(S, ClassName());
+    prc->writeComment(S, "(Not yet implemented)");
 }
