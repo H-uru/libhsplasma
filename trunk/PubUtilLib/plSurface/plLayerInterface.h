@@ -45,13 +45,16 @@ protected:
     hsColorRGBA* ambientColor;
     hsColorRGBA* specularColor;
     float* opacity;
-    plBitmap** texture;
     hsGMatState* state;
     unsigned int* UVWSrc;
     float* LODBias;
     float* specularPower;
+    //plBitmap** texture;
     //plShader** vertexShader;
     //plShader** pixelShader;
+    plKey* texture;
+    plKey* vertexShader;
+    plKey* pixelShader;
     hsMatrix44* bumpEnvXfm;
 
 public:

@@ -18,6 +18,7 @@ OBJFILES=\
 	$(LIBDIR)hsBounds.o \
 	$(LIBDIR)plLoadMask.o \
 	$(LIBDIR)PageID.o \
+	$(LIBDIR)hsGMatState.o \
 	$(LIBDIR)plCreatable.o \
 	$(LIBDIR)plFactory.o \
 	$(LIBDIR)plKey.o \
@@ -53,6 +54,7 @@ OBJFILES=\
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
+	$(LIBDIR)plLayer.o \
 	$(LIBDIR)plPythonFileMod.o \
 	$(LIBDIR)pfPrcHelper.o \
 	$(LIBDIR)rijndael.o
@@ -95,6 +97,9 @@ $(LIBDIR)plLoadMask.o: CoreLib/plLoadMask.h CoreLib/plLoadMask.cpp
 
 $(LIBDIR)PageID.o: DynLib/PageID.h DynLib/PageID.cpp
 	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o $(LIBDIR)PageID.o
+
+$(LIBDIR)hsGMatState.o: NucleusLib/inc/hsGMatState.h NucleusLib/inc/hsGMatState.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/inc/hsGMatState.cpp -o $(LIBDIR)hsGMatState.o
 
 $(LIBDIR)plCreatable.o: NucleusLib/pnFactory/plCreatable.h NucleusLib/pnFactory/plCreatable.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnFactory/plCreatable.cpp -o $(LIBDIR)plCreatable.o
@@ -209,6 +214,9 @@ $(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/
 
 $(LIBDIR)plLayerInterface.o: PubUtilLib/plSurface/plLayerInterface.h PubUtilLib/plSurface/plLayerInterface.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/plLayerInterface.cpp -o $(LIBDIR)plLayerInterface.o
+
+$(LIBDIR)plLayer.o: PubUtilLib/plSurface/plLayer.h PubUtilLib/plSurface/plLayer.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/plLayer.cpp -o $(LIBDIR)plLayer.o
 
 $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
 	$(CC) $(CFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o

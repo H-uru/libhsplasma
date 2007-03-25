@@ -2,6 +2,8 @@
 #include <string.h>
 #include "PubUtilLib/plResMgr/plResManager.h"
 
+const char* PlasmaVerNames[] = { "Unknown", "Prime", "PotS", "EOA", "Live" };
+
 const char* getSuffix(PlasmaVer pv) {
     switch (pv) {
     case pvPrime:    return "prime";
@@ -61,7 +63,7 @@ int main(int argc, char** argv) {
             printf("Page Flags: %d\n", page->getLocation().flags);
             printf("Age Name: %s\n", page->getAge());
             printf("Page Name: %s\n", page->getPage());
-            printf("Plasma Version: %d\n", rm.getVer());
+            printf("Plasma Version: %s\n", PlasmaVerNames[rm.getVer()]);
             printf("Keyring: %d keys\n", rm.keys.countKeys(page->getLocation().pageID));
             printf("Objects Read: %d\n", page->nObjects);
             

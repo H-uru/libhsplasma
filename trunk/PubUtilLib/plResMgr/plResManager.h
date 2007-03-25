@@ -54,6 +54,9 @@ public:
     plAgeSettings* ReadAge(const char* filename);
     void WriteAge(const char* filename, plAgeSettings* age);
 
+    plCreatable* ReadCreatable(hsStream* S);
+    void WriteCreatable(hsStream* S, plCreatable* pCre);
+
     plSceneNode* getSceneNode(plLocation& loc);
 };
 

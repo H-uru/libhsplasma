@@ -1,6 +1,9 @@
 #ifndef _HSGMATSTATE_H
 #define _HSGMATSTATE_H
 
+#include "../../CoreLib/hsStream.h"
+#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
+
 class hsGMatState {
 public:
     enum hsGMatBlendFlags {
@@ -103,6 +106,14 @@ public:
 
 public:
     unsigned int blendFlags, clampFlags, shadeFlags, ZFlags, miscFlags;
+
+    hsGMatState(unsigned int blend = 0, unsigned int clamp = 0,
+                unsigned int shade = 0, unsigned int Z = 0,
+                unsigned int misc = 0);
+
+    void read(hsStream* S);
+    void write(hsStream* S);
+    void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

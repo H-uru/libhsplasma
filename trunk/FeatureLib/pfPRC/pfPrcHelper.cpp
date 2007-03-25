@@ -41,7 +41,7 @@ void pfPrcHelper::writeParam(const char* name, const unsigned int value) {
 }
 
 void pfPrcHelper::writeParam(const char* name, const float value) {
-    writeParam(name, value);
+    writeParam(name, (double)value);
 }
 
 void pfPrcHelper::writeParam(const char* name, const double value) {

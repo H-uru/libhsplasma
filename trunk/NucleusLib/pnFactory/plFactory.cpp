@@ -28,7 +28,7 @@ void plFactory::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 #include "../../PubUtilLib/plPipeline/plFogEnvironment.h"
 #include "../../PubUtilLib/plScene/plSceneNode.h"
 #include "../../PubUtilLib/plSurface/hsGMaterial.h"
-#include "../../PubUtilLib/plSurface/plLayerInterface.h"
+#include "../../PubUtilLib/plSurface/plLayer.h"
 // End types
 
 plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
@@ -42,7 +42,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             case 0x0003: return new plBitmap(ver);
             case 0x0004: return new plMipmap(ver);
             case 0x0005: return new plCubicEnvironmap(ver);
-            //case 0x0006: return new plLayer(ver);
+            case 0x0006: return new plLayer(ver);
             case 0x0007: return new hsGMaterial(ver);
             //case 0x0008: return new plParticleSystem(ver);
             //case 0x0009: return new plParticleEffect(ver);
@@ -451,7 +451,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         case 0x0003: return new plBitmap(ver);
         case 0x0004: return new plMipmap(ver);
         case 0x0005: return new plCubicEnvironmap(ver);
-        //case 0x0006: return new plLayer(ver);
+        case 0x0006: return new plLayer(ver);
         case 0x0007: return new hsGMaterial(ver);
         //case 0x0008: return new plParticleSystem(ver);
         //case 0x0009: return new plParticleEffect(ver);

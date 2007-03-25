@@ -247,22 +247,20 @@ unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->fileOff <= 0) continue;
             S->seek(kList[j]->fileOff);
-            kList[j]->objPtr = (hsKeyedObject*)plFactory::Create(S->readShort(), ver);
-            if (kList[j]->objPtr != NULL) {
-                try {
-                    kList[j]->objPtr->read(S);
+            try {
+                kList[j]->objPtr = (hsKeyedObject*)ReadCreatable(S);
+                if (kList[j]->objPtr != NULL)
                     nRead++;
-                } catch (const char* e) {
-                    printf("Failed reading %s: %s\n",
-                           kList[j]->toString(), e);
-                    delete kList[j]->objPtr;
-                    kList[j]->objPtr = NULL;
-                } catch (...) {
-                    printf("Undefined error reading %s\n",
-                           kList[j]->toString());
-                    delete kList[j]->objPtr;
-                    kList[j]->objPtr = NULL;
-                }
+            } catch (const char* e) {
+                printf("Failed reading %s: %s\n",
+                        kList[j]->toString(), e);
+                delete kList[j]->objPtr;
+                kList[j]->objPtr = NULL;
+            } catch (...) {
+                printf("Undefined error reading %s\n",
+                        kList[j]->toString());
+                delete kList[j]->objPtr;
+                kList[j]->objPtr = NULL;
             }
         }
     }
@@ -282,8 +280,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
             kList[j]->setID(j);
             if (kList[j]->objPtr != NULL) {
                 try {
-                    S->writeShort(kList[j]->getType());
-                    kList[j]->objPtr->write(S);
+                    WriteCreatable(S, kList[j]->objPtr);
                     nWritten++;
                 } catch (const char* e) {
                     printf("Failed writing %s: %s\n",
@@ -298,6 +295,18 @@ unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
     }
 
     return nWritten;
+}
+
+plCreatable* plResManager::ReadCreatable(hsStream* S) {
+    plCreatable* pCre = plFactory::Create(S->readShort(), ver);
+    if (pCre != NULL)
+        pCre->read(S);
+    return pCre;
+}
+
+void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
+    S->writeShort(pCre->ClassIndex());
+    pCre->write(S);
 }
 
 plSceneNode* plResManager::getSceneNode(plLocation& loc) {
