@@ -10,6 +10,7 @@ plAudioInterface::~plAudioInterface() {
 }
 
 short plAudioInterface::ClassIndex() { return 0x0011; }
+const char* plAudioInterface::ClassName() { return "plAudioInterface"; }
 
 void plAudioInterface::read(hsStream *S) {
     plObjInterface::read(S);
@@ -22,3 +23,10 @@ void plAudioInterface::write(hsStream *S) {
     plResManager::inst->writeKey(S, Audible);
 }
 
+void plAudioInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    plObjInterface::prcWrite(S, prc);
+
+    prc->writeSimpleTag("Audible");
+    Audible->prcWrite(S, prc);
+    prc->closeTag();
+}

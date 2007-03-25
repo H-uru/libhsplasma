@@ -66,24 +66,24 @@ void plBitmap::writeData(hsStream* S) {
 void plBitmap::prcWrite(hsStream* S, pfPrcHelper* prc) {
     hsKeyedObject::prcWrite(S, prc);
 
-    prc->startTag(S, "BitmapFlags");
-    prc->writeParam(S, "PixelSize", pixelSize);
-    prc->writeParam(S, "Space", space);
-    prc->writeParam(S, "Flags", flags);
-    prc->finishTag(S, true);
+    prc->startTag("BitmapFlags");
+    prc->writeParam("PixelSize", pixelSize);
+    prc->writeParam("Space", space);
+    prc->writeParam("Flags", flags);
+    prc->endTag(true);
 
-    prc->startTag(S, "Compression");
-    prc->writeParam(S, "Type", compressionTypeNames[compressionType]);
+    prc->startTag("Compression");
+    prc->writeParam("Type", compressionTypeNames[compressionType]);
     if (compressionType == kUncompressed || compressionType == kJPEGCompression)
-        prc->writeParam(S, "SubType", uncompressedTypeNames[uncompressedInfo.type]);
+        prc->writeParam("SubType", uncompressedTypeNames[uncompressedInfo.type]);
     else {
-        prc->writeParam(S, "SubType", compressedTypeNames[dxInfo.compressionType]);
-        prc->writeParam(S, "BlockSize", dxInfo.blockSize);
+        prc->writeParam("SubType", compressedTypeNames[dxInfo.compressionType]);
+        prc->writeParam("BlockSize", dxInfo.blockSize);
     }
-    prc->finishTag(S, true);
+    prc->endTag(true);
 
-    prc->startTag(S, "ModTime");
-    prc->writeParam(S, "low", lowModTime);
-    prc->writeParam(S, "high", highModTime);
-    prc->finishTag(S, true);
+    prc->startTag("ModTime");
+    prc->writeParam("low", lowModTime);
+    prc->writeParam("high", highModTime);
+    prc->endTag(true);
 }

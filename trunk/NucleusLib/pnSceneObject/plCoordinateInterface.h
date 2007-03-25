@@ -22,6 +22,7 @@ public:
     virtual ~plCoordinateInterface();
 
     virtual short ClassIndex();
+    virtual const char* ClassName();
 
     plCoordinateInterface * getRoot();
 
@@ -29,6 +30,7 @@ public:
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

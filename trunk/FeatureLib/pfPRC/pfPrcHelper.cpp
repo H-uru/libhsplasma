@@ -1,60 +1,65 @@
 #include "pfPrcHelper.h"
 
-pfPrcHelper::pfPrcHelper() : iLvl(0), inTag(false) { }
-pfPrcHelper::~pfPrcHelper() { }
-
-void pfPrcHelper::writeTabbed(hsStream* S, const char* str) {
-    for (int i=0; i<iLvl; i++) S->writeStr("    ", 4);
-    S->writeStr(str);
+pfPrcHelper::pfPrcHelper(hsStream* S) : iLvl(0), inTag(false), file(S) {
+    startPrc();
 }
 
-void pfPrcHelper::startTag(hsStream* S, const char* name) {
-    if (inTag) finishTag(S);
+pfPrcHelper::~pfPrcHelper() {
+    finalize();
+}
+
+void pfPrcHelper::writeTabbed(const char* str) {
+    for (int i=0; i<iLvl; i++) file->writeStr("    ", 4);
+    file->writeStr(str);
+}
+
+void pfPrcHelper::startTag(const char* name) {
+    if (inTag) endTag();
     char buf[256];
     sprintf(buf, "<%s", name);
-    writeTabbed(S, buf);
+    writeTabbed(buf);
     openTags.push_back(name);
     inTag = true;
 }
 
-void pfPrcHelper::writeParam(hsStream* S, const char* name, const char* value) {
+void pfPrcHelper::writeParam(const char* name, const char* value) {
     char buf[256];
     sprintf(buf, " %s=\"%s\"", name, value);
-    S->writeStr(buf);
+    file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(hsStream* S, const char* name, const int value) {
+void pfPrcHelper::writeParam(const char* name, const int value) {
     char buf[256];
     sprintf(buf, " %s=\"%d\"", name, value);
-    S->writeStr(buf);
+    file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(hsStream* S, const char* name, const unsigned int value) {
+void pfPrcHelper::writeParam(const char* name, const unsigned int value) {
     char buf[256];
     sprintf(buf, " %s=\"%u\"", name, value);
-    S->writeStr(buf);
+    file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(hsStream* S, const char* name, const float value) {
-    writeParam(S, name, value);
+void pfPrcHelper::writeParam(const char* name, const float value) {
+    writeParam(name, value);
 }
 
-void pfPrcHelper::writeParam(hsStream* S, const char* name, const double value) {
+void pfPrcHelper::writeParam(const char* name, const double value) {
     char buf[256];
     sprintf(buf, " %s=\"%g\"", name, value);
-    S->writeStr(buf);
+    file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(hsStream* S, const char* name, const bool value) {
+void pfPrcHelper::writeParam(const char* name, const bool value) {
     char buf[256];
     sprintf(buf, " %s=\"%s\"", name, value ? "True" : "False");
-    S->writeStr(buf);
+    file->writeStr(buf);
 }
 
-void pfPrcHelper::finishTag(hsStream* S, bool isShort) {
+void pfPrcHelper::endTag(bool isShort) {
     char buf[6];
     sprintf(buf, "%s>\n", isShort ? " /" : "");
-    S->writeStr(buf);
+    file->writeStr(buf);
     if (!isShort)
         iLvl++;
     else
@@ -62,31 +67,50 @@ void pfPrcHelper::finishTag(hsStream* S, bool isShort) {
     inTag = false;
 }
 
-void pfPrcHelper::writeSimpleTag(hsStream* S, const char* name, bool isShort) {
-    startTag(S, name);
-    finishTag(S, isShort);
+void pfPrcHelper::endTagNoBreak() {
+    file->writeStr(">");
+    iLvl++;
+    inTag = false;
 }
 
-void pfPrcHelper::endTag(hsStream* S) {
+void pfPrcHelper::writeSimpleTag(const char* name, bool isShort) {
+    startTag(name);
+    endTag(isShort);
+}
+
+void pfPrcHelper::writeTagNoBreak(const char* name) {
+    startTag(name);
+    endTagNoBreak();
+}
+
+void pfPrcHelper::closeTag() {
     char buf[256];
     iLvl--;
     sprintf(buf, "</%s>\n", openTags.back());
     openTags.pop_back();
-    writeTabbed(S, buf);
+    writeTabbed(buf);
 }
 
-void pfPrcHelper::writeComment(hsStream* S, const char* comment) {
-    writeTabbed(S, "<!-- ");
-    S->writeStr(comment);
-    S->writeStr(" -->\n");
+void pfPrcHelper::closeTagNoBreak() {
+    char buf[256];
+    iLvl--;
+    sprintf(buf, "</%s>\n", openTags.back());
+    openTags.pop_back();
+    file->writeStr(buf);
 }
 
-void pfPrcHelper::startPrc(hsStream* S) {
-    S->writeStr("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n");
+void pfPrcHelper::writeComment(const char* comment) {
+    writeTabbed("<!-- ");
+    file->writeStr(comment);
+    file->writeStr(" -->\n");
 }
 
-void pfPrcHelper::finalize(hsStream* S) {
-    if (inTag) finishTag(S);
-    while (!openTags.empty()) endTag(S);
+void pfPrcHelper::startPrc() {
+    file->writeStr("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\n");
+}
+
+void pfPrcHelper::finalize() {
+    if (inTag) endTag();
+    while (!openTags.empty()) closeTag();
 }
 

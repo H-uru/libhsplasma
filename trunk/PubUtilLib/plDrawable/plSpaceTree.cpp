@@ -54,6 +54,6 @@ void plSpaceTree::write(hsStream* S) {
 }
 
 void plSpaceTree::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    prc->writeSimpleTag(S, ClassName());
-    prc->writeComment(S, "(Not yet implemented)");
+    prc->writeSimpleTag(ClassName());
+    prc->writeComment("(Not yet implemented)");
 }

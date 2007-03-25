@@ -14,6 +14,7 @@ plCoordinateInterface::~plCoordinateInterface() {
 }
 
 short plCoordinateInterface::ClassIndex() { return 0x0015; }
+const char* plCoordinateInterface::ClassName() { return "plCoordinateInterface"; }
 
 plCoordinateInterface* plCoordinateInterface::getRoot() {
     plCoordinateInterface * cur = this;
@@ -51,3 +52,24 @@ void plCoordinateInterface::write(hsStream *S) {
         plResManager::inst->writeKey(S, SceneObjects[i]);
 }
 
+void plCoordinateInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    plObjInterface::prcWrite(S, prc);
+
+    prc->writeSimpleTag("LocalToParent");
+    LocalToParent.prcWrite(S, prc);
+    prc->closeTag();
+    prc->writeSimpleTag("ParentToLocal");
+    ParentToLocal.prcWrite(S, prc);
+    prc->closeTag();
+    prc->writeSimpleTag("LocalToWorld");
+    LocalToWorld.prcWrite(S, prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldToLocal");
+    WorldToLocal.prcWrite(S, prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("SceneObjects");
+    for (int i=0; i<SceneObjects.getSize(); i++)
+        SceneObjects[i]->prcWrite(S, prc);
+    prc->closeTag();
+}

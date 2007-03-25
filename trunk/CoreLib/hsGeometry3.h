@@ -2,6 +2,7 @@
 #define _HSGEOMETRY3_H
 
 #include "hsStream.h"
+#include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
 struct hsScalarTriple {
 public:
@@ -10,10 +11,13 @@ public:
 public:
     hsScalarTriple();
     hsScalarTriple(float x, float y, float z);
-    ~hsScalarTriple();
+    virtual ~hsScalarTriple();
 
-    void read(hsStream *S);
-    void write(hsStream *S);
+    virtual const char* ClassName();
+
+    void read(hsStream* S);
+    void write(hsStream* S);
+    void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 struct hsPoint3 : public hsScalarTriple {
@@ -21,7 +25,9 @@ public:
     hsPoint3();
     hsPoint3(float x, float y, float z);
     hsPoint3(const hsScalarTriple& src);
-    ~hsPoint3();
+    virtual ~hsPoint3();
+    
+    virtual const char* ClassName();
 
     void Zero();
 
@@ -37,7 +43,9 @@ public:
     hsVector3(const hsScalarTriple& src);
     hsVector3(float x, float y, float z);
     hsVector3();
-    ~hsVector3();
+    virtual ~hsVector3();
+    
+    virtual const char* ClassName();
 };
 
 struct hsPlane3 {

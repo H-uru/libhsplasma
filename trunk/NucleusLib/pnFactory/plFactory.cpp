@@ -67,7 +67,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             case 0x001C: return new plSimulationInterface(ver);
             //case 0x001D: return new plCameraModifier(ver);
             case 0x001E: return new plModifier(ver);
-            //case 0x001F: return new plSingleModifier(ver);
+            case 0x001F: return new plSingleModifier(ver);
             //case 0x0020: return new plSimpleModifier(ver);
             //case 0x0021: return new plSimpleTMModifier(ver);
             //case 0x0022: return new plRandomTMModifier(ver);
@@ -476,7 +476,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         case 0x001C: return new plSimulationInterface(ver);
         //case 0x001D: return new plParticleFadeOutEffect(ver);
         case 0x001E: return new plModifier(ver);
-        //case 0x001F: return new plSingleModifier(ver);
+        case 0x001F: return new plSingleModifier(ver);
         //case 0x0020: return new plSimpleModifier(ver);
         //case 0x0021: return new plWindBoneMod(ver);
         //case 0x0022: return new plCameraBrain_NovicePlus(ver);

@@ -5,8 +5,9 @@ plDrawInterface::plDrawInterface(PlasmaVer pv) { }
 plDrawInterface::~plDrawInterface() { }
 
 short plDrawInterface::ClassIndex() { return 0x0016; }
+const char* plDrawInterface::ClassName() { return "plDrawInterface"; }
 
-void plDrawInterface::read(hsStream *S) {
+void plDrawInterface::read(hsStream* S) {
     plObjInterface::read(S);
     int count = S->readInt();
     Drawables.clear();
@@ -28,7 +29,7 @@ void plDrawInterface::read(hsStream *S) {
     }
 }
 
-void plDrawInterface::write(hsStream *S) {
+void plDrawInterface::write(hsStream* S) {
     plObjInterface::write(S);
     S->writeInt(Drawables.getSize());
 	int i;
@@ -41,3 +42,20 @@ void plDrawInterface::write(hsStream *S) {
         plResManager::inst->writeKey(S, Objects[i]);
 }
 
+void plDrawInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    plObjInterface::prcWrite(S, prc);
+
+    int i;
+    prc->writeSimpleTag("Drawables");
+    for (i=0; i<Drawables.getSize(); i++) {
+        prc->startTag("DrawableKey");
+        prc->writeParam("value", DrawableKeys[i]);
+        prc->endTag(true);
+        Drawables[i]->prcWrite(S, prc);
+    }
+    prc->closeTag();
+    prc->writeSimpleTag("Objects");
+    for (i=0; i<Objects.getSize(); i++)
+        Objects[i]->prcWrite(S, prc);
+    prc->closeTag();
+}

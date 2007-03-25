@@ -52,20 +52,20 @@ void hsGMaterial::writeData(hsStream* S) {
 void hsGMaterial::prcWrite(hsStream* S, pfPrcHelper* prc) {
     plSynchedObject::prcWrite(S, prc);
 
-    prc->startTag(S, "LoadFlags");
-    prc->writeParam(S, "value", loadFlags);
-    prc->finishTag(S, true);
-    prc->startTag(S, "CompFlags");
-    prc->writeParam(S, "value", compFlags);
-    prc->finishTag(S, true);
+    prc->startTag("LoadFlags");
+    prc->writeParam("value", loadFlags);
+    prc->endTag(true);
+    prc->startTag("CompFlags");
+    prc->writeParam("value", compFlags);
+    prc->endTag(true);
 
     int i;
-    prc->writeSimpleTag(S, "Layers");
+    prc->writeSimpleTag("Layers");
     for (i=0; i<Layers.getSize(); i++)
         Layers[i]->prcWrite(S, prc);
-    prc->endTag(S);
-    prc->writeSimpleTag(S, "PiggyBacks");
+    prc->closeTag();
+    prc->writeSimpleTag("PiggyBacks");
     for (i=0; i<PiggyBacks.getSize(); i++)
         PiggyBacks[i]->prcWrite(S, prc);
-    prc->endTag(S);
+    prc->closeTag();
 }

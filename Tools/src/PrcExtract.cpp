@@ -59,7 +59,6 @@ int main(int argc, char** argv) {
     }
 
     plResManager rm;
-    pfPrcHelper prc;
     plPageInfo* page;
     char outfile[256];
     for (int i=1; i<argc; i++) {
@@ -90,17 +89,17 @@ int main(int argc, char** argv) {
             }
             S->setVer(rm.getVer());
             char buf[256];
-            prc.startPrc(S);
-            prc.writeComment(S, "Generator: PrcExtract");
+            pfPrcHelper* prc = new pfPrcHelper(S);
+            prc->writeComment("Generator: PrcExtract");
             sprintf(buf, "Source: %s", argv[i]);
-            prc.writeComment(S, buf);
+            prc->writeComment(buf);
             time_t ts = time(NULL);
             strftime(buf, 256, "Created: %y/%m/%d %H:%M:%S", localtime(&ts));
-            prc.writeComment(S, buf);
+            prc->writeComment(buf);
             S->writeStr("\n");
-            rm.WritePrc(S, &prc, page);
+            rm.WritePrc(S, prc, page);
 
-            prc.finalize(S);
+            delete prc;
             S->close();
             delete S;
         }

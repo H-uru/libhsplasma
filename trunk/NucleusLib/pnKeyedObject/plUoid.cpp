@@ -42,8 +42,8 @@ void plLocation::write(hsStream* S) {
 void plLocation::prcWrite(hsStream* S, pfPrcHelper* prc) {
     char buf[32];
     sprintf(buf, "%d;%d", pageID.getSeqPrefix(), pageID.getPageNum());
-    prc->writeParam(S, "Location", buf);
-    prc->writeParam(S, "LocFlag", flags);
+    prc->writeParam("Location", buf);
+    prc->writeParam("LocFlag", flags);
 }
 
 void plLocation::invalidate() {
@@ -125,17 +125,17 @@ void plUoid::write(hsStream* S) {
 }
 
 void plUoid::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    prc->startTag(S, "Key");
-    prc->writeParam(S, "Name", objName);
-    prc->writeParam(S, "Type", plFactory::ClassName(classType, S->getVer()));
+    prc->startTag("Key");
+    prc->writeParam("Name", objName);
+    prc->writeParam("Type", plFactory::ClassName(classType, S->getVer()));
     location.prcWrite(S, prc);
     if (loadMask.isUsed())
         loadMask.prcWrite(S, prc);
     if (cloneID != 0) {
-        prc->writeParam(S, "CloneID", cloneID);
-        prc->writeParam(S, "ClonePlayerID", clonePlayerID);
+        prc->writeParam("CloneID", cloneID);
+        prc->writeParam("ClonePlayerID", clonePlayerID);
     }
-    prc->finishTag(S, true);
+    prc->endTag(true);
 }
 
 const char* plUoid::toString() {

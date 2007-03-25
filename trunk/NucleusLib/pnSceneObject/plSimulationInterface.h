@@ -4,9 +4,16 @@
 #include "plObjInterface.h"
 
 class plSimulationInterface : public plObjInterface {
+public:
+    enum plSimulationProperties {
+        kDisable, kWeightless_DEAD, kPinned, kWarp_DEAD, kUpright_DEAD,
+        kPassive, kRotationForces_DEAD, kCameraAvoidObject_DEAD, kPhysAnim,
+        kStartInactive, kNoSynchronize, kSuppressed_DEAD, kNoOwnershipChange,
+        kAvAnimPushable, kNumProps
+    };
+
 protected:
-    hsBitVector SimFlags;
-    int Unknown;
+    hsBitVector Props;
     plKey * Physical;
 
 public:
@@ -14,9 +21,11 @@ public:
     virtual ~plSimulationInterface();
 
     virtual short ClassIndex();
+    virtual const char* ClassName();
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

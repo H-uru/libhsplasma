@@ -110,11 +110,11 @@ void plPageInfo::writeSums(hsStream* S) {
 }
 
 void plPageInfo::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    prc->startTag(S, "Page");
-    prc->writeParam(S, "AgeName", age);
-    prc->writeParam(S, "PageName", page);
+    prc->startTag("Page");
+    prc->writeParam("AgeName", age);
+    prc->writeParam("PageName", page);
     location.prcWrite(S, prc);
-    prc->finishTag(S);
+    prc->endTag();
 }
 
 const char* plPageInfo::getAge() { return age; }

@@ -6,46 +6,20 @@
 #include "../../CoreLib/hsTArray.hpp"
 #include "../../CoreLib/hsRefCnt.h"
 
-struct Clothing_Texture {
-    char TexID;
-    plKey * Texture;
-};
-
-class Clothing_FeatureSet : public hsRefCnt {
-private:
-    char* FeatureName;
-    unsigned char TexCount;
-
-public:
-    Clothing_Texture* Textures;
-
-    Clothing_FeatureSet();
-    virtual ~Clothing_FeatureSet();
-
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
-
-    const char* getFeatureName();
-    const char getTexCount();
-    //plMipMap* getTexture(int id);
-};
-
 class plClothingItem : public hsKeyedObject {
 protected:
     char* ItemName;
-    char ClothingGroup, ClothingType, ClosetCategory;
-    bool Unknown;
+    unsigned char Group, Type, Tileset, SortOrder;
 
-    char* AttrList;
-    char* FriendlyName;
+    char* Description;
+    char* CustomText;
 
-    hsTArray<Clothing_FeatureSet> Features;
+    hsTArray<char*> ElementNames;
+    hsTArray<plKey**> Textures;
 
-    plKey * Icon;
-    plKey * HQMesh;
-    plKey * MQMesh;
-    plKey * LQMesh;
-    plKey * ClothingItem;
+    plKey* Icon;
+    plKey* Meshes[3];
+    plKey* Accessory;
 
     unsigned char DefaultTint1[3];
     unsigned char DefaultTint2[3];
@@ -55,9 +29,11 @@ public:
     virtual ~plClothingItem();
 
     virtual short ClassIndex();
+    virtual const char* ClassName();
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

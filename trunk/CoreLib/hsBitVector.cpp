@@ -67,9 +67,9 @@ void hsBitVector::write(hsStream *S) {
 
 void hsBitVector::prcWrite(hsStream* S, pfPrcHelper* prc) {
     for (int i=0; i<nVectors; i++) {
-        prc->startTag(S, "BitVector");
-        prc->writeParam(S, "value", bits[i]);
-        prc->finishTag(S, true);
+        prc->startTag("BitVector");
+        prc->writeParam("value", bits[i]);
+        prc->endTag(true);
     }
 }
 

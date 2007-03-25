@@ -55,27 +55,27 @@ void plSynchedObject::write(hsStream * S) {
 void plSynchedObject::prcWrite(hsStream* S, pfPrcHelper* prc) {
     hsKeyedObject::prcWrite(S, prc);
     
-    prc->startTag(S, "SynchFlags");
-    prc->writeParam(S, "value", flags);
-    prc->finishTag(S, true);
+    prc->startTag("SynchFlags");
+    prc->writeParam("value", flags);
+    prc->endTag(true);
 
     unsigned int i;
     if (flags & kExcludePersistentState) {
-        prc->writeSimpleTag(S, "ExcludePersistentStates");
+        prc->writeSimpleTag("ExcludePersistentStates");
         for (i=0; i<SDLExcludeList.size(); i++) {
-            prc->startTag(S, "State");
-            prc->writeParam(S, "name", SDLExcludeList[i]);
-            prc->finishTag(S, true);
+            prc->startTag("State");
+            prc->writeParam("name", SDLExcludeList[i]);
+            prc->endTag(true);
         }
-        prc->endTag(S);
+        prc->closeTag();
     }
     if (flags & kHasVolatileState) {
-        prc->writeSimpleTag(S, "VolatileStates");
+        prc->writeSimpleTag("VolatileStates");
         for (i=0; i<SDLVolatileList.size(); i++) {
-            prc->startTag(S, "State");
-            prc->writeParam(S, "name", SDLVolatileList[i]);
-            prc->finishTag(S, true);
+            prc->startTag("State");
+            prc->writeParam("name", SDLVolatileList[i]);
+            prc->endTag(true);
         }
-        prc->endTag(S);
+        prc->closeTag();
     }
 }

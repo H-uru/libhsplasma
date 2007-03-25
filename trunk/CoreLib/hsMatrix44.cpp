@@ -140,8 +140,20 @@ void hsMatrix44::write(hsStream *S) {
     }
 }
 
+void hsMatrix44::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    prc->startTag("hsMatrix44");
+    char buf[1024];
+    sprintf(buf, "[%f,%f,%f,%f ; %f,%f,%f,%f ; %f,%f,%f,%f ; %f,%f,%f,%f]",
+        data[0][0], data[0][1], data[0][2], data[0][3],
+        data[1][0], data[1][1], data[1][2], data[1][3],
+        data[2][0], data[2][1], data[2][2], data[2][3],
+        data[3][0], data[3][1], data[3][2], data[3][3]);
+    prc->writeParam("value", buf);
+    prc->endTag(true);
+}
+
 const char* hsMatrix44::toString() {
-    char* s = new char[4096];
+    char* s = new char[1024];
     sprintf(s, "[ %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f ]",
         data[0][0], data[0][1], data[0][2], data[0][3],
         data[1][0], data[1][1], data[1][2], data[1][3],

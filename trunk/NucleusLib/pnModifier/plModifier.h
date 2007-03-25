@@ -14,6 +14,23 @@ public:
 };
 
 
+class plSingleModifier : public plModifier {
+protected:
+    plSceneObject* target;
+    hsBitVector flags;
+
+public:
+    plSingleModifier(PlasmaVer pv = pvUnknown);
+
+    virtual short ClassIndex();
+    virtual const char* ClassName();
+
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+};
+
+
 class plMultiModifier : public plModifier {
 protected:
     hsTArray<plSceneObject*> targets;

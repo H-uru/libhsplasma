@@ -10,6 +10,7 @@ plLayerInterface::~plLayerInterface() {
 short plLayerInterface::ClassIndex() {
     return (ver == pvEoa ? 0x003F : 0x0041);
 }
+const char* plLayerInterface::ClassName() { return "plLayerInterface"; }
 
 void plLayerInterface::read(hsStream* S) {
     plSynchedObject::read(S);
@@ -20,4 +21,12 @@ void plLayerInterface::read(hsStream* S) {
 void plLayerInterface::write(hsStream* S) {
     plSynchedObject::write(S);
     plResManager::inst->writeKey(S, underLay);
+}
+
+void plLayerInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(S, prc);
+
+    prc->writeSimpleTag("UnderLay");
+    underLay->prcWrite(S, prc);
+    prc->closeTag();
 }

@@ -118,12 +118,12 @@ void plResManager::WritePrc(hsStream* S, pfPrcHelper* prc, plPageInfo* page) {
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->objPtr != NULL) {
                 kList[j]->objPtr->prcWrite(S, prc);
-                prc->endTag(S);
+                prc->closeTag();
             }
         }
     }
     
-    prc->endTag(S);
+    prc->closeTag();
 }
 
 plAgeSettings* plResManager::ReadAge(const char* filename) {
@@ -203,7 +203,7 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
     //printf("* Reading Keyring\n");
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
-        short type = S->readShort(); // objType
+        /*short type =*/ S->readShort(); // objType
         if (S->getVer() == pvEoa) {
             S->readInt(); // dataSize
             S->readByte(); // flag

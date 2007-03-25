@@ -39,12 +39,12 @@ void plSceneNode::prcWrite(hsStream* S, pfPrcHelper* prc) {
     hsKeyedObject::prcWrite(S, prc);
 
     int i;
-    prc->writeSimpleTag(S, "SceneObjects");
+    prc->writeSimpleTag("SceneObjects");
     for (i=0; i<SceneObjects.getSize(); i++)
         SceneObjects[i]->prcWrite(S, prc);
-    prc->endTag(S);
-    prc->writeSimpleTag(S, "PoolObjects");
+    prc->closeTag();
+    prc->writeSimpleTag("PoolObjects");
     for (i=0; i<OtherObjects.getSize(); i++)
         OtherObjects[i]->prcWrite(S, prc);
-    prc->endTag(S);
+    prc->closeTag();
 }

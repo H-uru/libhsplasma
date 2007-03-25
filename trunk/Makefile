@@ -12,6 +12,7 @@ OBJFILES=\
 	$(LIBDIR)plResManager.o \
 	$(LIBDIR)plKeyCollector.o \
 	$(LIBDIR)hsBitVector.o \
+	$(LIBDIR)hsColor.o \
 	$(LIBDIR)hsMatrix44.o \
 	$(LIBDIR)hsGeometry3.o \
 	$(LIBDIR)hsBounds.o \
@@ -75,6 +76,9 @@ $(LIBDIR)hsElfStream.o: CoreLib/hsElfStream.h CoreLib/hsElfStream.cpp
 
 $(LIBDIR)hsBitVector.o: CoreLib/hsBitVector.h CoreLib/hsBitVector.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsBitVector.cpp -o $(LIBDIR)hsBitVector.o
+
+$(LIBDIR)hsColor.o: CoreLib/hsColor.h CoreLib/hsColor.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsColor.cpp -o $(LIBDIR)hsColor.o
 
 $(LIBDIR)hsMatrix44.o: CoreLib/hsMatrix44.h CoreLib/hsMatrix44.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsMatrix44.cpp -o $(LIBDIR)hsMatrix44.o

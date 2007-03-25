@@ -28,8 +28,8 @@ plKey* hsKeyedObject::getKey() {
 }
 
 void hsKeyedObject::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    prc->writeSimpleTag(S, ClassName());
-    prc->writeSimpleTag(S, "MyKey");
-      myKey->prcWrite(S, prc); // Short tag
-    prc->endTag(S);
+    prc->writeSimpleTag(ClassName());
+    prc->writeSimpleTag("MyKey");
+    myKey->prcWrite(S, prc);
+    prc->closeTag();
 }

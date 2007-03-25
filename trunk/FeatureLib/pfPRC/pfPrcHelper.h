@@ -9,28 +9,31 @@ private:
     int iLvl;
     bool inTag;
     std::list<const char*> openTags;
+    hsStream* file;
 
-    void writeTabbed(hsStream* S, const char* str);
+    void startPrc();
+    void finalize();
+    void writeTabbed(const char* str);
 
 public:
-    pfPrcHelper();
+    pfPrcHelper(hsStream* S);
     ~pfPrcHelper();
 
-    void startTag(hsStream* S, const char* name);
-    void writeParam(hsStream* S, const char* name, const char* value);
-    void writeParam(hsStream* S, const char* name, const int value);
-    void writeParam(hsStream* S, const char* name, const unsigned int value);
-    void writeParam(hsStream* S, const char* name, const float value);
-    void writeParam(hsStream* S, const char* name, const double value);
-    void writeParam(hsStream* S, const char* name, const bool value);
-    void finishTag(hsStream* S, bool isShort = false);
-    void writeSimpleTag(hsStream* S, const char* name, bool isShort = false);
-    void endTag(hsStream* S);
+    void startTag(const char* name);
+    void writeParam(const char* name, const char* value);
+    void writeParam(const char* name, const int value);
+    void writeParam(const char* name, const unsigned int value);
+    void writeParam(const char* name, const float value);
+    void writeParam(const char* name, const double value);
+    void writeParam(const char* name, const bool value);
+    void endTag(bool isShort = false);
+    void endTagNoBreak();
+    void writeSimpleTag(const char* name, bool isShort = false);
+    void writeTagNoBreak(const char* name);
+    void closeTag();
+    void closeTagNoBreak();
 
-    void writeComment(hsStream* S, const char* comment);
-
-    void startPrc(hsStream* S);
-    void finalize(hsStream* S);
+    void writeComment(const char* comment);
 };
 
 #endif

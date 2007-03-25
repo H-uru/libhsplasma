@@ -85,36 +85,36 @@ void plPythonParameter::write(hsStream* S) {
 }
 
 void plPythonParameter::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    prc->startTag(S, "plPythonParameter");
+    prc->startTag("plPythonParameter");
     
-    prc->writeParam(S, "ID", ID);
+    prc->writeParam("ID", ID);
     if (valueType >= kInt && valueType <= kNone)
-        prc->writeParam(S, "Type", valueTypeNames[valueType]);
+        prc->writeParam("Type", valueTypeNames[valueType]);
     else
-        prc->writeParam(S, "Type", valueType);
+        prc->writeParam("Type", valueType);
     
     switch (valueType) {
     case kInt:
-        prc->writeParam(S, "Value", intValue);
-        prc->finishTag(S, true);
+        prc->writeParam("Value", intValue);
+        prc->endTag(true);
         return;
     case kBoolean:
-        prc->writeParam(S, "Value", boolValue);
-        prc->finishTag(S, true);
+        prc->writeParam("Value", boolValue);
+        prc->endTag(true);
         return;
     case kFloat:
-        prc->writeParam(S, "Value", floatValue);
-        prc->finishTag(S, true);
+        prc->writeParam("Value", floatValue);
+        prc->endTag(true);
         return;
     case kString:
     case kAnimationName:
-        prc->writeParam(S, "Value", strValue);
-        prc->finishTag(S, true);
+        prc->writeParam("Value", strValue);
+        prc->endTag(true);
         return;
     default:
-        prc->finishTag(S, false);
+        prc->endTag(false);
         objKey->prcWrite(S, prc);
-        prc->endTag(S);
+        prc->closeTag();
         return;
     }
 }
@@ -169,18 +169,18 @@ void plPythonFileMod::write(hsStream* S) {
 void plPythonFileMod::prcWrite(hsStream* S, pfPrcHelper* prc) {
     plMultiModifier::prcWrite(S, prc);
 
-    prc->startTag(S, "PythonFile");
-    prc->writeParam(S, "name", pythonFile);
-    prc->finishTag(S, true);
+    prc->startTag("PythonFile");
+    prc->writeParam("name", pythonFile);
+    prc->endTag(true);
 
     int i;
-    prc->writeSimpleTag(S, "Receivers");
+    prc->writeSimpleTag("Receivers");
     for (i=0; i<receivers.getSize(); i++)
         receivers[i]->prcWrite(S, prc);
-    prc->endTag(S);
+    prc->closeTag();
     
-    prc->writeSimpleTag(S, "Parameters");
+    prc->writeSimpleTag("Parameters");
     for (i=0; i<parameters.getSize(); i++)
         parameters[i].prcWrite(S, prc);
-    prc->endTag(S);
+    prc->closeTag();
 }
