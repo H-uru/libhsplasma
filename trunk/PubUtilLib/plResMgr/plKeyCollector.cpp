@@ -22,6 +22,10 @@ void plKeyCollector::add(plKey* key) {
     key->Ref();
 }
 
+void plKeyCollector::reserveKeySpace(PageID& pid, int num) {
+    keys[pid].reserve(num);
+}
+
 unsigned int plKeyCollector::countTypes(PageID& pid) {
     return getTypes(pid).size();
 }
@@ -32,6 +36,7 @@ unsigned int plKeyCollector::countKeys(PageID& pid) {
 
 std::vector<plKey*>& plKeyCollector::getKeys(PageID& pid, short type) {
     std::vector<plKey*>* kList = new std::vector<plKey*>;
+    kList->reserve(keys[pid].size());
     for (unsigned int i=0; i<keys[pid].size(); i++) {
         if (keys[pid][i]->getType() == type)
             kList->push_back(keys[pid][i]);

@@ -49,8 +49,10 @@ public:
 
 protected:
     void* ImageData;
-    unsigned char* JPEGData;
+    void* JPEGData;
     unsigned int JPEGSize;
+    void* AlphaData;
+    unsigned int AlphaSize;
     
     unsigned int width, height, stride, totalSize;
     unsigned char numLevels;
@@ -60,7 +62,9 @@ protected:
     unsigned int curLvlWidth, curLevelHeight, curLevelStride;
     
     void CopyFrom(plMipmap* src);
+    void ICopyImage(plMipmap* src);
     void IRecombineAlpha(plMipmap* alphaImg);
+    plMipmap* ISplitAlpha();
 
 public:
     plMipmap(PlasmaVer pv = pvUnknown);
@@ -69,16 +73,19 @@ public:
     virtual ~plMipmap();
 
     virtual short ClassIndex();
+    virtual const char* ClassName();
 
     void create(int w, int h, int cfg, char nLevels, char compType, char format);
     void setConfig(int cfg);
-    void setJPEGData(const unsigned char* jpData, unsigned int jpSize);
 
-    const unsigned char* getJPEGData();
+    const void* getJPEGData();
     unsigned int getJPEGSize();
+    const void* getAlphaData();
+    unsigned int getAlphaSize();
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 
     void IBuildLevelSizes();
     void IReadJPEGImage(hsStream* S);

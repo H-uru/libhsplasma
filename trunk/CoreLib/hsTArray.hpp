@@ -45,6 +45,14 @@ public:
         data = newData;
     }
 
+    void setSizeNull(int cap) {
+        delete[] data;
+        data = new T[cap];
+        for (int i=0; i<cap; i++)
+            data[i] = 0;
+        max = count = cap;
+    }
+
     void append(T& item) {
         setSize(count+1);
         data[count++] = item;

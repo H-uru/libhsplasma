@@ -37,13 +37,13 @@ void plSceneObject::read(hsStream *S) {
     AudioIntf = plResManager::inst->readKey(S);
     AudioIntf->Ref();
 
-    Interfaces.setSize(S->readInt());
+    Interfaces.setSizeNull(S->readInt());
 	int i;
     for (i=0; i<Interfaces.getSize(); i++) {
         Interfaces[i] = plResManager::inst->readKey(S);
         Interfaces[i]->Ref();
     }
-    Modifiers.setSize(S->readInt());
+    Modifiers.setSizeNull(S->readInt());
     for (i=0; i<Modifiers.getSize(); i++) {
         Modifiers[i] = plResManager::inst->readKey(S);
         Modifiers[i]->Ref();

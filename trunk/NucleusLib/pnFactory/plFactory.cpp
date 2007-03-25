@@ -8,27 +8,27 @@ PlasmaVer plFactory::getVer() { return ver; }
 void plFactory::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
 
 // Includes for all plCreatable types
-#include "../../PubUtilLib/plScene/plSceneNode.h"
-#include "../pnSceneObject/plSceneObject.h"
+#include "../../FeatureLib/pfPython/plPythonFileMod.h"
 //#include "../pnKeyedObject/hsKeyedObject.h"
-#include "../../PubUtilLib/plGImage/plBitmap.h"
-#include "../../PubUtilLib/plGImage/plMipmap.h"
-#include "../../PubUtilLib/plGImage/plCubicEnvironmap.h"
-#include "../../PubUtilLib/plSurface/hsGMaterial.h"
-#include "../pnSceneObject/plObjInterface.h"
+#include "../pnModifier/plModifier.h"
+#include "../pnNetCommon/plSynchedObject.h"
 #include "../pnSceneObject/plAudioInterface.h"
 #include "../pnSceneObject/plCoordinateInterface.h"
 #include "../pnSceneObject/plDrawInterface.h"
+#include "../pnSceneObject/plObjInterface.h"
+#include "../pnSceneObject/plSceneObject.h"
 #include "../pnSceneObject/plSimulationInterface.h"
-#include "../pnModifier/plModifier.h"
-#include "../pnNetCommon/plSynchedObject.h"
-#include "../../PubUtilLib/plSurface/plLayerInterface.h"
-#include "../../PubUtilLib/plDrawable/plDrawableSpans.h"
-#include "../../PubUtilLib/plPipeline/plFogEnvironment.h"
-#include "../../PubUtilLib/plGLight/plLightInfo.h"
-#include "../../FeatureLib/pfPython/plPythonFileMod.h"
 #include "../../PubUtilLib/plAvatar/plClothingItem.h"
+#include "../../PubUtilLib/plDrawable/plDrawableSpans.h"
+#include "../../PubUtilLib/plGImage/plCubicEnvironmap.h"
 #include "../../PubUtilLib/plGImage/plFont.h"
+#include "../../PubUtilLib/plGImage/plMipmap.h"
+#include "../../PubUtilLib/plGLight/plLightInfo.h"
+#include "../../PubUtilLib/plModifier/plImageLibMod.h"
+#include "../../PubUtilLib/plPipeline/plFogEnvironment.h"
+#include "../../PubUtilLib/plScene/plSceneNode.h"
+#include "../../PubUtilLib/plSurface/hsGMaterial.h"
+#include "../../PubUtilLib/plSurface/plLayerInterface.h"
 // End types
 
 plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
@@ -336,7 +336,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //case 0x011F: return new plRelevanceMgr(ver);
             //case 0x0120: return new pfJournalBook(ver);
             //case 0x0121: return new plLayerTargetContainer(ver);
-            //case 0x0122: return new plImageLibMod(ver);
+            case 0x0122: return new plImageLibMod(ver);
             //case 0x0123: return new plParticleFlockEffect(ver);
             //case 0x0124: return new plParticleSDLMod(ver);
             //case 0x0125: return new plAgeLoader(ver);;
@@ -686,7 +686,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         //case 0x00EE: return new plRelevanceRegion(ver);
         //case 0x00EF: return new plRelevanceMgr(ver);
         //case 0x00F0: return new pfJournalBook(ver);
-        //case 0x00F1: return new plImageLibMod(ver);
+        case 0x00F1: return new plImageLibMod(ver);
         //case 0x00F2: return new plParticleFlockEffect(ver);
         //case 0x00F3: return new plParticleSDLMod(ver);
         //case 0x00F4: return new plAgeLoader(ver);;

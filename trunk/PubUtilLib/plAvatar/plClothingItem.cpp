@@ -44,8 +44,8 @@ void plClothingItem::read(hsStream* S) {
         Icon = plResManager::inst->readKey(S);
 
     int count = S->readInt();
-    ElementNames.setSize(count);
-    Textures.setSize(count);
+    ElementNames.setSizeNull(count);
+    Textures.setSizeNull(count);
 	int i, j, count2;
     for (i=0; i<count; i++) {
         ElementNames[i] = S->readSafeStr();

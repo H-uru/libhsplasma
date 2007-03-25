@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
     plResManager rm;
 
     PlasmaVer toVer = pvPrime;
+    int files = 0;
 
     if (argc == 1) {
         doHelp();
@@ -69,10 +70,11 @@ int main(int argc, char** argv) {
             sprintf(fn, "%s.%s", argv[i], getSuffix(toVer));
             rm.WritePage(fn, page);
             printf("Objects Written: %d\n\n", page->nObjects);
+            files++;
         }
     }
 
-    printf("Done!  Successfully transcoded %d files!\n", argc-1);
+    printf("Done!  Successfully transcoded %d files!\n", files);
     return 0;
 }
 

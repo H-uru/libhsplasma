@@ -45,6 +45,7 @@ OBJFILES=\
 	$(LIBDIR)plMipmap.o \
 	$(LIBDIR)plLightInfo.o \
 	$(LIBDIR)plJPEG.o \
+	$(LIBDIR)plImageLibMod.o \
 	$(LIBDIR)plCubicEnvironmap.o \
 	$(LIBDIR)plFogEnvironment.o \
 	$(LIBDIR)hsGDeviceRef.o \
@@ -60,7 +61,7 @@ PLSLIB=lib/libPlasma.so.1.0.1
 all: $(PLSLIB)
 
 $(PLSLIB): $(OBJFILES)
-	$(CC) $(CFLAGS) $(OBJFILES) -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
+	$(CC) $(CFLAGS) $(OBJFILES) -ljpeg -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
 
 $(LIBDIR)hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsRefCnt.cpp -o $(LIBDIR)hsRefCnt.o
@@ -178,6 +179,9 @@ $(LIBDIR)plLightInfo.o: PubUtilLib/plGLight/plLightInfo.h PubUtilLib/plGLight/pl
 
 $(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(LIBDIR)plJPEG.o
+
+$(LIBDIR)plImageLibMod.o: PubUtilLib/plModifier/plImageLibMod.h PubUtilLib/plModifier/plImageLibMod.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plModifier/plImageLibMod.cpp -o $(LIBDIR)plImageLibMod.o
 
 $(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o

@@ -15,6 +15,7 @@ public:
 
     plKey* findKey(plKey* match);
     void add(plKey* key);
+    void reserveKeySpace(PageID& pid, int num);
 
     unsigned int countTypes(PageID& pid);
     unsigned int countKeys(PageID& pid);

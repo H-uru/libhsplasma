@@ -209,6 +209,7 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
             S->readByte(); // flag
         }
         unsigned int oCount = S->readInt();
+        keys.reserveKeySpace(loc.pageID, oCount);
         //printf("  * Indexing %d objects of type [%04X]\n", oCount, type);
         for (unsigned int j=0; j<oCount; j++) {
             plKey* key = new plKey();
