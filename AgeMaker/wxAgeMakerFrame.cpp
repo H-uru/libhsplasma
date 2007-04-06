@@ -59,7 +59,7 @@ wxAgeMakerFrame::wxAgeMakerFrame(wxApp* creator)
         props->AddPage("Alphabetical");
         props->Append(wxPropertyCategory("Page Settings"));
         props->Append(wxStringProperty("Page ID", "The PageID", wxT(page->getLocation().toString())));
-        props->Append(wxEnumProperty("Page Type", "Flags",
+        props->Append(wxEnumProperty("Page Flags", "Flags",
             enPageTypes, evPageTypes, page->getLocation().flags));
         props->Append(wxStringProperty("Age Name", wxPG_LABEL, wxT(page->getAge())));
         props->Append(wxStringProperty("Page Name", wxPG_LABEL, wxT(page->getPage())));

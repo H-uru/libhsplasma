@@ -5,16 +5,30 @@
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsTArray.hpp"
 #include "hsGDeviceRef.h"
+#include "plVertCoder.h"
+
+class plGBufferCell {
+public:
+    unsigned int vtxStart, colorStart, length;
+
+public:
+    void read(hsStream* S);
+    void write(hsStream* S);
+};
+
+
+class plGBufferColor {
+public:
+    unsigned int diffuse, specular;
+};
+
 
 class plGBufferTriangle {
-protected:
+public:
     unsigned short index1, index2, index3, spanIndex;
     hsPoint3 center;
 
 public:
-    plGBufferTriangle();
-    ~plGBufferTriangle();
-
     void read(hsStream* S);
     void write(hsStream* S);
 };
@@ -54,8 +68,8 @@ protected:
     hsTArray<int> fVertBuffEnds;
     hsTArray<unsigned int> fIdxBuffStarts;
     hsTArray<int> fIdxBuffEnds;
-    //hsTArray<plGBufferColor*> fColorBuffStorage;
-    //hsTArray<hsTArray<plGBufferCell>*> fCells;
+    hsTArray<plGBufferColor*> fColorBuffStorage;
+    hsTArray<hsTArray<plGBufferCell>*> fCells;
 
 public:
     plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod);

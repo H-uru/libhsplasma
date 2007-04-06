@@ -107,6 +107,7 @@ public:
     virtual void write(hsStream* S);
 
     void setMaterial(hsGMaterial* mat);
+    void setFogEnvironment(plFogEnvironment* fog);
 
     void IClearMembers();
     void ClearBuffers();

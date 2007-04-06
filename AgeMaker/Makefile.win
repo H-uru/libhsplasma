@@ -1,0 +1,45 @@
+CC = g++
+CFLAGS = -O2 -Wall -IwxPropertyGrid/contrib/include -I../trunk `wx-config --cppflags --unicode=no`
+LIBS = -L../trunk/lib/ -lPlasma `wx-config --libs std,gl --unicode=no`
+
+OBJFILES=out/wxAgeMakerFrame.o out/wxPlasmaProperties.o
+
+PROPGRIDFLAGS = $(CFLAGS) `pkg-config gtk+-2.0 --cflags`
+PROPGRIDLIBS = `pkg-config gtk+-2.0 --libs`
+PROPGRIDOBJ=out/propgrid/advprops.o out/propgrid/extras.o out/propgrid/manager.o out/propgrid/odcombo.o out/propgrid/propgrid.o out/propgrid/props.o
+
+
+all: bin/AgeMaker.exe
+
+bin/AgeMaker.exe: ../trunk/lib/libPlasma.dll $(OBJFILES) $(PROPGRIDOBJ) Main.cpp
+	$(CC) $(CFLAGS) $(LIBS) $(OBJFILES) $(PROPGRIDOBJ) Main.cpp -o bin/AgeMaker
+
+out/wxAgeMakerFrame.o: wxAgeMakerFrame.h wxAgeMakerFrame.cpp
+	$(CC) $(CFLAGS) -c wxAgeMakerFrame.cpp -o out/wxAgeMakerFrame.o
+
+out/wxPlasmaProperties.o: wxPlasmaProperties.h wxPlasmaProperties.cpp
+	$(CC) $(CFLAGS) -c wxPlasmaProperties.cpp -o out/wxPlasmaProperties.o
+
+# Cheating for now...
+out/propgrid/advprops.o: wxPropertyGrid/contrib/src/propgrid/advprops.cpp
+	$(CC) $(PROPGRIDFLAGS) -c wxPropertyGrid/contrib/src/propgrid/advprops.cpp -o out/propgrid/advprops.o
+
+out/propgrid/extras.o: wxPropertyGrid/contrib/src/propgrid/extras.cpp
+	$(CC) $(PROPGRIDFLAGS) -c wxPropertyGrid/contrib/src/propgrid/extras.cpp -o out/propgrid/extras.o
+
+out/propgrid/manager.o: wxPropertyGrid/contrib/src/propgrid/manager.cpp
+	$(CC) $(PROPGRIDFLAGS) -c wxPropertyGrid/contrib/src/propgrid/manager.cpp -o out/propgrid/manager.o
+
+out/propgrid/odcombo.o: wxPropertyGrid/contrib/src/propgrid/odcombo.cpp
+	$(CC) $(PROPGRIDFLAGS) -c wxPropertyGrid/contrib/src/propgrid/odcombo.cpp -o out/propgrid/odcombo.o
+
+out/propgrid/propgrid.o: wxPropertyGrid/contrib/src/propgrid/propgrid.cpp
+	$(CC) $(PROPGRIDFLAGS) -c wxPropertyGrid/contrib/src/propgrid/propgrid.cpp -o out/propgrid/propgrid.o
+
+out/propgrid/props.o: wxPropertyGrid/contrib/src/propgrid/props.cpp
+	$(CC) $(PROPGRIDFLAGS) -c wxPropertyGrid/contrib/src/propgrid/props.cpp -o out/propgrid/props.o
+
+clean:
+	rm -f $(OBJFILES)
+	rm -f $(PROPGRIDOBJ)
+

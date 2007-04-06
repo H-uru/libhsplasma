@@ -42,11 +42,19 @@ void plSpan::write(hsStream *S) {
         S->writeFloat(waterHeight);
 }
 
+plFogEnvironment* plSpan::getFogEnvironment() { return fogEnvironment; }
 unsigned short plSpan::getTypeMask() { return typeMask; }
 unsigned int plSpan::getMaterialIdx() { return materialIdx; }
 unsigned char plSpan::getNumMatrices() { return numMatrices; }
 unsigned int plSpan::getProps() { return props; }
 
-void plSpan::setFogEnviron(plKey* fog) { fogEnvironment = (plFogEnvironment*)fog->objPtr; }
-void plSpan::setPermaLight(plKey* light) { permaLights.append((plLightInfo*&)light->objPtr); }
-void plSpan::setPermaProj(plKey* proj) { permaProjs.append((plLightInfo*&)proj->objPtr); }
+void plSpan::setFogEnvironment(plKey* fog) {
+    fogEnvironment = (plFogEnvironment*)fog->objPtr;
+}
+void plSpan::setPermaLight(plKey* light) {
+    permaLights.append((plLightInfo*&)light->objPtr);
+}
+void plSpan::setPermaProj(plKey* proj) {
+    permaProjs.append((plLightInfo*&)proj->objPtr);
+}
+

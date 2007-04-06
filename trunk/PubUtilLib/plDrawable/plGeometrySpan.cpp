@@ -133,6 +133,9 @@ void plGeometrySpan::write(hsStream *S) {
 }
 
 void plGeometrySpan::setMaterial(hsGMaterial* mat) { fMaterial = mat; }
+void plGeometrySpan::setFogEnvironment(plFogEnvironment* fog) {
+    fFogEnviron = fog;
+}
 
 void plGeometrySpan::IClearMembers() {
     fVertexData = NULL;

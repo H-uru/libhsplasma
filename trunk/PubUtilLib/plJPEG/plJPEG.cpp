@@ -47,6 +47,7 @@ plMipmap* plJPEG::IRead(hsStream* S) {
     jpSrcBuffer = (JOCTET*)malloc(jpSize);
     S->read(jpSize, jpSrcBuffer);
 
+    /*
     cinfo.err = jpeg_std_error(&jerr);
     jpeg_create_decompress(&cinfo);
     
@@ -69,6 +70,7 @@ plMipmap* plJPEG::IRead(hsStream* S) {
     
     free(cinfo.src);
     jpeg_destroy_decompress(&cinfo);
+    */
     free(jpSrcBuffer);
     return newMipmap;
 }

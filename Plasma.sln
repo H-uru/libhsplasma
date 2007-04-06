@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AgeMaker", "AgeMaker\AgeMaker.vcproj", "{1B6DD41B-363B-48B7-88D0-A6BA14B29597}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plasma", "trunk\Plasma.vcproj", "{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlasmaCrypt", "Tools\PlasmaCrypt.vcproj", "{ED5AFABC-DC60-4474-9F60-EF55B4D65746}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PageConvert", "Tools\PageConvert.vcproj", "{1CAAC45D-7818-4EEE-A675-91E066345838}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrcExtract", "Tools\PrcExtract.vcproj", "{075881F2-559B-443E-A950-EBE20291A92D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrpPack", "Tools\PrpPack.vcproj", "{46130030-0CEB-4F51-8F66-EB0FAE09E5B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B6DD41B-363B-48B7-88D0-A6BA14B29597}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1B6DD41B-363B-48B7-88D0-A6BA14B29597}.Debug|Win32.Build.0 = Debug|Win32
+		{1B6DD41B-363B-48B7-88D0-A6BA14B29597}.Release|Win32.ActiveCfg = Release|Win32
+		{1B6DD41B-363B-48B7-88D0-A6BA14B29597}.Release|Win32.Build.0 = Release|Win32
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}.Debug|Win32.Build.0 = Debug|Win32
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}.Release|Win32.ActiveCfg = Release|Win32
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}.Release|Win32.Build.0 = Release|Win32
+		{ED5AFABC-DC60-4474-9F60-EF55B4D65746}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ED5AFABC-DC60-4474-9F60-EF55B4D65746}.Debug|Win32.Build.0 = Debug|Win32
+		{ED5AFABC-DC60-4474-9F60-EF55B4D65746}.Release|Win32.ActiveCfg = Release|Win32
+		{ED5AFABC-DC60-4474-9F60-EF55B4D65746}.Release|Win32.Build.0 = Release|Win32
+		{1CAAC45D-7818-4EEE-A675-91E066345838}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1CAAC45D-7818-4EEE-A675-91E066345838}.Debug|Win32.Build.0 = Debug|Win32
+		{1CAAC45D-7818-4EEE-A675-91E066345838}.Release|Win32.ActiveCfg = Release|Win32
+		{1CAAC45D-7818-4EEE-A675-91E066345838}.Release|Win32.Build.0 = Release|Win32
+		{075881F2-559B-443E-A950-EBE20291A92D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{075881F2-559B-443E-A950-EBE20291A92D}.Debug|Win32.Build.0 = Debug|Win32
+		{075881F2-559B-443E-A950-EBE20291A92D}.Release|Win32.ActiveCfg = Release|Win32
+		{075881F2-559B-443E-A950-EBE20291A92D}.Release|Win32.Build.0 = Release|Win32
+		{46130030-0CEB-4F51-8F66-EB0FAE09E5B0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{46130030-0CEB-4F51-8F66-EB0FAE09E5B0}.Debug|Win32.Build.0 = Debug|Win32
+		{46130030-0CEB-4F51-8F66-EB0FAE09E5B0}.Release|Win32.ActiveCfg = Release|Win32
+		{46130030-0CEB-4F51-8F66-EB0FAE09E5B0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

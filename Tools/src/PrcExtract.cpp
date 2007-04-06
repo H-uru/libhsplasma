@@ -12,7 +12,8 @@
 
 void doHelp() {
     printf("Usage: PrcExtract filename.prp\n\n");
-    printf("Objects are read from and written to Age_Page_PRP\\filename.prc\n\n");
+    printf("Objects are written to Age_PRC\\filename.prc\n");
+    printf("Binary data is written to Age_PRC\\filename.ext\n\n");
 }
 
 const char* filenameConvert(const char* filename) {
@@ -63,7 +64,14 @@ int main(int argc, char** argv) {
     char outfile[256];
     for (int i=1; i<argc; i++) {
         if (argv[i][0] == '-') {
-            // Switches...  None for now...
+            if (argv[i][1] == '-') argv[i]++;
+            if (strcmp(argv[i], "-help") == 0) {
+                doHelp();
+                return 0;
+            } else {
+                fprintf(stderr, "Error: Unrecognized option %s\n", argv[i]);
+                return 1;
+            }
         } else {
             try {
                 page = rm.ReadPage(argv[i]);

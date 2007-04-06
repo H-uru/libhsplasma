@@ -98,8 +98,8 @@ protected:
     hsTArray<hsGMaterial*> materials;
     plSpaceTree* spaceTree;
     hsBitVector fVisSet, fVisNot, fLastVisSet, fLastVisNot, fVisCache;
-    hsTArray<plIcicle> icicles;
-    hsTArray<plParticleSpan> particleSpans;
+    hsTArray<plIcicle*> icicles;
+    hsTArray<plParticleSpan*> particleSpans;
     hsTArray<plSpan*> spans;
     hsTArray<unsigned int> spanSourceIndices;
     hsTArray<plGBufferGroup*> groups;
@@ -123,6 +123,7 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 
 #endif

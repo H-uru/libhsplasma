@@ -37,16 +37,22 @@ int main(int argc, char** argv) {
 
     for (int i=1; i<argc; i++) {
         if (argv[i][0] == '-') {
+            if (argv[i][1] == '-') argv[i]++;
             if (strcmp(argv[i], "-toeoa") == 0)
                 toVer = pvEoa;
-            if (strcmp(argv[i], "-toprime") == 0)
+            else if (strcmp(argv[i], "-toprime") == 0)
                 toVer = pvPrime;
-            if (strcmp(argv[i], "-topots") == 0)
+            else if (strcmp(argv[i], "-topots") == 0)
                 toVer = pvPots;
-            if (strcmp(argv[i], "-tolive") == 0)
+            else if (strcmp(argv[i], "-tolive") == 0)
                 toVer = pvLive;
-            if (strcmp(argv[i], "-help") == 0)
+            else if (strcmp(argv[i], "-help") == 0) {
                 doHelp();
+                return 0;
+            } else {
+                fprintf(stderr, "Error: Unrecognized option %s\n", argv[i]);
+                return 1;
+            }
         } else {
             plPageInfo* page;
             try {

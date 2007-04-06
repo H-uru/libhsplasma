@@ -51,6 +51,7 @@ OBJFILES=\
 	$(LIBDIR)plFogEnvironment.o \
 	$(LIBDIR)hsGDeviceRef.o \
 	$(LIBDIR)plGBufferGroup.o \
+	$(LIBDIR)plVertCoder.o \
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
@@ -196,6 +197,9 @@ $(LIBDIR)hsGDeviceRef.o: PubUtilLib/plPipeline/hsGDeviceRef.h PubUtilLib/plPipel
 
 $(LIBDIR)plGBufferGroup.o: PubUtilLib/plPipeline/plGBufferGroup.h PubUtilLib/plPipeline/plGBufferGroup.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plGBufferGroup.cpp -o $(LIBDIR)plGBufferGroup.o
+
+$(LIBDIR)plVertCoder.o: PubUtilLib/plPipeline/plVertCoder.h PubUtilLib/plPipeline/plVertCoder.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plVertCoder.cpp -o $(LIBDIR)plVertCoder.o
 
 $(LIBDIR)plKeyCollector.o: PubUtilLib/plResMgr/plKeyCollector.h PubUtilLib/plResMgr/plKeyCollector.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plResMgr/plKeyCollector.cpp -o $(LIBDIR)plKeyCollector.o

@@ -15,8 +15,7 @@ public:
         data = NULL;
     }
     ~hsTArray<T>() {
-        if (data != NULL)
-            delete[] data;
+        if (data != NULL) delete[] data;
     }
 
     void clear() {
@@ -35,22 +34,38 @@ public:
     int getCap() { return max; }
 
     void setSize(int cap) {
-        if (max == cap) return;
-        T* newData = new T[cap];
-        for (int i=0; i<count; i++)
-            newData[i] = data[i];
-        if (data != NULL)
-            delete[] data;
-        max = count = cap;
-        data = newData;
+        if (max < cap) {
+            T* newData = new T[cap];
+            if (data != NULL) {
+                memcpy(newData, data, count * sizeof(T));
+                delete[] data;
+            }
+            max = cap;
+            data = newData;
+        }
+        count = cap;
     }
 
     void setSizeNull(int cap) {
         delete[] data;
         data = new T[cap];
-        for (int i=0; i<cap; i++)
-            data[i] = 0;
+        memset(data, 0, count * sizeof(T));
         max = count = cap;
+    }
+
+    void compact() {
+        if (max == count) return;
+        T* newData = new T[count];
+        if (data != NULL) {
+            memcpy(newData, data, count * sizeof(T));
+            delete[] data;
+        }
+        max = count;
+        data = newData;
+    }
+
+    void incSize(int num = 1) {
+        setSize(getSize() + num);
     }
 
     void append(T& item) {
@@ -66,9 +81,13 @@ public:
         return dItm;
     }
 
-    T& operator[](int idx) {
-        return data[idx];
-    }
+    T& get(int idx) { return data[idx]; }
+    void set(int idx, T& item) { data[idx] = item; }
+
+    T& operator[](int idx) { return data[idx]; }
+
+    void push(T& item) { append(item); }
+    T& pop() { return remove(count-1); }
 };
 
 #endif

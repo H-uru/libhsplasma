@@ -32,10 +32,11 @@ void plDrawableSpans::read(hsStream* S) {
         materials[i] = (hsGMaterial*)plResManager::inst->readKey(S)->objPtr;
 
     count = S->readInt();
-    icicles.setSize(count);
+    icicles.setSizeNull(count);
     for (i=0; i<count; i++) {
-        icicles[i].read(S);
-        if (icicles[i].getNumMatrices() != 0)
+        icicles[i] = new plIcicle();
+        icicles[i]->read(S);
+        if (icicles[i]->getNumMatrices() != 0)
             gotSkin = true;
     }
     S->readInt(); // Discarded -- Icicles2
@@ -48,7 +49,7 @@ void plDrawableSpans::read(hsStream* S) {
         unsigned int idx = S->readInt();
         if (idx & 0xC0000000) {
           if ((idx & 0xC0000000) == 0xC0000000)
-              spans.append(((plSpan*&)particleSpans[idx & 0x3FFFFFFF]));
+              spans.append((plSpan*&)particleSpans[idx & 0x3FFFFFFF]);
         } else {
             spans.append((plSpan*&)icicles[idx & 0x3FFFFFFF]);
         }
@@ -61,7 +62,7 @@ void plDrawableSpans::read(hsStream* S) {
     //IBuildVectors();
 
     for (int i=0; i<count; i++)
-        spans[i]->setFogEnviron(plResManager::inst->readKey(S));
+        spans[i]->setFogEnvironment(plResManager::inst->readKey(S));
 
     if (count > 0) {
         localBounds.read(S);
@@ -96,6 +97,8 @@ void plDrawableSpans::read(hsStream* S) {
                 sourceSpans[i]->setMaterial(NULL);
             else
                 sourceSpans[i]->setMaterial(materials[spans[i]->getMaterialIdx()]);
+            sourceSpans[i]->setFogEnvironment(spans[i]->getFogEnvironment());
+            //sourceSpans[i]->setSpanRefIndex(i);
         }
     } else {
         sourceSpans.clear();
@@ -116,7 +119,7 @@ void plDrawableSpans::read(hsStream* S) {
     count = S->readInt();
     DIIndices.setSize(count);
     for (i=0; i<count; i++) {
-        DIIndices[i] = new plDISpanIndex;
+        DIIndices[i] = new plDISpanIndex();
         DIIndices[i]->flags = S->readInt();
 
         count2 = S->readInt();
@@ -143,8 +146,7 @@ void plDrawableSpans::read(hsStream* S) {
         }
     }
 
-    spaceTree = new plSpaceTree(ver);
-    spaceTree->read(S);
+    spaceTree = (plSpaceTree*)plResManager::inst->ReadCreatable(S);
     sceneNode = plResManager::inst->readKey(S);
 
     /*
@@ -181,9 +183,26 @@ void plDrawableSpans::write(hsStream* S) {
 
     S->writeInt(icicles.getSize());
     for (i=0; i<icicles.getSize(); i++)
-        icicles[i].write(S);
+        icicles[i]->write(S);
 
     S->writeInt(0);  // No Icicles2
 
     throw "Incomplete";
 }
+
+void plDrawableSpans::prcWrite(hsStream* S, pfPrcHelper* prc) {
+    hsKeyedObject::prcWrite(S, prc);
+
+    prc->startTag("Properties");
+    prc->writeParam("Flags", props);
+    prc->writeParam("Criteria", criteria);
+    prc->writeParam("RenderLevel", renderLevel.level);
+    prc->endTag(true);
+
+    int i;
+    prc->writeSimpleTag("Materials");
+    for (i=0; i<materials.getSize(); i++)
+        materials[i]->getKey()->prcWrite(S, prc);
+    prc->closeTag();
+}
+

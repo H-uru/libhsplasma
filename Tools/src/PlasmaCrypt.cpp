@@ -112,6 +112,7 @@ int main(int argc, char** argv) {
     char* outFileName;
     for (int i=0; i<realargc; i++) {
         if (realargv[i][0] == '-') {
+            if (realargv[i][1] == '-') realargv[i]++;
             if (strcmp(realargv[i], "-help") == 0)
                 doHelp();
             else if (strcmp(realargv[i], "-noreplace") == 0)

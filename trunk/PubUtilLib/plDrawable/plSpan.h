@@ -73,11 +73,12 @@ public:
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);
 
+    plFogEnvironment* getFogEnvironment();
     unsigned short getTypeMask();
     unsigned int getMaterialIdx();
     unsigned char getNumMatrices();
     unsigned int getProps();
-    void setFogEnviron(plKey* fog);
+    void setFogEnvironment(plKey* fog);
     void setPermaLight(plKey* light);
     void setPermaProj(plKey* proj);
 };
