@@ -29,6 +29,9 @@ public:
     hsPoint3 center;
 
 public:
+    plGBufferTriangle();
+    ~plGBufferTriangle();
+
     void read(hsStream* S);
     void write(hsStream* S);
 };
@@ -70,6 +73,8 @@ protected:
     hsTArray<int> fIdxBuffEnds;
     hsTArray<plGBufferColor*> fColorBuffStorage;
     hsTArray<hsTArray<plGBufferCell>*> fCells;
+
+    unsigned char ICalcVertexSize(unsigned char& lStride);
 
 public:
     plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod);

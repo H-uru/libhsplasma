@@ -4,13 +4,13 @@ plLoadMask::plLoadMask() : mask(0xFFFF) { }
 plLoadMask::~plLoadMask() { }
 
 void plLoadMask::read(hsStream* S) {
-    unsigned char mask = S->readByte();
+    mask = S->readByte();
     quality[0] = (mask >> 4) | 0xF0;
     quality[1] = mask | 0xF0;
 }
 
 void plLoadMask::write(hsStream* S) {
-    unsigned char mask = (quality[1] & 0x0F) | (quality[0] << 4);
+    mask = (quality[1] & 0x0F) | (quality[0] << 4);
     S->writeByte(mask);
 }
 

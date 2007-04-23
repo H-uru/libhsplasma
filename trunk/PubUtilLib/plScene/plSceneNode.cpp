@@ -2,7 +2,13 @@
 #include "../plResMgr/plResManager.h"
 
 plSceneNode::plSceneNode(PlasmaVer pv) { }
-plSceneNode::~plSceneNode() { }
+plSceneNode::~plSceneNode() {
+    int i;
+    for (i=0; i<SceneObjects.getSize(); i++)
+        SceneObjects[i]->UnRef();
+    for (i=0; i<OtherObjects.getSize(); i++)
+        OtherObjects[i]->UnRef();
+}
 
 short plSceneNode::ClassIndex() { return 0x0000; }
 const char* plSceneNode::ClassName() { return "plSceneNode"; }
@@ -10,7 +16,7 @@ const char* plSceneNode::ClassName() { return "plSceneNode"; }
 void plSceneNode::read(hsStream* S) {
     hsKeyedObject::read(S);
 
-    SceneObjects.setSize(S->readInt());
+    SceneObjects.setSizeNull(S->readInt());
 	int i;
     for (i=0; i<SceneObjects.getSize(); i++) {
         SceneObjects[i] = plResManager::inst->readKey(S);

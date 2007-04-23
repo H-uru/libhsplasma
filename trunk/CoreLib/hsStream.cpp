@@ -1,5 +1,6 @@
 #include <string.h>
 #include "hsStream.h"
+#include "../DynLib/Platform.h"
 
 static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
@@ -86,21 +87,6 @@ void hsStream::write(unsigned int size, const void* buf) {
     fwrite(buf, size, 1, F);
 }
 
-void SwapByteOrder(int* value) {
-    union {
-        int i;
-        char c[4];
-    } v;
-    v.i = *value;
-    char t = v.c[3];
-    v.c[3] = v.c[0];
-    v.c[0] = t;
-    t = v.c[2];
-    v.c[2] = v.c[1];
-    v.c[1] = t;
-    *value = v.i;
-}
-
 char hsStream::readByte() {
     char v;
     read(sizeof(v), &v);
@@ -134,8 +120,7 @@ void hsStream::readInts(unsigned int count, int* buf) {
 int hsStream::readIntSwap() {
     int v;
     read(sizeof(v), &v);
-    SwapByteOrder(&v);
-    return v;
+    return ENDSWAP32(v);
 }
 
 float hsStream::readFloat() {
@@ -229,8 +214,7 @@ void hsStream::writeInts(unsigned int count, const int* buf) {
 }
 
 void hsStream::writeIntSwap(const int v) {
-    int tv = v;
-    SwapByteOrder(&tv);
+    int tv = ENDSWAP32(v);
     write(sizeof(tv), &tv);
 }
 

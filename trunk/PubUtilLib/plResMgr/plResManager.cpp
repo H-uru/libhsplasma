@@ -78,8 +78,11 @@ hsKeyedObject* plResManager::getObject(plKey& key) {
 plPageInfo* plResManager::ReadPage(const char* filename) {
     hsStream* S = new hsStream();
     setVer(S->getVer());
-    if (!S->open(filename, fmRead))
-        throw "Error reading file!";
+    if (!S->open(filename, fmRead)) {
+        char* buf = new char[256];
+        sprintf(buf, "Error reading file: %s", filename);
+        throw (const char*)buf;
+    }
     plPageInfo* page = new plPageInfo;
     page->read(S);
     pages.push_back(page);
@@ -130,8 +133,20 @@ plAgeSettings* plResManager::ReadAge(const char* filename) {
     plEncryptedStream* S = new plEncryptedStream();
     S->open(filename, fmRead);
 
-    char* ln;
     plAgeSettings* age = new plAgeSettings;
+    char* afName, * pageFileName;
+    const char* BuiltIns[2] = { "BuiltIn", "Textures" };
+    for (int i=0; i<2; i++) {
+        pageFileName = new char[256];
+        strcpy(pageFileName, filename);
+        afName = strrchr(pageFileName, '.');
+        sprintf(afName, "_District_%s.prp", BuiltIns[i]);
+        plPageInfo* page = ReadPage(pageFileName);
+        age->pages.push_back(page);
+        delete[] pageFileName;
+    }
+
+    char* ln;
     while (!S->eof()) {
         ln = S->readLine();
         if (strncmp(ln, "StartDateTime=", 14) == 0) {
@@ -147,13 +162,13 @@ plAgeSettings* plResManager::ReadAge(const char* filename) {
         } else if (strncmp(ln, "ReleaseVersion=", 15) == 0) {
             age->releaseVersion = atoi(&ln[15]);
         } else if (strncmp(ln, "Page=", 5) == 0) {
-            char* pageName = &ln[5];
-            char* pageIdx = strchr(pageName, ',');
-            char* pageFlag = strchr(pageIdx, ',');
-            char* pageFileName = new char[256];
+            char* pageName = strtok(&ln[5], ", ");
+            char* pageIdx = strtok(NULL, ", ");
+            char* pageFlag = strtok(NULL, ", ");
+            pageFileName = new char[256];
             strcpy(pageFileName, filename);
-            char* afName = strrchr(pageFileName, '.');
-            sprintf(afName, "_District_%*s.prp", pageIdx - pageName, pageName);
+            afName = strrchr(pageFileName, '.');
+            sprintf(afName, "_District_%s.prp", pageName);
             plPageInfo* page = ReadPage(pageFileName);
             page->holdFlag = (pageFlag ? atoi(&pageFlag[1]) != 0 : false);
             age->pages.push_back(page);
@@ -214,6 +229,8 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
         for (unsigned int j=0; j<oCount; j++) {
             plKey* key = new plKey();
             key->read(S);
+            if (S->getVer() != pvEoa && S->getVer() != pvLive)
+                key->setID(j);
             keys.add(key);
             //printf("    * Key %s\n", key->toString());
         }

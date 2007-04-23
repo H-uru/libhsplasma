@@ -7,7 +7,6 @@ all:
 	(make Tools/PlasmaCrypt)
 	(make Tools/PrpPack)
 	(make Tools/PrcExtract)
-	#(cd AgeMaker ; make)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert
@@ -32,7 +31,6 @@ install:
 
 clean:
 	(cd trunk ; make clean)
-	#(cd AgeMaker ; make clean)
 
 distclean:
 	(cd trunk ; make distclean)
@@ -40,5 +38,4 @@ distclean:
 	rm -f Tools/PlasmaCrypt
 	rm -f Tools/PrpPack
 	rm -f Tools/PrcExtract
-	#(cd AgeMaker ; make distclean)
 

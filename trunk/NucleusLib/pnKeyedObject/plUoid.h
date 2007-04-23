@@ -27,6 +27,8 @@ public:
     bool operator==(plLocation& other);
     plLocation& operator=(plLocation& other);
 
+    int getPageNum();
+    int getSeqPrefix();
     void set(int, int, PlasmaVer);
 
     void read(hsStream* S);

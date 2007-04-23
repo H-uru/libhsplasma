@@ -15,6 +15,9 @@ void plGBufferCell::write(hsStream* S) {
 
 
 /* plGBufferTriangle */
+plGBufferTriangle::plGBufferTriangle() { }
+plGBufferTriangle::~plGBufferTriangle() { }
+
 void plGBufferTriangle::read(hsStream* S) {
     index1 = S->readShort();
     index2 = S->readShort();
@@ -113,7 +116,44 @@ void plGBufferGroup::read(hsStream* S) {
 }
 
 void plGBufferGroup::write(hsStream* S) {
+    format |= kEncoded;
+    int i, totalSize = 0;
+    for (i=0; i<fVertBuffSizes.getSize(); i++)
+        totalSize += fVertBuffSizes[i];
+    for (i=0; i<fIdxBuffCounts.getSize(); i++)
+        totalSize += fIdxBuffCounts[i] * sizeof(short);
     S->writeByte(format);
+    S->writeInt(totalSize);
+
+    plVertCoder coder;
+    S->writeInt(fVertBuffStorage.getSize());
+    for (i=0; i<fVertBuffStorage.getSize(); i++) {
+        S->writeShort(fVertBuffSizes[i] / stride);
+        //coder.write(S, fVertBuffStorage[i], format, stride, fVertBuffSizes[i]);
+    }
+
+    S->writeInt(fVertBuffStorage.getSize());
+    for (i=0; i<fIdxBuffCounts.getSize(); i++) {
+        S->writeInt(fIdxBuffCounts[i]);
+        S->writeShorts(fIdxBuffCounts[i], (short*)fIdxBuffStorage[i]);
+    }
+
+    for (i=0; i<fVertBuffStorage.getSize(); i++) {
+        S->writeInt(fCells[i]->getSize());
+        for (int j=0; j<fCells[i]->getSize(); j++)
+            fCells[i]->get(j).write(S);
+    }
+}
+
+unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {
+    lStride = ((format & kUVCountMask) + 2) * 12;
+    numSkinWeights = (format & kSkinWeightMask) >> 4;
+    if (numSkinWeights != 0) {
+        lStride += numSkinWeights * sizeof(float);
+        if (format & kSkinIndices)
+            lStride += sizeof(int);
+    }
+    return lStride + 8;
 }
 
 plGBufferTriangle* plGBufferGroup::ConvertToTriList(short spanIdx,

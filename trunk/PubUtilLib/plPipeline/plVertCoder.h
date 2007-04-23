@@ -35,11 +35,12 @@ private:
 
     void IDecode(hsStream* S, unsigned char* dest, unsigned int stride,
                  unsigned char format);
+    void IDecodeByte(hsStream* S, int chan, unsigned char* dest,
+                     unsigned int stride);
     void IDecodeFloat(hsStream* S, int field, int chan, unsigned char* dest,
                       unsigned int stride);
     void IDecodeNormal(hsStream* S, unsigned char* dest, unsigned int stride);
-    void IDecodeByte(hsStream* S, int chan, unsigned char* dest,
-                     unsigned int stride);
+    void IDecodeColor(hsStream* S, unsigned char* dest, unsigned int stride);
 
 public:
     plVertCoder();

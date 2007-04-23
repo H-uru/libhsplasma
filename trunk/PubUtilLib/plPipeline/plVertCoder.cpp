@@ -16,6 +16,8 @@ void plVertCoder::read(hsStream* S, unsigned char* dest, unsigned char format,
         IDecode(S, dest, stride, format);
 }
 
+
+
 void plVertCoder::IDecode(hsStream* S, unsigned char* dest, unsigned int stride,
                           unsigned char format) {
     // The X, Y, Z coordinates of this vertex
@@ -36,10 +38,7 @@ void plVertCoder::IDecode(hsStream* S, unsigned char* dest, unsigned int stride,
 
     // Normal (polygon face)
     IDecodeNormal(S, dest, stride);
-    IDecodeByte(S, 0, dest, stride);
-    IDecodeByte(S, 1, dest, stride);
-    IDecodeByte(S, 2, dest, stride);
-    IDecodeByte(S, 3, dest, stride);
+    IDecodeColor(S, dest, stride);
 
     // UVW maps
     for (int i=0; i<(format & kUVCountMask); i++) {
@@ -47,6 +46,27 @@ void plVertCoder::IDecode(hsStream* S, unsigned char* dest, unsigned int stride,
         IDecodeFloat(S, kUVW, 1, dest, stride);
         IDecodeFloat(S, kUVW, 2, dest, stride);
     }
+}
+
+void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char* dest,
+                              unsigned int stride) {
+    if (fColors[chan].fCount == 0) {
+        unsigned short count = S->readShort();
+        if (count & 0x8000) {
+            fColors[chan].fSame = true;
+            fColors[chan].fVal = S->readByte();
+            count &= 0x7FFF;
+        } else {
+            fColors[chan].fSame = false;
+        }
+        fColors[chan].fCount = count;
+    }
+    if (fColors[chan].fSame)
+        *dest = fColors[chan].fVal;
+    else
+        *dest = S->readByte();
+    dest += sizeof(unsigned char);
+    fColors[chan].fCount--;
 }
 
 void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
@@ -82,24 +102,11 @@ void plVertCoder::IDecodeNormal(hsStream* S, unsigned char* dest,
     dest += sizeof(float) * 3;
 }
 
-void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char* dest,
-                              unsigned int stride) {
-    if (fColors[chan].fCount == 0) {
-        unsigned short count = S->readShort();
-        if (count & 0x8000) {
-            fColors[chan].fSame = true;
-            fColors[chan].fVal = S->readByte();
-            count &= 0x7FFF;
-        } else {
-            fColors[chan].fSame = false;
-        }
-        fColors[chan].fCount = count;
-    }
-    if (fColors[chan].fSame)
-        *dest = fColors[chan].fVal;
-    else
-        *dest = S->readByte();
-    dest += sizeof(unsigned char);
-    fColors[chan].fCount--;
+void plVertCoder::IDecodeColor(hsStream* S, unsigned char* dest,
+                               unsigned int stride) {
+    IDecodeByte(S, 0, dest, stride);
+    IDecodeByte(S, 1, dest, stride);
+    IDecodeByte(S, 2, dest, stride);
+    IDecodeByte(S, 3, dest, stride);
 }
 

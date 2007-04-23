@@ -117,7 +117,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
             //case 0x0049: return new plWin32Sound(ver);
             //case 0x004A: return new plLayerOr(ver);
             //case 0x004B: return new plAudioSystem(ver);
-            case 0x004C: return new plDrawableSpans(ver);
+            //case 0x004C: return new plDrawableSpans(ver);
             //case 0x004D: return new plDrawablePatchSet(ver);
             //case 0x004E: return new plInputManager(ver);
             //case 0x004F: return new plLogicModBase(ver);
@@ -518,7 +518,7 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
         //case 0x0046: return new plWin32Sound(ver);
         //case 0x0047: return new plLayerOr(ver);
         //case 0x0048: return new plAudioSystem(ver);
-        case 0x0049: return new plDrawableSpans(ver);
+        //case 0x0049: return new plDrawableSpans(ver);
         //case 0x004A: return new plDrawablePatchSet(ver);
         //case 0x004B: return new plInputManager(ver);
         //case 0x004C: return new plLogicModBase(ver);

@@ -17,6 +17,9 @@ plLocation& plLocation::operator=(plLocation& other) {
     return *this;
 }
 
+int plLocation::getPageNum() { return pageID.getPageNum(); }
+int plLocation::getSeqPrefix() { return pageID.getSeqPrefix(); }
+
 void plLocation::set(int pid, int lflags, PlasmaVer pv) {
     pageID.setVer(pv);
     pageID.parse(pid);
@@ -148,4 +151,3 @@ short plUoid::getType() { return (short)classType; }
 PageID& plUoid::getPageID() { return location.pageID; }
 const char* plUoid::getName() { return objName; }
 void plUoid::setID(unsigned int id) { objID = id; }
-

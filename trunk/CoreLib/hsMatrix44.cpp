@@ -14,7 +14,11 @@ hsMatrix44::hsMatrix44(hsMatrix44& init) {
 hsMatrix44::~hsMatrix44() { }
 
 bool hsMatrix44::IsIdentity() {
-    return false;
+    for (int y=0; y<4; y++)
+        for (int x=0; x<4; x++)
+            if (data[y][x] != (x == y ? 1.0 : 0.0))
+                return false;
+    return true;
 }
 
 void hsMatrix44::Identity() {

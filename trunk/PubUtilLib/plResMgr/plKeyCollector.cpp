@@ -46,20 +46,15 @@ std::vector<plKey*>& plKeyCollector::getKeys(PageID& pid, short type) {
 
 std::vector<short>& plKeyCollector::getTypes(PageID& pid) {
     std::vector<short>* types = new std::vector<short>;
-    bool gotIt;
-    short curType;
+    short curType = -1;
+
     std::vector<short>::iterator iter;
     for (unsigned int i=0; i<keys[pid].size(); i++) {
-        gotIt = false;
-        iter = types->begin();
-        curType = keys[pid][i]->getType();
-        while (iter != types->end() && *iter <= curType) {
-            if (*iter == curType) gotIt = true;
-            iter++;
+        if (curType != keys[pid][i]->getType()) {
+            curType = keys[pid][i]->getType();
+            types->push_back(curType);
         }
-        if (!gotIt) types->insert(iter, curType);
     }
-
     return *types;
 }
 

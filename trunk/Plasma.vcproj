@@ -429,6 +429,10 @@
 				RelativePath="DynLib\PlasmaVersions.h"
 				>
 			</File>
+			<File
+				RelativePath=".\DynLib\Platform.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="NucleusLib"
