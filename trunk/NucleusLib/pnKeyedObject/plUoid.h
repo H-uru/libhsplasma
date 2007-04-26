@@ -44,7 +44,7 @@ public:
     const char* toString();
 };
 
-class plUoid {
+DllClass plUoid {
 public:
     enum ContentsFlags {
         kHasCloneIDs = 0x1,

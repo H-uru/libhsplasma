@@ -5,7 +5,8 @@
 #include "../../DynLib/PageID.h"
 #include "plPageInfo.h"
 
-struct plAgeSettings {
+class plAgeSettings {
+public:
     unsigned int startDateTime, dayLength, maxCapacity, lingerTime;
     signed int sequencePrefix;
     unsigned int releaseVersion;

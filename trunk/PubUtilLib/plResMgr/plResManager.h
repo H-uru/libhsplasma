@@ -18,6 +18,7 @@
 DllClass plResManager /* : public hsResMgr */ {
 protected:
     PlasmaVer ver;
+    static int resManagers;
 
 public:
     plKeyCollector keys;
@@ -50,9 +51,11 @@ public:
     plPageInfo* ReadPage(const char* filename);
     void WritePage(const char* filename, plPageInfo* page);
     void WritePrc(hsStream* S, pfPrcHelper* prc, plPageInfo* page);
-
+    void UnloadPage(plLocation& loc);
+    
     plAgeSettings* ReadAge(const char* filename);
     void WriteAge(const char* filename, plAgeSettings* age);
+    void UnloadAge(plAgeSettings* age);
 
     plCreatable* ReadCreatable(hsStream* S);
     void WriteCreatable(hsStream* S, plCreatable* pCre);
