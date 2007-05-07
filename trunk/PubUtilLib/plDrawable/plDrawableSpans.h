@@ -80,10 +80,11 @@ public:
                     kMsgPermaProj, kMsgPermaLightDI, kMsgPermaProjDI };
 
 public:
-    plDrawable(PlasmaVer pv = pvUnknown);
+    plDrawable();
     virtual ~plDrawable();
 
     virtual short ClassIndex();
+    virtual short ClassIndex(PlasmaVer ver);
 };
 
 
@@ -116,10 +117,11 @@ protected:
     bool optimized;
 
 public:
-    plDrawableSpans(PlasmaVer pv = pvUnknown);
+    plDrawableSpans();
     virtual ~plDrawableSpans();
 
     virtual short ClassIndex();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

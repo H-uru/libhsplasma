@@ -1,10 +1,14 @@
 #include "plSynchedObject.h"
 
-plSynchedObject::plSynchedObject(PlasmaVer pv) { }
+plSynchedObject::plSynchedObject() { }
 plSynchedObject::~plSynchedObject() { }
 
-short plSynchedObject::ClassIndex() { return 0x0028; }
-const char* plSynchedObject::ClassName() { return "plSynchedObject"; }
+short plSynchedObject::ClassIndex() { return kSynchedObject; }
+short plSynchedObject::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kSynchedObject, ver);
+}
+
+int plSynchedObject::getFlags() { return flags; }
 
 void plSynchedObject::read(hsStream * S) {
     hsKeyedObject::read(S);

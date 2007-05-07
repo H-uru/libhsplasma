@@ -121,7 +121,7 @@ void plPythonParameter::prcWrite(hsStream* S, pfPrcHelper* prc) {
 
 
 /* plPythonFileMod */
-plPythonFileMod::plPythonFileMod(PlasmaVer pv) : pythonFile(NULL) { }
+plPythonFileMod::plPythonFileMod() : pythonFile(NULL) { }
 
 plPythonFileMod::~plPythonFileMod() {
     if (pythonFile != NULL)
@@ -130,10 +130,14 @@ plPythonFileMod::~plPythonFileMod() {
         receivers[i]->UnRef();
 }
 
-short plPythonFileMod::ClassIndex() {
-    return (ver == pvEoa ? 0x0088 : 0x00A2);
+short plPythonFileMod::ClassIndex() { return kPythonFileMod; }
+short plPythonFileMod::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kPythonFileMod, ver);
 }
-const char* plPythonFileMod::ClassName() { return "plPythonFileMod"; }
+
+char* plPythonFileMod::getFilename() { return pythonFile; }
+hsTArray<plKey*>& plPythonFileMod::getReceivers() { return receivers; }
+hsTArray<plPythonParameter>& plPythonFileMod::getParameters() { return parameters; }
 
 void plPythonFileMod::read(hsStream* S) {
     plMultiModifier::read(S);

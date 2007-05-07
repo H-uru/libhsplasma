@@ -1,7 +1,7 @@
 #include "plCoordinateInterface.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plCoordinateInterface::plCoordinateInterface(PlasmaVer pv) {
+plCoordinateInterface::plCoordinateInterface() {
     LocalToParent.Identity();
     ParentToLocal.Identity();
     LocalToWorld.Identity();
@@ -13,8 +13,11 @@ plCoordinateInterface::~plCoordinateInterface() {
         SceneObjects[i]->UnRef();
 }
 
-short plCoordinateInterface::ClassIndex() { return 0x0015; }
-const char* plCoordinateInterface::ClassName() { return "plCoordinateInterface"; }
+short plCoordinateInterface::ClassIndex() { return kCoordinateInterface; }
+short plCoordinateInterface::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kCoordinateInterface, ver);
+}
+
 
 plCoordinateInterface* plCoordinateInterface::getRoot() {
     plCoordinateInterface * cur = this;

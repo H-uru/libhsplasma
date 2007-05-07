@@ -67,13 +67,12 @@ protected:
     plMipmap* ISplitAlpha();
 
 public:
-    plMipmap(PlasmaVer pv = pvUnknown);
-    plMipmap(int w, int h, int cfg, char nLevels, char compType, char format,
-             PlasmaVer pv = pvUnknown);
+    plMipmap();
+    plMipmap(int w, int h, int cfg, char nLevels, char compType, char format);
     virtual ~plMipmap();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     void create(int w, int h, int cfg, char nLevels, char compType, char format);
     void setConfig(int cfg);

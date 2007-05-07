@@ -4,11 +4,11 @@
 
 class plLayer : public plLayerInterface {
 public:
-    plLayer(PlasmaVer pv = pvUnknown);
+    plLayer();
     virtual ~plLayer();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

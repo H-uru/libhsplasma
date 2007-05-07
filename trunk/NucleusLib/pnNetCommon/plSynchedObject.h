@@ -4,7 +4,7 @@
 #include "../pnKeyedObject/hsKeyedObject.h"
 #include <vector>
 
-class plSynchedObject : public hsKeyedObject {
+DllClass plSynchedObject : public hsKeyedObject {
 public:
     enum LocallyOwnedAnswer { kNo, kYes };
 
@@ -43,11 +43,13 @@ protected:
     std::vector<char*> SDLVolatileList;
 
 public:
-    plSynchedObject(PlasmaVer pv = pvUnknown);
+    plSynchedObject();
     virtual ~plSynchedObject();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
+    
+    int getFlags();
 
     virtual void read(hsStream * S);
     virtual void write(hsStream * S);

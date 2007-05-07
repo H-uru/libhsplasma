@@ -1,6 +1,6 @@
 #include "plGeometrySpan.h"
 
-plGeometrySpan::plGeometrySpan(PlasmaVer pv) { }
+plGeometrySpan::plGeometrySpan() { }
 plGeometrySpan::~plGeometrySpan() { }
 
 void plGeometrySpan::read(hsStream *S) {

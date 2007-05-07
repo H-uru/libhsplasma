@@ -6,22 +6,22 @@
 
 class plSceneObject : public plSynchedObject {
 public:
-    plKey * DrawIntf;
-    plKey * SimIntf;
-    plKey * CoordIntf;
-    plKey * AudioIntf;
+    plKey* DrawIntf;
+    plKey* SimIntf;
+    plKey* CoordIntf;
+    plKey* AudioIntf;
 
     hsTArray<plKey*> Interfaces;
     hsTArray<plKey*> Modifiers;
 
-    plKey * SceneNode;
+    plKey* SceneNode;
 
 public:
-    plSceneObject(PlasmaVer pv = pvUnknown);
+    plSceneObject();
     virtual ~plSceneObject();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

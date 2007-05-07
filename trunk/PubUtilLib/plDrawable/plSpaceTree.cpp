@@ -22,18 +22,13 @@ void plSpaceTreeNode::write(hsStream* S) {
 
 
 /* plSpaceTree */
-plSpaceTree::plSpaceTree(PlasmaVer pv) : fCache(NULL) /*, fCullFunc(NULL)*/ { }
+plSpaceTree::plSpaceTree() : fCache(NULL) /*, fCullFunc(NULL)*/ { }
 plSpaceTree::~plSpaceTree() { }
 
-short plSpaceTree::ClassIndex() {
-    switch (ver) {
-    case pvEoa:   return 0x0240;
-    case pvLive:  return 0x025D;
-    default:      return 0x0258;
-    }
+short plSpaceTree::ClassIndex() { return kSpaceTree; }
+short plSpaceTree::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kSpaceTree, ver);
 }
-
-const char* plSpaceTree::ClassName() { return "plSpaceTree"; }
 
 void plSpaceTree::read(hsStream* S) {
     fRoot = S->readShort();

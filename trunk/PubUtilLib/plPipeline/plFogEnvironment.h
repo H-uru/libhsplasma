@@ -2,17 +2,23 @@
 #define _PLFOGENVIRONMENT_H
 
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "../../CoreLib/hsColor.h"
 
 class plFogEnvironment : public hsKeyedObject {
+public:
+    enum FogType { kLinearFog, kExpFog, kExp2Fog, kNoFog };
+
 protected:
-    char c10;
-    float f14, f18, f1C, f20, f24, f28, f2C;
+    unsigned char fType;
+    float fStart, fEnd, fDensity;
+    hsColorRGBA fColor;
 
 public:
-    plFogEnvironment(PlasmaVer pv = pvUnknown);
+    plFogEnvironment();
     virtual ~plFogEnvironment();
 
     virtual short ClassIndex();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

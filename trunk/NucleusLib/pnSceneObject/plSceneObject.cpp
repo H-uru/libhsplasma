@@ -1,7 +1,7 @@
 #include "plSceneObject.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plSceneObject::plSceneObject(PlasmaVer pv) {
+plSceneObject::plSceneObject() {
     DrawIntf = new plKey();
     SimIntf = new plKey();
     CoordIntf = new plKey();
@@ -22,8 +22,10 @@ plSceneObject::~plSceneObject() {
         Modifiers[i]->UnRef();
 }
 
-short plSceneObject::ClassIndex() { return 0x0001; }
-const char* plSceneObject::ClassName() { return "plSceneObject"; }
+short plSceneObject::ClassIndex() { return kSceneObject; }
+short plSceneObject::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kSceneObject, ver);
+}
 
 void plSceneObject::read(hsStream *S) {
     plSynchedObject::read(S);

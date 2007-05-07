@@ -365,7 +365,7 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
 }
 
 plSceneNode* plResManager::getSceneNode(plLocation& loc) {
-    std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, 0x0000);
+    std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, kSceneNode);
     if (kList.size() < 1) return NULL;
     return (plSceneNode*)kList[0]->objPtr;
 }

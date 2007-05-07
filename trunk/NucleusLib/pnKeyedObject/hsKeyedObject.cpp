@@ -1,15 +1,17 @@
 #include "hsKeyedObject.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-hsKeyedObject::hsKeyedObject(PlasmaVer pv) : myKey(NULL), koFlags(0) { }
+hsKeyedObject::hsKeyedObject() : myKey(NULL), koFlags(0) { }
 
 hsKeyedObject::~hsKeyedObject() {
     if (myKey != NULL)
         myKey->UnRef();
 }
 
-short hsKeyedObject::ClassIndex() { return 0x0002; }
-const char* hsKeyedObject::ClassName() { return "hsKeyedObject"; }
+short hsKeyedObject::ClassIndex() { return kKeyedObject; }
+short hsKeyedObject::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kKeyedObject, ver);
+}
 
 void hsKeyedObject::read(hsStream * S) {
     if (myKey != NULL)

@@ -4,24 +4,20 @@
 #include "../../CoreLib/hsRefCnt.h"
 #include "../../CoreLib/hsStream.h"
 #include "../../DynLib/PlasmaVersions.h"
+#include "../../DynLib/pdUnifiedTypeMap.h"
 #include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 
 class plCreatable : public hsRefCnt {
-protected:
-    PlasmaVer ver;
-
 public:
-    plCreatable(PlasmaVer pv = pvUnknown);
+    plCreatable();
     virtual ~plCreatable();
 
     virtual short ClassIndex() = 0;
-    virtual const char* ClassName() = 0;
-    
-    PlasmaVer getVer();
-    virtual void setVer(PlasmaVer pv, bool mutate = false);
+    virtual short ClassIndex(PlasmaVer ver) = 0;
+    const char* ClassName();
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    virtual void read(hsStream* S) = 0;
+    virtual void write(hsStream* S) = 0;
     virtual void prcWrite(hsStream* S, pfPrcHelper* prc) = 0;
 };
 

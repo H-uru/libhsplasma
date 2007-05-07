@@ -12,10 +12,11 @@ public:
     unsigned char fFlags;
 
 public:
-	plSharedMesh(PlasmaVer pv = pvUnknown);
+	plSharedMesh();
     virtual ~plSharedMesh();
 
     virtual short ClassIndex();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

@@ -25,11 +25,11 @@ protected:
     unsigned char DefaultTint2[3];
 
 public:
-    plClothingItem(PlasmaVer pv = pvUnknown);
+    plClothingItem();
     virtual ~plClothingItem();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

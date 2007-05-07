@@ -100,7 +100,7 @@ protected:
     hsTArray<unsigned short> fIndexAccum;
     
 public:
-    plGeometrySpan(PlasmaVer pv = pvUnknown);
+    plGeometrySpan();
     virtual ~plGeometrySpan();
 
     virtual void read(hsStream* S);

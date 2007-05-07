@@ -40,7 +40,7 @@ public:
 };
 
 
-class plPythonFileMod : public plMultiModifier {
+DllClass plPythonFileMod : public plMultiModifier {
 public:
     struct NamedComponent {
         char* name;
@@ -75,11 +75,15 @@ protected:
     
     
 public:
-    plPythonFileMod(PlasmaVer pv = pvUnknown);
+    plPythonFileMod();
     virtual ~plPythonFileMod();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
+    
+    char* getFilename();
+    hsTArray<plKey*>& getReceivers();
+    hsTArray<plPythonParameter>& getParameters();
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

@@ -7,10 +7,10 @@
 
 class plModifier : public plSynchedObject {
 public:
-    plModifier(PlasmaVer pv = pvUnknown);
+    plModifier();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 };
 
 
@@ -20,10 +20,10 @@ protected:
     hsBitVector flags;
 
 public:
-    plSingleModifier(PlasmaVer pv = pvUnknown);
+    plSingleModifier();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
@@ -37,10 +37,10 @@ protected:
     hsBitVector flags;
 
 public:
-    plMultiModifier(PlasmaVer pv = pvUnknown);
+    plMultiModifier();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

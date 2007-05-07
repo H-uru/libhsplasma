@@ -426,6 +426,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DynLib\pdUnifiedTypeMap.cpp"
+				DeploymentContent="true"
+				>
+			</File>
+			<File
+				RelativePath=".\DynLib\pdUnifiedTypeMap.h"
+				>
+			</File>
+			<File
 				RelativePath="DynLib\PlasmaVersions.h"
 				>
 			</File>

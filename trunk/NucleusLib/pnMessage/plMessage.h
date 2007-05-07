@@ -39,10 +39,11 @@ protected:
     std::vector<unsigned long> fNetRcvrPlayerIDs;
     
 public:
-    plMessage(PlasmaVer pv = pvUnknown);
+    plMessage();
     virtual ~plMessage();
     
     virtual short ClassIndex();
+    virtual short ClassIndex(PlasmaVer ver);
 
     void IMsgRead(hsStream* S);
     void IMsgWrite(hsStream* S);

@@ -59,11 +59,11 @@ protected:
     unsigned int lowModTime, highModTime;
 
 public:
-    plBitmap(PlasmaVer pv = pvUnknown);
+    plBitmap();
     virtual ~plBitmap();
     
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

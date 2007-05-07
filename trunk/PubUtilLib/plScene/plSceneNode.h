@@ -21,11 +21,11 @@ public:
     //class plSpaceTree * spaceTree;
 
 public:
-    plSceneNode(PlasmaVer pv = pvUnknown);
+    plSceneNode();
     virtual ~plSceneNode();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

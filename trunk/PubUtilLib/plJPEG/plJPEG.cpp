@@ -3,7 +3,7 @@
 
 plJPEG* plJPEG::inst = NULL;
 
-plJPEG::plJPEG(PlasmaVer pv) {
+plJPEG::plJPEG() {
     if (inst != NULL)
         throw "Never construct me more than once!";
     inst = this;

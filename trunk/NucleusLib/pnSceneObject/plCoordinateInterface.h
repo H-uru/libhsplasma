@@ -18,18 +18,18 @@ public: // Might as well make 'em public...
     plCoordinateInterface * Parent;
 
 public:
-    plCoordinateInterface(PlasmaVer pv = pvUnknown);
+    plCoordinateInterface();
     virtual ~plCoordinateInterface();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     plCoordinateInterface * getRoot();
 
     // More to do later...
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
     virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
 };
 

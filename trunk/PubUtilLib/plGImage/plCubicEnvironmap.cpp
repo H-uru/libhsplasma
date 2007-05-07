@@ -1,9 +1,12 @@
 #include "plCubicEnvironmap.h"
 
-plCubicEnvironmap::plCubicEnvironmap(PlasmaVer pv) { }
+plCubicEnvironmap::plCubicEnvironmap() { }
 plCubicEnvironmap::~plCubicEnvironmap() { }
 
-short plCubicEnvironmap::ClassIndex() { return 0x0005; }
+short plCubicEnvironmap::ClassIndex() { return kCubicEnvironmap; }
+short plCubicEnvironmap::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kCubicEnvironmap, ver);
+}
 
 void plCubicEnvironmap::read(hsStream* S) {
     hsKeyedObject::read(S);

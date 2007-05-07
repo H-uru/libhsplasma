@@ -34,11 +34,11 @@ private:
     float lastUpdateTime;
 
 public:
-    hsGMaterial(PlasmaVer pv = pvUnknown);
+    hsGMaterial();
     virtual ~hsGMaterial();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

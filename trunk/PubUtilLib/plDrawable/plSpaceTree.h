@@ -43,11 +43,11 @@ protected:
     hsPoint3 fViewPos;
 
 public:
-    plSpaceTree(PlasmaVer pv = pvUnknown);
+    plSpaceTree();
     virtual ~plSpaceTree();
     
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
     
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

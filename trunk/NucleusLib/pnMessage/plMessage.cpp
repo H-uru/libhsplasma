@@ -1,7 +1,7 @@
 #include "plMessage.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plMessage::plMessage(PlasmaVer pv) {
+plMessage::plMessage() {
     fSender = new plKey();
 }
 
@@ -11,8 +11,9 @@ plMessage::~plMessage() {
         fReceivers[i]->UnRef();
 }
 
-short plMessage::ClassIndex() {
-    return (ver == pvEoa ? 0x0201 : 0x0202);
+short plMessage::ClassIndex() { return kMessage; }
+short plMessage::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kMessage, ver);
 }
 
 void plMessage::IMsgRead(hsStream* S) {

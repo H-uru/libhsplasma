@@ -10,11 +10,11 @@ public:
     hsTArray<int> DrawableKeys;
 
 public:
-    plDrawInterface(PlasmaVer pv = pvUnknown);
+    plDrawInterface();
     virtual ~plDrawInterface();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

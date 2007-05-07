@@ -12,10 +12,11 @@ protected:
     plMipmap faces[6];
 
 public:
-    plCubicEnvironmap(PlasmaVer pv = pvUnknown);
+    plCubicEnvironmap();
     virtual ~plCubicEnvironmap();
     
     virtual short ClassIndex();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

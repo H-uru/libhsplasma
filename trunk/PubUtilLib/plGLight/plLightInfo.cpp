@@ -1,11 +1,12 @@
 #include "plLightInfo.h"
 #include "../plResMgr/plResManager.h"
 
-plLightInfo::plLightInfo(PlasmaVer pv) { }
+plLightInfo::plLightInfo() { }
 plLightInfo::~plLightInfo() { }
 
-short plLightInfo::ClassIndex() {
-    return (ver == pvEoa ? 0x004F : 0x0054);
+short plLightInfo::ClassIndex() { return kLightInfo; }
+short plLightInfo::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kLightInfo, ver);
 }
 
 void plLightInfo::read(hsStream *S) {

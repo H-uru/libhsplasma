@@ -1,11 +1,13 @@
 #include "hsGMaterial.h"
 #include "../plResMgr/plResManager.h"
 
-hsGMaterial::hsGMaterial(PlasmaVer pv) { }
+hsGMaterial::hsGMaterial() { }
 hsGMaterial::~hsGMaterial() { }
 
-short hsGMaterial::ClassIndex() { return 0x0007; }
-const char* hsGMaterial::ClassName() { return "hsGMaterial"; }
+short hsGMaterial::ClassIndex() { return kGMaterial; }
+short hsGMaterial::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kGMaterial, ver);
+}
 
 void hsGMaterial::read(hsStream* S) {
     plSynchedObject::read(S);

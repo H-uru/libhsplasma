@@ -13,13 +13,14 @@ const char* plBitmap::compressedTypeNames[] = {
 };
 
 
-plBitmap::plBitmap(PlasmaVer pv) : pixelSize(0), space(0), flags(0),
-                   compressionType(0), lowModTime(0), highModTime(0) { }
-
+plBitmap::plBitmap() : pixelSize(0), space(0), flags(0), compressionType(0),
+                       lowModTime(0), highModTime(0) { }
 plBitmap::~plBitmap() { }
 
-short plBitmap::ClassIndex() { return 3; }
-const char* plBitmap::ClassName() { return "plBitmap"; }
+short plBitmap::ClassIndex() { return kBitmap; }
+short plBitmap::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kBitmap, ver);
+}
 
 void plBitmap::read(hsStream* S) {
     hsKeyedObject::read(S);

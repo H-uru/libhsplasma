@@ -58,11 +58,11 @@ protected:
     hsMatrix44* bumpEnvXfm;
 
 public:
-    plLayerInterface(PlasmaVer pv = pvUnknown);
+    plLayerInterface();
     virtual ~plLayerInterface();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

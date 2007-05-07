@@ -8,11 +8,11 @@ protected:
     plKey * Audible;
 
 public:
-    plAudioInterface(PlasmaVer pv = pvUnknown);
+    plAudioInterface();
     virtual ~plAudioInterface();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

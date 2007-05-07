@@ -1,16 +1,16 @@
 #include "plLayerInterface.h"
 #include "../plResMgr/plResManager.h"
 
-plLayerInterface::plLayerInterface(PlasmaVer pv) : underLay(NULL) { }
+plLayerInterface::plLayerInterface() : underLay(NULL) { }
 
 plLayerInterface::~plLayerInterface() {
     if (underLay) underLay->UnRef();
 }
 
-short plLayerInterface::ClassIndex() {
-    return (ver == pvEoa ? 0x003F : 0x0041);
+short plLayerInterface::ClassIndex() { return kLayerInterface; }
+short plLayerInterface::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kLayerInterface, ver);
 }
-const char* plLayerInterface::ClassName() { return "plLayerInterface"; }
 
 void plLayerInterface::read(hsStream* S) {
     plSynchedObject::read(S);

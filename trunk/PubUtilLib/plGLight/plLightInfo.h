@@ -47,10 +47,11 @@ protected:
     hsBitVector slaveBits;
 
 public:
-    plLightInfo(PlasmaVer pv = pvUnknown);
+    plLightInfo();
     virtual ~plLightInfo();
 
     virtual short ClassIndex();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream *S);
     virtual void write(hsStream *S);

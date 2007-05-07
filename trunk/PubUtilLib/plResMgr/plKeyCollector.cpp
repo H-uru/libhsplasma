@@ -1,11 +1,12 @@
 #include "plKeyCollector.h"
+#include "../../DynLib/pdUnifiedTypeMap.h"
 
 plKeyCollector::plKeyCollector() { }
 
 plKeyCollector::~plKeyCollector() {
     std::vector<PageID> pages = getPages();
     for (unsigned int i=0; i<pages.size(); i++) {
-        for (unsigned int j=0; j<0x600; j++) {
+        for (unsigned int j=0; j<TYPESPACE_MAX; j++) {
             for (unsigned int k=0; k<keys[pages[i]][j].size(); k++)
                 keys[pages[i]][j][k]->UnRef();
         }
@@ -35,7 +36,7 @@ unsigned int plKeyCollector::countTypes(PageID& pid) {
 
 unsigned int plKeyCollector::countKeys(PageID& pid) {
     unsigned int kCount = 0;
-    for (unsigned int i=0; i<0x600; i++)
+    for (unsigned int i=0; i<TYPESPACE_MAX; i++)
         kCount += keys[pid][i].size();
     return kCount;
 }
@@ -46,7 +47,7 @@ std::vector<plKey*>& plKeyCollector::getKeys(PageID& pid, short type) {
 
 std::vector<short>& plKeyCollector::getTypes(PageID& pid) {
     std::vector<short>* types = new std::vector<short>;
-    for (unsigned int i=0; i<0x600; i++) {
+    for (unsigned int i=0; i<TYPESPACE_MAX; i++) {
         if (keys[pid][i].size() > 0)
             types->push_back(i);
     }

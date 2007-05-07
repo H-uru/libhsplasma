@@ -1,7 +1,7 @@
 #include "plFont.h"
 #include <string.h>
 
-plFont::plFont(PlasmaVer pv) : FontSize(-1), FontFlags(0), imgWidth(0),
+plFont::plFont() : FontSize(-1), FontFlags(0), imgWidth(0),
                    imgHeight(0), maxHeight(0), bpp(0), bmpData(NULL),
                    unknown(0), numLetters(256) {
     memset(FontName, '\0', 256);
@@ -13,9 +13,9 @@ plFont::~plFont() {
     delete [] Letters;
 }
 
-short plFont::ClassIndex() {
-    if (ver == pvEoa) return -1;
-    else return 0x011C;
+short plFont::ClassIndex() { return kFont; }
+short plFont::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kFont, ver);
 }
 
 FontLetterDef& plFont::operator[](int idx) {

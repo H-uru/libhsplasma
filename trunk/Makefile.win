@@ -18,6 +18,7 @@ OBJFILES=\
 	$(LIBDIR)hsBounds.o \
 	$(LIBDIR)plLoadMask.o \
 	$(LIBDIR)PageID.o \
+	$(LIBDIR)pdUnifiedTypeMap.o \
 	$(LIBDIR)hsGMatState.o \
 	$(LIBDIR)plCreatable.o \
 	$(LIBDIR)plFactory.o \
@@ -98,6 +99,9 @@ $(LIBDIR)plLoadMask.o: CoreLib/plLoadMask.h CoreLib/plLoadMask.cpp
 
 $(LIBDIR)PageID.o: DynLib/PageID.h DynLib/PageID.cpp
 	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o $(LIBDIR)PageID.o
+
+$(LIBDIR)pdUnifiedTypeMap.o: DynLib/pdUnifiedTypeMap.h DynLib/pdUnifiedTypeMap.cpp
+	$(CC) $(CFLAGS) -c DynLib/pdUnifiedTypeMap.cpp -o $(LIBDIR)pdUnifiedTypeMap.o
 
 $(LIBDIR)hsGMatState.o: NucleusLib/inc/hsGMatState.h NucleusLib/inc/hsGMatState.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/inc/hsGMatState.cpp -o $(LIBDIR)hsGMatState.o

@@ -3,18 +3,15 @@
 #include "../../NucleusLib/pnModifier/plModifier.h"
 
 class plImageLibMod : public plSingleModifier {
-public:
-    enum Refs { kRefImage };
-
 protected:
     hsTArray<plKey*> fImages;
 
 public:
-    plImageLibMod(PlasmaVer pv = pvUnknown);
+    plImageLibMod();
     virtual ~plImageLibMod();
     
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

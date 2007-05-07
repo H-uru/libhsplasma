@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-plMipmap::plMipmap(PlasmaVer pv) {
+plMipmap::plMipmap() {
     ImageData = NULL;
     JPEGData = NULL;
     AlphaData = NULL;
@@ -16,7 +16,7 @@ plMipmap::plMipmap(PlasmaVer pv) {
 }
 
 plMipmap::plMipmap(int w, int h, int cfg, char nLevels, char compType,
-                   char format, PlasmaVer pv) : plBitmap(pv) {
+                   char format) {
     ImageData = NULL;
     JPEGData = NULL;
     AlphaData = NULL;
@@ -36,8 +36,10 @@ plMipmap::~plMipmap() {
     if (levelSizes != NULL) delete[] levelSizes;
 }
 
-short plMipmap::ClassIndex() { return 4; }
-const char* plMipmap::ClassName() { return "plMipmap"; }
+short plMipmap::ClassIndex() { return kMipmap; }
+short plMipmap::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kMipmap, ver);
+}
 
 void plMipmap::create(int w, int h, int cfg, char nLevels, char compType,
                       char format) {
@@ -235,7 +237,7 @@ void plMipmap::IBuildLevelSizes() {
 }
 
 plMipmap* plMipmap::IReadRLEImage(hsStream* S) {
-    plMipmap* img = new plMipmap(width, height, kARGB32Config, 1, 0, 0, ver);
+    plMipmap* img = new plMipmap(width, height, kARGB32Config, 1, 0, 0);
     int* dataPtr = (int*)img->ImageData;
     while (true) {
         int count = S->readInt();

@@ -1,13 +1,13 @@
 #include "plImageLibMod.h"
 #include "../plResMgr/plResManager.h"
 
-plImageLibMod::plImageLibMod(PlasmaVer pv) { }
+plImageLibMod::plImageLibMod() { }
 plImageLibMod::~plImageLibMod() { }
 
-short plImageLibMod::ClassIndex() {
-    return (ver == pvEoa ? 0x00F1 : 0x0122);
+short plImageLibMod::ClassIndex() { return kImageLibMod; }
+short plImageLibMod::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kImageLibMod, ver);
 }
-const char* plImageLibMod::ClassName() { return "plImageLibMod"; }
 
 void plImageLibMod::read(hsStream* S) {
     plSingleModifier::read(S);

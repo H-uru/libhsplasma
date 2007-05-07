@@ -29,10 +29,11 @@ protected:
     FontLetterDef * Letters;
 
 public:
-    plFont(PlasmaVer pv = pvUnknown);
+    plFont();
     virtual ~plFont();
 
     virtual short ClassIndex();
+    virtual short ClassIndex(PlasmaVer ver);
 
     FontLetterDef& operator[](int idx);
 

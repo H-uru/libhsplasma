@@ -16,11 +16,11 @@ protected:
     unsigned int koFlags;
 
 public:
-    hsKeyedObject(PlasmaVer pv = pvUnknown);
+    hsKeyedObject();
     virtual ~hsKeyedObject();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream * S);
     virtual void write(hsStream * S);

@@ -1,7 +1,7 @@
 #include "plSceneNode.h"
 #include "../plResMgr/plResManager.h"
 
-plSceneNode::plSceneNode(PlasmaVer pv) { }
+plSceneNode::plSceneNode() { }
 plSceneNode::~plSceneNode() {
     int i;
     for (i=0; i<SceneObjects.getSize(); i++)
@@ -10,8 +10,10 @@ plSceneNode::~plSceneNode() {
         OtherObjects[i]->UnRef();
 }
 
-short plSceneNode::ClassIndex() { return 0x0000; }
-const char* plSceneNode::ClassName() { return "plSceneNode"; }
+short plSceneNode::ClassIndex() { return kSceneNode; }
+short plSceneNode::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kSceneNode, ver);
+}
 
 void plSceneNode::read(hsStream* S) {
     hsKeyedObject::read(S);

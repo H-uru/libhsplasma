@@ -17,11 +17,11 @@ protected:
     plKey * Physical;
 
 public:
-    plSimulationInterface(PlasmaVer pv = pvUnknown);
+    plSimulationInterface();
     virtual ~plSimulationInterface();
 
     virtual short ClassIndex();
-    virtual const char* ClassName();
+    virtual short ClassIndex(PlasmaVer ver);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

@@ -1,8 +1,8 @@
 #include "plClothingItem.h"
 #include "../plResMgr/plResManager.h"
 
-plClothingItem::plClothingItem(PlasmaVer pv) : ItemName(NULL), Group(0),
-                  Type(0), Tileset(0), SortOrder(0), Description(NULL),
+plClothingItem::plClothingItem() : ItemName(NULL), Group(0), Type(0),
+                  Tileset(0), SortOrder(0), Description(NULL),
                   CustomText(NULL), Icon(NULL), Accessory(NULL) {
     DefaultTint1[0] = DefaultTint2[0] = 255;
     DefaultTint1[1] = DefaultTint2[1] = 255;
@@ -23,11 +23,10 @@ plClothingItem::~plClothingItem() {
     delete[] CustomText;
 }
 
-short plClothingItem::ClassIndex() {
-    if (ver == pvEoa) return -1;
-    else return 0x00B5;
+short plClothingItem::ClassIndex() { return kClothingItem; }
+short plClothingItem::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kClothingItem, ver);
 }
-const char* plClothingItem::ClassName() { return "plClothingItem"; }
 
 void plClothingItem::read(hsStream* S) {
     hsKeyedObject::read(S);

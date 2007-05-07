@@ -2,18 +2,22 @@
 #include "../plResMgr/plResManager.h"
 
 /* plDrawable */
-plDrawable::plDrawable(PlasmaVer pv) { }
+plDrawable::plDrawable() { }
 plDrawable::~plDrawable() { }
 
-short plDrawable::ClassIndex() { return 0x0017; }
+short plDrawable::ClassIndex() { return kDrawable; }
+short plDrawable::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kDrawable, ver);
+}
 
 
 /* plDrawableSpans */
-plDrawableSpans::plDrawableSpans(PlasmaVer pv) { }
+plDrawableSpans::plDrawableSpans() { }
 plDrawableSpans::~plDrawableSpans() { }
 
-short plDrawableSpans::ClassIndex() {
-    return (ver == pvEoa ? 0x0049 : 0x004C);
+short plDrawableSpans::ClassIndex() { return kDrawableSpans; }
+short plDrawableSpans::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kDrawableSpans, ver);
 }
 
 void plDrawableSpans::read(hsStream* S) {

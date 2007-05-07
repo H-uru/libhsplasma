@@ -1,7 +1,7 @@
 #include "plLayer.h"
 #include "../plResMgr/plResManager.h"
 
-plLayer::plLayer(PlasmaVer pv) {
+plLayer::plLayer() {
     transform = new hsMatrix44();
     preshadeColor = new hsColorRGBA();
     runtimeColor = new hsColorRGBA();
@@ -37,8 +37,10 @@ plLayer::~plLayer() {
     delete bumpEnvXfm;
 }
 
-short plLayer::ClassIndex() { return 0x0006; }
-const char* plLayer::ClassName() { return "plLayer"; }
+short plLayer::ClassIndex() { return kLayer; }
+short plLayer::ClassIndex(PlasmaVer ver) {
+    return pdUnifiedTypeMap::MappedToPlasma(kLayer, ver);
+}
 
 void plLayer::read(hsStream* S) {
     plLayerInterface::read(S);

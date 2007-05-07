@@ -3,20 +3,13 @@
 
 #include "plCreatable.h"
 #include "../../CoreLib/hsRefCnt.h"
+#include "../../DynLib/pdUnifiedTypeMap.h"
 
-class plFactory : hsRefCnt {
-private:
-    PlasmaVer ver;
-
+class plFactory {
 public:
-    plFactory();
-    plFactory(PlasmaVer pv);
-    virtual ~plFactory();
-
-    PlasmaVer getVer();
-    virtual void setVer(PlasmaVer pv, bool mutate = false);
-
+    static plCreatable* Create(short typeIdx);
     static plCreatable* Create(short typeIdx, PlasmaVer ver);
+    static const char* ClassName(short typeIdx);
     static const char* ClassName(short typeIdx, PlasmaVer ver);
 };
 

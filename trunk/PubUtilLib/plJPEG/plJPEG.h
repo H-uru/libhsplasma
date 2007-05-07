@@ -9,7 +9,7 @@ public:
     unsigned char writeQuality;
 
 public:
-    plJPEG(PlasmaVer pv = pvUnknown);
+    plJPEG();
     ~plJPEG();
 
     plMipmap* IRead(hsStream* S);

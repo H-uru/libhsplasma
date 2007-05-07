@@ -7,7 +7,7 @@
 
 class plReceiver : public plCreatable {
 public:
-    plReceiver(PlasmaVer pv = pvUnknown);
+    plReceiver();
     virtual ~plReceiver();
 
     virtual bool msgReceive(plMessage * msg);
