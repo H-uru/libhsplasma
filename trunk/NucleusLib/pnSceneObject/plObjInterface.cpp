@@ -9,11 +9,7 @@ plObjInterface::~plObjInterface() {
     Owner->UnRef();
 }
 
-short plObjInterface::ClassIndex() { return kObjInterface; }
-short plObjInterface::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kObjInterface, ver);
-}
-
+IMPLEMENT_CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
 
 void plObjInterface::read(hsStream* S) {
     plSynchedObject::read(S);
@@ -28,14 +24,14 @@ void plObjInterface::write(hsStream* S) {
     Props.write(S);
 }
 
-void plObjInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(S, prc);
+void plObjInterface::prcWrite(pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(prc);
 
     prc->writeSimpleTag("Owner");
-    Owner->prcWrite(S, prc);
+    Owner->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Props");
-    Props.prcWrite(S, prc);
+    Props.prcWrite(prc);
     prc->closeTag();
 }

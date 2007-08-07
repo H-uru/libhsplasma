@@ -46,14 +46,13 @@ public:
     plSynchedObject();
     virtual ~plSynchedObject();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plSynchedObject)
     
     int getFlags();
 
     virtual void read(hsStream * S);
     virtual void write(hsStream * S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

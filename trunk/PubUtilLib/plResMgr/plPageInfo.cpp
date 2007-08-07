@@ -28,60 +28,62 @@ void plPageInfo::read(hsStream* S) {
     IInit();
 
     short prpVer = S->readShort();
-    if (prpVer > 6) return;
     if (prpVer == 6) {
-        S->setVer(pvEoa);
         unsigned short nTypes = S->readShort();
-        S->skip(nTypes * 4); // Type info table...
+        if (nTypes == 0) {
+            S->setVer(pvLive);
+        } else {
+            S->setVer(pvEoa);
+            S->skip(nTypes * 4); // Type info table...
+        }
         location.read(S);
         age = S->readSafeStr();
         page = S->readSafeStr();
-    } else {
+        if (S->getVer() == pvLive)
+            S->readShort();  // majorVer
+    } else if (prpVer == 5) {
         S->readShort(); // prpVer is DWORD on <= 5
-        if (prpVer >= 1) {
-            int pid = S->readInt();
-            int pflags = S->readShort();
-            S->setVer(pvPrime);
-            age = S->readSafeStr();
-            delete[] S->readSafeStr(); // "District"
-            page = S->readSafeStr();
-            short majorVer = S->readShort();
-            short minorVer = S->readShort();
-            if (majorVer >= 69) S->setVer(pvLive);
-            else if (minorVer >= 12) S->setVer(pvPots);
-            location.set(pid, pflags, S->getVer());
-            if (prpVer < 5)
-                idxChecksum = S->readInt();
-        }
-        if (prpVer >= 2)
-            releaseVersion = S->readInt();
-        if (prpVer >= 3)
-            flags = S->readInt();
-    }
-    if (prpVer >= 4)
-        checksum = S->readInt();
-    if (prpVer >= 5) {
-        dataStart = S->readInt();
-        idxStart = S->readInt();
+        int pid = S->readInt();
+        int pflags = S->readShort();
+        S->setVer(pvPrime);
+        age = S->readSafeStr();
+        delete[] S->readSafeStr(); // "District"
+        page = S->readSafeStr();
+        short majorVer = S->readShort();
+        short minorVer = S->readShort();
+        if (majorVer > 63)
+            throw "Older Live builds are not supported!";
+        else if (minorVer >= 12) S->setVer(pvPots);
+        location.set(pid, pflags, S->getVer());
+        releaseVersion = S->readInt();
+        flags = S->readInt();
     } else {
-        dataStart = 0;
-        idxStart = S->readByte();
+        throw "Unsupported page registry package version!";
     }
+    checksum = S->readInt();
+    dataStart = S->readInt();
+    idxStart = S->readInt();
 }
 
 void plPageInfo::write(hsStream* S) {
     if (S->getVer() == pvEoa) {
         S->writeShort(6);
-        throw "Incomplete"; // Needs the type info thingy
+        throw "EoA plPageInfo is incomplete"; // Needs the type info thingy
         location.write(S);
-        S->writeSafeStr(age);
-        S->writeSafeStr(page);
+        S->writeSafeStr(getAge());
+        S->writeSafeStr(getPage());
+    } else if (S->getVer() == pvLive) {
+        S->writeInt(6);
+        location.write(S);
+        S->writeSafeStr(getAge());
+        S->writeSafeStr(getPage());
+        S->writeShort(70);
     } else {
         S->writeInt(5);
         location.write(S);
-        S->writeSafeStr(age);
+        S->writeSafeStr(getAge());
         S->writeSafeStr(getChapter());
-        S->writeSafeStr(page);
+        S->writeSafeStr(getPage());
         short majorVer = 63;
         short minorVer = 11;
         if (S->getVer() == pvPots)
@@ -109,11 +111,11 @@ void plPageInfo::writeSums(hsStream* S) {
     S->seek(pos);
 }
 
-void plPageInfo::prcWrite(hsStream* S, pfPrcHelper* prc) {
+void plPageInfo::prcWrite(pfPrcHelper* prc) {
     prc->startTag("Page");
     prc->writeParam("AgeName", age);
     prc->writeParam("PageName", page);
-    location.prcWrite(S, prc);
+    location.prcWrite(prc);
     prc->endTag();
 }
 

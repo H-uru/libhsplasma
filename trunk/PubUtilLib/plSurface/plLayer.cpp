@@ -37,10 +37,7 @@ plLayer::~plLayer() {
     delete bumpEnvXfm;
 }
 
-short plLayer::ClassIndex() { return kLayer; }
-short plLayer::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kLayer, ver);
-}
+IMPLEMENT_CREATABLE(plLayer, kLayer, plLayerInterface)
 
 void plLayer::read(hsStream* S) {
     plLayerInterface::read(S);
@@ -84,25 +81,25 @@ void plLayer::write(hsStream* S) {
     bumpEnvXfm->write(S);
 }
 
-void plLayer::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plLayerInterface::prcWrite(S, prc);
+void plLayer::prcWrite(pfPrcHelper* prc) {
+    plLayerInterface::prcWrite(prc);
 
-    state->prcWrite(S, prc);
+    state->prcWrite(prc);
     prc->writeSimpleTag("Transform");
-      transform->prcWrite(S, prc);
+      transform->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Preshade");
-      preshadeColor->prcWrite(S, prc);
+      preshadeColor->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Runtime");
-      runtimeColor->prcWrite(S, prc);
+      runtimeColor->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Ambient");
-      ambientColor->prcWrite(S, prc);
+      ambientColor->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Specular");
-      specularColor->prcWrite(S, prc);
+      specularColor->prcWrite(prc);
     prc->closeTag();
 
     prc->startTag("LayerParams");
@@ -113,16 +110,16 @@ void plLayer::prcWrite(hsStream* S, pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Texture");
-      texture->prcWrite(S, prc);
+      texture->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("VertexShader");
-      vertexShader->prcWrite(S, prc);
+      vertexShader->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("PixelShader");
-      pixelShader->prcWrite(S, prc);
+      pixelShader->prcWrite(prc);
     prc->closeTag();
     
     prc->writeSimpleTag("BumpEnvXfm");
-      bumpEnvXfm->prcWrite(S, prc);
+      bumpEnvXfm->prcWrite(prc);
     prc->closeTag();
 }

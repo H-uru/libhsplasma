@@ -3,10 +3,7 @@
 plCubicEnvironmap::plCubicEnvironmap() { }
 plCubicEnvironmap::~plCubicEnvironmap() { }
 
-short plCubicEnvironmap::ClassIndex() { return kCubicEnvironmap; }
-short plCubicEnvironmap::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kCubicEnvironmap, ver);
-}
+IMPLEMENT_CREATABLE(plCubicEnvironmap, kCubicEnvironmap, plBitmap)
 
 void plCubicEnvironmap::read(hsStream* S) {
     hsKeyedObject::read(S);

@@ -3,10 +3,7 @@
 plSynchedObject::plSynchedObject() { }
 plSynchedObject::~plSynchedObject() { }
 
-short plSynchedObject::ClassIndex() { return kSynchedObject; }
-short plSynchedObject::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kSynchedObject, ver);
-}
+IMPLEMENT_CREATABLE(plSynchedObject, kSynchedObject, hsKeyedObject)
 
 int plSynchedObject::getFlags() { return flags; }
 
@@ -56,8 +53,8 @@ void plSynchedObject::write(hsStream * S) {
     }
 }
 
-void plSynchedObject::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(S, prc);
+void plSynchedObject::prcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::prcWrite(prc);
     
     prc->startTag("SynchFlags");
     prc->writeParam("value", flags);

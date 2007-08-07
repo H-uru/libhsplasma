@@ -36,7 +36,7 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
-    void prcWrite(hsStream* S, pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
 };
 
 
@@ -78,8 +78,7 @@ public:
     plPythonFileMod();
     virtual ~plPythonFileMod();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plPythonFileMod)
     
     char* getFilename();
     hsTArray<plKey*>& getReceivers();
@@ -87,7 +86,7 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

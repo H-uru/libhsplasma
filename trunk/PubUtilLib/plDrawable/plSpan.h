@@ -5,6 +5,7 @@
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsBounds.h"
 #include "../../CoreLib/hsBitVector.h"
+#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 #include "../plPipeline/plFogEnvironment.h"
 #include "../plGLight/plLightInfo.h"
 
@@ -41,46 +42,53 @@ public:
         kSpan = 0x0,
         kVertexSpan = 0x1,
         kIcicleSpan = 0x2,
+        kNullSpan = 0x4,    // Don't actually know what this one is
         kParticleSpan = 0x8,
         kParticleSet = 0x10
     };
 
 protected:
-    unsigned short typeMask, subType;
-    unsigned int materialIdx;
-    hsMatrix44 localToWorld, worldToLocal;
-    unsigned int baseMatrix;
-    unsigned char numMatrices;
-    unsigned short localUVWChans;
-    unsigned short maxBoneIdx, penBoneIdx;
-    unsigned int props;
-    hsBounds3Ext localBounds, worldBounds;
-    plFogEnvironment* fogEnvironment;
-    float minDist, maxDist, waterHeight;
-    hsBitVector visSet, visNot;
-    //plAccessSnapShot* snapShot;
-    hsTArray<plLightInfo*> lights, projectors;
-    hsTArray<float> lightStrengths, lightScales;
-    hsTArray<float> projStrengths, projScales;
-    hsBitVector shadowBits, shadowSlaveBits;
-    //hsTArray<plAuxSpan*> auxSpans;
-    hsTArray<plLightInfo*> permaLights, permaProjs;
+    unsigned short fTypeMask, fSubType;
+    unsigned int fMaterialIdx;
+    hsMatrix44 fLocalToWorld, fWorldToLocal;
+    unsigned int fBaseMatrix;
+    unsigned char fNumMatrices;
+    unsigned short fLocalUVWChans;
+    unsigned short fMaxBoneIdx, fPenBoneIdx;
+    unsigned int fProps;
+    hsBounds3Ext fLocalBounds, fWorldBounds;
+    plKey* fFogEnvironment;
+    float fMinDist, fMaxDist, fWaterHeight;
+    hsBitVector fVisSet, fVisNot;
+    //plAccessSnapShot* fSnapShot;
+    hsTArray<plLightInfo*> fLights, fProjectors;
+    hsTArray<float> fLightStrengths, fLightScales;
+    hsTArray<float> fProjStrengths, fProjScales;
+    hsBitVector fShadowBits, fShadowSlaveBits;
+    //hsTArray<plAuxSpan*> fAuxSpans;
+    hsTArray<plKey*> fPermaLights, fPermaProjs;
 
 public:
     plSpan();
     virtual ~plSpan();
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual const char* ClassName();
 
-    plFogEnvironment* getFogEnvironment();
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
+
+    plKey* getFogEnvironment();
+    hsTArray<plKey*>& getPermaLights();
+    hsTArray<plKey*>& getPermaProjs();
     unsigned short getTypeMask();
     unsigned int getMaterialIdx();
     unsigned char getNumMatrices();
     unsigned int getProps();
+
     void setFogEnvironment(plKey* fog);
-    void setPermaLight(plKey* light);
-    void setPermaProj(plKey* proj);
+    void addPermaLight(plKey* light);
+    void addPermaProj(plKey* proj);
 };
 
 #endif

@@ -5,16 +5,15 @@
 #include "../pnSceneObject/plSceneObject.h"
 #include "../../CoreLib/hsBitVector.h"
 
-class plModifier : public plSynchedObject {
+DllClass plModifier : public plSynchedObject {
 public:
     plModifier();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plModifier)
 };
 
 
-class plSingleModifier : public plModifier {
+DllClass plSingleModifier : public plModifier {
 protected:
     plSceneObject* target;
     hsBitVector flags;
@@ -22,16 +21,15 @@ protected:
 public:
     plSingleModifier();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plSingleModifier)
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 
-class plMultiModifier : public plModifier {
+DllClass plMultiModifier : public plModifier {
 protected:
     hsTArray<plSceneObject*> targets;
     hsBitVector flags;
@@ -39,12 +37,11 @@ protected:
 public:
     plMultiModifier();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plMultiModifier)
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

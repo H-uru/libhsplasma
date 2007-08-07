@@ -424,7 +424,7 @@ short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
     0x0445, 0x0446, 0x0447, 0x0448, 0x0449, 0x044A, 0x044B, 0x044C, 0x044D,
     0x044E, 0x044F, 0x0450, 0x0451, 0x0452, 0x0453, 0x0454, 0x0455, 0x0456,
     0x0457, 0x0458, 0x0459, 0x045A, 0x045B, 0x045C, 0x045D, 0x045E, 0x045F,
-    0x0460, 0x0461, 0x0462, 0x0463, 0x0464, 0x0465, 0x0466, 0x0467, 0x0468,
+    0x0460, 0x0461, 0x0462, 0x0463, 0x0464, 0x0465,     -1,     -1, 0x0468,
     0x0469, 0x046A, 0x046B, 0x046C, 0x046D, 0x046E, 0x046F, 0x0470, 0x0471,
     0x0472, 0x0473, 0x0474, 0x0475, 0x0476, 0x0477, 0x0478, 0x0479,     -1,
         -1,     -1,     -1,     -1,     -1,     -1, 0x0481, 0x0482, 0x0483,
@@ -438,8 +438,8 @@ short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1, 0x047A, 0x047B, 0x047C,
-    0x047D, 0x047E, 0x047F, 0x0480, 0x049A,     -1,     -1,     -1,     -1,
-        -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
+    0x047D, 0x047E, 0x047F, 0x0480, 0x049A, 0x0466, 0x0467, 0x0481, 0x0482,
+    0x0483,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1
@@ -1017,10 +1017,10 @@ short pdUnifiedTypeMap::fLiveP2MTable[TYPESPACE_MAX] = {
     0x0442, 0x0443, 0x0444, 0x0445, 0x0446, 0x0447, 0x0448, 0x0449, 0x044A,
     0x044B, 0x044C, 0x044D, 0x044E, 0x044F, 0x0450, 0x0451, 0x0452, 0x0453,
     0x0454, 0x0455, 0x0456, 0x0457, 0x0458, 0x0459, 0x045A, 0x045B, 0x045C,
-    0x045D, 0x045E, 0x045F, 0x0460, 0x0461, 0x0462, 0x0463, 0x0464, 0x0465,
+    0x045D, 0x045E, 0x045F, 0x04DD, 0x04DE, 0x0462, 0x0463, 0x0464, 0x0465,
     0x0466, 0x0467, 0x0468, 0x0469, 0x046A, 0x046B, 0x046C, 0x046D, 0x046E,
     0x046F, 0x0470, 0x0471, 0x0472, 0x0473, 0x04D5, 0x04D6, 0x04D7, 0x04D8,
-    0x04D9, 0x04DA, 0x04DB, 0x047B, 0x047C, 0x047D, 0x047E, 0x047F, 0x0480,
+    0x04D9, 0x04DA, 0x04DB, 0x04DF, 0x04E0, 0x04E1, 0x047E, 0x047F, 0x0480,
     0x0481, 0x0482, 0x0483, 0x0484, 0x0485, 0x0486, 0x0487, 0x0488, 0x0489,
     0x048A, 0x048B, 0x048C, 0x048D, 0x048E, 0x048F, 0x0490, 0x0491, 0x0492,
     0x0493, 0x04DC,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -1466,7 +1466,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plSubWorldMsg", "plMatrixDifferenceApp", "plAvBrainUser", "plDX9Pipeline",
     "plDXPipeline", "plPlayerMsg", "plAvBrainPirahna", "plAxisEventMsg",
     "plCrossfadeMsg", "pfSubtitleMsg", "plSDLStoreMsg", "plOmniSqApplicator",
-    "hsDynamicScalar", "hsDynamicColorRGB", "hsDynamicMatrix33",
+    "plPreResourceMsg", "hsDynamicColorRGBA", "hsDynamicMatrix33",
     "hsDynamicMatrix44", "plCompoundController", "plNetClientMgrMsg",
     "plAgeLoaderMsg", "plAvBrainAvatar", "pfPythonNotifyMsg", "plNCAgeJoinerMsg",
     "plAvTaskDumbSeek", "plAvTaskSmartSeek", "plCreatableUuid", "plPreloaderMsg",
@@ -1548,10 +1548,11 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plMatrixBorrowedChannel", "plNodeRegionMsg", "plEventCallbackSetupMsg",
     "plRelativeMatrixChannelApplicator", "plPiranhaRegionMsg", "pfGameMgrMsg",
     "pfGameCliMsg", "pfGameCli", "pfGmTicTacToe", "pfGmHeek", "pfGmMarker",
-    "pfGmBlueSpiral", "plAccountUpdateMsg", NULL, NULL, NULL, NULL, NULL, NULL,
+    "pfGmBlueSpiral", "plAccountUpdateMsg", "plAIMsg", "plAIBrainCreatedMsg",
+    "pfGmClimbingWall", "plAIArrivedAtGoalMsg", "pfGmVarSync", NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL
+    NULL, NULL, NULL, NULL
 };
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx) {

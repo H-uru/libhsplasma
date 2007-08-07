@@ -7,12 +7,11 @@ public:
     plLayer();
     virtual ~plLayer();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plLayer)
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

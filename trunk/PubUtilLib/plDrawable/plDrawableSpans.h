@@ -78,13 +78,17 @@ public:
     
     enum MsgTypes { kMsgMaterial, kMsgDISpans, kMsgFogEnviron, kMsgPermaLight,
                     kMsgPermaProj, kMsgPermaLightDI, kMsgPermaProjDI };
+    
+    static const unsigned int kSpanTypeMask = 0xC0000000;
+    static const unsigned int kSpanIDMask = 0x3FFFFFFF;
+    static const unsigned int kSpanTypeIcicle = 0x00000000;
+    static const unsigned int kSpanTypeParticleSpan = 0xC0000000;
 
 public:
     plDrawable();
     virtual ~plDrawable();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plDrawable)
 };
 
 
@@ -96,11 +100,11 @@ protected:
     hsMatrix44 localToWorld, worldToLocal;
     hsTArray<hsMatrix44> localToWorlds, worldToLocals;
     hsTArray<hsMatrix44> localToBones, boneToLocals;
-    hsTArray<hsGMaterial*> materials;
+    hsTArray<plKey*> materials;
     plSpaceTree* spaceTree;
     hsBitVector fVisSet, fVisNot, fLastVisSet, fLastVisNot, fVisCache;
-    hsTArray<plIcicle*> icicles;
-    hsTArray<plParticleSpan*> particleSpans;
+    hsTArray<plIcicle> icicles;
+    hsTArray<plParticleSpan> particleSpans;
     hsTArray<plSpan*> spans;
     hsTArray<unsigned int> spanSourceIndices;
     hsTArray<plGBufferGroup*> groups;
@@ -120,12 +124,11 @@ public:
     plDrawableSpans();
     virtual ~plDrawableSpans();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plDrawableSpans)
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

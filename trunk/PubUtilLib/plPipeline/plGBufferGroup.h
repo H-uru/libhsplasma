@@ -4,6 +4,7 @@
 #include "../../CoreLib/hsGeometry3.h"
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsTArray.hpp"
+#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 #include "hsGDeviceRef.h"
 #include "plVertCoder.h"
 
@@ -14,6 +15,7 @@ public:
 public:
     void read(hsStream* S);
     void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
 };
 
 
@@ -34,6 +36,7 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
 };
 
 
@@ -82,6 +85,7 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
 
     plGBufferTriangle* ConvertToTriList(short spanIdx, unsigned int whichIdx,
            unsigned int whichVtx, unsigned int whichCell, unsigned int start,

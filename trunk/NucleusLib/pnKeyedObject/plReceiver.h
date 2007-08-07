@@ -5,13 +5,14 @@
 #include "../pnMessage/plMessage.h"
 #include "plKey.h"
 
-class plReceiver : public plCreatable {
+DllClass plReceiver : public plCreatable {
 public:
     plReceiver();
     virtual ~plReceiver();
 
-    virtual bool msgReceive(plMessage * msg);
+    DECLARE_CREATABLE(plReceiver)
+
+    virtual bool msgReceive(plMessage* msg);
 };
 
 #endif
-

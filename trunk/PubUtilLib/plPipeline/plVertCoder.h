@@ -33,21 +33,34 @@ private:
         bool fSame;
     } fColors[4];
 
-    void IDecode(hsStream* S, unsigned char* dest, unsigned int stride,
+    void IDecode(hsStream* S, unsigned char*& dest,unsigned char format);
+    void IDecodeByte(hsStream* S, int chan, unsigned char*& dest);
+    void IDecodeFloat(hsStream* S, int field, int chan, unsigned char*& dest);
+    void IDecodeNormal(hsStream* S, unsigned char*& dest);
+    void IDecodeColor(hsStream* S, unsigned char*& dest);
+
+    void IEncode(hsStream* S, unsigned int vertsLeft, const unsigned char*& src,
                  unsigned char format);
-    void IDecodeByte(hsStream* S, int chan, unsigned char* dest,
-                     unsigned int stride);
-    void IDecodeFloat(hsStream* S, int field, int chan, unsigned char* dest,
-                      unsigned int stride);
-    void IDecodeNormal(hsStream* S, unsigned char* dest, unsigned int stride);
-    void IDecodeColor(hsStream* S, unsigned char* dest, unsigned int stride);
+    void IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
+                     const unsigned char*& src);
+    void IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field, int chan,
+                      const unsigned char*& src);
+    void IEncodeNormal(hsStream* S, const unsigned char*& src);
+    void IEncodeColor(hsStream* S, unsigned int vertsLeft, const unsigned char*& src);
+
+    void ICountBytes(unsigned int vertsLeft, const unsigned char* src,
+                     unsigned short& len, bool& same);
+    //void ICountFloats(
 
 public:
     plVertCoder();
     ~plVertCoder();
 
+    void clear();
     void read(hsStream* S, unsigned char* dest, unsigned char format,
-              unsigned int stride, unsigned short numVerts);
+              unsigned short numVerts);
+    void write(hsStream* S, const unsigned char* src, unsigned char format,
+               unsigned short numVerts);
 };
 
 #endif

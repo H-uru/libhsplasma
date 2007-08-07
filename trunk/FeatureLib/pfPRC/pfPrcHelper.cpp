@@ -8,6 +8,8 @@ pfPrcHelper::~pfPrcHelper() {
     finalize();
 }
 
+hsStream* pfPrcHelper::getStream() { return file; }
+
 void pfPrcHelper::writeTabbed(const char* str) {
     for (int i=0; i<iLvl; i++) file->writeStr("    ", 4);
     file->writeStr(str);

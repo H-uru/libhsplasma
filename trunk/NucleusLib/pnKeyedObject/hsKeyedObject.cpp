@@ -8,12 +8,9 @@ hsKeyedObject::~hsKeyedObject() {
         myKey->UnRef();
 }
 
-short hsKeyedObject::ClassIndex() { return kKeyedObject; }
-short hsKeyedObject::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kKeyedObject, ver);
-}
+IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
 
-void hsKeyedObject::read(hsStream * S) {
+void hsKeyedObject::read(hsStream* S) {
     if (myKey != NULL)
         myKey->UnRef();
     myKey = plResManager::inst->readUoidKey(S);
@@ -21,17 +18,15 @@ void hsKeyedObject::read(hsStream * S) {
     myKey->objPtr = this;
 }
 
-void hsKeyedObject::write(hsStream * S) {
+void hsKeyedObject::write(hsStream* S) {
     plResManager::inst->writeUoidKey(S, myKey);
+}
+
+void hsKeyedObject::prcWrite(pfPrcHelper* prc) {
+    plCreatable::prcWrite(prc);
+    myKey->prcWrite(prc);
 }
 
 plKey* hsKeyedObject::getKey() {
     return myKey;
-}
-
-void hsKeyedObject::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    prc->writeSimpleTag(ClassName());
-    prc->writeSimpleTag("MyKey");
-    myKey->prcWrite(S, prc);
-    prc->closeTag();
 }

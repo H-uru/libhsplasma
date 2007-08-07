@@ -3,5 +3,6 @@
 plReceiver::plReceiver() { }
 plReceiver::~plReceiver() { }
 
-bool plReceiver::msgReceive(plMessage * msg) { return false; }
+IMPLEMENT_CREATABLE(plReceiver, kReceiver, plCreatable)
 
+bool plReceiver::msgReceive(plMessage* msg) { return false; }

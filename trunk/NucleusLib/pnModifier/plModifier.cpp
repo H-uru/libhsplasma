@@ -3,19 +3,13 @@
 /* plModifier */
 plModifier::plModifier() { }
 
-short plModifier::ClassIndex() { return kModifier; }
-short plModifier::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kModifier, ver);
-}
+IMPLEMENT_CREATABLE(plModifier, kModifier, plSynchedObject)
 
 
 /* plSingleModifier */
 plSingleModifier::plSingleModifier() { }
 
-short plSingleModifier::ClassIndex() { return kSingleModifier; }
-short plSingleModifier::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kSingleModifier, ver);
-}
+IMPLEMENT_CREATABLE(plSingleModifier, kSingleModifier, plModifier)
 
 void plSingleModifier::read(hsStream* S) {
     plSynchedObject::read(S);
@@ -27,11 +21,11 @@ void plSingleModifier::write(hsStream* S) {
     flags.write(S);
 }
 
-void plSingleModifier::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(S, prc);
+void plSingleModifier::prcWrite(pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(prc);
 
     prc->writeSimpleTag("ModFlags");
-    flags.prcWrite(S, prc);
+    flags.prcWrite(prc);
     prc->closeTag();
 }
 
@@ -39,10 +33,7 @@ void plSingleModifier::prcWrite(hsStream* S, pfPrcHelper* prc) {
 /* plMultiModifier */
 plMultiModifier::plMultiModifier() { }
 
-short plMultiModifier::ClassIndex() { return kMultiModifier; }
-short plMultiModifier::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kMultiModifier, ver);
-}
+IMPLEMENT_CREATABLE(plMultiModifier, kMultiModifier, plModifier)
 
 void plMultiModifier::read(hsStream* S) {
     plSynchedObject::read(S);
@@ -54,10 +45,10 @@ void plMultiModifier::write(hsStream* S) {
     flags.write(S);
 }
 
-void plMultiModifier::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(S, prc);
+void plMultiModifier::prcWrite(pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(prc);
 
     prc->writeSimpleTag("ModFlags");
-    flags.prcWrite(S, prc);
+    flags.prcWrite(prc);
     prc->closeTag();
 }

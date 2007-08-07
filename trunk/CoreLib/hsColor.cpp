@@ -15,7 +15,7 @@ void hsColorRGBA::write(hsStream* S) {
     S->writeFloat(a);
 }
 
-void hsColorRGBA::prcWrite(hsStream* S, pfPrcHelper* prc) {
+void hsColorRGBA::prcWrite(pfPrcHelper* prc) {
     prc->startTag("hsColorRGBA");
     prc->writeParam("red", r);
     prc->writeParam("green", g);
@@ -34,7 +34,7 @@ void hsColor32::write(hsStream* S) {
     S->writeInt(color);
 }
 
-void hsColor32::prcWrite(hsStream* S, pfPrcHelper* prc) {
+void hsColor32::prcWrite(pfPrcHelper* prc) {
     prc->startTag("hsColor32");
     prc->writeParam("value", color);
     prc->endTag(true);

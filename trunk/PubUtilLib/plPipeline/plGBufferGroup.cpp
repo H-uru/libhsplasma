@@ -13,6 +13,14 @@ void plGBufferCell::write(hsStream* S) {
     S->writeInt(length);
 }
 
+void plGBufferCell::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("plGBufferCell");
+    prc->writeParam("VertexStart", vtxStart);
+    prc->writeParam("ColorStart", colorStart);
+    prc->writeParam("Length", length);
+    prc->endTag(true);
+}
+
 
 /* plGBufferTriangle */
 plGBufferTriangle::plGBufferTriangle() { }
@@ -34,11 +42,25 @@ void plGBufferTriangle::write(hsStream* S) {
     center.write(S);
 }
 
+void plGBufferTriangle::prcWrite(pfPrcHelper* prc) {
+    prc->writeSimpleTag("plGBufferTriangle");
+      prc->startTag("Indices");
+      prc->writeParam("Index1", index1);
+      prc->writeParam("Index2", index2);
+      prc->writeParam("Index3", index3);
+      prc->writeParam("SpanIndex", spanIndex);
+      prc->endTag(true);
+      center.prcWrite(prc);
+    prc->closeTag();
+}
+
 
 /* plGBufferGroup */
 plGBufferGroup::plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod) {
     format = fmt;
-    //stride = ICalcVertexSize(liteStride);
+    numVerts = 0;
+    numIndices = 0;
+    stride = ICalcVertexSize(liteStride);
     idxVolatile = iVol;
     vertsVolatile = vVol;
     LOD = Lod;
@@ -49,7 +71,7 @@ plGBufferGroup::~plGBufferGroup() { }
 void plGBufferGroup::read(hsStream* S) {
     format = S->readByte();
     S->readInt();
-    //stride = ICalcVertexSize(&liteStride);
+    stride = ICalcVertexSize(liteStride);
 
     fVertBuffSizes.clear();
     fVertBuffStarts.clear();
@@ -74,9 +96,9 @@ void plGBufferGroup::read(hsStream* S) {
             fVertBuffSizes.append(vtxSize);
             //fVertBuffStarts.append(0);
             //fVertBuffEnds.append(-1);
-            vData = new unsigned char[vtxCount * stride];
+            vData = new unsigned char[vtxSize];
             fVertBuffStorage.append(vData);
-            coder.read(S, vData, format, stride, vtxCount);
+            coder.read(S, vData, format, vtxCount);
             fColorBuffCounts.append(colorCount);
             fColorBuffStorage.append(color);
         } else {
@@ -128,8 +150,14 @@ void plGBufferGroup::write(hsStream* S) {
     plVertCoder coder;
     S->writeInt(fVertBuffStorage.getSize());
     for (i=0; i<fVertBuffStorage.getSize(); i++) {
-        S->writeShort(fVertBuffSizes[i] / stride);
+        //S->writeShort(fVertBuffSizes[i] / stride);
         //coder.write(S, fVertBuffStorage[i], format, stride, fVertBuffSizes[i]);
+
+        // Until plVertCoder is finished:
+        format &= ~kEncoded;
+        S->writeInt(fVertBuffSizes[i]);
+        S->write(fVertBuffSizes[i], fVertBuffStorage[i]);
+        S->writeInt(0);
     }
 
     S->writeInt(fVertBuffStorage.getSize());
@@ -143,6 +171,37 @@ void plGBufferGroup::write(hsStream* S) {
         for (int j=0; j<fCells[i]->getSize(); j++)
             fCells[i]->get(j).write(S);
     }
+}
+
+void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
+    int i, j;
+    char buf[6];
+    prc->startTag("plGBufferGroup");
+    prc->writeParam("format", format);
+    prc->endTag();
+    for (i=0; i<fVertBuffStorage.getSize(); i++) {
+        prc->writeTagNoBreak("VertexData");
+        for (j=0; j<fVertBuffSizes[i]; j++) {
+            sprintf(buf, "%02X", fVertBuffStorage[i][j]);
+            prc->getStream()->writeStr(buf);
+        }
+        prc->closeTagNoBreak();
+    }
+    for (i=0; i<fIdxBuffStorage.getSize(); i++) {
+        prc->writeTagNoBreak("IndexData");
+        for (j=0; j<fIdxBuffCounts[i]; j++) {
+            sprintf(buf, "%04X ", fIdxBuffStorage[i][j]);
+            prc->getStream()->writeStr(buf);
+        }
+        prc->closeTagNoBreak();
+    }
+    prc->writeSimpleTag("CellGroups");
+    for (i=0; i<fVertBuffStorage.getSize(); i++) {
+        for (j=0; j<fCells[i]->getSize(); j++)
+            fCells[i]->get(j).prcWrite(prc);
+    }
+    prc->closeTag(); // CellGroups
+    prc->closeTag(); // plGBufferGroup
 }
 
 unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {

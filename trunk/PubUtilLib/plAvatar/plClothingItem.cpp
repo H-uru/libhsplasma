@@ -23,10 +23,7 @@ plClothingItem::~plClothingItem() {
     delete[] CustomText;
 }
 
-short plClothingItem::ClassIndex() { return kClothingItem; }
-short plClothingItem::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kClothingItem, ver);
-}
+IMPLEMENT_CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
 
 void plClothingItem::read(hsStream* S) {
     hsKeyedObject::read(S);
@@ -119,8 +116,8 @@ void plClothingItem::write(hsStream* S) {
     }
 }
 
-void plClothingItem::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(S, prc);
+void plClothingItem::prcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::prcWrite(prc);
 
     prc->startTag("ClothingName");
     prc->writeParam("value", ItemName);
@@ -134,7 +131,7 @@ void plClothingItem::prcWrite(hsStream* S, pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeTagNoBreak("Description");
-    S->writeStr(Description);
+    prc->getStream()->writeStr(Description);
     prc->closeTagNoBreak();
 
     prc->startTag("CustomText");

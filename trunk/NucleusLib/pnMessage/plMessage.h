@@ -42,8 +42,7 @@ public:
     plMessage();
     virtual ~plMessage();
     
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plMessage)
 
     void IMsgRead(hsStream* S);
     void IMsgWrite(hsStream* S);

@@ -3,22 +3,36 @@
 plVertexSpan::plVertexSpan() { }
 plVertexSpan::~plVertexSpan() { }
 
+const char* plVertexSpan::ClassName() { return "plVertexSpan"; }
+
 void plVertexSpan::read(hsStream* S) {
     plSpan::read(S);
-    groupIdx = S->readInt();
-    VBufferIdx = S->readInt();
-    cellIdx = S->readInt();
-    cellOffset = S->readInt();
-    VStartIdx = S->readInt();
-    VLength = S->readInt();
+    fGroupIdx = S->readInt();
+    fVBufferIdx = S->readInt();
+    fCellIdx = S->readInt();
+    fCellOffset = S->readInt();
+    fVStartIdx = S->readInt();
+    fVLength = S->readInt();
 }
 
 void plVertexSpan::write(hsStream* S) {
     plSpan::write(S);
-    S->writeInt(groupIdx);
-    S->writeInt(VBufferIdx);
-    S->writeInt(cellIdx);
-    S->writeInt(cellOffset);
-    S->writeInt(VStartIdx);
-    S->writeInt(VLength);
+    S->writeInt(fGroupIdx);
+    S->writeInt(fVBufferIdx);
+    S->writeInt(fCellIdx);
+    S->writeInt(fCellOffset);
+    S->writeInt(fVStartIdx);
+    S->writeInt(fVLength);
+}
+
+void plVertexSpan::prcWrite(pfPrcHelper* prc) {
+    plSpan::prcWrite(prc);
+    prc->startTag("VertexSpan");
+    prc->writeParam("GroupIdx", fGroupIdx);
+    prc->writeParam("BufferIdx", fVBufferIdx);
+    prc->writeParam("CellIdx", fCellIdx);
+    prc->writeParam("CellOffset", fCellOffset);
+    prc->writeParam("StartIdx", fVStartIdx);
+    prc->writeParam("Length", fVLength);
+    prc->endTag(true);
 }

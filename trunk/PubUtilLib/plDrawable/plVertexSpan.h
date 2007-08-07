@@ -5,14 +5,18 @@
 
 class plVertexSpan : public plSpan {
 public:
-    unsigned int groupIdx, VBufferIdx, cellIdx, cellOffset, VStartIdx, VLength;
+    unsigned int fGroupIdx, fVBufferIdx, fCellIdx,
+                 fCellOffset, fVStartIdx, fVLength;
 
 public:
     plVertexSpan();
     virtual ~plVertexSpan();
 
+    virtual const char* ClassName();
+
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

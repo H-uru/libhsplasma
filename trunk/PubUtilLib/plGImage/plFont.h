@@ -32,15 +32,14 @@ public:
     plFont();
     virtual ~plFont();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plFont)
 
     FontLetterDef& operator[](int idx);
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
-    void readP2F(hsStream *S);
-    void writeP2F(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    void readP2F(hsStream* S);
+    void writeP2F(hsStream* S);
 };
 
 #endif

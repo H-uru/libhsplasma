@@ -62,15 +62,14 @@ public:
     plBitmap();
     virtual ~plBitmap();
     
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plBitmap)
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

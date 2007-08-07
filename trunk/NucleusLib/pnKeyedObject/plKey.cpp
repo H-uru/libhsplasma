@@ -33,8 +33,14 @@ void plKey::writeUoid(hsStream* S) {
     uoid.write(S);
 }
 
-void plKey::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    if (exists) uoid.prcWrite(S, prc);
+void plKey::prcWrite(pfPrcHelper* prc) {
+    if (exists) {
+        uoid.prcWrite(prc);
+    } else {
+        prc->startTag("plKey");
+        prc->writeParam("null", true);
+        prc->endTag(true);
+    }
 }
 
 short plKey::getType() { return uoid.getType(); }

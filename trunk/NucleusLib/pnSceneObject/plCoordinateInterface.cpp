@@ -2,30 +2,26 @@
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plCoordinateInterface::plCoordinateInterface() {
-    LocalToParent.Identity();
-    ParentToLocal.Identity();
-    LocalToWorld.Identity();
-    WorldToLocal.Identity();
+    LocalToParent.Reset();
+    ParentToLocal.Reset();
+    LocalToWorld.Reset();
+    WorldToLocal.Reset();
 }
 
 plCoordinateInterface::~plCoordinateInterface() {
-    for (int i=0; i<SceneObjects.getSize(); i++)
-        SceneObjects[i]->UnRef();
+    for (int i=0; i<Children.getSize(); i++)
+        Children[i]->UnRef();
 }
 
-short plCoordinateInterface::ClassIndex() { return kCoordinateInterface; }
-short plCoordinateInterface::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kCoordinateInterface, ver);
-}
-
+IMPLEMENT_CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
 
 plCoordinateInterface* plCoordinateInterface::getRoot() {
-    plCoordinateInterface * cur = this;
+    plCoordinateInterface* cur = this;
     while (cur->Parent) cur = cur->Parent;
     return cur;
 }
 
-void plCoordinateInterface::read(hsStream *S) {
+void plCoordinateInterface::read(hsStream* S) {
     plObjInterface::read(S);
     
     LocalToParent.read(S);
@@ -34,15 +30,15 @@ void plCoordinateInterface::read(hsStream *S) {
     WorldToLocal.read(S);
 
     int soCount = S->readInt();
-    SceneObjects.clear();
-    SceneObjects.setSize(soCount);
+    Children.clear();
+    Children.setSize(soCount);
     for (int i=0; i<soCount; i++) {
-        SceneObjects[i] = plResManager::inst->readKey(S);
-        SceneObjects[i]->Ref();
+        Children[i] = plResManager::inst->readKey(S);
+        Children[i]->Ref();
     }
 }
 
-void plCoordinateInterface::write(hsStream *S) {
+void plCoordinateInterface::write(hsStream* S) {
     plObjInterface::write(S);
 
     LocalToParent.write(S);
@@ -50,29 +46,25 @@ void plCoordinateInterface::write(hsStream *S) {
     LocalToWorld.write(S);
     WorldToLocal.write(S);
 
-    S->writeInt(SceneObjects.getSize());
-    for (int i=0; i<SceneObjects.getSize(); i++)
-        plResManager::inst->writeKey(S, SceneObjects[i]);
+    S->writeInt(Children.getSize());
+    for (int i=0; i<Children.getSize(); i++)
+        plResManager::inst->writeKey(S, Children[i]);
 }
 
-void plCoordinateInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plObjInterface::prcWrite(S, prc);
+void plCoordinateInterface::prcWrite(pfPrcHelper* prc) {
+    plObjInterface::prcWrite(prc);
 
     prc->writeSimpleTag("LocalToParent");
-    LocalToParent.prcWrite(S, prc);
-    prc->closeTag();
-    prc->writeSimpleTag("ParentToLocal");
-    ParentToLocal.prcWrite(S, prc);
+    LocalToParent.prcWrite(prc);
+    ParentToLocal.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("LocalToWorld");
-    LocalToWorld.prcWrite(S, prc);
-    prc->closeTag();
-    prc->writeSimpleTag("WorldToLocal");
-    WorldToLocal.prcWrite(S, prc);
+    LocalToWorld.prcWrite(prc);
+    WorldToLocal.prcWrite(prc);
     prc->closeTag();
 
-    prc->writeSimpleTag("SceneObjects");
-    for (int i=0; i<SceneObjects.getSize(); i++)
-        SceneObjects[i]->prcWrite(S, prc);
+    prc->writeSimpleTag("Children");
+    for (int i=0; i<Children.getSize(); i++)
+        Children[i]->prcWrite(prc);
     prc->closeTag();
 }

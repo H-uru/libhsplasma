@@ -19,7 +19,7 @@ void doHelp() {
     printf("Usage:  PageConvert [-to???] [-help] filename [filename] [...]\n\n");
     printf("  -toprime  Converts to Prime format (63.11) (Default)\n");
     printf("  -topots   Converts to Path of the Shell format (63.12)\n");
-    printf("  -tolive   Converts to Uru Live format (69.3)\n");
+    printf("  -tolive   Converts to Uru Live format (70)\n");
     printf("  -toeoa    Converts to Myst V: End of Ages format\n");
     printf("  -help     Displays this screen\n\n");
 }

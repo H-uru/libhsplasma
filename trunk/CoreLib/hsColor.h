@@ -10,7 +10,7 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
-    void prcWrite(hsStream* S, pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
 };
 
 struct hsColor32 {
@@ -22,7 +22,7 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
-    void prcWrite(hsStream* S, pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

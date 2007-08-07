@@ -13,10 +13,7 @@ plFont::~plFont() {
     delete [] Letters;
 }
 
-short plFont::ClassIndex() { return kFont; }
-short plFont::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kFont, ver);
-}
+IMPLEMENT_CREATABLE(plFont, kFont, hsKeyedObject)
 
 FontLetterDef& plFont::operator[](int idx) {
     return Letters[idx];

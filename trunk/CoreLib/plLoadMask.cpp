@@ -14,7 +14,7 @@ void plLoadMask::write(hsStream* S) {
     S->writeByte(mask);
 }
 
-void plLoadMask::prcWrite(hsStream* S, pfPrcHelper* prc) {
+void plLoadMask::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("LoadMask", mask);
 }
 

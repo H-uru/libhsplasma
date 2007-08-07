@@ -17,11 +17,10 @@ public:
     plFogEnvironment();
     virtual ~plFogEnvironment();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plFogEnvironment)
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
 };
 
 #endif

@@ -51,7 +51,7 @@ void hsBitVector::deleteBit(int idx) {
     }
 }
 
-void hsBitVector::read(hsStream *S) {
+void hsBitVector::read(hsStream* S) {
     nVectors = S->readInt();
     delete bits;
     bits = new int[nVectors];
@@ -59,17 +59,18 @@ void hsBitVector::read(hsStream *S) {
         bits[i] = S->readInt();
 }
 
-void hsBitVector::write(hsStream *S) {
+void hsBitVector::write(hsStream* S) {
     S->writeInt(nVectors);
     for (int i=0; i<nVectors; i++)
         S->writeInt(bits[i]);
 }
 
-void hsBitVector::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    for (int i=0; i<nVectors; i++) {
-        prc->startTag("BitVector");
-        prc->writeParam("value", bits[i]);
-        prc->endTag(true);
+void hsBitVector::prcWrite(pfPrcHelper* prc) {
+    prc->writeTagNoBreak("hsBitVector");
+    for (int i=1; i<=nVectors; i++) {
+        char buf[9];
+        sprintf(buf, "%08X", bits[nVectors - i]);
+        prc->getStream()->writeStr(buf);
     }
+    prc->closeTagNoBreak();
 }
-

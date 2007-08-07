@@ -15,8 +15,7 @@ public:
     plCubicEnvironmap();
     virtual ~plCubicEnvironmap();
     
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plCubicEnvironmap)
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

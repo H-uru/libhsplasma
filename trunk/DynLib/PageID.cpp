@@ -4,7 +4,7 @@
 PageID::PageID(PlasmaVer pv) : seqPrefix(-1), pageID(-1), ver(pv) { }
 PageID::~PageID() { }
 
-PlasmaVer PageID::getVer() {
+PlasmaVer PageID::getVer() const {
     return ver;
 }
 
@@ -12,7 +12,7 @@ void PageID::setVer(PlasmaVer pv, bool mutate) {
     ver = pv;
 }
 
-bool PageID::operator==(PageID& other) {
+bool PageID::operator==(PageID& other) const {
     return (getPageNum() == other.getPageNum() &&
             getSeqPrefix() == other.getSeqPrefix());
 }
@@ -24,7 +24,7 @@ PageID& PageID::operator=(const PageID& other) {
     return *this;
 }
 
-const char* PageID::toString() {
+char* PageID::toString() const {
     char* str = new char[16];
     sprintf(str, "<%d|%d>", seqPrefix, pageID);
     return str;
@@ -44,7 +44,7 @@ void PageID::parse(unsigned int id) {
         seqPrefix = (seqPrefix & 0xFFFFFF00) | (0x100 - seqPrefix);
 }
 
-unsigned int PageID::unparse() {
+unsigned int PageID::unparse() const {
     int sp = seqPrefix;
     if (sp < 0) 
         sp = (sp & 0xFFFFFF00) | (0x100 - sp);
@@ -56,26 +56,26 @@ unsigned int PageID::unparse() {
     return id;
 }
 
-void PageID::read(hsStream *S) {
+void PageID::read(hsStream* S) {
     int id = S->readInt();
     setVer(S->getVer());
     parse(id);
 }
 
-void PageID::write(hsStream *S) {
+void PageID::write(hsStream* S) {
     if (S->getVer() != pvUnknown)
         setVer(S->getVer(), true);
     S->writeInt(unparse());
 }
 
-bool PageID::isGlobal() { return (seqPrefix < 0); }
-int PageID::getPageNum() { return pageID; }
-int PageID::getSeqPrefix() { return seqPrefix; }
+bool PageID::isGlobal() const { return (seqPrefix < 0); }
+int PageID::getPageNum() const { return pageID; }
+int PageID::getSeqPrefix() const { return seqPrefix; }
 void PageID::setPageNum(int pn) { pageID = pn; }
 void PageID::setSeqPrefix(int sp) { seqPrefix = sp; }
 
 void PageID::invalidate() { parse(0xFFFFFFFF); }
-bool PageID::isValid() { return (unparse() != 0xFFFFFFFF); }
+bool PageID::isValid() const { return (unparse() != 0xFFFFFFFF); }
 
 /* PageComparator */
 

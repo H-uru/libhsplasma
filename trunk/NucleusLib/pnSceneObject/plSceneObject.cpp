@@ -22,12 +22,9 @@ plSceneObject::~plSceneObject() {
         Modifiers[i]->UnRef();
 }
 
-short plSceneObject::ClassIndex() { return kSceneObject; }
-short plSceneObject::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kSceneObject, ver);
-}
+IMPLEMENT_CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 
-void plSceneObject::read(hsStream *S) {
+void plSceneObject::read(hsStream* S) {
     plSynchedObject::read(S);
 
     DrawIntf = plResManager::inst->readKey(S);
@@ -55,7 +52,7 @@ void plSceneObject::read(hsStream *S) {
     SceneNode->Ref();
 }
 
-void plSceneObject::write(hsStream *S) {
+void plSceneObject::write(hsStream* S) {
     plSynchedObject::write(S);
 
     plResManager::inst->writeKey(S, DrawIntf);
@@ -73,33 +70,33 @@ void plSceneObject::write(hsStream *S) {
     plResManager::inst->writeKey(S, SceneNode);
 }
 
-void plSceneObject::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(S, prc);
+void plSceneObject::prcWrite(pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(prc);
     
     prc->writeSimpleTag("DrawInterface");
-      DrawIntf->prcWrite(S, prc);
+      DrawIntf->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("SimulationInterface");
-      SimIntf->prcWrite(S, prc);
+      SimIntf->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("CoordinateInterface");
-      CoordIntf->prcWrite(S, prc);
+      CoordIntf->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("AudioInterface");
-      AudioIntf->prcWrite(S, prc);
+      AudioIntf->prcWrite(prc);
     prc->closeTag();
 
     int i;
     prc->writeSimpleTag("Interfaces");
     for (i=0; i<Interfaces.getSize(); i++)
-        Interfaces[i]->prcWrite(S, prc);
+        Interfaces[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Modifiers");
     for (i=0; i<Modifiers.getSize(); i++)
-        Modifiers[i]->prcWrite(S, prc);
+        Modifiers[i]->prcWrite(prc);
     prc->closeTag();
     
     prc->writeSimpleTag("SceneNode");
-      SceneNode->prcWrite(S, prc);
+      SceneNode->prcWrite(prc);
     prc->closeTag();
 }

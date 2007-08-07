@@ -27,8 +27,7 @@ public:
     void write(hsStream* S);
     void readUoid(hsStream* S);
     void writeUoid(hsStream* S);
-
-    void prcWrite(hsStream* S, pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
 
     short getType();
     PageID& getPageID();

@@ -20,15 +20,24 @@ void plSpaceTreeNode::write(hsStream* S) {
     S->writeShort(fChildren[1]);
 }
 
+void plSpaceTreeNode::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("plSpaceTreeNode");
+    prc->writeParam("Flags", fFlags);
+    prc->writeParam("Parent", fParent);
+    prc->writeParam("LeftChild", fChildren[0]);
+    prc->writeParam("RightChild", fChildren[1]);
+    prc->endTag();
+    fWorldBounds.prcWrite(prc);
+    prc->closeTag();
+    prc->closeTag();
+}
+
 
 /* plSpaceTree */
 plSpaceTree::plSpaceTree() : fCache(NULL) /*, fCullFunc(NULL)*/ { }
 plSpaceTree::~plSpaceTree() { }
 
-short plSpaceTree::ClassIndex() { return kSpaceTree; }
-short plSpaceTree::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kSpaceTree, ver);
-}
+IMPLEMENT_CREATABLE(plSpaceTree, kSpaceTree, plCreatable)
 
 void plSpaceTree::read(hsStream* S) {
     fRoot = S->readShort();
@@ -48,7 +57,13 @@ void plSpaceTree::write(hsStream* S) {
         fTree[i].write(S);
 }
 
-void plSpaceTree::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    prc->writeSimpleTag(ClassName());
-    prc->writeComment("(Not yet implemented)");
+void plSpaceTree::prcWrite(pfPrcHelper* prc) {
+    plCreatable::prcWrite(prc);
+    prc->startTag("Params");
+    prc->writeParam("Root", fRoot);
+    prc->writeParam("NumLeaves", fNumLeaves);
+    prc->endTag(true);
+    
+    for (int i=0; i<fTree.getSize(); i++)
+        fTree[i].prcWrite(prc);
 }

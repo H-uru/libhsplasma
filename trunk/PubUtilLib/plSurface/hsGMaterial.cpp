@@ -4,10 +4,7 @@
 hsGMaterial::hsGMaterial() { }
 hsGMaterial::~hsGMaterial() { }
 
-short hsGMaterial::ClassIndex() { return kGMaterial; }
-short hsGMaterial::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kGMaterial, ver);
-}
+IMPLEMENT_CREATABLE(hsGMaterial, kGMaterial, plSynchedObject)
 
 void hsGMaterial::read(hsStream* S) {
     plSynchedObject::read(S);
@@ -51,8 +48,8 @@ void hsGMaterial::writeData(hsStream* S) {
     S->writeInt(PiggyBacks.getSize());
 }
 
-void hsGMaterial::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(S, prc);
+void hsGMaterial::prcWrite(pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(prc);
 
     prc->startTag("LoadFlags");
     prc->writeParam("value", loadFlags);
@@ -64,10 +61,10 @@ void hsGMaterial::prcWrite(hsStream* S, pfPrcHelper* prc) {
     int i;
     prc->writeSimpleTag("Layers");
     for (i=0; i<Layers.getSize(); i++)
-        Layers[i]->prcWrite(S, prc);
+        Layers[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("PiggyBacks");
     for (i=0; i<PiggyBacks.getSize(); i++)
-        PiggyBacks[i]->prcWrite(S, prc);
+        PiggyBacks[i]->prcWrite(prc);
     prc->closeTag();
 }

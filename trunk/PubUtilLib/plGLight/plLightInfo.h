@@ -15,11 +15,6 @@ public:
         kLPShadowOnly, kLPShadowLightGroup, kLPForceProj, kNumProps
     };
 
-    enum LIRefType {
-        kProjection, k_OBSOLECTE_REF_0, kOBSOLECTE_REF_1, kOBSOLECTE_REF_2,
-        kSoftVolume, kVisRegion
-    };
-
     enum VolatileFlags {
         kVolNone = 0x0,
         kVolDirty = 0x1,
@@ -50,11 +45,11 @@ public:
     plLightInfo();
     virtual ~plLightInfo();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plLightInfo)
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

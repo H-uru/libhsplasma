@@ -4,7 +4,7 @@
 #include "hsStream.h"
 #include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
-class plLoadMask {
+DllClass plLoadMask {
 protected:
     union {
         unsigned char quality[2];
@@ -17,7 +17,7 @@ public:
     
     void read(hsStream* S);
     void write(hsStream* S);
-    void prcWrite(hsStream* S, pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
 
     bool isUsed();
     plLoadMask& setMask(unsigned char m1, unsigned char m2);

@@ -3,58 +3,104 @@
 plSpan::plSpan() { }
 plSpan::~plSpan() { }
 
-void plSpan::read(hsStream *S) {
-    subType = S->readInt();
-    fogEnvironment = NULL;
-    materialIdx = S->readInt();
-    localToWorld.read(S);
-    worldToLocal.read(S);
-    props = S->readInt();
-    localBounds.read(S);
-    worldBounds.read(S);
-    numMatrices = S->readInt();
-    baseMatrix = S->readInt();
-    localUVWChans = S->readShort();
-    maxBoneIdx = S->readShort();
-    penBoneIdx = S->readShort();
-    minDist = S->readFloat();
-    maxDist = S->readFloat();
-    if (props & kWaterHeight)
-        waterHeight = S->readFloat();
+const char* plSpan::ClassName() { return "plSpan"; }
+
+void plSpan::read(hsStream* S) {
+    fSubType = S->readInt();
+    fFogEnvironment = NULL;
+    fMaterialIdx = S->readInt();
+    fLocalToWorld.read(S);
+    fWorldToLocal.read(S);
+    fProps = S->readInt();
+    fLocalBounds.read(S);
+    fWorldBounds.read(S);
+    fNumMatrices = S->readInt();
+    fBaseMatrix = S->readInt();
+    fLocalUVWChans = S->readShort();
+    fMaxBoneIdx = S->readShort();
+    fPenBoneIdx = S->readShort();
+    fMinDist = S->readFloat();
+    fMaxDist = S->readFloat();
+    if (fProps & kWaterHeight)
+        fWaterHeight = S->readFloat();
 }
 
-void plSpan::write(hsStream *S) {
-    S->writeInt(subType);
-    S->writeInt(materialIdx);
-    localToWorld.write(S);
-    worldToLocal.write(S);
-    S->writeInt(props);
-    localBounds.write(S);
-    worldBounds.write(S);
-    S->writeInt(numMatrices);
-    S->writeInt(baseMatrix);
-    S->writeShort(localUVWChans);
-    S->writeShort(maxBoneIdx);
-    S->writeShort(penBoneIdx);
-    S->writeFloat(minDist);
-    S->writeFloat(maxDist);
-    if (props & kWaterHeight)
-        S->writeFloat(waterHeight);
+void plSpan::write(hsStream* S) {
+    S->writeInt(fSubType);
+    S->writeInt(fMaterialIdx);
+    fLocalToWorld.write(S);
+    fWorldToLocal.write(S);
+    S->writeInt(fProps);
+    fLocalBounds.write(S);
+    fWorldBounds.write(S);
+    S->writeInt(fNumMatrices);
+    S->writeInt(fBaseMatrix);
+    S->writeShort(fLocalUVWChans);
+    S->writeShort(fMaxBoneIdx);
+    S->writeShort(fPenBoneIdx);
+    S->writeFloat(fMinDist);
+    S->writeFloat(fMaxDist);
+    if (fProps & kWaterHeight)
+        S->writeFloat(fWaterHeight);
 }
 
-plFogEnvironment* plSpan::getFogEnvironment() { return fogEnvironment; }
-unsigned short plSpan::getTypeMask() { return typeMask; }
-unsigned int plSpan::getMaterialIdx() { return materialIdx; }
-unsigned char plSpan::getNumMatrices() { return numMatrices; }
-unsigned int plSpan::getProps() { return props; }
+void plSpan::prcWrite(pfPrcHelper* prc) {
+    prc->writeSimpleTag(ClassName());
+    prc->startTag("SpanInfo");
+      prc->writeParam("SubType", fSubType);
+      prc->writeParam("Material", fMaterialIdx);
+      prc->writeParam("Properties", fProps);
+    prc->endTag(true);
+    prc->writeSimpleTag("Transforms");
+      fLocalToWorld.prcWrite(prc);
+      fWorldToLocal.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Bounds");
+      fLocalBounds.prcWrite(prc);
+      prc->closeTag();
+      fWorldBounds.prcWrite(prc);
+      prc->closeTag();
+    prc->closeTag();
+    prc->startTag("MatrixInfo");
+      prc->writeParam("NumMatrices", fNumMatrices);
+      prc->writeParam("BaseMatrix", fBaseMatrix);
+      prc->writeParam("UVWChans", fLocalUVWChans);
+    prc->endTag(true);
+    prc->startTag("BoneIndices");
+      prc->writeParam("Max", fMaxBoneIdx);
+      prc->writeParam("Pen", fPenBoneIdx);
+    prc->endTag(true);
+    prc->startTag("Dists");
+      prc->writeParam("Min", fMinDist);
+      prc->writeParam("Max", fMaxDist);
+    prc->endTag(true);
+    if (fProps & kWaterHeight) {
+        prc->startTag("WaterHeight");
+        prc->writeParam("value", fWaterHeight);
+        prc->endTag(true);
+    }
+}
+
+plKey* plSpan::getFogEnvironment() { return fFogEnvironment; }
+hsTArray<plKey*>& plSpan::getPermaLights() { return fPermaLights; }
+hsTArray<plKey*>& plSpan::getPermaProjs() { return fPermaProjs; }
+unsigned short plSpan::getTypeMask() { return fTypeMask; }
+unsigned int plSpan::getMaterialIdx() { return fMaterialIdx; }
+unsigned char plSpan::getNumMatrices() { return fNumMatrices; }
+unsigned int plSpan::getProps() { return fProps; }
 
 void plSpan::setFogEnvironment(plKey* fog) {
-    fogEnvironment = (plFogEnvironment*)fog->objPtr;
+    //fFogEnvironment = plFogEnvironment::Convert(fog);
+    fFogEnvironment = fog;
 }
-void plSpan::setPermaLight(plKey* light) {
-    permaLights.append((plLightInfo*&)light->objPtr);
+void plSpan::addPermaLight(plKey* light) {
+    //plLightInfo* li = plLightInfo::Convert(light);
+    //fPermaLights.append(li);
+    fPermaLights.append(light);
 }
-void plSpan::setPermaProj(plKey* proj) {
-    permaProjs.append((plLightInfo*&)proj->objPtr);
+void plSpan::addPermaProj(plKey* proj) {
+    //plLightInfo* li = plLightInfo::Convert(proj);
+    //fPermaProjs.append(li);
+    fPermaProjs.append(proj);
 }
 

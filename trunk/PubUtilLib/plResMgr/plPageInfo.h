@@ -39,7 +39,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void writeSums(hsStream* S);
-    void prcWrite(hsStream* S, pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
 
     const char* getAge();
     const char* getChapter();

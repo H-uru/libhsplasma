@@ -36,10 +36,7 @@ plMipmap::~plMipmap() {
     if (levelSizes != NULL) delete[] levelSizes;
 }
 
-short plMipmap::ClassIndex() { return kMipmap; }
-short plMipmap::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kMipmap, ver);
-}
+IMPLEMENT_CREATABLE(plMipmap, kMipmap, plBitmap)
 
 void plMipmap::create(int w, int h, int cfg, char nLevels, char compType,
                       char format) {
@@ -185,8 +182,8 @@ void plMipmap::writeData(hsStream* S) {
     }
 }
 
-void plMipmap::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plBitmap::prcWrite(S, prc);
+void plMipmap::prcWrite(pfPrcHelper* prc) {
+    plBitmap::prcWrite(prc);
 
     prc->startTag("Metrics");
     prc->writeParam("Width", width);

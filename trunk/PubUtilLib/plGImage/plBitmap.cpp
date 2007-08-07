@@ -17,10 +17,7 @@ plBitmap::plBitmap() : pixelSize(0), space(0), flags(0), compressionType(0),
                        lowModTime(0), highModTime(0) { }
 plBitmap::~plBitmap() { }
 
-short plBitmap::ClassIndex() { return kBitmap; }
-short plBitmap::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kBitmap, ver);
-}
+IMPLEMENT_CREATABLE(plBitmap, kBitmap, hsKeyedObject)
 
 void plBitmap::read(hsStream* S) {
     hsKeyedObject::read(S);
@@ -64,8 +61,8 @@ void plBitmap::writeData(hsStream* S) {
     S->writeInt(highModTime);
 }
 
-void plBitmap::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(S, prc);
+void plBitmap::prcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::prcWrite(prc);
 
     prc->startTag("BitmapFlags");
     prc->writeParam("PixelSize", pixelSize);

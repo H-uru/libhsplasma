@@ -15,11 +15,10 @@ public:
 	plSharedMesh();
     virtual ~plSharedMesh();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plSharedMesh)
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
 	//virtual bool MsgReceive(plMessage *msg);
 };
 

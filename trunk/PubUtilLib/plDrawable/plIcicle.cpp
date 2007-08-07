@@ -4,33 +4,56 @@
 plIcicle::plIcicle() { }
 plIcicle::~plIcicle() { }
 
+const char* plIcicle::ClassName() { return "plIcicle"; }
+
 void plIcicle::read(hsStream* S) {
     plVertexSpan::read(S);
-    IBufferIdx = S->readInt();
-    IPackedIdx = IStartIdx = S->readInt();
-    ILength = S->readInt();
-    if (props & kPropFacesSortable) {
-        sortData = new plGBufferTriangle[ILength*(2/3)];
-        for (unsigned int i=0; i<(ILength*(2/3)); i++)
-            sortData[i].read(S);
+    fIBufferIdx = S->readInt();
+    fIPackedIdx = fIStartIdx = S->readInt();
+    fILength = S->readInt();
+    if (fProps & kPropFacesSortable) {
+        fSortData = new plGBufferTriangle[fILength / 3];
+        for (unsigned int i=0; i<(fILength / 3); i++)
+            fSortData[i].read(S);
     } else
-        sortData = NULL;
+        fSortData = NULL;
 }
 
 void plIcicle::write(hsStream* S) {
     plVertexSpan::write(S);
-    S->writeInt(IBufferIdx);
-    S->writeInt(IStartIdx);
-    S->writeInt(ILength);
-    if (props & kPropFacesSortable) {
-        for (unsigned int i=0; i<(ILength*(2/3)); i++)
-            sortData[i].write(S);
+    S->writeInt(fIBufferIdx);
+    S->writeInt(fIStartIdx);
+    S->writeInt(fILength);
+    if (fProps & kPropFacesSortable) {
+        for (unsigned int i=0; i<(fILength / 3); i++)
+            fSortData[i].write(S);
+    }
+}
+
+void plIcicle::prcWrite(pfPrcHelper* prc) {
+    plVertexSpan::prcWrite(prc);
+    prc->startTag("Icicle");
+    prc->writeParam("BufferIdx", fIBufferIdx);
+    prc->writeParam("StartIdx", fIStartIdx);
+    prc->writeParam("Length", fILength);
+    prc->endTag(true);
+    if (fProps & kPropFacesSortable) {
+        prc->writeSimpleTag("SortData");
+        for (unsigned int i=0; i<(fILength / 3); i++)
+            fSortData[i].prcWrite(prc);
+        prc->closeTag();
     }
 }
 
 
 /* plParticleSpan */
+const char* plParticleSpan::ClassName() { return "plParticleSpan"; }
+
 void plParticleSpan::read(hsStream* S) { }
 void plParticleSpan::write(hsStream* S) { }
 
-void plParticleSpan::setSrcSpanIdx(unsigned int idx) { srcSpanIdx = idx; }
+void plParticleSpan::prcWrite(pfPrcHelper* prc) {
+    prc->writeSimpleTag(ClassName());
+}
+
+void plParticleSpan::setSrcSpanIdx(unsigned int idx) { fSrcSpanIdx = idx; }

@@ -11,10 +11,7 @@ plMessage::~plMessage() {
         fReceivers[i]->UnRef();
 }
 
-short plMessage::ClassIndex() { return kMessage; }
-short plMessage::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kMessage, ver);
-}
+IMPLEMENT_CREATABLE(plMessage, kMessage, plCreatable)
 
 void plMessage::IMsgRead(hsStream* S) {
     fSender = plResManager::inst->readKey(S);

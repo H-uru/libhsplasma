@@ -19,6 +19,8 @@ public:
     pfPrcHelper(hsStream* S);
     ~pfPrcHelper();
 
+    hsStream* getStream();
+
     void startTag(const char* name);
     void writeParam(const char* name, const char* value);
     void writeParam(const char* name, const int value);

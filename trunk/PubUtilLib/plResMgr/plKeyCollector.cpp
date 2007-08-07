@@ -15,9 +15,10 @@ plKeyCollector::~plKeyCollector() {
 
 plKey* plKeyCollector::findKey(plKey* match) {
     plKey* key = NULL;
-    for (unsigned int i=0; i < keys[match->getPageID()][match->getType()].size(); i++)
-        if (*(keys[match->getPageID()][match->getType()][i]) == *match)
-            key = keys[match->getPageID()][match->getType()][i];
+    std::vector<plKey*> kList = getKeys(match->getPageID(), match->getType());
+    for (unsigned int i=0; i < kList.size(); i++)
+        if (*kList[i] == *match)
+            key = kList[i];
     return key;
 }
 

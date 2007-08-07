@@ -26,7 +26,7 @@ void hsGMatState::write(hsStream* S) {
     S->writeInt(miscFlags);
 }
 
-void hsGMatState::prcWrite(hsStream* S, pfPrcHelper* prc) {
+void hsGMatState::prcWrite(pfPrcHelper* prc) {
     prc->startTag("hsGMatState");
     prc->writeParam("BlendFlags", blendFlags);
     prc->writeParam("ClampFlags", clampFlags);

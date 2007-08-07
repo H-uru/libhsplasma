@@ -132,10 +132,13 @@ void plGeometrySpan::write(hsStream *S) {
     }
 }
 
-void plGeometrySpan::setMaterial(hsGMaterial* mat) { fMaterial = mat; }
-void plGeometrySpan::setFogEnvironment(plFogEnvironment* fog) {
-    fFogEnviron = fog;
+void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
+    // TODO
+    prc->writeComment("Unfinished...");
 }
+
+void plGeometrySpan::setMaterial(plKey* mat) { fMaterial = mat; }
+void plGeometrySpan::setFogEnvironment(plKey* fog) { fFogEnviron = fog; }
 
 void plGeometrySpan::IClearMembers() {
     fVertexData = NULL;
@@ -161,8 +164,8 @@ void plGeometrySpan::IClearMembers() {
     fSpanRefIndex = 0xFFFFFFFF;
     fMaxDist = -1.0;
     fMinDist = -1.0;
-	fLocalToOBB.Identity();
-    fOBBToLocal.Identity();
+	fLocalToOBB.Reset();
+    fOBBToLocal.Reset();
     fDecalLevel = 0;
     fMaxOwner = NULL;
 }

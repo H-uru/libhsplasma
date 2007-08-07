@@ -4,11 +4,7 @@
 plDrawInterface::plDrawInterface() { }
 plDrawInterface::~plDrawInterface() { }
 
-short plDrawInterface::ClassIndex() { return kDrawInterface; }
-short plDrawInterface::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kDrawInterface, ver);
-}
-
+IMPLEMENT_CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
 
 void plDrawInterface::read(hsStream* S) {
     plObjInterface::read(S);
@@ -45,8 +41,8 @@ void plDrawInterface::write(hsStream* S) {
         plResManager::inst->writeKey(S, Objects[i]);
 }
 
-void plDrawInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plObjInterface::prcWrite(S, prc);
+void plDrawInterface::prcWrite(pfPrcHelper* prc) {
+    plObjInterface::prcWrite(prc);
 
     int i;
     prc->writeSimpleTag("Drawables");
@@ -54,11 +50,11 @@ void plDrawInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
         prc->startTag("DrawableKey");
         prc->writeParam("value", DrawableKeys[i]);
         prc->endTag(true);
-        Drawables[i]->prcWrite(S, prc);
+        Drawables[i]->prcWrite(prc);
     }
     prc->closeTag();
     prc->writeSimpleTag("Objects");
     for (i=0; i<Objects.getSize(); i++)
-        Objects[i]->prcWrite(S, prc);
+        Objects[i]->prcWrite(prc);
     prc->closeTag();
 }

@@ -45,12 +45,14 @@ public:
     plKey* readKey(hsStream* S);
     plKey* readUoidKey(hsStream* S);
     void writeKey(hsStream* S, plKey* key);
+    void writeKey(hsStream* S, hsKeyedObject* ko);
     void writeUoidKey(hsStream* S, plKey* key);
+    void writeUoidKey(hsStream* S, hsKeyedObject* ko);
     hsKeyedObject* getObject(plKey& key);
 
     plPageInfo* ReadPage(const char* filename);
     void WritePage(const char* filename, plPageInfo* page);
-    void WritePrc(hsStream* S, pfPrcHelper* prc, plPageInfo* page);
+    void WritePrc(pfPrcHelper* prc, plPageInfo* page);
     void UnloadPage(plLocation& loc);
     
     plAgeSettings* ReadAge(const char* filename);

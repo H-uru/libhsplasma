@@ -35,10 +35,10 @@ PlasmaVer plResManager::getVer() { return ver; }
 
 plKey* plResManager::readKey(hsStream* S) {
     plKey* k = new plKey();
-    k->exists = true;
-    if (S->getVer() != pvEoa)
-        k->exists = S->readBool();
+    k->exists = (S->getVer() == pvEoa) ? true : S->readBool();
     if (k->exists) {
+        if (S->getVer() == pvLive)
+            S->readBool();
         k->readUoid(S);
         if (plKey* xkey = inst->keys.findKey(k)) {
             delete k;
@@ -53,6 +53,8 @@ plKey* plResManager::readKey(hsStream* S) {
 plKey* plResManager::readUoidKey(hsStream* S) {
     plKey* k = new plKey();
     k->exists = true;
+    if (S->getVer() == pvLive)
+        S->readBool();
     k->readUoid(S);
     if (plKey* xkey = inst->keys.findKey(k)) {
         delete k;
@@ -67,12 +69,25 @@ void plResManager::writeKey(hsStream* S, plKey* key) {
     //key->exists = (strcmp(key->objName, "") != 0);
     if (S->getVer() != pvEoa)
         S->writeBool(key->exists);
-    if (key->exists || S->getVer() == pvEoa)
+    if (key->exists || S->getVer() == pvEoa) {
+        if (S->getVer() == pvLive)
+            S->writeBool(key->exists);
         key->writeUoid(S);
+    }
+}
+
+void plResManager::writeKey(hsStream* S, hsKeyedObject* ko) {
+    writeKey(S, ko->getKey());
 }
 
 void plResManager::writeUoidKey(hsStream* S, plKey* key) {
+    if (S->getVer() == pvLive)
+        S->writeBool(true);
     key->writeUoid(S);
+}
+
+void plResManager::writeUoidKey(hsStream* S, hsKeyedObject* ko) {
+    writeUoidKey(S, ko->getKey());
 }
 
 hsKeyedObject* plResManager::getObject(plKey& key) {
@@ -117,8 +132,8 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     delete S;
 }
 
-void plResManager::WritePrc(hsStream* S, pfPrcHelper* prc, plPageInfo* page) {
-    page->prcWrite(S, prc); // starts <Page>
+void plResManager::WritePrc(pfPrcHelper* prc, plPageInfo* page) {
+    page->prcWrite(prc); // starts <Page>
     
     // Objects:
     std::vector<short> types = inst->keys.getTypes(page->getLocation().pageID);
@@ -126,7 +141,7 @@ void plResManager::WritePrc(hsStream* S, pfPrcHelper* prc, plPageInfo* page) {
         std::vector<plKey*> kList = inst->keys.getKeys(page->getLocation().pageID, types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->objPtr != NULL) {
-                kList[j]->objPtr->prcWrite(S, prc);
+                kList[j]->objPtr->prcWrite(prc);
                 prc->closeTag();
             }
         }
@@ -257,7 +272,7 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = S->readShort(); // objType
-        if (S->getVer() == pvEoa) {
+        if (S->getVer() == pvEoa || S->getVer() == pvLive) {
             S->readInt(); // dataSize
             S->readByte(); // flag
         }
@@ -304,8 +319,13 @@ unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
             S->seek(kList[j]->fileOff);
             try {
                 kList[j]->objPtr = (hsKeyedObject*)ReadCreatable(S);
-                if (kList[j]->objPtr != NULL)
+                if (kList[j]->objPtr != NULL) {
                     nRead++;
+                    if (kList[j]->objSize != S->pos() - kList[j]->fileOff)
+                        printf("[%04X:%s] Size-Read difference: %d bytes\n",
+                               kList[j]->getType(), kList[j]->getName(),
+                               kList[j]->objSize - (S->pos() - kList[j]->fileOff));
+                }
             } catch (const char* e) {
                 printf("Failed reading %s: %s\n",
                         kList[j]->toString(), e);
@@ -353,15 +373,19 @@ unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
 }
 
 plCreatable* plResManager::ReadCreatable(hsStream* S) {
-    plCreatable* pCre = plFactory::Create(S->readShort(), ver);
+    plCreatable* pCre = plFactory::Create(S->readShort(), S->getVer());
     if (pCre != NULL)
         pCre->read(S);
     return pCre;
 }
 
 void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
-    S->writeShort(pCre->ClassIndex());
-    pCre->write(S);
+    if (pCre == NULL) {
+        S->writeShort(0x8000);
+    } else {
+        S->writeShort(pCre->ClassIndex(S->getVer()));
+        pCre->write(S);
+    }
 }
 
 plSceneNode* plResManager::getSceneNode(plLocation& loc) {

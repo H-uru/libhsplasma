@@ -10,10 +10,7 @@ plSceneNode::~plSceneNode() {
         OtherObjects[i]->UnRef();
 }
 
-short plSceneNode::ClassIndex() { return kSceneNode; }
-short plSceneNode::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kSceneNode, ver);
-}
+IMPLEMENT_CREATABLE(plSceneNode, kSceneNode, hsKeyedObject)
 
 void plSceneNode::read(hsStream* S) {
     hsKeyedObject::read(S);
@@ -43,16 +40,16 @@ void plSceneNode::write(hsStream* S) {
         plResManager::inst->writeKey(S, OtherObjects[i]);
 }
 
-void plSceneNode::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(S, prc);
+void plSceneNode::prcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::prcWrite(prc);
 
     int i;
     prc->writeSimpleTag("SceneObjects");
     for (i=0; i<SceneObjects.getSize(); i++)
-        SceneObjects[i]->prcWrite(S, prc);
+        SceneObjects[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("PoolObjects");
     for (i=0; i<OtherObjects.getSize(); i++)
-        OtherObjects[i]->prcWrite(S, prc);
+        OtherObjects[i]->prcWrite(prc);
     prc->closeTag();
 }

@@ -24,6 +24,7 @@ public:
     
     void read(hsStream* S);
     void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
 };
 
 class plSpaceTree : public plCreatable {
@@ -46,12 +47,11 @@ public:
     plSpaceTree();
     virtual ~plSpaceTree();
     
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plSpaceTree);
     
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

@@ -4,10 +4,7 @@
 plImageLibMod::plImageLibMod() { }
 plImageLibMod::~plImageLibMod() { }
 
-short plImageLibMod::ClassIndex() { return kImageLibMod; }
-short plImageLibMod::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kImageLibMod, ver);
-}
+IMPLEMENT_CREATABLE(plImageLibMod, kImageLibMod, plSingleModifier)
 
 void plImageLibMod::read(hsStream* S) {
     plSingleModifier::read(S);
@@ -26,11 +23,11 @@ void plImageLibMod::write(hsStream* S) {
         plResManager::inst->writeKey(S, fImages[i]);
 }
 
-void plImageLibMod::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(S, prc);
+void plImageLibMod::prcWrite(pfPrcHelper* prc) {
+    plSingleModifier::prcWrite(prc);
 
     prc->writeSimpleTag("Images");
     for (int i=0; i<fImages.getSize(); i++)
-        fImages[i]->prcWrite(S, prc);
+        fImages[i]->prcWrite(prc);
     prc->closeTag();
 }

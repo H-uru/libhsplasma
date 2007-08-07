@@ -7,10 +7,7 @@ plLayerInterface::~plLayerInterface() {
     if (underLay) underLay->UnRef();
 }
 
-short plLayerInterface::ClassIndex() { return kLayerInterface; }
-short plLayerInterface::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kLayerInterface, ver);
-}
+IMPLEMENT_CREATABLE(plLayerInterface, kLayerInterface, plSynchedObject)
 
 void plLayerInterface::read(hsStream* S) {
     plSynchedObject::read(S);
@@ -23,10 +20,10 @@ void plLayerInterface::write(hsStream* S) {
     plResManager::inst->writeKey(S, underLay);
 }
 
-void plLayerInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(S, prc);
+void plLayerInterface::prcWrite(pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(prc);
 
     prc->writeSimpleTag("UnderLay");
-    underLay->prcWrite(S, prc);
+    underLay->prcWrite(prc);
     prc->closeTag();
 }

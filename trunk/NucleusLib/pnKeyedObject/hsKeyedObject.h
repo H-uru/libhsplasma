@@ -3,7 +3,7 @@
 
 #include "plReceiver.h"
 
-class hsKeyedObject : public plReceiver {
+DllClass hsKeyedObject : public plReceiver {
 public:
     enum {
         kFlagPreventLoad = 0x1,
@@ -19,12 +19,11 @@ public:
     hsKeyedObject();
     virtual ~hsKeyedObject();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(hsKeyedObject)
 
-    virtual void read(hsStream * S);
-    virtual void write(hsStream * S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
     
     plKey* getKey();
 };

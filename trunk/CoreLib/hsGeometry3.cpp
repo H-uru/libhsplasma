@@ -25,7 +25,7 @@ void hsScalarTriple::write(hsStream* S) {
     S->writeFloat(Z);
 }
 
-void hsScalarTriple::prcWrite(hsStream* S, pfPrcHelper* prc) {
+void hsScalarTriple::prcWrite(pfPrcHelper* prc) {
     prc->startTag(ClassName());
     prc->writeParam("X", X);
     prc->writeParam("Y", Y);
@@ -117,4 +117,13 @@ void hsPlane3::read(hsStream* S) {
 void hsPlane3::write(hsStream* S) {
     fN.write(S);
     S->writeFloat(fD);
+}
+
+void hsPlane3::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("hsPlane3");
+    prc->writeParam("X", fN.X);
+    prc->writeParam("Y", fN.Y);
+    prc->writeParam("Z", fN.Z);
+    prc->writeParam("D", fD);
+    prc->endTag(true);
 }

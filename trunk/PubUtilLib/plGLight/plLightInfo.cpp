@@ -1,15 +1,19 @@
 #include "plLightInfo.h"
 #include "../plResMgr/plResManager.h"
 
-plLightInfo::plLightInfo() { }
-plLightInfo::~plLightInfo() { }
-
-short plLightInfo::ClassIndex() { return kLightInfo; }
-short plLightInfo::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kLightInfo, ver);
+plLightInfo::plLightInfo() : deviceRef(NULL), projection(NULL), sceneNode(NULL),
+                             softVolume(NULL) { }
+plLightInfo::~plLightInfo() {
+    projection->UnRef();
+    sceneNode->UnRef();
+    softVolume->UnRef();
+    for (int i=0; i<visRegions.getSize(); i++)
+        visRegions[i]->UnRef();
 }
 
-void plLightInfo::read(hsStream *S) {
+IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)
+
+void plLightInfo::read(hsStream* S) {
     if (deviceRef != NULL)
         deviceRef->UnRef();
     deviceRef = NULL;
@@ -36,7 +40,7 @@ void plLightInfo::read(hsStream *S) {
     volFlags |= kVolDirty;
 }
 
-void plLightInfo::write(hsStream *S) {
+void plLightInfo::write(hsStream* S) {
     plObjInterface::write(S);
     ambient.write(S);
     diffuse.write(S);
@@ -54,3 +58,41 @@ void plLightInfo::write(hsStream *S) {
     for (int i=0; i<visRegions.getSize(); i++)
         plResManager::inst->writeKey(S, visRegions[i]);
 }
+
+void plLightInfo::prcWrite(pfPrcHelper* prc) {
+    plObjInterface::prcWrite(prc);
+    prc->writeSimpleTag("Ambient");
+    ambient.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Diffuse");
+    diffuse.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Specular");
+    specular.prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("LightToLocal");
+    lightToLocal.prcWrite(prc);
+    localToLight.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("LightToWorld");
+    lightToWorld.prcWrite(prc);
+    worldToLight.prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("Projection");
+    projection->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("SoftVolume");
+    softVolume->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("SceneNode");
+    sceneNode->prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("VisRegions");
+    for (int i=0; i<visRegions.getSize(); i++)
+        visRegions[i]->prcWrite(prc);
+    prc->closeTag();
+}
+

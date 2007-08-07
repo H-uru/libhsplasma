@@ -1,5 +1,6 @@
 #include "plUoid.h"
 #include "../pnFactory/plFactory.h"
+#include "../../DynLib/pdUnifiedTypeMap.h"
 #include <string.h>
 #include <malloc.h>
 
@@ -42,7 +43,7 @@ void plLocation::write(hsStream* S) {
         S->writeShort(flags);
 }
 
-void plLocation::prcWrite(hsStream* S, pfPrcHelper* prc) {
+void plLocation::prcWrite(pfPrcHelper* prc) {
     char buf[32];
     sprintf(buf, "%d;%d", pageID.getSeqPrefix(), pageID.getPageNum());
     prc->writeParam("Location", buf);
@@ -90,7 +91,7 @@ void plUoid::read(hsStream* S) {
         loadMask.read(S);
     else
         loadMask.setAlways();
-    classType = S->readShort();
+    classType = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer());
     if (S->getVer() == pvEoa || S->getVer() == pvLive)
         objID = S->readInt();
     if (objName) free(objName);
@@ -115,7 +116,7 @@ void plUoid::write(hsStream* S) {
     location.write(S);
     if ((contents & kHasLoadMask) && S->getVer() != pvEoa)
         loadMask.write(S);
-    S->writeShort(classType);
+    S->writeShort(pdUnifiedTypeMap::MappedToPlasma(classType, S->getVer()));
     if (S->getVer() == pvEoa || S->getVer() == pvLive)
         S->writeInt(objID);
     S->writeSafeStr(objName);
@@ -127,13 +128,13 @@ void plUoid::write(hsStream* S) {
         S->writeByte(eoaExtra);
 }
 
-void plUoid::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    prc->startTag("Key");
+void plUoid::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("plKey");
     prc->writeParam("Name", objName);
-    prc->writeParam("Type", plFactory::ClassName(classType, S->getVer()));
-    location.prcWrite(S, prc);
+    prc->writeParam("Type", plFactory::ClassName(classType, prc->getStream()->getVer()));
+    location.prcWrite(prc);
     if (loadMask.isUsed())
-        loadMask.prcWrite(S, prc);
+        loadMask.prcWrite(prc);
     if (cloneID != 0) {
         prc->writeParam("CloneID", cloneID);
         prc->writeParam("ClonePlayerID", clonePlayerID);

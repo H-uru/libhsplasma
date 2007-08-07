@@ -14,30 +14,30 @@ public:
     PageID(PlasmaVer pv=pvUnknown);
     ~PageID();
 
-    int getID();
+    int getID() const;
     void setID(int pid);
     
-    PlasmaVer getVer();
+    PlasmaVer getVer() const;
     void setVer(PlasmaVer pv, bool mutate = false);
 
-    bool isGlobal();
-    int getPageNum();
-    int getSeqPrefix();
+    bool isGlobal() const;
+    int getPageNum() const;
+    int getSeqPrefix() const;
     void setPageNum(int pn);
     void setSeqPrefix(int sp);
 
-    bool operator==(PageID& other);
+    bool operator==(PageID& other) const;
     PageID& operator=(const PageID& other);
 
-    const char* toString();
+    char* toString() const;
 
     void parse(unsigned int id);
-    unsigned int unparse();
-    void read(hsStream *S);
-    void write(hsStream *S);
+    unsigned int unparse() const;
+    void read(hsStream* S);
+    void write(hsStream* S);
 
     void invalidate();
-    bool isValid();
+    bool isValid() const;
 };
 
 struct PageComparator {

@@ -9,10 +9,7 @@ plAudioInterface::~plAudioInterface() {
     Audible->UnRef();
 }
 
-short plAudioInterface::ClassIndex() { return kAudioInterface; }
-short plAudioInterface::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kAudioInterface, ver);
-}
+IMPLEMENT_CREATABLE(plAudioInterface, kAudioInterface, plObjInterface)
 
 void plAudioInterface::read(hsStream *S) {
     plObjInterface::read(S);
@@ -25,10 +22,10 @@ void plAudioInterface::write(hsStream *S) {
     plResManager::inst->writeKey(S, Audible);
 }
 
-void plAudioInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plObjInterface::prcWrite(S, prc);
+void plAudioInterface::prcWrite(pfPrcHelper* prc) {
+    plObjInterface::prcWrite(prc);
 
     prc->writeSimpleTag("Audible");
-    Audible->prcWrite(S, prc);
+    Audible->prcWrite(prc);
     prc->closeTag();
 }

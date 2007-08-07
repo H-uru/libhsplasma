@@ -84,7 +84,7 @@ void plPythonParameter::write(hsStream* S) {
     }
 }
 
-void plPythonParameter::prcWrite(hsStream* S, pfPrcHelper* prc) {
+void plPythonParameter::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plPythonParameter");
     
     prc->writeParam("ID", ID);
@@ -113,7 +113,7 @@ void plPythonParameter::prcWrite(hsStream* S, pfPrcHelper* prc) {
         return;
     default:
         prc->endTag(false);
-        objKey->prcWrite(S, prc);
+        objKey->prcWrite(prc);
         prc->closeTag();
         return;
     }
@@ -130,10 +130,7 @@ plPythonFileMod::~plPythonFileMod() {
         receivers[i]->UnRef();
 }
 
-short plPythonFileMod::ClassIndex() { return kPythonFileMod; }
-short plPythonFileMod::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kPythonFileMod, ver);
-}
+IMPLEMENT_CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
 char* plPythonFileMod::getFilename() { return pythonFile; }
 hsTArray<plKey*>& plPythonFileMod::getReceivers() { return receivers; }
@@ -170,8 +167,8 @@ void plPythonFileMod::write(hsStream* S) {
         parameters[i].write(S);
 }
 
-void plPythonFileMod::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plMultiModifier::prcWrite(S, prc);
+void plPythonFileMod::prcWrite(pfPrcHelper* prc) {
+    plMultiModifier::prcWrite(prc);
 
     prc->startTag("PythonFile");
     prc->writeParam("name", pythonFile);
@@ -180,11 +177,11 @@ void plPythonFileMod::prcWrite(hsStream* S, pfPrcHelper* prc) {
     int i;
     prc->writeSimpleTag("Receivers");
     for (i=0; i<receivers.getSize(); i++)
-        receivers[i]->prcWrite(S, prc);
+        receivers[i]->prcWrite(prc);
     prc->closeTag();
     
     prc->writeSimpleTag("Parameters");
     for (i=0; i<parameters.getSize(); i++)
-        parameters[i].prcWrite(S, prc);
+        parameters[i].prcWrite(prc);
     prc->closeTag();
 }

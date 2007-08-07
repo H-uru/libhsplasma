@@ -71,8 +71,7 @@ public:
     plMipmap(int w, int h, int cfg, char nLevels, char compType, char format);
     virtual ~plMipmap();
 
-    virtual short ClassIndex();
-    virtual short ClassIndex(PlasmaVer ver);
+    DECLARE_CREATABLE(plMipmap)
 
     void create(int w, int h, int cfg, char nLevels, char compType, char format);
     void setConfig(int cfg);
@@ -84,7 +83,7 @@ public:
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
-    virtual void prcWrite(hsStream* S, pfPrcHelper* prc);
+    virtual void prcWrite(pfPrcHelper* prc);
 
     void IBuildLevelSizes();
     void IReadJPEGImage(hsStream* S);

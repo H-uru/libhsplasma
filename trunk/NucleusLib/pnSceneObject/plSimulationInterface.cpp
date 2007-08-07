@@ -9,10 +9,7 @@ plSimulationInterface::~plSimulationInterface() {
     Physical->UnRef();
 }
 
-short plSimulationInterface::ClassIndex() { return kSimulationInterface; }
-short plSimulationInterface::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kSimulationInterface, ver);
-}
+IMPLEMENT_CREATABLE(plSimulationInterface, kSimulationInterface, plObjInterface)
 
 void plSimulationInterface::read(hsStream* S) {
     plObjInterface::read(S);
@@ -31,14 +28,14 @@ void plSimulationInterface::write(hsStream* S) {
     plResManager::inst->writeKey(S, Physical);
 }
 
-void plSimulationInterface::prcWrite(hsStream* S, pfPrcHelper* prc) {
-    plObjInterface::prcWrite(S, prc);
+void plSimulationInterface::prcWrite(pfPrcHelper* prc) {
+    plObjInterface::prcWrite(prc);
 
     prc->writeSimpleTag("Properties");
-    Props.prcWrite(S, prc);
+    Props.prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Physical");
-    Physical->prcWrite(S, prc);
+    Physical->prcWrite(prc);
     prc->closeTag();
 }

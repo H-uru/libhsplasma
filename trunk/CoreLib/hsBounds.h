@@ -3,6 +3,7 @@
 
 #include "hsStream.h"
 #include "hsGeometry3.h"
+#include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
 class hsBounds {
 protected:
@@ -11,9 +12,12 @@ protected:
 public:
     hsBounds();
     virtual ~hsBounds();
+    
+    virtual const char* ClassName();
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
 
     void setType(int type);
 };
@@ -33,8 +37,11 @@ public:
     hsBounds3();
     virtual ~hsBounds3();
 
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual const char* ClassName();
+    
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 class hsBounds3Ext : public hsBounds3 {
@@ -57,12 +64,15 @@ protected:
 
 public:
     hsBounds3Ext();
-    hsBounds3Ext(const class hsBounds3Ext &);
-    hsBounds3Ext(const class hsBounds3 &);
+    hsBounds3Ext(const hsBounds3Ext&);
+    hsBounds3Ext(const hsBounds3&);
     virtual ~hsBounds3Ext();
+
+    virtual const char* ClassName();
     
-    virtual void read(hsStream *S);
-    virtual void write(hsStream *S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 class hsBoundsOriented : public hsBounds {
@@ -75,9 +85,12 @@ protected:
 public:
     hsBoundsOriented();
     ~hsBoundsOriented();
+    
+    virtual const char* ClassName();
 
     void read(hsStream* S);
     void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

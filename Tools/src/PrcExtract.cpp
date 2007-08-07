@@ -102,10 +102,10 @@ int main(int argc, char** argv) {
             sprintf(buf, "Source: %s", argv[i]);
             prc->writeComment(buf);
             time_t ts = time(NULL);
-            strftime(buf, 256, "Created: %y/%m/%d %H:%M:%S", localtime(&ts));
+            strftime(buf, 256, "Created: %Y/%m/%d %H:%M:%S", localtime(&ts));
             prc->writeComment(buf);
             S->writeStr("\n");
-            rm.WritePrc(S, prc, page);
+            rm.WritePrc(prc, page);
 
             delete prc;
             S->close();

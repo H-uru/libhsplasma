@@ -35,7 +35,9 @@ OBJFILES=\
 	$(LIBDIR)plDrawInterface.o \
 	$(LIBDIR)plSimulationInterface.o \
 	$(LIBDIR)plSceneObject.o \
+	$(LIBDIR)plSoundBuffer.o \
 	$(LIBDIR)plClothingItem.o \
+	$(LIBDIR)plAGMasterMod.o \
 	$(LIBDIR)plDrawableSpans.o \
 	$(LIBDIR)plSpan.o \
 	$(LIBDIR)plVertexSpan.o \
@@ -46,6 +48,8 @@ OBJFILES=\
 	$(LIBDIR)plFont.o \
 	$(LIBDIR)plMipmap.o \
 	$(LIBDIR)plLightInfo.o \
+	$(LIBDIR)plDirectionalLightInfo.o \
+	$(LIBDIR)plOmniLightInfo.o \
 	$(LIBDIR)plJPEG.o \
 	$(LIBDIR)plImageLibMod.o \
 	$(LIBDIR)plCubicEnvironmap.o \
@@ -151,8 +155,14 @@ $(LIBDIR)plSceneObject.o: NucleusLib/pnSceneObject/plSceneObject.h NucleusLib/pn
 $(LIBDIR)plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface.h NucleusLib/pnSceneObject/plSimulationInterface.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plSimulationInterface.cpp -o $(LIBDIR)plSimulationInterface.o
 
+$(LIBDIR)plSoundBuffer.o: PubUtilLib/plAudioCore/plSoundBuffer.h PubUtilLib/plAudioCore/plSoundBuffer.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAudioCore/plSoundBuffer.cpp -o $(LIBDIR)plSoundBuffer.o
+
 $(LIBDIR)plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.h PubUtilLib/plAvatar/plClothingItem.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plAvatar/plClothingItem.cpp -o $(LIBDIR)plClothingItem.o
+
+$(LIBDIR)plAGMasterMod.o: PubUtilLib/plAvatar/plAGMasterMod.h PubUtilLib/plAvatar/plAGMasterMod.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAvatar/plAGMasterMod.cpp -o $(LIBDIR)plAGMasterMod.o
 
 $(LIBDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(LIBDIR)plDrawableSpans.o
@@ -186,6 +196,12 @@ $(LIBDIR)plMipmap.o: PubUtilLib/plGImage/plMipmap.h PubUtilLib/plGImage/plMipmap
 
 $(LIBDIR)plLightInfo.o: PubUtilLib/plGLight/plLightInfo.h PubUtilLib/plGLight/plLightInfo.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plGLight/plLightInfo.cpp -o $(LIBDIR)plLightInfo.o
+
+$(LIBDIR)plDirectionalLightInfo.o: PubUtilLib/plGLight/plDirectionalLightInfo.h PubUtilLib/plGLight/plDirectionalLightInfo.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGLight/plDirectionalLightInfo.cpp -o $(LIBDIR)plDirectionalLightInfo.o
+
+$(LIBDIR)plOmniLightInfo.o: PubUtilLib/plGLight/plOmniLightInfo.h PubUtilLib/plGLight/plOmniLightInfo.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plGLight/plOmniLightInfo.cpp -o $(LIBDIR)plOmniLightInfo.o
 
 $(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(LIBDIR)plJPEG.o

@@ -7,7 +7,7 @@
 #define BVMASK 0x1F
 #define BVSHIFT 5
 
-class hsBitVector {
+DllClass hsBitVector {
 private:
     int* bits;
     int nVectors;
@@ -24,10 +24,9 @@ public:
     void clear();
     void deleteBit(int idx);
 
-    void read(hsStream *S);
-    void write(hsStream *S);
-    void prcWrite(hsStream* S, pfPrcHelper* prc);
+    void read(hsStream* S);
+    void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
 };
 
 #endif
-

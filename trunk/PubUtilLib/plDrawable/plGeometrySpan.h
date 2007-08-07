@@ -64,12 +64,12 @@ public:
     };
 
 protected:
-    hsGMaterial* fMaterial;
+    plKey* fMaterial;
     hsMatrix44 fLocalToWorld;
     hsMatrix44 fWorldToLocal;
     hsBounds3Ext fLocalBounds;
     hsBounds3Ext fWorldBounds;
-    plFogEnvironment* fFogEnviron;
+    plKey* fFogEnviron;
     unsigned int fBaseMatrix;
     unsigned char fNumMatrices;
     unsigned short fLocalUVWChans;
@@ -105,9 +105,10 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual void prcWrite(pfPrcHelper* prc);
 
-    void setMaterial(hsGMaterial* mat);
-    void setFogEnvironment(plFogEnvironment* fog);
+    void setMaterial(plKey* mat);
+    void setFogEnvironment(plKey* fog);
 
     void IClearMembers();
     void ClearBuffers();

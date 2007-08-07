@@ -16,7 +16,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)lib"
+			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(SolutionDir)out"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -830,6 +830,14 @@
 				Name="plAvatar"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGMasterMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGMasterMod.h"
+					>
+				</File>
+				<File
 					RelativePath="PubUtilLib\plAvatar\plClothingItem.cpp"
 					>
 					<FileConfiguration
@@ -1257,11 +1265,27 @@
 				Name="plGLight"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plGLight\plDirectionalLightInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGLight\plDirectionalLightInfo.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plGLight\plLightInfo.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plGLight\plLightInfo.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGLight\plOmniLightInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGLight\plOmniLightInfo.h"
 					>
 				</File>
 			</Filter>
@@ -1286,6 +1310,18 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plModifier\plImageLibMod.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plAudioCore"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plAudioCore\plSoundBuffer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudioCore\plSoundBuffer.h"
 					>
 				</File>
 			</Filter>

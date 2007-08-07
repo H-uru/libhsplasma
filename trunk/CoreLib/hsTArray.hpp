@@ -2,16 +2,17 @@
 #define _HSTARRAY_H
 
 #include <stdlib.h>
-#include "hsStream.h"
+#include <string.h>
+#include "../PlasmaDefs.h"
 
-template <class T>
-class hsTArray {
+template <typename T>
+DllClass hsTArray {
 private:
-    unsigned short max, count;
+    unsigned short count;
     T* data;
 
 public:
-    hsTArray() : max(0), count(0) {
+    hsTArray() : count(0) {
         data = NULL;
     }
     ~hsTArray<T>() {
@@ -27,57 +28,53 @@ public:
             delete[] data;
         data = NULL;
         count = 0;
-        max = 0;
 	}
 
     inline int getSize() { return count; }
-    int getCap() { return max; }
 
     void setSize(int cap) {
-        if (max < cap) {
-            T* newData = new T[cap];
-            if (data != NULL) {
-                memcpy(newData, data, count * sizeof(T));
-                delete[] data;
-            }
-            max = cap;
-            data = newData;
+        if (count == cap) return;
+
+        if (cap <= 0) {
+            clear();
+            return;
         }
+        
+        T* newData = new T[cap];
+        int min = (count < cap) ? count : cap;
+        if (data != NULL) {
+            memcpy(newData, data, min * sizeof(T));
+            delete[] data;
+        }
+        data = newData;
         count = cap;
     }
 
     void setSizeNull(int cap) {
         delete[] data;
         data = new T[cap];
-        memset(data, 0, count * sizeof(T));
-        max = count = cap;
-    }
-
-    void compact() {
-        if (max == count) return;
-        T* newData = new T[count];
-        if (data != NULL) {
-            memcpy(newData, data, count * sizeof(T));
-            delete[] data;
-        }
-        max = count;
-        data = newData;
+        memset(data, 0, cap * sizeof(T));
+        count = cap;
     }
 
     void incSize(int num = 1) {
         setSize(getSize() + num);
     }
 
+    void decSize(int num = 1) {
+        setSize(getSize() - num);
+    }
+
     void append(T& item) {
-        setSize(count+1);
-        data[count++] = item;
+        incSize();
+        data[count - 1] = item;
     }
 
     T& remove(int idx) {
-        T dItm = data[idx];
+        T& dItm = data[idx];
         for (int i=idx; i<count; i++)
             data[i] = data[i+1];
-        data[--count] = NULL;
+        decSize();
         return dItm;
     }
 

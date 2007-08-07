@@ -4,12 +4,9 @@ plFogEnvironment::plFogEnvironment() : fType(kLinearFog), fStart(1.0f),
                   fEnd(1000.0f), fDensity(0.5f) { }
 plFogEnvironment::~plFogEnvironment() { }
 
-short plFogEnvironment::ClassIndex() { return kFogEnvironment; }
-short plFogEnvironment::ClassIndex(PlasmaVer ver) {
-    return pdUnifiedTypeMap::MappedToPlasma(kFogEnvironment, ver);
-}
+IMPLEMENT_CREATABLE(plFogEnvironment, kFogEnvironment, hsKeyedObject)
 
-void plFogEnvironment::read(hsStream *S) {
+void plFogEnvironment::read(hsStream* S) {
     hsKeyedObject::read(S);
     fType = S->readByte();
     fStart = S->readFloat();
@@ -18,7 +15,7 @@ void plFogEnvironment::read(hsStream *S) {
     fColor.read(S);
 }
 
-void plFogEnvironment::write(hsStream *S) {
+void plFogEnvironment::write(hsStream* S) {
     hsKeyedObject::write(S);
     S->writeByte(fType);
     S->writeFloat(fStart);
