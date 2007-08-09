@@ -121,6 +121,10 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     hsStream* S = new hsStream();
     S->open(filename, fmWrite);
     S->setVer(ver, true);
+    if (ver == pvEoa) {
+        std::vector<short> types = inst->keys.getTypes(page->getLocation().pageID);
+        page->setClassList(types);
+    }
     page->write(S);
     page->setDataStart(S->pos());
     page->nObjects = WriteObjects(S, page->getLocation());
@@ -273,8 +277,8 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
     for (unsigned int i=0; i<tCount; i++) {
         short type = S->readShort(); // objType
         if (S->getVer() == pvEoa || S->getVer() == pvLive) {
-            S->readInt(); // dataSize
-            S->readByte(); // flag
+            S->readInt(); // # of bytes after this int to next key list
+            S->readByte(); // flag?
         }
         unsigned int oCount = S->readInt();
         inst->keys.reserveKeySpace(loc.pageID, type, oCount);
@@ -297,12 +301,20 @@ void plResManager::WriteKeyring(hsStream* S, plLocation& loc) {
         std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, types[i]);
         if (kList.size() <= 0) continue;
         S->writeShort(kList[0]->getType());
-        if (S->getVer() == pvEoa) {
-            throw "Incomplete";
+        unsigned int lenPos = S->pos();
+        if (S->getVer() == pvEoa || S->getVer() == pvLive) {
+            S->writeInt(0);
+            S->writeByte(0);
         }
         S->writeInt(kList.size());
         for (unsigned int j=0; j<kList.size(); j++)
             kList[j]->write(S);
+        if (S->getVer() == pvEoa || S->getVer() == pvLive) {
+            unsigned int nextPos = S->pos();
+            S->seek(lenPos);
+            S->writeInt(nextPos - lenPos - 4);
+            S->seek(nextPos);
+        }
     }
 }
 

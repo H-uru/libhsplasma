@@ -16,6 +16,8 @@ private:
     static short fPotSP2MTable[TYPESPACE_MAX];
     static short fLiveP2MTable[TYPESPACE_MAX];
     static short fEoaP2MTable[TYPESPACE_MAX];
+
+    static short fEoaVerTable[TYPESPACE_MAX];
     static const char* fClassNames[TYPESPACE_MAX];
 
 public:
@@ -24,6 +26,8 @@ public:
     
     static short PlasmaToMapped(short typeIdx, PlasmaVer ver);
     static short MappedToPlasma(short typeIdx, PlasmaVer ver);
+
+    static short ClassVersion(short typeIdx, PlasmaVer ver);
 };
 
 // This is the internal mapped types list:

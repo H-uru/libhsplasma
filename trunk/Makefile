@@ -17,6 +17,7 @@ OBJFILES=\
 	$(LIBDIR)hsGeometry3.o \
 	$(LIBDIR)hsBounds.o \
 	$(LIBDIR)plLoadMask.o \
+	$(LIBDIR)plString.o \
 	$(LIBDIR)PageID.o \
 	$(LIBDIR)pdUnifiedTypeMap.o \
 	$(LIBDIR)hsGMatState.o \
@@ -100,6 +101,9 @@ $(LIBDIR)hsBounds.o: CoreLib/hsBounds.h CoreLib/hsBounds.cpp
 
 $(LIBDIR)plLoadMask.o: CoreLib/plLoadMask.h CoreLib/plLoadMask.cpp
 	$(CC) $(CFLAGS) -c CoreLib/plLoadMask.cpp -o $(LIBDIR)plLoadMask.o
+
+$(LIBDIR)plString.o: CoreLib/plString.h CoreLib/plString.cpp
+	$(CC) $(CFLAGS) -c CoreLib/plString.cpp -o $(LIBDIR)plString.o
 
 $(LIBDIR)PageID.o: DynLib/PageID.h DynLib/PageID.cpp
 	$(CC) $(CFLAGS) -c DynLib/PageID.cpp -o $(LIBDIR)PageID.o

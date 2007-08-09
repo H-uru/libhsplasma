@@ -138,8 +138,8 @@ int main(int argc, char** argv) {
         if (S->getVer() == pvEoa) maj = min = 0;
         if (S->getVer() == pvPots) min = 12;
         if (S->getVer() == pvLive) {
-            maj = 69;
-            min = 5;
+            maj = 70;
+            min = 0;
         }
         OS->writeShort(maj);
         OS->writeShort(min);
@@ -159,7 +159,9 @@ int main(int argc, char** argv) {
             short type = S->readShort();
             if (S->getVer() == pvEoa) {
                 S->readInt();
-                S->readByte();
+                unsigned char b = S->readByte();
+                if (b != 0)
+                    printf("NOTICE: Type %04X got flag of %02X\n", type, b);
             }
             unsigned int oCount = S->readInt();
             keys = new plKey[oCount];
@@ -205,7 +207,7 @@ int main(int argc, char** argv) {
         min = S->readShort();
         OS->setVer(pvPrime);
         if (maj == 0) OS->setVer(pvEoa);
-        if (maj >= 69) OS->setVer(pvLive);
+        if (maj >= 70) OS->setVer(pvLive);
         if (min == 12) OS->setVer(pvPots);
         S->setVer(OS->getVer());
         page->getLocation().pageID.read(S);
@@ -214,9 +216,8 @@ int main(int argc, char** argv) {
         page->setFlags(plPageInfo::kBasicChecksum);
         S->close();
 
-        page->write(OS);
-        page->setDataStart(OS->pos());
-        plKeyCollector keys;
+        std::vector<char*> inFiles;
+        std::vector<short> inClasses;
         hsStream* PS = new hsStream();
       #ifdef WIN32
         sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
@@ -224,20 +225,18 @@ int main(int argc, char** argv) {
         HANDLE fr = FindFirstFile(strBuf, &fd);
         if (fr != NULL) {
             do {
-                plKey* key = new plKey();
                 sprintf(strBuf, "%s%s", getOutputDir(filename, page), fd.cFileName);
+                inFiles.push_back(strdup(strBuf));
                 PS->open(strBuf, fmRead);
-                unsigned int poLen = PS->size();
-                void* objBuf = malloc(poLen);
-                key->fileOff = OS->pos();
-                key->objSize = poLen;
-                PS->read(poLen, objBuf);
-                OS->write(poLen, objBuf);
-                free(objBuf);
-                PS->seek(2);
-                key->readUoid(PS);
+                short classType = PS->readShort();
                 PS->close();
-                keys.add(key);
+                bool haveClass = false;
+                for (j=0; j<inClasses.size(); j++)
+                    if (inClasses[j] == classType) {
+                        haveClass = true;
+                }
+                if (!haveClass)
+                    inClasses.push_back(classType);
             } while (FindNextFile(fr, &fd));
             FindClose(fr);
         }
@@ -246,9 +245,28 @@ int main(int argc, char** argv) {
         unsigned int nEntries = scandir(getOutputDir(filename, page), &des, &selPO, &alphasort);
         PS->setVer(OS->getVer());
         for (i=0; i<nEntries; i++) {
-            plKey* key = new plKey();
             sprintf(strBuf, "%s%s", getOutputDir(filename, page), des[i]->d_name);
+            inFiles.push_back(strdup(strBuf));
             PS->open(strBuf, fmRead);
+            short classType = PS->readShort();
+            PS->close();
+            bool haveClass = false;
+            for (j=0; j<inClasses.size(); j++)
+                if (inClasses[j] == classType) {
+                    haveClass = true;
+            }
+            if (!haveClass)
+                inClasses.push_back(classType);
+        }
+      #endif
+        page->setClassList(inClasses);
+        page->write(OS);
+        page->setDataStart(OS->pos());
+        plKeyCollector keys;
+
+        for (i=0; i<inFiles.size(); i++) {
+            plKey* key = new plKey();
+            PS->open(inFiles[i], fmRead);
             unsigned int poLen = PS->size();
             void* objBuf = malloc(poLen);
             key->fileOff = OS->pos();
@@ -260,19 +278,33 @@ int main(int argc, char** argv) {
             key->readUoid(PS);
             PS->close();
             keys.add(key);
+            free(inFiles[i]);
+            inFiles[i] = NULL;
         }
-      #endif
         delete PS;
+
         page->setIndexStart(OS->pos());
-        if (OS->getVer() == pvEoa) throw "Not yet supported!";
         std::vector<short> types = keys.getTypes(page->getLocation().pageID);
+        //if (types != inClasses)
+        //    throw "Wtf, mate?";
         OS->writeInt(types.size());
         for (i=0; i<types.size(); i++) {
             std::vector<plKey*> kList = keys.getKeys(page->getLocation().pageID, types[i]);
             OS->writeShort(types[i]);
+            unsigned int lenPos = OS->pos();
+            if (OS->getVer() == pvLive || OS->getVer() == pvEoa) {
+                OS->writeInt(0);
+                OS->writeByte(0);
+            }
             OS->writeInt(kList.size());
             for (j=0; j<kList.size(); j++)
                 kList[j]->write(OS);
+            if (OS->getVer() == pvEoa || OS->getVer() == pvLive) {
+                unsigned int nextPos = OS->pos();
+                OS->seek(lenPos);
+                OS->writeInt(nextPos - lenPos - 4);
+                OS->seek(nextPos);
+            }
         }
         page->setChecksum(OS->pos() - page->getDataStart());
         page->writeSums(OS);

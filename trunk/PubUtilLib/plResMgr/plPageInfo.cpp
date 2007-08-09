@@ -1,5 +1,6 @@
-#include "plPageInfo.h"
 #include <string.h>
+#include "plPageInfo.h"
+#include "../../DynLib/pdUnifiedTypeMap.h"
 
 plPageInfo::plPageInfo() { IInit(); }
 
@@ -34,7 +35,15 @@ void plPageInfo::read(hsStream* S) {
             S->setVer(pvLive);
         } else {
             S->setVer(pvEoa);
-            S->skip(nTypes * 4); // Type info table...
+            for (int i=0; i<nTypes; i++) {
+                short type = S->readShort();
+                short ver = S->readShort();
+                if (pdUnifiedTypeMap::ClassVersion(type, pvEoa) != ver) {
+                    printf("Warning: Class %s expected version %d, got %d\n",
+                           pdUnifiedTypeMap::ClassName(type, pvEoa),
+                           pdUnifiedTypeMap::ClassVersion(type, pvEoa), ver);
+                }
+            }
         }
         location.read(S);
         age = S->readSafeStr();
@@ -58,7 +67,7 @@ void plPageInfo::read(hsStream* S) {
         releaseVersion = S->readInt();
         flags = S->readInt();
     } else {
-        throw "Unsupported page registry package version!";
+        throw "Unsupported page version!";
     }
     checksum = S->readInt();
     dataStart = S->readInt();
@@ -68,7 +77,11 @@ void plPageInfo::read(hsStream* S) {
 void plPageInfo::write(hsStream* S) {
     if (S->getVer() == pvEoa) {
         S->writeShort(6);
-        throw "EoA plPageInfo is incomplete"; // Needs the type info thingy
+        S->writeShort(classList.size());
+        for (size_t i=0; i<classList.size(); i++) {
+            S->writeShort(classList[i]);
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(classList[i], pvEoa));
+        }
         location.write(S);
         S->writeSafeStr(getAge());
         S->writeSafeStr(getPage());
@@ -89,8 +102,8 @@ void plPageInfo::write(hsStream* S) {
         if (S->getVer() == pvPots)
             minorVer = 12;
         if (S->getVer() == pvLive) {
-            majorVer = 69;
-            minorVer = 5;
+            majorVer = 70;
+            minorVer = 0;
         }
         S->writeShort(majorVer);
         S->writeShort(minorVer);
@@ -142,3 +155,6 @@ void plPageInfo::setNames(char* newAge, char* newPage) {
     page = newPage;
 }
 
+void plPageInfo::clearClassList() { classList.clear(); }
+void plPageInfo::addClass(short classIdx) { classList.push_back(classIdx); }
+void plPageInfo::setClassList(std::vector<short>& list) { classList = list; }

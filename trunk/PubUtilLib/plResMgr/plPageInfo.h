@@ -1,6 +1,7 @@
 #ifndef _PLPAGEINFO_H
 #define _PLPAGEINFO_H
 
+#include <vector>
 #include "../../CoreLib/hsStream.h"
 #include "../../NucleusLib/pnKeyedObject/plUoid.h"
 #include "../../FeatureLib/pfPRC/pfPrcHelper.h"
@@ -24,6 +25,8 @@ protected:
     unsigned int idxChecksum, checksum;
     int releaseVersion;
     unsigned int dataStart, idxStart, flags;
+
+    std::vector<short> classList;
 
 public:
     unsigned int nObjects;
@@ -57,6 +60,10 @@ public:
     void setFlags(unsigned int);
     void setLocation(plLocation&);
     void setNames(char*, char*);
+
+    void clearClassList();
+    void addClass(short classIdx);
+    void setClassList(std::vector<short>& list);
 };
 
 #endif
