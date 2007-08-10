@@ -5,7 +5,11 @@
   #ifdef MAKEDLL
     #define DllExport __declspec(dllexport)
   #else
-    #define DllExport __declspec(dllimport)
+    #ifdef NODLL
+      #define DllExport
+    #else
+      #define DllExport __declspec(dllimport)
+    #endif
   #endif
 #else
   #define DllExport

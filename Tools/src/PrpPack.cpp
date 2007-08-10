@@ -219,6 +219,7 @@ int main(int argc, char** argv) {
         std::vector<char*> inFiles;
         std::vector<short> inClasses;
         hsStream* PS = new hsStream();
+        PS->setVer(OS->getVer());
       #ifdef WIN32
         sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
         WIN32_FIND_DATA fd;
@@ -243,7 +244,6 @@ int main(int argc, char** argv) {
       #else
         dirent** des;
         unsigned int nEntries = scandir(getOutputDir(filename, page), &des, &selPO, &alphasort);
-        PS->setVer(OS->getVer());
         for (i=0; i<nEntries; i++) {
             sprintf(strBuf, "%s%s", getOutputDir(filename, page), des[i]->d_name);
             inFiles.push_back(strdup(strBuf));
@@ -284,6 +284,7 @@ int main(int argc, char** argv) {
         delete PS;
 
         page->setIndexStart(OS->pos());
+        keys.sortKeys(page->getLocation().pageID);
         std::vector<short> types = keys.getTypes(page->getLocation().pageID);
         //if (types != inClasses)
         //    throw "Wtf, mate?";
@@ -306,7 +307,10 @@ int main(int argc, char** argv) {
                 OS->seek(nextPos);
             }
         }
-        page->setChecksum(OS->pos() - page->getDataStart());
+        if (OS->getVer() == pvEoa)
+            page->setChecksum(OS->pos());
+        else
+            page->setChecksum(OS->pos() - page->getDataStart());
         page->writeSums(OS);
         OS->close();
     }

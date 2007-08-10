@@ -130,7 +130,10 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     page->nObjects = WriteObjects(S, page->getLocation());
     page->setIndexStart(S->pos());
     WriteKeyring(S, page->getLocation());
-    page->setChecksum(S->pos() - page->getDataStart());
+    if (ver == pvEoa)
+        page->setChecksum(S->pos());
+    else
+        page->setChecksum(S->pos() - page->getDataStart());
     page->writeSums(S);
     S->close();
     delete S;
@@ -325,9 +328,12 @@ unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
     
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, types[i]);
-        //printf("  * Reading %d objects of type [%04X]\n", kList.size(), types[i]);
+        printf("* Reading %d objects of type [%04X]%s\n", kList.size(),
+               types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->fileOff <= 0) continue;
+            printf("  * (%d) Reading %s @ 0x%08X\n", j, kList[j]->getName(),
+                   kList[j]->fileOff);
             S->seek(kList[j]->fileOff);
             try {
                 kList[j]->objPtr = (hsKeyedObject*)ReadCreatable(S);

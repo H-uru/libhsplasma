@@ -33,6 +33,7 @@ public:
     PageID& getPageID();
     const char* getName();
     void setID(unsigned int id);
+    unsigned int getID();
 };
 
 #endif

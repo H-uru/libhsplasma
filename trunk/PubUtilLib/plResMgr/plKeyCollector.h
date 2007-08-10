@@ -19,12 +19,13 @@ public:
     plKey* findKey(plKey* match);
     void add(plKey* key);
     void reserveKeySpace(PageID& pid, short type, int num);
+    void sortKeys(PageID& pid);
 
     unsigned int countTypes(PageID& pid);
     unsigned int countKeys(PageID& pid);
-    std::vector<plKey*>& getKeys(PageID& pid, short type);
-    std::vector<short>& getTypes(PageID& pid);
-    std::vector<PageID>& getPages();
+    const std::vector<plKey*>& getKeys(PageID& pid, short type);
+    std::vector<short> getTypes(PageID& pid);
+    std::vector<PageID> getPages();
 };
 
 #endif

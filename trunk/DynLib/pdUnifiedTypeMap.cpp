@@ -1,5 +1,6 @@
 #include "pdUnifiedTypeMap.h"
 #include <cstdlib>
+#include <cstdio>
 
 short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
@@ -1641,6 +1642,11 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
 };
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
+    if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
+        printf("pdUnifiedTypeMap::ClassName ERR: Got type %04X\n", typeIdx);
+        return NULL;
+    }
+
     return fClassNames[typeIdx];
 }
 
@@ -1651,6 +1657,11 @@ const char* pdUnifiedTypeMap::ClassName(short typeIdx, PlasmaVer ver) {
 }
 
 short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
+    if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
+        printf("pdUnifiedTypeMap::PlasmaToMapped ERR: Got type %04X\n", typeIdx);
+        return -1;
+    }
+
     switch (ver) {
     case pvPrime:
         return fUruP2MTable[typeIdx];
@@ -1666,6 +1677,11 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
 }
 
 short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
+    if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
+        printf("pdUnifiedTypeMap::MappedToPlasma ERR: Got type %04X\n", typeIdx);
+        return -1;
+    }
+
     switch (ver) {
     case pvPrime:
         return fUruM2PTable[typeIdx];

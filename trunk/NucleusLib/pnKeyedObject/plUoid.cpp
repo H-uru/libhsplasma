@@ -152,3 +152,4 @@ short plUoid::getType() { return (short)classType; }
 PageID& plUoid::getPageID() { return location.pageID; }
 const char* plUoid::getName() { return objName; }
 void plUoid::setID(unsigned int id) { objID = id; }
+unsigned int plUoid::getID() { return objID; }

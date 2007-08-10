@@ -47,6 +47,7 @@ short plKey::getType() { return uoid.getType(); }
 PageID& plKey::getPageID() { return uoid.getPageID(); }
 const char* plKey::getName() { return uoid.getName(); }
 void plKey::setID(unsigned int id) { uoid.setID(id); }
+unsigned int plKey::getID() { return uoid.getID(); }
 
 /*
 void plKey::readRef(hsStream *S) {
