@@ -121,9 +121,10 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     hsStream* S = new hsStream();
     S->open(filename, fmWrite);
     S->setVer(ver, true);
-    if (ver == pvEoa) {
+    if (ver == pvEoa || ver == pvLive) {
         std::vector<short> types = inst->keys.getTypes(page->getLocation().pageID);
         page->setClassList(types);
+        inst->keys.sortKeys(page->getLocation().pageID);
     }
     page->write(S);
     page->setDataStart(S->pos());
@@ -303,7 +304,7 @@ void plResManager::WriteKeyring(hsStream* S, plLocation& loc) {
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, types[i]);
         if (kList.size() <= 0) continue;
-        S->writeShort(kList[0]->getType());
+        S->writeShort(pdUnifiedTypeMap::MappedToPlasma(kList[0]->getType(), S->getVer()));
         unsigned int lenPos = S->pos();
         if (S->getVer() == pvEoa || S->getVer() == pvLive) {
             S->writeInt(0);
@@ -328,12 +329,12 @@ unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
     
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, types[i]);
-        printf("* Reading %d objects of type [%04X]%s\n", kList.size(),
-               types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
+        //printf("* Reading %d objects of type [%04X]%s\n", kList.size(),
+        //       types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->fileOff <= 0) continue;
-            printf("  * (%d) Reading %s @ 0x%08X\n", j, kList[j]->getName(),
-                   kList[j]->fileOff);
+            //printf("  * (%d) Reading %s @ 0x%08X\n", j, kList[j]->getName(),
+            //       kList[j]->fileOff);
             S->seek(kList[j]->fileOff);
             try {
                 kList[j]->objPtr = (hsKeyedObject*)ReadCreatable(S);

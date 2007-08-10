@@ -131,7 +131,7 @@ void plUoid::write(hsStream* S) {
 void plUoid::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plKey");
     prc->writeParam("Name", objName);
-    prc->writeParam("Type", plFactory::ClassName(classType, prc->getStream()->getVer()));
+    prc->writeParam("Type", plFactory::ClassName(classType));
     location.prcWrite(prc);
     if (loadMask.isUsed())
         loadMask.prcWrite(prc);

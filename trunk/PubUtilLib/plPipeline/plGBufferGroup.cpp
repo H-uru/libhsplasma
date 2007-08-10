@@ -174,7 +174,8 @@ void plGBufferGroup::write(hsStream* S) {
 }
 
 void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
-    int i, j;
+    int i;
+    unsigned int j;
     char buf[6];
     prc->startTag("plGBufferGroup");
     prc->writeParam("format", format);

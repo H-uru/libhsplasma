@@ -291,7 +291,7 @@ int main(int argc, char** argv) {
         OS->writeInt(types.size());
         for (i=0; i<types.size(); i++) {
             std::vector<plKey*> kList = keys.getKeys(page->getLocation().pageID, types[i]);
-            OS->writeShort(types[i]);
+            OS->writeShort(pdUnifiedTypeMap::MappedToPlasma(types[i], OS->getVer()));
             unsigned int lenPos = OS->pos();
             if (OS->getVer() == pvLive || OS->getVer() == pvEoa) {
                 OS->writeInt(0);

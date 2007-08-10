@@ -4,6 +4,8 @@
 plAGMasterMod::plAGMasterMod() : fTarget(NULL), fGroupName(NULL) { }
 plAGMasterMod::~plAGMasterMod() {
     if (fGroupName != NULL) delete[] fGroupName;
+    for (size_t i=0; i<fPrivateAnims.size(); i++)
+        fPrivateAnims[i]->UnRef();
 }
 
 IMPLEMENT_CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
@@ -33,7 +35,7 @@ void plAGMasterMod::write(hsStream* S) {
     }
 
     S->writeInt(fPrivateAnims.size());
-    for (int i=0; i<fPrivateAnims.size(); i++)
+    for (size_t i=0; i<fPrivateAnims.size(); i++)
         plResManager::inst->writeKey(S, fPrivateAnims[i]);
 }
 
@@ -46,7 +48,7 @@ void plAGMasterMod::prcWrite(pfPrcHelper* prc) {
         prc->endTag(true);
     }
     prc->writeSimpleTag("PrivateAnims");
-    for (int i=0; i<fPrivateAnims.size(); i++)
+    for (size_t i=0; i<fPrivateAnims.size(); i++)
         fPrivateAnims[i]->prcWrite(prc);
     prc->closeTag();
 }
