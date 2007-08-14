@@ -44,7 +44,7 @@ void plSpaceTree::read(hsStream* S) {
     fNumLeaves = S->readInt();
 
     fTree.setSize(S->readInt());
-    for (int i=0; i<fTree.getSize(); i++)
+    for (size_t i=0; i<fTree.getSize(); i++)
         fTree[i].read(S);
 }
 
@@ -53,7 +53,7 @@ void plSpaceTree::write(hsStream* S) {
     S->writeInt(fNumLeaves);
 
     S->writeInt(fTree.getSize());
-    for (int i=0; i<fTree.getSize(); i++)
+    for (size_t i=0; i<fTree.getSize(); i++)
         fTree[i].write(S);
 }
 
@@ -64,6 +64,6 @@ void plSpaceTree::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("NumLeaves", fNumLeaves);
     prc->endTag(true);
     
-    for (int i=0; i<fTree.getSize(); i++)
+    for (size_t i=0; i<fTree.getSize(); i++)
         fTree[i].prcWrite(prc);
 }

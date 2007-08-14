@@ -10,7 +10,7 @@ void hsGMaterial::read(hsStream* S) {
     plSynchedObject::read(S);
     readData(S);
 
-    int i;
+    size_t i;
     for (i=0; i<Layers.getSize(); i++) {
         Layers[i] = plResManager::inst->readKey(S);
         Layers[i]->Ref();
@@ -25,7 +25,7 @@ void hsGMaterial::write(hsStream* S) {
     plSynchedObject::write(S);
     writeData(S);
 
-    int i;
+    size_t i;
     for (i=0; i<Layers.getSize(); i++)
         plResManager::inst->writeKey(S, Layers[i]);
     for (i=0; i<PiggyBacks.getSize(); i++)
@@ -58,7 +58,7 @@ void hsGMaterial::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("value", compFlags);
     prc->endTag(true);
 
-    int i;
+    size_t i;
     prc->writeSimpleTag("Layers");
     for (i=0; i<Layers.getSize(); i++)
         Layers[i]->prcWrite(prc);

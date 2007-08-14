@@ -15,7 +15,7 @@ plSceneObject::~plSceneObject() {
     CoordIntf->UnRef();
     AudioIntf->UnRef();
     SceneNode->UnRef();
-	int i;
+	size_t i;
     for (i=0; i<Interfaces.getSize(); i++)
         Interfaces[i]->UnRef();
     for (i=0; i<Modifiers.getSize(); i++)
@@ -37,7 +37,7 @@ void plSceneObject::read(hsStream* S) {
     AudioIntf->Ref();
 
     Interfaces.setSizeNull(S->readInt());
-	int i;
+	size_t i;
     for (i=0; i<Interfaces.getSize(); i++) {
         Interfaces[i] = plResManager::inst->readKey(S);
         Interfaces[i]->Ref();
@@ -61,7 +61,7 @@ void plSceneObject::write(hsStream* S) {
     plResManager::inst->writeKey(S, AudioIntf);
 
     S->writeInt(Interfaces.getSize());
-    int i;
+    size_t i;
     for (i=0; i<Interfaces.getSize(); i++)
         plResManager::inst->writeKey(S, Interfaces[i]);
     S->writeInt(Modifiers.getSize());
@@ -86,7 +86,7 @@ void plSceneObject::prcWrite(pfPrcHelper* prc) {
       AudioIntf->prcWrite(prc);
     prc->closeTag();
 
-    int i;
+    size_t i;
     prc->writeSimpleTag("Interfaces");
     for (i=0; i<Interfaces.getSize(); i++)
         Interfaces[i]->prcWrite(prc);

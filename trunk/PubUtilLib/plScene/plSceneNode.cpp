@@ -3,7 +3,7 @@
 
 plSceneNode::plSceneNode() { }
 plSceneNode::~plSceneNode() {
-    int i;
+    size_t i;
     for (i=0; i<SceneObjects.getSize(); i++)
         SceneObjects[i]->UnRef();
     for (i=0; i<OtherObjects.getSize(); i++)
@@ -16,7 +16,7 @@ void plSceneNode::read(hsStream* S) {
     hsKeyedObject::read(S);
 
     SceneObjects.setSizeNull(S->readInt());
-	int i;
+	size_t i;
     for (i=0; i<SceneObjects.getSize(); i++) {
         SceneObjects[i] = plResManager::inst->readKey(S);
         SceneObjects[i]->Ref();
@@ -32,7 +32,7 @@ void plSceneNode::write(hsStream* S) {
     hsKeyedObject::write(S);
 
     S->writeInt(SceneObjects.getSize());
-	int i;
+	size_t i;
     for (i=0; i<SceneObjects.getSize(); i++)
         plResManager::inst->writeKey(S, SceneObjects[i]);
     S->writeInt(OtherObjects.getSize());
@@ -43,7 +43,7 @@ void plSceneNode::write(hsStream* S) {
 void plSceneNode::prcWrite(pfPrcHelper* prc) {
     hsKeyedObject::prcWrite(prc);
 
-    int i;
+    size_t i;
     prc->writeSimpleTag("SceneObjects");
     for (i=0; i<SceneObjects.getSize(); i++)
         SceneObjects[i]->prcWrite(prc);

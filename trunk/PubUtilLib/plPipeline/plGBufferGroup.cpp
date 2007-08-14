@@ -84,7 +84,7 @@ void plGBufferGroup::read(hsStream* S) {
     fIdxBuffStorage.clear();
 
     plVertCoder coder;
-    int i, count = S->readInt();
+    size_t i, count = S->readInt();
     for (i=0; i<count; i++) {
         unsigned int colorCount = 0;
         plGBufferColor* color = NULL;
@@ -128,18 +128,18 @@ void plGBufferGroup::read(hsStream* S) {
     }
 
     for (i=0; i<fVertBuffStorage.getSize(); i++) {
-        unsigned int cellCount = S->readInt();
+        size_t cellCount = S->readInt();
         hsTArray<plGBufferCell>* cell = new hsTArray<plGBufferCell>();
         fCells.append(cell);
         cell->setSize(cellCount);
-        for (unsigned int j=0; j<cellCount; j++)
+        for (size_t j=0; j<cellCount; j++)
             cell->get(j).read(S);
     }
 }
 
 void plGBufferGroup::write(hsStream* S) {
     format |= kEncoded;
-    int i, totalSize = 0;
+    size_t i, totalSize = 0;
     for (i=0; i<fVertBuffSizes.getSize(); i++)
         totalSize += fVertBuffSizes[i];
     for (i=0; i<fIdxBuffCounts.getSize(); i++)
@@ -168,14 +168,13 @@ void plGBufferGroup::write(hsStream* S) {
 
     for (i=0; i<fVertBuffStorage.getSize(); i++) {
         S->writeInt(fCells[i]->getSize());
-        for (int j=0; j<fCells[i]->getSize(); j++)
+        for (size_t j=0; j<fCells[i]->getSize(); j++)
             fCells[i]->get(j).write(S);
     }
 }
 
 void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
-    int i;
-    unsigned int j;
+    size_t i, j;
     char buf[6];
     prc->startTag("plGBufferGroup");
     prc->writeParam("format", format);

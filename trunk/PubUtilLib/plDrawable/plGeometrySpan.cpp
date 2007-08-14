@@ -1,9 +1,27 @@
 #include "plGeometrySpan.h"
 
-plGeometrySpan::plGeometrySpan() { }
-plGeometrySpan::~plGeometrySpan() { }
+plGeometrySpan::plGeometrySpan()
+              : fVertexData(NULL), fIndexData(NULL), fMultColor(NULL),
+                fAddColor(NULL), fDiffuseRGBA(NULL), fSpecularRGBA(NULL) { }
 
-void plGeometrySpan::read(hsStream *S) {
+plGeometrySpan::~plGeometrySpan() {
+    if (fVertexData) delete[] fVertexData;
+    if (fMultColor) delete[] fMultColor;
+    if (fAddColor) delete[] fAddColor;
+    if (fDiffuseRGBA) delete[] fDiffuseRGBA;
+    if (fSpecularRGBA) delete[] fSpecularRGBA;
+    if (fIndexData) delete[] fIndexData;
+}
+
+unsigned int plGeometrySpan::CalcVertexSize(unsigned char format) {
+    unsigned int size = ((format & kUVCountMask) + 2) * 12;
+    size += ((format & kSkinWeightMask) >> 4) * sizeof(float);
+    if (format & kSkinIndices)
+        size += sizeof(int);
+    return size;
+}
+
+void plGeometrySpan::read(hsStream* S) {
 	//ClearBuffers();
     fLocalToWorld.read(S);
     fWorldToLocal.read(S);
@@ -33,17 +51,8 @@ void plGeometrySpan::read(hsStream *S) {
         fWaterHeight = S->readFloat();
     
     if (fNumVerts > 0) {
-        // this is hsPoint3[UVCount] + fPosition + fNormal.
-        unsigned int size = ((fFormat & kUVCountMask) + 2) * sizeof(hsPoint3);
-        if (fFormat & kSkinWeightMask == kSkin1Weight)
-            size += 4;  // 1 float
-        else if (fFormat & kSkinWeightMask == kSkin2Weights)
-            size += 8;  // 2 floats
-        else if (fFormat & kSkinWeightMask == kSkin3Weights)
-            size += 12; // 3 floats
-        if (fFormat & kSkinIndices)
-            size += 4;  // uint32
-        fVertexData = (unsigned char*)malloc(fNumVerts * size);
+        unsigned int size = CalcVertexSize(fFormat);
+        fVertexData = new unsigned char[fNumVerts * size];
         S->read(fNumVerts * size, fVertexData);
         
         fMultColor = new hsColorRGBA[fNumVerts];
@@ -63,21 +72,25 @@ void plGeometrySpan::read(hsStream *S) {
         fDiffuseRGBA = NULL;
         fSpecularRGBA = NULL;
     }
+
     if (fNumIndices > 0) {
         fIndexData = new unsigned short[fNumIndices];
         S->readShorts(fNumIndices, (short*)fIndexData);
     } else {
         fIndexData = NULL;
     }
+    
     fInstanceGroup = S->readInt();
     if (fInstanceGroup != 0) {
-        throw "Incomplete";
+        //throw "Incomplete";
         //fInstanceRefs = IGetInstanceGroup(fInstanceGroup, S->readInt());
         //fInstanceRefs->append(this);
+        printf("WARNING: plGeometrySpan::read Incomplete\n");
+        numInstanceRefs = S->readInt();
     }
 }
 
-void plGeometrySpan::write(hsStream *S) {
+void plGeometrySpan::write(hsStream* S) {
     fLocalToWorld.write(S);
     fWorldToLocal.write(S);
     fLocalBounds.write(S);
@@ -103,18 +116,7 @@ void plGeometrySpan::write(hsStream *S) {
         S->writeFloat(fWaterHeight);
     
     if (fNumVerts > 0) {
-        // this is hsPoint3[UVCount] + fPosition + fNormal.
-        unsigned int size = ((fFormat & kUVCountMask) + 2) * sizeof(hsPoint3);
-        if (fFormat & kSkinWeightMask == kSkin1Weight)
-            size += 4;  // 1 float
-        else if (fFormat & kSkinWeightMask == kSkin2Weights)
-            size += 8;  // 2 floats
-        else if (fFormat & kSkinWeightMask == kSkin3Weights)
-            size += 12; // 3 floats
-        if (fFormat & kSkinIndices)
-            size += 4;  // uint32
-        S->write(fNumVerts * size, fVertexData);
-        
+        S->write(fNumVerts * CalcVertexSize(fFormat), fVertexData);
         for (unsigned int i=0; i<fNumVerts; i++) {
             fMultColor[i].write(S);
             fAddColor[i].write(S);
@@ -123,18 +125,78 @@ void plGeometrySpan::write(hsStream *S) {
         S->writeInts(fNumVerts, (int*)fSpecularRGBA);
         
     }
-    if (fNumIndices > 0) {
+    if (fNumIndices > 0)
         S->writeShorts(fNumIndices, (short*)fIndexData);
-    }
+
     S->writeInt(fInstanceGroup);
     if (fInstanceGroup != 0) {
-        throw "Incomplete";
+        //throw "Incomplete";
+        printf("WARNING: plGeometrySpan::write Incomplete\n");
+        S->writeInt(numInstanceRefs);
     }
 }
 
 void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
-    // TODO
-    prc->writeComment("Unfinished...");
+    prc->startTag("plGeometrySpan");
+    prc->writeParam("BaseMatrix", fBaseMatrix);
+    prc->writeParam("NumMatrices", fNumMatrices);
+    prc->writeParam("LocalUVWChans", fLocalUVWChans);
+    prc->writeParam("MaxBoneIdx", fMaxBoneIdx);
+    prc->writeParam("PenBoneIdx", fPenBoneIdx);
+    prc->writeParam("MinDist", fMinDist);
+    prc->writeParam("MaxDist", fMaxDist);
+    prc->writeParam("Format", fFormat);
+    prc->writeParam("Props", fProps);
+    prc->writeParam("DecalLevel", fDecalLevel);
+    if (fProps & kWaterHeight)
+        prc->writeParam("WaterHeight", fWaterHeight);
+    prc->endTag();
+    
+    unsigned int i;
+    unsigned int size = fNumVerts * CalcVertexSize(fFormat);
+    char buf[10];
+    prc->writeTagNoBreak("VertexData");
+    for (i=0; i<size; i++) {
+        sprintf(buf, "%02X", fVertexData[i]);
+        prc->getStream()->writeStr(buf);
+    }
+    prc->closeTagNoBreak();
+
+    prc->writeSimpleTag("MultColors");
+    for (i=0; i<fNumVerts; i++)
+        fMultColor[i].prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("AddColors");
+    for (i=0; i<fNumVerts; i++)
+        fAddColor[i].prcWrite(prc);
+    prc->closeTag();
+    prc->writeTagNoBreak("DiffuseColors");
+    for (i=0; i<fNumVerts; i++) {
+        sprintf(buf, "%08X ", fDiffuseRGBA[i]);
+        prc->getStream()->writeStr(buf);
+    }
+    prc->closeTagNoBreak();
+    prc->writeTagNoBreak("SpecularColors");
+    for (i=0; i<fNumVerts; i++) {
+        sprintf(buf, "%08X ", fSpecularRGBA[i]);
+        prc->getStream()->writeStr(buf);
+    }
+    prc->closeTagNoBreak();
+
+    prc->writeTagNoBreak("IndexData");
+    for (i=0; i<fNumIndices; i++) {
+        sprintf(buf, "%04X ", fIndexData[i]);
+        prc->getStream()->writeStr(buf);
+    }
+    prc->closeTagNoBreak();
+
+    prc->startTag("InstanceGroup");
+    prc->writeParam("value", fInstanceGroup);
+    if (fInstanceGroup != 0)
+        prc->writeParam("NumRefs", numInstanceRefs);
+    prc->endTag(true);
+
+    prc->closeTag();
 }
 
 void plGeometrySpan::setMaterial(plKey* mat) { fMaterial = mat; }

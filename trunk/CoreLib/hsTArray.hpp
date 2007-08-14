@@ -30,9 +30,9 @@ public:
         count = 0;
 	}
 
-    inline int getSize() { return count; }
+    inline size_t getSize() { return count; }
 
-    void setSize(int cap) {
+    void setSize(size_t cap) {
         if (count == cap) return;
 
         if (cap <= 0) {
@@ -41,7 +41,7 @@ public:
         }
         
         T* newData = new T[cap];
-        int min = (count < cap) ? count : cap;
+        size_t min = (count < cap) ? count : cap;
         if (data != NULL) {
             memcpy(newData, data, min * sizeof(T));
             delete[] data;
@@ -50,18 +50,18 @@ public:
         count = cap;
     }
 
-    void setSizeNull(int cap) {
+    void setSizeNull(size_t cap) {
         delete[] data;
         data = new T[cap];
         memset(data, 0, cap * sizeof(T));
         count = cap;
     }
 
-    void incSize(int num = 1) {
+    void incSize(size_t num = 1) {
         setSize(getSize() + num);
     }
 
-    void decSize(int num = 1) {
+    void decSize(size_t num = 1) {
         setSize(getSize() - num);
     }
 
@@ -70,18 +70,18 @@ public:
         data[count - 1] = item;
     }
 
-    T& remove(int idx) {
+    T& remove(size_t idx) {
         T& dItm = data[idx];
-        for (int i=idx; i<count; i++)
+        for (size_t i=idx; i<count; i++)
             data[i] = data[i+1];
         decSize();
         return dItm;
     }
 
-    T& get(int idx) { return data[idx]; }
-    void set(int idx, T& item) { data[idx] = item; }
+    T& get(size_t idx) { return data[idx]; }
+    void set(size_t idx, T& item) { data[idx] = item; }
 
-    T& operator[](int idx) { return data[idx]; }
+    T& operator[](size_t idx) { return data[idx]; }
 
     void push(T& item) { append(item); }
     T& pop() { return remove(count-1); }

@@ -126,7 +126,7 @@ plPythonFileMod::plPythonFileMod() : pythonFile(NULL) { }
 plPythonFileMod::~plPythonFileMod() {
     if (pythonFile != NULL)
         delete[] pythonFile;
-    for (int i=0; i<receivers.getSize(); i++)
+    for (size_t i=0; i<receivers.getSize(); i++)
         receivers[i]->UnRef();
 }
 
@@ -142,7 +142,7 @@ void plPythonFileMod::read(hsStream* S) {
         delete[] pythonFile;
     pythonFile = S->readSafeStr();
 
-    int i, count = S->readInt();
+    size_t i, count = S->readInt();
     receivers.setSize(count);
     for (i=0; i<count; i++)
         receivers[i] = plResManager::inst->readKey(S);
@@ -157,7 +157,7 @@ void plPythonFileMod::write(hsStream* S) {
     plMultiModifier::write(S);
     S->writeSafeStr(pythonFile);
 
-    int i;
+    size_t i;
     S->writeInt(receivers.getSize());
     for (i=0; i<receivers.getSize(); i++)
         plResManager::inst->writeKey(S, receivers[i]);
@@ -174,7 +174,7 @@ void plPythonFileMod::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("name", pythonFile);
     prc->endTag(true);
 
-    int i;
+    size_t i;
     prc->writeSimpleTag("Receivers");
     for (i=0; i<receivers.getSize(); i++)
         receivers[i]->prcWrite(prc);

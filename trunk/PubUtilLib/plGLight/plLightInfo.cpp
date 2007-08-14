@@ -7,7 +7,7 @@ plLightInfo::~plLightInfo() {
     projection->UnRef();
     sceneNode->UnRef();
     softVolume->UnRef();
-    for (int i=0; i<visRegions.getSize(); i++)
+    for (size_t i=0; i<visRegions.getSize(); i++)
         visRegions[i]->UnRef();
 }
 
@@ -33,9 +33,8 @@ void plLightInfo::read(hsStream* S) {
     softVolume = plResManager::inst->readKey(S);
     sceneNode = plResManager::inst->readKey(S);
 
-    int count = S->readInt();
-    visRegions.setSize(count);
-    for (int i=0; i<count; i++)
+    visRegions.setSize(S->readInt());
+    for (size_t i=0; i<visRegions.getSize(); i++)
         visRegions[i] = plResManager::inst->readKey(S);
     volFlags |= kVolDirty;
 }
@@ -55,7 +54,7 @@ void plLightInfo::write(hsStream* S) {
     plResManager::inst->writeKey(S, sceneNode);
 
     S->writeInt(visRegions.getSize());
-    for (int i=0; i<visRegions.getSize(); i++)
+    for (size_t i=0; i<visRegions.getSize(); i++)
         plResManager::inst->writeKey(S, visRegions[i]);
 }
 
@@ -91,7 +90,7 @@ void plLightInfo::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegions");
-    for (int i=0; i<visRegions.getSize(); i++)
+    for (size_t i=0; i<visRegions.getSize(); i++)
         visRegions[i]->prcWrite(prc);
     prc->closeTag();
 }

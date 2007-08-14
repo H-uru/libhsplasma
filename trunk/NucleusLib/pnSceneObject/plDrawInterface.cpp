@@ -8,12 +8,12 @@ IMPLEMENT_CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
 
 void plDrawInterface::read(hsStream* S) {
     plObjInterface::read(S);
-    int count = S->readInt();
+    size_t count = S->readInt();
     Drawables.clear();
     Drawables.setSize(count);
     DrawableKeys.clear();
     DrawableKeys.setSize(count);
-	int i;
+	size_t i;
     for (i=0; i<count; i++) {
         DrawableKeys[i] = S->readInt();
         Drawables[i] = plResManager::inst->readKey(S);
@@ -31,7 +31,7 @@ void plDrawInterface::read(hsStream* S) {
 void plDrawInterface::write(hsStream* S) {
     plObjInterface::write(S);
     S->writeInt(Drawables.getSize());
-	int i;
+	size_t i;
     for (i=0; i<Drawables.getSize(); i++) {
         S->writeInt(DrawableKeys[i]);
         plResManager::inst->writeKey(S, Drawables[i]);
@@ -44,7 +44,7 @@ void plDrawInterface::write(hsStream* S) {
 void plDrawInterface::prcWrite(pfPrcHelper* prc) {
     plObjInterface::prcWrite(prc);
 
-    int i;
+    size_t i;
     prc->writeSimpleTag("Drawables");
     for (i=0; i<Drawables.getSize(); i++) {
         prc->startTag("DrawableKey");

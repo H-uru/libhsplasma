@@ -12,6 +12,8 @@
 #include "../../PubUtilLib/plAvatar/plClothingItem.h"
 #include "../../PubUtilLib/plAvatar/plAGMasterMod.h"
 #include "../../PubUtilLib/plDrawable/plDrawableSpans.h"
+#include "../../PubUtilLib/plDrawable/plMorphDataSet.h"
+#include "../../PubUtilLib/plDrawable/plSharedMesh.h"
 #include "../../PubUtilLib/plGImage/plCubicEnvironmap.h"
 #include "../../PubUtilLib/plGImage/plFont.h"
 #include "../../PubUtilLib/plGImage/plMipmap.h"
@@ -233,7 +235,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kParticleCollisionEffectDie: return new plParticleCollisionEffectDie();
         //case kParticleCollisionEffectBounce: return new plParticleCollisionEffectBounce();
         //case kInterfaceInfoModifier: return new plInterfaceInfoModifier();
-        //case kSharedMesh: return new plSharedMesh();
+        case kSharedMesh: return new plSharedMesh();
         //case kArmatureEffectsMgr: return new plArmatureEffectsMgr();
         //case kMarkerMgr: return new pfMarkerMgr();
         //case kVehicleModifier: return new plVehicleModifier();
@@ -300,7 +302,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kGUIProgressCtrl: return new pfGUIProgressCtrl();
         //case kMaintainersMarkerModifier: return new plMaintainersMarkerModifier();
         //case kMorphSequenceSDLMod: return new plMorphSequenceSDLMod();
-        //case kMorphDataSet: return new plMorphDataSet();
+        case kMorphDataSet: return new plMorphDataSet();
         //case kHardRegion: return new plHardRegion();
         //case kHardRegionPlanes: return new plHardRegionPlanes();
         //case kHardRegionComplex: return new plHardRegionComplex();
@@ -921,7 +923,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSharedMeshBCMsg: return new plSharedMeshBCMsg();
         //case kNetVoiceListMsg: return new plNetVoiceListMsg();
         //case kSwimMsg: return new plSwimMsg();
-        //case kMorphDelta: return new plMorphDelta();
+        case kMorphDelta: return new plMorphDelta();
         //case kMatrixControllerCacheChannel: return new plMatrixControllerCacheChannel();
         //case kVaultMarkerNode: return new plVaultMarkerNode();
         //case kMarkerMsg: return new pfMarkerMsg();

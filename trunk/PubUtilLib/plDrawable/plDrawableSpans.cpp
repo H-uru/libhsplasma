@@ -11,7 +11,7 @@ IMPLEMENT_CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 /* plDrawableSpans */
 plDrawableSpans::plDrawableSpans() { }
 plDrawableSpans::~plDrawableSpans() {
-    int i;
+    size_t i;
     for (i=0; i<materials.getSize(); i++)
         materials[i]->UnRef();
     materials.clear();
@@ -38,7 +38,7 @@ void plDrawableSpans::read(hsStream* S) {
     criteria = S->readInt();
     renderLevel.level = S->readInt();
 
-    int i, j, count, count2;
+    size_t i, j, count, count2;
     
     count = S->readInt();
     materials.setSize(count);
@@ -188,7 +188,7 @@ void plDrawableSpans::write(hsStream* S) {
     S->writeInt(criteria);
     S->writeInt(renderLevel.level);
 
-    int i, j;
+    size_t i, j;
     S->writeInt(materials.getSize());
     for (i=0; i<materials.getSize(); i++)
         plResManager::inst->writeKey(S, materials[i]);
@@ -262,7 +262,7 @@ void plDrawableSpans::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("RenderLevel", renderLevel.level);
     prc->endTag(true);
 
-    int i, j;
+    size_t i, j;
     prc->writeSimpleTag("Materials");
     for (i=0; i<materials.getSize(); i++)
         materials[i]->prcWrite(prc);

@@ -40,10 +40,14 @@ OBJFILES=\
 	$(LIBDIR)plClothingItem.o \
 	$(LIBDIR)plAGMasterMod.o \
 	$(LIBDIR)plDrawableSpans.o \
+	$(LIBDIR)plMorphArray.o \
+	$(LIBDIR)plMorphDataSet.o \
+	$(LIBDIR)plMorphDelta.o \
 	$(LIBDIR)plSpan.o \
 	$(LIBDIR)plVertexSpan.o \
 	$(LIBDIR)plIcicle.o \
 	$(LIBDIR)plGeometrySpan.o \
+	$(LIBDIR)plSharedMesh.o \
 	$(LIBDIR)plSpaceTree.o \
 	$(LIBDIR)plBitmap.o \
 	$(LIBDIR)plFont.o \
@@ -171,6 +175,15 @@ $(LIBDIR)plAGMasterMod.o: PubUtilLib/plAvatar/plAGMasterMod.h PubUtilLib/plAvata
 $(LIBDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(LIBDIR)plDrawableSpans.o
 
+$(LIBDIR)plMorphArray.o: PubUtilLib/plDrawable/plMorphArray.h PubUtilLib/plDrawable/plMorphArray.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plMorphArray.cpp -o $(LIBDIR)plMorphArray.o
+
+$(LIBDIR)plMorphDataSet.o: PubUtilLib/plDrawable/plMorphDataSet.h PubUtilLib/plDrawable/plMorphDataSet.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plMorphDataSet.cpp -o $(LIBDIR)plMorphDataSet.o
+
+$(LIBDIR)plMorphDelta.o: PubUtilLib/plDrawable/plMorphDelta.h PubUtilLib/plDrawable/plMorphDelta.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plMorphDelta.cpp -o $(LIBDIR)plMorphDelta.o
+
 $(LIBDIR)plSpan.o: PubUtilLib/plDrawable/plSpan.h PubUtilLib/plDrawable/plSpan.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSpan.cpp -o $(LIBDIR)plSpan.o
 
@@ -182,6 +195,9 @@ $(LIBDIR)plIcicle.o: PubUtilLib/plDrawable/plIcicle.h PubUtilLib/plDrawable/plIc
 
 $(LIBDIR)plGeometrySpan.o: PubUtilLib/plDrawable/plGeometrySpan.h PubUtilLib/plDrawable/plGeometrySpan.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plGeometrySpan.cpp -o $(LIBDIR)plGeometrySpan.o
+
+$(LIBDIR)plSharedMesh.o: PubUtilLib/plDrawable/plSharedMesh.h PubUtilLib/plDrawable/plSharedMesh.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSharedMesh.cpp -o $(LIBDIR)plSharedMesh.o
 
 $(LIBDIR)plSpaceTree.o: PubUtilLib/plDrawable/plSpaceTree.h PubUtilLib/plDrawable/plSpaceTree.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plSpaceTree.cpp -o $(LIBDIR)plSpaceTree.o

@@ -1,0 +1,19 @@
+#ifndef _PLMORPHARRAY_H
+#define _PLMORPHARRAY_H
+
+#include "plMorphDelta.h"
+
+DllClass plMorphArray {
+protected:
+    hsTArray<plMorphDelta> fDeltas;
+
+public:
+    plMorphArray();
+    ~plMorphArray();
+
+    void read(hsStream* S);
+    void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
+};
+
+#endif

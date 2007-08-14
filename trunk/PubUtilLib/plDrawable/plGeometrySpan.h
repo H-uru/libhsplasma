@@ -98,10 +98,14 @@ protected:
     bool fCreating;
     hsTArray<TempVertex> fVertAccum;
     hsTArray<unsigned short> fIndexAccum;
+
+    unsigned int numInstanceRefs;
     
 public:
     plGeometrySpan();
     virtual ~plGeometrySpan();
+
+    static unsigned int CalcVertexSize(unsigned char format);
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
