@@ -5,17 +5,14 @@
 #include "../../NucleusLib/pnModifier/plModifier.h"
 
 struct plPythonParameter {
-protected:
-    PlasmaVer ver;
-
 public:
-    enum valueType {
+    enum {
         kInt = 1, kFloat, kBoolean, kString, kSceneObject, kSceneObjectList,
-        kActivatorList, kResponderList, kDynamicText, kGUIDialog,
-        kExcludeRegion, kAnimation, kAnimationName, kBehavior, kMaterial,
-        kGUIPopUpMenu, kGUISkin, kWaterComponent, kSwimCurrentInterface,
-        kClusterComponentList, kMaterialAnimation, kGrassShaderComponent,
-        kNone
+        kActivator, kResponder, kDynamicText, kGUIDialog, kExcludeRegion,
+        kAnimation, kAnimationName, kBehavior, kMaterial, kGUIPopUpMenu,
+        kGUISkin, kWaterComponent, kSwimCurrentInterface, kClusterComponent,
+        kMaterialAnimation, kGrassShaderComponent, kGlobalSDLVar, kSubtitle,
+        kBlowerComponent, kNone
     };
 
     static const char* valueTypeNames[];
@@ -33,6 +30,9 @@ public:
 public:
     plPythonParameter(PlasmaVer pv = pvUnknown);
     ~plPythonParameter();
+
+    static unsigned int PlasmaToMapped(unsigned int type, PlasmaVer ver);
+    static unsigned int MappedToPlasma(unsigned int type, PlasmaVer ver);
 
     void read(hsStream* S);
     void write(hsStream* S);

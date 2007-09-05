@@ -1,4 +1,5 @@
 #include "PubUtilLib/plResMgr/plResManager.h"
+#include "CoreLib/plString.h"
 #include <string.h>
 #include <time.h>
 #ifdef WIN32
@@ -16,33 +17,28 @@ void doHelp() {
     printf("Binary data is written to Age_PRC\\filename.ext\n\n");
 }
 
-const char* filenameConvert(const char* filename) {
-    char* newName = new char[256];
-    strcpy(newName, filename);
-    char* find = strrchr(newName, '.');
-    if (find != NULL)
-        *find = '\0';
-    find = strrchr(newName, SLASH);
-    if (find == NULL)
-        find = &newName[0];
-    strcat(find, ".prc");
-    char* ret = strdup(find);
-    delete[] newName;
-    return ret;
+plString filenameConvert(const char* filename) {
+    plString name = filename;
+    if (name.rfind('.') >= 0)
+        name = name.left(name.rfind('.')) + ".prc";
+    else
+        name += ".prc";
+    if (name.rfind(SLASH) >= 0)
+        return name.mid(name.rfind(SLASH) + 1);
+    else
+        return name;
 }
 
-const char* getOutputDir(const char* filename, plPageInfo* page) {
-    char* odir = (char*)malloc(strlen(filename) +
-                        strlen(page->getAge()) + strlen(page->getPage()) + 7);
-    strcpy(odir, filename);
-    char* sepLoc = strrchr(odir, SLASH);
-    if (sepLoc == NULL) odir[0] = 0;
-    else sepLoc[1] = 0;
-    sprintf(odir, "%s%s_PRC%c", odir, page->getAge(), SLASH);
-    return odir;
+plString getOutputDir(const char* filename, plPageInfo* page) {
+    plString name = filename;
+    if (name.rfind(SLASH) >= 0)
+        name = name.left(name.rfind(SLASH) + 1);
+    else
+        name = "";
+    return name + page->getAge() + "_PRC" + SLASH;
 }
 
-const char* cleanFileName(const char* filename) {
+plString cleanFileName(const char* filename) {
     char* cName = strdup(filename);
     for (char* c=cName; *c != 0; c++) {
         if (*c < 0x20 || *c > 0x7E || *c == '\\' || *c == '/' ||
@@ -50,7 +46,9 @@ const char* cleanFileName(const char* filename) {
             *c == '<' || *c == '>' || *c == '|' || *c == '\'')
             *c = '_';
     }
-    return cName;
+    plString sName = cName;
+    free(cName);
+    return sName;
 }
 
 int main(int argc, char** argv) {
@@ -61,7 +59,7 @@ int main(int argc, char** argv) {
 
     plResManager rm;
     plPageInfo* page;
-    char outfile[256];
+    plString outDir, outFile;
     for (int i=1; i<argc; i++) {
         if (argv[i][0] == '-') {
             if (argv[i][1] == '-') argv[i]++;
@@ -82,26 +80,26 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "Undefined error!\n");
                 return 1;
             }
+            outDir = getOutputDir(argv[i], page);
+            outFile = outDir + filenameConvert(argv[i]);
           #ifdef WIN32
-            CreateDirectory(getOutputDir(argv[i], page), NULL);
+            CreateDirectory(outDir.cstr(), NULL);
           #else
-            mkdir(getOutputDir(argv[i], page), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
+            mkdir(outDir.cstr(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
           #endif
-            sprintf(outfile, "%s%s", getOutputDir(argv[i], page), filenameConvert(argv[i]));
 
             hsStream* S = new hsStream();
-            if (!S->open(outfile, fmWrite)) {
-                fprintf(stderr, "Error opening %s for writing!\n", outfile);
+            if (!S->open(outFile, fmWrite)) {
+                fprintf(stderr, "Error opening %s for writing!\n", outFile.cstr());
                 delete S;
                 return 1;
             }
             S->setVer(rm.getVer());
-            char buf[256];
             pfPrcHelper* prc = new pfPrcHelper(S);
             prc->writeComment("Generator: PrcExtract");
-            sprintf(buf, "Source: %s", argv[i]);
-            prc->writeComment(buf);
+            prc->writeComment(plString("Source: ") + argv[i]);
             time_t ts = time(NULL);
+            char buf[256];
             strftime(buf, 256, "Created: %Y/%m/%d %H:%M:%S", localtime(&ts));
             prc->writeComment(buf);
             S->writeStr("\n");

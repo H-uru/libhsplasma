@@ -6,11 +6,11 @@
 const char* plPythonParameter::valueTypeNames[] = {
     "(Invalid)",
     "Int", "Float", "Boolean", "String", "SceneObject", "SceneObjectList",
-    "ActivatorList", "ResponderList", "DynamicText", "GUIDialog",
-    "ExcludeRegion", "Animation", "AnimationName", "Behavior", "Material",
-    "GUIPopUpMenu", "GUISkin", "WaterComponent", "SwimCurrentInterface",
-    "ClusterComponentList", "MaterialAnimation", "GrassShaderComponent",
-    "None"
+    "Activator", "Responder", "DynamicText", "GUIDialog", "ExcludeRegion",
+    "Animation", "AnimationName", "Behavior", "Material", "GUIPopUpMenu",
+    "GUISkin", "WaterComponent", "SwimCurrentInterface", "ClusterComponent",
+    "MaterialAnimation", "GrassShaderComponent", "GlobalSDLVar", "Subtitle",
+    "BlowerComponent", "None"
 };
 
 plPythonParameter::plPythonParameter(PlasmaVer pv) : ID(0), valueType(kNone) { }
@@ -24,8 +24,7 @@ void plPythonParameter::read(hsStream* S) {
     if (valueType == kString || valueType == kAnimationName)
         delete[] strValue;
     ID = S->readInt();
-    valueType = S->readInt();
-    if (valueType >= kNone) return;
+    valueType = PlasmaToMapped(S->readInt(), S->getVer());
 
     int size = 0;
     switch (valueType) {
@@ -40,6 +39,8 @@ void plPythonParameter::read(hsStream* S) {
         return;
     case kString:
     case kAnimationName:
+    case kGlobalSDLVar:
+    case kSubtitle:
         size = S->readInt();
         if (size == 0) {
             strValue = NULL;
@@ -49,6 +50,8 @@ void plPythonParameter::read(hsStream* S) {
         S->read(size, strValue);
         strValue[size] = 0;
         return;
+    case kNone:
+        return;
     default:
         objKey = plResManager::inst->readKey(S);
         return;
@@ -57,8 +60,7 @@ void plPythonParameter::read(hsStream* S) {
 
 void plPythonParameter::write(hsStream* S) {
     S->writeInt(ID);
-    S->writeInt(valueType);
-    if (valueType >= kNone) return;
+    S->writeInt(MappedToPlasma(valueType, S->getVer()));
 
     int lb = 0, size = 0;
     switch (valueType) {
@@ -74,9 +76,13 @@ void plPythonParameter::write(hsStream* S) {
         return;
     case kString:
     case kAnimationName:
+    case kGlobalSDLVar:
+    case kSubtitle:
         size = strlen(strValue);
         S->writeInt(size);
         S->write(size, strValue);
+        return;
+    case kNone:
         return;
     default:
         plResManager::inst->writeKey(S, objKey);
@@ -88,10 +94,7 @@ void plPythonParameter::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plPythonParameter");
     
     prc->writeParam("ID", ID);
-    if (valueType >= kInt && valueType <= kNone)
-        prc->writeParam("Type", valueTypeNames[valueType]);
-    else
-        prc->writeParam("Type", valueType);
+    prc->writeParam("Type", valueTypeNames[valueType]);
     
     switch (valueType) {
     case kInt:
@@ -108,7 +111,12 @@ void plPythonParameter::prcWrite(pfPrcHelper* prc) {
         return;
     case kString:
     case kAnimationName:
+    case kGlobalSDLVar:
+    case kSubtitle:
         prc->writeParam("Value", strValue);
+        prc->endTag(true);
+        return;
+    case kNone:
         prc->endTag(true);
         return;
     default:
@@ -116,6 +124,60 @@ void plPythonParameter::prcWrite(pfPrcHelper* prc) {
         objKey->prcWrite(prc);
         prc->closeTag();
         return;
+    }
+}
+
+unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver) {
+    if (ver == pvUnknown)
+        throw "Unknown Plasma Version!";
+    if (type < 20)
+        return type;
+    if (ver == pvEoa) {
+        switch (type) {
+        case 20: return kGlobalSDLVar;
+        case 21: return kMaterialAnimation;
+        case 22: return kClusterComponent;
+        case 23: return kSubtitle;
+        case 24: return kBlowerComponent;
+        case 25: return kGrassShaderComponent;
+        case 26: return kNone;
+        default: return 0;
+        }
+    } else {
+        switch (type) {
+        case 20: return kClusterComponent;
+        case 21: return kMaterialAnimation;
+        case 22: return kGrassShaderComponent;
+        case 23: return kNone;
+        default: return 0;
+        }
+    }
+}
+
+unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver) {
+    if (ver == pvUnknown)
+        throw "Unknown Plasma Version!";
+    if (type < 20)
+        return type;
+    if (ver == pvEoa) {
+        switch (type) {
+        case kGlobalSDLVar: return 20;
+        case kMaterialAnimation: return 21;
+        case kClusterComponent: return 22;
+        case kSubtitle: return 23;
+        case kBlowerComponent: return 24;
+        case kGrassShaderComponent: return 25;
+        case kNone: return 26;
+        default: return 0;
+        }
+    } else {
+        switch (type) {
+        case kClusterComponent: return 20;
+        case kMaterialAnimation: return 21;
+        case kGrassShaderComponent: return 22;
+        case kNone: return 23;
+        default: return 0;
+        }
     }
 }
 
