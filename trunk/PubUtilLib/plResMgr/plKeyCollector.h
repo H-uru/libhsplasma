@@ -6,7 +6,7 @@
 #include <map>
 #include <vector>
 
-typedef std::map<PageID, std::map<short, std::vector<plKey*> >, PageComparator> keymap_t;
+typedef std::map<PageID, std::map<short, std::vector<plKey> > > keymap_t;
 
 DllClass plKeyCollector {
 private:
@@ -16,15 +16,15 @@ public:
     plKeyCollector();
     ~plKeyCollector();
 
-    plKey* findKey(plKey* match);
-    void add(plKey* key);
-    void reserveKeySpace(PageID& pid, short type, int num);
-    void sortKeys(PageID& pid);
+    plKey findKey(plKey match);
+    void add(plKey key);
+    void reserveKeySpace(const PageID& pid, short type, int num);
+    void sortKeys(const PageID& pid);
 
-    unsigned int countTypes(PageID& pid);
-    unsigned int countKeys(PageID& pid);
-    const std::vector<plKey*>& getKeys(PageID& pid, short type);
-    std::vector<short> getTypes(PageID& pid);
+    unsigned int countTypes(const PageID& pid);
+    unsigned int countKeys(const PageID& pid);
+    const std::vector<plKey>& getKeys(const PageID& pid, short type);
+    std::vector<short> getTypes(const PageID& pid);
     std::vector<PageID> getPages();
 };
 

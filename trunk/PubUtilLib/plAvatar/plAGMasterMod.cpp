@@ -1,12 +1,8 @@
 #include "plAGMasterMod.h"
 #include "../plResMgr/plResManager.h"
 
-plAGMasterMod::plAGMasterMod() : fTarget(NULL), fGroupName(NULL) { }
-plAGMasterMod::~plAGMasterMod() {
-    if (fGroupName != NULL) delete[] fGroupName;
-    for (size_t i=0; i<fPrivateAnims.size(); i++)
-        fPrivateAnims[i]->UnRef();
-}
+plAGMasterMod::plAGMasterMod() : fTarget(NULL) { }
+plAGMasterMod::~plAGMasterMod() { }
 
 IMPLEMENT_CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
 
@@ -14,9 +10,7 @@ void plAGMasterMod::read(hsStream* S) {
     plSynchedObject::read(S);
 
     int len = S->readInt();
-    fGroupName = new char[len+1];
-    S->read(len, fGroupName);
-    fGroupName[len] = 0;
+    fGroupName = S->readStr(len);
 
     len = S->readInt();
     fPrivateAnims.resize(len);

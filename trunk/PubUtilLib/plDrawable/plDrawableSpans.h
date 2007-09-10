@@ -100,7 +100,7 @@ protected:
     hsMatrix44 localToWorld, worldToLocal;
     hsTArray<hsMatrix44> localToWorlds, worldToLocals;
     hsTArray<hsMatrix44> localToBones, boneToLocals;
-    hsTArray<plKey*> materials;
+    hsTArray<plKey> materials;
     plSpaceTree* spaceTree;
     hsBitVector fVisSet, fVisNot, fLastVisSet, fLastVisNot, fVisCache;
     hsTArray<plIcicle> icicles;
@@ -114,7 +114,7 @@ protected:
     //plLoadMask loadMask;
     bool registeredForRecreate, needCleanup, registeredForRender;
     hsBitVector particleSpanVector, blendingSpanVector, fakeBlendingSpanVector;
-    plKey* sceneNode;
+    plKey sceneNode;
     bool settingMatIdxLock;
     unsigned int skinTime;
     hsTArray<plGeometrySpan*> sourceSpans;

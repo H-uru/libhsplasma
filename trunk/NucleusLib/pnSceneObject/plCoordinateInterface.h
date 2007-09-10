@@ -37,7 +37,7 @@ public:
     hsMatrix44 ParentToLocal;
     hsMatrix44 LocalToWorld;
     hsMatrix44 WorldToLocal;
-    hsTArray<plKey*> Children;
+    hsTArray<plKey> Children;
     plCoordinateInterface* Parent;
 
 public:

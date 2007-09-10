@@ -44,10 +44,10 @@ void hsStream::close() {
     F = NULL;
 }
 
-void hsStream::setVer(PlasmaVer pv, bool mutate) { ver = pv; }
-PlasmaVer hsStream::getVer() { return ver; }
+void hsStream::setVer(PlasmaVer pv) { ver = pv; }
+PlasmaVer hsStream::getVer() const { return ver; }
 
-unsigned int hsStream::size() {
+uint32 hsStream::size() const {
     unsigned int p = ftell(F);
     fseek(F, 0, SEEK_END);
     unsigned int sz = ftell(F);
@@ -55,19 +55,19 @@ unsigned int hsStream::size() {
     return sz;
 }
 
-unsigned int hsStream::pos() {
+uint32 hsStream::pos() const {
     return ftell(F);
 }
 
-bool hsStream::eof() {
+bool hsStream::eof() const {
     return feof(F);
 }
 
-void hsStream::seek(unsigned int pos) {
+void hsStream::seek(uint32 pos) {
     fseek(F, pos, SEEK_SET);
 }
 
-void hsStream::skip(unsigned int count) {
+void hsStream::skip(uint32 count) {
     fseek(F, count, SEEK_CUR);
 }
 
@@ -79,46 +79,46 @@ void hsStream::rewind() {
     fseek(F, 0, SEEK_END);
 }
 
-void hsStream::read(unsigned int size, void* buf) {
+void hsStream::read(size_t size, void* buf) {
     fread(buf, size, 1, F);
 }
 
-void hsStream::write(unsigned int size, const void* buf) {
+void hsStream::write(size_t size, const void* buf) {
     fwrite(buf, size, 1, F);
 }
 
-char hsStream::readByte() {
-    char v;
+byte hsStream::readByte() {
+    byte v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readBytes(unsigned int count, char* buf) {
-    read(count * sizeof(char), buf);
+void hsStream::readBytes(size_t count, byte* buf) {
+    read(count * sizeof(byte), buf);
 }
 
-short hsStream::readShort() {
-    short v;
+int16 hsStream::readShort() {
+    int16 v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readShorts(unsigned int count, short* buf) {
-    read(count * sizeof(short), buf);
+void hsStream::readShorts(size_t count, int16* buf) {
+    read(count * sizeof(int16), buf);
 }
 
-int hsStream::readInt() {
-    int v;
+int32 hsStream::readInt() {
+    int32 v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readInts(unsigned int count, int* buf) {
-    read(count * sizeof(int), buf);
+void hsStream::readInts(size_t count, int32* buf) {
+    read(count * sizeof(int32), buf);
 }
 
-int hsStream::readIntSwap() {
-    int v;
+int32 hsStream::readIntSwap() {
+    int32 v;
     read(sizeof(v), &v);
     return ENDSWAP32(v);
 }
@@ -129,7 +129,7 @@ float hsStream::readFloat() {
     return v;
 }
 
-void hsStream::readFloats(unsigned int count, float* buf) {
+void hsStream::readFloats(size_t count, float* buf) {
     read(count * sizeof(float), buf);
 }
 
@@ -143,37 +143,46 @@ bool hsStream::readBool() {
     return readByte() == 0 ? false : true;
 }
 
-void hsStream::readBools(unsigned int count, bool* buf) {
+void hsStream::readBools(size_t count, bool* buf) {
     for (unsigned int i=0; i<count; i++)
         buf[i] = readBool();
 }
 
-char* hsStream::readStr(int len) {
+plString hsStream::readStr(int len) {
     char* buf = new char[len+1];
     read(len * sizeof(char), buf);
     buf[len] = 0;
-    return buf;
+    plString str(buf);
+    delete[] buf;
+    return str;
 }
 
-char* hsStream::readSafeStr() {
-    unsigned short ssInfo = (unsigned short) readShort();
+plString hsStream::readSafeStr() {
+    uint16 ssInfo = (uint16)readShort();
     char* buf;
     if (ver == pvEoa) {
-        buf = readStr(ssInfo);
+        buf = new char[ssInfo+1];
+        read(ssInfo, buf);
         for (int i=0; i<ssInfo; i++)
             buf[i] ^= eoaStrKey[i%8];
+        buf[ssInfo] = 0;
     } else {
         if (!(ssInfo & 0xF000)) readByte(); // Discarded - debug
-        buf = readStr(ssInfo & 0x0FFF);
+        uint16 size = (ssInfo & 0x0FFF);
+        buf = new char[size+1];
+        read(ssInfo & 0x0FFF, buf);
         if (ssInfo & 0xF000) {
             for (int i=0; i<(ssInfo & 0x0FFF); i++)
                 buf[i] = ~buf[i];
         }
+        buf[size] = 0;
     }
-    return buf;
+    plString str(buf);
+    delete[] buf;
+    return str;
 }
 
-char* hsStream::readLine() {
+plString hsStream::readLine() {
     char* buf = new char[4096];
     unsigned int i = 0;
     char c = readByte();
@@ -186,34 +195,36 @@ char* hsStream::readLine() {
     buf[i] = 0;
     if (c == '\r')
         readByte(); // Eat the \n in Windows-style EOLs
-    return buf;
+    plString str(buf);
+    delete[] buf;
+    return str;
 }
 
-void hsStream::writeByte(const char v) {
+void hsStream::writeByte(const byte v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeBytes(unsigned int count, const char* buf) {
-    write(count * sizeof(char), buf);
+void hsStream::writeBytes(size_t count, const byte* buf) {
+    write(count * sizeof(byte), buf);
 }
 
-void hsStream::writeShort(const short v) {
+void hsStream::writeShort(const int16 v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeShorts(unsigned int count, const short* buf) {
-    write(count * sizeof(short), buf);
+void hsStream::writeShorts(size_t count, const int16* buf) {
+    write(count * sizeof(int16), buf);
 }
 
-void hsStream::writeInt(const int v) {
+void hsStream::writeInt(const int32 v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeInts(unsigned int count, const int* buf) {
-    write(count * sizeof(int), buf);
+void hsStream::writeInts(size_t count, const int32* buf) {
+    write(count * sizeof(int32), buf);
 }
 
-void hsStream::writeIntSwap(const int v) {
+void hsStream::writeIntSwap(const int32 v) {
     int tv = ENDSWAP32(v);
     write(sizeof(tv), &tv);
 }
@@ -222,7 +233,7 @@ void hsStream::writeFloat(const float v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeFloats(unsigned int count, const float* buf) {
+void hsStream::writeFloats(size_t count, const float* buf) {
     write(count * sizeof(float), buf);
 }
 
@@ -235,40 +246,38 @@ void hsStream::writeBool(const bool v) {
     write(sizeof(b), &b);
 }
 
-void hsStream::writeBools(unsigned int count, const bool* buf) {
-    for (unsigned int i=0; i<count; i++)
+void hsStream::writeBools(size_t count, const bool* buf) {
+    for (size_t i=0; i<count; i++)
         writeBool(buf[i]);
 }
 
-void hsStream::writeStr(const char* buf, int len) {
-    write(len * sizeof(char), buf);
+void hsStream::writeStr(const plString& str) {
+    write(str.len(), str.cstr());
 }
 
-void hsStream::writeStr(const char* buf) {
-    writeStr(buf, strlen(buf));
-}
-
-void hsStream::writeSafeStr(const char* buf) {
-    unsigned short ssInfo = (unsigned short) strlen(buf);
+void hsStream::writeSafeStr(const plString& str) {
+    uint16 ssInfo = (uint16)str.len();
     char* wbuf;
     if (ver == pvEoa) {
         writeShort(ssInfo);
         wbuf = new char[ssInfo];
         for (int i=0; i<ssInfo; i++)
-            wbuf[i] = buf[i] ^ eoaStrKey[i%8];
-        writeStr(wbuf, ssInfo);
+            wbuf[i] = str[i] ^ eoaStrKey[i%8];
+        write(ssInfo, wbuf);
     } else {
         ssInfo = (ssInfo & 0x0FFF) | 0xF000;
         writeShort(ssInfo);
         wbuf = new char[ssInfo & 0x0FFF];
         for (int i=0; i<(ssInfo & 0x0FFF); i++)
-            wbuf[i] = ~buf[i];
-        writeStr(wbuf, ssInfo & 0x0FFF);
+            wbuf[i] = ~str[i];
+        write(ssInfo & 0x0FFF, wbuf);
     }
 }
 
-void hsStream::writeLine(const char* ln, bool winEOL) {
-    writeStr(ln, strlen(ln));
+void hsStream::writeLine(const plString& ln, bool winEOL) {
+    if (ln.len() > 4096)
+        throw "Line too long!";
+    writeStr(ln);
     if (winEOL)
         writeByte('\r');
     writeByte('\n');

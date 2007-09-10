@@ -4,14 +4,9 @@
 
 plPageInfo::plPageInfo() { IInit(); }
 
-plPageInfo::~plPageInfo() {
-    if (age) delete[] age;
-    if (page) delete[] page;
-}
+plPageInfo::~plPageInfo() { }
 
 void plPageInfo::IInit() {
-    age = NULL;
-    page = NULL;
     location.invalidate();
     releaseVersion = 0;
     checksum = 0;
@@ -24,8 +19,6 @@ void plPageInfo::IInit() {
 bool plPageInfo::isValid() { return location.isValid(); }
 
 void plPageInfo::read(hsStream* S) {
-    if (age) delete[] age;
-    if (page) delete[] page;
     IInit();
 
     short prpVer = S->readShort();
@@ -56,7 +49,7 @@ void plPageInfo::read(hsStream* S) {
         int pflags = S->readShort();
         S->setVer(pvPrime);
         age = S->readSafeStr();
-        delete[] S->readSafeStr(); // "District"
+        S->readSafeStr(); // "District"
         page = S->readSafeStr();
         short majorVer = S->readShort();
         short minorVer = S->readShort();
@@ -148,9 +141,7 @@ void plPageInfo::setIndexStart(unsigned int loc) { idxStart = loc; }
 void plPageInfo::setFlags(unsigned int f) { flags = f; }
 void plPageInfo::setLocation(plLocation& loc) { location = loc; }
 
-void plPageInfo::setNames(char* newAge, char* newPage) {
-    if (age) delete[] age;
-    if (page) delete[] page;
+void plPageInfo::setNames(const char* newAge, const char* newPage) {
     age = newAge;
     page = newPage;
 }

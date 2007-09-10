@@ -1,21 +1,14 @@
 #include "hsKeyedObject.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-hsKeyedObject::hsKeyedObject() : myKey(NULL), koFlags(0) { }
-
-hsKeyedObject::~hsKeyedObject() {
-    if (myKey != NULL)
-        myKey->UnRef();
-}
+hsKeyedObject::hsKeyedObject() : koFlags(0) { }
+hsKeyedObject::~hsKeyedObject() { }
 
 IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
 
 void hsKeyedObject::read(hsStream* S) {
-    if (myKey != NULL)
-        myKey->UnRef();
     myKey = plResManager::inst->readUoidKey(S);
-    myKey->Ref();
-    myKey->objPtr = this;
+    myKey->setObj(this);
 }
 
 void hsKeyedObject::write(hsStream* S) {
@@ -27,6 +20,6 @@ void hsKeyedObject::prcWrite(pfPrcHelper* prc) {
     myKey->prcWrite(prc);
 }
 
-plKey* hsKeyedObject::getKey() {
+const plKey& hsKeyedObject::getKey() const {
     return myKey;
 }

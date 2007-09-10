@@ -18,13 +18,13 @@ public:
     static const char* valueTypeNames[];
 
     unsigned int ID, valueType;
-    plKey* objKey;
+    plKey objKey;
+    plString strValue;
 
     union {
         int intValue;
         float floatValue;
         bool boolValue;
-        char* strValue;
     };
 
 public:
@@ -43,9 +43,9 @@ public:
 DllClass plPythonFileMod : public plMultiModifier {
 public:
     struct NamedComponent {
-        char* name;
-        int   id;
-        bool  isActivator;
+        plString name;
+        int id;
+        bool isActivator;
     };
 
     enum genref_whats { kNotSure, kAddNotify };
@@ -67,9 +67,9 @@ public:
 
 protected:
     //plPythonSDLModifier* SDLMod;
-    char* pythonFile;
+    plString pythonFile;
     //char* moduleName;
-    hsTArray<plKey*> receivers;
+    hsTArray<plKey> receivers;
     //plPipeline* pipe;
     hsTArray<plPythonParameter> parameters;
     
@@ -80,8 +80,8 @@ public:
 
     DECLARE_CREATABLE(plPythonFileMod)
     
-    char* getFilename();
-    hsTArray<plKey*>& getReceivers();
+    plString& getFilename();
+    hsTArray<plKey>& getReceivers();
     hsTArray<plPythonParameter>& getParameters();
 
     virtual void read(hsStream* S);

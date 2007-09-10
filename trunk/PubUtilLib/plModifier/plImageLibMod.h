@@ -4,7 +4,7 @@
 
 class plImageLibMod : public plSingleModifier {
 protected:
-    hsTArray<plKey*> fImages;
+    hsTArray<plKey> fImages;
 
 public:
     plImageLibMod();

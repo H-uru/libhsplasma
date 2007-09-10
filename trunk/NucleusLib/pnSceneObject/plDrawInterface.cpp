@@ -17,15 +17,12 @@ void plDrawInterface::read(hsStream* S) {
     for (i=0; i<count; i++) {
         DrawableKeys[i] = S->readInt();
         Drawables[i] = plResManager::inst->readKey(S);
-        Drawables[i]->Ref();
     }
     count = S->readInt();
     Objects.clear();
     Objects.setSize(count);
-    for (i=0; i<count; i++) {
+    for (i=0; i<count; i++)
         Objects[i] = plResManager::inst->readKey(S);
-        Objects[i]->Ref();
-    }
 }
 
 void plDrawInterface::write(hsStream* S) {

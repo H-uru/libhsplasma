@@ -12,9 +12,6 @@ IMPLEMENT_CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 plDrawableSpans::plDrawableSpans() { }
 plDrawableSpans::~plDrawableSpans() {
     size_t i;
-    for (i=0; i<materials.getSize(); i++)
-        materials[i]->UnRef();
-    materials.clear();
     for (i=0; i<sourceSpans.getSize(); i++)
         delete sourceSpans[i];
     sourceSpans.clear();
@@ -25,7 +22,6 @@ plDrawableSpans::~plDrawableSpans() {
         delete groups[i];
     groups.clear();
     if (spaceTree != NULL) delete spaceTree;
-    sceneNode->UnRef();
 }
 
 IMPLEMENT_CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
@@ -42,10 +38,8 @@ void plDrawableSpans::read(hsStream* S) {
     
     count = S->readInt();
     materials.setSize(count);
-    for (i=0; i<count; i++) {
+    for (i=0; i<count; i++)
         materials[i] = plResManager::inst->readKey(S);
-        materials[i]->Ref();
-    }
 
     count = S->readInt();
     icicles.setSize(count);
@@ -55,7 +49,7 @@ void plDrawableSpans::read(hsStream* S) {
             gotSkin = true;
     }
     S->readInt(); // Discarded -- Icicles2
-    
+
     spanSourceIndices.clear();
     spans.clear();
 
@@ -92,8 +86,11 @@ void plDrawableSpans::read(hsStream* S) {
     for (i=0; i<count; i++) {
         if (spans[i]->getProps() & plSpan::kPropHasPermaLights) {
             count2 = S->readInt();
-            for (j=0; j<count2; j++)
+            printf("We reading %d lights\n", count2);
+            for (j=0; j<count2; j++) {
                 spans[i]->addPermaLight(plResManager::inst->readKey(S));
+                printf("Got one!\n");
+            }
         }
         if (spans[i]->getProps() & plSpan::kPropHasPermaProjs) {
             count2 = S->readInt();
@@ -157,9 +154,8 @@ void plDrawableSpans::read(hsStream* S) {
     }
     */
 
-    spaceTree = (plSpaceTree*)plResManager::inst->ReadCreatable(S);
+    spaceTree = plSpaceTree::Convert(plResManager::inst->ReadCreatable(S));
     sceneNode = plResManager::inst->readKey(S);
-    sceneNode->Ref();
 
     /*
     if (GetNativeProperty(kPropCharacter)) {

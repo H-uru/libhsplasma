@@ -1,20 +1,14 @@
 #include "plAudioInterface.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plAudioInterface::plAudioInterface() {
-    Audible = new plKey();
-}
-
-plAudioInterface::~plAudioInterface() {
-    Audible->UnRef();
-}
+plAudioInterface::plAudioInterface() { }
+plAudioInterface::~plAudioInterface() { }
 
 IMPLEMENT_CREATABLE(plAudioInterface, kAudioInterface, plObjInterface)
 
 void plAudioInterface::read(hsStream *S) {
     plObjInterface::read(S);
     Audible = plResManager::inst->readKey(S);
-    Audible->Ref();
 }
 
 void plAudioInterface::write(hsStream *S) {

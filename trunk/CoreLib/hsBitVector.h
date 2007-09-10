@@ -9,20 +9,20 @@
 
 DllClass hsBitVector {
 private:
-    int* bits;
-    int nVectors;
+    uint* fBits;
+    size_t fNumVectors;
 
 public:
     hsBitVector();
     ~hsBitVector();
 
-    bool get(int idx);
-    void set(int idx, bool b);
-    bool operator[](int idx);
+    bool get(size_t idx) const;
+    void set(size_t idx, bool b);
+    bool operator[](size_t idx) const;
 
-    bool isEmpty();
+    bool isEmpty() const;
     void clear();
-    void deleteBit(int idx);
+    void deleteBit(size_t idx);
 
     void read(hsStream* S);
     void write(hsStream* S);

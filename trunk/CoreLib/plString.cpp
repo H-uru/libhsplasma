@@ -1,6 +1,7 @@
 #include "plString.h"
 #include <ctype.h>
 #include <cstdlib>
+#include <cstdarg>
 
 plString::plString()
         : fStr(NULL), fLen(0), fHaveHash(false) { }
@@ -175,7 +176,15 @@ bool plString::operator!=(const char* str) const {
     return (strcmp(fStr, str)!=0);
 }
 
-int plString::compareTo(plString& other, bool ignoreCase) {
+bool plString::operator<(const plString& other) const {
+    return (strcmp(fStr, other.fStr) < 0);
+}
+
+bool plString::operator<(const char* str) const {
+    return (strcmp(fStr, str) < 0);
+}
+
+int plString::compareTo(const plString& other, bool ignoreCase) const {
     if (ignoreCase) {
         plString s1 = *this;
         plString s2 = other;
@@ -185,7 +194,7 @@ int plString::compareTo(plString& other, bool ignoreCase) {
     }
 }
 
-int plString::compareTo(const char* other, bool ignoreCase) {
+int plString::compareTo(const char* other, bool ignoreCase) const {
     if (ignoreCase) {
         plString s1 = *this;
         plString s2 = other;
@@ -195,8 +204,36 @@ int plString::compareTo(const char* other, bool ignoreCase) {
     }
 }
 
+bool plString::startsWith(const plString& cmp, bool ignoreCase) const {
+    if (fLen < cmp.fLen) return false;
+    return (left(cmp.len()).compareTo(cmp, ignoreCase) == 0);
+}
+
+bool plString::startsWith(const char* cmp, bool ignoreCase) const {
+    if (fLen < strlen(cmp)) return false;
+    return (left(strlen(cmp)).compareTo(cmp, ignoreCase) == 0);
+}
+
+bool plString::endsWith(const plString& cmp, bool ignoreCase) const {
+    if (fLen < cmp.fLen) return false;
+    return (right(cmp.len()).compareTo(cmp, ignoreCase) == 0);
+}
+
+bool plString::endsWith(const char* cmp, bool ignoreCase) const {
+    if (fLen < strlen(cmp)) return false;
+    return (right(strlen(cmp)).compareTo(cmp, ignoreCase) == 0);
+}
+
 const char* plString::cstr() const { return fStr; }
 plString::operator const char*() const { return fStr; }
+
+char* plString::copybuf() const {
+    if (empty()) return NULL;
+    char* buf = new char[fLen+1];
+    strncpy(buf, fStr, fLen);
+    buf[fLen] = 0;
+    return buf;
+}
 
 unsigned int plString::hash() const {
     if (!fHaveHash) {
@@ -214,14 +251,14 @@ unsigned int plString::hash(const char* str) {
     return hash;
 }
 
-long plString::find(char c) {
+long plString::find(char c) const {
     char* pos = strchr(fStr, c);
     if (pos != NULL)
         return (long)(pos - fStr);
     return -1;
 }
 
-long plString::find(const char* sub) {
+long plString::find(const char* sub) const {
     size_t len = strlen(sub);
     if (len > fLen) return -1;
     for (size_t i=0; i<(fLen - len); i++) {
@@ -231,7 +268,7 @@ long plString::find(const char* sub) {
     return -1;
 }
 
-long plString::find(plString& sub) {
+long plString::find(plString& sub) const {
     if (sub.fLen > fLen) return -1;
     for (size_t i=0; i<(fLen - sub.fLen); i++) {
         if (strncmp(fStr + i, sub.fStr, sub.fLen) == 0)
@@ -240,14 +277,14 @@ long plString::find(plString& sub) {
     return -1;
 }
 
-long plString::rfind(char c) {
+long plString::rfind(char c) const {
     char* pos = strrchr(fStr, c);
     if (pos != NULL)
         return (long)(pos - fStr);
     return -1;
 }
 
-long plString::rfind(const char* sub) {
+long plString::rfind(const char* sub) const {
     size_t len = strlen(sub);
     if (len > fLen) return -1;
     for (size_t i=(fLen - len); i>0; i--) {
@@ -257,7 +294,7 @@ long plString::rfind(const char* sub) {
     return -1;
 }
 
-long plString::rfind(plString& sub) {
+long plString::rfind(plString& sub) const {
     if (sub.fLen > fLen) return -1;
     for (size_t i=(fLen - sub.fLen); i>0; i--) {
         if (strncmp(fStr + (i-1), sub.fStr, sub.fLen) == 0)
@@ -278,7 +315,7 @@ plString& plString::toLower() {
     return (*this);
 }
 
-plString plString::left(size_t num) {
+plString plString::left(size_t num) const {
     if (num > fLen) num = fLen;
     if (num == fLen) return plString(fStr);
     char* buf = new char[num+1];
@@ -287,7 +324,7 @@ plString plString::left(size_t num) {
     return plString(buf);
 }
 
-plString plString::right(size_t num) {
+plString plString::right(size_t num) const {
     if (num > fLen) num = fLen;
     if (num == fLen) return plString(fStr);
     char* buf = new char[num+1];
@@ -296,7 +333,7 @@ plString plString::right(size_t num) {
     return plString(buf);
 }
 
-plString plString::mid(size_t idx, size_t num) {
+plString plString::mid(size_t idx, size_t num) const {
     if (idx > fLen) return plString("");
     if (idx + num > fLen) num = fLen - idx;
     char* buf = new char[num+1];
@@ -305,22 +342,67 @@ plString plString::mid(size_t idx, size_t num) {
     return plString(buf);
 }
 
-plString plString::mid(size_t idx) {
+plString plString::mid(size_t idx) const {
     return mid(idx, fLen - idx);
 }
 
-long plString::toInt() const {
-    return strtol(fStr, NULL, 0);
+plString plString::beforeFirst(char sep) const {
+    long pos = find(sep);
+    if (pos >= 0)
+        return left(pos);
+    else
+        return plString(*this);
+}
+
+plString plString::afterFirst(char sep) const {
+    long pos = find(sep);
+    if (pos >= 0)
+        return mid(pos+1);
+    else
+        return plString();
+}
+
+plString plString::beforeLast(char sep) const {
+    long pos = rfind(sep);
+    if (pos >= 0)
+        return left(pos);
+    else
+        return plString();
+}
+
+plString plString::afterLast(char sep) const {
+    long pos = rfind(sep);
+    if (pos >= 0)
+        return mid(pos+1);
+    else
+        return plString(*this);
+}
+
+long plString::toInt(int base) const {
+    if (empty()) return 0;
+    return strtol(fStr, NULL, base);
+}
+
+unsigned long plString::toUInt(int base) const {
+    if (empty()) return 0;
+    return strtoul(fStr, NULL, base);
 }
 
 double plString::toFloat() const {
+    if (empty()) return 0.0;
     return strtod(fStr, NULL);
 }
 
 plString plString::Format(const char* fmt, ...) {
-    ...
+    va_list argptr;
+    va_start(argptr, fmt);
+    plString str = FormatV(fmt, argptr);
+    va_end(argptr);
+    return str;
 }
 
 plString plString::FormatV(const char* fmt, va_list aptr) {
-    ...
+    char buf[4096];
+    vsnprintf(buf, 4096, fmt, aptr);
+    return plString(buf);
 }

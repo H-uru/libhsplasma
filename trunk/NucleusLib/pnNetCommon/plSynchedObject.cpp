@@ -34,21 +34,19 @@ void plSynchedObject::write(hsStream* S) {
     hsKeyedObject::write(S);
     S->writeInt(flags);
 
-    unsigned short len, i;
+    unsigned short i;
     if (flags & kExcludePersistentState) {
         S->writeShort(SDLExcludeList.size());
         for (i=0; i<SDLExcludeList.size(); i++) {
-            len = strlen(SDLExcludeList[i]);
-            S->writeShort(len);
-            S->writeStr(SDLExcludeList[i], len);
+            S->writeShort(SDLExcludeList[i].len());
+            S->writeStr(SDLExcludeList[i]);
         }
     }
     if (flags & kHasVolatileState) {
         S->writeShort(SDLVolatileList.size());
         for (i=0; i<SDLVolatileList.size(); i++) {
-            len = strlen(SDLVolatileList[i]);
-            S->writeShort(len);
-            S->writeStr(SDLVolatileList[i], len);
+            S->writeShort(SDLVolatileList[i].len());
+            S->writeStr(SDLVolatileList[i]);
         }
     }
 }

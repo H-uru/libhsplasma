@@ -33,45 +33,42 @@ void plResManager::setVer(PlasmaVer pv, bool mutate) {
 
 PlasmaVer plResManager::getVer() { return ver; }
 
-plKey* plResManager::readKey(hsStream* S) {
-    plKey* k = new plKey();
-    k->exists = (S->getVer() == pvEoa) ? true : S->readBool();
-    if (k->exists) {
+plKey plResManager::readKey(hsStream* S) {
+    plKey k = new plKeyData();
+    bool exists = (S->getVer() == pvEoa) ? true : S->readBool();
+    if (exists) {
         if (S->getVer() == pvLive)
             S->readBool();
         k->readUoid(S);
-        if (plKey* xkey = inst->keys.findKey(k)) {
-            delete k;
+        plKey xkey = inst->keys.findKey(k);
+        if (xkey.Exists())
             k = xkey;
-        } else {
+        else
             inst->keys.add(k);
-        }
     }
     return k;
 }
 
-plKey* plResManager::readUoidKey(hsStream* S) {
-    plKey* k = new plKey();
-    k->exists = true;
+plKey plResManager::readUoidKey(hsStream* S) {
+    plKey k = new plKeyData();
     if (S->getVer() == pvLive)
         S->readBool();
     k->readUoid(S);
-    if (plKey* xkey = inst->keys.findKey(k)) {
-        delete k;
+    plKey xkey = inst->keys.findKey(k);
+    if (xkey.Exists())
         k = xkey;
-    } else {
+    else
         inst->keys.add(k);
-    }
     return k;
 }
 
-void plResManager::writeKey(hsStream* S, plKey* key) {
+void plResManager::writeKey(hsStream* S, plKey key) {
     //key->exists = (strcmp(key->objName, "") != 0);
     if (S->getVer() != pvEoa)
-        S->writeBool(key->exists);
-    if (key->exists || S->getVer() == pvEoa) {
+        S->writeBool(key.Exists());
+    if (key.Exists() || S->getVer() == pvEoa) {
         if (S->getVer() == pvLive)
-            S->writeBool(key->exists);
+            S->writeBool(key.Exists());
         key->writeUoid(S);
     }
 }
@@ -80,7 +77,7 @@ void plResManager::writeKey(hsStream* S, hsKeyedObject* ko) {
     writeKey(S, ko->getKey());
 }
 
-void plResManager::writeUoidKey(hsStream* S, plKey* key) {
+void plResManager::writeUoidKey(hsStream* S, plKey key) {
     if (S->getVer() == pvLive)
         S->writeBool(true);
     key->writeUoid(S);
@@ -90,10 +87,10 @@ void plResManager::writeUoidKey(hsStream* S, hsKeyedObject* ko) {
     writeUoidKey(S, ko->getKey());
 }
 
-hsKeyedObject* plResManager::getObject(plKey& key) {
-    plKey* fk = inst->keys.findKey(&key);
-    if (!fk) return NULL;
-    return fk->objPtr;
+hsKeyedObject* plResManager::getObject(const plKey& key) {
+    plKey fk = inst->keys.findKey(key);
+    if (!fk.Exists()) return NULL;
+    return fk->getObj();
 }
 
 plPageInfo* plResManager::ReadPage(const char* filename) {
@@ -120,11 +117,11 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
 void plResManager::WritePage(const char* filename, plPageInfo* page) {
     hsStream* S = new hsStream();
     S->open(filename, fmWrite);
-    S->setVer(ver, true);
+    S->setVer(ver);
     if (ver == pvEoa || ver == pvLive) {
-        std::vector<short> types = inst->keys.getTypes(page->getLocation().pageID);
+        std::vector<short> types = inst->keys.getTypes(page->getLocation().getPageID());
         page->setClassList(types);
-        inst->keys.sortKeys(page->getLocation().pageID);
+        inst->keys.sortKeys(page->getLocation().getPageID());
     }
     page->write(S);
     page->setDataStart(S->pos());
@@ -144,12 +141,12 @@ void plResManager::WritePrc(pfPrcHelper* prc, plPageInfo* page) {
     page->prcWrite(prc); // starts <Page>
     
     // Objects:
-    std::vector<short> types = inst->keys.getTypes(page->getLocation().pageID);
+    std::vector<short> types = inst->keys.getTypes(page->getLocation().getPageID());
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey*> kList = inst->keys.getKeys(page->getLocation().pageID, types[i]);
+        std::vector<plKey> kList = inst->keys.getKeys(page->getLocation().getPageID(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
-            if (kList[j]->objPtr != NULL) {
-                kList[j]->objPtr->prcWrite(prc);
+            if (kList[j]->getObj() != NULL) {
+                kList[j]->getObj()->prcWrite(prc);
                 prc->closeTag();
             }
         }
@@ -177,7 +174,8 @@ plAgeSettings* plResManager::ReadAge(const char* filename) {
     S->open(filename, fmRead);
 
     plAgeSettings* age = new plAgeSettings;
-    char* afName, * pageFileName;
+    char* afName;
+    char* pageFileName;
     const char* BuiltIns[2] = { "BuiltIn", "Textures" };
     for (int i=0; i<2; i++) {
         pageFileName = new char[256];
@@ -189,31 +187,34 @@ plAgeSettings* plResManager::ReadAge(const char* filename) {
         delete[] pageFileName;
     }
 
-    char* ln;
     while (!S->eof()) {
-        ln = S->readLine();
-        if (strncmp(ln, "StartDateTime=", 14) == 0) {
-            age->startDateTime = atoi(&ln[14]);
-        } else if (strncmp(ln, "DayLength=", 10) == 0) {
-            age->dayLength = atoi(&ln[10]);
-        } else if (strncmp(ln, "MaxCapacity=", 12) == 0) {
-            age->maxCapacity = atoi(&ln[12]);
-        } else if (strncmp(ln, "LingerTime=", 11) == 0) {
-            age->lingerTime = atoi(&ln[11]);
-        } else if (strncmp(ln, "SequencePrefix=", 15) == 0) {
-            age->sequencePrefix = atoi(&ln[15]);
-        } else if (strncmp(ln, "ReleaseVersion=", 15) == 0) {
-            age->releaseVersion = atoi(&ln[15]);
-        } else if (strncmp(ln, "Page=", 5) == 0) {
-            char* pageName = strtok(&ln[5], ", ");
-            char* pageIdx = strtok(NULL, ", ");
-            char* pageFlag = strtok(NULL, ", ");
+        plString ln = S->readLine();
+        plString field = ln.beforeFirst('=').toLower();
+        plString value = ln.afterFirst('=');
+        if (field == "startdatetime") {
+            age->startDateTime = value.toInt();
+        } else if (field == "daylength") {
+            age->dayLength = value.toInt();
+        } else if (field == "maxcapacity") {
+            age->maxCapacity = value.toInt();
+        } else if (field == "lingertime") {
+            age->lingerTime = value.toInt();
+        } else if (field == "sequenceprefix") {
+            age->sequencePrefix = value.toInt();
+        } else if (field == "releaseversion") {
+            age->releaseVersion = value.toInt();
+        } else if (field == "page") {
+            plString pageName = value.beforeFirst(',');
+            value = value.afterFirst(',');
+            //uint32 pageIdx = value.beforeFirst(',').toUInt();
+            value = value.afterFirst(',');
+            uint32 pageFlag = value.beforeFirst(',').toUInt();
             pageFileName = new char[256];
             strcpy(pageFileName, filename);
             afName = strrchr(pageFileName, '.');
-            sprintf(afName, "_District_%s.prp", pageName);
+            sprintf(afName, "_District_%s.prp", pageName.cstr());
             plPageInfo* page = ReadPage(pageFileName);
-            page->holdFlag = (pageFlag ? atoi(&pageFlag[1]) != 0 : false);
+            page->holdFlag = pageFlag != 0;
             age->pages.push_back(page);
             delete[] pageFileName;
         }
@@ -247,10 +248,10 @@ void plResManager::WriteAge(const char* filename, plAgeSettings* age) {
     for (unsigned int i=0; i<age->pages.size(); i++) {
         if (age->pages[i]->holdFlag)
             sprintf(lnBuf, "Page=%s,%d,%d", age->pages[i]->getPage(),
-                    age->pages[i]->getLocation().pageID.getPageNum(), 1);
+                    age->pages[i]->getLocation().getPageID().getPageNum(), 1);
         else
             sprintf(lnBuf, "Page=%s,%d", age->pages[i]->getPage(),
-                    age->pages[i]->getLocation().pageID.getPageNum());
+                    age->pages[i]->getLocation().getPageID().getPageNum());
         S->writeLine(lnBuf);
     }
 
@@ -285,13 +286,13 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
             S->readByte(); // flag?
         }
         unsigned int oCount = S->readInt();
-        inst->keys.reserveKeySpace(loc.pageID, type, oCount);
+        inst->keys.reserveKeySpace(loc.getPageID(), type, oCount);
         //printf("  * Indexing %d objects of type [%04X]\n", oCount, type);
         for (unsigned int j=0; j<oCount; j++) {
-            plKey* key = new plKey();
+            plKey key = new plKeyData();
             key->read(S);
-            if (S->getVer() != pvEoa && S->getVer() != pvLive)
-                key->setID(j);
+            //if (S->getVer() != pvEoa && S->getVer() != pvLive)
+            //    key->setID(j);
             inst->keys.add(key);
             //printf("    * Key %s\n", key->toString());
         }
@@ -299,10 +300,10 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
 }
 
 void plResManager::WriteKeyring(hsStream* S, plLocation& loc) {
-    std::vector<short> types = inst->keys.getTypes(loc.pageID);
+    std::vector<short> types = inst->keys.getTypes(loc.getPageID());
     S->writeInt(types.size());
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, types[i]);
+        std::vector<plKey> kList = inst->keys.getKeys(loc.getPageID(), types[i]);
         if (kList.size() <= 0) continue;
         S->writeShort(pdUnifiedTypeMap::MappedToPlasma(kList[0]->getType(), S->getVer()));
         unsigned int lenPos = S->pos();
@@ -324,37 +325,38 @@ void plResManager::WriteKeyring(hsStream* S, plLocation& loc) {
 
 unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
     //printf("* Reading Objects\n");
-    std::vector<short> types = inst->keys.getTypes(loc.pageID);
+    std::vector<short> types = inst->keys.getTypes(loc.getPageID());
     unsigned int nRead = 0;
     
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, types[i]);
+        std::vector<plKey> kList = inst->keys.getKeys(loc.getPageID(), types[i]);
         //printf("* Reading %d objects of type [%04X]%s\n", kList.size(),
         //       types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
         for (unsigned int j=0; j<kList.size(); j++) {
-            if (kList[j]->fileOff <= 0) continue;
+            if (kList[j]->getFileOff() <= 0) continue;
             //printf("  * (%d) Reading %s @ 0x%08X\n", j, kList[j]->getName(),
             //       kList[j]->fileOff);
-            S->seek(kList[j]->fileOff);
+            S->seek(kList[j]->getFileOff());
             try {
-                kList[j]->objPtr = (hsKeyedObject*)ReadCreatable(S);
-                if (kList[j]->objPtr != NULL) {
+                kList[j]->setObj((hsKeyedObject*)ReadCreatable(S));
+                if (kList[j]->getObj() != NULL) {
                     nRead++;
-                    if (kList[j]->objSize != S->pos() - kList[j]->fileOff)
+                    if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff())
                         printf("[%04X:%s] Size-Read difference: %d bytes\n",
-                               kList[j]->getType(), kList[j]->getName(),
-                               kList[j]->objSize - (S->pos() - kList[j]->fileOff));
+                               kList[j]->getType(), kList[j]->getName().cstr(),
+                               (signed int)(kList[j]->getObjSize() -
+                                            (S->pos() - kList[j]->getFileOff())));
                 }
             } catch (const char* e) {
                 printf("Failed reading %s: %s\n",
-                        kList[j]->toString(), e);
-                delete kList[j]->objPtr;
-                kList[j]->objPtr = NULL;
+                        kList[j]->toString().cstr(), e);
+                delete kList[j]->getObj();
+                kList[j]->setObj(NULL);
             } catch (...) {
                 printf("Undefined error reading %s\n",
-                        kList[j]->toString());
-                delete kList[j]->objPtr;
-                kList[j]->objPtr = NULL;
+                        kList[j]->toString().cstr());
+                delete kList[j]->getObj();
+                kList[j]->setObj(NULL);
             }
         }
     }
@@ -363,28 +365,28 @@ unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
 }
 
 unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
-    std::vector<short> types = inst->keys.getTypes(loc.pageID);
+    std::vector<short> types = inst->keys.getTypes(loc.getPageID());
     unsigned int nWritten = 0;
 
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, types[i]);
+        std::vector<plKey> kList = inst->keys.getKeys(loc.getPageID(), types[i]);
         //printf("* Writing %d objects of type [%04X]\n", kList.size(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
-            kList[j]->fileOff = S->pos();
+            kList[j]->setFileOff(S->pos());
             kList[j]->setID(j);
-            if (kList[j]->objPtr != NULL) {
+            if (kList[j]->getObj() != NULL) {
                 try {
-                    WriteCreatable(S, kList[j]->objPtr);
+                    WriteCreatable(S, kList[j]->getObj());
                     nWritten++;
                 } catch (const char* e) {
                     printf("Failed writing %s: %s\n",
-                           kList[j]->toString(), e);
+                           kList[j]->toString().cstr(), e);
                 } catch (...) {
                     printf("Undefined error writing %s\n",
-                           kList[j]->toString());
+                           kList[j]->toString().cstr());
                 }
             }
-            kList[j]->objSize = S->pos() - kList[j]->fileOff;
+            kList[j]->setObjSize(S->pos() - kList[j]->getFileOff());
         }
     }
 
@@ -408,8 +410,8 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
 }
 
 plSceneNode* plResManager::getSceneNode(plLocation& loc) {
-    std::vector<plKey*> kList = inst->keys.getKeys(loc.pageID, kSceneNode);
+    std::vector<plKey> kList = inst->keys.getKeys(loc.getPageID(), kSceneNode);
     if (kList.size() < 1) return NULL;
-    return (plSceneNode*)kList[0]->objPtr;
+    return (plSceneNode*)kList[0]->getObj();
 }
 

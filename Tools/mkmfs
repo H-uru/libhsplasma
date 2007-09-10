@@ -1,0 +1,26 @@
+#!/bin/sh
+
+AGENAME=$1
+
+echo "[version]"
+echo "format=5"
+echo ""
+
+echo "[base]"
+if [ -e $AGENAME.age ] ; then
+    echo -n "dat/" ; dsData --nogz $AGENAME.age
+fi
+if [ -e $AGENAME.fni ] ; then
+    echo -n "dat/" ; dsData --nogz $AGENAME.fni
+fi
+if [ -e $AGENAME.csv ] ; then
+    echo -n "dat/" ; dsData --nogz $AGENAME.csv
+fi
+if [ -e $AGENAME.jpg ] ; then
+    echo -n "dat/" ; dsData $AGENAME.jpg
+fi
+echo ""
+
+echo "[pages]"
+find ${AGENAME}_District_*.prp -exec dsData \{\} \;
+

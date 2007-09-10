@@ -12,7 +12,7 @@ public:
     };
 
 protected:
-    plKey* myKey;
+    plKey myKey;
     unsigned int koFlags;
 
 public:
@@ -25,7 +25,7 @@ public:
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     
-    plKey* getKey();
+    const plKey& getKey() const;
 };
 
 #endif

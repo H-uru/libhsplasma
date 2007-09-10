@@ -25,18 +25,18 @@ public:
 protected:
     unsigned char volFlags;
     hsBitVector visSet, visNot;
-    hsTArray<plKey*> visRegions;
+    hsTArray<plKey> visRegions;
     plLightInfo** prevDevPtr;
     plLightInfo*  nextDevPtr;
     hsGDeviceRef* deviceRef;
-    plKey* projection;
+    plKey projection;
     hsMatrix44 worldToProj;
     hsColorRGBA ambient, diffuse, specular;
     hsMatrix44 lightToLocal, localToLight, localToWorld, worldToLocal,
                lightToWorld, worldToLight;
-    plKey* sceneNode;
+    plKey sceneNode;
     //plLightProxy* proxyGen;
-    plKey* softVolume;
+    plKey softVolume;
     float maxStrength;
     bool registeredForRenderMsg;
     hsBitVector slaveBits;

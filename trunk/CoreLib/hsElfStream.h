@@ -5,15 +5,18 @@
 
 class hsElfStream : private hsStream {
 private:
-    void decipher(char* v, int size, char key);
-    void encipher(char* v, int size, char key);
+    void decipher(unsigned char* v, int size, unsigned char hint);
+    void encipher(unsigned char* v, unsigned char hint);
+
+protected:
+    unsigned char hint;
 
 public:
     hsElfStream();
     virtual ~hsElfStream();
     
-    virtual char* readLine();
-    virtual void writeLine(const char* ln);
+    virtual plString readLine();
+    virtual void writeLine(const plString& ln);
 };
 
 #endif

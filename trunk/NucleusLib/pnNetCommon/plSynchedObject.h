@@ -39,8 +39,8 @@ public:
 
 protected:
     int flags;
-    std::vector<char*> SDLExcludeList;
-    std::vector<char*> SDLVolatileList;
+    std::vector<plString> SDLExcludeList;
+    std::vector<plString> SDLVolatileList;
 
 public:
     plSynchedObject();
@@ -50,8 +50,8 @@ public:
     
     int getFlags();
 
-    virtual void read(hsStream * S);
-    virtual void write(hsStream * S);
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
 };
 

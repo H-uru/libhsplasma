@@ -6,15 +6,15 @@
 
 class plSceneObject : public plSynchedObject {
 public:
-    plKey* DrawIntf;
-    plKey* SimIntf;
-    plKey* CoordIntf;
-    plKey* AudioIntf;
+    plKey DrawIntf;
+    plKey SimIntf;
+    plKey CoordIntf;
+    plKey AudioIntf;
 
-    hsTArray<plKey*> Interfaces;
-    hsTArray<plKey*> Modifiers;
+    hsTArray<plKey> Interfaces;
+    hsTArray<plKey> Modifiers;
 
-    plKey* SceneNode;
+    plKey SceneNode;
 
 public:
     plSceneObject();

@@ -1,13 +1,8 @@
 #include "plSimulationInterface.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plSimulationInterface::plSimulationInterface() {
-    Physical = new plKey();
-}
-
-plSimulationInterface::~plSimulationInterface() {
-    Physical->UnRef();
-}
+plSimulationInterface::plSimulationInterface() { }
+plSimulationInterface::~plSimulationInterface() { }
 
 IMPLEMENT_CREATABLE(plSimulationInterface, kSimulationInterface, plObjInterface)
 
@@ -17,7 +12,6 @@ void plSimulationInterface::read(hsStream* S) {
     Props.read(S);
     S->readInt();
     Physical = plResManager::inst->readKey(S);
-    Physical->Ref();
 }
 
 void plSimulationInterface::write(hsStream* S) {

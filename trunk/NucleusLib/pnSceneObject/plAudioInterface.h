@@ -5,7 +5,7 @@
 
 class plAudioInterface : public plObjInterface {
 protected:
-    plKey * Audible;
+    plKey Audible;
 
 public:
     plAudioInterface();

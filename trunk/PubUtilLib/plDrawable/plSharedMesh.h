@@ -17,7 +17,7 @@ public:
 public:
     hsTArray<plGeometrySpan*> fSpans;
 	hsTArray<plSceneObject const*> fActiveInstances;
-    plKey* fMorphSet;
+    plKey fMorphSet;
     unsigned char fFlags;
 
 public:

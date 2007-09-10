@@ -1,15 +1,8 @@
 #include "plLightInfo.h"
 #include "../plResMgr/plResManager.h"
 
-plLightInfo::plLightInfo() : deviceRef(NULL), projection(NULL), sceneNode(NULL),
-                             softVolume(NULL) { }
-plLightInfo::~plLightInfo() {
-    projection->UnRef();
-    sceneNode->UnRef();
-    softVolume->UnRef();
-    for (size_t i=0; i<visRegions.getSize(); i++)
-        visRegions[i]->UnRef();
-}
+plLightInfo::plLightInfo() : deviceRef(NULL) { }
+plLightInfo::~plLightInfo() { }
 
 IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 

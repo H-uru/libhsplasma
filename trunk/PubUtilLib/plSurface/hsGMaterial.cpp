@@ -11,14 +11,10 @@ void hsGMaterial::read(hsStream* S) {
     readData(S);
 
     size_t i;
-    for (i=0; i<Layers.getSize(); i++) {
+    for (i=0; i<Layers.getSize(); i++)
         Layers[i] = plResManager::inst->readKey(S);
-        Layers[i]->Ref();
-    }
-    for (i=0; i<PiggyBacks.getSize(); i++) {
+    for (i=0; i<PiggyBacks.getSize(); i++)
         PiggyBacks[i] = plResManager::inst->readKey(S);
-        PiggyBacks[i]->Ref();
-    }
 }
 
 void hsGMaterial::write(hsStream* S) {

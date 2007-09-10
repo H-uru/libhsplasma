@@ -26,16 +26,16 @@ public:
     virtual void close();
     void setKey(unsigned int* keys);
 
-    virtual unsigned int size();
-    virtual unsigned int pos();
-    virtual bool eof();
+    virtual uint32 size() const;
+    virtual uint32 pos() const;
+    virtual bool eof() const;
 
-    virtual void seek(unsigned int pos);    // Less efficient than skip...
-    virtual void skip(unsigned int count);
+    virtual void seek(uint32 pos);  // Less efficient than skip...
+    virtual void skip(uint32 count);
     virtual void rewind();
 
-    virtual void read(unsigned int size, void* buf);
-    virtual void write(unsigned int size, const void* buf);
+    virtual void read(size_t size, void* buf);
+    virtual void write(size_t size, const void* buf);
 
     static bool isFileEncrypted(const char* file);
 };

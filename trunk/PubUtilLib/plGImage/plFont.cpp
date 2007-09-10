@@ -10,7 +10,7 @@ plFont::plFont() : FontSize(-1), FontFlags(0), imgWidth(0),
 
 plFont::~plFont() {
     if (bmpData) delete bmpData;
-    delete [] Letters;
+    delete[] Letters;
 }
 
 IMPLEMENT_CREATABLE(plFont, kFont, hsKeyedObject)
@@ -19,18 +19,18 @@ FontLetterDef& plFont::operator[](int idx) {
     return Letters[idx];
 }
 
-void plFont::read(hsStream *S) {
+void plFont::read(hsStream* S) {
     hsKeyedObject::read(S);
     readP2F(S);
 }
 
-void plFont::write(hsStream *S) {
+void plFont::write(hsStream* S) {
     hsKeyedObject::write(S);
     writeP2F(S);
 }
 
-void plFont::readP2F(hsStream *S) {
-    strncpy(FontName, S->readStr(256), 256);
+void plFont::readP2F(hsStream* S) {
+    S->read(256, FontName);
     FontSize = S->readByte();
     FontFlags = S->readInt();
     imgWidth = S->readInt();
@@ -38,11 +38,13 @@ void plFont::readP2F(hsStream *S) {
     maxHeight = S->readInt();
     bpp = S->readByte();
 
-    bmpData = S->readStr((bpp * imgWidth * imgHeight) >> 3);
+    unsigned int dataLen = (bpp * imgWidth * imgHeight) >> 3;
+    bmpData = new char[dataLen];
+    S->read(dataLen, bmpData);
     unknown = S->readShort();
 
     numLetters = S->readInt();
-    if (Letters) delete [] Letters;
+    if (Letters) delete[] Letters;
     Letters = new FontLetterDef[numLetters];
     for (int i=0; i<numLetters; i++) {
         Letters[i].Offset = S->readInt();
@@ -53,8 +55,8 @@ void plFont::readP2F(hsStream *S) {
     }
 }
 
-void plFont::writeP2F(hsStream *S) {
-    S->writeStr(FontName, 256);
+void plFont::writeP2F(hsStream* S) {
+    S->write(256, FontName);
     S->writeByte(FontSize);
     S->writeInt(FontFlags);
     S->writeInt(imgWidth);
@@ -62,7 +64,7 @@ void plFont::writeP2F(hsStream *S) {
     S->writeInt(maxHeight);
     S->writeByte(bpp);
 
-    S->writeStr(bmpData, (bpp * imgWidth * imgHeight) >> 3);
+    S->write((bpp * imgWidth * imgHeight) >> 3, bmpData);
     S->writeShort(unknown);
 
     S->writeInt(numLetters);

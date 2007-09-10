@@ -57,7 +57,7 @@ protected:
     unsigned short fMaxBoneIdx, fPenBoneIdx;
     unsigned int fProps;
     hsBounds3Ext fLocalBounds, fWorldBounds;
-    plKey* fFogEnvironment;
+    plKey fFogEnvironment;
     float fMinDist, fMaxDist, fWaterHeight;
     hsBitVector fVisSet, fVisNot;
     //plAccessSnapShot* fSnapShot;
@@ -66,7 +66,7 @@ protected:
     hsTArray<float> fProjStrengths, fProjScales;
     hsBitVector fShadowBits, fShadowSlaveBits;
     //hsTArray<plAuxSpan*> fAuxSpans;
-    hsTArray<plKey*> fPermaLights, fPermaProjs;
+    hsTArray<plKey> fPermaLights, fPermaProjs;
 
 public:
     plSpan();
@@ -78,17 +78,17 @@ public:
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
 
-    plKey* getFogEnvironment();
-    hsTArray<plKey*>& getPermaLights();
-    hsTArray<plKey*>& getPermaProjs();
+    plKey getFogEnvironment();
+    hsTArray<plKey>& getPermaLights();
+    hsTArray<plKey>& getPermaProjs();
     unsigned short getTypeMask();
     unsigned int getMaterialIdx();
     unsigned char getNumMatrices();
     unsigned int getProps();
 
-    void setFogEnvironment(plKey* fog);
-    void addPermaLight(plKey* light);
-    void addPermaProj(plKey* proj);
+    void setFogEnvironment(const plKey& fog);
+    void addPermaLight(const plKey& light);
+    void addPermaProj(const plKey& proj);
 };
 
 #endif

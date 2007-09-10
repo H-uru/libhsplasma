@@ -1,26 +1,8 @@
 #include "plSceneObject.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plSceneObject::plSceneObject() {
-    DrawIntf = new plKey();
-    SimIntf = new plKey();
-    CoordIntf = new plKey();
-    AudioIntf = new plKey();
-    SceneNode = new plKey();
-}
-
-plSceneObject::~plSceneObject() {
-    DrawIntf->UnRef();
-    SimIntf->UnRef();
-    CoordIntf->UnRef();
-    AudioIntf->UnRef();
-    SceneNode->UnRef();
-	size_t i;
-    for (i=0; i<Interfaces.getSize(); i++)
-        Interfaces[i]->UnRef();
-    for (i=0; i<Modifiers.getSize(); i++)
-        Modifiers[i]->UnRef();
-}
+plSceneObject::plSceneObject() { }
+plSceneObject::~plSceneObject() { }
 
 IMPLEMENT_CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 
@@ -28,28 +10,19 @@ void plSceneObject::read(hsStream* S) {
     plSynchedObject::read(S);
 
     DrawIntf = plResManager::inst->readKey(S);
-    DrawIntf->Ref();
     SimIntf = plResManager::inst->readKey(S);
-    SimIntf->Ref();
     CoordIntf = plResManager::inst->readKey(S);
-    CoordIntf->Ref();
     AudioIntf = plResManager::inst->readKey(S);
-    AudioIntf->Ref();
 
     Interfaces.setSizeNull(S->readInt());
 	size_t i;
-    for (i=0; i<Interfaces.getSize(); i++) {
+    for (i=0; i<Interfaces.getSize(); i++)
         Interfaces[i] = plResManager::inst->readKey(S);
-        Interfaces[i]->Ref();
-    }
     Modifiers.setSizeNull(S->readInt());
-    for (i=0; i<Modifiers.getSize(); i++) {
+    for (i=0; i<Modifiers.getSize(); i++)
         Modifiers[i] = plResManager::inst->readKey(S);
-        Modifiers[i]->Ref();
-    }
 
     SceneNode = plResManager::inst->readKey(S);
-    SceneNode->Ref();
 }
 
 void plSceneObject::write(hsStream* S) {

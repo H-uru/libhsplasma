@@ -46,7 +46,7 @@ plString cleanFileName(const char* filename) {
             *c == '<' || *c == '>' || *c == '|' || *c == '\'')
             *c = '_';
     }
-    plString sName = cName;
+    plString sName(cName);
     free(cName);
     return sName;
 }

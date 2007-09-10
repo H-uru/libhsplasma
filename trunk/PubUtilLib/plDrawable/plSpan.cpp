@@ -7,7 +7,6 @@ const char* plSpan::ClassName() { return "plSpan"; }
 
 void plSpan::read(hsStream* S) {
     fSubType = S->readInt();
-    fFogEnvironment = NULL;
     fMaterialIdx = S->readInt();
     fLocalToWorld.read(S);
     fWorldToLocal.read(S);
@@ -81,24 +80,24 @@ void plSpan::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-plKey* plSpan::getFogEnvironment() { return fFogEnvironment; }
-hsTArray<plKey*>& plSpan::getPermaLights() { return fPermaLights; }
-hsTArray<plKey*>& plSpan::getPermaProjs() { return fPermaProjs; }
+plKey plSpan::getFogEnvironment() { return fFogEnvironment; }
+hsTArray<plKey>& plSpan::getPermaLights() { return fPermaLights; }
+hsTArray<plKey>& plSpan::getPermaProjs() { return fPermaProjs; }
 unsigned short plSpan::getTypeMask() { return fTypeMask; }
 unsigned int plSpan::getMaterialIdx() { return fMaterialIdx; }
 unsigned char plSpan::getNumMatrices() { return fNumMatrices; }
 unsigned int plSpan::getProps() { return fProps; }
 
-void plSpan::setFogEnvironment(plKey* fog) {
+void plSpan::setFogEnvironment(const plKey& fog) {
     //fFogEnvironment = plFogEnvironment::Convert(fog);
     fFogEnvironment = fog;
 }
-void plSpan::addPermaLight(plKey* light) {
+void plSpan::addPermaLight(const plKey& light) {
     //plLightInfo* li = plLightInfo::Convert(light);
     //fPermaLights.append(li);
     fPermaLights.append(light);
 }
-void plSpan::addPermaProj(plKey* proj) {
+void plSpan::addPermaProj(const plKey& proj) {
     //plLightInfo* li = plLightInfo::Convert(proj);
     //fPermaProjs.append(li);
     fPermaProjs.append(proj);

@@ -6,7 +6,7 @@
 #include "../pnKeyedObject/plKey.h"
 #include <vector>
 
-class plMessage : public plCreatable {
+DllClass plMessage : public plCreatable {
 public:
     enum plBCastFlags {
         kBCastNone = 0x0,
@@ -32,8 +32,8 @@ public:
     };
 
 protected:
-    plKey* fSender;
-    hsTArray<plKey*> fReceivers;
+    plKey fSender;
+    hsTArray<plKey> fReceivers;
     double fTimeStamp;
     unsigned int fBCastFlags;
     std::vector<unsigned long> fNetRcvrPlayerIDs;
@@ -49,4 +49,3 @@ public:
 };
 
 #endif
-

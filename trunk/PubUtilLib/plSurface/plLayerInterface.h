@@ -36,8 +36,8 @@ public:
     };
 
 protected:
-    plKey* underLay;
-    plKey* overLay;
+    plKey underLay;
+    plKey overLay;
     unsigned int ownedChannels, passThruChannels;
     hsMatrix44* transform;
     hsColorRGBA* preshadeColor;
@@ -52,9 +52,9 @@ protected:
     //plBitmap** texture;
     //plShader** vertexShader;
     //plShader** pixelShader;
-    plKey* texture;
-    plKey* vertexShader;
-    plKey* pixelShader;
+    plKey texture;
+    plKey vertexShader;
+    plKey pixelShader;
     hsMatrix44* bumpEnvXfm;
 
 public:

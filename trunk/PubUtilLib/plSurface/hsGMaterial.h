@@ -29,7 +29,7 @@ public:
 
 private:
     int LOD;
-    hsTArray<plKey*> Layers, PiggyBacks;
+    hsTArray<plKey> Layers, PiggyBacks;
     unsigned int compFlags, loadFlags;
     float lastUpdateTime;
 

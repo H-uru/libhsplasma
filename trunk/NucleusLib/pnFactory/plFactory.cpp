@@ -2,6 +2,7 @@
 
 // Includes for all plCreatable types
 #include "../../FeatureLib/pfPython/plPythonFileMod.h"
+#include "../pnMessage/plNotifyMsg.h"
 #include "../pnSceneObject/plAudioInterface.h"
 #include "../pnSceneObject/plCoordinateInterface.h"
 #include "../pnSceneObject/plDrawInterface.h"
@@ -395,7 +396,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         // Non-Keyed Classes //
         //case kObjRefMsg: return new plObjRefMsg();
         //case kNodeRefMsg: return new plNodeRefMsg();
-        //case kMessage: return new plMessage();
+        case kMessage: return new plMessage();
         //case kRefMsg: return new plRefMsg();
         //case kGenRefMsg: return new plGenRefMsg();
         //case kTimeMsg: return new plTimeMsg();
@@ -625,7 +626,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kListenerMsg: return new plListenerMsg();
         //case kAnimPath: return new plAnimPath();
         //case kClothingUpdateBCMsg: return new plClothingUpdateBCMsg();
-        //case kNotifyMsg: return new plNotifyMsg();
+        case kNotifyMsg: return new plNotifyMsg();
         //case kFakeOutMsg: return new plFakeOutMsg();
         //case kCursorChangeMsg: return new plCursorChangeMsg();
         //case kNodeChangeMsg: return new plNodeChangeMsg();

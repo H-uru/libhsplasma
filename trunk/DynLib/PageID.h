@@ -14,8 +14,8 @@ public:
     PageID(PlasmaVer pv=pvUnknown);
     ~PageID();
 
-    int getID() const;
-    void setID(int pid);
+    //int getID() const;
+    //void setID(int pid);
     
     PlasmaVer getVer() const;
     void setVer(PlasmaVer pv, bool mutate = false);
@@ -26,10 +26,11 @@ public:
     void setPageNum(int pn);
     void setSeqPrefix(int sp);
 
-    bool operator==(PageID& other) const;
     PageID& operator=(const PageID& other);
+    bool operator==(const PageID& other) const;
+    bool operator<(const PageID& other) const;
 
-    char* toString() const;
+    plString toString() const;
 
     void parse(unsigned int id);
     unsigned int unparse() const;
@@ -38,10 +39,6 @@ public:
 
     void invalidate();
     bool isValid() const;
-};
-
-struct PageComparator {
-    bool operator()(PageID pid1, PageID pid2) const;
 };
 
 #endif

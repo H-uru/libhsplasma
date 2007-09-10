@@ -33,7 +33,7 @@ public:
 protected:
     plWAVHeader fHeader;
     //plAuidoFileReader* fReader;
-    char* fFileName;
+    plString fFileName;
     unsigned int fDataLength;
     unsigned char* fData;
     unsigned int fFlags;

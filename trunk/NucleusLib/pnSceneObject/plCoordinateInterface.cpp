@@ -8,10 +8,7 @@ plCoordinateInterface::plCoordinateInterface() {
     WorldToLocal.Reset();
 }
 
-plCoordinateInterface::~plCoordinateInterface() {
-    for (size_t i=0; i<Children.getSize(); i++)
-        Children[i]->UnRef();
-}
+plCoordinateInterface::~plCoordinateInterface() { }
 
 IMPLEMENT_CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
 
@@ -31,10 +28,8 @@ void plCoordinateInterface::read(hsStream* S) {
 
     Children.clear();
     Children.setSize(S->readInt());
-    for (size_t i=0; i<Children.getSize(); i++) {
+    for (size_t i=0; i<Children.getSize(); i++)
         Children[i] = plResManager::inst->readKey(S);
-        Children[i]->Ref();
-    }
 }
 
 void plCoordinateInterface::write(hsStream* S) {

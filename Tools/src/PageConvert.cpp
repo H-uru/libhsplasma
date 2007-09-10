@@ -64,13 +64,13 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "Undefined error!\n");
                 return 1;
             }
-            printf("PageID: %s (%08X)\n", page->getLocation().toString(),
-                                          page->getLocation().pageID.unparse());
-            printf("Page Flags: %d\n", page->getLocation().flags);
+            printf("PageID: %s (%08X)\n", page->getLocation().toString().cstr(),
+                                          page->getLocation().getPageID().unparse());
+            printf("Page Flags: %d\n", page->getLocation().getFlags());
             printf("Age Name: %s\n", page->getAge());
             printf("Page Name: %s\n", page->getPage());
             printf("Plasma Version: %s\n", PlasmaVerNames[rm.getVer()]);
-            printf("Keyring: %d keys\n", rm.keys.countKeys(page->getLocation().pageID));
+            printf("Keyring: %d keys\n", rm.keys.countKeys(page->getLocation().getPageID()));
             printf("Objects Read: %d\n", page->nObjects);
             
             rm.setVer(toVer, true);

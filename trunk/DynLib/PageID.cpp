@@ -12,11 +12,6 @@ void PageID::setVer(PlasmaVer pv, bool mutate) {
     ver = pv;
 }
 
-bool PageID::operator==(PageID& other) const {
-    return (getPageNum() == other.getPageNum() &&
-            getSeqPrefix() == other.getSeqPrefix());
-}
-
 PageID& PageID::operator=(const PageID& other) {
     pageID = other.pageID;
     seqPrefix = other.seqPrefix;
@@ -24,10 +19,19 @@ PageID& PageID::operator=(const PageID& other) {
     return *this;
 }
 
-char* PageID::toString() const {
-    char* str = new char[16];
-    sprintf(str, "<%d|%d>", seqPrefix, pageID);
-    return str;
+bool PageID::operator==(const PageID& other) const {
+    return (getPageNum() == other.getPageNum() &&
+            getSeqPrefix() == other.getSeqPrefix());
+}
+
+bool PageID::operator<(const PageID& other) const {
+    if (getSeqPrefix() == other.getSeqPrefix())
+        return getPageNum() < other.getPageNum();
+    return getSeqPrefix() < other.getSeqPrefix();
+}
+
+plString PageID::toString() const {
+    return plString::Format("<%d|%d>", seqPrefix, pageID);
 }
 
 void PageID::parse(unsigned int id) {
@@ -76,12 +80,3 @@ void PageID::setSeqPrefix(int sp) { seqPrefix = sp; }
 
 void PageID::invalidate() { parse(0xFFFFFFFF); }
 bool PageID::isValid() const { return (unparse() != 0xFFFFFFFF); }
-
-/* PageComparator */
-
-bool PageComparator::operator()(PageID pid1, PageID pid2) const {
-    if (pid1.getSeqPrefix() == pid2.getSeqPrefix())
-        return (pid1.getPageNum() < pid2.getPageNum());
-    return (pid1.getSeqPrefix() < pid2.getSeqPrefix());
-}
-

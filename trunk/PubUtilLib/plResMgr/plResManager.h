@@ -26,8 +26,8 @@ public:
     std::vector<plAgeSettings*> ages;
 
 private:
-    plKey* readKeyBase(hsStream* S);
-    void writeKeyBase(hsStream* S, plKey* key);
+    plKey readKeyBase(hsStream* S);
+    void writeKeyBase(hsStream* S, plKey key);
     void ReadKeyring(hsStream* S, plLocation& loc);
     unsigned int ReadObjects(hsStream* S, plLocation& loc);
     void WriteKeyring(hsStream* S, plLocation& loc);
@@ -42,13 +42,13 @@ public:
     virtual void setVer(PlasmaVer pv, bool mutate = false);
     PlasmaVer getVer();
 
-    plKey* readKey(hsStream* S);
-    plKey* readUoidKey(hsStream* S);
-    void writeKey(hsStream* S, plKey* key);
+    plKey readKey(hsStream* S);
+    plKey readUoidKey(hsStream* S);
+    void writeKey(hsStream* S, plKey key);
     void writeKey(hsStream* S, hsKeyedObject* ko);
-    void writeUoidKey(hsStream* S, plKey* key);
+    void writeUoidKey(hsStream* S, plKey key);
     void writeUoidKey(hsStream* S, hsKeyedObject* ko);
-    hsKeyedObject* getObject(plKey& key);
+    hsKeyedObject* getObject(const plKey& key);
 
     plPageInfo* ReadPage(const char* filename);
     void WritePage(const char* filename, plPageInfo* page);

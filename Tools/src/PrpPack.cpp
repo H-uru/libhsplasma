@@ -26,7 +26,7 @@ void doHelp() {
     printf("    [?]   Page Name\n");
     printf("    [2:2] Plasma Version [Major:Minor] (Use 0 for EOA)\n");
     printf("    [4]   PageID (actual value)\n");
-    printf("    [1]   Location Flags\n\n");
+    printf("    [2]   Location Flags\n\n");
     printf("Objects are read from Age_Page_PRP\\*.po\n\n");
 }
 
@@ -121,7 +121,7 @@ int main(int argc, char** argv) {
     hsStream* OS = new hsStream();
     plPageInfo* page = new plPageInfo();
 
-    int len;
+    //int len;
     short maj = 63, min = 11;
     unsigned int i, j;
     char strBuf[256];
@@ -129,12 +129,10 @@ int main(int argc, char** argv) {
         OS->open(filenameConvert(filename, kExtract), fmCreate);
         page->read(S);
         OS->write(4, "PRD");
-        len = strlen(page->getAge());
-        OS->writeShort(len);
-        OS->writeStr(page->getAge(), len);
-        len = strlen(page->getPage());
-        OS->writeShort(len);
-        OS->writeStr(page->getPage(), len);
+        OS->writeShort(strlen(page->getAge()));
+        OS->writeStr(page->getAge());
+        OS->writeShort(strlen(page->getPage()));
+        OS->writeStr(page->getPage());
         if (S->getVer() == pvEoa) maj = min = 0;
         if (S->getVer() == pvPots) min = 12;
         if (S->getVer() == pvLive) {
@@ -143,8 +141,7 @@ int main(int argc, char** argv) {
         }
         OS->writeShort(maj);
         OS->writeShort(min);
-        page->getLocation().pageID.write(OS);
-        OS->writeByte(page->getLocation().flags);
+        page->getLocation().write(OS);
         OS->close();
 
         S->seek(page->getIndexStart());
@@ -165,17 +162,19 @@ int main(int argc, char** argv) {
             }
             unsigned int oCount = S->readInt();
             keys = new plKey[oCount];
-            for (j=0; j<oCount; j++)
-                keys[j].read(S);
+            for (j=0; j<oCount; j++) {
+                keys[j] = new plKeyData();
+                keys[j]->read(S);
+            }
             unsigned int pos = S->pos();
             for (j=0; j<oCount; j++) {
-                S->seek(keys[j].fileOff);
+                S->seek(keys[j]->getFileOff());
                 sprintf(strBuf, "%s[%04X]%s.po", getOutputDir(filename, page),
-                                type, cleanFileName(keys[j].getName()));
+                                type, cleanFileName(keys[j]->getName()));
                 OS->open(strBuf, fmCreate);
-                void* objBuf = malloc(keys[j].objSize);
-                S->read(keys[j].objSize, objBuf);
-                OS->write(keys[j].objSize, objBuf);
+                void* objBuf = malloc(keys[j]->getObjSize());
+                S->read(keys[j]->getObjSize(), objBuf);
+                OS->write(keys[j]->getObjSize(), objBuf);
                 free(objBuf);
                 OS->close();
             }
@@ -200,8 +199,8 @@ int main(int argc, char** argv) {
             delete OS;
             return 1;
         }
-        char* ageName = S->readStr(S->readShort());
-        char* pageName = S->readStr(S->readShort());
+        plString ageName = S->readStr(S->readShort());
+        plString pageName = S->readStr(S->readShort());
         page->setNames(ageName, pageName);
         maj = S->readShort();
         min = S->readShort();
@@ -210,8 +209,7 @@ int main(int argc, char** argv) {
         if (maj >= 70) OS->setVer(pvLive);
         if (min == 12) OS->setVer(pvPots);
         S->setVer(OS->getVer());
-        page->getLocation().pageID.read(S);
-        page->getLocation().flags = S->readByte();
+        page->getLocation().read(S);
         page->setReleaseVersion(0);
         page->setFlags(plPageInfo::kBasicChecksum);
         S->close();
@@ -265,12 +263,12 @@ int main(int argc, char** argv) {
         plKeyCollector keys;
 
         for (i=0; i<inFiles.size(); i++) {
-            plKey* key = new plKey();
+            plKey key = new plKeyData();
             PS->open(inFiles[i], fmRead);
             unsigned int poLen = PS->size();
             void* objBuf = malloc(poLen);
-            key->fileOff = OS->pos();
-            key->objSize = poLen;
+            key->setFileOff(OS->pos());
+            key->setObjSize(poLen);
             PS->read(poLen, objBuf);
             OS->write(poLen, objBuf);
             free(objBuf);
@@ -284,13 +282,13 @@ int main(int argc, char** argv) {
         delete PS;
 
         page->setIndexStart(OS->pos());
-        keys.sortKeys(page->getLocation().pageID);
-        std::vector<short> types = keys.getTypes(page->getLocation().pageID);
+        keys.sortKeys(page->getLocation().getPageID());
+        std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
         //if (types != inClasses)
         //    throw "Wtf, mate?";
         OS->writeInt(types.size());
         for (i=0; i<types.size(); i++) {
-            std::vector<plKey*> kList = keys.getKeys(page->getLocation().pageID, types[i]);
+            std::vector<plKey> kList = keys.getKeys(page->getLocation().getPageID(), types[i]);
             OS->writeShort(pdUnifiedTypeMap::MappedToPlasma(types[i], OS->getVer()));
             unsigned int lenPos = OS->pos();
             if (OS->getVer() == pvLive || OS->getVer() == pvEoa) {

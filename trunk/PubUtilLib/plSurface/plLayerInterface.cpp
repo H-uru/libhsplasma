@@ -1,18 +1,14 @@
 #include "plLayerInterface.h"
 #include "../plResMgr/plResManager.h"
 
-plLayerInterface::plLayerInterface() : underLay(NULL) { }
-
-plLayerInterface::~plLayerInterface() {
-    if (underLay) underLay->UnRef();
-}
+plLayerInterface::plLayerInterface() { }
+plLayerInterface::~plLayerInterface() { }
 
 IMPLEMENT_CREATABLE(plLayerInterface, kLayerInterface, plSynchedObject)
 
 void plLayerInterface::read(hsStream* S) {
     plSynchedObject::read(S);
     underLay = plResManager::inst->readKey(S);
-    underLay->Ref();
 }
 
 void plLayerInterface::write(hsStream* S) {

@@ -8,18 +8,22 @@
 plLocation::plLocation() : pageID(), flags(0) { }
 plLocation::~plLocation() { }
 
-bool plLocation::operator==(plLocation& other) {
-    return pageID == other.pageID;
-}
-
-plLocation& plLocation::operator=(plLocation& other) {
+plLocation& plLocation::operator=(const plLocation& other) {
     pageID = other.pageID;
     flags = other.flags;
     return *this;
 }
 
-int plLocation::getPageNum() { return pageID.getPageNum(); }
-int plLocation::getSeqPrefix() { return pageID.getSeqPrefix(); }
+bool plLocation::operator==(const plLocation& other) const {
+    return pageID == other.pageID;
+}
+
+bool plLocation::operator<(const plLocation& other) const {
+    return pageID < other.pageID;
+}
+
+int plLocation::getPageNum() const { return pageID.getPageNum(); }
+int plLocation::getSeqPrefix() const { return pageID.getSeqPrefix(); }
 
 void plLocation::set(int pid, int lflags, PlasmaVer pv) {
     pageID.setVer(pv);
@@ -55,33 +59,42 @@ void plLocation::invalidate() {
     flags = 0;
 }
 
-bool plLocation::isValid() { return pageID.isValid(); }
-bool plLocation::isReserved() { return (flags & kReserved); }
-bool plLocation::isItinerant() { return (flags & kItinerant); }
-bool plLocation::isVirtual() { return pageID.unparse() == 0; }
-const char* plLocation::toString() { return pageID.toString(); }
+bool plLocation::isValid() const { return pageID.isValid(); }
+bool plLocation::isReserved() const { return (flags & kReserved); }
+bool plLocation::isItinerant() const { return (flags & kItinerant); }
+bool plLocation::isVirtual() const { return pageID.unparse() == 0; }
+const PageID& plLocation::getPageID() const { return pageID; }
+unsigned short plLocation::getFlags() const { return flags; }
+plString plLocation::toString() const { return pageID.toString(); }
 
 
 /* plUoid */
-plUoid::plUoid() : location(), loadMask(), objName(NULL) { }
-plUoid::~plUoid() {
-    if (objName) free(objName);
-}
+plUoid::plUoid() : objID(0) { }
+plUoid::~plUoid() { }
 
-bool plUoid::operator==(plUoid& other) {
-    return (location == other.location) && (classType == other.classType) &&
-           (strcmp(objName, other.objName) == 0);
-}
-
-plUoid& plUoid::operator=(plUoid& other) {
+plUoid& plUoid::operator=(const plUoid& other) {
     location = other.location;
     loadMask = other.loadMask;
     classType = other.classType;
-    objName = strdup(other.objName);
+    objName = other.objName;
     objID = other.objID;
     clonePlayerID = other.clonePlayerID;
     cloneID = other.cloneID;
     return *this;
+}
+
+bool plUoid::operator==(const plUoid& other) const {
+    return (location == other.location) && (classType == other.classType) &&
+           (objName == other.objName);
+}
+
+bool plUoid::operator<(const plUoid& other) const {
+    if (location == other.location) {
+        if (classType == other.classType)
+            return objName < other.objName;
+        return classType < other.classType;
+    }
+    return location < other.location;
 }
 
 void plUoid::read(hsStream* S) {
@@ -94,7 +107,6 @@ void plUoid::read(hsStream* S) {
     classType = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer());
     if (S->getVer() == pvEoa || S->getVer() == pvLive)
         objID = S->readInt();
-    if (objName) free(objName);
     objName = S->readSafeStr();
     if ((contents & kHasCloneIDs) && S->getVer() != pvEoa) {
         cloneID = S->readInt();
@@ -142,14 +154,13 @@ void plUoid::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-const char* plUoid::toString() {
-    char* buf = (char*)malloc(256);
-    sprintf(buf, "%s[%04X]%s", location.toString(), classType, objName);
-    return buf;
+plString plUoid::toString() const {
+    return plString::Format("%s[%04X]%s", location.toString().cstr(),
+                            classType, objName.cstr());
 }
 
-short plUoid::getType() { return (short)classType; }
-PageID& plUoid::getPageID() { return location.pageID; }
-const char* plUoid::getName() { return objName; }
+short plUoid::getType() const { return classType; }
+const PageID& plUoid::getPageID() const { return location.getPageID(); }
+const plString& plUoid::getName() const { return objName; }
 void plUoid::setID(unsigned int id) { objID = id; }
-unsigned int plUoid::getID() { return objID; }
+unsigned int plUoid::getID() const { return objID; }

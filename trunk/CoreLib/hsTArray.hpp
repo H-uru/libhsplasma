@@ -65,7 +65,7 @@ public:
         setSize(getSize() - num);
     }
 
-    void append(T& item) {
+    void append(const T& item) {
         incSize();
         data[count - 1] = item;
     }
@@ -79,11 +79,11 @@ public:
     }
 
     T& get(size_t idx) { return data[idx]; }
-    void set(size_t idx, T& item) { data[idx] = item; }
+    void set(size_t idx, const T& item) { data[idx] = item; }
 
     T& operator[](size_t idx) { return data[idx]; }
 
-    void push(T& item) { append(item); }
+    void push(const T& item) { append(item); }
     T& pop() { return remove(count-1); }
 };
 

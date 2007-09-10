@@ -27,7 +27,9 @@ OBJFILES=\
 	$(LIBDIR)plReceiver.o \
 	$(LIBDIR)hsKeyedObject.o \
 	$(LIBDIR)plUoid.o \
+	$(LIBDIR)proEventData.o \
 	$(LIBDIR)plMessage.o \
+	$(LIBDIR)plNotifyMsg.o \
 	$(LIBDIR)plModifier.o \
 	$(LIBDIR)plSynchedObject.o \
 	$(LIBDIR)plObjInterface.o \
@@ -39,6 +41,7 @@ OBJFILES=\
 	$(LIBDIR)plSoundBuffer.o \
 	$(LIBDIR)plClothingItem.o \
 	$(LIBDIR)plAGMasterMod.o \
+	$(LIBDIR)plNPCSpawnMod.o \
 	$(LIBDIR)plDrawableSpans.o \
 	$(LIBDIR)plMorphArray.o \
 	$(LIBDIR)plMorphDataSet.o \
@@ -136,8 +139,14 @@ $(LIBDIR)hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.h NucleusLib/pn
 $(LIBDIR)plUoid.o: NucleusLib/pnKeyedObject/plUoid.h NucleusLib/pnKeyedObject/plUoid.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnKeyedObject/plUoid.cpp -o $(LIBDIR)plUoid.o
 
+$(LIBDIR)proEventData.o: NucleusLib/pnMessage/proEventData.h NucleusLib/pnMessage/proEventData.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnMessage/proEventData.cpp -o $(LIBDIR)proEventData.o
+
 $(LIBDIR)plMessage.o: NucleusLib/pnMessage/plMessage.h NucleusLib/pnMessage/plMessage.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnMessage/plMessage.cpp -o $(LIBDIR)plMessage.o
+
+$(LIBDIR)plNotifyMsg.o: NucleusLib/pnMessage/plNotifyMsg.h NucleusLib/pnMessage/plNotifyMsg.cpp
+	$(CC) $(CFLAGS) -c NucleusLib/pnMessage/plNotifyMsg.cpp -o $(LIBDIR)plNotifyMsg.o
 
 $(LIBDIR)plModifier.o: NucleusLib/pnModifier/plModifier.h NucleusLib/pnModifier/plModifier.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnModifier/plModifier.cpp -o $(LIBDIR)plModifier.o
@@ -171,6 +180,9 @@ $(LIBDIR)plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.h PubUtilLib/plAva
 
 $(LIBDIR)plAGMasterMod.o: PubUtilLib/plAvatar/plAGMasterMod.h PubUtilLib/plAvatar/plAGMasterMod.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plAvatar/plAGMasterMod.cpp -o $(LIBDIR)plAGMasterMod.o
+
+$(LIBDIR)plNPCSpawnMod.o: PubUtilLib/plAvatar/plNPCSpawnMod.h PubUtilLib/plAvatar/plNPCSpawnMod.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAvatar/plNPCSpawnMod.cpp -o $(LIBDIR)plNPCSpawnMod.o
 
 $(LIBDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(LIBDIR)plDrawableSpans.o

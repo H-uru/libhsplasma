@@ -1,27 +1,13 @@
 #include "plClothingItem.h"
 #include "../plResMgr/plResManager.h"
 
-plClothingItem::plClothingItem() : ItemName(NULL), Group(0), Type(0),
-                  Tileset(0), SortOrder(0), Description(NULL),
-                  CustomText(NULL), Icon(NULL), Accessory(NULL) {
+plClothingItem::plClothingItem() : Group(0), Type(0), Tileset(0), SortOrder(0) {
     DefaultTint1[0] = DefaultTint2[0] = 255;
     DefaultTint1[1] = DefaultTint2[1] = 255;
     DefaultTint1[2] = DefaultTint2[2] = 255;
-    Meshes[0] = NULL;
-    Meshes[1] = NULL;
-    Meshes[2] = NULL;
 }
 
-plClothingItem::~plClothingItem() {
-    if (Icon) Icon->UnRef();
-    if (Meshes[0]) Meshes[0]->UnRef();
-    if (Meshes[1]) Meshes[1]->UnRef();
-    if (Meshes[2]) Meshes[2]->UnRef();
-    Accessory->UnRef();
-    delete[] ItemName;
-    delete[] Description;
-    delete[] CustomText;
-}
+plClothingItem::~plClothingItem() { }
 
 IMPLEMENT_CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
 
@@ -45,13 +31,13 @@ void plClothingItem::read(hsStream* S) {
 	int i, j, count2;
     for (i=0; i<count; i++) {
         ElementNames[i] = S->readSafeStr();
-        Textures[i] = new plKey*[10];
+        Textures[i] = new plKey[10];
         for (j=0; j<10; j++)
             Textures[i][j] = NULL;
         count2 = S->readByte();
         for (j=0; j<count2; j++) {
             int idx = S->readByte();
-            plKey* k = plResManager::inst->readKey(S);
+            plKey k = plResManager::inst->readKey(S);
             if (idx > 0 && idx < 10)
                 Textures[i][idx] = k;
         }

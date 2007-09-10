@@ -1,20 +1,14 @@
 #include "plObjInterface.h"
 #include "../../PubUtilLib/plResMgr/plResManager.h"
 
-plObjInterface::plObjInterface() : Props() {
-    Owner = new plKey();
-}
-
-plObjInterface::~plObjInterface() {
-    Owner->UnRef();
-}
+plObjInterface::plObjInterface() { }
+plObjInterface::~plObjInterface() { }
 
 IMPLEMENT_CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
 
 void plObjInterface::read(hsStream* S) {
     plSynchedObject::read(S);
     Owner = plResManager::inst->readKey(S);
-    Owner->Ref();
     Props.read(S);
 }
 

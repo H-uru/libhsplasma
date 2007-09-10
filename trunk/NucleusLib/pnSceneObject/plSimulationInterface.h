@@ -14,7 +14,7 @@ public:
 
 protected:
     hsBitVector Props;
-    plKey* Physical;
+    plKey Physical;
 
 public:
     plSimulationInterface();

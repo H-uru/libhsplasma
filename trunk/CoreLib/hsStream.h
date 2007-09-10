@@ -1,8 +1,9 @@
 #ifndef _HSSTREAM_H
 #define _HSSTREAM_H
 
-#include "../PlasmaDefs.h"
 #include <stdio.h>
+#include "plString.h"
+#include "../PlasmaDefs.h"
 #include "../DynLib/PlasmaVersions.h"
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
@@ -10,7 +11,7 @@ enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 DllClass hsStream {
 protected:
     PlasmaVer ver;
-    FILE * F;
+    FILE* F;
     FileMode fm;
 
 public:
@@ -20,53 +21,52 @@ public:
     virtual bool open(const char* file, FileMode mode);
     virtual void close();
 
-    virtual void setVer(PlasmaVer pv, bool mutate=false);
-    PlasmaVer getVer();
+    virtual void setVer(PlasmaVer pv);
+    PlasmaVer getVer() const;
 
-    virtual unsigned int size();
-    virtual unsigned int pos();
-    virtual bool eof();
+    virtual uint32 size() const;
+    virtual uint32 pos() const;
+    virtual bool eof() const;
     
-    virtual void seek(unsigned int pos);
-    virtual void skip(unsigned int count);
+    virtual void seek(uint32 pos);
+    virtual void skip(uint32 count);
     virtual void fastForward();
     virtual void rewind();
 
-    virtual void read(unsigned int size, void* buf);
-    virtual void write(unsigned int size, const void* buf);
+    virtual void read(size_t size, void* buf);
+    virtual void write(size_t size, const void* buf);
 
-    char readByte();
-    void readBytes(unsigned int count, char* buf);
-    short readShort();
-    void readShorts(unsigned int count, short* buf);
-    int readInt();
-    void readInts(unsigned int count, int* buf);
-    int readIntSwap();
+    byte readByte();
+    void readBytes(size_t count, byte* buf);
+    int16 readShort();
+    void readShorts(size_t count, int16* buf);
+    int32 readInt();
+    void readInts(size_t count, int32* buf);
+    int32 readIntSwap();
     float readFloat();
-    void readFloats(unsigned int count, float* buf);
+    void readFloats(size_t count, float* buf);
     double readDouble();
     bool readBool();
-    void readBools(unsigned int count, bool* buf);
-    char* readStr(int len);
-    char* readSafeStr();
-    virtual char* readLine();
+    void readBools(size_t count, bool* buf);
+    plString readStr(int len);
+    plString readSafeStr();
+    virtual plString readLine();
 
-    void writeByte(const char v);
-    void writeBytes(unsigned int count, const char* buf);
-    void writeShort(const short v);
-    void writeShorts(unsigned int count, const short* buf);
-    void writeInt(const int v);
-    void writeInts(unsigned int count, const int* buf);
-    void writeIntSwap(const int v);
+    void writeByte(const byte v);
+    void writeBytes(size_t count, const byte* buf);
+    void writeShort(const int16 v);
+    void writeShorts(size_t count, const int16* buf);
+    void writeInt(const int32 v);
+    void writeInts(size_t count, const int32* buf);
+    void writeIntSwap(const int32 v);
     void writeFloat(const float v);
-    void writeFloats(unsigned int count, const float* buf);
+    void writeFloats(size_t count, const float* buf);
     void writeDouble(const double v);
     void writeBool(const bool v);
-    void writeBools(unsigned int count, const bool* buf);
-    void writeStr(const char* buf, int len);
-    void writeStr(const char* buf);
-    void writeSafeStr(const char* buf);
-    virtual void writeLine(const char* ln, bool winEOL = false);
+    void writeBools(size_t count, const bool* buf);
+    void writeStr(const plString& str);
+    void writeSafeStr(const plString& str);
+    virtual void writeLine(const plString& ln, bool winEOL = false);
 };
 
 #endif

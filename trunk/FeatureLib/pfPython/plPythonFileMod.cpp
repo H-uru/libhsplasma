@@ -15,14 +15,9 @@ const char* plPythonParameter::valueTypeNames[] = {
 
 plPythonParameter::plPythonParameter(PlasmaVer pv) : ID(0), valueType(kNone) { }
 
-plPythonParameter::~plPythonParameter() {
-    if (valueType == kString || valueType == kAnimationName)
-        delete[] strValue;
-}
+plPythonParameter::~plPythonParameter() { }
 
 void plPythonParameter::read(hsStream* S) {
-    if (valueType == kString || valueType == kAnimationName)
-        delete[] strValue;
     ID = S->readInt();
     valueType = PlasmaToMapped(S->readInt(), S->getVer());
 
@@ -43,12 +38,10 @@ void plPythonParameter::read(hsStream* S) {
     case kSubtitle:
         size = S->readInt();
         if (size == 0) {
-            strValue = NULL;
+            strValue = "";
             return;
         }
-        strValue = new char[size+1];
-        S->read(size, strValue);
-        strValue[size] = 0;
+        strValue = S->readStr(size);
         return;
     case kNone:
         return;
@@ -183,25 +176,18 @@ unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver)
 
 
 /* plPythonFileMod */
-plPythonFileMod::plPythonFileMod() : pythonFile(NULL) { }
+plPythonFileMod::plPythonFileMod() { }
 
-plPythonFileMod::~plPythonFileMod() {
-    if (pythonFile != NULL)
-        delete[] pythonFile;
-    for (size_t i=0; i<receivers.getSize(); i++)
-        receivers[i]->UnRef();
-}
+plPythonFileMod::~plPythonFileMod() { }
 
 IMPLEMENT_CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
-char* plPythonFileMod::getFilename() { return pythonFile; }
-hsTArray<plKey*>& plPythonFileMod::getReceivers() { return receivers; }
+plString& plPythonFileMod::getFilename() { return pythonFile; }
+hsTArray<plKey>& plPythonFileMod::getReceivers() { return receivers; }
 hsTArray<plPythonParameter>& plPythonFileMod::getParameters() { return parameters; }
 
 void plPythonFileMod::read(hsStream* S) {
     plMultiModifier::read(S);
-    if (pythonFile != NULL)
-        delete[] pythonFile;
     pythonFile = S->readSafeStr();
 
     size_t i, count = S->readInt();

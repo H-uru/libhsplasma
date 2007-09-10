@@ -11,8 +11,8 @@ protected:
     short depth;
 
 public:
-    hsTArray<plKey*> SceneObjects;
-    hsTArray<plKey*> OtherObjects;
+    hsTArray<plKey> SceneObjects;
+    hsTArray<plKey> OtherObjects;
     //class hsTArray<plDrawable *> drawPool;
     //class hsTArray<plPhysical *> simulationPool;
     //class hsTArray<plAudible *> audioPool;

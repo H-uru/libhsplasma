@@ -5,8 +5,8 @@
 
 class plDrawInterface : public plObjInterface {
 public:
-    hsTArray<plKey*> Drawables;
-    hsTArray<plKey*> Objects;
+    hsTArray<plKey> Drawables;
+    hsTArray<plKey> Objects;
     hsTArray<int> DrawableKeys;
 
 public:

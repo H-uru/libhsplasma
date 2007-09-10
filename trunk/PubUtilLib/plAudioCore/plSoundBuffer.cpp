@@ -32,10 +32,9 @@ void plWAVHeader::prcWrite(pfPrcHelper* prc) {
 
 
 // plSoundBuffer //
-plSoundBuffer::plSoundBuffer() : fFileName(NULL), fData(NULL) { }
+plSoundBuffer::plSoundBuffer() : fData(NULL) { }
 
 plSoundBuffer::~plSoundBuffer() {
-    if (fFileName) delete[] fFileName;
     if (fData) delete[] fData;
 }
 
@@ -67,8 +66,8 @@ void plSoundBuffer::write(hsStream* S) {
         fFlags |= kIsExternal;
     S->writeInt(fFlags);
     S->writeInt(fDataLength);
-    char* writeFileName = fFileName;
-    if (fFileName != NULL) {
+    plString writeFileName = fFileName;
+    if (!fFileName.empty()) {
         writeFileName = strrchr(fFileName, '\\');
         if (writeFileName != NULL)
             fFileName = writeFileName;

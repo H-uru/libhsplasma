@@ -8,11 +8,11 @@ protected:
     plSceneObject* fTarget;
     //std::map<char*, plAGModifier*> fChannelMods;
     //std::vector<plAGAnimInstance*> fAnimInstances;
-    std::vector<plKey*> fPrivateAnims;
+    std::vector<plKey> fPrivateAnims;
     //std::vector<plAGAnimInstance*> fATCAnimInstances;
     bool fFirstEval, fNeedEval, fNeedCompile;
     //plAGMasterSDLModifier* fAGMasterSDLMod;
-    char* fGroupName; // Only used in UU, auto-deleted in PotS and newer
+    plString fGroupName; // Only used in UU, auto-deleted in PotS and newer
 
 public:
     plAGMasterMod();

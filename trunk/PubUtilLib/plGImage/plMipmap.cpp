@@ -332,13 +332,13 @@ void plMipmap::IReadRawImage(hsStream* S) {
     if (pixelSize == 32) {
         if (numLevels <= 0) return;
         for (int i=0; i<numLevels; i++) {
-            S->readInts(levelSizes[i] >> 2, (int*)dataPtr);
+            S->readInts(levelSizes[i] >> 2, (int32*)dataPtr);
             dataPtr += levelSizes[i];
         }
     } else if (pixelSize == 16) {
         if (numLevels <= 0) return;
         for (int i=0; i<numLevels; i++) {
-            S->readShorts(levelSizes[i] >> 1, (short*)dataPtr);
+            S->readShorts(levelSizes[i] >> 1, (int16*)dataPtr);
             dataPtr += levelSizes[i];
         }
     } else
@@ -350,13 +350,13 @@ void plMipmap::IWriteRawImage(hsStream* S) {
     if (pixelSize == 32) {
         if (numLevels <= 0) return;
         for (int i=0; i<numLevels; i++) {
-            S->writeInts(levelSizes[i] >> 2, (int*)dataPtr);
+            S->writeInts(levelSizes[i] >> 2, (int32*)dataPtr);
             dataPtr += levelSizes[i];
         }
     } else if (pixelSize == 16) {
         if (numLevels <= 0) return;
         for (int i=0; i<numLevels; i++) {
-            S->writeShorts(levelSizes[i] >> 1, (short*)dataPtr);
+            S->writeShorts(levelSizes[i] >> 1, (int16*)dataPtr);
             dataPtr += levelSizes[i];
         }
     } else

@@ -8,18 +8,18 @@
 
 class plClothingItem : public hsKeyedObject {
 protected:
-    char* ItemName;
+    plString ItemName;
     unsigned char Group, Type, Tileset, SortOrder;
 
-    char* Description;
-    char* CustomText;
+    plString Description;
+    plString CustomText;
 
-    hsTArray<char*> ElementNames;
-    hsTArray<plKey**> Textures;
+    hsTArray<plString> ElementNames;
+    hsTArray<plKey*> Textures;
 
-    plKey* Icon;
-    plKey* Meshes[3];
-    plKey* Accessory;
+    plKey Icon;
+    plKey Meshes[3];
+    plKey Accessory;
 
     unsigned char DefaultTint1[3];
     unsigned char DefaultTint2[3];

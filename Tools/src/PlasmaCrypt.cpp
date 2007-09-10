@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "CoreLib/plEncryptedStream.h"
+#include "CoreLib/plString.h"
 
 typedef enum EncrMethod { emNone, emDecrypt, emTea, emAes, emDroid };
 
@@ -26,13 +27,12 @@ void doHelp() {
            "          -help       Displays this help screen\n\n");
 }
 
-char* getNextOutFile(char* filename) {
-    char* fnBuf = (char*)malloc(strlen(filename) + 5);
-    sprintf(fnBuf, "%s.out", filename);
+plString getNextOutFile(char* filename) {
+    plString fn = plString::Format("%s.out", filename);
     int i = 0;
-    while (fopen(fnBuf, "r") != NULL)
-        sprintf(fnBuf, "%s.out%d", filename, ++i);
-    return fnBuf;
+    while (fopen(fn.cstr(), "r") != NULL)
+        fn = plString::Format("%s.out%d", filename, ++i);
+    return fn;
 }
 
 bool parseKey(char* buf, unsigned int& val) {
@@ -46,21 +46,21 @@ bool parseKey(char* buf, unsigned int& val) {
     for (i='a'; i<='f'; i++)
         kMap[i] = (i - 'a') + 10;
     for (i=0; i<8; i++) {
-        if (kMap[buf[i]] == -1) {
+        if (kMap[(size_t)buf[i]] == -1) {
             fprintf(stderr, "Error: Invalid character in key string\n");
             return false;
         }
     }
 #ifdef LEKEY
-    val = (kMap[buf[0]] * 0x00000010) + (kMap[buf[1]] * 0x00000001) +
-          (kMap[buf[2]] * 0x00001000) + (kMap[buf[3]] * 0x00000100) +
-          (kMap[buf[4]] * 0x00100000) + (kMap[buf[5]] * 0x00010000) +
-          (kMap[buf[6]] * 0x10000000) + (kMap[buf[7]] * 0x01000000);
+    val = (kMap[(size_t)buf[0]] * 0x00000010) + (kMap[(size_t)buf[1]] * 0x00000001) +
+          (kMap[(size_t)buf[2]] * 0x00001000) + (kMap[(size_t)buf[3]] * 0x00000100) +
+          (kMap[(size_t)buf[4]] * 0x00100000) + (kMap[(size_t)buf[5]] * 0x00010000) +
+          (kMap[(size_t)buf[6]] * 0x10000000) + (kMap[(size_t)buf[7]] * 0x01000000);
 #else
-    val = (kMap[buf[0]] * 0x10000000) + (kMap[buf[1]] * 0x01000000) +
-          (kMap[buf[2]] * 0x00100000) + (kMap[buf[3]] * 0x00010000) +
-          (kMap[buf[4]] * 0x00001000) + (kMap[buf[5]] * 0x00000100) +
-          (kMap[buf[6]] * 0x00000010) + (kMap[buf[7]] * 0x00000001);
+    val = (kMap[(size_t)buf[0]] * 0x10000000) + (kMap[(size_t)buf[1]] * 0x01000000) +
+          (kMap[(size_t)buf[2]] * 0x00100000) + (kMap[(size_t)buf[3]] * 0x00010000) +
+          (kMap[(size_t)buf[4]] * 0x00001000) + (kMap[(size_t)buf[5]] * 0x00000100) +
+          (kMap[(size_t)buf[6]] * 0x00000010) + (kMap[(size_t)buf[7]] * 0x00000001);
 #endif
     return true;
 }
@@ -91,8 +91,8 @@ int main(int argc, char** argv) {
     int nFiles = 0;
     unsigned int uruKey[4];
     bool haveKey = false;
-    signed char verbosity = 0;
-    char* outFileName;
+    int verbosity = 0;
+    plString outFileName;
     for (int i=2; i<argc; i++) {
         if (argv[i][0] == '-') {
             if (argv[i][1] == '-') argv[i]++;
@@ -150,18 +150,18 @@ int main(int argc, char** argv) {
                 continue;
             }
             unsigned int dataSize = SF.size();
-            char* buf = (char*)malloc(dataSize);
+            ubyte* buf = new ubyte[dataSize];
             SF.read(dataSize, buf);
             SF.close();
 
             hsStream DF;
             outFileName = doReplace ? argv[i] : getNextOutFile(argv[i]);
             if (verbosity >= 1)
-                printf("Decrypting %s...\n", outFileName);
+                printf("Decrypting %s...\n", outFileName.cstr());
             DF.open(outFileName, fmCreate);
             DF.write(dataSize, buf);
             DF.close();
-            free(buf);
+            delete[] buf;
             nFiles++;
         } else {
             hsStream SF;
@@ -184,7 +184,7 @@ int main(int argc, char** argv) {
                 continue;
             }
             unsigned int dataSize = SF.size();
-            char* buf = (char*)malloc(dataSize);
+            ubyte* buf = new ubyte[dataSize];
             SF.read(dataSize, buf);
             SF.close();
 
@@ -203,11 +203,11 @@ int main(int argc, char** argv) {
             if (haveKey) DF.setKey(uruKey);
             outFileName = doReplace ? argv[i] : getNextOutFile(argv[i]);
             if (verbosity >= 1)
-                printf("Encrypting %s...\n", outFileName);
+                printf("Encrypting %s...\n", outFileName.cstr());
             DF.open(outFileName, fmCreate);
             DF.write(dataSize, buf);
             DF.close();
-            free(buf);
+            delete[] buf;
             nFiles++;
         }
     }

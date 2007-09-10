@@ -2,13 +2,7 @@
 #include "../plResMgr/plResManager.h"
 
 plSceneNode::plSceneNode() { }
-plSceneNode::~plSceneNode() {
-    size_t i;
-    for (i=0; i<SceneObjects.getSize(); i++)
-        SceneObjects[i]->UnRef();
-    for (i=0; i<OtherObjects.getSize(); i++)
-        OtherObjects[i]->UnRef();
-}
+plSceneNode::~plSceneNode() { }
 
 IMPLEMENT_CREATABLE(plSceneNode, kSceneNode, hsKeyedObject)
 
@@ -17,15 +11,11 @@ void plSceneNode::read(hsStream* S) {
 
     SceneObjects.setSizeNull(S->readInt());
 	size_t i;
-    for (i=0; i<SceneObjects.getSize(); i++) {
+    for (i=0; i<SceneObjects.getSize(); i++)
         SceneObjects[i] = plResManager::inst->readKey(S);
-        SceneObjects[i]->Ref();
-    }
     OtherObjects.setSize(S->readInt());
-    for (i=0; i<OtherObjects.getSize(); i++) {
+    for (i=0; i<OtherObjects.getSize(); i++)
         OtherObjects[i] = plResManager::inst->readKey(S);
-        OtherObjects[i]->Ref();
-    }
 }
 
 void plSceneNode::write(hsStream* S) {

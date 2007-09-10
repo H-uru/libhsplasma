@@ -5,23 +5,28 @@
 #include "../../CoreLib/hsRefCnt.h"
 #include "plUoid.h"
 
-DllClass plKey : public hsRefCnt {
-public:
-    plUoid uoid;
-    class hsKeyedObject* objPtr;
-    bool exists;
+DllClass plKeyData {
+protected:
+    plUoid fUoid;
+    class hsKeyedObject* fObjPtr;
     
-    unsigned int fileOff;
-    unsigned int objSize;
+    uint32 fFileOff, fObjSize;
+    uint32 fRefCnt;
 
 public:
-    plKey();
-    plKey(plKey * init);
-    ~plKey();
+    plKeyData();
+    plKeyData(plKeyData* init);
+    ~plKeyData();
 
-    bool operator==(plKey &other);
+private:
+    friend class plKey;
+    uint32 RefCnt() const;
+    uint32 Ref();
+    void UnRef();
 
-    const char* toString();
+public:
+    bool operator==(plKeyData& other) const;
+    plString toString() const;
     
     void read(hsStream* S);
     void write(hsStream* S);
@@ -29,11 +34,43 @@ public:
     void writeUoid(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
 
-    short getType();
-    PageID& getPageID();
-    const char* getName();
-    void setID(unsigned int id);
-    unsigned int getID();
+    plUoid& getUoid();
+    class hsKeyedObject* getObj();
+    void setObj(class hsKeyedObject* obj);
+    short getType() const;
+    const PageID& getPageID() const;
+    const plString& getName() const;
+    uint32 getID() const;
+    void setID(uint32 id);
+    uint32 getFileOff() const;
+    void setFileOff(uint32 off);
+    uint32 getObjSize() const;
+    void setObjSize(uint32 size);
+};
+
+DllClass plKey {
+protected:
+    plKeyData* fKeyData;
+
+public:
+    plKey();
+    plKey(const plKey& init);
+    plKey(plKeyData* init);
+    ~plKey();
+
+    plKeyData& operator*() const;
+    plKeyData* operator->() const;
+    operator plKeyData*() const;
+
+    plKey& operator=(const plKey& other);
+    plKey& operator=(plKeyData* other);
+    bool operator==(const plKey& other) const;
+    bool operator==(const plKeyData* other) const;
+    bool operator!=(const plKey& other) const;
+    bool operator!=(const plKeyData* other) const;
+    bool operator<(const plKey& other) const;
+
+    bool Exists() const;
 };
 
 #endif

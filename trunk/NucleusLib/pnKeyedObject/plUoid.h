@@ -3,6 +3,7 @@
 
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/plLoadMask.h"
+#include "../../CoreLib/plString.h"
 #include "../../DynLib/PageID.h"
 #include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 
@@ -16,7 +17,7 @@ public:
         kItinerant = 0x10
     };
 
-public:
+protected:
     PageID pageID;
     unsigned short flags;
 
@@ -24,24 +25,28 @@ public:
     plLocation();
     ~plLocation();
 
-    bool operator==(plLocation& other);
-    plLocation& operator=(plLocation& other);
+    plLocation& operator=(const plLocation& other);
+    bool operator==(const plLocation& other) const;
+    bool operator<(const plLocation& other) const;
 
-    int getPageNum();
-    int getSeqPrefix();
-    void set(int, int, PlasmaVer);
+    int getPageNum() const;
+    int getSeqPrefix() const;
+    void set(int pid, int lflags, PlasmaVer pv);
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
 
     void invalidate();
-    bool isValid();
-    bool isReserved();
-    bool isItinerant();
-    bool isVirtual();
+    bool isValid() const;
+    bool isReserved() const;
+    bool isItinerant() const;
+    bool isVirtual() const;
 
-    const char* toString();
+    const PageID& getPageID() const;
+    unsigned short getFlags() const;
+
+    plString toString() const;
 };
 
 DllClass plUoid {
@@ -54,8 +59,8 @@ public:
 protected:
     plLocation location;
     plLoadMask loadMask;
-    unsigned short classType;
-    char* objName;
+    short classType;
+    plString objName;
     unsigned int objID, clonePlayerID, cloneID;
     unsigned char eoaExtra;
 
@@ -63,20 +68,21 @@ public:
     plUoid();
     ~plUoid();
 
-    bool operator==(plUoid& other);
-    plUoid& operator=(plUoid& other);
+    plUoid& operator=(const plUoid& other);
+    bool operator==(const plUoid& other) const;
+    bool operator<(const plUoid& other) const;
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
 
-    const char* toString();
+    plString toString() const;
 
-    short getType();
-    PageID& getPageID();
-    const char* getName();
+    short getType() const;
+    const PageID& getPageID() const;
+    const plString& getName() const;
     void setID(unsigned int id);
-    unsigned int getID();
+    unsigned int getID() const;
 };
 
 #endif

@@ -203,16 +203,16 @@ void plEncryptedStream::setKey(unsigned int* keys) {
     eKey[3] = keys[3];
 }
 
-unsigned int plEncryptedStream::size() { return dataSize; }
-unsigned int plEncryptedStream::pos() { return dataPos; }
-bool plEncryptedStream::eof() { return dataPos >= dataSize; }
+uint32 plEncryptedStream::size() const { return dataSize; }
+uint32 plEncryptedStream::pos() const { return dataPos; }
+bool plEncryptedStream::eof() const { return dataPos >= dataSize; }
 
-void plEncryptedStream::seek(unsigned int pos) {
+void plEncryptedStream::seek(uint32 pos) {
     rewind();
     skip(pos);
 }
 
-void plEncryptedStream::skip(unsigned int count) {
+void plEncryptedStream::skip(uint32 count) {
     char* ignore = new char[count];
     read(count, ignore);
     delete[] ignore;
@@ -223,7 +223,7 @@ void plEncryptedStream::rewind() {
     dataPos = 0;
 }
 
-void plEncryptedStream::read(unsigned int size, void* buf) {
+void plEncryptedStream::read(size_t size, void* buf) {
     if (dataPos + size > dataSize)
         throw "Read beyond end of stream!";
     
@@ -257,7 +257,7 @@ void plEncryptedStream::read(unsigned int size, void* buf) {
     dataPos += size;
 }
 
-void plEncryptedStream::write(unsigned int size, const void* buf) {
+void plEncryptedStream::write(size_t size, const void* buf) {
     unsigned int szInc = (ver == pvEoa ? 16 : 8);
     unsigned int pp = dataPos, bp = 0, lp = dataPos % szInc;
     while (bp < size) {

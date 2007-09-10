@@ -7,7 +7,7 @@
 
 class plObjInterface : public plSynchedObject {
 public:
-    plKey* Owner;
+    plKey Owner;
     hsBitVector Props;
 
 public:

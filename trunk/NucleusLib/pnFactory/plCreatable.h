@@ -8,13 +8,13 @@
 #include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 
 #define DECLARE_CREATABLE(classname) \
-    virtual short ClassIndex(); \
-    virtual bool ClassInstance(short hClass); \
+    virtual short ClassIndex() const; \
+    virtual bool ClassInstance(short hClass) const; \
     static classname* Convert(plCreatable* pCre);
 
 #define IMPLEMENT_CREATABLE(classname, classid, parentclass) \
-    short classname::ClassIndex() { return classid; } \
-    bool classname::ClassInstance(short hClass) { \
+    short classname::ClassIndex() const { return classid; } \
+    bool classname::ClassInstance(short hClass) const { \
         if (hClass == classid) return true; \
         return parentclass::ClassInstance(hClass); \
     } \
@@ -30,13 +30,13 @@ public:
     plCreatable();
     virtual ~plCreatable();
 
-    virtual short ClassIndex() = 0;
-    short ClassIndex(PlasmaVer ver);
-    const char* ClassName();
-    virtual bool ClassInstance(short hClass);
+    virtual short ClassIndex() const =0;
+    short ClassIndex(PlasmaVer ver) const;
+    const char* ClassName() const;
+    virtual bool ClassInstance(short hClass) const;
 
-    virtual void read(hsStream* S) = 0;
-    virtual void write(hsStream* S) = 0;
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
 };
 

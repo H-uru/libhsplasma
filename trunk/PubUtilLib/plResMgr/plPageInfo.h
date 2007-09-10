@@ -20,8 +20,7 @@ public:
 
 protected:
     plLocation location;
-    char* age;
-    char* page;
+    plString age, page;
     unsigned int idxChecksum, checksum;
     int releaseVersion;
     unsigned int dataStart, idxStart, flags;
@@ -59,7 +58,7 @@ public:
     void setIndexStart(unsigned int);
     void setFlags(unsigned int);
     void setLocation(plLocation&);
-    void setNames(char*, char*);
+    void setNames(const char*, const char*);
 
     void clearClassList();
     void addClass(short classIdx);
