@@ -34,19 +34,22 @@ void plResManager::setVer(PlasmaVer pv, bool mutate) {
 PlasmaVer plResManager::getVer() { return ver; }
 
 plKey plResManager::readKey(hsStream* S) {
-    plKey k = new plKeyData();
     bool exists = (S->getVer() == pvEoa) ? true : S->readBool();
     if (exists) {
+        plKey k = new plKeyData();
         if (S->getVer() == pvLive)
             S->readBool();
         k->readUoid(S);
         plKey xkey = inst->keys.findKey(k);
-        if (xkey.Exists())
-            k = xkey;
-        else
+        if (xkey.Exists()) {
+            return xkey;
+        } else {
             inst->keys.add(k);
+            return k;
+        }
+    } else {
+        return plKey();
     }
-    return k;
 }
 
 plKey plResManager::readUoidKey(hsStream* S) {
@@ -206,9 +209,9 @@ plAgeSettings* plResManager::ReadAge(const char* filename) {
         } else if (field == "page") {
             plString pageName = value.beforeFirst(',');
             value = value.afterFirst(',');
-            //uint32 pageIdx = value.beforeFirst(',').toUInt();
+            //hsUint32 pageIdx = value.beforeFirst(',').toUInt();
             value = value.afterFirst(',');
-            uint32 pageFlag = value.beforeFirst(',').toUInt();
+            hsUint32 pageFlag = value.beforeFirst(',').toUInt();
             pageFileName = new char[256];
             strcpy(pageFileName, filename);
             afName = strrchr(pageFileName, '.');

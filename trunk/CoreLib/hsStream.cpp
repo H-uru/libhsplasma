@@ -47,7 +47,7 @@ void hsStream::close() {
 void hsStream::setVer(PlasmaVer pv) { ver = pv; }
 PlasmaVer hsStream::getVer() const { return ver; }
 
-uint32 hsStream::size() const {
+hsUint32 hsStream::size() const {
     unsigned int p = ftell(F);
     fseek(F, 0, SEEK_END);
     unsigned int sz = ftell(F);
@@ -55,7 +55,7 @@ uint32 hsStream::size() const {
     return sz;
 }
 
-uint32 hsStream::pos() const {
+hsUint32 hsStream::pos() const {
     return ftell(F);
 }
 
@@ -63,11 +63,11 @@ bool hsStream::eof() const {
     return feof(F);
 }
 
-void hsStream::seek(uint32 pos) {
+void hsStream::seek(hsUint32 pos) {
     fseek(F, pos, SEEK_SET);
 }
 
-void hsStream::skip(uint32 count) {
+void hsStream::skip(hsUint32 count) {
     fseek(F, count, SEEK_CUR);
 }
 
@@ -87,38 +87,38 @@ void hsStream::write(size_t size, const void* buf) {
     fwrite(buf, size, 1, F);
 }
 
-byte hsStream::readByte() {
-    byte v;
+hsByte hsStream::readByte() {
+    hsByte v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readBytes(size_t count, byte* buf) {
-    read(count * sizeof(byte), buf);
+void hsStream::readBytes(size_t count, hsByte* buf) {
+    read(count * sizeof(hsByte), buf);
 }
 
-int16 hsStream::readShort() {
-    int16 v;
+hsInt16 hsStream::readShort() {
+    hsInt16 v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readShorts(size_t count, int16* buf) {
-    read(count * sizeof(int16), buf);
+void hsStream::readShorts(size_t count, hsInt16* buf) {
+    read(count * sizeof(hsInt16), buf);
 }
 
-int32 hsStream::readInt() {
-    int32 v;
+hsInt32 hsStream::readInt() {
+    hsInt32 v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readInts(size_t count, int32* buf) {
-    read(count * sizeof(int32), buf);
+void hsStream::readInts(size_t count, hsInt32* buf) {
+    read(count * sizeof(hsInt32), buf);
 }
 
-int32 hsStream::readIntSwap() {
-    int32 v;
+hsInt32 hsStream::readIntSwap() {
+    hsInt32 v;
     read(sizeof(v), &v);
     return ENDSWAP32(v);
 }
@@ -158,7 +158,7 @@ plString hsStream::readStr(int len) {
 }
 
 plString hsStream::readSafeStr() {
-    uint16 ssInfo = (uint16)readShort();
+    hsUint16 ssInfo = (hsUint16)readShort();
     char* buf;
     if (ver == pvEoa) {
         buf = new char[ssInfo+1];
@@ -168,7 +168,7 @@ plString hsStream::readSafeStr() {
         buf[ssInfo] = 0;
     } else {
         if (!(ssInfo & 0xF000)) readByte(); // Discarded - debug
-        uint16 size = (ssInfo & 0x0FFF);
+        hsUint16 size = (ssInfo & 0x0FFF);
         buf = new char[size+1];
         read(ssInfo & 0x0FFF, buf);
         if (ssInfo & 0xF000) {
@@ -200,32 +200,32 @@ plString hsStream::readLine() {
     return str;
 }
 
-void hsStream::writeByte(const byte v) {
+void hsStream::writeByte(const hsByte v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeBytes(size_t count, const byte* buf) {
-    write(count * sizeof(byte), buf);
+void hsStream::writeBytes(size_t count, const hsByte* buf) {
+    write(count * sizeof(hsByte), buf);
 }
 
-void hsStream::writeShort(const int16 v) {
+void hsStream::writeShort(const hsInt16 v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeShorts(size_t count, const int16* buf) {
-    write(count * sizeof(int16), buf);
+void hsStream::writeShorts(size_t count, const hsInt16* buf) {
+    write(count * sizeof(hsInt16), buf);
 }
 
-void hsStream::writeInt(const int32 v) {
+void hsStream::writeInt(const hsInt32 v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeInts(size_t count, const int32* buf) {
-    write(count * sizeof(int32), buf);
+void hsStream::writeInts(size_t count, const hsInt32* buf) {
+    write(count * sizeof(hsInt32), buf);
 }
 
-void hsStream::writeIntSwap(const int32 v) {
-    int tv = ENDSWAP32(v);
+void hsStream::writeIntSwap(const hsInt32 v) {
+    hsInt32 tv = ENDSWAP32(v);
     write(sizeof(tv), &tv);
 }
 
@@ -256,7 +256,7 @@ void hsStream::writeStr(const plString& str) {
 }
 
 void hsStream::writeSafeStr(const plString& str) {
-    uint16 ssInfo = (uint16)str.len();
+    hsUint16 ssInfo = (hsUint16)str.len();
     char* wbuf;
     if (ver == pvEoa) {
         writeShort(ssInfo);

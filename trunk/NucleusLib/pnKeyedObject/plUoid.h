@@ -79,8 +79,9 @@ public:
     plString toString() const;
 
     short getType() const;
-    const PageID& getPageID() const;
     const plString& getName() const;
+    const plLocation& getLocation() const;
+    const PageID& getPageID() const;
     void setID(unsigned int id);
     unsigned int getID() const;
 };

@@ -8,11 +8,9 @@ int hsRefCnt::RefCnt() { return refCount; }
 int hsRefCnt::UnRef() {
     if (refCount == 1)
         delete this;
-
     return --refCount;
 }
 
 void hsRefCnt::Ref() {
     refCount++;
 }
-

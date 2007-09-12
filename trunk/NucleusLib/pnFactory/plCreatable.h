@@ -25,7 +25,7 @@
     }
 
 
-DllClass plCreatable : public hsRefCnt {
+DllClass plCreatable /*: public hsRefCnt*/ {
 public:
     plCreatable();
     virtual ~plCreatable();

@@ -10,8 +10,8 @@ protected:
     plUoid fUoid;
     class hsKeyedObject* fObjPtr;
     
-    uint32 fFileOff, fObjSize;
-    uint32 fRefCnt;
+    hsUint32 fFileOff, fObjSize;
+    hsUint32 fRefCnt;
 
 public:
     plKeyData();
@@ -20,8 +20,8 @@ public:
 
 private:
     friend class plKey;
-    uint32 RefCnt() const;
-    uint32 Ref();
+    hsUint32 RefCnt() const;
+    hsUint32 Ref();
     void UnRef();
 
 public:
@@ -40,12 +40,12 @@ public:
     short getType() const;
     const PageID& getPageID() const;
     const plString& getName() const;
-    uint32 getID() const;
-    void setID(uint32 id);
-    uint32 getFileOff() const;
-    void setFileOff(uint32 off);
-    uint32 getObjSize() const;
-    void setObjSize(uint32 size);
+    hsUint32 getID() const;
+    void setID(hsUint32 id);
+    hsUint32 getFileOff() const;
+    void setFileOff(hsUint32 off);
+    hsUint32 getObjSize() const;
+    void setObjSize(hsUint32 size);
 };
 
 DllClass plKey {

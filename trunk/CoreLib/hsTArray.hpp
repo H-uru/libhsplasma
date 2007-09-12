@@ -43,7 +43,9 @@ public:
         T* newData = new T[cap];
         size_t min = (count < cap) ? count : cap;
         if (data != NULL) {
-            memcpy(newData, data, min * sizeof(T));
+            for (size_t i=0; i<min; i++)
+                newData[i] = data[i];
+            //memcpy(newData, data, min * sizeof(T));
             delete[] data;
         }
         data = newData;

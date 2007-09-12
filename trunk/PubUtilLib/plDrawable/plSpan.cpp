@@ -80,7 +80,7 @@ void plSpan::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-plKey plSpan::getFogEnvironment() { return fFogEnvironment; }
+const plKey& plSpan::getFogEnvironment() { return fFogEnvironment; }
 hsTArray<plKey>& plSpan::getPermaLights() { return fPermaLights; }
 hsTArray<plKey>& plSpan::getPermaProjs() { return fPermaProjs; }
 unsigned short plSpan::getTypeMask() { return fTypeMask; }

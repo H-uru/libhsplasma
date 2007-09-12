@@ -86,11 +86,8 @@ void plDrawableSpans::read(hsStream* S) {
     for (i=0; i<count; i++) {
         if (spans[i]->getProps() & plSpan::kPropHasPermaLights) {
             count2 = S->readInt();
-            printf("We reading %d lights\n", count2);
-            for (j=0; j<count2; j++) {
+            for (j=0; j<count2; j++)
                 spans[i]->addPermaLight(plResManager::inst->readKey(S));
-                printf("Got one!\n");
-            }
         }
         if (spans[i]->getProps() & plSpan::kPropHasPermaProjs) {
             count2 = S->readInt();

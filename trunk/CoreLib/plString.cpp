@@ -153,34 +153,40 @@ plString plString::operator+(char c) {
 }
 
 bool plString::operator==(const plString& other) const {
+    if (other.empty()) return empty();
     if (hash() != other.hash())
         return false;
     return (strcmp(fStr, other.fStr)==0);
 }
 
 bool plString::operator==(const char* str) const {
+    if (str == NULL) return empty();
     if (hash() != hash(str))
         return false;
     return (strcmp(fStr, str)==0);
 }
 
 bool plString::operator!=(const plString& other) const {
+    if (other.empty()) return !empty();
     if (hash() != other.hash())
         return true;
     return (strcmp(fStr, other.fStr)!=0);
 }
 
 bool plString::operator!=(const char* str) const {
+    if (str == NULL) return !empty();
     if (hash() != hash(str))
         return true;
     return (strcmp(fStr, str)!=0);
 }
 
 bool plString::operator<(const plString& other) const {
+    if (other.empty()) return false;
     return (strcmp(fStr, other.fStr) < 0);
 }
 
 bool plString::operator<(const char* str) const {
+    if (str == NULL) return false;
     return (strcmp(fStr, str) < 0);
 }
 

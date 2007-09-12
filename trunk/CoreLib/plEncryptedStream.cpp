@@ -203,16 +203,16 @@ void plEncryptedStream::setKey(unsigned int* keys) {
     eKey[3] = keys[3];
 }
 
-uint32 plEncryptedStream::size() const { return dataSize; }
-uint32 plEncryptedStream::pos() const { return dataPos; }
+hsUint32 plEncryptedStream::size() const { return dataSize; }
+hsUint32 plEncryptedStream::pos() const { return dataPos; }
 bool plEncryptedStream::eof() const { return dataPos >= dataSize; }
 
-void plEncryptedStream::seek(uint32 pos) {
+void plEncryptedStream::seek(hsUint32 pos) {
     rewind();
     skip(pos);
 }
 
-void plEncryptedStream::skip(uint32 count) {
+void plEncryptedStream::skip(hsUint32 count) {
     char* ignore = new char[count];
     read(count, ignore);
     delete[] ignore;

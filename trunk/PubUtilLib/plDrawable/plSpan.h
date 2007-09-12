@@ -78,7 +78,7 @@ public:
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
 
-    plKey getFogEnvironment();
+    const plKey& getFogEnvironment();
     hsTArray<plKey>& getPermaLights();
     hsTArray<plKey>& getPermaProjs();
     unsigned short getTypeMask();

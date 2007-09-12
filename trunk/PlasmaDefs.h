@@ -16,18 +16,18 @@
 #endif
 #define DllClass class DllExport
 
-typedef signed char byte;
-typedef unsigned char ubyte;
-typedef signed short int16;
-typedef unsigned short uint16;
-typedef signed long int32;
-typedef unsigned long uint32;
+typedef signed char hsByte;
+typedef unsigned char hsUbyte;
+typedef signed short hsInt16;
+typedef unsigned short hsUint16;
+typedef signed long hsInt32;
+typedef unsigned long hsUint32;
 #ifdef WIN32
-  typedef signed __int64 int64;
-  typedef unsigned __int64 uint64;
+  typedef signed __int64 hsInt64;
+  typedef unsigned __int64 hsUint64;
 #else
-  typedef signed long long int64;
-  typedef unsigned long long uint64;
+  typedef signed long long hsInt64;
+  typedef unsigned long long hsUint64;
 #endif
 
 #endif

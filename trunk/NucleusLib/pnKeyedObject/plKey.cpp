@@ -35,7 +35,13 @@ void plKeyData::writeUoid(hsStream* S) {
 }
 
 void plKeyData::prcWrite(pfPrcHelper* prc) {
-    fUoid.prcWrite(prc);
+    if (this == NULL) {
+        prc->startTag("plKey");
+        prc->writeParam("present", false);
+        prc->endTag(true);
+    } else {
+        fUoid.prcWrite(prc);
+    }
 }
 
 plUoid& plKeyData::getUoid() { return fUoid; }
@@ -44,18 +50,20 @@ void plKeyData::setObj(class hsKeyedObject* obj) { fObjPtr = obj; }
 short plKeyData::getType() const { return fUoid.getType(); }
 const PageID& plKeyData::getPageID() const { return fUoid.getPageID(); }
 const plString& plKeyData::getName() const { return fUoid.getName(); }
-uint32 plKeyData::getID() const { return fUoid.getID(); }
-void plKeyData::setID(uint32 id) { fUoid.setID(id); }
-uint32 plKeyData::getFileOff() const { return fFileOff; }
-void plKeyData::setFileOff(uint32 off) { fFileOff = off; }
-uint32 plKeyData::getObjSize() const { return fObjSize; }
-void plKeyData::setObjSize(uint32 size) { fObjSize = size; }
+hsUint32 plKeyData::getID() const { return fUoid.getID(); }
+void plKeyData::setID(hsUint32 id) { fUoid.setID(id); }
+hsUint32 plKeyData::getFileOff() const { return fFileOff; }
+void plKeyData::setFileOff(hsUint32 off) { fFileOff = off; }
+hsUint32 plKeyData::getObjSize() const { return fObjSize; }
+void plKeyData::setObjSize(hsUint32 size) { fObjSize = size; }
 
-uint32 plKeyData::RefCnt() const { return fRefCnt; }
-uint32 plKeyData::Ref() { return ++fRefCnt; }
+hsUint32 plKeyData::RefCnt() const { return fRefCnt; }
+hsUint32 plKeyData::Ref() { return ++fRefCnt; }
 void plKeyData::UnRef() {
-    if (--fRefCnt == 0)
+    if (--fRefCnt == 0) {
+        printf("Key %s no longer in use, deleting...\n", toString().cstr());
         delete this;
+    }
 }
 
 // plKey //

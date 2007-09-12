@@ -111,8 +111,8 @@ public:
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
 
-    void setMaterial(plKey mat);
-    void setFogEnvironment(plKey fog);
+    void setMaterial(const plKey& mat);
+    void setFogEnvironment(const plKey& fog);
 
     void IClearMembers();
     void ClearBuffers();

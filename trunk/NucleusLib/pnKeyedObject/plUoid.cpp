@@ -160,7 +160,8 @@ plString plUoid::toString() const {
 }
 
 short plUoid::getType() const { return classType; }
-const PageID& plUoid::getPageID() const { return location.getPageID(); }
 const plString& plUoid::getName() const { return objName; }
+const plLocation& plUoid::getLocation() const { return location; }
+const PageID& plUoid::getPageID() const { return location.getPageID(); }
 void plUoid::setID(unsigned int id) { objID = id; }
 unsigned int plUoid::getID() const { return objID; }

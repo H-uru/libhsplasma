@@ -26,12 +26,12 @@ public:
     virtual void close();
     void setKey(unsigned int* keys);
 
-    virtual uint32 size() const;
-    virtual uint32 pos() const;
+    virtual hsUint32 size() const;
+    virtual hsUint32 pos() const;
     virtual bool eof() const;
 
-    virtual void seek(uint32 pos);  // Less efficient than skip...
-    virtual void skip(uint32 count);
+    virtual void seek(hsUint32 pos);  // Less efficient than skip...
+    virtual void skip(hsUint32 count);
     virtual void rewind();
 
     virtual void read(size_t size, void* buf);
