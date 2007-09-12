@@ -3,8 +3,9 @@
 
 #include <cstring>
 #include <cstdio>
+#include "../PlasmaDefs.h"
 
-class plString {
+DllClass plString {
 private:
     char* fStr;
     size_t fLen;

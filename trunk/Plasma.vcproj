@@ -826,6 +826,22 @@
 					RelativePath="NucleusLib\pnMessage\plMessage.h"
 					>
 				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plNotifyMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plNotifyMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\proEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\proEventData.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="pnNetCommon"
@@ -1146,6 +1162,14 @@
 					RelativePath="PubUtilLib\plAvatar\plClothingItem.h"
 					>
 				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plNPCSpawnMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plNPCSpawnMod.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="plDrawable"
@@ -1172,6 +1196,30 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plDrawable\plIcicle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plMorphArray.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plMorphArray.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plMorphDataSet.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plMorphDataSet.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plMorphDelta.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plMorphDelta.h"
 					>
 				</File>
 				<File

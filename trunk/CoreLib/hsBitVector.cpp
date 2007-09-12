@@ -14,8 +14,8 @@ bool hsBitVector::get(size_t idx) const {
 void hsBitVector::set(size_t idx, bool b) {
     if ((idx >> BVSHIFT) < fNumVectors) {
         fNumVectors = (idx >> BVSHIFT) + 1;
-        uint* newBits = new uint[fNumVectors];
-        memcpy(newBits, fBits, sizeof(uint)*fNumVectors);
+        hsUint32* newBits = new hsUint32[fNumVectors];
+        memcpy(newBits, fBits, sizeof(hsUint32)*fNumVectors);
         if (fBits) delete[] fBits;
         fBits = newBits;
     }
@@ -52,7 +52,7 @@ void hsBitVector::read(hsStream* S) {
     fNumVectors = S->readInt();
     if (fBits) delete[] fBits;
     if (fNumVectors > 0)
-        fBits = new uint[fNumVectors];
+        fBits = new hsUint32[fNumVectors];
     for (size_t i=0; i<fNumVectors; i++)
         fBits[i] = S->readInt();
 }

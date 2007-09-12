@@ -4,7 +4,6 @@ CFLAGSEXTERN = -fPIC -g
 
 LIBDIR=out/
 OBJFILES=\
-	$(LIBDIR)hsRefCnt.o \
 	$(LIBDIR)hsStream.o \
 	$(LIBDIR)plEncryptedStream.o \
 	$(LIBDIR)hsElfStream.o \
@@ -78,9 +77,6 @@ all: $(PLSLIB)
 
 $(PLSLIB): $(OBJFILES)
 	$(CC) $(CFLAGS) $(OBJFILES) -ljpeg -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
-
-$(LIBDIR)hsRefCnt.o: CoreLib/hsRefCnt.h CoreLib/hsRefCnt.cpp
-	$(CC) $(CFLAGS) -c CoreLib/hsRefCnt.cpp -o $(LIBDIR)hsRefCnt.o
 
 $(LIBDIR)hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsStream.cpp -o $(LIBDIR)hsStream.o

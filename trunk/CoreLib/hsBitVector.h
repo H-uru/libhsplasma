@@ -9,7 +9,7 @@
 
 DllClass hsBitVector {
 private:
-    uint* fBits;
+    hsUint32* fBits;
     size_t fNumVectors;
 
 public:

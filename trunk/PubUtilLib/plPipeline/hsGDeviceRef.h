@@ -3,7 +3,7 @@
 
 #include "../../CoreLib/hsRefCnt.h"
 
-class hsGDeviceRef : public hsRefCnt {
+class hsGDeviceRef /*: public hsRefCnt*/ {
 public:
     enum { kNone, kDirty };
 

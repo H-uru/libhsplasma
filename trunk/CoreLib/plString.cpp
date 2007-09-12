@@ -258,6 +258,7 @@ unsigned int plString::hash(const char* str) {
 }
 
 long plString::find(char c) const {
+    if (empty()) return -1;
     char* pos = strchr(fStr, c);
     if (pos != NULL)
         return (long)(pos - fStr);
@@ -265,6 +266,7 @@ long plString::find(char c) const {
 }
 
 long plString::find(const char* sub) const {
+    if (empty()) return -1;
     size_t len = strlen(sub);
     if (len > fLen) return -1;
     for (size_t i=0; i<(fLen - len); i++) {
@@ -275,6 +277,7 @@ long plString::find(const char* sub) const {
 }
 
 long plString::find(plString& sub) const {
+    if (empty()) return -1;
     if (sub.fLen > fLen) return -1;
     for (size_t i=0; i<(fLen - sub.fLen); i++) {
         if (strncmp(fStr + i, sub.fStr, sub.fLen) == 0)
@@ -284,6 +287,7 @@ long plString::find(plString& sub) const {
 }
 
 long plString::rfind(char c) const {
+    if (empty()) return -1;
     char* pos = strrchr(fStr, c);
     if (pos != NULL)
         return (long)(pos - fStr);
@@ -291,6 +295,7 @@ long plString::rfind(char c) const {
 }
 
 long plString::rfind(const char* sub) const {
+    if (empty()) return -1;
     size_t len = strlen(sub);
     if (len > fLen) return -1;
     for (size_t i=(fLen - len); i>0; i--) {
@@ -301,6 +306,7 @@ long plString::rfind(const char* sub) const {
 }
 
 long plString::rfind(plString& sub) const {
+    if (empty()) return -1;
     if (sub.fLen > fLen) return -1;
     for (size_t i=(fLen - sub.fLen); i>0; i--) {
         if (strncmp(fStr + (i-1), sub.fStr, sub.fLen) == 0)
@@ -310,14 +316,18 @@ long plString::rfind(plString& sub) const {
 }
 
 plString& plString::toUpper() {
-    for (char* c=fStr; *c; c++)
-        *c = toupper(*c);
+    if (!empty()) {
+        for (char* c=fStr; *c; c++)
+            *c = toupper(*c);
+    }
     return (*this);
 }
 
 plString& plString::toLower() {
-    for (char* c=fStr; *c; c++)
-        *c = tolower(*c);
+    if (!empty()) {
+        for (char* c=fStr; *c; c++)
+            *c = tolower(*c);
+    }
     return (*this);
 }
 

@@ -7,9 +7,9 @@ plLightInfo::~plLightInfo() { }
 IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 
 void plLightInfo::read(hsStream* S) {
-    if (deviceRef != NULL)
-        deviceRef->UnRef();
-    deviceRef = NULL;
+    //if (deviceRef != NULL)
+    //    deviceRef->UnRef();
+    //deviceRef = NULL;
 
     plObjInterface::read(S);
     ambient.read(S);
