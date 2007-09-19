@@ -11,13 +11,13 @@ plSingleModifier::plSingleModifier() { }
 
 IMPLEMENT_CREATABLE(plSingleModifier, kSingleModifier, plModifier)
 
-void plSingleModifier::read(hsStream* S) {
-    plSynchedObject::read(S);
+void plSingleModifier::read(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
     flags.read(S);
 }
 
-void plSingleModifier::write(hsStream* S) {
-    plSynchedObject::write(S);
+void plSingleModifier::write(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
     flags.write(S);
 }
 
@@ -35,13 +35,13 @@ plMultiModifier::plMultiModifier() { }
 
 IMPLEMENT_CREATABLE(plMultiModifier, kMultiModifier, plModifier)
 
-void plMultiModifier::read(hsStream* S) {
-    plSynchedObject::read(S);
+void plMultiModifier::read(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
     flags.read(S);
 }
 
-void plMultiModifier::write(hsStream* S) {
-    plSynchedObject::write(S);
+void plMultiModifier::write(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
     flags.write(S);
 }
 

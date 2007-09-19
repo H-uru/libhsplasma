@@ -2,26 +2,32 @@
 #include "../../NucleusLib/pnFactory/plFactory.h"
 #include "../plJPEG/plJPEG.h"
 
-plResManager* plResManager::inst = NULL;
-int plResManager::resManagers = 0;
+plResManager* plResManager::fGlobalResMgr = NULL;
+unsigned int plResManager::fNumResMgrs = 0;
 
 plResManager::plResManager(PlasmaVer pv) {
     setVer(pv);
-    if (inst == NULL)
-        inst = this;
-    plJPEG::inst = new plJPEG;
-    resManagers++;
+    if (plJPEG::inst == NULL)
+        plJPEG::inst = new plJPEG;
+    fNumResMgrs++;
 }
 
 plResManager::~plResManager() {
-    resManagers--;
-    if (resManagers == 0) {
-        while (inst->ages.size() > 0)
-            UnloadAge(inst->ages[0]);
-        while (inst->pages.size() > 0)
-            UnloadPage(inst->pages[0]->getLocation());
-        inst = NULL;
-    }
+    while (ages.size() > 0)
+        UnloadAge(ages[0]);
+    while (pages.size() > 0)
+        UnloadPage(pages[0]->getLocation());
+    fNumResMgrs--;
+    if ((fNumResMgrs == 1) && (fGlobalResMgr != NULL))
+        delete fGlobalResMgr;
+    if (fNumResMgrs == 0)
+        delete plJPEG::inst;
+}
+
+plResManager* plResManager::GetGlobalResMgr() {
+    if (fGlobalResMgr == NULL)
+        fGlobalResMgr = new plResManager();
+    return fGlobalResMgr;
 }
 
 void plResManager::setVer(PlasmaVer pv, bool mutate) {
@@ -40,11 +46,11 @@ plKey plResManager::readKey(hsStream* S) {
         if (S->getVer() == pvLive)
             S->readBool();
         k->readUoid(S);
-        plKey xkey = inst->keys.findKey(k);
+        plKey xkey = keys.findKey(k);
         if (xkey.Exists()) {
             return xkey;
         } else {
-            inst->keys.add(k);
+            keys.add(k);
             return k;
         }
     } else {
@@ -52,16 +58,16 @@ plKey plResManager::readKey(hsStream* S) {
     }
 }
 
-plKey plResManager::readUoidKey(hsStream* S) {
+plKey plResManager::readUoid(hsStream* S) {
     plKey k = new plKeyData();
     if (S->getVer() == pvLive)
         S->readBool();
     k->readUoid(S);
-    plKey xkey = inst->keys.findKey(k);
+    plKey xkey = keys.findKey(k);
     if (xkey.Exists())
         k = xkey;
     else
-        inst->keys.add(k);
+        keys.add(k);
     return k;
 }
 
@@ -80,20 +86,24 @@ void plResManager::writeKey(hsStream* S, hsKeyedObject* ko) {
     writeKey(S, ko->getKey());
 }
 
-void plResManager::writeUoidKey(hsStream* S, plKey key) {
+void plResManager::writeUoid(hsStream* S, plKey key) {
     if (S->getVer() == pvLive)
         S->writeBool(true);
     key->writeUoid(S);
 }
 
-void plResManager::writeUoidKey(hsStream* S, hsKeyedObject* ko) {
-    writeUoidKey(S, ko->getKey());
+void plResManager::writeUoid(hsStream* S, hsKeyedObject* ko) {
+    writeUoid(S, ko->getKey());
 }
 
 hsKeyedObject* plResManager::getObject(const plKey& key) {
-    plKey fk = inst->keys.findKey(key);
+    plKey fk = keys.findKey(key);
     if (!fk.Exists()) return NULL;
     return fk->getObj();
+}
+
+unsigned int plResManager::countKeys(const PageID& pid) {
+    return keys.countKeys(pid);
 }
 
 plPageInfo* plResManager::ReadPage(const char* filename) {
@@ -106,7 +116,7 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
     }
     plPageInfo* page = new plPageInfo;
     page->read(S);
-    inst->pages.push_back(page);
+    pages.push_back(page);
     setVer(S->getVer());
 
     S->seek(page->getIndexStart());
@@ -122,9 +132,9 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     S->open(filename, fmWrite);
     S->setVer(ver);
     if (ver == pvEoa || ver == pvLive) {
-        std::vector<short> types = inst->keys.getTypes(page->getLocation().getPageID());
+        std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
         page->setClassList(types);
-        inst->keys.sortKeys(page->getLocation().getPageID());
+        keys.sortKeys(page->getLocation().getPageID());
     }
     page->write(S);
     page->setDataStart(S->pos());
@@ -144,9 +154,9 @@ void plResManager::WritePrc(pfPrcHelper* prc, plPageInfo* page) {
     page->prcWrite(prc); // starts <Page>
     
     // Objects:
-    std::vector<short> types = inst->keys.getTypes(page->getLocation().getPageID());
+    std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = inst->keys.getKeys(page->getLocation().getPageID(), types[i]);
+        std::vector<plKey> kList = keys.getKeys(page->getLocation().getPageID(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->getObj() != NULL) {
                 kList[j]->getObj()->prcWrite(prc);
@@ -159,13 +169,13 @@ void plResManager::WritePrc(pfPrcHelper* prc, plPageInfo* page) {
 }
 
 void plResManager::UnloadPage(plLocation& loc) {
-    std::vector<plPageInfo*>::iterator pi = inst->pages.begin();
-    while (pi != inst->pages.end()) {
+    std::vector<plPageInfo*>::iterator pi = pages.begin();
+    while (pi != pages.end()) {
         if ((*pi)->getLocation() == loc) {
             plPageInfo* page = *pi;
-            inst->pages.erase(pi);
+            pages.erase(pi);
             delete page;
-            pi = inst->pages.end();
+            pi = pages.end();
         } else {
             pi++;
         }
@@ -225,7 +235,7 @@ plAgeSettings* plResManager::ReadAge(const char* filename) {
 
     S->close();
     delete S;
-    inst->ages.push_back(age);
+    ages.push_back(age);
     return age;
 }
 
@@ -265,11 +275,11 @@ void plResManager::WriteAge(const char* filename, plAgeSettings* age) {
 void plResManager::UnloadAge(plAgeSettings* age) {
     for (unsigned int i=0; i<age->pages.size(); i++)
         UnloadPage(age->pages[i]->getLocation());
-    std::vector<plAgeSettings*>::iterator ai = inst->ages.begin();
-    while (ai != inst->ages.end()) {
+    std::vector<plAgeSettings*>::iterator ai = ages.begin();
+    while (ai != ages.end()) {
         if ((*ai) == age) {
-            inst->ages.erase(ai);
-            ai = inst->ages.end();
+            ages.erase(ai);
+            ai = ages.end();
         } else {
             ai++;
         }
@@ -280,7 +290,7 @@ void plResManager::UnloadAge(plAgeSettings* age) {
 
 void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
     //printf("* Reading Keyring\n");
-    //inst->keys.addPage(loc.pageID);
+    //keys.addPage(loc.pageID);
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = S->readShort(); // objType
@@ -289,24 +299,24 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
             S->readByte(); // flag?
         }
         unsigned int oCount = S->readInt();
-        inst->keys.reserveKeySpace(loc.getPageID(), type, oCount);
+        keys.reserveKeySpace(loc.getPageID(), type, oCount);
         //printf("  * Indexing %d objects of type [%04X]\n", oCount, type);
         for (unsigned int j=0; j<oCount; j++) {
             plKey key = new plKeyData();
             key->read(S);
             //if (S->getVer() != pvEoa && S->getVer() != pvLive)
             //    key->setID(j);
-            inst->keys.add(key);
+            keys.add(key);
             //printf("    * Key %s\n", key->toString());
         }
     }
 }
 
 void plResManager::WriteKeyring(hsStream* S, plLocation& loc) {
-    std::vector<short> types = inst->keys.getTypes(loc.getPageID());
+    std::vector<short> types = keys.getTypes(loc.getPageID());
     S->writeInt(types.size());
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = inst->keys.getKeys(loc.getPageID(), types[i]);
+        std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
         if (kList.size() <= 0) continue;
         S->writeShort(pdUnifiedTypeMap::MappedToPlasma(kList[0]->getType(), S->getVer()));
         unsigned int lenPos = S->pos();
@@ -328,11 +338,11 @@ void plResManager::WriteKeyring(hsStream* S, plLocation& loc) {
 
 unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
     //printf("* Reading Objects\n");
-    std::vector<short> types = inst->keys.getTypes(loc.getPageID());
+    std::vector<short> types = keys.getTypes(loc.getPageID());
     unsigned int nRead = 0;
     
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = inst->keys.getKeys(loc.getPageID(), types[i]);
+        std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
         //printf("* Reading %d objects of type [%04X]%s\n", kList.size(),
         //       types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
         for (unsigned int j=0; j<kList.size(); j++) {
@@ -368,11 +378,11 @@ unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
 }
 
 unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
-    std::vector<short> types = inst->keys.getTypes(loc.getPageID());
+    std::vector<short> types = keys.getTypes(loc.getPageID());
     unsigned int nWritten = 0;
 
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = inst->keys.getKeys(loc.getPageID(), types[i]);
+        std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
         //printf("* Writing %d objects of type [%04X]\n", kList.size(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
@@ -399,7 +409,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
 plCreatable* plResManager::ReadCreatable(hsStream* S) {
     plCreatable* pCre = plFactory::Create(S->readShort(), S->getVer());
     if (pCre != NULL)
-        pCre->read(S);
+        pCre->read(S, this);
     return pCre;
 }
 
@@ -408,12 +418,12 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
         S->writeShort(0x8000);
     } else {
         S->writeShort(pCre->ClassIndex(S->getVer()));
-        pCre->write(S);
+        pCre->write(S, this);
     }
 }
 
 plSceneNode* plResManager::getSceneNode(plLocation& loc) {
-    std::vector<plKey> kList = inst->keys.getKeys(loc.getPageID(), kSceneNode);
+    std::vector<plKey> kList = keys.getKeys(loc.getPageID(), kSceneNode);
     if (kList.size() < 1) return NULL;
     return (plSceneNode*)kList[0]->getObj();
 }

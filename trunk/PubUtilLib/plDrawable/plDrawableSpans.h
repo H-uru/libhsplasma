@@ -126,8 +126,8 @@ public:
 
     DECLARE_CREATABLE(plDrawableSpans)
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
 };
 

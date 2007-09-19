@@ -6,8 +6,9 @@ plDrawInterface::~plDrawInterface() { }
 
 IMPLEMENT_CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
 
-void plDrawInterface::read(hsStream* S) {
-    plObjInterface::read(S);
+void plDrawInterface::read(hsStream* S, plResManager* mgr) {
+    plObjInterface::read(S, mgr);
+
     size_t count = S->readInt();
     Drawables.clear();
     Drawables.setSize(count);
@@ -16,26 +17,27 @@ void plDrawInterface::read(hsStream* S) {
 	size_t i;
     for (i=0; i<count; i++) {
         DrawableKeys[i] = S->readInt();
-        Drawables[i] = plResManager::inst->readKey(S);
+        Drawables[i] = mgr->readKey(S);
     }
     count = S->readInt();
     Objects.clear();
     Objects.setSize(count);
     for (i=0; i<count; i++)
-        Objects[i] = plResManager::inst->readKey(S);
+        Objects[i] = mgr->readKey(S);
 }
 
-void plDrawInterface::write(hsStream* S) {
-    plObjInterface::write(S);
+void plDrawInterface::write(hsStream* S, plResManager* mgr) {
+    plObjInterface::write(S, mgr);
+
     S->writeInt(Drawables.getSize());
 	size_t i;
     for (i=0; i<Drawables.getSize(); i++) {
         S->writeInt(DrawableKeys[i]);
-        plResManager::inst->writeKey(S, Drawables[i]);
+        mgr->writeKey(S, Drawables[i]);
     }
     S->writeInt(Objects.getSize());
     for (i=0; i<Objects.getSize(); i++)
-        plResManager::inst->writeKey(S, Objects[i]);
+        mgr->writeKey(S, Objects[i]);
 }
 
 void plDrawInterface::prcWrite(pfPrcHelper* prc) {

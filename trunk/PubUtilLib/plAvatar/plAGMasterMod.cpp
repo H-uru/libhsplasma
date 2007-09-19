@@ -6,8 +6,8 @@ plAGMasterMod::~plAGMasterMod() { }
 
 IMPLEMENT_CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
 
-void plAGMasterMod::read(hsStream* S) {
-    plSynchedObject::read(S);
+void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
 
     int len = S->readInt();
     fGroupName = S->readStr(len);
@@ -15,11 +15,11 @@ void plAGMasterMod::read(hsStream* S) {
     len = S->readInt();
     fPrivateAnims.resize(len);
     for (int i=0; i<len; i++)
-        fPrivateAnims[i] = plResManager::inst->readKey(S);
+        fPrivateAnims[i] = mgr->readKey(S);
 }
 
-void plAGMasterMod::write(hsStream* S) {
-    plSynchedObject::write(S);
+void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
     
     if (S->getVer() != pvPrime || fGroupName == NULL) {
         S->writeInt(0);
@@ -30,7 +30,7 @@ void plAGMasterMod::write(hsStream* S) {
 
     S->writeInt(fPrivateAnims.size());
     for (size_t i=0; i<fPrivateAnims.size(); i++)
-        plResManager::inst->writeKey(S, fPrivateAnims[i]);
+        mgr->writeKey(S, fPrivateAnims[i]);
 }
 
 void plAGMasterMod::prcWrite(pfPrcHelper* prc) {

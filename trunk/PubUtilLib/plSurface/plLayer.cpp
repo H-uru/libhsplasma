@@ -39,8 +39,8 @@ plLayer::~plLayer() {
 
 IMPLEMENT_CREATABLE(plLayer, kLayer, plLayerInterface)
 
-void plLayer::read(hsStream* S) {
-    plLayerInterface::read(S);
+void plLayer::read(hsStream* S, plResManager* mgr) {
+    plLayerInterface::read(S, mgr);
     state->read(S);
     transform->read(S);
 
@@ -54,14 +54,14 @@ void plLayer::read(hsStream* S) {
     *LODBias = S->readFloat();
     *specularPower = S->readFloat();
 
-    texture = plResManager::inst->readKey(S);
-    vertexShader = plResManager::inst->readKey(S);
-    pixelShader = plResManager::inst->readKey(S);
+    texture = mgr->readKey(S);
+    vertexShader = mgr->readKey(S);
+    pixelShader = mgr->readKey(S);
     bumpEnvXfm->read(S);
 }
 
-void plLayer::write(hsStream* S) {
-    plLayerInterface::write(S);
+void plLayer::write(hsStream* S, plResManager* mgr) {
+    plLayerInterface::write(S, mgr);
     state->write(S);
     transform->write(S);
 
@@ -75,9 +75,9 @@ void plLayer::write(hsStream* S) {
     S->writeFloat(*LODBias);
     S->writeFloat(*specularPower);
 
-    plResManager::inst->writeKey(S, texture);
-    plResManager::inst->writeKey(S, vertexShader);
-    plResManager::inst->writeKey(S, pixelShader);
+    mgr->writeKey(S, texture);
+    mgr->writeKey(S, vertexShader);
+    mgr->writeKey(S, pixelShader);
     bumpEnvXfm->write(S);
 }
 

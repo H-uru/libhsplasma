@@ -34,8 +34,8 @@ public:
     static unsigned int PlasmaToMapped(unsigned int type, PlasmaVer ver);
     static unsigned int MappedToPlasma(unsigned int type, PlasmaVer ver);
 
-    void read(hsStream* S);
-    void write(hsStream* S);
+    void read(hsStream* S, plResManager* mgr);
+    void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);
 };
 
@@ -84,8 +84,8 @@ public:
     hsTArray<plKey>& getReceivers();
     hsTArray<plPythonParameter>& getParameters();
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
 };
 

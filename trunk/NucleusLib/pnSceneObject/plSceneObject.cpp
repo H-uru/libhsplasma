@@ -6,41 +6,41 @@ plSceneObject::~plSceneObject() { }
 
 IMPLEMENT_CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 
-void plSceneObject::read(hsStream* S) {
-    plSynchedObject::read(S);
+void plSceneObject::read(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
 
-    DrawIntf = plResManager::inst->readKey(S);
-    SimIntf = plResManager::inst->readKey(S);
-    CoordIntf = plResManager::inst->readKey(S);
-    AudioIntf = plResManager::inst->readKey(S);
+    DrawIntf = mgr->readKey(S);
+    SimIntf = mgr->readKey(S);
+    CoordIntf = mgr->readKey(S);
+    AudioIntf = mgr->readKey(S);
 
     Interfaces.setSizeNull(S->readInt());
 	size_t i;
     for (i=0; i<Interfaces.getSize(); i++)
-        Interfaces[i] = plResManager::inst->readKey(S);
+        Interfaces[i] = mgr->readKey(S);
     Modifiers.setSizeNull(S->readInt());
     for (i=0; i<Modifiers.getSize(); i++)
-        Modifiers[i] = plResManager::inst->readKey(S);
+        Modifiers[i] = mgr->readKey(S);
 
-    SceneNode = plResManager::inst->readKey(S);
+    SceneNode = mgr->readKey(S);
 }
 
-void plSceneObject::write(hsStream* S) {
-    plSynchedObject::write(S);
+void plSceneObject::write(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
 
-    plResManager::inst->writeKey(S, DrawIntf);
-    plResManager::inst->writeKey(S, SimIntf);
-    plResManager::inst->writeKey(S, CoordIntf);
-    plResManager::inst->writeKey(S, AudioIntf);
+    mgr->writeKey(S, DrawIntf);
+    mgr->writeKey(S, SimIntf);
+    mgr->writeKey(S, CoordIntf);
+    mgr->writeKey(S, AudioIntf);
 
     S->writeInt(Interfaces.getSize());
     size_t i;
     for (i=0; i<Interfaces.getSize(); i++)
-        plResManager::inst->writeKey(S, Interfaces[i]);
+        mgr->writeKey(S, Interfaces[i]);
     S->writeInt(Modifiers.getSize());
     for (i=0; i<Modifiers.getSize(); i++)
-        plResManager::inst->writeKey(S, Modifiers[i]);
-    plResManager::inst->writeKey(S, SceneNode);
+        mgr->writeKey(S, Modifiers[i]);
+    mgr->writeKey(S, SceneNode);
 }
 
 void plSceneObject::prcWrite(pfPrcHelper* prc) {

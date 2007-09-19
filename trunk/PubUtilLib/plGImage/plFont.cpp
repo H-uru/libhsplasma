@@ -19,13 +19,13 @@ FontLetterDef& plFont::operator[](int idx) {
     return Letters[idx];
 }
 
-void plFont::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plFont::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
     readP2F(S);
 }
 
-void plFont::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plFont::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
     writeP2F(S);
 }
 

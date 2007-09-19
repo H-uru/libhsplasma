@@ -39,7 +39,7 @@ plSpaceTree::~plSpaceTree() { }
 
 IMPLEMENT_CREATABLE(plSpaceTree, kSpaceTree, plCreatable)
 
-void plSpaceTree::read(hsStream* S) {
+void plSpaceTree::read(hsStream* S, plResManager* mgr) {
     fRoot = S->readShort();
     fNumLeaves = S->readInt();
 
@@ -48,7 +48,7 @@ void plSpaceTree::read(hsStream* S) {
         fTree[i].read(S);
 }
 
-void plSpaceTree::write(hsStream* S) {
+void plSpaceTree::write(hsStream* S, plResManager* mgr) {
     S->writeShort(fRoot);
     S->writeInt(fNumLeaves);
 

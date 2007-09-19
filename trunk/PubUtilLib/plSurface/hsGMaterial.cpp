@@ -6,26 +6,26 @@ hsGMaterial::~hsGMaterial() { }
 
 IMPLEMENT_CREATABLE(hsGMaterial, kGMaterial, plSynchedObject)
 
-void hsGMaterial::read(hsStream* S) {
-    plSynchedObject::read(S);
+void hsGMaterial::read(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
     readData(S);
 
     size_t i;
     for (i=0; i<Layers.getSize(); i++)
-        Layers[i] = plResManager::inst->readKey(S);
+        Layers[i] = mgr->readKey(S);
     for (i=0; i<PiggyBacks.getSize(); i++)
-        PiggyBacks[i] = plResManager::inst->readKey(S);
+        PiggyBacks[i] = mgr->readKey(S);
 }
 
-void hsGMaterial::write(hsStream* S) {
-    plSynchedObject::write(S);
+void hsGMaterial::write(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
     writeData(S);
 
     size_t i;
     for (i=0; i<Layers.getSize(); i++)
-        plResManager::inst->writeKey(S, Layers[i]);
+        mgr->writeKey(S, Layers[i]);
     for (i=0; i<PiggyBacks.getSize(); i++)
-        plResManager::inst->writeKey(S, PiggyBacks[i]);
+        mgr->writeKey(S, PiggyBacks[i]);
 }
 
 void hsGMaterial::readData(hsStream* S) {

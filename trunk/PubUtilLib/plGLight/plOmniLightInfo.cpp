@@ -6,16 +6,16 @@ plOmniLightInfo::~plOmniLightInfo() { }
 
 IMPLEMENT_CREATABLE(plOmniLightInfo, kOmniLightInfo, plLightInfo)
 
-void plOmniLightInfo::read(hsStream* S) {
-    plLightInfo::read(S);
+void plOmniLightInfo::read(hsStream* S, plResManager* mgr) {
+    plLightInfo::read(S, mgr);
     fAttenConst = S->readFloat();
     fAttenLinear = S->readFloat();
     fAttenQuadratic = S->readFloat();
     fAttenCutoff = S->readFloat();
 }
 
-void plOmniLightInfo::write(hsStream* S) {
-    plLightInfo::write(S);
+void plOmniLightInfo::write(hsStream* S, plResManager* mgr) {
+    plLightInfo::write(S, mgr);
     S->writeFloat(fAttenConst);
     S->writeFloat(fAttenLinear);
     S->writeFloat(fAttenQuadratic);
@@ -39,15 +39,15 @@ plSpotLightInfo::~plSpotLightInfo() { }
 
 IMPLEMENT_CREATABLE(plSpotLightInfo, kSpotLightInfo, plOmniLightInfo)
 
-void plSpotLightInfo::read(hsStream* S) {
-    plOmniLightInfo::read(S);
+void plSpotLightInfo::read(hsStream* S, plResManager* mgr) {
+    plOmniLightInfo::read(S, mgr);
     fFalloff = S->readFloat();
     fSpotInner = S->readFloat();
     fSpotOuter = S->readFloat();
 }
 
-void plSpotLightInfo::write(hsStream* S) {
-    plOmniLightInfo::write(S);
+void plSpotLightInfo::write(hsStream* S, plResManager* mgr) {
+    plOmniLightInfo::write(S, mgr);
     S->writeFloat(fFalloff);
     S->writeFloat(fSpotInner);
     S->writeFloat(fSpotOuter);

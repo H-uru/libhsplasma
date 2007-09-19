@@ -77,7 +77,7 @@ plMorphDelta::~plMorphDelta() { }
 
 IMPLEMENT_CREATABLE(plMorphDelta, kMorphDelta, plCreatable)
 
-void plMorphDelta::read(hsStream* S) {
+void plMorphDelta::read(hsStream* S, plResManager* mgr) {
     fWeight = S->readFloat();
     size_t spanCount = S->readInt();
     fSpans.Reset();
@@ -90,7 +90,7 @@ void plMorphDelta::read(hsStream* S) {
     }
 }
 
-void plMorphDelta::write(hsStream* S) {
+void plMorphDelta::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fWeight);
     S->writeInt(fSpans.getSize());
     for (size_t i=0; i<fSpans.getSize(); i++) {

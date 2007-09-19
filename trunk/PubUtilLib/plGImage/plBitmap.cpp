@@ -19,13 +19,13 @@ plBitmap::~plBitmap() { }
 
 IMPLEMENT_CREATABLE(plBitmap, kBitmap, hsKeyedObject)
 
-void plBitmap::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plBitmap::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
     readData(S);
 }
 
-void plBitmap::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plBitmap::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
     writeData(S);
 }
 

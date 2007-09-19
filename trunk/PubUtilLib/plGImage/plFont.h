@@ -36,8 +36,8 @@ public:
 
     FontLetterDef& operator[](int idx);
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
     void readP2F(hsStream* S);
     void writeP2F(hsStream* S);
 };

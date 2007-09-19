@@ -1,5 +1,4 @@
 #include "proEventData.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 // proEventData //
 proEventData::proEventData() : fEventType(0) { }
@@ -27,16 +26,16 @@ proEventData* proEventData::ICreateEventDataType(int type) {
     }
 }
 
-proEventData* proEventData::read(hsStream* S) {
+proEventData* proEventData::read(hsStream* S, plResManager* mgr) {
     proEventData* event = ICreateEventDataType(S->readInt());
     if (event != NULL)
-        event->IRead(S);
+        event->IRead(S, mgr);
     return event;
 }
 
-void proEventData::write(hsStream* S) {
+void proEventData::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fEventType);
-    IWrite(S);
+    IWrite(S, mgr);
 }
 
 
@@ -45,16 +44,16 @@ proCollisionEventData::proCollisionEventData() : fEnter(false) {
     fEventType = kCollision;
 }
 
-void proCollisionEventData::IRead(hsStream* S) {
+void proCollisionEventData::IRead(hsStream* S, plResManager* mgr) {
     fEnter = S->readBool();
-    fHitter = plResManager::inst->readKey(S);
-    fHittee = plResManager::inst->readKey(S);
+    fHitter = mgr->readKey(S);
+    fHittee = mgr->readKey(S);
 }
 
-void proCollisionEventData::IWrite(hsStream* S) {
+void proCollisionEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeBool(fEnter);
-    plResManager::inst->writeKey(S, fHitter);
-    plResManager::inst->writeKey(S, fHittee);
+    mgr->writeKey(S, fHitter);
+    mgr->writeKey(S, fHittee);
 }
 
 
@@ -63,16 +62,16 @@ proPickedEventData::proPickedEventData() : fEnabled(false) {
     fEventType = kPicked;
 }
 
-void proPickedEventData::IRead(hsStream* S) {
-    fPicker = plResManager::inst->readKey(S);
-    fPicked = plResManager::inst->readKey(S);
+void proPickedEventData::IRead(hsStream* S, plResManager* mgr) {
+    fPicker = mgr->readKey(S);
+    fPicked = mgr->readKey(S);
     fEnabled = S->readBool();
     fHitPoint.read(S);
 }
 
-void proPickedEventData::IWrite(hsStream* S) {
-    plResManager::inst->writeKey(S, fPicker);
-    plResManager::inst->writeKey(S, fPicked);
+void proPickedEventData::IWrite(hsStream* S, plResManager* mgr) {
+    mgr->writeKey(S, fPicker);
+    mgr->writeKey(S, fPicked);
     S->writeBool(fEnabled);
     fHitPoint.write(S);
 }
@@ -83,12 +82,12 @@ proControlKeyEventData::proControlKeyEventData() : fControlKey(0), fDown(false) 
     fEventType = kControlKey;
 }
 
-void proControlKeyEventData::IRead(hsStream* S) {
+void proControlKeyEventData::IRead(hsStream* S, plResManager* mgr) {
     fControlKey = S->readInt();
     fDown = S->readBool();
 }
 
-void proControlKeyEventData::IWrite(hsStream* S) {
+void proControlKeyEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fControlKey);
     S->writeInt(fDown);
 }
@@ -100,18 +99,18 @@ proVariableEventData::proVariableEventData() : fNumber(0.0f) {
     fDataType = kNotta;
 }
 
-void proVariableEventData::IRead(hsStream* S) {
+void proVariableEventData::IRead(hsStream* S, plResManager* mgr) {
     fName = S->readSafeStr();
     fDataType = S->readInt();
     fNumber = S->readFloat();
-    fKey = plResManager::inst->readKey(S);
+    fKey = mgr->readKey(S);
 }
 
-void proVariableEventData::IWrite(hsStream* S) {
+void proVariableEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fName);
     S->writeInt(fDataType);
     S->writeFloat(fNumber);
-    plResManager::inst->writeKey(S, fKey);
+    mgr->writeKey(S, fKey);
 }
 
 
@@ -120,16 +119,16 @@ proFacingEventData::proFacingEventData() : dot(0.0f), enabled(false) {
     fEventType = kFacing;
 }
 
-void proFacingEventData::IRead(hsStream* S) {
-    fFacer = plResManager::inst->readKey(S);
-    fFacee = plResManager::inst->readKey(S);
+void proFacingEventData::IRead(hsStream* S, plResManager* mgr) {
+    fFacer = mgr->readKey(S);
+    fFacee = mgr->readKey(S);
     dot = S->readFloat();
     enabled = S->readBool();
 }
 
-void proFacingEventData::IWrite(hsStream* S) {
-    plResManager::inst->writeKey(S, fFacer);
-    plResManager::inst->writeKey(S, fFacee);
+void proFacingEventData::IWrite(hsStream* S, plResManager* mgr) {
+    mgr->writeKey(S, fFacer);
+    mgr->writeKey(S, fFacee);
     S->writeFloat(dot);
     S->writeFloat(enabled);
 }
@@ -140,15 +139,15 @@ proContainedEventData::proContainedEventData() : fEntering(false) {
     fEventType = kContained;
 }
 
-void proContainedEventData::IRead(hsStream* S) {
-    fContained = plResManager::inst->readKey(S);
-    fContainer = plResManager::inst->readKey(S);
+void proContainedEventData::IRead(hsStream* S, plResManager* mgr) {
+    fContained = mgr->readKey(S);
+    fContainer = mgr->readKey(S);
     fEntering = S->readBool();
 }
 
-void proContainedEventData::IWrite(hsStream* S) {
-    plResManager::inst->writeKey(S, fContained);
-    plResManager::inst->writeKey(S, fContainer);
+void proContainedEventData::IWrite(hsStream* S, plResManager* mgr) {
+    mgr->writeKey(S, fContained);
+    mgr->writeKey(S, fContainer);
     S->writeBool(fEntering);
 }
 
@@ -158,12 +157,12 @@ proActivateEventData::proActivateEventData() : fActive(false), fActivate(false) 
     fEventType = kActivate;
 }
 
-void proActivateEventData::IRead(hsStream* S) {
+void proActivateEventData::IRead(hsStream* S, plResManager* mgr) {
     fActive = S->readBool();
     fActivate = S->readBool();
 }
 
-void proActivateEventData::IWrite(hsStream* S) {
+void proActivateEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeBool(fActive);
     S->writeBool(fActivate);
 }
@@ -174,11 +173,11 @@ proCallbackEventData::proCallbackEventData() : fCallbackEventType(0) {
     fEventType = kCallback;
 }
 
-void proCallbackEventData::IRead(hsStream* S) {
+void proCallbackEventData::IRead(hsStream* S, plResManager* mgr) {
     fCallbackEventType = S->readInt();
 }
 
-void proCallbackEventData::IWrite(hsStream* S) {
+void proCallbackEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fCallbackEventType);
 }
 
@@ -188,11 +187,11 @@ proResponderStateEventData::proResponderStateEventData() : fState(0) {
     fEventType = kResponderState;
 }
 
-void proResponderStateEventData::IRead(hsStream* S) {
+void proResponderStateEventData::IRead(hsStream* S, plResManager* mgr) {
     fState = S->readInt();
 }
 
-void proResponderStateEventData::IWrite(hsStream* S) {
+void proResponderStateEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fState);
 }
 
@@ -202,16 +201,16 @@ proMultiStageEventData::proMultiStageEventData() : fStage(0), fEvent(kNothing) {
     fEventType = kMultiStage;
 }
 
-void proMultiStageEventData::IRead(hsStream* S) {
+void proMultiStageEventData::IRead(hsStream* S, plResManager* mgr) {
     fStage = S->readInt();
     fEvent = S->readInt();
-    fAvatar = plResManager::inst->readKey(S);
+    fAvatar = mgr->readKey(S);
 }
 
-void proMultiStageEventData::IWrite(hsStream* S) {
+void proMultiStageEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fStage);
     S->writeInt(fEvent);
-    plResManager::inst->writeKey(S, fAvatar);
+    mgr->writeKey(S, fAvatar);
 }
 
 
@@ -220,14 +219,14 @@ proSpawnedEventData::proSpawnedEventData() {
     fEventType = kSpawned;
 }
 
-void proSpawnedEventData::IRead(hsStream* S) {
-    fSpawner = plResManager::inst->readKey(S);
-    fSpawnee = plResManager::inst->readKey(S);
+void proSpawnedEventData::IRead(hsStream* S, plResManager* mgr) {
+    fSpawner = mgr->readKey(S);
+    fSpawnee = mgr->readKey(S);
 }
 
-void proSpawnedEventData::IWrite(hsStream* S) {
-    plResManager::inst->writeKey(S, fSpawner);
-    plResManager::inst->writeKey(S, fSpawnee);
+void proSpawnedEventData::IWrite(hsStream* S, plResManager* mgr) {
+    mgr->writeKey(S, fSpawner);
+    mgr->writeKey(S, fSpawnee);
 }
 
 
@@ -242,12 +241,12 @@ proCoopEventData::proCoopEventData() : fID(0), fSerial(0) {
     fEventType = kCoop;
 }
 
-void proCoopEventData::IRead(hsStream* S) {
+void proCoopEventData::IRead(hsStream* S, plResManager* mgr) {
     fID = S->readInt();
     fSerial = S->readShort();
 }
 
-void proCoopEventData::IWrite(hsStream* S) {
+void proCoopEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fID);
     S->writeShort(fSerial);
 }
@@ -258,14 +257,14 @@ proOfferLinkBookEventData::proOfferLinkBookEventData() : targetAge(0), offeree(0
     fEventType = kOfferLinkBook;
 }
 
-void proOfferLinkBookEventData::IRead(hsStream* S) {
-    offerer = plResManager::inst->readKey(S);
+void proOfferLinkBookEventData::IRead(hsStream* S, plResManager* mgr) {
+    offerer = mgr->readKey(S);
     targetAge = S->readInt();
     offeree = S->readInt();
 }
 
-void proOfferLinkBookEventData::IWrite(hsStream* S) {
-    plResManager::inst->writeKey(S, offerer);
+void proOfferLinkBookEventData::IWrite(hsStream* S, plResManager* mgr) {
+    mgr->writeKey(S, offerer);
     S->writeInt(targetAge);
     S->writeInt(offeree);
 }
@@ -276,12 +275,12 @@ proBookEventData::proBookEventData() : fEvent(0), fLinkID(0) {
     fEventType = kBook;
 }
 
-void proBookEventData::IRead(hsStream* S) {
+void proBookEventData::IRead(hsStream* S, plResManager* mgr) {
     fEvent = S->readInt();
     fLinkID = S->readInt();
 }
 
-void proBookEventData::IWrite(hsStream* S) {
+void proBookEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fEvent);
     S->writeInt(fLinkID);
 }
@@ -292,10 +291,10 @@ proClimbingBlockerHitEventData::proClimbingBlockerHitEventData() {
     fEventType = kClimbingBlockerHit;
 }
 
-void proClimbingBlockerHitEventData::IRead(hsStream* S) {
-    fBlockerKey = plResManager::inst->readKey(S);
+void proClimbingBlockerHitEventData::IRead(hsStream* S, plResManager* mgr) {
+    fBlockerKey = mgr->readKey(S);
 }
 
-void proClimbingBlockerHitEventData::IWrite(hsStream* S) {
-    plResManager::inst->writeKey(S, fBlockerKey);
+void proClimbingBlockerHitEventData::IWrite(hsStream* S, plResManager* mgr) {
+    mgr->writeKey(S, fBlockerKey);
 }

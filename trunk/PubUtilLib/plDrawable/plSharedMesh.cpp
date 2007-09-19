@@ -6,25 +6,25 @@ plSharedMesh::~plSharedMesh() { }
 
 IMPLEMENT_CREATABLE(plSharedMesh, kSharedMesh, hsKeyedObject)
 
-void plSharedMesh::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plSharedMesh::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
 
     fSpans.setSize(S->readInt());
     for (size_t i=0; i<fSpans.getSize(); i++) {
         fSpans[i] = new plGeometrySpan();
         fSpans[i]->read(S);
     }
-    fMorphSet = plResManager::inst->readKey(S);
+    fMorphSet = mgr->readKey(S);
     fFlags = S->readByte();
 }
 
-void plSharedMesh::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plSharedMesh::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
 
     S->writeInt(fSpans.getSize());
     for (size_t i=0; i<fSpans.getSize(); i++)
         fSpans[i]->write(S);
-    plResManager::inst->writeKey(S, fMorphSet);
+    mgr->writeKey(S, fMorphSet);
     S->writeByte(fFlags);
 }
 

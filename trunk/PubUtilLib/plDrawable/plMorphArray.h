@@ -11,8 +11,8 @@ public:
     plMorphArray();
     ~plMorphArray();
 
-    void read(hsStream* S);
-    void write(hsStream* S);
+    void read(hsStream* S, plResManager* mgr);
+    void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);
 };
 

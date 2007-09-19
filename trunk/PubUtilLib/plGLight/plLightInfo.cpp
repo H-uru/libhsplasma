@@ -6,12 +6,12 @@ plLightInfo::~plLightInfo() { }
 
 IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 
-void plLightInfo::read(hsStream* S) {
+void plLightInfo::read(hsStream* S, plResManager* mgr) {
     //if (deviceRef != NULL)
     //    deviceRef->UnRef();
     //deviceRef = NULL;
 
-    plObjInterface::read(S);
+    plObjInterface::read(S, mgr);
     ambient.read(S);
     diffuse.read(S);
     specular.read(S);
@@ -22,18 +22,18 @@ void plLightInfo::read(hsStream* S) {
     localToWorld = lightToWorld * localToLight;
     worldToLocal = lightToLocal * worldToLight;
 
-    projection = plResManager::inst->readKey(S);
-    softVolume = plResManager::inst->readKey(S);
-    sceneNode = plResManager::inst->readKey(S);
+    projection = mgr->readKey(S);
+    softVolume = mgr->readKey(S);
+    sceneNode = mgr->readKey(S);
 
     visRegions.setSize(S->readInt());
     for (size_t i=0; i<visRegions.getSize(); i++)
-        visRegions[i] = plResManager::inst->readKey(S);
+        visRegions[i] = mgr->readKey(S);
     volFlags |= kVolDirty;
 }
 
-void plLightInfo::write(hsStream* S) {
-    plObjInterface::write(S);
+void plLightInfo::write(hsStream* S, plResManager* mgr) {
+    plObjInterface::write(S, mgr);
     ambient.write(S);
     diffuse.write(S);
     specular.write(S);
@@ -42,13 +42,13 @@ void plLightInfo::write(hsStream* S) {
     lightToWorld.write(S);
     worldToLight.write(S);
 
-    plResManager::inst->writeKey(S, projection);
-    plResManager::inst->writeKey(S, softVolume);
-    plResManager::inst->writeKey(S, sceneNode);
+    mgr->writeKey(S, projection);
+    mgr->writeKey(S, softVolume);
+    mgr->writeKey(S, sceneNode);
 
     S->writeInt(visRegions.getSize());
     for (size_t i=0; i<visRegions.getSize(); i++)
-        plResManager::inst->writeKey(S, visRegions[i]);
+        mgr->writeKey(S, visRegions[i]);
 }
 
 void plLightInfo::prcWrite(pfPrcHelper* prc) {

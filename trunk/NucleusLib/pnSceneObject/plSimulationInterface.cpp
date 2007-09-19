@@ -6,20 +6,20 @@ plSimulationInterface::~plSimulationInterface() { }
 
 IMPLEMENT_CREATABLE(plSimulationInterface, kSimulationInterface, plObjInterface)
 
-void plSimulationInterface::read(hsStream* S) {
-    plObjInterface::read(S);
+void plSimulationInterface::read(hsStream* S, plResManager* mgr) {
+    plObjInterface::read(S, mgr);
 
     Props.read(S);
     S->readInt();
-    Physical = plResManager::inst->readKey(S);
+    Physical = mgr->readKey(S);
 }
 
-void plSimulationInterface::write(hsStream* S) {
-    plObjInterface::write(S);
+void plSimulationInterface::write(hsStream* S, plResManager* mgr) {
+    plObjInterface::write(S, mgr);
 
     Props.write(S);
     S->writeInt(0);
-    plResManager::inst->writeKey(S, Physical);
+    mgr->writeKey(S, Physical);
 }
 
 void plSimulationInterface::prcWrite(pfPrcHelper* prc) {

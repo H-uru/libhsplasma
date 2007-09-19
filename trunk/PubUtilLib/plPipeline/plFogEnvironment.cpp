@@ -6,8 +6,8 @@ plFogEnvironment::~plFogEnvironment() { }
 
 IMPLEMENT_CREATABLE(plFogEnvironment, kFogEnvironment, hsKeyedObject)
 
-void plFogEnvironment::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plFogEnvironment::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
     fType = S->readByte();
     fStart = S->readFloat();
     fEnd = S->readFloat();
@@ -15,8 +15,8 @@ void plFogEnvironment::read(hsStream* S) {
     fColor.read(S);
 }
 
-void plFogEnvironment::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plFogEnvironment::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
     S->writeByte(fType);
     S->writeFloat(fStart);
     S->writeFloat(fEnd);

@@ -6,15 +6,15 @@ plObjInterface::~plObjInterface() { }
 
 IMPLEMENT_CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
 
-void plObjInterface::read(hsStream* S) {
-    plSynchedObject::read(S);
-    Owner = plResManager::inst->readKey(S);
+void plObjInterface::read(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
+    Owner = mgr->readKey(S);
     Props.read(S);
 }
 
-void plObjInterface::write(hsStream* S) {
-    plSynchedObject::write(S);
-    plResManager::inst->writeKey(S, Owner);
+void plObjInterface::write(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
+    mgr->writeKey(S, Owner);
     Props.write(S);
 }
 

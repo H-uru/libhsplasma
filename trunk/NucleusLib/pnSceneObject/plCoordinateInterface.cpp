@@ -18,8 +18,8 @@ plCoordinateInterface* plCoordinateInterface::getRoot() {
     return cur;
 }
 
-void plCoordinateInterface::read(hsStream* S) {
-    plObjInterface::read(S);
+void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
+    plObjInterface::read(S, mgr);
     
     LocalToParent.read(S);
     ParentToLocal.read(S);
@@ -29,11 +29,11 @@ void plCoordinateInterface::read(hsStream* S) {
     Children.clear();
     Children.setSize(S->readInt());
     for (size_t i=0; i<Children.getSize(); i++)
-        Children[i] = plResManager::inst->readKey(S);
+        Children[i] = mgr->readKey(S);
 }
 
-void plCoordinateInterface::write(hsStream* S) {
-    plObjInterface::write(S);
+void plCoordinateInterface::write(hsStream* S, plResManager* mgr) {
+    plObjInterface::write(S, mgr);
 
     LocalToParent.write(S);
     ParentToLocal.write(S);
@@ -42,7 +42,7 @@ void plCoordinateInterface::write(hsStream* S) {
 
     S->writeInt(Children.getSize());
     for (size_t i=0; i<Children.getSize(); i++)
-        plResManager::inst->writeKey(S, Children[i]);
+        mgr->writeKey(S, Children[i]);
 }
 
 void plCoordinateInterface::prcWrite(pfPrcHelper* prc) {

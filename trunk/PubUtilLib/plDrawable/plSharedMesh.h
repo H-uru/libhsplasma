@@ -26,8 +26,8 @@ public:
 
     DECLARE_CREATABLE(plSharedMesh)
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
     
 	//virtual bool MsgReceive(plMessage *msg);

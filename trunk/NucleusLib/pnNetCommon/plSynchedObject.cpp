@@ -7,8 +7,8 @@ IMPLEMENT_CREATABLE(plSynchedObject, kSynchedObject, hsKeyedObject)
 
 int plSynchedObject::getFlags() { return flags; }
 
-void plSynchedObject::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plSynchedObject::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
     SDLExcludeList.clear();
     SDLVolatileList.clear();
     flags = S->readInt();
@@ -30,8 +30,8 @@ void plSynchedObject::read(hsStream* S) {
     }
 }
 
-void plSynchedObject::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plSynchedObject::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
     S->writeInt(flags);
 
     unsigned short i;

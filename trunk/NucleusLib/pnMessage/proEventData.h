@@ -5,6 +5,7 @@
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsGeometry3.h"
 #include "../pnKeyedObject/plKey.h"
+#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 DllClass proEventData {
 public:
@@ -30,12 +31,12 @@ public:
     virtual ~proEventData();
 
     static proEventData* ICreateEventDataType(int type);
-    static proEventData* read(hsStream* S);
-    void write(hsStream* S);
+    static proEventData* read(hsStream* S, plResManager* mgr);
+    void write(hsStream* S, plResManager* mgr);
 
 protected:
-    virtual void IRead(hsStream* S)=0;
-    virtual void IWrite(hsStream* S)=0;
+    virtual void IRead(hsStream* S, plResManager* mgr)=0;
+    virtual void IWrite(hsStream* S, plResManager* mgr)=0;
 };
 
 DllClass proCollisionEventData : public proEventData {
@@ -48,8 +49,8 @@ public:
     proCollisionEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proPickedEventData : public proEventData {
@@ -63,8 +64,8 @@ public:
     proPickedEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proControlKeyEventData : public proEventData {
@@ -76,8 +77,8 @@ public:
     proControlKeyEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proVariableEventData : public proEventData {
@@ -91,8 +92,8 @@ public:
     proVariableEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proFacingEventData : public proEventData {
@@ -106,8 +107,8 @@ public:
     proFacingEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proContainedEventData : public proEventData {
@@ -120,8 +121,8 @@ public:
     proContainedEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proActivateEventData : public proEventData {
@@ -132,8 +133,8 @@ public:
     proActivateEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proCallbackEventData : public proEventData {
@@ -144,8 +145,8 @@ public:
     proCallbackEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proResponderStateEventData : public proEventData {
@@ -156,8 +157,8 @@ public:
     proResponderStateEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proMultiStageEventData : public proEventData {
@@ -169,8 +170,8 @@ public:
     proMultiStageEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proSpawnedEventData : public proEventData {
@@ -182,8 +183,8 @@ public:
     proSpawnedEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proClickDragEventData : public proEventData {
@@ -200,8 +201,8 @@ public:
     proCoopEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proOfferLinkBookEventData : public proEventData {
@@ -213,8 +214,8 @@ public:
     proOfferLinkBookEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proBookEventData : public proEventData {
@@ -225,8 +226,8 @@ public:
     proBookEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 DllClass proClimbingBlockerHitEventData : public proEventData {
@@ -237,8 +238,8 @@ public:
     proClimbingBlockerHitEventData();
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream* S, plResManager* mgr);
+    virtual void IWrite(hsStream* S, plResManager* mgr);
 };
 
 #endif

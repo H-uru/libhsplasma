@@ -26,8 +26,8 @@ plDrawableSpans::~plDrawableSpans() {
 
 IMPLEMENT_CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
 
-void plDrawableSpans::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
     bool gotSkin = false;
 
     props = S->readInt();
@@ -39,7 +39,7 @@ void plDrawableSpans::read(hsStream* S) {
     count = S->readInt();
     materials.setSize(count);
     for (i=0; i<count; i++)
-        materials[i] = plResManager::inst->readKey(S);
+        materials[i] = mgr->readKey(S);
 
     count = S->readInt();
     icicles.setSize(count);
@@ -71,7 +71,7 @@ void plDrawableSpans::read(hsStream* S) {
     //IBuildVectors();
 
     for (i=0; i<count; i++)
-        spans[i]->setFogEnvironment(plResManager::inst->readKey(S));
+        spans[i]->setFogEnvironment(mgr->readKey(S));
 
     if (count > 0) {
         localBounds.read(S);
@@ -87,12 +87,12 @@ void plDrawableSpans::read(hsStream* S) {
         if (spans[i]->getProps() & plSpan::kPropHasPermaLights) {
             count2 = S->readInt();
             for (j=0; j<count2; j++)
-                spans[i]->addPermaLight(plResManager::inst->readKey(S));
+                spans[i]->addPermaLight(mgr->readKey(S));
         }
         if (spans[i]->getProps() & plSpan::kPropHasPermaProjs) {
             count2 = S->readInt();
             for (j=0; j<count2; j++)
-                spans[i]->addPermaProj(plResManager::inst->readKey(S));
+                spans[i]->addPermaProj(mgr->readKey(S));
         }
     }
 
@@ -151,8 +151,8 @@ void plDrawableSpans::read(hsStream* S) {
     }
     */
 
-    spaceTree = plSpaceTree::Convert(plResManager::inst->ReadCreatable(S));
-    sceneNode = plResManager::inst->readKey(S);
+    spaceTree = plSpaceTree::Convert(mgr->ReadCreatable(S));
+    sceneNode = mgr->readKey(S);
 
     /*
     if (GetNativeProperty(kPropCharacter)) {
@@ -172,10 +172,10 @@ void plDrawableSpans::read(hsStream* S) {
     readyToRender = false;
 }
 
-void plDrawableSpans::write(hsStream* S) {
+void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
     //if (needCleanup)
     //    IRemoveGarbage();
-    hsKeyedObject::write(S);
+    hsKeyedObject::write(S, mgr);
 
     S->writeInt(props);
     S->writeInt(criteria);
@@ -184,7 +184,7 @@ void plDrawableSpans::write(hsStream* S) {
     size_t i, j;
     S->writeInt(materials.getSize());
     for (i=0; i<materials.getSize(); i++)
-        plResManager::inst->writeKey(S, materials[i]);
+        mgr->writeKey(S, materials[i]);
 
     S->writeInt(icicles.getSize());
     for (i=0; i<icicles.getSize(); i++)
@@ -197,7 +197,7 @@ void plDrawableSpans::write(hsStream* S) {
         S->writeInt(spanSourceIndices[i]);
     
     for (i=0; i<spans.getSize(); i++)
-        plResManager::inst->writeKey(S, spans[i]->getFogEnvironment());
+        mgr->writeKey(S, spans[i]->getFogEnvironment());
 
     if (spans.getSize() > 0) {
         localBounds.write(S);
@@ -209,12 +209,12 @@ void plDrawableSpans::write(hsStream* S) {
         if (spans[i]->getProps() & plSpan::kPropHasPermaLights) {
             S->writeInt(spans[i]->getPermaLights().getSize());
             for (j=0; j<spans[i]->getPermaLights().getSize(); j++)
-                plResManager::inst->writeKey(S, spans[i]->getPermaLights()[j]);
+                mgr->writeKey(S, spans[i]->getPermaLights()[j]);
         }
         if (spans[i]->getProps() & plSpan::kPropHasPermaProjs) {
             S->writeInt(spans[i]->getPermaProjs().getSize());
             for (j=0; j<spans[i]->getPermaProjs().getSize(); j++)
-                plResManager::inst->writeKey(S, spans[i]->getPermaProjs()[j]);
+                mgr->writeKey(S, spans[i]->getPermaProjs()[j]);
         }
     }
 
@@ -242,8 +242,8 @@ void plDrawableSpans::write(hsStream* S) {
     for (i=0; i<groups.getSize(); i++)
         groups[i]->write(S);
 
-    plResManager::inst->WriteCreatable(S, spaceTree);
-    plResManager::inst->writeKey(S, sceneNode);
+    mgr->WriteCreatable(S, spaceTree);
+    mgr->writeKey(S, sceneNode);
 }
 
 void plDrawableSpans::prcWrite(pfPrcHelper* prc) {

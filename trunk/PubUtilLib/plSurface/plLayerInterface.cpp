@@ -6,14 +6,14 @@ plLayerInterface::~plLayerInterface() { }
 
 IMPLEMENT_CREATABLE(plLayerInterface, kLayerInterface, plSynchedObject)
 
-void plLayerInterface::read(hsStream* S) {
-    plSynchedObject::read(S);
-    underLay = plResManager::inst->readKey(S);
+void plLayerInterface::read(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
+    underLay = mgr->readKey(S);
 }
 
-void plLayerInterface::write(hsStream* S) {
-    plSynchedObject::write(S);
-    plResManager::inst->writeKey(S, underLay);
+void plLayerInterface::write(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
+    mgr->writeKey(S, underLay);
 }
 
 void plLayerInterface::prcWrite(pfPrcHelper* prc) {

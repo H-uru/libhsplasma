@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
             printf("Age Name: %s\n", page->getAge());
             printf("Page Name: %s\n", page->getPage());
             printf("Plasma Version: %s\n", PlasmaVerNames[rm.getVer()]);
-            printf("Keyring: %d keys\n", rm.keys.countKeys(page->getLocation().getPageID()));
+            printf("Keyring: %d keys\n", rm.countKeys(page->getLocation().getPageID()));
             printf("Objects Read: %d\n", page->nObjects);
             
             rm.setVer(toVer, true);

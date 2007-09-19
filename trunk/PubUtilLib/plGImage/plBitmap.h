@@ -64,8 +64,8 @@ public:
     
     DECLARE_CREATABLE(plBitmap)
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);

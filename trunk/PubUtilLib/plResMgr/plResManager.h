@@ -16,11 +16,12 @@
 #include "plPageSettings.h"
 
 DllClass plResManager /* : public hsResMgr */ {
+private:
+    static plResManager* fGlobalResMgr;
+    static unsigned int fNumResMgrs;
+
 protected:
     PlasmaVer ver;
-    static int resManagers;
-
-public:
     plKeyCollector keys;
     std::vector<plPageInfo*> pages;
     std::vector<plAgeSettings*> ages;
@@ -34,21 +35,21 @@ private:
     unsigned int WriteObjects(hsStream* S, plLocation& loc);
 
 public:
-    static plResManager* inst;
-
     plResManager(PlasmaVer pv = pvUnknown);
     virtual ~plResManager();
+    static plResManager* GetGlobalResMgr();
 
     virtual void setVer(PlasmaVer pv, bool mutate = false);
     PlasmaVer getVer();
 
     plKey readKey(hsStream* S);
-    plKey readUoidKey(hsStream* S);
+    plKey readUoid(hsStream* S);
     void writeKey(hsStream* S, plKey key);
     void writeKey(hsStream* S, hsKeyedObject* ko);
-    void writeUoidKey(hsStream* S, plKey key);
-    void writeUoidKey(hsStream* S, hsKeyedObject* ko);
+    void writeUoid(hsStream* S, plKey key);
+    void writeUoid(hsStream* S, hsKeyedObject* ko);
     hsKeyedObject* getObject(const plKey& key);
+    unsigned int countKeys(const PageID& pid);
 
     plPageInfo* ReadPage(const char* filename);
     void WritePage(const char* filename, plPageInfo* page);

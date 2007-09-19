@@ -13,8 +13,8 @@ const char* plCreatable::ClassName() const {
     return pdUnifiedTypeMap::ClassName(ClassIndex());
 }
 
-void plCreatable::read(hsStream* S) { }
-void plCreatable::write(hsStream* S) { }
+void plCreatable::read(hsStream* S, plResManager* mgr) { }
+void plCreatable::write(hsStream* S, plResManager* mgr) { }
 
 void plCreatable::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag(ClassName());

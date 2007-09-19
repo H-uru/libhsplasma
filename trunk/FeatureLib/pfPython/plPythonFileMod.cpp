@@ -17,7 +17,7 @@ plPythonParameter::plPythonParameter(PlasmaVer pv) : ID(0), valueType(kNone) { }
 
 plPythonParameter::~plPythonParameter() { }
 
-void plPythonParameter::read(hsStream* S) {
+void plPythonParameter::read(hsStream* S, plResManager* mgr) {
     ID = S->readInt();
     valueType = PlasmaToMapped(S->readInt(), S->getVer());
 
@@ -46,12 +46,12 @@ void plPythonParameter::read(hsStream* S) {
     case kNone:
         return;
     default:
-        objKey = plResManager::inst->readKey(S);
+        objKey = mgr->readKey(S);
         return;
     }
 }
 
-void plPythonParameter::write(hsStream* S) {
+void plPythonParameter::write(hsStream* S, plResManager* mgr) {
     S->writeInt(ID);
     S->writeInt(MappedToPlasma(valueType, S->getVer()));
 
@@ -78,7 +78,7 @@ void plPythonParameter::write(hsStream* S) {
     case kNone:
         return;
     default:
-        plResManager::inst->writeKey(S, objKey);
+        mgr->writeKey(S, objKey);
         return;
     }
 }
@@ -186,33 +186,33 @@ plString& plPythonFileMod::getFilename() { return pythonFile; }
 hsTArray<plKey>& plPythonFileMod::getReceivers() { return receivers; }
 hsTArray<plPythonParameter>& plPythonFileMod::getParameters() { return parameters; }
 
-void plPythonFileMod::read(hsStream* S) {
-    plMultiModifier::read(S);
+void plPythonFileMod::read(hsStream* S, plResManager* mgr) {
+    plMultiModifier::read(S, mgr);
     pythonFile = S->readSafeStr();
 
     size_t i, count = S->readInt();
     receivers.setSize(count);
     for (i=0; i<count; i++)
-        receivers[i] = plResManager::inst->readKey(S);
+        receivers[i] = mgr->readKey(S);
 
     count = S->readInt();
     parameters.setSize(count);
     for (i=0; i<count; i++)
-        parameters[i].read(S);
+        parameters[i].read(S, mgr);
 }
 
-void plPythonFileMod::write(hsStream* S) {
-    plMultiModifier::write(S);
+void plPythonFileMod::write(hsStream* S, plResManager* mgr) {
+    plMultiModifier::write(S, mgr);
     S->writeSafeStr(pythonFile);
 
     size_t i;
     S->writeInt(receivers.getSize());
     for (i=0; i<receivers.getSize(); i++)
-        plResManager::inst->writeKey(S, receivers[i]);
+        mgr->writeKey(S, receivers[i]);
 
     S->writeInt(parameters.getSize());
     for (i=0; i<parameters.getSize(); i++)
-        parameters[i].write(S);
+        parameters[i].write(S, mgr);
 }
 
 void plPythonFileMod::prcWrite(pfPrcHelper* prc) {

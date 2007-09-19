@@ -5,20 +5,20 @@ plMorphDataSet::~plMorphDataSet() { }
 
 IMPLEMENT_CREATABLE(plMorphDataSet, kMorphDataSet, hsKeyedObject)
 
-void plMorphDataSet::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plMorphDataSet::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
 
     fMorphs.setSize(S->readInt());
     for (size_t i=0; i<fMorphs.getSize(); i++)
-        fMorphs[i].read(S);
+        fMorphs[i].read(S, mgr);
 }
 
-void plMorphDataSet::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plMorphDataSet::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
 
     S->writeInt(fMorphs.getSize());
     for (size_t i=0; i<fMorphs.getSize(); i++)
-        fMorphs[i].write(S);
+        fMorphs[i].write(S, mgr);
 }
 
 void plMorphDataSet::prcWrite(pfPrcHelper* prc) {

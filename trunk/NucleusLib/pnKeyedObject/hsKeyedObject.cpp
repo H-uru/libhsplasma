@@ -6,13 +6,13 @@ hsKeyedObject::~hsKeyedObject() { }
 
 IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
 
-void hsKeyedObject::read(hsStream* S) {
-    myKey = plResManager::inst->readUoidKey(S);
+void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
+    myKey = mgr->readUoid(S);
     myKey->setObj(this);
 }
 
-void hsKeyedObject::write(hsStream* S) {
-    plResManager::inst->writeUoidKey(S, myKey);
+void hsKeyedObject::write(hsStream* S, plResManager* mgr) {
+    mgr->writeUoid(S, myKey);
 }
 
 void hsKeyedObject::prcWrite(pfPrcHelper* prc) {

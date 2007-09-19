@@ -11,8 +11,8 @@ plClothingItem::~plClothingItem() { }
 
 IMPLEMENT_CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
 
-void plClothingItem::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plClothingItem::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
 
     ItemName = S->readSafeStr();
     Group = S->readByte();
@@ -23,7 +23,7 @@ void plClothingItem::read(hsStream* S) {
     CustomText = S->readSafeStr();
 
     if (S->readBool())
-        Icon = plResManager::inst->readKey(S);
+        Icon = mgr->readKey(S);
 
     int count = S->readInt();
     ElementNames.setSizeNull(count);
@@ -37,7 +37,7 @@ void plClothingItem::read(hsStream* S) {
         count2 = S->readByte();
         for (j=0; j<count2; j++) {
             int idx = S->readByte();
-            plKey k = plResManager::inst->readKey(S);
+            plKey k = mgr->readKey(S);
             if (idx > 0 && idx < 10)
                 Textures[i][idx] = k;
         }
@@ -45,10 +45,10 @@ void plClothingItem::read(hsStream* S) {
 
     for (i=0; i<3; i++) {
         if (S->readBool())
-            Meshes[i] = plResManager::inst->readKey(S);
+            Meshes[i] = mgr->readKey(S);
     }
 
-    Accessory = plResManager::inst->readKey(S);
+    Accessory = mgr->readKey(S);
 
     for (i=0; i<3; i++) {
         DefaultTint1[i] = S->readByte();
@@ -56,8 +56,8 @@ void plClothingItem::read(hsStream* S) {
     }
 }
 
-void plClothingItem::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plClothingItem::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
 
     S->writeSafeStr(ItemName);
     S->writeByte(Group);
@@ -69,7 +69,7 @@ void plClothingItem::write(hsStream* S) {
 
     S->writeBool(Icon != NULL);
     if (Icon != NULL)
-        plResManager::inst->writeKey(S, Icon);
+        mgr->writeKey(S, Icon);
 
     int i, j;
     int count = Textures.getSize();
@@ -83,7 +83,7 @@ void plClothingItem::write(hsStream* S) {
         for (j=0; j<10; j++) {
             if (Textures[i][j] != NULL) {
                 S->writeByte(j);
-                plResManager::inst->writeKey(S, Textures[i][j]);
+                mgr->writeKey(S, Textures[i][j]);
             }
         }
     }
@@ -91,10 +91,10 @@ void plClothingItem::write(hsStream* S) {
     for (i=0; i<3; i++) {
         S->writeBool(Meshes[i] != NULL);
         if (Meshes[i] != NULL)
-            plResManager::inst->writeKey(S, Meshes[i]);
+            mgr->writeKey(S, Meshes[i]);
     }
 
-    plResManager::inst->writeKey(S, Accessory);
+    mgr->writeKey(S, Accessory);
 
     for (i=0; i<3; i++) {
         S->writeByte(DefaultTint1[i]);

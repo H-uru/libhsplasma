@@ -5,13 +5,13 @@ plCubicEnvironmap::~plCubicEnvironmap() { }
 
 IMPLEMENT_CREATABLE(plCubicEnvironmap, kCubicEnvironmap, plBitmap)
 
-void plCubicEnvironmap::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plCubicEnvironmap::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
     readData(S);
 }
 
-void plCubicEnvironmap::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plCubicEnvironmap::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
     writeData(S);
 }
 

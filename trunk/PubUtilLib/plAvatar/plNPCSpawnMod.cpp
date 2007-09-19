@@ -9,19 +9,19 @@ plNPCSpawnMod::~plNPCSpawnMod() {
 
 IMPLEMENT_CREATABLE(plNPCSpawnMod, kNPCSpawnMod, plSingleModifier)
 
-void plNPCSpawnMod::read(hsStream* S) {
-    plSingleModifier::read(S);
+void plNPCSpawnMod::read(hsStream* S, plResManager* mgr) {
+    plSingleModifier::read(S, mgr);
 
     fModelName = S->readSafeStr();
     fAccountName = S->readSafeStr();
     fAutoSpawn = S->readBool();
 
     if (S->readBool())
-        fNotify = plNotifyMsg::Convert(plResManager::inst->ReadCreatable(S));
+        fNotify = plNotifyMsg::Convert(mgr->ReadCreatable(S));
 }
 
-void plNPCSpawnMod::write(hsStream* S) {
-    plSingleModifier::write(S);
+void plNPCSpawnMod::write(hsStream* S, plResManager* mgr) {
+    plSingleModifier::write(S, mgr);
 
     S->writeSafeStr(fModelName);
     S->writeSafeStr(fAccountName);
@@ -29,7 +29,7 @@ void plNPCSpawnMod::write(hsStream* S) {
 
     S->writeBool(fNotify != NULL);
     if (fNotify != NULL)
-        plResManager::inst->WriteCreatable(S, fNotify);
+        mgr->WriteCreatable(S, fNotify);
 }
 
 void plNPCSpawnMod::prcWrite(pfPrcHelper* prc) {

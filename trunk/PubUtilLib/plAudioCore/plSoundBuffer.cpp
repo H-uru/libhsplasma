@@ -40,8 +40,8 @@ plSoundBuffer::~plSoundBuffer() {
 
 IMPLEMENT_CREATABLE(plSoundBuffer, kSoundBuffer, hsKeyedObject)
 
-void plSoundBuffer::read(hsStream* S) {
-    hsKeyedObject::read(S);
+void plSoundBuffer::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);
 
     fFlags = S->readInt();
     fDataLength = S->readInt();
@@ -59,8 +59,8 @@ void plSoundBuffer::read(hsStream* S) {
     }
 }
 
-void plSoundBuffer::write(hsStream* S) {
-    hsKeyedObject::write(S);
+void plSoundBuffer::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);
 
     if (fData == NULL)
         fFlags |= kIsExternal;

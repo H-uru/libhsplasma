@@ -44,8 +44,8 @@ public:
     
     DECLARE_CREATABLE(plMessage)
 
-    void IMsgRead(hsStream* S);
-    void IMsgWrite(hsStream* S);
+    void IMsgRead(hsStream* S, plResManager* mgr);
+    void IMsgWrite(hsStream* S, plResManager* mgr);
 };
 
 #endif

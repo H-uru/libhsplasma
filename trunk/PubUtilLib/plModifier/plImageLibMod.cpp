@@ -6,20 +6,20 @@ plImageLibMod::~plImageLibMod() { }
 
 IMPLEMENT_CREATABLE(plImageLibMod, kImageLibMod, plSingleModifier)
 
-void plImageLibMod::read(hsStream* S) {
-    plSingleModifier::read(S);
+void plImageLibMod::read(hsStream* S, plResManager* mgr) {
+    plSingleModifier::read(S, mgr);
 
     fImages.setSizeNull(S->readInt());
     for (size_t i=0; i<fImages.getSize(); i++)
-        fImages[i] = plResManager::inst->readKey(S);
+        fImages[i] = mgr->readKey(S);
 }
 
-void plImageLibMod::write(hsStream* S) {
-    plSingleModifier::write(S);
+void plImageLibMod::write(hsStream* S, plResManager* mgr) {
+    plSingleModifier::write(S, mgr);
 
     S->writeInt(fImages.getSize());
     for (size_t i=0; i<fImages.getSize(); i++)
-        plResManager::inst->writeKey(S, fImages[i]);
+        mgr->writeKey(S, fImages[i]);
 }
 
 void plImageLibMod::prcWrite(pfPrcHelper* prc) {
