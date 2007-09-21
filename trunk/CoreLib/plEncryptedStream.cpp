@@ -143,7 +143,7 @@ bool plEncryptedStream::open(const char* file, FileMode mode) {
         fseek(F, 0, SEEK_END);
         unsigned int sz = ftell(F);
         fseek(F, 0, SEEK_SET);
-        if (sz < 8) throw EncrErr;
+        if (sz < 8) throw hsFileReadException(__FILE__, __LINE__, EncrErr);
         int magicN = 0;
         fread(&magicN, sizeof(magicN), 1, F);
         if (magicN == eoaMagic) {
@@ -161,12 +161,12 @@ bool plEncryptedStream::open(const char* file, FileMode mode) {
                 ver = pvLive;
                 fread(&dataSize, sizeof(dataSize), 1, F);
             } else {
-                throw EncrErr;
+                throw hsFileReadException(__FILE__, __LINE__, EncrErr);
             }
         }
     } else {
         if (ver == pvUnknown)
-            throw "Invalid Plasma Version";
+            throw hsBadVersionException(__FILE__, __LINE__);
         // Skip header info for now
         memset(LBuffer, 0, 16);
         if (ver == pvEoa)
@@ -225,7 +225,7 @@ void plEncryptedStream::rewind() {
 
 void plEncryptedStream::read(size_t size, void* buf) {
     if (dataPos + size > dataSize)
-        throw "Read beyond end of stream!";
+        throw hsFileReadException(__FILE__, __LINE__, "Read past end of stream");
     
     unsigned int szInc = (ver == pvEoa ? 16 : 8);
     unsigned int pp = dataPos, bp = 0, lp = dataPos % szInc;

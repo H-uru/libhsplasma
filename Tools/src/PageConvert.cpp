@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "PubUtilLib/plResMgr/plResManager.h"
+#include "CoreLib/hsExceptions.h"
 
 const char* PlasmaVerNames[] = { "Unknown", "Prime", "PotS", "EOA", "Live" };
 
@@ -57,6 +58,12 @@ int main(int argc, char** argv) {
             plPageInfo* page;
             try {
                 page = rm.ReadPage(argv[i]);
+            } catch (const hsException& e) {
+                fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+                return 1;
+            } catch (const std::exception& e) {
+                fprintf(stderr, "%s\n", e.what());
+                return 1;
             } catch (const char* e) {
                 fprintf(stderr, "%s\n", e);
                 return 1;

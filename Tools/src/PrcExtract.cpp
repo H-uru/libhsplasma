@@ -1,5 +1,6 @@
 #include "PubUtilLib/plResMgr/plResManager.h"
 #include "CoreLib/plString.h"
+#include "CoreLib/hsExceptions.h"
 #include <string.h>
 #include <time.h>
 #ifdef WIN32
@@ -73,6 +74,12 @@ int main(int argc, char** argv) {
         } else {
             try {
                 page = rm.ReadPage(argv[i]);
+            } catch (hsException& e) {
+                fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+                return 1;
+            } catch (std::exception& e) {
+                fprintf(stderr, "%s\n", e.what());
+                return 1;
             } catch (const char* e) {
                 fprintf(stderr, "%s\n", e);
                 return 1;

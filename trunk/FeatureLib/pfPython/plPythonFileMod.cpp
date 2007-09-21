@@ -122,7 +122,7 @@ void plPythonParameter::prcWrite(pfPrcHelper* prc) {
 
 unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver) {
     if (ver == pvUnknown)
-        throw "Unknown Plasma Version!";
+        throw hsBadVersionException(__FILE__, __LINE__);
     if (type < 20)
         return type;
     if (ver == pvEoa) {
@@ -149,7 +149,7 @@ unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver)
 
 unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver) {
     if (ver == pvUnknown)
-        throw "Unknown Plasma Version!";
+        throw hsBadVersionException(__FILE__, __LINE__);
     if (type < 20)
         return type;
     if (ver == pvEoa) {

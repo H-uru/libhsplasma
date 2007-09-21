@@ -2,7 +2,7 @@
 
 #include "../../NucleusLib/pnModifier/plModifier.h"
 
-class plImageLibMod : public plSingleModifier {
+DllClass plImageLibMod : public plSingleModifier {
 protected:
     hsTArray<plKey> fImages;
 

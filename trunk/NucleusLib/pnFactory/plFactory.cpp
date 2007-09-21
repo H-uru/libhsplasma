@@ -1,4 +1,5 @@
 #include "plFactory.h"
+#include "../../CoreLib/hsExceptions.h"
 
 // Includes for all plCreatable types
 #include "../../FeatureLib/pfPython/plPythonFileMod.h"
@@ -22,6 +23,9 @@
 #include "../../PubUtilLib/plGLight/plDirectionalLightInfo.h"
 #include "../../PubUtilLib/plGLight/plOmniLightInfo.h"
 #include "../../PubUtilLib/plModifier/plImageLibMod.h"
+#include "../../PubUtilLib/plPhysics/plHKPhysical.h"
+#include "../../PubUtilLib/plPhysics/plPXPhysical.h"
+#include "../../PubUtilLib/plPhysics/plODEPhysical.h"
 #include "../../PubUtilLib/plPipeline/plFogEnvironment.h"
 #include "../../PubUtilLib/plScene/plSceneNode.h"
 #include "../../PubUtilLib/plSurface/hsGMaterial.h"
@@ -95,7 +99,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPortalPhysical: return new plPortalPhysical();
         //case kSpawnModifier: return new plSpawnModifier();
         //case kFacingConditionalObject: return new plFacingConditionalObject();
-        //case kHKPhysical: return new plHKPhysical();
+        case kHKPhysical: return new plHKPhysical();
         //case kViewFaceModifier: return new plViewFaceModifier();
         case kLayerInterface: return new plLayerInterface();
         //case kLayerWrapper: return new plLayerWrapper();
@@ -347,8 +351,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kGrassShaderMod: return new plGrassShaderMod();
         //case kDynamicCamMap: return new plDynamicCamMap();
         //case kSwimRegion: return new plSwimRegion();
-        //case kPXPhysical: return new plPXPhysical();
-        //case kODEPhysical: return new plODEPhysical();
+        case kPXPhysical: return new plPXPhysical();
+        case kODEPhysical: return new plODEPhysical();
         //case kAutoWalkRegion: return new plAutoWalkRegion();
         //case kCrossfade: return new plCrossfade();
         //case kParticleFadeOutEffect: return new plParticleFadeOutEffect();
@@ -1078,7 +1082,7 @@ plCreatable* plFactory::Create(short typeIdx) {
 plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
     if (typeIdx < 0) return NULL;
     if (ver == pvUnknown)
-        throw "Cannot create objects for unknown Plasma Versions!";
+        throw hsBadVersionException(__FILE__, __LINE__);
     return Create(pdUnifiedTypeMap::PlasmaToMapped(typeIdx, ver));
 }
 

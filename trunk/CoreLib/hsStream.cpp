@@ -190,7 +190,7 @@ plString hsStream::readLine() {
         buf[i++] = c;
         c = readByte();
         if (i >= 4096)
-            throw "Line too long!";
+            throw hsFileReadException(__FILE__, __LINE__, "Line too long");
     }
     buf[i] = 0;
     if (c == '\r')
@@ -276,10 +276,29 @@ void hsStream::writeSafeStr(const plString& str) {
 
 void hsStream::writeLine(const plString& ln, bool winEOL) {
     if (ln.len() > 4096)
-        throw "Line too long!";
+        throw hsFileWriteException(__FILE__, __LINE__, "Line too long!");
     writeStr(ln);
     if (winEOL)
         writeByte('\r');
     writeByte('\n');
 }
 
+
+// hsFileReadException //
+hsFileReadException::hsFileReadException(const char* file,
+                     unsigned long line, const char* filename) throw()
+                   : hsException(file, line) {
+    fWhat = "Error reading file";
+    if (filename != NULL)
+        fWhat += plString(": ") + filename;
+}
+
+
+// hsFileWriteException //
+hsFileWriteException::hsFileWriteException(const char* file,
+                      unsigned long line, const char* filename) throw()
+                    : hsException(file, line) {
+    fWhat = "Error writing to file";
+    if (filename != NULL)
+        fWhat += plString(": ") + filename;
+}

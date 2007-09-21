@@ -342,7 +342,7 @@ void plMipmap::IReadRawImage(hsStream* S) {
             dataPtr += levelSizes[i];
         }
     } else
-        throw "Bad Parameters";
+        throw hsBadParamException(__FILE__, __LINE__);
 }
 
 void plMipmap::IWriteRawImage(hsStream* S) {
@@ -360,7 +360,7 @@ void plMipmap::IWriteRawImage(hsStream* S) {
             dataPtr += levelSizes[i];
         }
     } else
-        throw "Bad Parameters";
+        throw hsBadParamException(__FILE__, __LINE__);
 }
 
 void plMipmap::IRecombineAlpha(plMipmap* alphaImg) {

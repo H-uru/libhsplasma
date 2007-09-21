@@ -5,6 +5,7 @@
 #include "plString.h"
 #include "../PlasmaDefs.h"
 #include "../DynLib/PlasmaVersions.h"
+#include "hsExceptions.h"
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 
@@ -67,6 +68,18 @@ public:
     void writeStr(const plString& str);
     void writeSafeStr(const plString& str);
     virtual void writeLine(const plString& ln, bool winEOL = false);
+};
+
+DllClass hsFileReadException : public hsException {
+public:
+    hsFileReadException(const char* file, unsigned long line,
+                        const char* filename = NULL) throw();
+};
+
+DllClass hsFileWriteException : public hsException {
+public:
+    hsFileWriteException(const char* file, unsigned long line,
+                         const char* filename = NULL) throw();
 };
 
 #endif

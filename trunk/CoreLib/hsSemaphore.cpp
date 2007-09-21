@@ -5,7 +5,7 @@
 hsSemaphore::hsSemaphore(int initialValue, const char* name) {
     fSemaH = CreateSemaphore(NULL, initialValue, 0x7FFFFFFF, name);
     if (fSemaH == NULL)
-        throw "Failed to create a semaphore";
+        throw hsSemaphoreException(__FILE__, __LINE__);
 }
 
 hsSemaphore::~hsSemaphore() {
@@ -19,7 +19,7 @@ bool hsSemaphore::wait() {
     else if (result == WAIT_TIMEOUT)
         return false;
     else
-        throw "Semaphore wait broke";
+        throw hsSemaphoreException(__FILE__, __LINE__);
 }
 
 bool hsSemaphore::signal() {
@@ -33,7 +33,7 @@ hsSemaphore::hsSemaphore(int initialValue, const char* name) {
     fSemaID = semget(IPC_PRIVATE, 1, IPC_CREAT | 0660);
     int setres = semctl(fSemaID, 0, SETVAL, initialValue);
     if (fSemaID == -1 || setres == -1)
-        throw "Failed to create a semaphore";
+        throw hsSemaphoreException(__FILE__, __LINE__);
 }
 
 hsSemaphore::~hsSemaphore() {
@@ -48,7 +48,7 @@ bool hsSemaphore::wait() {
         return false;
 }
 
-void hsSemaphore::signal() {
+bool hsSemaphore::signal() {
     static sembuf op[1] = { 0, 1, 0 };
     if (semop(fSemaID, op, 1) == 0)
         return true;
@@ -57,3 +57,11 @@ void hsSemaphore::signal() {
 }
 
 #endif
+
+
+// hsSemaphoreException //
+hsSemaphoreException::hsSemaphoreException(const char* file,
+                      unsigned long line) throw()
+                    : hsException(file, line) {
+    fWhat = "Semaphore operation failed";
+}

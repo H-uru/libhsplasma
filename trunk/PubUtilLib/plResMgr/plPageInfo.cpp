@@ -53,14 +53,14 @@ void plPageInfo::read(hsStream* S) {
         page = S->readSafeStr();
         short majorVer = S->readShort();
         short minorVer = S->readShort();
-        if (majorVer > 63)
-            throw "Older Live builds are not supported!";
+        if (majorVer > 63) // Old Live version (e.g. 69.x)
+            throw hsBadVersionException(__FILE__, __LINE__);
         else if (minorVer >= 12) S->setVer(pvPots);
         location.set(pid, pflags, S->getVer());
         releaseVersion = S->readInt();
         flags = S->readInt();
     } else {
-        throw "Unsupported page version!";
+        throw hsBadVersionException(__FILE__, __LINE__);
     }
     checksum = S->readInt();
     dataStart = S->readInt();

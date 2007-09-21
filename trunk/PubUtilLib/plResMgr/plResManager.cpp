@@ -109,11 +109,12 @@ unsigned int plResManager::countKeys(const PageID& pid) {
 plPageInfo* plResManager::ReadPage(const char* filename) {
     hsStream* S = new hsStream();
     setVer(S->getVer());
-    if (!S->open(filename, fmRead)) {
-        char* buf = new char[256];
-        sprintf(buf, "Error reading file: %s", filename);
-        throw (const char*)buf;
-    }
+    if (!S->open(filename, fmRead))
+        throw hsFileReadException(__FILE__, __LINE__, filename);
+    //    char* buf = new char[256];
+    //    sprintf(buf, "Error reading file: %s", filename);
+    //    throw (const char*)buf;
+    //}
     plPageInfo* page = new plPageInfo;
     page->read(S);
     pages.push_back(page);

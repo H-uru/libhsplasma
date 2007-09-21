@@ -1,6 +1,7 @@
 #include "pdUnifiedTypeMap.h"
 #include <cstdlib>
 #include <cstdio>
+#include "../CoreLib/hsExceptions.h"
 
 short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
@@ -1652,7 +1653,7 @@ const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx, PlasmaVer ver) {
     if (ver == pvUnknown)
-        throw "Unknown Plasma Version!";
+        throw hsBadVersionException(__FILE__, __LINE__);
     return ClassName(PlasmaToMapped(typeIdx, ver));
 }
 
@@ -1698,7 +1699,7 @@ short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
 
 short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver) {
     if (ver != pvEoa)
-        throw "Only EOA's Class Versioning is emulated";
+        throw hsBadVersionException(__FILE__, __LINE__);
     if (PlasmaToMapped(typeIdx, ver) < 0)
         return 0;
     return fEoaVerTable[PlasmaToMapped(typeIdx, ver)];

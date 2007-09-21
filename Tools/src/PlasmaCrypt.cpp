@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <exception>
 #include "CoreLib/plEncryptedStream.h"
 #include "CoreLib/plString.h"
 
@@ -140,6 +141,10 @@ int main(int argc, char** argv) {
                     if (SF.getVer() == pvEoa && haveKey && verbosity >= 0)
                         printf("Warning: Ignoring key for AES decryption\n");
                 }
+            } catch (std::exception& e) {
+                if (verbosity >= 0)
+                    fprintf(stderr, "Error opening %s: %s\n", argv[i], e.what());
+                continue;
             } catch (const char* e) {
                 if (verbosity >= 0)
                     fprintf(stderr, "Error opening %s: %s\n", argv[i], e);
@@ -174,6 +179,10 @@ int main(int argc, char** argv) {
                 } else {
                     SF.open(argv[i], fmRead);
                 }
+            } catch (std::exception& e) {
+                if (verbosity >= 0)
+                    fprintf(stderr, "Error opening %s: %s\n", argv[i], e.what());
+                continue;
             } catch (const char* e) {
                 if (verbosity >= 0)
                     fprintf(stderr, "Error opening %s: %s\n", argv[i], e);
