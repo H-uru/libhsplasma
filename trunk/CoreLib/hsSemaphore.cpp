@@ -41,7 +41,7 @@ hsSemaphore::~hsSemaphore() {
 }
 
 bool hsSemaphore::wait() {
-    static sembuf op[1] = { 0, -1, 0 };
+    static sembuf op[1] = { { 0, -1, 0 } };
     if (semop(fSemaID, op, 1) == 0)
         return true;
     else
@@ -49,7 +49,7 @@ bool hsSemaphore::wait() {
 }
 
 bool hsSemaphore::signal() {
-    static sembuf op[1] = { 0, 1, 0 };
+    static sembuf op[1] = { { 0, 1, 0 } };
     if (semop(fSemaID, op, 1) == 0)
         return true;
     else

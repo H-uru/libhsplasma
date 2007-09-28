@@ -63,8 +63,8 @@ void plGeometrySpan::read(hsStream* S) {
         }
         fDiffuseRGBA = new unsigned int[fNumVerts];
         fSpecularRGBA = new unsigned int[fNumVerts];
-        S->readInts(fNumVerts, (hsInt32*)fDiffuseRGBA);
-        S->readInts(fNumVerts, (hsInt32*)fSpecularRGBA);
+        S->readInts(fNumVerts, (hsUint32*)fDiffuseRGBA);
+        S->readInts(fNumVerts, (hsUint32*)fSpecularRGBA);
     } else {
         fVertexData = NULL;
         fMultColor = NULL;
@@ -75,7 +75,7 @@ void plGeometrySpan::read(hsStream* S) {
 
     if (fNumIndices > 0) {
         fIndexData = new unsigned short[fNumIndices];
-        S->readShorts(fNumIndices, (hsInt16*)fIndexData);
+        S->readShorts(fNumIndices, (hsUint16*)fIndexData);
     } else {
         fIndexData = NULL;
     }
@@ -121,12 +121,12 @@ void plGeometrySpan::write(hsStream* S) {
             fMultColor[i].write(S);
             fAddColor[i].write(S);
         }
-        S->writeInts(fNumVerts, (hsInt32*)fDiffuseRGBA);
-        S->writeInts(fNumVerts, (hsInt32*)fSpecularRGBA);
+        S->writeInts(fNumVerts, (hsUint32*)fDiffuseRGBA);
+        S->writeInts(fNumVerts, (hsUint32*)fSpecularRGBA);
         
     }
     if (fNumIndices > 0)
-        S->writeShorts(fNumIndices, (hsInt16*)fIndexData);
+        S->writeShorts(fNumIndices, (hsUint16*)fIndexData);
 
     S->writeInt(fInstanceGroup);
     if (fInstanceGroup != 0) {

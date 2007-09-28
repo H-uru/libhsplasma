@@ -20,8 +20,10 @@ plResManager::~plResManager() {
     fNumResMgrs--;
     if ((fNumResMgrs == 1) && (fGlobalResMgr != NULL))
         delete fGlobalResMgr;
-    if (fNumResMgrs == 0)
+    if ((fNumResMgrs == 0) && (plJPEG::inst != NULL)) {
         delete plJPEG::inst;
+        plJPEG::inst = NULL;
+    }
 }
 
 plResManager* plResManager::GetGlobalResMgr() {
@@ -41,21 +43,10 @@ PlasmaVer plResManager::getVer() { return ver; }
 
 plKey plResManager::readKey(hsStream* S) {
     bool exists = (S->getVer() == pvEoa) ? true : S->readBool();
-    if (exists) {
-        plKey k = new plKeyData();
-        if (S->getVer() == pvLive)
-            S->readBool();
-        k->readUoid(S);
-        plKey xkey = keys.findKey(k);
-        if (xkey.Exists()) {
-            return xkey;
-        } else {
-            keys.add(k);
-            return k;
-        }
-    } else {
+    if (exists)
+        return readUoid(S);
+    else
         return plKey();
-    }
 }
 
 plKey plResManager::readUoid(hsStream* S) {
@@ -63,12 +54,20 @@ plKey plResManager::readUoid(hsStream* S) {
     if (S->getVer() == pvLive)
         S->readBool();
     k->readUoid(S);
-    plKey xkey = keys.findKey(k);
-    if (xkey.Exists())
-        k = xkey;
+    plKey xkey;
+    if (k->getUoid().getLocation().isReserved())
+        xkey = GetGlobalResMgr()->keys.findKey(k);
     else
-        keys.add(k);
-    return k;
+        xkey = keys.findKey(k);
+    if (xkey.Exists()) {
+        return xkey;
+    } else {
+        if (k->getUoid().getLocation().isReserved())
+            GetGlobalResMgr()->keys.add(k);
+        else
+            keys.add(k);
+        return k;
+    }
 }
 
 void plResManager::writeKey(hsStream* S, plKey key) {
@@ -352,7 +351,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
             //       kList[j]->fileOff);
             S->seek(kList[j]->getFileOff());
             try {
-                kList[j]->setObj((hsKeyedObject*)ReadCreatable(S));
+                kList[j]->setObj(hsKeyedObject::Convert(ReadCreatable(S)));
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
                     if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff())

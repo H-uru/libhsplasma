@@ -1,7 +1,6 @@
 #ifndef _PLCREATABLE_H
 #define _PLCREATABLE_H
 
-#include "../../CoreLib/hsRefCnt.h"
 #include "../../CoreLib/hsStream.h"
 #include "../../DynLib/PlasmaVersions.h"
 #include "../../DynLib/pdUnifiedTypeMap.h"

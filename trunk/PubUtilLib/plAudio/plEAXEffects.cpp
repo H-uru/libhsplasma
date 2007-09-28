@@ -1,0 +1,128 @@
+#include "plEAXEffects.h"
+
+/* plEAXSourceSoftSettings */
+void plEAXSourceSoftSettings::Reset() {
+    fOcclusion = 0;
+    fOcclusionLFRatio = 0.25f;
+    fOcclusionRoomRatio = 1.5f;
+    fOcclusionDirectRatio = 1.0f;
+}
+
+void plEAXSourceSoftSettings::read(hsStream* S) {
+    fOcclusion = S->readShort();
+    fOcclusionLFRatio = S->readFloat();
+    fOcclusionRoomRatio = S->readFloat();
+    fOcclusionDirectRatio = S->readFloat();
+}
+
+void plEAXSourceSoftSettings::write(hsStream* S) {
+    S->writeShort(fOcclusion);
+    S->writeFloat(fOcclusionLFRatio);
+    S->writeFloat(fOcclusionRoomRatio);
+    S->writeFloat(fOcclusionDirectRatio);
+}
+
+void plEAXSourceSoftSettings::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("plEAXSourceSoftSettings");
+      prc->writeParam("Occlusion", fOcclusion);
+      prc->writeParam("LFRatio", fOcclusionLFRatio);
+      prc->writeParam("RoomRatio", fOcclusionRoomRatio);
+      prc->writeParam("DirectRatio", fOcclusionDirectRatio);
+    prc->endTag(true);
+}
+
+
+/* plEAXSourceSettings */
+plEAXSourceSettings::plEAXSourceSettings() : fDirtyParams(kAll) {
+    Enable(false);
+}
+
+void plEAXSourceSettings::Enable(bool enable) {
+    fEnabled = enable;
+    if (!fEnabled) {
+        fRoom = -1;
+        fRoomHF = -1;
+        fRoomAuto = true;
+        fRoomHFAuto = true;
+        fOutsideVolHF = 0;
+        fAirAbsorptionFactor = 1.0f;
+        fRoomRolloffFactor = 0.0f;
+        fDopplerFactor = 0.0f;
+        fRolloffFactor = 0.0f;
+        fSoftStarts.Reset();
+        fSoftEnds.Reset();
+        fCurrSoftValues.Reset();
+        fDirtyParams = kAll;
+    }
+}
+
+void plEAXSourceSettings::read(hsStream* S) {
+    fEnabled = S->readBool();
+    if (!fEnabled) {
+        Enable(false);
+        return;
+    }
+
+    fRoom = S->readShort();
+    fRoomHF = S->readShort();
+    fRoomAuto = S->readBool();
+    fRoomHFAuto = S->readBool();
+    fOutsideVolHF = S->readShort();
+    fAirAbsorptionFactor = S->readFloat();
+    fRoomRolloffFactor = S->readFloat();
+    fDopplerFactor = S->readFloat();
+    fRolloffFactor = S->readFloat();
+    fSoftStarts.read(S);
+    fSoftEnds.read(S);
+    fOcclusionSoftValue = S->readFloat();
+    //if (fOcclusionSoftValue != -1.0)
+    //    IRecalcSofts(kOcclusion);
+    fDirtyParams = kAll;
+}
+
+void plEAXSourceSettings::write(hsStream* S) {
+    S->writeBool(fEnabled);
+    if (fEnabled) {
+        S->writeShort(fRoom);
+        S->writeShort(fRoomHF);
+        S->writeBool(fRoomAuto);
+        S->writeBool(fRoomHFAuto);
+        S->writeShort(fOutsideVolHF);
+        S->writeFloat(fAirAbsorptionFactor);
+        S->writeFloat(fRoomRolloffFactor);
+        S->writeFloat(fDopplerFactor);
+        S->writeFloat(fRolloffFactor);
+        fSoftStarts.write(S);
+        fSoftEnds.write(S);
+        S->writeFloat(fOcclusionSoftValue);
+    }
+}
+
+void plEAXSourceSettings::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("plEAXSourceSettings");
+    if (fEnabled) {
+        prc->writeParam("Room", fRoom);
+        prc->writeParam("RoomHF", fRoomHF);
+        prc->writeParam("RoomAuto", fRoomAuto);
+        prc->writeParam("RoomHFAuto", fRoomHFAuto);
+        prc->writeParam("OutsideHF", fOutsideVolHF);
+        prc->endTag();
+        prc->startTag("Effects");
+        prc->writeParam("AirAbsorption", fAirAbsorptionFactor);
+        prc->writeParam("RoomRolloff", fRoomRolloffFactor);
+        prc->writeParam("Doppler", fDopplerFactor);
+        prc->writeParam("Rolloff", fRolloffFactor);
+        prc->writeParam("SoftOcclusion", fOcclusionSoftValue);
+        prc->endTag(true);
+        prc->writeSimpleTag("Starts");
+        fSoftStarts.prcWrite(prc);
+        prc->closeTag();
+        prc->writeSimpleTag("Ends");
+        fSoftEnds.prcWrite(prc);
+        prc->closeTag();
+        prc->closeTag();
+    } else {
+        prc->writeParam("enabled", false);
+        prc->endTag(true);
+    }
+}

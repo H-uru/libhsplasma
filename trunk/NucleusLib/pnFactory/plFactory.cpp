@@ -10,6 +10,7 @@
 #include "../pnSceneObject/plObjInterface.h"
 #include "../pnSceneObject/plSceneObject.h"
 #include "../pnSceneObject/plSimulationInterface.h"
+#include "../../PubUtilLib/plAudio/plWin32StaticSound.h"
 #include "../../PubUtilLib/plAudioCore/plSoundBuffer.h"
 #include "../../PubUtilLib/plAvatar/plClothingItem.h"
 #include "../../PubUtilLib/plAvatar/plAGMasterMod.h"
@@ -108,8 +109,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLayerMovie: return new plLayerMovie();
         //case kLayerBink: return new plLayerBink();
         //case kLayerAVI: return new plLayerAVI();
-        //case kSound: return new plSound();
-        //case kWin32Sound: return new plWin32Sound();
+        case kSound: return new plSound();
+        case kWin32Sound: return new plWin32Sound();
         //case kLayerOr: return new plLayerOr();
         //case kAudioSystem: return new plAudioSystem();
         case kDrawableSpans: return new plDrawableSpans();
@@ -168,7 +169,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kInventoryMod: return new plInventoryMod();
         //case kInventoryObjMod: return new plInventoryObjMod();
         //case kLinkEffectsMgr: return new plLinkEffectsMgr();
-        //case kWin32StreamingSound: return new plWin32StreamingSound();
+        case kWin32StreamingSound: return new plWin32StreamingSound();
         //case kPythonMod: return new plPythonMod();
         //case kActivatorActivatorConditionalObject: return new plActivatorActivatorConditionalObject();
         //case kSoftVolume: return new plSoftVolume();
@@ -177,7 +178,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSoftVolumeUnion: return new plSoftVolumeUnion();
         //case kSoftVolumeIntersect: return new plSoftVolumeIntersect();
         //case kSoftVolumeInvert: return new plSoftVolumeInvert();
-        //case kWin32LinkSound: return new plWin32LinkSound();
+        case kWin32LinkSound: return new plWin32LinkSound();
         //case kLayerLinkAnimation: return new plLayerLinkAnimation();
         //case kArmatureMod: return new plArmatureMod();
         //case kCameraBrain_Freelook: return new plCameraBrain_Freelook();
@@ -186,7 +187,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kWheelConstraintMod: return new plWheelConstraintMod();
         //case kStrongSpringConstraintMod: return new plStrongSpringConstraintMod();
         //case kArmatureLODMod: return new plArmatureLODMod();
-        //case kWin32StaticSound: return new plWin32StaticSound();
+        case kWin32StaticSound: return new plWin32StaticSound();
         //case kGameGUIMgr: return new pfGameGUIMgr();
         //case kGUIDialogMod: return new pfGUIDialogMod();
         //case kCameraBrain1: return new plCameraBrain1();
@@ -289,7 +290,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSimulationMgr: return new plSimulationMgr();
         //case kWaveSet7: return new plWaveSet7();
         //case kPanicLinkRegion: return new plPanicLinkRegion();
-        //case kWin32GroupedSound: return new plWin32GroupedSound();
+        case kWin32GroupedSound: return new plWin32GroupedSound();
         //case kFilterCoordInterface: return new plFilterCoordInterface();
         //case kStereizer: return new plStereizer();
         //case kCCRMgr: return new plCCRMgr();

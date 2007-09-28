@@ -37,13 +37,13 @@ public:
     virtual void read(size_t size, void* buf);
     virtual void write(size_t size, const void* buf);
 
-    hsByte readByte();
-    void readBytes(size_t count, hsByte* buf);
-    hsInt16 readShort();
-    void readShorts(size_t count, hsInt16* buf);
-    hsInt32 readInt();
-    void readInts(size_t count, hsInt32* buf);
-    hsInt32 readIntSwap();
+    hsUbyte readByte();
+    void readBytes(size_t count, hsUbyte* buf);
+    hsUint16 readShort();
+    void readShorts(size_t count, hsUint16* buf);
+    hsUint32 readInt();
+    void readInts(size_t count, hsUint32* buf);
+    hsUint32 readIntSwap();
     float readFloat();
     void readFloats(size_t count, float* buf);
     double readDouble();
@@ -53,13 +53,13 @@ public:
     plString readSafeStr();
     virtual plString readLine();
 
-    void writeByte(const hsByte v);
-    void writeBytes(size_t count, const hsByte* buf);
-    void writeShort(const hsInt16 v);
-    void writeShorts(size_t count, const hsInt16* buf);
-    void writeInt(const hsInt32 v);
-    void writeInts(size_t count, const hsInt32* buf);
-    void writeIntSwap(const hsInt32 v);
+    void writeByte(const hsUbyte v);
+    void writeBytes(size_t count, const hsUbyte* buf);
+    void writeShort(const hsUint16 v);
+    void writeShorts(size_t count, const hsUint16* buf);
+    void writeInt(const hsUint32 v);
+    void writeInts(size_t count, const hsUint32* buf);
+    void writeIntSwap(const hsUint32 v);
     void writeFloat(const float v);
     void writeFloats(size_t count, const float* buf);
     void writeDouble(const double v);

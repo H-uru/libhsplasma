@@ -67,7 +67,7 @@ void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsBitVector");
     for (size_t i=1; i<=fNumVectors; i++) {
         char buf[9];
-        sprintf(buf, "%08X", fBits[fNumVectors - i]);
+        sprintf(buf, "%08lX", fBits[fNumVectors - i]);
         prc->getStream()->writeStr(buf);
     }
     prc->closeTagNoBreak();

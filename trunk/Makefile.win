@@ -4,6 +4,8 @@ CFLAGSEXTERN = -g
 
 LIBDIR=out/
 OBJFILES=\
+	$(LIBDIR)hsExceptions.o \
+	$(LIBDIR)hsSemaphore.o \
 	$(LIBDIR)hsStream.o \
 	$(LIBDIR)plEncryptedStream.o \
 	$(LIBDIR)hsElfStream.o \
@@ -59,6 +61,10 @@ OBJFILES=\
 	$(LIBDIR)plOmniLightInfo.o \
 	$(LIBDIR)plJPEG.o \
 	$(LIBDIR)plImageLibMod.o \
+	$(LIBDIR)plPhysical.o \
+	$(LIBDIR)plHKPhysical.o \
+	$(LIBDIR)plPXPhysical.o \
+	$(LIBDIR)plODEPhysical.o \
 	$(LIBDIR)plCubicEnvironmap.o \
 	$(LIBDIR)plFogEnvironment.o \
 	$(LIBDIR)hsGDeviceRef.o \
@@ -77,6 +83,12 @@ all: $(PLSLIB)
 
 $(PLSLIB): $(OBJFILES)
 	$(CC) $(CFLAGS) $(OBJFILES) -ljpeg -shared -o $(PLSLIB)
+
+$(LIBDIR)hsExceptions.o: CoreLib/hsExceptions.h CoreLib/hsExceptions.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsExceptions.cpp -o $(LIBDIR)hsExceptions.o
+
+$(LIBDIR)hsSemaphore.o: CoreLib/hsSemaphore.h CoreLib/hsSemaphore.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsSemaphore.cpp -o $(LIBDIR)hsSemaphore.o
 
 $(LIBDIR)hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsStream.cpp -o $(LIBDIR)hsStream.o
@@ -236,6 +248,18 @@ $(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
 
 $(LIBDIR)plImageLibMod.o: PubUtilLib/plModifier/plImageLibMod.h PubUtilLib/plModifier/plImageLibMod.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plModifier/plImageLibMod.cpp -o $(LIBDIR)plImageLibMod.o
+
+$(LIBDIR)plPhysical.o: PubUtilLib/plPhysics/plPhysical.h PubUtilLib/plPhysics/plPhysical.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPhysics/plPhysical.cpp -o $(LIBDIR)plPhysical.o
+
+$(LIBDIR)plHKPhysical.o: PubUtilLib/plPhysics/plHKPhysical.h PubUtilLib/plPhysics/plHKPhysical.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPhysics/plHKPhysical.cpp -o $(LIBDIR)plHKPhysical.o
+
+$(LIBDIR)plPXPhysical.o: PubUtilLib/plPhysics/plPXPhysical.h PubUtilLib/plPhysics/plPXPhysical.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPhysics/plPXPhysical.cpp -o $(LIBDIR)plPXPhysical.o
+
+$(LIBDIR)plODEPhysical.o: PubUtilLib/plPhysics/plODEPhysical.h PubUtilLib/plPhysics/plODEPhysical.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plPhysics/plODEPhysical.cpp -o $(LIBDIR)plODEPhysical.o
 
 $(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o

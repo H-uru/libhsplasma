@@ -23,3 +23,16 @@ void plPhysical::write(hsStream* S, plResManager* mgr) {
         delete phys;
     }
 }
+
+void plPhysical::readData(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
+}
+
+void plPhysical::writeData(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
+}
+
+void plPhysical::prcWrite(pfPrcHelper* prc) {
+    plSynchedObject::prcWrite(prc);
+    prc->writeComment("Incomplete");
+}

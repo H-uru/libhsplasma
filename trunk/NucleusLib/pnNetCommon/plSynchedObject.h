@@ -38,7 +38,7 @@ public:
     };
 
 protected:
-    int flags;
+    int fSynchFlags;
     std::vector<plString> SDLExcludeList;
     std::vector<plString> SDLVolatileList;
 

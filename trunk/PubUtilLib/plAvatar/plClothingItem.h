@@ -4,7 +4,6 @@
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "../../NucleusLib/pnKeyedObject/plKey.h"
 #include "../../CoreLib/hsTArray.hpp"
-#include "../../CoreLib/hsRefCnt.h"
 
 class plClothingItem : public hsKeyedObject {
 protected:

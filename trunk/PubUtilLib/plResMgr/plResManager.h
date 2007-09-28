@@ -2,7 +2,6 @@
 #define _PLRESMANAGER_H
 
 #include "../../PlasmaDefs.h"
-#include "../../CoreLib/hsRefCnt.h"
 #include "../../DynLib/PlasmaVersions.h"
 #include "../../DynLib/PageID.h"
 #include "../../NucleusLib/pnKeyedObject/plKey.h"

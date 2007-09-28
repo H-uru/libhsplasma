@@ -11,7 +11,7 @@ pfPrcHelper::~pfPrcHelper() {
 hsStream* pfPrcHelper::getStream() { return file; }
 
 void pfPrcHelper::writeTabbed(const char* str) {
-    for (int i=0; i<iLvl; i++) file->writeStr("    ");
+    for (int i=0; i<iLvl; i++) file->writeStr("\t");
     file->writeStr(str);
 }
 

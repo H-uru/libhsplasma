@@ -87,38 +87,38 @@ void hsStream::write(size_t size, const void* buf) {
     fwrite(buf, size, 1, F);
 }
 
-hsByte hsStream::readByte() {
-    hsByte v;
+hsUbyte hsStream::readByte() {
+    hsUbyte v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readBytes(size_t count, hsByte* buf) {
-    read(count * sizeof(hsByte), buf);
+void hsStream::readBytes(size_t count, hsUbyte* buf) {
+    read(count * sizeof(hsUbyte), buf);
 }
 
-hsInt16 hsStream::readShort() {
-    hsInt16 v;
+hsUint16 hsStream::readShort() {
+    hsUint16 v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readShorts(size_t count, hsInt16* buf) {
-    read(count * sizeof(hsInt16), buf);
+void hsStream::readShorts(size_t count, hsUint16* buf) {
+    read(count * sizeof(hsUint16), buf);
 }
 
-hsInt32 hsStream::readInt() {
-    hsInt32 v;
+hsUint32 hsStream::readInt() {
+    hsUint32 v;
     read(sizeof(v), &v);
     return v;
 }
 
-void hsStream::readInts(size_t count, hsInt32* buf) {
-    read(count * sizeof(hsInt32), buf);
+void hsStream::readInts(size_t count, hsUint32* buf) {
+    read(count * sizeof(hsUint32), buf);
 }
 
-hsInt32 hsStream::readIntSwap() {
-    hsInt32 v;
+hsUint32 hsStream::readIntSwap() {
+    hsUint32 v;
     read(sizeof(v), &v);
     return ENDSWAP32(v);
 }
@@ -158,7 +158,7 @@ plString hsStream::readStr(int len) {
 }
 
 plString hsStream::readSafeStr() {
-    hsUint16 ssInfo = (hsUint16)readShort();
+    hsUint16 ssInfo = readShort();
     char* buf;
     if (ver == pvEoa) {
         buf = new char[ssInfo+1];
@@ -200,32 +200,32 @@ plString hsStream::readLine() {
     return str;
 }
 
-void hsStream::writeByte(const hsByte v) {
+void hsStream::writeByte(const hsUbyte v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeBytes(size_t count, const hsByte* buf) {
-    write(count * sizeof(hsByte), buf);
+void hsStream::writeBytes(size_t count, const hsUbyte* buf) {
+    write(count * sizeof(hsUbyte), buf);
 }
 
-void hsStream::writeShort(const hsInt16 v) {
+void hsStream::writeShort(const hsUint16 v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeShorts(size_t count, const hsInt16* buf) {
-    write(count * sizeof(hsInt16), buf);
+void hsStream::writeShorts(size_t count, const hsUint16* buf) {
+    write(count * sizeof(hsUint16), buf);
 }
 
-void hsStream::writeInt(const hsInt32 v) {
+void hsStream::writeInt(const hsUint32 v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeInts(size_t count, const hsInt32* buf) {
-    write(count * sizeof(hsInt32), buf);
+void hsStream::writeInts(size_t count, const hsUint32* buf) {
+    write(count * sizeof(hsUint32), buf);
 }
 
-void hsStream::writeIntSwap(const hsInt32 v) {
-    hsInt32 tv = ENDSWAP32(v);
+void hsStream::writeIntSwap(const hsUint32 v) {
+    hsUint32 tv = ENDSWAP32(v);
     write(sizeof(tv), &tv);
 }
 

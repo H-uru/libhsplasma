@@ -1,10 +1,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "plKey.h"
+#include "hsKeyedObject.h"
 
 plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
                          fRefCnt(1) { }
-plKeyData::~plKeyData() { }
+
+plKeyData::~plKeyData() {
+    if (fObjPtr != NULL)
+        delete fObjPtr;
+}
 
 bool plKeyData::operator==(plKeyData& other) const {
     return (fUoid == other.fUoid);

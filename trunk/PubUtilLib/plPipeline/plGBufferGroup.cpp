@@ -123,7 +123,7 @@ void plGBufferGroup::read(hsStream* S) {
         //fIdxBuffStarts.append(0);
         //fIdxBuffEnds.append(-1);
         unsigned short* iData = new unsigned short[idxCount];
-        S->readShorts(idxCount, (short*)iData);
+        S->readShorts(idxCount, iData);
         fIdxBuffStorage.append(iData);
     }
 
@@ -163,7 +163,7 @@ void plGBufferGroup::write(hsStream* S) {
     S->writeInt(fVertBuffStorage.getSize());
     for (i=0; i<fIdxBuffCounts.getSize(); i++) {
         S->writeInt(fIdxBuffCounts[i]);
-        S->writeShorts(fIdxBuffCounts[i], (short*)fIdxBuffStorage[i]);
+        S->writeShorts(fIdxBuffCounts[i], fIdxBuffStorage[i]);
     }
 
     for (i=0; i<fVertBuffStorage.getSize(); i++) {

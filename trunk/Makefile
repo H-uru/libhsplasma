@@ -39,6 +39,10 @@ OBJFILES=\
 	$(LIBDIR)plDrawInterface.o \
 	$(LIBDIR)plSimulationInterface.o \
 	$(LIBDIR)plSceneObject.o \
+	$(LIBDIR)plEAXEffects.o \
+	$(LIBDIR)plSound.o \
+	$(LIBDIR)plWin32Sound.o \
+	$(LIBDIR)plWin32StaticSound.o \
 	$(LIBDIR)plSoundBuffer.o \
 	$(LIBDIR)plClothingItem.o \
 	$(LIBDIR)plAGMasterMod.o \
@@ -179,6 +183,18 @@ $(LIBDIR)plSceneObject.o: NucleusLib/pnSceneObject/plSceneObject.h NucleusLib/pn
 
 $(LIBDIR)plSimulationInterface.o: NucleusLib/pnSceneObject/plSimulationInterface.h NucleusLib/pnSceneObject/plSimulationInterface.cpp
 	$(CC) $(CFLAGS) -c NucleusLib/pnSceneObject/plSimulationInterface.cpp -o $(LIBDIR)plSimulationInterface.o
+
+$(LIBDIR)plEAXEffects.o: PubUtilLib/plAudio/plEAXEffects.h PubUtilLib/plAudio/plEAXEffects.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAudio/plEAXEffects.cpp -o $(LIBDIR)plEAXEffects.o
+
+$(LIBDIR)plSound.o: PubUtilLib/plAudio/plSound.h PubUtilLib/plAudio/plSound.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAudio/plSound.cpp -o $(LIBDIR)plSound.o
+
+$(LIBDIR)plWin32Sound.o: PubUtilLib/plAudio/plWin32Sound.h PubUtilLib/plAudio/plWin32Sound.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAudio/plWin32Sound.cpp -o $(LIBDIR)plWin32Sound.o
+
+$(LIBDIR)plWin32StaticSound.o: PubUtilLib/plAudio/plWin32StaticSound.h PubUtilLib/plAudio/plWin32StaticSound.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plAudio/plWin32StaticSound.cpp -o $(LIBDIR)plWin32StaticSound.o
 
 $(LIBDIR)plSoundBuffer.o: PubUtilLib/plAudioCore/plSoundBuffer.h PubUtilLib/plAudioCore/plSoundBuffer.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plAudioCore/plSoundBuffer.cpp -o $(LIBDIR)plSoundBuffer.o

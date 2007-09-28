@@ -2,7 +2,6 @@
 #define _PLFACTORY_H
 
 #include "plCreatable.h"
-#include "../../CoreLib/hsRefCnt.h"
 #include "../../DynLib/pdUnifiedTypeMap.h"
 
 class plFactory {

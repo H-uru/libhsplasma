@@ -351,6 +351,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CoreLib\hsExceptions.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\hsExceptions.h"
+				>
+			</File>
+			<File
 				RelativePath="CoreLib\hsGeometry3.cpp"
 				>
 				<FileConfiguration
@@ -419,37 +427,11 @@
 				>
 			</File>
 			<File
-				RelativePath="CoreLib\hsRefCnt.cpp"
+				RelativePath=".\CoreLib\hsSemaphore.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="CoreLib\hsRefCnt.h"
+				RelativePath=".\CoreLib\hsSemaphore.h"
 				>
 			</File>
 			<File
@@ -1744,6 +1726,42 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plAudioCore\plSoundBuffer.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plPhysics"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plHKPhysical.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plHKPhysical.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plODEPhysical.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plODEPhysical.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plPhysical.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plPhysical.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plPXPhysical.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plPXPhysical.h"
 					>
 				</File>
 			</Filter>
