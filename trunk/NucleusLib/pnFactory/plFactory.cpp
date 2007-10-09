@@ -2,6 +2,7 @@
 #include "../../CoreLib/hsExceptions.h"
 
 // Includes for all plCreatable types
+#include "../../FeatureLib/pfAnimation/plLineFollowMod.h"
 #include "../../FeatureLib/pfPython/plPythonFileMod.h"
 #include "../pnMessage/plNotifyMsg.h"
 #include "../pnSceneObject/plAudioInterface.h"
@@ -24,6 +25,7 @@
 #include "../../PubUtilLib/plGLight/plDirectionalLightInfo.h"
 #include "../../PubUtilLib/plGLight/plOmniLightInfo.h"
 #include "../../PubUtilLib/plModifier/plImageLibMod.h"
+#include "../../PubUtilLib/plModifier/plSpawnModifier.h"
 #include "../../PubUtilLib/plPhysics/plHKPhysical.h"
 #include "../../PubUtilLib/plPhysics/plPXPhysical.h"
 #include "../../PubUtilLib/plPhysics/plODEPhysical.h"
@@ -98,7 +100,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLocalPlayerIntersectPlaneConditionalObject: return new plLocalPlayerIntersectPlaneConditionalObject();
         //case kPortalDrawable: return new plPortalDrawable();
         //case kPortalPhysical: return new plPortalPhysical();
-        //case kSpawnModifier: return new plSpawnModifier();
+        case kSpawnModifier: return new plSpawnModifier();
         //case kFacingConditionalObject: return new plFacingConditionalObject();
         case kHKPhysical: return new plHKPhysical();
         //case kViewFaceModifier: return new plViewFaceModifier();
@@ -441,8 +443,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDynamicColorRGBA: return new hsDynamicColorRGBA();
         //case kDynamicMatrix33: return new hsDynamicMatrix33();
         //case kDynamicMatrix44: return new hsDynamicMatrix44();
-        //case kController: return new plController();
-        //case kLeafController: return new plLeafController();
+        case kController: return new plController();
+        case kLeafController: return new plLeafController();
         //case kScaleController: return new plScaleController();
         //case kRotController: return new plRotController();
         //case kPosController: return new plPosController();
@@ -629,7 +631,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCmdIfaceModMsg: return new plCmdIfaceModMsg();
         //case kNetServerMsgPlsUpdatePlayer: return new plNetServerMsgPlsUpdatePlayer();
         //case kListenerMsg: return new plListenerMsg();
-        //case kAnimPath: return new plAnimPath();
+        case kAnimPath: return new plAnimPath();
         //case kClothingUpdateBCMsg: return new plClothingUpdateBCMsg();
         case kNotifyMsg: return new plNotifyMsg();
         //case kFakeOutMsg: return new plFakeOutMsg();
@@ -857,7 +859,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDynamicColorRGBA: return new hsDynamicColorRGBA();
         //case kDynamicMatrix33: return new hsDynamicMatrix33();
         //case kDynamicMatrix44: return new hsDynamicMatrix44();
-        //case kCompoundController: return new plCompoundController();
+        case kCompoundController: return new plCompoundController();
         //case kNetClientMgrMsg: return new plNetClientMgrMsg();
         //case kAgeLoaderMsg: return new plAgeLoaderMsg();
         //case kAvBrainAvatar: return new plAvBrainAvatar();

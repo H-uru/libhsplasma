@@ -14,8 +14,10 @@ OBJFILES=\
 	$(LIBDIR)plKeyCollector.o \
 	$(LIBDIR)hsBitVector.o \
 	$(LIBDIR)hsColor.o \
+	$(LIBDIR)hsMatrix33.o \
 	$(LIBDIR)hsMatrix44.o \
 	$(LIBDIR)hsGeometry3.o \
+	$(LIBDIR)hsQuat.o \
 	$(LIBDIR)hsBounds.o \
 	$(LIBDIR)plLoadMask.o \
 	$(LIBDIR)plString.o \
@@ -63,8 +65,18 @@ OBJFILES=\
 	$(LIBDIR)plLightInfo.o \
 	$(LIBDIR)plDirectionalLightInfo.o \
 	$(LIBDIR)plOmniLightInfo.o \
+	$(LIBDIR)plAnimPath.o \
+	$(LIBDIR)plController.o \
+	$(LIBDIR)plKeyControllers.o \
+	$(LIBDIR)plLeafController.o \
+	$(LIBDIR)plPosController.o \
+	$(LIBDIR)plRotController.o \
+	$(LIBDIR)plScaleController.o \
+	$(LIBDIR)plTMController.o \
+	$(LIBDIR)hsKeys.o \
 	$(LIBDIR)plJPEG.o \
 	$(LIBDIR)plImageLibMod.o \
+	$(LIBDIR)plSpawnModifier.o \
 	$(LIBDIR)plPhysical.o \
 	$(LIBDIR)plHKPhysical.o \
 	$(LIBDIR)plPXPhysical.o \
@@ -78,6 +90,8 @@ OBJFILES=\
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
 	$(LIBDIR)plLayer.o \
+	$(LIBDIR)hsAffineParts.o \
+	$(LIBDIR)plLineFollowMod.o \
 	$(LIBDIR)plPythonFileMod.o \
 	$(LIBDIR)pfPrcHelper.o \
 	$(LIBDIR)rijndael.o
@@ -109,11 +123,17 @@ $(LIBDIR)hsBitVector.o: CoreLib/hsBitVector.h CoreLib/hsBitVector.cpp
 $(LIBDIR)hsColor.o: CoreLib/hsColor.h CoreLib/hsColor.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsColor.cpp -o $(LIBDIR)hsColor.o
 
+$(LIBDIR)hsMatrix33.o: CoreLib/hsMatrix33.h CoreLib/hsMatrix33.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsMatrix33.cpp -o $(LIBDIR)hsMatrix33.o
+
 $(LIBDIR)hsMatrix44.o: CoreLib/hsMatrix44.h CoreLib/hsMatrix44.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsMatrix44.cpp -o $(LIBDIR)hsMatrix44.o
 
 $(LIBDIR)hsGeometry3.o: CoreLib/hsGeometry3.h CoreLib/hsGeometry3.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsGeometry3.cpp -o $(LIBDIR)hsGeometry3.o
+
+$(LIBDIR)hsQuat.o: CoreLib/hsQuat.h CoreLib/hsQuat.cpp
+	$(CC) $(CFLAGS) -c CoreLib/hsQuat.cpp -o $(LIBDIR)hsQuat.o
 
 $(LIBDIR)hsBounds.o: CoreLib/hsBounds.h CoreLib/hsBounds.cpp
 	$(CC) $(CFLAGS) -c CoreLib/hsBounds.cpp -o $(LIBDIR)hsBounds.o
@@ -259,11 +279,41 @@ $(LIBDIR)plDirectionalLightInfo.o: PubUtilLib/plGLight/plDirectionalLightInfo.h 
 $(LIBDIR)plOmniLightInfo.o: PubUtilLib/plGLight/plOmniLightInfo.h PubUtilLib/plGLight/plOmniLightInfo.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plGLight/plOmniLightInfo.cpp -o $(LIBDIR)plOmniLightInfo.o
 
+$(LIBDIR)plAnimPath.o: PubUtilLib/plInterp/plAnimPath.h PubUtilLib/plInterp/plAnimPath.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/plAnimPath.cpp -o $(LIBDIR)plAnimPath.o
+
+$(LIBDIR)plController.o: PubUtilLib/plInterp/plController.h PubUtilLib/plInterp/plController.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/plController.cpp -o $(LIBDIR)plController.o
+
+$(LIBDIR)plKeyControllers.o: PubUtilLib/plInterp/plKeyControllers.h PubUtilLib/plInterp/plKeyControllers.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/plKeyControllers.cpp -o $(LIBDIR)plKeyControllers.o
+
+$(LIBDIR)plLeafController.o: PubUtilLib/plInterp/plLeafController.h PubUtilLib/plInterp/plLeafController.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/plLeafController.cpp -o $(LIBDIR)plLeafController.o
+
+$(LIBDIR)plPosController.o: PubUtilLib/plInterp/plPosController.h PubUtilLib/plInterp/plPosController.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/plPosController.cpp -o $(LIBDIR)plPosController.o
+
+$(LIBDIR)plRotController.o: PubUtilLib/plInterp/plRotController.h PubUtilLib/plInterp/plRotController.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/plRotController.cpp -o $(LIBDIR)plRotController.o
+
+$(LIBDIR)plScaleController.o: PubUtilLib/plInterp/plScaleController.h PubUtilLib/plInterp/plScaleController.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/plScaleController.cpp -o $(LIBDIR)plScaleController.o
+
+$(LIBDIR)plTMController.o: PubUtilLib/plInterp/plTMController.h PubUtilLib/plInterp/plTMController.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/plTMController.cpp -o $(LIBDIR)plTMController.o
+
+$(LIBDIR)hsKeys.o: PubUtilLib/plInterp/hsKeys.h PubUtilLib/plInterp/hsKeys.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plInterp/hsKeys.cpp -o $(LIBDIR)hsKeys.o
+
 $(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(LIBDIR)plJPEG.o
 
 $(LIBDIR)plImageLibMod.o: PubUtilLib/plModifier/plImageLibMod.h PubUtilLib/plModifier/plImageLibMod.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plModifier/plImageLibMod.cpp -o $(LIBDIR)plImageLibMod.o
+
+$(LIBDIR)plSpawnModifier.o: PubUtilLib/plModifier/plSpawnModifier.h PubUtilLib/plModifier/plSpawnModifier.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plModifier/plSpawnModifier.cpp -o $(LIBDIR)plSpawnModifier.o
 
 $(LIBDIR)plPhysical.o: PubUtilLib/plPhysics/plPhysical.h PubUtilLib/plPhysics/plPhysical.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plPhysics/plPhysical.cpp -o $(LIBDIR)plPhysical.o
@@ -309,6 +359,12 @@ $(LIBDIR)plLayerInterface.o: PubUtilLib/plSurface/plLayerInterface.h PubUtilLib/
 
 $(LIBDIR)plLayer.o: PubUtilLib/plSurface/plLayer.h PubUtilLib/plSurface/plLayer.cpp
 	$(CC) $(CFLAGS) -c PubUtilLib/plSurface/plLayer.cpp -o $(LIBDIR)plLayer.o
+
+$(LIBDIR)hsAffineParts.o: PubUtilLib/plTransform/hsAffineParts.h PubUtilLib/plTransform/hsAffineParts.cpp
+	$(CC) $(CFLAGS) -c PubUtilLib/plTransform/hsAffineParts.cpp -o $(LIBDIR)hsAffineParts.o
+
+$(LIBDIR)plLineFollowMod.o: FeatureLib/pfAnimation/plLineFollowMod.h FeatureLib/pfAnimation/plLineFollowMod.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfAnimation/plLineFollowMod.cpp -o $(LIBDIR)plLineFollowMod.o
 
 $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
 	$(CC) $(CFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o

@@ -20,33 +20,33 @@ public:
     */
     
     static hsMatrix44 IdentityMat();
-    static hsMatrix44 TranslateMat(hsVector3& translate);
+    static hsMatrix44 TranslateMat(const hsVector3& translate);
     static hsMatrix44 RotateMat(int axis, float angle);
-    static hsMatrix44 ScaleMat(hsVector3& scale);
+    static hsMatrix44 ScaleMat(const hsVector3& scale);
 
     void Reset();
-    bool IsIdentity();
+    bool IsIdentity() const;
     
     float& operator()(int y, int x);
     //hsMatrix44& operator=(const hsMatrix44& other);
-    bool operator==(const hsMatrix44& other);
+    bool operator==(const hsMatrix44& other) const;
 
-    hsMatrix44 operator*(const hsMatrix44& right);
-    hsPoint3 operator*(const hsPoint3& pt);
-    hsVector3 operator*(const hsVector3& vec);
+    hsMatrix44 operator*(const hsMatrix44& right) const;
+    hsPoint3 operator*(const hsPoint3& pt) const;
+    hsVector3 operator*(const hsVector3& vec) const;
     
-    hsMatrix44& translate(hsVector3& translate);
+    hsMatrix44& translate(const hsVector3& translate);
     hsMatrix44& rotate(int axis, float angle);
-    hsMatrix44& scale(hsVector3& scale);
-    hsMatrix44& setTranslate(hsVector3& translate);
+    hsMatrix44& scale(const hsVector3& scale);
+    hsMatrix44& setTranslate(const hsVector3& translate);
     hsMatrix44& setRotate(int axis, float angle);
-    hsMatrix44& setScale(hsVector3& scale);
+    hsMatrix44& setScale(const hsVector3& scale);
     
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
 
-    const char* toString();
+    plString toString() const;
 };
 
 #endif

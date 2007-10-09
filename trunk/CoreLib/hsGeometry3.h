@@ -6,7 +6,7 @@
 
 struct hsScalarTriple {
 public:
-    float X, Y, Z;
+    float fX, fY, fZ;
 
 public:
     hsScalarTriple();
@@ -33,9 +33,9 @@ public:
 
     hsPoint3& operator=(const hsPoint3& other);
     bool operator==(const hsPoint3 & other);
-    hsPoint3& operator+(const hsPoint3& other);
-    hsPoint3& operator*(const hsPoint3& other);
-    hsPoint3& operator*(const float mult);
+    hsPoint3 operator+(const hsPoint3& other);
+    hsPoint3 operator*(const hsPoint3& other);
+    hsPoint3 operator*(const float mult);
 };
 
 struct hsVector3 : hsScalarTriple {
@@ -64,7 +64,7 @@ public:
 
 struct hsFloatPoint2 {
 public:
-    float X, Y;
+    float fX, fY;
 };
 
 #endif

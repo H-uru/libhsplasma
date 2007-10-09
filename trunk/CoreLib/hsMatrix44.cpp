@@ -21,7 +21,7 @@ hsMatrix44 hsMatrix44::IdentityMat() {
     return idMat;
 }
 
-hsMatrix44 hsMatrix44::TranslateMat(hsVector3& translate) {
+hsMatrix44 hsMatrix44::TranslateMat(const hsVector3& translate) {
     hsMatrix44 tMat = IdentityMat();
     tMat.setTranslate(translate);
     return tMat;
@@ -33,7 +33,7 @@ hsMatrix44 hsMatrix44::RotateMat(int axis, float angle) {
     return rMat;
 }
 
-hsMatrix44 hsMatrix44::ScaleMat(hsVector3& scale) {
+hsMatrix44 hsMatrix44::ScaleMat(const hsVector3& scale) {
     hsMatrix44 sMat = IdentityMat();
     sMat.setScale(scale);
     return sMat;
@@ -47,7 +47,7 @@ void hsMatrix44::Reset() {
     data[3][3] = 1.0f;
 }
 
-bool hsMatrix44::IsIdentity() {
+bool hsMatrix44::IsIdentity() const {
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
             if ((x == y && data[y][x] != 1.0) ||
@@ -68,7 +68,7 @@ hsMatrix44& hsMatrix44::operator=(const hsMatrix44& other) {
     return (*this);
 }*/
 
-bool hsMatrix44::operator==(const hsMatrix44& other) {
+bool hsMatrix44::operator==(const hsMatrix44& other) const {
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
             if (data[y][x] != other.data[y][x])
@@ -76,7 +76,7 @@ bool hsMatrix44::operator==(const hsMatrix44& other) {
     return true;
 }
 
-hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) {
+hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) const {
     hsMatrix44 result;
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
@@ -87,32 +87,32 @@ hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) {
     return result;
 }
 
-hsPoint3 hsMatrix44::operator*(const hsPoint3& pt) {
+hsPoint3 hsMatrix44::operator*(const hsPoint3& pt) const {
     hsPoint3 result;
-    result.X = (data[0][0] * pt.X) + (data[0][1] * pt.Y) +
-               (data[0][2] * pt.Z) + data[0][3];
-    result.Y = (data[1][0] * pt.X) + (data[1][1] * pt.Y) +
-               (data[1][2] * pt.Z) + data[1][3];
-    result.Z = (data[2][0] * pt.X) + (data[2][1] * pt.Y) +
-               (data[2][2] * pt.Z) + data[2][3];
+    result.fX = (data[0][0] * pt.fX) + (data[0][1] * pt.fY) +
+                (data[0][2] * pt.fZ) + data[0][3];
+    result.fY = (data[1][0] * pt.fX) + (data[1][1] * pt.fY) +
+                (data[1][2] * pt.fZ) + data[1][3];
+    result.fZ = (data[2][0] * pt.fX) + (data[2][1] * pt.fY) +
+                (data[2][2] * pt.fZ) + data[2][3];
     return result;
 }
 
-hsVector3 hsMatrix44::operator*(const hsVector3& vec) {
+hsVector3 hsMatrix44::operator*(const hsVector3& vec) const {
     hsVector3 result;
-    result.X = (data[0][0] * vec.X) + (data[0][1] * vec.Y) +
-               (data[0][2] * vec.Z) + data[0][3];
-    result.Y = (data[1][0] * vec.X) + (data[1][1] * vec.Y) +
-               (data[1][2] * vec.Z) + data[1][3];
-    result.Z = (data[2][0] * vec.X) + (data[2][1] * vec.Y) +
-               (data[2][2] * vec.Z) + data[2][3];
+    result.fX = (data[0][0] * vec.fX) + (data[0][1] * vec.fY) +
+                (data[0][2] * vec.fZ) + data[0][3];
+    result.fY = (data[1][0] * vec.fX) + (data[1][1] * vec.fY) +
+                (data[1][2] * vec.fZ) + data[1][3];
+    result.fZ = (data[2][0] * vec.fX) + (data[2][1] * vec.fY) +
+                (data[2][2] * vec.fZ) + data[2][3];
     return result;
 }
 
-hsMatrix44& hsMatrix44::translate(hsVector3& translate) {
-    data[0][3] += translate.X;
-    data[1][3] += translate.Y;
-    data[2][3] += translate.Z;
+hsMatrix44& hsMatrix44::translate(const hsVector3& translate) {
+    data[0][3] += translate.fX;
+    data[1][3] += translate.fY;
+    data[2][3] += translate.fZ;
     return (*this);
 }
 
@@ -122,26 +122,26 @@ hsMatrix44& hsMatrix44::rotate(int axis, float angle) {
     return (*this);
 }
 
-hsMatrix44& hsMatrix44::scale(hsVector3& scale) {
-    data[0][0] *= scale.X;
-    data[0][1] *= scale.X;
-    data[0][2] *= scale.X;
-    data[0][3] *= scale.X;
-    data[1][0] *= scale.Y;
-    data[1][1] *= scale.Y;
-    data[1][2] *= scale.Y;
-    data[1][3] *= scale.Y;
-    data[2][0] *= scale.Z;
-    data[2][1] *= scale.Z;
-    data[2][2] *= scale.Z;
-    data[2][3] *= scale.Z;
+hsMatrix44& hsMatrix44::scale(const hsVector3& scale) {
+    data[0][0] *= scale.fX;
+    data[0][1] *= scale.fX;
+    data[0][2] *= scale.fX;
+    data[0][3] *= scale.fX;
+    data[1][0] *= scale.fY;
+    data[1][1] *= scale.fY;
+    data[1][2] *= scale.fY;
+    data[1][3] *= scale.fY;
+    data[2][0] *= scale.fZ;
+    data[2][1] *= scale.fZ;
+    data[2][2] *= scale.fZ;
+    data[2][3] *= scale.fZ;
     return (*this);
 }
 
-hsMatrix44& hsMatrix44::setTranslate(hsVector3& translate) {
-    data[0][3] = translate.X;
-    data[1][3] = translate.Y;
-    data[2][3] = translate.Z;
+hsMatrix44& hsMatrix44::setTranslate(const hsVector3& translate) {
+    data[0][3] = translate.fX;
+    data[1][3] = translate.fY;
+    data[2][3] = translate.fZ;
     return (*this);
 }
 
@@ -175,10 +175,10 @@ hsMatrix44& hsMatrix44::setRotate(int axis, float angle) {
     return (*this);
 }
 
-hsMatrix44& hsMatrix44::setScale(hsVector3& scale) {
-    data[0][0] = scale.X;
-    data[1][1] = scale.Y;
-    data[2][2] = scale.Z;
+hsMatrix44& hsMatrix44::setScale(const hsVector3& scale) {
+    data[0][0] = scale.fX;
+    data[1][1] = scale.fY;
+    data[2][2] = scale.fZ;
     return (*this);
 }
 
@@ -218,7 +218,7 @@ void hsMatrix44::prcWrite(pfPrcHelper* prc) {
     } else {
         prc->writeTagNoBreak("hsMatrix44");
         char buf[1024];
-        sprintf(buf, "[%f,%f,%f,%f ; %f,%f,%f,%f ; %f,%f,%f,%f ; %f,%f,%f,%f]",
+        snprintf(buf, 1024, "[%f,%f,%f,%f ; %f,%f,%f,%f ; %f,%f,%f,%f ; %f,%f,%f,%f]",
             data[0][0], data[0][1], data[0][2], data[0][3],
             data[1][0], data[1][1], data[1][2], data[1][3],
             data[2][0], data[2][1], data[2][2], data[2][3],
@@ -228,12 +228,11 @@ void hsMatrix44::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-const char* hsMatrix44::toString() {
-    static char s[1024];
-    sprintf(s, "[ %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f ]",
+plString hsMatrix44::toString() const {
+    return plString::Format("[ %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n"
+                            "%5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f ]",
         data[0][0], data[0][1], data[0][2], data[0][3],
         data[1][0], data[1][1], data[1][2], data[1][3],
         data[2][0], data[2][1], data[2][2], data[2][3],
         data[3][0], data[3][1], data[3][2], data[3][3]);
-    return s;
 }

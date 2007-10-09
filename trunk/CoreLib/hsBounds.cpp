@@ -68,8 +68,8 @@ hsBounds3Ext::hsBounds3Ext(const hsBounds3Ext& src) : hsBounds3() {
     fRadius = src.fRadius;
     for (int i=0; i<3; i++) {
         fAxes[i] = src.fAxes[i];
-        fDists[i].X = src.fDists[i].X;
-        fDists[i].Y = src.fDists[i].Y;
+        fDists[i].fX = src.fDists[i].fX;
+        fDists[i].fY = src.fDists[i].fY;
     }
 }
 
@@ -84,8 +84,8 @@ void hsBounds3Ext::read(hsStream* S) {
         fCorner.read(S);
         for (int i=0; i<3; i++) {
             fAxes[i].read(S);
-            fDists[i].X = S->readFloat();
-            fDists[i].Y = S->readFloat();
+            fDists[i].fX = S->readFloat();
+            fDists[i].fY = S->readFloat();
         }
     }
 }
@@ -97,8 +97,8 @@ void hsBounds3Ext::write(hsStream* S) {
         fCorner.write(S);
         for (int i=0; i<3; i++) {
             fAxes[i].write(S);
-            S->writeFloat(fDists[i].X);
-            S->writeFloat(fDists[i].Y);
+            S->writeFloat(fDists[i].fX);
+            S->writeFloat(fDists[i].fY);
         }
     }
 }
@@ -116,8 +116,8 @@ void hsBounds3Ext::prcWrite(pfPrcHelper* prc) {
         for (int i=0; i<3; i++) {
             fAxes[i].prcWrite(prc);
             prc->startTag("Distance");
-            prc->writeParam("X", fDists[i].X);
-            prc->writeParam("Y", fDists[i].Y);
+            prc->writeParam("X", fDists[i].fX);
+            prc->writeParam("Y", fDists[i].fY);
             prc->endTag(true);
         }
         prc->closeTag();
