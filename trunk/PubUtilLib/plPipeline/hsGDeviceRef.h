@@ -1,8 +1,6 @@
 #ifndef _HSGDEVICEREF_H
 #define _HSGDEVICEREF_H
 
-#include "../../CoreLib/hsRefCnt.h"
-
 class hsGDeviceRef /*: public hsRefCnt*/ {
 public:
     enum { kNone, kDirty };

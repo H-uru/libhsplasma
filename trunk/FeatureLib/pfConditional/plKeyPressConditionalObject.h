@@ -1,0 +1,22 @@
+#ifndef _PLKEYPRESSCONDITIONALOBJECT_H
+#define _PLKEYPRESSCONDITIONALOBJECT_H
+
+#include "plConditionalObject.h"
+#include "../../DynLib/Platform.h"
+
+DllClass plKeyPressConditionalObject : public plConditionalObject {
+protected:
+    plKeyDef fKeyEvent;
+
+public:
+    plKeyPressConditionalObject();
+    virtual ~plKeyPressConditionalObject();
+
+    DECLARE_CREATABLE(plKeyPressConditionalObject)
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void prcWrite(pfPrcHelper* prc);
+};
+
+#endif

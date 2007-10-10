@@ -3,6 +3,16 @@
 
 // Includes for all plCreatable types
 #include "../../FeatureLib/pfAnimation/plLineFollowMod.h"
+#include "../../FeatureLib/pfConditional/plActivatorConditionalObject.h"
+#include "../../FeatureLib/pfConditional/plAnimationEventConditionalObject.h"
+#include "../../FeatureLib/pfConditional/plBooleanConditionalObject.h"
+#include "../../FeatureLib/pfConditional/plControlEventConditionalObject.h"
+#include "../../FeatureLib/pfConditional/plDetectConditionalObjects.h"
+#include "../../FeatureLib/pfConditional/plFacingConditionalObject.h"
+#include "../../FeatureLib/pfConditional/plKeyPressConditionalObject.h"
+#include "../../FeatureLib/pfConditional/plPickedConditionalObject.h"
+#include "../../FeatureLib/pfConditional/plPythonFileModConditionalObject.h"
+#include "../../FeatureLib/pfConditional/plVolumeSensorConditionalObject.h"
 #include "../../FeatureLib/pfPython/plPythonFileMod.h"
 #include "../pnMessage/plNotifyMsg.h"
 #include "../pnSceneObject/plAudioInterface.h"
@@ -85,23 +95,23 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPickingDetector: return new plPickingDetector();
         //case kCollisionDetector: return new plCollisionDetector();
         //case kLogicModifier: return new plLogicModifier();
-        //case kConditionalObject: return new plConditionalObject();
-        //case kANDConditionalObject: return new plANDConditionalObject();
-        //case kORConditionalObject: return new plORConditionalObject();
-        //case kPickedConditionalObject: return new plPickedConditionalObject();
-        //case kActivatorConditionalObject: return new plActivatorConditionalObject();
+        case kConditionalObject: return new plConditionalObject();
+        case kANDConditionalObject: return new plANDConditionalObject();
+        case kORConditionalObject: return new plORConditionalObject();
+        case kPickedConditionalObject: return new plPickedConditionalObject();
+        case kActivatorConditionalObject: return new plActivatorConditionalObject();
         //case kTimerCallbackManager: return new plTimerCallbackManager();
-        //case kKeyPressConditionalObject: return new plKeyPressConditionalObject();
-        //case kAnimationEventConditionalObject: return new plAnimationEventConditionalObject();
-        //case kControlEventConditionalObject: return new plControlEventConditionalObject();
-        //case kObjectInBoxConditionalObject: return new plObjectInBoxConditionalObject();
-        //case kLocalPlayerInBoxConditioinalObject: return new plLocalPlayerInBoxConditioinalObject();
-        //case kObjectIntersectPlaneConditionalObject: return new plObjectIntersectPlaneConditionalObject();
-        //case kLocalPlayerIntersectPlaneConditionalObject: return new plLocalPlayerIntersectPlaneConditionalObject();
+        case kKeyPressConditionalObject: return new plKeyPressConditionalObject();
+        case kAnimationEventConditionalObject: return new plAnimationEventConditionalObject();
+        case kControlEventConditionalObject: return new plControlEventConditionalObject();
+        case kObjectInBoxConditionalObject: return new plObjectInBoxConditionalObject();
+        case kLocalPlayerInBoxConditionalObject: return new plLocalPlayerInBoxConditionalObject();
+        case kObjectIntersectPlaneConditionalObject: return new plObjectIntersectPlaneConditionalObject();
+        case kLocalPlayerIntersectPlaneConditionalObject: return new plLocalPlayerIntersectPlaneConditionalObject();
         //case kPortalDrawable: return new plPortalDrawable();
         //case kPortalPhysical: return new plPortalPhysical();
         case kSpawnModifier: return new plSpawnModifier();
-        //case kFacingConditionalObject: return new plFacingConditionalObject();
+        case kFacingConditionalObject: return new plFacingConditionalObject();
         case kHKPhysical: return new plHKPhysical();
         //case kViewFaceModifier: return new plViewFaceModifier();
         case kLayerInterface: return new plLayerInterface();
@@ -173,7 +183,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLinkEffectsMgr: return new plLinkEffectsMgr();
         case kWin32StreamingSound: return new plWin32StreamingSound();
         //case kPythonMod: return new plPythonMod();
-        //case kActivatorActivatorConditionalObject: return new plActivatorActivatorConditionalObject();
+        case kActivatorActivatorConditionalObject: return new plActivatorActivatorConditionalObject();
         //case kSoftVolume: return new plSoftVolume();
         //case kSoftVolumeSimple: return new plSoftVolumeSimple();
         //case kSoftVolumeComplex: return new plSoftVolumeComplex();
@@ -205,8 +215,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kGUIControlMod: return new pfGUIControlMod();
         //case kExcludeRegionModifier: return new plExcludeRegionModifier();
         //case kGUIDraggableMod: return new pfGUIDraggableMod();
-        //case kVolumeSensorConditionalObject: return new plVolumeSensorConditionalObject();
-        //case kVolActivatorConditionalObject: return new plVolActivatorConditionalObject();
+        case kVolumeSensorConditionalObject: return new plVolumeSensorConditionalObject();
+        case kVolActivatorConditionalObject: return new plVolActivatorConditionalObject();
         //case kMsgForwarder: return new plMsgForwarder();
         //case kBlower: return new plBlower();
         //case kGUIListBoxMod: return new pfGUIListBoxMod();
@@ -363,7 +373,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kWindBoneMod: return new plWindBoneMod();
         //case kCameraBrain_NovicePlus: return new plCameraBrain_NovicePlus();
         //case kSubtitleMgr: return new pfSubtitleMgr();
-        //case kPythonFileModConditionalObject: return new plPythonFileModConditionalObject();
+        case kPythonFileModConditionalObject: return new plPythonFileModConditionalObject();
         //case kLayerTransform: return new plLayerTransform();
         //case kBubbleShaderMod: return new plBubbleShaderMod();
         //case kLineFollowModBase: return new plLineFollowModBase();

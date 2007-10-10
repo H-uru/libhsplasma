@@ -92,6 +92,17 @@ OBJFILES=\
 	$(LIBDIR)plLayer.o \
 	$(LIBDIR)hsAffineParts.o \
 	$(LIBDIR)plLineFollowMod.o \
+	$(LIBDIR)plConditionalObject.o \
+	$(LIBDIR)plActivatorConditionalObject.o \
+	$(LIBDIR)plAnimationEventConditionalObject.o \
+	$(LIBDIR)plBooleanConditionalObject.o \
+	$(LIBDIR)plControlEventConditionalObject.o \
+	$(LIBDIR)plDetectConditionalObjects.o \
+	$(LIBDIR)plFacingConditionalObject.o \
+	$(LIBDIR)plKeyPressConditionalObject.o \
+	$(LIBDIR)plPickedConditionalObject.o \
+	$(LIBDIR)plPythonFileModConditionalObject.o \
+	$(LIBDIR)plVolumeSensorConditionalObject.o \
 	$(LIBDIR)plPythonFileMod.o \
 	$(LIBDIR)pfPrcHelper.o \
 	$(LIBDIR)rijndael.o
@@ -365,6 +376,39 @@ $(LIBDIR)hsAffineParts.o: PubUtilLib/plTransform/hsAffineParts.h PubUtilLib/plTr
 
 $(LIBDIR)plLineFollowMod.o: FeatureLib/pfAnimation/plLineFollowMod.h FeatureLib/pfAnimation/plLineFollowMod.cpp
 	$(CC) $(CFLAGS) -c FeatureLib/pfAnimation/plLineFollowMod.cpp -o $(LIBDIR)plLineFollowMod.o
+
+$(LIBDIR)plConditionalObject.o: FeatureLib/pfConditional/plConditionalObject.h FeatureLib/pfConditional/plConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plConditionalObject.cpp -o $(LIBDIR)plConditionalObject.o
+
+$(LIBDIR)plActivatorConditionalObject.o: FeatureLib/pfConditional/plActivatorConditionalObject.h FeatureLib/pfConditional/plActivatorConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plActivatorConditionalObject.cpp -o $(LIBDIR)plActivatorConditionalObject.o
+
+$(LIBDIR)plAnimationEventConditionalObject.o: FeatureLib/pfConditional/plAnimationEventConditionalObject.h FeatureLib/pfConditional/plAnimationEventConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plAnimationEventConditionalObject.cpp -o $(LIBDIR)plAnimationEventConditionalObject.o
+
+$(LIBDIR)plBooleanConditionalObject.o: FeatureLib/pfConditional/plBooleanConditionalObject.h FeatureLib/pfConditional/plBooleanConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plBooleanConditionalObject.cpp -o $(LIBDIR)plBooleanConditionalObject.o
+
+$(LIBDIR)plControlEventConditionalObject.o: FeatureLib/pfConditional/plControlEventConditionalObject.h FeatureLib/pfConditional/plControlEventConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plControlEventConditionalObject.cpp -o $(LIBDIR)plControlEventConditionalObject.o
+
+$(LIBDIR)plDetectConditionalObjects.o: FeatureLib/pfConditional/plDetectConditionalObjects.h FeatureLib/pfConditional/plDetectConditionalObjects.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plDetectConditionalObjects.cpp -o $(LIBDIR)plDetectConditionalObjects.o
+
+$(LIBDIR)plFacingConditionalObject.o: FeatureLib/pfConditional/plFacingConditionalObject.h FeatureLib/pfConditional/plFacingConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plFacingConditionalObject.cpp -o $(LIBDIR)plFacingConditionalObject.o
+
+$(LIBDIR)plKeyPressConditionalObject.o: FeatureLib/pfConditional/plKeyPressConditionalObject.h FeatureLib/pfConditional/plKeyPressConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plKeyPressConditionalObject.cpp -o $(LIBDIR)plKeyPressConditionalObject.o
+
+$(LIBDIR)plPickedConditionalObject.o: FeatureLib/pfConditional/plPickedConditionalObject.h FeatureLib/pfConditional/plPickedConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plPickedConditionalObject.cpp -o $(LIBDIR)plPickedConditionalObject.o
+
+$(LIBDIR)plPythonFileModConditionalObject.o: FeatureLib/pfConditional/plPythonFileModConditionalObject.h FeatureLib/pfConditional/plPythonFileModConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plPythonFileModConditionalObject.cpp -o $(LIBDIR)plPythonFileModConditionalObject.o
+
+$(LIBDIR)plVolumeSensorConditionalObject.o: FeatureLib/pfConditional/plVolumeSensorConditionalObject.h FeatureLib/pfConditional/plVolumeSensorConditionalObject.cpp
+	$(CC) $(CFLAGS) -c FeatureLib/pfConditional/plVolumeSensorConditionalObject.cpp -o $(LIBDIR)plVolumeSensorConditionalObject.o
 
 $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
 	$(CC) $(CFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o

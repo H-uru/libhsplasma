@@ -393,6 +393,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CoreLib\hsMatrix33.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\hsMatrix33.h"
+				>
+			</File>
+			<File
 				RelativePath="CoreLib\hsMatrix44.cpp"
 				>
 				<FileConfiguration
@@ -424,6 +432,14 @@
 			</File>
 			<File
 				RelativePath="CoreLib\hsMatrix44.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\hsQuat.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\hsQuat.h"
 				>
 			</File>
 			<File
@@ -1716,6 +1732,14 @@
 					RelativePath=".\PubUtilLib\plModifier\plImageLibMod.h"
 					>
 				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plSpawnModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plSpawnModifier.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="plAudioCore"
@@ -1765,6 +1789,130 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="plAudio"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plEAXEffects.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plEAXEffects.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plSound.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plSound.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plWin32Sound.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plWin32Sound.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plWin32StaticSound.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plWin32StaticSound.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plInterp"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\hsKeys.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\hsKeys.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plAnimPath.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plAnimPath.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plKeyControllers.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plKeyControllers.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plLeafController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plLeafController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plPosController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plPosController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plRotController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plRotController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plScaleController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plScaleController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plTMController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plTMController.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plTransform"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plTransform\hsAffineParts.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plTransform\hsAffineParts.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="FeatureLib"
@@ -1790,6 +1938,110 @@
 				</File>
 				<File
 					RelativePath=".\FeatureLib\pfPRC\pfPrcHelper.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="pfAnimation"
+				>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plLineFollowMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plLineFollowMod.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="pfConditional"
+				>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plActivatorConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plActivatorConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plAnimationEventConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plAnimationEventConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plBooleanConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plBooleanConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plControlEventConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plControlEventConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plDetectConditionalObjects.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plDetectConditionalObjects.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plFacingConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plFacingConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plKeyPressConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plKeyPressConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plPickedConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plPickedConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plPythonFileModConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plPythonFileModConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plVolumeSensorConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfConditional\plVolumeSensorConditionalObject.h"
 					>
 				</File>
 			</Filter>

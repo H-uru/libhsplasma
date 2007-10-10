@@ -278,7 +278,7 @@ long plString::find(const char* sub) const {
     if (len > fLen) return -1;
     for (size_t i=0; i<(fLen - len); i++) {
         if (strncmp(fStr + i, sub, len) == 0)
-            return i;
+            return (long)i;
     }
     return -1;
 }
@@ -288,7 +288,7 @@ long plString::find(const plString& sub) const {
     if (sub.fLen > fLen) return -1;
     for (size_t i=0; i<(fLen - sub.fLen); i++) {
         if (strncmp(fStr + i, sub.fStr, sub.fLen) == 0)
-            return i;
+            return (long)i;
     }
     return -1;
 }
@@ -307,7 +307,7 @@ long plString::rfind(const char* sub) const {
     if (len > fLen) return -1;
     for (size_t i=(fLen - len); i>0; i--) {
         if (strncmp(fStr + (i-1), sub, len) == 0)
-            return i-1;
+            return (long)(i-1);
     }
     return -1;
 }
@@ -317,7 +317,7 @@ long plString::rfind(const plString& sub) const {
     if (sub.fLen > fLen) return -1;
     for (size_t i=(fLen - sub.fLen); i>0; i--) {
         if (strncmp(fStr + (i-1), sub.fStr, sub.fLen) == 0)
-            return i-1;
+            return (long)(i-1);
     }
     return -1;
 }
@@ -703,7 +703,7 @@ long plWString::find(const wchar_t* sub) const {
     if (len > fLen) return -1;
     for (size_t i=0; i<(fLen - len); i++) {
         if (wcsncmp(fStr + i, sub, len) == 0)
-            return i;
+            return (long)i;
     }
     return -1;
 }
@@ -713,7 +713,7 @@ long plWString::find(const plWString& sub) const {
     if (sub.fLen > fLen) return -1;
     for (size_t i=0; i<(fLen - sub.fLen); i++) {
         if (wcsncmp(fStr + i, sub.fStr, sub.fLen) == 0)
-            return i;
+            return (long)i;
     }
     return -1;
 }
@@ -732,7 +732,7 @@ long plWString::rfind(const wchar_t* sub) const {
     if (len > fLen) return -1;
     for (size_t i=(fLen - len); i>0; i--) {
         if (wcsncmp(fStr + (i-1), sub, len) == 0)
-            return i-1;
+            return (long)(i-1);
     }
     return -1;
 }
@@ -742,7 +742,7 @@ long plWString::rfind(const plWString& sub) const {
     if (sub.fLen > fLen) return -1;
     for (size_t i=(fLen - sub.fLen); i>0; i--) {
         if (wcsncmp(fStr + (i-1), sub.fStr, sub.fLen) == 0)
-            return i-1;
+            return (long)(i-1);
     }
     return -1;
 }
