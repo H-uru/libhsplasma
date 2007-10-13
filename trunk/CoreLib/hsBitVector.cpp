@@ -15,8 +15,12 @@ void hsBitVector::set(size_t idx, bool b) {
     if ((idx >> BVSHIFT) < fNumVectors) {
         fNumVectors = (idx >> BVSHIFT) + 1;
         hsUint32* newBits = new hsUint32[fNumVectors];
-        memcpy(newBits, fBits, sizeof(hsUint32)*fNumVectors);
-        if (fBits) delete[] fBits;
+        if (fBits != NULL) {
+            memcpy(newBits, fBits, sizeof(hsUint32)*fNumVectors);
+            delete[] fBits;
+        } else {
+            memset(newBits, 0, sizeof(hsUint32)*fNumVectors);
+        }
         fBits = newBits;
     }
     if (b) fBits[idx >> BVSHIFT] |=  (1 << (idx & BVMASK));
@@ -37,14 +41,28 @@ void hsBitVector::clear() {
     fNumVectors = 0;
 }
 
-void hsBitVector::deleteBit(size_t idx) {
-    size_t b = idx >> BVSHIFT;
-    idx &= BVMASK;
-    size_t mask = (1 << idx) - 1;
-    fBits[b] = (fBits[b] & mask) | ((fBits[b] & ~mask) >> 1);
-    for (size_t i = b+1; i<fNumVectors; i++) {
-        fBits[i-1] |= fBits[i] << BVMASK;
-        fBits[i] >>= 1;
+void hsBitVector::setBit(size_t idx) {
+    set(idx, true);
+}
+
+void hsBitVector::clearBit(size_t idx) {
+    set(idx, false);
+}
+
+void hsBitVector::compact() {
+    size_t newNumVectors = fNumVectors;
+    while (newNumVectors > 0 && fBits[newNumVectors-1] == 0)
+        newNumVectors--;
+    if (newNumVectors < fNumVectors) {
+        if (newNumVectors == 0) {
+            clear();
+        } else {
+            hsUint32* newBits = new hsUint32[newNumVectors];
+            memcpy(newBits, fBits, sizeof(hsUint32)*newNumVectors);
+            if (fBits) delete[] fBits;
+            fBits = newBits;
+            fNumVectors = newNumVectors;
+        }
     }
 }
 
@@ -58,6 +76,7 @@ void hsBitVector::read(hsStream* S) {
 }
 
 void hsBitVector::write(hsStream* S) {
+    compact();
     S->writeInt(fNumVectors);
     for (size_t i=0; i<fNumVectors; i++)
         S->writeInt(fBits[i]);

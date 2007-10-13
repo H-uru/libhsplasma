@@ -1,6 +1,16 @@
 #include "proEventData.h"
 
 // proEventData //
+const char* const proEventData::fEventNames[] = {
+    "proEventData", "proCollisionEventData", "proPickedEventData",
+    "proControlKeyEventData", "proVariableEventData", "proFacingEventData",
+    "proContainedEventData", "proActivateEventData", "proCallbackEventData",
+    "proResponderStateEventData", "proMultiStageEventData",
+    "proSpawnedEventData", "proClickDragEventData", "proCoopEventData",
+    "proOfferLinkBookEventData", "proBookEventData",
+    "proClimbingBlockerHitEventData"
+};
+
 proEventData::proEventData() : fEventType(0) { }
 proEventData::~proEventData() { }
 
@@ -38,6 +48,12 @@ void proEventData::write(hsStream* S, plResManager* mgr) {
     IWrite(S, mgr);
 }
 
+void proEventData::prcWrite(pfPrcHelper* prc) {
+    prc->writeSimpleTag(fEventNames[fEventType]);
+    IPrcWrite(prc);
+    prc->closeTag();
+}
+
 
 // proCollisionEventData //
 proCollisionEventData::proCollisionEventData() : fEnter(false) {
@@ -54,6 +70,19 @@ void proCollisionEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeBool(fEnter);
     mgr->writeKey(S, fHitter);
     mgr->writeKey(S, fHittee);
+}
+
+void proCollisionEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("Enter", fEnter);
+    prc->endTag(true);
+    
+    prc->writeSimpleTag("Hitter");
+    fHitter->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Hittee");
+    fHittee->prcWrite(prc);
+    prc->closeTag();
 }
 
 
@@ -76,6 +105,22 @@ void proPickedEventData::IWrite(hsStream* S, plResManager* mgr) {
     fHitPoint.write(S);
 }
 
+void proPickedEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("Eabled", fEnabled);
+    prc->endTag(true);
+    
+    prc->writeSimpleTag("Picker");
+    fPicker->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Picked");
+    fPicked->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("HitPoint");
+    fHitPoint.prcWrite(prc);
+    prc->closeTag();
+}
+
 
 // proControlKeyEventData //
 proControlKeyEventData::proControlKeyEventData() : fControlKey(0), fDown(false) {
@@ -90,6 +135,13 @@ void proControlKeyEventData::IRead(hsStream* S, plResManager* mgr) {
 void proControlKeyEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fControlKey);
     S->writeInt(fDown);
+}
+
+void proControlKeyEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("ControlKey", fControlKey);
+    prc->writeParam("Down", fDown);
+    prc->endTag(true);
 }
 
 
@@ -113,6 +165,16 @@ void proVariableEventData::IWrite(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fKey);
 }
 
+void proVariableEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("Name", fName);
+    prc->writeParam("DataType", fDataType);
+    prc->writeParam("Number", fNumber);
+    prc->endTag(true);
+
+    fKey->prcWrite(prc);
+}
+
 
 // proFacingEventData //
 proFacingEventData::proFacingEventData() : dot(0.0f), enabled(false) {
@@ -133,6 +195,20 @@ void proFacingEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeFloat(enabled);
 }
 
+void proFacingEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("Dot", dot);
+    prc->writeParam("Enabled", enabled);
+    prc->endTag(true);
+    
+    prc->writeSimpleTag("Facer");
+    fFacer->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Facee");
+    fFacee->prcWrite(prc);
+    prc->closeTag();
+}
+
 
 // proContainedEventData //
 proContainedEventData::proContainedEventData() : fEntering(false) {
@@ -151,6 +227,19 @@ void proContainedEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeBool(fEntering);
 }
 
+void proContainedEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("Entering", fEntering);
+    prc->endTag(true);
+    
+    prc->writeSimpleTag("Contained");
+    fContained->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Container");
+    fContainer->prcWrite(prc);
+    prc->closeTag();
+}
+
 
 // proActivateEventData //
 proActivateEventData::proActivateEventData() : fActive(false), fActivate(false) {
@@ -167,6 +256,13 @@ void proActivateEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeBool(fActivate);
 }
 
+void proActivateEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("Active", fActive);
+    prc->writeParam("Activate", fActivate);
+    prc->endTag(true);
+}
+
 
 // proCallbackEventData //
 proCallbackEventData::proCallbackEventData() : fCallbackEventType(0) {
@@ -181,6 +277,12 @@ void proCallbackEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fCallbackEventType);
 }
 
+void proCallbackEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("CallbackEventType", fCallbackEventType);
+    prc->endTag(true);
+}
+
 
 // proResponderStateEventData //
 proResponderStateEventData::proResponderStateEventData() : fState(0) {
@@ -193,6 +295,12 @@ void proResponderStateEventData::IRead(hsStream* S, plResManager* mgr) {
 
 void proResponderStateEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fState);
+}
+
+void proResponderStateEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("State", fState);
+    prc->endTag(true);
 }
 
 
@@ -213,6 +321,17 @@ void proMultiStageEventData::IWrite(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fAvatar);
 }
 
+void proMultiStageEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("Stage", fStage);
+    prc->writeParam("Event", fEvent);
+    prc->endTag(true);
+    
+    prc->writeSimpleTag("Avatar");
+    fAvatar->prcWrite(prc);
+    prc->closeTag();
+}
+
 
 // proSpawnedEventData //
 proSpawnedEventData::proSpawnedEventData() {
@@ -227,6 +346,15 @@ void proSpawnedEventData::IRead(hsStream* S, plResManager* mgr) {
 void proSpawnedEventData::IWrite(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSpawner);
     mgr->writeKey(S, fSpawnee);
+}
+
+void proSpawnedEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->writeSimpleTag("Spawner");
+    fSpawner->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("Spawnee");
+    fSpawnee->prcWrite(prc);
+    prc->closeTag();
 }
 
 
@@ -251,6 +379,13 @@ void proCoopEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeShort(fSerial);
 }
 
+void proCoopEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("ID", fID);
+    prc->writeParam("Serial", fSerial);
+    prc->endTag(true);
+}
+
 
 // proOfferLinkBookEventData //
 proOfferLinkBookEventData::proOfferLinkBookEventData() : targetAge(0), offeree(0) {
@@ -269,6 +404,17 @@ void proOfferLinkBookEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(offeree);
 }
 
+void proOfferLinkBookEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("TargetAge", targetAge);
+    prc->writeParam("Offeree", offeree);
+    prc->endTag(true);
+    
+    prc->writeSimpleTag("Offerer");
+    offerer->prcWrite(prc);
+    prc->closeTag();
+}
+
 
 // proBookEventData //
 proBookEventData::proBookEventData() : fEvent(0), fLinkID(0) {
@@ -285,6 +431,13 @@ void proBookEventData::IWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fLinkID);
 }
 
+void proBookEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Params");
+    prc->writeParam("Event", fEvent);
+    prc->writeParam("LinkID", fLinkID);
+    prc->endTag(true);
+}
+
 
 // proClimbingBlockerHitEventData //
 proClimbingBlockerHitEventData::proClimbingBlockerHitEventData() {
@@ -297,4 +450,10 @@ void proClimbingBlockerHitEventData::IRead(hsStream* S, plResManager* mgr) {
 
 void proClimbingBlockerHitEventData::IWrite(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fBlockerKey);
+}
+
+void proClimbingBlockerHitEventData::IPrcWrite(pfPrcHelper* prc) {
+    prc->writeSimpleTag("Blocker");
+    fBlockerKey->prcWrite(prc);
+    prc->closeTag();
 }

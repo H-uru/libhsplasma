@@ -130,4 +130,6 @@ bool plKey::operator<(const plKey& other) const {
     return fKeyData->getUoid() < other->getUoid();
 }
 
-bool plKey::Exists() const { return (fKeyData != NULL); }
+bool plKey::Exists() const {
+    return (fKeyData != NULL) && (fKeyData->getUoid().getLocation().isValid());
+}

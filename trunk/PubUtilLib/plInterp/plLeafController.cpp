@@ -14,6 +14,8 @@ IMPLEMENT_CREATABLE(plLeafController, kLeafController, plController)
 void plLeafController::read(hsStream* S, plResManager* mgr) {
     if (S->getVer() == pvPrime || S->getVer() == pvPots) {
         fType = S->readInt();
+        if (S->getVer() == pvEoa && fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
+            fType++;    // Myst V doesn't have hsCompressedQuatKeyFrame64
         unsigned int numControllers = S->readInt();
         AllocControllers(numControllers);
 
@@ -35,7 +37,10 @@ void plLeafController::write(hsStream* S, plResManager* mgr) {
     //TODO: Convert Keys to Controllers and vice versa
 
     if (S->getVer() == pvPrime || S->getVer() == pvPots) {
-        S->writeInt(fType);
+        if (S->getVer() == pvEoa && fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
+            S->writeInt(fType - 1);
+        else
+            S->writeInt(fType);
         S->writeInt(fControllers.getSize());
 
         for (size_t i=0; i<fControllers.getSize(); i++)

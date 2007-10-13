@@ -22,7 +22,9 @@ public:
 
     bool isEmpty() const;
     void clear();
-    void deleteBit(size_t idx);
+    void setBit(size_t idx);
+    void clearBit(size_t idx);
+    void compact();
 
     void read(hsStream* S);
     void write(hsStream* S);

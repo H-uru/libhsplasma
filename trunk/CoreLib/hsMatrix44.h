@@ -5,7 +5,9 @@
 #include "hsGeometry3.h"
 #include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
-struct hsMatrix44 {
+// Just remember: http://xkcd.org/184/
+
+DllStruct hsMatrix44 {
 public:
     enum { kRight, kUp, kView };  // Axes
 

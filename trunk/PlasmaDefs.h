@@ -15,6 +15,7 @@
   #define DllExport
 #endif
 #define DllClass class DllExport
+#define DllStruct struct DllExport
 
 typedef signed char hsByte;
 typedef unsigned char hsUbyte;

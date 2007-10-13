@@ -9,10 +9,10 @@ hsQuat::hsQuat(float X, float Y, float Z, float W)
       : fX(X), fY(Y), fZ(Z), fW(W) { }
 
 hsQuat::hsQuat(float rad, const hsVector3& axis) {
-    fW = cos(rad * 0.5);
-    fX = sin(rad * 0.5) * axis.fX;
-    fY = sin(rad * 0.5) * axis.fY;
-    fZ = sin(rad * 0.5) * axis.fZ;
+    fW = cos(rad * 0.5f);
+    fX = sin(rad * 0.5f) * axis.fX;
+    fY = sin(rad * 0.5f) * axis.fY;
+    fZ = sin(rad * 0.5f) * axis.fZ;
 }
 
 void hsQuat::read(hsStream* S) {

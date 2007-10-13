@@ -24,3 +24,28 @@ void plMessage::IMsgWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fBCastFlags);
 }
 
+void plMessage::read(hsStream* S, plResManager* mgr) {
+    IMsgRead(S, mgr);
+}
+
+void plMessage::write(hsStream* S, plResManager* mgr) {
+    IMsgWrite(S, mgr);
+}
+
+void plMessage::prcWrite(pfPrcHelper* prc) {
+    plCreatable::prcWrite(prc);
+
+    prc->writeSimpleTag("Sender");
+    fSender->prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("Receivers");
+    for (size_t i=0; i<fReceivers.getSize(); i++)
+        fReceivers[i]->prcWrite(prc);
+    prc->closeTag();
+
+    prc->startTag("MessageParams");
+    prc->writeParam("TimeStamp", fTimeStamp);
+    prc->writeParam("BCastFlags", fBCastFlags);
+    prc->endTag(true);
+}

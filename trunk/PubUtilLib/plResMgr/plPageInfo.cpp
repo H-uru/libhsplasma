@@ -72,7 +72,7 @@ void plPageInfo::write(hsStream* S) {
         S->writeShort(6);
         S->writeShort(classList.size());
         for (size_t i=0; i<classList.size(); i++) {
-            S->writeShort(classList[i]);
+            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(classList[i], pvEoa));
             S->writeShort(pdUnifiedTypeMap::ClassVersion(classList[i], pvEoa));
         }
         location.write(S);

@@ -4,7 +4,6 @@
 #include "../pnFactory/plCreatable.h"
 #include "../../CoreLib/hsTArray.hpp"
 #include "../pnKeyedObject/plKey.h"
-#include <vector>
 
 DllClass plMessage : public plCreatable {
 public:
@@ -36,7 +35,7 @@ protected:
     hsTArray<plKey> fReceivers;
     double fTimeStamp;
     unsigned int fBCastFlags;
-    std::vector<unsigned long> fNetRcvrPlayerIDs;
+    hsTArray<unsigned long> fNetRcvrPlayerIDs;
     
 public:
     plMessage();
@@ -46,6 +45,10 @@ public:
 
     void IMsgRead(hsStream* S, plResManager* mgr);
     void IMsgWrite(hsStream* S, plResManager* mgr);
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void prcWrite(pfPrcHelper* prc);
 };
 
 #endif

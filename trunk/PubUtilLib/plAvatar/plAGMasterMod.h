@@ -7,9 +7,9 @@ DllClass plAGMasterMod : public plModifier {
 protected:
     plSceneObject* fTarget;
     //std::map<char*, plAGModifier*> fChannelMods;
-    //std::vector<plAGAnimInstance*> fAnimInstances;
-    std::vector<plKey> fPrivateAnims;
-    //std::vector<plAGAnimInstance*> fATCAnimInstances;
+    //hsTArray<plAGAnimInstance*> fAnimInstances;
+    hsTArray<plKey> fPrivateAnims;
+    //hsTArray<plAGAnimInstance*> fATCAnimInstances;
     bool fFirstEval, fNeedEval, fNeedCompile;
     //plAGMasterSDLModifier* fAGMasterSDLMod;
     plString fGroupName; // Only used in UU, auto-deleted in PotS and newer

@@ -80,7 +80,7 @@ IMPLEMENT_CREATABLE(plMorphDelta, kMorphDelta, plCreatable)
 void plMorphDelta::read(hsStream* S, plResManager* mgr) {
     fWeight = S->readFloat();
     size_t spanCount = S->readInt();
-    fSpans.Reset();
+    fSpans.clear();
     fSpans.setSize(spanCount);
     for (size_t i=0; i<spanCount; i++) {
         int nDel = S->readInt();

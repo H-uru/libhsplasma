@@ -4,7 +4,7 @@
 #include "hsStream.h"
 #include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
-struct hsScalarTriple {
+DllStruct hsScalarTriple {
 public:
     float fX, fY, fZ;
 
@@ -20,7 +20,7 @@ public:
     void prcWrite(pfPrcHelper* prc);
 };
 
-struct hsPoint3 : public hsScalarTriple {
+DllStruct hsPoint3 : public hsScalarTriple {
 public:
     hsPoint3();
     hsPoint3(float x, float y, float z);
@@ -38,7 +38,7 @@ public:
     hsPoint3 operator*(const float mult);
 };
 
-struct hsVector3 : hsScalarTriple {
+DllStruct hsVector3 : hsScalarTriple {
 public:
     hsVector3(const hsScalarTriple& src);
     hsVector3(float x, float y, float z);
@@ -48,7 +48,7 @@ public:
     virtual const char* ClassName();
 };
 
-struct hsPlane3 {
+DllStruct hsPlane3 {
 public:
     hsVector3 fN;
     float fD;
@@ -62,7 +62,7 @@ public:
     void prcWrite(pfPrcHelper* prc);
 };
 
-struct hsFloatPoint2 {
+DllStruct hsFloatPoint2 {
 public:
     float fX, fY;
 };

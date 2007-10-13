@@ -3,7 +3,7 @@
 
 #include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
-struct hsMatrix33 {
+DllStruct hsMatrix33 {
 private:
     float data[3][3];
 

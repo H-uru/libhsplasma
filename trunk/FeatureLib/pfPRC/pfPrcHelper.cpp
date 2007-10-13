@@ -20,7 +20,7 @@ void pfPrcHelper::startTag(const char* name) {
     char buf[256];
     sprintf(buf, "<%s", name);
     writeTabbed(buf);
-    openTags.push_back(name);
+    openTags.push(name);
     inTag = true;
 }
 
@@ -65,7 +65,7 @@ void pfPrcHelper::endTag(bool isShort) {
     if (!isShort)
         iLvl++;
     else
-        openTags.pop_back();
+        openTags.pop();
     inTag = false;
 }
 
@@ -88,16 +88,14 @@ void pfPrcHelper::writeTagNoBreak(const char* name) {
 void pfPrcHelper::closeTag() {
     char buf[256];
     iLvl--;
-    sprintf(buf, "</%s>\n", openTags.back());
-    openTags.pop_back();
+    sprintf(buf, "</%s>\n", openTags.pop());
     writeTabbed(buf);
 }
 
 void pfPrcHelper::closeTagNoBreak() {
     char buf[256];
     iLvl--;
-    sprintf(buf, "</%s>\n", openTags.back());
-    openTags.pop_back();
+    sprintf(buf, "</%s>\n", openTags.pop());
     file->writeStr(buf);
 }
 

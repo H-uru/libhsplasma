@@ -2,7 +2,7 @@
 
 #include "plLayerInterface.h"
 
-class plLayer : public plLayerInterface {
+DllClass plLayer : public plLayerInterface {
 public:
     plLayer();
     virtual ~plLayer();
@@ -12,6 +12,11 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
+};
+
+DllClass plLayerDepth : public plLayer {
+public:
+    DECLARE_CREATABLE(plLayerDepth)
 };
 
 #endif

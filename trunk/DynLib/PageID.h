@@ -18,7 +18,7 @@ public:
     //void setID(int pid);
     
     PlasmaVer getVer() const;
-    void setVer(PlasmaVer pv, bool mutate = false);
+    void setVer(PlasmaVer pv);
 
     bool isGlobal() const;
     int getPageNum() const;

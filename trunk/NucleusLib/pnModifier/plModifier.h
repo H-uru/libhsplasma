@@ -15,8 +15,8 @@ public:
 
 DllClass plSingleModifier : public plModifier {
 protected:
-    plSceneObject* target;
-    hsBitVector flags;
+    plSceneObject* fTarget;
+    hsBitVector fFlags;
 
 public:
     plSingleModifier();
@@ -31,8 +31,8 @@ public:
 
 DllClass plMultiModifier : public plModifier {
 protected:
-    hsTArray<plSceneObject*> targets;
-    hsBitVector flags;
+    hsTArray<plSceneObject*> fTargets;
+    hsBitVector fFlags;
 
 public:
     plMultiModifier();

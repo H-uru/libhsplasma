@@ -15,12 +15,13 @@ struct hsKeyFrame {
     };
 
     unsigned short fFrame;
+    float fFrameTime;
 
     hsKeyFrame();
     virtual ~hsKeyFrame();
 
-    virtual void read(hsStream* S)=0;
-    virtual void write(hsStream* S)=0;
+    virtual void read(hsStream* S);
+    virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc)=0;
 };
 

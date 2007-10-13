@@ -50,7 +50,9 @@ private:
 
     void ICountBytes(unsigned int vertsLeft, const unsigned char* src,
                      unsigned short& len, bool& same);
-    //void ICountFloats(
+    void ICountFloats(unsigned int vertsLeft, const unsigned char* src,
+                      float fieldScale, float& offset, bool& same,
+                      unsigned short& count);
 
 public:
     plVertCoder();

@@ -18,14 +18,14 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
         count = S->readShort();
         for (i=0; i<count; i++) {
             len = S->readShort();
-            SDLExcludeList.push_back(S->readStr(len));
+            SDLExcludeList.append(S->readStr(len));
         }
     }
     if (fSynchFlags & kHasVolatileState) {
         count = S->readShort();
         for (i=0; i<count; i++) {
             len = S->readShort();
-            SDLVolatileList.push_back(S->readStr(len));
+            SDLVolatileList.append(S->readStr(len));
         }
     }
 }
@@ -36,15 +36,15 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
 
     unsigned short i;
     if (fSynchFlags & kExcludePersistentState) {
-        S->writeShort(SDLExcludeList.size());
-        for (i=0; i<SDLExcludeList.size(); i++) {
+        S->writeShort(SDLExcludeList.getSize());
+        for (i=0; i<SDLExcludeList.getSize(); i++) {
             S->writeShort(SDLExcludeList[i].len());
             S->writeStr(SDLExcludeList[i]);
         }
     }
     if (fSynchFlags & kHasVolatileState) {
-        S->writeShort(SDLVolatileList.size());
-        for (i=0; i<SDLVolatileList.size(); i++) {
+        S->writeShort(SDLVolatileList.getSize());
+        for (i=0; i<SDLVolatileList.getSize(); i++) {
             S->writeShort(SDLVolatileList[i].len());
             S->writeStr(SDLVolatileList[i]);
         }
@@ -61,7 +61,7 @@ void plSynchedObject::prcWrite(pfPrcHelper* prc) {
     unsigned int i;
     if (fSynchFlags & kExcludePersistentState) {
         prc->writeSimpleTag("ExcludePersistentStates");
-        for (i=0; i<SDLExcludeList.size(); i++) {
+        for (i=0; i<SDLExcludeList.getSize(); i++) {
             prc->startTag("State");
             prc->writeParam("name", SDLExcludeList[i]);
             prc->endTag(true);
@@ -70,7 +70,7 @@ void plSynchedObject::prcWrite(pfPrcHelper* prc) {
     }
     if (fSynchFlags & kHasVolatileState) {
         prc->writeSimpleTag("VolatileStates");
-        for (i=0; i<SDLVolatileList.size(); i++) {
+        for (i=0; i<SDLVolatileList.getSize(); i++) {
             prc->startTag("State");
             prc->writeParam("name", SDLVolatileList[i]);
             prc->endTag(true);

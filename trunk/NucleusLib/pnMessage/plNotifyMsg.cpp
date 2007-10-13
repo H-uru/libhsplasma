@@ -10,7 +10,7 @@ plNotifyMsg::~plNotifyMsg() {
 IMPLEMENT_CREATABLE(plNotifyMsg, kNotifyMsg, plMessage)
 
 void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
-    IMsgRead(S, mgr);
+    plMessage::read(S, mgr);
     fType = S->readInt();
     fState = S->readFloat();
     fID = S->readInt();
@@ -21,7 +21,7 @@ void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
 }
 
 void plNotifyMsg::write(hsStream* S, plResManager* mgr) {
-    IMsgWrite(S, mgr);
+    plMessage::write(S, mgr);
     S->writeInt(fType);
     S->writeFloat(fState);
     S->writeInt(fID);
@@ -32,5 +32,16 @@ void plNotifyMsg::write(hsStream* S, plResManager* mgr) {
 }
 
 void plNotifyMsg::prcWrite(pfPrcHelper* prc) {
-    // Later
+    plMessage::prcWrite(prc);
+
+    prc->startTag("NotifyParams");
+    prc->writeParam("Type", fType);
+    prc->writeParam("State", fState);
+    prc->writeParam("ID", fID);
+    prc->endTag(true);
+
+    prc->writeSimpleTag("Events");
+    for (size_t i=0; i<fEvents.getSize(); i++)
+        fEvents[i]->prcWrite(prc);
+    prc->closeTag();
 }

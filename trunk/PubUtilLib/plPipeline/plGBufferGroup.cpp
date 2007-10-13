@@ -144,6 +144,7 @@ void plGBufferGroup::write(hsStream* S) {
         totalSize += fVertBuffSizes[i];
     for (i=0; i<fIdxBuffCounts.getSize(); i++)
         totalSize += fIdxBuffCounts[i] * sizeof(short);
+    format &= ~kEncoded; // Until plVertCoder is finished
     S->writeByte(format);
     S->writeInt(totalSize);
 
@@ -154,7 +155,6 @@ void plGBufferGroup::write(hsStream* S) {
         //coder.write(S, fVertBuffStorage[i], format, stride, fVertBuffSizes[i]);
 
         // Until plVertCoder is finished:
-        format &= ~kEncoded;
         S->writeInt(fVertBuffSizes[i]);
         S->write(fVertBuffSizes[i], fVertBuffStorage[i]);
         S->writeInt(0);

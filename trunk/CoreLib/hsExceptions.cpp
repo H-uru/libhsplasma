@@ -39,6 +39,14 @@ hsBadParamException::hsBadParamException(const char* file,
 }
 
 
+// hsOutOfBoundsException //
+hsOutOfBoundsException::hsOutOfBoundsException(const char* file,
+                        unsigned long line) throw()
+                      : hsException(file, line) {
+    fWhat = "Out of bounds";
+}
+
+
 // hsBadVersionException //
 hsBadVersionException::hsBadVersionException(const char* file,
                        unsigned long line) throw()

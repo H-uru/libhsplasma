@@ -5,7 +5,7 @@
 #include "hsGeometry3.h"
 #include "../FeatureLib/pfPRC/pfPrcHelper.h"
 
-class hsBounds {
+DllClass hsBounds {
 protected:
     int fType;
 
@@ -22,7 +22,7 @@ public:
     void setType(int type);
 };
 
-class hsBounds3 : public hsBounds {
+DllClass hsBounds3 : public hsBounds {
 public:
     enum {
         kCenterValid = 0x1,
@@ -44,7 +44,7 @@ public:
     virtual void prcWrite(pfPrcHelper* prc);
 };
 
-class hsBounds3Ext : public hsBounds3 {
+DllClass hsBounds3Ext : public hsBounds3 {
 public:
     enum {
         kAxisAligned = 0x1,
@@ -75,7 +75,7 @@ public:
     virtual void prcWrite(pfPrcHelper* prc);
 };
 
-class hsBoundsOriented : public hsBounds {
+DllClass hsBoundsOriented : public hsBounds {
 protected:
     unsigned int fCenterValid;
     hsPoint3 fCenter;

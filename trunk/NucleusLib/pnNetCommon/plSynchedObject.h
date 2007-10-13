@@ -2,7 +2,7 @@
 #define _PLSYNCHEDOBJECT_H
 
 #include "../pnKeyedObject/hsKeyedObject.h"
-#include <vector>
+#include "../../CoreLib/hsTArray.hpp"
 
 DllClass plSynchedObject : public hsKeyedObject {
 public:
@@ -39,8 +39,8 @@ public:
 
 protected:
     int fSynchFlags;
-    std::vector<plString> SDLExcludeList;
-    std::vector<plString> SDLVolatileList;
+    hsTArray<plString> SDLExcludeList;
+    hsTArray<plString> SDLVolatileList;
 
 public:
     plSynchedObject();

@@ -37,6 +37,11 @@ public:
     hsBadParamException(const char* file, unsigned long line) throw();
 };
 
+DllClass hsOutOfBoundsException : public hsException {
+public:
+    hsOutOfBoundsException(const char* file, unsigned long line) throw();
+};
+
 DllClass hsBadVersionException : public hsException {
 public:
     hsBadVersionException(const char* file, unsigned long line) throw();

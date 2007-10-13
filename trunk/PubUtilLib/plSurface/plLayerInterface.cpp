@@ -1,25 +1,28 @@
 #include "plLayerInterface.h"
 #include "../plResMgr/plResManager.h"
 
-plLayerInterface::plLayerInterface() { }
-plLayerInterface::~plLayerInterface() { }
+plLayerInterface::plLayerInterface() : fState(NULL) { }
+
+plLayerInterface::~plLayerInterface() {
+    if (fState) delete fState;
+}
 
 IMPLEMENT_CREATABLE(plLayerInterface, kLayerInterface, plSynchedObject)
 
 void plLayerInterface::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
-    underLay = mgr->readKey(S);
+    fUnderLay = mgr->readKey(S);
 }
 
 void plLayerInterface::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
-    mgr->writeKey(S, underLay);
+    mgr->writeKey(S, fUnderLay);
 }
 
 void plLayerInterface::prcWrite(pfPrcHelper* prc) {
     plSynchedObject::prcWrite(prc);
 
     prc->writeSimpleTag("UnderLay");
-    underLay->prcWrite(prc);
+    fUnderLay->prcWrite(prc);
     prc->closeTag();
 }

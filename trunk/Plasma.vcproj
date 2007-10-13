@@ -48,6 +48,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
+				AssemblerOutput="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
@@ -201,6 +202,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
+				AssemblerOutput="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
@@ -486,6 +488,10 @@
 			</File>
 			<File
 				RelativePath=".\CoreLib\hsTArray.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\hsTList.hpp"
 				>
 			</File>
 			<File
@@ -790,6 +796,14 @@
 			<Filter
 				Name="pnMessage"
 				>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plEventCallbackMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plEventCallbackMsg.h"
+					>
+				</File>
 				<File
 					RelativePath="NucleusLib\pnMessage\plMessage.cpp"
 					>
@@ -1589,6 +1603,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plScene\plPostEffectMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plScene\plPostEffectMod.h"
+					>
+				</File>
+				<File
 					RelativePath="PubUtilLib\plScene\plSceneNode.cpp"
 					>
 					<FileConfiguration
@@ -1673,11 +1695,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plSurface\plLayerAnimation.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSurface\plLayerAnimation.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plSurface\plLayerInterface.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plSurface\plLayerInterface.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSurface\plLayerMovie.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSurface\plLayerMovie.h"
 					>
 				</File>
 			</Filter>
@@ -1842,6 +1880,14 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plInterp\plAnimPath.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plAnimTimeConvert.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plAnimTimeConvert.h"
 					>
 				</File>
 				<File
@@ -2042,6 +2088,58 @@
 				</File>
 				<File
 					RelativePath=".\FeatureLib\pfConditional\plVolumeSensorConditionalObject.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="pfGameGUIMgr"
+				>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIButtonMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIButtonMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIControlHandlers.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIControlHandlers.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIControlMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIControlMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDialogMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDialogMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIPopUpMenu.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIPopUpMenu.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUISkin.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUISkin.h"
 					>
 				</File>
 			</Filter>

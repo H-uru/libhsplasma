@@ -1,6 +1,16 @@
 #include "hsColor.h"
 
 /* hsColorRGBA */
+hsColorRGBA::hsColorRGBA(float red, float green, float blue, float alpha)
+           : r(red), g(green), b(blue), a(alpha) { }
+
+void hsColorRGBA::set(float red, float green, float blue, float alpha) {
+    r = red;
+    g = green;
+    b = blue;
+    a = alpha;
+}
+
 void hsColorRGBA::read(hsStream* S) {
     r = S->readFloat();
     g = S->readFloat();

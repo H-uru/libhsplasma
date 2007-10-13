@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "../PlasmaDefs.h"
+#include "hsExceptions.h"
 
 template <typename T>
 DllClass hsTArray {
@@ -12,25 +12,21 @@ private:
     T* data;
 
 public:
-    hsTArray() : count(0) {
-        data = NULL;
-    }
+    hsTArray() : count(0), data(NULL) { }
+
     ~hsTArray<T>() {
         if (data != NULL) delete[] data;
     }
 
     void clear() {
-        Reset();
-    }
-    
-    inline void Reset() {
         if (data != NULL)
             delete[] data;
         data = NULL;
         count = 0;
-	}
-
-    inline size_t getSize() { return count; }
+    }
+    
+    size_t getSize() { return count; }
+    bool empty() { return count == 0; }
 
     void setSize(size_t cap) {
         if (count == cap) return;
@@ -49,7 +45,7 @@ public:
             delete[] data;
         }
         data = newData;
-        count = cap;
+        count = (unsigned short)cap;
     }
 
     void setSizeNull(size_t cap) {
@@ -72,18 +68,28 @@ public:
         data[count - 1] = item;
     }
 
-    T& remove(size_t idx) {
-        T& dItm = data[idx];
+    void remove(size_t idx) {
+        if (idx >= count)
+            throw hsOutOfBoundsException(__FILE__, __LINE__);
+
         for (size_t i=idx; i<count; i++)
             data[i] = data[i+1];
         decSize();
-        return dItm;
     }
 
-    T& get(size_t idx) { return data[idx]; }
-    void set(size_t idx, const T& item) { data[idx] = item; }
+    T& get(size_t idx) {
+        if (idx >= count)
+            throw hsOutOfBoundsException(__FILE__, __LINE__);
+        return data[idx];
+    }
 
-    T& operator[](size_t idx) { return data[idx]; }
+    void set(size_t idx, const T& item) {
+        if (idx >= count)
+            throw hsOutOfBoundsException(__FILE__, __LINE__);
+        data[idx] = item;
+    }
+
+    T& operator[](size_t idx) { return get(idx); }
 
     void push(const T& item) { append(item); }
     T& pop() { return remove(count-1); }

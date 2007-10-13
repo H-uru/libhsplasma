@@ -2,13 +2,13 @@
 #define _PFPRCHELPER_H
 
 #include "../../CoreLib/hsStream.h"
-#include <list>
+#include "../../CoreLib/hsTList.hpp"
 
 DllClass pfPrcHelper {
 private:
     int iLvl;
     bool inTag;
-    std::list<const char*> openTags;
+    hsTList<const char*> openTags;
     hsStream* file;
 
     void startPrc();

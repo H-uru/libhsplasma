@@ -7,7 +7,7 @@
 #include "../plGImage/plBitmap.h"
 #include "../../NucleusLib/inc/hsGMatState.h"
 
-class plLayerInterface : public plSynchedObject {
+DllClass plLayerInterface : public plSynchedObject {
 public:
     enum plLayerDirtyBits {
         kTransform = 0x1,
@@ -36,26 +36,17 @@ public:
     };
 
 protected:
-    plKey underLay;
-    plKey overLay;
-    unsigned int ownedChannels, passThruChannels;
-    hsMatrix44* transform;
-    hsColorRGBA* preshadeColor;
-    hsColorRGBA* runtimeColor;
-    hsColorRGBA* ambientColor;
-    hsColorRGBA* specularColor;
-    float* opacity;
-    hsGMatState* state;
-    unsigned int* UVWSrc;
-    float* LODBias;
-    float* specularPower;
-    //plBitmap** texture;
-    //plShader** vertexShader;
-    //plShader** pixelShader;
-    plKey texture;
-    plKey vertexShader;
-    plKey pixelShader;
-    hsMatrix44* bumpEnvXfm;
+    plKey fUnderLay, fOverLay;
+    unsigned int fOwnedChannels, fPassThruChannels;
+    hsMatrix44 fTransform;
+    hsColorRGBA fPreshadeColor, fRuntimeColor, fAmbientColor, fSpecularColor;
+    float fOpacity;
+    hsGMatState* fState;
+    unsigned int fUVWSrc;
+    float fLODBias;
+    float fSpecularPower;
+    plKey fTexture, fVertexShader, fPixelShader;
+    hsMatrix44 fBumpEnvXfm;
 
 public:
     plLayerInterface();
