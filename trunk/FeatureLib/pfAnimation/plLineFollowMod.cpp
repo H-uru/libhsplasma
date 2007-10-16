@@ -61,7 +61,7 @@ void plLineFollowMod::write(hsStream* S, plResManager* mgr) {
 void plLineFollowMod::prcWrite(pfPrcHelper* prc) {
     plMultiModifier::prcWrite(prc);
 
-    fPath->prcWrite(prc);
+    fPath->prcWrite(prc); prc->closeTag();
     prc->writeSimpleTag("Parent");
       fPathParent->prcWrite(prc);
     prc->closeTag();

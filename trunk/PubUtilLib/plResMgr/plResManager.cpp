@@ -407,9 +407,12 @@ unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
 }
 
 plCreatable* plResManager::ReadCreatable(hsStream* S) {
-    plCreatable* pCre = plFactory::Create(S->readShort(), S->getVer());
+    unsigned short type = S->readShort();
+    plCreatable* pCre = plFactory::Create(type, S->getVer());
     if (pCre != NULL)
         pCre->read(S, this);
+    else if (type != 0x8000)
+        printf("Warning: NOT reading object of type [%04X]\n", type);
     return pCre;
 }
 

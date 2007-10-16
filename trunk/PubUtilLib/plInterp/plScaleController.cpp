@@ -35,6 +35,7 @@ void plSimpleScaleController::prcWrite(pfPrcHelper* prc) {
 
     if (fValue != NULL) {
         fValue->prcWrite(prc);
+        prc->closeTag();
     } else {
         prc->startTag("plScaleValueController");
         prc->writeParam("present", false);

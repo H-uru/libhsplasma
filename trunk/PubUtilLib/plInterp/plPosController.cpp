@@ -36,6 +36,7 @@ void plSimplePosController::prcWrite(pfPrcHelper* prc) {
 
     if (fPosition != NULL) {
         fPosition->prcWrite(prc);
+        prc->closeTag();
     } else {
         prc->startTag("plPoint3Controller");
         prc->writeParam("present", false);
@@ -102,6 +103,7 @@ void plCompoundPosController::prcWrite(pfPrcHelper* prc) {
 
     if (fXController != NULL) {
         fXController->prcWrite(prc);
+        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);
@@ -109,6 +111,7 @@ void plCompoundPosController::prcWrite(pfPrcHelper* prc) {
     }
     if (fYController != NULL) {
         fYController->prcWrite(prc);
+        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);
@@ -116,6 +119,7 @@ void plCompoundPosController::prcWrite(pfPrcHelper* prc) {
     }
     if (fZController != NULL) {
         fZController->prcWrite(prc);
+        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);

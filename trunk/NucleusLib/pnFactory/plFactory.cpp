@@ -457,22 +457,22 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDynamicMatrix44: return new hsDynamicMatrix44();
         case kController: return new plController();
         case kLeafController: return new plLeafController();
-        //case kScaleController: return new plScaleController();
-        //case kRotController: return new plRotController();
-        //case kPosController: return new plPosController();
-        //case kScalarController: return new plScalarController();
-        //case kPoint3Controller: return new plPoint3Controller();
-        //case kScaleValueController: return new plScaleValueController();
-        //case kQuatController: return new plQuatController();
-        //case kMatrix33Controller: return new plMatrix33Controller();
-        //case kMatrix44Controller: return new plMatrix44Controller();
-        //case kEaseController: return new plEaseController();
-        //case kSimpleScaleController: return new plSimpleScaleController();
-        //case kSimpleRotController: return new plSimpleRotController();
-        //case kCompoundRotController: return new plCompoundRotController();
-        //case kSimplePosController: return new plSimplePosController();
-        //case kCompoundPosController: return new plCompoundPosController();
-        //case kTMController: return new plTMController();
+        case kScaleController: return NULL; // abstract
+        case kRotController: return NULL;   // abstract
+        case kPosController: return NULL;   // abstract
+        case kScalarController: return new plScalarController();
+        case kPoint3Controller: return new plPoint3Controller();
+        case kScaleValueController: return new plScaleValueController();
+        case kQuatController: return new plQuatController();
+        case kMatrix33Controller: return new plMatrix33Controller();
+        case kMatrix44Controller: return new plMatrix44Controller();
+        case kEaseController: return new plEaseController();
+        case kSimpleScaleController: return new plSimpleScaleController();
+        case kSimpleRotController: return new plSimpleRotController();
+        case kCompoundRotController: return new plCompoundRotController();
+        case kSimplePosController: return new plSimplePosController();
+        case kCompoundPosController: return new plCompoundPosController();
+        case kTMController: return new plTMController();
         //case kFogControl: return new hsFogControl();
         //case kIntRefMsg: return new plIntRefMsg();
         //case kCollisionReactor: return new plCollisionReactor();

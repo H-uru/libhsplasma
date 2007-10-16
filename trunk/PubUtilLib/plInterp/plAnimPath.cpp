@@ -71,7 +71,14 @@ void plAnimPath::prcWrite(pfPrcHelper* prc) {
       prc->writeParam("Length", fLength);
       prc->writeParam("MinDistSq", fMinDistSq);
     prc->endTag(true);
-    fController->prcWrite(prc);
+    if (fController != NULL) {
+        fController->prcWrite(prc);
+        prc->closeTag();
+    }
+    if (fTMController != NULL) {
+        fTMController->prcWrite(prc);
+        prc->closeTag();
+    }
     fParts.prcWrite(prc);
 
     prc->writeSimpleTag("LocalToWorld");

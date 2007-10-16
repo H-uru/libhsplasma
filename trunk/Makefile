@@ -76,6 +76,7 @@ OBJFILES=\
 	$(LIBDIR)plScaleController.o \
 	$(LIBDIR)plTMController.o \
 	$(LIBDIR)hsKeys.o \
+	$(LIBDIR)UruKeys.o \
 	$(LIBDIR)plJPEG.o \
 	$(LIBDIR)plImageLibMod.o \
 	$(LIBDIR)plSpawnModifier.o \
@@ -333,6 +334,9 @@ $(LIBDIR)plTMController.o: PubUtilLib/plInterp/plTMController.h PubUtilLib/plInt
 
 $(LIBDIR)hsKeys.o: PubUtilLib/plInterp/hsKeys.h PubUtilLib/plInterp/hsKeys.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plInterp/hsKeys.cpp -o $(LIBDIR)hsKeys.o
+
+$(LIBDIR)UruKeys.o: PubUtilLib/plInterp/UruKeys.h PubUtilLib/plInterp/UruKeys.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plInterp/UruKeys.cpp -o $(LIBDIR)UruKeys.o
 
 $(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(LIBDIR)plJPEG.o
