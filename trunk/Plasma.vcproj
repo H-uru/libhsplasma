@@ -548,6 +548,10 @@
 				RelativePath=".\CoreLib\plString.h"
 				>
 			</File>
+			<File
+				RelativePath=".\CoreLib\plViewTransform.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="DynLib"
@@ -796,6 +800,14 @@
 			<Filter
 				Name="pnMessage"
 				>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plCameraMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plCameraMsg.h"
+					>
+				</File>
 				<File
 					RelativePath=".\NucleusLib\pnMessage\plEventCallbackMsg.cpp"
 					>
@@ -1746,6 +1758,26 @@
 					RelativePath=".\PubUtilLib\plGLight\plOmniLightInfo.h"
 					>
 				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGLight\plShadowCaster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGLight\plShadowCaster.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGLight\plShadowMaster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGLight\plShadowMaster.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGLight\plShadowSlave.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="plJPEG"
@@ -1768,6 +1800,14 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plModifier\plImageLibMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plInterfaceInfoModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plInterfaceInfoModifier.h"
 					>
 				</File>
 				<File
@@ -1795,11 +1835,35 @@
 				Name="plPhysics"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plPhysics\plCollisionDetector.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plCollisionDetector.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plDetectorModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plDetectorModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plPhysics\plHKPhysical.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plPhysics\plHKPhysical.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plObjectInVolumeDetector.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plObjectInVolumeDetector.h"
 					>
 				</File>
 				<File
@@ -1946,6 +2010,14 @@
 					RelativePath=".\PubUtilLib\plInterp\plTMController.h"
 					>
 				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\UruKeys.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\UruKeys.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="plTransform"
@@ -1956,6 +2028,18 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plTransform\hsAffineParts.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plAudible"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plAudible\plAudible.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudible\plAudible.h"
 					>
 				</File>
 			</Filter>
@@ -1996,6 +2080,14 @@
 				</File>
 				<File
 					RelativePath=".\FeatureLib\pfAnimation\plLineFollowMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plStereizer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plStereizer.h"
 					>
 				</File>
 			</Filter>

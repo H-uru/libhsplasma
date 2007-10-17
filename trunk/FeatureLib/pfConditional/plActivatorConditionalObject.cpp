@@ -1,5 +1,4 @@
 #include "plActivatorConditionalObject.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 /* plActivatorConditionalObject */
 plActivatorConditionalObject::plActivatorConditionalObject() { }

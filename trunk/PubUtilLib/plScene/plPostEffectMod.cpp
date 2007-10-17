@@ -1,5 +1,4 @@
 #include "plPostEffectMod.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plPostEffectMod::plPostEffectMod()
                : fHither(1.0f), fYon(100.0f), fFovX(0.7854f), fFovY(0.589f) { }

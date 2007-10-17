@@ -1,5 +1,4 @@
 #include "pfGUISkin.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 /* pfGUISkin::pfSRect */
 pfGUISkin::pfSRect::pfSRect() : fX(0), fY(0), fWidth(0), fHeight(0) { }

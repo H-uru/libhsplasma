@@ -1,5 +1,4 @@
 #include "pfGUIButtonMod.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 pfGUIButtonMod::pfGUIButtonMod()
               : fClicking(false), fTriggering(false), fOrigHandler(NULL),

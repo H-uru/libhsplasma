@@ -1,5 +1,4 @@
 #include "plLayer.h"
-#include "../plResMgr/plResManager.h"
 
 /* plLayer */
 plLayer::plLayer() {

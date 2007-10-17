@@ -3,6 +3,7 @@
 
 #include "../../NucleusLib/pnFactory/plCreatable.h"
 #include "../../CoreLib/hsTArray.hpp"
+#include "../plResMgr/plResManager.h"
 #include "hsKeys.h"
 
 DllClass plController : public plCreatable {

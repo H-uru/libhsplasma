@@ -1,5 +1,4 @@
 #include "plDrawableSpans.h"
-#include "../plResMgr/plResManager.h"
 
 /* plDrawable */
 plDrawable::plDrawable() { }

@@ -1,5 +1,4 @@
 #include "plVolumeSensorConditionalObject.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plVolumeSensorConditionalObject::plVolumeSensorConditionalObject()
     : fTrigNum(-1), fType(kTypeEnter), fFirst(false), fTriggered(false),

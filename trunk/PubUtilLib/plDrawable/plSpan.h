@@ -5,7 +5,6 @@
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsBounds.h"
 #include "../../CoreLib/hsBitVector.h"
-#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 #include "../plPipeline/plFogEnvironment.h"
 #include "../plGLight/plLightInfo.h"
 

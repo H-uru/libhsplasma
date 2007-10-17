@@ -1,5 +1,4 @@
 #include "plClothingItem.h"
-#include "../plResMgr/plResManager.h"
 
 plClothingItem::plClothingItem() : Group(0), Type(0), Tileset(0), SortOrder(0) {
     DefaultTint1[0] = DefaultTint2[0] = 255;
@@ -71,10 +70,9 @@ void plClothingItem::write(hsStream* S, plResManager* mgr) {
     if (Icon != NULL)
         mgr->writeKey(S, Icon);
 
-    int i, j;
-    int count = Textures.getSize();
-    S->writeInt(count);
-    for (i=0; i<count; i++) {
+    size_t i, j;
+    S->writeInt(Textures.getSize());
+    for (i=0; i<Textures.getSize(); i++) {
         S->writeSafeStr(ElementNames[i]);
         int count2 = 0;
         for (j=0; j<10; j++)

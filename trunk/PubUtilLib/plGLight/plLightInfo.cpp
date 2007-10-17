@@ -1,5 +1,4 @@
 #include "plLightInfo.h"
-#include "../plResMgr/plResManager.h"
 
 plLightInfo::plLightInfo() : deviceRef(NULL) { }
 plLightInfo::~plLightInfo() { }

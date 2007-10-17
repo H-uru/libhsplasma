@@ -1,5 +1,4 @@
 #include "hsGMaterial.h"
-#include "../plResMgr/plResManager.h"
 
 hsGMaterial::hsGMaterial() { }
 hsGMaterial::~hsGMaterial() { }

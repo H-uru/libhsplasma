@@ -3,6 +3,7 @@
 
 #include "../../NucleusLib/pnModifier/plModifier.h"
 #include "../../NucleusLib/pnMessage/plNotifyMsg.h"
+#include "../plResMgr/plResManager.h"
 
 DllClass plNPCSpawnMod : public plSingleModifier {
 protected:

@@ -3,6 +3,7 @@
 
 #include "../../NucleusLib/pnFactory/plCreatable.h"
 #include "../../NucleusLib/pnMessage/plEventCallbackMsg.h"
+#include "../plResMgr/plResManager.h"
 
 DllClass plATCEaseCurve : public plCreatable {
 protected:

@@ -1,5 +1,4 @@
 #include "plAnimTimeConvert.h"
-#include "../plResMgr/plResManager.h"
 
 /* plATCEaseCurve */
 plATCEaseCurve::plATCEaseCurve() { }

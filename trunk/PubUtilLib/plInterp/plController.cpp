@@ -1,5 +1,4 @@
 #include "plTMController.h"
-#include "../plResMgr/plResManager.h"
 
 /* plController */
 plController::plController() { }

@@ -1,5 +1,4 @@
 #include "pfGUIControlMod.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 /* pfGUIColorScheme */
 pfGUIColorScheme::pfGUIColorScheme() {

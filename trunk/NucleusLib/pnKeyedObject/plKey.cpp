@@ -40,9 +40,9 @@ void plKeyData::writeUoid(hsStream* S) {
 }
 
 void plKeyData::prcWrite(pfPrcHelper* prc) {
-    if (this == NULL) {
+    if (this == NULL || !getUoid().getLocation().isValid()) {
         prc->startTag("plKey");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
     } else {
         fUoid.prcWrite(prc);

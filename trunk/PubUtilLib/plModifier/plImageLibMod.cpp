@@ -1,5 +1,4 @@
 #include "plImageLibMod.h"
-#include "../plResMgr/plResManager.h"
 
 plImageLibMod::plImageLibMod() { }
 plImageLibMod::~plImageLibMod() { }

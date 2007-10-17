@@ -1,5 +1,4 @@
 #include "plLayerAnimation.h"
-#include "../plResMgr/plResManager.h"
 
 /* plLayerAnimationBase */
 plLayerAnimationBase::plLayerAnimationBase()

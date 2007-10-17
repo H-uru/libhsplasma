@@ -1,5 +1,4 @@
 #include "plLayerInterface.h"
-#include "../plResMgr/plResManager.h"
 
 plLayerInterface::plLayerInterface() : fState(NULL) { }
 

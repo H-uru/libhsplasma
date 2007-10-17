@@ -1,5 +1,4 @@
 #include "plBooleanConditionalObject.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 /* plANDConditionalObject */
 plANDConditionalObject::plANDConditionalObject() { }

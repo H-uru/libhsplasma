@@ -2,13 +2,10 @@
 #define _PLDRAWABLESPANS_H
 
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../CoreLib/hsBounds.h"
-#include "../../CoreLib/hsMatrix44.h"
-#include "../../CoreLib/hsTArray.hpp"
-#include "../../CoreLib/hsBitVector.h"
 #include "../../CoreLib/plRenderLevel.h"
 #include "../plSurface/hsGMaterial.h"
 #include "../plPipeline/plGBufferGroup.h"
+#include "../plResMgr/plResManager.h"
 #include "plSpaceTree.h"
 #include "plIcicle.h"
 #include "plGeometrySpan.h"

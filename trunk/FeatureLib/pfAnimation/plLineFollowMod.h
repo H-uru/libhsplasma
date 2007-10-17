@@ -3,6 +3,7 @@
 
 #include "../../NucleusLib/pnModifier/plModifier.h"
 #include "../../PubUtilLib/plInterp/plAnimPath.h"
+#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 DllClass plLineFollowMod : public plMultiModifier {
 public:

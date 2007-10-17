@@ -3,6 +3,7 @@
 
 // Includes for all plCreatable types
 #include "../../FeatureLib/pfAnimation/plLineFollowMod.h"
+#include "../../FeatureLib/pfAnimation/plStereizer.h"
 #include "../../FeatureLib/pfConditional/plActivatorConditionalObject.h"
 #include "../../FeatureLib/pfConditional/plAnimationEventConditionalObject.h"
 #include "../../FeatureLib/pfConditional/plBooleanConditionalObject.h"
@@ -24,6 +25,7 @@
 #include "../pnSceneObject/plObjInterface.h"
 #include "../pnSceneObject/plSceneObject.h"
 #include "../pnSceneObject/plSimulationInterface.h"
+#include "../../PubUtilLib/plAudible/plAudible.h"
 #include "../../PubUtilLib/plAudio/plWin32StaticSound.h"
 #include "../../PubUtilLib/plAudioCore/plSoundBuffer.h"
 #include "../../PubUtilLib/plAvatar/plClothingItem.h"
@@ -35,8 +37,11 @@
 #include "../../PubUtilLib/plGImage/plFont.h"
 #include "../../PubUtilLib/plGLight/plDirectionalLightInfo.h"
 #include "../../PubUtilLib/plGLight/plOmniLightInfo.h"
+#include "../../PubUtilLib/plGLight/plShadowMaster.h"
 #include "../../PubUtilLib/plModifier/plImageLibMod.h"
+#include "../../PubUtilLib/plModifier/plInterfaceInfoModifier.h"
 #include "../../PubUtilLib/plModifier/plSpawnModifier.h"
+#include "../../PubUtilLib/plPhysics/plObjectInVolumeDetector.h"
 #include "../../PubUtilLib/plPhysics/plHKPhysical.h"
 #include "../../PubUtilLib/plPhysics/plPXPhysical.h"
 #include "../../PubUtilLib/plPhysics/plODEPhysical.h"
@@ -46,6 +51,14 @@
 #include "../../PubUtilLib/plSurface/plLayer.h"
 #include "../../PubUtilLib/plSurface/plLayerMovie.h"
 // End types
+
+#define ABSTRACT(x) \
+    printf("Warning: Attempted to create abstract class %s\n", ClassName(x)); \
+    return NULL
+
+#define NOTIMPL(x) \
+    printf("Warning: %s is not an implementable class\n", ClassName(x)); \
+    return NULL
 
 plCreatable* plFactory::Create(short typeIdx) {
     if (typeIdx < 0) return NULL;
@@ -69,33 +82,33 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCubicRenderTargetModifier: return new plCubicRenderTargetModifier();
         case kObjInterface: return new plObjInterface();
         case kAudioInterface: return new plAudioInterface();
-        //case kAudible: return new plAudible();
-        //case kAudibleNull: return new plAudibleNull();
-        //case kWinAudible: return new plWinAudible();
+        case kAudible: return new plAudible();
+        case kAudibleNull: return new plAudibleNull();
+        case kWinAudible: return new plWinAudible();
         case kCoordinateInterface: return new plCoordinateInterface();
         case kDrawInterface: return new plDrawInterface();
-        case kDrawable: return new plDrawable();
+        case kDrawable: ABSTRACT(kDrawable);
         //case kDrawableMesh: return new plDrawableMesh();
         //case kDrawableIce: return new plDrawableIce();
-        //case kPhysical: return new plPhysical();
+        case kPhysical: ABSTRACT(kPhysical);
         //case kPhysicalMesh: return new plPhysicalMesh();
         case kSimulationInterface: return new plSimulationInterface();
         //case kCameraModifier: return new plCameraModifier();
-        case kModifier: return new plModifier();
-        case kSingleModifier: return new plSingleModifier();
+        case kModifier: ABSTRACT(kModifier);
+        case kSingleModifier: ABSTRACT(kSingleModifier);
         //case kSimpleModifier: return new plSimpleModifier();
         //case kSimpleTMModifier: return new plSimpleTMModifier();
         //case kRandomTMModifier: return new plRandomTMModifier();
         //case kInterestingModifier: return new plInterestingModifier();
-        //case kDetectorModifier: return new plDetectorModifier();
+        case kDetectorModifier: return new plDetectorModifier();
         //case kSimplePhysicalMesh: return new plSimplePhysicalMesh();
         //case kCompoundPhysicalMesh: return new plCompoundPhysicalMesh();
-        case kMultiModifier: return new plMultiModifier();
-        case kSynchedObject: return new plSynchedObject();
+        case kMultiModifier: ABSTRACT(kMultiModifier);
+        case kSynchedObject: ABSTRACT(kSynchedObject);
         case kSoundBuffer: return new plSoundBuffer();
         //case kAliasModifier: return new plAliasModifier();
-        //case kPickingDetector: return new plPickingDetector();
-        //case kCollisionDetector: return new plCollisionDetector();
+        case kPickingDetector: return new plPickingDetector();
+        case kCollisionDetector: return new plCollisionDetector();
         //case kLogicModifier: return new plLogicModifier();
         case kConditionalObject: return new plConditionalObject();
         case kANDConditionalObject: return new plANDConditionalObject();
@@ -134,7 +147,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kFogEnvironment: return new plFogEnvironment();
         //case kNetApp: return new plNetApp();
         //case kNetClientMgr: return new plNetClientMgr();
-        //case k2WayWinAudible: return new pl2WayWinAudible();
+        case k2WayWinAudible: return new pl2WayWinAudible();
         case kLightInfo: return new plLightInfo();
         case kDirectionalLightInfo: return new plDirectionalLightInfo();
         case kOmniLightInfo: return new plOmniLightInfo();
@@ -162,7 +175,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAGModifier: return new plAGModifier();
         case kAGMasterMod: return new plAGMasterMod();
         //case kCameraBrain_Avatar: return new plCameraBrain_Avatar();
-        //case kCameraRegionDetector: return new plCameraRegionDetector();
+        case kCameraRegionDetector: return new plCameraRegionDetector();
         //case kCameraBrain_FP: return new plCameraBrain_FP();
         case kLineFollowMod: return new plLineFollowMod();
         //case kLightModifier: return new plLightModifier();
@@ -174,7 +187,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kRandomCommandMod: return new plRandomCommandMod();
         //case kRandomSoundMod: return new plRandomSoundMod();
         case kPostEffectMod: return new plPostEffectMod();
-        //case kObjectInVolumeDetector: return new plObjectInVolumeDetector();
+        case kObjectInVolumeDetector: return new plObjectInVolumeDetector();
         //case kResponderModifier: return new plResponderModifier();
         //case kAxisAnimModifier: return new plAxisAnimModifier();
         //case kLayerLightBase: return new plLayerLightBase();
@@ -254,7 +267,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kParticleCollisionEffect: return new plParticleCollisionEffect();
         //case kParticleCollisionEffectDie: return new plParticleCollisionEffectDie();
         //case kParticleCollisionEffectBounce: return new plParticleCollisionEffectBounce();
-        //case kInterfaceInfoModifier: return new plInterfaceInfoModifier();
+        case kInterfaceInfoModifier: return new plInterfaceInfoModifier();
         case kSharedMesh: return new plSharedMesh();
         //case kArmatureEffectsMgr: return new plArmatureEffectsMgr();
         //case kMarkerMgr: return new pfMarkerMgr();
@@ -262,10 +275,10 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kParticleLocalWind: return new plParticleLocalWind();
         //case kParticleUniformWind: return new plParticleUniformWind();
         //case kInstanceDrawInterface: return new plInstanceDrawInterface();
-        //case kShadowMaster: return new plShadowMaster();
-        //case kShadowCaster: return new plShadowCaster();
-        //case kPointShadowMaster: return new plPointShadowMaster();
-        //case kDirectShadowMaster: return new plDirectShadowMaster();
+        case kShadowMaster: return new plShadowMaster();
+        case kShadowCaster: return new plShadowCaster();
+        case kPointShadowMaster: return new plPointShadowMaster();
+        case kDirectShadowMaster: return new plDirectShadowMaster();
         //case kSDLModifier: return new plSDLModifier();
         //case kPhysicalSDLModifier: return new plPhysicalSDLModifier();
         //case kClothingSDLModifier: return new plClothingSDLModifier();
@@ -282,7 +295,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAmratureEffectFootSound: return new plAmratureEffectFootSound();
         //case kEAXListenerMod: return new plEAXListenerMod();
         //case kDynaDecalMgr: return new plDynaDecalMgr();
-        //case kObjectInVolumeAndFacingDetector: return new plObjectInVolumeAndFacingDetector();
+        case kObjectInVolumeAndFacingDetector: return new plObjectInVolumeAndFacingDetector();
         //case kDynaFootMgr: return new plDynaFootMgr();
         //case kDynaRippleMgr: return new plDynaRippleMgr();
         //case kDynaBulletMgr: return new plDynaBulletMgr();
@@ -290,11 +303,11 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPrintShape: return new plPrintShape();
         //case kDynaPuddleMgr: return new plDynaPuddleMgr();
         //case kGUIMultiLineEditCtrl: return new pfGUIMultiLineEditCtrl();
-        case kLayerAnimationBase: return new plLayerAnimationBase();
+        case kLayerAnimationBase: ABSTRACT(kLayerAnimationBase);
         case kLayerSDLAnimation: return new plLayerSDLAnimation();
         //case kATCAnim: return new plATCAnim();
         //case kAgeGlobalAnim: return new plAgeGlobalAnim();
-        //case kSubworldRegionDetector: return new plSubworldRegionDetector();
+        case kSubworldRegionDetector: return new plSubworldRegionDetector();
         //case kAvatarMgr: return new plAvatarMgr();
         //case kNPCSpawnMod: return new plNPCSpawnMod();
         //case kActivePrintShape: return new plActivePrintShape();
@@ -303,10 +316,10 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDynaWakeMgr: return new plDynaWakeMgr();
         //case kSimulationMgr: return new plSimulationMgr();
         //case kWaveSet7: return new plWaveSet7();
-        //case kPanicLinkRegion: return new plPanicLinkRegion();
+        case kPanicLinkRegion: return new plPanicLinkRegion();
         case kWin32GroupedSound: return new plWin32GroupedSound();
         //case kFilterCoordInterface: return new plFilterCoordInterface();
-        //case kStereizer: return new plStereizer();
+        case kStereizer: return new plStereizer();
         //case kCCRMgr: return new plCCRMgr();
         //case kCCRSpecialist: return new plCCRSpecialist();
         //case kCCRSeniorSpecialist: return new plCCRSeniorSpecialist();
@@ -415,7 +428,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         // Non-Keyed Classes //
         //case kObjRefMsg: return new plObjRefMsg();
         //case kNodeRefMsg: return new plNodeRefMsg();
-        case kMessage: return new plMessage();
+        case kMessage: ABSTRACT(kMessage);
         //case kRefMsg: return new plRefMsg();
         //case kGenRefMsg: return new plGenRefMsg();
         //case kTimeMsg: return new plTimeMsg();
@@ -423,7 +436,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kParticleUpdateMsg: return new plParticleUpdateMsg();
         //case kLayRefMsg: return new plLayRefMsg();
         //case kMatRefMsg: return new plMatRefMsg();
-        //case kCameraMsg: return new plCameraMsg();
+        case kCameraMsg: return new plCameraMsg();
         //case kInputEventMsg: return new plInputEventMsg();
         //case kKeyEventMsg: return new plKeyEventMsg();
         //case kMouseEventMsg: return new plMouseEventMsg();
@@ -457,9 +470,9 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDynamicMatrix44: return new hsDynamicMatrix44();
         case kController: return new plController();
         case kLeafController: return new plLeafController();
-        case kScaleController: return NULL; // abstract
-        case kRotController: return NULL;   // abstract
-        case kPosController: return NULL;   // abstract
+        case kScaleController: ABSTRACT(kScaleController);
+        case kRotController: ABSTRACT(kRotController);
+        case kPosController: ABSTRACT(kPosController);
         case kScalarController: return new plScalarController();
         case kPoint3Controller: return new plPoint3Controller();
         case kScaleValueController: return new plScaleValueController();

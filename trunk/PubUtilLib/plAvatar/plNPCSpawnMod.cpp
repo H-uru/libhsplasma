@@ -1,5 +1,4 @@
 #include "plNPCSpawnMod.h"
-#include "../plResMgr/plResManager.h"
 
 plNPCSpawnMod::plNPCSpawnMod() : fAutoSpawn(false), fNotify(NULL) { }
 

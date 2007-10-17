@@ -4,8 +4,6 @@
 #include "../../PlasmaDefs.h"
 #include "../../DynLib/PlasmaVersions.h"
 #include "../../DynLib/PageID.h"
-#include "../../NucleusLib/pnKeyedObject/plKey.h"
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "../../PubUtilLib/plScene/plSceneNode.h"
 #include "../../CoreLib/plEncryptedStream.h"
 #include "../../CoreLib/hsTArray.hpp"

@@ -1,5 +1,4 @@
 #include "plPythonFileMod.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 /* plPythonParameter */
 

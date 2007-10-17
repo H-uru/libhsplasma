@@ -6,6 +6,7 @@
 #include "../../CoreLib/hsColor.h"
 #include "../../CoreLib/hsMatrix44.h"
 #include "../plPipeline/hsGDeviceRef.h"
+#include "../plResMgr/plResManager.h"
 
 class plLightInfo : public plObjInterface {
 public:

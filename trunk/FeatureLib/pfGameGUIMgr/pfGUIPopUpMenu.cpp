@@ -1,5 +1,4 @@
 #include "pfGUIPopUpMenu.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 pfGUIPopUpMenu::pfGUIPopUpMenu()
               : fParent(NULL), /*fKeyGen(NULL),*/ fNeedsRebuilding(false),

@@ -1,5 +1,4 @@
 #include "pfGUIDialogMod.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 pfGUIDialogMod::pfGUIDialogMod()
               : fNext(NULL), fPrev(NULL), fTagID(0), fVersion(0),

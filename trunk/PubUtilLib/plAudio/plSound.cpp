@@ -1,5 +1,4 @@
 #include "plSound.h"
-#include "../plResMgr/plResManager.h"
 
 /* plSound::plFadeParams */
 plSound::plFadeParams::plFadeParams()

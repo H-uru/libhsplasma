@@ -15,6 +15,7 @@ private:
     unsigned long count;
     Link* first;
     Link* last;
+    Link* iter;
 
 public:
     hsTList() : count(0), first(NULL), last(NULL) { }
@@ -113,6 +114,34 @@ public:
     }
 
     T& operator[](size_t idx) { return get(idx); }
+
+    // For linear iteration:
+    T& iBegin() {
+        iter = first;
+        return iter->item;
+    }
+
+    T& iEnd() {
+        iter = last;
+        return iter->item;
+    }
+
+    bool iAtBegin() { return iter == first; }
+    bool iAtEnd() { return iter == last; }
+
+    T& next() {
+        if (!iAtEnd())
+            iter = iter->next;
+        return iter->item;
+    }
+
+    T& prev() {
+        if (!iAtBegin())
+            iter = iter->prev;
+        return iter->item;
+    }
+
+    T& icur() { return iter->item; }
 };
 
 #endif

@@ -1,5 +1,4 @@
 #include "plAnimPath.h"
-#include "../plResMgr/plResManager.h"
 
 /* ArcLenDeltaInfo */
 plAnimPath::ArcLenDeltaInfo::ArcLenDeltaInfo()

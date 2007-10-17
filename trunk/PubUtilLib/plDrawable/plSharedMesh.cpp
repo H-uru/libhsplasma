@@ -1,5 +1,4 @@
 #include "plSharedMesh.h"
-#include "../plResMgr/plResManager.h"
 
 plSharedMesh::plSharedMesh() : fMorphSet(NULL), fFlags(kDontSaveMorphState) { }
 plSharedMesh::~plSharedMesh() { }

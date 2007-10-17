@@ -1,5 +1,4 @@
 #include "plLineFollowMod.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 #include <cmath>
 
 /* plLineFollowMod */

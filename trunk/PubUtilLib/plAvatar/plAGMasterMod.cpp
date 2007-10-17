@@ -1,5 +1,4 @@
 #include "plAGMasterMod.h"
-#include "../plResMgr/plResManager.h"
 
 plAGMasterMod::plAGMasterMod() : fTarget(NULL) { }
 plAGMasterMod::~plAGMasterMod() { }

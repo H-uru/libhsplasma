@@ -1,5 +1,4 @@
 #include "plAnimationEventConditionalObject.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plAnimationEventConditionalObject::plAnimationEventConditionalObject()
     : fAction(kStart) { }
