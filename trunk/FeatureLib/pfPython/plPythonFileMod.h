@@ -3,7 +3,6 @@
 
 #include "../../CoreLib/hsStream.h"
 #include "../../NucleusLib/pnModifier/plModifier.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 struct plPythonParameter {
 public:

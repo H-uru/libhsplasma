@@ -1,3 +1,6 @@
+#ifndef _PLATFORM_H
+#define _PLATFORM_H
+
 #define ENDSWAP32(val) \
     ((val & 0x000000FF) << 24 | (val & 0x0000FF00) << 8 | \
      (val & 0x00FF0000) >> 8  | (val & 0xFF000000) >> 24)
@@ -38,3 +41,5 @@ enum plKeyDef {
     KEY_BACKSLASH = 0xDC, KEY_RBRACKET = 0xDD, KEY_QUOTE = 0xDE,
     KEY_UNMAPPED = 0xFF
 };
+
+#endif

@@ -2,7 +2,7 @@
 #define _PLCLOTHINGITEM_H
 
 #include "../../CoreLib/hsTArray.hpp"
-#include "../plResMgr/plResManager.h"
+#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 
 class plClothingItem : public hsKeyedObject {
 protected:

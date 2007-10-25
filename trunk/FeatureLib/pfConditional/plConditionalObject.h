@@ -1,7 +1,6 @@
 #ifndef _PLCONDITIONALOBJECT_H
 #define _PLCONDITIONALOBJECT_H
 
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "../../CoreLib/hsBitVector.h"
 

@@ -4,7 +4,7 @@
 #include "../../PlasmaDefs.h"
 #include "../../DynLib/PlasmaVersions.h"
 #include "../../DynLib/PageID.h"
-#include "../../PubUtilLib/plScene/plSceneNode.h"
+#include "../../DynLib/pdUnifiedTypeMap.h"
 #include "../../CoreLib/plEncryptedStream.h"
 #include "../../CoreLib/hsTArray.hpp"
 #include "../../FeatureLib/pfPRC/pfPrcHelper.h"
@@ -45,7 +45,7 @@ public:
     void writeKey(hsStream* S, hsKeyedObject* ko);
     void writeUoid(hsStream* S, plKey key);
     void writeUoid(hsStream* S, hsKeyedObject* ko);
-    hsKeyedObject* getObject(const plKey& key);
+    class hsKeyedObject* getObject(const plKey& key);
     unsigned int countKeys(const PageID& pid);
 
     plPageInfo* ReadPage(const char* filename);
@@ -57,10 +57,10 @@ public:
     void WriteAge(const char* filename, plAgeSettings* age);
     void UnloadAge(plAgeSettings* age);
 
-    plCreatable* ReadCreatable(hsStream* S);
-    void WriteCreatable(hsStream* S, plCreatable* pCre);
+    class plCreatable* ReadCreatable(hsStream* S);
+    void WriteCreatable(hsStream* S, class plCreatable* pCre);
 
-    plSceneNode* getSceneNode(plLocation& loc);
+    class plSceneNode* getSceneNode(plLocation& loc);
 };
 
 #endif

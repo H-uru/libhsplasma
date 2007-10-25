@@ -110,7 +110,21 @@ int main(int argc, char** argv) {
             strftime(buf, 256, "Created: %Y/%m/%d %H:%M:%S", localtime(&ts));
             prc->writeComment(buf);
             S->writeStr("\n");
-            rm.WritePrc(prc, page);
+            try {
+                rm.WritePrc(prc, page);
+            } catch (hsException& e) {
+                fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+                return 1;
+            } catch (std::exception& e) {
+                fprintf(stderr, "%s\n", e.what());
+                return 1;
+            } catch (const char* e) {
+                fprintf(stderr, "%s\n", e);
+                return 1;
+            } catch (...) {
+                fprintf(stderr, "Undefined error!\n");
+                return 1;
+            }
 
             delete prc;
             S->close();

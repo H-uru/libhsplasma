@@ -5,6 +5,7 @@
 #include "../../DynLib/PlasmaVersions.h"
 #include "../../DynLib/pdUnifiedTypeMap.h"
 #include "../../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 #define DECLARE_CREATABLE(classname) \
     virtual short ClassIndex() const; \
@@ -34,8 +35,8 @@ public:
     const char* ClassName() const;
     virtual bool ClassInstance(short hClass) const;
 
-    virtual void read(hsStream* S, class plResManager* mgr);
-    virtual void write(hsStream* S, class plResManager* mgr);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
 };
 

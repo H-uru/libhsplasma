@@ -5,7 +5,6 @@
 #include "../../CoreLib/plRenderLevel.h"
 #include "../plSurface/hsGMaterial.h"
 #include "../plPipeline/plGBufferGroup.h"
-#include "../plResMgr/plResManager.h"
 #include "plSpaceTree.h"
 #include "plIcicle.h"
 #include "plGeometrySpan.h"

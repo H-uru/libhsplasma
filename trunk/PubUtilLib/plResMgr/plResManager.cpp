@@ -1,5 +1,6 @@
 #include "plResManager.h"
 #include "../../NucleusLib/pnFactory/plFactory.h"
+#include "../../PubUtilLib/plScene/plSceneNode.h"
 #include "../plJPEG/plJPEG.h"
 
 plResManager* plResManager::fGlobalResMgr = NULL;

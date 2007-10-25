@@ -5,7 +5,6 @@
 #include "../../PubUtilLib/plTransform/hsAffineParts.h"
 #include "../../CoreLib/hsMatrix44.h"
 #include "../../CoreLib/hsTArray.hpp"
-#include "../plResMgr/plResManager.h"
 #include "plTMController.h"
 
 DllClass plAnimPath : public plCreatable {

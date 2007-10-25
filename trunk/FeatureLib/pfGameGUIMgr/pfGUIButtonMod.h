@@ -29,4 +29,22 @@ public:
     virtual void prcWrite(pfPrcHelper* prc);
 };
 
+DllClass pfGUIMenuItem : public pfGUIButtonMod {
+public:
+    enum HowToSkin { kTop, kMiddle, kBottom };
+    enum ItemFlags { kDrawSubMenuArrow = kDerivedFlagsStart, kReportHovers };
+    enum ExtendedEvents { kMouseHover, kMouseExit };
+
+protected:
+    plWString fName;
+    bool fReportingHover, fSkinBuffersUpdated;
+    HowToSkin fHowToSkin;
+
+public:
+    pfGUIMenuItem();
+    virtual ~pfGUIMenuItem();
+
+    DECLARE_CREATABLE(pfGUIMenuItem)
+};
+
 #endif

@@ -1,5 +1,4 @@
 #include "plSceneObject.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plSceneObject::plSceneObject() { }
 plSceneObject::~plSceneObject() { }

@@ -1,5 +1,4 @@
 #include "plMessage.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plMessage::plMessage() { }
 plMessage::~plMessage() { }

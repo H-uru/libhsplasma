@@ -1,5 +1,4 @@
 #include "plDrawInterface.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plDrawInterface::plDrawInterface() { }
 plDrawInterface::~plDrawInterface() { }

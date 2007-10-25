@@ -1,5 +1,4 @@
 #include "plJPEG.h"
-#include <jpeglib.h>
 
 plJPEG* plJPEG::inst = NULL;
 
@@ -7,13 +6,21 @@ plJPEG::plJPEG() {
     if (inst != NULL)
         throw "Never construct me more than once!";
     inst = this;
+
+    cinfo.err = jpeg_std_error(&jerr);
+    dinfo.err = cinfo.err;
+    jpeg_create_compress(&cinfo);
+    jpeg_create_decompress(&dinfo);
 }
 
 plJPEG::~plJPEG() {
+    jpeg_destroy_compress(&cinfo);
+    jpeg_destroy_decompress(&dinfo);
+
     inst = NULL;
 }
 
-extern "C" {
+/*extern "C" {
 
 JOCTET* jpSrcBuffer;
 unsigned int jpSize;
@@ -36,16 +43,13 @@ void jpMgr_skip_input_data(j_decompress_ptr cinfo, long num_bytes) {
 
 void jpMgr_term_source(j_decompress_ptr cinfo) { }
 
-}
+}*/
 
 plMipmap* plJPEG::IRead(hsStream* S) {
-    jpeg_decompress_struct cinfo;
-    jpeg_error_mgr jerr;
-
     plMipmap* newMipmap = NULL;
-    jpSize = S->readInt();
-    jpSrcBuffer = (JOCTET*)malloc(jpSize);
-    S->read(jpSize, jpSrcBuffer);
+    //jpSize = S->readInt();
+    //jpSrcBuffer = (JOCTET*)malloc(jpSize);
+    //S->read(jpSize, jpSrcBuffer);
 
     /*
     cinfo.err = jpeg_std_error(&jerr);
@@ -71,7 +75,7 @@ plMipmap* plJPEG::IRead(hsStream* S) {
     free(cinfo.src);
     jpeg_destroy_decompress(&cinfo);
     */
-    free(jpSrcBuffer);
+    //free(jpSrcBuffer);
     return newMipmap;
 }
 

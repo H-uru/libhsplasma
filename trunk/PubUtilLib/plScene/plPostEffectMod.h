@@ -3,7 +3,6 @@
 
 #include "../../NucleusLib/pnModifier/plModifier.h"
 #include "../../CoreLib/hsMatrix44.h"
-#include "..//plResMgr/plResManager.h"
 
 DllClass plPostEffectMod : public plSingleModifier {
 public:

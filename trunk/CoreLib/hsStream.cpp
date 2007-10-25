@@ -163,21 +163,45 @@ plString hsStream::readSafeStr() {
     if (ver == pvEoa) {
         buf = new char[ssInfo+1];
         read(ssInfo, buf);
-        for (int i=0; i<ssInfo; i++)
+        for (size_t i=0; i<ssInfo; i++)
             buf[i] ^= eoaStrKey[i%8];
         buf[ssInfo] = 0;
     } else {
         if (!(ssInfo & 0xF000)) readByte(); // Discarded - debug
         hsUint16 size = (ssInfo & 0x0FFF);
         buf = new char[size+1];
-        read(ssInfo & 0x0FFF, buf);
-        if (ssInfo & 0xF000) {
-            for (int i=0; i<(ssInfo & 0x0FFF); i++)
+        read(size, buf);
+        if (buf[0] & 0x80) {
+            for (size_t i=0; i<size; i++)
                 buf[i] = ~buf[i];
         }
         buf[size] = 0;
     }
     plString str(buf);
+    delete[] buf;
+    return str;
+}
+
+plWString hsStream::readSafeWStr() {
+    hsUint32 ssInfo = readShort();
+    wchar_t* buf;
+    if (ver == pvEoa) {
+        buf = new wchar_t[ssInfo+1];
+        read(ssInfo * sizeof(wchar_t), buf);
+        for (size_t i=0; i<ssInfo; i++)
+            buf[i] ^= eoaStrKey[i%8];
+        buf[ssInfo] = 0;
+    } else {
+        hsUint16 size = (ssInfo & 0x0FFF);
+        buf = new wchar_t[size+1];
+        read(size * sizeof(wchar_t), buf);
+        if (buf[0] & 0x80) {
+            for (size_t i=0; i<size; i++)
+                buf[i] = ~buf[i];
+        }
+        buf[size] = 0;
+    }
+    plWString str(buf);
     delete[] buf;
     return str;
 }
@@ -261,17 +285,36 @@ void hsStream::writeSafeStr(const plString& str) {
     if (ver == pvEoa) {
         writeShort(ssInfo);
         wbuf = new char[ssInfo];
-        for (int i=0; i<ssInfo; i++)
+        for (size_t i=0; i<ssInfo; i++)
             wbuf[i] = str[i] ^ eoaStrKey[i%8];
-        write(ssInfo, wbuf);
     } else {
-        ssInfo = (ssInfo & 0x0FFF) | 0xF000;
-        writeShort(ssInfo);
-        wbuf = new char[ssInfo & 0x0FFF];
-        for (int i=0; i<(ssInfo & 0x0FFF); i++)
+        ssInfo &= 0x0FFF;
+        writeShort(ssInfo | 0xF000);
+        wbuf = new char[ssInfo];
+        for (size_t i=0; i<ssInfo; i++)
             wbuf[i] = ~str[i];
-        write(ssInfo & 0x0FFF, wbuf);
     }
+    write(ssInfo, wbuf);
+    delete[] wbuf;
+}
+
+void hsStream::writeSafeWStr(const plWString& str) {
+    hsUint16 ssInfo = (hsUint16)str.len();
+    wchar_t* wbuf;
+    if (ver == pvEoa) {
+        writeShort(ssInfo);
+        wbuf = new wchar_t[ssInfo];
+        for (size_t i=0; i<ssInfo; i++)
+            wbuf[i] = str[i] ^ eoaStrKey[i%8];
+    } else {
+        ssInfo &= 0x0FFF;
+        writeShort(ssInfo | 0xF000);
+        wbuf = new wchar_t[ssInfo];
+        for (size_t i=0; i<ssInfo; i++)
+            wbuf[i] = ~str[i];
+    }
+    write(ssInfo * sizeof(wchar_t), wbuf);
+    delete[] wbuf;
 }
 
 void hsStream::writeLine(const plString& ln, bool winEOL) {

@@ -1,7 +1,6 @@
 #ifndef PLSHAREDMESH_H
 #define PLSHAREDMESH_H
 
-#include "../plResMgr/plResManager.h"
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "../../NucleusLib/pnSceneObject/plSceneObject.h"
 #include "../../CoreLib/hsStream.h"

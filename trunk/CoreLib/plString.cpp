@@ -860,3 +860,31 @@ plWString plWString::FormatV(const wchar_t* fmt, va_list aptr) {
     vswprintf(buf, 4096, fmt, aptr);
     return plWString(buf);
 }
+
+
+/**************************** Conversion Functions ****************************/
+plString hsWStringToString(const wchar_t* str) {
+    size_t cnvLen = wcstombs(NULL, str, 0);
+    if (cnvLen > 0 && cnvLen != (size_t)(-1)) {
+        char* buf = new char[cnvLen+1];
+        wcstombs(buf, str, cnvLen+1);
+        plString result = buf;
+        delete[] buf;
+        return result;
+    } else {
+        return "";
+    }
+}
+
+plWString hsStringToWString(const char* str) {
+    size_t cnvLen = mbstowcs(NULL, str, 0);
+    if (cnvLen > 0 && cnvLen != (size_t)(-1)) {
+        wchar_t* buf = new wchar_t[cnvLen+1];
+        mbstowcs(buf, str, cnvLen+1);
+        plWString result = buf;
+        delete[] buf;
+        return result;
+    } else {
+        return L"";
+    }
+}

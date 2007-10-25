@@ -165,4 +165,7 @@ public:
     static plWString FormatV(const wchar_t* fmt, va_list aptr);
 };
 
+plString hsWStringToString(const wchar_t* str);
+plWString hsStringToWString(const char* str);
+
 #endif

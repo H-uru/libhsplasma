@@ -3,7 +3,6 @@
 
 #include "../../NucleusLib/pnNetCommon/plSynchedObject.h"
 #include "../../CoreLib/hsTArray.hpp"
-#include "../plResMgr/plResManager.h"
 
 class hsGMaterial : public plSynchedObject {
 public:

@@ -15,8 +15,21 @@
 #include "../../FeatureLib/pfConditional/plPythonFileModConditionalObject.h"
 #include "../../FeatureLib/pfConditional/plVolumeSensorConditionalObject.h"
 #include "../../FeatureLib/pfGameGUIMgr/pfGUIButtonMod.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUICheckBoxCtrl.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIClickMapCtrl.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIDragBarCtrl.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIDraggableMod.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIDynDisplayCtrl.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIEditBoxMod.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIKnobCtrl.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIListBoxMod.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIMultiLineEditCtrl.h"
 #include "../../FeatureLib/pfGameGUIMgr/pfGUIPopUpMenu.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIProgressCtrl.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIRadioGroupCtrl.h"
 #include "../../FeatureLib/pfGameGUIMgr/pfGUISkin.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUITextBoxMod.h"
+#include "../../FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.h"
 #include "../../FeatureLib/pfPython/plPythonFileMod.h"
 #include "../pnMessage/plNotifyMsg.h"
 #include "../pnSceneObject/plAudioInterface.h"
@@ -162,7 +175,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCameraBrain_Drive: return new plCameraBrain_Drive();
         //case kCameraBrain_Fixed: return new plCameraBrain_Fixed();
         //case kCameraBrain_FixedPan: return new plCameraBrain_FixedPan();
-        //case kGUIClickMapCtrl: return new pfGUIClickMapCtrl();
+        case kGUIClickMapCtrl: return new pfGUIClickMapCtrl();
         //case kListener: return new plListener();
         //case kAvatarMod: return new plAvatarMod();
         //case kAvatarAnim: return new plAvatarAnim();
@@ -227,21 +240,21 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCameraBrain1_POAFixed: return new plCameraBrain1_POAFixed();
         case kGUIButtonMod: return new pfGUIButtonMod();
         case kPythonFileMod: return new plPythonFileMod();
-        case kGUIControlMod: return new pfGUIControlMod();
+        case kGUIControlMod: ABSTRACT(kGUIControlMod);
         //case kExcludeRegionModifier: return new plExcludeRegionModifier();
-        //case kGUIDraggableMod: return new pfGUIDraggableMod();
+        case kGUIDraggableMod: return new pfGUIDraggableMod();
         case kVolumeSensorConditionalObject: return new plVolumeSensorConditionalObject();
         case kVolActivatorConditionalObject: return new plVolActivatorConditionalObject();
         //case kMsgForwarder: return new plMsgForwarder();
         //case kBlower: return new plBlower();
-        //case kGUIListBoxMod: return new pfGUIListBoxMod();
-        //case kGUITextBoxMod: return new pfGUITextBoxMod();
-        //case kGUIEditBoxMod: return new pfGUIEditBoxMod();
+        case kGUIListBoxMod: return new pfGUIListBoxMod();
+        case kGUITextBoxMod: return new pfGUITextBoxMod();
+        case kGUIEditBoxMod: return new pfGUIEditBoxMod();
         //case kDynamicTextMap: return new plDynamicTextMap();
         //case kSittingModifier: return new plSittingModifier();
-        //case kGUIUpDownPairMod: return new pfGUIUpDownPairMod();
-        //case kGUIValueCtrl: return new pfGUIValueCtrl();
-        //case kGUIKnobCtrl: return new pfGUIKnobCtrl();
+        case kGUIUpDownPairMod: return new pfGUIUpDownPairMod();
+        case kGUIValueCtrl: ABSTRACT(kGUIValueCtrl);
+        case kGUIKnobCtrl: return new pfGUIKnobCtrl();
         //case kAvLadderMod: return new plAvLadderMod();
         //case kCameraBrain1_FirstPerson: return new plCameraBrain1_FirstPerson();
         //case kCloneSpawnModifier: return new plCloneSpawnModifier();
@@ -249,11 +262,11 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kClothingOutfit: return new plClothingOutfit();
         //case kClothingBase: return new plClothingBase();
         //case kClothingMgr: return new plClothingMgr();
-        //case kGUIDragBarCtrl: return new pfGUIDragBarCtrl();
-        //case kGUICheckBoxCtrl: return new pfGUICheckBoxCtrl();
-        //case kGUIRadioGroupCtrl: return new pfGUIRadioGroupCtrl();
+        case kGUIDragBarCtrl: return new pfGUIDragBarCtrl();
+        case kGUICheckBoxCtrl: return new pfGUICheckBoxCtrl();
+        case kGUIRadioGroupCtrl: return new pfGUIRadioGroupCtrl();
         //case kPlayerBookMod: return new pfPlayerBookMod();
-        //case kGUIDynDisplayCtrl: return new pfGUIDynDisplayCtrl();
+        case kGUIDynDisplayCtrl: return new pfGUIDynDisplayCtrl();
         //case kLayerProject: return new plLayerProject();
         //case kInputInterfaceMgr: return new plInputInterfaceMgr();
         case kRailCameraMod: return new plRailCameraMod();
@@ -302,7 +315,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDecalEnableMod: return new plDecalEnableMod();
         //case kPrintShape: return new plPrintShape();
         //case kDynaPuddleMgr: return new plDynaPuddleMgr();
-        //case kGUIMultiLineEditCtrl: return new pfGUIMultiLineEditCtrl();
+        case kGUIMultiLineEditCtrl: return new pfGUIMultiLineEditCtrl();
         case kLayerAnimationBase: ABSTRACT(kLayerAnimationBase);
         case kLayerSDLAnimation: return new plLayerSDLAnimation();
         //case kATCAnim: return new plATCAnim();
@@ -332,7 +345,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kEmoteAnim: return new plEmoteAnim();
         //case kDynaRippleVSMgr: return new plDynaRippleVSMgr();
         //case kWaveSet6: return new plWaveSet6();
-        //case kGUIProgressCtrl: return new pfGUIProgressCtrl();
+        case kGUIProgressCtrl: return new pfGUIProgressCtrl();
         //case kMaintainersMarkerModifier: return new plMaintainersMarkerModifier();
         //case kMorphSequenceSDLMod: return new plMorphSequenceSDLMod();
         case kMorphDataSet: return new plMorphDataSet();
@@ -346,7 +359,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kVisRegion: return new plVisRegion();
         //case kRegionBase: return new plRegionBase();
         case kGUIPopUpMenu: return new pfGUIPopUpMenu();
-        //case kGUIMenuItem: return new pfGUIMenuItem();
+        case kGUIMenuItem: return new pfGUIMenuItem();
         //case kCoopCoordinator: return new plCoopCoordinator();
         case kFont: return new plFont();
         //case kFontCache: return new plFontCache();

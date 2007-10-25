@@ -1,5 +1,4 @@
 #include "hsKeyedObject.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 hsKeyedObject::hsKeyedObject() : koFlags(0) { }
 hsKeyedObject::~hsKeyedObject() { }

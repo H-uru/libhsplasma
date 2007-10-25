@@ -2,7 +2,6 @@
 #define _PLAGMASTERMOD_H
 
 #include "../../NucleusLib/pnModifier/plModifier.h"
-#include "../plResMgr/plResManager.h"
 
 DllClass plAGMasterMod : public plModifier {
 protected:

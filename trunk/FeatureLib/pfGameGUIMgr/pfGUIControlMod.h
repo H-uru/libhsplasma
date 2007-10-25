@@ -1,7 +1,6 @@
 #ifndef _PFGUICONTROLMOD_H
 #define _PFGUICONTROLMOD_H
 
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 #include "../../NucleusLib/pnModifier/plModifier.h"
 #include "../../CoreLib/hsColor.h"
 #include "../../CoreLib/hsGeometry3.h"

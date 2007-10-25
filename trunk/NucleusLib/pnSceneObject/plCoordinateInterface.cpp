@@ -1,5 +1,4 @@
 #include "plCoordinateInterface.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plCoordinateInterface::plCoordinateInterface() {
     LocalToParent.Reset();

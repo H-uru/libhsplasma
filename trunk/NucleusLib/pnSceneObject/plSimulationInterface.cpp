@@ -1,5 +1,4 @@
 #include "plSimulationInterface.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plSimulationInterface::plSimulationInterface() { }
 plSimulationInterface::~plSimulationInterface() { }

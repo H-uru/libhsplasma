@@ -2,7 +2,6 @@
 #define _PLCAMERAMSG_H
 
 #include "plMessage.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 #include "../../CoreLib/hsGeometry3.h"
 #include "../../CoreLib/hsBitVector.h"
 

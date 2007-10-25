@@ -1,6 +1,7 @@
 #include <string.h>
 #include <math.h>
 #include "plVertCoder.h"
+#include "plGBufferGroup.h"
 
 float plVertCoder::FieldScales[] = {
    1024.0, 32768.0, 65536.0, 65536.0, 65536.0,
@@ -38,7 +39,7 @@ void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char forma
     IDecodeFloat(S, kPosition, 2, dest);
 
     // Weights
-    int count = (format >> 4) & 3;
+    int count = (format & plGBufferGroup::kSkinWeightMask) >> 4;
     if (count > 0) {
         for (i=0; i<count; i++)
             IDecodeFloat(S, kWeight, i, dest);

@@ -1,5 +1,4 @@
 #include "plAudioInterface.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plAudioInterface::plAudioInterface() { }
 plAudioInterface::~plAudioInterface() { }

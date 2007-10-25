@@ -2,7 +2,6 @@
 #define _PLINTERFACEINFOMODIFIER_H
 
 #include "../../NucleusLib/pnModifier/plModifier.h"
-#include "../plResMgr/plResManager.h"
 
 DllClass plInterfaceInfoModifier : public plSingleModifier {
 protected:

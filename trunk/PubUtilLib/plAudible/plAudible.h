@@ -4,7 +4,6 @@
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "../../NucleusLib/pnMessage/plEventCallbackMsg.h"
 #include "../../CoreLib/hsMatrix44.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 DllClass plAudible : public hsKeyedObject {
 protected:

@@ -1,5 +1,4 @@
 #include "plObjInterface.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 plObjInterface::plObjInterface() { }
 plObjInterface::~plObjInterface() { }

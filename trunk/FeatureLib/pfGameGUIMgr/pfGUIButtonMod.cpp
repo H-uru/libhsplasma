@@ -1,5 +1,6 @@
 #include "pfGUIButtonMod.h"
 
+/* pfGUIButtonMod */
 pfGUIButtonMod::pfGUIButtonMod()
               : fClicking(false), fTriggering(false), fOrigHandler(NULL),
                 fOrigReportedDrag(false), fNotifyType(0) { }
@@ -77,3 +78,13 @@ void pfGUIButtonMod::prcWrite(pfPrcHelper* prc) {
     fDraggable->prcWrite(prc);
     prc->closeTag();
 }
+
+
+/* pfGUIMenuItem */
+pfGUIMenuItem::pfGUIMenuItem()
+             : fReportingHover(false), fSkinBuffersUpdated(false),
+               fHowToSkin(kTop) { }
+
+pfGUIMenuItem::~pfGUIMenuItem() { }
+
+IMPLEMENT_CREATABLE(pfGUIMenuItem, kGUIMenuItem, pfGUIButtonMod)

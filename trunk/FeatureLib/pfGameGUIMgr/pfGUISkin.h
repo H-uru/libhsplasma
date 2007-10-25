@@ -2,7 +2,6 @@
 #define _PFGUISKIN_H
 
 #include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
 
 DllClass pfGUISkin : public hsKeyedObject {
 public:

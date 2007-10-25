@@ -180,12 +180,59 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("format", format);
     prc->endTag();
     for (i=0; i<fVertBuffStorage.getSize(); i++) {
-        prc->writeTagNoBreak("VertexData");
-        for (j=0; j<fVertBuffSizes[i]; j++) {
-            sprintf(buf, "%02X", fVertBuffStorage[i][j]);
-            prc->getStream()->writeStr(buf);
+        // TODO: This is temporary, we should use the real extraction eventually
+        prc->writeSimpleTag("VertexData");
+        unsigned char* cp = fVertBuffStorage[i];
+        while ((size_t)(cp - fVertBuffStorage[i]) < fVertBuffSizes[i]) {
+            prc->writeSimpleTag("Vertex");
+            hsPoint3 pt;
+            pt.fX = *(float*)cp; cp += sizeof(float);
+            pt.fY = *(float*)cp; cp += sizeof(float);
+            pt.fZ = *(float*)cp; cp += sizeof(float);
+            prc->writeSimpleTag("Position");
+            pt.prcWrite(prc);
+            prc->closeTag();
+
+            prc->startTag("SkinWeights");
+            if (format & kSkinIndices) {
+                prc->writeParam("SkinIndex", *(int*)cp);
+                cp += sizeof(int);
+            }
+            prc->endTagNoBreak();
+            for (j=0; j<(size_t)((format & 0x30) >> 4); j++) {
+                prc->getStream()->writeStr(plString::Format("%f", *(float*)cp));
+                cp += sizeof(float);
+            }
+            prc->closeTagNoBreak();
+
+            pt.fX = *(float*)cp; cp += sizeof(float);
+            pt.fY = *(float*)cp; cp += sizeof(float);
+            pt.fZ = *(float*)cp; cp += sizeof(float);
+            prc->writeSimpleTag("Normal");
+            pt.prcWrite(prc);
+            prc->closeTag();
+
+            unsigned int cl = *(unsigned int*)cp;
+            cp += sizeof(unsigned int);
+            prc->startTag("Color");
+            prc->writeParam("value", cl);
+            prc->endTag(true);
+
+            // Zero
+            cp += sizeof(unsigned int);
+
+            prc->writeSimpleTag("UVWMaps");
+            for (j=0; j<(format & kUVCountMask); j++) {
+                pt.fX = *(float*)cp; cp += sizeof(float);
+                pt.fY = *(float*)cp; cp += sizeof(float);
+                pt.fZ = *(float*)cp; cp += sizeof(float);
+                pt.prcWrite(prc);
+            }
+            prc->closeTag();
+
+            prc->closeTag();
         }
-        prc->closeTagNoBreak();
+        prc->closeTag();
     }
     for (i=0; i<fIdxBuffStorage.getSize(); i++) {
         prc->writeTagNoBreak("IndexData");

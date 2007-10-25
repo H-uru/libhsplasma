@@ -6,7 +6,6 @@
 #include "../../CoreLib/hsMatrix44.h"
 #include "../plGImage/plBitmap.h"
 #include "../../NucleusLib/inc/hsGMatState.h"
-#include "../plResMgr/plResManager.h"
 
 DllClass plLayerInterface : public plSynchedObject {
 public:

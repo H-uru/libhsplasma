@@ -1,5 +1,4 @@
 #include "plSceneNode.h"
-#include "../plResMgr/plResManager.h"
 
 plSceneNode::plSceneNode() { }
 plSceneNode::~plSceneNode() { }
