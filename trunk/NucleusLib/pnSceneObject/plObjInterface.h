@@ -5,7 +5,7 @@
 #include "../pnNetCommon/plSynchedObject.h"
 #include "../pnMessage/plMessage.h"
 
-class plObjInterface : public plSynchedObject {
+DllClass plObjInterface : public plSynchedObject {
 public:
     plKey Owner;
     hsBitVector Props;

@@ -432,3 +432,13 @@ plSceneNode* plResManager::getSceneNode(plLocation& loc) {
     return (plSceneNode*)kList[0]->getObj();
 }
 
+std::vector<plLocation> plResManager::getLocations() {
+    std::vector<plLocation> locArr;
+    for (size_t i=0; i<pages.size(); i++)
+        locArr.push_back(pages[i]->getLocation());
+    return locArr;
+}
+
+std::vector<plKey> plResManager::getKeys(plLocation& loc, short type) {
+    return keys.getKeys(loc.getPageID(), type);
+}

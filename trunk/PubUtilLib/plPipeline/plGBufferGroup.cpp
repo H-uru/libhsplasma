@@ -68,6 +68,61 @@ plGBufferGroup::plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod)
 
 plGBufferGroup::~plGBufferGroup() { }
 
+hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
+    hsTArray<plGBufferVertex> buf;
+    
+    for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
+        unsigned char* cp = fVertBuffStorage[i];
+        while ((size_t)(cp - fVertBuffStorage[i]) < fVertBuffSizes[i]) {
+            plGBufferVertex v;
+            v.fPos.fX = *(float*)cp; cp += sizeof(float);
+            v.fPos.fY = *(float*)cp; cp += sizeof(float);
+            v.fPos.fZ = *(float*)cp; cp += sizeof(float);
+
+            int weightCount = (format & kSkinWeightMask) >> 4;
+            if (weightCount > 0) {
+                for (int j=0; j<weightCount; j++) {
+                    v.fSkinWeights[j] = *(float*)cp;
+                    cp += sizeof(float);
+                }
+                if (format & kSkinIndices) {
+                    v.fSkinIdx = *(int*)cp;
+                    cp += sizeof(int);
+                }
+            }
+
+            v.fNormal.fX = *(float*)cp; cp += sizeof(float);
+            v.fNormal.fY = *(float*)cp; cp += sizeof(float);
+            v.fNormal.fZ = *(float*)cp; cp += sizeof(float);
+
+            v.fColor = *(unsigned int*)cp;
+            cp += sizeof(unsigned int);
+
+            // Zero
+            cp += sizeof(unsigned int);
+
+            for (size_t j=0; j<(format & kUVCountMask); j++) {
+                v.fUVWs[j].fX = *(float*)cp; cp += sizeof(float);
+                v.fUVWs[j].fY = *(float*)cp; cp += sizeof(float);
+                v.fUVWs[j].fZ = *(float*)cp; cp += sizeof(float);
+            }
+            
+            buf.append(v);
+        }
+    }
+    return buf;
+}
+
+hsTList<unsigned short> plGBufferGroup::getIndices() {
+    hsTList<unsigned short> buf;
+    
+    for (size_t i=0; i<fIdxBuffStorage.getSize(); i++) {
+        for (size_t j=0; j<fIdxBuffCounts[i]; j++)
+            buf.push(fIdxBuffStorage[i][j]);
+    }
+    return buf;
+}
+
 void plGBufferGroup::read(hsStream* S) {
     format = S->readByte();
     S->readInt();
@@ -179,61 +234,38 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plGBufferGroup");
     prc->writeParam("format", format);
     prc->endTag();
-    for (i=0; i<fVertBuffStorage.getSize(); i++) {
-        // TODO: This is temporary, we should use the real extraction eventually
-        prc->writeSimpleTag("VertexData");
-        unsigned char* cp = fVertBuffStorage[i];
-        while ((size_t)(cp - fVertBuffStorage[i]) < fVertBuffSizes[i]) {
-            prc->writeSimpleTag("Vertex");
-            hsPoint3 pt;
-            pt.fX = *(float*)cp; cp += sizeof(float);
-            pt.fY = *(float*)cp; cp += sizeof(float);
-            pt.fZ = *(float*)cp; cp += sizeof(float);
-            prc->writeSimpleTag("Position");
-            pt.prcWrite(prc);
-            prc->closeTag();
+    
+    hsTArray<plGBufferVertex> verts = getVertices();
+    for (i=0; i<verts.getSize(); i++) {
+        prc->writeSimpleTag("Vertex");
+        
+        prc->writeSimpleTag("Position");
+        verts[i].fPos.prcWrite(prc);
+        prc->closeTag();
 
-            prc->startTag("SkinWeights");
-            if (format & kSkinIndices) {
-                prc->writeParam("SkinIndex", *(int*)cp);
-                cp += sizeof(int);
-            }
-            prc->endTagNoBreak();
-            for (j=0; j<(size_t)((format & 0x30) >> 4); j++) {
-                prc->getStream()->writeStr(plString::Format("%f", *(float*)cp));
-                cp += sizeof(float);
-            }
-            prc->closeTagNoBreak();
+        prc->startTag("SkinWeights");
+        if (format & kSkinIndices)
+            prc->writeParam("SkinIndex", verts[i].fSkinIdx);
+        prc->endTagNoBreak();
+        for (j=0; j<(size_t)((format & kSkinWeightMask) >> 4); j++)
+            prc->getStream()->writeStr(plString::Format("%f", verts[i].fSkinWeights[j]));
+        prc->closeTagNoBreak();
 
-            pt.fX = *(float*)cp; cp += sizeof(float);
-            pt.fY = *(float*)cp; cp += sizeof(float);
-            pt.fZ = *(float*)cp; cp += sizeof(float);
-            prc->writeSimpleTag("Normal");
-            pt.prcWrite(prc);
-            prc->closeTag();
+        prc->writeSimpleTag("Normal");
+        verts[i].fNormal.prcWrite(prc);
+        prc->closeTag();
+        prc->startTag("Color");
+        prc->writeParam("value", verts[i].fColor);
+        prc->endTag(true);
 
-            unsigned int cl = *(unsigned int*)cp;
-            cp += sizeof(unsigned int);
-            prc->startTag("Color");
-            prc->writeParam("value", cl);
-            prc->endTag(true);
+        prc->writeSimpleTag("UVWMaps");
+        for (j=0; j<(format & kUVCountMask); j++)
+            verts[i].fUVWs[j].prcWrite(prc);
+        prc->closeTag();
 
-            // Zero
-            cp += sizeof(unsigned int);
-
-            prc->writeSimpleTag("UVWMaps");
-            for (j=0; j<(format & kUVCountMask); j++) {
-                pt.fX = *(float*)cp; cp += sizeof(float);
-                pt.fY = *(float*)cp; cp += sizeof(float);
-                pt.fZ = *(float*)cp; cp += sizeof(float);
-                pt.prcWrite(prc);
-            }
-            prc->closeTag();
-
-            prc->closeTag();
-        }
         prc->closeTag();
     }
+
     for (i=0; i<fIdxBuffStorage.getSize(); i++) {
         prc->writeTagNoBreak("IndexData");
         for (j=0; j<fIdxBuffCounts[i]; j++) {

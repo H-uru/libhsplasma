@@ -4,6 +4,7 @@
 #include "../../CoreLib/hsGeometry3.h"
 #include "../../CoreLib/hsStream.h"
 #include "../../CoreLib/hsTArray.hpp"
+#include "../../CoreLib/hsTList.hpp"
 #include "../../FeatureLib/pfPRC/pfPrcHelper.h"
 #include "hsGDeviceRef.h"
 #include "plVertCoder.h"
@@ -37,6 +38,15 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+};
+
+
+struct plGBufferVertex {
+    hsPoint3 fPos, fNormal;
+    int fSkinIdx;
+    float fSkinWeights[3];
+    unsigned int fColor;
+    hsPoint3 fUVWs[10];
 };
 
 
@@ -82,6 +92,9 @@ protected:
 public:
     plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod);
     ~plGBufferGroup();
+
+    hsTArray<plGBufferVertex> getVertices();
+    hsTList<unsigned short> getIndices();
 
     void read(hsStream* S);
     void write(hsStream* S);

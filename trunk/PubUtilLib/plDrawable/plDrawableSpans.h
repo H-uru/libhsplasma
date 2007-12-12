@@ -9,7 +9,7 @@
 #include "plIcicle.h"
 #include "plGeometrySpan.h"
 
-class plDISpanIndex {
+DllClass plDISpanIndex {
 public:
     enum {
         kNone = 0x0,
@@ -21,7 +21,7 @@ public:
     hsTArray<unsigned int> indices;
 };
 
-class plDrawable : public hsKeyedObject {
+DllClass plDrawable : public hsKeyedObject {
 public:
     enum {
         kPropNoDraw = 0x1,
@@ -88,7 +88,7 @@ public:
 };
 
 
-class plDrawableSpans : public plDrawable {
+DllClass plDrawableSpans : public plDrawable {
 protected:
     unsigned int type;
     bool readyToRender;

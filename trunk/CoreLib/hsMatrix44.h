@@ -32,6 +32,7 @@ public:
     float& operator()(int y, int x);
     //hsMatrix44& operator=(const hsMatrix44& other);
     bool operator==(const hsMatrix44& other) const;
+    operator const float*() const;
 
     hsMatrix44 operator*(const hsMatrix44& right) const;
     hsPoint3 operator*(const hsPoint3& pt) const;

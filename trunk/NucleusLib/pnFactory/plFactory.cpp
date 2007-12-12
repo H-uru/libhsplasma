@@ -31,7 +31,6 @@
 #include "../../FeatureLib/pfGameGUIMgr/pfGUITextBoxMod.h"
 #include "../../FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.h"
 #include "../../FeatureLib/pfPython/plPythonFileMod.h"
-#include "../pnMessage/plNotifyMsg.h"
 #include "../pnSceneObject/plAudioInterface.h"
 #include "../pnSceneObject/plCoordinateInterface.h"
 #include "../pnSceneObject/plDrawInterface.h"
@@ -53,7 +52,9 @@
 #include "../../PubUtilLib/plGLight/plShadowMaster.h"
 #include "../../PubUtilLib/plModifier/plImageLibMod.h"
 #include "../../PubUtilLib/plModifier/plInterfaceInfoModifier.h"
+#include "../../PubUtilLib/plModifier/plLogicModifier.h"
 #include "../../PubUtilLib/plModifier/plSpawnModifier.h"
+#include "../../PubUtilLib/plParticleSystem/plParticleEffect.h"
 #include "../../PubUtilLib/plPhysics/plObjectInVolumeDetector.h"
 #include "../../PubUtilLib/plPhysics/plHKPhysical.h"
 #include "../../PubUtilLib/plPhysics/plPXPhysical.h"
@@ -86,10 +87,10 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kLayer: return new plLayer();
         case kGMaterial: return new hsGMaterial();
         //case kParticleSystem: return new plParticleSystem();
-        //case kParticleEffect: return new plParticleEffect();
-        //case kParticleCollisionEffectBeat: return new plParticleCollisionEffectBeat();
-        //case kParticleFadeVolumeEffect: return new plParticleFadeVolumeEffect();
-        //case kBoundInterface: return new plBoundInterface();
+        case kParticleEffect: return new plParticleEffect();
+        case kParticleCollisionEffectBeat: return new plParticleCollisionEffectBeat();
+        case kParticleFadeVolumeEffect: return new plParticleFadeVolumeEffect();
+        case kBoundInterface: return new plBoundInterface();
         //case kRenderTarget: return new plRenderTarget();
         //case kCubicRenderTarget: return new plCubicRenderTarget();
         //case kCubicRenderTargetModifier: return new plCubicRenderTargetModifier();
@@ -122,7 +123,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAliasModifier: return new plAliasModifier();
         case kPickingDetector: return new plPickingDetector();
         case kCollisionDetector: return new plCollisionDetector();
-        //case kLogicModifier: return new plLogicModifier();
+        case kLogicModifier: return new plLogicModifier();
         case kConditionalObject: return new plConditionalObject();
         case kANDConditionalObject: return new plANDConditionalObject();
         case kORConditionalObject: return new plORConditionalObject();
@@ -156,7 +157,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kDrawableSpans: return new plDrawableSpans();
         //case kDrawablePatchSet: return new plDrawablePatchSet();
         //case kInputManager: return new plInputManager();
-        //case kLogicModBase: return new plLogicModBase();
+        case kLogicModBase: return new plLogicModBase();
         case kFogEnvironment: return new plFogEnvironment();
         //case kNetApp: return new plNetApp();
         //case kNetClientMgr: return new plNetClientMgr();
@@ -272,21 +273,21 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kRailCameraMod: return new plRailCameraMod();
         //case kMultistageBehMod: return new plMultistageBehMod();
         //case kCameraBrain1_Circle: return new plCameraBrain1_Circle();
-        //case kParticleWindEffect: return new plParticleWindEffect();
+        case kParticleWindEffect: return new plParticleWindEffect();
         //case kAnimEventModifier: return new plAnimEventModifier();
         //case kAutoProfile: return new plAutoProfile();
         case kGUISkin: return new pfGUISkin();
         //case kAVIWriter: return new plAVIWriter();
-        //case kParticleCollisionEffect: return new plParticleCollisionEffect();
-        //case kParticleCollisionEffectDie: return new plParticleCollisionEffectDie();
-        //case kParticleCollisionEffectBounce: return new plParticleCollisionEffectBounce();
+        case kParticleCollisionEffect: return new plParticleCollisionEffect();
+        case kParticleCollisionEffectDie: return new plParticleCollisionEffectDie();
+        case kParticleCollisionEffectBounce: return new plParticleCollisionEffectBounce();
         case kInterfaceInfoModifier: return new plInterfaceInfoModifier();
         case kSharedMesh: return new plSharedMesh();
         //case kArmatureEffectsMgr: return new plArmatureEffectsMgr();
         //case kMarkerMgr: return new pfMarkerMgr();
         //case kVehicleModifier: return new plVehicleModifier();
-        //case kParticleLocalWind: return new plParticleLocalWind();
-        //case kParticleUniformWind: return new plParticleUniformWind();
+        case kParticleLocalWind: return new plParticleLocalWind();
+        case kParticleUniformWind: return new plParticleUniformWind();
         //case kInstanceDrawInterface: return new plInstanceDrawInterface();
         case kShadowMaster: return new plShadowMaster();
         case kShadowCaster: return new plShadowCaster();
@@ -368,7 +369,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kJournalBook: return new pfJournalBook();
         //case kLayerTargetContainer: return new plLayerTargetContainer();
         case kImageLibMod: return new plImageLibMod();
-        //case kParticleFlockEffect: return new plParticleFlockEffect();
+        case kParticleFlockEffect: return new plParticleFlockEffect();
         //case kParticleSDLMod: return new plParticleSDLMod();
         //case kAgeLoader: return new plAgeLoader();;
         //case kWaveSetBase: return new plWaveSetBase();
@@ -386,7 +387,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kArmatureModBase: return new plArmatureModBase();
         //case kSwimRegionInterface: return new plSwimRegionInterface();
         //case kSwimCircularCurrentRegion: return new plSwimCircularCurrentRegion();
-        //case kParticleFollowSystemEffect: return new plParticleFollowSystemEffect();
+        case kParticleFollowSystemEffect: return new plParticleFollowSystemEffect();
         //case kSwimStraightCurrentRegion: return new plSwimStraightCurrentRegion();
         //case kObjectFlocker: return new pfObjectFlocker();
         //case kGrassShaderMod: return new plGrassShaderMod();
@@ -396,7 +397,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kODEPhysical: return new plODEPhysical();
         //case kAutoWalkRegion: return new plAutoWalkRegion();
         //case kCrossfade: return new plCrossfade();
-        //case kParticleFadeOutEffect: return new plParticleFadeOutEffect();
+        case kParticleFadeOutEffect: return new plParticleFadeOutEffect();
         //case kSecurePreloader: return new pfSecurePreloader();
         //case kWindBoneMod: return new plWindBoneMod();
         //case kCameraBrain_NovicePlus: return new plCameraBrain_NovicePlus();
@@ -648,7 +649,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetMember: return new plNetMember();
         //case kNetGameMember: return new plNetGameMember();
         //case kNetTransportMember: return new plNetTransportMember();
-        //case kConvexVolume: return new plConvexVolume();
+        case kConvexVolume: return new plConvexVolume();
         //case kParticleGenerator: return new plParticleGenerator();
         //case kSimpleParticleGenerator: return new plSimpleParticleGenerator();
         //case kParticleEmitter: return new plParticleEmitter();

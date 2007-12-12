@@ -6,8 +6,7 @@
 DllClass plEncryptedStream : public hsStream {
 private:
     char LBuffer[16]; // Uru modes use only the first 8 bytes
-    unsigned int dataSize;
-    unsigned int dataPos;
+    size_t dataSize, dataPos;
     unsigned int eKey[4];
 
 protected:

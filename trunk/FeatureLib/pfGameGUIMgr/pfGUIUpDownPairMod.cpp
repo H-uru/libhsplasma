@@ -41,7 +41,7 @@ void pfGUIUpDownPairMod::write(hsStream* S, plResManager* mgr) {
 }
 
 void pfGUIUpDownPairMod::prcWrite(pfPrcHelper* prc) {
-    pfGUIUpDownPairMod::prcWrite(prc);
+    pfGUIValueCtrl::prcWrite(prc);
 
     prc->writeSimpleTag("UpControl");
     fUpControl->prcWrite(prc);

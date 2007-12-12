@@ -299,7 +299,7 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
         S->read(AlphaSize, AlphaData);
     }
     if (img != NULL) {
-        IRecombineAlpha(img);
+        //IRecombineAlpha(img);
         delete img;
     }
 }

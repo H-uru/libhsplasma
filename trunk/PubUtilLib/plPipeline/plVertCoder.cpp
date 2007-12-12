@@ -109,13 +109,13 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
 
 void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
     if (S->getVer() == pvLive) {
-        ((float*)dest)[0] = ((S->readByte() / 256.0) - 0.5) * 2.0;
-        ((float*)dest)[1] = ((S->readByte() / 256.0) - 0.5) * 2.0;
-        ((float*)dest)[2] = ((S->readByte() / 256.0) - 0.5) * 2.0;
+        ((float*)dest)[0] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
+        ((float*)dest)[1] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
+        ((float*)dest)[2] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
     } else {
-        ((float*)dest)[0] = S->readShort() / 32767.0;
-        ((float*)dest)[1] = S->readShort() / 32767.0;
-        ((float*)dest)[2] = S->readShort() / 32767.0;
+        ((float*)dest)[0] = S->readShort() / 32767.0f;
+        ((float*)dest)[1] = S->readShort() / 32767.0f;
+        ((float*)dest)[2] = S->readShort() / 32767.0f;
     }
     dest += sizeof(float) * 3;
 }

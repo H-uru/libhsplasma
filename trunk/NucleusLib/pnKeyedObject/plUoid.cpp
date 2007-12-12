@@ -60,8 +60,8 @@ void plLocation::invalidate() {
 }
 
 bool plLocation::isValid() const { return pageID.isValid(); }
-bool plLocation::isReserved() const { return (flags & kReserved); }
-bool plLocation::isItinerant() const { return (flags & kItinerant); }
+bool plLocation::isReserved() const { return (flags & kReserved) != 0; }
+bool plLocation::isItinerant() const { return (flags & kItinerant) != 0; }
 bool plLocation::isVirtual() const { return pageID.unparse() == 0; }
 const PageID& plLocation::getPageID() const { return pageID; }
 unsigned short plLocation::getFlags() const { return flags; }

@@ -83,4 +83,3 @@ void plJPEG::IWrite(plMipmap* source, hsStream* S) {
     S->writeInt(source->getJPEGSize());
     S->write(source->getJPEGSize(), source->getJPEGData());
 }
-

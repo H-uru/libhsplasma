@@ -16,9 +16,9 @@ void hsElfStream::decipher(unsigned char* v, int size, unsigned char hint) {
 }
 
 void hsElfStream::encipher(unsigned char* v, unsigned char hint) {
-    int size = strlen((const char*)v);
+    size_t size = strlen((const char*)v);
     unsigned char key = (v[size-1] & 0xFC) << 3;
-    for (int i=0; i<size; i++) {
+    for (size_t i=0; i<size; i++) {
         unsigned char c = (v[i] << 6) | (v[i] >> 2);
         v[i] = ((c >> 3) | key) ^ hint;
         key = c << 5;

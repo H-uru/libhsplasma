@@ -227,8 +227,8 @@ void plEncryptedStream::read(size_t size, void* buf) {
     if (dataPos + size > dataSize)
         throw hsFileReadException(__FILE__, __LINE__, "Read past end of stream");
     
-    unsigned int szInc = (ver == pvEoa ? 16 : 8);
-    unsigned int pp = dataPos, bp = 0, lp = dataPos % szInc;
+    size_t szInc = (ver == pvEoa ? 16 : 8);
+    size_t pp = dataPos, bp = 0, lp = dataPos % szInc;
     while (bp < size) {
         if (lp == 0) {
             // Advance the buffer
@@ -258,8 +258,8 @@ void plEncryptedStream::read(size_t size, void* buf) {
 }
 
 void plEncryptedStream::write(size_t size, const void* buf) {
-    unsigned int szInc = (ver == pvEoa ? 16 : 8);
-    unsigned int pp = dataPos, bp = 0, lp = dataPos % szInc;
+    size_t szInc = (ver == pvEoa ? 16 : 8);
+    size_t pp = dataPos, bp = 0, lp = dataPos % szInc;
     while (bp < size) {
         if (lp + (size - bp) >= szInc) {
             memcpy(LBuffer+lp, ((char*)buf)+bp, szInc - lp);

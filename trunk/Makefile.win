@@ -118,12 +118,26 @@ OBJFILES=\
 	$(LIBDIR)plPickedConditionalObject.o \
 	$(LIBDIR)plPythonFileModConditionalObject.o \
 	$(LIBDIR)plVolumeSensorConditionalObject.o \
-	$(LIBDIR)pfGUIButtonMod.o \
 	$(LIBDIR)pfGUIControlHandlers.o \
 	$(LIBDIR)pfGUIControlMod.o \
+	$(LIBDIR)pfGUIButtonMod.o \
+	$(LIBDIR)pfGUICheckBoxCtrl.o \
+	$(LIBDIR)pfGUIClickMapCtrl.o \
 	$(LIBDIR)pfGUIDialogMod.o \
+	$(LIBDIR)pfGUIDragBarCtrl.o \
+	$(LIBDIR)pfGUIDraggableMod.o \
+	$(LIBDIR)pfGUIDynDisplayCtrl.o \
+	$(LIBDIR)pfGUIEditBoxMod.o \
+	$(LIBDIR)pfGUIListBoxMod.o \
+	$(LIBDIR)pfGUIMultiLineEditCtrl.o \
 	$(LIBDIR)pfGUIPopUpMenu.o \
+	$(LIBDIR)pfGUIRadioGroupCtrl.o \
 	$(LIBDIR)pfGUISkin.o \
+	$(LIBDIR)pfGUITextBoxMod.o \
+	$(LIBDIR)pfGUIValueCtrl.o \
+	$(LIBDIR)pfGUIKnobCtrl.o \
+	$(LIBDIR)pfGUIProgressCtrl.o \
+	$(LIBDIR)pfGUIUpDownPairMod.o \
 	$(LIBDIR)plPythonFileMod.o \
 	$(LIBDIR)pfPrcHelper.o \
 	$(LIBDIR)rijndael.o
@@ -476,23 +490,65 @@ $(LIBDIR)plPythonFileModConditionalObject.o: FeatureLib/pfConditional/plPythonFi
 $(LIBDIR)plVolumeSensorConditionalObject.o: FeatureLib/pfConditional/plVolumeSensorConditionalObject.h FeatureLib/pfConditional/plVolumeSensorConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfConditional/plVolumeSensorConditionalObject.cpp -o $(LIBDIR)plVolumeSensorConditionalObject.o
 
-$(LIBDIR)pfGUIButtonMod.o: FeatureLib/pfGameGUIMgr/pfGUIButtonMod.h FeatureLib/pfGameGUIMgr/pfGUIButtonMod.cpp
-	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIButtonMod.cpp -o $(LIBDIR)pfGUIButtonMod.o
-
 $(LIBDIR)pfGUIControlHandlers.o: FeatureLib/pfGameGUIMgr/pfGUIControlHandlers.h FeatureLib/pfGameGUIMgr/pfGUIControlHandlers.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIControlHandlers.cpp -o $(LIBDIR)pfGUIControlHandlers.o
 
 $(LIBDIR)pfGUIControlMod.o: FeatureLib/pfGameGUIMgr/pfGUIControlMod.h FeatureLib/pfGameGUIMgr/pfGUIControlMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIControlMod.cpp -o $(LIBDIR)pfGUIControlMod.o
 
+$(LIBDIR)pfGUIButtonMod.o: FeatureLib/pfGameGUIMgr/pfGUIButtonMod.h FeatureLib/pfGameGUIMgr/pfGUIButtonMod.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIButtonMod.cpp -o $(LIBDIR)pfGUIButtonMod.o
+
+$(LIBDIR)pfGUICheckBoxCtrl.o: FeatureLib/pfGameGUIMgr/pfGUICheckBoxCtrl.h FeatureLib/pfGameGUIMgr/pfGUICheckBoxCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUICheckBoxCtrl.cpp -o $(LIBDIR)pfGUICheckBoxCtrl.o
+
+$(LIBDIR)pfGUIClickMapCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIClickMapCtrl.h FeatureLib/pfGameGUIMgr/pfGUIClickMapCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIClickMapCtrl.cpp -o $(LIBDIR)pfGUIClickMapCtrl.o
+
 $(LIBDIR)pfGUIDialogMod.o: FeatureLib/pfGameGUIMgr/pfGUIDialogMod.h FeatureLib/pfGameGUIMgr/pfGUIDialogMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIDialogMod.cpp -o $(LIBDIR)pfGUIDialogMod.o
+
+$(LIBDIR)pfGUIDragBarCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIDragBarCtrl.h FeatureLib/pfGameGUIMgr/pfGUIDragBarCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIDragBarCtrl.cpp -o $(LIBDIR)pfGUIDragBarCtrl.o
+
+$(LIBDIR)pfGUIDraggableMod.o: FeatureLib/pfGameGUIMgr/pfGUIDraggableMod.h FeatureLib/pfGameGUIMgr/pfGUIDraggableMod.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIDraggableMod.cpp -o $(LIBDIR)pfGUIDraggableMod.o
+
+$(LIBDIR)pfGUIDynDisplayCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIDynDisplayCtrl.h FeatureLib/pfGameGUIMgr/pfGUIDynDisplayCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIDynDisplayCtrl.cpp -o $(LIBDIR)pfGUIDynDisplayCtrl.o
+
+$(LIBDIR)pfGUIEditBoxMod.o: FeatureLib/pfGameGUIMgr/pfGUIEditBoxMod.h FeatureLib/pfGameGUIMgr/pfGUIEditBoxMod.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIEditBoxMod.cpp -o $(LIBDIR)pfGUIEditBoxMod.o
+
+$(LIBDIR)pfGUIListBoxMod.o: FeatureLib/pfGameGUIMgr/pfGUIListBoxMod.h FeatureLib/pfGameGUIMgr/pfGUIListBoxMod.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIListBoxMod.cpp -o $(LIBDIR)pfGUIListBoxMod.o
+
+$(LIBDIR)pfGUIMultiLineEditCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIMultiLineEditCtrl.h FeatureLib/pfGameGUIMgr/pfGUIMultiLineEditCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIMultiLineEditCtrl.cpp -o $(LIBDIR)pfGUIMultiLineEditCtrl.o
 
 $(LIBDIR)pfGUIPopUpMenu.o: FeatureLib/pfGameGUIMgr/pfGUIPopUpMenu.h FeatureLib/pfGameGUIMgr/pfGUIPopUpMenu.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIPopUpMenu.cpp -o $(LIBDIR)pfGUIPopUpMenu.o
 
+$(LIBDIR)pfGUIRadioGroupCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIRadioGroupCtrl.h FeatureLib/pfGameGUIMgr/pfGUIRadioGroupCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIRadioGroupCtrl.cpp -o $(LIBDIR)pfGUIRadioGroupCtrl.o
+
 $(LIBDIR)pfGUISkin.o: FeatureLib/pfGameGUIMgr/pfGUISkin.h FeatureLib/pfGameGUIMgr/pfGUISkin.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUISkin.cpp -o $(LIBDIR)pfGUISkin.o
+
+$(LIBDIR)pfGUITextBoxMod.o: FeatureLib/pfGameGUIMgr/pfGUITextBoxMod.h FeatureLib/pfGameGUIMgr/pfGUITextBoxMod.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUITextBoxMod.cpp -o $(LIBDIR)pfGUITextBoxMod.o
+
+$(LIBDIR)pfGUIValueCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIValueCtrl.h FeatureLib/pfGameGUIMgr/pfGUIValueCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIValueCtrl.cpp -o $(LIBDIR)pfGUIValueCtrl.o
+
+$(LIBDIR)pfGUIKnobCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIKnobCtrl.h FeatureLib/pfGameGUIMgr/pfGUIKnobCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIKnobCtrl.cpp -o $(LIBDIR)pfGUIKnobCtrl.o
+
+$(LIBDIR)pfGUIProgressCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIProgressCtrl.h FeatureLib/pfGameGUIMgr/pfGUIProgressCtrl.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIProgressCtrl.cpp -o $(LIBDIR)pfGUIProgressCtrl.o
+
+$(LIBDIR)pfGUIUpDownPairMod.o: FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.h FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.cpp -o $(LIBDIR)pfGUIUpDownPairMod.o
 
 $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o

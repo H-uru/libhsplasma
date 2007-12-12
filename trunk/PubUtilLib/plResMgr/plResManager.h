@@ -61,6 +61,8 @@ public:
     void WriteCreatable(hsStream* S, class plCreatable* pCre);
 
     class plSceneNode* getSceneNode(plLocation& loc);
+    std::vector<plLocation> getLocations();
+    std::vector<plKey> getKeys(plLocation& loc, short type);
 };
 
 #endif
