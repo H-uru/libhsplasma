@@ -148,7 +148,11 @@ OBJFILES=\
 	$(LIBDIR)rijndael.o
 PLSLIB=lib/libPlasma.so.1.0.1
 
-all: $(PLSLIB)
+all: $(PLSLIB) lib/libPlasma.so
+
+lib/libPlasma.so: $(PLSLIB)
+	( cd lib ; ln -s libPlasma.so.1.0.1 libPlasma.so )
+	( cd lib ; ln -s libPlasma.so.1.0.1 libPlasma.so.1 )
 
 $(PLSLIB): $(OBJFILES)
 	$(CXX) $(CXXFLAGS) $(OBJFILES) -ljpeg -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)

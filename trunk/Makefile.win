@@ -235,6 +235,9 @@ $(LIBDIR)plNotifyMsg.o: NucleusLib/pnMessage/plNotifyMsg.h NucleusLib/pnMessage/
 $(LIBDIR)plModifier.o: NucleusLib/pnModifier/plModifier.h NucleusLib/pnModifier/plModifier.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnModifier/plModifier.cpp -o $(LIBDIR)plModifier.o
 
+$(LIBDIR)plLogicModBase.o: NucleusLib/pnModifier/plLogicModBase.h NucleusLib/pnModifier/plLogicModBase.cpp
+	$(CXX) $(CXXFLAGS) -c NucleusLib/pnModifier/plLogicModBase.cpp -o $(LIBDIR)plLogicModBase.o
+
 $(LIBDIR)plSynchedObject.o: NucleusLib/pnNetCommon/plSynchedObject.h NucleusLib/pnNetCommon/plSynchedObject.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnNetCommon/plSynchedObject.cpp -o $(LIBDIR)plSynchedObject.o
 
@@ -382,8 +385,20 @@ $(LIBDIR)plImageLibMod.o: PubUtilLib/plModifier/plImageLibMod.h PubUtilLib/plMod
 $(LIBDIR)plInterfaceInfoModifier.o: PubUtilLib/plModifier/plInterfaceInfoModifier.h PubUtilLib/plModifier/plInterfaceInfoModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plInterfaceInfoModifier.cpp -o $(LIBDIR)plInterfaceInfoModifier.o
 
+$(LIBDIR)plLogicModifier.o: PubUtilLib/plModifier/plLogicModifier.h PubUtilLib/plModifier/plLogicModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plLogicModifier.cpp -o $(LIBDIR)plLogicModifier.o
+
 $(LIBDIR)plSpawnModifier.o: PubUtilLib/plModifier/plSpawnModifier.h PubUtilLib/plModifier/plSpawnModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plSpawnModifier.cpp -o $(LIBDIR)plSpawnModifier.o
+
+$(LIBDIR)plBoundInterface.o: PubUtilLib/plParticleSystem/plBoundInterface.h PubUtilLib/plParticleSystem/plBoundInterface.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plBoundInterface.cpp -o $(LIBDIR)plBoundInterface.o
+
+$(LIBDIR)plConvexVolume.o: PubUtilLib/plParticleSystem/plConvexVolume.h PubUtilLib/plParticleSystem/plConvexVolume.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plConvexVolume.cpp -o $(LIBDIR)plConvexVolume.o
+
+$(LIBDIR)plParticleEffect.o: PubUtilLib/plParticleSystem/plParticleEffect.h PubUtilLib/plParticleSystem/plParticleEffect.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plParticleEffect.cpp -o $(LIBDIR)plParticleEffect.o
 
 $(LIBDIR)plCollisionDetector.o: PubUtilLib/plPhysics/plCollisionDetector.h PubUtilLib/plPhysics/plCollisionDetector.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPhysics/plCollisionDetector.cpp -o $(LIBDIR)plCollisionDetector.o
