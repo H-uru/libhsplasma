@@ -42,6 +42,7 @@
 #include "../../PubUtilLib/plAudioCore/plSoundBuffer.h"
 #include "../../PubUtilLib/plAvatar/plClothingItem.h"
 #include "../../PubUtilLib/plAvatar/plAGMasterMod.h"
+#include "../../PubUtilLib/plAvatar/plOneShotMod.h"
 #include "../../PubUtilLib/plDrawable/plDrawableSpans.h"
 #include "../../PubUtilLib/plDrawable/plMorphDataSet.h"
 #include "../../PubUtilLib/plDrawable/plSharedMesh.h"
@@ -197,7 +198,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSpotModifier: return new plSpotModifier();
         //case kLtdDirModifier: return new plLtdDirModifier();
         //case kSeekPointMod: return new plSeekPointMod();
-        //case kOneShotMod: return new plOneShotMod();
+        case kOneShotMod: return new plOneShotMod();
         //case kRandomCommandMod: return new plRandomCommandMod();
         //case kRandomSoundMod: return new plRandomSoundMod();
         case kPostEffectMod: return new plPostEffectMod();

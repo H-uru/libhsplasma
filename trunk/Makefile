@@ -53,6 +53,7 @@ OBJFILES=\
 	$(LIBDIR)plClothingItem.o \
 	$(LIBDIR)plAGMasterMod.o \
 	$(LIBDIR)plNPCSpawnMod.o \
+	$(LIBDIR)plOneShotMod.o \
 	$(LIBDIR)plDrawableSpans.o \
 	$(LIBDIR)plMorphArray.o \
 	$(LIBDIR)plMorphDataSet.o \
@@ -294,6 +295,9 @@ $(LIBDIR)plAGMasterMod.o: PubUtilLib/plAvatar/plAGMasterMod.h PubUtilLib/plAvata
 
 $(LIBDIR)plNPCSpawnMod.o: PubUtilLib/plAvatar/plNPCSpawnMod.h PubUtilLib/plAvatar/plNPCSpawnMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plNPCSpawnMod.cpp -o $(LIBDIR)plNPCSpawnMod.o
+
+$(LIBDIR)plOneShotMod.o: PubUtilLib/plAvatar/plOneShotMod.h PubUtilLib/plAvatar/plOneShotMod.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plOneShotMod.cpp -o $(LIBDIR)plOneShotMod.o
 
 $(LIBDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(LIBDIR)plDrawableSpans.o

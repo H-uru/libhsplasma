@@ -340,7 +340,7 @@ short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
     0x00E2,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-        -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
+    0x013A, 0x013B,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -441,7 +441,7 @@ short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1, 0x047A, 0x047B, 0x047C,
     0x047D, 0x047E, 0x047F, 0x0480, 0x049A, 0x0466, 0x0467, 0x0481, 0x0482,
-    0x0483,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
+    0x0483, 0x049B, 0x049C, 0x049D, 0x049E,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1
@@ -926,8 +926,8 @@ short pdUnifiedTypeMap::fLiveP2MTable[TYPESPACE_MAX] = {
     0x0117, 0x0118, 0x0119, 0x011A, 0x011B, 0x011C, 0x011D, 0x011E, 0x011F,
     0x0120, 0x0121, 0x0122, 0x0123, 0x0124, 0x0125, 0x0126, 0x0127, 0x0128,
     0x0129, 0x012A, 0x012B, 0x012C, 0x012D, 0x012E, 0x012F, 0x0130, 0x0131,
-    0x0132, 0x0133, 0x0134, 0x0135, 0x0136, 0x0137, 0x0138, 0x0139,     -1,
-        -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
+    0x0132, 0x0133, 0x0134, 0x0135, 0x0136, 0x0137, 0x0138, 0x0139, 0x0168,
+    0x0169,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -1025,7 +1025,7 @@ short pdUnifiedTypeMap::fLiveP2MTable[TYPESPACE_MAX] = {
     0x04D9, 0x04DA, 0x04DB, 0x04DF, 0x04E0, 0x04E1, 0x047E, 0x047F, 0x0480,
     0x0481, 0x0482, 0x0483, 0x0484, 0x0485, 0x0486, 0x0487, 0x0488, 0x0489,
     0x048A, 0x048B, 0x048C, 0x048D, 0x048E, 0x048F, 0x0490, 0x0491, 0x0492,
-    0x0493, 0x04DC,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
+    0x0493, 0x04DC, 0x04E2, 0x04E3, 0x04E4, 0x04E5,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -1384,7 +1384,8 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plCameraBrain_Expert", "plPagingRegionModifier", "plGuidepathModifier",
     "pfNodeMgr", "plEAXEffect", "plEAXPitchShifter", "plIKModifier",
     "plCameraBrain_M5", "plAGAnimBink", "plTreeShader", "plNodeRegionModifier",
-    "plPiranhaRegionModifier", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    "plPiranhaRegionModifier", "plRidingAnimatedPhysicalDetector",
+    "plVolumeSensorConditionalObjectNoArbitration", NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
@@ -1397,6 +1398,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    NULL, NULL,
     
     "plObjRefMsg", "plNodeRefMsg", "plMessage", "plRefMsg", "plGenRefMsg",
     "plTimeMsg", "plAnimCmdMsg", "plParticleUpdateMsg", "plLayRefMsg",
@@ -1636,10 +1638,11 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plRelativeMatrixChannelApplicator", "plPiranhaRegionMsg", "pfGameMgrMsg",
     "pfGameCliMsg", "pfGameCli", "pfGmTicTacToe", "pfGmHeek", "pfGmMarker",
     "pfGmBlueSpiral", "plAccountUpdateMsg", "plAIMsg", "plAIBrainCreatedMsg",
-    "pfGmClimbingWall", "plAIArrivedAtGoalMsg", "pfGmVarSync", NULL, NULL,
+    "pfGmClimbingWall", "plAIArrivedAtGoalMsg", "pfGmVarSync",
+    "plLinearVelocityMsg", "plAngularVelocityMsg", "plRideAnimatedPhysMsg",
+    "plAvBrainRideAnimatedPhysical", NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL, NULL
+    NULL, NULL, NULL, NULL, NULL, NULL, NULL
 };
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
