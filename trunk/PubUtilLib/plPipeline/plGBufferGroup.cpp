@@ -81,7 +81,7 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
 
             int weightCount = (format & kSkinWeightMask) >> 4;
             if (weightCount > 0) {
-                for (int j=0; j<weightCount; j++) {
+                for (size_t j=0; j<weightCount; j++) {
                     v.fSkinWeights[j] = *(float*)cp;
                     cp += sizeof(float);
                 }

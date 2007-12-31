@@ -439,6 +439,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kTreeShader: return new plTreeShader();
         //case kNodeRegionModifier: return new plNodeRegionModifier();
         //case kPiranhaRegionModifier: return new plPiranhaRegionModifier();
+        //case kRidingAnimatedPhysicalDetector: return new plRidingAnimatedPhysicalDetector();
+        //case kVolumeSensorConditionalObjectNoArbitration: return new plVolumeSensorConditionalObjectNoArbitration();
         
         // Non-Keyed Classes //
         //case kObjRefMsg: return new plObjRefMsg();
@@ -1116,6 +1118,10 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kGmClimbingWall: return new pfGmClimbingWall();
         //case kAIArrivedAtGoalMsg: return new plAIArrivedAtGoalMsg();
         //case kGmVarSync: return new pfGmVarSync();
+        //case kLinearVelocityMsg: return new plLinearVelocityMsg();
+        //case kAngularVelocityMsg: return new plAngularVelocityMsg();
+        //case kRideAnimatedPhysMsg: return new plRideAnimatedPhysMsg();
+        //case kAvBrainRideAnimatedPhysical: return new plAvBrainRideAnimatedPhysical();
 
         // Got an invalid or unsupported ClassIndex //
         default: return NULL;
