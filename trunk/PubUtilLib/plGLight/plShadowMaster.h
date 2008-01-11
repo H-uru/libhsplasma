@@ -11,6 +11,8 @@ public:
         kDisable, kSelfShadow, kNumProps
     };
 
+    static const char* DrawPropertyNames[];
+
 protected:
     float fAttenDist, fMaxDist, fMinDist, fPower;
     unsigned int fMaxSize, fMinSize;

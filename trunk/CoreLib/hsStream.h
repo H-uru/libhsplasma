@@ -16,7 +16,7 @@ protected:
     FileMode fm;
 
 public:
-    hsStream(PlasmaVer pv = pvUnknown);
+    explicit hsStream(PlasmaVer pv = pvUnknown);
     virtual ~hsStream();
 
     virtual bool open(const char* file, FileMode mode);
@@ -85,4 +85,3 @@ public:
 };
 
 #endif
-

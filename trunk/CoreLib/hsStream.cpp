@@ -4,6 +4,7 @@
 
 static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
+// hsStream //
 hsStream::hsStream(PlasmaVer pv) : F(NULL) {
     setVer(pv);
 }

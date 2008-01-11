@@ -1,10 +1,16 @@
 #include "plCoordinateInterface.h"
 
+const char* plCoordinateInterface::plCoordinatePropertyNames[] = {
+    "kDisable", "kCanEverDelayTransform", "kDelayedTransformEval"
+};
+
 plCoordinateInterface::plCoordinateInterface() {
     LocalToParent.Reset();
     ParentToLocal.Reset();
     LocalToWorld.Reset();
     WorldToLocal.Reset();
+
+    Props.appendNames(3, plCoordinatePropertyNames);
 }
 
 plCoordinateInterface::~plCoordinateInterface() { }

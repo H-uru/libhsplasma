@@ -1,8 +1,15 @@
 #include "plLogicModBase.h"
 
+const char* plLogicModBase::FlagNames[] = {
+    "kLocalElement", "kReset", "kTriggered", "kOneShot", "kRequestingTrigger",
+    "kTypeActivator", "kMultiTrigger"
+};
+
 plLogicModBase::plLogicModBase()
               : fCounterLimit(0), fTimer(0.0f), fCounter(0), fNotify(NULL),
-                fDisabled(false) { }
+                fDisabled(false) {
+    fLogicFlags.appendNames(7, FlagNames);
+}
 
 plLogicModBase::~plLogicModBase() {
     for (size_t i=0; i<fCommandList.getSize(); i++)
@@ -23,7 +30,7 @@ void plLogicModBase::read(hsStream* S, plResManager* mgr) {
     if (fNotify != NULL)
         delete fNotify;
     fNotify = plNotifyMsg::Convert(mgr->ReadCreatable(S));
-    fFlags.read(S);
+    fLogicFlags.read(S);
     fDisabled = S->readBool();
 }
 
@@ -35,7 +42,7 @@ void plLogicModBase::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fCommandList[i]);
 
     mgr->WriteCreatable(S, fNotify);
-    fFlags.write(S);
+    fLogicFlags.write(S);
     S->writeBool(fDisabled);
 }
 
@@ -52,7 +59,7 @@ void plLogicModBase::prcWrite(pfPrcHelper* prc) {
     fNotify->prcWrite(prc);
     prc->closeTag();
 
-    fFlags.prcWrite(prc);
+    fLogicFlags.prcWrite(prc);
     prc->startTag("LogicModParams");
     prc->writeParam("Disabled", fDisabled);
     prc->endTag(true);

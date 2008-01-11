@@ -1,9 +1,15 @@
 #include "plShadowMaster.h"
 
 /* plShadowMaster */
+const char* plShadowMaster::DrawPropertyNames[] = {
+    "kDisable", "kSelfShadow"
+};
+
 plShadowMaster::plShadowMaster()
               : fAttenDist(0.0f), fMaxDist(0.0f), fMinDist(0.0f), fPower(0.0f),
-                fMaxSize(0), fMinSize(0), fLightInfo(NULL) { }
+                fMaxSize(0), fMinSize(0), fLightInfo(NULL) {
+    Props.appendNames(kNumProps, DrawPropertyNames);
+}
 
 plShadowMaster::~plShadowMaster() {
     for (size_t i=0; i<fSlavePool.getSize(); i++)

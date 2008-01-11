@@ -7,8 +7,10 @@ OBJFILES=\
 	$(LIBDIR)hsExceptions.o \
 	$(LIBDIR)hsSemaphore.o \
 	$(LIBDIR)hsStream.o \
+	$(LIBDIR)hsStdioStream.o \
 	$(LIBDIR)plEncryptedStream.o \
 	$(LIBDIR)hsElfStream.o \
+	$(LIBDIR)plDebug.o \
 	$(LIBDIR)plPageInfo.o \
 	$(LIBDIR)plResManager.o \
 	$(LIBDIR)plKeyCollector.o \
@@ -167,11 +169,17 @@ $(LIBDIR)hsSemaphore.o: CoreLib/hsSemaphore.h CoreLib/hsSemaphore.cpp
 $(LIBDIR)hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/hsStream.cpp -o $(LIBDIR)hsStream.o
 
+$(LIBDIR)hsStdioStream.o: CoreLib/hsStdioStream.h CoreLib/hsStdioStream.cpp
+	$(CXX) $(CXXFLAGS) -c CoreLib/hsStdioStream.cpp -o $(LIBDIR)hsStdioStream.o
+
 $(LIBDIR)plEncryptedStream.o: CoreLib/plEncryptedStream.h CoreLib/plEncryptedStream.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/plEncryptedStream.cpp -o $(LIBDIR)plEncryptedStream.o
 
 $(LIBDIR)hsElfStream.o: CoreLib/hsElfStream.h CoreLib/hsElfStream.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/hsElfStream.cpp -o $(LIBDIR)hsElfStream.o
+
+$(LIBDIR)plDebug.o: CoreLib/plDebug.h CoreLib/plDebug.cpp
+	$(CXX) $(CXXFLAGS) -c CoreLib/plDebug.cpp -o $(LIBDIR)plDebug.o
 
 $(LIBDIR)hsBitVector.o: CoreLib/hsBitVector.h CoreLib/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/hsBitVector.cpp -o $(LIBDIR)hsBitVector.o

@@ -232,7 +232,7 @@ void plEncryptedStream::read(size_t size, void* buf) {
     while (bp < size) {
         if (lp == 0) {
             // Advance the buffer
-            if (ver == pvEoa) {
+            if (ver == pvEoa || ver == pvHex) {
                 fread(LBuffer, 16, 1, F);
                 AesDecipher(LBuffer, 16);
             } else if (ver == pvLive) {
@@ -272,7 +272,7 @@ void plEncryptedStream::write(size_t size, const void* buf) {
         }
         if (lp == 0) {
             // Flush the buffer
-            if (ver == pvEoa) {
+            if (ver == pvEoa || ver == pvHex) {
                 AesEncipher(LBuffer, 16);
                 fwrite(LBuffer, 16, 1, F);
             } else if (ver == pvLive) {
@@ -289,4 +289,3 @@ void plEncryptedStream::write(size_t size, const void* buf) {
     dataPos += size;
     if (dataPos > dataSize) dataSize = dataPos;
 }
-

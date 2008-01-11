@@ -81,7 +81,7 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
 
             int weightCount = (format & kSkinWeightMask) >> 4;
             if (weightCount > 0) {
-                for (size_t j=0; j<weightCount; j++) {
+                for (int j=0; j<weightCount; j++) {
                     v.fSkinWeights[j] = *(float*)cp;
                     cp += sizeof(float);
                 }
@@ -188,7 +188,7 @@ void plGBufferGroup::read(hsStream* S) {
         fCells.append(cell);
         cell->setSize(cellCount);
         for (size_t j=0; j<cellCount; j++)
-            cell->get(j).read(S);
+            (*cell)[j].read(S);
     }
 }
 
@@ -224,7 +224,7 @@ void plGBufferGroup::write(hsStream* S) {
     for (i=0; i<fVertBuffStorage.getSize(); i++) {
         S->writeInt(fCells[i]->getSize());
         for (size_t j=0; j<fCells[i]->getSize(); j++)
-            fCells[i]->get(j).write(S);
+            (*fCells[i])[j].write(S);
     }
 }
 
@@ -277,7 +277,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("CellGroups");
     for (i=0; i<fVertBuffStorage.getSize(); i++) {
         for (j=0; j<fCells[i]->getSize(); j++)
-            fCells[i]->get(j).prcWrite(prc);
+            (*fCells[i])[j].prcWrite(prc);
     }
     prc->closeTag(); // CellGroups
     prc->closeTag(); // plGBufferGroup

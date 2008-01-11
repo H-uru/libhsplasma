@@ -3,15 +3,23 @@
 #include "PubUtilLib/plResMgr/plResManager.h"
 #include "CoreLib/hsExceptions.h"
 
-const char* PlasmaVerNames[] = { "Unknown", "Prime", "PotS", "EOA", "Live" };
+const char* PlasmaVerNames[] = { 
+    "Unknown",  // pvUnknown
+    "Prime",    // pvPrime
+    "PotS",     // pvPots
+    "EOA",      // pvEoa
+    "Live",     // pvLive
+    "HexIsle"   // pvHex
+};
 
 const char* getSuffix(PlasmaVer pv) {
     switch (pv) {
-    case pvPrime:    return "prime";
-    case pvPots:     return "pots";
-    case pvLive:     return "live";
-    case pvEoa:      return "eoa";
-    default:         return "err";
+    case pvPrime:   return "prime";
+    case pvPots:    return "pots";
+    case pvLive:    return "live";
+    case pvEoa:     return "eoa";
+    case pvHex:     return "hex";
+    default:        return "err";
     }
 }
 
@@ -22,6 +30,7 @@ void doHelp() {
     printf("  -topots   Converts to Path of the Shell format (63.12)\n");
     printf("  -tolive   Converts to Uru Live format (70)\n");
     printf("  -toeoa    Converts to Myst V: End of Ages format\n");
+    printf("  -tohex    Converts to Hex Isle format\n");
     printf("  -help     Displays this screen\n\n");
 }
 
@@ -47,6 +56,8 @@ int main(int argc, char** argv) {
                 toVer = pvPots;
             else if (strcmp(argv[i], "-tolive") == 0)
                 toVer = pvLive;
+            else if (strcmp(argv[i], "-tohex") == 0)
+                toVer = pvHex;
             else if (strcmp(argv[i], "-help") == 0) {
                 doHelp();
                 return 0;
@@ -92,4 +103,3 @@ int main(int argc, char** argv) {
     printf("Done!  Successfully transcoded %d files!\n", files);
     return 0;
 }
-

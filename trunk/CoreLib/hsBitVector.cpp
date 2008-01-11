@@ -7,24 +7,26 @@ hsBitVector::~hsBitVector() {
 }
 
 bool hsBitVector::get(size_t idx) const {
-    if ((idx >> BVSHIFT) >= fNumVectors) return false;
-    return (fBits[idx >> BVSHIFT] & (1 << (idx & BVMASK))) != 0;
+    if ((idx / BVMULT) >= fNumVectors) return false;
+    return (fBits[idx / BVMULT] & (1 << (idx & BVMASK))) != 0;
 }
 
 void hsBitVector::set(size_t idx, bool b) {
-    if ((idx >> BVSHIFT) < fNumVectors) {
-        fNumVectors = (idx >> BVSHIFT) + 1;
+    if ((idx / BVMULT) < fNumVectors + 1) {
+        size_t oldNumVectors = fNumVectors;
+        fNumVectors = (idx / BVMULT) + 1;
         hsUint32* newBits = new hsUint32[fNumVectors];
         if (fBits != NULL) {
-            memcpy(newBits, fBits, sizeof(hsUint32)*fNumVectors);
+            for (size_t i=0; i<oldNumVectors; i++)
+                newBits[i] = fBits[i];
             delete[] fBits;
         } else {
             memset(newBits, 0, sizeof(hsUint32)*fNumVectors);
         }
         fBits = newBits;
     }
-    if (b) fBits[idx >> BVSHIFT] |=  (1 << (idx & BVMASK));
-    else   fBits[idx >> BVSHIFT] &= ~(1 << (idx & BVMASK));
+    if (b) fBits[idx / BVMULT] |=  (1 << (idx & BVMASK));
+    else   fBits[idx / BVMULT] &= ~(1 << (idx & BVMASK));
 }
 
 bool hsBitVector::operator[](size_t idx) const {
@@ -66,6 +68,24 @@ void hsBitVector::compact() {
     }
 }
 
+const char* hsBitVector::getName(size_t idx) const {
+    static char tempName[11];
+    if (idx > fBitNames.getSize()) {
+        snprintf(tempName, 11, "%u", idx);
+        return tempName;
+    } else {
+        return fBitNames[idx];
+    }
+}
+
+void hsBitVector::appendNames(size_t count, const char** names) {
+    hsTArray<const char*> addNames;
+    addNames.setSizeNull(count);
+    for (size_t i=0; i<count; i++)
+        addNames[i] = names[i];
+    fBitNames.append(addNames);
+}
+
 void hsBitVector::read(hsStream* S) {
     fNumVectors = S->readInt();
     if (fBits) delete[] fBits;
@@ -84,10 +104,17 @@ void hsBitVector::write(hsStream* S) {
 
 void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsBitVector");
-    for (size_t i=1; i<=fNumVectors; i++) {
-        char buf[9];
-        sprintf(buf, "%08lX", fBits[fNumVectors - i]);
-        prc->getStream()->writeStr(buf);
+    for (size_t i=0; i<fNumVectors; i++) {
+        //char buf[9];
+        //sprintf(buf, "%08lX", fBits[fNumVectors - i]);
+        //prc->getStream()->writeStr(buf);
+
+        for (size_t j=0; j<BVMULT; j++) {
+            if (get((i*BVMULT) + j)) {
+                prc->getStream()->writeStr(getName((i*BVMULT) + j));
+                prc->getStream()->writeStr(" ");
+            }
+        }
     }
     prc->closeTagNoBreak();
 }

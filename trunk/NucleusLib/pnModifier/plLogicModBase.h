@@ -11,12 +11,14 @@ public:
         kTypeActivator, kMultiTrigger
     };
 
+    static const char* FlagNames[];
+
 protected:
     hsTArray<plMessage*> fCommandList;
     hsTArray<plKey> fReceiverList;
     unsigned int fCounterLimit;
     float fTimer;
-    hsBitVector fFlags;
+    hsBitVector fLogicFlags;
     unsigned int fCounter;
     plNotifyMsg* fNotify;
     bool fDisabled;

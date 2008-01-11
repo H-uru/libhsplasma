@@ -10,6 +10,7 @@ public:
     enum plCoordinateProperties {
         kDisable, kCanEverDelayTransform, kDelayedTransformEval, kNumProps
     };
+
     enum plCoordinateTransformPhases {
         kTransformPhaseNormal, kTransformPhaseDelayed
     };
@@ -31,6 +32,8 @@ public:
         kReasonPhysics = 0x2,
         kMaxReasons = 0xFFFFFFFF
     };
+
+    static const char* plCoordinatePropertyNames[];
 
 public:
     hsMatrix44 LocalToParent;

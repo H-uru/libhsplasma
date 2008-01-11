@@ -441,6 +441,13 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPiranhaRegionModifier: return new plPiranhaRegionModifier();
         //case kRidingAnimatedPhysicalDetector: return new plRidingAnimatedPhysicalDetector();
         //case kVolumeSensorConditionalObjectNoArbitration: return new plVolumeSensorConditionalObjectNoArbitration();
+        //case kFXMaterial: return new plFXMaterial();
+        //case kMovableMod: return new plMovableMod();
+        //case kMaterial: return new plMaterial();
+        //case kEffect: return new plEffect();
+        //case kParticleBulletEffect: return new plParticleBulletEffect();
+        //case kCameraBrain_Ground: return new plCameraBrain_Ground();
+        //case kCameraBrain_Flight: return new plCameraBrain_Flight();
         
         // Non-Keyed Classes //
         //case kObjRefMsg: return new plObjRefMsg();
@@ -923,6 +930,14 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetCommPublicAgeListMsg: return new plNetCommPublicAgeListMsg();
         //case kNetCommPublicAgeMsg: return new plNetCommPublicAgeMsg();
         //case kNetCommRegisterAgeMsg: return new plNetCommRegisterAgeMsg();
+        //case kAnimEvalMsg: return new plAnimEvalMsg();
+        //case kAvBrainFlight: return new plAvBrainFlight();
+        //case kAvBrainNPC: return new plAvBrainNPC();
+        //case kAvBrainBlimp: return new plAvBrainBlimp();
+        //case kAvBrainFlightNPC: return new plAvBrainFlightNPC();
+        //case kParticleBulletHitMsg: return new plParticleBulletHitMsg();
+        //case kPanicLinkMsg: return new pfPanicLinkMsg();
+        //case kAvTaskOneShot: return new plAvTaskOneShot();
 
         // Non-Keyed Post-DB Classes //
         //case kVaultGameServerInitializationTask: return new plVaultGameServerInitializationTask();

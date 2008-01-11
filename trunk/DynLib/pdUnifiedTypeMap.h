@@ -12,10 +12,12 @@ private:
     static short fPotSM2PTable[TYPESPACE_MAX];
     static short fLiveM2PTable[TYPESPACE_MAX];
     static short fEoaM2PTable[TYPESPACE_MAX];
+    static short fHexM2PTable[TYPESPACE_MAX];
     static short fUruP2MTable[TYPESPACE_MAX];
     static short fPotSP2MTable[TYPESPACE_MAX];
     static short fLiveP2MTable[TYPESPACE_MAX];
     static short fEoaP2MTable[TYPESPACE_MAX];
+    static short fHexP2MTable[TYPESPACE_MAX];
 
     static short fEoaVerTable[TYPESPACE_MAX];
     static const char* fClassNames[TYPESPACE_MAX];
@@ -131,7 +133,9 @@ typedef enum _pdClassType {
     kEAXPitchShifter, kIKModifier, kCameraBrain_M5, kAGAnimBink, kTreeShader,
     kNodeRegionModifier, kPiranhaRegionModifier,
     kRidingAnimatedPhysicalDetector,
-    kVolumeSensorConditionalObjectNoArbitration, 
+    kVolumeSensorConditionalObjectNoArbitration, kFXMaterial, kMovableMod,
+    kMaterial, kEffect, kParticleBulletEffect, kCameraBrain_Ground,
+    kCameraBrain_Flight,
     
     kObjRefMsg = 0x200, kNodeRefMsg, kMessage, kRefMsg, kGenRefMsg, kTimeMsg,
     kAnimCmdMsg, kParticleUpdateMsg, kLayRefMsg, kMatRefMsg, kCameraMsg,
@@ -273,7 +277,9 @@ typedef enum _pdClassType {
     kNetCommFileListMsg, kNetCommFileDownloadMsg, kNetCommLinkToAgeMsg,
     kNetCommPlayerListMsg, kNetCommActivePlayerMsg, kNetCommCreatePlayerMsg,
     kNetCommDeletePlayerMsg, kNetCommPublicAgeListMsg, kNetCommPublicAgeMsg,
-    kNetCommRegisterAgeMsg,
+    kNetCommRegisterAgeMsg, kAnimEvalMsg, kAvBrainFlight, kAvBrainNPC,
+    kAvBrainBlimp, kAvBrainFlightNPC, kParticleBulletHitMsg, kPanicLinkMsg,
+    kAvTaskOneShot,
     
     plVaultGameServerInitializationTask = 0x421, kNetClientFindDefaultAgeTask,
     kVaultAgeNode, kVaultAgeInitializationTask, kSetListenerMsg,

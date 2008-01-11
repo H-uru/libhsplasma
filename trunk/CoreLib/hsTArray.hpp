@@ -25,8 +25,8 @@ public:
         count = 0;
     }
     
-    size_t getSize() { return count; }
-    bool empty() { return count == 0; }
+    size_t getSize() const { return count; }
+    bool empty() const { return count == 0; }
 
     void setSize(size_t cap) {
         if (count == cap) return;
@@ -68,6 +68,13 @@ public:
         data[count - 1] = item;
     }
 
+    void append(const hsTArray<T>& items) {
+        size_t ins = getSize();
+        incSize(items.getSize());
+        for (size_t i=0; i<items.getSize(); i++)
+            data[ins + i] = items.get(i);
+    }
+
     void remove(size_t idx) {
         if (idx >= count)
             throw hsOutOfBoundsException(__FILE__, __LINE__);
@@ -77,7 +84,7 @@ public:
         decSize();
     }
 
-    T& get(size_t idx) {
+    const T& get(size_t idx) const {
         if (idx >= count)
             throw hsOutOfBoundsException(__FILE__, __LINE__);
         return data[idx];
@@ -89,7 +96,15 @@ public:
         data[idx] = item;
     }
 
-    T& operator[](size_t idx) { return get(idx); }
+    T& operator[](size_t idx) {
+        if (idx >= count)
+            throw hsOutOfBoundsException(__FILE__, __LINE__);
+        return data[idx];
+    }
+
+    const T& operator[](size_t idx) const {
+        return get(idx);
+    }
 
     void push(const T& item) { append(item); }
     T& pop() { return remove(count-1); }

@@ -1,6 +1,15 @@
 #include "plLightInfo.h"
 
-plLightInfo::plLightInfo() : deviceRef(NULL) { }
+const char* plLightInfo::LightInfoPropNames[] = {
+    "kDisable", "kLPObsolete", "kLPCastShadows", "kLPMovable", "kLPHasIncludes",
+    "kLPIncludesChars", "kLP_OBSOLETE_0", "kLPOverAll", "kLPHasSpecular",
+    "kLPShadowOnly", "kLPShadowLightGroup", "kLPForceProj"
+};
+
+plLightInfo::plLightInfo() : deviceRef(NULL) {
+    Props.appendNames(kNumProps, LightInfoPropNames);
+}
+
 plLightInfo::~plLightInfo() { }
 
 IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)

@@ -133,8 +133,16 @@ int main(int argc, char** argv) {
         OS->writeStr(page->getAge());
         OS->writeShort(strlen(page->getPage()));
         OS->writeStr(page->getPage());
-        if (S->getVer() == pvEoa) maj = min = 0;
-        if (S->getVer() == pvPots) min = 12;
+        if (S->getVer() == pvEoa) {
+            maj = -1;
+            min = 1;
+        }
+        if (S->getVer() == pvHex) {
+            maj = -1;
+            min = 2;
+        }
+        if (S->getVer() == pvPots)
+            min = 12;
         if (S->getVer() == pvLive) {
             maj = 70;
             min = 0;
@@ -154,7 +162,7 @@ int main(int argc, char** argv) {
       #endif
         for (i=0; i<tCount; i++) {
             short type = S->readShort();
-            if (S->getVer() == pvEoa) {
+            if (S->getVer() == pvEoa || S->getVer() == pvHex) {
                 S->readInt();
                 unsigned char b = S->readByte();
                 if (b != 0)
@@ -204,10 +212,26 @@ int main(int argc, char** argv) {
         page->setNames(ageName, pageName);
         maj = S->readShort();
         min = S->readShort();
-        OS->setVer(pvPrime);
-        if (maj == 0) OS->setVer(pvEoa);
-        if (maj >= 70) OS->setVer(pvLive);
-        if (min == 12) OS->setVer(pvPots);
+        if (maj == -1) {
+            if (min == 1)
+                OS->setVer(pvEoa);
+            else if (min == 2)
+                OS->setVer(pvHex);
+        } else if (maj == 70) {
+            OS->setVer(pvLive);
+        } else if (maj == 63) {
+            if (min == 11)
+                OS->setVer(pvPrime);
+            if (min == 12)
+                OS->setVer(pvPots);
+        } else {
+            fprintf(stderr, "Error: Invalid Plasma version: %hd.%hd\n", maj, min);
+            OS->close();
+            S->close();
+            delete S;
+            delete OS;
+            return 1;
+        }
         S->setVer(OS->getVer());
         page->getLocation().read(S);
         page->setReleaseVersion(0);
@@ -298,14 +322,15 @@ int main(int argc, char** argv) {
             OS->writeInt(kList.size());
             for (j=0; j<kList.size(); j++)
                 kList[j]->write(OS);
-            if (OS->getVer() == pvEoa || OS->getVer() == pvLive) {
+            if (OS->getVer() == pvEoa || OS->getVer() == pvHex ||
+                OS->getVer() == pvLive) {
                 unsigned int nextPos = OS->pos();
                 OS->seek(lenPos);
                 OS->writeInt(nextPos - lenPos - 4);
                 OS->seek(nextPos);
             }
         }
-        if (OS->getVer() == pvEoa)
+        if (OS->getVer() == pvEoa || OS->getVer() == pvHex)
             page->setChecksum(OS->pos());
         else
             page->setChecksum(OS->pos() - page->getDataStart());

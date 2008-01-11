@@ -95,6 +95,7 @@ int main(int argc, char** argv) {
             mkdir(outDir.cstr(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
           #endif
 
+            printf("Writing %s\n", outFile.cstr());
             hsStream* S = new hsStream();
             if (!S->open(outFile, fmWrite)) {
                 fprintf(stderr, "Error opening %s for writing!\n", outFile.cstr());
