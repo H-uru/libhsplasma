@@ -32,7 +32,7 @@ public:
     enum ModCmds {
         kSetSubject, kCameraMod, kSetAsPrimary, kTransitionTo, kPush, kPop,
         kEntering, kCut, kResetOnEnter, kResetOnExit, kChangeParams,
-        kWorldspace, kCreateNewDefaultCam, kRegionPUshCamera, kRegionPopCamera,
+        kWorldspace, kCreateNewDefaultCam, kRegionPushCamera, kRegionPopCamera,
         kRegionPushPOA, kRegionPopPOA, kFollowLocalPlayer, kResponderTrigger,
         kSetFOV, kAddFOVKeyFrame, kStartZoomIn, kStartZoomOut, kStopZoom,
         kSetAnimated, kPythonOverridePush, kPythonOverridePop,

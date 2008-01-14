@@ -1,6 +1,7 @@
 #include "PubUtilLib/plResMgr/plResManager.h"
 #include "CoreLib/plString.h"
 #include "CoreLib/hsExceptions.h"
+#include "CoreLib/hsStdioStream.h"
 #include <string.h>
 #include <time.h>
 #ifdef WIN32
@@ -13,9 +14,12 @@
 #include <sys/stat.h>
 
 void doHelp() {
-    printf("Usage: PrcExtract filename.prp\n\n");
-    printf("Objects are written to Age_PRC\\filename.prc\n");
-    printf("Binary data is written to Age_PRC\\filename.ext\n\n");
+    printf("Usage: PrcExtract [options] filename.prp\n\n");
+    printf("Objects are written to Age_PRC\\filename.prc\n\n");
+    printf("options:\n");
+    printf("    -vtx   include vertex data\n");
+    printf("    -tex   include texture data\n");
+    printf("    -help  display this help message\n\n");
 }
 
 plString filenameConvert(const char* filename) {
@@ -61,12 +65,17 @@ int main(int argc, char** argv) {
     plResManager rm;
     plPageInfo* page;
     plString outDir, outFile;
+    bool exVtx = true, exTex = true;
     for (int i=1; i<argc; i++) {
         if (argv[i][0] == '-') {
             if (argv[i][1] == '-') argv[i]++;
             if (strcmp(argv[i], "-help") == 0) {
                 doHelp();
                 return 0;
+            } else if (strcmp(argv[i], "-vtx") == 0) {
+                exVtx = false;
+            } else if (strcmp(argv[i], "-tex") == 0) {
+                exTex = false;
             } else {
                 fprintf(stderr, "Error: Unrecognized option %s\n", argv[i]);
                 return 1;
@@ -104,6 +113,8 @@ int main(int argc, char** argv) {
             }
             S->setVer(rm.getVer());
             pfPrcHelper* prc = new pfPrcHelper(S);
+            if (exVtx) prc->exclude(pfPrcHelper::kExcludeVertexData);
+            if (exTex) prc->exclude(pfPrcHelper::kExcludeTextureData);
             prc->writeComment("Generator: PrcExtract");
             prc->writeComment(plString("Source: ") + argv[i]);
             time_t ts = time(NULL);

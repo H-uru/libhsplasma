@@ -1,14 +1,15 @@
 #include "plLogicModBase.h"
 
-const char* plLogicModBase::FlagNames[] = {
-    "kLocalElement", "kReset", "kTriggered", "kOneShot", "kRequestingTrigger",
-    "kTypeActivator", "kMultiTrigger"
-};
-
 plLogicModBase::plLogicModBase()
               : fCounterLimit(0), fTimer(0.0f), fCounter(0), fNotify(NULL),
                 fDisabled(false) {
-    fLogicFlags.appendNames(7, FlagNames);
+    fLogicFlags.setName(kLocalElement, "kLocalElement");
+    fLogicFlags.setName(kReset, "kReset");
+    fLogicFlags.setName(kTriggered, "kTriggered");
+    fLogicFlags.setName(kOneShot, "kOneShot");
+    fLogicFlags.setName(kRequestingTrigger, "kRequestingTrigger");
+    fLogicFlags.setName(kTypeActivator, "kTypeActivator");
+    fLogicFlags.setName(kMultiTrigger, "kMultiTrigger");
 }
 
 plLogicModBase::~plLogicModBase() {

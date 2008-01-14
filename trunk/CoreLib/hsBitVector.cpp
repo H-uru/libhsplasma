@@ -68,22 +68,18 @@ void hsBitVector::compact() {
     }
 }
 
-const char* hsBitVector::getName(size_t idx) const {
+const char* hsBitVector::getName(size_t idx) {
     static char tempName[11];
-    if (idx > fBitNames.getSize()) {
+    if (fBitNames.count(idx) > 0) {
+        return fBitNames[idx];
+    } else {
         snprintf(tempName, 11, "%u", idx);
         return tempName;
-    } else {
-        return fBitNames[idx];
     }
 }
 
-void hsBitVector::appendNames(size_t count, const char** names) {
-    hsTArray<const char*> addNames;
-    addNames.setSizeNull(count);
-    for (size_t i=0; i<count; i++)
-        addNames[i] = names[i];
-    fBitNames.append(addNames);
+void hsBitVector::setName(size_t idx, const char* name) {
+    fBitNames[idx] = name;
 }
 
 void hsBitVector::read(hsStream* S) {

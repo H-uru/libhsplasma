@@ -33,8 +33,6 @@ public:
         kMaxReasons = 0xFFFFFFFF
     };
 
-    static const char* plCoordinatePropertyNames[];
-
 public:
     hsMatrix44 LocalToParent;
     hsMatrix44 ParentToLocal;

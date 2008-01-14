@@ -5,11 +5,18 @@
 #include "../../CoreLib/hsTList.hpp"
 
 DllClass pfPrcHelper {
+public:
+    enum PrcExclude {
+        kExcludeTextureData = 0x1,
+        kExcludeVertexData = 0x2
+    };
+
 private:
     int iLvl;
     bool inTag;
     hsTList<const char*> openTags;
     hsStream* file;
+    hsUint32 excludes;
 
     void startPrc();
     void finalize();
@@ -20,6 +27,8 @@ public:
     ~pfPrcHelper();
 
     hsStream* getStream();
+    void exclude(PrcExclude excl);
+    bool isExcluded(PrcExclude excl);
 
     void startTag(const char* name);
     void writeParam(const char* name, const char* value);

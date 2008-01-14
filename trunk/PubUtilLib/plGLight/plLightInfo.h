@@ -22,8 +22,6 @@ public:
         kVolZero = 0x4
     };
 
-    static const char* LightInfoPropNames[];
-
 protected:
     unsigned char volFlags;
     hsBitVector visSet, visNot;

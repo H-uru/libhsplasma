@@ -70,10 +70,12 @@ plGBufferGroup::~plGBufferGroup() { }
 
 hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
     hsTArray<plGBufferVertex> buf;
+    size_t vi = 0;
     
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
         unsigned char* cp = fVertBuffStorage[i];
-        while ((size_t)(cp - fVertBuffStorage[i]) < fVertBuffSizes[i]) {
+        buf.setSize(fVertBuffSizes[i] / stride);
+        for (size_t i2=0; i2<(fVertBuffSizes[i] / stride); i2++) {
             plGBufferVertex v;
             v.fPos.fX = *(float*)cp; cp += sizeof(float);
             v.fPos.fY = *(float*)cp; cp += sizeof(float);
@@ -107,7 +109,7 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
                 v.fUVWs[j].fZ = *(float*)cp; cp += sizeof(float);
             }
             
-            buf.append(v);
+            buf[vi++] = v;
         }
     }
     return buf;
@@ -235,51 +237,55 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("format", format);
     prc->endTag();
     
-    hsTArray<plGBufferVertex> verts = getVertices();
-    for (i=0; i<verts.getSize(); i++) {
-        prc->writeSimpleTag("Vertex");
-        
-        prc->writeSimpleTag("Position");
-        verts[i].fPos.prcWrite(prc);
-        prc->closeTag();
+    if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
+        hsTArray<plGBufferVertex> verts = getVertices();
+        for (i=0; i<verts.getSize(); i++) {
+            prc->writeSimpleTag("Vertex");
 
-        prc->startTag("SkinWeights");
-        if (format & kSkinIndices)
-            prc->writeParam("SkinIndex", verts[i].fSkinIdx);
-        prc->endTagNoBreak();
-        for (j=0; j<(size_t)((format & kSkinWeightMask) >> 4); j++)
-            prc->getStream()->writeStr(plString::Format("%f", verts[i].fSkinWeights[j]));
-        prc->closeTagNoBreak();
+            prc->writeSimpleTag("Position");
+            verts[i].fPos.prcWrite(prc);
+            prc->closeTag();
 
-        prc->writeSimpleTag("Normal");
-        verts[i].fNormal.prcWrite(prc);
-        prc->closeTag();
-        prc->startTag("Color");
-        prc->writeParam("value", verts[i].fColor);
-        prc->endTag(true);
+            prc->startTag("SkinWeights");
+            if (format & kSkinIndices)
+                prc->writeParam("SkinIndex", verts[i].fSkinIdx);
+            prc->endTagNoBreak();
+            for (j=0; j<(size_t)((format & kSkinWeightMask) >> 4); j++)
+                prc->getStream()->writeStr(plString::Format("%f", verts[i].fSkinWeights[j]));
+            prc->closeTagNoBreak();
 
-        prc->writeSimpleTag("UVWMaps");
-        for (j=0; j<(format & kUVCountMask); j++)
-            verts[i].fUVWs[j].prcWrite(prc);
-        prc->closeTag();
+            prc->writeSimpleTag("Normal");
+            verts[i].fNormal.prcWrite(prc);
+            prc->closeTag();
+            prc->startTag("Color");
+            prc->writeParam("value", verts[i].fColor);
+            prc->endTag(true);
 
-        prc->closeTag();
-    }
+            prc->writeSimpleTag("UVWMaps");
+            for (j=0; j<(format & kUVCountMask); j++)
+                verts[i].fUVWs[j].prcWrite(prc);
+            prc->closeTag();
 
-    for (i=0; i<fIdxBuffStorage.getSize(); i++) {
-        prc->writeTagNoBreak("IndexData");
-        for (j=0; j<fIdxBuffCounts[i]; j++) {
-            sprintf(buf, "%04X ", fIdxBuffStorage[i][j]);
-            prc->getStream()->writeStr(buf);
+            prc->closeTag();
         }
-        prc->closeTagNoBreak();
+
+        for (i=0; i<fIdxBuffStorage.getSize(); i++) {
+            prc->writeTagNoBreak("IndexData");
+            for (j=0; j<fIdxBuffCounts[i]; j++) {
+                sprintf(buf, "%04X ", fIdxBuffStorage[i][j]);
+                prc->getStream()->writeStr(buf);
+            }
+            prc->closeTagNoBreak();
+        }
+        prc->writeSimpleTag("CellGroups");
+        for (i=0; i<fVertBuffStorage.getSize(); i++) {
+            for (j=0; j<fCells[i]->getSize(); j++)
+                (*fCells[i])[j].prcWrite(prc);
+        }
+        prc->closeTag(); // CellGroups
+    } else {
+        prc->writeComment("Vertex data excluded");
     }
-    prc->writeSimpleTag("CellGroups");
-    for (i=0; i<fVertBuffStorage.getSize(); i++) {
-        for (j=0; j<fCells[i]->getSize(); j++)
-            (*fCells[i])[j].prcWrite(prc);
-    }
-    prc->closeTag(); // CellGroups
     prc->closeTag(); // plGBufferGroup
 }
 

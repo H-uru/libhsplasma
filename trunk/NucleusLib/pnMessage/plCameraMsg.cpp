@@ -55,7 +55,45 @@ void plCameraConfig::prcWrite(pfPrcHelper* prc) {
 
 
 /* plCameraMsg */
-plCameraMsg::plCameraMsg() : fTransTime(0.0), fActivated(false) { }
+plCameraMsg::plCameraMsg() : fTransTime(0.0), fActivated(false) {
+    fCmd.setName(kSetSubject, "kSetSubject");
+    fCmd.setName(kCameraMod, "kCameraMod");
+    fCmd.setName(kSetAsPrimary, "kSetAsPrimary");
+    fCmd.setName(kTransitionTo, "kTransitionTo");
+    fCmd.setName(kPush, "kPush");
+    fCmd.setName(kPop, "kPop");
+    fCmd.setName(kEntering, "kEntring");
+    fCmd.setName(kCut, "kCut");
+    fCmd.setName(kResetOnEnter, "kResetOnEnter");
+    fCmd.setName(kResetOnExit, "kResetOnExit");
+    fCmd.setName(kChangeParams, "kChangeParams");
+    fCmd.setName(kWorldspace, "kWorldspace");
+    fCmd.setName(kCreateNewDefaultCam, "kCreateNewDefaultCam");
+    fCmd.setName(kRegionPushCamera, "kRegionPushCamera");
+    fCmd.setName(kRegionPopCamera, "kRegionPopCamera");
+    fCmd.setName(kRegionPushPOA, "kRegionPushPOA");
+    fCmd.setName(kRegionPopPOA, "kRegionPopPOA");
+    fCmd.setName(kFollowLocalPlayer, "kFollowLocalPlayer");
+    fCmd.setName(kResponderTrigger, "kResponderTrigger");
+    fCmd.setName(kSetFOV, "kSetFOV");
+    fCmd.setName(kAddFOVKeyFrame, "kAddFOVKeyFrame");
+    fCmd.setName(kStartZoomIn, "kStartZoomIn");
+    fCmd.setName(kStartZoomOut, "kStartZoomOut");
+    fCmd.setName(kStopZoom, "kStopZoom");
+    fCmd.setName(kSetAnimated, "kSetAnimated");
+    fCmd.setName(kPythonOverridePush, "kPythonOverridePush");
+    fCmd.setName(kPythonOverridePop, "kPythonOverridePop");
+    fCmd.setName(kPythonOverridePushCut, "kPythonOverridePushCut");
+    fCmd.setName(kPythonSetFirstPersonOverrideEnable, "kPythonSetFirstPersonOverrideEnable");
+    fCmd.setName(kPythonUndoFirstPerson, "kPythonUndoFirstPerson");
+    fCmd.setName(kUpdateCameras, "kUpdateCameras");
+    fCmd.setName(kResponderSetThirdPerson, "kResponderSetThirdPerson");
+    fCmd.setName(kResponderUndoThirdPerson, "kResponderUndoThirdPerson");
+    fCmd.setName(kNonPhysOn, "kNonPhysOn");
+    fCmd.setName(kNonPhysOff, "kNonPhysOff");
+    fCmd.setName(kResetPanning, "kResetPanning");
+}
+
 plCameraMsg::~plCameraMsg() { }
 
 IMPLEMENT_CREATABLE(plCameraMsg, kCameraMsg, plMessage)

@@ -1,6 +1,7 @@
 #include "pfPrcHelper.h"
 
-pfPrcHelper::pfPrcHelper(hsStream* S) : iLvl(0), inTag(false), file(S) {
+pfPrcHelper::pfPrcHelper(hsStream* S)
+           : iLvl(0), inTag(false), file(S), excludes(0) {
     startPrc();
 }
 
@@ -9,6 +10,14 @@ pfPrcHelper::~pfPrcHelper() {
 }
 
 hsStream* pfPrcHelper::getStream() { return file; }
+
+void pfPrcHelper::exclude(PrcExclude excl) {
+    excludes |= excl;
+}
+
+bool pfPrcHelper::isExcluded(PrcExclude excl) {
+    return (excludes & excl) != 0;
+}
 
 void pfPrcHelper::writeTabbed(const char* str) {
     for (int i=0; i<iLvl; i++) file->writeStr("\t");

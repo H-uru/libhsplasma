@@ -4,6 +4,7 @@
 #include "hsStream.h"
 #include "hsTArray.hpp"
 #include "../FeatureLib/pfPRC/pfPrcHelper.h"
+#include <map>
 
 #define BVMASK 0x1F
 #define BVMULT 0x20
@@ -12,7 +13,7 @@ DllClass hsBitVector {
 private:
     hsUint32* fBits;
     size_t fNumVectors;
-    hsTArray<const char*> fBitNames;
+    std::map<size_t, const char*> fBitNames;
 
 public:
     hsBitVector();
@@ -28,8 +29,8 @@ public:
     void clearBit(size_t idx);
     void compact();
 
-    const char* getName(size_t idx) const;
-    void appendNames(size_t count, const char** names);
+    const char* getName(size_t idx);
+    void setName(size_t idx, const char* name);
 
     void read(hsStream* S);
     void write(hsStream* S);

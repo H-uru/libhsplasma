@@ -11,8 +11,6 @@ public:
         kTypeActivator, kMultiTrigger
     };
 
-    static const char* FlagNames[];
-
 protected:
     hsTArray<plMessage*> fCommandList;
     hsTArray<plKey> fReceiverList;
