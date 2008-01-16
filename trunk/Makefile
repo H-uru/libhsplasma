@@ -35,10 +35,14 @@ OBJFILES=\
 	$(LIBDIR)proEventData.o \
 	$(LIBDIR)plMessage.o \
 	$(LIBDIR)plCameraMsg.o \
+	$(LIBDIR)plEnableMsg.o \
 	$(LIBDIR)plEventCallbackMsg.o \
 	$(LIBDIR)plNotifyMsg.o \
+	$(LIBDIR)plMessageWithCallbacks.o \
+	$(LIBDIR)plSoundMsg.o \
 	$(LIBDIR)plModifier.o \
 	$(LIBDIR)plLogicModBase.o \
+	$(LIBDIR)plResponderModifier.o \
 	$(LIBDIR)plSynchedObject.o \
 	$(LIBDIR)plObjInterface.o \
 	$(LIBDIR)plAudioInterface.o \
@@ -86,10 +90,19 @@ OBJFILES=\
 	$(LIBDIR)hsKeys.o \
 	$(LIBDIR)UruKeys.o \
 	$(LIBDIR)plJPEG.o \
+	$(LIBDIR)plAnimCmdMsg.o \
+	$(LIBDIR)plExcludeRegionMsg.o \
+	$(LIBDIR)plLinkToAgeMsg.o \
+	$(LIBDIR)plOneShotCallbacks.o \
+	$(LIBDIR)plResponderMsg.o \
+	$(LIBDIR)plTimerCallbackMsg.o \
+	$(LIBDIR)plTransitionMsg.o \
 	$(LIBDIR)plImageLibMod.o \
 	$(LIBDIR)plInterfaceInfoModifier.o \
 	$(LIBDIR)plLogicModifier.o \
 	$(LIBDIR)plSpawnModifier.o \
+	$(LIBDIR)plNetServerSessionInfo.o \
+	$(LIBDIR)plSpawnPointInfo.o \
 	$(LIBDIR)plBoundInterface.o \
 	$(LIBDIR)plConvexVolume.o \
 	$(LIBDIR)plParticleEffect.o \
@@ -113,6 +126,7 @@ OBJFILES=\
 	$(LIBDIR)plLayerAnimation.o \
 	$(LIBDIR)plLayerMovie.o \
 	$(LIBDIR)hsAffineParts.o \
+	$(LIBDIR)plUUID.o \
 	$(LIBDIR)plLineFollowMod.o \
 	$(LIBDIR)plStereizer.o \
 	$(LIBDIR)plConditionalObject.o \
@@ -146,6 +160,7 @@ OBJFILES=\
 	$(LIBDIR)pfGUIKnobCtrl.o \
 	$(LIBDIR)pfGUIProgressCtrl.o \
 	$(LIBDIR)pfGUIUpDownPairMod.o \
+	$(LIBDIR)plArmatureEffectMsg.o \
 	$(LIBDIR)plPythonFileMod.o \
 	$(LIBDIR)pfPrcHelper.o \
 	$(LIBDIR)rijndael.o
@@ -244,11 +259,20 @@ $(LIBDIR)plMessage.o: NucleusLib/pnMessage/plMessage.h NucleusLib/pnMessage/plMe
 $(LIBDIR)plCameraMsg.o: NucleusLib/pnMessage/plCameraMsg.h NucleusLib/pnMessage/plCameraMsg.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plCameraMsg.cpp -o $(LIBDIR)plCameraMsg.o
 
+$(LIBDIR)plEnableMsg.o: NucleusLib/pnMessage/plEnableMsg.h NucleusLib/pnMessage/plEnableMsg.cpp
+	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plEnableMsg.cpp -o $(LIBDIR)plEnableMsg.o
+
 $(LIBDIR)plEventCallbackMsg.o: NucleusLib/pnMessage/plEventCallbackMsg.h NucleusLib/pnMessage/plEventCallbackMsg.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plEventCallbackMsg.cpp -o $(LIBDIR)plEventCallbackMsg.o
 
 $(LIBDIR)plNotifyMsg.o: NucleusLib/pnMessage/plNotifyMsg.h NucleusLib/pnMessage/plNotifyMsg.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plNotifyMsg.cpp -o $(LIBDIR)plNotifyMsg.o
+
+$(LIBDIR)plMessageWithCallbacks.o: NucleusLib/pnMessage/plMessageWithCallbacks.h NucleusLib/pnMessage/plMessageWithCallbacks.cpp
+	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plMessageWithCallbacks.cpp -o $(LIBDIR)plMessageWithCallbacks.o
+
+$(LIBDIR)plSoundMsg.o: NucleusLib/pnMessage/plSoundMsg.h NucleusLib/pnMessage/plSoundMsg.cpp
+	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plSoundMsg.cpp -o $(LIBDIR)plSoundMsg.o
 
 $(LIBDIR)plModifier.o: NucleusLib/pnModifier/plModifier.h NucleusLib/pnModifier/plModifier.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnModifier/plModifier.cpp -o $(LIBDIR)plModifier.o
@@ -400,6 +424,27 @@ $(LIBDIR)UruKeys.o: PubUtilLib/plInterp/UruKeys.h PubUtilLib/plInterp/UruKeys.cp
 $(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(LIBDIR)plJPEG.o
 
+$(LIBDIR)plAnimCmdMsg.o: PubUtilLib/plMessage/plAnimCmdMsg.h PubUtilLib/plMessage/plAnimCmdMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plAnimCmdMsg.cpp -o $(LIBDIR)plAnimCmdMsg.o
+
+$(LIBDIR)plExcludeRegionMsg.o: PubUtilLib/plMessage/plExcludeRegionMsg.h PubUtilLib/plMessage/plExcludeRegionMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plExcludeRegionMsg.cpp -o $(LIBDIR)plExcludeRegionMsg.o
+
+$(LIBDIR)plLinkToAgeMsg.o: PubUtilLib/plMessage/plLinkToAgeMsg.h PubUtilLib/plMessage/plLinkToAgeMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plLinkToAgeMsg.cpp -o $(LIBDIR)plLinkToAgeMsg.o
+
+$(LIBDIR)plOneShotCallbacks.o: PubUtilLib/plMessage/plOneShotCallbacks.h PubUtilLib/plMessage/plOneShotCallbacks.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plOneShotCallbacks.cpp -o $(LIBDIR)plOneShotCallbacks.o
+
+$(LIBDIR)plResponderMsg.o: PubUtilLib/plMessage/plResponderMsg.h PubUtilLib/plMessage/plResponderMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plResponderMsg.cpp -o $(LIBDIR)plResponderMsg.o
+
+$(LIBDIR)plTimerCallbackMsg.o: PubUtilLib/plMessage/plTimerCallbackMsg.h PubUtilLib/plMessage/plTimerCallbackMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plTimerCallbackMsg.cpp -o $(LIBDIR)plTimerCallbackMsg.o
+
+$(LIBDIR)plTransitionMsg.o: PubUtilLib/plMessage/plTransitionMsg.h PubUtilLib/plMessage/plTransitionMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plTransitionMsg.cpp -o $(LIBDIR)plTransitionMsg.o
+
 $(LIBDIR)plImageLibMod.o: PubUtilLib/plModifier/plImageLibMod.h PubUtilLib/plModifier/plImageLibMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plImageLibMod.cpp -o $(LIBDIR)plImageLibMod.o
 
@@ -409,8 +454,17 @@ $(LIBDIR)plInterfaceInfoModifier.o: PubUtilLib/plModifier/plInterfaceInfoModifie
 $(LIBDIR)plLogicModifier.o: PubUtilLib/plModifier/plLogicModifier.h PubUtilLib/plModifier/plLogicModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plLogicModifier.cpp -o $(LIBDIR)plLogicModifier.o
 
+$(LIBDIR)plResponderModifier.o: PubUtilLib/plModifier/plResponderModifier.h PubUtilLib/plModifier/plResponderModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plResponderModifier.cpp -o $(LIBDIR)plResponderModifier.o
+
 $(LIBDIR)plSpawnModifier.o: PubUtilLib/plModifier/plSpawnModifier.h PubUtilLib/plModifier/plSpawnModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plSpawnModifier.cpp -o $(LIBDIR)plSpawnModifier.o
+
+$(LIBDIR)plNetServerSessionInfo.o: PubUtilLib/plNetCommon/plNetServerSessionInfo.h PubUtilLib/plNetCommon/plNetServerSessionInfo.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plNetCommon/plNetServerSessionInfo.cpp -o $(LIBDIR)plNetServerSessionInfo.o
+
+$(LIBDIR)plSpawnPointInfo.o: PubUtilLib/plNetCommon/plSpawnPointInfo.h PubUtilLib/plNetCommon/plSpawnPointInfo.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plNetCommon/plSpawnPointInfo.cpp -o $(LIBDIR)plSpawnPointInfo.o
 
 $(LIBDIR)plBoundInterface.o: PubUtilLib/plParticleSystem/plBoundInterface.h PubUtilLib/plParticleSystem/plBoundInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plBoundInterface.cpp -o $(LIBDIR)plBoundInterface.o
@@ -486,6 +540,9 @@ $(LIBDIR)plLayerMovie.o: PubUtilLib/plSurface/plLayerMovie.h PubUtilLib/plSurfac
 
 $(LIBDIR)hsAffineParts.o: PubUtilLib/plTransform/hsAffineParts.h PubUtilLib/plTransform/hsAffineParts.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plTransform/hsAffineParts.cpp -o $(LIBDIR)hsAffineParts.o
+
+$(LIBDIR)plUUID.o: PubUtilLib/plUUID/plUUID.h PubUtilLib/plUUID/plUUID.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plUUID/plUUID.cpp -o $(LIBDIR)plUUID.o
 
 $(LIBDIR)plLineFollowMod.o: FeatureLib/pfAnimation/plLineFollowMod.h FeatureLib/pfAnimation/plLineFollowMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAnimation/plLineFollowMod.cpp -o $(LIBDIR)plLineFollowMod.o
@@ -585,6 +642,9 @@ $(LIBDIR)pfGUIProgressCtrl.o: FeatureLib/pfGameGUIMgr/pfGUIProgressCtrl.h Featur
 
 $(LIBDIR)pfGUIUpDownPairMod.o: FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.h FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.cpp -o $(LIBDIR)pfGUIUpDownPairMod.o
+
+$(LIBDIR)plArmatureEffectMsg.o: FeatureLib/pfMessage/plArmatureEffectMsg.h FeatureLib/pfMessage/plArmatureEffectMsg.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfMessage/plArmatureEffectMsg.cpp -o $(LIBDIR)plArmatureEffectMsg.o
 
 $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfPython/plPythonFileMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfPython/plPythonFileMod.cpp -o $(LIBDIR)plPythonFileMod.o

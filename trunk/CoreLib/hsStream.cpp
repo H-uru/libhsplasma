@@ -149,7 +149,7 @@ void hsStream::readBools(size_t count, bool* buf) {
         buf[i] = readBool();
 }
 
-plString hsStream::readStr(int len) {
+plString hsStream::readStr(size_t len) {
     char* buf = new char[len+1];
     read(len * sizeof(char), buf);
     buf[len] = 0;

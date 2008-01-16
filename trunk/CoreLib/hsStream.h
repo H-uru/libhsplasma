@@ -3,8 +3,9 @@
 
 #include <stdio.h>
 #include "plString.h"
-#include "../PlasmaDefs.h"
+#include "../DynLib/Platform.h"
 #include "../DynLib/PlasmaVersions.h"
+#include "../PlasmaDefs.h"
 #include "hsExceptions.h"
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
@@ -49,7 +50,7 @@ public:
     double readDouble();
     bool readBool();
     void readBools(size_t count, bool* buf);
-    plString readStr(int len);
+    plString readStr(size_t len);
     plString readSafeStr();
     plWString readSafeWStr();
     virtual plString readLine();

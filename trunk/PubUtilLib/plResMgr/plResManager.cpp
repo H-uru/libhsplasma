@@ -361,9 +361,9 @@ unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
                                (signed int)(kList[j]->getObjSize() -
                                             (S->pos() - kList[j]->getFileOff())));
                 }
-            } catch (const char* e) {
+            } catch (const std::exception& e) {
                 printf("Failed reading %s: %s\n",
-                        kList[j]->toString().cstr(), e);
+                        kList[j]->toString().cstr(), e.what());
                 delete kList[j]->getObj();
                 kList[j]->setObj(NULL);
             } catch (...) {

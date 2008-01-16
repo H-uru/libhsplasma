@@ -1,0 +1,21 @@
+#ifndef _PLMESSAGEWITHCALLBACKS_H
+#define _PLMESSAGEWITHCALLBACKS_H
+
+#include "plMessage.h"
+
+DllClass plMessageWithCallbacks : public plMessage {
+protected:
+    hsTArray<plMessage*> fCallbacks;
+
+public:
+    plMessageWithCallbacks();
+    virtual ~plMessageWithCallbacks();
+
+    DECLARE_CREATABLE(plMessageWithCallbacks)
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void prcWrite(pfPrcHelper* prc);
+};
+
+#endif

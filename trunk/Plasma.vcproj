@@ -454,6 +454,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CoreLib\hsStdioStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\hsStdioStream.h"
+				>
+			</File>
+			<File
 				RelativePath="CoreLib\hsStream.cpp"
 				>
 				<FileConfiguration
@@ -493,6 +501,14 @@
 			</File>
 			<File
 				RelativePath=".\CoreLib\hsTList.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\plDebug.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\plDebug.h"
 				>
 			</File>
 			<File
@@ -810,6 +826,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\NucleusLib\pnMessage\plEnableMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plEnableMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\NucleusLib\pnMessage\plEventCallbackMsg.cpp"
 					>
 				</File>
@@ -852,11 +876,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\NucleusLib\pnMessage\plMessageWithCallbacks.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plMessageWithCallbacks.h"
+					>
+				</File>
+				<File
 					RelativePath=".\NucleusLib\pnMessage\plNotifyMsg.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\NucleusLib\pnMessage\plNotifyMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plSoundMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plSoundMsg.h"
 					>
 				</File>
 				<File
@@ -1118,6 +1158,14 @@
 				Name="pnModifier"
 				>
 				<File
+					RelativePath=".\NucleusLib\pnModifier\plLogicModBase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnModifier\plLogicModBase.h"
+					>
+				</File>
+				<File
 					RelativePath=".\NucleusLib\pnModifier\plModifier.cpp"
 					>
 				</File>
@@ -1193,6 +1241,14 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plAvatar\plNPCSpawnMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plOneShotMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plOneShotMod.h"
 					>
 				</File>
 			</Filter>
@@ -1812,6 +1868,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plModifier\plLogicModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plLogicModifier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plResponderModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plResponderModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plModifier\plSpawnModifier.cpp"
 					>
 				</File>
@@ -2041,6 +2113,126 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plAudible\plAudible.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plParticleSystem"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plBoundInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plBoundInterface.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plConvexVolume.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plConvexVolume.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEffect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEffect.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plMessage"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plAnimCmdMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plAnimCmdMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plExcludeRegionMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plExcludeRegionMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plLinkToAgeMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plLinkToAgeMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plOneShotCallbacks.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plOneShotCallbacks.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plResponderMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plResponderMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plTimerCallbackMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plTimerCallbackMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plTransitionMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plMessage\plTransitionMsg.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plNetCommon"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plNetCommon\plNetServerSessionInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plNetCommon\plNetServerSessionInfo.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plNetCommon\plSpawnPointInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plNetCommon\plSpawnPointInfo.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plUUID"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plUUID\plUUID.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plUUID\plUUID.h"
 					>
 				</File>
 			</Filter>
@@ -2345,6 +2537,18 @@
 				</File>
 				<File
 					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIValueCtrl.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="pfMessage"
+				>
+				<File
+					RelativePath=".\FeatureLib\pfMessage\plArmatureEffectMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfMessage\plArmatureEffectMsg.h"
 					>
 				</File>
 			</Filter>

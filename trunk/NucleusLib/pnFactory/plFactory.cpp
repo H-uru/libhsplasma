@@ -30,7 +30,10 @@
 #include "../../FeatureLib/pfGameGUIMgr/pfGUISkin.h"
 #include "../../FeatureLib/pfGameGUIMgr/pfGUITextBoxMod.h"
 #include "../../FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.h"
+#include "../../FeatureLib/pfMessage/plArmatureEffectMsg.h"
 #include "../../FeatureLib/pfPython/plPythonFileMod.h"
+#include "../pnMessage/plEnableMsg.h"
+#include "../pnMessage/plSoundMsg.h"
 #include "../pnSceneObject/plAudioInterface.h"
 #include "../pnSceneObject/plCoordinateInterface.h"
 #include "../pnSceneObject/plDrawInterface.h"
@@ -51,9 +54,16 @@
 #include "../../PubUtilLib/plGLight/plDirectionalLightInfo.h"
 #include "../../PubUtilLib/plGLight/plOmniLightInfo.h"
 #include "../../PubUtilLib/plGLight/plShadowMaster.h"
+#include "../../PubUtilLib/plMessage/plAnimCmdMsg.h"
+#include "../../PubUtilLib/plMessage/plExcludeRegionMsg.h"
+#include "../../PubUtilLib/plMessage/plLinkToAgeMsg.h"
+#include "../../PubUtilLib/plMessage/plResponderMsg.h"
+#include "../../PubUtilLib/plMessage/plTimerCallbackMsg.h"
+#include "../../PubUtilLib/plMessage/plTransitionMsg.h"
 #include "../../PubUtilLib/plModifier/plImageLibMod.h"
 #include "../../PubUtilLib/plModifier/plInterfaceInfoModifier.h"
 #include "../../PubUtilLib/plModifier/plLogicModifier.h"
+#include "../../PubUtilLib/plModifier/plResponderModifier.h"
 #include "../../PubUtilLib/plModifier/plSpawnModifier.h"
 #include "../../PubUtilLib/plParticleSystem/plParticleEffect.h"
 #include "../../PubUtilLib/plPhysics/plObjectInVolumeDetector.h"
@@ -203,7 +213,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kRandomSoundMod: return new plRandomSoundMod();
         case kPostEffectMod: return new plPostEffectMod();
         case kObjectInVolumeDetector: return new plObjectInVolumeDetector();
-        //case kResponderModifier: return new plResponderModifier();
+        case kResponderModifier: return new plResponderModifier();
         //case kAxisAnimModifier: return new plAxisAnimModifier();
         //case kLayerLightBase: return new plLayerLightBase();
         //case kFollowMod: return new plFollowMod();
@@ -456,7 +466,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kRefMsg: return new plRefMsg();
         //case kGenRefMsg: return new plGenRefMsg();
         //case kTimeMsg: return new plTimeMsg();
-        //case kAnimCmdMsg: return new plAnimCmdMsg();
+        case kAnimCmdMsg: return new plAnimCmdMsg();
         //case kParticleUpdateMsg: return new plParticleUpdateMsg();
         //case kLayRefMsg: return new plLayRefMsg();
         //case kMatRefMsg: return new plMatRefMsg();
@@ -524,18 +534,18 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSimplePhys: return new plSimplePhys();
         //case kMatrixUpdateMsg: return new plMatrixUpdateMsg();
         //case kCondRefMsg: return new plCondRefMsg();
-        //case kTimerCallbackMsg: return new plTimerCallbackMsg();
+        case kTimerCallbackMsg: return new plTimerCallbackMsg();
         case kEventCallbackMsg: return new plEventCallbackMsg();
         //case kSpawnModMsg: return new plSpawnModMsg();
         //case kSpawnRequestMsg: return new plSpawnRequestMsg();
         //case kLoadCloneMsg: return new plLoadCloneMsg();
-        //case kEnableMsg: return new plEnableMsg();
+        case kEnableMsg: return new plEnableMsg();
         //case kWarpMsg: return new plWarpMsg();
         //case kAttachMsg: return new plAttachMsg();
         //case kConsole: return new pfConsole();
         //case kRenderMsg: return new plRenderMsg();
         case kAnimTimeConvert: return new plAnimTimeConvert();
-        //case kSoundMsg: return new plSoundMsg();
+        case kSoundMsg: return new plSoundMsg();
         //case kInterestingPing: return new plInterestingPing();
         //case kNodeCleanupMsg: return new plNodeCleanupMsg();
         case kSpaceTree: return new plSpaceTree();
@@ -576,7 +586,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetGenericServerTask: return new plNetGenericServerTask();
         //case kNetLookupServerGetAgeInfoFromVaultTask: return new plNetLookupServerGetAgeInfoFromVaultTask();
         //case kLoadAgeMsg: return new plLoadAgeMsg();
-        //case kMessageWithCallbacks: return new plMessageWithCallbacks();
+        case kMessageWithCallbacks: ABSTRACT(kMessageWithCallbacks);
         //case kClientMsg: return new plClientMsg();
         //case kClientRefMsg: return new plClientRefMsg();
         //case kNetMsgObjStateRequest: return new plNetMsgObjStateRequest();
@@ -641,7 +651,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAvatarSpawnNotifyMsg: return new plAvatarSpawnNotifyMsg();
         //case kNetServerMsgVaultTask: return new plNetServerMsgVaultTask();
         //case kNetMsgVaultTask: return new plNetMsgVaultTask();
-        //case kAgeLinkStruct: return new plAgeLinkStruct();
+        case kAgeLinkStruct: return new plAgeLinkStruct();
         //case kVaultAgeInfoNode: return new plVaultAgeInfoNode();
         //case kNetMsgStreamableHelper: return new plNetMsgStreamableHelper();
         //case kNetMsgReceiversListHelper: return new plNetMsgReceiversListHelper();
@@ -675,7 +685,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kQuatChannel: return new plQuatChannel();
         //case kQuatConstant: return new plQuatConstant();
         //case kQuatBlend: return new plQuatBlend();
-        //case kLinkToAgeMsg: return new plLinkToAgeMsg();
+        case kLinkToAgeMsg: return new plLinkToAgeMsg();
         //case kPlayerPageMsg: return new plPlayerPageMsg();
         //case kCmdIfaceModMsg: return new plCmdIfaceModMsg();
         //case kNetServerMsgPlsUpdatePlayer: return new plNetServerMsgPlsUpdatePlayer();
@@ -688,7 +698,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNodeChangeMsg: return new plNodeChangeMsg();
         //case kAvEnableMsg: return new plAvEnableMsg();
         //case kLinkCallbackMsg: return new plLinkCallbackMsg();
-        //case kTransitionMsg: return new plTransitionMsg();
+        case kTransitionMsg: return new plTransitionMsg();
         //case kConsoleMsg: return new plConsoleMsg();
         //case kVolumeIsect: return new plVolumeIsect();
         //case kSphereIsect: return new plSphereIsect();
@@ -707,8 +717,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetServerMsgHello: return new plNetServerMsgHello();
         //case kNetServerMsgHelloReply: return new plNetServerMsgHelloReply();
         //case kNetServerMember: return new plNetServerMember();
-        //case kResponderMsg: return new plResponderMsg();
-        //case kOneShotMsg: return new plOneShotMsg();
+        case kResponderMsg: return new plResponderMsg();
+        case kOneShotMsg: return new plOneShotMsg();
         //case kVaultAgeInfoListNode: return new plVaultAgeInfoListNode();
         //case kNetServerMsgServerRegistered: return new plNetServerMsgServerRegistered();
         //case kPointTimeScale: return new plPointTimeScale();
@@ -754,7 +764,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAGCmdMsg: return new plAGCmdMsg();
         //case kParticleTransferMsg: return new plParticleTransferMsg();
         //case kParticleKillMsg: return new plParticleKillMsg();
-        //case kExcludeRegionMsg: return new plExcludeRegionMsg();
+        case kExcludeRegionMsg: return new plExcludeRegionMsg();
         //case kOneTimeParticleGenerator: return new plOneTimeParticleGenerator();
         //case kParticleApplicator: return new plParticleApplicator();
         //case kParticleLifeMinApplicator: return new plParticleLifeMinApplicator();
@@ -773,7 +783,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLinkEffectsTriggerPrepMsg: return new plLinkEffectsTriggerPrepMsg();
         //case kLinkEffectPrepBCMsg: return new plLinkEffectPrepBCMsg();
         //case kAvatarInputStateMsg: return new plAvatarInputStateMsg();
-        //case kAgeInfoStruct: return new plAgeInfoStruct();
+        case kAgeInfoStruct: return new plAgeInfoStruct();
         //case kSDLNotificationMsg: return new plSDLNotificationMsg();
         //case kNetClientConnectAgeVaultTask: return new plNetClientConnectAgeVaultTask();
         //case kLinkingMgrMsg: return new plLinkingMgrMsg();
@@ -848,7 +858,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAvTaskSeek: return new plAvTaskSeek();
         //case kAGInstanceCallbackMsg: return new plAGInstanceCallbackMsg();
         //case kArmatureEffectMsg: return new plArmatureEffectMsg();
-        //case kArmatureEffectStateMsg: return new plArmatureEffectStateMsg();
+        case kArmatureEffectStateMsg: return new plArmatureEffectStateMsg();
         //case kShadowCastMsg: return new plShadowCastMsg();
         //case kBoundsIsect: return new plBoundsIsect();
         //case kNetClientCommLeaveTask: return new plNetClientCommLeaveTask();

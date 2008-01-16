@@ -19,6 +19,10 @@
     #define BESWAP16(val) ENDSWAP16(val)
 #endif
 
+#ifdef WIN32
+	#define snprintf _snprintf
+#endif
+
 enum plKeyDef {
     KEY_A = 'A', KEY_B, KEY_C, KEY_D, KEY_E, KEY_F, KEY_G, KEY_H, KEY_I, KEY_J,
     KEY_K, KEY_L, KEY_M, KEY_N, KEY_O, KEY_P, KEY_Q, KEY_R, KEY_S, KEY_T, KEY_U,
