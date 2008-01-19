@@ -1,8 +1,8 @@
 #ifndef _PLCONTROLLER_H
 #define _PLCONTROLLER_H
 
-#include "../../NucleusLib/pnFactory/plCreatable.h"
-#include "../../CoreLib/hsTArray.hpp"
+#include "NucleusLib/pnFactory/plCreatable.h"
+#include "CoreLib/hsTArray.hpp"
 #include "hsKeys.h"
 
 DllClass plController : public plCreatable {

@@ -1,15 +1,15 @@
 #ifndef _PLGBUFFERGROUP_H
 #define _PLGBUFFERGROUP_H
 
-#include "../../CoreLib/hsGeometry3.h"
-#include "../../CoreLib/hsStream.h"
-#include "../../CoreLib/hsTArray.hpp"
-#include "../../CoreLib/hsTList.hpp"
-#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "CoreLib/hsGeometry3.h"
+#include "CoreLib/hsStream.h"
+#include "CoreLib/hsTArray.hpp"
+#include "CoreLib/hsTList.hpp"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 #include "hsGDeviceRef.h"
 #include "plVertCoder.h"
 
-class plGBufferCell {
+DllClass plGBufferCell {
 public:
     unsigned int vtxStart, colorStart, length;
 
@@ -20,13 +20,13 @@ public:
 };
 
 
-class plGBufferColor {
+DllClass plGBufferColor {
 public:
     unsigned int diffuse, specular;
 };
 
 
-class plGBufferTriangle {
+DllClass plGBufferTriangle {
 public:
     unsigned short index1, index2, index3, spanIndex;
     hsPoint3 center;
@@ -41,7 +41,7 @@ public:
 };
 
 
-struct plGBufferVertex {
+DllStruct plGBufferVertex {
     hsPoint3 fPos, fNormal;
     int fSkinIdx;
     float fSkinWeights[3];
@@ -50,7 +50,7 @@ struct plGBufferVertex {
 };
 
 
-class plGBufferGroup {
+DllClass plGBufferGroup {
 public:
     enum Formats {
         kUVCountMask = 0xF,

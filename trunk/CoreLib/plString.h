@@ -4,7 +4,7 @@
 #include <cstring>
 #include <cstdio>
 #include <wchar.h>
-#include "../PlasmaDefs.h"
+#include "PlasmaDefs.h"
 
 DllClass plStringBase {
 protected:

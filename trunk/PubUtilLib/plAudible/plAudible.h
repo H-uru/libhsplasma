@@ -1,9 +1,9 @@
 #ifndef _PLAUDIBLE_H
 #define _PLAUDIBLE_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../NucleusLib/pnMessage/plEventCallbackMsg.h"
-#include "../../CoreLib/hsMatrix44.h"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "NucleusLib/pnMessage/plEventCallbackMsg.h"
+#include "CoreLib/hsMatrix44.h"
 
 DllClass plAudible : public hsKeyedObject {
 protected:

@@ -1,11 +1,11 @@
 #ifndef _PLMORPHDELTA_H
 #define _PLMORPHDELTA_H
 
-#include "../../NucleusLib/pnFactory/plCreatable.h"
-#include "../../CoreLib/hsTArray.hpp"
-#include "../../CoreLib/hsGeometry3.h"
+#include "NucleusLib/pnFactory/plCreatable.h"
+#include "CoreLib/hsTArray.hpp"
+#include "CoreLib/hsGeometry3.h"
 
-class plVertDelta {
+DllClass plVertDelta {
 public:
     unsigned short fIdx, fPadding;
     hsVector3 fPos, fNorm;
@@ -16,7 +16,7 @@ public:
     void prcWrite(pfPrcHelper* prc);
 };
 
-class plMorphSpan {
+DllClass plMorphSpan {
 public:
     hsTArray<plVertDelta> fDeltas;
     unsigned short fNumUVWChans;

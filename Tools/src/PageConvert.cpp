@@ -2,6 +2,7 @@
 #include <string.h>
 #include "PubUtilLib/plResMgr/plResManager.h"
 #include "CoreLib/hsExceptions.h"
+#include "CoreLib/plDebug.h"
 
 const char* PlasmaVerNames[] = { 
     "Unknown",  // pvUnknown
@@ -28,7 +29,7 @@ void doHelp() {
     printf("Usage:  PageConvert [-to???] [-help] filename [filename] [...]\n\n");
     printf("  -toprime  Converts to Prime format (63.11) (Default)\n");
     printf("  -topots   Converts to Path of the Shell format (63.12)\n");
-    printf("  -tolive   Converts to Uru Live format (70)\n");
+    printf("  -tolive   Converts to Uru Live format\n");
     printf("  -toeoa    Converts to Myst V: End of Ages format\n");
     printf("  -tohex    Converts to Hex Isle format\n");
     printf("  -help     Displays this screen\n\n");
@@ -36,6 +37,7 @@ void doHelp() {
 
 int main(int argc, char** argv) {
     plResManager rm;
+    plDebug::Init(plDebug::kDLAll);
 
     PlasmaVer toVer = pvPrime;
     int files = 0;
@@ -62,7 +64,7 @@ int main(int argc, char** argv) {
                 doHelp();
                 return 0;
             } else {
-                fprintf(stderr, "Error: Unrecognized option %s\n", argv[i]);
+                plDebug::Error("Error: Unrecognized option %s", argv[i]);
                 return 1;
             }
         } else {
@@ -70,16 +72,13 @@ int main(int argc, char** argv) {
             try {
                 page = rm.ReadPage(argv[i]);
             } catch (const hsException& e) {
-                fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+                plDebug::Error("%s:%lu: %s", e.File(), e.Line(), e.what());
                 return 1;
             } catch (const std::exception& e) {
-                fprintf(stderr, "%s\n", e.what());
-                return 1;
-            } catch (const char* e) {
-                fprintf(stderr, "%s\n", e);
+                plDebug::Error("%s", e.what());
                 return 1;
             } catch (...) {
-                fprintf(stderr, "Undefined error!\n");
+                plDebug::Error("Undefined error!");
                 return 1;
             }
             printf("PageID: %s (%08X)\n", page->getLocation().toString().cstr(),

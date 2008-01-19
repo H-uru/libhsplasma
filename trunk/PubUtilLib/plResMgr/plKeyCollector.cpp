@@ -1,5 +1,5 @@
 #include "plKeyCollector.h"
-#include "../../DynLib/pdUnifiedTypeMap.h"
+#include "DynLib/pdUnifiedTypeMap.h"
 
 plKeyCollector::plKeyCollector() { }
 

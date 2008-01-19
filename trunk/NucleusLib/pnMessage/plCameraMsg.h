@@ -2,8 +2,8 @@
 #define _PLCAMERAMSG_H
 
 #include "plMessage.h"
-#include "../../CoreLib/hsGeometry3.h"
-#include "../../CoreLib/hsBitVector.h"
+#include "CoreLib/hsGeometry3.h"
+#include "CoreLib/hsBitVector.h"
 
 DllClass plCameraConfig {
 public:

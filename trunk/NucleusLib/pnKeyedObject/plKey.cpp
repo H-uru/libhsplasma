@@ -2,6 +2,7 @@
 #include <string.h>
 #include "plKey.h"
 #include "hsKeyedObject.h"
+#include "CoreLib/plDebug.h"
 
 plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
                          fRefCnt(1) { }
@@ -66,7 +67,7 @@ hsUint32 plKeyData::RefCnt() const { return fRefCnt; }
 hsUint32 plKeyData::Ref() { return ++fRefCnt; }
 void plKeyData::UnRef() {
     if (--fRefCnt == 0) {
-        printf("Key %s no longer in use, deleting...\n", toString().cstr());
+        plDebug::Debug("Key %s no longer in use, deleting...", toString().cstr());
         delete this;
     }
 }
@@ -132,4 +133,10 @@ bool plKey::operator<(const plKey& other) const {
 
 bool plKey::Exists() const {
     return (fKeyData != NULL) && (fKeyData->getUoid().getLocation().isValid());
+}
+
+bool plKey::isLoaded() const {
+    if (!Exists())
+        return true;
+    return fKeyData->getObj() != NULL;
 }

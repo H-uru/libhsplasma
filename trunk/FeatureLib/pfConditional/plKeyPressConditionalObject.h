@@ -2,7 +2,7 @@
 #define _PLKEYPRESSCONDITIONALOBJECT_H
 
 #include "plConditionalObject.h"
-#include "../../DynLib/Platform.h"
+#include "DynLib/Platform.h"
 
 DllClass plKeyPressConditionalObject : public plConditionalObject {
 protected:

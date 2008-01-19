@@ -1,7 +1,7 @@
 #ifndef _HSSEMAPHORE_H
 #define _HSSEMAPHORE_H
 
-#include "../PlasmaDefs.h"
+#include "PlasmaDefs.h"
 #include "hsExceptions.h"
 
 #ifdef WIN32

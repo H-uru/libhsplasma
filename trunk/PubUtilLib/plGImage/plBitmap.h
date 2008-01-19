@@ -1,8 +1,8 @@
 #ifndef _PLBITMAP_H
 #define _PLBITMAP_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../CoreLib/hsStream.h"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "CoreLib/hsStream.h"
 
 #define BITMAPVER (char)2
 

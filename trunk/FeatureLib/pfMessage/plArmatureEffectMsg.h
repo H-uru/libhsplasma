@@ -1,7 +1,7 @@
 #ifndef _PLARMATUREEFFECTMSG_H
 #define _PLARMATUREEFFECTMSG_H
 
-#include "../../NucleusLib/pnMessage/plMessage.h"
+#include "NucleusLib/pnMessage/plMessage.h"
 
 DllClass plArmatureEffectStateMsg : public plMessage {
 protected:

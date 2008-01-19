@@ -1,5 +1,5 @@
-#include <string.h>
-#include <math.h>
+#include <cstring>
+#include <cmath>
 #include "plVertCoder.h"
 #include "plGBufferGroup.h"
 
@@ -76,8 +76,8 @@ void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char*& dest) {
             fColors[chan].fSame = false;
         }
         fColors[chan].fCount = count;
-        //printf("_VC_ fBytes[%d] = { count=%d, same=%d, val=0x%02X }\n",
-        //       chan, fColors[chan].fCount, fColors[chan].fSame, fColors[chan].fVal);
+        //plDebug::Debug("_VC_ fBytes[%d] = { count=%d, same=%d, val=0x%02X }\n",
+        //               chan, fColors[chan].fCount, fColors[chan].fSame, fColors[chan].fVal);
     }
     if (fColors[chan].fSame)
         *dest = fColors[chan].fVal;
@@ -96,9 +96,9 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
         else
             fFloats[chan][field].fAllSame = false;
         fFloats[chan][field].fCount = S->readShort();
-        //printf("_VC_ fFloats[%d][%d] = { count=%d, same=%d, offset=%f }\n",
-        //       chan, field, fFloats[chan][field].fCount,
-        //       fFloats[chan][field].fAllSame, fFloats[chan][field].fOffset);
+        //plDebug::Debug("_VC_ fFloats[%d][%d] = { count=%d, same=%d, offset=%f }\n",
+        //               chan, field, fFloats[chan][field].fCount,
+        //               fFloats[chan][field].fAllSame, fFloats[chan][field].fOffset);
     }
     *(float*)dest = fFloats[chan][field].fOffset;
     if (!fFloats[chan][field].fAllSame)

@@ -1,7 +1,7 @@
 #ifndef _PLICICLE_H
 #define _PLICICLE_H
 
-#include "../plPipeline/plGBufferGroup.h"
+#include "PubUtilLib/plPipeline/plGBufferGroup.h"
 #include "plVertexSpan.h"
 
 class plIcicle : public plVertexSpan {

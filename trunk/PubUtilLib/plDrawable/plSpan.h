@@ -1,14 +1,14 @@
 #ifndef _PLSPAN_H
 #define _PLSPAN_H
 
-#include "../../CoreLib/hsMatrix44.h"
-#include "../../CoreLib/hsStream.h"
-#include "../../CoreLib/hsBounds.h"
-#include "../../CoreLib/hsBitVector.h"
-#include "../plPipeline/plFogEnvironment.h"
-#include "../plGLight/plLightInfo.h"
+#include "CoreLib/hsMatrix44.h"
+#include "CoreLib/hsStream.h"
+#include "CoreLib/hsBounds.h"
+#include "CoreLib/hsBitVector.h"
+#include "PubUtilLib/plPipeline/plFogEnvironment.h"
+#include "PubUtilLib/plGLight/plLightInfo.h"
 
-class plSpan {
+DllClass plSpan {
 public:
     enum {
         kLiteMaterial = 0x0,

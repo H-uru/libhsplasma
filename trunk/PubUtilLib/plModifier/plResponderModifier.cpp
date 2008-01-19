@@ -1,4 +1,5 @@
 #include "plResponderModifier.h"
+#include "CoreLib/plDebug.h"
 
 // plResponderModifier::plResponderCmd //
 plResponderModifier::plResponderCmd::plResponderCmd() : fMsg(NULL), fWaitOn(-1) { }
@@ -44,7 +45,7 @@ void plResponderModifier::read(hsStream* S, plResManager* mgr) {
     if (state >= 0 && (size_t)state < fStates.getSize()) {
         fCurState = state;
     } else {
-        fprintf(stderr, "Invalid state %d found, will default to 0\n", state);
+        plDebug::Warning("Invalid state %d found, will default to 0", state);
         fCurState = 0;
     }
     fEnabled = S->readBool();

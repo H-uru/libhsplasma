@@ -1,10 +1,10 @@
 #ifndef _PLFOGENVIRONMENT_H
 #define _PLFOGENVIRONMENT_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../CoreLib/hsColor.h"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "CoreLib/hsColor.h"
 
-class plFogEnvironment : public hsKeyedObject {
+DllClass plFogEnvironment : public hsKeyedObject {
 public:
     enum FogType { kLinearFog, kExpFog, kExp2Fog, kNoFog };
 
@@ -24,4 +24,3 @@ public:
 };
 
 #endif
-

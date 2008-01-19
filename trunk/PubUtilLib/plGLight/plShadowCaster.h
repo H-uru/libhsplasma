@@ -1,8 +1,8 @@
 #ifndef _PLSHADOWCASTER_H
 #define _PLSHADOWCASTER_H
 
-#include "../../NucleusLib/pnModifier/plModifier.h"
-#include "../plDrawable/plDrawableSpans.h"
+#include "NucleusLib/pnModifier/plModifier.h"
+#include "PubUtilLib/plDrawable/plDrawableSpans.h"
 
 DllClass plShadowCaster : public plMultiModifier {
 public:

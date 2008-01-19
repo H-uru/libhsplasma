@@ -1,5 +1,4 @@
 #include "PageID.h"
-#include "../CoreLib/hsStream.h"
 
 PageID::PageID(PlasmaVer pv) : seqPrefix(-1), pageID(-1), ver(pv) { }
 PageID::~PageID() { }

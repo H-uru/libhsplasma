@@ -1,11 +1,11 @@
 #ifndef _PLPAGESETTINGS_H
 #define _PLPAGESETTINGS_H
 
-#include "../../DynLib/PlasmaVersions.h"
-#include "../../DynLib/PageID.h"
+#include "DynLib/PlasmaVersions.h"
+#include "DynLib/PageID.h"
 #include "plPageInfo.h"
 
-class plAgeSettings {
+DllClass plAgeSettings {
 public:
     unsigned int startDateTime, dayLength, maxCapacity, lingerTime;
     signed int sequencePrefix;

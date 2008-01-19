@@ -1,13 +1,13 @@
 #ifndef _PLSPACETREE_H
 #define _PLSPACETREE_H
 
-#include "../../NucleusLib/pnFactory/plCreatable.h"
-#include "../../CoreLib/hsTArray.hpp"
-#include "../../CoreLib/hsGeometry3.h"
-#include "../../CoreLib/hsBounds.h"
-#include "../../CoreLib/hsBitVector.h"
+#include "NucleusLib/pnFactory/plCreatable.h"
+#include "CoreLib/hsTArray.hpp"
+#include "CoreLib/hsGeometry3.h"
+#include "CoreLib/hsBounds.h"
+#include "CoreLib/hsBitVector.h"
 
-class plSpaceTreeNode {
+DllClass plSpaceTreeNode {
 protected:
     hsBounds3Ext fWorldBounds;
     unsigned short fFlags;
@@ -27,7 +27,7 @@ public:
     void prcWrite(pfPrcHelper* prc);
 };
 
-class plSpaceTree : public plCreatable {
+DllClass plSpaceTree : public plCreatable {
 protected:
     enum plHarvestFlags {
         kNone,

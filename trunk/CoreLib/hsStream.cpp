@@ -1,92 +1,18 @@
 #include <string.h>
 #include "hsStream.h"
-#include "../DynLib/Platform.h"
+#include "DynLib/Platform.h"
 
 static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
 // hsStream //
-hsStream::hsStream(PlasmaVer pv) : F(NULL) {
+hsStream::hsStream(PlasmaVer pv) {
     setVer(pv);
 }
 
-hsStream::~hsStream() {
-    close();
-}
-
-bool hsStream::open(const char* file, FileMode mode) {
-    char* fms;
-    switch (mode) {
-      case fmRead:
-        fms = "rb";
-        break;
-      case fmWrite:
-        fms = "wb";
-        break;
-      case fmCreate:
-        fms = "w+b";
-        break;
-      case fmReadWrite:
-        fms = "r+b";
-        break;
-      default:
-        fms = "";
-        break;
-    }
-    F = fopen(file, fms);
-    if (F != NULL) {
-        fm = mode;
-        return true;
-    }
-    return false;
-}
-
-void hsStream::close() {
-    if (F) fclose(F);
-    F = NULL;
-}
+hsStream::~hsStream() { }
 
 void hsStream::setVer(PlasmaVer pv) { ver = pv; }
 PlasmaVer hsStream::getVer() const { return ver; }
-
-hsUint32 hsStream::size() const {
-    unsigned int p = ftell(F);
-    fseek(F, 0, SEEK_END);
-    unsigned int sz = ftell(F);
-    fseek(F, p, SEEK_SET);
-    return sz;
-}
-
-hsUint32 hsStream::pos() const {
-    return ftell(F);
-}
-
-bool hsStream::eof() const {
-    return feof(F);
-}
-
-void hsStream::seek(hsUint32 pos) {
-    fseek(F, pos, SEEK_SET);
-}
-
-void hsStream::skip(hsUint32 count) {
-    fseek(F, count, SEEK_CUR);
-}
-
-void hsStream::fastForward() {
-    fseek(F, 0, SEEK_SET);
-}
-
-void hsStream::rewind() {
-    fseek(F, 0, SEEK_END);
-}
-
-void hsStream::read(size_t size, void* buf) {
-    fread(buf, size, 1, F);
-}
-
-void hsStream::write(size_t size, const void* buf) {
-    fwrite(buf, size, 1, F);
-}
 
 hsUbyte hsStream::readByte() {
     hsUbyte v;
@@ -325,6 +251,88 @@ void hsStream::writeLine(const plString& ln, bool winEOL) {
     if (winEOL)
         writeByte('\r');
     writeByte('\n');
+}
+
+
+// hsFileStream //
+hsFileStream::hsFileStream(PlasmaVer pv) : F(NULL) { }
+
+hsFileStream::~hsFileStream() {
+    close();
+}
+
+bool hsFileStream::open(const char* file, FileMode mode) {
+    char* fms;
+    switch (mode) {
+      case fmRead:
+        fms = "rb";
+        break;
+      case fmWrite:
+        fms = "wb";
+        break;
+      case fmCreate:
+        fms = "w+b";
+        break;
+      case fmReadWrite:
+        fms = "r+b";
+        break;
+      default:
+        fms = "";
+        break;
+    }
+    F = fopen(file, fms);
+    if (F != NULL) {
+        fm = mode;
+        return true;
+    }
+    return false;
+}
+
+void hsFileStream::close() {
+    if (F) fclose(F);
+    F = NULL;
+}
+
+hsUint32 hsFileStream::size() const {
+    unsigned int p = ftell(F);
+    fseek(F, 0, SEEK_END);
+    unsigned int sz = ftell(F);
+    fseek(F, p, SEEK_SET);
+    return sz;
+}
+
+hsUint32 hsFileStream::pos() const {
+    return ftell(F);
+}
+
+bool hsFileStream::eof() const {
+    int c = fgetc(F);
+    ungetc(c, F);
+    return (c == EOF);
+}
+
+void hsFileStream::seek(hsUint32 pos) {
+    fseek(F, pos, SEEK_SET);
+}
+
+void hsFileStream::skip(hsInt32 count) {
+    fseek(F, count, SEEK_CUR);
+}
+
+void hsFileStream::fastForward() {
+    fseek(F, 0, SEEK_SET);
+}
+
+void hsFileStream::rewind() {
+    fseek(F, 0, SEEK_END);
+}
+
+void hsFileStream::read(size_t size, void* buf) {
+    fread(buf, size, 1, F);
+}
+
+void hsFileStream::write(size_t size, const void* buf) {
+    fwrite(buf, size, 1, F);
 }
 
 

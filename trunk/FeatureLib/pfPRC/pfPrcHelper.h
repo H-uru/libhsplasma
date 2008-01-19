@@ -1,8 +1,8 @@
 #ifndef _PFPRCHELPER_H
 #define _PFPRCHELPER_H
 
-#include "../../CoreLib/hsStream.h"
-#include "../../CoreLib/hsTList.hpp"
+#include "CoreLib/hsStream.h"
+#include "CoreLib/hsTList.hpp"
 
 DllClass pfPrcHelper {
 public:

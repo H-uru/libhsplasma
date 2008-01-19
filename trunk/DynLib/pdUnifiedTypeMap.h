@@ -1,7 +1,7 @@
 #ifndef _PDUNIFIEDTYPEMAP_H
 #define _PDUNIFIEDTYPEMAP_H
 
-#include "../PlasmaDefs.h"
+#include "PlasmaDefs.h"
 #include "PlasmaVersions.h"
 
 #define TYPESPACE_MAX 0x500

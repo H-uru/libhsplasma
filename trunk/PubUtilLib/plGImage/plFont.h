@@ -1,10 +1,10 @@
 #ifndef _PLFONT_H
 #define _PLFONT_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../CoreLib/hsStream.h"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "CoreLib/hsStream.h"
 
-struct FontLetterDef {
+DllStruct FontLetterDef {
     unsigned int Offset;
     int lHeight;
     int stHeight;
@@ -12,7 +12,7 @@ struct FontLetterDef {
     float rPadding;
 };
 
-class plFont : public hsKeyedObject {
+DllClass plFont : public hsKeyedObject {
 protected:
     char FontName[256];
     char FontSize;

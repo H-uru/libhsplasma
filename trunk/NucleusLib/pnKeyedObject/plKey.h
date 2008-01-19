@@ -1,7 +1,7 @@
 #ifndef _PLKEY_H
 #define _PLKEY_H
 
-#include "../../CoreLib/hsStream.h"
+#include "CoreLib/hsStream.h"
 #include "plUoid.h"
 
 DllClass plKeyData {
@@ -70,6 +70,7 @@ public:
     bool operator<(const plKey& other) const;
 
     bool Exists() const;
+    bool isLoaded() const;
 };
 
 #endif

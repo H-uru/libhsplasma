@@ -1,9 +1,9 @@
 #ifndef _PLVERTCODER_H
 #define _PLVERTCODER_H
 
-#include "../../CoreLib/hsStream.h"
+#include "CoreLib/hsStream.h"
 
-class plVertCoder {
+DllClass plVertCoder {
 public:
     enum { kPosition, kWeight, kUVW, kNumFloatFields = 10 };
 

@@ -1,8 +1,8 @@
 #ifndef _PLPOSTEFFECTMOD_H
 #define _PLPOSTEFFECTMOD_H
 
-#include "../../NucleusLib/pnModifier/plModifier.h"
-#include "../../CoreLib/hsMatrix44.h"
+#include "NucleusLib/pnModifier/plModifier.h"
+#include "CoreLib/hsMatrix44.h"
 
 DllClass plPostEffectMod : public plSingleModifier {
 public:

@@ -1,8 +1,8 @@
 #ifndef _PLSHADOWSLAVE_H
 #define _PLSHADOWSLAVE_H
 
-#include "../../CoreLib/hsBounds.h"
-#include "../../CoreLib/plViewTransform.h"
+#include "CoreLib/hsBounds.h"
+#include "CoreLib/plViewTransform.h"
 #include "plShadowCaster.h"
 
 DllClass plShadowSlave {

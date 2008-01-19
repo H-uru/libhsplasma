@@ -1,9 +1,9 @@
 #ifndef _PLOBJINTERFACE_H
 #define _PLOBJINTERFACE_H
 
-#include "../../CoreLib/hsBitVector.h"
-#include "../pnNetCommon/plSynchedObject.h"
-#include "../pnMessage/plMessage.h"
+#include "CoreLib/hsBitVector.h"
+#include "NucleusLib/pnNetCommon/plSynchedObject.h"
+#include "NucleusLib/pnMessage/plMessage.h"
 
 DllClass plObjInterface : public plSynchedObject {
 public:

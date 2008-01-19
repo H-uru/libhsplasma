@@ -1,7 +1,7 @@
 #ifndef _PLLOGICMODIFIER_H
 #define _PLLOGICMODIFIER_H
 
-#include "../../NucleusLib/pnModifier/plLogicModBase.h"
+#include "NucleusLib/pnModifier/plLogicModBase.h"
 
 DllClass plLogicModifier : public plLogicModBase {
 protected:

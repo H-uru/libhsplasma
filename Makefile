@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS += -fPIC -Wall -g
 
-all:
+all: TypeMap
 	(cd trunk ; make)
 	(make Tools/PageConvert)
 	(make Tools/PlasmaCrypt)
@@ -19,6 +19,9 @@ Tools/PrpPack: Tools/src/PrpPack.cpp trunk/lib/libPlasma.so
 
 Tools/PrcExtract: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract
+
+TypeMap: TypeMap.cpp
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk TypeMap.cpp -o TypeMap
 
 install:
 	(cd trunk ; make install)
@@ -38,4 +41,4 @@ distclean:
 	rm -f Tools/PlasmaCrypt
 	rm -f Tools/PrpPack
 	rm -f Tools/PrcExtract
-
+	rm -f TypeMap

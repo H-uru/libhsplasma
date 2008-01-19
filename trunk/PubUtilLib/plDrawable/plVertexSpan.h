@@ -3,7 +3,7 @@
 
 #include "plSpan.h"
 
-class plVertexSpan : public plSpan {
+DllClass plVertexSpan : public plSpan {
 public:
     unsigned int fGroupIdx, fVBufferIdx, fCellIdx,
                  fCellOffset, fVStartIdx, fVLength;

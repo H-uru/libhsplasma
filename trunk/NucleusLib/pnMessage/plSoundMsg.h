@@ -2,7 +2,7 @@
 #define _PLSOUNDMSG_H
 
 #include "plMessageWithCallbacks.h"
-#include "../../CoreLib/hsBitVector.h"
+#include "CoreLib/hsBitVector.h"
 
 DllClass plSoundMsg : public plMessageWithCallbacks {
 public:

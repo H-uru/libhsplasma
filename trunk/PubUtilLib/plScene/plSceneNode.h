@@ -1,11 +1,11 @@
 #ifndef _PLSCENENODE_H
 #define _PLSCENENODE_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../NucleusLib/pnSceneObject/plSceneObject.h"
-#include "../../CoreLib/hsTArray.hpp"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "NucleusLib/pnSceneObject/plSceneObject.h"
+#include "CoreLib/hsTArray.hpp"
 
-class plSceneNode : public hsKeyedObject {
+DllClass plSceneNode : public hsKeyedObject {
 protected:
     bool filterGenerics;
     short depth;
@@ -33,4 +33,3 @@ public:
 };
 
 #endif
-

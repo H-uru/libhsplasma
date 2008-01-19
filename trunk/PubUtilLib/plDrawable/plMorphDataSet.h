@@ -1,7 +1,7 @@
 #ifndef _PLMORPHDATASET_H
 #define _PLMORPHDATASET_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "plMorphArray.h"
 
 DllClass plMorphDataSet : public hsKeyedObject {

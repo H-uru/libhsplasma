@@ -1,7 +1,8 @@
 #include "pdUnifiedTypeMap.h"
 #include <cstdlib>
 #include <cstdio>
-#include "../CoreLib/hsExceptions.h"
+#include "CoreLib/hsExceptions.h"
+#include "CoreLib/plDebug.h"
 
 short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
@@ -1946,7 +1947,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
     if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
-        printf("pdUnifiedTypeMap::ClassName ERR: Got type %04X\n", typeIdx);
+        plDebug::Debug("pdUnifiedTypeMap::ClassName ERR: Got type %04X", typeIdx);
         return NULL;
     }
 
@@ -1961,7 +1962,7 @@ const char* pdUnifiedTypeMap::ClassName(short typeIdx, PlasmaVer ver) {
 
 short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
     if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
-        printf("pdUnifiedTypeMap::PlasmaToMapped ERR: Got type %04X\n", typeIdx);
+        plDebug::Debug("pdUnifiedTypeMap::PlasmaToMapped ERR: Got type %04X", typeIdx);
         return -1;
     }
 
@@ -1983,7 +1984,7 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
 
 short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
     if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
-        printf("pdUnifiedTypeMap::MappedToPlasma ERR: Got type %04X\n", typeIdx);
+        plDebug::Debug("pdUnifiedTypeMap::MappedToPlasma ERR: Got type %04X", typeIdx);
         return -1;
     }
 

@@ -2,7 +2,7 @@
 #define _HSQUAT_H
 
 #include "hsGeometry3.h"
-#include "../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 
 DllClass hsQuat {
 protected:

@@ -1,7 +1,7 @@
 #ifndef _PLEXCLUDEREGIONMSG_H
 #define _PLEXCLUDEREGIONMSG_H
 
-#include "../../NucleusLib/pnMessage/plMessage.h"
+#include "NucleusLib/pnMessage/plMessage.h"
 
 DllClass plExcludeRegionMsg : public plMessage {
 public:

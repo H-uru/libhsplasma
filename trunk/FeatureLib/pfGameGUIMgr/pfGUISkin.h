@@ -1,7 +1,7 @@
 #ifndef _PFGUISKIN_H
 #define _PFGUISKIN_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
 
 DllClass pfGUISkin : public hsKeyedObject {
 public:

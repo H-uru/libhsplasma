@@ -3,7 +3,7 @@
 
 #include "hsStream.h"
 #include "hsGeometry3.h"
-#include "../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 
 // Just remember: http://xkcd.org/184/
 

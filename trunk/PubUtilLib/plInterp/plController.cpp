@@ -1,4 +1,5 @@
 #include "plTMController.h"
+#include "CoreLib/plDebug.h"
 
 /* plController */
 plController::plController() { }
@@ -20,11 +21,11 @@ plCompoundController::~plCompoundController() {
 IMPLEMENT_CREATABLE(plCompoundController, kCompoundController, plController)
 
 void plCompoundController::read(hsStream* S, plResManager* mgr) {
-    printf("Reading X controller\n");
+    plDebug::Debug("Reading X controller");
     fXController = plController::Convert(mgr->ReadCreatable(S));
-    printf("Reading Y controller\n");
+    plDebug::Debug("Reading Y controller");
     fYController = plController::Convert(mgr->ReadCreatable(S));
-    printf("Reading Z controller\n");
+    plDebug::Debug("Reading Z controller");
     fZController = plController::Convert(mgr->ReadCreatable(S));
 }
 

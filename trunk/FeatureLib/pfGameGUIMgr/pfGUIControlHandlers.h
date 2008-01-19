@@ -1,7 +1,7 @@
 #ifndef _PFGUICONTROLHANDLERS_H
 #define _PFGUICONTROLHANDLERS_H
 
-#include "../pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 
 DllClass pfGUICtrlProcObject {
 public:

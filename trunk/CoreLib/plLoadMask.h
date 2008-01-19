@@ -2,7 +2,7 @@
 #define _PLLOADMASK_H
 
 #include "hsStream.h"
-#include "../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 
 DllClass plLoadMask {
 protected:

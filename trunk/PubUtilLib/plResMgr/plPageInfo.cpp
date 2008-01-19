@@ -1,6 +1,7 @@
-#include <string.h>
+#include <cstring>
 #include "plPageInfo.h"
-#include "../../DynLib/pdUnifiedTypeMap.h"
+#include "DynLib/pdUnifiedTypeMap.h"
+#include "CoreLib/plDebug.h"
 
 plPageInfo::plPageInfo() { IInit(); }
 
@@ -32,9 +33,9 @@ void plPageInfo::read(hsStream* S) {
                 short type = S->readShort();
                 short ver = S->readShort();
                 if (pdUnifiedTypeMap::ClassVersion(type, pvEoa) != ver) {
-                    printf("Warning: Class %s expected version %d, got %d\n",
-                           pdUnifiedTypeMap::ClassName(type, pvEoa),
-                           pdUnifiedTypeMap::ClassVersion(type, pvEoa), ver);
+                    plDebug::Warning("Warning: Class %s expected version %d, got %d",
+                                     pdUnifiedTypeMap::ClassName(type, pvEoa),
+                                     pdUnifiedTypeMap::ClassVersion(type, pvEoa), ver);
                 }
             }
         }

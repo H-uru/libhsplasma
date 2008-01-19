@@ -1,11 +1,11 @@
 #ifndef _PLUOID_H
 #define _PLUOID_H
 
-#include "../../CoreLib/hsStream.h"
-#include "../../CoreLib/plLoadMask.h"
-#include "../../CoreLib/plString.h"
-#include "../../DynLib/PageID.h"
-#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "CoreLib/hsStream.h"
+#include "CoreLib/plLoadMask.h"
+#include "CoreLib/plString.h"
+#include "DynLib/PageID.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 
 DllClass plLocation {
 public:

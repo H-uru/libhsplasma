@@ -1,13 +1,13 @@
 #ifndef _PLLIGHTINFO_H
 #define _PLLIGHTINFO_H
 
-#include "../../NucleusLib/pnSceneObject/plObjInterface.h"
-#include "../../CoreLib/hsBitVector.h"
-#include "../../CoreLib/hsColor.h"
-#include "../../CoreLib/hsMatrix44.h"
-#include "../plPipeline/hsGDeviceRef.h"
+#include "NucleusLib/pnSceneObject/plObjInterface.h"
+#include "CoreLib/hsBitVector.h"
+#include "CoreLib/hsColor.h"
+#include "CoreLib/hsMatrix44.h"
+#include "PubUtilLib/plPipeline/hsGDeviceRef.h"
 
-class plLightInfo : public plObjInterface {
+DllClass plLightInfo : public plObjInterface {
 public:
     enum {
         kDisable, kLPObsolete, kLPCastShadows, kLPMovable, kLPHasIncludes,

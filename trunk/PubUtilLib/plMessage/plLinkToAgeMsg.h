@@ -1,8 +1,8 @@
 #ifndef _PLLINKTOAGEMSG_H
 #define _PLLINKTOAGEMSG_H
 
-#include "../../NucleusLib/pnMessage/plMessage.h"
-#include "../plNetCommon/plNetServerSessionInfo.h"
+#include "NucleusLib/pnMessage/plMessage.h"
+#include "PubUtilLib/plNetCommon/plNetServerSessionInfo.h"
 
 DllClass plLinkToAgeMsg : public plMessage {
 protected:

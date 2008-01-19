@@ -1,10 +1,10 @@
 #ifndef _PLDRAWABLESPANS_H
 #define _PLDRAWABLESPANS_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../CoreLib/plRenderLevel.h"
-#include "../plSurface/hsGMaterial.h"
-#include "../plPipeline/plGBufferGroup.h"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "CoreLib/plRenderLevel.h"
+#include "PubUtilLib/plSurface/hsGMaterial.h"
+#include "PubUtilLib/plPipeline/plGBufferGroup.h"
 #include "plSpaceTree.h"
 #include "plIcicle.h"
 #include "plGeometrySpan.h"

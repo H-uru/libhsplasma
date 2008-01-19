@@ -112,13 +112,13 @@ int main(int argc, char** argv) {
         direction = kCreate;
     }
 
-    hsStream* S = new hsStream();
+    hsFileStream* S = new hsFileStream();
     if (!S->open(filename, fmRead)) {
         fprintf(stderr, "Error opening %s for reading!", filename);
         delete S;
         return 1;
     }
-    hsStream* OS = new hsStream();
+    hsFileStream* OS = new hsFileStream();
     plPageInfo* page = new plPageInfo();
 
     //int len;
@@ -240,7 +240,7 @@ int main(int argc, char** argv) {
 
         std::vector<char*> inFiles;
         std::vector<short> inClasses;
-        hsStream* PS = new hsStream();
+        hsFileStream* PS = new hsFileStream();
         PS->setVer(OS->getVer());
       #ifdef WIN32
         sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
@@ -369,4 +369,3 @@ int main(int argc, char** argv) {
     delete OS;
     return 0;
 }
-

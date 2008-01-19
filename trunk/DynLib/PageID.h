@@ -1,9 +1,9 @@
 #ifndef _PAGEID_H
 #define _PAGEID_H
 
-#include "../PlasmaDefs.h"
+#include "PlasmaDefs.h"
 #include "PlasmaVersions.h"
-#include "../CoreLib/hsStream.h"
+#include "CoreLib/hsStream.h"
 
 DllClass PageID {
 private:

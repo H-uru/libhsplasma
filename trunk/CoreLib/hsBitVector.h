@@ -3,7 +3,7 @@
 
 #include "hsStream.h"
 #include "hsTArray.hpp"
-#include "../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 #include <map>
 
 #define BVMASK 0x1F

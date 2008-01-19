@@ -1,5 +1,5 @@
 #include "plFont.h"
-#include <string.h>
+#include <cstring>
 
 plFont::plFont() : FontSize(-1), FontFlags(0), imgWidth(0),
                    imgHeight(0), maxHeight(0), bpp(0), bmpData(NULL),

@@ -1,8 +1,8 @@
 #ifndef _PLENABLEMSG_H
 #define _PLENABLEMSG_H
 
-#include "../pnMessage/plMessage.h"
-#include "../../CoreLib/hsBitVector.h"
+#include "plMessage.h"
+#include "CoreLib/hsBitVector.h"
 
 DllClass plEnableMsg : public plMessage {
 public:

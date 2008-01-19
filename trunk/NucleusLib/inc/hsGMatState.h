@@ -1,10 +1,10 @@
 #ifndef _HSGMATSTATE_H
 #define _HSGMATSTATE_H
 
-#include "../../CoreLib/hsStream.h"
-#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "CoreLib/hsStream.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 
-class hsGMatState {
+DllClass hsGMatState {
 public:
     enum hsGMatBlendFlags {
         kBlendTest = 0x1,

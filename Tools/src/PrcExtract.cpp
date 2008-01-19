@@ -2,6 +2,7 @@
 #include "CoreLib/plString.h"
 #include "CoreLib/hsExceptions.h"
 #include "CoreLib/hsStdioStream.h"
+#include "CoreLib/plDebug.h"
 #include <string.h>
 #include <time.h>
 #ifdef WIN32
@@ -62,6 +63,7 @@ int main(int argc, char** argv) {
         return 0;
     }
 
+    plDebug::Init(plDebug::kDLAll);
     plResManager rm;
     plPageInfo* page;
     plString outDir, outFile;
@@ -89,9 +91,6 @@ int main(int argc, char** argv) {
             } catch (std::exception& e) {
                 fprintf(stderr, "%s\n", e.what());
                 return 1;
-            } catch (const char* e) {
-                fprintf(stderr, "%s\n", e);
-                return 1;
             } catch (...) {
                 fprintf(stderr, "Undefined error!\n");
                 return 1;
@@ -105,7 +104,7 @@ int main(int argc, char** argv) {
           #endif
 
             printf("Writing %s\n", outFile.cstr());
-            hsStream* S = new hsStream();
+            hsFileStream* S = new hsFileStream();
             if (!S->open(outFile, fmWrite)) {
                 fprintf(stderr, "Error opening %s for writing!\n", outFile.cstr());
                 delete S;
@@ -129,9 +128,6 @@ int main(int argc, char** argv) {
                 return 1;
             } catch (std::exception& e) {
                 fprintf(stderr, "%s\n", e.what());
-                return 1;
-            } catch (const char* e) {
-                fprintf(stderr, "%s\n", e);
                 return 1;
             } catch (...) {
                 fprintf(stderr, "Undefined error!\n");

@@ -1,7 +1,7 @@
 #ifndef _PLSHADOWMASTER_H
 #define _PLSHADOWMASTER_H
 
-#include "../../NucleusLib/pnSceneObject/plObjInterface.h"
+#include "NucleusLib/pnSceneObject/plObjInterface.h"
 #include "plLightInfo.h"
 #include "plShadowSlave.h"
 

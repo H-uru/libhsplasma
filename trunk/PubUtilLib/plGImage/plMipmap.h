@@ -3,7 +3,7 @@
 
 #include "plBitmap.h"
 
-class plMipmap : public plBitmap {
+DllClass plMipmap : public plBitmap {
 public:
     enum {
         kColor8Config = 0x0,

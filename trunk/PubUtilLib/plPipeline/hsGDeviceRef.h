@@ -1,7 +1,9 @@
 #ifndef _HSGDEVICEREF_H
 #define _HSGDEVICEREF_H
 
-class hsGDeviceRef /*: public hsRefCnt*/ {
+#include "PlasmaDefs.h"
+
+DllClass hsGDeviceRef /*: public hsRefCnt*/ {
 public:
     enum { kNone, kDirty };
 

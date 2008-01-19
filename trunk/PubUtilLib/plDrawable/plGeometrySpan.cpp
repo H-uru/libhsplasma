@@ -1,4 +1,5 @@
 #include "plGeometrySpan.h"
+#include "CoreLib/plDebug.h"
 
 plGeometrySpan::plGeometrySpan()
               : fVertexData(NULL), fIndexData(NULL), fMultColor(NULL),
@@ -85,7 +86,7 @@ void plGeometrySpan::read(hsStream* S) {
         //throw "Incomplete";
         //fInstanceRefs = IGetInstanceGroup(fInstanceGroup, S->readInt());
         //fInstanceRefs->append(this);
-        printf("WARNING: plGeometrySpan::read Incomplete\n");
+        plDebug::Warning("WARNING: plGeometrySpan::read Incomplete");
         numInstanceRefs = S->readInt();
     }
 }
@@ -131,7 +132,7 @@ void plGeometrySpan::write(hsStream* S) {
     S->writeInt(fInstanceGroup);
     if (fInstanceGroup != 0) {
         //throw "Incomplete";
-        printf("WARNING: plGeometrySpan::write Incomplete\n");
+        plDebug::Warning("WARNING: plGeometrySpan::write Incomplete");
         S->writeInt(numInstanceRefs);
     }
 }
@@ -237,7 +238,7 @@ void plGeometrySpan::ClearBuffers() {
         IClearMembers();
         return;
     }
-    throw "Dependancies Incomplete";
+    throw hsNotImplementedException(__FILE__, __LINE__, "Dependancies");
     /*
     if (fInstanceRefs != NULL) {
         if (fInstanceRefs->getSize() != 1) {

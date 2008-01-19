@@ -2,8 +2,8 @@
 #define _PLCOORDINATEINTERFACE_H
 
 #include "plObjInterface.h"
-#include "../../CoreLib/hsTArray.hpp"
-#include "../../CoreLib/hsMatrix44.h"
+#include "CoreLib/hsTArray.hpp"
+#include "CoreLib/hsMatrix44.h"
 
 class plCoordinateInterface : public plObjInterface {
 public:

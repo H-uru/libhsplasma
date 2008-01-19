@@ -1,7 +1,7 @@
 #ifndef _PLTRANSITIONMSG_H
 #define _PLTRANSITIONMSG_H
 
-#include "../../NucleusLib/pnMessage/plMessageWithCallbacks.h"
+#include "NucleusLib/pnMessage/plMessageWithCallbacks.h"
 
 DllClass plTransitionMsg : public plMessageWithCallbacks {
 public:

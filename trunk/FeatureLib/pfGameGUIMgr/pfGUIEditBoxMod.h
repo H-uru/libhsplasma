@@ -2,7 +2,7 @@
 #define _PFGUIEDITBOXMOD_H
 
 #include "pfGUIControlMod.h"
-#include "../../DynLib/Platform.h"
+#include "DynLib/Platform.h"
 
 DllClass pfGUIEditBoxMod : public pfGUIControlMod {
 public:

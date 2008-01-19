@@ -1,7 +1,7 @@
 #include "plMipmap.h"
-#include "../plJPEG/plJPEG.h"
-#include <string.h>
-#include <stdlib.h>
+#include "PubUtilLib/plJPEG/plJPEG.h"
+#include <cstring>
+#include <cstdlib>
 
 plMipmap::plMipmap() {
     ImageData = NULL;

@@ -103,7 +103,7 @@ plString& plString::operator+=(const plString& other) {
             fHash = other.fHash;
             fHaveHash = other.fHaveHash;
         } else {
-            sprintf(newStr, "%s%s", fStr, other.fStr);
+            snprintf(newStr, fLen+1, "%s%s", fStr, other.fStr);
             fHaveHash = false;
         }
         if (fStr) delete[] fStr;
@@ -119,7 +119,7 @@ plString& plString::operator+=(const char* str) {
         if (empty())
             strcpy(newStr, str);
         else
-            sprintf(newStr, "%s%s", fStr, str);
+            snprintf(newStr, fLen+1, "%s%s", fStr, str);
         fHaveHash = false;
         if (fStr) delete[] fStr;
         fStr = newStr;

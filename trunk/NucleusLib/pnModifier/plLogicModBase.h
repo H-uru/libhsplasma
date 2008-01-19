@@ -2,7 +2,7 @@
 #define _PLLOGICMODBASE_H
 
 #include "plModifier.h"
-#include "../pnMessage/plNotifyMsg.h"
+#include "NucleusLib/pnMessage/plNotifyMsg.h"
 
 DllClass plLogicModBase : public plSingleModifier {
 public:

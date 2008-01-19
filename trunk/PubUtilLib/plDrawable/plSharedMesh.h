@@ -1,13 +1,13 @@
 #ifndef PLSHAREDMESH_H
 #define PLSHAREDMESH_H
 
-#include "../../NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "../../NucleusLib/pnSceneObject/plSceneObject.h"
-#include "../../CoreLib/hsStream.h"
-#include "../../CoreLib/hsTArray.hpp"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "NucleusLib/pnSceneObject/plSceneObject.h"
+#include "CoreLib/hsStream.h"
+#include "CoreLib/hsTArray.hpp"
 #include "plGeometrySpan.h"
 
-class plSharedMesh : public hsKeyedObject {
+DllClass plSharedMesh : public hsKeyedObject {
 public:
     enum {
         kDontSaveMorphState = 0x1,

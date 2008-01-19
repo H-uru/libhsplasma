@@ -2,7 +2,7 @@
 #define _PFGUIKNOBCTRL_H
 
 #include "pfGUIValueCtrl.h"
-#include "../../CoreLib/hsGeometry3.h"
+#include "CoreLib/hsGeometry3.h"
 
 DllClass pfGUIKnobCtrl : public pfGUIValueCtrl {
 public:

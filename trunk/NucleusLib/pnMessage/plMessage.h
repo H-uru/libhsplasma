@@ -1,9 +1,9 @@
 #ifndef _PLMESSAGE_H
 #define _PLMESSAGE_H
 
-#include "../pnFactory/plCreatable.h"
-#include "../../CoreLib/hsTArray.hpp"
-#include "../pnKeyedObject/plKey.h"
+#include "NucleusLib/pnFactory/plCreatable.h"
+#include "CoreLib/hsTArray.hpp"
+#include "NucleusLib/pnKeyedObject/plKey.h"
 
 DllClass plMessage : public plCreatable {
 public:

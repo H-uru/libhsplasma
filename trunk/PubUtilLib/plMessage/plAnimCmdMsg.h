@@ -1,8 +1,8 @@
 #ifndef _PLANIMCMDMSG_H
 #define _PLANIMCMDMSG_H
 
-#include "../../NucleusLib/pnMessage/plMessageWithCallbacks.h"
-#include "../../CoreLib/hsBitVector.h"
+#include "NucleusLib/pnMessage/plMessageWithCallbacks.h"
+#include "CoreLib/hsBitVector.h"
 
 DllClass plAnimCmdMsg : public plMessageWithCallbacks {
 public:

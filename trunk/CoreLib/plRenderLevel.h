@@ -1,7 +1,7 @@
 #ifndef _PLRENDERLEVEL_H
 #define _PLRENDERLEVEL_H
 
-class plRenderLevel {
+DllClass plRenderLevel {
 public:
     enum {
         kOpaqueMajorLevel = 0x0,

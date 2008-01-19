@@ -1,6 +1,6 @@
 #include "hsStdioStream.h"
 
-hsStdioStream::hsStdioStream(bool useStdErr) : hsStream(pvUnknown) {
+hsStdioStream::hsStdioStream(bool useStdErr) : hsFileStream(pvUnknown) {
     if (useStdErr)
         setFiles(stdin, stderr);
     else

@@ -1,8 +1,8 @@
 #ifndef _PLSCENEOBJECT_H
 #define _PLSCENEOBJECT_H
 
-#include "../pnNetCommon/plSynchedObject.h"
-#include "../../CoreLib/hsTArray.hpp"
+#include "NucleusLib/pnNetCommon/plSynchedObject.h"
+#include "CoreLib/hsTArray.hpp"
 
 class plSceneObject : public plSynchedObject {
 public:
@@ -28,4 +28,3 @@ public:
 };
 
 #endif
-

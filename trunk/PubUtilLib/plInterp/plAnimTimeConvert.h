@@ -1,8 +1,8 @@
 #ifndef _PLANIMTIMECONVERT_H
 #define _PLANIMTIMECONVERT_H
 
-#include "../../NucleusLib/pnFactory/plCreatable.h"
-#include "../../NucleusLib/pnMessage/plEventCallbackMsg.h"
+#include "NucleusLib/pnFactory/plCreatable.h"
+#include "NucleusLib/pnMessage/plEventCallbackMsg.h"
 
 DllClass plATCEaseCurve : public plCreatable {
 protected:

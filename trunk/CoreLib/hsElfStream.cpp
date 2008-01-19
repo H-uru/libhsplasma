@@ -1,5 +1,5 @@
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 #include "hsElfStream.h"
 
 hsElfStream::hsElfStream() { }
@@ -48,4 +48,3 @@ void hsElfStream::writeLine(const plString& ln) {
     write(segSize, lnWrite);
     delete[] lnWrite;
 }
-

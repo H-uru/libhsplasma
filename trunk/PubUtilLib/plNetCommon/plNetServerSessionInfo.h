@@ -1,8 +1,8 @@
 #ifndef _PLNETSERVERSESSIONINFO_H
 #define _PLNETSERVERSESSIONINFO_H
 
-#include "../../NucleusLib/pnFactory/plCreatable.h"
-#include "../plUUID/plUUID.h"
+#include "NucleusLib/pnFactory/plCreatable.h"
+#include "PubUtilLib/plUUID/plUUID.h"
 #include "plSpawnPointInfo.h"
 
 DllClass plAgeInfoStruct : public plCreatable {

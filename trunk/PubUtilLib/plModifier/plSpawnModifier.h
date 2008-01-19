@@ -1,7 +1,7 @@
 #ifndef _PLSPAWNMODIFIER_H
 #define _PLSPAWNMODIFIER_H
 
-#include "../../NucleusLib/pnModifier/plModifier.h"
+#include "NucleusLib/pnModifier/plModifier.h"
 
 DllClass plSpawnModifier : public plMultiModifier {
 public:

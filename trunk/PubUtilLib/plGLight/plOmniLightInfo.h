@@ -3,7 +3,7 @@
 
 #include "plLightInfo.h"
 
-class plOmniLightInfo : public plLightInfo {
+DllClass plOmniLightInfo : public plLightInfo {
 protected:
     float fAttenConst, fAttenLinear, fAttenQuadratic, fAttenCutoff;
     //plSphereIsect* fSphere;
@@ -19,7 +19,7 @@ public:
     virtual void prcWrite(pfPrcHelper* prc);
 };
 
-class plSpotLightInfo : public plOmniLightInfo {
+DllClass plSpotLightInfo : public plOmniLightInfo {
 protected:
     float fFalloff, fSpotInner, fSpotOuter, fEffectiveFOV;
     //plConeIsect* fCone;

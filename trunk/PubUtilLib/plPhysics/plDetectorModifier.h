@@ -1,7 +1,7 @@
 #ifndef _PLDETECTORMODIFIER_H
 #define _PLDETECTORMODIFIER_H
 
-#include "../../NucleusLib/pnModifier/plModifier.h"
+#include "NucleusLib/pnModifier/plModifier.h"
 
 DllClass plDetectorModifier : public plSingleModifier {
 protected:

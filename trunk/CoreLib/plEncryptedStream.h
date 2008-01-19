@@ -3,11 +3,15 @@
 
 #include "hsStream.h"
 
-DllClass plEncryptedStream : public hsStream {
+DllClass plEncryptedStream : public hsFileStream {
+public:
+    enum EncryptionType { kEncAuto, kEncXtea, kEncAES, kEncDroid };
+
 private:
     char LBuffer[16]; // Uru modes use only the first 8 bytes
     size_t dataSize, dataPos;
     unsigned int eKey[4];
+    EncryptionType eType;
 
 protected:
     void TeaDecipher(unsigned int* buf);
@@ -21,9 +25,10 @@ public:
     plEncryptedStream(PlasmaVer pv = pvUnknown);
     virtual ~plEncryptedStream();
 
-    virtual bool open(const char* file, FileMode mode);
+    virtual bool open(const char* file, FileMode mode, EncryptionType type);
     virtual void close();
     void setKey(unsigned int* keys);
+    EncryptionType getEncType() const;
 
     virtual hsUint32 size() const;
     virtual hsUint32 pos() const;

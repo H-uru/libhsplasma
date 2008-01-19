@@ -1,11 +1,11 @@
 #ifndef _PLCREATABLE_H
 #define _PLCREATABLE_H
 
-#include "../../CoreLib/hsStream.h"
-#include "../../DynLib/PlasmaVersions.h"
-#include "../../DynLib/pdUnifiedTypeMap.h"
-#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
+#include "CoreLib/hsStream.h"
+#include "DynLib/PlasmaVersions.h"
+#include "DynLib/pdUnifiedTypeMap.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "PubUtilLib/plResMgr/plResManager.h"
 
 #define DECLARE_CREATABLE(classname) \
     virtual short ClassIndex() const; \

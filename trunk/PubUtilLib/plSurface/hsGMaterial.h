@@ -1,10 +1,10 @@
 #ifndef _HSGMATERIAL_H
 #define _HSGMATERIAL_H
 
-#include "../../NucleusLib/pnNetCommon/plSynchedObject.h"
-#include "../../CoreLib/hsTArray.hpp"
+#include "NucleusLib/pnNetCommon/plSynchedObject.h"
+#include "CoreLib/hsTArray.hpp"
 
-class hsGMaterial : public plSynchedObject {
+DllClass hsGMaterial : public plSynchedObject {
 public:
     enum hsGCompFlags {
         kCompShaded = 0x1,
@@ -49,4 +49,3 @@ public:
 };
 
 #endif
-

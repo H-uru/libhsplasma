@@ -1,11 +1,11 @@
 #ifndef _PROEVENTDATA_H
 #define _PROEVENTDATA_H
 
-#include "../../PlasmaDefs.h"
-#include "../../CoreLib/hsStream.h"
-#include "../../CoreLib/hsGeometry3.h"
-#include "../pnKeyedObject/plKey.h"
-#include "../../PubUtilLib/plResMgr/plResManager.h"
+#include "PlasmaDefs.h"
+#include "CoreLib/hsStream.h"
+#include "CoreLib/hsGeometry3.h"
+#include "NucleusLib/pnKeyedObject/plKey.h"
+#include "PubUtilLib/plResMgr/plResManager.h"
 
 DllClass proEventData {
 public:

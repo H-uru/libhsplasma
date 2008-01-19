@@ -3,7 +3,7 @@
 
 #include "hsStream.h"
 
-class hsElfStream : private hsStream {
+class hsElfStream : private hsFileStream {
 private:
     void decipher(unsigned char* v, int size, unsigned char hint);
     void encipher(unsigned char* v, unsigned char hint);

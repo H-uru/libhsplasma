@@ -1,8 +1,8 @@
 #ifndef _PLPYTHONFILEMOD_H
 #define _PLPYTHONFILEMOD_H
 
-#include "../../CoreLib/hsStream.h"
-#include "../../NucleusLib/pnModifier/plModifier.h"
+#include "CoreLib/hsStream.h"
+#include "NucleusLib/pnModifier/plModifier.h"
 
 struct plPythonParameter {
 public:

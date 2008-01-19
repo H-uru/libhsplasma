@@ -3,7 +3,7 @@
 
 #include "hsStream.h"
 
-DllClass hsStdioStream : public hsStream {
+DllClass hsStdioStream : public hsFileStream {
 protected:
     FILE* Fin;
     FILE* Fout;

@@ -1,13 +1,13 @@
 #ifndef _PLRESMANAGER_H
 #define _PLRESMANAGER_H
 
-#include "../../PlasmaDefs.h"
-#include "../../DynLib/PlasmaVersions.h"
-#include "../../DynLib/PageID.h"
-#include "../../DynLib/pdUnifiedTypeMap.h"
-#include "../../CoreLib/plEncryptedStream.h"
-#include "../../CoreLib/hsTArray.hpp"
-#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "PlasmaDefs.h"
+#include "DynLib/PlasmaVersions.h"
+#include "DynLib/PageID.h"
+#include "DynLib/pdUnifiedTypeMap.h"
+#include "CoreLib/plEncryptedStream.h"
+#include "CoreLib/hsTArray.hpp"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 #include "plKeyCollector.h"
 #include "plPageInfo.h"
 #include "plPageSettings.h"

@@ -3,7 +3,7 @@
 
 #include "plLightInfo.h"
 
-class plDirectionalLightInfo : public plLightInfo {
+DllClass plDirectionalLightInfo : public plLightInfo {
 public:
     plDirectionalLightInfo();
     virtual ~plDirectionalLightInfo();
@@ -15,7 +15,7 @@ public:
     virtual void prcWrite(pfPrcHelper* prc);
 };
 
-class plLimitedDirLightInfo : public plDirectionalLightInfo {
+DllClass plLimitedDirLightInfo : public plDirectionalLightInfo {
 protected:
     float fWidth, fHeight, fDepth;
     //plParallelIsect* fParPlanes;

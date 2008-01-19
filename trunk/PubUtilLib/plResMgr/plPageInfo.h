@@ -2,9 +2,9 @@
 #define _PLPAGEINFO_H
 
 #include <vector>
-#include "../../CoreLib/hsStream.h"
-#include "../../NucleusLib/pnKeyedObject/plUoid.h"
-#include "../../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "CoreLib/hsStream.h"
+#include "NucleusLib/pnKeyedObject/plUoid.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 
 DllClass plPageInfo {
 public:

@@ -2,7 +2,7 @@
 #define _HSGEOMETRY3_H
 
 #include "hsStream.h"
-#include "../FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcHelper.h"
 
 DllStruct hsScalarTriple {
 public:
@@ -68,4 +68,3 @@ public:
 };
 
 #endif
-

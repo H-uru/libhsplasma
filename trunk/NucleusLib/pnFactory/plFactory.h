@@ -2,7 +2,7 @@
 #define _PLFACTORY_H
 
 #include "plCreatable.h"
-#include "../../DynLib/pdUnifiedTypeMap.h"
+#include "DynLib/pdUnifiedTypeMap.h"
 
 class plFactory {
 public:

@@ -1,6 +1,6 @@
 #include "plUoid.h"
-#include "../pnFactory/plFactory.h"
-#include "../../DynLib/pdUnifiedTypeMap.h"
+#include "NucleusLib/pnFactory/plFactory.h"
+#include "DynLib/pdUnifiedTypeMap.h"
 #include <string.h>
 #include <malloc.h>
 
@@ -48,8 +48,7 @@ void plLocation::write(hsStream* S) {
 }
 
 void plLocation::prcWrite(pfPrcHelper* prc) {
-    char buf[32];
-    sprintf(buf, "%d;%d", pageID.getSeqPrefix(), pageID.getPageNum());
+    plString buf = plString::Format("%d;%d", pageID.getSeqPrefix(), pageID.getPageNum());
     prc->writeParam("Location", buf);
     prc->writeParam("LocFlag", flags);
 }

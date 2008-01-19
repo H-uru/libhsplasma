@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 #include "plString.h"
-#include "../DynLib/Platform.h"
-#include "../DynLib/PlasmaVersions.h"
-#include "../PlasmaDefs.h"
+#include "DynLib/Platform.h"
+#include "DynLib/PlasmaVersions.h"
+#include "PlasmaDefs.h"
 #include "hsExceptions.h"
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
@@ -13,30 +13,25 @@ enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 DllClass hsStream {
 protected:
     PlasmaVer ver;
-    FILE* F;
-    FileMode fm;
 
 public:
     explicit hsStream(PlasmaVer pv = pvUnknown);
     virtual ~hsStream();
 
-    virtual bool open(const char* file, FileMode mode);
-    virtual void close();
-
     virtual void setVer(PlasmaVer pv);
     PlasmaVer getVer() const;
 
-    virtual hsUint32 size() const;
-    virtual hsUint32 pos() const;
-    virtual bool eof() const;
+    virtual hsUint32 size() const = 0;
+    virtual hsUint32 pos() const = 0;
+    virtual bool eof() const = 0;
     
-    virtual void seek(hsUint32 pos);
-    virtual void skip(hsUint32 count);
-    virtual void fastForward();
-    virtual void rewind();
+    virtual void seek(hsUint32 pos) = 0;
+    virtual void skip(hsInt32 count) = 0;
+    virtual void fastForward() = 0;
+    virtual void rewind() = 0;
 
-    virtual void read(size_t size, void* buf);
-    virtual void write(size_t size, const void* buf);
+    virtual void read(size_t size, void* buf) = 0;
+    virtual void write(size_t size, const void* buf) = 0;
 
     hsUbyte readByte();
     void readBytes(size_t count, hsUbyte* buf);
@@ -71,6 +66,31 @@ public:
     void writeSafeStr(const plString& str);
     void writeSafeWStr(const plWString& str);
     virtual void writeLine(const plString& ln, bool winEOL = false);
+};
+
+DllClass hsFileStream : public hsStream {
+protected:
+    FILE* F;
+    FileMode fm;
+
+public:
+    explicit hsFileStream(PlasmaVer pv = pvUnknown);
+    virtual ~hsFileStream();
+
+    virtual bool open(const char* file, FileMode mode);
+    virtual void close();
+
+    virtual hsUint32 size() const;
+    virtual hsUint32 pos() const;
+    virtual bool eof() const;
+    
+    virtual void seek(hsUint32 pos);
+    virtual void skip(hsInt32 count);
+    virtual void fastForward();
+    virtual void rewind();
+
+    virtual void read(size_t size, void* buf);
+    virtual void write(size_t size, const void* buf);
 };
 
 DllClass hsFileReadException : public hsException {

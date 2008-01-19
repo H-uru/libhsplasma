@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
                 if (strlen(argv[i]) != 32) {
                     fprintf(stderr, "Error:  key must be exactly 32 Hex characters, in network byte order.\n");
                     fprintf(stderr, "Example:  To use the key { 0x01234567, 0x89ABCDEF, 0x01234567, 0x89ABCDEF } :\n"
-                           "    DroidCrypt encrypt droid -key 0123456789ABCDEF0123456789ABCDEF Filename.sdl\n");
+                                    "    DroidCrypt encrypt droid -key 0123456789ABCDEF0123456789ABCDEF Filename.sdl\n");
                     return 0;
                 }
                 for (int j=0; j<4; j++)
@@ -132,22 +132,18 @@ int main(int argc, char** argv) {
                                argv[i]);
                     continue;
                 } else {
-                    SF.open(argv[i], fmRead);
-                    if (SF.getVer() == pvLive && !haveKey) {
+                    SF.open(argv[i], fmRead, plEncryptedStream::kEncAuto);
+                    if (SF.getEncType() == plEncryptedStream::kEncDroid && !haveKey) {
                         fprintf(stderr, "Error: Droid key not set!\n");
                         SF.close();
                         return 1;
                     }
-                    if (SF.getVer() == pvEoa && haveKey && verbosity >= 0)
+                    if (SF.getEncType() == plEncryptedStream::kEncAES && haveKey && verbosity >= 0)
                         printf("Warning: Ignoring key for AES decryption\n");
                 }
             } catch (std::exception& e) {
                 if (verbosity >= 0)
                     fprintf(stderr, "Error opening %s: %s\n", argv[i], e.what());
-                continue;
-            } catch (const char* e) {
-                if (verbosity >= 0)
-                    fprintf(stderr, "Error opening %s: %s\n", argv[i], e);
                 continue;
             } catch (...) {
                 if (verbosity >= 0)
@@ -159,7 +155,7 @@ int main(int argc, char** argv) {
             SF.read(dataSize, buf);
             SF.close();
 
-            hsStream DF;
+            hsFileStream DF;
             outFileName = doReplace ? argv[i] : getNextOutFile(argv[i]);
             if (verbosity >= 1)
                 printf("Decrypting %s...\n", outFileName.cstr());
@@ -169,7 +165,7 @@ int main(int argc, char** argv) {
             delete[] buf;
             nFiles++;
         } else {
-            hsStream SF;
+            hsFileStream SF;
             try {
                 if (plEncryptedStream::isFileEncrypted(argv[i])) {
                     if (verbosity >= 0)
@@ -183,10 +179,6 @@ int main(int argc, char** argv) {
                 if (verbosity >= 0)
                     fprintf(stderr, "Error opening %s: %s\n", argv[i], e.what());
                 continue;
-            } catch (const char* e) {
-                if (verbosity >= 0)
-                    fprintf(stderr, "Error opening %s: %s\n", argv[i], e);
-                continue;
             } catch (...) {
                 if (verbosity >= 0)
                     fprintf(stderr, "Undefined error opening %s\n", argv[i]);
@@ -198,11 +190,10 @@ int main(int argc, char** argv) {
             SF.close();
 
             plEncryptedStream DF;
-            PlasmaVer dv = pvUnknown;
-            if (method == emTea) dv = pvPrime;
-            if (method == emAes) dv = pvEoa;
-            if (method == emDroid) dv = pvLive;
-            DF.setVer(dv);
+            plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
+            if (method == emTea) eType = plEncryptedStream::kEncXtea;
+            if (method == emAes) eType = plEncryptedStream::kEncAES;
+            if (method == emDroid) eType = plEncryptedStream::kEncDroid;
             if (method == emDroid && !haveKey) {
                 fprintf(stderr, "Error: Droid key not set!\n");
                 return 1;
@@ -213,7 +204,7 @@ int main(int argc, char** argv) {
             outFileName = doReplace ? argv[i] : getNextOutFile(argv[i]);
             if (verbosity >= 1)
                 printf("Encrypting %s...\n", outFileName.cstr());
-            DF.open(outFileName, fmCreate);
+            DF.open(outFileName, fmCreate, eType);
             DF.write(dataSize, buf);
             DF.close();
             delete[] buf;

@@ -1,7 +1,8 @@
 #include "plResManager.h"
-#include "../../NucleusLib/pnFactory/plFactory.h"
-#include "../../PubUtilLib/plScene/plSceneNode.h"
-#include "../plJPEG/plJPEG.h"
+#include "NucleusLib/pnFactory/plFactory.h"
+#include "PubUtilLib/plScene/plSceneNode.h"
+#include "PubUtilLib/plJPEG/plJPEG.h"
+#include "CoreLib/plDebug.h"
 
 plResManager* plResManager::fGlobalResMgr = NULL;
 unsigned int plResManager::fNumResMgrs = 0;
@@ -107,14 +108,10 @@ unsigned int plResManager::countKeys(const PageID& pid) {
 }
 
 plPageInfo* plResManager::ReadPage(const char* filename) {
-    hsStream* S = new hsStream();
+    hsFileStream* S = new hsFileStream();
     setVer(S->getVer());
     if (!S->open(filename, fmRead))
         throw hsFileReadException(__FILE__, __LINE__, filename);
-    //    char* buf = new char[256];
-    //    sprintf(buf, "Error reading file: %s", filename);
-    //    throw (const char*)buf;
-    //}
     plPageInfo* page = new plPageInfo;
     page->read(S);
     pages.push_back(page);
@@ -129,7 +126,7 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
 }
 
 void plResManager::WritePage(const char* filename, plPageInfo* page) {
-    hsStream* S = new hsStream();
+    hsFileStream* S = new hsFileStream();
     S->open(filename, fmWrite);
     S->setVer(ver);
     if (ver == pvEoa || ver == pvHex || ver == pvLive) {
@@ -185,7 +182,7 @@ void plResManager::UnloadPage(plLocation& loc) {
 
 plAgeSettings* plResManager::ReadAge(const char* filename) {
     plEncryptedStream* S = new plEncryptedStream();
-    S->open(filename, fmRead);
+    S->open(filename, fmRead, plEncryptedStream::kEncAuto);
 
     plAgeSettings* age = new plAgeSettings;
     char* afName;
@@ -242,9 +239,12 @@ plAgeSettings* plResManager::ReadAge(const char* filename) {
 
 void plResManager::WriteAge(const char* filename, plAgeSettings* age) {
     plEncryptedStream* S = new plEncryptedStream();
-    if (ver == pvEoa || ver == pvHex) S->setVer(pvEoa);
-    else S->setVer(pvPrime);
-    S->open(filename, fmCreate);
+    plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
+    if (ver == pvEoa || ver == pvHex)
+        eType = plEncryptedStream::kEncAES;
+    else
+        eType = plEncryptedStream::kEncXtea;
+    S->open(filename, fmCreate, eType);
 
     char* lnBuf = new char[4096];
     sprintf(lnBuf, "StartDateTime=%d", age->startDateTime);
@@ -290,7 +290,7 @@ void plResManager::UnloadAge(plAgeSettings* age) {
 }
 
 void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
-    //printf("* Reading Keyring\n");
+    //plDebug::Debug("* Reading Keyring");
     //keys.addPage(loc.pageID);
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
@@ -301,14 +301,14 @@ void plResManager::ReadKeyring(hsStream* S, plLocation& loc) {
         }
         unsigned int oCount = S->readInt();
         keys.reserveKeySpace(loc.getPageID(), type, oCount);
-        //printf("  * Indexing %d objects of type [%04X]\n", oCount, type);
+        //plDebug::Debug("  * Indexing %d objects of type [%04X]", oCount, type);
         for (unsigned int j=0; j<oCount; j++) {
             plKey key = new plKeyData();
             key->read(S);
             //if (S->getVer() != pvEoa && S->getVer() != pvHex && S->getVer() != pvLive)
             //    key->setID(j);
             keys.add(key);
-            //printf("    * Key %s\n", key->toString());
+            //plDebug::Debug("    * Key %s", key->toString());
         }
     }
 }
@@ -338,37 +338,37 @@ void plResManager::WriteKeyring(hsStream* S, plLocation& loc) {
 }
 
 unsigned int plResManager::ReadObjects(hsStream* S, plLocation& loc) {
-    //printf("* Reading Objects\n");
+    //plDebug::Debug("* Reading Objects");
     std::vector<short> types = keys.getTypes(loc.getPageID());
     unsigned int nRead = 0;
     
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
-        //printf("* Reading %d objects of type [%04X]%s\n", kList.size(),
-        //       types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
+        //plDebug::Debug("* Reading %d objects of type [%04X]%s", kList.size(),
+        //               types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->getFileOff() <= 0) continue;
-            //printf("  * (%d) Reading %s @ 0x%08X\n", j, kList[j]->getName(),
-            //       kList[j]->fileOff);
+            //plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName(),
+            //               kList[j]->fileOff);
             S->seek(kList[j]->getFileOff());
             try {
                 kList[j]->setObj(hsKeyedObject::Convert(ReadCreatable(S)));
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
                     if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff())
-                        printf("[%04X:%s] Size-Read difference: %d bytes\n",
-                               kList[j]->getType(), kList[j]->getName().cstr(),
-                               (signed int)(kList[j]->getObjSize() -
-                                            (S->pos() - kList[j]->getFileOff())));
+                        plDebug::Warning("[%04X:%s] Size-Read difference: %d bytes",
+                            kList[j]->getType(), kList[j]->getName().cstr(),
+                            (int)(kList[j]->getObjSize() -
+                                  (S->pos() - kList[j]->getFileOff())));
                 }
             } catch (const std::exception& e) {
-                printf("Failed reading %s: %s\n",
-                        kList[j]->toString().cstr(), e.what());
+                plDebug::Error("Failed reading %s: %s",
+                               kList[j]->toString().cstr(), e.what());
                 delete kList[j]->getObj();
                 kList[j]->setObj(NULL);
             } catch (...) {
-                printf("Undefined error reading %s\n",
-                        kList[j]->toString().cstr());
+                plDebug::Error("Undefined error reading %s",
+                               kList[j]->toString().cstr());
                 delete kList[j]->getObj();
                 kList[j]->setObj(NULL);
             }
@@ -384,7 +384,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
 
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
-        //printf("* Writing %d objects of type [%04X]\n", kList.size(), types[i]);
+        //plDebug::Debug("* Writing %d objects of type [%04X]", kList.size(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
             kList[j]->setID(j);
@@ -393,11 +393,11 @@ unsigned int plResManager::WriteObjects(hsStream* S, plLocation& loc) {
                     WriteCreatable(S, kList[j]->getObj());
                     nWritten++;
                 } catch (const char* e) {
-                    printf("Failed writing %s: %s\n",
-                           kList[j]->toString().cstr(), e);
+                    plDebug::Error("Failed writing %s: %s",
+                                   kList[j]->toString().cstr(), e);
                 } catch (...) {
-                    printf("Undefined error writing %s\n",
-                           kList[j]->toString().cstr());
+                    plDebug::Error("Undefined error writing %s",
+                                   kList[j]->toString().cstr());
                 }
             }
             kList[j]->setObjSize(S->pos() - kList[j]->getFileOff());
@@ -413,7 +413,7 @@ plCreatable* plResManager::ReadCreatable(hsStream* S) {
     if (pCre != NULL)
         pCre->read(S, this);
     else if (type != 0x8000)
-        printf("Warning: NOT reading object of type [%04X]\n", type);
+        plDebug::Warning("Warning: NOT reading object of type [%04X]", type);
     return pCre;
 }
 

@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS += -fPIC -Wall -g
+CXXFLAGS += -I. -fPIC -Wall -g
 CXXFLAGSEXTERN = -fPIC -O2
 
 LIBDIR=out/

@@ -1,10 +1,10 @@
 #ifndef _PLANIMPATH_H
 #define _PLANIMPATH_H
 
-#include "../../NucleusLib/pnFactory/plCreatable.h"
-#include "../../PubUtilLib/plTransform/hsAffineParts.h"
-#include "../../CoreLib/hsMatrix44.h"
-#include "../../CoreLib/hsTArray.hpp"
+#include "NucleusLib/pnFactory/plCreatable.h"
+#include "PubUtilLib/plTransform/hsAffineParts.h"
+#include "CoreLib/hsMatrix44.h"
+#include "CoreLib/hsTArray.hpp"
 #include "plTMController.h"
 
 DllClass plAnimPath : public plCreatable {

@@ -1,8 +1,8 @@
 #ifndef _PLCONVEXVOLUME_H
 #define _PLCONVEXVOLUME_H
 
-#include "../../NucleusLib/pnFactory/plCreatable.h"
-#include "../../CoreLib/hsGeometry3.h"
+#include "NucleusLib/pnFactory/plCreatable.h"
+#include "CoreLib/hsGeometry3.h"
 
 DllClass plConvexVolume : public plCreatable {
 protected:
