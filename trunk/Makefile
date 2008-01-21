@@ -11,9 +11,10 @@ OBJFILES=\
 	$(LIBDIR)plEncryptedStream.o \
 	$(LIBDIR)hsElfStream.o \
 	$(LIBDIR)plDebug.o \
+	$(LIBDIR)plAgeInfo.o \
+	$(LIBDIR)plKeyCollector.o \
 	$(LIBDIR)plPageInfo.o \
 	$(LIBDIR)plResManager.o \
-	$(LIBDIR)plKeyCollector.o \
 	$(LIBDIR)hsBitVector.o \
 	$(LIBDIR)hsColor.o \
 	$(LIBDIR)hsMatrix33.o \
@@ -507,6 +508,9 @@ $(LIBDIR)plGBufferGroup.o: PubUtilLib/plPipeline/plGBufferGroup.h PubUtilLib/plP
 
 $(LIBDIR)plVertCoder.o: PubUtilLib/plPipeline/plVertCoder.h PubUtilLib/plPipeline/plVertCoder.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPipeline/plVertCoder.cpp -o $(LIBDIR)plVertCoder.o
+
+$(LIBDIR)plAgeInfo.o: PubUtilLib/plResMgr/plAgeInfo.h PubUtilLib/plResMgr/plAgeInfo.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plResMgr/plAgeInfo.cpp -o $(LIBDIR)plAgeInfo.o
 
 $(LIBDIR)plKeyCollector.o: PubUtilLib/plResMgr/plKeyCollector.h PubUtilLib/plResMgr/plKeyCollector.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plResMgr/plKeyCollector.cpp -o $(LIBDIR)plKeyCollector.o

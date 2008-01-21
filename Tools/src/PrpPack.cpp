@@ -1,12 +1,11 @@
 #include "PubUtilLib/plResMgr/plResManager.h"
+#include "DynLib/Platform.h"
 #include <string.h>
 #ifdef WIN32
   #include <windows.h>
-  #define SLASH '\\'
 #else
   #include <unistd.h>
   #include <dirent.h>
-  #define SLASH '/'
 #endif
 #include <sys/stat.h>
 
@@ -58,12 +57,12 @@ const char* filenameConvert(char* filename, eDirection dir) {
 
 const char* getOutputDir(char* filename, plPageInfo* page) {
     char* odir = (char*)malloc(strlen(filename) +
-                        strlen(page->getAge()) + strlen(page->getPage()) + 7);
+                        page->getAge().len() + page->getPage().len() + 7);
     strcpy(odir, filename);
-    char* sepLoc = strrchr(odir, SLASH);
+    char* sepLoc = strrchr(odir, PATHSEP);
     if (sepLoc == NULL) odir[0] = 0;
     else sepLoc[1] = 0;
-    sprintf(odir, "%s%s_%s_PRP%c", odir, page->getAge(), page->getPage(), SLASH);
+    sprintf(odir, "%s%s_%s_PRP%c", odir, page->getAge().cstr(), page->getPage().cstr(), PATHSEP);
     return odir;
 }
 

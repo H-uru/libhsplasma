@@ -158,7 +158,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
     char buf[10];
     prc->writeTagNoBreak("VertexData");
     for (i=0; i<size; i++) {
-        sprintf(buf, "%02X", fVertexData[i]);
+        snprintf(buf, 10, "%02X", fVertexData[i]);
         prc->getStream()->writeStr(buf);
     }
     prc->closeTagNoBreak();
@@ -173,20 +173,20 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
     prc->writeTagNoBreak("DiffuseColors");
     for (i=0; i<fNumVerts; i++) {
-        sprintf(buf, "%08X ", fDiffuseRGBA[i]);
+        snprintf(buf, 10, "%08X ", fDiffuseRGBA[i]);
         prc->getStream()->writeStr(buf);
     }
     prc->closeTagNoBreak();
     prc->writeTagNoBreak("SpecularColors");
     for (i=0; i<fNumVerts; i++) {
-        sprintf(buf, "%08X ", fSpecularRGBA[i]);
+        snprintf(buf, 10, "%08X ", fSpecularRGBA[i]);
         prc->getStream()->writeStr(buf);
     }
     prc->closeTagNoBreak();
 
     prc->writeTagNoBreak("IndexData");
     for (i=0; i<fNumIndices; i++) {
-        sprintf(buf, "%04X ", fIndexData[i]);
+        snprintf(buf, 10, "%04X ", fIndexData[i]);
         prc->getStream()->writeStr(buf);
     }
     prc->closeTagNoBreak();

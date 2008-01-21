@@ -10,26 +10,26 @@
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
 #include "plKeyCollector.h"
 #include "plPageInfo.h"
-#include "plPageSettings.h"
+#include "plAgeInfo.h"
 
 DllClass plResManager /* : public hsResMgr */ {
 private:
     static plResManager* fGlobalResMgr;
     static unsigned int fNumResMgrs;
+    static PlasmaVer fPlasmaVer;
 
 protected:
-    PlasmaVer ver;
     plKeyCollector keys;
     std::vector<plPageInfo*> pages;
-    std::vector<plAgeSettings*> ages;
+    std::vector<plAgeInfo*> ages;
 
 private:
     plKey readKeyBase(hsStream* S);
     void writeKeyBase(hsStream* S, plKey key);
-    void ReadKeyring(hsStream* S, plLocation& loc);
-    unsigned int ReadObjects(hsStream* S, plLocation& loc);
-    void WriteKeyring(hsStream* S, plLocation& loc);
-    unsigned int WriteObjects(hsStream* S, plLocation& loc);
+    void ReadKeyring(hsStream* S, const plLocation& loc);
+    unsigned int ReadObjects(hsStream* S, const plLocation& loc);
+    void WriteKeyring(hsStream* S, const plLocation& loc);
+    unsigned int WriteObjects(hsStream* S, const plLocation& loc);
 
 public:
     plResManager(PlasmaVer pv = pvUnknown);
@@ -51,18 +51,18 @@ public:
     plPageInfo* ReadPage(const char* filename);
     void WritePage(const char* filename, plPageInfo* page);
     void WritePrc(pfPrcHelper* prc, plPageInfo* page);
-    void UnloadPage(plLocation& loc);
+    void UnloadPage(const plLocation& loc);
     
-    plAgeSettings* ReadAge(const char* filename);
-    void WriteAge(const char* filename, plAgeSettings* age);
-    void UnloadAge(plAgeSettings* age);
+    plAgeInfo* ReadAge(const char* filename);
+    void WriteAge(const char* filename, plAgeInfo* age);
+    void UnloadAge(plAgeInfo* age);
 
     class plCreatable* ReadCreatable(hsStream* S);
     void WriteCreatable(hsStream* S, class plCreatable* pCre);
 
-    class plSceneNode* getSceneNode(plLocation& loc);
+    class plSceneNode* getSceneNode(const plLocation& loc);
     std::vector<plLocation> getLocations();
-    std::vector<plKey> getKeys(plLocation& loc, short type);
+    std::vector<plKey> getKeys(const plLocation& loc, short type);
 };
 
 #endif

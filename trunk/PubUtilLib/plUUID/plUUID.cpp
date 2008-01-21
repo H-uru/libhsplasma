@@ -37,7 +37,6 @@ void plUUID::clear() {
 }
 
 plString plUUID::toString() const {
-    char buf[37];
     struct WinUUID {
         unsigned int Data1;
         unsigned short Data2, Data3;
@@ -45,11 +44,10 @@ plString plUUID::toString() const {
     };
     WinUUID udat;
     memcpy(&udat, fData, sizeof(WinUUID));
-    snprintf(buf, 37, "%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+    return plString::Format("%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
              udat.Data1, udat.Data2, udat.Data3,
              udat.Data4[0], udat.Data4[1], udat.Data4[2], udat.Data4[3],
              udat.Data4[4], udat.Data4[5], udat.Data4[6], udat.Data4[7]);
-    return plString(buf);
 }
 
 bool plUUID::isNull() const {

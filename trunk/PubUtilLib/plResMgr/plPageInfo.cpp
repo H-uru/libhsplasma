@@ -3,33 +3,43 @@
 #include "DynLib/pdUnifiedTypeMap.h"
 #include "CoreLib/plDebug.h"
 
-plPageInfo::plPageInfo() { IInit(); }
+const plString plPageInfo::kDistrict = "District";
+
+plPageInfo::plPageInfo() {
+    IInit();
+}
+
+plPageInfo::plPageInfo(const plString& age, const plString& page) {
+    IInit();
+    setNames(age, page);
+}
 
 plPageInfo::~plPageInfo() { }
 
 void plPageInfo::IInit() {
-    location.invalidate();
-    releaseVersion = 0;
-    checksum = 0;
-    idxChecksum = 0;
-    flags = 0;
-    idxStart = 0;
-    dataStart = 0;
+    fLocation.invalidate();
+    fReleaseVersion = 0;
+    fChecksum = 0;
+    fIdxChecksum = 0;
+    fFlags = 0;
+    fIdxStart = 0;
+    fDataStart = 0;
+
+    fNumObjects = 0;
+    fLoadFlags = 0;
 }
 
-bool plPageInfo::isValid() { return location.isValid(); }
+bool plPageInfo::isValid() const { return fLocation.isValid(); }
 
 void plPageInfo::read(hsStream* S) {
-    IInit();
-
     short prpVer = S->readShort();
     if (prpVer == 6) {
-        unsigned short nTypes = S->readShort();
-        if (nTypes == 0) {
+        unsigned short fNumTypes = S->readShort();
+        if (fNumTypes == 0) {
             S->setVer(pvLive);
         } else {
             S->setVer(pvEoa);
-            for (int i=0; i<nTypes; i++) {
+            for (int i=0; i<fNumTypes; i++) {
                 short type = S->readShort();
                 short ver = S->readShort();
                 if (pdUnifiedTypeMap::ClassVersion(type, pvEoa) != ver) {
@@ -39,9 +49,9 @@ void plPageInfo::read(hsStream* S) {
                 }
             }
         }
-        location.read(S);
-        age = S->readSafeStr();
-        page = S->readSafeStr();
+        fLocation.read(S);
+        fAge = S->readSafeStr();
+        fPage = S->readSafeStr();
         if (S->getVer() == pvLive)
             S->readShort();  // majorVer
     } else if (prpVer == 5) {
@@ -49,45 +59,45 @@ void plPageInfo::read(hsStream* S) {
         int pid = S->readInt();
         int pflags = S->readShort();
         S->setVer(pvPrime);
-        age = S->readSafeStr();
+        fAge = S->readSafeStr();
         S->readSafeStr(); // "District"
-        page = S->readSafeStr();
+        fPage = S->readSafeStr();
         short majorVer = S->readShort();
         short minorVer = S->readShort();
         if (majorVer > 63) // Old Live version (e.g. 69.x)
             throw hsBadVersionException(__FILE__, __LINE__);
         else if (minorVer >= 12) S->setVer(pvPots);
-        location.set(pid, pflags, S->getVer());
-        releaseVersion = S->readInt();
-        flags = S->readInt();
+        fLocation.set(pid, pflags, S->getVer());
+        fReleaseVersion = S->readInt();
+        fFlags = S->readInt();
     } else {
         throw hsBadVersionException(__FILE__, __LINE__);
     }
-    checksum = S->readInt();
-    dataStart = S->readInt();
-    idxStart = S->readInt();
+    fChecksum = S->readInt();
+    fDataStart = S->readInt();
+    fIdxStart = S->readInt();
 }
 
 void plPageInfo::write(hsStream* S) {
     if (S->getVer() == pvEoa) {
         S->writeShort(6);
-        S->writeShort(classList.size());
-        for (size_t i=0; i<classList.size(); i++) {
-            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(classList[i], pvEoa));
-            S->writeShort(pdUnifiedTypeMap::ClassVersion(classList[i], pvEoa));
+        S->writeShort(fClassList.size());
+        for (size_t i=0; i<fClassList.size(); i++) {
+            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], pvEoa));
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], pvEoa));
         }
-        location.write(S);
+        fLocation.write(S);
         S->writeSafeStr(getAge());
         S->writeSafeStr(getPage());
     } else if (S->getVer() == pvLive) {
         S->writeInt(6);
-        location.write(S);
+        fLocation.write(S);
         S->writeSafeStr(getAge());
         S->writeSafeStr(getPage());
         S->writeShort(70);
     } else {
         S->writeInt(5);
-        location.write(S);
+        fLocation.write(S);
         S->writeSafeStr(getAge());
         S->writeSafeStr(getChapter());
         S->writeSafeStr(getPage());
@@ -101,52 +111,63 @@ void plPageInfo::write(hsStream* S) {
         }
         S->writeShort(majorVer);
         S->writeShort(minorVer);
-        S->writeInt(releaseVersion);
-        S->writeInt(flags);
+        S->writeInt(fReleaseVersion);
+        S->writeInt(fFlags);
     }
-    S->writeInt(checksum);
-    S->writeInt(dataStart);
-    S->writeInt(idxStart);
+    S->writeInt(fChecksum);
+    S->writeInt(fDataStart);
+    S->writeInt(fIdxStart);
 }
 
 void plPageInfo::writeSums(hsStream* S) {
     unsigned int pos = S->pos();
-    S->seek(dataStart-12);
-    S->writeInt(checksum);
-    S->writeInt(dataStart);
-    S->writeInt(idxStart);
+    S->seek(fDataStart-12);
+    S->writeInt(fChecksum);
+    S->writeInt(fDataStart);
+    S->writeInt(fIdxStart);
     S->seek(pos);
 }
 
 void plPageInfo::prcWrite(pfPrcHelper* prc) {
     prc->startTag("Page");
-    prc->writeParam("AgeName", age);
-    prc->writeParam("PageName", page);
-    location.prcWrite(prc);
+    prc->writeParam("AgeName", fAge);
+    prc->writeParam("PageName", fPage);
+    fLocation.prcWrite(prc);
     prc->endTag();
 }
 
-const char* plPageInfo::getAge() { return age; }
-const char* plPageInfo::getChapter() { return "District"; }
-const char* plPageInfo::getPage() { return page; }
-unsigned int plPageInfo::getChecksum() { return checksum; }
-unsigned int plPageInfo::getDataStart() { return dataStart; }
-unsigned int plPageInfo::getIndexStart() { return idxStart; }
-unsigned int plPageInfo::getFlags() { return flags; }
-plLocation& plPageInfo::getLocation() { return location; }
-
-void plPageInfo::setChecksum(unsigned int sum) { checksum = sum; }
-void plPageInfo::setReleaseVersion(unsigned int relVer) { releaseVersion = relVer; }
-void plPageInfo::setDataStart(unsigned int loc) { dataStart = loc; }
-void plPageInfo::setIndexStart(unsigned int loc) { idxStart = loc; }
-void plPageInfo::setFlags(unsigned int f) { flags = f; }
-void plPageInfo::setLocation(plLocation& loc) { location = loc; }
-
-void plPageInfo::setNames(const char* newAge, const char* newPage) {
-    age = newAge;
-    page = newPage;
+plString plPageInfo::getFilename(PlasmaVer ver) const {
+    if (ver == pvEoa || ver == pvHex)
+        return plString::Format("%s_%s.prp", fAge.cstr(), fPage.cstr());
+    else
+        return plString::Format("%s_District_%s.prp", fAge.cstr(), fPage.cstr());
 }
 
-void plPageInfo::clearClassList() { classList.clear(); }
-void plPageInfo::addClass(short classIdx) { classList.push_back(classIdx); }
-void plPageInfo::setClassList(std::vector<short>& list) { classList = list; }
+const plString& plPageInfo::getAge() const { return fAge; }
+const plString& plPageInfo::getChapter() const { return kDistrict; }
+const plString& plPageInfo::getPage() const { return fPage; }
+unsigned int plPageInfo::getChecksum() const { return fChecksum; }
+unsigned int plPageInfo::getDataStart() const { return fDataStart; }
+unsigned int plPageInfo::getIndexStart() const { return fIdxStart; }
+unsigned int plPageInfo::getFlags() const { return fFlags; }
+plLocation& plPageInfo::getLocation() { return fLocation; }
+unsigned char plPageInfo::getLoadFlags() const { return fLoadFlags; }
+unsigned int plPageInfo::getNumObjects() const { return fNumObjects; }
+
+void plPageInfo::setChecksum(unsigned int sum) { fChecksum = sum; }
+void plPageInfo::setReleaseVersion(unsigned int relVer) { fReleaseVersion = relVer; }
+void plPageInfo::setDataStart(unsigned int loc) { fDataStart = loc; }
+void plPageInfo::setIndexStart(unsigned int loc) { fIdxStart = loc; }
+void plPageInfo::setFlags(unsigned int flags) { fFlags = flags; }
+void plPageInfo::setLocation(const plLocation& loc) { fLocation = loc; }
+void plPageInfo::setLoadFlags(unsigned char flags) { fLoadFlags = flags; }
+void plPageInfo::setNumObjects(unsigned int nObjects) { fNumObjects = nObjects; }
+
+void plPageInfo::setNames(const plString& age, const plString& page) {
+    fAge = age;
+    fPage = page;
+}
+
+void plPageInfo::clearClassList() { fClassList.clear(); }
+void plPageInfo::addClass(short classIdx) { fClassList.push_back(classIdx); }
+void plPageInfo::setClassList(std::vector<short>& list) { fClassList = list; }

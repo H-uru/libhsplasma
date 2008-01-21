@@ -1,5 +1,5 @@
 #include <cstdio>
-#include <math.h>
+#include <cmath>
 #include "hsMatrix44.h"
 
 /*

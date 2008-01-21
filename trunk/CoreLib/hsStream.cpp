@@ -262,7 +262,7 @@ hsFileStream::~hsFileStream() {
 }
 
 bool hsFileStream::open(const char* file, FileMode mode) {
-    char* fms;
+    const char* fms;
     switch (mode) {
       case fmRead:
         fms = "rb";

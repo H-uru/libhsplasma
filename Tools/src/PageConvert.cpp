@@ -84,17 +84,17 @@ int main(int argc, char** argv) {
             printf("PageID: %s (%08X)\n", page->getLocation().toString().cstr(),
                                           page->getLocation().getPageID().unparse());
             printf("Page Flags: %d\n", page->getLocation().getFlags());
-            printf("Age Name: %s\n", page->getAge());
-            printf("Page Name: %s\n", page->getPage());
+            printf("Age Name: %s\n", page->getAge().cstr());
+            printf("Page Name: %s\n", page->getPage().cstr());
             printf("Plasma Version: %s\n", PlasmaVerNames[rm.getVer()]);
             printf("Keyring: %d keys\n", rm.countKeys(page->getLocation().getPageID()));
-            printf("Objects Read: %d\n", page->nObjects);
+            printf("Objects Read: %d\n", page->getNumObjects());
             
             rm.setVer(toVer, true);
             char fn[256];
             sprintf(fn, "%s.%s", argv[i], getSuffix(toVer));
             rm.WritePage(fn, page);
-            printf("Objects Written: %d\n\n", page->nObjects);
+            printf("Objects Written: %d\n\n", page->getNumObjects());
             files++;
         }
     }

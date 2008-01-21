@@ -21,6 +21,9 @@
 
 #ifdef WIN32
 	#define snprintf _snprintf
+    #define PATHSEP '\\'   
+#else
+    #define PATHSEP '/'
 #endif
 
 enum plKeyDef {

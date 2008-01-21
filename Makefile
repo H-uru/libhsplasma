@@ -1,12 +1,13 @@
 CC = g++
 CFLAGS += -fPIC -Wall -g
 
-all: TypeMap
+all:
 	(cd trunk ; make)
 	(make Tools/PageConvert)
 	(make Tools/PlasmaCrypt)
 	(make Tools/PrpPack)
 	(make Tools/PrcExtract)
+	(make TypeMap)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert

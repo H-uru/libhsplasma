@@ -101,10 +101,6 @@ void hsBitVector::write(hsStream* S) {
 void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsBitVector");
     for (size_t i=0; i<fNumVectors; i++) {
-        //char buf[9];
-        //sprintf(buf, "%08lX", fBits[fNumVectors - i]);
-        //prc->getStream()->writeStr(buf);
-
         for (size_t j=0; j<BVMULT; j++) {
             if (get((i*BVMULT) + j)) {
                 prc->getStream()->writeStr(getName((i*BVMULT) + j));

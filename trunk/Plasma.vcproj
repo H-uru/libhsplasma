@@ -42,7 +42,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;D:\Dev\Libs\jpeg-6b&quot;"
+				AdditionalIncludeDirectories=".;&quot;D:\Dev\Libs\jpeg-6b&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -115,7 +115,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;D:\Dev\Libs\jpeg-6b&quot;"
+				AdditionalIncludeDirectories=".;&quot;D:\Dev\Libs\jpeg-6b&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -1575,6 +1575,14 @@
 			<Filter
 				Name="plResMgr"
 				>
+				<File
+					RelativePath=".\PubUtilLib\plResMgr\plAgeInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plResMgr\plAgeInfo.h"
+					>
+				</File>
 				<File
 					RelativePath="PubUtilLib\plResMgr\plKeyCollector.cpp"
 					>

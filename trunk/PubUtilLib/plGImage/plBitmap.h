@@ -6,7 +6,7 @@
 
 #define BITMAPVER (char)2
 
-class plBitmap : public hsKeyedObject {
+DllClass plBitmap : public hsKeyedObject {
 public:
     struct DirectXInfo {
         enum { kError, kDXT1, kDXT2, kDXT3, kDXT4, kDXT5 };
@@ -73,4 +73,3 @@ public:
 };
 
 #endif
-

@@ -272,7 +272,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
         for (i=0; i<fIdxBuffStorage.getSize(); i++) {
             prc->writeTagNoBreak("IndexData");
             for (j=0; j<fIdxBuffCounts[i]; j++) {
-                sprintf(buf, "%04X ", fIdxBuffStorage[i][j]);
+                snprintf(buf, 6, "%04X ", fIdxBuffStorage[i][j]);
                 prc->getStream()->writeStr(buf);
             }
             prc->closeTagNoBreak();

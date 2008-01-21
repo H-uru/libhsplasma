@@ -47,4 +47,9 @@ public:
     hsBadVersionException(const char* file, unsigned long line) throw();
 };
 
+DllClass hsVersionMismatchException : public hsException {
+public:
+    hsVersionMismatchException(const char* file, unsigned long line) throw();
+};
+
 #endif

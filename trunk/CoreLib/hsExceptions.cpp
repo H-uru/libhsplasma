@@ -53,3 +53,11 @@ hsBadVersionException::hsBadVersionException(const char* file,
                      : hsException(file, line) {
     fWhat = "Unknown Plasma version";
 }
+
+
+// hsVersionMismatchException //
+hsVersionMismatchException::hsVersionMismatchException(const char* file,
+                            unsigned long line) throw()
+                          : hsException(file, line) {
+    fWhat = "Plasma Versions don't match";
+}

@@ -412,7 +412,7 @@ long plString::toInt(int base) const {
     return strtol(fStr, NULL, base);
 }
 
-unsigned long plString::toUInt(int base) const {
+unsigned long plString::toUint(int base) const {
     if (empty()) return 0;
     return strtoul(fStr, NULL, base);
 }
@@ -837,7 +837,7 @@ long plWString::toInt(int base) const {
     return wcstol(fStr, NULL, base);
 }
 
-unsigned long plWString::toUInt(int base) const {
+unsigned long plWString::toUint(int base) const {
     if (empty()) return 0;
     return wcstoul(fStr, NULL, base);
 }

@@ -23,7 +23,7 @@ public:
     virtual unsigned int hash() const =0;
 
     virtual long toInt(int base = 0) const =0;
-    virtual unsigned long toUInt(int base = 0) const =0;
+    virtual unsigned long toUint(int base = 0) const =0;
     virtual double toFloat() const =0;
 };
 
@@ -89,7 +89,7 @@ public:
     plString afterLast(char sep) const;
 
     virtual long toInt(int base = 0) const;
-    virtual unsigned long toUInt(int base = 0) const;
+    virtual unsigned long toUint(int base = 0) const;
     virtual double toFloat() const;
 
     static plString Format(const char* fmt, ...);
@@ -158,7 +158,7 @@ public:
     plWString afterLast(wchar_t sep) const;
 
     virtual long toInt(int base = 0) const;
-    virtual unsigned long toUInt(int base = 0) const;
+    virtual unsigned long toUint(int base = 0) const;
     virtual double toFloat() const;
 
     static plWString Format(const wchar_t* fmt, ...);
