@@ -36,7 +36,7 @@ public:
     virtual ~plResManager();
     static plResManager* GetGlobalResMgr();
 
-    virtual void setVer(PlasmaVer pv, bool mutate = false);
+    virtual void setVer(PlasmaVer pv, bool force = false);
     PlasmaVer getVer();
 
     plKey readKey(hsStream* S);

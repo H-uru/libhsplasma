@@ -52,12 +52,9 @@ public:
     };
 
     struct TempVertex {
-        hsPoint3 fPosition;
-        hsPoint3 fNormal;
-        unsigned int fColor;
-        unsigned int fSpecularColor;
-        hsColorRGBA fMultColor;
-        hsColorRGBA fAddColor;
+        hsPoint3 fPosition, fNormal;
+        unsigned int fColor, fSpecularColor;
+        hsColorRGBA fMultColor, fAddColor;
         hsPoint3 fUVs[8];
         float fWeights[3];
         unsigned int fIndices;
@@ -113,6 +110,8 @@ public:
 
     void setMaterial(const plKey& mat);
     void setFogEnvironment(const plKey& fog);
+
+    hsTArray<TempVertex> getVertices();
 
     void IClearMembers();
     void ClearBuffers();

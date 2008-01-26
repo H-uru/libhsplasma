@@ -1,4 +1,5 @@
 #include "plString.h"
+#include "DynLib/Platform.h"
 #include <ctype.h>
 #include <wctype.h>
 #include <cstdlib>

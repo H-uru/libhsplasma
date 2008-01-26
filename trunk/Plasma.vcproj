@@ -772,6 +772,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\NucleusLib\pnKeyedObject\plMsgForwarder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnKeyedObject\plMsgForwarder.h"
+					>
+				</File>
+				<File
 					RelativePath="NucleusLib\pnKeyedObject\plReceiver.cpp"
 					>
 					<FileConfiguration
@@ -889,6 +897,22 @@
 				</File>
 				<File
 					RelativePath=".\NucleusLib\pnMessage\plNotifyMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plSimStateMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plSimStateMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plSimulationMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NucleusLib\pnMessage\plSimulationMsg.h"
 					>
 				</File>
 				<File
@@ -1202,6 +1226,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAnimStage.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAnimStage.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAvLadderMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAvLadderMod.h"
+					>
+				</File>
+				<File
 					RelativePath="PubUtilLib\plAvatar\plClothingItem.cpp"
 					>
 					<FileConfiguration
@@ -1236,6 +1276,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plAvatar\plMultistageBehMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plMultistageBehMod.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plAvatar\plNPCSpawnMod.cpp"
 					>
 				</File>
@@ -1261,6 +1309,22 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plDrawable\plDrawableSpans.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plDynaDecalMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plDynaDecalMgr.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plDynaRippleMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plDynaRippleMgr.h"
 					>
 				</File>
 				<File
@@ -1722,6 +1786,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plScene\plVisRegion.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plScene\plVisRegion.h"
 					>
 				</File>
@@ -1860,6 +1928,14 @@
 				Name="plModifier"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plModifier\plExcludeRegionModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plExcludeRegionModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plModifier\plImageLibMod.cpp"
 					>
 				</File>
@@ -1961,6 +2037,14 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plPhysics\plPhysical.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plPhysicalSndGroup.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPhysics\plPhysicalSndGroup.h"
 					>
 				</File>
 				<File
@@ -2284,11 +2368,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\FeatureLib\pfAnimation\plRandomCommandMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plRandomCommandMod.h"
+					>
+				</File>
+				<File
 					RelativePath=".\FeatureLib\pfAnimation\plStereizer.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\FeatureLib\pfAnimation\plStereizer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plViewFaceModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plViewFaceModifier.h"
 					>
 				</File>
 			</Filter>
@@ -2557,6 +2657,18 @@
 				</File>
 				<File
 					RelativePath=".\FeatureLib\pfMessage\plArmatureEffectMsg.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="pfAudio"
+				>
+				<File
+					RelativePath=".\FeatureLib\pfAudio\plRandomSoundMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAudio\plRandomSoundMod.h"
 					>
 				</File>
 			</Filter>

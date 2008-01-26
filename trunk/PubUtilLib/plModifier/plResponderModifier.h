@@ -49,4 +49,19 @@ public:
     virtual void prcWrite(pfPrcHelper* prc);
 };
 
+DllClass plResponderEnableMsg : public plMessage {
+protected:
+    bool fEnable;
+
+public:
+    plResponderEnableMsg();
+    virtual ~plResponderEnableMsg();
+
+    DECLARE_CREATABLE(plResponderEnableMsg)
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void prcWrite(pfPrcHelper* prc);
+};
+
 #endif

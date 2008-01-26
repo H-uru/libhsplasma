@@ -5,6 +5,8 @@
 // Includes for all plCreatable types
 #include "FeatureLib/pfAnimation/plLineFollowMod.h"
 #include "FeatureLib/pfAnimation/plStereizer.h"
+#include "FeatureLib/pfAnimation/plViewFaceModifier.h"
+#include "FeatureLib/pfAudio/plRandomSoundMod.h"
 #include "FeatureLib/pfConditional/plActivatorConditionalObject.h"
 #include "FeatureLib/pfConditional/plAnimationEventConditionalObject.h"
 #include "FeatureLib/pfConditional/plBooleanConditionalObject.h"
@@ -33,7 +35,9 @@
 #include "FeatureLib/pfGameGUIMgr/pfGUIUpDownPairMod.h"
 #include "FeatureLib/pfMessage/plArmatureEffectMsg.h"
 #include "FeatureLib/pfPython/plPythonFileMod.h"
+#include "NucleusLib/pnKeyedObject/plMsgForwarder.h"
 #include "NucleusLib/pnMessage/plEnableMsg.h"
+#include "NucleusLib/pnMessage/plSimStateMsg.h"
 #include "NucleusLib/pnMessage/plSoundMsg.h"
 #include "NucleusLib/pnSceneObject/plAudioInterface.h"
 #include "NucleusLib/pnSceneObject/plCoordinateInterface.h"
@@ -44,10 +48,14 @@
 #include "PubUtilLib/plAudible/plAudible.h"
 #include "PubUtilLib/plAudio/plWin32StaticSound.h"
 #include "PubUtilLib/plAudioCore/plSoundBuffer.h"
+#include "PubUtilLib/plAvatar/plAvLadderMod.h"
 #include "PubUtilLib/plAvatar/plClothingItem.h"
 #include "PubUtilLib/plAvatar/plAGMasterMod.h"
+#include "PubUtilLib/plAvatar/plMultistageBehMod.h"
+#include "PubUtilLib/plAvatar/plNPCSpawnMod.h"
 #include "PubUtilLib/plAvatar/plOneShotMod.h"
 #include "PubUtilLib/plDrawable/plDrawableSpans.h"
+#include "PubUtilLib/plDrawable/plDynaRippleMgr.h"
 #include "PubUtilLib/plDrawable/plMorphDataSet.h"
 #include "PubUtilLib/plDrawable/plSharedMesh.h"
 #include "PubUtilLib/plGImage/plCubicEnvironmap.h"
@@ -61,6 +69,7 @@
 #include "PubUtilLib/plMessage/plResponderMsg.h"
 #include "PubUtilLib/plMessage/plTimerCallbackMsg.h"
 #include "PubUtilLib/plMessage/plTransitionMsg.h"
+#include "PubUtilLib/plModifier/plExcludeRegionModifier.h"
 #include "PubUtilLib/plModifier/plImageLibMod.h"
 #include "PubUtilLib/plModifier/plInterfaceInfoModifier.h"
 #include "PubUtilLib/plModifier/plLogicModifier.h"
@@ -71,9 +80,11 @@
 #include "PubUtilLib/plPhysics/plHKPhysical.h"
 #include "PubUtilLib/plPhysics/plPXPhysical.h"
 #include "PubUtilLib/plPhysics/plODEPhysical.h"
+#include "PubUtilLib/plPhysics/plPhysicalSndGroup.h"
 #include "PubUtilLib/plPipeline/plFogEnvironment.h"
 #include "PubUtilLib/plScene/plPostEffectMod.h"
 #include "PubUtilLib/plScene/plSceneNode.h"
+#include "PubUtilLib/plScene/plVisRegion.h"
 #include "PubUtilLib/plSurface/plLayer.h"
 #include "PubUtilLib/plSurface/plLayerMovie.h"
 // End types
@@ -154,7 +165,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kSpawnModifier: return new plSpawnModifier();
         case kFacingConditionalObject: return new plFacingConditionalObject();
         case kHKPhysical: return new plHKPhysical();
-        //case kViewFaceModifier: return new plViewFaceModifier();
+        case kViewFaceModifier: return new plViewFaceModifier();
         case kLayerInterface: return new plLayerInterface();
         //case kLayerWrapper: return new plLayerWrapper();
         case kLayerAnimation: return new plLayerAnimation();
@@ -210,8 +221,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLtdDirModifier: return new plLtdDirModifier();
         //case kSeekPointMod: return new plSeekPointMod();
         case kOneShotMod: return new plOneShotMod();
-        //case kRandomCommandMod: return new plRandomCommandMod();
-        //case kRandomSoundMod: return new plRandomSoundMod();
+        case kRandomCommandMod: return new plRandomCommandMod();
+        case kRandomSoundMod: return new plRandomSoundMod();
         case kPostEffectMod: return new plPostEffectMod();
         case kObjectInVolumeDetector: return new plObjectInVolumeDetector();
         case kResponderModifier: return new plResponderModifier();
@@ -254,11 +265,11 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kGUIButtonMod: return new pfGUIButtonMod();
         case kPythonFileMod: return new plPythonFileMod();
         case kGUIControlMod: ABSTRACT(kGUIControlMod);
-        //case kExcludeRegionModifier: return new plExcludeRegionModifier();
+        case kExcludeRegionModifier: return new plExcludeRegionModifier();
         case kGUIDraggableMod: return new pfGUIDraggableMod();
         case kVolumeSensorConditionalObject: return new plVolumeSensorConditionalObject();
         case kVolActivatorConditionalObject: return new plVolActivatorConditionalObject();
-        //case kMsgForwarder: return new plMsgForwarder();
+        case kMsgForwarder: return new plMsgForwarder();
         //case kBlower: return new plBlower();
         case kGUIListBoxMod: return new pfGUIListBoxMod();
         case kGUITextBoxMod: return new pfGUITextBoxMod();
@@ -268,7 +279,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kGUIUpDownPairMod: return new pfGUIUpDownPairMod();
         case kGUIValueCtrl: ABSTRACT(kGUIValueCtrl);
         case kGUIKnobCtrl: return new pfGUIKnobCtrl();
-        //case kAvLadderMod: return new plAvLadderMod();
+        case kAvLadderMod: return new plAvLadderMod();
         //case kCameraBrain1_FirstPerson: return new plCameraBrain1_FirstPerson();
         //case kCloneSpawnModifier: return new plCloneSpawnModifier();
         case kClothingItem: return new plClothingItem();
@@ -283,7 +294,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLayerProject: return new plLayerProject();
         //case kInputInterfaceMgr: return new plInputInterfaceMgr();
         case kRailCameraMod: return new plRailCameraMod();
-        //case kMultistageBehMod: return new plMultistageBehMod();
+        case kMultistageBehMod: return new plMultistageBehMod();
         //case kCameraBrain1_Circle: return new plCameraBrain1_Circle();
         case kParticleWindEffect: return new plParticleWindEffect();
         //case kAnimEventModifier: return new plAnimEventModifier();
@@ -320,14 +331,14 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kArmatureEffect: return new plArmatureEffect();
         //case kAmratureEffectFootSound: return new plAmratureEffectFootSound();
         //case kEAXListenerMod: return new plEAXListenerMod();
-        //case kDynaDecalMgr: return new plDynaDecalMgr();
+        case kDynaDecalMgr: return new plDynaDecalMgr();
         case kObjectInVolumeAndFacingDetector: return new plObjectInVolumeAndFacingDetector();
-        //case kDynaFootMgr: return new plDynaFootMgr();
-        //case kDynaRippleMgr: return new plDynaRippleMgr();
-        //case kDynaBulletMgr: return new plDynaBulletMgr();
+        case kDynaFootMgr: return new plDynaFootMgr();
+        case kDynaRippleMgr: return new plDynaRippleMgr();
+        case kDynaBulletMgr: return new plDynaBulletMgr();
         //case kDecalEnableMod: return new plDecalEnableMod();
         //case kPrintShape: return new plPrintShape();
-        //case kDynaPuddleMgr: return new plDynaPuddleMgr();
+        case kDynaPuddleMgr: return new plDynaPuddleMgr();
         case kGUIMultiLineEditCtrl: return new pfGUIMultiLineEditCtrl();
         case kLayerAnimationBase: ABSTRACT(kLayerAnimationBase);
         case kLayerSDLAnimation: return new plLayerSDLAnimation();
@@ -335,11 +346,11 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAgeGlobalAnim: return new plAgeGlobalAnim();
         case kSubworldRegionDetector: return new plSubworldRegionDetector();
         //case kAvatarMgr: return new plAvatarMgr();
-        //case kNPCSpawnMod: return new plNPCSpawnMod();
+        case kNPCSpawnMod: return new plNPCSpawnMod();
         //case kActivePrintShape: return new plActivePrintShape();
         //case kExcludeRegionSDLModifier: return new plExcludeRegionSDLModifier();
         //case kLOSDispatch: return new plLOSDispatch();
-        //case kDynaWakeMgr: return new plDynaWakeMgr();
+        case kDynaWakeMgr: return new plDynaWakeMgr();
         //case kSimulationMgr: return new plSimulationMgr();
         //case kWaveSet7: return new plWaveSet7();
         case kPanicLinkRegion: return new plPanicLinkRegion();
@@ -356,7 +367,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSimpleRegionSensor: return new plSimpleRegionSensor();
         //case kMorphSequence: return new plMorphSequence();
         //case kEmoteAnim: return new plEmoteAnim();
-        //case kDynaRippleVSMgr: return new plDynaRippleVSMgr();
+        case kDynaRippleVSMgr: return new plDynaRippleVSMgr();
         //case kWaveSet6: return new plWaveSet6();
         case kGUIProgressCtrl: return new pfGUIProgressCtrl();
         //case kMaintainersMarkerModifier: return new plMaintainersMarkerModifier();
@@ -368,8 +379,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kHardRegionUnion: return new plHardRegionUnion();
         //case kHardRegionIntersect: return new plHardRegionIntersect();
         //case kHardRegionInvert: return new plHardRegionInvert();
-        //case kVisRegion: return new plVisRegion();
-        //case kVisRegion: return new plVisRegion();
+        case kVisRegion: return new plVisRegion();
+        //case kVisMgr: return new plVisMgr();
         //case kRegionBase: return new plRegionBase();
         case kGUIPopUpMenu: return new pfGUIPopUpMenu();
         case kGUIMenuItem: return new pfGUIMenuItem();
@@ -385,10 +396,10 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kParticleSDLMod: return new plParticleSDLMod();
         //case kAgeLoader: return new plAgeLoader();;
         //case kWaveSetBase: return new plWaveSetBase();
-        //case kPhysicalSndGroup: return new plPhysicalSndGroup();
+        case kPhysicalSndGroup: return new plPhysicalSndGroup();
         //case kBookData: return new pfBookData();
-        //case kDynaTorpedoMgr: return new plDynaTorpedoMgr();
-        //case kDynaTorpedoVSMgr: return new plDynaTorpedoVSMgr();
+        case kDynaTorpedoMgr: return new plDynaTorpedoMgr();
+        case kDynaTorpedoVSMgr: return new plDynaTorpedoVSMgr();
         //case kClusterGroup: return new plClusterGroup();
         //case kGameMarkerModifier: return new plGameMarkerModifier();
         //case kLODMipmap: return new plLODMipmap();
@@ -604,7 +615,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetServerMsgProcessFound: return new plNetServerMsgProcessFound();
         //case kNetMsgRoutingInfo: return new plNetMsgRoutingInfo();
         //case kNetServerSessionInfo: return new plNetServerSessionInfo();
-        //case kSimulationMsg: return new plSimulationMsg();
+        case kSimulationMsg: ABSTRACT(kSimulationMsg);
         //case kSimulationSynchMsg: return new plSimulationSynchMsg();
         //case kHKSimulationSynchMsg: return new plHKSimulationSynchMsg();
         //case kAvatarMsg: return new plAvatarMsg();
@@ -625,7 +636,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAngularImpulseMsg: return new plAngularImpulseMsg();
         //case kDampMsg: return new plDampMsg();
         //case kShiftMassMsg: return new plShiftMassMsg();
-        //case kSimStateMsg: return new plSimStateMsg();
+        case kSimStateMsg: ABSTRACT(kSimStateMsg);
         //case kFreezeMsg: return new plFreezeMsg();
         //case kEventGroupMsg: return new plEventGroupMsg();
         //case kSuspendEventMsg: return new plSuspendEventMsg();
@@ -714,7 +725,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kInventoryMsg: return new plInventoryMsg();
         //case kLinkEffectsTriggerMsg: return new plLinkEffectsTriggerMsg();
         //case kLinkEffectBCMsg: return new plLinkEffectBCMsg();
-        //case kResponderEnableMsg: return new plResponderEnableMsg();
+        case kResponderEnableMsg: return new plResponderEnableMsg();
         //case kNetServerMsgHello: return new plNetServerMsgHello();
         //case kNetServerMsgHelloReply: return new plNetServerMsgHelloReply();
         //case kNetServerMember: return new plNetServerMember();
@@ -825,7 +836,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAvOneShotTask: return new plAvOneShotTask();
         //case kAvEnableTask: return new plAvEnableTask();
         //case kAvTaskBrain: return new plAvTaskBrain();
-        //case kAnimStage: return new plAnimStage();
+        case kAnimStage: return new plAnimStage();
         //case kNetClientMember: return new plNetClientMember();
         //case kNetClientCommTask: return new plNetClientCommTask();
         //case kNetServerMsgAuthRequest: return new plNetServerMsgAuthRequest();
@@ -1008,7 +1019,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPipeGeoMakeMsg: return new plPipeGeoMakeMsg();
         //case kAvCoopMsg: return new plAvCoopMsg();
         //case kAvBrainCoop: return new plAvBrainCoop();
-        //case kSimSuppressMsg: return new plSimSuppressMsg();
+        case kSimSuppressMsg: return new plSimSuppressMsg();
         //case kVaultMarkerListNode: return new plVaultMarkerListNode();
         //case kAvTaskOrient: return new plAvTaskOrient();
         //case kAgeBeginLoadingMsg: return new plAgeBeginLoadingMsg();

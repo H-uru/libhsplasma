@@ -131,7 +131,6 @@ void plGeometrySpan::write(hsStream* S) {
 
     S->writeInt(fInstanceGroup);
     if (fInstanceGroup != 0) {
-        //throw "Incomplete";
         plDebug::Warning("WARNING: plGeometrySpan::write Incomplete");
         S->writeInt(numInstanceRefs);
     }
@@ -153,55 +152,108 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("WaterHeight", fWaterHeight);
     prc->endTag();
     
-    unsigned int i;
-    unsigned int size = fNumVerts * CalcVertexSize(fFormat);
-    char buf[10];
-    prc->writeTagNoBreak("VertexData");
-    for (i=0; i<size; i++) {
-        snprintf(buf, 10, "%02X", fVertexData[i]);
-        prc->getStream()->writeStr(buf);
-    }
-    prc->closeTagNoBreak();
+    unsigned int i, j;
+    if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
+        hsTArray<TempVertex> verts = getVertices();
+        prc->writeSimpleTag("Vertices");
+        for (i=0; i<verts.getSize(); i++) {
+            prc->writeSimpleTag("Vertex");
 
-    prc->writeSimpleTag("MultColors");
-    for (i=0; i<fNumVerts; i++)
-        fMultColor[i].prcWrite(prc);
-    prc->closeTag();
-    prc->writeSimpleTag("AddColors");
-    for (i=0; i<fNumVerts; i++)
-        fAddColor[i].prcWrite(prc);
-    prc->closeTag();
-    prc->writeTagNoBreak("DiffuseColors");
-    for (i=0; i<fNumVerts; i++) {
-        snprintf(buf, 10, "%08X ", fDiffuseRGBA[i]);
-        prc->getStream()->writeStr(buf);
-    }
-    prc->closeTagNoBreak();
-    prc->writeTagNoBreak("SpecularColors");
-    for (i=0; i<fNumVerts; i++) {
-        snprintf(buf, 10, "%08X ", fSpecularRGBA[i]);
-        prc->getStream()->writeStr(buf);
-    }
-    prc->closeTagNoBreak();
+            prc->writeSimpleTag("Position");
+            verts[i].fPosition.prcWrite(prc);
+            prc->closeTag();
 
-    prc->writeTagNoBreak("IndexData");
-    for (i=0; i<fNumIndices; i++) {
-        snprintf(buf, 10, "%04X ", fIndexData[i]);
-        prc->getStream()->writeStr(buf);
+            prc->writeSimpleTag("Normal");
+            verts[i].fNormal.prcWrite(prc);
+            prc->closeTag();
+
+            prc->writeSimpleTag("UVWMaps");
+            for (j=0; j<(fFormat & kUVCountMask); j++)
+                verts[i].fUVs[j].prcWrite(prc);
+            prc->closeTag();
+
+            prc->startTag("Weights");
+            if (fFormat & kSkinIndices)
+                prc->writeParam("Index", verts[i].fIndices);
+            prc->endTagNoBreak();
+            for (j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
+                prc->getStream()->writeStr(plString::Format("%f ", verts[i].fWeights[j]));
+            prc->closeTagNoBreak();
+
+            prc->closeTag();    // Vertex
+        }
+        prc->closeTag();    // Vertices
+
+        prc->writeSimpleTag("MultColors");
+        for (i=0; i<fNumVerts; i++)
+            fMultColor[i].prcWrite(prc);
+        prc->closeTag();
+        prc->writeSimpleTag("AddColors");
+        for (i=0; i<fNumVerts; i++)
+            fAddColor[i].prcWrite(prc);
+        prc->closeTag();
+        prc->writeTagNoBreak("DiffuseColors");
+        for (i=0; i<fNumVerts; i++)
+            prc->getStream()->writeStr(plString::Format("%08X ", fDiffuseRGBA[i]));
+        prc->closeTagNoBreak();
+        prc->writeTagNoBreak("SpecularColors");
+        for (i=0; i<fNumVerts; i++)
+            prc->getStream()->writeStr(plString::Format("%08X ", fSpecularRGBA[i]));
+        prc->closeTagNoBreak();
+
+        prc->writeTagNoBreak("IndexData");
+        for (i=0; i<fNumIndices; i++)
+            prc->getStream()->writeStr(plString::Format("%04X ", fIndexData[i]));
+        prc->closeTagNoBreak();
+
+        prc->startTag("InstanceGroup");
+        prc->writeParam("value", fInstanceGroup);
+        if (fInstanceGroup != 0)
+            prc->writeParam("NumRefs", numInstanceRefs);
+        prc->endTag(true);
+    } else {
+        prc->writeComment("Vertex data excluded");
     }
-    prc->closeTagNoBreak();
-
-    prc->startTag("InstanceGroup");
-    prc->writeParam("value", fInstanceGroup);
-    if (fInstanceGroup != 0)
-        prc->writeParam("NumRefs", numInstanceRefs);
-    prc->endTag(true);
-
-    prc->closeTag();
+    prc->closeTag();    // plGeometrySpan
 }
 
 void plGeometrySpan::setMaterial(const plKey& mat) { fMaterial = mat; }
 void plGeometrySpan::setFogEnvironment(const plKey& fog) { fFogEnviron = fog; }
+
+hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() {
+    hsTArray<TempVertex> buf;
+    buf.setSize(fNumVerts);
+    
+    unsigned char* cp = fVertexData;
+    for (size_t i=0; i<fNumVerts; i++) {
+        buf[i].fPosition.fX = *(float*)cp; cp += sizeof(float);
+        buf[i].fPosition.fY = *(float*)cp; cp += sizeof(float);
+        buf[i].fPosition.fZ = *(float*)cp; cp += sizeof(float);
+
+        buf[i].fNormal.fX = *(float*)cp; cp += sizeof(float);
+        buf[i].fNormal.fY = *(float*)cp; cp += sizeof(float);
+        buf[i].fNormal.fZ = *(float*)cp; cp += sizeof(float);
+
+        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
+            buf[i].fUVs[j].fX = *(float*)cp; cp += sizeof(float);
+            buf[i].fUVs[j].fY = *(float*)cp; cp += sizeof(float);
+            buf[i].fUVs[j].fZ = *(float*)cp; cp += sizeof(float);
+        }
+
+        int weightCount = (fFormat & kSkinWeightMask) >> 4;
+        if (weightCount > 0) {
+            for (int j=0; j<weightCount; j++) {
+                buf[i].fWeights[j] = *(float*)cp;
+                cp += sizeof(float);
+            }
+        }
+        if (fFormat & kSkinIndices) {
+            buf[i].fIndices = *(int*)cp;
+            cp += sizeof(int);
+        }
+    }
+    return buf;
+}
 
 void plGeometrySpan::IClearMembers() {
     fVertexData = NULL;

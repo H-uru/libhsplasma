@@ -118,3 +118,28 @@ void plResponderModifier::prcWrite(pfPrcHelper* prc) {
     }
     prc->closeTag();
 }
+
+
+// plResponderEnableMsg //
+plResponderEnableMsg::plResponderEnableMsg() { }
+plResponderEnableMsg::~plResponderEnableMsg() { }
+
+IMPLEMENT_CREATABLE(plResponderEnableMsg, kResponderEnableMsg, plMessage)
+
+void plResponderEnableMsg::read(hsStream* S, plResManager* mgr) {
+    plMessage::read(S, mgr);
+    fEnable = S->readBool();
+}
+
+void plResponderEnableMsg::write(hsStream* S, plResManager* mgr) {
+    plMessage::write(S, mgr);
+    S->writeBool(fEnable);
+}
+
+void plResponderEnableMsg::prcWrite(pfPrcHelper* prc) {
+    plMessage::prcWrite(prc);
+    
+    prc->startTag("ResponderParams");
+    prc->writeParam("Enable", fEnable);
+    prc->endTag(true);
+}

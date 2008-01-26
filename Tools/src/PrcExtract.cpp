@@ -76,8 +76,11 @@ int main(int argc, char** argv) {
                 return 0;
             } else if (strcmp(argv[i], "-vtx") == 0) {
                 exVtx = false;
+                fprintf(stderr, "Warning: Including Vertex data\n");
             } else if (strcmp(argv[i], "-tex") == 0) {
                 exTex = false;
+                fprintf(stderr, "Note: Texture data unsupported. -tex will "
+                                "be ignored for this export\n");
             } else {
                 fprintf(stderr, "Error: Unrecognized option %s\n", argv[i]);
                 return 1;
@@ -142,4 +145,3 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-

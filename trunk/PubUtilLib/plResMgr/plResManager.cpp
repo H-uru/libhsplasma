@@ -35,11 +35,10 @@ plResManager* plResManager::GetGlobalResMgr() {
     return fGlobalResMgr;
 }
 
-void plResManager::setVer(PlasmaVer pv, bool mutate) {
+void plResManager::setVer(PlasmaVer pv, bool force) {
     if (fPlasmaVer == pv) return;
-    fPlasmaVer = pv;
-
-    //
+    if ((fPlasmaVer == pvUnknown) || force)
+        fPlasmaVer = pv;
 }
 
 PlasmaVer plResManager::getVer() { return fPlasmaVer; }
@@ -122,7 +121,6 @@ unsigned int plResManager::countKeys(const PageID& pid) {
 
 plPageInfo* plResManager::ReadPage(const char* filename) {
     hsFileStream* S = new hsFileStream();
-    setVer(S->getVer());
     if (!S->open(filename, fmRead))
         throw hsFileReadException(__FILE__, __LINE__, filename);
     plPageInfo* page = new plPageInfo;
@@ -305,6 +303,12 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                             (int)(kList[j]->getObjSize() -
                                   (S->pos() - kList[j]->getFileOff())));
                 }
+            } catch (const hsException& e) {
+                plDebug::Error("Failed reading %s: %s",
+                               kList[j]->toString().cstr(), e.what());
+                plDebug::Debug("Failure on line %s:%d", e.File(), e.Line());
+                delete kList[j]->getObj();
+                kList[j]->setObj(NULL);
             } catch (const std::exception& e) {
                 plDebug::Error("Failed reading %s: %s",
                                kList[j]->toString().cstr(), e.what());
@@ -357,7 +361,9 @@ plCreatable* plResManager::ReadCreatable(hsStream* S) {
     if (pCre != NULL)
         pCre->read(S, this);
     else if (type != 0x8000)
-        plDebug::Warning("Warning: NOT reading object of type [%04X]", type);
+        plDebug::Warning("Warning: NOT reading object of type [%04X]%s",
+                         pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
+                         pdUnifiedTypeMap::ClassName(type, S->getVer()));
     return pCre;
 }
 

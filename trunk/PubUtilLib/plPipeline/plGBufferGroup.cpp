@@ -74,7 +74,7 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
     
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
         unsigned char* cp = fVertBuffStorage[i];
-        buf.setSize(fVertBuffSizes[i] / stride);
+        buf.setSize(buf.getSize() + (fVertBuffSizes[i] / stride));
         for (size_t i2=0; i2<(fVertBuffSizes[i] / stride); i2++) {
             plGBufferVertex v;
             v.fPos.fX = *(float*)cp; cp += sizeof(float);
@@ -251,7 +251,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
                 prc->writeParam("SkinIndex", verts[i].fSkinIdx);
             prc->endTagNoBreak();
             for (j=0; j<(size_t)((format & kSkinWeightMask) >> 4); j++)
-                prc->getStream()->writeStr(plString::Format("%f", verts[i].fSkinWeights[j]));
+                prc->getStream()->writeStr(plString::Format("%f ", verts[i].fSkinWeights[j]));
             prc->closeTagNoBreak();
 
             prc->writeSimpleTag("Normal");
@@ -306,4 +306,3 @@ plGBufferTriangle* plGBufferGroup::ConvertToTriList(short spanIdx,
     //
     return NULL;
 }
-

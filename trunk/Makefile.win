@@ -32,6 +32,7 @@ OBJFILES=\
 	$(LIBDIR)plKey.o \
 	$(LIBDIR)plReceiver.o \
 	$(LIBDIR)hsKeyedObject.o \
+	$(LIBDIR)plMsgForwarder.o \
 	$(LIBDIR)plUoid.o \
 	$(LIBDIR)proEventData.o \
 	$(LIBDIR)plMessage.o \
@@ -40,6 +41,8 @@ OBJFILES=\
 	$(LIBDIR)plEventCallbackMsg.o \
 	$(LIBDIR)plNotifyMsg.o \
 	$(LIBDIR)plMessageWithCallbacks.o \
+	$(LIBDIR)plSimStateMsg.o \
+	$(LIBDIR)plSimulationMsg.o \
 	$(LIBDIR)plSoundMsg.o \
 	$(LIBDIR)plModifier.o \
 	$(LIBDIR)plLogicModBase.o \
@@ -57,11 +60,16 @@ OBJFILES=\
 	$(LIBDIR)plWin32Sound.o \
 	$(LIBDIR)plWin32StaticSound.o \
 	$(LIBDIR)plSoundBuffer.o \
+	$(LIBDIR)plAnimStage.o \
+	$(LIBDIR)plAvLadderMod.o \
 	$(LIBDIR)plClothingItem.o \
 	$(LIBDIR)plAGMasterMod.o \
+	$(LIBDIR)plMultistageBehMod.o \
 	$(LIBDIR)plNPCSpawnMod.o \
 	$(LIBDIR)plOneShotMod.o \
 	$(LIBDIR)plDrawableSpans.o \
+	$(LIBDIR)plDynaDecalMgr.o \
+	$(LIBDIR)plDynaRippleMgr.o \
 	$(LIBDIR)plMorphArray.o \
 	$(LIBDIR)plMorphDataSet.o \
 	$(LIBDIR)plMorphDelta.o \
@@ -98,6 +106,7 @@ OBJFILES=\
 	$(LIBDIR)plResponderMsg.o \
 	$(LIBDIR)plTimerCallbackMsg.o \
 	$(LIBDIR)plTransitionMsg.o \
+	$(LIBDIR)plExcludeRegionModifier.o \
 	$(LIBDIR)plImageLibMod.o \
 	$(LIBDIR)plInterfaceInfoModifier.o \
 	$(LIBDIR)plLogicModifier.o \
@@ -114,6 +123,7 @@ OBJFILES=\
 	$(LIBDIR)plHKPhysical.o \
 	$(LIBDIR)plPXPhysical.o \
 	$(LIBDIR)plODEPhysical.o \
+	$(LIBDIR)plPhysicalSndGroup.o \
 	$(LIBDIR)plCubicEnvironmap.o \
 	$(LIBDIR)plFogEnvironment.o \
 	$(LIBDIR)hsGDeviceRef.o \
@@ -121,6 +131,7 @@ OBJFILES=\
 	$(LIBDIR)plVertCoder.o \
 	$(LIBDIR)plPostEffectMod.o \
 	$(LIBDIR)plSceneNode.o \
+	$(LIBDIR)plVisRegion.o \
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
 	$(LIBDIR)plLayer.o \
@@ -129,7 +140,10 @@ OBJFILES=\
 	$(LIBDIR)hsAffineParts.o \
 	$(LIBDIR)plUUID.o \
 	$(LIBDIR)plLineFollowMod.o \
+	$(LIBDIR)plRandomCommandMod.o \
 	$(LIBDIR)plStereizer.o \
+	$(LIBDIR)plViewFaceModifier.o \
+	$(LIBDIR)plRandomSoundMod.o \
 	$(LIBDIR)plConditionalObject.o \
 	$(LIBDIR)plActivatorConditionalObject.o \
 	$(LIBDIR)plAnimationEventConditionalObject.o \
@@ -244,6 +258,9 @@ $(LIBDIR)plReceiver.o: NucleusLib/pnKeyedObject/plReceiver.h NucleusLib/pnKeyedO
 $(LIBDIR)hsKeyedObject.o: NucleusLib/pnKeyedObject/hsKeyedObject.h NucleusLib/pnKeyedObject/hsKeyedObject.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnKeyedObject/hsKeyedObject.cpp -o $(LIBDIR)hsKeyedObject.o
 
+$(LIBDIR)plMsgForwarder.o: NucleusLib/pnKeyedObject/plMsgForwarder.h NucleusLib/pnKeyedObject/plMsgForwarder.cpp
+	$(CXX) $(CXXFLAGS) -c NucleusLib/pnKeyedObject/plMsgForwarder.cpp -o $(LIBDIR)plMsgForwarder.o
+
 $(LIBDIR)plUoid.o: NucleusLib/pnKeyedObject/plUoid.h NucleusLib/pnKeyedObject/plUoid.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnKeyedObject/plUoid.cpp -o $(LIBDIR)plUoid.o
 
@@ -267,6 +284,12 @@ $(LIBDIR)plNotifyMsg.o: NucleusLib/pnMessage/plNotifyMsg.h NucleusLib/pnMessage/
 
 $(LIBDIR)plMessageWithCallbacks.o: NucleusLib/pnMessage/plMessageWithCallbacks.h NucleusLib/pnMessage/plMessageWithCallbacks.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plMessageWithCallbacks.cpp -o $(LIBDIR)plMessageWithCallbacks.o
+
+$(LIBDIR)plSimStateMsg.o: NucleusLib/pnMessage/plSimStateMsg.h NucleusLib/pnMessage/plSimStateMsg.cpp
+	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plSimStateMsg.cpp -o $(LIBDIR)plSimStateMsg.o
+
+$(LIBDIR)plSimulationMsg.o: NucleusLib/pnMessage/plSimulationMsg.h NucleusLib/pnMessage/plSimulationMsg.cpp
+	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plSimulationMsg.cpp -o $(LIBDIR)plSimulationMsg.o
 
 $(LIBDIR)plSoundMsg.o: NucleusLib/pnMessage/plSoundMsg.h NucleusLib/pnMessage/plSoundMsg.cpp
 	$(CXX) $(CXXFLAGS) -c NucleusLib/pnMessage/plSoundMsg.cpp -o $(LIBDIR)plSoundMsg.o
@@ -316,11 +339,20 @@ $(LIBDIR)plWin32StaticSound.o: PubUtilLib/plAudio/plWin32StaticSound.h PubUtilLi
 $(LIBDIR)plSoundBuffer.o: PubUtilLib/plAudioCore/plSoundBuffer.h PubUtilLib/plAudioCore/plSoundBuffer.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAudioCore/plSoundBuffer.cpp -o $(LIBDIR)plSoundBuffer.o
 
+$(LIBDIR)plAnimStage.o: PubUtilLib/plAvatar/plAnimStage.h PubUtilLib/plAvatar/plAnimStage.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAnimStage.cpp -o $(LIBDIR)plAnimStage.o
+
+$(LIBDIR)plAvLadderMod.o: PubUtilLib/plAvatar/plAvLadderMod.h PubUtilLib/plAvatar/plAvLadderMod.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAvLadderMod.cpp -o $(LIBDIR)plAvLadderMod.o
+
 $(LIBDIR)plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.h PubUtilLib/plAvatar/plClothingItem.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plClothingItem.cpp -o $(LIBDIR)plClothingItem.o
 
 $(LIBDIR)plAGMasterMod.o: PubUtilLib/plAvatar/plAGMasterMod.h PubUtilLib/plAvatar/plAGMasterMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAGMasterMod.cpp -o $(LIBDIR)plAGMasterMod.o
+
+$(LIBDIR)plMultistageBehMod.o: PubUtilLib/plAvatar/plMultistageBehMod.h PubUtilLib/plAvatar/plMultistageBehMod.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plMultistageBehMod.cpp -o $(LIBDIR)plMultistageBehMod.o
 
 $(LIBDIR)plNPCSpawnMod.o: PubUtilLib/plAvatar/plNPCSpawnMod.h PubUtilLib/plAvatar/plNPCSpawnMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plNPCSpawnMod.cpp -o $(LIBDIR)plNPCSpawnMod.o
@@ -330,6 +362,12 @@ $(LIBDIR)plOneShotMod.o: PubUtilLib/plAvatar/plOneShotMod.h PubUtilLib/plAvatar/
 
 $(LIBDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(LIBDIR)plDrawableSpans.o
+
+$(LIBDIR)plDynaDecalMgr.o: PubUtilLib/plDrawable/plDynaDecalMgr.h PubUtilLib/plDrawable/plDynaDecalMgr.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plDynaDecalMgr.cpp -o $(LIBDIR)plDynaDecalMgr.o
+
+$(LIBDIR)plDynaRippleMgr.o: PubUtilLib/plDrawable/plDynaRippleMgr.h PubUtilLib/plDrawable/plDynaRippleMgr.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plDynaRippleMgr.cpp -o $(LIBDIR)plDynaRippleMgr.o
 
 $(LIBDIR)plMorphArray.o: PubUtilLib/plDrawable/plMorphArray.h PubUtilLib/plDrawable/plMorphArray.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plMorphArray.cpp -o $(LIBDIR)plMorphArray.o
@@ -442,6 +480,9 @@ $(LIBDIR)plTimerCallbackMsg.o: PubUtilLib/plMessage/plTimerCallbackMsg.h PubUtil
 $(LIBDIR)plTransitionMsg.o: PubUtilLib/plMessage/plTransitionMsg.h PubUtilLib/plMessage/plTransitionMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plTransitionMsg.cpp -o $(LIBDIR)plTransitionMsg.o
 
+$(LIBDIR)plExcludeRegionModifier.o: PubUtilLib/plModifier/plExcludeRegionModifier.h PubUtilLib/plModifier/plExcludeRegionModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plExcludeRegionModifier.cpp -o $(LIBDIR)plExcludeRegionModifier.o
+
 $(LIBDIR)plImageLibMod.o: PubUtilLib/plModifier/plImageLibMod.h PubUtilLib/plModifier/plImageLibMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plImageLibMod.cpp -o $(LIBDIR)plImageLibMod.o
 
@@ -493,6 +534,9 @@ $(LIBDIR)plPXPhysical.o: PubUtilLib/plPhysics/plPXPhysical.h PubUtilLib/plPhysic
 $(LIBDIR)plODEPhysical.o: PubUtilLib/plPhysics/plODEPhysical.h PubUtilLib/plPhysics/plODEPhysical.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPhysics/plODEPhysical.cpp -o $(LIBDIR)plODEPhysical.o
 
+$(LIBDIR)plPhysicalSndGroup.o: PubUtilLib/plPhysics/plPhysicalSndGroup.h PubUtilLib/plPhysics/plPhysicalSndGroup.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPhysics/plPhysicalSndGroup.cpp -o $(LIBDIR)plPhysicalSndGroup.o
+
 $(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o
 
@@ -523,6 +567,9 @@ $(LIBDIR)plPostEffectMod.o: PubUtilLib/plScene/plPostEffectMod.h PubUtilLib/plSc
 $(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSceneNode.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plSceneNode.cpp -o $(LIBDIR)plSceneNode.o
 
+$(LIBDIR)plVisRegion.o: PubUtilLib/plScene/plVisRegion.h PubUtilLib/plScene/plVisRegion.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plVisRegion.cpp -o $(LIBDIR)plVisRegion.o
+
 $(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/hsGMaterial.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o $(LIBDIR)hsGMaterial.o
 
@@ -547,8 +594,17 @@ $(LIBDIR)plUUID.o: PubUtilLib/plUUID/plUUID.h PubUtilLib/plUUID/plUUID.cpp
 $(LIBDIR)plLineFollowMod.o: FeatureLib/pfAnimation/plLineFollowMod.h FeatureLib/pfAnimation/plLineFollowMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAnimation/plLineFollowMod.cpp -o $(LIBDIR)plLineFollowMod.o
 
+$(LIBDIR)plRandomCommandMod.o: FeatureLib/pfAnimation/plRandomCommandMod.h FeatureLib/pfAnimation/plRandomCommandMod.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAnimation/plRandomCommandMod.cpp -o $(LIBDIR)plRandomCommandMod.o
+
 $(LIBDIR)plStereizer.o: FeatureLib/pfAnimation/plStereizer.h FeatureLib/pfAnimation/plStereizer.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAnimation/plStereizer.cpp -o $(LIBDIR)plStereizer.o
+
+$(LIBDIR)plViewFaceModifier.o: FeatureLib/pfAnimation/plViewFaceModifier.h FeatureLib/pfAnimation/plViewFaceModifier.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAnimation/plViewFaceModifier.cpp -o $(LIBDIR)plViewFaceModifier.o
+
+$(LIBDIR)plRandomSoundMod.o: FeatureLib/pfAudio/plRandomSoundMod.h FeatureLib/pfAudio/plRandomSoundMod.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAudio/plRandomSoundMod.cpp -o $(LIBDIR)plRandomSoundMod.o
 
 $(LIBDIR)plConditionalObject.o: FeatureLib/pfConditional/plConditionalObject.h FeatureLib/pfConditional/plConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfConditional/plConditionalObject.cpp -o $(LIBDIR)plConditionalObject.o

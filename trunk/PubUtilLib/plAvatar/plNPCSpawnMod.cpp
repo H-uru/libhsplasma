@@ -34,12 +34,18 @@ void plNPCSpawnMod::write(hsStream* S, plResManager* mgr) {
 void plNPCSpawnMod::prcWrite(pfPrcHelper* prc) {
     plSingleModifier::prcWrite(prc);
 
-    prc->startTag("ModelName");
-    prc->writeParam("value", fModelName);
-    prc->endTag(true);
-    prc->startTag("AccountName");
-    prc->writeParam("value", fAccountName);
+    prc->startTag("NPCSpawnParams");
+    prc->writeParam("ModelName", fModelName);
+    prc->writeParam("AccountName", fAccountName);
+    prc->writeParam("AutoSpawn", fAutoSpawn);
     prc->endTag(true);
 
-    prc->writeComment("Unfinished");
+    if (fNotify != NULL) {
+        fNotify->prcWrite(prc);
+        prc->closeTag();
+    } else {
+        prc->startTag("Notify");
+        prc->writeParam("NULL", true);
+        prc->endTag(true);
+    }
 }

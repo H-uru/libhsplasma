@@ -363,4 +363,3 @@ void plDrawableSpans::prcWrite(pfPrcHelper* prc) {
     sceneNode->prcWrite(prc);
     prc->closeTag();
 }
-
