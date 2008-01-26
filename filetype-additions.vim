@@ -19,4 +19,3 @@ endfun
 au BufNewFile,BufRead *.pr			setf sdl
 au BufRead *.sdl					call s:FTsdl()
 au BufNewFile *.sdl					setf urusdl
-

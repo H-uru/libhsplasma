@@ -7,7 +7,7 @@ all:
 	(make Tools/PlasmaCrypt)
 	(make Tools/PrpPack)
 	(make Tools/PrcExtract)
-	(make TypeMap)
+	(make Misc/TypeMap)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert
@@ -21,8 +21,8 @@ Tools/PrpPack: Tools/src/PrpPack.cpp trunk/lib/libPlasma.so
 Tools/PrcExtract: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract
 
-TypeMap: TypeMap.cpp
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk TypeMap.cpp -o TypeMap
+Misc/TypeMap: Misc/TypeMap.cpp
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Misc/TypeMap.cpp -o Misc/TypeMap
 
 install:
 	(cd trunk ; make install)
@@ -42,4 +42,4 @@ distclean:
 	rm -f Tools/PlasmaCrypt
 	rm -f Tools/PrpPack
 	rm -f Tools/PrcExtract
-	rm -f TypeMap
+	rm -f Misc/TypeMap
