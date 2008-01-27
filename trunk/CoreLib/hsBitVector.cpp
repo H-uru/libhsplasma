@@ -1,5 +1,5 @@
 #include "hsBitVector.h"
-#include <string.h>
+#include <cstring>
 
 hsBitVector::hsBitVector() : fBits(NULL), fNumVectors(0) { }
 hsBitVector::~hsBitVector() {

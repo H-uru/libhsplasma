@@ -2120,6 +2120,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plInterp\plATCEaseCurves.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plInterp\plATCEaseCurves.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plInterp\plController.cpp"
 					>
 				</File>
@@ -2325,6 +2333,50 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plUUID\plUUID.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plIntersect"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plHardRegion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plHardRegion.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plHardRegionPlanes.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plHardRegionPlanes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plRegionBase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plRegionBase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plSoftVolume.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plSoftVolume.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plVolumeIsect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plIntersect\plVolumeIsect.h"
 					>
 				</File>
 			</Filter>

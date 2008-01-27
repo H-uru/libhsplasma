@@ -89,6 +89,7 @@ OBJFILES=\
 	$(LIBDIR)plShadowMaster.o \
 	$(LIBDIR)plAnimTimeConvert.o \
 	$(LIBDIR)plAnimPath.o \
+	$(LIBDIR)plATCEaseCurves.o \
 	$(LIBDIR)plController.o \
 	$(LIBDIR)plKeyControllers.o \
 	$(LIBDIR)plLeafController.o \
@@ -98,6 +99,11 @@ OBJFILES=\
 	$(LIBDIR)plTMController.o \
 	$(LIBDIR)hsKeys.o \
 	$(LIBDIR)UruKeys.o \
+	$(LIBDIR)plHardRegion.o \
+	$(LIBDIR)plHardRegionPlanes.o \
+	$(LIBDIR)plRegionBase.o \
+	$(LIBDIR)plSoftVolume.o \
+	$(LIBDIR)plVolumeIsect.o \
 	$(LIBDIR)plJPEG.o \
 	$(LIBDIR)plAnimCmdMsg.o \
 	$(LIBDIR)plExcludeRegionMsg.o \
@@ -429,6 +435,9 @@ $(LIBDIR)plAnimTimeConvert.o: PubUtilLib/plInterp/plAnimTimeConvert.h PubUtilLib
 $(LIBDIR)plAnimPath.o: PubUtilLib/plInterp/plAnimPath.h PubUtilLib/plInterp/plAnimPath.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plInterp/plAnimPath.cpp -o $(LIBDIR)plAnimPath.o
 
+$(LIBDIR)plATCEaseCurves.o: PubUtilLib/plInterp/plATCEaseCurves.h PubUtilLib/plInterp/plATCEaseCurves.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plInterp/plATCEaseCurves.cpp -o $(LIBDIR)plATCEaseCurves.o
+
 $(LIBDIR)plController.o: PubUtilLib/plInterp/plController.h PubUtilLib/plInterp/plController.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plInterp/plController.cpp -o $(LIBDIR)plController.o
 
@@ -455,6 +464,21 @@ $(LIBDIR)hsKeys.o: PubUtilLib/plInterp/hsKeys.h PubUtilLib/plInterp/hsKeys.cpp
 
 $(LIBDIR)UruKeys.o: PubUtilLib/plInterp/UruKeys.h PubUtilLib/plInterp/UruKeys.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plInterp/UruKeys.cpp -o $(LIBDIR)UruKeys.o
+
+$(LIBDIR)plHardRegion.o: PubUtilLib/plIntersect/plHardRegion.h PubUtilLib/plIntersect/plHardRegion.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plIntersect/plHardRegion.cpp -o $(LIBDIR)plHardRegion.o
+
+$(LIBDIR)plHardRegionPlanes.o: PubUtilLib/plIntersect/plHardRegionPlanes.h PubUtilLib/plIntersect/plHardRegionPlanes.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plIntersect/plHardRegionPlanes.cpp -o $(LIBDIR)plHardRegionPlanes.o
+
+$(LIBDIR)plRegionBase.o: PubUtilLib/plIntersect/plRegionBase.h PubUtilLib/plIntersect/plRegionBase.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plIntersect/plRegionBase.cpp -o $(LIBDIR)plRegionBase.o
+
+$(LIBDIR)plSoftVolume.o: PubUtilLib/plIntersect/plSoftVolume.h PubUtilLib/plIntersect/plSoftVolume.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plIntersect/plSoftVolume.cpp -o $(LIBDIR)plSoftVolume.o
+
+$(LIBDIR)plVolumeIsect.o: PubUtilLib/plIntersect/plVolumeIsect.h PubUtilLib/plIntersect/plVolumeIsect.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plIntersect/plVolumeIsect.cpp -o $(LIBDIR)plVolumeIsect.o
 
 $(LIBDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(LIBDIR)plJPEG.o

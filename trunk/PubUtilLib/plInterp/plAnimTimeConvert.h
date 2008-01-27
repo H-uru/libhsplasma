@@ -3,23 +3,7 @@
 
 #include "NucleusLib/pnFactory/plCreatable.h"
 #include "NucleusLib/pnMessage/plEventCallbackMsg.h"
-
-DllClass plATCEaseCurve : public plCreatable {
-protected:
-    float fStartSpeed, fSpeed;
-    float fMinLength, fMaxLength, fNormLength, fLength;
-    double fBeginWorldTime;
-
-public:
-    plATCEaseCurve();
-    virtual ~plATCEaseCurve();
-
-    DECLARE_CREATABLE(plATCEaseCurve)
-
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
-};
+#include "plATCEaseCurves.h"
 
 DllClass plAnimTimeConvert : public plCreatable {
 public:

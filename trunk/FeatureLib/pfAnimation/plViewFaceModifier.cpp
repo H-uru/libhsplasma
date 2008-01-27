@@ -69,7 +69,7 @@ void plViewFaceModifier::prcWrite(pfPrcHelper* prc) {
 
     if (fFlags[kMaxBounds]) {
         prc->writeSimpleTag("MaxBounds");
-        fMaxBounds.prcWrite(prc);
+        fMaxBounds.prcWrite(prc); prc->closeTag();
         prc->closeTag();
     }
 }

@@ -1,43 +1,5 @@
 #include "plAnimTimeConvert.h"
 
-/* plATCEaseCurve */
-plATCEaseCurve::plATCEaseCurve() { }
-plATCEaseCurve::~plATCEaseCurve() { }
-
-IMPLEMENT_CREATABLE(plATCEaseCurve, kATCEaseCurve, plCreatable)
-
-void plATCEaseCurve::read(hsStream* S, plResManager* mgr) {
-    fMinLength = S->readFloat();
-    fMaxLength = S->readFloat();
-    fNormLength = fLength = S->readFloat();
-    fStartSpeed = S->readFloat();
-    fSpeed = S->readFloat();
-    fBeginWorldTime = S->readDouble();
-}
-
-void plATCEaseCurve::write(hsStream* S, plResManager* mgr) {
-    S->writeFloat(fMinLength);
-    S->writeFloat(fMaxLength);
-    S->writeFloat(fNormLength);
-    S->writeFloat(fStartSpeed);
-    S->writeFloat(fSpeed);
-    S->writeDouble(fBeginWorldTime);
-}
-
-void plATCEaseCurve::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
-    prc->startTag("Params");
-    prc->writeParam("MinLength", fMinLength);
-    prc->writeParam("MaxLength", fMaxLength);
-    prc->writeParam("Length", fNormLength);
-    prc->writeParam("StartSpeed", fStartSpeed);
-    prc->writeParam("Speed", fSpeed);
-    prc->writeParam("BeginWorldTime", fBeginWorldTime);
-    prc->endTag(true);
-}
-
-
 /* plAnimTimeConvert */
 plAnimTimeConvert::plAnimTimeConvert()
                  : fFlags(0), fBegin(0.0f), fEnd(0.0f), fLoopBegin(0.0f),
@@ -132,7 +94,7 @@ void plAnimTimeConvert::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
-    if (fEaseInCurve != NULL) {
+    if (fSpeedEaseCurve != NULL) {
         prc->writeSimpleTag("SpeedEaseCurve");
         fSpeedEaseCurve->prcWrite(prc); prc->closeTag();
         prc->closeTag();

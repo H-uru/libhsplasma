@@ -63,6 +63,8 @@
 #include "PubUtilLib/plGLight/plDirectionalLightInfo.h"
 #include "PubUtilLib/plGLight/plOmniLightInfo.h"
 #include "PubUtilLib/plGLight/plShadowMaster.h"
+#include "PubUtilLib/plIntersect/plHardRegionPlanes.h"
+#include "PubUtilLib/plIntersect/plSoftVolume.h"
 #include "PubUtilLib/plMessage/plAnimCmdMsg.h"
 #include "PubUtilLib/plMessage/plExcludeRegionMsg.h"
 #include "PubUtilLib/plMessage/plLinkToAgeMsg.h"
@@ -236,12 +238,12 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kWin32StreamingSound: return new plWin32StreamingSound();
         //case kPythonMod: return new plPythonMod();
         case kActivatorActivatorConditionalObject: return new plActivatorActivatorConditionalObject();
-        //case kSoftVolume: return new plSoftVolume();
-        //case kSoftVolumeSimple: return new plSoftVolumeSimple();
-        //case kSoftVolumeComplex: return new plSoftVolumeComplex();
-        //case kSoftVolumeUnion: return new plSoftVolumeUnion();
-        //case kSoftVolumeIntersect: return new plSoftVolumeIntersect();
-        //case kSoftVolumeInvert: return new plSoftVolumeInvert();
+        case kSoftVolume: return new plSoftVolume();
+        case kSoftVolumeSimple: return new plSoftVolumeSimple();
+        case kSoftVolumeComplex: return new plSoftVolumeComplex();
+        case kSoftVolumeUnion: return new plSoftVolumeUnion();
+        case kSoftVolumeIntersect: return new plSoftVolumeIntersect();
+        case kSoftVolumeInvert: return new plSoftVolumeInvert();
         case kWin32LinkSound: return new plWin32LinkSound();
         case kLayerLinkAnimation: return new plLayerLinkAnimation();
         //case kArmatureMod: return new plArmatureMod();
@@ -373,15 +375,15 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kMaintainersMarkerModifier: return new plMaintainersMarkerModifier();
         //case kMorphSequenceSDLMod: return new plMorphSequenceSDLMod();
         case kMorphDataSet: return new plMorphDataSet();
-        //case kHardRegion: return new plHardRegion();
-        //case kHardRegionPlanes: return new plHardRegionPlanes();
-        //case kHardRegionComplex: return new plHardRegionComplex();
-        //case kHardRegionUnion: return new plHardRegionUnion();
-        //case kHardRegionIntersect: return new plHardRegionIntersect();
-        //case kHardRegionInvert: return new plHardRegionInvert();
+        case kHardRegion: return new plHardRegion();
+        case kHardRegionPlanes: return new plHardRegionPlanes();
+        case kHardRegionComplex: return new plHardRegionComplex();
+        case kHardRegionUnion: return new plHardRegionUnion();
+        case kHardRegionIntersect: return new plHardRegionIntersect();
+        case kHardRegionInvert: return new plHardRegionInvert();
         case kVisRegion: return new plVisRegion();
         //case kVisMgr: return new plVisMgr();
-        //case kRegionBase: return new plRegionBase();
+        case kRegionBase: ABSTRACT(kRegionBase);
         case kGUIPopUpMenu: return new pfGUIPopUpMenu();
         case kGUIMenuItem: return new pfGUIMenuItem();
         //case kCoopCoordinator: return new plCoopCoordinator();
@@ -712,15 +714,15 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLinkCallbackMsg: return new plLinkCallbackMsg();
         case kTransitionMsg: return new plTransitionMsg();
         //case kConsoleMsg: return new plConsoleMsg();
-        //case kVolumeIsect: return new plVolumeIsect();
-        //case kSphereIsect: return new plSphereIsect();
-        //case kConeIsect: return new plConeIsect();
-        //case kCylinderIsect: return new plCylinderIsect();
-        //case kParallelIsect: return new plParallelIsect();
-        //case kConvexIsect: return new plConvexIsect();
-        //case kComplexIsect: return new plComplexIsect();
-        //case kUnionIsect: return new plUnionIsect();
-        //case kIntersectionIsect: return new plIntersectionIsect();
+        case kVolumeIsect: return new plVolumeIsect();
+        case kSphereIsect: return new plSphereIsect();
+        case kConeIsect: return new plConeIsect();
+        case kCylinderIsect: return new plCylinderIsect();
+        case kParallelIsect: return new plParallelIsect();
+        case kConvexIsect: return new plConvexIsect();
+        case kComplexIsect: return new plComplexIsect();
+        case kUnionIsect: return new plUnionIsect();
+        case kIntersectionIsect: return new plIntersectionIsect();
         //case kModulator: return new plModulator();
         //case kInventoryMsg: return new plInventoryMsg();
         //case kLinkEffectsTriggerMsg: return new plLinkEffectsTriggerMsg();
@@ -754,8 +756,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetServerMsgPlsRoutableMsg: return new plNetServerMsgPlsRoutableMsg();
         //case kPuppetBrainMsg: return new plPuppetBrainMsg();
         case kATCEaseCurve: return new plATCEaseCurve();
-        //case kConstAccelEaseCurve: return new plConstAccelEaseCurve();
-        //case kSplineEaseCurve: return new plSplineEaseCurve();
+        case kConstAccelEaseCurve: return new plConstAccelEaseCurve();
+        case kSplineEaseCurve: return new plSplineEaseCurve();
         //case kVaultAgeInfoInitializationTask: return new plVaultAgeInfoInitializationTask();
         //case kGameGUIMsg: return new pfGameGUIMsg();
         //case kNetServerMsgVaultRequestGameState: return new plNetServerMsgVaultRequestGameState();
@@ -872,7 +874,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kArmatureEffectMsg: return new plArmatureEffectMsg();
         case kArmatureEffectStateMsg: return new plArmatureEffectStateMsg();
         //case kShadowCastMsg: return new plShadowCastMsg();
-        //case kBoundsIsect: return new plBoundsIsect();
+        case kBoundsIsect: return new plBoundsIsect();
         //case kNetClientCommLeaveTask: return new plNetClientCommLeaveTask();
         //case kResMgrHelperMsg: return new plResMgrHelperMsg();
         //case kNetMsgAuthenticateResponse: return new plNetMsgAuthenticateResponse();
