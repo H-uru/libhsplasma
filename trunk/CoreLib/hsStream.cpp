@@ -328,10 +328,14 @@ void hsFileStream::rewind() {
 }
 
 void hsFileStream::read(size_t size, void* buf) {
+    if (fm == fmWrite)
+        throw hsBadParamException(__FILE__, __LINE__);
     fread(buf, size, 1, F);
 }
 
 void hsFileStream::write(size_t size, const void* buf) {
+    if (fm == fmRead)
+        throw hsBadParamException(__FILE__, __LINE__);
     fwrite(buf, size, 1, F);
 }
 

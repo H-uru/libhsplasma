@@ -46,14 +46,20 @@
 #include "NucleusLib/pnSceneObject/plSceneObject.h"
 #include "NucleusLib/pnSceneObject/plSimulationInterface.h"
 #include "PubUtilLib/plAudible/plAudible.h"
+#include "PubUtilLib/plAudio/plEAXListenerMod.h"
 #include "PubUtilLib/plAudio/plWin32StaticSound.h"
 #include "PubUtilLib/plAudioCore/plSoundBuffer.h"
+#include "PubUtilLib/plAvatar/plAGAnim.h"
+#include "PubUtilLib/plAvatar/plAGMasterMod.h"
 #include "PubUtilLib/plAvatar/plAvLadderMod.h"
 #include "PubUtilLib/plAvatar/plClothingItem.h"
-#include "PubUtilLib/plAvatar/plAGMasterMod.h"
+#include "PubUtilLib/plAvatar/plMatrixChannel.h"
 #include "PubUtilLib/plAvatar/plMultistageBehMod.h"
 #include "PubUtilLib/plAvatar/plNPCSpawnMod.h"
 #include "PubUtilLib/plAvatar/plOneShotMod.h"
+#include "PubUtilLib/plAvatar/plPointChannel.h"
+#include "PubUtilLib/plAvatar/plQuatChannel.h"
+#include "PubUtilLib/plAvatar/plScalarChannel.h"
 #include "PubUtilLib/plDrawable/plDrawableSpans.h"
 #include "PubUtilLib/plDrawable/plDynaRippleMgr.h"
 #include "PubUtilLib/plDrawable/plMorphDataSet.h"
@@ -77,6 +83,7 @@
 #include "PubUtilLib/plModifier/plLogicModifier.h"
 #include "PubUtilLib/plModifier/plResponderModifier.h"
 #include "PubUtilLib/plModifier/plSpawnModifier.h"
+#include "PubUtilLib/plParticleSystem/plParticleApplicator.h"
 #include "PubUtilLib/plParticleSystem/plParticleEffect.h"
 #include "PubUtilLib/plPhysics/plObjectInVolumeDetector.h"
 #include "PubUtilLib/plPhysics/plHKPhysical.h"
@@ -89,14 +96,14 @@
 #include "PubUtilLib/plScene/plVisRegion.h"
 #include "PubUtilLib/plSurface/plLayer.h"
 #include "PubUtilLib/plSurface/plLayerMovie.h"
-// End types
+// End type includes
 
 #define ABSTRACT(x) \
     plDebug::Warning("Warning: Attempted to create abstract class %s", ClassName(x)); \
     return NULL
 
 #define NOTIMPL(x) \
-    plDebug::Warning("Warning: %s is not an implementable class", ClassName(x)); \
+    plDebug::Warning("Warning: class %s is not implemented", ClassName(x)); \
     return NULL
 
 plCreatable* plFactory::Create(short typeIdx) {
@@ -210,7 +217,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kMobileOccluder: return new plMobileOccluder();
         //case kLayerShadowBase: return new plLayerShadowBase();
         case kLimitedDirLightInfo: return new plLimitedDirLightInfo();
-        //case kAGAnim: return new plAGAnim();
+        case kAGAnim: return new plAGAnim();
         //case kAGModifier: return new plAGModifier();
         case kAGMasterMod: return new plAGMasterMod();
         //case kCameraBrain_Avatar: return new plCameraBrain_Avatar();
@@ -332,7 +339,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kHKSubWorld: return new plHKSubWorld();
         //case kArmatureEffect: return new plArmatureEffect();
         //case kAmratureEffectFootSound: return new plAmratureEffectFootSound();
-        //case kEAXListenerMod: return new plEAXListenerMod();
+        case kEAXListenerMod: return new plEAXListenerMod();
         case kDynaDecalMgr: return new plDynaDecalMgr();
         case kObjectInVolumeAndFacingDetector: return new plObjectInVolumeAndFacingDetector();
         case kDynaFootMgr: return new plDynaFootMgr();
@@ -344,8 +351,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kGUIMultiLineEditCtrl: return new pfGUIMultiLineEditCtrl();
         case kLayerAnimationBase: ABSTRACT(kLayerAnimationBase);
         case kLayerSDLAnimation: return new plLayerSDLAnimation();
-        //case kATCAnim: return new plATCAnim();
-        //case kAgeGlobalAnim: return new plAgeGlobalAnim();
+        case kATCAnim: return new plATCAnim();
+        case kAgeGlobalAnim: return new plAgeGlobalAnim();
         case kSubworldRegionDetector: return new plSubworldRegionDetector();
         //case kAvatarMgr: return new plAvatarMgr();
         case kNPCSpawnMod: return new plNPCSpawnMod();
@@ -368,7 +375,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDynamicEnvMap: return new plDynamicEnvMap();
         //case kSimpleRegionSensor: return new plSimpleRegionSensor();
         //case kMorphSequence: return new plMorphSequence();
-        //case kEmoteAnim: return new plEmoteAnim();
+        case kEmoteAnim: return new plEmoteAnim();
         case kDynaRippleVSMgr: return new plDynaRippleVSMgr();
         //case kWaveSet6: return new plWaveSet6();
         case kGUIProgressCtrl: return new pfGUIProgressCtrl();
@@ -687,18 +694,18 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kParticleGenerator: return new plParticleGenerator();
         //case kSimpleParticleGenerator: return new plSimpleParticleGenerator();
         //case kParticleEmitter: return new plParticleEmitter();
-        //case kAGChannel: return new plAGChannel();
-        //case kMatrixChannel: return new plMatrixChannel();
-        //case kMatrixTimeScale: return new plMatrixTimeScale();
-        //case kMatrixBlend: return new plMatrixBlend();
-        //case kMatrixControllerChannel: return new plMatrixControllerChannel();
-        //case kQuatPointCombine: return new plQuatPointCombine();
-        //case kPointChannel: return new plPointChannel();
-        //case kPointConstant: return new plPointConstant();
-        //case kPointBlend: return new plPointBlend();
-        //case kQuatChannel: return new plQuatChannel();
-        //case kQuatConstant: return new plQuatConstant();
-        //case kQuatBlend: return new plQuatBlend();
+        case kAGChannel: ABSTRACT(kAGChannel);
+        case kMatrixChannel: return new plMatrixChannel();
+        case kMatrixTimeScale: return new plMatrixTimeScale();
+        case kMatrixBlend: return new plMatrixBlend();
+        case kMatrixControllerChannel: return new plMatrixControllerChannel();
+        case kQuatPointCombine: return new plQuatPointCombine();
+        case kPointChannel: return new plPointChannel();
+        case kPointConstant: return new plPointConstant();
+        case kPointBlend: return new plPointBlend();
+        case kQuatChannel: return new plQuatChannel();
+        case kQuatConstant: return new plQuatConstant();
+        case kQuatBlend: return new plQuatBlend();
         case kLinkToAgeMsg: return new plLinkToAgeMsg();
         //case kPlayerPageMsg: return new plPlayerPageMsg();
         //case kCmdIfaceModMsg: return new plCmdIfaceModMsg();
@@ -735,24 +742,24 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kOneShotMsg: return new plOneShotMsg();
         //case kVaultAgeInfoListNode: return new plVaultAgeInfoListNode();
         //case kNetServerMsgServerRegistered: return new plNetServerMsgServerRegistered();
-        //case kPointTimeScale: return new plPointTimeScale();
-        //case kPointControllerChannel: return new plPointControllerChannel();
-        //case kQuatTimeScale: return new plQuatTimeScale();
-        //case kAGApplicator: return new plAGApplicator();
-        //case kMatrixChannelApplicator: return new plMatrixChannelApplicator();
-        //case kPointChannelApplicator: return new plPointChannelApplicator();
-        //case kLightDiffuseApplicator: return new plLightDiffuseApplicator();
-        //case kLightAmbientApplicator: return new plLightAmbientApplicator();
-        //case kLightSpecularApplicator: return new plLightSpecularApplicator();
-        //case kOmniApplicator: return new plOmniApplicator();
-        //case kQuatChannelApplicator: return new plQuatChannelApplicator();
-        //case kScalarChannel: return new plScalarChannel();
-        //case kScalarTimeScale: return new plScalarTimeScale();
-        //case kScalarBlend: return new plScalarBlend();
-        //case kScalarControllerChannel: return new plScalarControllerChannel();
-        //case kScalarChannelApplicator: return new plScalarChannelApplicator();
-        //case kSpotInnerApplicator: return new plSpotInnerApplicator();
-        //case kSpotOuterApplicator: return new plSpotOuterApplicator();
+        case kPointTimeScale: return new plPointTimeScale();
+        case kPointControllerChannel: return new plPointControllerChannel();
+        case kQuatTimeScale: return new plQuatTimeScale();
+        case kAGApplicator: ABSTRACT(kAGApplicator);
+        case kMatrixChannelApplicator: return new plMatrixChannelApplicator();
+        case kPointChannelApplicator: return new plPointChannelApplicator();
+        case kLightDiffuseApplicator: return new plLightDiffuseApplicator();
+        case kLightAmbientApplicator: return new plLightAmbientApplicator();
+        case kLightSpecularApplicator: return new plLightSpecularApplicator();
+        case kOmniApplicator: return new plOmniApplicator();
+        case kQuatChannelApplicator: return new plQuatChannelApplicator();
+        case kScalarChannel: return new plScalarChannel();
+        case kScalarTimeScale: return new plScalarTimeScale();
+        case kScalarBlend: return new plScalarBlend();
+        case kScalarControllerChannel: return new plScalarControllerChannel();
+        case kScalarChannelApplicator: return new plScalarChannelApplicator();
+        case kSpotInnerApplicator: return new plSpotInnerApplicator();
+        case kSpotOuterApplicator: return new plSpotOuterApplicator();
         //case kNetServerMsgPlsRoutableMsg: return new plNetServerMsgPlsRoutableMsg();
         //case kPuppetBrainMsg: return new plPuppetBrainMsg();
         case kATCEaseCurve: return new plATCEaseCurve();
@@ -773,27 +780,27 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDniCoordinateInfo: return new plDniCoordinateInfo();
         //case kNetMsgGameMessageDirected: return new plNetMsgGameMessageDirected();
         //case kLinkOutUnloadMsg: return new plLinkOutUnloadMsg();
-        //case kScalarConstant: return new plScalarConstant();
-        //case kMatrixConstant: return new plMatrixConstant();
+        case kScalarConstant: return new plScalarConstant();
+        case kMatrixConstant: return new plMatrixConstant();
         //case kAGCmdMsg: return new plAGCmdMsg();
         //case kParticleTransferMsg: return new plParticleTransferMsg();
         //case kParticleKillMsg: return new plParticleKillMsg();
         case kExcludeRegionMsg: return new plExcludeRegionMsg();
         //case kOneTimeParticleGenerator: return new plOneTimeParticleGenerator();
-        //case kParticleApplicator: return new plParticleApplicator();
-        //case kParticleLifeMinApplicator: return new plParticleLifeMinApplicator();
-        //case kParticleLifeMaxApplicator: return new plParticleLifeMaxApplicator();
-        //case kParticlePPSApplicator: return new plParticlePPSApplicator();
-        //case kParticleAngleApplicator: return new plParticleAngleApplicator();
-        //case kParticleVelMinApplicator: return new plParticleVelMinApplicator();
-        //case kParticleVelMaxApplicator: return new plParticleVelMaxApplicator();
-        //case kParticleScaleMinApplicator: return new plParticleScaleMinApplicator();
-        //case kParticleScaleMaxApplicator: return new plParticleScaleMaxApplicator();
+        case kParticleApplicator: return new plParticleApplicator();
+        case kParticleLifeMinApplicator: return new plParticleLifeMinApplicator();
+        case kParticleLifeMaxApplicator: return new plParticleLifeMaxApplicator();
+        case kParticlePPSApplicator: return new plParticlePPSApplicator();
+        case kParticleAngleApplicator: return new plParticleAngleApplicator();
+        case kParticleVelMinApplicator: return new plParticleVelMinApplicator();
+        case kParticleVelMaxApplicator: return new plParticleVelMaxApplicator();
+        case kParticleScaleMinApplicator: return new plParticleScaleMinApplicator();
+        case kParticleScaleMaxApplicator: return new plParticleScaleMaxApplicator();
         //case kDynamicTextMsg: return new plDynamicTextMsg();
         //case kCameraTargetFadeMsg: return new plCameraTargetFadeMsg();
         //case kAgeLoadedMsg: return new plAgeLoadedMsg();
-        //case kPointControllerCacheChannel: return new plPointControllerCacheChannel();
-        //case kScalarControllerCacheChannel: return new plScalarControllerCacheChannel();
+        case kPointControllerCacheChannel: return new plPointControllerCacheChannel();
+        case kScalarControllerCacheChannel: return new plScalarControllerCacheChannel();
         //case kLinkEffectsTriggerPrepMsg: return new plLinkEffectsTriggerPrepMsg();
         //case kLinkEffectPrepBCMsg: return new plLinkEffectPrepBCMsg();
         //case kAvatarInputStateMsg: return new plAvatarInputStateMsg();
@@ -827,7 +834,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kInputIfaceMgrMsg: return new plInputIfaceMgrMsg();
         //case kKIMsg: return new pfKIMsg();
         //case kRemoteAvatarInfoMsg: return new plRemoteAvatarInfoMsg();
-        //case kMatrixDelayedCorrectionApplicator: return new plMatrixDelayedCorrectionApplicator();
+        case kMatrixDelayedCorrectionApplicator: return new plMatrixDelayedCorrectionApplicator();
         //case kAvPushBrainMsg: return new plAvPushBrainMsg();
         //case kAvPopBrainMsg: return new plAvPopBrainMsg();
         //case kRoomLoadNotifyMsg: return new plRoomLoadNotifyMsg();
@@ -889,19 +896,19 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetClientCommJoinAgeTask: return new plNetClientCommJoinAgeTask();
         //case kVaultAdminInitializationTask: return new plVaultAdminInitializationTask();
         //case kMultistageModMsg: return new plMultistageModMsg();
-        //case kSoundVolumeApplicator: return new plSoundVolumeApplicator();
+        case kSoundVolumeApplicator: return new plSoundVolumeApplicator();
         //case kCutter: return new plCutter();
         //case kBulletMsg: return new plBulletMsg();
         //case kDynaDecalEnableMsg: return new plDynaDecalEnableMsg();
-        //case kOmniCutoffApplicator: return new plOmniCutoffApplicator();
+        case kOmniCutoffApplicator: return new plOmniCutoffApplicator();
         //case kArmatureUpdateMsg: return new plArmatureUpdateMsg();
         //case kAvatarFootMsg: return new plAvatarFootMsg();
         //case kNetOwnershipMsg: return new plNetOwnershipMsg();
         //case kNetMsgRelevanceRegions: return new plNetMsgRelevanceRegions();
         //case kParticleFlockMsg: return new plParticleFlockMsg();
         //case kAvatarBehaviorNotifyMsg: return new plAvatarBehaviorNotifyMsg();
-        //case kATCChannel: return new plATCChannel();
-        //case kScalarSDLChannel: return new plScalarSDLChannel();
+        case kATCChannel: return new plATCChannel();
+        case kScalarSDLChannel: return new plScalarSDLChannel();
         //case kLoadAvatarMsg: return new plLoadAvatarMsg();
         //case kAvatarSetTypeMsg: return new plAvatarSetTypeMsg();
         //case kNetMsgLoadClone: return new plNetMsgLoadClone();
@@ -917,7 +924,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetServerMsgFrontendRecoveryData: return new plNetServerMsgFrontendRecoveryData();
         //case kNetServerMsgBackendRecoveryData: return new plNetServerMsgBackendRecoveryData();
         //case kSubWorldMsg: return new plSubWorldMsg();
-        //case kMatrixDifferenceApp: return new plMatrixDifferenceApp();
+        case kMatrixDifferenceApp: return new plMatrixDifferenceApp();
         //case kAvBrainUser: return new plAvBrainUser();
         //case kDX9Pipeline: return new plDX9Pipeline();
         //case kDXPipeline: return new plDXPipeline();
@@ -927,7 +934,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCrossfadeMsg: return new plCrossfadeMsg();
         //case kSubtitleMsg: return new pfSubtitleMsg();
         //case kSDLStoreMsg: return new plSDLStoreMsg();
-        //case kOmniSqApplicator: return new plOmniSqApplicator();
+        case kOmniSqApplicator: return new plOmniSqApplicator();
         //case kPreResourceMsg: return new plPreResourceMsg();
         //case kDynamicColorRGBA: return new hsDynamicColorRGBA();
         //case kDynamicMatrix33: return new hsDynamicMatrix33();
@@ -1013,7 +1020,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetVoiceListMsg: return new plNetVoiceListMsg();
         //case kSwimMsg: return new plSwimMsg();
         case kMorphDelta: return new plMorphDelta();
-        //case kMatrixControllerCacheChannel: return new plMatrixControllerCacheChannel();
+        case kMatrixControllerCacheChannel: return new plMatrixControllerCacheChannel();
         //case kVaultMarkerNode: return new plVaultMarkerNode();
         //case kMarkerMsg: return new pfMarkerMsg();
         //case kPipeResMakeMsg: return new plPipeResMakeMsg();

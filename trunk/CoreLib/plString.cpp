@@ -190,11 +190,13 @@ bool plString::operator!=(const char* str) const {
 
 bool plString::operator<(const plString& other) const {
     if (other.empty()) return false;
+    if (empty()) return true;
     return (strcmp(fStr, other.fStr) < 0);
 }
 
 bool plString::operator<(const char* str) const {
     if (str == NULL) return false;
+    if (empty()) return true;
     return (strcmp(fStr, str) < 0);
 }
 
@@ -238,8 +240,8 @@ bool plString::endsWith(const char* cmp, bool ignoreCase) const {
     return (right(strlen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
 
-const char* plString::cstr() const { return fStr; }
-plString::operator const char*() const { return fStr; }
+const char* plString::cstr() const { return (fStr != NULL) ? fStr : ""; }
+plString::operator const char*() const { return cstr(); }
 
 char* plString::copybuf() const {
     if (empty()) return NULL;
@@ -614,11 +616,13 @@ bool plWString::operator!=(const wchar_t* str) const {
 
 bool plWString::operator<(const plWString& other) const {
     if (other.empty()) return false;
+    if (empty()) return true;
     return (wcscmp(fStr, other.fStr) < 0);
 }
 
 bool plWString::operator<(const wchar_t* str) const {
     if (str == NULL) return false;
+    if (empty()) return true;
     return (wcscmp(fStr, str) < 0);
 }
 
@@ -662,8 +666,8 @@ bool plWString::endsWith(const wchar_t* cmp, bool ignoreCase) const {
     return (right(wcslen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
 
-const wchar_t* plWString::cstr() const { return fStr; }
-plWString::operator const wchar_t*() const { return fStr; }
+const wchar_t* plWString::cstr() const { return (fStr != NULL) ? fStr : L""; }
+plWString::operator const wchar_t*() const { return cstr(); }
 
 wchar_t* plWString::copybuf() const {
     if (empty()) return NULL;

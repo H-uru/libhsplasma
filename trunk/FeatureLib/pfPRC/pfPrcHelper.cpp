@@ -45,9 +45,21 @@ void pfPrcHelper::writeParam(const char* name, const int value) {
     file->writeStr(buf);
 }
 
+void pfPrcHelper::writeParam(const char* name, const long value) {
+    char buf[256];
+    snprintf(buf, 256, " %s=\"%ld\"", name, value);
+    file->writeStr(buf);
+}
+
 void pfPrcHelper::writeParam(const char* name, const unsigned int value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%u\"", name, value);
+    file->writeStr(buf);
+}
+
+void pfPrcHelper::writeParam(const char* name, const unsigned long value) {
+    char buf[256];
+    snprintf(buf, 256, " %s=\"%lu\"", name, value);
     file->writeStr(buf);
 }
 

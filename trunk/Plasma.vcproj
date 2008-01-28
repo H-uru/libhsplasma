@@ -1218,6 +1218,30 @@
 				Name="plAvatar"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGAnim.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGAnim.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGApplicator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGApplicator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGChannel.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plAvatar\plAGMasterMod.cpp"
 					>
 				</File>
@@ -1276,6 +1300,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plAvatar\plMatrixChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plMatrixChannel.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plAvatar\plMultistageBehMod.cpp"
 					>
 				</File>
@@ -1297,6 +1329,30 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plAvatar\plOneShotMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plPointChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plPointChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plQuatChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plQuatChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plScalarChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plScalarChannel.h"
 					>
 				</File>
 			</Filter>
@@ -2068,6 +2124,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plAudio\plEAXListenerMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAudio\plEAXListenerMod.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plAudio\plSound.cpp"
 					>
 				</File>
@@ -2233,6 +2297,14 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plParticleSystem\plConvexVolume.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleApplicator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleApplicator.h"
 					>
 				</File>
 				<File
@@ -2725,16 +2797,71 @@
 				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="3rdPartyLibs"
+			>
+			<File
+				RelativePath=".\3rdPartyLibs\rijndael.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug-NoDLL|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)\$(InputName)1.obj"
+						XMLDocumentationFileName="$(IntDir)\$(InputName)1.xdc"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\3rdPartyLibs\rijndael.h"
+				>
+			</File>
+			<Filter
+				Name="AL"
+				>
+				<File
+					RelativePath=".\3rdPartyLibs\AL\al.h"
+					>
+				</File>
+				<File
+					RelativePath=".\3rdPartyLibs\AL\alc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\3rdPartyLibs\AL\alext.h"
+					>
+				</File>
+				<File
+					RelativePath=".\3rdPartyLibs\AL\EFX-Util.h"
+					>
+				</File>
+				<File
+					RelativePath=".\3rdPartyLibs\AL\efx.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
 		<File
 			RelativePath=".\PlasmaDefs.h"
-			>
-		</File>
-		<File
-			RelativePath=".\rijndael.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\rijndael.h"
 			>
 		</File>
 	</Files>

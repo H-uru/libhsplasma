@@ -29,9 +29,12 @@ public:
     bool empty() const { return count == 0; }
 
     void setSize(size_t cap) {
+        if (cap > 0xFFFF)
+            throw hsBadParamException(__FILE__, __LINE__);
+
         if (count == cap) return;
 
-        if (cap <= 0) {
+        if (cap == 0) {
             clear();
             return;
         }
@@ -49,6 +52,14 @@ public:
     }
 
     void setSizeNull(size_t cap) {
+        if (cap > 0xFFFF)
+            throw hsBadParamException(__FILE__, __LINE__);
+
+        if (cap == 0) {
+            clear();
+            return;
+        }
+
         delete[] data;
         data = new T[cap];
         memset(data, 0, cap * sizeof(T));

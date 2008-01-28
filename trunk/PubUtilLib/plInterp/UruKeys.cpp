@@ -188,7 +188,7 @@ void ScaleKeyFrame::read(hsStream* S) {
         fOutTan.read(S);
     }
     fS.read(S);
-    fQ.write(S);
+    fQ.read(S);
 }
 
 void ScaleKeyFrame::write(hsStream* S) {

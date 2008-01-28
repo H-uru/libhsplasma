@@ -20,10 +20,10 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
 void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
     
-    if (S->getVer() != pvPrime || fGroupName == NULL) {
+    if (S->getVer() != pvPrime) {
         S->writeInt(0);
     } else {
-        S->writeInt(strlen(fGroupName));
+        S->writeInt(fGroupName.len());
         S->writeStr(fGroupName);
     }
 
@@ -35,7 +35,7 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
 void plAGMasterMod::prcWrite(pfPrcHelper* prc) {
     plSynchedObject::prcWrite(prc);
 
-    if (fGroupName != NULL) {
+    if (!fGroupName.empty()) {
         prc->startTag("Group");
         prc->writeParam("Name", fGroupName);
         prc->endTag(true);

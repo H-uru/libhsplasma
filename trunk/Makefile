@@ -56,17 +56,25 @@ OBJFILES=\
 	$(LIBDIR)plSceneObject.o \
 	$(LIBDIR)plAudible.o \
 	$(LIBDIR)plEAXEffects.o \
+	$(LIBDIR)plEAXListenerMod.o \
 	$(LIBDIR)plSound.o \
 	$(LIBDIR)plWin32Sound.o \
 	$(LIBDIR)plWin32StaticSound.o \
 	$(LIBDIR)plSoundBuffer.o \
+	$(LIBDIR)plAGAnim.o \
+	$(LIBDIR)plAGApplicator.o \
+	$(LIBDIR)plAGChannel.o \
 	$(LIBDIR)plAnimStage.o \
 	$(LIBDIR)plAvLadderMod.o \
 	$(LIBDIR)plClothingItem.o \
 	$(LIBDIR)plAGMasterMod.o \
+	$(LIBDIR)plMatrixChannel.o \
 	$(LIBDIR)plMultistageBehMod.o \
 	$(LIBDIR)plNPCSpawnMod.o \
 	$(LIBDIR)plOneShotMod.o \
+	$(LIBDIR)plPointChannel.o \
+	$(LIBDIR)plQuatChannel.o \
+	$(LIBDIR)plScalarChannel.o \
 	$(LIBDIR)plDrawableSpans.o \
 	$(LIBDIR)plDynaDecalMgr.o \
 	$(LIBDIR)plDynaRippleMgr.o \
@@ -121,6 +129,7 @@ OBJFILES=\
 	$(LIBDIR)plSpawnPointInfo.o \
 	$(LIBDIR)plBoundInterface.o \
 	$(LIBDIR)plConvexVolume.o \
+	$(LIBDIR)plParticleApplicator.o \
 	$(LIBDIR)plParticleEffect.o \
 	$(LIBDIR)plCollisionDetector.o \
 	$(LIBDIR)plDetectorModifier.o \
@@ -183,8 +192,12 @@ OBJFILES=\
 	$(LIBDIR)pfGUIUpDownPairMod.o \
 	$(LIBDIR)plArmatureEffectMsg.o \
 	$(LIBDIR)plPythonFileMod.o \
-	$(LIBDIR)pfPrcHelper.o \
+	$(LIBDIR)pfPrcHelper.o
+
+# 3rd Party Libs
+OBJFILES3P=\
 	$(LIBDIR)rijndael.o
+
 PLSLIB=lib/libPlasma.so.1.0.1
 
 all: $(PLSLIB) lib/libPlasma.so
@@ -193,8 +206,8 @@ lib/libPlasma.so: $(PLSLIB)
 	( cd lib ; ln -s libPlasma.so.1.0.1 libPlasma.so )
 	( cd lib ; ln -s libPlasma.so.1.0.1 libPlasma.so.1 )
 
-$(PLSLIB): $(OBJFILES)
-	$(CXX) $(CXXFLAGS) $(OBJFILES) -ljpeg -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
+$(PLSLIB): $(OBJFILES) $(OBJFILES3P)
+	$(CXX) $(CXXFLAGS) $(OBJFILES) $(OBJFILES3P) -ljpeg -shared -Wl,-soname,libPlasma.so.1 -o $(PLSLIB)
 
 $(LIBDIR)hsExceptions.o: CoreLib/hsExceptions.h CoreLib/hsExceptions.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/hsExceptions.cpp -o $(LIBDIR)hsExceptions.o
@@ -337,6 +350,9 @@ $(LIBDIR)plAudible.o: PubUtilLib/plAudible/plAudible.h PubUtilLib/plAudible/plAu
 $(LIBDIR)plEAXEffects.o: PubUtilLib/plAudio/plEAXEffects.h PubUtilLib/plAudio/plEAXEffects.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAudio/plEAXEffects.cpp -o $(LIBDIR)plEAXEffects.o
 
+$(LIBDIR)plEAXListenerMod.o: PubUtilLib/plAudio/plEAXListenerMod.h PubUtilLib/plAudio/plEAXListenerMod.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAudio/plEAXListenerMod.cpp -o $(LIBDIR)plEAXListenerMod.o
+
 $(LIBDIR)plSound.o: PubUtilLib/plAudio/plSound.h PubUtilLib/plAudio/plSound.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAudio/plSound.cpp -o $(LIBDIR)plSound.o
 
@@ -348,6 +364,15 @@ $(LIBDIR)plWin32StaticSound.o: PubUtilLib/plAudio/plWin32StaticSound.h PubUtilLi
 
 $(LIBDIR)plSoundBuffer.o: PubUtilLib/plAudioCore/plSoundBuffer.h PubUtilLib/plAudioCore/plSoundBuffer.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAudioCore/plSoundBuffer.cpp -o $(LIBDIR)plSoundBuffer.o
+
+$(LIBDIR)plAGAnim.o: PubUtilLib/plAvatar/plAGAnim.h PubUtilLib/plAvatar/plAGAnim.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAGAnim.cpp -o $(LIBDIR)plAGAnim.o
+
+$(LIBDIR)plAGApplicator.o: PubUtilLib/plAvatar/plAGApplicator.h PubUtilLib/plAvatar/plAGApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAGApplicator.cpp -o $(LIBDIR)plAGApplicator.o
+
+$(LIBDIR)plAGChannel.o: PubUtilLib/plAvatar/plAGChannel.h PubUtilLib/plAvatar/plAGChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAGChannel.cpp -o $(LIBDIR)plAGChannel.o
 
 $(LIBDIR)plAnimStage.o: PubUtilLib/plAvatar/plAnimStage.h PubUtilLib/plAvatar/plAnimStage.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAnimStage.cpp -o $(LIBDIR)plAnimStage.o
@@ -361,6 +386,9 @@ $(LIBDIR)plClothingItem.o: PubUtilLib/plAvatar/plClothingItem.h PubUtilLib/plAva
 $(LIBDIR)plAGMasterMod.o: PubUtilLib/plAvatar/plAGMasterMod.h PubUtilLib/plAvatar/plAGMasterMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAGMasterMod.cpp -o $(LIBDIR)plAGMasterMod.o
 
+$(LIBDIR)plMatrixChannel.o: PubUtilLib/plAvatar/plMatrixChannel.h PubUtilLib/plAvatar/plMatrixChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plMatrixChannel.cpp -o $(LIBDIR)plMatrixChannel.o
+
 $(LIBDIR)plMultistageBehMod.o: PubUtilLib/plAvatar/plMultistageBehMod.h PubUtilLib/plAvatar/plMultistageBehMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plMultistageBehMod.cpp -o $(LIBDIR)plMultistageBehMod.o
 
@@ -369,6 +397,15 @@ $(LIBDIR)plNPCSpawnMod.o: PubUtilLib/plAvatar/plNPCSpawnMod.h PubUtilLib/plAvata
 
 $(LIBDIR)plOneShotMod.o: PubUtilLib/plAvatar/plOneShotMod.h PubUtilLib/plAvatar/plOneShotMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plOneShotMod.cpp -o $(LIBDIR)plOneShotMod.o
+
+$(LIBDIR)plPointChannel.o: PubUtilLib/plAvatar/plPointChannel.h PubUtilLib/plAvatar/plPointChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plPointChannel.cpp -o $(LIBDIR)plPointChannel.o
+
+$(LIBDIR)plQuatChannel.o: PubUtilLib/plAvatar/plQuatChannel.h PubUtilLib/plAvatar/plQuatChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plQuatChannel.cpp -o $(LIBDIR)plQuatChannel.o
+
+$(LIBDIR)plScalarChannel.o: PubUtilLib/plAvatar/plScalarChannel.h PubUtilLib/plAvatar/plScalarChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plScalarChannel.cpp -o $(LIBDIR)plScalarChannel.o
 
 $(LIBDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(LIBDIR)plDrawableSpans.o
@@ -537,6 +574,9 @@ $(LIBDIR)plBoundInterface.o: PubUtilLib/plParticleSystem/plBoundInterface.h PubU
 
 $(LIBDIR)plConvexVolume.o: PubUtilLib/plParticleSystem/plConvexVolume.h PubUtilLib/plParticleSystem/plConvexVolume.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plConvexVolume.cpp -o $(LIBDIR)plConvexVolume.o
+
+$(LIBDIR)plParticleApplicator.o: PubUtilLib/plParticleSystem/plParticleApplicator.h PubUtilLib/plParticleSystem/plParticleApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plParticleApplicator.cpp -o $(LIBDIR)plParticleApplicator.o
 
 $(LIBDIR)plParticleEffect.o: PubUtilLib/plParticleSystem/plParticleEffect.h PubUtilLib/plParticleSystem/plParticleEffect.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plParticleEffect.cpp -o $(LIBDIR)plParticleEffect.o
@@ -736,8 +776,8 @@ $(LIBDIR)plPythonFileMod.o: FeatureLib/pfPython/plPythonFileMod.h FeatureLib/pfP
 $(LIBDIR)pfPrcHelper.o: FeatureLib/pfPRC/pfPrcHelper.h FeatureLib/pfPRC/pfPrcHelper.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfPRC/pfPrcHelper.cpp -o $(LIBDIR)pfPrcHelper.o
 
-$(LIBDIR)rijndael.o: rijndael.h rijndael.cpp
-	$(CXX) $(CXXFLAGSEXTERN) -c rijndael.cpp -o $(LIBDIR)rijndael.o
+$(LIBDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
+	$(CXX) $(CXXFLAGSEXTERN) -c 3rdPartyLibs/rijndael.cpp -o $(LIBDIR)rijndael.o
 
 install:
 	cp $(PLSLIB) /usr/local/lib
