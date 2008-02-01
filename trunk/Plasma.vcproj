@@ -87,6 +87,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -162,6 +165,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -1250,6 +1256,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAGModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plAvatar\plAnimStage.cpp"
 					>
 				</File>
@@ -1384,6 +1398,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plDrawable\plFixedWaterState6.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plFixedWaterState6.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plFixedWaterState7.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plFixedWaterState7.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plDrawable\plGeometrySpan.cpp"
 					>
 				</File>
@@ -1489,6 +1519,30 @@
 					RelativePath=".\PubUtilLib\plDrawable\plVertexSpan.h"
 					>
 				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plWaveSet6.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plWaveSet6.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plWaveSet7.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plWaveSet7.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plWaveSetBase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plWaveSetBase.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="plGImage"
@@ -1559,6 +1613,14 @@
 				</File>
 				<File
 					RelativePath="PubUtilLib\plGImage\plCubicEnvironmap.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGImage\plDynamicTextMap.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plGImage\plDynamicTextMap.h"
 					>
 				</File>
 				<File
@@ -1984,6 +2046,14 @@
 				Name="plModifier"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plModifier\plAnimEventModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plAnimEventModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plModifier\plExcludeRegionModifier.cpp"
 					>
 				</File>
@@ -2313,6 +2383,30 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEffect.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEmitter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleGenerator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleGenerator.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleSystem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plParticleSystem\plParticleSystem.h"
 					>
 				</File>
 			</Filter>

@@ -10,13 +10,13 @@ DllClass plBitmap : public hsKeyedObject {
 public:
     struct DirectXInfo {
         enum { kError, kDXT1, kDXT2, kDXT3, kDXT4, kDXT5 };
-        unsigned char compressionType;
-        unsigned char blockSize;
+        unsigned char fCompressionType;
+        unsigned char fBlockSize;
     };
     
     struct UncompressedInfo {
         enum { kRGB8888, kRGB4444, kRGB1555, kInten8, kAInten88 };
-        unsigned char type;
+        unsigned char fType;
     };
 
     enum { kNoSpace, kDirectSpace, kGraySpace, kIndexSpace };
@@ -44,19 +44,19 @@ public:
 
     enum { kUncompressed, kDirectXCompression, kJPEGCompression };
     
-    static const char* compressionTypeNames[];
-    static const char* uncompressedTypeNames[];
-    static const char* compressedTypeNames[];
+    static const char* kCompressionTypeNames[];
+    static const char* kUncompressedTypeNames[];
+    static const char* kCompressedTypeNames[];
 
 protected:
-    char pixelSize, space;
-    short flags;
-    char compressionType;
+    unsigned char fPixelSize, fSpace;
+    unsigned short fFlags;
+    unsigned char fCompressionType;
     union {
-        DirectXInfo dxInfo;
-        UncompressedInfo uncompressedInfo;
+        DirectXInfo fDXInfo;
+        UncompressedInfo fUncompressedInfo;
     };
-    unsigned int lowModTime, highModTime;
+    unsigned int fLowModTime, fHighModTime;
 
 public:
     plBitmap();

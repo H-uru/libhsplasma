@@ -1,20 +1,20 @@
 #include "plBitmap.h"
 
-const char* plBitmap::compressionTypeNames[] = {
+const char* plBitmap::kCompressionTypeNames[] = {
     "Uncompressed", "DDS", "JPEG"
 };
 
-const char* plBitmap::uncompressedTypeNames[] = {
+const char* plBitmap::kUncompressedTypeNames[] = {
     "RGB8888", "RGB4444", "RGB1555", "Inten8", "AInten88"
 };
 
-const char* plBitmap::compressedTypeNames[] = {
+const char* plBitmap::kCompressedTypeNames[] = {
     "Error", "DXT1", "DXT2", "DXT3", "DXT4", "DXT5"
 };
 
 
-plBitmap::plBitmap() : pixelSize(0), space(0), flags(0), compressionType(0),
-                       lowModTime(0), highModTime(0) { }
+plBitmap::plBitmap() : fPixelSize(0), fSpace(0), fFlags(0), fCompressionType(0),
+                       fLowModTime(0), fHighModTime(0) { }
 plBitmap::~plBitmap() { }
 
 IMPLEMENT_CREATABLE(plBitmap, kBitmap, hsKeyedObject)
@@ -31,57 +31,57 @@ void plBitmap::write(hsStream* S, plResManager* mgr) {
 
 void plBitmap::readData(hsStream* S) {
     S->readByte();  // Version == 2
-    pixelSize = S->readByte();
-    space = S->readByte();
-    flags = S->readShort();
-    compressionType = S->readByte();
-    if (compressionType == kUncompressed || compressionType == kJPEGCompression)
-        uncompressedInfo.type = S->readByte();
+    fPixelSize = S->readByte();
+    fSpace = S->readByte();
+    fFlags = S->readShort();
+    fCompressionType = S->readByte();
+    if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression)
+        fUncompressedInfo.fType = S->readByte();
     else {
-        dxInfo.blockSize = S->readByte();
-        dxInfo.compressionType = S->readByte();
+        fDXInfo.fBlockSize = S->readByte();
+        fDXInfo.fCompressionType = S->readByte();
     }
-    lowModTime = S->readInt();
-    highModTime = S->readInt();
+    fLowModTime = S->readInt();
+    fHighModTime = S->readInt();
 }
 
 void plBitmap::writeData(hsStream* S) {
     S->writeByte(BITMAPVER);
-    S->writeByte(pixelSize);
-    S->writeByte(space);
-    S->writeShort(flags);
-    S->writeByte(compressionType);
-    if (compressionType == kUncompressed || compressionType == kJPEGCompression)
-        S->writeByte(uncompressedInfo.type);
+    S->writeByte(fPixelSize);
+    S->writeByte(fSpace);
+    S->writeShort(fFlags);
+    S->writeByte(fCompressionType);
+    if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression)
+        S->writeByte(fUncompressedInfo.fType);
     else {
-        S->writeByte(dxInfo.blockSize);
-        S->writeByte(dxInfo.compressionType);
+        S->writeByte(fDXInfo.fBlockSize);
+        S->writeByte(fDXInfo.fCompressionType);
     }
-    S->writeInt(lowModTime);
-    S->writeInt(highModTime);
+    S->writeInt(fLowModTime);
+    S->writeInt(fHighModTime);
 }
 
 void plBitmap::prcWrite(pfPrcHelper* prc) {
     hsKeyedObject::prcWrite(prc);
 
-    prc->startTag("BitmapFlags");
-    prc->writeParam("PixelSize", pixelSize);
-    prc->writeParam("Space", space);
-    prc->writeParam("Flags", flags);
+    prc->startTag("BitmapParams");
+    prc->writeParam("PixelSize", fPixelSize);
+    prc->writeParam("Space", fSpace);
+    prc->writeParam("Flags", fFlags);
     prc->endTag(true);
 
     prc->startTag("Compression");
-    prc->writeParam("Type", compressionTypeNames[compressionType]);
-    if (compressionType == kUncompressed || compressionType == kJPEGCompression)
-        prc->writeParam("SubType", uncompressedTypeNames[uncompressedInfo.type]);
+    prc->writeParam("Type", kCompressionTypeNames[fCompressionType]);
+    if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression)
+        prc->writeParam("SubType", kUncompressedTypeNames[fUncompressedInfo.fType]);
     else {
-        prc->writeParam("SubType", compressedTypeNames[dxInfo.compressionType]);
-        prc->writeParam("BlockSize", dxInfo.blockSize);
+        prc->writeParam("SubType", kCompressedTypeNames[fDXInfo.fCompressionType]);
+        prc->writeParam("BlockSize", fDXInfo.fBlockSize);
     }
     prc->endTag(true);
 
     prc->startTag("ModTime");
-    prc->writeParam("low", lowModTime);
-    prc->writeParam("high", highModTime);
+    prc->writeParam("low", fLowModTime);
+    prc->writeParam("high", fHighModTime);
     prc->endTag(true);
 }

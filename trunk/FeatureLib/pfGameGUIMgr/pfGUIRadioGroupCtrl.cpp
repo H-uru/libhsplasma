@@ -11,7 +11,9 @@ void pfGroupProc::DoSomething(pfGUIControlMod* ctrl) {
 
 /* pfGUIRadioGroupCtrl */
 pfGUIRadioGroupCtrl::pfGUIRadioGroupCtrl()
-                   : fButtonProc(NULL), fValue(0), fDefaultValue(0) { }
+                   : fButtonProc(NULL), fValue(0), fDefaultValue(0) {
+    fFlags.setName(kAllowNoSelection, "kAllowNoSelection");
+}
 
 pfGUIRadioGroupCtrl::~pfGUIRadioGroupCtrl() { }
 

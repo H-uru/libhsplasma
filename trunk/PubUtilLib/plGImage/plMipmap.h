@@ -40,26 +40,26 @@ public:
     enum ScaleFilter { kBoxFilter = 0, kDefaultFilter = 0 };
 
     struct CompositeOptions {
-        unsigned short flags;
-        unsigned char srcLevelsToSkip;
-        unsigned char opacity;
-        float redTint, greenTint, blueTint;
-        unsigned short srcClipX, srcClipY, srcClipWidth, srcClipHeight;
+        unsigned short fFlags;
+        unsigned char fSrcLevelsToSkip;
+        unsigned char fOpacity;
+        float fRedTint, fGreenTint, fBlueTint;
+        unsigned short fSrcClipX, fSrcClipY, fSrcClipWidth, fSrcClipHeight;
     };
 
 protected:
-    void* ImageData;
-    void* JPEGData;
-    unsigned int JPEGSize;
-    void* AlphaData;
-    unsigned int AlphaSize;
+    unsigned char* fImageData;
+    unsigned char* fJPEGData;
+    unsigned int fJPEGSize;
+    unsigned char* fAlphaData;
+    unsigned int fAlphaSize;
     
-    unsigned int width, height, stride, totalSize;
-    unsigned char numLevels;
-    unsigned int* levelSizes;
-    unsigned char* curLevelPtr;
-    unsigned char curLevel;
-    unsigned int curLvlWidth, curLevelHeight, curLevelStride;
+    unsigned int fWidth, fHeight, fStride, fTotalSize;
+    unsigned char fNumLevels;
+    unsigned int* fLevelSizes;
+    unsigned char* fCurLevelPtr;
+    unsigned char fCurLevel;
+    unsigned int fCurLvlWidth, fCurLevelHeight, fCurLevelStride;
     
     void CopyFrom(plMipmap* src);
     void ICopyImage(plMipmap* src);
@@ -68,13 +68,17 @@ protected:
 
 public:
     plMipmap();
-    plMipmap(int w, int h, int cfg, char nLevels, char compType, char format);
+    plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
+             unsigned char numLevels, unsigned char compType,
+             unsigned char format);
     virtual ~plMipmap();
 
     DECLARE_CREATABLE(plMipmap)
 
-    void create(int w, int h, int cfg, char nLevels, char compType, char format);
-    void setConfig(int cfg);
+    void Create(unsigned int width, unsigned int height, unsigned int cfg,
+                unsigned char numLevels, unsigned char compType,
+                unsigned char format);
+    void setConfig(unsigned int cfg);
 
     const void* getJPEGData();
     unsigned int getJPEGSize();

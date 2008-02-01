@@ -2,7 +2,13 @@
 
 pfGUIProgressCtrl::pfGUIProgressCtrl()
              : fAnimBegin(0.0f), fAnimEnd(0.0f), fAnimTimesCalced(false),
-               fPlaySound(false), fStopSoundTimer(0) { }
+               fPlaySound(false), fStopSoundTimer(0) {
+    fFlags.setName(kReverseValues, "kReverseValues");
+    fFlags.setName(kLeftRightOrientation, "kLeftRightOrientation");
+    fFlags.setName(kMapToScreenRange, "kMapToScreenRange");
+    fFlags.setName(kTriggerOnlyOnMouseUp, "kTriggerOnlyOnMouseUp");
+    fFlags.setName(kMapToAnimationRange, "kMapToAnimationRange");
+}
 
 pfGUIProgressCtrl::~pfGUIProgressCtrl() { }
 

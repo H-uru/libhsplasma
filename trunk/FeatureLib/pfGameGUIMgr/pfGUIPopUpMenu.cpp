@@ -4,6 +4,10 @@ pfGUIPopUpMenu::pfGUIPopUpMenu()
               : fParent(NULL), /*fKeyGen(NULL),*/ fNeedsRebuilding(false),
                 fWaitingForSkin(false), fOriginX(0.0f), fOriginY(0.0f),
                 fMargin(4), fSubMenuOpen(-1), fAlignment(kAlignDownRight) {
+    fFlags.setName(kStayOpenAfterClick, "kStayOpenAfterClick");
+    fFlags.setName(kModalOutsideMenus, "kModalOutsideMenus");
+    fFlags.setName(kOpenSubMenusOnHover, "kOpenSubMenusOnHover");
+    fFlags.setName(kScaleWithResolution, "kScaleWithResolution");
     fFlags.setBit(kModalOutsideMenus);
 }
 

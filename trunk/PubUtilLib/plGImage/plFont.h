@@ -2,42 +2,50 @@
 #define _PLFONT_H
 
 #include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "CoreLib/hsStream.h"
-
-DllStruct FontLetterDef {
-    unsigned int Offset;
-    int lHeight;
-    int stHeight;
-    float lPadding;
-    float rPadding;
-};
 
 DllClass plFont : public hsKeyedObject {
+public:
+    DllClass plCharacter {
+    protected:
+        unsigned int fBitmapOffset;
+        unsigned int fHeight;
+        int fBaseline;
+        float fLeftKern, fRightKern;
+
+    public:
+        plCharacter();
+        
+        void read(hsStream* S);
+        void write(hsStream* S);
+        void prcWrite(pfPrcHelper* prc);
+    };
+
+    enum Flags {
+        kFlagBold = 0x1,
+        kFlagItalic = 0x2
+    };
+
 protected:
-    char FontName[256];
-    char FontSize;
-    int FontFlags;
-    int imgWidth;
-    int imgHeight;
-    int maxHeight;
-    char bpp;
-
-    char* bmpData;
-    short unknown;
-
-    int numLetters;
-    FontLetterDef * Letters;
+    plString fFace;
+    unsigned char fSize, fBPP;
+    unsigned int fFlags, fWidth, fHeight;
+    unsigned char* fBmpData;
+    unsigned short fFirstChar;
+    hsTArray<plCharacter> fCharacters;
+    int fMaxCharHeight, fFontAscent, fFontDescent;
+    //plRenderInfo fRenderInfo;
 
 public:
     plFont();
     virtual ~plFont();
+    plCharacter& operator[](size_t idx);
 
     DECLARE_CREATABLE(plFont)
 
-    FontLetterDef& operator[](int idx);
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+    virtual void prcWrite(pfPrcHelper* prc);
+    
     void readP2F(hsStream* S);
     void writeP2F(hsStream* S);
 };

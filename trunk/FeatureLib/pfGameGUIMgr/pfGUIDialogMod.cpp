@@ -7,6 +7,8 @@ pfGUIDialogMod::pfGUIDialogMod()
                 fDragSource(NULL) {
     memset(fName, 0, 128);
     fColorScheme = new pfGUIColorScheme();
+
+    fFlags.setName(kModal, "kModal");
 }
 
 pfGUIDialogMod::~pfGUIDialogMod() {

@@ -83,7 +83,10 @@ void pfGUIButtonMod::prcWrite(pfPrcHelper* prc) {
 /* pfGUIMenuItem */
 pfGUIMenuItem::pfGUIMenuItem()
              : fReportingHover(false), fSkinBuffersUpdated(false),
-               fHowToSkin(kTop) { }
+               fHowToSkin(kTop) {
+    fFlags.setName(kDrawSubMenuArrow, "kDrawSubMenuArrow");
+    fFlags.setName(kReportHovers, "kReportHovers");
+}
 
 pfGUIMenuItem::~pfGUIMenuItem() { }
 

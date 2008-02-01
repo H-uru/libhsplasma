@@ -1,6 +1,14 @@
 #include "hsColor.h"
 
 /* hsColorRGBA */
+const hsColorRGBA hsColorRGBA::kBlack = hsColorRGBA(0.0f, 0.0f, 0.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kWhite = hsColorRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kRed   = hsColorRGBA(1.0f, 0.0f, 0.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kGreen = hsColorRGBA(0.0f, 1.0f, 0.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kBlue  = hsColorRGBA(0.0f, 0.0f, 1.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kGray  = hsColorRGBA(0.5f, 0.5f, 0.5f, 1.0f);
+const hsColorRGBA hsColorRGBA::kNone  = hsColorRGBA(0.0f, 0.0f, 0.0f, 0.0f);
+
 hsColorRGBA::hsColorRGBA(float red, float green, float blue, float alpha)
            : r(red), g(green), b(blue), a(alpha) { }
 

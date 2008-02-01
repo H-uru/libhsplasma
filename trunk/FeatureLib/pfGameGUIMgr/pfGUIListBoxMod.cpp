@@ -34,7 +34,18 @@ pfGUIListBoxMod::pfGUIListBoxMod()
                : fScrollProc(NULL), fCurrClick(0), fScrollPos(0), fCurrHover(0),
                  fModsAtDragTime(0), fMinSel(0), fMaxSel(0), fCheckSel(false),
                  fClicking(false), fSingleSelElement(0), fLocked(false),
-                 fReadyToRoll(false) { }
+                 fReadyToRoll(false) {
+    fFlags.setName(kSingleSelect, "kSingleSelect");
+    fFlags.setName(kDragAndDropCapable, "kDragAndDropCapable");
+    fFlags.setName(kDisableSelection, "kDisableSelection");
+    fFlags.setName(kDisableKeyActions, "kDisableKeyActions");
+    fFlags.setName(kAllowMultipleElementsPerRow, "kAllowMultipleElementsPerRow");
+    fFlags.setName(kScrollLeftToRight, "kScrollLeftToRight");
+    fFlags.setName(kAllowMousePassThrough, "kAllowMousePassThrough");
+    fFlags.setName(kGrowLeavesAndProcessOxygen, "kGrowLeavesAndProcessOxygen");
+    fFlags.setName(kHandsOffMultiSelect, "kHandsOffMultiSelect");
+    fFlags.setName(kForbidNoSelection, "kForbidNoSelection");
+}
 
 pfGUIListBoxMod::~pfGUIListBoxMod() {
     if (fScrollProc) delete fScrollProc;

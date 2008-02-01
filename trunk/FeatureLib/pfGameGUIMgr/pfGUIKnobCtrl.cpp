@@ -3,7 +3,13 @@
 pfGUIKnobCtrl::pfGUIKnobCtrl()
              : fDragValue(0.0f), fDragging(false), fDragRangeMin(0.0f),
                fDragRangeMax(0.0f), fAnimBegin(0.0f), fAnimEnd(0.0f),
-               fAnimTimesCalced(false) { }
+               fAnimTimesCalced(false) {
+    fFlags.setName(kReverseValues, "kReverseValues");
+    fFlags.setName(kLeftRightOrientation, "kLeftRightOrientation");
+    fFlags.setName(kMapToScreenRange, "kMapToScreenRange");
+    fFlags.setName(kTriggerOnlyOnMouseUp, "kTriggerOnlyOnMouseUp");
+    fFlags.setName(kMapToAnimationRange, "kMapToAnimationRange");
+}
 
 pfGUIKnobCtrl::~pfGUIKnobCtrl() { }
 

@@ -3,153 +3,150 @@
 #include <cstring>
 #include <cstdlib>
 
-plMipmap::plMipmap() {
-    ImageData = NULL;
-    JPEGData = NULL;
-    AlphaData = NULL;
-    levelSizes = NULL;
-    curLevelPtr = NULL;
-    AlphaSize = JPEGSize = totalSize = 0;
-    pixelSize = 32;
-    space = 1;
-    flags = kAlphaChannelFlag;
+plMipmap::plMipmap()
+        : fImageData(NULL), fJPEGData(NULL), fJPEGSize(0), fAlphaData(NULL),
+          fAlphaSize(0), fTotalSize(0), fLevelSizes(NULL), fCurLevelPtr(NULL) {
+    fPixelSize = 32;
+    fSpace = kDirectSpace;
+    fFlags = kAlphaChannelFlag;
 }
 
-plMipmap::plMipmap(int w, int h, int cfg, char nLevels, char compType,
-                   char format) {
-    ImageData = NULL;
-    JPEGData = NULL;
-    AlphaData = NULL;
-    levelSizes = NULL;
-    curLevelPtr = NULL;
-    AlphaSize = JPEGSize = totalSize = 0;
-    pixelSize = 32;
-    space = 1;
-    flags = kAlphaChannelFlag;
-    create(w, h, cfg, nLevels, compType, format);
+plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
+                   unsigned char numLevels, unsigned char compType,
+                   unsigned char format)
+        : fImageData(NULL), fJPEGData(NULL), fJPEGSize(0), fAlphaData(NULL),
+          fAlphaSize(0), fTotalSize(0), fCurLevelPtr(NULL) {
+    fPixelSize = 32;
+    fSpace = kDirectSpace;
+    fFlags = kAlphaChannelFlag;
+    Create(width, height, cfg, numLevels, compType, format);
 }
 
 plMipmap::~plMipmap() {
-    if (ImageData != NULL) free(ImageData);
-    if (JPEGData != NULL) free(JPEGData);
-    if (AlphaData != NULL) free(AlphaData);
-    if (levelSizes != NULL) delete[] levelSizes;
+    if (fImageData != NULL) delete[] fImageData;
+    if (fJPEGData != NULL) delete[] fJPEGData;
+    if (fAlphaData != NULL) delete[] fAlphaData;
+    if (fLevelSizes != NULL) delete[] fLevelSizes;
 }
 
 IMPLEMENT_CREATABLE(plMipmap, kMipmap, plBitmap)
 
-void plMipmap::create(int w, int h, int cfg, char nLevels, char compType,
-                      char format) {
+void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
+                      unsigned char numLevels, unsigned char compType,
+                      unsigned char format) {
     setConfig(cfg);
-    stride = (pixelSize * w) >> 3;
-    width = w;
-    height = h;
+    fStride = (fPixelSize * width) / 8;
+    fWidth = width;
+    fHeight = height;
     
-    if (nLevels > 0) {
-        numLevels = nLevels;
+    if (numLevels > 0) {
+        fNumLevels = numLevels;
     } else {
-        numLevels = 1;
-        while (w > 1 && h > 1) {
-            if (w > 1) w >>= 1;
-            if (h > 1) h >>= 1;
+        fNumLevels = 1;
+        while (width > 1 && height > 1) {
+            if (width > 1)
+                width /= 2;
+            if (height > 1)
+                height /= 2;
             numLevels++;
         }
     }
 
-    compressionType = compType;
+    fCompressionType = compType;
     if (compType == kUncompressed || compType == kJPEGCompression) {
-        uncompressedInfo.type = format;
+        fUncompressedInfo.fType = format;
     } else {
-        dxInfo.compressionType = format;
-        dxInfo.blockSize = (format != DirectXInfo::kDXT1 ? 1 : 0);
+        fDXInfo.fCompressionType = format;
+        fDXInfo.fBlockSize = (format != DirectXInfo::kDXT1 ? 1 : 0);
         if (format == DirectXInfo::kDXT1) {
-            flags &= ~kAlphaChannelFlag;
-            flags |= kAlphaBitFlag;
+            fFlags &= ~kAlphaChannelFlag;
+            fFlags |= kAlphaBitFlag;
         } else {
-            flags &= ~kAlphaBitFlag;
-            flags |= kAlphaChannelFlag;
+            fFlags &= ~kAlphaBitFlag;
+            fFlags |= kAlphaChannelFlag;
         }
     }
 
-    if (levelSizes != NULL) delete[] levelSizes;
-    levelSizes = NULL;
+    if (fLevelSizes != NULL)
+        delete[] fLevelSizes;
+    fLevelSizes = NULL;
     IBuildLevelSizes();
-    totalSize = 0;
-    for (int i=0; i<numLevels; i++)
-        totalSize += levelSizes[i];
-    ImageData = malloc(totalSize);
-    memset(ImageData, 0, totalSize);
+    fTotalSize = 0;
+    for (size_t i=0; i<fNumLevels; i++)
+        fTotalSize += fLevelSizes[i];
+    fImageData = new unsigned char[fTotalSize];
+    memset(fImageData, 0, fTotalSize);
     //setCurrLevel(0);
 }
 
-void plMipmap::setConfig(int cfg) {
+void plMipmap::setConfig(unsigned int cfg) {
     switch (cfg) {
     case kColor8Config:
-        pixelSize = 8;
-        space = 3;
-        flags = kNoFlag;
+        fPixelSize = 8;
+        fSpace = 3;
+        fFlags = kNoFlag;
         break;
     case kGray44Config:
-        pixelSize = 8;
-        space = 2;
-        flags = kAlphaChannelFlag;
+        fPixelSize = 8;
+        fSpace = 2;
+        fFlags = kAlphaChannelFlag;
         break;
     case kGray4Config:
-        pixelSize = 4;
-        space = 2;
-        flags = kNoFlag;
+        fPixelSize = 4;
+        fSpace = 2;
+        fFlags = kNoFlag;
         break;
     case kGray8Config:
-        pixelSize = 8;
-        space = 1;
-        flags = kNoFlag;
+        fPixelSize = 8;
+        fSpace = 1;
+        fFlags = kNoFlag;
         break;
     case kRGB16Config:
-        pixelSize = 16;
-        space = 1;
-        flags = kAlphaBitFlag;
+        fPixelSize = 16;
+        fSpace = 1;
+        fFlags = kAlphaBitFlag;
         break;
     case kRGB32Config:
-        pixelSize = 32;
-        space = 1;
-        flags = kNoFlag;
+        fPixelSize = 32;
+        fSpace = 1;
+        fFlags = kNoFlag;
     case kARGB32Config:
-        pixelSize = 32;
-        space = 1;
-        flags = kAlphaChannelFlag;
+        fPixelSize = 32;
+        fSpace = 1;
+        fFlags = kAlphaChannelFlag;
         break;
     }
 }
 
-const void* plMipmap::getJPEGData() { return JPEGData; }
-unsigned int plMipmap::getJPEGSize() { return JPEGSize; }
-const void* plMipmap::getAlphaData() { return AlphaData; }
-unsigned int plMipmap::getAlphaSize() { return AlphaSize; }
+const void* plMipmap::getJPEGData() { return fJPEGData; }
+unsigned int plMipmap::getJPEGSize() { return fJPEGSize; }
+const void* plMipmap::getAlphaData() { return fAlphaData; }
+unsigned int plMipmap::getAlphaSize() { return fAlphaSize; }
 
 void plMipmap::readData(hsStream* S) {
     plBitmap::readData(S);
     
-    width = S->readInt();
-    height = S->readInt();
-    stride = S->readInt();
-    totalSize = S->readInt();
-    numLevels = S->readByte();
+    fWidth = S->readInt();
+    fHeight = S->readInt();
+    fStride = S->readInt();
+    fTotalSize = S->readInt();
+    fNumLevels = S->readByte();
 
-    if (ImageData != NULL) {
-        free(ImageData);
-        ImageData = NULL;
+    if (fImageData != NULL) {
+        delete[] fImageData;
+        fImageData = NULL;
     }
-    if (totalSize == 0)
+    if (fTotalSize == 0)
         return;
 
     IBuildLevelSizes();
-    ImageData = malloc(totalSize);
-    switch (compressionType) {
+    fImageData = new unsigned char[fTotalSize];
+    switch (fCompressionType) {
     case kJPEGCompression:
         IReadJPEGImage(S);
         break;
     case kDirectXCompression:
-        S->read(totalSize, ImageData);
+        S->read(fTotalSize, fImageData);
         break;
     case kUncompressed:
         IReadRawImage(S);
@@ -160,21 +157,21 @@ void plMipmap::readData(hsStream* S) {
 void plMipmap::writeData(hsStream* S) {
     plBitmap::writeData(S);
 
-    S->writeInt(width);
-    S->writeInt(height);
-    S->writeInt(stride);
-    S->writeInt(totalSize);
-    S->writeByte(numLevels);
+    S->writeInt(fWidth);
+    S->writeInt(fHeight);
+    S->writeInt(fStride);
+    S->writeInt(fTotalSize);
+    S->writeByte(fNumLevels);
 
-    if (totalSize == 0)
+    if (fTotalSize == 0)
         return;
 
-    switch (compressionType) {
+    switch (fCompressionType) {
     case kJPEGCompression:
         IWriteJPEGImage(S);
         break;
     case kDirectXCompression:
-        S->write(totalSize, ImageData);
+        S->write(fTotalSize, fImageData);
         break;
     case kUncompressed:
         IWriteRawImage(S);
@@ -186,18 +183,18 @@ void plMipmap::prcWrite(pfPrcHelper* prc) {
     plBitmap::prcWrite(prc);
 
     prc->startTag("Metrics");
-    prc->writeParam("Width", width);
-    prc->writeParam("Height", height);
-    prc->writeParam("Stride", stride);
-    prc->writeParam("TotalSize", totalSize);
-    prc->writeParam("MipLevels", numLevels);
+    prc->writeParam("Width", fWidth);
+    prc->writeParam("Height", fHeight);
+    prc->writeParam("Stride", fStride);
+    prc->writeParam("TotalSize", fTotalSize);
+    prc->writeParam("MipLevels", fNumLevels);
     prc->endTag(true);
 
-    if (compressionType == kJPEGCompression) {
+    if (fCompressionType == kJPEGCompression) {
         prc->startTag("JPEG");
         prc->writeParam("src", "");
-        prc->writeParam("ImageRLE", JPEGData == NULL);
-        prc->writeParam("AlphaRLE", AlphaData == NULL);
+        prc->writeParam("ImageRLE", fJPEGData == NULL);
+        prc->writeParam("AlphaRLE", fAlphaData == NULL);
         prc->endTag(true);
     } else {
         prc->startTag("DDS");
@@ -207,40 +204,40 @@ void plMipmap::prcWrite(pfPrcHelper* prc) {
 }
 
 void plMipmap::IBuildLevelSizes() {
-    if (levelSizes != NULL)
-        delete[] levelSizes;
-    levelSizes = new unsigned int[numLevels];
-    memset(levelSizes, 0, numLevels * sizeof(unsigned int));
+    if (fLevelSizes != NULL)
+        delete[] fLevelSizes;
+    fLevelSizes = new unsigned int[fNumLevels];
+    memset(fLevelSizes, 0, fNumLevels * sizeof(unsigned int));
 
-    int curWidth = width;
-    int curStride = stride;
-    int curHeight = height;
+    unsigned int curWidth = fWidth;
+    unsigned int curStride = fStride;
+    unsigned int curHeight = fHeight;
 
-    if (numLevels <= 0) return;
-    for (int i=0; i<numLevels; i++) {
-        if (compressionType > 2) return;
-        if (compressionType == kDirectXCompression &&
+    if (fNumLevels <= 0) return;
+    for (size_t i=0; i<fNumLevels; i++) {
+        if (fCompressionType > 2) return;
+        if (fCompressionType == kDirectXCompression &&
             !((curHeight | curWidth) & 3))
-            levelSizes[i] = (dxInfo.blockSize * curHeight * curWidth) >> 4;
+            fLevelSizes[i] = (fDXInfo.fBlockSize * curHeight * curWidth) / 16;
         else
-            levelSizes[i] = curStride * curHeight;
+            fLevelSizes[i] = curStride * curHeight;
         if (curWidth > 1) {
-            curWidth >>= 1;
-            curStride >>= 1;
+            curWidth /= 2;
+            curStride /= 2;
         }
         if (curHeight > 1)
-            curHeight >>= 1;
+            curHeight /= 2;
     }
 }
 
 plMipmap* plMipmap::IReadRLEImage(hsStream* S) {
-    plMipmap* img = new plMipmap(width, height, kARGB32Config, 1, 0, 0);
-    int* dataPtr = (int*)img->ImageData;
+    plMipmap* img = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
+    int* dataPtr = (int*)img->fImageData;
     while (true) {
-        int count = S->readInt();
+        size_t count = S->readInt();
         int data = S->readInt();
         if (count == 0) break;
-        for (int i=0; i<count; i++) {
+        for (size_t i=0; i<count; i++) {
             *dataPtr = data;
             dataPtr++;
         }
@@ -249,10 +246,10 @@ plMipmap* plMipmap::IReadRLEImage(hsStream* S) {
 }
 
 void plMipmap::IWriteRLEImage(hsStream* S, plMipmap* img) {
-    int* dataPtr = (int*)img->ImageData;
+    int* dataPtr = (int*)img->fImageData;
     int data = *dataPtr;
-    int count = 0;
-    for (int i=(levelSizes[0] >> 2); i>0; i--) {
+    size_t count = 0;
+    for (size_t i=0; i<(fLevelSizes[0] / 4); i++) {
         if ((*dataPtr & 0x00FFFFFF) != data) {
             S->writeInt(count);
             S->writeInt(data);
@@ -280,9 +277,9 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
         //img = plJPEG::inst->IRead(S);
         // Until plJPEG is fixed
         img = NULL;
-        JPEGSize = S->readInt();
-        JPEGData = malloc(JPEGSize);
-        S->read(JPEGSize, JPEGData);
+        fJPEGSize = S->readInt();
+        fJPEGData = new unsigned char[fJPEGSize];
+        S->read(fJPEGSize, fJPEGData);
     }
     if (img != NULL) {
         ICopyImage(img);
@@ -294,9 +291,9 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     else {
         //img = plJPEG::inst->IRead(S);
         img = NULL;
-        AlphaSize = S->readInt();
-        AlphaData = malloc(AlphaSize);
-        S->read(AlphaSize, AlphaData);
+        fAlphaSize = S->readInt();
+        fAlphaData = new unsigned char[fAlphaSize];
+        S->read(fAlphaSize, fAlphaData);
     }
     if (img != NULL) {
         //IRecombineAlpha(img);
@@ -306,114 +303,118 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
 
 void plMipmap::IWriteJPEGImage(hsStream* S) {
     char rleFlag = 0;
-    if (JPEGData == NULL)
+    if (fJPEGData == NULL)
         rleFlag |= kColorDataRLE;
-    if (AlphaData == NULL)
+    if (fAlphaData == NULL)
         rleFlag |= kAlphaDataRLE;
     S->writeByte(rleFlag);
 
     if (rleFlag & kColorDataRLE)
         IWriteRLEImage(S, this);
     else {
-        S->writeInt(JPEGSize);
-        S->write(JPEGSize, JPEGData);
+        S->writeInt(fJPEGSize);
+        S->write(fJPEGSize, fJPEGData);
     }
 
     if (rleFlag & kAlphaDataRLE)
         IWriteRLEImage(S, ISplitAlpha());
     else {
-        S->writeInt(AlphaSize);
-        S->write(AlphaSize, AlphaData);
+        S->writeInt(fAlphaSize);
+        S->write(fAlphaSize, fAlphaData);
     }
 }
 
 void plMipmap::IReadRawImage(hsStream* S) {
-    unsigned char* dataPtr = (unsigned char*)ImageData;
-    if (pixelSize == 32) {
-        if (numLevels <= 0) return;
-        for (int i=0; i<numLevels; i++) {
-            S->readInts(levelSizes[i] >> 2, (hsUint32*)dataPtr);
-            dataPtr += levelSizes[i];
+    unsigned char* dataPtr = fImageData;
+    if (fPixelSize == 32) {
+        if (fNumLevels <= 0) return;
+        for (size_t i=0; i<fNumLevels; i++) {
+            S->readInts(fLevelSizes[i] / 4, (hsUint32*)dataPtr);
+            dataPtr += fLevelSizes[i];
         }
-    } else if (pixelSize == 16) {
-        if (numLevels <= 0) return;
-        for (int i=0; i<numLevels; i++) {
-            S->readShorts(levelSizes[i] >> 1, (hsUint16*)dataPtr);
-            dataPtr += levelSizes[i];
+    } else if (fPixelSize == 16) {
+        if (fNumLevels <= 0) return;
+        for (size_t i=0; i<fNumLevels; i++) {
+            S->readShorts(fLevelSizes[i] / 2, (hsUint16*)dataPtr);
+            dataPtr += fLevelSizes[i];
         }
     } else
         throw hsBadParamException(__FILE__, __LINE__);
 }
 
 void plMipmap::IWriteRawImage(hsStream* S) {
-    unsigned char* dataPtr = (unsigned char*)ImageData;
-    if (pixelSize == 32) {
-        if (numLevels <= 0) return;
-        for (int i=0; i<numLevels; i++) {
-            S->writeInts(levelSizes[i] >> 2, (hsUint32*)dataPtr);
-            dataPtr += levelSizes[i];
+    unsigned char* dataPtr = fImageData;
+    if (fPixelSize == 32) {
+        if (fNumLevels <= 0) return;
+        for (size_t i=0; i<fNumLevels; i++) {
+            S->writeInts(fLevelSizes[i] >> 2, (hsUint32*)dataPtr);
+            dataPtr += fLevelSizes[i];
         }
-    } else if (pixelSize == 16) {
-        if (numLevels <= 0) return;
-        for (int i=0; i<numLevels; i++) {
-            S->writeShorts(levelSizes[i] >> 1, (hsUint16*)dataPtr);
-            dataPtr += levelSizes[i];
+    } else if (fPixelSize == 16) {
+        if (fNumLevels <= 0) return;
+        for (size_t i=0; i<fNumLevels; i++) {
+            S->writeShorts(fLevelSizes[i] >> 1, (hsUint16*)dataPtr);
+            dataPtr += fLevelSizes[i];
         }
     } else
         throw hsBadParamException(__FILE__, __LINE__);
 }
 
 void plMipmap::IRecombineAlpha(plMipmap* alphaImg) {
-    if (uncompressedInfo.type == UncompressedInfo::kRGB8888) {
-        for (int i=((totalSize-1)/4)+1; i>0; i--)
-            ((char*)ImageData)[(i*4)+3] = ((char*)alphaImg->ImageData)[(i*4)+2];
+    if (fUncompressedInfo.fType == UncompressedInfo::kRGB8888) {
+        for (size_t i=0; i<((fTotalSize-1)/4)+1; i++)
+            fImageData[(i*4)+3] = alphaImg->fImageData[(i*4)+2];
     }
-    flags |= kAlphaChannelFlag;
+    fFlags |= kAlphaChannelFlag;
 }
 
 plMipmap* plMipmap::ISplitAlpha() {
     plMipmap* alpha = new plMipmap();
     alpha->CopyFrom(this);
-    memset(alpha->ImageData, 0, alpha->totalSize);
-    if (uncompressedInfo.type == UncompressedInfo::kRGB8888) {
-        for (int i=((totalSize-1)/4)+1; i>0; i--)
-            ((char*)alpha->ImageData)[(i*4)+2] = ((char*)ImageData)[(i*4)+3];
+    memset(alpha->fImageData, 0, alpha->fTotalSize);
+    if (fUncompressedInfo.fType == UncompressedInfo::kRGB8888) {
+        for (size_t i=((fTotalSize-1)/4)+1; i>0; i--)
+            alpha->fImageData[(i*4)+2] = fImageData[(i*4)+3];
     }
     return alpha;
 }
 
 void plMipmap::CopyFrom(plMipmap* src) {
-    if (ImageData != NULL) free(ImageData);
-    width = src->width;
-    height = src->height;
-    stride = src->stride;
-    pixelSize = src->pixelSize;
-    flags = src->flags;
-    space = src->space;
-    compressionType = src->compressionType;
-    totalSize = src->totalSize;
-    ImageData = malloc(totalSize);
-    memcpy(ImageData, src->ImageData, totalSize);
-    numLevels = src->numLevels;
-    if (compressionType == kUncompressed ||
-        compressionType == kJPEGCompression)
-        uncompressedInfo.type = src->uncompressedInfo.type;
-    else if (compressionType == kDirectXCompression) {
-        dxInfo.compressionType = src->dxInfo.compressionType;
-        dxInfo.blockSize = src->dxInfo.compressionType;
+    if (fImageData != NULL)
+        delete[] fImageData;
+    
+    fWidth = src->fWidth;
+    fHeight = src->fHeight;
+    fStride = src->fStride;
+    fPixelSize = src->fPixelSize;
+    fFlags = src->fFlags;
+    fSpace = src->fSpace;
+    fCompressionType = src->fCompressionType;
+    fTotalSize = src->fTotalSize;
+    fImageData = new unsigned char[fTotalSize];
+    memcpy(fImageData, src->fImageData, fTotalSize);
+    fNumLevels = src->fNumLevels;
+    if (fCompressionType == kUncompressed ||
+        fCompressionType == kJPEGCompression)
+        fUncompressedInfo.fType = src->fUncompressedInfo.fType;
+    else if (fCompressionType == kDirectXCompression) {
+        fDXInfo.fCompressionType = src->fDXInfo.fCompressionType;
+        fDXInfo.fBlockSize = src->fDXInfo.fCompressionType;
     }
     IBuildLevelSizes();
-    // if (GetDeviceRef()) GetDeviceRef()->flags |= kDirty;
+    // if (GetDeviceRef()) GetDeviceRef()->fFlags |= kDirty;
 }
 
 void plMipmap::ICopyImage(plMipmap* src) {
-    if (ImageData != NULL) free(ImageData);
-    width = src->width;
-    height = src->height;
-    stride = src->stride;
-    pixelSize = src->pixelSize;
-    totalSize = src->totalSize;
-    ImageData = malloc(totalSize);
-    memcpy(ImageData, src->ImageData, totalSize);
+    if (fImageData != NULL)
+        delete[] fImageData;
+
+    fWidth = src->fWidth;
+    fHeight = src->fHeight;
+    fStride = src->fStride;
+    fPixelSize = src->fPixelSize;
+    fTotalSize = src->fTotalSize;
+    fImageData = new unsigned char[fTotalSize];
+    memcpy(fImageData, src->fImageData, fTotalSize);
     IBuildLevelSizes();
 }

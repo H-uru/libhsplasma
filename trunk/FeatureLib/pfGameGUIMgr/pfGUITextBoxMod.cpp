@@ -1,6 +1,10 @@
 #include "pfGUITextBoxMod.h"
 
-pfGUITextBoxMod::pfGUITextBoxMod() : fUseLocalizationPath(false) { }
+pfGUITextBoxMod::pfGUITextBoxMod() : fUseLocalizationPath(false) {
+    fFlags.setName(kCenterJustify, "kCenterJustify");
+    fFlags.setName(kRightJustify, "kRightJustify");
+}
+
 pfGUITextBoxMod::~pfGUITextBoxMod() { }
 
 IMPLEMENT_CREATABLE(pfGUITextBoxMod, kGUITextBoxMod, pfGUIControlMod)

@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS += -I. -fPIC -Wall -g
+CXXFLAGS += -I. -fPIC -Wall -g -ansi -fno-rtti
 CXXFLAGSEXTERN = -fPIC -O2
 
 LIBDIR=out/
@@ -64,6 +64,7 @@ OBJFILES=\
 	$(LIBDIR)plAGAnim.o \
 	$(LIBDIR)plAGApplicator.o \
 	$(LIBDIR)plAGChannel.o \
+	$(LIBDIR)plAGModifier.o \
 	$(LIBDIR)plAnimStage.o \
 	$(LIBDIR)plAvLadderMod.o \
 	$(LIBDIR)plClothingItem.o \
@@ -78,6 +79,8 @@ OBJFILES=\
 	$(LIBDIR)plDrawableSpans.o \
 	$(LIBDIR)plDynaDecalMgr.o \
 	$(LIBDIR)plDynaRippleMgr.o \
+	$(LIBDIR)plFixedWaterState6.o \
+	$(LIBDIR)plFixedWaterState7.o \
 	$(LIBDIR)plMorphArray.o \
 	$(LIBDIR)plMorphDataSet.o \
 	$(LIBDIR)plMorphDelta.o \
@@ -87,7 +90,12 @@ OBJFILES=\
 	$(LIBDIR)plGeometrySpan.o \
 	$(LIBDIR)plSharedMesh.o \
 	$(LIBDIR)plSpaceTree.o \
+	$(LIBDIR)plWaveSetBase.o \
+	$(LIBDIR)plWaveSet6.o \
+	$(LIBDIR)plWaveSet7.o \
 	$(LIBDIR)plBitmap.o \
+	$(LIBDIR)plCubicEnvironmap.o \
+	$(LIBDIR)plDynamicTextMap.o \
 	$(LIBDIR)plFont.o \
 	$(LIBDIR)plMipmap.o \
 	$(LIBDIR)plLightInfo.o \
@@ -120,6 +128,7 @@ OBJFILES=\
 	$(LIBDIR)plResponderMsg.o \
 	$(LIBDIR)plTimerCallbackMsg.o \
 	$(LIBDIR)plTransitionMsg.o \
+	$(LIBDIR)plAnimEventModifier.o \
 	$(LIBDIR)plExcludeRegionModifier.o \
 	$(LIBDIR)plImageLibMod.o \
 	$(LIBDIR)plInterfaceInfoModifier.o \
@@ -131,6 +140,9 @@ OBJFILES=\
 	$(LIBDIR)plConvexVolume.o \
 	$(LIBDIR)plParticleApplicator.o \
 	$(LIBDIR)plParticleEffect.o \
+	$(LIBDIR)plParticleEmitter.o \
+	$(LIBDIR)plParticleGenerator.o \
+	$(LIBDIR)plParticleSystem.o \
 	$(LIBDIR)plCollisionDetector.o \
 	$(LIBDIR)plDetectorModifier.o \
 	$(LIBDIR)plObjectInVolumeDetector.o \
@@ -139,7 +151,6 @@ OBJFILES=\
 	$(LIBDIR)plPXPhysical.o \
 	$(LIBDIR)plODEPhysical.o \
 	$(LIBDIR)plPhysicalSndGroup.o \
-	$(LIBDIR)plCubicEnvironmap.o \
 	$(LIBDIR)plFogEnvironment.o \
 	$(LIBDIR)hsGDeviceRef.o \
 	$(LIBDIR)plGBufferGroup.o \
@@ -374,6 +385,9 @@ $(LIBDIR)plAGApplicator.o: PubUtilLib/plAvatar/plAGApplicator.h PubUtilLib/plAva
 $(LIBDIR)plAGChannel.o: PubUtilLib/plAvatar/plAGChannel.h PubUtilLib/plAvatar/plAGChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAGChannel.cpp -o $(LIBDIR)plAGChannel.o
 
+$(LIBDIR)plAGModifier.o: PubUtilLib/plAvatar/plAGModifier.h PubUtilLib/plAvatar/plAGModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAGModifier.cpp -o $(LIBDIR)plAGModifier.o
+
 $(LIBDIR)plAnimStage.o: PubUtilLib/plAvatar/plAnimStage.h PubUtilLib/plAvatar/plAnimStage.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAnimStage.cpp -o $(LIBDIR)plAnimStage.o
 
@@ -416,6 +430,12 @@ $(LIBDIR)plDynaDecalMgr.o: PubUtilLib/plDrawable/plDynaDecalMgr.h PubUtilLib/plD
 $(LIBDIR)plDynaRippleMgr.o: PubUtilLib/plDrawable/plDynaRippleMgr.h PubUtilLib/plDrawable/plDynaRippleMgr.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plDynaRippleMgr.cpp -o $(LIBDIR)plDynaRippleMgr.o
 
+$(LIBDIR)plFixedWaterState6.o: PubUtilLib/plDrawable/plFixedWaterState6.h PubUtilLib/plDrawable/plFixedWaterState6.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plFixedWaterState6.cpp -o $(LIBDIR)plFixedWaterState6.o
+
+$(LIBDIR)plFixedWaterState7.o: PubUtilLib/plDrawable/plFixedWaterState7.h PubUtilLib/plDrawable/plFixedWaterState7.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plFixedWaterState7.cpp -o $(LIBDIR)plFixedWaterState7.o
+
 $(LIBDIR)plMorphArray.o: PubUtilLib/plDrawable/plMorphArray.h PubUtilLib/plDrawable/plMorphArray.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plMorphArray.cpp -o $(LIBDIR)plMorphArray.o
 
@@ -443,11 +463,23 @@ $(LIBDIR)plSharedMesh.o: PubUtilLib/plDrawable/plSharedMesh.h PubUtilLib/plDrawa
 $(LIBDIR)plSpaceTree.o: PubUtilLib/plDrawable/plSpaceTree.h PubUtilLib/plDrawable/plSpaceTree.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plSpaceTree.cpp -o $(LIBDIR)plSpaceTree.o
 
+$(LIBDIR)plWaveSetBase.o: PubUtilLib/plDrawable/plWaveSetBase.h PubUtilLib/plDrawable/plWaveSetBase.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plWaveSetBase.cpp -o $(LIBDIR)plWaveSetBase.o
+
+$(LIBDIR)plWaveSet6.o: PubUtilLib/plDrawable/plWaveSet6.h PubUtilLib/plDrawable/plWaveSet6.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plWaveSet6.cpp -o $(LIBDIR)plWaveSet6.o
+
+$(LIBDIR)plWaveSet7.o: PubUtilLib/plDrawable/plWaveSet7.h PubUtilLib/plDrawable/plWaveSet7.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plWaveSet7.cpp -o $(LIBDIR)plWaveSet7.o
+
 $(LIBDIR)plBitmap.o: PubUtilLib/plGImage/plBitmap.h PubUtilLib/plGImage/plBitmap.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plGImage/plBitmap.cpp -o $(LIBDIR)plBitmap.o
 
 $(LIBDIR)plCubicEnvironmap.o: PubUtilLib/plGImage/plCubicEnvironmap.h PubUtilLib/plGImage/plCubicEnvironmap.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plGImage/plCubicEnvironmap.cpp -o $(LIBDIR)plCubicEnvironmap.o
+
+$(LIBDIR)plDynamicTextMap.o: PubUtilLib/plGImage/plDynamicTextMap.h PubUtilLib/plGImage/plDynamicTextMap.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plGImage/plDynamicTextMap.cpp -o $(LIBDIR)plDynamicTextMap.o
 
 $(LIBDIR)plFont.o: PubUtilLib/plGImage/plFont.h PubUtilLib/plGImage/plFont.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plGImage/plFont.cpp -o $(LIBDIR)plFont.o
@@ -545,6 +577,9 @@ $(LIBDIR)plTimerCallbackMsg.o: PubUtilLib/plMessage/plTimerCallbackMsg.h PubUtil
 $(LIBDIR)plTransitionMsg.o: PubUtilLib/plMessage/plTransitionMsg.h PubUtilLib/plMessage/plTransitionMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plTransitionMsg.cpp -o $(LIBDIR)plTransitionMsg.o
 
+$(LIBDIR)plAnimEventModifier.o: PubUtilLib/plModifier/plAnimEventModifier.h PubUtilLib/plModifier/plAnimEventModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plAnimEventModifier.cpp -o $(LIBDIR)plAnimEventModifier.o
+
 $(LIBDIR)plExcludeRegionModifier.o: PubUtilLib/plModifier/plExcludeRegionModifier.h PubUtilLib/plModifier/plExcludeRegionModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plExcludeRegionModifier.cpp -o $(LIBDIR)plExcludeRegionModifier.o
 
@@ -580,6 +615,15 @@ $(LIBDIR)plParticleApplicator.o: PubUtilLib/plParticleSystem/plParticleApplicato
 
 $(LIBDIR)plParticleEffect.o: PubUtilLib/plParticleSystem/plParticleEffect.h PubUtilLib/plParticleSystem/plParticleEffect.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plParticleEffect.cpp -o $(LIBDIR)plParticleEffect.o
+
+$(LIBDIR)plParticleEmitter.o: PubUtilLib/plParticleSystem/plParticleEmitter.h PubUtilLib/plParticleSystem/plParticleEmitter.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plParticleEmitter.cpp -o $(LIBDIR)plParticleEmitter.o
+
+$(LIBDIR)plParticleGenerator.o: PubUtilLib/plParticleSystem/plParticleGenerator.h PubUtilLib/plParticleSystem/plParticleGenerator.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plParticleGenerator.cpp -o $(LIBDIR)plParticleGenerator.o
+
+$(LIBDIR)plParticleSystem.o: PubUtilLib/plParticleSystem/plParticleSystem.h PubUtilLib/plParticleSystem/plParticleSystem.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plParticleSystem/plParticleSystem.cpp -o $(LIBDIR)plParticleSystem.o
 
 $(LIBDIR)plCollisionDetector.o: PubUtilLib/plPhysics/plCollisionDetector.h PubUtilLib/plPhysics/plCollisionDetector.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPhysics/plCollisionDetector.cpp -o $(LIBDIR)plCollisionDetector.o

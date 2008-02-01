@@ -70,7 +70,16 @@ pfGUIControlMod::pfGUIControlMod()
                : fTagID(0), fEnabled(true), fFocused(false), fVisible(true),
                  fInteresting(false), fNotifyOnInteresting(false),
                  fDialog(NULL), fBoundsValid(false), fCenterValid(false),
-                 fHandler(NULL), fColorScheme(NULL), fSkin(NULL) { }
+                 fHandler(NULL), fColorScheme(NULL), fSkin(NULL) {
+    fFlags.setName(kWantsInterest, "kWantsInterest");
+    fFlags.setName(kInheritProcFromDlg, "kInheritProcFromDlg");
+    fFlags.setName(kIntangible, "kIntangible");
+    fFlags.setName(kXparentBgnd, "kXparentBgnd");
+    fFlags.setName(kScaleTextWithResolution, "kScaleTextWithResolution");
+    fFlags.setName(kTakesSpecialKeys, "kTakesSpecialKeys");
+    fFlags.setName(kHasProxy, "kHasProxy");
+    fFlags.setName(kBetterHitTesting, "kBetterHitTesting");
+}
 
 pfGUIControlMod::~pfGUIControlMod() {
     if (fHandler) delete fHandler;

@@ -6,11 +6,20 @@
 
 DllStruct hsColorRGBA {
 public:
+    static const hsColorRGBA kBlack;
+    static const hsColorRGBA kWhite;
+    static const hsColorRGBA kRed;
+    static const hsColorRGBA kGreen;
+    static const hsColorRGBA kBlue;
+    static const hsColorRGBA kGray;
+    static const hsColorRGBA kNone;
+
+public:
     float r, g, b, a;
 
     hsColorRGBA(float red = 0.0f, float green = 0.0f, float blue = 0.0f,
                 float alpha = 1.0f);
-    void set(float red, float green, float blue, float alpha);
+    void set(float red, float green, float blue, float alpha = 1.0f);
 
     void read(hsStream* S);
     void write(hsStream* S);
