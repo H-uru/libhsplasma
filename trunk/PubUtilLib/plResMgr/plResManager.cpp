@@ -47,7 +47,9 @@ plKey plResManager::readKey(hsStream* S) {
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
-    bool exists = (S->getVer() == pvEoa || S->getVer() == pvHex) ? true : S->readBool();
+    bool exists = true;
+    if (S->getVer() != pvEoa && S->getVer() != pvHex)
+        exists = S->readBool();
     if (exists)
         return readUoid(S);
     else
@@ -59,8 +61,6 @@ plKey plResManager::readUoid(hsStream* S) {
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
     plKey k = new plKeyData();
-    if (S->getVer() == pvLive)
-        S->readBool();
     k->readUoid(S);
     plKey xkey;
     if (k->getUoid().getLocation().isReserved())
@@ -100,8 +100,6 @@ void plResManager::writeUoid(hsStream* S, plKey key) {
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
-    if (S->getVer() == pvLive)
-        S->writeBool(true);
     key->writeUoid(S);
 }
 

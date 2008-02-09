@@ -13,7 +13,7 @@ public:
     hsScalarTriple(float x, float y, float z);
     virtual ~hsScalarTriple();
 
-    virtual const char* ClassName();
+    virtual const char* ClassName() const;
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -27,15 +27,15 @@ public:
     hsPoint3(const hsScalarTriple& src);
     virtual ~hsPoint3();
     
-    virtual const char* ClassName();
+    virtual const char* ClassName() const;
 
     void Zero();
 
     hsPoint3& operator=(const hsPoint3& other);
-    bool operator==(const hsPoint3 & other);
-    hsPoint3 operator+(const hsPoint3& other);
-    hsPoint3 operator*(const hsPoint3& other);
-    hsPoint3 operator*(const float mult);
+    bool operator==(const hsPoint3& other) const;
+    hsPoint3 operator+(const hsPoint3& other) const;
+    hsPoint3 operator-(const hsPoint3& other) const;
+    hsPoint3 operator*(const float mult) const;
 };
 
 DllStruct hsVector3 : hsScalarTriple {
@@ -45,7 +45,15 @@ public:
     hsVector3();
     virtual ~hsVector3();
     
-    virtual const char* ClassName();
+    virtual const char* ClassName() const;
+
+    hsVector3& operator=(const hsVector3& other);
+    bool operator==(const hsVector3& other) const;
+    hsVector3 operator+(const hsVector3& other) const;
+    hsVector3 operator-(const hsVector3& other) const;
+    hsVector3 operator*(const float mult) const;
+    float dotP(const hsVector3& other) const;
+    hsVector3 crossP(const hsVector3& other) const;
 };
 
 DllStruct hsPlane3 {

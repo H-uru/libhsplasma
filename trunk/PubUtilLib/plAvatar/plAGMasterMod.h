@@ -13,6 +13,8 @@ protected:
     bool fFirstEval, fNeedEval, fNeedCompile;
     //plAGMasterSDLModifier* fAGMasterSDLMod;
     plString fGroupName; // Only used in UU, auto-deleted in PotS and newer
+    bool fLiveA5, fLiveA6;
+    plKey fLiveA8;
 
 public:
     plAGMasterMod();

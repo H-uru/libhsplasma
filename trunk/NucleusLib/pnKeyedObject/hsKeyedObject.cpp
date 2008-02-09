@@ -6,12 +6,18 @@ hsKeyedObject::~hsKeyedObject() { }
 IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
 
 void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
-    myKey = mgr->readUoid(S);
+    if (S->getVer() == pvLive)
+        myKey = mgr->readKey(S);
+    else
+        myKey = mgr->readUoid(S);
     myKey->setObj(this);
 }
 
 void hsKeyedObject::write(hsStream* S, plResManager* mgr) {
-    mgr->writeUoid(S, myKey);
+    if (S->getVer() == pvLive)
+        mgr->writeKey(S, myKey);
+    else
+        mgr->writeUoid(S, myKey);
 }
 
 void hsKeyedObject::prcWrite(pfPrcHelper* prc) {

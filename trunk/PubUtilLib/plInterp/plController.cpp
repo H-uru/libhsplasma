@@ -21,11 +21,8 @@ plCompoundController::~plCompoundController() {
 IMPLEMENT_CREATABLE(plCompoundController, kCompoundController, plController)
 
 void plCompoundController::read(hsStream* S, plResManager* mgr) {
-    plDebug::Debug("Reading X controller");
     fXController = plController::Convert(mgr->ReadCreatable(S));
-    plDebug::Debug("Reading Y controller");
     fYController = plController::Convert(mgr->ReadCreatable(S));
-    plDebug::Debug("Reading Z controller");
     fZController = plController::Convert(mgr->ReadCreatable(S));
 }
 
@@ -39,9 +36,30 @@ void plCompoundController::prcWrite(pfPrcHelper* prc) {
     plCreatable::prcWrite(prc);
 
     prc->writeComment("X, Y, Z");
-    fXController->prcWrite(prc); prc->closeTag();
-    fYController->prcWrite(prc); prc->closeTag();
-    fZController->prcWrite(prc); prc->closeTag();
+    if (fXController != NULL) {
+        fXController->prcWrite(prc);
+        prc->closeTag();
+    } else {
+        prc->startTag("plController");
+        prc->writeParam("NULL", true);
+        prc->endTag(true);
+    }
+    if (fYController != NULL) {
+        fYController->prcWrite(prc);
+        prc->closeTag();
+    } else {
+        prc->startTag("plController");
+        prc->writeParam("NULL", true);
+        prc->endTag(true);
+    }
+    if (fZController != NULL) {
+        fZController->prcWrite(prc);
+        prc->closeTag();
+    } else {
+        prc->startTag("plController");
+        prc->writeParam("NULL", true);
+        prc->endTag(true);
+    }
 }
 
 plTMController* plCompoundController::convertToTMController() {

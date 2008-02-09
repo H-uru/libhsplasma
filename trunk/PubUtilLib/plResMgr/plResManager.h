@@ -24,8 +24,6 @@ protected:
     std::vector<plAgeInfo*> ages;
 
 private:
-    plKey readKeyBase(hsStream* S);
-    void writeKeyBase(hsStream* S, plKey key);
     void ReadKeyring(hsStream* S, const plLocation& loc);
     unsigned int ReadObjects(hsStream* S, const plLocation& loc);
     void WriteKeyring(hsStream* S, const plLocation& loc);

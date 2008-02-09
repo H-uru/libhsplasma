@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
             fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
             return 1;
         } catch (std::exception& e) {
-            fprintf(stderr, "%s\n", e.what());
+            fprintf(stderr, "PrcExtract Exception: %s\n", e.what());
             return 1;
         } catch (...) {
             fprintf(stderr, "Undefined error!\n");
@@ -141,7 +141,7 @@ int main(int argc, char** argv) {
             fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
             return 1;
         } catch (std::exception& e) {
-            fprintf(stderr, "%s\n", e.what());
+            fprintf(stderr, "PrcExtract Exception: %s\n", e.what());
             return 1;
         } catch (...) {
             fprintf(stderr, "Undefined error!\n");

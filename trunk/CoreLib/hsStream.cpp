@@ -3,6 +3,7 @@
 #include "DynLib/Platform.h"
 
 static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
+static const wchar_t eoaWStrKey[8] = {L'm',L'y',L's',L't',L'n',L'e',L'r',L'd'};
 
 // hsStream //
 hsStream::hsStream(PlasmaVer pv) {
@@ -110,22 +111,20 @@ plString hsStream::readSafeStr() {
 }
 
 plWString hsStream::readSafeWStr() {
-    hsUint32 ssInfo = readShort();
+    hsUint16 ssInfo = readShort();
     wchar_t* buf;
     if (ver == pvEoa) {
         buf = new wchar_t[ssInfo+1];
-        read(ssInfo * sizeof(wchar_t), buf);
         for (size_t i=0; i<ssInfo; i++)
-            buf[i] ^= eoaStrKey[i%8];
+            buf[i] = (readShort() ^ eoaWStrKey[i%8]) & 0xFFFF;
+        readShort();    // Terminator
         buf[ssInfo] = 0;
     } else {
         hsUint16 size = (ssInfo & 0x0FFF);
         buf = new wchar_t[size+1];
-        read(size * sizeof(wchar_t), buf);
-        if (buf[0] & 0x80) {
-            for (size_t i=0; i<size; i++)
-                buf[i] = ~buf[i];
-        }
+        for (size_t i=0; i<size; i++)
+            buf[i] = (~readShort()) & 0xFFFF;
+        readShort();    // Terminator
         buf[size] = 0;
     }
     plWString str(buf);
@@ -227,21 +226,18 @@ void hsStream::writeSafeStr(const plString& str) {
 
 void hsStream::writeSafeWStr(const plWString& str) {
     hsUint16 ssInfo = (hsUint16)str.len();
-    wchar_t* wbuf;
     if (ver == pvEoa) {
         writeShort(ssInfo);
-        wbuf = new wchar_t[ssInfo];
         for (size_t i=0; i<ssInfo; i++)
-            wbuf[i] = str[i] ^ eoaStrKey[i%8];
+            writeShort(str[i] ^ eoaWStrKey[i%8]);
+        writeShort(0);  // Terminator
     } else {
         ssInfo &= 0x0FFF;
         writeShort(ssInfo | 0xF000);
-        wbuf = new wchar_t[ssInfo];
         for (size_t i=0; i<ssInfo; i++)
-            wbuf[i] = ~str[i];
+            writeShort(~str[i]);
+        writeShort(0);  // Terminator
     }
-    write(ssInfo * sizeof(wchar_t), wbuf);
-    delete[] wbuf;
 }
 
 void hsStream::writeLine(const plString& ln, bool winEOL) {
