@@ -1,8 +1,6 @@
 #include "plRelevanceRegion.h"
 
-plRelevanceRegion::plRelevanceRegion() : fMgrIdx(-1) {
-}
-
+plRelevanceRegion::plRelevanceRegion() : fMgrIdx(-1) { }
 plRelevanceRegion::~plRelevanceRegion() { }
 
 IMPLEMENT_CREATABLE(plRelevanceRegion, kRelevanceRegion, plObjInterface)

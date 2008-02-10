@@ -1705,6 +1705,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plPipeline\plDynamicEnvMap.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPipeline\plDynamicEnvMap.h"
+					>
+				</File>
+				<File
 					RelativePath="PubUtilLib\plPipeline\plFogEnvironment.cpp"
 					>
 					<FileConfiguration
@@ -1744,6 +1752,14 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plPipeline\plGBufferGroup.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPipeline\plRenderTarget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plPipeline\plRenderTarget.h"
 					>
 				</File>
 				<File
@@ -2896,6 +2912,26 @@
 				</File>
 				<File
 					RelativePath=".\FeatureLib\pfAudio\plRandomSoundMod.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="pfCamera"
+				>
+				<File
+					RelativePath=".\FeatureLib\pfCamera\plCameraBrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfCamera\plCameraBrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfCamera\plCameraModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfCamera\plCameraModifier.h"
 					>
 				</File>
 			</Filter>

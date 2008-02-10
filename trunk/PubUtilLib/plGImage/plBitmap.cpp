@@ -1,5 +1,7 @@
 #include "plBitmap.h"
 
+#define BITMAPVER ((unsigned char)2)
+
 const char* plBitmap::kCompressionTypeNames[] = {
     "Uncompressed", "DDS", "JPEG"
 };

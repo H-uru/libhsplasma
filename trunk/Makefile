@@ -151,14 +151,16 @@ OBJFILES=\
 	$(LIBDIR)plPXPhysical.o \
 	$(LIBDIR)plODEPhysical.o \
 	$(LIBDIR)plPhysicalSndGroup.o \
+	$(LIBDIR)plDynamicEnvMap.o \
 	$(LIBDIR)plFogEnvironment.o \
 	$(LIBDIR)hsGDeviceRef.o \
 	$(LIBDIR)plGBufferGroup.o \
+	$(LIBDIR)plRenderTarget.o \
 	$(LIBDIR)plVertCoder.o \
 	$(LIBDIR)plPostEffectMod.o \
+	$(LIBDIR)plRelevanceRegion.o \
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)plVisRegion.o \
-	$(LIBDIR)plRelevanceRegion.o \
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
 	$(LIBDIR)plLayer.o \
@@ -171,6 +173,8 @@ OBJFILES=\
 	$(LIBDIR)plStereizer.o \
 	$(LIBDIR)plViewFaceModifier.o \
 	$(LIBDIR)plRandomSoundMod.o \
+	$(LIBDIR)plCameraBrain.o \
+	$(LIBDIR)plCameraModifier.o \
 	$(LIBDIR)plConditionalObject.o \
 	$(LIBDIR)plActivatorConditionalObject.o \
 	$(LIBDIR)plAnimationEventConditionalObject.o \
@@ -650,6 +654,9 @@ $(LIBDIR)plODEPhysical.o: PubUtilLib/plPhysics/plODEPhysical.h PubUtilLib/plPhys
 $(LIBDIR)plPhysicalSndGroup.o: PubUtilLib/plPhysics/plPhysicalSndGroup.h PubUtilLib/plPhysics/plPhysicalSndGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPhysics/plPhysicalSndGroup.cpp -o $(LIBDIR)plPhysicalSndGroup.o
 
+$(LIBDIR)plDynamicEnvMap.o: PubUtilLib/plPipeline/plDynamicEnvMap.h PubUtilLib/plPipeline/plDynamicEnvMap.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPipeline/plDynamicEnvMap.cpp -o $(LIBDIR)plDynamicEnvMap.o
+
 $(LIBDIR)plFogEnvironment.o: PubUtilLib/plPipeline/plFogEnvironment.h PubUtilLib/plPipeline/plFogEnvironment.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPipeline/plFogEnvironment.cpp -o $(LIBDIR)plFogEnvironment.o
 
@@ -658,6 +665,9 @@ $(LIBDIR)hsGDeviceRef.o: PubUtilLib/plPipeline/hsGDeviceRef.h PubUtilLib/plPipel
 
 $(LIBDIR)plGBufferGroup.o: PubUtilLib/plPipeline/plGBufferGroup.h PubUtilLib/plPipeline/plGBufferGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPipeline/plGBufferGroup.cpp -o $(LIBDIR)plGBufferGroup.o
+
+$(LIBDIR)plRenderTarget.o: PubUtilLib/plPipeline/plRenderTarget.h PubUtilLib/plPipeline/plRenderTarget.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPipeline/plRenderTarget.cpp -o $(LIBDIR)plRenderTarget.o
 
 $(LIBDIR)plVertCoder.o: PubUtilLib/plPipeline/plVertCoder.h PubUtilLib/plPipeline/plVertCoder.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plPipeline/plVertCoder.cpp -o $(LIBDIR)plVertCoder.o
@@ -677,14 +687,14 @@ $(LIBDIR)plResManager.o: PubUtilLib/plResMgr/plResManager.h PubUtilLib/plResMgr/
 $(LIBDIR)plPostEffectMod.o: PubUtilLib/plScene/plPostEffectMod.h PubUtilLib/plScene/plPostEffectMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plPostEffectMod.cpp -o $(LIBDIR)plPostEffectMod.o
 
+$(LIBDIR)plRelevanceRegion.o: PubUtilLib/plScene/plRelevanceRegion.h PubUtilLib/plScene/plRelevanceRegion.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plRelevanceRegion.cpp -o $(LIBDIR)plRelevanceRegion.o
+
 $(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSceneNode.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plSceneNode.cpp -o $(LIBDIR)plSceneNode.o
 
 $(LIBDIR)plVisRegion.o: PubUtilLib/plScene/plVisRegion.h PubUtilLib/plScene/plVisRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plVisRegion.cpp -o $(LIBDIR)plVisRegion.o
-
-$(LIBDIR)plRelevanceRegion.o: PubUtilLib/plScene/plRelevanceRegion.h PubUtilLib/plScene/plRelevanceRegion.cpp
-	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plRelevanceRegion.cpp -o $(LIBDIR)plRelevanceRegion.o
 
 $(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/hsGMaterial.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o $(LIBDIR)hsGMaterial.o
@@ -721,6 +731,12 @@ $(LIBDIR)plViewFaceModifier.o: FeatureLib/pfAnimation/plViewFaceModifier.h Featu
 
 $(LIBDIR)plRandomSoundMod.o: FeatureLib/pfAudio/plRandomSoundMod.h FeatureLib/pfAudio/plRandomSoundMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAudio/plRandomSoundMod.cpp -o $(LIBDIR)plRandomSoundMod.o
+
+$(LIBDIR)plCameraBrain.o: FeatureLib/pfCamera/plCameraBrain.h FeatureLib/pfCamera/plCameraBrain.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfCamera/plCameraBrain.cpp -o $(LIBDIR)plCameraBrain.o
+
+$(LIBDIR)plCameraModifier.o: FeatureLib/pfCamera/plCameraModifier.h FeatureLib/pfCamera/plCameraModifier.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfCamera/plCameraModifier.cpp -o $(LIBDIR)plCameraModifier.o
 
 $(LIBDIR)plConditionalObject.o: FeatureLib/pfConditional/plConditionalObject.h FeatureLib/pfConditional/plConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfConditional/plConditionalObject.cpp -o $(LIBDIR)plConditionalObject.o

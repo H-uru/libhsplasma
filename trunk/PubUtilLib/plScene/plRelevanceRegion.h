@@ -1,5 +1,5 @@
-#ifndef PLRELEVANCEREGION_H
-#define PLRELEVANCEREGION_H
+#ifndef _PLRELEVANCEREGION_H
+#define _PLRELEVANCEREGION_H
 
 #include "NucleusLib/pnSceneObject/plObjInterface.h"
 #include "CoreLib/hsBitVector.h"

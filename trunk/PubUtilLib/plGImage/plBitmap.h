@@ -4,8 +4,6 @@
 #include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "CoreLib/hsStream.h"
 
-#define BITMAPVER (char)2
-
 DllClass plBitmap : public hsKeyedObject {
 public:
     struct DirectXInfo {

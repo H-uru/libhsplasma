@@ -8,7 +8,7 @@ hsException::hsException(const hsException& e) throw()
 hsException::hsException(const plString& w, const char* file,
     unsigned long line) throw() : fWhat(w), fFile(file), fLine(line) { }
 
-hsException::~hsException() throw() { printf(fWhat); }
+hsException::~hsException() throw() { }
 
 hsException& hsException::operator=(const hsException& other) throw() {
     fWhat = other.fWhat;
