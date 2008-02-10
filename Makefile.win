@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -O2 -Wall
+CFLAGS = -O2 -fPIC -Wall -g -ansi -fno-rtti
 
 all:
 	(cd trunk ; make -fMakefile.win)

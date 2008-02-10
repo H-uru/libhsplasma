@@ -99,6 +99,7 @@
 #include "PubUtilLib/plScene/plPostEffectMod.h"
 #include "PubUtilLib/plScene/plSceneNode.h"
 #include "PubUtilLib/plScene/plVisRegion.h"
+#include "PubUtilLib/plScene/plRelevanceRegion.h"
 #include "PubUtilLib/plSurface/plLayer.h"
 #include "PubUtilLib/plSurface/plLayerMovie.h"
 // End type includes
@@ -401,7 +402,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCoopCoordinator: return new plCoopCoordinator();
         case kFont: return new plFont();
         //case kFontCache: return new plFontCache();
-        //case kRelevanceRegion: return new plRelevanceRegion();
+        case kRelevanceRegion: return new plRelevanceRegion();
         //case kRelevanceMgr: return new plRelevanceMgr();
         //case kJournalBook: return new pfJournalBook();
         //case kLayerTargetContainer: return new plLayerTargetContainer();

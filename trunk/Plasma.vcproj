@@ -42,14 +42,14 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories=".;&quot;D:\Dev\Libs\jpeg-6b&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\GnuWin32\include&quot;;.;&quot;D:\Dev\Libs\jpeg-6b&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				AssemblerOutput="2"
-				WarningLevel="3"
+				WarningLevel="4"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4251"
@@ -66,7 +66,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="jpeg.lib opengl32.lib"
-				AdditionalLibraryDirectories="&quot;D:\Dev\Libs\jpeg-6b\build_msw\Release&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\GnuWin32\lib&quot;;&quot;D:\Dev\Libs\jpeg-6b\build_msw\Release&quot;"
+				GenerateDebugInformation="true"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -1867,6 +1868,14 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plScene\plPostEffectMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plScene\plRelevanceRegion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plScene\plRelevanceRegion.h"
 					>
 				</File>
 				<File

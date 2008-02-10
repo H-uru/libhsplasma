@@ -95,7 +95,7 @@ plString hsStream::readSafeStr() {
             buf[i] ^= eoaStrKey[i%8];
         buf[ssInfo] = 0;
     } else {
-        if (!(ssInfo & 0xF000)) readByte(); // Discarded - debug
+        if (!(ssInfo & 0xF000)) readShort(); // Discarded - debug
         hsUint16 size = (ssInfo & 0x0FFF);
         buf = new char[size+1];
         read(size, buf);

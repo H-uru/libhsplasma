@@ -15,7 +15,7 @@ plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
                    unsigned char numLevels, unsigned char compType,
                    unsigned char format)
         : fImageData(NULL), fJPEGData(NULL), fJPEGSize(0), fAlphaData(NULL),
-          fAlphaSize(0), fTotalSize(0), fCurLevelPtr(NULL) {
+          fAlphaSize(0), fTotalSize(0), fCurLevelPtr(NULL), fLevelSizes(NULL) {
     fPixelSize = 32;
     fSpace = kDirectSpace;
     fFlags = kAlphaChannelFlag;

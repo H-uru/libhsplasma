@@ -158,6 +158,7 @@ OBJFILES=\
 	$(LIBDIR)plPostEffectMod.o \
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)plVisRegion.o \
+	$(LIBDIR)plRelevanceRegion.o \
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
 	$(LIBDIR)plLayer.o \
@@ -676,6 +677,9 @@ $(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSc
 
 $(LIBDIR)plVisRegion.o: PubUtilLib/plScene/plVisRegion.h PubUtilLib/plScene/plVisRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plVisRegion.cpp -o $(LIBDIR)plVisRegion.o
+
+$(LIBDIR)plRelevanceRegion.o: PubUtilLib/plScene/plRelevanceRegion.h PubUtilLib/plScene/plRelevanceRegion.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plRelevanceRegion.cpp -o $(LIBDIR)plRelevanceRegion.o
 
 $(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/hsGMaterial.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o $(LIBDIR)hsGMaterial.o
