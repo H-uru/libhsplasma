@@ -4,6 +4,8 @@
 plEaseController::plEaseController() : fNull(true) { }
 plEaseController::~plEaseController() { }
 
+IMPLEMENT_CREATABLE(plEaseController, kEaseController, plLeafController)
+
 void plEaseController::read(hsStream* S, plResManager* mgr) {
     plLeafController::read(S, mgr);
 
@@ -46,6 +48,8 @@ void plEaseController::prcWrite(pfPrcHelper* prc) {
 plMatrix33Controller::plMatrix33Controller() { }
 plMatrix33Controller::~plMatrix33Controller() { }
 
+IMPLEMENT_CREATABLE(plMatrix33Controller, kMatrix33Controller, plLeafController)
+
 void plMatrix33Controller::read(hsStream* S, plResManager* mgr) {
     plLeafController::read(S, mgr);
 
@@ -78,6 +82,8 @@ void plMatrix33Controller::prcWrite(pfPrcHelper* prc) {
 plMatrix44Controller::plMatrix44Controller() { }
 plMatrix44Controller::~plMatrix44Controller() { }
 
+IMPLEMENT_CREATABLE(plMatrix44Controller, kMatrix44Controller, plLeafController)
+
 void plMatrix44Controller::read(hsStream* S, plResManager* mgr) {
     plLeafController::read(S, mgr);
 
@@ -109,6 +115,8 @@ void plMatrix44Controller::prcWrite(pfPrcHelper* prc) {
 /* plPoint3Controller */
 plPoint3Controller::plPoint3Controller() : fNull(true) { }
 plPoint3Controller::~plPoint3Controller() { }
+
+IMPLEMENT_CREATABLE(plPoint3Controller, kPoint3Controller, plLeafController)
 
 void plPoint3Controller::read(hsStream* S, plResManager* mgr) {
     plLeafController::read(S, mgr);
@@ -152,6 +160,8 @@ void plPoint3Controller::prcWrite(pfPrcHelper* prc) {
 plQuatController::plQuatController() { }
 plQuatController::~plQuatController() { }
 
+IMPLEMENT_CREATABLE(plQuatController, kQuatController, plLeafController)
+
 void plQuatController::read(hsStream* S, plResManager* mgr) {
     plLeafController::read(S, mgr);
 
@@ -183,6 +193,8 @@ void plQuatController::prcWrite(pfPrcHelper* prc) {
 /* plScalarController */
 plScalarController::plScalarController() : fNull(true) { }
 plScalarController::~plScalarController() { }
+
+IMPLEMENT_CREATABLE(plScalarController, kScalarController, plLeafController)
 
 void plScalarController::read(hsStream* S, plResManager* mgr) {
     plLeafController::read(S, mgr);
@@ -225,6 +237,8 @@ void plScalarController::prcWrite(pfPrcHelper* prc) {
 /* plScaleValueController */
 plScaleValueController::plScaleValueController() { }
 plScaleValueController::~plScaleValueController() { }
+
+IMPLEMENT_CREATABLE(plScaleValueController, kScaleValueController, plLeafController)
 
 void plScaleValueController::read(hsStream* S, plResManager* mgr) {
     plLeafController::read(S, mgr);

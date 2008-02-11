@@ -1867,7 +1867,15 @@
 				Name="plScene"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plScene\plCullPoly.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plScene\plCullPoly.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plScene\plOccluder.cpp"
 					>
 				</File>
 				<File

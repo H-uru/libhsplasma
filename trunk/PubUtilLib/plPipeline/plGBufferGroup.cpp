@@ -133,7 +133,7 @@ void plGBufferGroup::read(hsStream* S) {
     fVertBuffSizes.clear();
     fVertBuffStarts.clear();
     fVertBuffEnds.clear();
-    fColorBuffCounts.clear();
+    //fColorBuffCounts.clear();
     fIdxBuffCounts.clear();
     fIdxBuffStarts.clear();
     fIdxBuffEnds.clear();
@@ -142,52 +142,59 @@ void plGBufferGroup::read(hsStream* S) {
 
     plVertCoder coder;
     size_t i, count = S->readInt();
+    fVertBuffSizes.setSize(count);
+    fVertBuffStorage.setSize(count);
+    //fColorBuffCounts.setSize(count);
+    //fColorBuffStorage.setSize(count);
     for (i=0; i<count; i++) {
         unsigned int colorCount = 0;
-        plGBufferColor* color = NULL;
+        //plGBufferColor* color = NULL;
         unsigned char* vData;
         unsigned int vtxCount = 0, vtxSize = 0;
         if (format & kEncoded) {
             vtxCount = S->readShort();
             vtxSize = vtxCount * stride;
-            fVertBuffSizes.append(vtxSize);
+            fVertBuffSizes[i] = vtxSize;
             //fVertBuffStarts.append(0);
             //fVertBuffEnds.append(-1);
             vData = new unsigned char[vtxSize];
-            fVertBuffStorage.append(vData);
+            fVertBuffStorage[i] = vData;
             coder.read(S, vData, format, vtxCount);
-            fColorBuffCounts.append(colorCount);
-            fColorBuffStorage.append(color);
+            //fColorBuffCounts.append(colorCount);
+            //fColorBuffStorage.append(color);
         } else {
             vtxSize = S->readInt();
-            fVertBuffSizes.append(vtxSize);
+            fVertBuffSizes[i] = vtxSize;
             //fVertBuffStarts.append(0);
             //fVertBuffEnds.append(-1);
             vData = new unsigned char[vtxSize];
             S->read(vtxSize, vData);
-            fVertBuffStorage.append(vData);
+            fVertBuffStorage[i] = vData;
             colorCount = S->readInt();
-            fColorBuffCounts.append(colorCount);
-            color = new plGBufferColor[colorCount];
-            fColorBuffStorage.append(color);
+            //fColorBuffCounts.append(colorCount);
+            //color = new plGBufferColor[colorCount];
+            //fColorBuffStorage.append(color);
         }
     }
 
     count = S->readInt();
+    fIdxBuffCounts.setSize(count);
+    fIdxBuffStorage.setSize(count);
     for (i=0; i<count; i++) {
         unsigned int idxCount = S->readInt();
-        fIdxBuffCounts.append(idxCount);
+        fIdxBuffCounts[i] = idxCount;
         //fIdxBuffStarts.append(0);
         //fIdxBuffEnds.append(-1);
         unsigned short* iData = new unsigned short[idxCount];
         S->readShorts(idxCount, iData);
-        fIdxBuffStorage.append(iData);
+        fIdxBuffStorage[i] = iData;
     }
 
+    fCells.setSize(fVertBuffStorage.getSize());
     for (i=0; i<fVertBuffStorage.getSize(); i++) {
         size_t cellCount = S->readInt();
         hsTArray<plGBufferCell>* cell = new hsTArray<plGBufferCell>();
-        fCells.append(cell);
+        fCells[i] = cell;
         cell->setSize(cellCount);
         for (size_t j=0; j<cellCount; j++)
             (*cell)[j].read(S);
@@ -201,23 +208,18 @@ void plGBufferGroup::write(hsStream* S) {
         totalSize += fVertBuffSizes[i];
     for (i=0; i<fIdxBuffCounts.getSize(); i++)
         totalSize += fIdxBuffCounts[i] * sizeof(short);
-    format &= ~kEncoded; // Until plVertCoder is finished
     S->writeByte(format);
     S->writeInt(totalSize);
 
     plVertCoder coder;
     S->writeInt(fVertBuffStorage.getSize());
     for (i=0; i<fVertBuffStorage.getSize(); i++) {
-        //S->writeShort(fVertBuffSizes[i] / stride);
-        //coder.write(S, fVertBuffStorage[i], format, stride, fVertBuffSizes[i]);
-
-        // Until plVertCoder is finished:
-        S->writeInt(fVertBuffSizes[i]);
-        S->write(fVertBuffSizes[i], fVertBuffStorage[i]);
-        S->writeInt(0);
+        unsigned int count = fVertBuffSizes[i] / stride;
+        S->writeShort(count);
+        coder.write(S, fVertBuffStorage[i], format, stride, count);
     }
 
-    S->writeInt(fVertBuffStorage.getSize());
+    S->writeInt(fIdxBuffStorage.getSize());
     for (i=0; i<fIdxBuffCounts.getSize(); i++) {
         S->writeInt(fIdxBuffCounts[i]);
         S->writeShorts(fIdxBuffCounts[i], fIdxBuffStorage[i]);

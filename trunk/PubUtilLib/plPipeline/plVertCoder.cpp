@@ -4,8 +4,8 @@
 #include "plGBufferGroup.h"
 
 float plVertCoder::FieldScales[] = {
-   1024.0, 32768.0, 65536.0, 65536.0, 65536.0,
-   65536.0, 65536.0, 65536.0, 65536.0, 65536.0
+   1024.0f, 32768.0f, 65536.0f, 65536.0f, 65536.0f,
+   65536.0f, 65536.0f, 65536.0f, 65536.0f, 65536.0f
 };
 
 plVertCoder::plVertCoder() { }
@@ -24,10 +24,11 @@ void plVertCoder::read(hsStream* S, unsigned char* dest, unsigned char format,
 }
 
 void plVertCoder::write(hsStream* S, const unsigned char* src,
-                        unsigned char format, unsigned short numVerts) {
+                        unsigned char format, unsigned int stride,
+                        unsigned short numVerts) {
     clear();
-    for (unsigned short i=numVerts; i>0; i++)
-        IEncode(S, i, src, format);
+    for (unsigned short i=numVerts; i>0; i--)
+        IEncode(S, i, src, stride, format);
 }
 
 void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char format) {
@@ -51,7 +52,7 @@ void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char forma
         }
     }
 
-    // Normal (polygon face)
+    // Normal
     IDecodeNormal(S, dest);
     IDecodeColor(S, dest);
     *(int*)dest = 0;
@@ -102,7 +103,7 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
     }
     *(float*)dest = fFloats[chan][field].fOffset;
     if (!fFloats[chan][field].fAllSame)
-        *(float*)dest += (S->readShort() / FieldScales[field]);
+        *(float*)dest += ((hsInt16)S->readShort() / FieldScales[field]);
     dest += sizeof(float);
     fFloats[chan][field].fCount--;
 }
@@ -113,9 +114,9 @@ void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
         ((float*)dest)[1] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
         ((float*)dest)[2] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
     } else {
-        ((float*)dest)[0] = S->readShort() / 32767.0f;
-        ((float*)dest)[1] = S->readShort() / 32767.0f;
-        ((float*)dest)[2] = S->readShort() / 32767.0f;
+        ((float*)dest)[0] = (hsInt16)S->readShort() / 32767.0f;
+        ((float*)dest)[1] = (hsInt16)S->readShort() / 32767.0f;
+        ((float*)dest)[2] = (hsInt16)S->readShort() / 32767.0f;
     }
     dest += sizeof(float) * 3;
 }
@@ -128,19 +129,20 @@ void plVertCoder::IDecodeColor(hsStream* S, unsigned char*& dest) {
 }
 
 void plVertCoder::IEncode(hsStream* S, unsigned int vertsLeft,
-                          const unsigned char*& src, unsigned char format) {
+                          const unsigned char*& src, unsigned int stride,
+                          unsigned char format) {
     int i;
     
     // The X, Y, Z coordinates of this vertex
-    IEncodeFloat(S, vertsLeft, kPosition, 0, src);
-    IEncodeFloat(S, vertsLeft, kPosition, 1, src);
-    IEncodeFloat(S, vertsLeft, kPosition, 2, src);
+    IEncodeFloat(S, vertsLeft, kPosition, 0, src, stride);
+    IEncodeFloat(S, vertsLeft, kPosition, 1, src, stride);
+    IEncodeFloat(S, vertsLeft, kPosition, 2, src, stride);
 
     // Weights
-    int count = (format >> 4) & 3;
+    int count = (format & plGBufferGroup::kSkinWeightMask) >> 4;
     if (count > 0) {
         for (i=0; i<count; i++)
-            IEncodeFloat(S, vertsLeft, kWeight, i, src);
+            IEncodeFloat(S, vertsLeft, kWeight, i, src, stride);
 
         if (format & kSkinIndices) {
             S->writeInt(*(int*)src);
@@ -148,27 +150,28 @@ void plVertCoder::IEncode(hsStream* S, unsigned int vertsLeft,
         }
     }
 
-    // Normal (Polygon face)
+    // Normal
     IEncodeNormal(S, src);
-    IEncodeColor(S, vertsLeft, src);
+    IEncodeColor(S, vertsLeft, src, stride);
     src += sizeof(int);
 
     // UVW Coordinates
     for (i=0; i<(format & kUVCountMask); i++) {
-        IEncodeFloat(S, vertsLeft, kUVW+i, 0, src);
-        IEncodeFloat(S, vertsLeft, kUVW+i, 1, src);
-        IEncodeFloat(S, vertsLeft, kUVW+i, 2, src);
+        IEncodeFloat(S, vertsLeft, kUVW+i, 0, src, stride);
+        IEncodeFloat(S, vertsLeft, kUVW+i, 1, src, stride);
+        IEncodeFloat(S, vertsLeft, kUVW+i, 2, src, stride);
     }
 }
 
 void plVertCoder::IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
-                              const unsigned char*& src) {
+                              const unsigned char*& src, unsigned int stride) {
     if (fColors[chan].fCount == 0) {
-        ICountBytes(vertsLeft, src, fColors[chan].fCount, fColors[chan].fSame);
+        ICountBytes(vertsLeft, src, stride, fColors[chan].fCount, fColors[chan].fSame);
         unsigned short count = fColors[chan].fCount;
         if (fColors[chan].fSame)
             count |= 0x8000;
         S->writeShort(count);
+        count &= 0x7FFF;
         if (fColors[chan].fSame)
             S->writeByte(*src);
     }
@@ -178,13 +181,14 @@ void plVertCoder::IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
     fColors[chan].fCount--;
 }
 
-#define FloatToShort(x) (hsUint16)(signed short)(x)
-#define FloatToByte(x) (hsUbyte)(signed char)(x)
+#define FloatToShort(x) (hsInt16)(signed short)(x)
+#define FloatToByte(x) (hsUbyte)(unsigned char)(x)
 
 void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
-                               int chan, const unsigned char*& src) {
+                               int chan, const unsigned char*& src,
+                               unsigned int stride) {
     if (fFloats[chan][field].fCount == 0) {
-        ICountFloats(vertsLeft, src, FieldScales[field],
+        ICountFloats(vertsLeft, src, FieldScales[field], stride,
                      fFloats[chan][field].fOffset,
                      fFloats[chan][field].fAllSame,
                      fFloats[chan][field].fCount);
@@ -197,7 +201,7 @@ void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
     if (S->getVer() != pvLive || (!fFloats[chan][field].fAllSame)) {
         float flt = *(float*)src;
         flt = (flt - fFloats[chan][field].fOffset) * FieldScales[field];
-        S->writeShort(FloatToShort(floor(flt + 0.5)));
+        S->writeShort((signed short)(flt + 0.5f));
     }
     src += sizeof(float);
     fFloats[chan][field].fCount--;
@@ -205,32 +209,88 @@ void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
 
 void plVertCoder::IEncodeNormal(hsStream* S, const unsigned char*& src) {
     if (S->getVer() == pvLive) {
-        S->writeByte(FloatToByte(((*(float*)src + 1.0) / 2.0) * 256.0));
-        S->writeByte(FloatToByte(((*(float*)src + 1.0) / 2.0) * 256.0));
-        S->writeByte(FloatToByte(((*(float*)src + 1.0) / 2.0) * 256.0));
+        S->writeByte(FloatToByte(((((float*)src)[0] + 1.0f) / 2.0f) * 256.0f));
+        S->writeByte(FloatToByte(((((float*)src)[1] + 1.0f) / 2.0f) * 256.0f));
+        S->writeByte(FloatToByte(((((float*)src)[2] + 1.0f) / 2.0f) * 256.0f));
     } else {
-        S->writeShort(FloatToShort(*(float*)src * 32767.0));
-        S->writeShort(FloatToShort(*(float*)src * 32767.0));
-        S->writeShort(FloatToShort(*(float*)src * 32767.0));
+        S->writeShort(FloatToShort(((float*)src)[0] * 32767.0f));
+        S->writeShort(FloatToShort(((float*)src)[1] * 32767.0f));
+        S->writeShort(FloatToShort(((float*)src)[2] * 32767.0f));
     }
     src += sizeof(float) * 3;
 }
 
 void plVertCoder::IEncodeColor(hsStream* S, unsigned int vertsLeft,
-                               const unsigned char*& src) {
-    IEncodeByte(S, vertsLeft, 0, src);
-    IEncodeByte(S, vertsLeft, 1, src);
-    IEncodeByte(S, vertsLeft, 2, src);
-    IEncodeByte(S, vertsLeft, 3, src);
+                               const unsigned char*& src, unsigned int stride) {
+    IEncodeByte(S, vertsLeft, 0, src, stride);
+    IEncodeByte(S, vertsLeft, 1, src, stride);
+    IEncodeByte(S, vertsLeft, 2, src, stride);
+    IEncodeByte(S, vertsLeft, 3, src, stride);
 }
 
 void plVertCoder::ICountBytes(unsigned int vertsLeft, const unsigned char* src,
-                              unsigned short& len, bool& same) {
-    //
+                              unsigned int stride, unsigned short& len, bool& same) {
+    if (vertsLeft < 4) {
+        len = vertsLeft;
+        same = false;
+        return;
+    }
+
+    unsigned int i = 0;
+    if (vertsLeft > 0) {
+        unsigned char rle = *src;
+        while (i < vertsLeft && *src == rle) {
+            src += stride;
+            i++;
+        }
+        if (i >= 4) {
+            len = i;
+            same = true;
+            return;
+        }
+    }
+
+    same = false;
+    while (i < vertsLeft - 4) {
+        unsigned char b0 = *(src + ((i+0)*stride));
+        unsigned char b1 = *(src + ((i+1)*stride));
+        unsigned char b2 = *(src + ((i+2)*stride));
+        unsigned char b3 = *(src + ((i+3)*stride));
+        if (b0 == b1 && b0 == b2 && b0 == b3)
+            break;
+        i++;
+        src += stride;
+    }
+    if (i < vertsLeft - 4)
+        len = i;
+    else
+        len = vertsLeft;
 }
 
 void plVertCoder::ICountFloats(unsigned int vertsLeft, const unsigned char* src,
-                               float fieldScale, float& offset, bool& same,
-                               unsigned short& count) {
-    //
+                               float quant, unsigned int stride, float& lo,
+                               bool& allSame, unsigned short& count) {
+    lo = floor(((*(float*)src) * quant) + 0.5f) / quant;
+    float hi = lo;
+    allSame = false;
+    count = 1;
+    float maxRange = 32767.0f / quant;
+
+    src += stride;
+    while (--vertsLeft > 0) {
+        float cur = floor(((*(float*)src) * quant) + 0.5f) / quant;
+        if (cur < lo) {
+            if (hi - cur >= maxRange)
+                return;
+            lo = cur;
+        } else if (cur > hi) {
+            if (cur - lo >= maxRange)
+                return;
+            hi = cur;
+        }
+        count++;
+        src += stride;
+    }
+
+    allSame = (hi == lo) ? true : false;
 }

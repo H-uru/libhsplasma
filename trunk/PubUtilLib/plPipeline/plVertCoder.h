@@ -40,19 +40,20 @@ private:
     void IDecodeColor(hsStream* S, unsigned char*& dest);
 
     void IEncode(hsStream* S, unsigned int vertsLeft, const unsigned char*& src,
-                 unsigned char format);
+                 unsigned int stride, unsigned char format);
     void IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
-                     const unsigned char*& src);
+                     const unsigned char*& src, unsigned int stride);
     void IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field, int chan,
-                      const unsigned char*& src);
+                      const unsigned char*& src, unsigned int stride);
     void IEncodeNormal(hsStream* S, const unsigned char*& src);
-    void IEncodeColor(hsStream* S, unsigned int vertsLeft, const unsigned char*& src);
+    void IEncodeColor(hsStream* S, unsigned int vertsLeft,
+                      const unsigned char*& src, unsigned int stride);
 
     void ICountBytes(unsigned int vertsLeft, const unsigned char* src,
-                     unsigned short& len, bool& same);
+                     unsigned int stride, unsigned short& len, bool& same);
     void ICountFloats(unsigned int vertsLeft, const unsigned char* src,
-                      float fieldScale, float& offset, bool& same,
-                      unsigned short& count);
+                      float fieldScale, unsigned int stride, float& offset,
+                      bool& same, unsigned short& count);
 
 public:
     plVertCoder();
@@ -62,7 +63,7 @@ public:
     void read(hsStream* S, unsigned char* dest, unsigned char format,
               unsigned short numVerts);
     void write(hsStream* S, const unsigned char* src, unsigned char format,
-               unsigned short numVerts);
+               unsigned int stride, unsigned short numVerts);
 };
 
 #endif

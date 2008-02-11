@@ -6,9 +6,9 @@ plCoordinateInterface::plCoordinateInterface() {
     LocalToWorld.Reset();
     WorldToLocal.Reset();
 
-    Props.setName(kDisable, "kDisable");
-    Props.setName(kCanEverDelayTransform, "kCanEverDelayTransform");
-    Props.setName(kDelayedTransformEval, "kDelayedTransformEval");
+    fProps.setName(kDisable, "kDisable");
+    fProps.setName(kCanEverDelayTransform, "kCanEverDelayTransform");
+    fProps.setName(kDelayedTransformEval, "kDelayedTransformEval");
 }
 
 plCoordinateInterface::~plCoordinateInterface() { }

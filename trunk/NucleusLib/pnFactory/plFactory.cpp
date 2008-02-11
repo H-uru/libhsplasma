@@ -99,6 +99,7 @@
 #include "PubUtilLib/plPhysics/plPhysicalSndGroup.h"
 #include "PubUtilLib/plPipeline/plDynamicEnvMap.h"
 #include "PubUtilLib/plPipeline/plFogEnvironment.h"
+#include "PubUtilLib/plScene/plOccluder.h"
 #include "PubUtilLib/plScene/plPostEffectMod.h"
 #include "PubUtilLib/plScene/plRelevanceRegion.h"
 #include "PubUtilLib/plScene/plSceneNode.h"
@@ -182,7 +183,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPortalPhysical: return new plPortalPhysical();
         case kSpawnModifier: return new plSpawnModifier();
         case kFacingConditionalObject: return new plFacingConditionalObject();
-        case kHKPhysical: return new plHKPhysical();
+        //case kHKPhysical: return new plHKPhysical();
         case kViewFaceModifier: return new plViewFaceModifier();
         case kLayerInterface: return new plLayerInterface();
         //case kLayerWrapper: return new plLayerWrapper();
@@ -222,8 +223,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAvatarMod: return new plAvatarMod();
         //case kAvatarAnim: return new plAvatarAnim();
         //case kAvatarAnimMgr: return new plAvatarAnimMgr();
-        //case kOccluder: return new plOccluder();
-        //case kMobileOccluder: return new plMobileOccluder();
+        case kOccluder: return new plOccluder();
+        case kMobileOccluder: return new plMobileOccluder();
         //case kLayerShadowBase: return new plLayerShadowBase();
         case kLimitedDirLightInfo: return new plLimitedDirLightInfo();
         case kAGAnim: return new plAGAnim();
@@ -434,8 +435,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kGrassShaderMod: return new plGrassShaderMod();
         case kDynamicCamMap: return new plDynamicCamMap();
         //case kSwimRegion: return new plSwimRegion();
-        case kPXPhysical: return new plPXPhysical();
-        case kODEPhysical: return new plODEPhysical();
+        //case kPXPhysical: return new plPXPhysical();
+        //case kODEPhysical: return new plODEPhysical();
         //case kAutoWalkRegion: return new plAutoWalkRegion();
         //case kCrossfade: return new plCrossfade();
         case kParticleFadeOutEffect: return new plParticleFadeOutEffect();

@@ -16,6 +16,8 @@ public:
     plEaseController();
     virtual ~plEaseController();
 
+    DECLARE_CREATABLE(plEaseController)
+
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
@@ -29,6 +31,8 @@ public:
     plMatrix33Controller();
     virtual ~plMatrix33Controller();
 
+    DECLARE_CREATABLE(plMatrix33Controller)
+
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
@@ -41,6 +45,8 @@ protected:
 public:
     plMatrix44Controller();
     virtual ~plMatrix44Controller();
+
+    DECLARE_CREATABLE(plMatrix44Controller)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -56,6 +62,8 @@ public:
     plPoint3Controller();
     virtual ~plPoint3Controller();
 
+    DECLARE_CREATABLE(plPoint3Controller)
+
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
@@ -68,6 +76,8 @@ protected:
 public:
     plQuatController();
     virtual ~plQuatController();
+
+    DECLARE_CREATABLE(plQuatController)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -83,6 +93,8 @@ public:
     plScalarController();
     virtual ~plScalarController();
 
+    DECLARE_CREATABLE(plScalarController)
+
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
@@ -95,6 +107,8 @@ protected:
 public:
     plScaleValueController();
     virtual ~plScaleValueController();
+
+    DECLARE_CREATABLE(plScaleValueController)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

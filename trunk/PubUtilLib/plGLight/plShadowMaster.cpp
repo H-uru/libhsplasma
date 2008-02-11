@@ -4,8 +4,8 @@
 plShadowMaster::plShadowMaster()
               : fAttenDist(0.0f), fMaxDist(0.0f), fMinDist(0.0f), fPower(0.0f),
                 fMaxSize(0), fMinSize(0), fLightInfo(NULL) {
-    Props.setName(kDisable, "kDisable");
-    Props.setName(kSelfShadow, "kSelfShadow");
+    fProps.setName(kDisable, "kDisable");
+    fProps.setName(kSelfShadow, "kSelfShadow");
 }
 
 plShadowMaster::~plShadowMaster() {

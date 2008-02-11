@@ -1,10 +1,10 @@
 #include "plVisRegion.h"
 
 plVisRegion::plVisRegion() : fIndex(-1) {
-    Props.setName(kDisable, "kDisable");
-    Props.setName(kIsNot, "kIsNot");
-    Props.setName(kReplaceNormal, "kReplaceNormal");
-    Props.setName(kDisableNormal, "kDisableNormal");
+    fProps.setName(kDisable, "kDisable");
+    fProps.setName(kIsNot, "kIsNot");
+    fProps.setName(kReplaceNormal, "kReplaceNormal");
+    fProps.setName(kDisableNormal, "kDisableNormal");
 }
 
 plVisRegion::~plVisRegion() { }

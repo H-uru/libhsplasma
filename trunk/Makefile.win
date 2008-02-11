@@ -157,6 +157,8 @@ OBJFILES=\
 	$(LIBDIR)plGBufferGroup.o \
 	$(LIBDIR)plRenderTarget.o \
 	$(LIBDIR)plVertCoder.o \
+	$(LIBDIR)plCullPoly.o \
+	$(LIBDIR)plOccluder.o \
 	$(LIBDIR)plPostEffectMod.o \
 	$(LIBDIR)plRelevanceRegion.o \
 	$(LIBDIR)plSceneNode.o \
@@ -678,6 +680,12 @@ $(LIBDIR)plPageInfo.o: PubUtilLib/plResMgr/plPageInfo.h PubUtilLib/plResMgr/plPa
 
 $(LIBDIR)plResManager.o: PubUtilLib/plResMgr/plResManager.h PubUtilLib/plResMgr/plResManager.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plResMgr/plResManager.cpp -o $(LIBDIR)plResManager.o
+
+$(LIBDIR)plCullPoly.o: PubUtilLib/plScene/plCullPoly.h PubUtilLib/plScene/plCullPoly.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plCullPoly.cpp -o $(LIBDIR)plCullPoly.o
+
+$(LIBDIR)plOccluder.o: PubUtilLib/plScene/plOccluder.h PubUtilLib/plScene/plOccluder.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plOccluder.cpp -o $(LIBDIR)plOccluder.o
 
 $(LIBDIR)plPostEffectMod.o: PubUtilLib/plScene/plPostEffectMod.h PubUtilLib/plScene/plPostEffectMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plPostEffectMod.cpp -o $(LIBDIR)plPostEffectMod.o

@@ -35,14 +35,12 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
 
     size_t i, j, count, count2;
     
-    count = S->readInt();
-    materials.setSize(count);
-    for (i=0; i<count; i++)
+    materials.setSize(S->readInt());
+    for (i=0; i<materials.getSize(); i++)
         materials[i] = mgr->readKey(S);
 
-    count = S->readInt();
-    icicles.setSize(count);
-    for (i=0; i<count; i++) {
+    icicles.setSize(S->readInt());
+    for (i=0; i<icicles.getSize(); i++) {
         icicles[i].read(S);
         if (icicles[i].getNumMatrices() != 0)
             gotSkin = true;

@@ -54,14 +54,15 @@ void plPythonParameter::write(hsStream* S, plResManager* mgr) {
     S->writeInt(ID);
     S->writeInt(MappedToPlasma(valueType, S->getVer()));
 
-    int lb = 0, size = 0;
     switch (valueType) {
     case kInt:
         S->writeInt(intValue);
         return;
     case kBoolean:
-        if (boolValue) lb = 1;
-        S->writeInt(lb);
+        if (boolValue)
+            S->writeInt(1);
+        else
+            S->writeInt(0);
         return;
     case kFloat:
         S->writeFloat(floatValue);
@@ -70,9 +71,9 @@ void plPythonParameter::write(hsStream* S, plResManager* mgr) {
     case kAnimationName:
     case kGlobalSDLVar:
     case kSubtitle:
-        size = strlen(strValue);
-        S->writeInt(size);
-        S->write(size, strValue);
+        S->writeInt(strValue.len() + 1);
+        S->write(strValue.len(), strValue);
+        S->writeByte(0);
         return;
     case kNone:
         return;

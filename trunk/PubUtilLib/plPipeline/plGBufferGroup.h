@@ -77,14 +77,15 @@ protected:
     bool vertsVolatile, idxVolatile;
     int LOD;
     hsTArray<hsGDeviceRef*> fVertexBufferRefs, fIndexBufferRefs;
-    hsTArray<unsigned int> fVertBuffSizes, fIdxBuffCounts, fColorBuffCounts;
+    hsTArray<unsigned int> fVertBuffSizes, fIdxBuffCounts;
     hsTArray<unsigned char*> fVertBuffStorage;
     hsTArray<unsigned short*> fIdxBuffStorage;
     hsTArray<unsigned int> fVertBuffStarts;
     hsTArray<int> fVertBuffEnds;
     hsTArray<unsigned int> fIdxBuffStarts;
     hsTArray<int> fIdxBuffEnds;
-    hsTArray<plGBufferColor*> fColorBuffStorage;
+    //hsTArray<unsigned int> fColorBuffCounts;
+    //hsTArray<plGBufferColor*> fColorBuffStorage;
     hsTArray<hsTArray<plGBufferCell>*> fCells;
 
     unsigned char ICalcVertexSize(unsigned char& lStride);

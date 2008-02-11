@@ -1,17 +1,17 @@
 #include "plLightInfo.h"
 
 plLightInfo::plLightInfo() : deviceRef(NULL) {
-    Props.setName(kDisable, "kDisable");
-    Props.setName(kLPObsolete, "kLPObsolete");
-    Props.setName(kLPCastShadows, "kLPCastShadows");
-    Props.setName(kLPMovable, "kLPMovable");
-    Props.setName(kLPHasIncludes, "kLPHasIncludes");
-    Props.setName(kLPIncludesChars, "kLPIncludesChars");
-    Props.setName(kLPOverAll, "kLPOverAll");
-    Props.setName(kLPHasSpecular, "kLPHasSpecular");
-    Props.setName(kLPShadowOnly, "kLPShadowOnly");
-    Props.setName(kLPShadowLightGroup, "kLPShadowLightGroup");
-    Props.setName(kLPForceProj, "kLPForceProj");
+    fProps.setName(kDisable, "kDisable");
+    fProps.setName(kLPObsolete, "kLPObsolete");
+    fProps.setName(kLPCastShadows, "kLPCastShadows");
+    fProps.setName(kLPMovable, "kLPMovable");
+    fProps.setName(kLPHasIncludes, "kLPHasIncludes");
+    fProps.setName(kLPIncludesChars, "kLPIncludesChars");
+    fProps.setName(kLPOverAll, "kLPOverAll");
+    fProps.setName(kLPHasSpecular, "kLPHasSpecular");
+    fProps.setName(kLPShadowOnly, "kLPShadowOnly");
+    fProps.setName(kLPShadowLightGroup, "kLPShadowLightGroup");
+    fProps.setName(kLPForceProj, "kLPForceProj");
 }
 
 plLightInfo::~plLightInfo() { }

@@ -26,6 +26,7 @@ void plAnimPath::read(hsStream* S, plResManager* mgr) {
     if (S->getVer() == pvPrime || S->getVer() == pvPots) {
         fTMController = new plTMController();
         fTMController->read(S, mgr);
+        fController = NULL;
     } else {
         fController = plCompoundController::Convert(mgr->ReadCreatable(S));
         fTMController = NULL;
@@ -44,15 +45,15 @@ void plAnimPath::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fAnimPathFlags);
 
     if (S->getVer() == pvPrime || S->getVer() == pvPots) {
-        if (fController != NULL)
-            mgr->WriteCreatable(S, fController);
-        else
-            mgr->WriteCreatable(S, fTMController->convertToCompoundController());
-    } else {
         if (fTMController != NULL)
             fTMController->write(S, mgr);
         else
             fController->convertToTMController()->write(S, mgr);
+    } else {
+        if (fController != NULL)
+            mgr->WriteCreatable(S, fController);
+        else
+            mgr->WriteCreatable(S, fTMController->convertToCompoundController());
     }
 
     fParts.write(S);

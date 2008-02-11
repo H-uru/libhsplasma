@@ -1,30 +1,33 @@
 #include "plObjInterface.h"
 
-plObjInterface::plObjInterface() { }
+plObjInterface::plObjInterface() {
+    fProps.setName(kDisable, "kDisable");
+}
+
 plObjInterface::~plObjInterface() { }
 
 IMPLEMENT_CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
 
 void plObjInterface::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
-    Owner = mgr->readKey(S);
-    Props.read(S);
+    fOwner = mgr->readKey(S);
+    fProps.read(S);
 }
 
 void plObjInterface::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
-    mgr->writeKey(S, Owner);
-    Props.write(S);
+    mgr->writeKey(S, fOwner);
+    fProps.write(S);
 }
 
 void plObjInterface::prcWrite(pfPrcHelper* prc) {
     plSynchedObject::prcWrite(prc);
 
     prc->writeSimpleTag("Owner");
-    Owner->prcWrite(prc);
+    fOwner->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Props");
-    Props.prcWrite(prc);
+    fProps.prcWrite(prc);
     prc->closeTag();
 }

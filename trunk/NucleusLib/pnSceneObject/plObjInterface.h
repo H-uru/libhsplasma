@@ -7,8 +7,11 @@
 
 DllClass plObjInterface : public plSynchedObject {
 public:
-    plKey Owner;
-    hsBitVector Props;
+    enum { kDisable };
+
+protected:
+    plKey fOwner;
+    hsBitVector fProps;
 
 public:
     plObjInterface();
