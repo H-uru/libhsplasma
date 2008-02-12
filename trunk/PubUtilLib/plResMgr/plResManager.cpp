@@ -124,7 +124,7 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
     plPageInfo* page = new plPageInfo;
     page->read(S);
     pages.push_back(page);
-    setVer(S->getVer());
+    setVer(S->getVer(), true);
 
     S->seek(page->getIndexStart());
     ReadKeyring(S, page->getLocation());

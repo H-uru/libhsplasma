@@ -45,15 +45,21 @@ void plAnimPath::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fAnimPathFlags);
 
     if (S->getVer() == pvPrime || S->getVer() == pvPots) {
-        if (fTMController != NULL)
-            fTMController->write(S, mgr);
-        else
-            fController->convertToTMController()->write(S, mgr);
+        plTMController* controller = fTMController;
+        if (controller == NULL && fController != NULL)
+            controller = fController->convertToTMController();
+        if (controller == NULL) {
+            controller = new plTMController();
+            controller->write(S, mgr);
+            delete controller;
+        } else {
+            controller->write(S, mgr);
+        }
     } else {
-        if (fController != NULL)
-            mgr->WriteCreatable(S, fController);
-        else
-            mgr->WriteCreatable(S, fTMController->convertToCompoundController());
+        plCompoundController* controller = fController;
+        if (controller == NULL && fTMController != NULL)
+            controller = fTMController->convertToCompoundController();
+        mgr->WriteCreatable(S, controller);
     }
 
     fParts.write(S);
