@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
             plEncryptedStream SF;
             if (haveKey) SF.setKey(uruKey);
             try {
-                if (!plEncryptedStream::isFileEncrypted(argv[i])) {
+                if (!plEncryptedStream::IsFileEncrypted(argv[i])) {
                     if (verbosity >= 0)
                         printf("File %s not encrypted -- skipping!\n",
                                argv[i]);
@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
         } else {
             hsFileStream SF;
             try {
-                if (plEncryptedStream::isFileEncrypted(argv[i])) {
+                if (plEncryptedStream::IsFileEncrypted(argv[i])) {
                     if (verbosity >= 0)
                         printf("File %s already encrypted -- skipping!\n",
                                argv[i]);

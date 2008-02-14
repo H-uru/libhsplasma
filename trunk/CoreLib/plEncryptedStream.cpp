@@ -110,7 +110,7 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
     }
 }
 
-bool plEncryptedStream::isFileEncrypted(const char* file) {
+bool plEncryptedStream::IsFileEncrypted(const char* file) {
     FILE* tF = fopen(file, "rb");
     if (tF == NULL) return false;
     fseek(tF, 0, SEEK_END);

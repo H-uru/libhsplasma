@@ -10,6 +10,7 @@ OBJFILES=\
 	$(LIBDIR)hsStdioStream.o \
 	$(LIBDIR)plEncryptedStream.o \
 	$(LIBDIR)hsElfStream.o \
+	$(LIBDIR)hsTokenStream.o \
 	$(LIBDIR)plDebug.o \
 	$(LIBDIR)plAgeInfo.o \
 	$(LIBDIR)plKeyCollector.o \
@@ -163,6 +164,8 @@ OBJFILES=\
 	$(LIBDIR)plRelevanceRegion.o \
 	$(LIBDIR)plSceneNode.o \
 	$(LIBDIR)plVisRegion.o \
+	$(LIBDIR)plSDLMgr.o \
+	$(LIBDIR)plStateDescriptor.o \
 	$(LIBDIR)hsGMaterial.o \
 	$(LIBDIR)plLayerInterface.o \
 	$(LIBDIR)plLayer.o \
@@ -244,6 +247,9 @@ $(LIBDIR)plEncryptedStream.o: CoreLib/plEncryptedStream.h CoreLib/plEncryptedStr
 
 $(LIBDIR)hsElfStream.o: CoreLib/hsElfStream.h CoreLib/hsElfStream.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/hsElfStream.cpp -o $(LIBDIR)hsElfStream.o
+
+$(LIBDIR)hsTokenStream.o: CoreLib/hsTokenStream.h CoreLib/hsTokenStream.cpp
+	$(CXX) $(CXXFLAGS) -c CoreLib/hsTokenStream.cpp -o $(LIBDIR)hsTokenStream.o
 
 $(LIBDIR)plDebug.o: CoreLib/plDebug.h CoreLib/plDebug.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/plDebug.cpp -o $(LIBDIR)plDebug.o
@@ -703,6 +709,12 @@ $(LIBDIR)plSceneNode.o: PubUtilLib/plScene/plSceneNode.h PubUtilLib/plScene/plSc
 
 $(LIBDIR)plVisRegion.o: PubUtilLib/plScene/plVisRegion.h PubUtilLib/plScene/plVisRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plScene/plVisRegion.cpp -o $(LIBDIR)plVisRegion.o
+
+$(LIBDIR)plSDLMgr.o: PubUtilLib/plSDL/plSDLMgr.h PubUtilLib/plSDL/plSDLMgr.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plSDL/plSDLMgr.cpp -o $(LIBDIR)plSDLMgr.o
+
+$(LIBDIR)plStateDescriptor.o: PubUtilLib/plSDL/plStateDescriptor.h PubUtilLib/plSDL/plStateDescriptor.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plSDL/plStateDescriptor.cpp -o $(LIBDIR)plStateDescriptor.o
 
 $(LIBDIR)hsGMaterial.o: PubUtilLib/plSurface/hsGMaterial.h PubUtilLib/plSurface/hsGMaterial.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plSurface/hsGMaterial.cpp -o $(LIBDIR)hsGMaterial.o

@@ -113,6 +113,9 @@ public:
         pos->item = item;
     }
 
+    T& top() { return first->item; }
+    T& bottom() { return last->item; }
+
     T& operator[](size_t idx) { return get(idx); }
 
     // For linear iteration:

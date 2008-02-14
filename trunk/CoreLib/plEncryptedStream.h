@@ -41,7 +41,7 @@ public:
     virtual void read(size_t size, void* buf);
     virtual void write(size_t size, const void* buf);
 
-    static bool isFileEncrypted(const char* file);
+    static bool IsFileEncrypted(const char* file);
 };
 
 #endif
