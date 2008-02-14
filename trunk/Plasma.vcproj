@@ -511,6 +511,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CoreLib\hsTokenStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\hsTokenStream.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CoreLib\plDebug.cpp"
 				>
 			</File>
@@ -2576,6 +2584,26 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plIntersect\plVolumeIsect.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="plSDL"
+				>
+				<File
+					RelativePath=".\PubUtilLib\plSDL\plSDLMgr.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSDL\plSDLMgr.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSDL\plStateDescriptor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSDL\plStateDescriptor.h"
 					>
 				</File>
 			</Filter>

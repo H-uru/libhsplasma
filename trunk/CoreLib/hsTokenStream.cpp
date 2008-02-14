@@ -73,6 +73,15 @@ void hsTokenStream::getLine() {
             while (beg < line.len() && getCharType(line[beg]) == kCharNone)
                 beg++;
         }
+        for (size_t i=0; i<fStringMarkers.getSize(); i++) {
+            if (line.mid(beg).startsWith(fStringMarkers[i])) {
+                long strEnd = line.mid(beg + fStringMarkers[i].len()).find(fStringMarkers[i]);
+                if (strEnd == -1)
+                    throw hsBadParamException(__FILE__, __LINE__);
+                fLineTokens.rpush(line.mid(beg, strEnd + fStringMarkers[i].len() + 1));
+                beg += strEnd + fStringMarkers[i].len() + 1;
+            }
+        }
         for (size_t i=0; i<fCommentMarkers.getSize(); i++) {
             if (fInComment == -1 && line.mid(beg).startsWith(fCommentMarkers[i].fStart)) {
                 fInComment = i;
