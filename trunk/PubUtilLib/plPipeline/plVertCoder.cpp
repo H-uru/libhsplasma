@@ -103,7 +103,7 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
     }
     *(float*)dest = fFloats[chan][field].fOffset;
     if (!fFloats[chan][field].fAllSame)
-        *(float*)dest += ((hsInt16)S->readShort() / FieldScales[field]);
+        *(float*)dest += ((hsUint16)S->readShort() / FieldScales[field]);
     dest += sizeof(float);
     fFloats[chan][field].fCount--;
 }
@@ -182,6 +182,7 @@ void plVertCoder::IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
 }
 
 #define FloatToShort(x) (hsInt16)(signed short)(x)
+#define FloatToUShort(x) (hsUint16)(unsigned short)(x)
 #define FloatToByte(x) (hsUbyte)(unsigned char)(x)
 
 void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
@@ -201,7 +202,7 @@ void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
     if (S->getVer() != pvLive || (!fFloats[chan][field].fAllSame)) {
         float flt = *(float*)src;
         flt = (flt - fFloats[chan][field].fOffset) * FieldScales[field];
-        S->writeShort((signed short)(flt + 0.5f));
+        S->writeShort((unsigned short)(flt + 0.5f));
     }
     src += sizeof(float);
     fFloats[chan][field].fCount--;
@@ -274,7 +275,7 @@ void plVertCoder::ICountFloats(unsigned int vertsLeft, const unsigned char* src,
     float hi = lo;
     allSame = false;
     count = 1;
-    float maxRange = 32767.0f / quant;
+    float maxRange = 65535.0f / quant;
 
     src += stride;
     while (--vertsLeft > 0) {

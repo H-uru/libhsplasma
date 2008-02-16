@@ -77,6 +77,8 @@ public:
     explicit hsFileStream(PlasmaVer pv = pvUnknown);
     virtual ~hsFileStream();
 
+    static bool FileExists(const char* file);
+
     virtual bool open(const char* file, FileMode mode);
     virtual void close();
 

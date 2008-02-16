@@ -47,19 +47,19 @@ void plEncryptedStream::TeaEncipher(unsigned int* buf) {
     buf[0] = first;
 }
 
-void plEncryptedStream::AesDecipher(char* buffer, int count) {
+void plEncryptedStream::AesDecipher(unsigned char* buffer, int count) {
     Rijndael aes;
     aes.init(Rijndael::ECB, Rijndael::Decrypt, eoaKey, Rijndael::Key16Bytes);
-    char* tmpBuf = new char[count];
+    unsigned char* tmpBuf = new unsigned char[count];
     memcpy(tmpBuf, buffer, count);
     aes.blockDecrypt((UINT8*)tmpBuf, count*8, (UINT8*)buffer);
     delete[] tmpBuf;
 }
 
-void plEncryptedStream::AesEncipher(char* buffer, int count) {
+void plEncryptedStream::AesEncipher(unsigned char* buffer, int count) {
     Rijndael aes;
     aes.init(Rijndael::ECB, Rijndael::Encrypt, eoaKey, Rijndael::Key16Bytes);
-    char* tmpBuf = new char[count];
+    unsigned char* tmpBuf = new unsigned char[count];
     memcpy(tmpBuf, buffer, count);
     aes.blockEncrypt((UINT8*)tmpBuf, count*8, (UINT8*)buffer);
     delete[] tmpBuf;
@@ -218,7 +218,7 @@ void plEncryptedStream::seek(hsUint32 pos) {
 }
 
 void plEncryptedStream::skip(hsUint32 count) {
-    char* ignore = new char[count];
+    unsigned char* ignore = new unsigned char[count];
     read(count, ignore);
     delete[] ignore;
 }
@@ -249,12 +249,12 @@ void plEncryptedStream::read(size_t size, void* buf) {
             }
         }
         if (lp + (size - bp) >= szInc) {
-            memcpy(((char*)buf)+bp, LBuffer+lp, szInc - lp);
+            memcpy(((unsigned char*)buf)+bp, LBuffer+lp, szInc - lp);
             bp += szInc - lp;
             pp += szInc - lp;
             lp = 0;
         } else {
-            memcpy(((char*)buf)+bp, LBuffer+lp, size - bp);
+            memcpy(((unsigned char*)buf)+bp, LBuffer+lp, size - bp);
             bp = size; // end loop
         }
     }
@@ -267,12 +267,12 @@ void plEncryptedStream::write(size_t size, const void* buf) {
     size_t pp = dataPos, bp = 0, lp = dataPos % szInc;
     while (bp < size) {
         if (lp + (size - bp) >= szInc) {
-            memcpy(LBuffer+lp, ((char*)buf)+bp, szInc - lp);
+            memcpy(LBuffer+lp, ((unsigned char*)buf)+bp, szInc - lp);
             bp += szInc - lp;
             pp += szInc - lp;
             lp = 0;
         } else {
-            memcpy(LBuffer+lp, ((char*)buf)+bp, size - bp);
+            memcpy(LBuffer+lp, ((unsigned char*)buf)+bp, size - bp);
             bp = size; // end loop
         }
         if (lp == 0) {

@@ -11,7 +11,7 @@
  * isValid() function on returned plStateDescriptor objects.
  */
 
-DllClass plStateVariable {
+DllClass plVarDescriptor {
 public:
     enum Type {
         kNone = 0xFF,
@@ -37,8 +37,8 @@ protected:
     plString fStateDescType;
 
 public:
-    plStateVariable();
-    ~plStateVariable();
+    plVarDescriptor();
+    ~plVarDescriptor();
 
     const plString& getName() const;
     const plString& getDefault() const;
@@ -66,7 +66,7 @@ DllClass plStateDescriptor {
 protected:
     plString fName;
     int fVersion;
-    hsTArray<plStateVariable*> fVariables;
+    hsTArray<plVarDescriptor*> fVariables;
 
 public:
     plStateDescriptor();
@@ -79,13 +79,13 @@ public:
     void setName(const plString& name);
     void setVersion(int ver);
 
-    plStateVariable* get(size_t idx);
-    plStateVariable* get(const plString& name);
-    void set(size_t idx, plStateVariable* var);
-    void set(const plString& name, plStateVariable* var);
+    plVarDescriptor* get(size_t idx);
+    plVarDescriptor* get(const plString& name);
+    void set(size_t idx, plVarDescriptor* var);
+    void set(const plString& name, plVarDescriptor* var);
 
     size_t getNumVariables() const;
-    void addVariable(plStateVariable* var);
+    void addVariable(plVarDescriptor* var);
     void delVariable(size_t idx);
     void delVariable(const plString& name);
 };

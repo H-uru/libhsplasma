@@ -257,6 +257,14 @@ hsFileStream::~hsFileStream() {
     close();
 }
 
+bool hsFileStream::FileExists(const char* file) {
+    FILE* eFile = fopen(file, "rb");
+    bool exist = (eFile != NULL);
+    if (exist)
+        fclose(eFile);
+    return exist;
+}
+
 bool hsFileStream::open(const char* file, FileMode mode) {
     const char* fms;
     switch (mode) {
@@ -280,6 +288,8 @@ bool hsFileStream::open(const char* file, FileMode mode) {
     if (F != NULL) {
         fm = mode;
         return true;
+    } else if (fm == fmRead || fm == fmReadWrite) {
+        throw hsFileReadException(__FILE__, __LINE__, "File does not exist");
     }
     return false;
 }
@@ -325,13 +335,13 @@ void hsFileStream::rewind() {
 
 void hsFileStream::read(size_t size, void* buf) {
     if (fm == fmWrite)
-        throw hsBadParamException(__FILE__, __LINE__);
+        throw hsFileReadException(__FILE__, __LINE__);
     fread(buf, size, 1, F);
 }
 
 void hsFileStream::write(size_t size, const void* buf) {
     if (fm == fmRead)
-        throw hsBadParamException(__FILE__, __LINE__);
+        throw hsFileWriteException(__FILE__, __LINE__);
     fwrite(buf, size, 1, F);
 }
 

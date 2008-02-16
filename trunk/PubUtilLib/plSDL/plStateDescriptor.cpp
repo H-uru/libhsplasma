@@ -1,50 +1,50 @@
 #include "plStateDescriptor.h"
 
-/* plStateVariable */
-plStateVariable::plStateVariable()
+/* plVarDescriptor */
+plVarDescriptor::plVarDescriptor()
                : fCount(0), fType(kNone), fFlags(0) { }
 
-plStateVariable::~plStateVariable() { }
+plVarDescriptor::~plVarDescriptor() { }
 
-const plString& plStateVariable::getName() const { return fName; }
-const plString& plStateVariable::getDefault() const { return fDefault; }
-size_t plStateVariable::getCount() const { return fCount; }
-plStateVariable::Type plStateVariable::getType() const { return fType; }
-const plString& plStateVariable::getStateDescType() const { return fStateDescType; }
+const plString& plVarDescriptor::getName() const { return fName; }
+const plString& plVarDescriptor::getDefault() const { return fDefault; }
+size_t plVarDescriptor::getCount() const { return fCount; }
+plVarDescriptor::Type plVarDescriptor::getType() const { return fType; }
+const plString& plVarDescriptor::getStateDescType() const { return fStateDescType; }
 
-bool plStateVariable::isInternal() const { return fFlags & kInternal; }
-bool plStateVariable::isAlwaysNew() const { return fFlags & kAlwaysNew; }
-bool plStateVariable::isVariableLength() const { return fFlags & kVariableLength; }
-bool plStateVariable::isValid() const { return fType != kNone; }
+bool plVarDescriptor::isInternal() const { return fFlags & kInternal; }
+bool plVarDescriptor::isAlwaysNew() const { return fFlags & kAlwaysNew; }
+bool plVarDescriptor::isVariableLength() const { return fFlags & kVariableLength; }
+bool plVarDescriptor::isValid() const { return fType != kNone; }
 
-void plStateVariable::setName(const plString& name) { fName = name; }
-void plStateVariable::setDefault(const plString& def) { fDefault = def; }
-void plStateVariable::setCount(size_t count) { fCount = count; }
-void plStateVariable::setType(plStateVariable::Type type) { fType = type; }
-void plStateVariable::setStateDescType(const plString& type) { fStateDescType = type; }
+void plVarDescriptor::setName(const plString& name) { fName = name; }
+void plVarDescriptor::setDefault(const plString& def) { fDefault = def; }
+void plVarDescriptor::setCount(size_t count) { fCount = count; }
+void plVarDescriptor::setType(plVarDescriptor::Type type) { fType = type; }
+void plVarDescriptor::setStateDescType(const plString& type) { fStateDescType = type; }
 
-void plStateVariable::setInternal(bool internal) {
+void plVarDescriptor::setInternal(bool internal) {
     if (internal)
         fFlags |= kInternal;
     else
         fFlags &= ~kInternal;
 }
 
-void plStateVariable::setAlwaysNew(bool alwaysNew) {
+void plVarDescriptor::setAlwaysNew(bool alwaysNew) {
     if (alwaysNew)
         fFlags |= kAlwaysNew;
     else
         fFlags &= ~kAlwaysNew;
 }
 
-void plStateVariable::setVariableLength(bool varLength) {
+void plVarDescriptor::setVariableLength(bool varLength) {
     if (varLength)
         fFlags |= kVariableLength;
     else
         fFlags &= ~kVariableLength;
 }
 
-plStateVariable::Type plStateVariable::GetTypeFromString(const plString& type, bool isEoa) {
+plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, bool isEoa) {
     plString itype = type;
     itype.toLower();
     if (isEoa) {
@@ -149,28 +149,28 @@ bool plStateDescriptor::isValid() const { return fVersion != -1; }
 void plStateDescriptor::setName(const plString& name) { fName = name; }
 void plStateDescriptor::setVersion(int ver) { fVersion = ver; }
 
-plStateVariable* plStateDescriptor::get(size_t idx) {
+plVarDescriptor* plStateDescriptor::get(size_t idx) {
     return fVariables[idx];
 }
 
-plStateVariable* plStateDescriptor::get(const plString& name) {
+plVarDescriptor* plStateDescriptor::get(const plString& name) {
     for (size_t i=0; i<fVariables.getSize(); i++)
         if (fVariables[i]->getName() == name)
             return fVariables[i];
     return NULL;
 }
 
-void plStateDescriptor::set(size_t idx, plStateVariable* var) {
+void plStateDescriptor::set(size_t idx, plVarDescriptor* var) {
     fVariables[idx] = var;
 }
 
-void plStateDescriptor::set(const plString& name, plStateVariable* var) {
+void plStateDescriptor::set(const plString& name, plVarDescriptor* var) {
     size_t idx = (size_t)-1;
     for (size_t i=0; i<fVariables.getSize(); i++)
         if (fVariables[i]->getName() == name)
             idx = i;
     if (idx == (size_t)-1) {
-        fVariables.append(new plStateVariable());
+        fVariables.append(new plVarDescriptor());
         idx = fVariables.getSize() - 1;
     }
     fVariables[idx] = var;
@@ -180,7 +180,7 @@ size_t plStateDescriptor::getNumVariables() const {
     return fVariables.getSize();
 }
 
-void plStateDescriptor::addVariable(plStateVariable* var) {
+void plStateDescriptor::addVariable(plVarDescriptor* var) {
     fVariables.append(var);
 }
 

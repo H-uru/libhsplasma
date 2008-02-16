@@ -33,7 +33,7 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
     
     ParseState state = kFile;
     plStateDescriptor* curDesc = NULL;
-    plStateVariable* curVar = NULL;
+    plVarDescriptor* curVar = NULL;
     bool reexamine = false;
     plString tok;
     while (reexamine || tokStream->hasNext()) {
@@ -74,13 +74,13 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
             }
         } else if (state == kUruStateDesc) {
             if (tok == "VAR") {
-                curVar = new plStateVariable();
+                curVar = new plVarDescriptor();
                 plString typeStr = tokStream->next();
-                plStateVariable::Type varType = plStateVariable::GetTypeFromString(typeStr, false);
+                plVarDescriptor::Type varType = plVarDescriptor::GetTypeFromString(typeStr, false);
                 curVar->setType(varType);
-                if (varType == plStateVariable::kStateDescriptor)
+                if (varType == plVarDescriptor::kStateDescriptor)
                     curVar->setStateDescType(typeStr.mid(1));
-                if (varType == plStateVariable::kNone || (varType == plStateVariable::kStateDescriptor && typeStr.len() < 2)) {
+                if (varType == plVarDescriptor::kNone || (varType == plVarDescriptor::kStateDescriptor && typeStr.len() < 2)) {
                     delete curVar;
                     delete curDesc;
                     delete tokStream;
@@ -215,10 +215,10 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
                 curDesc = NULL;
                 state = kFile;
             } else {
-                curVar = new plStateVariable();
-                plStateVariable::Type varType = plStateVariable::GetTypeFromString(tok, true);
+                curVar = new plVarDescriptor();
+                plVarDescriptor::Type varType = plVarDescriptor::GetTypeFromString(tok, true);
                 curVar->setType(varType);
-                if (varType == plStateVariable::kStateDescriptor)
+                if (varType == plVarDescriptor::kStateDescriptor)
                     curVar->setStateDescType(tok);
                 curVar->setName(tokStream->next());
                 if (tokStream->peekNext() == "[") {

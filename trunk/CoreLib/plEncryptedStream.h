@@ -8,7 +8,7 @@ public:
     enum EncryptionType { kEncAuto, kEncXtea, kEncAES, kEncDroid };
 
 private:
-    char LBuffer[16]; // Uru modes use only the first 8 bytes
+    unsigned char LBuffer[16]; // Uru modes use only the first 8 bytes
     size_t dataSize, dataPos;
     unsigned int eKey[4];
     EncryptionType eType;
@@ -16,8 +16,8 @@ private:
 protected:
     void TeaDecipher(unsigned int* buf);
     void TeaEncipher(unsigned int* buf);
-    void AesDecipher(char* buffer, int count);
-    void AesEncipher(char* buffer, int count);
+    void AesDecipher(unsigned char* buffer, int count);
+    void AesEncipher(unsigned char* buffer, int count);
     void DroidDecipher(unsigned int* buf, unsigned int num);
     void DroidEncipher(unsigned int* buf, unsigned int num);
 
