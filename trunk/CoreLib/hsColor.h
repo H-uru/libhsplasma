@@ -23,6 +23,8 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
+    void readRGB(hsStream* S);
+    void writeRGB(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
 };
 
@@ -33,8 +35,12 @@ public:
         unsigned int color;
     };
 
-    void read(hsStream* S);
-    void write(hsStream* S);
+    void read32(hsStream* S);
+    void write32(hsStream* S);
+    void readRGB8(hsStream* S);
+    void writeRGB8(hsStream* S);
+    void readRGBA8(hsStream* S);
+    void writeRGBA8(hsStream*S );
     void prcWrite(pfPrcHelper* prc);
 };
 

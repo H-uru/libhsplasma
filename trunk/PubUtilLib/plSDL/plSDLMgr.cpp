@@ -27,8 +27,8 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
     commentMarkers.append(hsTokenStream::Region("//", "\n"));
     commentMarkers.append(hsTokenStream::Region("/*", "*/"));
     tokStream->setCommentMarkers(commentMarkers);
-    hsTArray<plString> stringMarkers;
-    stringMarkers.append("\"");
+    hsTArray<hsTokenStream::Region> stringMarkers;
+    stringMarkers.append(hsTokenStream::Region("\"", "\""));
     tokStream->setStringMarkers(stringMarkers);
     
     ParseState state = kFile;
@@ -95,6 +95,8 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
                     if (tok != "]") {
                         curVar->setCount(tok.toUint());
                         tok = tokStream->next();
+                    } else {
+                        curVar->setVariableLength(true);
                     }
                     if (tok != "]") {
                         delete curVar;
@@ -227,6 +229,8 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
                     if (tok != "]") {
                         curVar->setCount(tok.toUint());
                         tok = tokStream->next();
+                    } else {
+                        curVar->setVariableLength(true);
                     }
                     if (tok != "]") {
                         delete curVar;

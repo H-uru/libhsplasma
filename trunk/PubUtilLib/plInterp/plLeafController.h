@@ -5,7 +5,7 @@
 
 DllClass plLeafController : public plController {
 protected:
-    unsigned int fType;
+    unsigned int fType, fUruUnknown;
     hsTArray<hsKeyFrame*> fKeys;
     hsTArray<class plEaseController*> fControllers;
     unsigned int fLastKeyIdx;

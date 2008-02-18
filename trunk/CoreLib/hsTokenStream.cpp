@@ -53,7 +53,7 @@ void hsTokenStream::setCommentMarkers(const hsTArray<Region>& comments) {
         fCommentMarkers[i] = comments[i];
 }
 
-void hsTokenStream::setStringMarkers(const hsTArray<plString>& strMarkers) {
+void hsTokenStream::setStringMarkers(const hsTArray<Region>& strMarkers) {
     fStringMarkers.setSize(strMarkers.getSize());
     for (size_t i=0; i<fStringMarkers.getSize(); i++)
         fStringMarkers[i] = strMarkers[i];
@@ -74,12 +74,13 @@ void hsTokenStream::getLine() {
                 beg++;
         }
         for (size_t i=0; i<fStringMarkers.getSize(); i++) {
-            if (line.mid(beg).startsWith(fStringMarkers[i])) {
-                long strEnd = line.mid(beg + fStringMarkers[i].len()).find(fStringMarkers[i]);
+            if (line.mid(beg).startsWith(fStringMarkers[i].fStart)) {
+                long strEnd = line.mid(beg + fStringMarkers[i].fStart.len()).find(fStringMarkers[i].fEnd);
                 if (strEnd == -1)
                     throw hsBadParamException(__FILE__, __LINE__);
-                fLineTokens.rpush(line.mid(beg, strEnd + fStringMarkers[i].len() + 1));
-                beg += strEnd + fStringMarkers[i].len() + 1;
+                unsigned long markerLen = fStringMarkers[i].fStart.len() + fStringMarkers[i].fEnd.len();
+                fLineTokens.rpush(line.mid(beg, strEnd + markerLen));
+                beg += strEnd + markerLen;
             }
         }
         for (size_t i=0; i<fCommentMarkers.getSize(); i++) {

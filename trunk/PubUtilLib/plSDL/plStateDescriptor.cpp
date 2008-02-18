@@ -176,7 +176,7 @@ void plStateDescriptor::set(const plString& name, plVarDescriptor* var) {
     fVariables[idx] = var;
 }
 
-size_t plStateDescriptor::getNumVariables() const {
+size_t plStateDescriptor::getNumVars() const {
     return fVariables.getSize();
 }
 

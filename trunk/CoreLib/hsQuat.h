@@ -4,8 +4,8 @@
 #include "hsGeometry3.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
 
-DllClass hsQuat {
-protected:
+DllStruct hsQuat {
+public:
     float fX, fY, fZ, fW;
 
 public:

@@ -13,6 +13,7 @@ struct hsKeyFrame {
         kCompressedQuatKeyFrame32, kCompressedQuatKeyFrame64, k3dsMaxKeyFrame,
         kMatrix33KeyFrame, kMatrix44KeyFrame
     };
+    static const char* TypeNames[];
 
     unsigned short fFrame;
     float fFrameTime;

@@ -23,7 +23,7 @@ protected:
     hsTList<plString> fLineTokens;
     hsTArray<char> fDelims;
     hsTArray<Region> fCommentMarkers;
-    hsTArray<plString> fStringMarkers;
+    hsTArray<Region> fStringMarkers;
     int fInComment;
 
 public:
@@ -37,7 +37,7 @@ public:
 
     void setDelimiters(const char* delims);
     void setCommentMarkers(const hsTArray<Region>& comments);
-    void setStringMarkers(const hsTArray<plString>& strMarkers);
+    void setStringMarkers(const hsTArray<Region>& strMarkers);
 
 protected:
     void getLine();

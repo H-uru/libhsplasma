@@ -1,6 +1,14 @@
 #include "hsKeys.h"
 
 /* hsKeyFrame */
+const char* hsKeyFrame::TypeNames[] = {
+    "kUnknownKeyFrame", "kPoint3KeyFrame", "kBezPoint3KeyFrame",
+    "kScalarKeyFrame", "kBezScalarKeyFrame", "kScaleKeyFrame",
+    "kBezScaleKeyFrame", "kQuatKeyFrame", "kCompressedQuatKeyFrame32",
+    "kCompressedQuatKeyFrame64", "k3dsMaxKeyFrame", "kMatrix33KeyFrame",
+    "kMatrix44KeyFrame"
+};
+
 hsKeyFrame::hsKeyFrame() { }
 hsKeyFrame::~hsKeyFrame() { }
 

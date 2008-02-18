@@ -581,6 +581,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CoreLib\plUnifiedTime.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\plUnifiedTime.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CoreLib\plViewTransform.h"
 				>
 			</File>
@@ -2591,6 +2599,14 @@
 				Name="plSDL"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plSDL\plSDL.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSDL\plSDL.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plSDL\plSDLMgr.cpp"
 					>
 				</File>
@@ -2599,11 +2615,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plSDL\plStateDataRecord.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSDL\plStateDataRecord.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plSDL\plStateDescriptor.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plSDL\plStateDescriptor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSDL\plStateVariable.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plSDL\plStateVariable.h"
 					>
 				</File>
 			</Filter>

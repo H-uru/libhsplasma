@@ -1,8 +1,7 @@
 #ifndef _PLSTATEDESCRIPTOR_H
 #define _PLSTATEDESCRIPTOR_H
 
-#include "CoreLib/plString.h"
-#include "CoreLib/hsTArray.hpp"
+#include "plSDL.h"
 
 /* Note: for plStateDescriptor::fVersion, -1 on a search from plSDLMgr means
  * "get the latest version", whereas -1 on a returned plStateDescritpor means
@@ -84,7 +83,7 @@ public:
     void set(size_t idx, plVarDescriptor* var);
     void set(const plString& name, plVarDescriptor* var);
 
-    size_t getNumVariables() const;
+    size_t getNumVars() const;
     void addVariable(plVarDescriptor* var);
     void delVariable(size_t idx);
     void delVariable(const plString& name);
