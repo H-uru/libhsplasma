@@ -51,7 +51,11 @@ plString plUUID::toString() const {
 }
 
 bool plUUID::isNull() const {
-    unsigned char nullData[16];
-    memset(nullData, 0, sizeof(nullData));
+    static unsigned char nullData[16];
+    static bool cmpInit = false;
+    if (!cmpInit) {
+        memset(nullData, 0, sizeof(nullData));
+        cmpInit = true;
+    }
     return memcmp(nullData, fData, sizeof(fData)) == 0;
 }

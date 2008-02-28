@@ -9,6 +9,7 @@ PLSCOREOBJ=\
 	$(OBJDIR)hsSemaphore.o \
 	$(OBJDIR)hsStream.o \
 	$(OBJDIR)hsStdioStream.o \
+	$(OBJDIR)hsRAMStream.o \
 	$(OBJDIR)plEncryptedStream.o \
 	$(OBJDIR)hsElfStream.o \
 	$(OBJDIR)hsTokenStream.o \
@@ -264,6 +265,9 @@ $(OBJDIR)hsStream.o: CoreLib/hsStream.h CoreLib/hsStream.cpp
 
 $(OBJDIR)hsStdioStream.o: CoreLib/hsStdioStream.h CoreLib/hsStdioStream.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/hsStdioStream.cpp -o $(OBJDIR)hsStdioStream.o
+
+$(OBJDIR)hsRAMStream.o: CoreLib/hsRAMStream.h CoreLib/hsRAMStream.cpp
+	$(CXX) $(CXXFLAGS) -c CoreLib/hsRAMStream.cpp -o $(OBJDIR)hsRAMStream.o
 
 $(OBJDIR)plEncryptedStream.o: CoreLib/plEncryptedStream.h CoreLib/plEncryptedStream.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/plEncryptedStream.cpp -o $(OBJDIR)plEncryptedStream.o

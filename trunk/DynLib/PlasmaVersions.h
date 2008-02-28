@@ -9,9 +9,6 @@
 #define PRP_URU 5
 #define PRP_EOA 6
 
-enum PlasmaVer { pvUnknown, pvPrime, pvPots, pvEoa, pvLive, pvHex };
-
-/* This will replace the old enum eventually:
 enum PlasmaVer {
     pvUnknown = 0,
     pvPrime = 0x02006311,
@@ -19,6 +16,6 @@ enum PlasmaVer {
     pvLive = 0x02007000,
     pvEoa = 0x02010000,
     pvHex = 0x03000000,
-}; */
+};
 
 #endif

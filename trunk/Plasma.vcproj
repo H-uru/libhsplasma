@@ -453,6 +453,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CoreLib\hsRAMStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CoreLib\hsRAMStream.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CoreLib\hsSemaphore.cpp"
 				>
 			</File>
