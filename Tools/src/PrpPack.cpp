@@ -165,7 +165,7 @@ int main(int argc, char** argv) {
                 S->readInt();
                 unsigned char b = S->readByte();
                 if (b != 0)
-                    printf("NOTICE: Type %04X got flag of %02X\n", type, b);
+                    printf("NOTICE: Type %04hX got flag of %02hhX\n", type, b);
             }
             unsigned int oCount = S->readInt();
             keys = new plKey[oCount];
@@ -176,7 +176,7 @@ int main(int argc, char** argv) {
             unsigned int pos = S->pos();
             for (j=0; j<oCount; j++) {
                 S->seek(keys[j]->getFileOff());
-                sprintf(strBuf, "%s[%04X]%s.po", getOutputDir(filename, page),
+                sprintf(strBuf, "%s[%04hX]%s.po", getOutputDir(filename, page),
                                 type, cleanFileName(keys[j]->getName()));
                 OS->open(strBuf, fmCreate);
                 void* objBuf = malloc(keys[j]->getObjSize());

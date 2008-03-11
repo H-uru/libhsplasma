@@ -100,7 +100,7 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
             v.fColor = *(unsigned int*)cp;
             cp += sizeof(unsigned int);
 
-            // Zero
+            // Zero (Color2?)
             cp += sizeof(unsigned int);
 
             for (size_t j=0; j<(format & kUVCountMask); j++) {

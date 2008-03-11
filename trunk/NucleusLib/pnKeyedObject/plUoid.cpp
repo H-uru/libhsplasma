@@ -154,7 +154,7 @@ void plUoid::prcWrite(pfPrcHelper* prc) {
 }
 
 plString plUoid::toString() const {
-    return plString::Format("%s[%04X]%s", location.toString().cstr(),
+    return plString::Format("%s[%04hX]%s", location.toString().cstr(),
                             classType, objName.cstr());
 }
 

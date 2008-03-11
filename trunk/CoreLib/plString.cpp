@@ -202,9 +202,7 @@ bool plString::operator<(const char* str) const {
 
 int plString::compareTo(const plString& other, bool ignoreCase) const {
     if (ignoreCase) {
-        plString s1 = *this;
-        plString s2 = other;
-        return strcmp(s1.toUpper().cstr(), s2.toUpper().cstr());
+        return strcasecmp(fStr, other.fStr);
     } else {
         return strcmp(fStr, other.fStr);
     }
@@ -212,9 +210,7 @@ int plString::compareTo(const plString& other, bool ignoreCase) const {
 
 int plString::compareTo(const char* other, bool ignoreCase) const {
     if (ignoreCase) {
-        plString s1 = *this;
-        plString s2 = other;
-        return strcmp(s1.toUpper().cstr(), s2.toUpper().cstr());
+        return strcasecmp(fStr, other);
     } else {
         return strcmp(fStr, other);
     }
@@ -628,9 +624,7 @@ bool plWString::operator<(const wchar_t* str) const {
 
 int plWString::compareTo(const plWString& other, bool ignoreCase) const {
     if (ignoreCase) {
-        plWString s1 = *this;
-        plWString s2 = other;
-        return wcscmp(s1.toUpper().cstr(), s2.toUpper().cstr());
+        return wcscasecmp(fStr, other.fStr);
     } else {
         return wcscmp(fStr, other.fStr);
     }
@@ -638,9 +632,7 @@ int plWString::compareTo(const plWString& other, bool ignoreCase) const {
 
 int plWString::compareTo(const wchar_t* other, bool ignoreCase) const {
     if (ignoreCase) {
-        plWString s1 = *this;
-        plWString s2 = other;
-        return wcscmp(s1.toUpper().cstr(), s2.toUpper().cstr());
+        return wcscasecmp(fStr, other);
     } else {
         return wcscmp(fStr, other);
     }

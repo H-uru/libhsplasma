@@ -1399,6 +1399,22 @@
 				Name="plDrawable"
 				>
 				<File
+					RelativePath=".\PubUtilLib\plDrawable\plCluster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plCluster.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plClusterGroup.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plClusterGroup.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plDrawable\plDrawableSpans.cpp"
 					>
 				</File>
@@ -1534,6 +1550,22 @@
 				</File>
 				<File
 					RelativePath="PubUtilLib\plDrawable\plSpan.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plSpanInstance.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plSpanInstance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plSpanTemplate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plDrawable\plSpanTemplate.h"
 					>
 				</File>
 				<File

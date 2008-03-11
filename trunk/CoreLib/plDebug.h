@@ -14,6 +14,7 @@ private:
 
 public:
     static void Init(int level = kDLWarning, hsStream* stream = NULL);
+    static void InitFile(int level = kDLWarning, const char* filename = "libPlasma.log");
 
     static void Error(const char* fmt, ...);
     static void Warning(const char* fmt, ...);

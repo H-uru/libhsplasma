@@ -14,7 +14,7 @@ void GetIdxStr(char* str, short idx) {
     if (idx == -1)
         snprintf(str, 5, "----");
     else
-        snprintf(str, 5, "%04X", idx);
+        snprintf(str, 5, "%04hX", idx);
 }
 
 void PrintInfo(short clsIdx) {
@@ -24,14 +24,14 @@ void PrintInfo(short clsIdx) {
     GetIdxStr(LiveIdx, pdUnifiedTypeMap::MappedToPlasma(clsIdx, pvLive));
     GetIdxStr(EoaIdx, pdUnifiedTypeMap::MappedToPlasma(clsIdx, pvEoa));
     GetIdxStr(HexIdx, pdUnifiedTypeMap::MappedToPlasma(clsIdx, pvHex));
-    printf("x%04X U[%s] P[%s] L[%s] E[%s] H[%s] %s\n", clsIdx,
+    printf("x%04hX U[%s] P[%s] L[%s] E[%s] H[%s] %s\n", clsIdx,
            PrimeIdx, PotsIdx, LiveIdx, EoaIdx, HexIdx,
            pdUnifiedTypeMap::ClassName(clsIdx));
 }
 
 bool TestMap(short idx, PlasmaVer ver) {
     if (idx != P2M(M2P(idx, ver), ver) && M2P(idx, ver) != -1) {
-        printf("[%04X] %s : %04X -> %04X -> %04X\n", idx,
+        printf("[%04hX] %s : %04hX -> %04hX -> %04hX\n", idx,
                pdUnifiedTypeMap::ClassName(idx),
                idx, M2P(idx, ver), P2M(M2P(idx, ver), ver));
         return false;

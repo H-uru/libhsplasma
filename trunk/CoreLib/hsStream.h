@@ -32,6 +32,7 @@ public:
 
     virtual void read(size_t size, void* buf) = 0;
     virtual void write(size_t size, const void* buf) = 0;
+    void writeFrom(hsStream* src);
 
     hsUbyte readByte();
     void readBytes(size_t count, hsUbyte* buf);

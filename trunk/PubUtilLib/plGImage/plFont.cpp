@@ -128,4 +128,3 @@ void plFont::writeP2F(hsStream* S) {
     for (size_t i=0; i<fCharacters.getSize(); i++)
         fCharacters[i].write(S);
 }
-

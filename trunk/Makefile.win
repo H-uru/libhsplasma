@@ -84,6 +84,8 @@ PLSOBJ=\
 	$(OBJDIR)plPointChannel.o \
 	$(OBJDIR)plQuatChannel.o \
 	$(OBJDIR)plScalarChannel.o \
+	$(OBJDIR)plCluster.o \
+	$(OBJDIR)plClusterGroup.o \
 	$(OBJDIR)plDrawableSpans.o \
 	$(OBJDIR)plDynaDecalMgr.o \
 	$(OBJDIR)plDynaRippleMgr.o \
@@ -93,6 +95,8 @@ PLSOBJ=\
 	$(OBJDIR)plMorphDataSet.o \
 	$(OBJDIR)plMorphDelta.o \
 	$(OBJDIR)plSpan.o \
+	$(OBJDIR)plSpanTemplate.o \
+	$(OBJDIR)plSpanInstance.o \
 	$(OBJDIR)plVertexSpan.o \
 	$(OBJDIR)plIcicle.o \
 	$(OBJDIR)plGeometrySpan.o \
@@ -475,6 +479,12 @@ $(OBJDIR)plQuatChannel.o: PubUtilLib/plAvatar/plQuatChannel.h PubUtilLib/plAvata
 $(OBJDIR)plScalarChannel.o: PubUtilLib/plAvatar/plScalarChannel.h PubUtilLib/plAvatar/plScalarChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plScalarChannel.cpp -o $(OBJDIR)plScalarChannel.o
 
+$(OBJDIR)plCluster.o: PubUtilLib/plDrawable/plCluster.h PubUtilLib/plDrawable/plCluster.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plCluster.cpp -o $(OBJDIR)plCluster.o
+
+$(OBJDIR)plClusterGroup.o: PubUtilLib/plDrawable/plClusterGroup.h PubUtilLib/plDrawable/plClusterGroup.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plClusterGroup.cpp -o $(OBJDIR)plClusterGroup.o
+
 $(OBJDIR)plDrawableSpans.o: PubUtilLib/plDrawable/plDrawableSpans.h PubUtilLib/plDrawable/plDrawableSpans.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plDrawableSpans.cpp -o $(OBJDIR)plDrawableSpans.o
 
@@ -501,6 +511,12 @@ $(OBJDIR)plMorphDelta.o: PubUtilLib/plDrawable/plMorphDelta.h PubUtilLib/plDrawa
 
 $(OBJDIR)plSpan.o: PubUtilLib/plDrawable/plSpan.h PubUtilLib/plDrawable/plSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plSpan.cpp -o $(OBJDIR)plSpan.o
+
+$(OBJDIR)plSpanTemplate.o: PubUtilLib/plDrawable/plSpanTemplate.h PubUtilLib/plDrawable/plSpanTemplate.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plSpanTemplate.cpp -o $(OBJDIR)plSpanTemplate.o
+
+$(OBJDIR)plSpanInstance.o: PubUtilLib/plDrawable/plSpanInstance.h PubUtilLib/plDrawable/plSpanInstance.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plSpanInstance.cpp -o $(OBJDIR)plSpanInstance.o
 
 $(OBJDIR)plVertexSpan.o: PubUtilLib/plDrawable/plVertexSpan.h PubUtilLib/plDrawable/plVertexSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plVertexSpan.cpp -o $(OBJDIR)plVertexSpan.o

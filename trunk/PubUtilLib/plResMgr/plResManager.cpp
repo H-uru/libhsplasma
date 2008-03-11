@@ -241,7 +241,7 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
         }
         unsigned int oCount = S->readInt();
         keys.reserveKeySpace(loc.getPageID(), type, oCount);
-        //plDebug::Debug("  * Indexing %d objects of type [%04X]", oCount, type);
+        //plDebug::Debug("  * Indexing %d objects of type [%04hX]", oCount, type);
         for (unsigned int j=0; j<oCount; j++) {
             plKey key = new plKeyData();
             key->read(S);
@@ -284,7 +284,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
     
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
-        //plDebug::Debug("* Reading %d objects of type [%04X]%s", kList.size(),
+        //plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
         //               types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->getFileOff() <= 0) continue;
@@ -296,7 +296,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
                     if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff())
-                        plDebug::Warning("[%04X:%s] Size-Read difference: %d bytes",
+                        plDebug::Warning("[%04hX:%s] Size-Read difference: %d bytes",
                             kList[j]->getType(), kList[j]->getName().cstr(),
                             (int)(kList[j]->getObjSize() -
                                   (S->pos() - kList[j]->getFileOff())));
@@ -330,7 +330,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
 
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
-        //plDebug::Debug("* Writing %d objects of type [%04X]", kList.size(), types[i]);
+        //plDebug::Debug("* Writing %d objects of type [%04hX]", kList.size(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
             kList[j]->setID(j);
@@ -359,7 +359,7 @@ plCreatable* plResManager::ReadCreatable(hsStream* S) {
     if (pCre != NULL)
         pCre->read(S, this);
     else if (type != 0x8000)
-        plDebug::Warning("Warning: NOT reading object of type [%04X]%s",
+        plDebug::Warning("Warning: NOT reading object of type [%04hX]%s",
                          pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
                          pdUnifiedTypeMap::ClassName(type, S->getVer()));
     return pCre;

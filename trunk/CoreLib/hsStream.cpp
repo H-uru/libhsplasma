@@ -15,6 +15,18 @@ hsStream::~hsStream() { }
 void hsStream::setVer(PlasmaVer pv) { ver = pv; }
 PlasmaVer hsStream::getVer() const { return ver; }
 
+#define BLOCKSIZE 4096
+void hsStream::writeFrom(hsStream* src) {
+    unsigned char buf[BLOCKSIZE];
+    for (size_t spos = 0; spos < (src->size() / BLOCKSIZE); spos++) {
+        src->read(BLOCKSIZE, buf);
+        write(BLOCKSIZE, buf);
+    }
+    size_t endsize = src->size() % BLOCKSIZE;
+    src->read(endsize, buf);
+    write(endsize, buf);
+}
+
 hsUbyte hsStream::readByte() {
     hsUbyte v;
     read(sizeof(v), &v);

@@ -20,8 +20,10 @@
 #endif
 
 #ifdef WIN32
-	#define snprintf _snprintf
-    #define PATHSEP '\\'   
+    #define snprintf _snprintf
+    #define strcasecmp _stricmp
+    #define wcscasecmp _wcsicmp
+    #define PATHSEP '\\'
 #else
     #define PATHSEP '/'
 #endif

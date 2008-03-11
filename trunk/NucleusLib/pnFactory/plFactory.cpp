@@ -63,6 +63,7 @@
 #include "PubUtilLib/plAvatar/plPointChannel.h"
 #include "PubUtilLib/plAvatar/plQuatChannel.h"
 #include "PubUtilLib/plAvatar/plScalarChannel.h"
+#include "PubUtilLib/plDrawable/plClusterGroup.h"
 #include "PubUtilLib/plDrawable/plDrawableSpans.h"
 #include "PubUtilLib/plDrawable/plDynaRippleMgr.h"
 #include "PubUtilLib/plDrawable/plMorphDataSet.h"
@@ -419,7 +420,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kBookData: return new pfBookData();
         case kDynaTorpedoMgr: return new plDynaTorpedoMgr();
         case kDynaTorpedoVSMgr: return new plDynaTorpedoVSMgr();
-        //case kClusterGroup: return new plClusterGroup();
+        case kClusterGroup: return new plClusterGroup();
         //case kGameMarkerModifier: return new plGameMarkerModifier();
         //case kLODMipmap: return new plLODMipmap();
         //case kSwimDetector: return new plSwimDetector();

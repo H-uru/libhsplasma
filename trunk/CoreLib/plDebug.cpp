@@ -20,6 +20,16 @@ void plDebug::Init(int level, hsStream* stream) {
     atexit(&plDebug::DeInit);
 }
 
+void plDebug::InitFile(int level, const char* filename) {
+    fDebugLevel = level;
+    fDebugStream = new hsFileStream();
+    ((hsFileStream*)fDebugStream)->open(filename, fmCreate);
+    fIOwnStream = true;
+
+    // Register cleanup
+    atexit(&plDebug::DeInit);
+}
+
 void plDebug::DeInit() {
     if (fIOwnStream && (fDebugStream != NULL))
         delete fDebugStream;
