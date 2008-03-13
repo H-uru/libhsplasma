@@ -3,7 +3,7 @@
 
 #include "plObjInterface.h"
 
-class plDrawInterface : public plObjInterface {
+DllClass plDrawInterface : public plObjInterface {
 public:
     hsTArray<plKey> Drawables;
     hsTArray<plKey> Objects;

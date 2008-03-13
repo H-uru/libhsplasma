@@ -84,6 +84,8 @@ PLSOBJ=\
 	$(OBJDIR)plPointChannel.o \
 	$(OBJDIR)plQuatChannel.o \
 	$(OBJDIR)plScalarChannel.o \
+	$(OBJDIR)plSittingModifier.o \
+	$(OBJDIR)plSeekPointMod.o \
 	$(OBJDIR)plCluster.o \
 	$(OBJDIR)plClusterGroup.o \
 	$(OBJDIR)plDrawableSpans.o \
@@ -186,6 +188,8 @@ PLSOBJ=\
 	$(OBJDIR)plLayerAnimation.o \
 	$(OBJDIR)plLayerMovie.o \
 	$(OBJDIR)hsAffineParts.o \
+	$(OBJDIR)plBlower.o \
+	$(OBJDIR)plFilterCoordInterface.o \
 	$(OBJDIR)plLineFollowMod.o \
 	$(OBJDIR)plRandomCommandMod.o \
 	$(OBJDIR)plStereizer.o \
@@ -478,6 +482,12 @@ $(OBJDIR)plQuatChannel.o: PubUtilLib/plAvatar/plQuatChannel.h PubUtilLib/plAvata
 
 $(OBJDIR)plScalarChannel.o: PubUtilLib/plAvatar/plScalarChannel.h PubUtilLib/plAvatar/plScalarChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plScalarChannel.cpp -o $(OBJDIR)plScalarChannel.o
+
+$(OBJDIR)plSittingModifier.o: PubUtilLib/plAvatar/plSittingModifier.h PubUtilLib/plAvatar/plSittingModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plSittingModifier.cpp -o $(OBJDIR)plSittingModifier.o
+
+$(OBJDIR)plSeekPointMod.o: PubUtilLib/plAvatar/plSeekPointMod.h PubUtilLib/plAvatar/plSeekPointMod.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plSeekPointMod.cpp -o $(OBJDIR)plSeekPointMod.o
 
 $(OBJDIR)plCluster.o: PubUtilLib/plDrawable/plCluster.h PubUtilLib/plDrawable/plCluster.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plDrawable/plCluster.cpp -o $(OBJDIR)plCluster.o
@@ -799,6 +809,12 @@ $(OBJDIR)plLayerMovie.o: PubUtilLib/plSurface/plLayerMovie.h PubUtilLib/plSurfac
 
 $(OBJDIR)hsAffineParts.o: PubUtilLib/plTransform/hsAffineParts.h PubUtilLib/plTransform/hsAffineParts.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plTransform/hsAffineParts.cpp -o $(OBJDIR)hsAffineParts.o
+
+$(OBJDIR)plBlower.o: FeatureLib/pfAnimation/plBlower.h FeatureLib/pfAnimation/plBlower.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAnimation/plBlower.cpp -o $(OBJDIR)plBlower.o
+
+$(OBJDIR)plFilterCoordInterface.o: FeatureLib/pfAnimation/plFilterCoordInterface.h FeatureLib/pfAnimation/plFilterCoordInterface.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAnimation/plFilterCoordInterface.cpp -o $(OBJDIR)plFilterCoordInterface.o
 
 $(OBJDIR)plLineFollowMod.o: FeatureLib/pfAnimation/plLineFollowMod.h FeatureLib/pfAnimation/plLineFollowMod.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfAnimation/plLineFollowMod.cpp -o $(OBJDIR)plLineFollowMod.o

@@ -3,6 +3,8 @@
 #include "CoreLib/plDebug.h"
 
 // Includes for all plCreatable types
+#include "FeatureLib/pfAnimation/plBlower.h"
+#include "FeatureLib/pfAnimation/plFilterCoordInterface.h"
 #include "FeatureLib/pfAnimation/plLineFollowMod.h"
 #include "FeatureLib/pfAnimation/plStereizer.h"
 #include "FeatureLib/pfAnimation/plViewFaceModifier.h"
@@ -63,6 +65,8 @@
 #include "PubUtilLib/plAvatar/plPointChannel.h"
 #include "PubUtilLib/plAvatar/plQuatChannel.h"
 #include "PubUtilLib/plAvatar/plScalarChannel.h"
+#include "PubUtilLib/plAvatar/plSittingModifier.h"
+#include "PubUtilLib/plAvatar/plSeekPointMod.h"
 #include "PubUtilLib/plDrawable/plClusterGroup.h"
 #include "PubUtilLib/plDrawable/plDrawableSpans.h"
 #include "PubUtilLib/plDrawable/plDynaRippleMgr.h"
@@ -239,7 +243,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kOmniModifier: return new plOmniModifier();
         //case kSpotModifier: return new plSpotModifier();
         //case kLtdDirModifier: return new plLtdDirModifier();
-        //case kSeekPointMod: return new plSeekPointMod();
+        case kSeekPointMod: return new plSeekPointMod();
         case kOneShotMod: return new plOneShotMod();
         case kRandomCommandMod: return new plRandomCommandMod();
         case kRandomSoundMod: return new plRandomSoundMod();
@@ -290,12 +294,12 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kVolumeSensorConditionalObject: return new plVolumeSensorConditionalObject();
         case kVolActivatorConditionalObject: return new plVolActivatorConditionalObject();
         case kMsgForwarder: return new plMsgForwarder();
-        //case kBlower: return new plBlower();
+        case kBlower: return new plBlower();
         case kGUIListBoxMod: return new pfGUIListBoxMod();
         case kGUITextBoxMod: return new pfGUITextBoxMod();
         case kGUIEditBoxMod: return new pfGUIEditBoxMod();
         case kDynamicTextMap: return new plDynamicTextMap();
-        //case kSittingModifier: return new plSittingModifier();
+        case kSittingModifier: return new plSittingModifier();
         case kGUIUpDownPairMod: return new pfGUIUpDownPairMod();
         case kGUIValueCtrl: ABSTRACT(kGUIValueCtrl);
         case kGUIKnobCtrl: return new pfGUIKnobCtrl();
@@ -375,7 +379,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kWaveSet7: return new plWaveSet7();
         case kPanicLinkRegion: return new plPanicLinkRegion();
         case kWin32GroupedSound: return new plWin32GroupedSound();
-        //case kFilterCoordInterface: return new plFilterCoordInterface();
+        case kFilterCoordInterface: return new plFilterCoordInterface();
         case kStereizer: return new plStereizer();
         //case kCCRMgr: return new plCCRMgr();
         //case kCCRSpecialist: return new plCCRSpecialist();

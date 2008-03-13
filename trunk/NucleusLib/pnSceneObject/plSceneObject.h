@@ -4,7 +4,7 @@
 #include "NucleusLib/pnNetCommon/plSynchedObject.h"
 #include "CoreLib/hsTArray.hpp"
 
-class plSceneObject : public plSynchedObject {
+DllClass plSceneObject : public plSynchedObject {
 public:
     plKey DrawIntf;
     plKey SimIntf;

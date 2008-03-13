@@ -5,7 +5,7 @@
 #include "CoreLib/hsTArray.hpp"
 #include "CoreLib/hsMatrix44.h"
 
-class plCoordinateInterface : public plObjInterface {
+DllClass plCoordinateInterface : public plObjInterface {
 public:
     enum plCoordinateProperties {
         kDisable, kCanEverDelayTransform, kDelayedTransformEval, kNumProps

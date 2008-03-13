@@ -49,7 +49,7 @@ protected:
     hsBitVector fVisSet;
     hsTArray<plKey> fVisRegions, fTargetNodes, fMatLayers;
     hsTArray<plString> fVisRegionNames;
-    bool fIncCharacters;
+    unsigned char fIncCharacters;
     plKey fCamera, fRootNode, fDisableTexture;
 
 public:

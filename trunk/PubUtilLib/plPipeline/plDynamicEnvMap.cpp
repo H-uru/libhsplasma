@@ -26,11 +26,16 @@ void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fVisRegions.getSize(); i++)
         fVisRegions[i] = mgr->readKey(S);
 
-    fVisRegionNames.setSize(S->readInt());
-    for (size_t i=0; i<fVisRegionNames.getSize(); i++)
-        fVisRegionNames[i] = S->readSafeStr();
+    if (S->getVer() == pvLive) {
+        fVisRegionNames.setSize(S->readInt());
+        for (size_t i=0; i<fVisRegionNames.getSize(); i++)
+            fVisRegionNames[i] = S->readSafeStr();
 
-    fRootNode = mgr->readKey(S);
+        fRootNode = mgr->readKey(S);
+    } else {
+        fVisRegionNames.setSize(0);
+        fRootNode = NULL;
+    }
 }
 
 void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
@@ -48,11 +53,13 @@ void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fVisRegions.getSize(); i++)
         mgr->writeKey(S, fVisRegions[i]);
 
-    S->writeInt(fVisRegionNames.getSize());
-    for (size_t i=0; i<fVisRegionNames.getSize(); i++)
-        S->writeSafeStr(fVisRegionNames[i]);
+    if (S->getVer() == pvLive) {
+        S->writeInt(fVisRegionNames.getSize());
+        for (size_t i=0; i<fVisRegionNames.getSize(); i++)
+            S->writeSafeStr(fVisRegionNames[i]);
 
-    mgr->writeKey(S, fRootNode);
+        mgr->writeKey(S, fRootNode);
+    }
 }
 
 void plDynamicEnvMap::prcWrite(pfPrcHelper* prc) {

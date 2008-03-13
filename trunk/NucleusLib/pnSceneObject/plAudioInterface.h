@@ -3,7 +3,7 @@
 
 #include "plObjInterface.h"
 
-class plAudioInterface : public plObjInterface {
+DllClass plAudioInterface : public plObjInterface {
 protected:
     plKey Audible;
 

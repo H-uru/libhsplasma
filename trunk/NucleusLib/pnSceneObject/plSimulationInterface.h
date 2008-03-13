@@ -3,7 +3,7 @@
 
 #include "plObjInterface.h"
 
-class plSimulationInterface : public plObjInterface {
+DllClass plSimulationInterface : public plObjInterface {
 public:
     enum plSimulationProperties {
         kDisable, kWeightless_DEAD, kPinned, kWarp_DEAD, kUpright_DEAD,

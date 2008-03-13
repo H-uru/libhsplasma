@@ -42,14 +42,14 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\GnuWin32\include&quot;;.;&quot;D:\Dev\Libs\jpeg-6b&quot;"
+				AdditionalIncludeDirectories=".;&quot;E:\Dev\Libs\jpeg-6b&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				AssemblerOutput="2"
-				WarningLevel="4"
+				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				DisableSpecificWarnings="4251"
@@ -66,7 +66,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="jpeg.lib opengl32.lib"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\GnuWin32\lib&quot;;&quot;D:\Dev\Libs\jpeg-6b\build_msw\Release&quot;"
+				AdditionalLibraryDirectories="&quot;E:\Dev\Libs\jpeg-6b\build_msw\Release&quot;"
 				GenerateDebugInformation="true"
 			/>
 			<Tool
@@ -1394,6 +1394,22 @@
 					RelativePath=".\PubUtilLib\plAvatar\plScalarChannel.h"
 					>
 				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plSeekPointMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plSeekPointMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plSittingModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plSittingModifier.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="plDrawable"
@@ -2710,6 +2726,22 @@
 			<Filter
 				Name="pfAnimation"
 				>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plBlower.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plBlower.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plFilterCoordInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FeatureLib\pfAnimation\plFilterCoordInterface.h"
+					>
+				</File>
 				<File
 					RelativePath=".\FeatureLib\pfAnimation\plLineFollowMod.cpp"
 					>
