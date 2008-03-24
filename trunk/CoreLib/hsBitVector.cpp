@@ -1,6 +1,24 @@
 #include "hsBitVector.h"
 #include <cstring>
 
+/* hsBitVector::Bit */
+hsBitVector::Bit::Bit(hsBitVector* vec, size_t off)
+           : fVector(vec), fOffset(off) { }
+
+hsBitVector::Bit::operator bool() const { return fVector->get(fOffset); }
+bool hsBitVector::Bit::operator!() const { return !fVector->get(fOffset); }
+
+bool hsBitVector::Bit::operator==(bool value) const {
+    return fVector->get(fOffset) == value;
+}
+
+hsBitVector::Bit& hsBitVector::Bit::operator=(bool value) {
+    fVector->set(fOffset, value);
+    return *this;
+}
+
+
+/* hsBiVector */
 hsBitVector::hsBitVector() : fBits(NULL), fNumVectors(0) { }
 hsBitVector::~hsBitVector() {
     if (fBits) delete[] fBits;
@@ -31,6 +49,10 @@ void hsBitVector::set(size_t idx, bool b) {
 
 bool hsBitVector::operator[](size_t idx) const {
     return get(idx);
+}
+
+hsBitVector::Bit hsBitVector::operator[](size_t idx) {
+    return hsBitVector::Bit(this, idx);
 }
 
 bool hsBitVector::isEmpty() const {

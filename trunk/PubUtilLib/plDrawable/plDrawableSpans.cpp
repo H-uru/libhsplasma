@@ -153,16 +153,10 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
 
     /*
     if (GetNativeProperty(kPropCharacter)) {
-        if (visSet.numBitVectors <= 0)
-            visSet.IGrow(1);
-        visSet.setBit(1);
-        for (int i=0; i<spans.getCount(); i++) {
-            if (spans[i]->visSet.numBitVectors <= 0)
-                spans[i]->visSet.IGrow(1);
-            spans[i]->visSet.setBit(1);
-        }
-    }
-    */
+        visSet[1] = true;
+        for (int i=0; i<spans.getCount(); i++)
+            spans[i]->visSet[1] = true;
+    }*/
     
     if (gotSkin)
         registeredForRender = true;

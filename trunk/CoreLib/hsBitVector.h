@@ -10,6 +10,20 @@
 #define BVMULT 0x20
 
 DllClass hsBitVector {
+public:
+    DllClass Bit {
+    protected:
+        hsBitVector* fVector;
+        size_t fOffset;
+
+    public:
+        Bit(hsBitVector* vec, size_t off);
+        operator bool() const;
+        bool operator!() const;
+        bool operator==(bool value) const;
+        Bit& operator=(bool value);
+    };
+
 private:
     hsUint32* fBits;
     size_t fNumVectors;
@@ -22,6 +36,7 @@ public:
     bool get(size_t idx) const;
     void set(size_t idx, bool b);
     bool operator[](size_t idx) const;
+    Bit operator[](size_t idx);
 
     bool isEmpty() const;
     void clear();

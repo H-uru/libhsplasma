@@ -119,7 +119,7 @@ void pfGUIControlMod::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
     if (fFlags[kHasProxy] && fProxy == NULL)
-        fFlags.clearBit(kHasProxy);
+        fFlags[kHasProxy] = false;
     S->writeInt(fTagID);
     S->writeBool(fVisible);
     pfGUICtrlProcWriteableObject::Write(S, fHandler);
@@ -152,7 +152,7 @@ void pfGUIControlMod::prcWrite(pfPrcHelper* prc) {
     plSingleModifier::prcWrite(prc);
 
     if (fFlags[kHasProxy] && fProxy == NULL)
-        fFlags.clearBit(kHasProxy);
+        fFlags[kHasProxy] = false;
     prc->startTag("ControlParams");
     prc->writeParam("TagID", fTagID);
     prc->writeParam("Visible", fVisible);

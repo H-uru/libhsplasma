@@ -23,9 +23,9 @@ void plSpawnPointInfo::read(hsStream* S) {
 
 void plSpawnPointInfo::write(hsStream* S) {
     hsBitVector flags;
-    flags.setBit(0);
-    flags.setBit(1);
-    flags.setBit(2);
+    flags[0] = true;
+    flags[1] = true;
+    flags[2] = true;
     flags.write(S);
 
     S->writeShort(fTitle.len());

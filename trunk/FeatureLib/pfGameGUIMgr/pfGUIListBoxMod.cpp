@@ -64,7 +64,7 @@ void pfGUIListBoxMod::read(hsStream* S, plResManager* mgr) {
     }
 
     if (fFlags[kAllowMultipleElementsPerRow])
-        fFlags.clearBit(kWantsInterest);
+        fFlags[kWantsInterest] = false;
 }
 
 void pfGUIListBoxMod::write(hsStream* S, plResManager* mgr) {

@@ -8,7 +8,7 @@ pfGUIPopUpMenu::pfGUIPopUpMenu()
     fFlags.setName(kModalOutsideMenus, "kModalOutsideMenus");
     fFlags.setName(kOpenSubMenusOnHover, "kOpenSubMenusOnHover");
     fFlags.setName(kScaleWithResolution, "kScaleWithResolution");
-    fFlags.setBit(kModalOutsideMenus);
+    fFlags[kModalOutsideMenus] = true;
 }
 
 pfGUIPopUpMenu::~pfGUIPopUpMenu() {

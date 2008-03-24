@@ -33,9 +33,11 @@ hsNotImplementedException::hsNotImplementedException(const char* file,
 
 // hsBadParamException //
 hsBadParamException::hsBadParamException(const char* file,
-                     unsigned long line) throw()
+                     unsigned long line, const char* details) throw()
                    : hsException(file, line) {
     fWhat = "Bad parameter";
+    if (details != NULL)
+        fWhat += plString(": ") + details;
 }
 
 
