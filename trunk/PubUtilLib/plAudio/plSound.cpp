@@ -100,6 +100,9 @@ void plSound::IRead(hsStream* S, plResManager* mgr) {
     fType = S->readByte();
     fPriority = S->readByte();
 
+    if (S->getVer() >= pvEoa)
+        fEoaString = S->readSafeStr();
+
     if (fPlaying)
         fProperties |= kPropAutoStart;
     fFadeInParams.read(S);
@@ -108,7 +111,9 @@ void plSound::IRead(hsStream* S, plResManager* mgr) {
     fSoftRegion = mgr->readKey(S);
     fDataBuffer = mgr->readKey(S);
     fEAXSettings.read(S);
-    fSoftOcclusionRegion = mgr->readKey(S);
+
+    if (S->getVer() < pvEoa)
+        fSoftOcclusionRegion = mgr->readKey(S);
 }
 
 void plSound::IWrite(hsStream* S, plResManager* mgr) {
@@ -126,12 +131,17 @@ void plSound::IWrite(hsStream* S, plResManager* mgr) {
     S->writeByte(fType);
     S->writeByte(fPriority);
 
+    if (S->getVer() == pvEoa)
+        S->writeSafeStr(fEoaString);
+
     fFadeInParams.write(S);
     fFadeOutParams.write(S);
     mgr->writeKey(S, fSoftRegion);
     mgr->writeKey(S, fDataBuffer);
     fEAXSettings.write(S);
-    mgr->writeKey(S, fSoftOcclusionRegion);
+
+    if (S->getVer() < pvEoa)
+        mgr->writeKey(S, fSoftOcclusionRegion);
 }
 
 void plSound::prcWrite(pfPrcHelper* prc) {
@@ -155,6 +165,10 @@ void plSound::prcWrite(pfPrcHelper* prc) {
       prc->writeParam("OuterVol", fOuterVol);
       prc->writeParam("InnerCone", fInnerCone);
       prc->writeParam("OuterCone", fOuterCone);
+    prc->endTag(true);
+
+    prc->startTag("Unknown");
+    prc->writeParam("EoaString", fEoaString);
     prc->endTag(true);
 
     prc->writeSimpleTag("FadeInParams");

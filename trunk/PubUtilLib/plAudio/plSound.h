@@ -78,6 +78,9 @@ protected:
     bool fDataBufferLoaded;
     bool fLoading;
 
+    // Eoa
+    plString fEoaString;
+
     static bool fLoadOnDemandFlag;
     static bool fLoadFromDiskOnDemandFlag;
 

@@ -34,12 +34,12 @@ bool plPageInfo::isValid() const { return fLocation.isValid(); }
 void plPageInfo::read(hsStream* S) {
     short prpVer = S->readShort();
     if (prpVer == 6) {
-        unsigned short fNumTypes = S->readShort();
-        if (fNumTypes == 0) {
+        unsigned short numTypes = S->readShort();
+        if (numTypes == 0) {
             S->setVer(pvLive);
         } else {
             S->setVer(pvEoa);
-            for (int i=0; i<fNumTypes; i++) {
+            for (unsigned short i=0; i<numTypes; i++) {
                 short type = S->readShort();
                 short ver = S->readShort();
                 if (pdUnifiedTypeMap::ClassVersion(type, pvEoa) != ver) {
@@ -54,6 +54,21 @@ void plPageInfo::read(hsStream* S) {
         fPage = S->readSafeStr();
         if (S->getVer() == pvLive)
             S->readShort();  // majorVer
+    } else if (prpVer == 9) {
+        S->setVer(pvHex);
+        unsigned short numTypes = S->readShort();
+        for (unsigned short i=0; i<numTypes; i++) {
+            short type = S->readShort();
+            short ver = S->readShort();
+            if (pdUnifiedTypeMap::ClassVersion(type, pvHex) != ver) {
+                plDebug::Warning("Warning: Class %s expected version %d, got %d",
+                                 pdUnifiedTypeMap::ClassName(type, pvHex),
+                                 pdUnifiedTypeMap::ClassVersion(type, pvHex), ver);
+            }
+        }
+        fLocation.read(S);
+        fAge = S->readSafeStr();
+        fPage = S->readSafeStr();
     } else if (prpVer == 5) {
         S->readShort(); // prpVer is DWORD on <= 5
         int pid = S->readInt();
@@ -76,6 +91,13 @@ void plPageInfo::read(hsStream* S) {
     fChecksum = S->readInt();
     fDataStart = S->readInt();
     fIdxStart = S->readInt();
+
+    plDebug::Debug("* Loading: %s (%s)\n"
+                   "  Location: <%d|%d>\n"
+                   "  Version: %s",
+                   fPage.cstr(), fAge.cstr(),
+                   fLocation.getSeqPrefix(), fLocation.getPageNum(),
+                   GetVersionName(S->getVer()));
 }
 
 void plPageInfo::write(hsStream* S) {
@@ -85,6 +107,16 @@ void plPageInfo::write(hsStream* S) {
         for (size_t i=0; i<fClassList.size(); i++) {
             S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], pvEoa));
             S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], pvEoa));
+        }
+        fLocation.write(S);
+        S->writeSafeStr(getAge());
+        S->writeSafeStr(getPage());
+    } else if (S->getVer() == pvHex) {
+        S->writeShort(9);
+        S->writeShort(fClassList.size());
+        for (size_t i=0; i<fClassList.size(); i++) {
+            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], pvHex));
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], pvHex));
         }
         fLocation.write(S);
         S->writeSafeStr(getAge());
@@ -137,7 +169,7 @@ void plPageInfo::prcWrite(pfPrcHelper* prc) {
 }
 
 plString plPageInfo::getFilename(PlasmaVer ver) const {
-    if (ver == pvEoa || ver == pvHex)
+    if (ver >= pvEoa)
         return plString::Format("%s_%s.prp", fAge.cstr(), fPage.cstr());
     else
         return plString::Format("%s_District_%s.prp", fAge.cstr(), fPage.cstr());

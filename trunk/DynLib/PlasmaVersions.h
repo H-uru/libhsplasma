@@ -1,21 +1,16 @@
 #ifndef _PLASMA_VERSIONS_H
 #define _PLASMA_VERSIONS_H
 
-#define PLS_MAJ_URU     63
-#define PLS_MAJ_LIVE    70
-#define PLS_MIN_PRIME   11
-#define PLS_MIN_POTS    12
-
-#define PRP_URU 5
-#define PRP_EOA 6
-
+/* These MUST remain in order for version matching to work */
 enum PlasmaVer {
-    pvUnknown = 0,
-    pvPrime = 0x02006311,
-    pvPots = 0x02006312,
-    pvLive = 0x02007000,
-    pvEoa = 0x02010000,
-    pvHex = 0x03000000,
+    pvUnknown   = 0,
+    pvPrime     = 0x02006311,   // 2.0 r63.11
+    pvPots      = 0x02006312,   // 2.0 r63.12
+    pvLive      = 0x02007000,   // 2.0 r70
+    pvEoa       = 0x02010610,   // 2.1 r6.10
+    pvHex       = 0x03000000,   // 3.0
 };
+
+const char* GetVersionName(PlasmaVer ver);
 
 #endif

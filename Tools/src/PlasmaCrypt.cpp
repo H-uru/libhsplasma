@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <exception>
+#include <vector>
 #include "CoreLib/plEncryptedStream.h"
 #include "CoreLib/plString.h"
 
@@ -28,7 +29,7 @@ void doHelp() {
            "          -help       Displays this help screen\n\n");
 }
 
-plString getNextOutFile(char* filename) {
+plString getNextOutFile(const char* filename) {
     plString fn = plString::Format("%s.out", filename);
     int i = 0;
     while (fopen(fn.cstr(), "r") != NULL)
@@ -36,7 +37,7 @@ plString getNextOutFile(char* filename) {
     return fn;
 }
 
-bool parseKey(char* buf, unsigned int& val) {
+bool parseKey(const char* buf, unsigned int& val) {
     char kMap[256];
     memset(kMap, -1, 256);
     int i;
@@ -89,11 +90,10 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    int nFiles = 0;
     unsigned int uruKey[4];
     bool haveKey = false;
     int verbosity = 0;
-    plString outFileName;
+    std::vector<plString> files;
     for (int i=2; i<argc; i++) {
         if (argv[i][0] == '-') {
             if (argv[i][1] == '-') argv[i]++;
@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
                                     "    DroidCrypt encrypt droid -key 0123456789ABCDEF0123456789ABCDEF Filename.sdl\n");
                     return 0;
                 }
-                for (int j=0; j<4; j++)
+                for (size_t j=0; j<4; j++)
                     if (!parseKey(&argv[i][j*8], uruKey[j]))
                         return 1;
                 haveKey = true;
@@ -122,17 +122,24 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "See -help for list of accepted options\n");
                 return 1;
             }
-        } else if (method == emDecrypt) {
+        } else {
+            files.push_back(argv[i]);
+        }
+    }
+
+    unsigned int nFiles = 0;
+    plString outFileName;
+    for (size_t i=0; i<files.size(); i++) {
+        if (method == emDecrypt) {
             plEncryptedStream SF;
             if (haveKey) SF.setKey(uruKey);
             try {
-                if (!plEncryptedStream::IsFileEncrypted(argv[i])) {
+                if (!plEncryptedStream::IsFileEncrypted(files[i])) {
                     if (verbosity >= 0)
-                        printf("File %s not encrypted -- skipping!\n",
-                               argv[i]);
+                        printf("File %s not encrypted -- skipping!\n", files[i].cstr());
                     continue;
                 } else {
-                    SF.open(argv[i], fmRead, plEncryptedStream::kEncAuto);
+                    SF.open(files[i], fmRead, plEncryptedStream::kEncAuto);
                     if (SF.getEncType() == plEncryptedStream::kEncDroid && !haveKey) {
                         fprintf(stderr, "Error: Droid key not set!\n");
                         SF.close();
@@ -143,11 +150,11 @@ int main(int argc, char** argv) {
                 }
             } catch (std::exception& e) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Error opening %s: %s\n", argv[i], e.what());
+                    fprintf(stderr, "Error opening %s: %s\n", files[i].cstr(), e.what());
                 continue;
             } catch (...) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Undefined error opening %s\n", argv[i]);
+                    fprintf(stderr, "Undefined error opening %s\n", files[i].cstr());
                 continue;
             }
             unsigned int dataSize = SF.size();
@@ -156,7 +163,7 @@ int main(int argc, char** argv) {
             SF.close();
 
             hsFileStream DF;
-            outFileName = doReplace ? argv[i] : getNextOutFile(argv[i]);
+            outFileName = doReplace ? files[i] : getNextOutFile(files[i]);
             if (verbosity >= 1)
                 printf("Decrypting %s...\n", outFileName.cstr());
             DF.open(outFileName, fmCreate);
@@ -167,21 +174,20 @@ int main(int argc, char** argv) {
         } else {
             hsFileStream SF;
             try {
-                if (plEncryptedStream::IsFileEncrypted(argv[i])) {
+                if (plEncryptedStream::IsFileEncrypted(files[i])) {
                     if (verbosity >= 0)
-                        printf("File %s already encrypted -- skipping!\n",
-                               argv[i]);
+                        printf("File %s already encrypted -- skipping!\n", files[i].cstr());
                     continue;
                 } else {
-                    SF.open(argv[i], fmRead);
+                    SF.open(files[i], fmRead);
                 }
             } catch (std::exception& e) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Error opening %s: %s\n", argv[i], e.what());
+                    fprintf(stderr, "Error opening %s: %s\n", files[i].cstr(), e.what());
                 continue;
             } catch (...) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Undefined error opening %s\n", argv[i]);
+                    fprintf(stderr, "Undefined error opening %s\n", files[i].cstr());
                 continue;
             }
             unsigned int dataSize = SF.size();
@@ -201,7 +207,7 @@ int main(int argc, char** argv) {
             if (method == emAes && haveKey && verbosity >= 0)
                 printf("Warning: Ignoring key for AES encryption\n");
             if (haveKey) DF.setKey(uruKey);
-            outFileName = doReplace ? argv[i] : getNextOutFile(argv[i]);
+            outFileName = doReplace ? files[i] : getNextOutFile(files[i]);
             if (verbosity >= 1)
                 printf("Encrypting %s...\n", outFileName.cstr());
             DF.open(outFileName, fmCreate, eType);

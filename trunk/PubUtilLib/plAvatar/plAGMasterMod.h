@@ -8,7 +8,7 @@ protected:
     plSceneObject* fTarget;
     //std::map<char*, plAGModifier*> fChannelMods;
     //hsTArray<plAGAnimInstance*> fAnimInstances;
-    hsTArray<plKey> fPrivateAnims;
+    hsTArray<plKey> fPrivateAnims, fEoaKeys2;
     //hsTArray<plAGAnimInstance*> fATCAnimInstances;
     bool fFirstEval, fNeedEval, fNeedCompile;
     //plAGMasterSDLModifier* fAGMasterSDLMod;

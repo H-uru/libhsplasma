@@ -66,7 +66,7 @@ void plEncryptedStream::AesEncipher(unsigned char* buffer, int count) {
 }
 
 void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num) {
-    unsigned int key = (52 / num + 6) * 0x9E3779B9;
+    unsigned int key = ((52 / num) + 6) * 0x9E3779B9;
     while (key != 0) {
         unsigned int xorkey = (key >> 2) & 3;
         unsigned int numloop = num - 1;
@@ -83,21 +83,21 @@ void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num) {
           ((buf[num - 1] >> 5) ^ (buf[num - 1] << 2))) ^
           ((eKey[(numloop & 3) ^ xorkey] ^ buf[num - 1]) +
           (key ^ buf[num - 1]));
-        key -= 0x9E3779B9;
+        key += 0x61C88647;
     }
 }
 
 void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
     unsigned int key = 0;
-    unsigned int targetkey = (52 / num + 6) * 0x9E3779B9;
+    unsigned int targetkey = ((52 / num) + 6) * 0x9E3779B9;
     while (key != targetkey) {
-        key += 0x9E3779B9;
+        key -= 0x61C88647;
         unsigned int xorkey = (key >> 2) & 3;
-        unsigned int numloop = 1;
+        unsigned int numloop = 0;
         buf[0] +=
           (((buf[num - 1] << 4) ^ (buf[num - 1] >> 3)) +
           ((buf[num - 1] >> 5) ^ (buf[num - 1] << 2))) ^
-          ((eKey[(0 & 3) ^ xorkey] ^ buf[num - 1]) +
+          ((eKey[(numloop & 3) ^ xorkey] ^ buf[num - 1]) +
           (key ^ buf[num - 1]));
         while (numloop != num) {
             buf[numloop] +=

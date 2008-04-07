@@ -11,7 +11,7 @@ void plPhysical::read(hsStream* S, plResManager* mgr) {
 
 void plPhysical::write(hsStream* S, plResManager* mgr) {
     plPhysical* phys = NULL;
-    if (S->getVer() == pvEoa)
+    if (S->getVer() >= pvEoa)
         phys = ConvertToODE();
     else if (S->getVer() == pvLive)
         phys = ConvertToPhysX();

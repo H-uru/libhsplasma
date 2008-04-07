@@ -48,7 +48,7 @@ plKey plResManager::readKey(hsStream* S) {
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
     bool exists = true;
-    if (S->getVer() != pvEoa && S->getVer() != pvHex)
+    if (S->getVer() < pvEoa)
         exists = S->readBool();
     if (exists)
         return readUoid(S);
@@ -83,9 +83,9 @@ void plResManager::writeKey(hsStream* S, plKey key) {
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
     //key->exists = (strcmp(key->objName, "") != 0);
-    if (S->getVer() != pvEoa && S->getVer() != pvHex)
+    if (S->getVer() < pvEoa)
         S->writeBool(key.Exists());
-    if (key.Exists() || S->getVer() == pvEoa || S->getVer() == pvHex) {
+    if (key.Exists() || S->getVer() >= pvEoa) {
         if (S->getVer() == pvLive)
             S->writeBool(key.Exists());
         key->writeUoid(S);
@@ -138,7 +138,7 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     hsFileStream* S = new hsFileStream();
     S->open(filename, fmWrite);
     S->setVer(getVer());
-    if (getVer() == pvEoa || getVer() == pvHex || getVer() == pvLive) {
+    if (getVer() >= pvLive) {
         std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
         page->setClassList(types);
         keys.sortKeys(page->getLocation().getPageID());
@@ -148,7 +148,7 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     page->setNumObjects(WriteObjects(S, page->getLocation()));
     page->setIndexStart(S->pos());
     WriteKeyring(S, page->getLocation());
-    if (getVer() == pvEoa || getVer() == pvHex)
+    if (getVer() >= pvEoa)
         page->setChecksum(S->pos());
     else
         page->setChecksum(S->pos() - page->getDataStart());
@@ -235,7 +235,7 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = S->readShort(); // objType
-        if (S->getVer() == pvEoa || S->getVer() == pvHex || S->getVer() == pvLive) {
+        if (S->getVer() >= pvLive) {
             S->readInt(); // # of bytes after this int to next key list
             S->readByte(); // flag?
         }
@@ -245,7 +245,7 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
         for (unsigned int j=0; j<oCount; j++) {
             plKey key = new plKeyData();
             key->read(S);
-            //if (S->getVer() != pvEoa && S->getVer() != pvHex && S->getVer() != pvLive)
+            //if (S->getVer() < pvLive)
             //    key->setID(j);
             keys.add(key);
             //plDebug::Debug("    * Key %s", key->toString());
@@ -261,14 +261,14 @@ void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
         if (kList.size() <= 0) continue;
         S->writeShort(pdUnifiedTypeMap::MappedToPlasma(kList[0]->getType(), S->getVer()));
         unsigned int lenPos = S->pos();
-        if (S->getVer() == pvEoa || S->getVer() == pvHex || S->getVer() == pvLive) {
+        if (S->getVer() >= pvLive) {
             S->writeInt(0);
             S->writeByte(0);
         }
         S->writeInt(kList.size());
         for (unsigned int j=0; j<kList.size(); j++)
             kList[j]->write(S);
-        if (S->getVer() == pvEoa || S->getVer() == pvHex || S->getVer() == pvLive) {
+        if (S->getVer() >= pvLive) {
             unsigned int nextPos = S->pos();
             S->seek(lenPos);
             S->writeInt(nextPos - lenPos - 4);

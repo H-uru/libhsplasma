@@ -5,6 +5,7 @@ CXXFLAGSEXTERN = -fPIC -O2
 OBJDIR=out/
 
 PLSCOREOBJ=\
+	$(OBJDIR)PlasmaVersions.o \
 	$(OBJDIR)hsExceptions.o \
 	$(OBJDIR)hsSemaphore.o \
 	$(OBJDIR)hsStream.o \
@@ -262,6 +263,9 @@ distclean:
 
 
 # Core Lib
+$(OBJDIR)PlasmaVersions.o: DynLib/PlasmaVersions.h DynLib/PlasmaVersions.cpp
+	$(CXX) $(CXXFLAGS) -c DynLib/PlasmaVersions.cpp -o $(OBJDIR)PlasmaVersions.o
+
 $(OBJDIR)hsExceptions.o: CoreLib/hsExceptions.h CoreLib/hsExceptions.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/hsExceptions.cpp -o $(OBJDIR)hsExceptions.o
 

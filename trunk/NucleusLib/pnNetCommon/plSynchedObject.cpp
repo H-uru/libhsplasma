@@ -14,18 +14,32 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
     fSynchFlags = S->readInt();
 
     unsigned short count, len, i;
-    if (fSynchFlags & kExcludePersistentState) {
-        count = S->readShort();
-        for (i=0; i<count; i++) {
-            len = S->readShort();
-            SDLExcludeList.append(S->readStr(len));
+    if (S->getVer() < pvEoa) {
+        if (fSynchFlags & kExcludePersistentState) {
+            count = S->readShort();
+            SDLExcludeList.setSize(count);
+            for (i=0; i<count; i++) {
+                len = S->readShort();
+                SDLExcludeList[i] = S->readStr(len);
+            }
         }
-    }
-    if (fSynchFlags & kHasVolatileState) {
-        count = S->readShort();
-        for (i=0; i<count; i++) {
-            len = S->readShort();
-            SDLVolatileList.append(S->readStr(len));
+        if (fSynchFlags & kHasVolatileState) {
+            count = S->readShort();
+            SDLVolatileList.setSize(count);
+            for (i=0; i<count; i++) {
+                len = S->readShort();
+                SDLVolatileList[i] = S->readStr(len);
+            }
+        }
+    } else {
+        fSynchFlags &= ~0x8;
+        if ((fSynchFlags & 0x6) == 0) {
+            count = S->readShort();
+            SDLExcludeList.setSize(count);
+            for (i=0; i<count; i++) {
+                len = S->readShort();
+                SDLExcludeList[i] = S->readStr(len);
+            }
         }
     }
 }

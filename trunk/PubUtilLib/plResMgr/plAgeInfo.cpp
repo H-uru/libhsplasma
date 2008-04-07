@@ -56,7 +56,7 @@ void plAgeInfo::writeToPath(const plString& path, PlasmaVer ver) {
     
     plEncryptedStream* S = new plEncryptedStream();
     plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
-    if (ver == pvEoa || ver == pvHex)
+    if (ver >= pvEoa)
         eType = plEncryptedStream::kEncAES;
     else
         eType = plEncryptedStream::kEncXtea;

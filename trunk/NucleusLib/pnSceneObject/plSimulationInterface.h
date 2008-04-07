@@ -13,8 +13,8 @@ public:
     };
 
 protected:
-    hsBitVector Props;
-    plKey Physical;
+    hsBitVector fProps;
+    plKey fPhysical;
 
 public:
     plSimulationInterface();

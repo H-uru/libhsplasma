@@ -13,7 +13,7 @@ hsKeyFrame::hsKeyFrame() { }
 hsKeyFrame::~hsKeyFrame() { }
 
 void hsKeyFrame::read(hsStream* S) {
-    if (S->getVer() == pvEoa)
+    if (S->getVer() >= pvEoa)
         fFrameTime = S->readFloat();
     else
         fFrame = S->readShort();
@@ -21,7 +21,7 @@ void hsKeyFrame::read(hsStream* S) {
 
 void hsKeyFrame::write(hsStream* S) {
     // TODO: Convert between fFrameTime and fFrame...
-    if (S->getVer() == pvEoa)
+    if (S->getVer() >= pvEoa)
         S->writeFloat(fFrameTime);
     else
         S->writeShort(fFrame);

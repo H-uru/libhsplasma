@@ -648,6 +648,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DynLib\PlasmaVersions.cpp"
+				>
+			</File>
+			<File
 				RelativePath="DynLib\PlasmaVersions.h"
 				>
 			</File>

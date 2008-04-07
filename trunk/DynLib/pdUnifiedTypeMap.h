@@ -20,6 +20,7 @@ private:
     static short fHexP2MTable[TYPESPACE_MAX];
 
     static short fEoaVerTable[TYPESPACE_MAX];
+    static short fHexVerTable[TYPESPACE_MAX];   // TODO: Probably incorrect
     static const char* fClassNames[TYPESPACE_MAX];
 
 public:
@@ -33,7 +34,7 @@ public:
 };
 
 // This is the internal mapped types list:
-typedef enum _pdClassType {
+typedef enum {
     kSceneNode, kSceneObject, kKeyedObject, kBitmap, kMipmap, kCubicEnvironmap,
     kLayer, kGMaterial, kParticleSystem, kParticleEffect,
     kParticleCollisionEffectBeat, kParticleFadeVolumeEffect, kBoundInterface,

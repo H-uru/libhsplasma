@@ -125,7 +125,7 @@ unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver)
         throw hsBadVersionException(__FILE__, __LINE__);
     if (type < 20)
         return type;
-    if (ver == pvEoa) {
+    if (ver >= pvEoa) {
         switch (type) {
         case 20: return kGlobalSDLVar;
         case 21: return kMaterialAnimation;
@@ -152,7 +152,7 @@ unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver)
         throw hsBadVersionException(__FILE__, __LINE__);
     if (type < 20)
         return type;
-    if (ver == pvEoa) {
+    if (ver >= pvEoa) {
         switch (type) {
         case kGlobalSDLVar: return 20;
         case kMaterialAnimation: return 21;

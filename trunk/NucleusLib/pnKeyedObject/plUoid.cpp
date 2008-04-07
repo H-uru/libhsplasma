@@ -33,7 +33,7 @@ void plLocation::set(int pid, int lflags, PlasmaVer pv) {
 
 void plLocation::read(hsStream* S) {
     pageID.read(S);
-    if (S->getVer() == pvEoa)
+    if (S->getVer() >= pvEoa)
         flags = S->readByte();
     else
         flags = S->readShort();
@@ -41,7 +41,7 @@ void plLocation::read(hsStream* S) {
 
 void plLocation::write(hsStream* S) {
     pageID.write(S);
-    if (S->getVer() == pvEoa)
+    if (S->getVer() >= pvEoa)
         S->writeByte(flags);
     else
         S->writeShort(flags);
@@ -99,21 +99,21 @@ bool plUoid::operator<(const plUoid& other) const {
 void plUoid::read(hsStream* S) {
     unsigned char contents = S->readByte();
     location.read(S);
-    if ((contents & kHasLoadMask) && S->getVer() != pvEoa)
+    if ((contents & kHasLoadMask) && S->getVer() < pvEoa)
         loadMask.read(S);
     else
         loadMask.setAlways();
     classType = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer());
-    if (S->getVer() == pvEoa || S->getVer() == pvLive)
+    if (S->getVer() >= pvLive)
         objID = S->readInt();
     objName = S->readSafeStr();
-    if ((contents & kHasCloneIDs) && S->getVer() != pvEoa) {
+    if ((contents & kHasCloneIDs) && S->getVer() < pvEoa) {
         cloneID = S->readInt();
         clonePlayerID = S->readInt();
     } else {
         cloneID = clonePlayerID = 0;
     }
-    if ((contents & 0x06) && S->getVer() == pvEoa)
+    if ((contents & 0x06) && S->getVer() >= pvEoa)
         eoaExtra = S->readByte();
     else eoaExtra = 0;
 }
@@ -125,17 +125,17 @@ void plUoid::write(hsStream* S) {
     if (eoaExtra != 0) contents |= 0x4;
     S->writeByte(contents);
     location.write(S);
-    if ((contents & kHasLoadMask) && S->getVer() != pvEoa)
+    if ((contents & kHasLoadMask) && S->getVer() < pvEoa)
         loadMask.write(S);
     S->writeShort(pdUnifiedTypeMap::MappedToPlasma(classType, S->getVer()));
-    if (S->getVer() == pvEoa || S->getVer() == pvLive)
+    if (S->getVer() >= pvLive)
         S->writeInt(objID);
     S->writeSafeStr(objName);
-    if ((contents & kHasCloneIDs) && S->getVer() != pvEoa) {
+    if ((contents & kHasCloneIDs) && S->getVer() < pvEoa) {
         S->writeInt(cloneID);
         S->writeInt(clonePlayerID);
     }
-    if ((contents & 0x06) && S->getVer() == pvEoa)
+    if ((contents & 0x06) && S->getVer() >= pvEoa)
         S->writeByte(eoaExtra);
 }
 

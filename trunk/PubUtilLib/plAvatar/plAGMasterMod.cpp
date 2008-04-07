@@ -8,8 +8,10 @@ IMPLEMENT_CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
 void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
-    int len = S->readInt();
-    fGroupName = S->readStr(len);
+    if (S->getVer() < pvEoa) {
+        int len = S->readInt();
+        fGroupName = S->readStr(len);
+    }
 
     fPrivateAnims.setSize(S->readInt());
     for (size_t i=0; i<fPrivateAnims.getSize(); i++)
@@ -21,6 +23,12 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
         if (fLiveA6)
             fLiveA8 = mgr->readKey(S);
     }
+
+    if (S->getVer() >= pvEoa) {
+        fEoaKeys2.setSize(S->readInt());
+        for (size_t i=0; i<fEoaKeys2.getSize(); i++)
+            fEoaKeys2[i] = mgr->readKey(S);
+    }
 }
 
 void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
@@ -28,7 +36,7 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     
     if (S->getVer() != pvPrime) {
         S->writeInt(0);
-    } else {
+    } else if (S->getVer() < pvEoa) {
         S->writeInt(fGroupName.len());
         S->writeStr(fGroupName);
     }
@@ -42,6 +50,12 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
         S->writeBool(fLiveA6);
         if (fLiveA6)
             mgr->writeKey(S, fLiveA8);
+    }
+
+    if (S->getVer() >= pvEoa) {
+        S->writeInt(fEoaKeys2.getSize());
+        for (size_t i=0; i<fEoaKeys2.getSize(); i++)
+            mgr->writeKey(S, fEoaKeys2[i]);
     }
 }
 
@@ -65,5 +79,11 @@ void plAGMasterMod::prcWrite(pfPrcHelper* prc) {
     prc->endTag();
     if (fLiveA6)
         fLiveA8->prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeComment("Unknown EoA/HexIsle Keys");
+    prc->startTag("EoaKeys");
+    for (size_t i=0; i<fEoaKeys2.getSize(); i++)
+        fEoaKeys2[i]->prcWrite(prc);
     prc->closeTag();
 }
