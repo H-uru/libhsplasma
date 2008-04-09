@@ -37,33 +37,6 @@ void ExplorerFrm::SetPlasmaPage(wxString& filename)
 		return;
 	}
 	
-	hsFileStream* S = new hsFileStream();
-	if (!S->open(filename.ToUTF8(), fmRead)) {
-		fprintf(stderr, "Error opening %s for writing!\n", (const char*)filename.ToUTF8());
-		delete S;
-		return;
-	}
-	S->setVer(rm.getVer());
-	
-	S->seek(page->getIndexStart());
-	
-	unsigned int tCount = S->readInt();
-	for (unsigned int j=0; j<tCount; j++) {
-		short type = S->readShort();
-		if (S->getVer() == pvEoa || S->getVer() == pvHex) {
-			S->readInt();
-			unsigned char b = S->readByte();
-			if (b != 0)
-				printf("NOTICE: Type %04hX got flag of %02hhX\n", type, b);
-		}
-		unsigned int oCount = S->readInt();
-		for (unsigned int k=0; k<oCount; k++) {
-			plKey key = new plKeyData();
-			key->read(S);
-			keys.add(key);
-		}
-	}
-
 	wxBoxSizer* bSizer;
 	bSizer = new wxBoxSizer( wxVERTICAL );
 	
@@ -105,18 +78,16 @@ void ExplorerFrm::SetPlasmaPage(wxString& filename)
 
 void ExplorerFrm::LoadObjects()
 {
-        
 	wxTreeItemId fRoot = m_treeCtrl5->AddRoot(wxString::FromUTF8(page->getPage().cstr()));
 	
-	std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
+	std::vector<short> types = rm.getTypes(page->getLocation());
 	
 	for(unsigned int f = 0; f < types.size(); f++) {
 		printf("Iteration %d - [%04X] %s", f, types[f], pdUnifiedTypeMap::ClassName(types[f], rm.getVer()));
-		char* fTypeName;
-		sprintf(fTypeName,"[%04X] %s", types[f], pdUnifiedTypeMap::ClassName(types[f], rm.getVer()));
-		wxTreeItemId fType = m_treeCtrl5->AppendItem(fRoot, wxString::FromUTF8(fTypeName));
+        plString TypeName = plString::Format("[%04X] %s", types[f], pdUnifiedTypeMap::ClassName(types[f], rm.getVer()));
+		wxTreeItemId fType = m_treeCtrl5->AppendItem(fRoot, wxString::FromUTF8(TypeName.cstr()));
 		
-		std::vector<plKey> mykeys = keys.getKeys(page->getLocation().getPageID(), types[f]);
+		std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
 		
 		for(unsigned int ks = 0; ks < mykeys.size(); ks++) {
 			m_treeCtrl5->AppendItem(fType, wxString::FromUTF8(mykeys[ks]->getName().cstr()));

@@ -39,7 +39,7 @@ install:
 	cp Tools/PrpPack /usr/local/bin/
 	cp Tools/PrcExtract /usr/local/bin/
 	cp Tools/PageList /usr/local/bin/
-	cp Tools/PageExplorer /usr/local/bin
+	cp Tools/PageExplorer /usr/local/bin/
 	chmod +x Tools/eoaedit Tools/uruedit
 	cp Tools/eoaedit Tools/uruedit /usr/local/bin/
 

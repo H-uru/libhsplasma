@@ -387,6 +387,10 @@ std::vector<plLocation> plResManager::getLocations() {
     return locArr;
 }
 
+std::vector<short> plResManager::getTypes(const plLocation& loc) {
+    return keys.getTypes(loc.getPageID());
+}
+
 std::vector<plKey> plResManager::getKeys(const plLocation& loc, short type) {
     return keys.getKeys(loc.getPageID(), type);
 }

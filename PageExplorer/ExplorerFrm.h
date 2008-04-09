@@ -39,7 +39,7 @@ class ExplorerFrm : public wxFrame
 	private:
 	    plResManager rm;
         plPageInfo* page;
-        plKeyCollector keys;
+        //plKeyCollector keys;
 	
 	protected:
 		wxSplitterWindow* m_splitter;

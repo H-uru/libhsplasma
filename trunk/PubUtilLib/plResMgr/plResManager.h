@@ -60,6 +60,7 @@ public:
 
     class plSceneNode* getSceneNode(const plLocation& loc);
     std::vector<plLocation> getLocations();
+    std::vector<short> getTypes(const plLocation& loc);
     std::vector<plKey> getKeys(const plLocation& loc, short type);
 };
 
