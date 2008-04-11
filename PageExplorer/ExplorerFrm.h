@@ -47,9 +47,6 @@ class ExplorerFrm : public wxFrame
 		wxTextCtrl* m_textCtrl4;
 		plResManager rm;
         plPageInfo* page;
-        pfPrcHelper* prc;
-        hsRAMStream* S;
-        //plKeyCollector keys;
 	
 	public:
 		ExplorerFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("PageExplorer"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("ExplorerFrm") );

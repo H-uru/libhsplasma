@@ -26,7 +26,7 @@ Tools/PrcExtract: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.so
 Tools/PageList: Tools/src/PageList.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PageList.cpp -o Tools/PageList
 
-Tools/PageExplorer: PageExplorer/PageExplorer.cpp trunk/lib/libPlasma.so
+Tools/PageExplorer: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) `wx-config --cxxflags` -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp -o Tools/PageExplorer `wx-config --libs`
 
 Misc/TypeMap: Misc/TypeMap.cpp

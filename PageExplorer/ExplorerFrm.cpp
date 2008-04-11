@@ -16,7 +16,8 @@ END_EVENT_TABLE()
 
 ///////////////////////////////////////////////////////////////////////////
 
-ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxFrame( parent, id, title, pos, size, style, name )
+ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
+           : wxFrame( parent, id, title, pos, size, style, name )
 {
 	plDebug::InitFile(plDebug::kDLAll);
 	
@@ -43,9 +44,6 @@ void ExplorerFrm::SetPlasmaPage(wxString& filename)
 		return;
 	}
 
-	S = new hsRAMStream(rm.getVer());
-	prc = new pfPrcHelper(S);
-	
 	wxBoxSizer* bSizer;
 	bSizer = new wxBoxSizer( wxVERTICAL );
 	
@@ -121,6 +119,8 @@ void ExplorerFrm::LoadPRC(wxTreeEvent& event)
 
 		hsKeyedObject* fObj = rm.getObject(fKey);
 
+	    hsRAMStream* S = new hsRAMStream(rm.getVer());
+	    pfPrcHelper* prc = new pfPrcHelper(S);
 		fObj->prcWrite(prc);
 		prc->closeTag();
 		
@@ -129,6 +129,10 @@ void ExplorerFrm::LoadPRC(wxTreeEvent& event)
 		S->copyTo((void*&)data, size);
 		
 		m_textCtrl4->AppendText(wxString::FromUTF8(data));
+        delete[] data;
+
+        delete prc;
+        delete S;
 	}
 }
 
