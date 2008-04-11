@@ -7,6 +7,12 @@
 
 #include "ExplorerFrm.h"
 
+using namespace std;
+
+BEGIN_EVENT_TABLE(ExplorerFrm,wxFrame)
+	EVT_TREE_ITEM_ACTIVATED(ID_TREECTRL, ExplorerFrm::LoadPRC)
+END_EVENT_TABLE()
+
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -36,6 +42,9 @@ void ExplorerFrm::SetPlasmaPage(wxString& filename)
 		fprintf(stderr, "Undefined error!\n");
 		return;
 	}
+
+	S = new hsRAMStream(rm.getVer());
+	prc = new pfPrcHelper(S);
 	
 	wxBoxSizer* bSizer;
 	bSizer = new wxBoxSizer( wxVERTICAL );
@@ -49,7 +58,7 @@ void ExplorerFrm::SetPlasmaPage(wxString& filename)
 	wxStaticBoxSizer* sbSizer1;
 	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( m_panelLeft, wxID_ANY, wxString::FromUTF8(page->getAge().cstr())), wxVERTICAL );
 	
-	m_treeCtrl5 = new wxTreeCtrl( m_panelLeft, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTR_DEFAULT_STYLE|wxFULL_REPAINT_ON_RESIZE|wxRAISED_BORDER );
+	m_treeCtrl5 = new wxTreeCtrl( m_panelLeft, ID_TREECTRL, wxDefaultPosition, wxSize( -1,-1 ), wxTR_DEFAULT_STYLE|wxFULL_REPAINT_ON_RESIZE|wxRAISED_BORDER );
 	sbSizer1->Add( m_treeCtrl5, 1, wxALL|wxEXPAND, 1 );
 	
 	bSizer5->Add( sbSizer1, 1, wxEXPAND, 5 );
@@ -61,7 +70,7 @@ void ExplorerFrm::SetPlasmaPage(wxString& filename)
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
 	
-	m_textCtrl4 = new wxTextCtrl( m_panelRight, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	m_textCtrl4 = new wxTextCtrl( m_panelRight, ID_PRCEDIT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
 	bSizer3->Add( m_textCtrl4, 1, wxALL|wxEXPAND, 5 );
 	
 	m_panelRight->SetSizer( bSizer3 );
@@ -83,14 +92,56 @@ void ExplorerFrm::LoadObjects()
 	std::vector<short> types = rm.getTypes(page->getLocation());
 	
 	for(unsigned int f = 0; f < types.size(); f++) {
-		printf("Iteration %d - [%04X] %s", f, types[f], pdUnifiedTypeMap::ClassName(types[f], rm.getVer()));
         plString TypeName = plString::Format("[%04X] %s", types[f], pdUnifiedTypeMap::ClassName(types[f], rm.getVer()));
 		wxTreeItemId fType = m_treeCtrl5->AppendItem(fRoot, wxString::FromUTF8(TypeName.cstr()));
 		
 		std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
 		
 		for(unsigned int ks = 0; ks < mykeys.size(); ks++) {
-			m_treeCtrl5->AppendItem(fType, wxString::FromUTF8(mykeys[ks]->getName().cstr()));
+			m_treeCtrl5->AppendItem(fType, wxString::FromUTF8(mykeys[ks]->getName().cstr()), -1, -1, new wxTreeKeyData(mykeys[ks]));
 		}
+		
+		m_treeCtrl5->SortChildren(fType);
 	}
+	
+	m_treeCtrl5->SortChildren(fRoot);
+}
+
+void ExplorerFrm::LoadPRC(wxTreeEvent& event)
+{
+	wxTreeItemId fID = event.GetItem();
+	
+	m_textCtrl4->Clear();
+	
+	wxTreeKeyData* KeyData = (wxTreeKeyData*)m_treeCtrl5->GetItemData(fID);
+	wxString name = m_treeCtrl5->GetItemText(fID);
+
+	if(KeyData) {
+		plKey fKey = KeyData->getKey();
+
+		hsKeyedObject* fObj = rm.getObject(fKey);
+
+		fObj->prcWrite(prc);
+		prc->closeTag();
+		
+		char* data = new char[S->size()];
+		hsUint32 size = S->size();
+		S->copyTo((void*&)data, size);
+		
+		m_textCtrl4->AppendText(wxString::FromUTF8(data));
+	}
+}
+
+
+
+wxTreeKeyData::wxTreeKeyData(const plKey& key): wxTreeItemData()
+{
+	this->fKey = key;
+}
+
+wxTreeKeyData::~wxTreeKeyData() { }
+
+plKey& wxTreeKeyData::getKey()
+{
+	return this->fKey;
 }

@@ -21,13 +21,16 @@
 #include <wx/splitter.h>
 #include <wx/frame.h>
 #include "PubUtilLib/plResMgr/plResManager.h"
+#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
 #include "CoreLib/plString.h"
 #include "CoreLib/hsExceptions.h"
-#include "CoreLib/hsStdioStream.h"
+#include "CoreLib/hsRAMStream.h"
 #include "CoreLib/plDebug.h"
+#include "PlasmaDefs.h"
 #include <string.h>
 #include <time.h>
 #include <sys/stat.h>
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -36,17 +39,17 @@
 ///////////////////////////////////////////////////////////////////////////////
 class ExplorerFrm : public wxFrame 
 {
-	private:
-	    plResManager rm;
-        plPageInfo* page;
-        //plKeyCollector keys;
-	
 	protected:
 		wxSplitterWindow* m_splitter;
 		wxPanel* m_panelLeft;
 		wxTreeCtrl* m_treeCtrl5;
 		wxPanel* m_panelRight;
 		wxTextCtrl* m_textCtrl4;
+		plResManager rm;
+        plPageInfo* page;
+        pfPrcHelper* prc;
+        hsRAMStream* S;
+        //plKeyCollector keys;
 	
 	public:
 		ExplorerFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("PageExplorer"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("ExplorerFrm") );
@@ -58,8 +61,33 @@ class ExplorerFrm : public wxFrame
 		m_splitter->SetSashPosition( 0 );
 		m_splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( ExplorerFrm::m_splitterOnIdle ), NULL, this );
 		}
+	
+	private:
+        DECLARE_EVENT_TABLE()
+        enum
+        {
+        	ID_TREECTRL = 1001,
+        	ID_PRCEDIT = 1002
+		};
+		void LoadPRC(wxTreeEvent & event);
 		
 	
 };
+
+/*
+ *  Class which is stored in the tree and in the list to keep informations
+ *  about the element.
+ */
+class wxTreeKeyData : public wxTreeItemData
+{
+   public:
+      wxTreeKeyData(const plKey& key = plKey(NULL));
+      ~wxTreeKeyData();
+      plKey& getKey();
+
+   protected:
+      plKey fKey;
+};
+
 
 #endif //__ExplorerFrm__
