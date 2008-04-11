@@ -3,10 +3,12 @@
 
 #include "hsStream.h"
 
+#define BLOCKSIZE 4096  // Common block size on x86 machines //
+
 DllClass hsRAMStream : public hsStream {
 protected:
     hsUbyte* fData;
-    hsUint32 fSize, fPos;
+    hsUint32 fSize, fMax, fPos;
     bool fIOwnStream;
 
 public:
