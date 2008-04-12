@@ -82,7 +82,7 @@ void plAGMasterMod::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeComment("Unknown EoA/HexIsle Keys");
-    prc->startTag("EoaKeys");
+    prc->writeSimpleTag("EoaKeys");
     for (size_t i=0; i<fEoaKeys2.getSize(); i++)
         fEoaKeys2[i]->prcWrite(prc);
     prc->closeTag();

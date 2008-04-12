@@ -31,6 +31,7 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <iostream>
+#include "wxPlasmaTextCtrl.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -44,14 +45,14 @@ class ExplorerFrm : public wxFrame
 		wxPanel* m_panelLeft;
 		wxTreeCtrl* m_treeCtrl5;
 		wxPanel* m_panelRight;
-		wxTextCtrl* m_textCtrl4;
+		wxPlasmaTextCtrl* m_output;
 		plResManager rm;
         plPageInfo* page;
 	
 	public:
 		ExplorerFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("PageExplorer"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("ExplorerFrm") );
 		~ExplorerFrm();
-		void SetPlasmaPage(wxString& filename);
+		void SetPlasmaPage(const wxString& filename);
 		void LoadObjects();
 		void m_splitterOnIdle( wxIdleEvent& )
 		{

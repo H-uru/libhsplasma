@@ -10,15 +10,18 @@ bool PageExplorer::OnInit()
 {
     ExplorerFrm* frame = new ExplorerFrm(NULL);
     
-    wxFileDialog* ofd = new wxFileDialog(NULL, wxT("Choose a file"), wxT(""), wxT(""), wxT("Plasma Registry Pages (*.prp)|*.prp"), wxOPEN, wxDefaultPosition);
-    
-    if(ofd->ShowModal() == wxID_CANCEL) {
-    	return 0;
+    if (argc < 2) {
+        wxFileDialog* ofd = new wxFileDialog(NULL, wxT("Choose a file"), wxEmptyString, wxEmptyString,
+                                wxT("Plasma Registry Pages (*.prp)|*.prp"), wxFD_OPEN, wxDefaultPosition);
+        if (ofd->ShowModal() == wxID_CANCEL) {
+            delete ofd;
+            return false;
+        }
+        frame->SetPlasmaPage(ofd->GetPath());
+        delete ofd;
+    } else {
+        frame->SetPlasmaPage(argv[1]);
 	}
-	
-	wxString fPath = ofd->GetPath();
-	
-	frame->SetPlasmaPage(fPath);
     
     SetTopWindow(frame);
     frame->Show();

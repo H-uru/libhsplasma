@@ -29,7 +29,7 @@ ExplorerFrm::~ExplorerFrm()
 {
 }
 
-void ExplorerFrm::SetPlasmaPage(wxString& filename)
+void ExplorerFrm::SetPlasmaPage(const wxString& filename)
 {
     try {
 		page = rm.ReadPage(filename.ToUTF8());
@@ -47,7 +47,7 @@ void ExplorerFrm::SetPlasmaPage(wxString& filename)
 	wxBoxSizer* bSizer;
 	bSizer = new wxBoxSizer( wxVERTICAL );
 	
-	m_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D );
+    m_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D | wxSP_LIVE_UPDATE );
 	m_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( ExplorerFrm::m_splitterOnIdle ), NULL, this );
 	m_panelLeft = new wxPanel( m_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer5;
@@ -68,8 +68,10 @@ void ExplorerFrm::SetPlasmaPage(wxString& filename)
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
 	
-	m_textCtrl4 = new wxTextCtrl( m_panelRight, ID_PRCEDIT, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-	bSizer3->Add( m_textCtrl4, 1, wxALL|wxEXPAND, 5 );
+	m_output = new wxPlasmaTextCtrl( m_panelRight, ID_PRCEDIT);
+    m_output->SetSyntaxMode(wxPlasmaTextCtrl::kSynXML);
+    m_output->SetReadOnly(true);
+	bSizer3->Add( m_output, 1, wxALL|wxEXPAND, 5 );
 	
 	m_panelRight->SetSizer( bSizer3 );
 	m_panelRight->Layout();
@@ -90,7 +92,7 @@ void ExplorerFrm::LoadObjects()
 	std::vector<short> types = rm.getTypes(page->getLocation());
 	
 	for(unsigned int f = 0; f < types.size(); f++) {
-        plString TypeName = plString::Format("[%04X] %s", types[f], pdUnifiedTypeMap::ClassName(types[f], rm.getVer()));
+        plString TypeName = plString::Format("[%04hX] %s", types[f], pdUnifiedTypeMap::ClassName(types[f]));
 		wxTreeItemId fType = m_treeCtrl5->AppendItem(fRoot, wxString::FromUTF8(TypeName.cstr()));
 		
 		std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
@@ -107,33 +109,42 @@ void ExplorerFrm::LoadObjects()
 
 void ExplorerFrm::LoadPRC(wxTreeEvent& event)
 {
+    m_output->SetReadOnly(false);
 	wxTreeItemId fID = event.GetItem();
 	
-	m_textCtrl4->Clear();
+	m_output->ClearAll();
 	
 	wxTreeKeyData* KeyData = (wxTreeKeyData*)m_treeCtrl5->GetItemData(fID);
 	wxString name = m_treeCtrl5->GetItemText(fID);
 
-	if(KeyData) {
+	if (KeyData) {
 		plKey fKey = KeyData->getKey();
 
 		hsKeyedObject* fObj = rm.getObject(fKey);
-
-	    hsRAMStream* S = new hsRAMStream(rm.getVer());
+    	hsRAMStream* S = new hsRAMStream(rm.getVer());
 	    pfPrcHelper* prc = new pfPrcHelper(S);
-		fObj->prcWrite(prc);
-		prc->closeTag();
+
+        if (fObj != NULL) {
+		    fObj->prcWrite(prc);
+    		prc->closeTag();
+        } else {
+            plString s = plString::Format("Class [%04hX]%s is not currently supported",
+                                          fKey->getType(), pdUnifiedTypeMap::ClassName(fKey->getType()));
+            prc->writeComment(s);
+        }
+
+	    hsUint32 size = S->size();
+		char* data = new char[size + 1];
+    	S->copyTo((void*&)data, size);
+        data[size] = 0;
 		
-		char* data = new char[S->size()];
-		hsUint32 size = S->size();
-		S->copyTo((void*&)data, size);
-		
-		m_textCtrl4->AppendText(wxString::FromUTF8(data));
+    	m_output->AppendText(wxString::FromUTF8(data));
         delete[] data;
 
         delete prc;
         delete S;
 	}
+    m_output->SetReadOnly(true);
 }
 
 

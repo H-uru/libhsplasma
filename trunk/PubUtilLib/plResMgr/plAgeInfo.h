@@ -10,6 +10,15 @@
 DllClass plAgeInfo {
 public:
     enum CommonPages { kTextures, kGlobal, kNumCommonPages };
+
+    DllStruct PageEntry {
+        plString fName;
+        int fSeqSuffix;
+        unsigned int fLoadFlags;
+
+        PageEntry(const plString& name, int seqSuffix, unsigned int loadFlags);
+        PageEntry();
+    };
     
 protected:
     plString fName;
@@ -18,8 +27,7 @@ protected:
     short fMaxCapacity, fLingerTime;
     int fSeqPrefix;
     unsigned int fReleaseVersion;
-
-    hsTArray<plPageInfo*> fPages;
+    hsTArray<PageEntry> fPages;
 
     static const plString kCommonPages[kNumCommonPages];
 
@@ -47,9 +55,12 @@ public:
     void setReleaseVersion(unsigned int);
 
     size_t getNumPages() const;
-    plPageInfo* getPage(size_t idx) const;
-    void setPage(size_t idx, plPageInfo* page);
-    void addPage(plPageInfo* page);
+    PageEntry getPage(size_t idx) const;
+    void setPage(size_t idx, const PageEntry& page);
+    void addPage(const PageEntry& page);
+
+    plString getPageFileName(size_t idx, PlasmaVer pv) const;
+    plLocation getPageLocation(size_t idx) const;
 };
 
 #endif

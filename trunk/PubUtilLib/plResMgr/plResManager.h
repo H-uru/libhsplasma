@@ -50,6 +50,7 @@ public:
     void WritePage(const char* filename, plPageInfo* page);
     void WritePrc(pfPrcHelper* prc, plPageInfo* page);
     void UnloadPage(const plLocation& loc);
+    void UnloadPage(const char* ageName, const char* pageName);
     
     plAgeInfo* ReadAge(const char* filename);
     void WriteAge(const char* filename, plAgeInfo* age);

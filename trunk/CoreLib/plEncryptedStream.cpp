@@ -140,6 +140,9 @@ bool plEncryptedStream::open(const char* file, FileMode mode, EncryptionType typ
     if (!hsFileStream::open(file, mode)) return false;
     eType = type;
 
+    if (eType == kEncNone)
+        throw hsBadParamException(__FILE__, __LINE__);
+
     if (mode == fmRead || mode == fmReadWrite) {
         fseek(F, 0, SEEK_END);
         unsigned int sz = ftell(F);
@@ -166,8 +169,16 @@ bool plEncryptedStream::open(const char* file, FileMode mode, EncryptionType typ
             }
         }
     } else {
-        if (eType == kEncAuto)
-            throw hsBadVersionException(__FILE__, __LINE__);
+        if (eType == kEncAuto) {
+            if (getVer() == pvUnknown)
+                throw hsBadVersionException(__FILE__, __LINE__);
+            else if (getVer() < pvLive)
+                eType = kEncXtea;
+            else if (getVer() > pvLive)
+                eType = kEncAES;
+            else
+                eType = kEncDroid;
+        }
         // Skip header info for now
         memset(LBuffer, 0, 16);
         if (eType == kEncAES)

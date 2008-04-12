@@ -6,7 +6,7 @@
 #include "hsExceptions.h"
 
 template <typename T>
-DllClass hsTArray {
+class hsTArray {
 private:
     unsigned short count;
     T* data;

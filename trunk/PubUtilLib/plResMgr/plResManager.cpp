@@ -180,8 +180,22 @@ void plResManager::UnloadPage(const plLocation& loc) {
     while (pi != pages.end()) {
         if ((*pi)->getLocation() == loc) {
             plPageInfo* page = *pi;
-            pages.erase(pi);
             delete page;
+            pages.erase(pi);
+            pi = pages.end();
+        } else {
+            pi++;
+        }
+    }
+}
+
+void plResManager::UnloadPage(const char* ageName, const char* pageName) {
+    std::vector<plPageInfo*>::iterator pi = pages.begin();
+    while (pi != pages.end()) {
+        if ((*pi)->getAge() == ageName && (*pi)->getPage() == pageName) {
+            plPageInfo* page = *pi;
+            delete page;
+            pages.erase(pi);
             pi = pages.end();
         } else {
             pi++;
@@ -193,10 +207,8 @@ plAgeInfo* plResManager::ReadAge(const char* filename) {
     plAgeInfo* age = new plAgeInfo();
     age->readFromFile(filename);
     
-    for (size_t i=0; i<age->getNumPages(); i++) {
-        plPageInfo* page = age->getPage(i);
-        age->setPage(i, ReadPage(page->getFilename(getVer())));
-    }
+    for (size_t i=0; i<age->getNumPages(); i++)
+        ReadPage(age->getPageFileName(i, getVer()));
 
     ages.push_back(age);
     return age;
@@ -214,11 +226,13 @@ void plResManager::WriteAge(const char* filename, plAgeInfo* age) {
 
 void plResManager::UnloadAge(plAgeInfo* age) {
     for (size_t i=0; i<age->getNumPages(); i++)
-        UnloadPage(age->getPage(i)->getLocation());
+        UnloadPage(age->getAgeName(), age->getPage(i).fName);
     
     std::vector<plAgeInfo*>::iterator ai = ages.begin();
     while (ai != ages.end()) {
         if ((*ai) == age) {
+            plAgeInfo* age = *ai;
+            delete age;
             ages.erase(ai);
             ai = ages.end();
         } else {

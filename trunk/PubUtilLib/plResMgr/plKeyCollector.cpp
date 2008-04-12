@@ -4,7 +4,6 @@
 plKeyCollector::plKeyCollector() { }
 
 plKeyCollector::~plKeyCollector() {
-    /*
     std::vector<PageID> pages = getPages();
     for (unsigned int i=0; i<pages.size(); i++) {
         for (unsigned int j=0; j<TYPESPACE_MAX; j++) {
@@ -12,7 +11,6 @@ plKeyCollector::~plKeyCollector() {
                 keys[pages[i]][j][k]->UnRef();
         }
     }
-    */
 }
 
 plKey plKeyCollector::findKey(plKey match) {

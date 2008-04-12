@@ -17,11 +17,11 @@ public:
     plKeyData(plKeyData* init);
     ~plKeyData();
 
-private:
-    friend class plKey;
     hsUint32 RefCnt() const;
     hsUint32 Ref();
     void UnRef();
+
+    friend class plKey;
 
 public:
     bool operator==(plKeyData& other) const;

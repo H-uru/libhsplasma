@@ -5,7 +5,7 @@
 
 DllClass plEncryptedStream : public hsFileStream {
 public:
-    enum EncryptionType { kEncAuto, kEncXtea, kEncAES, kEncDroid };
+    enum EncryptionType { kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto };
 
 private:
     unsigned char LBuffer[16]; // Uru modes use only the first 8 bytes

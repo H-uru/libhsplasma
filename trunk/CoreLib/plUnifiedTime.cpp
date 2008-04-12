@@ -18,6 +18,8 @@ int gettimeofday(struct timeval* tv, void* tz) {
     tim -= 11644473600000000ULL;    // Windows epoch -> UNIX epoch
     tv->tv_sec  = (long)(tim / 1000000L);
     tv->tv_usec = (long)(tim % 1000000L);
+
+    return 0;
 }
 
 }

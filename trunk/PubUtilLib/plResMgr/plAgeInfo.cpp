@@ -2,20 +2,27 @@
 
 const plString plAgeInfo::kCommonPages[] = { "Textures", "BuiltIn" };
 
+/* PageEntry */
+plAgeInfo::PageEntry::PageEntry(const plString& name, int seqSuffix,
+                                unsigned int loadFlags)
+         : fName(name), fSeqSuffix(seqSuffix), fLoadFlags(loadFlags) { }
+
+plAgeInfo::PageEntry::PageEntry()
+         : fSeqSuffix(0), fLoadFlags(0) { }
+
+
+/* plAgeInfo */
 plAgeInfo::plAgeInfo() : fStartDateTime(0), fDayLength(24.0f), fMaxCapacity(-1),
                          fLingerTime(180), fSeqPrefix(0), fReleaseVersion(0) { }
 
-plAgeInfo::~plAgeInfo() {
-    for (size_t i=0; i<fPages.getSize(); i++)
-        delete fPages[i];
-}
+plAgeInfo::~plAgeInfo() { }
 
 void plAgeInfo::readFromFile(const plString& filename) {
     fName = filename.afterLast(PATHSEP);
     if (!fName.beforeLast('.').empty())
         fName = fName.beforeLast('.');
     for (size_t i=0; i<kNumCommonPages; i++)
-        addPage(new plPageInfo(fName, kCommonPages[i]));
+        addPage(PageEntry(kCommonPages[i], (-1) - i, 0));
 
     plEncryptedStream* S = new plEncryptedStream();
     S->open(filename, fmRead, plEncryptedStream::kEncAuto);
@@ -38,14 +45,17 @@ void plAgeInfo::readFromFile(const plString& filename) {
         } else if (field == "releaseversion") {
             fReleaseVersion = value.toUint();
         } else if (field == "page") {
-            plPageInfo* page = new plPageInfo(fName, value.beforeFirst(','));
+            plString name = value.beforeFirst(',');
             value = value.afterFirst(',');
-            //hsUint32 pageIdx = value.beforeFirst(',').toUint();
+            int seqSuffix = value.beforeFirst(',').toInt();
             value = value.afterFirst(',');
-            page->setLoadFlags(value.toUint());
+            unsigned int loadFlags = value.toUint();
+            PageEntry page(name, seqSuffix, loadFlags);
             addPage(page);
         }
     }
+
+    delete S;
 }
 
 void plAgeInfo::writeToPath(const plString& path, PlasmaVer ver) {
@@ -70,16 +80,18 @@ void plAgeInfo::writeToPath(const plString& path, PlasmaVer ver) {
     S->writeLine(plString::Format("ReleaseVersion=%u", fReleaseVersion));
 
     for (size_t i=0; i<fPages.getSize(); i++) {
-        if (fPages[i]->getLoadFlags() != 0)
+        if (fPages[i].fLoadFlags != 0)
             S->writeLine(plString::Format("Page=%s,%d,%d",
-                         fPages[i]->getPage().cstr(),
-                         fPages[i]->getLocation().getPageID().getPageNum(),
-                         fPages[i]->getLoadFlags()));
+                         fPages[i].fName.cstr(),
+                         fPages[i].fSeqSuffix,
+                         fPages[i].fLoadFlags));
         else
             S->writeLine(plString::Format("Page=%s,%d",
-                         fPages[i]->getPage().cstr(),
-                         fPages[i]->getLocation().getPageID().getPageNum()));
+                         fPages[i].fName.cstr(),
+                         fPages[i].fSeqSuffix));
     }
+
+    delete S;
 }
 
 const plString& plAgeInfo::getAgeName() const { return fName; }
@@ -91,11 +103,8 @@ int plAgeInfo::getSeqPrefix() const { return fSeqPrefix; }
 unsigned int plAgeInfo::getReleaseVersion() const { return fReleaseVersion; }
 
 void plAgeInfo::setAgeName(const plString& name) {
-    if (name != fName) {
+    if (name != fName)
         fName = name;
-        for (size_t i=0; i<fPages.getSize(); i++)
-            fPages[i]->setNames(fName, fPages[i]->getPage());
-    }
 }
 
 void plAgeInfo::setStartDateTime(unsigned int time) { fStartDateTime = time; }
@@ -106,6 +115,13 @@ void plAgeInfo::setSeqPrefix(int prefix) { fSeqPrefix = prefix; }
 void plAgeInfo::setReleaseVersion(unsigned int ver) { fReleaseVersion = ver; }
 
 size_t plAgeInfo::getNumPages() const { return fPages.getSize(); }
-plPageInfo* plAgeInfo::getPage(size_t idx) const { return fPages[idx]; }
-void plAgeInfo::setPage(size_t idx, plPageInfo* page) { fPages[idx] = page; }
-void plAgeInfo::addPage(plPageInfo* page) { fPages.append(page); }
+plAgeInfo::PageEntry plAgeInfo::getPage(size_t idx) const { return fPages[idx]; }
+void plAgeInfo::setPage(size_t idx, const PageEntry& page) { fPages[idx] = page; }
+void plAgeInfo::addPage(const PageEntry& page) { fPages.append(page); }
+
+plString plAgeInfo::getPageFileName(size_t idx, PlasmaVer pv) const {
+    if (pv >= pvEoa)
+        return plString::Format("%s_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
+    else
+        return plString::Format("%s_District_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
+}

@@ -7,19 +7,30 @@ all:
 	make -fMakefile.win Tools/PlasmaCrypt.exe
 	make -fMakefile.win Tools/PrpPack.exe
 	make -fMakefile.win Tools/PrcExtract.exe
+	make -fMakefile.win Tools/PageList.exe
+	make -fMakefile.win Tools/PageExplorer.exe
+	make -fMakefile.win Misc/TypeMap.exe
 
-Tools/PageConvert.exe: trunk/lib/libPlasma.dll Tools/src/PageConvert.cpp
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert.exe
+Tools/PageConvert.exe: Tools/src/PageConvert.cpp trunk/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert.exe
 
-Tools/PlasmaCrypt.exe: trunk/lib/libPlasma.dll Tools/src/PlasmaCrypt.cpp
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt.exe
+Tools/PlasmaCrypt.exe: Tools/src/PlasmaCrypt.cpp trunk/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -Itrunk -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt.exe
 
-Tools/PrpPack.exe: trunk/lib/libPlasma.dll Tools/src/PrpPack.cpp
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrpPack.cpp -o Tools/PrpPack.exe
+Tools/PrpPack.exe: Tools/src/PrpPack.cpp trunk/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PrpPack.cpp -o Tools/PrpPack.exe
 
-Tools/PrcExtract.exe: trunk/lib/libPlasma.dll Tools/src/PrcExtract.cpp
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract.exe
+Tools/PrcExtract.exe: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract.exe
 
+Tools/PageList.exe: Tools/src/PageList.cpp trunk/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PageList.cpp -o Tools/PageList.exe
+
+Tools/PageExplorer.exe: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp trunk/lib/libPlasma.dll
+	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer.exe
+
+Misc/TypeMap.exe: Misc/TypeMap.cpp trunk/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Misc/TypeMap.cpp -o Misc/TypeMap.exe
 clean:
 	(cd trunk ; make clean)
 
@@ -29,3 +40,6 @@ distclean:
 	rm -f Tools/PlasmaCrypt.exe
 	rm -f Tools/PrpPack.exe
 	rm -f Tools/PrcExtract.exe
+	rm -f Tools/PageList.exe
+	rm -f Tools/PageExplorer.exe
+	rm -f Misc/TypeMap.exe
