@@ -12,6 +12,10 @@ plKeyData::~plKeyData() {
         delete fObjPtr;
 }
 
+void plKeyData::Delete() {
+    UnRef();
+}
+
 bool plKeyData::operator==(plKeyData& other) const {
     return (fUoid == other.fUoid);
 }

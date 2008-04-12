@@ -9,19 +9,19 @@ hsElfStream::~hsElfStream() { }
 void hsElfStream::decipher(unsigned char* v, int size, unsigned char hint) {
     unsigned char key = (v[0] ^ hint) >> 5;
     for (int i=size-1; i>=0; i--) {
-        unsigned char c = ((v[i] ^ hint) << 3) | key;
-        v[i] = (c >> 6) | (c << 2);
-        key = (v[i] ^ hint) >> 5;
+        unsigned char a = (v[i] ^ hint);
+        key = (a << 3) | key;
+        v[i] = (key >> 6) | (key << 2);
+        key = a >> 5;
     }
 }
 
-void hsElfStream::encipher(unsigned char* v, unsigned char hint) {
-    size_t size = strlen((const char*)v);
+void hsElfStream::encipher(unsigned char* v, int size, unsigned char hint) {
     unsigned char key = (v[size-1] & 0xFC) << 3;
-    for (size_t i=0; i<size; i++) {
-        unsigned char c = (v[i] << 6) | (v[i] >> 2);
-        v[i] = ((c >> 3) | key) ^ hint;
-        key = c << 5;
+    for (int i=0; i<size; i++) {
+        unsigned char a = (v[i] << 6) | (v[i] >> 2);
+        v[i] = ((a >> 3) | key) ^ hint;
+        key = a << 5;
     }
 }
 
@@ -34,7 +34,9 @@ plString hsElfStream::readLine() {
     read(segSize, ln);
     ln[segSize] = 0;
     decipher((unsigned char*)ln, segSize, (p & 0xFF));
-    return plString(ln);
+    plString line(ln);
+    delete[] ln;
+    return line;
 }
 
 void hsElfStream::writeLine(const plString& ln) {
@@ -43,7 +45,7 @@ void hsElfStream::writeLine(const plString& ln) {
     unsigned short segSize = ln.len();
 
     char* lnWrite = ln.copybuf();
-    encipher((unsigned char*)lnWrite, (p & 0xFF));
+    encipher((unsigned char*)lnWrite, segSize, (p & 0xFF));
     writeShort(segSize ^ (p & 0xFFFF));
     write(segSize, lnWrite);
     delete[] lnWrite;
