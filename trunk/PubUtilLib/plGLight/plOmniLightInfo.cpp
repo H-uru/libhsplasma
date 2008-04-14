@@ -61,4 +61,3 @@ void plSpotLightInfo::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("SpotOuter", fSpotOuter);
     prc->endTag(true);
 }
-

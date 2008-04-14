@@ -33,6 +33,7 @@ void plDebug::InitFile(int level, const char* filename) {
 void plDebug::DeInit() {
     if (fIOwnStream && (fDebugStream != NULL))
         delete fDebugStream;
+    fDebugStream = NULL;
 }
 
 void plDebug::Error(const char* fmt, ...) {

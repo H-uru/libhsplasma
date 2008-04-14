@@ -15,7 +15,7 @@ void plDirectionalLightInfo::write(hsStream* S, plResManager* mgr) {
 }
 
 void plDirectionalLightInfo::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+    plLightInfo::prcWrite(prc);
 }
 
 
@@ -48,4 +48,3 @@ void plLimitedDirLightInfo::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("Depth", fDepth);
     prc->endTag(true);
 }
-

@@ -99,4 +99,3 @@ void plLightInfo::prcWrite(pfPrcHelper* prc) {
         visRegions[i]->prcWrite(prc);
     prc->closeTag();
 }
-

@@ -1,8 +1,8 @@
 #include "PubUtilLib/plResMgr/plResManager.h"
-#include "CoreLib/plString.h"
-#include "CoreLib/hsExceptions.h"
-#include "CoreLib/hsStdioStream.h"
-#include "CoreLib/plDebug.h"
+#include <CoreLib/plString.h>
+#include <CoreLib/hsExceptions.h>
+#include <CoreLib/hsStdioStream.h>
+#include <CoreLib/plDebug.h>
 #include <string.h>
 #include <time.h>
 #ifdef WIN32
@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
                 return 1;
             }
         } else {
-            fFiles.append(argv[i]);
+            fFiles.append(plString(argv[i]));
         }
     }
 
