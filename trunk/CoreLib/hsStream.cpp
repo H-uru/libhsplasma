@@ -338,11 +338,11 @@ void hsFileStream::skip(hsInt32 count) {
 }
 
 void hsFileStream::fastForward() {
-    fseek(F, 0, SEEK_SET);
+    fseek(F, 0, SEEK_END);
 }
 
 void hsFileStream::rewind() {
-    fseek(F, 0, SEEK_END);
+    fseek(F, 0, SEEK_SET);
 }
 
 void hsFileStream::read(size_t size, void* buf) {

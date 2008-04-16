@@ -228,10 +228,16 @@ void plEncryptedStream::seek(hsUint32 pos) {
     skip(pos);
 }
 
-void plEncryptedStream::skip(hsUint32 count) {
-    unsigned char* ignore = new unsigned char[count];
-    read(count, ignore);
-    delete[] ignore;
+void plEncryptedStream::skip(hsInt32 count) {
+    if (count < 0) {
+        if ((dataPos + count) < 0)
+            throw hsFileReadException(__FILE__, __LINE__, "Seek out of range");
+        seek(dataPos + count);
+    } else {
+        unsigned char* ignore = new unsigned char[count];
+        read(count, ignore);
+        delete[] ignore;
+    }
 }
 
 void plEncryptedStream::rewind() {

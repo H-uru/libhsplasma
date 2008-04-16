@@ -5,7 +5,7 @@
 #include <string.h>
 #include "hsExceptions.h"
 
-template <typename T>
+template <class T>
 class hsTArray {
 private:
     unsigned short count;
@@ -14,8 +14,22 @@ private:
 public:
     hsTArray() : count(0), data(NULL) { }
 
+    hsTArray(const hsTArray& init) : count(init.count) {
+        data = new T[count];
+        for (size_t i=0; i<count; i++)
+            data[i] = init.data[i];
+    }
+
     ~hsTArray<T>() {
         if (data != NULL) delete[] data;
+    }
+
+    hsTArray<T>& operator=(const hsTArray& cpy) {
+        count = cpy.count;
+        data = new T[count];
+        for (size_t i=0; i<count; i++)
+            data[i] = cpy.data[i];
+        return *this;
     }
 
     void clear() {

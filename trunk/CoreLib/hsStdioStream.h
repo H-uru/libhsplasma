@@ -20,7 +20,7 @@ public:
     virtual bool eof() const;
     
     virtual void seek(hsUint32 pos);
-    virtual void skip(hsUint32 count);
+    virtual void skip(hsInt32 count);
     virtual void fastForward();
     virtual void rewind();
 

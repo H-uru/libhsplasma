@@ -24,7 +24,7 @@ void hsStdioStream::seek(hsUint32 pos) {
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
-void hsStdioStream::skip(hsUint32 count) {
+void hsStdioStream::skip(hsInt32 count) {
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 

@@ -78,6 +78,8 @@ void ExplorerFrm::SetPlasmaPage(const wxString& filename)
 	bSizer3->Fit( m_panelRight );
 	m_splitter->SplitVertically( m_panelLeft, m_panelRight, 0 );
 	bSizer->Add( m_splitter, 1, wxEXPAND, 5 );
+    m_splitter->SetSashPosition(200, true);
+    m_splitter->UpdateSize();
 	
 	this->SetSizer( bSizer );
 	this->Layout();

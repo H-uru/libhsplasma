@@ -2,10 +2,10 @@
 
 hsRAMStream::hsRAMStream(PlasmaVer pv)
            : hsStream(pv), fData(NULL), fSize(0), fMax(0), fPos(0),
-             fIOwnStream(false) { }
+             fIOwnData(false) { }
 
 hsRAMStream::~hsRAMStream() {
-    if (fIOwnStream && fData != NULL)
+    if (fIOwnData && fData != NULL)
         delete[] fData;
 }
 
@@ -13,14 +13,14 @@ void hsRAMStream::copyFrom(const void* data, hsUint32 size) {
     fSize = size;
     fMax = ((size / BLOCKSIZE) * BLOCKSIZE) + (size % BLOCKSIZE ? BLOCKSIZE : 0);
     fPos = 0;
-    if (fIOwnStream && fData != NULL)
+    if (fIOwnData && fData != NULL)
         delete[] fData;
     if (size == 0) {
         fData = NULL;
     } else {
         fData = new hsUbyte[size];
         memcpy(fData, data, size);
-        fIOwnStream = true;
+        fIOwnData = true;
     }
 }
 
@@ -37,7 +37,7 @@ void hsRAMStream::setFrom(const void* data, hsUint32 size) {
     fData = (hsUbyte*)data;
     fSize = size;
     fMax = ((size / BLOCKSIZE) * BLOCKSIZE) + (size % BLOCKSIZE ? BLOCKSIZE : 0);
-    fIOwnStream = false;
+    fIOwnData = false;
 }
 
 hsUint32 hsRAMStream::size() const { return fSize; }
@@ -57,8 +57,12 @@ void hsRAMStream::read(size_t size, void* buf) {
 }
 
 void hsRAMStream::write(size_t size, const void* buf) {
-    if (size + fPos > fMax)
-        resize(fMax + BLOCKSIZE);
+    if (size + fPos > fMax) {
+        if (fMax == 0)
+            resize(BLOCKSIZE);
+        else
+            resize(fMax * 2);
+    }
     memcpy(fData + fPos, buf, size);
     fPos += size;
     if (fPos > fSize)
@@ -78,7 +82,7 @@ void hsRAMStream::resize(hsUint32 newsize) {
         if (newsize > cpysize)
             memset(newData + cpysize, 0, (newsize - cpysize));
     }
-    if (fIOwnStream && fData != NULL)
+    if (fIOwnData && fData != NULL)
         delete[] fData;
 
     fMax = newsize;

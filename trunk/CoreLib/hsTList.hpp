@@ -15,21 +15,46 @@ private:
     unsigned long count;
     Link* first;
     Link* last;
-    Link* iter;
+    mutable Link* iter; // Don't shoot me :P
 
 public:
-    hsTList() : count(0), first(NULL), last(NULL) { }
+    hsTList() : count(0), first(NULL), last(NULL), iter(NULL) { }
+
+    hsTList(const hsTList<T>& init) : count(init.count), iter(NULL) {
+        if (count > 0) {
+            rpush(init.iBegin());
+            while (!init.iAtEnd())
+                rpush(init.next());
+        } else {
+            first = NULL;
+            last = NULL;
+        }
+    }
 
     ~hsTList<T>() {
         clear();
+    }
+
+    hsTList<T>& operator=(const hsTList<T>& cpy) {
+        count = cpy.count;
+        if (count > 0) {
+            rpush(cpy.iBegin());
+            while (!cpy.iAtEnd())
+                rpush(cpy.next());
+        } else {
+            first = NULL;
+            last = NULL;
+        }
+        iter = NULL;
+        return *this;
     }
 
     void clear() {
         while (first != NULL) pop();
     }
 
-    size_t getSize() { return count; }
-    bool empty() { return count == 0; }
+    size_t getSize() const { return count; }
+    bool empty() const { return count == 0; }
 
     void push(const T& item) {
         Link* top = new Link;
@@ -95,7 +120,7 @@ public:
         return bottom;
     }
 
-    T& get(size_t idx) {
+    const T& get(size_t idx) const {
         if (idx >= count)
             throw hsOutOfBoundsException(__FILE__, __LINE__);
         Link* pos = first;
@@ -116,35 +141,46 @@ public:
     T& top() { return first->item; }
     T& bottom() { return last->item; }
 
-    T& operator[](size_t idx) { return get(idx); }
+    T& operator[](size_t idx) {
+        if (idx >= count)
+            throw hsOutOfBoundsException(__FILE__, __LINE__);
+        Link* pos = first;
+        for (size_t i=0; i<idx; i++)
+            pos = pos->next;
+        return pos->item;
+    }
 
     // For linear iteration:
-    T& iBegin() {
+    T& iBegin() const {
         iter = first;
         return iter->item;
     }
 
-    T& iEnd() {
+    T& iEnd() const {
         iter = last;
         return iter->item;
     }
 
-    bool iAtBegin() { return iter == first; }
-    bool iAtEnd() { return iter == last; }
+    bool iAtBegin() const { return iter == first; }
+    bool iAtEnd() const { return iter == last; }
 
-    T& next() {
+    T& next() const {
+        if (iter == NULL)
+            return iBegin();
         if (!iAtEnd())
             iter = iter->next;
         return iter->item;
     }
 
-    T& prev() {
+    T& prev() const {
+        if (iter == NULL)
+            return iEnd();
         if (!iAtBegin())
             iter = iter->prev;
         return iter->item;
     }
 
-    T& icur() { return iter->item; }
+    T& icur() const { return iter->item; }
 };
 
 #endif

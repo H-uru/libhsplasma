@@ -3,13 +3,13 @@
 
 #include "hsStream.h"
 
-#define BLOCKSIZE 4096  // Common block size on x86 machines //
+#define BLOCKSIZE 4096  // Common block size on x86 machines
 
 DllClass hsRAMStream : public hsStream {
 protected:
     hsUbyte* fData;
     hsUint32 fSize, fMax, fPos;
-    bool fIOwnStream;
+    bool fIOwnData;
 
 public:
     hsRAMStream(PlasmaVer pv = pvUnknown);

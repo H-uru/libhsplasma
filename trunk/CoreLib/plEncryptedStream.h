@@ -35,7 +35,7 @@ public:
     virtual bool eof() const;
 
     virtual void seek(hsUint32 pos);  // Less efficient than skip...
-    virtual void skip(hsUint32 count);
+    virtual void skip(hsInt32 count);
     virtual void rewind();
 
     virtual void read(size_t size, void* buf);
