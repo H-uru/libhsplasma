@@ -30,12 +30,9 @@ void plSimpleRotController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleRotController::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plSimpleRotController::IPrcWrite(pfPrcHelper* prc) {
     if (fRot != NULL) {
         fRot->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plQuatController");
         prc->writeParam("present", false);
@@ -97,12 +94,9 @@ void plCompoundRotController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCompoundRotController::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plCompoundRotController::IPrcWrite(pfPrcHelper* prc) {
     if (fXController != NULL) {
         fXController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);
@@ -110,7 +104,6 @@ void plCompoundRotController::prcWrite(pfPrcHelper* prc) {
     }
     if (fYController != NULL) {
         fYController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);
@@ -118,7 +111,6 @@ void plCompoundRotController::prcWrite(pfPrcHelper* prc) {
     }
     if (fZController != NULL) {
         fZController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);

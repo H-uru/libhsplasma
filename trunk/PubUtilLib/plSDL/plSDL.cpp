@@ -47,6 +47,8 @@ void plSDLCreatableStub::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plSDLCreatableStub::IPrcWrite(pfPrcHelper* prc) { }
+
 short plSDLCreatableStub::getClassIdx() const { return fClassIdx; }
 unsigned char* plSDLCreatableStub::getData() const { return fData; }
 size_t plSDLCreatableStub::getLength() const { return fDataLen; }

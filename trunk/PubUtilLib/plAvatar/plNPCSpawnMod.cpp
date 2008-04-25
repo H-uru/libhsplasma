@@ -31,8 +31,8 @@ void plNPCSpawnMod::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fNotify);
 }
 
-void plNPCSpawnMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plNPCSpawnMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("NPCSpawnParams");
     prc->writeParam("ModelName", fModelName);
@@ -42,7 +42,6 @@ void plNPCSpawnMod::prcWrite(pfPrcHelper* prc) {
 
     if (fNotify != NULL) {
         fNotify->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("Notify");
         prc->writeParam("NULL", true);

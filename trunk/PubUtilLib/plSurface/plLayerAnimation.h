@@ -25,13 +25,12 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plLayerAnimation : public plLayerAnimationBase {
 protected:
     plAnimTimeConvert fTimeConvert;
-    //plLayerSDLModifier* fLayerSDLMod;
 
 public:
     plLayerAnimation();
@@ -41,7 +40,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plLayerLinkAnimation : public plLayerAnimation {
@@ -57,7 +56,6 @@ public:
 protected:
     plKey fLinkKey;
     bool fEnabled;
-    //plEventCallbackMsg* fIFaceCallback;
     unsigned char fFadeFlags, fLastFadeFlag;
     bool fFadeFlagsDirty, fLeavingAge;
 
@@ -69,12 +67,11 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plLayerSDLAnimation : public plLayerAnimation {
 protected:
-    //plSimpleStateVariable* fVar;
     plString fVarName;
 
 public:
@@ -85,7 +82,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

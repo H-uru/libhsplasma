@@ -18,8 +18,8 @@ void plFacingConditionalObject::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fDirectional);
 }
 
-void plFacingConditionalObject::prcWrite(pfPrcHelper* prc) {
-    plConditionalObject::prcWrite(prc);
+void plFacingConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+    plConditionalObject::IPrcWrite(prc);
     prc->startTag("FacingParams");
     prc->writeParam("Tolerance", fTolerance);
     prc->writeParam("Directional", fDirectional);

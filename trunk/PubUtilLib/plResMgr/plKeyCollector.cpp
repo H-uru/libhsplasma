@@ -3,16 +3,7 @@
 #include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
 
 plKeyCollector::plKeyCollector() { }
-
-plKeyCollector::~plKeyCollector() {
-    std::vector<PageID> pages = getPages();
-    for (unsigned int i=0; i<pages.size(); i++) {
-        for (unsigned int j=0; j<TYPESPACE_MAX; j++) {
-            for (unsigned int k=0; k<keys[pages[i]][j].size(); k++)
-                keys[pages[i]][j][k] = 0;
-        }
-    }
-}
+plKeyCollector::~plKeyCollector() { }
 
 plKey plKeyCollector::findKey(plKey match) {
     plKey key;

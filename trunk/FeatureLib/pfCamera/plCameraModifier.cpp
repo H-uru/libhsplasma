@@ -58,8 +58,7 @@ plCameraModifier1::plCameraModifier1()
                  : fFrom(0.0f, 0.0f, 0.0f), fAt(0.0f, 1.0f, 0.0f),
                    fFOVw(45.0f), fFOVh(33.75f), fAnimated(false),
                    fStartAnimOnPush(false), fStopAnimOnPop(false),
-                   fResetAnimOnPop(false), fInSubLastUpdate(false),
-                   fUpdateBrainTarget(false) { }
+                   fResetAnimOnPop(false) { }
 
 plCameraModifier1::~plCameraModifier1() {
     for (size_t i=0; i<fTrans.getSize(); i++)
@@ -127,8 +126,8 @@ void plCameraModifier1::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fResetAnimOnPop);
 }
 
-void plCameraModifier1::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plCameraModifier1::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("CameraModParams");
     prc->writeParam("FOVw", fFOVw);
@@ -151,7 +150,7 @@ void plCameraModifier1::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("MessageQueue");
     for (size_t i=0; i<fMessageQueue.getSize(); i++) {
         prc->writeSimpleTag("Message");
-        fMessageQueue[i]->prcWrite(prc);  prc->closeTag();
+        fMessageQueue[i]->prcWrite(prc);
         prc->closeTag();
         prc->writeSimpleTag("Sender");
         fSenderQueue[i]->prcWrite(prc);
@@ -160,9 +159,7 @@ void plCameraModifier1::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("FOVInstructions");
-    for (size_t i=0; i<fFOVInstructions.getSize(); i++) {
+    for (size_t i=0; i<fFOVInstructions.getSize(); i++)
         fFOVInstructions[i]->prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 }

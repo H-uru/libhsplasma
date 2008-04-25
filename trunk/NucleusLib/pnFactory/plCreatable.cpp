@@ -18,4 +18,6 @@ void plCreatable::write(hsStream* S, plResManager* mgr) { }
 
 void plCreatable::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag(ClassName());
+    IPrcWrite(prc);
+    prc->closeTag();
 }

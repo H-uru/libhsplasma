@@ -12,13 +12,12 @@ public:
     
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plLimitedDirLightInfo : public plDirectionalLightInfo {
 protected:
     float fWidth, fHeight, fDepth;
-    //plParallelIsect* fParPlanes;
 
 public:
     plLimitedDirLightInfo();
@@ -28,7 +27,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

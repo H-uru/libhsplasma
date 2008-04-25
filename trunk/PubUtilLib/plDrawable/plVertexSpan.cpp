@@ -25,8 +25,8 @@ void plVertexSpan::write(hsStream* S) {
     S->writeInt(fVLength);
 }
 
-void plVertexSpan::prcWrite(pfPrcHelper* prc) {
-    plSpan::prcWrite(prc);
+void plVertexSpan::IPrcWrite(pfPrcHelper* prc) {
+    plSpan::IPrcWrite(prc);
     prc->startTag("VertexSpan");
     prc->writeParam("GroupIdx", fGroupIdx);
     prc->writeParam("BufferIdx", fVBufferIdx);

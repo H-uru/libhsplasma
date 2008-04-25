@@ -23,7 +23,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plAgeGlobalAnim : public plAGAnim {
@@ -38,7 +38,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plATCAnim : public plAGAnim {
@@ -73,7 +73,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plEmoteAnim : public plATCAnim {
@@ -89,7 +89,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

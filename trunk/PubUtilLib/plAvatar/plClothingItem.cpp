@@ -1,9 +1,10 @@
 #include "plClothingItem.h"
 
-plClothingItem::plClothingItem() : Group(0), Type(0), Tileset(0), SortOrder(0) {
-    DefaultTint1[0] = DefaultTint2[0] = 255;
-    DefaultTint1[1] = DefaultTint2[1] = 255;
-    DefaultTint1[2] = DefaultTint2[2] = 255;
+plClothingItem::plClothingItem()
+              : fGroup(0), fType(0), fTileset(0), fSortOrder(0) {
+    fDefaultTint1[0] = fDefaultTint2[0] = 255;
+    fDefaultTint1[1] = fDefaultTint2[1] = 255;
+    fDefaultTint1[2] = fDefaultTint2[2] = 255;
 }
 
 plClothingItem::~plClothingItem() { }
@@ -13,112 +14,112 @@ IMPLEMENT_CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
 void plClothingItem::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
-    ItemName = S->readSafeStr();
-    Group = S->readByte();
-    Type = S->readByte();
-    Tileset = S->readByte();
-    SortOrder = S->readByte();
-    Description = S->readSafeStr();
-    CustomText = S->readSafeStr();
+    fItemName = S->readSafeStr();
+    fGroup = S->readByte();
+    fType = S->readByte();
+    fTileset = S->readByte();
+    fSortOrder = S->readByte();
+    fDescription = S->readSafeStr();
+    fCustomText = S->readSafeStr();
 
     if (S->readBool())
-        Icon = mgr->readKey(S);
+        fIcon = mgr->readKey(S);
 
     int count = S->readInt();
-    ElementNames.setSizeNull(count);
-    Textures.setSizeNull(count);
+    fElementNames.setSize(count);
+    fTextures.setSizeNull(count);
 	int i, j, count2;
     for (i=0; i<count; i++) {
-        ElementNames[i] = S->readSafeStr();
-        Textures[i] = new plKey[10];
+        fElementNames[i] = S->readSafeStr();
+        fTextures[i] = new plKey[10];
         for (j=0; j<10; j++)
-            Textures[i][j] = NULL;
+            fTextures[i][j] = NULL;
         count2 = S->readByte();
         for (j=0; j<count2; j++) {
             int idx = S->readByte();
             plKey k = mgr->readKey(S);
             if (idx > 0 && idx < 10)
-                Textures[i][idx] = k;
+                fTextures[i][idx] = k;
         }
     }
 
     for (i=0; i<3; i++) {
         if (S->readBool())
-            Meshes[i] = mgr->readKey(S);
+            fMeshes[i] = mgr->readKey(S);
     }
 
-    Accessory = mgr->readKey(S);
+    fAccessory = mgr->readKey(S);
 
     for (i=0; i<3; i++) {
-        DefaultTint1[i] = S->readByte();
-        DefaultTint2[i] = S->readByte();
+        fDefaultTint1[i] = S->readByte();
+        fDefaultTint2[i] = S->readByte();
     }
 }
 
 void plClothingItem::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
 
-    S->writeSafeStr(ItemName);
-    S->writeByte(Group);
-    S->writeByte(Type);
-    S->writeByte(Tileset);
-    S->writeByte(SortOrder);
-    S->writeSafeStr(Description);
-    S->writeSafeStr(CustomText);
+    S->writeSafeStr(fItemName);
+    S->writeByte(fGroup);
+    S->writeByte(fType);
+    S->writeByte(fTileset);
+    S->writeByte(fSortOrder);
+    S->writeSafeStr(fDescription);
+    S->writeSafeStr(fCustomText);
 
-    S->writeBool(Icon != NULL);
-    if (Icon != NULL)
-        mgr->writeKey(S, Icon);
+    S->writeBool(fIcon.Exists());
+    if (fIcon.Exists())
+        mgr->writeKey(S, fIcon);
 
     size_t i, j;
-    S->writeInt(Textures.getSize());
-    for (i=0; i<Textures.getSize(); i++) {
-        S->writeSafeStr(ElementNames[i]);
+    S->writeInt(fTextures.getSize());
+    for (i=0; i<fTextures.getSize(); i++) {
+        S->writeSafeStr(fElementNames[i]);
         int count2 = 0;
         for (j=0; j<10; j++)
-            if (Textures[i][j] != NULL) count2++;
+            if (fTextures[i][j] != NULL) count2++;
         S->writeByte(count2);
         for (j=0; j<10; j++) {
-            if (Textures[i][j] != NULL) {
+            if (fTextures[i][j] != NULL) {
                 S->writeByte(j);
-                mgr->writeKey(S, Textures[i][j]);
+                mgr->writeKey(S, fTextures[i][j]);
             }
         }
     }
 
     for (i=0; i<3; i++) {
-        S->writeBool(Meshes[i] != NULL);
-        if (Meshes[i] != NULL)
-            mgr->writeKey(S, Meshes[i]);
+        S->writeBool(fMeshes[i] != NULL);
+        if (fMeshes[i] != NULL)
+            mgr->writeKey(S, fMeshes[i]);
     }
 
-    mgr->writeKey(S, Accessory);
+    mgr->writeKey(S, fAccessory);
 
     for (i=0; i<3; i++) {
-        S->writeByte(DefaultTint1[i]);
-        S->writeByte(DefaultTint2[i]);
+        S->writeByte(fDefaultTint1[i]);
+        S->writeByte(fDefaultTint2[i]);
     }
 }
 
-void plClothingItem::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("ClothingName");
-    prc->writeParam("value", ItemName);
+    prc->writeParam("value", fItemName);
     prc->endTag(true);
     
     prc->startTag("ClosetOptions");
-    prc->writeParam("Group", Group);
-    prc->writeParam("Type", Type);
-    prc->writeParam("Tileset", Tileset);
-    prc->writeParam("SortOrder", SortOrder);
+    prc->writeParam("Group", fGroup);
+    prc->writeParam("Type", fType);
+    prc->writeParam("Tileset", fTileset);
+    prc->writeParam("SortOrder", fSortOrder);
     prc->endTag(true);
 
     prc->writeTagNoBreak("Description");
-    prc->getStream()->writeStr(Description);
+    prc->getStream()->writeStr(fDescription);
     prc->closeTagNoBreak();
 
     prc->startTag("CustomText");
-    prc->writeParam("value", CustomText);
+    prc->writeParam("value", fCustomText);
     prc->endTag(true);
 }

@@ -19,8 +19,8 @@ void plArmatureEffectStateMsg::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fAddSurface);
 }
 
-void plArmatureEffectStateMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plArmatureEffectStateMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->startTag("ArmatureEffectState");
     prc->writeParam("Surface", fSurface);

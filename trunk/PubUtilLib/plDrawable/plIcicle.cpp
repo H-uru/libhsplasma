@@ -30,8 +30,8 @@ void plIcicle::write(hsStream* S) {
     }
 }
 
-void plIcicle::prcWrite(pfPrcHelper* prc) {
-    plVertexSpan::prcWrite(prc);
+void plIcicle::IPrcWrite(pfPrcHelper* prc) {
+    plVertexSpan::IPrcWrite(prc);
     prc->startTag("Icicle");
     prc->writeParam("BufferIdx", fIBufferIdx);
     prc->writeParam("StartIdx", fIStartIdx);
@@ -51,9 +51,6 @@ const char* plParticleSpan::ClassName() { return "plParticleSpan"; }
 
 void plParticleSpan::read(hsStream* S) { }
 void plParticleSpan::write(hsStream* S) { }
-
-void plParticleSpan::prcWrite(pfPrcHelper* prc) {
-    prc->writeSimpleTag(ClassName());
-}
+void plParticleSpan::IPrcWrite(pfPrcHelper* prc) { }
 
 void plParticleSpan::setSrcSpanIdx(unsigned int idx) { fSrcSpanIdx = idx; }

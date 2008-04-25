@@ -6,10 +6,13 @@
 IMPLEMENT_CREATABLE(plPhysical, kPhysical, plSynchedObject)
 
 void plPhysical::read(hsStream* S, plResManager* mgr) {
+    plSynchedObject::read(S, mgr);
     readData(S, mgr);
 }
 
 void plPhysical::write(hsStream* S, plResManager* mgr) {
+    plSynchedObject::write(S, mgr);
+    
     plPhysical* phys = NULL;
     if (S->getVer() >= pvEoa)
         phys = ConvertToODE();
@@ -24,15 +27,7 @@ void plPhysical::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plPhysical::readData(hsStream* S, plResManager* mgr) {
-    plSynchedObject::read(S, mgr);
-}
-
-void plPhysical::writeData(hsStream* S, plResManager* mgr) {
-    plSynchedObject::write(S, mgr);
-}
-
-void plPhysical::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plPhysical::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
     prc->writeComment("Incomplete");
 }

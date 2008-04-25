@@ -15,7 +15,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plORConditionalObject : public plConditionalObject {
@@ -30,7 +30,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

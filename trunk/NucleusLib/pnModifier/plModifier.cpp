@@ -2,12 +2,14 @@
 
 /* plModifier */
 plModifier::plModifier() { }
+plModifier::~plModifier() { }
 
 IMPLEMENT_CREATABLE(plModifier, kModifier, plSynchedObject)
 
 
 /* plSingleModifier */
-plSingleModifier::plSingleModifier() : fTarget(NULL) { }
+plSingleModifier::plSingleModifier() { }
+plSingleModifier::~plSingleModifier() { }
 
 IMPLEMENT_CREATABLE(plSingleModifier, kSingleModifier, plModifier)
 
@@ -21,8 +23,8 @@ void plSingleModifier::write(hsStream* S, plResManager* mgr) {
     fFlags.write(S);
 }
 
-void plSingleModifier::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plSingleModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("ModFlags");
     fFlags.prcWrite(prc);
@@ -32,6 +34,7 @@ void plSingleModifier::prcWrite(pfPrcHelper* prc) {
 
 /* plMultiModifier */
 plMultiModifier::plMultiModifier() { }
+plMultiModifier::~plMultiModifier() { }
 
 IMPLEMENT_CREATABLE(plMultiModifier, kMultiModifier, plModifier)
 
@@ -45,8 +48,8 @@ void plMultiModifier::write(hsStream* S, plResManager* mgr) {
     fFlags.write(S);
 }
 
-void plMultiModifier::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plMultiModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("ModFlags");
     fFlags.prcWrite(prc);

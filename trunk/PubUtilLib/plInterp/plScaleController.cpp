@@ -30,12 +30,9 @@ void plSimpleScaleController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimpleScaleController::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plSimpleScaleController::IPrcWrite(pfPrcHelper* prc) {
     if (fValue != NULL) {
         fValue->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plScaleValueController");
         prc->writeParam("present", false);

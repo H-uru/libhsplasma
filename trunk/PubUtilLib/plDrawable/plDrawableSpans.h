@@ -107,7 +107,6 @@ protected:
     hsTArray<plDISpanIndex*> DIIndices;
     unsigned int props, criteria;
     plRenderLevel renderLevel;
-    //plLoadMask loadMask;
     bool registeredForRecreate, needCleanup, registeredForRender;
     hsBitVector particleSpanVector, blendingSpanVector, fakeBlendingSpanVector;
     plKey sceneNode;
@@ -124,7 +123,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

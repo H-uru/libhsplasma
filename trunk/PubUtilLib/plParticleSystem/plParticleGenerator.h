@@ -15,7 +15,7 @@ public:
 DllClass plOneTimeParticleGenerator : public plParticleGenerator {
 protected:
     unsigned int fCount;
-    hsPoint3* fPosition;
+    hsVector3* fPosition;
     hsVector3* fDirection;
     float fXSize, fYSize, fScaleMin, fScaleMax, fPartRadsPerSecRange;
 
@@ -27,7 +27,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plSimpleParticleGenerator : public plParticleGenerator {
@@ -40,7 +40,7 @@ public:
 protected:
     float fParticlesPerSecond;
     unsigned int fNumSources;
-    hsPoint3* fInitPos;
+    hsVector3* fInitPos;
     float* fInitPitch;
     float* fInitYaw;
     float fAngleRange, fVelMin, fVelMax, fXSize, fYSize, fScaleMin, fScaleMax;
@@ -56,7 +56,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

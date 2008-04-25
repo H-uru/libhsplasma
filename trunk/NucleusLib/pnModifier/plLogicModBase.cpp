@@ -1,8 +1,7 @@
 #include "plLogicModBase.h"
 
 plLogicModBase::plLogicModBase()
-              : fCounterLimit(0), fTimer(0.0f), fCounter(0), fNotify(NULL),
-                fDisabled(false) {
+              : fNotify(NULL), fDisabled(false) {
     fLogicFlags.setName(kLocalElement, "kLocalElement");
     fLogicFlags.setName(kReset, "kReset");
     fLogicFlags.setName(kTriggered, "kTriggered");
@@ -47,18 +46,15 @@ void plLogicModBase::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fDisabled);
 }
 
-void plLogicModBase::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plLogicModBase::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Commands");
-    for (size_t i=0; i<fCommandList.getSize(); i++) {
+    for (size_t i=0; i<fCommandList.getSize(); i++)
         fCommandList[i]->prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 
     fNotify->prcWrite(prc);
-    prc->closeTag();
 
     fLogicFlags.prcWrite(prc);
     prc->startTag("LogicModParams");

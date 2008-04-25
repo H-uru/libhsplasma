@@ -6,7 +6,6 @@
 DllClass plOmniLightInfo : public plLightInfo {
 protected:
     float fAttenConst, fAttenLinear, fAttenQuadratic, fAttenCutoff;
-    //plSphereIsect* fSphere;
 
 public:
     plOmniLightInfo();
@@ -16,13 +15,12 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plSpotLightInfo : public plOmniLightInfo {
 protected:
     float fFalloff, fSpotInner, fSpotOuter, fEffectiveFOV;
-    //plConeIsect* fCone;
 
 public:
     plSpotLightInfo();
@@ -32,7 +30,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

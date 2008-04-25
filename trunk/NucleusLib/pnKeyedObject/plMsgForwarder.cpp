@@ -22,8 +22,8 @@ void plMsgForwarder::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fForwardKeys[i]);
 }
 
-void plMsgForwarder::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plMsgForwarder::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("ForwardKeys");
     for (size_t i=0; i<fForwardKeys.getSize(); i++)

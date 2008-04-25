@@ -77,9 +77,9 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
         buf.setSize(buf.getSize() + (fVertBuffSizes[i] / stride));
         for (size_t i2=0; i2<(fVertBuffSizes[i] / stride); i2++) {
             plGBufferVertex v;
-            v.fPos.fX = *(float*)cp; cp += sizeof(float);
-            v.fPos.fY = *(float*)cp; cp += sizeof(float);
-            v.fPos.fZ = *(float*)cp; cp += sizeof(float);
+            v.fPos.X = *(float*)cp; cp += sizeof(float);
+            v.fPos.Y = *(float*)cp; cp += sizeof(float);
+            v.fPos.Z = *(float*)cp; cp += sizeof(float);
 
             int weightCount = (format & kSkinWeightMask) >> 4;
             if (weightCount > 0) {
@@ -93,9 +93,9 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
                 }
             }
 
-            v.fNormal.fX = *(float*)cp; cp += sizeof(float);
-            v.fNormal.fY = *(float*)cp; cp += sizeof(float);
-            v.fNormal.fZ = *(float*)cp; cp += sizeof(float);
+            v.fNormal.X = *(float*)cp; cp += sizeof(float);
+            v.fNormal.Y = *(float*)cp; cp += sizeof(float);
+            v.fNormal.Z = *(float*)cp; cp += sizeof(float);
 
             v.fColor = *(unsigned int*)cp;
             cp += sizeof(unsigned int);
@@ -104,9 +104,9 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
             cp += sizeof(unsigned int);
 
             for (size_t j=0; j<(format & kUVCountMask); j++) {
-                v.fUVWs[j].fX = *(float*)cp; cp += sizeof(float);
-                v.fUVWs[j].fY = *(float*)cp; cp += sizeof(float);
-                v.fUVWs[j].fZ = *(float*)cp; cp += sizeof(float);
+                v.fUVWs[j].X = *(float*)cp; cp += sizeof(float);
+                v.fUVWs[j].Y = *(float*)cp; cp += sizeof(float);
+                v.fUVWs[j].Z = *(float*)cp; cp += sizeof(float);
             }
             
             buf[vi++] = v;

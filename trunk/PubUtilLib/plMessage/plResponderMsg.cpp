@@ -23,7 +23,7 @@ void plOneShotMsg::write(hsStream* S, plResManager* mgr) {
     fCallbacks.write(S, mgr);
 }
 
-void plOneShotMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plOneShotMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
     fCallbacks.prcWrite(prc);
 }

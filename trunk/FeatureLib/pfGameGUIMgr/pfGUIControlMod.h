@@ -41,15 +41,14 @@ protected:
     class pfGUIDialogMod* fDialog;
     hsBounds3 fBounds, fInitialBounds;
     float fScreenMinZ;
-    hsPoint3 fScreenCenter;
+    hsVector3 fScreenCenter;
     bool fBoundsValid, fCenterValid;
     hsMatrix44 fXformMatrix;
     pfGUICtrlProcWriteableObject* fHandler;
-    //pfGUIDropTargetProc* fDropTargetHandler;
     plKey fDynTextMap, fDynTextLayer;
     pfGUIColorScheme* fColorScheme;
     plKey fProxy;
-    hsTArray<hsPoint3> fBoundsPoints;
+    hsTArray<hsVector3> fBoundsPoints;
     hsTArray<int> fSoundIndices;
     plKey fSkin;
 
@@ -61,7 +60,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

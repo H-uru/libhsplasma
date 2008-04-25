@@ -21,8 +21,8 @@ void plImageLibMod::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fImages[i]);
 }
 
-void plImageLibMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plImageLibMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Images");
     for (size_t i=0; i<fImages.getSize(); i++)

@@ -17,22 +17,20 @@ public:
     
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 
 class plParticleSpan : public plIcicle {
 protected:
-    //plParticleEmitter* fSource;
     unsigned int fNumParticles, fSortCount, fSrcSpanIdx;
-    //plParticleSet* fParentSet;
     
 public:
     virtual const char* ClassName();
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
     void setSrcSpanIdx(unsigned int idx);
 };

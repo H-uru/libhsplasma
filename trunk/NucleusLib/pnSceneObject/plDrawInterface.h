@@ -5,9 +5,9 @@
 
 DllClass plDrawInterface : public plObjInterface {
 public:
-    hsTArray<plKey> Drawables;
-    hsTArray<plKey> Objects;
-    hsTArray<int> DrawableKeys;
+    hsTArray<plKey> fDrawables;
+    hsTArray<plKey> fObjects;
+    hsTArray<int> fDrawableKeys;
 
 public:
     plDrawInterface();
@@ -17,7 +17,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

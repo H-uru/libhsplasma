@@ -1,10 +1,10 @@
 #include "plCoordinateInterface.h"
 
 plCoordinateInterface::plCoordinateInterface() {
-    LocalToParent.Reset();
-    ParentToLocal.Reset();
-    LocalToWorld.Reset();
-    WorldToLocal.Reset();
+    fLocalToParent.Reset();
+    fParentToLocal.Reset();
+    fLocalToWorld.Reset();
+    fWorldToLocal.Reset();
 
     fProps.setName(kDisable, "kDisable");
     fProps.setName(kCanEverDelayTransform, "kCanEverDelayTransform");
@@ -15,53 +15,50 @@ plCoordinateInterface::~plCoordinateInterface() { }
 
 IMPLEMENT_CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
 
-plCoordinateInterface* plCoordinateInterface::getRoot() {
-    plCoordinateInterface* cur = this;
-    while (cur->Parent) cur = cur->Parent;
-    return cur;
-}
-
 void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     
-    LocalToParent.read(S);
-    ParentToLocal.read(S);
-    LocalToWorld.read(S);
-    WorldToLocal.read(S);
+    fLocalToParent.read(S);
+    fParentToLocal.read(S);
+    fLocalToWorld.read(S);
+    fWorldToLocal.read(S);
 
-    Children.clear();
-    Children.setSize(S->readInt());
-    for (size_t i=0; i<Children.getSize(); i++)
-        Children[i] = mgr->readKey(S);
+    fChildren.setSize(S->readInt());
+    for (size_t i=0; i<fChildren.getSize(); i++)
+        fChildren[i] = mgr->readKey(S);
 }
 
 void plCoordinateInterface::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
 
-    LocalToParent.write(S);
-    ParentToLocal.write(S);
-    LocalToWorld.write(S);
-    WorldToLocal.write(S);
+    fLocalToParent.write(S);
+    fParentToLocal.write(S);
+    fLocalToWorld.write(S);
+    fWorldToLocal.write(S);
 
-    S->writeInt(Children.getSize());
-    for (size_t i=0; i<Children.getSize(); i++)
-        mgr->writeKey(S, Children[i]);
+    S->writeInt(fChildren.getSize());
+    for (size_t i=0; i<fChildren.getSize(); i++)
+        mgr->writeKey(S, fChildren[i]);
 }
 
-void plCoordinateInterface::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plCoordinateInterface::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("LocalToParent");
-    LocalToParent.prcWrite(prc);
-    ParentToLocal.prcWrite(prc);
+    fLocalToParent.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("ParentToLocal");
+    fParentToLocal.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("LocalToWorld");
-    LocalToWorld.prcWrite(prc);
-    WorldToLocal.prcWrite(prc);
+    fLocalToWorld.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldToLocal");
+    fWorldToLocal.prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Children");
-    for (size_t i=0; i<Children.getSize(); i++)
-        Children[i]->prcWrite(prc);
+    for (size_t i=0; i<fChildren.getSize(); i++)
+        fChildren[i]->prcWrite(prc);
     prc->closeTag();
 }

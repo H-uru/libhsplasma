@@ -30,8 +30,8 @@ void plPointConstant::write(hsStream* S, plResManager* mgr) {
     fResult.write(S);
 }
 
-void plPointConstant::prcWrite(pfPrcHelper* prc) {
-    plAGChannel::prcWrite(prc);
+void plPointConstant::IPrcWrite(pfPrcHelper* prc) {
+    plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Result");
     fResult.prcWrite(prc);
@@ -65,11 +65,11 @@ void plPointControllerChannel::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fController);
 }
 
-void plPointControllerChannel::prcWrite(pfPrcHelper* prc) {
-    plAGChannel::prcWrite(prc);
+void plPointControllerChannel::IPrcWrite(pfPrcHelper* prc) {
+    plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Controller");
-    fController->prcWrite(prc); prc->closeTag();
+    fController->prcWrite(prc);
     prc->closeTag();
 }
 

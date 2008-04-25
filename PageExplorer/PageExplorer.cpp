@@ -1,5 +1,6 @@
 #include "PageExplorer.h"
 #include "ExplorerFrm.h"
+#include <wx/filename.h>
 
 IMPLEMENT_APP(PageExplorer)
 
@@ -8,6 +9,9 @@ IMPLEMENT_APP(PageExplorer)
  */
 bool PageExplorer::OnInit()
 {
+    wxFileName logPath(wxPathOnly(argv[0]), wxT("Plasma.log"));
+	plDebug::InitFile(plDebug::kDLAll, logPath.GetFullPath().mb_str(wxConvFile));
+
     ExplorerFrm* frame = new ExplorerFrm(NULL);
     
     if (argc < 2) {

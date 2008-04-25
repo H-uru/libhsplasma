@@ -15,7 +15,6 @@ public:
 DllClass plParticleCollisionEffect : public plParticleEffect {
 protected:
     plKey fSceneObj;
-    //plConvexVolume* fBounds;
 
 public:
     plParticleCollisionEffect();
@@ -25,7 +24,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plParticleCollisionEffectBeat : public plParticleCollisionEffect {
@@ -48,7 +47,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plParticleCollisionEffectDie : public plParticleCollisionEffect {
@@ -71,12 +70,12 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plParticleFadeVolumeEffect : public plParticleEffect {
 protected:
-    hsPoint3 fMax, fMin, fNorm;
+    hsVector3 fMax, fMin, fNorm;
     float fLength, fIgnoreZ;
 
 public:
@@ -87,18 +86,17 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plParticleFlockEffect : public plParticleEffect {
 protected:
-    hsPoint3 fTargetOffset, fDissenterTarget;
+    hsVector3 fTargetOffset, fDissenterTarget;
     float fInfAvgRadSq, fInfRepRadSq, fAvgVelStr, fRepDirStr;
     float fGoalOrbitStr, fGoalChaseStr, fGoalDistSq;
     float fFullChaseDistSq, fMaxOrbitSpeed, fMaxChaseSpeed;
     unsigned short fMaxParticles;
     float fDistSq;
-    //plParticleInfluenceInfo* fInfluences;
 
 public:
     plParticleFlockEffect();
@@ -108,14 +106,10 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plParticleFollowSystemEffect : public plParticleEffect {
-protected:
-    //hsMatrix44 fOldW2L;
-    //bool fEvalThisFrame;
-
 public:
     plParticleFollowSystemEffect();
     virtual ~plParticleFollowSystemEffect();
@@ -138,7 +132,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plParticleLocalWind : public plParticleWindEffect {
@@ -156,7 +150,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plParticleUniformWind : public plParticleWindEffect {
@@ -173,7 +167,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

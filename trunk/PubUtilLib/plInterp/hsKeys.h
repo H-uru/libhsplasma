@@ -27,7 +27,7 @@ struct hsKeyFrame {
 };
 
 struct hsPoint3Key : public hsKeyFrame {
-    hsPoint3 fValue;
+    hsVector3 fValue;
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
@@ -35,7 +35,7 @@ struct hsPoint3Key : public hsKeyFrame {
 };
 
 struct hsBezPoint3Key : public hsKeyFrame {
-    hsPoint3 fInTan, fOutTan, fValue;
+    hsVector3 fInTan, fOutTan, fValue;
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
@@ -76,7 +76,7 @@ struct hsScaleKey : public hsKeyFrame {
 };
 
 struct hsBezScaleKey : public hsKeyFrame {
-    hsPoint3 fInTan, fOutTan;
+    hsVector3 fInTan, fOutTan;
     hsScaleValue fValue;
 
     virtual void read(hsStream* S);

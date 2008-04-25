@@ -23,8 +23,8 @@ void plSimSuppressMsg::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fSuppress);
 }
 
-void plSimSuppressMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plSimSuppressMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->startTag("SimSuppressParams");
     prc->writeParam("Suppress", fSuppress);

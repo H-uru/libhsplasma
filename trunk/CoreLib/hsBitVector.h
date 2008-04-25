@@ -6,19 +6,18 @@
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
 #include <map>
 
-#define BVBTYPE hsUint32
-#define BVMASK ((sizeof(BVBTYPE)<<3)-1)
-#define BVMULT (sizeof(BVBTYPE)<<3)
+#define BVMASK 0x1F
+#define BVMULT 0x20
 
 DllClass hsBitVector {
 public:
     DllClass Bit {
     protected:
         hsBitVector* fVector;
-        BVBTYPE fOffset;
+        size_t fOffset;
 
     public:
-        Bit(hsBitVector* vec, BVBTYPE off);
+        Bit(hsBitVector* vec, size_t off);
         operator bool() const;
         bool operator!() const;
         bool operator==(bool value) const;
@@ -27,26 +26,26 @@ public:
 
 private:
     hsUint32* fBits;
-    hsUint32 fNumVectors;
-    std::map<BVBTYPE, const char*> fBitNames;
+    size_t fNumVectors;
+    std::map<size_t, const char*> fBitNames;
 
 public:
     hsBitVector();
     ~hsBitVector();
 
-    bool get(BVBTYPE idx) const;
-    void set(BVBTYPE idx, bool b);
-    bool operator[](BVBTYPE idx) const;
-    Bit operator[](BVBTYPE idx);
+    bool get(size_t idx) const;
+    void set(size_t idx, bool b);
+    bool operator[](size_t idx) const;
+    Bit operator[](size_t idx);
 
     bool isEmpty() const;
     void clear();
-    void setBit(BVBTYPE idx);
-    void clearBit(BVBTYPE idx);
+    void setBit(size_t idx);
+    void clearBit(size_t idx);
     void compact();
 
-    const char* getName(BVBTYPE idx);
-    void setName(BVBTYPE idx, const char* name);
+    const char* getName(size_t idx);
+    void setName(size_t idx, const char* name);
 
     void read(hsStream* S);
     void write(hsStream* S);

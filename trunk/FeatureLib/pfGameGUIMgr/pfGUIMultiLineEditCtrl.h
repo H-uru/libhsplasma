@@ -3,19 +3,6 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfMLScrollProc : public pfGUICtrlProcObject {
-protected:
-    class pfGUIMultiLineEditCtrl* fParent;
-
-public:
-    pfMLScrollProc(class pfGUIMultiLineEditCtrl* parent);
-    virtual void DoSomething(pfGUIControlMod* ctrl);
-};
-
-DllClass pfGUIMultiLineEditProc {
-    //TODO: Stuff
-};
-
 DllClass pfGUIMultiLineEditCtrl : public pfGUIControlMod {
 public:
     enum Direction {
@@ -34,26 +21,7 @@ public:
     enum ExtendedEvents { kValueChanging, kScrollPosChanged, kKeyPressedEvent };
 
 protected:
-    hsTArray<wchar_t> fBuffer;
-    hsTArray<int> fLineStarts;
-    unsigned short fLineHeight, fCurrCursorX, fCurrCursorY;
-    int fCursorPos, fLastCursorLine;
-    bool fIgnoreNextKey, fReadyToRender;
-    hsBounds3Ext fLastP2PArea;
-    signed char fLockCount;
-    unsigned char fCalcedFontSize, fLastKeyModifiers;
-    wchar_t fLastKeyPressed, fLastDeadKey;
-    //wchar_t fDeadKeyConverter[256][256];
     plKey fScrollCtrl;
-    pfMLScrollProc* fScrollProc;
-    int fScrollPos, fBufferLimit;
-    pfGUIMultiLineEditCtrl* fNextCtrl;
-    pfGUIMultiLineEditCtrl* fPrevCtrl;
-    pfGUIMultiLineEditProc* fEventProc;
-    plString fFontFace;
-    hsColorRGBA fFontColor;
-    unsigned char fFontSize, fFontStyle, fFontFlagsSet;
-    int fTopMargin, fLeftMargin, fBottomMargin, fRightMargin;
 
 public:
     pfGUIMultiLineEditCtrl();
@@ -63,7 +31,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

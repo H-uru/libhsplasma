@@ -21,8 +21,8 @@ void plInterfaceInfoModifier::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fKeyList[i]);
 }
 
-void plInterfaceInfoModifier::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plInterfaceInfoModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
     for (size_t i=0; i<fKeyList.getSize(); i++)

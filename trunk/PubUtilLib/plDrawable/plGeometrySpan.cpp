@@ -201,10 +201,14 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
             prc->getStream()->writeStr(plString::Format("%08X ", fSpecularRGBA[i]));
         prc->closeTagNoBreak();
 
-        prc->writeTagNoBreak("IndexData");
-        for (i=0; i<fNumIndices; i++)
-            prc->getStream()->writeStr(plString::Format("%04X ", fIndexData[i]));
-        prc->closeTagNoBreak();
+        prc->writeSimpleTag("Triangles");
+        for (i=0; i<fNumIndices; i += 3) {
+            prc->writeTagNoBreak("Triangle");
+            prc->getStream()->writeStr(plString::Format("%04X %04X %04X",
+                                       fIndexData[i], fIndexData[i+1], fIndexData[i+2]));
+            prc->closeTagNoBreak();
+        }
+        prc->closeTag();
 
         prc->startTag("InstanceGroup");
         prc->writeParam("value", fInstanceGroup);
@@ -226,18 +230,18 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() {
     
     unsigned char* cp = fVertexData;
     for (size_t i=0; i<fNumVerts; i++) {
-        buf[i].fPosition.fX = *(float*)cp; cp += sizeof(float);
-        buf[i].fPosition.fY = *(float*)cp; cp += sizeof(float);
-        buf[i].fPosition.fZ = *(float*)cp; cp += sizeof(float);
+        buf[i].fPosition.X = *(float*)cp; cp += sizeof(float);
+        buf[i].fPosition.Y = *(float*)cp; cp += sizeof(float);
+        buf[i].fPosition.Z = *(float*)cp; cp += sizeof(float);
 
-        buf[i].fNormal.fX = *(float*)cp; cp += sizeof(float);
-        buf[i].fNormal.fY = *(float*)cp; cp += sizeof(float);
-        buf[i].fNormal.fZ = *(float*)cp; cp += sizeof(float);
+        buf[i].fNormal.X = *(float*)cp; cp += sizeof(float);
+        buf[i].fNormal.Y = *(float*)cp; cp += sizeof(float);
+        buf[i].fNormal.Z = *(float*)cp; cp += sizeof(float);
 
         for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
-            buf[i].fUVs[j].fX = *(float*)cp; cp += sizeof(float);
-            buf[i].fUVs[j].fY = *(float*)cp; cp += sizeof(float);
-            buf[i].fUVs[j].fZ = *(float*)cp; cp += sizeof(float);
+            buf[i].fUVs[j].X = *(float*)cp; cp += sizeof(float);
+            buf[i].fUVs[j].Y = *(float*)cp; cp += sizeof(float);
+            buf[i].fUVs[j].Z = *(float*)cp; cp += sizeof(float);
         }
 
         int weightCount = (fFormat & kSkinWeightMask) >> 4;

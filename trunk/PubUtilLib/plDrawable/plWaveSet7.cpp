@@ -42,8 +42,8 @@ void plWaveSet7::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fRefObj);
 }
 
-void plWaveSet7::prcWrite(pfPrcHelper* prc) {
-    plMultiModifier::prcWrite(prc);
+void plWaveSet7::IPrcWrite(pfPrcHelper* prc) {
+    plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("WaveSet7Params");
     prc->writeParam("MaxLen", fMaxLen);

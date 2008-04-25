@@ -17,10 +17,10 @@ public:
     };
 
     DllStruct Vertex {
-        hsPoint3 fPosition, fNormal;
+        hsVector3 fPosition, fNormal;
         unsigned int fColor, fColor2;
         int fWeightIdx;
-        hsPoint3 fUVWs[10];
+        hsVector3 fUVWs[10];
         float fWeights[3];
     };
 
@@ -31,11 +31,11 @@ protected:
 
 public:
     plSpanTemplate();
-    virtual ~plSpanTemplate();
+    ~plSpanTemplate();
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    void read(hsStream* S);
+    void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
 
     hsTArray<Vertex> getVertices() const;
     unsigned short getNumVerts() const;

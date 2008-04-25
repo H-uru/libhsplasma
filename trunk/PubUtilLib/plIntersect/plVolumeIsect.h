@@ -26,15 +26,14 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plConeIsect : public plVolumeIsect {
 protected:
     int fCapped;
     float fRadAngle, fLength;
-    hsPoint3 fWorldTip;
-    hsVector3 fWorldNorm;
+    hsVector3 fWorldTip, fWorldNorm;
     hsMatrix44 fWorldToNDC, fLightToNDC;
     hsVector3 fNorms[5];
     float fDists[5];
@@ -47,7 +46,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plConvexIsect : public plVolumeIsect {
@@ -55,8 +54,7 @@ public:
     DllStruct SinglePlane {
         hsVector3 fNorm;
         float fDist;
-        hsPoint3 fPos;
-        hsVector3 fWorldNorm;
+        hsVector3 fPos, fWorldNorm;
         float fWorldDist;
     };
 
@@ -71,15 +69,14 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plCylinderIsect : public plVolumeIsect {
 protected:
-    hsPoint3 fTop, fBot;
+    hsVector3 fTop, fBot;
     float fRadius;
-    hsPoint3 fWorldBot;
-    hsVector3 fWorldNorm;
+    hsVector3 fWorldBot, fWorldNorm;
     float fLength, fMin, fMax;
 
 public:
@@ -90,7 +87,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plParallelIsect : public plVolumeIsect {
@@ -98,7 +95,7 @@ public:
     DllStruct ParPlane {
         hsVector3 fNorm;
         float fMin, fMax;
-        hsPoint3 fPosOne, fPosTwo;
+        hsVector3 fPosOne, fPosTwo;
     };
 
 protected:
@@ -112,14 +109,14 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plSphereIsect : public plVolumeIsect {
 protected:
-    hsPoint3 fCenter, fWorldCenter;
+    hsVector3 fCenter, fWorldCenter;
     float fRadius;
-    hsPoint3 fMins, fMaxs;
+    hsVector3 fMins, fMaxs;
 
 public:
     plSphereIsect();
@@ -129,7 +126,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plComplexIsect : public plVolumeIsect {
@@ -144,7 +141,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plIntersectionIsect : public plComplexIsect {

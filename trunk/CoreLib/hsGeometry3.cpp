@@ -1,147 +1,97 @@
 #include "hsGeometry3.h"
+#include <math.h>
 
-/* hsScalarTriple */
-hsScalarTriple::hsScalarTriple() : fX(0.0f), fY(0.0f), fZ(0.0f) { }
+/* hsVector3 */
+hsVector3::hsVector3() : X(0.0f), Y(0.0f), Z(0.0f) { }
 
-hsScalarTriple::hsScalarTriple(float x, float y, float z)
-              : fX(x), fY(y), fZ(z) { }
+hsVector3::hsVector3(float _x, float _y, float _z)
+         : X(_x), Y(_y), Z(_z) { }
 
-hsScalarTriple::~hsScalarTriple() { }
+hsVector3::hsVector3(const hsVector3& src)
+         : X(src.X), Y(src.Y), Z(src.Z) { }
 
-const char* hsScalarTriple::ClassName() const { return "hsScalarTriple"; }
-
-void hsScalarTriple::read(hsStream* S) {
-    fX = S->readFloat();
-    fY = S->readFloat();
-    fZ = S->readFloat();
+void hsVector3::Zero() {
+    X = 0.0f;
+    Y = 0.0f;
+    Z = 0.0f;
 }
 
-void hsScalarTriple::write(hsStream* S) {
-    S->writeFloat(fX);
-    S->writeFloat(fY);
-    S->writeFloat(fZ);
+float hsVector3::magnitude() const {
+    return sqrt(X*X + Y*Y + Z*Z);
 }
 
-void hsScalarTriple::prcWrite(pfPrcHelper* prc) {
-    prc->startTag(ClassName());
-    prc->writeParam("X", fX);
-    prc->writeParam("Y", fY);
-    prc->writeParam("Z", fZ);
+void hsVector3::read(hsStream* S) {
+    X = S->readFloat();
+    Y = S->readFloat();
+    Z = S->readFloat();
+}
+
+void hsVector3::write(hsStream* S) {
+    S->writeFloat(X);
+    S->writeFloat(Y);
+    S->writeFloat(Z);
+}
+
+void hsVector3::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("hsVector3");
+    prc->writeParam("X", X);
+    prc->writeParam("Y", Y);
+    prc->writeParam("Z", Z);
     prc->endTag(true);
 }
 
-
-/* hsPoint3 */
-hsPoint3::hsPoint3() { }
-hsPoint3::hsPoint3(float x, float y, float z) { }
-
-hsPoint3::hsPoint3(const hsScalarTriple& src) {
-    fX = src.fX;
-    fY = src.fY;
-    fZ = src.fZ;
+hsVector3 hsVector3::operator+(const hsVector3& other) const {
+    return hsVector3(X + other.X, Y + other.Y, Z + other.Z);
 }
 
-hsPoint3::~hsPoint3() { }
-
-const char* hsPoint3::ClassName() const { return "hsPoint3"; }
-
-void hsPoint3::Zero() {
-    fX = 0.0f;
-    fY = 0.0f;
-    fZ = 0.0f;
+hsVector3 hsVector3::operator-(const hsVector3& other) const {
+    return hsVector3(X - other.X, Y - other.Y, Z - other.Z);
 }
 
-hsPoint3 hsPoint3::operator+(const hsPoint3& other) const {
-    return hsPoint3(fX + other.fX, fY + other.fY, fZ + other.fZ);
+hsVector3 hsVector3::operator*(const float mult) const {
+    return hsVector3(X * mult, Y * mult, Z * mult);
 }
-
-hsPoint3 hsPoint3::operator-(const hsPoint3& other) const {
-    return hsPoint3(fX - other.fX, fY - other.fY, fZ - other.fZ);
-}
-
-hsPoint3 hsPoint3::operator*(const float mult) const {
-    return hsPoint3(fX * mult, fY * mult, fZ * mult);
-}
-
-hsPoint3& hsPoint3::operator=(const hsPoint3& other) {
-    fX = other.fX;
-    fY = other.fY;
-    fZ = other.fZ;
-    return (*this);
-}
-
-bool hsPoint3::operator==(const hsPoint3& other) const {
-    return (fX == other.fX) && (fY == other.fY) && (fZ == other.fZ);
-}
-
-
-/* hsVector3 */
-hsVector3::hsVector3() { }
-hsVector3::hsVector3(float x, float y, float z) { }
-
-hsVector3::hsVector3(const hsScalarTriple& src) {
-    fX = src.fX;
-    fY = src.fY;
-    fZ = src.fZ;
-}
-
-hsVector3::~hsVector3() { }
-
-const char* hsVector3::ClassName() const { return "hsVector3"; }
 
 hsVector3& hsVector3::operator=(const hsVector3& other) {
-    fX = other.fX;
-    fY = other.fY;
-    fZ = other.fZ;
+    X = other.X;
+    Y = other.Y;
+    Z = other.Z;
     return (*this);
 }
 
 bool hsVector3::operator==(const hsVector3& other) const {
-    return (fX == other.fX) && (fY == other.fY) && (fZ == other.fZ);
-}
-
-hsVector3 hsVector3::operator+(const hsVector3& other) const {
-    return hsVector3(fX + other.fX, fY + other.fY, fZ + other.fZ);
-}
-
-hsVector3 hsVector3::operator-(const hsVector3& other) const {
-    return hsVector3(fX - other.fX, fY - other.fY, fZ - other.fZ);
-}
-
-hsVector3 hsVector3::operator*(const float mult) const {
-    return hsVector3(fX * mult, fY * mult, fZ * mult);
+    return (X == other.X) && (Y == other.Y) && (Z == other.Z);
 }
 
 float hsVector3::dotP(const hsVector3& other) const {
-    return (fX * other.fX) + (fY * other.fY) + (fZ * other.fZ);
+    return (X * other.X) + (Y * other.Y) + (Z * other.Z);
 }
 
 hsVector3 hsVector3::crossP(const hsVector3& other) const {
-    return hsVector3((fY * other.fZ) - (fZ * other.fY),
-                     (fZ * other.fX) - (fX * other.fZ),
-                     (fX * other.fY) - (fY * other.fX));
+    return hsVector3((Y * other.Z) - (Z * other.Y),
+                     (Z * other.X) - (X * other.Z),
+                     (X * other.Y) - (Y * other.X));
 }
 
 
 /* hsPlane3 */
-hsPlane3::hsPlane3() : fN(), fD(0.0f) { }
-hsPlane3::~hsPlane3() { }
+hsPlane3::hsPlane3() : W(0.0f) { }
 
 void hsPlane3::read(hsStream* S) {
-    fN.read(S);
-    fD = S->readFloat();
+    N.read(S);
+    W = S->readFloat();
 }
 
 void hsPlane3::write(hsStream* S) {
-    fN.write(S);
-    S->writeFloat(fD);
+    N.write(S);
+    S->writeFloat(W);
 }
 
 void hsPlane3::prcWrite(pfPrcHelper* prc) {
     prc->startTag("hsPlane3");
-    prc->writeParam("X", fN.fX);
-    prc->writeParam("Y", fN.fY);
-    prc->writeParam("Z", fN.fZ);
-    prc->writeParam("D", fD);
+    prc->writeParam("X", N.X);
+    prc->writeParam("Y", N.Y);
+    prc->writeParam("Z", N.Z);
+    prc->writeParam("W", W);
     prc->endTag(true);
 }

@@ -27,14 +27,12 @@ protected:
     unsigned int fNumValidEmitters, fMaxEmitters, fNextEmitter;
     plParticleEmitter** fEmitters;
     hsTArray<plKey> fForces, fEffects, fConstraints;
-    //plParticleContext fContext;
     hsTArray<plKey> fPermaLights;
     plController* fAmbientCtl;
     plController* fDiffuseCtl;
     plController* fOpacityCtl;
     plController* fWidthCtl;
     plController* fHeightCtl;
-    //plParticleSDLMod* fParticleSDLMod;
 
 public:
     plParticleSystem();
@@ -44,7 +42,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

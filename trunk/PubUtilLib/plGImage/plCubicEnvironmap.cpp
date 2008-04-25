@@ -5,24 +5,23 @@ plCubicEnvironmap::~plCubicEnvironmap() { }
 
 IMPLEMENT_CREATABLE(plCubicEnvironmap, kCubicEnvironmap, plBitmap)
 
-void plCubicEnvironmap::read(hsStream* S, plResManager* mgr) {
-    hsKeyedObject::read(S, mgr);
-    readData(S);
-}
-
-void plCubicEnvironmap::write(hsStream* S, plResManager* mgr) {
-    hsKeyedObject::write(S, mgr);
-    writeData(S);
-}
-
 void plCubicEnvironmap::readData(hsStream* S) {
     plBitmap::readData(S);
-    for (int i=0; i<6; i++)
-        faces[i].readData(S);
+    for (int i=0; i<kNumFaces; i++)
+        fFaces[i].readData(S);
 }
 
 void plCubicEnvironmap::writeData(hsStream* S) {
     plBitmap::writeData(S);
-    for (int i=0; i<6; i++)
-        faces[i].writeData(S);
+    for (int i=0; i<kNumFaces; i++)
+        fFaces[i].writeData(S);
+}
+
+void plCubicEnvironmap::IPrcWrite(pfPrcHelper* prc) {
+    plBitmap::IPrcWrite(prc);
+
+    prc->writeSimpleTag("Faces");
+    for (int i=0; i<kNumFaces; i++)
+        fFaces[i].prcWrite(prc);
+    prc->closeTag();
 }

@@ -34,13 +34,9 @@ public:
 
 protected:
     unsigned int fMiscFlags;
-    //class plParticleSystem* fSystem;
-    //plParticleCore* fParticleCores;
-    //plParticleExt* fParticleExts;
     plParticleGenerator* fGenerator;
     unsigned int fSpanIndex, fNumValidParticles, fMaxParticles;
     hsBounds3Ext fBoundBox;
-    //plEffectTargetInfo fTargetInfo;
     hsColorRGBA fColor;
     hsMatrix44 fLocalToWorld;
     float fTimeToLive;
@@ -53,7 +49,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

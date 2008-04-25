@@ -63,8 +63,8 @@ void plBitmap::writeData(hsStream* S) {
     S->writeInt(fHighModTime);
 }
 
-void plBitmap::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plBitmap::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("BitmapParams");
     prc->writeParam("PixelSize", fPixelSize);

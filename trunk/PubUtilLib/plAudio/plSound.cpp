@@ -61,8 +61,6 @@ void plSound::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
     IRead(S, mgr);
 
-    //if (fProperties & kPropAutoStart)
-    //    Play();
     if (fProperties & kPropLocalOnly)
         fSynchFlags |= kLocalOnly;
     if (fPlaying)
@@ -84,7 +82,6 @@ void plSound::write(hsStream* S, plResManager* mgr) {
 
 void plSound::IRead(hsStream* S, plResManager* mgr) {
     fPlaying = S->readBool();
-    //fVirtualStartTime = hsTimer::GetTheTimer()->fSysSeconds;
     fTime = S->readDouble();
     fMaxFalloff = S->readInt();
     fMinFalloff = S->readInt();
@@ -144,8 +141,8 @@ void plSound::IWrite(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fSoftOcclusionRegion);
 }
 
-void plSound::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plSound::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("Params");
       prc->writeParam("Playing", fPlaying);

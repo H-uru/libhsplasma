@@ -181,8 +181,8 @@ void plMipmap::writeData(hsStream* S) {
     }
 }
 
-void plMipmap::prcWrite(pfPrcHelper* prc) {
-    plBitmap::prcWrite(prc);
+void plMipmap::IPrcWrite(pfPrcHelper* prc) {
+    plBitmap::IPrcWrite(prc);
 
     prc->startTag("Metrics");
     prc->writeParam("Width", fWidth);

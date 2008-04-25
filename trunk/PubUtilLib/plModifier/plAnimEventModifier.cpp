@@ -27,8 +27,8 @@ void plAnimEventModifier::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fCallback);
 }
 
-void plAnimEventModifier::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plAnimEventModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Receivers");
     for (size_t i=0; i<fReceivers.getSize(); i++)
@@ -36,6 +36,6 @@ void plAnimEventModifier::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Callback");
-    fCallback->prcWrite(prc); prc->closeTag();
+    fCallback->prcWrite(prc);
     prc->closeTag();
 }

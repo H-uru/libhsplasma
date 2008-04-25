@@ -18,11 +18,9 @@ public:
     };
 
 protected:
-    hsVector3 fLastDirY, fScale;
+    hsVector3 fScale, fOffset;
     hsMatrix44 fLocalToParent, fParentToLocal;
-    hsPoint3 fFacePoint;
     plKey fFaceObj;
-    hsVector3 fOffset;
     hsBounds3Ext fMaxBounds;
 
 public:
@@ -33,7 +31,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

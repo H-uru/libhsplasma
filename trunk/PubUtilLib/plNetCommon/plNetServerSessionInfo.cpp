@@ -69,9 +69,8 @@ void plAgeInfoStruct::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAgeInfoStruct::prcWrite(pfPrcHelper* prc) {
+void plAgeInfoStruct::IPrcWrite(pfPrcHelper* prc) {
     UpdateFlags();
-    prc->writeSimpleTag("plAgeInfoStruct");
     if (fFlags & kHasAgeFilename) {
         prc->startTag("AgeFilename");
         prc->writeParam("value", fAgeFilename);
@@ -105,7 +104,6 @@ void plAgeInfoStruct::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("value", fAgeLanguage);
         prc->endTag(true);
     }
-    prc->closeTag();
 }
 
 void plAgeInfoStruct::UpdateFlags() {
@@ -186,8 +184,7 @@ void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAgeLinkStruct::prcWrite(pfPrcHelper* prc) {
-    prc->writeSimpleTag("plAgeLinkStruct");
+void plAgeLinkStruct::IPrcWrite(pfPrcHelper* prc) {
     if (fFlags & kHasAgeInfo)
         fAgeInfo.prcWrite(prc);
     if (fFlags & kHasLinkingRules) {
@@ -207,5 +204,4 @@ void plAgeLinkStruct::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("value", fParentAgeFilename);
         prc->endTag(true);
     }
-    prc->closeTag();
 }

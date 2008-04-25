@@ -95,32 +95,21 @@ hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) const {
     return result;
 }
 
-hsPoint3 hsMatrix44::operator*(const hsPoint3& pt) const {
-    hsPoint3 result;
-    result.fX = (data[0][0] * pt.fX) + (data[0][1] * pt.fY) +
-                (data[0][2] * pt.fZ) + data[0][3];
-    result.fY = (data[1][0] * pt.fX) + (data[1][1] * pt.fY) +
-                (data[1][2] * pt.fZ) + data[1][3];
-    result.fZ = (data[2][0] * pt.fX) + (data[2][1] * pt.fY) +
-                (data[2][2] * pt.fZ) + data[2][3];
-    return result;
-}
-
 hsVector3 hsMatrix44::operator*(const hsVector3& vec) const {
     hsVector3 result;
-    result.fX = (data[0][0] * vec.fX) + (data[0][1] * vec.fY) +
-                (data[0][2] * vec.fZ) + data[0][3];
-    result.fY = (data[1][0] * vec.fX) + (data[1][1] * vec.fY) +
-                (data[1][2] * vec.fZ) + data[1][3];
-    result.fZ = (data[2][0] * vec.fX) + (data[2][1] * vec.fY) +
-                (data[2][2] * vec.fZ) + data[2][3];
+    result.X = (data[0][0] * vec.X) + (data[0][1] * vec.Y) +
+               (data[0][2] * vec.Z) +  data[0][3];
+    result.Y = (data[1][0] * vec.X) + (data[1][1] * vec.Y) +
+               (data[1][2] * vec.Z) +  data[1][3];
+    result.Z = (data[2][0] * vec.X) + (data[2][1] * vec.Y) +
+               (data[2][2] * vec.Z) +  data[2][3];
     return result;
 }
 
 hsMatrix44& hsMatrix44::translate(const hsVector3& translate) {
-    data[0][3] += translate.fX;
-    data[1][3] += translate.fY;
-    data[2][3] += translate.fZ;
+    data[0][3] += translate.X;
+    data[1][3] += translate.Y;
+    data[2][3] += translate.Z;
     return (*this);
 }
 
@@ -131,25 +120,25 @@ hsMatrix44& hsMatrix44::rotate(int axis, float angle) {
 }
 
 hsMatrix44& hsMatrix44::scale(const hsVector3& scale) {
-    data[0][0] *= scale.fX;
-    data[0][1] *= scale.fX;
-    data[0][2] *= scale.fX;
-    data[0][3] *= scale.fX;
-    data[1][0] *= scale.fY;
-    data[1][1] *= scale.fY;
-    data[1][2] *= scale.fY;
-    data[1][3] *= scale.fY;
-    data[2][0] *= scale.fZ;
-    data[2][1] *= scale.fZ;
-    data[2][2] *= scale.fZ;
-    data[2][3] *= scale.fZ;
+    data[0][0] *= scale.X;
+    data[0][1] *= scale.X;
+    data[0][2] *= scale.X;
+    data[0][3] *= scale.X;
+    data[1][0] *= scale.Y;
+    data[1][1] *= scale.Y;
+    data[1][2] *= scale.Y;
+    data[1][3] *= scale.Y;
+    data[2][0] *= scale.Z;
+    data[2][1] *= scale.Z;
+    data[2][2] *= scale.Z;
+    data[2][3] *= scale.Z;
     return (*this);
 }
 
 hsMatrix44& hsMatrix44::setTranslate(const hsVector3& translate) {
-    data[0][3] = translate.fX;
-    data[1][3] = translate.fY;
-    data[2][3] = translate.fZ;
+    data[0][3] = translate.X;
+    data[1][3] = translate.Y;
+    data[2][3] = translate.Z;
     return (*this);
 }
 
@@ -184,9 +173,9 @@ hsMatrix44& hsMatrix44::setRotate(int axis, float angle) {
 }
 
 hsMatrix44& hsMatrix44::setScale(const hsVector3& scale) {
-    data[0][0] = scale.fX;
-    data[1][1] = scale.fY;
-    data[2][2] = scale.fZ;
+    data[0][0] = scale.X;
+    data[1][1] = scale.Y;
+    data[2][2] = scale.Z;
     return (*this);
 }
 

@@ -35,7 +35,6 @@ protected:
     hsMatrix44 lightToLocal, localToLight, localToWorld, worldToLocal,
                lightToWorld, worldToLight;
     plKey sceneNode;
-    //plLightProxy* proxyGen;
     plKey softVolume;
     float maxStrength;
     bool registeredForRenderMsg;
@@ -49,7 +48,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

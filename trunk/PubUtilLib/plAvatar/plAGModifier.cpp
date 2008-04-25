@@ -15,8 +15,8 @@ void plAGModifier::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fChannelName);
 }
 
-void plAGModifier::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plAGModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("AGModifierParams");
     prc->writeParam("ChannelName", fChannelName);

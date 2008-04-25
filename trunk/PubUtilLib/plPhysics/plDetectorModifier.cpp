@@ -26,8 +26,8 @@ void plDetectorModifier::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fProxyKey);
 }
 
-void plDetectorModifier::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plDetectorModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Receivers");
     for (size_t i=0; i<fReceivers.getSize(); i++)

@@ -8,7 +8,6 @@ DllClass plObjectInVolumeDetector : public plCollisionDetector {
 protected:
     bool fWaitingForEval;
     int fNumEvals, fLastEnterEval, fLastExitEval;
-    //plActivatorMsg* fSavedActivatorMsg;
 
 public:
     plObjectInVolumeDetector();
@@ -30,7 +29,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plObjectInVolumeAndFacingDetector : public plObjectInVolumeDetector {
@@ -46,7 +45,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

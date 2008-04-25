@@ -17,8 +17,6 @@ public:
     plKeyData(plKeyData* init);
     ~plKeyData();
 
-    void Delete();
-
 private:
     hsUint32 RefCnt() const;
     hsUint32 Ref();

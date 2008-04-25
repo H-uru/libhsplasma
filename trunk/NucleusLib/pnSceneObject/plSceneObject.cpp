@@ -8,67 +8,67 @@ IMPLEMENT_CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 void plSceneObject::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
-    DrawIntf = mgr->readKey(S);
-    SimIntf = mgr->readKey(S);
-    CoordIntf = mgr->readKey(S);
-    AudioIntf = mgr->readKey(S);
+    fDrawIntf = mgr->readKey(S);
+    fSimIntf = mgr->readKey(S);
+    fCoordIntf = mgr->readKey(S);
+    fAudioIntf = mgr->readKey(S);
 
-    Interfaces.setSizeNull(S->readInt());
-	size_t i;
-    for (i=0; i<Interfaces.getSize(); i++)
-        Interfaces[i] = mgr->readKey(S);
-    Modifiers.setSizeNull(S->readInt());
-    for (i=0; i<Modifiers.getSize(); i++)
-        Modifiers[i] = mgr->readKey(S);
+    fInterfaces.setSize(S->readInt());
+    size_t i;
+    for (i=0; i<fInterfaces.getSize(); i++)
+        fInterfaces[i] = mgr->readKey(S);
+    fModifiers.setSize(S->readInt());
+    for (i=0; i<fModifiers.getSize(); i++)
+        fModifiers[i] = mgr->readKey(S);
 
-    SceneNode = mgr->readKey(S);
+    fSceneNode = mgr->readKey(S);
 }
 
 void plSceneObject::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
 
-    mgr->writeKey(S, DrawIntf);
-    mgr->writeKey(S, SimIntf);
-    mgr->writeKey(S, CoordIntf);
-    mgr->writeKey(S, AudioIntf);
+    mgr->writeKey(S, fDrawIntf);
+    mgr->writeKey(S, fSimIntf);
+    mgr->writeKey(S, fCoordIntf);
+    mgr->writeKey(S, fAudioIntf);
 
-    S->writeInt(Interfaces.getSize());
+    S->writeInt(fInterfaces.getSize());
     size_t i;
-    for (i=0; i<Interfaces.getSize(); i++)
-        mgr->writeKey(S, Interfaces[i]);
-    S->writeInt(Modifiers.getSize());
-    for (i=0; i<Modifiers.getSize(); i++)
-        mgr->writeKey(S, Modifiers[i]);
-    mgr->writeKey(S, SceneNode);
+    for (i=0; i<fInterfaces.getSize(); i++)
+        mgr->writeKey(S, fInterfaces[i]);
+    S->writeInt(fModifiers.getSize());
+    for (i=0; i<fModifiers.getSize(); i++)
+        mgr->writeKey(S, fModifiers[i]);
+    mgr->writeKey(S, fSceneNode);
 }
 
-void plSceneObject::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
     
     prc->writeSimpleTag("DrawInterface");
-      DrawIntf->prcWrite(prc);
+      fDrawIntf->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("SimulationInterface");
-      SimIntf->prcWrite(prc);
+      fSimIntf->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("CoordinateInterface");
-      CoordIntf->prcWrite(prc);
+      fCoordIntf->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("AudioInterface");
-      AudioIntf->prcWrite(prc);
+      fAudioIntf->prcWrite(prc);
     prc->closeTag();
 
     size_t i;
     prc->writeSimpleTag("Interfaces");
-    for (i=0; i<Interfaces.getSize(); i++)
-        Interfaces[i]->prcWrite(prc);
+    for (i=0; i<fInterfaces.getSize(); i++)
+        fInterfaces[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Modifiers");
-    for (i=0; i<Modifiers.getSize(); i++)
-        Modifiers[i]->prcWrite(prc);
+    for (i=0; i<fModifiers.getSize(); i++)
+        fModifiers[i]->prcWrite(prc);
     prc->closeTag();
     
     prc->writeSimpleTag("SceneNode");
-      SceneNode->prcWrite(prc);
+      fSceneNode->prcWrite(prc);
     prc->closeTag();
 }

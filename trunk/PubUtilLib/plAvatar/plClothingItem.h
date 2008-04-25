@@ -6,21 +6,21 @@
 
 class plClothingItem : public hsKeyedObject {
 protected:
-    plString ItemName;
-    unsigned char Group, Type, Tileset, SortOrder;
+    plString fItemName;
+    unsigned char fGroup, fType, fTileset, fSortOrder;
 
-    plString Description;
-    plString CustomText;
+    plString fDescription;
+    plString fCustomText;
 
-    hsTArray<plString> ElementNames;
-    hsTArray<plKey*> Textures;
+    hsTArray<plString> fElementNames;
+    hsTArray<plKey*> fTextures;
 
-    plKey Icon;
-    plKey Meshes[3];
-    plKey Accessory;
+    plKey fIcon;
+    plKey fMeshes[3];
+    plKey fAccessory;
 
-    unsigned char DefaultTint1[3];
-    unsigned char DefaultTint2[3];
+    unsigned char fDefaultTint1[3];
+    unsigned char fDefaultTint2[3];
 
 public:
     plClothingItem();
@@ -30,7 +30,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

@@ -30,8 +30,8 @@ void plMatrixConstant::write(hsStream* S, plResManager* mgr) {
     fAP.write(S);
 }
 
-void plMatrixConstant::prcWrite(pfPrcHelper* prc) {
-    plAGChannel::prcWrite(prc);
+void plMatrixConstant::IPrcWrite(pfPrcHelper* prc) {
+    plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("AffineParts");
     fAP.prcWrite(prc);
@@ -67,11 +67,11 @@ void plMatrixControllerChannel::write(hsStream* S, plResManager* mgr) {
     fAP.write(S);
 }
 
-void plMatrixControllerChannel::prcWrite(pfPrcHelper* prc) {
-    plAGChannel::prcWrite(prc);
+void plMatrixControllerChannel::IPrcWrite(pfPrcHelper* prc) {
+    plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Controller");
-    fController->prcWrite(prc); prc->closeTag();
+    fController->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("AffineParts");

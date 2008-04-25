@@ -15,7 +15,7 @@ public:
 
 protected:
     int fType;
-    hsPoint3 fOffset;
+    hsVector3 fOffset;
     float fAccel, fDecel, fVel;
     float fFPAccel, fFPDecel, fFPVel;
     float fFOVw, fFOVh;
@@ -45,8 +45,6 @@ public:
 protected:
     plKey fNewCam, fTriggerer;
     double fTransTime;
-    //plSceneObject* fSubject;
-    //plPipeline* fPipe;
     plCameraConfig fConfig;
     bool fActivated;
     hsBitVector fCmd;
@@ -59,7 +57,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

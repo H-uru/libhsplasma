@@ -29,11 +29,9 @@ void plParticleEmitter::write(hsStream* S, plResManager* mgr) {
     fColor.write(S);
 }
 
-void plParticleEmitter::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plParticleEmitter::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Generator");
-    fGenerator->prcWrite(prc); prc->closeTag();
+    fGenerator->prcWrite(prc);
     prc->closeTag();
     
     prc->startTag("EmitterParams");

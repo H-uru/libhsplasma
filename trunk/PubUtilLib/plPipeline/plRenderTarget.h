@@ -30,7 +30,7 @@ public:
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
     class plCubicRenderTarget* getParent() const;
     void setParent(class plCubicRenderTarget* parent);
@@ -54,6 +54,6 @@ public:
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 #endif

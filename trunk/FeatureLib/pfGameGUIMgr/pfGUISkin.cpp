@@ -23,6 +23,7 @@ void pfGUISkin::pfSRect::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("Y", fY);
     prc->writeParam("width", fWidth);
     prc->writeParam("height", fHeight);
+    prc->endTag(true);
 }
 
 void pfGUISkin::pfSRect::empty() {
@@ -65,8 +66,8 @@ void pfGUISkin::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fTexture);
 }
 
-void pfGUISkin::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void pfGUISkin::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("Params");
     prc->writeParam("ItemMargin", fItemMargin);

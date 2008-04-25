@@ -1,10 +1,7 @@
 #include "pfGUIDialogMod.h"
 
 pfGUIDialogMod::pfGUIDialogMod()
-              : fNext(NULL), fPrev(NULL), fTagID(0), fVersion(0),
-                fEnabled(true), fControlOfInterest(NULL), fFocusCtrl(NULL),
-                fMousedCtrl(NULL), fHandler(NULL), fDragTarget(NULL),
-                fDragSource(NULL) {
+              : fTagID(0), fVersion(0) {
     memset(fName, 0, 128);
     fColorScheme = new pfGUIColorScheme();
 
@@ -13,7 +10,6 @@ pfGUIDialogMod::pfGUIDialogMod()
 
 pfGUIDialogMod::~pfGUIDialogMod() {
     delete fColorScheme;
-    if (fHandler) delete fHandler;
 }
 
 IMPLEMENT_CREATABLE(pfGUIDialogMod, kGUIDialogMod, plSingleModifier)
@@ -28,16 +24,8 @@ void pfGUIDialogMod::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fControls.getSize(); i++)
         fControls[i] = mgr->readKey(S);
 
-    /* plKey key = plResManager::getGlobalResMgr()->findKey({kGameGUIMgr});
-     * if (key != NULL)
-     *     mgr->add(key);
-     */
-    
     fTagID = S->readInt();
     fProcReceiver = mgr->readKey(S);
-    /* if (fProcReceiver != NULL)
-     *     SetHandler(new pfGUIDialogNotifyProc(fProcReceiver));
-     */
     
     fVersion = S->readInt();
     fColorScheme->read(S);
@@ -61,8 +49,8 @@ void pfGUIDialogMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneNode);
 }
 
-void pfGUIDialogMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void pfGUIDialogMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("Params");
     prc->writeParam("Name", fName);

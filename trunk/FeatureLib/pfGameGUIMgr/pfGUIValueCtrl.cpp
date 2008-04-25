@@ -1,7 +1,7 @@
 #include "pfGUIValueCtrl.h"
 
 pfGUIValueCtrl::pfGUIValueCtrl()
-              : fValue(0.0f), fMin(0.0f), fMax(0.0f), fStep(0.0f) { }
+              : fMin(0.0f), fMax(0.0f), fStep(0.0f) { }
 
 pfGUIValueCtrl::~pfGUIValueCtrl() { }
 
@@ -13,7 +13,6 @@ void pfGUIValueCtrl::read(hsStream* S, plResManager* mgr) {
     fMin = S->readFloat();
     fMax = S->readFloat();
     fStep = S->readFloat();
-    fValue = fMin;
 }
 
 void pfGUIValueCtrl::write(hsStream* S, plResManager* mgr) {
@@ -24,8 +23,8 @@ void pfGUIValueCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fStep);
 }
 
-void pfGUIValueCtrl::prcWrite(pfPrcHelper* prc) {
-    pfGUIControlMod::prcWrite(prc);
+void pfGUIValueCtrl::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIControlMod::IPrcWrite(prc);
 
     prc->startTag("ValueParams");
     prc->writeParam("Min", fMin);

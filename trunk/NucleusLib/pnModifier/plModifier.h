@@ -8,6 +8,7 @@
 DllClass plModifier : public plSynchedObject {
 public:
     plModifier();
+    virtual ~plModifier();
 
     DECLARE_CREATABLE(plModifier)
 };
@@ -15,33 +16,33 @@ public:
 
 DllClass plSingleModifier : public plModifier {
 protected:
-    plSceneObject* fTarget;
     hsBitVector fFlags;
 
 public:
     plSingleModifier();
+    virtual ~plSingleModifier();
 
     DECLARE_CREATABLE(plSingleModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 
 DllClass plMultiModifier : public plModifier {
 protected:
-    hsTArray<plSceneObject*> fTargets;
     hsBitVector fFlags;
 
 public:
     plMultiModifier();
+    virtual ~plMultiModifier();
 
     DECLARE_CREATABLE(plMultiModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

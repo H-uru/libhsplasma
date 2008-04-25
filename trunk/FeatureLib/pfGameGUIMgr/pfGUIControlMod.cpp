@@ -45,7 +45,7 @@ void pfGUIColorScheme::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("Face", fFontFace);
     prc->writeParam("Size", fFontSize);
     prc->writeParam("transparent", fTransparent);
-    prc->writeParam("flags", fFontFlags);
+    prc->writeParamHex("flags", fFontFlags);
     prc->endTag();
 
     prc->writeSimpleTag("Foreground");
@@ -148,8 +148,8 @@ void pfGUIControlMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSkin);
 }
 
-void pfGUIControlMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     if (fFlags[kHasProxy] && fProxy == NULL)
         fFlags[kHasProxy] = false;

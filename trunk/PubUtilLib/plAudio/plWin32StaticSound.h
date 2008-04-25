@@ -22,7 +22,7 @@ protected:
 public:
     DECLARE_CREATABLE(plWin32GroupedSound)
 
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);

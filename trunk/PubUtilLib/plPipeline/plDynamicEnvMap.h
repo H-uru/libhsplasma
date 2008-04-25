@@ -5,10 +5,8 @@
 
 DllClass plDynamicEnvMap : public plCubicRenderTarget {
 protected:
-    //plRenderRequest fReqs[6];
-    //plRenderRequestMsg* fReqMsgs[6];
     plKey fRootNode;
-    hsPoint3 fPos;
+    hsVector3 fPos;
     float fHither, fYon, fFogStart;
     hsColorRGBA fColor;
     float fRefreshRate;
@@ -27,7 +25,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plDynamicCamMap : public plRenderTarget {
@@ -39,8 +37,6 @@ public:
     };
 
 protected:
-    //plRenderRequest fReq;
-    //plRenderRequestMsg* fReqMsg;
     float fHither, fYon, fFogStart;
     hsColorRGBA fColor;
     float fRefreshRate;
@@ -60,7 +56,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

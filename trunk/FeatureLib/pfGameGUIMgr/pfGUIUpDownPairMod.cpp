@@ -1,22 +1,8 @@
 #include "pfGUIUpDownPairMod.h"
 #include "pfGUIButtonMod.h"
 
-/* pfUpDownBtnProc */
-pfUpDownBtnProc::pfUpDownBtnProc(pfGUIButtonMod* up, pfGUIButtonMod* down,
-                                 pfGUIUpDownPairMod* parent)
-               : fUp(up), fDown(down), fParent(parent) { }
-
-void pfUpDownBtnProc::DoSomething(pfGUIControlMod* ctrl) {
-    //TODO: Blah
-}
-
-
-/* pfGUIUpDownPairMod */
-pfGUIUpDownPairMod::pfGUIUpDownPairMod() : fButtonProc(NULL) { }
-
-pfGUIUpDownPairMod::~pfGUIUpDownPairMod() {
-    if (fButtonProc) delete fButtonProc;
-}
+pfGUIUpDownPairMod::pfGUIUpDownPairMod() { }
+pfGUIUpDownPairMod::~pfGUIUpDownPairMod() { }
 
 IMPLEMENT_CREATABLE(pfGUIUpDownPairMod, kGUIUpDownPairMod, pfGUIValueCtrl)
 
@@ -40,8 +26,8 @@ void pfGUIUpDownPairMod::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fStep);
 }
 
-void pfGUIUpDownPairMod::prcWrite(pfPrcHelper* prc) {
-    pfGUIValueCtrl::prcWrite(prc);
+void pfGUIUpDownPairMod::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIValueCtrl::IPrcWrite(prc);
 
     prc->writeSimpleTag("UpControl");
     fUpControl->prcWrite(prc);

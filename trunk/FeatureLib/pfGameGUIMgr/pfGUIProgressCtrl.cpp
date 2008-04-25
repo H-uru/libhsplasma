@@ -1,8 +1,6 @@
 #include "pfGUIProgressCtrl.h"
 
-pfGUIProgressCtrl::pfGUIProgressCtrl()
-             : fAnimBegin(0.0f), fAnimEnd(0.0f), fAnimTimesCalced(false),
-               fPlaySound(false), fStopSoundTimer(0) {
+pfGUIProgressCtrl::pfGUIProgressCtrl() {
     fFlags.setName(kReverseValues, "kReverseValues");
     fFlags.setName(kLeftRightOrientation, "kLeftRightOrientation");
     fFlags.setName(kMapToScreenRange, "kMapToScreenRange");
@@ -22,7 +20,6 @@ void pfGUIProgressCtrl::read(hsStream* S, plResManager* mgr) {
         fAnimationKeys[i] = mgr->readKey(S);
 
     fAnimName = S->readSafeStr();
-    fAnimTimesCalced = false;
 }
 
 void pfGUIProgressCtrl::write(hsStream* S, plResManager* mgr) {
@@ -35,8 +32,8 @@ void pfGUIProgressCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fAnimName);
 }
 
-void pfGUIProgressCtrl::prcWrite(pfPrcHelper* prc) {
-    pfGUIValueCtrl::prcWrite(prc);
+void pfGUIProgressCtrl::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIValueCtrl::IPrcWrite(prc);
 
     prc->startTag("Animation");
     prc->writeParam("Name", fAnimName);

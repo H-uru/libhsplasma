@@ -38,7 +38,7 @@ public:
     };
 
 protected:
-    int fSynchFlags;
+    unsigned int fSynchFlags;
     hsTArray<plString> SDLExcludeList;
     hsTArray<plString> SDLVolatileList;
 
@@ -48,11 +48,11 @@ public:
 
     DECLARE_CREATABLE(plSynchedObject)
     
-    int getFlags();
+    int getFlags() const;
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

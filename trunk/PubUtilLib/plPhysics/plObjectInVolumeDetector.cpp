@@ -37,14 +37,12 @@ void plCameraRegionDetector::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fMessages[i]);
 }
 
-void plCameraRegionDetector::prcWrite(pfPrcHelper* prc) {
-    plDetectorModifier::prcWrite(prc);
+void plCameraRegionDetector::IPrcWrite(pfPrcHelper* prc) {
+    plDetectorModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Messages");
-    for (size_t i=0; i<fMessages.getSize(); i++) {
+    for (size_t i=0; i<fMessages.getSize(); i++)
         fMessages[i]->prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 }
 
@@ -72,8 +70,8 @@ void plObjectInVolumeAndFacingDetector::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fNeedWalkingForward);
 }
 
-void plObjectInVolumeAndFacingDetector::prcWrite(pfPrcHelper* prc) {
-    plObjectInVolumeDetector::prcWrite(prc);
+void plObjectInVolumeAndFacingDetector::IPrcWrite(pfPrcHelper* prc) {
+    plObjectInVolumeDetector::IPrcWrite(prc);
 
     prc->startTag("FacingParams");
     prc->writeParam("Tolerance", fFacingTolerance);

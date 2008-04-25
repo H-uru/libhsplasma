@@ -19,24 +19,6 @@ public:
     DECLARE_CREATABLE(plParticleAngleApplicator)
 };
 
-/* Doesn't have unique Creatable Index
-DllClass plParticleDragApplicator : public plParticleApplicator {
-public:
-    plParticleDragApplicator();
-    virtual ~plParticleDragApplicator();
-
-    DECLARE_CREATABLE(plParticleDragApplicator)
-};*/
-
-/* Doesn't have unique Creatable Index
-DllClass plParticleGravityApplicator : public plParticleApplicator {
-public:
-    plParticleGravityApplicator();
-    virtual ~plParticleGravityApplicator();
-
-    DECLARE_CREATABLE(plParticleGravityApplicator)
-};*/
-
 DllClass plParticleLifeMinApplicator : public plParticleApplicator {
 public:
     plParticleLifeMinApplicator();

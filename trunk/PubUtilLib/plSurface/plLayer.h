@@ -3,6 +3,9 @@
 #include "plLayerInterface.h"
 
 DllClass plLayer : public plLayerInterface {
+protected:
+    hsGMatState fState;
+
 public:
     plLayer();
     virtual ~plLayer();
@@ -11,7 +14,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plLayerDepth : public plLayer {

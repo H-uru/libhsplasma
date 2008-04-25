@@ -39,43 +39,69 @@ void pfPrcHelper::writeParam(const char* name, const char* value) {
     file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(const char* name, const int value) {
+void pfPrcHelper::writeParam(const char* name, int value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%d\"", name, value);
     file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(const char* name, const long value) {
+void pfPrcHelper::writeParam(const char* name, long value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%ld\"", name, value);
     file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(const char* name, const unsigned int value) {
+void pfPrcHelper::writeParam(const char* name, unsigned int value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%u\"", name, value);
     file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(const char* name, const unsigned long value) {
+void pfPrcHelper::writeParam(const char* name, unsigned long value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%lu\"", name, value);
     file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(const char* name, const float value) {
+void pfPrcHelper::writeParam(const char* name, float value) {
     writeParam(name, (double)value);
 }
 
-void pfPrcHelper::writeParam(const char* name, const double value) {
+void pfPrcHelper::writeParam(const char* name, double value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%g\"", name, value);
     file->writeStr(buf);
 }
 
-void pfPrcHelper::writeParam(const char* name, const bool value) {
+void pfPrcHelper::writeParam(const char* name, bool value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%s\"", name, value ? "True" : "False");
+    file->writeStr(buf);
+}
+
+void pfPrcHelper::writeParamHex(const char* name, unsigned char value) {
+    char buf[256];
+    // %hhX is non-standard:
+    unsigned short pval = (unsigned short)value;
+    snprintf(buf, 256, " %s=\"0x%02hX\"", name, pval);
+    file->writeStr(buf);
+}
+
+void pfPrcHelper::writeParamHex(const char* name, unsigned short value) {
+    char buf[256];
+    snprintf(buf, 256, " %s=\"0x%04hX\"", name, value);
+    file->writeStr(buf);
+}
+
+void pfPrcHelper::writeParamHex(const char* name, unsigned int value) {
+    char buf[256];
+    snprintf(buf, 256, " %s=\"0x%08X\"", name, value);
+    file->writeStr(buf);
+}
+
+void pfPrcHelper::writeParamHex(const char* name, unsigned long value) {
+    char buf[256];
+    snprintf(buf, 256, " %s=\"0x%08lX\"", name, value);
     file->writeStr(buf);
 }
 

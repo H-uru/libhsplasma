@@ -25,8 +25,8 @@ void plEventCallbackMsg::write(hsStream* S, plResManager* mgr) {
     S->writeShort(fUser);
 }
 
-void plEventCallbackMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plEventCallbackMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->startTag("EventCallback");
     prc->writeParam("EventTime", fEventTime);

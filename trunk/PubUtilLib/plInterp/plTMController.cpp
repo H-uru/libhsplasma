@@ -67,12 +67,9 @@ void plTMController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plTMController::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plTMController::IPrcWrite(pfPrcHelper* prc) {
     if (fPosController != NULL) {
         fPosController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plPosController");
         prc->writeParam("present", false);
@@ -81,7 +78,6 @@ void plTMController::prcWrite(pfPrcHelper* prc) {
 
     if (fRotController != NULL) {
         fRotController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plRotController");
         prc->writeParam("present", false);
@@ -90,7 +86,6 @@ void plTMController::prcWrite(pfPrcHelper* prc) {
 
     if (fScaleController != NULL) {
         fScaleController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plScaleController");
         prc->writeParam("present", false);

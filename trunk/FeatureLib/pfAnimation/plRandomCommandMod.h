@@ -20,9 +20,6 @@ public:
 
 protected:
     unsigned char fState, fMode;
-    signed char fCurrent;
-    hsBitVector fExcluded;
-    hsTArray<double> fEndTimes;
     float fMinDelay, fMaxDelay;
 
 public:
@@ -33,7 +30,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

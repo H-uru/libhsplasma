@@ -35,7 +35,6 @@ public:
     operator const float*() const;
 
     hsMatrix44 operator*(const hsMatrix44& right) const;
-    hsPoint3 operator*(const hsPoint3& pt) const;
     hsVector3 operator*(const hsVector3& vec) const;
     
     hsMatrix44& translate(const hsVector3& translate);

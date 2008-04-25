@@ -30,7 +30,7 @@ protected:
     float fWispiness;
     hsColorRGBA fShoreTint, fMaxColor, fMinColor;
     float fEdgeOpac, fEdgeRadius, fPeriod, fFingerLength;
-    hsPoint3 fEnvCenter;
+    hsVector3 fEnvCenter;
     float fEnvRefresh, fEnvRadius;
 
 public:

@@ -52,10 +52,10 @@ public:
     };
 
     struct TempVertex {
-        hsPoint3 fPosition, fNormal;
+        hsVector3 fPosition, fNormal;
         unsigned int fColor, fSpecularColor;
         hsColorRGBA fMultColor, fAddColor;
-        hsPoint3 fUVs[8];
+        hsVector3 fUVs[8];
         float fWeights[3];
         unsigned int fIndices;
     };
@@ -100,13 +100,13 @@ protected:
     
 public:
     plGeometrySpan();
-    virtual ~plGeometrySpan();
+    ~plGeometrySpan();
 
     static unsigned int CalcVertexSize(unsigned char format);
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    void read(hsStream* S);
+    void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
 
     void setMaterial(const plKey& mat);
     void setFogEnvironment(const plKey& fog);

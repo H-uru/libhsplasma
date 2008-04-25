@@ -66,8 +66,8 @@ void plAnimCmdMsg::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fLoopName);
 }
 
-void plAnimCmdMsg::prcWrite(pfPrcHelper* prc) {
-    plMessageWithCallbacks::prcWrite(prc);
+void plAnimCmdMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessageWithCallbacks::IPrcWrite(prc);
 
     prc->startTag("AnimParams");
     prc->writeParam("Begin", fBegin);

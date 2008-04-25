@@ -15,7 +15,7 @@ public:
     };
 
 protected:
-    hsPoint3 fListenPos;
+    hsVector3 fListenPos;
     float fListenStrength;
     unsigned int fListenState;
     float fInsideStrength, fOutsideStrength;
@@ -28,7 +28,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plSoftVolumeSimple : public plSoftVolume {
@@ -44,7 +44,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plSoftVolumeComplex : public plSoftVolume {
@@ -59,7 +59,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plSoftVolumeIntersect : public plSoftVolumeComplex {

@@ -9,50 +9,48 @@ void plDrawInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
     size_t count = S->readInt();
-    Drawables.clear();
-    Drawables.setSize(count);
-    DrawableKeys.clear();
-    DrawableKeys.setSize(count);
+    fDrawables.setSize(count);
+    fDrawableKeys.setSize(count);
 	size_t i;
     for (i=0; i<count; i++) {
-        DrawableKeys[i] = S->readInt();
-        Drawables[i] = mgr->readKey(S);
+        fDrawableKeys[i] = S->readInt();
+        fDrawables[i] = mgr->readKey(S);
     }
     count = S->readInt();
-    Objects.clear();
-    Objects.setSize(count);
+    fObjects.setSize(count);
     for (i=0; i<count; i++)
-        Objects[i] = mgr->readKey(S);
+        fObjects[i] = mgr->readKey(S);
 }
 
 void plDrawInterface::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
 
-    S->writeInt(Drawables.getSize());
+    S->writeInt(fDrawables.getSize());
 	size_t i;
-    for (i=0; i<Drawables.getSize(); i++) {
-        S->writeInt(DrawableKeys[i]);
-        mgr->writeKey(S, Drawables[i]);
+    for (i=0; i<fDrawables.getSize(); i++) {
+        S->writeInt(fDrawableKeys[i]);
+        mgr->writeKey(S, fDrawables[i]);
     }
-    S->writeInt(Objects.getSize());
-    for (i=0; i<Objects.getSize(); i++)
-        mgr->writeKey(S, Objects[i]);
+    S->writeInt(fObjects.getSize());
+    for (i=0; i<fObjects.getSize(); i++)
+        mgr->writeKey(S, fObjects[i]);
 }
 
-void plDrawInterface::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     size_t i;
     prc->writeSimpleTag("Drawables");
-    for (i=0; i<Drawables.getSize(); i++) {
-        prc->startTag("DrawableKey");
-        prc->writeParam("value", DrawableKeys[i]);
-        prc->endTag(true);
-        Drawables[i]->prcWrite(prc);
+    for (i=0; i<fDrawables.getSize(); i++) {
+        prc->startTag("Drawable");
+        prc->writeParam("key", fDrawableKeys[i]);
+        prc->endTag();
+        fDrawables[i]->prcWrite(prc);
+        prc->closeTag();
     }
     prc->closeTag();
     prc->writeSimpleTag("Objects");
-    for (i=0; i<Objects.getSize(); i++)
-        Objects[i]->prcWrite(prc);
+    for (i=0; i<fObjects.getSize(); i++)
+        fObjects[i]->prcWrite(prc);
     prc->closeTag();
 }

@@ -32,13 +32,10 @@ void plCompoundController::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fZController);
 }
 
-void plCompoundController::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plCompoundController::IPrcWrite(pfPrcHelper* prc) {
     prc->writeComment("X, Y, Z");
     if (fXController != NULL) {
         fXController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plController");
         prc->writeParam("NULL", true);
@@ -46,7 +43,6 @@ void plCompoundController::prcWrite(pfPrcHelper* prc) {
     }
     if (fYController != NULL) {
         fYController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plController");
         prc->writeParam("NULL", true);
@@ -54,7 +50,6 @@ void plCompoundController::prcWrite(pfPrcHelper* prc) {
     }
     if (fZController != NULL) {
         fZController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plController");
         prc->writeParam("NULL", true);

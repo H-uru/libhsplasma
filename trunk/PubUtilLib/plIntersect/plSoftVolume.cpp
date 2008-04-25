@@ -24,8 +24,8 @@ void plSoftVolume::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fOutsideStrength);
 }
 
-void plSoftVolume::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plSoftVolume::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     prc->startTag("SoftVolumeParams");
     prc->writeParam("ListenState", fListenState);
@@ -59,13 +59,13 @@ void plSoftVolumeSimple::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fVolume);
 }
 
-void plSoftVolumeSimple::prcWrite(pfPrcHelper* prc) {
-    plSoftVolume::prcWrite(prc);
+void plSoftVolumeSimple::IPrcWrite(pfPrcHelper* prc) {
+    plSoftVolume::IPrcWrite(prc);
 
     prc->startTag("Volume");
     prc->writeParam("SoftDist", fSoftDist);
     prc->endTag();
-    fVolume->prcWrite(prc); prc->closeTag();
+    fVolume->prcWrite(prc);
     prc->closeTag();
 }
 
@@ -92,8 +92,8 @@ void plSoftVolumeComplex::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fSubVolumes[i]);
 }
 
-void plSoftVolumeComplex::prcWrite(pfPrcHelper* prc) {
-    plSoftVolume::prcWrite(prc);
+void plSoftVolumeComplex::IPrcWrite(pfPrcHelper* prc) {
+    plSoftVolume::IPrcWrite(prc);
 
     prc->writeSimpleTag("SubVolumes");
     for (size_t i=0; i<fSubVolumes.getSize(); i++)

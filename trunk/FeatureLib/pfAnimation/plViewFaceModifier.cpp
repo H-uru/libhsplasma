@@ -45,8 +45,8 @@ void plViewFaceModifier::write(hsStream* S, plResManager* mgr) {
         fMaxBounds.write(S);
 }
 
-void plViewFaceModifier::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plViewFaceModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Scale");
     fScale.prcWrite(prc);
@@ -69,7 +69,7 @@ void plViewFaceModifier::prcWrite(pfPrcHelper* prc) {
 
     if (fFlags[kMaxBounds]) {
         prc->writeSimpleTag("MaxBounds");
-        fMaxBounds.prcWrite(prc); prc->closeTag();
+        fMaxBounds.prcWrite(prc);
         prc->closeTag();
     }
 }

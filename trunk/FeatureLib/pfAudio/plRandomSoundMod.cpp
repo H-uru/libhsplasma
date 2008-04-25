@@ -2,7 +2,7 @@
 
 // plRandomSoundModGroup //
 plRandomSoundModGroup::plRandomSoundModGroup()
-                     : fCurrent(0), fNumSounds(0), fGroupedIdx(0) { }
+                     : fNumSounds(0), fGroupedIdx(0) { }
 
 plRandomSoundModGroup::~plRandomSoundModGroup() { }
 
@@ -39,7 +39,7 @@ void plRandomSoundModGroup::prcWrite(pfPrcHelper* prc) {
 
 
 // plRandomSoundMod //
-plRandomSoundMod::plRandomSoundMod() : fCurrentGroup(0), fNumGroups(0) { }
+plRandomSoundMod::plRandomSoundMod() : fNumGroups(0) { }
 
 plRandomSoundMod::~plRandomSoundMod() { }
 
@@ -62,8 +62,8 @@ void plRandomSoundMod::write(hsStream* S, plResManager* mgr) {
         fGroups[i].write(S);
 }
 
-void plRandomSoundMod::prcWrite(pfPrcHelper* prc) {
-    plRandomCommandMod::prcWrite(prc);
+void plRandomSoundMod::IPrcWrite(pfPrcHelper* prc) {
+    plRandomCommandMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("Groups");
     for (size_t i=0; i<fNumGroups; i++)

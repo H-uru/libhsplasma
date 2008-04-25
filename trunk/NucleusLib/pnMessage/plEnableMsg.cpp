@@ -26,8 +26,8 @@ void plEnableMsg::write(hsStream* S, plResManager* mgr) {
     fTypes.write(S);
 }
 
-void plEnableMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plEnableMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Command");
     fCmd.prcWrite(prc);

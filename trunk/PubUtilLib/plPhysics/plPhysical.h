@@ -13,11 +13,11 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
 protected:
-    virtual void readData(hsStream* S, plResManager* mgr);
-    virtual void writeData(hsStream* S, plResManager* mgr);
+    virtual void readData(hsStream* S, plResManager* mgr) =0;
+    virtual void writeData(hsStream* S, plResManager* mgr) =0;
 };
 
 #endif

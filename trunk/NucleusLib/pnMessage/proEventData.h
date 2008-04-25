@@ -64,7 +64,7 @@ protected:
     plKey fPicker;
     plKey fPicked;
     bool fEnabled;
-    hsPoint3 fHitPoint;
+    hsVector3 fHitPoint;
 
 public:
     proPickedEventData();

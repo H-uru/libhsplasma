@@ -15,8 +15,8 @@ void plRelevanceRegion::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fRegion);
 }
 
-void plRelevanceRegion::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plRelevanceRegion::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Region");
     fRegion->prcWrite(prc);

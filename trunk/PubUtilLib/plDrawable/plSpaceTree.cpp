@@ -57,8 +57,7 @@ void plSpaceTree::write(hsStream* S, plResManager* mgr) {
         fTree[i].write(S);
 }
 
-void plSpaceTree::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
+void plSpaceTree::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Params");
     prc->writeParam("Root", fRoot);
     prc->writeParam("NumLeaves", fNumLeaves);

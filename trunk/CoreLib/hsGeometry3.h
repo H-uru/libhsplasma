@@ -4,48 +4,19 @@
 #include "hsStream.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
 
-DllStruct hsScalarTriple {
-public:
-    float fX, fY, fZ;
+DllStruct hsVector3 {
+    float X, Y, Z;
 
-public:
-    hsScalarTriple();
-    hsScalarTriple(float x, float y, float z);
-    virtual ~hsScalarTriple();
+    hsVector3();
+    hsVector3(float x, float y, float z);
+    hsVector3(const hsVector3& src);
 
-    virtual const char* ClassName() const;
+    void Zero();
+    float magnitude() const;
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
-};
-
-DllStruct hsPoint3 : public hsScalarTriple {
-public:
-    hsPoint3();
-    hsPoint3(float x, float y, float z);
-    hsPoint3(const hsScalarTriple& src);
-    virtual ~hsPoint3();
-    
-    virtual const char* ClassName() const;
-
-    void Zero();
-
-    hsPoint3& operator=(const hsPoint3& other);
-    bool operator==(const hsPoint3& other) const;
-    hsPoint3 operator+(const hsPoint3& other) const;
-    hsPoint3 operator-(const hsPoint3& other) const;
-    hsPoint3 operator*(const float mult) const;
-};
-
-DllStruct hsVector3 : hsScalarTriple {
-public:
-    hsVector3(const hsScalarTriple& src);
-    hsVector3(float x, float y, float z);
-    hsVector3();
-    virtual ~hsVector3();
-    
-    virtual const char* ClassName() const;
 
     hsVector3& operator=(const hsVector3& other);
     bool operator==(const hsVector3& other) const;
@@ -57,13 +28,10 @@ public:
 };
 
 DllStruct hsPlane3 {
-public:
-    hsVector3 fN;
-    float fD;
+    hsVector3 N;
+    float W;
 
-public:
     hsPlane3();
-    ~hsPlane3();
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -71,8 +39,7 @@ public:
 };
 
 DllStruct hsFloatPoint2 {
-public:
-    float fX, fY;
+    float X, Y;
 };
 
 #endif

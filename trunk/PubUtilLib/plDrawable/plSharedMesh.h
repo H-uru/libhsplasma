@@ -28,9 +28,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
-    
-	//virtual bool MsgReceive(plMessage *msg);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

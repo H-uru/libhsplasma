@@ -5,7 +5,8 @@
 plLineFollowMod::plLineFollowMod() : fPath(NULL) { }
 
 plLineFollowMod::~plLineFollowMod() {
-    if (fPath) delete fPath;
+    if (fPath != NULL)
+        delete fPath;
 }
 
 IMPLEMENT_CREATABLE(plLineFollowMod, kLineFollowMod, plMultiModifier)
@@ -57,8 +58,8 @@ void plLineFollowMod::write(hsStream* S, plResManager* mgr) {
         S->writeFloat(fSpeedClamp);
 }
 
-void plLineFollowMod::prcWrite(pfPrcHelper* prc) {
-    plMultiModifier::prcWrite(prc);
+void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
+    plMultiModifier::IPrcWrite(prc);
 
     fPath->prcWrite(prc); prc->closeTag();
     prc->writeSimpleTag("Parent");

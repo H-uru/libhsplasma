@@ -22,7 +22,7 @@ public:
     };
 
 protected:
-    hsPoint3 fFrom, fAt;
+    hsVector3 fFrom, fAt;
     plKey fBrain;
     hsTArray<CamTrans*> fTrans;
     float fFOVw, fFOVh;
@@ -30,8 +30,6 @@ protected:
     hsTArray<plKey> fSenderQueue;
     hsTArray<plCameraMsg*> fFOVInstructions;
     bool fAnimated, fStartAnimOnPush, fStopAnimOnPop, fResetAnimOnPop;
-    hsPoint3 fLastSubPos, fLastSubPOA;
-    bool fInSubLastUpdate, fUpdateBrainTarget;
 
 public:
     plCameraModifier1();
@@ -41,7 +39,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

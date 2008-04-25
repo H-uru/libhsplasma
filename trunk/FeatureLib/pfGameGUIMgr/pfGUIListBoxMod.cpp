@@ -1,12 +1,5 @@
 #include "pfGUIListBoxMod.h"
 
-/* pfScrollProc */
-pfScrollProc::pfScrollProc(pfGUIListBoxMod* parent) : fParent(parent) { }
-
-void pfScrollProc::DoSomething(pfGUIControlMod* ctrl) {
-    //TODO: Scroll...
-}
-
 /* pfGUIListElement */
 pfGUIListElement::pfGUIListElement()
                 : fSelected(false), fCollapsed(false), fType(kText),
@@ -30,11 +23,7 @@ void pfGUIListElement::prcWrite(pfPrcHelper* prc) {
 
 
 /* pfGUIListBoxMod */
-pfGUIListBoxMod::pfGUIListBoxMod()
-               : fScrollProc(NULL), fCurrClick(0), fScrollPos(0), fCurrHover(0),
-                 fModsAtDragTime(0), fMinSel(0), fMaxSel(0), fCheckSel(false),
-                 fClicking(false), fSingleSelElement(0), fLocked(false),
-                 fReadyToRoll(false) {
+pfGUIListBoxMod::pfGUIListBoxMod() {
     fFlags.setName(kSingleSelect, "kSingleSelect");
     fFlags.setName(kDragAndDropCapable, "kDragAndDropCapable");
     fFlags.setName(kDisableSelection, "kDisableSelection");
@@ -47,21 +36,15 @@ pfGUIListBoxMod::pfGUIListBoxMod()
     fFlags.setName(kForbidNoSelection, "kForbidNoSelection");
 }
 
-pfGUIListBoxMod::~pfGUIListBoxMod() {
-    if (fScrollProc) delete fScrollProc;
-}
+pfGUIListBoxMod::~pfGUIListBoxMod() { }
 
 IMPLEMENT_CREATABLE(pfGUIListBoxMod, kGUIListBoxMod, pfGUIControlMod)
 
 void pfGUIListBoxMod::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
-    if (fScrollProc != NULL)
-        delete fScrollProc;
-    if (S->readBool()) {
-        fScrollProc = new pfScrollProc(this);
+    if (S->readBool())
         fScrollCtrl = mgr->readKey(S);
-    }
 
     if (fFlags[kAllowMultipleElementsPerRow])
         fFlags[kWantsInterest] = false;
@@ -78,8 +61,8 @@ void pfGUIListBoxMod::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void pfGUIListBoxMod::prcWrite(pfPrcHelper* prc) {
-    pfGUIControlMod::prcWrite(prc);
+void pfGUIListBoxMod::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIControlMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("ScrollControl");
     fScrollCtrl->prcWrite(prc);

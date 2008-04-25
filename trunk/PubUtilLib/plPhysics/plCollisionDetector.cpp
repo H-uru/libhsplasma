@@ -17,8 +17,8 @@ void plCollisionDetector::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fType);
 }
 
-void plCollisionDetector::prcWrite(pfPrcHelper* prc) {
-    plDetectorModifier::prcWrite(prc);
+void plCollisionDetector::IPrcWrite(pfPrcHelper* prc) {
+    plDetectorModifier::IPrcWrite(prc);
 
     prc->startTag("CollisionType");
     prc->writeParam("value", fType);
@@ -44,8 +44,8 @@ void plSubworldRegionDetector::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fOnExit);
 }
 
-void plSubworldRegionDetector::prcWrite(pfPrcHelper* prc) {
-    plDetectorModifier::prcWrite(prc);
+void plSubworldRegionDetector::IPrcWrite(pfPrcHelper* prc) {
+    plDetectorModifier::IPrcWrite(prc);
 
     prc->startTag("SubworldParams");
     prc->writeParam("OnExit", fOnExit);
@@ -73,8 +73,8 @@ void plPanicLinkRegion::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fPlayLinkOutAnim);
 }
 
-void plPanicLinkRegion::prcWrite(pfPrcHelper* prc) {
-    plCollisionDetector::prcWrite(prc);
+void plPanicLinkRegion::IPrcWrite(pfPrcHelper* prc) {
+    plCollisionDetector::IPrcWrite(prc);
 
     prc->startTag("PanicLinkParams");
     prc->writeParam("PlayLinkOutAnim", fPlayLinkOutAnim);

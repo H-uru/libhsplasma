@@ -21,8 +21,8 @@ void plANDConditionalObject::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fChildren[i]);
 }
 
-void plANDConditionalObject::prcWrite(pfPrcHelper* prc) {
-    plConditionalObject::prcWrite(prc);
+void plANDConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+    plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Children");
     for (size_t i=0; i<fChildren.getSize(); i++)
         fChildren[i]->prcWrite(prc);
@@ -51,8 +51,8 @@ void plORConditionalObject::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fChildren[i]);
 }
 
-void plORConditionalObject::prcWrite(pfPrcHelper* prc) {
-    plConditionalObject::prcWrite(prc);
+void plORConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+    plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Children");
     for (size_t i=0; i<fChildren.getSize(); i++)
         fChildren[i]->prcWrite(prc);

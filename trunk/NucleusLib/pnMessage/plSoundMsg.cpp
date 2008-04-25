@@ -65,8 +65,8 @@ void plSoundMsg::write(hsStream* S, plResManager* mgr) {
     S->writeByte((hsUbyte)fFadeType);
 }
 
-void plSoundMsg::prcWrite(pfPrcHelper* prc) {
-    plMessageWithCallbacks::prcWrite(prc);
+void plSoundMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessageWithCallbacks::IPrcWrite(prc);
 
     prc->startTag("SoundParams");
     prc->writeParam("Begin", fBegin);

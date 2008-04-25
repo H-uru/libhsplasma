@@ -6,10 +6,10 @@
 class plCubicEnvironmap : public plBitmap {
 public:
     enum Faces { kLeftFace, kRightFace, kFrontFace, kBackFace,
-                 kTopFace, kBottomFace };
+                 kTopFace, kBottomFace, kNumFaces };
 
 protected:
-    plMipmap faces[6];
+    plMipmap fFaces[kNumFaces];
 
 public:
     plCubicEnvironmap();
@@ -17,11 +17,9 @@ public:
     
     DECLARE_CREATABLE(plCubicEnvironmap)
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

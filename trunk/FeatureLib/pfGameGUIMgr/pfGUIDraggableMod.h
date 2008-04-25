@@ -12,10 +12,6 @@ public:
 
     enum ExtendedEvents { kDragging, kCancelled, kStartingDrag };
 
-protected:
-    hsPoint3 fDragOffset, fLastMousePt, fOrigCenter;
-    bool fDragging;
-
 public:
     pfGUIDraggableMod();
     virtual ~pfGUIDraggableMod();

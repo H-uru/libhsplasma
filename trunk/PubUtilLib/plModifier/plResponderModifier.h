@@ -34,7 +34,6 @@ protected:
     hsBitVector fCompletedEvents;
     plKey fPlayerKey, fTriggerer;
     bool fEnter, fGotFirstLoad;
-    //plResponderSDLModifier* fResponderSDLMod;
     unsigned char fFlags;
     unsigned long fNotifyMsgFlags;
 
@@ -46,7 +45,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plResponderEnableMsg : public plMessage {
@@ -61,7 +60,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

@@ -24,8 +24,8 @@ void plLogicModifier::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fMyCursor);
 }
 
-void plLogicModifier::prcWrite(pfPrcHelper* prc) {
-    plLogicModBase::prcWrite(prc);
+void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
+    plLogicModBase::IPrcWrite(prc);
 
     prc->writeSimpleTag("Conditions");
     for (size_t i=0; i<fConditionList.getSize(); i++)

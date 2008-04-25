@@ -1,6 +1,6 @@
 #include "pfGUIDraggableMod.h"
 
-pfGUIDraggableMod::pfGUIDraggableMod() : fDragging(false) {
+pfGUIDraggableMod::pfGUIDraggableMod() {
     fFlags.setName(kReportDragging, "kReportDragging");
     fFlags.setName(kHideCursorWhileDragging, "kHideCursorWhileDragging");
     fFlags.setName(kAlwaysSnapBackToStart, "kAlwaysSnapBackToStart");

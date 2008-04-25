@@ -18,8 +18,8 @@ void plDynaRippleMgr::write(hsStream* S, plResManager* mgr) {
     fFinalUVW.write(S);
 }
 
-void plDynaRippleMgr::prcWrite(pfPrcHelper* prc) {
-    plDynaDecalMgr::prcWrite(prc);
+void plDynaRippleMgr::IPrcWrite(pfPrcHelper* prc) {
+    plDynaDecalMgr::IPrcWrite(prc);
 
     prc->writeSimpleTag("InitUVW");
     fInitUVW.prcWrite(prc);
@@ -46,8 +46,8 @@ void plDynaRippleVSMgr::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fWaveSetBase);
 }
 
-void plDynaRippleVSMgr::prcWrite(pfPrcHelper* prc) {
-    plDynaRippleMgr::prcWrite(prc);
+void plDynaRippleVSMgr::IPrcWrite(pfPrcHelper* prc) {
+    plDynaRippleMgr::IPrcWrite(prc);
     fWaveSetBase->prcWrite(prc);
 }
 
@@ -75,8 +75,8 @@ void plDynaTorpedoVSMgr::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fWaveSetBase);
 }
 
-void plDynaTorpedoVSMgr::prcWrite(pfPrcHelper* prc) {
-    plDynaTorpedoMgr::prcWrite(prc);
+void plDynaTorpedoVSMgr::IPrcWrite(pfPrcHelper* prc) {
+    plDynaTorpedoMgr::IPrcWrite(prc);
     fWaveSetBase->prcWrite(prc);
 }
 
@@ -112,8 +112,8 @@ void plDynaWakeMgr::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fVelWgt);
 }
 
-void plDynaWakeMgr::prcWrite(pfPrcHelper* prc) {
-    plDynaRippleMgr::prcWrite(prc);
+void plDynaWakeMgr::IPrcWrite(pfPrcHelper* prc) {
+    plDynaRippleMgr::IPrcWrite(prc);
 
     prc->writeSimpleTag("DefaultDir");
     fDefaultDir.prcWrite(prc);
@@ -126,10 +126,9 @@ void plDynaWakeMgr::prcWrite(pfPrcHelper* prc) {
 
     if (fAnimPath != NULL) {
         fAnimPath->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plAnimPath");
-        prc->writeParam("Present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
     }
 }

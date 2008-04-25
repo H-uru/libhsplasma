@@ -43,8 +43,8 @@ void hsGMaterial::writeData(hsStream* S) {
     S->writeInt(PiggyBacks.getSize());
 }
 
-void hsGMaterial::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void hsGMaterial::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("LoadFlags");
     prc->writeParam("value", loadFlags);

@@ -29,8 +29,8 @@ void plWin32GroupedSound::IWrite(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plWin32GroupedSound::prcWrite(pfPrcHelper* prc) {
-    plWin32Sound::prcWrite(prc);
+void plWin32GroupedSound::IPrcWrite(pfPrcHelper* prc) {
+    plWin32Sound::IPrcWrite(prc);
 
     prc->writeSimpleTag("Volumes");
     for (unsigned short i=0; i<fStartPositions.getSize(); i++) {

@@ -15,7 +15,7 @@ void plWaveSet6::write(hsStream* S, plResManager* mgr) {
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
-void plWaveSet6::prcWrite(pfPrcHelper* prc) {
-    plMultiModifier::prcWrite(prc);
+void plWaveSet6::IPrcWrite(pfPrcHelper* prc) {
+    plMultiModifier::IPrcWrite(prc);
     prc->writeComment("plWaveSet6 Not Implemented");
 }

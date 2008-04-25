@@ -53,37 +53,37 @@ void plLayerAnimationBase::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fTransformCtl);
 }
 
-void plLayerAnimationBase::prcWrite(pfPrcHelper* prc) {
-    plLayerInterface::prcWrite(prc);
+void plLayerAnimationBase::IPrcWrite(pfPrcHelper* prc) {
+    plLayerInterface::IPrcWrite(prc);
 
     if (fPreshadeColorCtl != NULL) {
         prc->writeSimpleTag("PreshadeColorCtl");
-        fPreshadeColorCtl->prcWrite(prc); prc->closeTag();
+        fPreshadeColorCtl->prcWrite(prc);
         prc->closeTag();
     }
     if (fRuntimeColorCtl != NULL) {
         prc->writeSimpleTag("RuntimeColorCtl");
-        fRuntimeColorCtl->prcWrite(prc); prc->closeTag();
+        fRuntimeColorCtl->prcWrite(prc);
         prc->closeTag();
     }
     if (fAmbientColorCtl != NULL) {
         prc->writeSimpleTag("AmbientColorCtl");
-        fAmbientColorCtl->prcWrite(prc); prc->closeTag();
+        fAmbientColorCtl->prcWrite(prc);
         prc->closeTag();
     }
     if (fSpecularColorCtl != NULL) {
         prc->writeSimpleTag("SpecularColorCtl");
-        fSpecularColorCtl->prcWrite(prc); prc->closeTag();
+        fSpecularColorCtl->prcWrite(prc);
         prc->closeTag();
     }
     if (fOpacityCtl != NULL) {
         prc->writeSimpleTag("OpacityCtl");
-        fOpacityCtl->prcWrite(prc); prc->closeTag();
+        fOpacityCtl->prcWrite(prc);
         prc->closeTag();
     }
     if (fTransformCtl != NULL) {
         prc->writeSimpleTag("TransformCtl");
-        fTransformCtl->prcWrite(prc); prc->closeTag();
+        fTransformCtl->prcWrite(prc);
         prc->closeTag();
     }
 }
@@ -105,9 +105,9 @@ void plLayerAnimation::write(hsStream* S, plResManager* mgr) {
     fTimeConvert.write(S, mgr);
 }
 
-void plLayerAnimation::prcWrite(pfPrcHelper* prc) {
-    plLayerAnimationBase::prcWrite(prc);
-    fTimeConvert.prcWrite(prc); prc->closeTag();
+void plLayerAnimation::IPrcWrite(pfPrcHelper* prc) {
+    plLayerAnimationBase::IPrcWrite(prc);
+    fTimeConvert.prcWrite(prc);
 }
 
 
@@ -133,8 +133,8 @@ void plLayerLinkAnimation::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fLeavingAge);
 }
 
-void plLayerLinkAnimation::prcWrite(pfPrcHelper* prc) {
-    plLayerAnimation::prcWrite(prc);
+void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc) {
+    plLayerAnimation::IPrcWrite(prc);
 
     prc->startTag("LinkParams");
     prc->writeParam("LeavingAge", fLeavingAge);
@@ -160,8 +160,8 @@ void plLayerSDLAnimation::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fVarName);
 }
 
-void plLayerSDLAnimation::prcWrite(pfPrcHelper* prc) {
-    plLayerAnimationBase::prcWrite(prc);
+void plLayerSDLAnimation::IPrcWrite(pfPrcHelper* prc) {
+    plLayerAnimationBase::IPrcWrite(prc);
 
     prc->startTag("VarName");
     prc->writeParam("value", fVarName);

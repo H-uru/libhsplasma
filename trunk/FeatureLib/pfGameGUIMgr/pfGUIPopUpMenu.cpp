@@ -1,9 +1,7 @@
 #include "pfGUIPopUpMenu.h"
 
 pfGUIPopUpMenu::pfGUIPopUpMenu()
-              : fParent(NULL), /*fKeyGen(NULL),*/ fNeedsRebuilding(false),
-                fWaitingForSkin(false), fOriginX(0.0f), fOriginY(0.0f),
-                fMargin(4), fSubMenuOpen(-1), fAlignment(kAlignDownRight) {
+              : fMargin(4), fAlignment(kAlignDownRight) {
     fFlags.setName(kStayOpenAfterClick, "kStayOpenAfterClick");
     fFlags.setName(kModalOutsideMenus, "kModalOutsideMenus");
     fFlags.setName(kOpenSubMenusOnHover, "kOpenSubMenusOnHover");
@@ -21,11 +19,7 @@ IMPLEMENT_CREATABLE(pfGUIPopUpMenu, kGUIPopUpMenu, pfGUIDialogMod)
 void pfGUIPopUpMenu::read(hsStream* S, plResManager* mgr) {
     pfGUIDialogMod::read(S, mgr);
 
-    //fKeyGen = new pfPopUpKeyGenerator(fName, getKey()->getUoid());
-    fOriginX = -1.0f;
-    fOriginY = -1.0f;
     fMargin = S->readShort();
-
     fMenuItems.setSize(S->readInt());
     for (size_t i=0; i<fMenuItems.getSize(); i++) {
         char buf[257];
@@ -62,8 +56,8 @@ void pfGUIPopUpMenu::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fAlignment);
 }
 
-void pfGUIPopUpMenu::prcWrite(pfPrcHelper* prc) {
-    pfGUIDialogMod::prcWrite(prc);
+void pfGUIPopUpMenu::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIDialogMod::IPrcWrite(prc);
 
     prc->startTag("PopUpParams");
     prc->writeParam("Margin", fMargin);
@@ -81,7 +75,10 @@ void pfGUIPopUpMenu::prcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("SubMenu");
         fMenuItems[i].fSubMenu->prcWrite(prc);
         prc->closeTag();
+
+        prc->closeTag();
     }
+    prc->closeTag();
 
     prc->writeSimpleTag("Skin");
     fSkin->prcWrite(prc);

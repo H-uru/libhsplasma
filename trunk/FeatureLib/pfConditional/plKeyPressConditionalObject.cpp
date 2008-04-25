@@ -16,8 +16,8 @@ void plKeyPressConditionalObject::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fKeyEvent);
 }
 
-void plKeyPressConditionalObject::prcWrite(pfPrcHelper* prc) {
-    plConditionalObject::prcWrite(prc);
+void plKeyPressConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+    plConditionalObject::IPrcWrite(prc);
     prc->startTag("KeyEvent");
     prc->writeParam("value", fKeyEvent);
     prc->endTag(true);

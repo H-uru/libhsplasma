@@ -20,8 +20,8 @@ void plObjInterface::write(hsStream* S, plResManager* mgr) {
     fProps.write(S);
 }
 
-void plObjInterface::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plObjInterface::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Owner");
     fOwner->prcWrite(prc);

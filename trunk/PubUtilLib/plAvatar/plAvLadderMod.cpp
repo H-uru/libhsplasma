@@ -28,8 +28,8 @@ void plAvLadderMod::write(hsStream* S, plResManager* mgr) {
     fLadderView.write(S);
 }
 
-void plAvLadderMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plAvLadderMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("LadderParams");
     prc->writeParam("Type", fType);

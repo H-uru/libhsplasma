@@ -34,12 +34,11 @@ public:
     };
 
 public:
-    hsMatrix44 LocalToParent;
-    hsMatrix44 ParentToLocal;
-    hsMatrix44 LocalToWorld;
-    hsMatrix44 WorldToLocal;
-    hsTArray<plKey> Children;
-    plCoordinateInterface* Parent;
+    hsMatrix44 fLocalToParent;
+    hsMatrix44 fParentToLocal;
+    hsMatrix44 fLocalToWorld;
+    hsMatrix44 fWorldToLocal;
+    hsTArray<plKey> fChildren;
 
 public:
     plCoordinateInterface();
@@ -47,13 +46,9 @@ public:
 
     DECLARE_CREATABLE(plCoordinateInterface)
 
-    plCoordinateInterface* getRoot();
-
-    // More to do later...
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

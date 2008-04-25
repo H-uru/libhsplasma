@@ -96,7 +96,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)lib"
+			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(SolutionDir)out"
 			ConfigurationType="2"
 			CharacterSet="0"
@@ -119,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;&quot;D:\Dev\Libs\jpeg-6b&quot;"
+				AdditionalIncludeDirectories=".;&quot;E:\Dev\Libs\jpeg-6b&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -142,7 +142,7 @@
 				AdditionalDependencies="jpeg.lib opengl32.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;D:\Dev\Libs\jpeg-6b\build_msw\Release&quot;"
+				AdditionalLibraryDirectories="&quot;E:\Dev\Libs\jpeg-6b\build_msw\Release&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -1301,6 +1301,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAvatarClothing.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plAvatarClothing.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plAvatar\plAvLadderMod.cpp"
 					>
 				</File>
@@ -2154,6 +2162,14 @@
 			<Filter
 				Name="plModifier"
 				>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plAliasModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plModifier\plAliasModifier.h"
+					>
+				</File>
 				<File
 					RelativePath=".\PubUtilLib\plModifier\plAnimEventModifier.cpp"
 					>

@@ -34,7 +34,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plMatrixControllerCacheChannel : public plMatrixChannel {
@@ -57,7 +57,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plMatrixTimeScale : public plMatrixChannel {
@@ -85,15 +85,6 @@ public:
 
     DECLARE_CREATABLE(plMatrixChannelApplicator)
 };
-
-/* Doesn't have unique Creatable Index
-DllClass plIK2Applicator : public plMatrixChannelApplicator {
-public:
-    plIK2Applicator();
-    virtual ~plIK2Applicator();
-
-    DECLARE_CREATABLE(plIK2Applicator)
-};*/
 
 DllClass plMatrixDelayedCorrectionApplicator : public plMatrixChannelApplicator {
 public:

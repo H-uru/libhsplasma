@@ -7,18 +7,18 @@ IMPLEMENT_CREATABLE(plAudioInterface, kAudioInterface, plObjInterface)
 
 void plAudioInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
-    Audible = mgr->readKey(S);
+    fAudible = mgr->readKey(S);
 }
 
 void plAudioInterface::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
-    mgr->writeKey(S, Audible);
+    mgr->writeKey(S, fAudible);
 }
 
-void plAudioInterface::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plAudioInterface::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Audible");
-    Audible->prcWrite(prc);
+    fAudible->prcWrite(prc);
     prc->closeTag();
 }

@@ -21,21 +21,18 @@ public:
 protected:
     unsigned int fIndex;
     hsMatrix44 fWorldToLight, fLightToWorld;
-    hsPoint3 fLightPos;
-    hsVector3 fLightDir;
+    hsVector3 fLightPos, fLightDir;
     hsMatrix44 fWorldToTexture;
     hsMatrix44 fCastLUT, fRcvLUT;
     plViewTransform fView;
     float fPower, fBlurScale;
     hsBounds3Ext fCasterWorldBounds, fWorldBounds;
-    //plVolumeIsect* fIsect;
     unsigned int fWidth, fHeight;
     float fAttenDist;
     float fPriority;
     unsigned int flags;
     plShadowCaster* fCaster;
     int fLightIndex, fLightRefIdx, fSelfShadowOn;
-    //void* fPipeData;
 };
 
 #endif

@@ -17,7 +17,8 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
     void setType(int type);
 };
@@ -31,7 +32,7 @@ public:
 
 protected:
     int fBounds3Flags;
-    hsPoint3 fMins, fMaxs, fCenter;
+    hsVector3 fMins, fMaxs, fCenter;
 
 public:
     hsBounds3();
@@ -41,7 +42,7 @@ public:
     
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass hsBounds3Ext : public hsBounds3 {
@@ -57,7 +58,7 @@ public:
 
 protected:
     unsigned int fExtFlags;
-    hsPoint3 fCorner;
+    hsVector3 fCorner;
     hsVector3 fAxes[3];
     hsFloatPoint2 fDists[3];
     float fRadius;
@@ -72,13 +73,13 @@ public:
     
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass hsBoundsOriented : public hsBounds {
 protected:
     unsigned int fCenterValid;
-    hsPoint3 fCenter;
+    hsVector3 fCenter;
     hsPlane3* fPlanes;
     unsigned int fNumPlanes;
 
@@ -90,7 +91,7 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

@@ -74,8 +74,8 @@ void plFont::write(hsStream* S, plResManager* mgr) {
     writeP2F(S);
 }
 
-void plFont::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plFont::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("FontParams");
     prc->writeParam("Fontface", fFace);

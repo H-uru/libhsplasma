@@ -31,7 +31,7 @@ void plOneTimeParticleGenerator::read(hsStream* S, plResManager* mgr) {
     fScaleMax = S->readFloat();
     fPartRadsPerSecRange = S->readFloat();
 
-    fPosition = new hsPoint3[fCount];
+    fPosition = new hsVector3[fCount];
     fDirection = new hsVector3[fCount];
     for (size_t i=0; i<fCount; i++) {
         fPosition[i].read(S);
@@ -53,9 +53,7 @@ void plOneTimeParticleGenerator::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plOneTimeParticleGenerator::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plOneTimeParticleGenerator::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("GeneratorParams");
     prc->writeParam("XSize", fXSize);
     prc->writeParam("YSize", fYSize);
@@ -105,7 +103,7 @@ void plSimpleParticleGenerator::read(hsStream* S, plResManager* mgr) {
     fParticlesPerSecond = S->readFloat();
     
     fNumSources = S->readInt();
-    fInitPos = new hsPoint3[fNumSources];
+    fInitPos = new hsVector3[fNumSources];
     fInitPitch = new float[fNumSources];
     fInitYaw = new float[fNumSources];
     for (size_t i=0; i<fNumSources; i++) {
@@ -149,9 +147,7 @@ void plSimpleParticleGenerator::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fPartRadsPerSecRange);
 }
 
-void plSimpleParticleGenerator::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plSimpleParticleGenerator::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("GeneratorParams");
     prc->writeParam("GenLife", fGenLife);
     prc->writeParam("PartLifeMin", fPartLifeMin);

@@ -59,12 +59,10 @@ protected:
     plKey fFogEnvironment;
     float fMinDist, fMaxDist, fWaterHeight;
     hsBitVector fVisSet, fVisNot;
-    //plAccessSnapShot* fSnapShot;
     hsTArray<plLightInfo*> fLights, fProjectors;
     hsTArray<float> fLightStrengths, fLightScales;
     hsTArray<float> fProjStrengths, fProjScales;
     hsBitVector fShadowBits, fShadowSlaveBits;
-    //hsTArray<plAuxSpan*> fAuxSpans;
     hsTArray<plKey> fPermaLights, fPermaProjs;
 
 public:
@@ -75,15 +73,16 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
-    const plKey& getFogEnvironment();
-    hsTArray<plKey>& getPermaLights();
-    hsTArray<plKey>& getPermaProjs();
-    unsigned short getTypeMask();
-    unsigned int getMaterialIdx();
-    unsigned char getNumMatrices();
-    unsigned int getProps();
+    const plKey& getFogEnvironment() const;
+    const hsTArray<plKey>& getPermaLights() const;
+    const hsTArray<plKey>& getPermaProjs() const;
+    unsigned short getTypeMask() const;
+    unsigned int getMaterialIdx() const;
+    unsigned char getNumMatrices() const;
+    unsigned int getProps() const;
 
     void setFogEnvironment(const plKey& fog);
     void addPermaLight(const plKey& light);

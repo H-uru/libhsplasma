@@ -16,7 +16,7 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

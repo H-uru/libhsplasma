@@ -68,10 +68,6 @@ void pfGUICloseDlgProc::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
-void pfGUICloseDlgProc::DoSomething(pfGUIControlMod* ctrl) {
-    //ctrl->getOwnerDlg()->hide();
-}
-
 
 /* pfGUIConsoleCmdProc */
 pfGUIConsoleCmdProc::pfGUIConsoleCmdProc() {
@@ -80,15 +76,7 @@ pfGUIConsoleCmdProc::pfGUIConsoleCmdProc() {
 
 void pfGUIConsoleCmdProc::IRead(hsStream* S) {
     int len = S->readInt();
-    if (len >= 0) {
-        char* cmd = new char[len+1];
-        S->read(len, cmd);
-        cmd[len] = 0;
-        fCommand = cmd;
-        delete[] cmd;
-    } else {
-        fCommand = "";
-    }
+    fCommand = S->readStr(len);
 }
 
 void pfGUIConsoleCmdProc::IWrite(hsStream* S) {
@@ -98,16 +86,8 @@ void pfGUIConsoleCmdProc::IWrite(hsStream* S) {
 
 void pfGUIConsoleCmdProc::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("pfGUIConsoleCmdProc");
-    prc->writeParam("Command", fCommand.cstr());
+    prc->writeParam("Command", fCommand);
     prc->endTag(true);
-}
-
-void pfGUIConsoleCmdProc::DoSomething(pfGUIControlMod* ctrl) {
-    if (!fCommand.empty()) {
-        /* plConsoleMsg* msg = new plConsoleMsg(kExecuteLine, fCommand);
-         * plgDispatch::Dispatch()->MsgSend(msg, 0);
-         */
-    }
 }
 
 
@@ -123,5 +103,3 @@ void pfGUIPythonScriptProc::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("pfGUIPythonScriptProc");
     prc->endTag(true);
 }
-
-void pfGUIPythonScriptProc::DoSomething(pfGUIControlMod* ctrl) { }

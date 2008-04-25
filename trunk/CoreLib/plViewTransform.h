@@ -19,10 +19,10 @@ public:
 protected:
     unsigned int fFlags;
     hsMatrix44 fCameraToWorld, fWorldToCamera;
-    hsPoint3 fMin, fMax;
+    hsVector3 fMin, fMax;
     unsigned short fWidth, fHeight;
-    hsPoint3 fViewPortX, fViewPortY;
-    hsPoint3 fMapMin, fMapMax;
+    hsVector3 fViewPortX, fViewPortY;
+    hsVector3 fMapMin, fMapMax;
     hsMatrix44 fCameraToNDC, fWorldToNDC;
 };
 

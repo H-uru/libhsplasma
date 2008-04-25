@@ -1,17 +1,14 @@
 #include "plLayer.h"
 
 /* plLayer */
-plLayer::plLayer() {
-    fState = new hsGMatState();
-}
-
+plLayer::plLayer() { }
 plLayer::~plLayer() { }
 
 IMPLEMENT_CREATABLE(plLayer, kLayer, plLayerInterface)
 
 void plLayer::read(hsStream* S, plResManager* mgr) {
     plLayerInterface::read(S, mgr);
-    fState->read(S);
+    fState.read(S);
     fTransform.read(S);
 
     fPreshadeColor.read(S);
@@ -32,7 +29,7 @@ void plLayer::read(hsStream* S, plResManager* mgr) {
 
 void plLayer::write(hsStream* S, plResManager* mgr) {
     plLayerInterface::write(S, mgr);
-    fState->write(S);
+    fState.write(S);
     fTransform.write(S);
 
     fPreshadeColor.write(S);
@@ -51,10 +48,10 @@ void plLayer::write(hsStream* S, plResManager* mgr) {
     fBumpEnvXfm.write(S);
 }
 
-void plLayer::prcWrite(pfPrcHelper* prc) {
-    plLayerInterface::prcWrite(prc);
+void plLayer::IPrcWrite(pfPrcHelper* prc) {
+    plLayerInterface::IPrcWrite(prc);
 
-    fState->prcWrite(prc);
+    fState.prcWrite(prc);
     prc->writeSimpleTag("Transform");
       fTransform.prcWrite(prc);
     prc->closeTag();

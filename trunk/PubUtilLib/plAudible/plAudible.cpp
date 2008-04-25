@@ -38,8 +38,8 @@ void plWinAudible::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneNode);
 }
 
-void plWinAudible::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plWinAudible::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("SoundObjects");
     for (size_t i=0; i<fSoundObjs.getSize(); i++)

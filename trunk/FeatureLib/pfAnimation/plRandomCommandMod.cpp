@@ -1,8 +1,7 @@
 #include "plRandomCommandMod.h"
 
 plRandomCommandMod::plRandomCommandMod()
-                  : fState(0), fMode(0), fCurrent(0),
-                    fMinDelay(0.0f), fMaxDelay(0.0f) { }
+                  : fState(0), fMode(0), fMinDelay(0.0f), fMaxDelay(0.0f) { }
 
 plRandomCommandMod::~plRandomCommandMod() { }
 
@@ -15,7 +14,6 @@ void plRandomCommandMod::read(hsStream* S, plResManager* mgr) {
     fState = S->readByte();
     fMinDelay = S->readFloat();
     fMaxDelay = S->readFloat();
-    fCurrent = -1;
 }
 
 void plRandomCommandMod::write(hsStream* S, plResManager* mgr) {
@@ -27,8 +25,8 @@ void plRandomCommandMod::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMaxDelay);
 }
 
-void plRandomCommandMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plRandomCommandMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("RandomCommandParams");
     prc->writeParam("Mode", fMode);

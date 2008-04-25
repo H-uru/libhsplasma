@@ -27,10 +27,6 @@ protected:
     int fLoops, fCurLoop;
     bool fDoAdvanceTo, fDoRegressTo;
     unsigned int fAdvanceTo, fRegressTo;
-    //plAGAnimInstance* fAnimInstance;
-    //plArmatureMod* fArmature;
-    //plArmatureBrain* fBrain;
-    //plMultistageBehMod* fMod;
     float fLocalTime, fLength;
     bool fAttached, fAnimatedHandle;
     unsigned char fSentNotifiers;
@@ -44,7 +40,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

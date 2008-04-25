@@ -93,6 +93,6 @@ void hsColor32::writeRGBA8(hsStream* S) {
 
 void hsColor32::prcWrite(pfPrcHelper* prc) {
     prc->startTag("hsColor32");
-    prc->writeParam("value", color);
+    prc->writeParamHex("value", color);
     prc->endTag(true);
 }

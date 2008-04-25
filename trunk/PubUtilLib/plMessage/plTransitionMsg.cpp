@@ -23,8 +23,8 @@ void plTransitionMsg::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fHoldUntilNext);
 }
 
-void plTransitionMsg::prcWrite(pfPrcHelper* prc) {
-    plMessageWithCallbacks::prcWrite(prc);
+void plTransitionMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessageWithCallbacks::IPrcWrite(prc);
 
     prc->startTag("TransitionParams");
     prc->writeParam("Effect", fEffect);

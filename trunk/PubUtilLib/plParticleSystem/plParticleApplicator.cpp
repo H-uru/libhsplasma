@@ -15,26 +15,6 @@ IMPLEMENT_CREATABLE(plParticleAngleApplicator, kParticleAngleApplicator,
                     plParticleApplicator)
 
 
-/* Doesn't have unique Creatable Index
-// plParticleDragApplicator //
-plParticleDragApplicator::plParticleDragApplicator() { }
-plParticleDragApplicator::~plParticleDragApplicator() { }
-
-IMPLEMENT_CREATABLE(plParticleDragApplicator, kParticleDragApplicator,
-                    plParticleApplicator)
-*/
-
-
-/* Doesn't have unique Creatable Index
-// plParticleGravityApplicator //
-plParticleGravityApplicator::plParticleGravityApplicator() { }
-plParticleGravityApplicator::~plParticleGravityApplicator() { }
-
-IMPLEMENT_CREATABLE(plParticleGravityApplicator, kParticleGravityApplicator,
-                    plParticleApplicator)
-*/
-
-
 // plParticleLifeMinApplicator //
 plParticleLifeMinApplicator::plParticleLifeMinApplicator() { }
 plParticleLifeMinApplicator::~plParticleLifeMinApplicator() { }

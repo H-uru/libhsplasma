@@ -53,8 +53,8 @@ void pfGUIButtonMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fDraggable);
 }
 
-void pfGUIButtonMod::prcWrite(pfPrcHelper* prc) {
-    pfGUIControlMod::prcWrite(prc);
+void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIControlMod::IPrcWrite(prc);
 
     prc->startTag("Animation");
     prc->writeParam("Name", fAnimName);
@@ -81,9 +81,7 @@ void pfGUIButtonMod::prcWrite(pfPrcHelper* prc) {
 
 
 /* pfGUIMenuItem */
-pfGUIMenuItem::pfGUIMenuItem()
-             : fReportingHover(false), fSkinBuffersUpdated(false),
-               fHowToSkin(kTop) {
+pfGUIMenuItem::pfGUIMenuItem() {
     fFlags.setName(kDrawSubMenuArrow, "kDrawSubMenuArrow");
     fFlags.setName(kReportHovers, "kReportHovers");
 }

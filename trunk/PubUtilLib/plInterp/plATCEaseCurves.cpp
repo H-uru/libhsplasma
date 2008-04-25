@@ -26,9 +26,7 @@ void plATCEaseCurve::write(hsStream* S, plResManager* mgr) {
     S->writeDouble(fBeginWorldTime);
 }
 
-void plATCEaseCurve::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plATCEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Lengths");
     prc->writeParam("MinLength", fMinLength);
     prc->writeParam("MaxLength", fMaxLength);
@@ -67,8 +65,8 @@ void plSplineEaseCurve::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fCoef[3]);
 }
 
-void plSplineEaseCurve::prcWrite(pfPrcHelper* prc) {
-    plATCEaseCurve::prcWrite(prc);
+void plSplineEaseCurve::IPrcWrite(pfPrcHelper* prc) {
+    plATCEaseCurve::IPrcWrite(prc);
 
     prc->writeTagNoBreak("SplineCoefficients");
     prc->getStream()->writeStr(plString::Format("%f %f %f %f",

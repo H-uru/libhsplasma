@@ -14,10 +14,7 @@ public:
 protected:
     hsTArray<plMessage*> fCommandList;
     hsTArray<plKey> fReceiverList;
-    unsigned int fCounterLimit;
-    float fTimer;
     hsBitVector fLogicFlags;
-    unsigned int fCounter;
     plNotifyMsg* fNotify;
     bool fDisabled;
 
@@ -29,7 +26,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

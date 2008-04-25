@@ -12,7 +12,7 @@ public:
 
     DECLARE_CREATABLE(plReceiver)
 
-    virtual bool msgReceive(plMessage* msg);
+    //virtual bool msgReceive(plMessage* msg);
 };
 
 #endif

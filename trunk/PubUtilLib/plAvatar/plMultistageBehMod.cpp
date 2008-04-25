@@ -45,8 +45,8 @@ void plMultistageBehMod::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fReceivers[i]);
 }
 
-void plMultistageBehMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plMultistageBehMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("MultistageBehParams");
     prc->writeParam("FreezePhys", fFreezePhys);
@@ -55,10 +55,8 @@ void plMultistageBehMod::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Stages");
-    for (size_t i=0; i<fStages.getSize(); i++) {
+    for (size_t i=0; i<fStages.getSize(); i++)
         fStages[i]->prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 
     prc->writeSimpleTag("Receivers");

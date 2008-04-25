@@ -39,7 +39,7 @@ public:
         count = 0;
     }
     
-    unsigned short getSize() const { return count; }
+    size_t getSize() const { return count; }
     bool empty() const { return count == 0; }
 
     void setSize(size_t cap) {

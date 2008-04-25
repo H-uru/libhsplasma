@@ -5,13 +5,11 @@
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
 
 DllStruct hsQuat {
-public:
-    float fX, fY, fZ, fW;
+    float X, Y, Z, W;
 
-public:
     hsQuat();
     hsQuat(const hsQuat& init);
-    hsQuat(float X, float Y, float Z, float W);
+    hsQuat(float x, float y, float z, float w);
     hsQuat(float rad, const hsVector3& axis);
 
     void read(hsStream* S);

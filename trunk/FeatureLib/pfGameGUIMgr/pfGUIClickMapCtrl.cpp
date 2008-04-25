@@ -1,6 +1,6 @@
 #include "pfGUIClickMapCtrl.h"
 
-pfGUIClickMapCtrl::pfGUIClickMapCtrl() : fTracking(false) {
+pfGUIClickMapCtrl::pfGUIClickMapCtrl() {
     fFlags.setName(kReportDragging, "kReportDragging");
     fFlags.setName(kReportHovering, "kReportHovering");
 }

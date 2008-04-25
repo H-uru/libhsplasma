@@ -14,8 +14,8 @@ void plHardRegion::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
 }
 
-void plHardRegion::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plHardRegion::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 }
 
 
@@ -41,8 +41,8 @@ void plHardRegionComplex::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fSubRegions[i]);
 }
 
-void plHardRegionComplex::prcWrite(pfPrcHelper* prc) {
-    plHardRegion::prcWrite(prc);
+void plHardRegionComplex::IPrcWrite(pfPrcHelper* prc) {
+    plHardRegion::IPrcWrite(prc);
 
     prc->writeSimpleTag("SubRegions");
     for (size_t i=0; i<fSubRegions.getSize(); i++)

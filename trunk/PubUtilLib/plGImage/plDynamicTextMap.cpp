@@ -73,8 +73,8 @@ void plDynamicTextMap::writeData(hsStream* S) {
         S->writeInts(fVisHeight * fVisWidth, (hsUint32*)fInitBuffer);
 }
 
-void plDynamicTextMap::prcWrite(pfPrcHelper* prc) {
-    plBitmap::prcWrite(prc);
+void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc) {
+    plBitmap::IPrcWrite(prc);
 
     prc->startTag("DynTextMapParams");
     prc->writeParam("VisWidth", fVisWidth);

@@ -27,8 +27,6 @@ protected:
     float fBegin, fEnd, fLoopBegin, fLoopEnd;
     float fSpeed, fCurrentAnimTime, fWrapTime;
     double fLastEvalWorldTime, fLastStateChange;
-    class plSynchedObject* fOwner;
-    //std::list<plATCState*> fStates;
     hsTArray<float> fStopPoints;
     hsTArray<plEventCallbackMsg*> fCallbackMsgs;
     plATCEaseCurve* fEaseInCurve;
@@ -45,7 +43,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

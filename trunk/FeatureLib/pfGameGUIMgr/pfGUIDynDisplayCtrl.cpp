@@ -33,8 +33,8 @@ void pfGUIDynDisplayCtrl::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fMaterials[i]);
 }
 
-void pfGUIDynDisplayCtrl::prcWrite(pfPrcHelper* prc) {
-    pfGUIControlMod::prcWrite(prc);
+void pfGUIDynDisplayCtrl::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIControlMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("TextMaps");
     for (size_t i=0; i<fTextMaps.getSize(); i++)

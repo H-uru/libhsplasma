@@ -27,24 +27,12 @@ public:
     };
 
 protected:
-    hsMatrix44 fXform;
-    hsPoint3 fPos;
-    hsVector3 fVel, fAccel;
-    float fTime;
-    unsigned int fAnimPathFlags;
-    float fMinDistSq, fLength;
-    hsMatrix44 fLocalToWorld, fWorldToLocal;
-    hsPoint3 fCenter;
-    float fRadius;
-    plCompoundController* fController;
-    plTMController* fTMController;
-    hsAffineParts fParts;
-    float fLastTime, fLastDistSq;
-    float fThisTime, fThisDistSq;
-    float fNextTime, fNextDistSq;
-    float fDelTime;
-    hsPoint3 fPrevPos, fCurPos;
-    hsTArray<ArcLenDeltaInfo> fArcLenDeltas;
+   unsigned int fAnimPathFlags;
+   float fMinDistSq, fLength;
+   hsMatrix44 fLocalToWorld, fWorldToLocal;
+   plCompoundController* fController;
+   plTMController* fTMController;
+   hsAffineParts fParts;
 
 public:
     plAnimPath();
@@ -54,7 +42,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

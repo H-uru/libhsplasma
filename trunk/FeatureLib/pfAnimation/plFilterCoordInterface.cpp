@@ -18,11 +18,11 @@ void plFilterCoordInterface::write(hsStream* S, plResManager* mgr) {
     fRefParentLocalToWorld.write(S);
 }
 
-void plFilterCoordInterface::prcWrite(pfPrcHelper* prc) {
-    plCoordinateInterface::prcWrite(prc);
+void plFilterCoordInterface::IPrcWrite(pfPrcHelper* prc) {
+    plCoordinateInterface::IPrcWrite(prc);
 
     prc->startTag("FilterParams");
-    prc->writeParam("Mask", fFilterMask);
+    prc->writeParamHex("Mask", fFilterMask);
     prc->endTag(true);
 
     prc->writeSimpleTag("RefParentLocalToWorld");

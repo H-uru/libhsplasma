@@ -29,8 +29,8 @@ void plExcludeRegionModifier::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fSeekTime);
 }
 
-void plExcludeRegionModifier::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plExcludeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("ExcludeRegionParams");
     prc->writeParam("Seek", fSeek);

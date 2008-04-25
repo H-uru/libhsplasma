@@ -8,7 +8,7 @@ public:
     DllClass HardPlane {
     public:
         hsVector3 fNorm, fWorldNorm;
-        hsPoint3 fPos, fWorldPos;
+        hsVector3 fPos, fWorldPos;
         float fWorldDist;
 
     public:
@@ -31,7 +31,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

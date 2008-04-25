@@ -9,7 +9,6 @@ DllClass hsRAMStream : public hsStream {
 protected:
     hsUbyte* fData;
     hsUint32 fSize, fMax, fPos;
-    bool fIOwnData;
 
 public:
     hsRAMStream(PlasmaVer pv = pvUnknown);
@@ -17,7 +16,6 @@ public:
 
     void copyFrom(const void* data, hsUint32 size);
     void copyTo(void*& data, hsUint32& size);
-    void setFrom(const void* data, hsUint32 size);
 
     virtual hsUint32 size() const;
     virtual hsUint32 pos() const;

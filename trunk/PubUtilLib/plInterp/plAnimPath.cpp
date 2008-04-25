@@ -69,22 +69,16 @@ void plAnimPath::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMinDistSq);
 }
 
-void plAnimPath::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plAnimPath::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Parameters");
-      prc->writeParam("Flags", fAnimPathFlags);
+      prc->writeParamHex("Flags", fAnimPathFlags);
       prc->writeParam("Length", fLength);
       prc->writeParam("MinDistSq", fMinDistSq);
     prc->endTag(true);
-    if (fController != NULL) {
+    if (fController != NULL)
         fController->prcWrite(prc);
-        prc->closeTag();
-    }
-    if (fTMController != NULL) {
+    if (fTMController != NULL)
         fTMController->prcWrite(prc);
-        prc->closeTag();
-    }
     fParts.prcWrite(prc);
 
     prc->writeSimpleTag("LocalToWorld");

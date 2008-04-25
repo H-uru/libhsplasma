@@ -6,15 +6,15 @@
 
 DllClass plSceneObject : public plSynchedObject {
 public:
-    plKey DrawIntf;
-    plKey SimIntf;
-    plKey CoordIntf;
-    plKey AudioIntf;
+    plKey fDrawIntf;
+    plKey fSimIntf;
+    plKey fCoordIntf;
+    plKey fAudioIntf;
 
-    hsTArray<plKey> Interfaces;
-    hsTArray<plKey> Modifiers;
+    hsTArray<plKey> fInterfaces;
+    hsTArray<plKey> fModifiers;
 
-    plKey SceneNode;
+    plKey fSceneNode;
 
 public:
     plSceneObject();
@@ -24,7 +24,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

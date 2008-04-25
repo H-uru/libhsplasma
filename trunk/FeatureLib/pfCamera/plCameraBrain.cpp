@@ -130,8 +130,8 @@ void plCameraBrain1::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fZoomMax);
 }
 
-void plCameraBrain1::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plCameraBrain1::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Subject");
     fSubject->prcWrite(prc);
@@ -190,8 +190,8 @@ void plCameraBrain1_Avatar::write(hsStream* S, plResManager* mgr) {
     fOffset.write(S);
 }
 
-void plCameraBrain1_Avatar::prcWrite(pfPrcHelper* prc) {
-    plCameraBrain1::prcWrite(prc);
+void plCameraBrain1_Avatar::IPrcWrite(pfPrcHelper* prc) {
+    plCameraBrain1::IPrcWrite(prc);
 
     prc->writeSimpleTag("Offset");
     fOffset.prcWrite(prc);
@@ -223,8 +223,8 @@ void plCameraBrain1_Fixed::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fTargetPoint);
 }
 
-void plCameraBrain1_Fixed::prcWrite(pfPrcHelper* prc) {
-    plCameraBrain1::prcWrite(prc);
+void plCameraBrain1_Fixed::IPrcWrite(pfPrcHelper* prc) {
+    plCameraBrain1::IPrcWrite(prc);
 
     prc->writeSimpleTag("TargetPoint");
     fTargetPoint->prcWrite(prc);
@@ -262,11 +262,11 @@ void plCameraBrain1_Circle::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fCirPerSec);
 }
 
-void plCameraBrain1_Circle::prcWrite(pfPrcHelper* prc) {
-    plCameraBrain1::prcWrite(prc);
+void plCameraBrain1_Circle::IPrcWrite(pfPrcHelper* prc) {
+    plCameraBrain1::IPrcWrite(prc);
 
     prc->startTag("CircleParams");
-    prc->writeParam("Flags", fCircleFlags);
+    prc->writeParamHex("Flags", fCircleFlags);
     prc->writeParam("CirclesPerSec", fCirPerSec);
     prc->endTag(true);
 

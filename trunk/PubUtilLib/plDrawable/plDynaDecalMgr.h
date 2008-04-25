@@ -6,11 +6,6 @@
 
 DllClass plDynaDecalMgr : public plSynchedObject {
 protected:
-    //std::map<unsigned int, plDynaDecalInfo> fDecalMap;
-    //hsTArray<plDynaDecal*> fDecals;
-    //hsTArray<plGBufferGroup*> fGroups;
-    //plCutter* fCutter;
-    //hsTArray<plAuxSpan*> fAuxSpans;
     plKey fMatPreShade, fMatRTShade;
     hsTArray<plKey> fTargets, fPartyObjects;
     float fPartyTime;
@@ -32,7 +27,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plDynaBulletMgr : public plDynaDecalMgr {

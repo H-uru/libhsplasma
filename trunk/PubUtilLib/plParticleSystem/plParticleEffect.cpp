@@ -24,8 +24,8 @@ void plParticleCollisionEffect::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneObj);
 }
 
-void plParticleCollisionEffect::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plParticleCollisionEffect::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
     prc->writeSimpleTag("SceneObject");
     fSceneObj->prcWrite(prc);
     prc->closeTag();
@@ -62,8 +62,8 @@ void plParticleCollisionEffectBounce::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fFriction);
 }
 
-void plParticleCollisionEffectBounce::prcWrite(pfPrcHelper* prc) {
-    plParticleCollisionEffect::prcWrite(prc);
+void plParticleCollisionEffectBounce::IPrcWrite(pfPrcHelper* prc) {
+    plParticleCollisionEffect::IPrcWrite(prc);
     prc->startTag("Params");
     prc->writeParam("Bounce", fBounce);
     prc->writeParam("Friction", fFriction);
@@ -100,8 +100,8 @@ void plParticleFadeOutEffect::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fIgnoreZ);
 }
 
-void plParticleFadeOutEffect::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plParticleFadeOutEffect::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
     prc->startTag("Params");
     prc->writeParam("Length", fLength);
     prc->writeParam("IgnoreZ", fIgnoreZ);
@@ -130,8 +130,8 @@ void plParticleFadeVolumeEffect::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fIgnoreZ != 0.0f);
 }
 
-void plParticleFadeVolumeEffect::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plParticleFadeVolumeEffect::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
     prc->startTag("Params");
     prc->writeParam("Length", fLength);
     prc->writeParam("IgnoreZ", fIgnoreZ);
@@ -188,8 +188,8 @@ void plParticleFlockEffect::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMaxParticles * 1.0f);
 }
 
-void plParticleFlockEffect::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plParticleFlockEffect::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("TargetOffset");
     fTargetOffset.prcWrite(prc);
@@ -256,8 +256,8 @@ void plParticleWindEffect::write(hsStream* S, plResManager* mgr) {
     fDir.write(S);
 }
 
-void plParticleWindEffect::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plParticleWindEffect::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("WindParams");
     prc->writeParam("Strength", fStrength);
@@ -296,8 +296,8 @@ void plParticleLocalWind::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fSpeed);
 }
 
-void plParticleLocalWind::prcWrite(pfPrcHelper* prc) {
-    plParticleWindEffect::prcWrite(prc);
+void plParticleLocalWind::IPrcWrite(pfPrcHelper* prc) {
+    plParticleWindEffect::IPrcWrite(prc);
 
     prc->writeSimpleTag("Scale");
     fScale.prcWrite(prc);
@@ -337,8 +337,8 @@ void plParticleUniformWind::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fFreqRate);
 }
 
-void plParticleUniformWind::prcWrite(pfPrcHelper* prc) {
-    plParticleWindEffect::prcWrite(prc);
+void plParticleUniformWind::IPrcWrite(pfPrcHelper* prc) {
+    plParticleWindEffect::IPrcWrite(prc);
 
     prc->startTag("UniformWindParams");
     prc->writeParam("FreqMin", fFreqMin);

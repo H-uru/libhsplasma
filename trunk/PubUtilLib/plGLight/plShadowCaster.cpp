@@ -26,8 +26,8 @@ void plShadowCaster::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fBlurScale);
 }
 
-void plShadowCaster::prcWrite(pfPrcHelper* prc) {
-    plMultiModifier::prcWrite(prc);
+void plShadowCaster::IPrcWrite(pfPrcHelper* prc) {
+    plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("CastParams");
     prc->writeParam("Flags", fCastFlags);

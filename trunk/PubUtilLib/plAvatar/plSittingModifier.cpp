@@ -23,8 +23,8 @@ void plSittingModifier::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fNotifyKeys[i]);
 }
 
-void plSittingModifier::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plSittingModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("SittingModifierParams");
     prc->writeParam("MiscFlags", fMiscFlags);

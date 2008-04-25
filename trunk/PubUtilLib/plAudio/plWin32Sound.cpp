@@ -16,8 +16,8 @@ void plWin32Sound::IWrite(hsStream* S, plResManager* mgr) {
     S->writeByte(fChannelSelect);
 }
 
-void plWin32Sound::prcWrite(pfPrcHelper* prc) {
-    plSound::prcWrite(prc);
+void plWin32Sound::IPrcWrite(pfPrcHelper* prc) {
+    plSound::IPrcWrite(prc);
     prc->startTag("ChannelSelect");
     prc->writeParam("channel", fChannelSelect);
     prc->endTag(true);

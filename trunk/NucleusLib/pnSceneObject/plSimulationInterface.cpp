@@ -41,8 +41,8 @@ void plSimulationInterface::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fPhysical);
 }
 
-void plSimulationInterface::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plSimulationInterface::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Properties");
     fProps.prcWrite(prc);

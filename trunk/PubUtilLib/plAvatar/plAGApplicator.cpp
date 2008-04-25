@@ -20,16 +20,14 @@ void plAGApplicator::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fChannelName);
 }
 
-void plAGApplicator::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plAGApplicator::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("AGApplicatorParams");
     prc->writeParam("Enabled", fEnabled);
     prc->writeParam("ChannelName", fChannelName);
     prc->endTag(true);
 }
 
-plAGChannel* plAGApplicator::getChannel() { return fChannel; }
+plAGChannel* plAGApplicator::getChannel() const { return fChannel; }
 void plAGApplicator::setChannel(plAGChannel* chan) { fChannel = chan; }
 
 
@@ -50,8 +48,8 @@ void plSoundVolumeApplicator::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fIndex);
 }
 
-void plSoundVolumeApplicator::prcWrite(pfPrcHelper* prc) {
-    plAGApplicator::prcWrite(prc);
+void plSoundVolumeApplicator::IPrcWrite(pfPrcHelper* prc) {
+    plAGApplicator::IPrcWrite(prc);
 
     prc->startTag("SoundVolumeApplicatorParams");
     prc->writeParam("Index", fIndex);

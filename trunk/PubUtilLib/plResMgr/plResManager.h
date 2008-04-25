@@ -14,11 +14,10 @@
 
 DllClass plResManager /* : public hsResMgr */ {
 private:
-    //static plResManager* fGlobalResMgr;
     static unsigned int fNumResMgrs;
-    static PlasmaVer fPlasmaVer;
 
 protected:
+    PlasmaVer fPlasmaVer;
     plKeyCollector keys;
     std::vector<plPageInfo*> pages;
     std::vector<plAgeInfo*> ages;
@@ -32,9 +31,8 @@ private:
 public:
     plResManager(PlasmaVer pv = pvUnknown);
     virtual ~plResManager();
-    //static plResManager* GetGlobalResMgr();
 
-    virtual void setVer(PlasmaVer pv, bool force = false);
+    void setVer(PlasmaVer pv, bool force = false);
     PlasmaVer getVer();
 
     plKey readKey(hsStream* S);

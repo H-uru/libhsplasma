@@ -13,15 +13,7 @@ void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
     int len = S->readInt();
-    if (len > 0) {
-        char* buf = new char[len+1];
-        S->read(len, buf);
-        buf[len] = 0;
-        fText = buf;
-        delete[] buf;
-    } else {
-        fText = "";
-    }
+    fText = S->readStr(len);
 
     if (S->getVer() == pvLive)
         fUseLocalizationPath = S->readBool();
@@ -46,11 +38,11 @@ void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void pfGUITextBoxMod::prcWrite(pfPrcHelper* prc) {
-    pfGUIControlMod::prcWrite(prc);
+void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIControlMod::IPrcWrite(prc);
 
     prc->writeTagNoBreak("Text");
-    prc->getStream()->write(fText.len(), fText.cstr());
+    prc->getStream()->writeStr(fText);
     prc->closeTagNoBreak();
 
     prc->startTag("LocalizationPath");

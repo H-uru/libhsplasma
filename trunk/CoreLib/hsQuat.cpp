@@ -2,38 +2,38 @@
 #include <cmath>
 
 hsQuat::hsQuat()
-      : fX(0.0f), fY(0.0f), fZ(0.0f), fW(0.0f) { }
+      : X(0.0f), Y(0.0f), Z(0.0f), W(0.0f) { }
 hsQuat::hsQuat(const hsQuat& init)
-      : fX(init.fX), fY(init.fY), fZ(init.fZ), fW(init.fW) { }
-hsQuat::hsQuat(float X, float Y, float Z, float W)
-      : fX(X), fY(Y), fZ(Z), fW(W) { }
+      : X(init.X), Y(init.Y), Z(init.Z), W(init.W) { }
+hsQuat::hsQuat(float _x, float _y, float _z, float _w)
+      : X(_x), Y(_y), Z(_z), W(_w) { }
 
 hsQuat::hsQuat(float rad, const hsVector3& axis) {
-    fW = cos(rad * 0.5f);
-    fX = sin(rad * 0.5f) * axis.fX;
-    fY = sin(rad * 0.5f) * axis.fY;
-    fZ = sin(rad * 0.5f) * axis.fZ;
+    W = cos(rad * 0.5f);
+    X = sin(rad * 0.5f) * axis.X;
+    Y = sin(rad * 0.5f) * axis.Y;
+    Z = sin(rad * 0.5f) * axis.Z;
 }
 
 void hsQuat::read(hsStream* S) {
-    fX = S->readFloat();
-    fY = S->readFloat();
-    fZ = S->readFloat();
-    fW = S->readFloat();
+    X = S->readFloat();
+    Y = S->readFloat();
+    Z = S->readFloat();
+    W = S->readFloat();
 }
 
 void hsQuat::write(hsStream* S) {
-    S->writeFloat(fX);
-    S->writeFloat(fY);
-    S->writeFloat(fZ);
-    S->writeFloat(fW);
+    S->writeFloat(X);
+    S->writeFloat(Y);
+    S->writeFloat(Z);
+    S->writeFloat(W);
 }
 
 void hsQuat::prcWrite(pfPrcHelper* prc) {
     prc->startTag("hsQuat");
-    prc->writeParam("X", fX);
-    prc->writeParam("Y", fY);
-    prc->writeParam("Z", fZ);
-    prc->writeParam("W", fW);
+    prc->writeParam("X", X);
+    prc->writeParam("Y", Y);
+    prc->writeParam("Z", Z);
+    prc->writeParam("W", W);
     prc->endTag(true);
 }

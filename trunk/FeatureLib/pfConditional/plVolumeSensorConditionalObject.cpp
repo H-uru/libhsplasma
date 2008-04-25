@@ -24,8 +24,8 @@ void plVolumeSensorConditionalObject::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fFirst);
 }
 
-void plVolumeSensorConditionalObject::prcWrite(pfPrcHelper* prc) {
-    plConditionalObject::prcWrite(prc);
+void plVolumeSensorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+    plConditionalObject::IPrcWrite(prc);
     prc->startTag("Params");
     prc->writeParam("TrigNum", fTrigNum);
     prc->writeParam("Type", fType);

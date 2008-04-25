@@ -8,7 +8,6 @@ DllClass plFixedWaterState7 {
 public:
     DllClass WaveState {
     protected:
-        // Actually plTimedSimple<float>s:
         float fMaxLength, fMinLength, fAmpOverLen, fChop, fAngleDev;
 
     public:
@@ -24,7 +23,6 @@ public:
 
 protected:
     WaveState fGeoState, fTexState;
-    // Also plTimedSimple<T> and plTimedCompound<T> stuff:
     float fRippleScale, fWaterHeight;
     hsVector3 fWindDir, fSpecVec, fWaterOffset;
     hsVector3 fMaxAtten, fMinAtten, fDepthFalloff;
@@ -32,7 +30,7 @@ protected:
     hsColorRGBA fShoreTint, fMaxColor, fMinColor;
     float fEdgeOpac, fEdgeRadius, fPeriod, fFingerLength;
     hsColorRGBA fWaterTint, fSpecularTint;
-    hsPoint3 fEnvCenter;
+    hsVector3 fEnvCenter;
     float fEnvRefresh, fEnvRadius;
 
 public:

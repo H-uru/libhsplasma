@@ -27,8 +27,8 @@ void plSharedMesh::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fFlags);
 }
 
-void plSharedMesh::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plSharedMesh::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Spans");
     for (size_t i=0; i<fSpans.getSize(); i++)
@@ -38,6 +38,6 @@ void plSharedMesh::prcWrite(pfPrcHelper* prc) {
     fMorphSet->prcWrite(prc);
     prc->closeTag();
     prc->startTag("Flags");
-    prc->writeParam("value", fFlags);
+    prc->writeParamHex("value", fFlags);
     prc->endTag(true);
 }

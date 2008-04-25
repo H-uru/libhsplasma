@@ -25,13 +25,12 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plPointShadowMaster : public plShadowMaster {
 protected:
     hsVector3 fLastUp;
-    //hsTArray<plBoundsIsect*> fIsectPool;
 
 public:
     plPointShadowMaster();
@@ -42,7 +41,6 @@ public:
 
 DllClass plDirectShadowMaster : public plShadowMaster {
 protected:
-    //hsTArray<plBoundsIsect*> fIsectPool;
     hsTArray<plShadowSlave*> fPerspSlavePool;
 
 public:

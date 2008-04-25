@@ -14,22 +14,18 @@ void plLayerMovie::read(hsStream* S, plResManager* mgr) {
     plLayerAnimation::read(S, mgr);
 
     int len = S->readInt();
-    char* buf = new char[len+1];
-    S->read(len, buf);
-    buf[len] = 0;
-    fMovieName = buf;
-    delete[] buf;
+    fMovieName = S->readStr(len);
 }
 
 void plLayerMovie::write(hsStream* S, plResManager* mgr) {
     plLayerAnimation::write(S, mgr);
 
     S->writeInt(fMovieName.len());
-    S->write(fMovieName.len(), fMovieName.cstr());
+    S->writeStr(fMovieName);
 }
 
-void plLayerMovie::prcWrite(pfPrcHelper* prc) {
-    plLayerAnimation::prcWrite(prc);
+void plLayerMovie::IPrcWrite(pfPrcHelper* prc) {
+    plLayerAnimation::IPrcWrite(prc);
 
     prc->startTag("MovieName");
     prc->writeParam("value", fMovieName);

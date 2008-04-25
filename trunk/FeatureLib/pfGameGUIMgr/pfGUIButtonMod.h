@@ -12,7 +12,7 @@ protected:
     hsTArray<plKey> fAnimationKeys, fMouseOverAnimKeys;
     plString fAnimName, fMouseOverAnimName;
     bool fClicking, fTriggering;
-    hsPoint3 fOrigMouseDownPt;
+    hsVector3 fOrigMouseDownPt;
     plKey fDraggable;
     pfGUICtrlProcObject* fOrigHandler;
     bool fOrigReportedDrag;
@@ -26,7 +26,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass pfGUIMenuItem : public pfGUIButtonMod {
@@ -34,11 +34,6 @@ public:
     enum HowToSkin { kTop, kMiddle, kBottom };
     enum ItemFlags { kDrawSubMenuArrow = kDerivedFlagsStart, kReportHovers };
     enum ExtendedEvents { kMouseHover, kMouseExit };
-
-protected:
-    plWString fName;
-    bool fReportingHover, fSkinBuffersUpdated;
-    HowToSkin fHowToSkin;
 
 public:
     pfGUIMenuItem();

@@ -16,6 +16,11 @@ void hsBounds::write(hsStream* S) {
 
 void hsBounds::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag(ClassName());
+    IPrcWrite(prc);
+    prc->closeTag();
+}
+
+void hsBounds::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("BoundsInfo");
     prc->writeParam("Type", fType);
     prc->endTag(true);
@@ -42,8 +47,8 @@ void hsBounds3::write(hsStream* S) {
     fMaxs.write(S);
 }
 
-void hsBounds3::prcWrite(pfPrcHelper* prc) {
-    hsBounds::prcWrite(prc);
+void hsBounds3::IPrcWrite(pfPrcHelper* prc) {
+    hsBounds::IPrcWrite(prc);
     prc->writeSimpleTag("Mins");
     fMins.prcWrite(prc);
     prc->closeTag();
@@ -57,7 +62,6 @@ void hsBounds3::prcWrite(pfPrcHelper* prc) {
 hsBounds3Ext::hsBounds3Ext() : fExtFlags(0), fRadius(0.0f) { }
 
 hsBounds3Ext::hsBounds3Ext(const hsBounds3Ext& src) : hsBounds3() {
-    // Just for now...
     fType = src.fType;
     fBounds3Flags = src.fBounds3Flags;
     fMins = src.fMins;
@@ -68,8 +72,8 @@ hsBounds3Ext::hsBounds3Ext(const hsBounds3Ext& src) : hsBounds3() {
     fRadius = src.fRadius;
     for (int i=0; i<3; i++) {
         fAxes[i] = src.fAxes[i];
-        fDists[i].fX = src.fDists[i].fX;
-        fDists[i].fY = src.fDists[i].fY;
+        fDists[i].X = src.fDists[i].X;
+        fDists[i].Y = src.fDists[i].Y;
     }
 }
 
@@ -84,8 +88,8 @@ void hsBounds3Ext::read(hsStream* S) {
         fCorner.read(S);
         for (int i=0; i<3; i++) {
             fAxes[i].read(S);
-            fDists[i].fX = S->readFloat();
-            fDists[i].fY = S->readFloat();
+            fDists[i].X = S->readFloat();
+            fDists[i].Y = S->readFloat();
         }
     }
 }
@@ -97,16 +101,16 @@ void hsBounds3Ext::write(hsStream* S) {
         fCorner.write(S);
         for (int i=0; i<3; i++) {
             fAxes[i].write(S);
-            S->writeFloat(fDists[i].fX);
-            S->writeFloat(fDists[i].fY);
+            S->writeFloat(fDists[i].X);
+            S->writeFloat(fDists[i].Y);
         }
     }
 }
 
-void hsBounds3Ext::prcWrite(pfPrcHelper* prc) {
-    hsBounds3::prcWrite(prc);
+void hsBounds3Ext::IPrcWrite(pfPrcHelper* prc) {
+    hsBounds3::IPrcWrite(prc);
     prc->startTag("ExtFlags");
-    prc->writeParam("value", fExtFlags);
+    prc->writeParamHex("value", fExtFlags);
     prc->endTag(true);
     if (!(fExtFlags & kAxisAligned)) {
         prc->writeSimpleTag("Corner");
@@ -116,8 +120,8 @@ void hsBounds3Ext::prcWrite(pfPrcHelper* prc) {
         for (int i=0; i<3; i++) {
             fAxes[i].prcWrite(prc);
             prc->startTag("Distance");
-            prc->writeParam("X", fDists[i].fX);
-            prc->writeParam("Y", fDists[i].fY);
+            prc->writeParam("X", fDists[i].X);
+            prc->writeParam("Y", fDists[i].Y);
             prc->endTag(true);
         }
         prc->closeTag();
@@ -157,8 +161,8 @@ void hsBoundsOriented::write(hsStream* S) {
         fPlanes[i].write(S);
 }
 
-void hsBoundsOriented::prcWrite(pfPrcHelper* prc) {
-    hsBounds::prcWrite(prc);
+void hsBoundsOriented::IPrcWrite(pfPrcHelper* prc) {
+    hsBounds::IPrcWrite(prc);
     prc->startTag("Center");
     prc->writeParam("IsValid", fCenterValid);
     prc->endTag();

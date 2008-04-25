@@ -51,8 +51,8 @@ void plRenderTarget::writeData(hsStream* S) {
     S->writeByte(fStencilDepth);
 }
 
-void plRenderTarget::prcWrite(pfPrcHelper* prc) {
-    plBitmap::prcWrite(prc);
+void plRenderTarget::IPrcWrite(pfPrcHelper* prc) {
+    plBitmap::IPrcWrite(prc);
 
     prc->startTag("RenderTargetParams");
     prc->writeParam("Width", fWidth);
@@ -63,7 +63,6 @@ void plRenderTarget::prcWrite(pfPrcHelper* prc) {
 
     prc->startTag("Viewport");
     prc->writeParam("Proportional", fProportionalViewport);
-    prc->endTag();
     if (fProportionalViewport) {
         prc->writeParam("Left", fViewport.fProportional.fLeft);
         prc->writeParam("Top", fViewport.fProportional.fTop);
@@ -75,7 +74,7 @@ void plRenderTarget::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("Right", fViewport.fAbsolute.fRight);
         prc->writeParam("Bottom", fViewport.fAbsolute.fBottom);
     }
-    prc->closeTag();
+    prc->endTag(true);
 }
 
 plCubicRenderTarget* plRenderTarget::getParent() const { return fParent; }
@@ -113,13 +112,11 @@ void plCubicRenderTarget::writeData(hsStream* S) {
         fFaces[i]->writeData(S);
 }
 
-void plCubicRenderTarget::prcWrite(pfPrcHelper* prc) {
-    plRenderTarget::prcWrite(prc);
+void plCubicRenderTarget::IPrcWrite(pfPrcHelper* prc) {
+    plRenderTarget::IPrcWrite(prc);
 
     prc->writeSimpleTag("Faces");
-    for (size_t i=0; i<6; i++) {
+    for (size_t i=0; i<6; i++)
         fFaces[i]->prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 }

@@ -237,8 +237,8 @@ void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, sceneNode);
 }
 
-void plDrawableSpans::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("Properties");
     prc->writeParam("Flags", props);
@@ -253,10 +253,8 @@ void plDrawableSpans::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
     
     prc->writeSimpleTag("Icicles");
-    for (i=0; i<icicles.getSize(); i++) {
+    for (i=0; i<icicles.getSize(); i++)
         icicles[i].prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
     
     prc->writeSimpleTag("SpanSourceIndices");
@@ -280,11 +278,8 @@ void plDrawableSpans::prcWrite(pfPrcHelper* prc) {
     if (spans.getSize() > 0) {
         prc->writeComment("Local, World, MaxWorld");
         localBounds.prcWrite(prc);
-        prc->closeTag();
         worldBounds.prcWrite(prc);
-        prc->closeTag();
         maxWorldBounds.prcWrite(prc);
-        prc->closeTag();
     }
     prc->closeTag();
 
@@ -346,10 +341,8 @@ void plDrawableSpans::prcWrite(pfPrcHelper* prc) {
         groups[i]->prcWrite(prc);
     prc->closeTag();
 
-    if (spaceTree != NULL) {
+    if (spaceTree != NULL)
         spaceTree->prcWrite(prc);
-        prc->closeTag();
-    }
 
     prc->writeSimpleTag("SceneNode");
     sceneNode->prcWrite(prc);

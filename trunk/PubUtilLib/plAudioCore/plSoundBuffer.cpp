@@ -79,8 +79,8 @@ void plSoundBuffer::write(hsStream* S, plResManager* mgr) {
         S->write(fDataLength, fData);
 }
 
-void plSoundBuffer::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plSoundBuffer::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("SoundBuffer");
     prc->writeParam("Flags", fFlags);

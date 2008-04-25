@@ -17,8 +17,8 @@ void plControlEventConditionalObject::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fControlEvent);
 }
 
-void plControlEventConditionalObject::prcWrite(pfPrcHelper* prc) {
-    plConditionalObject::prcWrite(prc);
+void plControlEventConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+    plConditionalObject::IPrcWrite(prc);
     prc->startTag("ControlEvent");
     prc->writeParam("value", fControlEvent);
     prc->endTag(true);

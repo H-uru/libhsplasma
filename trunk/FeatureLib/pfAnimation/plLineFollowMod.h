@@ -27,7 +27,7 @@ protected:
     unsigned short fFollowFlags;
     plAnimPath* fPath;
     plKey fPathParent, fRefObj;
-    hsPoint3 fSearchPos;
+    hsVector3 fSearchPos;
     hsTArray<plKey> fStereizers;
     float fTanOffset, fOffset;
     float fOffsetClamp, fSpeedClamp;
@@ -40,14 +40,14 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plRailCameraMod : public plLineFollowMod {
 protected:
     hsMatrix44 fDesiredMatrix;
     float fCurrentTime, fTargetTime;
-    hsPoint3 fGoal;
+    hsVector3 fGoal;
     int fFarthest;
 
 public:

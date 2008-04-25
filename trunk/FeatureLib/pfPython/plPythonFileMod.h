@@ -66,11 +66,8 @@ public:
     };
 
 protected:
-    //plPythonSDLModifier* SDLMod;
     plString pythonFile;
-    //char* moduleName;
     hsTArray<plKey> receivers;
-    //plPipeline* pipe;
     hsTArray<plPythonParameter> parameters;
     
     
@@ -80,13 +77,13 @@ public:
 
     DECLARE_CREATABLE(plPythonFileMod)
     
-    plString& getFilename();
-    hsTArray<plKey>& getReceivers();
-    hsTArray<plPythonParameter>& getParameters();
+    const plString& getFilename() const;
+    const hsTArray<plKey>& getReceivers() const;
+    const hsTArray<plPythonParameter>& getParameters() const;
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

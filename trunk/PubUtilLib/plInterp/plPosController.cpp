@@ -31,12 +31,9 @@ void plSimplePosController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plSimplePosController::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plSimplePosController::IPrcWrite(pfPrcHelper* prc) {
     if (fPosition != NULL) {
         fPosition->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plPoint3Controller");
         prc->writeParam("present", false);
@@ -98,12 +95,9 @@ void plCompoundPosController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plCompoundPosController::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plCompoundPosController::IPrcWrite(pfPrcHelper* prc) {
     if (fXController != NULL) {
         fXController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);
@@ -111,7 +105,6 @@ void plCompoundPosController::prcWrite(pfPrcHelper* prc) {
     }
     if (fYController != NULL) {
         fYController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);
@@ -119,7 +112,6 @@ void plCompoundPosController::prcWrite(pfPrcHelper* prc) {
     }
     if (fZController != NULL) {
         fZController->prcWrite(prc);
-        prc->closeTag();
     } else {
         prc->startTag("plScalarController");
         prc->writeParam("present", false);

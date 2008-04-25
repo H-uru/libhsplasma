@@ -28,10 +28,10 @@ void hsGMatState::write(hsStream* S) {
 
 void hsGMatState::prcWrite(pfPrcHelper* prc) {
     prc->startTag("hsGMatState");
-    prc->writeParam("BlendFlags", blendFlags);
-    prc->writeParam("ClampFlags", clampFlags);
-    prc->writeParam("ShadeFlags", shadeFlags);
-    prc->writeParam("ZFlags", ZFlags);
-    prc->writeParam("MiscFlags", miscFlags);
+    prc->writeParamHex("BlendFlags", blendFlags);
+    prc->writeParamHex("ClampFlags", clampFlags);
+    prc->writeParamHex("ShadeFlags", shadeFlags);
+    prc->writeParamHex("ZFlags", ZFlags);
+    prc->writeParamHex("MiscFlags", miscFlags);
     prc->endTag(true);
 }

@@ -7,8 +7,6 @@ DllClass pfGUICtrlProcObject {
 public:
     pfGUICtrlProcObject();
     virtual ~pfGUICtrlProcObject();
-    
-    virtual void DoSomething(class pfGUIControlMod* ctrl)=0;
 };
 
 DllClass pfGUIDialogProc : public pfGUICtrlProcObject {
@@ -45,8 +43,6 @@ DllClass pfGUICloseDlgProc : public pfGUICtrlProcWriteableObject {
 public:
     pfGUICloseDlgProc();
 
-    virtual void DoSomething(class pfGUIControlMod* ctrl);
-
 protected:
     virtual void IRead(hsStream* S);
     virtual void IWrite(hsStream* S);
@@ -60,8 +56,6 @@ protected:
 public:
     pfGUIConsoleCmdProc();
 
-    virtual void DoSomething(class pfGUIControlMod* ctrl);
-
 protected:
     virtual void IRead(hsStream* S);
     virtual void IWrite(hsStream* S);
@@ -71,8 +65,6 @@ protected:
 DllClass pfGUIPythonScriptProc : public pfGUICtrlProcWriteableObject {
 public:
      pfGUIPythonScriptProc();
-
-     virtual void DoSomething(class pfGUIControlMod* ctrl);
 
 protected:
     virtual void IRead(hsStream* S);

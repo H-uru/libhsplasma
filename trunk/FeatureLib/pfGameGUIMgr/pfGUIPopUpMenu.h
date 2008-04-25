@@ -22,13 +22,8 @@ public:
     };
 
 protected:
-    pfGUIDialogMod* fParent;
-    //pfPopUpKeyGenerator* fKeyGen;
-    bool fNeedsRebuilding, fWaitingForSkin;
-    float fOriginX, fOriginY;
     unsigned short fMargin;
     hsTArray<pfMenuItem> fMenuItems;
-    int fSubMenuOpen;
     plKey fSkin, fOriginAnchor, fOriginContext;
     Alignment fAlignment;
 
@@ -40,7 +35,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

@@ -50,7 +50,7 @@ void plLocation::write(hsStream* S) {
 void plLocation::prcWrite(pfPrcHelper* prc) {
     plString buf = plString::Format("%d;%d", pageID.getSeqPrefix(), pageID.getPageNum());
     prc->writeParam("Location", buf);
-    prc->writeParam("LocFlag", flags);
+    prc->writeParamHex("LocFlag", flags);
 }
 
 void plLocation::invalidate() {

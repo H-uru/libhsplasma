@@ -37,8 +37,8 @@ void plShadowMaster::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fPower);
 }
 
-void plShadowMaster::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plShadowMaster::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     prc->startTag("ShadowParams");
     prc->writeParam("AttenDist", fAttenDist);

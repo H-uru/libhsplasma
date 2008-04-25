@@ -33,8 +33,8 @@ void plStereizer::write(hsStream* S, plResManager* mgr) {
     fInitPos.write(S);
 }
 
-void plStereizer::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plStereizer::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("Params");
     prc->writeParam("AmbientDist", fAmbientDist);

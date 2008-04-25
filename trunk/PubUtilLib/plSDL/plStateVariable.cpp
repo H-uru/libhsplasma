@@ -113,10 +113,8 @@ plSimpleStateVariable::~plSimpleStateVariable() {
     case plVarDescriptor::kAgeTimeOfDay:
         break;
     case plVarDescriptor::kVector3:
-        delete[] fVector;
-        break;
     case plVarDescriptor::kPoint3:
-        delete[] fPoint;
+        delete[] fVector;
         break;
     case plVarDescriptor::kRGB:
         delete[] fColorRGBA;
@@ -186,10 +184,8 @@ void plSimpleStateVariable::setDescriptor(plVarDescriptor* desc) {
     case plVarDescriptor::kAgeTimeOfDay:
         break;
     case plVarDescriptor::kVector3:
-        fVector = new hsVector3[fDescriptor->getCount()];
-        break;
     case plVarDescriptor::kPoint3:
-        fPoint = new hsPoint3[fDescriptor->getCount()];
+        fVector = new hsVector3[fDescriptor->getCount()];
         break;
     case plVarDescriptor::kRGB:
         fColorRGBA = new hsColorRGBA[fDescriptor->getCount()];
@@ -303,10 +299,8 @@ void plSimpleStateVariable::IReadData(hsStream* S, plResManager* mgr, size_t idx
     case plVarDescriptor::kAgeTimeOfDay:
         break;
     case plVarDescriptor::kVector3:
-        fVector[idx].read(S);
-        break;
     case plVarDescriptor::kPoint3:
-        fPoint[idx].read(S);
+        fVector[idx].read(S);
         break;
     case plVarDescriptor::kRGB:
         fColorRGBA[idx].readRGB(S);
@@ -389,10 +383,8 @@ void plSimpleStateVariable::IWriteData(hsStream* S, plResManager* mgr, size_t id
     case plVarDescriptor::kAgeTimeOfDay:
         break;
     case plVarDescriptor::kVector3:
-        fVector[idx].write(S);
-        break;
     case plVarDescriptor::kPoint3:
-        fPoint[idx].write(S);
+        fVector[idx].write(S);
         break;
     case plVarDescriptor::kRGB:
         fColorRGBA[idx].writeRGB(S);
@@ -491,29 +483,17 @@ void plSimpleStateVariable::SetFromDefault() {
         case plVarDescriptor::kAgeTimeOfDay:
             break;
         case plVarDescriptor::kVector3:
+        case plVarDescriptor::kPoint3:
             if (def.empty()) {
                 fVector[i] = hsVector3(0.0f, 0.0f, 0.0f);
             } else {
                 plString parse = def;
                 parse = parse.afterFirst('(');
-                fVector[i].fX = parse.beforeFirst(',').toFloat();
+                fVector[i].X = parse.beforeFirst(',').toFloat();
                 parse = parse.afterFirst(',');
-                fVector[i].fY = parse.beforeFirst(',').toFloat();
+                fVector[i].Y = parse.beforeFirst(',').toFloat();
                 parse = parse.afterFirst(',');
-                fVector[i].fZ = parse.beforeFirst(')').toFloat();
-            }
-            break;
-        case plVarDescriptor::kPoint3:
-            if (def.empty()) {
-                fPoint[i] = hsPoint3(0.0f, 0.0f, 0.0f);
-            } else {
-                plString parse = def;
-                parse = parse.afterFirst('(');
-                fPoint[i].fX = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                fPoint[i].fY = parse.beforeFirst(',').toFloat();
-                parse = parse.afterFirst(',');
-                fPoint[i].fZ = parse.beforeFirst(')').toFloat();
+                fVector[i].Z = parse.beforeFirst(')').toFloat();
             }
             break;
         case plVarDescriptor::kRGB:
@@ -528,13 +508,13 @@ void plSimpleStateVariable::SetFromDefault() {
             } else {
                 plString parse = def;
                 parse = parse.afterFirst('(');
-                fQuat[i].fX = parse.beforeFirst(',').toFloat();
+                fQuat[i].X = parse.beforeFirst(',').toFloat();
                 parse = parse.afterFirst(',');
-                fQuat[i].fY = parse.beforeFirst(',').toFloat();
+                fQuat[i].Y = parse.beforeFirst(',').toFloat();
                 parse = parse.afterFirst(',');
-                fQuat[i].fZ = parse.beforeFirst(',').toFloat();
+                fQuat[i].Z = parse.beforeFirst(',').toFloat();
                 parse = parse.afterFirst(',');
-                fQuat[i].fW = parse.beforeFirst(')').toFloat();
+                fQuat[i].W = parse.beforeFirst(')').toFloat();
             }
             break;
         case plVarDescriptor::kRGB8:
@@ -565,7 +545,6 @@ plCreatable*& plSimpleStateVariable::Creatable(size_t idx) { return fCreatable[i
 plString& plSimpleStateVariable::String(size_t idx) { return fString[idx]; }
 plUnifiedTime& plSimpleStateVariable::Time(size_t idx) { return fTime[idx]; }
 hsVector3& plSimpleStateVariable::Vector(size_t idx) { return fVector[idx]; }
-hsPoint3& plSimpleStateVariable::Point(size_t idx) { return fPoint[idx]; }
 hsQuat& plSimpleStateVariable::Quat(size_t idx) { return fQuat[idx]; }
 hsColorRGBA& plSimpleStateVariable::ColorRGBA(size_t idx) { return fColorRGBA[idx]; }
 hsColor32& plSimpleStateVariable::Color32(size_t idx) { return fColor32[idx]; }

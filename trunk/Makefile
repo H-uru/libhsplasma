@@ -75,6 +75,7 @@ PLSOBJ=\
 	$(OBJDIR)plAGChannel.o \
 	$(OBJDIR)plAGModifier.o \
 	$(OBJDIR)plAnimStage.o \
+	$(OBJDIR)plAvatarClothing.o \
 	$(OBJDIR)plAvLadderMod.o \
 	$(OBJDIR)plClothingItem.o \
 	$(OBJDIR)plAGMasterMod.o \
@@ -143,6 +144,7 @@ PLSOBJ=\
 	$(OBJDIR)plResponderMsg.o \
 	$(OBJDIR)plTimerCallbackMsg.o \
 	$(OBJDIR)plTransitionMsg.o \
+	$(OBJDIR)plAliasModifier.o \
 	$(OBJDIR)plAnimEventModifier.o \
 	$(OBJDIR)plExcludeRegionModifier.o \
 	$(OBJDIR)plImageLibMod.o \
@@ -457,6 +459,9 @@ $(OBJDIR)plAGModifier.o: PubUtilLib/plAvatar/plAGModifier.h PubUtilLib/plAvatar/
 $(OBJDIR)plAnimStage.o: PubUtilLib/plAvatar/plAnimStage.h PubUtilLib/plAvatar/plAnimStage.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAnimStage.cpp -o $(OBJDIR)plAnimStage.o
 
+$(OBJDIR)plAvatarClothing.o: PubUtilLib/plAvatar/plAvatarClothing.h PubUtilLib/plAvatar/plAvatarClothing.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAvatarClothing.cpp -o $(OBJDIR)plAvatarClothing.o
+
 $(OBJDIR)plAvLadderMod.o: PubUtilLib/plAvatar/plAvLadderMod.h PubUtilLib/plAvatar/plAvLadderMod.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAvLadderMod.cpp -o $(OBJDIR)plAvLadderMod.o
 
@@ -660,6 +665,9 @@ $(OBJDIR)plTimerCallbackMsg.o: PubUtilLib/plMessage/plTimerCallbackMsg.h PubUtil
 
 $(OBJDIR)plTransitionMsg.o: PubUtilLib/plMessage/plTransitionMsg.h PubUtilLib/plMessage/plTransitionMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plTransitionMsg.cpp -o $(OBJDIR)plTransitionMsg.o
+
+$(OBJDIR)plAliasModifier.o: PubUtilLib/plModifier/plAliasModifier.h PubUtilLib/plModifier/plAliasModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plAliasModifier.cpp -o $(OBJDIR)plAliasModifier.o
 
 $(OBJDIR)plAnimEventModifier.o: PubUtilLib/plModifier/plAnimEventModifier.h PubUtilLib/plModifier/plAnimEventModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plModifier/plAnimEventModifier.cpp -o $(OBJDIR)plAnimEventModifier.o

@@ -34,8 +34,8 @@ void plNotifyMsg::write(hsStream* S, plResManager* mgr) {
         fEvents[i]->write(S, mgr);
 }
 
-void plNotifyMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plNotifyMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->startTag("NotifyParams");
     prc->writeParam("Type", fType);

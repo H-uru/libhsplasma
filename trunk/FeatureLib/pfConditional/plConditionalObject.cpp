@@ -17,8 +17,8 @@ void plConditionalObject::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fToggle);
 }
 
-void plConditionalObject::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
     prc->startTag("ConditionFlags");
     prc->writeParam("satisfied", fSatisfied);
     prc->writeParam("toggle", fToggle);

@@ -62,8 +62,8 @@ void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plDynamicEnvMap::prcWrite(pfPrcHelper* prc) {
-    plCubicRenderTarget::prcWrite(prc);
+void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc) {
+    plCubicRenderTarget::IPrcWrite(prc);
 
     prc->startTag("DynamicEnvMapParams");
     prc->writeParam("Hither", fHither);
@@ -170,8 +170,8 @@ void plDynamicCamMap::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fMatLayers[i]);
 }
 
-void plDynamicCamMap::prcWrite(pfPrcHelper* prc) {
-    plRenderTarget::prcWrite(prc);
+void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
+    plRenderTarget::IPrcWrite(prc);
 
     prc->startTag("DynamicCamMapParams");
     prc->writeParam("Hither", fHither);

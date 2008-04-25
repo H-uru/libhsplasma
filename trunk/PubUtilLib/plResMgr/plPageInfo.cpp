@@ -98,7 +98,6 @@ void plPageInfo::read(hsStream* S) {
                    fPage.cstr(), fAge.cstr(),
                    fLocation.getSeqPrefix(), fLocation.getPageNum(),
                    GetVersionName(S->getVer()));
-
 }
 
 void plPageInfo::write(hsStream* S) {

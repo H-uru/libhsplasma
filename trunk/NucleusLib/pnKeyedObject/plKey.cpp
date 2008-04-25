@@ -8,16 +8,11 @@ plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
                          fRefCnt(0) { }
 
 plKeyData::~plKeyData() {
-    if (fObjPtr != NULL)
-	{
+    if (fObjPtr != NULL) {
 		Ref();
         delete fObjPtr;
-		--fRefCnt;  //Under absolutely NO circumstance replace this with UnRef()
+		--fRefCnt;  // Under absolutely NO circumstance replace this with UnRef()
 	}
-}
-
-void plKeyData::Delete() {
-    UnRef();
 }
 
 bool plKeyData::operator==(plKeyData& other) const {
@@ -150,11 +145,11 @@ bool plKey::isLoaded() const {
 }
 
 void plKey::CreateWeakRef() {
-	if(fKeyData != NULL)
+	if (fKeyData != NULL)
 		fKeyData->UnRef();
 }
 
 void plKey::DeleteWeakRef() {
-	if(fKeyData != NULL)
+	if (fKeyData != NULL)
 		fKeyData->Ref();
 }

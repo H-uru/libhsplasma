@@ -19,7 +19,8 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc)=0;
 };
 
 DllStruct ScalarKeyFrame : public UruKeyFrame {
@@ -31,11 +32,11 @@ DllStruct ScalarKeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllStruct Point3KeyFrame : public UruKeyFrame {
-    hsPoint3 fInTan, fOutTan, fValue;
+    hsVector3 fInTan, fOutTan, fValue;
 
     Point3KeyFrame();
     virtual ~Point3KeyFrame();
@@ -43,7 +44,7 @@ DllStruct Point3KeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllStruct QuatKeyFrame : public UruKeyFrame {
@@ -55,7 +56,7 @@ DllStruct QuatKeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllStruct Matrix33KeyFrame : public UruKeyFrame {
@@ -67,7 +68,7 @@ DllStruct Matrix33KeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllStruct Matrix44KeyFrame : public UruKeyFrame {
@@ -79,11 +80,11 @@ DllStruct Matrix44KeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllStruct ScaleKeyFrame : public UruKeyFrame {
-    hsPoint3 fInTan, fOutTan;
+    hsVector3 fInTan, fOutTan;
 
     // I'm just folding ScaleValue and ScaleKey together here...
     hsVector3 fS;
@@ -95,7 +96,7 @@ DllStruct ScaleKeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

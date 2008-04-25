@@ -13,17 +13,6 @@ public:
 
     enum ExtendedEvents { kValueChanging };
 
-protected:
-    plWString fBuffer;
-    unsigned int fCursorPos;
-    int fScrollPos;
-    bool fIgnoreNextKey, fEscapedFlag;
-    bool fFirstHalfExitKeyPushed, fSpecialCaptureKeyEventMode;
-    plKeyDef fSavedKey;
-    unsigned char fSavedModifiers;
-    wchar_t fLastDeadKey;
-    //wchar_t fDeadKeyConverter[256][256];  // 128KB array...
-
 public:
     pfGUIEditBoxMod();
     virtual ~pfGUIEditBoxMod();

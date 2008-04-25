@@ -5,7 +5,7 @@
 #include "plFixedWaterState7.h"
 
 /* Yes, this is greatly simplified...  And it'll probably stay that way
- * unless I implement the actual rendering of plWaveSets
+ * unless I implement the actual rendering of plWaveSets, which is unlikely
  */
 
 DllClass plWaveSet7 : public plWaveSetBase {
@@ -26,7 +26,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

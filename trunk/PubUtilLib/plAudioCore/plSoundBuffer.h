@@ -32,7 +32,6 @@ public:
 
 protected:
     plWAVHeader fHeader;
-    //plAuidoFileReader* fReader;
     plString fFileName;
     unsigned int fDataLength;
     unsigned char* fData;
@@ -48,7 +47,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

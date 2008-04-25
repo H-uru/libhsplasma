@@ -23,8 +23,8 @@ void plVisRegion::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fVisMgr);
 }
 
-void plVisRegion::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plVisRegion::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Region");
     fRegion->prcWrite(prc);

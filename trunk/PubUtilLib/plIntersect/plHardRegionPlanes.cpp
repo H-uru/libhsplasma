@@ -9,9 +9,9 @@ void plHardRegionPlanes::HardPlane::read(hsStream* S) {
     fPos.read(S);
     fWorldNorm.read(S);
     fWorldPos.read(S);
-    fWorldDist = (fWorldPos.fX * fWorldNorm.fX) +
-                 (fWorldPos.fY * fWorldNorm.fY) +
-                 (fWorldPos.fZ * fWorldNorm.fZ);
+    fWorldDist = (fWorldPos.X * fWorldNorm.X) +
+                 (fWorldPos.Y * fWorldNorm.Y) +
+                 (fWorldPos.Z * fWorldNorm.Z);
 }
 
 void plHardRegionPlanes::HardPlane::write(hsStream* S) {
@@ -63,8 +63,8 @@ void plHardRegionPlanes::write(hsStream* S, plResManager* mgr) {
         fPlanes[i].write(S);
 }
 
-void plHardRegionPlanes::prcWrite(pfPrcHelper* prc) {
-    plHardRegion::prcWrite(prc);
+void plHardRegionPlanes::IPrcWrite(pfPrcHelper* prc) {
+    plHardRegion::IPrcWrite(prc);
 
     prc->writeSimpleTag("Planes");
     for (size_t i=0; i<fPlanes.getSize(); i++)

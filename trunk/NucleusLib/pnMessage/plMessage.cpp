@@ -35,9 +35,7 @@ void plMessage::write(hsStream* S, plResManager* mgr) {
     IMsgWrite(S, mgr);
 }
 
-void plMessage::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plMessage::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Sender");
     fSender->prcWrite(prc);
     prc->closeTag();

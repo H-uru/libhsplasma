@@ -4,7 +4,7 @@
 plAnimTimeConvert::plAnimTimeConvert()
                  : fFlags(0), fBegin(0.0f), fEnd(0.0f), fLoopBegin(0.0f),
                    fLoopEnd(0.0f), fSpeed(1.0f), fCurrentAnimTime(0.0f),
-                   fWrapTime(0.0f), fLastEvalWorldTime(0.0), fOwner(NULL),
+                   fWrapTime(0.0f), fLastEvalWorldTime(0.0),
                    fEaseInCurve(NULL), fEaseOutCurve(NULL),
                    fSpeedEaseCurve(NULL), fCurrentEaseCurve(NULL),
                    fInitialBegin(0.0f), fInitialEnd(0.0f) { }
@@ -64,11 +64,9 @@ void plAnimTimeConvert::write(hsStream* S, plResManager* mgr) {
         S->writeFloat(fStopPoints[i]);
 }
 
-void plAnimTimeConvert::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Params");
-    prc->writeParam("Flags", fFlags);
+    prc->writeParamHex("Flags", fFlags);
     prc->writeParam("Begin", fBegin);
     prc->writeParam("End", fEnd);
     prc->writeParam("LoopBegin", fLoopBegin);
@@ -78,7 +76,7 @@ void plAnimTimeConvert::prcWrite(pfPrcHelper* prc) {
 
     if (fEaseInCurve != NULL) {
         prc->writeSimpleTag("EaseInCurve");
-        fEaseInCurve->prcWrite(prc); prc->closeTag();
+        fEaseInCurve->prcWrite(prc);
         prc->closeTag();
     } else {
         prc->startTag("EaseInCurve");
@@ -87,7 +85,7 @@ void plAnimTimeConvert::prcWrite(pfPrcHelper* prc) {
     }
     if (fEaseOutCurve != NULL) {
         prc->writeSimpleTag("EaseOutCurve");
-        fEaseOutCurve->prcWrite(prc); prc->closeTag();
+        fEaseOutCurve->prcWrite(prc);
         prc->closeTag();
     } else {
         prc->startTag("EaseOutCurve");
@@ -96,7 +94,7 @@ void plAnimTimeConvert::prcWrite(pfPrcHelper* prc) {
     }
     if (fSpeedEaseCurve != NULL) {
         prc->writeSimpleTag("SpeedEaseCurve");
-        fSpeedEaseCurve->prcWrite(prc); prc->closeTag();
+        fSpeedEaseCurve->prcWrite(prc);
         prc->closeTag();
     } else {
         prc->startTag("SpeedEaseCurve");
@@ -110,10 +108,8 @@ void plAnimTimeConvert::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Callbacks");
-    for (size_t i=0; i<fCallbackMsgs.getSize(); i++) {
+    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
         fCallbackMsgs[i]->prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 
     prc->writeSimpleTag("StopPoints");

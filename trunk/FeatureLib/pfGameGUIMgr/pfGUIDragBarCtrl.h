@@ -4,10 +4,6 @@
 #include "pfGUIControlMod.h"
 
 DllClass pfGUIDragBarCtrl : public pfGUIControlMod {
-protected:
-    hsPoint3 fDragOffset;
-    bool fDragging, fAnchored;
-
 public:
     pfGUIDragBarCtrl();
     virtual ~pfGUIDragBarCtrl();

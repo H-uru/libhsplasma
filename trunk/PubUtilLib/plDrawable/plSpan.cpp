@@ -45,10 +45,15 @@ void plSpan::write(hsStream* S) {
 
 void plSpan::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag(ClassName());
+    IPrcWrite(prc);
+    prc->closeTag();
+}
+
+void plSpan::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("SpanInfo");
       prc->writeParam("SubType", fSubType);
       prc->writeParam("Material", fMaterialIdx);
-      prc->writeParam("Properties", fProps);
+      prc->writeParamHex("Properties", fProps);
     prc->endTag(true);
     prc->writeSimpleTag("Transforms");
       fLocalToWorld.prcWrite(prc);
@@ -56,9 +61,7 @@ void plSpan::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
     prc->writeSimpleTag("Bounds");
       fLocalBounds.prcWrite(prc);
-      prc->closeTag();
       fWorldBounds.prcWrite(prc);
-      prc->closeTag();
     prc->closeTag();
     prc->startTag("MatrixInfo");
       prc->writeParam("NumMatrices", fNumMatrices);
@@ -80,26 +83,21 @@ void plSpan::prcWrite(pfPrcHelper* prc) {
     }
 }
 
-const plKey& plSpan::getFogEnvironment() { return fFogEnvironment; }
-hsTArray<plKey>& plSpan::getPermaLights() { return fPermaLights; }
-hsTArray<plKey>& plSpan::getPermaProjs() { return fPermaProjs; }
-unsigned short plSpan::getTypeMask() { return fTypeMask; }
-unsigned int plSpan::getMaterialIdx() { return fMaterialIdx; }
-unsigned char plSpan::getNumMatrices() { return fNumMatrices; }
-unsigned int plSpan::getProps() { return fProps; }
+const plKey& plSpan::getFogEnvironment() const { return fFogEnvironment; }
+const hsTArray<plKey>& plSpan::getPermaLights() const { return fPermaLights; }
+const hsTArray<plKey>& plSpan::getPermaProjs() const { return fPermaProjs; }
+unsigned short plSpan::getTypeMask() const { return fTypeMask; }
+unsigned int plSpan::getMaterialIdx() const { return fMaterialIdx; }
+unsigned char plSpan::getNumMatrices() const { return fNumMatrices; }
+unsigned int plSpan::getProps() const { return fProps; }
 
 void plSpan::setFogEnvironment(const plKey& fog) {
-    //fFogEnvironment = plFogEnvironment::Convert(fog);
     fFogEnvironment = fog;
 }
 void plSpan::addPermaLight(const plKey& light) {
-    //plLightInfo* li = plLightInfo::Convert(light);
-    //fPermaLights.append(li);
     fPermaLights.append(light);
 }
 void plSpan::addPermaProj(const plKey& proj) {
-    //plLightInfo* li = plLightInfo::Convert(proj);
-    //fPermaProjs.append(li);
     fPermaProjs.append(proj);
 }
 

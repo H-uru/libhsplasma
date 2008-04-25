@@ -29,8 +29,8 @@ void plPhysicalSndGroup::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fSlideSounds[i]);
 }
 
-void plPhysicalSndGroup::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plPhysicalSndGroup::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("SoundGroupParams");
     prc->writeParam("Group", fGroup);

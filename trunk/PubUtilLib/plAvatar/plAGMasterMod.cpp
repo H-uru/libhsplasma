@@ -1,6 +1,6 @@
 #include "plAGMasterMod.h"
 
-plAGMasterMod::plAGMasterMod() : fTarget(NULL), fLiveA5(false), fLiveA6(false) { }
+plAGMasterMod::plAGMasterMod() : fLiveA5(false), fLiveA6(false) { }
 plAGMasterMod::~plAGMasterMod() { }
 
 IMPLEMENT_CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
@@ -59,8 +59,8 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAGMasterMod::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     if (!fGroupName.empty()) {
         prc->startTag("Group");

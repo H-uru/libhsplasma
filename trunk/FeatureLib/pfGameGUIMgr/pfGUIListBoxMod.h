@@ -4,15 +4,6 @@
 #include "pfGUIControlMod.h"
 #include "pfGUISkin.h"
 
-DllClass pfScrollProc : public pfGUICtrlProcObject {
-protected:
-    class pfGUIListBoxMod* fParent;
-
-public:
-    pfScrollProc(class pfGUIListBoxMod* parent);
-    virtual void DoSomething(pfGUIControlMod* ctrl);
-};
-
 DllClass pfGUIListElement {
 public:
     enum Types { kText, kPicture, kTreeRoot };
@@ -34,10 +25,6 @@ public:
 
 DllClass pfGUIListBoxMod : public pfGUIControlMod {
 public:
-    DllStruct SmallRect {
-        short fLeft, fTop, fRight,fBottom;
-    };
-
     enum ListBoxFlags {
         kSingleSelect = kDerivedFlagsStart, kDragAndDropCapable,
         kDisableSelection, kDisableKeyActions, kAllowMultipleElementsPerRow,
@@ -51,16 +38,6 @@ public:
 
 protected:
     plKey fScrollCtrl;
-    pfScrollProc* fScrollProc;
-    hsTArray<pfGUIListElement*> fElements;
-    int fCurrClick, fScrollPos, fCurrHover;
-    unsigned char fModsAtDragTime;
-    int fMinSel, fMaxSel;
-    bool fCheckSel, fClicking;
-    int fSingleSelElement;
-    bool fScrollRangeUpdateDeferred, fLocked, fReadyToRoll;
-    hsTArray<SmallRect> fElementBounds;
-    hsTArray<short> fWrapStartIdxs;
 
 public:
     pfGUIListBoxMod();
@@ -70,7 +47,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

@@ -38,11 +38,11 @@ void plOccluder::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fVisRegions[i]);
 }
 
-void plOccluder::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plOccluder::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("WorldBounds");
-    fWorldBounds.prcWrite(prc); prc->closeTag();
+    fWorldBounds.prcWrite(prc);
     prc->closeTag();
 
     prc->startTag("Priority");
@@ -87,8 +87,8 @@ void plMobileOccluder::write(hsStream* S, plResManager* mgr) {
     fLocalBounds.write(S);
 }
 
-void plMobileOccluder::prcWrite(pfPrcHelper* prc) {
-    plOccluder::prcWrite(prc);
+void plMobileOccluder::IPrcWrite(pfPrcHelper* prc) {
+    plOccluder::IPrcWrite(prc);
 
     prc->writeSimpleTag("LocalToWorldTransforms");
     fLocalToWorld.prcWrite(prc);

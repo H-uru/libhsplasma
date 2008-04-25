@@ -22,8 +22,8 @@ void plOmniLightInfo::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fAttenCutoff);
 }
 
-void plOmniLightInfo::prcWrite(pfPrcHelper* prc) {
-    plLightInfo::prcWrite(prc);
+void plOmniLightInfo::IPrcWrite(pfPrcHelper* prc) {
+    plLightInfo::IPrcWrite(prc);
     prc->startTag("Attensity");
     prc->writeParam("Constant", fAttenConst);
     prc->writeParam("Linear", fAttenLinear);
@@ -53,8 +53,8 @@ void plSpotLightInfo::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fSpotOuter);
 }
 
-void plSpotLightInfo::prcWrite(pfPrcHelper* prc) {
-    plOmniLightInfo::prcWrite(prc);
+void plSpotLightInfo::IPrcWrite(pfPrcHelper* prc) {
+    plOmniLightInfo::IPrcWrite(prc);
     prc->startTag("SpotLight");
     prc->writeParam("Falloff", fFalloff);
     prc->writeParam("SpotInner", fSpotInner);

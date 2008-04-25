@@ -11,14 +11,8 @@ protected:
     short depth;
 
 public:
-    hsTArray<plKey> SceneObjects;
-    hsTArray<plKey> OtherObjects;
-    //class hsTArray<plDrawable *> drawPool;
-    //class hsTArray<plPhysical *> simulationPool;
-    //class hsTArray<plAudible *> audioPool;
-    //class hsTArray<plOccluder *> occluders;
-    //class hsTArray<plLightInfo *> lightPool;
-    //class plSpaceTree * spaceTree;
+    hsTArray<plKey> fSceneObjects;
+    hsTArray<plKey> fOtherObjects;
 
 public:
     plSceneNode();
@@ -28,7 +22,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
 };
 

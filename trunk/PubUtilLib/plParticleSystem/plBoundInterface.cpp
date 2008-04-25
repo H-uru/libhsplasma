@@ -18,8 +18,7 @@ void plBoundInterface::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fBounds);
 }
 
-void plBoundInterface::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plBoundInterface::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
     fBounds->prcWrite(prc);
-    prc->closeTag();
 }

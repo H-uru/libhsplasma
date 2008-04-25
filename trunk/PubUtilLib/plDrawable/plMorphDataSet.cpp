@@ -21,8 +21,8 @@ void plMorphDataSet::write(hsStream* S, plResManager* mgr) {
         fMorphs[i].write(S, mgr);
 }
 
-void plMorphDataSet::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plMorphDataSet::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Morphs");
     for (size_t i=0; i<fMorphs.getSize(); i++)

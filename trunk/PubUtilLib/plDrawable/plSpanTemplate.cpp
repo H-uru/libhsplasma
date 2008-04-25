@@ -92,6 +92,8 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
         prc->closeTagNoBreak();
     }
     prc->closeTag();
+
+    prc->closeTag(); // plSpanTemplate
 }
 
 hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
@@ -100,11 +102,11 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
     unsigned char* dataPtr = fData;
     for (size_t i=0; i<fNumVerts; i++) {
         if (fFormat & kPosMask) {
-            verts[i].fPosition.fX = *(float*)dataPtr;
+            verts[i].fPosition.X = *(float*)dataPtr;
             dataPtr += sizeof(float);
-            verts[i].fPosition.fY = *(float*)dataPtr;
+            verts[i].fPosition.Y = *(float*)dataPtr;
             dataPtr += sizeof(float);
-            verts[i].fPosition.fZ = *(float*)dataPtr;
+            verts[i].fPosition.Z = *(float*)dataPtr;
             dataPtr += sizeof(float);
         }
         if (fFormat & kWeightMask) {
@@ -118,11 +120,11 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
             dataPtr += sizeof(int);
         }
         if (fFormat & kNormMask) {
-            verts[i].fNormal.fX = *(float*)dataPtr;
+            verts[i].fNormal.X = *(float*)dataPtr;
             dataPtr += sizeof(float);
-            verts[i].fNormal.fY = *(float*)dataPtr;
+            verts[i].fNormal.Y = *(float*)dataPtr;
             dataPtr += sizeof(float);
-            verts[i].fNormal.fZ = *(float*)dataPtr;
+            verts[i].fNormal.Z = *(float*)dataPtr;
             dataPtr += sizeof(float);
         }
         if (fFormat & kColorMask) {
@@ -135,11 +137,11 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
         }
         if (fFormat & kUVWMask) {
             for (size_t j=0; j<(fFormat & kUVWMask) / 0x10; j++) {
-                verts[i].fUVWs[j].fX = *(float*)dataPtr;
+                verts[i].fUVWs[j].X = *(float*)dataPtr;
                 dataPtr += sizeof(float);
-                verts[i].fUVWs[j].fY = *(float*)dataPtr;
+                verts[i].fUVWs[j].Y = *(float*)dataPtr;
                 dataPtr += sizeof(float);
-                verts[i].fUVWs[j].fZ = *(float*)dataPtr;
+                verts[i].fUVWs[j].Z = *(float*)dataPtr;
                 dataPtr += sizeof(float);
             }
         }

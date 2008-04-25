@@ -77,8 +77,8 @@ void plResponderModifier::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fFlags);
 }
 
-void plResponderModifier::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plResponderModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("ResponderModParams");
     prc->writeParam("CurState", fCurState);
@@ -96,8 +96,6 @@ void plResponderModifier::prcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Commands");
         for (size_t j=0; j<fStates[i].fCmds.getSize(); j++) {
             fStates[i].fCmds[j].fMsg->prcWrite(prc);
-            prc->closeTag();
-
             prc->startTag("WaitOn");
             prc->writeParam("value", fStates[i].fCmds[j].fWaitOn);
             prc->endTag(true);
@@ -116,7 +114,7 @@ void plResponderModifier::prcWrite(pfPrcHelper* prc) {
 
         prc->closeTag();    // plResponderState
     }
-    prc->closeTag();
+    prc->closeTag();    // States
 }
 
 
@@ -136,8 +134,8 @@ void plResponderEnableMsg::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fEnable);
 }
 
-void plResponderEnableMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plResponderEnableMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
     
     prc->startTag("ResponderParams");
     prc->writeParam("Enable", fEnable);

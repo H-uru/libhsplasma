@@ -90,7 +90,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plCameraBrain1_Drive : public plCameraBrain1 {
@@ -113,7 +113,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plCameraBrain1_FirstPerson : public plCameraBrain1_Avatar {
@@ -136,7 +136,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plCameraBrain1_Circle : public plCameraBrain1_Fixed {
@@ -153,7 +153,7 @@ public:
 
 protected:
     unsigned int fCircleFlags;
-    hsPoint3 fCenter;
+    hsVector3 fCenter;
     float fRadius;
     plKey fCenterObject, fPOAObject;
     float fCirPerSec;
@@ -166,7 +166,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

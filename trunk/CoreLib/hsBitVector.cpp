@@ -2,7 +2,7 @@
 #include <cstring>
 
 /* hsBitVector::Bit */
-hsBitVector::Bit::Bit(hsBitVector* vec, BVBTYPE off)
+hsBitVector::Bit::Bit(hsBitVector* vec, size_t off)
            : fVector(vec), fOffset(off) { }
 
 hsBitVector::Bit::operator bool() const { return fVector->get(fOffset); }
@@ -24,18 +24,18 @@ hsBitVector::~hsBitVector() {
     if (fBits) delete[] fBits;
 }
 
-bool hsBitVector::get(BVBTYPE idx) const {
+bool hsBitVector::get(size_t idx) const {
     if ((idx / BVMULT) >= fNumVectors) return false;
     return (fBits[idx / BVMULT] & (1 << (idx & BVMASK))) != 0;
 }
 
-void hsBitVector::set(BVBTYPE idx, bool b) {
+void hsBitVector::set(size_t idx, bool b) {
     if ((idx / BVMULT) < fNumVectors + 1) {
-        BVBTYPE oldNumVectors = fNumVectors;
+        size_t oldNumVectors = fNumVectors;
         fNumVectors = (idx / BVMULT) + 1;
         hsUint32* newBits = new hsUint32[fNumVectors];
         if (fBits != NULL) {
-            for (BVBTYPE i=0; i<oldNumVectors; i++)
+            for (size_t i=0; i<oldNumVectors; i++)
                 newBits[i] = fBits[i];
             delete[] fBits;
         } else {
@@ -47,11 +47,11 @@ void hsBitVector::set(BVBTYPE idx, bool b) {
     else   fBits[idx / BVMULT] &= ~(1 << (idx & BVMASK));
 }
 
-bool hsBitVector::operator[](BVBTYPE idx) const {
+bool hsBitVector::operator[](size_t idx) const {
     return get(idx);
 }
 
-hsBitVector::Bit hsBitVector::operator[](BVBTYPE idx) {
+hsBitVector::Bit hsBitVector::operator[](size_t idx) {
     return hsBitVector::Bit(this, idx);
 }
 
@@ -65,24 +65,24 @@ void hsBitVector::clear() {
     fNumVectors = 0;
 }
 
-void hsBitVector::setBit(BVBTYPE idx) {
+void hsBitVector::setBit(size_t idx) {
     set(idx, true);
 }
 
-void hsBitVector::clearBit(BVBTYPE idx) {
+void hsBitVector::clearBit(size_t idx) {
     set(idx, false);
 }
 
 void hsBitVector::compact() {
-    BVBTYPE newNumVectors = fNumVectors;
+    size_t newNumVectors = fNumVectors;
     while (newNumVectors > 0 && fBits[newNumVectors-1] == 0)
         newNumVectors--;
     if (newNumVectors < fNumVectors) {
         if (newNumVectors == 0) {
             clear();
         } else {
-            BVBTYPE* newBits = new BVBTYPE[newNumVectors];
-            memcpy(newBits, fBits, sizeof(BVBTYPE)*newNumVectors);
+            hsUint32* newBits = new hsUint32[newNumVectors];
+            memcpy(newBits, fBits, sizeof(hsUint32)*newNumVectors);
             if (fBits) delete[] fBits;
             fBits = newBits;
             fNumVectors = newNumVectors;
@@ -90,7 +90,7 @@ void hsBitVector::compact() {
     }
 }
 
-const char* hsBitVector::getName(BVBTYPE idx) {
+const char* hsBitVector::getName(size_t idx) {
     static char tempName[11];
     if (fBitNames.count(idx) > 0) {
         return fBitNames[idx];
@@ -100,7 +100,7 @@ const char* hsBitVector::getName(BVBTYPE idx) {
     }
 }
 
-void hsBitVector::setName(BVBTYPE idx, const char* name) {
+void hsBitVector::setName(size_t idx, const char* name) {
     fBitNames[idx] = name;
 }
 
@@ -108,9 +108,9 @@ void hsBitVector::read(hsStream* S) {
     fNumVectors = S->readInt();
     if (fBits) delete[] fBits;
     if (fNumVectors > 0)
-        fBits = new BVBTYPE[fNumVectors];
-    for (BVBTYPE i=0; i<fNumVectors; i++)
-		fBits[i] = S->readInt();
+        fBits = new hsUint32[fNumVectors];
+    for (size_t i=0; i<fNumVectors; i++)
+        fBits[i] = S->readInt();
 }
 
 void hsBitVector::write(hsStream* S) {
@@ -122,8 +122,8 @@ void hsBitVector::write(hsStream* S) {
 
 void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsBitVector");
-    for (BVBTYPE i=0; i<fNumVectors; i++) {
-        for (BVBTYPE j=0; j<BVMULT; j++) {
+    for (size_t i=0; i<fNumVectors; i++) {
+        for (size_t j=0; j<BVMULT; j++) {
             if (get((i*BVMULT) + j)) {
                 prc->getStream()->writeStr(getName((i*BVMULT) + j));
                 prc->getStream()->writeStr(" ");

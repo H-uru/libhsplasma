@@ -17,8 +17,8 @@ void plExcludeRegionMsg::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fSynchFlags);
 }
 
-void plExcludeRegionMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plExcludeRegionMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->startTag("ExcludeParams");
     prc->writeParam("Command", fCmd);

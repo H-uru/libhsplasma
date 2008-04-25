@@ -30,8 +30,8 @@ void plScalarConstant::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fResult);
 }
 
-void plScalarConstant::prcWrite(pfPrcHelper* prc) {
-    plAGChannel::prcWrite(prc);
+void plScalarConstant::IPrcWrite(pfPrcHelper* prc) {
+    plAGChannel::IPrcWrite(prc);
 
     prc->startTag("Result");
     prc->writeParam("value", fResult);
@@ -65,11 +65,11 @@ void plScalarControllerChannel::write(hsStream* S, plResManager* mgr) {
     mgr->WriteCreatable(S, fController);
 }
 
-void plScalarControllerChannel::prcWrite(pfPrcHelper* prc) {
+void plScalarControllerChannel::IPrcWrite(pfPrcHelper* prc) {
     plAGChannel::prcWrite(prc);
 
     prc->writeSimpleTag("Controller");
-    fController->prcWrite(prc); prc->closeTag();
+    fController->prcWrite(prc);
     prc->closeTag();
 }
 

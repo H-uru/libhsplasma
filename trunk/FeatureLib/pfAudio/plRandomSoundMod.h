@@ -5,8 +5,6 @@
 
 DllClass plRandomSoundModGroup {
 protected:
-    hsBitVector fExcluded;
-    signed char fCurrent;
     unsigned short fNumSounds;
     hsTArray<unsigned short> fIndices;
     short fGroupedIdx;
@@ -22,11 +20,8 @@ public:
 
 DllClass plRandomSoundMod : public plRandomCommandMod {
 protected:
-    unsigned short fCurrentGroup, fNumGroups;
+    unsigned short fNumGroups;
     hsTArray<plRandomSoundModGroup> fGroups;
-    hsTArray<unsigned short> fActiveList;
-    int fOldPriority;
-    bool fFirstTimePlay;
 
 public:
     plRandomSoundMod();
@@ -36,7 +31,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

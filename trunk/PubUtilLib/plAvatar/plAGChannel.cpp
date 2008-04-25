@@ -13,10 +13,8 @@ void plAGChannel::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fName);
 }
 
-void plAGChannel::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
-    prc->startTag("AGChannelParams");
+void plAGChannel::IPrcWrite(pfPrcHelper* prc) {
+    prc->startTag("Channel");
     prc->writeParam("Name", fName);
     prc->endTag(true);
 }

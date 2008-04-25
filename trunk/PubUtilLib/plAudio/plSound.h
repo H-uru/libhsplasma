@@ -61,8 +61,7 @@ protected:
     bool fMuted, fFading, fRegisteredForTime;
     bool fPlayOnReactivate, fNotHighEnoughPriority;
     hsVector3 fConeOrientation;
-    hsPoint3 f3DPosition;
-    hsVector3 f3DVelocity;
+    hsVector3 f3DPosition, f3DVelocity;
     plSceneObject* fOwningSceneObject;
     plEAXSourceSettings fEAXSettings;
     bool fQueued;
@@ -92,7 +91,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);

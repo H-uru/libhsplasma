@@ -56,6 +56,7 @@
 #include "PubUtilLib/plAvatar/plAGAnim.h"
 #include "PubUtilLib/plAvatar/plAGMasterMod.h"
 #include "PubUtilLib/plAvatar/plAGModifier.h"
+#include "PubUtilLib/plAvatar/plAvatarClothing.h"
 #include "PubUtilLib/plAvatar/plAvLadderMod.h"
 #include "PubUtilLib/plAvatar/plClothingItem.h"
 #include "PubUtilLib/plAvatar/plMatrixChannel.h"
@@ -87,6 +88,7 @@
 #include "PubUtilLib/plMessage/plResponderMsg.h"
 #include "PubUtilLib/plMessage/plTimerCallbackMsg.h"
 #include "PubUtilLib/plMessage/plTransitionMsg.h"
+#include "PubUtilLib/plModifier/plAliasModifier.h"
 #include "PubUtilLib/plModifier/plAnimEventModifier.h"
 #include "PubUtilLib/plModifier/plExcludeRegionModifier.h"
 #include "PubUtilLib/plModifier/plImageLibMod.h"
@@ -167,7 +169,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kMultiModifier: ABSTRACT(kMultiModifier);
         case kSynchedObject: ABSTRACT(kSynchedObject);
         case kSoundBuffer: return new plSoundBuffer();
-        //case kAliasModifier: return new plAliasModifier();
+        case kAliasModifier: return new plAliasModifier();
         case kPickingDetector: return new plPickingDetector();
         case kCollisionDetector: return new plCollisionDetector();
         case kLogicModifier: return new plLogicModifier();
@@ -307,8 +309,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kCameraBrain1_FirstPerson: return new plCameraBrain1_FirstPerson();
         //case kCloneSpawnModifier: return new plCloneSpawnModifier();
         case kClothingItem: return new plClothingItem();
-        //case kClothingOutfit: return new plClothingOutfit();
-        //case kClothingBase: return new plClothingBase();
+        case kClothingOutfit: return new plClothingOutfit();
+        case kClothingBase: return new plClothingBase();
         //case kClothingMgr: return new plClothingMgr();
         case kGUIDragBarCtrl: return new pfGUIDragBarCtrl();
         case kGUICheckBoxCtrl: return new pfGUICheckBoxCtrl();
@@ -538,7 +540,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDynamicColorRGBA: return new hsDynamicColorRGBA();
         //case kDynamicMatrix33: return new hsDynamicMatrix33();
         //case kDynamicMatrix44: return new hsDynamicMatrix44();
-        case kController: return new plController();
+        case kController: ABSTRACT(kController);
         case kLeafController: return new plLeafController();
         case kScaleController: ABSTRACT(kScaleController);
         case kRotController: ABSTRACT(kRotController);
@@ -736,7 +738,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLinkCallbackMsg: return new plLinkCallbackMsg();
         case kTransitionMsg: return new plTransitionMsg();
         //case kConsoleMsg: return new plConsoleMsg();
-        case kVolumeIsect: return new plVolumeIsect();
+        case kVolumeIsect: ABSTRACT(kVolumeIsect);
         case kSphereIsect: return new plSphereIsect();
         case kConeIsect: return new plConeIsect();
         case kCylinderIsect: return new plCylinderIsect();

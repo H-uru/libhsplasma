@@ -41,7 +41,6 @@ protected:
     hsMatrix44 fTransform;
     hsColorRGBA fPreshadeColor, fRuntimeColor, fAmbientColor, fSpecularColor;
     float fOpacity;
-    hsGMatState* fState;
     unsigned int fUVWSrc;
     float fLODBias;
     float fSpecularPower;
@@ -56,7 +55,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

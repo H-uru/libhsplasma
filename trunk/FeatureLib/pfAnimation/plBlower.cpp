@@ -26,8 +26,8 @@ void plBlower::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fSpringKonst);
 }
 
-void plBlower::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plBlower::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("BlowerParams");
     prc->writeParam("MasterPower", fMasterPower);

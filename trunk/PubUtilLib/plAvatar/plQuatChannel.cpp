@@ -30,8 +30,8 @@ void plQuatConstant::write(hsStream* S, plResManager* mgr) {
     fResult.write(S);
 }
 
-void plQuatConstant::prcWrite(pfPrcHelper* prc) {
-    plAGChannel::prcWrite(prc);
+void plQuatConstant::IPrcWrite(pfPrcHelper* prc) {
+    plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Result");
     fResult.prcWrite(prc);

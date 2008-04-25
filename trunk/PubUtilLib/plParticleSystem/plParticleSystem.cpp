@@ -104,8 +104,8 @@ void plParticleSystem::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fPermaLights[i]);
 }
 
-void plParticleSystem::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plParticleSystem::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Material");
     fMaterial->prcWrite(prc);
@@ -113,7 +113,7 @@ void plParticleSystem::prcWrite(pfPrcHelper* prc) {
 
     if (fAmbientCtl != NULL) {
         prc->writeSimpleTag("AmbientCtl");
-        fAmbientCtl->prcWrite(prc); prc->closeTag();
+        fAmbientCtl->prcWrite(prc);
         prc->closeTag();
     } else {
         prc->startTag("AmbientCtl");
@@ -122,7 +122,7 @@ void plParticleSystem::prcWrite(pfPrcHelper* prc) {
     }
     if (fDiffuseCtl != NULL) {
         prc->writeSimpleTag("DiffuseCtl");
-        fDiffuseCtl->prcWrite(prc); prc->closeTag();
+        fDiffuseCtl->prcWrite(prc);
         prc->closeTag();
     } else {
         prc->startTag("DiffuseCtl");
@@ -131,7 +131,7 @@ void plParticleSystem::prcWrite(pfPrcHelper* prc) {
     }
     if (fOpacityCtl != NULL) {
         prc->writeSimpleTag("OpacityCtl");
-        fOpacityCtl->prcWrite(prc); prc->closeTag();
+        fOpacityCtl->prcWrite(prc);
         prc->closeTag();
     } else {
         prc->startTag("OpacityCtl");
@@ -140,7 +140,7 @@ void plParticleSystem::prcWrite(pfPrcHelper* prc) {
     }
     if (fWidthCtl != NULL) {
         prc->writeSimpleTag("WidthCtl");
-        fWidthCtl->prcWrite(prc); prc->closeTag();
+        fWidthCtl->prcWrite(prc);
         prc->closeTag();
     } else {
         prc->startTag("WidthCtl");
@@ -149,7 +149,7 @@ void plParticleSystem::prcWrite(pfPrcHelper* prc) {
     }
     if (fHeightCtl != NULL) {
         prc->writeSimpleTag("HeightCtl");
-        fHeightCtl->prcWrite(prc); prc->closeTag();
+        fHeightCtl->prcWrite(prc);
         prc->closeTag();
     } else {
         prc->startTag("HeightCtl");
@@ -172,10 +172,8 @@ void plParticleSystem::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Emitters");
-    for (size_t i=0; i<fNumValidEmitters; i++) {
+    for (size_t i=0; i<fNumValidEmitters; i++)
         fEmitters[i]->prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 
     prc->writeSimpleTag("Forces");

@@ -14,10 +14,10 @@ public:
 protected:
     hsTArray<plKey> fAnimationKeys;
     plString fAnimName;
-    hsPoint3 fDragStart;
+    hsVector3 fDragStart;
     float fDragValue;
     bool fDragging;
-    hsPoint3 fAnimStartPos, fAnimEndPos;
+    hsVector3 fAnimStartPos, fAnimEndPos;
     float fDragRangeMin, fDragRangeMax, fAnimBegin, fAnimEnd;
     bool fAnimTimesCalced;
 
@@ -29,7 +29,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

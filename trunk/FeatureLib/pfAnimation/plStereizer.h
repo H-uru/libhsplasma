@@ -10,8 +10,7 @@ public:
 
 protected:
     float fAmbientDist, fTransition, fMaxSepDist, fMinSepDist, fTanAng;
-    hsPoint3 fInitPos, fListPos;
-    hsVector3 fListDirection, fListUp;
+    hsVector3 fInitPos;
 
 public:
     plStereizer();
@@ -21,7 +20,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

@@ -58,9 +58,7 @@ void plLeafController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plLeafController::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plLeafController::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Parameters");
     prc->writeParam("Type", hsKeyFrame::TypeNames[fType]);
     if (fUruUnknown != 0)

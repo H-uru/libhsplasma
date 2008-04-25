@@ -120,8 +120,8 @@ void plCameraMsg::write(hsStream* S, plResManager* mgr) {
     fConfig.write(S);
 }
 
-void plCameraMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plCameraMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Command");
     fCmd.prcWrite(prc);

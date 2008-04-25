@@ -19,11 +19,8 @@ plLightInfo::~plLightInfo() { }
 IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 
 void plLightInfo::read(hsStream* S, plResManager* mgr) {
-    //if (deviceRef != NULL)
-    //    deviceRef->UnRef();
-    //deviceRef = NULL;
-
     plObjInterface::read(S, mgr);
+    
     ambient.read(S);
     diffuse.read(S);
     specular.read(S);
@@ -46,6 +43,7 @@ void plLightInfo::read(hsStream* S, plResManager* mgr) {
 
 void plLightInfo::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
+    
     ambient.write(S);
     diffuse.write(S);
     specular.write(S);
@@ -63,8 +61,9 @@ void plLightInfo::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, visRegions[i]);
 }
 
-void plLightInfo::prcWrite(pfPrcHelper* prc) {
-    plObjInterface::prcWrite(prc);
+void plLightInfo::IPrcWrite(pfPrcHelper* prc) {
+    plObjInterface::IPrcWrite(prc);
+    
     prc->writeSimpleTag("Ambient");
     ambient.prcWrite(prc);
     prc->closeTag();

@@ -29,7 +29,7 @@ void plCullPoly::write(hsStream* S) {
 
 void plCullPoly::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plCullPoly");
-    prc->writeParam("Flags", fFlags);
+    prc->writeParamHex("Flags", fFlags);
     prc->endTag();
     
     prc->startTag("Normal");

@@ -1,17 +1,8 @@
 #include "pfGUIRadioGroupCtrl.h"
 #include "pfGUICheckBoxCtrl.h"
 
-/* pfGroupProc */
-pfGroupProc::pfGroupProc(pfGUIRadioGroupCtrl* parent) : fParent(parent) { }
-
-void pfGroupProc::DoSomething(pfGUIControlMod* ctrl) {
-    //TODO: Whatever...
-}
-
-
-/* pfGUIRadioGroupCtrl */
 pfGUIRadioGroupCtrl::pfGUIRadioGroupCtrl()
-                   : fButtonProc(NULL), fValue(0), fDefaultValue(0) {
+                   : fValue(0), fDefaultValue(0) {
     fFlags.setName(kAllowNoSelection, "kAllowNoSelection");
 }
 
@@ -27,8 +18,8 @@ void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
         fControls[i] = mgr->readKey(S);
 
     fDefaultValue = fValue = S->readShort();
-    //if (fValue != -1 && fControls[fValue].Exists())
-    //    fControls[fValue]->getObj()->setChecked(true);
+    if (fValue != -1 && fControls[fValue].Exists())
+        pfGUICheckBoxCtrl::Convert(fControls[fValue]->getObj())->setChecked(true);
 }
 
 void pfGUIRadioGroupCtrl::write(hsStream* S, plResManager* mgr) {
@@ -41,8 +32,8 @@ void pfGUIRadioGroupCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeShort(fDefaultValue);
 }
 
-void pfGUIRadioGroupCtrl::prcWrite(pfPrcHelper* prc) {
-    pfGUIControlMod::prcWrite(prc);
+void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIControlMod::IPrcWrite(prc);
 
     prc->startTag("Items");
     prc->writeParam("Default", fDefaultValue);

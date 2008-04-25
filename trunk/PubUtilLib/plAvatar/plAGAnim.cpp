@@ -40,8 +40,8 @@ void plAGAnim::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plAGAnim::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plAGAnim::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("AGAnimParams");
     prc->writeParam("Name", fName);
@@ -51,8 +51,8 @@ void plAGAnim::prcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Applicators");
     for (size_t i=0; i<fApps.getSize(); i++) {
-        fApps[i]->prcWrite(prc);                prc->closeTag();
-        fApps[i]->getChannel()->prcWrite(prc);  prc->closeTag();
+        fApps[i]->prcWrite(prc);
+        fApps[i]->getChannel()->prcWrite(prc);
     }
     prc->closeTag();
 }
@@ -74,8 +74,8 @@ void plAgeGlobalAnim::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fGlobalVarName);
 }
 
-void plAgeGlobalAnim::prcWrite(pfPrcHelper* prc) {
-    plAGAnim::prcWrite(prc);
+void plAgeGlobalAnim::IPrcWrite(pfPrcHelper* prc) {
+    plAGAnim::IPrcWrite(prc);
 
     prc->startTag("AgeGlobalAnimParams");
     prc->writeParam("GlobalVarName", fGlobalVarName);
@@ -166,8 +166,8 @@ void plATCAnim::write(hsStream* S, plResManager* mgr) {
         S->writeFloat(fStopPoints[i]);
 }
 
-void plATCAnim::prcWrite(pfPrcHelper* prc) {
-    plAGAnim::prcWrite(prc);
+void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
+    plAGAnim::IPrcWrite(prc);
 
     prc->startTag("ATCAnimParams");
     prc->writeParam("Initial", fInitial);
@@ -242,8 +242,8 @@ void plEmoteAnim::write(hsStream* S, plResManager* mgr) {
     S->writeByte((hsUbyte)fBodyUsage);
 }
 
-void plEmoteAnim::prcWrite(pfPrcHelper* prc) {
-    plATCAnim::prcWrite(prc);
+void plEmoteAnim::IPrcWrite(pfPrcHelper* prc) {
+    plATCAnim::IPrcWrite(prc);
 
     prc->startTag("EmoteAnimParams");
     prc->writeParam("FadeIn", fFadeIn);

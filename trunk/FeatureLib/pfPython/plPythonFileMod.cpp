@@ -1,7 +1,6 @@
 #include "plPythonFileMod.h"
 
 /* plPythonParameter */
-
 const char* plPythonParameter::valueTypeNames[] = {
     "(Invalid)",
     "Int", "Float", "Boolean", "String", "SceneObject", "SceneObjectList",
@@ -177,14 +176,13 @@ unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver)
 
 /* plPythonFileMod */
 plPythonFileMod::plPythonFileMod() { }
-
 plPythonFileMod::~plPythonFileMod() { }
 
 IMPLEMENT_CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
-plString& plPythonFileMod::getFilename() { return pythonFile; }
-hsTArray<plKey>& plPythonFileMod::getReceivers() { return receivers; }
-hsTArray<plPythonParameter>& plPythonFileMod::getParameters() { return parameters; }
+const plString& plPythonFileMod::getFilename() const { return pythonFile; }
+const hsTArray<plKey>& plPythonFileMod::getReceivers() const { return receivers; }
+const hsTArray<plPythonParameter>& plPythonFileMod::getParameters() const { return parameters; }
 
 void plPythonFileMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
@@ -215,8 +213,8 @@ void plPythonFileMod::write(hsStream* S, plResManager* mgr) {
         parameters[i].write(S, mgr);
 }
 
-void plPythonFileMod::prcWrite(pfPrcHelper* prc) {
-    plMultiModifier::prcWrite(prc);
+void plPythonFileMod::IPrcWrite(pfPrcHelper* prc) {
+    plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("PythonFile");
     prc->writeParam("name", pythonFile);

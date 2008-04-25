@@ -1,18 +1,21 @@
 #include "hsKeyedObject.h"
 
 hsKeyedObject::hsKeyedObject() : koFlags(0) { }
-hsKeyedObject::~hsKeyedObject() { myKey.DeleteWeakRef(); }
+
+hsKeyedObject::~hsKeyedObject() {
+    myKey.DeleteWeakRef();
+}
 
 IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
 
 void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
-	myKey.DeleteWeakRef();
-	if (S->getVer() == pvLive)
+    myKey.DeleteWeakRef();
+    if (S->getVer() == pvLive)
         myKey = mgr->readKey(S);
     else
         myKey = mgr->readUoid(S);
     myKey->setObj(this);
-	myKey.CreateWeakRef();
+    myKey.CreateWeakRef();
 }
 
 void hsKeyedObject::write(hsStream* S, plResManager* mgr) {
@@ -22,8 +25,7 @@ void hsKeyedObject::write(hsStream* S, plResManager* mgr) {
         mgr->writeUoid(S, myKey);
 }
 
-void hsKeyedObject::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
+void hsKeyedObject::IPrcWrite(pfPrcHelper* prc) {
     myKey->prcWrite(prc);
 }
 

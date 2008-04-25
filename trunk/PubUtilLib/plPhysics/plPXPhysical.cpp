@@ -29,13 +29,9 @@ plODEPhysical* plPXPhysical::ConvertToODE() const {
 }
 
 void plPXPhysical::readData(hsStream* S, plResManager* mgr) {
-    plPhysical::readData(S, mgr);
-
     //
 }
 
 void plPXPhysical::writeData(hsStream* S, plResManager* mgr) {
-    plPhysical::writeData(S, mgr);
-
     //
 }

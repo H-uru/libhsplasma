@@ -19,23 +19,17 @@ END_EVENT_TABLE()
 ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name )
            : wxFrame( parent, id, title, pos, size, style, name )
 {
-	plDebug::InitFile(plDebug::kDLAll);
-	
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	this->SetExtraStyle( wxFRAME_EX_METAL );
-
-	m_splitter = NULL;
 }
 
 ExplorerFrm::~ExplorerFrm()
 {
-	if(m_splitter != NULL) delete m_splitter;
 }
 
 void ExplorerFrm::SetPlasmaPage(const wxString& filename)
 {
-
-try {
+    try {
 		page = rm.ReadPage(filename.ToUTF8());
 	} catch (hsException& e) {
 		fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
@@ -51,7 +45,6 @@ try {
 	wxBoxSizer* bSizer;
 	bSizer = new wxBoxSizer( wxVERTICAL );
 	
-	if(m_splitter != NULL) delete m_splitter;
     m_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D | wxSP_LIVE_UPDATE );
 	m_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( ExplorerFrm::m_splitterOnIdle ), NULL, this );
 	m_panelLeft = new wxPanel( m_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -61,7 +54,7 @@ try {
 	wxStaticBoxSizer* sbSizer1;
 	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( m_panelLeft, wxID_ANY, wxString::FromUTF8(page->getAge().cstr())), wxVERTICAL );
 	
-	m_treeCtrl5 = new wxTreeCtrl( m_panelLeft, ID_TREECTRL, wxDefaultPosition, wxSize( -1,-1 ), wxTR_DEFAULT_STYLE|wxFULL_REPAINT_ON_RESIZE|wxRAISED_BORDER );
+	m_treeCtrl5 = new wxTreeCtrl( m_panelLeft, ID_TREECTRL, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxFULL_REPAINT_ON_RESIZE|wxRAISED_BORDER );
 	sbSizer1->Add( m_treeCtrl5, 1, wxALL|wxEXPAND, 1 );
 	
 	bSizer5->Add( sbSizer1, 1, wxEXPAND, 5 );
@@ -81,15 +74,13 @@ try {
 	m_panelRight->SetSizer( bSizer3 );
 	m_panelRight->Layout();
 	bSizer3->Fit( m_panelRight );
-	m_splitter->SplitVertically( m_panelLeft, m_panelRight, 0 );
+	m_splitter->SplitVertically( m_panelLeft, m_panelRight, 200 );
 	bSizer->Add( m_splitter, 1, wxEXPAND, 5 );
-    m_splitter->SetSashPosition(200, true);
-    m_splitter->UpdateSize();
 	
 	this->SetSizer( bSizer );
 	this->Layout();
 	
-	this->LoadObjects();
+    this->LoadObjects();
 }
 
 void ExplorerFrm::LoadObjects()
@@ -133,7 +124,6 @@ void ExplorerFrm::LoadPRC(wxTreeEvent& event)
 
         if (fObj != NULL) {
 		    fObj->prcWrite(prc);
-    		prc->closeTag();
         } else {
             plString s = plString::Format("Class [%04hX]%s is not currently supported",
                                           fKey->getType(), pdUnifiedTypeMap::ClassName(fKey->getType()));

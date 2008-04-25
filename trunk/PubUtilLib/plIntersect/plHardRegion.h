@@ -9,7 +9,7 @@ public:
 
 protected:
     unsigned int fState;
-    hsPoint3 fCamPos;
+    hsVector3 fCamPos;
 
 public:
     plHardRegion();
@@ -19,7 +19,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plHardRegionComplex : public plHardRegion {
@@ -34,7 +34,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plHardRegionIntersect : public plHardRegionComplex {

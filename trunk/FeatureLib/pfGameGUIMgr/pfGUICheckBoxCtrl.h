@@ -10,7 +10,7 @@ public:
 protected:
     hsTArray<plKey> fAnimKeys;
     plString fAnimName;
-    bool fClicking, fChecked;
+    bool fChecked;
     int fPlaySound;
 
 public:
@@ -23,7 +23,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

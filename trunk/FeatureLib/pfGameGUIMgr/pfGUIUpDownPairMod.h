@@ -3,22 +3,9 @@
 
 #include "pfGUIValueCtrl.h"
 
-DllClass pfUpDownBtnProc : public pfGUICtrlProcObject {
-protected:
-    class pfGUIButtonMod* fUp;
-    class pfGUIButtonMod* fDown;
-    class pfGUIUpDownPairMod* fParent;
-
-public:
-    pfUpDownBtnProc(class pfGUIButtonMod* up, class pfGUIButtonMod* fDown,
-                    class pfGUIUpDownPairMod* fParent);
-    virtual void DoSomething(pfGUIControlMod* ctrl);
-};
-
 DllClass pfGUIUpDownPairMod : public pfGUIValueCtrl {
 protected:
     plKey fUpControl, fDownControl;
-    pfUpDownBtnProc* fButtonProc;
 
 public:
     pfGUIUpDownPairMod();
@@ -28,7 +15,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

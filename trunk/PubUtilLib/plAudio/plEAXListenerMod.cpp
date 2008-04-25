@@ -61,8 +61,8 @@ void plEAXListenerMod::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fListenerProps.ulFlags);
 }
 
-void plEAXListenerMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plEAXListenerMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("SoftRegion");
     fSoftRegion->prcWrite(prc);

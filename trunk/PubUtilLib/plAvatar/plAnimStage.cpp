@@ -33,9 +33,7 @@ void plAnimStage::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fRegressTo);
 }
 
-void plAnimStage::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plAnimStage::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Animation");
     prc->writeParam("Name", fAnimName);
     prc->writeParam("Loops", fLoops);

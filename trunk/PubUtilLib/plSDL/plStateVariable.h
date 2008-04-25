@@ -70,7 +70,6 @@ protected:
         plString* fString;
         plUnifiedTime* fTime;
         hsVector3* fVector;
-        hsPoint3* fPoint;
         hsQuat* fQuat;
         hsColorRGBA* fColorRGBA;
         hsColor32* fColor32;
@@ -102,7 +101,6 @@ public:
     plString& String(size_t idx);
     plUnifiedTime& Time(size_t idx);
     hsVector3& Vector(size_t idx);
-    hsPoint3& Point(size_t idx);
     hsQuat& Quat(size_t idx);
     hsColorRGBA& ColorRGBA(size_t idx);
     hsColor32& Color32(size_t idx);

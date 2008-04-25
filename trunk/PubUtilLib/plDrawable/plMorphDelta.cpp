@@ -102,7 +102,7 @@ void plMorphDelta::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plMorphDelta::prcWrite(pfPrcHelper* prc) {
+void plMorphDelta::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("plMorphDelta");
     prc->writeParam("Weight", fWeight);
     prc->endTag();
@@ -116,5 +116,5 @@ void plMorphDelta::allocDeltas(int iSpan, int nDel, int nUVW) {
     fSpans[iSpan].fNumUVWChans = nUVW;
     if (fSpans[iSpan].fUVWs)
         delete[] fSpans[iSpan].fUVWs;
-    fSpans[iSpan].fUVWs = (nUVW != 0 ? new hsPoint3[nUVW * nDel] : NULL);
+    fSpans[iSpan].fUVWs = (nUVW != 0 ? new hsVector3[nUVW * nDel] : NULL);
 }

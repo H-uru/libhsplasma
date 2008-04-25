@@ -32,13 +32,17 @@ public:
 
     void startTag(const char* name);
     void writeParam(const char* name, const char* value);
-    void writeParam(const char* name, const int value);
-    void writeParam(const char* name, const long value);
-    void writeParam(const char* name, const unsigned int value);
-    void writeParam(const char* name, const unsigned long value);
-    void writeParam(const char* name, const float value);
-    void writeParam(const char* name, const double value);
-    void writeParam(const char* name, const bool value);
+    void writeParam(const char* name, int value);
+    void writeParam(const char* name, long value);
+    void writeParam(const char* name, unsigned int value);
+    void writeParam(const char* name, unsigned long value);
+    void writeParam(const char* name, float value);
+    void writeParam(const char* name, double value);
+    void writeParam(const char* name, bool value);
+    void writeParamHex(const char* name, unsigned char value);
+    void writeParamHex(const char* name, unsigned short value);
+    void writeParamHex(const char* name, unsigned int value);
+    void writeParamHex(const char* name, unsigned long value);
     void endTag(bool isShort = false);
     void endTagNoBreak();
     void writeSimpleTag(const char* name, bool isShort = false);

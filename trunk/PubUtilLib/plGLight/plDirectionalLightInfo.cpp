@@ -14,8 +14,8 @@ void plDirectionalLightInfo::write(hsStream* S, plResManager* mgr) {
     plLightInfo::write(S, mgr);
 }
 
-void plDirectionalLightInfo::prcWrite(pfPrcHelper* prc) {
-    plLightInfo::prcWrite(prc);
+void plDirectionalLightInfo::IPrcWrite(pfPrcHelper* prc) {
+    plLightInfo::IPrcWrite(prc);
 }
 
 
@@ -40,8 +40,8 @@ void plLimitedDirLightInfo::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fDepth);
 }
 
-void plLimitedDirLightInfo::prcWrite(pfPrcHelper* prc) {
-    plDirectionalLightInfo::prcWrite(prc);
+void plLimitedDirLightInfo::IPrcWrite(pfPrcHelper* prc) {
+    plDirectionalLightInfo::IPrcWrite(prc);
     prc->startTag("Limits");
     prc->writeParam("Width", fWidth);
     prc->writeParam("Height", fHeight);

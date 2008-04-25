@@ -75,8 +75,8 @@ void plDynaDecalMgr::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fNotifies[i]);
 }
 
-void plDynaDecalMgr::prcWrite(pfPrcHelper* prc) {
-    plSynchedObject::prcWrite(prc);
+void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc) {
+    plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("PreShade");
     fMatPreShade->prcWrite(prc);

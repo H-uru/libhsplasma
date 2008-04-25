@@ -17,8 +17,8 @@ void plTimerCallbackMsg::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fTime);
 }
 
-void plTimerCallbackMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plTimerCallbackMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->startTag("TimerCallback");
     prc->writeParam("ID", fID);

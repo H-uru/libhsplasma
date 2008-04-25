@@ -32,8 +32,8 @@ void plEaseController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plEaseController::prcWrite(pfPrcHelper* prc) {
-    plLeafController::prcWrite(prc);
+void plEaseController::IPrcWrite(pfPrcHelper* prc) {
+    plLeafController::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
     for (size_t i=0; i<fKeys.getSize(); i++) {
@@ -66,14 +66,12 @@ void plMatrix33Controller::write(hsStream* S, plResManager* mgr) {
         fKeys[i].write(S);
 }
 
-void plMatrix33Controller::prcWrite(pfPrcHelper* prc) {
-    plLeafController::prcWrite(prc);
+void plMatrix33Controller::IPrcWrite(pfPrcHelper* prc) {
+    plLeafController::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
-    for (size_t i=0; i<fKeys.getSize(); i++) {
+    for (size_t i=0; i<fKeys.getSize(); i++)
         fKeys[i].prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 }
 
@@ -100,14 +98,12 @@ void plMatrix44Controller::write(hsStream* S, plResManager* mgr) {
         fKeys[i].write(S);
 }
 
-void plMatrix44Controller::prcWrite(pfPrcHelper* prc) {
-    plLeafController::prcWrite(prc);
+void plMatrix44Controller::IPrcWrite(pfPrcHelper* prc) {
+    plLeafController::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
-    for (size_t i=0; i<fKeys.getSize(); i++) {
+    for (size_t i=0; i<fKeys.getSize(); i++)
         fKeys[i].prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 }
 
@@ -144,14 +140,12 @@ void plPoint3Controller::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plPoint3Controller::prcWrite(pfPrcHelper* prc) {
-    plLeafController::prcWrite(prc);
+void plPoint3Controller::IPrcWrite(pfPrcHelper* prc) {
+    plLeafController::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
-    for (size_t i=0; i<fKeys.getSize(); i++) {
+    for (size_t i=0; i<fKeys.getSize(); i++)
         fKeys[i].prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 }
 
@@ -178,14 +172,12 @@ void plQuatController::write(hsStream* S, plResManager* mgr) {
         fKeys[i].write(S);
 }
 
-void plQuatController::prcWrite(pfPrcHelper* prc) {
-    plLeafController::prcWrite(prc);
+void plQuatController::IPrcWrite(pfPrcHelper* prc) {
+    plLeafController::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
-    for (size_t i=0; i<fKeys.getSize(); i++) {
-        fKeys[i].prcWrite(prc);
-        prc->closeTag();
-    }
+    for (size_t i=0; i<fKeys.getSize(); i++)
+        fKeys[i].IPrcWrite(prc);
     prc->closeTag();
 }
 
@@ -222,14 +214,12 @@ void plScalarController::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plScalarController::prcWrite(pfPrcHelper* prc) {
-    plLeafController::prcWrite(prc);
+void plScalarController::IPrcWrite(pfPrcHelper* prc) {
+    plLeafController::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
-    for (size_t i=0; i<fKeys.getSize(); i++) {
+    for (size_t i=0; i<fKeys.getSize(); i++)
         fKeys[i].prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 }
 
@@ -256,13 +246,11 @@ void plScaleValueController::write(hsStream* S, plResManager* mgr) {
         fKeys[i].write(S);
 }
 
-void plScaleValueController::prcWrite(pfPrcHelper* prc) {
-    plLeafController::prcWrite(prc);
+void plScaleValueController::IPrcWrite(pfPrcHelper* prc) {
+    plLeafController::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
-    for (size_t i=0; i<fKeys.getSize(); i++) {
+    for (size_t i=0; i<fKeys.getSize(); i++)
         fKeys[i].prcWrite(prc);
-        prc->closeTag();
-    }
     prc->closeTag();
 }

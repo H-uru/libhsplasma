@@ -22,6 +22,8 @@ void UruKeyFrame::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("Frame", fFrameNum);
     prc->writeParam("Time", fFrameTime);
     prc->endTag();
+    IPrcWrite(prc);
+    prc->closeTag();
 }
 
 
@@ -51,9 +53,7 @@ void ScalarKeyFrame::write(hsStream* S) {
     S->writeFloat(fValue);
 }
 
-void ScalarKeyFrame::prcWrite(pfPrcHelper* prc) {
-    UruKeyFrame::prcWrite(prc);
-
+void ScalarKeyFrame::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Params");
     prc->writeParam("Value", fValue);
     if (fFlags & kBezController) {
@@ -90,9 +90,7 @@ void Point3KeyFrame::write(hsStream* S) {
     fValue.write(S);
 }
 
-void Point3KeyFrame::prcWrite(pfPrcHelper* prc) {
-    UruKeyFrame::prcWrite(prc);
-
+void Point3KeyFrame::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Value");
     fValue.prcWrite(prc);
     prc->closeTag();
@@ -124,8 +122,7 @@ void QuatKeyFrame::write(hsStream* S) {
     fValue.write(S);
 }
 
-void QuatKeyFrame::prcWrite(pfPrcHelper* prc) {
-    UruKeyFrame::prcWrite(prc);
+void QuatKeyFrame::IPrcWrite(pfPrcHelper* prc) {
     fValue.prcWrite(prc);
 }
 
@@ -146,8 +143,7 @@ void Matrix33KeyFrame::write(hsStream* S) {
     fValue.write(S);
 }
 
-void Matrix33KeyFrame::prcWrite(pfPrcHelper* prc) {
-    UruKeyFrame::prcWrite(prc);
+void Matrix33KeyFrame::IPrcWrite(pfPrcHelper* prc) {
     fValue.prcWrite(prc);
 }
 
@@ -168,8 +164,7 @@ void Matrix44KeyFrame::write(hsStream* S) {
     fValue.write(S);
 }
 
-void Matrix44KeyFrame::prcWrite(pfPrcHelper* prc) {
-    UruKeyFrame::prcWrite(prc);
+void Matrix44KeyFrame::IPrcWrite(pfPrcHelper* prc) {
     fValue.prcWrite(prc);
 }
 
@@ -202,9 +197,7 @@ void ScaleKeyFrame::write(hsStream* S) {
     fQ.write(S);
 }
 
-void ScaleKeyFrame::prcWrite(pfPrcHelper* prc) {
-    UruKeyFrame::prcWrite(prc);
-
+void ScaleKeyFrame::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Value");
     fS.prcWrite(prc);
     fQ.prcWrite(prc);

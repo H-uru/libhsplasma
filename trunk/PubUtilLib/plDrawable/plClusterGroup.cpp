@@ -82,8 +82,8 @@ void plClusterGroup::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSceneNode);
 }
 
-void plClusterGroup::prcWrite(pfPrcHelper* prc) {
-    hsKeyedObject::prcWrite(prc);
+void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Template");
     fTemplate->prcWrite(prc); prc->closeTag();

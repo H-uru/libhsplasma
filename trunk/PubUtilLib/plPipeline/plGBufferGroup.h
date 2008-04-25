@@ -29,7 +29,7 @@ public:
 DllClass plGBufferTriangle {
 public:
     unsigned short index1, index2, index3, spanIndex;
-    hsPoint3 center;
+    hsVector3 center;
 
 public:
     plGBufferTriangle();
@@ -42,11 +42,11 @@ public:
 
 
 DllStruct plGBufferVertex {
-    hsPoint3 fPos, fNormal;
+    hsVector3 fPos, fNormal;
     int fSkinIdx;
     float fSkinWeights[3];
     unsigned int fColor;
-    hsPoint3 fUVWs[10];
+    hsVector3 fUVWs[10];
 };
 
 
@@ -84,8 +84,6 @@ protected:
     hsTArray<int> fVertBuffEnds;
     hsTArray<unsigned int> fIdxBuffStarts;
     hsTArray<int> fIdxBuffEnds;
-    //hsTArray<unsigned int> fColorBuffCounts;
-    //hsTArray<plGBufferColor*> fColorBuffStorage;
     hsTArray<hsTArray<plGBufferCell>*> fCells;
 
     unsigned char ICalcVertexSize(unsigned char& lStride);

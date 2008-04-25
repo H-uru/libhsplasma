@@ -19,8 +19,8 @@ void plLinkToAgeMsg::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fLinkInAnimName);
 }
 
-void plLinkToAgeMsg::prcWrite(pfPrcHelper* prc) {
-    plMessage::prcWrite(prc);
+void plLinkToAgeMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
 
     prc->startTag("LinkParams");
     prc->writeParam("LinkInAnimName", fLinkInAnimName);

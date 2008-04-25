@@ -40,8 +40,8 @@ void pfGUIKnobCtrl::write(hsStream* S, plResManager* mgr) {
     fAnimEndPos.write(S);
 }
 
-void pfGUIKnobCtrl::prcWrite(pfPrcHelper* prc) {
-    pfGUIValueCtrl::prcWrite(prc);
+void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIValueCtrl::IPrcWrite(prc);
 
     prc->startTag("Animation");
     prc->writeParam("Name", fAnimName);

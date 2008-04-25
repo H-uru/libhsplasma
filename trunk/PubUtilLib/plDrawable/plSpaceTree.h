@@ -40,8 +40,7 @@ protected:
     short fRoot;
     short fNumLeaves;
     unsigned short fHarvestFlags;
-    //plVolumeIsect* fCullFunc;
-    hsPoint3 fViewPos;
+    hsVector3 fViewPos;
 
 public:
     plSpaceTree();
@@ -51,7 +50,7 @@ public:
     
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

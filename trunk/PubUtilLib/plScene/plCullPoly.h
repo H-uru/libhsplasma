@@ -16,11 +16,9 @@ public:
 protected:
     unsigned int fFlags;
     hsBitVector fClipped;
-    hsTArray<hsPoint3> fVerts;
-    hsVector3 fNorm;
-    float fDist;
-    hsPoint3 fCenter;
-    float fRadius;
+    hsTArray<hsVector3> fVerts;
+    hsVector3 fNorm, fCenter;
+    float fDist, fRadius;
 
 public:
     plCullPoly();

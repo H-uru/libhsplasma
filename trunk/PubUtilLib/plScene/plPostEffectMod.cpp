@@ -35,8 +35,8 @@ void plPostEffectMod::write(hsStream* S, plResManager* mgr) {
     fDefaultC2W.write(S);
 }
 
-void plPostEffectMod::prcWrite(pfPrcHelper* prc) {
-    plSingleModifier::prcWrite(prc);
+void plPostEffectMod::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("State");
     fState.prcWrite(prc);

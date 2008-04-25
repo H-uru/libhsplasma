@@ -41,7 +41,7 @@ public:
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 
     void setFont(plString face, unsigned int size, unsigned char flags,
                  bool antiAliasRGB);

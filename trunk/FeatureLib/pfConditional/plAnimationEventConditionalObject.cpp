@@ -20,8 +20,8 @@ void plAnimationEventConditionalObject::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fAction);
 }
 
-void plAnimationEventConditionalObject::prcWrite(pfPrcHelper* prc) {
-    plConditionalObject::prcWrite(prc);
+void plAnimationEventConditionalObject::IPrcWrite(pfPrcHelper* prc) {
+    plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Target");
     fTarget->prcWrite(prc);
     prc->closeTag();

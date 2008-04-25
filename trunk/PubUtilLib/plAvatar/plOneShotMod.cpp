@@ -30,8 +30,8 @@ void plOneShotMod::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fNoSeek);
 }
 
-void plOneShotMod::prcWrite(pfPrcHelper* prc) {
-    plMultiModifier::prcWrite(prc);
+void plOneShotMod::IPrcWrite(pfPrcHelper* prc) {
+    plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("Animation");
     prc->writeParam("Name", fAnimName);

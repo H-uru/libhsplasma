@@ -1,13 +1,12 @@
 #include "pfGUICheckBoxCtrl.h"
 
-pfGUICheckBoxCtrl::pfGUICheckBoxCtrl() : fClicking(false), fChecked(false) { }
+pfGUICheckBoxCtrl::pfGUICheckBoxCtrl() : fChecked(false) { }
 pfGUICheckBoxCtrl::~pfGUICheckBoxCtrl() { }
 
 IMPLEMENT_CREATABLE(pfGUICheckBoxCtrl, kGUICheckBoxCtrl, pfGUIControlMod)
 
 void pfGUICheckBoxCtrl::setChecked(bool checked) {
     fChecked = checked;
-    //TODO: Animation stuff...
 }
 
 void pfGUICheckBoxCtrl::read(hsStream* S, plResManager* mgr) {
@@ -30,8 +29,8 @@ void pfGUICheckBoxCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fChecked);
 }
 
-void pfGUICheckBoxCtrl::prcWrite(pfPrcHelper* prc) {
-    pfGUIControlMod::prcWrite(prc);
+void pfGUICheckBoxCtrl::IPrcWrite(pfPrcHelper* prc) {
+    pfGUIControlMod::IPrcWrite(prc);
 
     prc->startTag("CheckBoxParams");
     prc->writeParam("AnimName", fAnimName);

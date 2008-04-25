@@ -23,9 +23,7 @@ void plBoundsIsect::write(hsStream* S, plResManager* mgr) {
     fWorldBounds.write(S);
 }
 
-void plBoundsIsect::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plBoundsIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("LocalBounds");
     fLocalBounds.prcWrite(prc);
     prc->closeTag();
@@ -73,9 +71,7 @@ void plConeIsect::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plConeIsect::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plConeIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("ConeParams");
     prc->writeParam("Capped", fCapped);
     prc->writeParam("RadAngle", fRadAngle);
@@ -138,9 +134,7 @@ void plConvexIsect::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plConvexIsect::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plConvexIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Planes");
     for (size_t i=0; i<fPlanes.getSize(); i++) {
         prc->startTag("SinglePlane");
@@ -190,9 +184,7 @@ void plCylinderIsect::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMax);
 }
 
-void plCylinderIsect::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plCylinderIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("CylinderParams");
     prc->writeParam("Radius", fRadius);
     prc->writeParam("Length", fLength);
@@ -245,9 +237,7 @@ void plParallelIsect::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plParallelIsect::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plParallelIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Planes");
     for (size_t i=0; i<fPlanes.getSize(); i++) {
         prc->startTag("ParallelPlane");
@@ -289,9 +279,7 @@ void plSphereIsect::write(hsStream* S, plResManager* mgr) {
     fMaxs.write(S);
 }
 
-void plSphereIsect::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plSphereIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("SphereParams");
     prc->writeParam("Radius", fRadius);
     prc->endTag();
@@ -335,14 +323,11 @@ void plComplexIsect::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fVolumes[i]);
 }
 
-void plComplexIsect::prcWrite(pfPrcHelper* prc) {
-    plCreatable::prcWrite(prc);
-
+void plComplexIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Volumes");
-    for (size_t i=0; i<fVolumes.getSize(); i++) {
+    for (size_t i=0; i<fVolumes.getSize(); i++)
         fVolumes[i]->prcWrite(prc);
-        prc->closeTag();
-    }
+    prc->closeTag();
 }
 
 

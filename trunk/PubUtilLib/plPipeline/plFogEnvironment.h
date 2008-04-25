@@ -8,6 +8,8 @@ DllClass plFogEnvironment : public hsKeyedObject {
 public:
     enum FogType { kLinearFog, kExpFog, kExp2Fog, kNoFog };
 
+    static const char* const FogTypeNames[];
+
 protected:
     unsigned char fType;
     float fStart, fEnd, fDensity;
@@ -21,6 +23,7 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 #endif

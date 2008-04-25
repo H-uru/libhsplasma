@@ -17,8 +17,8 @@ void plSeekPointMod::write(hsStream* S, plResManager* mgr) {
     S->writeStr(fName);
 }
 
-void plSeekPointMod::prcWrite(pfPrcHelper* prc) {
-    plMultiModifier::prcWrite(prc);
+void plSeekPointMod::IPrcWrite(pfPrcHelper* prc) {
+    plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("SeekPointModParams");
     prc->writeParam("Name", fName);
