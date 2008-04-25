@@ -149,7 +149,7 @@ void plSound::IPrcWrite(pfPrcHelper* prc) {
       prc->writeParam("Time", fTime);
       prc->writeParam("MaxFalloff", fMaxFalloff);
       prc->writeParam("MinFalloff", fMinFalloff);
-      prc->writeParam("Properties", fProperties);
+      prc->writeParamHex("Properties", fProperties);
       prc->writeParam("Type", fType);
       prc->writeParam("Priority", fPriority);
     prc->endTag(true);

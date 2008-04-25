@@ -47,9 +47,9 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
         for (size_t i=0; i<verts.getSize(); i++) {
             prc->startTag("Vertex");
             if (fFormat & kColorMask)
-                prc->writeParam("Color", verts[i].fColor);
+                prc->writeParamHex("Color", verts[i].fColor);
             if (fFormat & kColor2Mask)
-                prc->writeParam("Color2", verts[i].fColor2);
+                prc->writeParamHex("Color2", verts[i].fColor2);
             if (fFormat & kWgtIdxMask)
                 prc->writeParam("WeightIdx", verts[i].fWeightIdx);
             prc->endTag();

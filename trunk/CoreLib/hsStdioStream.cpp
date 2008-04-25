@@ -31,6 +31,11 @@ void hsStdioStream::skip(hsInt32 count) {
 void hsStdioStream::fastForward() { }
 void hsStdioStream::rewind() { }
 
+void hsStdioStream::flush() {
+    fflush(Fin);
+    fflush(Fout);
+}
+
 void hsStdioStream::read(size_t size, void* buf) {
     fread(buf, size, 1, Fin);
 }

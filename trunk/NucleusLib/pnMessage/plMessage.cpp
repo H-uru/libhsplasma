@@ -47,6 +47,6 @@ void plMessage::IPrcWrite(pfPrcHelper* prc) {
 
     prc->startTag("MessageParams");
     prc->writeParam("TimeStamp", fTimeStamp);
-    prc->writeParam("BCastFlags", fBCastFlags);
+    prc->writeParamHex("BCastFlags", fBCastFlags);
     prc->endTag(true);
 }

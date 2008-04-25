@@ -83,7 +83,7 @@ void plSoundBuffer::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("SoundBuffer");
-    prc->writeParam("Flags", fFlags);
+    prc->writeParamHex("Flags", fFlags);
     prc->writeParam("Length", fDataLength);
     if (fFileName != NULL)
         prc->writeParam("Filename", fFileName);

@@ -86,7 +86,7 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Template");
-    fTemplate->prcWrite(prc); prc->closeTag();
+    fTemplate->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Material");
@@ -113,7 +113,7 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->startTag("RenderLevel");
-    prc->writeParam("Level", fRenderLevel.level);
+    prc->writeParamHex("Level", fRenderLevel.level);
     prc->endTag(true);
 
     prc->writeSimpleTag("SceneNode");

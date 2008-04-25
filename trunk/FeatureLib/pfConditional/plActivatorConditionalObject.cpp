@@ -23,7 +23,7 @@ void plActivatorConditionalObject::write(hsStream* S, plResManager* mgr) {
 }
 
 void plActivatorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
-    plConditionalObject::prcWrite(prc);
+    plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Activators");
     for (size_t i=0; i<fActivators.getSize(); i++)
         fActivators[i]->prcWrite(prc);

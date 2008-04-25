@@ -145,8 +145,8 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("PenBoneIdx", fPenBoneIdx);
     prc->writeParam("MinDist", fMinDist);
     prc->writeParam("MaxDist", fMaxDist);
-    prc->writeParam("Format", fFormat);
-    prc->writeParam("Props", fProps);
+    prc->writeParamHex("Format", fFormat);
+    prc->writeParamHex("Props", fProps);
     prc->writeParam("DecalLevel", fDecalLevel);
     if (fProps & kWaterHeight)
         prc->writeParam("WaterHeight", fWaterHeight);

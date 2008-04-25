@@ -241,9 +241,9 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("Properties");
-    prc->writeParam("Flags", props);
-    prc->writeParam("Criteria", criteria);
-    prc->writeParam("RenderLevel", renderLevel.level);
+    prc->writeParamHex("Flags", props);
+    prc->writeParamHex("Criteria", criteria);
+    prc->writeParamHex("RenderLevel", renderLevel.level);
     prc->endTag(true);
 
     size_t i, j;
@@ -266,12 +266,8 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("FogEnvironments");
-    for (i=0; i<spans.getSize(); i++) {
-        if (spans[i]->getFogEnvironment() == NULL)
-            prc->writeComment("Null Fog Environment");
-        else
-            spans[i]->getFogEnvironment()->prcWrite(prc);
-    }
+    for (i=0; i<spans.getSize(); i++)
+        spans[i]->getFogEnvironment()->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Bounds");
@@ -311,13 +307,19 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Transforms");
     for (i=0; i<localToWorlds.getSize(); i++) {
-        prc->writeSimpleTag("LocalToWorld");
-        localToWorlds[i].prcWrite(prc);
-        worldToLocals[i].prcWrite(prc);
-        prc->closeTag();
-        prc->writeSimpleTag("LocalToBone");
-        localToBones[i].prcWrite(prc);
-        boneToLocals[i].prcWrite(prc);
+        prc->writeSimpleTag("TransformSet");
+          prc->writeSimpleTag("LocalToWorld");
+          localToWorlds[i].prcWrite(prc);
+          prc->closeTag();
+          prc->writeSimpleTag("WorldToLocal");
+          worldToLocals[i].prcWrite(prc);
+          prc->closeTag();
+          prc->writeSimpleTag("LocalToBone");
+          localToBones[i].prcWrite(prc);
+          prc->closeTag();
+          prc->writeSimpleTag("BoneToLocal");
+          boneToLocals[i].prcWrite(prc);
+          prc->closeTag();
         prc->closeTag();
     }
     prc->closeTag();
@@ -325,7 +327,7 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("DIIndices");
     for (i=0; i<DIIndices.getSize(); i++) {
         prc->startTag("plDISpanIndex");
-        prc->writeParam("flags", DIIndices[i]->flags);
+        prc->writeParamHex("Flags", DIIndices[i]->flags);
         prc->endTag();
         for (j=0; j<DIIndices[i]->indices.getSize(); j++) {
             prc->startTag("Index");

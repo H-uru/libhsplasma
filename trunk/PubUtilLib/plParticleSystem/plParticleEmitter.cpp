@@ -37,7 +37,7 @@ void plParticleEmitter::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("EmitterParams");
     prc->writeParam("SpanIndex", fSpanIndex);
     prc->writeParam("MaxParticles", fMaxParticles);
-    prc->writeParam("MiscFlags", fMiscFlags);
+    prc->writeParamHex("MiscFlags", fMiscFlags);
     prc->endTag(true);
 
     prc->writeSimpleTag("Color");

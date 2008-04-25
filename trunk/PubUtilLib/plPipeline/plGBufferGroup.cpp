@@ -234,9 +234,8 @@ void plGBufferGroup::write(hsStream* S) {
 
 void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
     size_t i, j;
-    char buf[6];
     prc->startTag("plGBufferGroup");
-    prc->writeParam("format", format);
+    prc->writeParamHex("format", format);
     prc->endTag();
     
     if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
@@ -260,7 +259,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
             verts[i].fNormal.prcWrite(prc);
             prc->closeTag();
             prc->startTag("Color");
-            prc->writeParam("value", verts[i].fColor);
+            prc->writeParamHex("value", verts[i].fColor);
             prc->endTag(true);
 
             prc->writeSimpleTag("UVWMaps");
@@ -272,12 +271,16 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
         }
 
         for (i=0; i<fIdxBuffStorage.getSize(); i++) {
-            prc->writeTagNoBreak("IndexData");
-            for (j=0; j<fIdxBuffCounts[i]; j++) {
-                snprintf(buf, 6, "%04X ", fIdxBuffStorage[i][j]);
-                prc->getStream()->writeStr(buf);
+            prc->writeSimpleTag("IndexData");
+            for (j=0; j<fIdxBuffCounts[i]; j += 3) {
+                prc->writeTagNoBreak("Triangle");
+                prc->getStream()->writeStr(plString::Format("%d %d %d",
+                                           fIdxBuffStorage[i][j],
+                                           fIdxBuffStorage[i][j+1],
+                                           fIdxBuffStorage[i][j+2]));
+                prc->closeTagNoBreak();
             }
-            prc->closeTagNoBreak();
+            prc->closeTag();
         }
         prc->writeSimpleTag("CellGroups");
         for (i=0; i<fVertBuffStorage.getSize(); i++) {

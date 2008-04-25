@@ -15,7 +15,7 @@ void plLoadMask::write(hsStream* S) {
 }
 
 void plLoadMask::prcWrite(pfPrcHelper* prc) {
-    prc->writeParam("LoadMask", mask);
+    prc->writeParamHex("LoadMask", mask);
 }
 
 bool plLoadMask::isUsed() {

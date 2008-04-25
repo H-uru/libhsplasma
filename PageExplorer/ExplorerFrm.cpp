@@ -32,13 +32,12 @@ void ExplorerFrm::SetPlasmaPage(const wxString& filename)
     try {
 		page = rm.ReadPage(filename.ToUTF8());
 	} catch (hsException& e) {
-		fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
+        plString msg = plString::Format("%s:%lu: %s", e.File(), e.Line(), e.what());
+        wxMessageBox(wxString(msg, wxConvUTF8), wxT("Error"), wxOK | wxICON_ERROR, this);
 		return;
 	} catch (std::exception& e) {
-		fprintf(stderr, "PrcExtract Exception: %s\n", e.what());
-		return;
-	} catch (...) {
-		fprintf(stderr, "Undefined error!\n");
+        plString msg = plString::Format("%s", e.what());
+        wxMessageBox(wxString(msg, wxConvUTF8), wxT("Error"), wxOK | wxICON_ERROR, this);
 		return;
 	}
 
@@ -123,7 +122,15 @@ void ExplorerFrm::LoadPRC(wxTreeEvent& event)
 	    pfPrcHelper* prc = new pfPrcHelper(S);
 
         if (fObj != NULL) {
-		    fObj->prcWrite(prc);
+            try {
+		        fObj->prcWrite(prc);
+	        } catch (hsException& e) {
+                plString msg = plString::Format("%s:%lu: %s", e.File(), e.Line(), e.what());
+                wxMessageBox(wxString(msg, wxConvUTF8), wxT("Error"), wxOK | wxICON_ERROR, this);
+	        } catch (std::exception& e) {
+                plString msg = plString::Format("%s", e.what());
+                wxMessageBox(wxString(msg, wxConvUTF8), wxT("Error"), wxOK | wxICON_ERROR, this);
+	        }
         } else {
             plString s = plString::Format("Class [%04hX]%s is not currently supported",
                                           fKey->getType(), pdUnifiedTypeMap::ClassName(fKey->getType()));
@@ -135,7 +142,7 @@ void ExplorerFrm::LoadPRC(wxTreeEvent& event)
     	S->copyTo((void*&)data, size);
         data[size] = 0;
 		
-    	m_output->AppendText(wxString::FromUTF8(data));
+    	m_output->SetText(wxString::FromUTF8(data));
         delete[] data;
 
         delete prc;

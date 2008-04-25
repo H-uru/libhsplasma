@@ -47,10 +47,10 @@ void hsGMaterial::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("LoadFlags");
-    prc->writeParam("value", loadFlags);
+    prc->writeParamHex("value", loadFlags);
     prc->endTag(true);
     prc->startTag("CompFlags");
-    prc->writeParam("value", compFlags);
+    prc->writeParamHex("value", compFlags);
     prc->endTag(true);
 
     size_t i;

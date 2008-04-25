@@ -22,13 +22,12 @@ void plSpaceTreeNode::write(hsStream* S) {
 
 void plSpaceTreeNode::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plSpaceTreeNode");
-    prc->writeParam("Flags", fFlags);
+    prc->writeParamHex("Flags", fFlags);
     prc->writeParam("Parent", fParent);
     prc->writeParam("LeftChild", fChildren[0]);
     prc->writeParam("RightChild", fChildren[1]);
     prc->endTag();
     fWorldBounds.prcWrite(prc);
-    prc->closeTag();
     prc->closeTag();
 }
 

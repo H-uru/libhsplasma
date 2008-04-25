@@ -23,6 +23,7 @@ public:
     virtual void skip(hsInt32 count);
     virtual void fastForward();
     virtual void rewind();
+    virtual void flush();
 
     virtual void read(size_t size, void* buf);
     virtual void write(size_t size, const void* buf);

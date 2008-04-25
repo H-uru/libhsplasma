@@ -15,6 +15,8 @@ hsStream::~hsStream() { }
 void hsStream::setVer(PlasmaVer pv) { ver = pv; }
 PlasmaVer hsStream::getVer() const { return ver; }
 
+void hsStream::flush() { }
+
 #define BLOCKSIZE 4096
 void hsStream::writeFrom(hsStream* src) {
     unsigned char buf[BLOCKSIZE];
@@ -343,6 +345,10 @@ void hsFileStream::fastForward() {
 
 void hsFileStream::rewind() {
     fseek(F, 0, SEEK_SET);
+}
+
+void hsFileStream::flush() {
+    fflush(F);
 }
 
 void hsFileStream::read(size_t size, void* buf) {

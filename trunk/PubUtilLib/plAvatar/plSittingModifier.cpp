@@ -27,7 +27,7 @@ void plSittingModifier::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
     prc->startTag("SittingModifierParams");
-    prc->writeParam("MiscFlags", fMiscFlags);
+    prc->writeParamHex("MiscFlags", fMiscFlags);
     prc->endTag(true);
 
     prc->writeSimpleTag("NotifyKeys");

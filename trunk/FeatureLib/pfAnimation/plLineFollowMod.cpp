@@ -61,7 +61,7 @@ void plLineFollowMod::write(hsStream* S, plResManager* mgr) {
 void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
     plMultiModifier::IPrcWrite(prc);
 
-    fPath->prcWrite(prc); prc->closeTag();
+    fPath->prcWrite(prc);
     prc->writeSimpleTag("Parent");
       fPathParent->prcWrite(prc);
     prc->closeTag();
@@ -75,7 +75,7 @@ void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->startTag("Parameters");
-      prc->writeParam("FollowFlags", fFollowFlags);
+      prc->writeParamHex("FollowFlags", fFollowFlags);
       prc->writeParam("FollowMode", fFollowMode);
       if (fFollowFlags & kOffset)
         prc->writeParam("Offset", fOffset);

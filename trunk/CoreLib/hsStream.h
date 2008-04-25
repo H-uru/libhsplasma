@@ -29,6 +29,7 @@ public:
     virtual void skip(hsInt32 count) = 0;
     virtual void fastForward() = 0;
     virtual void rewind() = 0;
+    virtual void flush();
 
     virtual void read(size_t size, void* buf) = 0;
     virtual void write(size_t size, const void* buf) = 0;
@@ -91,6 +92,7 @@ public:
     virtual void skip(hsInt32 count);
     virtual void fastForward();
     virtual void rewind();
+    virtual void flush();
 
     virtual void read(size_t size, void* buf);
     virtual void write(size_t size, const void* buf);

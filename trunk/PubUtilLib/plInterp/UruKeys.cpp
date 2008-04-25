@@ -18,7 +18,7 @@ void UruKeyFrame::write(hsStream* S) {
 
 void UruKeyFrame::prcWrite(pfPrcHelper* prc) {
     prc->startTag(ClassName());
-    prc->writeParam("Flags", fFlags);
+    prc->writeParamHex("Flags", fFlags);
     prc->writeParam("Frame", fFrameNum);
     prc->writeParam("Time", fFrameTime);
     prc->endTag();

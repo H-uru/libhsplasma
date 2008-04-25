@@ -69,7 +69,7 @@ void plBitmap::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("BitmapParams");
     prc->writeParam("PixelSize", fPixelSize);
     prc->writeParam("Space", fSpace);
-    prc->writeParam("Flags", fFlags);
+    prc->writeParamHex("Flags", fFlags);
     prc->endTag(true);
 
     prc->startTag("Compression");

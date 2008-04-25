@@ -56,7 +56,7 @@ protected:
     int fOuterVol, fInnerCone, fOuterCone;
     double fLength;
     float fDesiredVol, fFadedVolume;
-    int fProperties;
+    unsigned int fProperties;
     unsigned char fType, fPriority;
     bool fMuted, fFading, fRegisteredForTime;
     bool fPlayOnReactivate, fNotHighEnoughPriority;

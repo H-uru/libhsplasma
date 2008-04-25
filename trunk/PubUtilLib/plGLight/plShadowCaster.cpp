@@ -30,7 +30,7 @@ void plShadowCaster::IPrcWrite(pfPrcHelper* prc) {
     plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("CastParams");
-    prc->writeParam("Flags", fCastFlags);
+    prc->writeParamHex("Flags", fCastFlags);
     prc->writeParam("Boost", fBoost);
     prc->writeParam("AttenScale", fAttenScale);
     prc->writeParam("BlurScale", fBlurScale);

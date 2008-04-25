@@ -91,7 +91,7 @@ void plEAXListenerMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("HFReference", fListenerProps.flHFReference);
     prc->writeParam("LFReference", fListenerProps.flLFReference);
     prc->writeParam("RoomRolloffFactor", fListenerProps.flRoomRolloffFactor);
-    prc->writeParam("Flags", fListenerProps.ulFlags);
+    prc->writeParamHex("Flags", fListenerProps.ulFlags);
     prc->endTag(true);
     prc->closeTag();
 }
