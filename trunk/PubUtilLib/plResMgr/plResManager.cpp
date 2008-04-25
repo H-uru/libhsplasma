@@ -4,7 +4,7 @@
 #include "PubUtilLib/plJPEG/plJPEG.h"
 #include "CoreLib/plDebug.h"
 
-plResManager* plResManager::fGlobalResMgr = NULL;
+//plResManager* plResManager::fGlobalResMgr = NULL;
 unsigned int plResManager::fNumResMgrs = 0;
 PlasmaVer plResManager::fPlasmaVer = pvUnknown;
 
@@ -21,19 +21,19 @@ plResManager::~plResManager() {
     while (pages.size() > 0)
         UnloadPage(pages[0]->getLocation());
     fNumResMgrs--;
-    if ((fNumResMgrs == 1) && (fGlobalResMgr != NULL))
-        delete fGlobalResMgr;
+//    if ((fNumResMgrs == 1) && (fGlobalResMgr != NULL))
+//        delete fGlobalResMgr;
     if ((fNumResMgrs == 0) && (plJPEG::inst != NULL)) {
         delete plJPEG::inst;
         plJPEG::inst = NULL;
     }
 }
 
-plResManager* plResManager::GetGlobalResMgr() {
-    if (fGlobalResMgr == NULL)
-        fGlobalResMgr = new plResManager();
-    return fGlobalResMgr;
-}
+//plResManager* plResManager::GetGlobalResMgr() {
+//    if (fGlobalResMgr == NULL)
+//        fGlobalResMgr = new plResManager();
+//    return fGlobalResMgr;
+//}
 
 void plResManager::setVer(PlasmaVer pv, bool force) {
     if (fPlasmaVer == pv) return;
@@ -63,16 +63,16 @@ plKey plResManager::readUoid(hsStream* S) {
     plKey k = new plKeyData();
     k->readUoid(S);
     plKey xkey;
-    if (k->getUoid().getLocation().isReserved())
-        xkey = GetGlobalResMgr()->keys.findKey(k);
-    else
+    //if (k->getUoid().getLocation().isReserved())
+    //    xkey = GetGlobalResMgr()->keys.findKey(k);
+    //else
         xkey = keys.findKey(k);
     if (xkey.Exists()) {
         return xkey;
     } else {
-        if (k->getUoid().getLocation().isReserved())
-            GetGlobalResMgr()->keys.add(k);
-        else
+        //if (k->getUoid().getLocation().isReserved())
+        //    GetGlobalResMgr()->keys.add(k);
+        //else
             keys.add(k);
         return k;
     }
@@ -247,6 +247,7 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
     //plDebug::Debug("* Reading Keyring");
     //keys.addPage(loc.pageID);
     unsigned int tCount = S->readInt();
+	tCount = 1;
     for (unsigned int i=0; i<tCount; i++) {
         short type = S->readShort(); // objType
         if (S->getVer() >= pvLive) {

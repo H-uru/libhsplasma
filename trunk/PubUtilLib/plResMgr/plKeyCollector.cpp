@@ -9,7 +9,7 @@ plKeyCollector::~plKeyCollector() {
     for (unsigned int i=0; i<pages.size(); i++) {
         for (unsigned int j=0; j<TYPESPACE_MAX; j++) {
             for (unsigned int k=0; k<keys[pages[i]][j].size(); k++)
-                keys[pages[i]][j][k]->Delete();
+                keys[pages[i]][j][k] = 0;
         }
     }
 }

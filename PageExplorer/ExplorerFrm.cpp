@@ -23,15 +23,19 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	this->SetExtraStyle( wxFRAME_EX_METAL );
+
+	m_splitter = NULL;
 }
 
 ExplorerFrm::~ExplorerFrm()
 {
+	if(m_splitter != NULL) delete m_splitter;
 }
 
 void ExplorerFrm::SetPlasmaPage(const wxString& filename)
 {
-    try {
+
+try {
 		page = rm.ReadPage(filename.ToUTF8());
 	} catch (hsException& e) {
 		fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
@@ -47,6 +51,7 @@ void ExplorerFrm::SetPlasmaPage(const wxString& filename)
 	wxBoxSizer* bSizer;
 	bSizer = new wxBoxSizer( wxVERTICAL );
 	
+	if(m_splitter != NULL) delete m_splitter;
     m_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D | wxSP_LIVE_UPDATE );
 	m_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( ExplorerFrm::m_splitterOnIdle ), NULL, this );
 	m_panelLeft = new wxPanel( m_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );

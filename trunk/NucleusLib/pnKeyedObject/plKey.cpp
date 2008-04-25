@@ -5,11 +5,15 @@
 #include "CoreLib/plDebug.h"
 
 plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
-                         fRefCnt(1) { }
+                         fRefCnt(0) { }
 
 plKeyData::~plKeyData() {
     if (fObjPtr != NULL)
+	{
+		Ref();
         delete fObjPtr;
+		--fRefCnt;  //Under absolutely NO circumstance replace this with UnRef()
+	}
 }
 
 void plKeyData::Delete() {
@@ -143,4 +147,14 @@ bool plKey::isLoaded() const {
     if (!Exists())
         return true;
     return fKeyData->getObj() != NULL;
+}
+
+void plKey::CreateWeakRef() {
+	if(fKeyData != NULL)
+		fKeyData->UnRef();
+}
+
+void plKey::DeleteWeakRef() {
+	if(fKeyData != NULL)
+		fKeyData->Ref();
 }

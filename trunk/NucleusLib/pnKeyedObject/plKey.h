@@ -73,6 +73,8 @@ public:
 
     bool Exists() const;
     bool isLoaded() const;
+	void CreateWeakRef();
+	void DeleteWeakRef();
 };
 
 #endif

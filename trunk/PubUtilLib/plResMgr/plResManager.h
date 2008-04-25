@@ -14,7 +14,7 @@
 
 DllClass plResManager /* : public hsResMgr */ {
 private:
-    static plResManager* fGlobalResMgr;
+    //static plResManager* fGlobalResMgr;
     static unsigned int fNumResMgrs;
     static PlasmaVer fPlasmaVer;
 
@@ -32,7 +32,7 @@ private:
 public:
     plResManager(PlasmaVer pv = pvUnknown);
     virtual ~plResManager();
-    static plResManager* GetGlobalResMgr();
+    //static plResManager* GetGlobalResMgr();
 
     virtual void setVer(PlasmaVer pv, bool force = false);
     PlasmaVer getVer();

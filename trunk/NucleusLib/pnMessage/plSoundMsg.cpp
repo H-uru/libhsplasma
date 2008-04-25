@@ -44,7 +44,7 @@ void plSoundMsg::read(hsStream* S, plResManager* mgr) {
     fIndex = S->readInt();
     fRepeats = S->readInt();
     fNameStr = S->readInt();
-    fVolume = S->readInt();
+	fVolume = S->readFloat();
     fFadeType = (FadeType)S->readByte();
 }
 

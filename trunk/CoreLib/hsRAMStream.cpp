@@ -87,6 +87,7 @@ void hsRAMStream::resize(hsUint32 newsize) {
 
     fMax = newsize;
     fData = newData;
+	fIOwnData = true;
     if (fSize > fMax)
         fSize = fMax;
 }

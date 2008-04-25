@@ -39,7 +39,7 @@ public:
         count = 0;
     }
     
-    size_t getSize() const { return count; }
+    unsigned short getSize() const { return count; }
     bool empty() const { return count == 0; }
 
     void setSize(size_t cap) {
@@ -77,7 +77,7 @@ public:
         delete[] data;
         data = new T[cap];
         memset(data, 0, cap * sizeof(T));
-        count = cap;
+        count = (unsigned short)cap;
     }
 
     void incSize(size_t num = 1) {
