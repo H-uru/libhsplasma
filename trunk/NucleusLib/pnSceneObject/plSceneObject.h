@@ -14,7 +14,7 @@ public:
     hsTArray<plKey> fInterfaces;
     hsTArray<plKey> fModifiers;
 
-    plKey fSceneNode;
+    plWeakKey fSceneNode;
 
 public:
     plSceneObject();

@@ -11,7 +11,7 @@ public:
 protected:
     hsBitVector fState;
     float fHither, fYon, fFovX, fFovY;
-    plKey fNodeKey;
+    plWeakKey fNodeKey;
     hsMatrix44 fDefaultW2C, fDefaultC2W;
 
 public:

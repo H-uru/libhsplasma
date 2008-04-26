@@ -20,6 +20,7 @@ public:
 private:
     hsUint32 RefCnt() const;
     hsUint32 Ref();
+	hsUint32 UnRefNoDelete();
     void UnRef();
     friend class plKey;
 
@@ -47,32 +48,44 @@ public:
     void setObjSize(hsUint32 size);
 };
 
-DllClass plKey {
+DllClass plWeakKey {
+
 protected:
     plKeyData* fKeyData;
 
 public:
-    plKey();
-    plKey(const plKey& init);
-    plKey(plKeyData* init);
-    ~plKey();
+	plWeakKey() : fKeyData(NULL) { }
+	plWeakKey(plWeakKey& init) { fKeyData = init; }
+	plWeakKey(plKeyData* init) { fKeyData = init; }
 
     plKeyData& operator*() const;
     plKeyData* operator->() const;
     operator plKeyData*() const;
 
-    plKey& operator=(const plKey& other);
-    plKey& operator=(plKeyData* other);
-    bool operator==(const plKey& other) const;
+	virtual plWeakKey& operator=(const plWeakKey& other) { fKeyData = other; return *this; }
+	virtual plWeakKey& operator=(plKeyData* other) { fKeyData = other; return *this; }	
+    bool operator==(const plWeakKey& other) const;
     bool operator==(const plKeyData* other) const;
-    bool operator!=(const plKey& other) const;
+    bool operator!=(const plWeakKey& other) const;
     bool operator!=(const plKeyData* other) const;
-    bool operator<(const plKey& other) const;
+    bool operator<(const plWeakKey& other) const;
 
     bool Exists() const;
     bool isLoaded() const;
-	void CreateWeakRef();
-	void DeleteWeakRef();
+};
+
+DllClass plKey : public plWeakKey {
+
+public:
+    plKey();
+    plKey(const plWeakKey& init);
+    plKey(const plKey& init);
+    plKey(plKeyData* init);
+    ~plKey();
+
+    virtual plKey& operator=(const plWeakKey& other);
+    virtual plKey& operator=(const plKey& other);
+    virtual plKey& operator=(plKeyData* other);
 };
 
 #endif

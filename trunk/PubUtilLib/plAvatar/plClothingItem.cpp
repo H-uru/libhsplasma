@@ -7,7 +7,10 @@ plClothingItem::plClothingItem()
     fDefaultTint1[2] = fDefaultTint2[2] = 255;
 }
 
-plClothingItem::~plClothingItem() { }
+plClothingItem::~plClothingItem() {
+	for(int i = fTextures.getSize()-1; i>=0; i--)
+		delete []fTextures[i];
+}
 
 IMPLEMENT_CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
 

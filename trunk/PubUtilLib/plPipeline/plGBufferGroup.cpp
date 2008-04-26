@@ -66,7 +66,18 @@ plGBufferGroup::plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod)
     LOD = Lod;
 }
 
-plGBufferGroup::~plGBufferGroup() { }
+plGBufferGroup::~plGBufferGroup() {
+	for(int i = fVertBuffStorage.getSize()-1; i >=0; i--)
+		delete fVertBuffStorage[i];
+	fVertBuffStorage.clear();
+	for(int i = fIdxBuffStorage.getSize()-1; i >=0; i--)
+		delete fIdxBuffStorage[i];
+	fIdxBuffStorage.clear();
+	for(int i = fCells.getSize()-1; i >=0; i--)
+		delete fCells[i];
+	fCells.clear();
+
+}
 
 hsTArray<plGBufferVertex> plGBufferGroup::getVertices() {
     hsTArray<plGBufferVertex> buf;

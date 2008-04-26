@@ -4,7 +4,8 @@ plObjInterface::plObjInterface() {
     fProps.setName(kDisable, "kDisable");
 }
 
-plObjInterface::~plObjInterface() { }
+plObjInterface::~plObjInterface() { 
+}
 
 IMPLEMENT_CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
 

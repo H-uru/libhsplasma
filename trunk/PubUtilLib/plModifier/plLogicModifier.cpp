@@ -9,7 +9,7 @@ void plLogicModifier::read(hsStream* S, plResManager* mgr) {
     plLogicModBase::read(S, mgr);
 
     size_t count = S->readInt();
-    fConditionList.setSizeNull(count);
+    fConditionList.setSize(count);
     for (size_t i=0; i<count; i++)
         fConditionList[i] = mgr->readKey(S);
     fMyCursor = S->readInt();

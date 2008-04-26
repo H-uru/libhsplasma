@@ -109,7 +109,7 @@ protected:
     plRenderLevel renderLevel;
     bool registeredForRecreate, needCleanup, registeredForRender;
     hsBitVector particleSpanVector, blendingSpanVector, fakeBlendingSpanVector;
-    plKey sceneNode;
+    plWeakKey sceneNode;
     bool settingMatIdxLock;
     unsigned int skinTime;
     hsTArray<plGeometrySpan*> sourceSpans;

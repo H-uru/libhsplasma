@@ -12,7 +12,7 @@ public:
     };
 
 protected:
-    plKey myKey;
+    plWeakKey myKey;
     unsigned int koFlags;
 
 public:

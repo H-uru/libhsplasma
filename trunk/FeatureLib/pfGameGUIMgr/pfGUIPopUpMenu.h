@@ -24,7 +24,8 @@ public:
 protected:
     unsigned short fMargin;
     hsTArray<pfMenuItem> fMenuItems;
-    plKey fSkin, fOriginAnchor, fOriginContext;
+    plKey fSkin, fOriginContext;
+	plWeakKey fOriginAnchor;
     Alignment fAlignment;
 
 public:

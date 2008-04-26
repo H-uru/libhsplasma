@@ -8,9 +8,11 @@ IMPLEMENT_CREATABLE(plImageLibMod, kImageLibMod, plSingleModifier)
 void plImageLibMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
-    fImages.setSizeNull(S->readInt());
+    fImages.setSize(S->readInt());
     for (size_t i=0; i<fImages.getSize(); i++)
+	{
         fImages[i] = mgr->readKey(S);
+	}
 }
 
 void plImageLibMod::write(hsStream* S, plResManager* mgr) {

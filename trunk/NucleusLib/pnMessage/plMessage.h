@@ -31,8 +31,8 @@ public:
     };
 
 protected:
-    plKey fSender;
-    hsTArray<plKey> fReceivers;
+    plWeakKey fSender;
+    hsTArray<plWeakKey> fReceivers;
     double fTimeStamp;
     unsigned int fBCastFlags;
     hsTArray<unsigned long> fNetRcvrPlayerIDs;

@@ -2,7 +2,8 @@
 
 plPostEffectMod::plPostEffectMod()
                : fHither(1.0f), fYon(100.0f), fFovX(0.7854f), fFovY(0.589f) { }
-plPostEffectMod::~plPostEffectMod() { }
+plPostEffectMod::~plPostEffectMod() {
+}
 
 IMPLEMENT_CREATABLE(plPostEffectMod, kPostEffectMod, plSingleModifier)
 

@@ -34,7 +34,7 @@ protected:
     hsColorRGBA ambient, diffuse, specular;
     hsMatrix44 lightToLocal, localToLight, localToWorld, worldToLocal,
                lightToWorld, worldToLight;
-    plKey sceneNode;
+    plWeakKey sceneNode;
     plKey softVolume;
     float maxStrength;
     bool registeredForRenderMsg;

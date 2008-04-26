@@ -10,7 +10,7 @@ public:
     DllClass plOneShotCallback {
     public:
         plString fMarker;
-        plKey fReceiver;
+        plWeakKey fReceiver;
         short fUser;
     };
 

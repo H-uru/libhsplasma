@@ -5,7 +5,7 @@
 
 DllClass plActivatorConditionalObject : public plConditionalObject {
 protected:
-    hsTArray<plKey> fActivators;
+    hsTArray<plWeakKey> fActivators;
 
 public:
     plActivatorConditionalObject();

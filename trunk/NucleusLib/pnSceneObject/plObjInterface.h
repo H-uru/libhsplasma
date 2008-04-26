@@ -10,7 +10,7 @@ public:
     enum { kDisable };
 
 protected:
-    plKey fOwner;
+    plWeakKey fOwner;
     hsBitVector fProps;
 
 public:
