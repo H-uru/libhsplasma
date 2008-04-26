@@ -10,9 +10,7 @@ void plImageLibMod::read(hsStream* S, plResManager* mgr) {
 
     fImages.setSize(S->readInt());
     for (size_t i=0; i<fImages.getSize(); i++)
-	{
         fImages[i] = mgr->readKey(S);
-	}
 }
 
 void plImageLibMod::write(hsStream* S, plResManager* mgr) {

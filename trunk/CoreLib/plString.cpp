@@ -1,9 +1,11 @@
 #include "plString.h"
 #include "DynLib/Platform.h"
+#include "CoreLib/hsExceptions.h"
 #include <ctype.h>
 #include <wctype.h>
 #include <cstdlib>
 #include <cstdarg>
+#include <cerrno>
 
 /******************************** plStringBase ********************************/
 plStringBase::plStringBase() : fLen(0), fHaveHash(false) { }
@@ -408,17 +410,29 @@ plString plString::afterLast(char sep) const {
 
 long plString::toInt(int base) const {
     if (empty()) return 0;
-    return strtol(fStr, NULL, base);
+    errno = 0;
+    long value = strtol(fStr, NULL, base);
+    if (errno == ERANGE || errno == EINVAL)
+        throw hsBadParamException(__FILE__, __LINE__);
+    return value;
 }
 
 unsigned long plString::toUint(int base) const {
     if (empty()) return 0;
-    return strtoul(fStr, NULL, base);
+    errno = 0;
+    unsigned long value = strtoul(fStr, NULL, base);
+    if (errno == ERANGE || errno == EINVAL)
+        throw hsBadParamException(__FILE__, __LINE__);
+    return value;
 }
 
 double plString::toFloat() const {
     if (empty()) return 0.0;
-    return strtod(fStr, NULL);
+    errno = 0;
+    double value = strtod(fStr, NULL);
+    if (errno == ERANGE || errno == EINVAL)
+        throw hsBadParamException(__FILE__, __LINE__);
+    return value;
 }
 
 plString plString::Format(const char* fmt, ...) {
@@ -831,17 +845,29 @@ plWString plWString::afterLast(wchar_t sep) const {
 
 long plWString::toInt(int base) const {
     if (empty()) return 0;
-    return wcstol(fStr, NULL, base);
+    errno = 0;
+    long value = wcstol(fStr, NULL, base);
+    if (errno == ERANGE || errno == EINVAL)
+        throw hsBadParamException(__FILE__, __LINE__);
+    return value;
 }
 
 unsigned long plWString::toUint(int base) const {
     if (empty()) return 0;
-    return wcstoul(fStr, NULL, base);
+    errno = 0;
+    unsigned long value = wcstoul(fStr, NULL, base);
+    if (errno == ERANGE || errno == EINVAL)
+        throw hsBadParamException(__FILE__, __LINE__);
+    return value;
 }
 
 double plWString::toFloat() const {
     if (empty()) return 0.0;
-    return wcstod(fStr, NULL);
+    errno = 0;
+    double value = wcstod(fStr, NULL);
+    if (errno == ERANGE || errno == EINVAL)
+        throw hsBadParamException(__FILE__, __LINE__);
+    return value;
 }
 
 plWString plWString::Format(const wchar_t* fmt, ...) {

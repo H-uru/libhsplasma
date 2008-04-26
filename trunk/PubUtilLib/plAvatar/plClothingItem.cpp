@@ -8,8 +8,8 @@ plClothingItem::plClothingItem()
 }
 
 plClothingItem::~plClothingItem() {
-	for(int i = fTextures.getSize()-1; i>=0; i--)
-		delete []fTextures[i];
+    for (size_t i=0; i<fTextures.getSize(); i++)
+        delete[] fTextures[i];
 }
 
 IMPLEMENT_CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)

@@ -49,9 +49,10 @@ IMPLEMENT_CREATABLE(plMatrixControllerCacheChannel,
 
 
 // plMatrixControllerChannel //
-plMatrixControllerChannel::plMatrixControllerChannel() { }
+plMatrixControllerChannel::plMatrixControllerChannel() : fController(NULL) { }
+
 plMatrixControllerChannel::~plMatrixControllerChannel() {
-	if(fController != NULL)
+	if (fController != NULL)
 		delete fController;
 }
 

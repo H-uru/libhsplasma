@@ -4,6 +4,7 @@
 #include "hsKeyedObject.h"
 #include "CoreLib/plDebug.h"
 
+/* plKeyData */
 plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
                          fRefCnt(0) { }
 
@@ -68,7 +69,7 @@ void plKeyData::setObjSize(hsUint32 size) { fObjSize = size; }
 
 hsUint32 plKeyData::RefCnt() const { return fRefCnt; }
 hsUint32 plKeyData::Ref() { return ++fRefCnt; }
-hsUint32 plKeyData::UnRefNoDelete() { return --fRefCnt; }
+
 void plKeyData::UnRef() {
     if (--fRefCnt == 0) {
         plDebug::Debug("Key %s no longer in use, deleting...", toString().cstr());
@@ -76,53 +77,24 @@ void plKeyData::UnRef() {
     }
 }
 
-// plKey //
-plKey::plKey() { }
 
-plKey::plKey(const plWeakKey& init) : plWeakKey(init) {
-    if (fKeyData) fKeyData->Ref();
-}
+/* plWeakKey */
+plWeakKey::plWeakKey() : fKeyData(NULL) { }
+plWeakKey::plWeakKey(const plWeakKey& init) : fKeyData(init) { }
+plWeakKey::plWeakKey(plKeyData* init) : fKeyData(init) { }
+plWeakKey::~plWeakKey() { }
 
-plKey::plKey(const plKey& init) : plWeakKey(init) {
-    if (fKeyData) fKeyData->Ref();
-}
-
-plKey::plKey(plKeyData* init) : plWeakKey(init) {
-    if (fKeyData) fKeyData->Ref();
-}
-
-plKey::~plKey() {
-    if (fKeyData) fKeyData->UnRef();
-}
-
+plWeakKey::operator plKeyData*() const { return fKeyData; }
 plKeyData& plWeakKey::operator*() const { return *fKeyData; }
 plKeyData* plWeakKey::operator->() const { return fKeyData; }
-plWeakKey::operator plKeyData*() const { return fKeyData; }
 
-plKey& plKey::operator=(const plWeakKey& other) {
-    if (*this != other) {
-        if (other) other->Ref();
-        if (fKeyData) fKeyData->UnRef();
-        *this = other;
-    }
+plWeakKey& plWeakKey::operator=(const plWeakKey& other) {
+    fKeyData = other;
     return *this;
 }
 
-plKey& plKey::operator=(const plKey& other) {
-    if (*this != other) {
-        if (other) other->Ref();
-        if (fKeyData) fKeyData->UnRef();
-        fKeyData = other;
-    }
-    return *this;
-}
-
-plKey& plKey::operator=(plKeyData* other) {
-    if (fKeyData != other) {
-        if (other) other->Ref();
-        if (fKeyData) fKeyData->UnRef();
-        fKeyData = other;
-    }
+plWeakKey& plWeakKey::operator=(plKeyData* other) {
+    fKeyData = other;
     return *this;
 }
 
@@ -154,4 +126,51 @@ bool plWeakKey::isLoaded() const {
     if (!Exists())
         return true;
     return fKeyData->getObj() != NULL;
+}
+
+
+/* plKey */
+plKey::plKey() { }
+
+plKey::plKey(const plWeakKey& init) : plWeakKey(init) {
+    if (fKeyData) fKeyData->Ref();
+}
+
+plKey::plKey(const plKey& init) : plWeakKey(init) {
+    if (fKeyData) fKeyData->Ref();
+}
+
+plKey::plKey(plKeyData* init) : plWeakKey(init) {
+    if (fKeyData) fKeyData->Ref();
+}
+
+plKey::~plKey() {
+    if (fKeyData) fKeyData->UnRef();
+}
+
+plKey& plKey::operator=(const plWeakKey& other) {
+    if (*this != other) {
+        if (other) other->Ref();
+        if (fKeyData) fKeyData->UnRef();
+        *this = other;
+    }
+    return *this;
+}
+
+plKey& plKey::operator=(const plKey& other) {
+    if (*this != other) {
+        if (other) other->Ref();
+        if (fKeyData) fKeyData->UnRef();
+        fKeyData = other;
+    }
+    return *this;
+}
+
+plKey& plKey::operator=(plKeyData* other) {
+    if (fKeyData != other) {
+        if (other) other->Ref();
+        if (fKeyData) fKeyData->UnRef();
+        fKeyData = other;
+    }
+    return *this;
 }

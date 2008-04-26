@@ -1,10 +1,11 @@
 #include "plSharedMesh.h"
 
 plSharedMesh::plSharedMesh() : fMorphSet(NULL), fFlags(kDontSaveMorphState) { }
+
 plSharedMesh::~plSharedMesh() {
-	for(int i = fSpans.getSize()-1; i>=0; i--)
+	for (size_t i=0; i<fSpans.getSize(); i++)
 		delete fSpans[i];
-	for(int i = fActiveInstances.getSize()-1; i>=0; i--)
+	for (size_t i=0; i<fActiveInstances.getSize(); i++)
 		delete fActiveInstances[i];
 }
 

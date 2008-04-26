@@ -25,7 +25,7 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     
-    const plKey& getKey() const;
+    const plWeakKey& getKey() const;
 };
 
 #endif

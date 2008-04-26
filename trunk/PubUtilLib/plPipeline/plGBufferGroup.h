@@ -76,7 +76,6 @@ protected:
     unsigned int numVerts, numIndices;
     bool vertsVolatile, idxVolatile;
     int LOD;
-    hsTArray<hsGDeviceRef*> fVertexBufferRefs, fIndexBufferRefs;
     hsTArray<unsigned int> fVertBuffSizes, fIdxBuffCounts;
     hsTArray<unsigned char*> fVertBuffStorage;
     hsTArray<unsigned short*> fIdxBuffStorage;

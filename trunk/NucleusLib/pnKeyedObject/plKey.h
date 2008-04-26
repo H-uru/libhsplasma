@@ -20,7 +20,6 @@ public:
 private:
     hsUint32 RefCnt() const;
     hsUint32 Ref();
-	hsUint32 UnRefNoDelete();
     void UnRef();
     friend class plKey;
 
@@ -49,21 +48,21 @@ public:
 };
 
 DllClass plWeakKey {
-
 protected:
     plKeyData* fKeyData;
 
 public:
-	plWeakKey() : fKeyData(NULL) { }
-	plWeakKey(plWeakKey& init) { fKeyData = init; }
-	plWeakKey(plKeyData* init) { fKeyData = init; }
+    plWeakKey();
+    plWeakKey(const plWeakKey& init);
+    plWeakKey(plKeyData* init);
+    virtual ~plWeakKey();
 
     plKeyData& operator*() const;
     plKeyData* operator->() const;
     operator plKeyData*() const;
 
-	virtual plWeakKey& operator=(const plWeakKey& other) { fKeyData = other; return *this; }
-	virtual plWeakKey& operator=(plKeyData* other) { fKeyData = other; return *this; }	
+    virtual plWeakKey& operator=(const plWeakKey& other);
+    virtual plWeakKey& operator=(plKeyData* other);
     bool operator==(const plWeakKey& other) const;
     bool operator==(const plKeyData* other) const;
     bool operator!=(const plWeakKey& other) const;
@@ -75,13 +74,12 @@ public:
 };
 
 DllClass plKey : public plWeakKey {
-
 public:
     plKey();
     plKey(const plWeakKey& init);
     plKey(const plKey& init);
     plKey(plKeyData* init);
-    ~plKey();
+    virtual ~plKey();
 
     virtual plKey& operator=(const plWeakKey& other);
     virtual plKey& operator=(const plKey& other);

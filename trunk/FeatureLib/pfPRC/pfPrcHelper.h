@@ -49,7 +49,6 @@ public:
     void writeTagNoBreak(const char* name);
     void closeTag();
     void closeTagNoBreak();
-
     void writeComment(const char* comment);
 };
 

@@ -25,7 +25,8 @@ PLSCOREOBJ=\
 	$(OBJDIR)plString.o \
 	$(OBJDIR)plUnifiedTime.o \
 	$(OBJDIR)plUUID.o \
-	$(OBJDIR)pfPrcHelper.o
+	$(OBJDIR)pfPrcHelper.o \
+	$(OBJDIR)pfPrcParser.o
 
 PLSOBJ=\
 	$(OBJDIR)plAgeInfo.o \
@@ -327,6 +328,9 @@ $(OBJDIR)plUUID.o: PubUtilLib/plUUID/plUUID.h PubUtilLib/plUUID/plUUID.cpp
 
 $(OBJDIR)pfPrcHelper.o: FeatureLib/pfPRC/pfPrcHelper.h FeatureLib/pfPRC/pfPrcHelper.cpp
 	$(CXX) $(CXXFLAGS) -c FeatureLib/pfPRC/pfPrcHelper.cpp -o $(OBJDIR)pfPrcHelper.o
+
+$(OBJDIR)pfPrcParser.o: FeatureLib/pfPRC/pfPrcParser.h FeatureLib/pfPRC/pfPrcParser.cpp
+	$(CXX) $(CXXFLAGS) -c FeatureLib/pfPRC/pfPrcParser.cpp -o $(OBJDIR)pfPrcParser.o
 
 $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 	$(CXX) $(CXXFLAGSEXTERN) -c 3rdPartyLibs/rijndael.cpp -o $(OBJDIR)rijndael.o

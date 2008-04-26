@@ -25,6 +25,6 @@ void hsKeyedObject::IPrcWrite(pfPrcHelper* prc) {
     myKey->prcWrite(prc);
 }
 
-const plKey& hsKeyedObject::getKey() const {
+const plWeakKey& hsKeyedObject::getKey() const {
     return myKey;
 }
