@@ -26,7 +26,7 @@ protected:
     hsTArray<plCluster*> fClusters;
     hsTArray<plKey> fRegions, fLights;
     plLODDist fLOD;
-    plKey fSceneNode, fDrawable;
+    plWeakKey fSceneNode, fDrawable;
     plRenderLevel fRenderLevel;
 
 public:

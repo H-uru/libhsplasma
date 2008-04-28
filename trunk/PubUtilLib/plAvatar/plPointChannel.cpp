@@ -49,8 +49,13 @@ IMPLEMENT_CREATABLE(plPointControllerCacheChannel,
 
 
 // plPointControllerChannel //
-plPointControllerChannel::plPointControllerChannel() { }
-plPointControllerChannel::~plPointControllerChannel() { }
+plPointControllerChannel::plPointControllerChannel()
+: fController(NULL) {
+}
+plPointControllerChannel::~plPointControllerChannel() {
+	if(fController != NULL)
+		delete fController;
+}
 
 IMPLEMENT_CREATABLE(plPointControllerChannel, kPointControllerChannel,
                     plPointChannel)

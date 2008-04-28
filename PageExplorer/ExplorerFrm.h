@@ -54,6 +54,7 @@ class ExplorerFrm : public wxFrame
 		~ExplorerFrm();
 		void SetPlasmaPage(const wxString& filename);
 		void LoadObjects();
+		void SaveKeys(const wxString& filename);
 		void m_splitterOnIdle( wxIdleEvent& )
 		{
 		m_splitter->SetSashPosition( 0 );

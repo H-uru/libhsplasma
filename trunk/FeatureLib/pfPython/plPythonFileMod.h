@@ -18,7 +18,7 @@ public:
     static const char* valueTypeNames[];
 
     unsigned int ID, valueType;
-    plKey objKey;
+    plWeakKey objKey;
     plString strValue;
 
     union {
@@ -67,7 +67,7 @@ public:
 
 protected:
     plString pythonFile;
-    hsTArray<plKey> receivers;
+    hsTArray<plWeakKey> receivers;
     hsTArray<plPythonParameter> parameters;
     
     
@@ -78,7 +78,7 @@ public:
     DECLARE_CREATABLE(plPythonFileMod)
     
     const plString& getFilename() const;
-    const hsTArray<plKey>& getReceivers() const;
+    const hsTArray<plWeakKey>& getReceivers() const;
     const hsTArray<plPythonParameter>& getParameters() const;
 
     virtual void read(hsStream* S, plResManager* mgr);

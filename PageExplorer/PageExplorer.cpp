@@ -14,21 +14,39 @@ bool PageExplorer::OnInit()
 
     ExplorerFrm* frame = new ExplorerFrm(NULL);
     
-    if (argc < 2) {
+	bool dumpPages = false;
+	bool gui = true;
+	int curArg = 1;
+	wxString filename = "";
+    while (curArg < argc) {
+		if(!wxString("-dump").Cmp(argv[curArg]))
+			dumpPages = true;
+		else if(!wxString("-nogui").Cmp(argv[curArg]))
+			gui = false;
+		else break;
+		curArg++;
+	}
+	if(curArg < argc)
+		filename = argv[curArg];
+	else
+	{
         wxFileDialog* ofd = new wxFileDialog(NULL, wxT("Choose a file"), wxEmptyString, wxEmptyString,
                                 wxT("Plasma Registry Pages (*.prp)|*.prp"), wxFD_OPEN, wxDefaultPosition);
         if (ofd->ShowModal() == wxID_CANCEL) {
             delete ofd;
             return false;
         }
-        frame->SetPlasmaPage(ofd->GetPath());
+		filename = ofd->GetPath();
         delete ofd;
-    } else {
-        frame->SetPlasmaPage(argv[1]);
+    }
+    frame->SetPlasmaPage(filename);
+    if(dumpPages)
+		frame->SaveKeys(filename+".xml");
+	if(gui) {
+		SetTopWindow(frame);
+		frame->Show();
 	}
-    
-    SetTopWindow(frame);
-    frame->Show();
+	else frame->Close();
     return true;
 }
 

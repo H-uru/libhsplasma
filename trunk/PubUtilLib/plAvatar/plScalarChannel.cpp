@@ -49,8 +49,12 @@ IMPLEMENT_CREATABLE(plScalarControllerCacheChannel,
 
 
 // plScalarControllerChannel //
-plScalarControllerChannel::plScalarControllerChannel() { }
-plScalarControllerChannel::~plScalarControllerChannel() { }
+plScalarControllerChannel::plScalarControllerChannel()
+: fController(NULL) { }
+plScalarControllerChannel::~plScalarControllerChannel() {
+	if(fController != NULL)
+		delete fController;
+}
 
 IMPLEMENT_CREATABLE(plScalarControllerChannel, kScalarControllerChannel,
                     plScalarChannel)
@@ -66,7 +70,7 @@ void plScalarControllerChannel::write(hsStream* S, plResManager* mgr) {
 }
 
 void plScalarControllerChannel::IPrcWrite(pfPrcHelper* prc) {
-    plAGChannel::prcWrite(prc);
+    plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Controller");
     fController->prcWrite(prc);

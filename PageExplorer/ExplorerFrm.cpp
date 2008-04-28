@@ -151,7 +151,13 @@ void ExplorerFrm::LoadPRC(wxTreeEvent& event)
     m_output->SetReadOnly(true);
 }
 
-
+void ExplorerFrm::SaveKeys(const wxString& filename) {
+	hsFileStream* S = new hsFileStream();
+	S->open(filename.ToUTF8(), FileMode::fmCreate);
+    pfPrcHelper* prc = new pfPrcHelper(S);
+	rm.WritePrc(prc, page);
+	S->close();
+}
 
 wxTreeKeyData::wxTreeKeyData(const plKey& key): wxTreeItemData()
 {

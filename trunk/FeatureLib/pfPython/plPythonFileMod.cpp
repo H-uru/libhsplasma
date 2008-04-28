@@ -181,7 +181,7 @@ plPythonFileMod::~plPythonFileMod() { }
 IMPLEMENT_CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
 const plString& plPythonFileMod::getFilename() const { return pythonFile; }
-const hsTArray<plKey>& plPythonFileMod::getReceivers() const { return receivers; }
+const hsTArray<plWeakKey>& plPythonFileMod::getReceivers() const { return receivers; }
 const hsTArray<plPythonParameter>& plPythonFileMod::getParameters() const { return parameters; }
 
 void plPythonFileMod::read(hsStream* S, plResManager* mgr) {

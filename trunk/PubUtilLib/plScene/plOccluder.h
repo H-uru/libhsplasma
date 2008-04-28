@@ -14,7 +14,7 @@ protected:
     hsBitVector fVisNot;
     float fPriority;
     hsBounds3Ext fWorldBounds;
-    plKey fSceneNode;
+    plWeakKey fSceneNode;
 
 public:
     plOccluder();
