@@ -96,6 +96,50 @@ void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "DynamicEnvMapParams") {
+        fHither = tag->getParam("Hither", "0").toFloat();
+        fYon = tag->getParam("Yon", "0").toFloat();
+        fFogStart = tag->getParam("FogStart", "0").toFloat();
+        fRefreshRate = tag->getParam("RefreshRate", "0").toFloat();
+        fIncCharacters = tag->getParam("IncCharacters", "0").toUint();
+
+        const pfPrcTag* child = tag->getFirstChild();
+        while (child != NULL) {
+            if (child->getName() == "Pos") {
+                if (child->hasChildren())
+                    fPos.prcParse(child->getFirstChild());
+            } else if (child->getName() == "hsColorRGBA") {
+                fColor.prcParse(child);
+            } else {
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            }
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "VisRegions") {
+        fVisRegions.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fVisRegions.getSize(); i++) {
+            fVisRegions[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "VisRegionNames") {
+        fVisRegionNames.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fVisRegionNames.getSize(); i++) {
+            if (child->getName() != "Region")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fVisRegionNames[i] = tag->getParam("Name", "");
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "RootNode") {
+        if (tag->hasChildren())
+            fRootNode = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plCubicRenderTarget::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plDynamicCamMap */
 plDynamicCamMap::plDynamicCamMap()
@@ -217,4 +261,65 @@ void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fMatLayers.getSize(); i++)
         fMatLayers[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plDynamicCamMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "DynamicCamMapParams") {
+        fHither = tag->getParam("Hither", "0").toFloat();
+        fYon = tag->getParam("Yon", "0").toFloat();
+        fFogStart = tag->getParam("FogStart", "0").toFloat();
+        fRefreshRate = tag->getParam("RefreshRate", "0").toFloat();
+        fIncCharacters = tag->getParam("IncCharacters", "0").toUint();
+
+        const pfPrcTag* child = tag->getFirstChild();
+        while (child != NULL) {
+            if (child->getName() == "hsColorRGBA") {
+                fColor.prcParse(child);
+            } else {
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            }
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Camera") {
+        if (tag->hasChildren())
+            fCamera = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "RootNode") {
+        if (tag->hasChildren())
+            fRootNode = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "TargetNodes") {
+        fTargetNodes.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fTargetNodes.getSize(); i++) {
+            fTargetNodes[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "VisRegions") {
+        fVisRegions.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fVisRegions.getSize(); i++) {
+            fVisRegions[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "VisRegionNames") {
+        fVisRegionNames.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fVisRegionNames.getSize(); i++) {
+            if (child->getName() != "Region")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fVisRegionNames[i] = tag->getParam("Name", "");
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "DisableTexture") {
+        if (tag->hasChildren())
+            fDisableTexture = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "MatLayers") {
+        fMatLayers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fMatLayers.getSize(); i++) {
+            fMatLayers[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plRenderTarget::IPrcParse(tag, mgr);
+    }
 }

@@ -100,8 +100,16 @@ const char* hsBitVector::getName(size_t idx) {
     }
 }
 
+size_t hsBitVector::getValue(const char* name) {
+    if (fBitValues.count(name) > 0)
+        return fBitValues[name];
+    else
+        return (size_t)plString(name).toUint();
+}
+
 void hsBitVector::setName(size_t idx, const char* name) {
     fBitNames[idx] = name;
+    fBitValues[name] = idx;
 }
 
 void hsBitVector::read(hsStream* S) {
@@ -131,4 +139,13 @@ void hsBitVector::prcWrite(pfPrcHelper* prc) {
         }
     }
     prc->closeTagNoBreak();
+}
+
+void hsBitVector::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsBitVector")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    hsTList<plString> flags = tag->getContents();
+    while (!flags.empty())
+        setBit(getValue(flags.pop()));
 }

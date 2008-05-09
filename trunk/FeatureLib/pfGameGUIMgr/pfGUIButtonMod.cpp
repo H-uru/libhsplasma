@@ -12,16 +12,14 @@ IMPLEMENT_CREATABLE(pfGUIButtonMod, kGUIButtonMod, pfGUIControlMod)
 void pfGUIButtonMod::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
-    fAnimationKeys.clear();
-    size_t count = S->readInt();
-    for (size_t i=0; i<count; i++)
-        fAnimationKeys.append(mgr->readKey(S));
+    fAnimationKeys.setSize(S->readInt());
+    for (size_t i=0; i<fAnimationKeys.getSize(); i++)
+        fAnimationKeys[i] = mgr->readKey(S);
     fAnimName = S->readSafeStr();
 
-    fMouseOverAnimKeys.clear();
-    count = S->readInt();
-    for (size_t i=0; i<count; i++)
-        fMouseOverAnimKeys.append(mgr->readKey(S));
+    fMouseOverAnimKeys.setSize(S->readInt());
+    for (size_t i=0; i<fMouseOverAnimKeys.getSize(); i++)
+        fMouseOverAnimKeys[i] = mgr->readKey(S);
     fMouseOverAnimName = S->readSafeStr();
 
     fNotifyType = S->readInt();
@@ -77,6 +75,33 @@ void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Draggable");
     fDraggable->prcWrite(prc);
     prc->closeTag();
+}
+
+void pfGUIButtonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Animation") {
+        fAnimName = tag->getParam("Name", "");
+        fAnimationKeys.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fAnimationKeys.getSize(); i++) {
+            fAnimationKeys[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "MouseOverAnimation") {
+        fMouseOverAnimName = tag->getParam("Name", "");
+        fMouseOverAnimKeys.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fMouseOverAnimKeys.getSize(); i++) {
+            fMouseOverAnimKeys[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "NotifyType") {
+        fNotifyType = tag->getParam("value", "0").toInt();
+    } else if (tag->getName() == "Draggable") {
+        if (tag->hasChildren())
+            fDraggable = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        pfGUIControlMod::IPrcParse(tag, mgr);
+    }
 }
 
 

@@ -64,13 +64,40 @@ void pfGUIColorScheme::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void pfGUIColorScheme::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "pfGUIColorScheme")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fFontFace = tag->getParam("Face", "");
+    fFontSize = tag->getParam("Size", "0").toUint();
+    fTransparent = tag->getParam("transparent", "0").toInt();
+    fFontFlags = tag->getParam("flags", "0").toUint();
+
+    size_t nChildren = tag->countChildren();
+    const pfPrcTag* child = tag->getFirstChild();
+    for (size_t i=0; i<nChildren; i++) {
+        if (child->getName() == "Foreground") {
+            if (child->hasChildren())
+                fForeColor.prcParse(child->getFirstChild());
+        } else if (child->getName() == "Background") {
+            if (child->hasChildren())
+                fBackColor.prcParse(child->getFirstChild());
+        } else if (child->getName() == "SelForeground") {
+            if (child->hasChildren())
+                fSelForeColor.prcParse(child->getFirstChild());
+        } else if (child->getName() == "SelBackground") {
+            if (child->hasChildren())
+                fSelBackColor.prcParse(child->getFirstChild());
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+    }
+}
+
 
 /* pfGUIControlMod */
 pfGUIControlMod::pfGUIControlMod()
-               : fTagID(0), fEnabled(true), fFocused(false), fVisible(true),
-                 fInteresting(false), fNotifyOnInteresting(false),
-                 fDialog(NULL), fBoundsValid(false), fCenterValid(false),
-                 fHandler(NULL), fColorScheme(NULL), fSkin(NULL) {
+               : fTagID(0), fVisible(true), fHandler(NULL), fColorScheme(NULL) {
     fFlags.setName(kWantsInterest, "kWantsInterest");
     fFlags.setName(kInheritProcFromDlg, "kInheritProcFromDlg");
     fFlags.setName(kIntangible, "kIntangible");
@@ -157,10 +184,15 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("TagID", fTagID);
     prc->writeParam("Visible", fVisible);
     prc->endTag(true);
+    
+    prc->writeSimpleTag("Handler");
     pfGUICtrlProcWriteableObject::PrcWrite(prc, fHandler);
+    prc->closeTag();
 
-    prc->writeSimpleTag("DynTextMap");
+    prc->writeSimpleTag("DynTextLayer");
     fDynTextLayer->prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("DynTextMap");
     fDynTextMap->prcWrite(prc);
     prc->closeTag();
 
@@ -188,4 +220,45 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Skin");
     fSkin->prcWrite(prc);
     prc->closeTag();
+}
+
+void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ControlParams") {
+        fTagID = tag->getParam("TagID", "0").toUint();
+        fVisible = tag->getParam("Visible", "true").toBool();
+    } else if (tag->getName() == "Handler") {
+        if (tag->hasChildren())
+            fHandler = pfGUICtrlProcWriteableObject::PrcParse(tag->getFirstChild());
+    } else if (tag->getName() == "DynTextLayer") {
+        if (tag->hasChildren())
+            fDynTextLayer = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "DynTextMap") {    
+        if (tag->hasChildren())
+            fDynTextMap = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "pfGUIColorScheme") {
+        if (fColorScheme != NULL) delete fColorScheme;
+        if (tag->getParam("NULL", "false")) {
+            fColorScheme = NULL;
+        } else {
+            fColorScheme = new pfGUIColorScheme();
+            fColorScheme->prcParse(tag);
+        }
+    } else if (tag->getName() == "SoundIndices") {
+        fSoundIndices.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fSoundIndices.getSize(); i++) {
+            if (child->getName() != "SoundIndex")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fSoundIndices[i] = child->getParam("value", "0").toInt();
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Proxy") {
+        if (tag->hasChildren())
+            fProxy = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Skin") {
+        if (tag->hasChildren())
+            fSkin = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
 }

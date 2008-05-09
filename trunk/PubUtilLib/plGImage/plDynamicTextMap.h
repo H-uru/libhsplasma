@@ -42,11 +42,7 @@ public:
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
-
-    void setFont(plString face, unsigned int size, unsigned char flags,
-                 bool antiAliasRGB);
-    void setJustify(Justify just);
-    void setTextColor(const hsColorRGBA& color, bool blockRGB);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

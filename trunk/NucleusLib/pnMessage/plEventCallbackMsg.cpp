@@ -36,3 +36,15 @@ void plEventCallbackMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("User", fUser);
     prc->endTag(true);
 }
+
+void plEventCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "EventCallback") {
+        fEventTime = tag->getParam("EventTime", "0").toFloat();
+        fEvent = (CallbackEvent)tag->getParam("Event", "0").toInt();
+        fIndex = tag->getParam("Index", "0").toInt();
+        fRepeats = tag->getParam("Repeats", "0").toInt();
+        fUser = tag->getParam("User", "0").toInt();
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}

@@ -25,3 +25,39 @@ void hsMatrix33::prcWrite(pfPrcHelper* prc) {
     prc->getStream()->writeStr(buf);
     prc->closeTagNoBreak();
 }
+
+void hsMatrix33::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsMatrix33")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    hsTList<plString> contents = tag->getContents();
+    if (contents.pop() != "[")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[0][0] = contents.pop().toFloat();
+    if (contents.pop() != ",")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[0][1] = contents.pop().toFloat();
+    if (contents.pop() != ",")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[0][2] = contents.pop().toFloat();
+    if (contents.pop() != ";")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[1][0] = contents.pop().toFloat();
+    if (contents.pop() != ",")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[1][1] = contents.pop().toFloat();
+    if (contents.pop() != ",")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[1][2] = contents.pop().toFloat();
+    if (contents.pop() != ";")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[2][0] = contents.pop().toFloat();
+    if (contents.pop() != ",")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[2][1] = contents.pop().toFloat();
+    if (contents.pop() != ",")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+    data[2][2] = contents.pop().toFloat();
+    if (contents.pop() != "]")
+        throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
+}

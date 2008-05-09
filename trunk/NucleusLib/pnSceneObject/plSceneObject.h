@@ -6,14 +6,8 @@
 
 DllClass plSceneObject : public plSynchedObject {
 public:
-    plKey fDrawIntf;
-    plKey fSimIntf;
-    plKey fCoordIntf;
-    plKey fAudioIntf;
-
-    hsTArray<plKey> fInterfaces;
-    hsTArray<plKey> fModifiers;
-
+    plKey fDrawIntf, fSimIntf, fCoordIntf, fAudioIntf;
+    hsTArray<plKey> fInterfaces, fModifiers;
     plWeakKey fSceneNode;
 
 public:
@@ -25,6 +19,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

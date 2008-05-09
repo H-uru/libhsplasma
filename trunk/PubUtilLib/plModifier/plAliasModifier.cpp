@@ -16,7 +16,7 @@ void plAliasModifier::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
     S->writeInt(fAlias.len());
-    S->write(fAlias.len(), fAlias.cstr());
+    S->writeStr(fAlias);
 }
 
 void plAliasModifier::IPrcWrite(pfPrcHelper* prc) {
@@ -25,4 +25,12 @@ void plAliasModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Alias");
     prc->writeParam("value", fAlias);
     prc->endTag(true);
+}
+
+void plAliasModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Alias") {
+        fAlias = tag->getParam("value", "");
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
 }

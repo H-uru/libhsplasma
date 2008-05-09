@@ -3,6 +3,7 @@
 
 #include "hsStream.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllClass plLoadMask {
 protected:
@@ -18,6 +19,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     bool isUsed();
     plLoadMask& setMask(unsigned char m1, unsigned char m2);

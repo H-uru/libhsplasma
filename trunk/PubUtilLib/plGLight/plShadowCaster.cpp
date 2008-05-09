@@ -36,3 +36,14 @@ void plShadowCaster::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("BlurScale", fBlurScale);
     prc->endTag(true);
 }
+
+void plShadowCaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "CastParams") {
+        fCastFlags = tag->getParam("Flags", "0").toUint();
+        fBoost = tag->getParam("Boost", "0").toFloat();
+        fAttenScale = tag->getParam("AttenScale", "0").toFloat();
+        fBlurScale = tag->getParam("BlurScale", "0").toFloat();
+    } else {
+        plMultiModifier::IPrcParse(tag, mgr);
+    }
+}

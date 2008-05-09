@@ -24,6 +24,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plAgeGlobalAnim : public plAGAnim {
@@ -39,6 +40,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plATCAnim : public plAGAnim {
@@ -46,13 +48,13 @@ public:
     // These were originally std::maps, but are changed
     // to structs for performance:
     DllStruct MarkerMap {
-        plString key;
-        float value;
+        plString fKey;
+        float fValue;
     };
 
     DllStruct LoopMap {
-        plString key;
-        float start, end;
+        plString fKey;
+        float fStart, fEnd;
     };
 
 protected:
@@ -74,6 +76,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plEmoteAnim : public plATCAnim {
@@ -90,6 +93,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

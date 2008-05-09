@@ -1198,6 +1198,10 @@ plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
     return Create(pdUnifiedTypeMap::PlasmaToMapped(typeIdx, ver));
 }
 
+plCreatable* plFactory::Create(const char* typeName) {
+    return Create(pdUnifiedTypeMap::ClassIndex(typeName));
+}
+
 const char* plFactory::ClassName(short typeIdx) {
     if (typeIdx < 0) return NULL;
     return pdUnifiedTypeMap::ClassName(typeIdx);
@@ -1206,4 +1210,8 @@ const char* plFactory::ClassName(short typeIdx) {
 const char* plFactory::ClassName(short typeIdx, PlasmaVer ver) {
     if (typeIdx < 0) return NULL;
     return pdUnifiedTypeMap::ClassName(typeIdx, ver);
+}
+
+short plFactory::ClassIndex(const char* typeName) {
+    return pdUnifiedTypeMap::ClassIndex(typeName);
 }

@@ -12,7 +12,7 @@ private:
         Link* prev;
     };
 
-    unsigned long count;
+    size_t count;
     Link* first;
     Link* last;
     mutable Link* iter; // Don't shoot me :P
@@ -20,8 +20,8 @@ private:
 public:
     hsTList() : count(0), first(NULL), last(NULL), iter(NULL) { }
 
-    hsTList(const hsTList<T>& init) : count(init.count), iter(NULL) {
-        if (count > 0) {
+    hsTList(const hsTList<T>& init) : count(0), iter(NULL) {
+        if (init.count > 0) {
             rpush(init.iBegin());
             while (!init.iAtEnd())
                 rpush(init.next());
@@ -36,8 +36,7 @@ public:
     }
 
     hsTList<T>& operator=(const hsTList<T>& cpy) {
-        count = cpy.count;
-        if (count > 0) {
+        if (cpy.count > 0) {
             rpush(cpy.iBegin());
             while (!cpy.iAtEnd())
                 rpush(cpy.next());

@@ -22,3 +22,11 @@ void plAGModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("ChannelName", fChannelName);
     prc->endTag(true);
 }
+
+void plAGModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "AGModifierParams") {
+        fChannelName = tag->getParam("ChannelName", "");
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
+}

@@ -4,6 +4,7 @@
 #include "hsStream.h"
 #include "hsTArray.hpp"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 #include <map>
 
 #define BVMASK 0x1F
@@ -28,6 +29,7 @@ private:
     hsUint32* fBits;
     size_t fNumVectors;
     std::map<size_t, const char*> fBitNames;
+    std::map<const char*, size_t> fBitValues;
 
 public:
     hsBitVector();
@@ -45,11 +47,13 @@ public:
     void compact();
 
     const char* getName(size_t idx);
+    size_t getValue(const char* name);
     void setName(size_t idx, const char* name);
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 #endif

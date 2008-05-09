@@ -1,8 +1,8 @@
 #include "plParticleEmitter.h"
 
 plParticleEmitter::plParticleEmitter()
-                 : fMiscFlags(0), fGenerator(NULL), fSpanIndex(0),
-                   fNumValidParticles(0), fMaxParticles(0), fTimeToLive(0.0f) { }
+                 : fMiscFlags(0), fSpanIndex(0), fMaxParticles(0),
+                   fGenerator(NULL) { }
 
 plParticleEmitter::~plParticleEmitter() {
     if (fGenerator != NULL)
@@ -43,4 +43,20 @@ void plParticleEmitter::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Color");
     fColor.prcWrite(prc);
     prc->closeTag();
+}
+
+void plParticleEmitter::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Generator") {
+        if (tag->hasChildren())
+            fGenerator = plParticleGenerator::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "EmitterParams") {
+        fSpanIndex = tag->getParam("SpanIndex", "0").toUint();
+        fMaxParticles = tag->getParam("MaxParticles", "0").toUint();
+        fMiscFlags = tag->getParam("MiscFlags", "0").toUint();
+    } else if (tag->getName() == "Color") {
+        if (tag->hasChildren())
+            fColor.prcParse(tag->getFirstChild());
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }

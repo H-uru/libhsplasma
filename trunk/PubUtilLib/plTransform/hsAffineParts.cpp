@@ -44,3 +44,31 @@ void hsAffineParts::prcWrite(pfPrcHelper* prc) {
       prc->endTag(true);
     prc->closeTag();
 }
+
+void hsAffineParts::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsAffineParts")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        if (child->getName() == "I") {
+            fI = tag->getParam("value", "0").toInt();
+        } else if (child->getName() == "T") {
+            if (child->hasChildren())
+                fT.prcParse(child->getFirstChild());
+        } else if (child->getName() == "Q") {
+            if (child->hasChildren())
+                fQ.prcParse(child->getFirstChild());
+        } else if (child->getName() == "U") {
+            if (child->hasChildren())
+                fU.prcParse(child->getFirstChild());
+        } else if (child->getName() == "K") {
+            if (child->hasChildren())
+                fK.prcParse(child->getFirstChild());
+        } else if (child->getName() == "F") {
+            fF = tag->getParam("value", "0").toFloat();
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+    }
+}

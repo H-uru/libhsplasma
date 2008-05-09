@@ -64,6 +64,34 @@ void plOccluder::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "WorldBounds") {
+        if (tag->hasChildren())
+            fWorldBounds.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Priority") {
+        fPriority = tag->getParam("value", "0").toFloat();
+    } else if (tag->getName() == "Polys") {
+        fPolys.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fPolys.getSize(); i++) {
+            fPolys[i].prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "SceneNode") {
+        if (tag->hasChildren())
+            fSceneNode = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "VisRegions") {
+        fVisRegions.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fVisRegions.getSize(); i++) {
+            fVisRegions[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plMobileOccluder */
 plMobileOccluder::plMobileOccluder() { }
@@ -90,12 +118,29 @@ void plMobileOccluder::write(hsStream* S, plResManager* mgr) {
 void plMobileOccluder::IPrcWrite(pfPrcHelper* prc) {
     plOccluder::IPrcWrite(prc);
 
-    prc->writeSimpleTag("LocalToWorldTransforms");
+    prc->writeSimpleTag("LocalToWorld");
     fLocalToWorld.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldToLocal");
     fWorldToLocal.prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("LocalBounds");
     fLocalBounds.prcWrite(prc);
     prc->closeTag();
+}
+
+void plMobileOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "LocalToWorld") {
+        if (tag->hasChildren())
+            fLocalToWorld.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldToLocal") {
+        if (tag->hasChildren())
+            fWorldToLocal.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LocalBounds") {
+        if (tag->hasChildren())
+            fLocalBounds.prcParse(tag->getFirstChild());
+    } else {
+        plOccluder::IPrcParse(tag, mgr);
+    }
 }

@@ -74,7 +74,9 @@ public:
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag);
 
     const plKey& getFogEnvironment() const;
     const hsTArray<plKey>& getPermaLights() const;

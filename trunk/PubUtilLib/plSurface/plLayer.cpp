@@ -91,6 +91,46 @@ void plLayer::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plLayer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "hsGMatState") {
+        fState.prcParse(tag);
+    } else if (tag->getName() == "Transform") {
+        if (tag->hasChildren())
+            fTransform.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Preshade") {
+        if (tag->hasChildren())
+            fPreshadeColor.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Runtime") {
+        if (tag->hasChildren())
+            fRuntimeColor.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Ambient") {
+        if (tag->hasChildren())
+            fAmbientColor.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Specular") {
+        if (tag->hasChildren())
+            fSpecularColor.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LayerParams") {
+        fUVWSrc = tag->getParam("UVWSrc", "0").toUint();
+        fOpacity = tag->getParam("Opacity", "0").toFloat();
+        fLODBias = tag->getParam("LODBias", "0").toFloat();
+        fSpecularPower = tag->getParam("SpecularPower", "0").toFloat();
+    } else if (tag->getName() == "Texture") {
+        if (tag->hasChildren())
+            fTexture = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "VertexShader") {
+        if (tag->hasChildren())
+            fVertexShader = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "PixelShader") {
+        if (tag->hasChildren())
+            fPixelShader = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "BumpEnvXfm") {
+        if (tag->hasChildren())
+            fBumpEnvXfm.prcParse(tag->getFirstChild());
+    } else {
+        plLayerInterface::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plLayerDepth */
 IMPLEMENT_CREATABLE(plLayerDepth, kLayerDepth, plLayer)

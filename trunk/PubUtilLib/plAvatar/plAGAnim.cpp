@@ -51,10 +51,54 @@ void plAGAnim::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Applicators");
     for (size_t i=0; i<fApps.getSize(); i++) {
-        fApps[i]->prcWrite(prc);
-        fApps[i]->getChannel()->prcWrite(prc);
+        prc->writeSimpleTag("AppSet");
+          prc->writeSimpleTag("Applicator");
+          fApps[i]->prcWrite(prc);
+          prc->closeTag();
+          prc->writeSimpleTag("Channel");
+          fApps[i]->getChannel()->prcWrite(prc);
+          prc->closeTag();
+        prc->closeTag();
     }
     prc->closeTag();
+}
+
+void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "AGAnimParams") {
+        fName = tag->getParam("Name", "");
+        fStart = tag->getParam("Start", "0").toFloat();
+        fEnd = tag->getParam("End", "0").toFloat();
+    } else if (tag->getName() == "Applicators") {
+        fApps.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fApps.getSize(); i++) {
+            if (child->getName() != "AppSet")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+
+            const pfPrcTag* subChild = tag->getFirstChild();
+            plAGApplicator* agApp;
+            plAGChannel* agChan;
+            while (subChild != NULL) {
+                if (subChild->getName() == "Applicator") {
+                    if (subChild->hasChildren())
+                        agApp = plAGApplicator::Convert(mgr->prcParseCreatable(subChild));
+                } else if (subChild->getName() == "Channel") {
+                    if (subChild->hasChildren())
+                        agChan = plAGChannel::Convert(mgr->prcParseCreatable(child));
+                } else {
+                    throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
+                }
+                subChild = subChild->getNextSibling();
+            }
+            if (agApp == NULL)
+                throw pfPrcParseException(__FILE__, __LINE__, "Missing Applicator");
+            agApp->setChannel(agChan);
+            fApps[i] = agApp;
+            child = child->getNextSibling();
+        }
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -80,6 +124,14 @@ void plAgeGlobalAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("AgeGlobalAnimParams");
     prc->writeParam("GlobalVarName", fGlobalVarName);
     prc->endTag(true);
+}
+
+void plAgeGlobalAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "AgeGlobalAnimParams") {
+        fGlobalVarName = tag->getParam("GlobalVarName", "");
+    } else {
+        plAGAnim::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -113,15 +165,15 @@ void plATCAnim::read(hsStream* S, plResManager* mgr) {
     
     fMarkers.setSize(S->readInt());
     for (size_t i=0; i<fMarkers.getSize(); i++) {
-        fMarkers[i].key = S->readSafeStr();
-        fMarkers[i].value = S->readFloat();
+        fMarkers[i].fKey = S->readSafeStr();
+        fMarkers[i].fValue = S->readFloat();
     }
 
     fLoops.setSize(S->readInt());
     for (size_t i=0; i<fLoops.getSize(); i++) {
-        fLoops[i].key = S->readSafeStr();
-        fLoops[i].start = S->readFloat();
-        fLoops[i].end = S->readFloat();
+        fLoops[i].fKey = S->readSafeStr();
+        fLoops[i].fStart = S->readFloat();
+        fLoops[i].fEnd = S->readFloat();
     }
 
     fStopPoints.setSizeNull(S->readInt());
@@ -150,15 +202,15 @@ void plATCAnim::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fMarkers.getSize());
     for (size_t i=0; i<fMarkers.getSize(); i++) {
-        S->writeSafeStr(fMarkers[i].key);
-        S->writeFloat(fMarkers[i].value);
+        S->writeSafeStr(fMarkers[i].fKey);
+        S->writeFloat(fMarkers[i].fValue);
     }
 
     S->writeInt(fLoops.getSize());
     for (size_t i=0; i<fLoops.getSize(); i++) {
-        S->writeSafeStr(fLoops[i].key);
-        S->writeFloat(fLoops[i].start);
-        S->writeFloat(fLoops[i].end);
+        S->writeSafeStr(fLoops[i].fKey);
+        S->writeFloat(fLoops[i].fStart);
+        S->writeFloat(fLoops[i].fEnd);
     }
 
     S->writeInt(fStopPoints.getSize());
@@ -194,8 +246,8 @@ void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Markers");
     for (size_t i=0; i<fMarkers.getSize(); i++) {
         prc->startTag("Marker");
-        prc->writeParam("name", fMarkers[i].key);
-        prc->writeParam("pos", fMarkers[i].value);
+        prc->writeParam("Name", fMarkers[i].fKey);
+        prc->writeParam("Pos", fMarkers[i].fValue);
         prc->endTag(true);
     }
     prc->closeTag();
@@ -203,9 +255,9 @@ void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Loops");
     for (size_t i=0; i<fLoops.getSize(); i++) {
         prc->startTag("Loop");
-        prc->writeParam("name", fLoops[i].key);
-        prc->writeParam("start", fLoops[i].start);
-        prc->writeParam("end", fLoops[i].end);
+        prc->writeParam("Name", fLoops[i].fKey);
+        prc->writeParam("Start", fLoops[i].fStart);
+        prc->writeParam("End", fLoops[i].fEnd);
         prc->endTag(true);
     }
     prc->closeTag();
@@ -213,10 +265,62 @@ void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("StopPoints");
     for (size_t i=0; i<fStopPoints.getSize(); i++) {
         prc->startTag("StopPoint");
-        prc->writeParam("pos", fStopPoints[i]);
+        prc->writeParam("Pos", fStopPoints[i]);
         prc->endTag(true);
     }
     prc->closeTag();
+}
+
+void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ATCAnimParams") {
+        fInitial = tag->getParam("Initial", "0").toFloat();
+        fAutoStart = tag->getParam("AutoStart", "false").toBool();
+        fLoopStart = tag->getParam("LoopStart", "0").toFloat();
+        fLoopEnd = tag->getParam("LoopEnd", "0").toFloat();
+        fLoop = tag->getParam("Loop", "false").toBool();
+    } else if (tag->getName() == "EaseIn") {
+        fEaseInType = tag->getParam("Type", "0").toUint();
+        fEaseInMin = tag->getParam("Min", "0").toFloat();
+        fEaseInMax = tag->getParam("Max", "0").toFloat();
+        fEaseInLength = tag->getParam("Length", "0").toFloat();
+    } else if (tag->getName() == "EaseOut") {
+        fEaseOutType = tag->getParam("Type", "0").toUint();
+        fEaseOutMin = tag->getParam("Min", "0").toFloat();
+        fEaseOutMax = tag->getParam("Max", "0").toFloat();
+        fEaseOutLength = tag->getParam("Length", "0").toFloat();
+    } else if (tag->getName() == "Markers") {
+        fMarkers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fMarkers.getSize(); i++) {
+            if (child->getName() != "Marker")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fMarkers[i].fKey = child->getParam("Name", "");
+            fMarkers[i].fValue = child->getParam("Pos", "0").toFloat();
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Loops") {
+        fLoops.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fLoops.getSize(); i++) {
+            if (child->getName() != "Loop")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fLoops[i].fKey = child->getParam("Name", "");
+            fLoops[i].fStart = child->getParam("Start", "0").toFloat();
+            fLoops[i].fEnd = child->getParam("End", "0").toFloat();
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "StopPoints") {
+        fStopPoints.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fStopPoints.getSize(); i++) {
+            if (child->getName() != "StopPoint")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fStopPoints[i] = child->getParam("Pos", "0").toFloat();
+            child = child->getNextSibling();
+        }
+    } else {
+        plAGAnim::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -250,4 +354,14 @@ void plEmoteAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("FadeOut", fFadeOut);
     prc->writeParam("BodyUsage", (hsUbyte)fBodyUsage);
     prc->endTag(true);
+}
+
+void plEmoteAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "EmoteAnimParams") {
+        fFadeIn = tag->getParam("FadeIn", "0").toFloat();
+        fFadeOut = tag->getParam("FadeOut", "0").toFloat();
+        fBodyUsage = (plAGAnim::BodyUsage)tag->getParam("BodyUsage", "0").toInt();
+    } else {
+        plATCAnim::IPrcParse(tag, mgr);
+    }
 }

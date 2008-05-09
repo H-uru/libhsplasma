@@ -53,6 +53,8 @@ protected:
     unsigned int fJPEGSize;
     unsigned char* fAlphaData;
     unsigned int fAlphaSize;
+    plMipmap* fJPEGDataRLE;
+    plMipmap* fAlphaDataRLE;
     
     unsigned int fWidth, fHeight, fStride, fTotalSize;
     unsigned char fNumLevels;
@@ -88,6 +90,7 @@ public:
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
     void IBuildLevelSizes();
     void IReadJPEGImage(hsStream* S);
@@ -99,4 +102,3 @@ public:
 };
 
 #endif
-

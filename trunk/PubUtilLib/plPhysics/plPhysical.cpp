@@ -31,3 +31,7 @@ void plPhysical::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
     prc->writeComment("Incomplete");
 }
+
+void plPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    throw hsNotImplementedException(__FILE__, __LINE__);
+}

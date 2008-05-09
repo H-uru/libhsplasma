@@ -18,6 +18,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
     plAGChannel* getChannel() const;
     void setChannel(plAGChannel*);
@@ -36,6 +37,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plLightAmbientApplicator : public plAGApplicator {

@@ -50,6 +50,22 @@ void plWinAudible::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plWinAudible::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SoundObjects") {
+        fSoundObjs.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fSoundObjs.getSize(); i++) {
+            fSoundObjs[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "SceneNode") {
+        if (tag->hasChildren())
+            fSceneNode = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* pl2WayWinAudible */
 pl2WayWinAudible::pl2WayWinAudible() { }

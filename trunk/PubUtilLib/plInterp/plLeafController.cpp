@@ -64,16 +64,48 @@ void plLeafController::IPrcWrite(pfPrcHelper* prc) {
     if (fUruUnknown != 0)
         prc->writeParam("UruUnknown", fUruUnknown);
     prc->endTag(true);
-    
-    prc->writeSimpleTag("Keys");
-    for (size_t i=0; i<fKeys.getSize(); i++)
-        fKeys[i]->prcWrite(prc);
-    prc->closeTag();
 
-    prc->writeSimpleTag("Controllers");
-    for (size_t i=0; i<fControllers.getSize(); i++)
-        fControllers[i]->prcWrite(prc);
-    prc->closeTag();
+    if (fKeys.getSize() > 0) {
+        prc->writeSimpleTag("Keys");
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->prcWrite(prc);
+        prc->closeTag();
+    }
+
+    if (fControllers.getSize() > 0) {
+        prc->writeSimpleTag("Controllers");
+        for (size_t i=0; i<fControllers.getSize(); i++)
+            fControllers[i]->prcWrite(prc);
+        prc->closeTag();
+    }
+}
+
+void plLeafController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Parameters") {
+        plString typeStr = tag->getParam("Type", "");
+        fType = hsKeyFrame::kUnknownKeyFrame;
+        for (size_t i=0; i<=hsKeyFrame::kMatrix44KeyFrame; i++) {
+            if (typeStr == hsKeyFrame::TypeNames[i])
+                fType = i;
+        }
+        fUruUnknown = tag->getParam("UruUnknown", "0").toUint();
+    } else if (tag->getName() == "Keys") {
+        AllocKeys(tag->countChildren(), fType);
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fKeys.getSize(); i++) {
+            fKeys[i]->prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Controllers") {
+        AllocControllers(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fControllers.getSize(); i++) {
+            fControllers[i]->prcParse(child, mgr);
+            child = child->getNextSibling();
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }
 
 void plLeafController::AllocKeys(unsigned int numKeys, unsigned char type) {

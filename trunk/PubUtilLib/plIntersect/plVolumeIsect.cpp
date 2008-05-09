@@ -32,6 +32,18 @@ void plBoundsIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plBoundsIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "LocalBounds") {
+        if (tag->hasChildren())
+            fLocalBounds.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldBounds") {
+        if (tag->hasChildren())
+            fWorldBounds.prcParse(tag->getFirstChild());
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plConeIsect */
 plConeIsect::plConeIsect() { }
@@ -76,7 +88,7 @@ void plConeIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Capped", fCapped);
     prc->writeParam("RadAngle", fRadAngle);
     prc->writeParam("Length", fLength);
-    prc->endTag();
+    prc->endTag(true);
 
     prc->writeSimpleTag("WorldTip");
     fWorldTip.prcWrite(prc);
@@ -91,8 +103,6 @@ void plConeIsect::IPrcWrite(pfPrcHelper* prc) {
     fLightToNDC.prcWrite(prc);
     prc->closeTag();
 
-    prc->closeTag(); // ConeParams
-
     prc->writeSimpleTag("Norms");
     size_t count = 4 + (fCapped != 0 ? 1 : 0);
     for (size_t i=0; i<count; i++) {
@@ -103,6 +113,41 @@ void plConeIsect::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();;
     }
     prc->closeTag();
+}
+
+void plConeIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ConeParams") {
+        fCapped = tag->getParam("Capped", "0").toInt();
+        fRadAngle = tag->getParam("RadAngle", "0").toFloat();
+        fLength = tag->getParam("Length", "0").toFloat();
+    } else if (tag->getName() == "WorldTip") {
+        if (tag->hasChildren())
+            fWorldTip.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldNorm") {
+        if (tag->hasChildren())
+            fWorldNorm.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldToNDC") {
+        if (tag->hasChildren())
+            fWorldToNDC.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LightToNDC") {
+        if (tag->hasChildren())
+            fLightToNDC.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Norms") {
+        size_t count = 4 + (fCapped != 0 ? 1 : 0);
+        if (tag->countChildren() != count)
+            throw pfPrcTagException(__FILE__, __LINE__, "Incorrect number of Norms");
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<count; i++) {
+            if (child->getName() != "Normal")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fDists[i] = child->getParam("Distance", "0").toFloat();
+            if (child->hasChildren())
+                fNorms[i].prcParse(child->getFirstChild());
+            child = child->getNextSibling();
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -141,18 +186,51 @@ void plConvexIsect::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("Dist", fPlanes[i].fDist);
         prc->writeParam("WorldDist", fPlanes[i].fWorldDist);
         prc->endTag();
-          prc->writeSimpleTag("Norm");
+          prc->writeSimpleTag("Normal");
           fPlanes[i].fNorm.prcWrite(prc);
           prc->closeTag();
           prc->writeSimpleTag("Position");
           fPlanes[i].fPos.prcWrite(prc);
           prc->closeTag();
-          prc->writeSimpleTag("WorldNorm");
+          prc->writeSimpleTag("WorldNormal");
           fPlanes[i].fWorldNorm.prcWrite(prc);
           prc->closeTag();
         prc->closeTag();
     }
     prc->closeTag(); // Planes
+}
+
+void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Planes") {
+        fPlanes.setSize(tag->countChildren());
+        const pfPrcTag* planeChild = tag->getFirstChild();
+        for (size_t i=0; i<fPlanes.getSize(); i++) {
+            if (planeChild->getName() != "SinglePlane")
+                throw pfPrcTagException(__FILE__, __LINE__, planeChild->getName());
+            fPlanes[i].fDist = planeChild->getParam("Dist", "0").toFloat();
+            fPlanes[i].fWorldDist = planeChild->getParam("WorldDist", "0").toFloat();
+
+            const pfPrcTag* child = planeChild->getFirstChild();
+            while (child != NULL) {
+                if (child->getName() == "Normal") {
+                    if (child->hasChildren())
+                        fPlanes[i].fNorm.prcParse(child->getFirstChild());
+                } else if (child->getName() == "Position") {
+                    if (child->hasChildren())
+                        fPlanes[i].fPos.prcParse(child->getFirstChild());
+                } else if (child->getName() == "WorldNormal") {
+                    if (child->hasChildren())
+                        fPlanes[i].fWorldNorm.prcParse(child->getFirstChild());
+                } else {
+                    throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+                }
+                child = child->getNextSibling();
+            }
+            planeChild = planeChild->getNextSibling();
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -190,7 +268,7 @@ void plCylinderIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Length", fLength);
     prc->writeParam("Min", fMin);
     prc->writeParam("Max", fMax);
-    prc->endTag();
+    prc->endTag(true);
 
     prc->writeSimpleTag("Top");
     fTop.prcWrite(prc);
@@ -204,8 +282,29 @@ void plCylinderIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("WorldNorm");
     fWorldNorm.prcWrite(prc);
     prc->closeTag();
+}
 
-    prc->closeTag(); // CylinderParams
+void plCylinderIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "CylinderParams") {
+        fRadius = tag->getParam("Radius", "0").toFloat();
+        fLength = tag->getParam("Length", "0").toFloat();
+        fMin = tag->getParam("Min", "0").toFloat();
+        fMax = tag->getParam("Max", "0").toFloat();
+    } else if (tag->getName() == "Top") {
+        if (tag->hasChildren())
+            fTop.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Bottom") {
+        if (tag->hasChildren())
+            fBot.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldBottom") {
+        if (tag->hasChildren())
+            fWorldBot.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldNorm") {
+        if (tag->hasChildren())
+            fWorldNorm.prcParse(tag->getFirstChild());
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -244,7 +343,7 @@ void plParallelIsect::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("Min", fPlanes[i].fMin);
         prc->writeParam("Max", fPlanes[i].fMax);
         prc->endTag();
-          prc->writeSimpleTag("Norm");
+          prc->writeSimpleTag("Normal");
           fPlanes[i].fNorm.prcWrite(prc);
           prc->closeTag();
           prc->writeSimpleTag("Positions");
@@ -254,6 +353,38 @@ void plParallelIsect::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();
     }
     prc->closeTag(); // Planes
+}
+
+void plParallelIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Planes") {
+        fPlanes.setSize(tag->countChildren());
+        const pfPrcTag* planeChild = tag->getFirstChild();
+        for (size_t i=0; i<fPlanes.getSize(); i++) {
+            if (planeChild->getName() != "ParallelPlane")
+                throw pfPrcTagException(__FILE__, __LINE__, planeChild->getName());
+            fPlanes[i].fMin = planeChild->getParam("Min", "0").toFloat();
+            fPlanes[i].fMax = planeChild->getParam("Max", "0").toFloat();
+
+            const pfPrcTag* child = planeChild->getFirstChild();
+            while (child != NULL) {
+                if (child->getName() == "Normal") {
+                    if (child->hasChildren())
+                        fPlanes[i].fNorm.prcParse(child->getFirstChild());
+                } else if (child->getName() == "Positions") {
+                    if (child->countChildren() != 2)
+                        throw pfPrcParseException(__FILE__, __LINE__, "ParallelPlane expects exactly 2 posiitons");
+                    fPlanes[i].fPosOne.prcParse(child->getFirstChild());
+                    fPlanes[i].fPosTwo.prcParse(child->getFirstChild()->getNextSibling());
+                } else {
+                    throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+                }
+                child = child->getNextSibling();
+            }
+            planeChild = planeChild->getNextSibling();
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -282,7 +413,7 @@ void plSphereIsect::write(hsStream* S, plResManager* mgr) {
 void plSphereIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("SphereParams");
     prc->writeParam("Radius", fRadius);
-    prc->endTag();
+    prc->endTag(true);
 
     prc->writeSimpleTag("Center");
     fCenter.prcWrite(prc);
@@ -296,8 +427,26 @@ void plSphereIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Maxs");
     fMaxs.prcWrite(prc);
     prc->closeTag();
+}
 
-    prc->closeTag(); // SphereParams
+void plSphereIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SphereParams") {
+        fRadius = tag->getParam("Radius", "0").toFloat();
+    } else if (tag->getName() == "Center") {
+        if (tag->hasChildren())
+            fCenter.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldCenter") {
+        if (tag->hasChildren())
+            fWorldCenter.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Mins") {
+        if (tag->hasChildren())
+            fMins.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Maxs") {
+        if (tag->hasChildren())
+            fMaxs.prcParse(tag->getFirstChild());
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -328,6 +477,19 @@ void plComplexIsect::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fVolumes.getSize(); i++)
         fVolumes[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plComplexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Volumes") {
+        fVolumes.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fVolumes.getSize(); i++) {
+            fVolumes[i] = plVolumeIsect::Convert(mgr->prcParseCreatable(child));
+            child = child->getNextSibling();
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }
 
 

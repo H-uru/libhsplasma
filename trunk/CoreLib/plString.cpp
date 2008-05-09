@@ -258,6 +258,8 @@ unsigned int plString::hash() const {
 }
 
 unsigned int plString::hash(const char* str) {
+    if (str == NULL) str = "";
+    
     // djb2 hash //
     unsigned int hash = 5381;
     while (*str++)
@@ -433,6 +435,14 @@ double plString::toFloat() const {
     if (errno == ERANGE || errno == EINVAL)
         throw hsBadParamException(__FILE__, __LINE__);
     return value;
+}
+
+bool plString::toBool() const {
+    if (compareTo("true", true) == 0)
+        return true;
+    if (compareTo("false", true) == 0)
+        return false;
+    return (toUint() != 0);
 }
 
 plString plString::Format(const char* fmt, ...) {
@@ -692,6 +702,9 @@ unsigned int plWString::hash() const {
 }
 
 unsigned int plWString::hash(const wchar_t* str) {
+    if (str == NULL)
+        str = L"";
+
     // djb2 hash //
     // hopefully this works as well on wstrings as on strings... //
     unsigned int hash = 5381;
@@ -868,6 +881,14 @@ double plWString::toFloat() const {
     if (errno == ERANGE || errno == EINVAL)
         throw hsBadParamException(__FILE__, __LINE__);
     return value;
+}
+
+bool plWString::toBool() const {
+    if (compareTo(L"true", true) == 0)
+        return true;
+    if (compareTo(L"false", true) == 0)
+        return false;
+    return (toUint() != 0);
 }
 
 plWString plWString::Format(const wchar_t* fmt, ...) {

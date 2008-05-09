@@ -42,3 +42,17 @@ void plAvLadderMod::IPrcWrite(pfPrcHelper* prc) {
     fLadderView.prcWrite(prc);
     prc->closeTag();
 }
+
+void plAvLadderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "LadderParams") {
+        fType = tag->getParam("Type", "0").toInt();
+        fLoops = tag->getParam("Loops", "0").toInt();
+        fGoingUp = tag->getParam("GoingUp", "false").toBool();
+        fEnabled = tag->getParam("Enabled", "true").toBool();
+    } else if (tag->getName() == "LadderView") {
+        if (tag->hasChildren())
+            fLadderView.prcParse(tag->getFirstChild());
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
+}

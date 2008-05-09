@@ -32,6 +32,17 @@ void plOmniLightInfo::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plOmniLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Attensity") {
+        fAttenConst = tag->getParam("Constant", "0").toFloat();
+        fAttenLinear = tag->getParam("Linear", "0").toFloat();
+        fAttenQuadratic = tag->getParam("Quadratic", "0").toFloat();
+        fAttenCutoff = tag->getParam("Cutoff", "0").toFloat();
+    } else {
+        plLightInfo::IPrcParse(tag, mgr);
+    }
+}
+
 
 // plSpotLightInfo //
 plSpotLightInfo::plSpotLightInfo() { }
@@ -60,4 +71,14 @@ void plSpotLightInfo::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("SpotInner", fSpotInner);
     prc->writeParam("SpotOuter", fSpotOuter);
     prc->endTag(true);
+}
+
+void plSpotLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SpotLight") {
+        fFalloff = tag->getParam("Falloff", "0").toFloat();
+        fSpotInner = tag->getParam("SpotInner", "0").toFloat();
+        fSpotOuter = tag->getParam("SpotOuter", "0").toFloat();
+    } else {
+        plOmniLightInfo::IPrcParse(tag, mgr);
+    }
 }

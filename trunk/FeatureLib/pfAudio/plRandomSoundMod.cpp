@@ -37,6 +37,20 @@ void plRandomSoundModGroup::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plRandomSoundModGroup::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plRandomSoundModGroup")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fGroupedIdx = tag->getParam("GroupedIdx", "0").toInt();
+    fNumSounds = tag->countChildren();
+    fIndices.setSizeNull(fNumSounds);
+    const pfPrcTag* child = tag->getFirstChild();
+    for (size_t i=0; i<fNumSounds; i++) {
+        fIndices[i] = child->getParam("Index", "0").toUint();
+        child = child->getNextSibling();
+    }
+}
+
 
 // plRandomSoundMod //
 plRandomSoundMod::plRandomSoundMod() : fNumGroups(0) { }
@@ -69,4 +83,18 @@ void plRandomSoundMod::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fNumGroups; i++)
         fGroups[i].prcWrite(prc);
     prc->closeTag();
+}
+
+void plRandomSoundMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Groups") {
+        fNumGroups = tag->countChildren();
+        fGroups.setSize(fNumGroups);
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fNumGroups; i++) {
+            fGroups[i].prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plRandomCommandMod::IPrcParse(tag, mgr);
+    }
 }

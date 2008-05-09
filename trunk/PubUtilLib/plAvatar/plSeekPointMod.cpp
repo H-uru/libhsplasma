@@ -20,7 +20,15 @@ void plSeekPointMod::write(hsStream* S, plResManager* mgr) {
 void plSeekPointMod::IPrcWrite(pfPrcHelper* prc) {
     plMultiModifier::IPrcWrite(prc);
 
-    prc->startTag("SeekPointModParams");
+    prc->startTag("SeekPoint");
     prc->writeParam("Name", fName);
     prc->endTag(true);
+}
+
+void plSeekPointMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SeekPoint") {
+        fName = tag->getParam("Name", "");
+    } else {
+        plMultiModifier::IPrcParse(tag, mgr);
+    }
 }

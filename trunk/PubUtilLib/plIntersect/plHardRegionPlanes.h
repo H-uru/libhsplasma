@@ -18,6 +18,7 @@ public:
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
+        void prcParse(const pfPrcTag* tag);
     };
 
 protected:
@@ -32,6 +33,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

@@ -8,6 +8,16 @@
 #include "CoreLib/hsBitVector.h"
 
 DllClass plSpaceTreeNode {
+public:
+    enum {
+        kNone = 0,
+        kIsLeaf = 0x1,
+        kDirty = 0x2,
+        kDisabled = 0x4,
+        kEmpty = 0x8,
+        kEnabledTemp = 0x10
+    };
+
 protected:
     hsBounds3Ext fWorldBounds;
     unsigned short fFlags;
@@ -25,6 +35,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 DllClass plSpaceTree : public plCreatable {
@@ -36,11 +47,7 @@ protected:
     };
     
     hsTArray<plSpaceTreeNode> fTree;
-    const hsBitVector* fCache;
-    short fRoot;
-    short fNumLeaves;
-    unsigned short fHarvestFlags;
-    hsVector3 fViewPos;
+    short fRoot, fNumLeaves;
 
 public:
     plSpaceTree();
@@ -51,6 +58,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

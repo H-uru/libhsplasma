@@ -55,6 +55,31 @@ void plPostEffectMod::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("DefaultW2C");
     fDefaultW2C.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("DefaultC2W");
     fDefaultC2W.prcWrite(prc);
     prc->closeTag();
+}
+
+void plPostEffectMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "State") {
+        if (tag->hasChildren())
+            fState.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "View") {
+        fHither = tag->getParam("Hither", "0").toFloat();
+        fYon = tag->getParam("Yon", "0").toFloat();
+        fFovX = tag->getParam("FovX", "0").toFloat();
+        fFovY = tag->getParam("FovY", "0").toFloat();
+    } else if (tag->getName() == "SceneNode") {
+        if (tag->hasChildren())
+            fNodeKey = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "DefaultW2C") {
+        if (tag->hasChildren())
+            fDefaultW2C.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "DefaultC2W") {
+        if (tag->hasChildren())
+            fDefaultC2W.prcParse(tag->getFirstChild());
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
 }

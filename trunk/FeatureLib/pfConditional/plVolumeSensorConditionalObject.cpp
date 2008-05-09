@@ -26,9 +26,19 @@ void plVolumeSensorConditionalObject::write(hsStream* S, plResManager* mgr) {
 
 void plVolumeSensorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     plConditionalObject::IPrcWrite(prc);
-    prc->startTag("Params");
+    prc->startTag("VolumeSensorParams");
     prc->writeParam("TrigNum", fTrigNum);
     prc->writeParam("Type", fType);
     prc->writeParam("First", fFirst);
     prc->endTag(true);
+}
+
+void plVolumeSensorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "VolumeSensorParams") {
+        fTrigNum = tag->getParam("TrigNum", "0").toInt();
+        fType = tag->getParam("Type", "0").toInt();
+        fFirst = tag->getParam("First", "false").toBool();
+    } else {
+        plConditionalObject::IPrcParse(tag, mgr);
+    }
 }

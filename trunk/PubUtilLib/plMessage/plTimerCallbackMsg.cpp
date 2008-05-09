@@ -25,3 +25,12 @@ void plTimerCallbackMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Time", fTime);
     prc->endTag(true);
 }
+
+void plTimerCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "TimerCallback") {
+        fID = tag->getParam("ID", "0").toUint();
+        fTime = tag->getParam("Time", "0").toFloat();
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}

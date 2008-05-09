@@ -42,6 +42,25 @@ void plDetectorModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plDetectorModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Receivers") {
+        fReceivers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fReceivers.getSize(); i++) {
+            fReceivers[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "RemoteMod") {
+        if (tag->hasChildren())
+            fRemoteMod = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Proxy") {
+        if (tag->hasChildren())
+            fProxyKey = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plPickingDetector */
 plPickingDetector::plPickingDetector() { }

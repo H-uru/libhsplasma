@@ -18,9 +18,8 @@ void plLineFollowMod::read(hsStream* S, plResManager* mgr) {
     fPathParent = mgr->readKey(S);
     fRefObj = mgr->readKey(S);
 
-    unsigned int count = S->readInt();
-    fStereizers.setSize(count);
-    for (unsigned int i=0; i<count; i++)
+    fStereizers.setSize(S->readInt());
+    for (size_t i=0; i<fStereizers.getSize(); i++)
         fStereizers[i] = mgr->readKey(S);
 
     unsigned int modeFlags = S->readInt();
@@ -46,7 +45,7 @@ void plLineFollowMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fRefObj);
 
     S->writeInt(fStereizers.getSize());
-    for (unsigned int i=0; i<fStereizers.getSize(); i++)
+    for (size_t i=0; i<fStereizers.getSize(); i++)
         mgr->writeKey(S, fStereizers[i]);
 
     S->writeInt((fFollowFlags << 16) | fFollowMode);
@@ -61,7 +60,9 @@ void plLineFollowMod::write(hsStream* S, plResManager* mgr) {
 void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
     plMultiModifier::IPrcWrite(prc);
 
-    fPath->prcWrite(prc);
+    prc->writeSimpleTag("Path");
+      fPath->prcWrite(prc);
+    prc->closeTag();
     prc->writeSimpleTag("Parent");
       fPathParent->prcWrite(prc);
     prc->closeTag();
@@ -70,11 +71,11 @@ void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Stereizers");
-    for (unsigned int i=0; i<fStereizers.getSize(); i++)
+    for (size_t i=0; i<fStereizers.getSize(); i++)
         fStereizers[i]->prcWrite(prc);
     prc->closeTag();
 
-    prc->startTag("Parameters");
+    prc->startTag("LineFollowParams");
       prc->writeParamHex("FollowFlags", fFollowFlags);
       prc->writeParam("FollowMode", fFollowMode);
       if (fFollowFlags & kOffset)
@@ -84,6 +85,34 @@ void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
       if (fFollowFlags & kSpeedClamp)
         prc->writeParam("SpeedClamp", fSpeedClamp);
     prc->endTag(true);
+}
+
+void plLineFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Path") {
+        if (tag->hasChildren())
+            fPath = plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "Parent") {
+        if (tag->hasChildren())
+            fPathParent = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "RefObj") {
+        if (tag->hasChildren())
+            fRefObj = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Stereizers") {
+        fStereizers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fStereizers.getSize(); i++) {
+            fStereizers[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "LineFollowParams") {
+        fFollowFlags = tag->getParam("FollowFlags", "0").toUint();
+        fFollowMode = (FollowMode)tag->getParam("FollowMode", "0").toInt();
+        fOffset = tag->getParam("Offset", "0").toFloat();
+        fOffsetClamp = tag->getParam("OffsetClamp", "0").toFloat();
+        fSpeedClamp = tag->getParam("SpeedClamp", "0").toFloat();
+    } else {
+        plMultiModifier::IPrcParse(tag, mgr);
+    }
 }
 
 

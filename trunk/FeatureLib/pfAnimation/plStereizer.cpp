@@ -36,7 +36,7 @@ void plStereizer::write(hsStream* S, plResManager* mgr) {
 void plStereizer::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
-    prc->startTag("Params");
+    prc->startTag("StereizerParams");
     prc->writeParam("AmbientDist", fAmbientDist);
     prc->writeParam("Transition", fTransition);
     prc->writeParam("MaxSepDist", fMaxSepDist);
@@ -47,4 +47,19 @@ void plStereizer::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("InitPos");
     fInitPos.prcWrite(prc);
     prc->closeTag();
+}
+
+void plStereizer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "StereizerParams") {
+        fAmbientDist = tag->getParam("AmbientDist", "0").toFloat();
+        fTransition = tag->getParam("Transition", "0").toFloat();
+        fMaxSepDist = tag->getParam("MaxSepDist", "0").toFloat();
+        fMinSepDist = tag->getParam("MinSepDist", "0").toFloat();
+        fTanAng = tag->getParam("TanAng", "0").toFloat();
+    } else if (tag->getName() == "InitPos") {
+        if (tag->hasChildren())
+            fInitPos.prcParse(tag);
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
 }

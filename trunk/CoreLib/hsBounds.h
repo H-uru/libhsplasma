@@ -4,6 +4,7 @@
 #include "hsStream.h"
 #include "hsGeometry3.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllClass hsBounds {
 protected:
@@ -19,6 +20,8 @@ public:
     virtual void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
+    virtual void IPrcParse(const pfPrcTag* tag);
 
     void setType(int type);
 };
@@ -31,7 +34,6 @@ public:
     };
 
 protected:
-    int fBounds3Flags;
     hsVector3 fMins, fMaxs, fCenter;
 
 public:
@@ -43,6 +45,7 @@ public:
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag);
 };
 
 DllClass hsBounds3Ext : public hsBounds3 {
@@ -74,6 +77,7 @@ public:
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag);
 };
 
 DllClass hsBoundsOriented : public hsBounds {
@@ -92,6 +96,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag);
 };
 
 #endif

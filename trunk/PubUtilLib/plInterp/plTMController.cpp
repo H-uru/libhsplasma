@@ -68,28 +68,68 @@ void plTMController::write(hsStream* S, plResManager* mgr) {
 }
 
 void plTMController::IPrcWrite(pfPrcHelper* prc) {
+    prc->writeSimpleTag("Position");
     if (fPosController != NULL) {
         fPosController->prcWrite(prc);
     } else {
         prc->startTag("plPosController");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
     }
+    prc->closeTag();
 
+    prc->writeSimpleTag("Rotation");
     if (fRotController != NULL) {
         fRotController->prcWrite(prc);
     } else {
         prc->startTag("plRotController");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
     }
+    prc->closeTag();
 
+    prc->writeSimpleTag("Scale");
     if (fScaleController != NULL) {
         fScaleController->prcWrite(prc);
     } else {
         prc->startTag("plScaleController");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
+    }
+    prc->closeTag();
+}
+
+void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Position") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+            if (tag->getFirstChild()->getName() == "plSimplePosController")
+                fPosController = new plSimplePosController();
+            else if (tag->getFirstChild()->getName() == "plCompoundPosController")
+                fPosController = new plCompoundPosController();
+            else
+                throw pfPrcTagException(__FILE__, __LINE__, tag->getFirstChild()->getName());
+            fPosController->prcParse(tag->getFirstChild(), mgr);
+        }
+    } else if (tag->getName() == "Rotation") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+            if (tag->getFirstChild()->getName() == "plSimpleRotController")
+                fRotController = new plSimpleRotController();
+            else if (tag->getFirstChild()->getName() == "plCompoundRotController")
+                fRotController = new plCompoundRotController();
+            else
+                throw pfPrcTagException(__FILE__, __LINE__, tag->getFirstChild()->getName());
+            fRotController->prcParse(tag->getFirstChild(), mgr);
+        }
+    } else if (tag->getName() == "Scale") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+            if (tag->getFirstChild()->getName() == "plSimpleScaleController")
+                fScaleController = new plSimpleScaleController();
+            else
+                throw pfPrcTagException(__FILE__, __LINE__, tag->getFirstChild()->getName());
+            fScaleController->prcParse(tag->getFirstChild(), mgr);
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
     }
 }
 

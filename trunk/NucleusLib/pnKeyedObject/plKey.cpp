@@ -54,6 +54,19 @@ void plKeyData::prcWrite(pfPrcHelper* prc) {
     }
 }
 
+plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plKey")
+        throw hsBadParamException(__FILE__, __LINE__, "Tag name mismatch");
+
+    if (!tag->getParam("NULL", "false")) {
+        plKeyData* key = new plKeyData;
+        key->fUoid.prcParse(tag);
+        return key;
+    } else {
+        return NULL;
+    }
+}
+
 plUoid& plKeyData::getUoid() { return fUoid; }
 class hsKeyedObject* plKeyData::getObj() { return fObjPtr; }
 void plKeyData::setObj(class hsKeyedObject* obj) { fObjPtr = obj; }
@@ -72,7 +85,7 @@ hsUint32 plKeyData::Ref() { return ++fRefCnt; }
 
 void plKeyData::UnRef() {
     if (--fRefCnt == 0) {
-        plDebug::Debug("Key %s no longer in use, deleting...", toString().cstr());
+        //plDebug::Debug("Key %s no longer in use, deleting...", toString().cstr());
         delete this;
     }
 }

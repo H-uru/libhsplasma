@@ -1,5 +1,4 @@
 #include "plTMController.h"
-#include "CoreLib/plDebug.h"
 
 /* plController */
 plController::plController() { }
@@ -33,7 +32,7 @@ void plCompoundController::write(hsStream* S, plResManager* mgr) {
 }
 
 void plCompoundController::IPrcWrite(pfPrcHelper* prc) {
-    prc->writeComment("X, Y, Z");
+    prc->writeSimpleTag("X");
     if (fXController != NULL) {
         fXController->prcWrite(prc);
     } else {
@@ -41,6 +40,8 @@ void plCompoundController::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
+    prc->closeTag();
+    prc->writeSimpleTag("Y");
     if (fYController != NULL) {
         fYController->prcWrite(prc);
     } else {
@@ -48,12 +49,30 @@ void plCompoundController::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("NULL", true);
         prc->endTag(true);
     }
+    prc->closeTag();
+    prc->writeSimpleTag("Z");
     if (fZController != NULL) {
         fZController->prcWrite(prc);
     } else {
         prc->startTag("plController");
         prc->writeParam("NULL", true);
         prc->endTag(true);
+    }
+    prc->closeTag();
+}
+
+void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "X") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool())
+            fXController = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "Y") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool())
+            fYController = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "Z") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool())
+            fZController = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
     }
 }
 

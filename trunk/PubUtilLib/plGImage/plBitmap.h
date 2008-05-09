@@ -68,6 +68,7 @@ public:
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

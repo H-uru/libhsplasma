@@ -137,7 +137,6 @@ PLSOBJ=\
 	$(OBJDIR)plRegionBase.o \
 	$(OBJDIR)plSoftVolume.o \
 	$(OBJDIR)plVolumeIsect.o \
-	$(OBJDIR)plJPEG.o \
 	$(OBJDIR)plAnimCmdMsg.o \
 	$(OBJDIR)plExcludeRegionMsg.o \
 	$(OBJDIR)plLinkToAgeMsg.o \
@@ -248,7 +247,7 @@ $(PLSCORELIB): $(PLSCOREOBJ) $(OBJFILES3P)
 	$(CXX) $(CXXFLAGS) $(PLSCOREOBJ) $(OBJFILES3P) -shared -Wl,-soname,libPlasmaCore.so -o $(PLSCORELIB)
 
 $(PLSLIB): $(PLSOBJ)
-	$(CXX) $(CXXFLAGS) $(PLSOBJ) -ljpeg -shared -Wl,-soname,libPlasma.so -o $(PLSLIB)
+	$(CXX) $(CXXFLAGS) $(PLSOBJ) -shared -Wl,-soname,libPlasma.so -o $(PLSLIB)
 
 install:
 	cp $(PLSCORELIB) /usr/local/lib
@@ -645,9 +644,6 @@ $(OBJDIR)plSoftVolume.o: PubUtilLib/plIntersect/plSoftVolume.h PubUtilLib/plInte
 
 $(OBJDIR)plVolumeIsect.o: PubUtilLib/plIntersect/plVolumeIsect.h PubUtilLib/plIntersect/plVolumeIsect.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plIntersect/plVolumeIsect.cpp -o $(OBJDIR)plVolumeIsect.o
-
-$(OBJDIR)plJPEG.o: PubUtilLib/plJPEG/plJPEG.h PubUtilLib/plJPEG/plJPEG.cpp
-	$(CXX) $(CXXFLAGS) -c PubUtilLib/plJPEG/plJPEG.cpp -o $(OBJDIR)plJPEG.o
 
 $(OBJDIR)plAnimCmdMsg.o: PubUtilLib/plMessage/plAnimCmdMsg.h PubUtilLib/plMessage/plAnimCmdMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plMessage/plAnimCmdMsg.cpp -o $(OBJDIR)plAnimCmdMsg.o

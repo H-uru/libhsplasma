@@ -19,3 +19,7 @@ void plWaveSet6::IPrcWrite(pfPrcHelper* prc) {
     plMultiModifier::IPrcWrite(prc);
     prc->writeComment("plWaveSet6 Not Implemented");
 }
+
+void plWaveSet6::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    throw hsNotImplementedException(__FILE__, __LINE__);
+}

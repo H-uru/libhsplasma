@@ -25,6 +25,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plParticleCollisionEffectBeat : public plParticleCollisionEffect {
@@ -48,6 +49,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plParticleCollisionEffectDie : public plParticleCollisionEffect {
@@ -71,6 +73,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plParticleFadeVolumeEffect : public plParticleEffect {
@@ -87,6 +90,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plParticleFlockEffect : public plParticleEffect {
@@ -95,8 +99,7 @@ protected:
     float fInfAvgRadSq, fInfRepRadSq, fAvgVelStr, fRepDirStr;
     float fGoalOrbitStr, fGoalChaseStr, fGoalDistSq;
     float fFullChaseDistSq, fMaxOrbitSpeed, fMaxChaseSpeed;
-    unsigned short fMaxParticles;
-    float fDistSq;
+    float fMaxParticles, fDistSq;
 
 public:
     plParticleFlockEffect();
@@ -107,6 +110,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plParticleFollowSystemEffect : public plParticleEffect {
@@ -133,6 +137,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plParticleLocalWind : public plParticleWindEffect {
@@ -151,6 +156,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plParticleUniformWind : public plParticleWindEffect {
@@ -168,6 +174,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

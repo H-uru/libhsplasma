@@ -267,6 +267,25 @@ void plUnifiedTime::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plUnifiedTime::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plUnifiedTime")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    int year, month, day, hour, minute, second;
+    year = tag->getParam("year", "0").toInt();
+    month = tag->getParam("month", "0").toInt();
+    day = tag->getParam("day", "0").toInt();
+    hour = tag->getParam("hour", "0").toInt();
+    minute = tag->getParam("minute", "0").toInt();
+    second = tag->getParam("second", "0").toInt();
+    fMicros = tag->getParam("microsecond", "0").toInt();
+    plString mode = tag->getParam("Mode", "GMT");
+    if (mode.compareTo("local", false) == 0)
+        setTime(year, month, day, hour, minute, second, fMicros, false);
+    else
+        setGMTime(year, month, day, hour, minute, second, fMicros, false);
+}
+
 plString plUnifiedTime::format(const char* fmt) {
     char buf[256];
     strftime(buf, 256, fmt, IGetTime(&fSecs));

@@ -1,6 +1,6 @@
 #include "plVisRegion.h"
 
-plVisRegion::plVisRegion() : fIndex(-1) {
+plVisRegion::plVisRegion() {
     fProps.setName(kDisable, "kDisable");
     fProps.setName(kIsNot, "kIsNot");
     fProps.setName(kReplaceNormal, "kReplaceNormal");
@@ -32,4 +32,16 @@ void plVisRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("VisMgr");
     fVisMgr->prcWrite(prc);
     prc->closeTag();
+}
+
+void plVisRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Region") {
+        if (tag->hasChildren())
+            fRegion = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "VisMgr") {
+        if (tag->hasChildren())
+            fVisMgr = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
 }

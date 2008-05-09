@@ -15,20 +15,20 @@ public:
         kBlowerComponent, kNone
     };
 
-    static const char* valueTypeNames[];
+    static const char* ValueTypeNames[];
 
-    unsigned int ID, valueType;
-    plWeakKey objKey;
-    plString strValue;
+    unsigned int fID, fValueType;
+    plWeakKey fObjKey;
+    plString fStrValue;
 
     union {
-        int intValue;
-        float floatValue;
-        bool boolValue;
+        int fIntValue;
+        float fFloatValue;
+        bool fBoolValue;
     };
 
 public:
-    plPythonParameter(PlasmaVer pv = pvUnknown);
+    plPythonParameter();
     ~plPythonParameter();
 
     static unsigned int PlasmaToMapped(unsigned int type, PlasmaVer ver);
@@ -37,15 +37,16 @@ public:
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 
 DllClass plPythonFileMod : public plMultiModifier {
 public:
     struct NamedComponent {
-        plString name;
-        int id;
-        bool isActivator;
+        plString fName;
+        int fId;
+        bool fIsActivator;
     };
 
     enum genref_whats { kNotSure, kAddNotify };
@@ -66,9 +67,9 @@ public:
     };
 
 protected:
-    plString pythonFile;
-    hsTArray<plWeakKey> receivers;
-    hsTArray<plPythonParameter> parameters;
+    plString fPythonFile;
+    hsTArray<plWeakKey> fReceivers;
+    hsTArray<plPythonParameter> fParameters;
     
     
 public:
@@ -84,6 +85,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

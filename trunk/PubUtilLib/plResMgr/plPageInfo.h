@@ -49,6 +49,7 @@ public:
     void write(hsStream* S);
     void writeSums(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     plString getFilename(PlasmaVer ver) const;
     const plString& getAge() const;

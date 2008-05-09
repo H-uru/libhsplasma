@@ -34,6 +34,16 @@ void plSoftVolume::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plSoftVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SoftVolumeParams") {
+        fListenState = tag->getParam("ListenState", "0").toUint();
+        fInsideStrength = tag->getParam("InsideStrength", "0").toFloat();
+        fOutsideStrength = tag->getParam("OutsideStrength", "0").toFloat();
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
+}
+
 
 // plSoftVolumeSimple //
 plSoftVolumeSimple::plSoftVolumeSimple() : fVolume(NULL), fSoftDist(0.0f) { }
@@ -69,6 +79,16 @@ void plSoftVolumeSimple::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Volume") {
+        fSoftDist = tag->getParam("SoftDist", "0").toFloat();
+        if (tag->hasChildren())
+            fVolume = plVolumeIsect::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else {
+        plSoftVolume::IPrcParse(tag, mgr);
+    }
+}
+
 
 // plSoftVolumeComplex //
 plSoftVolumeComplex::plSoftVolumeComplex() { }
@@ -99,6 +119,19 @@ void plSoftVolumeComplex::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fSubVolumes.getSize(); i++)
         fSubVolumes[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plSoftVolumeComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SubVolumes") {
+        fSubVolumes.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fSubVolumes.getSize(); i++) {
+            fSubVolumes[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plSoftVolume::IPrcParse(tag, mgr);
+    }
 }
 
 

@@ -95,3 +95,40 @@ void plEAXListenerMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
     prc->closeTag();
 }
+
+void plEAXListenerMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SoftRegion") {
+        if (tag->hasChildren())
+            fSoftRegion = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "ListenerProperties") {
+        const pfPrcTag* eax = tag->getFirstChild();
+        if (eax != NULL) {
+            if (eax->getName() != "EAXREVERBPROPERTIES")
+                throw pfPrcTagException(__FILE__, __LINE__, eax->getName());
+            fListenerProps.ulEnvironment = eax->getParam("Environment", "0").toUint();
+            fListenerProps.flEnvironmentSize = eax->getParam("EnvironmentSize", "0").toFloat();
+            fListenerProps.flEnvironmentDiffusion = eax->getParam("EnvironmentDiffusion", "0").toFloat();
+            fListenerProps.lRoom = eax->getParam("Room", "0").toInt();
+            fListenerProps.lRoomHF = eax->getParam("RoomHF", "0").toInt();
+            fListenerProps.lRoomLF = eax->getParam("RoomLF", "0").toInt();
+            fListenerProps.flDecayTime = eax->getParam("DecayTime", "0").toFloat();
+            fListenerProps.flDecayHFRatio = eax->getParam("DecayHFRatio", "0").toFloat();
+            fListenerProps.flDecayLFRatio = eax->getParam("DecayLFRatio", "0").toFloat();
+            fListenerProps.lReflections = eax->getParam("Reflections", "0").toInt();
+            fListenerProps.flReflectionsDelay = eax->getParam("ReflectionsDelay", "0").toFloat();
+            fListenerProps.lReverb = eax->getParam("Reverb", "0").toInt();
+            fListenerProps.flReverbDelay = eax->getParam("ReverbDelay", "0").toFloat();
+            fListenerProps.flEchoTime = eax->getParam("EchoTime", "0").toFloat();
+            fListenerProps.flEchoDepth = eax->getParam("EchoDepth", "0").toFloat();
+            fListenerProps.flModulationTime = eax->getParam("ModulationTime", "0").toFloat();
+            fListenerProps.flModulationDepth = eax->getParam("ModulationDepth", "0").toFloat();
+            fListenerProps.flAirAbsorptionHF = eax->getParam("AirAbsorptionHF", "0").toFloat();
+            fListenerProps.flHFReference = eax->getParam("HFReference", "0").toFloat();
+            fListenerProps.flLFReference = eax->getParam("LFReference", "0").toFloat();
+            fListenerProps.flRoomRolloffFactor = eax->getParam("RoomRolloffFactor", "0").toFloat();
+            fListenerProps.ulFlags = eax->getParam("Flags", "0").toUint();
+        }
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
+}

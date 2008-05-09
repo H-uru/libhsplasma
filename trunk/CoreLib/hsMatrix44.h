@@ -4,6 +4,7 @@
 #include "hsStream.h"
 #include "hsGeometry3.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 // Just remember: http://xkcd.org/184/
 
@@ -47,6 +48,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     plString toString() const;
 };

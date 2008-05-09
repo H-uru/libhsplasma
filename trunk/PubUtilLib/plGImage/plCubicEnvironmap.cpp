@@ -25,3 +25,17 @@ void plCubicEnvironmap::IPrcWrite(pfPrcHelper* prc) {
         fFaces[i].prcWrite(prc);
     prc->closeTag();
 }
+
+void plCubicEnvironmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Faces") {
+        if (tag->countChildren() != kNumFaces)
+            throw pfPrcParseException(__FILE__, __LINE__, "plCubicEnvironmap expects exactly 6 faces");
+        const pfPrcTag* face = tag->getFirstChild();
+        for (size_t i=0; i<kNumFaces; i++) {
+            fFaces[i].prcParse(face, mgr);
+            face = face->getNextSibling();
+        }
+    } else {
+        plBitmap::IPrcParse(tag, mgr);
+    }
+}

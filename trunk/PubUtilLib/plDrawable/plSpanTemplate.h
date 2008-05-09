@@ -36,9 +36,11 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     hsTArray<Vertex> getVertices() const;
     unsigned short getNumVerts() const;
+    void setVertices(const hsTArray<Vertex>& verts);
 
     static unsigned short CalcStride(unsigned short format);
 };

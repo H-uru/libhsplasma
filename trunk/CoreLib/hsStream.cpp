@@ -150,7 +150,7 @@ plString hsStream::readLine() {
     char* buf = new char[4096];
     unsigned int i = 0;
     char c = readByte();
-    while (c != '\n' && c != '\r') {
+    while ((c != '\n') && (c != '\r') && !eof()) {
         buf[i++] = c;
         c = readByte();
         if (i >= 4096)

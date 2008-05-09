@@ -47,3 +47,22 @@ void plSharedMesh::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParamHex("value", fFlags);
     prc->endTag(true);
 }
+
+void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Spans") {
+        fSpans.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fSpans.getSize(); i++) {
+            fSpans[i] = new plGeometrySpan();
+            fSpans[i]->prcParse(tag);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "MorphSet") {
+        if (tag->hasChildren())
+            fMorphSet = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Flags") {
+        fFlags = tag->getParam("value", "0").toUint();
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}

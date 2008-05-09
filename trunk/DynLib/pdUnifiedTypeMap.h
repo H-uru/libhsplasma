@@ -26,6 +26,7 @@ private:
 public:
     static const char* ClassName(short typeIdx);
     static const char* ClassName(short typeIdx, PlasmaVer ver);
+    static short ClassIndex(const char* typeName);
     
     static short PlasmaToMapped(short typeIdx, PlasmaVer ver);
     static short MappedToPlasma(short typeIdx, PlasmaVer ver);

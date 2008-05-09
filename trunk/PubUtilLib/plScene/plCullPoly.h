@@ -15,7 +15,6 @@ public:
 
 protected:
     unsigned int fFlags;
-    hsBitVector fClipped;
     hsTArray<hsVector3> fVerts;
     hsVector3 fNorm, fCenter;
     float fDist, fRadius;
@@ -27,6 +26,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 #endif

@@ -32,3 +32,13 @@ void plTransitionMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("HoldUntilNext", fHoldUntilNext);
     prc->endTag(true);
 }
+
+void plTransitionMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "TimerCallback") {
+        fEffect = tag->getParam("Effect", "0").toUint();
+        fLengthInSecs = tag->getParam("Length", "0").toFloat();
+        fHoldUntilNext = tag->getParam("HoldUntilNext", "0").toInt();
+    } else {
+        plMessageWithCallbacks::IPrcParse(tag, mgr);
+    }
+}

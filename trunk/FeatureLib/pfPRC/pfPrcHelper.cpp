@@ -160,3 +160,53 @@ void pfPrcHelper::finalize() {
     if (inTag) endTag();
     while (!openTags.empty()) closeTag();
 }
+
+void pfPrcHelper::writeHexStream(size_t length, const unsigned char* data) {
+    // Remember that the comments need to remain valid UTF-8, so only characters
+    // between 0x20 and 0x7F can be displayed...
+
+    size_t i;
+    for (i=0; i<(length / 16); i++) {
+        const unsigned char* ln = &data[i * 16];
+        file->writeStr(
+            plString::Format("%02X %02X %02X %02X %02X %02X %02X %02X "
+                             "%02X %02X %02X %02X %02X %02X %02X %02X ",
+                             ln[0x0], ln[0x1], ln[0x2], ln[0x3], ln[0x4], ln[0x5], ln[0x6], ln[0x7],
+                             ln[0x8], ln[0x9], ln[0xA], ln[0xB], ln[0xC], ln[0xD], ln[0xE], ln[0xF]
+                             ));
+        file->writeStr(
+            plString::Format("    <!-- %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c -->\n",
+                             (ln[0x0] >= 0x20 && ln[0x0] < 0x80) ? ln[0x0] : '.',
+                             (ln[0x1] >= 0x20 && ln[0x1] < 0x80) ? ln[0x1] : '.',
+                             (ln[0x2] >= 0x20 && ln[0x2] < 0x80) ? ln[0x2] : '.',
+                             (ln[0x3] >= 0x20 && ln[0x3] < 0x80) ? ln[0x3] : '.',
+                             (ln[0x4] >= 0x20 && ln[0x4] < 0x80) ? ln[0x4] : '.',
+                             (ln[0x5] >= 0x20 && ln[0x5] < 0x80) ? ln[0x5] : '.',
+                             (ln[0x6] >= 0x20 && ln[0x6] < 0x80) ? ln[0x6] : '.',
+                             (ln[0x7] >= 0x20 && ln[0x7] < 0x80) ? ln[0x7] : '.',
+                             (ln[0x8] >= 0x20 && ln[0x8] < 0x80) ? ln[0x8] : '.',
+                             (ln[0x9] >= 0x20 && ln[0x9] < 0x80) ? ln[0x9] : '.',
+                             (ln[0xA] >= 0x20 && ln[0xA] < 0x80) ? ln[0xA] : '.',
+                             (ln[0xB] >= 0x20 && ln[0xB] < 0x80) ? ln[0xB] : '.',
+                             (ln[0xC] >= 0x20 && ln[0xC] < 0x80) ? ln[0xC] : '.',
+                             (ln[0xD] >= 0x20 && ln[0xD] < 0x80) ? ln[0xD] : '.',
+                             (ln[0xE] >= 0x20 && ln[0xE] < 0x80) ? ln[0xE] : '.',
+                             (ln[0xF] >= 0x20 && ln[0xF] < 0x80) ? ln[0xF] : '.'
+                             ));
+    }
+    if ((length % 16) != 0) {
+        const unsigned char* ln = &data[(length / 16) * 16];
+        for (i=0; i<(length % 16); i++)
+            file->writeStr(plString::Format("%02X ", ln[i]));
+        for (; i<16; i++)
+            file->writeStr("   ");
+
+        file->writeStr("    <!-- ");
+        for (i=0; i<(length % 16); i++)
+            file->writeStr(
+                plString::Format("%c", (ln[i] >= 0x20 && ln[i] < 0x80) ? ln[i] : '.'));
+        for (; i<16; i++)
+            file->writeStr(" ");
+        file->writeStr(" -->\n");
+    }
+}

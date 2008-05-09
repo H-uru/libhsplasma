@@ -22,3 +22,12 @@ void plAudioInterface::IPrcWrite(pfPrcHelper* prc) {
     fAudible->prcWrite(prc);
     prc->closeTag();
 }
+
+void plAudioInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Audible") {
+        if (tag->hasChildren())
+            fAudible = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
+}

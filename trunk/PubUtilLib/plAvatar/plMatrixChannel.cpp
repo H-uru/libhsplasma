@@ -38,6 +38,15 @@ void plMatrixConstant::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plMatrixConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "AffineParts") {
+        if (tag->hasChildren())
+            fAP.prcParse(tag->getFirstChild());
+    } else {
+        plAGChannel::IPrcParse(tag, mgr);
+    }
+}
+
 
 // plMatrixControllerCacheChannel //
 plMatrixControllerCacheChannel::plMatrixControllerCacheChannel() { }
@@ -81,6 +90,18 @@ void plMatrixControllerChannel::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("AffineParts");
     fAP.prcWrite(prc);
     prc->closeTag();
+}
+
+void plMatrixControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Controller") {
+        if (tag->hasChildren())
+            fController = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "AffineParts") {
+        if (tag->hasChildren())
+            fAP.prcParse(tag->getFirstChild());
+    } else {
+        plAGChannel::IPrcParse(tag, mgr);
+    }
 }
 
 

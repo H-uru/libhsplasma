@@ -3,6 +3,7 @@
 
 #include "hsStream.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllStruct hsColorRGBA {
 public:
@@ -26,6 +27,7 @@ public:
     void readRGB(hsStream* S);
     void writeRGB(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 DllStruct hsColor32 {
@@ -42,6 +44,7 @@ public:
     void readRGBA8(hsStream* S);
     void writeRGBA8(hsStream*S );
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 #endif

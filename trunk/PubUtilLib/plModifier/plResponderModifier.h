@@ -29,13 +29,9 @@ public:
 
 protected:
     hsTArray<plResponderState> fStates;
-    signed char fCurState, fCurCommand;
-    bool fNetRequest, fEnabled;
-    hsBitVector fCompletedEvents;
-    plKey fPlayerKey, fTriggerer;
-    bool fEnter, fGotFirstLoad;
+    signed char fCurState;
+    bool fEnabled;
     unsigned char fFlags;
-    unsigned long fNotifyMsgFlags;
 
 public:
     plResponderModifier();
@@ -46,6 +42,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plResponderEnableMsg : public plMessage {
@@ -61,6 +58,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

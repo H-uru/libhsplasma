@@ -18,6 +18,10 @@ void plLoadMask::prcWrite(pfPrcHelper* prc) {
     prc->writeParamHex("LoadMask", mask);
 }
 
+void plLoadMask::prcParse(const pfPrcTag* tag) {
+    mask = tag->getParam("LoadMask", "0xFFFF").toUint();
+}
+
 bool plLoadMask::isUsed() {
     return (mask != 0xFFFF);
 }

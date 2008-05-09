@@ -24,3 +24,12 @@ void plConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("toggle", fToggle);
     prc->endTag(true);
 }
+
+void plConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ConditionFlags") {
+        fSatisfied = tag->getParam("satisfied", "false").toBool();
+        fToggle = tag->getParam("toggle", "false").toBool();
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}

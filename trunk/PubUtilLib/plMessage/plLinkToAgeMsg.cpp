@@ -28,3 +28,14 @@ void plLinkToAgeMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
     fAgeLink.prcWrite(prc);
 }
+
+void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "LinkParams") {
+        fLinkInAnimName = tag->getParam("LinkInAnimName", "");
+        fStreamVersion = tag->getParam("StreamVersion", "0").toInt();
+    } else if (tag->getName() == "plAgeLinkStruct") {
+        fAgeLink.prcParse(tag, mgr);
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}

@@ -48,3 +48,19 @@ void plNPCSpawnMod::IPrcWrite(pfPrcHelper* prc) {
         prc->endTag(true);
     }
 }
+
+void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "NPCSpawnParams") {
+        fModelName = tag->getParam("ModelName", "");
+        fAccountName = tag->getParam("AccountName", "");
+        fAutoSpawn = tag->getParam("AutoSpawn", "false").toBool();
+    } else if (tag->getName() == "Notify") {
+        if (tag->getParam("NULL", "false").toBool()) {
+            fNotify = NULL;
+        } else if (tag->hasChildren()) {
+            fNotify = plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+        }
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
+}

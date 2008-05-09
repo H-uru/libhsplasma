@@ -61,24 +61,17 @@ public:
     };
 
 protected:
-    plKey fMaterial;
-    hsMatrix44 fLocalToWorld;
-    hsMatrix44 fWorldToLocal;
-    hsBounds3Ext fLocalBounds;
-    hsBounds3Ext fWorldBounds;
-    plKey fFogEnviron;
+    plKey fMaterial, fFogEnviron;
+    hsMatrix44 fLocalToWorld, fWorldToLocal;
+    hsBounds3Ext fLocalBounds, fWorldBounds;
+    unsigned char fFormat, fNumMatrices;
     unsigned int fBaseMatrix;
-    unsigned char fNumMatrices;
-    unsigned short fLocalUVWChans;
-    unsigned short fMaxBoneIdx;
+    unsigned short fLocalUVWChans, fMaxBoneIdx;
     unsigned int fPenBoneIdx;
-    float fMinDist;
-    float fMaxDist;
+    float fMinDist, fMaxDist;
     float fWaterHeight;
-    unsigned char fFormat;
     unsigned int fProps;
-    unsigned int fNumVerts;
-    unsigned int fNumIndices;
+    unsigned int fNumVerts, fNumIndices;
     unsigned char* fVertexData;
     unsigned short* fIndexData;
     unsigned int fDecalLevel;
@@ -90,8 +83,7 @@ protected:
     unsigned int fInstanceGroup;
     unsigned char* fMaxOwner;
     unsigned int fSpanRefIndex;
-    hsMatrix44 fLocalToOBB;
-    hsMatrix44 fOBBToLocal;
+    hsMatrix44 fLocalToOBB, fOBBToLocal;
     bool fCreating;
     hsTArray<TempVertex> fVertAccum;
     hsTArray<unsigned short> fIndexAccum;
@@ -107,14 +99,13 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     void setMaterial(const plKey& mat);
     void setFogEnvironment(const plKey& fog);
 
-    hsTArray<TempVertex> getVertices();
-
-    void IClearMembers();
-    void ClearBuffers();
+    hsTArray<TempVertex> getVertices() const;
+    void setVertices(const hsTArray<TempVertex>& verts);
 };
 
 #endif

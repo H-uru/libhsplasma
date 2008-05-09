@@ -51,3 +51,32 @@ void plCullPoly::prcWrite(pfPrcHelper* prc) {
     
     prc->closeTag(); // plCullPoly
 }
+
+void plCullPoly::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plCullPoly")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    fFlags = tag->getParam("Flags", "0").toUint();
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        if (child->getName() == "Normal") {
+            fDist = child->getParam("Dist", "0").toFloat();
+            if (child->hasChildren())
+                fNorm.prcParse(child->getFirstChild());
+        } else if (child->getName() == "Center") {
+            fRadius = child->getParam("Radius", "0").toFloat();
+            if (child->hasChildren())
+                fCenter.prcParse(child->getFirstChild());
+        } else if (child->getName() == "Verts") {
+            fVerts.setSize(child->countChildren());
+            const pfPrcTag* vertChild = child->getFirstChild();
+            for (size_t i=0; i<fVerts.getSize(); i++) {
+                fVerts[i].prcParse(vertChild);
+                vertChild = vertChild->getNextSibling();
+            }
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+        child = child->getNextSibling();
+    }
+}

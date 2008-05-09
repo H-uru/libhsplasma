@@ -3,6 +3,7 @@
 
 #include "CoreLib/hsStream.h"
 #include "CoreLib/hsTokenStream.h"
+#include "CoreLib/hsTList.hpp"
 #include <map>
 
 DllClass pfPrcTag {
@@ -11,7 +12,7 @@ protected:
     std::map<plString, plString> fParams;
     pfPrcTag* fNextSibling;
     pfPrcTag* fFirstChild;
-    plString fContents;
+    hsTList<plString> fContents;
     bool fIsEndTag;
 
     pfPrcTag();
@@ -22,12 +23,16 @@ protected:
 public:
     const plString& getName() const;
     const plString& getParam(const plString& key, const plString& def) const;
-    const plString& getContents() const;
+    const hsTList<plString>& getContents() const;
     const pfPrcTag* getFirstChild() const;
     const pfPrcTag* getNextSibling() const;
     bool hasChildren() const;
     bool hasNextSibling() const;
     bool isEndTag() const;
+    bool hasParam(const plString& key) const;
+    size_t countChildren() const;
+
+    void readHexStream(size_t maxLen, unsigned char* buf) const;
 };
 
 DllClass pfPrcParser {
@@ -49,6 +54,12 @@ DllClass pfPrcParseException : public hsException {
 public:
     pfPrcParseException(const char* file, unsigned long line,
                         const char* msg, ...) throw();
+};
+
+DllClass pfPrcTagException : public pfPrcParseException {
+public:
+    pfPrcTagException(const char* file, unsigned long line,
+                      const char* tag) throw();
 };
 
 #endif

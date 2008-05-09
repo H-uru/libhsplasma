@@ -17,6 +17,7 @@ public:
     void read(hsStream* S, class plClusterGroup* group);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag, class plClusterGroup* group);
 };
 
 #endif

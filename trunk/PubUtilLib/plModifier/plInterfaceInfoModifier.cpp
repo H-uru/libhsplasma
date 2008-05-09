@@ -29,3 +29,16 @@ void plInterfaceInfoModifier::IPrcWrite(pfPrcHelper* prc) {
         fKeyList[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void plInterfaceInfoModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Keys") {
+        fKeyList.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fKeyList.getSize(); i++) {
+            fKeyList[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
+}

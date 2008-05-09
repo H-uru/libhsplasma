@@ -16,13 +16,13 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 DllClass plClusterGroup : public hsKeyedObject {
 protected:
     plSpanTemplate* fTemplate;
     plKey fMaterial;
-    //hsBitVector fVisSet, fVisNot;
     hsTArray<plCluster*> fClusters;
     hsTArray<plKey> fRegions, fLights;
     plLODDist fLOD;
@@ -38,6 +38,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
     plSpanTemplate* getTemplate() const;
 };

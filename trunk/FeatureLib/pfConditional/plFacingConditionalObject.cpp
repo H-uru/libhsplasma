@@ -25,3 +25,12 @@ void plFacingConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Directional", fDirectional);
     prc->endTag(true);
 }
+
+void plFacingConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "FacingParams") {
+        fTolerance = tag->getParam("Tolerance", "0").toFloat();
+        fDirectional = tag->getParam("Directional", "false").toBool();
+    } else {
+        plConditionalObject::IPrcParse(tag, mgr);
+    }
+}

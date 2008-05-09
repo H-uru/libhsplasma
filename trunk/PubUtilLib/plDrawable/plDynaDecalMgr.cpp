@@ -124,6 +124,64 @@ void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "PreShade") {
+        if (tag->hasChildren())
+            fMatPreShade = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "RTShade") {
+        if (tag->hasChildren())
+            fMatRTShade = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Targets") {
+        fTargets.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fTargets.getSize(); i++) {
+            fTargets[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "PartyObjects") {
+        fPartyObjects.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fPartyObjects.getSize(); i++) {
+            fPartyObjects[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "DynaDecalParams") {
+        fMaxNumVerts = tag->getParam("MaxNumVerts", "0").toUint();
+        fMaxNumIdx = tag->getParam("MaxNumIndices", "0").toUint();
+        fWaitOnEnable = tag->getParam("WaintOnEnable", "0").toUint();
+        fPartyTime = tag->getParam("PartyTime", "0").toFloat();
+    } else if (tag->getName() == "DynaDecalMetrics") {
+        fIntensity = tag->getParam("Intensity", "0").toFloat();
+        fWetLength = tag->getParam("WetLength", "0").toFloat();
+        fRampEnd = tag->getParam("RampEnd", "0").toFloat();
+        fDecayStart = tag->getParam("DecayStart", "0").toFloat();
+        fLifeSpan = tag->getParam("LifeSpan", "0").toFloat();
+
+        const pfPrcTag* child = tag->getFirstChild();
+        while (child != NULL) {
+            if (child->getName() == "GridSize") {
+                fGridSizeU = child->getParam("U", "0").toFloat();
+                fGridSizeV = child->getParam("V", "0").toFloat();
+            } else if (child->getName() == "Scale") {
+                if (child->hasChildren())
+                    fScale.prcParse(child->getFirstChild());
+            } else {
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            }
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Notifies") {
+        fNotifies.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fNotifies.getSize(); i++) {
+            fNotifies[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
+}
+
 
 // plDynaBulletMgr //
 plDynaBulletMgr::plDynaBulletMgr() { }

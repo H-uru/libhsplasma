@@ -17,6 +17,7 @@ public:
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag);
 };
 
 #endif

@@ -20,5 +20,17 @@ void plBoundInterface::write(hsStream* S, plResManager* mgr) {
 
 void plBoundInterface::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
+
+    prc->writeSimpleTag("Bounds");
     fBounds->prcWrite(prc);
+    prc->closeTag();
+}
+
+void plBoundInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Bounds") {
+        if (tag->hasChildren())
+            fBounds = plConvexVolume::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
 }

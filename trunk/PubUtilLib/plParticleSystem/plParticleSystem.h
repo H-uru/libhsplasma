@@ -18,13 +18,11 @@ public:
     };
 
 protected:
-    plKey fTarget, fMaterial;
+    plKey fMaterial;
     unsigned int fXTiles, fYTiles;
-    double fCurrTime, fLastTime;
     hsVector3 fAccel;
     float fPreSim, fDrag, fWindMult;
-    unsigned int fMaxTotalParticles, fMaxTotalParticlesLeft;
-    unsigned int fNumValidEmitters, fMaxEmitters, fNextEmitter;
+    unsigned int fMaxTotalParticles, fNumValidEmitters, fMaxEmitters;
     plParticleEmitter** fEmitters;
     hsTArray<plKey> fForces, fEffects, fConstraints;
     hsTArray<plKey> fPermaLights;
@@ -43,6 +41,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

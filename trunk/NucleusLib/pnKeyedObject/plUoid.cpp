@@ -53,6 +53,13 @@ void plLocation::prcWrite(pfPrcHelper* prc) {
     prc->writeParamHex("LocFlag", flags);
 }
 
+void plLocation::prcParse(const pfPrcTag* tag) {
+    plString buf = tag->getParam("Location", "-1;-1");
+    pageID.setSeqPrefix(buf.beforeFirst(';').toInt());
+    pageID.setPageNum(buf.afterFirst(';').toInt());
+    flags = tag->getParam("LocFlags", "0").toUint();
+}
+
 void plLocation::invalidate() {
     pageID.invalidate();
     flags = 0;
@@ -68,7 +75,7 @@ plString plLocation::toString() const { return pageID.toString(); }
 
 
 /* plUoid */
-plUoid::plUoid() : objID(0) { }
+plUoid::plUoid() : classType(0x8000), objID(0), clonePlayerID(0), cloneID(0) { }
 plUoid::~plUoid() { }
 
 plUoid& plUoid::operator=(const plUoid& other) {
@@ -151,6 +158,18 @@ void plUoid::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("ClonePlayerID", clonePlayerID);
     }
     prc->endTag(true);
+}
+
+void plUoid::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plKey")
+        throw hsBadParamException(__FILE__, __LINE__, "Tag name mismatch");
+
+    objName = tag->getParam("Name", "");
+    classType = plFactory::ClassIndex(tag->getParam("Type", ""));
+    location.prcParse(tag);
+    loadMask.prcParse(tag);
+    cloneID = tag->getParam("CloneID", "0").toUint();
+    clonePlayerID = tag->getParam("ClonePlayerID", "0").toUint();
 }
 
 plString plUoid::toString() const {

@@ -49,18 +49,33 @@ void plSpan::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plSpan::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != ClassName())
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        IPrcParse(child);
+        child = child->getNextSibling();
+    }
+}
+
 void plSpan::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("SpanInfo");
       prc->writeParam("SubType", fSubType);
       prc->writeParam("Material", fMaterialIdx);
       prc->writeParamHex("Properties", fProps);
     prc->endTag(true);
-    prc->writeSimpleTag("Transforms");
+    prc->writeSimpleTag("LocalToWorld");
       fLocalToWorld.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldToLocal");
       fWorldToLocal.prcWrite(prc);
     prc->closeTag();
-    prc->writeSimpleTag("Bounds");
+    prc->writeSimpleTag("LocalBounds");
       fLocalBounds.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldBounds");
       fWorldBounds.prcWrite(prc);
     prc->closeTag();
     prc->startTag("MatrixInfo");
@@ -80,6 +95,40 @@ void plSpan::IPrcWrite(pfPrcHelper* prc) {
         prc->startTag("WaterHeight");
         prc->writeParam("value", fWaterHeight);
         prc->endTag(true);
+    }
+}
+
+void plSpan::IPrcParse(const pfPrcTag* tag) {
+    if (tag->getName() == "SpanInfo") {
+        fSubType = tag->getParam("SubType", "0").toUint();
+        fMaterialIdx = tag->getParam("Material", "0").toUint();
+        fProps = tag->getParam("Properties", "0").toUint();
+    } else if (tag->getName() == "LocalToWorld") {
+        if (tag->hasChildren())
+            fLocalToWorld.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldToLocal") {
+        if (tag->hasChildren())
+            fWorldToLocal.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LocalBounds") {
+        if (tag->hasChildren())
+            fLocalBounds.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldBounds") {
+        if (tag->hasChildren())
+            fWorldBounds.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "MatrixInfo") {
+        fNumMatrices = tag->getParam("NumMatrices", "0").toUint();
+        fBaseMatrix = tag->getParam("BaseMatrix", "0").toUint();
+        fLocalUVWChans = tag->getParam("UVWChans", "0").toUint();
+    } else if (tag->getName() == "BoneIndices") {
+        fMaxBoneIdx = tag->getParam("Max", "0").toUint();
+        fPenBoneIdx = tag->getParam("Pen", "0").toUint();
+    } else if (tag->getName() == "Dists") {
+        fMinDist = tag->getParam("Min", "0").toFloat();
+        fMaxDist = tag->getParam("Max", "0").toFloat();
+    } else if (tag->getName() == "WaterHeight") {
+        fWaterHeight = tag->getParam("value", "0").toFloat();
+    } else {
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     }
 }
 

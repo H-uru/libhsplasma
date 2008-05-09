@@ -33,6 +33,17 @@ void plFixedWaterState6::WaveState::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plFixedWaterState6::WaveState::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "WaveState")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fMaxLength = tag->getParam("MaxLen", "0").toFloat();
+    fMinLength = tag->getParam("MinLen", "0").toFloat();
+    fAmpOverLen = tag->getParam("AmpOverLen", "0").toFloat();
+    fChop = tag->getParam("Chop", "0").toFloat();
+    fAngleDev = tag->getParam("AngleDev", "0").toFloat();
+}
+
 
 // plFixedWaterState6 //
 plFixedWaterState6::plFixedWaterState6()
@@ -103,11 +114,12 @@ void plFixedWaterState6::prcWrite(pfPrcHelper* prc) {
     fTexState.prcWrite(prc);
     prc->closeTag();
     
-    prc->startTag("RippleScale");
-    prc->writeParam("value", fRippleScale);
-    prc->endTag(true);
-    prc->startTag("WaterHeight");
-    prc->writeParam("value", fWaterHeight);
+    prc->startTag("WaterStateParams");
+    prc->writeParam("RippleScale", fRippleScale);
+    prc->writeParam("WaterHeight", fWaterHeight);
+    prc->writeParam("Wispiness", fWispiness);
+    prc->writeParam("Period", fPeriod);
+    prc->writeParam("FingerLength", fFingerLength);
     prc->endTag(true);
 
     prc->writeSimpleTag("WindDir");
@@ -124,10 +136,6 @@ void plFixedWaterState6::prcWrite(pfPrcHelper* prc) {
     fMinAtten.prcWrite(prc);
     prc->closeTag();
 
-    prc->startTag("Wispiness");
-    prc->writeParam("value", fWispiness);
-    prc->endTag(true);
-
     prc->writeSimpleTag("ShoreTint");
     fShoreTint.prcWrite(prc);
     prc->closeTag();
@@ -143,21 +151,72 @@ void plFixedWaterState6::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("Radius", fEdgeRadius);
     prc->endTag(true);
 
-    prc->startTag("Period");
-    prc->writeParam("value", fPeriod);
-    prc->endTag(true);
-    prc->startTag("FingerLength");
-    prc->writeParam("value", fFingerLength);
+    prc->startTag("Env");
+    prc->writeParam("Refresh", fEnvRefresh);
+    prc->writeParam("Radius", fEnvRadius);
     prc->endTag(true);
 
     prc->writeSimpleTag("EnvCenter");
     fEnvCenter.prcWrite(prc);
     prc->closeTag();
 
-    prc->startTag("Env");
-    prc->writeParam("Refresh", fEnvRefresh);
-    prc->writeParam("Radius", fEnvRadius);
-    prc->endTag(true);
-
     prc->closeTag(); // plFixedWaterState6
+}
+
+void plFixedWaterState6::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plFixedWaterState6")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        if (child->getName() == "WaterOffset") {
+            if (child->hasChildren())
+                fWaterOffset.prcParse(child->getFirstChild());
+        } else if (child->getName() == "GeoState") {
+            if (child->hasChildren())
+                fGeoState.prcParse(child->getFirstChild());
+        } else if (child->getName() == "TexState") {
+            if (child->hasChildren())
+                fTexState.prcParse(child->getFirstChild());
+        } else if (child->getName() == "WaterStateParams") {
+            fRippleScale = tag->getParam("RippleScale", "0").toFloat();
+            fWaterHeight = tag->getParam("WaterHeight", "0").toFloat();
+            fWispiness = tag->getParam("Wispiness", "0").toFloat();
+            fPeriod = tag->getParam("Period", "0").toFloat();
+            fFingerLength = tag->getParam("FingerLength", "0").toFloat();
+        } else if (child->getName() == "WindDir") {
+            if (child->hasChildren())
+                fWindDir.prcParse(child->getFirstChild());
+        } else if (child->getName() == "SpecVec") {
+            if (child->hasChildren())
+                fSpecVec.prcParse(child->getFirstChild());
+        } else if (child->getName() == "MaxAtten") {
+            if (child->hasChildren())
+                fMaxAtten.prcParse(child->getFirstChild());
+        } else if (child->getName() == "MinAtten") {
+            if (child->hasChildren())
+                fMinAtten.prcParse(child->getFirstChild());
+        } else if (child->getName() == "ShoreTint") {
+            if (child->hasChildren())
+                fShoreTint.prcParse(child->getFirstChild());
+        } else if (child->getName() == "MaxColor") {
+            if (child->hasChildren())
+                fMaxColor.prcParse(child->getFirstChild());
+        } else if (child->getName() == "MinColor") {
+            if (child->hasChildren())
+                fMinColor.prcParse(child->getFirstChild());
+        } else if (child->getName() == "Edge") {
+            fEdgeOpac = tag->getParam("Opacity", "0").toFloat();
+            fEdgeRadius = tag->getParam("Radius", "0").toFloat();
+        } else if (child->getName() == "Env") {
+            fEnvRefresh = tag->getParam("Refresh", "0").toFloat();
+            fEnvRadius = tag->getParam("Radius", "0").toFloat();
+        } else if (child->getName() == "EnvCenter") {
+            if (child->hasChildren())
+                fEnvCenter.prcParse(child->getFirstChild());
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+        child = child->getNextSibling();
+    }
 }

@@ -29,3 +29,14 @@ void plFilterCoordInterface::IPrcWrite(pfPrcHelper* prc) {
     fRefParentLocalToWorld.prcWrite(prc);
     prc->closeTag();
 }
+
+void plFilterCoordInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "FilterParams") {
+        fFilterMask = tag->getParam("Mask", "0").toUint();
+    } else if (tag->getName() == "RefParentLocalToWorld") {
+        if (tag->hasChildren())
+            fRefParentLocalToWorld.prcParse(tag->getFirstChild());
+    } else {
+        plCoordinateInterface::IPrcParse(tag, mgr);
+    }
+}

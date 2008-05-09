@@ -2,6 +2,7 @@
 #define _PLEAXEFFECTS_H
 
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllClass plEAXSourceSoftSettings {
 protected:
@@ -14,6 +15,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 DllClass plEAXSourceSettings {
@@ -32,7 +34,7 @@ protected:
     short fOutsideVolHF;
     float fAirAbsorptionFactor, fRoomRolloffFactor;
     float fDopplerFactor, fRolloffFactor;
-    plEAXSourceSoftSettings fSoftStarts, fSoftEnds, fCurrSoftValues;
+    plEAXSourceSoftSettings fSoftStarts, fSoftEnds;
     float fOcclusionSoftValue;
     unsigned long fDirtyParams;
 
@@ -44,6 +46,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
 protected:
     void IRecalcSofts(unsigned char which);

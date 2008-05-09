@@ -4,8 +4,8 @@ const char* const plFogEnvironment::FogTypeNames[] = {
     "Linear", "Exp", "Exp2", "None"
 };
 
-plFogEnvironment::plFogEnvironment() : fType(kLinearFog), fStart(1.0f),
-                  fEnd(1000.0f), fDensity(0.5f) { }
+plFogEnvironment::plFogEnvironment()
+                : fType(kLinearFog), fStart(1.0f), fEnd(1000.0f), fDensity(0.5f) { }
 plFogEnvironment::~plFogEnvironment() { }
 
 IMPLEMENT_CREATABLE(plFogEnvironment, kFogEnvironment, hsKeyedObject)
@@ -37,5 +37,27 @@ void plFogEnvironment::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("End", fEnd);
     prc->writeParam("Density", fDensity);
     prc->endTag(true);
+
+    prc->writeSimpleTag("Color");
     fColor.prcWrite(prc);
+    prc->closeTag();
+}
+
+void plFogEnvironment::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "FogParams") {
+        plString fogTypeName = tag->getParam("Type", "");
+        fType = kNoFog;
+        for (size_t i=0; i<=kNoFog; i++) {
+            if (fogTypeName == FogTypeNames[i])
+                fType = i;
+        }
+        fStart = tag->getParam("Start", "0").toFloat();
+        fEnd = tag->getParam("End", "0").toFloat();
+        fDensity = tag->getParam("Density", "0").toFloat();
+    } else if (tag->getName() == "Color") {
+        if (tag->hasChildren())
+            fColor.prcParse(tag->getFirstChild());
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
 }

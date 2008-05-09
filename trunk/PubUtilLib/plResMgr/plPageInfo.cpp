@@ -168,6 +168,14 @@ void plPageInfo::prcWrite(pfPrcHelper* prc) {
     prc->endTag();
 }
 
+void plPageInfo::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "Page")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    fAge = tag->getParam("AgeName", "");
+    fPage = tag->getParam("PageName", "");
+    fLocation.prcParse(tag);
+}
+
 plString plPageInfo::getFilename(PlasmaVer ver) const {
     if (ver >= pvEoa)
         return plString::Format("%s_%s.prp", fAge.cstr(), fPage.cstr());

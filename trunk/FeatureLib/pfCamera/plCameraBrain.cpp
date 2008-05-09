@@ -164,6 +164,36 @@ void plCameraBrain1::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Subject") {
+        if (tag->hasChildren())
+            fSubject = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Rail") {
+        if (tag->hasChildren())
+            fRail = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Flags") {
+        if (tag->hasChildren())
+            fFlags.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "CameraParams") {
+        fAccel = tag->getParam("Accel", "0").toFloat();
+        fDecel = tag->getParam("Decel", "0").toFloat();
+        fVelocity = tag->getParam("Velocity", "0").toFloat();
+        fPOAAccel = tag->getParam("POAAccel", "0").toFloat();
+        fPOADecel = tag->getParam("POADecel", "0").toFloat();
+        fPOAVelocity = tag->getParam("POAVelocity", "0").toFloat();
+        fXPanLimit = tag->getParam("XPanLimit", "0").toFloat();
+        fZPanLimit = tag->getParam("ZPanLimit", "0").toFloat();
+        fZoomRate = tag->getParam("ZoomRate", "0").toFloat();
+        fZoomMin = tag->getParam("ZoomMin", "0").toFloat();
+        fZoomMax = tag->getParam("ZoomMax", "0").toFloat();
+    } else if (tag->getName() == "POAOffset") {
+        if (tag->hasChildren())
+            fPOAOffset.prcParse(tag->getFirstChild());
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plCameraBrain1_Drive */
 plCameraBrain1_Drive::plCameraBrain1_Drive() { }
@@ -198,6 +228,15 @@ void plCameraBrain1_Avatar::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plCameraBrain1_Avatar::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Offset") {
+        if (tag->hasChildren())
+            fOffset.prcParse(tag->getFirstChild());
+    } else {
+        plCameraBrain1::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plCameraBrain1_FirstPerson */
 plCameraBrain1_FirstPerson::plCameraBrain1_FirstPerson() { }
@@ -229,6 +268,15 @@ void plCameraBrain1_Fixed::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("TargetPoint");
     fTargetPoint->prcWrite(prc);
     prc->closeTag();
+}
+
+void plCameraBrain1_Fixed::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "TargetPoint") {
+        if (tag->hasChildren())
+            fTargetPoint = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plCameraBrain1::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -283,4 +331,23 @@ void plCameraBrain1_Circle::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("POAObject");
     fPOAObject->prcWrite(prc);
     prc->closeTag();
+}
+
+void plCameraBrain1_Circle::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "CircleParams") {
+        fCircleFlags = tag->getParam("Flags", "0").toUint();
+        fCirPerSec = tag->getParam("CirclesPerSec", "0").toFloat();
+    } else if (tag->getName() == "Circle") {
+        fRadius = tag->getParam("radius", "0").toFloat();
+        if (tag->hasChildren())
+            fCenter.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "CenterObject") {
+        if (tag->hasChildren())
+            fCenterObject = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "POAObject") {
+        if (tag->hasChildren())
+            fPOAObject = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plCameraBrain1::IPrcParse(tag, mgr);
+    }
 }

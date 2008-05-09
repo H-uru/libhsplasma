@@ -88,6 +88,46 @@ void plLayerAnimationBase::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
+void plLayerAnimationBase::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+    plCreatable::prcParse(tag, mgr);
+    if (fOpacityCtl != NULL)
+        fOwnedChannels |= kOpacity;
+    if (fPreshadeColorCtl != NULL)
+        fOwnedChannels |= kPreshadeColor;
+    if (fRuntimeColorCtl != NULL)
+        fOwnedChannels |= kRuntimeColor;
+    if (fAmbientColorCtl != NULL)
+        fOwnedChannels |= kAmbientColor;
+    if (fSpecularColorCtl != NULL)
+        fOwnedChannels |= kSpecularColor;
+    if (fTransformCtl != NULL)
+        fOwnedChannels |= kTransform;
+}
+
+void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "PreshadeColorCtl") {
+        if (tag->hasChildren())
+            fPreshadeColorCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "RuntimeColorCtl") {
+        if (tag->hasChildren())
+            fRuntimeColorCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "AmbientColorCtl") {
+        if (tag->hasChildren())
+            fAmbientColorCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "SpecularColorCtl") {
+        if (tag->hasChildren())
+            fSpecularColorCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "OpacityCtl") {
+        if (tag->hasChildren())
+            fOpacityCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "TransformCtl") {
+        if (tag->hasChildren())
+            fTransformCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else {
+        plLayerInterface::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plLayerAnimation */
 plLayerAnimation::plLayerAnimation() { }
@@ -108,6 +148,14 @@ void plLayerAnimation::write(hsStream* S, plResManager* mgr) {
 void plLayerAnimation::IPrcWrite(pfPrcHelper* prc) {
     plLayerAnimationBase::IPrcWrite(prc);
     fTimeConvert.prcWrite(prc);
+}
+
+void plLayerAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "plAnimTimeConvert") {
+        fTimeConvert.prcParse(tag, mgr);
+    } else {
+        plLayerAnimationBase::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -143,6 +191,16 @@ void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plLayerLinkAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "LinkParams") {
+        fLeavingAge = tag->getParam("LeavingAge", "false").toBool();
+        if (tag->hasChildren())
+            fLinkKey = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plLayerAnimation::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plLayerSDLAnimation */
 plLayerSDLAnimation::plLayerSDLAnimation() { }
@@ -166,4 +224,12 @@ void plLayerSDLAnimation::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("VarName");
     prc->writeParam("value", fVarName);
     prc->endTag(true);
+}
+
+void plLayerSDLAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "VarName") {
+        fVarName = tag->getParam("value", "");
+    } else {
+        plLayerAnimationBase::IPrcParse(tag, mgr);
+    }
 }

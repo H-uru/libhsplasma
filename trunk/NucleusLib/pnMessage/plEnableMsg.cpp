@@ -36,3 +36,15 @@ void plEnableMsg::IPrcWrite(pfPrcHelper* prc) {
     fTypes.prcWrite(prc);
     prc->closeTag();
 }
+
+void plEnableMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Command") {
+        if (tag->hasChildren())
+            fCmd.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Types") {
+        if (tag->hasChildren())
+            fTypes.prcParse(tag->getFirstChild());
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}

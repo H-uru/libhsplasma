@@ -80,7 +80,7 @@ protected:
     hsVector3 fPOAOffset;
     float fXPanLimit, fZPanLimit, fPanSpeed;
     float fZoomRate, fZoomMax, fZoomMin;
-    hsBitVector fMoveFlags, fFlags;
+    hsBitVector fFlags;
 
 public:
     plCameraBrain1();
@@ -91,6 +91,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plCameraBrain1_Drive : public plCameraBrain1 {
@@ -114,6 +115,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plCameraBrain1_FirstPerson : public plCameraBrain1_Avatar {
@@ -137,6 +139,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plCameraBrain1_Circle : public plCameraBrain1_Fixed {
@@ -167,6 +170,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

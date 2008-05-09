@@ -71,4 +71,5 @@ void plDebug::Debug(const char* fmt, ...) {
 
 void plDebug::WriteLn(const char* fmt, va_list args) {
     fDebugStream->writeLine(plString::FormatV(fmt, args));
+    fDebugStream->flush();
 }

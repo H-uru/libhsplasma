@@ -22,6 +22,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
 private:
     void IReset();
@@ -37,20 +38,13 @@ public:
 
 protected:
     unsigned int fTagID;
-    bool fEnabled, fFocused, fVisible, fInteresting, fNotifyOnInteresting;
-    class pfGUIDialogMod* fDialog;
+    bool fVisible;
     hsBounds3 fBounds, fInitialBounds;
-    float fScreenMinZ;
-    hsVector3 fScreenCenter;
-    bool fBoundsValid, fCenterValid;
-    hsMatrix44 fXformMatrix;
     pfGUICtrlProcWriteableObject* fHandler;
     plKey fDynTextMap, fDynTextLayer;
     pfGUIColorScheme* fColorScheme;
-    plKey fProxy;
-    hsTArray<hsVector3> fBoundsPoints;
     hsTArray<int> fSoundIndices;
-    plKey fSkin;
+    plKey fProxy, fSkin;
 
 public:
     pfGUIControlMod();
@@ -61,6 +55,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

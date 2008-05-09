@@ -42,3 +42,19 @@ void pfGUICheckBoxCtrl::IPrcWrite(pfPrcHelper* prc) {
         fAnimKeys[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void pfGUICheckBoxCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "CheckBoxParams") {
+        fAnimName = tag->getParam("AnimName", "");
+        fChecked = tag->getParam("Checked", "false").toBool();
+    } else if (tag->getName() == "AnimKeys") {
+        fAnimKeys.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fAnimKeys.getSize(); i++) {
+            fAnimKeys[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        pfGUIControlMod::IPrcParse(tag, mgr);
+    }
+}

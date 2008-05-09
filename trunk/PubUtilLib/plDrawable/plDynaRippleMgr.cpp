@@ -29,6 +29,18 @@ void plDynaRippleMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plDynaRippleMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "InitUVW") {
+        if (tag->hasChildren())
+            fInitUVW.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "FinalUVW") {
+        if (tag->hasChildren())
+            fFinalUVW.prcParse(tag->getFirstChild());
+    } else {
+        plDynaDecalMgr::IPrcParse(tag, mgr);
+    }
+}
+
 
 // plDynaRippleVSMgr //
 plDynaRippleVSMgr::plDynaRippleVSMgr() { }
@@ -48,7 +60,19 @@ void plDynaRippleVSMgr::write(hsStream* S, plResManager* mgr) {
 
 void plDynaRippleVSMgr::IPrcWrite(pfPrcHelper* prc) {
     plDynaRippleMgr::IPrcWrite(prc);
+
+    prc->writeSimpleTag("WaveSet");
     fWaveSetBase->prcWrite(prc);
+    prc->closeTag();
+}
+
+void plDynaRippleVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "WaveSet") {
+        if (tag->hasChildren())
+            fWaveSetBase = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plDynaRippleMgr::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -77,7 +101,19 @@ void plDynaTorpedoVSMgr::write(hsStream* S, plResManager* mgr) {
 
 void plDynaTorpedoVSMgr::IPrcWrite(pfPrcHelper* prc) {
     plDynaTorpedoMgr::IPrcWrite(prc);
+
+    prc->writeSimpleTag("WaveSet");
     fWaveSetBase->prcWrite(prc);
+    prc->closeTag();
+}
+
+void plDynaTorpedoVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "WaveSet") {
+        if (tag->hasChildren())
+            fWaveSetBase = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plDynaRippleMgr::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -130,5 +166,24 @@ void plDynaWakeMgr::IPrcWrite(pfPrcHelper* prc) {
         prc->startTag("plAnimPath");
         prc->writeParam("NULL", true);
         prc->endTag(true);
+    }
+}
+
+void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "DefaultDir") {
+        if (tag->hasChildren())
+            fDefaultDir.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "DynaWakeMgrParams") {
+        fAnimWgt = tag->getParam("AnimWeight", "0").toFloat();
+        fVelWgt = tag->getParam("VelWeight", "0").toFloat();
+    } else if (tag->getName() == "plAnimPath") {
+        if (tag->getParam("NULL", "false").toBool()) {
+            fAnimPath = NULL;
+        } else {
+            if (tag->hasChildren())
+                fAnimPath = plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+        }
+    } else {
+        plDynaRippleMgr::IPrcParse(tag, mgr);
     }
 }

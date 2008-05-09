@@ -29,3 +29,16 @@ void plMorphDataSet::IPrcWrite(pfPrcHelper* prc) {
         fMorphs[i].prcWrite(prc);
     prc->closeTag();
 }
+
+void plMorphDataSet::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Morphs") {
+        fMorphs.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fMorphs.getSize(); i++) {
+            fMorphs[i].prcParse(child, mgr);
+            child = child->getNextSibling();
+        }
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}

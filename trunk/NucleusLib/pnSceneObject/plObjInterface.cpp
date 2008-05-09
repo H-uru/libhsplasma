@@ -27,7 +27,19 @@ void plObjInterface::IPrcWrite(pfPrcHelper* prc) {
     fOwner->prcWrite(prc);
     prc->closeTag();
 
-    prc->writeSimpleTag("Props");
+    prc->writeSimpleTag("Properties");
     fProps.prcWrite(prc);
     prc->closeTag();
+}
+
+void plObjInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Owner") {
+        if (tag->hasChildren())
+            fOwner = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Properties") {
+        if (tag->hasChildren())
+            fProps.prcParse(tag->getFirstChild());
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
 }

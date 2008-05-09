@@ -6,18 +6,12 @@
 
 class plClothingItem : public hsKeyedObject {
 protected:
-    plString fItemName;
+    plString fItemName, fDescription, fCustomText;
     unsigned char fGroup, fType, fTileset, fSortOrder;
-
-    plString fDescription;
-    plString fCustomText;
 
     hsTArray<plString> fElementNames;
     hsTArray<plKey*> fTextures;
-
-    plKey fIcon;
-    plKey fMeshes[3];
-    plKey fAccessory;
+    plKey fIcon, fAccessory, fMeshes[3];
 
     unsigned char fDefaultTint1[3];
     unsigned char fDefaultTint2[3];
@@ -31,7 +25,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif
-

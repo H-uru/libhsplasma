@@ -29,3 +29,14 @@ void plAnimationEventConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("value", fAction);
     prc->endTag(true);
 }
+
+void plAnimationEventConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Target") {
+        if (tag->hasChildren())
+            fTarget = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Action") {
+        fAction = (CallbackEvent)tag->getParam("value", "0").toInt();
+    } else {
+        plConditionalObject::IPrcParse(tag, mgr);
+    }
+}

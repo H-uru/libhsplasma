@@ -32,6 +32,14 @@ void plLayerMovie::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plLayerMovie::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "MovieName") {
+        fMovieName = tag->getParam("value", "");
+    } else {
+        plLayerAnimation::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plLayerAVI */
 IMPLEMENT_CREATABLE(plLayerAVI, kLayerAVI, plLayerMovie)

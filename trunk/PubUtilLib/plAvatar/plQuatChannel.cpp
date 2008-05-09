@@ -38,6 +38,15 @@ void plQuatConstant::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plQuatConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Result") {
+        if (tag->hasChildren())
+            fResult.prcParse(tag->getFirstChild());
+    } else {
+        plAGChannel::IPrcParse(tag, mgr);
+    }
+}
+
 
 // plQuatTimeScale //
 plQuatTimeScale::plQuatTimeScale() { }

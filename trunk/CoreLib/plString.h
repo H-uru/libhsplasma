@@ -25,6 +25,7 @@ public:
     virtual long toInt(int base = 0) const =0;
     virtual unsigned long toUint(int base = 0) const =0;
     virtual double toFloat() const =0;
+    virtual bool toBool() const =0;
 };
 
 DllClass plString : public plStringBase {
@@ -91,6 +92,7 @@ public:
     virtual long toInt(int base = 0) const;
     virtual unsigned long toUint(int base = 0) const;
     virtual double toFloat() const;
+    virtual bool toBool() const;
 
     static plString Format(const char* fmt, ...);
     static plString FormatV(const char* fmt, va_list aptr);
@@ -160,6 +162,7 @@ public:
     virtual long toInt(int base = 0) const;
     virtual unsigned long toUint(int base = 0) const;
     virtual double toFloat() const;
+    virtual bool toBool() const;
 
     static plWString Format(const wchar_t* fmt, ...);
     static plWString FormatV(const wchar_t* fmt, va_list aptr);

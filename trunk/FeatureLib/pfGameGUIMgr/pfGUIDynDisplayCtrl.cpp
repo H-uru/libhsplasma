@@ -49,3 +49,30 @@ void pfGUIDynDisplayCtrl::IPrcWrite(pfPrcHelper* prc) {
         fMaterials[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void pfGUIDynDisplayCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "TextMaps") {
+        fTextMaps.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fTextMaps.getSize(); i++) {
+            fTextMaps[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Layers") {
+        fLayers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fLayers.getSize(); i++) {
+            fLayers[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Materials") {
+        fMaterials.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fMaterials.getSize(); i++) {
+            fMaterials[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        pfGUIControlMod::IPrcParse(tag, mgr);
+    }
+}

@@ -26,6 +26,15 @@ void pfGUISkin::pfSRect::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void pfGUISkin::pfSRect::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "pfSRect")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    fX = tag->getParam("X", "0").toUint();
+    fY = tag->getParam("Y", "0").toUint();
+    fWidth = tag->getParam("width", "0").toUint();
+    fHeight = tag->getParam("height", "0").toUint();
+}
+
 void pfGUISkin::pfSRect::empty() {
     fX = 0;
     fY = 0;
@@ -69,7 +78,7 @@ void pfGUISkin::write(hsStream* S, plResManager* mgr) {
 void pfGUISkin::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
-    prc->startTag("Params");
+    prc->startTag("SkinParams");
     prc->writeParam("ItemMargin", fItemMargin);
     prc->writeParam("BorderMargin", fBorderMargin);
     prc->endTag(true);
@@ -82,4 +91,25 @@ void pfGUISkin::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Texture");
     fTexture->prcWrite(prc);
     prc->closeTag();
+}
+
+void pfGUISkin::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SkinParams") {
+        fItemMargin = tag->getParam("ItemMargin", "0").toUint();
+        fBorderMargin = tag->getParam("BorderMargin", "0").toUint();
+    } else if (tag->getName() == "Elements") {
+        size_t nElements = tag->countChildren();
+        if (nElements > 14)
+            throw pfPrcParseException(__FILE__, __LINE__, "Too many elements");
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<nElements; i++) {
+            fElements[i].prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Texture") {
+        if (tag->hasChildren())
+            fTexture = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
 }

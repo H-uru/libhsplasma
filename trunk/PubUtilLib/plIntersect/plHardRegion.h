@@ -16,10 +16,6 @@ public:
     virtual ~plHardRegion();
 
     DECLARE_CREATABLE(plHardRegion)
-
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
 DllClass plHardRegionComplex : public plHardRegion {
@@ -35,6 +31,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plHardRegionIntersect : public plHardRegionComplex {

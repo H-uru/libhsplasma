@@ -31,6 +31,7 @@ public:
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
     class plCubicRenderTarget* getParent() const;
     void setParent(class plCubicRenderTarget* parent);
@@ -44,7 +45,6 @@ public:
 
 protected:
     plRenderTarget* fFaces[6];
-    hsMatrix44 fWorldToCameras[6], fCameraToWorlds[6];
 
 public:
     plCubicRenderTarget();
@@ -55,5 +55,6 @@ public:
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 #endif

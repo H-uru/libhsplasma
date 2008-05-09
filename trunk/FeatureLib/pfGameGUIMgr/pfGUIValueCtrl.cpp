@@ -32,3 +32,13 @@ void pfGUIValueCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Step", fStep);
     prc->endTag(true);
 }
+
+void pfGUIValueCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ValueParams") {
+        fMin = tag->getParam("Min", "0").toFloat();
+        fMax = tag->getParam("Max", "0").toFloat();
+        fStep = tag->getParam("Step", "0").toFloat();
+    } else {
+        pfGUIControlMod::IPrcParse(tag, mgr);
+    }
+}

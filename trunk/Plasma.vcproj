@@ -42,7 +42,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories=".;&quot;E:\Dev\Libs\jpeg-6b&quot;"
+				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -65,8 +65,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jpeg.lib opengl32.lib"
-				AdditionalLibraryDirectories="&quot;E:\Dev\Libs\jpeg-6b\build_msw\Release&quot;"
+				AdditionalDependencies="opengl32.lib"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 			/>
 			<Tool
@@ -116,7 +116,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".;&quot;E:\Dev\Libs\jpeg-6b&quot;"
+				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -136,10 +136,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jpeg.lib opengl32.lib"
+				AdditionalDependencies="opengl32.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;E:\Dev\Libs\jpeg-6b\build_msw\Release&quot;"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -196,7 +196,7 @@
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;D:\Dev\Libs\jpeg-6b&quot;"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;NODLL;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -218,8 +218,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="jpeg.lib opengl32.lib"
-				AdditionalLibraryDirectories="D:\Dev\Libs\jpeg-6b\build_msw\Release"
+				AdditionalDependencies="opengl32.lib"
+				AdditionalLibraryDirectories=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -2138,18 +2138,6 @@
 				</File>
 				<File
 					RelativePath=".\PubUtilLib\plGLight\plShadowSlave.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plJPEG"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plJPEG\plJPEG.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plJPEG\plJPEG.h"
 					>
 				</File>
 			</Filter>

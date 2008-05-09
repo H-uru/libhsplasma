@@ -50,6 +50,19 @@ void plShadowMaster::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plShadowMaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ShadowParams") {
+        fAttenDist = tag->getParam("AttenDist", "0").toFloat();
+        fMaxDist = tag->getParam("MaxDist", "0").toFloat();
+        fMinDist = tag->getParam("MinDist", "0").toFloat();
+        fMaxSize = tag->getParam("MaxSize", "0").toUint();
+        fMinSize = tag->getParam("MinSize", "0").toUint();
+        fPower = tag->getParam("Power", "0").toFloat();
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plPointShadowMaster */
 plPointShadowMaster::plPointShadowMaster() { }

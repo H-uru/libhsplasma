@@ -1,8 +1,7 @@
 #include "plCollisionDetector.h"
 
 /* plCollisionDetector */
-plCollisionDetector::plCollisionDetector()
-                   : fType(0), fBumped(false), fTriggered(false) { }
+plCollisionDetector::plCollisionDetector() : fType(0) { }
 plCollisionDetector::~plCollisionDetector() { }
 
 IMPLEMENT_CREATABLE(plCollisionDetector, kCollisionDetector, plDetectorModifier)
@@ -23,6 +22,14 @@ void plCollisionDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("CollisionType");
     prc->writeParam("value", fType);
     prc->endTag(true);
+}
+
+void plCollisionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "CollisionType") {
+        fType = tag->getParam("value", "0").toUint();
+    } else {
+        plDetectorModifier::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -56,6 +63,17 @@ void plSubworldRegionDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plSubworldRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SubworldParams") {
+        fOnExit = tag->getParam("OnExit", "false").toBool();
+    } else if (tag->getName() == "Subworld") {
+        if (tag->hasChildren())
+            fSub = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plDetectorModifier::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plPanicLinkRegion */
 plPanicLinkRegion::plPanicLinkRegion() : fPlayLinkOutAnim(true) { }
@@ -79,4 +97,12 @@ void plPanicLinkRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("PanicLinkParams");
     prc->writeParam("PlayLinkOutAnim", fPlayLinkOutAnim);
     prc->endTag(true);
+}
+
+void plPanicLinkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "PanicLinkParams") {
+        fPlayLinkOutAnim = tag->getParam("PlayLinkOutAnim", "false").toBool();
+    } else {
+        plCollisionDetector::IPrcParse(tag, mgr);
+    }
 }

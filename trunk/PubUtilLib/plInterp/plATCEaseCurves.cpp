@@ -28,9 +28,9 @@ void plATCEaseCurve::write(hsStream* S, plResManager* mgr) {
 
 void plATCEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Lengths");
-    prc->writeParam("MinLength", fMinLength);
-    prc->writeParam("MaxLength", fMaxLength);
-    prc->writeParam("NormLength", fNormLength);
+    prc->writeParam("Min", fMinLength);
+    prc->writeParam("Max", fMaxLength);
+    prc->writeParam("Norm", fNormLength);
     prc->endTag(true);
 
     prc->startTag("Timing");
@@ -38,6 +38,20 @@ void plATCEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Speed", fSpeed);
     prc->writeParam("BeginWorldTime", fBeginWorldTime);
     prc->endTag(true);
+}
+
+void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Lengths") {
+        fMinLength = tag->getParam("Min", "0").toFloat();
+        fMaxLength = tag->getParam("Max", "0").toFloat();
+        fNormLength = tag->getParam("Norm", "0").toFloat();
+    } else if (tag->getName() == "Timing") {
+        fStartSpeed = tag->getParam("StartSpeed", "0").toFloat();
+        fSpeed = tag->getParam("Speed", "0").toFloat();
+        fBeginWorldTime = tag->getParam("BeginWorldTime", "0").toFloat();
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -72,6 +86,18 @@ void plSplineEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     prc->getStream()->writeStr(plString::Format("%f %f %f %f",
                                fCoef[0], fCoef[1], fCoef[2], fCoef[3]));
     prc->closeTagNoBreak();
+}
+
+void plSplineEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SplineCoefficients") {
+        hsTList<plString> coefList = tag->getContents();
+        if (coefList.getSize() != 4)
+            throw pfPrcParseException(__FILE__, __LINE__, "plSplineEaseCurve expects exactly 4 coefficients");
+        for (size_t i=0; i<4; i++)
+            fCoef[i] = coefList.pop().toFloat();
+    } else {
+        plATCEaseCurve::IPrcParse(tag, mgr);
+    }
 }
 
 

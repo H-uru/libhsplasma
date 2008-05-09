@@ -1,7 +1,7 @@
 #include "plPythonFileMod.h"
 
 /* plPythonParameter */
-const char* plPythonParameter::valueTypeNames[] = {
+const char* plPythonParameter::ValueTypeNames[] = {
     "(Invalid)",
     "Int", "Float", "Boolean", "String", "SceneObject", "SceneObjectList",
     "Activator", "Responder", "DynamicText", "GUIDialog", "ExcludeRegion",
@@ -11,24 +11,26 @@ const char* plPythonParameter::valueTypeNames[] = {
     "BlowerComponent", "None"
 };
 
-plPythonParameter::plPythonParameter(PlasmaVer pv) : ID(0), valueType(kNone) { }
+plPythonParameter::plPythonParameter() : fID(0), fValueType(kNone) { }
 
 plPythonParameter::~plPythonParameter() { }
 
 void plPythonParameter::read(hsStream* S, plResManager* mgr) {
-    ID = S->readInt();
-    valueType = PlasmaToMapped(S->readInt(), S->getVer());
+    fID = S->readInt();
+    fValueType = PlasmaToMapped(S->readInt(), S->getVer());
+    if (fValueType > kNone || fValueType == 0)
+        throw hsBadParamException(__FILE__, __LINE__);
 
     int size = 0;
-    switch (valueType) {
+    switch (fValueType) {
     case kInt:
-        intValue = S->readInt();
+        fIntValue = S->readInt();
         return;
     case kBoolean:
-        boolValue = (S->readInt() != 0);
+        fBoolValue = (S->readInt() != 0);
         return;
     case kFloat:
-        floatValue = S->readFloat();
+        fFloatValue = S->readFloat();
         return;
     case kString:
     case kAnimationName:
@@ -36,48 +38,48 @@ void plPythonParameter::read(hsStream* S, plResManager* mgr) {
     case kSubtitle:
         size = S->readInt();
         if (size == 0) {
-            strValue = "";
+            fStrValue = "";
             return;
         }
-        strValue = S->readStr(size);
+        fStrValue = S->readStr(size);
         return;
     case kNone:
         return;
     default:
-        objKey = mgr->readKey(S);
+        fObjKey = mgr->readKey(S);
         return;
     }
 }
 
 void plPythonParameter::write(hsStream* S, plResManager* mgr) {
-    S->writeInt(ID);
-    S->writeInt(MappedToPlasma(valueType, S->getVer()));
+    S->writeInt(fID);
+    S->writeInt(MappedToPlasma(fValueType, S->getVer()));
 
-    switch (valueType) {
+    switch (fValueType) {
     case kInt:
-        S->writeInt(intValue);
+        S->writeInt(fIntValue);
         return;
     case kBoolean:
-        if (boolValue)
+        if (fBoolValue)
             S->writeInt(1);
         else
             S->writeInt(0);
         return;
     case kFloat:
-        S->writeFloat(floatValue);
+        S->writeFloat(fFloatValue);
         return;
     case kString:
     case kAnimationName:
     case kGlobalSDLVar:
     case kSubtitle:
-        S->writeInt(strValue.len() + 1);
-        S->write(strValue.len(), strValue);
+        S->writeInt(fStrValue.len() + 1);
+        S->writeStr(fStrValue);
         S->writeByte(0);
         return;
     case kNone:
         return;
     default:
-        mgr->writeKey(S, objKey);
+        mgr->writeKey(S, fObjKey);
         return;
     }
 }
@@ -85,27 +87,27 @@ void plPythonParameter::write(hsStream* S, plResManager* mgr) {
 void plPythonParameter::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plPythonParameter");
     
-    prc->writeParam("ID", ID);
-    prc->writeParam("Type", valueTypeNames[valueType]);
+    prc->writeParam("ID", fID);
+    prc->writeParam("Type", ValueTypeNames[fValueType]);
     
-    switch (valueType) {
+    switch (fValueType) {
     case kInt:
-        prc->writeParam("Value", intValue);
+        prc->writeParam("Value", fIntValue);
         prc->endTag(true);
         return;
     case kBoolean:
-        prc->writeParam("Value", boolValue);
+        prc->writeParam("Value", fBoolValue);
         prc->endTag(true);
         return;
     case kFloat:
-        prc->writeParam("Value", floatValue);
+        prc->writeParam("Value", fFloatValue);
         prc->endTag(true);
         return;
     case kString:
     case kAnimationName:
     case kGlobalSDLVar:
     case kSubtitle:
-        prc->writeParam("Value", strValue);
+        prc->writeParam("Value", fStrValue);
         prc->endTag(true);
         return;
     case kNone:
@@ -113,8 +115,47 @@ void plPythonParameter::prcWrite(pfPrcHelper* prc) {
         return;
     default:
         prc->endTag(false);
-        objKey->prcWrite(prc);
+        fObjKey->prcWrite(prc);
         prc->closeTag();
+        return;
+    }
+}
+
+void plPythonParameter::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() != "plPythonParameter")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fID = tag->getParam("ID", "0").toUint();
+    plString valTypeName = tag->getParam("Type", "(Invalid)");
+    fValueType = 0;
+    for (size_t i=0; i<=kNone; i++) {
+        if (valTypeName == ValueTypeNames[i])
+            fValueType = i;
+    }
+    if (fValueType == 0)
+        throw pfPrcParseException(__FILE__, __LINE__, "Invalid parameter type");
+
+    switch (fValueType) {
+    case kInt:
+        fIntValue = tag->getParam("Value", "0").toInt();
+        return;
+    case kBoolean:
+        fBoolValue = tag->getParam("Value", "false").toBool();
+        return;
+    case kFloat:
+        fFloatValue = tag->getParam("Value", "0").toFloat();
+        return;
+    case kString:
+    case kAnimationName:
+    case kGlobalSDLVar:
+    case kSubtitle:
+        fStrValue = tag->getParam("Value", "");
+        return;
+    case kNone:
+        return;
+    default:
+        if (tag->hasChildren())
+            fObjKey = mgr->prcParseKey(tag->getFirstChild());
         return;
     }
 }
@@ -180,54 +221,73 @@ plPythonFileMod::~plPythonFileMod() { }
 
 IMPLEMENT_CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
-const plString& plPythonFileMod::getFilename() const { return pythonFile; }
-const hsTArray<plWeakKey>& plPythonFileMod::getReceivers() const { return receivers; }
-const hsTArray<plPythonParameter>& plPythonFileMod::getParameters() const { return parameters; }
+const plString& plPythonFileMod::getFilename() const { return fPythonFile; }
+const hsTArray<plWeakKey>& plPythonFileMod::getReceivers() const { return fReceivers; }
+const hsTArray<plPythonParameter>& plPythonFileMod::getParameters() const { return fParameters; }
 
 void plPythonFileMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
-    pythonFile = S->readSafeStr();
+    fPythonFile = S->readSafeStr();
 
-    size_t i, count = S->readInt();
-    receivers.setSize(count);
-    for (i=0; i<count; i++)
-        receivers[i] = mgr->readKey(S);
+    fReceivers.setSize(S->readInt());
+    for (size_t i=0; i<fReceivers.getSize(); i++)
+        fReceivers[i] = mgr->readKey(S);
 
-    count = S->readInt();
-    parameters.setSize(count);
-    for (i=0; i<count; i++)
-        parameters[i].read(S, mgr);
+    fParameters.setSize(S->readInt());
+    for (size_t i=0; i<fParameters.getSize(); i++)
+        fParameters[i].read(S, mgr);
 }
 
 void plPythonFileMod::write(hsStream* S, plResManager* mgr) {
     plMultiModifier::write(S, mgr);
-    S->writeSafeStr(pythonFile);
+    S->writeSafeStr(fPythonFile);
 
-    size_t i;
-    S->writeInt(receivers.getSize());
-    for (i=0; i<receivers.getSize(); i++)
-        mgr->writeKey(S, receivers[i]);
+    S->writeInt(fReceivers.getSize());
+    for (size_t i=0; i<fReceivers.getSize(); i++)
+        mgr->writeKey(S, fReceivers[i]);
 
-    S->writeInt(parameters.getSize());
-    for (i=0; i<parameters.getSize(); i++)
-        parameters[i].write(S, mgr);
+    S->writeInt(fParameters.getSize());
+    for (size_t i=0; i<fParameters.getSize(); i++)
+        fParameters[i].write(S, mgr);
 }
 
 void plPythonFileMod::IPrcWrite(pfPrcHelper* prc) {
     plMultiModifier::IPrcWrite(prc);
 
     prc->startTag("PythonFile");
-    prc->writeParam("name", pythonFile);
+    prc->writeParam("name", fPythonFile);
     prc->endTag(true);
 
     size_t i;
     prc->writeSimpleTag("Receivers");
-    for (i=0; i<receivers.getSize(); i++)
-        receivers[i]->prcWrite(prc);
+    for (i=0; i<fReceivers.getSize(); i++)
+        fReceivers[i]->prcWrite(prc);
     prc->closeTag();
     
     prc->writeSimpleTag("Parameters");
-    for (i=0; i<parameters.getSize(); i++)
-        parameters[i].prcWrite(prc);
+    for (i=0; i<fParameters.getSize(); i++)
+        fParameters[i].prcWrite(prc);
     prc->closeTag();
+}
+
+void plPythonFileMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if  (tag->getName() == "PythonFile") {
+        fPythonFile = tag->getParam("name", "");
+    } else if (tag->getName() == "Receivers") {
+        fReceivers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fReceivers.getSize(); i++) {
+            fReceivers[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Parameters") {
+        fParameters.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fParameters.getSize(); i++) {
+            fParameters[i].prcParse(tag, mgr);
+            child = child->getNextSibling();
+        }
+    } else {
+        plMultiModifier::IPrcParse(tag, mgr);
+    }
 }

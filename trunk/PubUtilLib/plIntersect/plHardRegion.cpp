@@ -6,18 +6,6 @@ plHardRegion::~plHardRegion() { }
 
 IMPLEMENT_CREATABLE(plHardRegion, kHardRegion, plRegionBase)
 
-void plHardRegion::read(hsStream* S, plResManager* mgr) {
-    plObjInterface::read(S, mgr);
-}
-
-void plHardRegion::write(hsStream* S, plResManager* mgr) {
-    plObjInterface::write(S, mgr);
-}
-
-void plHardRegion::IPrcWrite(pfPrcHelper* prc) {
-    plObjInterface::IPrcWrite(prc);
-}
-
 
 // plHardRegionComplex //
 plHardRegionComplex::plHardRegionComplex() { }
@@ -48,6 +36,19 @@ void plHardRegionComplex::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fSubRegions.getSize(); i++)
         fSubRegions[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plHardRegionComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SubRegions") {
+        fSubRegions.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fSubRegions.getSize(); i++) {
+            fSubRegions[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plHardRegion::IPrcParse(tag, mgr);
+    }
 }
 
 

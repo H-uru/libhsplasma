@@ -39,8 +39,8 @@ void plDynamicTextMap::Create(unsigned int width, unsigned int height,
     fCompressionType = kUncompressed;
     fUncompressedInfo.fType = UncompressedInfo::kRGB8888;
     //setDeviceRef(NULL);
-    setFont("Arial", 12, 0, true);
-    setTextColor(hsColorRGBA::kBlue, false);
+    //setFont("Arial", 12, 0, true);
+    //setTextColor(hsColorRGBA::kBlue, false);
     //setCurrLevel(0);
 }
 
@@ -55,10 +55,6 @@ void plDynamicTextMap::readData(hsStream* S) {
     fInitBuffer = new unsigned int[bufSize];
     S->readInts(bufSize, (hsUint32*)fInitBuffer);
     Create(fVisWidth, fVisHeight, fHasAlpha, 0, 0);
-
-    // Another fine product of the Cyan Worlds, Inc. Usefulness Department:
-    delete[] fInitBuffer;
-    fInitBuffer = NULL;
 }
 
 void plDynamicTextMap::writeData(hsStream* S) {
@@ -83,65 +79,31 @@ void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     if (fInitBuffer != NULL) {
-        prc->writeTagNoBreak("InitBuffer");
-        unsigned char* ptr = (unsigned char*)fInitBuffer;
-        for (size_t i=0; i<(fVisHeight * fVisWidth)*sizeof(unsigned int); i++)
-             prc->getStream()->writeStr(plString::Format("%02X", ptr[i]));
-        prc->closeTagNoBreak();
+        prc->writeSimpleTag("InitBuffer");
+        prc->writeHexStream((fVisHeight * fVisWidth) * sizeof(unsigned int),
+                            (unsigned char*)fInitBuffer);
+        prc->closeTag();
     } else {
         prc->startTag("InitBuffer");
-        prc->writeParam("Present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
     }
 }
 
-void plDynamicTextMap::setFont(plString face, unsigned int size,
-                               unsigned char flags, bool antiAliasRGB) {
-    fFontSize = size;
-    fFontFlags = flags;
-    fFontAntiAliasRGB = antiAliasRGB;
-    /*
-    fCurrFont = plFontCache::GetFont(fFontFace, fFontSize, fFontFlags & 3);
-    if (fCurrFont == NULL) {
-        fFontFace = "Arial";
-        fCurrFont = plFontCache::GetFont(fFontFace, fFontSize, fFontFlags & 3);
+void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "DynTextMapParams") {
+        fVisWidth = tag->getParam("VisWidth", "0").toUint();
+        fVisHeight = tag->getParam("VisHeight", "0").toUint();
+        fHasAlpha = tag->getParam("HasAlpha", "false").toBool();
+    } else if (tag->getName() == "InitBuffer") {
+        if (tag->getParam("NULL", "false").toBool()) {
+            fInitBuffer = NULL;
+        } else {
+            fInitBuffer = new unsigned int[(fVisHeight * fVisWidth)];
+            tag->readHexStream((fVisHeight * fVisWidth) * sizeof(unsigned int),
+                               (unsigned char*)fInitBuffer);
+        }
+    } else {
+        plBitmap::IPrcParse(tag, mgr);
     }
-    fCurrFont->fRenderInfo.fFlags &= ~(kRenderJustYCenter | kRenderJustYBottom);
-    fCurrFont->fRenderInfo.fFlags |= kRenderJustYTop;
-    */
-    setJustify(fJustify);
 }
-
-void plDynamicTextMap::setJustify(Justify just) {
-    fJustify = just;
-
-    /*
-    switch (fJustify) {
-    case kLeftJustify:
-        fCurrFont->fRenderInfo.fFlags &= ~(kRenderJustXRight | kRenderJustXCenter);
-        fCurrFont->fRenderInfo.fFlags |= kRenderJustXForceLeft;
-        break;
-    case kCenter:
-        fCurrFont->fRenderInfo.fFlags &= ~(kRenderJustXRight | kRenderJustXForceLeft);
-        fCurrFont->fRenderInfo.fFlags |= kRenderJustXCenter;
-        break;
-    case kRightJustify:
-        fCurrFont->fRenderInfo.fFlags &= ~(kRenderJustXCenter | kRenderJustXForceLeft);
-        fCurrFont->fRenderInfo.fFlags |= kRenderJustXRight;
-        break;
-    }
-    */
-}
-
-void plDynamicTextMap::setTextColor(const hsColorRGBA& color, bool blockRGB) {
-    fFontColor = color;
-    fFontBlockRGB = blockRGB;
-
-    /*
-    fCurrFont->setRenderColor((fFontColor.a * 256) << 24 |
-                              (fFontColor.b * 256) << 16 |
-                              (fFontColor.g * 256) << 8  |
-                              (fFontColor.r * 256));
-    */  
-}
-

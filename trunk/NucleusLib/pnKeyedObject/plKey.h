@@ -32,6 +32,7 @@ public:
     void readUoid(hsStream* S);
     void writeUoid(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    static plKeyData* PrcParse(const pfPrcTag* tag);
 
     plUoid& getUoid();
     class hsKeyedObject* getObj();

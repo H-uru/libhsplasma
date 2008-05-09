@@ -1,15 +1,12 @@
 #include "plResManager.h"
 #include "NucleusLib/pnFactory/plFactory.h"
 #include "PubUtilLib/plScene/plSceneNode.h"
-#include "PubUtilLib/plJPEG/plJPEG.h"
 #include "CoreLib/plDebug.h"
 
 unsigned int plResManager::fNumResMgrs = 0;
 
 plResManager::plResManager(PlasmaVer pv) {
     setVer(pv);
-    if (plJPEG::inst == NULL)
-        plJPEG::inst = new plJPEG;
     fNumResMgrs++;
 }
 
@@ -19,10 +16,6 @@ plResManager::~plResManager() {
     while (pages.size() > 0)
         UnloadPage(pages[0]->getLocation());
     fNumResMgrs--;
-    if ((fNumResMgrs == 0) && (plJPEG::inst != NULL)) {
-        delete plJPEG::inst;
-        plJPEG::inst = NULL;
-    }
 }
 
 void plResManager::setVer(PlasmaVer pv, bool force) {
@@ -88,6 +81,19 @@ void plResManager::writeUoid(hsStream* S, plKey key) {
 
 void plResManager::writeUoid(hsStream* S, hsKeyedObject* ko) {
     writeUoid(S, ko->getKey());
+}
+
+plKey plResManager::prcParseKey(const pfPrcTag* tag) {
+    plKey k = plKeyData::PrcParse(tag);
+    if (k.Exists()) {
+        plKey xkey = keys.findKey(k);
+        if (xkey.Exists()) {
+            return xkey;
+        } else {
+            keys.add(k);
+        }
+    }
+    return k;
 }
 
 hsKeyedObject* plResManager::getObject(const plKey& key) {
@@ -367,6 +373,13 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
         S->writeShort(pCre->ClassIndex(S->getVer()));
         pCre->write(S, this);
     }
+}
+
+plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
+    plCreatable* pCre = plFactory::Create(tag->getName());
+    if (pCre != NULL)
+        pCre->prcParse(tag, this);
+    return NULL;
 }
 
 plSceneNode* plResManager::getSceneNode(const plLocation& loc) {

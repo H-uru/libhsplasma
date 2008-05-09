@@ -35,8 +35,19 @@ void plSimpleScaleController::IPrcWrite(pfPrcHelper* prc) {
         fValue->prcWrite(prc);
     } else {
         prc->startTag("plScaleValueController");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
+    }
+}
+
+void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "plScaleValueController") {
+        if (!tag->getParam("NULL", "false").toBool()) {
+            fValue = new plScaleValueController();
+            fValue->prcParse(tag, mgr);
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
     }
 }
 

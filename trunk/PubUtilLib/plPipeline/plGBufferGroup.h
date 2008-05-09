@@ -11,25 +11,26 @@
 
 DllClass plGBufferCell {
 public:
-    unsigned int vtxStart, colorStart, length;
+    unsigned int fVtxStart, fColorStart, fLength;
 
 public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 
 DllClass plGBufferColor {
 public:
-    unsigned int diffuse, specular;
+    unsigned int fDiffuse, fSpecular;
 };
 
 
 DllClass plGBufferTriangle {
 public:
-    unsigned short index1, index2, index3, spanIndex;
-    hsVector3 center;
+    unsigned short fIndex1, fIndex2, fIndex3, fSpanIndex;
+    hsVector3 fCenter;
 
 public:
     plGBufferTriangle();
@@ -38,6 +39,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 
@@ -72,10 +74,10 @@ public:
     };
 
 protected:
-    unsigned char format, stride, liteStride, numSkinWeights;
-    unsigned int numVerts, numIndices;
-    bool vertsVolatile, idxVolatile;
-    int LOD;
+    unsigned char fFormat, fStride, fLiteStride, fNumSkinWeights;
+    unsigned int fNumVerts, fNumIndices;
+    bool fVertsVolatile, fIdxVolatile;
+    int fLOD;
     hsTArray<unsigned int> fVertBuffSizes, fIdxBuffCounts;
     hsTArray<unsigned char*> fVertBuffStorage;
     hsTArray<unsigned short*> fIdxBuffStorage;
@@ -91,16 +93,16 @@ public:
     plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod);
     ~plGBufferGroup();
 
-    hsTArray<plGBufferVertex> getVertices();
-    hsTList<unsigned short> getIndices();
+    hsTArray<plGBufferVertex> getVertices(size_t idx) const;
+    hsTArray<unsigned short> getIndices(size_t idx) const;
+
+    void addVertices(const hsTArray<plGBufferVertex>& verts);
+    void addIndices(const hsTArray<unsigned short>& indices);
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
-
-    plGBufferTriangle* ConvertToTriList(short spanIdx, unsigned int whichIdx,
-           unsigned int whichVtx, unsigned int whichCell, unsigned int start,
-           unsigned int numTris);
+    void prcParse(const pfPrcTag* tag);
 };
 
 #endif

@@ -9,10 +9,9 @@ IMPLEMENT_CREATABLE(plActivatorConditionalObject, kActivatorConditionalObject,
 
 void plActivatorConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
-    fActivators.clear();
-    size_t count = S->readInt();
-    for (size_t i=0; i<count; i++)
-        fActivators.append(mgr->readKey(S));
+    fActivators.setSize(S->readInt());
+    for (size_t i=0; i<fActivators.getSize(); i++)
+        fActivators[i] = mgr->readKey(S);
 }
 
 void plActivatorConditionalObject::write(hsStream* S, plResManager* mgr) {
@@ -28,6 +27,19 @@ void plActivatorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fActivators.getSize(); i++)
         fActivators[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plActivatorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Activators") {
+        fActivators.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fActivators.getSize(); i++) {
+            fActivators[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plConditionalObject::IPrcParse(tag, mgr);
+    }
 }
 
 

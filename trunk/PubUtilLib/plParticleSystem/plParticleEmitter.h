@@ -33,13 +33,9 @@ public:
     };
 
 protected:
-    unsigned int fMiscFlags;
+    unsigned int fMiscFlags, fSpanIndex, fMaxParticles;
     plParticleGenerator* fGenerator;
-    unsigned int fSpanIndex, fNumValidParticles, fMaxParticles;
-    hsBounds3Ext fBoundBox;
     hsColorRGBA fColor;
-    hsMatrix44 fLocalToWorld;
-    float fTimeToLive;
 
 public:
     plParticleEmitter();
@@ -50,6 +46,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

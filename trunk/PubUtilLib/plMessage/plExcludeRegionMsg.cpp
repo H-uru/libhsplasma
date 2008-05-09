@@ -25,3 +25,12 @@ void plExcludeRegionMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("SynchFlags", fSynchFlags);
     prc->endTag(true);
 }
+
+void plExcludeRegionMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ExcludeParams") {
+        fCmd = tag->getParam("Command", "0").toUint();
+        fSynchFlags = tag->getParam("SynchFlags", "0").toUint();
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}

@@ -29,3 +29,16 @@ void plImageLibMod::IPrcWrite(pfPrcHelper* prc) {
         fImages[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void plImageLibMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Images") {
+        fImages.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fImages.getSize(); i++) {
+            fImages[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
+}

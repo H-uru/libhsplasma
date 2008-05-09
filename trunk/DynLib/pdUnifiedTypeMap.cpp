@@ -2046,6 +2046,15 @@ const char* pdUnifiedTypeMap::ClassName(short typeIdx, PlasmaVer ver) {
     return ClassName(PlasmaToMapped(typeIdx, ver));
 }
 
+short pdUnifiedTypeMap::ClassIndex(const char* typeName) {
+    for (size_t i=0; i<TYPESPACE_MAX; i++)
+        if (fClassNames[i] != NULL && strcmp(fClassNames[i], typeName) == 0)
+            return i;
+
+    plDebug::Debug("pdUnifiedTypeMap::ClassIndex ERR: Got class %s", typeName);
+    return -1;
+}
+
 short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
     if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::PlasmaToMapped ERR: Got type %04hX", typeIdx);

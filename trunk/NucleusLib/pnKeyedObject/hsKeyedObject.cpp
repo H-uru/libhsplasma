@@ -25,6 +25,13 @@ void hsKeyedObject::IPrcWrite(pfPrcHelper* prc) {
     myKey->prcWrite(prc);
 }
 
+void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "plKey")
+        myKey = mgr->prcParseKey(tag);
+    else
+        plCreatable::IPrcParse(tag, mgr);
+}
+
 const plWeakKey& hsKeyedObject::getKey() const {
     return myKey;
 }

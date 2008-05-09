@@ -70,19 +70,51 @@ void plAnimPath::write(hsStream* S, plResManager* mgr) {
 }
 
 void plAnimPath::IPrcWrite(pfPrcHelper* prc) {
-    prc->startTag("Parameters");
+    prc->startTag("AnimPathParams");
       prc->writeParamHex("Flags", fAnimPathFlags);
       prc->writeParam("Length", fLength);
       prc->writeParam("MinDistSq", fMinDistSq);
     prc->endTag(true);
+    
+    prc->writeSimpleTag("Controller");
     if (fController != NULL)
         fController->prcWrite(prc);
     if (fTMController != NULL)
         fTMController->prcWrite(prc);
+    prc->closeTag();
     fParts.prcWrite(prc);
 
     prc->writeSimpleTag("LocalToWorld");
       fLocalToWorld.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldToLocal");
       fWorldToLocal.prcWrite(prc);
     prc->closeTag();
+}
+
+void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "AnimPathParams") {
+        fAnimPathFlags = tag->getParam("Flags", "0").toUint();
+        fLength = tag->getParam("Length", "0").toFloat();
+        fMinDistSq = tag->getParam("MinDistSq", "0").toFloat();
+    } else if (tag->getName() == "Controller") {
+        if (tag->hasChildren()) {
+            if (tag->getFirstChild()->getName() == "plTMController") {
+                fTMController = new plTMController();
+                fTMController->prcParse(tag->getFirstChild(), mgr);
+            } else {
+                fController = plCompoundController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            }
+        }
+    } else if (tag->getName() == "hsAffineParts") {
+        fParts.prcParse(tag);
+    } else if (tag->getName() == "LocalToWorld") {
+        if (tag->hasChildren())
+            fLocalToWorld.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldToLocal") {
+        if (tag->hasChildren())
+            fWorldToLocal.prcParse(tag->getFirstChild());
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
 }

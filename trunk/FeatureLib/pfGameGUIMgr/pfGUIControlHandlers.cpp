@@ -54,6 +54,30 @@ void pfGUICtrlProcWriteableObject::PrcWrite(pfPrcHelper* prc, pfGUICtrlProcWrite
     }
 }
 
+pfGUICtrlProcWriteableObject* pfGUICtrlProcWriteableObject::PrcParse(const pfPrcTag* tag) {
+    pfGUICtrlProcWriteableObject* proc;
+
+    if (tag->getName() == "pfGUICtrlProcObject") {
+        if (tag->getParam("NULL", "false").toBool())
+            return NULL;
+        throw pfPrcParseException(__FILE__, __LINE__, "Abstract class");
+    } else if (tag->getName() == "pfGUICloseDlgProc") {
+        proc = new pfGUICloseDlgProc();
+        proc->IPrcParse(tag);
+        return proc;
+    } else if (tag->getName() == "pfGUIConsoleCmdProc") {
+        proc = new pfGUIConsoleCmdProc();
+        proc->IPrcParse(tag);
+        return proc;
+    } else if (tag->getName() == "pfGUIPythonScriptProc") {
+        proc = new pfGUIPythonScriptProc();
+        proc->IPrcParse(tag);
+        return proc;
+    } else {
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    }
+}
+
 
 /* pfGUICloseDlgProc */
 pfGUICloseDlgProc::pfGUICloseDlgProc() {
@@ -68,6 +92,8 @@ void pfGUICloseDlgProc::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void pfGUICloseDlgProc::IPrcParse(const pfPrcTag* tag) { }
+
 
 /* pfGUIConsoleCmdProc */
 pfGUIConsoleCmdProc::pfGUIConsoleCmdProc() {
@@ -81,13 +107,17 @@ void pfGUIConsoleCmdProc::IRead(hsStream* S) {
 
 void pfGUIConsoleCmdProc::IWrite(hsStream* S) {
     S->writeInt(fCommand.len());
-    S->write(fCommand.len(), fCommand.cstr());
+    S->writeStr(fCommand);
 }
 
 void pfGUIConsoleCmdProc::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("pfGUIConsoleCmdProc");
     prc->writeParam("Command", fCommand);
     prc->endTag(true);
+}
+
+void pfGUIConsoleCmdProc::IPrcParse(const pfPrcTag* tag) {
+    fCommand = tag->getParam("Command", "");
 }
 
 
@@ -103,3 +133,5 @@ void pfGUIPythonScriptProc::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("pfGUIPythonScriptProc");
     prc->endTag(true);
 }
+
+void pfGUIPythonScriptProc::IPrcParse(const pfPrcTag* tag) { }

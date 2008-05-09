@@ -77,6 +77,30 @@ void plRenderTarget::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "RenderTargetParams") {
+        fWidth = tag->getParam("Width", "0").toUint();
+        fHeight = tag->getParam("Height", "0").toUint();
+        fZDepth = tag->getParam("ZDepth", "0").toUint();
+        fStencilDepth = tag->getParam("StencilDepth", "0").toUint();
+    } else if (tag->getName() == "Viewport") {
+        fProportionalViewport = tag->getParam("Proportional", "false").toBool();
+        if (fProportionalViewport) {
+            fViewport.fProportional.fLeft = tag->getParam("Left", "0").toFloat();
+            fViewport.fProportional.fTop = tag->getParam("Top", "0").toFloat();
+            fViewport.fProportional.fRight = tag->getParam("Right", "0").toFloat();
+            fViewport.fProportional.fBottom = tag->getParam("Bottom", "0").toFloat();
+        } else {
+            fViewport.fAbsolute.fLeft = tag->getParam("Left", "0").toUint();
+            fViewport.fAbsolute.fTop = tag->getParam("Top", "0").toUint();
+            fViewport.fAbsolute.fRight = tag->getParam("Right", "0").toUint();
+            fViewport.fAbsolute.fBottom = tag->getParam("Bottom", "0").toUint();
+        }
+    } else {
+        plBitmap::IPrcParse(tag, mgr);
+    }
+}
+
 plCubicRenderTarget* plRenderTarget::getParent() const { return fParent; }
 void plRenderTarget::setParent(plCubicRenderTarget* parent) { fParent = parent; }
 
@@ -119,4 +143,21 @@ void plCubicRenderTarget::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<6; i++)
         fFaces[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plCubicRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Faces") {
+        if (tag->countChildren() != 6)
+            throw pfPrcParseException(__FILE__, __LINE__, "CubicRenderTarget expects exactly 6 faces");
+
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<6; i++) {
+            fFaces[i] = new plRenderTarget();
+            fFaces[i]->setParent(this);
+            fFaces[i]->prcParse(child, mgr);
+            child = child->getNextSibling();
+        }
+    } else {
+        plRenderTarget::IPrcParse(tag, mgr);
+    }
 }

@@ -27,3 +27,11 @@ void plOneShotMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessage::IPrcWrite(prc);
     fCallbacks.prcWrite(prc);
 }
+
+void plOneShotMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if  (tag->getName() == "plOneShotCallbacks") {
+        fCallbacks.prcParse(tag, mgr);
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}

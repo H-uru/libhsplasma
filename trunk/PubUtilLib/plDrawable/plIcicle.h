@@ -6,7 +6,7 @@
 
 class plIcicle : public plVertexSpan {
 public:
-    unsigned int fIBufferIdx, fIStartIdx, fILength, fIPackedIdx;
+    unsigned int fIBufferIdx, fIStartIdx, fILength;
     plGBufferTriangle* fSortData;
 
 public:
@@ -18,6 +18,7 @@ public:
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag);
 };
 
 
@@ -31,6 +32,7 @@ public:
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag);
 
     void setSrcSpanIdx(unsigned int idx);
 };

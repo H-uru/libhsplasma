@@ -1,6 +1,6 @@
 #include "plLightInfo.h"
 
-plLightInfo::plLightInfo() : deviceRef(NULL) {
+plLightInfo::plLightInfo() {
     fProps.setName(kDisable, "kDisable");
     fProps.setName(kLPObsolete, "kLPObsolete");
     fProps.setName(kLPCastShadows, "kLPCastShadows");
@@ -21,80 +21,126 @@ IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 void plLightInfo::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     
-    ambient.read(S);
-    diffuse.read(S);
-    specular.read(S);
-    lightToLocal.read(S);
-    localToLight.read(S);
-    lightToWorld.read(S);
-    worldToLight.read(S);
-    localToWorld = lightToWorld * localToLight;
-    worldToLocal = lightToLocal * worldToLight;
+    fAmbient.read(S);
+    fDiffuse.read(S);
+    fSpecular.read(S);
+    fLightToLocal.read(S);
+    fLocalToLight.read(S);
+    fLightToWorld.read(S);
+    fWorldToLight.read(S);
+    //fLocalToWorld = fLightToWorld * fLocalToLight;
+    //fWorldToLocal = fLightToLocal * fWorldToLight;
 
-    projection = mgr->readKey(S);
-    softVolume = mgr->readKey(S);
-    sceneNode = mgr->readKey(S);
+    fProjection = mgr->readKey(S);
+    fSoftVolume = mgr->readKey(S);
+    fSceneNode = mgr->readKey(S);
 
-    visRegions.setSize(S->readInt());
-    for (size_t i=0; i<visRegions.getSize(); i++)
-        visRegions[i] = mgr->readKey(S);
-    volFlags |= kVolDirty;
+    fVisRegions.setSize(S->readInt());
+    for (size_t i=0; i<fVisRegions.getSize(); i++)
+        fVisRegions[i] = mgr->readKey(S);
 }
 
 void plLightInfo::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
     
-    ambient.write(S);
-    diffuse.write(S);
-    specular.write(S);
-    lightToLocal.write(S);
-    localToLight.write(S);
-    lightToWorld.write(S);
-    worldToLight.write(S);
+    fAmbient.write(S);
+    fDiffuse.write(S);
+    fSpecular.write(S);
+    fLightToLocal.write(S);
+    fLocalToLight.write(S);
+    fLightToWorld.write(S);
+    fWorldToLight.write(S);
 
-    mgr->writeKey(S, projection);
-    mgr->writeKey(S, softVolume);
-    mgr->writeKey(S, sceneNode);
+    mgr->writeKey(S, fProjection);
+    mgr->writeKey(S, fSoftVolume);
+    mgr->writeKey(S, fSceneNode);
 
-    S->writeInt(visRegions.getSize());
-    for (size_t i=0; i<visRegions.getSize(); i++)
-        mgr->writeKey(S, visRegions[i]);
+    S->writeInt(fVisRegions.getSize());
+    for (size_t i=0; i<fVisRegions.getSize(); i++)
+        mgr->writeKey(S, fVisRegions[i]);
 }
 
 void plLightInfo::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
     
     prc->writeSimpleTag("Ambient");
-    ambient.prcWrite(prc);
+    fAmbient.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Diffuse");
-    diffuse.prcWrite(prc);
+    fDiffuse.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Specular");
-    specular.prcWrite(prc);
+    fSpecular.prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("LightToLocal");
-    lightToLocal.prcWrite(prc);
-    localToLight.prcWrite(prc);
+    fLightToLocal.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("LocalToLight");
+    fLocalToLight.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("LightToWorld");
-    lightToWorld.prcWrite(prc);
-    worldToLight.prcWrite(prc);
+    fLightToWorld.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("WorldToLight");
+    fWorldToLight.prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Projection");
-    projection->prcWrite(prc);
+    fProjection->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("SoftVolume");
-    softVolume->prcWrite(prc);
+    fSoftVolume->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("SceneNode");
-    sceneNode->prcWrite(prc);
+    fSceneNode->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegions");
-    for (size_t i=0; i<visRegions.getSize(); i++)
-        visRegions[i]->prcWrite(prc);
+    for (size_t i=0; i<fVisRegions.getSize(); i++)
+        fVisRegions[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Ambient") {
+        if (tag->hasChildren())
+            fAmbient.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Diffuse") {
+        if (tag->hasChildren())
+            fDiffuse.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Specular") {
+        if (tag->hasChildren())
+            fSpecular.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LightToLocal") {
+        if (tag->hasChildren())
+            fLightToLocal.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LocalToLight") {
+        if (tag->hasChildren())
+            fLocalToLight.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LightToWorld") {
+        if (tag->hasChildren())
+            fLightToWorld.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldToLight") {
+        if (tag->hasChildren())
+            fWorldToLight.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Projection") {
+        if (tag->hasChildren())
+            fProjection = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "SoftVolume") {
+        if (tag->hasChildren())
+            fSoftVolume = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "SceneNode") {
+        if (tag->hasChildren())
+            fSceneNode = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "VisRegions") {
+        fVisRegions.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fVisRegions.getSize(); i++) {
+            fVisRegions[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
 }

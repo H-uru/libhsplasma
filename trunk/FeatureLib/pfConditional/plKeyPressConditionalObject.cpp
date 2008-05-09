@@ -22,3 +22,11 @@ void plKeyPressConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("value", fKeyEvent);
     prc->endTag(true);
 }
+
+void plKeyPressConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "KeyEvent") {
+        fKeyEvent = (plKeyDef)tag->getParam("value", "0").toInt();
+    } else {
+        plConditionalObject::IPrcParse(tag, mgr);
+    }
+}

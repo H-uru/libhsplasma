@@ -31,6 +31,15 @@ void plSingleModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plSingleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ModFlags") {
+        if (tag->hasChildren())
+            fFlags.prcParse(tag->getFirstChild());
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plMultiModifier */
 plMultiModifier::plMultiModifier() { }
@@ -54,4 +63,13 @@ void plMultiModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("ModFlags");
     fFlags.prcWrite(prc);
     prc->closeTag();
+}
+
+void plMultiModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ModFlags") {
+        if (tag->hasChildren())
+            fFlags.prcParse(tag->getFirstChild());
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
 }

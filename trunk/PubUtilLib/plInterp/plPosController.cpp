@@ -36,8 +36,19 @@ void plSimplePosController::IPrcWrite(pfPrcHelper* prc) {
         fPosition->prcWrite(prc);
     } else {
         prc->startTag("plPoint3Controller");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
+    }
+}
+
+void plSimplePosController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "plPoint3Controller") {
+        if (!tag->getParam("NULL", "false").toBool()) {
+            fPosition = new plPoint3Controller();
+            fPosition->prcParse(tag, mgr);
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
     }
 }
 
@@ -96,26 +107,53 @@ void plCompoundPosController::write(hsStream* S, plResManager* mgr) {
 }
 
 void plCompoundPosController::IPrcWrite(pfPrcHelper* prc) {
+    prc->writeSimpleTag("X");
     if (fXController != NULL) {
         fXController->prcWrite(prc);
     } else {
         prc->startTag("plScalarController");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
     }
+    prc->closeTag();
+    prc->writeSimpleTag("Y");
     if (fYController != NULL) {
         fYController->prcWrite(prc);
     } else {
         prc->startTag("plScalarController");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
     }
+    prc->closeTag();
+    prc->writeSimpleTag("Z");
     if (fZController != NULL) {
         fZController->prcWrite(prc);
     } else {
         prc->startTag("plScalarController");
-        prc->writeParam("present", false);
+        prc->writeParam("NULL", true);
         prc->endTag(true);
+    }
+    prc->closeTag();
+}
+
+void plCompoundPosController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "X") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+            fXController = new plScalarController();
+            fXController->prcParse(tag, mgr);
+        }
+    } else if (tag->getName() == "Y") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+            fYController = new plScalarController();
+            fYController->prcParse(tag, mgr);
+        }
+    } else if (tag->getName() == "Z") {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+            fZController = new plScalarController();
+            fZController->prcParse(tag, mgr);
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
     }
 }
 

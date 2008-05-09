@@ -1,10 +1,9 @@
 #include "plParticleSystem.h"
 
 plParticleSystem::plParticleSystem()
-                : fXTiles(0), fYTiles(0), fCurrTime(0.0), fLastTime(0.0),
-                  fPreSim(0.0f), fDrag(0.0f), fWindMult(0.0f),
-                  fMaxTotalParticles(0), fMaxTotalParticlesLeft(0),
-                  fNumValidEmitters(0), fMaxEmitters(0), fNextEmitter(0),
+                : fXTiles(0), fYTiles(0), fPreSim(0.0f), fDrag(0.0f),
+                  fWindMult(0.0f), fMaxTotalParticles(0),
+                  fNumValidEmitters(0), fMaxEmitters(0),
                   fEmitters(NULL), fAmbientCtl(NULL), fDiffuseCtl(NULL),
                   fOpacityCtl(NULL), fWidthCtl(NULL), fHeightCtl(NULL) { }
 
@@ -193,4 +192,79 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fPermaLights.getSize(); i++)
         fPermaLights[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Material") {
+        if (tag->hasChildren())
+            fMaterial = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "AmbientCtl") {
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+            fAmbientCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "DiffuseCtl") {
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+            fDiffuseCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "OpacityCtl") {
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+            fOpacityCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "WidthCtl") {
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+            fWidthCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "HeightCtl") {
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+            fHeightCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "ParticleParams") {
+        fXTiles = tag->getParam("XTiles", "0").toUint();
+        fYTiles = tag->getParam("YTiles", "0").toUint();
+        fMaxTotalParticles = tag->getParam("MaxTotalParticles", "0").toUint();
+        fMaxEmitters = tag->getParam("MaxEmitters", "0").toUint();
+        fPreSim = tag->getParam("PreSim", "0").toFloat();
+        fDrag = tag->getParam("Drag", "0").toFloat();
+        fWindMult = tag->getParam("WindMult", "0").toFloat();
+    } else if (tag->getName() == "Accel") {
+        if (tag->hasChildren())
+            fAccel.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Emitters") {
+        fNumValidEmitters = tag->countChildren();
+        if (fNumValidEmitters > fMaxEmitters)
+            throw pfPrcParseException(__FILE__, __LINE__, "Too many particle emitters");
+        fEmitters = new plParticleEmitter*[fMaxEmitters];
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fNumValidEmitters; i++) {
+            fEmitters[i] = plParticleEmitter::Convert(mgr->prcParseCreatable(child));
+            child = child->getNextSibling();
+        }
+        for (size_t i=fNumValidEmitters; i<fMaxEmitters; i++)
+            fEmitters[i] = NULL;
+    } else if (tag->getName() == "Forces") {
+        fForces.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fForces.getSize(); i++) {
+            fForces[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Effects") {
+        fEffects.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fEffects.getSize(); i++) {
+            fEffects[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Constraints") {
+        fConstraints.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fConstraints.getSize(); i++) {
+            fConstraints[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "PermaLights") {
+        fPermaLights.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fPermaLights.getSize(); i++) {
+            fPermaLights[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
 }

@@ -3,6 +3,7 @@
 
 #include "hsGeometry3.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllStruct hsQuat {
     float X, Y, Z, W;
@@ -15,6 +16,7 @@ DllStruct hsQuat {
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 #endif

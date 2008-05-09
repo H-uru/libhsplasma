@@ -6,6 +6,7 @@
 #include "CoreLib/plString.h"
 #include "DynLib/PageID.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllClass plLocation {
 public:
@@ -36,6 +37,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     void invalidate();
     bool isValid() const;
@@ -75,6 +77,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     plString toString() const;
 

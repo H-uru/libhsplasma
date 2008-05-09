@@ -40,6 +40,15 @@ void hsVector3::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void hsVector3::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsVector3")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    X = tag->getParam("X", "0").toFloat();
+    Y = tag->getParam("Y", "0").toFloat();
+    Z = tag->getParam("Z", "0").toFloat();
+}
+
 hsVector3 hsVector3::operator+(const hsVector3& other) const {
     return hsVector3(X + other.X, Y + other.Y, Z + other.Z);
 }
@@ -94,4 +103,14 @@ void hsPlane3::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("Z", N.Z);
     prc->writeParam("W", W);
     prc->endTag(true);
+}
+
+void hsPlane3::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsPlane3")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    N.X = tag->getParam("X", "0").toFloat();
+    N.Y = tag->getParam("Y", "0").toFloat();
+    N.Z = tag->getParam("Z", "0").toFloat();
+    W = tag->getParam("W", "0").toFloat();
 }

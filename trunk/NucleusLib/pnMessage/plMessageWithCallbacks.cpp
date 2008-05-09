@@ -38,3 +38,16 @@ void plMessageWithCallbacks::IPrcWrite(pfPrcHelper* prc) {
         fCallbacks[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void plMessageWithCallbacks::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Callbacks") {
+        fCallbacks.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fCallbacks.getSize(); i++) {
+            fCallbacks[i] = plMessage::Convert(mgr->prcParseCreatable(child));
+            child = child->getNextSibling();
+        }
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}

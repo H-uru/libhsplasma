@@ -27,31 +27,39 @@ void plSound::plFadeParams::write(hsStream* S) {
 
 void plSound::plFadeParams::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plFadeParams");
-    prc->writeParam("type", fType);
-    prc->writeParam("length", fLengthInSecs);
-    prc->writeParam("start", fVolStart);
-    prc->writeParam("end", fVolEnd);
-    prc->writeParam("current", fCurrTime);
+    prc->writeParam("Type", fType);
+    prc->writeParam("Length", fLengthInSecs);
+    prc->writeParam("VolStart", fVolStart);
+    prc->writeParam("VolEnd", fVolEnd);
+    prc->writeParam("CurrTime", fCurrTime);
     prc->writeParam("StopWhenDone", fStopWhenDone);
     prc->writeParam("FadeSoftVol", fFadeSoftVol);
     prc->endTag(true);
 }
+
+void plSound::plFadeParams::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plFadeParams")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fType = tag->getParam("Type", "0").toUint();
+    fLengthInSecs = tag->getParam("Length", "0").toFloat();
+    fVolStart = tag->getParam("VolStart", "0").toFloat();
+    fVolEnd = tag->getParam("VolEnd", "0").toFloat();
+    fCurrTime = tag->getParam("CurrTime", "0").toFloat();
+    fStopWhenDone = tag->getParam("StopWhenDone", "false").toBool();
+    fFadeSoftVol = tag->getParam("FadeSoftVol", "false").toBool();
+}
+
 
 /* plSound */
 bool plSound::fLoadOnDemandFlag = true;
 bool plSound::fLoadFromDiskOnDemandFlag = true;
 
 plSound::plSound()
-       : fPlaying(false), fActive(false), fTime(0.0f), fMaxFalloff(0),
-         fMinFalloff(0), fCurrVolume(0.0f), fOuterVol(0), fInnerCone(360),
-         fOuterCone(360), fLength(0.0f), fDesiredVol(0.0f), fFadedVolume(0.0f),
-         fProperties(0), fType(kStartType), fPriority(0), fMuted(true),
-         fFading(false), fRegisteredForTime(false), fPlayOnReactivate(false),
-         fNotHighEnoughPriority(false), fOwningSceneObject(NULL),
-         fQueued(false), fCurrFadeParams(NULL), fSoftRegion(NULL),
-         fSoftVolume(0.0f), fDistAttenuation(0.0f), fVirtualStartTime(0.0f),
-         fRegistered(false), fRefIndex(-1), fSoftOcclusionRegion(NULL),
-         fDataBuffer(NULL), fDataBufferLoaded(false), fLoading(false) { }
+       : fType(kStartType), fPriority(0), fPlaying(false), fTime(0.0f),
+         fMaxFalloff(0), fMinFalloff(0), fOuterVol(0), fInnerCone(360),
+         fOuterCone(360), fCurrVolume(0.0f), fDesiredVol(0.0f),
+         fFadedVolume(0.0f), fProperties(0) { }
 
 plSound::~plSound() { }
 
@@ -63,16 +71,6 @@ void plSound::read(hsStream* S, plResManager* mgr) {
 
     if (fProperties & kPropLocalOnly)
         fSynchFlags |= kLocalOnly;
-    if (fPlaying)
-        fFading = (fFadeInParams.fLengthInSecs > 0.0f);
-    //if (fLoadOnDemandFlag && !(fProperties & kPropDisableLOD)) {
-    //    if (fLoadFromDiskOnDemand) return;
-    //    if (fProperties & kPropLoadOnlyOnCall) return;
-    //    if (fPriority > plgAudioSys::fPriorityCutoff) return;
-    //    IPreLoadBuffer();
-    //} else {
-    //    LoadSound(fProperties & kPropIs3DSound);
-    //}
 }
 
 void plSound::write(hsStream* S, plResManager* mgr) {
@@ -144,7 +142,7 @@ void plSound::IWrite(hsStream* S, plResManager* mgr) {
 void plSound::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
-    prc->startTag("Params");
+    prc->startTag("SoundParams");
       prc->writeParam("Playing", fPlaying);
       prc->writeParam("Time", fTime);
       prc->writeParam("MaxFalloff", fMaxFalloff);
@@ -164,8 +162,8 @@ void plSound::IPrcWrite(pfPrcHelper* prc) {
       prc->writeParam("OuterCone", fOuterCone);
     prc->endTag(true);
 
-    prc->startTag("Unknown");
-    prc->writeParam("EoaString", fEoaString);
+    prc->startTag("EoaParams");
+    prc->writeParam("String1", fEoaString);
     prc->endTag(true);
 
     prc->writeSimpleTag("FadeInParams");
@@ -185,4 +183,46 @@ void plSound::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     fEAXSettings.prcWrite(prc);
+}
+
+void plSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SoundParams") {
+        fPlaying = tag->getParam("Playing", "false").toBool();
+        fTime = tag->getParam("Time", "0").toFloat();
+        fMaxFalloff = tag->getParam("MaxFalloff", "0").toInt();
+        fMinFalloff = tag->getParam("MinFalloff", "0").toInt();
+        fProperties = tag->getParam("Properties", "0").toUint();
+        fType = tag->getParam("Type", "0").toUint();
+        fPriority = tag->getParam("Priority", "0").toUint();
+    } else if (tag->getName() == "Volumes") {
+        fCurrVolume = tag->getParam("Current", "0").toFloat();
+        fDesiredVol = tag->getParam("Desired", "0").toFloat();
+        fFadedVolume = tag->getParam("Fade", "0").toFloat();
+    } else if (tag->getName() == "Cone") {
+        fOuterVol = tag->getParam("OuterVol", "0").toInt();
+        fInnerCone = tag->getParam("InnerCone", "360").toInt();
+        fOuterCone = tag->getParam("OuterCone", "360").toInt();
+    } else if (tag->getName() == "EoaParams") {
+        fEoaString = tag->getParam("String1", "");
+    } else if (tag->getName() == "FadeInParams") {
+        if (tag->hasChildren())
+            fFadeInParams.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "FadeOutParams") {
+        if (tag->hasChildren())
+            fFadeOutParams.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "SoftRegion") {
+        if (tag->hasChildren())
+            fSoftRegion = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "DataBuffer") {
+        if (tag->hasChildren())
+            fDataBuffer = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "SoftOcclusionRegion") {
+        if (tag->hasChildren())
+            fSoftOcclusionRegion = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "plEAXSourceSettings") {
+        if (tag->hasChildren())
+            fEAXSettings.prcParse(tag->getFirstChild());
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
 }

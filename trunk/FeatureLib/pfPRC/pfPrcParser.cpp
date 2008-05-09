@@ -14,7 +14,7 @@ pfPrcTag::~pfPrcTag() {
 }
 
 const plString& pfPrcTag::getName() const { return fName; }
-const plString& pfPrcTag::getContents() const { return fContents; }
+const hsTList<plString>& pfPrcTag::getContents() const { return fContents; }
 const pfPrcTag* pfPrcTag::getFirstChild() const { return fFirstChild; }
 const pfPrcTag* pfPrcTag::getNextSibling() const { return fNextSibling; }
 bool pfPrcTag::hasChildren() const { return (fFirstChild != NULL); }
@@ -27,6 +27,28 @@ const plString& pfPrcTag::getParam(const plString& key, const plString& def) con
         return def;
     else
         return f->second;
+}
+
+bool pfPrcTag::hasParam(const plString& key) const {
+    std::map<plString, plString>::const_iterator f = fParams.find(key);
+    return (f != fParams.end());
+}
+
+size_t pfPrcTag::countChildren() const {
+    const pfPrcTag* childPtr = fFirstChild;
+    size_t nChildren = 0;
+    while (childPtr != NULL) {
+        nChildren++;
+        childPtr = childPtr->fNextSibling;
+    }
+    return nChildren;
+}
+
+void pfPrcTag::readHexStream(size_t maxLen, unsigned char* buf) const {
+    hsTList<plString> bytes = getContents();
+    size_t i=0;
+    while (!bytes.empty() && i<maxLen)
+        buf[i++] = bytes.pop().toUint(16);
 }
 
 
@@ -108,6 +130,9 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
         return tag;
     }
 
+    while (tok->peekNext() != "<")
+        tag->fContents.rpush(tok->next());
+
     pfPrcTag* childPtr = readTag(tok);
     if (!childPtr->fIsEndTag)
         tag->fFirstChild = childPtr;
@@ -132,13 +157,23 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
 pfPrcParseException::pfPrcParseException(const char* file, unsigned long line,
                                          const char* msg, ...) throw()
                    : hsException(file, line) {
-    va_list argptr;
-    va_start(argptr, msg);
-    plString str = plString::FormatV(msg, argptr);
-    va_end(argptr);
-
-    if (msg == NULL)
+    if (msg == NULL) {
         fWhat = "Unknown Parse Error";
-    else
+    } else {
+        va_list argptr;
+        va_start(argptr, msg);
+        plString str = plString::FormatV(msg, argptr);
+        va_end(argptr);
         fWhat = plString("Parse Error: ") + str;
+    }
+}
+
+/* pfPrcTagException */
+pfPrcTagException::pfPrcTagException(const char* file, unsigned long line,
+                                     const char* tag) throw()
+                 : pfPrcParseException(file, line, NULL) {
+    if (tag == NULL)
+        fWhat = "Unexpected tag";
+    else
+        fWhat = plString("Unexpected tag: ") + tag;
 }

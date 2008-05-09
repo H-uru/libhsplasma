@@ -19,6 +19,7 @@ public:
         void read(hsStream* S, plResManager* mgr);
         void write(hsStream* S, plResManager* mgr);
         void prcWrite(pfPrcHelper* prc);
+        void prcParse(const pfPrcTag* tag, plResManager* mgr);
     };
 
 protected:
@@ -31,15 +32,18 @@ protected:
     hsTArray<plCameraMsg*> fFOVInstructions;
     bool fAnimated, fStartAnimOnPush, fStopAnimOnPop, fResetAnimOnPop;
 
+    void DeleteTrans();
+
 public:
     plCameraModifier1();
-    ~plCameraModifier1();
+    virtual ~plCameraModifier1();
 
     DECLARE_CREATABLE(plCameraModifier1)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

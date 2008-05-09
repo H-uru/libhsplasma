@@ -26,7 +26,16 @@ void pfGUIMultiLineEditCtrl::write(hsStream* S, plResManager* mgr) {
 void pfGUIMultiLineEditCtrl::IPrcWrite(pfPrcHelper* prc) {
     pfGUIControlMod::IPrcWrite(prc);
 
-    prc->writeSimpleTag("ScrollCtrl");
+    prc->writeSimpleTag("ScrollControl");
     fScrollCtrl->prcWrite(prc);
     prc->closeTag();
+}
+
+void pfGUIMultiLineEditCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ScrollControl") {
+        if (tag->hasChildren())
+            fScrollCtrl = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        pfGUIControlMod::IPrcParse(tag, mgr);
+    }
 }

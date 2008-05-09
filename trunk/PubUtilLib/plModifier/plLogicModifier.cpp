@@ -13,6 +13,9 @@ void plLogicModifier::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<count; i++)
         fConditionList[i] = mgr->readKey(S);
     fMyCursor = S->readInt();
+
+    if (S->getVer() >= pvEoa)
+        fParent = mgr->readKey(S);
 }
 
 void plLogicModifier::write(hsStream* S, plResManager* mgr) {
@@ -22,6 +25,9 @@ void plLogicModifier::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fConditionList.getSize(); i++)
         mgr->writeKey(S, fConditionList[i]);
     S->writeInt(fMyCursor);
+
+    if (S->getVer() >= pvEoa)
+        mgr->writeKey(S, fParent);
 }
 
 void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
@@ -35,4 +41,26 @@ void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("LogicModifierParams");
     prc->writeParam("MyCursor", fMyCursor);
     prc->endTag(true);
+
+    prc->writeSimpleTag("Parent");
+    fParent->prcWrite(prc);
+    prc->closeTag();
+}
+
+void plLogicModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Conditions") {
+        fConditionList.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fConditionList.getSize(); i++) {
+            fConditionList[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "LogicModifierParams") {
+        fMyCursor = tag->getParam("MyCursor", "0").toUint();
+    } else if (tag->getName() == "Parent") {
+        if (tag->hasChildren())
+            fParent = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plLogicModBase::IPrcParse(tag, mgr);
+    }
 }

@@ -27,6 +27,15 @@ void plAGApplicator::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plAGApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "AGApplicatorParams") {
+        fEnabled = tag->getParam("Enabled", "false").toBool();
+        fChannelName = tag->getParam("ChannelName", "");
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
+}
+
 plAGChannel* plAGApplicator::getChannel() const { return fChannel; }
 void plAGApplicator::setChannel(plAGChannel* chan) { fChannel = chan; }
 
@@ -54,6 +63,14 @@ void plSoundVolumeApplicator::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("SoundVolumeApplicatorParams");
     prc->writeParam("Index", fIndex);
     prc->endTag(true);
+}
+
+void plSoundVolumeApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SoundVolumeApplicatorParams") {
+        fIndex = tag->getParam("Index", "0").toUint();
+    } else {
+        plAGApplicator::IPrcParse(tag, mgr);
+    }
 }
 
 

@@ -27,7 +27,7 @@ void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::write(S, mgr);
 
     S->writeInt(fText.len());
-    S->write(fText.len(), fText.cstr());
+    S->writeStr(fText);
 
     if (fLocalizationPath.empty())
         fUseLocalizationPath = false;
@@ -41,9 +41,9 @@ void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
 void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
     pfGUIControlMod::IPrcWrite(prc);
 
-    prc->writeTagNoBreak("Text");
-    prc->getStream()->writeStr(fText);
-    prc->closeTagNoBreak();
+    prc->writeSimpleTag("Text");
+    prc->writeHexStream(fText.len(), (unsigned char*)fText.cstr());
+    prc->closeTag();
 
     prc->startTag("LocalizationPath");
     if (fUseLocalizationPath)
@@ -51,4 +51,19 @@ void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
     else
         prc->writeParam("Use", false);
     prc->endTag(true);
+}
+
+void pfGUITextBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Text") {
+        size_t bufLen = tag->getContents().getSize();
+        char* buf = new char[bufLen + 1];
+        tag->readHexStream(bufLen, (unsigned char*)buf);
+        buf[bufLen] = 0;
+        fText = buf;
+    } else if (tag->getName() == "LocalizationPath") {
+        fLocalizationPath = hsStringToWString(tag->getParam("value", ""));
+        fUseLocalizationPath = tag->getParam("Use", "true").toBool();
+    } else {
+        pfGUIControlMod::IPrcParse(tag, mgr);
+    }
 }

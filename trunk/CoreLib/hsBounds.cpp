@@ -26,6 +26,25 @@ void hsBounds::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void hsBounds::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != ClassName())
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        IPrcParse(child);
+        child = child->getNextSibling();
+    }
+}
+
+void hsBounds::IPrcParse(const pfPrcTag* tag) {
+    if (tag->getName() == "BoundsInfo") {
+        fType = tag->getParam("Type", "0").toInt();
+    } else {
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    }
+}
+
 void hsBounds::setType(int type) { fType = type; }
 
 
@@ -57,13 +76,24 @@ void hsBounds3::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void hsBounds3::IPrcParse(const pfPrcTag* tag) {
+    if (tag->getName() == "Mins") {
+        if (tag->hasChildren())
+            fMins.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Maxs") {
+        if (tag->hasChildren())
+            fMaxs.prcParse(tag->getFirstChild());
+    } else {
+        hsBounds::IPrcParse(tag);
+    }
+}
+
 
 /* hsBounds3Ext */
 hsBounds3Ext::hsBounds3Ext() : fExtFlags(0), fRadius(0.0f) { }
 
 hsBounds3Ext::hsBounds3Ext(const hsBounds3Ext& src) : hsBounds3() {
     fType = src.fType;
-    fBounds3Flags = src.fBounds3Flags;
     fMins = src.fMins;
     fMaxs = src.fMaxs;
     fCenter = src.fCenter;
@@ -118,13 +148,38 @@ void hsBounds3Ext::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();
         prc->writeSimpleTag("Axes");
         for (int i=0; i<3; i++) {
+            prc->startTag("Axis");
+            prc->writeParam("DistX", fDists[i].X);
+            prc->writeParam("DistY", fDists[i].Y);
+            prc->endTag();
             fAxes[i].prcWrite(prc);
-            prc->startTag("Distance");
-            prc->writeParam("X", fDists[i].X);
-            prc->writeParam("Y", fDists[i].Y);
-            prc->endTag(true);
+            prc->closeTag();
         }
         prc->closeTag();
+    }
+}
+
+void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
+    if (tag->getName() == "ExtFlags") {
+        fExtFlags = tag->getParam("value", "0").toUint();
+    } else if (tag->getName() == "Corner") {
+        if (tag->hasChildren())
+            fCorner.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Axes") {
+        const pfPrcTag* child = tag->getFirstChild();
+        for (int i=0; i<3 && child != NULL; i++) {
+            if (child->getName() != "Axis")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+
+            fDists[i].X = child->getParam("DistX", "0").toFloat();
+            fDists[i].Y = child->getParam("DistY", "0").toFloat();
+            if (child->hasChildren())
+                fAxes[i].prcParse(child->getFirstChild());
+            
+            child = child->getNextSibling();
+        }
+    } else {
+        hsBounds3::IPrcParse(tag);
     }
 }
 
@@ -172,4 +227,24 @@ void hsBoundsOriented::IPrcWrite(pfPrcHelper* prc) {
     for (unsigned int i=0; i<fNumPlanes; i++)
         fPlanes[i].prcWrite(prc);
     prc->closeTag();
+}
+
+void hsBoundsOriented::IPrcParse(const pfPrcTag* tag) {
+    if (tag->getName() == "Center") {
+        fCenterValid = tag->getParam("IsValid", "false").toBool();
+        if (tag->hasChildren())
+            fCenter.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Planes") {
+        if (fPlanes != NULL)
+            delete[] fPlanes;
+        fNumPlanes = tag->countChildren();
+        fPlanes = new hsPlane3[fNumPlanes];
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fNumPlanes; i++) {
+            fPlanes[i].prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        hsBounds::IPrcParse(tag);
+    }
 }

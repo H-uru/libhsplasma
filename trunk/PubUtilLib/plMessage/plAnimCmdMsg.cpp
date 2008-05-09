@@ -40,13 +40,30 @@ void plAnimCmdMsg::read(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::read(S, mgr);
 
     fCmd.read(S);
-    fBegin = S->readFloat();
-    fEnd = S->readFloat();
-    fLoopEnd = S->readFloat();
-    fLoopBegin = S->readFloat();
-    fSpeed = S->readFloat();
-    fSpeedChangeRate = S->readFloat();
-    fTime = S->readFloat();
+    if (S->getVer() < pvEoa) {
+        fBegin = S->readFloat();
+        fEnd = S->readFloat();
+        fLoopEnd = S->readFloat();
+        fLoopBegin = S->readFloat();
+        fSpeed = S->readFloat();
+        fSpeedChangeRate = S->readFloat();
+        fTime = S->readFloat();
+    } else {
+        if (fCmd[kSetBegin])
+            fBegin = S->readFloat();
+        if (fCmd[kSetEnd])
+            fEnd = S->readFloat();
+        if (fCmd[kSetLoopBegin])
+            fLoopBegin = S->readFloat();
+        if (fCmd[kSetLoopEnd])
+            fLoopEnd = S->readFloat();
+        if (fCmd[kSetSpeed]) {
+            fSpeed = S->readFloat();
+            fSpeedChangeRate = S->readFloat();
+        }
+        if (fCmd[kGoToTime] || fCmd[kPlayToTime] || fCmd[kPlayToPercentage])
+            fTime = S->readFloat();
+    }
     fAnimName = S->readSafeStr();
     fLoopName = S->readSafeStr();
 }
@@ -55,19 +72,40 @@ void plAnimCmdMsg::write(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::write(S, mgr);
 
     fCmd.write(S);
-    S->writeFloat(fBegin);
-    S->writeFloat(fEnd);
-    S->writeFloat(fLoopEnd);
-    S->writeFloat(fLoopBegin);
-    S->writeFloat(fSpeed);
-    S->writeFloat(fSpeedChangeRate);
-    S->writeFloat(fTime);
+    if (S->getVer() < pvEoa) {
+        S->writeFloat(fBegin);
+        S->writeFloat(fEnd);
+        S->writeFloat(fLoopEnd);
+        S->writeFloat(fLoopBegin);
+        S->writeFloat(fSpeed);
+        S->writeFloat(fSpeedChangeRate);
+        S->writeFloat(fTime);
+    } else {
+        if (fCmd[kSetBegin])
+            S->writeFloat(fBegin);
+        if (fCmd[kSetEnd])
+            S->writeFloat(fEnd);
+        if (fCmd[kSetLoopBegin])
+            S->writeFloat(fLoopBegin);
+        if (fCmd[kSetLoopEnd])
+            S->writeFloat(fLoopEnd);
+        if (fCmd[kSetSpeed]) {
+            S->writeFloat(fSpeed);
+            S->writeFloat(fSpeedChangeRate);
+        }
+        if (fCmd[kGoToTime] || fCmd[kPlayToTime] || fCmd[kPlayToPercentage])
+            S->writeFloat(fTime);
+    }
     S->writeSafeStr(fAnimName);
     S->writeSafeStr(fLoopName);
 }
 
 void plAnimCmdMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessageWithCallbacks::IPrcWrite(prc);
+
+    prc->writeSimpleTag("Command");
+    fCmd.prcWrite(prc);
+    prc->closeTag();
 
     prc->startTag("AnimParams");
     prc->writeParam("Begin", fBegin);
@@ -83,8 +121,24 @@ void plAnimCmdMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("AnimName", fAnimName);
     prc->writeParam("LoopName", fLoopName);
     prc->endTag(true);
+}
 
-    prc->writeSimpleTag("Command");
-    fCmd.prcWrite(prc);
-    prc->closeTag();
+void plAnimCmdMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Command") {
+        if (tag->hasChildren())
+            fCmd.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "AnimParams") {
+        fBegin = tag->getParam("Begin", "0").toFloat();
+        fEnd = tag->getParam("End", "0").toFloat();
+        fLoopBegin = tag->getParam("LoopBegin", "0").toFloat();
+        fLoopEnd = tag->getParam("LoopEnd", "0").toFloat();
+        fSpeed = tag->getParam("Speed", "0").toFloat();
+        fSpeedChangeRate = tag->getParam("SpeedChangeRate", "0").toFloat();
+        fTime = tag->getParam("Time", "0").toFloat();
+    } else if (tag->getName() == "Anims") {
+        fAnimName = tag->getParam("AnimName", "");
+        fLoopName = tag->getParam("LoopName", "");
+    } else {
+        plMessageWithCallbacks::IPrcParse(tag, mgr);
+    }
 }

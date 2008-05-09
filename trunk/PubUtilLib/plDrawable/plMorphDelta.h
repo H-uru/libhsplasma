@@ -6,7 +6,7 @@
 #include "CoreLib/hsGeometry3.h"
 
 DllClass plVertDelta {
-public:
+protected:
     unsigned short fIdx, fPadding;
     hsVector3 fPos, fNorm;
 
@@ -14,10 +14,11 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 DllClass plMorphSpan {
-public:
+protected:
     hsTArray<plVertDelta> fDeltas;
     unsigned short fNumUVWChans;
     hsVector3* fUVWs;
@@ -29,6 +30,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 DllClass plMorphDelta : public plCreatable {
@@ -45,9 +47,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
-
-private:
-    void allocDeltas(int iSpan, int nDel, int nUVW);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

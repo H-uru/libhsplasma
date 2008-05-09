@@ -52,6 +52,31 @@ void plCameraModifier1::CamTrans::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plCameraModifier1::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() != "CamTrans")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fCutPos = tag->getParam("CutPos", "false").toBool();
+    fCutPOA = tag->getParam("CutPOA", "false").toBool();
+    fIgnore = tag->getParam("Ignore", "false").toBool();
+    fVelocity = tag->getParam("Velocity", "0").toFloat();
+    fAccel = tag->getParam("Accel", "0").toFloat();
+    fDecel = tag->getParam("Decel", "0").toFloat();
+    fPOAVelocity = tag->getParam("POAVelocity", "0").toFloat();
+    fPOAAccel = tag->getParam("POAAccel", "0").toFloat();
+    fPOADecel = tag->getParam("POADecel", "0").toFloat();
+
+    const pfPrcTag* child = tag->getFirstChild();
+    if (child != NULL) {
+        if (child->getName() == "TransTo") {
+            if (child->hasChildren())
+                fTransTo = mgr->prcParseKey(child->getFirstChild());
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+    }
+}
+
 
 /* plCameraModifier1 */
 plCameraModifier1::plCameraModifier1()
@@ -162,4 +187,45 @@ void plCameraModifier1::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fFOVInstructions.getSize(); i++)
         fFOVInstructions[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plCameraModifier1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "CameraModParams") {
+        fFOVw = tag->getParam("FOVw", "45").toFloat();
+        fFOVh = tag->getParam("FOVh", "33.75").toFloat();
+        fAnimated = tag->getParam("Animated", "false").toBool();
+        fStartAnimOnPush = tag->getParam("StartAnimOnPush", "false").toBool();
+        fStopAnimOnPop = tag->getParam("StopAnimOnPop", "false").toBool();
+        fResetAnimOnPop = tag->getParam("ResetAnimOnPop", "false").toBool();
+    } else if (tag->getName() == "Brain") {
+        if (tag->hasChildren())
+            fBrain = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Transforms") {
+        fTrans.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fTrans.getSize(); i++) {
+            fTrans[i] = new CamTrans();
+            fTrans[i]->prcParse(child, mgr);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "MessageQueue") {
+        fMessageQueue.setSizeNull(tag->countChildren() / 2);
+        fSenderQueue.setSize(fMessageQueue.getSize());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fMessageQueue.getSize(); i++) {
+            fMessageQueue[i] = plMessage::Convert(mgr->prcParseCreatable(child));
+            child = child->getNextSibling();
+            fSenderQueue[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "FOVInstructions") {
+        fFOVInstructions.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fFOVInstructions.getSize(); i++) {
+            fFOVInstructions[i] = plCameraMsg::Convert(mgr->prcParseCreatable(child));
+            child = child->getNextSibling();
+        }
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
 }

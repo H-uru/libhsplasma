@@ -86,3 +86,24 @@ void plSoundMsg::IPrcWrite(pfPrcHelper* prc) {
     fCmd.prcWrite(prc);
     prc->closeTag();
 }
+
+void plSoundMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SoundParams") {
+        fBegin = tag->getParam("", "0").toFloat();
+        fEnd = tag->getParam("", "0").toFloat();
+        fLoop = tag->getParam("", "false").toBool();
+        fPlaying = tag->getParam("", "false").toBool();
+        fSpeed = tag->getParam("", "0").toFloat();
+        fTime = tag->getParam("", "0").toFloat();
+        fIndex = tag->getParam("", "0").toInt();
+        fRepeats = tag->getParam("", "0").toInt();
+        fNameStr = tag->getParam("", "0").toUint();
+        fVolume = tag->getParam("", "0").toFloat();
+        fFadeType = (FadeType)tag->getParam("", "0").toInt();
+    } else if (tag->getName() == "Command") {
+        if (tag->hasChildren());
+            fCmd.prcParse(tag->getFirstChild());
+    } else {
+        plMessageWithCallbacks::IPrcParse(tag, mgr);
+    }
+}

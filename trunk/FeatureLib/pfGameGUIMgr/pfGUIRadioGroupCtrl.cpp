@@ -1,8 +1,7 @@
 #include "pfGUIRadioGroupCtrl.h"
 #include "pfGUICheckBoxCtrl.h"
 
-pfGUIRadioGroupCtrl::pfGUIRadioGroupCtrl()
-                   : fValue(0), fDefaultValue(0) {
+pfGUIRadioGroupCtrl::pfGUIRadioGroupCtrl() : fDefaultValue(0) {
     fFlags.setName(kAllowNoSelection, "kAllowNoSelection");
 }
 
@@ -17,9 +16,9 @@ void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fControls.getSize(); i++)
         fControls[i] = mgr->readKey(S);
 
-    fDefaultValue = fValue = S->readShort();
-    if (fValue != -1 && fControls[fValue].Exists())
-        pfGUICheckBoxCtrl::Convert(fControls[fValue]->getObj())->setChecked(true);
+    fDefaultValue = S->readShort();
+    if (fDefaultValue != -1 && fControls[fDefaultValue].Exists())
+        pfGUICheckBoxCtrl::Convert(fControls[fDefaultValue]->getObj())->setChecked(true);
 }
 
 void pfGUIRadioGroupCtrl::write(hsStream* S, plResManager* mgr) {
@@ -41,4 +40,18 @@ void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fControls.getSize(); i++)
         fControls[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void pfGUIRadioGroupCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Items") {
+        fDefaultValue = tag->getParam("Default", "0").toInt();
+        fControls.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fControls.getSize(); i++) {
+            fControls[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        pfGUIControlMod::IPrcParse(tag, mgr);
+    }
 }

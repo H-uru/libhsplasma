@@ -54,3 +54,28 @@ void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
         fObjects[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Drawables") {
+        fDrawables.setSize(tag->countChildren());
+        fDrawableKeys.setSizeNull(fDrawables.getSize());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fDrawables.getSize(); i++) {
+            if (child->getName() != "Drawable")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fDrawableKeys[i] = child->getParam("key", "0").toInt();
+            if (child->hasChildren())
+                fDrawables[i] = mgr->prcParseKey(child->getFirstChild());
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Objects") {
+        fObjects.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fObjects.getSize(); i++) {
+            fObjects[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
+}

@@ -86,3 +86,19 @@ void plSynchedObject::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTagNoBreak();
     }
 }
+
+void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SynchFlags") {
+        fSynchFlags = tag->getParam("value", "0").toUint();
+    } else if (tag->getName() == "ExcludePersistentStates") {
+        hsTList<plString> states = tag->getContents();
+        while (!states.empty())
+            SDLExcludeList.append(states.pop());
+    } else if (tag->getName() == "VolatileStates") {
+        hsTList<plString> states = tag->getContents();
+        while (!states.empty())
+            SDLVolatileList.append(states.pop());
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}

@@ -120,3 +120,44 @@ void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc) {
     }
     prc->closeTag();
 }
+
+void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Params") {
+        fFlags = tag->getParam("Flags", "0").toUint();
+        fBegin = tag->getParam("Begin", "0").toFloat();
+        fEnd = tag->getParam("End", "0").toFloat();
+        fLoopBegin = tag->getParam("LoopBegin", "0").toFloat();
+        fLoopEnd = tag->getParam("LoopEnd", "0").toFloat();
+        fSpeed = tag->getParam("Speed", "0").toFloat();
+    } else if (tag->getName() == "EaseInCurve") {
+        if (!tag->getParam("NULL", "false").toBool() && tag->hasChildren())
+            fSpeedEaseCurve = plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "EaseOutCurve") {
+        if (!tag->getParam("NULL", "false").toBool() && tag->hasChildren())
+            fSpeedEaseCurve = plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "SpeedEaseCurve") {
+        if (!tag->getParam("NULL", "false").toBool() && tag->hasChildren())
+            fSpeedEaseCurve = plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "Times") {
+        fCurrentAnimTime = tag->getParam("CurrentAnimTime", "0").toFloat();
+        fLastEvalWorldTime = tag->getParam("LastEvalWorldTime", "0").toFloat();
+    } else if (tag->getName() == "Callbacks") {
+        fCallbackMsgs.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fCallbackMsgs.getSize(); i++) {
+            fCallbackMsgs[i] = plEventCallbackMsg::Convert(mgr->prcParseCreatable(child));
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "StopPoints") {
+        fStopPoints.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fStopPoints.getSize(); i++) {
+            if (child->getName() != "StopPoint")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fStopPoints[i] = child->getParam("value", "0").toFloat();
+            child = child->getNextSibling();
+        }
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
+}

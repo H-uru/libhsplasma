@@ -5,15 +5,14 @@
 plResponderModifier::plResponderCmd::plResponderCmd() : fMsg(NULL), fWaitOn(-1) { }
 
 plResponderModifier::plResponderCmd::~plResponderCmd() {
-    if (fMsg) delete fMsg;
+    if (fMsg != NULL)
+        delete fMsg;
 }
 
 
 // plResponderModifier //
 plResponderModifier::plResponderModifier()
-                   : fCurState(0), fCurCommand(-1), fNetRequest(false),
-                     fEnabled(true), fEnter(false), fGotFirstLoad(false),
-                     fFlags(0), fNotifyMsgFlags(0) { }
+                   : fCurState(0), fEnabled(true), fFlags(0) { }
 
 plResponderModifier::~plResponderModifier() { }
 
@@ -95,10 +94,12 @@ void plResponderModifier::IPrcWrite(pfPrcHelper* prc) {
         
         prc->writeSimpleTag("Commands");
         for (size_t j=0; j<fStates[i].fCmds.getSize(); j++) {
+            prc->writeSimpleTag("Command");
             fStates[i].fCmds[j].fMsg->prcWrite(prc);
             prc->startTag("WaitOn");
             prc->writeParam("value", fStates[i].fCmds[j].fWaitOn);
             prc->endTag(true);
+            prc->closeTag();
         }
         prc->closeTag();    // Commands
 
@@ -115,6 +116,61 @@ void plResponderModifier::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();    // plResponderState
     }
     prc->closeTag();    // States
+}
+
+void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ResponderModParams") {
+        fCurState = tag->getParam("CurState", "0").toInt();
+        fEnabled = tag->getParam("Enabled", "false").toBool();
+        fFlags = tag->getParam("Flags", "0").toUint();
+    } else if (tag->getName() == "States") {
+        fStates.setSize(tag->countChildren());
+        const pfPrcTag* state = tag->getFirstChild();
+        for (size_t i=0; i<fStates.getSize(); i++) {
+            if (state->getName() != "plResponderState")
+                throw pfPrcTagException(__FILE__, __LINE__, state->getName());
+            fStates[i].fNumCallbacks = state->getParam("NumCallbacks", "0").toInt();
+            fStates[i].fSwitchToState = state->getParam("SwitchToState", "-1").toInt();
+
+            const pfPrcTag* child = state->getFirstChild();
+            while (child != NULL) {
+                if (child->getName() == "Commands") {
+                    fStates[i].fCmds.setSize(child->countChildren());
+                    const pfPrcTag* cmdChild = child->getFirstChild();
+                    for (size_t j=0; j<fStates[i].fCmds.getSize(); j++) {
+                        if (cmdChild->getName() != "Command")
+                            throw pfPrcTagException(__FILE__, __LINE__, cmdChild->getName());
+                        const pfPrcTag* subChild = cmdChild->getFirstChild();
+                        while (subChild != NULL) {
+                            if (subChild->getName() == "WaitOn") {
+                                fStates[i].fCmds[j].fWaitOn = tag->getParam("value", "-1").toInt();
+                            } else {
+                                fStates[i].fCmds[j].fMsg = plMessage::Convert(mgr->prcParseCreatable(subChild));
+                            }
+                            subChild = subChild->getNextSibling();
+                        }
+                        cmdChild = cmdChild->getNextSibling();
+                    }
+                } else if (child->getName() == "WaitToCmdTable") {
+                    size_t nWaits = child->countChildren();
+                    const pfPrcTag* waitChild = child->getFirstChild();
+                    for (size_t j=0; j<nWaits; j++) {
+                        if (waitChild->getName() != "Item")
+                            throw pfPrcTagException(__FILE__, __LINE__, waitChild->getName());
+                        hsByte wait = waitChild->getParam("Wait", "0").toInt();
+                        fStates[i].fWaitToCmd[wait] = waitChild->getParam("Cmd", "0").toInt();
+                        waitChild = waitChild->getNextSibling();
+                    }
+                } else {
+                    throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+                }
+                child = child->getNextSibling();
+            }
+            state = state->getNextSibling();
+        }
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
 }
 
 
@@ -140,4 +196,12 @@ void plResponderEnableMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("ResponderParams");
     prc->writeParam("Enable", fEnable);
     prc->endTag(true);
+}
+
+void plResponderEnableMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ResponderParams") {
+        fEnable = tag->getParam("Enable", "true").toBool();
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
 }

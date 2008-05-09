@@ -50,3 +50,22 @@ void plMessage::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParamHex("BCastFlags", fBCastFlags);
     prc->endTag(true);
 }
+
+void plMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Sender") {
+        if (tag->hasChildren())
+            fSender = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Receivers") {
+        fReceivers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fReceivers.getSize(); i++) {
+            fReceivers[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "MessageParams") {
+        fTimeStamp = tag->getParam("TimeStamp", "0").toFloat();
+        fBCastFlags = tag->getParam("BCastFlags", "0").toUint();
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
+}

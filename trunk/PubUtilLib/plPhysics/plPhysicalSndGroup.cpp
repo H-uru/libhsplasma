@@ -46,3 +46,25 @@ void plPhysicalSndGroup::IPrcWrite(pfPrcHelper* prc) {
         fSlideSounds[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void plPhysicalSndGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SoundGroupParams") {
+        fGroup = tag->getParam("Group", "0").toUint();
+    } else if (tag->getName() == "ImpactSounds") {
+        fImpactSounds.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fImpactSounds.getSize(); i++) {
+            fImpactSounds[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "SlideSounds") {
+        fSlideSounds.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fSlideSounds.getSize(); i++) {
+            fSlideSounds[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}

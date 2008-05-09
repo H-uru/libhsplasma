@@ -41,7 +41,7 @@ void plClothingOutfit::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
     prc->startTag("Group");
-    prc->writeParam("type", GroupNames[fGroup]);
+    prc->writeParam("Type", GroupNames[fGroup]);
     prc->endTag(true);
 
     prc->writeSimpleTag("Base");
@@ -56,6 +56,28 @@ void plClothingOutfit::IPrcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Material");
         fMaterial->prcWrite(prc);
         prc->closeTag();
+    }
+}
+
+void plClothingOutfit::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Group") {
+        plString grpName = tag->getParam("Type", "");
+        fGroup = kClothingGroupNoOptions;
+        for (size_t i=0; i<kMaxClothingGroup; i++) {
+            if (grpName == GroupNames[i])
+                fGroup = i;
+        }
+    } else if (tag->getName() == "Base") {
+        if (tag->hasChildren())
+            fBase = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "TargetTexture") {
+        if (tag->hasChildren())
+            fTargetTexture = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Material") {
+        if (tag->hasChildren())
+            fMaterial = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
     }
 }
 
@@ -79,8 +101,12 @@ void plClothingBase::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
 
     S->writeSafeStr(fName);
-    if (fBaseTexture.Exists())
+    if (fBaseTexture.Exists()) {
+        S->writeBool(true);
         mgr->writeKey(S, fBaseTexture);
+    } else {
+        S->writeBool(false);
+    }
     S->writeSafeStr(fLayoutName);
 }
 
@@ -92,13 +118,19 @@ void plClothingBase::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Layout", fLayoutName);
     prc->endTag(true);
 
-    if (fBaseTexture.Exists()) {
-        prc->writeSimpleTag("BaseTexture");
-        fBaseTexture->prcWrite(prc);
-        prc->closeTag();
+    prc->writeSimpleTag("BaseTexture");
+    fBaseTexture->prcWrite(prc);
+    prc->closeTag();
+}
+
+void plClothingBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ClothingBaseParams") {
+        fName = tag->getParam("Name", "");
+        fLayoutName = tag->getParam("Layout", "");
+    } else if (tag->getName() == "BaseTexture") {
+        if (tag->hasChildren())
+            fBaseTexture = mgr->prcParseKey(tag->getFirstChild());
     } else {
-        prc->startTag("BaseTexture");
-        prc->writeParam("Exists", false);
-        prc->endTag(true);
+        hsKeyedObject::IPrcParse(tag, mgr);
     }
 }

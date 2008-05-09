@@ -24,6 +24,7 @@ struct hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc)=0;
+    virtual void prcParse(const pfPrcTag* tag)=0;
 };
 
 struct hsPoint3Key : public hsKeyFrame {
@@ -32,6 +33,7 @@ struct hsPoint3Key : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsBezPoint3Key : public hsKeyFrame {
@@ -40,6 +42,7 @@ struct hsBezPoint3Key : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsScalarKey : public hsKeyFrame {
@@ -48,6 +51,7 @@ struct hsScalarKey : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsBezScalarKey : public hsKeyFrame {
@@ -56,6 +60,7 @@ struct hsBezScalarKey : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsScaleValue : public hsKeyFrame {
@@ -65,6 +70,7 @@ struct hsScaleValue : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsScaleKey : public hsKeyFrame {
@@ -73,6 +79,7 @@ struct hsScaleKey : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsBezScaleKey : public hsKeyFrame {
@@ -82,6 +89,7 @@ struct hsBezScaleKey : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsQuatKey : public hsKeyFrame {
@@ -90,6 +98,7 @@ struct hsQuatKey : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsCompressedQuatKey32 : public hsKeyFrame {
@@ -98,6 +107,7 @@ struct hsCompressedQuatKey32 : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsCompressedQuatKey64 : public hsKeyFrame {
@@ -106,6 +116,7 @@ struct hsCompressedQuatKey64 : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsG3DSMaxKeyFrame : public hsKeyFrame {
@@ -114,6 +125,7 @@ struct hsG3DSMaxKeyFrame : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsMatrix33Key : public hsKeyFrame {
@@ -122,6 +134,7 @@ struct hsMatrix33Key : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 struct hsMatrix44Key : public hsKeyFrame {
@@ -130,6 +143,7 @@ struct hsMatrix44Key : public hsKeyFrame {
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag);
 };
 
 #endif

@@ -22,9 +22,8 @@ IMPLEMENT_CREATABLE(plLogicModBase, kLogicModBase, plSingleModifier)
 void plLogicModBase::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
-    size_t count = S->readInt();
-    fCommandList.setSizeNull(count);
-    for (size_t i=0; i<count; i++)
+    fCommandList.setSizeNull(S->readInt());
+    for (size_t i=0; i<fCommandList.getSize(); i++)
         fCommandList[i] = plMessage::Convert(mgr->ReadCreatable(S));
 
     if (fNotify != NULL)
@@ -49,15 +48,41 @@ void plLogicModBase::write(hsStream* S, plResManager* mgr) {
 void plLogicModBase::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
+    prc->startTag("LogicModParams");
+    prc->writeParam("Disabled", fDisabled);
+    prc->endTag(true);
+    
     prc->writeSimpleTag("Commands");
     for (size_t i=0; i<fCommandList.getSize(); i++)
         fCommandList[i]->prcWrite(prc);
     prc->closeTag();
 
+    prc->writeSimpleTag("Notify");
     fNotify->prcWrite(prc);
+    prc->closeTag();
 
+    prc->writeSimpleTag("LogicFlags");
     fLogicFlags.prcWrite(prc);
-    prc->startTag("LogicModParams");
-    prc->writeParam("Disabled", fDisabled);
-    prc->endTag(true);
+    prc->closeTag();
+}
+
+void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "LogicModParams") {
+        fDisabled = tag->getParam("Disabled", "false").toBool();
+    } else if (tag->getName() == "Commands") {
+        fCommandList.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fCommandList.getSize(); i++) {
+            fCommandList[i] = plMessage::Convert(mgr->prcParseCreatable(child));
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Notify") {
+        if (tag->hasChildren())
+            fNotify = plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "LogicFlags") {
+        if (tag->hasChildren())
+            fLogicFlags.prcParse(tag->getFirstChild());
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
 }

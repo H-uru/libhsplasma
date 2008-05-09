@@ -9,7 +9,6 @@ public:
 
 protected:
     plKey fRegion, fVisMgr;
-    int fIndex;
 
 public:
     plVisRegion();
@@ -20,6 +19,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

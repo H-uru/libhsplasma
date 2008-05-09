@@ -23,22 +23,11 @@ public:
     };
 
 protected:
-    unsigned char volFlags;
-    hsBitVector visSet, visNot;
-    hsTArray<plKey> visRegions;
-    plLightInfo** prevDevPtr;
-    plLightInfo*  nextDevPtr;
-    hsGDeviceRef* deviceRef;
-    plKey projection;
-    hsMatrix44 worldToProj;
-    hsColorRGBA ambient, diffuse, specular;
-    hsMatrix44 lightToLocal, localToLight, localToWorld, worldToLocal,
-               lightToWorld, worldToLight;
-    plWeakKey sceneNode;
-    plKey softVolume;
-    float maxStrength;
-    bool registeredForRenderMsg;
-    hsBitVector slaveBits;
+    hsTArray<plKey> fVisRegions;
+    hsColorRGBA fAmbient, fDiffuse, fSpecular;
+    hsMatrix44 fLightToLocal, fLocalToLight, fLightToWorld, fWorldToLight;
+    plKey fProjection, fSoftVolume;
+    plWeakKey fSceneNode;
 
 public:
     plLightInfo();
@@ -49,6 +38,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

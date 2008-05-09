@@ -57,3 +57,23 @@ void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
     fAnimEndPos.prcWrite(prc);
     prc->closeTag();
 }
+
+void pfGUIKnobCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Animation") {
+        fAnimName = tag->getParam("Name", "");
+        fAnimationKeys.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fAnimationKeys.getSize(); i++) {
+            fAnimationKeys[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "AnimStartPos") {
+        if (tag->hasChildren())
+            fAnimStartPos.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "AnimEndPos") {
+        if (tag->hasChildren())
+            fAnimEndPos.prcParse(tag->getFirstChild());
+    } else {
+        pfGUIValueCtrl::IPrcParse(tag, mgr);
+    }
+}

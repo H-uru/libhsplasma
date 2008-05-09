@@ -18,3 +18,11 @@ void plAGChannel::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Name", fName);
     prc->endTag(true);
 }
+
+void plAGChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Channel") {
+        fName = tag->getParam("Name", "");
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
+}

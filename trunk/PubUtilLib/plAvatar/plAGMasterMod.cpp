@@ -87,3 +87,30 @@ void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
         fEoaKeys2[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void plAGMasterMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Group") {
+        fGroupName = tag->getParam("Name", "");
+    } else if (tag->getName() == "PrivateAnims") {
+        fPrivateAnims.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fPrivateAnims.getSize(); i++) {
+            fPrivateAnims[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "LiveParams") {
+        fLiveA5 = tag->getParam("thisA5", "false").toBool();
+        fLiveA6 = tag->getParam("thisA6", "false").toBool();
+        if (tag->hasChildren())
+            fLiveA8 = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "EoaKeys") {
+        fEoaKeys2.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fEoaKeys2.getSize(); i++) {
+            fEoaKeys2[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
+}

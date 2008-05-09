@@ -50,6 +50,8 @@ public:
     void closeTag();
     void closeTagNoBreak();
     void writeComment(const char* comment);
+
+    void writeHexStream(size_t length, const unsigned char* data);
 };
 
 #endif

@@ -70,3 +70,33 @@ void plWaveSet7::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();
     }
 }
+
+void plWaveSet7::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "WaveSet7Params") {
+        fMaxLen = tag->getParam("MaxLen", "0").toFloat();
+    } else if (tag->getName() == "plFixedWaterState7") {
+        fState.prcParse(tag);
+    } else if (tag->getName() == "Shores") {
+        fShores.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fShores.getSize(); i++) {
+            fShores[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Decals") {
+        fDecals.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fDecals.getSize(); i++) {
+            fDecals[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "EnvMap") {
+        if (tag->hasChildren())
+            fEnvMap = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "RefObject") {
+        if (tag->hasChildren())
+            fRefObj = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plMultiModifier::IPrcParse(tag, mgr);
+    }
+}

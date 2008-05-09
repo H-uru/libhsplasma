@@ -52,8 +52,10 @@ void plViewFaceModifier::IPrcWrite(pfPrcHelper* prc) {
     fScale.prcWrite(prc);
     prc->closeTag();
 
-    prc->writeSimpleTag("OrigTransforms");
+    prc->writeSimpleTag("LocalToParent");
     fLocalToParent.prcWrite(prc);
+    prc->closeTag();
+    prc->writeSimpleTag("ParentToLocal");
     fParentToLocal.prcWrite(prc);
     prc->closeTag();
 
@@ -71,5 +73,29 @@ void plViewFaceModifier::IPrcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("MaxBounds");
         fMaxBounds.prcWrite(prc);
         prc->closeTag();
+    }
+}
+
+void plViewFaceModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Scale") {
+        if (tag->hasChildren())
+            fScale.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LocalToParent") {
+        if (tag->hasChildren())
+            fLocalToParent.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "ParentToLocal") {
+        if (tag->hasChildren())
+            fParentToLocal.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Offset") {
+        if (tag->hasChildren())
+            fOffset.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "FaceObj") {
+        if (tag->hasChildren())
+            fFaceObj = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "MaxBounds") {
+        if (tag->hasChildren())
+            fMaxBounds.prcParse(tag->getFirstChild());
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
     }
 }

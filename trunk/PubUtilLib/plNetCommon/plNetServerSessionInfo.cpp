@@ -82,7 +82,9 @@ void plAgeInfoStruct::IPrcWrite(pfPrcHelper* prc) {
         prc->endTag(true);
     }
     if (fFlags & kHasAgeInstanceGuid) {
+        prc->writeSimpleTag("AgeInstanceGUID");
         fAgeInstanceGuid.prcWrite(prc);
+        prc->closeTag();
     }
     if (fFlags & kHasAgeUserDefinedName) {
         prc->startTag("UserDefinedName");
@@ -106,41 +108,48 @@ void plAgeInfoStruct::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
+void plAgeInfoStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "AgeFilename") {
+        fAgeFilename = tag->getParam("value", "");
+    } else if (tag->getName() == "InstanceName") {
+        fAgeInstanceName = tag->getParam("value", "");
+    } else if (tag->getName() == "AgeInstanceGUID") {
+        if (tag->hasChildren())
+            fAgeInstanceGuid.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "UserDefinedName") {
+        fAgeUserDefinedName = tag->getParam("value", "");
+    } else if (tag->getName() == "SequenceNumber") {
+        fAgeSequenceNumber = tag->getParam("value", "0").toInt();
+    } else if (tag->getName() == "AgeDescription") {
+        fAgeDescription = tag->getParam("value", "");
+    } else if (tag->getName() == "AgeLanguage") {
+        fAgeLanguage = tag->getParam("value", "0").toInt();
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
+}
+
 void plAgeInfoStruct::UpdateFlags() {
+    fFlags = 0;
     if (!fAgeFilename.empty())
         fFlags |= kHasAgeFilename;
-    else
-        fFlags &= ~kHasAgeFilename;
-
     if (!fAgeInstanceName.empty())
         fFlags |= kHasAgeInstanceName;
-    else
-        fFlags &= ~kHasAgeInstanceName;
-
     if (!fAgeUserDefinedName.empty())
         fFlags |= kHasAgeUserDefinedName;
-    else
-        fFlags &= ~kHasAgeUserDefinedName;
-
     if (!fAgeInstanceGuid.isNull())
         fFlags |= kHasAgeInstanceGuid;
-    else
-        fFlags &= ~kHasAgeInstanceGuid;
-
     if (fAgeSequenceNumber != 0)
         fFlags |= kHasAgeSequenceNumber;
-    else
-        fFlags &= ~kHasAgeSequenceNumber;
-
     if (!fAgeDescription.empty())
         fFlags |= kHasAgeDescription;
-    else
-        fFlags &= ~kHasAgeDescription;
-
     if (fAgeLanguage != 0)
         fFlags |= kHasAgeLanguage;
-    else
-        fFlags &= ~kHasAgeLanguage;
+}
+
+bool plAgeInfoStruct::isEmpty() {
+    UpdateFlags();
+    return (fFlags == 0);
 }
 
 
@@ -169,6 +178,7 @@ void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
 }
 
 void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
+    UpdateFlags();
     S->writeShort(fFlags);
     if (fFlags & kHasAgeInfo)
         fAgeInfo.write(S, mgr);
@@ -185,15 +195,22 @@ void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
 }
 
 void plAgeLinkStruct::IPrcWrite(pfPrcHelper* prc) {
-    if (fFlags & kHasAgeInfo)
+    UpdateFlags();
+    if (fFlags & kHasAgeInfo) {
+        prc->writeSimpleTag("AgeInfo");
         fAgeInfo.prcWrite(prc);
+        prc->closeTag();
+    }
     if (fFlags & kHasLinkingRules) {
         prc->startTag("LinkingRules");
         prc->writeParam("value", fLinkingRules);
         prc->endTag(true);
     }
-    if (fFlags & kHasSpawnPt)
+    if (fFlags & kHasSpawnPt) {
+        prc->writeSimpleTag("SpawnPoint");
         fSpawnPoint.prcWrite(prc);
+        prc->closeTag();
+    }
     if (fFlags & kHasAmCCR) {
         prc->startTag("AmCCR");
         prc->writeParam("value", fAmCCR);
@@ -204,4 +221,36 @@ void plAgeLinkStruct::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("value", fParentAgeFilename);
         prc->endTag(true);
     }
+}
+
+void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "AgeInfo") {
+        if (tag->hasChildren())
+            fAgeInfo.prcParse(tag->getFirstChild(), mgr);
+    } else if (tag->getName() == "LinkingRules") {
+        fLinkingRules = tag->getParam("value", "0").toInt();
+    } else if (tag->getName() == "SpawnPoint") {
+        if (tag->hasChildren())
+            fSpawnPoint.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "AmCCR") {
+        fAmCCR = tag->getParam("value", "0").toUint();
+    } else if (tag->getName() == "ParentAgeFilename") {
+        fParentAgeFilename = tag->getParam("value", "");
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
+}
+
+void plAgeLinkStruct::UpdateFlags() {
+    fFlags = 0;
+    if (!fAgeInfo.isEmpty())
+        fFlags |= kHasAgeInfo;
+    if (fLinkingRules != 0)
+        fFlags |= kHasLinkingRules;
+    if (fAmCCR != 0)
+        fFlags |= kHasAmCCR;
+    if (!fSpawnPoint.isEmpty())
+        fFlags |= kHasSpawnPt;
+    if (!fParentAgeFilename.empty())
+        fFlags |= kHasParentAgeFilename;
 }

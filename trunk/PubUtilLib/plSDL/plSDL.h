@@ -24,6 +24,7 @@ protected:
     size_t fDataLen;
 
 public:
+    plSDLCreatableStub();
     plSDLCreatableStub(short hClass, size_t length);
     virtual ~plSDLCreatableStub();
 
@@ -32,7 +33,9 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
     short getClassIdx() const;
     unsigned char* getData() const;

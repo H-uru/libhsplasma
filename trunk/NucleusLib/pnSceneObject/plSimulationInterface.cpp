@@ -52,3 +52,15 @@ void plSimulationInterface::IPrcWrite(pfPrcHelper* prc) {
     fPhysical->prcWrite(prc);
     prc->closeTag();
 }
+
+void plSimulationInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Properties") {
+        if (tag->hasChildren())
+            fProps.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Physical") {
+        if (tag->hasChildren())
+            fPhysical = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
+}

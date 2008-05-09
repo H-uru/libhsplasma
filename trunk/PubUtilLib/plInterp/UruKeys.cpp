@@ -26,6 +26,21 @@ void UruKeyFrame::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void UruKeyFrame::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != ClassName())
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fFlags = tag->getParam("Flags", "0").toUint();
+    fFrameNum = tag->getParam("Frame", "0").toUint();
+    fFrameTime = tag->getParam("Time", "0").toFloat();
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        IPrcParse(child);
+        child = child->getNextSibling();
+    }
+}
+
 
 /* ScalarKeyFrame */
 ScalarKeyFrame::ScalarKeyFrame() : fInTan(0.0f), fOutTan(0.0f), fValue(0.0f) { }
@@ -61,6 +76,16 @@ void ScalarKeyFrame::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("OutTan", fOutTan);
     }
     prc->endTag(true);
+}
+
+void ScalarKeyFrame::IPrcParse(const pfPrcTag* tag) {
+    if (tag->getName() == "Params") {
+        fValue = tag->getParam("Value", "0").toFloat();
+        fInTan = tag->getParam("InTan", "0").toFloat();
+        fOutTan = tag->getParam("OutTan", "0").toFloat();
+    } else {
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    }
 }
 
 
@@ -105,6 +130,21 @@ void Point3KeyFrame::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
+void Point3KeyFrame::IPrcParse(const pfPrcTag* tag) {
+    if (tag->getName() == "Value") {
+        if (tag->hasChildren())
+            fValue.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "InTan") {
+        if (tag->hasChildren())
+            fInTan.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "OutTan") {
+        if (tag->hasChildren())
+            fOutTan.prcParse(tag->getFirstChild());
+    } else {
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    }
+}
+
 
 /* QuatKeyFrame */
 QuatKeyFrame::QuatKeyFrame() { }
@@ -124,6 +164,10 @@ void QuatKeyFrame::write(hsStream* S) {
 
 void QuatKeyFrame::IPrcWrite(pfPrcHelper* prc) {
     fValue.prcWrite(prc);
+}
+
+void QuatKeyFrame::IPrcParse(const pfPrcTag* tag) {
+    fValue.prcParse(tag);
 }
 
 
@@ -147,6 +191,10 @@ void Matrix33KeyFrame::IPrcWrite(pfPrcHelper* prc) {
     fValue.prcWrite(prc);
 }
 
+void Matrix33KeyFrame::IPrcParse(const pfPrcTag* tag) {
+    fValue.prcParse(tag);
+}
+
 
 /* Matrix44KeyFrame */
 Matrix44KeyFrame::Matrix44KeyFrame() { }
@@ -166,6 +214,10 @@ void Matrix44KeyFrame::write(hsStream* S) {
 
 void Matrix44KeyFrame::IPrcWrite(pfPrcHelper* prc) {
     fValue.prcWrite(prc);
+}
+
+void Matrix44KeyFrame::IPrcParse(const pfPrcTag* tag) {
+    fValue.prcParse(tag);
 }
 
 
@@ -213,3 +265,26 @@ void ScaleKeyFrame::IPrcWrite(pfPrcHelper* prc) {
     }
 }
 
+void ScaleKeyFrame::IPrcParse(const pfPrcTag* tag) {
+    if (tag->getName() == "Value") {
+        const pfPrcTag* child = tag->getFirstChild();
+        while (child != NULL) {
+            if (child->getName() == "hsVector3") {
+                fS.prcParse(child);
+            } else if (child->getName() == "hsQuat") {
+                fQ.prcParse(child);
+            } else {
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            }
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "InTan") {
+        if (tag->hasChildren())
+            fInTan.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "OutTan") {
+        if (tag->hasChildren())
+            fOutTan.prcParse(tag->getFirstChild());
+    } else {
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    }
+}

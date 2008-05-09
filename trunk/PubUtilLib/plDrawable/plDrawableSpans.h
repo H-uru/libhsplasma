@@ -17,8 +17,8 @@ public:
         kDontTransformSpans = 0x2
     };
 
-    unsigned char flags;
-    hsTArray<unsigned int> indices;
+    unsigned char fFlags;
+    hsTArray<unsigned int> fIndices;
 };
 
 DllClass plDrawable : public hsKeyedObject {
@@ -90,30 +90,21 @@ public:
 
 DllClass plDrawableSpans : public plDrawable {
 protected:
-    unsigned int type;
-    bool readyToRender;
-    hsBounds3Ext localBounds, worldBounds, maxWorldBounds;
-    hsMatrix44 localToWorld, worldToLocal;
-    hsTArray<hsMatrix44> localToWorlds, worldToLocals;
-    hsTArray<hsMatrix44> localToBones, boneToLocals;
-    hsTArray<plKey> materials;
-    plSpaceTree* spaceTree;
-    hsBitVector fVisSet, fVisNot, fLastVisSet, fLastVisNot, fVisCache;
-    hsTArray<plIcicle> icicles;
-    hsTArray<plParticleSpan> particleSpans;
-    hsTArray<plSpan*> spans;
-    hsTArray<unsigned int> spanSourceIndices;
-    hsTArray<plGBufferGroup*> groups;
-    hsTArray<plDISpanIndex*> DIIndices;
-    unsigned int props, criteria;
-    plRenderLevel renderLevel;
-    bool registeredForRecreate, needCleanup, registeredForRender;
-    hsBitVector particleSpanVector, blendingSpanVector, fakeBlendingSpanVector;
-    plWeakKey sceneNode;
-    bool settingMatIdxLock;
-    unsigned int skinTime;
-    hsTArray<plGeometrySpan*> sourceSpans;
-    bool optimized;
+    hsBounds3Ext fLocalBounds, fWorldBounds, fMaxWorldBounds;
+    hsTArray<hsMatrix44> fLocalToWorlds, fWorldToLocals;
+    hsTArray<hsMatrix44> fLocalToBones, fBoneToLocals;
+    hsTArray<plKey> fMaterials;
+    plSpaceTree* fSpaceTree;
+    hsTArray<plIcicle> fIcicles;
+    hsTArray<plParticleSpan> fParticleSpans;
+    hsTArray<plSpan*> fSpans;
+    hsTArray<unsigned int> fSpanSourceIndices;
+    hsTArray<plGBufferGroup*> fGroups;
+    hsTArray<plDISpanIndex*> fDIIndices;
+    unsigned int fProps, fCriteria;
+    plRenderLevel fRenderLevel;
+    plWeakKey fSceneNode;
+    hsTArray<plGeometrySpan*> fSourceSpans;
 
 public:
     plDrawableSpans();
@@ -124,6 +115,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

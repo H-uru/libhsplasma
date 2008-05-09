@@ -16,6 +16,7 @@ extern "C" {
 #endif
 
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllClass plUnifiedTime {
 public:
@@ -85,6 +86,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     plString format(const char* fmt);
     void fromString(const char* buf, const char* fmt);

@@ -8,6 +8,7 @@
 #include "CoreLib/plEncryptedStream.h"
 #include "CoreLib/hsTArray.hpp"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 #include "plKeyCollector.h"
 #include "plPageInfo.h"
 #include "plAgeInfo.h"
@@ -41,6 +42,7 @@ public:
     void writeKey(hsStream* S, hsKeyedObject* ko);
     void writeUoid(hsStream* S, plKey key);
     void writeUoid(hsStream* S, hsKeyedObject* ko);
+    plKey prcParseKey(const pfPrcTag* tag);
     class hsKeyedObject* getObject(const plKey& key);
     unsigned int countKeys(const PageID& pid);
 
@@ -56,6 +58,7 @@ public:
 
     class plCreatable* ReadCreatable(hsStream* S);
     void WriteCreatable(hsStream* S, class plCreatable* pCre);
+    class plCreatable* prcParseCreatable(const pfPrcTag* tag);
 
     class plSceneNode* getSceneNode(const plLocation& loc);
     std::vector<plLocation> getLocations();

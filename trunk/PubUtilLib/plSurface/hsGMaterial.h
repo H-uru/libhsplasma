@@ -28,10 +28,8 @@ public:
     };
 
 private:
-    int LOD;
-    hsTArray<plKey> Layers, PiggyBacks;
-    unsigned int compFlags, loadFlags;
-    float lastUpdateTime;
+    hsTArray<plKey> fLayers, fPiggyBacks;
+    unsigned int fCompFlags, fLoadFlags;
 
 public:
     hsGMaterial();
@@ -41,11 +39,8 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
-
-    virtual void readData(hsStream* S);
-    virtual void writeData(hsStream* S);
-
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

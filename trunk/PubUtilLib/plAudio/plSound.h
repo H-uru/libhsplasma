@@ -1,7 +1,6 @@
 #ifndef _PLSOUND_H
 #define _PLSOUND_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
 #include "NucleusLib/pnSceneObject/plSceneObject.h"
 #include "CoreLib/hsGeometry3.h"
 #include "plEAXEffects.h"
@@ -46,36 +45,20 @@ public:
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
+        void prcParse(const pfPrcTag* tag);
     };
 
 protected:
-    bool fPlaying, fActive;
+    unsigned char fType, fPriority;
+    bool fPlaying;
     double fTime;
     int fMaxFalloff, fMinFalloff;
-    float fCurrVolume;
     int fOuterVol, fInnerCone, fOuterCone;
-    double fLength;
-    float fDesiredVol, fFadedVolume;
+    float fCurrVolume, fDesiredVol, fFadedVolume;
     unsigned int fProperties;
-    unsigned char fType, fPriority;
-    bool fMuted, fFading, fRegisteredForTime;
-    bool fPlayOnReactivate, fNotHighEnoughPriority;
-    hsVector3 fConeOrientation;
-    hsVector3 f3DPosition, f3DVelocity;
-    plSceneObject* fOwningSceneObject;
     plEAXSourceSettings fEAXSettings;
-    bool fQueued;
-    plFadeParams fFadeInParams, fFadeOutParams, fCoolSoftVolumeTrickParams;
-    plFadeParams* fCurrFadeParams;
-    plKey fSoftRegion;
-    float fSoftVolume, fDistAttenuation, fDistToListenerSquared;
-    double fVirtualStartTime;
-    bool fRegistered;
-    int fRefIndex;
-    plKey fSoftOcclusionRegion;
-    plKey fDataBuffer;
-    bool fDataBufferLoaded;
-    bool fLoading;
+    plFadeParams fFadeInParams, fFadeOutParams;
+    plKey fSoftRegion, fSoftOcclusionRegion, fDataBuffer;
 
     // Eoa
     plString fEoaString;
@@ -92,6 +75,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);

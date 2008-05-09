@@ -17,6 +17,7 @@ public:
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
+        void prcParse(const pfPrcTag* tag);
     };
 
     enum { kNoise, kSpecStart, kSpecEnd };
@@ -40,6 +41,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 #endif

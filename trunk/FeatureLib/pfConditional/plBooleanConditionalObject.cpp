@@ -29,6 +29,19 @@ void plANDConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plANDConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Children") {
+        fChildren.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fChildren.getSize(); i++) {
+            fChildren[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plConditionalObject::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plORConditionalObject */
 plORConditionalObject::plORConditionalObject() { }
@@ -57,4 +70,17 @@ void plORConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fChildren.getSize(); i++)
         fChildren[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plORConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Children") {
+        fChildren.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fChildren.getSize(); i++) {
+            fChildren[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plConditionalObject::IPrcParse(tag, mgr);
+    }
 }

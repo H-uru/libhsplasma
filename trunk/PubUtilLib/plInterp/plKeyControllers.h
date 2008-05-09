@@ -9,8 +9,7 @@
 
 DllClass plEaseController : public plLeafController {
 protected:
-    hsTArray<ScalarKeyFrame> fKeys;
-    bool fNull;
+    hsTArray<ScalarKeyFrame> fEaseKeys;
 
 public:
     plEaseController();
@@ -21,11 +20,12 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plMatrix33Controller : public plLeafController {
 protected:
-    hsTArray<Matrix33KeyFrame> fKeys;
+    hsTArray<Matrix33KeyFrame> fMatrixKeys;
 
 public:
     plMatrix33Controller();
@@ -36,11 +36,12 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plMatrix44Controller : public plLeafController {
 protected:
-    hsTArray<Matrix44KeyFrame> fKeys;
+    hsTArray<Matrix44KeyFrame> fMatrixKeys;
 
 public:
     plMatrix44Controller();
@@ -51,12 +52,12 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plPoint3Controller : public plLeafController {
 protected:
-    hsTArray<Point3KeyFrame> fKeys;
-    bool fNull;
+    hsTArray<Point3KeyFrame> fPointKeys;
 
 public:
     plPoint3Controller();
@@ -67,11 +68,12 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plQuatController : public plLeafController {
 protected:
-    hsTArray<QuatKeyFrame> fKeys;
+    hsTArray<QuatKeyFrame> fQuatKeys;
 
 public:
     plQuatController();
@@ -82,12 +84,12 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plScalarController : public plLeafController {
 protected:
-    hsTArray<ScalarKeyFrame> fKeys;
-    bool fNull;
+    hsTArray<ScalarKeyFrame> fScalarKeys;
 
 public:
     plScalarController();
@@ -98,11 +100,12 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plScaleValueController : public plLeafController {
 protected:
-    hsTArray<ScaleKeyFrame> fKeys;
+    hsTArray<ScaleKeyFrame> fScaleKeys;
 
 public:
     plScaleValueController();
@@ -113,6 +116,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

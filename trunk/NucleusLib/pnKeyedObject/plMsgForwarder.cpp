@@ -8,7 +8,6 @@ IMPLEMENT_CREATABLE(plMsgForwarder, kMsgForwarder, hsKeyedObject)
 void plMsgForwarder::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
-    fForwardKeys.clear();
     fForwardKeys.setSize(S->readInt());
     for (size_t i=0; i<fForwardKeys.getSize(); i++)
         fForwardKeys[i] = mgr->readKey(S);
@@ -29,4 +28,17 @@ void plMsgForwarder::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fForwardKeys.getSize(); i++)
         fForwardKeys[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plMsgForwarder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ForwardKeys") {
+        fForwardKeys.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fForwardKeys.getSize(); i++) {
+            fForwardKeys[i] = mgr->prcParseKey(tag);
+            child = child->getNextSibling();
+        }
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
 }

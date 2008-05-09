@@ -3,6 +3,7 @@
 
 #include "hsStream.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllStruct hsVector3 {
     float X, Y, Z;
@@ -17,6 +18,7 @@ DllStruct hsVector3 {
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     hsVector3& operator=(const hsVector3& other);
     bool operator==(const hsVector3& other) const;
@@ -36,6 +38,7 @@ DllStruct hsPlane3 {
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 DllStruct hsFloatPoint2 {

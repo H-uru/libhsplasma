@@ -23,3 +23,12 @@ void plLayerInterface::IPrcWrite(pfPrcHelper* prc) {
     fUnderLay->prcWrite(prc);
     prc->closeTag();
 }
+
+void plLayerInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "BaseLayer") {
+        if (tag->hasChildren())
+            fUnderLay = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
+}

@@ -6,8 +6,7 @@
 
 DllClass plNPCSpawnMod : public plSingleModifier {
 protected:
-    plString fModelName;
-    plString fAccountName;
+    plString fModelName, fAccountName;
     bool fAutoSpawn;
     plNotifyMsg* fNotify;
 
@@ -20,6 +19,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

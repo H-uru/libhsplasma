@@ -72,3 +72,38 @@ void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
       fSceneNode->prcWrite(prc);
     prc->closeTag();
 }
+
+void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "DrawInterface") {
+        if (tag->hasChildren())
+            fDrawIntf = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "SimulationInterface") {
+        if (tag->hasChildren())
+            fSimIntf = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "CoordinateInterface") {
+        if (tag->hasChildren())
+            fCoordIntf = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "AudioInterface") {
+        if (tag->hasChildren())
+            fAudioIntf = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Interfaces") {
+        fInterfaces.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fInterfaces.getSize(); i++) {
+            fInterfaces[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Modifiers") {
+        fModifiers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fModifiers.getSize(); i++) {
+            fModifiers[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "SceneNode") {
+        if (tag->hasChildren())
+            fSceneNode = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plSynchedObject::IPrcParse(tag, mgr);
+    }
+}

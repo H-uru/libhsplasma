@@ -57,3 +57,24 @@ void plAnimStage::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("value", fRegressTo);
     prc->endTag(true);
 }
+
+void plAnimStage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Animation") {
+        fAnimName = tag->getParam("Name", "");
+        fLoops = tag->getParam("Loops", "0").toInt();
+    } else if (tag->getName() == "StageTypes") {
+        fNotify = tag->getParam("Notify", "0").toUint();
+        fForwardType = (PlayType)tag->getParam("ForwardType", "0").toInt();
+        fBackType = (PlayType)tag->getParam("BackwardType", "0").toInt();
+        fAdvanceType = (AdvanceType)tag->getParam("AdvanceType", "0").toInt();
+        fRegressType = (AdvanceType)tag->getParam("RegressType", "0").toInt();
+    } else if (tag->getName() == "AdvanceTo") {
+        fDoAdvanceTo = tag->getParam("enabled", "true").toBool();
+        fAdvanceTo = tag->getParam("value", "0").toUint();
+    } else if (tag->getName() == "RegressTo") {
+        fDoRegressTo = tag->getParam("enabled", "true").toBool();
+        fRegressTo = tag->getParam("value", "0").toUint();
+    } else {
+        plCreatable::IPrcParse(tag, mgr);
+    }
+}

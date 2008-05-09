@@ -46,6 +46,19 @@ void plCameraRegionDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Messages") {
+        fMessages.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fMessages.getSize(); i++) {
+            fMessages[i] = plCameraMsg::Convert(mgr->prcParseCreatable(child));
+            child = child->getNextSibling();
+        }
+    } else {
+        plDetectorModifier::IPrcParse(tag, mgr);
+    }
+}
+
 
 /* plObjectInVolumeAndFacingDetector */
 plObjectInVolumeAndFacingDetector::plObjectInVolumeAndFacingDetector()
@@ -77,4 +90,13 @@ void plObjectInVolumeAndFacingDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Tolerance", fFacingTolerance);
     prc->writeParam("NeedWalkingForward", fNeedWalkingForward);
     prc->endTag(true);
+}
+
+void plObjectInVolumeAndFacingDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "FacingParams") {
+        fFacingTolerance = tag->getParam("Tolerance", "0").toFloat();
+        fNeedWalkingForward = tag->getParam("NeedWalkingForward", "false").toBool();
+    } else {
+        plObjectInVolumeDetector::IPrcParse(tag, mgr);
+    }
 }

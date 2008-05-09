@@ -31,6 +31,16 @@ void plEAXSourceSoftSettings::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plEAXSourceSoftSettings::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plEAXSourceSoftSettings")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fOcclusion = tag->getParam("Occlusion", "0").toInt();
+    fOcclusionLFRatio = tag->getParam("LFRatio", "0").toFloat();
+    fOcclusionRoomRatio = tag->getParam("RoomRatio", "0").toFloat();
+    fOcclusionDirectRatio = tag->getParam("DirectRatio", "0").toFloat();
+}
+
 
 /* plEAXSourceSettings */
 plEAXSourceSettings::plEAXSourceSettings() : fDirtyParams(kAll) {
@@ -51,7 +61,6 @@ void plEAXSourceSettings::Enable(bool enable) {
         fRolloffFactor = 0.0f;
         fSoftStarts.Reset();
         fSoftEnds.Reset();
-        fCurrSoftValues.Reset();
         fDirtyParams = kAll;
     }
 }
@@ -120,9 +129,46 @@ void plEAXSourceSettings::prcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Ends");
         fSoftEnds.prcWrite(prc);
         prc->closeTag();
-        prc->closeTag();
+        
+        prc->closeTag();  // plEAXSourceSettings
     } else {
         prc->writeParam("enabled", false);
         prc->endTag(true);
+    }
+}
+
+void plEAXSourceSettings::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plEAXSourceSettings")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fEnabled = tag->getParam("enabled", "true").toBool();
+    if (fEnabled) {
+        fRoom = tag->getParam("Room", "0").toInt();
+        fRoomHF = tag->getParam("RoomHF", "0").toInt();
+        fRoomAuto = tag->getParam("RoomAuto", "false").toBool();
+        fRoomHFAuto = tag->getParam("RoomHFAuto", "false").toBool();
+        fOutsideVolHF = tag->getParam("OutsideHF", "0").toInt();
+
+        const pfPrcTag* child = tag->getFirstChild();
+        while (child != NULL) {
+            if (child->getName() == "Effects") {
+                fAirAbsorptionFactor = tag->getParam("AirAbsorption", "0").toFloat();
+                fRoomRolloffFactor = tag->getParam("RoomRolloff", "0").toFloat();
+                fDopplerFactor = tag->getParam("Doppler", "0").toFloat();
+                fRolloffFactor = tag->getParam("Rolloff", "0").toFloat();
+                fOcclusionSoftValue = tag->getParam("SoftOcclusion", "0").toFloat();
+            } else if (child->getName() == "Starts") {
+                if (tag->hasChildren())
+                    fSoftStarts.prcParse(tag->getFirstChild());
+            } else if (child->getName() == "Ends") {
+                if (tag->hasChildren())
+                    fSoftEnds.prcParse(tag->getFirstChild());
+            } else {
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            }
+            child = child->getNextSibling();
+        }
+    } else {
+        Enable(false);
     }
 }

@@ -8,10 +8,6 @@ public:
     enum ChannelSelect { kLeftChannel, kRightChannel };
 
 protected:
-    bool fFailed, fPositionInited, fAwaitingPosition, fReallyPlaying;
-    unsigned long fTotalBytes;
-    bool fWasPlaying;
-    int fLockCount;
     unsigned char fChannelSelect;
 
 public:
@@ -21,6 +17,7 @@ public:
     DECLARE_CREATABLE(plWin32Sound)
 
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);

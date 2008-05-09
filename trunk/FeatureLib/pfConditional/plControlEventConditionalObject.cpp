@@ -23,3 +23,11 @@ void plControlEventConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("value", fControlEvent);
     prc->endTag(true);
 }
+
+void plControlEventConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ControlEvent") {
+        fControlEvent = (ControlEventCode)tag->getParam("value", "0").toInt();
+    } else {
+        plConditionalObject::IPrcParse(tag, mgr);
+    }
+}

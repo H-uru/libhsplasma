@@ -36,3 +36,15 @@ void pfGUIUpDownPairMod::IPrcWrite(pfPrcHelper* prc) {
     fDownControl->prcWrite(prc);
     prc->closeTag();
 }
+
+void pfGUIUpDownPairMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "UpControl") {
+        if (tag->hasChildren())
+            fUpControl = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "DownControl") {
+        if (tag->hasChildren())
+            fDownControl = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        pfGUIValueCtrl::IPrcParse(tag, mgr);
+    }
+}

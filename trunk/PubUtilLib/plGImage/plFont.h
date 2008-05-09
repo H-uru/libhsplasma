@@ -7,8 +7,7 @@ DllClass plFont : public hsKeyedObject {
 public:
     DllClass plCharacter {
     protected:
-        unsigned int fBitmapOffset;
-        unsigned int fHeight;
+        unsigned int fBitmapOffset, fHeight;
         int fBaseline;
         float fLeftKern, fRightKern;
 
@@ -18,6 +17,7 @@ public:
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
+        void prcParse(const pfPrcTag* tag);
 
         unsigned int getOffset() const;
         unsigned int getHeight() const;
@@ -41,12 +41,11 @@ public:
 protected:
     plString fFace;
     unsigned char fSize, fBPP;
+    unsigned short fFirstChar;
     unsigned int fFlags, fWidth, fHeight;
     unsigned char* fBmpData;
-    unsigned short fFirstChar;
     hsTArray<plCharacter> fCharacters;
-    int fMaxCharHeight, fFontAscent, fFontDescent;
-    //plRenderInfo fRenderInfo;
+    int fMaxCharHeight;
 
 public:
     plFont();
@@ -57,6 +56,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
     
     void readP2F(hsStream* S);
     void writeP2F(hsStream* S);

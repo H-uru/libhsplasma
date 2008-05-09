@@ -28,6 +28,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 DllClass plSimpleParticleGenerator : public plParticleGenerator {
@@ -46,7 +47,6 @@ protected:
     float fAngleRange, fVelMin, fVelMax, fXSize, fYSize, fScaleMin, fScaleMax;
     float fGenLife, fPartLifeMin, fPartLifeMax, fPartMassRange;
     float fPartRadsPerSecRange, fParticleSum;
-    unsigned int fMiscFlags;
 
 public:
     plSimpleParticleGenerator();
@@ -57,6 +57,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

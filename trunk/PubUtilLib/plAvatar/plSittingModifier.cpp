@@ -26,7 +26,7 @@ void plSittingModifier::write(hsStream* S, plResManager* mgr) {
 void plSittingModifier::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
-    prc->startTag("SittingModifierParams");
+    prc->startTag("SittingModParams");
     prc->writeParamHex("MiscFlags", fMiscFlags);
     prc->endTag(true);
 
@@ -34,4 +34,19 @@ void plSittingModifier::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fNotifyKeys.getSize(); i++)
         fNotifyKeys[i]->prcWrite(prc);
     prc->closeTag();
+}
+
+void plSittingModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SittingModParams") {
+        fMiscFlags = tag->getParam("MiscFlags", "0").toUint();
+    } else if (tag->getName() == "NotifyKeys") {
+        fNotifyKeys.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fNotifyKeys.getSize(); i++) {
+            fNotifyKeys[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
 }

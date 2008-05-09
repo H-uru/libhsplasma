@@ -62,3 +62,28 @@ void plCoordinateInterface::IPrcWrite(pfPrcHelper* prc) {
         fChildren[i]->prcWrite(prc);
     prc->closeTag();
 }
+
+void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "LocalToParent") {
+        if (tag->hasChildren())
+            fLocalToParent.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "ParentToLocal") {
+        if (tag->hasChildren())
+            fParentToLocal.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "LocalToWorld") {
+        if (tag->hasChildren())
+            fLocalToWorld.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "WorldToLocal") {
+        if (tag->hasChildren())
+            fWorldToLocal.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "Children") {
+        fChildren.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fChildren.getSize(); i++) {
+            fChildren[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plObjInterface::IPrcParse(tag, mgr);
+    }
+}

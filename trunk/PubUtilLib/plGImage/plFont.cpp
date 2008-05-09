@@ -34,6 +34,17 @@ void plFont::plCharacter::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plFont::plCharacter::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plCharacter")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fBitmapOffset = tag->getParam("BitmapOffset", "0").toUint();
+    fHeight = tag->getParam("Height", "0").toUint();
+    fBaseline = tag->getParam("Baseline", "0").toInt();
+    fLeftKern = tag->getParam("LeftKern", "0").toFloat();
+    fRightKern = tag->getParam("RightKern", "0").toFloat();
+}
+
 unsigned int plFont::plCharacter::getOffset() const { return fBitmapOffset; }
 unsigned int plFont::plCharacter::getHeight() const { return fHeight; }
 int plFont::plCharacter::getBaseline() const { return fBaseline; }
@@ -51,9 +62,8 @@ void plFont::plCharacter::setKern(float left, float right) {
 
 
 /* plFont */
-plFont::plFont() : fSize(0), fBPP(0), fFlags(0), fWidth(0), fHeight(0),
-                   fBmpData(NULL), fFirstChar(0), fMaxCharHeight(0),
-                   fFontAscent(0), fFontDescent(0) {
+plFont::plFont() : fSize(0), fBPP(0), fFirstChar(0), fFlags(0), fWidth(0),
+                   fHeight(0), fBmpData(NULL), fMaxCharHeight(0) {
     fCharacters.setSize(256);
 }
 
@@ -84,18 +94,48 @@ void plFont::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("FirstChar", fFirstChar);
     prc->endTag(true);
 
-    prc->startTag("BitmapParams");
-    prc->writeParam("Width", fWidth);
-    prc->writeParam("Height", fHeight);
-    prc->writeParam("BPP", fBPP);
-    prc->writeParam("MaxCharHeight", fMaxCharHeight);
-    prc->writeParam("src", "");
-    prc->endTag(true);
-
     prc->writeSimpleTag("Characters");
     for (size_t i=0; i<fCharacters.getSize(); i++)
         fCharacters[i].prcWrite(prc);
     prc->closeTag();
+
+    prc->startTag("Bitmap");
+    prc->writeParam("Width", fWidth);
+    prc->writeParam("Height", fHeight);
+    prc->writeParam("BPP", fBPP);
+    prc->writeParam("MaxCharHeight", fMaxCharHeight);
+    prc->endTag();
+    if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData))
+        prc->writeHexStream((fBPP * fWidth * fHeight) / 8, fBmpData);
+    else
+        prc->writeComment("Texture data excluded");
+    prc->closeTag();
+}
+
+void plFont::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "FontParams") {
+        fFace = tag->getParam("Fontface", "");
+        fSize = tag->getParam("Size", "0").toUint();
+        fFlags = tag->getParam("Flags", "0").toUint();
+        fFirstChar = tag->getParam("FirstChar", "0").toUint();
+    } else if (tag->getName() == "Characters") {
+        fCharacters.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fCharacters.getSize(); i++) {
+            fCharacters[i].prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Bitmap") {
+        fWidth = tag->getParam("Width", "0").toUint();
+        fHeight = tag->getParam("Height", "0").toUint();
+        fBPP = tag->getParam("BPP", "0").toUint();
+        fMaxCharHeight = tag->getParam("MaxCharHeight", "0").toInt();
+        size_t size = (fBPP * fWidth * fHeight) / 8;
+        fBmpData = new unsigned char[size];
+        tag->readHexStream(size, fBmpData);
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
 }
 
 void plFont::readP2F(hsStream* S) {
@@ -111,7 +151,7 @@ void plFont::readP2F(hsStream* S) {
     fMaxCharHeight = S->readInt();
     fBPP = S->readByte();
 
-    unsigned int size = (fBPP * fWidth * fHeight) / 8;
+    size_t size = (fBPP * fWidth * fHeight) / 8;
     if (size > 0) {
         fBmpData = new unsigned char[size];
         S->read(size, fBmpData);

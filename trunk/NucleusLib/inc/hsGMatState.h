@@ -1,8 +1,8 @@
 #ifndef _HSGMATSTATE_H
 #define _HSGMATSTATE_H
 
-#include "CoreLib/hsStream.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllClass hsGMatState {
 public:
@@ -105,7 +105,7 @@ public:
     enum StateIdx { kBlend, kClamp, kShade, kZ, kMisc };
 
 public:
-    unsigned int blendFlags, clampFlags, shadeFlags, ZFlags, miscFlags;
+    unsigned int fBlendFlags, fClampFlags, fShadeFlags, fZFlags, fMiscFlags;
 
     hsGMatState(unsigned int blend = 0, unsigned int clamp = 0,
                 unsigned int shade = 0, unsigned int Z = 0,
@@ -114,6 +114,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 #endif

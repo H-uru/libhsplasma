@@ -14,6 +14,7 @@ public:
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

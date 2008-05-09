@@ -1,12 +1,11 @@
 #include "plMipmap.h"
-#include "PubUtilLib/plJPEG/plJPEG.h"
 #include <cstring>
 #include <cstdlib>
 
 plMipmap::plMipmap()
         : fImageData(NULL), fJPEGData(NULL), fJPEGSize(0), fAlphaData(NULL),
-          fAlphaSize(0), fTotalSize(0), fNumLevels(0), fLevelSizes(NULL),
-          fCurLevelPtr(NULL) {
+          fAlphaSize(0), fJPEGDataRLE(NULL), fAlphaDataRLE(NULL),
+          fTotalSize(0), fNumLevels(0), fLevelSizes(NULL), fCurLevelPtr(NULL) {
     fPixelSize = 32;
     fSpace = kDirectSpace;
     fFlags = kAlphaChannelFlag;
@@ -16,8 +15,8 @@ plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
                    unsigned char numLevels, unsigned char compType,
                    unsigned char format)
         : fImageData(NULL), fJPEGData(NULL), fJPEGSize(0), fAlphaData(NULL),
-          fAlphaSize(0), fTotalSize(0), fNumLevels(0), fLevelSizes(NULL),
-          fCurLevelPtr(NULL) {
+          fAlphaSize(0), fJPEGDataRLE(NULL), fAlphaDataRLE(NULL),
+          fTotalSize(0), fNumLevels(0), fLevelSizes(NULL), fCurLevelPtr(NULL) {
     fPixelSize = 32;
     fSpace = kDirectSpace;
     fFlags = kAlphaChannelFlag;
@@ -29,6 +28,8 @@ plMipmap::~plMipmap() {
     if (fJPEGData != NULL) delete[] fJPEGData;
     if (fAlphaData != NULL) delete[] fAlphaData;
     if (fLevelSizes != NULL) delete[] fLevelSizes;
+    if (fJPEGDataRLE != NULL) delete fJPEGDataRLE;
+    if (fAlphaDataRLE != NULL) delete fAlphaDataRLE;
 }
 
 IMPLEMENT_CREATABLE(plMipmap, kMipmap, plBitmap)
@@ -194,14 +195,67 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
 
     if (fCompressionType == kJPEGCompression) {
         prc->startTag("JPEG");
-        prc->writeParam("src", "");
         prc->writeParam("ImageRLE", fJPEGData == NULL);
         prc->writeParam("AlphaRLE", fAlphaData == NULL);
-        prc->endTag(true);
+        prc->endTag();
+        
+        prc->writeSimpleTag("Image");
+        if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData)) {
+            if (fJPEGData == NULL)
+                prc->writeHexStream(fJPEGDataRLE->fTotalSize, fJPEGDataRLE->fImageData);
+            else
+                prc->writeHexStream(fJPEGSize, fJPEGData);
+        } else {
+            prc->writeComment("Texture data excluded");
+        }
+        prc->closeTag();    // Image
+        prc->writeSimpleTag("Alpha");
+        if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData)) {
+            if (fAlphaData == NULL)
+                prc->writeHexStream(fAlphaDataRLE->fTotalSize, fAlphaDataRLE->fImageData);
+            else
+                prc->writeHexStream(fAlphaSize, fAlphaData);
+        } else {
+            prc->writeComment("Texture data excluded");
+        }
+        prc->closeTag();    // Alpha
+        
+        prc->closeTag();    // JPEG
     } else {
-        prc->startTag("DDS");
-        prc->writeParam("src", "");
-        prc->endTag(true);
+        prc->writeSimpleTag("DDS");
+        prc->writeHexStream(fTotalSize, fImageData);
+        prc->closeTag();
+    }
+}
+
+void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Metrics") {
+        fWidth = tag->getParam("Width", "0").toUint();
+        fHeight = tag->getParam("Height", "0").toUint();
+        fStride = tag->getParam("Stride", "0").toUint();
+        fTotalSize = tag->getParam("TotalSize", "0").toUint();
+        fNumLevels = tag->getParam("MipLevels", "0").toUint();
+    } else if (tag->getName() == "JPEG") {
+        if (tag->getParam("ImageRLE", "false").toBool()) {
+            fJPEGDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
+            tag->readHexStream(fJPEGDataRLE->fTotalSize, fJPEGDataRLE->fImageData);
+        } else {
+            fJPEGSize = tag->getContents().getSize();
+            fJPEGData = new unsigned char[fJPEGSize];
+            tag->readHexStream(fJPEGSize, fJPEGData);
+        }
+        if (tag->getParam("AlphaRLE", "false").toBool()) {
+            fAlphaDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
+            tag->readHexStream(fAlphaDataRLE->fTotalSize, fAlphaDataRLE->fImageData);
+        } else {
+            fAlphaSize = tag->getContents().getSize();
+            fAlphaData = new unsigned char[fAlphaSize];
+            tag->readHexStream(fAlphaSize, fAlphaData);
+        }
+    } else if (tag->getName() == "DDS") {
+        tag->readHexStream(fTotalSize, fImageData);
+    } else {
+        plBitmap::IPrcParse(tag, mgr);
     }
 }
 
@@ -271,35 +325,25 @@ void plMipmap::IWriteRLEImage(hsStream* S, plMipmap* img) {
 
 void plMipmap::IReadJPEGImage(hsStream* S) {
     char rleFlag = S->readByte();
-    plMipmap* img;
 
-    if (rleFlag & kColorDataRLE)
-        img = IReadRLEImage(S);
-    else {
-        //img = plJPEG::inst->IRead(S);
-        // Until plJPEG is fixed
-        img = NULL;
+    if (rleFlag & kColorDataRLE) {
+        fJPEGData = NULL;
+        fJPEGDataRLE = IReadRLEImage(S);
+    } else {
+        fJPEGDataRLE = NULL;
         fJPEGSize = S->readInt();
         fJPEGData = new unsigned char[fJPEGSize];
         S->read(fJPEGSize, fJPEGData);
     }
-    if (img != NULL) {
-        ICopyImage(img);
-        delete img;
-    }
 
-    if (rleFlag & kAlphaDataRLE)
-        img = IReadRLEImage(S);
-    else {
-        //img = plJPEG::inst->IRead(S);
-        img = NULL;
+    if (rleFlag & kAlphaDataRLE) {
+        fAlphaData = NULL;
+        fAlphaDataRLE = IReadRLEImage(S);
+    } else {
+        fAlphaDataRLE = NULL;
         fAlphaSize = S->readInt();
         fAlphaData = new unsigned char[fAlphaSize];
         S->read(fAlphaSize, fAlphaData);
-    }
-    if (img != NULL) {
-        //IRecombineAlpha(img);
-        delete img;
     }
 }
 
@@ -311,16 +355,16 @@ void plMipmap::IWriteJPEGImage(hsStream* S) {
         rleFlag |= kAlphaDataRLE;
     S->writeByte(rleFlag);
 
-    if (rleFlag & kColorDataRLE)
-        IWriteRLEImage(S, this);
-    else {
+    if (rleFlag & kColorDataRLE) {
+        IWriteRLEImage(S, fJPEGDataRLE);
+    } else {
         S->writeInt(fJPEGSize);
         S->write(fJPEGSize, fJPEGData);
     }
 
-    if (rleFlag & kAlphaDataRLE)
-        IWriteRLEImage(S, ISplitAlpha());
-    else {
+    if (rleFlag & kAlphaDataRLE) {
+        IWriteRLEImage(S, fAlphaDataRLE);
+    } else {
         S->writeInt(fAlphaSize);
         S->write(fAlphaSize, fAlphaData);
     }
@@ -340,8 +384,9 @@ void plMipmap::IReadRawImage(hsStream* S) {
             S->readShorts(fLevelSizes[i] / 2, (hsUint16*)dataPtr);
             dataPtr += fLevelSizes[i];
         }
-    } else
+    } else {
         throw hsBadParamException(__FILE__, __LINE__);
+    }
 }
 
 void plMipmap::IWriteRawImage(hsStream* S) {
@@ -358,8 +403,9 @@ void plMipmap::IWriteRawImage(hsStream* S) {
             S->writeShorts(fLevelSizes[i] >> 1, (hsUint16*)dataPtr);
             dataPtr += fLevelSizes[i];
         }
-    } else
+    } else {
         throw hsBadParamException(__FILE__, __LINE__);
+    }
 }
 
 void plMipmap::IRecombineAlpha(plMipmap* alphaImg) {

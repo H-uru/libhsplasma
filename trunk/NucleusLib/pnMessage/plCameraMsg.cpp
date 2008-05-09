@@ -53,6 +53,34 @@ void plCameraConfig::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plCameraConfig::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plCameraConfig")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fWorldspace = tag->getParam("Worldspace", "false").toBool();
+    fFOVw = tag->getParam("FOVw", "0").toFloat();
+    fFOVh = tag->getParam("FOVh", "0").toFloat();
+
+    const pfPrcTag* child = tag->getFirstChild();
+    size_t nChildren = tag->countChildren();
+    for (size_t i=0; i<nChildren; i++) {
+        if (child->getName() == "Params") {
+            fAccel = tag->getParam("Accel", "0").toFloat();
+            fDecel = tag->getParam("Decel", "0").toFloat();
+            fVel = tag->getParam("Vel", "0").toFloat();
+        } else if (child->getName() == "FPParams") {
+            fFPAccel = tag->getParam("Accel", "0").toFloat();
+            fFPDecel = tag->getParam("Decel", "0").toFloat();
+            fFPVel = tag->getParam("Vel", "0").toFloat();
+        } else if (child->getName() == "Offset") {
+            if (child->hasChildren())
+                fOffset.prcParse(child->getFirstChild());
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+    }
+}
+
 
 /* plCameraMsg */
 plCameraMsg::plCameraMsg() : fTransTime(0.0), fActivated(false) {
@@ -127,7 +155,7 @@ void plCameraMsg::IPrcWrite(pfPrcHelper* prc) {
     fCmd.prcWrite(prc);
     prc->closeTag();
 
-    prc->startTag("Params");
+    prc->startTag("CameraParams");
     prc->writeParam("TransTime", fTransTime);
     prc->writeParam("Activated", fActivated);
     prc->endTag(true);
@@ -140,4 +168,24 @@ void plCameraMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     fConfig.prcWrite(prc);
+}
+
+void plCameraMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Command") {
+        if (tag->hasChildren())
+            fCmd.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "CameraParams") {
+        fTransTime = tag->getParam("TransTime", "0").toFloat();
+        fActivated = tag->getParam("Activated", "false").toBool();
+    } else if (tag->getName() == "NewCam") {
+        if (tag->hasChildren())
+            fNewCam = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Triggerer") {
+        if (tag->hasChildren())
+            fTriggerer = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "plCameraConfig") {
+        fConfig.prcParse(tag);
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
 }

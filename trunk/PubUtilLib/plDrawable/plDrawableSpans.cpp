@@ -9,158 +9,132 @@ IMPLEMENT_CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 
 /* plDrawableSpans */
 plDrawableSpans::plDrawableSpans() { }
+
 plDrawableSpans::~plDrawableSpans() {
-    size_t i;
-    for (i=0; i<sourceSpans.getSize(); i++)
-        delete sourceSpans[i];
-    sourceSpans.clear();
-    for (i=0; i<DIIndices.getSize(); i++)
-        delete DIIndices[i];
-    DIIndices.clear();
-    for (i=0; i<groups.getSize(); i++)
-        delete groups[i];
-    groups.clear();
-    if (spaceTree != NULL) delete spaceTree;
+    for (size_t i=0; i<fSourceSpans.getSize(); i++)
+        delete fSourceSpans[i];
+    for (size_t i=0; i<fDIIndices.getSize(); i++)
+        delete fDIIndices[i];
+    for (size_t i=0; i<fGroups.getSize(); i++)
+        delete fGroups[i];
+    if (fSpaceTree != NULL)
+        delete fSpaceTree;
 }
 
 IMPLEMENT_CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
 
 void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
-    bool gotSkin = false;
 
-    props = S->readInt();
-    criteria = S->readInt();
-    renderLevel.level = S->readInt();
+    fProps = S->readInt();
+    fCriteria = S->readInt();
+    fRenderLevel.level = S->readInt();
 
-    size_t i, j, count, count2;
-    
-    materials.setSize(S->readInt());
-    for (i=0; i<materials.getSize(); i++)
-        materials[i] = mgr->readKey(S);
+    fMaterials.setSize(S->readInt());
+    for (size_t i=0; i<fMaterials.getSize(); i++)
+        fMaterials[i] = mgr->readKey(S);
 
-    icicles.setSize(S->readInt());
-    for (i=0; i<icicles.getSize(); i++) {
-        icicles[i].read(S);
-        if (icicles[i].getNumMatrices() != 0)
-            gotSkin = true;
-    }
+    fIcicles.setSize(S->readInt());
+    for (size_t i=0; i<fIcicles.getSize(); i++)
+        fIcicles[i].read(S);
     S->readInt(); // Discarded -- Icicles2
 
-    spanSourceIndices.clear();
-    spans.clear();
-
-    count = S->readInt();
-    spans.setSizeNull(count);
-    spanSourceIndices.setSizeNull(count);
-    for (i=0; i<count; i++) {
-        unsigned int idx = S->readInt();
-        if ((idx & kSpanTypeMask) == kSpanTypeIcicle)
-            spans[i] = &(icicles[idx & kSpanIDMask]);
-        else if ((idx & kSpanTypeMask) == kSpanTypeParticleSpan)
-            spans[i] = &(particleSpans[idx & kSpanIDMask]);
-        spanSourceIndices[i] = idx;
-        //if (spans[spans.getSize()-1]->getTypeMask() & plSpan::kParticleSpan) {
-        //    plParticleSpan* ps = (plParticleSpan*)spans[spans.getSize()-1];
-        //    ps->setSrcSpanIdx(spans.getSize()-1);
+    fSpans.setSizeNull(S->readInt());
+    fSpanSourceIndices.setSizeNull(fSpans.getSize());
+    for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
+        fSpanSourceIndices[i] = S->readInt();
+        if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeIcicle)
+            fSpans[i] = &(fIcicles[fSpanSourceIndices[i] & kSpanIDMask]);
+        else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
+            fSpans[i] = &(fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask]);
+        //if (fSpans[fSpans.getSize()-1]->getTypeMask() & plSpan::kParticleSpan) {
+        //    plParticleSpan* ps = (plParticleSpan*)fSpans[fSpans.getSize()-1];
+        //    ps->setSrcSpanIdx(fSpans.getSize()-1);
         //}
     }
-    //IBuildVectors();
 
-    for (i=0; i<count; i++)
-        spans[i]->setFogEnvironment(mgr->readKey(S));
+    for (size_t i=0; i<fSpans.getSize(); i++)
+        fSpans[i]->setFogEnvironment(mgr->readKey(S));
 
-    if (count > 0) {
-        localBounds.read(S);
-        worldBounds.read(S);
-        maxWorldBounds.read(S);
+    if (fSpans.getSize() > 0) {
+        fLocalBounds.read(S);
+        fWorldBounds.read(S);
+        fMaxWorldBounds.read(S);
     } else {
-        localBounds.setType(hsBounds3::kIsSphere);
-        worldBounds.setType(hsBounds3::kIsSphere);
-        maxWorldBounds.setType(hsBounds3::kIsSphere);
+        fLocalBounds.setType(hsBounds3::kIsSphere);
+        fWorldBounds.setType(hsBounds3::kIsSphere);
+        fMaxWorldBounds.setType(hsBounds3::kIsSphere);
     }
 
-    for (i=0; i<count; i++) {
-        if (spans[i]->getProps() & plSpan::kPropHasPermaLights) {
-            count2 = S->readInt();
-            for (j=0; j<count2; j++)
-                spans[i]->addPermaLight(mgr->readKey(S));
+    for (size_t i=0; i<fSpans.getSize(); i++) {
+        if (fSpans[i]->getProps() & plSpan::kPropHasPermaLights) {
+            size_t count = S->readInt();
+            for (size_t j=0; j<count; j++)
+                fSpans[i]->addPermaLight(mgr->readKey(S));
         }
-        if (spans[i]->getProps() & plSpan::kPropHasPermaProjs) {
-            count2 = S->readInt();
-            for (j=0; j<count2; j++)
-                spans[i]->addPermaProj(mgr->readKey(S));
+        if (fSpans[i]->getProps() & plSpan::kPropHasPermaProjs) {
+            size_t count = S->readInt();
+            for (size_t j=0; j<count; j++)
+                fSpans[i]->addPermaProj(mgr->readKey(S));
         }
     }
 
-    count = S->readInt();
-    if (count > 0) {
-        sourceSpans.setSize(count);
-        for (i=0; i<count; i++) {
-            sourceSpans[i] = new plGeometrySpan;
-            sourceSpans[i]->read(S);
-            if (spans[i]->getMaterialIdx() == 0xFFFFFFFF)
-                sourceSpans[i]->setMaterial(NULL);
-            else
-                sourceSpans[i]->setMaterial(materials[spans[i]->getMaterialIdx()]);
-            sourceSpans[i]->setFogEnvironment(spans[i]->getFogEnvironment());
-            //sourceSpans[i]->setSpanRefIndex(i);
-        }
-    } else {
-        sourceSpans.clear();
+    fSourceSpans.setSize(S->readInt());
+    for (size_t i=0; i<fSourceSpans.getSize(); i++) {
+        fSourceSpans[i] = new plGeometrySpan();
+        fSourceSpans[i]->read(S);
+        if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
+            fSourceSpans[i]->setMaterial(NULL);
+        else
+            fSourceSpans[i]->setMaterial(fMaterials[fSpans[i]->getMaterialIdx()]);
+        fSourceSpans[i]->setFogEnvironment(fSpans[i]->getFogEnvironment());
+        //fSourceSpans[i]->setSpanRefIndex(i);
     }
 
-    count = S->readInt();
-    localToWorlds.setSize(count);
-    worldToLocals.setSize(count);
-    localToBones.setSize(count);
-    boneToLocals.setSize(count);
-    for (i=0; i<count; i++) {
-        localToWorlds[i].read(S);
-        worldToLocals[i].read(S);
-        localToBones[i].read(S);
-        boneToLocals[i].read(S);
+    size_t xformCount = S->readInt();
+    fLocalToWorlds.setSize(xformCount);
+    fWorldToLocals.setSize(xformCount);
+    fLocalToBones.setSize(xformCount);
+    fBoneToLocals.setSize(xformCount);
+    for (size_t i=0; i<xformCount; i++) {
+        fLocalToWorlds[i].read(S);
+        fWorldToLocals[i].read(S);
+        fLocalToBones[i].read(S);
+        fBoneToLocals[i].read(S);
     }
 
-    count = S->readInt();
-    DIIndices.setSize(count);
-    for (i=0; i<count; i++) {
-        DIIndices[i] = new plDISpanIndex();
-        DIIndices[i]->flags = S->readInt();
+    fDIIndices.setSize(S->readInt());
+    for (size_t i=0; i<fDIIndices.getSize(); i++) {
+        fDIIndices[i] = new plDISpanIndex();
+        fDIIndices[i]->fFlags = S->readInt();
 
-        count2 = S->readInt();
-        DIIndices[i]->indices.setSize(count2);
-        for (j=0; j<count2; j++)
-            DIIndices[i]->indices[j] = S->readInt();
+        fDIIndices[i]->fIndices.setSize(S->readInt());
+        for (size_t j=0; j<(fDIIndices[i]->fIndices.getSize()); j++)
+            fDIIndices[i]->fIndices[j] = S->readInt();
     }
 
-    count = S->readInt();
-    groups.setSize(count);
-    for (i=0; i<count; i++) {
-        groups[i] = new plGBufferGroup(0, props & kPropVolatile, props & kPropSortFaces, 0);
-        groups[i]->read(S);
+    fGroups.setSize(S->readInt());
+    for (size_t i=0; i<fGroups.getSize(); i++) {
+        fGroups[i] = new plGBufferGroup(0, fProps & kPropVolatile, fProps & kPropSortFaces, 0);
+        fGroups[i]->read(S);
     }
 
     /*
-    if (props & kPropSortFaces) {
-        for (i=0; i<spans.getSize(); i++)
+    if (fProps & kPropSortFaces) {
+        for (i=0; i<fSpans.getSize(); i++)
             IMakeSpanSortable(i);
     }
     */
 
-    spaceTree = plSpaceTree::Convert(mgr->ReadCreatable(S));
-    sceneNode = mgr->readKey(S);
+    fSpaceTree = plSpaceTree::Convert(mgr->ReadCreatable(S));
+    fSceneNode = mgr->readKey(S);
 
     /*
     if (GetNativeProperty(kPropCharacter)) {
         visSet[1] = true;
-        for (int i=0; i<spans.getCount(); i++)
-            spans[i]->visSet[1] = true;
+        for (int i=0; i<fSpans.getCount(); i++)
+            fSpans[i]->visSet[1] = true;
     }*/
-    
-    if (gotSkin)
-        registeredForRender = true;
-    readyToRender = false;
 }
 
 void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
@@ -168,132 +142,131 @@ void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
     //    IRemoveGarbage();
     hsKeyedObject::write(S, mgr);
 
-    S->writeInt(props);
-    S->writeInt(criteria);
-    S->writeInt(renderLevel.level);
+    S->writeInt(fProps);
+    S->writeInt(fCriteria);
+    S->writeInt(fRenderLevel.level);
 
-    size_t i, j;
-    S->writeInt(materials.getSize());
-    for (i=0; i<materials.getSize(); i++)
-        mgr->writeKey(S, materials[i]);
+    S->writeInt(fMaterials.getSize());
+    for (size_t i=0; i<fMaterials.getSize(); i++)
+        mgr->writeKey(S, fMaterials[i]);
 
-    S->writeInt(icicles.getSize());
-    for (i=0; i<icicles.getSize(); i++)
-        icicles[i].write(S);
+    S->writeInt(fIcicles.getSize());
+    for (size_t i=0; i<fIcicles.getSize(); i++)
+        fIcicles[i].write(S);
 
     S->writeInt(0);  // No Icicles2
 
-    S->writeInt(spanSourceIndices.getSize());
-    for (i=0; i<spanSourceIndices.getSize(); i++)
-        S->writeInt(spanSourceIndices[i]);
+    S->writeInt(fSpanSourceIndices.getSize());
+    for (size_t i=0; i<fSpanSourceIndices.getSize(); i++)
+        S->writeInt(fSpanSourceIndices[i]);
     
-    for (i=0; i<spans.getSize(); i++)
-        mgr->writeKey(S, spans[i]->getFogEnvironment());
+    for (size_t i=0; i<fSpans.getSize(); i++)
+        mgr->writeKey(S, fSpans[i]->getFogEnvironment());
 
-    if (spans.getSize() > 0) {
-        localBounds.write(S);
-        worldBounds.write(S);
-        maxWorldBounds.write(S);
+    if (fSpans.getSize() > 0) {
+        fLocalBounds.write(S);
+        fWorldBounds.write(S);
+        fMaxWorldBounds.write(S);
     }
 
-    for (i=0; i<spans.getSize(); i++) {
-        if (spans[i]->getProps() & plSpan::kPropHasPermaLights) {
-            S->writeInt(spans[i]->getPermaLights().getSize());
-            for (j=0; j<spans[i]->getPermaLights().getSize(); j++)
-                mgr->writeKey(S, spans[i]->getPermaLights()[j]);
+    for (size_t i=0; i<fSpans.getSize(); i++) {
+        if (fSpans[i]->getProps() & plSpan::kPropHasPermaLights) {
+            S->writeInt(fSpans[i]->getPermaLights().getSize());
+            for (size_t j=0; j<fSpans[i]->getPermaLights().getSize(); j++)
+                mgr->writeKey(S, fSpans[i]->getPermaLights()[j]);
         }
-        if (spans[i]->getProps() & plSpan::kPropHasPermaProjs) {
-            S->writeInt(spans[i]->getPermaProjs().getSize());
-            for (j=0; j<spans[i]->getPermaProjs().getSize(); j++)
-                mgr->writeKey(S, spans[i]->getPermaProjs()[j]);
+        if (fSpans[i]->getProps() & plSpan::kPropHasPermaProjs) {
+            S->writeInt(fSpans[i]->getPermaProjs().getSize());
+            for (size_t j=0; j<fSpans[i]->getPermaProjs().getSize(); j++)
+                mgr->writeKey(S, fSpans[i]->getPermaProjs()[j]);
         }
     }
 
-    S->writeInt(sourceSpans.getSize());
-    for (i=0; i<sourceSpans.getSize(); i++)
-        sourceSpans[i]->write(S);
+    S->writeInt(fSourceSpans.getSize());
+    for (size_t i=0; i<fSourceSpans.getSize(); i++)
+        fSourceSpans[i]->write(S);
 
-    S->writeInt(localToWorlds.getSize());
-    for (i=0; i<localToWorlds.getSize(); i++) {
-        localToWorlds[i].write(S);
-        worldToLocals[i].write(S);
-        localToBones[i].write(S);
-        boneToLocals[i].write(S);
+    S->writeInt(fLocalToWorlds.getSize());
+    for (size_t i=0; i<fLocalToWorlds.getSize(); i++) {
+        fLocalToWorlds[i].write(S);
+        fWorldToLocals[i].write(S);
+        fLocalToBones[i].write(S);
+        fBoneToLocals[i].write(S);
     }
 
-    S->writeInt(DIIndices.getSize());
-    for (i=0; i<DIIndices.getSize(); i++) {
-        S->writeInt(DIIndices[i]->flags);
-        S->writeInt(DIIndices[i]->indices.getSize());
-        for (j=0; j<DIIndices[i]->indices.getSize(); j++)
-            S->writeInt(DIIndices[i]->indices[j]);
+    S->writeInt(fDIIndices.getSize());
+    for (size_t i=0; i<fDIIndices.getSize(); i++) {
+        S->writeInt(fDIIndices[i]->fFlags);
+        S->writeInt(fDIIndices[i]->fIndices.getSize());
+        for (size_t j=0; j<fDIIndices[i]->fIndices.getSize(); j++)
+            S->writeInt(fDIIndices[i]->fIndices[j]);
     }
 
-    S->writeInt(groups.getSize());
-    for (i=0; i<groups.getSize(); i++)
-        groups[i]->write(S);
+    S->writeInt(fGroups.getSize());
+    for (size_t i=0; i<fGroups.getSize(); i++)
+        fGroups[i]->write(S);
 
-    mgr->WriteCreatable(S, spaceTree);
-    mgr->writeKey(S, sceneNode);
+    mgr->WriteCreatable(S, fSpaceTree);
+    mgr->writeKey(S, fSceneNode);
 }
 
 void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("Properties");
-    prc->writeParamHex("Flags", props);
-    prc->writeParamHex("Criteria", criteria);
-    prc->writeParamHex("RenderLevel", renderLevel.level);
+    prc->writeParamHex("Flags", fProps);
+    prc->writeParamHex("Criteria", fCriteria);
+    prc->writeParamHex("RenderLevel", fRenderLevel.level);
     prc->endTag(true);
 
-    size_t i, j;
     prc->writeSimpleTag("Materials");
-    for (i=0; i<materials.getSize(); i++)
-        materials[i]->prcWrite(prc);
+    for (size_t i=0; i<fMaterials.getSize(); i++)
+        fMaterials[i]->prcWrite(prc);
     prc->closeTag();
     
     prc->writeSimpleTag("Icicles");
-    for (i=0; i<icicles.getSize(); i++)
-        icicles[i].prcWrite(prc);
+    for (size_t i=0; i<fIcicles.getSize(); i++)
+        fIcicles[i].prcWrite(prc);
     prc->closeTag();
     
     prc->writeSimpleTag("SpanSourceIndices");
-    for (i=0; i<spanSourceIndices.getSize(); i++) {
+    for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
         prc->startTag("SourceIndex");
-        prc->writeParam("value", spanSourceIndices[i]);
+        prc->writeParam("value", fSpanSourceIndices[i]);
         prc->endTag(true);
     }
     prc->closeTag();
 
     prc->writeSimpleTag("FogEnvironments");
-    for (i=0; i<spans.getSize(); i++)
-        spans[i]->getFogEnvironment()->prcWrite(prc);
+    for (size_t i=0; i<fSpans.getSize(); i++)
+        fSpans[i]->getFogEnvironment()->prcWrite(prc);
     prc->closeTag();
 
-    prc->writeSimpleTag("Bounds");
-    if (spans.getSize() > 0) {
-        prc->writeComment("Local, World, MaxWorld");
-        localBounds.prcWrite(prc);
-        worldBounds.prcWrite(prc);
-        maxWorldBounds.prcWrite(prc);
+    if (fSpans.getSize() > 0) {
+        prc->writeSimpleTag("LocalBounds");
+        fLocalBounds.prcWrite(prc);
+        prc->closeTag();
+        prc->writeSimpleTag("WorldBounds");
+        fWorldBounds.prcWrite(prc);
+        prc->closeTag();
+        prc->writeSimpleTag("MaxWorldBounds");
+        fMaxWorldBounds.prcWrite(prc);
+        prc->closeTag();
     }
-    prc->closeTag();
 
     prc->writeSimpleTag("PermaLightInfo");
-    for (i=0; i<spans.getSize(); i++) {
-        prc->startTag("Span");
-        prc->writeParam("idx", i);
-        prc->endTag();
-        if (spans[i]->getProps() & plSpan::kPropHasPermaLights) {
+    for (size_t i=0; i<fSpans.getSize(); i++) {
+        prc->writeSimpleTag("Span");
+        if (fSpans[i]->getProps() & plSpan::kPropHasPermaLights) {
             prc->writeSimpleTag("PermaLights");
-            for (j=0; j<spans[i]->getPermaLights().getSize(); j++)
-                spans[i]->getPermaLights()[j]->prcWrite(prc);
+            for (size_t j=0; j<fSpans[i]->getPermaLights().getSize(); j++)
+                fSpans[i]->getPermaLights()[j]->prcWrite(prc);
             prc->closeTag();
         }
-        if (spans[i]->getProps() & plSpan::kPropHasPermaProjs) {
+        if (fSpans[i]->getProps() & plSpan::kPropHasPermaProjs) {
             prc->writeSimpleTag("PermaProjs");
-            for (j=0; j<spans[i]->getPermaProjs().getSize(); j++)
-                spans[i]->getPermaProjs()[j]->prcWrite(prc);
+            for (size_t j=0; j<fSpans[i]->getPermaProjs().getSize(); j++)
+                fSpans[i]->getPermaProjs()[j]->prcWrite(prc);
             prc->closeTag();
         }
         prc->closeTag();
@@ -301,37 +274,37 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("SourceSpans");
-    for (i=0; i<sourceSpans.getSize(); i++)
-        sourceSpans[i]->prcWrite(prc);
+    for (size_t i=0; i<fSourceSpans.getSize(); i++)
+        fSourceSpans[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Transforms");
-    for (i=0; i<localToWorlds.getSize(); i++) {
+    for (size_t i=0; i<fLocalToWorlds.getSize(); i++) {
         prc->writeSimpleTag("TransformSet");
           prc->writeSimpleTag("LocalToWorld");
-          localToWorlds[i].prcWrite(prc);
+          fLocalToWorlds[i].prcWrite(prc);
           prc->closeTag();
           prc->writeSimpleTag("WorldToLocal");
-          worldToLocals[i].prcWrite(prc);
+          fWorldToLocals[i].prcWrite(prc);
           prc->closeTag();
           prc->writeSimpleTag("LocalToBone");
-          localToBones[i].prcWrite(prc);
+          fLocalToBones[i].prcWrite(prc);
           prc->closeTag();
           prc->writeSimpleTag("BoneToLocal");
-          boneToLocals[i].prcWrite(prc);
+          fBoneToLocals[i].prcWrite(prc);
           prc->closeTag();
         prc->closeTag();
     }
     prc->closeTag();
 
     prc->writeSimpleTag("DIIndices");
-    for (i=0; i<DIIndices.getSize(); i++) {
+    for (size_t i=0; i<fDIIndices.getSize(); i++) {
         prc->startTag("plDISpanIndex");
-        prc->writeParamHex("Flags", DIIndices[i]->flags);
+        prc->writeParamHex("Flags", fDIIndices[i]->fFlags);
         prc->endTag();
-        for (j=0; j<DIIndices[i]->indices.getSize(); j++) {
+        for (size_t j=0; j<fDIIndices[i]->fIndices.getSize(); j++) {
             prc->startTag("Index");
-            prc->writeParam("value", DIIndices[i]->indices[j]);
+            prc->writeParam("value", fDIIndices[i]->fIndices[j]);
             prc->endTag(true);
         }
         prc->closeTag();
@@ -339,14 +312,184 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("BufferGroups");
-    for (i=0; i<groups.getSize(); i++)
-        groups[i]->prcWrite(prc);
+    for (size_t i=0; i<fGroups.getSize(); i++)
+        fGroups[i]->prcWrite(prc);
     prc->closeTag();
 
-    if (spaceTree != NULL)
-        spaceTree->prcWrite(prc);
+    prc->writeSimpleTag("SpaceTree");
+    if (fSpaceTree != NULL)
+        fSpaceTree->prcWrite(prc);
+    prc->closeTag();
 
     prc->writeSimpleTag("SceneNode");
-    sceneNode->prcWrite(prc);
+    fSceneNode->prcWrite(prc);
     prc->closeTag();
+}
+
+void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Properties") {
+        fProps = tag->getParam("Flags", "0").toUint();
+        fCriteria = tag->getParam("Criteria", "0").toUint();
+        fRenderLevel.level = tag->getParam("RenderLevel", "0").toUint();
+    } else if (tag->getName() == "Materials") {
+        fMaterials.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fMaterials.getSize(); i++) {
+            fMaterials[i] = mgr->prcParseKey(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Icicles") {
+        fIcicles.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fIcicles.getSize(); i++) {
+            fIcicles[i].prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "SpanSourceIndices") {
+        fSpanSourceIndices.setSizeNull(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
+            if (child->getName() != "SourceIndex")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fSpanSourceIndices[i] = child->getParam("value", "0").toUint();
+            if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeIcicle)
+                fSpans[i] = &(fIcicles[fSpanSourceIndices[i] & kSpanIDMask]);
+            else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
+                fSpans[i] = &(fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask]);
+            //if (fSpans[fSpans.getSize()-1]->getTypeMask() & plSpan::kParticleSpan) {
+            //    plParticleSpan* ps = (plParticleSpan*)fSpans[fSpans.getSize()-1];
+            //    ps->setSrcSpanIdx(fSpans.getSize()-1);
+            //}
+        }
+    } else if (tag->getName() == "FogEnvironments") {
+        size_t nChildren = tag->countChildren();
+        if (nChildren != fSpans.getSize())
+            throw pfPrcParseException(__FILE__, __LINE__, "Span count mismatch");
+
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<nChildren; i++) {
+            fSpans[i]->setFogEnvironment(mgr->prcParseKey(child));
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "LocalBounds") {
+        if (tag->hasChildren())
+            fLocalBounds.prcParse(tag);
+    } else if (tag->getName() == "WorldBounds") {
+        if (tag->hasChildren())
+            fWorldBounds.prcParse(tag);
+    } else if (tag->getName() == "MaxWorldBounds") {
+        if (tag->hasChildren())
+            fMaxWorldBounds.prcParse(tag);
+    } else if (tag->getName() == "PermaLightInfo") {
+        size_t nChildren = tag->countChildren();
+        if (nChildren != fSpans.getSize())
+            throw pfPrcParseException(__FILE__, __LINE__, "Span count mismatch");
+
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<nChildren; i++) {
+            if (child->getName() != "Span")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            const pfPrcTag* subChild = child->getFirstChild();
+            while (subChild != NULL) {
+                if (subChild->getName() == "PermaLights") {
+                    size_t nLights = subChild->countChildren();
+                    const pfPrcTag* light = subChild->getFirstChild();
+                    for (size_t j=0; j<nLights; j++) {
+                        fSpans[i]->addPermaLight(mgr->prcParseKey(light));
+                        light = light->getNextSibling();
+                    }
+                } else if (subChild->getName() == "PermaProjs") {
+                    size_t nLights = subChild->countChildren();
+                    const pfPrcTag* light = subChild->getFirstChild();
+                    for (size_t j=0; j<nLights; j++) {
+                        fSpans[i]->addPermaProj(mgr->prcParseKey(light));
+                        light = light->getNextSibling();
+                    }
+                } else {
+                    throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
+                }
+                subChild = subChild->getNextSibling();
+            }
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "SourceSpans") {
+        fSourceSpans.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fSourceSpans.getSize(); i++) {
+            fSourceSpans[i] = new plGeometrySpan();
+            fSourceSpans[i]->prcParse(tag);
+            if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
+                fSourceSpans[i]->setMaterial(NULL);
+            else
+                fSourceSpans[i]->setMaterial(fMaterials[fSpans[i]->getMaterialIdx()]);
+            fSourceSpans[i]->setFogEnvironment(fSpans[i]->getFogEnvironment());
+            //fSourceSpans[i]->setSpanRefIndex(i);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "Transforms") {
+        fLocalToWorlds.setSize(tag->countChildren());
+        fWorldToLocals.setSize(fLocalToWorlds.getSize());
+        fLocalToBones.setSize(fLocalToWorlds.getSize());
+        fBoneToLocals.setSize(fLocalToWorlds.getSize());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fLocalToWorlds.getSize(); i++) {
+            if (child->getName() != "TransformSet")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            const pfPrcTag* subChild = child->getFirstChild();
+            while (subChild != NULL) {
+                if (subChild->getName() == "LocalToWorld") {
+                    if (subChild->hasChildren())
+                        fLocalToWorlds[i].prcParse(subChild->getFirstChild());
+                } else if (subChild->getName() == "WorldToLocal") {
+                    if (subChild->hasChildren())
+                        fWorldToLocals[i].prcParse(subChild->getFirstChild());
+                } else if (subChild->getName() == "LocalToBone") {
+                    if (subChild->hasChildren())
+                        fLocalToBones[i].prcParse(subChild->getFirstChild());
+                } else if (subChild->getName() == "BoneToLocal") {
+                    if (subChild->hasChildren())
+                        fBoneToLocals[i].prcParse(subChild->getFirstChild());
+                } else {
+                    throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
+                }
+                subChild = subChild->getNextSibling();
+            }
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "DIIndices") {
+        fDIIndices.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fDIIndices.getSize(); i++) {
+            if (child->getName() != "plDISpanIndex")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fDIIndices[i] = new plDISpanIndex();
+            fDIIndices[i]->fFlags = tag->getParam("Flags", "0").toUint();
+
+            fDIIndices[i]->fIndices.setSize(child->countChildren());
+            const pfPrcTag* subChild = child->getFirstChild();
+            for (size_t j=0; j<(fDIIndices[i]->fIndices.getSize()); j++) {
+                if (subChild->getName() != "Index")
+                    throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
+                fDIIndices[i]->fIndices[j] = subChild->getParam("value", "0").toUint();
+                subChild = subChild->getNextSibling();
+            }
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "BufferGroups") {
+        fGroups.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fGroups.getSize(); i++) {
+            fGroups[i] = new plGBufferGroup(0, fProps & kPropVolatile, fProps & kPropSortFaces, 0);
+            fGroups[i]->prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else if (tag->getName() == "SpaceTree") {
+        if (tag->hasChildren())
+            fSpaceTree = plSpaceTree::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else if (tag->getName() == "SceneNode") {
+        if (tag->hasChildren())
+            fSceneNode = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
 }

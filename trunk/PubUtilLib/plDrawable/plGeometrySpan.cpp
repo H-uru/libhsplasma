@@ -23,7 +23,6 @@ unsigned int plGeometrySpan::CalcVertexSize(unsigned char format) {
 }
 
 void plGeometrySpan::read(hsStream* S) {
-	//ClearBuffers();
     fLocalToWorld.read(S);
     fWorldToLocal.read(S);
     fLocalBounds.read(S);
@@ -52,9 +51,9 @@ void plGeometrySpan::read(hsStream* S) {
         fWaterHeight = S->readFloat();
     
     if (fNumVerts > 0) {
-        unsigned int size = CalcVertexSize(fFormat);
-        fVertexData = new unsigned char[fNumVerts * size];
-        S->read(fNumVerts * size, fVertexData);
+        unsigned int stride = CalcVertexSize(fFormat);
+        fVertexData = new unsigned char[fNumVerts * stride];
+        S->read(fNumVerts * stride, fVertexData);
         
         fMultColor = new hsColorRGBA[fNumVerts];
         fAddColor = new hsColorRGBA[fNumVerts];
@@ -83,7 +82,6 @@ void plGeometrySpan::read(hsStream* S) {
     
     fInstanceGroup = S->readInt();
     if (fInstanceGroup != 0) {
-        //throw "Incomplete";
         //fInstanceRefs = IGetInstanceGroup(fInstanceGroup, S->readInt());
         //fInstanceRefs->append(this);
         plDebug::Warning("WARNING: plGeometrySpan::read Incomplete");
@@ -152,11 +150,10 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("WaterHeight", fWaterHeight);
     prc->endTag();
     
-    unsigned int i, j;
     if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
         hsTArray<TempVertex> verts = getVertices();
         prc->writeSimpleTag("Vertices");
-        for (i=0; i<verts.getSize(); i++) {
+        for (size_t i=0; i<verts.getSize(); i++) {
             prc->writeSimpleTag("Vertex");
 
             prc->writeSimpleTag("Position");
@@ -168,7 +165,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
             prc->closeTag();
 
             prc->writeSimpleTag("UVWMaps");
-            for (j=0; j<(fFormat & kUVCountMask); j++)
+            for (size_t j=0; j<(fFormat & kUVCountMask); j++)
                 verts[i].fUVs[j].prcWrite(prc);
             prc->closeTag();
 
@@ -176,7 +173,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
             if (fFormat & kSkinIndices)
                 prc->writeParam("Index", verts[i].fIndices);
             prc->endTagNoBreak();
-            for (j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
+            for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
                 prc->getStream()->writeStr(plString::Format("%f ", verts[i].fWeights[j]));
             prc->closeTagNoBreak();
 
@@ -185,26 +182,26 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
         prc->closeTag();    // Vertices
 
         prc->writeSimpleTag("MultColors");
-        for (i=0; i<fNumVerts; i++)
+        for (size_t i=0; i<fNumVerts; i++)
             fMultColor[i].prcWrite(prc);
         prc->closeTag();
         prc->writeSimpleTag("AddColors");
-        for (i=0; i<fNumVerts; i++)
+        for (size_t i=0; i<fNumVerts; i++)
             fAddColor[i].prcWrite(prc);
         prc->closeTag();
         prc->writeTagNoBreak("DiffuseColors");
-        for (i=0; i<fNumVerts; i++)
-            prc->getStream()->writeStr(plString::Format("%08X ", fDiffuseRGBA[i]));
+        for (size_t i=0; i<fNumVerts; i++)
+            prc->getStream()->writeStr(plString::Format("0x%08X ", fDiffuseRGBA[i]));
         prc->closeTagNoBreak();
         prc->writeTagNoBreak("SpecularColors");
-        for (i=0; i<fNumVerts; i++)
-            prc->getStream()->writeStr(plString::Format("%08X ", fSpecularRGBA[i]));
+        for (size_t i=0; i<fNumVerts; i++)
+            prc->getStream()->writeStr(plString::Format("0x%08X ", fSpecularRGBA[i]));
         prc->closeTagNoBreak();
 
         prc->writeSimpleTag("Triangles");
-        for (i=0; i<fNumIndices; i += 3) {
+        for (size_t i=0; i<fNumIndices; i += 3) {
             prc->writeTagNoBreak("Triangle");
-            prc->getStream()->writeStr(plString::Format("%04X %04X %04X",
+            prc->getStream()->writeStr(plString::Format("%d %d %d",
                                        fIndexData[i], fIndexData[i+1], fIndexData[i+2]));
             prc->closeTagNoBreak();
         }
@@ -221,10 +218,126 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();    // plGeometrySpan
 }
 
+void plGeometrySpan::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plGeometrySpan")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fBaseMatrix = tag->getParam("BaseMatrix", "0").toUint();
+    fNumMatrices = tag->getParam("NumMatrices", "0").toUint();
+    fLocalUVWChans = tag->getParam("LocalUVWChans", "0").toUint();
+    fMaxBoneIdx = tag->getParam("MaxBoneIdx", "0").toUint();
+    fPenBoneIdx = tag->getParam("PenBoneIdx", "0").toUint();
+    fMinDist = tag->getParam("MinDist", "0").toFloat();
+    fMaxDist = tag->getParam("MaxDist", "0").toFloat();
+    fFormat = tag->getParam("Format", "0").toUint();
+    fProps = tag->getParam("Props", "0").toUint();
+    fDecalLevel = tag->getParam("DecalLevel", "0").toUint();
+    fWaterHeight = tag->getParam("WaterHeight", "0").toFloat();
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        if (child->getName() == "Vertices") {
+            if (child->countChildren() != fNumVerts)
+                throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of vertices");
+            hsTArray<TempVertex> verts;
+            verts.setSize(fNumVerts);
+            const pfPrcTag* vertChild = child->getFirstChild();
+            for (size_t i=0; i<fNumVerts; i++) {
+                if (vertChild->getName() != "Vertex")
+                    throw pfPrcTagException(__FILE__, __LINE__, vertChild->getName());
+                const pfPrcTag* subChild = vertChild->getFirstChild();
+                while (subChild != NULL) {
+                    if (subChild->getName() == "Position") {
+                        if (subChild->hasChildren())
+                            verts[i].fPosition.prcParse(subChild->getFirstChild());
+                    } else if (subChild->getName() == "Normal") {
+                        if (subChild->hasChildren())
+                            verts[i].fNormal.prcParse(subChild->getFirstChild());
+                    } else if (subChild->getName() == "UVWMaps") {
+                        if (subChild->countChildren() != (size_t)(fFormat & kUVCountMask))
+                            throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of UV maps");
+                        const pfPrcTag* uvChild = subChild->getFirstChild();
+                        for (size_t j=0; j<(size_t)(fFormat & kUVCountMask); j++) {
+                            verts[i].fUVs[j].prcParse(uvChild);
+                            uvChild = uvChild->getNextSibling();
+                        }
+                    } else if (subChild->getName() == "Weights") {
+                        verts[i].fIndices = subChild->getParam("Index", "0").toUint();
+                        hsTList<plString> wgtList = subChild->getContents();
+                        if (wgtList.getSize() != (size_t)((fFormat & kSkinWeightMask) >> 4))
+                            throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of Weights");
+                        for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
+                            verts[i].fWeights[j] = wgtList.pop().toFloat();
+                    } else {
+                        throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
+                    }
+                    subChild = subChild->getNextSibling();
+                }
+                vertChild = vertChild->getNextSibling();
+            }
+            setVertices(verts);
+        } else if (child->getName() == "MultColors") {
+            if (child->countChildren() != fNumVerts)
+                throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
+            fMultColor = new hsColorRGBA[fNumVerts];
+            const pfPrcTag* clrChild = child->getFirstChild();
+            for (size_t i=0; i<fNumVerts; i++) {
+                fMultColor[i].prcParse(clrChild);
+                clrChild = clrChild->getNextSibling();
+            }
+        } else if (child->getName() == "AddColors") {
+            if (child->countChildren() != fNumVerts)
+                throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
+            fAddColor = new hsColorRGBA[fNumVerts];
+            const pfPrcTag* clrChild = child->getFirstChild();
+            for (size_t i=0; i<fNumVerts; i++) {
+                fAddColor[i].prcParse(clrChild);
+                clrChild = clrChild->getNextSibling();
+            }
+        } else if (child->getName() == "DiffuseColors") {
+            hsTList<plString> colorList = child->getContents();
+            if (colorList.getSize() != fNumVerts)
+                throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
+            fDiffuseRGBA = new unsigned int[fNumVerts];
+            for (size_t i=0; i<fNumVerts; i++)
+                fDiffuseRGBA[i] = colorList.pop().toUint();
+        } else if (child->getName() == "SpecularColors") {
+            hsTList<plString> colorList = child->getContents();
+            if (colorList.getSize() != fNumVerts)
+                throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
+            fSpecularRGBA = new unsigned int[fNumVerts];
+            for (size_t i=0; i<fNumVerts; i++)
+                fSpecularRGBA[i] = colorList.pop().toUint();
+        } else if (child->getName() == "Triangles") {
+            if (fNumIndices != child->countChildren() * 3)
+                throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of tris");
+            fIndexData = new unsigned short[fNumIndices];
+            const pfPrcTag* triChild = child->getFirstChild();
+            for (size_t i=0; i<fNumIndices; i += 3) {
+                if (triChild->getName() != "Triangle")
+                    throw pfPrcTagException(__FILE__, __LINE__, triChild->getName());
+                hsTList<plString> idxList = triChild->getContents();
+                if (idxList.getSize() != 3)
+                    throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
+                fIndexData[i] = idxList.pop().toUint();
+                fIndexData[i+1] = idxList.pop().toUint();
+                fIndexData[i+2] = idxList.pop().toUint();
+                triChild = triChild->getNextSibling();
+            }
+        } else if (child->getName() == "InstanceGroup") {
+            fInstanceGroup = child->getParam("value", "0").toUint();
+            numInstanceRefs = child->getParam("NumRefs", "0").toUint();
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+        child = child->getNextSibling();
+    }
+}
+
 void plGeometrySpan::setMaterial(const plKey& mat) { fMaterial = mat; }
 void plGeometrySpan::setFogEnvironment(const plKey& fog) { fFogEnviron = fog; }
 
-hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() {
+hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
     hsTArray<TempVertex> buf;
     buf.setSize(fNumVerts);
     
@@ -245,11 +358,9 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() {
         }
 
         int weightCount = (fFormat & kSkinWeightMask) >> 4;
-        if (weightCount > 0) {
-            for (int j=0; j<weightCount; j++) {
-                buf[i].fWeights[j] = *(float*)cp;
-                cp += sizeof(float);
-            }
+        for (int j=0; j<weightCount; j++) {
+            buf[i].fWeights[j] = *(float*)cp;
+            cp += sizeof(float);
         }
         if (fFormat & kSkinIndices) {
             buf[i].fIndices = *(int*)cp;
@@ -259,65 +370,35 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() {
     return buf;
 }
 
-void plGeometrySpan::IClearMembers() {
-    fVertexData = NULL;
-    fIndexData = NULL;
-    fMaterial = NULL;
-    fNumIndices = 0;
-    fNumVerts = 0;
-    fNumMatrices = 0;
-    fBaseMatrix = 0;
-    fLocalUVWChans = 0;
-    fMaxBoneIdx = 0;
-    fPenBoneIdx = 0;
-    fCreating = false;
-    fFogEnviron = NULL;
-    fProps = 0;
-    fWaterHeight = 0.0;
-    fMultColor = NULL;
-    fAddColor = NULL;
-    fDiffuseRGBA = NULL;
-    fSpecularRGBA = NULL;
-    fInstanceRefs = NULL;
-    fInstanceGroup = 0;
-    fSpanRefIndex = 0xFFFFFFFF;
-    fMaxDist = -1.0;
-    fMinDist = -1.0;
-	fLocalToOBB.Reset();
-    fOBBToLocal.Reset();
-    fDecalLevel = 0;
-    fMaxOwner = NULL;
-}
+void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
+    unsigned int stride = CalcVertexSize(fFormat);
+    fNumVerts = verts.getSize();
+    fVertexData = new unsigned char[fNumVerts * stride];
 
-void plGeometrySpan::ClearBuffers() {
-    if (fProps & kUserOwned) {
-        IClearMembers();
-        return;
-    }
-    throw hsNotImplementedException(__FILE__, __LINE__, "Dependancies");
-    /*
-    if (fInstanceRefs != NULL) {
-        if (fInstanceRefs->getSize() != 1) {
-            delete fInstanceRefs;
-            IClearGroupID(fInstanceGroupID);
-        } else {
-            fInstanceRefs->remove(fInstanceRefs->Find(this));
+    unsigned char* cp = fVertexData;
+    for (size_t i=0; i<fNumVerts; i++) {
+        *(float*)cp = verts[i].fPosition.X; cp += sizeof(float);
+        *(float*)cp = verts[i].fPosition.Y; cp += sizeof(float);
+        *(float*)cp = verts[i].fPosition.Z; cp += sizeof(float);
+
+        *(float*)cp = verts[i].fNormal.X; cp += sizeof(float);
+        *(float*)cp = verts[i].fNormal.Y; cp += sizeof(float);
+        *(float*)cp = verts[i].fNormal.Z; cp += sizeof(float);
+
+        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
+            *(float*)cp = verts[i].fUVs[j].X; cp += sizeof(float);
+            *(float*)cp = verts[i].fUVs[j].Y; cp += sizeof(float);
+            *(float*)cp = verts[i].fUVs[j].Z; cp += sizeof(float);
         }
-        fInstanceRefs = NULL;
-        fInstanceGroupID = 0;
-    } else {
-        delete[] fVertexData;
-        fVertexData = NULL;
-        delete[] fMultColor;
-        delete[] fAddColor;
-        fMultColor = NULL;
-        fAddColor = NULL;
+
+        int weightCount = (fFormat & kSkinWeightMask) >> 4;
+        for (int j=0; j<weightCount; j++) {
+            *(float*)cp = verts[i].fWeights[j];
+            cp += sizeof(float);
+        }
+        if (fFormat & kSkinIndices) {
+            *(int*)cp = verts[i].fIndices;
+            cp += sizeof(int);
+        }
     }
-    delete[] fIndexData;
-    delete[] fDiffuseRGBA;
-    delete[] fSpecularRGBA;
-    fIndexData = NULL;
-    fDiffuseRGBA = NULL;
-    fSpecularRGBA = NULL;
-    */
 }

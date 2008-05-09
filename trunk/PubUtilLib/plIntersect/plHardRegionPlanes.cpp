@@ -40,6 +40,31 @@ void plHardRegionPlanes::HardPlane::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plHardRegionPlanes::HardPlane::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "HardPlane")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        if (child->getName() == "Normal") {
+            if (child->hasChildren())
+                fNorm.prcParse(child->getFirstChild());
+        } else if (child->getName() == "Position") {
+            if (child->hasChildren())
+                fPos.prcParse(child->getFirstChild());
+        } else if (child->getName() == "WorldNormal") {
+            if (child->hasChildren())
+                fWorldNorm.prcParse(child->getFirstChild());
+        } else if (child->getName() == "WorldPosition") {
+            if (child->hasChildren())
+                fWorldPos.prcParse(child->getFirstChild());
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+        child = child->getNextSibling();
+    }
+}
+
 
 // plHardRegionPlanes //
 plHardRegionPlanes::plHardRegionPlanes() { }
@@ -70,4 +95,17 @@ void plHardRegionPlanes::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fPlanes.getSize(); i++)
         fPlanes[i].prcWrite(prc);
     prc->closeTag();
+}
+
+void plHardRegionPlanes::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Planes") {
+        fPlanes.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fPlanes.getSize(); i++) {
+            fPlanes[i].prcParse(child);
+            child = child->getNextSibling();
+        }
+    } else {
+        plHardRegion::IPrcParse(tag, mgr);
+    }
 }

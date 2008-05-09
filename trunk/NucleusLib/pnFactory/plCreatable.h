@@ -5,6 +5,7 @@
 #include "DynLib/PlasmaVersions.h"
 #include "DynLib/pdUnifiedTypeMap.h"
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 #include "PubUtilLib/plResMgr/plResManager.h"
 
 #define DECLARE_CREATABLE(classname) \
@@ -39,6 +40,8 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void IPrcWrite(pfPrcHelper* prc) =0;
+    virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

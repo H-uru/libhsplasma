@@ -2,6 +2,7 @@
 #define _PLSPANINSTANCE_H
 
 #include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllClass plSpanEncoding {
 public:
@@ -33,6 +34,7 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     unsigned int getCode() const;
     float getPosScale() const;
@@ -51,6 +53,7 @@ public:
     void read(hsStream* S, const plSpanEncoding& encoding, unsigned int numVerts);
     void write(hsStream* S, const plSpanEncoding& encoding, unsigned int numVerts);
     void prcWrite(pfPrcHelper* prc, const plSpanEncoding& encoding, unsigned int numVerts);
+    void prcParse(const pfPrcTag* tag, const plSpanEncoding& encoding, unsigned int numVerts);
 
     static unsigned int CalcPosStride(const plSpanEncoding& encoding);
     static unsigned int CalcColStride(const plSpanEncoding& encoding);

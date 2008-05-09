@@ -55,6 +55,16 @@ void hsColorRGBA::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void hsColorRGBA::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsColorRGBA")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    r = tag->getParam("red", "0").toFloat();
+    g = tag->getParam("green", "0").toFloat();
+    b = tag->getParam("blue", "0").toFloat();
+    a = tag->getParam("alpha", "1").toFloat();
+}
+
 
 /* hsColor32 */
 void hsColor32::read32(hsStream* S) {
@@ -95,4 +105,11 @@ void hsColor32::prcWrite(pfPrcHelper* prc) {
     prc->startTag("hsColor32");
     prc->writeParamHex("value", color);
     prc->endTag(true);
+}
+
+void hsColor32::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsColor32")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    color = tag->getParam("value", "0").toUint();
 }

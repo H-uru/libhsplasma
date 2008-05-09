@@ -21,6 +21,13 @@ void pfGUIListElement::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void pfGUIListElement::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "pfGUIListElement")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fSelected = tag->getParam("Selected", "false").toBool();
+}
+
 
 /* pfGUIListBoxMod */
 pfGUIListBoxMod::pfGUIListBoxMod() {
@@ -67,4 +74,13 @@ void pfGUIListBoxMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("ScrollControl");
     fScrollCtrl->prcWrite(prc);
     prc->closeTag();
+}
+
+void pfGUIListBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "ScrollControl") {
+        if (tag->hasChildren())
+            fScrollCtrl = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        pfGUIControlMod::IPrcParse(tag, mgr);
+    }
 }

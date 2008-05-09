@@ -38,6 +38,15 @@ void plPointConstant::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
+void plPointConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Result") {
+        if (tag->hasChildren())
+            fResult.prcParse(tag->getFirstChild());
+    } else {
+        plAGChannel::IPrcParse(tag, mgr);
+    }
+}
+
 
 // plPointControllerCacheChannel //
 plPointControllerCacheChannel::plPointControllerCacheChannel() { }
@@ -49,12 +58,11 @@ IMPLEMENT_CREATABLE(plPointControllerCacheChannel,
 
 
 // plPointControllerChannel //
-plPointControllerChannel::plPointControllerChannel()
-: fController(NULL) {
-}
+plPointControllerChannel::plPointControllerChannel() : fController(NULL) { }
+
 plPointControllerChannel::~plPointControllerChannel() {
-	if(fController != NULL)
-		delete fController;
+    if (fController != NULL)
+        delete fController;
 }
 
 IMPLEMENT_CREATABLE(plPointControllerChannel, kPointControllerChannel,
@@ -76,6 +84,15 @@ void plPointControllerChannel::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Controller");
     fController->prcWrite(prc);
     prc->closeTag();
+}
+
+void plPointControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Controller") {
+        if (tag->hasChildren())
+            fController = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+    } else {
+        plAGChannel::IPrcParse(tag, mgr);
+    }
 }
 
 

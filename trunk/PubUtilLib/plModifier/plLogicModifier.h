@@ -7,6 +7,7 @@ DllClass plLogicModifier : public plLogicModBase {
 protected:
     hsTArray<plKey> fConditionList;
     unsigned int fMyCursor;
+    plWeakKey fParent;
 
 public:
     plLogicModifier();
@@ -17,6 +18,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

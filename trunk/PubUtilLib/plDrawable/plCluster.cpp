@@ -42,3 +42,29 @@ void plCluster::prcWrite(pfPrcHelper* prc) {
 
     prc->closeTag();
 }
+
+void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
+    if (tag->getName() != "plCluster")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fGroup = group;
+    unsigned int numVerts = fGroup->getTemplate()->getNumVerts();
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        if (child->getName() == "Encoding") {
+            if (child->hasChildren())
+                fEncoding.prcParse(child->getFirstChild());
+        } else if (child->getName() == "Instances") {
+            fInstances.setSizeNull(child->countChildren());
+            const pfPrcTag* inst = child->getFirstChild();
+            for (size_t i=0; i<fInstances.getSize(); i++) {
+                fInstances[i] = new plSpanInstance();
+                fInstances[i]->prcParse(tag, fEncoding, numVerts);
+                inst = inst->getNextSibling();
+            }
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+        child = child->getNextSibling();
+    }
+}

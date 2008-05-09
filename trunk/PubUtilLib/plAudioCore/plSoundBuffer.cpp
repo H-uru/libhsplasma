@@ -30,12 +30,25 @@ void plWAVHeader::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 }
 
+void plWAVHeader::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "WavHeader")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fFormatTag = tag->getParam("Format", "0").toUint();
+    fNumChannels = tag->getParam("Channels", "0").toUint();
+    fNumSamplesPerSec = tag->getParam("SamplesPerSec", "0").toUint();
+    fAvgBytesPerSec = tag->getParam("BytesPerSec", "0").toUint();
+    fBlockAlign = tag->getParam("BlockAlign", "0").toUint();
+    fBitsPerSample = tag->getParam("BitsPerSample", "0").toUint();
+}
+
 
 // plSoundBuffer //
 plSoundBuffer::plSoundBuffer() : fData(NULL) { }
 
 plSoundBuffer::~plSoundBuffer() {
-    if (fData) delete[] fData;
+    if (fData != NULL)
+        delete[] fData;
 }
 
 IMPLEMENT_CREATABLE(plSoundBuffer, kSoundBuffer, hsKeyedObject)
@@ -85,9 +98,19 @@ void plSoundBuffer::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("SoundBuffer");
     prc->writeParamHex("Flags", fFlags);
     prc->writeParam("Length", fDataLength);
-    if (fFileName != NULL)
-        prc->writeParam("Filename", fFileName);
+    prc->writeParam("Filename", fFileName);
     prc->endTag(true);
     fHeader.prcWrite(prc);
 }
 
+void plSoundBuffer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "SoundBuffer") {
+        fFlags = tag->getParam("Flags", "0").toUint();
+        fDataLength = tag->getParam("Length", "0").toUint();
+        fFileName = tag->getParam("Filename", "");
+    } else if (tag->getName() == "WavHeader") {
+        fHeader.prcParse(tag);
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}

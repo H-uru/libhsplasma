@@ -224,6 +224,67 @@ void hsMatrix44::prcWrite(pfPrcHelper* prc) {
     }
 }
 
+void hsMatrix44::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsMatrix44")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    if (tag->getParam("identity", "false").toBool()) {
+        Reset();
+    } else {
+        hsTList<plString> contents = tag->getContents();
+        if (contents.pop() != "[")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[0][0] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[0][1] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[0][2] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[0][3] = contents.pop().toFloat();
+        if (contents.pop() != ";")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[1][0] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[1][1] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[1][2] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[1][3] = contents.pop().toFloat();
+        if (contents.pop() != ";")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[2][0] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[2][1] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[2][2] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[2][3] = contents.pop().toFloat();
+        if (contents.pop() != ";")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[3][0] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[3][1] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[3][2] = contents.pop().toFloat();
+        if (contents.pop() != ",")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+        data[3][3] = contents.pop().toFloat();
+        if (contents.pop() != "]")
+            throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
+    }
+}
+
 plString hsMatrix44::toString() const {
     return plString::Format("[ %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n"
                             "%5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f ]",
