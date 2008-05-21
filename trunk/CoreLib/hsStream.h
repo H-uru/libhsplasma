@@ -1,6 +1,9 @@
 #ifndef _HSSTREAM_H
 #define _HSSTREAM_H
 
+#include <stdlib.h>
+#include <crtdbg.h>
+
 #include <stdio.h>
 #include "plString.h"
 #include "DynLib/Platform.h"

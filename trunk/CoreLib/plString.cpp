@@ -164,6 +164,7 @@ plString plString::operator+(char c) {
 
 bool plString::operator==(const plString& other) const {
     if (other.empty()) return empty();
+	if(empty()) return false;
     if (hash() != other.hash())
         return false;
     return (strcmp(fStr, other.fStr)==0);
