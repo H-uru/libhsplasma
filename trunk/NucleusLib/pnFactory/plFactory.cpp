@@ -56,6 +56,7 @@
 #include "PubUtilLib/plAvatar/plAGAnim.h"
 #include "PubUtilLib/plAvatar/plAGMasterMod.h"
 #include "PubUtilLib/plAvatar/plAGModifier.h"
+#include "PubUtilLib/plAvatar/plArmatureEffects.h"
 #include "PubUtilLib/plAvatar/plAvatarClothing.h"
 #include "PubUtilLib/plAvatar/plAvLadderMod.h"
 #include "PubUtilLib/plAvatar/plClothingItem.h"
@@ -332,7 +333,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kParticleCollisionEffectBounce: return new plParticleCollisionEffectBounce();
         case kInterfaceInfoModifier: return new plInterfaceInfoModifier();
         case kSharedMesh: return new plSharedMesh();
-        //case kArmatureEffectsMgr: return new plArmatureEffectsMgr();
+        case kArmatureEffectsMgr: return new plArmatureEffectsMgr();
         //case kMarkerMgr: return new pfMarkerMgr();
         //case kVehicleModifier: return new plVehicleModifier();
         case kParticleLocalWind: return new plParticleLocalWind();
@@ -354,8 +355,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSoundSDLModifier: return new plSoundSDLModifier();
         //case kResManagerHelper: return new plResManagerHelper();
         //case kHKSubWorld: return new plHKSubWorld();
-        //case kArmatureEffect: return new plArmatureEffect();
-        //case kAmratureEffectFootSound: return new plAmratureEffectFootSound();
+        case kArmatureEffect: ABSTRACT(kArmatureEffect);
+        case kArmatureEffectFootSound: return new plArmatureEffectFootSound();
         case kEAXListenerMod: return new plEAXListenerMod();
         case kDynaDecalMgr: return new plDynaDecalMgr();
         case kObjectInVolumeAndFacingDetector: return new plObjectInVolumeAndFacingDetector();

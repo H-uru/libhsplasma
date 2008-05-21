@@ -76,6 +76,7 @@ PLSOBJ=\
 	$(OBJDIR)plAGChannel.o \
 	$(OBJDIR)plAGModifier.o \
 	$(OBJDIR)plAnimStage.o \
+	$(OBJDIR)plArmatureEffects.o \
 	$(OBJDIR)plAvatarClothing.o \
 	$(OBJDIR)plAvLadderMod.o \
 	$(OBJDIR)plClothingItem.o \
@@ -461,6 +462,9 @@ $(OBJDIR)plAGModifier.o: PubUtilLib/plAvatar/plAGModifier.h PubUtilLib/plAvatar/
 
 $(OBJDIR)plAnimStage.o: PubUtilLib/plAvatar/plAnimStage.h PubUtilLib/plAvatar/plAnimStage.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAnimStage.cpp -o $(OBJDIR)plAnimStage.o
+
+$(OBJDIR)plArmatureEffects.o: PubUtilLib/plAvatar/plArmatureEffects.h PubUtilLib/plAvatar/plArmatureEffects.cpp
+	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plArmatureEffects.cpp -o $(OBJDIR)plArmatureEffects.o
 
 $(OBJDIR)plAvatarClothing.o: PubUtilLib/plAvatar/plAvatarClothing.h PubUtilLib/plAvatar/plAvatarClothing.cpp
 	$(CXX) $(CXXFLAGS) -c PubUtilLib/plAvatar/plAvatarClothing.cpp -o $(OBJDIR)plAvatarClothing.o
