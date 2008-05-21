@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <crtdbg.h>
 
 #include "PageExplorer.h"
 #include "ExplorerFrm.h"

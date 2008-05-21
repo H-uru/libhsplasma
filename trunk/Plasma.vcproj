@@ -1295,6 +1295,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PubUtilLib\plAvatar\plArmatureEffects.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PubUtilLib\plAvatar\plArmatureEffects.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PubUtilLib\plAvatar\plAvatarClothing.cpp"
 					>
 				</File>

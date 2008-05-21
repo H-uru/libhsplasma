@@ -13,10 +13,10 @@ const char* plIcicle::ClassName() { return "plIcicle"; }
 
 void plIcicle::read(hsStream* S) {
     plVertexSpan::read(S);
-	if(S->getVer() != pvHex) {
-		fIBufferIdx = S->readInt();
-		fIStartIdx = S->readInt();
-	}
+    if (S->getVer() < pvHex) {
+        fIBufferIdx = S->readInt();
+        fIStartIdx = S->readInt();
+    }
     fILength = S->readInt();
     if (fProps & kPropFacesSortable) {
         fSortData = new plGBufferTriangle[fILength / 3];

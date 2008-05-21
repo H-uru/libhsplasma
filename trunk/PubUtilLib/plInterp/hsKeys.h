@@ -25,8 +25,7 @@ struct hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc)=0;
     virtual void prcParse(const pfPrcTag* tag)=0;
-    virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
+    virtual struct UruKeyFrame* toUruKey()=0;
 };
 
 struct hsPoint3Key : public hsKeyFrame {
@@ -37,7 +36,6 @@ struct hsPoint3Key : public hsKeyFrame {
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
     virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
 };
 
 struct hsBezPoint3Key : public hsKeyFrame {
@@ -48,7 +46,6 @@ struct hsBezPoint3Key : public hsKeyFrame {
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
     virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
 };
 
 struct hsScalarKey : public hsKeyFrame {
@@ -58,7 +55,7 @@ struct hsScalarKey : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
-    virtual hsKeyFrame* toHsKey();
+    virtual struct UruKeyFrame* toUruKey();
 };
 
 struct hsBezScalarKey : public hsKeyFrame {
@@ -68,10 +65,11 @@ struct hsBezScalarKey : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
-    virtual hsKeyFrame* toHsKey();
+    virtual struct UruKeyFrame* toUruKey();
 };
 
-struct hsScaleValue : public hsKeyFrame {
+struct hsScaleKey : public hsKeyFrame {
+    // Folding hsScaleKey and hsScaleValue together:
     hsVector3 fS;
     hsQuat fQ;
 
@@ -79,28 +77,19 @@ struct hsScaleValue : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
-    virtual hsKeyFrame* toHsKey();
-};
-
-struct hsScaleKey : public hsKeyFrame {
-    hsScaleValue fValue;
-
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
-    virtual hsKeyFrame* toHsKey();
+    virtual struct UruKeyFrame* toUruKey();
 };
 
 struct hsBezScaleKey : public hsKeyFrame {
     hsVector3 fInTan, fOutTan;
-    hsScaleValue fValue;
+    hsVector3 fS;
+    hsQuat fQ;
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
-    virtual hsKeyFrame* toHsKey();
+    virtual struct UruKeyFrame* toUruKey();
 };
 
 struct hsQuatKey : public hsKeyFrame {
@@ -111,29 +100,36 @@ struct hsQuatKey : public hsKeyFrame {
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
     virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
 };
 
 struct hsCompressedQuatKey32 : public hsKeyFrame {
+    enum { kCompQuatNukeX, kCompQuatNukeY, kCompQuatNukeZ, kCompQuatNukeW };
+    static const float kOneOverRootTwo, k10BitScaleRange;
+
     unsigned int fData;
+
+    hsQuat getQuat();
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
     virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
 };
 
 struct hsCompressedQuatKey64 : public hsKeyFrame {
+    enum { kCompQuatNukeX, kCompQuatNukeY, kCompQuatNukeZ, kCompQuatNukeW };
+    static const float kOneOverRootTwo, k20BitScaleRange, k21BitScaleRange;
+
     unsigned int fData[2];
 
+    hsQuat getQuat();
+    
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
     virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
 };
 
 struct hsG3DSMaxKeyFrame : public hsKeyFrame {
@@ -144,7 +140,6 @@ struct hsG3DSMaxKeyFrame : public hsKeyFrame {
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
     virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
 };
 
 struct hsMatrix33Key : public hsKeyFrame {
@@ -155,7 +150,6 @@ struct hsMatrix33Key : public hsKeyFrame {
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
     virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
 };
 
 struct hsMatrix44Key : public hsKeyFrame {
@@ -166,7 +160,6 @@ struct hsMatrix44Key : public hsKeyFrame {
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
     virtual struct UruKeyFrame* toUruKey();
-    virtual hsKeyFrame* toHsKey();
 };
 
 #endif

@@ -181,7 +181,7 @@ hsMatrix44& hsMatrix44::setScale(const hsVector3& scale) {
 
 void hsMatrix44::read(hsStream* S) {
     bool hasData = true;
-	if (S->getVer() == pvLive || S->getVer() == pvHex)
+    if (S->getVer() == pvLive || S->getVer() == pvHex)
         hasData = S->readBool();
 
     if (hasData) {

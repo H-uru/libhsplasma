@@ -4,7 +4,7 @@ CXXFLAGSEXTERN = -fPIC -O2
 
 OBJDIR=out/
 
-PLSCOREOBJ=\
+PLSOBJ=\
 	$(OBJDIR)PlasmaVersions.o \
 	$(OBJDIR)hsExceptions.o \
 	$(OBJDIR)hsSemaphore.o \
@@ -26,9 +26,7 @@ PLSCOREOBJ=\
 	$(OBJDIR)plUnifiedTime.o \
 	$(OBJDIR)plUUID.o \
 	$(OBJDIR)pfPrcHelper.o \
-	$(OBJDIR)pfPrcParser.o
-
-PLSOBJ=\
+	$(OBJDIR)pfPrcParser.o \
 	$(OBJDIR)plAgeInfo.o \
 	$(OBJDIR)plKeyCollector.o \
 	$(OBJDIR)plPageInfo.o \
@@ -239,33 +237,26 @@ PLSOBJ=\
 OBJFILES3P=\
 	$(OBJDIR)rijndael.o
 
-PLSCORELIB=lib/libPlasmaCore.so
 PLSLIB=lib/libPlasma.so
 
-all: $(PLSCORELIB) $(PLSLIB)
+all: $(PLSLIB)
 
-$(PLSCORELIB): $(PLSCOREOBJ) $(OBJFILES3P)
-	$(CXX) $(CXXFLAGS) $(PLSCOREOBJ) $(OBJFILES3P) -shared -Wl,-soname,libPlasmaCore.so -o $(PLSCORELIB)
-
-$(PLSLIB): $(PLSOBJ)
-	$(CXX) $(CXXFLAGS) $(PLSOBJ) -shared -Wl,-soname,libPlasma.so -o $(PLSLIB)
+$(PLSLIB): $(PLSOBJ) $(OBJFILES3P)
+	$(CXX) $(CXXFLAGS) $(PLSOBJ) $(OBJFILES3P) -shared -Wl,-soname,libPlasma.so -o $(PLSLIB)
 
 install:
-	cp $(PLSCORELIB) /usr/local/lib
 	cp $(PLSLIB) /usr/local/lib
 	ldconfig
 
 clean:
-	rm -f $(PLSCOREOBJ)
 	rm -f $(PLSOBJ)
 	rm -f $(OBJFILES3P)
 
 distclean:
-	rm -f $(PLSCORELIB)
 	rm -f $(PLSLIB)
 
 
-# Core Lib
+# Pls Lib
 $(OBJDIR)PlasmaVersions.o: DynLib/PlasmaVersions.h DynLib/PlasmaVersions.cpp
 	$(CXX) $(CXXFLAGS) -c DynLib/PlasmaVersions.cpp -o $(OBJDIR)PlasmaVersions.o
 
@@ -335,8 +326,6 @@ $(OBJDIR)pfPrcParser.o: FeatureLib/pfPRC/pfPrcParser.h FeatureLib/pfPRC/pfPrcPar
 $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 	$(CXX) $(CXXFLAGSEXTERN) -c 3rdPartyLibs/rijndael.cpp -o $(OBJDIR)rijndael.o
 
-
-# Pls Lib
 $(OBJDIR)plLoadMask.o: CoreLib/plLoadMask.h CoreLib/plLoadMask.cpp
 	$(CXX) $(CXXFLAGS) -c CoreLib/plLoadMask.cpp -o $(OBJDIR)plLoadMask.o
 

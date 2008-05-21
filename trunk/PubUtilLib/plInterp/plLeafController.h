@@ -26,6 +26,9 @@ protected:
     void DeallocKeys();
     void AllocControllers(unsigned int numControllers);
     void DeallocControllers();
+
+    bool haveKeys() const;
+    bool haveControllers() const;
 };
 
 

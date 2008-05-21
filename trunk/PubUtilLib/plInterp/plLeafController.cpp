@@ -1,5 +1,6 @@
 #include "plLeafController.h"
 #include "plKeyControllers.h"
+#include "CoreLib/plDebug.h"
 
 /* plLeafController */
 plLeafController::plLeafController() : fType(0), fUruUnknown(0) { }
@@ -14,6 +15,8 @@ IMPLEMENT_CREATABLE(plLeafController, kLeafController, plController)
 void plLeafController::read(hsStream* S, plResManager* mgr) {
     if (S->getVer() <= pvPots) {
         fUruUnknown = S->readInt();
+        if (fUruUnknown != 0)
+            plDebug::Debug("Found an UruUnknown of %d", fUruUnknown);
         unsigned int numControllers = S->readInt();
         AllocControllers(numControllers);
 
@@ -65,14 +68,14 @@ void plLeafController::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("UruUnknown", fUruUnknown);
     prc->endTag(true);
 
-    if (fKeys.getSize() > 0) {
+    if (haveKeys()) {
         prc->writeSimpleTag("Keys");
         for (size_t i=0; i<fKeys.getSize(); i++)
             fKeys[i]->prcWrite(prc);
         prc->closeTag();
     }
 
-    if (fControllers.getSize() > 0) {
+    if (haveControllers()) {
         prc->writeSimpleTag("Controllers");
         for (size_t i=0; i<fControllers.getSize(); i++)
             fControllers[i]->prcWrite(prc);
@@ -110,6 +113,7 @@ void plLeafController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plLeafController::AllocKeys(unsigned int numKeys, unsigned char type) {
     DeallocKeys();
+    DeallocControllers();
     fType = type;
     fKeys.setSizeNull(numKeys);
 
@@ -175,6 +179,7 @@ void plLeafController::DeallocKeys() {
 
 void plLeafController::AllocControllers(unsigned int numControllers) {
     DeallocControllers();
+    DeallocKeys();
     fControllers.setSizeNull(numControllers);
     for (size_t i=0; i<fControllers.getSize(); i++)
         fControllers[i] = new plEaseController();
@@ -184,4 +189,12 @@ void plLeafController::DeallocControllers() {
     for (size_t i=0; i<fControllers.getSize(); i++)
         delete fControllers[i];
     fControllers.clear();
+}
+
+bool plLeafController::haveKeys() const {
+    return fKeys.getSize() != 0;
+}
+
+bool plLeafController::haveControllers() const {
+    return fControllers.getSize() != 0;
 }

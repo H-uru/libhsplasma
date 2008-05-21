@@ -26,13 +26,8 @@ void plEaseController::write(hsStream* S, plResManager* mgr) {
     } else {
         S->writeInt(1);
         S->writeInt(fEaseKeys.getSize());
-        for (size_t i=0; i<fEaseKeys.getSize(); i++) {
-            if (S->getVer() < pvLive)
-                fEaseKeys[i].toUruKey()->write(S);
-            else
-                fEaseKeys[i].toHsKey()->write(S);
-            //fEaseKeys[i].write(S);
-        }
+        for (size_t i=0; i<fEaseKeys.getSize(); i++)
+            fEaseKeys[i].write(S);
     }
 }
 
@@ -79,13 +74,8 @@ void plMatrix33Controller::write(hsStream* S, plResManager* mgr) {
     plLeafController::write(S, mgr);
 
     S->writeInt(fMatrixKeys.getSize());
-    for (size_t i=0; i<fMatrixKeys.getSize(); i++) {
-        if (S->getVer() < pvLive)
-            fMatrixKeys[i].toUruKey()->write(S);
-        else
-            fMatrixKeys[i].toHsKey()->write(S);
-        //fMatrixKeys[i].write(S);
-    }
+    for (size_t i=0; i<fMatrixKeys.getSize(); i++)
+        fMatrixKeys[i].write(S);
 }
 
 void plMatrix33Controller::IPrcWrite(pfPrcHelper* prc) {
@@ -129,13 +119,8 @@ void plMatrix44Controller::write(hsStream* S, plResManager* mgr) {
     plLeafController::write(S, mgr);
 
     S->writeInt(fMatrixKeys.getSize());
-    for (size_t i=0; i<fMatrixKeys.getSize(); i++) {
-        if (S->getVer() < pvLive)
-            fMatrixKeys[i].toUruKey()->write(S);
-        else
-            fMatrixKeys[i].toHsKey()->write(S);
-        //fMatrixKeys[i].write(S);
-    }
+    for (size_t i=0; i<fMatrixKeys.getSize(); i++)
+        fMatrixKeys[i].write(S);
 }
 
 void plMatrix44Controller::IPrcWrite(pfPrcHelper* prc) {
@@ -187,13 +172,8 @@ void plPoint3Controller::write(hsStream* S, plResManager* mgr) {
     } else {
         S->writeInt(1);
         S->writeInt(fPointKeys.getSize());
-        for (size_t i=0; i<fPointKeys.getSize(); i++) {
-            if (S->getVer() < pvLive)
-                fPointKeys[i].toUruKey()->write(S);
-            else
-                fPointKeys[i].toHsKey()->write(S);
-            //fPointKeys[i].write(S);
-        }
+        for (size_t i=0; i<fPointKeys.getSize(); i++)
+            fPointKeys[i].write(S);
     }
 }
 
@@ -238,13 +218,8 @@ void plQuatController::write(hsStream* S, plResManager* mgr) {
     plLeafController::write(S, mgr);
 
     S->writeInt(fQuatKeys.getSize());
-    for (size_t i=0; i<fQuatKeys.getSize(); i++) {
-        if (S->getVer() < pvLive)
-            fQuatKeys[i].toUruKey()->write(S);
-        else
-            fQuatKeys[i].toHsKey()->write(S);
-        //fQuatKeys[i].write(S);
-    }
+    for (size_t i=0; i<fQuatKeys.getSize(); i++)
+        fQuatKeys[i].write(S);
 }
 
 void plQuatController::IPrcWrite(pfPrcHelper* prc) {
@@ -296,13 +271,8 @@ void plScalarController::write(hsStream* S, plResManager* mgr) {
     } else {
         S->writeInt(1);
         S->writeInt(fScalarKeys.getSize());
-        for (size_t i=0; i<fScalarKeys.getSize(); i++) {
-            if (S->getVer() < pvLive)
-                fScalarKeys[i].toUruKey()->write(S);
-            else
-                fScalarKeys[i].toHsKey()->write(S);
-            //fScalarKeys[i].write(S);
-        }
+        for (size_t i=0; i<fScalarKeys.getSize(); i++)
+            fScalarKeys[i].write(S);
     }
 }
 
@@ -347,13 +317,8 @@ void plScaleValueController::write(hsStream* S, plResManager* mgr) {
     plLeafController::write(S, mgr);
 
     S->writeInt(fScaleKeys.getSize());
-    for (size_t i=0; i<fScaleKeys.getSize(); i++) {
-        if (S->getVer() < pvLive)
-            fScaleKeys[i].toUruKey()->write(S);
-        else
-            fScaleKeys[i].toHsKey()->write(S);
-        //fScaleKeys[i].write(S);
-    }
+    for (size_t i=0; i<fScaleKeys.getSize(); i++)
+        fScaleKeys[i].write(S);
 }
 
 void plScaleValueController::IPrcWrite(pfPrcHelper* prc) {

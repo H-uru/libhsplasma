@@ -1,5 +1,6 @@
 #include "hsKeys.h"
 #include "UruKeys.h"
+#include <cmath>
 
 /* hsKeyFrame */
 const char* hsKeyFrame::TypeNames[] = {
@@ -14,10 +15,13 @@ hsKeyFrame::hsKeyFrame() { }
 hsKeyFrame::~hsKeyFrame() { }
 
 void hsKeyFrame::read(hsStream* S) {
-    if (S->getVer() >= pvEoa)
+    if (S->getVer() >= pvEoa) {
         fFrameTime = S->readFloat();
-    else
+        fFrame = (unsigned short)floor((fFrameTime * 30.0f) + 0.5f);
+    } else {
         fFrame = S->readShort();
+        fFrameTime = fFrame / 30.0;
+    }
 }
 
 void hsKeyFrame::write(hsStream* S) {
@@ -26,14 +30,6 @@ void hsKeyFrame::write(hsStream* S) {
         S->writeFloat(fFrameTime);
     else
         S->writeShort(fFrame);
-}
-
-struct UruKeyFrame* hsKeyFrame::toUruKey() {
-    return NULL;
-}
-
-hsKeyFrame* hsKeyFrame::toHsKey() {
-    return this;
 }
 
 
@@ -57,15 +53,6 @@ void hsPoint3Key::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-struct UruKeyFrame* hsPoint3Key::toUruKey() {
-    Point3KeyFrame* frm = new Point3KeyFrame();
-    frm->fFrameNum = fFrame;
-    frm->fFrameTime = fFrameTime;
-    frm->fValue = fValue;
-
-    return frm;
-}
-
 void hsPoint3Key::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsPoint3Key")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
@@ -75,9 +62,15 @@ void hsPoint3Key::prcParse(const pfPrcTag* tag) {
         fValue.prcParse(tag->getFirstChild());
 }
 
-hsKeyFrame* hsPoint3Key::toHsKey() {
-    return this;
+UruKeyFrame* hsPoint3Key::toUruKey() {
+    Point3KeyFrame* frm = new Point3KeyFrame();
+    frm->fFrameNum = fFrame;
+    frm->fFrameTime = fFrameTime;
+    frm->fValue = fValue;
+
+    return frm;
 }
+
 
 /* hsBezPoint3Key */
 void hsBezPoint3Key::read(hsStream* S) {
@@ -111,18 +104,6 @@ void hsBezPoint3Key::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-struct UruKeyFrame* hsBezPoint3Key::toUruKey() {
-    Point3KeyFrame* frm = new Point3KeyFrame();
-    frm->fFlags = 0x2;
-    frm->fFrameNum = fFrame;
-    frm->fFrameTime = fFrameTime;
-    frm->fValue = fValue;
-    frm->fInTan = fInTan;
-    frm->fOutTan = fOutTan;
-
-    return frm;
-}
-
 void hsBezPoint3Key::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsBezPoint3Key")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
@@ -147,8 +128,16 @@ void hsBezPoint3Key::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsKeyFrame* hsBezPoint3Key::toHsKey() {
-    return this;
+UruKeyFrame* hsBezPoint3Key::toUruKey() {
+    Point3KeyFrame* frm = new Point3KeyFrame();
+    frm->fFlags = UruKeyFrame::kBezController;
+    frm->fFrameNum = fFrame;
+    frm->fFrameTime = fFrameTime;
+    frm->fValue = fValue;
+    frm->fInTan = fInTan;
+    frm->fOutTan = fOutTan;
+
+    return frm;
 }
 
 
@@ -179,10 +168,9 @@ void hsScalarKey::prcParse(const pfPrcTag* tag) {
     fValue = tag->getParam("Value", "0").toFloat();
 }
 
-hsKeyFrame* hsScalarKey::toHsKey() {
-    return this;
+UruKeyFrame* hsScalarKey::toUruKey() {
+    throw hsNotImplementedException(__FILE__, __LINE__);
 }
-
 
 
 /* hsBezScalarKey */
@@ -220,33 +208,39 @@ void hsBezScalarKey::prcParse(const pfPrcTag* tag) {
     fOutTan = tag->getParam("OutTan", "0").toFloat();
 }
 
-hsKeyFrame* hsBezScalarKey::toHsKey() {
-    return this;
+UruKeyFrame* hsBezScalarKey::toUruKey() {
+    throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
 
-
-/* hsScaleValue */
-void hsScaleValue::read(hsStream* S) {
+/* hsScaleKey */
+void hsScaleKey::read(hsStream* S) {
+    hsKeyFrame::read(S);
     fS.read(S);
     fQ.read(S);
 }
 
-void hsScaleValue::write(hsStream* S) {
+void hsScaleKey::write(hsStream* S) {
+    hsKeyFrame::write(S);
     fS.write(S);
     fQ.write(S);
 }
 
-void hsScaleValue::prcWrite(pfPrcHelper* prc) {
-    prc->writeSimpleTag("hsScaleValue");
-    fS.prcWrite(prc);
-    fQ.prcWrite(prc);
+void hsScaleKey::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("hsScaleKey");
+    prc->writeParam("Frame", fFrame);
+    prc->writeParam("FrameTime", fFrameTime);
+    prc->endTag();
+      fS.prcWrite(prc);
+      fQ.prcWrite(prc);
     prc->closeTag();
 }
 
-void hsScaleValue::prcParse(const pfPrcTag* tag) {
-    if (tag->getName() != "hsScaleValue")
+void hsScaleKey::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "hsScaleKey")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    fFrame = tag->getParam("Frame", "0").toUint();
+    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -263,45 +257,15 @@ void hsScaleValue::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsKeyFrame* hsScaleValue::toHsKey() {
-    return this;
+UruKeyFrame* hsScaleKey::toUruKey() {
+    ScaleKeyFrame* frm = new ScaleKeyFrame();
+    frm->fFrameNum = fFrame;
+    frm->fFrameTime = fFrameTime;
+    frm->fS = fS;
+    frm->fQ = fQ;
+
+    return frm;
 }
-
-
-/* hsScaleKey */
-void hsScaleKey::read(hsStream* S) {
-    hsKeyFrame::read(S);
-    fValue.read(S);
-}
-
-void hsScaleKey::write(hsStream* S) {
-    hsKeyFrame::write(S);
-    fValue.write(S);
-}
-
-void hsScaleKey::prcWrite(pfPrcHelper* prc) {
-    prc->startTag("hsScaleKey");
-    prc->writeParam("Frame", fFrame);
-    prc->writeParam("FrameTime", fFrameTime);
-    prc->endTag();
-      fValue.prcWrite(prc);
-    prc->closeTag();
-}
-
-void hsScaleKey::prcParse(const pfPrcTag* tag) {
-    if (tag->getName() != "hsScaleKey")
-        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    fFrame = tag->getParam("Frame", "0").toUint();
-    fFrameTime = tag->getParam("FrameTime", "0").toFloat();
-
-    if (tag->hasChildren())
-        fValue.prcParse(tag->getFirstChild());
-}
-
-hsKeyFrame* hsScaleKey::toHsKey() {
-    return this;
-}
-
 
 
 /* hsBezScaleKey */
@@ -309,14 +273,16 @@ void hsBezScaleKey::read(hsStream* S) {
     hsKeyFrame::read(S);
     fInTan.read(S);
     fOutTan.read(S);
-    fValue.read(S);
+    fS.read(S);
+    fQ.read(S);
 }
 
 void hsBezScaleKey::write(hsStream* S) {
     hsKeyFrame::write(S);
     fInTan.write(S);
     fOutTan.write(S);
-    fValue.write(S);
+    fS.write(S);
+    fQ.write(S);
 }
 
 void hsBezScaleKey::prcWrite(pfPrcHelper* prc) {
@@ -325,7 +291,8 @@ void hsBezScaleKey::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("FrameTime", fFrameTime);
     prc->endTag();
       prc->writeSimpleTag("Value");
-        fValue.prcWrite(prc);
+        fS.prcWrite(prc);
+        fQ.prcWrite(prc);
       prc->closeTag();
       prc->writeSimpleTag("InTan");
         fInTan.prcWrite(prc);
@@ -344,8 +311,19 @@ void hsBezScaleKey::prcParse(const pfPrcTag* tag) {
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Value") {
-            if (child->hasChildren())
-                fValue.prcParse(child->getFirstChild());
+            const pfPrcTag* subchild = child->getFirstChild();
+            while (subchild != NULL) {
+                if (subchild->getName() == "hsVector3") {
+                    if (subchild->hasChildren())
+                        fS.prcParse(subchild->getFirstChild());
+                } else if (subchild->getName() == "hsQuat") {
+                    if (subchild->hasChildren())
+                        fQ.prcParse(subchild->getFirstChild());
+                } else {
+                    throw pfPrcTagException(__FILE__, __LINE__, subchild->getName());
+                }
+                subchild = subchild->getNextSibling();
+            }
         } else if (child->getName() == "InTan") {
             if (child->hasChildren())
                 fInTan.prcParse(child->getFirstChild());
@@ -359,9 +337,19 @@ void hsBezScaleKey::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsKeyFrame* hsBezScaleKey::toHsKey() {
-    return this;
+UruKeyFrame* hsBezScaleKey::toUruKey() {
+    ScaleKeyFrame* frm = new ScaleKeyFrame();
+    frm->fFlags = UruKeyFrame::kBezController;
+    frm->fFrameNum = fFrame;
+    frm->fFrameTime = fFrameTime;
+    frm->fInTan = fInTan;
+    frm->fOutTan = fOutTan;
+    frm->fS = fS;
+    frm->fQ = fQ;
+
+    return frm;
 }
+
 
 /* hsQuatKey */
 void hsQuatKey::read(hsStream* S) {
@@ -392,11 +380,7 @@ void hsQuatKey::prcParse(const pfPrcTag* tag) {
         fValue.prcParse(tag->getFirstChild());
 }
 
-hsKeyFrame* hsQuatKey::toHsKey() {
-    return this;
-}
-
-struct UruKeyFrame* hsQuatKey::toUruKey() {
+UruKeyFrame* hsQuatKey::toUruKey() {
     QuatKeyFrame* frm = new QuatKeyFrame();
     frm->fFrameNum = fFrame;
     frm->fFrameTime = fFrameTime;
@@ -407,6 +391,40 @@ struct UruKeyFrame* hsQuatKey::toUruKey() {
 
 
 /* hsCompressedQuatKey32 */
+const float hsCompressedQuatKey32::kOneOverRootTwo = 1 / sqrt(2.0f);
+const float hsCompressedQuatKey32::k10BitScaleRange = kOneOverRootTwo * 0x3FF;
+
+hsQuat hsCompressedQuatKey32::getQuat() {
+    hsQuat quat;
+    switch (fData >> 30) {
+    case kCompQuatNukeX:
+        quat.Y = ((unsigned)((fData >> 20) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.Z = ((unsigned)((fData >> 10) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.W = ((unsigned)((fData >>  0) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.X = sqrt(1.0f - (quat.Y * quat.Y) - (quat.Z * quat.Z) - (quat.W * quat.W));
+        break;
+    case kCompQuatNukeY:
+        quat.X = ((unsigned)((fData >> 20) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.Z = ((unsigned)((fData >> 10) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.W = ((unsigned)((fData >>  0) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.Y = sqrt(1.0f - (quat.X * quat.X) - (quat.Z * quat.Z) - (quat.W * quat.W));
+        break;
+    case kCompQuatNukeZ:
+        quat.X = ((unsigned)((fData >> 20) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.Y = ((unsigned)((fData >> 10) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.W = ((unsigned)((fData >>  0) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.Z = sqrt(1.0f - (quat.X * quat.X) - (quat.Y * quat.Y) - (quat.W * quat.W));
+        break;
+    default:
+        quat.X = ((unsigned)((fData >> 20) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.Y = ((unsigned)((fData >> 10) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.Z = ((unsigned)((fData >>  0) & 0x3FF) / k10BitScaleRange) - kOneOverRootTwo;
+        quat.W = sqrt(1.0f - (quat.X * quat.X) - (quat.Y * quat.Y) - (quat.Z * quat.Z));
+        break;
+    }
+    return quat;
+}
+
 void hsCompressedQuatKey32::read(hsStream* S) {
     hsKeyFrame::read(S);
     fData = S->readInt();
@@ -433,16 +451,52 @@ void hsCompressedQuatKey32::prcParse(const pfPrcTag* tag) {
     fData = tag->getParam("Data", "0").toUint();
 }
 
-struct UruKeyFrame* hsCompressedQuatKey32::toUruKey() {
-    return NULL;
-}
+UruKeyFrame* hsCompressedQuatKey32::toUruKey() {
+    QuatKeyFrame* frm = new QuatKeyFrame();
+    frm->fFrameNum = fFrame;
+    frm->fFrameTime = fFrameTime;
+    frm->fValue = getQuat();
 
-hsKeyFrame* hsCompressedQuatKey32::toHsKey() {
-    return this;
+    return frm;
 }
 
 
 /* hsCompressedQuatKey64 */
+const float hsCompressedQuatKey64::kOneOverRootTwo = 1 / sqrt(2.0f);
+const float hsCompressedQuatKey64::k20BitScaleRange = kOneOverRootTwo * 0xFFFFF;
+const float hsCompressedQuatKey64::k21BitScaleRange = kOneOverRootTwo * 0x1FFFFF;
+
+hsQuat hsCompressedQuatKey64::getQuat() {
+    hsQuat quat;
+    switch (fData[0] >> 30) {
+    case kCompQuatNukeX:
+        quat.Y = ((unsigned)((fData[0] >> 10) & 0xFFFFF) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Z = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.W = ((unsigned)(fData[1] & 0x1FFFFF) / k21BitScaleRange) - kOneOverRootTwo;
+        quat.X = sqrt(1.0f - (quat.Y * quat.Y) - (quat.Z * quat.Z) - (quat.W * quat.W));
+        break;
+    case kCompQuatNukeY:
+        quat.X = ((unsigned)((fData[0] >> 10) & 0xFFFFF) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Z = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.W = ((unsigned)(fData[1] & 0x1FFFFF) / k21BitScaleRange) - kOneOverRootTwo;
+        quat.Y = sqrt(1.0f - (quat.X * quat.X) - (quat.Z * quat.Z) - (quat.W * quat.W));
+        break;
+    case kCompQuatNukeZ:
+        quat.X = ((unsigned)((fData[0] >> 10) & 0xFFFFF) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Y = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.W = ((unsigned)(fData[1] & 0x1FFFFF) / k21BitScaleRange) - kOneOverRootTwo;
+        quat.Z = sqrt(1.0f - (quat.X * quat.X) - (quat.Y * quat.Y) - (quat.W * quat.W));
+        break;
+    default:
+        quat.X = ((unsigned)((fData[0] >> 10) & 0xFFFFF) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Y = ((unsigned)(((fData[0] & 0x3FF) << 11) | (fData[1] >> 21)) / k20BitScaleRange) - kOneOverRootTwo;
+        quat.Z = ((unsigned)(fData[1] & 0x1FFFFF) / k21BitScaleRange) - kOneOverRootTwo;
+        quat.W = sqrt(1.0f - (quat.X * quat.X) - (quat.Y * quat.Y) - (quat.Z * quat.Z));
+        break;
+    }
+    return quat;
+}
+
 void hsCompressedQuatKey64::read(hsStream* S) {
     hsKeyFrame::read(S);
     fData[0] = S->readInt();
@@ -473,13 +527,15 @@ void hsCompressedQuatKey64::prcParse(const pfPrcTag* tag) {
     fData[1] = tag->getParam("DataLo", "0").toUint();
 }
 
-hsKeyFrame* hsCompressedQuatKey64::toHsKey() {
-    return this;
+UruKeyFrame* hsCompressedQuatKey64::toUruKey() {
+    QuatKeyFrame* frm = new QuatKeyFrame();
+    frm->fFrameNum = fFrame;
+    frm->fFrameTime = fFrameTime;
+    frm->fValue = getQuat();
+
+    return frm;
 }
 
-struct UruKeyFrame* hsCompressedQuatKey64::toUruKey() {
-    return NULL;
-}
 
 /* hsG3DSMaxKeyFrame */
 void hsG3DSMaxKeyFrame::read(hsStream* S) {
@@ -510,12 +566,8 @@ void hsG3DSMaxKeyFrame::prcParse(const pfPrcTag* tag) {
         fParts.prcParse(tag->getFirstChild());
 }
 
-hsKeyFrame* hsG3DSMaxKeyFrame::toHsKey() {
-    return this;
-}
-
-struct UruKeyFrame* hsG3DSMaxKeyFrame::toUruKey() {
-    return NULL;
+UruKeyFrame* hsG3DSMaxKeyFrame::toUruKey() {
+    throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
 
@@ -539,15 +591,6 @@ void hsMatrix33Key::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-struct UruKeyFrame* hsMatrix33Key::toUruKey() {
-    Matrix33KeyFrame* frm = new Matrix33KeyFrame();
-    frm->fFrameNum = fFrame;
-    frm->fFrameTime = fFrameTime;
-    frm->fValue = fValue;
-
-    return frm;
-}
-
 void hsMatrix33Key::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsMatrix33Key")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
@@ -557,8 +600,13 @@ void hsMatrix33Key::prcParse(const pfPrcTag* tag) {
         fValue.prcParse(tag->getFirstChild());
 }
 
-hsKeyFrame* hsMatrix33Key::toHsKey() {
-    return this;
+UruKeyFrame* hsMatrix33Key::toUruKey() {
+    Matrix33KeyFrame* frm = new Matrix33KeyFrame();
+    frm->fFrameNum = fFrame;
+    frm->fFrameTime = fFrameTime;
+    frm->fValue = fValue;
+
+    return frm;
 }
 
 
@@ -582,21 +630,6 @@ void hsMatrix44Key::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-
-struct UruKeyFrame* hsMatrix44Key::toUruKey() {
-    Matrix44KeyFrame* frm = new Matrix44KeyFrame();
-    frm->fFrameNum = fFrame;
-    frm->fFrameTime = fFrameTime;
-    frm->fValue = fValue;
-
-    return frm;
-}
-
-hsKeyFrame* hsMatrix44Key::toHsKey() {
-    return this;
-}
-
-
 void hsMatrix44Key::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsMatrix44Key")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
@@ -605,4 +638,13 @@ void hsMatrix44Key::prcParse(const pfPrcTag* tag) {
 
     if (tag->hasChildren())
         fValue.prcParse(tag->getFirstChild());
+}
+
+UruKeyFrame* hsMatrix44Key::toUruKey() {
+    Matrix44KeyFrame* frm = new Matrix44KeyFrame();
+    frm->fFrameNum = fFrame;
+    frm->fFrameTime = fFrameTime;
+    frm->fValue = fValue;
+
+    return frm;
 }

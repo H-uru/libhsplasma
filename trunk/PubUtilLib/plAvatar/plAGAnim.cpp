@@ -162,27 +162,21 @@ void plATCAnim::read(hsStream* S, plResManager* mgr) {
     fEaseOutMin = S->readFloat();
     fEaseOutMax = S->readFloat();
     fEaseOutLength = S->readFloat();
-
-    int count = S->readInt();
     
-    fMarkers.setSize(count);
+    fMarkers.setSize(S->readInt());
     for (size_t i=0; i<fMarkers.getSize(); i++) {
         fMarkers[i].fKey = S->readSafeStr();
         fMarkers[i].fValue = S->readFloat();
     }
-    
-    count = S->readInt();
 
-    fLoops.setSize(count);
+    fLoops.setSize(S->readInt());
     for (size_t i=0; i<fLoops.getSize(); i++) {
         fLoops[i].fKey = S->readSafeStr();
         fLoops[i].fStart = S->readFloat();
         fLoops[i].fEnd = S->readFloat();
     }
-    
-    count = S->readInt();
 
-    fStopPoints.setSizeNull(count);
+    fStopPoints.setSizeNull(S->readInt());
     for (size_t i=0; i<fStopPoints.getSize(); i++)
         fStopPoints[i] = S->readFloat();
 }

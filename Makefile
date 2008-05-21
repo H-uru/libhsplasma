@@ -12,25 +12,25 @@ all:
 	(make Misc/TypeMap)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert
 
 Tools/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -Itrunk -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt
 
 Tools/PrpPack: Tools/src/PrpPack.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PrpPack.cpp -o Tools/PrpPack
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrpPack.cpp -o Tools/PrpPack
 
 Tools/PrcExtract: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract
 
 Tools/PageList: Tools/src/PageList.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Tools/src/PageList.cpp -o Tools/PageList
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageList.cpp -o Tools/PageList
 
 Tools/PageExplorer: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer
+	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Ltrunk/lib/ -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer
 
 Misc/TypeMap: Misc/TypeMap.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasmaCore -lPlasma -Itrunk Misc/TypeMap.cpp -o Misc/TypeMap
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Misc/TypeMap.cpp -o Misc/TypeMap
 
 install:
 	(cd trunk ; make install)
