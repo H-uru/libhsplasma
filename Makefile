@@ -43,6 +43,16 @@ install:
 	chmod +x Tools/eoaedit Tools/uruedit
 	cp Tools/eoaedit Tools/uruedit /usr/local/bin/
 
+uninstall:
+	rm -f /usr/local/bin/PageConvert
+	rm -f /usr/local/bin/PlasmaCrypt
+	rm -f /usr/local/bin/PrpPack
+	rm -f /usr/local/bin/PrcExtract
+	rm -f /usr/local/bin/PageList
+	rm -f /usr/local/bin/PageExplorer
+	rm -f /usr/local/bin/eoaedit
+	rm -f /usr/local/bin/uruedit
+
 clean:
 	(cd trunk ; make clean)
 

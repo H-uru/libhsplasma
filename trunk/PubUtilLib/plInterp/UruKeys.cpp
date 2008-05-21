@@ -1,4 +1,5 @@
 #include "UruKeys.h"
+#include "hsKeys.h"     // Shortcut, should include everything necessary
 
 /* UruKeyFrame */
 UruKeyFrame::UruKeyFrame() : fFlags(0), fFrameNum(-1), fFrameTime(0.0f) { }
@@ -29,7 +30,6 @@ void UruKeyFrame::prcWrite(pfPrcHelper* prc) {
 void UruKeyFrame::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != ClassName())
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-
     fFlags = tag->getParam("Flags", "0").toUint();
     fFrameNum = tag->getParam("Frame", "0").toUint();
     fFrameTime = tag->getParam("Time", "0").toFloat();
@@ -39,6 +39,14 @@ void UruKeyFrame::prcParse(const pfPrcTag* tag) {
         IPrcParse(child);
         child = child->getNextSibling();
     }
+}
+
+UruKeyFrame* UruKeyFrame::toUruKey() {
+    return this;
+}
+
+hsKeyFrame* UruKeyFrame::toHsKey() {
+    return NULL;
 }
 
 
@@ -88,6 +96,29 @@ void ScalarKeyFrame::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
+UruKeyFrame* ScalarKeyFrame::toUruKey() {
+    return this;
+}
+
+hsKeyFrame* ScalarKeyFrame::toHsKey() {
+    if (fFlags & kBezController) {
+        hsBezScalarKey* frm = new hsBezScalarKey();
+        frm->fInTan = fInTan;
+        frm->fOutTan = fOutTan;
+        frm->fFrameTime = fFrameTime;
+        frm->fFrame = fFrameNum;
+        frm->fValue = fValue;
+        return frm;
+    } else {
+        hsScalarKey* frm = new hsScalarKey();
+        frm->fFrameTime = fFrameTime;
+        frm->fFrame = fFrameNum;
+        frm->fValue = fValue;
+        return frm;
+    }
+
+    return NULL;
+}
 
 /* Point3KeyFrame */
 Point3KeyFrame::Point3KeyFrame() { }
@@ -145,6 +176,10 @@ void Point3KeyFrame::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
+UruKeyFrame* Point3KeyFrame::toUruKey() {
+    return this;
+}
+
 
 /* QuatKeyFrame */
 QuatKeyFrame::QuatKeyFrame() { }
@@ -168,6 +203,10 @@ void QuatKeyFrame::IPrcWrite(pfPrcHelper* prc) {
 
 void QuatKeyFrame::IPrcParse(const pfPrcTag* tag) {
     fValue.prcParse(tag);
+}
+
+UruKeyFrame* QuatKeyFrame::toUruKey() {
+    return this;
 }
 
 
@@ -195,6 +234,10 @@ void Matrix33KeyFrame::IPrcParse(const pfPrcTag* tag) {
     fValue.prcParse(tag);
 }
 
+UruKeyFrame* Matrix33KeyFrame::toUruKey() {
+    return this;
+}
+
 
 /* Matrix44KeyFrame */
 Matrix44KeyFrame::Matrix44KeyFrame() { }
@@ -218,6 +261,10 @@ void Matrix44KeyFrame::IPrcWrite(pfPrcHelper* prc) {
 
 void Matrix44KeyFrame::IPrcParse(const pfPrcTag* tag) {
     fValue.prcParse(tag);
+}
+
+UruKeyFrame* Matrix44KeyFrame::toUruKey() {
+    return this;
 }
 
 
@@ -287,4 +334,8 @@ void ScaleKeyFrame::IPrcParse(const pfPrcTag* tag) {
     } else {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     }
+}
+
+UruKeyFrame* ScaleKeyFrame::toUruKey() {
+    return this;
 }

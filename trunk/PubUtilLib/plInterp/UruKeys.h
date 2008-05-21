@@ -1,7 +1,11 @@
 #ifndef _URUKEYS_H
 #define _URUKEYS_H
 
-#include "hsKeys.h"     // Shortcut, should include everything necessary
+#include "CoreLib/hsStream.h"
+#include "CoreLib/hsMatrix33.h"
+#include "CoreLib/hsMatrix44.h"
+#include "PubUtilLib/plTransform/hsAffineParts.h"
+
 
 DllStruct UruKeyFrame {
 public:
@@ -23,6 +27,9 @@ public:
     void prcParse(const pfPrcTag* tag);
     virtual void IPrcWrite(pfPrcHelper* prc)=0;
     virtual void IPrcParse(const pfPrcTag* tag)=0;
+    virtual UruKeyFrame* toUruKey();
+    virtual struct hsKeyFrame* toHsKey();
+
 };
 
 DllStruct ScalarKeyFrame : public UruKeyFrame {
@@ -36,6 +43,9 @@ DllStruct ScalarKeyFrame : public UruKeyFrame {
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+    virtual UruKeyFrame* toUruKey();
+    virtual struct hsKeyFrame* toHsKey();
+
 };
 
 DllStruct Point3KeyFrame : public UruKeyFrame {
@@ -49,6 +59,7 @@ DllStruct Point3KeyFrame : public UruKeyFrame {
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+    virtual UruKeyFrame* toUruKey();
 };
 
 DllStruct QuatKeyFrame : public UruKeyFrame {
@@ -62,6 +73,7 @@ DllStruct QuatKeyFrame : public UruKeyFrame {
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+    virtual UruKeyFrame* toUruKey();
 };
 
 DllStruct Matrix33KeyFrame : public UruKeyFrame {
@@ -75,6 +87,7 @@ DllStruct Matrix33KeyFrame : public UruKeyFrame {
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+    virtual UruKeyFrame* toUruKey();
 };
 
 DllStruct Matrix44KeyFrame : public UruKeyFrame {
@@ -88,6 +101,7 @@ DllStruct Matrix44KeyFrame : public UruKeyFrame {
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+    virtual UruKeyFrame* toUruKey();
 };
 
 DllStruct ScaleKeyFrame : public UruKeyFrame {
@@ -105,6 +119,7 @@ DllStruct ScaleKeyFrame : public UruKeyFrame {
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+    virtual UruKeyFrame* toUruKey();
 };
 
 #endif

@@ -25,6 +25,7 @@
 #include "CoreLib/plString.h"
 #include "CoreLib/hsExceptions.h"
 #include "CoreLib/hsRAMStream.h"
+#include "CoreLib/hsStream.h"
 #include "CoreLib/plDebug.h"
 #include "PlasmaDefs.h"
 #include <string.h>
