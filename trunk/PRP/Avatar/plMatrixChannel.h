@@ -2,7 +2,7 @@
 #define _PLMATRIXCHANNEL_H
 
 #include "plAGApplicator.h"
-#include "PubUtilLib/plInterp/plController.h"
+#include "PRP/Animation/plController.h"
 
 /* Matrix Channels */
 DllClass plMatrixChannel : public plAGChannel {

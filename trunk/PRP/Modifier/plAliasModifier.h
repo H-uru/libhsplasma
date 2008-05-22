@@ -1,7 +1,7 @@
 #ifndef _PLALIASMODIFIER_H
 #define _PLALIASMODIFIER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "plModifier.h"
 
 DllClass plAliasModifier : public plSingleModifier {
 protected:

@@ -1,8 +1,8 @@
 #ifndef _PLREGIONBASE_H
 #define _PLREGIONBASE_H
 
-#include "NucleusLib/pnSceneObject/plObjInterface.h"
-#include "CoreLib/hsGeometry3.h"
+#include "PRP/Object/plObjInterface.h"
+#include "Math/hsGeometry3.h"
 
 DllClass plRegionBase : public plObjInterface {
 public:

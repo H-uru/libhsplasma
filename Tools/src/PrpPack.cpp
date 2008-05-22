@@ -1,5 +1,5 @@
-#include "PubUtilLib/plResMgr/plResManager.h"
-#include "DynLib/Platform.h"
+#include "ResManager/plResManager.h"
+#include "Sys/Platform.h"
 #include <string.h>
 #ifdef WIN32
   #include <windows.h>

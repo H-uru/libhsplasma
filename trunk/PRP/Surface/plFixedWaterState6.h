@@ -1,8 +1,8 @@
 #ifndef _PLFIXEDWATERSTATE6_H
 #define _PLFIXEDWATERSTATE6_H
 
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsColor.h"
+#include "Math/hsGeometry3.h"
+#include "Sys/hsColor.h"
 
 DllClass plFixedWaterState6 {
 public:

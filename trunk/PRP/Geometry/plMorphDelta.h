@@ -1,9 +1,9 @@
 #ifndef _PLMORPHDELTA_H
 #define _PLMORPHDELTA_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
-#include "CoreLib/hsTArray.hpp"
-#include "CoreLib/hsGeometry3.h"
+#include "PRP/plCreatable.h"
+#include "Util/hsTArray.hpp"
+#include "Math/hsGeometry3.h"
 
 DllClass plVertDelta {
 protected:

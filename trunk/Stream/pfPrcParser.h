@@ -1,9 +1,9 @@
 #ifndef _PFPRCPARSER_H
 #define _PFPRCPARSER_H
 
-#include "CoreLib/hsStream.h"
-#include "CoreLib/hsTokenStream.h"
-#include "CoreLib/hsTList.hpp"
+#include "hsStream.h"
+#include "hsTokenStream.h"
+#include "Util/hsTList.hpp"
 #include <map>
 
 DllClass pfPrcTag {

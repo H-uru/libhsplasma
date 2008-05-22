@@ -3,11 +3,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "plString.h"
-#include "DynLib/Platform.h"
-#include "DynLib/PlasmaVersions.h"
+#include "Util/plString.h"
+#include "Util/PlasmaVersions.h"
+#include "Sys/Platform.h"
 #include "PlasmaDefs.h"
-#include "hsExceptions.h"
+#include "Debug/hsExceptions.h"
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 

@@ -1,8 +1,8 @@
 #ifndef _PLUUID_H
 #define _PLUUID_H
 
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 DllClass plUUID {
 protected:

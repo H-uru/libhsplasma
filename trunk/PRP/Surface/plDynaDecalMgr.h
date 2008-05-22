@@ -1,8 +1,8 @@
 #ifndef _PLDYNADECALMGR_H
 #define _PLDYNADECALMGR_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
-#include "CoreLib/hsGeometry3.h"
+#include "PRP/Object/plSynchedObject.h"
+#include "Math/hsGeometry3.h"
 
 DllClass plDynaDecalMgr : public plSynchedObject {
 protected:

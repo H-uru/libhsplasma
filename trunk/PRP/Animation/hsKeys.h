@@ -1,10 +1,9 @@
 #ifndef _HSKEYS_H
 #define _HSKEYS_H
 
-#include "CoreLib/hsStream.h"
-#include "CoreLib/hsMatrix33.h"
-#include "CoreLib/hsMatrix44.h"
-#include "PubUtilLib/plTransform/hsAffineParts.h"
+#include "Math/hsMatrix33.h"
+#include "Math/hsMatrix44.h"
+#include "Math/hsAffineParts.h"
 
 struct hsKeyFrame {
     enum {

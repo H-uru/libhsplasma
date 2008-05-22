@@ -1,7 +1,7 @@
 #include "plResManager.h"
-#include "NucleusLib/pnFactory/plFactory.h"
-#include "PubUtilLib/plScene/plSceneNode.h"
-#include "CoreLib/plDebug.h"
+#include "plFactory.h"
+#include "PRP/plSceneNode.h"
+#include "Debug/plDebug.h"
 
 unsigned int plResManager::fNumResMgrs = 0;
 

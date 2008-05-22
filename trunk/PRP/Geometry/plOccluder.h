@@ -1,9 +1,9 @@
 #ifndef _PLOCCLUDER_H
 #define _PLOCCLUDER_H
 
-#include "NucleusLib/pnSceneObject/plObjInterface.h"
-#include "CoreLib/hsBounds.h"
-#include "CoreLib/hsMatrix44.h"
+#include "PRP/Object/plObjInterface.h"
+#include "PRP/Region/hsBounds.h"
+#include "Math/hsMatrix44.h"
 #include "plCullPoly.h"
 
 DllClass plOccluder : public plObjInterface {

@@ -1,9 +1,9 @@
 #ifndef _PLONESHOTCALLBACKS_H
 #define _PLONESHOTCALLBACKS_H
 
-#include "CoreLib/hsTArray.hpp"
-#include "NucleusLib/pnKeyedObject/plKey.h"
-#include "PubUtilLib/plResMgr/plResManager.h"
+#include "Util/hsTArray.hpp"
+#include "PRP/KeyedObject/plKey.h"
+#include "ResManager/plResManager.h"
 
 DllClass plOneShotCallbacks /* : hsRefCnt */ {
 public:

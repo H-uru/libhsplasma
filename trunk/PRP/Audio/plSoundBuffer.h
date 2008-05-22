@@ -1,7 +1,7 @@
 #ifndef _PLSOUNDBUFFER_H
 #define _PLSOUNDBUFFER_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 
 class plWAVHeader {
 public:

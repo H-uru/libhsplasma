@@ -1,7 +1,7 @@
 #ifndef _PLONESHOTMOD_H
 #define _PLONESHOTMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "plModifier.h"
 
 DllClass plOneShotMod : public plMultiModifier {
 protected:

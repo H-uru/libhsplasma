@@ -1,4 +1,4 @@
-#include "plNetServerSessionInfo.h"
+#include "plAgeLinkInfo.h"
 
 // plAgeInfoStruct //
 plAgeInfoStruct::plAgeInfoStruct() : fFlags(0) { }

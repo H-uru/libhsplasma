@@ -1,5 +1,5 @@
 #include "plSpawnPointInfo.h"
-#include "CoreLib/hsBitVector.h"
+#include "Util/hsBitVector.h"
 
 plSpawnPointInfo::plSpawnPointInfo() { }
 plSpawnPointInfo::~plSpawnPointInfo() { }

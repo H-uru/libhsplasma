@@ -1,7 +1,7 @@
 #ifndef _PLAGMASTERMOD_H
 #define _PLAGMASTERMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 
 DllClass plAGMasterMod : public plModifier {
 protected:

@@ -1,7 +1,7 @@
 #ifndef _PLRANDOMSOUNDMOD_H
 #define _PLRANDOMSOUNDMOD_H
 
-#include "FeatureLib/pfAnimation/plRandomCommandMod.h"
+#include "plRandomCommandMod.h"
 
 DllClass plRandomSoundModGroup {
 protected:

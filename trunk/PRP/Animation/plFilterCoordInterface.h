@@ -1,7 +1,7 @@
 #ifndef _PLFILTERCOORDINTERFACE_H
 #define _PLFILTERCOORDINTERFACE_H
 
-#include "NucleusLib/pnSceneObject/plCoordinateInterface.h"
+#include "PRP/Object/plCoordinateInterface.h"
 
 DllClass plFilterCoordInterface : public plCoordinateInterface {
 public:

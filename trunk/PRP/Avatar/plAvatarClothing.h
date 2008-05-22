@@ -1,7 +1,7 @@
 #ifndef _PLAVATARCLOTHING_H
 #define _PLAVATARCLOTHING_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
+#include "PRP/Object/plSynchedObject.h"
 
 DllClass plClothingOutfit : public plSynchedObject {
 public:

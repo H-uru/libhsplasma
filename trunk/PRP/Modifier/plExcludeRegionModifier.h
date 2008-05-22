@@ -1,7 +1,7 @@
 #ifndef _PLEXCLUDEREGIONMODIFIER_H
 #define _PLEXCLUDEREGIONMODIFIER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "plModifier.h"
 
 DllClass plExcludeRegionModifier : public plSingleModifier {
 public:

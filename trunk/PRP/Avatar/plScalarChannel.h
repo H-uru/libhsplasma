@@ -2,7 +2,7 @@
 #define _PLSCALARCHANNEL_H
 
 #include "plAGApplicator.h"
-#include "PubUtilLib/plInterp/plController.h"
+#include "PRP/Animation/plController.h"
 
 /* Scalar Channels */
 DllClass plScalarChannel : public plAGChannel {

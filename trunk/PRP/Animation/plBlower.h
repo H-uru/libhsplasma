@@ -1,7 +1,7 @@
 #ifndef _PLBLOWER_H
 #define _PLBLOWER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 
 DllClass plBlower : public plSingleModifier {
 public:

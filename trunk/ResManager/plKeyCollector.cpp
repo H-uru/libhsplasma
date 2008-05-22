@@ -1,6 +1,6 @@
 #include "plKeyCollector.h"
-#include "DynLib/pdUnifiedTypeMap.h"
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "pdUnifiedTypeMap.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 
 plKeyCollector::plKeyCollector() { }
 plKeyCollector::~plKeyCollector() { }

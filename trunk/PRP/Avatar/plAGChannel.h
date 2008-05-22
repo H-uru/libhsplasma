@@ -1,7 +1,7 @@
 #ifndef _PLAGCHANNEL_H
 #define _PLAGCHANNEL_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
+#include "PRP/plCreatable.h"
 
 DllClass plAGChannel : public plCreatable {
 protected:

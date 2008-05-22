@@ -1,8 +1,8 @@
 #ifndef _PLRECEIVER_H
 #define _PLRECEIVER_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
-#include "NucleusLib/pnMessage/plMessage.h"
+#include "PRP/plCreatable.h"
+#include "PRP/Messages/plMessage.h"
 #include "plKey.h"
 
 DllClass plReceiver : public plCreatable {

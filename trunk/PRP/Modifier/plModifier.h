@@ -1,9 +1,9 @@
 #ifndef _PLMODIFIER_H
 #define _PLMODIFIER_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
-#include "NucleusLib/pnSceneObject/plSceneObject.h"
-#include "CoreLib/hsBitVector.h"
+#include "PRP/Object/plSynchedObject.h"
+#include "PRP/Object/plSceneObject.h"
+#include "Util/hsBitVector.h"
 
 DllClass plModifier : public plSynchedObject {
 public:

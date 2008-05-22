@@ -1,7 +1,7 @@
 #ifndef _PLARMATUREEFFECTS_H
 #define _PLARMATUREEFFECTS_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plArmatureEffect : public hsKeyedObject {
 public:

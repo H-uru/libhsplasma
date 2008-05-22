@@ -2,7 +2,7 @@
 #define _PLCLUSTER_H
 
 #include "plSpanInstance.h"
-#include "CoreLib/hsTArray.hpp"
+#include "Util/hsTArray.hpp"
 
 DllClass plCluster {
 protected:

@@ -1,11 +1,9 @@
 #ifndef _PLGBUFFERGROUP_H
 #define _PLGBUFFERGROUP_H
 
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsStream.h"
-#include "CoreLib/hsTArray.hpp"
-#include "CoreLib/hsTList.hpp"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "Math/hsGeometry3.h"
+#include "Util/hsTArray.hpp"
+#include "Util/hsTList.hpp"
 #include "hsGDeviceRef.h"
 #include "plVertCoder.h"
 

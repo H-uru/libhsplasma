@@ -1,11 +1,11 @@
 #ifndef _PLLIGHTINFO_H
 #define _PLLIGHTINFO_H
 
-#include "NucleusLib/pnSceneObject/plObjInterface.h"
-#include "CoreLib/hsBitVector.h"
-#include "CoreLib/hsColor.h"
-#include "CoreLib/hsMatrix44.h"
-#include "PubUtilLib/plPipeline/hsGDeviceRef.h"
+#include "PRP/Object/plObjInterface.h"
+#include "Util/hsBitVector.h"
+#include "Sys/hsColor.h"
+#include "Math/hsMatrix44.h"
+#include "PRP/Geometry/hsGDeviceRef.h"
 
 DllClass plLightInfo : public plObjInterface {
 public:

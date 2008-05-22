@@ -1,11 +1,11 @@
 #ifndef _PLSPACETREE_H
 #define _PLSPACETREE_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
-#include "CoreLib/hsTArray.hpp"
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsBounds.h"
-#include "CoreLib/hsBitVector.h"
+#include "PRP/plCreatable.h"
+#include "Util/hsTArray.hpp"
+#include "Math/hsGeometry3.h"
+#include "PRP/Region/hsBounds.h"
+#include "Util/hsBitVector.h"
 
 DllClass plSpaceTreeNode {
 public:

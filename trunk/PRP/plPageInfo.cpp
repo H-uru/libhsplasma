@@ -1,7 +1,7 @@
 #include <cstring>
 #include "plPageInfo.h"
-#include "DynLib/pdUnifiedTypeMap.h"
-#include "CoreLib/plDebug.h"
+#include "ResManager/pdUnifiedTypeMap.h"
+#include "Debug/plDebug.h"
 
 const plString plPageInfo::kDistrict = "District";
 

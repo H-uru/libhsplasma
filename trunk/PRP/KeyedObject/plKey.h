@@ -1,7 +1,6 @@
 #ifndef _PLKEY_H
 #define _PLKEY_H
 
-#include "CoreLib/hsStream.h"
 #include "plUoid.h"
 
 DllClass plKeyData {

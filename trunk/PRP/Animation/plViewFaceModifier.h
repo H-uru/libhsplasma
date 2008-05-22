@@ -1,10 +1,10 @@
 #ifndef _PLVIEWFACEMODIFIER_H
 #define _PLVIEWFACEMODIFIER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsMatrix44.h"
-#include "CoreLib/hsBounds.h"
+#include "PRP/Modifier/plModifier.h"
+#include "Math/hsGeometry3.h"
+#include "Math/hsMatrix44.h"
+#include "PRP/Region/hsBounds.h"
 
 DllClass plViewFaceModifier : public plSingleModifier {
 public:

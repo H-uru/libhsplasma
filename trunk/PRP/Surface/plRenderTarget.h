@@ -1,11 +1,11 @@
 #ifndef _PLRENDERTARGET_H
 #define _PLRENDERTARGET_H
 
-#include "PubUtilLib/plGImage/plBitmap.h"
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsColor.h"
-#include "CoreLib/hsMatrix44.h"
-#include "CoreLib/hsBitVector.h"
+#include "plBitmap.h"
+#include "Math/hsGeometry3.h"
+#include "Sys/hsColor.h"
+#include "Math/hsMatrix44.h"
+#include "Util/hsBitVector.h"
 
 DllClass plRenderTarget : public plBitmap {
 protected:

@@ -1,7 +1,7 @@
 #ifndef _PLVERTCODER_H
 #define _PLVERTCODER_H
 
-#include "CoreLib/hsStream.h"
+#include "Stream/hsStream.h"
 
 DllClass plVertCoder {
 public:

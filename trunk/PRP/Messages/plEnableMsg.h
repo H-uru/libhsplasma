@@ -2,7 +2,7 @@
 #define _PLENABLEMSG_H
 
 #include "plMessage.h"
-#include "CoreLib/hsBitVector.h"
+#include "Util/hsBitVector.h"
 
 DllClass plEnableMsg : public plMessage {
 public:

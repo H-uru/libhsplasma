@@ -1,8 +1,8 @@
 #ifndef _PLSPAWNPOINTINFO_H
 #define _PLSPAWNPOINTINFO_H
 
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 DllClass plSpawnPointInfo {
 protected:

@@ -1,6 +1,6 @@
 #include "plLeafController.h"
 #include "plKeyControllers.h"
-#include "CoreLib/plDebug.h"
+#include "Debug/plDebug.h"
 
 /* plLeafController */
 plLeafController::plLeafController() : fType(0), fUruUnknown(0) { }

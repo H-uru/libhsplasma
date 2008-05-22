@@ -1,9 +1,8 @@
 #ifndef _PLCULLPOLY_H
 #define _PLCULLPOLY_H
 
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "CoreLib/hsBitVector.h"
-#include "CoreLib/hsGeometry3.h"
+#include "Util/hsBitVector.h"
+#include "Math/hsGeometry3.h"
 
 DllClass plCullPoly {
 public:

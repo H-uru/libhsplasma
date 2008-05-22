@@ -1,6 +1,6 @@
 #include "plString.h"
-#include "DynLib/Platform.h"
-#include "CoreLib/hsExceptions.h"
+#include "Sys/Platform.h"
+#include "Debug/hsExceptions.h"
 #include <ctype.h>
 #include <wctype.h>
 #include <cstdlib>

@@ -1,10 +1,9 @@
 #ifndef _HSMATRIX44_H
 #define _HSMATRIX44_H
 
-#include "hsStream.h"
 #include "hsGeometry3.h"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 // Just remember: http://xkcd.org/184/
 

@@ -1,7 +1,7 @@
 #ifndef _PLAGMODIFIER_H
 #define _PLAGMODIFIER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 
 DllClass plAGModifier : public plSingleModifier {
 protected:

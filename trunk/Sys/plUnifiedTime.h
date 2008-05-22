@@ -15,8 +15,8 @@ extern "C" {
 }
 #endif
 
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 DllClass plUnifiedTime {
 public:

@@ -1,5 +1,5 @@
 #include "plStateVariable.h"
-#include "NucleusLib/pnFactory/plFactory.h"
+#include "ResManager/plFactory.h"
 
 /* plStateVarNotificationInfo */
 plStateVarNotificationInfo::plStateVarNotificationInfo() { }
@@ -274,7 +274,7 @@ void plSimpleStateVariable::IReadData(hsStream* S, plResManager* mgr, size_t idx
                 unsigned int len = S->readInt();
                 fCreatable[idx] = plFactory::Create(hClass);
                 if (fCreatable[idx] == NULL)
-                    fCreatable[idx] = new plSDLCreatableStub(hClass, len);
+                    fCreatable[idx] = new plCreatableStub(hClass, len);
                 fCreatable[idx]->read(S, mgr);
             } else {
                 fCreatable[idx] = NULL;

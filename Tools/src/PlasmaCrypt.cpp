@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <exception>
 #include <vector>
-#include "CoreLib/plEncryptedStream.h"
-#include "CoreLib/plString.h"
+#include "Stream/plEncryptedStream.h"
+#include "Util/plString.h"
 
 typedef enum EncrMethod { emNone, emDecrypt, emTea, emAes, emDroid };
 

@@ -1,7 +1,7 @@
 #ifndef _PLFONT_H
 #define _PLFONT_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plFont : public hsKeyedObject {
 public:

@@ -2,8 +2,8 @@
 #define _PLLAYERANIMATION_H
 
 #include "plLayerInterface.h"
-#include "PubUtilLib/plInterp/plController.h"
-#include "PubUtilLib/plInterp/plAnimTimeConvert.h"
+#include "PRP/Animation/plController.h"
+#include "PRP/Animation/plAnimTimeConvert.h"
 
 DllClass plLayerAnimationBase : public plLayerInterface {
 protected:

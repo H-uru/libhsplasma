@@ -1,7 +1,7 @@
 #ifndef _HSTLIST_H
 #define _HSTLIST_H
 
-#include "hsExceptions.h"
+#include "Debug/hsExceptions.h"
 
 template<typename T>
 class hsTList {

@@ -1,8 +1,8 @@
 #ifndef _PLSOUND_H
 #define _PLSOUND_H
 
-#include "NucleusLib/pnSceneObject/plSceneObject.h"
-#include "CoreLib/hsGeometry3.h"
+#include "PRP/Object/plSceneObject.h"
+#include "Math/hsGeometry3.h"
 #include "plEAXEffects.h"
 
 DllClass plSound : public plSynchedObject {

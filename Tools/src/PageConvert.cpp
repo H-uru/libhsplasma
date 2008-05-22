@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include "PubUtilLib/plResMgr/plResManager.h"
-#include "CoreLib/hsExceptions.h"
-#include "CoreLib/plDebug.h"
+#include "ResManager/plResManager.h"
+#include "Debug/hsExceptions.h"
+#include "Debug/plDebug.h"
 
 const char* PlasmaVerNames[] = { 
     "Unknown",  // pvUnknown

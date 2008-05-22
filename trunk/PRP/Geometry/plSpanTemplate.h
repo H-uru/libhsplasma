@@ -1,8 +1,8 @@
 #ifndef _PLSPANTEMPLATE_H
 #define _PLSPANTEMPLATE_H
 
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsTArray.hpp"
+#include "Math/hsGeometry3.h"
+#include "Util/hsTArray.hpp"
 
 DllClass plSpanTemplate {
 public:

@@ -1,7 +1,7 @@
 #ifndef _PLRESPONDERMODIFIER_H
 #define _PLRESPONDERMODIFIER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "plModifier.h"
 
 DllClass plResponderModifier : public plSingleModifier {
 public:

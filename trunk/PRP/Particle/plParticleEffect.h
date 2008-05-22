@@ -1,7 +1,7 @@
 #ifndef _PLPARTICLEEFFECT_H
 #define _PLPARTICLEEFFECT_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 #include "plBoundInterface.h"
 
 DllClass plParticleEffect : public hsKeyedObject {

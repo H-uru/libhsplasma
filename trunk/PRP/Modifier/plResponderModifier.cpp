@@ -1,5 +1,5 @@
 #include "plResponderModifier.h"
-#include "CoreLib/plDebug.h"
+#include "Debug/plDebug.h"
 
 // plResponderModifier::plResponderCmd //
 plResponderModifier::plResponderCmd::plResponderCmd() : fMsg(NULL), fWaitOn(-1) { }

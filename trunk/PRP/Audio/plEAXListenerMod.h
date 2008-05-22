@@ -1,7 +1,7 @@
 #ifndef _PLEAXLISTENERMOD_H
 #define _PLEAXLISTENERMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 #include "3rdPartyLibs/AL/EFX-Util.h"
 
 DllClass plEAXListenerMod : public plSingleModifier {

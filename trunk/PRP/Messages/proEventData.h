@@ -2,10 +2,9 @@
 #define _PROEVENTDATA_H
 
 #include "PlasmaDefs.h"
-#include "CoreLib/hsStream.h"
-#include "CoreLib/hsGeometry3.h"
-#include "NucleusLib/pnKeyedObject/plKey.h"
-#include "PubUtilLib/plResMgr/plResManager.h"
+#include "Math/hsGeometry3.h"
+#include "PRP/KeyedObject/plKey.h"
+#include "ResManager/plResManager.h"
 
 DllClass proEventData {
 public:

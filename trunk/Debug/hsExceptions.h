@@ -2,7 +2,7 @@
 #define _HSEXCEPTIONS_H
 
 #include <exception>
-#include "plString.h"
+#include "Util/plString.h"
 
 DllClass hsException : public std::exception {
 protected:

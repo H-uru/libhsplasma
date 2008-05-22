@@ -1,9 +1,9 @@
 #ifndef _PLAGEINFO_H
 #define _PLAGEINFO_H
 
-#include "CoreLib/plEncryptedStream.h"
-#include "CoreLib/hsTArray.hpp"
-#include "plPageInfo.h"
+#include "Stream/plEncryptedStream.h"
+#include "Util/hsTArray.hpp"
+#include "PRP/plPageInfo.h"
 
 /* Loosely based on plAgeDescription */
 

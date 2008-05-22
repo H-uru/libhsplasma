@@ -1,8 +1,7 @@
-#include "PubUtilLib/plResMgr/plResManager.h"
-#include "CoreLib/plString.h"
-#include "CoreLib/hsExceptions.h"
-#include "CoreLib/hsStdioStream.h"
-#include "CoreLib/plDebug.h"
+#include "ResManager/plResManager.h"
+#include "Debug/hsExceptions.h"
+#include "Debug/plDebug.h"
+#include "Stream/hsStdioStream.h"
 #include <string.h>
 #include <time.h>
 #include <sys/stat.h>

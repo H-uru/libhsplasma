@@ -2,7 +2,7 @@
 #define _PLPOINTCHANNEL_H
 
 #include "plAGApplicator.h"
-#include "PubUtilLib/plInterp/plController.h"
+#include "PRP/Animation/plController.h"
 
 /* Point Channels */
 DllClass plPointChannel : public plAGChannel {

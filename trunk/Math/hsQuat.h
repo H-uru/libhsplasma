@@ -2,8 +2,6 @@
 #define _HSQUAT_H
 
 #include "hsGeometry3.h"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
 
 DllStruct hsQuat {
     float X, Y, Z, W;

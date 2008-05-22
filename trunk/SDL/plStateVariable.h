@@ -2,12 +2,12 @@
 #define _PLSTATEVARIABLE_H
 
 #include "plStateDescriptor.h"
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsQuat.h"
-#include "CoreLib/hsMatrix44.h"
-#include "CoreLib/hsColor.h"
-#include "CoreLib/plUnifiedTime.h"
-#include "NucleusLib/pnFactory/plCreatable.h"
+#include "Math/hsGeometry3.h"
+#include "Math/hsQuat.h"
+#include "Math/hsMatrix44.h"
+#include "Sys/hsColor.h"
+#include "Sys/plUnifiedTime.h"
+#include "PRP/plCreatable.h"
 
 DllClass plStateVarNotificationInfo {
 protected:

@@ -242,2857 +242,1800 @@
 	</References>
 	<Files>
 		<Filter
-			Name="CoreLib"
+			Name="Debug"
 			>
 			<File
-				RelativePath="CoreLib\hsBitVector.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="CoreLib\hsBitVector.h"
+				RelativePath=".\Debug\hsExceptions.cpp"
 				>
 			</File>
 			<File
-				RelativePath="CoreLib\hsBounds.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="CoreLib\hsBounds.h"
+				RelativePath=".\Debug\hsExceptions.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CoreLib\hsColor.cpp"
+				RelativePath=".\Debug\plDebug.cpp"
 				>
 			</File>
 			<File
-				RelativePath="CoreLib\hsColor.h"
-				>
-			</File>
-			<File
-				RelativePath="CoreLib\hsElfStream.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="CoreLib\hsElfStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsExceptions.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsExceptions.h"
-				>
-			</File>
-			<File
-				RelativePath="CoreLib\hsGeometry3.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="CoreLib\hsGeometry3.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsMatrix33.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsMatrix33.h"
-				>
-			</File>
-			<File
-				RelativePath="CoreLib\hsMatrix44.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="CoreLib\hsMatrix44.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsQuat.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsQuat.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsRAMStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsRAMStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsSemaphore.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsSemaphore.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsStdioStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsStdioStream.h"
-				>
-			</File>
-			<File
-				RelativePath="CoreLib\hsStream.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="CoreLib\hsStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsTArray.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsTList.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsTokenStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\hsTokenStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plDebug.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plDebug.h"
-				>
-			</File>
-			<File
-				RelativePath="CoreLib\plEncryptedStream.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plEncryptedStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plLoadMask.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plLoadMask.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plRenderLevel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plString.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plString.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plUnifiedTime.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plUnifiedTime.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CoreLib\plViewTransform.h"
+				RelativePath=".\Debug\plDebug.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="DynLib"
+			Name="Math"
 			>
 			<File
-				RelativePath="DynLib\PageID.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug-NoDLL|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="DynLib\PageID.h"
+				RelativePath=".\Math\hsAffineParts.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DynLib\pdUnifiedTypeMap.cpp"
-				DeploymentContent="true"
+				RelativePath=".\Math\hsAffineParts.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DynLib\pdUnifiedTypeMap.h"
+				RelativePath=".\Math\hsGeometry3.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DynLib\PlasmaVersions.cpp"
+				RelativePath=".\Math\hsGeometry3.h"
 				>
 			</File>
 			<File
-				RelativePath="DynLib\PlasmaVersions.h"
+				RelativePath=".\Math\hsMatrix33.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DynLib\Platform.h"
+				RelativePath=".\Math\hsMatrix33.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\hsMatrix44.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\hsMatrix44.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\hsQuat.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\hsQuat.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="NucleusLib"
+			Name="PRP"
 			>
+			<File
+				RelativePath=".\PRP\plCreatable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PRP\plCreatable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PRP\plPageInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PRP\plPageInfo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PRP\plSceneNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PRP\plSceneNode.h"
+				>
+			</File>
 			<Filter
-				Name="pnFactory"
+				Name="Animation"
 				>
 				<File
-					RelativePath="NucleusLib\pnFactory\plCreatable.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnFactory\plCreatable.h"
+					RelativePath=".\PRP\Animation\hsKeys.cpp"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnFactory\plFactory.cpp"
+					RelativePath=".\PRP\Animation\hsKeys.h"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnFactory\plFactory.h"
+					RelativePath=".\PRP\Animation\plAnimPath.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plAnimPath.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plAnimTimeConvert.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plAnimTimeConvert.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plATCEaseCurves.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plATCEaseCurves.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plBlower.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plBlower.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plFilterCoordInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plFilterCoordInterface.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plKeyControllers.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plKeyControllers.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plLeafController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plLeafController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plLineFollowMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plLineFollowMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plPosController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plPosController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plRotController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plRotController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plScaleController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plScaleController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plStereizer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plStereizer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plTMController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plTMController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plViewFaceModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\plViewFaceModifier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\UruKeys.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\UruKeys.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="pnKeyedObject"
+				Name="Audio"
 				>
 				<File
-					RelativePath="NucleusLib\pnKeyedObject\hsKeyedObject.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnKeyedObject\hsKeyedObject.h"
+					RelativePath=".\PRP\Audio\plAudible.cpp"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnKeyedObject\plKey.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnKeyedObject\plKey.h"
+					RelativePath=".\PRP\Audio\plAudible.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnKeyedObject\plMsgForwarder.cpp"
+					RelativePath=".\PRP\Audio\plEAXEffects.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnKeyedObject\plMsgForwarder.h"
+					RelativePath=".\PRP\Audio\plEAXEffects.h"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnKeyedObject\plReceiver.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnKeyedObject\plReceiver.h"
+					RelativePath=".\PRP\Audio\plEAXListenerMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnKeyedObject\plUoid.cpp"
+					RelativePath=".\PRP\Audio\plEAXListenerMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnKeyedObject\plUoid.h"
+					RelativePath=".\PRP\Audio\plSound.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\plSound.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\plSoundBuffer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\plSoundBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\plWin32Sound.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\plWin32Sound.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\plWin32StaticSound.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\plWin32StaticSound.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="pnMessage"
+				Name="Avatar"
 				>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plCameraMsg.cpp"
+					RelativePath=".\PRP\Avatar\plAGAnim.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plCameraMsg.h"
+					RelativePath=".\PRP\Avatar\plAGAnim.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plEnableMsg.cpp"
+					RelativePath=".\PRP\Avatar\plAGApplicator.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plEnableMsg.h"
+					RelativePath=".\PRP\Avatar\plAGApplicator.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plEventCallbackMsg.cpp"
+					RelativePath=".\PRP\Avatar\plAGChannel.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plEventCallbackMsg.h"
+					RelativePath=".\PRP\Avatar\plAGChannel.h"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnMessage\plMessage.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnMessage\plMessage.h"
+					RelativePath=".\PRP\Avatar\plAGMasterMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plMessageWithCallbacks.cpp"
+					RelativePath=".\PRP\Avatar\plAGMasterMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plMessageWithCallbacks.h"
+					RelativePath=".\PRP\Avatar\plAGModifier.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plNotifyMsg.cpp"
+					RelativePath=".\PRP\Avatar\plAGModifier.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plNotifyMsg.h"
+					RelativePath=".\PRP\Avatar\plAnimStage.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plSimStateMsg.cpp"
+					RelativePath=".\PRP\Avatar\plAnimStage.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plSimStateMsg.h"
+					RelativePath=".\PRP\Avatar\plArmatureEffects.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plSimulationMsg.cpp"
+					RelativePath=".\PRP\Avatar\plArmatureEffects.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plSimulationMsg.h"
+					RelativePath=".\PRP\Avatar\plAvatarClothing.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plSoundMsg.cpp"
+					RelativePath=".\PRP\Avatar\plAvatarClothing.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\plSoundMsg.h"
+					RelativePath=".\PRP\Avatar\plAvLadderMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\proEventData.cpp"
+					RelativePath=".\PRP\Avatar\plAvLadderMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnMessage\proEventData.h"
+					RelativePath=".\PRP\Avatar\plClothingItem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plClothingItem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plMatrixChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plMatrixChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plMultistageBehMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plMultistageBehMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plNPCSpawnMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plNPCSpawnMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plPointChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plPointChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plQuatChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plQuatChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plScalarChannel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plScalarChannel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plSeekPointMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plSeekPointMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plSittingModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plSittingModifier.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="pnNetCommon"
+				Name="Camera"
 				>
 				<File
-					RelativePath="NucleusLib\pnNetCommon\plSynchedObject.cpp"
+					RelativePath=".\PRP\Camera\plCameraBrain.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnNetCommon\plSynchedObject.h"
+					RelativePath=".\PRP\Camera\plCameraBrain.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Camera\plCameraModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Camera\plCameraModifier.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="pnSceneObject"
+				Name="ConditionalObject"
 				>
 				<File
-					RelativePath="NucleusLib\pnSceneObject\plAudioInterface.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnSceneObject\plAudioInterface.h"
+					RelativePath=".\PRP\ConditionalObject\plActivatorConditionalObject.cpp"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnSceneObject\plCoordinateInterface.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnSceneObject\plCoordinateInterface.h"
+					RelativePath=".\PRP\ConditionalObject\plActivatorConditionalObject.h"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnSceneObject\plDrawInterface.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnSceneObject\plDrawInterface.h"
+					RelativePath=".\PRP\ConditionalObject\plAnimationEventConditionalObject.cpp"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnSceneObject\plObjInterface.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnSceneObject\plObjInterface.h"
+					RelativePath=".\PRP\ConditionalObject\plAnimationEventConditionalObject.h"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnSceneObject\plSceneObject.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="NucleusLib\pnSceneObject\plSceneObject.h"
+					RelativePath=".\PRP\ConditionalObject\plBooleanConditionalObject.cpp"
 					>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnSceneObject\plSimulationInterface.cpp"
+					RelativePath=".\PRP\ConditionalObject\plBooleanConditionalObject.h"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="NucleusLib\pnSceneObject\plSimulationInterface.h"
+					RelativePath=".\PRP\ConditionalObject\plConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plControlEventConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plControlEventConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plDetectConditionalObjects.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plDetectConditionalObjects.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plFacingConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plFacingConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plKeyPressConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plKeyPressConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plPickedConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plPickedConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plPythonFileModConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plPythonFileModConditionalObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plVolumeSensorConditionalObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\ConditionalObject\plVolumeSensorConditionalObject.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="pnModifier"
+				Name="Geometry"
 				>
 				<File
-					RelativePath=".\NucleusLib\pnModifier\plLogicModBase.cpp"
+					RelativePath=".\PRP\Geometry\hsGDeviceRef.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnModifier\plLogicModBase.h"
+					RelativePath=".\PRP\Geometry\hsGDeviceRef.h"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnModifier\plModifier.cpp"
+					RelativePath=".\PRP\Geometry\plCluster.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\pnModifier\plModifier.h"
+					RelativePath=".\PRP\Geometry\plCluster.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plClusterGroup.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plClusterGroup.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plCullPoly.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plCullPoly.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plDrawableSpans.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plDrawableSpans.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plGBufferGroup.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plGBufferGroup.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plGeometrySpan.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plGeometrySpan.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plIcicle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plIcicle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plMorphArray.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plMorphArray.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plMorphDataSet.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plMorphDataSet.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plMorphDelta.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plMorphDelta.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plOccluder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plOccluder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSharedMesh.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSharedMesh.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSpaceTree.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSpaceTree.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSpan.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSpan.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSpanInstance.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSpanInstance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSpanTemplate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plSpanTemplate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plVertCoder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plVertCoder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plVertexSpan.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plVertexSpan.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="inc"
+				Name="GUI"
 				>
 				<File
-					RelativePath=".\NucleusLib\inc\hsGMatState.cpp"
+					RelativePath=".\PRP\GUI\pfGUIButtonMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\NucleusLib\inc\hsGMatState.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="PubUtilLib"
-			>
-			<Filter
-				Name="plAvatar"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGAnim.cpp"
+					RelativePath=".\PRP\GUI\pfGUIButtonMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGAnim.h"
+					RelativePath=".\PRP\GUI\pfGUICheckBoxCtrl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGApplicator.cpp"
+					RelativePath=".\PRP\GUI\pfGUICheckBoxCtrl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGApplicator.h"
+					RelativePath=".\PRP\GUI\pfGUIClickMapCtrl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGChannel.cpp"
+					RelativePath=".\PRP\GUI\pfGUIClickMapCtrl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGChannel.h"
+					RelativePath=".\PRP\GUI\pfGUIControlHandlers.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGMasterMod.cpp"
+					RelativePath=".\PRP\GUI\pfGUIControlHandlers.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGMasterMod.h"
+					RelativePath=".\PRP\GUI\pfGUIControlMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGModifier.cpp"
+					RelativePath=".\PRP\GUI\pfGUIControlMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAGModifier.h"
+					RelativePath=".\PRP\GUI\pfGUIDialogMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAnimStage.cpp"
+					RelativePath=".\PRP\GUI\pfGUIDialogMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAnimStage.h"
+					RelativePath=".\PRP\GUI\pfGUIDragBarCtrl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plArmatureEffects.cpp"
+					RelativePath=".\PRP\GUI\pfGUIDragBarCtrl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plArmatureEffects.h"
+					RelativePath=".\PRP\GUI\pfGUIDraggableMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAvatarClothing.cpp"
+					RelativePath=".\PRP\GUI\pfGUIDraggableMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAvatarClothing.h"
+					RelativePath=".\PRP\GUI\pfGUIDynDisplayCtrl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAvLadderMod.cpp"
+					RelativePath=".\PRP\GUI\pfGUIDynDisplayCtrl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plAvLadderMod.h"
+					RelativePath=".\PRP\GUI\pfGUIEditBoxMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plAvatar\plClothingItem.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plAvatar\plClothingItem.h"
+					RelativePath=".\PRP\GUI\pfGUIEditBoxMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plMatrixChannel.cpp"
+					RelativePath=".\PRP\GUI\pfGUIKnobCtrl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plMatrixChannel.h"
+					RelativePath=".\PRP\GUI\pfGUIKnobCtrl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plMultistageBehMod.cpp"
+					RelativePath=".\PRP\GUI\pfGUIListBoxMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plMultistageBehMod.h"
+					RelativePath=".\PRP\GUI\pfGUIListBoxMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plNPCSpawnMod.cpp"
+					RelativePath=".\PRP\GUI\pfGUIMultiLineEditCtrl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plNPCSpawnMod.h"
+					RelativePath=".\PRP\GUI\pfGUIMultiLineEditCtrl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plOneShotMod.cpp"
+					RelativePath=".\PRP\GUI\pfGUIPopUpMenu.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plOneShotMod.h"
+					RelativePath=".\PRP\GUI\pfGUIPopUpMenu.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plPointChannel.cpp"
+					RelativePath=".\PRP\GUI\pfGUIProgressCtrl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plPointChannel.h"
+					RelativePath=".\PRP\GUI\pfGUIProgressCtrl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plQuatChannel.cpp"
+					RelativePath=".\PRP\GUI\pfGUIRadioGroupCtrl.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plQuatChannel.h"
+					RelativePath=".\PRP\GUI\pfGUIRadioGroupCtrl.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plScalarChannel.cpp"
+					RelativePath=".\PRP\GUI\pfGUISkin.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plScalarChannel.h"
+					RelativePath=".\PRP\GUI\pfGUISkin.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plSeekPointMod.cpp"
+					RelativePath=".\PRP\GUI\pfGUITextBoxMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plSeekPointMod.h"
+					RelativePath=".\PRP\GUI\pfGUITextBoxMod.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plSittingModifier.cpp"
+					RelativePath=".\PRP\GUI\pfGUIUpDownPairMod.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAvatar\plSittingModifier.h"
+					RelativePath=".\PRP\GUI\pfGUIUpDownPairMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pfGUIValueCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pfGUIValueCtrl.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\plImageLibMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\plImageLibMod.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plDrawable"
+				Name="KeyedObject"
 				>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plCluster.cpp"
+					RelativePath=".\PRP\KeyedObject\hsKeyedObject.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plCluster.h"
+					RelativePath=".\PRP\KeyedObject\hsKeyedObject.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plClusterGroup.cpp"
+					RelativePath=".\PRP\KeyedObject\plKey.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plClusterGroup.h"
+					RelativePath=".\PRP\KeyedObject\plKey.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plDrawableSpans.cpp"
+					RelativePath=".\PRP\KeyedObject\plLoadMask.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plDrawableSpans.h"
+					RelativePath=".\PRP\KeyedObject\plLoadMask.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plDynaDecalMgr.cpp"
+					RelativePath=".\PRP\KeyedObject\plLocation.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plDynaDecalMgr.h"
+					RelativePath=".\PRP\KeyedObject\plLocation.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plDynaRippleMgr.cpp"
+					RelativePath=".\PRP\KeyedObject\plReceiver.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plDynaRippleMgr.h"
+					RelativePath=".\PRP\KeyedObject\plReceiver.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plFixedWaterState6.cpp"
+					RelativePath=".\PRP\KeyedObject\plUoid.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plDrawable\plFixedWaterState6.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plFixedWaterState7.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plFixedWaterState7.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plGeometrySpan.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plGeometrySpan.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plIcicle.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plIcicle.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plMorphArray.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plMorphArray.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plMorphDataSet.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plMorphDataSet.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plMorphDelta.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plMorphDelta.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSharedMesh.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSharedMesh.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSpacePrepNode.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSpaceTree.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSpaceTree.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSpaceTreeMaker.h"
-					>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plDrawable\plSpan.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plDrawable\plSpan.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSpanInstance.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSpanInstance.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSpanTemplate.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plSpanTemplate.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plVertexSpan.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plVertexSpan.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plWaveSet6.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plWaveSet6.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plWaveSet7.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plWaveSet7.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plWaveSetBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plDrawable\plWaveSetBase.h"
+					RelativePath=".\PRP\KeyedObject\plUoid.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plGImage"
+				Name="Light"
 				>
 				<File
-					RelativePath="PubUtilLib\plGImage\plBitmap.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plGImage\plBitmap.h"
+					RelativePath=".\PRP\Light\plDirectionalLightInfo.cpp"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plGImage\plCubicEnvironmap.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plGImage\plCubicEnvironmap.h"
+					RelativePath=".\PRP\Light\plDirectionalLightInfo.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGImage\plDynamicTextMap.cpp"
+					RelativePath=".\PRP\Light\plLightInfo.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGImage\plDynamicTextMap.h"
+					RelativePath=".\PRP\Light\plLightInfo.h"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plGImage\plFont.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plGImage\plFont.h"
+					RelativePath=".\PRP\Light\plOmniLightInfo.cpp"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plGImage\plMipmap.cpp"
+					RelativePath=".\PRP\Light\plOmniLightInfo.h"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plGImage\plMipmap.h"
+					RelativePath=".\PRP\Light\plShadowCaster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\plShadowCaster.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\plShadowMaster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\plShadowMaster.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\plShadowSlave.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plPipeline"
+				Name="Messages"
 				>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\hsGDeviceRef.cpp"
+					RelativePath=".\PRP\Messages\plAnimCmdMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\hsGDeviceRef.h"
+					RelativePath=".\PRP\Messages\plAnimCmdMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\plDynamicEnvMap.cpp"
+					RelativePath=".\PRP\Messages\plArmatureEffectMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\plDynamicEnvMap.h"
+					RelativePath=".\PRP\Messages\plArmatureEffectMsg.h"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plPipeline\plFogEnvironment.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plPipeline\plFogEnvironment.h"
+					RelativePath=".\PRP\Messages\plCameraMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\plGBufferGroup.cpp"
+					RelativePath=".\PRP\Messages\plCameraMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\plGBufferGroup.h"
+					RelativePath=".\PRP\Messages\plEnableMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\plRenderTarget.cpp"
+					RelativePath=".\PRP\Messages\plEnableMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\plRenderTarget.h"
+					RelativePath=".\PRP\Messages\plEventCallbackMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\plVertCoder.cpp"
+					RelativePath=".\PRP\Messages\plEventCallbackMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPipeline\plVertCoder.h"
+					RelativePath=".\PRP\Messages\plExcludeRegionMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plExcludeRegionMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plLinkToAgeMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plLinkToAgeMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plMessage.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plMessage.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plMessageWithCallbacks.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plMessageWithCallbacks.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plMsgForwarder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plMsgForwarder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plNotifyMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plNotifyMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plOneShotCallbacks.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plOneShotCallbacks.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plResponderMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plResponderMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plSimStateMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plSimStateMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plSimulationMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plSimulationMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plSoundMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plSoundMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plTimerCallbackMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plTimerCallbackMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plTransitionMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plTransitionMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\proEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\proEventData.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plResMgr"
+				Name="Misc"
 				>
 				<File
-					RelativePath=".\PubUtilLib\plResMgr\plAgeInfo.cpp"
+					RelativePath=".\PRP\Misc\plAgeLinkInfo.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plResMgr\plAgeInfo.h"
+					RelativePath=".\PRP\Misc\plAgeLinkInfo.h"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plResMgr\plKeyCollector.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plResMgr\plKeyCollector.h"
+					RelativePath=".\PRP\Misc\plFogEnvironment.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plResMgr\plPageInfo.cpp"
+					RelativePath=".\PRP\Misc\plFogEnvironment.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plResMgr\plPageInfo.h"
+					RelativePath=".\PRP\Misc\plRenderLevel.h"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plResMgr\plPageSettings.h"
+					RelativePath=".\PRP\Misc\plSpawnPointInfo.cpp"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plResMgr\plResManager.cpp"
+					RelativePath=".\PRP\Misc\plSpawnPointInfo.h"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plResMgr\plResManager.h"
+					RelativePath=".\PRP\Misc\plViewTransform.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plScene"
+				Name="Modifier"
 				>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plCullPoly.cpp"
+					RelativePath=".\PRP\Modifier\plAliasModifier.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plCullPoly.h"
+					RelativePath=".\PRP\Modifier\plAliasModifier.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plOccluder.cpp"
+					RelativePath=".\PRP\Modifier\plAnimEventModifier.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plOccluder.h"
+					RelativePath=".\PRP\Modifier\plAnimEventModifier.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plPageTreeMgr.h"
+					RelativePath=".\PRP\Modifier\plExcludeRegionModifier.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plPostEffectMod.cpp"
+					RelativePath=".\PRP\Modifier\plExcludeRegionModifier.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plPostEffectMod.h"
+					RelativePath=".\PRP\Modifier\plInterfaceInfoModifier.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plRelevanceRegion.cpp"
+					RelativePath=".\PRP\Modifier\plInterfaceInfoModifier.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plRelevanceRegion.h"
+					RelativePath=".\PRP\Modifier\plLogicModBase.cpp"
 					>
 				</File>
 				<File
-					RelativePath="PubUtilLib\plScene\plSceneNode.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plScene\plSceneNode.h"
+					RelativePath=".\PRP\Modifier\plLogicModBase.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plVisRegion.cpp"
+					RelativePath=".\PRP\Modifier\plLogicModifier.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plScene\plVisRegion.h"
+					RelativePath=".\PRP\Modifier\plLogicModifier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plModifier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plOneShotMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plOneShotMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plPostEffectMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plPostEffectMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plPythonFileMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plPythonFileMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plRandomCommandMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plRandomCommandMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plRandomSoundMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plRandomSoundMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plResponderModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plResponderModifier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plSpawnModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plSpawnModifier.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plSurface"
+				Name="Object"
 				>
 				<File
-					RelativePath="PubUtilLib\plSurface\hsGMaterial.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug-NoDLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions=""
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="PubUtilLib\plSurface\hsGMaterial.h"
+					RelativePath=".\PRP\Object\plAudioInterface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plSurface\plLayer.cpp"
+					RelativePath=".\PRP\Object\plAudioInterface.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plSurface\plLayer.h"
+					RelativePath=".\PRP\Object\plCoordinateInterface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plSurface\plLayerAnimation.cpp"
+					RelativePath=".\PRP\Object\plCoordinateInterface.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plSurface\plLayerAnimation.h"
+					RelativePath=".\PRP\Object\plDrawInterface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plSurface\plLayerInterface.cpp"
+					RelativePath=".\PRP\Object\plDrawInterface.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plSurface\plLayerInterface.h"
+					RelativePath=".\PRP\Object\plObjInterface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plSurface\plLayerMovie.cpp"
+					RelativePath=".\PRP\Object\plObjInterface.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plSurface\plLayerMovie.h"
+					RelativePath=".\PRP\Object\plSceneObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\plSceneObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\plSimulationInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\plSimulationInterface.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\plSynchedObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\plSynchedObject.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plGLight"
+				Name="Particle"
 				>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plDirectionalLightInfo.cpp"
+					RelativePath=".\PRP\Particle\plBoundInterface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plDirectionalLightInfo.h"
+					RelativePath=".\PRP\Particle\plBoundInterface.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plLightInfo.cpp"
+					RelativePath=".\PRP\Particle\plParticleApplicator.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plLightInfo.h"
+					RelativePath=".\PRP\Particle\plParticleApplicator.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plOmniLightInfo.cpp"
+					RelativePath=".\PRP\Particle\plParticleEffect.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plOmniLightInfo.h"
+					RelativePath=".\PRP\Particle\plParticleEffect.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plShadowCaster.cpp"
+					RelativePath=".\PRP\Particle\plParticleEmitter.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plShadowCaster.h"
+					RelativePath=".\PRP\Particle\plParticleEmitter.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plShadowMaster.cpp"
+					RelativePath=".\PRP\Particle\plParticleGenerator.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plShadowMaster.h"
+					RelativePath=".\PRP\Particle\plParticleGenerator.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plGLight\plShadowSlave.h"
+					RelativePath=".\PRP\Particle\plParticleSystem.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Particle\plParticleSystem.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plModifier"
+				Name="Physics"
 				>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plAliasModifier.cpp"
+					RelativePath=".\PRP\Physics\plCollisionDetector.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plAliasModifier.h"
+					RelativePath=".\PRP\Physics\plCollisionDetector.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plAnimEventModifier.cpp"
+					RelativePath=".\PRP\Physics\plDetectorModifier.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plAnimEventModifier.h"
+					RelativePath=".\PRP\Physics\plDetectorModifier.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plExcludeRegionModifier.cpp"
+					RelativePath=".\PRP\Physics\plHKPhysical.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plExcludeRegionModifier.h"
+					RelativePath=".\PRP\Physics\plHKPhysical.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plImageLibMod.cpp"
+					RelativePath=".\PRP\Physics\plObjectInVolumeDetector.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plImageLibMod.h"
+					RelativePath=".\PRP\Physics\plObjectInVolumeDetector.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plInterfaceInfoModifier.cpp"
+					RelativePath=".\PRP\Physics\plODEPhysical.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plInterfaceInfoModifier.h"
+					RelativePath=".\PRP\Physics\plODEPhysical.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plLogicModifier.cpp"
+					RelativePath=".\PRP\Physics\plPhysical.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plLogicModifier.h"
+					RelativePath=".\PRP\Physics\plPhysical.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plResponderModifier.cpp"
+					RelativePath=".\PRP\Physics\plPhysicalSndGroup.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plResponderModifier.h"
+					RelativePath=".\PRP\Physics\plPhysicalSndGroup.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plSpawnModifier.cpp"
+					RelativePath=".\PRP\Physics\plPXPhysical.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plModifier\plSpawnModifier.h"
+					RelativePath=".\PRP\Physics\plPXPhysical.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plAudioCore"
+				Name="Region"
 				>
 				<File
-					RelativePath=".\PubUtilLib\plAudioCore\plSoundBuffer.cpp"
+					RelativePath=".\PRP\Region\hsBounds.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudioCore\plSoundBuffer.h"
+					RelativePath=".\PRP\Region\hsBounds.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plConvexVolume.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plConvexVolume.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plHardRegion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plHardRegion.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plHardRegionPlanes.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plHardRegionPlanes.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plRegionBase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plRegionBase.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plRelevanceRegion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plRelevanceRegion.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plSoftVolume.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plSoftVolume.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plVisRegion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plVisRegion.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plVolumeIsect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plVolumeIsect.h"
 					>
 				</File>
 			</Filter>
 			<Filter
-				Name="plPhysics"
+				Name="Surface"
 				>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plCollisionDetector.cpp"
+					RelativePath=".\PRP\Surface\hsGMaterial.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plCollisionDetector.h"
+					RelativePath=".\PRP\Surface\hsGMaterial.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plDetectorModifier.cpp"
+					RelativePath=".\PRP\Surface\hsGMatState.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plDetectorModifier.h"
+					RelativePath=".\PRP\Surface\hsGMatState.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plHKPhysical.cpp"
+					RelativePath=".\PRP\Surface\plBitmap.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plHKPhysical.h"
+					RelativePath=".\PRP\Surface\plBitmap.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plObjectInVolumeDetector.cpp"
+					RelativePath=".\PRP\Surface\plCubicEnvironmap.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plObjectInVolumeDetector.h"
+					RelativePath=".\PRP\Surface\plCubicEnvironmap.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plODEPhysical.cpp"
+					RelativePath=".\PRP\Surface\plDynaDecalMgr.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plODEPhysical.h"
+					RelativePath=".\PRP\Surface\plDynaDecalMgr.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plPhysical.cpp"
+					RelativePath=".\PRP\Surface\plDynamicEnvMap.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plPhysical.h"
+					RelativePath=".\PRP\Surface\plDynamicEnvMap.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plPhysicalSndGroup.cpp"
+					RelativePath=".\PRP\Surface\plDynamicTextMap.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plPhysicalSndGroup.h"
+					RelativePath=".\PRP\Surface\plDynamicTextMap.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plPXPhysical.cpp"
+					RelativePath=".\PRP\Surface\plDynaRippleMgr.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plPhysics\plPXPhysical.h"
+					RelativePath=".\PRP\Surface\plDynaRippleMgr.h"
 					>
 				</File>
-			</Filter>
-			<Filter
-				Name="plAudio"
-				>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plEAXEffects.cpp"
+					RelativePath=".\PRP\Surface\plFixedWaterState6.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plEAXEffects.h"
+					RelativePath=".\PRP\Surface\plFixedWaterState6.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plEAXListenerMod.cpp"
+					RelativePath=".\PRP\Surface\plFixedWaterState7.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plEAXListenerMod.h"
+					RelativePath=".\PRP\Surface\plFixedWaterState7.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plSound.cpp"
+					RelativePath=".\PRP\Surface\plFont.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plSound.h"
+					RelativePath=".\PRP\Surface\plFont.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plWin32Sound.cpp"
+					RelativePath=".\PRP\Surface\plLayer.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plWin32Sound.h"
+					RelativePath=".\PRP\Surface\plLayer.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plWin32StaticSound.cpp"
+					RelativePath=".\PRP\Surface\plLayerAnimation.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plAudio\plWin32StaticSound.h"
+					RelativePath=".\PRP\Surface\plLayerAnimation.h"
 					>
 				</File>
-			</Filter>
-			<Filter
-				Name="plInterp"
-				>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\hsKeys.cpp"
+					RelativePath=".\PRP\Surface\plLayerInterface.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\hsKeys.h"
+					RelativePath=".\PRP\Surface\plLayerInterface.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plAnimPath.cpp"
+					RelativePath=".\PRP\Surface\plLayerMovie.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plAnimPath.h"
+					RelativePath=".\PRP\Surface\plLayerMovie.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plAnimTimeConvert.cpp"
+					RelativePath=".\PRP\Surface\plMipmap.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plAnimTimeConvert.h"
+					RelativePath=".\PRP\Surface\plMipmap.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plATCEaseCurves.cpp"
+					RelativePath=".\PRP\Surface\plRenderTarget.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plATCEaseCurves.h"
+					RelativePath=".\PRP\Surface\plRenderTarget.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plController.cpp"
+					RelativePath=".\PRP\Surface\plWaveSet6.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plController.h"
+					RelativePath=".\PRP\Surface\plWaveSet6.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plKeyControllers.cpp"
+					RelativePath=".\PRP\Surface\plWaveSet7.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plKeyControllers.h"
+					RelativePath=".\PRP\Surface\plWaveSet7.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plLeafController.cpp"
+					RelativePath=".\PRP\Surface\plWaveSetBase.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PubUtilLib\plInterp\plLeafController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\plPosController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\plPosController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\plRotController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\plRotController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\plScaleController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\plScaleController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\plTMController.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\plTMController.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\UruKeys.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plInterp\UruKeys.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plTransform"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plTransform\hsAffineParts.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plTransform\hsAffineParts.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plAudible"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plAudible\plAudible.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plAudible\plAudible.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plParticleSystem"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plBoundInterface.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plBoundInterface.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plConvexVolume.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plConvexVolume.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleApplicator.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleApplicator.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEffect.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEffect.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEmitter.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleEmitter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleGenerator.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleGenerator.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleSystem.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plParticleSystem\plParticleSystem.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plMessage"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plAnimCmdMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plAnimCmdMsg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plExcludeRegionMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plExcludeRegionMsg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plLinkToAgeMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plLinkToAgeMsg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plOneShotCallbacks.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plOneShotCallbacks.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plResponderMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plResponderMsg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plTimerCallbackMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plTimerCallbackMsg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plTransitionMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plMessage\plTransitionMsg.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plNetCommon"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plNetCommon\plNetServerSessionInfo.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plNetCommon\plNetServerSessionInfo.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plNetCommon\plSpawnPointInfo.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plNetCommon\plSpawnPointInfo.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plUUID"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plUUID\plUUID.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plUUID\plUUID.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plIntersect"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plHardRegion.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plHardRegion.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plHardRegionPlanes.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plHardRegionPlanes.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plRegionBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plRegionBase.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plSoftVolume.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plSoftVolume.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plVolumeIsect.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plIntersect\plVolumeIsect.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="plSDL"
-				>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plSDL.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plSDL.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plSDLMgr.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plSDLMgr.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plStateDataRecord.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plStateDataRecord.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plStateDescriptor.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plStateDescriptor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plStateVariable.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PubUtilLib\plSDL\plStateVariable.h"
+					RelativePath=".\PRP\Surface\plWaveSetBase.h"
 					>
 				</File>
 			</Filter>
 		</Filter>
 		<Filter
-			Name="FeatureLib"
+			Name="ResManager"
 			>
-			<Filter
-				Name="pfPython"
+			<File
+				RelativePath=".\ResManager\pdUnifiedTypeMap.cpp"
 				>
-				<File
-					RelativePath=".\FeatureLib\pfPython\plPythonFileMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfPython\plPythonFileMod.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="pfPRC"
+			</File>
+			<File
+				RelativePath=".\ResManager\pdUnifiedTypeMap.h"
 				>
-				<File
-					RelativePath=".\FeatureLib\pfPRC\pfPrcHelper.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfPRC\pfPrcHelper.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfPRC\pfPrcParser.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfPRC\pfPrcParser.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="pfAnimation"
+			</File>
+			<File
+				RelativePath=".\ResManager\plAgeInfo.cpp"
 				>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plBlower.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plBlower.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plFilterCoordInterface.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plFilterCoordInterface.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plLineFollowMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plLineFollowMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plRandomCommandMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plRandomCommandMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plStereizer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plStereizer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plViewFaceModifier.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAnimation\plViewFaceModifier.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="pfConditional"
+			</File>
+			<File
+				RelativePath=".\ResManager\plAgeInfo.h"
 				>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plActivatorConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plActivatorConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plAnimationEventConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plAnimationEventConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plBooleanConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plBooleanConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plControlEventConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plControlEventConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plDetectConditionalObjects.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plDetectConditionalObjects.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plFacingConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plFacingConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plKeyPressConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plKeyPressConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plPickedConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plPickedConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plPythonFileModConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plPythonFileModConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plVolumeSensorConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfConditional\plVolumeSensorConditionalObject.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="pfGameGUIMgr"
+			</File>
+			<File
+				RelativePath=".\ResManager\plFactory.cpp"
 				>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIButtonMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIButtonMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUICheckBoxCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUICheckBoxCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIClickMapCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIClickMapCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIControlHandlers.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIControlHandlers.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIControlMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIControlMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDialogMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDialogMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDragBarCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDragBarCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDraggableMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDraggableMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDynDisplayCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIDynDisplayCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIEditBoxMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIEditBoxMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIKnobCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIKnobCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIListBoxMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIListBoxMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIMultiLineEditCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIMultiLineEditCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIPopUpMenu.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIPopUpMenu.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIProgressCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIProgressCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIRadioGroupCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIRadioGroupCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUISkin.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUISkin.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUITextBoxMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUITextBoxMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIUpDownPairMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIUpDownPairMod.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIValueCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfGameGUIMgr\pfGUIValueCtrl.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="pfMessage"
+			</File>
+			<File
+				RelativePath=".\ResManager\plFactory.h"
 				>
-				<File
-					RelativePath=".\FeatureLib\pfMessage\plArmatureEffectMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfMessage\plArmatureEffectMsg.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="pfAudio"
+			</File>
+			<File
+				RelativePath=".\ResManager\plKeyCollector.cpp"
 				>
-				<File
-					RelativePath=".\FeatureLib\pfAudio\plRandomSoundMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfAudio\plRandomSoundMod.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="pfCamera"
+			</File>
+			<File
+				RelativePath=".\ResManager\plKeyCollector.h"
 				>
-				<File
-					RelativePath=".\FeatureLib\pfCamera\plCameraBrain.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfCamera\plCameraBrain.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfCamera\plCameraModifier.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FeatureLib\pfCamera\plCameraModifier.h"
-					>
-				</File>
-			</Filter>
+			</File>
+			<File
+				RelativePath=".\ResManager\plResManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ResManager\plResManager.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="SDL"
+			>
+			<File
+				RelativePath=".\SDL\plSDL.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plSDL.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plSDLMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plSDLMgr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plStateDataRecord.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plStateDataRecord.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plStateDescriptor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plStateDescriptor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plStateVariable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plStateVariable.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="3rdPartyLibs"
@@ -3156,6 +2099,158 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Stream"
+			>
+			<File
+				RelativePath=".\Stream\hsElfStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsElfStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsRAMStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsRAMStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsStdioStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsStdioStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsTokenStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\hsTokenStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\pfPrcHelper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\pfPrcHelper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\pfPrcParser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\pfPrcParser.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\plEncryptedStream.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Stream\plEncryptedStream.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Sys"
+			>
+			<File
+				RelativePath=".\Sys\hsColor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\hsColor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\hsSemaphore.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\hsSemaphore.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\Platform.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\plUnifiedTime.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\plUnifiedTime.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\plUUID.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\plUUID.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Util"
+			>
+			<File
+				RelativePath=".\Util\hsBitVector.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\hsBitVector.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\hsTArray.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\hsTList.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\PlasmaVersions.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\PlasmaVersions.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\plJPEG.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\plJPEG.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\plString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\plString.h"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\PlasmaDefs.h"

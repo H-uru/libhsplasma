@@ -1,8 +1,7 @@
 #ifndef _PLBITMAP_H
 #define _PLBITMAP_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "CoreLib/hsStream.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plBitmap : public hsKeyedObject {
 public:

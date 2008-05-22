@@ -1,9 +1,9 @@
 #ifndef _HSGEOMETRY3_H
 #define _HSGEOMETRY3_H
 
-#include "hsStream.h"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/hsStream.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 DllStruct hsVector3 {
     float X, Y, Z;

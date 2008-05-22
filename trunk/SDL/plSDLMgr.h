@@ -2,7 +2,7 @@
 #define _PLSDLMGR_H
 
 #include "plStateDescriptor.h"
-#include "CoreLib/hsExceptions.h"
+#include "Debug/hsExceptions.h"
 
 DllClass plSDLMgr {
 protected:

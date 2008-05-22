@@ -2,8 +2,8 @@
 #define _HSTOKENSTREAM_H
 
 #include "hsStream.h"
-#include "hsTList.hpp"
-#include "hsTArray.hpp"
+#include "Util/hsTList.hpp"
+#include "Util/hsTArray.hpp"
 
 DllClass hsTokenStream {
 public:

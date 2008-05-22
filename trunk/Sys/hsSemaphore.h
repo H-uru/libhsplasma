@@ -2,7 +2,7 @@
 #define _HSSEMAPHORE_H
 
 #include "PlasmaDefs.h"
-#include "hsExceptions.h"
+#include "Debug/hsExceptions.h"
 
 #ifdef WIN32
   #include <windows.h>

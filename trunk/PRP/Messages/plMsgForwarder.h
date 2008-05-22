@@ -1,7 +1,7 @@
 #ifndef _PLMSGFORWARDER_H
 #define _PLMSGFORWARDER_H
 
-#include "hsKeyedObject.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plMsgForwarder : public hsKeyedObject {
 protected:

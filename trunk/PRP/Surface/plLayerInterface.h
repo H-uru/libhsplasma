@@ -1,11 +1,11 @@
 #ifndef _PLLAYERINTERFACE_H
 #define _PLLAYERINTERFACE_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
-#include "CoreLib/hsColor.h"
-#include "CoreLib/hsMatrix44.h"
-#include "PubUtilLib/plGImage/plBitmap.h"
-#include "NucleusLib/inc/hsGMatState.h"
+#include "PRP/Object/plSynchedObject.h"
+#include "Sys/hsColor.h"
+#include "Math/hsMatrix44.h"
+#include "plBitmap.h"
+#include "hsGMatState.h"
 
 DllClass plLayerInterface : public plSynchedObject {
 public:

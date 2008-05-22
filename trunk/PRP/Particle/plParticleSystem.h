@@ -1,8 +1,8 @@
 #ifndef _PLPARTICLESYSTEM_H
 #define _PLPARTICLESYSTEM_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
-#include "PubUtilLib/plInterp/plController.h"
+#include "PRP/Object/plSynchedObject.h"
+#include "PRP/Animation/plController.h"
 #include "plParticleEmitter.h"
 
 DllClass plParticleSystem : public plSynchedObject {

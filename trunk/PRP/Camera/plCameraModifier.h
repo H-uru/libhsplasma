@@ -1,8 +1,8 @@
 #ifndef _PLCAMERAMODIFIER_H
 #define _PLCAMERAMODIFIER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
-#include "NucleusLib/pnMessage/plCameraMsg.h"
+#include "PRP/Modifier/plModifier.h"
+#include "PRP/Messages/plCameraMsg.h"
 
 DllClass plCameraModifier1 : public plSingleModifier {
 public:

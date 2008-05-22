@@ -1,8 +1,8 @@
 #ifndef _PLPARTICLEGENERATOR_H
 #define _PLPARTICLEGENERATOR_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
-#include "CoreLib/hsGeometry3.h"
+#include "PRP/plCreatable.h"
+#include "Math/hsGeometry3.h"
 
 DllClass plParticleGenerator : public plCreatable {
 public:

@@ -1,7 +1,7 @@
 #ifndef _PLPHYSICALSNDGROUP_H
 #define _PLPHYSICALSNDGROUP_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plPhysicalSndGroup : public hsKeyedObject {
 public:

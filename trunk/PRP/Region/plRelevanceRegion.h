@@ -1,8 +1,8 @@
 #ifndef _PLRELEVANCEREGION_H
 #define _PLRELEVANCEREGION_H
 
-#include "NucleusLib/pnSceneObject/plObjInterface.h"
-#include "CoreLib/hsBitVector.h"
+#include "PRP/Object/plObjInterface.h"
+#include "Util/hsBitVector.h"
 
 DllClass plRelevanceRegion : public plObjInterface {
 protected:

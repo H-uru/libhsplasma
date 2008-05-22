@@ -1,9 +1,9 @@
 #ifndef _PLSCENENODE_H
 #define _PLSCENENODE_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "NucleusLib/pnSceneObject/plSceneObject.h"
-#include "CoreLib/hsTArray.hpp"
+#include "PRP/KeyedObject/hsKeyedObject.h"
+#include "PRP/Object/plSceneObject.h"
+#include "Util/hsTArray.hpp"
 
 DllClass plSceneNode : public hsKeyedObject {
 protected:

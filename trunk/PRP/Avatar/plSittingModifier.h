@@ -1,7 +1,7 @@
 #ifndef _PLSITTINGMODIFIER_H
 #define _PLSITTINGMODIFIER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 
 DllClass plSittingModifier : public plSingleModifier {
 public:

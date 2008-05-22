@@ -1,8 +1,8 @@
 #ifndef _HSGMATERIAL_H
 #define _HSGMATERIAL_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
-#include "CoreLib/hsTArray.hpp"
+#include "PRP/Object/plSynchedObject.h"
+#include "Util/hsTArray.hpp"
 
 DllClass hsGMaterial : public plSynchedObject {
 public:

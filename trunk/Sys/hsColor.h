@@ -1,9 +1,8 @@
 #ifndef _HSCOLORRGBA_H
 #define _HSCOLORRGBA_H
 
-#include "hsStream.h"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 DllStruct hsColorRGBA {
 public:

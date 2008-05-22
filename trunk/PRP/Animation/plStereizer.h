@@ -1,8 +1,8 @@
 #ifndef _PLSTEREIZER_H
 #define _PLSTEREIZER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
-#include "CoreLib/hsGeometry3.h"
+#include "PRP/Modifier/plModifier.h"
+#include "Math/hsGeometry3.h"
 
 DllClass plStereizer : public plSingleModifier {
 public:

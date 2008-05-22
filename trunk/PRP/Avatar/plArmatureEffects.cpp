@@ -1,5 +1,5 @@
 #include "plArmatureEffects.h"
-#include "CoreLib/plDebug.h"
+#include "Debug/plDebug.h"
 
 /* plArmatureEffect */
 IMPLEMENT_CREATABLE(plArmatureEffect, kArmatureEffect, hsKeyedObject)

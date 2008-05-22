@@ -1,5 +1,5 @@
 #include "pfPrcParser.h"
-#include "CoreLib/plDebug.h"
+#include "Debug/plDebug.h"
 #include <cstdarg>
 
 /* pfPrcTag */

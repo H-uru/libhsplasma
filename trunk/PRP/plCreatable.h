@@ -1,12 +1,8 @@
 #ifndef _PLCREATABLE_H
 #define _PLCREATABLE_H
 
-#include "CoreLib/hsStream.h"
-#include "DynLib/PlasmaVersions.h"
-#include "DynLib/pdUnifiedTypeMap.h"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
-#include "PubUtilLib/plResMgr/plResManager.h"
+#include "ResManager/pdUnifiedTypeMap.h"
+#include "ResManager/plResManager.h"
 
 #define DECLARE_CREATABLE(classname) \
     virtual short ClassIndex() const; \
@@ -26,7 +22,7 @@
     }
 
 
-DllClass plCreatable /*: public hsRefCnt*/ {
+DllClass plCreatable {
 public:
     plCreatable();
     virtual ~plCreatable();
@@ -42,6 +38,31 @@ public:
     virtual void IPrcWrite(pfPrcHelper* prc) =0;
     virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+};
+
+DllClass plCreatableStub : public plCreatable {
+protected:
+    short fClassIdx;
+    unsigned char* fData;
+    size_t fDataLen;
+
+public:
+    plCreatableStub();
+    plCreatableStub(short hClass, size_t length);
+    virtual ~plCreatableStub();
+
+    virtual short ClassIndex() const;
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void prcWrite(pfPrcHelper* prc);
+    virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    short getClassIdx() const;
+    const unsigned char* getData() const;
+    size_t getLength() const;
 };
 
 #endif

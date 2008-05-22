@@ -1,7 +1,7 @@
 #ifndef _PLANIMEVENTMODIFIER_H
 #define _PLANIMEVENTMODIFIER_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "plModifier.h"
 
 DllClass plAnimEventModifier : public plSingleModifier {
 protected:

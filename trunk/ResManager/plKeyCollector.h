@@ -1,8 +1,7 @@
 #ifndef _PLKEYCOLLECTOR_H
 #define _PLKEYCOLLECTOR_H
 
-#include "NucleusLib/pnKeyedObject/plKey.h"
-#include "DynLib/PageID.h"
+#include "PRP/KeyedObject/plKey.h"
 #include <map>
 #include <vector>
 

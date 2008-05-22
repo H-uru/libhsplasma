@@ -1,8 +1,8 @@
 #ifndef _PLCLUSTERGROUP_H
 #define _PLCLUSTERGROUP_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "CoreLib/plRenderLevel.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
+#include "PRP/Misc/plRenderLevel.h"
 #include "plCluster.h"
 #include "plSpanTemplate.h"
 

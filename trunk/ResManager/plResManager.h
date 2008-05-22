@@ -2,15 +2,15 @@
 #define _PLRESMANAGER_H
 
 #include "PlasmaDefs.h"
-#include "DynLib/PlasmaVersions.h"
-#include "DynLib/PageID.h"
-#include "DynLib/pdUnifiedTypeMap.h"
-#include "CoreLib/plEncryptedStream.h"
-#include "CoreLib/hsTArray.hpp"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Util/PlasmaVersions.h"
+#include "PRP/KeyedObject/plLocation.h"
+#include "pdUnifiedTypeMap.h"
+#include "Stream/plEncryptedStream.h"
+#include "Util/hsTArray.hpp"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 #include "plKeyCollector.h"
-#include "plPageInfo.h"
+#include "PRP/plPageInfo.h"
 #include "plAgeInfo.h"
 
 DllClass plResManager /* : public hsResMgr */ {

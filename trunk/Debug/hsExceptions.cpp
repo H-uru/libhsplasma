@@ -1,6 +1,6 @@
 #include "hsExceptions.h"
 
-// hsException //
+/* hsException */
 hsException::hsException(const char* file, unsigned long line) throw()
     : fWhat("Undefined Plasma Exception"), fFile(file), fLine(line) { }
 hsException::hsException(const hsException& e) throw()
@@ -20,7 +20,7 @@ const char* hsException::File() const throw() { return fFile; }
 unsigned long hsException::Line() const throw() { return fLine; }
 
 
-// hsNotImplementedException //
+/* hsNotImplementedException */
 hsNotImplementedException::hsNotImplementedException(const char* file,
                            unsigned long line, const char* feature) throw()
                          : hsException(file, line) {
@@ -31,7 +31,7 @@ hsNotImplementedException::hsNotImplementedException(const char* file,
 }
 
 
-// hsBadParamException //
+/* hsBadParamException */
 hsBadParamException::hsBadParamException(const char* file,
                      unsigned long line, const char* details) throw()
                    : hsException(file, line) {
@@ -41,7 +41,7 @@ hsBadParamException::hsBadParamException(const char* file,
 }
 
 
-// hsOutOfBoundsException //
+/* hsOutOfBoundsException */
 hsOutOfBoundsException::hsOutOfBoundsException(const char* file,
                         unsigned long line) throw()
                       : hsException(file, line) {
@@ -49,7 +49,7 @@ hsOutOfBoundsException::hsOutOfBoundsException(const char* file,
 }
 
 
-// hsBadVersionException //
+/* hsBadVersionException */
 hsBadVersionException::hsBadVersionException(const char* file,
                        unsigned long line) throw()
                      : hsException(file, line) {
@@ -57,7 +57,7 @@ hsBadVersionException::hsBadVersionException(const char* file,
 }
 
 
-// hsVersionMismatchException //
+/* hsVersionMismatchException */
 hsVersionMismatchException::hsVersionMismatchException(const char* file,
                             unsigned long line) throw()
                           : hsException(file, line) {

@@ -1,7 +1,7 @@
 #ifndef _PLJPEG_H
 #define _PLJPEG_H
 
-#include "PubUtilLib/plGImage/plMipmap.h"
+#include "PRP/Surface/plMipmap.h"
 #include <jpeglib.h>
 
 class plJPEG {

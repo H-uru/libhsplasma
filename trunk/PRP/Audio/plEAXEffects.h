@@ -1,8 +1,8 @@
 #ifndef _PLEAXEFFECTS_H
 #define _PLEAXEFFECTS_H
 
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 DllClass plEAXSourceSoftSettings {
 protected:

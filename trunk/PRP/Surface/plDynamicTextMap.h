@@ -3,7 +3,7 @@
 
 #include "plMipmap.h"
 #include "plFont.h"
-#include "CoreLib/hsColor.h"
+#include "Sys/hsColor.h"
 
 DllClass plDynamicTextMap : public plMipmap {
 public:

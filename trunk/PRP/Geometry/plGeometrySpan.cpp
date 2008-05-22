@@ -1,5 +1,5 @@
 #include "plGeometrySpan.h"
-#include "CoreLib/plDebug.h"
+#include "Debug/plDebug.h"
 
 plGeometrySpan::plGeometrySpan()
               : fVertexData(NULL), fIndexData(NULL), fMultColor(NULL),

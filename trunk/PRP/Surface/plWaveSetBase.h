@@ -1,7 +1,7 @@
 #ifndef _PLWAVESETBASE_H
 #define _PLWAVESETBASE_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 
 DllClass plWaveSetBase : public plMultiModifier {
 public:

@@ -1,10 +1,9 @@
 #ifndef _HSBITVECTOR_H
 #define _HSBITVECTOR_H
 
-#include "hsStream.h"
-#include "hsTArray.hpp"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Util/hsTArray.hpp"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 #include <map>
 
 #define BVMASK 0x1F

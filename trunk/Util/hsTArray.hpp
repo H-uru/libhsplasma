@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "hsExceptions.h"
+#include "Debug/hsExceptions.h"
 
 template <class T>
 class hsTArray {

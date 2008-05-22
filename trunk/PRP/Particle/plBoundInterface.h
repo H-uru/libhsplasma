@@ -1,8 +1,8 @@
 #ifndef _PLBOUNDINTERFACE_H
 #define _PLBOUNDINTERFACE_H
 
-#include "NucleusLib/pnSceneObject/plObjInterface.h"
-#include "plConvexVolume.h"
+#include "PRP/Object/plObjInterface.h"
+#include "PRP/Region/plConvexVolume.h"
 
 DllClass plBoundInterface : public plObjInterface {
 public:

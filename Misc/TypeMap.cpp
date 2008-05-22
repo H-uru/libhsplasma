@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <cstring>
-#include "DynLib/pdUnifiedTypeMap.h"
+#include "ResManager/pdUnifiedTypeMap.h"
 
 #define MAX_KEYED       0x0170
 #define MAX_NONKEYED    0x03E7

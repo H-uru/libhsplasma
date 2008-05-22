@@ -1,5 +1,6 @@
 #include "plCreatable.h"
 
+/* plCreatable */
 plCreatable::plCreatable() { }
 plCreatable::~plCreatable() { }
 
@@ -36,3 +37,55 @@ void plCreatable::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 void plCreatable::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 }
+
+
+/* plCreatableStub */
+plCreatableStub::plCreatableStub()
+              : fClassIdx(0x8000), fData(NULL), fDataLen(0) { }
+
+plCreatableStub::plCreatableStub(short hClass, size_t length)
+              : fClassIdx(hClass), fDataLen(length) {
+    fData = new unsigned char[fDataLen];
+}
+
+plCreatableStub::~plCreatableStub() {
+    if (fData != NULL)
+        delete[] fData;
+}
+
+short plCreatableStub::ClassIndex() const { return fClassIdx; }
+
+void plCreatableStub::read(hsStream* S, plResManager* mgr) {
+    S->read(fDataLen, fData);
+}
+
+void plCreatableStub::write(hsStream* S, plResManager* mgr) {
+    S->write(fDataLen, fData);
+}
+
+void plCreatableStub::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("plCreatableStub");
+    prc->writeParam("ClassIdx", fClassIdx);
+    prc->endTag();
+    prc->writeHexStream(fDataLen, fData);
+    prc->closeTag();
+}
+
+void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() != "plCreatableStub")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    fClassIdx = tag->getParam("ClassIdx", "0").toInt();
+
+    if (fData != NULL)
+        delete[] fData;
+    fDataLen = tag->getContents().getSize();
+    fData = new unsigned char[fDataLen];
+    tag->readHexStream(fDataLen, fData);
+}
+
+void plCreatableStub::IPrcWrite(pfPrcHelper* prc) { }
+void plCreatableStub::IPrcParse(const pfPrcTag* tag, plResManager* mgr) { }
+
+short plCreatableStub::getClassIdx() const { return fClassIdx; }
+const unsigned char* plCreatableStub::getData() const { return fData; }
+size_t plCreatableStub::getLength() const { return fDataLen; }

@@ -1,6 +1,6 @@
 #include <string.h>
 #include "hsStream.h"
-#include "DynLib/Platform.h"
+#include "Sys/Platform.h"
 
 static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 static const wchar_t eoaWStrKey[8] = {L'm',L'y',L's',L't',L'n',L'e',L'r',L'd'};

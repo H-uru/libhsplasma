@@ -1,6 +1,6 @@
 #ifndef _PLIMAGELIBMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 
 DllClass plImageLibMod : public plSingleModifier {
 protected:

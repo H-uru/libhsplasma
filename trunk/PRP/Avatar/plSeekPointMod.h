@@ -1,7 +1,7 @@
 #ifndef _PLSEEKPOINTMOD_H
 #define _PLSEEKPOINTMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 
 DllClass plSeekPointMod : public plMultiModifier {
 protected:

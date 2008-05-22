@@ -1,5 +1,5 @@
 #include "plClothingItem.h"
-#include "CoreLib/plDebug.h"
+#include "Debug/plDebug.h"
 
 plClothingItem::plClothingItem()
               : fGroup(0), fType(0), fTileset(0), fSortOrder(0) {

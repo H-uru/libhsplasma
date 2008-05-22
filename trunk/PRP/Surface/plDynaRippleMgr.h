@@ -2,7 +2,7 @@
 #define _PLDYNARIPPLEMGR_H
 
 #include "plDynaDecalMgr.h"
-#include "PubUtilLib/plInterp/plAnimPath.h"
+#include "PRP/Animation/plAnimPath.h"
 
 DllClass plDynaRippleMgr : public plDynaDecalMgr {
 protected:

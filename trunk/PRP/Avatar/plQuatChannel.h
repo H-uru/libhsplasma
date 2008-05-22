@@ -2,7 +2,7 @@
 #define _PLQUATCHANNEL_H
 
 #include "plAGApplicator.h"
-#include "PubUtilLib/plInterp/plController.h"
+#include "PRP/Animation/plController.h"
 
 /* Quat Channels */
 DllClass plQuatChannel : public plAGChannel {

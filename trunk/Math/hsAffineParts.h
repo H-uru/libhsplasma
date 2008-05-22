@@ -1,9 +1,8 @@
 #ifndef _HSAFFINEPARTS_H
 #define _HSAFFINEPARTS_H
 
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsQuat.h"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
+#include "hsGeometry3.h"
+#include "hsQuat.h"
 
 DllClass hsAffineParts {
 protected:

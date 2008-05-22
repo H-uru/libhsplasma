@@ -1,8 +1,8 @@
 #ifndef _PLFOGENVIRONMENT_H
 #define _PLFOGENVIRONMENT_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "CoreLib/hsColor.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
+#include "Sys/hsColor.h"
 
 DllClass plFogEnvironment : public hsKeyedObject {
 public:

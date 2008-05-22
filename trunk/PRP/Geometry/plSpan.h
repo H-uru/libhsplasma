@@ -1,12 +1,11 @@
 #ifndef _PLSPAN_H
 #define _PLSPAN_H
 
-#include "CoreLib/hsMatrix44.h"
-#include "CoreLib/hsStream.h"
-#include "CoreLib/hsBounds.h"
-#include "CoreLib/hsBitVector.h"
-#include "PubUtilLib/plPipeline/plFogEnvironment.h"
-#include "PubUtilLib/plGLight/plLightInfo.h"
+#include "Math/hsMatrix44.h"
+#include "PRP/Region/hsBounds.h"
+#include "Util/hsBitVector.h"
+#include "PRP/Misc/plFogEnvironment.h"
+#include "PRP/Light/plLightInfo.h"
 
 DllClass plSpan {
 public:

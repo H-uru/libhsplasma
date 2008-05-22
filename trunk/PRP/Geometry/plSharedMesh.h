@@ -1,10 +1,9 @@
 #ifndef PLSHAREDMESH_H
 #define PLSHAREDMESH_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "NucleusLib/pnSceneObject/plSceneObject.h"
-#include "CoreLib/hsStream.h"
-#include "CoreLib/hsTArray.hpp"
+#include "PRP/KeyedObject/hsKeyedObject.h"
+#include "PRP/Object/plSceneObject.h"
+#include "Util/hsTArray.hpp"
 #include "plGeometrySpan.h"
 
 DllClass plSharedMesh : public hsKeyedObject {

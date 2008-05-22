@@ -1,10 +1,10 @@
 #ifndef _PLVOLUMEISECT_H
 #define _PLVOLUMEISECT_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsMatrix44.h"
-#include "CoreLib/hsBounds.h"
+#include "PRP/plCreatable.h"
+#include "Math/hsGeometry3.h"
+#include "Math/hsMatrix44.h"
+#include "hsBounds.h"
 
 DllClass plVolumeIsect : public plCreatable {
 public:

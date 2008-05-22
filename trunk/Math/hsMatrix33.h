@@ -1,8 +1,8 @@
 #ifndef _HSMATRIX33_H
 #define _HSMATRIX33_H
 
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 DllStruct hsMatrix33 {
 private:

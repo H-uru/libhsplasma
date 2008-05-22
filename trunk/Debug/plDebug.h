@@ -1,7 +1,7 @@
 #ifndef _PLDEBUG_H
 #define _PLDEBUG_H
 
-#include "hsStdioStream.h"
+#include "Stream/hsStdioStream.h"
 
 DllClass plDebug {
 public:

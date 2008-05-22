@@ -1,8 +1,8 @@
 #ifndef _PLSPANINSTANCE_H
 #define _PLSPANINSTANCE_H
 
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Stream/pfPrcHelper.h"
+#include "Stream/pfPrcParser.h"
 
 DllClass plSpanEncoding {
 public:

@@ -1,7 +1,7 @@
 #ifndef _PLVISREGION_H
 #define _PLVISREGION_H
 
-#include "NucleusLib/pnSceneObject/plObjInterface.h"
+#include "PRP/Object/plObjInterface.h"
 
 DllClass plVisRegion : public plObjInterface {
 public:

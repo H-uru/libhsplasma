@@ -1,8 +1,8 @@
 #ifndef _PLLINEFOLLOWMOD_H
 #define _PLLINEFOLLOWMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
-#include "PubUtilLib/plInterp/plAnimPath.h"
+#include "PRP/Modifier/plModifier.h"
+#include "plAnimPath.h"
 
 DllClass plLineFollowMod : public plMultiModifier {
 public:

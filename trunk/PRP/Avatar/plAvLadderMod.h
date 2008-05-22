@@ -1,8 +1,8 @@
 #ifndef _PLAVLADDERMOD_H
 #define _PLAVLADDERMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
-#include "CoreLib/hsGeometry3.h"
+#include "PRP/Modifier/plModifier.h"
+#include "Math/hsGeometry3.h"
 
 DllClass plAvLadderMod : public plSingleModifier {
 public:

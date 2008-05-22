@@ -1,8 +1,8 @@
 #ifndef _PLCONDITIONALOBJECT_H
 #define _PLCONDITIONALOBJECT_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "CoreLib/hsBitVector.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
+#include "Util/hsBitVector.h"
 
 DllClass plConditionalObject : public hsKeyedObject {
 protected:

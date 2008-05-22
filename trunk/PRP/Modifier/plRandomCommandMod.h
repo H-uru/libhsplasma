@@ -1,8 +1,8 @@
 #ifndef _PLRANDOMCOMMANDMOD_H
 #define _PLRANDOMCOMMANDMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
-#include "CoreLib/hsBitVector.h"
+#include "plModifier.h"
+#include "Util/hsBitVector.h"
 
 DllClass plRandomCommandMod : public plSingleModifier {
 public:

@@ -1,7 +1,7 @@
 #ifndef _PLTIMERCALLBACKMSG_H
 #define _PLTIMERCALLBACKMSG_H
 
-#include "NucleusLib/pnMessage/plMessage.h"
+#include "plMessage.h"
 
 DllClass plTimerCallbackMsg : public plMessage {
 protected:

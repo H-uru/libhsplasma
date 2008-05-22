@@ -1,14 +1,13 @@
 #ifndef _PLGEOMETRYSPAN_H
 #define _PLGEOMETRYSPAN_H
 
-#include "CoreLib/hsStream.h"
-#include "CoreLib/hsTArray.hpp"
-#include "PubUtilLib/plSurface/hsGMaterial.h"
-#include "CoreLib/hsMatrix44.h"
-#include "PubUtilLib/plPipeline/plFogEnvironment.h"
-#include "CoreLib/hsBounds.h"
-#include "CoreLib/hsColor.h"
-#include "CoreLib/hsGeometry3.h"
+#include "Util/hsTArray.hpp"
+#include "PRP/Surface/hsGMaterial.h"
+#include "Math/hsMatrix44.h"
+#include "PRP/Misc/plFogEnvironment.h"
+#include "PRP/Region/hsBounds.h"
+#include "Sys/hsColor.h"
+#include "Math/hsGeometry3.h"
 
 class plGeometrySpan {
 public:

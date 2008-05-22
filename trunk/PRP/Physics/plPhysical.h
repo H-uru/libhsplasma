@@ -1,7 +1,7 @@
 #ifndef _PLPHYSICAL_H
 #define _PLPHYSICAL_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
+#include "PRP/Object/plSynchedObject.h"
 
 DllClass plPhysical : public plSynchedObject {
 public:

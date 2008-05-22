@@ -1,7 +1,7 @@
 #ifndef _PLONESHOTMSG_H
 #define _PLONESHOTMSG_H
 
-#include "NucleusLib/pnMessage/plMessage.h"
+#include "plMessage.h"
 #include "plOneShotCallbacks.h"
 
 DllClass plResponderMsg : public plMessage {

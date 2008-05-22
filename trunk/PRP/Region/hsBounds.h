@@ -1,10 +1,7 @@
 #ifndef _HSBOUNDS_H
 #define _HSBOUNDS_H
 
-#include "hsStream.h"
-#include "hsGeometry3.h"
-#include "FeatureLib/pfPRC/pfPrcHelper.h"
-#include "FeatureLib/pfPRC/pfPrcParser.h"
+#include "Math/hsGeometry3.h"
 
 DllClass hsBounds {
 protected:

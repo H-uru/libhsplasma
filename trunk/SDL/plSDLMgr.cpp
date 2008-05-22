@@ -1,6 +1,6 @@
 #include "plSDLMgr.h"
-#include "CoreLib/hsTokenStream.h"
-#include "CoreLib/plEncryptedStream.h"
+#include "Stream/hsTokenStream.h"
+#include "Stream/plEncryptedStream.h"
 #include <stdarg.h>
 
 /* plSDLMgr */

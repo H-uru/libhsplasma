@@ -1,8 +1,8 @@
 #ifndef _PLVIEWTRANSFORM_H
 #define _PLVIEWTRANSFORM_H
 
-#include "hsMatrix44.h"
-#include "hsGeometry3.h"
+#include "Math/hsMatrix44.h"
+#include "Math/hsGeometry3.h"
 
 DllClass plViewTransform {
 public:

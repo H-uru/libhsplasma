@@ -1,7 +1,7 @@
 #ifndef _PLMULTISTAGEBEHMOD_H
 #define _PLMULTISTAGEBEHMOD_H
 
-#include "NucleusLib/pnModifier/plModifier.h"
+#include "PRP/Modifier/plModifier.h"
 #include "plAnimStage.h"
 
 DllClass plMultistageBehMod : public plSingleModifier {

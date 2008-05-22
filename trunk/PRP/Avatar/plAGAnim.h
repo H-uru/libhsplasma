@@ -1,7 +1,7 @@
 #ifndef _PLAGANIM_H
 #define _PLAGANIM_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
+#include "PRP/Object/plSynchedObject.h"
 #include "plAGApplicator.h"
 
 DllClass plAGAnim : public plSynchedObject {

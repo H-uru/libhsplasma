@@ -1,10 +1,10 @@
 #ifndef _PLPARTICLEEMITTER_H
 #define _PLPARTICLEEMITTER_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
-#include "CoreLib/hsBounds.h"
-#include "CoreLib/hsColor.h"
-#include "CoreLib/hsMatrix44.h"
+#include "PRP/plCreatable.h"
+#include "PRP/Region/hsBounds.h"
+#include "Sys/hsColor.h"
+#include "Math/hsMatrix44.h"
 #include "plParticleGenerator.h"
 
 DllClass plParticleEmitter : public plCreatable {

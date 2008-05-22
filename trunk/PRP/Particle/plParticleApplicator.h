@@ -1,7 +1,7 @@
 #ifndef _PLPARTICLEAPPLICATOR_H
 #define _PLPARTICLEAPPLICATOR_H
 
-#include "PubUtilLib/plAvatar/plAGApplicator.h"
+#include "PRP/Avatar/plAGApplicator.h"
 
 DllClass plParticleApplicator : public plAGApplicator {
 public:

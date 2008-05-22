@@ -1,8 +1,8 @@
 #ifndef _PLSCENEOBJECT_H
 #define _PLSCENEOBJECT_H
 
-#include "NucleusLib/pnNetCommon/plSynchedObject.h"
-#include "CoreLib/hsTArray.hpp"
+#include "plSynchedObject.h"
+#include "Util/hsTArray.hpp"
 
 DllClass plSceneObject : public plSynchedObject {
 public:

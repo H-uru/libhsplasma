@@ -1,7 +1,7 @@
 #ifndef _PLATCEASECURVES_H
 #define _PLATCEASECURVES_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
+#include "PRP/plCreatable.h"
 
 DllClass plATCEaseCurve : public plCreatable {
 protected:

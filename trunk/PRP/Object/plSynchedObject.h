@@ -1,8 +1,8 @@
 #ifndef _PLSYNCHEDOBJECT_H
 #define _PLSYNCHEDOBJECT_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "CoreLib/hsTArray.hpp"
+#include "PRP/KeyedObject/hsKeyedObject.h"
+#include "Util/hsTArray.hpp"
 
 DllClass plSynchedObject : public hsKeyedObject {
 public:

@@ -2,7 +2,7 @@
 #include <string.h>
 #include "plKey.h"
 #include "hsKeyedObject.h"
-#include "CoreLib/plDebug.h"
+#include "Debug/plDebug.h"
 
 /* plKeyData */
 plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),

@@ -1,8 +1,8 @@
 #ifndef _PLCLOTHINGITEM_H
 #define _PLCLOTHINGITEM_H
 
-#include "CoreLib/hsTArray.hpp"
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
+#include "Util/hsTArray.hpp"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 
 class plClothingItem : public hsKeyedObject {
 protected:

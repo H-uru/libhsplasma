@@ -1,8 +1,8 @@
 #include "pdUnifiedTypeMap.h"
 #include <cstdlib>
 #include <cstdio>
-#include "CoreLib/hsExceptions.h"
-#include "CoreLib/plDebug.h"
+#include "Debug/hsExceptions.h"
+#include "Debug/plDebug.h"
 
 short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,

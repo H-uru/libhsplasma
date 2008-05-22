@@ -1,9 +1,9 @@
 #ifndef _PLCAMERABRAIN_H
 #define _PLCAMERABRAIN_H
 
-#include "NucleusLib/pnKeyedObject/hsKeyedObject.h"
-#include "CoreLib/hsGeometry3.h"
-#include "CoreLib/hsBitVector.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
+#include "Math/hsGeometry3.h"
+#include "Util/hsBitVector.h"
 
 DllClass plCameraBrain : public hsKeyedObject {
 public:

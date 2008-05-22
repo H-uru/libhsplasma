@@ -1,7 +1,7 @@
 #ifndef _PLANIMSTAGE_H
 #define _PLANIMSTAGE_H
 
-#include "NucleusLib/pnFactory/plCreatable.h"
+#include "PRP/plCreatable.h"
 
 DllClass plAnimStage : public plCreatable {
 public:
