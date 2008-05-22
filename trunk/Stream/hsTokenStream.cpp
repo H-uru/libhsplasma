@@ -89,6 +89,10 @@ void hsTokenStream::getLine() {
                 beg += fCommentMarkers[i].fStart.len();
             }
         }
+        if (fInComment == -1) {
+            while (beg < line.len() && getCharType(line[beg]) == kCharNone)
+                beg++;
+        }
         end = beg;
         if (fInComment != -1) {
             tokType = kCharComment;

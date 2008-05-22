@@ -135,7 +135,7 @@ int main(int argc, char** argv) {
             S->writeStr("\n");
         }
         try {
-            rm.WritePrc(prc, page);
+            rm.WritePagePrc(prc, page);
         } catch (hsException& e) {
             fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
             return 1;

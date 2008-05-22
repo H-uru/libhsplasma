@@ -47,8 +47,9 @@ public:
     unsigned int countKeys(const PageID& pid);
 
     plPageInfo* ReadPage(const char* filename);
+    plPageInfo* ReadPagePrc(const pfPrcTag* root);
     void WritePage(const char* filename, plPageInfo* page);
-    void WritePrc(pfPrcHelper* prc, plPageInfo* page);
+    void WritePagePrc(pfPrcHelper* prc, plPageInfo* page);
     void UnloadPage(const plLocation& loc);
     void UnloadPage(const char* ageName, const char* pageName);
     

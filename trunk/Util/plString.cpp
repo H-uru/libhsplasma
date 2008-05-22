@@ -165,29 +165,24 @@ plString plString::operator+(char c) {
 bool plString::operator==(const plString& other) const {
     if (other.empty()) return empty();
     if (empty()) return false;
-    if (hash() != other.hash())
-        return false;
     return (strcmp(fStr, other.fStr)==0);
 }
 
 bool plString::operator==(const char* str) const {
     if (str == NULL) return empty();
-    if (hash() != hash(str))
-        return false;
+    if (empty()) return false;
     return (strcmp(fStr, str)==0);
 }
 
 bool plString::operator!=(const plString& other) const {
     if (other.empty()) return !empty();
-    if (hash() != other.hash())
-        return true;
+    if (empty()) return true;
     return (strcmp(fStr, other.fStr)!=0);
 }
 
 bool plString::operator!=(const char* str) const {
     if (str == NULL) return !empty();
-    if (hash() != hash(str))
-        return true;
+    if (empty()) return true;
     return (strcmp(fStr, str)!=0);
 }
 
@@ -609,29 +604,25 @@ plWString plWString::operator+(wchar_t c) {
 
 bool plWString::operator==(const plWString& other) const {
     if (other.empty()) return empty();
-    if (hash() != other.hash())
-        return false;
+    if (empty()) return false;
     return (wcscmp(fStr, other.fStr)==0);
 }
 
 bool plWString::operator==(const wchar_t* str) const {
     if (str == NULL) return empty();
-    if (hash() != hash(str))
-        return false;
+    if (empty()) return false;
     return (wcscmp(fStr, str)==0);
 }
 
 bool plWString::operator!=(const plWString& other) const {
     if (other.empty()) return !empty();
-    if (hash() != other.hash())
-        return true;
+    if (empty()) return true;
     return (wcscmp(fStr, other.fStr)!=0);
 }
 
 bool plWString::operator!=(const wchar_t* str) const {
     if (str == NULL) return !empty();
-    if (hash() != hash(str))
-        return true;
+    if (empty()) return true;
     return (wcscmp(fStr, str)!=0);
 }
 

@@ -61,11 +61,8 @@ void plResManager::writeKey(hsStream* S, plKey key) {
     //key->exists = (strcmp(key->objName, "") != 0);
     if (S->getVer() < pvEoa)
         S->writeBool(key.Exists());
-    if (key.Exists() || S->getVer() >= pvEoa) {
-        if (S->getVer() == pvLive)
-            S->writeBool(key.Exists());
+    if (key.Exists() || S->getVer() >= pvEoa)
         key->writeUoid(S);
-    }
 }
 
 void plResManager::writeKey(hsStream* S, hsKeyedObject* ko) {
@@ -123,6 +120,22 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
     return page;
 }
 
+plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root) {
+    plPageInfo* page = new plPageInfo;
+    page->prcParse(root);
+
+    const pfPrcTag* tag = root->getFirstChild();
+    while (tag != NULL) {
+        hsKeyedObject* ko = hsKeyedObject::Convert(prcParseCreatable(tag));
+        if (ko != NULL)
+            ko->getKey()->setObj(ko);
+        tag = tag->getNextSibling();
+    }
+
+    pages.push_back(page);
+    return page;
+}
+
 void plResManager::WritePage(const char* filename, plPageInfo* page) {
     hsFileStream* S = new hsFileStream();
     S->open(filename, fmWrite);
@@ -146,7 +159,7 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     delete S;
 }
 
-void plResManager::WritePrc(pfPrcHelper* prc, plPageInfo* page) {
+void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page) {
     page->prcWrite(prc); // starts <Page>
     
     // Objects:
@@ -379,7 +392,7 @@ plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
     plCreatable* pCre = plFactory::Create(tag->getName());
     if (pCre != NULL)
         pCre->prcParse(tag, this);
-    return NULL;
+    return pCre;
 }
 
 plSceneNode* plResManager::getSceneNode(const plLocation& loc) {

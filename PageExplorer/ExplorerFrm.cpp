@@ -155,7 +155,7 @@ void ExplorerFrm::SaveKeys(const wxString& filename) {
 	hsFileStream* S = new hsFileStream();
 	S->open(filename.ToUTF8(), fmCreate);
     pfPrcHelper* prc = new pfPrcHelper(S);
-	rm.WritePrc(prc, page);
+	rm.WritePagePrc(prc, page);
 	S->close();
 }
 

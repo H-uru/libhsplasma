@@ -8,6 +8,8 @@ all:
 	(make Tools/PrpPack)
 	(make Tools/PrcExtract)
 	(make Tools/PageList)
+	(make Tools/prcc)
+	(make Tools/prcdc)
 	(make Tools/PageExplorer)
 	(make Misc/TypeMap)
 
@@ -26,6 +28,12 @@ Tools/PrcExtract: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.so
 Tools/PageList: Tools/src/PageList.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageList.cpp -o Tools/PageList
 
+Tools/prcc: Tools/src/prcc.cpp trunk/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcc.cpp -o Tools/prcc
+
+Tools/prcdc: Tools/src/prcdc.cpp trunk/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcdc.cpp -o Tools/prcdc
+
 Tools/PageExplorer: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Ltrunk/lib/ -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer
 
@@ -39,6 +47,8 @@ install:
 	cp Tools/PrpPack /usr/local/bin/
 	cp Tools/PrcExtract /usr/local/bin/
 	cp Tools/PageList /usr/local/bin/
+	cp Tools/prcc /usr/local/bin/
+	cp Tools/prcdc /usr/local/bin/
 	cp Tools/PageExplorer /usr/local/bin/
 	chmod +x Tools/eoaedit Tools/uruedit
 	cp Tools/eoaedit Tools/uruedit /usr/local/bin/
@@ -49,6 +59,8 @@ uninstall:
 	rm -f /usr/local/bin/PrpPack
 	rm -f /usr/local/bin/PrcExtract
 	rm -f /usr/local/bin/PageList
+	rm -f /usr/local/bin/prcc
+	rm -f /usr/local/bin/prcdc
 	rm -f /usr/local/bin/PageExplorer
 	rm -f /usr/local/bin/eoaedit
 	rm -f /usr/local/bin/uruedit
@@ -63,5 +75,7 @@ distclean:
 	rm -f Tools/PrpPack
 	rm -f Tools/PrcExtract
 	rm -f Tools/PageList
+	rm -f Tools/prcc
+	rm -f Tools/prcdc
 	rm -f Tools/PageExplorer
 	rm -f Misc/TypeMap

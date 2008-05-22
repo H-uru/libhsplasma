@@ -58,7 +58,7 @@ plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plKey")
         throw hsBadParamException(__FILE__, __LINE__, "Tag name mismatch");
 
-    if (!tag->getParam("NULL", "false")) {
+    if (!tag->getParam("NULL", "false").toBool()) {
         plKeyData* key = new plKeyData;
         key->fUoid.prcParse(tag);
         return key;

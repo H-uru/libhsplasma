@@ -119,10 +119,12 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
         else if (tmp.startsWith("'"))
             tmp = tmp.mid(1, tmp.len() - 2);
         tag->fParams[str] = tmp;
+        str = tok->next();
     }
 
     if (str == "/") {
         // Closed tag; no children
+        str = tok->next();
         while ((str != ">") && tok->hasNext()) {
             plDebug::Warning("WARN: Ignoring extraneous token %s", str.cstr());
             str = tok->next();

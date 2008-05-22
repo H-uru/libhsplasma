@@ -58,7 +58,7 @@ void plUoid::write(hsStream* S) {
     unsigned char contents = 0;
     if (cloneID != 0) contents |= kHasCloneIDs;
     if (loadMask.isUsed()) contents |= kHasLoadMask;
-    if (eoaExtra != 0) contents |= 0x4;
+    if (eoaExtra != 0 && S->getVer() >= pvEoa) contents |= 0x4;
     S->writeByte(contents);
     location.write(S);
     if ((contents & kHasLoadMask) && S->getVer() < pvEoa)
@@ -86,6 +86,8 @@ void plUoid::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("CloneID", cloneID);
         prc->writeParam("ClonePlayerID", clonePlayerID);
     }
+    if (eoaExtra != 0)
+        prc->writeParam("EoaExtra", eoaExtra);
     prc->endTag(true);
 }
 
@@ -99,6 +101,7 @@ void plUoid::prcParse(const pfPrcTag* tag) {
     loadMask.prcParse(tag);
     cloneID = tag->getParam("CloneID", "0").toUint();
     clonePlayerID = tag->getParam("ClonePlayerID", "0").toUint();
+    eoaExtra = tag->getParam("EoaExtra", "0").toUint();
 }
 
 plString plUoid::toString() const {
