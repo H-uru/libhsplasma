@@ -2236,14 +2236,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Util\plJPEG.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Util\plJPEG.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Util\plString.cpp"
 				>
 			</File>

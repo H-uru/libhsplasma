@@ -28,6 +28,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PageExplorer", "PageExplore
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prcc", "Tools\prcc.vcproj", "{02E75BD4-468B-4F32-A6DD-BAC69860B895}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prcdc", "Tools\prcdc.vcproj", "{24200E2A-F54A-46F0-BA29-35BDE75E4D25}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -71,6 +81,18 @@ Global
 		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
 		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Release|Win32.ActiveCfg = Release|Win32
 		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Release|Win32.Build.0 = Release|Win32
+		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Debug|Win32.ActiveCfg = Debug|Win32
+		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Debug|Win32.Build.0 = Debug|Win32
+		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Debug-NoDLL|Win32.ActiveCfg = Debug-NoDLL|Win32
+		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Debug-NoDLL|Win32.Build.0 = Debug-NoDLL|Win32
+		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Release|Win32.ActiveCfg = Release|Win32
+		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Release|Win32.Build.0 = Release|Win32
+		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Debug|Win32.ActiveCfg = Debug|Win32
+		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Debug|Win32.Build.0 = Debug|Win32
+		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Debug-NoDLL|Win32.ActiveCfg = Debug-NoDLL|Win32
+		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Debug-NoDLL|Win32.Build.0 = Debug-NoDLL|Win32
+		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Release|Win32.ActiveCfg = Release|Win32
+		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
