@@ -29,6 +29,7 @@ void plCreatable::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
+        printf("< %s >\n", child->getName().cstr());
         IPrcParse(child, mgr);
         child = child->getNextSibling();
     }

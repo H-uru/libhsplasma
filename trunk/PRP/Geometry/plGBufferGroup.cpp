@@ -109,7 +109,7 @@ plGBufferGroup::~plGBufferGroup() {
 
 hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx) const {
     hsTArray<plGBufferVertex> buf;
-    
+
     unsigned char* cp = fVertBuffStorage[idx];
     buf.setSize(fVertBuffSizes[idx] / fStride);
     for (size_t i=0; i<(fVertBuffSizes[idx] / fStride); i++) {
@@ -311,16 +311,18 @@ void plGBufferGroup::write(hsStream* S) {
 
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
         S->writeInt(fCells[i]->getSize());
-        for (size_t j=0; j<fCells[i]->getSize(); j++)
+        for (size_t j=0; j<fCells[i]->getSize(); j++) {
             (*fCells[i])[j].write(S);
+        }
     }
+
 }
 
 void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plGBufferGroup");
     prc->writeParamHex("Format", fFormat);
     prc->endTag();
-    
+
     if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
         for (size_t grp=0; grp<fVertBuffStorage.getSize(); grp++) {
             prc->writeSimpleTag("VertexGroup");
@@ -390,7 +392,8 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     while (child != NULL) {
         if (child->getName() == "VertexGroup") {
             hsTArray<plGBufferVertex> buf;
-            buf.setSize(tag->countChildren());
+            printf("< VertexGroup > (%d)\n", child->countChildren());
+            buf.setSize(child->countChildren());
             const pfPrcTag* vtxChild = child->getFirstChild();
             for (size_t i=0; i<buf.getSize(); i++) {
                 if (vtxChild->getName() != "Vertex")

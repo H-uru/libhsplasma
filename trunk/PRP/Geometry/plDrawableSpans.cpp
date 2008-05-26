@@ -159,7 +159,7 @@ void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fSpanSourceIndices.getSize());
     for (size_t i=0; i<fSpanSourceIndices.getSize(); i++)
         S->writeInt(fSpanSourceIndices[i]);
-    
+
     for (size_t i=0; i<fSpans.getSize(); i++)
         mgr->writeKey(S, fSpans[i]->getFogEnvironment());
 
@@ -223,12 +223,12 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fMaterials.getSize(); i++)
         fMaterials[i]->prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("Icicles");
     for (size_t i=0; i<fIcicles.getSize(); i++)
         fIcicles[i].prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("SpanSourceIndices");
     for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
         prc->startTag("SourceIndex");
@@ -347,6 +347,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "SpanSourceIndices") {
         fSpanSourceIndices.setSizeNull(tag->countChildren());
+        fSpans.setSizeNull(fSpanSourceIndices.getSize());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
             if (child->getName() != "SourceIndex")
@@ -373,13 +374,13 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "LocalBounds") {
         if (tag->hasChildren())
-            fLocalBounds.prcParse(tag);
+            fLocalBounds.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "WorldBounds") {
         if (tag->hasChildren())
-            fWorldBounds.prcParse(tag);
+            fWorldBounds.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "MaxWorldBounds") {
         if (tag->hasChildren())
-            fMaxWorldBounds.prcParse(tag);
+            fMaxWorldBounds.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "PermaLightInfo") {
         size_t nChildren = tag->countChildren();
         if (nChildren != fSpans.getSize())
@@ -486,6 +487,8 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "SpaceTree") {
         if (tag->hasChildren())
             fSpaceTree = plSpaceTree::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+        else
+            fSpaceTree = NULL;
     } else if (tag->getName() == "SceneNode") {
         if (tag->hasChildren())
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());
