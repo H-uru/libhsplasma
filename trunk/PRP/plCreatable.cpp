@@ -14,6 +14,8 @@ const char* plCreatable::ClassName() const {
     return pdUnifiedTypeMap::ClassName(ClassIndex());
 }
 
+bool plCreatable::isStub() const { return false; }
+
 void plCreatable::read(hsStream* S, plResManager* mgr) { }
 void plCreatable::write(hsStream* S, plResManager* mgr) { }
 
@@ -29,7 +31,6 @@ void plCreatable::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
-        printf("< %s >\n", child->getName().cstr());
         IPrcParse(child, mgr);
         child = child->getNextSibling();
     }
@@ -56,6 +57,8 @@ plCreatableStub::~plCreatableStub() {
 
 short plCreatableStub::ClassIndex() const { return fClassIdx; }
 
+bool plCreatableStub::isStub() const { return true; }
+
 void plCreatableStub::read(hsStream* S, plResManager* mgr) {
     S->read(fDataLen, fData);
 }
@@ -66,7 +69,7 @@ void plCreatableStub::write(hsStream* S, plResManager* mgr) {
 
 void plCreatableStub::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plCreatableStub");
-    prc->writeParam("ClassIdx", fClassIdx);
+    prc->writeParam("Type", pdUnifiedTypeMap::ClassName(fClassIdx));
     prc->endTag();
     prc->writeHexStream(fDataLen, fData);
     prc->closeTag();
@@ -75,7 +78,7 @@ void plCreatableStub::prcWrite(pfPrcHelper* prc) {
 void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() != "plCreatableStub")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    fClassIdx = tag->getParam("ClassIdx", "0").toInt();
+    fClassIdx = pdUnifiedTypeMap::ClassIndex(tag->getParam("Type", ""));
 
     if (fData != NULL)
         delete[] fData;

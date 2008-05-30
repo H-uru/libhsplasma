@@ -8,7 +8,8 @@ IMPLEMENT_CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 
 
 /* plDrawableSpans */
-plDrawableSpans::plDrawableSpans() { }
+plDrawableSpans::plDrawableSpans()
+               : fSpaceTree(NULL), fProps(0), fCriteria(0) { }
 
 plDrawableSpans::~plDrawableSpans() {
     for (size_t i=0; i<fSourceSpans.getSize(); i++)
@@ -346,8 +347,8 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "SpanSourceIndices") {
-        fSpanSourceIndices.setSizeNull(tag->countChildren());
-        fSpans.setSizeNull(fSpanSourceIndices.getSize());
+        fSpans.setSizeNull(tag->countChildren());
+        fSpanSourceIndices.setSizeNull(fSpans.getSize());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
             if (child->getName() != "SourceIndex")
@@ -487,8 +488,6 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "SpaceTree") {
         if (tag->hasChildren())
             fSpaceTree = plSpaceTree::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
-        else
-            fSpaceTree = NULL;
     } else if (tag->getName() == "SceneNode") {
         if (tag->hasChildren())
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());

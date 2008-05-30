@@ -29,8 +29,9 @@ public:
 
     virtual short ClassIndex() const =0;
     short ClassIndex(PlasmaVer ver) const;
-    const char* ClassName() const;
+    virtual const char* ClassName() const;
     virtual bool ClassInstance(short hClass) const;
+    virtual bool isStub() const;
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -52,6 +53,7 @@ public:
     virtual ~plCreatableStub();
 
     virtual short ClassIndex() const;
+    virtual bool isStub() const;
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

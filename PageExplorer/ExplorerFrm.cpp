@@ -132,8 +132,8 @@ void ExplorerFrm::LoadPRC(wxTreeEvent& event)
                 wxMessageBox(wxString(msg, wxConvUTF8), wxT("Error"), wxOK | wxICON_ERROR, this);
 	        }
         } else {
-            plString s = plString::Format("Class [%04hX]%s is not currently supported",
-                                          fKey->getType(), pdUnifiedTypeMap::ClassName(fKey->getType()));
+            plString s = plString::Format("An error occurred reading [%04hX]%s.  Check the logs for details.",
+                                          fKey->getType(), fKey->getName().cstr());
             prc->writeComment(s);
         }
 

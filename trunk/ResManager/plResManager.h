@@ -57,7 +57,7 @@ public:
     void WriteAge(const char* filename, plAgeInfo* age);
     void UnloadAge(plAgeInfo* age);
 
-    class plCreatable* ReadCreatable(hsStream* S);
+    class plCreatable* ReadCreatable(hsStream* S, bool canStub = false, int stubLen = 0);
     void WriteCreatable(hsStream* S, class plCreatable* pCre);
     class plCreatable* prcParseCreatable(const pfPrcTag* tag);
 

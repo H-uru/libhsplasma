@@ -311,11 +311,9 @@ void plGBufferGroup::write(hsStream* S) {
 
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
         S->writeInt(fCells[i]->getSize());
-        for (size_t j=0; j<fCells[i]->getSize(); j++) {
+        for (size_t j=0; j<fCells[i]->getSize(); j++)
             (*fCells[i])[j].write(S);
-        }
     }
-
 }
 
 void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
@@ -392,7 +390,6 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     while (child != NULL) {
         if (child->getName() == "VertexGroup") {
             hsTArray<plGBufferVertex> buf;
-            printf("< VertexGroup > (%d)\n", child->countChildren());
             buf.setSize(child->countChildren());
             const pfPrcTag* vtxChild = child->getFirstChild();
             for (size_t i=0; i<buf.getSize(); i++) {

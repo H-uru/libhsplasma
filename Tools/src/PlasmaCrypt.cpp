@@ -6,7 +6,7 @@
 #include "Stream/plEncryptedStream.h"
 #include "Util/plString.h"
 
-typedef enum EncrMethod { emNone, emDecrypt, emTea, emAes, emDroid };
+enum EncrMethod { emNone, emDecrypt, emTea, emAes, emDroid };
 
 void doHelp() {
     printf("Plasma File Encryption/Decryption Utility 1.0\n"

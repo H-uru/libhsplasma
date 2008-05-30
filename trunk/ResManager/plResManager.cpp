@@ -2,6 +2,7 @@
 #include "plFactory.h"
 #include "PRP/plSceneNode.h"
 #include "Debug/plDebug.h"
+#include "Stream/hsRAMStream.h"
 
 unsigned int plResManager::fNumResMgrs = 0;
 
@@ -306,7 +307,18 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
             //               kList[j]->fileOff);
             S->seek(kList[j]->getFileOff());
             try {
-                kList[j]->setObj(hsKeyedObject::Convert(ReadCreatable(S)));
+                plCreatable* pCre = ReadCreatable(S, true, kList[j]->getObjSize());
+                if (pCre->isStub()) {
+                    plCreatableStub* stub = (plCreatableStub*)pCre;
+                    hsKeyedObjectStub* ko = new hsKeyedObjectStub();
+                    hsRAMStream RS(S->getVer());
+                    RS.copyFrom(stub->getData(), stub->getLength());
+                    ko->read(&RS, this);
+                    ko->setStub(stub);
+                    kList[j]->setObj(ko);
+                } else {
+                    kList[j]->setObj(hsKeyedObject::Convert(pCre));
+                }
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
                     if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff())
@@ -367,15 +379,24 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
     return nWritten;
 }
 
-plCreatable* plResManager::ReadCreatable(hsStream* S) {
+plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen) {
     unsigned short type = S->readShort();
     plCreatable* pCre = plFactory::Create(type, S->getVer());
-    if (pCre != NULL)
+    if (pCre != NULL) {
         pCre->read(S, this);
-    else if (type != 0x8000)
-        plDebug::Warning("Warning: NOT reading object of type [%04hX]%s",
-                         pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
-                         pdUnifiedTypeMap::ClassName(type, S->getVer()));
+    } else if (type != 0x8000) {
+        if (canStub) {
+            plDebug::Warning("Warning: Type [%04hX]%s is a STUB",
+                             pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
+                             pdUnifiedTypeMap::ClassName(type, S->getVer()));
+            pCre = new plCreatableStub(type, stubLen);
+            pCre->read(S, this);
+        } else {
+            plDebug::Warning("Warning: NOT reading type [%04hX]%s",
+                             pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
+                             pdUnifiedTypeMap::ClassName(type, S->getVer()));
+        }
+    }
     return pCre;
 }
 

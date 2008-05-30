@@ -29,4 +29,23 @@ public:
     const plWeakKey& getKey() const;
 };
 
+DllClass hsKeyedObjectStub : public hsKeyedObject {
+protected:
+    plCreatableStub* fStub;
+
+public:
+    hsKeyedObjectStub();
+    virtual ~hsKeyedObjectStub();
+
+    virtual short ClassIndex() const;
+    virtual const char* ClassName() const;
+
+    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    const plCreatableStub* getStub() const;
+    void setStub(plCreatableStub* stub);
+};
+
 #endif
