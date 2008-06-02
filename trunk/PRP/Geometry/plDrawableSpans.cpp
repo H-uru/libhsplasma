@@ -362,6 +362,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             //    plParticleSpan* ps = (plParticleSpan*)fSpans[fSpans.getSize()-1];
             //    ps->setSrcSpanIdx(fSpans.getSize()-1);
             //}
+            child = child->getNextSibling();
         }
     } else if (tag->getName() == "FogEnvironments") {
         size_t nChildren = tag->countChildren();

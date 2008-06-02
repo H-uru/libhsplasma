@@ -72,10 +72,10 @@ void plGBufferTriangle::prcParse(const pfPrcTag* tag) {
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Indices") {
-            fIndex1 = tag->getParam("Index1", "0").toUint();
-            fIndex2 = tag->getParam("Index2", "0").toUint();
-            fIndex3 = tag->getParam("Index3", "0").toUint();
-            fSpanIndex = tag->getParam("SpanIndex", "0").toUint();
+            fIndex1 = child->getParam("Index1", "0").toUint();
+            fIndex2 = child->getParam("Index2", "0").toUint();
+            fIndex3 = child->getParam("Index3", "0").toUint();
+            fSpanIndex = child->getParam("SpanIndex", "0").toUint();
         } else if (child->getName() == "Center") {
             if (child->hasChildren())
                 fCenter.prcParse(child->getFirstChild());
@@ -158,7 +158,7 @@ hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx) const {
 }
 
 void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
-    unsigned int vtxSize = verts.getSize() * fStride;
+    size_t vtxSize = verts.getSize() * fStride;
     fVertBuffSizes.append(vtxSize);
     fVertBuffStorage.append(new unsigned char[vtxSize]);
     size_t idx = fVertBuffStorage.getSize() - 1;
@@ -337,7 +337,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
                     prc->writeParam("SkinIndex", verts[i].fSkinIdx);
                 prc->endTagNoBreak();
                 for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                    prc->getStream()->writeStr(plString::Format("%f ", verts[i].fSkinWeights[j]));
+                    prc->getStream()->writeStr(plString::Format("%g ", verts[i].fSkinWeights[j]));
                 prc->closeTagNoBreak();
 
                 prc->writeSimpleTag("Normal");
@@ -385,6 +385,7 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plGBufferGroup")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fFormat = tag->getParam("Format", "0").toUint();
+    fStride = ICalcVertexSize(fLiteStride);
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -430,7 +431,7 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
             }
             addVertices(buf);
         } else if (child->getName() == "IndexGroup") {
-            size_t idxCount = tag->countChildren() * 3;
+            size_t idxCount = child->countChildren() * 3;
             fIdxBuffCounts.append(idxCount);
             unsigned short* idxBuff = new unsigned short[idxCount];
             fIdxBuffStorage.append(idxBuff);
@@ -463,7 +464,7 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
 unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {
     lStride = ((fFormat & kUVCountMask) + 2) * 12;
     fNumSkinWeights = (fFormat & kSkinWeightMask) >> 4;
-    if (fNumSkinWeights != 0) {
+    if (fNumSkinWeights > 0) {
         lStride += fNumSkinWeights * sizeof(float);
         if (fFormat & kSkinIndices)
             lStride += sizeof(int);

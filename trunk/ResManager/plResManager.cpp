@@ -6,7 +6,7 @@
 
 unsigned int plResManager::fNumResMgrs = 0;
 
-plResManager::plResManager(PlasmaVer pv) {
+plResManager::plResManager(PlasmaVer pv) : fPlasmaVer(pvUnknown) {
     setVer(pv);
     fNumResMgrs++;
 }

@@ -69,7 +69,7 @@ void pfPrcHelper::writeParam(const char* name, float value) {
 
 void pfPrcHelper::writeParam(const char* name, double value) {
     char buf[256];
-    snprintf(buf, 256, " %s=\"%g\"", name, value);
+    snprintf(buf, 256, " %s=\"%.10g\"", name, value);
     file->writeStr(buf);
 }
 

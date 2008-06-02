@@ -27,8 +27,8 @@ void plVertCoder::write(hsStream* S, const unsigned char* src,
                         unsigned char format, unsigned int stride,
                         unsigned short numVerts) {
     clear();
-    for (unsigned short i=numVerts; i>0; i--)
-        IEncode(S, i, src, stride, format);
+    for (unsigned short i=0; i<numVerts; i++)
+        IEncode(S, numVerts - i, src, stride, format);
 }
 
 void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char format) {
@@ -77,8 +77,6 @@ void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char*& dest) {
             fColors[chan].fSame = false;
         }
         fColors[chan].fCount = count;
-        //plDebug::Debug("_VC_ fBytes[%d] = { count=%d, same=%d, val=0x%02X }\n",
-        //               chan, fColors[chan].fCount, fColors[chan].fSame, fColors[chan].fVal);
     }
     if (fColors[chan].fSame)
         *dest = fColors[chan].fVal;
@@ -97,9 +95,6 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
         else
             fFloats[chan][field].fAllSame = false;
         fFloats[chan][field].fCount = S->readShort();
-        //plDebug::Debug("_VC_ fFloats[%d][%d] = { count=%d, same=%d, offset=%f }\n",
-        //               chan, field, fFloats[chan][field].fCount,
-        //               fFloats[chan][field].fAllSame, fFloats[chan][field].fOffset);
     }
     *(float*)dest = fFloats[chan][field].fOffset;
     if (!fFloats[chan][field].fAllSame)
@@ -240,7 +235,7 @@ void plVertCoder::ICountBytes(unsigned int vertsLeft, const unsigned char* src,
     unsigned int i = 0;
     if (vertsLeft > 0) {
         unsigned char rle = *src;
-        while (i < vertsLeft && *src == rle) {
+        while (i < vertsLeft && *src == rle && i <= 0x7FFF) {
             src += stride;
             i++;
         }
@@ -252,11 +247,11 @@ void plVertCoder::ICountBytes(unsigned int vertsLeft, const unsigned char* src,
     }
 
     same = false;
-    while (i < vertsLeft - 4) {
-        unsigned char b0 = *(src + ((i+0)*stride));
-        unsigned char b1 = *(src + ((i+1)*stride));
-        unsigned char b2 = *(src + ((i+2)*stride));
-        unsigned char b3 = *(src + ((i+3)*stride));
+    while (i < (vertsLeft - 4) && i <= 0x7FFF) {
+        unsigned char b0 = *(src + (0*stride));
+        unsigned char b1 = *(src + (1*stride));
+        unsigned char b2 = *(src + (2*stride));
+        unsigned char b3 = *(src + (3*stride));
         if (b0 == b1 && b0 == b2 && b0 == b3)
             break;
         i++;
@@ -264,8 +259,10 @@ void plVertCoder::ICountBytes(unsigned int vertsLeft, const unsigned char* src,
     }
     if (i < vertsLeft - 4)
         len = i;
-    else
+    else if (vertsLeft <= 0x7FFF)
         len = vertsLeft;
+    else
+        len = 0x7FFF;
 }
 
 void plVertCoder::ICountFloats(unsigned int vertsLeft, const unsigned char* src,
@@ -274,24 +271,29 @@ void plVertCoder::ICountFloats(unsigned int vertsLeft, const unsigned char* src,
     lo = floor(((*(float*)src) * quant) + 0.5f) / quant;
     float hi = lo;
     allSame = false;
-    count = 1;
+    unsigned int len = 1;
     float maxRange = 65535.0f / quant;
 
     src += stride;
-    while (--vertsLeft > 0) {
+    while (--vertsLeft > 0 && len < 0xFFFF) {
         float cur = floor(((*(float*)src) * quant) + 0.5f) / quant;
         if (cur < lo) {
-            if (hi - cur >= maxRange)
+            if (hi - cur >= maxRange) {
+                count = len;
                 return;
+            }
             lo = cur;
         } else if (cur > hi) {
-            if (cur - lo >= maxRange)
+            if (cur - lo >= maxRange) {
+                count = len;
                 return;
+            }
             hi = cur;
         }
-        count++;
+        len++;
         src += stride;
     }
 
     allSame = (hi == lo) ? true : false;
+    count = len;
 }
