@@ -110,6 +110,8 @@
 #include "PRP/Surface/plDynamicEnvMap.h"
 #include "PRP/Surface/plDynamicTextMap.h"
 #include "PRP/Surface/plDynaRippleMgr.h"
+#include "PRP/Surface/plFadeOpacityMod.h"
+#include "PRP/Surface/plGrassShaderMod.h"
 #include "PRP/Surface/plLayer.h"
 #include "PRP/Surface/plLayerMovie.h"
 #include "PRP/Surface/plWaveSet6.h"
@@ -431,7 +433,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kGameMarkerModifier: return new plGameMarkerModifier();
         //case kLODMipmap: return new plLODMipmap();
         //case kSwimDetector: return new plSwimDetector();
-        //case kFadeOpacityMod: return new plFadeOpacityMod();
+        case kFadeOpacityMod: return new plFadeOpacityMod();
         //case kFadeOpacityLay: return new plFadeOpacityLay();
         //case kDistOpacityMod: return new plDistOpacityMod();
         //case kArmatureModBase: return new plArmatureModBase();
@@ -440,7 +442,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kParticleFollowSystemEffect: return new plParticleFollowSystemEffect();
         //case kSwimStraightCurrentRegion: return new plSwimStraightCurrentRegion();
         //case kObjectFlocker: return new pfObjectFlocker();
-        //case kGrassShaderMod: return new plGrassShaderMod();
+        case kGrassShaderMod: return new plGrassShaderMod();
         case kDynamicCamMap: return new plDynamicCamMap();
         //case kSwimRegion: return new plSwimRegion();
         //case kPXPhysical: return new plPXPhysical();

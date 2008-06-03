@@ -389,7 +389,7 @@ plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen)
             plDebug::Warning("Warning: Type [%04hX]%s is a STUB",
                              pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
                              pdUnifiedTypeMap::ClassName(type, S->getVer()));
-            pCre = new plCreatableStub(type, stubLen);
+            pCre = new plCreatableStub(type, stubLen - 2);
             pCre->read(S, this);
         } else {
             plDebug::Warning("Warning: NOT reading type [%04hX]%s",

@@ -218,11 +218,13 @@ PLSOBJ=\
 	$(OBJDIR)plDynamicEnvMap.o \
 	$(OBJDIR)plDynamicTextMap.o \
 	$(OBJDIR)plDynaRippleMgr.o \
+	$(OBJDIR)plFadeOpacityMod.o \
 	$(OBJDIR)plFixedWaterState6.o \
 	$(OBJDIR)plFixedWaterState7.o \
 	$(OBJDIR)plFont.o \
 	$(OBJDIR)hsGMaterial.o \
 	$(OBJDIR)hsGMatState.o \
+	$(OBJDIR)plGrassShaderMod.o \
 	$(OBJDIR)plLayer.o \
 	$(OBJDIR)plLayerAnimation.o \
 	$(OBJDIR)plLayerInterface.o \
@@ -901,6 +903,9 @@ $(OBJDIR)plDynamicTextMap.o: PRP/Surface/plDynamicTextMap.h PRP/Surface/plDynami
 $(OBJDIR)plDynaRippleMgr.o: PRP/Surface/plDynaRippleMgr.h PRP/Surface/plDynaRippleMgr.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plDynaRippleMgr.cpp -o $(OBJDIR)plDynaRippleMgr.o
 
+$(OBJDIR)plFadeOpacityMod.o: PRP/Surface/plFadeOpacityMod.h PRP/Surface/plFadeOpacityMod.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/plFadeOpacityMod.cpp -o $(OBJDIR)plFadeOpacityMod.o
+
 $(OBJDIR)plFixedWaterState6.o: PRP/Surface/plFixedWaterState6.h PRP/Surface/plFixedWaterState6.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plFixedWaterState6.cpp -o $(OBJDIR)plFixedWaterState6.o
 
@@ -915,6 +920,9 @@ $(OBJDIR)hsGMaterial.o: PRP/Surface/hsGMaterial.h PRP/Surface/hsGMaterial.cpp
 
 $(OBJDIR)hsGMatState.o: PRP/Surface/hsGMatState.h PRP/Surface/hsGMatState.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/hsGMatState.cpp -o $(OBJDIR)hsGMatState.o
+
+$(OBJDIR)plGrassShaderMod.o: PRP/Surface/plGrassShaderMod.h PRP/Surface/plGrassShaderMod.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/plGrassShaderMod.cpp -o $(OBJDIR)plGrassShaderMod.o
 
 $(OBJDIR)plLayer.o: PRP/Surface/plLayer.h PRP/Surface/plLayer.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plLayer.cpp -o $(OBJDIR)plLayer.o

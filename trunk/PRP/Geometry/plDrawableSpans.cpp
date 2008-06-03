@@ -466,7 +466,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             if (child->getName() != "plDISpanIndex")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fDIIndices[i] = new plDISpanIndex();
-            fDIIndices[i]->fFlags = tag->getParam("Flags", "0").toUint();
+            fDIIndices[i]->fFlags = child->getParam("Flags", "0").toUint();
 
             fDIIndices[i]->fIndices.setSize(child->countChildren());
             const pfPrcTag* subChild = child->getFirstChild();
