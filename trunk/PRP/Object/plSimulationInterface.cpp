@@ -2,17 +2,17 @@
 
 plSimulationInterface::plSimulationInterface() {
     fProps.setName(kDisable, "kDisable");
-    fProps.setName(kWeightless_DEAD, "kWeightless");
+    fProps.setName(kWeightless, "kWeightless");
     fProps.setName(kPinned, "kPinned");
-    fProps.setName(kWarp_DEAD, "kWarp");
-    fProps.setName(kUpright_DEAD, "kUpright");
+    fProps.setName(kWarp, "kWarp");
+    fProps.setName(kUpright, "kUpright");
     fProps.setName(kPassive, "kPassive");
-    fProps.setName(kRotationForces_DEAD, "kRotationForces");
-    fProps.setName(kCameraAvoidObject_DEAD, "kCameraAvoidObject");
+    fProps.setName(kRotationForces, "kRotationForces");
+    fProps.setName(kCameraAvoidObject, "kCameraAvoidObject");
     fProps.setName(kPhysAnim, "kPhysAnim");
     fProps.setName(kStartInactive, "kStartInactive");
     fProps.setName(kNoSynchronize, "kNoSynchronize");
-    fProps.setName(kSuppressed_DEAD, "kSuppressed");
+    fProps.setName(kSuppressed, "kSuppressed");
     fProps.setName(kNoOwnershipChange, "kNoOwnershipChange");
     fProps.setName(kAvAnimPushable, "kAvAnimPushable");
 }

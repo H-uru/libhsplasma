@@ -114,6 +114,7 @@
 #include "PRP/Surface/plGrassShaderMod.h"
 #include "PRP/Surface/plLayer.h"
 #include "PRP/Surface/plLayerMovie.h"
+#include "PRP/Surface/plPrintShape.h"
 #include "PRP/Surface/plWaveSet6.h"
 #include "PRP/Surface/plWaveSet7.h"
 // End type includes
@@ -193,7 +194,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPortalPhysical: return new plPortalPhysical();
         case kSpawnModifier: return new plSpawnModifier();
         case kFacingConditionalObject: return new plFacingConditionalObject();
-        //case kHKPhysical: return new plHKPhysical();
+        case kHKPhysical: return new plHKPhysical();
         case kViewFaceModifier: return new plViewFaceModifier();
         case kLayerInterface: return new plLayerInterface();
         //case kLayerWrapper: return new plLayerWrapper();
@@ -366,7 +367,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kDynaRippleMgr: return new plDynaRippleMgr();
         case kDynaBulletMgr: return new plDynaBulletMgr();
         //case kDecalEnableMod: return new plDecalEnableMod();
-        //case kPrintShape: return new plPrintShape();
+        case kPrintShape: return new plPrintShape();
         case kDynaPuddleMgr: return new plDynaPuddleMgr();
         case kGUIMultiLineEditCtrl: return new pfGUIMultiLineEditCtrl();
         case kLayerAnimationBase: ABSTRACT(kLayerAnimationBase);
@@ -376,7 +377,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kSubworldRegionDetector: return new plSubworldRegionDetector();
         //case kAvatarMgr: return new plAvatarMgr();
         case kNPCSpawnMod: return new plNPCSpawnMod();
-        //case kActivePrintShape: return new plActivePrintShape();
+        case kActivePrintShape: return new plActivePrintShape();
         //case kExcludeRegionSDLModifier: return new plExcludeRegionSDLModifier();
         //case kLOSDispatch: return new plLOSDispatch();
         case kDynaWakeMgr: return new plDynaWakeMgr();
@@ -445,8 +446,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kGrassShaderMod: return new plGrassShaderMod();
         case kDynamicCamMap: return new plDynamicCamMap();
         //case kSwimRegion: return new plSwimRegion();
-        //case kPXPhysical: return new plPXPhysical();
-        //case kODEPhysical: return new plODEPhysical();
+        case kPXPhysical: return new plPXPhysical();
+        case kODEPhysical: return new plODEPhysical();
         //case kAutoWalkRegion: return new plAutoWalkRegion();
         //case kCrossfade: return new plCrossfade();
         case kParticleFadeOutEffect: return new plParticleFadeOutEffect();

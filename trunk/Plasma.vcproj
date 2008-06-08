@@ -1852,6 +1852,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Surface\plFadeOpacityMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\plFadeOpacityMod.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Surface\plFixedWaterState6.cpp"
 					>
 				</File>
@@ -1873,6 +1881,14 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Surface\plFont.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\plGrassShaderMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\plGrassShaderMod.h"
 					>
 				</File>
 				<File
@@ -1913,6 +1929,14 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Surface\plMipmap.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\plPrintShape.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\plPrintShape.h"
 					>
 				</File>
 				<File

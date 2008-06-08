@@ -3,6 +3,16 @@
 #include "plPXPhysical.h"
 #include "plODEPhysical.h"
 
+const char* plSimDefs::BoundsNames[] = {
+    "(Invalid)", "kBoxBounds", "kSphereBounds", "kHullBounds",
+    "kProxyBounds", "kExplicitBounds", "kCylinderBounds"
+};
+
+const char* plSimDefs::GroupNames[] = {
+    "kGroupStatic", "kGroupAvatarBlocker", "kGroupDynamicBlocker",
+    "kGroupAvatar", "kGroupDynamic", "kGroupDetector", "kGroupLOSOnly"
+};
+
 IMPLEMENT_CREATABLE(plPhysical, kPhysical, plSynchedObject)
 
 void plPhysical::read(hsStream* S, plResManager* mgr) {
@@ -25,13 +35,4 @@ void plPhysical::write(hsStream* S, plResManager* mgr) {
         phys->writeData(S, mgr);
         delete phys;
     }
-}
-
-void plPhysical::IPrcWrite(pfPrcHelper* prc) {
-    plSynchedObject::IPrcWrite(prc);
-    prc->writeComment("Incomplete");
-}
-
-void plPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    throw hsNotImplementedException(__FILE__, __LINE__);
 }

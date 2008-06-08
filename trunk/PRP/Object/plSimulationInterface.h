@@ -6,10 +6,10 @@
 DllClass plSimulationInterface : public plObjInterface {
 public:
     enum plSimulationProperties {
-        kDisable, kWeightless_DEAD, kPinned, kWarp_DEAD, kUpright_DEAD,
-        kPassive, kRotationForces_DEAD, kCameraAvoidObject_DEAD, kPhysAnim,
-        kStartInactive, kNoSynchronize, kSuppressed_DEAD, kNoOwnershipChange,
-        kAvAnimPushable, kNumProps
+        kDisable, kWeightless, kPinned, kWarp, kUpright, kPassive,
+        kRotationForces, kCameraAvoidObject, kPhysAnim, kStartInactive,
+        kNoSynchronize, kSuppressed, kNoOwnershipChange, kAvAnimPushable,
+        kNumProps
     };
 
 protected:

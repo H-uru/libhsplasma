@@ -437,6 +437,8 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
             fIdxBuffStorage.append(idxBuff);
             const pfPrcTag* idxChild = child->getFirstChild();
             for (size_t i=0; i<idxCount; i += 3) {
+                if (idxChild->getName() != "Triangle")
+                    throw pfPrcTagException(__FILE__, __LINE__, idxChild->getName());
                 hsTList<plString> idxList = idxChild->getContents();
                 if (idxList.getSize() != 3)
                     throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");

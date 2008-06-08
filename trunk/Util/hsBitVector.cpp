@@ -20,6 +20,13 @@ hsBitVector::Bit& hsBitVector::Bit::operator=(bool value) {
 
 /* hsBiVector */
 hsBitVector::hsBitVector() : fBits(NULL), fNumVectors(0) { }
+
+hsBitVector::hsBitVector(const hsBitVector& init)
+           : fNumVectors(init.fNumVectors) {
+    fBits = new hsUint32[fNumVectors];
+    memcpy(fBits, init.fBits, fNumVectors * sizeof(hsUint32));
+}
+
 hsBitVector::~hsBitVector() {
     if (fBits) delete[] fBits;
 }
@@ -53,6 +60,13 @@ bool hsBitVector::operator[](size_t idx) const {
 
 hsBitVector::Bit hsBitVector::operator[](size_t idx) {
     return hsBitVector::Bit(this, idx);
+}
+
+hsBitVector& hsBitVector::operator=(const hsBitVector& cpy) {
+    fNumVectors = cpy.fNumVectors;
+    fBits = new hsUint32[fNumVectors];
+    memcpy(fBits, cpy.fBits, fNumVectors * sizeof(hsUint32));
+    return *this;
 }
 
 bool hsBitVector::isEmpty() const {

@@ -230,6 +230,7 @@ PLSOBJ=\
 	$(OBJDIR)plLayerInterface.o \
 	$(OBJDIR)plLayerMovie.o \
 	$(OBJDIR)plMipmap.o \
+	$(OBJDIR)plPrintShape.o \
 	$(OBJDIR)plRenderTarget.o \
 	$(OBJDIR)plWaveSet6.o \
 	$(OBJDIR)plWaveSet7.o \
@@ -938,6 +939,9 @@ $(OBJDIR)plLayerMovie.o: PRP/Surface/plLayerMovie.h PRP/Surface/plLayerMovie.cpp
 
 $(OBJDIR)plMipmap.o: PRP/Surface/plMipmap.h PRP/Surface/plMipmap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plMipmap.cpp -o $(OBJDIR)plMipmap.o
+
+$(OBJDIR)plPrintShape.o: PRP/Surface/plPrintShape.h PRP/Surface/plPrintShape.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/plPrintShape.cpp -o $(OBJDIR)plPrintShape.o
 
 $(OBJDIR)plRenderTarget.o: PRP/Surface/plRenderTarget.h PRP/Surface/plRenderTarget.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plRenderTarget.cpp -o $(OBJDIR)plRenderTarget.o

@@ -32,12 +32,14 @@ private:
 
 public:
     hsBitVector();
+    hsBitVector(const hsBitVector& init);
     ~hsBitVector();
 
     bool get(size_t idx) const;
     void set(size_t idx, bool b);
     bool operator[](size_t idx) const;
     Bit operator[](size_t idx);
+    hsBitVector& operator=(const hsBitVector& cpy);
 
     bool isEmpty() const;
     void clear();
