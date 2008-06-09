@@ -225,7 +225,7 @@ void plODEPhysical::IPrcWrite(pfPrcHelper* prc) {
         fBoxDimensions.prcWrite(prc);
         prc->closeTag();
     } else if (fBounds == plSimDefs::kCylinderBounds) {
-        prc->startTag("SphereBounds");
+        prc->startTag("CylinderBounds");
         prc->writeParam("Radius", fRadius);
         prc->writeParam("Length", fLength);
         prc->endTag(true);
@@ -234,5 +234,71 @@ void plODEPhysical::IPrcWrite(pfPrcHelper* prc) {
 }
 
 void plODEPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    //...
+    if (tag->getName() == "PhysicalParams") {
+        fMass = tag->getParam("Mass", "0").toFloat();
+        fCategory = tag->getParam("Category", "0").toUint();
+        fLOSDBs = tag->getParam("LOSDBs", "0").toUint();
+        fFlags = tag->getParam("Flags", "0").toUint();
+        fUnk1 = tag->getParam("Unknown1", "0").toUint();
+        fUnk2 = tag->getParam("Unknown2", "0").toUint();
+    } else if (tag->getName() == "Object") {
+        if (tag->hasChildren())
+            fObjectKey = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "SceneNode") {
+        if (tag->hasChildren())
+            fSceneNode = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Bounds" ) {
+        plString bounds = tag->getParam("Type", "kBoxBounds");
+        for (size_t i=0; i<plSimDefs::kNumBounds; i++)
+            if (bounds == plSimDefs::BoundsNames[i])
+                fBounds = (plSimDefs::Bounds)i;
+        const pfPrcTag* child = tag->getFirstChild();
+        while (child != NULL) {
+            if (child->getName() == "SphereBounds") {
+                fRadius = child->getParam("Radius", "0").toFloat();
+            } else if (child->getName() == "BoxBounds") {
+                if (child->hasChildren())
+                    fBoxDimensions.prcParse(child->getFirstChild());
+            } else if (child->getName() == "CylinderBounds") {
+                fRadius = child->getParam("Radius", "0").toFloat();
+                fLength = child->getParam("Length", "0").toFloat();
+            } else if (child->getName() == "Verts") {
+                fNumVerts = child->countChildren();
+                fVerts = new float[fNumVerts * 3];
+                const pfPrcTag* vert = child->getFirstChild();
+                for (size_t i=0; i<fNumVerts; i++) {
+                    if (vert->getName() != "Vertex")
+                        throw pfPrcTagException(__FILE__, __LINE__, vert->getName());
+                    fVerts[(i*3)+0] = vert->getParam("X", "0").toFloat();
+                    fVerts[(i*3)+1] = vert->getParam("Y", "0").toFloat();
+                    fVerts[(i*3)+2] = vert->getParam("Z", "0").toFloat();
+                    vert = vert->getNextSibling();
+                }
+            } else if (child->getName() == "Triangles") {
+                fNumTris = child->countChildren();
+                fIndices = new unsigned int[fNumTris * 3];
+                const pfPrcTag* tri = child->getFirstChild();
+                for (size_t i=0; i<fNumTris; i++) {
+                    if (tri->getName() != "Triangle")
+                        throw pfPrcTagException(__FILE__, __LINE__, tri->getName());
+                    hsTList<plString> idxList = tri->getContents();
+                    if (idxList.getSize() != 3)
+                        throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
+                    fIndices[(i*3)+0] = idxList.pop().toUint();
+                    fIndices[(i*3)+1] = idxList.pop().toUint();
+                    fIndices[(i*3)+2] = idxList.pop().toUint();
+                    tri = tri->getNextSibling();
+                }
+            } else if (child->getName() == "TriMeshDataBuffer") {
+                fTMDSize = child->getContents().getSize();
+                fTMDBuffer = new unsigned char[fTMDSize];
+                child->readHexStream(fTMDSize, fTMDBuffer);
+            } else {
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            }
+            child = child->getNextSibling();
+        }
+    } else {
+        plPhysical::IPrcParse(tag, mgr);
+    }
 }

@@ -18,17 +18,9 @@ public:
 
 protected:
     unsigned short fVisWidth, fVisHeight;
-    bool fHasAlpha, fShadowed;
-    Justify fJustify;
-    plString fFontFace;
-    unsigned short fFontSize;
-    unsigned char fFontFlags;
-    bool fFontAntiAliasRGB, fFontBlockRGB;
-    bool fHasBeenCreated;
-    short fLineSpacing;
-    hsColorRGBA fFontColor;
-    plFont* fCurrFont;
+    bool fHasAlpha, fHasBeenCreated;
     unsigned int* fInitBuffer;
+    size_t fInitBufferLen;
 
 public:
     plDynamicTextMap();

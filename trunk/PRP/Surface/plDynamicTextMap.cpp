@@ -1,11 +1,9 @@
 #include "plDynamicTextMap.h"
+#include "Debug/plDebug.h"
 
 plDynamicTextMap::plDynamicTextMap()
                 : fVisWidth(0), fVisHeight(0), fHasAlpha(false),
-                  fShadowed(false), fJustify(kLeftJustify), fFontSize(0),
-                  fFontFlags(0), fFontAntiAliasRGB(false), fFontBlockRGB(false),
-                  fHasBeenCreated(false), fLineSpacing(0), fCurrFont(NULL),
-                  fInitBuffer(NULL) { }
+                  fHasBeenCreated(false), fInitBuffer(NULL) { }
 
 plDynamicTextMap::~plDynamicTextMap() {
     if (fInitBuffer != NULL)
@@ -38,10 +36,6 @@ void plDynamicTextMap::Create(unsigned int width, unsigned int height,
     fNumLevels = 1;
     fCompressionType = kUncompressed;
     fUncompressedInfo.fType = UncompressedInfo::kRGB8888;
-    //setDeviceRef(NULL);
-    //setFont("Arial", 12, 0, true);
-    //setTextColor(hsColorRGBA::kBlue, false);
-    //setCurrLevel(0);
 }
 
 void plDynamicTextMap::readData(hsStream* S) {
@@ -51,9 +45,13 @@ void plDynamicTextMap::readData(hsStream* S) {
     fVisHeight = S->readInt();
     fHasAlpha = S->readBool();
 
-    size_t bufSize = S->readInt();
-    fInitBuffer = new unsigned int[bufSize];
-    S->readInts(bufSize, (hsUint32*)fInitBuffer);
+    fInitBufferLen = S->readInt();
+    if (fInitBufferLen != 0) {
+        if (fInitBufferLen != (size_t)(fVisWidth * fVisHeight))
+            plDebug::Warning("Got incorrect init buffer size");
+        fInitBuffer = new unsigned int[fInitBufferLen];
+        S->readInts(fInitBufferLen, (hsUint32*)fInitBuffer);
+    }
     Create(fVisWidth, fVisHeight, fHasAlpha, 0, 0);
 }
 
@@ -64,9 +62,9 @@ void plDynamicTextMap::writeData(hsStream* S) {
     S->writeInt(fVisHeight);
     S->writeBool(fHasAlpha);
 
-    S->writeInt((fInitBuffer != NULL) ? (fVisHeight * fVisWidth) * sizeof(unsigned int) : 0);
+    S->writeInt(fInitBufferLen);
     if (fInitBuffer != NULL)
-        S->writeInts(fVisHeight * fVisWidth, (hsUint32*)fInitBuffer);
+        S->writeInts(fInitBufferLen, (hsUint32*)fInitBuffer);
 }
 
 void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc) {
@@ -80,8 +78,7 @@ void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc) {
 
     if (fInitBuffer != NULL) {
         prc->writeSimpleTag("InitBuffer");
-        prc->writeHexStream((fVisHeight * fVisWidth) * sizeof(unsigned int),
-                            (unsigned char*)fInitBuffer);
+        prc->writeHexStream(fInitBufferLen, (unsigned char*)fInitBuffer);
         prc->closeTag();
     } else {
         prc->startTag("InitBuffer");
@@ -99,9 +96,9 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->getParam("NULL", "false").toBool()) {
             fInitBuffer = NULL;
         } else {
-            fInitBuffer = new unsigned int[(fVisHeight * fVisWidth)];
-            tag->readHexStream((fVisHeight * fVisWidth) * sizeof(unsigned int),
-                               (unsigned char*)fInitBuffer);
+            fInitBufferLen = tag->getContents().getSize();
+            fInitBuffer = new unsigned int[fInitBufferLen];
+            tag->readHexStream(fInitBufferLen, (unsigned char*)fInitBuffer);
         }
     } else {
         plBitmap::IPrcParse(tag, mgr);
