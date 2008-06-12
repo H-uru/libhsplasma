@@ -22,6 +22,10 @@ protected:
     hsQuat fRot;
     hsBitVector fProps;
     plKey fSndGroup;
+    size_t fNumVerts, fNumTris;
+    hsVector3* fVerts;
+    unsigned int* fIndices;
+    unsigned int* fTMDBuffer;
 
     void SetFlagNames();
 

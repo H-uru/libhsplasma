@@ -108,13 +108,10 @@ plODEPhysical* plHKPhysical::ConvertToODE() const {
     conv->fNumTris = fNumTris;
     conv->fTMDSize = 0;
 
-    conv->fVerts = new float[fNumVerts * 3];
+    conv->fVerts = new hsVector3[fNumVerts];
     conv->fIndices = new unsigned int[fNumTris * 3];
-    for (size_t i=0; i<fNumVerts; i++) {
-        conv->fVerts[(i*3)+0] = fVerts[i].X;
-        conv->fVerts[(i*3)+1] = fVerts[i].Y;
-        conv->fVerts[(i*3)+2] = fVerts[i].Z;
-    }
+    for (size_t i=0; i<fNumVerts; i++)
+        conv->fVerts[i] = fVerts[i];
     for (size_t i=0; i<fNumTris; i += 3) {
         conv->fIndices[i+0] = fIndices[i+0];
         conv->fIndices[i+1] = fIndices[i+1];

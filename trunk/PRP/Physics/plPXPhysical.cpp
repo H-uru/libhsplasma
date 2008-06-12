@@ -8,7 +8,8 @@
 plPXPhysical::plPXPhysical()
             : fMass(0.0f), fFriction(0.0f), fRestitution(0.0f),
               fBounds(plSimDefs::kBoxBounds), fGroup(plSimDefs::kGroupStatic),
-              fReportsOn(0), fSphereRadius(0.0f), fLOSDBs(0) {
+              fReportsOn(0), fSphereRadius(0.0f), fLOSDBs(0), fNumVerts(0),
+              fNumTris(0), fVerts(NULL), fIndices(NULL), fTMDBuffer(NULL) {
     SetFlagNames();
 }
 
@@ -21,11 +22,27 @@ plPXPhysical::plPXPhysical(const plPXPhysical& init)
               fSphereOffset(init.fSphereOffset),
               fBoxDimensions(init.fBoxDimensions), fBoxOffset(init.fBoxOffset),
               fLOSDBs(init.fLOSDBs), fPos(init.fPos), fRot(init.fRot),
-              fProps(init.fProps), fSndGroup(init.fSndGroup) {
+              fProps(init.fProps), fSndGroup(init.fSndGroup),
+              fNumVerts(init.fNumVerts), fNumTris(init.fNumTris) {
+    fVerts = new hsVector3[fNumVerts];
+    fIndices = new unsigned int[fNumTris * 3];
+    fTMDBuffer = new unsigned int[fNumTris];
+    for (size_t i=0; i<fNumVerts; i++)
+        fVerts[i] = init.fVerts[i];
+    memcpy(fIndices, init.fIndices, fNumTris * 3 * sizeof(unsigned int));
+    memcpy(fTMDBuffer, init.fTMDBuffer, fNumTris * sizeof(unsigned int));
+    
     SetFlagNames();
 }
 
-plPXPhysical::~plPXPhysical() { }
+plPXPhysical::~plPXPhysical() {
+    if (fVerts != NULL)
+        delete[] fVerts;
+    if (fIndices != NULL)
+        delete[] fIndices;
+    if (fTMDBuffer != NULL)
+        delete[] fTMDBuffer;
+}
 
 IMPLEMENT_CREATABLE(plPXPhysical, kPXPhysical, plPhysical)
 
@@ -126,9 +143,109 @@ void plPXPhysical::readData(hsStream* S, plResManager* mgr) {
         fBoxDimensions.read(S);
         fBoxOffset.read(S);
     } else if (fBounds == plSimDefs::kHullBounds) {
-        plDebug::Warning("plPXPhysical: HullBounds not implemented");
+        //TODO: This is messy and incomplete
+        char tag[4];
+        S->read(4, tag);
+        if (memcmp(tag, "NXS\x01", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX header");
+        S->read(4, tag);
+        if (memcmp(tag, "CVXM", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+        S->readInt();
+        S->readInt();
+
+        S->read(4, tag);
+        if (memcmp(tag, "ICE\x01", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+        S->read(4, tag);
+        if (memcmp(tag, "CLHL", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+        S->readInt();
+
+        S->read(4, tag);
+        if (memcmp(tag, "ICE\x01", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+        S->read(4, tag);
+        if (memcmp(tag, "CVHL", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+
+        S->readInt();
+        fNumVerts = S->readInt();
+        fNumTris = S->readInt();
+        S->readInt();
+        S->readInt();
+        S->readInt();
+        S->readInt();
+
+        fVerts = new hsVector3[fNumVerts];
+        for (size_t i=0; i<fNumVerts; i++)
+            fVerts[i].read(S);
+        S->readInt();
+        
+        fIndices = new unsigned int[fNumTris * 3];
+        for (size_t i=0; i<fNumTris; i++) {
+            if (fNumVerts < 256) {
+                fIndices[(i*3)+0] = S->readByte();
+                fIndices[(i*3)+1] = S->readByte();
+                fIndices[(i*3)+2] = S->readByte();
+            } else if (fNumVerts < 65536) {
+                fIndices[(i*3)+0] = S->readShort();
+                fIndices[(i*3)+1] = S->readShort();
+                fIndices[(i*3)+2] = S->readShort();
+            } else {
+                fIndices[(i*3)+0] = S->readInt();
+                fIndices[(i*3)+1] = S->readInt();
+                fIndices[(i*3)+2] = S->readInt();
+            }
+        }
     } else {    // Proxy or Explicit
-        plDebug::Warning("plPXPhysical: TriangleMesh not implemented");
+        //TODO: This is messy and incomplete
+        char tag[4];
+        S->read(4, tag);
+        if (memcmp(tag, "NXS\x01", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX header");
+        S->read(4, tag);
+        if (memcmp(tag, "MESH", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid Mesh header");
+        S->readInt();
+        S->readInt();
+        S->readFloat();
+        S->readInt();
+        S->readInt();
+        fNumVerts = S->readInt();
+        fNumTris = S->readInt();
+
+        fVerts = new hsVector3[fNumVerts];
+        for (size_t i=0; i<fNumVerts; i++)
+            fVerts[i].read(S);
+        
+        fIndices = new unsigned int[fNumTris * 3];
+        for (size_t i=0; i<fNumTris; i++) {
+            if (fNumVerts < 256) {
+                fIndices[(i*3)+0] = S->readByte();
+                fIndices[(i*3)+1] = S->readByte();
+                fIndices[(i*3)+2] = S->readByte();
+            } else if (fNumVerts < 65536) {
+                fIndices[(i*3)+0] = S->readShort();
+                fIndices[(i*3)+1] = S->readShort();
+                fIndices[(i*3)+2] = S->readShort();
+            } else {
+                fIndices[(i*3)+0] = S->readInt();
+                fIndices[(i*3)+1] = S->readInt();
+                fIndices[(i*3)+2] = S->readInt();
+            }
+        }
+        S->readInt();
+
+        fTMDBuffer = new unsigned int[fNumTris];
+        for (size_t i=0; i<fNumTris; i++) {
+            if (fNumVerts < 256)
+                fTMDBuffer[i] = S->readByte();
+            else if (fNumVerts < 65536)
+                fTMDBuffer[i] = S->readShort();
+            else
+                fTMDBuffer[i] = S->readInt();
+        }
     }
 }
 
@@ -218,9 +335,45 @@ void plPXPhysical::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();
         prc->closeTag();
     } else if (fBounds == plSimDefs::kHullBounds) {
-        prc->writeComment("HullBounds not implemented");
+        prc->writeSimpleTag("Verts");
+        for (size_t i=0; i<fNumVerts; i++)
+            fVerts[i].prcWrite(prc);
+        prc->closeTag();
+
+        prc->writeSimpleTag("Triangles");
+        for (size_t i=0; i<fNumTris; i++) {
+            prc->writeTagNoBreak("Triangle");
+            prc->getStream()->writeStr(plString::Format("%d %d %d",
+                                        fIndices[(i*3)+0],
+                                        fIndices[(i*3)+1],
+                                        fIndices[(i*3)+2]));
+            prc->closeTagNoBreak();
+        }
+        prc->closeTag();
     } else {    // Proxy or Explicit
-        prc->writeComment("TriangleMesh not implemented");
+        prc->writeSimpleTag("Verts");
+        for (size_t i=0; i<fNumVerts; i++)
+            fVerts[i].prcWrite(prc);
+        prc->closeTag();
+
+        prc->writeSimpleTag("Triangles");
+        for (size_t i=0; i<fNumTris; i++) {
+            prc->writeTagNoBreak("Triangle");
+            prc->getStream()->writeStr(plString::Format("%d %d %d",
+                                        fIndices[(i*3)+0],
+                                        fIndices[(i*3)+1],
+                                        fIndices[(i*3)+2]));
+            prc->closeTagNoBreak();
+        }
+        prc->closeTag();
+
+        prc->writeSimpleTag("TriMeshDataBuffer");
+        for (size_t i=0; i<fNumTris; i++) {
+            prc->startTag("Face");
+            prc->writeParam("data", fTMDBuffer[i]);
+            prc->endTag(true);
+        }
+        prc->closeTag();
     }
     prc->closeTag();
 }
@@ -287,6 +440,40 @@ void plPXPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                         throw pfPrcTagException(__FILE__, __LINE__, subchild->getName());
                     }
                     subchild = subchild->getNextSibling();
+                }
+            } else if (child->getName() == "Verts") {
+                fNumVerts = child->countChildren();
+                fVerts = new hsVector3[fNumVerts];
+                const pfPrcTag* vert = child->getFirstChild();
+                for (size_t i=0; i<fNumVerts; i++) {
+                    fVerts[i].prcParse(vert);
+                    vert = vert->getNextSibling();
+                }
+            } else if (child->getName() == "Triangles") {
+                fNumTris = child->countChildren();
+                fIndices = new unsigned int[fNumTris * 3];
+                const pfPrcTag* tri = child->getFirstChild();
+                for (size_t i=0; i<fNumTris; i++) {
+                    if (tri->getName() != "Triangle")
+                        throw pfPrcTagException(__FILE__, __LINE__, tri->getName());
+                    hsTList<plString> idxList = tri->getContents();
+                    if (idxList.getSize() != 3)
+                        throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
+                    fIndices[(i*3)+0] = idxList.pop().toUint();
+                    fIndices[(i*3)+1] = idxList.pop().toUint();
+                    fIndices[(i*3)+2] = idxList.pop().toUint();
+                    tri = tri->getNextSibling();
+                }
+            } else if (child->getName() == "TriMeshDataBuffer") {
+                if (fNumTris != child->countChildren())
+                    throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of Data Faces");
+                fTMDBuffer = new unsigned int[fNumTris];
+                const pfPrcTag* face = child->getFirstChild();
+                for (size_t i=0; i<fNumTris; i++) {
+                    if (face->getName() != "Face")
+                        throw pfPrcTagException(__FILE__, __LINE__, face->getName());
+                    fTMDBuffer[i] = face->getParam("data", "0").toUint();
+                    face = face->getNextSibling();
                 }
             } else {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());

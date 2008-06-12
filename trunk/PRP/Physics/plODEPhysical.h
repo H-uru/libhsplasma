@@ -16,7 +16,7 @@ protected:
     hsVector3 fBoxDimensions;
     float fMass, fRadius, fLength;
     size_t fNumVerts, fNumTris, fTMDSize;
-    float* fVerts;
+    hsVector3* fVerts;
     unsigned int* fIndices;
     unsigned char* fTMDBuffer;
 

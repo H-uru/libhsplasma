@@ -18,10 +18,11 @@ plODEPhysical::plODEPhysical(const plODEPhysical& init)
                fMass(init.fMass), fRadius(init.fRadius), fLength(init.fLength),
                fNumVerts(init.fNumVerts), fNumTris(init.fNumTris),
                fTMDSize(init.fTMDSize) {
-    fVerts = new float[fNumVerts * 3];
+    fVerts = new hsVector3[fNumVerts];
     fIndices = new unsigned int[fNumTris * 3];
     fTMDBuffer = new unsigned char[fTMDSize];
-    memcpy(fVerts, init.fVerts, fNumVerts * 3 * sizeof(float));
+    for (size_t i=0; i<fNumVerts; i++)
+        fVerts[i] = init.fVerts[i];
     memcpy(fIndices, init.fIndices, fNumTris * 3 * sizeof(unsigned int));
     memcpy(fTMDBuffer, init.fTMDBuffer, fTMDSize);
 }
@@ -60,11 +61,8 @@ plHKPhysical* plODEPhysical::ConvertToHavok() const {
 
     conv->fVerts = new hsVector3[fNumVerts];
     conv->fIndices = new unsigned short[fNumTris * 3];
-    for (size_t i=0; i<fNumVerts; i++) {
-        conv->fVerts[i].X = fVerts[(i*3)+0];
-        conv->fVerts[i].Y = fVerts[(i*3)+1];
-        conv->fVerts[i].Z = fVerts[(i*3)+2];
-    }
+    for (size_t i=0; i<fNumVerts; i++)
+        conv->fVerts[i] = fVerts[i];
     for (size_t i=0; i<fNumTris; i += 3) {
         conv->fIndices[i+0] = fIndices[i+0];
         conv->fIndices[i+1] = fIndices[i+1];
@@ -110,8 +108,9 @@ void plODEPhysical::readData(hsStream* S, plResManager* mgr) {
 
     if (fBounds == plSimDefs::kExplicitBounds) {
         fNumVerts = S->readInt();
-        fVerts = new float[fNumVerts * 3];
-        S->read(fNumVerts * 3 * sizeof(float), fVerts);
+        fVerts = new hsVector3[fNumVerts];
+        for (size_t i=0; i<fNumVerts; i++)
+            fVerts[i].read(S);
         fNumTris = S->readInt();
         fIndices = new unsigned int[fNumTris * 3];
         S->read(fNumTris * 3 * sizeof(unsigned int), fIndices);
@@ -143,7 +142,8 @@ void plODEPhysical::writeData(hsStream* S, plResManager* mgr) {
     
     if (fBounds == plSimDefs::kExplicitBounds) {
         S->writeInt(fNumVerts);
-        S->write(fNumVerts * 3 * sizeof(float), fVerts);
+        for (size_t i=0; i<fNumVerts; i++)
+            fVerts[i].write(S);
         S->writeInt(fNumTris);
         S->write(fNumTris * 3 * sizeof(unsigned int), fIndices);
         S->writeInt(fTMDSize);
@@ -193,13 +193,8 @@ void plODEPhysical::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag();
     if (fBounds == plSimDefs::kExplicitBounds) {
         prc->writeSimpleTag("Verts");
-        for (size_t i=0; i<fNumVerts; i++) {
-            prc->startTag("Vertex");
-            prc->writeParam("X", fVerts[(i*3)+0]);
-            prc->writeParam("Y", fVerts[(i*3)+1]);
-            prc->writeParam("Z", fVerts[(i*3)+2]);
-            prc->endTag(true);
-        }
+        for (size_t i=0; i<fNumVerts; i++)
+            fVerts[i].prcWrite(prc);
         prc->closeTag();
 
         prc->writeSimpleTag("Triangles");
@@ -214,7 +209,11 @@ void plODEPhysical::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();
 
         prc->writeSimpleTag("TriMeshDataBuffer");
-        prc->writeHexStream(fTMDSize, fTMDBuffer);
+        for (size_t i=0; i<fTMDSize; i++) {
+            prc->startTag("Face");
+            prc->writeParam("data", fTMDBuffer[i]);
+            prc->endTag(true);
+        }
         prc->closeTag();
     } else if (fBounds == plSimDefs::kSphereBounds) {
         prc->startTag("SphereBounds");
@@ -264,14 +263,10 @@ void plODEPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 fLength = child->getParam("Length", "0").toFloat();
             } else if (child->getName() == "Verts") {
                 fNumVerts = child->countChildren();
-                fVerts = new float[fNumVerts * 3];
+                fVerts = new hsVector3[fNumVerts];
                 const pfPrcTag* vert = child->getFirstChild();
                 for (size_t i=0; i<fNumVerts; i++) {
-                    if (vert->getName() != "Vertex")
-                        throw pfPrcTagException(__FILE__, __LINE__, vert->getName());
-                    fVerts[(i*3)+0] = vert->getParam("X", "0").toFloat();
-                    fVerts[(i*3)+1] = vert->getParam("Y", "0").toFloat();
-                    fVerts[(i*3)+2] = vert->getParam("Z", "0").toFloat();
+                    fVerts[i].prcParse(vert);
                     vert = vert->getNextSibling();
                 }
             } else if (child->getName() == "Triangles") {
@@ -290,9 +285,15 @@ void plODEPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                     tri = tri->getNextSibling();
                 }
             } else if (child->getName() == "TriMeshDataBuffer") {
-                fTMDSize = child->getContents().getSize();
+                fTMDSize = child->countChildren();
                 fTMDBuffer = new unsigned char[fTMDSize];
-                child->readHexStream(fTMDSize, fTMDBuffer);
+                const pfPrcTag* face = child->getFirstChild();
+                for (size_t i=0; i<fTMDSize; i++) {
+                    if (face->getName() != "Face")
+                        throw pfPrcTagException(__FILE__, __LINE__, face->getName());
+                    fTMDBuffer[i] = face->getParam("data", "0").toUint();
+                    face = face->getNextSibling();
+                }
             } else {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             }

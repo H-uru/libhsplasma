@@ -113,7 +113,7 @@ plString hsStream::readSafeStr() {
         hsUint16 size = (ssInfo & 0x0FFF);
         buf = new char[size+1];
         read(size, buf);
-        if (buf[0] & 0x80) {
+        if ((size > 0) && (buf[0] & 0x80)) {
             for (size_t i=0; i<size; i++)
                 buf[i] = ~buf[i];
         }
