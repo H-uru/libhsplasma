@@ -48,9 +48,9 @@ void plOneShotMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fAnimName = tag->getParam("Name", "");
         fSeekDuration = tag->getParam("SeekDuration", "0").toFloat();
         fDrivable = tag->getParam("Drivable", "false").toBool();
-        fDrivable = tag->getParam("Reversible", "false").toBool();
-        fDrivable = tag->getParam("SmartSeek", "false").toBool();
-        fDrivable = tag->getParam("NoSeek", "true").toBool();
+        fReversible = tag->getParam("Reversible", "false").toBool();
+        fSmartSeek = tag->getParam("SmartSeek", "false").toBool();
+        fNoSeek = tag->getParam("NoSeek", "true").toBool();
     } else {
         plMultiModifier::IPrcParse(tag, mgr);
     }

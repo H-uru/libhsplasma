@@ -46,7 +46,7 @@ void plCameraModifier1::CamTrans::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("POAAccel", fPOAAccel);
     prc->writeParam("POADecel", fPOADecel);
     prc->endTag();
-      prc->writeSimpleTag("TansTo");
+      prc->writeSimpleTag("TransTo");
       fTransTo->prcWrite(prc);
       prc->closeTag();
     prc->closeTag();

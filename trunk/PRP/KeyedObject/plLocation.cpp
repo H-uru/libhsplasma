@@ -138,7 +138,7 @@ void plLocation::prcParse(const pfPrcTag* tag) {
     plString buf = tag->getParam("Location", "-1;-1");
     pageID.setSeqPrefix(buf.beforeFirst(';').toInt());
     pageID.setPageNum(buf.afterFirst(';').toInt());
-    flags = tag->getParam("LocFlags", "0").toUint();
+    flags = tag->getParam("LocFlag", "0").toUint();
 }
 
 void plLocation::invalidate() {

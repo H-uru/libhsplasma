@@ -144,8 +144,8 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     if (getVer() >= pvLive) {
         std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
         page->setClassList(types);
-        keys.sortKeys(page->getLocation().getPageID());
     }
+    keys.sortKeys(page->getLocation().getPageID());
     page->write(S);
     page->setDataStart(S->pos());
     page->setNumObjects(WriteObjects(S, page->getLocation()));
@@ -404,8 +404,15 @@ void plResManager::WriteCreatable(hsStream* S, plCreatable* pCre) {
     if (pCre == NULL) {
         S->writeShort(0x8000);
     } else {
-        S->writeShort(pCre->ClassIndex(S->getVer()));
-        pCre->write(S, this);
+        short classIdx = pCre->ClassIndex(S->getVer());
+        if (classIdx == -1) {
+            plDebug::Warning("Class [%04hX]%s not available in the requested Plasma version",
+                             pCre->ClassIndex(), pCre->ClassName());
+            S->writeShort(0x8000);
+        } else {
+            S->writeShort(classIdx);
+            pCre->write(S, this);
+        }
     }
 }
 

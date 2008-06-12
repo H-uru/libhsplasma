@@ -41,7 +41,9 @@ void plNPCSpawnMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     if (fNotify != NULL) {
+        prc->writeSimpleTag("Notify");
         fNotify->prcWrite(prc);
+        prc->closeTag();
     } else {
         prc->startTag("Notify");
         prc->writeParam("NULL", true);

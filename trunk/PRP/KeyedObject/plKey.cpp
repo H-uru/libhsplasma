@@ -56,7 +56,7 @@ void plKeyData::prcWrite(pfPrcHelper* prc) {
 
 plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plKey")
-        throw hsBadParamException(__FILE__, __LINE__, "Tag name mismatch");
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     if (!tag->getParam("NULL", "false").toBool()) {
         plKeyData* key = new plKeyData;

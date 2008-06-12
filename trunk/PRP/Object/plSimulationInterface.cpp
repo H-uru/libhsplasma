@@ -61,6 +61,6 @@ void plSimulationInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fPhysical = mgr->prcParseKey(tag->getFirstChild());
     } else {
-        plSynchedObject::IPrcParse(tag, mgr);
+        plObjInterface::IPrcParse(tag, mgr);
     }
 }

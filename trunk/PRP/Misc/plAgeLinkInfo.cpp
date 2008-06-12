@@ -1,7 +1,8 @@
 #include "plAgeLinkInfo.h"
 
 // plAgeInfoStruct //
-plAgeInfoStruct::plAgeInfoStruct() : fFlags(0) { }
+plAgeInfoStruct::plAgeInfoStruct()
+               : fFlags(0), fAgeSequenceNumber(0), fAgeLanguage(0) { }
 plAgeInfoStruct::~plAgeInfoStruct() { }
 
 IMPLEMENT_CREATABLE(plAgeInfoStruct, kAgeInfoStruct, plCreatable)
@@ -25,8 +26,6 @@ void plAgeInfoStruct::read(hsStream* S, plResManager* mgr) {
     }
     if (fFlags & kHasAgeSequenceNumber) {
         fAgeSequenceNumber = S->readInt();
-    } else {
-        fAgeSequenceNumber = 0;
     }
     if (fFlags & kHasAgeDescription) {
         size_t len = S->readShort();
@@ -34,8 +33,6 @@ void plAgeInfoStruct::read(hsStream* S, plResManager* mgr) {
     }
     if (fFlags & kHasAgeLanguage) {
         fAgeLanguage = S->readInt();
-    } else {
-        fAgeLanguage = 0;
     }
 }
 
@@ -154,7 +151,7 @@ bool plAgeInfoStruct::isEmpty() {
 
 
 // plAgeLinkStruct //
-plAgeLinkStruct::plAgeLinkStruct() : fFlags(0) { }
+plAgeLinkStruct::plAgeLinkStruct() : fFlags(0), fLinkingRules(0), fAmCCR(0) { }
 plAgeLinkStruct::~plAgeLinkStruct() { }
 
 IMPLEMENT_CREATABLE(plAgeLinkStruct, kAgeLinkStruct, plCreatable)

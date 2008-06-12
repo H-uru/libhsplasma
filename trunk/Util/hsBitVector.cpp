@@ -115,15 +115,16 @@ const char* hsBitVector::getName(size_t idx) {
 }
 
 size_t hsBitVector::getValue(const char* name) {
-    if (fBitValues.count(name) > 0)
-        return fBitValues[name];
-    else
-        return (size_t)plString(name).toUint();
+    std::map<size_t, const char*>::iterator i;
+    for (i = fBitNames.begin(); i != fBitNames.end(); i++) {
+        if (strcmp(i->second, name) == 0)
+            return i->first;
+    }
+    return (size_t)plString(name).toUint();
 }
 
 void hsBitVector::setName(size_t idx, const char* name) {
     fBitNames[idx] = name;
-    fBitValues[name] = idx;
 }
 
 void hsBitVector::read(hsStream* S) {

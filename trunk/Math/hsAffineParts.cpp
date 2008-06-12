@@ -52,7 +52,7 @@ void hsAffineParts::prcParse(const pfPrcTag* tag) {
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "I") {
-            fI = tag->getParam("value", "0").toInt();
+            fI = child->getParam("value", "0").toInt();
         } else if (child->getName() == "T") {
             if (child->hasChildren())
                 fT.prcParse(child->getFirstChild());
@@ -66,9 +66,10 @@ void hsAffineParts::prcParse(const pfPrcTag* tag) {
             if (child->hasChildren())
                 fK.prcParse(child->getFirstChild());
         } else if (child->getName() == "F") {
-            fF = tag->getParam("value", "0").toFloat();
+            fF = child->getParam("value", "0").toFloat();
         } else {
             throw pfPrcTagException(__FILE__, __LINE__, child->getName());
         }
+        child = child->getNextSibling();
     }
 }

@@ -143,7 +143,7 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                         const pfPrcTag* subChild = cmdChild->getFirstChild();
                         while (subChild != NULL) {
                             if (subChild->getName() == "WaitOn") {
-                                fStates[i].fCmds[j].fWaitOn = tag->getParam("value", "-1").toInt();
+                                fStates[i].fCmds[j].fWaitOn = subChild->getParam("value", "-1").toInt();
                             } else {
                                 fStates[i].fCmds[j].fMsg = plMessage::Convert(mgr->prcParseCreatable(subChild));
                             }

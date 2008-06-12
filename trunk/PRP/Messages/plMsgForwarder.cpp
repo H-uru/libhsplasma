@@ -35,7 +35,7 @@ void plMsgForwarder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fForwardKeys.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fForwardKeys.getSize(); i++) {
-            fForwardKeys[i] = mgr->prcParseKey(tag);
+            fForwardKeys[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else {

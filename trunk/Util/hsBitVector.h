@@ -28,7 +28,6 @@ private:
     hsUint32* fBits;
     size_t fNumVectors;
     std::map<size_t, const char*> fBitNames;
-    std::map<const char*, size_t> fBitValues;
 
 public:
     hsBitVector();

@@ -4,15 +4,6 @@
 #include "Debug/hsExceptions.h"
 #include "Debug/plDebug.h"
 
-const char* PlasmaVerNames[] = { 
-    "Unknown",  // pvUnknown
-    "Prime",    // pvPrime
-    "PotS",     // pvPots
-    "EOA",      // pvEoa
-    "Live",     // pvLive
-    "HexIsle"   // pvHex
-};
-
 const char* getSuffix(PlasmaVer pv) {
     switch (pv) {
     case pvPrime:   return "prime";
@@ -21,6 +12,17 @@ const char* getSuffix(PlasmaVer pv) {
     case pvEoa:     return "eoa";
     case pvHex:     return "hex";
     default:        return "err";
+    }
+}
+
+const char* getVerName(PlasmaVer pv) {
+    switch (pv) {
+    case pvPrime:   return "Prime";
+    case pvPots:    return "PotS";
+    case pvLive:    return "Live";
+    case pvEoa:     return "EoA";
+    case pvHex:     return "HexIsle";
+    default:        return "Unknown";
     }
 }
 
@@ -86,7 +88,7 @@ int main(int argc, char** argv) {
             printf("Page Flags: %d\n", page->getLocation().getFlags());
             printf("Age Name: %s\n", page->getAge().cstr());
             printf("Page Name: %s\n", page->getPage().cstr());
-            printf("Plasma Version: %s\n", PlasmaVerNames[rm.getVer()]);
+            printf("Plasma Version: %s\n", getVerName(rm.getVer()));
             printf("Keyring: %d keys\n", rm.countKeys(page->getLocation().getPageID()));
             printf("Objects Read: %d\n", page->getNumObjects());
             

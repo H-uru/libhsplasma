@@ -20,7 +20,8 @@ private:
 public:
     hsTList() : count(0), first(NULL), last(NULL), iter(NULL) { }
 
-    hsTList(const hsTList<T>& init) : count(0), iter(NULL) {
+    hsTList(const hsTList<T>& init)
+           : count(0), first(NULL), last(NULL), iter(NULL) {
         if (init.count > 0) {
             rpush(init.iBegin());
             while (!init.iAtEnd())

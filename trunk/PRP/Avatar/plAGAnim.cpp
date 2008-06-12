@@ -75,16 +75,16 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             if (child->getName() != "AppSet")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
-            const pfPrcTag* subChild = tag->getFirstChild();
+            const pfPrcTag* subChild = child->getFirstChild();
             plAGApplicator* agApp;
             plAGChannel* agChan;
             while (subChild != NULL) {
                 if (subChild->getName() == "Applicator") {
                     if (subChild->hasChildren())
-                        agApp = plAGApplicator::Convert(mgr->prcParseCreatable(subChild));
+                        agApp = plAGApplicator::Convert(mgr->prcParseCreatable(subChild->getFirstChild()));
                 } else if (subChild->getName() == "Channel") {
                     if (subChild->hasChildren())
-                        agChan = plAGChannel::Convert(mgr->prcParseCreatable(child));
+                        agChan = plAGChannel::Convert(mgr->prcParseCreatable(subChild->getFirstChild()));
                 } else {
                     throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
                 }

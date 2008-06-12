@@ -227,7 +227,7 @@ void plQuatController::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("QuatKeys");
     for (size_t i=0; i<fQuatKeys.getSize(); i++)
-        fQuatKeys[i].IPrcWrite(prc);
+        fQuatKeys[i].prcWrite(prc);
     prc->closeTag();
 }
 

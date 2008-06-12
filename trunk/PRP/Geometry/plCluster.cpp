@@ -59,7 +59,7 @@ void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
             const pfPrcTag* inst = child->getFirstChild();
             for (size_t i=0; i<fInstances.getSize(); i++) {
                 fInstances[i] = new plSpanInstance();
-                fInstances[i]->prcParse(tag, fEncoding, numVerts);
+                fInstances[i]->prcParse(inst, fEncoding, numVerts);
                 inst = inst->getNextSibling();
             }
         } else {

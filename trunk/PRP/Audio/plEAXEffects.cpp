@@ -152,17 +152,17 @@ void plEAXSourceSettings::prcParse(const pfPrcTag* tag) {
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "Effects") {
-                fAirAbsorptionFactor = tag->getParam("AirAbsorption", "0").toFloat();
-                fRoomRolloffFactor = tag->getParam("RoomRolloff", "0").toFloat();
-                fDopplerFactor = tag->getParam("Doppler", "0").toFloat();
-                fRolloffFactor = tag->getParam("Rolloff", "0").toFloat();
+                fAirAbsorptionFactor = child->getParam("AirAbsorption", "0").toFloat();
+                fRoomRolloffFactor = child->getParam("RoomRolloff", "0").toFloat();
+                fDopplerFactor = child->getParam("Doppler", "0").toFloat();
+                fRolloffFactor = child->getParam("Rolloff", "0").toFloat();
                 fOcclusionSoftValue = tag->getParam("SoftOcclusion", "0").toFloat();
             } else if (child->getName() == "Starts") {
                 if (tag->hasChildren())
-                    fSoftStarts.prcParse(tag->getFirstChild());
+                    fSoftStarts.prcParse(child->getFirstChild());
             } else if (child->getName() == "Ends") {
                 if (tag->hasChildren())
-                    fSoftEnds.prcParse(tag->getFirstChild());
+                    fSoftEnds.prcParse(child->getFirstChild());
             } else {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             }

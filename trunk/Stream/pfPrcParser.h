@@ -17,6 +17,8 @@ protected:
 
     pfPrcTag();
     ~pfPrcTag();
+
+    pfPrcTag* Destroy();
     
     friend class pfPrcParser;
 

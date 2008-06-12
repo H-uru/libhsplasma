@@ -236,6 +236,7 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fTotalSize = tag->getParam("TotalSize", "0").toUint();
         fNumLevels = tag->getParam("MipLevels", "0").toUint();
     } else if (tag->getName() == "JPEG") {
+        IBuildLevelSizes();
         if (tag->getParam("ImageRLE", "false").toBool()) {
             fJPEGDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
             tag->readHexStream(fJPEGDataRLE->fTotalSize, fJPEGDataRLE->fImageData);
@@ -253,7 +254,13 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             tag->readHexStream(fAlphaSize, fAlphaData);
         }
     } else if (tag->getName() == "DDS") {
-        tag->readHexStream(fTotalSize, fImageData);
+        if (tag->getContents().getSize() != fTotalSize)
+            throw pfPrcParseException(__FILE__, __LINE__, "DDS Data is not of the correct length");
+        IBuildLevelSizes();
+        if (fTotalSize > 0) {
+            fImageData = new unsigned char[fTotalSize];
+            tag->readHexStream(fTotalSize, fImageData);
+        }
     } else {
         plBitmap::IPrcParse(tag, mgr);
     }

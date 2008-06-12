@@ -7,10 +7,21 @@ pfPrcTag::pfPrcTag()
         : fNextSibling(NULL), fFirstChild(NULL), fIsEndTag(false) { }
 
 pfPrcTag::~pfPrcTag() {
-    if (fNextSibling != NULL)
-        delete fNextSibling;
-    if (fFirstChild != NULL)
-        delete fFirstChild;
+    /* This can cause a stack overflow if there are lots of tags
+     * (e.g., hsGBufferGroup's verts.  For now, use Destroy() */
+
+    //if (fNextSibling != NULL)
+    //    delete fNextSibling;
+    //if (fFirstChild != NULL)
+    //    delete fFirstChild;
+}
+
+pfPrcTag* pfPrcTag::Destroy() {
+    while (fFirstChild != NULL)
+        fFirstChild = fFirstChild->Destroy();
+    pfPrcTag* next = fNextSibling;
+    delete this;
+    return next;
 }
 
 const plString& pfPrcTag::getName() const { return fName; }
@@ -57,7 +68,7 @@ pfPrcParser::pfPrcParser() : fRootTag(NULL) { }
 
 pfPrcParser::~pfPrcParser() {
     if (fRootTag != NULL)
-        delete fRootTag;
+        fRootTag->Destroy();
 }
 
 void pfPrcParser::read(hsStream* S) {

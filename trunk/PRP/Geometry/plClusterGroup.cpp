@@ -133,7 +133,7 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Template") {
         if (tag->hasChildren()) {
             fTemplate = new plSpanTemplate();
-            fTemplate->prcParse(tag);
+            fTemplate->prcParse(tag->getFirstChild());
         }
     } else if (tag->getName() == "Material") {
         if (tag->hasChildren())

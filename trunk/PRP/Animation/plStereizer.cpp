@@ -58,7 +58,7 @@ void plStereizer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fTanAng = tag->getParam("TanAng", "0").toFloat();
     } else if (tag->getName() == "InitPos") {
         if (tag->hasChildren())
-            fInitPos.prcParse(tag);
+            fInitPos.prcParse(tag->getFirstChild());
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

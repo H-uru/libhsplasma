@@ -129,7 +129,7 @@ void plHKPhysical::readData(hsStream* S, plResManager* mgr) {
     float rad = S->readFloat();
     hsVector3 axis;
     axis.read(S);
-    fRot = hsQuat(rad, axis);
+    fRot = hsQuat(axis.X, axis.Y, axis.Z, rad);
     
     fMass = S->readFloat();
     fFriction = S->readFloat();

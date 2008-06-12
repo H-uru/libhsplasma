@@ -284,7 +284,7 @@ void plPythonFileMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fParameters.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fParameters.getSize(); i++) {
-            fParameters[i].prcParse(tag, mgr);
+            fParameters[i].prcParse(child, mgr);
             child = child->getNextSibling();
         }
     } else {

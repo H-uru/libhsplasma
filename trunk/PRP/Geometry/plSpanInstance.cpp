@@ -110,7 +110,7 @@ void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encodin
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Local2World") {
-            hsTList<plString> contents = tag->getContents();
+            hsTList<plString> contents = child->getContents();
             if (contents.pop() != "[")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
             fL2W[0][0] = contents.pop().toFloat();

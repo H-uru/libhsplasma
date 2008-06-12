@@ -139,17 +139,17 @@ void plCompoundRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
     if (tag->getName() == "X") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
             fXController = new plScalarController();
-            fXController->prcParse(tag, mgr);
+            fXController->prcParse(tag->getFirstChild(), mgr);
         }
     } else if (tag->getName() == "Y") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
             fYController = new plScalarController();
-            fYController->prcParse(tag, mgr);
+            fYController->prcParse(tag->getFirstChild(), mgr);
         }
     } else if (tag->getName() == "Z") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
             fZController = new plScalarController();
-            fZController->prcParse(tag, mgr);
+            fZController->prcParse(tag->getFirstChild(), mgr);
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);

@@ -65,19 +65,20 @@ void plCameraConfig::prcParse(const pfPrcTag* tag) {
     size_t nChildren = tag->countChildren();
     for (size_t i=0; i<nChildren; i++) {
         if (child->getName() == "Params") {
-            fAccel = tag->getParam("Accel", "0").toFloat();
-            fDecel = tag->getParam("Decel", "0").toFloat();
-            fVel = tag->getParam("Vel", "0").toFloat();
+            fAccel = child->getParam("Accel", "0").toFloat();
+            fDecel = child->getParam("Decel", "0").toFloat();
+            fVel = child->getParam("Vel", "0").toFloat();
         } else if (child->getName() == "FPParams") {
-            fFPAccel = tag->getParam("Accel", "0").toFloat();
-            fFPDecel = tag->getParam("Decel", "0").toFloat();
-            fFPVel = tag->getParam("Vel", "0").toFloat();
+            fFPAccel = child->getParam("Accel", "0").toFloat();
+            fFPDecel = child->getParam("Decel", "0").toFloat();
+            fFPVel = child->getParam("Vel", "0").toFloat();
         } else if (child->getName() == "Offset") {
             if (child->hasChildren())
                 fOffset.prcParse(child->getFirstChild());
         } else {
             throw pfPrcTagException(__FILE__, __LINE__, child->getName());
         }
+        child = child->getNextSibling();
     }
 }
 

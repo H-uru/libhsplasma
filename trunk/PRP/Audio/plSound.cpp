@@ -220,8 +220,7 @@ void plSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fSoftOcclusionRegion = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "plEAXSourceSettings") {
-        if (tag->hasChildren())
-            fEAXSettings.prcParse(tag->getFirstChild());
+        fEAXSettings.prcParse(tag);
     } else {
         plSynchedObject::IPrcParse(tag, mgr);
     }
