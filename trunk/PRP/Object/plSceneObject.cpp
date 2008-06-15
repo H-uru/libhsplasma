@@ -1,4 +1,5 @@
 #include "plSceneObject.h"
+#include "plDrawInterface.h"
 
 plSceneObject::plSceneObject() { }
 plSceneObject::~plSceneObject() { }
@@ -44,7 +45,7 @@ void plSceneObject::write(hsStream* S, plResManager* mgr) {
 
 void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
-    
+
     prc->writeSimpleTag("DrawInterface");
       fDrawIntf->prcWrite(prc);
     prc->closeTag();
@@ -67,7 +68,7 @@ void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
     for (i=0; i<fModifiers.getSize(); i++)
         fModifiers[i]->prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("SceneNode");
       fSceneNode->prcWrite(prc);
     prc->closeTag();
@@ -105,5 +106,13 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());
     } else {
         plSynchedObject::IPrcParse(tag, mgr);
+    }
+}
+
+void plSceneObject::VertexWrite(hsStream* S) {
+    if(fDrawIntf != NULL)
+    {
+        S->writeStr(plString::Format("o %s\n", myKey->getName().cstr()));
+        ((plDrawInterface*)(fDrawIntf->getObj()))->VertexWrite(S);
     }
 }

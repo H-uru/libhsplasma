@@ -11,7 +11,7 @@ void plDrawInterface::read(hsStream* S, plResManager* mgr) {
     size_t count = S->readInt();
     fDrawables.setSize(count);
     fDrawableKeys.setSize(count);
-	size_t i;
+    size_t i;
     for (i=0; i<count; i++) {
         fDrawableKeys[i] = S->readInt();
         fDrawables[i] = mgr->readKey(S);
@@ -26,7 +26,7 @@ void plDrawInterface::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
 
     S->writeInt(fDrawables.getSize());
-	size_t i;
+    size_t i;
     for (i=0; i<fDrawables.getSize(); i++) {
         S->writeInt(fDrawableKeys[i]);
         mgr->writeKey(S, fDrawables[i]);
@@ -77,5 +77,11 @@ void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else {
         plObjInterface::IPrcParse(tag, mgr);
+    }
+}
+
+void plDrawInterface::VertexWrite(hsStream* S) {
+    for (size_t i=0; i<fDrawables.getSize(); i++) {
+        ((plDrawableSpans*)(fDrawables[i]->getObj()))->VertexWrite(S, fDrawableKeys[i]);
     }
 }

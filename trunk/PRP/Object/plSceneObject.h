@@ -20,6 +20,7 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void VertexWrite(hsStream* S);
 };
 
 #endif

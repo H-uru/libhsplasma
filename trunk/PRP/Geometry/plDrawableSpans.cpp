@@ -496,3 +496,19 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
+
+void plDrawableSpans::VertexWrite(hsStream* S, int index)
+{
+    if(index > fIcicles.getSize())
+        index = fIcicles.getSize() - 1;
+
+    plIcicle icicle = fIcicles.get(index);
+    //We should eventually use this to get only the verts and faces for that object
+    plGBufferGroup* grp = fGroups[icicle.fGroupIdx];
+
+    hsTArray<plGBufferVertex> verts = grp->getVertices(icicle.fVBufferIdx);
+    for (size_t i = icicle.fVStartIdx; i < (icicle.fVStartIdx + icicle.fVLength); i++)
+    {
+        S->writeStr(plString::Format("v %f %f %f\n", verts[i].fPos.X, verts[i].fPos.Y, verts[i].fPos.Z));
+    }
+}

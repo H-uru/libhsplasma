@@ -53,7 +53,7 @@ unsigned int PageID::unparse() const {
         return 0xFFFFFFFF;
     } else {
         int sp = seqPrefix;
-        if (sp < 0) 
+        if (sp < 0)
             sp = (sp & 0xFFFFFF00) | (0x100 - sp);
         if (pageID < 0)
             sp++;
@@ -116,6 +116,8 @@ void plLocation::read(hsStream* S) {
     pageID.read(S);
     if (S->getVer() >= pvEoa)
         flags = S->readByte();
+    else if (S->getVer() < pvPrime)
+        flags = 0x00;
     else
         flags = S->readShort();
 }
@@ -124,6 +126,8 @@ void plLocation::write(hsStream* S) {
     pageID.write(S);
     if (S->getVer() >= pvEoa)
         S->writeByte(flags);
+    else if (S->getVer() < pvPrime)
+        flags = 0x00;
     else
         S->writeShort(flags);
 }

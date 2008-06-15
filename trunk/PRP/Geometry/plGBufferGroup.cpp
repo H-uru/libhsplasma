@@ -397,11 +397,13 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
                 if (vtxChild->getName() != "Vertex")
                     throw pfPrcTagException(__FILE__, __LINE__, vtxChild->getName());
 
+                printf("< Vertex %d > ", i);
                 const pfPrcTag* subChild = vtxChild->getFirstChild();
                 while (subChild != NULL) {
                     if (subChild->getName() == "Position") {
                         if (subChild->hasChildren())
                             buf[i].fPos.prcParse(subChild->getFirstChild());
+                        printf("[%d, %d, %d]\n", buf[i].fPos.X, buf[i].fPos.Y, buf[i].fPos.Z);
                     } else if (subChild->getName() == "SkinWeights") {
                         buf[i].fSkinIdx = subChild->getParam("SkinIndex", "0").toInt();
                         hsTList<plString> wgtList = subChild->getContents();
