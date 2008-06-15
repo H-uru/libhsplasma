@@ -116,8 +116,6 @@ void plLocation::read(hsStream* S) {
     pageID.read(S);
     if (S->getVer() >= pvEoa)
         flags = S->readByte();
-    else if (S->getVer() < pvPrime)
-        flags = 0x00;
     else
         flags = S->readShort();
 }
@@ -126,8 +124,6 @@ void plLocation::write(hsStream* S) {
     pageID.write(S);
     if (S->getVer() >= pvEoa)
         S->writeByte(flags);
-    else if (S->getVer() < pvPrime)
-        flags = 0x00;
     else
         S->writeShort(flags);
 }

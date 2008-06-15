@@ -18,6 +18,13 @@ public:
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+
+    unsigned int getGroupIdx() const;
+    unsigned int getVBufferIdx() const;
+    unsigned int getCellIdx() const;
+    unsigned int getCellOffset() const;
+    unsigned int getVStartIdx() const;
+    unsigned int getVLength() const;
 };
 
 #endif

@@ -497,18 +497,22 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plDrawableSpans::VertexWrite(hsStream* S, int index)
-{
-    if(index > fIcicles.getSize())
-        index = fIcicles.getSize() - 1;
+size_t plDrawableSpans::getNumIcicles() const {
+    return fIcicles.getSize();
+}
 
-    plIcicle icicle = fIcicles.get(index);
-    //We should eventually use this to get only the verts and faces for that object
-    plGBufferGroup* grp = fGroups[icicle.fGroupIdx];
+const plIcicle& plDrawableSpans::getIcicle(size_t idx) const {
+    return fIcicles[idx];
+}
 
-    hsTArray<plGBufferVertex> verts = grp->getVertices(icicle.fVBufferIdx);
-    for (size_t i = icicle.fVStartIdx; i < (icicle.fVStartIdx + icicle.fVLength); i++)
-    {
-        S->writeStr(plString::Format("v %f %f %f\n", verts[i].fPos.X, verts[i].fPos.Y, verts[i].fPos.Z));
-    }
+plGBufferGroup* plDrawableSpans::getBuffer(size_t group) const {
+    return fGroups[group];
+}
+
+hsTArray<plGBufferVertex> plDrawableSpans::getVerts(size_t group, size_t buffer) const {
+    return fGroups[group]->getVertices(buffer);
+}
+
+hsTArray<unsigned short> plDrawableSpans::getIndices(size_t group, size_t buffer) const {
+    return fGroups[group]->getIndices(buffer);
 }

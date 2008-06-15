@@ -46,7 +46,7 @@ public:
     };
 
 protected:
-    unsigned short fTypeMask, fSubType;
+    unsigned short fSubType;
     unsigned int fMaterialIdx;
     hsMatrix44 fLocalToWorld, fWorldToLocal;
     unsigned int fBaseMatrix;
@@ -57,11 +57,6 @@ protected:
     hsBounds3Ext fLocalBounds, fWorldBounds;
     plKey fFogEnvironment;
     float fMinDist, fMaxDist, fWaterHeight;
-    hsBitVector fVisSet, fVisNot;
-    hsTArray<plLightInfo*> fLights, fProjectors;
-    hsTArray<float> fLightStrengths, fLightScales;
-    hsTArray<float> fProjStrengths, fProjScales;
-    hsBitVector fShadowBits, fShadowSlaveBits;
     hsTArray<plKey> fPermaLights, fPermaProjs;
 
 public:

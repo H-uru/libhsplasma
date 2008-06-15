@@ -116,7 +116,13 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    void VertexWrite(hsStream* S, int index);
+
+    size_t getNumIcicles() const;
+    const plIcicle& getIcicle(size_t idx) const;
+
+    plGBufferGroup* getBuffer(size_t group) const;
+    hsTArray<plGBufferVertex> getVerts(size_t group, size_t buffer) const;
+    hsTArray<unsigned short> getIndices(size_t group, size_t buffer) const;
 };
 
 #endif

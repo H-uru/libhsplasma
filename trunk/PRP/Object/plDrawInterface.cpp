@@ -80,8 +80,22 @@ void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plDrawInterface::VertexWrite(hsStream* S) {
-    for (size_t i=0; i<fDrawables.getSize(); i++) {
-        ((plDrawableSpans*)(fDrawables[i]->getObj()))->VertexWrite(S, fDrawableKeys[i]);
-    }
+size_t plDrawInterface::getNumDrawables() const {
+    return fDrawables.getSize();
+}
+
+plKey plDrawInterface::getDrawable(size_t idx) const {
+    return fDrawables[idx];
+}
+
+int plDrawInterface::getDrawableKey(size_t idx) const {
+    return fDrawableKeys[idx];
+}
+
+size_t plDrawInterface::getNumObjects() const {
+    return fObjects.getSize();
+}
+
+plKey plDrawInterface::getObject(size_t idx) const {
+    return fObjects[idx];
 }

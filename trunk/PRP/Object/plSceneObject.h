@@ -20,7 +20,11 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    void VertexWrite(hsStream* S);
+
+    plKey getDrawInterface() const;
+    plKey getSimInterface() const;
+    plKey getCoordInterface() const;
+    plKey getAudioInterface() const;
 };
 
 #endif

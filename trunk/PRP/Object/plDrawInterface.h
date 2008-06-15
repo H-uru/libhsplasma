@@ -2,7 +2,6 @@
 #define _PLDRAWINTERFACE_H
 
 #include "plObjInterface.h"
-#include "PRP/Geometry/plDrawableSpans.h"
 
 DllClass plDrawInterface : public plObjInterface {
 public:
@@ -20,7 +19,13 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    void VertexWrite(hsStream* S);
+
+    size_t getNumDrawables() const;
+    plKey getDrawable(size_t idx) const;
+    int getDrawableKey(size_t idx) const;
+
+    size_t getNumObjects() const;
+    plKey getObject(size_t idx) const;
 };
 
 #endif

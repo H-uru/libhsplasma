@@ -85,18 +85,6 @@ void plPageInfo::read(hsStream* S) {
         fLocation.set(pid, pflags, S->getVer());
         fReleaseVersion = S->readInt();
         fFlags = S->readInt();
-    } else if (prpVer == 2) {
-        S->readShort();
-        S->setVer(pvChoru);
-        int pid = S->readInt();
-        fLocation.set(pid, 0, S->getVer());
-        fAge = S->readSafeStr();
-        S->readSafeStr(); // "District"
-        fPage = S->readSafeStr();
-        short majorVer = S->readShort();
-        short minorVer = S->readShort();
-        fIdxChecksum = S->readInt();
-        fReleaseVersion = S->readInt();
     } else {
         throw hsBadVersionException(__FILE__, __LINE__);
     }

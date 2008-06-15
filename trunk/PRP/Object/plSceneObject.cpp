@@ -1,5 +1,4 @@
 #include "plSceneObject.h"
-#include "plDrawInterface.h"
 
 plSceneObject::plSceneObject() { }
 plSceneObject::~plSceneObject() { }
@@ -109,10 +108,7 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plSceneObject::VertexWrite(hsStream* S) {
-    if(fDrawIntf != NULL)
-    {
-        S->writeStr(plString::Format("o %s\n", myKey->getName().cstr()));
-        ((plDrawInterface*)(fDrawIntf->getObj()))->VertexWrite(S);
-    }
-}
+plKey plSceneObject::getDrawInterface() const { return fDrawIntf; }
+plKey plSceneObject::getSimInterface() const { return fSimIntf; }
+plKey plSceneObject::getCoordInterface() const { return fCoordIntf; }
+plKey plSceneObject::getAudioInterface() const { return fAudioIntf; }

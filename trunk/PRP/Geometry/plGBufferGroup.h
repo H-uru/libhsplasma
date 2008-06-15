@@ -101,6 +101,9 @@ public:
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+    size_t getSkinWeights() const;
+    size_t getNumUVs() const;
 };
 
 #endif

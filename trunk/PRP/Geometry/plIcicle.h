@@ -5,7 +5,7 @@
 #include "plVertexSpan.h"
 
 class plIcicle : public plVertexSpan {
-public:
+protected:
     unsigned int fIBufferIdx, fIStartIdx, fILength;
     plGBufferTriangle* fSortData;
 
@@ -19,6 +19,10 @@ public:
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+
+    unsigned int getIBufferIdx() const;
+    unsigned int getIStartIdx() const;
+    unsigned int getILength() const;
 };
 
 

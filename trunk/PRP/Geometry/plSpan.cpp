@@ -135,7 +135,6 @@ void plSpan::IPrcParse(const pfPrcTag* tag) {
 const plKey& plSpan::getFogEnvironment() const { return fFogEnvironment; }
 const hsTArray<plKey>& plSpan::getPermaLights() const { return fPermaLights; }
 const hsTArray<plKey>& plSpan::getPermaProjs() const { return fPermaProjs; }
-unsigned short plSpan::getTypeMask() const { return fTypeMask; }
 unsigned int plSpan::getMaterialIdx() const { return fMaterialIdx; }
 unsigned char plSpan::getNumMatrices() const { return fNumMatrices; }
 unsigned int plSpan::getProps() const { return fProps; }

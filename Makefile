@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS += -fPIC -Wall -g -ansi
+CFLAGS += -fPIC -Wall -g -ansi -fno-rtti
 
 all:
 	(cd trunk ; make)
@@ -10,8 +10,8 @@ all:
 	(make Tools/PageList)
 	(make Tools/prcc)
 	(make Tools/prcdc)
+	(make Tools/Prp2Obj)
 	(make Tools/PageExplorer)
-	(make Tools/VertexWriter)
 	(make Misc/TypeMap)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp trunk/lib/libPlasma.so
@@ -29,23 +29,20 @@ Tools/PrcExtract: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.so
 Tools/PageList: Tools/src/PageList.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageList.cpp -o Tools/PageList
 
-Tools/VertexWriter: Tools/src/VertexWriter.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/VertexWriter.cpp -o Tools/VertexWriter
-
 Tools/prcc: Tools/src/prcc.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcc.cpp -o Tools/prcc
 
 Tools/prcdc: Tools/src/prcdc.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcdc.cpp -o Tools/prcdc
 
+Tools/Prp2Obj: Tools/src/Prp2Obj.cpp trunk/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
+
 Tools/PageExplorer: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Ltrunk/lib/ -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer
 
 Misc/TypeMap: Misc/TypeMap.cpp trunk/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Misc/TypeMap.cpp -o Misc/TypeMap
-
-Boost:
-	(cd Boost ; make)
 
 install:
 	(cd trunk ; make install)
@@ -56,7 +53,7 @@ install:
 	cp Tools/PageList /usr/local/bin/
 	cp Tools/prcc /usr/local/bin/
 	cp Tools/prcdc /usr/local/bin/
-	cp Tools/VertexWriter /usr/local/bin/
+	cp Tools/Prp2Obj /usr/local/bin/
 	cp Tools/PageExplorer /usr/local/bin/
 	chmod +x Tools/eoaedit Tools/uruedit
 	cp Tools/eoaedit Tools/uruedit /usr/local/bin/
@@ -69,7 +66,7 @@ uninstall:
 	rm -f /usr/local/bin/PageList
 	rm -f /usr/local/bin/prcc
 	rm -f /usr/local/bin/prcdc
-	rm -f /usr/local/bin/VertexWriter
+	rm -f /usr/local/bin/Prp2Obj
 	rm -f /usr/local/bin/PageExplorer
 	rm -f /usr/local/bin/eoaedit
 	rm -f /usr/local/bin/uruedit
@@ -86,6 +83,6 @@ distclean:
 	rm -f Tools/PageList
 	rm -f Tools/prcc
 	rm -f Tools/prcdc
-	rm -f Tools/VertexWriter
+	rm -f Tools/Prp2Obj
 	rm -f Tools/PageExplorer
 	rm -f Misc/TypeMap

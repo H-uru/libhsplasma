@@ -49,3 +49,10 @@ void plVertexSpan::IPrcParse(const pfPrcTag* tag) {
         plSpan::IPrcParse(tag);
     }
 }
+
+unsigned int plVertexSpan::getGroupIdx() const { return fGroupIdx; }
+unsigned int plVertexSpan::getVBufferIdx() const { return fVBufferIdx; }
+unsigned int plVertexSpan::getCellIdx() const { return fCellIdx; }
+unsigned int plVertexSpan::getCellOffset() const { return fCellOffset; }
+unsigned int plVertexSpan::getVStartIdx() const { return fVStartIdx; }
+unsigned int plVertexSpan::getVLength() const { return fVLength; }

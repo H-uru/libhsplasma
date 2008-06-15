@@ -20,7 +20,7 @@ void plIcicle::read(hsStream* S) {
     fILength = S->readInt();
     if (fProps & kPropFacesSortable) {
         fSortData = new plGBufferTriangle[fILength / 3];
-        for (unsigned int i=0; i<(fILength / 3); i++)
+        for (size_t i=0; i<(fILength / 3); i++)
             fSortData[i].read(S);
     } else
         fSortData = NULL;
@@ -32,7 +32,7 @@ void plIcicle::write(hsStream* S) {
     S->writeInt(fIStartIdx);
     S->writeInt(fILength);
     if (fProps & kPropFacesSortable) {
-        for (unsigned int i=0; i<(fILength / 3); i++)
+        for (size_t i=0; i<(fILength / 3); i++)
             fSortData[i].write(S);
     }
 }
@@ -46,7 +46,7 @@ void plIcicle::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
     if (fProps & kPropFacesSortable) {
         prc->writeSimpleTag("SortData");
-        for (unsigned int i=0; i<(fILength / 3); i++)
+        for (size_t i=0; i<(fILength / 3); i++)
             fSortData[i].prcWrite(prc);
         prc->closeTag();
     }
@@ -62,7 +62,7 @@ void plIcicle::IPrcParse(const pfPrcTag* tag) {
             throw pfPrcParseException(__FILE__, __LINE__, "SortData should have exactly Length/3 triangles");
         fSortData = new plGBufferTriangle[fILength / 3];
         const pfPrcTag* child = tag->getFirstChild();
-        for (unsigned int i=0; i<(fILength / 3); i++) {
+        for (size_t i=0; i<(fILength / 3); i++) {
             fSortData[i].prcParse(child);
             child = child->getNextSibling();
         }
@@ -70,6 +70,10 @@ void plIcicle::IPrcParse(const pfPrcTag* tag) {
         plVertexSpan::IPrcParse(tag);
     }
 }
+
+unsigned int plIcicle::getIBufferIdx() const { return fIBufferIdx; }
+unsigned int plIcicle::getIStartIdx() const { return fIStartIdx; }
+unsigned int plIcicle::getILength() const { return fILength; }
 
 
 /* plParticleSpan */
