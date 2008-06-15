@@ -133,6 +133,14 @@ public:
 
     void push(const T& item) { append(item); }
     T& pop() { return remove(count-1); }
+
+    size_t find(const T& item) const {
+        for (size_t i=0; i<count; i++) {
+            if (data[i] == item)
+                return i;
+        }
+        return (size_t)-1;
+    }
 };
 
 #endif

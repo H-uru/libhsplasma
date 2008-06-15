@@ -148,4 +148,3 @@ void plSpan::addPermaLight(const plKey& light) {
 void plSpan::addPermaProj(const plKey& proj) {
     fPermaProjs.append(proj);
 }
-

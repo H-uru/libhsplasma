@@ -4,7 +4,7 @@
 #include "plGBufferGroup.h"
 #include "plVertexSpan.h"
 
-class plIcicle : public plVertexSpan {
+DllClass plIcicle : public plVertexSpan {
 protected:
     unsigned int fIBufferIdx, fIStartIdx, fILength;
     plGBufferTriangle* fSortData;
@@ -26,7 +26,7 @@ public:
 };
 
 
-class plParticleSpan : public plIcicle {
+DllClass plParticleSpan : public plIcicle {
 protected:
     unsigned int fNumParticles, fSortCount, fSrcSpanIdx;
     

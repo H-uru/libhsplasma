@@ -38,6 +38,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prcdc", "Tools\prcdc.vcproj
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Prp2Obj", "Tools\Prp2Obj.vcproj", "{C89E0F9A-2164-4637-9A67-A057D0EFF185}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -93,6 +98,12 @@ Global
 		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Debug-NoDLL|Win32.Build.0 = Debug-NoDLL|Win32
 		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Release|Win32.ActiveCfg = Release|Win32
 		{24200E2A-F54A-46F0-BA29-35BDE75E4D25}.Release|Win32.Build.0 = Release|Win32
+		{C89E0F9A-2164-4637-9A67-A057D0EFF185}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C89E0F9A-2164-4637-9A67-A057D0EFF185}.Debug|Win32.Build.0 = Debug|Win32
+		{C89E0F9A-2164-4637-9A67-A057D0EFF185}.Debug-NoDLL|Win32.ActiveCfg = Debug-NoDLL|Win32
+		{C89E0F9A-2164-4637-9A67-A057D0EFF185}.Debug-NoDLL|Win32.Build.0 = Debug-NoDLL|Win32
+		{C89E0F9A-2164-4637-9A67-A057D0EFF185}.Release|Win32.ActiveCfg = Release|Win32
+		{C89E0F9A-2164-4637-9A67-A057D0EFF185}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

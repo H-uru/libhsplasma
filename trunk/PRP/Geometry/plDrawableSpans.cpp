@@ -516,3 +516,11 @@ hsTArray<plGBufferVertex> plDrawableSpans::getVerts(size_t group, size_t buffer)
 hsTArray<unsigned short> plDrawableSpans::getIndices(size_t group, size_t buffer) const {
     return fGroups[group]->getIndices(buffer);
 }
+
+size_t plDrawableSpans::getNumDIIndices() const {
+    return fDIIndices.getSize();
+}
+
+plDISpanIndex* plDrawableSpans::getDIIndex(size_t idx) const {
+    return fDIIndices[idx];
+}

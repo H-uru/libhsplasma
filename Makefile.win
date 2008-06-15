@@ -10,6 +10,7 @@ all:
 	make -fMakefile.win Tools/PageList.exe
 	make -fMakefile.win Tools/prcc.exe
 	make -fMakefile.win Tools/prcdc.exe
+	make -fMakefile.win Tools/Prp2Obj.exe
 	make -fMakefile.win Tools/PageExplorer.exe
 	make -fMakefile.win Misc/TypeMap.exe
 
@@ -34,6 +35,9 @@ Tools/prcc.exe: Tools/src/prcc.cpp trunk/lib/libPlasma.dll
 Tools/prcdc.exe: Tools/src/prcdc.cpp trunk/lib/libPlasma.dll
 	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcdc.cpp -o Tools/prcdc.exe
 
+Tools/Prp2Obj.exe: Tools/src/Prp2Obj.cpp trunk/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj.exe
+
 Tools/PageExplorer.exe: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp trunk/lib/libPlasma.dll
 	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Ltrunk/lib/ -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer.exe
 
@@ -51,5 +55,6 @@ distclean:
 	rm -f Tools/PageList.exe
 	rm -f Tools/prcc.exe
 	rm -f Tools/prcdc.exe
+	rm -f Tools/Prp2Obj.exe
 	rm -f Tools/PageExplorer.exe
 	rm -f Misc/TypeMap.exe

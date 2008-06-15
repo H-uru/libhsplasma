@@ -123,6 +123,9 @@ public:
     plGBufferGroup* getBuffer(size_t group) const;
     hsTArray<plGBufferVertex> getVerts(size_t group, size_t buffer) const;
     hsTArray<unsigned short> getIndices(size_t group, size_t buffer) const;
+
+    size_t getNumDIIndices() const;
+    plDISpanIndex* getDIIndex(size_t idx) const;
 };
 
 #endif
