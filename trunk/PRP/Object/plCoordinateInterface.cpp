@@ -87,3 +87,8 @@ void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
+
+hsMatrix44 plCoordinateInterface::getLocalToParent() const { return fLocalToParent; }
+hsMatrix44 plCoordinateInterface::getParentToLocal() const { return fParentToLocal; }
+hsMatrix44 plCoordinateInterface::getLocalToWorld() const { return fLocalToWorld; }
+hsMatrix44 plCoordinateInterface::getWorldToLocal() const { return fWorldToLocal; }

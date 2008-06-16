@@ -61,6 +61,7 @@ protected:
 
 public:
     plSpan();
+    plSpan(const plSpan& init);
     virtual ~plSpan();
 
     virtual const char* ClassName();
@@ -79,6 +80,9 @@ public:
     unsigned int getMaterialIdx() const;
     unsigned char getNumMatrices() const;
     unsigned int getProps() const;
+
+    hsMatrix44 getLocalToWorld() const;
+    hsMatrix44 getWorldToLocal() const;
 
     void setFogEnvironment(const plKey& fog);
     void addPermaLight(const plKey& light);

@@ -10,6 +10,7 @@ public:
 
 public:
     plVertexSpan();
+    plVertexSpan(const plVertexSpan& init);
     virtual ~plVertexSpan();
 
     virtual const char* ClassName();

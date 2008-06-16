@@ -426,7 +426,7 @@ plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
 plSceneNode* plResManager::getSceneNode(const plLocation& loc) {
     std::vector<plKey> kList = keys.getKeys(loc.getPageID(), kSceneNode);
     if (kList.size() < 1) return NULL;
-    return (plSceneNode*)kList[0]->getObj();
+    return plSceneNode::Convert(kList[0]->getObj());
 }
 
 std::vector<plLocation> plResManager::getLocations() {

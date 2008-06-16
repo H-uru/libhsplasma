@@ -95,7 +95,7 @@ hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) const {
     return result;
 }
 
-hsVector3 hsMatrix44::operator*(const hsVector3& vec) const {
+hsVector3 DllExport hsMatrix44::operator*(const hsVector3& vec) const {
     hsVector3 result;
     result.X = (data[0][0] * vec.X) + (data[0][1] * vec.Y) +
                (data[0][2] * vec.Z) +  data[0][3];
@@ -103,6 +103,17 @@ hsVector3 hsMatrix44::operator*(const hsVector3& vec) const {
                (data[1][2] * vec.Z) +  data[1][3];
     result.Z = (data[2][0] * vec.X) + (data[2][1] * vec.Y) +
                (data[2][2] * vec.Z) +  data[2][3];
+    return result;
+}
+
+hsVector3 operator*(const hsVector3& left, const hsMatrix44& right) {
+    hsVector3 result;
+    result.X = (right.data[0][0] * left.X) + (right.data[0][1] * left.Y) +
+               (right.data[0][2] * left.Z) +  right.data[0][3];
+    result.Y = (right.data[1][0] * left.X) + (right.data[1][1] * left.Y) +
+               (right.data[1][2] * left.Z) +  right.data[1][3];
+    result.Z = (right.data[2][0] * left.X) + (right.data[2][1] * left.Y) +
+               (right.data[2][2] * left.Z) +  right.data[2][3];
     return result;
 }
 

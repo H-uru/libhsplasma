@@ -8,6 +8,7 @@
 
 #include "PRP/Object/plSceneObject.h"
 #include "PRP/Object/plDrawInterface.h"
+#include "PRP/Object/plCoordinateInterface.h"
 #include "PRP/Geometry/plDrawableSpans.h"
 
 void doHelp(const char* myname) {
@@ -23,7 +24,7 @@ plString filenameConvert(const char* filename) {
     return basename + ".obj";
 }
 
-void WriteObj(plSceneObject* obj, hsStream* S);
+void WriteObj(plSceneObject* obj, hsStream* S, bool doXform);
 
 int main(int argc, char** argv) {
     if (argc < 2) {
@@ -86,7 +87,7 @@ int main(int argc, char** argv) {
             if (objects.empty() || objects.find(SObjs[i]->getName()) != (size_t)-1) {
                 plSceneObject* obj = plSceneObject::Convert(rm.getObject(SObjs[i]));
                 if (obj->getDrawInterface().Exists())
-                    WriteObj(obj, OS);
+                    WriteObj(obj, OS, objects.empty());
                 nObjects++;
             }
         }
@@ -101,15 +102,19 @@ int main(int argc, char** argv) {
 }
 
 static size_t s_BaseIndex = 1;
+static size_t s_TexBaseIndex = 1;
 
-void WriteObj(plSceneObject* obj, hsStream* S) {
+void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
     if (!obj->getDrawInterface().isLoaded()) {
         plDebug::Warning("Cannot get draw interface for %s", obj->getKey()->getName().cstr());
         return;
     }
     plDrawInterface* draw = plDrawInterface::Convert(obj->getDrawInterface()->getObj());
+    plCoordinateInterface* coord = NULL;
+    if (obj->getCoordInterface().Exists())
+        coord = plCoordinateInterface::Convert(obj->getCoordInterface()->getObj());
     
-    S->writeStr(plString::Format("\no %s\n", obj->getKey()->getName().cstr()));
+    S->writeStr(plString::Format("\ng %s\n", obj->getKey()->getName().cstr()));
     for (size_t i=0; i<draw->getNumDrawables(); i++) {
         if (draw->getDrawableKey(i) == -1)
             continue;
@@ -118,34 +123,65 @@ void WriteObj(plSceneObject* obj, hsStream* S) {
         plDISpanIndex* di = span->getDIIndex(draw->getDrawableKey(i));
         for (size_t idx=0; idx<di->fIndices.getSize(); idx++) {
             plIcicle ice = span->getIcicle(di->fIndices[idx]);
-            S->writeStr("g\n");
-            
             hsTArray<plGBufferVertex> verts = span->getVerts(ice.getGroupIdx(), ice.getVBufferIdx());
+            hsTArray<unsigned short> indices = span->getIndices(ice.getGroupIdx(), ice.getIBufferIdx());
+            
             for (size_t j = ice.getVStartIdx(); j < (ice.getVStartIdx() + ice.getVLength()); j++) {
-                S->writeStr(plString::Format("v %f %f %f\n",
-                            verts[j].fPos.X, verts[j].fPos.Y, verts[j].fPos.Z));
-            }
-
-            for (size_t j = ice.getVStartIdx(); j < (ice.getVStartIdx() + ice.getVLength()); j++) {
-                S->writeStr(plString::Format("vn %f %f %f\n",
-                            verts[j].fNormal.X, verts[j].fNormal.Y, verts[j].fNormal.Z));
+                hsVector3 pos;
+                if (doXform) {
+                    if (coord != NULL)
+                        pos = verts[j].fPos * coord->getLocalToWorld() * 10.0f;
+                    else
+                        pos = verts[j].fPos * ice.getLocalToWorld() * 10.0f;
+                } else {
+                    pos = verts[j].fPos * 10.0f;
+                }
+                S->writeStr(plString::Format("v %f %f %f\n", pos.X, pos.Z, -pos.Y));
             }
 
             if (span->getBuffer(ice.getGroupIdx())->getNumUVs() > 0) {
                 for (size_t j = ice.getVStartIdx(); j < (ice.getVStartIdx() + ice.getVLength()); j++) {
                     S->writeStr(plString::Format("vt %f %f %f\n",
-                                verts[j].fUVWs[0].X, verts[j].fUVWs[0].Y, verts[j].fUVWs[0].Z));
+                                verts[j].fUVWs[0].X,
+                                verts[j].fUVWs[0].Y,
+                                verts[j].fUVWs[0].Z));
                 }
             }
 
-            hsTArray<unsigned short> indices = span->getIndices(ice.getGroupIdx(), ice.getIBufferIdx());
-            for (size_t j = ice.getIStartIdx(); j < (ice.getIStartIdx() + ice.getILength()); j += 3) {
-                S->writeStr(plString::Format("f %u %u %u\n",
-                            indices[j+0] - ice.getVStartIdx() + s_BaseIndex,
-                            indices[j+1] - ice.getVStartIdx() + s_BaseIndex,
-                            indices[j+2] - ice.getVStartIdx() + s_BaseIndex));
+            for (size_t j = ice.getVStartIdx(); j < (ice.getVStartIdx() + ice.getVLength()); j++) {
+                S->writeStr(plString::Format("vn %f %f %f\n",
+                            verts[j].fNormal.X,
+                            verts[j].fNormal.Z,
+                            -verts[j].fNormal.Y));
             }
-            s_BaseIndex += ice.getVLength();
+
+            if (span->getBuffer(ice.getGroupIdx())->getNumUVs() > 0) {
+                for (size_t j = ice.getIStartIdx(); j < (ice.getIStartIdx() + ice.getILength()); j += 3) {
+                    S->writeStr(plString::Format("f %u/%u/%u %u/%u/%u %u/%u/%u\n",
+                                indices[j+0] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+0] - ice.getVStartIdx() + s_TexBaseIndex,
+                                indices[j+0] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+1] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+1] - ice.getVStartIdx() + s_TexBaseIndex,
+                                indices[j+1] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+2] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+2] - ice.getVStartIdx() + s_TexBaseIndex,
+                                indices[j+2] - ice.getVStartIdx() + s_BaseIndex));
+                }
+                s_BaseIndex += ice.getVLength();
+                s_TexBaseIndex += ice.getVLength();
+            } else {
+                for (size_t j = ice.getIStartIdx(); j < (ice.getIStartIdx() + ice.getILength()); j += 3) {
+                    S->writeStr(plString::Format("f %u//%u %u//%u %u//%u\n",
+                                indices[j+0] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+0] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+1] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+1] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+2] - ice.getVStartIdx() + s_BaseIndex,
+                                indices[j+2] - ice.getVStartIdx() + s_BaseIndex));
+                }
+                s_BaseIndex += ice.getVLength();
+            }
         }
     }
 }

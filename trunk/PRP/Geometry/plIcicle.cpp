@@ -4,6 +4,18 @@
 plIcicle::plIcicle()
         : fIBufferIdx(0), fIStartIdx(0), fILength(0), fSortData(NULL) { }
 
+plIcicle::plIcicle(const plIcicle& init)
+        : plVertexSpan(init), fIBufferIdx(init.fIBufferIdx),
+          fIStartIdx(init.fIStartIdx), fILength(init.fILength) {
+    if (fProps & kPropFacesSortable) {
+        fSortData = new plGBufferTriangle[fILength / 3];
+        for (size_t i=0; i<(fILength / 3); i++)
+            fSortData[i] = init.fSortData[i];
+    } else {
+        fSortData = NULL;
+    }
+}
+
 plIcicle::~plIcicle() {
     if (fSortData != NULL)
         delete[] fSortData;
@@ -22,8 +34,9 @@ void plIcicle::read(hsStream* S) {
         fSortData = new plGBufferTriangle[fILength / 3];
         for (size_t i=0; i<(fILength / 3); i++)
             fSortData[i].read(S);
-    } else
+    } else {
         fSortData = NULL;
+    }
 }
 
 void plIcicle::write(hsStream* S) {
@@ -86,5 +99,3 @@ void plParticleSpan::IPrcWrite(pfPrcHelper* prc) { }
 void plParticleSpan::IPrcParse(const pfPrcTag* tag) {
     throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 }
-
-void plParticleSpan::setSrcSpanIdx(unsigned int idx) { fSrcSpanIdx = idx; }

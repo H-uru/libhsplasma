@@ -11,17 +11,17 @@ DllStruct hsVector3 {
     hsVector3();
     hsVector3(float x, float y, float z);
     hsVector3(const hsVector3& src);
+    hsVector3& operator=(const hsVector3& other);
 
     void Zero();
     float magnitude() const;
+    bool operator==(const hsVector3& other) const;
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    hsVector3& operator=(const hsVector3& other);
-    bool operator==(const hsVector3& other) const;
     hsVector3 operator+(const hsVector3& other) const;
     hsVector3 operator-(const hsVector3& other) const;
     hsVector3 operator*(const float mult) const;

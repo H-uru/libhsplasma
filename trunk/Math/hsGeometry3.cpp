@@ -10,6 +10,13 @@ hsVector3::hsVector3(float _x, float _y, float _z)
 hsVector3::hsVector3(const hsVector3& src)
          : X(src.X), Y(src.Y), Z(src.Z) { }
 
+hsVector3& hsVector3::operator=(const hsVector3& other) {
+    X = other.X;
+    Y = other.Y;
+    Z = other.Z;
+    return (*this);
+}
+
 void hsVector3::Zero() {
     X = 0.0f;
     Y = 0.0f;
@@ -18,6 +25,10 @@ void hsVector3::Zero() {
 
 float hsVector3::magnitude() const {
     return sqrt(X*X + Y*Y + Z*Z);
+}
+
+bool hsVector3::operator==(const hsVector3& other) const {
+    return (X == other.X) && (Y == other.Y) && (Z == other.Z);
 }
 
 void hsVector3::read(hsStream* S) {
@@ -59,17 +70,6 @@ hsVector3 hsVector3::operator-(const hsVector3& other) const {
 
 hsVector3 hsVector3::operator*(const float mult) const {
     return hsVector3(X * mult, Y * mult, Z * mult);
-}
-
-hsVector3& hsVector3::operator=(const hsVector3& other) {
-    X = other.X;
-    Y = other.Y;
-    Z = other.Z;
-    return (*this);
-}
-
-bool hsVector3::operator==(const hsVector3& other) const {
-    return (X == other.X) && (Y == other.Y) && (Z == other.Z);
 }
 
 float hsVector3::dotP(const hsVector3& other) const {

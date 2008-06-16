@@ -11,6 +11,7 @@ protected:
 
 public:
     plIcicle();
+    plIcicle(const plIcicle& init);
     virtual ~plIcicle();
 
     virtual const char* ClassName();
@@ -27,9 +28,6 @@ public:
 
 
 DllClass plParticleSpan : public plIcicle {
-protected:
-    unsigned int fNumParticles, fSortCount, fSrcSpanIdx;
-    
 public:
     virtual const char* ClassName();
 
@@ -37,8 +35,6 @@ public:
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
-
-    void setSrcSpanIdx(unsigned int idx);
 };
 
 #endif

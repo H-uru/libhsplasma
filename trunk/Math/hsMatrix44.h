@@ -50,6 +50,11 @@ public:
     void prcParse(const pfPrcTag* tag);
 
     plString toString() const;
+
+private:
+    friend hsVector3 DllExport operator*(const hsVector3& left, const hsMatrix44& right);
 };
+
+hsVector3 DllExport operator*(const hsVector3& left, const hsMatrix44& right);
 
 #endif

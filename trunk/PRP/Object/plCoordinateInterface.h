@@ -50,7 +50,11 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    hsMatrix44 getLocalToParent() const;
+    hsMatrix44 getParentToLocal() const;
+    hsMatrix44 getLocalToWorld() const;
+    hsMatrix44 getWorldToLocal() const;
 };
 
 #endif
-
