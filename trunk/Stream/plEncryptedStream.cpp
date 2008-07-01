@@ -93,7 +93,7 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
     while (key != targetkey) {
         key -= 0x61C88647;
         unsigned int xorkey = (key >> 2) & 3;
-        unsigned int numloop = 0;
+        unsigned int numloop = 1;
         buf[0] +=
           (((buf[num - 1] << 4) ^ (buf[num - 1] >> 3)) +
           ((buf[num - 1] >> 5) ^ (buf[num - 1] << 2))) ^

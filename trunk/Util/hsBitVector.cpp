@@ -37,7 +37,7 @@ bool hsBitVector::get(size_t idx) const {
 }
 
 void hsBitVector::set(size_t idx, bool b) {
-    if ((idx / BVMULT) < fNumVectors + 1) {
+    if ((idx / BVMULT) >= fNumVectors) {
         size_t oldNumVectors = fNumVectors;
         fNumVectors = (idx / BVMULT) + 1;
         hsUint32* newBits = new hsUint32[fNumVectors];
