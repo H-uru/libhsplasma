@@ -103,10 +103,10 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
             numloop++;
         }
         buf[num - 1] +=
-          (((buf[num - 1] << 4) ^ (buf[num - 1] >> 3)) +
-          ((buf[num - 1] >> 5) ^ (buf[num - 1] << 2))) ^
-          ((eKey[(numloop & 3) ^ xorkey] ^ buf[num - 1]) +
-          (key ^ buf[num - 1]));
+          (((buf[0] << 4) ^ (buf[0] >> 3)) +
+          ((buf[0] >> 5) ^ (buf[0] << 2))) ^
+          ((eKey[(numloop & 3) ^ xorkey] ^ buf[0]) +
+          (key ^ buf[0]));
         count--;
     }
 }
