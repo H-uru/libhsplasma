@@ -89,24 +89,25 @@ void plEncryptedStream::DroidDecipher(unsigned int* buf, unsigned int num) {
 
 void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
     unsigned int key = 0;
-    unsigned int targetkey = ((52 / num) + 6) * 0x9E3779B9;
-    while (key != targetkey) {
+    unsigned int count = (52 / num) + 6;
+    while (count != 0) {
         key -= 0x61C88647;
         unsigned int xorkey = (key >> 2) & 3;
-        unsigned int numloop = 1;
-        buf[0] +=
+        unsigned int numloop = 0;
+        while (numloop != num - 1) {
+            buf[numloop] +=
+              (((buf[numloop + 1] << 4) ^ (buf[numloop + 1] >> 3)) +
+              ((buf[numloop + 1] >> 5) ^ (buf[numloop + 1] << 2))) ^
+              ((eKey[(numloop & 3) ^ xorkey] ^ buf[numloop + 1]) +
+              (key ^ buf[numloop + 1]));
+            numloop++;
+        }
+        buf[num - 1] +=
           (((buf[num - 1] << 4) ^ (buf[num - 1] >> 3)) +
           ((buf[num - 1] >> 5) ^ (buf[num - 1] << 2))) ^
           ((eKey[(numloop & 3) ^ xorkey] ^ buf[num - 1]) +
           (key ^ buf[num - 1]));
-        while (numloop != num) {
-            buf[numloop] +=
-              (((buf[numloop - 1] << 4) ^ (buf[numloop - 1] >> 3)) +
-              ((buf[numloop - 1] >> 5) ^ (buf[numloop - 1] << 2))) ^
-              ((eKey[(numloop & 3) ^ xorkey] ^ buf[numloop - 1]) +
-              (key ^ buf[numloop - 1]));
-            numloop++;
-        }
+        count--;
     }
 }
 
@@ -297,7 +298,7 @@ void plEncryptedStream::write(size_t size, const void* buf) {
             if (eType == kEncAES) {
                 AesEncipher(LBuffer, 16);
                 fwrite(LBuffer, 16, 1, F);
-            } else if (eType == kEncAES) {
+            } else if (eType == kEncDroid) {
                 DroidEncipher((unsigned int*)&LBuffer[0], 2);
                 fwrite(LBuffer, 8, 1, F);
             } else {
