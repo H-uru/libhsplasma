@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)trunk;&quot;E:\Dev\Libs\wxWidgets-2.8.7\lib\vc_lib\mswd&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\include&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\contrib\include&quot;"
+				AdditionalIncludeDirectories="$(SolutionDir)core;&quot;E:\Dev\Libs\wxWidgets-2.8.7\lib\vc_lib\mswd&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\include&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\contrib\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)trunk&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\lib\vc_lib\msw&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\include&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\contrib\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\lib\vc_lib\msw&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\include&quot;;&quot;E:\Dev\Libs\wxWidgets-2.8.7\contrib\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

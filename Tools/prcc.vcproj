@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)trunk"
+				AdditionalIncludeDirectories="$(SolutionDir)core"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(SolutionDir)trunk"
+				AdditionalIncludeDirectories="$(SolutionDir)core"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -195,7 +195,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)trunk"
+				AdditionalIncludeDirectories="$(SolutionDir)core"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;NODLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"

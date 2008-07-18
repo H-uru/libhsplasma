@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plasma", "trunk\Plasma.vcproj", "{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plasma", "core\Plasma.vcproj", "{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlasmaCrypt", "Tools\PlasmaCrypt.vcproj", "{ED5AFABC-DC60-4474-9F60-EF55B4D65746}"
 	ProjectSection(ProjectDependencies) = postProject

@@ -2,7 +2,7 @@ CC = g++
 CFLAGS += -fPIC -Wall -g -ansi -fno-rtti
 
 all:
-	(cd trunk ; make)
+	(cd core ; make)
 	(make Tools/PageConvert)
 	(make Tools/PlasmaCrypt)
 	(make Tools/PrpPack)
@@ -14,38 +14,38 @@ all:
 	(make Tools/PageExplorer)
 	(make Misc/TypeMap)
 
-Tools/PageConvert: Tools/src/PageConvert.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert
+Tools/PageConvert: Tools/src/PageConvert.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageConvert.cpp -o Tools/PageConvert
 
-Tools/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt
+Tools/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt
 
-Tools/PrpPack: Tools/src/PrpPack.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrpPack.cpp -o Tools/PrpPack
+Tools/PrpPack: Tools/src/PrpPack.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrpPack.cpp -o Tools/PrpPack
 
-Tools/PrcExtract: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract
+Tools/PrcExtract: Tools/src/PrcExtract.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrcExtract.cpp -o Tools/PrcExtract
 
-Tools/PageList: Tools/src/PageList.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageList.cpp -o Tools/PageList
+Tools/PageList: Tools/src/PageList.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageList.cpp -o Tools/PageList
 
-Tools/prcc: Tools/src/prcc.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcc.cpp -o Tools/prcc
+Tools/prcc: Tools/src/prcc.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcc.cpp -o Tools/prcc
 
-Tools/prcdc: Tools/src/prcdc.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcdc.cpp -o Tools/prcdc
+Tools/prcdc: Tools/src/prcdc.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcdc.cpp -o Tools/prcdc
 
-Tools/Prp2Obj: Tools/src/Prp2Obj.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
+Tools/Prp2Obj: Tools/src/Prp2Obj.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
 
-Tools/PageExplorer: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Ltrunk/lib/ -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer
+Tools/PageExplorer: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer
 
-Misc/TypeMap: Misc/TypeMap.cpp trunk/lib/libPlasma.so
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Misc/TypeMap.cpp -o Misc/TypeMap
+Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap
 
 install:
-	(cd trunk ; make install)
+	(cd core ; make install)
 	cp Tools/PageConvert /usr/local/bin/
 	cp Tools/PlasmaCrypt /usr/local/bin/
 	cp Tools/PrpPack /usr/local/bin/
@@ -72,10 +72,10 @@ uninstall:
 	rm -f /usr/local/bin/uruedit
 
 clean:
-	(cd trunk ; make clean)
+	(cd core ; make clean)
 
 distclean:
-	(cd trunk ; make distclean)
+	(cd core ; make distclean)
 	rm -f Tools/PageConvert
 	rm -f Tools/PlasmaCrypt
 	rm -f Tools/PrpPack

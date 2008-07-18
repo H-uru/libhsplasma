@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -O2 -fPIC -Wall -g -ansi -fno-rtti
 
 all:
-	(cd trunk ; make -fMakefile.win)
+	(cd core ; make -fMakefile.win)
 	make -fMakefile.win Tools/PageConvert.exe
 	make -fMakefile.win Tools/PlasmaCrypt.exe
 	make -fMakefile.win Tools/PrpPack.exe
@@ -14,40 +14,40 @@ all:
 	make -fMakefile.win Tools/PageExplorer.exe
 	make -fMakefile.win Misc/TypeMap.exe
 
-Tools/PageConvert.exe: Tools/src/PageConvert.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageConvert.cpp -o Tools/PageConvert.exe
+Tools/PageConvert.exe: Tools/src/PageConvert.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageConvert.cpp -o Tools/PageConvert.exe
 
-Tools/PlasmaCrypt.exe: Tools/src/PlasmaCrypt.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt.exe
+Tools/PlasmaCrypt.exe: Tools/src/PlasmaCrypt.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt.exe
 
-Tools/PrpPack.exe: Tools/src/PrpPack.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrpPack.cpp -o Tools/PrpPack.exe
+Tools/PrpPack.exe: Tools/src/PrpPack.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrpPack.cpp -o Tools/PrpPack.exe
 
-Tools/PrcExtract.exe: Tools/src/PrcExtract.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PrcExtract.cpp -o Tools/PrcExtract.exe
+Tools/PrcExtract.exe: Tools/src/PrcExtract.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrcExtract.cpp -o Tools/PrcExtract.exe
 
-Tools/PageList.exe: Tools/src/PageList.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/PageList.cpp -o Tools/PageList.exe
+Tools/PageList.exe: Tools/src/PageList.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageList.cpp -o Tools/PageList.exe
 
-Tools/prcc.exe: Tools/src/prcc.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcc.cpp -o Tools/prcc.exe
+Tools/prcc.exe: Tools/src/prcc.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcc.cpp -o Tools/prcc.exe
 
-Tools/prcdc.exe: Tools/src/prcdc.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/prcdc.cpp -o Tools/prcdc.exe
+Tools/prcdc.exe: Tools/src/prcdc.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcdc.cpp -o Tools/prcdc.exe
 
-Tools/Prp2Obj.exe: Tools/src/Prp2Obj.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj.exe
+Tools/Prp2Obj.exe: Tools/src/Prp2Obj.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj.exe
 
-Tools/PageExplorer.exe: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Ltrunk/lib/ -lPlasma -Itrunk PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer.exe
+Tools/PageExplorer.exe: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer.exe
 
-Misc/TypeMap.exe: Misc/TypeMap.cpp trunk/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Ltrunk/lib/ -lPlasma -Itrunk Misc/TypeMap.cpp -o Misc/TypeMap.exe
+Misc/TypeMap.exe: Misc/TypeMap.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap.exe
 clean:
-	(cd trunk ; make clean)
+	(cd core ; make clean)
 
 distclean:
-	(cd trunk ; make distclean)
+	(cd core ; make distclean)
 	rm -f Tools/PageConvert.exe
 	rm -f Tools/PlasmaCrypt.exe
 	rm -f Tools/PrpPack.exe
