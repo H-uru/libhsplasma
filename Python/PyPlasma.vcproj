@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;E:\Dev\Python24\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;E:\Dev\Python25\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;PYPLASMA_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,9 +61,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="python24_d.lib"
+				AdditionalDependencies="python25_d.lib"
+				OutputFile="$(OutDir)\$(ProjectName).pyd"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="E:\Dev\Python24\libs"
+				AdditionalLibraryDirectories="E:\Dev\Python25\libs"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -118,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;E:\Dev\Python24\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;E:\Dev\Python25\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PYPLASMA_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -137,9 +138,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="python24.lib"
+				AdditionalDependencies="python25.lib"
+				OutputFile="$(OutDir)\$(ProjectName).pyd"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="E:\Dev\Python24\libs"
+				AdditionalLibraryDirectories="E:\Dev\Python25\libs"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
