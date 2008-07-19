@@ -3,6 +3,7 @@ CFLAGS = -O2 -fPIC -Wall -g -ansi -fno-rtti
 
 all:
 	(cd core ; make -fMakefile.win)
+	(cd Python ; make -fMakefile.win)
 	make -fMakefile.win Tools/PageConvert.exe
 	make -fMakefile.win Tools/PlasmaCrypt.exe
 	make -fMakefile.win Tools/PrpPack.exe
@@ -18,7 +19,7 @@ Tools/PageConvert.exe: Tools/src/PageConvert.cpp core/lib/libPlasma.dll
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageConvert.cpp -o Tools/PageConvert.exe
 
 Tools/PlasmaCrypt.exe: Tools/src/PlasmaCrypt.cpp core/lib/libPlasma.dll
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore -DLEKEY Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt.exe
+	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt.exe
 
 Tools/PrpPack.exe: Tools/src/PrpPack.cpp core/lib/libPlasma.dll
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrpPack.cpp -o Tools/PrpPack.exe
@@ -45,9 +46,11 @@ Misc/TypeMap.exe: Misc/TypeMap.cpp core/lib/libPlasma.dll
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap.exe
 clean:
 	(cd core ; make clean)
+	(cd Python ; make clean)
 
 distclean:
 	(cd core ; make distclean)
+	(cd Python ; make distclean)
 	rm -f Tools/PageConvert.exe
 	rm -f Tools/PlasmaCrypt.exe
 	rm -f Tools/PrpPack.exe

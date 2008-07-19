@@ -36,8 +36,8 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
-    virtual void IPrcWrite(pfPrcHelper* prc) =0;
     virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
+    virtual void IPrcWrite(pfPrcHelper* prc) =0;
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 

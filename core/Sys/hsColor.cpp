@@ -1,22 +1,35 @@
 #include "hsColor.h"
 
 /* hsColorRGBA */
-const hsColorRGBA hsColorRGBA::kBlack = hsColorRGBA(0.0f, 0.0f, 0.0f, 1.0f);
-const hsColorRGBA hsColorRGBA::kWhite = hsColorRGBA(1.0f, 1.0f, 1.0f, 1.0f);
-const hsColorRGBA hsColorRGBA::kRed   = hsColorRGBA(1.0f, 0.0f, 0.0f, 1.0f);
-const hsColorRGBA hsColorRGBA::kGreen = hsColorRGBA(0.0f, 1.0f, 0.0f, 1.0f);
-const hsColorRGBA hsColorRGBA::kBlue  = hsColorRGBA(0.0f, 0.0f, 1.0f, 1.0f);
-const hsColorRGBA hsColorRGBA::kGray  = hsColorRGBA(0.5f, 0.5f, 0.5f, 1.0f);
-const hsColorRGBA hsColorRGBA::kNone  = hsColorRGBA(0.0f, 0.0f, 0.0f, 0.0f);
+const hsColorRGBA hsColorRGBA::kBlack   = hsColorRGBA(0.0f, 0.0f, 0.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kWhite   = hsColorRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kRed     = hsColorRGBA(1.0f, 0.0f, 0.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kGreen   = hsColorRGBA(0.0f, 1.0f, 0.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kBlue    = hsColorRGBA(0.0f, 0.0f, 1.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kYellow  = hsColorRGBA(1.0f, 1.0f, 0.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kMagenta = hsColorRGBA(1.0f, 0.0f, 1.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kCyan    = hsColorRGBA(0.0f, 1.0f, 1.0f, 1.0f);
+const hsColorRGBA hsColorRGBA::kGray    = hsColorRGBA(0.5f, 0.5f, 0.5f, 1.0f);
+const hsColorRGBA hsColorRGBA::kNone    = hsColorRGBA(0.0f, 0.0f, 0.0f, 0.0f);
 
 hsColorRGBA::hsColorRGBA(float red, float green, float blue, float alpha)
            : r(red), g(green), b(blue), a(alpha) { }
+
+hsColorRGBA::hsColorRGBA(const hsColorRGBA& init)
+           : r(init.r), g(init.g), b(init.b), a(init.a) { }
 
 void hsColorRGBA::set(float red, float green, float blue, float alpha) {
     r = red;
     g = green;
     b = blue;
     a = alpha;
+}
+
+void hsColorRGBA::set(const hsColorRGBA& init) {
+    r = init.r;
+    g = init.g;
+    b = init.b;
+    a = init.a;
 }
 
 void hsColorRGBA::read(hsStream* S) {

@@ -11,6 +11,9 @@ public:
     static const hsColorRGBA kRed;
     static const hsColorRGBA kGreen;
     static const hsColorRGBA kBlue;
+    static const hsColorRGBA kYellow;
+    static const hsColorRGBA kMagenta;
+    static const hsColorRGBA kCyan;
     static const hsColorRGBA kGray;
     static const hsColorRGBA kNone;
 
@@ -19,7 +22,9 @@ public:
 
     hsColorRGBA(float red = 0.0f, float green = 0.0f, float blue = 0.0f,
                 float alpha = 1.0f);
+    hsColorRGBA(const hsColorRGBA& init);
     void set(float red, float green, float blue, float alpha = 1.0f);
+    void set(const hsColorRGBA& init);
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -32,7 +37,9 @@ public:
 DllStruct hsColor32 {
 public:
     union {
-        unsigned char b, g, r, a;
+        struct {
+            unsigned char b, g, r, a;
+        };
         unsigned int color;
     };
 

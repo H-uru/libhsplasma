@@ -4,11 +4,6 @@
 
 extern "C" {
 
-typedef struct {
-    PyObject_HEAD
-    hsStream* fThis;
-} pyStream;
-
 static void pyStream_dealloc(pyStream* self) {
     delete self->fThis;
     self->ob_type->tp_free((PyObject*)self);
@@ -17,7 +12,7 @@ static void pyStream_dealloc(pyStream* self) {
 static int pyStream___init__(pyStream* self, PyObject* args, PyObject* kwds) {
     static char* kwlist[] = { "ver", NULL };
     
-    int ver;
+    int ver = pvUnknown;
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|i", kwlist, &ver))
         return -1;
     
@@ -82,7 +77,7 @@ static PyObject* pyStream_flush(pyStream* self) {
 }
 
 static PyObject* pyStream_read(pyStream* self, PyObject* args) {
-    ssize_t size;
+    int size;
     if (!PyArg_ParseTuple(args, "i", &size)) {
         PyErr_SetString(PyExc_TypeError, "read expects an int");
         return NULL;
@@ -123,7 +118,7 @@ static PyObject* pyStream_writeFrom(pyStream* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "writeFrom expects a pyStream");
         return NULL;
     }
-    if (from->ob_type != &pyStream_Type && !PyType_IsSubtype(from->ob_type, &pyStream_Type)) {
+    if (!pyStream_Check((PyObject*)from)) {
         PyErr_SetString(PyExc_TypeError, "writeFrom expects a pyStream");
         return NULL;
     }
@@ -520,6 +515,13 @@ PyObject* Init_pyStream_Type() {
 
     Py_INCREF(&pyStream_Type);
     return (PyObject*)&pyStream_Type;
+}
+
+int pyStream_Check(PyObject* obj) {
+    if (obj->ob_type == &pyStream_Type
+        || PyType_IsSubtype(obj->ob_type, &pyStream_Type))
+        return 1;
+    return 0;
 }
 
 }

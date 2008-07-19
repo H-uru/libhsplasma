@@ -29,6 +29,10 @@ hsBitVector::hsBitVector(const hsBitVector& init)
 
 hsBitVector::~hsBitVector() {
     if (fBits) delete[] fBits;
+
+    std::map<size_t, char*>::iterator it;
+    for (it = fBitNames.begin(); it != fBitNames.end(); it++)
+        free(it->second);
 }
 
 bool hsBitVector::get(size_t idx) const {
@@ -115,7 +119,7 @@ const char* hsBitVector::getName(size_t idx) {
 }
 
 size_t hsBitVector::getValue(const char* name) {
-    std::map<size_t, const char*>::iterator i;
+    std::map<size_t, char*>::iterator i;
     for (i = fBitNames.begin(); i != fBitNames.end(); i++) {
         if (strcmp(i->second, name) == 0)
             return i->first;
@@ -124,7 +128,7 @@ size_t hsBitVector::getValue(const char* name) {
 }
 
 void hsBitVector::setName(size_t idx, const char* name) {
-    fBitNames[idx] = name;
+    fBitNames[idx] = strdup(name);
 }
 
 void hsBitVector::read(hsStream* S) {

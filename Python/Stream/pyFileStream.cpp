@@ -4,25 +4,9 @@
 
 extern "C" {
 
-typedef struct {
-    PyObject_HEAD
-    hsFileStream* fThis;
-} pyFileStream;
-
 static void pyFileStream_dealloc(pyFileStream* self) {
     delete self->fThis;
     self->ob_type->tp_free((PyObject*)self);
-}
-
-static int pyFileStream___init__(pyFileStream* self, PyObject* args, PyObject* kwds) {
-    static char* kwlist[] = { "ver", NULL };
-    
-    int ver;
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|i", kwlist, &ver))
-        return -1;
-    
-    self->fThis->setVer((PlasmaVer)ver);
-    return 0;
 }
 
 static PyObject* pyFileStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -111,7 +95,7 @@ PyTypeObject pyFileStream_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyFileStream___init__,    /* tp_init */
+    NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
     pyFileStream_new,                   /* tp_new */
     NULL,                               /* tp_free */

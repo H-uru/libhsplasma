@@ -47,7 +47,6 @@ Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.so
 
 install:
 	(cd core ; make install)
-	(cd Python ; make install)
 	cp Tools/PageConvert /usr/local/bin/
 	cp Tools/PlasmaCrypt /usr/local/bin/
 	cp Tools/PrpPack /usr/local/bin/
