@@ -8,12 +8,6 @@ plUUID::plUUID(const plUUID& init) {
     memcpy(fData, init.fData, sizeof(fData));
 }
 
-/*
-plUUID::plUUID(const Uuid& init) {
-    memcpy(fData, &init, sizeof(fData));
-}
-*/
-
 plUUID::plUUID(const char* str) {
     fromString(str);
 }

@@ -25,6 +25,11 @@ public:
     plKey getSimInterface() const;
     plKey getCoordInterface() const;
     plKey getAudioInterface() const;
+
+    size_t getNumInterfaces() const;
+    size_t getNumModifiers() const;
+    plKey getInterface(size_t idx) const;
+    plKey getModifier(size_t idx) const;
 };
 
 #endif

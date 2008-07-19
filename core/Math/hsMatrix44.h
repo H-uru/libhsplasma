@@ -32,7 +32,7 @@ public:
     float& operator()(int y, int x);
     //hsMatrix44& operator=(const hsMatrix44& other);
     bool operator==(const hsMatrix44& other) const;
-    operator const float*() const;
+    const float* glMatrix() const;
 
     hsMatrix44 operator*(const hsMatrix44& right) const;
     hsVector3 operator*(const hsVector3& vec) const;

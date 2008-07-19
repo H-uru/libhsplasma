@@ -48,9 +48,9 @@ public:
     plString& operator+=(const plString& other);
     plString& operator+=(const char* str);
     plString& operator+=(char c);
-    plString operator+(const plString& other);
-    plString operator+(const char* str);
-    plString operator+(char c);
+    plString operator+(const plString& other) const;
+    plString operator+(const char* str) const;
+    plString operator+(char c) const;
     bool operator==(const plString& other) const;
     bool operator==(const char* str) const;
     bool operator!=(const plString& other) const;
@@ -118,9 +118,9 @@ public:
     plWString& operator+=(const plWString& other);
     plWString& operator+=(const wchar_t* str);
     plWString& operator+=(wchar_t c);
-    plWString operator+(const plWString& other);
-    plWString operator+(const wchar_t* str);
-    plWString operator+(wchar_t c);
+    plWString operator+(const plWString& other) const;
+    plWString operator+(const wchar_t* str) const;
+    plWString operator+(wchar_t c) const;
     bool operator==(const plWString& other) const;
     bool operator==(const wchar_t* str) const;
     bool operator!=(const plWString& other) const;

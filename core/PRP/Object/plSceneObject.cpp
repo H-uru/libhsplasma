@@ -112,3 +112,8 @@ plKey plSceneObject::getDrawInterface() const { return fDrawIntf; }
 plKey plSceneObject::getSimInterface() const { return fSimIntf; }
 plKey plSceneObject::getCoordInterface() const { return fCoordIntf; }
 plKey plSceneObject::getAudioInterface() const { return fAudioIntf; }
+
+size_t plSceneObject::getNumInterfaces() const { return fInterfaces.getSize(); }
+size_t plSceneObject::getNumModifiers() const { return fModifiers.getSize(); }
+plKey plSceneObject::getInterface(size_t idx) const { return fInterfaces[idx]; }
+plKey plSceneObject::getModifier(size_t idx) const { return fModifiers[idx]; }

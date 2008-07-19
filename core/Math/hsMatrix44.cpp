@@ -76,11 +76,24 @@ bool hsMatrix44::operator==(const hsMatrix44& other) const {
     return true;
 }
 
-hsMatrix44::operator const float*() const {
+const float* hsMatrix44::glMatrix() const {
     static float glmat[16];
-    for (int y=0; y<4; y++)
-        for (int x=0; x<4; x++)
-            glmat[y*4 + x] = data[x][y];
+    glmat[ 0] = data[0][0];
+    glmat[ 1] = data[2][0];
+    glmat[ 2] = data[1][0];
+    glmat[ 3] = data[3][0];
+    glmat[ 4] = data[0][2];
+    glmat[ 5] = data[2][2];
+    glmat[ 6] = data[1][2];
+    glmat[ 7] = data[3][2];
+    glmat[ 8] = data[0][1];
+    glmat[ 9] = data[2][1];
+    glmat[10] = data[1][1];
+    glmat[11] = data[3][1];
+    glmat[12] = data[0][3];
+    glmat[13] = data[2][3];
+    glmat[14] = data[1][3];
+    glmat[15] = data[3][3];
     return glmat;
 }
 

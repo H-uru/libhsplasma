@@ -17,7 +17,6 @@ protected:
 public:
     plUUID();
     plUUID(const plUUID& init);
-    //plUUID(const Uuid& init);
     plUUID(const char* str);
 
     void read(hsStream* S);

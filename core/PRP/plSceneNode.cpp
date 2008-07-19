@@ -59,3 +59,8 @@ void plSceneNode::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
+
+size_t plSceneNode::getNumSceneObjects() const { return fSceneObjects.getSize(); }
+size_t plSceneNode::getNumPoolObjects() const { return fOtherObjects.getSize(); }
+plKey plSceneNode::getSceneObject(size_t idx) const { return fSceneObjects[idx]; }
+plKey plSceneNode::getPoolObject(size_t idx) const { return fOtherObjects[idx]; }

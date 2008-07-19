@@ -7,10 +7,6 @@
 
 DllClass plSceneNode : public hsKeyedObject {
 protected:
-    bool filterGenerics;
-    short depth;
-
-public:
     hsTArray<plKey> fSceneObjects;
     hsTArray<plKey> fOtherObjects;
 
@@ -24,6 +20,11 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    size_t getNumSceneObjects() const;
+    size_t getNumPoolObjects() const;
+    plKey getSceneObject(size_t idx) const;
+    plKey getPoolObject(size_t idx) const;
 
 };
 

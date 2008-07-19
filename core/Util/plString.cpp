@@ -147,17 +147,17 @@ plString& plString::operator+=(char c) {
     return (*this);
 }
 
-plString plString::operator+(const plString& other) {
+plString plString::operator+(const plString& other) const {
     plString result(*this);
     return (result += other);
 }
 
-plString plString::operator+(const char* str) {
+plString plString::operator+(const char* str) const {
     plString result(*this);
     return (result += str);
 }
 
-plString plString::operator+(char c) {
+plString plString::operator+(char c) const {
     plString result(*this);
     return (result += c);
 }
@@ -587,17 +587,17 @@ plWString& plWString::operator+=(wchar_t c) {
     return (*this);
 }
 
-plWString plWString::operator+(const plWString& other) {
+plWString plWString::operator+(const plWString& other) const {
     plWString result(*this);
     return (result += other);
 }
 
-plWString plWString::operator+(const wchar_t* str) {
+plWString plWString::operator+(const wchar_t* str) const {
     plWString result(*this);
     return (result += str);
 }
 
-plWString plWString::operator+(wchar_t c) {
+plWString plWString::operator+(wchar_t c) const {
     plWString result(*this);
     return (result += c);
 }

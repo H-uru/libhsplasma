@@ -167,7 +167,7 @@ void plFont::readP2F(hsStream* S) {
 
 void plFont::writeP2F(hsStream* S) {
     char buf[256];
-    snprintf(buf, 256, fFace.cstr());
+    strncpy(buf, fFace.cstr(), 256);
     S->write(256, buf);
     
     S->writeByte(fSize);
