@@ -7,6 +7,8 @@ int plDebug::fDebugLevel = kDLNone;
 bool plDebug::fIOwnStream = false;
 
 void plDebug::Init(int level, hsStream* stream) {
+    DeInit();
+
     fDebugLevel = level;
     if (stream == NULL) {
         fDebugStream = new hsStdioStream(true);

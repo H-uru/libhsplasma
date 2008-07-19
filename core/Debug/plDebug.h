@@ -15,7 +15,6 @@ private:
 public:
     static void Init(int level = kDLWarning, hsStream* stream = NULL);
     static void InitFile(int level = kDLWarning, const char* filename = "Plasma.log");
-    static void DeInit();
 
     static void Error(const char* fmt, ...);
     static void Warning(const char* fmt, ...);
@@ -23,6 +22,7 @@ public:
 
 private:
     static void WriteLn(const char* fmt, va_list args);
+    static void DeInit();
 };
 
 #endif

@@ -3,6 +3,7 @@ CFLAGS += -fPIC -Wall -g -ansi -fno-rtti
 
 all:
 	(cd core ; make)
+	(cd Python ; make)
 	(make Tools/PageConvert)
 	(make Tools/PlasmaCrypt)
 	(make Tools/PrpPack)
@@ -46,6 +47,7 @@ Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.so
 
 install:
 	(cd core ; make install)
+	(cd Python ; make install)
 	cp Tools/PageConvert /usr/local/bin/
 	cp Tools/PlasmaCrypt /usr/local/bin/
 	cp Tools/PrpPack /usr/local/bin/
@@ -73,9 +75,11 @@ uninstall:
 
 clean:
 	(cd core ; make clean)
+	(cd Python ; make clean)
 
 distclean:
 	(cd core ; make distclean)
+	(cd Python ; make distclean)
 	rm -f Tools/PageConvert
 	rm -f Tools/PlasmaCrypt
 	rm -f Tools/PrpPack
