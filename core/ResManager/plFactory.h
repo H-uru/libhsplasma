@@ -3,7 +3,7 @@
 
 #include "pdUnifiedTypeMap.h"
 
-class plFactory {
+DllClass plFactory {
 public:
     static class plCreatable* Create(short typeIdx);
     static class plCreatable* Create(short typeIdx, PlasmaVer ver);

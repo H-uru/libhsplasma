@@ -225,6 +225,70 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="ResManager"
+			>
+			<File
+				RelativePath=".\ResManager\pyAgeInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ResManager\pyFactory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ResManager\pyPageInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ResManager\pyResManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ResManager\pyResManager.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="PRP"
+			>
+			<File
+				RelativePath=".\PRP\pyCreatable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PRP\pyCreatable.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PRP\pyCreatableStub.cpp"
+				>
+			</File>
+			<Filter
+				Name="KeyedObject"
+				>
+				<File
+					RelativePath=".\PRP\KeyedObject\pyKey.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\KeyedObject\pyKey.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\KeyedObject\pyKeyedObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\KeyedObject\pyKeyedObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\KeyedObject\pyLocation.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
 		<File
 			RelativePath=".\Module.cpp"
 			>
