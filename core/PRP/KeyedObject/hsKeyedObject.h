@@ -4,29 +4,22 @@
 #include "plReceiver.h"
 
 DllClass hsKeyedObject : public plReceiver {
-public:
-    enum {
-        kFlagPreventLoad = 0x1,
-        kFlagPreventReset = 0x2,
-        kFlagPreventInit = 0x4
-    };
-
 protected:
     plWeakKey myKey;
-    unsigned int koFlags;
 
 public:
     hsKeyedObject();
     virtual ~hsKeyedObject();
 
     DECLARE_CREATABLE(hsKeyedObject)
+    void init(const plString& name);
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
     
-    const plWeakKey& getKey() const;
+    plWeakKey getKey() const;
 };
 
 DllClass hsKeyedObjectStub : public hsKeyedObject {

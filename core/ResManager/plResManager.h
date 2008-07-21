@@ -13,7 +13,7 @@
 #include "PRP/plPageInfo.h"
 #include "plAgeInfo.h"
 
-DllClass plResManager /* : public hsResMgr */ {
+DllClass plResManager {
 private:
     static unsigned int fNumResMgrs;
 
@@ -44,18 +44,17 @@ public:
     void writeUoid(hsStream* S, hsKeyedObject* ko);
     plKey prcParseKey(const pfPrcTag* tag);
     class hsKeyedObject* getObject(const plKey& key);
-    unsigned int countKeys(const PageID& pid);
+    unsigned int countKeys(const plLocation& loc);
 
     plPageInfo* ReadPage(const char* filename);
     plPageInfo* ReadPagePrc(const pfPrcTag* root);
     void WritePage(const char* filename, plPageInfo* page);
     void WritePagePrc(pfPrcHelper* prc, plPageInfo* page);
     void UnloadPage(const plLocation& loc);
-    void UnloadPage(const char* ageName, const char* pageName);
     
     plAgeInfo* ReadAge(const char* filename);
     void WriteAge(const char* filename, plAgeInfo* age);
-    void UnloadAge(plAgeInfo* age);
+    void UnloadAge(const plString& name);
 
     class plCreatable* ReadCreatable(hsStream* S, bool canStub = false, int stubLen = 0);
     void WriteCreatable(hsStream* S, class plCreatable* pCre);
@@ -65,6 +64,13 @@ public:
     std::vector<plLocation> getLocations();
     std::vector<short> getTypes(const plLocation& loc);
     std::vector<plKey> getKeys(const plLocation& loc, short type);
+
+    void AddObject(const plLocation& loc, hsKeyedObject* obj);
+    void AddPage(plPageInfo* page);
+    void AddAge(plAgeInfo* age);
+    void DelObject(plKey obj);
+    void DelPage(const plLocation& loc);
+    void DelAge(const plString& name);
 };
 
 #endif

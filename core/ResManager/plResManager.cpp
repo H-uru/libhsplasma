@@ -13,7 +13,7 @@ plResManager::plResManager(PlasmaVer pv) : fPlasmaVer(pvUnknown) {
 
 plResManager::~plResManager() {
     while (ages.size() > 0)
-        UnloadAge(ages[0]);
+        UnloadAge(ages[0]->getAgeName());
     while (pages.size() > 0)
         UnloadPage(pages[0]->getLocation());
     fNumResMgrs--;
@@ -100,8 +100,8 @@ hsKeyedObject* plResManager::getObject(const plKey& key) {
     return fk->getObj();
 }
 
-unsigned int plResManager::countKeys(const PageID& pid) {
-    return keys.countKeys(pid);
+unsigned int plResManager::countKeys(const plLocation& loc) {
+    return keys.countKeys(loc);
 }
 
 plPageInfo* plResManager::ReadPage(const char* filename) {
@@ -142,10 +142,10 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     S->open(filename, fmWrite);
     S->setVer(getVer());
     if (getVer() >= pvLive) {
-        std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
+        std::vector<short> types = keys.getTypes(page->getLocation());
         page->setClassList(types);
     }
-    keys.sortKeys(page->getLocation().getPageID());
+    keys.sortKeys(page->getLocation());
     page->write(S);
     page->setDataStart(S->pos());
     page->setNumObjects(WriteObjects(S, page->getLocation()));
@@ -164,9 +164,9 @@ void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page) {
     page->prcWrite(prc); // starts <Page>
     
     // Objects:
-    std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
+    std::vector<short> types = keys.getTypes(page->getLocation());
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = keys.getKeys(page->getLocation().getPageID(), types[i]);
+        std::vector<plKey> kList = keys.getKeys(page->getLocation(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->getObj() != NULL)
                 kList[j]->getObj()->prcWrite(prc);
@@ -177,31 +177,8 @@ void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page) {
 }
 
 void plResManager::UnloadPage(const plLocation& loc) {
-    std::vector<plPageInfo*>::iterator pi = pages.begin();
-    while (pi != pages.end()) {
-        if ((*pi)->getLocation() == loc) {
-            plPageInfo* page = *pi;
-            delete page;
-            pages.erase(pi);
-            pi = pages.end();
-        } else {
-            pi++;
-        }
-    }
-}
-
-void plResManager::UnloadPage(const char* ageName, const char* pageName) {
-    std::vector<plPageInfo*>::iterator pi = pages.begin();
-    while (pi != pages.end()) {
-        if ((*pi)->getAge() == ageName && (*pi)->getPage() == pageName) {
-            plPageInfo* page = *pi;
-            delete page;
-            pages.erase(pi);
-            pi = pages.end();
-        } else {
-            pi++;
-        }
-    }
+    keys.delAll(loc);
+    DelPage(loc);
 }
 
 plAgeInfo* plResManager::ReadAge(const char* filename) {
@@ -209,7 +186,7 @@ plAgeInfo* plResManager::ReadAge(const char* filename) {
     age->readFromFile(filename);
     
     for (size_t i=0; i<age->getNumPages(); i++)
-        ReadPage(age->getPageFileName(i, getVer()));
+        ReadPage(age->getPageFilename(i, getVer()));
 
     ages.push_back(age);
     return age;
@@ -222,17 +199,16 @@ void plResManager::WriteAge(const char* filename, plAgeInfo* age) {
         ageName = ageName.beforeLast('.');
     path = path.beforeLast(PATHSEP);
     age->setAgeName(ageName);
-    age->writeToPath(path, getVer());
+    age->writeToFile(path, getVer());
 }
 
-void plResManager::UnloadAge(plAgeInfo* age) {
-    for (size_t i=0; i<age->getNumPages(); i++)
-        UnloadPage(age->getAgeName(), age->getPage(i).fName);
-    
+void plResManager::UnloadAge(const plString& name) {
     std::vector<plAgeInfo*>::iterator ai = ages.begin();
     while (ai != ages.end()) {
-        if ((*ai) == age) {
+        if ((*ai)->getAgeName() == name) {
             plAgeInfo* age = *ai;
+            for (size_t i=0; i<age->getNumPages(); i++)
+                UnloadPage(age->getPageLoc(i));
             delete age;
             ages.erase(ai);
             ai = ages.end();
@@ -240,8 +216,6 @@ void plResManager::UnloadAge(plAgeInfo* age) {
             ai++;
         }
     }
-    delete age;
-    age = NULL;
 }
 
 void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
@@ -255,7 +229,7 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
             S->readByte(); // flag?
         }
         unsigned int oCount = S->readInt();
-        keys.reserveKeySpace(loc.getPageID(), type, oCount);
+        keys.reserveKeySpace(loc, type, oCount);
         //plDebug::Debug("  * Indexing %d objects of type [%04hX]", oCount, type);
         for (unsigned int j=0; j<oCount; j++) {
             plKey key = new plKeyData();
@@ -269,10 +243,10 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
 }
 
 void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
-    std::vector<short> types = keys.getTypes(loc.getPageID());
+    std::vector<short> types = keys.getTypes(loc);
     S->writeInt(types.size());
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
+        std::vector<plKey> kList = keys.getKeys(loc, types[i]);
         if (kList.size() <= 0) continue;
         S->writeShort(pdUnifiedTypeMap::MappedToPlasma(kList[0]->getType(), S->getVer()));
         unsigned int lenPos = S->pos();
@@ -294,11 +268,11 @@ void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
 
 unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
     //plDebug::Debug("* Reading Objects");
-    std::vector<short> types = keys.getTypes(loc.getPageID());
+    std::vector<short> types = keys.getTypes(loc);
     unsigned int nRead = 0;
     
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
+        std::vector<plKey> kList = keys.getKeys(loc, types[i]);
         //plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
         //               types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
         for (unsigned int j=0; j<kList.size(); j++) {
@@ -351,11 +325,11 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
 }
 
 unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
-    std::vector<short> types = keys.getTypes(loc.getPageID());
+    std::vector<short> types = keys.getTypes(loc);
     unsigned int nWritten = 0;
 
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = keys.getKeys(loc.getPageID(), types[i]);
+        std::vector<plKey> kList = keys.getKeys(loc, types[i]);
         //plDebug::Debug("* Writing %d objects of type [%04hX]", kList.size(), types[i]);
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
@@ -424,7 +398,7 @@ plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
 }
 
 plSceneNode* plResManager::getSceneNode(const plLocation& loc) {
-    std::vector<plKey> kList = keys.getKeys(loc.getPageID(), kSceneNode);
+    std::vector<plKey> kList = keys.getKeys(loc, kSceneNode);
     if (kList.size() < 1) return NULL;
     return plSceneNode::Convert(kList[0]->getObj());
 }
@@ -437,9 +411,54 @@ std::vector<plLocation> plResManager::getLocations() {
 }
 
 std::vector<short> plResManager::getTypes(const plLocation& loc) {
-    return keys.getTypes(loc.getPageID());
+    return keys.getTypes(loc);
 }
 
 std::vector<plKey> plResManager::getKeys(const plLocation& loc, short type) {
-    return keys.getKeys(loc.getPageID(), type);
+    return keys.getKeys(loc, type);
+}
+
+void plResManager::AddObject(const plLocation& loc, hsKeyedObject* obj) {
+    obj->getKey()->setLocation(loc);
+    keys.add(obj->getKey());
+}
+
+void plResManager::AddPage(plPageInfo* page) {
+    pages.push_back(page);
+}
+
+void plResManager::AddAge(plAgeInfo* age) {
+    ages.push_back(age);
+}
+
+void plResManager::DelObject(plKey obj) {
+    keys.del(obj);
+}
+
+void plResManager::DelPage(const plLocation& loc) {
+    std::vector<plPageInfo*>::iterator pi = pages.begin();
+    while (pi != pages.end()) {
+        if ((*pi)->getLocation() == loc) {
+            plPageInfo* page = *pi;
+            delete page;
+            pages.erase(pi);
+            pi = pages.end();
+        } else {
+            pi++;
+        }
+    }
+}
+
+void plResManager::DelAge(const plString& name) {
+    std::vector<plAgeInfo*>::iterator ai = ages.begin();
+    while (ai != ages.end()) {
+        if ((*ai)->getAgeName() == name) {
+            plAgeInfo* age = *ai;
+            delete age;
+            ages.erase(ai);
+            ai = ages.end();
+        } else {
+            ai++;
+        }
+    }
 }

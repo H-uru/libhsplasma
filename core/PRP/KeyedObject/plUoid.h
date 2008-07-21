@@ -37,9 +37,14 @@ public:
     short getType() const;
     const plString& getName() const;
     const plLocation& getLocation() const;
-    const PageID& getPageID() const;
-    void setID(unsigned int id);
+    const plLoadMask& getLoadMask() const;
     unsigned int getID() const;
+
+    void setType(short type);
+    void setName(const plString& name);
+    void setLocation(const plLocation& loc);
+    void setLoadMask(const plLoadMask& mask);
+    void setID(unsigned int id);
 };
 
 #endif

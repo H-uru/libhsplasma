@@ -208,7 +208,8 @@ int main(int argc, char** argv) {
         }
         plString ageName = S->readStr(S->readShort());
         plString pageName = S->readStr(S->readShort());
-        page->setNames(ageName, pageName);
+        page->setAge(ageName);
+        page->setPage(pageName);
         maj = S->readShort();
         min = S->readShort();
         if (maj == -1) {
@@ -305,13 +306,13 @@ int main(int argc, char** argv) {
         delete PS;
 
         page->setIndexStart(OS->pos());
-        keys.sortKeys(page->getLocation().getPageID());
-        std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
+        keys.sortKeys(page->getLocation());
+        std::vector<short> types = keys.getTypes(page->getLocation());
         //if (types != inClasses)
         //    throw "Wtf, mate?";
         OS->writeInt(types.size());
         for (i=0; i<types.size(); i++) {
-            std::vector<plKey> kList = keys.getKeys(page->getLocation().getPageID(), types[i]);
+            std::vector<plKey> kList = keys.getKeys(page->getLocation(), types[i]);
             OS->writeShort(pdUnifiedTypeMap::MappedToPlasma(types[i], OS->getVer()));
             unsigned int lenPos = OS->pos();
             if (OS->getVer() == pvLive || OS->getVer() == pvEoa) {

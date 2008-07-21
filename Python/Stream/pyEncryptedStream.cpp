@@ -46,6 +46,7 @@ static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* arg
     }
     Py_INCREF(keyList);
     if (!PyList_Check(keyList) || (PyList_Size(keyList) != 4)) {
+        Py_DECREF(keyList);
         PyErr_SetString(PyExc_TypeError, "setKey expects an array of 4 ints");
         return NULL;
     }
@@ -54,6 +55,8 @@ static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* arg
         PyObject* k = PyList_GetItem(keyList, i);
         Py_INCREF(k);
         if (!PyInt_Check(k)) {
+            Py_DECREF(k);
+            Py_DECREF(keyList);
             PyErr_SetString(PyExc_TypeError, "setKey expects an array of 4 ints");
             return NULL;
         }

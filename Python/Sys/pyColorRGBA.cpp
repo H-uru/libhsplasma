@@ -56,14 +56,11 @@ static PyObject* pyColorRGBA_setFrom(pyColorRGBA* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "setFrom expects an hsColorRGBA");
         return NULL;
     }
-    Py_INCREF(from);
     if (!pyColorRGBA_Check((PyObject*)from)) {
         PyErr_SetString(PyExc_TypeError, "setFrom expects an hsColorRGBA");
         return NULL;
     }
     self->fThis->set(*from->fThis);
-    Py_DECREF(from);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -74,14 +71,11 @@ static PyObject* pyColorRGBA_read(pyColorRGBA* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -92,14 +86,11 @@ static PyObject* pyColorRGBA_write(pyColorRGBA* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -110,14 +101,11 @@ static PyObject* pyColorRGBA_readRGB(pyColorRGBA* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "readRGB expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB expects a hsStream");
         return NULL;
     }
     self->fThis->readRGB(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -128,14 +116,11 @@ static PyObject* pyColorRGBA_writeRGB(pyColorRGBA* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "writeRGB expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB expects a hsStream");
         return NULL;
     }
     self->fThis->writeRGB(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -281,37 +266,26 @@ PyObject* Init_pyColorRGBA_Type() {
     if (PyType_Ready(&pyColorRGBA_Type) < 0)
         return NULL;
 
-    pyColorRGBA* clr;
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kBlack);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kBlack", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kWhite);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kWhite", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kRed);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kRed", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kGreen);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kGreen", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kBlue);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kBlue", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kYellow);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kYellow", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kMagenta);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kMagenta", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kCyan);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kCyan", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kGray);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kGray", (PyObject*)clr);
-    clr = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
-    clr->fThis = new hsColorRGBA(hsColorRGBA::kNone);
-    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kNone", (PyObject*)clr);
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kBlack",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kBlack));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kWhite",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kWhite));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kRed",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kRed));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kGreen",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kGreen));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kBlue",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kBlue));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kYellow",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kYellow));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kMagenta",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kMagenta));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kCyan",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kCyan));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kGray",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kGray));
+    PyDict_SetItemString(pyColorRGBA_Type.tp_dict, "kNone",
+                         pyColorRGBA_FromColorRGBA(hsColorRGBA::kNone));
 
     Py_INCREF(&pyColorRGBA_Type);
     return (PyObject*)&pyColorRGBA_Type;
@@ -322,6 +296,12 @@ int pyColorRGBA_Check(PyObject* obj) {
         || PyType_IsSubtype(obj->ob_type, &pyColorRGBA_Type))
         return 1;
     return 0;
+}
+
+PyObject* pyColorRGBA_FromColorRGBA(const hsColorRGBA& color) {
+    pyColorRGBA* pc = PyObject_New(pyColorRGBA, &pyColorRGBA_Type);
+    pc->fThis = new hsColorRGBA(color);
+    return (PyObject*)pc;
 }
 
 }

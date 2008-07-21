@@ -6,12 +6,21 @@ OBJDIR=out/
 
 PYOBJ=\
 	$(OBJDIR)Module.o \
+	$(OBJDIR)pyKey.o \
+	$(OBJDIR)pyKeyedObject.o \
+	$(OBJDIR)pyLocation.o \
+	$(OBJDIR)pyCreatable.o \
+	$(OBJDIR)pyCreatableStub.o \
+	$(OBJDIR)pyAgeInfo.o \
+	$(OBJDIR)pyFactory.o \
+	$(OBJDIR)pyResManager.o \
+	$(OBJDIR)pyPageInfo.o \
 	$(OBJDIR)pyEncryptedStream.o \
 	$(OBJDIR)pyFileStream.o \
 	$(OBJDIR)pyStream.o \
 	$(OBJDIR)pyColor32.o \
 	$(OBJDIR)pyColorRGBA.o \
-	$(OBJDIR)pyBitVector.o
+	$(OBJDIR)pyBitVector.o \
 
 PYLIB=PyPlasma.so
 
@@ -28,6 +37,33 @@ distclean:
 
 $(OBJDIR)Module.o: Module.cpp
 	$(CXX) $(CXXFLAGS) -c Module.cpp -o $(OBJDIR)Module.o
+
+$(OBJDIR)pyKey.o: PRP/KeyedObject/pyKey.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKey.cpp -o $(OBJDIR)pyKey.o
+
+$(OBJDIR)pyKeyedObject.o: PRP/KeyedObject/pyKeyedObject.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKeyedObject.cpp -o $(OBJDIR)pyKeyedObject.o
+
+$(OBJDIR)pyLocation.o: PRP/KeyedObject/pyLocation.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $(OBJDIR)pyLocation.o
+
+$(OBJDIR)pyCreatable.o: PRP/pyCreatable.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/pyCreatable.cpp -o $(OBJDIR)pyCreatable.o
+
+$(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/pyCreatableStub.cpp -o $(OBJDIR)pyCreatableStub.o
+
+$(OBJDIR)pyAgeInfo.o: ResManager/pyAgeInfo.cpp
+	$(CXX) $(CXXFLAGS) -c ResManager/pyAgeInfo.cpp -o $(OBJDIR)pyAgeInfo.o
+
+$(OBJDIR)pyFactory.o: ResManager/pyFactory.cpp
+	$(CXX) $(CXXFLAGS) -c ResManager/pyFactory.cpp -o $(OBJDIR)pyFactory.o
+
+$(OBJDIR)pyResManager.o: ResManager/pyResManager.cpp
+	$(CXX) $(CXXFLAGS) -c ResManager/pyResManager.cpp -o $(OBJDIR)pyResManager.o
+
+$(OBJDIR)pyPageInfo.o: ResManager/pyPageInfo.cpp
+	$(CXX) $(CXXFLAGS) -c ResManager/pyPageInfo.cpp -o $(OBJDIR)pyPageInfo.o
 
 $(OBJDIR)pyEncryptedStream.o: Stream/pyEncryptedStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/pyEncryptedStream.cpp -o $(OBJDIR)pyEncryptedStream.o

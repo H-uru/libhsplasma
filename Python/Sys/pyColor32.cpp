@@ -61,14 +61,11 @@ static PyObject* pyColor32_read32(pyColor32* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "read32 expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read32 expects a hsStream");
         return NULL;
     }
     self->fThis->read32(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -79,14 +76,11 @@ static PyObject* pyColor32_write32(pyColor32* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "write32 expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write32 expects a hsStream");
         return NULL;
     }
     self->fThis->write32(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -97,14 +91,11 @@ static PyObject* pyColor32_readRGBA8(pyColor32* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "readRGBA8 expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGBA8 expects a hsStream");
         return NULL;
     }
     self->fThis->readRGBA8(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -115,14 +106,11 @@ static PyObject* pyColor32_writeRGBA8(pyColor32* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "writeRGBA8 expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGBA8 expects a hsStream");
         return NULL;
     }
     self->fThis->writeRGBA8(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -133,14 +121,11 @@ static PyObject* pyColor32_readRGB8(pyColor32* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "readRGB8 expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "readRGB8 expects a hsStream");
         return NULL;
     }
     self->fThis->readRGB8(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -151,14 +136,11 @@ static PyObject* pyColor32_writeRGB8(pyColor32* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "writeRGB8 expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "writeRGB8 expects a hsStream");
         return NULL;
     }
     self->fThis->writeRGB8(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -331,6 +313,12 @@ int pyColor32_Check(PyObject* obj) {
         || PyType_IsSubtype(obj->ob_type, &pyColor32_Type))
         return 1;
     return 0;
+}
+
+PyObject* pyColor32_FromColor32(const hsColor32& color) {
+    pyColor32* pc = PyObject_New(pyColor32, &pyColor32_Type);
+    pc->fThis = new hsColor32(color);
+    return (PyObject*)pc;
 }
 
 }

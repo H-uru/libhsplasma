@@ -118,14 +118,11 @@ static PyObject* pyBitVector_read(pyBitVector* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
         return NULL;
     }
     self->fThis->read(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -136,14 +133,11 @@ static PyObject* pyBitVector_write(pyBitVector* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
         return NULL;
     }
-    Py_INCREF(stream);
     if (!pyStream_Check((PyObject*)stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
         return NULL;
     }
     self->fThis->write(stream->fThis);
-    Py_DECREF(stream);
-
     Py_INCREF(Py_None);
     return Py_None;
 }

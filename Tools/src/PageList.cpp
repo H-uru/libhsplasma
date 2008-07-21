@@ -76,14 +76,14 @@ int main(int argc, char** argv) {
             }
         }
         
-        std::vector<short> types = keys.getTypes(page->getLocation().getPageID());
+        std::vector<short> types = keys.getTypes(page->getLocation());
         
         printf("%s :: %s\n", page->getAge().cstr(), page->getPage().cstr());
         
-        for(unsigned int f = 0; f < keys.countTypes(page->getLocation().getPageID()); f++) {
+        for(unsigned int f = 0; f < keys.countTypes(page->getLocation()); f++) {
         	printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f], S->getVer()));
         	
-        	std::vector<plKey> mykeys = keys.getKeys(page->getLocation().getPageID(), types[f]);
+        	std::vector<plKey> mykeys = keys.getKeys(page->getLocation(), types[f]);
         	
         	for(unsigned int ks = 0; ks < mykeys.size(); ks++) {
         		printf("|    |--- %s\n", mykeys[ks]->getName().cstr());

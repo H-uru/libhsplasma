@@ -15,6 +15,7 @@ public:
     plKeyData();
     plKeyData(plKeyData* init);
     ~plKeyData();
+    void dispose();
 
 private:
     hsUint32 RefCnt() const;
@@ -36,14 +37,21 @@ public:
     plUoid& getUoid();
     class hsKeyedObject* getObj();
     void setObj(class hsKeyedObject* obj);
+    
     short getType() const;
-    const PageID& getPageID() const;
     const plString& getName() const;
+    const plLocation& getLocation() const;
+    const plLoadMask& getLoadMask() const;
     hsUint32 getID() const;
-    void setID(hsUint32 id);
     hsUint32 getFileOff() const;
-    void setFileOff(hsUint32 off);
     hsUint32 getObjSize() const;
+
+    void setType(short type);
+    void setName(const plString& name);
+    void setLocation(const plLocation& loc);
+    void setLoadMask(const plLoadMask& mask);
+    void setID(hsUint32 id);
+    void setFileOff(hsUint32 off);
     void setObjSize(hsUint32 size);
 };
 

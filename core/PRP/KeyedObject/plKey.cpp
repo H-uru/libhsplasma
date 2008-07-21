@@ -16,6 +16,12 @@ plKeyData::~plKeyData() {
 	}
 }
 
+void plKeyData::dispose() {
+    // Used by hsKeyedObject to ensure proper destruction of an unowned key
+    if (this != NULL)
+        fObjPtr = NULL;
+}
+
 bool plKeyData::operator==(plKeyData& other) const {
     return (fUoid == other.fUoid);
 }
@@ -45,7 +51,7 @@ void plKeyData::writeUoid(hsStream* S) {
 }
 
 void plKeyData::prcWrite(pfPrcHelper* prc) {
-    if (this == NULL || !getUoid().getLocation().isValid()) {
+    if (this == NULL || !getLocation().isValid()) {
         prc->startTag("plKey");
         prc->writeParam("NULL", true);
         prc->endTag(true);
@@ -70,14 +76,21 @@ plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
 plUoid& plKeyData::getUoid() { return fUoid; }
 class hsKeyedObject* plKeyData::getObj() { return fObjPtr; }
 void plKeyData::setObj(class hsKeyedObject* obj) { fObjPtr = obj; }
+
 short plKeyData::getType() const { return fUoid.getType(); }
-const PageID& plKeyData::getPageID() const { return fUoid.getPageID(); }
 const plString& plKeyData::getName() const { return fUoid.getName(); }
+const plLocation& plKeyData::getLocation() const { return fUoid.getLocation(); }
+const plLoadMask& plKeyData::getLoadMask() const { return fUoid.getLoadMask(); }
 hsUint32 plKeyData::getID() const { return fUoid.getID(); }
-void plKeyData::setID(hsUint32 id) { fUoid.setID(id); }
 hsUint32 plKeyData::getFileOff() const { return fFileOff; }
-void plKeyData::setFileOff(hsUint32 off) { fFileOff = off; }
 hsUint32 plKeyData::getObjSize() const { return fObjSize; }
+
+void plKeyData::setType(short type) { fUoid.setType(type); }
+void plKeyData::setName(const plString& name) { fUoid.setName(name); }
+void plKeyData::setLocation(const plLocation& loc) { fUoid.setLocation(loc); }
+void plKeyData::setLoadMask(const plLoadMask& mask) { fUoid.setLoadMask(mask); }
+void plKeyData::setID(hsUint32 id) { fUoid.setID(id); }
+void plKeyData::setFileOff(hsUint32 off) { fFileOff = off; }
 void plKeyData::setObjSize(hsUint32 size) { fObjSize = size; }
 
 hsUint32 plKeyData::RefCnt() const { return fRefCnt; }
@@ -132,7 +145,7 @@ bool plWeakKey::operator<(const plWeakKey& other) const {
 }
 
 bool plWeakKey::Exists() const {
-    return (fKeyData != NULL) && (fKeyData->getUoid().getLocation().isValid());
+    return (fKeyData != NULL);
 }
 
 bool plWeakKey::isLoaded() const {

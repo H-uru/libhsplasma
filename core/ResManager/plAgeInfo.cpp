@@ -58,7 +58,7 @@ void plAgeInfo::readFromFile(const plString& filename) {
     delete S;
 }
 
-void plAgeInfo::writeToPath(const plString& path, PlasmaVer ver) {
+void plAgeInfo::writeToFile(const plString& path, PlasmaVer ver) {
     plString filename = path;
     if (filename[filename.len()-1] != PATHSEP)
         filename += PATHSEP;
@@ -116,12 +116,20 @@ void plAgeInfo::setReleaseVersion(unsigned int ver) { fReleaseVersion = ver; }
 
 size_t plAgeInfo::getNumPages() const { return fPages.getSize(); }
 plAgeInfo::PageEntry plAgeInfo::getPage(size_t idx) const { return fPages[idx]; }
+
 void plAgeInfo::setPage(size_t idx, const PageEntry& page) { fPages[idx] = page; }
 void plAgeInfo::addPage(const PageEntry& page) { fPages.append(page); }
 
-plString plAgeInfo::getPageFileName(size_t idx, PlasmaVer pv) const {
+plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
     if (pv >= pvEoa)
         return plString::Format("%s_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
     else
         return plString::Format("%s_District_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
+}
+
+plLocation plAgeInfo::getPageLoc(size_t idx) const {
+    plLocation loc;
+    loc.setSeqPrefix(fSeqPrefix);
+    loc.setPageNum(fPages[idx].fSeqSuffix);
+    return loc;
 }

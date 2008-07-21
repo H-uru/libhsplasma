@@ -7,8 +7,8 @@
 DllClass plLoadMask {
 protected:
     union {
-        unsigned char quality[2];
-        unsigned short mask;
+        unsigned char fQuality[2];
+        unsigned short fMask;
     };
 
 public:
@@ -21,9 +21,10 @@ public:
     void prcParse(const pfPrcTag* tag);
 
     bool isUsed();
-    plLoadMask& setMask(unsigned char m1, unsigned char m2);
-    plLoadMask& setAlways();
+    void setQuality(unsigned char low, unsigned char high);
+    void setMask(unsigned short mask);
+    void setAlways();
+    unsigned short getMask() const;
 };
 
 #endif
-

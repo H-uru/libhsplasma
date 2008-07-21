@@ -2,11 +2,24 @@
 #include "Stream/hsRAMStream.h"
 
 /* hsKeyedObject */
-hsKeyedObject::hsKeyedObject() : koFlags(0) { }
+hsKeyedObject::hsKeyedObject() { }
 
-hsKeyedObject::~hsKeyedObject() { }
+hsKeyedObject::~hsKeyedObject() {
+    myKey->dispose();
+    plKey k = myKey;    // Force the RefCounter to work
+}
 
 IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
+
+void hsKeyedObject::init(const plString& name) {
+    myKey->dispose();
+    plKey k = myKey;    // Force the RefCounter to work
+
+    myKey = new plKeyData();
+    myKey->setType(ClassIndex());
+    myKey->setName(name);
+    myKey->setObj(this);
+}
 
 void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
     if (S->getVer() == pvLive)
@@ -34,7 +47,7 @@ void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plCreatable::IPrcParse(tag, mgr);
 }
 
-const plWeakKey& hsKeyedObject::getKey() const {
+plWeakKey hsKeyedObject::getKey() const {
     return myKey;
 }
 

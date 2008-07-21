@@ -84,12 +84,12 @@ int main(int argc, char** argv) {
                 return 1;
             }
             printf("PageID: %s (%08X)\n", page->getLocation().toString().cstr(),
-                                          page->getLocation().getPageID().unparse());
+                                          page->getLocation().unparse());
             printf("Page Flags: %d\n", page->getLocation().getFlags());
             printf("Age Name: %s\n", page->getAge().cstr());
             printf("Page Name: %s\n", page->getPage().cstr());
             printf("Plasma Version: %s\n", getVerName(rm.getVer()));
-            printf("Keyring: %d keys\n", rm.countKeys(page->getLocation().getPageID()));
+            printf("Keyring: %d keys\n", rm.countKeys(page->getLocation()));
             printf("Objects Read: %d\n", page->getNumObjects());
             
             rm.setVer(toVer, true);

@@ -283,7 +283,7 @@ typedef enum {
     kAvBrainBlimp, kAvBrainFlightNPC, kParticleBulletHitMsg, kPanicLinkMsg,
     kAvTaskOneShot,
     
-    plVaultGameServerInitializationTask = 0x421, kNetClientFindDefaultAgeTask,
+    kVaultGameServerInitializationTask = 0x421, kNetClientFindDefaultAgeTask,
     kVaultAgeNode, kVaultAgeInitializationTask, kSetListenerMsg,
     kVaultSystemNode, kAvBrainSwim, kNetMsgVault, kNetServerMsgVault,
     kVaultTask, kVaultConnectTask, kVaultNegotiateManifestTask,

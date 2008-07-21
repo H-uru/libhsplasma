@@ -112,6 +112,11 @@ plString plUoid::toString() const {
 short plUoid::getType() const { return classType; }
 const plString& plUoid::getName() const { return objName; }
 const plLocation& plUoid::getLocation() const { return location; }
-const PageID& plUoid::getPageID() const { return location.getPageID(); }
-void plUoid::setID(unsigned int id) { objID = id; }
+const plLoadMask& plUoid::getLoadMask() const { return loadMask; }
 unsigned int plUoid::getID() const { return objID; }
+
+void plUoid::setType(short type) { classType = type; }
+void plUoid::setName(const plString& name) { objName = name; }
+void plUoid::setLocation(const plLocation& loc) { location = loc; }
+void plUoid::setLoadMask(const plLoadMask& mask) { loadMask = mask; }
+void plUoid::setID(unsigned int id) { objID = id; }

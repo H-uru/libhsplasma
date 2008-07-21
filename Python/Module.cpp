@@ -1,10 +1,14 @@
 #include <Python.h>
 
-#include <Util/PlasmaVersions.h>
 #include <Stream/hsStream.h>
+#include <Util/PlasmaVersions.h>
+#include "PRP/pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "ResManager/pyResManager.h"
 #include "Stream/pyStream.h"
-#include "Util/pyUtil.h"
 #include "Sys/pyColor.h"
+#include "Util/pyUtil.h"
 
 static PyMethodDef PyPlasma_Methods[] = {
     { NULL, NULL, 0, NULL }
@@ -42,4 +46,20 @@ PyMODINIT_FUNC initPyPlasma() {
     /* pyColor */
     PyModule_AddObject(module, "hsColorRGBA", Init_pyColorRGBA_Type());
     PyModule_AddObject(module, "hsColor32", Init_pyColor32_Type());
+
+    /* ResManager */
+    PyModule_AddObject(module, "plFactory", Init_pyFactory_Type());
+    PyModule_AddObject(module, "plResManager", Init_pyResManager_Type());
+    PyModule_AddObject(module, "plPageInfo", Init_pyPageInfo_Type());
+    PyModule_AddObject(module, "plAgeInfo", Init_pyAgeInfo_Type());
+
+    /* pyKey */
+    PyModule_AddObject(module, "plKey", Init_pyKey_Type());
+    PyModule_AddObject(module, "plLocation", Init_pyLocation_Type());
+
+    /* Creatables */
+    PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
+    PyModule_AddObject(module, "plCreatableStub", Init_pyCreatableStub_Type());
+
+    PyModule_AddObject(module, "hsKeyedObject", Init_pyKeyedObject_Type());
 }

@@ -10,6 +10,14 @@
 DllClass plAgeInfo {
 public:
     enum CommonPages { kTextures, kGlobal, kNumCommonPages };
+    static const plString kCommonPages[kNumCommonPages];
+
+    enum LoadFlags {
+        kPreventAutoLoad = 0x1,
+        kLoadIfSDLPresent = 0x2,
+        kIsLocalOnly = 0x4,
+        kIsVolatile = 0x8
+    };
 
     DllStruct PageEntry {
         plString fName;
@@ -29,14 +37,12 @@ protected:
     unsigned int fReleaseVersion;
     hsTArray<PageEntry> fPages;
 
-    static const plString kCommonPages[kNumCommonPages];
-
 public:
     plAgeInfo();
     ~plAgeInfo();
 
     void readFromFile(const plString& filename);
-    void writeToPath(const plString& path, PlasmaVer ver);
+    void writeToFile(const plString& path, PlasmaVer ver);
 
     const plString& getAgeName() const;
     unsigned int getStartDateTime() const;
@@ -59,8 +65,8 @@ public:
     void setPage(size_t idx, const PageEntry& page);
     void addPage(const PageEntry& page);
 
-    plString getPageFileName(size_t idx, PlasmaVer pv) const;
-    plLocation getPageLocation(size_t idx) const;
+    plString getPageFilename(size_t idx, PlasmaVer pv) const;
+    plLocation getPageLoc(size_t idx) const;
 };
 
 #endif

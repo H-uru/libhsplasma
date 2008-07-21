@@ -133,7 +133,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         // Keyed Classes //
         case kSceneNode: return new plSceneNode();
         case kSceneObject: return new plSceneObject();
-        case kKeyedObject: return new hsKeyedObject();
+        case kKeyedObject: ABSTRACT(kKeyedObject);
         case kBitmap: return new plBitmap();
         case kMipmap: return new plMipmap();
         case kCubicEnvironmap: return new plCubicEnvironmap();
@@ -1218,4 +1218,8 @@ const char* plFactory::ClassName(short typeIdx, PlasmaVer ver) {
 
 short plFactory::ClassIndex(const char* typeName) {
     return pdUnifiedTypeMap::ClassIndex(typeName);
+}
+
+short plFactory::ClassVersion(short typeIdx, PlasmaVer ver) {
+    return pdUnifiedTypeMap::ClassVersion(typeIdx, ver);
 }

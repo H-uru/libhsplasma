@@ -11,7 +11,8 @@ plPageInfo::plPageInfo() {
 
 plPageInfo::plPageInfo(const plString& age, const plString& page) {
     IInit();
-    setNames(age, page);
+    setAge(age);
+    setPage(page);
 }
 
 plPageInfo::~plPageInfo() { }
@@ -24,9 +25,7 @@ void plPageInfo::IInit() {
     fFlags = 0;
     fIdxStart = 0;
     fDataStart = 0;
-
     fNumObjects = 0;
-    fLoadFlags = 0;
 }
 
 bool plPageInfo::isValid() const { return fLocation.isValid(); }
@@ -187,26 +186,22 @@ const plString& plPageInfo::getAge() const { return fAge; }
 const plString& plPageInfo::getChapter() const { return kDistrict; }
 const plString& plPageInfo::getPage() const { return fPage; }
 unsigned int plPageInfo::getChecksum() const { return fChecksum; }
+unsigned int plPageInfo::getReleaseVersion() const { return fReleaseVersion; }
 unsigned int plPageInfo::getDataStart() const { return fDataStart; }
 unsigned int plPageInfo::getIndexStart() const { return fIdxStart; }
 unsigned int plPageInfo::getFlags() const { return fFlags; }
 plLocation& plPageInfo::getLocation() { return fLocation; }
-unsigned char plPageInfo::getLoadFlags() const { return fLoadFlags; }
 unsigned int plPageInfo::getNumObjects() const { return fNumObjects; }
 
+void plPageInfo::setAge(const plString& age) { fAge = age; }
+void plPageInfo::setPage(const plString& page) { fPage = page; }
 void plPageInfo::setChecksum(unsigned int sum) { fChecksum = sum; }
 void plPageInfo::setReleaseVersion(unsigned int relVer) { fReleaseVersion = relVer; }
 void plPageInfo::setDataStart(unsigned int loc) { fDataStart = loc; }
 void plPageInfo::setIndexStart(unsigned int loc) { fIdxStart = loc; }
 void plPageInfo::setFlags(unsigned int flags) { fFlags = flags; }
 void plPageInfo::setLocation(const plLocation& loc) { fLocation = loc; }
-void plPageInfo::setLoadFlags(unsigned char flags) { fLoadFlags = flags; }
 void plPageInfo::setNumObjects(unsigned int nObjects) { fNumObjects = nObjects; }
-
-void plPageInfo::setNames(const plString& age, const plString& page) {
-    fAge = age;
-    fPage = page;
-}
 
 void plPageInfo::clearClassList() { fClassList.clear(); }
 void plPageInfo::addClass(short classIdx) { fClassList.push_back(classIdx); }
