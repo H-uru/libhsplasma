@@ -108,7 +108,7 @@ hsMatrix44 hsMatrix44::operator*(const hsMatrix44& right) const {
     return result;
 }
 
-hsVector3 DllExport hsMatrix44::operator*(const hsVector3& vec) const {
+hsVector3 hsMatrix44::operator*(const hsVector3& vec) const {
     hsVector3 result;
     result.X = (data[0][0] * vec.X) + (data[0][1] * vec.Y) +
                (data[0][2] * vec.Z) +  data[0][3];
@@ -185,9 +185,7 @@ hsMatrix44& hsMatrix44::setRotate(int axis, float angle) {
         c2 = 1;
         break;
     default:
-        // Give something invalid so it'll break:
-        c1 = -1;
-        c2 = -1;
+        throw hsBadParamException(__FILE__, __LINE__);
     }
     data[c1][c1] = cos(angle);
     data[c2][c2] = cos(angle);

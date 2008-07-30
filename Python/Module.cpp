@@ -2,6 +2,8 @@
 
 #include <Stream/hsStream.h>
 #include <Util/PlasmaVersions.h>
+#include "Math/pyGeometry3.h"
+#include "Math/pyMatrix44.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
@@ -46,6 +48,10 @@ PyMODINIT_FUNC initPyPlasma() {
     /* pyColor */
     PyModule_AddObject(module, "hsColorRGBA", Init_pyColorRGBA_Type());
     PyModule_AddObject(module, "hsColor32", Init_pyColor32_Type());
+
+    /* Math */
+    PyModule_AddObject(module, "hsVector3", Init_pyVector3_Type());
+    PyModule_AddObject(module, "hsMatrix44", Init_pyMatrix44_Type());
 
     /* ResManager */
     PyModule_AddObject(module, "plFactory", Init_pyFactory_Type());

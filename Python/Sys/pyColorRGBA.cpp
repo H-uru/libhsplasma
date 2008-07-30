@@ -12,13 +12,25 @@ static void pyColorRGBA_dealloc(pyColorRGBA* self) {
 
 static int pyColorRGBA___init__(pyColorRGBA* self, PyObject* args, PyObject* kwds) {
     float red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f;
+    PyObject* init = NULL;
     static char* kwlist[] = { "red", "green", "blue", "alpha", NULL };
 
-    if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ffff", kwlist,
-                                     &red, &green, &blue, &alpha))
+    if (PyArg_ParseTupleAndKeywords(args, kwds, "fff|f", kwlist,
+                                    &red, &green, &blue, &alpha)) {
+        self->fThis->set(red, green, blue, alpha);
+    } else if (PyArg_ParseTuple(args, "|O", &init)) {
+        PyErr_Clear();
+        if (init == NULL)
+            return 0;
+        if (pyColorRGBA_Check(init)) {
+            self->fThis->set(*((pyColorRGBA*)init)->fThis);
+        } else {
+            return -1;
+        }
+    } else {
         return -1;
+    }
 
-    self->fThis->set(red, green, blue, alpha);
     return 0;
 }
 

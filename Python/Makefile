@@ -6,11 +6,13 @@ OBJDIR=out/
 
 PYOBJ=\
 	$(OBJDIR)Module.o \
+	$(OBJDIR)pyMatrix44.o \
+	$(OBJDIR)pyVector3.o \
+	$(OBJDIR)pyCreatable.o \
+	$(OBJDIR)pyCreatableStub.o \
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
 	$(OBJDIR)pyLocation.o \
-	$(OBJDIR)pyCreatable.o \
-	$(OBJDIR)pyCreatableStub.o \
 	$(OBJDIR)pyAgeInfo.o \
 	$(OBJDIR)pyFactory.o \
 	$(OBJDIR)pyResManager.o \
@@ -38,6 +40,18 @@ distclean:
 $(OBJDIR)Module.o: Module.cpp
 	$(CXX) $(CXXFLAGS) -c Module.cpp -o $(OBJDIR)Module.o
 
+$(OBJDIR)pyMatrix44.o: Math/pyMatrix44.cpp
+	$(CXX) $(CXXFLAGS) -c Math/pyMatrix44.cpp -o $(OBJDIR)pyMatrix44.o
+
+$(OBJDIR)pyVector3.o: Math/pyVector3.cpp
+	$(CXX) $(CXXFLAGS) -c Math/pyVector3.cpp -o $(OBJDIR)pyVector3.o
+
+$(OBJDIR)pyCreatable.o: PRP/pyCreatable.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/pyCreatable.cpp -o $(OBJDIR)pyCreatable.o
+
+$(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/pyCreatableStub.cpp -o $(OBJDIR)pyCreatableStub.o
+
 $(OBJDIR)pyKey.o: PRP/KeyedObject/pyKey.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKey.cpp -o $(OBJDIR)pyKey.o
 
@@ -46,12 +60,6 @@ $(OBJDIR)pyKeyedObject.o: PRP/KeyedObject/pyKeyedObject.cpp
 
 $(OBJDIR)pyLocation.o: PRP/KeyedObject/pyLocation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $(OBJDIR)pyLocation.o
-
-$(OBJDIR)pyCreatable.o: PRP/pyCreatable.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/pyCreatable.cpp -o $(OBJDIR)pyCreatable.o
-
-$(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/pyCreatableStub.cpp -o $(OBJDIR)pyCreatableStub.o
 
 $(OBJDIR)pyAgeInfo.o: ResManager/pyAgeInfo.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/pyAgeInfo.cpp -o $(OBJDIR)pyAgeInfo.o
