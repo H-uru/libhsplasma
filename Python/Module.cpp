@@ -1,16 +1,18 @@
 #include <Python.h>
-
 #include <Stream/hsStream.h>
 #include <Util/PlasmaVersions.h>
+
 #include "Math/pyGeometry3.h"
 #include "Math/pyMatrix44.h"
-#include "PRP/pyCreatable.h"
-#include "PRP/KeyedObject/pyKey.h"
-#include "PRP/KeyedObject/pyKeyedObject.h"
 #include "ResManager/pyResManager.h"
 #include "Stream/pyStream.h"
 #include "Sys/pyColor.h"
 #include "Util/pyUtil.h"
+
+#include "PRP/pyCreatable.h"
+#include "PRP/pySceneNode.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
 
 static PyMethodDef PyPlasma_Methods[] = {
     { NULL, NULL, 0, NULL }
@@ -68,4 +70,5 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plCreatableStub", Init_pyCreatableStub_Type());
 
     PyModule_AddObject(module, "hsKeyedObject", Init_pyKeyedObject_Type());
+    PyModule_AddObject(module, "plSceneNode", Init_pySceneNode_Type());
 }

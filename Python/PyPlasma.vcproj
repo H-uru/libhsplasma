@@ -264,6 +264,14 @@
 				RelativePath=".\PRP\pyCreatableStub.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\PRP\pySceneNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PRP\pySceneNode.h"
+				>
+			</File>
 			<Filter
 				Name="KeyedObject"
 				>
@@ -288,6 +296,26 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Math"
+			>
+			<File
+				RelativePath=".\Math\pyGeometry3.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\pyMatrix44.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\pyMatrix44.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\pyVector3.cpp"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\Module.cpp"

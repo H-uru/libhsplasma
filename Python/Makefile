@@ -10,6 +10,7 @@ PYOBJ=\
 	$(OBJDIR)pyVector3.o \
 	$(OBJDIR)pyCreatable.o \
 	$(OBJDIR)pyCreatableStub.o \
+	$(OBJDIR)pySceneNode.o \
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
 	$(OBJDIR)pyLocation.o \
@@ -51,6 +52,9 @@ $(OBJDIR)pyCreatable.o: PRP/pyCreatable.cpp
 
 $(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/pyCreatableStub.cpp -o $(OBJDIR)pyCreatableStub.o
+
+$(OBJDIR)pySceneNode.o: PRP/pySceneNode.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/pySceneNode.cpp -o $(OBJDIR)pySceneNode.o
 
 $(OBJDIR)pyKey.o: PRP/KeyedObject/pyKey.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKey.cpp -o $(OBJDIR)pyKey.o

@@ -25,7 +25,8 @@ public:
     size_t getNumPoolObjects() const;
     plKey getSceneObject(size_t idx) const;
     plKey getPoolObject(size_t idx) const;
-
+    hsTArray<plKey>& getSceneObjects();
+    hsTArray<plKey>& getPoolObjects();
 };
 
 #endif

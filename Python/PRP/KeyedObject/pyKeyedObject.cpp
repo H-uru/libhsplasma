@@ -117,6 +117,7 @@ PyTypeObject pyKeyedObject_Type = {
 };
 
 PyObject* Init_pyKeyedObject_Type() {
+    pyKeyedObject_Type.tp_base = &pyCreatable_Type;
     if (PyType_Ready(&pyKeyedObject_Type) < 0)
         return NULL;
 
