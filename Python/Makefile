@@ -14,6 +14,8 @@ PYOBJ=\
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
 	$(OBJDIR)pyLocation.o \
+	$(OBJDIR)pySceneObject.o \
+	$(OBJDIR)pySynchedObject.o \
 	$(OBJDIR)pyAgeInfo.o \
 	$(OBJDIR)pyFactory.o \
 	$(OBJDIR)pyResManager.o \
@@ -64,6 +66,12 @@ $(OBJDIR)pyKeyedObject.o: PRP/KeyedObject/pyKeyedObject.cpp
 
 $(OBJDIR)pyLocation.o: PRP/KeyedObject/pyLocation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $(OBJDIR)pyLocation.o
+
+$(OBJDIR)pySceneObject.o: PRP/Object/pySceneObject.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pySceneObject.cpp -o $(OBJDIR)pySceneObject.o
+
+$(OBJDIR)pySynchedObject.o: PRP/Object/pySynchedObject.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pySynchedObject.cpp -o $(OBJDIR)pySynchedObject.o
 
 $(OBJDIR)pyAgeInfo.o: ResManager/pyAgeInfo.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/pyAgeInfo.cpp -o $(OBJDIR)pyAgeInfo.o

@@ -4,16 +4,11 @@
 /* hsKeyedObject */
 hsKeyedObject::hsKeyedObject() { }
 
-hsKeyedObject::~hsKeyedObject() {
-    myKey->dispose();
-    plKey k = myKey;    // Force the RefCounter to work
-}
+hsKeyedObject::~hsKeyedObject() { }
 
 IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
 
 void hsKeyedObject::init(const plString& name) {
-    myKey->dispose();
-    plKey k = myKey;    // Force the RefCounter to work
 
     myKey = new plKeyData();
     myKey->setType(ClassIndex());

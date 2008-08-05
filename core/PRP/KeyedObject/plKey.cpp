@@ -16,12 +16,6 @@ plKeyData::~plKeyData() {
 	}
 }
 
-void plKeyData::dispose() {
-    // Used by hsKeyedObject to ensure proper destruction of an unowned key
-    if (this != NULL)
-        fObjPtr = NULL;
-}
-
 bool plKeyData::operator==(plKeyData& other) const {
     return (fUoid == other.fUoid);
 }

@@ -335,6 +335,10 @@ int pyKey_Check(PyObject* obj) {
 }
 
 PyObject* pyKey_FromKey(plWeakKey key) {
+    if (!key.Exists()) {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
     pyKey* obj = PyObject_New(pyKey, &pyKey_Type);
     obj->fThis = new plWeakKey(key);
     return (PyObject*)obj;

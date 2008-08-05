@@ -1,44 +1,42 @@
 #include "plSynchedObject.h"
 
-plSynchedObject::plSynchedObject() { }
+plSynchedObject::plSynchedObject() : fSynchFlags(0) { }
 plSynchedObject::~plSynchedObject() { }
 
 IMPLEMENT_CREATABLE(plSynchedObject, kSynchedObject, hsKeyedObject)
 
-int plSynchedObject::getFlags() const { return fSynchFlags; }
-
 void plSynchedObject::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
-    SDLExcludeList.clear();
-    SDLVolatileList.clear();
+    fSDLExcludeList.clear();
+    fSDLVolatileList.clear();
     fSynchFlags = S->readInt();
 
     unsigned short count, len, i;
     if (S->getVer() < pvEoa) {
         if (fSynchFlags & kExcludePersistentState) {
             count = S->readShort();
-            SDLExcludeList.setSize(count);
+            fSDLExcludeList.setSize(count);
             for (i=0; i<count; i++) {
                 len = S->readShort();
-                SDLExcludeList[i] = S->readStr(len);
+                fSDLExcludeList[i] = S->readStr(len);
             }
         }
         if (fSynchFlags & kHasVolatileState) {
             count = S->readShort();
-            SDLVolatileList.setSize(count);
+            fSDLVolatileList.setSize(count);
             for (i=0; i<count; i++) {
                 len = S->readShort();
-                SDLVolatileList[i] = S->readStr(len);
+                fSDLVolatileList[i] = S->readStr(len);
             }
         }
     } else {
         fSynchFlags &= ~0x8;
         if ((fSynchFlags & 0x6) == 0) {
             count = S->readShort();
-            SDLExcludeList.setSize(count);
+            fSDLExcludeList.setSize(count);
             for (i=0; i<count; i++) {
                 len = S->readShort();
-                SDLExcludeList[i] = S->readStr(len);
+                fSDLExcludeList[i] = S->readStr(len);
             }
         }
     }
@@ -49,18 +47,28 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fSynchFlags);
 
     unsigned short i;
-    if (fSynchFlags & kExcludePersistentState) {
-        S->writeShort(SDLExcludeList.getSize());
-        for (i=0; i<SDLExcludeList.getSize(); i++) {
-            S->writeShort(SDLExcludeList[i].len());
-            S->writeStr(SDLExcludeList[i]);
+    if (S->getVer() < pvEoa) {
+        if (fSynchFlags & kExcludePersistentState) {
+            S->writeShort(fSDLExcludeList.getSize());
+            for (i=0; i<fSDLExcludeList.getSize(); i++) {
+                S->writeShort(fSDLExcludeList[i].len());
+                S->writeStr(fSDLExcludeList[i]);
+            }
         }
-    }
-    if (fSynchFlags & kHasVolatileState) {
-        S->writeShort(SDLVolatileList.getSize());
-        for (i=0; i<SDLVolatileList.getSize(); i++) {
-            S->writeShort(SDLVolatileList[i].len());
-            S->writeStr(SDLVolatileList[i]);
+        if (fSynchFlags & kHasVolatileState) {
+            S->writeShort(fSDLVolatileList.getSize());
+            for (i=0; i<fSDLVolatileList.getSize(); i++) {
+                S->writeShort(fSDLVolatileList[i].len());
+                S->writeStr(fSDLVolatileList[i]);
+            }
+        }
+    } else {
+        if ((fSynchFlags & 0x6) == 0) {
+            S->writeShort(fSDLExcludeList.getSize());
+            for (i=0; i<fSDLExcludeList.getSize(); i++) {
+                S->writeShort(fSDLExcludeList[i].len());
+                S->writeStr(fSDLExcludeList[i]);
+            }
         }
     }
 }
@@ -68,37 +76,59 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
 void plSynchedObject::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
     
-    prc->startTag("SynchFlags");
-    prc->writeParamHex("value", fSynchFlags);
-    prc->endTag(true);
+    prc->startTag("SynchParams");
+    prc->writeParamHex("flags", fSynchFlags);
+    prc->endTag();
 
     unsigned int i;
-    if (fSynchFlags & kExcludePersistentState) {
-        prc->writeTagNoBreak("ExcludePersistentStates");
-        for (i=0; i<SDLExcludeList.getSize(); i++)
-            prc->getStream()->writeStr(SDLExcludeList[i] + " ");
-        prc->closeTagNoBreak();
-    }
-    if (fSynchFlags & kHasVolatileState) {
-        prc->writeTagNoBreak("VolatileStates");
-        for (i=0; i<SDLVolatileList.getSize(); i++)
-            prc->getStream()->writeStr(SDLVolatileList[i] + " ");
-        prc->closeTagNoBreak();
-    }
+    prc->writeTagNoBreak("ExcludePersistentStates");
+    for (i=0; i<fSDLExcludeList.getSize(); i++)
+        prc->getStream()->writeStr(fSDLExcludeList[i] + " ");
+    prc->closeTagNoBreak();
+        
+    prc->writeTagNoBreak("VolatileStates");
+    for (i=0; i<fSDLVolatileList.getSize(); i++)
+        prc->getStream()->writeStr(fSDLVolatileList[i] + " ");
+    prc->closeTagNoBreak();
+
+    prc->closeTag();
 }
 
 void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "SynchFlags") {
-        fSynchFlags = tag->getParam("value", "0").toUint();
-    } else if (tag->getName() == "ExcludePersistentStates") {
-        hsTList<plString> states = tag->getContents();
-        while (!states.empty())
-            SDLExcludeList.append(states.pop());
-    } else if (tag->getName() == "VolatileStates") {
-        hsTList<plString> states = tag->getContents();
-        while (!states.empty())
-            SDLVolatileList.append(states.pop());
+    if (tag->getName() == "SynchParams") {
+        fSynchFlags = tag->getParam("flags", "0").toUint();
+        const pfPrcTag* child = tag->getFirstChild();
+        while (child != NULL) {
+            if (child->getName() == "ExcludePersistentStates") {
+                hsTList<plString> states = child->getContents();
+                while (!states.empty())
+                    fSDLExcludeList.append(states.pop());
+            } else if (child->getName() == "VolatileStates") {
+                hsTList<plString> states = child->getContents();
+                while (!states.empty())
+                    fSDLVolatileList.append(states.pop());
+            } else {
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            }
+            child = child->getNextSibling();
+        }
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
+
+int plSynchedObject::getFlags() const { return fSynchFlags; }
+void plSynchedObject::setFlags(int flags) { fSynchFlags = flags; }
+
+void plSynchedObject::setExclude(const plString& sdl) {
+    fSynchFlags |= kExcludePersistentState;
+    fSDLExcludeList.append(sdl);
+}
+
+void plSynchedObject::setVolatile(const plString& sdl) {
+    fSynchFlags |= kHasVolatileState;
+    fSDLVolatileList.append(sdl);
+}
+
+hsTArray<plString>& plSynchedObject::getExcludes() { return fSDLExcludeList; }
+hsTArray<plString>& plSynchedObject::getVolatiles() { return fSDLVolatileList; }

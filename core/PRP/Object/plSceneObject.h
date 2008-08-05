@@ -25,11 +25,22 @@ public:
     plKey getSimInterface() const;
     plKey getCoordInterface() const;
     plKey getAudioInterface() const;
+    plWeakKey getSceneNode() const;
+
+    void setDrawInterface(plKey intf);
+    void setSimInterface(plKey intf);
+    void setCoordInterface(plKey intf);
+    void setAudioInterface(plKey intf);
+    void setSceneNode(plWeakKey node);
 
     size_t getNumInterfaces() const;
     size_t getNumModifiers() const;
     plKey getInterface(size_t idx) const;
     plKey getModifier(size_t idx) const;
+    void clearInterfaces();
+    void clearModifiers();
+    void addInterface(plKey intf);
+    void addModifier(plKey mod);
 };
 
 #endif

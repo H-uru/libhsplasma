@@ -6,8 +6,6 @@
 
 DllClass plSynchedObject : public hsKeyedObject {
 public:
-    enum LocallyOwnedAnswer { kNo, kYes };
-
     enum Flags {
         kDontDirty = 0x1,
         kSendReliably = 0x2,
@@ -39,8 +37,8 @@ public:
 
 protected:
     unsigned int fSynchFlags;
-    hsTArray<plString> SDLExcludeList;
-    hsTArray<plString> SDLVolatileList;
+    hsTArray<plString> fSDLExcludeList;
+    hsTArray<plString> fSDLVolatileList;
 
 public:
     plSynchedObject();
@@ -48,12 +46,18 @@ public:
 
     DECLARE_CREATABLE(plSynchedObject)
     
-    int getFlags() const;
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    int getFlags() const;
+    void setFlags(int flags);
+
+    void setExclude(const plString& sdl);
+    void setVolatile(const plString& sdl);
+    hsTArray<plString>& getExcludes();
+    hsTArray<plString>& getVolatiles();
 };
 
 #endif

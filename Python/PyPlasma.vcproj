@@ -296,6 +296,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Object"
+				>
+				<File
+					RelativePath=".\PRP\Object\pySceneObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\pySceneObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\pySynchedObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\pySynchedObject.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Math"

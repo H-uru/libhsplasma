@@ -13,6 +13,8 @@
 #include "PRP/pySceneNode.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/Object/pySceneObject.h"
+#include "PRP/Object/pySynchedObject.h"
 
 static PyMethodDef PyPlasma_Methods[] = {
     { NULL, NULL, 0, NULL }
@@ -56,7 +58,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "hsMatrix44", Init_pyMatrix44_Type());
 
     /* ResManager */
-    PyModule_AddObject(module, "plFactory", Init_pyFactory_Type());
+    //PyModule_AddObject(module, "plFactory", Init_pyFactory_Type());
     PyModule_AddObject(module, "plResManager", Init_pyResManager_Type());
     PyModule_AddObject(module, "plPageInfo", Init_pyPageInfo_Type());
     PyModule_AddObject(module, "plAgeInfo", Init_pyAgeInfo_Type());
@@ -71,4 +73,6 @@ PyMODINIT_FUNC initPyPlasma() {
 
     PyModule_AddObject(module, "hsKeyedObject", Init_pyKeyedObject_Type());
     PyModule_AddObject(module, "plSceneNode", Init_pySceneNode_Type());
+    PyModule_AddObject(module, "plSynchedObject", Init_pySynchedObject_Type());
+    PyModule_AddObject(module, "plSceneObject", Init_pySceneObject_Type());
 }
