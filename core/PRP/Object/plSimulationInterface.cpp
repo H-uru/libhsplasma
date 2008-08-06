@@ -25,6 +25,7 @@ void plSimulationInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
     if (S->getVer() < pvEoa) {
+        // Yes, really :(
         fProps.read(S);
         S->readInt();
     }
@@ -44,23 +45,19 @@ void plSimulationInterface::write(hsStream* S, plResManager* mgr) {
 void plSimulationInterface::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
 
-    prc->writeSimpleTag("Properties");
-    fProps.prcWrite(prc);
-    prc->closeTag();
-
     prc->writeSimpleTag("Physical");
     fPhysical->prcWrite(prc);
     prc->closeTag();
 }
 
 void plSimulationInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "Properties") {
-        if (tag->hasChildren())
-            fProps.prcParse(tag->getFirstChild());
-    } else if (tag->getName() == "Physical") {
+    if (tag->getName() == "Physical") {
         if (tag->hasChildren())
             fPhysical = mgr->prcParseKey(tag->getFirstChild());
     } else {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
+
+plKey plSimulationInterface::getPhysical() const { return fPhysical; }
+void plSimulationInterface::setPhysical(plKey phys) { fPhysical = phys; }

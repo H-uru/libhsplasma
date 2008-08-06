@@ -85,7 +85,7 @@ void plSynchedObject::IPrcWrite(pfPrcHelper* prc) {
     for (i=0; i<fSDLExcludeList.getSize(); i++)
         prc->getStream()->writeStr(fSDLExcludeList[i] + " ");
     prc->closeTagNoBreak();
-        
+    
     prc->writeTagNoBreak("VolatileStates");
     for (i=0; i<fSDLVolatileList.getSize(); i++)
         prc->getStream()->writeStr(fSDLVolatileList[i] + " ");

@@ -43,3 +43,8 @@ void plObjInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
+
+hsBitVector& plObjInterface::getProperties() { return fProps; }
+bool plObjInterface::getProperty(size_t prop) const { return fProps[prop]; }
+plWeakKey plObjInterface::getOwner() const { return fOwner; }
+void plObjInterface::setOwner(plWeakKey owner) { fOwner = owner; }

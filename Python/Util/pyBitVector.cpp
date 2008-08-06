@@ -6,7 +6,8 @@
 extern "C" {
 
 static void pyBitVector_dealloc(pyBitVector* self) {
-    delete self->fThis;
+    if (self->fPyOwned)
+        delete self->fThis;
     self->ob_type->tp_free((PyObject*)self);
 }
 
@@ -19,8 +20,10 @@ static int pyBitVector___init__(pyBitVector* self, PyObject* args, PyObject* kwd
 
 static PyObject* pyBitVector_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyBitVector* self = (pyBitVector*)type->tp_alloc(type, 0);
-    if (self != NULL)
+    if (self != NULL) {
         self->fThis = new hsBitVector();
+        self->fPyOwned = true;
+    }
     return (PyObject*)self;
 }
 
@@ -242,6 +245,13 @@ int pyBitVector_Check(PyObject* obj) {
         || PyType_IsSubtype(obj->ob_type, &pyBitVector_Type))
         return 1;
     return 0;
+}
+
+PyObject* pyBitVector_FromBitVector(class hsBitVector& vec) {
+    pyBitVector* bv = PyObject_New(pyBitVector, &pyBitVector_Type);
+    bv->fThis = &vec;
+    bv->fPyOwned = false;
+    return (PyObject*)bv;
 }
 
 }

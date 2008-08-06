@@ -6,17 +6,6 @@
 
 extern "C" {
 
-static int pySynchedObject___init__(pySynchedObject* self, PyObject* args, PyObject* kwds) {
-    const char* name = "";
-    if (!PyArg_ParseTuple(args, "|s", &name)) {
-        PyErr_SetString(PyExc_TypeError, "__init__ expects an optional string");
-        return -1;
-    }
-
-    self->fThis->init(name);
-    return 0;
-}
-
 static PyObject* pySynchedObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     PyErr_SetString(PyExc_RuntimeError, "plSynchedObject is abstract");
     return NULL;
@@ -199,7 +188,7 @@ PyTypeObject pySynchedObject_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySynchedObject___init__, /* tp_init */
+    NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
     pySynchedObject_new,                /* tp_new */
     NULL,                               /* tp_free */

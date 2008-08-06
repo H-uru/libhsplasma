@@ -88,7 +88,11 @@ void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-hsMatrix44 plCoordinateInterface::getLocalToParent() const { return fLocalToParent; }
-hsMatrix44 plCoordinateInterface::getParentToLocal() const { return fParentToLocal; }
-hsMatrix44 plCoordinateInterface::getLocalToWorld() const { return fLocalToWorld; }
-hsMatrix44 plCoordinateInterface::getWorldToLocal() const { return fWorldToLocal; }
+hsMatrix44& plCoordinateInterface::getLocalToParent() { return fLocalToParent; }
+hsMatrix44& plCoordinateInterface::getParentToLocal() { return fParentToLocal; }
+hsMatrix44& plCoordinateInterface::getLocalToWorld() { return fLocalToWorld; }
+hsMatrix44& plCoordinateInterface::getWorldToLocal() { return fWorldToLocal; }
+size_t plCoordinateInterface::getNumChildren() const { return fChildren.getSize(); }
+plKey plCoordinateInterface::getChild(size_t idx) const { return fChildren[idx]; }
+void plCoordinateInterface::clearChildren() { fChildren.clear(); }
+void plCoordinateInterface::addChild(plKey child) { fChildren.append(child); }

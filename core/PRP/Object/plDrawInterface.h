@@ -6,7 +6,7 @@
 DllClass plDrawInterface : public plObjInterface {
 public:
     hsTArray<plKey> fDrawables;
-    hsTArray<plKey> fObjects;
+    hsTArray<plKey> fRegions;
     hsTArray<int> fDrawableKeys;
 
 public:
@@ -23,9 +23,13 @@ public:
     size_t getNumDrawables() const;
     plKey getDrawable(size_t idx) const;
     int getDrawableKey(size_t idx) const;
+    void clearDrawables();
+    void addDrawable(plKey draw, int key);
 
-    size_t getNumObjects() const;
-    plKey getObject(size_t idx) const;
+    size_t getNumRegions() const;
+    plKey getRegion(size_t idx) const;
+    void clearRegions();
+    void addRegion(plKey obj);
 };
 
 #endif

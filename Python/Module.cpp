@@ -13,6 +13,7 @@
 #include "PRP/pySceneNode.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
 
@@ -75,4 +76,9 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plSceneNode", Init_pySceneNode_Type());
     PyModule_AddObject(module, "plSynchedObject", Init_pySynchedObject_Type());
     PyModule_AddObject(module, "plSceneObject", Init_pySceneObject_Type());
+    PyModule_AddObject(module, "plObjInterface", Init_pyObjInterface_Type());
+    PyModule_AddObject(module, "plAudioInterface", Init_pyAudioInterface_Type());
+    PyModule_AddObject(module, "plCoordinateInterface", Init_pyCoordinateInterface_Type());
+    PyModule_AddObject(module, "plDrawInterface", Init_pyDrawInterface_Type());
+    PyModule_AddObject(module, "plSimulationInterface", Init_pySimulationInterface_Type());
 }

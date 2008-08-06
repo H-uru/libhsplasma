@@ -14,7 +14,12 @@ PYOBJ=\
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
 	$(OBJDIR)pyLocation.o \
+	$(OBJDIR)pyAudioInterface.o \
+	$(OBJDIR)pyCoordinateInterface.o \
+	$(OBJDIR)pyDrawInterface.o \
+	$(OBJDIR)pyObjInterface.o \
 	$(OBJDIR)pySceneObject.o \
+	$(OBJDIR)pySimulationInterface.o \
 	$(OBJDIR)pySynchedObject.o \
 	$(OBJDIR)pyAgeInfo.o \
 	$(OBJDIR)pyFactory.o \
@@ -67,8 +72,23 @@ $(OBJDIR)pyKeyedObject.o: PRP/KeyedObject/pyKeyedObject.cpp
 $(OBJDIR)pyLocation.o: PRP/KeyedObject/pyLocation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $(OBJDIR)pyLocation.o
 
+$(OBJDIR)pyAudioInterface.o: PRP/Object/pyAudioInterface.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pyAudioInterface.cpp -o $(OBJDIR)pyAudioInterface.o
+
+$(OBJDIR)pyCoordinateInterface.o: PRP/Object/pyCoordinateInterface.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pyCoordinateInterface.cpp -o $(OBJDIR)pyCoordinateInterface.o
+
+$(OBJDIR)pyDrawInterface.o: PRP/Object/pyDrawInterface.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pyDrawInterface.cpp -o $(OBJDIR)pyDrawInterface.o
+
+$(OBJDIR)pyObjInterface.o: PRP/Object/pyObjInterface.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pyObjInterface.cpp -o $(OBJDIR)pyObjInterface.o
+
 $(OBJDIR)pySceneObject.o: PRP/Object/pySceneObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/pySceneObject.cpp -o $(OBJDIR)pySceneObject.o
+
+$(OBJDIR)pySimulationInterface.o: PRP/Object/pySimulationInterface.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pySimulationInterface.cpp -o $(OBJDIR)pySimulationInterface.o
 
 $(OBJDIR)pySynchedObject.o: PRP/Object/pySynchedObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/pySynchedObject.cpp -o $(OBJDIR)pySynchedObject.o

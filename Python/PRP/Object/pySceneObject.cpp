@@ -7,21 +7,12 @@
 
 extern "C" {
 
-static int pySceneObject___init__(pySceneObject* self, PyObject* args, PyObject* kwds) {
-    const char* name = "";
-    if (!PyArg_ParseTuple(args, "|s", &name)) {
-        PyErr_SetString(PyExc_TypeError, "__init__ expects an optional string");
-        return -1;
-    }
-
-    self->fThis->init(name);
-    return 0;
-}
-
 static PyObject* pySceneObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pySceneObject* self = (pySceneObject*)type->tp_alloc(type, 0);
-    if (self != NULL)
+    if (self != NULL) {
         self->fThis = new plSceneObject();
+        self->fPyOwned = true;
+    }
     return (PyObject*)self;
 }
 
@@ -265,7 +256,7 @@ PyTypeObject pySceneObject_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pySceneObject___init__,   /* tp_init */
+    NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
     pySceneObject_new,                  /* tp_new */
     NULL,                               /* tp_free */

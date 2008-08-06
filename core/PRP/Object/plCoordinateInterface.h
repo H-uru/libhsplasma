@@ -11,28 +11,6 @@ public:
         kDisable, kCanEverDelayTransform, kDelayedTransformEval, kNumProps
     };
 
-    enum plCoordinateTransformPhases {
-        kTransformPhaseNormal, kTransformPhaseDelayed
-    };
-
-    enum {
-        kTransformDirty = 0x1,
-        kWarp = 0x2,
-        kMaxState = 0xFFFFFFFF
-    };
-
-    enum plAttachFlags {
-        kMaintainWorldPosition = 0x1,
-        kMaintainSceneNode = 0x2,
-        kAboutToAttach = 0x4
-    };
-
-    enum Reason {
-        kReasonUnknown = 0x1,
-        kReasonPhysics = 0x2,
-        kMaxReasons = 0xFFFFFFFF
-    };
-
 public:
     hsMatrix44 fLocalToParent;
     hsMatrix44 fParentToLocal;
@@ -51,10 +29,15 @@ public:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
-    hsMatrix44 getLocalToParent() const;
-    hsMatrix44 getParentToLocal() const;
-    hsMatrix44 getLocalToWorld() const;
-    hsMatrix44 getWorldToLocal() const;
+    hsMatrix44& getLocalToParent();
+    hsMatrix44& getParentToLocal();
+    hsMatrix44& getLocalToWorld();
+    hsMatrix44& getWorldToLocal();
+
+    size_t getNumChildren() const;
+    plKey getChild(size_t idx) const;
+    void clearChildren();
+    void addChild(plKey child);
 };
 
 #endif

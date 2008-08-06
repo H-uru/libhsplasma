@@ -23,7 +23,11 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    hsBitVector& getProperties();
+    bool getProperty(size_t prop) const;
+    plWeakKey getOwner() const;
+    void setOwner(plWeakKey owner);
 };
 
 #endif
-

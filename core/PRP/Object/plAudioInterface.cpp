@@ -31,3 +31,6 @@ void plAudioInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
+
+plKey plAudioInterface::getAudible() const { return fAudible; }
+void plAudioInterface::setAudible(plKey audible) { fAudible = audible; }

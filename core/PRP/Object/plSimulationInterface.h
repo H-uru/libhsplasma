@@ -13,7 +13,6 @@ public:
     };
 
 protected:
-    hsBitVector fProps;
     plKey fPhysical;
 
 public:
@@ -26,6 +25,9 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    plKey getPhysical() const;
+    void setPhysical(plKey phys);
 };
 
 #endif

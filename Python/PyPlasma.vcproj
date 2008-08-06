@@ -300,11 +300,35 @@
 				Name="Object"
 				>
 				<File
+					RelativePath=".\PRP\Object\pyAudioInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\pyCoordinateInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\pyDrawInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\pyObjInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\pyObjInterface.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Object\pySceneObject.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PRP\Object\pySceneObject.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Object\pySimulationInterface.cpp"
 					>
 				</File>
 				<File

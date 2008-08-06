@@ -17,9 +17,9 @@ void plDrawInterface::read(hsStream* S, plResManager* mgr) {
         fDrawables[i] = mgr->readKey(S);
     }
     count = S->readInt();
-    fObjects.setSize(count);
+    fRegions.setSize(count);
     for (i=0; i<count; i++)
-        fObjects[i] = mgr->readKey(S);
+        fRegions[i] = mgr->readKey(S);
 }
 
 void plDrawInterface::write(hsStream* S, plResManager* mgr) {
@@ -31,9 +31,9 @@ void plDrawInterface::write(hsStream* S, plResManager* mgr) {
         S->writeInt(fDrawableKeys[i]);
         mgr->writeKey(S, fDrawables[i]);
     }
-    S->writeInt(fObjects.getSize());
-    for (i=0; i<fObjects.getSize(); i++)
-        mgr->writeKey(S, fObjects[i]);
+    S->writeInt(fRegions.getSize());
+    for (i=0; i<fRegions.getSize(); i++)
+        mgr->writeKey(S, fRegions[i]);
 }
 
 void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
@@ -49,9 +49,9 @@ void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();
     }
     prc->closeTag();
-    prc->writeSimpleTag("Objects");
-    for (i=0; i<fObjects.getSize(); i++)
-        fObjects[i]->prcWrite(prc);
+    prc->writeSimpleTag("Regions");
+    for (i=0; i<fRegions.getSize(); i++)
+        fRegions[i]->prcWrite(prc);
     prc->closeTag();
 }
 
@@ -68,11 +68,11 @@ void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 fDrawables[i] = mgr->prcParseKey(child->getFirstChild());
             child = child->getNextSibling();
         }
-    } else if (tag->getName() == "Objects") {
-        fObjects.setSize(tag->countChildren());
+    } else if (tag->getName() == "Regions") {
+        fRegions.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fObjects.getSize(); i++) {
-            fObjects[i] = mgr->prcParseKey(child);
+        for (size_t i=0; i<fRegions.getSize(); i++) {
+            fRegions[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else {
@@ -80,22 +80,21 @@ void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plDrawInterface::getNumDrawables() const {
-    return fDrawables.getSize();
+size_t plDrawInterface::getNumDrawables() const { return fDrawables.getSize(); }
+plKey plDrawInterface::getDrawable(size_t idx) const { return fDrawables[idx]; }
+int plDrawInterface::getDrawableKey(size_t idx) const { return fDrawableKeys[idx]; }
+
+void plDrawInterface::clearDrawables() {
+    fDrawables.clear();
+    fDrawableKeys.clear();
 }
 
-plKey plDrawInterface::getDrawable(size_t idx) const {
-    return fDrawables[idx];
+void plDrawInterface::addDrawable(plKey draw, int key) {
+    fDrawables.append(draw);
+    fDrawableKeys.append(key);
 }
 
-int plDrawInterface::getDrawableKey(size_t idx) const {
-    return fDrawableKeys[idx];
-}
-
-size_t plDrawInterface::getNumObjects() const {
-    return fObjects.getSize();
-}
-
-plKey plDrawInterface::getObject(size_t idx) const {
-    return fObjects[idx];
-}
+size_t plDrawInterface::getNumRegions() const { return fRegions.getSize(); }
+plKey plDrawInterface::getRegion(size_t idx) const { return fRegions[idx]; }
+void plDrawInterface::clearRegions() { fRegions.clear(); }
+void plDrawInterface::addRegion(plKey obj) { fRegions.append(obj); }
