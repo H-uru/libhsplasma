@@ -170,6 +170,25 @@ static PyObject* pyResManager_WritePage(pyResManager* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyResManager_FindPage(pyResManager* self, PyObject* args) {
+    pyLocation* loc;
+    if (!PyArg_ParseTuple(args, "O", &loc)) {
+        PyErr_SetString(PyExc_TypeError, "FindPage expects a plLocation");
+        return NULL;
+    }
+    if (!pyLocation_Check((PyObject*)loc)) {
+        PyErr_SetString(PyExc_TypeError, "FindPage expects a plLocation");
+        return NULL;
+    }
+    plPageInfo* page = self->fThis->FindPage(*loc->fThis);
+    if (page == NULL) {
+        Py_INCREF(Py_None);
+        return Py_None;
+    } else {
+        return pyPageInfo_FromPageInfo(page);
+    }
+}
+
 static PyObject* pyResManager_UnloadPage(pyResManager* self, PyObject* args) {
     pyLocation* loc;
     if (!PyArg_ParseTuple(args, "O", &loc)) {
@@ -187,13 +206,14 @@ static PyObject* pyResManager_UnloadPage(pyResManager* self, PyObject* args) {
 
 static PyObject* pyResManager_ReadAge(pyResManager* self, PyObject* args) {
     const char* filename;
-    if (!PyArg_ParseTuple(args, "s", &filename)) {
+    char readPages;
+    if (!PyArg_ParseTuple(args, "sb", &filename, &readPages)) {
         PyErr_SetString(PyExc_TypeError, "ReadAge expects a string");
         return NULL;
     }
     plAgeInfo* age = NULL;
     try {
-        age = self->fThis->ReadAge(filename);
+        age = self->fThis->ReadAge(filename, readPages != 0);
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading age");
         return NULL;
@@ -225,6 +245,21 @@ static PyObject* pyResManager_WriteAge(pyResManager* self, PyObject* args) {
     }
     Py_INCREF(Py_None);
     return Py_None;
+}
+
+static PyObject* pyResManager_FindAge(pyResManager* self, PyObject* args) {
+    const char* ageName;
+    if (!PyArg_ParseTuple(args, "s", &ageName)) {
+        PyErr_SetString(PyExc_TypeError, "FindAge expects a string");
+        return NULL;
+    }
+    plAgeInfo* age = self->fThis->FindAge(ageName);
+    if (age == NULL) {
+        Py_INCREF(Py_None);
+        return Py_None;
+    } else {
+        return pyAgeInfo_FromAgeInfo(age);
+    }
 }
 
 static PyObject* pyResManager_UnloadAge(pyResManager* self, PyObject* args) {
@@ -457,17 +492,24 @@ static PyMethodDef pyResManager_Methods[] = {
     { "WritePage", (PyCFunction)pyResManager_WritePage, METH_VARARGS,
       "Params: filename, page\n"
       "Writes an entire page to a PRP file" },
+    { "FindPage", (PyCFunction)pyResManager_FindPage, METH_VARARGS,
+      "Params: location\n"
+      "Finds and returns the plPageInfo at `location`" },
     { "UnloadPage", (PyCFunction)pyResManager_UnloadPage, METH_VARARGS,
       "Params: location\n"
       "Unloads the specified page, as well as all associated objects\n"
       "from the ResManager" },
     { "ReadAge", (PyCFunction)pyResManager_ReadAge, METH_VARARGS,
-      "Params: filename\n"
-      "Reads a .age file, and loads all of the PRPs associated with it" },
+      "Params: filename, readPages\n"
+      "Reads a .age file. If readPages is True, also loads all PRPs\n"
+      "identified in the .age file" },
     { "WriteAge", (PyCFunction)pyResManager_WriteAge, METH_VARARGS,
       "Params: filename, age\n"
       "Writes a plAgeInfo to the specified file\n"
       "Does NOT write any PRP files!" },
+    { "FindAge", (PyCFunction)pyResManager_FindAge, METH_VARARGS,
+      "Params: age\n"
+      "Finds and returns the plAgeInfo for `age`" },
     { "UnloadAge", (PyCFunction)pyResManager_UnloadAge, METH_VARARGS,
       "Params: age\n"
       "Unloads the specified age, as well as any pages and objects\n"

@@ -26,6 +26,13 @@ public:
     unsigned int getCellOffset() const;
     unsigned int getVStartIdx() const;
     unsigned int getVLength() const;
+
+    void setGroupIdx(unsigned int idx);
+    void setVBufferIdx(unsigned int idx);
+    void setCellIdx(unsigned int idx);
+    void setCellOffset(unsigned int off);
+    void setVStartIdx(unsigned int idx);
+    void setVLength(unsigned int len);
 };
 
 #endif

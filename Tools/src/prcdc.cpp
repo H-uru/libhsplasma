@@ -7,10 +7,9 @@
 void doHelp(const char* exename) {
     printf("Usage: %s [options] filename\n\n", exename);
     printf("Options:\n");
-    printf("\t-c       Decompile a single creatable, instead of an entire page\n");
     printf("\t-o file  Write output to `file`\n");
     printf("\t-v ver   Select input version (prime, pots, live, eoa, hex)\n");
-    printf("\t         (for use with -c; PRP versions are determined automatically)\n");
+    printf("\t         (for use with Creatables; PRP versions are determined automatically)\n");
     printf("\t--novtx  Don't include vertex data\n");
     printf("\t--notex  Don't include texture data\n");
     printf("\t--help   Display this help message and then exit\n\n");
@@ -18,7 +17,6 @@ void doHelp(const char* exename) {
 
 int main(int argc, char** argv) {
     plString inputFile, outputFile;
-    bool objOnly = false;
     bool exVtx = false, exTex = false;
     PlasmaVer inVer = pvUnknown;
 
@@ -28,9 +26,7 @@ int main(int argc, char** argv) {
     }
 
     for (int i=1; i<argc; i++) {
-        if (strcmp(argv[i], "-c") == 0 || strcmp(argv[i], "--creatable") == 0) {
-            objOnly = true;
-        } else if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--out") == 0) {
+        if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--out") == 0) {
             outputFile = argv[++i];
         } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--ver") == 0) {
             plString ver = argv[++i];
@@ -64,7 +60,7 @@ int main(int argc, char** argv) {
     }
     if (outputFile.empty())
         outputFile = "out.prc";
-    if (inVer == pvUnknown && objOnly) {
+    if (inVer == pvUnknown && inputFile.afterLast('.') != "prp" && inputFile.afterLast('.') != "age") {
         fprintf(stderr, "Error: Plasma version must be specified for object decompilation\n");
         return 1;
     }
@@ -80,7 +76,13 @@ int main(int argc, char** argv) {
     if (exVtx) prc.exclude(pfPrcHelper::kExcludeVertexData);
 
     try {
-        if (objOnly) {
+        if (inputFile.afterLast('.') == "prp") {
+            plPageInfo* page = rm.ReadPage(inputFile);
+            rm.WritePagePrc(&prc, page);
+        } else if (inputFile.afterLast('.') == "age") {
+            plAgeInfo* age = rm.ReadAge(inputFile, false);
+            rm.WriteAgePrc(&prc, age);
+        } else {
             hsFileStream in;
             if (!in.open(inputFile, fmRead)) {
                 fprintf(stderr, "Error opening input file\n");
@@ -89,9 +91,6 @@ int main(int argc, char** argv) {
             in.setVer(inVer);
             plCreatable* cre = rm.ReadCreatable(&in);
             cre->prcWrite(&prc);
-        } else {
-            plPageInfo* page = rm.ReadPage(inputFile);
-            rm.WritePagePrc(&prc, page);
         }
     } catch (hsException& e) {
         fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());

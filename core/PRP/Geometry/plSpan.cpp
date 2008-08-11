@@ -147,22 +147,40 @@ void plSpan::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
-const plKey& plSpan::getFogEnvironment() const { return fFogEnvironment; }
+plKey plSpan::getFogEnvironment() const { return fFogEnvironment; }
 const hsTArray<plKey>& plSpan::getPermaLights() const { return fPermaLights; }
 const hsTArray<plKey>& plSpan::getPermaProjs() const { return fPermaProjs; }
+hsMatrix44 plSpan::getLocalToWorld() const { return fLocalToWorld; }
+hsMatrix44 plSpan::getWorldToLocal() const { return fWorldToLocal; }
+unsigned short plSpan::getSubType() const { return fSubType; }
 unsigned int plSpan::getMaterialIdx() const { return fMaterialIdx; }
 unsigned char plSpan::getNumMatrices() const { return fNumMatrices; }
 unsigned int plSpan::getProps() const { return fProps; }
+unsigned int plSpan::getBaseMatrix() const { return fBaseMatrix; }
+unsigned short plSpan::getMaxBoneIdx() const { return fMaxBoneIdx; }
+unsigned short plSpan::getPenBoneIdx() const { return fPenBoneIdx; }
+unsigned short plSpan::getLocalUVWChans() const { return fLocalUVWChans; }
+float plSpan::getMinDist() const { return fMinDist; }
+float plSpan::getMaxDist() const { return fMaxDist; }
+float plSpan::getWaterHeight() const { return fWaterHeight; }
+hsBounds3Ext& plSpan::getLocalBounds() { return fLocalBounds; }
+hsBounds3Ext& plSpan::getWorldBounds() { return fWorldBounds; }
 
-hsMatrix44 plSpan::getLocalToWorld() const { return fLocalToWorld; }
-hsMatrix44 plSpan::getWorldToLocal() const { return fWorldToLocal; }
-
-void plSpan::setFogEnvironment(const plKey& fog) {
-    fFogEnvironment = fog;
-}
-void plSpan::addPermaLight(const plKey& light) {
-    fPermaLights.append(light);
-}
-void plSpan::addPermaProj(const plKey& proj) {
-    fPermaProjs.append(proj);
-}
+void plSpan::setFogEnvironment(plKey fog) { fFogEnvironment = fog; }
+void plSpan::clearPermaLights() { fPermaLights.clear(); }
+void plSpan::addPermaLight(plKey light) { fPermaLights.append(light); }
+void plSpan::clearPermaProjs() { fPermaProjs.clear(); }
+void plSpan::addPermaProj(plKey proj) { fPermaProjs.append(proj); }
+void plSpan::setLocalToWorld(hsMatrix44 l2w) { fLocalToWorld = l2w; }
+void plSpan::setWorldToLocal(hsMatrix44 w2l) { fWorldToLocal = w2l; }
+void plSpan::setSubType(unsigned short type) { fSubType = type; }
+void plSpan::setMaterialIdx(unsigned int idx) { fMaterialIdx = idx; }
+void plSpan::setNumMatrices(unsigned char mats) { fNumMatrices = mats; }
+void plSpan::setProps(unsigned int props) { fProps = props; }
+void plSpan::setBaseMatrix(unsigned int mat) { fBaseMatrix = mat; }
+void plSpan::getMaxBoneIdx(unsigned short idx) { fMaxBoneIdx = idx; }
+void plSpan::getPenBoneIdx(unsigned short idx) { fPenBoneIdx = idx; }
+void plSpan::getLocalUVWChans(unsigned short chans) { fLocalUVWChans = chans; }
+void plSpan::getMinDist(float dist) { fMinDist = dist; }
+void plSpan::getMaxDist(float dist) { fMaxDist = dist; }
+void plSpan::getWaterHeight(float height) { fWaterHeight = height; }

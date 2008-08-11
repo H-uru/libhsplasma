@@ -121,7 +121,7 @@ PyMethodDef pyCoordinateInterface_Methods[] = {
       "Removes all children from the Coordinate Interface" },
     { "addChild", (PyCFunction)pyCoordinateInterface_addChild, METH_VARARGS,
       "Params: key\n"
-      "Adds a child CoordInterface to this CoordInterface" },
+      "Adds a child Object to this CoordInterface" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -135,7 +135,7 @@ PyGetSetDef pyCoordinateInterface_GetSet[] = {
     { "parentToLocal", (getter)pyCoordinateInterface_getP2L, (setter)pyCoordinateInterface_setP2L,
       "Parent -> Local transform matrix", NULL },
     { "children", (getter)pyCoordinateInterface_getChildren, (setter)pyCoordinateInterface_setChildren,
-      "Child CoordinateInterfaces", NULL },
+      "Child Objects", NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

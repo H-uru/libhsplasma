@@ -56,10 +56,11 @@ PyMODINIT_FUNC initPyPlasma() {
 
     /* Math */
     PyModule_AddObject(module, "hsVector3", Init_pyVector3_Type());
+    PyModule_AddObject(module, "hsPlane3", Init_pyPlane3_Type());
     PyModule_AddObject(module, "hsMatrix44", Init_pyMatrix44_Type());
 
     /* ResManager */
-    //PyModule_AddObject(module, "plFactory", Init_pyFactory_Type());
+    PyModule_AddObject(module, "plFactory", Init_pyFactory_Type());
     PyModule_AddObject(module, "plResManager", Init_pyResManager_Type());
     PyModule_AddObject(module, "plPageInfo", Init_pyPageInfo_Type());
     PyModule_AddObject(module, "plAgeInfo", Init_pyAgeInfo_Type());

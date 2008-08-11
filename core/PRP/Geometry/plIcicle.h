@@ -24,6 +24,12 @@ public:
     unsigned int getIBufferIdx() const;
     unsigned int getIStartIdx() const;
     unsigned int getILength() const;
+    const plGBufferTriangle* getSortData() const;
+
+    void setIBufferIdx(unsigned int idx);
+    void setIStartIdx(unsigned int idx);
+    void setILength(unsigned int len);
+    void setSortData(const plGBufferTriangle* data);
 };
 
 

@@ -34,6 +34,9 @@ DllStruct hsPlane3 {
     float W;
 
     hsPlane3();
+    hsPlane3(const hsVector3& n, float w);
+    hsPlane3(const hsPlane3& src);
+    hsPlane3& operator=(const hsPlane3& other);
 
     void read(hsStream* S);
     void write(hsStream* S);

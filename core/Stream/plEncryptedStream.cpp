@@ -17,7 +17,11 @@ plEncryptedStream::plEncryptedStream(PlasmaVer pv) {
     eKey[2] = uruKey[2];
     eKey[3] = uruKey[3];
 }
-plEncryptedStream::~plEncryptedStream() { }
+
+plEncryptedStream::~plEncryptedStream() {
+    if (F != NULL)
+        close();
+}
 
 void plEncryptedStream::TeaDecipher(unsigned int* buf) {
     unsigned int second = buf[1], first = buf[0], key = 0xC6EF3720;
@@ -111,6 +115,20 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
     }
 }
 
+void plEncryptedStream::CryptFlush() {
+    if (eType == kEncAES) {
+        AesEncipher(LBuffer, 16);
+        fwrite(LBuffer, 16, 1, F);
+    } else if (eType == kEncDroid) {
+        DroidEncipher((unsigned int*)&LBuffer[0], 2);
+        fwrite(LBuffer, 8, 1, F);
+    } else {
+        TeaEncipher((unsigned int*)&LBuffer[0]);
+        fwrite(LBuffer, 8, 1, F);
+    }
+    memset(LBuffer, 0, 16);
+}
+
 bool plEncryptedStream::IsFileEncrypted(const char* file) {
     FILE* tF = fopen(file, "rb");
     if (tF == NULL) return false;
@@ -194,6 +212,10 @@ bool plEncryptedStream::open(const char* file, FileMode mode, EncryptionType typ
 }
 
 void plEncryptedStream::close() {
+    size_t szInc = (eType == kEncAES ? 16 : 8);
+    if ((dataPos % szInc) != 0)
+        CryptFlush();
+
     if (fm == fmWrite || fm == fmCreate) {
         // Write header info
         fseek(F, 0, SEEK_SET);
@@ -288,24 +310,14 @@ void plEncryptedStream::write(size_t size, const void* buf) {
             memcpy(LBuffer+lp, ((unsigned char*)buf)+bp, szInc - lp);
             bp += szInc - lp;
             pp += szInc - lp;
+            
+            // Flush the buffer
+            CryptFlush();
             lp = 0;
         } else {
             memcpy(LBuffer+lp, ((unsigned char*)buf)+bp, size - bp);
             bp = size; // end loop
-        }
-        if (lp == 0) {
-            // Flush the buffer
-            if (eType == kEncAES) {
-                AesEncipher(LBuffer, 16);
-                fwrite(LBuffer, 16, 1, F);
-            } else if (eType == kEncDroid) {
-                DroidEncipher((unsigned int*)&LBuffer[0], 2);
-                fwrite(LBuffer, 8, 1, F);
-            } else {
-                TeaEncipher((unsigned int*)&LBuffer[0]);
-                fwrite(LBuffer, 8, 1, F);
-            }
-            memset(LBuffer, 0, 16);
+            lp += (size - bp);
         }
     }
 

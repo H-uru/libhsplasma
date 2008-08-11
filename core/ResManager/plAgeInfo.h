@@ -42,7 +42,9 @@ public:
     ~plAgeInfo();
 
     void readFromFile(const plString& filename);
-    void writeToFile(const plString& path, PlasmaVer ver);
+    void writeToFile(const plString& filename, PlasmaVer ver);
+    void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 
     const plString& getAgeName() const;
     unsigned int getStartDateTime() const;

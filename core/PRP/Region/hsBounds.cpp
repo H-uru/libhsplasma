@@ -45,6 +45,7 @@ void hsBounds::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
+int hsBounds::getType() const { return fType; }
 void hsBounds::setType(int type) { fType = type; }
 
 
@@ -87,6 +88,13 @@ void hsBounds3::IPrcParse(const pfPrcTag* tag) {
         hsBounds::IPrcParse(tag);
     }
 }
+
+hsVector3 hsBounds3::getMins() const { return fMins; }
+hsVector3 hsBounds3::getMaxs() const { return fMaxs; }
+hsVector3 hsBounds3::getCenter() const { return fCenter; }
+void hsBounds3::setMins(const hsVector3& mins) { fMins = mins; }
+void hsBounds3::setMaxs(const hsVector3& maxs) { fMaxs = maxs; }
+void hsBounds3::setCenter(const hsVector3& center) { fCenter = center; }
 
 
 /* hsBounds3Ext */
@@ -183,6 +191,18 @@ void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
+unsigned int hsBounds3Ext::getFlags() const { return fExtFlags; }
+hsVector3 hsBounds3Ext::getCorner() const { return fCorner; }
+hsVector3 hsBounds3Ext::getAxis(size_t idx) const { return fAxes[idx]; }
+hsFloatPoint2 hsBounds3Ext::getDist(size_t idx) const { return fDists[idx]; }
+float hsBounds3Ext::getRadius() const { return fRadius; }
+
+void hsBounds3Ext::setFlags(unsigned int flags) { fExtFlags = flags; }
+void hsBounds3Ext::setCorner(const hsVector3& corner) { fCorner = corner; }
+void hsBounds3Ext::setAxis(size_t idx, const hsVector3& ax) { fAxes[idx] = ax; }
+void hsBounds3Ext::setDist(size_t idx, const hsFloatPoint2& dist) { fDists[idx] = dist; }
+void hsBounds3Ext::setRadius(float rad) { fRadius = rad; }
+
 
 /* hsBoundsOriented */
 hsBoundsOriented::hsBoundsOriented() : fCenterValid(0), fPlanes(NULL),
@@ -247,4 +267,21 @@ void hsBoundsOriented::IPrcParse(const pfPrcTag* tag) {
     } else {
         hsBounds::IPrcParse(tag);
     }
+}
+
+unsigned int hsBoundsOriented::getCenterValid() const { return fCenterValid; }
+hsVector3 hsBoundsOriented::getCenter() const { return fCenter; }
+const hsPlane3* hsBoundsOriented::getPlanes() const { return fPlanes; }
+unsigned int hsBoundsOriented::getNumPlanes() const { return fNumPlanes; }
+
+void hsBoundsOriented::setCenterValid(unsigned int valid) { fCenterValid = valid; }
+void hsBoundsOriented::setCenter(const hsVector3& center) { fCenter = center; }
+
+void hsBoundsOriented::setPlanes(unsigned int numPlanes, const hsPlane3* planes) {
+    if (fPlanes != NULL)
+        delete[] fPlanes;
+    fNumPlanes = numPlanes;
+    fPlanes = new hsPlane3[fNumPlanes];
+    for (size_t i=0; i<fNumPlanes; i++)
+        fPlanes[i] = planes[i];
 }

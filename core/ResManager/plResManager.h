@@ -50,10 +50,14 @@ public:
     plPageInfo* ReadPagePrc(const pfPrcTag* root);
     void WritePage(const char* filename, plPageInfo* page);
     void WritePagePrc(pfPrcHelper* prc, plPageInfo* page);
+    plPageInfo* FindPage(const plLocation& loc);
     void UnloadPage(const plLocation& loc);
     
-    plAgeInfo* ReadAge(const char* filename);
+    plAgeInfo* ReadAge(const char* filename, bool readPages);
+    plAgeInfo* ReadAgePrc(const pfPrcTag* root);
     void WriteAge(const char* filename, plAgeInfo* age);
+    void WriteAgePrc(pfPrcHelper* prc, plAgeInfo* age);
+    plAgeInfo* FindAge(const plString& name);
     void UnloadAge(const plString& name);
 
     class plCreatable* ReadCreatable(hsStream* S, bool canStub = false, int stubLen = 0);

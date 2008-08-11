@@ -340,6 +340,14 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Region"
+				>
+				<File
+					RelativePath=".\PRP\Region\pyBounds.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Math"
@@ -354,6 +362,10 @@
 			</File>
 			<File
 				RelativePath=".\Math\pyMatrix44.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\pyPlane3.cpp"
 				>
 			</File>
 			<File

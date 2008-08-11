@@ -20,6 +20,7 @@ protected:
     void AesEncipher(unsigned char* buffer, int count);
     void DroidDecipher(unsigned int* buf, unsigned int num);
     void DroidEncipher(unsigned int* buf, unsigned int num);
+    void CryptFlush();
 
 public:
     plEncryptedStream(PlasmaVer pv = pvUnknown);

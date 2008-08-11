@@ -20,6 +20,7 @@ public:
     void prcParse(const pfPrcTag* tag);
     virtual void IPrcParse(const pfPrcTag* tag);
 
+    int getType() const;
     void setType(int type);
 };
 
@@ -43,6 +44,13 @@ public:
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+
+    hsVector3 getMins() const;
+    hsVector3 getMaxs() const;
+    hsVector3 getCenter() const;
+    void setMins(const hsVector3& mins);
+    void setMaxs(const hsVector3& maxs);
+    void setCenter(const hsVector3& center);
 };
 
 DllClass hsBounds3Ext : public hsBounds3 {
@@ -75,6 +83,18 @@ public:
     virtual void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+
+    unsigned int getFlags() const;
+    hsVector3 getCorner() const;
+    hsVector3 getAxis(size_t idx) const;
+    hsFloatPoint2 getDist(size_t idx) const;
+    float getRadius() const;
+
+    void setFlags(unsigned int flags);
+    void setCorner(const hsVector3& corner);
+    void setAxis(size_t idx, const hsVector3& ax);
+    void setDist(size_t idx, const hsFloatPoint2& dist);
+    void setRadius(float rad);
 };
 
 DllClass hsBoundsOriented : public hsBounds {
@@ -94,6 +114,15 @@ public:
     void write(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+
+    unsigned int getCenterValid() const;
+    hsVector3 getCenter() const;
+    const hsPlane3* getPlanes() const;
+    unsigned int getNumPlanes() const;
+
+    void setCenterValid(unsigned int valid);
+    void setCenter(const hsVector3& center);
+    void setPlanes(unsigned int numPlanes, const hsPlane3* planes);
 };
 
 #endif

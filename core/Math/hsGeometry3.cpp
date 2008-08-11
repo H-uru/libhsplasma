@@ -85,6 +85,14 @@ hsVector3 hsVector3::crossP(const hsVector3& other) const {
 
 /* hsPlane3 */
 hsPlane3::hsPlane3() : W(0.0f) { }
+hsPlane3::hsPlane3(const hsVector3& n, float w) : N(n), W(w) { }
+hsPlane3::hsPlane3(const hsPlane3& src) : N(src.N), W(src.W) { }
+
+hsPlane3& hsPlane3::operator=(const hsPlane3& other) {
+    N = other.N;
+    W = other.W;
+    return *this;
+}
 
 void hsPlane3::read(hsStream* S) {
     N.read(S);

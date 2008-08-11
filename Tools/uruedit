@@ -8,6 +8,6 @@ PlasmaCrypt decrypt -quiet $TMPFILE
 
 $EDITOR $TMPFILE $@
 
-PlasmaCrypt encrypt xtea -quiet $TMPFILE
+PlasmaCrypt xtea -quiet $TMPFILE
 cp $TMPFILE $FILE
 

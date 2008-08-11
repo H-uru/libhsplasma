@@ -79,19 +79,18 @@ static int pySynchedObject_setFlags(pySynchedObject* self, PyObject* value, void
 }
 
 static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, void*) {
-    PyObject* list;
     if (value == NULL) {
         self->fThis->getExcludes().clear();
         return 0;
-    } else if (PyList_Check(list)) {
+    } else if (PyList_Check(value)) {
         hsTArray<plString> states;
-        states.setSize(PyList_Size(list));
+        states.setSize(PyList_Size(value));
         for (size_t i=0; i<states.getSize(); i++) {
-            if (!PyString_Check(PyList_GetItem(list, i))) {
+            if (!PyString_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
                 return -1;
             }
-            states[i] = PyString_AsString(PyList_GetItem(list, i));
+            states[i] = PyString_AsString(PyList_GetItem(value, i));
         }
         self->fThis->getExcludes() = states;
         return 0;
@@ -102,19 +101,18 @@ static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, v
 }
 
 static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, void*) {
-    PyObject* list;
     if (value == NULL) {
         self->fThis->getVolatiles().clear();
         return 0;
-    } else if (PyList_Check(list)) {
+    } else if (PyList_Check(value)) {
         hsTArray<plString> states;
-        states.setSize(PyList_Size(list));
+        states.setSize(PyList_Size(value));
         for (size_t i=0; i<states.getSize(); i++) {
-            if (!PyString_Check(PyList_GetItem(list, i))) {
+            if (!PyString_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
                 return -1;
             }
-            states[i] = PyString_AsString(PyList_GetItem(list, i));
+            states[i] = PyString_AsString(PyList_GetItem(value, i));
         }
         self->fThis->getVolatiles() = states;
         return 0;

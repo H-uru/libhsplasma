@@ -24,8 +24,14 @@ void plAgeInfo::readFromFile(const plString& filename) {
     for (size_t i=0; i<kNumCommonPages; i++)
         addPage(PageEntry(kCommonPages[i], (-1) - i, 0));
 
-    plEncryptedStream* S = new plEncryptedStream();
-    S->open(filename, fmRead, plEncryptedStream::kEncAuto);
+    hsStream* S;
+    if (plEncryptedStream::IsFileEncrypted(filename)) {
+        S = new plEncryptedStream();
+        ((plEncryptedStream*)S)->open(filename, fmRead, plEncryptedStream::kEncAuto);
+    } else {
+        S = new hsFileStream();
+        ((hsFileStream*)S)->open(filename, fmRead);
+    }
 
     while (!S->eof()) {
         plString ln = S->readLine();
@@ -58,12 +64,7 @@ void plAgeInfo::readFromFile(const plString& filename) {
     delete S;
 }
 
-void plAgeInfo::writeToFile(const plString& path, PlasmaVer ver) {
-    plString filename = path;
-    if (filename[filename.len()-1] != PATHSEP)
-        filename += PATHSEP;
-    filename += fName + ".age";
-    
+void plAgeInfo::writeToFile(const plString& filename, PlasmaVer ver) {
     plEncryptedStream* S = new plEncryptedStream();
     plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
     if (ver >= pvEoa)
@@ -72,26 +73,89 @@ void plAgeInfo::writeToFile(const plString& path, PlasmaVer ver) {
         eType = plEncryptedStream::kEncXtea;
     S->open(filename, fmCreate, eType);
 
-    S->writeLine(plString::Format("StartDateTime=%010u", fStartDateTime));
-    S->writeLine(plString::Format("DayLength=%f", fDayLength));
-    S->writeLine(plString::Format("MaxCapacity=%hd", fMaxCapacity));
-    S->writeLine(plString::Format("LingerTime=%hd", fLingerTime));
-    S->writeLine(plString::Format("SequencePrefix=%d", fSeqPrefix));
-    S->writeLine(plString::Format("ReleaseVersion=%u", fReleaseVersion));
+    S->writeLine(plString::Format("StartDateTime=%010u", fStartDateTime), true);
+    S->writeLine(plString::Format("DayLength=%f", fDayLength), true);
+    S->writeLine(plString::Format("MaxCapacity=%hd", fMaxCapacity), true);
+    S->writeLine(plString::Format("LingerTime=%hd", fLingerTime), true);
+    S->writeLine(plString::Format("SequencePrefix=%d", fSeqPrefix), true);
+    S->writeLine(plString::Format("ReleaseVersion=%u", fReleaseVersion), true);
 
     for (size_t i=0; i<fPages.getSize(); i++) {
         if (fPages[i].fLoadFlags != 0)
             S->writeLine(plString::Format("Page=%s,%d,%d",
                          fPages[i].fName.cstr(),
                          fPages[i].fSeqSuffix,
-                         fPages[i].fLoadFlags));
+                         fPages[i].fLoadFlags), true);
         else
             S->writeLine(plString::Format("Page=%s,%d",
                          fPages[i].fName.cstr(),
-                         fPages[i].fSeqSuffix));
+                         fPages[i].fSeqSuffix), true);
     }
 
     delete S;
+}
+
+void plAgeInfo::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("Age");
+    prc->writeParam("Name", fName);
+    prc->endTag();
+
+    prc->startTag("AgeParams");
+    prc->writeParam("StartDateTime", fStartDateTime);
+    prc->writeParam("DayLength", fDayLength);
+    prc->writeParam("MaxCapacity", fMaxCapacity);
+    prc->writeParam("LingerTime", fLingerTime);
+    prc->writeParam("SeqPrefix", fSeqPrefix);
+    prc->writeParam("ReleaseVersion", fReleaseVersion);
+    prc->endTag(true);
+
+    prc->writeSimpleTag("Pages");
+    for (size_t i=0; i<fPages.getSize(); i++) {
+        prc->startTag("Page");
+        prc->writeParam("AgeName", fName);
+        prc->writeParam("PageName", fPages[i].fName);
+        plLocation loc;
+        loc.setSeqPrefix(fSeqPrefix);
+        loc.setPageNum(fPages[i].fSeqSuffix);
+        loc.setFlags(fPages[i].fLoadFlags);
+        loc.prcWrite(prc);
+        prc->endTag(true);
+    }
+    prc->closeTag();
+
+    prc->closeTag();
+}
+
+void plAgeInfo::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "Age")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+    fName = tag->getParam("Name", "");
+    
+    const pfPrcTag* child = tag->getFirstChild();
+    while (child != NULL) {
+        if (child->getName() == "AgeParams") {
+            fStartDateTime = child->getParam("StartDateTime", "0").toUint();
+            fDayLength = child->getParam("DayLength", "0").toFloat();
+            fMaxCapacity = child->getParam("MaxCapacity", "0").toInt();
+            fLingerTime = child->getParam("LingerTime", "0").toInt();
+            fSeqPrefix = child->getParam("SeqPrefix", "0").toInt();
+            fReleaseVersion = child->getParam("ReleaseVersion", "0").toUint();
+        } else if (child->getName() == "Pages") {
+            fPages.setSize(child->countChildren());
+            const pfPrcTag* page = child->getFirstChild();
+            for (size_t i=0; i<fPages.getSize(); i++) {
+                plLocation loc;
+                loc.prcParse(page);
+                fPages[i].fName = page->getParam("PageName", "");
+                fPages[i].fSeqSuffix = loc.getPageNum();
+                fPages[i].fLoadFlags = loc.getFlags();
+                page = page->getNextSibling();
+            }
+        } else {
+            throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+        }
+        child = child->getNextSibling();
+    }
 }
 
 const plString& plAgeInfo::getAgeName() const { return fName; }

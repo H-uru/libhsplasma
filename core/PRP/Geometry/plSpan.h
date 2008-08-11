@@ -40,7 +40,7 @@ public:
         kSpan = 0x0,
         kVertexSpan = 0x1,
         kIcicleSpan = 0x2,
-        kNullSpan = 0x4,    // Don't actually know what this one is
+        kNullSpan = 0x4,
         kParticleSpan = 0x8,
         kParticleSet = 0x10
     };
@@ -73,20 +73,43 @@ public:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
-    const plKey& getFogEnvironment() const;
+    plKey getFogEnvironment() const;
     const hsTArray<plKey>& getPermaLights() const;
     const hsTArray<plKey>& getPermaProjs() const;
-    unsigned short getTypeMask() const;
+    hsMatrix44 getLocalToWorld() const;
+    hsMatrix44 getWorldToLocal() const;
+    unsigned short getSubType() const;
     unsigned int getMaterialIdx() const;
     unsigned char getNumMatrices() const;
     unsigned int getProps() const;
+    unsigned int getBaseMatrix() const;
+    unsigned short getMaxBoneIdx() const;
+    unsigned short getPenBoneIdx() const;
+    unsigned short getLocalUVWChans() const;
+    float getMinDist() const;
+    float getMaxDist() const;
+    float getWaterHeight() const;
+    hsBounds3Ext& getLocalBounds();
+    hsBounds3Ext& getWorldBounds();
 
-    hsMatrix44 getLocalToWorld() const;
-    hsMatrix44 getWorldToLocal() const;
-
-    void setFogEnvironment(const plKey& fog);
-    void addPermaLight(const plKey& light);
-    void addPermaProj(const plKey& proj);
+    void setFogEnvironment(plKey fog);
+    void clearPermaLights();
+    void addPermaLight(plKey light);
+    void clearPermaProjs();
+    void addPermaProj(plKey proj);
+    void setLocalToWorld(hsMatrix44 l2w);
+    void setWorldToLocal(hsMatrix44 w2l);
+    void setSubType(unsigned short type);
+    void setMaterialIdx(unsigned int idx);
+    void setNumMatrices(unsigned char mats);
+    void setProps(unsigned int props);
+    void setBaseMatrix(unsigned int mat);
+    void getMaxBoneIdx(unsigned short idx);
+    void getPenBoneIdx(unsigned short idx);
+    void getLocalUVWChans(unsigned short chans);
+    void getMinDist(float dist);
+    void getMaxDist(float dist);
+    void getWaterHeight(float height);
 };
 
 #endif

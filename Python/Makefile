@@ -7,6 +7,7 @@ OBJDIR=out/
 PYOBJ=\
 	$(OBJDIR)Module.o \
 	$(OBJDIR)pyMatrix44.o \
+	$(OBJDIR)pyPlane3.o \
 	$(OBJDIR)pyVector3.o \
 	$(OBJDIR)pyCreatable.o \
 	$(OBJDIR)pyCreatableStub.o \
@@ -50,6 +51,9 @@ $(OBJDIR)Module.o: Module.cpp
 
 $(OBJDIR)pyMatrix44.o: Math/pyMatrix44.cpp
 	$(CXX) $(CXXFLAGS) -c Math/pyMatrix44.cpp -o $(OBJDIR)pyMatrix44.o
+
+$(OBJDIR)pyPlane3.o: Math/pyPlane3.cpp
+	$(CXX) $(CXXFLAGS) -c Math/pyPlane3.cpp -o $(OBJDIR)pyPlane3.o
 
 $(OBJDIR)pyVector3.o: Math/pyVector3.cpp
 	$(CXX) $(CXXFLAGS) -c Math/pyVector3.cpp -o $(OBJDIR)pyVector3.o

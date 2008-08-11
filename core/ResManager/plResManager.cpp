@@ -108,7 +108,7 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
     hsFileStream* S = new hsFileStream();
     if (!S->open(filename, fmRead))
         throw hsFileReadException(__FILE__, __LINE__, filename);
-    plPageInfo* page = new plPageInfo;
+    plPageInfo* page = new plPageInfo();
     page->read(S);
     pages.push_back(page);
     setVer(S->getVer(), true);
@@ -122,7 +122,7 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
 }
 
 plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root) {
-    plPageInfo* page = new plPageInfo;
+    plPageInfo* page = new plPageInfo();
     page->prcParse(root);
 
     const pfPrcTag* tag = root->getFirstChild();
@@ -176,18 +176,37 @@ void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page) {
     prc->closeTag();
 }
 
+plPageInfo* plResManager::FindPage(const plLocation& loc) {
+    std::vector<plPageInfo*>::iterator pi = pages.begin();
+    while (pi != pages.end()) {
+        if ((*pi)->getLocation() == loc)
+            return *pi;
+        pi++;
+    }
+    return NULL;
+}
+
 void plResManager::UnloadPage(const plLocation& loc) {
     keys.delAll(loc);
     DelPage(loc);
 }
 
-plAgeInfo* plResManager::ReadAge(const char* filename) {
+plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
     plAgeInfo* age = new plAgeInfo();
     age->readFromFile(filename);
     
-    for (size_t i=0; i<age->getNumPages(); i++)
-        ReadPage(age->getPageFilename(i, getVer()));
+    if (readPages) {
+        for (size_t i=0; i<age->getNumPages(); i++)
+            ReadPage(age->getPageFilename(i, getVer()));
+    }
 
+    ages.push_back(age);
+    return age;
+}
+
+plAgeInfo* plResManager::ReadAgePrc(const pfPrcTag* root) {
+    plAgeInfo* age = new plAgeInfo();
+    age->prcParse(root);
     ages.push_back(age);
     return age;
 }
@@ -197,9 +216,22 @@ void plResManager::WriteAge(const char* filename, plAgeInfo* age) {
     plString ageName = path.afterLast(PATHSEP);
     if (!ageName.beforeLast('.').empty())
         ageName = ageName.beforeLast('.');
-    path = path.beforeLast(PATHSEP);
     age->setAgeName(ageName);
     age->writeToFile(path, getVer());
+}
+
+void plResManager::WriteAgePrc(pfPrcHelper* prc, plAgeInfo* age) {
+    age->prcWrite(prc);
+}
+
+plAgeInfo* plResManager::FindAge(const plString& name) {
+    std::vector<plAgeInfo*>::iterator ai = ages.begin();
+    while (ai != ages.end()) {
+        if ((*ai)->getAgeName() == name)
+            return *ai;
+        ai++;
+    }
+    return NULL;
 }
 
 void plResManager::UnloadAge(const plString& name) {

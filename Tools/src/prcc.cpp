@@ -15,7 +15,6 @@ void doHelp(const char* exename) {
 
 int main(int argc, char* argv[]) {
     plString inputFile, outputFile;
-    bool objOnly = false;
     PlasmaVer outVer = pvUnknown;
 
     if (argc == 1) {
@@ -24,9 +23,7 @@ int main(int argc, char* argv[]) {
     }
 
     for (int i=1; i<argc; i++) {
-        if (strcmp(argv[i], "-c") == 0 || strcmp(argv[i], "--creatable") == 0) {
-            objOnly = true;
-        } else if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--out") == 0) {
+        if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--out") == 0) {
             outputFile = argv[++i];
         } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--ver") == 0) {
             plString ver = argv[++i];
@@ -52,8 +49,6 @@ int main(int argc, char* argv[]) {
                 fprintf(stderr, "Warning: ignoring extra parameter %s\n", argv[i]);
         }
     }
-    if (outputFile.empty())
-        outputFile = objOnly ? "a.po" : "a.prp";
     if (outVer == pvUnknown) {
         fprintf(stderr, "Warning: Unspecified version.  Defaulting to PotS\n");
         outVer = pvPots;
@@ -71,7 +66,19 @@ int main(int argc, char* argv[]) {
     try {
         prc.read(&S);
         const pfPrcTag* root = prc.getRoot();
-        if (objOnly) {
+        if (root->getName() == "Page") {
+            if (outputFile.empty())
+                outputFile = "out.prp";
+            plPageInfo* page = rm.ReadPagePrc(root);
+            rm.WritePage(outputFile, page);
+        } else if (root->getName() == "Age") {
+            if (outputFile.empty())
+                outputFile = "out.age";
+            plAgeInfo* age = rm.ReadAgePrc(root);
+            rm.WriteAge(outputFile, age);
+        } else {
+            if (outputFile.empty())
+                outputFile = "out.po";
             plCreatable* cre = rm.prcParseCreatable(root);
             if (cre != NULL) {
                 hsFileStream out;
@@ -79,9 +86,6 @@ int main(int argc, char* argv[]) {
                 out.open(outputFile, fmCreate);
                 rm.WriteCreatable(&out, cre);
             }
-        } else {
-            plPageInfo* page = rm.ReadPagePrc(root);
-            rm.WritePage(outputFile, page);
         }
     } catch (hsException& e) {
         fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());

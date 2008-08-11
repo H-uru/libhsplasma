@@ -65,3 +65,10 @@ unsigned int plVertexSpan::getCellIdx() const { return fCellIdx; }
 unsigned int plVertexSpan::getCellOffset() const { return fCellOffset; }
 unsigned int plVertexSpan::getVStartIdx() const { return fVStartIdx; }
 unsigned int plVertexSpan::getVLength() const { return fVLength; }
+
+void plVertexSpan::setGroupIdx(unsigned int idx) { fGroupIdx = idx; }
+void plVertexSpan::setVBufferIdx(unsigned int idx) { fVBufferIdx = idx; }
+void plVertexSpan::setCellIdx(unsigned int idx) { fCellIdx = idx; }
+void plVertexSpan::setCellOffset(unsigned int off) { fCellOffset = off; }
+void plVertexSpan::setVStartIdx(unsigned int idx) { fVStartIdx = idx; }
+void plVertexSpan::setVLength(unsigned int len) { fVLength = len; }
