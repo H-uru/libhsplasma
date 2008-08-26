@@ -17,10 +17,8 @@ static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
     static char* kwlist2[] = { "Plane", NULL };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "ffff", kwlist, &x, &y, &z, &w)) {
-        PyErr_Clear();
         (*self->fThis) = hsPlane3(hsVector3(x, y, z), w);
-    } else if (PyArg_ParseTupleAndKeywords(args, kwds, "|O", kwlist2, &init)) {
-        PyErr_Clear();
+    } else if (PyErr_Clear(), PyArg_ParseTupleAndKeywords(args, kwds, "|O", kwlist2, &init)) {
         if (init == NULL) {
             (*self->fThis) = hsPlane3();
             return 0;

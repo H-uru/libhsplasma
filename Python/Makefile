@@ -8,6 +8,7 @@ PYOBJ=\
 	$(OBJDIR)Module.o \
 	$(OBJDIR)pyMatrix44.o \
 	$(OBJDIR)pyPlane3.o \
+	$(OBJDIR)pyQuat.o \
 	$(OBJDIR)pyVector3.o \
 	$(OBJDIR)pyCreatable.o \
 	$(OBJDIR)pyCreatableStub.o \
@@ -22,6 +23,10 @@ PYOBJ=\
 	$(OBJDIR)pySceneObject.o \
 	$(OBJDIR)pySimulationInterface.o \
 	$(OBJDIR)pySynchedObject.o \
+	$(OBJDIR)pyBounds.o \
+	$(OBJDIR)pyBounds3.o \
+	$(OBJDIR)pyBounds3Ext.o \
+	$(OBJDIR)pyBoundsOriented.o \
 	$(OBJDIR)pyAgeInfo.o \
 	$(OBJDIR)pyFactory.o \
 	$(OBJDIR)pyResManager.o \
@@ -31,7 +36,7 @@ PYOBJ=\
 	$(OBJDIR)pyStream.o \
 	$(OBJDIR)pyColor32.o \
 	$(OBJDIR)pyColorRGBA.o \
-	$(OBJDIR)pyBitVector.o \
+	$(OBJDIR)pyBitVector.o
 
 PYLIB=PyPlasma.so
 
@@ -54,6 +59,9 @@ $(OBJDIR)pyMatrix44.o: Math/pyMatrix44.cpp
 
 $(OBJDIR)pyPlane3.o: Math/pyPlane3.cpp
 	$(CXX) $(CXXFLAGS) -c Math/pyPlane3.cpp -o $(OBJDIR)pyPlane3.o
+
+$(OBJDIR)pyQuat.o: Math/pyQuat.cpp
+	$(CXX) $(CXXFLAGS) -c Math/pyQuat.cpp -o $(OBJDIR)pyQuat.o
 
 $(OBJDIR)pyVector3.o: Math/pyVector3.cpp
 	$(CXX) $(CXXFLAGS) -c Math/pyVector3.cpp -o $(OBJDIR)pyVector3.o
@@ -96,6 +104,18 @@ $(OBJDIR)pySimulationInterface.o: PRP/Object/pySimulationInterface.cpp
 
 $(OBJDIR)pySynchedObject.o: PRP/Object/pySynchedObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/pySynchedObject.cpp -o $(OBJDIR)pySynchedObject.o
+
+$(OBJDIR)pyBounds.o: PRP/Region/pyBounds.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds.cpp -o $(OBJDIR)pyBounds.o
+
+$(OBJDIR)pyBounds3.o: PRP/Region/pyBounds3.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds3.cpp -o $(OBJDIR)pyBounds3.o
+
+$(OBJDIR)pyBounds3Ext.o: PRP/Region/pyBounds3Ext.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds3Ext.cpp -o $(OBJDIR)pyBounds3Ext.o
+
+$(OBJDIR)pyBoundsOriented.o: PRP/Region/pyBoundsOriented.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBoundsOriented.cpp -o $(OBJDIR)pyBoundsOriented.o
 
 $(OBJDIR)pyAgeInfo.o: ResManager/pyAgeInfo.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/pyAgeInfo.cpp -o $(OBJDIR)pyAgeInfo.o

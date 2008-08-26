@@ -16,6 +16,7 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Region/pyBounds.h"
 
 static PyMethodDef PyPlasma_Methods[] = {
     { NULL, NULL, 0, NULL }
@@ -58,12 +59,19 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "hsVector3", Init_pyVector3_Type());
     PyModule_AddObject(module, "hsPlane3", Init_pyPlane3_Type());
     PyModule_AddObject(module, "hsMatrix44", Init_pyMatrix44_Type());
+    PyModule_AddObject(module, "hsQuat", Init_pyQuat_Type());
 
     /* ResManager */
     PyModule_AddObject(module, "plFactory", Init_pyFactory_Type());
     PyModule_AddObject(module, "plResManager", Init_pyResManager_Type());
     PyModule_AddObject(module, "plPageInfo", Init_pyPageInfo_Type());
     PyModule_AddObject(module, "plAgeInfo", Init_pyAgeInfo_Type());
+
+    /* pyBounds */
+    PyModule_AddObject(module, "hsBounds", Init_pyBounds_Type());
+    PyModule_AddObject(module, "hsBounds3", Init_pyBounds3_Type());
+    PyModule_AddObject(module, "hsBounds3Ext", Init_pyBounds3Ext_Type());
+    PyModule_AddObject(module, "hsBoundsOriented", Init_pyBoundsOriented_Type());
 
     /* pyKey */
     PyModule_AddObject(module, "plKey", Init_pyKey_Type());

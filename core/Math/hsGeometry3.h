@@ -46,6 +46,8 @@ DllStruct hsPlane3 {
 
 DllStruct hsFloatPoint2 {
     float X, Y;
+
+    hsFloatPoint2();
 };
 
 #endif

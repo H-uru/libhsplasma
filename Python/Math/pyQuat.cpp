@@ -1,32 +1,42 @@
 #include <Python.h>
 #include <Math/hsGeometry3.h>
+#include <Math/hsQuat.h>
 #include "pyGeometry3.h"
 #include "../Stream/pyStream.h"
 
 extern "C" {
 
-static void pyVector3_dealloc(pyVector3* self) {
+static void pyQuat_dealloc(pyQuat* self) {
     delete self->fThis;
     self->ob_type->tp_free((PyObject*)self);
 }
 
-static int pyVector3___init__(pyVector3* self, PyObject* args, PyObject* kwds) {
-    float x = 0.0f, y = 0.0f, z = 0.0f;
+static int pyQuat___init__(pyQuat* self, PyObject* args, PyObject* kwds) {
+    float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
     PyObject* init = NULL;
-    static char* kwlist[] = { "X", "Y", "Z", NULL };
-    static char* kwlist2[] = { "vector", NULL };
+    static char* kwlist[] = { "X", "Y", "Z", "W", NULL };
+    static char* kwlist2[] = { "quat", NULL };
+    static char* kwlist3[] = { "angle", "axis", NULL };
 
-    if (PyArg_ParseTupleAndKeywords(args, kwds, "fff", kwlist, &x, &y, &z)) {
-        (*self->fThis) = hsVector3(x, y, z);
+    if (PyArg_ParseTupleAndKeywords(args, kwds, "ffff", kwlist, &x, &y, &z, &w)) {
+        (*self->fThis) = hsQuat(x, y, z, w);
+    } else if (PyErr_Clear(), PyArg_ParseTupleAndKeywords(args, kwds, "fO", kwlist3, &w, &init)) {
+        if (pyVector3_Check(init)) {
+            (*self->fThis) = hsQuat(w, *((pyVector3*)init)->fThis);
+            return 0;
+        } else {
+            PyErr_SetString(PyExc_TypeError, "__init__ expects a quaternion or an angle and axis");
+            return -1;
+        }
     } else if (PyErr_Clear(), PyArg_ParseTupleAndKeywords(args, kwds, "|O", kwlist2, &init)) {
         if (init == NULL) {
-            (*self->fThis) = hsVector3();
+            (*self->fThis) = hsQuat();
             return 0;
         }
-        if (pyVector3_Check(init)) {
-            (*self->fThis) = (*((pyVector3*)init)->fThis);
+        if (pyQuat_Check(init)) {
+            (*self->fThis) = (*((pyQuat*)init)->fThis);
         } else {
-            PyErr_SetString(PyExc_TypeError, "__init__ expects a vector");
+            PyErr_SetString(PyExc_TypeError, "__init__ expects a quaternion or an angle and axis");
             return -1;
         }
     } else {
@@ -36,49 +46,48 @@ static int pyVector3___init__(pyVector3* self, PyObject* args, PyObject* kwds) {
     return 0;
 }
 
-static PyObject* pyVector3_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyVector3* self = (pyVector3*)type->tp_alloc(type, 0);
+static PyObject* pyQuat_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyQuat* self = (pyQuat*)type->tp_alloc(type, 0);
     if (self != NULL)
-        self->fThis = new hsVector3();
+        self->fThis = new hsQuat();
     return (PyObject*)self;
 }
 
-static PyObject* pyVector3_Repr(pyVector3* self) {
-    plString repr = plString::Format("hsVector3(%f, %f, %f)",
-             self->fThis->X, self->fThis->Y, self->fThis->Z);
+static PyObject* pyQuat_Repr(pyQuat* self) {
+    plString repr = plString::Format("hsQuat(%f, %f, %f, %f)",
+             self->fThis->X, self->fThis->Y, self->fThis->Z, self->fThis->W);
     return PyString_FromString(repr.cstr());
 }
 
-static PyObject* pyVector3_add(PyObject* left, PyObject* right) {
-    if (!pyVector3_Check(left) || !pyVector3_Check(right)) {
+static PyObject* pyQuat_add(PyObject* left, PyObject* right) {
+    if (!pyQuat_Check(left) || !pyQuat_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
     }
-    return pyVector3_FromVector3(*((pyVector3*)left)->fThis + *((pyVector3*)right)->fThis);
+    return pyQuat_FromQuat(*((pyQuat*)left)->fThis + *((pyQuat*)right)->fThis);
 }
 
-static PyObject* pyVector3_subtract(PyObject* left, PyObject* right) {
-    if (!pyVector3_Check(left) || !pyVector3_Check(right)) {
+static PyObject* pyQuat_subtract(PyObject* left, PyObject* right) {
+    if (!pyQuat_Check(left) || !pyQuat_Check(right)) {
         PyErr_SetString(PyExc_TypeError, "Incompatible Types");
         return NULL;
     }
-    return pyVector3_FromVector3(*((pyVector3*)left)->fThis - *((pyVector3*)right)->fThis);
+    return pyQuat_FromQuat(*((pyQuat*)left)->fThis - *((pyQuat*)right)->fThis);
 }
 
-static PyObject* pyVector3_multiply(PyObject* left, PyObject* right) {
-    if (pyVector3_Check(left)) {
-        if (pyVector3_Check(right)) {
-            PyErr_SetString(PyExc_TypeError, "Vector Multiplication should use dotP and crossP");
-            return NULL;
+static PyObject* pyQuat_multiply(PyObject* left, PyObject* right) {
+    if (pyQuat_Check(left)) {
+        if (pyQuat_Check(right)) {
+            return pyQuat_FromQuat(*((pyQuat*)left)->fThis * *((pyQuat*)right)->fThis);
         } else if (PyFloat_Check(right)) {
-            return pyVector3_FromVector3(*((pyVector3*)left)->fThis * PyFloat_AsDouble(right));
+            return pyQuat_FromQuat(*((pyQuat*)left)->fThis * PyFloat_AsDouble(right));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
             return NULL;
         }
-    } else if (pyVector3_Check(right)) {
+    } else if (pyQuat_Check(right)) {
         if (PyFloat_Check(left)) {
-            return pyVector3_FromVector3(*((pyVector3*)right)->fThis * PyFloat_AsDouble(left));
+            return pyQuat_FromQuat(*((pyQuat*)right)->fThis * PyFloat_AsDouble(left));
         } else {
             PyErr_SetString(PyExc_TypeError, "Incompatible Types");
             return NULL;
@@ -89,58 +98,37 @@ static PyObject* pyVector3_multiply(PyObject* left, PyObject* right) {
     }
 }
 
-static PyObject* pyVector3_negative(pyVector3* self) {
-    return pyVector3_FromVector3(hsVector3(-(self->fThis->X), -(self->fThis->Y),
-                                           -(self->fThis->Z)));
+static PyObject* pyQuat_negative(pyQuat* self) {
+    return pyQuat_FromQuat(hsQuat(-(self->fThis->X), -(self->fThis->Y),
+                                  -(self->fThis->Z), -(self->fThis->W)));
 }
 
-static PyObject* pyVector3_positive(pyVector3* self) {
-    return pyVector3_FromVector3(hsVector3(+(self->fThis->X), +(self->fThis->Y),
-                                           +(self->fThis->Z)));
+static PyObject* pyQuat_positive(pyQuat* self) {
+    return pyQuat_FromQuat(hsQuat(+(self->fThis->X), +(self->fThis->Y),
+                                  +(self->fThis->Z), +(self->fThis->W)));
 }
 
-static PyObject* pyVector3_absolute(pyVector3* self) {
-    return pyVector3_FromVector3(hsVector3(fabs(self->fThis->X),
-                                           fabs(self->fThis->Y),
-                                           fabs(self->fThis->Z)));
+static PyObject* pyQuat_absolute(pyQuat* self) {
+    return pyQuat_FromQuat(hsQuat(fabs(self->fThis->X),
+                                  fabs(self->fThis->Y),
+                                  fabs(self->fThis->Z),
+                                  fabs(self->fThis->W)));
 }
 
-static int pyVector3_nonzero(pyVector3* self) {
+static int pyQuat_nonzero(pyQuat* self) {
     return (self->fThis->X != 0.0f) || (self->fThis->Y != 0.0f)
-        || (self->fThis->Z != 0.0f);
+        || (self->fThis->Z != 0.0f) || (self->fThis->W != 0.0f);
 }
 
-static PyObject* pyVector3_magnitude(pyVector3* self) {
-    return PyFloat_FromDouble(self->fThis->magnitude());
+static PyObject* pyQuat_Identity(PyObject*) {
+    return pyQuat_FromQuat(hsQuat::Identity());
 }
 
-static PyObject* pyVector3_dotP(pyVector3* self, PyObject* args) {
-    pyVector3* vec;
-    if (!PyArg_ParseTuple(args, "O", &vec)) {
-        PyErr_SetString(PyExc_TypeError, "dotP expects an hsVector3");
-        return NULL;
-    }
-    if (!pyVector3_Check((PyObject*)vec)) {
-        PyErr_SetString(PyExc_TypeError, "dotP expects an hsVector3");
-        return NULL;
-    }
-    return PyFloat_FromDouble(self->fThis->dotP(*vec->fThis));
+static PyObject* pyQuat_conjugate(pyQuat* self) {
+    return pyQuat_FromQuat(self->fThis->conjugate());
 }
 
-static PyObject* pyVector3_crossP(pyVector3* self, PyObject* args) {
-    pyVector3* vec;
-    if (!PyArg_ParseTuple(args, "O", &vec)) {
-        PyErr_SetString(PyExc_TypeError, "crossP expects an hsVector3");
-        return NULL;
-    }
-    if (!pyVector3_Check((PyObject*)vec)) {
-        PyErr_SetString(PyExc_TypeError, "crossP expects an hsVector3");
-        return NULL;
-    }
-    return pyVector3_FromVector3(self->fThis->crossP(*vec->fThis));
-}
-
-static PyObject* pyVector3_read(pyVector3* self, PyObject* args) {
+static PyObject* pyQuat_read(pyQuat* self, PyObject* args) {
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "read expects a hsStream");
@@ -155,7 +143,7 @@ static PyObject* pyVector3_read(pyVector3* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyVector3_write(pyVector3* self, PyObject* args) {
+static PyObject* pyQuat_write(pyQuat* self, PyObject* args) {
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
         PyErr_SetString(PyExc_TypeError, "write expects a hsStream");
@@ -170,19 +158,23 @@ static PyObject* pyVector3_write(pyVector3* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyVector3_getX(pyVector3* self, void*) {
+static PyObject* pyQuat_getX(pyQuat* self, void*) {
     return PyFloat_FromDouble(self->fThis->X);
 }
 
-static PyObject* pyVector3_getY(pyVector3* self, void*) {
+static PyObject* pyQuat_getY(pyQuat* self, void*) {
     return PyFloat_FromDouble(self->fThis->Y);
 }
 
-static PyObject* pyVector3_getZ(pyVector3* self, void*) {
+static PyObject* pyQuat_getZ(pyQuat* self, void*) {
     return PyFloat_FromDouble(self->fThis->Z);
 }
 
-static int pyVector3_setX(pyVector3* self, PyObject* value, void*) {
+static PyObject* pyQuat_getW(pyQuat* self, void*) {
+    return PyFloat_FromDouble(self->fThis->W);
+}
+
+static int pyQuat_setX(pyQuat* self, PyObject* value, void*) {
     if (!PyFloat_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "X needs to be a float");
         return -1;
@@ -191,7 +183,7 @@ static int pyVector3_setX(pyVector3* self, PyObject* value, void*) {
     return 0;
 }
 
-static int pyVector3_setY(pyVector3* self, PyObject* value, void*) {
+static int pyQuat_setY(pyQuat* self, PyObject* value, void*) {
     if (!PyFloat_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "Y needs to be a float");
         return -1;
@@ -200,7 +192,7 @@ static int pyVector3_setY(pyVector3* self, PyObject* value, void*) {
     return 0;
 }
 
-static int pyVector3_setZ(pyVector3* self, PyObject* value, void*) {
+static int pyQuat_setZ(pyQuat* self, PyObject* value, void*) {
     if (!PyFloat_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "Z needs to be a float");
         return -1;
@@ -209,18 +201,27 @@ static int pyVector3_setZ(pyVector3* self, PyObject* value, void*) {
     return 0;
 }
 
-PyNumberMethods pyVector3_As_Number = {
-    (binaryfunc)pyVector3_add,          /* nb_add */
-    (binaryfunc)pyVector3_subtract,     /* nb_subtract */
-    (binaryfunc)pyVector3_multiply,     /* nb_multiply */
+static int pyQuat_setW(pyQuat* self, PyObject* value, void*) {
+    if (!PyFloat_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "W needs to be a float");
+        return -1;
+    }
+    self->fThis->W = PyFloat_AsDouble(value);
+    return 0;
+}
+
+PyNumberMethods pyQuat_As_Number = {
+    (binaryfunc)pyQuat_add,             /* nb_add */
+    (binaryfunc)pyQuat_subtract,        /* nb_subtract */
+    (binaryfunc)pyQuat_multiply,        /* nb_multiply */
     NULL,                               /* nb_divide */
     NULL,                               /* nb_remainder */
     NULL,                               /* nb_divmod */
     NULL,                               /* nb_power */
-    (unaryfunc)pyVector3_negative,      /* nb_negative */
-    (unaryfunc)pyVector3_positive,      /* nb_positive */
-    (unaryfunc)pyVector3_absolute,      /* nb_absolute */
-    (inquiry)pyVector3_nonzero,         /* nb_nonzero */
+    (unaryfunc)pyQuat_negative,         /* nb_negative */
+    (unaryfunc)pyQuat_positive,         /* nb_positive */
+    (unaryfunc)pyQuat_absolute,         /* nb_absolute */
+    (inquiry)pyQuat_nonzero,            /* nb_nonzero */
     NULL,                               /* nb_invert */
     NULL,                               /* nb_lshift */
     NULL,                               /* nb_rshift */
@@ -252,45 +253,42 @@ PyNumberMethods pyVector3_As_Number = {
 #endif
 };
 
-PyMethodDef pyVector3_Methods[] = {
-    { "magnitude", (PyCFunction)pyVector3_magnitude, METH_NOARGS,
-      "Returns the magnitude of the vector" },
-    { "dotP", (PyCFunction)pyVector3_dotP, METH_VARARGS,
-      "Params: vec\n"
-      "Returns the dot product of this vector and `vec`" },
-    { "crossP", (PyCFunction)pyVector3_crossP, METH_VARARGS,
-      "Params: vec\n"
-      "Returns the cross product of this vector and `vec`" },
-    { "read", (PyCFunction)pyVector3_read, METH_VARARGS,
+PyMethodDef pyQuat_Methods[] = {
+    { "Identity", (PyCFunction)pyQuat_Identity, METH_NOARGS | METH_STATIC,
+      "Returns an identity quaternion" },
+    { "conjugate", (PyCFunction)pyQuat_conjugate, METH_NOARGS,
+      "Returns the conjugate of the quaternion" },
+    { "read", (PyCFunction)pyQuat_read, METH_VARARGS,
       "Params: stream\n"
       "Reads this vector from `stream`" },
-    { "write", (PyCFunction)pyVector3_write, METH_VARARGS,
+    { "write", (PyCFunction)pyQuat_write, METH_VARARGS,
       "Params: stream\n"
       "Writes this vector to `stream`" },
     { NULL, NULL, 0, NULL }
 };
 
-PyGetSetDef pyVector3_GetSet[] = {
-    { "X", (getter)pyVector3_getX, (setter)pyVector3_setX, NULL, NULL },
-    { "Y", (getter)pyVector3_getY, (setter)pyVector3_setY, NULL, NULL },
-    { "Z", (getter)pyVector3_getZ, (setter)pyVector3_setZ, NULL, NULL },
+PyGetSetDef pyQuat_GetSet[] = {
+    { "X", (getter)pyQuat_getX, (setter)pyQuat_setX, NULL, NULL },
+    { "Y", (getter)pyQuat_getY, (setter)pyQuat_setY, NULL, NULL },
+    { "Z", (getter)pyQuat_getZ, (setter)pyQuat_setZ, NULL, NULL },
+    { "W", (getter)pyQuat_getW, (setter)pyQuat_setW, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
-PyTypeObject pyVector3_Type = {
+PyTypeObject pyQuat_Type = {
     PyObject_HEAD_INIT(NULL)
     0,                                  /* ob_size */
-    "PyPlasma.hsVector3",               /* tp_name */
-    sizeof(pyVector3),                  /* tp_basicsize */
+    "PyPlasma.hsQuat",                  /* tp_name */
+    sizeof(pyQuat),                     /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    (destructor)pyVector3_dealloc,      /* tp_dealloc */
+    (destructor)pyQuat_dealloc,         /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
     NULL,                               /* tp_compare */
-    (reprfunc)pyVector3_Repr,           /* tp_repr */
-    &pyVector3_As_Number,               /* tp_as_number */
+    (reprfunc)pyQuat_Repr,              /* tp_repr */
+    &pyQuat_As_Number,                  /* tp_as_number */
     NULL,                               /* tp_as_sequence */
     NULL,                               /* tp_as_mapping */
     NULL,                               /* tp_hash */
@@ -301,7 +299,7 @@ PyTypeObject pyVector3_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_CHECKTYPES, /* tp_flags */
-    "hsVector3/hsPoint3 wrapper",       /* tp_doc */
+    "Plasma Quaternion",                /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -310,18 +308,18 @@ PyTypeObject pyVector3_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyVector3_Methods,                  /* tp_methods */
+    pyQuat_Methods,                     /* tp_methods */
     NULL,                               /* tp_members */
-    pyVector3_GetSet,                   /* tp_getset */
+    pyQuat_GetSet,                      /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyVector3___init__,       /* tp_init */
+    (initproc)pyQuat___init__,          /* tp_init */
     NULL,                               /* tp_alloc */
-    pyVector3_new,                      /* tp_new */
+    pyQuat_new,                         /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -332,25 +330,25 @@ PyTypeObject pyVector3_Type = {
     NULL,                               /* tp_weaklist */
 };
 
-PyObject* Init_pyVector3_Type() {
-    if (PyType_Ready(&pyVector3_Type) < 0)
+PyObject* Init_pyQuat_Type() {
+    if (PyType_Ready(&pyQuat_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyVector3_Type);
-    return (PyObject*)&pyVector3_Type;
+    Py_INCREF(&pyQuat_Type);
+    return (PyObject*)&pyQuat_Type;
 }
 
-int pyVector3_Check(PyObject* obj) {
-    if (obj->ob_type == &pyVector3_Type
-        || PyType_IsSubtype(obj->ob_type, &pyVector3_Type))
+int pyQuat_Check(PyObject* obj) {
+    if (obj->ob_type == &pyQuat_Type
+        || PyType_IsSubtype(obj->ob_type, &pyQuat_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyVector3_FromVector3(const hsVector3& vec) {
-    pyVector3* pv = PyObject_New(pyVector3, &pyVector3_Type);
-    pv->fThis = new hsVector3(vec);
-    return (PyObject*)pv;
+PyObject* pyQuat_FromQuat(const hsQuat& quat) {
+    pyQuat* pq = PyObject_New(pyQuat, &pyQuat_Type);
+    pq->fThis = new hsQuat(quat);
+    return (PyObject*)pq;
 }
 
 }

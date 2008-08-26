@@ -344,7 +344,23 @@
 				Name="Region"
 				>
 				<File
+					RelativePath=".\PRP\Region\pyBounds.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Region\pyBounds.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\pyBounds3.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\pyBounds3Ext.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\pyBoundsOriented.cpp"
 					>
 				</File>
 			</Filter>
@@ -366,6 +382,10 @@
 			</File>
 			<File
 				RelativePath=".\Math\pyPlane3.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\pyQuat.cpp"
 				>
 			</File>
 			<File

@@ -15,6 +15,41 @@ hsQuat::hsQuat(float rad, const hsVector3& axis) {
     Z = sin(rad * 0.5f) * axis.Z;
 }
 
+hsQuat hsQuat::Identity() {
+    return hsQuat(0.0f, 0.0f, 0.0f, 1.0f);
+}
+
+hsQuat& hsQuat::operator=(const hsQuat& cpy) {
+    X = cpy.X;
+    Y = cpy.Y;
+    Z = cpy.Z;
+    W = cpy.W;
+    return *this;
+}
+
+bool hsQuat::operator==(const hsQuat& other) const {
+    return (X == other.X) && (Y == other.Y) && (Z == other.Z) && (W == other.W);
+}
+
+hsQuat hsQuat::operator+(const hsQuat& rt) const {
+    return hsQuat(X + rt.X, Y + rt.Y, Z + rt.Z, W + rt.W);
+}
+
+hsQuat hsQuat::operator-(const hsQuat& rt) const {
+    return hsQuat(X - rt.X, Y - rt.Y, Z - rt.Z, W - rt.W);
+}
+
+hsQuat hsQuat::operator*(const hsQuat& rt) const {
+    return hsQuat((Y * rt.Z) - (Z * rt.Y) + (Z * rt.X) + (X * rt.Z),
+                  (Z * rt.X) - (X * rt.Z) + (Z * rt.Y) + (Y * rt.Z),
+                  (X * rt.Y) - (Y * rt.X) + (Z * rt.Y) + (Y * rt.Z),
+                  (W * rt.W) - (X * rt.X) - (Y * rt.Y) - (Z * rt.Z));
+}
+
+hsQuat hsQuat::operator*(float scale) const {
+    return hsQuat(X * scale, Y * scale, Z * scale, W * scale);
+}
+
 void hsQuat::read(hsStream* S) {
     X = S->readFloat();
     Y = S->readFloat();
@@ -46,4 +81,8 @@ void hsQuat::prcParse(const pfPrcTag* tag) {
     Y = tag->getParam("Y", "0").toFloat();
     Z = tag->getParam("Z", "0").toFloat();
     W = tag->getParam("W", "0").toFloat();
+}
+
+hsQuat hsQuat::conjugate() const {
+    return hsQuat(-X, -Y, -Z, W);
 }

@@ -122,3 +122,7 @@ void hsPlane3::prcParse(const pfPrcTag* tag) {
     N.Z = tag->getParam("Z", "0").toFloat();
     W = tag->getParam("W", "0").toFloat();
 }
+
+
+/* hsFloatPoint2 */
+hsFloatPoint2::hsFloatPoint2() : X(0.0f), Y(0.0f) { }

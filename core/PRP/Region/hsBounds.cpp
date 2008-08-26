@@ -281,7 +281,11 @@ void hsBoundsOriented::setPlanes(unsigned int numPlanes, const hsPlane3* planes)
     if (fPlanes != NULL)
         delete[] fPlanes;
     fNumPlanes = numPlanes;
-    fPlanes = new hsPlane3[fNumPlanes];
-    for (size_t i=0; i<fNumPlanes; i++)
-        fPlanes[i] = planes[i];
+    if (fNumPlanes > 0) {
+        fPlanes = new hsPlane3[fNumPlanes];
+        for (size_t i=0; i<fNumPlanes; i++)
+            fPlanes[i] = planes[i];
+    } else {
+        fPlanes = NULL;
+    }
 }

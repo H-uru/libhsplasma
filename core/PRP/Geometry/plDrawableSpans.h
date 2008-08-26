@@ -72,9 +72,6 @@ public:
         kWriteSrc = 0x4
     };
     
-    enum MsgTypes { kMsgMaterial, kMsgDISpans, kMsgFogEnviron, kMsgPermaLight,
-                    kMsgPermaProj, kMsgPermaLightDI, kMsgPermaProjDI };
-    
     static const unsigned int kSpanTypeMask = 0xC0000000;
     static const unsigned int kSpanIDMask = 0x3FFFFFFF;
     static const unsigned int kSpanTypeIcicle = 0x00000000;

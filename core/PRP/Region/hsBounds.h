@@ -16,8 +16,8 @@ public:
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
-    virtual void IPrcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+    virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
     int getType() const;
@@ -74,7 +74,6 @@ protected:
 public:
     hsBounds3Ext();
     hsBounds3Ext(const hsBounds3Ext&);
-    hsBounds3Ext(const hsBounds3&);
     virtual ~hsBounds3Ext();
 
     virtual const char* ClassName();
