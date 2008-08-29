@@ -364,6 +364,62 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Geometry"
+				>
+				<File
+					RelativePath=".\PRP\Geometry\pyDISpanIndex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyDrawable.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyDrawableSpans.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyGBufferCell.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyGBufferGroup.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyGBufferGroup.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyGBufferTriangle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyGBufferVertex.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyIcicle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyParticleSpan.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpan.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpan.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyVertexSpan.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Math"

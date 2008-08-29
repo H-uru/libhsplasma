@@ -1,6 +1,12 @@
 #include "plGBufferGroup.h"
 
 /* plGBufferCell */
+plGBufferCell::plGBufferCell() : fVtxStart(0), fColorStart(0), fLength(0) { }
+
+plGBufferCell::plGBufferCell(const plGBufferCell& init)
+             : fVtxStart(init.fVtxStart), fColorStart(init.fColorStart),
+               fLength(init.fLength) { }
+
 void plGBufferCell::read(hsStream* S) {
     fVtxStart = S->readInt();
     fColorStart = S->readInt();
@@ -32,8 +38,13 @@ void plGBufferCell::prcParse(const pfPrcTag* tag) {
 
 
 /* plGBufferTriangle */
-plGBufferTriangle::plGBufferTriangle() { }
-plGBufferTriangle::~plGBufferTriangle() { }
+plGBufferTriangle::plGBufferTriangle()
+                 : fIndex1(0), fIndex2(0), fIndex3(0), fSpanIndex(0) { }
+
+plGBufferTriangle::plGBufferTriangle(const plGBufferTriangle& init)
+                 : fIndex1(init.fIndex1), fIndex2(init.fIndex2),
+                   fIndex3(init.fIndex3), fSpanIndex(init.fSpanIndex),
+                   fCenter(init.fCenter) { }
 
 void plGBufferTriangle::read(hsStream* S) {
     fIndex1 = S->readShort();
@@ -87,15 +98,25 @@ void plGBufferTriangle::prcParse(const pfPrcTag* tag) {
 }
 
 
+/* plGBufferVertex */
+plGBufferVertex::plGBufferVertex() : fSkinIdx(0), fColor(0) {
+    fSkinWeights[0] = 0.0f;
+    fSkinWeights[1] = 0.0f;
+    fSkinWeights[2] = 0.0f;
+}
+
+plGBufferVertex::plGBufferVertex(const plGBufferVertex& init)
+               : fPos(init.fPos), fNormal(init.fNormal), fSkinIdx(init.fSkinIdx),
+                 fColor(init.fColor) {
+    memcpy(fSkinWeights, init.fSkinWeights, 3 * sizeof(float));
+    for (size_t i=0; i<10; i++)
+        fUVWs[i] = init.fUVWs[i];
+}
+
+
 /* plGBufferGroup */
-plGBufferGroup::plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod) {
-    fFormat = fmt;
-    fNumVerts = 0;
-    fNumIndices = 0;
-    fStride = ICalcVertexSize(fLiteStride);
-    fIdxVolatile = iVol;
-    fVertsVolatile = vVol;
-    fLOD = Lod;
+plGBufferGroup::plGBufferGroup(unsigned char fmt) {
+    setFormat(fmt);
 }
 
 plGBufferGroup::~plGBufferGroup() {
@@ -103,110 +124,17 @@ plGBufferGroup::~plGBufferGroup() {
         delete[] fVertBuffStorage[i];
     for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
         delete[] fIdxBuffStorage[i];
-    for (size_t i=0; i<fCells.getSize(); i++)
-        delete fCells[i];
 }
 
-hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx) const {
-    hsTArray<plGBufferVertex> buf;
-
-    unsigned char* cp = fVertBuffStorage[idx];
-    buf.setSize(fVertBuffSizes[idx] / fStride);
-    for (size_t i=0; i<(fVertBuffSizes[idx] / fStride); i++) {
-        buf[i].fPos.X = *(float*)cp; cp += sizeof(float);
-        buf[i].fPos.Y = *(float*)cp; cp += sizeof(float);
-        buf[i].fPos.Z = *(float*)cp; cp += sizeof(float);
-
-        int weightCount = (fFormat & kSkinWeightMask) >> 4;
-        if (weightCount > 0) {
-            for (int j=0; j<weightCount; j++) {
-                buf[i].fSkinWeights[j] = *(float*)cp;
-                cp += sizeof(float);
-            }
-            if (fFormat & kSkinIndices) {
-                buf[i].fSkinIdx = *(int*)cp;
-                cp += sizeof(int);
-            }
-        }
-
-        buf[i].fNormal.X = *(float*)cp; cp += sizeof(float);
-        buf[i].fNormal.Y = *(float*)cp; cp += sizeof(float);
-        buf[i].fNormal.Z = *(float*)cp; cp += sizeof(float);
-
-        buf[i].fColor = *(unsigned int*)cp;
-        cp += sizeof(unsigned int);
-
-        // Zero (Color2?)
-        cp += sizeof(unsigned int);
-
-        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
-            buf[i].fUVWs[j].X = *(float*)cp; cp += sizeof(float);
-            buf[i].fUVWs[j].Y = *(float*)cp; cp += sizeof(float);
-            buf[i].fUVWs[j].Z = *(float*)cp; cp += sizeof(float);
-        }
+unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {
+    lStride = (getNumUVs() + 2) * 12;
+    unsigned int numSkinWeights = getSkinWeights();
+    if (numSkinWeights > 0) {
+        lStride += numSkinWeights * sizeof(float);
+        if (fFormat & kSkinIndices)
+            lStride += sizeof(int);
     }
-    return buf;
-}
-
-hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx) const {
-    hsTArray<unsigned short> buf;
-
-    buf.setSizeNull(fIdxBuffCounts[idx]);
-    for (size_t i=0; i<fIdxBuffCounts[idx]; i++)
-        buf[i] = fIdxBuffStorage[idx][i];
-    return buf;
-}
-
-void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
-    size_t vtxSize = verts.getSize() * fStride;
-    fVertBuffSizes.append(vtxSize);
-    fVertBuffStorage.append(new unsigned char[vtxSize]);
-    size_t idx = fVertBuffStorage.getSize() - 1;
-
-    unsigned char* cp = fVertBuffStorage[idx];
-    for (size_t i=0; i<(fVertBuffSizes[idx] / fStride); i++) {
-        *(float*)cp = verts[i].fPos.X; cp += sizeof(float);
-        *(float*)cp = verts[i].fPos.Y; cp += sizeof(float);
-        *(float*)cp = verts[i].fPos.Z; cp += sizeof(float);
-
-        int weightCount = (fFormat & kSkinWeightMask) >> 4;
-        if (weightCount > 0) {
-            for (int j=0; j<weightCount; j++) {
-                *(float*)cp = verts[i].fSkinWeights[j];
-                cp += sizeof(float);
-            }
-            if (fFormat & kSkinIndices) {
-                *(int*)cp = verts[i].fSkinIdx;
-                cp += sizeof(int);
-            }
-        }
-
-        *(float*)cp = verts[i].fNormal.X; cp += sizeof(float);
-        *(float*)cp = verts[i].fNormal.Y; cp += sizeof(float);
-        *(float*)cp = verts[i].fNormal.Z; cp += sizeof(float);
-
-        *(unsigned int*)cp = verts[i].fColor;
-        cp += sizeof(unsigned int);
-
-        // Zero (Color2?)
-        *(unsigned int*)cp = 0;
-        cp += sizeof(unsigned int);
-
-        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
-            *(float*)cp = verts[i].fUVWs[j].X; cp += sizeof(float);
-            *(float*)cp = verts[i].fUVWs[j].Y; cp += sizeof(float);
-            *(float*)cp = verts[i].fUVWs[j].Z; cp += sizeof(float);
-        }
-    }
-}
-
-void plGBufferGroup::addIndices(const hsTArray<unsigned short>& indices) {
-    fIdxBuffCounts.append(indices.getSize());
-    fIdxBuffStorage.append(new unsigned short[indices.getSize()]);
-    size_t idx = fIdxBuffStorage.getSize() - 1;
-
-    for (size_t i=0; i<fIdxBuffCounts[idx]; i++)
-        fIdxBuffStorage[idx][i] = indices[i];
+    return lStride + 8;
 }
 
 void plGBufferGroup::read(hsStream* S) {
@@ -215,12 +143,7 @@ void plGBufferGroup::read(hsStream* S) {
     fStride = ICalcVertexSize(fLiteStride);
 
     fVertBuffSizes.clear();
-    fVertBuffStarts.clear();
-    fVertBuffEnds.clear();
-    //fColorBuffCounts.clear();
     fIdxBuffCounts.clear();
-    fIdxBuffStarts.clear();
-    fIdxBuffEnds.clear();
     fVertBuffStorage.clear();
     fIdxBuffStorage.clear();
 
@@ -228,36 +151,24 @@ void plGBufferGroup::read(hsStream* S) {
     size_t count = S->readInt();
     fVertBuffSizes.setSize(count);
     fVertBuffStorage.setSize(count);
-    //fColorBuffCounts.setSize(count);
-    //fColorBuffStorage.setSize(count);
     for (size_t i=0; i<count; i++) {
         unsigned int colorCount = 0;
-        //plGBufferColor* color = NULL;
         unsigned char* vData;
         unsigned int vtxCount = 0, vtxSize = 0;
         if (fFormat & kEncoded) {
             vtxCount = S->readShort();
             vtxSize = vtxCount * fStride;
             fVertBuffSizes[i] = vtxSize;
-            //fVertBuffStarts.append(0);
-            //fVertBuffEnds.append(-1);
             vData = new unsigned char[vtxSize];
             fVertBuffStorage[i] = vData;
             coder.read(S, vData, fFormat, vtxCount);
-            //fColorBuffCounts.append(colorCount);
-            //fColorBuffStorage.append(color);
         } else {
             vtxSize = S->readInt();
             fVertBuffSizes[i] = vtxSize;
-            //fVertBuffStarts.append(0);
-            //fVertBuffEnds.append(-1);
             vData = new unsigned char[vtxSize];
             S->read(vtxSize, vData);
             fVertBuffStorage[i] = vData;
             colorCount = S->readInt();
-            //fColorBuffCounts.append(colorCount);
-            //color = new plGBufferColor[colorCount];
-            //fColorBuffStorage.append(color);
         }
     }
 
@@ -267,8 +178,6 @@ void plGBufferGroup::read(hsStream* S) {
     for (size_t i=0; i<count; i++) {
         unsigned int idxCount = S->readInt();
         fIdxBuffCounts[i] = idxCount;
-        //fIdxBuffStarts.append(0);
-        //fIdxBuffEnds.append(-1);
         unsigned short* iData = new unsigned short[idxCount];
         S->readShorts(idxCount, iData);
         fIdxBuffStorage[i] = iData;
@@ -277,11 +186,9 @@ void plGBufferGroup::read(hsStream* S) {
     fCells.setSize(fVertBuffStorage.getSize());
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
         size_t cellCount = S->readInt();
-        hsTArray<plGBufferCell>* cell = new hsTArray<plGBufferCell>();
-        fCells[i] = cell;
-        cell->setSize(cellCount);
+        fCells[i].setSize(cellCount);
         for (size_t j=0; j<cellCount; j++)
-            (*cell)[j].read(S);
+            fCells[i][j].read(S);
     }
 }
 
@@ -310,9 +217,9 @@ void plGBufferGroup::write(hsStream* S) {
     }
 
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
-        S->writeInt(fCells[i]->getSize());
-        for (size_t j=0; j<fCells[i]->getSize(); j++)
-            (*fCells[i])[j].write(S);
+        S->writeInt(fCells[i].getSize());
+        for (size_t j=0; j<fCells[i].getSize(); j++)
+            fCells[i][j].write(S);
     }
 }
 
@@ -371,8 +278,8 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
         }
         for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
             prc->writeSimpleTag("CellGroup");
-            for (size_t j=0; j<fCells[i]->getSize(); j++)
-                (*fCells[i])[j].prcWrite(prc);
+            for (size_t j=0; j<fCells[i].getSize(); j++)
+                fCells[i][j].prcWrite(prc);
             prc->closeTag();
         }
     } else {
@@ -448,12 +355,12 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
                 idxChild = idxChild->getNextSibling();
             }
         } else if (child->getName() == "CellGroup") {
-            hsTArray<plGBufferCell>* cell = new hsTArray<plGBufferCell>();
-            fCells.append(cell);
-            cell->setSize(child->countChildren());
+            fCells.append(hsTArray<plGBufferCell>());
+            size_t idx = fCells.getSize() - 1;
+            fCells[idx].setSize(child->countChildren());
             const pfPrcTag* cellChild = child->getFirstChild();
-            for (size_t i=0; i<cell->getSize(); i++) {
-                (*cell)[i].prcParse(cellChild);
+            for (size_t i=0; i<fCells[idx].getSize(); i++) {
+                fCells[idx][i].prcParse(cellChild);
                 cellChild = cellChild->getNextSibling();
             }
         } else {
@@ -463,21 +370,169 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     }
 }
 
-unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {
-    lStride = ((fFormat & kUVCountMask) + 2) * 12;
-    fNumSkinWeights = (fFormat & kSkinWeightMask) >> 4;
-    if (fNumSkinWeights > 0) {
-        lStride += fNumSkinWeights * sizeof(float);
-        if (fFormat & kSkinIndices)
-            lStride += sizeof(int);
+hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx) const {
+    hsTArray<plGBufferVertex> buf;
+
+    unsigned char* cp = fVertBuffStorage[idx];
+    buf.setSize(fVertBuffSizes[idx] / fStride);
+    for (size_t i=0; i<(fVertBuffSizes[idx] / fStride); i++) {
+        buf[i].fPos.X = *(float*)cp; cp += sizeof(float);
+        buf[i].fPos.Y = *(float*)cp; cp += sizeof(float);
+        buf[i].fPos.Z = *(float*)cp; cp += sizeof(float);
+
+        int weightCount = (fFormat & kSkinWeightMask) >> 4;
+        if (weightCount > 0) {
+            for (int j=0; j<weightCount; j++) {
+                buf[i].fSkinWeights[j] = *(float*)cp;
+                cp += sizeof(float);
+            }
+            if (fFormat & kSkinIndices) {
+                buf[i].fSkinIdx = *(int*)cp;
+                cp += sizeof(int);
+            }
+        }
+
+        buf[i].fNormal.X = *(float*)cp; cp += sizeof(float);
+        buf[i].fNormal.Y = *(float*)cp; cp += sizeof(float);
+        buf[i].fNormal.Z = *(float*)cp; cp += sizeof(float);
+
+        buf[i].fColor = *(unsigned int*)cp;
+        cp += sizeof(unsigned int);
+
+        // Zero (Color2?)
+        cp += sizeof(unsigned int);
+
+        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
+            buf[i].fUVWs[j].X = *(float*)cp; cp += sizeof(float);
+            buf[i].fUVWs[j].Y = *(float*)cp; cp += sizeof(float);
+            buf[i].fUVWs[j].Z = *(float*)cp; cp += sizeof(float);
+        }
     }
-    return lStride + 8;
+    return buf;
 }
 
-size_t plGBufferGroup::getSkinWeights() const {
-    return fNumSkinWeights;
+hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx) const {
+    hsTArray<unsigned short> buf;
+
+    buf.setSizeNull(fIdxBuffCounts[idx]);
+    for (size_t i=0; i<fIdxBuffCounts[idx]; i++)
+        buf[i] = fIdxBuffStorage[idx][i];
+    return buf;
 }
 
-size_t plGBufferGroup::getNumUVs() const {
-    return (fFormat & kUVCountMask);
+hsTArray<plGBufferCell> plGBufferGroup::getCells(size_t idx) const {
+    return fCells[idx];
+}
+
+unsigned char plGBufferGroup::getFormat() const { return fFormat; }
+size_t plGBufferGroup::getSkinWeights() const { return (fFormat & kSkinWeightMask) >> 4; }
+size_t plGBufferGroup::getNumUVs() const { return (fFormat & kUVCountMask); }
+bool plGBufferGroup::getHasSkinIndices() const { return (fFormat & kSkinIndices) != 0; }
+
+void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
+    size_t vtxSize = verts.getSize() * fStride;
+    fVertBuffSizes.append(vtxSize);
+    fVertBuffStorage.append(new unsigned char[vtxSize]);
+    size_t idx = fVertBuffStorage.getSize() - 1;
+
+    unsigned char* cp = fVertBuffStorage[idx];
+    for (size_t i=0; i<(fVertBuffSizes[idx] / fStride); i++) {
+        *(float*)cp = verts[i].fPos.X; cp += sizeof(float);
+        *(float*)cp = verts[i].fPos.Y; cp += sizeof(float);
+        *(float*)cp = verts[i].fPos.Z; cp += sizeof(float);
+
+        int weightCount = (fFormat & kSkinWeightMask) >> 4;
+        if (weightCount > 0) {
+            for (int j=0; j<weightCount; j++) {
+                *(float*)cp = verts[i].fSkinWeights[j];
+                cp += sizeof(float);
+            }
+            if (fFormat & kSkinIndices) {
+                *(int*)cp = verts[i].fSkinIdx;
+                cp += sizeof(int);
+            }
+        }
+
+        *(float*)cp = verts[i].fNormal.X; cp += sizeof(float);
+        *(float*)cp = verts[i].fNormal.Y; cp += sizeof(float);
+        *(float*)cp = verts[i].fNormal.Z; cp += sizeof(float);
+
+        *(unsigned int*)cp = verts[i].fColor;
+        cp += sizeof(unsigned int);
+
+        // Zero (Color2?)
+        *(unsigned int*)cp = 0;
+        cp += sizeof(unsigned int);
+
+        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
+            *(float*)cp = verts[i].fUVWs[j].X; cp += sizeof(float);
+            *(float*)cp = verts[i].fUVWs[j].Y; cp += sizeof(float);
+            *(float*)cp = verts[i].fUVWs[j].Z; cp += sizeof(float);
+        }
+    }
+}
+
+void plGBufferGroup::addIndices(const hsTArray<unsigned short>& indices) {
+    fIdxBuffCounts.append(indices.getSize());
+    fIdxBuffStorage.append(new unsigned short[indices.getSize()]);
+    size_t idx = fIdxBuffStorage.getSize() - 1;
+
+    for (size_t i=0; i<fIdxBuffCounts[idx]; i++)
+        fIdxBuffStorage[idx][i] = indices[i];
+}
+
+void plGBufferGroup::addCells(const hsTArray<plGBufferCell>& cells) {
+    fCells.append(cells);
+}
+
+void plGBufferGroup::setFormat(unsigned char format) {
+    fFormat = format;
+    fStride = ICalcVertexSize(fLiteStride);
+}
+
+void plGBufferGroup::setSkinWeights(size_t skinWeights) {
+    fFormat &= ~kSkinWeightMask;
+    fFormat |= (skinWeights << 4) & kSkinWeightMask;
+}
+
+void plGBufferGroup::setNumUVs(size_t numUVs) {
+    fFormat &= ~kUVCountMask;
+    fFormat |= numUVs & kUVCountMask;
+}
+
+void plGBufferGroup::setHasSkinIndices(bool hasSI) {
+    if (hasSI)
+        fFormat |= kSkinIndices;
+    else
+        fFormat &= ~kSkinIndices;
+}
+
+void plGBufferGroup::delVertices(size_t idx) {
+    delete[] fVertBuffStorage[idx];
+    fVertBuffStorage.remove(idx);
+}
+
+void plGBufferGroup::delIndices(size_t idx) {
+    delete[] fIdxBuffStorage[idx];
+    fIdxBuffStorage.remove(idx);
+}
+
+void plGBufferGroup::delCells(size_t idx) {
+    fCells.remove(idx);
+}
+
+void plGBufferGroup::clearVertices() {
+    for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
+        delete[] fVertBuffStorage[i];
+    fVertBuffStorage.clear();
+}
+
+void plGBufferGroup::clearIndices() {
+    for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
+        delete[] fIdxBuffStorage[i];
+    fIdxBuffStorage.clear();
+}
+
+void plGBufferGroup::clearCells() {
+    fCells.clear();
 }

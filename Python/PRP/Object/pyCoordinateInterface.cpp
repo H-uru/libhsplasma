@@ -51,19 +51,19 @@ static PyObject* pyCoordinateInterface_addChild(pyCoordinateInterface* self, PyO
 }
 
 static PyObject* pyCoordinateInterface_getL2W(pyCoordinateInterface* self, void*) {
-    return pyMatrix44_FromMatrix44Ref(&self->fThis->getLocalToWorld());
+    return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
 }
 
 static PyObject* pyCoordinateInterface_getW2L(pyCoordinateInterface* self, void*) {
-    return pyMatrix44_FromMatrix44Ref(&self->fThis->getWorldToLocal());
+    return pyMatrix44_FromMatrix44(self->fThis->getWorldToLocal());
 }
 
 static PyObject* pyCoordinateInterface_getL2P(pyCoordinateInterface* self, void*) {
-    return pyMatrix44_FromMatrix44Ref(&self->fThis->getLocalToParent());
+    return pyMatrix44_FromMatrix44(self->fThis->getLocalToParent());
 }
 
 static PyObject* pyCoordinateInterface_getP2L(pyCoordinateInterface* self, void*) {
-    return pyMatrix44_FromMatrix44Ref(&self->fThis->getParentToLocal());
+    return pyMatrix44_FromMatrix44(self->fThis->getParentToLocal());
 }
 
 static PyObject* pyCoordinateInterface_getChildren(pyCoordinateInterface* self, void*) {

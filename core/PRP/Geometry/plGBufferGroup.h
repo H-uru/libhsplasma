@@ -12,16 +12,13 @@ public:
     unsigned int fVtxStart, fColorStart, fLength;
 
 public:
+    plGBufferCell();
+    plGBufferCell(const plGBufferCell& init);
+
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
-};
-
-
-DllClass plGBufferColor {
-public:
-    unsigned int fDiffuse, fSpecular;
 };
 
 
@@ -32,7 +29,7 @@ public:
 
 public:
     plGBufferTriangle();
-    ~plGBufferTriangle();
+    plGBufferTriangle(const plGBufferTriangle& init);
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -41,12 +38,17 @@ public:
 };
 
 
-DllStruct plGBufferVertex {
+DllClass plGBufferVertex {
+public:
     hsVector3 fPos, fNormal;
     int fSkinIdx;
     float fSkinWeights[3];
     unsigned int fColor;
     hsVector3 fUVWs[10];
+
+public:
+    plGBufferVertex();
+    plGBufferVertex(const plGBufferVertex& init);
 };
 
 
@@ -62,48 +64,47 @@ public:
         kSkinIndices = 0x40,
         kEncoded = 0x80
     };
-    
-    enum {
-        kReserveInterleaved = 0x1,
-        kReserveVerts = 0x2,
-        kReserveColors = 0x4,
-        kReserveSeparated = 0x8,
-        kReserveIsolate = 0x10
-    };
 
 protected:
-    unsigned char fFormat, fStride, fLiteStride, fNumSkinWeights;
-    unsigned int fNumVerts, fNumIndices;
-    bool fVertsVolatile, fIdxVolatile;
-    int fLOD;
+    unsigned char fFormat, fStride, fLiteStride;
     hsTArray<unsigned int> fVertBuffSizes, fIdxBuffCounts;
     hsTArray<unsigned char*> fVertBuffStorage;
     hsTArray<unsigned short*> fIdxBuffStorage;
-    hsTArray<unsigned int> fVertBuffStarts;
-    hsTArray<int> fVertBuffEnds;
-    hsTArray<unsigned int> fIdxBuffStarts;
-    hsTArray<int> fIdxBuffEnds;
-    hsTArray<hsTArray<plGBufferCell>*> fCells;
+    hsTArray<hsTArray<plGBufferCell> > fCells;
 
     unsigned char ICalcVertexSize(unsigned char& lStride);
 
 public:
-    plGBufferGroup(unsigned char fmt, bool vVol, bool iVol, int Lod);
+    plGBufferGroup(unsigned char fmt);
     ~plGBufferGroup();
-
-    hsTArray<plGBufferVertex> getVertices(size_t idx) const;
-    hsTArray<unsigned short> getIndices(size_t idx) const;
-
-    void addVertices(const hsTArray<plGBufferVertex>& verts);
-    void addIndices(const hsTArray<unsigned short>& indices);
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
+    hsTArray<plGBufferVertex> getVertices(size_t idx) const;
+    hsTArray<unsigned short> getIndices(size_t idx) const;
+    hsTArray<plGBufferCell> getCells(size_t idx) const;
+    unsigned char getFormat() const;
     size_t getSkinWeights() const;
     size_t getNumUVs() const;
+    bool getHasSkinIndices() const;
+
+    void addVertices(const hsTArray<plGBufferVertex>& verts);
+    void addIndices(const hsTArray<unsigned short>& indices);
+    void addCells(const hsTArray<plGBufferCell>& cells);
+    void setFormat(unsigned char format);
+    void setSkinWeights(size_t skinWeights);
+    void setNumUVs(size_t numUVs);
+    void setHasSkinIndices(bool hasSI);
+
+    void delVertices(size_t idx);
+    void delIndices(size_t idx);
+    void delCells(size_t idx);
+    void clearVertices();
+    void clearIndices();
+    void clearCells();
 };
 
 #endif

@@ -186,7 +186,7 @@ int pyBounds3Ext_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyBounds3Ext_FromBounds3Ext(class hsBounds3Ext* pBounds) {
+PyObject* pyBounds3Ext_FromBounds3Ext(hsBounds3Ext* pBounds) {
     if (pBounds == NULL) {
         Py_INCREF(Py_None);
         return Py_None;

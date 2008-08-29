@@ -160,7 +160,7 @@ int pyBounds_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyBounds_FromBounds(class hsBounds* pBounds) {
+PyObject* pyBounds_FromBounds(hsBounds* pBounds) {
     if (pBounds == NULL) {
         Py_INCREF(Py_None);
         return Py_None;

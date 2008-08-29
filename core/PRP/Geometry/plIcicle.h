@@ -32,7 +32,6 @@ public:
     void setSortData(const plGBufferTriangle* data);
 };
 
-
 DllClass plParticleSpan : public plIcicle {
 public:
     virtual const char* ClassName();

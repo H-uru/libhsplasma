@@ -13,6 +13,16 @@ PYOBJ=\
 	$(OBJDIR)pyCreatable.o \
 	$(OBJDIR)pyCreatableStub.o \
 	$(OBJDIR)pySceneNode.o \
+	$(OBJDIR)pyDISpanIndex.o \
+	$(OBJDIR)pyDrawable.o \
+	$(OBJDIR)pyGBufferCell.o \
+	$(OBJDIR)pyGBufferGroup.o \
+	$(OBJDIR)pyGBufferTriangle.o \
+	$(OBJDIR)pyGBufferVertex.o \
+	$(OBJDIR)pyIcicle.o \
+	$(OBJDIR)pyParticleSpan.o \
+	$(OBJDIR)pySpan.o \
+	$(OBJDIR)pyVertexSpan.o \
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
 	$(OBJDIR)pyLocation.o \
@@ -74,6 +84,36 @@ $(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
 
 $(OBJDIR)pySceneNode.o: PRP/pySceneNode.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/pySceneNode.cpp -o $(OBJDIR)pySceneNode.o
+
+$(OBJDIR)pyDISpanIndex.o: PRP/Geometry/pyDISpanIndex.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDISpanIndex.cpp -o $(OBJDIR)pyDISpanIndex.o
+
+$(OBJDIR)pyDrawable.o: PRP/Geometry/pyDrawable.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDrawable.cpp -o $(OBJDIR)pyDrawable.o
+
+$(OBJDIR)pyGBufferCell.o: PRP/Geometry/pyGBufferCell.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferCell.cpp -o $(OBJDIR)pyGBufferCell.o
+
+$(OBJDIR)pyGBufferGroup.o: PRP/Geometry/pyGBufferGroup.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferGroup.cpp -o $(OBJDIR)pyGBufferGroup.o
+
+$(OBJDIR)pyGBufferTriangle.o: PRP/Geometry/pyGBufferTriangle.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferTriangle.cpp -o $(OBJDIR)pyGBufferTriangle.o
+
+$(OBJDIR)pyGBufferVertex.o: PRP/Geometry/pyGBufferVertex.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferVertex.cpp -o $(OBJDIR)pyGBufferVertex.o
+
+$(OBJDIR)pyIcicle.o: PRP/Geometry/pyIcicle.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyIcicle.cpp -o $(OBJDIR)pyIcicle.o
+
+$(OBJDIR)pyParticleSpan.o: PRP/Geometry/pyParticleSpan.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyParticleSpan.cpp -o $(OBJDIR)pyParticleSpan.o
+
+$(OBJDIR)pySpan.o: PRP/Geometry/pySpan.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpan.cpp -o $(OBJDIR)pySpan.o
+
+$(OBJDIR)pyVertexSpan.o: PRP/Geometry/pyVertexSpan.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyVertexSpan.cpp -o $(OBJDIR)pyVertexSpan.o
 
 $(OBJDIR)pyKey.o: PRP/KeyedObject/pyKey.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKey.cpp -o $(OBJDIR)pyKey.o

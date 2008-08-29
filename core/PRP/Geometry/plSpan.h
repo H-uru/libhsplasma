@@ -104,12 +104,12 @@ public:
     void setNumMatrices(unsigned char mats);
     void setProps(unsigned int props);
     void setBaseMatrix(unsigned int mat);
-    void getMaxBoneIdx(unsigned short idx);
-    void getPenBoneIdx(unsigned short idx);
-    void getLocalUVWChans(unsigned short chans);
-    void getMinDist(float dist);
-    void getMaxDist(float dist);
-    void getWaterHeight(float height);
+    void setMaxBoneIdx(unsigned short idx);
+    void setPenBoneIdx(unsigned short idx);
+    void setLocalUVWChans(unsigned short chans);
+    void setMinDist(float dist);
+    void setMaxDist(float dist);
+    void setWaterHeight(float height);
 };
 
 #endif

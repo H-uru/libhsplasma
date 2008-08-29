@@ -147,7 +147,7 @@ int pyBoundsOriented_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyBoundsOriented_FromBoundsOriented(class hsBoundsOriented* pBounds) {
+PyObject* pyBoundsOriented_FromBoundsOriented(hsBoundsOriented* pBounds) {
     if (pBounds == NULL) {
         Py_INCREF(Py_None);
         return Py_None;

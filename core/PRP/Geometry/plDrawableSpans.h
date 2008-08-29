@@ -19,6 +19,11 @@ public:
 
     unsigned char fFlags;
     hsTArray<unsigned int> fIndices;
+
+public:
+    plDISpanIndex();
+    plDISpanIndex(const plDISpanIndex& init);
+    plDISpanIndex& operator=(const plDISpanIndex& cpy);
 };
 
 DllClass plDrawable : public hsKeyedObject {
@@ -64,12 +69,6 @@ public:
         kSubNonDrawable = 0x2,
         kSubEnviron = 0x4,
         kSubAllTypes = 0xFF
-    };
-    
-    enum plAccessFlags {
-        kReadSrc = 0x1,
-        kWriteDst = 0x2,
-        kWriteSrc = 0x4
     };
     
     static const unsigned int kSpanTypeMask = 0xC0000000;

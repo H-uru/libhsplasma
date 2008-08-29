@@ -7,8 +7,7 @@
 extern "C" {
 
 static void pyMatrix44_dealloc(pyMatrix44* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
+    delete self->fThis;
     self->ob_type->tp_free((PyObject*)self);
 }
 
@@ -25,17 +24,15 @@ static int pyMatrix44___init__(pyMatrix44* self, PyObject* args, PyObject* kwds)
             return -1;
         }
     } else {
-        (*self->fThis) = hsMatrix44::IdentityMat();
+        self->fThis->Reset();
     }
     return 0;
 }
 
 static PyObject* pyMatrix44_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyMatrix44* self = (pyMatrix44*)type->tp_alloc(type, 0);
-    if (self != NULL) {
+    if (self != NULL)
         self->fThis = new hsMatrix44();
-        self->fPyOwned = true;
-    }
     return (PyObject*)self;
 }
 
@@ -482,14 +479,6 @@ int pyMatrix44_Check(PyObject* obj) {
 PyObject* pyMatrix44_FromMatrix44(const hsMatrix44& mat) {
     pyMatrix44* pmat = PyObject_New(pyMatrix44, &pyMatrix44_Type);
     pmat->fThis = new hsMatrix44(mat);
-    pmat->fPyOwned = true;
-    return (PyObject*)pmat;
-}
-
-PyObject* pyMatrix44_FromMatrix44Ref(hsMatrix44* mat) {
-    pyMatrix44* pmat = PyObject_New(pyMatrix44, &pyMatrix44_Type);
-    pmat->fThis = mat;
-    pmat->fPyOwned = false;
     return (PyObject*)pmat;
 }
 

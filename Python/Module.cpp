@@ -11,6 +11,9 @@
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
+#include "PRP/Geometry/pyDrawableSpans.h"
+#include "PRP/Geometry/pyGBufferGroup.h"
+#include "PRP/Geometry/pySpan.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Object/pyObjInterface.h"
@@ -73,9 +76,22 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "hsBounds3Ext", Init_pyBounds3Ext_Type());
     PyModule_AddObject(module, "hsBoundsOriented", Init_pyBoundsOriented_Type());
 
+    /* pySpan */
+    PyModule_AddObject(module, "plSpan", Init_pySpan_Type());
+    PyModule_AddObject(module, "plVertexSpan", Init_pyVertexSpan_Type());
+    PyModule_AddObject(module, "plIcicle", Init_pyIcicle_Type());
+    PyModule_AddObject(module, "plParticleSpan", Init_pyParticleSpan_Type());
+
     /* pyKey */
     PyModule_AddObject(module, "plKey", Init_pyKey_Type());
     PyModule_AddObject(module, "plLocation", Init_pyLocation_Type());
+
+    /* Other Creatable Dependancies */
+    PyModule_AddObject(module, "plDISpanIndex", Init_pyDISpanIndex_Type());
+    PyModule_AddObject(module, "plGBufferCell", Init_pyGBufferCell_Type());
+    PyModule_AddObject(module, "plGBufferTriangle", Init_pyGBufferTriangle_Type());
+    PyModule_AddObject(module, "plGBufferVertex", Init_pyGBufferVertex_Type());
+    PyModule_AddObject(module, "plGBufferGroup", Init_pyGBufferGroup_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -90,4 +106,5 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plCoordinateInterface", Init_pyCoordinateInterface_Type());
     PyModule_AddObject(module, "plDrawInterface", Init_pyDrawInterface_Type());
     PyModule_AddObject(module, "plSimulationInterface", Init_pySimulationInterface_Type());
+    PyModule_AddObject(module, "plDrawable", Init_pyDrawable_Type());
 }

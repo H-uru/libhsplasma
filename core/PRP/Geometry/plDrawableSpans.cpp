@@ -1,5 +1,18 @@
 #include "plDrawableSpans.h"
 
+/* plDISpanIndex */
+plDISpanIndex::plDISpanIndex() : fFlags(0) { }
+
+plDISpanIndex::plDISpanIndex(const plDISpanIndex& init)
+             : fFlags(init.fFlags), fIndices(init.fIndices) { }
+
+plDISpanIndex& plDISpanIndex::operator=(const plDISpanIndex& cpy) {
+    fFlags = cpy.fFlags;
+    fIndices = cpy.fIndices;
+    return *this;
+}
+
+
 /* plDrawable */
 plDrawable::plDrawable() { }
 plDrawable::~plDrawable() { }
@@ -116,7 +129,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
 
     fGroups.setSize(S->readInt());
     for (size_t i=0; i<fGroups.getSize(); i++) {
-        fGroups[i] = new plGBufferGroup(0, fProps & kPropVolatile, fProps & kPropSortFaces, 0);
+        fGroups[i] = new plGBufferGroup(0);
         fGroups[i]->read(S);
     }
 
@@ -482,7 +495,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fGroups.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fGroups.getSize(); i++) {
-            fGroups[i] = new plGBufferGroup(0, fProps & kPropVolatile, fProps & kPropSortFaces, 0);
+            fGroups[i] = new plGBufferGroup(0);
             fGroups[i]->prcParse(child);
             child = child->getNextSibling();
         }

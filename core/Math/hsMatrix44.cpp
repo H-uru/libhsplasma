@@ -2,14 +2,13 @@
 #include <cmath>
 #include "hsMatrix44.h"
 
-/*
-hsMatrix44::hsMatrix44() { }
-hsMatrix44::hsMatrix44(hsMatrix44& init) {
-    memcpy(data, init.data, sizeof(data));
+hsMatrix44::hsMatrix44() {
+    Reset();
 }
 
-hsMatrix44::~hsMatrix44() { }
-*/
+hsMatrix44::hsMatrix44(const hsMatrix44& init) {
+    memcpy(data, init.data, sizeof(data));
+}
 
 hsMatrix44 hsMatrix44::IdentityMat() {
     static hsMatrix44 idMat;
@@ -22,19 +21,19 @@ hsMatrix44 hsMatrix44::IdentityMat() {
 }
 
 hsMatrix44 hsMatrix44::TranslateMat(const hsVector3& translate) {
-    hsMatrix44 tMat = IdentityMat();
+    hsMatrix44 tMat;
     tMat.setTranslate(translate);
     return tMat;
 }
 
 hsMatrix44 hsMatrix44::RotateMat(int axis, float angle) {
-    hsMatrix44 rMat = IdentityMat();
+    hsMatrix44 rMat;
     rMat.setRotate(axis, angle);
     return rMat;
 }
 
 hsMatrix44 hsMatrix44::ScaleMat(const hsVector3& scale) {
-    hsMatrix44 sMat = IdentityMat();
+    hsMatrix44 sMat;
     sMat.setScale(scale);
     return sMat;
 }
