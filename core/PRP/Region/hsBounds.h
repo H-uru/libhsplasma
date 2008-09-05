@@ -9,6 +9,7 @@ protected:
 
 public:
     hsBounds();
+    hsBounds(const hsBounds&);
     virtual ~hsBounds();
     
     virtual const char* ClassName();
@@ -36,6 +37,7 @@ protected:
 
 public:
     hsBounds3();
+    hsBounds3(const hsBounds3&);
     virtual ~hsBounds3();
 
     virtual const char* ClassName();
@@ -105,7 +107,8 @@ protected:
 
 public:
     hsBoundsOriented();
-    ~hsBoundsOriented();
+    hsBoundsOriented(const hsBoundsOriented&);
+    virtual ~hsBoundsOriented();
     
     virtual const char* ClassName();
 

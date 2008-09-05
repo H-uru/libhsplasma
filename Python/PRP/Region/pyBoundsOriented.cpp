@@ -7,10 +7,8 @@ extern "C" {
 
 static PyObject* pyBoundsOriented_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyBoundsOriented* self = (pyBoundsOriented*)type->tp_alloc(type, 0);
-    if (self != NULL) {
+    if (self != NULL)
         self->fThis = new hsBoundsOriented();
-        self->fPyOwned = true;
-    }
     return (PyObject*)self;
 }
 
@@ -132,7 +130,7 @@ PyTypeObject pyBoundsOriented_Type = {
 };
 
 PyObject* Init_pyBoundsOriented_Type() {
-    pyBoundsOriented_Type.tp_base = &pyBounds3_Type;
+    pyBoundsOriented_Type.tp_base = &pyBounds_Type;
     if (PyType_Ready(&pyBoundsOriented_Type) < 0)
         return NULL;
 
@@ -147,14 +145,9 @@ int pyBoundsOriented_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyBoundsOriented_FromBoundsOriented(hsBoundsOriented* pBounds) {
-    if (pBounds == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+PyObject* pyBoundsOriented_FromBoundsOriented(const hsBoundsOriented& bounds) {
     pyBoundsOriented* obj = PyObject_New(pyBoundsOriented, &pyBoundsOriented_Type);
-    obj->fThis = pBounds;
-    obj->fPyOwned = false;
+    obj->fThis = new hsBoundsOriented(bounds);
     return (PyObject*)obj;
 }
 

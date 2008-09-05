@@ -7,10 +7,8 @@ extern "C" {
 
 static PyObject* pyBounds3_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyBounds3* self = (pyBounds3*)type->tp_alloc(type, 0);
-    if (self != NULL) {
+    if (self != NULL)
         self->fThis = new hsBounds3();
-        self->fPyOwned = true;
-    }
     return (PyObject*)self;
 }
 
@@ -136,14 +134,9 @@ int pyBounds3_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyBounds3_FromBounds3(hsBounds3* pBounds) {
-    if (pBounds == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+PyObject* pyBounds3_FromBounds3(const hsBounds3& bounds) {
     pyBounds3* obj = PyObject_New(pyBounds3, &pyBounds3_Type);
-    obj->fThis = pBounds;
-    obj->fPyOwned = false;
+    obj->fThis = new hsBounds3(bounds);
     return (PyObject*)obj;
 }
 

@@ -36,16 +36,23 @@ public:
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+    const hsBounds3Ext& getBounds();
+    unsigned short getFlags() const;
+    short getParent() const;
+    short getLChild() const;
+    short getRChild() const;
+    short getLeafIndex() const;
+
+    void setBounds(const hsBounds3Ext& bounds);
+    void setFlags(unsigned short flags);
+    void setParent(short parent);
+    void setChildren(short left, short right);
+    void setLeafIndex(short idx);
 };
 
 DllClass plSpaceTree : public plCreatable {
 protected:
-    enum plHarvestFlags {
-        kNone,
-        kSortBackToFront,
-        kSortFrontToBack
-    };
-    
     hsTArray<plSpaceTreeNode> fTree;
     short fRoot, fNumLeaves;
 
@@ -59,6 +66,12 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    void clear();
+    const plSpaceTreeNode& getNode(short idx) const;
+    const plSpaceTreeNode& getRoot() const;
+    short addLeaf(const hsBounds3Ext& bounds);
+    short addParent(const hsBounds3Ext& bounds, short left, short right);
 };
 
 #endif

@@ -34,7 +34,7 @@ PyTypeObject pyDrawable_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "pyDrawable wrapper",               /* tp_doc */
+    "plDrawable wrapper",               /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */

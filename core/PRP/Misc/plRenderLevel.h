@@ -1,6 +1,8 @@
 #ifndef _PLRENDERLEVEL_H
 #define _PLRENDERLEVEL_H
 
+#include "PlasmaDefs.h"
+
 DllClass plRenderLevel {
 public:
     enum {

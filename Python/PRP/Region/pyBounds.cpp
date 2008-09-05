@@ -6,8 +6,7 @@
 extern "C" {
 
 static void pyBounds_dealloc(pyBounds* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
+    delete self->fThis;
     self->ob_type->tp_free((PyObject*)self);
 }
 
@@ -19,10 +18,8 @@ static int pyBounds___init__(pyBounds* self, PyObject* args, PyObject* kwds) {
 
 static PyObject* pyBounds_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyBounds* self = (pyBounds*)type->tp_alloc(type, 0);
-    if (self != NULL) {
+    if (self != NULL)
         self->fThis = new hsBounds();
-        self->fPyOwned = true;
-    }
     return (PyObject*)self;
 }
 
@@ -160,14 +157,9 @@ int pyBounds_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyBounds_FromBounds(hsBounds* pBounds) {
-    if (pBounds == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
+PyObject* pyBounds_FromBounds(const hsBounds& bounds) {
     pyBounds* obj = PyObject_New(pyBounds, &pyBounds_Type);
-    obj->fThis = pBounds;
-    obj->fPyOwned = false;
+    obj->fThis = new hsBounds(bounds);
     return (PyObject*)obj;
 }
 

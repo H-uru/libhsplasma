@@ -89,8 +89,8 @@ public:
     float getMinDist() const;
     float getMaxDist() const;
     float getWaterHeight() const;
-    hsBounds3Ext& getLocalBounds();
-    hsBounds3Ext& getWorldBounds();
+    const hsBounds3Ext& getLocalBounds() const;
+    const hsBounds3Ext& getWorldBounds() const;
 
     void setFogEnvironment(plKey fog);
     void clearPermaLights();
@@ -110,6 +110,8 @@ public:
     void setMinDist(float dist);
     void setMaxDist(float dist);
     void setWaterHeight(float height);
+    void setLocalBounds(const hsBounds3Ext& bounds);
+    void setWorldBounds(const hsBounds3Ext& bounds);
 };
 
 #endif

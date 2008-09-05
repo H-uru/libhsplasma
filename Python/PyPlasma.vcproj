@@ -376,6 +376,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Geometry\pyDrawableSpans.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Geometry\pyDrawableSpans.h"
 					>
 				</File>
@@ -408,6 +412,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Geometry\pySpaceTree.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpaceTree.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpaceTreeNode.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Geometry\pySpan.cpp"
 					>
 				</File>
@@ -417,6 +433,18 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Geometry\pyVertexSpan.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Misc"
+				>
+				<File
+					RelativePath=".\PRP\Misc\pyRenderLevel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Misc\pyRenderLevel.h"
 					>
 				</File>
 			</Filter>

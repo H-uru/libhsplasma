@@ -15,17 +15,21 @@ PYOBJ=\
 	$(OBJDIR)pySceneNode.o \
 	$(OBJDIR)pyDISpanIndex.o \
 	$(OBJDIR)pyDrawable.o \
+	$(OBJDIR)pyDrawableSpans.o \
 	$(OBJDIR)pyGBufferCell.o \
 	$(OBJDIR)pyGBufferGroup.o \
 	$(OBJDIR)pyGBufferTriangle.o \
 	$(OBJDIR)pyGBufferVertex.o \
 	$(OBJDIR)pyIcicle.o \
 	$(OBJDIR)pyParticleSpan.o \
+	$(OBJDIR)pySpaceTree.o \
+	$(OBJDIR)pySpaceTreeNode.o \
 	$(OBJDIR)pySpan.o \
 	$(OBJDIR)pyVertexSpan.o \
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
 	$(OBJDIR)pyLocation.o \
+	$(OBJDIR)pyRenderLevel.o \
 	$(OBJDIR)pyAudioInterface.o \
 	$(OBJDIR)pyCoordinateInterface.o \
 	$(OBJDIR)pyDrawInterface.o \
@@ -91,6 +95,9 @@ $(OBJDIR)pyDISpanIndex.o: PRP/Geometry/pyDISpanIndex.cpp
 $(OBJDIR)pyDrawable.o: PRP/Geometry/pyDrawable.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDrawable.cpp -o $(OBJDIR)pyDrawable.o
 
+$(OBJDIR)pyDrawableSpans.o: PRP/Geometry/pyDrawableSpans.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDrawableSpans.cpp -o $(OBJDIR)pyDrawableSpans.o
+
 $(OBJDIR)pyGBufferCell.o: PRP/Geometry/pyGBufferCell.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferCell.cpp -o $(OBJDIR)pyGBufferCell.o
 
@@ -109,6 +116,12 @@ $(OBJDIR)pyIcicle.o: PRP/Geometry/pyIcicle.cpp
 $(OBJDIR)pyParticleSpan.o: PRP/Geometry/pyParticleSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyParticleSpan.cpp -o $(OBJDIR)pyParticleSpan.o
 
+$(OBJDIR)pySpaceTree.o: PRP/Geometry/pySpaceTree.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpaceTree.cpp -o $(OBJDIR)pySpaceTree.o
+
+$(OBJDIR)pySpaceTreeNode.o: PRP/Geometry/pySpaceTreeNode.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpaceTreeNode.cpp -o $(OBJDIR)pySpaceTreeNode.o
+
 $(OBJDIR)pySpan.o: PRP/Geometry/pySpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpan.cpp -o $(OBJDIR)pySpan.o
 
@@ -123,6 +136,9 @@ $(OBJDIR)pyKeyedObject.o: PRP/KeyedObject/pyKeyedObject.cpp
 
 $(OBJDIR)pyLocation.o: PRP/KeyedObject/pyLocation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $(OBJDIR)pyLocation.o
+
+$(OBJDIR)pyRenderLevel.o: PRP/Misc/pyRenderLevel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $(OBJDIR)pyRenderLevel.o
 
 $(OBJDIR)pyAudioInterface.o: PRP/Object/pyAudioInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/pyAudioInterface.cpp -o $(OBJDIR)pyAudioInterface.o

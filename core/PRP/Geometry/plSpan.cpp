@@ -163,8 +163,8 @@ unsigned short plSpan::getLocalUVWChans() const { return fLocalUVWChans; }
 float plSpan::getMinDist() const { return fMinDist; }
 float plSpan::getMaxDist() const { return fMaxDist; }
 float plSpan::getWaterHeight() const { return fWaterHeight; }
-hsBounds3Ext& plSpan::getLocalBounds() { return fLocalBounds; }
-hsBounds3Ext& plSpan::getWorldBounds() { return fWorldBounds; }
+const hsBounds3Ext& plSpan::getLocalBounds() const { return fLocalBounds; }
+const hsBounds3Ext& plSpan::getWorldBounds() const { return fWorldBounds; }
 
 void plSpan::setFogEnvironment(plKey fog) { fFogEnvironment = fog; }
 void plSpan::clearPermaLights() { fPermaLights.clear(); }
@@ -184,3 +184,5 @@ void plSpan::setLocalUVWChans(unsigned short chans) { fLocalUVWChans = chans; }
 void plSpan::setMinDist(float dist) { fMinDist = dist; }
 void plSpan::setMaxDist(float dist) { fMaxDist = dist; }
 void plSpan::setWaterHeight(float height) { fWaterHeight = height; }
+void plSpan::setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }
+void plSpan::setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }

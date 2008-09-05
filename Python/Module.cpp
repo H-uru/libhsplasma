@@ -13,9 +13,11 @@
 #include "PRP/pySceneNode.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
 #include "PRP/Geometry/pyGBufferGroup.h"
+#include "PRP/Geometry/pySpaceTree.h"
 #include "PRP/Geometry/pySpan.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
@@ -92,6 +94,8 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plGBufferTriangle", Init_pyGBufferTriangle_Type());
     PyModule_AddObject(module, "plGBufferVertex", Init_pyGBufferVertex_Type());
     PyModule_AddObject(module, "plGBufferGroup", Init_pyGBufferGroup_Type());
+    PyModule_AddObject(module, "plRenderLevel", Init_pyRenderLevel_Type());
+    PyModule_AddObject(module, "plSpaceTreeNode", Init_pySpaceTreeNode_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -107,4 +111,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plDrawInterface", Init_pyDrawInterface_Type());
     PyModule_AddObject(module, "plSimulationInterface", Init_pySimulationInterface_Type());
     PyModule_AddObject(module, "plDrawable", Init_pyDrawable_Type());
+    PyModule_AddObject(module, "plDrawableSpans", Init_pyDrawableSpans_Type());
+
+    PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }

@@ -1,4 +1,5 @@
 #include "plDrawableSpans.h"
+#include "Debug/plDebug.h"
 
 /* plDISpanIndex */
 plDISpanIndex::plDISpanIndex() : fFlags(0) { }
@@ -27,8 +28,6 @@ plDrawableSpans::plDrawableSpans()
 plDrawableSpans::~plDrawableSpans() {
     for (size_t i=0; i<fSourceSpans.getSize(); i++)
         delete fSourceSpans[i];
-    for (size_t i=0; i<fDIIndices.getSize(); i++)
-        delete fDIIndices[i];
     for (size_t i=0; i<fGroups.getSize(); i++)
         delete fGroups[i];
     if (fSpaceTree != NULL)
@@ -51,7 +50,9 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     fIcicles.setSize(S->readInt());
     for (size_t i=0; i<fIcicles.getSize(); i++)
         fIcicles[i].read(S);
-    S->readInt(); // Discarded -- Icicles2
+
+    if (S->readInt() != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Unsupported field count is > 0");
 
     fSpans.setSizeNull(S->readInt());
     fSpanSourceIndices.setSizeNull(fSpans.getSize());
@@ -61,10 +62,6 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
             fSpans[i] = &(fIcicles[fSpanSourceIndices[i] & kSpanIDMask]);
         else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
             fSpans[i] = &(fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask]);
-        //if (fSpans[fSpans.getSize()-1]->getTypeMask() & plSpan::kParticleSpan) {
-        //    plParticleSpan* ps = (plParticleSpan*)fSpans[fSpans.getSize()-1];
-        //    ps->setSrcSpanIdx(fSpans.getSize()-1);
-        //}
     }
 
     for (size_t i=0; i<fSpans.getSize(); i++)
@@ -94,6 +91,8 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     }
 
     fSourceSpans.setSize(S->readInt());
+    if (fSourceSpans.getSize() > 0)
+        plDebug::Debug("Reading deprecated SourceSpans");
     for (size_t i=0; i<fSourceSpans.getSize(); i++) {
         fSourceSpans[i] = new plGeometrySpan();
         fSourceSpans[i]->read(S);
@@ -102,7 +101,6 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
         else
             fSourceSpans[i]->setMaterial(fMaterials[fSpans[i]->getMaterialIdx()]);
         fSourceSpans[i]->setFogEnvironment(fSpans[i]->getFogEnvironment());
-        //fSourceSpans[i]->setSpanRefIndex(i);
     }
 
     size_t xformCount = S->readInt();
@@ -119,12 +117,10 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
 
     fDIIndices.setSize(S->readInt());
     for (size_t i=0; i<fDIIndices.getSize(); i++) {
-        fDIIndices[i] = new plDISpanIndex();
-        fDIIndices[i]->fFlags = S->readInt();
-
-        fDIIndices[i]->fIndices.setSize(S->readInt());
-        for (size_t j=0; j<(fDIIndices[i]->fIndices.getSize()); j++)
-            fDIIndices[i]->fIndices[j] = S->readInt();
+        fDIIndices[i].fFlags = S->readInt();
+        fDIIndices[i].fIndices.setSize(S->readInt());
+        for (size_t j=0; j<(fDIIndices[i].fIndices.getSize()); j++)
+            fDIIndices[i].fIndices[j] = S->readInt();
     }
 
     fGroups.setSize(S->readInt());
@@ -142,13 +138,6 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
 
     fSpaceTree = plSpaceTree::Convert(mgr->ReadCreatable(S));
     fSceneNode = mgr->readKey(S);
-
-    /*
-    if (GetNativeProperty(kPropCharacter)) {
-        visSet[1] = true;
-        for (int i=0; i<fSpans.getCount(); i++)
-            fSpans[i]->visSet[1] = true;
-    }*/
 }
 
 void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
@@ -168,7 +157,7 @@ void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fIcicles.getSize(); i++)
         fIcicles[i].write(S);
 
-    S->writeInt(0);  // No Icicles2
+    S->writeInt(0); // Icicles2
 
     S->writeInt(fSpanSourceIndices.getSize());
     for (size_t i=0; i<fSpanSourceIndices.getSize(); i++)
@@ -210,10 +199,10 @@ void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fDIIndices.getSize());
     for (size_t i=0; i<fDIIndices.getSize(); i++) {
-        S->writeInt(fDIIndices[i]->fFlags);
-        S->writeInt(fDIIndices[i]->fIndices.getSize());
-        for (size_t j=0; j<fDIIndices[i]->fIndices.getSize(); j++)
-            S->writeInt(fDIIndices[i]->fIndices[j]);
+        S->writeInt(fDIIndices[i].fFlags);
+        S->writeInt(fDIIndices[i].fIndices.getSize());
+        for (size_t j=0; j<fDIIndices[i].fIndices.getSize(); j++)
+            S->writeInt(fDIIndices[i].fIndices[j]);
     }
 
     S->writeInt(fGroups.getSize());
@@ -243,10 +232,16 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
         fIcicles[i].prcWrite(prc);
     prc->closeTag();
 
+    prc->writeSimpleTag("ParticleSpans");
+    for (size_t i=0; i<fParticleSpans.getSize(); i++)
+        fParticleSpans[i].prcWrite(prc);
+    prc->closeTag();
+
     prc->writeSimpleTag("SpanSourceIndices");
     for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
         prc->startTag("SourceIndex");
-        prc->writeParam("value", fSpanSourceIndices[i]);
+        prc->writeParamHex("type", fSpanSourceIndices[i] & kSpanTypeMask);
+        prc->writeParam("value", fSpanSourceIndices[i] & kSpanIDMask);
         prc->endTag(true);
     }
     prc->closeTag();
@@ -314,11 +309,11 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("DIIndices");
     for (size_t i=0; i<fDIIndices.getSize(); i++) {
         prc->startTag("plDISpanIndex");
-        prc->writeParamHex("Flags", fDIIndices[i]->fFlags);
+        prc->writeParamHex("Flags", fDIIndices[i].fFlags);
         prc->endTag();
-        for (size_t j=0; j<fDIIndices[i]->fIndices.getSize(); j++) {
+        for (size_t j=0; j<fDIIndices[i].fIndices.getSize(); j++) {
             prc->startTag("Index");
-            prc->writeParam("value", fDIIndices[i]->fIndices[j]);
+            prc->writeParam("value", fDIIndices[i].fIndices[j]);
             prc->endTag(true);
         }
         prc->closeTag();
@@ -359,6 +354,13 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fIcicles[i].prcParse(child);
             child = child->getNextSibling();
         }
+    } else if (tag->getName() == "ParticleSpans") {
+        fParticleSpans.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fParticleSpans.getSize(); i++) {
+            fParticleSpans[i].prcParse(child);
+            child = child->getNextSibling();
+        }
     } else if (tag->getName() == "SpanSourceIndices") {
         fSpans.setSizeNull(tag->countChildren());
         fSpanSourceIndices.setSizeNull(fSpans.getSize());
@@ -366,15 +368,12 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
             if (child->getName() != "SourceIndex")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fSpanSourceIndices[i] = child->getParam("value", "0").toUint();
+            fSpanSourceIndices[i] = child->getParam("value", "0").toUint()
+                                  | child->getParam("type", "0").toUint();
             if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeIcicle)
                 fSpans[i] = &(fIcicles[fSpanSourceIndices[i] & kSpanIDMask]);
             else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
                 fSpans[i] = &(fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask]);
-            //if (fSpans[fSpans.getSize()-1]->getTypeMask() & plSpan::kParticleSpan) {
-            //    plParticleSpan* ps = (plParticleSpan*)fSpans[fSpans.getSize()-1];
-            //    ps->setSrcSpanIdx(fSpans.getSize()-1);
-            //}
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "FogEnvironments") {
@@ -439,7 +438,6 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             else
                 fSourceSpans[i]->setMaterial(fMaterials[fSpans[i]->getMaterialIdx()]);
             fSourceSpans[i]->setFogEnvironment(fSpans[i]->getFogEnvironment());
-            //fSourceSpans[i]->setSpanRefIndex(i);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Transforms") {
@@ -478,15 +476,14 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fDIIndices.getSize(); i++) {
             if (child->getName() != "plDISpanIndex")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fDIIndices[i] = new plDISpanIndex();
-            fDIIndices[i]->fFlags = child->getParam("Flags", "0").toUint();
-
-            fDIIndices[i]->fIndices.setSize(child->countChildren());
+            
+            fDIIndices[i].fFlags = child->getParam("Flags", "0").toUint();
+            fDIIndices[i].fIndices.setSize(child->countChildren());
             const pfPrcTag* subChild = child->getFirstChild();
-            for (size_t j=0; j<(fDIIndices[i]->fIndices.getSize()); j++) {
+            for (size_t j=0; j<(fDIIndices[i].fIndices.getSize()); j++) {
                 if (subChild->getName() != "Index")
                     throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
-                fDIIndices[i]->fIndices[j] = subChild->getParam("value", "0").toUint();
+                fDIIndices[i].fIndices[j] = subChild->getParam("value", "0").toUint();
                 subChild = subChild->getNextSibling();
             }
             child = child->getNextSibling();
@@ -510,16 +507,40 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plDrawableSpans::getNumIcicles() const {
-    return fIcicles.getSize();
+size_t plDrawableSpans::getNumSpans() const { return fSpans.getSize(); }
+plSpan* plDrawableSpans::getSpan(size_t idx) const { return fSpans[idx]; }
+
+void plDrawableSpans::clearSpans() {
+    fIcicles.clear();
+    fParticleSpans.clear();
+    fSpans.clear();
+    fSpanSourceIndices.clear();
 }
 
-const plIcicle& plDrawableSpans::getIcicle(size_t idx) const {
-    return fIcicles[idx];
+size_t plDrawableSpans::addIcicle(const plIcicle& span) {
+    fIcicles.append(span);
+    size_t iceId = fIcicles.getSize() - 1;
+    fSpans.append(&fIcicles[iceId]);
+    fSpanSourceIndices.append(iceId | kSpanTypeIcicle);
+    return fSpans.getSize() - 1;
+}
+
+size_t plDrawableSpans::getNumBufferGroups() const {
+    return fGroups.getSize();
 }
 
 plGBufferGroup* plDrawableSpans::getBuffer(size_t group) const {
     return fGroups[group];
+}
+
+size_t plDrawableSpans::createBufferGroup(unsigned char format) {
+    fGroups.append(new plGBufferGroup(format));
+    return fGroups.getSize() - 1;
+}
+
+void plDrawableSpans::deleteBufferGroup(size_t group) {
+    delete fGroups[group];
+    fGroups.remove(group);
 }
 
 hsTArray<plGBufferVertex> plDrawableSpans::getVerts(size_t group, size_t buffer) const {
@@ -530,10 +551,68 @@ hsTArray<unsigned short> plDrawableSpans::getIndices(size_t group, size_t buffer
     return fGroups[group]->getIndices(buffer);
 }
 
-size_t plDrawableSpans::getNumDIIndices() const {
-    return fDIIndices.getSize();
+hsTArray<plGBufferCell> plDrawableSpans::getCells(size_t group, size_t buffer) const {
+    return fGroups[group]->getCells(buffer);
 }
 
-plDISpanIndex* plDrawableSpans::getDIIndex(size_t idx) const {
-    return fDIIndices[idx];
+void plDrawableSpans::addVerts(size_t group, const hsTArray<plGBufferVertex>& verts) {
+    fGroups[group]->addVertices(verts);
 }
+
+void plDrawableSpans::addIndices(size_t group, const hsTArray<unsigned short>& indices) {
+    fGroups[group]->addIndices(indices);
+}
+
+void plDrawableSpans::addCells(size_t group, const hsTArray<plGBufferCell>& cells) {
+    fGroups[group]->addCells(cells);
+}
+
+size_t plDrawableSpans::getNumDIIndices() const { return fDIIndices.getSize(); }
+const plDISpanIndex& plDrawableSpans::getDIIndex(size_t idx) const { return fDIIndices[idx]; }
+void plDrawableSpans::clearDIIndices() { fDIIndices.clear(); }
+void plDrawableSpans::addDIIndex(const plDISpanIndex& idx) { fDIIndices.append(idx); }
+
+size_t plDrawableSpans::getNumTransforms() const { return fLocalToWorlds.getSize(); }
+hsMatrix44 plDrawableSpans::getLocalToWorld(size_t idx) const { return fLocalToWorlds[idx]; }
+hsMatrix44 plDrawableSpans::getWorldToLocal(size_t idx) const { return fWorldToLocals[idx]; }
+hsMatrix44 plDrawableSpans::getLocalToBone(size_t idx) const { return fLocalToBones[idx]; }
+hsMatrix44 plDrawableSpans::getBoneToLocal(size_t idx) const { return fBoneToLocals[idx]; }
+
+void plDrawableSpans::clearTransforms() {
+    fLocalToWorlds.clear();
+    fWorldToLocals.clear();
+    fLocalToBones.clear();
+    fBoneToLocals.clear();
+}
+
+void plDrawableSpans::addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
+                                   const hsMatrix44& l2b, const hsMatrix44& b2l) {
+    fLocalToWorlds.append(l2w);
+    fWorldToLocals.append(w2l);
+    fLocalToBones.append(l2b);
+    fBoneToLocals.append(b2l);
+}
+
+const hsBounds3Ext& plDrawableSpans::getLocalBounds() { return fLocalBounds; }
+const hsBounds3Ext& plDrawableSpans::getWorldBounds() { return fWorldBounds; }
+const hsBounds3Ext& plDrawableSpans::getMaxWorldBounds() { return fMaxWorldBounds; }
+void plDrawableSpans::setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }
+void plDrawableSpans::setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
+void plDrawableSpans::setMaxWorldBounds(const hsBounds3Ext& bounds) { fMaxWorldBounds = bounds; }
+
+size_t plDrawableSpans::getNumMaterials() const { return fMaterials.getSize(); }
+plKey plDrawableSpans::getMaterial(size_t idx) const { return fMaterials[idx]; }
+void plDrawableSpans::clearMaterials() { fMaterials.clear(); }
+void plDrawableSpans::addMaterial(plKey mat) { fMaterials.append(mat); }
+
+plSpaceTree* plDrawableSpans::getSpaceTree() const { return fSpaceTree; }
+void plDrawableSpans::setSpaceTree(plSpaceTree* tree) { fSpaceTree = tree; }
+
+unsigned int plDrawableSpans::getProps() const { return fProps; }
+unsigned int plDrawableSpans::getCriteria() const { return fCriteria; }
+plRenderLevel plDrawableSpans::getRenderLevel() const { return fRenderLevel; }
+plWeakKey plDrawableSpans::getSceneNode() const { return fSceneNode; }
+void plDrawableSpans::setProps(unsigned int props) { fProps = props; }
+void plDrawableSpans::setCriteria(unsigned int crit) { fCriteria = crit; }
+void plDrawableSpans::setRenderLevel(plRenderLevel level) { fRenderLevel = level; }
+void plDrawableSpans::setSceneNode(plWeakKey node) { fSceneNode = node; }

@@ -74,6 +74,7 @@ public:
     static const unsigned int kSpanTypeMask = 0xC0000000;
     static const unsigned int kSpanIDMask = 0x3FFFFFFF;
     static const unsigned int kSpanTypeIcicle = 0x00000000;
+    static const unsigned int kSpanTypeUnknown = 0x80000000;
     static const unsigned int kSpanTypeParticleSpan = 0xC0000000;
 
 public:
@@ -96,7 +97,7 @@ protected:
     hsTArray<plSpan*> fSpans;
     hsTArray<unsigned int> fSpanSourceIndices;
     hsTArray<plGBufferGroup*> fGroups;
-    hsTArray<plDISpanIndex*> fDIIndices;
+    hsTArray<plDISpanIndex> fDIIndices;
     unsigned int fProps, fCriteria;
     plRenderLevel fRenderLevel;
     plWeakKey fSceneNode;
@@ -113,15 +114,59 @@ public:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
-    size_t getNumIcicles() const;
-    const plIcicle& getIcicle(size_t idx) const;
+    size_t getNumSpans() const;
+    plSpan* getSpan(size_t idx) const;
+    void clearSpans();
+    size_t addIcicle(const plIcicle& span);
 
+    size_t getNumBufferGroups() const;
     plGBufferGroup* getBuffer(size_t group) const;
+    size_t createBufferGroup(unsigned char format);
+    void deleteBufferGroup(size_t group);
     hsTArray<plGBufferVertex> getVerts(size_t group, size_t buffer) const;
     hsTArray<unsigned short> getIndices(size_t group, size_t buffer) const;
+    hsTArray<plGBufferCell> getCells(size_t group, size_t buffer) const;
+    void addVerts(size_t group, const hsTArray<plGBufferVertex>& verts);
+    void addIndices(size_t group, const hsTArray<unsigned short>& indices);
+    void addCells(size_t group, const hsTArray<plGBufferCell>& cells);
 
     size_t getNumDIIndices() const;
-    plDISpanIndex* getDIIndex(size_t idx) const;
+    const plDISpanIndex& getDIIndex(size_t idx) const;
+    void clearDIIndices();
+    void addDIIndex(const plDISpanIndex& idx);
+
+    size_t getNumTransforms() const;
+    hsMatrix44 getLocalToWorld(size_t idx) const;
+    hsMatrix44 getWorldToLocal(size_t idx) const;
+    hsMatrix44 getLocalToBone(size_t idx) const;
+    hsMatrix44 getBoneToLocal(size_t idx) const;
+    void clearTransforms();
+    void addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
+                      const hsMatrix44& l2b, const hsMatrix44& b2l);
+
+    const hsBounds3Ext& getLocalBounds();
+    const hsBounds3Ext& getWorldBounds();
+    const hsBounds3Ext& getMaxWorldBounds();
+    void setLocalBounds(const hsBounds3Ext& bounds);
+    void setWorldBounds(const hsBounds3Ext& bounds);
+    void setMaxWorldBounds(const hsBounds3Ext& bounds);
+
+    size_t getNumMaterials() const;
+    plKey getMaterial(size_t idx) const;
+    void clearMaterials();
+    void addMaterial(plKey mat);
+
+    plSpaceTree* getSpaceTree() const;
+    void setSpaceTree(plSpaceTree* tree);
+
+    unsigned int getProps() const;
+    unsigned int getCriteria() const;
+    plRenderLevel getRenderLevel() const;
+    plWeakKey getSceneNode() const;
+    void setProps(unsigned int props);
+    void setCriteria(unsigned int crit);
+    void setRenderLevel(plRenderLevel level);
+    void setSceneNode(plWeakKey node);
 };
 
 #endif

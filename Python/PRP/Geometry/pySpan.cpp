@@ -176,11 +176,11 @@ static PyObject* pySpan_getWaterHeight(pySpan* self, void*) {
 }
 
 static PyObject* pySpan_getLocalBounds(pySpan* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(&self->fThis->getLocalBounds());
+    return pyBounds3Ext_FromBounds3Ext(self->fThis->getLocalBounds());
 }
 
 static PyObject* pySpan_getWorldBounds(pySpan* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(&self->fThis->getWorldBounds());
+    return pyBounds3Ext_FromBounds3Ext(self->fThis->getWorldBounds());
 }
 
 static int pySpan_setFog(pySpan* self, PyObject* value, void*) {
@@ -315,13 +315,21 @@ static int pySpan_setWaterHeight(pySpan* self, PyObject* value, void*) {
 }
 
 static int pySpan_setLocalBounds(pySpan* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "localBounds cannot be assigned to");
-    return -1;
+    if (value == NULL || !pyBounds3Ext_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "localBounds should be an hsBounds3Ext");
+        return -1;
+    }
+    self->fThis->setLocalBounds(*((pyBounds3Ext*)value)->fThis);
+    return 0;
 }
 
 static int pySpan_setWorldBounds(pySpan* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "worldBounds cannot be assigned to");
-    return -1;
+    if (value == NULL || !pyBounds3Ext_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "worldBounds should be an hsBounds3Ext");
+        return -1;
+    }
+    self->fThis->setWorldBounds(*((pyBounds3Ext*)value)->fThis);
+    return 0;
 }
 
 static PyMethodDef pySpan_Methods[] = {
