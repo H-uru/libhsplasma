@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;E:\Dev\Python25\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;D:\Dev\Python25\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;PYPLASMA_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				AdditionalDependencies="python25_d.lib"
 				OutputFile="$(OutDir)\$(ProjectName).pyd"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="E:\Dev\Python25\libs"
+				AdditionalLibraryDirectories="D:\Dev\Python25\libs"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -119,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;E:\Dev\Python25\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;D:\Dev\Python25\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PYPLASMA_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -141,7 +141,7 @@
 				AdditionalDependencies="python25.lib"
 				OutputFile="$(OutDir)\$(ProjectName).pyd"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="E:\Dev\Python25\libs"
+				AdditionalLibraryDirectories="D:\Dev\Python25\libs"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -445,6 +445,54 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Misc\pyRenderLevel.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Surface"
+				>
+				<File
+					RelativePath=".\PRP\Surface\pyGMaterial.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyGMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyGMatState.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyGMatState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerDepth.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyShader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyShader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyShaderConst.cpp"
 					>
 				</File>
 			</Filter>

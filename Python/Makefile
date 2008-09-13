@@ -41,6 +41,13 @@ PYOBJ=\
 	$(OBJDIR)pyBounds3.o \
 	$(OBJDIR)pyBounds3Ext.o \
 	$(OBJDIR)pyBoundsOriented.o \
+	$(OBJDIR)pyGMaterial.o \
+	$(OBJDIR)pyGMatState.o \
+	$(OBJDIR)pyLayer.o \
+	$(OBJDIR)pyLayerDepth.o \
+	$(OBJDIR)pyLayerInterface.o \
+	$(OBJDIR)pyShader.o \
+	$(OBJDIR)pyShaderConst.o \
 	$(OBJDIR)pyAgeInfo.o \
 	$(OBJDIR)pyFactory.o \
 	$(OBJDIR)pyResManager.o \
@@ -172,6 +179,27 @@ $(OBJDIR)pyBounds3Ext.o: PRP/Region/pyBounds3Ext.cpp
 
 $(OBJDIR)pyBoundsOriented.o: PRP/Region/pyBoundsOriented.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBoundsOriented.cpp -o $(OBJDIR)pyBoundsOriented.o
+
+$(OBJDIR)pyGMaterial.o: PRP/Surface/pyGMaterial.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyGMaterial.cpp -o $(OBJDIR)pyGMaterial.o
+
+$(OBJDIR)pyGMatState.o: PRP/Surface/pyGMatState.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyGMatState.cpp -o $(OBJDIR)pyGMatState.o
+
+$(OBJDIR)pyLayer.o: PRP/Surface/pyLayer.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayer.cpp -o $(OBJDIR)pyLayer.o
+
+$(OBJDIR)pyLayerDepth.o: PRP/Surface/pyLayerDepth.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerDepth.cpp -o $(OBJDIR)pyLayerDepth.o
+
+$(OBJDIR)pyLayerInterface.o: PRP/Surface/pyLayerInterface.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerInterface.cpp -o $(OBJDIR)pyLayerInterface.o
+
+$(OBJDIR)pyShader.o: PRP/Surface/pyShader.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyShader.cpp -o $(OBJDIR)pyShader.o
+
+$(OBJDIR)pyShaderConst.o: PRP/Surface/pyShaderConst.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyShaderConst.cpp -o $(OBJDIR)pyShaderConst.o
 
 $(OBJDIR)pyAgeInfo.o: ResManager/pyAgeInfo.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/pyAgeInfo.cpp -o $(OBJDIR)pyAgeInfo.o

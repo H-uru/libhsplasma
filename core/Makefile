@@ -232,6 +232,7 @@ PLSOBJ=\
 	$(OBJDIR)plMipmap.o \
 	$(OBJDIR)plPrintShape.o \
 	$(OBJDIR)plRenderTarget.o \
+	$(OBJDIR)plShader.o \
 	$(OBJDIR)plWaveSet6.o \
 	$(OBJDIR)plWaveSet7.o \
 	$(OBJDIR)plWaveSetBase.o
@@ -945,6 +946,9 @@ $(OBJDIR)plPrintShape.o: PRP/Surface/plPrintShape.h PRP/Surface/plPrintShape.cpp
 
 $(OBJDIR)plRenderTarget.o: PRP/Surface/plRenderTarget.h PRP/Surface/plRenderTarget.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plRenderTarget.cpp -o $(OBJDIR)plRenderTarget.o
+
+$(OBJDIR)plShader.o: PRP/Surface/plShader.h PRP/Surface/plShader.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/plShader.cpp -o $(OBJDIR)plShader.o
 
 $(OBJDIR)plWaveSet6.o: PRP/Surface/plWaveSet6.h PRP/Surface/plWaveSet6.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plWaveSet6.cpp -o $(OBJDIR)plWaveSet6.o

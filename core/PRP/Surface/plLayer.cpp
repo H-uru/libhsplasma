@@ -11,10 +11,10 @@ void plLayer::read(hsStream* S, plResManager* mgr) {
     fState.read(S);
     fTransform.read(S);
 
-    fPreshadeColor.read(S);
-    fRuntimeColor.read(S);
-    fAmbientColor.read(S);
-    fSpecularColor.read(S);
+    fPreshade.read(S);
+    fRuntime.read(S);
+    fAmbient.read(S);
+    fSpecular.read(S);
 
     fUVWSrc = S->readInt();
     fOpacity = S->readFloat();
@@ -32,10 +32,10 @@ void plLayer::write(hsStream* S, plResManager* mgr) {
     fState.write(S);
     fTransform.write(S);
 
-    fPreshadeColor.write(S);
-    fRuntimeColor.write(S);
-    fAmbientColor.write(S);
-    fSpecularColor.write(S);
+    fPreshade.write(S);
+    fRuntime.write(S);
+    fAmbient.write(S);
+    fSpecular.write(S);
 
     S->writeInt(fUVWSrc);
     S->writeFloat(fOpacity);
@@ -57,16 +57,16 @@ void plLayer::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Preshade");
-      fPreshadeColor.prcWrite(prc);
+      fPreshade.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Runtime");
-      fRuntimeColor.prcWrite(prc);
+      fRuntime.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Ambient");
-      fAmbientColor.prcWrite(prc);
+      fAmbient.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Specular");
-      fSpecularColor.prcWrite(prc);
+      fSpecular.prcWrite(prc);
     prc->closeTag();
 
     prc->startTag("LayerParams");
@@ -99,16 +99,16 @@ void plLayer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fTransform.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Preshade") {
         if (tag->hasChildren())
-            fPreshadeColor.prcParse(tag->getFirstChild());
+            fPreshade.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Runtime") {
         if (tag->hasChildren())
-            fRuntimeColor.prcParse(tag->getFirstChild());
+            fRuntime.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Ambient") {
         if (tag->hasChildren())
-            fAmbientColor.prcParse(tag->getFirstChild());
+            fAmbient.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Specular") {
         if (tag->hasChildren())
-            fSpecularColor.prcParse(tag->getFirstChild());
+            fSpecular.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "LayerParams") {
         fUVWSrc = tag->getParam("UVWSrc", "0").toUint();
         fOpacity = tag->getParam("Opacity", "0").toFloat();
@@ -130,6 +130,8 @@ void plLayer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plLayerInterface::IPrcParse(tag, mgr);
     }
 }
+
+hsGMatState& plLayer::getState() { return fState; }
 
 
 /* plLayerDepth */

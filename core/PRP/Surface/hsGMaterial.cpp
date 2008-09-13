@@ -1,6 +1,6 @@
 #include "hsGMaterial.h"
 
-hsGMaterial::hsGMaterial() { }
+hsGMaterial::hsGMaterial() : fCompFlags(0), fLoadFlags(0) { }
 hsGMaterial::~hsGMaterial() { }
 
 IMPLEMENT_CREATABLE(hsGMaterial, kGMaterial, plSynchedObject)
@@ -73,3 +73,18 @@ void hsGMaterial::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
+
+size_t hsGMaterial::getNumLayers() const { return fLayers.getSize(); }
+plKey hsGMaterial::getLayer(size_t idx) const { return fLayers[idx]; }
+void hsGMaterial::clearLayers() { fLayers.clear(); }
+void hsGMaterial::addLayer(plKey layer) { fLayers.append(layer); }
+
+size_t hsGMaterial::getNumPiggyBacks() const { return fPiggyBacks.getSize(); }
+plKey hsGMaterial::getPiggyBack(size_t idx) const { return fPiggyBacks[idx]; }
+void hsGMaterial::clearPiggyBacks() { fPiggyBacks.clear(); }
+void hsGMaterial::addPiggyBack(plKey pb) { fPiggyBacks.append(pb); }
+
+unsigned int hsGMaterial::getCompFlags() const { return fCompFlags; }
+unsigned int hsGMaterial::getLoadFlags() const { return fLoadFlags; }
+void hsGMaterial::setCompFlags(unsigned int flags) { fCompFlags = flags; }
+void hsGMaterial::setLoadFlags(unsigned int flags) { fLoadFlags = flags; }

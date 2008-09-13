@@ -22,10 +22,6 @@ public:
         kCompIsLightMapped = 0x1000,
         kCompNeedsBlendChannel = 0x2000
     };
-    
-    enum UpdateFlags {
-        kUpdateAgain = 0x1
-    };
 
 private:
     hsTArray<plKey> fLayers, fPiggyBacks;
@@ -41,6 +37,21 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    size_t getNumLayers() const;
+    plKey getLayer(size_t idx) const;
+    void clearLayers();
+    void addLayer(plKey layer);
+
+    size_t getNumPiggyBacks() const;
+    plKey getPiggyBack(size_t idx) const;
+    void clearPiggyBacks();
+    void addPiggyBack(plKey pb);
+
+    unsigned int getCompFlags() const;
+    unsigned int getLoadFlags() const;
+    void setCompFlags(unsigned int flags);
+    void setLoadFlags(unsigned int flags);
 };
 
 #endif

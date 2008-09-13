@@ -115,6 +115,7 @@
 #include "PRP/Surface/plLayer.h"
 #include "PRP/Surface/plLayerMovie.h"
 #include "PRP/Surface/plPrintShape.h"
+#include "PRP/Surface/plShader.h"
 #include "PRP/Surface/plWaveSet6.h"
 #include "PRP/Surface/plWaveSet7.h"
 // End type includes
@@ -392,7 +393,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCCRSeniorSpecialist: return new plCCRSeniorSpecialist();
         //case kCCRShiftSupervisor: return new plCCRShiftSupervisor();
         //case kCCRGameOperator: return new plCCRGameOperator();
-        //case kShader: return new plShader();
+        case kShader: return new plShader();
         case kDynamicEnvMap: return new plDynamicEnvMap();
         //case kSimpleRegionSensor: return new plSimpleRegionSensor();
         //case kMorphSequence: return new plMorphSequence();

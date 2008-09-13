@@ -36,10 +36,10 @@ public:
     };
 
 protected:
-    plKey fUnderLay, fOverLay;
-    unsigned int fOwnedChannels, fPassThruChannels;
+    plKey fUnderLay;
+    unsigned int fOwnedChannels;
     hsMatrix44 fTransform;
-    hsColorRGBA fPreshadeColor, fRuntimeColor, fAmbientColor, fSpecularColor;
+    hsColorRGBA fPreshade, fRuntime, fAmbient, fSpecular;
     float fOpacity;
     unsigned int fUVWSrc;
     float fLODBias;
@@ -57,6 +57,40 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    plKey getUnderLay() const;
+    plKey getTexture() const;
+    plKey getVertexShader() const;
+    plKey getPixelShader() const;
+    void setUnderLay(plKey layer);
+    void setTexture(plKey tex);
+    void setVertexShader(plKey shader);
+    void setPixelShader(plKey shader);
+
+    hsMatrix44 getTransform() const;
+    hsMatrix44 getBumpEnvTransform() const;
+    void setTransform(const hsMatrix44& xform);
+    void setBumpEnvTransform(const hsMatrix44& xform);
+
+    hsColorRGBA getPreshade() const;
+    hsColorRGBA getRuntime() const;
+    hsColorRGBA getAmbient() const;
+    hsColorRGBA getSpecular() const;
+    void setPreshade(const hsColorRGBA& color);
+    void setRuntime(const hsColorRGBA& color);
+    void setAmbient(const hsColorRGBA& color);
+    void setSpecular(const hsColorRGBA& color);
+
+    unsigned int getOwnedChannels() const;
+    float getOpacity() const;
+    unsigned int getUVWSrc() const;
+    float getLODBias() const;
+    float getSpecularPower() const;
+    void setOwnedChannels(unsigned int channels);
+    void setOpacity(float opac);
+    void setUVWSrc(unsigned int src);
+    void setLODBias(float bias);
+    void setSpecularPower(float power);
 };
 
 #endif

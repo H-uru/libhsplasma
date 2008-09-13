@@ -145,8 +145,8 @@ static int pyMatrix44_setGlMat(pyMatrix44* self, PyObject* value, void*) {
     return -1;
 }
 
-static PyObject* pyMatrix44_IdentityMat(PyObject*) {
-    return pyMatrix44_FromMatrix44(hsMatrix44::IdentityMat());
+static PyObject* pyMatrix44_Identity(PyObject*) {
+    return pyMatrix44_FromMatrix44(hsMatrix44::Identity());
 }
 
 static PyObject* pyMatrix44_TranslateMat(PyObject*, PyObject* args) {
@@ -359,7 +359,7 @@ PyGetSetDef pyMatrix44_GetSet[] = {
 };
 
 PyMethodDef pyMatrix44_Methods[] = {
-    { "IdentityMat", (PyCFunction)pyMatrix44_IdentityMat, METH_NOARGS | METH_STATIC,
+    { "Identity", (PyCFunction)pyMatrix44_Identity, METH_NOARGS | METH_STATIC,
       "Creates an identity matrix" },
     { "TranslateMat", (PyCFunction)pyMatrix44_TranslateMat, METH_VARARGS | METH_STATIC,
       "Params: vector\n"

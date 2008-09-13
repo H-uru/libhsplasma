@@ -1949,6 +1949,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Surface\plShader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\plShader.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Surface\plWaveSet6.cpp"
 					>
 				</File>

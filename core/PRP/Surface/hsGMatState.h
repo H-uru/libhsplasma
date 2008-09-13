@@ -102,8 +102,6 @@ public:
         kAllMiscFlags = 0xFF
     };
     
-    enum StateIdx { kBlend, kClamp, kShade, kZ, kMisc };
-
 public:
     unsigned int fBlendFlags, fClampFlags, fShadeFlags, fZFlags, fMiscFlags;
 

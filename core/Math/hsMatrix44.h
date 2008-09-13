@@ -18,7 +18,7 @@ public:
     hsMatrix44();
     hsMatrix44(const hsMatrix44& init);
     
-    static hsMatrix44 IdentityMat();
+    static hsMatrix44 Identity();
     static hsMatrix44 TranslateMat(const hsVector3& translate);
     static hsMatrix44 RotateMat(int axis, float angle);
     static hsMatrix44 ScaleMat(const hsVector3& scale);

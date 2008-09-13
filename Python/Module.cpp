@@ -22,6 +22,10 @@
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Surface/pyGMaterial.h"
+#include "PRP/Surface/pyGMatState.h"
+#include "PRP/Surface/pyLayer.h"
+#include "PRP/Surface/pyShader.h"
 
 static PyMethodDef PyPlasma_Methods[] = {
     { NULL, NULL, 0, NULL }
@@ -96,6 +100,8 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plGBufferGroup", Init_pyGBufferGroup_Type());
     PyModule_AddObject(module, "plRenderLevel", Init_pyRenderLevel_Type());
     PyModule_AddObject(module, "plSpaceTreeNode", Init_pySpaceTreeNode_Type());
+    PyModule_AddObject(module, "hsGMatState", Init_pyGMatState_Type());
+    PyModule_AddObject(module, "plShaderConst", Init_pyShaderConst_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -112,6 +118,11 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plSimulationInterface", Init_pySimulationInterface_Type());
     PyModule_AddObject(module, "plDrawable", Init_pyDrawable_Type());
     PyModule_AddObject(module, "plDrawableSpans", Init_pyDrawableSpans_Type());
+    PyModule_AddObject(module, "hsGMaterial", Init_pyGMaterial_Type());
+    PyModule_AddObject(module, "plLayerInterface", Init_pyLayerInterface_Type());
+    PyModule_AddObject(module, "plLayer", Init_pyLayer_Type());
+    PyModule_AddObject(module, "plLayerDepth", Init_pyLayerDepth_Type());
+    PyModule_AddObject(module, "plShader", Init_pyShader_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }

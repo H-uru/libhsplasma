@@ -18,8 +18,7 @@ static int pyColorRGBA___init__(pyColorRGBA* self, PyObject* args, PyObject* kwd
     if (PyArg_ParseTupleAndKeywords(args, kwds, "fff|f", kwlist,
                                     &red, &green, &blue, &alpha)) {
         self->fThis->set(red, green, blue, alpha);
-    } else if (PyArg_ParseTuple(args, "|O", &init)) {
-        PyErr_Clear();
+    } else if (PyErr_Clear(), PyArg_ParseTuple(args, "|O", &init)) {
         if (init == NULL)
             return 0;
         if (pyColorRGBA_Check(init)) {
