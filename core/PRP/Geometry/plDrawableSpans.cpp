@@ -543,12 +543,12 @@ void plDrawableSpans::deleteBufferGroup(size_t group) {
     fGroups.remove(group);
 }
 
-hsTArray<plGBufferVertex> plDrawableSpans::getVerts(size_t group, size_t buffer) const {
-    return fGroups[group]->getVertices(buffer);
+hsTArray<plGBufferVertex> plDrawableSpans::getVerts(const plIcicle* span) const {
+    return fGroups[span->getGroupIdx()]->getVertices(span->getVBufferIdx(), span->getVStartIdx(), span->getVLength());
 }
 
-hsTArray<unsigned short> plDrawableSpans::getIndices(size_t group, size_t buffer) const {
-    return fGroups[group]->getIndices(buffer);
+hsTArray<unsigned short> plDrawableSpans::getIndices(const plIcicle* span) const {
+    return fGroups[span->getGroupIdx()]->getIndices(span->getIBufferIdx(), span->getIStartIdx(), span->getILength());
 }
 
 hsTArray<plGBufferCell> plDrawableSpans::getCells(size_t group, size_t buffer) const {

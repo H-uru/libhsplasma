@@ -123,8 +123,8 @@ public:
     plGBufferGroup* getBuffer(size_t group) const;
     size_t createBufferGroup(unsigned char format);
     void deleteBufferGroup(size_t group);
-    hsTArray<plGBufferVertex> getVerts(size_t group, size_t buffer) const;
-    hsTArray<unsigned short> getIndices(size_t group, size_t buffer) const;
+    hsTArray<plGBufferVertex> getVerts(const plIcicle* span) const;
+    hsTArray<unsigned short> getIndices(const plIcicle* span) const;
     hsTArray<plGBufferCell> getCells(size_t group, size_t buffer) const;
     void addVerts(size_t group, const hsTArray<plGBufferVertex>& verts);
     void addIndices(size_t group, const hsTArray<unsigned short>& indices);

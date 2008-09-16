@@ -15,40 +15,11 @@ public:
         kARGB32Config = 0x20
     };
 
-    enum {
-        kCreateDetailAlpha = 0x1,
-        kCreateDetailAdd = 0x2,
-        kCreateDetailMult = 0x4,
-        kCreateDetailMask = 0x7,
-        kCreateCarryAlpha = 0x10,
-        kCreateCarryBlack = 0x20,
-        kCreateCarryMask = 0x38
-    };
-
-    enum hsGPixelType { kPixelARGB4444, kPixelARGB1555, kPixelAI88, kPixelI8 };
-    enum hsGCopyOptions { kCopyLODMask };
     enum { kColorDataRLE = 0x1, kAlphaDataRLE = 0x2 };
-
-    enum CompositeFlags {
-        kForceOpaque = 0x1,
-        kCopySrcAlpha = 0x2,
-        kBlendSrcAlpha = 0x4,
-        kMaskSrcAlpha = 0x8,
-        kBlendWriteAlpha = 0x10
-    };
-
-    enum ScaleFilter { kBoxFilter = 0, kDefaultFilter = 0 };
-
-    struct CompositeOptions {
-        unsigned short fFlags;
-        unsigned char fSrcLevelsToSkip;
-        unsigned char fOpacity;
-        float fRedTint, fGreenTint, fBlueTint;
-        unsigned short fSrcClipX, fSrcClipY, fSrcClipWidth, fSrcClipHeight;
-    };
 
 protected:
     unsigned char* fImageData;
+    unsigned int fTotalSize;
     unsigned char* fJPEGData;
     unsigned int fJPEGSize;
     unsigned char* fAlphaData;
@@ -56,17 +27,22 @@ protected:
     plMipmap* fJPEGDataRLE;
     plMipmap* fAlphaDataRLE;
     
-    unsigned int fWidth, fHeight, fStride, fTotalSize;
+    unsigned int fWidth, fHeight, fStride;
     unsigned char fNumLevels;
     unsigned int* fLevelSizes;
-    unsigned char* fCurLevelPtr;
-    unsigned char fCurLevel;
-    unsigned int fCurLvlWidth, fCurLevelHeight, fCurLevelStride;
     
     void CopyFrom(plMipmap* src);
     void ICopyImage(plMipmap* src);
     void IRecombineAlpha(plMipmap* alphaImg);
     plMipmap* ISplitAlpha();
+
+    void IBuildLevelSizes();
+    void IReadJPEGImage(hsStream* S);
+    void IReadRawImage(hsStream* S);
+    plMipmap* IReadRLEImage(hsStream* S);
+    void IWriteJPEGImage(hsStream* S);
+    void IWriteRawImage(hsStream* S);
+    void IWriteRLEImage(hsStream* S, plMipmap* img);
 
 public:
     plMipmap();
@@ -82,23 +58,27 @@ public:
                 unsigned char format);
     void setConfig(unsigned int cfg);
 
-    const void* getJPEGData();
-    unsigned int getJPEGSize();
-    const void* getAlphaData();
-    unsigned int getAlphaSize();
-
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
-    void IBuildLevelSizes();
-    void IReadJPEGImage(hsStream* S);
-    void IReadRawImage(hsStream* S);
-    plMipmap* IReadRLEImage(hsStream* S);
-    void IWriteJPEGImage(hsStream* S);
-    void IWriteRawImage(hsStream* S);
-    void IWriteRLEImage(hsStream* S, plMipmap* img);
+    unsigned int getWidth() const;
+    unsigned int getHeight() const;
+    const void* getImageData() const;
+    unsigned int getImageSize() const;
+    const void* getAlphaData() const;
+    unsigned int getAlphaSize() const;
+    size_t getNumLevels() const;
+    unsigned int getLevelSize(size_t idx) const;
+    const void* getLevelData(size_t idx) const;
+
+    void setImageData(const void* data);
+    void setLevelData(size_t idx, const void* data);
+    void setImageJPEG(const void* data, unsigned int size);
+    void setImageRLE(const void* data);
+    void setAlphaJPEG(const void* data, unsigned int size);
+    void setAlphaRLE(const void* data);
 };
 
 #endif

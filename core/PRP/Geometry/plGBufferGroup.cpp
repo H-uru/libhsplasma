@@ -370,12 +370,14 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx) const {
+hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t start, size_t count) const {
     hsTArray<plGBufferVertex> buf;
 
-    unsigned char* cp = fVertBuffStorage[idx];
-    buf.setSize(fVertBuffSizes[idx] / fStride);
-    for (size_t i=0; i<(fVertBuffSizes[idx] / fStride); i++) {
+    unsigned char* cp = fVertBuffStorage[idx] + (fStride * start);
+    if (count == (size_t)-1)
+        count = (fVertBuffSizes[idx] / fStride) - start;
+    buf.setSize(count);
+    for (size_t i=0; i<count; i++) {
         buf[i].fPos.X = *(float*)cp; cp += sizeof(float);
         buf[i].fPos.Y = *(float*)cp; cp += sizeof(float);
         buf[i].fPos.Z = *(float*)cp; cp += sizeof(float);
@@ -411,12 +413,14 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx) const {
     return buf;
 }
 
-hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx) const {
+hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start, size_t count) const {
     hsTArray<unsigned short> buf;
 
-    buf.setSizeNull(fIdxBuffCounts[idx]);
-    for (size_t i=0; i<fIdxBuffCounts[idx]; i++)
-        buf[i] = fIdxBuffStorage[idx][i];
+    if (count == (size_t)-1)
+        count = fIdxBuffCounts[idx] - start;
+    buf.setSizeNull(count);
+    for (size_t i=0; i<count; i++)
+        buf[i] = fIdxBuffStorage[idx][i + start];
     return buf;
 }
 

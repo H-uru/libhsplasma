@@ -123,10 +123,10 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
         plDISpanIndex di = span->getDIIndex(draw->getDrawableKey(i));
         for (size_t idx=0; idx<di.fIndices.getSize(); idx++) {
             plIcicle* ice = (plIcicle*)span->getSpan(di.fIndices[idx]);
-            hsTArray<plGBufferVertex> verts = span->getVerts(ice->getGroupIdx(), ice->getVBufferIdx());
-            hsTArray<unsigned short> indices = span->getIndices(ice->getGroupIdx(), ice->getIBufferIdx());
+            hsTArray<plGBufferVertex> verts = span->getVerts(ice);
+            hsTArray<unsigned short> indices = span->getIndices(ice);
             
-            for (size_t j = ice->getVStartIdx(); j < (ice->getVStartIdx() + ice->getVLength()); j++) {
+            for (size_t j = 0; j < verts.getSize(); j++) {
                 hsVector3 pos;
                 if (doXform) {
                     if (coord != NULL)
@@ -140,7 +140,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
             }
 
             if (span->getBuffer(ice->getGroupIdx())->getNumUVs() > 0) {
-                for (size_t j = ice->getVStartIdx(); j < (ice->getVStartIdx() + ice->getVLength()); j++) {
+                for (size_t j = 0; j < verts.getSize(); j++) {
                     S->writeStr(plString::Format("vt %f %f %f\n",
                                 verts[j].fUVWs[0].X,
                                 verts[j].fUVWs[0].Y,
@@ -148,7 +148,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
                 }
             }
 
-            for (size_t j = ice->getVStartIdx(); j < (ice->getVStartIdx() + ice->getVLength()); j++) {
+            for (size_t j = 0; j < verts.getSize(); j++) {
                 S->writeStr(plString::Format("vn %f %f %f\n",
                             verts[j].fNormal.X,
                             verts[j].fNormal.Z,
@@ -156,7 +156,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
             }
 
             if (span->getBuffer(ice->getGroupIdx())->getNumUVs() > 0) {
-                for (size_t j = ice->getIStartIdx(); j < (ice->getIStartIdx() + ice->getILength()); j += 3) {
+                for (size_t j = 0; j < indices.getSize(); j += 3) {
                     S->writeStr(plString::Format("f %u/%u/%u %u/%u/%u %u/%u/%u\n",
                                 indices[j+0] - ice->getVStartIdx() + s_BaseIndex,
                                 indices[j+0] - ice->getVStartIdx() + s_TexBaseIndex,
@@ -171,7 +171,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
                 s_BaseIndex += ice->getVLength();
                 s_TexBaseIndex += ice->getVLength();
             } else {
-                for (size_t j = ice->getIStartIdx(); j < (ice->getIStartIdx() + ice->getILength()); j += 3) {
+                for (size_t j = 0; j < indices.getSize(); j += 3) {
                     S->writeStr(plString::Format("f %u//%u %u//%u %u//%u\n",
                                 indices[j+0] - ice->getVStartIdx() + s_BaseIndex,
                                 indices[j+0] - ice->getVStartIdx() + s_BaseIndex,

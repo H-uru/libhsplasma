@@ -59,13 +59,17 @@ static PyObject* pyGBufferGroup_write(pyGBufferGroup* self, PyObject* args) {
 }
 
 static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
+    int idx, start = 0, len = -1;
+    if (!PyArg_ParseTuple(args, "i|ii", &idx, &start, &len)) {
         PyErr_SetString(PyExc_TypeError, "getVertices expects an int");
         return NULL;
     }
     
-    hsTArray<plGBufferVertex> verts = self->fThis->getVertices(idx);
+    hsTArray<plGBufferVertex> verts;
+    if (start == 0 && len == -1)
+        verts = self->fThis->getVertices(idx);
+    else
+        verts = self->fThis->getVertices(start, len);
     PyObject* list = PyList_New(verts.getSize());
     for (size_t i=0; i<verts.getSize(); i++)
         PyList_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
@@ -73,13 +77,17 @@ static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
 }
 
 static PyObject* pyGBufferGroup_getIndices(pyGBufferGroup* self, PyObject* args) {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
+    int idx, start = 0, len = -1;
+    if (!PyArg_ParseTuple(args, "i|ii", &idx, &start, &len)) {
         PyErr_SetString(PyExc_TypeError, "getIndices expects an int");
         return NULL;
     }
     
-    hsTArray<unsigned short> indices = self->fThis->getIndices(idx);
+    hsTArray<unsigned short> indices;
+    if (start == 0 && len == -1)
+        indices = self->fThis->getIndices(idx);
+    else
+        indices = self->fThis->getIndices(idx, start, len);
     PyObject* list = PyList_New(indices.getSize());
     for (size_t i=0; i<indices.getSize(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));

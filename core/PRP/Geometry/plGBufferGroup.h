@@ -83,8 +83,8 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    hsTArray<plGBufferVertex> getVertices(size_t idx) const;
-    hsTArray<unsigned short> getIndices(size_t idx) const;
+    hsTArray<plGBufferVertex> getVertices(size_t idx, size_t start = 0, size_t count = (size_t)-1) const;
+    hsTArray<unsigned short> getIndices(size_t idx, size_t start = 0, size_t count = (size_t)-1) const;
     hsTArray<plGBufferCell> getCells(size_t idx) const;
     unsigned char getFormat() const;
     size_t getSkinWeights() const;

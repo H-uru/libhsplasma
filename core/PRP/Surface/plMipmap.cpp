@@ -3,9 +3,9 @@
 #include <cstdlib>
 
 plMipmap::plMipmap()
-        : fImageData(NULL), fJPEGData(NULL), fJPEGSize(0), fAlphaData(NULL),
-          fAlphaSize(0), fJPEGDataRLE(NULL), fAlphaDataRLE(NULL),
-          fTotalSize(0), fNumLevels(0), fLevelSizes(NULL), fCurLevelPtr(NULL) {
+        : fImageData(NULL), fTotalSize(0), fJPEGData(NULL), fJPEGSize(0),
+          fAlphaData(NULL), fAlphaSize(0), fJPEGDataRLE(NULL),
+          fAlphaDataRLE(NULL), fNumLevels(0), fLevelSizes(NULL) {
     fPixelSize = 32;
     fSpace = kDirectSpace;
     fFlags = kAlphaChannelFlag;
@@ -14,9 +14,9 @@ plMipmap::plMipmap()
 plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
                    unsigned char numLevels, unsigned char compType,
                    unsigned char format)
-        : fImageData(NULL), fJPEGData(NULL), fJPEGSize(0), fAlphaData(NULL),
-          fAlphaSize(0), fJPEGDataRLE(NULL), fAlphaDataRLE(NULL),
-          fTotalSize(0), fNumLevels(0), fLevelSizes(NULL), fCurLevelPtr(NULL) {
+        : fImageData(NULL), fTotalSize(0), fJPEGData(NULL), fJPEGSize(0),
+          fAlphaData(NULL), fAlphaSize(0), fJPEGDataRLE(NULL),
+          fAlphaDataRLE(NULL), fNumLevels(0), fLevelSizes(NULL) {
     fPixelSize = 32;
     fSpace = kDirectSpace;
     fFlags = kAlphaChannelFlag;
@@ -79,7 +79,6 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
         fTotalSize += fLevelSizes[i];
     fImageData = new unsigned char[fTotalSize];
     memset(fImageData, 0, fTotalSize);
-    //setCurrLevel(0);
 }
 
 void plMipmap::setConfig(unsigned int cfg) {
@@ -120,11 +119,6 @@ void plMipmap::setConfig(unsigned int cfg) {
         break;
     }
 }
-
-const void* plMipmap::getJPEGData() { return fJPEGData; }
-unsigned int plMipmap::getJPEGSize() { return fJPEGSize; }
-const void* plMipmap::getAlphaData() { return fAlphaData; }
-unsigned int plMipmap::getAlphaSize() { return fAlphaSize; }
 
 void plMipmap::readData(hsStream* S) {
     plBitmap::readData(S);
@@ -449,15 +443,13 @@ void plMipmap::CopyFrom(plMipmap* src) {
     fImageData = new unsigned char[fTotalSize];
     memcpy(fImageData, src->fImageData, fTotalSize);
     fNumLevels = src->fNumLevels;
-    if (fCompressionType == kUncompressed ||
-        fCompressionType == kJPEGCompression)
+    if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression)
         fUncompressedInfo.fType = src->fUncompressedInfo.fType;
     else if (fCompressionType == kDirectXCompression) {
         fDXInfo.fCompressionType = src->fDXInfo.fCompressionType;
         fDXInfo.fBlockSize = src->fDXInfo.fCompressionType;
     }
     IBuildLevelSizes();
-    // if (GetDeviceRef()) GetDeviceRef()->fFlags |= kDirty;
 }
 
 void plMipmap::ICopyImage(plMipmap* src) {
@@ -472,4 +464,103 @@ void plMipmap::ICopyImage(plMipmap* src) {
     fImageData = new unsigned char[fTotalSize];
     memcpy(fImageData, src->fImageData, fTotalSize);
     IBuildLevelSizes();
+}
+
+unsigned int plMipmap::getWidth() const { return fWidth; }
+unsigned int plMipmap::getHeight() const { return fHeight; }
+
+const void* plMipmap::getImageData() const {
+    if (fCompressionType == kJPEGCompression)
+        return (fJPEGDataRLE != NULL) ? fJPEGDataRLE->fImageData : fJPEGData;
+    return fImageData;
+}
+
+unsigned int plMipmap::getImageSize() const {
+    if (fCompressionType == kJPEGCompression)
+        return (fJPEGDataRLE != NULL) ? fJPEGDataRLE->fTotalSize : fJPEGSize;
+    return fTotalSize;
+}
+
+const void* plMipmap::getAlphaData() const {
+    if (fCompressionType == kJPEGCompression)
+        return (fAlphaDataRLE != NULL) ? fAlphaDataRLE->fImageData : fAlphaData;
+    return 0;
+}
+
+unsigned int plMipmap::getAlphaSize() const {
+    if (fCompressionType == kJPEGCompression)
+        return (fAlphaDataRLE != NULL) ? fAlphaDataRLE->fTotalSize : fAlphaSize;
+    return 0;
+}
+
+size_t plMipmap::getNumLevels() const { return fNumLevels; }
+unsigned int plMipmap::getLevelSize(size_t idx) const { return fLevelSizes[idx]; }
+    
+const void* plMipmap::getLevelData(size_t idx) const {
+    unsigned int pos = 0;
+    for (size_t i=0; i<idx; i++)
+        pos += fLevelSizes[i];
+    return &fImageData[pos];
+}
+
+void plMipmap::setImageData(const void* data) {
+    if (data == NULL) {
+        delete[] fImageData;
+        fImageData = NULL;
+    } else {
+        memcpy(fImageData, data, fTotalSize);
+    }
+}
+
+void plMipmap::setLevelData(size_t idx, const void* data) {
+    unsigned int pos = 0;
+    for (size_t i=0; i<idx; i++)
+        pos += fLevelSizes[i];
+    memcpy(fImageData + pos, data, fLevelSizes[idx]);
+}
+
+void plMipmap::setImageJPEG(const void* data, unsigned int size) {
+    if (fJPEGDataRLE != NULL) {
+        delete fJPEGDataRLE;
+        fJPEGDataRLE = NULL;
+    }
+    if (fJPEGData != NULL)
+        delete[] fJPEGData;
+    fJPEGSize = size;
+    fJPEGData = new unsigned char[size];
+    memcpy(fJPEGData, data, size);
+}
+
+void plMipmap::setImageRLE(const void* data) {
+    if (fJPEGData != NULL) {
+        delete[] fJPEGData;
+        fJPEGData = NULL;
+    }
+    if (fJPEGDataRLE != NULL)
+        delete fJPEGDataRLE;
+    fJPEGDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
+    memcpy(fJPEGDataRLE->fImageData, data, fJPEGDataRLE->fTotalSize);
+}
+
+void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
+    if (fAlphaDataRLE != NULL) {
+        delete fAlphaDataRLE;
+        fAlphaDataRLE = NULL;
+    }
+    if (fAlphaData != NULL)
+        delete[] fAlphaData;
+    fAlphaSize = size;
+    fAlphaData = new unsigned char[size];
+    memcpy(fAlphaData, data, size);
+}
+
+void plMipmap::setAlphaRLE(const void* data) {
+    if (fAlphaData != NULL) {
+        delete[] fAlphaData;
+        fAlphaData = NULL;
+    }
+    if (fAlphaDataRLE != NULL)
+        delete fAlphaDataRLE;
+    fAlphaDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
+    memcpy(fAlphaDataRLE->fImageData, data, fAlphaDataRLE->fTotalSize);
 }

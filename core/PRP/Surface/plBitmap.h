@@ -5,19 +5,6 @@
 
 DllClass plBitmap : public hsKeyedObject {
 public:
-    struct DirectXInfo {
-        enum { kError, kDXT1, kDXT2, kDXT3, kDXT4, kDXT5 };
-        unsigned char fCompressionType;
-        unsigned char fBlockSize;
-    };
-    
-    struct UncompressedInfo {
-        enum { kRGB8888, kRGB4444, kRGB1555, kInten8, kAInten88 };
-        unsigned char fType;
-    };
-
-    enum { kNoSpace, kDirectSpace, kGraySpace, kIndexSpace };
-
     enum Flags {
         kNoFlag = 0x0,
         kAlphaChannelFlag = 0x1,
@@ -40,12 +27,24 @@ public:
     };
 
     enum { kUncompressed, kDirectXCompression, kJPEGCompression };
+    enum { kNoSpace, kDirectSpace, kGraySpace, kIndexSpace };
     
     static const char* kCompressionTypeNames[];
     static const char* kUncompressedTypeNames[];
     static const char* kCompressedTypeNames[];
 
 protected:
+    struct DirectXInfo {
+        enum { kError, kDXT1, kDXT2, kDXT3, kDXT4, kDXT5 };
+        unsigned char fCompressionType;
+        unsigned char fBlockSize;
+    };
+    
+    struct UncompressedInfo {
+        enum { kRGB8888, kRGB4444, kRGB1555, kInten8, kAInten88 };
+        unsigned char fType;
+    };
+    
     unsigned char fPixelSize, fSpace;
     unsigned short fFlags;
     unsigned char fCompressionType;
@@ -68,6 +67,25 @@ public:
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    unsigned char getBPP() const;
+    unsigned char getSpace() const;
+    unsigned short getFlags() const;
+    unsigned char getCompressionType() const;
+    unsigned char getDXCompression() const;
+    unsigned char getDXBlockSize() const;
+    unsigned char getARGBType() const;
+    unsigned int getLowModTime() const;
+    unsigned int getHighModTime() const;
+
+    void setBPP(unsigned char bpp);
+    void setSpace(unsigned char space);
+    void setFlags(unsigned short flags);
+    void setCompressionType(unsigned char type);
+    void setDXCompression(unsigned char type);
+    void setDXBlockSize(unsigned char size);
+    void setARGBType(unsigned char type);
+    void setModTime(unsigned int low, unsigned int high);
 };
 
 #endif

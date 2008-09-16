@@ -73,12 +73,16 @@ static PyObject* pyDrawableSpans_deleteBGroup(pyDrawableSpans* self, PyObject* a
 }
 
 static PyObject* pyDrawableSpans_getVerts(pyDrawableSpans* self, PyObject* args) {
-    int buf, idx;
-    if (!PyArg_ParseTuple(args, "ii", &buf, &idx)) {
-        PyErr_SetString(PyExc_TypeError, "getVerts expects int, int");
+    pyIcicle* ice;
+    if (!PyArg_ParseTuple(args, "O", &ice)) {
+        PyErr_SetString(PyExc_TypeError, "getVerts expects a plIcicle");
         return NULL;
     }
-    hsTArray<plGBufferVertex> verts = self->fThis->getVerts(buf, idx);
+    if (!pyIcicle_Check((PyObject*)ice)) {
+        PyErr_SetString(PyExc_TypeError, "getVerts expects a plIcicle");
+        return NULL;
+    }
+    hsTArray<plGBufferVertex> verts = self->fThis->getVerts(ice->fThis);
     PyObject* list = PyList_New(verts.getSize());
     for (size_t i=0; i<verts.getSize(); i++)
         PyList_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
@@ -86,12 +90,16 @@ static PyObject* pyDrawableSpans_getVerts(pyDrawableSpans* self, PyObject* args)
 }
 
 static PyObject* pyDrawableSpans_getIndices(pyDrawableSpans* self, PyObject* args) {
-    int buf, idx;
-    if (!PyArg_ParseTuple(args, "ii", &buf, &idx)) {
-        PyErr_SetString(PyExc_TypeError, "getIndices expects int, int");
+    pyIcicle* ice;
+    if (!PyArg_ParseTuple(args, "O", &ice)) {
+        PyErr_SetString(PyExc_TypeError, "getIndices expects a plIcicle");
         return NULL;
     }
-    hsTArray<unsigned short> indices = self->fThis->getIndices(buf, idx);
+    if (!pyIcicle_Check((PyObject*)ice)) {
+        PyErr_SetString(PyExc_TypeError, "getIndices expects a plIcicle");
+        return NULL;
+    }
+    hsTArray<unsigned short> indices = self->fThis->getIndices(ice->fThis);
     PyObject* list = PyList_New(indices.getSize());
     for (size_t i=0; i<indices.getSize(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));
