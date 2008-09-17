@@ -413,14 +413,14 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t start, 
     return buf;
 }
 
-hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start, size_t count) const {
+hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start, size_t count, size_t offset) const {
     hsTArray<unsigned short> buf;
 
     if (count == (size_t)-1)
         count = fIdxBuffCounts[idx] - start;
     buf.setSizeNull(count);
     for (size_t i=0; i<count; i++)
-        buf[i] = fIdxBuffStorage[idx][i + start];
+        buf[i] = fIdxBuffStorage[idx][i + start] - offset;
     return buf;
 }
 

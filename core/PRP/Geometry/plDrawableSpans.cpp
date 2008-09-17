@@ -548,7 +548,7 @@ hsTArray<plGBufferVertex> plDrawableSpans::getVerts(const plIcicle* span) const 
 }
 
 hsTArray<unsigned short> plDrawableSpans::getIndices(const plIcicle* span) const {
-    return fGroups[span->getGroupIdx()]->getIndices(span->getIBufferIdx(), span->getIStartIdx(), span->getILength());
+    return fGroups[span->getGroupIdx()]->getIndices(span->getIBufferIdx(), span->getIStartIdx(), span->getILength(), span->getVStartIdx());
 }
 
 hsTArray<plGBufferCell> plDrawableSpans::getCells(size_t group, size_t buffer) const {

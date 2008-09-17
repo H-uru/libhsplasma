@@ -158,27 +158,27 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
             if (span->getBuffer(ice->getGroupIdx())->getNumUVs() > 0) {
                 for (size_t j = 0; j < indices.getSize(); j += 3) {
                     S->writeStr(plString::Format("f %u/%u/%u %u/%u/%u %u/%u/%u\n",
-                                indices[j+0] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+0] - ice->getVStartIdx() + s_TexBaseIndex,
-                                indices[j+0] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+1] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+1] - ice->getVStartIdx() + s_TexBaseIndex,
-                                indices[j+1] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+2] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+2] - ice->getVStartIdx() + s_TexBaseIndex,
-                                indices[j+2] - ice->getVStartIdx() + s_BaseIndex));
+                                indices[j+0] + s_BaseIndex,
+                                indices[j+0] + s_TexBaseIndex,
+                                indices[j+0] + s_BaseIndex,
+                                indices[j+1] + s_BaseIndex,
+                                indices[j+1] + s_TexBaseIndex,
+                                indices[j+1] + s_BaseIndex,
+                                indices[j+2] + s_BaseIndex,
+                                indices[j+2] + s_TexBaseIndex,
+                                indices[j+2] + s_BaseIndex));
                 }
                 s_BaseIndex += ice->getVLength();
                 s_TexBaseIndex += ice->getVLength();
             } else {
                 for (size_t j = 0; j < indices.getSize(); j += 3) {
                     S->writeStr(plString::Format("f %u//%u %u//%u %u//%u\n",
-                                indices[j+0] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+0] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+1] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+1] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+2] - ice->getVStartIdx() + s_BaseIndex,
-                                indices[j+2] - ice->getVStartIdx() + s_BaseIndex));
+                                indices[j+0] + s_BaseIndex,
+                                indices[j+0] + s_BaseIndex,
+                                indices[j+1] + s_BaseIndex,
+                                indices[j+1] + s_BaseIndex,
+                                indices[j+2] + s_BaseIndex,
+                                indices[j+2] + s_BaseIndex));
                 }
                 s_BaseIndex += ice->getVLength();
             }
