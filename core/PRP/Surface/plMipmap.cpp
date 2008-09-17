@@ -60,8 +60,8 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
         fUncompressedInfo.fType = format;
     } else {
         fDXInfo.fCompressionType = format;
-        fDXInfo.fBlockSize = (format != DirectXInfo::kDXT1 ? 1 : 0);
-        if (format == DirectXInfo::kDXT1) {
+        fDXInfo.fBlockSize = (format != kDXT1 ? 1 : 0);
+        if (format == kDXT1) {
             fFlags &= ~kAlphaChannelFlag;
             fFlags |= kAlphaBitFlag;
         } else {
@@ -410,7 +410,7 @@ void plMipmap::IWriteRawImage(hsStream* S) {
 }
 
 void plMipmap::IRecombineAlpha(plMipmap* alphaImg) {
-    if (fUncompressedInfo.fType == UncompressedInfo::kRGB8888) {
+    if (fUncompressedInfo.fType == kRGB8888) {
         for (size_t i=0; i<((fTotalSize-1)/4)+1; i++)
             fImageData[(i*4)+3] = alphaImg->fImageData[(i*4)+2];
     }
@@ -421,7 +421,7 @@ plMipmap* plMipmap::ISplitAlpha() {
     plMipmap* alpha = new plMipmap();
     alpha->CopyFrom(this);
     memset(alpha->fImageData, 0, alpha->fTotalSize);
-    if (fUncompressedInfo.fType == UncompressedInfo::kRGB8888) {
+    if (fUncompressedInfo.fType == kRGB8888) {
         for (size_t i=((fTotalSize-1)/4)+1; i>0; i--)
             alpha->fImageData[(i*4)+2] = fImageData[(i*4)+3];
     }
@@ -564,3 +564,6 @@ void plMipmap::setAlphaRLE(const void* data) {
     fAlphaDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
     memcpy(fAlphaDataRLE->fImageData, data, fAlphaDataRLE->fTotalSize);
 }
+
+bool plMipmap::isImageJPEG() const { return fJPEGData != NULL; }
+bool plMipmap::isAlphaJPEG() const { return fAlphaData != NULL; }

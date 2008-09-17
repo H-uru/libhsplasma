@@ -196,8 +196,11 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
     age->readFromFile(filename);
     
     if (readPages) {
+        plString path = plString(filename).beforeLast(PATHSEP);
+        if (path.len() > 0)
+            path = path + PATHSEP;
         for (size_t i=0; i<age->getNumPages(); i++)
-            ReadPage(age->getPageFilename(i, getVer()));
+            ReadPage(path + age->getPageFilename(i, getVer()));
     }
 
     ages.push_back(age);

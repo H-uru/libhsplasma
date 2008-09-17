@@ -79,6 +79,9 @@ public:
     void setImageRLE(const void* data);
     void setAlphaJPEG(const void* data, unsigned int size);
     void setAlphaRLE(const void* data);
+
+    bool isImageJPEG() const;
+    bool isAlphaJPEG() const;
 };
 
 #endif

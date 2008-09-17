@@ -28,6 +28,11 @@ public:
 
     enum { kUncompressed, kDirectXCompression, kJPEGCompression };
     enum { kNoSpace, kDirectSpace, kGraySpace, kIndexSpace };
+
+    // DX Compression Type
+    enum { kDXTError, kDXT1, kDXT2, kDXT3, kDXT4, kDXT5 };
+    // Uncompressed Type
+    enum { kRGB8888, kRGB4444, kRGB1555, kInten8, kAInten88 };
     
     static const char* kCompressionTypeNames[];
     static const char* kUncompressedTypeNames[];
@@ -35,13 +40,11 @@ public:
 
 protected:
     struct DirectXInfo {
-        enum { kError, kDXT1, kDXT2, kDXT3, kDXT4, kDXT5 };
         unsigned char fCompressionType;
         unsigned char fBlockSize;
     };
     
     struct UncompressedInfo {
-        enum { kRGB8888, kRGB4444, kRGB1555, kInten8, kAInten88 };
         unsigned char fType;
     };
     

@@ -102,15 +102,15 @@ void plBitmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
         if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression) {
             plString sType = tag->getParam("SubType", "RGB8888");
-            fUncompressedInfo.fType = UncompressedInfo::kRGB8888;
-            for (size_t i=0; i<=UncompressedInfo::kAInten88; i++) {
+            fUncompressedInfo.fType = kRGB8888;
+            for (size_t i=0; i<=kAInten88; i++) {
                 if (sType == kUncompressedTypeNames[i])
                     fUncompressedInfo.fType = i;
             }
         } else {
             plString sType = tag->getParam("SubType", "Error");
-            fDXInfo.fCompressionType = DirectXInfo::kError;
-            for (size_t i=0; i<=DirectXInfo::kDXT5; i++) {
+            fDXInfo.fCompressionType = kDXTError;
+            for (size_t i=0; i<=kDXT5; i++) {
                 if (sType == kCompressedTypeNames[i])
                     fDXInfo.fCompressionType = i;
             }

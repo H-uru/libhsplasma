@@ -208,12 +208,16 @@ static PyObject* pyResManager_ReadAge(pyResManager* self, PyObject* args) {
     const char* filename;
     char readPages;
     if (!PyArg_ParseTuple(args, "sb", &filename, &readPages)) {
-        PyErr_SetString(PyExc_TypeError, "ReadAge expects a string");
+        PyErr_SetString(PyExc_TypeError, "ReadAge expects string, bool");
         return NULL;
     }
     plAgeInfo* age = NULL;
     try {
         age = self->fThis->ReadAge(filename, readPages != 0);
+    } catch (hsException& e) {
+        plString err = plString::Format("Error reading age: %s", e.what());
+        PyErr_SetString(PyExc_IOError, err.cstr());
+        return NULL;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading age");
         return NULL;

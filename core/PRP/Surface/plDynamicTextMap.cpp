@@ -35,7 +35,7 @@ void plDynamicTextMap::Create(unsigned int width, unsigned int height,
     fStride = fWidth * 4;
     fNumLevels = 1;
     fCompressionType = kUncompressed;
-    fUncompressedInfo.fType = UncompressedInfo::kRGB8888;
+    fUncompressedInfo.fType = kRGB8888;
 }
 
 void plDynamicTextMap::readData(hsStream* S) {

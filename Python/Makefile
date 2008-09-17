@@ -41,11 +41,13 @@ PYOBJ=\
 	$(OBJDIR)pyBounds3.o \
 	$(OBJDIR)pyBounds3Ext.o \
 	$(OBJDIR)pyBoundsOriented.o \
+	$(OBJDIR)pyBitmap.o \
 	$(OBJDIR)pyGMaterial.o \
 	$(OBJDIR)pyGMatState.o \
 	$(OBJDIR)pyLayer.o \
 	$(OBJDIR)pyLayerDepth.o \
 	$(OBJDIR)pyLayerInterface.o \
+	$(OBJDIR)pyMipmap.o \
 	$(OBJDIR)pyShader.o \
 	$(OBJDIR)pyShaderConst.o \
 	$(OBJDIR)pyAgeInfo.o \
@@ -180,6 +182,9 @@ $(OBJDIR)pyBounds3Ext.o: PRP/Region/pyBounds3Ext.cpp
 $(OBJDIR)pyBoundsOriented.o: PRP/Region/pyBoundsOriented.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBoundsOriented.cpp -o $(OBJDIR)pyBoundsOriented.o
 
+$(OBJDIR)pyBitmap.o: PRP/Surface/pyBitmap.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyBitmap.cpp -o $(OBJDIR)pyBitmap.o
+
 $(OBJDIR)pyGMaterial.o: PRP/Surface/pyGMaterial.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyGMaterial.cpp -o $(OBJDIR)pyGMaterial.o
 
@@ -194,6 +199,9 @@ $(OBJDIR)pyLayerDepth.o: PRP/Surface/pyLayerDepth.cpp
 
 $(OBJDIR)pyLayerInterface.o: PRP/Surface/pyLayerInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerInterface.cpp -o $(OBJDIR)pyLayerInterface.o
+
+$(OBJDIR)pyMipmap.o: PRP/Surface/pyMipmap.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyMipmap.cpp -o $(OBJDIR)pyMipmap.o
 
 $(OBJDIR)pyShader.o: PRP/Surface/pyShader.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyShader.cpp -o $(OBJDIR)pyShader.o

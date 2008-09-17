@@ -22,6 +22,7 @@
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
@@ -123,6 +124,8 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plLayer", Init_pyLayer_Type());
     PyModule_AddObject(module, "plLayerDepth", Init_pyLayerDepth_Type());
     PyModule_AddObject(module, "plShader", Init_pyShader_Type());
+    PyModule_AddObject(module, "plBitmap", Init_pyBitmap_Type());
+    PyModule_AddObject(module, "plMipmap", Init_pyMipmap_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }

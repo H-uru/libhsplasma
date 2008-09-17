@@ -452,6 +452,14 @@
 				Name="Surface"
 				>
 				<File
+					RelativePath=".\PRP\Surface\pyBitmap.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyBitmap.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Surface\pyGMaterial.cpp"
 					>
 				</File>
@@ -481,6 +489,10 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Surface\pyLayerInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyMipmap.cpp"
 					>
 				</File>
 				<File
