@@ -3,6 +3,7 @@
 #include "pyResManager.h"
 #include "../Stream/pyStream.h"
 #include "../PRP/pyCreatable.h"
+#include "../PRP/pySceneNode.h"
 #include "../PRP/KeyedObject/pyKey.h"
 #include "../PRP/KeyedObject/pyKeyedObject.h"
 
@@ -321,8 +322,16 @@ static PyObject* pyResManager_WriteCreatable(pyResManager* self, PyObject* args)
 }
 
 static PyObject* pyResManager_getSceneNode(pyResManager* self, PyObject* args) {
-    PyErr_SetString(PyExc_NotImplementedError, "TODO: Implement getSceneNode");
-    return NULL;
+    pyLocation* loc;
+    if (!PyArg_ParseTuple(args, "O", &loc)) {
+        PyErr_SetString(PyExc_TypeError, "getSceneNode expects a plLocation");
+        return NULL;
+    }
+    if (!pyLocation_Check((PyObject*)loc)) {
+        PyErr_SetString(PyExc_TypeError, "getSceneNode expects a plLocation");
+        return NULL;
+    }
+    return pySceneNode_FromSceneNode(self->fThis->getSceneNode(*loc->fThis));
 }
 
 static PyObject* pyResManager_getLocations(pyResManager* self) {
