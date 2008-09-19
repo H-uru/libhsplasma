@@ -54,10 +54,12 @@ public:
     int getFlags() const;
     void setFlags(int flags);
 
+    void clearExcludes();
+    void clearVolatiles();
     void setExclude(const plString& sdl);
     void setVolatile(const plString& sdl);
-    hsTArray<plString>& getExcludes();
-    hsTArray<plString>& getVolatiles();
+    const hsTArray<plString>& getExcludes() const;
+    const hsTArray<plString>& getVolatiles() const;
 };
 
 #endif

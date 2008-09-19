@@ -120,6 +120,9 @@ void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 int plSynchedObject::getFlags() const { return fSynchFlags; }
 void plSynchedObject::setFlags(int flags) { fSynchFlags = flags; }
 
+void plSynchedObject::clearExcludes() { fSDLExcludeList.clear(); }
+void plSynchedObject::clearVolatiles() { fSDLVolatileList.clear(); }
+
 void plSynchedObject::setExclude(const plString& sdl) {
     fSynchFlags |= kExcludePersistentState;
     fSDLExcludeList.append(sdl);
@@ -130,5 +133,5 @@ void plSynchedObject::setVolatile(const plString& sdl) {
     fSDLVolatileList.append(sdl);
 }
 
-hsTArray<plString>& plSynchedObject::getExcludes() { return fSDLExcludeList; }
-hsTArray<plString>& plSynchedObject::getVolatiles() { return fSDLVolatileList; }
+const hsTArray<plString>& plSynchedObject::getExcludes() const { return fSDLExcludeList; }
+const hsTArray<plString>& plSynchedObject::getVolatiles() const { return fSDLVolatileList; }

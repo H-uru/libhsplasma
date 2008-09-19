@@ -80,19 +80,17 @@ static int pySynchedObject_setFlags(pySynchedObject* self, PyObject* value, void
 
 static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->getExcludes().clear();
+        self->fThis->clearExcludes();
         return 0;
     } else if (PyList_Check(value)) {
-        hsTArray<plString> states;
-        states.setSize(PyList_Size(value));
-        for (size_t i=0; i<states.getSize(); i++) {
+        size_t count = PyList_Size(value);
+        for (size_t i=0; i<count; i++) {
             if (!PyString_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
                 return -1;
             }
-            states[i] = PyString_AsString(PyList_GetItem(value, i));
+            self->fThis->setExclude(PyString_AsString(PyList_GetItem(value, i)));
         }
-        self->fThis->getExcludes() = states;
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
@@ -102,19 +100,17 @@ static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, v
 
 static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->getVolatiles().clear();
+        self->fThis->clearVolatiles();
         return 0;
     } else if (PyList_Check(value)) {
-        hsTArray<plString> states;
-        states.setSize(PyList_Size(value));
-        for (size_t i=0; i<states.getSize(); i++) {
+        size_t count = PyList_Size(value);
+        for (size_t i=0; i<count; i++) {
             if (!PyString_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
                 return -1;
             }
-            states[i] = PyString_AsString(PyList_GetItem(value, i));
+            self->fThis->setVolatile(PyString_AsString(PyList_GetItem(value, i)));
         }
-        self->fThis->getVolatiles() = states;
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");

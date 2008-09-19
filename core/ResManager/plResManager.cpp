@@ -31,13 +31,14 @@ plKey plResManager::readKey(hsStream* S) {
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
-    bool exists = true;
-    if (S->getVer() < pvEoa)
-        exists = S->readBool();
-    if (exists)
+    if (S->getVer() < pvEoa) {
+        if (S->readBool())
+            return readUoid(S);
+        else
+            return plKey();
+    } else {
         return readUoid(S);
-    else
-        return plKey();
+    }
 }
 
 plKey plResManager::readUoid(hsStream* S) {
@@ -46,6 +47,8 @@ plKey plResManager::readUoid(hsStream* S) {
 
     plKey k = new plKeyData();
     k->readUoid(S);
+    if (!k->getLocation().isValid())
+        return plKey();
     plKey xkey = keys.findKey(k);
     if (xkey.Exists()) {
         return xkey;
@@ -302,14 +305,13 @@ void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
 }
 
 unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
-    //plDebug::Debug("* Reading Objects");
     std::vector<short> types = keys.getTypes(loc);
     unsigned int nRead = 0;
     
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
         //plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
-        //               types[i], pdUnifiedTypeMap::ClassName(types[i], S->getVer()));
+        //               types[i], pdUnifiedTypeMap::ClassName(types[i]));
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->getFileOff() <= 0) continue;
             //plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName(),
