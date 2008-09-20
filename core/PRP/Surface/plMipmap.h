@@ -63,6 +63,13 @@ public:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
+    void readFromStream(hsStream* S);
+    void writeToStream(hsStream* S);
+    void readAlphaFromStream(hsStream* S);
+    void writeAlphaToStream(hsStream* S);
+    plString getSuggestedExt() const;
+    plString getSuggestedAlphaExt() const;
+
     unsigned int getWidth() const;
     unsigned int getHeight() const;
     const void* getImageData() const;

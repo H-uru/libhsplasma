@@ -80,6 +80,12 @@ void hsColorRGBA::prcParse(const pfPrcTag* tag) {
 
 
 /* hsColor32 */
+hsColor32::hsColor32(unsigned int color32) : color(color32) { }
+
+hsColor32::hsColor32(unsigned char red, unsigned char green,
+                     unsigned char blue, unsigned char alpha)
+         : b(blue), g(green), r(red), a(alpha) { }
+
 void hsColor32::read32(hsStream* S) {
     color = S->readInt();
 }

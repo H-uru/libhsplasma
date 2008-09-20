@@ -43,6 +43,10 @@ public:
         unsigned int color;
     };
 
+    hsColor32(unsigned int color32 = 0xFF000000);
+    hsColor32(unsigned char red, unsigned char green, unsigned char blue,
+              unsigned char alpha = 255);
+
     void read32(hsStream* S);
     void write32(hsStream* S);
     void readRGB8(hsStream* S);

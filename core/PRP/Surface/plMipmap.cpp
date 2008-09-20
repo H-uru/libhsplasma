@@ -260,6 +260,105 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+void ExportDDS(hsStream* S, bool isDXT, plMipmap* img) {
+    S->write(4, "DDS ");
+
+    // DDSURFACEDESC
+    S->writeInt(124);   // sizeof(DDSURFACEDESC)
+    S->writeInt(isDXT ? 0x000A1007  // DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH |
+                                    // DDSD_PIXELFORMAT | DDSD_MIPMAPCOUNT |
+                                    // DDSD_LINEARSIZE
+                      : 0x0000100F);// DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH |
+                                    // DDSD_PITCH | DDSD_PIXELFORMAT
+
+    S->writeInt(img->getHeight());
+    S->writeInt(img->getWidth());
+    if (isDXT) {
+        unsigned int size = img->getHeight() * img->getWidth();
+        if (img->getDXCompression() == plBitmap::kDXT1)
+            size /= 2;
+        S->writeInt(size);
+    } else {
+        S->writeInt(img->getWidth() * 4);
+    }
+    S->writeInt(0); // Depth
+    S->writeInt(img->getNumLevels());
+    for (size_t i=0; i<11; i++)
+        S->writeInt(0); // Unused
+
+    // DDPIXELFORMAT
+    S->writeInt(32);    // sizeof(DDPIXELFORMAT)
+    if (isDXT) {
+        S->writeInt(0x00000004);    // DDPF_FOURCC
+        if (img->getDXCompression() == plBitmap::kDXT1)
+            S->write(4, "DXT1");
+        else if (img->getDXCompression() == plBitmap::kDXT5)
+            S->write(4, "DXT5");
+        S->writeInt(0); // RGBBitCount
+        S->writeInt(0); // RBitMask
+        S->writeInt(0); // GBitMask
+        S->writeInt(0); // BBitMask
+        S->writeInt(0); // ABitMask
+    } else {
+        S->writeInt(0x00000041);    // DDPF_ALPHAPIXELS | DDPF_RGB
+        S->writeInt(0);             // FourCC
+        S->writeInt(32);            // RGBBitCount
+        S->writeInt(0x00FF0000);    // RBitMask
+        S->writeInt(0x0000FF00);    // GBitMask
+        S->writeInt(0x000000FF);    // BBitMask
+        S->writeInt(0xFF000000);    // ABitMask
+    }
+
+    // DDSCAPS2
+    S->writeInt(isDXT ? 0x00401008  // DDSCAPS_COMPLEX | DDSCAPS_TEXTURE |
+                                    // DDSCAPS_MIPMAP
+                      : 0x00001000);// DDSCAPS_TEXTURE
+    S->writeInt(0); // Caps2
+    S->writeInt(0); // Reserved
+    S->writeInt(0); // Reserved
+
+    S->writeInt(0); // Reserved
+
+    // Full image data chunk
+    S->write(img->getImageSize(), img->getImageData());
+}
+
+void plMipmap::readFromStream(hsStream* S) {
+    throw hsNotImplementedException(__FILE__, __LINE__);
+}
+
+void plMipmap::writeToStream(hsStream* S) {
+    if (isImageJPEG()) {
+        S->write(fJPEGSize, fJPEGData);
+    } else if (fCompressionType == kJPEGCompression) {
+        ExportDDS(S, false, fJPEGDataRLE);
+    } else {
+        ExportDDS(S, fCompressionType != kUncompressed, this);
+    }
+}
+
+void plMipmap::readAlphaFromStream(hsStream* S) {
+    throw hsNotImplementedException(__FILE__, __LINE__);
+}
+
+void plMipmap::writeAlphaToStream(hsStream* S) {
+    if (isAlphaJPEG()) {
+        S->write(fAlphaSize, fAlphaData);
+    } else if (fCompressionType == kJPEGCompression) {
+        ExportDDS(S, false, fAlphaDataRLE);
+    } else {
+        throw hsBadParamException(__FILE__, __LINE__);
+    }
+}
+
+plString plMipmap::getSuggestedExt() const {
+    return isImageJPEG() ? ".jpg" : ".dds";
+}
+
+plString plMipmap::getSuggestedAlphaExt() const {
+    return isAlphaJPEG() ? ".jpg" : ".dds";
+}
+
 void plMipmap::IBuildLevelSizes() {
     if (fLevelSizes != NULL)
         delete[] fLevelSizes;
