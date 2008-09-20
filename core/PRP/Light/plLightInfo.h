@@ -15,13 +15,6 @@ public:
         kLPShadowOnly, kLPShadowLightGroup, kLPForceProj, kNumProps
     };
 
-    enum VolatileFlags {
-        kVolNone = 0x0,
-        kVolDirty = 0x1,
-        kVolEmpty = 0x2,
-        kVolZero = 0x4
-    };
-
 protected:
     hsTArray<plKey> fVisRegions;
     hsColorRGBA fAmbient, fDiffuse, fSpecular;
@@ -39,6 +32,33 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    hsColorRGBA getAmbient() const;
+    hsColorRGBA getDiffuse() const;
+    hsColorRGBA getSpecular() const;
+    hsMatrix44 getLightToLocal() const;
+    hsMatrix44 getLocalToLight() const;
+    hsMatrix44 getLightToWorld() const;
+    hsMatrix44 getWorldToLight() const;
+    plKey getProjection() const;
+    plKey getSoftVolume() const;
+    plWeakKey getSceneNode() const;
+
+    void setAmbient(const hsColorRGBA& color);
+    void setDiffuse(const hsColorRGBA& color);
+    void setSpecular(const hsColorRGBA& color);
+    void setLightToLocal(const hsMatrix44& xform);
+    void setLocalToLight(const hsMatrix44& xform);
+    void setLightToWorld(const hsMatrix44& xform);
+    void setWorldToLight(const hsMatrix44& xform);
+    void setProjection(plKey proj);
+    void setSoftVolume(plKey vol);
+    void setSceneNode(plWeakKey node);
+
+    size_t getNumVisRegions() const;
+    plKey getVisRegion(size_t idx);
+    void clearVisRegions();
+    void addVisRegion(plKey region);
 };
 
 #endif

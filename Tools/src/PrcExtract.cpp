@@ -43,19 +43,6 @@ plString getOutputDir(const char* filename, plPageInfo* page) {
     return name + page->getAge() + "_PRC" + SLASH;
 }
 
-plString cleanFileName(const char* filename) {
-    char* cName = strdup(filename);
-    for (char* c=cName; *c != 0; c++) {
-        if (*c < 0x20 || *c > 0x7E || *c == '\\' || *c == '/' ||
-            *c == '*' || *c == ':' || *c == '?' || *c == '"' ||
-            *c == '<' || *c == '>' || *c == '|' || *c == '\'')
-            *c = '_';
-    }
-    plString sName(cName);
-    free(cName);
-    return sName;
-}
-
 int main(int argc, char** argv) {
     if (argc < 2) {
         doHelp();

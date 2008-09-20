@@ -46,3 +46,11 @@ void plLimitedDirLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plLightInfo::IPrcParse(tag, mgr);
     }
 }
+
+float plLimitedDirLightInfo::getWidth() const { return fWidth; }
+float plLimitedDirLightInfo::getHeight() const { return fHeight; }
+float plLimitedDirLightInfo::getDepth() const { return fDepth; }
+
+void plLimitedDirLightInfo::setWidth(float width) { fWidth = width; }
+void plLimitedDirLightInfo::setHeight(float height) { fHeight = height; }
+void plLimitedDirLightInfo::setDepth(float depth) { fDepth = depth; }

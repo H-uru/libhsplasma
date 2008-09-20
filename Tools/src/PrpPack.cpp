@@ -76,17 +76,6 @@ int selAll(const dirent* de) {
 }
 #endif
 
-const char* cleanFileName(const char* filename) {
-    char* cName = strdup(filename);
-    for (char* c=cName; *c != 0; c++) {
-        if (*c < 0x20 || *c > 0x7E || *c == '\\' || *c == '/' ||
-            *c == '*' || *c == ':' || *c == '?' || *c == '"' ||
-            *c == '<' || *c == '>' || *c == '|' || *c == '\'')
-            *c = '_';
-    }
-    return cName;
-}
-
 int main(int argc, char** argv) {
     if (argc < 2 || argc > 3) {
         doHelp();
@@ -177,7 +166,7 @@ int main(int argc, char** argv) {
             for (j=0; j<oCount; j++) {
                 S->seek(keys[j]->getFileOff());
                 sprintf(strBuf, "%s[%04hX]%s.po", getOutputDir(filename, page),
-                                type, cleanFileName(keys[j]->getName()));
+                                type, CleanFileName(keys[j]->getName()).cstr());
                 OS->open(strBuf, fmCreate);
                 void* objBuf = malloc(keys[j]->getObjSize());
                 S->read(keys[j]->getObjSize(), objBuf);

@@ -18,6 +18,7 @@
 #include "PRP/Geometry/pySpan.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/Light/pyLightInfo.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
@@ -29,7 +30,25 @@
 #include "PRP/Surface/pyLayer.h"
 #include "PRP/Surface/pyShader.h"
 
+extern "C" {
+
+static PyObject* PyPlasma_CleanFileName(PyObject*, PyObject* args) {
+    const char* fname;
+    unsigned char allowPathChars = 0;
+    if (!PyArg_ParseTuple(args, "s|b", &fname, &allowPathChars)) {
+        PyErr_SetString(PyExc_TypeError, "CleanFileName expects a string");
+        return NULL;
+    }
+    return PyString_FromString(CleanFileName(fname, allowPathChars != 0).cstr());
+}
+
+}
+
 static PyMethodDef PyPlasma_Methods[] = {
+    { "CleanFileName", (PyCFunction)PyPlasma_CleanFileName, METH_VARARGS,
+      "Params: string, allowPathChars=Talse\n"
+      "Strips illegal characters from a filename. If allowPathChars is True,\n"
+      "the characters '\\', '/' and ':' will not be removed" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -130,6 +149,11 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plShader", Init_pyShader_Type());
     PyModule_AddObject(module, "plBitmap", Init_pyBitmap_Type());
     PyModule_AddObject(module, "plMipmap", Init_pyMipmap_Type());
+    PyModule_AddObject(module, "plLightInfo", Init_pyLightInfo_Type());
+    PyModule_AddObject(module, "plDirectionalLightInfo", Init_pyDirectionalLightInfo_Type());
+    PyModule_AddObject(module, "plLimitedDirLightInfo", Init_pyLimitedDirLightInfo_Type());
+    PyModule_AddObject(module, "plOmniLightInfo", Init_pyOmniLightInfo_Type());
+    PyModule_AddObject(module, "plSpotLightInfo", Init_pySpotLightInfo_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }

@@ -118,7 +118,7 @@ static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, 
     }
 }
 
-PyMethodDef pySynchedObject_Methods[] = {
+static PyMethodDef pySynchedObject_Methods[] = {
     { "Convert", (PyCFunction)pySynchedObject_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plSynchedObject" },
     { "setExclude", (PyCFunction)pySynchedObject_setExclude, METH_VARARGS,
@@ -130,7 +130,7 @@ PyMethodDef pySynchedObject_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
-PyGetSetDef pySynchedObject_GetSet[] = {
+static PyGetSetDef pySynchedObject_GetSet[] = {
     { "synchFlags", (getter)pySynchedObject_getFlags, (setter)pySynchedObject_setFlags,
       "Synched Object Flags", NULL },
     { "excludes", (getter)pySynchedObject_getExcludes, (setter)pySynchedObject_setExcludes,

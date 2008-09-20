@@ -199,8 +199,6 @@ PyObject* Init_pyCoordinateInterface_Type() {
     if (PyType_Ready(&pyCoordinateInterface_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pyCoordinateInterface_Type.tp_dict, "kDisable",
-                         PyInt_FromLong(plCoordinateInterface::kDisable));
     PyDict_SetItemString(pyCoordinateInterface_Type.tp_dict, "kCanEverDelayTransform",
                          PyInt_FromLong(plCoordinateInterface::kCanEverDelayTransform));
     PyDict_SetItemString(pyCoordinateInterface_Type.tp_dict, "kDelayedTransformEval",

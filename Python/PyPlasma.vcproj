@@ -508,6 +508,34 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Light"
+				>
+				<File
+					RelativePath=".\PRP\Light\pyDirectionalLightInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\pyLightInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\pyLightInfo.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\pyLimitedDirLightInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\pyOmniLightInfo.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\pySpotLightInfo.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Math"

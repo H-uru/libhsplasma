@@ -898,7 +898,7 @@ plWString plWString::FormatV(const wchar_t* fmt, va_list aptr) {
 }
 
 
-/**************************** Conversion Functions ****************************/
+/***************************** Utility Functions ******************************/
 plString hsWStringToString(const wchar_t* str) {
     size_t cnvLen = wcstombs(NULL, str, 0);
     if (cnvLen > 0 && cnvLen != (size_t)(-1)) {
@@ -923,4 +923,18 @@ plWString hsStringToWString(const char* str) {
     } else {
         return L"";
     }
+}
+
+plString CleanFileName(const char* fname, bool allowPathChars) {
+    char* buf = strdup(fname);
+    for (char* bp = buf; *bp; bp++) {
+        if (*bp == '?' || *bp == '*' || *bp == '<' || *bp == '>' ||
+            *bp == '"' || *bp == '|' || *bp < (char)0x20)
+            *bp = '_';
+        if (!allowPathChars && (*bp == '/' || *bp == '\\' || *bp == ':'))
+            *bp = '_';
+    }
+    plString result = buf;
+    free(buf);
+    return result;
 }

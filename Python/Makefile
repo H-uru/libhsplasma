@@ -30,6 +30,11 @@ PYOBJ=\
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
 	$(OBJDIR)pyLocation.o \
+	$(OBJDIR)pyDirectionalLightInfo.o \
+	$(OBJDIR)pyLightInfo.o \
+	$(OBJDIR)pyLimitedDirLightInfo.o \
+	$(OBJDIR)pyOmniLightInfo.o \
+	$(OBJDIR)pySpotLightInfo.o \
 	$(OBJDIR)pyRenderLevel.o \
 	$(OBJDIR)pyAudioInterface.o \
 	$(OBJDIR)pyCoordinateInterface.o \
@@ -149,6 +154,21 @@ $(OBJDIR)pyKeyedObject.o: PRP/KeyedObject/pyKeyedObject.cpp
 
 $(OBJDIR)pyLocation.o: PRP/KeyedObject/pyLocation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $(OBJDIR)pyLocation.o
+
+$(OBJDIR)pyDirectionalLightInfo.o: PRP/Light/pyDirectionalLightInfo.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pyDirectionalLightInfo.cpp -o $(OBJDIR)pyDirectionalLightInfo.o
+
+$(OBJDIR)pyLightInfo.o: PRP/Light/pyLightInfo.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pyLightInfo.cpp -o $(OBJDIR)pyLightInfo.o
+
+$(OBJDIR)pyLimitedDirLightInfo.o: PRP/Light/pyLimitedDirLightInfo.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pyLimitedDirLightInfo.cpp -o $(OBJDIR)pyLimitedDirLightInfo.o
+
+$(OBJDIR)pyOmniLightInfo.o: PRP/Light/pyOmniLightInfo.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pyOmniLightInfo.cpp -o $(OBJDIR)pyOmniLightInfo.o
+
+$(OBJDIR)pySpotLightInfo.o: PRP/Light/pySpotLightInfo.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pySpotLightInfo.cpp -o $(OBJDIR)pySpotLightInfo.o
 
 $(OBJDIR)pyRenderLevel.o: PRP/Misc/pyRenderLevel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $(OBJDIR)pyRenderLevel.o

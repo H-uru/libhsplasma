@@ -86,6 +86,8 @@ hsColor32::hsColor32(unsigned char red, unsigned char green,
                      unsigned char blue, unsigned char alpha)
          : b(blue), g(green), r(red), a(alpha) { }
 
+hsColor32::hsColor32(const hsColor32& init) : color(init.color) { }
+
 void hsColor32::read32(hsStream* S) {
     color = S->readInt();
 }

@@ -168,7 +168,9 @@ public:
     static plWString FormatV(const wchar_t* fmt, va_list aptr);
 };
 
-plString hsWStringToString(const wchar_t* str);
-plWString hsStringToWString(const char* str);
+plString DllExport hsWStringToString(const wchar_t* str);
+plWString DllExport hsStringToWString(const char* str);
+
+plString DllExport CleanFileName(const char* fname, bool allowPathChars = false);
 
 #endif

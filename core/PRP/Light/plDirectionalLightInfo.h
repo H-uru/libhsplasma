@@ -25,6 +25,14 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    float getWidth() const;
+    float getHeight() const;
+    float getDepth() const;
+
+    void setWidth(float width);
+    void setHeight(float height);
+    void setDepth(float depth);
 };
 
 #endif

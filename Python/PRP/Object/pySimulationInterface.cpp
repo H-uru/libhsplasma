@@ -117,8 +117,6 @@ PyObject* Init_pySimulationInterface_Type() {
     if (PyType_Ready(&pySimulationInterface_Type) < 0)
         return NULL;
 
-    PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kDisable",
-                         PyInt_FromLong(plSimulationInterface::kDisable));
     PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kWeightless",
                          PyInt_FromLong(plSimulationInterface::kWeightless));
     PyDict_SetItemString(pySimulationInterface_Type.tp_dict, "kPinned",
