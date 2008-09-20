@@ -6,6 +6,7 @@ OBJDIR=out/
 
 PYOBJ=\
 	$(OBJDIR)Module.o \
+	$(OBJDIR)pyDebug.o \
 	$(OBJDIR)pyMatrix44.o \
 	$(OBJDIR)pyPlane3.o \
 	$(OBJDIR)pyQuat.o \
@@ -76,6 +77,9 @@ distclean:
 
 $(OBJDIR)Module.o: Module.cpp
 	$(CXX) $(CXXFLAGS) -c Module.cpp -o $(OBJDIR)Module.o
+
+$(OBJDIR)pyDebug.o: Debug/pyDebug.cpp
+	$(CXX) $(CXXFLAGS) -c Debug/pyDebug.cpp -o $(OBJDIR)pyDebug.o
 
 $(OBJDIR)pyMatrix44.o: Math/pyMatrix44.cpp
 	$(CXX) $(CXXFLAGS) -c Math/pyMatrix44.cpp -o $(OBJDIR)pyMatrix44.o

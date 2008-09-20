@@ -2,6 +2,7 @@
 #include <Stream/hsStream.h>
 #include <Util/PlasmaVersions.h>
 
+#include "Debug/pyDebug.h"
 #include "Math/pyGeometry3.h"
 #include "Math/pyMatrix44.h"
 #include "ResManager/pyResManager.h"
@@ -52,6 +53,9 @@ PyMODINIT_FUNC initPyPlasma() {
     PyObject* module = Py_InitModule3("PyPlasma", PyPlasma_Methods,
                                       "libPlasma Python Interface Module");
     initPyPlasma_Constants(module);
+
+    /* Debug */
+    PyModule_AddObject(module, "plDebug", Init_pyDebug_Type());
 
     /* Stream */
     PyModule_AddObject(module, "hsStream", Init_pyStream_Type());

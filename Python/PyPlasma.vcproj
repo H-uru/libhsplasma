@@ -537,6 +537,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Debug"
+			>
+			<File
+				RelativePath=".\Debug\pyDebug.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Debug\pyDebug.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\Module.cpp"
 			>
