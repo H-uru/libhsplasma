@@ -12,6 +12,7 @@
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
+#include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
 #include "PRP/Geometry/pyGBufferGroup.h"
 #include "PRP/Geometry/pySpaceTree.h"
@@ -126,6 +127,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plSpaceTreeNode", Init_pySpaceTreeNode_Type());
     PyModule_AddObject(module, "hsGMatState", Init_pyGMatState_Type());
     PyModule_AddObject(module, "plShaderConst", Init_pyShaderConst_Type());
+    PyModule_AddObject(module, "plWAVHeader", Init_pyWAVHeader_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -154,6 +156,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plLimitedDirLightInfo", Init_pyLimitedDirLightInfo_Type());
     PyModule_AddObject(module, "plOmniLightInfo", Init_pyOmniLightInfo_Type());
     PyModule_AddObject(module, "plSpotLightInfo", Init_pySpotLightInfo_Type());
+    PyModule_AddObject(module, "plSoundBuffer", Init_pySoundBuffer_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }

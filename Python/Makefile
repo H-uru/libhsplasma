@@ -14,6 +14,8 @@ PYOBJ=\
 	$(OBJDIR)pyCreatable.o \
 	$(OBJDIR)pyCreatableStub.o \
 	$(OBJDIR)pySceneNode.o \
+	$(OBJDIR)pySoundBuffer.o \
+	$(OBJDIR)pyWAVHeader.o \
 	$(OBJDIR)pyDISpanIndex.o \
 	$(OBJDIR)pyDrawable.o \
 	$(OBJDIR)pyDrawableSpans.o \
@@ -106,6 +108,12 @@ $(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
 
 $(OBJDIR)pySceneNode.o: PRP/pySceneNode.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/pySceneNode.cpp -o $(OBJDIR)pySceneNode.o
+
+$(OBJDIR)pySoundBuffer.o: PRP/Audio/pySoundBuffer.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Audio/pySoundBuffer.cpp -o $(OBJDIR)pySoundBuffer.o
+
+$(OBJDIR)pyWAVHeader.o: PRP/Audio/pyWAVHeader.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Audio/pyWAVHeader.cpp -o $(OBJDIR)pyWAVHeader.o
 
 $(OBJDIR)pyDISpanIndex.o: PRP/Geometry/pyDISpanIndex.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDISpanIndex.cpp -o $(OBJDIR)pyDISpanIndex.o

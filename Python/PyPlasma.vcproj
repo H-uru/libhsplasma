@@ -536,6 +536,22 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Audio"
+				>
+				<File
+					RelativePath=".\PRP\Audio\pySoundBuffer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\pySoundBuffer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\pyWAVHeader.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Math"
