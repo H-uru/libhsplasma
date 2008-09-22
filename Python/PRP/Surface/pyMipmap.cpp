@@ -2,6 +2,7 @@
 #include <PRP/Surface/plMipmap.h>
 #include "pyBitmap.h"
 #include "../pyCreatable.h"
+#include "../../Stream/pyStream.h"
 
 extern "C" {
 
@@ -59,6 +60,92 @@ static PyObject* pyMipmap_setConfig(pyMipmap* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyMipmap_readFrom(pyMipmap* self, PyObject* args) {
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream)) {
+        PyErr_SetString(PyExc_TypeError, "readFromStream expects an hsStream");
+        return NULL;
+    }
+    if (!pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "readFromStream expects an hsStream");
+        return NULL;
+    }
+    self->fThis->readFromStream(stream->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyMipmap_writeTo(pyMipmap* self, PyObject* args) {
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeToStream expects an hsStream");
+        return NULL;
+    }
+    if (!pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeToStream expects an hsStream");
+        return NULL;
+    }
+    self->fThis->writeToStream(stream->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyMipmap_readFromA(pyMipmap* self, PyObject* args) {
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream)) {
+        PyErr_SetString(PyExc_TypeError, "readAlphaFromStream expects an hsStream");
+        return NULL;
+    }
+    if (!pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "readAlphaFromStream expects an hsStream");
+        return NULL;
+    }
+    self->fThis->readAlphaFromStream(stream->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyMipmap_writeToA(pyMipmap* self, PyObject* args) {
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeAlphaToStream expects an hsStream");
+        return NULL;
+    }
+    if (!pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeAlphaToStream expects an hsStream");
+        return NULL;
+    }
+    self->fThis->writeAlphaToStream(stream->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyMipmap_getExt(pyMipmap* self) {
+    return PyString_FromString(self->fThis->getSuggestedExt().cstr());
+}
+
+static PyObject* pyMipmap_getAExt(pyMipmap* self) {
+    return PyString_FromString(self->fThis->getSuggestedAlphaExt().cstr());
+}
+
+static PyObject* pyMipmap_getLevelWidth(pyMipmap* self, PyObject* args) {
+    int level;
+    if (!PyArg_ParseTuple(args, "i", &level)) {
+        PyErr_SetString(PyExc_TypeError, "getLevelWidth expects an int");
+        return NULL;
+    }
+    return PyInt_FromLong(self->fThis->getLevelWidth(level));
+}
+
+static PyObject* pyMipmap_getLevelHeight(pyMipmap* self, PyObject* args) {
+    int level;
+    if (!PyArg_ParseTuple(args, "i", &level)) {
+        PyErr_SetString(PyExc_TypeError, "getLevelHeight expects an int");
+        return NULL;
+    }
+    return PyInt_FromLong(self->fThis->getLevelHeight(level));
+}
+
 static PyObject* pyMipmap_getLevel(pyMipmap* self, PyObject* args) {
     int level;
     if (!PyArg_ParseTuple(args, "i", &level)) {
@@ -106,18 +193,6 @@ static PyObject* pyMipmap_setImageJPEG(pyMipmap* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pyMipmap_setImageRLE(pyMipmap* self, PyObject* args) {
-    const char* data;
-    int dataSize;
-    if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
-        PyErr_SetString(PyExc_TypeError, "setImageRLE expects a binary string");
-        return NULL;
-    }
-    self->fThis->setImageRLE((const void*)data);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 static PyObject* pyMipmap_setAlphaJPEG(pyMipmap* self, PyObject* args) {
     const char* data;
     int dataSize;
@@ -126,18 +201,6 @@ static PyObject* pyMipmap_setAlphaJPEG(pyMipmap* self, PyObject* args) {
         return NULL;
     }
     self->fThis->setAlphaJPEG((const void*)data, dataSize);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyMipmap_setAlphaRLE(pyMipmap* self, PyObject* args) {
-    const char* data;
-    int dataSize;
-    if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
-        PyErr_SetString(PyExc_TypeError, "setAlphaRLE expects a binary string");
-        return NULL;
-    }
-    self->fThis->setAlphaRLE((const void*)data);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -209,6 +272,28 @@ static PyMethodDef pyMipmap_Methods[] = {
     { "setConfig", (PyCFunction)pyMipmap_setConfig, METH_VARARGS,
       "Params: config\n"
       "Set the configuration of the image data" },
+    { "readFromStream", (PyCFunction)pyMipmap_readFrom, METH_VARARGS,
+      "Params: stream\n"
+      "Reads the mipmap from a file stream" },
+    { "writeToStream", (PyCFunction)pyMipmap_writeTo, METH_VARARGS,
+      "Params: stream\n"
+      "Writes the mipmap to a file stream" },
+    { "readAlphaFromStream\n", (PyCFunction)pyMipmap_readFromA, METH_VARARGS,
+      "Params: stream\n"
+      "Reads the mipmap's alpha data from a file stream" },
+    { "writeAlphaToStream\n", (PyCFunction)pyMipmap_writeToA, METH_VARARGS,
+      "Params: stream\n"
+      "Writes the mipmap's alpha data to a file stream" },
+    { "getSuggestedExt\n", (PyCFunction)pyMipmap_getExt, METH_NOARGS,
+      "Returns the suggested file extension for exporting the image" },
+    { "getSuggestedAlphaExt\n", (PyCFunction)pyMipmap_getAExt, METH_NOARGS,
+      "Returns the suggested file extension for exporting the alpha data" },
+    { "getLevelWidth", (PyCFunction)pyMipmap_getLevelWidth, METH_VARARGS,
+      "Params: level\n"
+      "Get the width of a specified mip level" },
+    { "getLevelHeight", (PyCFunction)pyMipmap_getLevelHeight, METH_VARARGS,
+      "Params: level\n"
+      "Get the height of a specified mip level" },
     { "getLevel", (PyCFunction)pyMipmap_getLevel, METH_VARARGS,
       "Params: level\n"
       "Get the image data buffer for a specified mip level" },
@@ -221,15 +306,9 @@ static PyMethodDef pyMipmap_Methods[] = {
     { "setImageJPEG", (PyCFunction)pyMipmap_setImageJPEG, METH_VARARGS,
       "Params: jpegData\n"
       "Set the image data as a JPEG stream" },
-    { "setImageRLE", (PyCFunction)pyMipmap_setImageRLE, METH_VARARGS,
-      "Params: data\n"
-      "Set uncompressed image data for RLE encoding" },
     { "setAlphaJPEG", (PyCFunction)pyMipmap_setAlphaJPEG, METH_VARARGS,
       "Params: jpegData\n"
       "Set the alpha data as a JPEG stream" },
-    { "setAlphaRLE", (PyCFunction)pyMipmap_setAlphaRLE, METH_VARARGS,
-      "Params: data\n"
-      "Set uncompressed alpha data for RLE encoding" },
     { "isImageJPEG", (PyCFunction)pyMipmap_isImageJPEG, METH_NOARGS,
       "Returns whether the imageData member is a JPEG stream" },
     { "isAlphaJPEG", (PyCFunction)pyMipmap_isAlphaJPEG, METH_NOARGS,

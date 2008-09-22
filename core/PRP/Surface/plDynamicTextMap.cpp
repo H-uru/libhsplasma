@@ -33,7 +33,7 @@ void plDynamicTextMap::Create(unsigned int width, unsigned int height,
     fHasBeenCreated = true;
     fFlags |= kDontThrowAwayImage;
     fStride = fWidth * 4;
-    fNumLevels = 1;
+    fLevelData.setSize(1);
     fCompressionType = kUncompressed;
     fUncompressedInfo.fType = kRGB8888;
 }

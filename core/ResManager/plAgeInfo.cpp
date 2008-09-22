@@ -21,8 +21,6 @@ void plAgeInfo::readFromFile(const plString& filename) {
     fName = filename.afterLast(PATHSEP);
     if (!fName.beforeLast('.').empty())
         fName = fName.beforeLast('.');
-    for (size_t i=0; i<kNumCommonPages; i++)
-        addPage(PageEntry(kCommonPages[i], (-1) - i, 0));
 
     hsStream* S;
     if (plEncryptedStream::IsFileEncrypted(filename)) {
@@ -59,6 +57,10 @@ void plAgeInfo::readFromFile(const plString& filename) {
             PageEntry page(name, seqSuffix, loadFlags);
             addPage(page);
         }
+    }
+    if (fSeqPrefix >= 0) {
+        for (size_t i=0; i<kNumCommonPages; i++)
+            addPage(PageEntry(kCommonPages[i], (-1) - i, 0));
     }
 
     delete S;

@@ -3,9 +3,8 @@
 #include <cstdlib>
 
 plMipmap::plMipmap()
-        : fImageData(NULL), fTotalSize(0), fJPEGData(NULL), fJPEGSize(0),
-          fAlphaData(NULL), fAlphaSize(0), fJPEGDataRLE(NULL),
-          fAlphaDataRLE(NULL), fNumLevels(0), fLevelSizes(NULL) {
+        : fImageData(NULL), fTotalSize(0), fAlphaData(NULL), fAlphaSize(0),
+          fJPEGData(NULL), fJPEGSize(0), fJAlphaData(NULL), fJAlphaSize(0) {
     fPixelSize = 32;
     fSpace = kDirectSpace;
     fFlags = kAlphaChannelFlag;
@@ -14,9 +13,8 @@ plMipmap::plMipmap()
 plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
                    unsigned char numLevels, unsigned char compType,
                    unsigned char format)
-        : fImageData(NULL), fTotalSize(0), fJPEGData(NULL), fJPEGSize(0),
-          fAlphaData(NULL), fAlphaSize(0), fJPEGDataRLE(NULL),
-          fAlphaDataRLE(NULL), fNumLevels(0), fLevelSizes(NULL) {
+        : fImageData(NULL), fTotalSize(0), fAlphaData(NULL), fAlphaSize(0),
+          fJPEGData(NULL), fJPEGSize(0), fJAlphaData(NULL), fJAlphaSize(0) {
     fPixelSize = 32;
     fSpace = kDirectSpace;
     fFlags = kAlphaChannelFlag;
@@ -25,11 +23,9 @@ plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
 
 plMipmap::~plMipmap() {
     if (fImageData != NULL) delete[] fImageData;
-    if (fJPEGData != NULL) delete[] fJPEGData;
     if (fAlphaData != NULL) delete[] fAlphaData;
-    if (fLevelSizes != NULL) delete[] fLevelSizes;
-    if (fJPEGDataRLE != NULL) delete fJPEGDataRLE;
-    if (fAlphaDataRLE != NULL) delete fAlphaDataRLE;
+    if (fJPEGData != NULL) delete[] fJPEGData;
+    if (fJAlphaData != NULL) delete[] fJAlphaData;
 }
 
 IMPLEMENT_CREATABLE(plMipmap, kMipmap, plBitmap)
@@ -42,10 +38,8 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
     fWidth = width;
     fHeight = height;
     
-    if (numLevels > 0) {
-        fNumLevels = numLevels;
-    } else {
-        fNumLevels = 1;
+    if (numLevels == 0) {
+        numLevels = 1;
         while (width > 1 && height > 1) {
             if (width > 1)
                 width /= 2;
@@ -54,6 +48,7 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
             numLevels++;
         }
     }
+    fLevelData.setSize(numLevels);
 
     fCompressionType = compType;
     if (compType == kUncompressed || compType == kJPEGCompression) {
@@ -70,13 +65,11 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
         }
     }
 
-    if (fLevelSizes != NULL)
-        delete[] fLevelSizes;
-    fLevelSizes = NULL;
+    fLevelData.clear();
     IBuildLevelSizes();
     fTotalSize = 0;
-    for (size_t i=0; i<fNumLevels; i++)
-        fTotalSize += fLevelSizes[i];
+    for (size_t i=0; i<fLevelData.getSize(); i++)
+        fTotalSize += fLevelData[i].fSize;
     fImageData = new unsigned char[fTotalSize];
     memset(fImageData, 0, fTotalSize);
 }
@@ -85,36 +78,36 @@ void plMipmap::setConfig(unsigned int cfg) {
     switch (cfg) {
     case kColor8Config:
         fPixelSize = 8;
-        fSpace = 3;
+        fSpace = kIndexSpace;
         fFlags = kNoFlag;
         break;
     case kGray44Config:
         fPixelSize = 8;
-        fSpace = 2;
+        fSpace = kGraySpace;
         fFlags = kAlphaChannelFlag;
         break;
     case kGray4Config:
         fPixelSize = 4;
-        fSpace = 2;
+        fSpace = kGraySpace;
         fFlags = kNoFlag;
         break;
     case kGray8Config:
         fPixelSize = 8;
-        fSpace = 1;
+        fSpace = kDirectSpace;
         fFlags = kNoFlag;
         break;
     case kRGB16Config:
         fPixelSize = 16;
-        fSpace = 1;
+        fSpace = kDirectSpace;
         fFlags = kAlphaBitFlag;
         break;
     case kRGB32Config:
         fPixelSize = 32;
-        fSpace = 1;
+        fSpace = kDirectSpace;
         fFlags = kNoFlag;
     case kARGB32Config:
         fPixelSize = 32;
-        fSpace = 1;
+        fSpace = kDirectSpace;
         fFlags = kAlphaChannelFlag;
         break;
     }
@@ -127,17 +120,22 @@ void plMipmap::readData(hsStream* S) {
     fHeight = S->readInt();
     fStride = S->readInt();
     fTotalSize = S->readInt();
-    fNumLevels = S->readByte();
+    fLevelData.setSize(S->readByte());
 
     if (fImageData != NULL) {
         delete[] fImageData;
         fImageData = NULL;
+    }
+    if (fAlphaData != NULL) {
+        delete[] fAlphaData;
+        fAlphaData = NULL;
     }
     if (fTotalSize == 0)
         return;
 
     IBuildLevelSizes();
     fImageData = new unsigned char[fTotalSize];
+    fAlphaData = new unsigned char[fTotalSize];
     switch (fCompressionType) {
     case kJPEGCompression:
         IReadJPEGImage(S);
@@ -158,7 +156,7 @@ void plMipmap::writeData(hsStream* S) {
     S->writeInt(fHeight);
     S->writeInt(fStride);
     S->writeInt(fTotalSize);
-    S->writeByte(fNumLevels);
+    S->writeByte(fLevelData.getSize());
 
     if (fTotalSize == 0)
         return;
@@ -184,31 +182,31 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Height", fHeight);
     prc->writeParam("Stride", fStride);
     prc->writeParam("TotalSize", fTotalSize);
-    prc->writeParam("MipLevels", fNumLevels);
+    prc->writeParam("MipLevels", fLevelData.getSize());
     prc->endTag(true);
 
     if (fCompressionType == kJPEGCompression) {
         prc->startTag("JPEG");
-        prc->writeParam("ImageRLE", fJPEGData == NULL);
-        prc->writeParam("AlphaRLE", fAlphaData == NULL);
+        prc->writeParam("ImageRLE", !isImageJPEG());
+        prc->writeParam("AlphaRLE", isAlphaJPEG());
         prc->endTag();
         
         prc->writeSimpleTag("Image");
         if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData)) {
-            if (fJPEGData == NULL)
-                prc->writeHexStream(fJPEGDataRLE->fTotalSize, fJPEGDataRLE->fImageData);
-            else
+            if (isImageJPEG())
                 prc->writeHexStream(fJPEGSize, fJPEGData);
+            else
+                prc->writeHexStream(fLevelData[0].fSize, fImageData);
         } else {
             prc->writeComment("Texture data excluded");
         }
         prc->closeTag();    // Image
         prc->writeSimpleTag("Alpha");
         if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData)) {
-            if (fAlphaData == NULL)
-                prc->writeHexStream(fAlphaDataRLE->fTotalSize, fAlphaDataRLE->fImageData);
+            if (isAlphaJPEG())
+                prc->writeHexStream(fJAlphaSize, fJAlphaData);
             else
-                prc->writeHexStream(fAlphaSize, fAlphaData);
+                prc->writeHexStream(fLevelData[0].fSize, fAlphaData);
         } else {
             prc->writeComment("Texture data excluded");
         }
@@ -228,24 +226,25 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fHeight = tag->getParam("Height", "0").toUint();
         fStride = tag->getParam("Stride", "0").toUint();
         fTotalSize = tag->getParam("TotalSize", "0").toUint();
-        fNumLevels = tag->getParam("MipLevels", "0").toUint();
+        fLevelData.setSize(tag->getParam("MipLevels", "0").toUint());
+        IBuildLevelSizes();
     } else if (tag->getName() == "JPEG") {
         IBuildLevelSizes();
         if (tag->getParam("ImageRLE", "false").toBool()) {
-            fJPEGDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
-            tag->readHexStream(fJPEGDataRLE->fTotalSize, fJPEGDataRLE->fImageData);
+            fImageData = new unsigned char[fTotalSize];
+            tag->readHexStream(fLevelData[0].fSize, fImageData);
         } else {
             fJPEGSize = tag->getContents().getSize();
             fJPEGData = new unsigned char[fJPEGSize];
             tag->readHexStream(fJPEGSize, fJPEGData);
         }
         if (tag->getParam("AlphaRLE", "false").toBool()) {
-            fAlphaDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
-            tag->readHexStream(fAlphaDataRLE->fTotalSize, fAlphaDataRLE->fImageData);
+            fAlphaData = new unsigned char[fTotalSize];
+            tag->readHexStream(fLevelData[0].fSize, fAlphaData);
         } else {
-            fAlphaSize = tag->getContents().getSize();
-            fAlphaData = new unsigned char[fAlphaSize];
-            tag->readHexStream(fAlphaSize, fAlphaData);
+            fJAlphaSize = tag->getContents().getSize();
+            fJAlphaData = new unsigned char[fJAlphaSize];
+            tag->readHexStream(fJAlphaSize, fJAlphaData);
         }
     } else if (tag->getName() == "DDS") {
         if (tag->getContents().getSize() != fTotalSize)
@@ -260,7 +259,7 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void ExportDDS(hsStream* S, bool isDXT, plMipmap* img) {
+void ExportDDS(hsStream* S, bool isDXT, plMipmap* img, bool isAlpha) {
     S->write(4, "DDS ");
 
     // DDSURFACEDESC
@@ -320,7 +319,8 @@ void ExportDDS(hsStream* S, bool isDXT, plMipmap* img) {
     S->writeInt(0); // Reserved
 
     // Full image data chunk
-    S->write(img->getImageSize(), img->getImageData());
+    S->write((isAlpha ? img->getAlphaSize() : img->getImageSize()),
+             (isAlpha ? img->getAlphaData() : img->getImageData()));
 }
 
 void plMipmap::readFromStream(hsStream* S) {
@@ -331,9 +331,9 @@ void plMipmap::writeToStream(hsStream* S) {
     if (isImageJPEG()) {
         S->write(fJPEGSize, fJPEGData);
     } else if (fCompressionType == kJPEGCompression) {
-        ExportDDS(S, false, fJPEGDataRLE);
+        ExportDDS(S, false, this, false);
     } else {
-        ExportDDS(S, fCompressionType != kUncompressed, this);
+        ExportDDS(S, fCompressionType != kUncompressed, this, false);
     }
 }
 
@@ -343,9 +343,9 @@ void plMipmap::readAlphaFromStream(hsStream* S) {
 
 void plMipmap::writeAlphaToStream(hsStream* S) {
     if (isAlphaJPEG()) {
-        S->write(fAlphaSize, fAlphaData);
+        S->write(fJAlphaSize, fJAlphaData);
     } else if (fCompressionType == kJPEGCompression) {
-        ExportDDS(S, false, fAlphaDataRLE);
+        ExportDDS(S, false, this, true);
     } else {
         throw hsBadParamException(__FILE__, __LINE__);
     }
@@ -360,23 +360,22 @@ plString plMipmap::getSuggestedAlphaExt() const {
 }
 
 void plMipmap::IBuildLevelSizes() {
-    if (fLevelSizes != NULL)
-        delete[] fLevelSizes;
-    fLevelSizes = new unsigned int[fNumLevels];
-    memset(fLevelSizes, 0, fNumLevels * sizeof(unsigned int));
-
     unsigned int curWidth = fWidth;
     unsigned int curStride = fStride;
     unsigned int curHeight = fHeight;
 
-    if (fNumLevels <= 0) return;
-    for (size_t i=0; i<fNumLevels; i++) {
-        if (fCompressionType > 2) return;
-        if (fCompressionType == kDirectXCompression &&
-            !((curHeight | curWidth) & 3))
-            fLevelSizes[i] = (fDXInfo.fBlockSize * curHeight * curWidth) / 16;
-        else
-            fLevelSizes[i] = curStride * curHeight;
+    for (size_t i=0; i<fLevelData.getSize(); i++) {
+        if (fCompressionType == kDirectXCompression) {
+            if ((curHeight | curWidth) & 3)
+                fLevelData[i].fSize = curStride * curHeight;
+            else
+                fLevelData[i].fSize = (fDXInfo.fBlockSize * curHeight * curWidth) / 16;
+        } else if (fCompressionType == kUncompressed) {
+            fLevelData[i].fSize = curStride * curHeight;
+        } else return;
+        
+        fLevelData[i].fWidth = curWidth;
+        fLevelData[i].fHeight = curHeight;
         if (curWidth > 1) {
             curWidth /= 2;
             curStride /= 2;
@@ -386,27 +385,25 @@ void plMipmap::IBuildLevelSizes() {
     }
 }
 
-plMipmap* plMipmap::IReadRLEImage(hsStream* S) {
-    plMipmap* img = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
-    int* dataPtr = (int*)img->fImageData;
-    while (true) {
-        size_t count = S->readInt();
-        int data = S->readInt();
-        if (count == 0) break;
+void plMipmap::IReadRLEImage(hsStream* S, bool alpha) {
+    unsigned int* dataPtr = (unsigned int*)(alpha ? fAlphaData : fImageData);
+    size_t count;
+    do {
+        count = S->readInt();
+        unsigned int data = S->readInt();
         for (size_t i=0; i<count; i++) {
             *dataPtr = data;
             dataPtr++;
         }
-    }
-    return img;
+    } while (count != 0);
 }
 
-void plMipmap::IWriteRLEImage(hsStream* S, plMipmap* img) {
-    int* dataPtr = (int*)img->fImageData;
-    int data = *dataPtr;
+void plMipmap::IWriteRLEImage(hsStream* S, bool alpha) {
+    unsigned int* dataPtr = (unsigned int*)(alpha ? fAlphaData : fImageData);
+    unsigned int data = *dataPtr;
     size_t count = 0;
-    for (size_t i=0; i<(fLevelSizes[0] / 4); i++) {
-        if ((*dataPtr & 0x00FFFFFF) != data) {
+    for (size_t i=0; i<(fLevelData[0].fSize / 4); i++) {
+        if (count == 0xFFFFFFFF || (*dataPtr & 0x00FFFFFF) != data) {
             S->writeInt(count);
             S->writeInt(data);
             count = 0;
@@ -424,65 +421,63 @@ void plMipmap::IWriteRLEImage(hsStream* S, plMipmap* img) {
 }
 
 void plMipmap::IReadJPEGImage(hsStream* S) {
-    char rleFlag = S->readByte();
+    unsigned char rleFlag = S->readByte();
 
     if (rleFlag & kColorDataRLE) {
         fJPEGData = NULL;
-        fJPEGDataRLE = IReadRLEImage(S);
+        IReadRLEImage(S, false);
     } else {
-        fJPEGDataRLE = NULL;
+        fImageData = NULL;
         fJPEGSize = S->readInt();
         fJPEGData = new unsigned char[fJPEGSize];
         S->read(fJPEGSize, fJPEGData);
     }
 
     if (rleFlag & kAlphaDataRLE) {
-        fAlphaData = NULL;
-        fAlphaDataRLE = IReadRLEImage(S);
+        fJAlphaData = NULL;
+        IReadRLEImage(S, true);
     } else {
-        fAlphaDataRLE = NULL;
-        fAlphaSize = S->readInt();
-        fAlphaData = new unsigned char[fAlphaSize];
-        S->read(fAlphaSize, fAlphaData);
+        fAlphaData = NULL;
+        fJAlphaSize = S->readInt();
+        fJAlphaData = new unsigned char[fJAlphaSize];
+        S->read(fJAlphaSize, fJAlphaData);
     }
 }
 
 void plMipmap::IWriteJPEGImage(hsStream* S) {
-    char rleFlag = 0;
-    if (fJPEGData == NULL)
+    unsigned char rleFlag = 0;
+    if (!isImageJPEG())
         rleFlag |= kColorDataRLE;
-    if (fAlphaData == NULL)
+    if (!isAlphaJPEG())
         rleFlag |= kAlphaDataRLE;
     S->writeByte(rleFlag);
 
     if (rleFlag & kColorDataRLE) {
-        IWriteRLEImage(S, fJPEGDataRLE);
+        IWriteRLEImage(S, false);
     } else {
         S->writeInt(fJPEGSize);
         S->write(fJPEGSize, fJPEGData);
     }
 
     if (rleFlag & kAlphaDataRLE) {
-        IWriteRLEImage(S, fAlphaDataRLE);
+        IWriteRLEImage(S, true);
     } else {
-        S->writeInt(fAlphaSize);
-        S->write(fAlphaSize, fAlphaData);
+        S->writeInt(fJAlphaSize);
+        S->write(fJAlphaSize, fJAlphaData);
     }
 }
 
 void plMipmap::IReadRawImage(hsStream* S) {
     unsigned char* dataPtr = fImageData;
     if (fPixelSize == 32) {
-        if (fNumLevels <= 0) return;
-        for (size_t i=0; i<fNumLevels; i++) {
-            S->readInts(fLevelSizes[i] / 4, (hsUint32*)dataPtr);
-            dataPtr += fLevelSizes[i];
+        for (size_t i=0; i<fLevelData.getSize(); i++) {
+            S->readInts(fLevelData[i].fSize / 4, (hsUint32*)dataPtr);
+            dataPtr += fLevelData[i].fSize;
         }
     } else if (fPixelSize == 16) {
-        if (fNumLevels <= 0) return;
-        for (size_t i=0; i<fNumLevels; i++) {
-            S->readShorts(fLevelSizes[i] / 2, (hsUint16*)dataPtr);
-            dataPtr += fLevelSizes[i];
+        for (size_t i=0; i<fLevelData.getSize(); i++) {
+            S->readShorts(fLevelData[i].fSize / 2, (hsUint16*)dataPtr);
+            dataPtr += fLevelData[i].fSize;
         }
     } else {
         throw hsBadParamException(__FILE__, __LINE__);
@@ -492,16 +487,14 @@ void plMipmap::IReadRawImage(hsStream* S) {
 void plMipmap::IWriteRawImage(hsStream* S) {
     unsigned char* dataPtr = fImageData;
     if (fPixelSize == 32) {
-        if (fNumLevels <= 0) return;
-        for (size_t i=0; i<fNumLevels; i++) {
-            S->writeInts(fLevelSizes[i] >> 2, (hsUint32*)dataPtr);
-            dataPtr += fLevelSizes[i];
+        for (size_t i=0; i<fLevelData.getSize(); i++) {
+            S->writeInts(fLevelData[i].fSize / 4, (hsUint32*)dataPtr);
+            dataPtr += fLevelData[i].fSize;
         }
     } else if (fPixelSize == 16) {
-        if (fNumLevels <= 0) return;
-        for (size_t i=0; i<fNumLevels; i++) {
-            S->writeShorts(fLevelSizes[i] >> 1, (hsUint16*)dataPtr);
-            dataPtr += fLevelSizes[i];
+        for (size_t i=0; i<fLevelData.getSize(); i++) {
+            S->writeShorts(fLevelData[i].fSize / 2, (hsUint16*)dataPtr);
+            dataPtr += fLevelData[i].fSize;
         }
     } else {
         throw hsBadParamException(__FILE__, __LINE__);
@@ -541,14 +534,13 @@ void plMipmap::CopyFrom(plMipmap* src) {
     fTotalSize = src->fTotalSize;
     fImageData = new unsigned char[fTotalSize];
     memcpy(fImageData, src->fImageData, fTotalSize);
-    fNumLevels = src->fNumLevels;
+    fLevelData = src->fLevelData;
     if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression)
         fUncompressedInfo.fType = src->fUncompressedInfo.fType;
     else if (fCompressionType == kDirectXCompression) {
         fDXInfo.fCompressionType = src->fDXInfo.fCompressionType;
         fDXInfo.fBlockSize = src->fDXInfo.fCompressionType;
     }
-    IBuildLevelSizes();
 }
 
 void plMipmap::ICopyImage(plMipmap* src) {
@@ -562,7 +554,7 @@ void plMipmap::ICopyImage(plMipmap* src) {
     fTotalSize = src->fTotalSize;
     fImageData = new unsigned char[fTotalSize];
     memcpy(fImageData, src->fImageData, fTotalSize);
-    IBuildLevelSizes();
+    fLevelData = src->fLevelData;
 }
 
 unsigned int plMipmap::getWidth() const { return fWidth; }
@@ -570,36 +562,35 @@ unsigned int plMipmap::getHeight() const { return fHeight; }
 
 const void* plMipmap::getImageData() const {
     if (fCompressionType == kJPEGCompression)
-        return (fJPEGDataRLE != NULL) ? fJPEGDataRLE->fImageData : fJPEGData;
+        return isImageJPEG() ? fJPEGData : fImageData ;
     return fImageData;
 }
 
 unsigned int plMipmap::getImageSize() const {
     if (fCompressionType == kJPEGCompression)
-        return (fJPEGDataRLE != NULL) ? fJPEGDataRLE->fTotalSize : fJPEGSize;
+        return isImageJPEG() ? fJPEGSize : fTotalSize;
     return fTotalSize;
 }
 
 const void* plMipmap::getAlphaData() const {
     if (fCompressionType == kJPEGCompression)
-        return (fAlphaDataRLE != NULL) ? fAlphaDataRLE->fImageData : fAlphaData;
-    return 0;
+        return isAlphaJPEG() ? fJAlphaData : fAlphaData;
+    return NULL;
 }
 
 unsigned int plMipmap::getAlphaSize() const {
     if (fCompressionType == kJPEGCompression)
-        return (fAlphaDataRLE != NULL) ? fAlphaDataRLE->fTotalSize : fAlphaSize;
+        return isAlphaJPEG() ? fJAlphaSize : fTotalSize;
     return 0;
 }
 
-size_t plMipmap::getNumLevels() const { return fNumLevels; }
-unsigned int plMipmap::getLevelSize(size_t idx) const { return fLevelSizes[idx]; }
-    
+size_t plMipmap::getNumLevels() const { return fLevelData.getSize(); }
+unsigned int plMipmap::getLevelWidth(size_t idx) const { return fLevelData[idx].fWidth; }
+unsigned int plMipmap::getLevelHeight(size_t idx) const { return fLevelData[idx].fHeight; }
+unsigned int plMipmap::getLevelSize(size_t idx) const { return fLevelData[idx].fSize; }
+
 const void* plMipmap::getLevelData(size_t idx) const {
-    unsigned int pos = 0;
-    for (size_t i=0; i<idx; i++)
-        pos += fLevelSizes[i];
-    return &fImageData[pos];
+    return ((const unsigned char*)fImageData) + fLevelData[idx].fOffset;
 }
 
 void plMipmap::setImageData(const void* data) {
@@ -612,17 +603,11 @@ void plMipmap::setImageData(const void* data) {
 }
 
 void plMipmap::setLevelData(size_t idx, const void* data) {
-    unsigned int pos = 0;
-    for (size_t i=0; i<idx; i++)
-        pos += fLevelSizes[i];
-    memcpy(fImageData + pos, data, fLevelSizes[idx]);
+    memcpy(((unsigned char*)fImageData) + fLevelData[idx].fOffset,
+           data, fLevelData[idx].fSize);
 }
 
 void plMipmap::setImageJPEG(const void* data, unsigned int size) {
-    if (fJPEGDataRLE != NULL) {
-        delete fJPEGDataRLE;
-        fJPEGDataRLE = NULL;
-    }
     if (fJPEGData != NULL)
         delete[] fJPEGData;
     fJPEGSize = size;
@@ -630,39 +615,13 @@ void plMipmap::setImageJPEG(const void* data, unsigned int size) {
     memcpy(fJPEGData, data, size);
 }
 
-void plMipmap::setImageRLE(const void* data) {
-    if (fJPEGData != NULL) {
-        delete[] fJPEGData;
-        fJPEGData = NULL;
-    }
-    if (fJPEGDataRLE != NULL)
-        delete fJPEGDataRLE;
-    fJPEGDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
-    memcpy(fJPEGDataRLE->fImageData, data, fJPEGDataRLE->fTotalSize);
-}
-
 void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
-    if (fAlphaDataRLE != NULL) {
-        delete fAlphaDataRLE;
-        fAlphaDataRLE = NULL;
-    }
-    if (fAlphaData != NULL)
-        delete[] fAlphaData;
-    fAlphaSize = size;
-    fAlphaData = new unsigned char[size];
-    memcpy(fAlphaData, data, size);
-}
-
-void plMipmap::setAlphaRLE(const void* data) {
-    if (fAlphaData != NULL) {
-        delete[] fAlphaData;
-        fAlphaData = NULL;
-    }
-    if (fAlphaDataRLE != NULL)
-        delete fAlphaDataRLE;
-    fAlphaDataRLE = new plMipmap(fWidth, fHeight, kARGB32Config, 1, 0, 0);
-    memcpy(fAlphaDataRLE->fImageData, data, fAlphaDataRLE->fTotalSize);
+    if (fJAlphaData != NULL)
+        delete[] fJAlphaData;
+    fJAlphaSize = size;
+    fJAlphaData = new unsigned char[size];
+    memcpy(fJAlphaData, data, size);
 }
 
 bool plMipmap::isImageJPEG() const { return fJPEGData != NULL; }
-bool plMipmap::isAlphaJPEG() const { return fAlphaData != NULL; }
+bool plMipmap::isAlphaJPEG() const { return fJAlphaData != NULL; }

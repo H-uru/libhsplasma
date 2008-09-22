@@ -18,18 +18,22 @@ public:
     enum { kColorDataRLE = 0x1, kAlphaDataRLE = 0x2 };
 
 protected:
+    struct LevelData {
+        unsigned int fSize, fOffset;
+        unsigned int fWidth, fHeight;
+    };
+
     unsigned char* fImageData;
     unsigned int fTotalSize;
-    unsigned char* fJPEGData;
-    unsigned int fJPEGSize;
     unsigned char* fAlphaData;
     unsigned int fAlphaSize;
-    plMipmap* fJPEGDataRLE;
-    plMipmap* fAlphaDataRLE;
+    unsigned char* fJPEGData;
+    unsigned int fJPEGSize;
+    unsigned char* fJAlphaData;
+    unsigned int fJAlphaSize;
     
     unsigned int fWidth, fHeight, fStride;
-    unsigned char fNumLevels;
-    unsigned int* fLevelSizes;
+    hsTArray<LevelData> fLevelData;
     
     void CopyFrom(plMipmap* src);
     void ICopyImage(plMipmap* src);
@@ -39,10 +43,10 @@ protected:
     void IBuildLevelSizes();
     void IReadJPEGImage(hsStream* S);
     void IReadRawImage(hsStream* S);
-    plMipmap* IReadRLEImage(hsStream* S);
+    void IReadRLEImage(hsStream* S, bool alpha);
     void IWriteJPEGImage(hsStream* S);
     void IWriteRawImage(hsStream* S);
-    void IWriteRLEImage(hsStream* S, plMipmap* img);
+    void IWriteRLEImage(hsStream* S, bool alpha);
 
 public:
     plMipmap();
@@ -78,14 +82,14 @@ public:
     unsigned int getAlphaSize() const;
     size_t getNumLevels() const;
     unsigned int getLevelSize(size_t idx) const;
+    unsigned int getLevelWidth(size_t idx) const;
+    unsigned int getLevelHeight(size_t idx) const;
     const void* getLevelData(size_t idx) const;
 
     void setImageData(const void* data);
     void setLevelData(size_t idx, const void* data);
     void setImageJPEG(const void* data, unsigned int size);
-    void setImageRLE(const void* data);
     void setAlphaJPEG(const void* data, unsigned int size);
-    void setAlphaRLE(const void* data);
 
     bool isImageJPEG() const;
     bool isAlphaJPEG() const;
