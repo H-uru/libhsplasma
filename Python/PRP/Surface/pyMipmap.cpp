@@ -278,10 +278,10 @@ static PyMethodDef pyMipmap_Methods[] = {
     { "writeToStream", (PyCFunction)pyMipmap_writeTo, METH_VARARGS,
       "Params: stream\n"
       "Writes the mipmap to a file stream" },
-    { "readAlphaFromStream\n", (PyCFunction)pyMipmap_readFromA, METH_VARARGS,
+    { "readAlphaFromStream", (PyCFunction)pyMipmap_readFromA, METH_VARARGS,
       "Params: stream\n"
       "Reads the mipmap's alpha data from a file stream" },
-    { "writeAlphaToStream\n", (PyCFunction)pyMipmap_writeToA, METH_VARARGS,
+    { "writeAlphaToStream", (PyCFunction)pyMipmap_writeToA, METH_VARARGS,
       "Params: stream\n"
       "Writes the mipmap's alpha data to a file stream" },
     { "getSuggestedExt\n", (PyCFunction)pyMipmap_getExt, METH_NOARGS,

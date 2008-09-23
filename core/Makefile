@@ -35,6 +35,7 @@ PLSOBJ=\
 	$(OBJDIR)plUnifiedTime.o \
 	$(OBJDIR)plUUID.o \
 	$(OBJDIR)hsBitVector.o \
+	$(OBJDIR)plJPEG.o \
 	$(OBJDIR)PlasmaVersions.o \
 	$(OBJDIR)plString.o \
 	$(OBJDIR)plCreatable.o \
@@ -239,13 +240,15 @@ PLSOBJ=\
 
 # 3rd Party Libs
 OBJFILES3P=\
-	$(OBJDIR)rijndael.o
+	$(OBJDIR)rijndael.o \
+	3rdPartyLibs/jpeg-6b/libjpeg.a
 
 PLSLIB=lib/libPlasma.so
 
-all: $(PLSLIB)
+all: $(PLSLIB) 3rdPartyLibs/jpeg-6b/Makefile
 
 $(PLSLIB): $(PLSOBJ) $(OBJFILES3P)
+	( cd 3rdPartyLibs/jpeg-6b ; make )
 	$(CXX) $(CXXFLAGS) $(PLSOBJ) $(OBJFILES3P) -shared -Wl,-soname,libPlasma.so -o $(PLSLIB)
 
 install:
@@ -263,6 +266,12 @@ distclean:
 # 3rd Party
 $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 	$(CXX) $(CXXFLAGSEXTERN) -c 3rdPartyLibs/rijndael.cpp -o $(OBJDIR)rijndael.o
+
+3rdPartyLibs/jpeg-6b/Makefile:
+	( cd 3rdPartyLibs/jpeg-6b ; ./configure )
+
+3rdPartyLibs/jpeg-6b/libjpeg.a: 3rdPartyLibs/jpeg-6b/Makefile
+	( cd 3rdPartyLibs/jpeg-6b ; make )
 
 
 # Pls Lib
@@ -355,6 +364,9 @@ $(OBJDIR)plUUID.o: Sys/plUUID.h Sys/plUUID.cpp
 
 $(OBJDIR)hsBitVector.o: Util/hsBitVector.h Util/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/hsBitVector.cpp -o $(OBJDIR)hsBitVector.o
+
+$(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp
+	$(CXX) $(CXXFLAGS) -c Util/plJPEG.cpp -o $(OBJDIR)plJPEG.o
 
 $(OBJDIR)PlasmaVersions.o: Util/PlasmaVersions.h Util/PlasmaVersions.cpp
 	$(CXX) $(CXXFLAGS) -c Util/PlasmaVersions.cpp -o $(OBJDIR)PlasmaVersions.o

@@ -359,16 +359,16 @@ void hsFileStream::flush() {
     fflush(F);
 }
 
-void hsFileStream::read(size_t size, void* buf) {
+size_t hsFileStream::read(size_t size, void* buf) {
     if (F == NULL || fm == fmWrite)
         throw hsFileReadException(__FILE__, __LINE__);
-    fread(buf, size, 1, F);
+    return fread(buf, size, 1, F);
 }
 
-void hsFileStream::write(size_t size, const void* buf) {
+size_t hsFileStream::write(size_t size, const void* buf) {
     if (F == NULL || fm == fmRead)
         throw hsFileWriteException(__FILE__, __LINE__);
-    fwrite(buf, size, 1, F);
+    return fwrite(buf, size, 1, F);
 }
 
 

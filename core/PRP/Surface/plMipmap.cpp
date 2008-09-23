@@ -188,7 +188,7 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
     if (fCompressionType == kJPEGCompression) {
         prc->startTag("JPEG");
         prc->writeParam("ImageRLE", !isImageJPEG());
-        prc->writeParam("AlphaRLE", isAlphaJPEG());
+        prc->writeParam("AlphaRLE", !isAlphaJPEG());
         prc->endTag();
         
         prc->writeSimpleTag("Image");

@@ -40,14 +40,15 @@ void hsRAMStream::skip(hsInt32 count) { fPos += count; }
 void hsRAMStream::fastForward() { fPos = fSize; }
 void hsRAMStream::rewind() { fPos = 0; }
 
-void hsRAMStream::read(size_t size, void* buf) {
+size_t hsRAMStream::read(size_t size, void* buf) {
     if (size + fPos > fSize)
         throw hsFileReadException(__FILE__, __LINE__, "Read past end of buffer");
     memcpy(buf, fData + fPos, size);
     fPos += size;
+    return size;
 }
 
-void hsRAMStream::write(size_t size, const void* buf) {
+size_t hsRAMStream::write(size_t size, const void* buf) {
     if (size + fPos > fMax) {
         if (fMax == 0)
             resize(BLOCKSIZE);
@@ -58,6 +59,7 @@ void hsRAMStream::write(size_t size, const void* buf) {
     fPos += size;
     if (fPos > fSize)
         fSize = fPos;
+    return size;
 }
 
 void hsRAMStream::resize(hsUint32 newsize) {

@@ -32,8 +32,8 @@ public:
     virtual void rewind() = 0;
     virtual void flush();
 
-    virtual void read(size_t size, void* buf) = 0;
-    virtual void write(size_t size, const void* buf) = 0;
+    virtual size_t read(size_t size, void* buf) = 0;
+    virtual size_t write(size_t size, const void* buf) = 0;
     void writeFrom(hsStream* src);
 
     hsUbyte readByte();
@@ -95,8 +95,8 @@ public:
     virtual void rewind();
     virtual void flush();
 
-    virtual void read(size_t size, void* buf);
-    virtual void write(size_t size, const void* buf);
+    virtual size_t read(size_t size, void* buf);
+    virtual size_t write(size_t size, const void* buf);
 };
 
 DllClass hsFileReadException : public hsException {

@@ -26,8 +26,8 @@ public:
     virtual void fastForward();
     virtual void rewind();
 
-    virtual void read(size_t size, void* buf);
-    virtual void write(size_t size, const void* buf);
+    virtual size_t read(size_t size, void* buf);
+    virtual size_t write(size_t size, const void* buf);
 
     virtual void resize(hsUint32 newsize);
 };

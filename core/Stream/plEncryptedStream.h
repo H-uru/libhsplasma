@@ -39,8 +39,8 @@ public:
     virtual void skip(hsInt32 count);
     virtual void rewind();
 
-    virtual void read(size_t size, void* buf);
-    virtual void write(size_t size, const void* buf);
+    virtual size_t read(size_t size, void* buf);
+    virtual size_t write(size_t size, const void* buf);
 
     static bool IsFileEncrypted(const char* file);
 };

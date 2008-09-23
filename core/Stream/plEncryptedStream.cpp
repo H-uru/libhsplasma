@@ -268,7 +268,7 @@ void plEncryptedStream::rewind() {
     dataPos = 0;
 }
 
-void plEncryptedStream::read(size_t size, void* buf) {
+size_t plEncryptedStream::read(size_t size, void* buf) {
     if (dataPos + size > dataSize)
         throw hsFileReadException(__FILE__, __LINE__, "Read past end of stream");
     
@@ -300,9 +300,10 @@ void plEncryptedStream::read(size_t size, void* buf) {
     }
 
     dataPos += size;
+    return size;
 }
 
-void plEncryptedStream::write(size_t size, const void* buf) {
+size_t plEncryptedStream::write(size_t size, const void* buf) {
     size_t szInc = (eType == kEncAES ? 16 : 8);
     size_t pp = dataPos, bp = 0, lp = dataPos % szInc;
     while (bp < size) {
@@ -323,4 +324,5 @@ void plEncryptedStream::write(size_t size, const void* buf) {
 
     dataPos += size;
     if (dataPos > dataSize) dataSize = dataPos;
+    return size;
 }

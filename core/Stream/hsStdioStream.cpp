@@ -36,12 +36,12 @@ void hsStdioStream::flush() {
     fflush(Fout);
 }
 
-void hsStdioStream::read(size_t size, void* buf) {
-    fread(buf, size, 1, Fin);
+size_t hsStdioStream::read(size_t size, void* buf) {
+    return fread(buf, size, 1, Fin);
 }
 
-void hsStdioStream::write(size_t size, const void* buf) {
-    fwrite(buf, size, 1, Fout);
+size_t hsStdioStream::write(size_t size, const void* buf) {
+    return fwrite(buf, size, 1, Fout);
 }
 
 void hsStdioStream::setFiles(FILE* in, FILE* out) {

@@ -25,8 +25,8 @@ public:
     virtual void rewind();
     virtual void flush();
 
-    virtual void read(size_t size, void* buf);
-    virtual void write(size_t size, const void* buf);
+    virtual size_t read(size_t size, void* buf);
+    virtual size_t write(size_t size, const void* buf);
 
     void setFiles(FILE* in, FILE* out);
     FILE* getInFile();
