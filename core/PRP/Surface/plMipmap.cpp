@@ -363,6 +363,7 @@ void plMipmap::IBuildLevelSizes() {
     unsigned int curWidth = fWidth;
     unsigned int curStride = fStride;
     unsigned int curHeight = fHeight;
+    size_t curOffs = 0;
 
     for (size_t i=0; i<fLevelData.getSize(); i++) {
         if (fCompressionType == kDirectXCompression) {
@@ -376,6 +377,8 @@ void plMipmap::IBuildLevelSizes() {
         
         fLevelData[i].fWidth = curWidth;
         fLevelData[i].fHeight = curHeight;
+        fLevelData[i].fOffset = curOffs;
+        curOffs += fLevelData[i].fSize;
         if (curWidth > 1) {
             curWidth /= 2;
             curStride /= 2;
@@ -590,7 +593,7 @@ unsigned int plMipmap::getLevelHeight(size_t idx) const { return fLevelData[idx]
 unsigned int plMipmap::getLevelSize(size_t idx) const { return fLevelData[idx].fSize; }
 
 const void* plMipmap::getLevelData(size_t idx) const {
-    return ((const unsigned char*)fImageData) + fLevelData[idx].fOffset;
+    return fImageData + fLevelData[idx].fOffset;
 }
 
 void plMipmap::setImageData(const void* data) {
@@ -603,7 +606,7 @@ void plMipmap::setImageData(const void* data) {
 }
 
 void plMipmap::setLevelData(size_t idx, const void* data) {
-    memcpy(((unsigned char*)fImageData) + fLevelData[idx].fOffset,
+    memcpy(fImageData + fLevelData[idx].fOffset,
            data, fLevelData[idx].fSize);
 }
 
