@@ -29,13 +29,6 @@ public:
         kLOSDBForce16 = 0xFFFF
     };
 
-    enum LOSReqType {
-        kLOS_IgnoreCameraRequest = 0x1,
-        kLOS_IgnoreUIRequest = 0x2,
-        kLOS_CameraAvoidObject = 0x4,
-        kLOS_Max = 0xFFFF
-    };
-
     static const char* BoundsNames[];
     static const char* GroupNames[];
 };
@@ -43,17 +36,6 @@ public:
 DllClass plPhysical : public plSynchedObject {
 public:
     DECLARE_CREATABLE(plPhysical)
-
-    virtual class plHKPhysical* ConvertToHavok() const =0;
-    virtual class plPXPhysical* ConvertToPhysX() const =0;
-    virtual class plODEPhysical* ConvertToODE() const =0;
-
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-
-protected:
-    virtual void readData(hsStream* S, plResManager* mgr) =0;
-    virtual void writeData(hsStream* S, plResManager* mgr) =0;
 };
 
 #endif

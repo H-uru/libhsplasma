@@ -35,6 +35,7 @@ PLSOBJ=\
 	$(OBJDIR)plUnifiedTime.o \
 	$(OBJDIR)plUUID.o \
 	$(OBJDIR)hsBitVector.o \
+	$(OBJDIR)plJPEG.o \
 	$(OBJDIR)PlasmaVersions.o \
 	$(OBJDIR)plString.o \
 	$(OBJDIR)plCreatable.o \
@@ -197,12 +198,10 @@ PLSOBJ=\
 	$(OBJDIR)plParticleSystem.o \
 	$(OBJDIR)plCollisionDetector.o \
 	$(OBJDIR)plDetectorModifier.o \
-	$(OBJDIR)plHKPhysical.o \
+	$(OBJDIR)plGenericPhysical.o \
 	$(OBJDIR)plObjectInVolumeDetector.o \
-	$(OBJDIR)plODEPhysical.o \
 	$(OBJDIR)plPhysical.o \
 	$(OBJDIR)plPhysicalSndGroup.o \
-	$(OBJDIR)plPXPhysical.o \
 	$(OBJDIR)hsBounds.o \
 	$(OBJDIR)plConvexVolume.o \
 	$(OBJDIR)plHardRegion.o \
@@ -239,13 +238,15 @@ PLSOBJ=\
 
 # 3rd Party Libs
 OBJFILES3P=\
-	$(OBJDIR)rijndael.o
+	$(OBJDIR)rijndael.o \
+	3rdPartyLibs/jpeg-6b/libjpeg.a
 
 PLSLIB=lib/libPlasma.dll
 
-all: $(PLSLIB)
+all: $(PLSLIB) 3rdPartyLibs/jpeg-6b/Makefile
 
 $(PLSLIB): $(PLSOBJ) $(OBJFILES3P)
+	( cd 3rdPartyLibs/jpeg-6b ; make )
 	$(CXX) $(CXXFLAGS) $(PLSOBJ) $(OBJFILES3P) -shared -o $(PLSLIB)
 
 install:
@@ -263,6 +264,12 @@ distclean:
 # 3rd Party
 $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 	$(CXX) $(CXXFLAGSEXTERN) -c 3rdPartyLibs/rijndael.cpp -o $(OBJDIR)rijndael.o
+
+3rdPartyLibs/jpeg-6b/Makefile:
+	( cd 3rdPartyLibs/jpeg-6b ; ./configure )
+
+3rdPartyLibs/jpeg-6b/libjpeg.a: 3rdPartyLibs/jpeg-6b/Makefile
+	( cd 3rdPartyLibs/jpeg-6b ; make )
 
 
 # Pls Lib
@@ -355,6 +362,9 @@ $(OBJDIR)plUUID.o: Sys/plUUID.h Sys/plUUID.cpp
 
 $(OBJDIR)hsBitVector.o: Util/hsBitVector.h Util/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/hsBitVector.cpp -o $(OBJDIR)hsBitVector.o
+
+$(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp
+	$(CXX) $(CXXFLAGS) -c Util/plJPEG.cpp -o $(OBJDIR)plJPEG.o
 
 $(OBJDIR)PlasmaVersions.o: Util/PlasmaVersions.h Util/PlasmaVersions.cpp
 	$(CXX) $(CXXFLAGS) -c Util/PlasmaVersions.cpp -o $(OBJDIR)PlasmaVersions.o
@@ -842,23 +852,17 @@ $(OBJDIR)plCollisionDetector.o: PRP/Physics/plCollisionDetector.h PRP/Physics/pl
 $(OBJDIR)plDetectorModifier.o: PRP/Physics/plDetectorModifier.h PRP/Physics/plDetectorModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plDetectorModifier.cpp -o $(OBJDIR)plDetectorModifier.o
 
-$(OBJDIR)plHKPhysical.o: PRP/Physics/plHKPhysical.h PRP/Physics/plHKPhysical.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/plHKPhysical.cpp -o $(OBJDIR)plHKPhysical.o
+$(OBJDIR)plGenericPhysical.o: PRP/Physics/plGenericPhysical.h PRP/Physics/plGenericPhysical.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/plGenericPhysical.cpp -o $(OBJDIR)plGenericPhysical.o
 
 $(OBJDIR)plObjectInVolumeDetector.o: PRP/Physics/plObjectInVolumeDetector.h PRP/Physics/plObjectInVolumeDetector.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plObjectInVolumeDetector.cpp -o $(OBJDIR)plObjectInVolumeDetector.o
-
-$(OBJDIR)plODEPhysical.o: PRP/Physics/plODEPhysical.h PRP/Physics/plODEPhysical.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/plODEPhysical.cpp -o $(OBJDIR)plODEPhysical.o
 
 $(OBJDIR)plPhysical.o: PRP/Physics/plPhysical.h PRP/Physics/plPhysical.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPhysical.cpp -o $(OBJDIR)plPhysical.o
 
 $(OBJDIR)plPhysicalSndGroup.o: PRP/Physics/plPhysicalSndGroup.h PRP/Physics/plPhysicalSndGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPhysicalSndGroup.cpp -o $(OBJDIR)plPhysicalSndGroup.o
-
-$(OBJDIR)plPXPhysical.o: PRP/Physics/plPXPhysical.h PRP/Physics/plPXPhysical.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPXPhysical.cpp -o $(OBJDIR)plPXPhysical.o
 
 $(OBJDIR)hsBounds.o: PRP/Region/hsBounds.h PRP/Region/hsBounds.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/hsBounds.cpp -o $(OBJDIR)hsBounds.o

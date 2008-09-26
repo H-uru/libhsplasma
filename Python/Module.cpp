@@ -8,7 +8,7 @@
 #include "ResManager/pyResManager.h"
 #include "Stream/pyStream.h"
 #include "Sys/pyColor.h"
-#include "Util/pyUtil.h"
+#include "Util/pyBitVector.h"
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
@@ -24,6 +24,7 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyGMaterial.h"
@@ -128,6 +129,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "hsGMatState", Init_pyGMatState_Type());
     PyModule_AddObject(module, "plShaderConst", Init_pyShaderConst_Type());
     PyModule_AddObject(module, "plWAVHeader", Init_pyWAVHeader_Type());
+    PyModule_AddObject(module, "plSimDefs", Init_pySimDefs_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -157,6 +159,8 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plOmniLightInfo", Init_pyOmniLightInfo_Type());
     PyModule_AddObject(module, "plSpotLightInfo", Init_pySpotLightInfo_Type());
     PyModule_AddObject(module, "plSoundBuffer", Init_pySoundBuffer_Type());
+    PyModule_AddObject(module, "plPhysical", Init_pyPhysical_Type());
+    PyModule_AddObject(module, "plGenericPhysical", Init_pyGenericPhysical_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }

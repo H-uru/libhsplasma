@@ -1,6 +1,6 @@
 #include <Python.h>
 #include <Util/hsBitVector.h>
-#include "pyUtil.h"
+#include "pyBitVector.h"
 #include "../Stream/pyStream.h"
 
 extern "C" {

@@ -61,7 +61,7 @@ x003B U[003B] P[003B] L[003B] E[----] H[----] plPortalDrawable
 x003C U[003C] P[003C] L[003C] E[----] H[----] plPortalPhysical
 x003D U[003D] P[003D] L[003D] E[003C] H[003C] plSpawnModifier
 x003E U[003E] P[003E] L[003E] E[003D] H[003D] plFacingConditionalObject
-x003F U[003F] P[003F] L[----] E[----] H[----] plHKPhysical
+x003F U[003F] P[003F] L[003F] E[0103] H[0103] plGenericPhysical
 x0040 U[0040] P[0040] L[0040] E[003E] H[003E] plViewFaceModifier
 x0041 U[0041] P[0041] L[0041] E[003F] H[003F] plLayerInterface
 x0042 U[0042] P[0042] L[0042] E[----] H[----] plLayerWrapper
@@ -313,8 +313,8 @@ x0137 U[----] P[----] L[0137] E[010E] H[010E] pfObjectFlocker
 x0138 U[----] P[----] L[0138] E[0023] H[0023] plGrassShaderMod
 x0139 U[----] P[----] L[0139] E[0111] H[0111] plDynamicCamMap
 x013A U[012E] P[----] L[----] E[----] H[----] plSwimRegion
-x013B U[----] P[----] L[003F] E[----] H[----] plPXPhysical
-x013C U[----] P[----] L[----] E[0103] H[0103] plODEPhysical
+x013B U[----] P[----] L[----] E[----] H[----] (null)
+x013C U[----] P[----] L[----] E[----] H[----] (null)
 x013D U[----] P[----] L[----] E[0018] H[0018] plAutoWalkRegion
 x013E U[----] P[----] L[----] E[001B] H[----] plCrossfade
 x013F U[----] P[----] L[----] E[001D] H[001D] plParticleFadeOutEffect

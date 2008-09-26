@@ -1,5 +1,5 @@
-#ifndef _PYUTIL_H
-#define _PYUTIL_H
+#ifndef _PYBITVECTOR_H
+#define _PYBITVECTOR_H
 
 extern "C" {
 

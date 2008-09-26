@@ -220,7 +220,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Util\pyUtil.h"
+				RelativePath=".\Util\pyBitVector.h"
 				>
 			</File>
 		</Filter>
@@ -548,6 +548,26 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Audio\pyWAVHeader.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Physics"
+				>
+				<File
+					RelativePath=".\PRP\Physics\pyGenericPhysical.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Physics\pyPhysical.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Physics\pyPhysical.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Physics\pySimDefs.cpp"
 					>
 				</File>
 			</Filter>

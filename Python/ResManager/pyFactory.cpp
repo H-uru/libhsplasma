@@ -213,7 +213,7 @@ PyObject* Init_pyFactory_Type() {
     ADD_CREATABLE(pyFactory_Type.tp_dict, kPortalPhysical);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kSpawnModifier);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kFacingConditionalObject);
-    ADD_CREATABLE(pyFactory_Type.tp_dict, kHKPhysical);
+    ADD_CREATABLE(pyFactory_Type.tp_dict, kGenericPhysical);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kViewFaceModifier);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kLayerInterface);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kLayerWrapper);
@@ -465,8 +465,6 @@ PyObject* Init_pyFactory_Type() {
     ADD_CREATABLE(pyFactory_Type.tp_dict, kGrassShaderMod);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kDynamicCamMap);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kSwimRegion);
-    ADD_CREATABLE(pyFactory_Type.tp_dict, kPXPhysical);
-    ADD_CREATABLE(pyFactory_Type.tp_dict, kODEPhysical);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kAutoWalkRegion);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kCrossfade);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kParticleFadeOutEffect);

@@ -1666,11 +1666,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Physics\plHKPhysical.cpp"
+					RelativePath=".\PRP\Physics\plGenericPhysical.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Physics\plHKPhysical.h"
+					RelativePath=".\PRP\Physics\plGenericPhysical.h"
 					>
 				</File>
 				<File
@@ -1679,14 +1679,6 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Physics\plObjectInVolumeDetector.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Physics\plODEPhysical.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Physics\plODEPhysical.h"
 					>
 				</File>
 				<File
@@ -1703,14 +1695,6 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Physics\plPhysicalSndGroup.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Physics\plPXPhysical.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Physics\plPXPhysical.h"
 					>
 				</File>
 			</Filter>

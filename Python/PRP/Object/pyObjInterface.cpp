@@ -4,7 +4,7 @@
 #include "pySynchedObject.h"
 #include "../pyCreatable.h"
 #include "../KeyedObject/pyKey.h"
-#include "../../Util/pyUtil.h"
+#include "../../Util/pyBitVector.h"
 
 extern "C" {
 

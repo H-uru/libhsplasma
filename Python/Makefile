@@ -45,6 +45,9 @@ PYOBJ=\
 	$(OBJDIR)pySceneObject.o \
 	$(OBJDIR)pySimulationInterface.o \
 	$(OBJDIR)pySynchedObject.o \
+	$(OBJDIR)pyGenericPhysical.o \
+	$(OBJDIR)pyPhysical.o \
+	$(OBJDIR)pySimDefs.o \
 	$(OBJDIR)pyBounds.o \
 	$(OBJDIR)pyBounds3.o \
 	$(OBJDIR)pyBounds3Ext.o \
@@ -201,6 +204,15 @@ $(OBJDIR)pySimulationInterface.o: PRP/Object/pySimulationInterface.cpp
 
 $(OBJDIR)pySynchedObject.o: PRP/Object/pySynchedObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/pySynchedObject.cpp -o $(OBJDIR)pySynchedObject.o
+
+$(OBJDIR)pyGenericPhysical.o: PRP/Physics/pyGenericPhysical.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/pyGenericPhysical.cpp -o $(OBJDIR)pyGenericPhysical.o
+
+$(OBJDIR)pyPhysical.o: PRP/Physics/pyPhysical.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/pyPhysical.cpp -o $(OBJDIR)pyPhysical.o
+
+$(OBJDIR)pySimDefs.o: PRP/Physics/pySimDefs.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/pySimDefs.cpp -o $(OBJDIR)pySimDefs.o
 
 $(OBJDIR)pyBounds.o: PRP/Region/pyBounds.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds.cpp -o $(OBJDIR)pyBounds.o

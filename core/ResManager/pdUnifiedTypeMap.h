@@ -54,7 +54,7 @@ typedef enum {
     kControlEventConditionalObject, kObjectInBoxConditionalObject,
     kLocalPlayerInBoxConditionalObject, kObjectIntersectPlaneConditionalObject,
     kLocalPlayerIntersectPlaneConditionalObject, kPortalDrawable,
-    kPortalPhysical, kSpawnModifier, kFacingConditionalObject, kHKPhysical,
+    kPortalPhysical, kSpawnModifier, kFacingConditionalObject, kGenericPhysical,
     kViewFaceModifier, kLayerInterface, kLayerWrapper, kLayerAnimation,
     kLayerDepth, kLayerMovie, kLayerBink, kLayerAVI, kSound, kWin32Sound,
     kLayerOr, kAudioSystem, kDrawableSpans, kDrawablePatchSet, kInputManager,

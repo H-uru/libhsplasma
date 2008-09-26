@@ -198,12 +198,10 @@ PLSOBJ=\
 	$(OBJDIR)plParticleSystem.o \
 	$(OBJDIR)plCollisionDetector.o \
 	$(OBJDIR)plDetectorModifier.o \
-	$(OBJDIR)plHKPhysical.o \
+	$(OBJDIR)plGenericPhysical.o \
 	$(OBJDIR)plObjectInVolumeDetector.o \
-	$(OBJDIR)plODEPhysical.o \
 	$(OBJDIR)plPhysical.o \
 	$(OBJDIR)plPhysicalSndGroup.o \
-	$(OBJDIR)plPXPhysical.o \
 	$(OBJDIR)hsBounds.o \
 	$(OBJDIR)plConvexVolume.o \
 	$(OBJDIR)plHardRegion.o \
@@ -854,23 +852,17 @@ $(OBJDIR)plCollisionDetector.o: PRP/Physics/plCollisionDetector.h PRP/Physics/pl
 $(OBJDIR)plDetectorModifier.o: PRP/Physics/plDetectorModifier.h PRP/Physics/plDetectorModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plDetectorModifier.cpp -o $(OBJDIR)plDetectorModifier.o
 
-$(OBJDIR)plHKPhysical.o: PRP/Physics/plHKPhysical.h PRP/Physics/plHKPhysical.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/plHKPhysical.cpp -o $(OBJDIR)plHKPhysical.o
+$(OBJDIR)plGenericPhysical.o: PRP/Physics/plGenericPhysical.h PRP/Physics/plGenericPhysical.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/plGenericPhysical.cpp -o $(OBJDIR)plGenericPhysical.o
 
 $(OBJDIR)plObjectInVolumeDetector.o: PRP/Physics/plObjectInVolumeDetector.h PRP/Physics/plObjectInVolumeDetector.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plObjectInVolumeDetector.cpp -o $(OBJDIR)plObjectInVolumeDetector.o
-
-$(OBJDIR)plODEPhysical.o: PRP/Physics/plODEPhysical.h PRP/Physics/plODEPhysical.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/plODEPhysical.cpp -o $(OBJDIR)plODEPhysical.o
 
 $(OBJDIR)plPhysical.o: PRP/Physics/plPhysical.h PRP/Physics/plPhysical.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPhysical.cpp -o $(OBJDIR)plPhysical.o
 
 $(OBJDIR)plPhysicalSndGroup.o: PRP/Physics/plPhysicalSndGroup.h PRP/Physics/plPhysicalSndGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPhysicalSndGroup.cpp -o $(OBJDIR)plPhysicalSndGroup.o
-
-$(OBJDIR)plPXPhysical.o: PRP/Physics/plPXPhysical.h PRP/Physics/plPXPhysical.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPXPhysical.cpp -o $(OBJDIR)plPXPhysical.o
 
 $(OBJDIR)hsBounds.o: PRP/Region/hsBounds.h PRP/Region/hsBounds.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/hsBounds.cpp -o $(OBJDIR)hsBounds.o
