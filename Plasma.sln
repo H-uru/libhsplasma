@@ -1,7 +1,10 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plasma", "core\Plasma.vcproj", "{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957} = {A4B8FE2F-FDFB-4C81-80F0-F015BC607957}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlasmaCrypt", "Tools\PlasmaCrypt.vcproj", "{ED5AFABC-DC60-4474-9F60-EF55B4D65746}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -47,6 +50,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PyPlasma", "Python\PyPlasma
 	ProjectSection(ProjectDependencies) = postProject
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjpeg", "core\3rdPartyLibs\jpeg-6b\libjpeg.vcproj", "{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +120,12 @@ Global
 		{E9BB26E9-EB2D-4C0A-A294-5DA7C6B2699F}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
 		{E9BB26E9-EB2D-4C0A-A294-5DA7C6B2699F}.Release|Win32.ActiveCfg = Release|Win32
 		{E9BB26E9-EB2D-4C0A-A294-5DA7C6B2699F}.Release|Win32.Build.0 = Release|Win32
+		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug|Win32.Build.0 = Debug|Win32
+		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug-NoDLL|Win32.ActiveCfg = Debug|Win32
+		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
+		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Release|Win32.ActiveCfg = Release|Win32
+		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

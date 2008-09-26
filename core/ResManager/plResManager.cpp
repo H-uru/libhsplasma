@@ -202,6 +202,20 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
         plString path = plString(filename).beforeLast(PATHSEP);
         if (path.len() > 0)
             path = path + PATHSEP;
+
+        if (age->getNumPages() > 0) {
+            plString file = plString::Format("%s_District_%s.prp",
+                    age->getAgeName().cstr(),
+                    age->getPage(0).fName.cstr());
+            FILE* F = fopen((path + file).cstr(), "rb");
+            if (F == NULL) {
+                setVer(pvEoa, true);
+            } else {
+                setVer(pvPots, true);
+                fclose(F);
+            }
+        }
+
         for (size_t i=0; i<age->getNumPages(); i++)
             ReadPage(path + age->getPageFilename(i, getVer()));
     }

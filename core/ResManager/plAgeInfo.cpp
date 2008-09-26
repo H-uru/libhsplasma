@@ -83,6 +83,8 @@ void plAgeInfo::writeToFile(const plString& filename, PlasmaVer ver) {
     S->writeLine(plString::Format("ReleaseVersion=%u", fReleaseVersion), true);
 
     for (size_t i=0; i<fPages.getSize(); i++) {
+        if (fPages[i].fSeqSuffix < 0)
+            continue;
         if (fPages[i].fLoadFlags != 0)
             S->writeLine(plString::Format("Page=%s,%d,%d",
                          fPages[i].fName.cstr(),
@@ -187,6 +189,8 @@ void plAgeInfo::setPage(size_t idx, const PageEntry& page) { fPages[idx] = page;
 void plAgeInfo::addPage(const PageEntry& page) { fPages.append(page); }
 
 plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
+    if (pv == pvUnknown)
+        throw hsBadVersionException(__FILE__, __LINE__);
     if (pv >= pvEoa)
         return plString::Format("%s_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
     else

@@ -2,7 +2,10 @@
 #define _PLJPEG_H
 
 #include "PRP/Surface/plMipmap.h"
-#include <jpeglib.h>
+
+extern "C" {
+#include "3rdPartyLibs/jpeg-6b/jpeglib.h"
+}
 
 DllClass hsJPEGException : public hsException {
 public:

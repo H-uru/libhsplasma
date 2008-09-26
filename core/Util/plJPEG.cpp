@@ -1,8 +1,10 @@
 #include "plJPEG.h"
 #include "Debug/plDebug.h"
+
+extern "C" {
 #include "3rdPartyLibs/jpeg-6b/jinclude.h"
-#include "3rdPartyLibs/jpeg-6b/jpeglib.h"
 #include "3rdPartyLibs/jpeg-6b/jerror.h"
+}
 
 /* hsJPEGException */
 hsJPEGException::hsJPEGException(const char* file, unsigned long line,
