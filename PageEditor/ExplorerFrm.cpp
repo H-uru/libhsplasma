@@ -16,10 +16,10 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
 	wxInitAllImageHandlers();
 	
 	m_toolBar = this->CreateToolBar( wxTB_HORIZONTAL|wxTB_TEXT, ID_TOOLBAR ); 
-	m_toolBar->AddTool( ID_TB_SAVE, wxT("Save PRP"), wxBitmap( wxT("/usr/share/icons/Tango/22x22/actions/document-save.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Commit PRC edits to file"), wxEmptyString );
+	m_toolBar->AddTool( ID_TB_SAVE, wxT("Save PRP"), wxArtProvider::GetBitmap(wxART_FILE_SAVE), wxNullBitmap, wxITEM_NORMAL, wxT("Commit PRC edits to file"), wxEmptyString );
 	m_toolBar->AddSeparator();
-	m_toolBar->AddTool( ID_TB_OPEN, wxT("Open"), wxBitmap( wxT("/usr/share/icons/Tango/22x22/actions/document-open.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Load .age or .prp files"), wxEmptyString );
-	m_toolBar->AddTool( ID_TB_SAVE_FILE, wxT("Save PRC"), wxBitmap( wxT("/usr/share/icons/Tango/22x22/actions/document-save-as.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Save the current PRC to a file"), wxEmptyString );
+	m_toolBar->AddTool( ID_TB_OPEN, wxT("Open"), wxArtProvider::GetBitmap(wxART_FILE_OPEN), wxNullBitmap, wxITEM_NORMAL, wxT("Load .age or .prp files"), wxEmptyString );
+	m_toolBar->AddTool( ID_TB_SAVE_FILE, wxT("Save PRC"), wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS), wxNullBitmap, wxITEM_NORMAL, wxT("Save the current PRC to a file"), wxEmptyString );
 	m_toolBar->Realize();
 	
 	wxBoxSizer* bSizer;
@@ -242,7 +242,7 @@ void ExplorerFrm::SavePage( wxCommandEvent& event )
     
     for(unsigned int j=0; j<pages.size();j++) {
         plPageInfo* page = pages[j];
-        rm.WritePage(fPath + '/' + page->getFilename(rm.getVer()), page);
+        rm.WritePage(fPath + PATHSEP + page->getFilename(rm.getVer()), page);
     }
 }
 

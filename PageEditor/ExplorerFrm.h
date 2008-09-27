@@ -24,6 +24,7 @@
 #include <wx/notebook.h>
 #include <wx/splitter.h>
 #include <wx/frame.h>
+#include <wx/artprov.h>
 #include "ResManager/plResManager.h"
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Debug/hsExceptions.h"
