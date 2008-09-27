@@ -12,7 +12,7 @@ all:
 	(make Tools/prcc)
 	(make Tools/prcdc)
 	(make Tools/Prp2Obj)
-	(make Tools/PageExplorer)
+	(make Tools/PageEditor)
 	(make Misc/TypeMap)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp core/lib/libPlasma.so
@@ -39,8 +39,8 @@ Tools/prcdc: Tools/src/prcdc.cpp core/lib/libPlasma.so
 Tools/Prp2Obj: Tools/src/Prp2Obj.cpp core/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
 
-Tools/PageExplorer: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp core/lib/libPlasma.so
-	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer
+Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp -o Tools/PageEditor
 
 Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap
@@ -55,9 +55,10 @@ install:
 	cp Tools/prcc /usr/local/bin/
 	cp Tools/prcdc /usr/local/bin/
 	cp Tools/Prp2Obj /usr/local/bin/
-	cp Tools/PageExplorer /usr/local/bin/
+	cp Tools/PageEditor /usr/local/bin/
 	chmod +x Tools/eoaedit Tools/uruedit
 	cp Tools/eoaedit Tools/uruedit /usr/local/bin/
+	cp Python/PyPlasma.so /usr/local/lib/python2.5/site-packages/
 
 uninstall:
 	rm -f /usr/local/bin/PageConvert
@@ -68,7 +69,7 @@ uninstall:
 	rm -f /usr/local/bin/prcc
 	rm -f /usr/local/bin/prcdc
 	rm -f /usr/local/bin/Prp2Obj
-	rm -f /usr/local/bin/PageExplorer
+	rm -f /usr/local/bin/PageEditor
 	rm -f /usr/local/bin/eoaedit
 	rm -f /usr/local/bin/uruedit
 
@@ -87,5 +88,6 @@ distclean:
 	rm -f Tools/prcc
 	rm -f Tools/prcdc
 	rm -f Tools/Prp2Obj
-	rm -f Tools/PageExplorer
+	rm -f Tools/PageEditor
 	rm -f Misc/TypeMap
+

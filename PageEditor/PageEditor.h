@@ -13,7 +13,7 @@
 
 #include <wx/filedlg.h>
 
-class PageExplorer : public wxApp
+class PageEditor : public wxApp
 {
     public:
         bool OnInit();
