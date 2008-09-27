@@ -26,11 +26,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrpPack", "Tools\PrpPack.vc
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PageExplorer", "PageExplorer\PageExplorer.vcproj", "{75F5644A-049F-4836-A8EC-BC236EDFA94A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prcc", "Tools\prcc.vcproj", "{02E75BD4-468B-4F32-A6DD-BAC69860B895}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
@@ -52,6 +47,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PyPlasma", "Python\PyPlasma
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjpeg", "core\3rdPartyLibs\jpeg-6b\libjpeg.vcproj", "{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PageEditor", "PageEditor\PageEditor.vcproj", "{75F5644A-049F-4836-A8EC-BC236EDFA94A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,12 +90,6 @@ Global
 		{46130030-0CEB-4F51-8F66-EB0FAE09E5B0}.Debug-NoDLL|Win32.Build.0 = Debug-NoDLL|Win32
 		{46130030-0CEB-4F51-8F66-EB0FAE09E5B0}.Release|Win32.ActiveCfg = Release|Win32
 		{46130030-0CEB-4F51-8F66-EB0FAE09E5B0}.Release|Win32.Build.0 = Release|Win32
-		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug|Win32.Build.0 = Debug|Win32
-		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug-NoDLL|Win32.ActiveCfg = Debug|Win32
-		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
-		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Release|Win32.ActiveCfg = Release|Win32
-		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Release|Win32.Build.0 = Release|Win32
 		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Debug|Win32.ActiveCfg = Debug|Win32
 		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Debug|Win32.Build.0 = Debug|Win32
 		{02E75BD4-468B-4F32-A6DD-BAC69860B895}.Debug-NoDLL|Win32.ActiveCfg = Debug-NoDLL|Win32
@@ -126,6 +120,12 @@ Global
 		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
 		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Release|Win32.ActiveCfg = Release|Win32
 		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Release|Win32.Build.0 = Release|Win32
+		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug|Win32.Build.0 = Debug|Win32
+		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug-NoDLL|Win32.ActiveCfg = Debug|Win32
+		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
+		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Release|Win32.ActiveCfg = Release|Win32
+		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

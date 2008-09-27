@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="PageExplorer"
+	Name="PageEditor"
 	ProjectGUID="{75F5644A-049F-4836-A8EC-BC236EDFA94A}"
-	RootNamespace="PageExplorer"
+	RootNamespace="PageEditor"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28d.lib wxmsw28d_core.lib comctl32.lib rpcrt4.lib wxmsw28d_stc.lib"
+				AdditionalDependencies="wxbase28d.lib wxmsw28d_core.lib comctl32.lib rpcrt4.lib wxmsw28d_stc.lib wxpngd.lib wxjpegd.lib wxtiffd.lib wxzlibd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;D:\Dev\Libs\wxWidgets-2.8.7\lib\vc_lib&quot;"
 				GenerateDebugInformation="true"
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28.lib wxmsw28_core.lib comctl32.lib rpcrt4.lib wxmsw28_stc.lib"
+				AdditionalDependencies="wxbase28.lib wxmsw28_core.lib comctl32.lib rpcrt4.lib wxmsw28_stc.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;D:\Dev\Libs\wxWidgets-2.8.7\lib\vc_lib&quot;"
 				GenerateDebugInformation="true"
@@ -183,11 +183,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\PageExplorer.cpp"
+			RelativePath=".\PageEditor.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\PageExplorer.h"
+			RelativePath=".\PageEditor.h"
 			>
 		</File>
 		<File
