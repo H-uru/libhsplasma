@@ -37,6 +37,8 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc) =0;
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
@@ -59,9 +61,12 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
+public:
     short getClassIdx() const;
     const unsigned char* getData() const;
     size_t getLength() const;

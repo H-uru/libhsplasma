@@ -24,10 +24,11 @@ public:
     virtual void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
-    virtual void IPrcWrite(pfPrcHelper* prc)=0;
-    virtual void IPrcParse(const pfPrcTag* tag)=0;
     virtual struct hsKeyFrame* toHsKey()=0;
 
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc)=0;
+    virtual void IPrcParse(const pfPrcTag* tag)=0;
 };
 
 DllStruct ScalarKeyFrame : public UruKeyFrame {
@@ -39,10 +40,11 @@ DllStruct ScalarKeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
     virtual struct hsKeyFrame* toHsKey();
 
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag);
 };
 
 DllStruct Point3KeyFrame : public UruKeyFrame {
@@ -54,9 +56,11 @@ DllStruct Point3KeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual struct hsKeyFrame* toHsKey();
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
-    virtual struct hsKeyFrame* toHsKey();
 };
 
 DllStruct QuatKeyFrame : public UruKeyFrame {
@@ -68,9 +72,11 @@ DllStruct QuatKeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual struct hsKeyFrame* toHsKey();
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
-    virtual struct hsKeyFrame* toHsKey();
 };
 
 DllStruct Matrix33KeyFrame : public UruKeyFrame {
@@ -82,9 +88,11 @@ DllStruct Matrix33KeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual struct hsKeyFrame* toHsKey();
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
-    virtual struct hsKeyFrame* toHsKey();
 };
 
 DllStruct Matrix44KeyFrame : public UruKeyFrame {
@@ -96,9 +104,11 @@ DllStruct Matrix44KeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual struct hsKeyFrame* toHsKey();
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
-    virtual struct hsKeyFrame* toHsKey();
 };
 
 DllStruct ScaleKeyFrame : public UruKeyFrame {
@@ -114,9 +124,11 @@ DllStruct ScaleKeyFrame : public UruKeyFrame {
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+    virtual struct hsKeyFrame* toHsKey();
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
-    virtual struct hsKeyFrame* toHsKey();
 };
 
 #endif

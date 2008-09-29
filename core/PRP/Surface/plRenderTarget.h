@@ -30,9 +30,12 @@ public:
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
+public:
     class plCubicRenderTarget* getParent() const;
     void setParent(class plCubicRenderTarget* parent);
 };
@@ -54,6 +57,8 @@ public:
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };

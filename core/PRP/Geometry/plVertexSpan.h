@@ -17,9 +17,12 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
+public:
     unsigned int getGroupIdx() const;
     unsigned int getVBufferIdx() const;
     unsigned int getCellIdx() const;

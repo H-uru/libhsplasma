@@ -18,9 +18,12 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
+public:
     size_t getNumSceneObjects() const;
     size_t getNumPoolObjects() const;
     plKey getSceneObject(size_t idx) const;

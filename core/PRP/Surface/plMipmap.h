@@ -35,18 +35,6 @@ protected:
     unsigned int fWidth, fHeight, fStride;
     hsTArray<LevelData> fLevelData;
     
-    void CopyFrom(plMipmap* src);
-    void ICopyImage(plMipmap* src);
-    void IRecombineAlpha(plMipmap* alphaImg);
-    plMipmap* ISplitAlpha();
-
-    void IBuildLevelSizes();
-    void IReadJPEGImage(hsStream* S);
-    void IReadRawImage(hsStream* S);
-    void IReadRLEImage(hsStream* S, bool alpha);
-    void IWriteJPEGImage(hsStream* S);
-    void IWriteRawImage(hsStream* S);
-    void IWriteRLEImage(hsStream* S, bool alpha);
 
 public:
     plMipmap();
@@ -64,9 +52,25 @@ public:
 
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
+    void CopyFrom(plMipmap* src);
+    void ICopyImage(plMipmap* src);
+    void IRecombineAlpha(plMipmap* alphaImg);
+    plMipmap* ISplitAlpha();
+
+    void IBuildLevelSizes();
+    void IReadJPEGImage(hsStream* S);
+    void IReadRawImage(hsStream* S);
+    void IReadRLEImage(hsStream* S, bool alpha);
+    void IWriteJPEGImage(hsStream* S);
+    void IWriteRawImage(hsStream* S);
+    void IWriteRLEImage(hsStream* S, bool alpha);
+
+public:
     void readFromStream(hsStream* S);
     void writeToStream(hsStream* S);
     void readAlphaFromStream(hsStream* S);

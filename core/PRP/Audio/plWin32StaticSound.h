@@ -16,10 +16,9 @@ protected:
 public:
     DECLARE_CREATABLE(plWin32GroupedSound)
 
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-
-protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
     virtual void IWrite(hsStream* S, plResManager* mgr);
 };

@@ -18,10 +18,11 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
-protected:
     void AllocKeys(unsigned int numKeys, unsigned char type);
     void DeallocKeys();
     void AllocControllers(unsigned int numControllers);

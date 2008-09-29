@@ -23,11 +23,13 @@ public:
 
     DECLARE_CREATABLE(plSimplePosController)
 
+    virtual int getType() const;
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    virtual int getType() const;
 };
 
 DllClass plCompoundPosController : public plPosController {
@@ -44,9 +46,11 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+    virtual int getType() const;
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    virtual int getType() const;
 };
 
 #endif

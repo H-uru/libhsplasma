@@ -17,6 +17,7 @@ public:
     
     DECLARE_CREATABLE(plCubicEnvironmap)
 
+protected:
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);

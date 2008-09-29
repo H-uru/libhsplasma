@@ -16,9 +16,12 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
     
+public:
     plWeakKey getKey() const;
 };
 
@@ -34,9 +37,12 @@ public:
     virtual const char* ClassName() const;
 
     virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
+public:
     const plCreatableStub* getStub() const;
     void setStub(plCreatableStub* stub);
 };

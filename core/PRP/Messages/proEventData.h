@@ -32,14 +32,14 @@ public:
     proEventData();
     virtual ~proEventData();
 
-    static proEventData* ICreateEventDataType(int type);
-    static proEventData* ICreateEventDataType(const char* typeName);
     static proEventData* Read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);
     static proEventData* PrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 protected:
+    static proEventData* ICreateEventDataType(int type);
+    static proEventData* ICreateEventDataType(const char* typeName);
     virtual void IRead(hsStream* S, plResManager* mgr)=0;
     virtual void IWrite(hsStream* S, plResManager* mgr)=0;
     virtual void IPrcWrite(pfPrcHelper* prc)=0;

@@ -26,12 +26,13 @@ public:
         bool fBoolValue;
     };
 
+protected:
+    static unsigned int PlasmaToMapped(unsigned int type, PlasmaVer ver);
+    static unsigned int MappedToPlasma(unsigned int type, PlasmaVer ver);
+
 public:
     plPythonParameter();
     ~plPythonParameter();
-
-    static unsigned int PlasmaToMapped(unsigned int type, PlasmaVer ver);
-    static unsigned int MappedToPlasma(unsigned int type, PlasmaVer ver);
 
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
@@ -42,14 +43,6 @@ public:
 
 DllClass plPythonFileMod : public plMultiModifier {
 public:
-    struct NamedComponent {
-        plString fName;
-        int fId;
-        bool fIsActivator;
-    };
-
-    enum genref_whats { kNotSure, kAddNotify };
-    
     enum func_num {
         kfunc_FirstUpdate, kfunc_Update, kfunc_Notify, kfunc_AtTimer,
         kfunc_OnKeyEvent, kfunc_Load, kfunc_Save, kfunc_GUINotify,
@@ -83,6 +76,8 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };

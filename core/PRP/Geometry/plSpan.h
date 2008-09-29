@@ -70,9 +70,12 @@ public:
     virtual void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
+public:
     plKey getFogEnvironment() const;
     const hsTArray<plKey>& getPermaLights() const;
     const hsTArray<plKey>& getPermaProjs() const;

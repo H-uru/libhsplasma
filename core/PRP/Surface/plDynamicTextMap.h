@@ -31,6 +31,7 @@ public:
     void Create(unsigned int width, unsigned int height, bool hasAlpha,
                 unsigned int extraWidth, unsigned int extraHeight);
 
+protected:
     virtual void readData(hsStream* S);
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);

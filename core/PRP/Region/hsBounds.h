@@ -18,9 +18,12 @@ public:
     virtual void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
+public:
     int getType() const;
     void setType(int type);
 };
@@ -44,9 +47,12 @@ public:
     
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
+public:
     hsVector3 getMins() const;
     hsVector3 getMaxs() const;
     hsVector3 getCenter() const;
@@ -82,9 +88,12 @@ public:
     
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
+public:
     unsigned int getFlags() const;
     hsVector3 getCorner() const;
     hsVector3 getAxis(size_t idx) const;
@@ -114,9 +123,12 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
+public:
     unsigned int getCenterValid() const;
     hsVector3 getCenter() const;
     const hsPlane3* getPlanes() const;

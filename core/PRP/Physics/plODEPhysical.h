@@ -31,10 +31,9 @@ public:
     virtual class plPXPhysical* ConvertToPhysX() const;
     virtual class plODEPhysical* ConvertToODE() const;
 
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-
-protected:
     virtual void readData(hsStream* S, plResManager* mgr);
     virtual void writeData(hsStream* S, plResManager* mgr);
 

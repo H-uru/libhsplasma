@@ -58,7 +58,6 @@ install:
 	cp Tools/PageEditor /usr/local/bin/
 	chmod +x Tools/eoaedit Tools/uruedit
 	cp Tools/eoaedit Tools/uruedit /usr/local/bin/
-	cp Python/PyPlasma.so /usr/local/lib/python2.5/site-packages/
 
 uninstall:
 	rm -f /usr/local/bin/PageConvert
@@ -90,4 +89,3 @@ distclean:
 	rm -f Tools/Prp2Obj
 	rm -f Tools/PageEditor
 	rm -f Misc/TypeMap
-

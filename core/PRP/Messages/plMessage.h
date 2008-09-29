@@ -43,11 +43,12 @@ public:
     
     DECLARE_CREATABLE(plMessage)
 
-    void IMsgRead(hsStream* S, plResManager* mgr);
-    void IMsgWrite(hsStream* S, plResManager* mgr);
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    void IMsgRead(hsStream* S, plResManager* mgr);
+    void IMsgWrite(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };

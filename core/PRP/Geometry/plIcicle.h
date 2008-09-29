@@ -18,9 +18,12 @@ public:
     
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 
+public:
     unsigned int getIBufferIdx() const;
     unsigned int getIStartIdx() const;
     unsigned int getILength() const;
@@ -38,6 +41,8 @@ public:
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
+
+protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 };
