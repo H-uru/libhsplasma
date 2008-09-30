@@ -38,6 +38,11 @@ PYOBJ=\
 	$(OBJDIR)pyOmniLightInfo.o \
 	$(OBJDIR)pySpotLightInfo.o \
 	$(OBJDIR)pyRenderLevel.o \
+	$(OBJDIR)pyModifier.o \
+	$(OBJDIR)pyMultiModifier.o \
+	$(OBJDIR)pyPythonFileMod.o \
+	$(OBJDIR)pyPythonParameter.o \
+	$(OBJDIR)pySingleModifier.o \
 	$(OBJDIR)pyAudioInterface.o \
 	$(OBJDIR)pyCoordinateInterface.o \
 	$(OBJDIR)pyDrawInterface.o \
@@ -183,6 +188,21 @@ $(OBJDIR)pySpotLightInfo.o: PRP/Light/pySpotLightInfo.cpp
 
 $(OBJDIR)pyRenderLevel.o: PRP/Misc/pyRenderLevel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $(OBJDIR)pyRenderLevel.o
+
+$(OBJDIR)pyModifier.o: PRP/Modifier/pyModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyModifier.cpp -o $(OBJDIR)pyModifier.o
+
+$(OBJDIR)pyMultiModifier.o: PRP/Modifier/pyMultiModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyMultiModifier.cpp -o $(OBJDIR)pyMultiModifier.o
+
+$(OBJDIR)pyPythonFileMod.o: PRP/Modifier/pyPythonFileMod.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyPythonFileMod.cpp -o $(OBJDIR)pyPythonFileMod.o
+
+$(OBJDIR)pyPythonParameter.o: PRP/Modifier/pyPythonParameter.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyPythonParameter.cpp -o $(OBJDIR)pyPythonParameter.o
+
+$(OBJDIR)pySingleModifier.o: PRP/Modifier/pySingleModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pySingleModifier.cpp -o $(OBJDIR)pySingleModifier.o
 
 $(OBJDIR)pyAudioInterface.o: PRP/Object/pyAudioInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/pyAudioInterface.cpp -o $(OBJDIR)pyAudioInterface.o

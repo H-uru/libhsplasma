@@ -40,6 +40,10 @@ void plSingleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+bool plSingleModifier::getFlag(size_t flag) const { return fFlags.get(flag); }
+void plSingleModifier::setFlag(size_t flag) { fFlags.set(flag, true); }
+void plSingleModifier::clearFlag(size_t flag) { fFlags.set(flag, false); }
+
 
 /* plMultiModifier */
 plMultiModifier::plMultiModifier() { }
@@ -73,3 +77,7 @@ void plMultiModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
+
+bool plMultiModifier::getFlag(size_t flag) const { return fFlags.get(flag); }
+void plMultiModifier::setFlag(size_t flag) { fFlags.set(flag, true); }
+void plMultiModifier::clearFlag(size_t flag) { fFlags.set(flag, false); }

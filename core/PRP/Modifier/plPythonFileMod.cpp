@@ -11,7 +11,13 @@ const char* plPythonParameter::ValueTypeNames[] = {
     "BlowerComponent", "None"
 };
 
-plPythonParameter::plPythonParameter() : fID(0), fValueType(kNone) { }
+plPythonParameter::plPythonParameter()
+                 : fID(0), fValueType(kNone), fIntValue(0) { }
+
+plPythonParameter::plPythonParameter(const plPythonParameter& init)
+                 : fID(init.fID), fValueType(init.fValueType),
+                   fObjKey(init.fObjKey), fStrValue(init.fStrValue),
+                   fIntValue(init.fIntValue) { }
 
 plPythonParameter::~plPythonParameter() { }
 
@@ -60,10 +66,7 @@ void plPythonParameter::write(hsStream* S, plResManager* mgr) {
         S->writeInt(fIntValue);
         return;
     case kBoolean:
-        if (fBoolValue)
-            S->writeInt(1);
-        else
-            S->writeInt(0);
+        S->writeInt(fBoolValue ? 1 : 0);
         return;
     case kFloat:
         S->writeFloat(fFloatValue);
@@ -221,10 +224,6 @@ plPythonFileMod::~plPythonFileMod() { }
 
 IMPLEMENT_CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
-const plString& plPythonFileMod::getFilename() const { return fPythonFile; }
-const hsTArray<plWeakKey>& plPythonFileMod::getReceivers() const { return fReceivers; }
-const hsTArray<plPythonParameter>& plPythonFileMod::getParameters() const { return fParameters; }
-
 void plPythonFileMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
     fPythonFile = S->readSafeStr();
@@ -291,3 +290,15 @@ void plPythonFileMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMultiModifier::IPrcParse(tag, mgr);
     }
 }
+
+const plString& plPythonFileMod::getFilename() const { return fPythonFile; }
+size_t plPythonFileMod::getNumReceivers() const { return fReceivers.getSize(); }
+size_t plPythonFileMod::getNumParameters() const { return fParameters.getSize(); }
+plWeakKey plPythonFileMod::getReceiver(size_t idx) const { return fReceivers[idx]; }
+const plPythonParameter& plPythonFileMod::getParameter(size_t idx) const { return fParameters[idx]; }
+
+void plPythonFileMod::setFilename(const plString& filename) { fPythonFile = filename; }
+void plPythonFileMod::clearReceivers() { fReceivers.clear(); }
+void plPythonFileMod::clearParameters() { fParameters.clear(); }
+void plPythonFileMod::addReceiver(plWeakKey rcvr) { fReceivers.append(rcvr); }
+void plPythonFileMod::addParameter(const plPythonParameter& param) { fParameters.append(param); }

@@ -3,7 +3,7 @@
 
 #include "plModifier.h"
 
-struct plPythonParameter {
+DllStruct plPythonParameter {
 public:
     enum {
         kInt = 1, kFloat, kBoolean, kString, kSceneObject, kSceneObjectList,
@@ -32,6 +32,7 @@ protected:
 
 public:
     plPythonParameter();
+    plPythonParameter(const plPythonParameter& init);
     ~plPythonParameter();
 
     void read(hsStream* S, plResManager* mgr);
@@ -63,16 +64,11 @@ protected:
     hsTArray<plWeakKey> fReceivers;
     hsTArray<plPythonParameter> fParameters;
     
-    
 public:
     plPythonFileMod();
     virtual ~plPythonFileMod();
 
     DECLARE_CREATABLE(plPythonFileMod)
-    
-    const plString& getFilename() const;
-    const hsTArray<plWeakKey>& getReceivers() const;
-    const hsTArray<plPythonParameter>& getParameters() const;
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -80,6 +76,19 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const plString& getFilename() const;
+    size_t getNumReceivers() const;
+    size_t getNumParameters() const;
+    plWeakKey getReceiver(size_t idx) const;
+    const plPythonParameter& getParameter(size_t idx) const;
+
+    void setFilename(const plString& filename);
+    void clearReceivers();
+    void clearParameters();
+    void addReceiver(plWeakKey rcvr);
+    void addParameter(const plPythonParameter& param);
 };
 
 #endif

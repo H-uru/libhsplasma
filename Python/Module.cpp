@@ -21,6 +21,8 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Misc/pyRenderLevel.h"
+#include "PRP/Modifier/pyModifier.h"
+#include "PRP/Modifier/pyPythonFileMod.h"
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
@@ -130,6 +132,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plShaderConst", Init_pyShaderConst_Type());
     PyModule_AddObject(module, "plWAVHeader", Init_pyWAVHeader_Type());
     PyModule_AddObject(module, "plSimDefs", Init_pySimDefs_Type());
+    PyModule_AddObject(module, "plPythonParameter", Init_pyPythonParameter_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -161,6 +164,10 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plSoundBuffer", Init_pySoundBuffer_Type());
     PyModule_AddObject(module, "plPhysical", Init_pyPhysical_Type());
     PyModule_AddObject(module, "plGenericPhysical", Init_pyGenericPhysical_Type());
+    PyModule_AddObject(module, "plModifier", Init_pyModifier_Type());
+    PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
+    PyModule_AddObject(module, "plMultiModifier", Init_pyMultiModifier_Type());
+    PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }

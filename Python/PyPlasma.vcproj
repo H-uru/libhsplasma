@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(SolutionDir)out"
 			ConfigurationType="2"
-			CharacterSet="1"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -568,6 +568,38 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Physics\pySimDefs.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Modifier"
+				>
+				<File
+					RelativePath=".\PRP\Modifier\pyModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pyModifier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pyMultiModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pyPythonFileMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pyPythonFileMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pyPythonParameter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pySingleModifier.cpp"
 					>
 				</File>
 			</Filter>

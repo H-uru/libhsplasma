@@ -30,6 +30,11 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    bool getFlag(size_t flag) const;
+    void setFlag(size_t flag);
+    void clearFlag(size_t flag);
 };
 
 
@@ -49,6 +54,11 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    bool getFlag(size_t flag) const;
+    void setFlag(size_t flag);
+    void clearFlag(size_t flag);
 };
 
 #endif

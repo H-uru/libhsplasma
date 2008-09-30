@@ -39,8 +39,8 @@ Tools/prcdc.exe: Tools/src/prcdc.cpp core/lib/libPlasma.dll
 Tools/Prp2Obj.exe: Tools/src/Prp2Obj.cpp core/lib/libPlasma.dll
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj.exe
 
-Tools/PageExplorer.exe: PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp core/lib/libPlasma.dll
-	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageExplorer/PageExplorer.cpp PageExplorer/ExplorerFrm.cpp PageExplorer/wxPlasmaTextCtrl.cpp -o Tools/PageExplorer.exe
+Tools/PageEditor.exe: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp core/lib/libPlasma.dll
+	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp -o Tools/PageEditor.exe
 
 Misc/TypeMap.exe: Misc/TypeMap.cpp core/lib/libPlasma.dll
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap.exe
@@ -59,5 +59,5 @@ distclean:
 	rm -f Tools/prcc.exe
 	rm -f Tools/prcdc.exe
 	rm -f Tools/Prp2Obj.exe
-	rm -f Tools/PageExplorer.exe
+	rm -f Tools/PageEditor.exe
 	rm -f Misc/TypeMap.exe
