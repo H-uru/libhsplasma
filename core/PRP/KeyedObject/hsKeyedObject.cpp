@@ -9,7 +9,6 @@ hsKeyedObject::~hsKeyedObject() { }
 IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
 
 void hsKeyedObject::init(const plString& name) {
-
     myKey = new plKeyData();
     myKey->setType(ClassIndex());
     myKey->setName(name);

@@ -59,7 +59,7 @@ plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
     if (!tag->getParam("NULL", "false").toBool()) {
-        plKeyData* key = new plKeyData;
+        plKeyData* key = new plKeyData();
         key->fUoid.prcParse(tag);
         return key;
     } else {

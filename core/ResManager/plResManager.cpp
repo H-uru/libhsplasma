@@ -277,8 +277,8 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
     for (unsigned int i=0; i<tCount; i++) {
         short type = S->readShort(); // objType
         if (S->getVer() >= pvLive) {
-            S->readInt(); // # of bytes after this int to next key list
-            S->readByte(); // flag?
+            S->readInt();   // # of bytes after this int to next key list
+            S->readByte();  // flag?
         }
         unsigned int oCount = S->readInt();
         keys.reserveKeySpace(loc, type, oCount);
@@ -286,10 +286,14 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
         for (unsigned int j=0; j<oCount; j++) {
             plKey key = new plKeyData();
             key->read(S);
-            //if (S->getVer() < pvLive)
-            //    key->setID(j);
-            keys.add(key);
-            //plDebug::Debug("    * Key %s", key->toString());
+
+            plKey xkey = keys.findKey(key);
+            if (xkey.Exists()) {
+                xkey->setFileOff(key->getFileOff());
+                xkey->setObjSize(key->getObjSize());
+            } else {
+                keys.add(key);
+            }
         }
     }
 }
