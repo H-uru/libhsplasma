@@ -31,6 +31,7 @@ public:
 
     plLocation& operator=(const plLocation& other);
     bool operator==(const plLocation& other) const;
+    bool operator!=(const plLocation& other) const;
     bool operator<(const plLocation& other) const;
 
     void parse(unsigned int id);

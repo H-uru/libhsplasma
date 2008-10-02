@@ -475,6 +475,23 @@ static PyObject* pyResManager_DelAge(pyResManager* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyResManager_ChangeLocation(pyResManager* self, PyObject* args) {
+    pyLocation* locFrom;
+    pyLocation* locTo;
+    if (!PyArg_ParseTuple(args, "OO", &locFrom, &locTo)) {
+        PyErr_SetString(PyExc_TypeError, "ChangeLocation expects plLocation, plLocation");
+        return NULL;
+    }
+    if (!pyLocation_Check((PyObject*)locFrom) || !pyLocation_Check((PyObject*)locTo)) {
+        PyErr_SetString(PyExc_TypeError, "ChangeLocation expects plLocation, plLocation");
+        return NULL;
+    }
+
+    self->fThis->ChangeLocation(*locFrom->fThis, *locTo->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyMethodDef pyResManager_Methods[] = {
     { "setVer", (PyCFunction)pyResManager_setVer, METH_VARARGS,
       "Params: version, [force]\n"
@@ -566,6 +583,10 @@ static PyMethodDef pyResManager_Methods[] = {
     { "DelAge", (PyCFunction)pyResManager_DelAge, METH_VARARGS,
       "Params: name\n"
       "Deletes the Age from the ResManager" },
+    { "ChangeLocation", (PyCFunction)pyResManager_ChangeLocation, METH_VARARGS,
+      "Params: locFrom, locTo\n"
+      "Changes a location for a page and/or all keys registered under locFrom\n"
+      "to locTo" },
     { NULL, NULL, 0, NULL }
 };
 

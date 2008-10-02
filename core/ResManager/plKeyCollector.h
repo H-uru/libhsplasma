@@ -27,6 +27,8 @@ public:
     const std::vector<plKey>& getKeys(const plLocation& loc, short type);
     std::vector<short> getTypes(const plLocation& loc);
     std::vector<plLocation> getPages();
+
+    void ChangeLocation(const plLocation& from, const plLocation& to);
 };
 
 #endif

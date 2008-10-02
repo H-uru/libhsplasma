@@ -75,7 +75,8 @@ public:
     void DelObject(plKey obj);
     void DelPage(const plLocation& loc);
     void DelAge(const plString& name);
+
+    void ChangeLocation(plLocation from, plLocation to);
 };
 
 #endif
-

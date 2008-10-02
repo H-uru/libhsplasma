@@ -24,6 +24,11 @@ bool plLocation::operator==(const plLocation& other) const {
     return (fPageNum == other.fPageNum && fSeqPrefix == other.fSeqPrefix);
 }
 
+bool plLocation::operator!=(const plLocation& other) const {
+    return (fPageNum != other.fPageNum || fSeqPrefix != other.fSeqPrefix ||
+            fFlags != other.fFlags);
+}
+
 bool plLocation::operator<(const plLocation& other) const {
     if (fSeqPrefix == other.fSeqPrefix)
         return fPageNum < other.fPageNum;

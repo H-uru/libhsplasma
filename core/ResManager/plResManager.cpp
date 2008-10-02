@@ -517,3 +517,13 @@ void plResManager::DelAge(const plString& name) {
         }
     }
 }
+
+void plResManager::ChangeLocation(plLocation from, plLocation to) {
+    to.setVer(from.getVer());
+    std::vector<plPageInfo*>::iterator pi;
+    for (pi = pages.begin(); pi != pages.end(); pi++) {
+        if ((*pi)->getLocation() == from)
+            (*pi)->setLocation(to);
+    }
+    keys.ChangeLocation(from, to);
+}

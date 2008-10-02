@@ -51,7 +51,7 @@ public:
     unsigned int getDataStart() const;
     unsigned int getIndexStart() const;
     unsigned int getFlags() const;
-    plLocation& getLocation();
+    const plLocation& getLocation() const;
     unsigned int getNumObjects() const;
 
     void setAge(const plString&);

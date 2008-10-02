@@ -190,7 +190,7 @@ unsigned int plPageInfo::getReleaseVersion() const { return fReleaseVersion; }
 unsigned int plPageInfo::getDataStart() const { return fDataStart; }
 unsigned int plPageInfo::getIndexStart() const { return fIdxStart; }
 unsigned int plPageInfo::getFlags() const { return fFlags; }
-plLocation& plPageInfo::getLocation() { return fLocation; }
+const plLocation& plPageInfo::getLocation() const { return fLocation; }
 unsigned int plPageInfo::getNumObjects() const { return fNumObjects; }
 
 void plPageInfo::setAge(const plString& age) { fAge = age; }

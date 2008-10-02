@@ -87,3 +87,21 @@ std::vector<plLocation> plKeyCollector::getPages() {
         pages.push_back(i->first);
     return pages;
 }
+
+void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to) {
+    for (unsigned int i=0; i<TYPESPACE_MAX; i++) {
+        if (from == to) {
+            // Only flags are different
+            for (size_t j=0; j<keys[from][i].size(); j++)
+                keys[from][i][j]->setLocation(to);
+        } else {
+            size_t begin = keys[to][i].size();
+            keys[to][i].resize(begin + keys[from][i].size());
+            for (size_t j=0; j<keys[from][i].size(); j++) {
+                keys[to][i][begin+j] = keys[from][i][j];
+                keys[to][i][begin+j]->setLocation(to);
+            }
+        }
+    }
+    keys.erase(keys.find(from));
+}

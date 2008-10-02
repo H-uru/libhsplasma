@@ -137,7 +137,8 @@ int main(int argc, char** argv) {
         }
         OS->writeShort(maj);
         OS->writeShort(min);
-        page->getLocation().write(OS);
+        plLocation loc = page->getLocation();
+        loc.write(OS);
         OS->close();
 
         S->seek(page->getIndexStart());
@@ -222,7 +223,9 @@ int main(int argc, char** argv) {
             return 1;
         }
         S->setVer(OS->getVer());
-        page->getLocation().read(S);
+        plLocation loc;
+        loc.read(S);
+        page->setLocation(loc);
         page->setReleaseVersion(0);
         page->setFlags(plPageInfo::kBasicChecksum);
         S->close();
