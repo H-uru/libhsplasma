@@ -15,19 +15,19 @@ public:
 
 
 DllClass plJPEG {
-public:
-    static plJPEG* s_inst;
-    unsigned char fWriteQuality;
-    jpeg_compress_struct cinfo;
-    jpeg_decompress_struct dinfo;
-    jpeg_error_mgr jerr;
+private:
+    static bool fJPEGInited;
+    static jpeg_compress_struct cinfo;
+    static jpeg_decompress_struct dinfo;
+    static jpeg_error_mgr jerr;
 
 public:
-    plJPEG();
-    ~plJPEG();
+    static void Init();
+    static void DecompressJPEG(hsStream* S, void* buf, size_t size);
+    static void CompressJPEG(hsStream* S, void* buf, size_t size);
 
-    void DecompressJPEG(hsStream* S, void* buf, size_t size);
-    void CompressJPEG(hsStream* S, void* buf, size_t size);
+private:
+    static void DeInit();
 };
 
 #endif

@@ -213,6 +213,15 @@ static PyObject* pyMipmap_isAlphaJPEG(pyMipmap* self) {
     return PyBool_FromLong(self->fThis->isAlphaJPEG() ? 1 : 0);
 }
 
+static PyObject* pyMipmap_DecompressImage(pyMipmap* self) {
+    size_t size = self->fThis->GetUncompressedSize();
+    unsigned char* buf = new unsigned char[size];
+    self->fThis->DecompressImage(buf, size);
+    PyObject* img = PyString_FromStringAndSize((char*)buf, size);
+    delete[] buf;
+    return img;
+}
+
 static PyObject* pyMipmap_getWidth(pyMipmap* self, void*) {
     return PyInt_FromLong(self->fThis->getWidth());
 }
@@ -313,6 +322,8 @@ static PyMethodDef pyMipmap_Methods[] = {
       "Returns whether the imageData member is a JPEG stream" },
     { "isAlphaJPEG", (PyCFunction)pyMipmap_isAlphaJPEG, METH_NOARGS,
       "Returns whether the alphaData member is a JPEG stream" },
+    { "DecompressImage", (PyCFunction)pyMipmap_DecompressImage, METH_NOARGS,
+      "Deompresses the image and returns the uncompressed ARGB buffer" },
     { NULL, NULL, 0, NULL }
 };
 

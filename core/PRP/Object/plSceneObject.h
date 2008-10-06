@@ -44,6 +44,8 @@ public:
     void clearModifiers();
     void addInterface(plKey intf);
     void addModifier(plKey mod);
+    void delInterface(size_t idx);
+    void delModifier(size_t idx);
 };
 
 #endif

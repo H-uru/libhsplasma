@@ -50,10 +50,10 @@ size_t hsRAMStream::read(size_t size, void* buf) {
 
 size_t hsRAMStream::write(size_t size, const void* buf) {
     if (size + fPos > fMax) {
-        if (fMax == 0)
-            resize(BLOCKSIZE);
-        else
-            resize(fMax * 2);
+        size_t newSize = (fMax == 0) ? BLOCKSIZE : fMax * 2;
+        while (newSize < (size + fPos))
+            newSize *= 2;
+        resize(newSize);
     }
     memcpy(fData + fPos, buf, size);
     fPos += size;

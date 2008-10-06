@@ -81,7 +81,7 @@ plUnifiedTime plUnifiedTime::FromString(const char* buf, const char* fmt) {
 #ifdef WIN32
     throw hsNotImplementedException(__FILE__, __LINE__, "strptime");
 #else
-    tm* result;
+    tm* result = NULL;
     strptime(buf, fmt, result);
     return plUnifiedTime(result);
 #endif

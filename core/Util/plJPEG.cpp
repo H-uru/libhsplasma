@@ -110,12 +110,14 @@ METHODDEF(void) plasma_error_exit(j_common_ptr cinfo) {
 
 
 /* plJPEG */
-plJPEG* plJPEG::s_inst = NULL;
+bool plJPEG::fJPEGInited = false;
+jpeg_compress_struct plJPEG::cinfo;
+jpeg_decompress_struct plJPEG::dinfo;
+jpeg_error_mgr plJPEG::jerr;
 
-plJPEG::plJPEG() {
-    if (s_inst != NULL)
-        throw hsJPEGException(__FILE__, __LINE__, "Never construct me more than once!");
-    s_inst = this;
+void plJPEG::Init() {
+    if (fJPEGInited)
+        DeInit();
 
     cinfo.err = jpeg_std_error(&jerr);
     dinfo.err = cinfo.err;
@@ -124,16 +126,23 @@ plJPEG::plJPEG() {
 
     jpeg_create_compress(&cinfo);
     jpeg_create_decompress(&dinfo);
+
+    atexit(&plJPEG::DeInit);
+    fJPEGInited = true;
 }
 
-plJPEG::~plJPEG() {
+void plJPEG::DeInit() {
+    if (!fJPEGInited)
+        return;
     jpeg_destroy_compress(&cinfo);
     jpeg_destroy_decompress(&dinfo);
-
-    s_inst = NULL;
+    fJPEGInited = false;
 }
 
 void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size) {
+    if (!fJPEGInited)
+        Init();
+
     JSAMPARRAY jbuffer;
     int row_stride;
 
@@ -157,6 +166,9 @@ void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size) {
     jpeg_finish_decompress(&dinfo);
 }
 
-void CompressJPEG(hsStream* S, void* buf, size_t size) {
+void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size) {
+    if (!fJPEGInited)
+        Init();
+
     throw hsNotImplementedException(__FILE__, __LINE__);
 }

@@ -128,3 +128,5 @@ void plSceneObject::clearInterfaces() { fInterfaces.clear(); }
 void plSceneObject::clearModifiers() { fModifiers.clear(); }
 void plSceneObject::addInterface(plKey intf) { fInterfaces.append(intf); }
 void plSceneObject::addModifier(plKey mod) { fModifiers.append(mod); }
+void plSceneObject::delInterface(size_t idx) { fInterfaces.remove(idx); }
+void plSceneObject::delModifier(size_t idx) { fModifiers.remove(idx); }

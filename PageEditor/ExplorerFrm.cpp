@@ -232,8 +232,7 @@ void ExplorerFrm::SavePage( wxCommandEvent& event )
     wxString wTxt = m_prcEditor->GetText();
     plString txt = plString(wTxt.ToUTF8());
     hsRAMStream* S = new hsRAMStream(rm.getVer());
-    char* data = txt.copybuf();
-    S->copyFrom((void*&)data, txt.len());
+    S->copyFrom((const void*)txt.cstr(), txt.len());
     
     prc.read(S);
     const pfPrcTag* root = prc.getRoot();

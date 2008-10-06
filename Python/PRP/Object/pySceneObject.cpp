@@ -71,6 +71,28 @@ static PyObject* pySceneObject_addModifier(pySceneObject* self, PyObject* args) 
     return Py_None;
 }
 
+static PyObject* pySceneObject_delInterface(pySceneObject* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delInterface expects an int");
+        return NULL;
+    }
+    self->fThis->delInterface(idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pySceneObject_delModifier(pySceneObject* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delModifier expects an int");
+        return NULL;
+    }
+    self->fThis->delModifier(idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pySceneObject_getDraw(pySceneObject* self, void*) {
     return pyKey_FromKey(self->fThis->getDrawInterface());
 }
@@ -193,6 +215,12 @@ PyMethodDef pySceneObject_Methods[] = {
     { "addModifier", (PyCFunction)pySceneObject_addModifier, METH_VARARGS,
       "Params: key\n"
       "Add a Modifier to the Scene Object" },
+    { "delInterface", (PyCFunction)pySceneObject_delInterface, METH_VARARGS,
+      "Params: idx\n"
+      "Removes an interface from the Scene Object" },
+    { "delModifier", (PyCFunction)pySceneObject_delModifier, METH_VARARGS,
+      "Params: idx\n"
+      "Removes a modifier from the Scene Object" },
     { NULL, NULL, 0, NULL }
 };
 
