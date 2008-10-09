@@ -21,11 +21,17 @@ void plKeyCollector::add(plKey key) {
 }
 
 void plKeyCollector::del(plKey key) {
-    std::vector<plKey>::iterator it;
     std::vector<plKey>& keyList = keys[key->getLocation()][key->getType()];
-    for (it = keyList.begin(); it != keyList.end(); it++) {
-        if ((*it) == key)
+    std::vector<plKey>::iterator it = keyList.begin();
+    size_t sub = 0;
+    while (it != keyList.end()) {
+        if ((*it) == key) {
             it = keyList.erase(it);
+            sub++;
+        } else {
+            (*it)->setID((*it)->getID() - sub);
+            it++;
+        }
     }
 }
 

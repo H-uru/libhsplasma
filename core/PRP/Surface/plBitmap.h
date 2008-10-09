@@ -33,8 +33,9 @@ public:
     enum { kDXTError, kDXT1, kDXT2, kDXT3, kDXT4, kDXT5 };
     // Uncompressed Type
     enum { kRGB8888, kRGB4444, kRGB1555, kInten8, kAInten88 };
-    
+
     static const char* kCompressionTypeNames[];
+    static const char* kSpaceNames[];
     static const char* kUncompressedTypeNames[];
     static const char* kCompressedTypeNames[];
 
@@ -43,11 +44,11 @@ protected:
         unsigned char fCompressionType;
         unsigned char fBlockSize;
     };
-    
+
     struct UncompressedInfo {
         unsigned char fType;
     };
-    
+
     unsigned char fPixelSize, fSpace;
     unsigned short fFlags;
     unsigned char fCompressionType;
@@ -60,7 +61,7 @@ protected:
 public:
     plBitmap();
     virtual ~plBitmap();
-    
+
     DECLARE_CREATABLE(plBitmap)
 
     virtual void read(hsStream* S, plResManager* mgr);

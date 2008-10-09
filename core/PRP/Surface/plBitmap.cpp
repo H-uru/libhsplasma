@@ -6,6 +6,10 @@ const char* plBitmap::kCompressionTypeNames[] = {
     "Uncompressed", "DDS", "JPEG"
 };
 
+const char* plBitmap::kSpaceNames[] = {
+    "None", "Direct", "Gray", "Index"
+};
+
 const char* plBitmap::kUncompressedTypeNames[] = {
     "RGB8888", "RGB4444", "RGB1555", "Inten8", "AInten88"
 };
@@ -68,7 +72,7 @@ void plBitmap::IPrcWrite(pfPrcHelper* prc) {
 
     prc->startTag("BitmapParams");
     prc->writeParam("PixelSize", fPixelSize);
-    prc->writeParam("Space", fSpace);
+    prc->writeParam("Space", kSpaceNames[fSpace]);
     prc->writeParamHex("Flags", fFlags);
     prc->endTag(true);
 
@@ -91,8 +95,12 @@ void plBitmap::IPrcWrite(pfPrcHelper* prc) {
 void plBitmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "BitmapParams") {
         fPixelSize = tag->getParam("PixelSize", "0").toUint();
-        fSpace = tag->getParam("Space", "0").toUint();
         fFlags = tag->getParam("Flags", "0").toUint();
+        plString space = tag->getParam("Space", "None");
+        for (size_t i=0; i<=kIndexSpace; i++) {
+            if (space == kSpaceNames[i])
+                fSpace = i;
+        }
     } else if (tag->getName() == "Compression") {
         plString cType = tag->getParam("Type", "Uncompressed");
         fCompressionType = kUncompressed;

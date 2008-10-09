@@ -105,7 +105,7 @@ public:
         if (idx >= count)
             throw hsOutOfBoundsException(__FILE__, __LINE__);
 
-        for (size_t i=idx; i<count; i++)
+        for (size_t i=idx; i<(count-1); i++)
             data[i] = data[i+1];
         decSize();
     }
