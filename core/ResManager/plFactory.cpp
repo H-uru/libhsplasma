@@ -16,7 +16,9 @@
 #include "PRP/Avatar/plAGAnim.h"
 #include "PRP/Avatar/plAGMasterMod.h"
 #include "PRP/Avatar/plAGModifier.h"
+#include "PRP/Avatar/plArmatureBrain.h"
 #include "PRP/Avatar/plArmatureEffects.h"
+#include "PRP/Avatar/plArmatureMod.h"
 #include "PRP/Avatar/plAvatarClothing.h"
 #include "PRP/Avatar/plAvLadderMod.h"
 #include "PRP/Avatar/plClothingItem.h"
@@ -273,13 +275,13 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kSoftVolumeInvert: return new plSoftVolumeInvert();
         case kWin32LinkSound: return new plWin32LinkSound();
         case kLayerLinkAnimation: return new plLayerLinkAnimation();
-        //case kArmatureMod: return new plArmatureMod();
+        case kArmatureMod: return new plArmatureMod();
         case kCameraBrain_Freelook: NOTIMPL(kCameraBrain_Freelook);
         //case kHavokConstraintsMod: return new plHavokConstraintsMod();
         //case kHingeConstraintMod: return new plHingeConstraintMod();
         //case kWheelConstraintMod: return new plWheelConstraintMod();
         //case kStrongSpringConstraintMod: return new plStrongSpringConstraintMod();
-        //case kArmatureLODMod: return new plArmatureLODMod();
+        case kArmatureLODMod: return new plArmatureLODMod();
         case kWin32StaticSound: return new plWin32StaticSound();
         //case kGameGUIMgr: return new pfGameGUIMgr();
         case kGUIDialogMod: return new pfGUIDialogMod();
@@ -436,7 +438,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kFadeOpacityMod: return new plFadeOpacityMod();
         //case kFadeOpacityLay: return new plFadeOpacityLay();
         //case kDistOpacityMod: return new plDistOpacityMod();
-        //case kArmatureModBase: return new plArmatureModBase();
+        case kArmatureModBase: ABSTRACT(kArmatureModBase);
         //case kSwimRegionInterface: return new plSwimRegionInterface();
         //case kSwimCircularCurrentRegion: return new plSwimCircularCurrentRegion();
         case kParticleFollowSystemEffect: return new plParticleFollowSystemEffect();
@@ -445,8 +447,6 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kGrassShaderMod: return new plGrassShaderMod();
         case kDynamicCamMap: return new plDynamicCamMap();
         //case kSwimRegion: return new plSwimRegion();
-        //case kPXPhysical: return new plPXPhysical();
-        //case kODEPhysical: return new plODEPhysical();
         //case kAutoWalkRegion: return new plAutoWalkRegion();
         //case kCrossfade: return new plCrossfade();
         case kParticleFadeOutEffect: return new plParticleFadeOutEffect();
@@ -843,10 +843,10 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kEventGroupEnableMsg: return new plEventGroupEnableMsg();
         //case kGUINotifyMsg: return new pfGUINotifyMsg();
         //case kAvBrain: return new plAvBrain();
-        //case kArmatureBrain: return new plArmatureBrain();
-        //case kAvBrainHuman: return new plAvBrainHuman();
-        //case kAvBrainCritter: return new plAvBrainCritter();
-        //case kAvBrainDrive: return new plAvBrainDrive();
+        case kArmatureBrain: return new plArmatureBrain();
+        case kAvBrainHuman: return new plAvBrainHuman();
+        case kAvBrainCritter: return new plAvBrainCritter();
+        case kAvBrainDrive: return new plAvBrainDrive();
         //case kAvBrainSample: return new plAvBrainSample();
         //case kAvBrainGeneric: return new plAvBrainGeneric();
         //case kAvBrainPuppet: return new plAvBrainPuppet();
@@ -949,7 +949,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDX9Pipeline: return new plDX9Pipeline();
         //case kDXPipeline: return new plDXPipeline();
         //case kPlayerMsg: return new plPlayerMsg();
-        //case kAvBrainPirahna: return new plAvBrainPirahna();
+        case kAvBrainPirahna: return new plAvBrainPirahna();
         //case kAxisEventMsg: return new plAxisEventMsg();
         //case kCrossfadeMsg: return new plCrossfadeMsg();
         //case kSubtitleMsg: return new pfSubtitleMsg();
@@ -997,7 +997,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kVaultAgeInitializationTask: return new plVaultAgeInitializationTask();
         //case kSetListenerMsg: return new plSetListenerMsg();
         //case kVaultSystemNode: return new plVaultSystemNode();
-        //case kAvBrainSwim: return new plAvBrainSwim();
+        case kAvBrainSwim: return new plAvBrainSwim();
         //case kNetMsgVault: return new plNetMsgVault();
         //case kNetServerMsgVault: return new plNetServerMsgVault();
         //case kVaultTask: return new plVaultTask();
@@ -1035,7 +1035,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDynamicEnvMapMsg: return new plDynamicEnvMapMsg();
         //case kClimbMsg: return new plClimbMsg();
         //case kIfaceFadeAvatarMsg: return new plIfaceFadeAvatarMsg();
-        //case kAvBrainClimb: return new plAvBrainClimb();
+        case kAvBrainClimb: return new plAvBrainClimb();
         //case kSharedMeshBCMsg: return new plSharedMeshBCMsg();
         //case kNetVoiceListMsg: return new plNetVoiceListMsg();
         //case kSwimMsg: return new plSwimMsg();
@@ -1105,7 +1105,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPseudoLinkAnimCallbackMsg: return new plPseudoLinkAnimCallbackMsg();
         //case kClimbingWallMsg: return new pfClimbingWallMsg();
         //case kClimbEventMsg: return new plClimbEventMsg();
-        //case kAvBrainQuab: return new plAvBrainQuab();
+        case kAvBrainQuab: return new plAvBrainQuab();
         //case kSDLGameTimeElapsedVar: return new plSDLGameTimeElapsedVar();
         //case kLinkEffectsDoneMsg: return new plLinkEffectsDoneMsg();
         //case kSDLVar: return new plSDLVar();
@@ -1187,7 +1187,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kLinearVelocityMsg: return new plLinearVelocityMsg();
         //case kAngularVelocityMsg: return new plAngularVelocityMsg();
         //case kRideAnimatedPhysMsg: return new plRideAnimatedPhysMsg();
-        //case kAvBrainRideAnimatedPhysical: return new plAvBrainRideAnimatedPhysical();
+        case kAvBrainRideAnimatedPhysical: return new plAvBrainRideAnimatedPhysical();
 
         // Got an invalid or unsupported ClassIndex //
         default: return NULL;

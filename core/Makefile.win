@@ -71,7 +71,9 @@ PLSOBJ=\
 	$(OBJDIR)plAGMasterMod.o \
 	$(OBJDIR)plAGModifier.o \
 	$(OBJDIR)plAnimStage.o \
+	$(OBJDIR)plArmatureBrain.o \
 	$(OBJDIR)plArmatureEffects.o \
+	$(OBJDIR)plArmatureMod.o \
 	$(OBJDIR)plAvatarClothing.o \
 	$(OBJDIR)plAvLadderMod.o \
 	$(OBJDIR)plClothingItem.o \
@@ -471,8 +473,14 @@ $(OBJDIR)plAGModifier.o: PRP/Avatar/plAGModifier.h PRP/Avatar/plAGModifier.cpp
 $(OBJDIR)plAnimStage.o: PRP/Avatar/plAnimStage.h PRP/Avatar/plAnimStage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAnimStage.cpp -o $(OBJDIR)plAnimStage.o
 
+$(OBJDIR)plArmatureBrain.o: PRP/Avatar/plArmatureBrain.h PRP/Avatar/plArmatureBrain.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plArmatureBrain.cpp -o $(OBJDIR)plArmatureBrain.o
+
 $(OBJDIR)plArmatureEffects.o: PRP/Avatar/plArmatureEffects.h PRP/Avatar/plArmatureEffects.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plArmatureEffects.cpp -o $(OBJDIR)plArmatureEffects.o
+
+$(OBJDIR)plArmatureMod.o: PRP/Avatar/plArmatureMod.h PRP/Avatar/plArmatureMod.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plArmatureMod.cpp -o $(OBJDIR)plArmatureMod.o
 
 $(OBJDIR)plAvatarClothing.o: PRP/Avatar/plAvatarClothing.h PRP/Avatar/plAvatarClothing.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvatarClothing.cpp -o $(OBJDIR)plAvatarClothing.o

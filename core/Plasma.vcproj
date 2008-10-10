@@ -590,11 +590,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Avatar\plArmatureBrain.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plArmatureBrain.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Avatar\plArmatureEffects.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PRP\Avatar\plArmatureEffects.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plArmatureMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plArmatureMod.h"
 					>
 				</File>
 				<File

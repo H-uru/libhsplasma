@@ -8,7 +8,7 @@
 template <class T>
 class hsTArray {
 private:
-    unsigned short count;
+    size_t count;
     T* data;
 
 public:
@@ -63,7 +63,7 @@ public:
             delete[] data;
         }
         data = newData;
-        count = (unsigned short)cap;
+        count = cap;
     }
 
     void setSizeNull(size_t cap) {
@@ -78,7 +78,7 @@ public:
         delete[] data;
         data = new T[cap];
         memset(data, 0, cap * sizeof(T));
-        count = (unsigned short)cap;
+        count = cap;
     }
 
     void incSize(size_t num = 1) {
