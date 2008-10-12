@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include <cstdio>
+#include <vector>
 #include <wchar.h>
 #include "PlasmaDefs.h"
 
@@ -88,6 +89,7 @@ public:
     plString afterFirst(char sep) const;
     plString beforeLast(char sep) const;
     plString afterLast(char sep) const;
+    std::vector<plString> split(char sep) const;
 
     virtual long toInt(int base = 0) const;
     virtual unsigned long toUint(int base = 0) const;
@@ -158,6 +160,7 @@ public:
     plWString afterFirst(wchar_t sep) const;
     plWString beforeLast(wchar_t sep) const;
     plWString afterLast(wchar_t sep) const;
+    std::vector<plWString> split(char sep) const;
 
     virtual long toInt(int base = 0) const;
     virtual unsigned long toUint(int base = 0) const;

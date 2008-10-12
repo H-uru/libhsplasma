@@ -406,6 +406,19 @@ plString plString::afterLast(char sep) const {
         return plString(*this);
 }
 
+std::vector<plString> plString::split(char sep) const {
+    std::vector<plString> splits;
+    if (!empty()) {
+        splits.push_back(beforeFirst(sep));
+        plString rest(afterFirst(sep));
+        std::vector<plString> spRight = rest.split(sep);
+        splits.resize(1 + spRight.size());
+        for (size_t i=0; i<spRight.size(); i++)
+            splits[1 + i] = spRight[i];
+    }
+    return splits;
+}
+
 long plString::toInt(int base) const {
     if (empty()) return 0;
     errno = 0;
@@ -846,6 +859,19 @@ plWString plWString::afterLast(wchar_t sep) const {
         return mid(pos+1);
     else
         return plWString(*this);
+}
+
+std::vector<plWString> plWString::split(char sep) const {
+    std::vector<plWString> splits;
+    if (!empty()) {
+        splits.push_back(beforeFirst(sep));
+        plWString rest(afterFirst(sep));
+        std::vector<plWString> spRight = rest.split(sep);
+        splits.resize(1 + spRight.size());
+        for (size_t i=0; i<spRight.size(); i++)
+            splits[1 + i] = spRight[i];
+    }
+    return splits;
 }
 
 long plWString::toInt(int base) const {
