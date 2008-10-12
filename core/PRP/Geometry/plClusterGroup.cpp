@@ -30,7 +30,7 @@ void plLODDist::prcParse(const pfPrcTag* tag) {
 
 
 /* plClusterGroup */
-plClusterGroup::plClusterGroup() : fTemplate(NULL) { }
+plClusterGroup::plClusterGroup() : fTemplate(NULL), fRenderLevel(0) { }
 
 plClusterGroup::~plClusterGroup() {
     if (fTemplate != NULL)
@@ -64,7 +64,7 @@ void plClusterGroup::read(hsStream* S, plResManager* mgr) {
         fLights[i] = mgr->readKey(S);
 
     fLOD.read(S);
-    fRenderLevel.level = S->readInt();
+    fRenderLevel = S->readInt();
     fSceneNode = mgr->readKey(S);
 }
 
@@ -86,7 +86,7 @@ void plClusterGroup::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fLights[i]);
 
     fLOD.write(S);
-    S->writeInt(fRenderLevel.level);
+    S->writeInt(fRenderLevel);
     mgr->writeKey(S, fSceneNode);
 }
 
@@ -121,7 +121,7 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->startTag("RenderLevel");
-    prc->writeParamHex("Level", fRenderLevel.level);
+    prc->writeParamHex("Level", fRenderLevel);
     prc->endTag(true);
 
     prc->writeSimpleTag("SceneNode");
@@ -164,7 +164,7 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fLOD.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "RenderLevel") {
-        fRenderLevel.level = tag->getParam("Level", "0").toUint();
+        fRenderLevel = tag->getParam("Level", "0").toUint();
     } else if (tag->getName() == "SceneNode") {
         if (tag->hasChildren())
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());

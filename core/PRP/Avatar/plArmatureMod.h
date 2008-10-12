@@ -40,7 +40,7 @@ protected:
     plKey fClothingOutfit;
     int fBodyType;
     plKey fEffects;
-    hsVector3 fUruVec1, fUruVec2;
+    hsVector3 fMins, fMaxs;
     float fPhysHeight, fPhysWidth;
     plString fFootstepAge, fFootstepPage, fFootstepType;
 

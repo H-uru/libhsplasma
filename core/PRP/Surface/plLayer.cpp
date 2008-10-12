@@ -131,8 +131,6 @@ void plLayer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-hsGMatState& plLayer::getState() { return fState; }
-
 
 /* plLayerDepth */
 IMPLEMENT_CREATABLE(plLayerDepth, kLayerDepth, plLayer)

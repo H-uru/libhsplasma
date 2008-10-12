@@ -134,8 +134,8 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
         fEffects = plKey();
 
     if (S->getVer() < pvLive) {
-        fUruVec1.read(S);
-        fUruVec2.read(S);
+        fMins.read(S);
+        fMaxs.read(S);
     }
 
     fPhysHeight = S->readFloat();
@@ -179,8 +179,8 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fEffects);
 
     if (S->getVer() < pvLive) {
-        fUruVec1.write(S);
-        fUruVec2.write(S);
+        fMins.write(S);
+        fMaxs.write(S);
     }
 
     S->writeFloat(fPhysHeight);
@@ -207,10 +207,10 @@ void plArmatureMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("PhysWidth", fPhysWidth);
     prc->endTag();
       prc->writeSimpleTag("Mins");
-      fUruVec1.prcWrite(prc);
+      fMins.prcWrite(prc);
       prc->closeTag();
       prc->writeSimpleTag("Maxs");
-      fUruVec2.prcWrite(prc);
+      fMaxs.prcWrite(prc);
       prc->closeTag();
     prc->closeTag();
 
@@ -242,6 +242,16 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fBodyType = tag->getParam("BodyType", "0").toInt();
         fPhysHeight = tag->getParam("PhysHeight", "0").toFloat();
         fPhysWidth = tag->getParam("PhysWidth", "0").toFloat();
+        const pfPrcTag* child = tag->getFirstChild();
+        while (child != NULL) {
+            if (child->getName() == "Mins")
+                fMins.prcParse(child->getFirstChild());
+            else if (child->getName() == "Maxs")
+                fMaxs.prcParse(child->getFirstChild());
+            else
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            child = child->getNextSibling();
+        }
     } else if (tag->getName() == "Footsteps") {
         fFootstepAge = tag->getParam("Age", "");
         fFootstepPage = tag->getParam("Page", "");

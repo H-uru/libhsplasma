@@ -345,7 +345,7 @@ static PyObject* pyDrawableSpans_getCriteria(pyDrawableSpans* self, void*) {
 }
 
 static PyObject* pyDrawableSpans_getRenderLevel(pyDrawableSpans* self, void*) {
-    return PyInt_FromLong(self->fThis->getRenderLevel().level);
+    return PyInt_FromLong(self->fThis->getRenderLevel());
 }
 
 static PyObject* pyDrawableSpans_getSceneNode(pyDrawableSpans* self, void*) {
@@ -437,9 +437,8 @@ static int pyDrawableSpans_setRenderLevel(pyDrawableSpans* self, PyObject* value
         PyErr_SetString(PyExc_TypeError, "renderLevel should be an int");
         return -1;
     }
-    plRenderLevel rl;
-    rl.level = PyInt_AsLong(value);
-    self->fThis->setRenderLevel(rl);
+    unsigned int rlevel = PyInt_AsLong(value);
+    self->fThis->setRenderLevel(rlevel);
     return 0;
 }
 

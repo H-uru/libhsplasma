@@ -27,7 +27,7 @@ protected:
     hsTArray<plKey> fRegions, fLights;
     plLODDist fLOD;
     plWeakKey fSceneNode, fDrawable;
-    plRenderLevel fRenderLevel;
+    unsigned int fRenderLevel;
 
 public:
     plClusterGroup();

@@ -3,8 +3,7 @@
 
 #include "PlasmaDefs.h"
 
-DllClass plRenderLevel {
-public:
+namespace plRenderLevel {
     enum {
         kOpaqueMajorLevel = 0x0,
         kFBMajorLevel = 0x1,
@@ -21,8 +20,6 @@ public:
         kMinorLevelMask = 0x0FFFFFFF,
         kAvatarRendMinorLevel = 0x0FFFFFFE
     };
-
-    unsigned int level;
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "plSynchedObject.h"
+#include "Debug/plDebug.h"
 
 plSynchedObject::plSynchedObject() : fSynchFlags(0) { }
 plSynchedObject::~plSynchedObject() { }
@@ -39,15 +40,23 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
                 fSDLExcludeList[i] = S->readStr(len);
             }
         }
+
+        // Synch Flags adjustment -- this is guesswork :/
+        unsigned int eoaFlags = fSynchFlags;
+        fSynchFlags = ((eoaFlags & 0x1) ? kDontDirty : 0)
+                    | ((eoaFlags & 0x2) ? kExcludePersistentState : 0)
+                    | ((eoaFlags & 0x4) ? kExcludeAllPersistentState : 0);
+        if (eoaFlags & 0xFFFFFFF0)
+            plDebug::Debug("Myst5 Object got unknown synch flags: %08X", eoaFlags);
     }
 }
 
 void plSynchedObject::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
-    S->writeInt(fSynchFlags);
 
     unsigned short i;
     if (S->getVer() < pvEoa) {
+        S->writeInt(fSynchFlags);
         if (fSynchFlags & kExcludePersistentState) {
             S->writeShort(fSDLExcludeList.getSize());
             for (i=0; i<fSDLExcludeList.getSize(); i++) {
@@ -63,7 +72,13 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
             }
         }
     } else {
-        if ((fSynchFlags & 0x6) == 0) {
+        // Synch Flags adjustment -- this is guesswork :/
+        unsigned int eoaFlags = ((fSynchFlags & kDontDirty) ? 0x1 : 0)
+                              | ((fSynchFlags & kExcludePersistentState) ? 0x2 : 0)
+                              | ((fSynchFlags & kExcludeAllPersistentState) ? 0x4 : 0);
+
+        S->writeInt(eoaFlags);
+        if ((eoaFlags & 0x6) == 0) {
             S->writeShort(fSDLExcludeList.getSize());
             for (i=0; i<fSDLExcludeList.getSize(); i++) {
                 S->writeShort(fSDLExcludeList[i].len());

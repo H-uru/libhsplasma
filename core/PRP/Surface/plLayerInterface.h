@@ -29,7 +29,7 @@ public:
     
     enum plUVWSrcModifiers {
         kUVWPassThru = 0,
-        kUVWIdxMask = 0xFFFFFFFF,
+        kUVWIdxMask = 0xFFFF,
         kUVWNormal = 0x10000,
         kUVWPosition = 0x20000,
         kUVWReflect = 0x30000
@@ -46,6 +46,7 @@ protected:
     float fSpecularPower;
     plKey fTexture, fVertexShader, fPixelShader;
     hsMatrix44 fBumpEnvXfm;
+    hsGMatState fState;
 
 public:
     plLayerInterface();
@@ -94,6 +95,8 @@ public:
     void setUVWSrc(unsigned int src);
     void setLODBias(float bias);
     void setSpecularPower(float power);
+
+    hsGMatState& getState(); 
 };
 
 #endif

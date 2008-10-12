@@ -68,3 +68,5 @@ void plLayerInterface::setOpacity(float opac) { fOpacity = opac; }
 void plLayerInterface::setUVWSrc(unsigned int src) { fUVWSrc = src; }
 void plLayerInterface::setLODBias(float bias) { fLODBias = bias; }
 void plLayerInterface::setSpecularPower(float power) { fSpecularPower = power; }
+
+hsGMatState& plLayerInterface::getState() { return fState; }

@@ -23,7 +23,7 @@ IMPLEMENT_CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 
 /* plDrawableSpans */
 plDrawableSpans::plDrawableSpans()
-               : fSpaceTree(NULL), fProps(0), fCriteria(0) { }
+               : fSpaceTree(NULL), fProps(0), fCriteria(0), fRenderLevel(0) { }
 
 plDrawableSpans::~plDrawableSpans() {
     for (size_t i=0; i<fSourceSpans.getSize(); i++)
@@ -41,7 +41,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
 
     fProps = S->readInt();
     fCriteria = S->readInt();
-    fRenderLevel.level = S->readInt();
+    fRenderLevel = S->readInt();
 
     fMaterials.setSize(S->readInt());
     for (size_t i=0; i<fMaterials.getSize(); i++)
@@ -147,7 +147,7 @@ void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fProps);
     S->writeInt(fCriteria);
-    S->writeInt(fRenderLevel.level);
+    S->writeInt(fRenderLevel);
 
     S->writeInt(fMaterials.getSize());
     for (size_t i=0; i<fMaterials.getSize(); i++)
@@ -219,7 +219,7 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Properties");
     prc->writeParamHex("Flags", fProps);
     prc->writeParamHex("Criteria", fCriteria);
-    prc->writeParamHex("RenderLevel", fRenderLevel.level);
+    prc->writeParamHex("RenderLevel", fRenderLevel);
     prc->endTag(true);
 
     prc->writeSimpleTag("Materials");
@@ -339,7 +339,7 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Properties") {
         fProps = tag->getParam("Flags", "0").toUint();
         fCriteria = tag->getParam("Criteria", "0").toUint();
-        fRenderLevel.level = tag->getParam("RenderLevel", "0").toUint();
+        fRenderLevel = tag->getParam("RenderLevel", "0").toUint();
     } else if (tag->getName() == "Materials") {
         fMaterials.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -610,9 +610,9 @@ void plDrawableSpans::setSpaceTree(plSpaceTree* tree) { fSpaceTree = tree; }
 
 unsigned int plDrawableSpans::getProps() const { return fProps; }
 unsigned int plDrawableSpans::getCriteria() const { return fCriteria; }
-plRenderLevel plDrawableSpans::getRenderLevel() const { return fRenderLevel; }
+unsigned int plDrawableSpans::getRenderLevel() const { return fRenderLevel; }
 plWeakKey plDrawableSpans::getSceneNode() const { return fSceneNode; }
 void plDrawableSpans::setProps(unsigned int props) { fProps = props; }
 void plDrawableSpans::setCriteria(unsigned int crit) { fCriteria = crit; }
-void plDrawableSpans::setRenderLevel(plRenderLevel level) { fRenderLevel = level; }
+void plDrawableSpans::setRenderLevel(unsigned int level) { fRenderLevel = level; }
 void plDrawableSpans::setSceneNode(plWeakKey node) { fSceneNode = node; }

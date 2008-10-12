@@ -3,7 +3,7 @@
 
 #include "plMipmap.h"
 
-class plCubicEnvironmap : public plBitmap {
+DllClass plCubicEnvironmap : public plBitmap {
 public:
     enum Faces { kLeftFace, kRightFace, kFrontFace, kBackFace,
                  kTopFace, kBottomFace, kNumFaces };
@@ -22,6 +22,9 @@ protected:
     virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plMipmap* getFace(size_t idx);
 };
 
 #endif

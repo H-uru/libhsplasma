@@ -39,3 +39,7 @@ void plCubicEnvironmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plBitmap::IPrcParse(tag, mgr);
     }
 }
+
+plMipmap* plCubicEnvironmap::getFace(size_t idx) {
+    return &fFaces[idx];
+}
