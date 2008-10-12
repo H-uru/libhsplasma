@@ -197,9 +197,10 @@ plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
         return plString::Format("%s_District_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
 }
 
-plLocation plAgeInfo::getPageLoc(size_t idx) const {
-    plLocation loc;
+plLocation plAgeInfo::getPageLoc(size_t idx, PlasmaVer pv) const {
+    plLocation loc(pv);
     loc.setSeqPrefix(fSeqPrefix);
     loc.setPageNum(fPages[idx].fSeqSuffix);
+    loc.parse(loc.unparse());   // Adjust for broken ages (Pahts)
     return loc;
 }

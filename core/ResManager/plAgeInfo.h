@@ -68,7 +68,7 @@ public:
     void addPage(const PageEntry& page);
 
     plString getPageFilename(size_t idx, PlasmaVer pv) const;
-    plLocation getPageLoc(size_t idx) const;
+    plLocation getPageLoc(size_t idx, PlasmaVer pv) const;
 };
 
 #endif

@@ -140,6 +140,21 @@ static PyObject* pyLocation_isGlobal(pyLocation* self) {
     return PyBool_FromLong(self->fThis->isGlobal() ? 1 : 0);
 }
 
+static PyObject* pyLocation_parse(pyLocation* self, PyObject* args) {
+    int loc;
+    if (!PyArg_ParseTuple(args, "i", &loc)) {
+        PyErr_SetString(PyExc_TypeError, "parse expects an int");
+        return NULL;
+    }
+    self->fThis->parse(loc);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyLocation_unparse(pyLocation* self) {
+    return PyInt_FromLong(self->fThis->unparse());
+}
+
 static PyObject* pyLocation_getVer(pyLocation* self, void*) {
     return PyInt_FromLong(self->fThis->getVer());
 }
@@ -155,6 +170,7 @@ static PyObject* pyLocation_getPage(pyLocation* self, void*) {
 static PyObject* pyLocation_getFlags(pyLocation* self, void*) {
     return PyInt_FromLong(self->fThis->getFlags());
 }
+
 
 static int pyLocation_setVer(pyLocation* self, PyObject* value, void*) {
     if (value == NULL) {
@@ -227,6 +243,11 @@ static PyMethodDef pyLocation_Methods[] = {
       "Returns True if the location is virtual" },
     { "isGlobal", (PyCFunction)pyLocation_isGlobal, METH_NOARGS,
       "Returns True if the sequence prefix points to a global age" },
+    { "parse", (PyCFunction)pyLocation_parse, METH_VARARGS,
+      "Params: locationId\n"
+      "Parses a raw location" },
+    { "unparse", (PyCFunction)pyLocation_unparse, METH_NOARGS,
+      "Returns a raw location ID for the set Plasma version" },
     { NULL, NULL, 0, NULL }
 };
 

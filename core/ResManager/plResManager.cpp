@@ -260,7 +260,7 @@ void plResManager::UnloadAge(const plString& name) {
         if ((*ai)->getAgeName() == name) {
             plAgeInfo* age = *ai;
             for (size_t i=0; i<age->getNumPages(); i++)
-                UnloadPage(age->getPageLoc(i));
+                UnloadPage(age->getPageLoc(i, fPlasmaVer));
             delete age;
             ages.erase(ai);
             ai = ages.end();

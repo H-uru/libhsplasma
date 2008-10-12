@@ -101,12 +101,12 @@ static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
 }
 
 static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "getPageLoc expects an int");
+    int idx, ver;
+    if (!PyArg_ParseTuple(args, "ii", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getPageLoc expects int, int");
         return NULL;
     }
-    return pyLocation_FromLocation(self->fThis->getPageLoc((size_t)idx));
+    return pyLocation_FromLocation(self->fThis->getPageLoc((size_t)idx, (PlasmaVer)ver));
 }
 
 static PyObject* pyAgeInfo_getName(pyAgeInfo* self, void*) {

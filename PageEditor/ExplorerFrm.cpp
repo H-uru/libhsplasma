@@ -97,7 +97,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
             plAgeInfo* age = rm.ReadAge(filename.ToUTF8(), true);
             fRoot = m_prpTree->AddRoot(wxString::FromUTF8(age->getAgeName().cstr()));
             for (unsigned int i=0; i<age->getNumPages(); i++) {
-                plPageInfo* page = rm.FindPage(age->getPageLoc(i));
+                plPageInfo* page = rm.FindPage(age->getPageLoc(i, rm.getVer()));
                 pages.push_back(page);
             }
         }
