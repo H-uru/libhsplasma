@@ -156,6 +156,8 @@ plString hsStream::readLine() {
         if (i >= 4096)
             throw hsFileReadException(__FILE__, __LINE__, "Line too long");
     }
+    if (c != '\n' && c != '\r')
+        buf[i++] = c;
     buf[i] = 0;
     if (c == '\r')
         readByte(); // Eat the \n in Windows-style EOLs

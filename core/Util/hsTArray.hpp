@@ -44,9 +44,6 @@ public:
     bool empty() const { return count == 0; }
 
     void setSize(size_t cap) {
-        if (cap > 0xFFFF)
-            throw hsBadParamException(__FILE__, __LINE__);
-
         if (count == cap) return;
 
         if (cap == 0) {
@@ -67,9 +64,6 @@ public:
     }
 
     void setSizeNull(size_t cap) {
-        if (cap > 0xFFFF)
-            throw hsBadParamException(__FILE__, __LINE__);
-
         if (cap == 0) {
             clear();
             return;
