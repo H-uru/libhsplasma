@@ -1,5 +1,6 @@
 #include "plConditionalObject.h"
 
+/* plConditionalObject */
 plConditionalObject::plConditionalObject() /*: fLogicMod(NULL)*/ { }
 plConditionalObject::~plConditionalObject() { }
 
@@ -33,3 +34,14 @@ void plConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
+
+
+/* plPickedConditionalObject */
+IMPLEMENT_CREATABLE(plPickedConditionalObject, kPickedConditionalObject,
+                    plConditionalObject)
+
+
+/* plPythonFileModConditionalObject */
+IMPLEMENT_CREATABLE(plPythonFileModConditionalObject,
+                    kPythonFileModConditionalObject,
+                    plConditionalObject)

@@ -790,22 +790,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\ConditionalObject\plPickedConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\ConditionalObject\plPickedConditionalObject.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\ConditionalObject\plPythonFileModConditionalObject.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\ConditionalObject\plPythonFileModConditionalObject.h"
-					>
-				</File>
-				<File
 					RelativePath=".\PRP\ConditionalObject\plVolumeSensorConditionalObject.cpp"
 					>
 				</File>

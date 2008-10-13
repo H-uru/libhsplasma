@@ -95,8 +95,6 @@ PLSOBJ=\
 	$(OBJDIR)plDetectConditionalObjects.o \
 	$(OBJDIR)plFacingConditionalObject.o \
 	$(OBJDIR)plKeyPressConditionalObject.o \
-	$(OBJDIR)plPickedConditionalObject.o \
-	$(OBJDIR)plPythonFileModConditionalObject.o \
 	$(OBJDIR)plVolumeSensorConditionalObject.o \
 	$(OBJDIR)plCluster.o \
 	$(OBJDIR)plClusterGroup.o \
@@ -544,12 +542,6 @@ $(OBJDIR)plFacingConditionalObject.o: PRP/ConditionalObject/plFacingConditionalO
 
 $(OBJDIR)plKeyPressConditionalObject.o: PRP/ConditionalObject/plKeyPressConditionalObject.h PRP/ConditionalObject/plKeyPressConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plKeyPressConditionalObject.cpp -o $(OBJDIR)plKeyPressConditionalObject.o
-
-$(OBJDIR)plPickedConditionalObject.o: PRP/ConditionalObject/plPickedConditionalObject.h PRP/ConditionalObject/plPickedConditionalObject.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plPickedConditionalObject.cpp -o $(OBJDIR)plPickedConditionalObject.o
-
-$(OBJDIR)plPythonFileModConditionalObject.o: PRP/ConditionalObject/plPythonFileModConditionalObject.h PRP/ConditionalObject/plPythonFileModConditionalObject.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plPythonFileModConditionalObject.cpp -o $(OBJDIR)plPythonFileModConditionalObject.o
 
 $(OBJDIR)plVolumeSensorConditionalObject.o: PRP/ConditionalObject/plVolumeSensorConditionalObject.h PRP/ConditionalObject/plVolumeSensorConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plVolumeSensorConditionalObject.cpp -o $(OBJDIR)plVolumeSensorConditionalObject.o

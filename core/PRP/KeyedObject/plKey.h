@@ -4,7 +4,9 @@
 #include "plUoid.h"
 
 #define GET_KEY_OBJECT(key, classname) \
-    (key.Exists() ? classname::Convert(key->getObj()) : NULL)
+    ((key.Exists() && key.isLoaded()) \
+     ? classname::Convert(key->getObj()) \
+     : NULL)
 
 #define GET_OBJECT_KEY(obj) \
     (obj == NULL ? plKey() : obj->getKey())

@@ -39,8 +39,6 @@
 #include "PRP/ConditionalObject/plDetectConditionalObjects.h"
 #include "PRP/ConditionalObject/plFacingConditionalObject.h"
 #include "PRP/ConditionalObject/plKeyPressConditionalObject.h"
-#include "PRP/ConditionalObject/plPickedConditionalObject.h"
-#include "PRP/ConditionalObject/plPythonFileModConditionalObject.h"
 #include "PRP/ConditionalObject/plVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/plClusterGroup.h"
 #include "PRP/Geometry/plDrawableSpans.h"

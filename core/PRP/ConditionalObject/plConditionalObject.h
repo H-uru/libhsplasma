@@ -23,4 +23,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+DllClass plPickedConditionalObject : public plConditionalObject {
+public:
+    DECLARE_CREATABLE(plPickedConditionalObject)
+};
+
+DllClass plPythonFileModConditionalObject : public plConditionalObject {
+public:
+    DECLARE_CREATABLE(plPythonFileModConditionalObject)
+};
+
 #endif
