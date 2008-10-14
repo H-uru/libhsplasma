@@ -11,91 +11,96 @@
 
 ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style, const wxString& name ) : wxFrame( parent, id, title, pos, size, style, name )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	this->SetExtraStyle( wxFRAME_EX_METAL );
-	wxInitAllImageHandlers();
-	
-	m_toolBar = this->CreateToolBar( wxTB_HORIZONTAL|wxTB_TEXT, ID_TOOLBAR ); 
-	m_toolBar->AddTool( ID_TB_SAVE, wxT("Save PRP"), wxArtProvider::GetBitmap(wxART_FILE_SAVE), wxNullBitmap, wxITEM_NORMAL, wxT("Commit PRC edits to file"), wxEmptyString );
-	m_toolBar->AddSeparator();
-	m_toolBar->AddTool( ID_TB_OPEN, wxT("Open"), wxArtProvider::GetBitmap(wxART_FILE_OPEN), wxNullBitmap, wxITEM_NORMAL, wxT("Load .age or .prp files"), wxEmptyString );
-	m_toolBar->AddTool( ID_TB_SAVE_FILE, wxT("Save PRC"), wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS), wxNullBitmap, wxITEM_NORMAL, wxT("Save the current PRC to a file"), wxEmptyString );
-	m_toolBar->Realize();
-	
-	wxBoxSizer* bSizer;
-	bSizer = new wxBoxSizer( wxVERTICAL );
-	
-	m_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
-	m_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( ExplorerFrm::m_splitterOnIdle ), NULL, this );
-	m_panelLeft = new wxPanel( m_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* panelLeft_Sizer;
-	panelLeft_Sizer = new wxBoxSizer( wxVERTICAL );
-	
-	m_prpTree = new wxTreeCtrl( m_panelLeft, ID_TREEVIEW, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_SINGLE|wxFULL_REPAINT_ON_RESIZE|wxRAISED_BORDER );
-	panelLeft_Sizer->Add( m_prpTree, 1, wxALL|wxEXPAND, 3 );
-	
-	m_panelLeft->SetSizer( panelLeft_Sizer );
-	m_panelLeft->Layout();
-	panelLeft_Sizer->Fit( m_panelLeft );
-	m_panelRight = new wxPanel( m_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* panelRight_Sizer;
-	panelRight_Sizer = new wxBoxSizer( wxVERTICAL );
-	
-	m_notebook = new wxNotebook( m_panelRight, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	m_panelPRC = new wxPanel( m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* panelPRC_Sizer;
-	panelPRC_Sizer = new wxBoxSizer( wxVERTICAL );
-	
-	m_prcEditor = new wxPlasmaTextCtrl( m_panelPRC, ID_EDITOR);
-	m_prcEditor->SetSyntaxMode(wxPlasmaTextCtrl::kSynXML);
-	m_prcEditor->SetReadOnly(true);
-	panelPRC_Sizer->Add( m_prcEditor, 1, wxALL|wxEXPAND, 1 );
-	
-	m_panelPRC->SetSizer( panelPRC_Sizer );
-	m_panelPRC->Layout();
-	panelPRC_Sizer->Fit( m_panelPRC );
-	m_notebook->AddPage( m_panelPRC, wxT("PRC"), true );
-	m_panelHEX = new wxPanel( m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_notebook->AddPage( m_panelHEX, wxT("HEX"), false );
-	
-	panelRight_Sizer->Add( m_notebook, 1, wxEXPAND | wxALL, 5 );
-	
-	m_panelRight->SetSizer( panelRight_Sizer );
-	m_panelRight->Layout();
-	panelRight_Sizer->Fit( m_panelRight );
-	m_splitter->SplitVertically( m_panelLeft, m_panelRight, 0 );
-	bSizer->Add( m_splitter, 1, wxEXPAND, 5 );
-	
-	this->SetSizer( bSizer );
-	this->Layout();
-	
-	// Connect Events
-	this->Connect( ID_TB_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePage ) );
-	this->Connect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
-	this->Connect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
-	m_prpTree->Connect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
+    this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+    this->SetExtraStyle( wxFRAME_EX_METAL );
+    wxInitAllImageHandlers();
+
+    m_toolBar = this->CreateToolBar( wxTB_HORIZONTAL|wxTB_TEXT, ID_TOOLBAR );
+    m_toolBar->AddTool( ID_TB_SAVE, wxT("Save PRP"), wxArtProvider::GetBitmap(wxART_FILE_SAVE), wxNullBitmap, wxITEM_NORMAL, wxT("Commit PRC edits to file"), wxEmptyString );
+    m_toolBar->AddSeparator();
+    m_toolBar->AddTool( ID_TB_OPEN, wxT("Open"), wxArtProvider::GetBitmap(wxART_FILE_OPEN), wxNullBitmap, wxITEM_NORMAL, wxT("Load .age or .prp files"), wxEmptyString );
+    m_toolBar->AddTool( ID_TB_SAVE_FILE, wxT("Save PRC"), wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS), wxNullBitmap, wxITEM_NORMAL, wxT("Save the current PRC to a file"), wxEmptyString );
+    m_toolBar->AddSeparator();
+    m_toolBar->AddTool( ID_TB_BACK, wxT("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK), wxNullBitmap, wxITEM_NORMAL, wxT("Go to the previously viewed object"), wxEmptyString );
+    m_toolBar->Realize();
+
+    wxBoxSizer* bSizer;
+    bSizer = new wxBoxSizer( wxVERTICAL );
+
+    m_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
+    m_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( ExplorerFrm::m_splitterOnIdle ), NULL, this );
+    m_panelLeft = new wxPanel( m_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+    wxBoxSizer* panelLeft_Sizer;
+    panelLeft_Sizer = new wxBoxSizer( wxVERTICAL );
+
+    m_prpTree = new wxTreeCtrl( m_panelLeft, ID_TREEVIEW, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_SINGLE|wxFULL_REPAINT_ON_RESIZE|wxRAISED_BORDER );
+    panelLeft_Sizer->Add( m_prpTree, 1, wxALL|wxEXPAND, 3 );
+
+    m_panelLeft->SetSizer( panelLeft_Sizer );
+    m_panelLeft->Layout();
+    panelLeft_Sizer->Fit( m_panelLeft );
+    m_panelRight = new wxPanel( m_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+    wxBoxSizer* panelRight_Sizer;
+    panelRight_Sizer = new wxBoxSizer( wxVERTICAL );
+
+    m_notebook = new wxNotebook( m_panelRight, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+    m_panelPRC = new wxPanel( m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+    wxBoxSizer* panelPRC_Sizer;
+    panelPRC_Sizer = new wxBoxSizer( wxVERTICAL );
+
+    m_prcEditor = new wxPlasmaTextCtrl( m_panelPRC, ID_EDITOR);
+    m_prcEditor->SetSyntaxMode(wxPlasmaTextCtrl::kSynXML);
+    m_prcEditor->SetReadOnly(true);
+    panelPRC_Sizer->Add( m_prcEditor, 1, wxALL|wxEXPAND, 1 );
+
+    m_panelPRC->SetSizer( panelPRC_Sizer );
+    m_panelPRC->Layout();
+    panelPRC_Sizer->Fit( m_panelPRC );
+    m_notebook->AddPage( m_panelPRC, wxT("PRC"), true );
+    m_panelHEX = new wxPanel( m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+    m_notebook->AddPage( m_panelHEX, wxT("HEX"), false );
+
+    panelRight_Sizer->Add( m_notebook, 1, wxEXPAND | wxALL, 5 );
+
+    m_panelRight->SetSizer( panelRight_Sizer );
+    m_panelRight->Layout();
+    panelRight_Sizer->Fit( m_panelRight );
+    m_splitter->SplitVertically( m_panelLeft, m_panelRight, 0 );
+    bSizer->Add( m_splitter, 1, wxEXPAND, 5 );
+
+    this->SetSizer( bSizer );
+    this->Layout();
+
+    // Connect Events
+    this->Connect( ID_TB_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePage ) );
+    this->Connect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
+    this->Connect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
+    this->Connect( ID_TB_BACK, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::GoBack ) );
+    m_prpTree->Connect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
 }
 
 ExplorerFrm::~ExplorerFrm()
 {
-	// Disconnect Events
-	this->Disconnect( ID_TB_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePage ) );
-	this->Disconnect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
-	this->Disconnect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
-	m_prpTree->Disconnect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
+    // Disconnect Events
+    this->Disconnect( ID_TB_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePage ) );
+    this->Disconnect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
+    this->Disconnect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
+    m_prpTree->Disconnect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
 }
 
 void ExplorerFrm::InitFromFile( const wxString& filename)
 {
     pages.clear();
+    fBack.clear();
     m_prcEditor->ClearAll();
     m_prpTree->DeleteAllItems();
     m_prcEditor->SetReadOnly(true);
-    
+
     try {
         if (plString(filename.ToUTF8()).afterFirst('.') == "age") {
             plAgeInfo* age = rm.ReadAge(filename.ToUTF8(), true);
             fRoot = m_prpTree->AddRoot(wxString::FromUTF8(age->getAgeName().cstr()));
+            fCurrent = fRoot;
             for (unsigned int i=0; i<age->getNumPages(); i++) {
                 plPageInfo* page = rm.FindPage(age->getPageLoc(i, rm.getVer()));
                 pages.push_back(page);
@@ -105,6 +110,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
             plPageInfo* page = rm.ReadPage(filename.ToUTF8());
             pages.push_back(page);
             fRoot = m_prpTree->AddRoot(wxString::FromUTF8(page->getAge().cstr()));
+            fCurrent = fRoot;
         }
     } catch (const hsException& e) {
         plDebug::Error("%s:%lu: %s", e.File(), e.Line(), e.what());
@@ -116,10 +122,10 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
         plDebug::Error("Undefined error!");
         return;
     }
-    
+
     fPath = plString(wxPathOnly(filename).ToUTF8());
     plDebug::Error("Path is %s", fPath.cstr());
-    
+
     for(unsigned int j=0; j<pages.size();j++) {
         this->LoadObjects(pages[j]);
     }
@@ -155,7 +161,7 @@ void ExplorerFrm::OpenBrowser( wxCommandEvent& event )
     }
     wxString filename = ofd->GetPath();
     delete ofd;
-    
+
     this->InitFromFile(filename);
 }
 
@@ -198,6 +204,10 @@ void ExplorerFrm::LoadObjPrc(wxTreeEvent& event)
         data[size] = 0;
 
         m_prcEditor->SetText(wxString::FromUTF8(data));
+        if (fCurrent != fRoot)
+            fBack.push_back(fCurrent);
+
+        fCurrent = fID;
         delete[] data;
 
         delete prc;
@@ -215,7 +225,7 @@ void ExplorerFrm::SavePrcFile( wxCommandEvent& event )
         }
         wxString filename = sfd->GetPath();
         delete sfd;
-    
+
         m_prcEditor->SaveFile(filename);
     }
 }
@@ -224,24 +234,41 @@ void ExplorerFrm::SavePage( wxCommandEvent& event )
 {
     wxTreeItemId fID = m_prpTree->GetSelection();
     wxTreeKeyData* KeyData = (wxTreeKeyData*)m_prpTree->GetItemData(fID);
-    
+
     plKey fKey = KeyData->getKey();
     hsKeyedObject* fObj = rm.getObject(fKey);
-    
+
     pfPrcParser prc;
     wxString wTxt = m_prcEditor->GetText();
     plString txt = plString(wTxt.ToUTF8());
     hsRAMStream* S = new hsRAMStream(rm.getVer());
     S->copyFrom((const void*)txt.cstr(), txt.len());
-    
+
     prc.read(S);
     const pfPrcTag* root = prc.getRoot();
-    
+
     fObj->prcParse(root, &rm);
-    
+
     for(unsigned int j=0; j<pages.size();j++) {
         plPageInfo* page = pages[j];
         rm.WritePage(fPath + PATHSEP + page->getFilename(rm.getVer()), page);
+    }
+}
+
+void ExplorerFrm::GoBack( wxCommandEvent& event )
+{
+    if(fBack.size() <= 0)
+       return;
+
+    wxTreeItemId fID = fBack.back();
+
+    if(fID) {
+        fCurrent = fRoot;
+
+        fBack.pop_back();
+
+        wxTreeEvent t = wxTreeEvent(wxEVT_COMMAND_TREE_ITEM_ACTIVATED, m_prpTree, fID);
+        this->LoadObjPrc(t);
     }
 }
 

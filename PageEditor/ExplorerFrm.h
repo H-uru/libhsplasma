@@ -34,57 +34,64 @@
 
 ///////////////////////////////////////////////////////////////////////////
 
+
 ///////////////////////////////////////////////////////////////////////////////
 /// Class ExplorerFrm
 ///////////////////////////////////////////////////////////////////////////////
-class ExplorerFrm : public wxFrame 
+class ExplorerFrm : public wxFrame
 {
-	private:
-	    enum
-		{
-			ID_TOOLBAR = 1000,
-			ID_TB_SAVE,
-			ID_TB_OPEN,
-			ID_TB_SAVE_FILE,
-			ID_TREEVIEW,
-			ID_EDITOR,
-		};
-	
-	protected:
-		wxToolBar* m_toolBar;
-		wxSplitterWindow* m_splitter;
-		wxPanel* m_panelLeft;
-		wxTreeCtrl* m_prpTree;
-		wxPanel* m_panelRight;
-		wxNotebook* m_notebook;
-		wxPanel* m_panelPRC;
-		wxPlasmaTextCtrl* m_prcEditor;
-		wxPanel* m_panelHEX;
-		plResManager rm;
+    private:
+        enum
+        {
+            ID_TOOLBAR = 1000,
+            ID_TB_SAVE,
+            ID_TB_OPEN,
+            ID_TB_SAVE_FILE,
+            ID_TB_BACK,
+            ID_TB_FORWARD,
+            ID_TREEVIEW,
+            ID_EDITOR,
+        };
+
+    protected:
+        wxToolBar* m_toolBar;
+        wxSplitterWindow* m_splitter;
+        wxPanel* m_panelLeft;
+        wxTreeCtrl* m_prpTree;
+        wxPanel* m_panelRight;
+        wxNotebook* m_notebook;
+        wxPanel* m_panelPRC;
+        wxPlasmaTextCtrl* m_prcEditor;
+        wxPanel* m_panelHEX;
+        plResManager rm;
         std::vector<plPageInfo*> pages;
         wxTreeItemId fRoot;
         plString fPath;
-		
-		// Virtual event handlers, overide them in your derived class
-		void SavePage( wxCommandEvent& event );
-		void OpenBrowser( wxCommandEvent& event );
-		void LoadObjects(plPageInfo* page);
-		void SavePrcFile( wxCommandEvent& event );
-		void LoadObjPrc( wxTreeEvent& event );
-		
-	
-	public:
-		
-		ExplorerFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("PageEditor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("PageEditor") );
-		~ExplorerFrm();
-		void InitFromFile( const wxString& filename);
-		void m_splitterOnIdle( wxIdleEvent& )
-		{
-		m_splitter->SetSashPosition( 0 );
-		m_splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( ExplorerFrm::m_splitterOnIdle ), NULL, this );
-		}
-		
-	
+        std::vector<wxTreeItemId> fBack;
+        wxTreeItemId fPrev;
+        wxTreeItemId fCurrent;
+
+        // Virtual event handlers, overide them in your derived class
+        void SavePage( wxCommandEvent& event );
+        void OpenBrowser( wxCommandEvent& event );
+        void LoadObjects(plPageInfo* page);
+        void SavePrcFile( wxCommandEvent& event );
+        void LoadObjPrc( wxTreeEvent& event );
+        void GoBack( wxCommandEvent& event );
+
+
+    public:
+
+        ExplorerFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("PageEditor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("PageEditor") );
+        ~ExplorerFrm();
+        void InitFromFile( const wxString& filename);
+        void m_splitterOnIdle( wxIdleEvent& )
+        {
+        m_splitter->SetSashPosition( 0 );
+        m_splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( ExplorerFrm::m_splitterOnIdle ), NULL, this );
+        }
+
+
 };
 
 ///////////////////////////////////////////////////////////////////////////
