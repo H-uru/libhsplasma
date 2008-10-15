@@ -96,3 +96,4 @@ size_t plCoordinateInterface::getNumChildren() const { return fChildren.getSize(
 plKey plCoordinateInterface::getChild(size_t idx) const { return fChildren[idx]; }
 void plCoordinateInterface::clearChildren() { fChildren.clear(); }
 void plCoordinateInterface::addChild(plKey child) { fChildren.append(child); }
+void plCoordinateInterface::delChild(size_t idx) { fChildren.remove(idx); }

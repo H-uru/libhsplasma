@@ -41,6 +41,7 @@ public:
     plKey getChild(size_t idx) const;
     void clearChildren();
     void addChild(plKey child);
+    void delChild(size_t idx);
 };
 
 #endif
