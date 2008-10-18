@@ -202,6 +202,7 @@ PLSOBJ=\
 	$(OBJDIR)plObjectInVolumeDetector.o \
 	$(OBJDIR)plPhysical.o \
 	$(OBJDIR)plPhysicalSndGroup.o \
+	$(OBJDIR)plVehicleModifier.o \
 	$(OBJDIR)hsBounds.o \
 	$(OBJDIR)plConvexVolume.o \
 	$(OBJDIR)plHardRegion.o \
@@ -863,6 +864,9 @@ $(OBJDIR)plPhysical.o: PRP/Physics/plPhysical.h PRP/Physics/plPhysical.cpp
 
 $(OBJDIR)plPhysicalSndGroup.o: PRP/Physics/plPhysicalSndGroup.h PRP/Physics/plPhysicalSndGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPhysicalSndGroup.cpp -o $(OBJDIR)plPhysicalSndGroup.o
+
+$(OBJDIR)plVehicleModifier.o: PRP/Physics/plVehicleModifier.h PRP/Physics/plVehicleModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/plVehicleModifier.cpp -o $(OBJDIR)plVehicleModifier.o
 
 $(OBJDIR)hsBounds.o: PRP/Region/hsBounds.h PRP/Region/hsBounds.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/hsBounds.cpp -o $(OBJDIR)hsBounds.o

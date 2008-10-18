@@ -45,11 +45,13 @@ public:
     plKey getLayer(size_t idx) const;
     void clearLayers();
     void addLayer(plKey layer);
+    void delLayer(size_t idx);
 
     size_t getNumPiggyBacks() const;
     plKey getPiggyBack(size_t idx) const;
     void clearPiggyBacks();
     void addPiggyBack(plKey pb);
+    void delPiggyBack(size_t idx);
 
     unsigned int getCompFlags() const;
     unsigned int getLoadFlags() const;

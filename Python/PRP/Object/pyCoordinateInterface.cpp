@@ -50,6 +50,17 @@ static PyObject* pyCoordinateInterface_addChild(pyCoordinateInterface* self, PyO
     return Py_None;
 }
 
+static PyObject* pyCoordinateInterface_delChild(pyCoordinateInterface* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delChild expects an int");
+        return NULL;
+    }
+    self->fThis->delChild(idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyCoordinateInterface_getL2W(pyCoordinateInterface* self, void*) {
     return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
 }
@@ -121,7 +132,10 @@ PyMethodDef pyCoordinateInterface_Methods[] = {
       "Removes all children from the Coordinate Interface" },
     { "addChild", (PyCFunction)pyCoordinateInterface_addChild, METH_VARARGS,
       "Params: key\n"
-      "Adds a child Object to this CoordInterface" },
+      "Adds a child object to this Coordinate Interface" },
+    { "delChild", (PyCFunction)pyCoordinateInterface_delChild, METH_VARARGS,
+      "Params: idx\n"
+      "Removes a child object from this Coordinate Interface" },
     { NULL, NULL, 0, NULL }
 };
 

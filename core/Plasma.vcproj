@@ -1697,6 +1697,14 @@
 					RelativePath=".\PRP\Physics\plPhysicalSndGroup.h"
 					>
 				</File>
+				<File
+					RelativePath=".\PRP\Physics\plVehicleModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Physics\plVehicleModifier.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Region"

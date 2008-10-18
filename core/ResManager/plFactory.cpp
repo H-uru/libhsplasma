@@ -100,6 +100,7 @@
 #include "PRP/Physics/plObjectInVolumeDetector.h"
 #include "PRP/Physics/plGenericPhysical.h"
 #include "PRP/Physics/plPhysicalSndGroup.h"
+#include "PRP/Physics/plVehicleModifier.h"
 #include "PRP/Region/plHardRegionPlanes.h"
 #include "PRP/Region/plRelevanceRegion.h"
 #include "PRP/Region/plSoftVolume.h"
@@ -337,7 +338,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kSharedMesh: return new plSharedMesh();
         case kArmatureEffectsMgr: return new plArmatureEffectsMgr();
         //case kMarkerMgr: return new pfMarkerMgr();
-        //case kVehicleModifier: return new plVehicleModifier();
+        case kVehicleModifier: return new plVehicleModifier();
         case kParticleLocalWind: return new plParticleLocalWind();
         case kParticleUniformWind: return new plParticleUniformWind();
         //case kInstanceDrawInterface: return new plInstanceDrawInterface();

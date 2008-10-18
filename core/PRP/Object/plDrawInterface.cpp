@@ -94,7 +94,13 @@ void plDrawInterface::addDrawable(plKey draw, int key) {
     fDrawableKeys.append(key);
 }
 
+void plDrawInterface::delDrawable(size_t idx) {
+    fDrawables.remove(idx);
+    fDrawableKeys.remove(idx);
+}
+
 size_t plDrawInterface::getNumRegions() const { return fRegions.getSize(); }
 plKey plDrawInterface::getRegion(size_t idx) const { return fRegions[idx]; }
 void plDrawInterface::clearRegions() { fRegions.clear(); }
 void plDrawInterface::addRegion(plKey obj) { fRegions.append(obj); }
+void plDrawInterface::delRegion(size_t idx) { fRegions.remove(idx); }

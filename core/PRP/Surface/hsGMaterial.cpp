@@ -78,11 +78,13 @@ size_t hsGMaterial::getNumLayers() const { return fLayers.getSize(); }
 plKey hsGMaterial::getLayer(size_t idx) const { return fLayers[idx]; }
 void hsGMaterial::clearLayers() { fLayers.clear(); }
 void hsGMaterial::addLayer(plKey layer) { fLayers.append(layer); }
+void hsGMaterial::delLayer(size_t idx) { fLayers.remove(idx); }
 
 size_t hsGMaterial::getNumPiggyBacks() const { return fPiggyBacks.getSize(); }
 plKey hsGMaterial::getPiggyBack(size_t idx) const { return fPiggyBacks[idx]; }
 void hsGMaterial::clearPiggyBacks() { fPiggyBacks.clear(); }
 void hsGMaterial::addPiggyBack(plKey pb) { fPiggyBacks.append(pb); }
+void hsGMaterial::delPiggyBack(size_t idx) { fPiggyBacks.remove(idx); }
 
 unsigned int hsGMaterial::getCompFlags() const { return fCompFlags; }
 unsigned int hsGMaterial::getLoadFlags() const { return fLoadFlags; }

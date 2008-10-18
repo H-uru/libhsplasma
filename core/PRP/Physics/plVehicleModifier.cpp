@@ -1,0 +1,84 @@
+#include "plVehicleModifier.h"
+
+plVehicleModifier::plVehicleModifier() { }
+plVehicleModifier::~plVehicleModifier() { }
+
+IMPLEMENT_CREATABLE(plVehicleModifier, kVehicleModifier, plSingleModifier)
+
+void plVehicleModifier::read(hsStream* S, plResManager* mgr) {
+    plSingleModifier::read(S, mgr);
+
+    fRoot = mgr->readKey(S);
+    for (size_t i=0; i<4; i++) {
+        fWheels[i].fWheelObj = mgr->readKey(S);
+        fWheels[i].fPosition.read(S);
+        fWheels[i].fDirection.read(S);
+        fWheels[i].fRadius = S->readFloat();
+    }
+}
+
+void plVehicleModifier::write(hsStream* S, plResManager* mgr) {
+    plSingleModifier::write(S, mgr);
+
+    mgr->writeKey(S, fRoot);
+    for (size_t i=0; i<4; i++) {
+        mgr->writeKey(S, fWheels[i].fWheelObj);
+        fWheels[i].fPosition.write(S);
+        fWheels[i].fDirection.write(S);
+        S->writeFloat(fWheels[i].fRadius);
+    }
+}
+
+void plVehicleModifier::IPrcWrite(pfPrcHelper* prc) {
+    plSingleModifier::IPrcWrite(prc);
+
+    prc->writeSimpleTag("Root");
+    fRoot->prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("Wheels");
+    for (size_t i=0; i<4; i++) {
+        prc->startTag("Wheel");
+        prc->writeParam("Radius", fWheels[i].fRadius);
+        prc->endTag();
+          fWheels[i].fWheelObj->prcWrite(prc);
+          prc->writeSimpleTag("Position");
+          fWheels[i].fPosition.prcWrite(prc);
+          prc->closeTag();
+          prc->writeSimpleTag("Direction");
+          fWheels[i].fDirection.prcWrite(prc);
+          prc->closeTag();
+        prc->closeTag();
+    }
+    prc->closeTag();
+}
+
+void plVehicleModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Root") {
+        fRoot = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Wheels") {
+        if (tag->countChildren() != 4)
+            throw pfPrcParseException(__FILE__, __LINE__, "Wheels should contain 4 children");
+        const pfPrcTag* wheel = tag->getFirstChild();
+        for (size_t i=0; i<4; i++) {
+            if (wheel->getName() != "Wheel")
+                throw pfPrcTagException(__FILE__, __LINE__, wheel->getName());
+            fWheels[i].fRadius = wheel->getParam("Radius", "0").toFloat();
+            const pfPrcTag* wchild = wheel->getFirstChild();
+            while (wchild != NULL) {
+                if (wchild->getName() == "plKey")
+                    fWheels[i].fWheelObj = mgr->prcParseKey(wchild);
+                else if (wchild->getName() == "Position")
+                    fWheels[i].fPosition.prcParse(wchild->getFirstChild());
+                else if (wchild->getName() == "Direction")
+                    fWheels[i].fDirection.prcParse(wchild->getFirstChild());
+                else
+                    throw pfPrcTagException(__FILE__, __LINE__, wchild->getName());
+                wchild = wchild->getNextSibling();
+            }
+            wheel = wheel->getNextSibling();
+        }
+    } else {
+        plSingleModifier::IPrcParse(tag, mgr);
+    }
+}

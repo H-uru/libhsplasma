@@ -50,6 +50,17 @@ static PyObject* pyGMaterial_addLayer(pyGMaterial* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyGMaterial_delLayer(pyGMaterial* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delLayer expects an int");
+        return NULL;
+    }
+    self->fThis->delLayer(idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyGMaterial_clearPBs(pyGMaterial* self) {
     self->fThis->clearPiggyBacks();
     Py_INCREF(Py_None);
@@ -67,6 +78,17 @@ static PyObject* pyGMaterial_addPB(pyGMaterial* self, PyObject* args) {
         return NULL;
     }
     self->fThis->addPiggyBack(*key->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyGMaterial_delPB(pyGMaterial* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delPiggyBack expects an int");
+        return NULL;
+    }
+    self->fThis->delPiggyBack(idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -129,11 +151,17 @@ static PyMethodDef pyGMaterial_Methods[] = {
     { "addLayer", (PyCFunction)pyGMaterial_addLayer, METH_VARARGS,
       "Params: key\n"
       "Add a layer to the material" },
+    { "delLayer", (PyCFunction)pyGMaterial_delLayer, METH_VARARGS,
+      "Params: idx\n"
+      "Remove a layer from the material" },
     { "clearPiggyBacks", (PyCFunction)pyGMaterial_clearPBs, METH_NOARGS,
       "Remove all piggy back keys from the material" },
     { "addPiggyBack", (PyCFunction)pyGMaterial_addPB, METH_VARARGS,
       "Params: key\n"
       "Add a piggy back to the material" },
+    { "delPiggyBack", (PyCFunction)pyGMaterial_delPB, METH_VARARGS,
+      "Params: idx\n"
+      "Remove a piggy back from the material" },
     { NULL, NULL, 0, NULL }
 };
 

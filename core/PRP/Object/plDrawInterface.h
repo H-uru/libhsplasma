@@ -28,11 +28,13 @@ public:
     int getDrawableKey(size_t idx) const;
     void clearDrawables();
     void addDrawable(plKey draw, int key);
+    void delDrawable(size_t idx);
 
     size_t getNumRegions() const;
     plKey getRegion(size_t idx) const;
     void clearRegions();
     void addRegion(plKey obj);
+    void delRegion(size_t idx);
 };
 
 #endif
