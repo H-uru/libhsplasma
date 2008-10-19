@@ -27,15 +27,15 @@ IMPLEMENT_CREATABLE(plBitmap, kBitmap, hsKeyedObject)
 
 void plBitmap::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
-    readData(S);
+    IRead(S);
 }
 
 void plBitmap::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
-    writeData(S);
+    IWrite(S);
 }
 
-void plBitmap::readData(hsStream* S) {
+void plBitmap::IRead(hsStream* S) {
     S->readByte();  // Version == 2
     fPixelSize = S->readByte();
     fSpace = S->readByte();
@@ -51,7 +51,7 @@ void plBitmap::readData(hsStream* S) {
     fHighModTime = S->readInt();
 }
 
-void plBitmap::writeData(hsStream* S) {
+void plBitmap::IWrite(hsStream* S) {
     S->writeByte(BITMAPVER);
     S->writeByte(fPixelSize);
     S->writeByte(fSpace);

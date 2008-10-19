@@ -20,7 +20,8 @@ void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
         myKey = mgr->readKey(S);
     else
         myKey = mgr->readUoid(S);
-    myKey->setObj(this);
+    if (myKey != NULL)
+        myKey->setObj(this);
 }
 
 void hsKeyedObject::write(hsStream* S, plResManager* mgr) {

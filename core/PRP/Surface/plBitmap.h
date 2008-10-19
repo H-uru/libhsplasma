@@ -66,10 +66,10 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+    void IRead(hsStream* S);
+    void IWrite(hsStream* S);
 
 protected:
-    virtual void readData(hsStream* S);
-    virtual void writeData(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 

@@ -9,9 +9,27 @@ plRenderTarget::~plRenderTarget() { }
 
 IMPLEMENT_CREATABLE(plRenderTarget, kRenderTarget, plBitmap)
 
-void plRenderTarget::readData(hsStream* S) {
-    plBitmap::readData(S);
+void plRenderTarget::read(hsStream* S, plResManager* mgr) {
+    plBitmap::read(S, mgr);
+    IRead(S);
+}
 
+void plRenderTarget::write(hsStream* S, plResManager* mgr) {
+    plBitmap::write(S, mgr);
+    IWrite(S);
+}
+
+void plRenderTarget::readData(hsStream* S) {
+    plBitmap::IRead(S);
+    IRead(S);
+}
+
+void plRenderTarget::writeData(hsStream* S) {
+    plBitmap::IWrite(S);
+    IWrite(S);
+}
+
+void plRenderTarget::IRead(hsStream* S) {
     fWidth = S->readShort();
     fHeight = S->readShort();
     fProportionalViewport = S->readBool();
@@ -30,9 +48,7 @@ void plRenderTarget::readData(hsStream* S) {
     fStencilDepth = S->readByte();
 }
 
-void plRenderTarget::writeData(hsStream* S) {
-    plBitmap::writeData(S);
-
+void plRenderTarget::IWrite(hsStream* S) {
     S->writeShort(fWidth);
     S->writeShort(fHeight);
     S->writeBool(fProportionalViewport);
@@ -106,34 +122,32 @@ void plRenderTarget::setParent(plCubicRenderTarget* parent) { fParent = parent; 
 
 
 /* plCubicRenderTarget */
-plCubicRenderTarget::plCubicRenderTarget() {
-    for (size_t i=0; i<6; i++)
-        fFaces[i] = NULL;
-}
-
-plCubicRenderTarget::~plCubicRenderTarget() {
-    for (size_t i=0; i<6; i++)
-        if (fFaces[i] != NULL)
-            delete fFaces[i];
-}
+plCubicRenderTarget::plCubicRenderTarget() { }
+plCubicRenderTarget::~plCubicRenderTarget() { }
 
 IMPLEMENT_CREATABLE(plCubicRenderTarget, kCubicRenderTarget, plRenderTarget)
 
-void plCubicRenderTarget::readData(hsStream* S) {
-    plRenderTarget::readData(S);
+void plCubicRenderTarget::read(hsStream* S, plResManager* mgr) {
+    plRenderTarget::read(S, mgr);
 
     for (size_t i=0; i<6; i++) {
-        fFaces[i] = new plRenderTarget();
-        fFaces[i]->setParent(this);
-        fFaces[i]->readData(S);
+        fFaces[i].setParent(this);
+        if (S->getVer() < pvEoa)
+            fFaces[i].readData(S);
+        else
+            fFaces[i].read(S, mgr);
     }
 }
 
-void plCubicRenderTarget::writeData(hsStream* S) {
-    plRenderTarget::writeData(S);
+void plCubicRenderTarget::write(hsStream* S, plResManager* mgr) {
+    plRenderTarget::write(S, mgr);
 
-    for (size_t i=0; i<6; i++)
-        fFaces[i]->writeData(S);
+    for (size_t i=0; i<6; i++) {
+        if (S->getVer() < pvEoa)
+            fFaces[i].writeData(S);
+        else
+            fFaces[i].write(S, mgr);
+    }
 }
 
 void plCubicRenderTarget::IPrcWrite(pfPrcHelper* prc) {
@@ -141,7 +155,7 @@ void plCubicRenderTarget::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Faces");
     for (size_t i=0; i<6; i++)
-        fFaces[i]->prcWrite(prc);
+        fFaces[i].prcWrite(prc);
     prc->closeTag();
 }
 
@@ -152,9 +166,8 @@ void plCubicRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<6; i++) {
-            fFaces[i] = new plRenderTarget();
-            fFaces[i]->setParent(this);
-            fFaces[i]->prcParse(child, mgr);
+            fFaces[i].setParent(this);
+            fFaces[i].prcParse(child, mgr);
             child = child->getNextSibling();
         }
     } else {

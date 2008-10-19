@@ -38,8 +38,8 @@ void plDynamicTextMap::Create(unsigned int width, unsigned int height,
     fUncompressedInfo.fType = kRGB8888;
 }
 
-void plDynamicTextMap::readData(hsStream* S) {
-    plBitmap::readData(S);
+void plDynamicTextMap::read(hsStream* S, plResManager* mgr) {
+    plBitmap::read(S, mgr);
     
     fVisWidth = S->readInt();
     fVisHeight = S->readInt();
@@ -55,8 +55,8 @@ void plDynamicTextMap::readData(hsStream* S) {
     Create(fVisWidth, fVisHeight, fHasAlpha, 0, 0);
 }
 
-void plDynamicTextMap::writeData(hsStream* S) {
-    plBitmap::writeData(S);
+void plDynamicTextMap::write(hsStream* S, plResManager* mgr) {
+    plBitmap::write(S, mgr);
 
     S->writeInt(fVisWidth);
     S->writeInt(fVisHeight);

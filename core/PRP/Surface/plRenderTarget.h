@@ -28,10 +28,14 @@ public:
 
     DECLARE_CREATABLE(plRenderTarget)
 
-    virtual void readData(hsStream* S);
-    virtual void writeData(hsStream* S);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+    void readData(hsStream* S);
+    void writeData(hsStream* S);
 
 protected:
+    void IRead(hsStream* S);
+    void IWrite(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
@@ -47,7 +51,7 @@ public:
     };
 
 protected:
-    plRenderTarget* fFaces[6];
+    plRenderTarget fFaces[6];
 
 public:
     plCubicRenderTarget();
@@ -55,8 +59,8 @@ public:
 
     DECLARE_CREATABLE(plCubicRenderTarget)
 
-    virtual void readData(hsStream* S);
-    virtual void writeData(hsStream* S);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);

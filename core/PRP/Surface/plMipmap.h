@@ -49,10 +49,14 @@ public:
                 unsigned char format);
     void setConfig(unsigned int cfg);
 
-    virtual void readData(hsStream* S);
-    virtual void writeData(hsStream* S);
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+    void readData(hsStream* S);
+    void writeData(hsStream* S);
 
 protected:
+    void IRead(hsStream* S);
+    void IWrite(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 

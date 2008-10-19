@@ -305,7 +305,6 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
 }
 
 void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr) {
-    plDebug::Debug("Reading ODE Physical");
     fBounds = (plSimDefs::Bounds)S->readInt();
 
     if (fTMDBuffer != NULL)

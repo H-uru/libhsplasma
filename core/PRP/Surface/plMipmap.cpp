@@ -116,9 +116,27 @@ void plMipmap::setConfig(unsigned int cfg) {
     }
 }
 
+void plMipmap::read(hsStream* S, plResManager* mgr) {
+    plBitmap::read(S, mgr);
+    IRead(S);
+}
+
+void plMipmap::write(hsStream* S, plResManager* mgr) {
+    plBitmap::write(S, mgr);
+    IWrite(S);
+}
+
 void plMipmap::readData(hsStream* S) {
-    plBitmap::readData(S);
-    
+    plBitmap::IRead(S);
+    IRead(S);
+}
+
+void plMipmap::writeData(hsStream* S) {
+    plBitmap::IWrite(S);
+    IWrite(S);
+}
+
+void plMipmap::IRead(hsStream* S) {
     fWidth = S->readInt();
     fHeight = S->readInt();
     fStride = S->readInt();
@@ -152,9 +170,7 @@ void plMipmap::readData(hsStream* S) {
     }
 }
 
-void plMipmap::writeData(hsStream* S) {
-    plBitmap::writeData(S);
-
+void plMipmap::IWrite(hsStream* S) {
     S->writeInt(fWidth);
     S->writeInt(fHeight);
     S->writeInt(fStride);
