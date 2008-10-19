@@ -10,10 +10,7 @@ plDynamicEnvMap::~plDynamicEnvMap() { }
 IMPLEMENT_CREATABLE(plDynamicEnvMap, kDynamicEnvMap, plCubicRenderTarget)
 
 void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
-    if (S->getVer() < pvEoa)
-        plBitmap::read(S, mgr);
-    else
-        plCubicRenderTarget::read(S, mgr);
+    plCubicRenderTarget::read(S, mgr);
 
     fPos.read(S);
     fHither = S->readFloat();
@@ -42,10 +39,7 @@ void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
 }
 
 void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
-    if (S->getVer() < pvEoa)
-        plBitmap::write(S, mgr);
-    else
-        plCubicRenderTarget::write(S, mgr);
+    plCubicRenderTarget::write(S, mgr);
 
     fPos.write(S);
     S->writeFloat(fHither);
@@ -156,10 +150,7 @@ plDynamicCamMap::~plDynamicCamMap() { }
 IMPLEMENT_CREATABLE(plDynamicCamMap, kDynamicCamMap, plRenderTarget)
 
 void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
-    if (S->getVer() == pvLive)
-        plBitmap::read(S, mgr);
-    else
-        plRenderTarget::read(S, mgr);
+    plRenderTarget::read(S, mgr);
 
     fHither = S->readFloat();
     fYon = S->readFloat();
@@ -192,10 +183,7 @@ void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
 }
 
 void plDynamicCamMap::write(hsStream* S, plResManager* mgr) {
-    if (S->getVer() == pvLive)
-        plBitmap::write(S, mgr);
-    else
-        plRenderTarget::write(S, mgr);
+    plRenderTarget::write(S, mgr);
 
     S->writeFloat(fHither);
     S->writeFloat(fYon);
