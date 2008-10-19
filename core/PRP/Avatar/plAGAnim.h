@@ -14,6 +14,7 @@ protected:
     hsTArray<plAGApplicator*> fApps;
     float fBlend, fStart, fEnd;
     plString fName;
+    unsigned char fEoaFlag;
 
 public:
     plAGAnim();

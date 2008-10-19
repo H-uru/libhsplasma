@@ -1,7 +1,7 @@
 #include "plAGAnim.h"
 
 // plAGAnim //
-plAGAnim::plAGAnim() : fBlend(0.0f), fStart(0.0f), fEnd(0.0f) { }
+plAGAnim::plAGAnim() : fBlend(0.0f), fStart(0.0f), fEnd(0.0f), fEoaFlag(0) { }
 
 plAGAnim::~plAGAnim() {
     for (size_t i=0; i<fApps.getSize(); i++)
@@ -24,6 +24,9 @@ void plAGAnim::read(hsStream* S, plResManager* mgr) {
         agApp->setChannel(agChan);
         fApps[i] = agApp;
     }
+
+    if (S->getVer() >= pvEoa)
+        fEoaFlag = S->readByte();
 }
 
 void plAGAnim::write(hsStream* S, plResManager* mgr) {
@@ -38,6 +41,9 @@ void plAGAnim::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fApps[i]);
         mgr->WriteCreatable(S, fApps[i]->getChannel());
     }
+
+    if (S->getVer() >= pvEoa)
+        S->writeByte(fEoaFlag);
 }
 
 void plAGAnim::IPrcWrite(pfPrcHelper* prc) {
@@ -47,6 +53,7 @@ void plAGAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Name", fName);
     prc->writeParam("Start", fStart);
     prc->writeParam("End", fEnd);
+    prc->writeParam("EoaFlag", fEoaFlag);
     prc->endTag(true);
 
     prc->writeSimpleTag("Applicators");
@@ -68,6 +75,7 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fName = tag->getParam("Name", "");
         fStart = tag->getParam("Start", "0").toFloat();
         fEnd = tag->getParam("End", "0").toFloat();
+        fEoaFlag = tag->getParam("EoaFlag", "0").toUint();
     } else if (tag->getName() == "Applicators") {
         fApps.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
