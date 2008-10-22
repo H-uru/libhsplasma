@@ -58,10 +58,6 @@ void plAgeInfo::readFromFile(const plString& filename) {
             addPage(page);
         }
     }
-    if (fSeqPrefix >= 0) {
-        for (size_t i=0; i<kNumCommonPages; i++)
-            addPage(PageEntry(kCommonPages[i], (-1) - i, 0));
-    }
 
     delete S;
 }
@@ -183,7 +179,16 @@ void plAgeInfo::setSeqPrefix(int prefix) { fSeqPrefix = prefix; }
 void plAgeInfo::setReleaseVersion(unsigned int ver) { fReleaseVersion = ver; }
 
 size_t plAgeInfo::getNumPages() const { return fPages.getSize(); }
+size_t plAgeInfo::getNumCommonPages(PlasmaVer pv) const {
+    if (fSeqPrefix < 0)
+        return 0;
+    return (pv < pvEoa) ? 2 : 1;
+}
+
 plAgeInfo::PageEntry plAgeInfo::getPage(size_t idx) const { return fPages[idx]; }
+plAgeInfo::PageEntry plAgeInfo::getCommonPage(size_t idx, PlasmaVer pv) const {
+    return PageEntry(kCommonPages[idx], (-1) - idx, 0);
+}
 
 void plAgeInfo::setPage(size_t idx, const PageEntry& page) { fPages[idx] = page; }
 void plAgeInfo::addPage(const PageEntry& page) { fPages.append(page); }
@@ -197,10 +202,27 @@ plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
         return plString::Format("%s_District_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
 }
 
+plString plAgeInfo::getCommonPageFilename(size_t idx, PlasmaVer pv) const {
+    if (pv == pvUnknown)
+        throw hsBadVersionException(__FILE__, __LINE__);
+    if (pv >= pvEoa)
+        return plString::Format("%s_%s.prp", fName.cstr(), kCommonPages[idx].cstr());
+    else
+        return plString::Format("%s_District_%s.prp", fName.cstr(), kCommonPages[idx].cstr());
+}
+
 plLocation plAgeInfo::getPageLoc(size_t idx, PlasmaVer pv) const {
     plLocation loc(pv);
     loc.setSeqPrefix(fSeqPrefix);
     loc.setPageNum(fPages[idx].fSeqSuffix);
     loc.parse(loc.unparse());   // Adjust for broken ages (Pahts)
+    return loc;
+}
+
+plLocation plAgeInfo::getCommonPageLoc(size_t idx, PlasmaVer pv) const {
+    plLocation loc(pv);
+    loc.setSeqPrefix(fSeqPrefix);
+    loc.setPageNum((-1) - idx);
+    loc.parse(loc.unparse());
     return loc;
 }

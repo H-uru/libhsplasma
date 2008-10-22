@@ -63,12 +63,16 @@ public:
     void setReleaseVersion(unsigned int);
 
     size_t getNumPages() const;
+    size_t getNumCommonPages(PlasmaVer pv) const;
     PageEntry getPage(size_t idx) const;
+    PageEntry getCommonPage(size_t idx, PlasmaVer pv) const;
     void setPage(size_t idx, const PageEntry& page);
     void addPage(const PageEntry& page);
 
     plString getPageFilename(size_t idx, PlasmaVer pv) const;
+    plString getCommonPageFilename(size_t idx, PlasmaVer pv) const;
     plLocation getPageLoc(size_t idx, PlasmaVer pv) const;
+    plLocation getCommonPageLoc(size_t idx, PlasmaVer pv) const;
 };
 
 #endif

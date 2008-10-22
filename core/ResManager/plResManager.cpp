@@ -66,7 +66,7 @@ void plResManager::writeKey(hsStream* S, plKey key) {
     if (S->getVer() < pvEoa)
         S->writeBool(key.Exists());
     if (key.Exists() || S->getVer() >= pvEoa)
-        key->writeUoid(S);
+        writeUoid(S, key);
 }
 
 void plResManager::writeKey(hsStream* S, hsKeyedObject* ko) {
@@ -77,7 +77,12 @@ void plResManager::writeUoid(hsStream* S, plKey key) {
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
-    key->writeUoid(S);
+    if (!key.Exists()) {
+        plKey empty = new plKeyData();
+        empty->writeUoid(S);
+    } else {
+        key->writeUoid(S);
+    }
 }
 
 void plResManager::writeUoid(hsStream* S, hsKeyedObject* ko) {
@@ -218,6 +223,8 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
 
         for (size_t i=0; i<age->getNumPages(); i++)
             ReadPage(path + age->getPageFilename(i, getVer()));
+        for (size_t i=0; i<age->getNumCommonPages(getVer()); i++)
+            ReadPage(path + age->getCommonPageFilename(i, getVer()));
     }
 
     ages.push_back(age);
