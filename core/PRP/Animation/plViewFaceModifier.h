@@ -35,6 +35,21 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    hsVector3 getScale() const;
+    hsVector3 getOffset() const;
+    hsMatrix44 getLocalToParent() const;
+    hsMatrix44 getParentToLocal() const;
+    plKey getFaceObj() const;
+    hsBounds3Ext getMaxBounds() const;
+
+    void setScale(const hsVector3& scale);
+    void setOffset(const hsVector3& offset);
+    void setLocalToParent(const hsMatrix44& l2p);
+    void setParentToLocal(const hsMatrix44& p2l);
+    void setFaceObj(plKey obj);
+    void setMaxBounds(const hsBounds3Ext& bounds);
 };
 
 #endif

@@ -13,6 +13,7 @@ PYOBJ=\
 	$(OBJDIR)pyVector3.o \
 	$(OBJDIR)pyCreatable.o \
 	$(OBJDIR)pyCreatableStub.o \
+	$(OBJDIR)pyViewFaceModifier.o \
 	$(OBJDIR)pySceneNode.o \
 	$(OBJDIR)pySoundBuffer.o \
 	$(OBJDIR)pyWAVHeader.o \
@@ -116,6 +117,9 @@ $(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
 
 $(OBJDIR)pySceneNode.o: PRP/pySceneNode.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/pySceneNode.cpp -o $(OBJDIR)pySceneNode.o
+
+$(OBJDIR)pyViewFaceModifier.o: PRP/Animation/pyViewFaceModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyViewFaceModifier.cpp -o $(OBJDIR)pyViewFaceModifier.o
 
 $(OBJDIR)pySoundBuffer.o: PRP/Audio/pySoundBuffer.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/pySoundBuffer.cpp -o $(OBJDIR)pySoundBuffer.o

@@ -79,8 +79,6 @@ void plAgeInfo::writeToFile(const plString& filename, PlasmaVer ver) {
     S->writeLine(plString::Format("ReleaseVersion=%u", fReleaseVersion), true);
 
     for (size_t i=0; i<fPages.getSize(); i++) {
-        if (fPages[i].fSeqSuffix < 0)
-            continue;
         if (fPages[i].fLoadFlags != 0)
             S->writeLine(plString::Format("Page=%s,%d,%d",
                          fPages[i].fName.cstr(),

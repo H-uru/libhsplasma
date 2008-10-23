@@ -12,6 +12,7 @@
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
+#include "PRP/Animation/pyViewFaceModifier.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
 #include "PRP/Geometry/pyGBufferGroup.h"
@@ -168,6 +169,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
     PyModule_AddObject(module, "plMultiModifier", Init_pyMultiModifier_Type());
     PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
+    PyModule_AddObject(module, "plViewFaceModifier", Init_pyViewFaceModifier_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }
