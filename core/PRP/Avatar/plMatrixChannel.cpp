@@ -151,3 +151,12 @@ plMatrixDifferenceApp::~plMatrixDifferenceApp() { }
 
 IMPLEMENT_CREATABLE(plMatrixDifferenceApp, kMatrixDifferenceApp,
                     plMatrixChannelApplicator)
+
+
+// plRelativeMatrixChannelApplicator //
+plRelativeMatrixChannelApplicator::plRelativeMatrixChannelApplicator() { }
+plRelativeMatrixChannelApplicator::~plRelativeMatrixChannelApplicator() { }
+
+IMPLEMENT_CREATABLE(plRelativeMatrixChannelApplicator,
+                    kRelativeMatrixChannelApplicator,
+                    plAGApplicator)

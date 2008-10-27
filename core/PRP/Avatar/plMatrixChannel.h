@@ -108,4 +108,12 @@ public:
     DECLARE_CREATABLE(plMatrixDifferenceApp)
 };
 
+DllClass plRelativeMatrixChannelApplicator : public plAGApplicator {
+public:
+    plRelativeMatrixChannelApplicator();
+    virtual ~plRelativeMatrixChannelApplicator();
+
+    DECLARE_CREATABLE(plRelativeMatrixChannelApplicator)
+};
+
 #endif
