@@ -274,6 +274,8 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
 
 unsigned short plSpanTemplate::getNumTris() const { return fNumTris; }
 
+unsigned short* plSpanTemplate::getIndices() const { return fIndices; }
+
 unsigned short plSpanTemplate::CalcStride(unsigned short format) {
     unsigned short stride = 0;
     if (format & kPosMask)

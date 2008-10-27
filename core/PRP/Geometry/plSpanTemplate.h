@@ -44,7 +44,7 @@ public:
     
     unsigned short getNumTris() const;
     
-    //hsTArray<unsigned short> getIndices() const;
+    unsigned short* getIndices() const;
 
     static unsigned short CalcStride(unsigned short format);
 };
