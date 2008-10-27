@@ -59,6 +59,10 @@ float& hsMatrix44::operator()(int y, int x) {
     return data[y][x];
 }
 
+float hsMatrix44::operator()(int y, int x) const {
+    return data[y][x];
+}
+
 /*
 hsMatrix44& hsMatrix44::operator=(const hsMatrix44& other) {
     for (int y=0; y<4; y++)

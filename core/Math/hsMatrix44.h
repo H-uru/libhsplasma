@@ -27,6 +27,7 @@ public:
     bool IsIdentity() const;
     
     float& operator()(int y, int x);
+    float operator()(int y, int x) const;
     //hsMatrix44& operator=(const hsMatrix44& other);
     bool operator==(const hsMatrix44& other) const;
     const float* glMatrix() const;

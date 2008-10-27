@@ -17,6 +17,11 @@ public:
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+    float getMinDist() const;
+    float getMaxDist() const;
+    void setMinDist(float dist);
+    void setMaxDist(float dist);
 };
 
 DllClass plClusterGroup : public hsKeyedObject {
@@ -43,7 +48,37 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
+    plLODDist& getLOD();
     plSpanTemplate* getTemplate() const;
+
+    plKey getMaterial() const;
+    plWeakKey getSceneNode() const;
+    plWeakKey getDrawable() const;
+    unsigned int getRenderLevel() const;
+
+    void setTemplate(plSpanTemplate* tpl);
+    void setMaterial(plKey mat);
+    void setSceneNode(plWeakKey node);
+    void setDrawable(plWeakKey draw);
+    void setRenderLevel(unsigned int level);
+
+    size_t getNumClusters() const;
+    plCluster* getCluster(size_t idx) const;
+    void addCluster(plCluster* cluster);
+    void delCluster(size_t idx);
+    void clearClusters();
+
+    size_t getNumRegions() const;
+    plKey getRegion(size_t idx) const;
+    void addRegion(plKey region);
+    void delRegion(size_t idx);
+    void clearRegions();
+
+    size_t getNumLights() const;
+    plKey getLight(size_t idx) const;
+    void addLight(plKey light);
+    void delLight(size_t idx);
+    void clearLights();
 };
 
 #endif

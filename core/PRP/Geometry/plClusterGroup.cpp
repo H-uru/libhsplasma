@@ -28,6 +28,11 @@ void plLODDist::prcParse(const pfPrcTag* tag) {
     fMaxDist = tag->getParam("Max", "0").toFloat();
 }
 
+float plLODDist::getMinDist() const { return fMinDist; }
+float plLODDist::getMaxDist() const { return fMaxDist; }
+void plLODDist::setMinDist(float dist) { fMinDist = dist; }
+void plLODDist::setMaxDist(float dist) { fMaxDist = dist; }
+
 
 /* plClusterGroup */
 plClusterGroup::plClusterGroup() : fTemplate(NULL), fRenderLevel(0) { }
@@ -44,9 +49,7 @@ IMPLEMENT_CREATABLE(plClusterGroup, kClusterGroup, hsKeyedObject)
 void plClusterGroup::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
-    if (fTemplate != NULL)
-        delete fTemplate;
-    fTemplate = new plSpanTemplate();
+    setTemplate(new plSpanTemplate());
     fTemplate->read(S);
     fMaterial = mgr->readKey(S);
 
@@ -131,6 +134,7 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
 
 void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Template") {
+        setTemplate(NULL);
         if (tag->hasChildren()) {
             fTemplate = new plSpanTemplate();
             fTemplate->prcParse(tag->getFirstChild());
@@ -173,4 +177,48 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+plLODDist& plClusterGroup::getLOD() { return fLOD; }
 plSpanTemplate* plClusterGroup::getTemplate() const { return fTemplate; }
+
+plKey plClusterGroup::getMaterial() const { return fMaterial; }
+plWeakKey plClusterGroup::getSceneNode() const { return fSceneNode; }
+plWeakKey plClusterGroup::getDrawable() const { return fDrawable; }
+unsigned int plClusterGroup::getRenderLevel() const { return fRenderLevel; }
+
+void plClusterGroup::setTemplate(plSpanTemplate* tpl) {
+    if (fTemplate != NULL)
+        delete fTemplate;
+    fTemplate = tpl;
+}
+
+void plClusterGroup::setMaterial(plKey mat) { fMaterial = mat; }
+void plClusterGroup::setSceneNode(plWeakKey node) { fSceneNode = node; }
+void plClusterGroup::setDrawable(plWeakKey draw) { fDrawable = draw; }
+void plClusterGroup::setRenderLevel(unsigned int level) { fRenderLevel = level; }
+
+size_t plClusterGroup::getNumClusters() const { return fClusters.getSize(); }
+plCluster* plClusterGroup::getCluster(size_t idx) const { return fClusters[idx]; }
+void plClusterGroup::addCluster(plCluster* cluster) { fClusters.append(cluster); }
+
+void plClusterGroup::delCluster(size_t idx) {
+    delete fClusters[idx];
+    fClusters.remove(idx);
+}
+
+void plClusterGroup::clearClusters() {
+    for (size_t i=0; i<fClusters.getSize(); i++)
+        delete fClusters[i];
+    fClusters.clear();
+}
+
+size_t plClusterGroup::getNumRegions() const { return fRegions.getSize(); }
+plKey plClusterGroup::getRegion(size_t idx) const { return fRegions[idx]; }
+void plClusterGroup::addRegion(plKey region) { fRegions.append(region); }
+void plClusterGroup::delRegion(size_t idx) { fRegions.remove(idx); }
+void plClusterGroup::clearRegions() { fRegions.clear(); }
+
+size_t plClusterGroup::getNumLights() const { return fLights.getSize(); }
+plKey plClusterGroup::getLight(size_t idx) const { return fLights[idx]; }
+void plClusterGroup::addLight(plKey light) { fLights.append(light); }
+void plClusterGroup::delLight(size_t idx) { fLights.remove(idx); }
+void plClusterGroup::clearLights() { fLights.clear(); }

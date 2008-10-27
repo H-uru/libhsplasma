@@ -21,10 +21,9 @@ void plCluster::read(hsStream* S, plClusterGroup* group) {
 
 void plCluster::write(hsStream* S) {
     fEncoding.write(S);
-    unsigned int numVerts = fGroup->getTemplate()->getNumVerts();
     S->writeInt(fInstances.getSize());
     for (size_t i=0; i<fInstances.getSize(); i++)
-        fInstances[i]->write(S, fEncoding, numVerts);
+        fInstances[i]->write(S);
 }
 
 void plCluster::prcWrite(pfPrcHelper* prc) {
@@ -35,9 +34,8 @@ void plCluster::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Instances");
-    unsigned int numVerts = fGroup->getTemplate()->getNumVerts();
     for (size_t i=0; i<fInstances.getSize(); i++)
-        fInstances[i]->prcWrite(prc, fEncoding, numVerts);
+        fInstances[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->closeTag();
@@ -67,4 +65,23 @@ void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
         }
         child = child->getNextSibling();
     }
+}
+
+plSpanEncoding& plCluster::getEncoding() { return fEncoding; }
+plClusterGroup* plCluster::getGroup() const { return fGroup; }
+void plCluster::setGroup(plClusterGroup* group) { fGroup = group; }
+
+size_t plCluster::getNumInstances() const { return fInstances.getSize(); }
+plSpanInstance* plCluster::getInstance(size_t idx) const { return fInstances[idx]; }
+void plCluster::addInstance(plSpanInstance* inst) { fInstances.append(inst); }
+
+void plCluster::delInstance(size_t idx) {
+    delete fInstances[idx];
+    fInstances.remove(idx);
+}
+
+void plCluster::clearInstances() {
+    for (size_t i=0; i<fInstances.getSize(); i++)
+        delete fInstances[i];
+    fInstances.clear();
 }
