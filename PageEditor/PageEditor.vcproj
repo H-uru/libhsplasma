@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(SolutionDir)out"
 			ConfigurationType="1"
-			CharacterSet="0"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28d.lib wxmsw28d_core.lib comctl32.lib rpcrt4.lib wxmsw28d_stc.lib wxpngd.lib wxjpegd.lib wxtiffd.lib wxzlibd.lib"
+				AdditionalDependencies="wxbase28ud.lib wxmsw28ud_core.lib comctl32.lib rpcrt4.lib wxmsw28ud_stc.lib wxpngd.lib wxjpegd.lib wxtiffd.lib wxzlibd.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
@@ -98,7 +98,7 @@
 			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(SolutionDir)out"
 			ConfigurationType="1"
-			CharacterSet="0"
+			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28.lib wxmsw28_core.lib comctl32.lib rpcrt4.lib wxmsw28_stc.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib"
+				AdditionalDependencies="wxbase28u.lib wxmsw28u_core.lib comctl32.lib rpcrt4.lib wxmsw28u_stc.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
