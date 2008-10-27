@@ -14,10 +14,14 @@
 #include "PRP/pySceneNode.h"
 #include "PRP/Animation/pyViewFaceModifier.h"
 #include "PRP/Audio/pySoundBuffer.h"
+#include "PRP/Geometry/pyCluster.h"
+#include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
 #include "PRP/Geometry/pyGBufferGroup.h"
 #include "PRP/Geometry/pySpaceTree.h"
 #include "PRP/Geometry/pySpan.h"
+#include "PRP/Geometry/pySpanInstance.h"
+#include "PRP/Geometry/pySpanTemplate.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
@@ -134,6 +138,12 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plWAVHeader", Init_pyWAVHeader_Type());
     PyModule_AddObject(module, "plSimDefs", Init_pySimDefs_Type());
     PyModule_AddObject(module, "plPythonParameter", Init_pyPythonParameter_Type());
+    PyModule_AddObject(module, "plCluster", Init_pyCluster_Type());
+    PyModule_AddObject(module, "plSpanEncoding", Init_pySpanEncoding_Type());
+    PyModule_AddObject(module, "plSpanInstance", Init_pySpanInstance_Type());
+    PyModule_AddObject(module, "plSpanTemplate", Init_pySpanTemplate_Type());
+    PyModule_AddObject(module, "plSpanTemplateVertex", Init_pySpanTemplateVertex_Type());
+    PyModule_AddObject(module, "plLODDist", Init_pyLODDist_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -170,6 +180,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plMultiModifier", Init_pyMultiModifier_Type());
     PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
     PyModule_AddObject(module, "plViewFaceModifier", Init_pyViewFaceModifier_Type());
+    PyModule_AddObject(module, "plClusterGroup", Init_pyClusterGroup_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
 }

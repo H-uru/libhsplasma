@@ -18,7 +18,7 @@ public:
 
     DllStruct Vertex {
         hsVector3 fPosition, fNormal;
-        unsigned int fColor, fColor2;
+        unsigned int fColor1, fColor2;
         int fWeightIdx;
         hsVector3 fUVWs[10];
         float fWeights[3];
@@ -38,15 +38,20 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    hsTArray<Vertex> getVertices() const;
-    unsigned short getNumVerts() const;
-    void setVertices(const hsTArray<Vertex>& verts);
-    
-    unsigned short getNumTris() const;
-    
-    unsigned short* getIndices() const;
-
+private:
     static unsigned short CalcStride(unsigned short format);
+
+public:
+    unsigned short getNumVerts() const;
+    hsTArray<Vertex> getVertices() const;
+    void setVertices(const hsTArray<Vertex>& verts);
+
+    unsigned short getNumTris() const;
+    const unsigned short* getIndices() const;
+    void setIndices(unsigned short count, const unsigned short* indices);
+
+    unsigned short getFormat() const;
+    void setFormat(unsigned short fmt);
 };
 
 #endif

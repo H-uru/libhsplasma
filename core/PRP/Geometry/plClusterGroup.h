@@ -18,15 +18,15 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    float getMinDist() const;
-    float getMaxDist() const;
-    void setMinDist(float dist);
-    void setMaxDist(float dist);
+    float getMin() const;
+    float getMax() const;
+    void setMin(float dist);
+    void setMax(float dist);
 };
 
 DllClass plClusterGroup : public hsKeyedObject {
 protected:
-    plSpanTemplate* fTemplate;
+    plSpanTemplate fTemplate;
     plKey fMaterial;
     hsTArray<plCluster*> fClusters;
     hsTArray<plKey> fRegions, fLights;
@@ -49,14 +49,13 @@ protected:
 
 public:
     plLODDist& getLOD();
-    plSpanTemplate* getTemplate() const;
+    plSpanTemplate& getTemplate();
 
     plKey getMaterial() const;
     plWeakKey getSceneNode() const;
     plWeakKey getDrawable() const;
     unsigned int getRenderLevel() const;
 
-    void setTemplate(plSpanTemplate* tpl);
     void setMaterial(plKey mat);
     void setSceneNode(plWeakKey node);
     void setDrawable(plWeakKey draw);

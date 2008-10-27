@@ -28,18 +28,16 @@ void plLODDist::prcParse(const pfPrcTag* tag) {
     fMaxDist = tag->getParam("Max", "0").toFloat();
 }
 
-float plLODDist::getMinDist() const { return fMinDist; }
-float plLODDist::getMaxDist() const { return fMaxDist; }
-void plLODDist::setMinDist(float dist) { fMinDist = dist; }
-void plLODDist::setMaxDist(float dist) { fMaxDist = dist; }
+float plLODDist::getMin() const { return fMinDist; }
+float plLODDist::getMax() const { return fMaxDist; }
+void plLODDist::setMin(float dist) { fMinDist = dist; }
+void plLODDist::setMax(float dist) { fMaxDist = dist; }
 
 
 /* plClusterGroup */
-plClusterGroup::plClusterGroup() : fTemplate(NULL), fRenderLevel(0) { }
+plClusterGroup::plClusterGroup() : fRenderLevel(0) { }
 
 plClusterGroup::~plClusterGroup() {
-    if (fTemplate != NULL)
-        delete fTemplate;
     for (size_t i=0; i<fClusters.getSize(); i++)
         delete fClusters[i];
 }
@@ -49,8 +47,7 @@ IMPLEMENT_CREATABLE(plClusterGroup, kClusterGroup, hsKeyedObject)
 void plClusterGroup::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
-    setTemplate(new plSpanTemplate());
-    fTemplate->read(S);
+    fTemplate.read(S);
     fMaterial = mgr->readKey(S);
 
     fClusters.setSizeNull(S->readInt());
@@ -74,7 +71,7 @@ void plClusterGroup::read(hsStream* S, plResManager* mgr) {
 void plClusterGroup::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
 
-    fTemplate->write(S);
+    fTemplate.write(S);
     mgr->writeKey(S, fMaterial);
 
     S->writeInt(fClusters.getSize());
@@ -97,7 +94,7 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Template");
-    fTemplate->prcWrite(prc);
+    fTemplate.prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Material");
@@ -134,11 +131,8 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
 
 void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Template") {
-        setTemplate(NULL);
-        if (tag->hasChildren()) {
-            fTemplate = new plSpanTemplate();
-            fTemplate->prcParse(tag->getFirstChild());
-        }
+        if (tag->hasChildren())
+            fTemplate.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Material") {
         if (tag->hasChildren())
             fMaterial = mgr->prcParseKey(tag->getFirstChild());
@@ -178,18 +172,12 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 plLODDist& plClusterGroup::getLOD() { return fLOD; }
-plSpanTemplate* plClusterGroup::getTemplate() const { return fTemplate; }
+plSpanTemplate& plClusterGroup::getTemplate() { return fTemplate; }
 
 plKey plClusterGroup::getMaterial() const { return fMaterial; }
 plWeakKey plClusterGroup::getSceneNode() const { return fSceneNode; }
 plWeakKey plClusterGroup::getDrawable() const { return fDrawable; }
 unsigned int plClusterGroup::getRenderLevel() const { return fRenderLevel; }
-
-void plClusterGroup::setTemplate(plSpanTemplate* tpl) {
-    if (fTemplate != NULL)
-        delete fTemplate;
-    fTemplate = tpl;
-}
 
 void plClusterGroup::setMaterial(plKey mat) { fMaterial = mat; }
 void plClusterGroup::setSceneNode(plWeakKey node) { fSceneNode = node; }

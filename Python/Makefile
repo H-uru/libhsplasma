@@ -17,6 +17,8 @@ PYOBJ=\
 	$(OBJDIR)pySceneNode.o \
 	$(OBJDIR)pySoundBuffer.o \
 	$(OBJDIR)pyWAVHeader.o \
+	$(OBJDIR)pyCluster.o \
+	$(OBJDIR)pyClusterGroup.o \
 	$(OBJDIR)pyDISpanIndex.o \
 	$(OBJDIR)pyDrawable.o \
 	$(OBJDIR)pyDrawableSpans.o \
@@ -25,10 +27,15 @@ PYOBJ=\
 	$(OBJDIR)pyGBufferTriangle.o \
 	$(OBJDIR)pyGBufferVertex.o \
 	$(OBJDIR)pyIcicle.o \
+	$(OBJDIR)pyLODDist.o \
 	$(OBJDIR)pyParticleSpan.o \
 	$(OBJDIR)pySpaceTree.o \
 	$(OBJDIR)pySpaceTreeNode.o \
 	$(OBJDIR)pySpan.o \
+	$(OBJDIR)pySpanEncoding.o \
+	$(OBJDIR)pySpanInstance.o \
+	$(OBJDIR)pySpanTemplate.o \
+	$(OBJDIR)pySpanTemplateVertex.o \
 	$(OBJDIR)pyVertexSpan.o \
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
@@ -127,6 +134,12 @@ $(OBJDIR)pySoundBuffer.o: PRP/Audio/pySoundBuffer.cpp
 $(OBJDIR)pyWAVHeader.o: PRP/Audio/pyWAVHeader.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/pyWAVHeader.cpp -o $(OBJDIR)pyWAVHeader.o
 
+$(OBJDIR)pyCluster.o: PRP/Geometry/pyCluster.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyCluster.cpp -o $(OBJDIR)pyCluster.o
+
+$(OBJDIR)pyClusterGroup.o: PRP/Geometry/pyClusterGroup.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyClusterGroup.cpp -o $(OBJDIR)pyClusterGroup.o
+
 $(OBJDIR)pyDISpanIndex.o: PRP/Geometry/pyDISpanIndex.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDISpanIndex.cpp -o $(OBJDIR)pyDISpanIndex.o
 
@@ -151,6 +164,9 @@ $(OBJDIR)pyGBufferVertex.o: PRP/Geometry/pyGBufferVertex.cpp
 $(OBJDIR)pyIcicle.o: PRP/Geometry/pyIcicle.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyIcicle.cpp -o $(OBJDIR)pyIcicle.o
 
+$(OBJDIR)pyLODDist.o: PRP/Geometry/pyLODDist.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyLODDist.cpp -o $(OBJDIR)pyLODDist.o
+
 $(OBJDIR)pyParticleSpan.o: PRP/Geometry/pyParticleSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyParticleSpan.cpp -o $(OBJDIR)pyParticleSpan.o
 
@@ -162,6 +178,18 @@ $(OBJDIR)pySpaceTreeNode.o: PRP/Geometry/pySpaceTreeNode.cpp
 
 $(OBJDIR)pySpan.o: PRP/Geometry/pySpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpan.cpp -o $(OBJDIR)pySpan.o
+
+$(OBJDIR)pySpanEncoding.o: PRP/Geometry/pySpanEncoding.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanEncoding.cpp -o $(OBJDIR)pySpanEncoding.o
+
+$(OBJDIR)pySpanInstance.o: PRP/Geometry/pySpanInstance.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanInstance.cpp -o $(OBJDIR)pySpanInstance.o
+
+$(OBJDIR)pySpanTemplate.o: PRP/Geometry/pySpanTemplate.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanTemplate.cpp -o $(OBJDIR)pySpanTemplate.o
+
+$(OBJDIR)pySpanTemplateVertex.o: PRP/Geometry/pySpanTemplateVertex.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanTemplateVertex.cpp -o $(OBJDIR)pySpanTemplateVertex.o
 
 $(OBJDIR)pyVertexSpan.o: PRP/Geometry/pyVertexSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyVertexSpan.cpp -o $(OBJDIR)pyVertexSpan.o

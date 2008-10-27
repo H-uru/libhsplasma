@@ -18,9 +18,8 @@ void plSpanTemplate::read(hsStream* S) {
         delete[] fIndices;
 
     fNumVerts = S->readShort();
-    fFormat = S->readShort();
+    setFormat(S->readShort());
     fNumTris = S->readShort();
-    fStride = CalcStride(fFormat);
     fData = new unsigned char[fNumVerts * fStride];
     fIndices = new unsigned short[fNumTris * 3];
     S->read(fStride * fNumVerts, fData);
@@ -46,7 +45,7 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
         for (size_t i=0; i<verts.getSize(); i++) {
             prc->startTag("Vertex");
             if (fFormat & kColorMask)
-                prc->writeParamHex("Color", verts[i].fColor);
+                prc->writeParamHex("Color1", verts[i].fColor1);
             if (fFormat & kColor2Mask)
                 prc->writeParamHex("Color2", verts[i].fColor2);
             if (fFormat & kWgtIdxMask)
@@ -110,7 +109,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
             for (size_t i=0; i<fNumVerts; i++) {
                 if (vertChild->getName() != "Vertex")
                     throw pfPrcTagException(__FILE__, __LINE__, vertChild->getName());
-                verts[i].fColor = tag->getParam("Color", "0").toUint();
+                verts[i].fColor1 = tag->getParam("Color1", "0").toUint();
                 verts[i].fColor2 = tag->getParam("Color2", "0").toUint();
                 verts[i].fWeightIdx = tag->getParam("WeightIdx", "0").toInt();
                 const pfPrcTag* subChild = vertChild->getFirstChild();
@@ -195,7 +194,7 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
             dataPtr += sizeof(float);
         }
         if (fFormat & kColorMask) {
-            verts[i].fColor = *(unsigned int*)dataPtr;
+            verts[i].fColor1 = *(unsigned int*)dataPtr;
             dataPtr += sizeof(unsigned int);
         }
         if (fFormat & kColor2Mask) {
@@ -219,6 +218,13 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
 unsigned short plSpanTemplate::getNumVerts() const { return fNumVerts; }
 
 void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
+    if (fData != NULL)
+        delete[] fData;
+    if (verts.getSize() == 0) {
+        fData = NULL;
+        return;
+    }
+
     fStride = CalcStride(fFormat);
     fNumVerts = verts.getSize();
     fData = new unsigned char[fNumVerts * fStride];
@@ -252,7 +258,7 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
             dataPtr += sizeof(float);
         }
         if (fFormat & kColorMask) {
-            *(unsigned int*)dataPtr = verts[i].fColor;
+            *(unsigned int*)dataPtr = verts[i].fColor1;
             dataPtr += sizeof(unsigned int);
         }
         if (fFormat & kColor2Mask) {
@@ -273,8 +279,25 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
 }
 
 unsigned short plSpanTemplate::getNumTris() const { return fNumTris; }
+const unsigned short* plSpanTemplate::getIndices() const { return fIndices; }
 
-unsigned short* plSpanTemplate::getIndices() const { return fIndices; }
+void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indices) {
+    if (fIndices != NULL)
+        delete[] fIndices;
+    if (count == 0) {
+        fIndices = NULL;
+        return;
+    }
+    fIndices = new unsigned short[count];
+    memcpy(fIndices, indices, count * sizeof(unsigned short));
+}
+
+unsigned short plSpanTemplate::getFormat() const { return fFormat; }
+
+void plSpanTemplate::setFormat(unsigned short fmt) {
+    fFormat = fmt;
+    fStride = CalcStride(fFormat);
+}
 
 unsigned short plSpanTemplate::CalcStride(unsigned short format) {
     unsigned short stride = 0;

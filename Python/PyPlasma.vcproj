@@ -365,6 +365,22 @@
 				Name="Geometry"
 				>
 				<File
+					RelativePath=".\PRP\Geometry\pyCluster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyCluster.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyClusterGroup.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyClusterGroup.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Geometry\pyDISpanIndex.cpp"
 					>
 				</File>
@@ -405,6 +421,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Geometry\pyLODDist.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Geometry\pyParticleSpan.cpp"
 					>
 				</File>
@@ -426,6 +446,30 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Geometry\pySpan.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpanEncoding.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpanInstance.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpanInstance.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpanTemplate.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpanTemplate.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pySpanTemplateVertex.cpp"
 					>
 				</File>
 				<File
