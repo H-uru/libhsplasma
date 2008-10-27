@@ -52,7 +52,7 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
             if (fFormat & kWgtIdxMask)
                 prc->writeParam("WeightIdx", verts[i].fWeightIdx);
             prc->endTag();
-            
+
             if (fFormat & kPosMask) {
                 prc->writeSimpleTag("Position");
                 verts[i].fPosition.prcWrite(prc);
@@ -98,7 +98,7 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
 void plSpanTemplate::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plSpanTemplate")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    
+
     fFormat = tag->getParam("Format", "0").toUint();
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -222,7 +222,7 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
     fStride = CalcStride(fFormat);
     fNumVerts = verts.getSize();
     fData = new unsigned char[fNumVerts * fStride];
-    
+
     unsigned char* dataPtr = fData;
     for (size_t i=0; i<fNumVerts; i++) {
         if (fFormat & kPosMask) {
@@ -271,6 +271,8 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
         }
     }
 }
+
+unsigned short plSpanTemplate::getNumTris() const { return fNumTris; }
 
 unsigned short plSpanTemplate::CalcStride(unsigned short format) {
     unsigned short stride = 0;
