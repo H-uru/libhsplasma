@@ -13,6 +13,7 @@
 #include "PRP/plPageInfo.h"
 #include "plAgeInfo.h"
 
+typedef void (*ProgressCallback)(float progress);
 DllClass plResManager {
 private:
     static unsigned int fNumResMgrs;
@@ -28,6 +29,7 @@ private:
     unsigned int ReadObjects(hsStream* S, const plLocation& loc);
     void WriteKeyring(hsStream* S, const plLocation& loc);
     unsigned int WriteObjects(hsStream* S, const plLocation& loc);
+    ProgressCallback progressFunc;
 
 public:
     plResManager(PlasmaVer pv = pvUnknown);
@@ -77,6 +79,9 @@ public:
     void DelAge(const plString& name);
 
     void ChangeLocation(plLocation from, plLocation to);
+
+    ProgressCallback SetProgressFunc(ProgressCallback newFunc);
+
 };
 
 #endif
