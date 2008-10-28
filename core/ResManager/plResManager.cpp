@@ -9,7 +9,7 @@ unsigned int plResManager::fNumResMgrs = 0;
 plResManager::plResManager(PlasmaVer pv) : fPlasmaVer(pvUnknown) {
     setVer(pv);
     fNumResMgrs++;
-    progressFunc = 0;
+    progressFunc = NULL;
 }
 
 plResManager::~plResManager() {
@@ -334,7 +334,9 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
     std::vector<short> types = keys.getTypes(loc);
     unsigned int nRead = 0;
     
-    if(progressFunc) progressFunc(0.0);
+    if (progressFunc != NULL)
+        progressFunc(0.0f);
+
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
         //plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
@@ -383,8 +385,9 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 kList[j]->setObj(NULL);
             }
         }
-        if(progressFunc) progressFunc((float)(i+1)/types.size());
 
+        if (progressFunc != NULL)
+            progressFunc((float)(i+1)/types.size());
     }
 
     return nRead;
