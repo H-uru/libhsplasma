@@ -7,7 +7,7 @@
 #include "../pyCreatable.h"
 #include "../KeyedObject/pyKey.h"
 #include "../Region/pyBounds.h"
-#include "../../Math/pyMatrix44.h"
+#include "../../Math/pyMatrix.h"
 
 extern "C" {
 

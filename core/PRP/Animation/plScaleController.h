@@ -30,6 +30,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plScaleValueController* getValue() const;
+    void setValue(plScaleValueController* value);
 };
 
 #endif

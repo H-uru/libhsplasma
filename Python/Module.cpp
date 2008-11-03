@@ -4,7 +4,7 @@
 
 #include "Debug/pyDebug.h"
 #include "Math/pyGeometry3.h"
-#include "Math/pyMatrix44.h"
+#include "Math/pyMatrix.h"
 #include "ResManager/pyResManager.h"
 #include "Stream/pyStream.h"
 #include "Sys/pyColor.h"
@@ -12,6 +12,12 @@
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
+#include "PRP/Animation/pyController.h"
+#include "PRP/Animation/pyKeys.h"
+#include "PRP/Animation/pyLeafController.h"
+#include "PRP/Animation/pyPosController.h"
+#include "PRP/Animation/pyRotController.h"
+#include "PRP/Animation/pyScaleController.h"
 #include "PRP/Animation/pyViewFaceModifier.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Geometry/pyCluster.h"
@@ -100,8 +106,10 @@ PyMODINIT_FUNC initPyPlasma() {
     /* Math */
     PyModule_AddObject(module, "hsVector3", Init_pyVector3_Type());
     PyModule_AddObject(module, "hsPlane3", Init_pyPlane3_Type());
-    PyModule_AddObject(module, "hsMatrix44", Init_pyMatrix44_Type());
     PyModule_AddObject(module, "hsQuat", Init_pyQuat_Type());
+    PyModule_AddObject(module, "hsAffineParts", Init_pyAffineParts_Type());
+    PyModule_AddObject(module, "hsMatrix33", Init_pyMatrix33_Type());
+    PyModule_AddObject(module, "hsMatrix44", Init_pyMatrix44_Type());
 
     /* ResManager */
     PyModule_AddObject(module, "plFactory", Init_pyFactory_Type());
@@ -125,6 +133,26 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plKey", Init_pyKey_Type());
     PyModule_AddObject(module, "plLocation", Init_pyLocation_Type());
 
+    /* Cluster stuff */
+    PyModule_AddObject(module, "plCluster", Init_pyCluster_Type());
+    PyModule_AddObject(module, "plSpanEncoding", Init_pySpanEncoding_Type());
+    PyModule_AddObject(module, "plSpanInstance", Init_pySpanInstance_Type());
+    PyModule_AddObject(module, "plSpanTemplate", Init_pySpanTemplate_Type());
+    PyModule_AddObject(module, "plSpanTemplateVertex", Init_pySpanTemplateVertex_Type());
+    PyModule_AddObject(module, "plLODDist", Init_pyLODDist_Type());
+
+    /* Key Frames */
+    PyModule_AddObject(module, "hsKeyFrame", Init_pyKeyFrame_Type());
+    PyModule_AddObject(module, "hsPoint3Key", Init_pyPoint3Key_Type());
+    PyModule_AddObject(module, "hsScalarKey", Init_pyScalarKey_Type());
+    PyModule_AddObject(module, "hsScaleKey", Init_pyScaleKey_Type());
+    PyModule_AddObject(module, "hsQuatKey", Init_pyQuatKey_Type());
+    PyModule_AddObject(module, "hsCompressedQuatKey32", Init_pyCompressedQuatKey32_Type());
+    PyModule_AddObject(module, "hsCompressedQuatKey64", Init_pyCompressedQuatKey64_Type());
+    PyModule_AddObject(module, "hsG3DSMaxKeyFrame", Init_pyG3DSMaxKeyFrame_Type());
+    PyModule_AddObject(module, "hsMatrix33Key", Init_pyMatrix33Key_Type());
+    PyModule_AddObject(module, "hsMatrix44Key", Init_pyMatrix44Key_Type());
+
     /* Other Creatable Dependancies */
     PyModule_AddObject(module, "plDISpanIndex", Init_pyDISpanIndex_Type());
     PyModule_AddObject(module, "plGBufferCell", Init_pyGBufferCell_Type());
@@ -138,12 +166,6 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plWAVHeader", Init_pyWAVHeader_Type());
     PyModule_AddObject(module, "plSimDefs", Init_pySimDefs_Type());
     PyModule_AddObject(module, "plPythonParameter", Init_pyPythonParameter_Type());
-    PyModule_AddObject(module, "plCluster", Init_pyCluster_Type());
-    PyModule_AddObject(module, "plSpanEncoding", Init_pySpanEncoding_Type());
-    PyModule_AddObject(module, "plSpanInstance", Init_pySpanInstance_Type());
-    PyModule_AddObject(module, "plSpanTemplate", Init_pySpanTemplate_Type());
-    PyModule_AddObject(module, "plSpanTemplateVertex", Init_pySpanTemplateVertex_Type());
-    PyModule_AddObject(module, "plLODDist", Init_pyLODDist_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -183,4 +205,23 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plClusterGroup", Init_pyClusterGroup_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
+    PyModule_AddObject(module, "plController", Init_pyController_Type());
+    PyModule_AddObject(module, "plCompoundController", Init_pyCompoundController_Type());
+    PyModule_AddObject(module, "plTMController", Init_pyTMController_Type());
+    PyModule_AddObject(module, "plPosController", Init_pyPosController_Type());
+    PyModule_AddObject(module, "plSimplePosController", Init_pySimplePosController_Type());
+    PyModule_AddObject(module, "plCompoundPosController", Init_pyCompoundPosController_Type());
+    PyModule_AddObject(module, "plRotController", Init_pyRotController_Type());
+    PyModule_AddObject(module, "plSimpleRotController", Init_pySimpleRotController_Type());
+    PyModule_AddObject(module, "plCompoundRotController", Init_pyCompoundRotController_Type());
+    PyModule_AddObject(module, "plScaleController", Init_pyScaleController_Type());
+    PyModule_AddObject(module, "plSimpleScaleController", Init_pySimpleScaleController_Type());
+    PyModule_AddObject(module, "plLeafController", Init_pyLeafController_Type());
+    PyModule_AddObject(module, "plEaseController", Init_pyEaseController_Type());
+    PyModule_AddObject(module, "plMatrix33Controller", Init_pyMatrix33Controller_Type());
+    PyModule_AddObject(module, "plMatrix44Controller", Init_pyMatrix44Controller_Type());
+    PyModule_AddObject(module, "plPoint3Controller", Init_pyPoint3Controller_Type());
+    PyModule_AddObject(module, "plQuatController", Init_pyQuatController_Type());
+    PyModule_AddObject(module, "plScalarController", Init_pyScalarController_Type());
+    PyModule_AddObject(module, "plScaleValueController", Init_pyScaleValueController_Type());
 }

@@ -7,12 +7,43 @@ OBJDIR=out/
 PYOBJ=\
 	$(OBJDIR)Module.o \
 	$(OBJDIR)pyDebug.o \
+	$(OBJDIR)pyAffineParts.o \
+	$(OBJDIR)pyMatrix33.o \
 	$(OBJDIR)pyMatrix44.o \
 	$(OBJDIR)pyPlane3.o \
 	$(OBJDIR)pyQuat.o \
 	$(OBJDIR)pyVector3.o \
 	$(OBJDIR)pyCreatable.o \
 	$(OBJDIR)pyCreatableStub.o \
+	$(OBJDIR)pyCompoundController.o \
+	$(OBJDIR)pyCompoundPosController.o \
+	$(OBJDIR)pyCompoundRotController.o \
+	$(OBJDIR)pyCompressedQuatKey32.o \
+	$(OBJDIR)pyCompressedQuatKey64.o \
+	$(OBJDIR)pyController.o \
+	$(OBJDIR)pyEaseController.o \
+	$(OBJDIR)pyG3DSMaxKeyFrame.o \
+	$(OBJDIR)pyKeyFrame.o \
+	$(OBJDIR)pyLeafController.o \
+	$(OBJDIR)pyMatrix33Controller.o \
+	$(OBJDIR)pyMatrix33Key.o \
+	$(OBJDIR)pyMatrix44Controller.o \
+	$(OBJDIR)pyMatrix44Key.o \
+	$(OBJDIR)pyPoint3Controller.o \
+	$(OBJDIR)pyPoint3Key.o \
+	$(OBJDIR)pyPosController.o \
+	$(OBJDIR)pyQuatController.o \
+	$(OBJDIR)pyQuatKey.o \
+	$(OBJDIR)pyRotController.o \
+	$(OBJDIR)pyScalarController.o \
+	$(OBJDIR)pyScalarKey.o \
+	$(OBJDIR)pyScaleController.o \
+	$(OBJDIR)pyScaleKey.o \
+	$(OBJDIR)pyScaleValueController.o \
+	$(OBJDIR)pySimplePosController.o \
+	$(OBJDIR)pySimpleRotController.o \
+	$(OBJDIR)pySimpleScaleController.o \
+	$(OBJDIR)pyTMController.o \
 	$(OBJDIR)pyViewFaceModifier.o \
 	$(OBJDIR)pySceneNode.o \
 	$(OBJDIR)pySoundBuffer.o \
@@ -104,6 +135,12 @@ $(OBJDIR)Module.o: Module.cpp
 $(OBJDIR)pyDebug.o: Debug/pyDebug.cpp
 	$(CXX) $(CXXFLAGS) -c Debug/pyDebug.cpp -o $(OBJDIR)pyDebug.o
 
+$(OBJDIR)pyAffineParts.o: Math/pyAffineParts.cpp
+	$(CXX) $(CXXFLAGS) -c Math/pyAffineParts.cpp -o $(OBJDIR)pyAffineParts.o
+
+$(OBJDIR)pyMatrix33.o: Math/pyMatrix33.cpp
+	$(CXX) $(CXXFLAGS) -c Math/pyMatrix33.cpp -o $(OBJDIR)pyMatrix33.o
+
 $(OBJDIR)pyMatrix44.o: Math/pyMatrix44.cpp
 	$(CXX) $(CXXFLAGS) -c Math/pyMatrix44.cpp -o $(OBJDIR)pyMatrix44.o
 
@@ -124,6 +161,93 @@ $(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
 
 $(OBJDIR)pySceneNode.o: PRP/pySceneNode.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/pySceneNode.cpp -o $(OBJDIR)pySceneNode.o
+
+$(OBJDIR)pyCompoundController.o: PRP/Animation/pyCompoundController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundController.cpp -o $(OBJDIR)pyCompoundController.o
+
+$(OBJDIR)pyCompoundPosController.o: PRP/Animation/pyCompoundPosController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundPosController.cpp -o $(OBJDIR)pyCompoundPosController.o
+
+$(OBJDIR)pyCompoundRotController.o: PRP/Animation/pyCompoundRotController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundRotController.cpp -o $(OBJDIR)pyCompoundRotController.o
+
+$(OBJDIR)pyCompressedQuatKey32.o: PRP/Animation/pyCompressedQuatKey32.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompressedQuatKey32.cpp -o $(OBJDIR)pyCompressedQuatKey32.o
+
+$(OBJDIR)pyCompressedQuatKey64.o: PRP/Animation/pyCompressedQuatKey64.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompressedQuatKey64.cpp -o $(OBJDIR)pyCompressedQuatKey64.o
+
+$(OBJDIR)pyController.o: PRP/Animation/pyController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyController.cpp -o $(OBJDIR)pyController.o
+
+$(OBJDIR)pyEaseController.o: PRP/Animation/pyEaseController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyEaseController.cpp -o $(OBJDIR)pyEaseController.o
+
+$(OBJDIR)pyG3DSMaxKeyFrame.o: PRP/Animation/pyG3DSMaxKeyFrame.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyG3DSMaxKeyFrame.cpp -o $(OBJDIR)pyG3DSMaxKeyFrame.o
+
+$(OBJDIR)pyKeyFrame.o: PRP/Animation/pyKeyFrame.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyKeyFrame.cpp -o $(OBJDIR)pyKeyFrame.o
+
+$(OBJDIR)pyLeafController.o: PRP/Animation/pyLeafController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyLeafController.cpp -o $(OBJDIR)pyLeafController.o
+
+$(OBJDIR)pyMatrix33Controller.o: PRP/Animation/pyMatrix33Controller.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix33Controller.cpp -o $(OBJDIR)pyMatrix33Controller.o
+
+$(OBJDIR)pyMatrix33Key.o: PRP/Animation/pyMatrix33Key.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix33Key.cpp -o $(OBJDIR)pyMatrix33Key.o
+
+$(OBJDIR)pyMatrix44Controller.o: PRP/Animation/pyMatrix44Controller.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix44Controller.cpp -o $(OBJDIR)pyMatrix44Controller.o
+
+$(OBJDIR)pyMatrix44Key.o: PRP/Animation/pyMatrix44Key.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix44Key.cpp -o $(OBJDIR)pyMatrix44Key.o
+
+$(OBJDIR)pyPoint3Controller.o: PRP/Animation/pyPoint3Controller.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPoint3Controller.cpp -o $(OBJDIR)pyPoint3Controller.o
+
+$(OBJDIR)pyPoint3Key.o: PRP/Animation/pyPoint3Key.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPoint3Key.cpp -o $(OBJDIR)pyPoint3Key.o
+
+$(OBJDIR)pyPosController.o: PRP/Animation/pyPosController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPosController.cpp -o $(OBJDIR)pyPosController.o
+
+$(OBJDIR)pyQuatController.o: PRP/Animation/pyQuatController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyQuatController.cpp -o $(OBJDIR)pyQuatController.o
+
+$(OBJDIR)pyQuatKey.o: PRP/Animation/pyQuatKey.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyQuatKey.cpp -o $(OBJDIR)pyQuatKey.o
+
+$(OBJDIR)pyRotController.o: PRP/Animation/pyRotController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyRotController.cpp -o $(OBJDIR)pyRotController.o
+
+$(OBJDIR)pyScalarController.o: PRP/Animation/pyScalarController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScalarController.cpp -o $(OBJDIR)pyScalarController.o
+
+$(OBJDIR)pyScalarKey.o: PRP/Animation/pyScalarKey.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScalarKey.cpp -o $(OBJDIR)pyScalarKey.o
+
+$(OBJDIR)pyScaleController.o: PRP/Animation/pyScaleController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleController.cpp -o $(OBJDIR)pyScaleController.o
+
+$(OBJDIR)pyScaleKey.o: PRP/Animation/pyScaleKey.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleKey.cpp -o $(OBJDIR)pyScaleKey.o
+
+$(OBJDIR)pyScaleValueController.o: PRP/Animation/pyScaleValueController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleValueController.cpp -o $(OBJDIR)pyScaleValueController.o
+
+$(OBJDIR)pySimplePosController.o: PRP/Animation/pySimplePosController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimplePosController.cpp -o $(OBJDIR)pySimplePosController.o
+
+$(OBJDIR)pySimpleRotController.o: PRP/Animation/pySimpleRotController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimpleRotController.cpp -o $(OBJDIR)pySimpleRotController.o
+
+$(OBJDIR)pySimpleScaleController.o: PRP/Animation/pySimpleScaleController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimpleScaleController.cpp -o $(OBJDIR)pySimpleScaleController.o
+
+$(OBJDIR)pyTMController.o: PRP/Animation/pyTMController.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyTMController.cpp -o $(OBJDIR)pyTMController.o
 
 $(OBJDIR)pyViewFaceModifier.o: PRP/Animation/pyViewFaceModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyViewFaceModifier.cpp -o $(OBJDIR)pyViewFaceModifier.o

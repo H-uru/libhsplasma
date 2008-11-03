@@ -4,6 +4,12 @@ float& hsMatrix33::operator()(int y, int x) {
     return data[y][x];
 }
 
+void hsMatrix33::Reset() {
+    for (int y=0; y<3; y++)
+        for (int x=0; x<3; x++)
+            data[y][x] = (x == y) ? 1.0f : 0.0f;
+}
+
 void hsMatrix33::read(hsStream* S) {
     for (int y=0; y<3; y++)
         for (int x=0; x<3; x++)

@@ -20,20 +20,20 @@ void plLeafController::read(hsStream* S, plResManager* mgr) {
         unsigned int numControllers = S->readInt();
         AllocControllers(numControllers);
 
-        for (size_t i=0; i<fControllers.getSize(); i++)
-            fControllers[i]->read(S, mgr);
+        for (size_t i=0; i<fEaseControllers.getSize(); i++)
+            fEaseControllers[i]->read(S, mgr);
 
         S->readInt();
+        IReadUruController(S);
     } else {
         fType = S->readByte();
-        if ((S->getVer() >= pvEoa) &&
-            fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
+        if ((S->getVer() >= pvEoa) && fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
             fType++;    // Myst V doesn't have hsCompressedQuatKeyFrame64
         unsigned int numKeys = S->readInt();
         AllocKeys(numKeys, fType);
 
         for (size_t i=0; i<fKeys.getSize(); i++)
-            fKeys[i]->read(S);
+            fKeys[i]->read(S, fType);
     }
 }
 
@@ -42,15 +42,15 @@ void plLeafController::write(hsStream* S, plResManager* mgr) {
 
     if (S->getVer() <= pvPots) {
         S->writeInt(fUruUnknown);
-        S->writeInt(fControllers.getSize());
+        S->writeInt(fEaseControllers.getSize());
 
-        for (size_t i=0; i<fControllers.getSize(); i++)
-            fControllers[i]->write(S, mgr);
+        for (size_t i=0; i<fEaseControllers.getSize(); i++)
+            fEaseControllers[i]->write(S, mgr);
 
         S->writeInt(0);
+        IWriteUruController(S);
     } else {
-        if ((S->getVer() >= pvEoa) &&
-            fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
+        if ((S->getVer() >= pvEoa) && fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
             S->writeByte(fType - 1);
         else
             S->writeByte(fType);
@@ -68,17 +68,17 @@ void plLeafController::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("UruUnknown", fUruUnknown);
     prc->endTag(true);
 
-    if (haveKeys()) {
-        prc->writeSimpleTag("Keys");
-        for (size_t i=0; i<fKeys.getSize(); i++)
-            fKeys[i]->prcWrite(prc);
+    if (hasEaseControllers()) {
+        prc->writeSimpleTag("EaseControllers");
+        for (size_t i=0; i<fEaseControllers.getSize(); i++)
+            fEaseControllers[i]->prcWrite(prc);
         prc->closeTag();
     }
 
-    if (haveControllers()) {
-        prc->writeSimpleTag("Controllers");
-        for (size_t i=0; i<fControllers.getSize(); i++)
-            fControllers[i]->prcWrite(prc);
+    if (hasKeys()) {
+        prc->writeSimpleTag("Keys");
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->prcWrite(prc);
         prc->closeTag();
     }
 }
@@ -99,11 +99,11 @@ void plLeafController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fKeys[i]->prcParse(child);
             child = child->getNextSibling();
         }
-    } else if (tag->getName() == "Controllers") {
+    } else if (tag->getName() == "EaseControllers") {
         AllocControllers(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fControllers.getSize(); i++) {
-            fControllers[i]->prcParse(child, mgr);
+        for (size_t i=0; i<fEaseControllers.getSize(); i++) {
+            fEaseControllers[i]->prcParse(child, mgr);
             child = child->getNextSibling();
         }
     } else {
@@ -111,36 +111,26 @@ void plLeafController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plLeafController::AllocKeys(unsigned int numKeys, unsigned char type) {
+void plLeafController::AllocKeys(unsigned int numKeys, unsigned int type) {
     DeallocKeys();
-    DeallocControllers();
     fType = type;
     fKeys.setSizeNull(numKeys);
 
     switch (fType) {
     case hsKeyFrame::kPoint3KeyFrame:
+    case hsKeyFrame::kBezPoint3KeyFrame:
         for (size_t i=0; i<numKeys; i++)
             fKeys[i] = new hsPoint3Key();
         break;
-    case hsKeyFrame::kBezPoint3KeyFrame:
-        for (size_t i=0; i<numKeys; i++)
-            fKeys[i] = new hsBezPoint3Key();
-        break;
     case hsKeyFrame::kScalarKeyFrame:
+    case hsKeyFrame::kBezScalarKeyFrame:
         for (size_t i=0; i<numKeys; i++)
             fKeys[i] = new hsScalarKey();
         break;
-    case hsKeyFrame::kBezScalarKeyFrame:
-        for (size_t i=0; i<numKeys; i++)
-            fKeys[i] = new hsBezScalarKey();
-        break;
     case hsKeyFrame::kScaleKeyFrame:
-        for (size_t i=0; i<numKeys; i++)
-            fKeys[i] = new hsScaleKey();
-        break;
     case hsKeyFrame::kBezScaleKeyFrame:
         for (size_t i=0; i<numKeys; i++)
-            fKeys[i] = new hsBezScaleKey();
+            fKeys[i] = new hsScaleKey();
         break;
     case hsKeyFrame::kQuatKeyFrame:
         for (size_t i=0; i<numKeys; i++)
@@ -179,22 +169,254 @@ void plLeafController::DeallocKeys() {
 
 void plLeafController::AllocControllers(unsigned int numControllers) {
     DeallocControllers();
-    DeallocKeys();
-    fControllers.setSizeNull(numControllers);
-    for (size_t i=0; i<fControllers.getSize(); i++)
-        fControllers[i] = new plEaseController();
+    fEaseControllers.setSizeNull(numControllers);
+    for (size_t i=0; i<fEaseControllers.getSize(); i++)
+        fEaseControllers[i] = new plEaseController();
 }
 
 void plLeafController::DeallocControllers() {
-    for (size_t i=0; i<fControllers.getSize(); i++)
-        delete fControllers[i];
-    fControllers.clear();
+    for (size_t i=0; i<fEaseControllers.getSize(); i++)
+        delete fEaseControllers[i];
+    fEaseControllers.clear();
 }
 
-bool plLeafController::haveKeys() const {
+void plLeafController::IReadUruController(hsStream* S) {
+    switch (ClassIndex()) {
+    case kEaseController:
+        if (S->readInt() != 0) {
+            AllocKeys(S->readInt(), hsKeyFrame::kScalarKeyFrame);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                fKeys[i]->read(S, fType);
+        } else {
+            AllocKeys(0, 0);
+        }
+        break;
+    case kMatrix33Controller:
+        AllocKeys(S->readInt(), hsKeyFrame::kMatrix33KeyFrame);
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->read(S, fType);
+        break;
+    case kMatrix44Controller:
+        AllocKeys(S->readInt(), hsKeyFrame::kMatrix44KeyFrame);
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->read(S, fType);
+        break;
+    case kPoint3Controller:
+        if (S->readInt() != 0) {
+            AllocKeys(S->readInt(), hsKeyFrame::kPoint3KeyFrame);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                fKeys[i]->read(S, fType);
+        } else {
+            AllocKeys(0, 0);
+        }
+        break;
+    case kQuatController:
+        AllocKeys(S->readInt(), hsKeyFrame::kQuatKeyFrame);
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->read(S, fType);
+        break;
+    case kScalarController:
+        if (S->readInt() != 0) {
+            AllocKeys(S->readInt(), hsKeyFrame::kScalarKeyFrame);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                fKeys[i]->read(S, fType);
+        } else {
+            AllocKeys(0, 0);
+        }
+        break;
+    case kScaleValueController:
+        AllocKeys(S->readInt(), hsKeyFrame::kScaleKeyFrame);
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->read(S, fType);
+        break;
+    default:
+        plString err = plString::Format("Unexpected class type [%04X]", ClassIndex());
+        throw hsBadParamException(__FILE__, __LINE__, err);
+    }
+
+    if (fKeys.getSize() > 0)
+        fType = fKeys[0]->getType();
+}
+
+void plLeafController::IWriteUruController(hsStream* S) {
+    switch (ClassIndex()) {
+    case kEaseController:
+        if (fKeys.getSize() == 0) {
+            S->writeInt(0);
+        } else {
+            S->writeInt(1);
+            S->writeInt(fKeys.getSize());
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                fKeys[i]->write(S);
+        }
+        break;
+    case kMatrix33Controller:
+        S->writeInt(fKeys.getSize());
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->write(S);
+        break;
+    case kMatrix44Controller:
+        S->writeInt(fKeys.getSize());
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->write(S);
+        break;
+    case kPoint3Controller:
+        if (fKeys.getSize() == 0) {
+            S->writeInt(0);
+        } else {
+            S->writeInt(1);
+            S->writeInt(fKeys.getSize());
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                fKeys[i]->write(S);
+        }
+        break;
+    case kQuatController:
+        S->writeInt(fKeys.getSize());
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->write(S);
+        break;
+    case kScalarController:
+        if (fKeys.getSize() == 0) {
+            S->writeInt(0);
+        } else {
+            S->writeInt(1);
+            S->writeInt(fKeys.getSize());
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                fKeys[i]->write(S);
+        }
+        break;
+    case kScaleValueController:
+        S->writeInt(fKeys.getSize());
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            fKeys[i]->write(S);
+        break;
+    default:
+        plString err = plString::Format("Unexpected class type [%04X]", ClassIndex());
+        throw hsBadParamException(__FILE__, __LINE__, err);
+    }
+}
+
+plLeafController* plLeafController::ExpandToKeyController() const {
+    plLeafController* ctrl;
+    switch (fType) {
+    case hsKeyFrame::kPoint3KeyFrame:
+    case hsKeyFrame::kBezPoint3KeyFrame:
+        ctrl = new plPoint3Controller();
+        if (hasKeys()) {
+            ctrl->AllocKeys(fKeys.getSize(), fType);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                *(hsPoint3Key*)ctrl->fKeys[i] = *(hsPoint3Key*)fKeys[i];
+        }
+        break;
+    case hsKeyFrame::kScalarKeyFrame:
+    case hsKeyFrame::kBezScalarKeyFrame:
+        ctrl = new plScalarController();
+        if (hasKeys()) {
+            ctrl->AllocKeys(fKeys.getSize(), fType);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                *(hsScalarKey*)ctrl->fKeys[i] = *(hsScalarKey*)fKeys[i];
+        }
+        break;
+    case hsKeyFrame::kScaleKeyFrame:
+    case hsKeyFrame::kBezScaleKeyFrame:
+        ctrl = new plScaleValueController();
+        if (hasKeys()) {
+            ctrl->AllocKeys(fKeys.getSize(), fType);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                *(hsScaleKey*)ctrl->fKeys[i] = *(hsScaleKey*)fKeys[i];
+        }
+        break;
+    case hsKeyFrame::kQuatKeyFrame:
+        ctrl = new plQuatController();
+        if (hasKeys()) {
+            ctrl->AllocKeys(fKeys.getSize(), fType);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                *(hsQuatKey*)ctrl->fKeys[i] = *(hsQuatKey*)fKeys[i];
+        }
+        break;
+    case hsKeyFrame::kCompressedQuatKeyFrame32:
+        ctrl = new plQuatController();
+        if (hasKeys()) {
+            ctrl->AllocKeys(fKeys.getSize(), fType);
+            for (size_t i=0; i<fKeys.getSize(); i++) {
+                ((hsQuatKey*)ctrl->fKeys[i])->setType(hsKeyFrame::kQuatKeyFrame);
+                ((hsQuatKey*)ctrl->fKeys[i])->setFrame(((hsCompressedQuatKey32*)fKeys[i])->getFrameTime());
+                ((hsQuatKey*)ctrl->fKeys[i])->fValue = ((hsCompressedQuatKey32*)fKeys[i])->getQuat();
+            }
+        }
+        break;
+    case hsKeyFrame::kCompressedQuatKeyFrame64:
+        ctrl = new plQuatController();
+        if (hasKeys()) {
+            ctrl->AllocKeys(fKeys.getSize(), fType);
+            for (size_t i=0; i<fKeys.getSize(); i++) {
+                ((hsQuatKey*)ctrl->fKeys[i])->setType(hsKeyFrame::kQuatKeyFrame);
+                ((hsQuatKey*)ctrl->fKeys[i])->setFrame(((hsCompressedQuatKey64*)fKeys[i])->getFrameTime());
+                ((hsQuatKey*)ctrl->fKeys[i])->fValue = ((hsCompressedQuatKey64*)fKeys[i])->getQuat();
+            }
+        }
+        break;
+    case hsKeyFrame::k3dsMaxKeyFrame:
+        ctrl = NULL;
+        break;
+    case hsKeyFrame::kMatrix33KeyFrame:
+        ctrl = new plMatrix33Controller();
+        if (hasKeys()) {
+            ctrl->AllocKeys(fKeys.getSize(), fType);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                *(hsMatrix33Key*)ctrl->fKeys[i] = *(hsMatrix33Key*)fKeys[i];
+        }
+        break;
+    case hsKeyFrame::kMatrix44KeyFrame:
+        ctrl = new plMatrix44Controller();
+        if (hasKeys()) {
+            ctrl->AllocKeys(fKeys.getSize(), fType);
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                *(hsMatrix44Key*)ctrl->fKeys[i] = *(hsMatrix44Key*)fKeys[i];
+        }
+        break;
+    default:
+        break;
+    }
+    if (ctrl != NULL)
+        ctrl->fType = fType;
+    return ctrl;
+}
+
+plLeafController* plLeafController::CompactToLeafController() const {
+    plLeafController* ctrl = new plLeafController();
+    ctrl->fType = fType;
+    ctrl->fUruUnknown = fUruUnknown;
+    if (hasKeys()) {
+        ctrl->AllocKeys(fKeys.getSize(), fType);
+        for (size_t i=0; i<fKeys.getSize(); i++)
+            *ctrl->fKeys[i] = *fKeys[i];
+    }
+    return ctrl;
+}
+
+bool plLeafController::hasKeys() const {
     return fKeys.getSize() != 0;
 }
 
-bool plLeafController::haveControllers() const {
-    return fControllers.getSize() != 0;
+bool plLeafController::hasEaseControllers() const {
+    return fEaseControllers.getSize() != 0;
+}
+
+unsigned int plLeafController::getType() const { return fType; }
+const hsTArray<hsKeyFrame*>& plLeafController::getKeys() const { return fKeys; }
+const hsTArray<class plEaseController*>& plLeafController::getEaseControllers() const { return fEaseControllers; }
+
+void plLeafController::setKeys(const hsTArray<hsKeyFrame*>& keys, unsigned int type) {
+    DeallocKeys();
+    AllocKeys(keys.getSize(), type);
+    for (size_t i=0; i<keys.getSize(); i++)
+        fKeys[i] = keys[i];
+}
+
+void plLeafController::setEaseControllers(const hsTArray<class plEaseController*>& controllers) {
+    DeallocControllers();
+    AllocControllers(controllers.getSize());
+    for (size_t i=0; i<controllers.getSize(); i++)
+        fEaseControllers[i] = controllers[i];
 }

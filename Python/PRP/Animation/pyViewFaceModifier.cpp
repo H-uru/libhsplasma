@@ -6,7 +6,7 @@
 #include "../KeyedObject/pyKey.h"
 #include "../pyCreatable.h"
 #include "../../Math/pyGeometry3.h"
-#include "../../Math/pyMatrix44.h"
+#include "../../Math/pyMatrix.h"
 
 extern "C" {
 

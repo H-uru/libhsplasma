@@ -2,7 +2,7 @@
 #include <PRP/Geometry/plSpanInstance.h>
 #include "pySpanInstance.h"
 #include "../../Stream/pyStream.h"
-#include "../../Math/pyMatrix44.h"
+#include "../../Math/pyMatrix.h"
 #include "../../Math/pyGeometry3.h"
 
 extern "C" {

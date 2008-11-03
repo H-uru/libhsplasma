@@ -3,7 +3,7 @@
 #include "pyObjInterface.h"
 #include "../pyCreatable.h"
 #include "../KeyedObject/pyKey.h"
-#include "../../Math/pyMatrix44.h"
+#include "../../Math/pyMatrix.h"
 
 extern "C" {
 

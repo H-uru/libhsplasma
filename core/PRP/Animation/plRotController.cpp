@@ -8,16 +8,18 @@ IMPLEMENT_CREATABLE(plRotController, kRotController, plController)
 plSimpleRotController::plSimpleRotController() : fRot(NULL) { }
 
 plSimpleRotController::~plSimpleRotController() {
-    if (fRot) delete fRot;
+    if (fRot != NULL)
+        delete fRot;
 }
 
 IMPLEMENT_CREATABLE(plSimpleRotController, kSimpleRotController, plRotController)
 
 void plSimpleRotController::read(hsStream* S, plResManager* mgr) {
     if (S->readInt() != 0) {
-        if (fRot) delete fRot;
-        fRot = new plQuatController();
+        setRot(new plQuatController());
         fRot->read(S, mgr);
+    } else {
+        setRot(NULL);
     }
 }
 
@@ -43,8 +45,10 @@ void plSimpleRotController::IPrcWrite(pfPrcHelper* prc) {
 void plSimpleRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "plQuatController") {
         if (!tag->getParam("NULL", "false").toBool()) {
-            fRot = new plQuatController();
+            setRot(new plQuatController());
             fRot->prcParse(tag, mgr);
+        } else {
+            setRot(NULL);
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);
@@ -52,6 +56,13 @@ void plSimpleRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 int plSimpleRotController::getType() const { return kSimple; }
+plQuatController* plSimpleRotController::getRot() const { return fRot; }
+
+void plSimpleRotController::setRot(plQuatController* rot) {
+    if (fRot != NULL)
+        delete fRot;
+    fRot = rot;
+}
 
 
 /* plCompoundRotController */
@@ -59,28 +70,34 @@ plCompoundRotController::plCompoundRotController()
     : fXController(NULL), fYController(NULL), fZController(NULL) { }
 
 plCompoundRotController::~plCompoundRotController() {
-    if (fXController) delete fXController;
-    if (fYController) delete fYController;
-    if (fZController) delete fZController;
+    if (fXController != NULL)
+        delete fXController;
+    if (fYController != NULL)
+        delete fYController;
+    if (fZController != NULL)
+        delete fZController;
 }
 
 IMPLEMENT_CREATABLE(plCompoundRotController, kCompoundRotController, plRotController)
 
 void plCompoundRotController::read(hsStream* S, plResManager* mgr) {
     if (S->readInt() != 0) {
-        if (fXController != NULL) delete fXController;
-        fXController = new plScalarController();
+        setX(new plScalarController());
         fXController->read(S, mgr);
+    } else {
+        setX(NULL);
     }
     if (S->readInt() != 0) {
-        if (fYController != NULL) delete fYController;
-        fYController = new plScalarController();
+        setY(new plScalarController());
         fYController->read(S, mgr);
+    } else {
+        setY(NULL);
     }
     if (S->readInt() != 0) {
-        if (fZController != NULL) delete fZController;
-        fZController = new plScalarController();
+        setZ(new plScalarController());
         fZController->read(S, mgr);
+    } else {
+        setZ(NULL);
     }
 }
 
@@ -138,18 +155,24 @@ void plCompoundRotController::IPrcWrite(pfPrcHelper* prc) {
 void plCompoundRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "X") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
-            fXController = new plScalarController();
+            setX(new plScalarController());
             fXController->prcParse(tag->getFirstChild(), mgr);
+        } else {
+            setX(NULL);
         }
     } else if (tag->getName() == "Y") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
-            fYController = new plScalarController();
+            setY(new plScalarController());
             fYController->prcParse(tag->getFirstChild(), mgr);
+        } else {
+            setY(NULL);
         }
     } else if (tag->getName() == "Z") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
-            fZController = new plScalarController();
+            setZ(new plScalarController());
             fZController->prcParse(tag->getFirstChild(), mgr);
+        } else {
+            setZ(NULL);
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);
@@ -157,3 +180,25 @@ void plCompoundRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
 }
 
 int plCompoundRotController::getType() const { return kCompound; }
+
+plScalarController* plCompoundRotController::getX() const { return fXController; }
+plScalarController* plCompoundRotController::getY() const { return fYController; }
+plScalarController* plCompoundRotController::getZ() const { return fZController; }
+
+void plCompoundRotController::setX(plScalarController* controller) {
+    if (fXController != NULL)
+        delete fXController;
+    fXController = controller;
+}
+
+void plCompoundRotController::setY(plScalarController* controller) {
+    if (fYController != NULL)
+        delete fYController;
+    fYController = controller;
+}
+
+void plCompoundRotController::setZ(plScalarController* controller) {
+    if (fZController != NULL)
+        delete fZController;
+    fZController = controller;
+}

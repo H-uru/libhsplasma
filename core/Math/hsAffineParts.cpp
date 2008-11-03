@@ -1,10 +1,13 @@
 #include "hsAffineParts.h"
 
-hsAffineParts::hsAffineParts() : fI(0) { }
+hsAffineParts::hsAffineParts() : fI(0), fF(0.0f) { }
+
+hsAffineParts::hsAffineParts(const hsAffineParts& init)
+             : fI(init.fI), fT(init.fT), fQ(init.fQ), fU(init.fU),
+               fK(init.fK), fF(init.fF) { }
 
 void hsAffineParts::read(hsStream* S) {
-    if (S->getVer() != pvLive)
-        fI = S->readInt();
+    fI = (S->getVer() != pvLive) ? S->readInt() : 0;
     fT.read(S);
     fQ.read(S);
     fU.read(S);

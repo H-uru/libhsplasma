@@ -136,3 +136,25 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plCompoundController* plTMController::convertToCompoundController() {
     return NULL;
 }
+
+plPosController* plTMController::getPosController() const { return fPosController; }
+plRotController* plTMController::getRotController() const { return fRotController; }
+plScaleController* plTMController::getScaleController() const { return fScaleController; }
+
+void plTMController::setPosController(plPosController* controller) {
+    if (fPosController != NULL)
+        delete fPosController;
+    fPosController = controller;
+}
+
+void plTMController::setRotController(plRotController* controller) {
+    if (fRotController != NULL)
+        delete fRotController;
+    fRotController = controller;
+}
+
+void plTMController::setScaleController(plScaleController* controller) {
+    if (fScaleController != NULL)
+        delete fScaleController;
+    fScaleController = controller;
+}

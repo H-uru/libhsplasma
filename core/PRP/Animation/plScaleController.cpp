@@ -8,16 +8,18 @@ IMPLEMENT_CREATABLE(plScaleController, kScaleController, plController)
 plSimpleScaleController::plSimpleScaleController() : fValue(NULL) { }
 
 plSimpleScaleController::~plSimpleScaleController() {
-    if (fValue) delete fValue;
+    if (fValue != NULL)
+        delete fValue;
 }
 
 IMPLEMENT_CREATABLE(plSimpleScaleController, kSimpleScaleController, plScaleController)
 
 void plSimpleScaleController::read(hsStream* S, plResManager* mgr) {
     if (S->readInt() != 0) {
-        if (fValue) delete fValue;
-        fValue = new plScaleValueController();
+        setValue(new plScaleValueController());
         fValue->read(S, mgr);
+    } else {
+        setValue(NULL);
     }
 }
 
@@ -43,8 +45,10 @@ void plSimpleScaleController::IPrcWrite(pfPrcHelper* prc) {
 void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "plScaleValueController") {
         if (!tag->getParam("NULL", "false").toBool()) {
-            fValue = new plScaleValueController();
+            setValue(new plScaleValueController());
             fValue->prcParse(tag, mgr);
+        } else {
+            setValue(NULL);
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);
@@ -52,3 +56,10 @@ void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
 }
 
 int plSimpleScaleController::getType() const { return kSimple; }
+plScaleValueController* plSimpleScaleController::getValue() const { return fValue; }
+
+void plSimpleScaleController::setValue(plScaleValueController* value) {
+    if (fValue != NULL)
+        delete fValue;
+    fValue = value;
+}

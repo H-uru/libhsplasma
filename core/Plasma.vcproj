@@ -469,14 +469,6 @@
 					RelativePath=".\PRP\Animation\plViewFaceModifier.h"
 					>
 				</File>
-				<File
-					RelativePath=".\PRP\Animation\UruKeys.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Animation\UruKeys.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Audio"

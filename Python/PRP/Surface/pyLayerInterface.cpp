@@ -4,7 +4,7 @@
 #include "../pyCreatable.h"
 #include "../KeyedObject/pyKey.h"
 #include "../Object/pySynchedObject.h"
-#include "../../Math/pyMatrix44.h"
+#include "../../Math/pyMatrix.h"
 #include "../../Sys/pyColor.h"
 
 extern "C" {

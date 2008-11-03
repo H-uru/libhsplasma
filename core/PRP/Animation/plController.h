@@ -32,6 +32,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plController* getXController() const;
+    plController* getYController() const;
+    plController* getZController() const;
+
+    void setXController(plController* controller);
+    void setYController(plController* controller);
+    void setZController(plController* controller);
 };
 
 #endif

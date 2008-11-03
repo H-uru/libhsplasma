@@ -11,7 +11,7 @@ IMPLEMENT_APP(PageEditor)
  */
 bool PageEditor::OnInit()
 {
-    plDebug::Init(plDebug::kDLAll);
+    plDebug::InitFile(plDebug::kDLAll);
 
     ExplorerFrm* frame = new ExplorerFrm(NULL);
 

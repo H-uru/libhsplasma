@@ -5,7 +5,7 @@
 #include "hsQuat.h"
 
 DllClass hsAffineParts {
-protected:
+public:
     int fI; // Not used in Live
     hsVector3 fT;
     hsQuat fQ, fU;
@@ -14,6 +14,7 @@ protected:
 
 public:
     hsAffineParts();
+    hsAffineParts(const hsAffineParts& init);
 
     void read(hsStream* S);
     void write(hsStream* S);

@@ -649,6 +649,146 @@
 				Name="Animation"
 				>
 				<File
+					RelativePath=".\PRP\Animation\pyCompoundController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyCompoundPosController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyCompoundRotController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyCompressedQuatKey32.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyCompressedQuatKey64.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyEaseController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyG3DSMaxKeyFrame.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyKeyFrame.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyKeys.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyLeafController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyLeafController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyMatrix33Controller.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyMatrix33Key.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyMatrix44Controller.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyMatrix44Key.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyPoint3Controller.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyPoint3Key.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyPosController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyPosController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyQuatController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyQuatKey.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyRotController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyRotController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyScalarController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyScalarKey.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyScaleController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyScaleController.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyScaleKey.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyScaleValueController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pySimplePosController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pySimpleRotController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pySimpleScaleController.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyTMController.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Animation\pyViewFaceModifier.cpp"
 					>
 				</File>
@@ -662,15 +802,23 @@
 			Name="Math"
 			>
 			<File
+				RelativePath=".\Math\pyAffineParts.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Math\pyGeometry3.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Math\pyMatrix44.cpp"
+				RelativePath=".\Math\pyMatrix.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Math\pyMatrix44.h"
+				RelativePath=".\Math\pyMatrix33.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Math\pyMatrix44.cpp"
 				>
 			</File>
 			<File

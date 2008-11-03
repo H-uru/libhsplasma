@@ -30,6 +30,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plQuatController* getRot() const;
+    void setRot(plQuatController* rot);
 };
 
 DllClass plCompoundRotController : public plRotController {
@@ -51,6 +55,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plScalarController* getX() const;
+    plScalarController* getY() const;
+    plScalarController* getZ() const;
+
+    void setX(plScalarController* controller);
+    void setY(plScalarController* controller);
+    void setZ(plScalarController* controller);
 };
 
 #endif

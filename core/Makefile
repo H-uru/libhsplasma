@@ -48,7 +48,6 @@ PLSOBJ=\
 	$(OBJDIR)plController.o \
 	$(OBJDIR)plFilterCoordInterface.o \
 	$(OBJDIR)hsKeys.o \
-	$(OBJDIR)UruKeys.o \
 	$(OBJDIR)plKeyControllers.o \
 	$(OBJDIR)plLeafController.o \
 	$(OBJDIR)plLineFollowMod.o \
@@ -402,9 +401,6 @@ $(OBJDIR)plFilterCoordInterface.o: PRP/Animation/plFilterCoordInterface.h PRP/An
 
 $(OBJDIR)hsKeys.o: PRP/Animation/hsKeys.h PRP/Animation/hsKeys.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/hsKeys.cpp -o $(OBJDIR)hsKeys.o
-
-$(OBJDIR)UruKeys.o: PRP/Animation/UruKeys.h PRP/Animation/UruKeys.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/UruKeys.cpp -o $(OBJDIR)UruKeys.o
 
 $(OBJDIR)plKeyControllers.o: PRP/Animation/plKeyControllers.h PRP/Animation/plKeyControllers.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plKeyControllers.cpp -o $(OBJDIR)plKeyControllers.o

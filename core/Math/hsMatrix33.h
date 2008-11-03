@@ -11,6 +11,8 @@ private:
 public:
     float& operator()(int x, int y);
 
+    void Reset();
+
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);

@@ -24,6 +24,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plPosController* getPosController() const;
+    plRotController* getRotController() const;
+    plScaleController* getScaleController() const;
+
+    void setPosController(plPosController* controller);
+    void setRotController(plRotController* controller);
+    void setScaleController(plScaleController* controller);
 };
 
 #endif

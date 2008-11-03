@@ -18,6 +18,11 @@ typedef struct {
     class hsQuat* fThis;
 } pyQuat;
 
+typedef struct {
+    PyObject_HEAD
+    class hsAffineParts* fThis;
+} pyAffineParts;
+
 extern PyTypeObject pyVector3_Type;
 PyObject* Init_pyVector3_Type();
 int pyVector3_Check(PyObject* obj);
@@ -32,6 +37,11 @@ extern PyTypeObject pyQuat_Type;
 PyObject* Init_pyQuat_Type();
 int pyQuat_Check(PyObject* obj);
 PyObject* pyQuat_FromQuat(const class hsQuat& quat);
+
+extern PyTypeObject pyAffineParts_Type;
+PyObject* Init_pyAffineParts_Type();
+int pyAffineParts_Check(PyObject* obj);
+PyObject* pyAffineParts_FromAffineParts(const class hsAffineParts& ap);
 
 }
 

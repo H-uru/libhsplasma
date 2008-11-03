@@ -1,6 +1,6 @@
 #include <Python.h>
 #include <Math/hsMatrix44.h>
-#include "pyMatrix44.h"
+#include "pyMatrix.h"
 #include "pyGeometry3.h"
 #include "../Stream/pyStream.h"
 
