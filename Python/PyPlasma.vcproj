@@ -525,11 +525,47 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Surface\pyLayerAnimation.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerAnimation.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerAnimationBase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerAVI.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerBink.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Surface\pyLayerDepth.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PRP\Surface\pyLayerInterface.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerLinkAnimation.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerMovie.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerMovie.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyLayerSDLAnimation.cpp"
 					>
 				</File>
 				<File
@@ -649,6 +685,22 @@
 				Name="Animation"
 				>
 				<File
+					RelativePath=".\PRP\Animation\pyAnimTimeConvert.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyAnimTimeConvert.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyATCEaseCurve.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyATCEaseCurves.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Animation\pyCompoundController.cpp"
 					>
 				</File>
@@ -666,6 +718,10 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Animation\pyCompressedQuatKey64.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pyConstAccelEaseCurve.cpp"
 					>
 				</File>
 				<File
@@ -785,6 +841,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Animation\pySplineEaseCurve.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Animation\pyTMController.cpp"
 					>
 				</File>
@@ -794,6 +854,26 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Animation\pyViewFaceModifier.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Message"
+				>
+				<File
+					RelativePath=".\PRP\Message\pyEventCallbackMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyEventCallbackMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyMessage.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyMessage.h"
 					>
 				</File>
 			</Filter>

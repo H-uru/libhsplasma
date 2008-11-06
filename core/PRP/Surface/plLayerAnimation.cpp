@@ -2,18 +2,23 @@
 
 /* plLayerAnimationBase */
 plLayerAnimationBase::plLayerAnimationBase()
-                    : fEvalTime(-1.0), fCurrentTime(-1.0f),
-                      fPreshadeColorCtl(NULL), fRuntimeColorCtl(NULL),
+                    : fPreshadeColorCtl(NULL), fRuntimeColorCtl(NULL),
                       fAmbientColorCtl(NULL), fSpecularColorCtl(NULL),
                       fOpacityCtl(NULL), fTransformCtl(NULL) { }
 
 plLayerAnimationBase::~plLayerAnimationBase() {
-    if (fPreshadeColorCtl) delete fPreshadeColorCtl;
-    if (fRuntimeColorCtl) delete fRuntimeColorCtl;
-    if (fAmbientColorCtl) delete fAmbientColorCtl;
-    if (fSpecularColorCtl) delete fSpecularColorCtl;
-    if (fOpacityCtl) delete fOpacityCtl;
-    if (fTransformCtl) delete fTransformCtl;
+    if (fPreshadeColorCtl != NULL)
+        delete fPreshadeColorCtl;
+    if (fRuntimeColorCtl != NULL)
+        delete fRuntimeColorCtl;
+    if (fAmbientColorCtl != NULL)
+        delete fAmbientColorCtl;
+    if (fSpecularColorCtl != NULL)
+        delete fSpecularColorCtl;
+    if (fOpacityCtl != NULL)
+        delete fOpacityCtl;
+    if (fTransformCtl != NULL)
+        delete fTransformCtl;
 }
 
 IMPLEMENT_CREATABLE(plLayerAnimationBase, kLayerAnimationBase, plLayerInterface)
@@ -21,12 +26,12 @@ IMPLEMENT_CREATABLE(plLayerAnimationBase, kLayerAnimationBase, plLayerInterface)
 void plLayerAnimationBase::read(hsStream* S, plResManager* mgr) {
     plLayerInterface::read(S, mgr);
 
-    fPreshadeColorCtl = plController::Convert(mgr->ReadCreatable(S));
-    fRuntimeColorCtl = plController::Convert(mgr->ReadCreatable(S));
-    fAmbientColorCtl = plController::Convert(mgr->ReadCreatable(S));
-    fSpecularColorCtl = plController::Convert(mgr->ReadCreatable(S));
-    fOpacityCtl = plController::Convert(mgr->ReadCreatable(S));
-    fTransformCtl = plController::Convert(mgr->ReadCreatable(S));
+    setPreshadeCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setRuntimeCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setAmbientCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setSpecularCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setOpacityCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setTransformCtl(plController::Convert(mgr->ReadCreatable(S)));
 
     if (fOpacityCtl != NULL)
         fOwnedChannels |= kOpacity;
@@ -45,12 +50,12 @@ void plLayerAnimationBase::read(hsStream* S, plResManager* mgr) {
 void plLayerAnimationBase::write(hsStream* S, plResManager* mgr) {
     plLayerInterface::write(S, mgr);
 
-    mgr->WriteCreatable(S, fPreshadeColorCtl);
-    mgr->WriteCreatable(S, fRuntimeColorCtl);
-    mgr->WriteCreatable(S, fAmbientColorCtl);
-    mgr->WriteCreatable(S, fSpecularColorCtl);
-    mgr->WriteCreatable(S, fOpacityCtl);
-    mgr->WriteCreatable(S, fTransformCtl);
+    plController::WriteController(S, mgr, fPreshadeColorCtl);
+    plController::WriteController(S, mgr, fRuntimeColorCtl);
+    plController::WriteController(S, mgr, fAmbientColorCtl);
+    plController::WriteController(S, mgr, fSpecularColorCtl);
+    plController::WriteController(S, mgr, fOpacityCtl);
+    plController::WriteController(S, mgr, fTransformCtl);
 }
 
 void plLayerAnimationBase::IPrcWrite(pfPrcHelper* prc) {
@@ -107,25 +112,68 @@ void plLayerAnimationBase::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PreshadeColorCtl") {
         if (tag->hasChildren())
-            fPreshadeColorCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setPreshadeCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "RuntimeColorCtl") {
         if (tag->hasChildren())
-            fRuntimeColorCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setRuntimeCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "AmbientColorCtl") {
         if (tag->hasChildren())
-            fAmbientColorCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setAmbientCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "SpecularColorCtl") {
         if (tag->hasChildren())
-            fSpecularColorCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setSpecularCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "OpacityCtl") {
         if (tag->hasChildren())
-            fOpacityCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setOpacityCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "TransformCtl") {
         if (tag->hasChildren())
-            fTransformCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setTransformCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
         plLayerInterface::IPrcParse(tag, mgr);
     }
+}
+
+plController* plLayerAnimationBase::getPreshadeCtl() const { return fPreshadeColorCtl; }
+plController* plLayerAnimationBase::getRuntimeCtl() const { return fSpecularColorCtl; }
+plController* plLayerAnimationBase::getAmbientCtl() const { return fAmbientColorCtl; }
+plController* plLayerAnimationBase::getSpecularCtl() const { return fSpecularColorCtl; }
+plController* plLayerAnimationBase::getOpacityCtl() const { return fOpacityCtl; }
+plController* plLayerAnimationBase::getTransformCtl() const { return fTransformCtl; }
+
+void plLayerAnimationBase::setPreshadeCtl(plController* ctrl) {
+    if (fPreshadeColorCtl != NULL)
+        delete fPreshadeColorCtl;
+    fPreshadeColorCtl = ctrl;
+}
+
+void plLayerAnimationBase::setRuntimeCtl(plController* ctrl) {
+    if (fRuntimeColorCtl != NULL)
+        delete fRuntimeColorCtl;
+    fRuntimeColorCtl = ctrl;
+}
+
+void plLayerAnimationBase::setAmbientCtl(plController* ctrl) {
+    if (fAmbientColorCtl != NULL)
+        delete fAmbientColorCtl;
+    fAmbientColorCtl = ctrl;
+}
+
+void plLayerAnimationBase::setSpecularCtl(plController* ctrl) {
+    if (fSpecularColorCtl != NULL)
+        delete fSpecularColorCtl;
+    fSpecularColorCtl = ctrl;
+}
+
+void plLayerAnimationBase::setOpacityCtl(plController* ctrl) {
+    if (fOpacityCtl != NULL)
+        delete fOpacityCtl;
+    fOpacityCtl = ctrl;
+}
+
+void plLayerAnimationBase::setTransformCtl(plController* ctrl) {
+    if (fTransformCtl != NULL)
+        delete fTransformCtl;
+    fTransformCtl = ctrl;
 }
 
 
@@ -158,11 +206,12 @@ void plLayerAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+plAnimTimeConvert& plLayerAnimation::getTimeConvert() { return fTimeConvert; }
+
 
 /* plLayerLinkAnimation */
 plLayerLinkAnimation::plLayerLinkAnimation()
-                    : fEnabled(true), fFadeFlags(0), fLastFadeFlag(0),
-                      fFadeFlagsDirty(false), fLeavingAge(true) { }
+                    : fLeavingAge(true) { }
 plLayerLinkAnimation::~plLayerLinkAnimation() { }
 
 IMPLEMENT_CREATABLE(plLayerLinkAnimation, kLayerLinkAnimation, plLayerAnimation)
@@ -184,7 +233,7 @@ void plLayerLinkAnimation::write(hsStream* S, plResManager* mgr) {
 void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc) {
     plLayerAnimation::IPrcWrite(prc);
 
-    prc->startTag("LinkParams");
+    prc->startTag("LinkTo");
     prc->writeParam("LeavingAge", fLeavingAge);
     prc->endTag();
     fLinkKey->prcWrite(prc);
@@ -192,7 +241,7 @@ void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc) {
 }
 
 void plLayerLinkAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "LinkParams") {
+    if (tag->getName() == "LinkTo") {
         fLeavingAge = tag->getParam("LeavingAge", "false").toBool();
         if (tag->hasChildren())
             fLinkKey = mgr->prcParseKey(tag->getFirstChild());
@@ -200,6 +249,12 @@ void plLayerLinkAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plLayerAnimation::IPrcParse(tag, mgr);
     }
 }
+
+plKey plLayerLinkAnimation::getLinkKey() const { return fLinkKey; }
+bool plLayerLinkAnimation::getLeavingAge() const { return fLeavingAge; }
+
+void plLayerLinkAnimation::setLinkKey(plKey key) { fLinkKey = key; }
+void plLayerLinkAnimation::setLeavingAge(bool leaving) { fLeavingAge = leaving; }
 
 
 /* plLayerSDLAnimation */
@@ -233,3 +288,6 @@ void plLayerSDLAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plLayerAnimationBase::IPrcParse(tag, mgr);
     }
 }
+
+plString plLayerSDLAnimation::getVarName() const { return fVarName; }
+void plLayerSDLAnimation::setVarName(const plString& name) { fVarName = name; }

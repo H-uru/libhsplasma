@@ -15,11 +15,14 @@ PYOBJ=\
 	$(OBJDIR)pyVector3.o \
 	$(OBJDIR)pyCreatable.o \
 	$(OBJDIR)pyCreatableStub.o \
+	$(OBJDIR)pyAnimTimeConvert.o \
+	$(OBJDIR)pyATCEaseCurve.o \
 	$(OBJDIR)pyCompoundController.o \
 	$(OBJDIR)pyCompoundPosController.o \
 	$(OBJDIR)pyCompoundRotController.o \
 	$(OBJDIR)pyCompressedQuatKey32.o \
 	$(OBJDIR)pyCompressedQuatKey64.o \
+	$(OBJDIR)pyConstAccelEaseCurve.o \
 	$(OBJDIR)pyController.o \
 	$(OBJDIR)pyEaseController.o \
 	$(OBJDIR)pyG3DSMaxKeyFrame.o \
@@ -43,6 +46,7 @@ PYOBJ=\
 	$(OBJDIR)pySimplePosController.o \
 	$(OBJDIR)pySimpleRotController.o \
 	$(OBJDIR)pySimpleScaleController.o \
+	$(OBJDIR)pySplineEaseCurve.o \
 	$(OBJDIR)pyTMController.o \
 	$(OBJDIR)pyViewFaceModifier.o \
 	$(OBJDIR)pySceneNode.o \
@@ -76,6 +80,8 @@ PYOBJ=\
 	$(OBJDIR)pyLimitedDirLightInfo.o \
 	$(OBJDIR)pyOmniLightInfo.o \
 	$(OBJDIR)pySpotLightInfo.o \
+	$(OBJDIR)pyEventCallbackMsg.o \
+	$(OBJDIR)pyMessage.o \
 	$(OBJDIR)pyRenderLevel.o \
 	$(OBJDIR)pyModifier.o \
 	$(OBJDIR)pyMultiModifier.o \
@@ -100,8 +106,15 @@ PYOBJ=\
 	$(OBJDIR)pyGMaterial.o \
 	$(OBJDIR)pyGMatState.o \
 	$(OBJDIR)pyLayer.o \
+	$(OBJDIR)pyLayerAnimation.o \
+	$(OBJDIR)pyLayerAnimationBase.o \
+	$(OBJDIR)pyLayerAVI.o \
+	$(OBJDIR)pyLayerBink.o \
 	$(OBJDIR)pyLayerDepth.o \
 	$(OBJDIR)pyLayerInterface.o \
+	$(OBJDIR)pyLayerLinkAnimation.o \
+	$(OBJDIR)pyLayerMovie.o \
+	$(OBJDIR)pyLayerSDLAnimation.o \
 	$(OBJDIR)pyMipmap.o \
 	$(OBJDIR)pyShader.o \
 	$(OBJDIR)pyShaderConst.o \
@@ -162,6 +175,12 @@ $(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
 $(OBJDIR)pySceneNode.o: PRP/pySceneNode.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/pySceneNode.cpp -o $(OBJDIR)pySceneNode.o
 
+$(OBJDIR)pyAnimTimeConvert.o: PRP/Animation/pyAnimTimeConvert.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyAnimTimeConvert.cpp -o $(OBJDIR)pyAnimTimeConvert.o
+
+$(OBJDIR)pyATCEaseCurve.o: PRP/Animation/pyATCEaseCurve.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyATCEaseCurve.cpp -o $(OBJDIR)pyATCEaseCurve.o
+
 $(OBJDIR)pyCompoundController.o: PRP/Animation/pyCompoundController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundController.cpp -o $(OBJDIR)pyCompoundController.o
 
@@ -176,6 +195,9 @@ $(OBJDIR)pyCompressedQuatKey32.o: PRP/Animation/pyCompressedQuatKey32.cpp
 
 $(OBJDIR)pyCompressedQuatKey64.o: PRP/Animation/pyCompressedQuatKey64.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompressedQuatKey64.cpp -o $(OBJDIR)pyCompressedQuatKey64.o
+
+$(OBJDIR)pyConstAccelEaseCurve.o: PRP/Animation/pyConstAccelEaseCurve.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyConstAccelEaseCurve.cpp -o $(OBJDIR)pyConstAccelEaseCurve.o
 
 $(OBJDIR)pyController.o: PRP/Animation/pyController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyController.cpp -o $(OBJDIR)pyController.o
@@ -245,6 +267,9 @@ $(OBJDIR)pySimpleRotController.o: PRP/Animation/pySimpleRotController.cpp
 
 $(OBJDIR)pySimpleScaleController.o: PRP/Animation/pySimpleScaleController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimpleScaleController.cpp -o $(OBJDIR)pySimpleScaleController.o
+
+$(OBJDIR)pySplineEaseCurve.o: PRP/Animation/pySplineEaseCurve.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySplineEaseCurve.cpp -o $(OBJDIR)pySplineEaseCurve.o
 
 $(OBJDIR)pyTMController.o: PRP/Animation/pyTMController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyTMController.cpp -o $(OBJDIR)pyTMController.o
@@ -342,6 +367,12 @@ $(OBJDIR)pyOmniLightInfo.o: PRP/Light/pyOmniLightInfo.cpp
 $(OBJDIR)pySpotLightInfo.o: PRP/Light/pySpotLightInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/pySpotLightInfo.cpp -o $(OBJDIR)pySpotLightInfo.o
 
+$(OBJDIR)pyEventCallbackMsg.o: PRP/Message/pyEventCallbackMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyEventCallbackMsg.cpp -o $(OBJDIR)pyEventCallbackMsg.o
+
+$(OBJDIR)pyMessage.o: PRP/Message/pyMessage.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMessage.cpp -o $(OBJDIR)pyMessage.o
+
 $(OBJDIR)pyRenderLevel.o: PRP/Misc/pyRenderLevel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $(OBJDIR)pyRenderLevel.o
 
@@ -414,11 +445,32 @@ $(OBJDIR)pyGMatState.o: PRP/Surface/pyGMatState.cpp
 $(OBJDIR)pyLayer.o: PRP/Surface/pyLayer.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayer.cpp -o $(OBJDIR)pyLayer.o
 
+$(OBJDIR)pyLayerAnimation.o: PRP/Surface/pyLayerAnimation.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAnimation.cpp -o $(OBJDIR)pyLayerAnimation.o
+
+$(OBJDIR)pyLayerAnimationBase.o: PRP/Surface/pyLayerAnimationBase.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAnimationBase.cpp -o $(OBJDIR)pyLayerAnimationBase.o
+
+$(OBJDIR)pyLayerAVI.o: PRP/Surface/pyLayerAVI.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAVI.cpp -o $(OBJDIR)pyLayerAVI.o
+
+$(OBJDIR)pyLayerBink.o: PRP/Surface/pyLayerBink.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerBink.cpp -o $(OBJDIR)pyLayerBink.o
+
 $(OBJDIR)pyLayerDepth.o: PRP/Surface/pyLayerDepth.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerDepth.cpp -o $(OBJDIR)pyLayerDepth.o
 
 $(OBJDIR)pyLayerInterface.o: PRP/Surface/pyLayerInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerInterface.cpp -o $(OBJDIR)pyLayerInterface.o
+
+$(OBJDIR)pyLayerLinkAnimation.o: PRP/Surface/pyLayerLinkAnimation.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerLinkAnimation.cpp -o $(OBJDIR)pyLayerLinkAnimation.o
+
+$(OBJDIR)pyLayerMovie.o: PRP/Surface/pyLayerMovie.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerMovie.cpp -o $(OBJDIR)pyLayerMovie.o
+
+$(OBJDIR)pyLayerSDLAnimation.o: PRP/Surface/pyLayerSDLAnimation.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerSDLAnimation.cpp -o $(OBJDIR)pyLayerSDLAnimation.o
 
 $(OBJDIR)pyMipmap.o: PRP/Surface/pyMipmap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyMipmap.cpp -o $(OBJDIR)pyMipmap.o

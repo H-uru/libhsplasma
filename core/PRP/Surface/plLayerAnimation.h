@@ -7,9 +7,6 @@
 
 DllClass plLayerAnimationBase : public plLayerInterface {
 protected:
-    plString fSegmentID;
-    double fEvalTime;
-    float fCurrentTime, fLength;
     plController* fPreshadeColorCtl;
     plController* fRuntimeColorCtl;
     plController* fAmbientColorCtl;
@@ -30,6 +27,21 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plController* getPreshadeCtl() const;
+    plController* getRuntimeCtl() const;
+    plController* getAmbientCtl() const;
+    plController* getSpecularCtl() const;
+    plController* getOpacityCtl() const;
+    plController* getTransformCtl() const;
+
+    void setPreshadeCtl(plController* ctrl);
+    void setRuntimeCtl(plController* ctrl);
+    void setAmbientCtl(plController* ctrl);
+    void setSpecularCtl(plController* ctrl);
+    void setOpacityCtl(plController* ctrl);
+    void setTransformCtl(plController* ctrl);
 };
 
 DllClass plLayerAnimation : public plLayerAnimationBase {
@@ -48,23 +60,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plAnimTimeConvert& getTimeConvert();
 };
 
 DllClass plLayerLinkAnimation : public plLayerAnimation {
-public:
-    enum {
-        kFadeLinkPrep = 0x1,
-        kFadeLinking = 0x2,
-        kFadeCamera = 0x4,
-        kFadeIFace = 0x8,
-        kFadeCCR = 0x10
-    };
-
 protected:
     plKey fLinkKey;
-    bool fEnabled;
-    unsigned char fFadeFlags, fLastFadeFlag;
-    bool fFadeFlagsDirty, fLeavingAge;
+    bool fLeavingAge;
 
 public:
     plLayerLinkAnimation();
@@ -78,6 +82,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plKey getLinkKey() const;
+    bool getLeavingAge() const;
+
+    void setLinkKey(plKey key);
+    void setLeavingAge(bool leaving);
 };
 
 DllClass plLayerSDLAnimation : public plLayerAnimation {
@@ -96,6 +107,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plString getVarName() const;
+    void setVarName(const plString& name);
 };
 
 #endif

@@ -1,20 +1,20 @@
 #include <Python.h>
-#include <PRP/Surface/plLayer.h>
-#include "pyLayer.h"
+#include <PRP/Animation/plATCEaseCurves.h>
+#include "pyATCEaseCurves.h"
 #include "../pyCreatable.h"
 
 extern "C" {
 
-static PyObject* pyLayerDepth_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerDepth* self = (pyLayerDepth*)type->tp_alloc(type, 0);
+static PyObject* pyConstAccelEaseCurve_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyConstAccelEaseCurve* self = (pyConstAccelEaseCurve*)type->tp_alloc(type, 0);
     if (self != NULL) {
-        self->fThis = new plLayerDepth();
+        self->fThis = new plConstAccelEaseCurve();
         self->fPyOwned = true;
     }
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerDepth_Convert(PyObject*, PyObject* args) {
+static PyObject* pyConstAccelEaseCurve_Convert(PyObject*, PyObject* args) {
     pyCreatable* cre;
     if (!PyArg_ParseTuple(args, "O", &cre)) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
@@ -24,20 +24,20 @@ static PyObject* pyLayerDepth_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerDepth_FromLayerDepth(plLayerDepth::Convert(cre->fThis));
+    return pyConstAccelEaseCurve_FromConstAccelEaseCurve(plConstAccelEaseCurve::Convert(cre->fThis));
 }
 
-static PyMethodDef pyLayerDepth_Methods[] = {
-    { "Convert", (PyCFunction)pyLayerDepth_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLayerDepth" },
+static PyMethodDef pyConstAccelEaseCurve_Methods[] = {
+    { "Convert", (PyCFunction)pyConstAccelEaseCurve_Convert, METH_VARARGS | METH_STATIC,
+      "Convert a Creatable to a plConstAccelEaseCurve" },
     { NULL, NULL, 0, NULL }
 };
 
-PyTypeObject pyLayerDepth_Type = {
+PyTypeObject pyConstAccelEaseCurve_Type = {
     PyObject_HEAD_INIT(NULL)
     0,                                  /* ob_size */
-    "PyPlasma.plLayerDepth",            /* tp_name */
-    sizeof(pyLayerDepth),               /* tp_basicsize */
+    "PyPlasma.plConstAccelEaseCurve",   /* tp_name */
+    sizeof(pyConstAccelEaseCurve),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
@@ -57,7 +57,7 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plLayerDepth wrapper",             /* tp_doc */
+    "plConstAccelEaseCurve wrapper",    /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -66,7 +66,7 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerDepth_Methods,               /* tp_methods */
+    pyConstAccelEaseCurve_Methods,      /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -77,7 +77,7 @@ PyTypeObject pyLayerDepth_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyLayerDepth_new,                   /* tp_new */
+    pyConstAccelEaseCurve_new,          /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -88,31 +88,31 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_weaklist */
 };
 
-PyObject* Init_pyLayerDepth_Type() {
-    pyLayerDepth_Type.tp_base = &pyLayer_Type;
-    if (PyType_Ready(&pyLayerDepth_Type) < 0)
+PyObject* Init_pyConstAccelEaseCurve_Type() {
+    pyConstAccelEaseCurve_Type.tp_base = &pyATCEaseCurve_Type;
+    if (PyType_Ready(&pyConstAccelEaseCurve_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyLayerDepth_Type);
-    return (PyObject*)&pyLayerDepth_Type;
+    Py_INCREF(&pyConstAccelEaseCurve_Type);
+    return (PyObject*)&pyConstAccelEaseCurve_Type;
 }
 
-int pyLayerDepth_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerDepth_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerDepth_Type))
+int pyConstAccelEaseCurve_Check(PyObject* obj) {
+    if (obj->ob_type == &pyConstAccelEaseCurve_Type
+        || PyType_IsSubtype(obj->ob_type, &pyConstAccelEaseCurve_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyLayerDepth_FromLayerDepth(class plLayerDepth* layer) {
-    if (layer == NULL) {
+PyObject* pyConstAccelEaseCurve_FromConstAccelEaseCurve(class plConstAccelEaseCurve* curve) {
+    if (curve == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    pyLayerDepth* pylay = PyObject_New(pyLayerDepth, &pyLayerDepth_Type);
-    pylay->fThis = layer;
-    pylay->fPyOwned = false;
-    return (PyObject*)pylay;
+    pyConstAccelEaseCurve* pyobj = PyObject_New(pyConstAccelEaseCurve, &pyConstAccelEaseCurve_Type);
+    pyobj->fThis = curve;
+    pyobj->fPyOwned = false;
+    return (PyObject*)pyobj;
 }
 
 }

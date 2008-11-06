@@ -1,20 +1,21 @@
 #include <Python.h>
-#include <PRP/Surface/plLayer.h>
-#include "pyLayer.h"
+#include <PRP/Surface/plLayerMovie.h>
+#include "pyLayerMovie.h"
+#include "pyLayerAnimation.h"
 #include "../pyCreatable.h"
 
 extern "C" {
 
-static PyObject* pyLayerDepth_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerDepth* self = (pyLayerDepth*)type->tp_alloc(type, 0);
+static PyObject* pyLayerMovie_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyLayerMovie* self = (pyLayerMovie*)type->tp_alloc(type, 0);
     if (self != NULL) {
-        self->fThis = new plLayerDepth();
+        self->fThis = new plLayerMovie();
         self->fPyOwned = true;
     }
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerDepth_Convert(PyObject*, PyObject* args) {
+static PyObject* pyLayerMovie_Convert(PyObject*, PyObject* args) {
     pyCreatable* cre;
     if (!PyArg_ParseTuple(args, "O", &cre)) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
@@ -24,20 +25,38 @@ static PyObject* pyLayerDepth_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerDepth_FromLayerDepth(plLayerDepth::Convert(cre->fThis));
+    return pyLayerMovie_FromLayerMovie(plLayerMovie::Convert(cre->fThis));
 }
 
-static PyMethodDef pyLayerDepth_Methods[] = {
-    { "Convert", (PyCFunction)pyLayerDepth_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLayerDepth" },
+static PyObject* pyLayerMovie_getMovieName(pyLayerMovie* self, void*) {
+    return PyString_FromString(self->fThis->getMovieName().cstr());
+}
+
+static int pyLayerMovie_setMovieName(pyLayerMovie* self, PyObject* value, void*) {
+    if (value == NULL || !PyString_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "movieName should be a string");
+        return -1;
+    }
+    self->fThis->setMovieName(PyString_AsString(value));
+    return 0;
+}
+
+static PyMethodDef pyLayerMovie_Methods[] = {
+    { "Convert", (PyCFunction)pyLayerMovie_Convert, METH_VARARGS | METH_STATIC,
+      "Convert a Creatable to a plLayerMovie" },
     { NULL, NULL, 0, NULL }
 };
 
-PyTypeObject pyLayerDepth_Type = {
+static PyGetSetDef pyLayerMovie_GetSet[] = {
+    { "movieName", (getter)pyLayerMovie_getMovieName, (setter)pyLayerMovie_setMovieName, NULL, NULL },
+    { NULL, NULL, NULL, NULL, NULL }
+};
+
+PyTypeObject pyLayerMovie_Type = {
     PyObject_HEAD_INIT(NULL)
     0,                                  /* ob_size */
-    "PyPlasma.plLayerDepth",            /* tp_name */
-    sizeof(pyLayerDepth),               /* tp_basicsize */
+    "PyPlasma.plLayerMovie",            /* tp_name */
+    sizeof(pyLayerMovie),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
@@ -57,7 +76,7 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plLayerDepth wrapper",             /* tp_doc */
+    "plLayerMovie wrapper",             /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -66,9 +85,9 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerDepth_Methods,               /* tp_methods */
+    pyLayerMovie_Methods,               /* tp_methods */
     NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
+    pyLayerMovie_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
@@ -77,7 +96,7 @@ PyTypeObject pyLayerDepth_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyLayerDepth_new,                   /* tp_new */
+    pyLayerMovie_new,                   /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -88,31 +107,31 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_weaklist */
 };
 
-PyObject* Init_pyLayerDepth_Type() {
-    pyLayerDepth_Type.tp_base = &pyLayer_Type;
-    if (PyType_Ready(&pyLayerDepth_Type) < 0)
+PyObject* Init_pyLayerMovie_Type() {
+    pyLayerMovie_Type.tp_base = &pyLayerAnimation_Type;
+    if (PyType_Ready(&pyLayerMovie_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyLayerDepth_Type);
-    return (PyObject*)&pyLayerDepth_Type;
+    Py_INCREF(&pyLayerMovie_Type);
+    return (PyObject*)&pyLayerMovie_Type;
 }
 
-int pyLayerDepth_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerDepth_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerDepth_Type))
+int pyLayerMovie_Check(PyObject* obj) {
+    if (obj->ob_type == &pyLayerMovie_Type
+        || PyType_IsSubtype(obj->ob_type, &pyLayerMovie_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyLayerDepth_FromLayerDepth(class plLayerDepth* layer) {
+PyObject* pyLayerMovie_FromLayerMovie(class plLayerMovie* layer) {
     if (layer == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    pyLayerDepth* pylay = PyObject_New(pyLayerDepth, &pyLayerDepth_Type);
-    pylay->fThis = layer;
-    pylay->fPyOwned = false;
-    return (PyObject*)pylay;
+    pyLayerMovie* pyobj = PyObject_New(pyLayerMovie, &pyLayerMovie_Type);
+    pyobj->fThis = layer;
+    pyobj->fPyOwned = false;
+    return (PyObject*)pyobj;
 }
 
 }

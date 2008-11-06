@@ -20,20 +20,18 @@ public:
         kFlagsMask = 0xFF
     };
 
-    enum plEaseCurveType { kEaseNone, kEaseIn, kEaseOut, kEaseSpeed };
+    //enum plEaseCurveType { kEaseNone, kEaseIn, kEaseOut, kEaseSpeed };
 
 protected:
     unsigned int fFlags;
     float fBegin, fEnd, fLoopBegin, fLoopEnd;
-    float fSpeed, fCurrentAnimTime, fWrapTime;
-    double fLastEvalWorldTime, fLastStateChange;
+    float fSpeed, fCurrentAnimTime;
+    double fLastEvalWorldTime;
     hsTArray<float> fStopPoints;
     hsTArray<plEventCallbackMsg*> fCallbackMsgs;
     plATCEaseCurve* fEaseInCurve;
     plATCEaseCurve* fEaseOutCurve;
     plATCEaseCurve* fSpeedEaseCurve;
-    plATCEaseCurve* fCurrentEaseCurve;
-    float fInitialBegin, fInitialEnd;
 
 public:
     plAnimTimeConvert();
@@ -47,6 +45,37 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getFlags() const;
+    float getBegin() const;
+    float getEnd() const;
+    float getLoopBegin() const;
+    float getLoopEnd() const;
+    float getSpeed() const;
+    float getCurrentAnimTime() const;
+    double getLastEvalWorldTime() const;
+    plATCEaseCurve* getEaseInCurve() const;
+    plATCEaseCurve* getEaseOutCurve() const;
+    plATCEaseCurve* getSpeedEaseCurve() const;
+    const hsTArray<float>& getStopPoints() const;
+
+    void setFlags(unsigned int flags);
+    void setRange(float begin, float end);
+    void setLoop(float begin, float end);
+    void setSpeed(float speed);
+    void setCurrentAnimTime(float time);
+    void setLastEvalWorldTime(double time);
+    void setEaseInCurve(plATCEaseCurve* curve);
+    void setEaseOutCurve(plATCEaseCurve* curve);
+    void setSpeedEaseCurve(plATCEaseCurve* curve);
+    void setStopPoints(const hsTArray<float>& stops);
+
+    size_t getNumCallbacks() const;
+    plEventCallbackMsg* getCallback(size_t idx) const;
+    void addCallback(plEventCallbackMsg* callback);
+    void delCallback(size_t idx);
+    void clearCallbacks();
 };
 
 #endif

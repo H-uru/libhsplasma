@@ -4,23 +4,27 @@
 plAnimTimeConvert::plAnimTimeConvert()
                  : fFlags(0), fBegin(0.0f), fEnd(0.0f), fLoopBegin(0.0f),
                    fLoopEnd(0.0f), fSpeed(1.0f), fCurrentAnimTime(0.0f),
-                   fWrapTime(0.0f), fLastEvalWorldTime(0.0),
-                   fEaseInCurve(NULL), fEaseOutCurve(NULL),
-                   fSpeedEaseCurve(NULL), fCurrentEaseCurve(NULL),
-                   fInitialBegin(0.0f), fInitialEnd(0.0f) { }
+                   fLastEvalWorldTime(0.0), fEaseInCurve(NULL),
+                   fEaseOutCurve(NULL), fSpeedEaseCurve(NULL) { }
 
 plAnimTimeConvert::~plAnimTimeConvert() {
-    if (fEaseInCurve) delete fEaseInCurve;
-    if (fEaseOutCurve) delete fEaseOutCurve;
-    if (fSpeedEaseCurve) delete fSpeedEaseCurve;
+    if (fEaseInCurve != NULL)
+        delete fEaseInCurve;
+    if (fEaseOutCurve != NULL)
+        delete fEaseOutCurve;
+    if (fSpeedEaseCurve != NULL)
+        delete fSpeedEaseCurve;
+
+    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
+        delete fCallbackMsgs[i];
 }
 
 IMPLEMENT_CREATABLE(plAnimTimeConvert, kAnimTimeConvert, plCreatable)
 
 void plAnimTimeConvert::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readInt();
-    fBegin = fInitialBegin = S->readFloat();
-    fEnd = fInitialEnd = S->readFloat();
+    fBegin = S->readFloat();
+    fEnd = S->readFloat();
     fLoopEnd = S->readFloat();
     fLoopBegin = S->readFloat();
     fSpeed = S->readFloat();
@@ -38,7 +42,6 @@ void plAnimTimeConvert::read(hsStream* S, plResManager* mgr) {
     fStopPoints.setSizeNull(S->readInt());
     for (size_t i=0; i<fStopPoints.getSize(); i++)
         fStopPoints[i] = S->readFloat();
-    //IProcessStateChange(0.0f, fBegin);
 }
 
 void plAnimTimeConvert::write(hsStream* S, plResManager* mgr) {
@@ -160,4 +163,70 @@ void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
+}
+
+unsigned int plAnimTimeConvert::getFlags() const { return fFlags; }
+float plAnimTimeConvert::getBegin() const { return fBegin; }
+float plAnimTimeConvert::getEnd() const { return fEnd; }
+float plAnimTimeConvert::getLoopBegin() const { return fLoopBegin; }
+float plAnimTimeConvert::getLoopEnd() const { return fLoopEnd; }
+float plAnimTimeConvert::getSpeed() const { return fSpeed; }
+float plAnimTimeConvert::getCurrentAnimTime() const { return fCurrentAnimTime; }
+double plAnimTimeConvert::getLastEvalWorldTime() const { return fLastEvalWorldTime; }
+plATCEaseCurve* plAnimTimeConvert::getEaseInCurve() const { return fEaseInCurve; }
+plATCEaseCurve* plAnimTimeConvert::getEaseOutCurve() const { return fEaseOutCurve; }
+plATCEaseCurve* plAnimTimeConvert::getSpeedEaseCurve() const { return fSpeedEaseCurve; }
+const hsTArray<float>& plAnimTimeConvert::getStopPoints() const { return fStopPoints; }
+
+void plAnimTimeConvert::setFlags(unsigned int flags) { fFlags = flags; }
+
+void plAnimTimeConvert::setRange(float begin, float end) {
+    fBegin = begin;
+    fEnd = end;
+}
+
+void plAnimTimeConvert::setLoop(float begin, float end) {
+    fLoopBegin = begin;
+    fLoopEnd = end;
+}
+
+void plAnimTimeConvert::setSpeed(float speed) { fSpeed = speed; }
+void plAnimTimeConvert::setCurrentAnimTime(float time) { fCurrentAnimTime = time; }
+void plAnimTimeConvert::setLastEvalWorldTime(double time) { fLastEvalWorldTime = time; }
+
+void plAnimTimeConvert::setEaseInCurve(plATCEaseCurve* curve) {
+    if (fEaseInCurve != NULL)
+        delete fEaseInCurve;
+    fEaseInCurve = curve;
+}
+
+void plAnimTimeConvert::setEaseOutCurve(plATCEaseCurve* curve) {
+    if (fEaseOutCurve != NULL)
+        delete fEaseOutCurve;
+    fEaseOutCurve = curve;
+}
+
+void plAnimTimeConvert::setSpeedEaseCurve(plATCEaseCurve* curve) {
+    if (fSpeedEaseCurve != NULL)
+        delete fSpeedEaseCurve;
+    fSpeedEaseCurve = curve;
+}
+
+void plAnimTimeConvert::setStopPoints(const hsTArray<float>& stops) {
+    fStopPoints = stops;
+}
+
+size_t plAnimTimeConvert::getNumCallbacks() const { return fCallbackMsgs.getSize(); }
+plEventCallbackMsg* plAnimTimeConvert::getCallback(size_t idx) const { return fCallbackMsgs[idx]; }
+void plAnimTimeConvert::addCallback(plEventCallbackMsg* callback) { fCallbackMsgs.append(callback); }
+
+void plAnimTimeConvert::delCallback(size_t idx) {
+    delete fCallbackMsgs[idx];
+    fCallbackMsgs.remove(idx);
+}
+
+void plAnimTimeConvert::clearCallbacks() {
+    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
+        delete fCallbackMsgs[i];
+    fCallbackMsgs.clear();
 }

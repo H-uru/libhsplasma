@@ -6,9 +6,6 @@
 DllClass plLayerMovie : public plLayerAnimation {
 protected:
     plString fMovieName;
-    int fCurrentFrame;
-    float fLength;
-    unsigned int fWidth, fHeight;
 
 public:
     plLayerMovie();
@@ -22,6 +19,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plString getMovieName() const;
+    void setMovieName(const plString& name);
 };
 
 DllClass plLayerAVI : public plLayerMovie {

@@ -48,3 +48,15 @@ void plEventCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
+
+float plEventCallbackMsg::getEventTime() const { return fEventTime; }
+CallbackEvent plEventCallbackMsg::getEvent() const { return fEvent; }
+short plEventCallbackMsg::getIndex() const { return fIndex; }
+short plEventCallbackMsg::getRepeats() const { return fRepeats; }
+short plEventCallbackMsg::getUser() const { return fUser; }
+
+void plEventCallbackMsg::setEventTime(float time) { fEventTime = time; }
+void plEventCallbackMsg::setEvent(CallbackEvent evt) { fEvent = evt; }
+void plEventCallbackMsg::setIndex(short idx) { fIndex = idx; }
+void plEventCallbackMsg::setRepeats(short repeats) { fRepeats = repeats; }
+void plEventCallbackMsg::setUser(short user) { fUser = user; }

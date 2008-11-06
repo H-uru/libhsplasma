@@ -1,8 +1,7 @@
 #include "plLayerMovie.h"
 
 /* plLayerMovie */
-plLayerMovie::plLayerMovie()
-            : fCurrentFrame(0), fLength(0.0f), fWidth(32), fHeight(32) {
+plLayerMovie::plLayerMovie() {
     fOwnedChannels |= kTexture;
 }
 
@@ -27,18 +26,21 @@ void plLayerMovie::write(hsStream* S, plResManager* mgr) {
 void plLayerMovie::IPrcWrite(pfPrcHelper* prc) {
     plLayerAnimation::IPrcWrite(prc);
 
-    prc->startTag("MovieName");
-    prc->writeParam("value", fMovieName);
+    prc->startTag("Movie");
+    prc->writeParam("Name", fMovieName);
     prc->endTag(true);
 }
 
 void plLayerMovie::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "MovieName") {
-        fMovieName = tag->getParam("value", "");
+    if (tag->getName() == "Movie") {
+        fMovieName = tag->getParam("Name", "");
     } else {
         plLayerAnimation::IPrcParse(tag, mgr);
     }
 }
+
+plString plLayerMovie::getMovieName() const { return fMovieName; }
+void plLayerMovie::setMovieName(const plString& name) { fMovieName = name; }
 
 
 /* plLayerAVI */

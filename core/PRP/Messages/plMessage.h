@@ -35,12 +35,11 @@ protected:
     hsTArray<plWeakKey> fReceivers;
     double fTimeStamp;
     unsigned int fBCastFlags;
-    hsTArray<unsigned long> fNetRcvrPlayerIDs;
-    
+
 public:
     plMessage();
     virtual ~plMessage();
-    
+
     DECLARE_CREATABLE(plMessage)
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -51,6 +50,21 @@ protected:
     void IMsgWrite(hsStream* S, plResManager* mgr);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plWeakKey getSender() const;
+    double getTimeStamp() const;
+    unsigned int getBCastFlags() const;
+
+    void setSender(plWeakKey sender);
+    void setTimeStamp(double timestamp);
+    void setBCastFlags(unsigned int flags);
+
+    size_t getNumReceivers() const;
+    plWeakKey getReceiver(size_t idx) const;
+    void addReceiver(plWeakKey receiver);
+    void delReceiver(size_t idx);
+    void clearReceivers();
 };
 
 #endif

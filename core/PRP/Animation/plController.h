@@ -11,6 +11,8 @@ public:
     virtual ~plController();
 
     DECLARE_CREATABLE(plController)
+
+    static void WriteController(hsStream* S, plResManager* mgr, plController* controller);
 };
 
 DllClass plCompoundController : public plController {

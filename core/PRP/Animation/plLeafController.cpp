@@ -38,8 +38,6 @@ void plLeafController::read(hsStream* S, plResManager* mgr) {
 }
 
 void plLeafController::write(hsStream* S, plResManager* mgr) {
-    //TODO: Convert Keys to Controllers and vice versa
-
     if (S->getVer() <= pvPots) {
         S->writeInt(fUruUnknown);
         S->writeInt(fEaseControllers.getSize());
@@ -392,6 +390,8 @@ plLeafController* plLeafController::CompactToLeafController() const {
         for (size_t i=0; i<fKeys.getSize(); i++)
             *ctrl->fKeys[i] = *fKeys[i];
     }
+    if (hasEaseControllers())
+        plDebug::Warning("Warning: Throwing away %d Ease Controllers", fEaseControllers.getSize());
     return ctrl;
 }
 

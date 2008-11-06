@@ -1,20 +1,20 @@
 #include <Python.h>
-#include <PRP/Surface/plLayer.h>
-#include "pyLayer.h"
+#include <PRP/Surface/plLayerMovie.h>
+#include "pyLayerMovie.h"
 #include "../pyCreatable.h"
 
 extern "C" {
 
-static PyObject* pyLayerDepth_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyLayerDepth* self = (pyLayerDepth*)type->tp_alloc(type, 0);
+static PyObject* pyLayerAVI_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyLayerAVI* self = (pyLayerAVI*)type->tp_alloc(type, 0);
     if (self != NULL) {
-        self->fThis = new plLayerDepth();
+        self->fThis = new plLayerAVI();
         self->fPyOwned = true;
     }
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerDepth_Convert(PyObject*, PyObject* args) {
+static PyObject* pyLayerAVI_Convert(PyObject*, PyObject* args) {
     pyCreatable* cre;
     if (!PyArg_ParseTuple(args, "O", &cre)) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
@@ -24,20 +24,20 @@ static PyObject* pyLayerDepth_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerDepth_FromLayerDepth(plLayerDepth::Convert(cre->fThis));
+    return pyLayerAVI_FromLayerAVI(plLayerAVI::Convert(cre->fThis));
 }
 
-static PyMethodDef pyLayerDepth_Methods[] = {
-    { "Convert", (PyCFunction)pyLayerDepth_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLayerDepth" },
+static PyMethodDef pyLayerAVI_Methods[] = {
+    { "Convert", (PyCFunction)pyLayerAVI_Convert, METH_VARARGS | METH_STATIC,
+      "Convert a Creatable to a plLayerAVI" },
     { NULL, NULL, 0, NULL }
 };
 
-PyTypeObject pyLayerDepth_Type = {
+PyTypeObject pyLayerAVI_Type = {
     PyObject_HEAD_INIT(NULL)
     0,                                  /* ob_size */
-    "PyPlasma.plLayerDepth",            /* tp_name */
-    sizeof(pyLayerDepth),               /* tp_basicsize */
+    "PyPlasma.plLayerAVI",              /* tp_name */
+    sizeof(pyLayerAVI),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
@@ -57,7 +57,7 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plLayerDepth wrapper",             /* tp_doc */
+    "plLayerAVI wrapper",               /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -66,7 +66,7 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLayerDepth_Methods,               /* tp_methods */
+    pyLayerAVI_Methods,                 /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -77,7 +77,7 @@ PyTypeObject pyLayerDepth_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyLayerDepth_new,                   /* tp_new */
+    pyLayerAVI_new,                     /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -88,31 +88,31 @@ PyTypeObject pyLayerDepth_Type = {
     NULL,                               /* tp_weaklist */
 };
 
-PyObject* Init_pyLayerDepth_Type() {
-    pyLayerDepth_Type.tp_base = &pyLayer_Type;
-    if (PyType_Ready(&pyLayerDepth_Type) < 0)
+PyObject* Init_pyLayerAVI_Type() {
+    pyLayerAVI_Type.tp_base = &pyLayerMovie_Type;
+    if (PyType_Ready(&pyLayerAVI_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyLayerDepth_Type);
-    return (PyObject*)&pyLayerDepth_Type;
+    Py_INCREF(&pyLayerAVI_Type);
+    return (PyObject*)&pyLayerAVI_Type;
 }
 
-int pyLayerDepth_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerDepth_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerDepth_Type))
+int pyLayerAVI_Check(PyObject* obj) {
+    if (obj->ob_type == &pyLayerAVI_Type
+        || PyType_IsSubtype(obj->ob_type, &pyLayerAVI_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyLayerDepth_FromLayerDepth(class plLayerDepth* layer) {
+PyObject* pyLayerAVI_FromLayerAVI(class plLayerAVI* layer) {
     if (layer == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    pyLayerDepth* pylay = PyObject_New(pyLayerDepth, &pyLayerDepth_Type);
-    pylay->fThis = layer;
-    pylay->fPyOwned = false;
-    return (PyObject*)pylay;
+    pyLayerAVI* pyobj = PyObject_New(pyLayerAVI, &pyLayerAVI_Type);
+    pyobj->fThis = layer;
+    pyobj->fPyOwned = false;
+    return (PyObject*)pyobj;
 }
 
 }

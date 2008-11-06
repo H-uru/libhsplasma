@@ -1,7 +1,10 @@
 #include "plATCEaseCurves.h"
 
 // plATCEaseCurve //
-plATCEaseCurve::plATCEaseCurve() { }
+plATCEaseCurve::plATCEaseCurve()
+              : fStartSpeed(0.0f), fMinLength(0.0f), fMaxLength(0.0f),
+                fBeginWorldTime(0.0), fLength(0.0f), fSpeed(0.0f) { }
+
 plATCEaseCurve::~plATCEaseCurve() { }
 
 IMPLEMENT_CREATABLE(plATCEaseCurve, kATCEaseCurve, plCreatable)
@@ -9,18 +12,16 @@ IMPLEMENT_CREATABLE(plATCEaseCurve, kATCEaseCurve, plCreatable)
 void plATCEaseCurve::read(hsStream* S, plResManager* mgr) {
     fMinLength = S->readFloat();
     fMaxLength = S->readFloat();
-    fNormLength = S->readFloat();
+    fLength = S->readFloat();
     fStartSpeed = S->readFloat();
     fSpeed = S->readFloat();
     fBeginWorldTime = S->readDouble();
-
-    fLength = fNormLength;
 }
 
 void plATCEaseCurve::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMinLength);
     S->writeFloat(fMaxLength);
-    S->writeFloat(fNormLength);
+    S->writeFloat(fLength);
     S->writeFloat(fStartSpeed);
     S->writeFloat(fSpeed);
     S->writeDouble(fBeginWorldTime);
@@ -30,7 +31,7 @@ void plATCEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Lengths");
     prc->writeParam("Min", fMinLength);
     prc->writeParam("Max", fMaxLength);
-    prc->writeParam("Norm", fNormLength);
+    prc->writeParam("Norm", fLength);
     prc->endTag(true);
 
     prc->startTag("Timing");
@@ -44,7 +45,7 @@ void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Lengths") {
         fMinLength = tag->getParam("Min", "0").toFloat();
         fMaxLength = tag->getParam("Max", "0").toFloat();
-        fNormLength = tag->getParam("Norm", "0").toFloat();
+        fLength = tag->getParam("Norm", "0").toFloat();
     } else if (tag->getName() == "Timing") {
         fStartSpeed = tag->getParam("StartSpeed", "0").toFloat();
         fSpeed = tag->getParam("Speed", "0").toFloat();
@@ -53,6 +54,19 @@ void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plCreatable::IPrcParse(tag, mgr);
     }
 }
+
+float plATCEaseCurve::getStartSpeed() const { return fStartSpeed; }
+float plATCEaseCurve::getSpeed() const { return fSpeed; }
+float plATCEaseCurve::getMinLength() const { return fMinLength; }
+float plATCEaseCurve::getMaxLength() const { return fMaxLength; }
+float plATCEaseCurve::getLength() const { return fLength; }
+double plATCEaseCurve::getBeginWorldTime() const { return fBeginWorldTime; }
+
+void plATCEaseCurve::setStartSpeed(float speed) { fStartSpeed = speed; }
+void plATCEaseCurve::setSpeed(float speed) { fSpeed = speed; }
+void plATCEaseCurve::setLength(float length) { fLength = length; }
+void plATCEaseCurve::setLengthBounds(float min, float max) { fMinLength = min; fMaxLength = max; }
+void plATCEaseCurve::setBeginWorldTime(double time) { fBeginWorldTime = time; }
 
 
 // plSplineEaseCurve //
@@ -72,7 +86,7 @@ void plSplineEaseCurve::read(hsStream* S, plResManager* mgr) {
 
 void plSplineEaseCurve::write(hsStream* S, plResManager* mgr) {
     plATCEaseCurve::write(S, mgr);
-    
+
     S->writeFloat(fCoef[0]);
     S->writeFloat(fCoef[1]);
     S->writeFloat(fCoef[2]);
@@ -99,6 +113,9 @@ void plSplineEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plATCEaseCurve::IPrcParse(tag, mgr);
     }
 }
+
+float plSplineEaseCurve::getSplineCoef(size_t idx) const { return fCoef[idx]; }
+void plSplineEaseCurve::setSplineCoef(size_t idx, float coef) { fCoef[idx] = coef; }
 
 
 // plConstAccelEaseCurve //

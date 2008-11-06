@@ -12,6 +12,8 @@
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
+#include "PRP/Animation/pyAnimTimeConvert.h"
+#include "PRP/Animation/pyATCEaseCurves.h"
 #include "PRP/Animation/pyController.h"
 #include "PRP/Animation/pyKeys.h"
 #include "PRP/Animation/pyLeafController.h"
@@ -31,6 +33,8 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
+#include "PRP/Message/pyEventCallbackMsg.h"
+#include "PRP/Message/pyMessage.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
@@ -43,6 +47,8 @@
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
+#include "PRP/Surface/pyLayerAnimation.h"
+#include "PRP/Surface/pyLayerMovie.h"
 #include "PRP/Surface/pyShader.h"
 
 extern "C" {
@@ -81,6 +87,18 @@ void initPyPlasma_Constants(PyObject* module) {
     PyModule_AddIntConstant(module, "fmWrite", fmWrite);
     PyModule_AddIntConstant(module, "fmReadWrite", fmReadWrite);
     PyModule_AddIntConstant(module, "fmCreate", fmCreate);
+
+    /* Enum CallbackEvent */
+    PyModule_AddIntConstant(module, "kStart", kStart);
+    PyModule_AddIntConstant(module, "kStop", kStop);
+    PyModule_AddIntConstant(module, "kReverse", kReverse);
+    PyModule_AddIntConstant(module, "kTime", kTime);
+    PyModule_AddIntConstant(module, "kLoop", kLoop);
+    PyModule_AddIntConstant(module, "kBegin", kBegin);
+    PyModule_AddIntConstant(module, "kEnd", kEnd);
+    PyModule_AddIntConstant(module, "kEventEnd", kEventEnd);
+    PyModule_AddIntConstant(module, "kSingleFrameAdjust", kSingleFrameAdjust);
+    PyModule_AddIntConstant(module, "kSingleFrameEval", kSingleFrameEval);
 }
 
 PyMODINIT_FUNC initPyPlasma() {
@@ -203,6 +221,13 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
     PyModule_AddObject(module, "plViewFaceModifier", Init_pyViewFaceModifier_Type());
     PyModule_AddObject(module, "plClusterGroup", Init_pyClusterGroup_Type());
+    PyModule_AddObject(module, "plLayerAnimationBase", Init_pyLayerAnimationBase_Type());
+    PyModule_AddObject(module, "plLayerAnimation", Init_pyLayerAnimation_Type());
+    PyModule_AddObject(module, "plLayerLinkAnimation", Init_pyLayerLinkAnimation_Type());
+    PyModule_AddObject(module, "plLayerSDLAnimation", Init_pyLayerSDLAnimation_Type());
+    PyModule_AddObject(module, "plLayerMovie", Init_pyLayerMovie_Type());
+    PyModule_AddObject(module, "plLayerAVI", Init_pyLayerAVI_Type());
+    PyModule_AddObject(module, "plLayerBink", Init_pyLayerBink_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -224,4 +249,10 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plQuatController", Init_pyQuatController_Type());
     PyModule_AddObject(module, "plScalarController", Init_pyScalarController_Type());
     PyModule_AddObject(module, "plScaleValueController", Init_pyScaleValueController_Type());
+    PyModule_AddObject(module, "plATCEaseCurve", Init_pyATCEaseCurve_Type());
+    PyModule_AddObject(module, "plSplineEaseCurve", Init_pySplineEaseCurve_Type());
+    PyModule_AddObject(module, "plConstAccelEaseCurve", Init_pyConstAccelEaseCurve_Type());
+    PyModule_AddObject(module, "plAnimTimeConvert", Init_pyAnimTimeConvert_Type());
+    PyModule_AddObject(module, "plMessage", Init_pyMessage_Type());
+    PyModule_AddObject(module, "plEventCallbackMsg", Init_pyEventCallbackMsg_Type());
 }

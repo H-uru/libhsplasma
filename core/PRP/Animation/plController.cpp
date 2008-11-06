@@ -1,10 +1,42 @@
 #include "plTMController.h"
+#include "plLeafController.h"
 
 /* plController */
 plController::plController() { }
 plController::~plController() { }
 
 IMPLEMENT_CREATABLE(plController, kController, plCreatable)
+
+void plController::WriteController(hsStream* S, plResManager* mgr, plController* controller) {
+    switch (controller->ClassIndex()) {
+    case kLeafController:
+        if (S->getVer() <= pvPots) {
+            plLeafController* toWrite = ((plLeafController*)controller)->ExpandToKeyController();
+            mgr->WriteCreatable(S, toWrite);
+            delete toWrite;
+        } else {
+            mgr->WriteCreatable(S, controller);
+        }
+        break;
+    case kEaseController:
+    case kMatrix33Controller:
+    case kMatrix44Controller:
+    case kPoint3Controller:
+    case kQuatController:
+    case kScalarController:
+    case kScaleValueController:
+        if (S->getVer() <= pvPots) {
+            mgr->WriteCreatable(S, controller);
+        } else {
+            plLeafController* toWrite = ((plLeafController*)controller)->CompactToLeafController();
+            mgr->WriteCreatable(S, toWrite);
+            delete toWrite;
+        }
+        break;
+    default:
+        mgr->WriteCreatable(S, controller);
+    }
+}
 
 
 /* plCompoundController */

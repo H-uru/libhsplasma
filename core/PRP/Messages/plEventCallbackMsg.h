@@ -21,6 +21,19 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getEventTime() const;
+    CallbackEvent getEvent() const;
+    short getIndex() const;
+    short getRepeats() const;
+    short getUser() const;
+
+    void setEventTime(float time);
+    void setEvent(CallbackEvent evt);
+    void setIndex(short idx);
+    void setRepeats(short repeats);
+    void setUser(short user);
 };
 
 #endif
