@@ -95,7 +95,7 @@ int main(int argc, char** argv) {
         plDebug::Error("%s:%lu: %s", e.File(), e.Line(), e.what());
         return 1;
     }
-    printf("Successfully wrote %u objects\n", nObjects);
+    printf("Successfully wrote %u objects\n", (unsigned int)nObjects);
     
     delete OS;
     return 0;

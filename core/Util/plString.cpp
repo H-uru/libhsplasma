@@ -7,6 +7,18 @@
 #include <cstdarg>
 #include <cerrno>
 
+#ifndef wcscasecmp
+// Mac OSX doesn't have wcscasecmp :(
+int wcscasecmp(const wchar_t* s1, const wchar_t* s2) {
+    wint_t c1, c2;
+    do {
+        c1 = towlower(*s1++);
+        c2 = towlower(*s2++);
+    } while (c1 == c2 && c1 != 0);
+    return c1 - c2;
+}
+#endif
+
 /******************************** plStringBase ********************************/
 plStringBase::plStringBase() : fLen(0), fHaveHash(false) { }
 plStringBase::plStringBase(const plStringBase& init)

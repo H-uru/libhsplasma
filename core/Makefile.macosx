@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS += -I. -fPIC -Wall -g -ansi -fno-rtti
-CXXFLAGSEXTERN = -fPIC -O2
+CXXFLAGS += -I. -fPIC -Wall -g -ansi -fno-rtti -arch ppc -arch i386 -DMACOSX
+CXXFLAGSEXTERN = -fPIC -O2 -arch ppc -arch i386
 
 OBJDIR=out/
 
@@ -241,17 +241,16 @@ OBJFILES3P=\
 	$(OBJDIR)rijndael.o \
 	3rdPartyLibs/jpeg-6b/libjpeg.a
 
-PLSLIB=lib/libPlasma.so
+PLSLIB=lib/libPlasma.dylib
 
 all: $(PLSLIB) 3rdPartyLibs/jpeg-6b/Makefile
 
 $(PLSLIB): $(PLSOBJ) $(OBJFILES3P)
-	( cd 3rdPartyLibs/jpeg-6b ; make )
-	$(CXX) $(CXXFLAGS) $(PLSOBJ) $(OBJFILES3P) -shared -Wl,-soname,libPlasma.so -o $(PLSLIB)
+	( cd 3rdPartyLibs/jpeg-6b ; $(MAKE) )
+	$(CXX) $(CXXFLAGS) $(PLSOBJ) $(OBJFILES3P) -dynamiclib -install_name /usr/local/$(PLSLIB) -o $(PLSLIB)
 
 install:
 	cp $(PLSLIB) /usr/local/lib
-	ldconfig
 
 clean:
 	rm -f $(PLSOBJ)
@@ -265,11 +264,11 @@ distclean:
 $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 	$(CXX) $(CXXFLAGSEXTERN) -c 3rdPartyLibs/rijndael.cpp -o $(OBJDIR)rijndael.o
 
-3rdPartyLibs/jpeg-6b/Makefile:
-	( cd 3rdPartyLibs/jpeg-6b ; ./configure )
+3rdPartyLibs/jpeg-6b/Makefile 3rdPartyLibs/jpeg-6b/jconfig.h:
+	( cd 3rdPartyLibs/jpeg-6b ; ./configure CC="gcc -arch ppc -arch i386" )
 
 3rdPartyLibs/jpeg-6b/libjpeg.a: 3rdPartyLibs/jpeg-6b/Makefile
-	( cd 3rdPartyLibs/jpeg-6b ; make )
+	( cd 3rdPartyLibs/jpeg-6b ; $(MAKE) )
 
 
 # Pls Lib
@@ -363,7 +362,7 @@ $(OBJDIR)plUUID.o: Sys/plUUID.h Sys/plUUID.cpp
 $(OBJDIR)hsBitVector.o: Util/hsBitVector.h Util/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/hsBitVector.cpp -o $(OBJDIR)hsBitVector.o
 
-$(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp
+$(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp 3rdPartyLibs/jpeg-6b/jconfig.h
 	$(CXX) $(CXXFLAGS) -c Util/plJPEG.cpp -o $(OBJDIR)plJPEG.o
 
 $(OBJDIR)PlasmaVersions.o: Util/PlasmaVersions.h Util/PlasmaVersions.cpp

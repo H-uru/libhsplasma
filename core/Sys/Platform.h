@@ -7,7 +7,7 @@
 #define ENDSWAP16(val) \
     ((val & 0x00FF) << 8 | (val & 0xFF00) >> 8)
 
-#ifdef WORDS_BIGENDIAN
+#ifdef MACOSX
     #define LESWAP32(val) ENDSWAP32(val)
     #define BESWAP32(val) (val)
     #define LESWAP16(val) ENDSWAP16(val)

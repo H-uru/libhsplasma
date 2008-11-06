@@ -2,18 +2,18 @@ CC = g++
 CFLAGS += -fPIC -Wall -g -ansi -fno-rtti
 
 all:
-	(cd core ; make)
-	(cd Python ; make)
-	(make Tools/PageConvert)
-	(make Tools/PlasmaCrypt)
-	(make Tools/PrpPack)
-	(make Tools/PrcExtract)
-	(make Tools/PageList)
-	(make Tools/prcc)
-	(make Tools/prcdc)
-	(make Tools/Prp2Obj)
-	(make Tools/PageEditor)
-	(make Misc/TypeMap)
+	(cd core ; $(MAKE) -fMakefile.linux)
+	(cd Python ; $(MAKE) -fMakefile.linux)
+	($(MAKE) -fMakefile.linux Tools/PageConvert)
+	($(MAKE) -fMakefile.linux Tools/PlasmaCrypt)
+	($(MAKE) -fMakefile.linux Tools/PrpPack)
+	($(MAKE) -fMakefile.linux Tools/PrcExtract)
+	($(MAKE) -fMakefile.linux Tools/PageList)
+	($(MAKE) -fMakefile.linux Tools/prcc)
+	($(MAKE) -fMakefile.linux Tools/prcdc)
+	($(MAKE) -fMakefile.linux Tools/Prp2Obj)
+	($(MAKE) -fMakefile.linux Tools/PageEditor)
+	($(MAKE) -fMakefile.linux Misc/TypeMap)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp core/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageConvert.cpp -o Tools/PageConvert
@@ -46,7 +46,7 @@ Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap
 
 install:
-	(cd core ; make install)
+	(cd core ; $(MAKE) -fMakefile.linux install)
 	cp Tools/PageConvert /usr/local/bin/
 	cp Tools/PlasmaCrypt /usr/local/bin/
 	cp Tools/PrpPack /usr/local/bin/
@@ -73,12 +73,12 @@ uninstall:
 	rm -f /usr/local/bin/uruedit
 
 clean:
-	(cd core ; make clean)
-	(cd Python ; make clean)
+	(cd core ; $(MAKE) -fMakefile.linux clean)
+	(cd Python ; $(MAKE) -fMakefile.linux clean)
 
 distclean:
-	(cd core ; make distclean)
-	(cd Python ; make distclean)
+	(cd core ; $(MAKE) -fMakefile.linux distclean)
+	(cd Python ; $(MAKE) -fMakefile.linux distclean)
 	rm -f Tools/PageConvert
 	rm -f Tools/PlasmaCrypt
 	rm -f Tools/PrpPack
