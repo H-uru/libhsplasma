@@ -73,9 +73,8 @@ void pfGUIColorScheme::prcParse(const pfPrcTag* tag) {
     fTransparent = tag->getParam("transparent", "0").toInt();
     fFontFlags = tag->getParam("flags", "0").toUint();
 
-    size_t nChildren = tag->countChildren();
     const pfPrcTag* child = tag->getFirstChild();
-    for (size_t i=0; i<nChildren; i++) {
+    while (child != NULL) {
         if (child->getName() == "Foreground") {
             if (child->hasChildren())
                 fForeColor.prcParse(child->getFirstChild());
@@ -91,6 +90,7 @@ void pfGUIColorScheme::prcParse(const pfPrcTag* tag) {
         } else {
             throw pfPrcTagException(__FILE__, __LINE__, child->getName());
         }
+        child = child->getNextSibling();
     }
 }
 
