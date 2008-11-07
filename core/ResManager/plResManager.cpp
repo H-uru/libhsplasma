@@ -283,7 +283,7 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
     //keys.addPage(loc.pageID);
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
-        short type = S->readShort(); // objType
+        short type = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer()); // objType
         if (S->getVer() >= pvLive) {
             S->readInt();   // # of bytes after this int to next key list
             S->readByte();  // flag?
@@ -348,7 +348,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
             S->seek(kList[j]->getFileOff());
             try {
                 plCreatable* pCre = ReadCreatable(S, true, kList[j]->getObjSize());
-                if (pCre->isStub()) {
+                if (pCre != NULL && pCre->isStub()) {
                     plCreatableStub* stub = (plCreatableStub*)pCre;
                     hsKeyedObjectStub* ko = new hsKeyedObjectStub();
                     hsRAMStream RS(S->getVer());
@@ -361,11 +361,12 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 }
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
-                    if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff())
+                    if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff()) {
                         plDebug::Warning("[%04hX:%s] Size-Read difference: %d bytes",
                             kList[j]->getType(), kList[j]->getName().cstr(),
                             (int)(kList[j]->getObjSize() -
                                   (S->pos() - kList[j]->getFileOff())));
+                    }
                 }
             } catch (const hsException& e) {
                 plDebug::Error("Failed reading %s: %s",
@@ -414,6 +415,9 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
                     plDebug::Error("Undefined error writing %s",
                                    kList[j]->toString().cstr());
                 }
+            } else {
+                WriteCreatable(S, NULL);
+                plDebug::Warning("Object for %s does not exist", kList[j]->toString().cstr());
             }
             kList[j]->setObjSize(S->pos() - kList[j]->getFileOff());
         }
@@ -432,7 +436,7 @@ plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen)
             plDebug::Warning("Warning: Type [%04hX]%s is a STUB",
                              pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
                              pdUnifiedTypeMap::ClassName(type, S->getVer()));
-            pCre = new plCreatableStub(type, stubLen - 2);
+            pCre = new plCreatableStub(pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()), stubLen - 2);
             pCre->read(S, this);
         } else {
             plDebug::Warning("Warning: NOT reading type [%04hX]%s",

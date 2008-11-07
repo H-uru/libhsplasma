@@ -8,6 +8,11 @@ plController::~plController() { }
 IMPLEMENT_CREATABLE(plController, kController, plCreatable)
 
 void plController::WriteController(hsStream* S, plResManager* mgr, plController* controller) {
+    if (controller == NULL) {
+        mgr->WriteCreatable(S, NULL);
+        return;
+    }
+
     switch (controller->ClassIndex()) {
     case kLeafController:
         if (S->getVer() <= pvPots) {

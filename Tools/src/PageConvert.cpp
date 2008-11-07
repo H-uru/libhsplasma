@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
             
             rm.setVer(toVer, true);
             char fn[256];
-            sprintf(fn, "%s.%s", argv[i], getSuffix(toVer));
+            snprintf(fn, 256, "%s.%s", argv[i], getSuffix(toVer));
             rm.WritePage(fn, page);
             printf("Objects Written: %d\n\n", page->getNumObjects());
             files++;

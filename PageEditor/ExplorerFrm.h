@@ -105,6 +105,7 @@ class wxTreeKeyData : public wxTreeItemData
       wxTreeKeyData(const plKey& key = plKey(NULL));
       ~wxTreeKeyData();
       plKey& getKey();
+      void setKey(plKey key);
 
    protected:
       plKey fKey;

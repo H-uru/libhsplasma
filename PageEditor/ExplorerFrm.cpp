@@ -232,12 +232,8 @@ void ExplorerFrm::SavePrcFile( wxCommandEvent& event )
 
 void ExplorerFrm::SavePage( wxCommandEvent& event )
 {
-    wxTreeItemId fID = m_prpTree->GetSelection();
-    wxTreeKeyData* KeyData = (wxTreeKeyData*)m_prpTree->GetItemData(fID);
-
+    wxTreeKeyData* KeyData = (wxTreeKeyData*)m_prpTree->GetItemData(fCurrent);
     plKey fKey = KeyData->getKey();
-    hsKeyedObject* fObj = rm.getObject(fKey);
-
     pfPrcParser prc;
     wxString wTxt = m_prcEditor->GetText();
     plString txt = plString(wTxt.ToUTF8());
@@ -247,12 +243,25 @@ void ExplorerFrm::SavePage( wxCommandEvent& event )
     prc.read(S);
     const pfPrcTag* root = prc.getRoot();
 
-    fObj->prcParse(root, &rm);
+    KeyData->setKey(plKey());
+    rm.DelObject(fKey);
+    hsKeyedObject* obj = hsKeyedObject::Convert(rm.prcParseCreatable(root));
+    if (obj != NULL) {
+        KeyData->setKey(obj->getKey());
+        rm.AddObject(obj->getKey()->getLocation(), obj);
+        m_prpTree->SetItemText(fCurrent, wxString(obj->getKey()->getName().cstr(), wxConvUTF8));
+    } else {
+        m_prpTree->Delete(fCurrent);
+    }
 
     for(unsigned int j=0; j<pages.size();j++) {
         plPageInfo* page = pages[j];
         rm.WritePage(fPath + PATHSEP + page->getFilename(rm.getVer()), page);
     }
+
+    wxTreeEvent treeEvt;
+    treeEvt.SetItem(fCurrent);
+    LoadObjPrc(treeEvt);
 }
 
 void ExplorerFrm::GoBack( wxCommandEvent& event )
@@ -284,4 +293,9 @@ wxTreeKeyData::~wxTreeKeyData() { }
 plKey& wxTreeKeyData::getKey()
 {
     return this->fKey;
+}
+
+void wxTreeKeyData::setKey(plKey key)
+{
+    this->fKey = key;
 }
