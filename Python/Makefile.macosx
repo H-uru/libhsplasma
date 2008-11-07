@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -I../core -fPIC -Wall -g -ansi -fno-rtti `python-config --cflags` --arch ppc --arch i386 -DMACOSX
-CXXLINK  = -L../core/lib -lPlasma `python-config --libs` --arch ppc --arch i386
+CXXFLAGS = -I../core -fPIC -Wall -g -ansi -fno-rtti `python-config --cflags` -arch ppc -arch i386 -DMACOSX
+CXXLINK  = -L../core/lib -lPlasma `python-config --libs` -arch ppc -arch i386
 
 OBJDIR=out/
 

@@ -8,6 +8,12 @@
     ((val & 0x00FF) << 8 | (val & 0xFF00) >> 8)
 
 #ifdef MACOSX
+    #ifdef __BIG_ENDIAN__
+        #define WORDS_BIGENDIAN
+    #endif
+#endif
+
+#ifdef WORDS_BIGENDIAN
     #define LESWAP32(val) ENDSWAP32(val)
     #define BESWAP32(val) (val)
     #define LESWAP16(val) ENDSWAP16(val)
@@ -26,6 +32,11 @@
     #define PATHSEP '\\'
 #else
     #define PATHSEP '/'
+#endif
+
+// For old Python versions:
+#ifndef Py_ssize_t
+    #define Py_ssize_t int
 #endif
 
 enum plKeyDef {

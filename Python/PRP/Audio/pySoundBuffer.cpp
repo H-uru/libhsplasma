@@ -96,7 +96,7 @@ static int pySoundBuffer_setData(pySoundBuffer* self, PyObject* value, void*) {
         return -1;
     }
     char* buffer;
-    int length;
+    Py_ssize_t length;
     PyString_AsStringAndSize(value, &buffer, &length);
     self->fThis->setData(length, (const unsigned char*)buffer);
     return 0;

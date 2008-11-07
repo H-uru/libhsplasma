@@ -373,7 +373,7 @@ static int pyGenericPhysical_setTMDBuffer(pyGenericPhysical* self, PyObject* val
         return -1;
     }
     char* buffer;
-    int bufSize;
+    Py_ssize_t bufSize;
     PyString_AsStringAndSize(value, &buffer, &bufSize);
     self->fThis->setTMDBuffer(bufSize, (const unsigned char*)buffer);
     return 0;

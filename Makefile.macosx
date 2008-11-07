@@ -15,34 +15,34 @@ all:
 	($(MAKE) -fMakefile.macosx Tools/PageEditor)
 	($(MAKE) -fMakefile.macosx Misc/TypeMap)
 
-Tools/PageConvert: Tools/src/PageConvert.cpp core/lib/libPlasma.so
+Tools/PageConvert: Tools/src/PageConvert.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageConvert.cpp -o Tools/PageConvert
 
-Tools/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp core/lib/libPlasma.so
+Tools/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt
 
-Tools/PrpPack: Tools/src/PrpPack.cpp core/lib/libPlasma.so
+Tools/PrpPack: Tools/src/PrpPack.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrpPack.cpp -o Tools/PrpPack
 
-Tools/PrcExtract: Tools/src/PrcExtract.cpp core/lib/libPlasma.so
+Tools/PrcExtract: Tools/src/PrcExtract.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrcExtract.cpp -o Tools/PrcExtract
 
-Tools/PageList: Tools/src/PageList.cpp core/lib/libPlasma.so
+Tools/PageList: Tools/src/PageList.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageList.cpp -o Tools/PageList
 
-Tools/prcc: Tools/src/prcc.cpp core/lib/libPlasma.so
+Tools/prcc: Tools/src/prcc.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcc.cpp -o Tools/prcc
 
-Tools/prcdc: Tools/src/prcdc.cpp core/lib/libPlasma.so
+Tools/prcdc: Tools/src/prcdc.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcdc.cpp -o Tools/prcdc
 
-Tools/Prp2Obj: Tools/src/Prp2Obj.cpp core/lib/libPlasma.so
+Tools/Prp2Obj: Tools/src/Prp2Obj.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
 
-Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp core/lib/libPlasma.so
+Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp -o Tools/PageEditor
 
-Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.so
+Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.dylib
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap
 
 install:

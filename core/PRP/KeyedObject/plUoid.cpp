@@ -3,7 +3,6 @@
 #include "ResManager/pdUnifiedTypeMap.h"
 #include <string.h>
 #include <stdlib.h>
-#include <malloc.h>
 
 plUoid::plUoid() : classType(0x8000), objID(0), clonePlayerID(0), cloneID(0) { }
 plUoid::~plUoid() { }
