@@ -1246,6 +1246,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Messages\plClimbMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plClimbMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Messages\plEnableMsg.cpp"
 					>
 				</File>
@@ -1347,6 +1355,14 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Messages\plSoundMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plSwimMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Messages\plSwimMsg.h"
 					>
 				</File>
 				<File
@@ -1750,11 +1766,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Region\plSimpleRegionSensor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plSimpleRegionSensor.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Region\plSoftVolume.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PRP\Region\plSoftVolume.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plSwimRegion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Region\plSwimRegion.h"
 					>
 				</File>
 				<File

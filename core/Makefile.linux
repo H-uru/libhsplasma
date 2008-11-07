@@ -149,6 +149,7 @@ PLSOBJ=\
 	$(OBJDIR)plAnimCmdMsg.o \
 	$(OBJDIR)plArmatureEffectMsg.o \
 	$(OBJDIR)plCameraMsg.o \
+	$(OBJDIR)plClimbMsg.o \
 	$(OBJDIR)plEnableMsg.o \
 	$(OBJDIR)plEventCallbackMsg.o \
 	$(OBJDIR)proEventData.o \
@@ -163,6 +164,7 @@ PLSOBJ=\
 	$(OBJDIR)plSimStateMsg.o \
 	$(OBJDIR)plSimulationMsg.o \
 	$(OBJDIR)plSoundMsg.o \
+	$(OBJDIR)plSwimMsg.o \
 	$(OBJDIR)plTimerCallbackMsg.o \
 	$(OBJDIR)plTransitionMsg.o \
 	$(OBJDIR)plAgeLinkInfo.o \
@@ -208,7 +210,9 @@ PLSOBJ=\
 	$(OBJDIR)plHardRegionPlanes.o \
 	$(OBJDIR)plRegionBase.o \
 	$(OBJDIR)plRelevanceRegion.o \
+	$(OBJDIR)plSimpleRegionSensor.o \
 	$(OBJDIR)plSoftVolume.o \
+	$(OBJDIR)plSwimRegion.o \
 	$(OBJDIR)plVisRegion.o \
 	$(OBJDIR)plVolumeIsect.o \
 	$(OBJDIR)plBitmap.o \
@@ -265,7 +269,7 @@ distclean:
 $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 	$(CXX) $(CXXFLAGSEXTERN) -c 3rdPartyLibs/rijndael.cpp -o $(OBJDIR)rijndael.o
 
-3rdPartyLibs/jpeg-6b/Makefile:
+3rdPartyLibs/jpeg-6b/Makefile 3rdPartyLibs/jpeg-6b/jconfig.h:
 	( cd 3rdPartyLibs/jpeg-6b ; ./configure )
 
 3rdPartyLibs/jpeg-6b/libjpeg.a: 3rdPartyLibs/jpeg-6b/Makefile
@@ -363,7 +367,7 @@ $(OBJDIR)plUUID.o: Sys/plUUID.h Sys/plUUID.cpp
 $(OBJDIR)hsBitVector.o: Util/hsBitVector.h Util/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/hsBitVector.cpp -o $(OBJDIR)hsBitVector.o
 
-$(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp
+$(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp 3rdPartyLibs/jpeg-6b/jconfig.h
 	$(CXX) $(CXXFLAGS) -c Util/plJPEG.cpp -o $(OBJDIR)plJPEG.o
 
 $(OBJDIR)PlasmaVersions.o: Util/PlasmaVersions.h Util/PlasmaVersions.cpp
@@ -705,6 +709,9 @@ $(OBJDIR)plArmatureEffectMsg.o: PRP/Messages/plArmatureEffectMsg.h PRP/Messages/
 $(OBJDIR)plCameraMsg.o: PRP/Messages/plCameraMsg.h PRP/Messages/plCameraMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Messages/plCameraMsg.cpp -o $(OBJDIR)plCameraMsg.o
 
+$(OBJDIR)plClimbMsg.o: PRP/Messages/plClimbMsg.h PRP/Messages/plClimbMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Messages/plClimbMsg.cpp -o $(OBJDIR)plClimbMsg.o
+
 $(OBJDIR)plEnableMsg.o: PRP/Messages/plEnableMsg.h PRP/Messages/plEnableMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Messages/plEnableMsg.cpp -o $(OBJDIR)plEnableMsg.o
 
@@ -746,6 +753,9 @@ $(OBJDIR)plSimulationMsg.o: PRP/Messages/plSimulationMsg.h PRP/Messages/plSimula
 
 $(OBJDIR)plSoundMsg.o: PRP/Messages/plSoundMsg.h PRP/Messages/plSoundMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Messages/plSoundMsg.cpp -o $(OBJDIR)plSoundMsg.o
+
+$(OBJDIR)plSwimMsg.o: PRP/Messages/plSwimMsg.h PRP/Messages/plSwimMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Messages/plSwimMsg.cpp -o $(OBJDIR)plSwimMsg.o
 
 $(OBJDIR)plTimerCallbackMsg.o: PRP/Messages/plTimerCallbackMsg.h PRP/Messages/plTimerCallbackMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Messages/plTimerCallbackMsg.cpp -o $(OBJDIR)plTimerCallbackMsg.o
@@ -882,8 +892,14 @@ $(OBJDIR)plRegionBase.o: PRP/Region/plRegionBase.h PRP/Region/plRegionBase.cpp
 $(OBJDIR)plRelevanceRegion.o: PRP/Region/plRelevanceRegion.h PRP/Region/plRelevanceRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plRelevanceRegion.cpp -o $(OBJDIR)plRelevanceRegion.o
 
+$(OBJDIR)plSimpleRegionSensor.o: PRP/Region/plSimpleRegionSensor.h PRP/Region/plSimpleRegionSensor.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Region/plSimpleRegionSensor.cpp -o $(OBJDIR)plSimpleRegionSensor.o
+
 $(OBJDIR)plSoftVolume.o: PRP/Region/plSoftVolume.h PRP/Region/plSoftVolume.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plSoftVolume.cpp -o $(OBJDIR)plSoftVolume.o
+
+$(OBJDIR)plSwimRegion.o: PRP/Region/plSwimRegion.h PRP/Region/plSwimRegion.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Region/plSwimRegion.cpp -o $(OBJDIR)plSwimRegion.o
 
 $(OBJDIR)plVisRegion.o: PRP/Region/plVisRegion.h PRP/Region/plVisRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plVisRegion.cpp -o $(OBJDIR)plVisRegion.o

@@ -120,7 +120,7 @@ typedef enum {
     kFadeOpacityMod, kFadeOpacityLay, kDistOpacityMod, kArmatureModBase,
     kSwimRegionInterface, kSwimCircularCurrentRegion,
     kParticleFollowSystemEffect, kSwimStraightCurrentRegion, kObjectFlocker,
-    kGrassShaderMod, kDynamicCamMap, kSwimRegion, kPXPhysical_UNUSED,
+    kGrassShaderMod, kDynamicCamMap, kSwimRegion_UNUSED, kPXPhysical_UNUSED,
     kODEPhysical_UNUSED, kAutoWalkRegion, kCrossfade, kParticleFadeOutEffect,
     kSecurePreloader, kWindBoneMod, kCameraBrain_NovicePlus, kSubtitleMgr,
     kPythonFileModConditionalObject, kLayerTransform, kBubbleShaderMod,

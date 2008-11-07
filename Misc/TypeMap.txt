@@ -300,7 +300,7 @@ x012A U[012A] P[012A] L[012A] E[00F8] H[00F8] plDynaTorpedoVSMgr
 x012B U[012B] P[012B] L[012B] E[00F9] H[00F9] plClusterGroup
 x012C U[012C] P[012C] L[012C] E[----] H[----] plGameMarkerModifier
 x012D U[012D] P[012D] L[012D] E[00FA] H[00FA] plLODMipmap
-x012E U[----] P[012E] L[012E] E[00FB] H[00FB] plSwimDetector
+x012E U[012E] P[012E] L[012E] E[00FB] H[00FB] plSwimDetector
 x012F U[----] P[012F] L[012F] E[00FC] H[00FC] plFadeOpacityMod
 x0130 U[----] P[0130] L[0130] E[00FD] H[00FD] plFadeOpacityLay
 x0131 U[----] P[0131] L[0131] E[00FE] H[00FE] plDistOpacityMod
@@ -312,7 +312,7 @@ x0136 U[----] P[0136] L[0136] E[----] H[----] plSwimStraightCurrentRegion
 x0137 U[----] P[----] L[0137] E[010E] H[010E] pfObjectFlocker
 x0138 U[----] P[----] L[0138] E[0023] H[0023] plGrassShaderMod
 x0139 U[----] P[----] L[0139] E[0111] H[0111] plDynamicCamMap
-x013A U[012E] P[----] L[----] E[----] H[----] plSwimRegion
+x013A U[----] P[----] L[----] E[----] H[----] (null)
 x013B U[----] P[----] L[----] E[----] H[----] (null)
 x013C U[----] P[----] L[----] E[----] H[----] (null)
 x013D U[----] P[----] L[----] E[0018] H[0018] plAutoWalkRegion

@@ -464,7 +464,6 @@ PyObject* Init_pyFactory_Type() {
     ADD_CREATABLE(pyFactory_Type.tp_dict, kObjectFlocker);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kGrassShaderMod);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kDynamicCamMap);
-    ADD_CREATABLE(pyFactory_Type.tp_dict, kSwimRegion);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kAutoWalkRegion);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kCrossfade);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kParticleFadeOutEffect);

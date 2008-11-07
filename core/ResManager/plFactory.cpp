@@ -67,6 +67,7 @@
 #include "PRP/Light/plShadowMaster.h"
 #include "PRP/Messages/plAnimCmdMsg.h"
 #include "PRP/Messages/plArmatureEffectMsg.h"
+#include "PRP/Messages/plClimbMsg.h"
 #include "PRP/Messages/plEnableMsg.h"
 #include "PRP/Messages/plExcludeRegionMsg.h"
 #include "PRP/Messages/plLinkToAgeMsg.h"
@@ -74,6 +75,7 @@
 #include "PRP/Messages/plResponderMsg.h"
 #include "PRP/Messages/plSimStateMsg.h"
 #include "PRP/Messages/plSoundMsg.h"
+#include "PRP/Messages/plSwimMsg.h"
 #include "PRP/Messages/plTimerCallbackMsg.h"
 #include "PRP/Messages/plTransitionMsg.h"
 #include "PRP/Misc/plFogEnvironment.h"
@@ -103,7 +105,9 @@
 #include "PRP/Physics/plVehicleModifier.h"
 #include "PRP/Region/plHardRegionPlanes.h"
 #include "PRP/Region/plRelevanceRegion.h"
+#include "PRP/Region/plSimpleRegionSensor.h"
 #include "PRP/Region/plSoftVolume.h"
+#include "PRP/Region/plSwimRegion.h"
 #include "PRP/Region/plVisRegion.h"
 #include "PRP/Surface/plCubicEnvironmap.h"
 #include "PRP/Surface/plDynamicEnvMap.h"
@@ -394,7 +398,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCCRGameOperator: return new plCCRGameOperator();
         case kShader: return new plShader();
         case kDynamicEnvMap: return new plDynamicEnvMap();
-        //case kSimpleRegionSensor: return new plSimpleRegionSensor();
+        case kSimpleRegionSensor: return new plSimpleRegionSensor();
         //case kMorphSequence: return new plMorphSequence();
         case kEmoteAnim: return new plEmoteAnim();
         case kDynaRippleVSMgr: return new plDynaRippleVSMgr();
@@ -433,20 +437,19 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kClusterGroup: return new plClusterGroup();
         //case kGameMarkerModifier: return new plGameMarkerModifier();
         //case kLODMipmap: return new plLODMipmap();
-        //case kSwimDetector: return new plSwimDetector();
+        case kSwimDetector: return new plSwimDetector();
         case kFadeOpacityMod: return new plFadeOpacityMod();
         //case kFadeOpacityLay: return new plFadeOpacityLay();
         //case kDistOpacityMod: return new plDistOpacityMod();
         case kArmatureModBase: ABSTRACT(kArmatureModBase);
-        //case kSwimRegionInterface: return new plSwimRegionInterface();
-        //case kSwimCircularCurrentRegion: return new plSwimCircularCurrentRegion();
+        case kSwimRegionInterface: return new plSwimRegionInterface();
+        case kSwimCircularCurrentRegion: return new plSwimCircularCurrentRegion();
         case kParticleFollowSystemEffect: return new plParticleFollowSystemEffect();
-        //case kSwimStraightCurrentRegion: return new plSwimStraightCurrentRegion();
+        case kSwimStraightCurrentRegion: return new plSwimStraightCurrentRegion();
         //case kObjectFlocker: return new pfObjectFlocker();
         case kGrassShaderMod: return new plGrassShaderMod();
         case kDynamicCamMap: return new plDynamicCamMap();
-        //case kSwimRegion: return new plSwimRegion();
-        //case kAutoWalkRegion: return new plAutoWalkRegion();
+        case kAutoWalkRegion: return new plAutoWalkRegion();
         //case kCrossfade: return new plCrossfade();
         case kParticleFadeOutEffect: return new plParticleFadeOutEffect();
         //case kSecurePreloader: return new pfSecurePreloader();
@@ -489,7 +492,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kTreeShader: return new plTreeShader();
         //case kNodeRegionModifier: return new plNodeRegionModifier();
         //case kPiranhaRegionModifier: return new plPiranhaRegionModifier();
-        //case kRidingAnimatedPhysicalDetector: return new plRidingAnimatedPhysicalDetector();
+        case kRidingAnimatedPhysicalDetector: return new plRidingAnimatedPhysicalDetector();
         //case kVolumeSensorConditionalObjectNoArbitration: return new plVolumeSensorConditionalObjectNoArbitration();
         //case kFXMaterial: return new plFXMaterial();
         //case kMovableMod: return new plMovableMod();
@@ -1032,12 +1035,12 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAvatarStealthModeMsg: return new plAvatarStealthModeMsg();
         //case kEventCallbackInterceptMsg: return new plEventCallbackInterceptMsg();
         //case kDynamicEnvMapMsg: return new plDynamicEnvMapMsg();
-        //case kClimbMsg: return new plClimbMsg();
+        case kClimbMsg: return new plClimbMsg();
         //case kIfaceFadeAvatarMsg: return new plIfaceFadeAvatarMsg();
         case kAvBrainClimb: return new plAvBrainClimb();
         //case kSharedMeshBCMsg: return new plSharedMeshBCMsg();
         //case kNetVoiceListMsg: return new plNetVoiceListMsg();
-        //case kSwimMsg: return new plSwimMsg();
+        case kSwimMsg: return new plSwimMsg();
         case kMorphDelta: return new plMorphDelta();
         case kMatrixControllerCacheChannel: return new plMatrixControllerCacheChannel();
         //case kVaultMarkerNode: return new plVaultMarkerNode();
