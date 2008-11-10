@@ -350,6 +350,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Animation\pfObjectFlocker.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Animation\pfObjectFlocker.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Animation\plAnimPath.cpp"
 					>
 				</File>

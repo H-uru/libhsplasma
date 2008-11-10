@@ -51,6 +51,7 @@ PLSOBJ=\
 	$(OBJDIR)plKeyControllers.o \
 	$(OBJDIR)plLeafController.o \
 	$(OBJDIR)plLineFollowMod.o \
+	$(OBJDIR)pfObjectFlocker.o \
 	$(OBJDIR)plPosController.o \
 	$(OBJDIR)plRotController.o \
 	$(OBJDIR)plScaleController.o \
@@ -414,6 +415,9 @@ $(OBJDIR)plLeafController.o: PRP/Animation/plLeafController.h PRP/Animation/plLe
 
 $(OBJDIR)plLineFollowMod.o: PRP/Animation/plLineFollowMod.h PRP/Animation/plLineFollowMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plLineFollowMod.cpp -o $(OBJDIR)plLineFollowMod.o
+
+$(OBJDIR)pfObjectFlocker.o: PRP/Animation/pfObjectFlocker.h PRP/Animation/pfObjectFlocker.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pfObjectFlocker.cpp -o $(OBJDIR)pfObjectFlocker.o
 
 $(OBJDIR)plPosController.o: PRP/Animation/plPosController.h PRP/Animation/plPosController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plPosController.cpp -o $(OBJDIR)plPosController.o

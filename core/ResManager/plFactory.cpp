@@ -7,6 +7,7 @@
 #include "PRP/Animation/plBlower.h"
 #include "PRP/Animation/plFilterCoordInterface.h"
 #include "PRP/Animation/plLineFollowMod.h"
+#include "PRP/Animation/pfObjectFlocker.h"
 #include "PRP/Animation/plStereizer.h"
 #include "PRP/Animation/plViewFaceModifier.h"
 #include "PRP/Audio/plAudible.h"
@@ -446,7 +447,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kSwimCircularCurrentRegion: return new plSwimCircularCurrentRegion();
         case kParticleFollowSystemEffect: return new plParticleFollowSystemEffect();
         case kSwimStraightCurrentRegion: return new plSwimStraightCurrentRegion();
-        //case kObjectFlocker: return new pfObjectFlocker();
+        case kObjectFlocker: return new pfObjectFlocker();
         case kGrassShaderMod: return new plGrassShaderMod();
         case kDynamicCamMap: return new plDynamicCamMap();
         case kAutoWalkRegion: return new plAutoWalkRegion();

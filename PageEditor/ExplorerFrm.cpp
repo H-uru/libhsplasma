@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #include "ExplorerFrm.h"
+#include <wx/imaglist.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -35,6 +36,11 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
 
     m_prpTree = new wxTreeCtrl( m_panelLeft, ID_TREEVIEW, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_SINGLE|wxFULL_REPAINT_ON_RESIZE|wxRAISED_BORDER );
     panelLeft_Sizer->Add( m_prpTree, 1, wxALL|wxEXPAND, 3 );
+
+    wxImageList* iml_prpTree = new wxImageList(16, 16);
+    iml_prpTree->Add(wxArtProvider::GetBitmap(wxART_FOLDER, wxART_OTHER, wxSize(16, 16)));
+    iml_prpTree->Add(wxArtProvider::GetBitmap(wxART_NORMAL_FILE, wxART_OTHER, wxSize(16, 16)));
+    m_prpTree->SetImageList(iml_prpTree);
 
     m_panelLeft->SetSizer( panelLeft_Sizer );
     m_panelLeft->Layout();
@@ -86,6 +92,9 @@ ExplorerFrm::~ExplorerFrm()
     this->Disconnect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
     this->Disconnect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
     m_prpTree->Disconnect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
+
+    delete m_prpTree->GetImageList();
+    m_prpTree->SetImageList(NULL);
 }
 
 void ExplorerFrm::InitFromFile( const wxString& filename)
@@ -99,7 +108,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
     try {
         if (plString(filename.ToUTF8()).afterFirst('.') == "age") {
             plAgeInfo* age = rm.ReadAge(filename.ToUTF8(), true);
-            fRoot = m_prpTree->AddRoot(wxString::FromUTF8(age->getAgeName().cstr()));
+            fRoot = m_prpTree->AddRoot(wxString::FromUTF8(age->getAgeName().cstr()), 0, 0);
             fCurrent = fRoot;
             for (unsigned int i=0; i<age->getNumPages(); i++) {
                 plPageInfo* page = rm.FindPage(age->getPageLoc(i, rm.getVer()));
@@ -109,7 +118,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
         else if (plString(filename.ToUTF8()).afterFirst('.') == "prp") {
             plPageInfo* page = rm.ReadPage(filename.ToUTF8());
             pages.push_back(page);
-            fRoot = m_prpTree->AddRoot(wxString::FromUTF8(page->getAge().cstr()));
+            fRoot = m_prpTree->AddRoot(wxString::FromUTF8(page->getAge().cstr()), 0, 0);
             fCurrent = fRoot;
         }
     } catch (const hsException& e) {
@@ -133,17 +142,17 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
 
 void ExplorerFrm::LoadObjects(plPageInfo* page)
 {
-    wxTreeItemId fPageN = m_prpTree->AppendItem(fRoot, wxString::FromUTF8(page->getPage().cstr()));
+    wxTreeItemId fPageN = m_prpTree->AppendItem(fRoot, wxString::FromUTF8(page->getPage().cstr()), 0, 0);
     std::vector<short> types = rm.getTypes(page->getLocation());
 
     for(unsigned int f = 0; f < types.size(); f++) {
         plString TypeName = plString::Format("[%04hX] %s", types[f], pdUnifiedTypeMap::ClassName(types[f]));
-        wxTreeItemId fType = m_prpTree->AppendItem(fPageN, wxString::FromUTF8(TypeName.cstr()));
+        wxTreeItemId fType = m_prpTree->AppendItem(fPageN, wxString::FromUTF8(TypeName.cstr()), 0, 0);
 
         std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
 
         for(unsigned int ks = 0; ks < mykeys.size(); ks++) {
-            m_prpTree->AppendItem(fType, wxString::FromUTF8(mykeys[ks]->getName().cstr()), -1, -1, new wxTreeKeyData(mykeys[ks]));
+            m_prpTree->AppendItem(fType, wxString::FromUTF8(mykeys[ks]->getName().cstr()), 1, 1, new wxTreeKeyData(mykeys[ks]));
         }
 
         m_prpTree->SortChildren(fType);
