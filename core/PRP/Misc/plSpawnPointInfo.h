@@ -20,6 +20,7 @@ public:
     void prcParse(const pfPrcTag* tag);
 
     bool isEmpty();
+    void clear();
 };
 
 #endif
