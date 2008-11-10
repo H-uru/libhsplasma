@@ -493,7 +493,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNodeRegionModifier: return new plNodeRegionModifier();
         //case kPiranhaRegionModifier: return new plPiranhaRegionModifier();
         case kRidingAnimatedPhysicalDetector: return new plRidingAnimatedPhysicalDetector();
-        //case kVolumeSensorConditionalObjectNoArbitration: return new plVolumeSensorConditionalObjectNoArbitration();
+        case kVolumeSensorConditionalObjectNoArbitration: return new plVolumeSensorConditionalObjectNoArbitration();
         //case kFXMaterial: return new plFXMaterial();
         //case kMovableMod: return new plMovableMod();
         //case kMaterial: return new plMaterial();

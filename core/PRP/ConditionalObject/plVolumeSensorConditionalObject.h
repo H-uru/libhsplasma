@@ -26,4 +26,12 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+DllClass plVolumeSensorConditionalObjectNoArbitration : public plVolumeSensorConditionalObject {
+public:
+    plVolumeSensorConditionalObjectNoArbitration();
+    virtual ~plVolumeSensorConditionalObjectNoArbitration();
+
+    DECLARE_CREATABLE(plVolumeSensorConditionalObjectNoArbitration)
+};
+
 #endif

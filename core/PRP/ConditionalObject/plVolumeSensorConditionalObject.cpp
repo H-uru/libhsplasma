@@ -1,5 +1,6 @@
 #include "plVolumeSensorConditionalObject.h"
 
+/* plVolumeSensorConditionalObject */
 plVolumeSensorConditionalObject::plVolumeSensorConditionalObject()
     : fTrigNum(-1), fType(kTypeEnter), fFirst(false), fTriggered(false),
       fIgnoreExtraEnters(true) { }
@@ -42,3 +43,12 @@ void plVolumeSensorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManage
         plConditionalObject::IPrcParse(tag, mgr);
     }
 }
+
+
+/* plVolumeSensorConditionalObjectNoArbitration */
+plVolumeSensorConditionalObjectNoArbitration::plVolumeSensorConditionalObjectNoArbitration() { }
+plVolumeSensorConditionalObjectNoArbitration::~plVolumeSensorConditionalObjectNoArbitration() { }
+
+IMPLEMENT_CREATABLE(plVolumeSensorConditionalObjectNoArbitration,
+                    kVolumeSensorConditionalObjectNoArbitration,
+                    plVolumeSensorConditionalObject)

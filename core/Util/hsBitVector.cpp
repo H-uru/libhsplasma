@@ -48,6 +48,8 @@ void hsBitVector::set(size_t idx, bool b) {
         if (fBits != NULL) {
             for (size_t i=0; i<oldNumVectors; i++)
                 newBits[i] = fBits[i];
+            for (size_t i=oldNumVectors; i<fNumVectors; i++)
+                newBits[i] = 0;
             delete[] fBits;
         } else {
             memset(newBits, 0, sizeof(hsUint32)*fNumVectors);
