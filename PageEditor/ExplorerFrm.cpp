@@ -233,6 +233,8 @@ void ExplorerFrm::SavePrcFile( wxCommandEvent& event )
 void ExplorerFrm::SavePage( wxCommandEvent& event )
 {
     wxTreeKeyData* KeyData = (wxTreeKeyData*)m_prpTree->GetItemData(fCurrent);
+    if (KeyData == NULL) return;
+
     plKey fKey = KeyData->getKey();
     pfPrcParser prc;
     wxString wTxt = m_prcEditor->GetText();
