@@ -1,5 +1,5 @@
 #include <Python.h>
-#include <PRP/Messages/plMessage.h>
+#include <PRP/Message/plMessage.h>
 #include "pyMessage.h"
 #include "../KeyedObject/pyKey.h"
 #include "../pyCreatable.h"

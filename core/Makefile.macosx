@@ -703,68 +703,68 @@ $(OBJDIR)plShadowCaster.o: PRP/Light/plShadowCaster.h PRP/Light/plShadowCaster.c
 $(OBJDIR)plShadowMaster.o: PRP/Light/plShadowMaster.h PRP/Light/plShadowMaster.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/plShadowMaster.cpp -o $(OBJDIR)plShadowMaster.o
 
-$(OBJDIR)plAnimCmdMsg.o: PRP/Messages/plAnimCmdMsg.h PRP/Messages/plAnimCmdMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plAnimCmdMsg.cpp -o $(OBJDIR)plAnimCmdMsg.o
+$(OBJDIR)plAnimCmdMsg.o: PRP/Message/plAnimCmdMsg.h PRP/Message/plAnimCmdMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plAnimCmdMsg.cpp -o $(OBJDIR)plAnimCmdMsg.o
 
-$(OBJDIR)plArmatureEffectMsg.o: PRP/Messages/plArmatureEffectMsg.h PRP/Messages/plArmatureEffectMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plArmatureEffectMsg.cpp -o $(OBJDIR)plArmatureEffectMsg.o
+$(OBJDIR)plArmatureEffectMsg.o: PRP/Message/plArmatureEffectMsg.h PRP/Message/plArmatureEffectMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plArmatureEffectMsg.cpp -o $(OBJDIR)plArmatureEffectMsg.o
 
-$(OBJDIR)plCameraMsg.o: PRP/Messages/plCameraMsg.h PRP/Messages/plCameraMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plCameraMsg.cpp -o $(OBJDIR)plCameraMsg.o
+$(OBJDIR)plCameraMsg.o: PRP/Message/plCameraMsg.h PRP/Message/plCameraMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plCameraMsg.cpp -o $(OBJDIR)plCameraMsg.o
 
-$(OBJDIR)plClimbMsg.o: PRP/Messages/plClimbMsg.h PRP/Messages/plClimbMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plClimbMsg.cpp -o $(OBJDIR)plClimbMsg.o
+$(OBJDIR)plClimbMsg.o: PRP/Message/plClimbMsg.h PRP/Message/plClimbMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plClimbMsg.cpp -o $(OBJDIR)plClimbMsg.o
 
-$(OBJDIR)plEnableMsg.o: PRP/Messages/plEnableMsg.h PRP/Messages/plEnableMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plEnableMsg.cpp -o $(OBJDIR)plEnableMsg.o
+$(OBJDIR)plEnableMsg.o: PRP/Message/plEnableMsg.h PRP/Message/plEnableMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plEnableMsg.cpp -o $(OBJDIR)plEnableMsg.o
 
-$(OBJDIR)plEventCallbackMsg.o: PRP/Messages/plEventCallbackMsg.h PRP/Messages/plEventCallbackMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plEventCallbackMsg.cpp -o $(OBJDIR)plEventCallbackMsg.o
+$(OBJDIR)plEventCallbackMsg.o: PRP/Message/plEventCallbackMsg.h PRP/Message/plEventCallbackMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plEventCallbackMsg.cpp -o $(OBJDIR)plEventCallbackMsg.o
 
-$(OBJDIR)proEventData.o: PRP/Messages/proEventData.h PRP/Messages/proEventData.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/proEventData.cpp -o $(OBJDIR)proEventData.o
+$(OBJDIR)proEventData.o: PRP/Message/proEventData.h PRP/Message/proEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/proEventData.cpp -o $(OBJDIR)proEventData.o
 
-$(OBJDIR)plExcludeRegionMsg.o: PRP/Messages/plExcludeRegionMsg.h PRP/Messages/plExcludeRegionMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plExcludeRegionMsg.cpp -o $(OBJDIR)plExcludeRegionMsg.o
+$(OBJDIR)plExcludeRegionMsg.o: PRP/Message/plExcludeRegionMsg.h PRP/Message/plExcludeRegionMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plExcludeRegionMsg.cpp -o $(OBJDIR)plExcludeRegionMsg.o
 
-$(OBJDIR)plLinkToAgeMsg.o: PRP/Messages/plLinkToAgeMsg.h PRP/Messages/plLinkToAgeMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plLinkToAgeMsg.cpp -o $(OBJDIR)plLinkToAgeMsg.o
+$(OBJDIR)plLinkToAgeMsg.o: PRP/Message/plLinkToAgeMsg.h PRP/Message/plLinkToAgeMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plLinkToAgeMsg.cpp -o $(OBJDIR)plLinkToAgeMsg.o
 
-$(OBJDIR)plMessage.o: PRP/Messages/plMessage.h PRP/Messages/plMessage.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plMessage.cpp -o $(OBJDIR)plMessage.o
+$(OBJDIR)plMessage.o: PRP/Message/plMessage.h PRP/Message/plMessage.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plMessage.cpp -o $(OBJDIR)plMessage.o
 
-$(OBJDIR)plMessageWithCallbacks.o: PRP/Messages/plMessageWithCallbacks.h PRP/Messages/plMessageWithCallbacks.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plMessageWithCallbacks.cpp -o $(OBJDIR)plMessageWithCallbacks.o
+$(OBJDIR)plMessageWithCallbacks.o: PRP/Message/plMessageWithCallbacks.h PRP/Message/plMessageWithCallbacks.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plMessageWithCallbacks.cpp -o $(OBJDIR)plMessageWithCallbacks.o
 
-$(OBJDIR)plMsgForwarder.o: PRP/Messages/plMsgForwarder.h PRP/Messages/plMsgForwarder.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plMsgForwarder.cpp -o $(OBJDIR)plMsgForwarder.o
+$(OBJDIR)plMsgForwarder.o: PRP/Message/plMsgForwarder.h PRP/Message/plMsgForwarder.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plMsgForwarder.cpp -o $(OBJDIR)plMsgForwarder.o
 
-$(OBJDIR)plNotifyMsg.o: PRP/Messages/plNotifyMsg.h PRP/Messages/plNotifyMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plNotifyMsg.cpp -o $(OBJDIR)plNotifyMsg.o
+$(OBJDIR)plNotifyMsg.o: PRP/Message/plNotifyMsg.h PRP/Message/plNotifyMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plNotifyMsg.cpp -o $(OBJDIR)plNotifyMsg.o
 
-$(OBJDIR)plOneShotCallbacks.o: PRP/Messages/plOneShotCallbacks.h PRP/Messages/plOneShotCallbacks.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plOneShotCallbacks.cpp -o $(OBJDIR)plOneShotCallbacks.o
+$(OBJDIR)plOneShotCallbacks.o: PRP/Message/plOneShotCallbacks.h PRP/Message/plOneShotCallbacks.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plOneShotCallbacks.cpp -o $(OBJDIR)plOneShotCallbacks.o
 
-$(OBJDIR)plResponderMsg.o: PRP/Messages/plResponderMsg.h PRP/Messages/plResponderMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plResponderMsg.cpp -o $(OBJDIR)plResponderMsg.o
+$(OBJDIR)plResponderMsg.o: PRP/Message/plResponderMsg.h PRP/Message/plResponderMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plResponderMsg.cpp -o $(OBJDIR)plResponderMsg.o
 
-$(OBJDIR)plSimStateMsg.o: PRP/Messages/plSimStateMsg.h PRP/Messages/plSimStateMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plSimStateMsg.cpp -o $(OBJDIR)plSimStateMsg.o
+$(OBJDIR)plSimStateMsg.o: PRP/Message/plSimStateMsg.h PRP/Message/plSimStateMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plSimStateMsg.cpp -o $(OBJDIR)plSimStateMsg.o
 
-$(OBJDIR)plSimulationMsg.o: PRP/Messages/plSimulationMsg.h PRP/Messages/plSimulationMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plSimulationMsg.cpp -o $(OBJDIR)plSimulationMsg.o
+$(OBJDIR)plSimulationMsg.o: PRP/Message/plSimulationMsg.h PRP/Message/plSimulationMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plSimulationMsg.cpp -o $(OBJDIR)plSimulationMsg.o
 
-$(OBJDIR)plSoundMsg.o: PRP/Messages/plSoundMsg.h PRP/Messages/plSoundMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plSoundMsg.cpp -o $(OBJDIR)plSoundMsg.o
+$(OBJDIR)plSoundMsg.o: PRP/Message/plSoundMsg.h PRP/Message/plSoundMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plSoundMsg.cpp -o $(OBJDIR)plSoundMsg.o
 
-$(OBJDIR)plSwimMsg.o: PRP/Messages/plSwimMsg.h PRP/Messages/plSwimMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plSwimMsg.cpp -o $(OBJDIR)plSwimMsg.o
+$(OBJDIR)plSwimMsg.o: PRP/Message/plSwimMsg.h PRP/Message/plSwimMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plSwimMsg.cpp -o $(OBJDIR)plSwimMsg.o
 
-$(OBJDIR)plTimerCallbackMsg.o: PRP/Messages/plTimerCallbackMsg.h PRP/Messages/plTimerCallbackMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plTimerCallbackMsg.cpp -o $(OBJDIR)plTimerCallbackMsg.o
+$(OBJDIR)plTimerCallbackMsg.o: PRP/Message/plTimerCallbackMsg.h PRP/Message/plTimerCallbackMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plTimerCallbackMsg.cpp -o $(OBJDIR)plTimerCallbackMsg.o
 
-$(OBJDIR)plTransitionMsg.o: PRP/Messages/plTransitionMsg.h PRP/Messages/plTransitionMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Messages/plTransitionMsg.cpp -o $(OBJDIR)plTransitionMsg.o
+$(OBJDIR)plTransitionMsg.o: PRP/Message/plTransitionMsg.h PRP/Message/plTransitionMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plTransitionMsg.cpp -o $(OBJDIR)plTransitionMsg.o
 
 $(OBJDIR)plAgeLinkInfo.o: PRP/Misc/plAgeLinkInfo.h PRP/Misc/plAgeLinkInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/plAgeLinkInfo.cpp -o $(OBJDIR)plAgeLinkInfo.o

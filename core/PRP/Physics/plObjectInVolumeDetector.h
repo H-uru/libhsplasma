@@ -2,7 +2,7 @@
 #define _PLOBJECTINVOLUMEDETECTOR_H
 
 #include "plCollisionDetector.h"
-#include "PRP/Messages/plCameraMsg.h"
+#include "PRP/Message/plCameraMsg.h"
 
 DllClass plObjectInVolumeDetector : public plCollisionDetector {
 protected:

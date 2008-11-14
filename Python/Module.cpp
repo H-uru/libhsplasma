@@ -37,7 +37,9 @@
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Modifier/pyModifier.h"
+#include "PRP/Modifier/pyOneShotMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
+#include "PRP/Modifier/pyResponderModifier.h"
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
@@ -184,6 +186,8 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plWAVHeader", Init_pyWAVHeader_Type());
     PyModule_AddObject(module, "plSimDefs", Init_pySimDefs_Type());
     PyModule_AddObject(module, "plPythonParameter", Init_pyPythonParameter_Type());
+    PyModule_AddObject(module, "plResponderModifier_Cmd", Init_pyResponderModifier_Cmd_Type());
+    PyModule_AddObject(module, "plResponderModifier_State", Init_pyResponderModifier_State_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -228,6 +232,8 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plLayerMovie", Init_pyLayerMovie_Type());
     PyModule_AddObject(module, "plLayerAVI", Init_pyLayerAVI_Type());
     PyModule_AddObject(module, "plLayerBink", Init_pyLayerBink_Type());
+    PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
+    PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -255,4 +261,5 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plAnimTimeConvert", Init_pyAnimTimeConvert_Type());
     PyModule_AddObject(module, "plMessage", Init_pyMessage_Type());
     PyModule_AddObject(module, "plEventCallbackMsg", Init_pyEventCallbackMsg_Type());
+    PyModule_AddObject(module, "plResponderEnableMsg", Init_pyResponderEnableMsg_Type());
 }

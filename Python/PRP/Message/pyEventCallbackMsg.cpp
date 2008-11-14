@@ -1,5 +1,5 @@
 #include <Python.h>
-#include <PRP/Messages/plEventCallbackMsg.h>
+#include <PRP/Message/plEventCallbackMsg.h>
 #include "pyEventCallbackMsg.h"
 #include "pyMessage.h"
 #include "../pyCreatable.h"
@@ -179,13 +179,13 @@ int pyEventCallbackMsg_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyEventCallbackMsg_FromEventCallbackMsg(class plEventCallbackMsg* atc) {
-    if (atc == NULL) {
+PyObject* pyEventCallbackMsg_FromEventCallbackMsg(class plEventCallbackMsg* msg) {
+    if (msg == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
     pyEventCallbackMsg* pyobj = PyObject_New(pyEventCallbackMsg, &pyEventCallbackMsg_Type);
-    pyobj->fThis = atc;
+    pyobj->fThis = msg;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;
 }

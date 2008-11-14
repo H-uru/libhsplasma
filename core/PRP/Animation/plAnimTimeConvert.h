@@ -2,7 +2,7 @@
 #define _PLANIMTIMECONVERT_H
 
 #include "PRP/plCreatable.h"
-#include "PRP/Messages/plEventCallbackMsg.h"
+#include "PRP/Message/plEventCallbackMsg.h"
 #include "plATCEaseCurves.h"
 
 DllClass plAnimTimeConvert : public plCreatable {

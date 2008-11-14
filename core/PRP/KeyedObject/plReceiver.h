@@ -2,7 +2,7 @@
 #define _PLRECEIVER_H
 
 #include "PRP/plCreatable.h"
-#include "PRP/Messages/plMessage.h"
+#include "PRP/Message/plMessage.h"
 #include "plKey.h"
 
 DllClass plReceiver : public plCreatable {

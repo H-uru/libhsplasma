@@ -2,7 +2,7 @@
 #define _PLNPCSPAWNMOD_H
 
 #include "PRP/Modifier/plModifier.h"
-#include "PRP/Messages/plNotifyMsg.h"
+#include "PRP/Message/plNotifyMsg.h"
 
 DllClass plNPCSpawnMod : public plSingleModifier {
 protected:

@@ -2,7 +2,7 @@
 #define _PLAUDIBLE_H
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
-#include "PRP/Messages/plEventCallbackMsg.h"
+#include "PRP/Message/plEventCallbackMsg.h"
 #include "Math/hsMatrix44.h"
 
 DllClass plAudible : public hsKeyedObject {

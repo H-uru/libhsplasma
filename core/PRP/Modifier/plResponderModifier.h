@@ -10,15 +10,22 @@ public:
         plMessage* fMsg;
         hsByte fWaitOn;
 
-        plResponderCmd();
+        plResponderCmd(plMessage* msg = NULL, hsByte waitOn = -1);
         ~plResponderCmd();
     };
 
     DllClass plResponderState {
     public:
-        hsTArray<plResponderCmd> fCmds;
+        hsTArray<plResponderCmd*> fCmds;
         hsByte fNumCallbacks, fSwitchToState;
         std::map<hsByte, hsByte> fWaitToCmd;
+
+        plResponderState();
+        ~plResponderState();
+
+        void addCommand(plMessage* msg, hsByte waitOn);
+        void delCommand(size_t idx);
+        void clearCommands();
     };
 
     enum {
@@ -28,7 +35,7 @@ public:
     };
 
 protected:
-    hsTArray<plResponderState> fStates;
+    hsTArray<plResponderState*> fStates;
     signed char fCurState;
     bool fEnabled;
     unsigned char fFlags;
@@ -45,6 +52,21 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumStates() const;
+    plResponderState* getState(size_t idx) const;
+    void addState(plResponderState* state);
+    void delState(size_t idx);
+    void clearStates();
+
+    bool isEnabled() const;
+    size_t getCurState() const;
+    unsigned char getFlags() const;
+
+    void setEnabled(bool enabled);
+    void setCurState(size_t state);
+    void setFlags(unsigned char flags);
 };
 
 DllClass plResponderEnableMsg : public plMessage {
@@ -63,6 +85,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    bool getEnable() const;
+    void setEnable(bool enable);
 };
 
 #endif

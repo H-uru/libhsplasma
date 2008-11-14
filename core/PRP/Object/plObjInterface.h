@@ -3,7 +3,6 @@
 
 #include "Util/hsBitVector.h"
 #include "plSynchedObject.h"
-#include "PRP/Messages/plMessage.h"
 
 DllClass plObjInterface : public plSynchedObject {
 public:

@@ -1227,174 +1227,174 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Messages"
+				Name="Message"
 				>
 				<File
-					RelativePath=".\PRP\Messages\plAnimCmdMsg.cpp"
+					RelativePath=".\PRP\Message\plAnimCmdMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plAnimCmdMsg.h"
+					RelativePath=".\PRP\Message\plAnimCmdMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plArmatureEffectMsg.cpp"
+					RelativePath=".\PRP\Message\plArmatureEffectMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plArmatureEffectMsg.h"
+					RelativePath=".\PRP\Message\plArmatureEffectMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plCameraMsg.cpp"
+					RelativePath=".\PRP\Message\plCameraMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plCameraMsg.h"
+					RelativePath=".\PRP\Message\plCameraMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plClimbMsg.cpp"
+					RelativePath=".\PRP\Message\plClimbMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plClimbMsg.h"
+					RelativePath=".\PRP\Message\plClimbMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plEnableMsg.cpp"
+					RelativePath=".\PRP\Message\plEnableMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plEnableMsg.h"
+					RelativePath=".\PRP\Message\plEnableMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plEventCallbackMsg.cpp"
+					RelativePath=".\PRP\Message\plEventCallbackMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plEventCallbackMsg.h"
+					RelativePath=".\PRP\Message\plEventCallbackMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plExcludeRegionMsg.cpp"
+					RelativePath=".\PRP\Message\plExcludeRegionMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plExcludeRegionMsg.h"
+					RelativePath=".\PRP\Message\plExcludeRegionMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plLinkToAgeMsg.cpp"
+					RelativePath=".\PRP\Message\plLinkToAgeMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plLinkToAgeMsg.h"
+					RelativePath=".\PRP\Message\plLinkToAgeMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plMessage.cpp"
+					RelativePath=".\PRP\Message\plMessage.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plMessage.h"
+					RelativePath=".\PRP\Message\plMessage.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plMessageWithCallbacks.cpp"
+					RelativePath=".\PRP\Message\plMessageWithCallbacks.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plMessageWithCallbacks.h"
+					RelativePath=".\PRP\Message\plMessageWithCallbacks.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plMsgForwarder.cpp"
+					RelativePath=".\PRP\Message\plMsgForwarder.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plMsgForwarder.h"
+					RelativePath=".\PRP\Message\plMsgForwarder.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plNotifyMsg.cpp"
+					RelativePath=".\PRP\Message\plNotifyMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plNotifyMsg.h"
+					RelativePath=".\PRP\Message\plNotifyMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plOneShotCallbacks.cpp"
+					RelativePath=".\PRP\Message\plOneShotCallbacks.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plOneShotCallbacks.h"
+					RelativePath=".\PRP\Message\plOneShotCallbacks.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plResponderMsg.cpp"
+					RelativePath=".\PRP\Message\plResponderMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plResponderMsg.h"
+					RelativePath=".\PRP\Message\plResponderMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plSimStateMsg.cpp"
+					RelativePath=".\PRP\Message\plSimStateMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plSimStateMsg.h"
+					RelativePath=".\PRP\Message\plSimStateMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plSimulationMsg.cpp"
+					RelativePath=".\PRP\Message\plSimulationMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plSimulationMsg.h"
+					RelativePath=".\PRP\Message\plSimulationMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plSoundMsg.cpp"
+					RelativePath=".\PRP\Message\plSoundMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plSoundMsg.h"
+					RelativePath=".\PRP\Message\plSoundMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plSwimMsg.cpp"
+					RelativePath=".\PRP\Message\plSwimMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plSwimMsg.h"
+					RelativePath=".\PRP\Message\plSwimMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plTimerCallbackMsg.cpp"
+					RelativePath=".\PRP\Message\plTimerCallbackMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plTimerCallbackMsg.h"
+					RelativePath=".\PRP\Message\plTimerCallbackMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plTransitionMsg.cpp"
+					RelativePath=".\PRP\Message\plTransitionMsg.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\plTransitionMsg.h"
+					RelativePath=".\PRP\Message\plTransitionMsg.h"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\proEventData.cpp"
+					RelativePath=".\PRP\Message\proEventData.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Messages\proEventData.h"
+					RelativePath=".\PRP\Message\proEventData.h"
 					>
 				</File>
 			</Filter>

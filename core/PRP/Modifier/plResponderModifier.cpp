@@ -1,8 +1,9 @@
 #include "plResponderModifier.h"
 #include "Debug/plDebug.h"
 
-// plResponderModifier::plResponderCmd //
-plResponderModifier::plResponderCmd::plResponderCmd() : fMsg(NULL), fWaitOn(-1) { }
+/* plResponderModifier::plResponderCmd */
+plResponderModifier::plResponderCmd::plResponderCmd(plMessage* msg, hsByte waitOn)
+                   : fMsg(msg), fWaitOn(waitOn) { }
 
 plResponderModifier::plResponderCmd::~plResponderCmd() {
     if (fMsg != NULL)
@@ -10,11 +11,39 @@ plResponderModifier::plResponderCmd::~plResponderCmd() {
 }
 
 
-// plResponderModifier //
+/* plResponderModifier::plResponderState */
+plResponderModifier::plResponderState::plResponderState()
+                   : fNumCallbacks(0), fSwitchToState(0) { }
+
+plResponderModifier::plResponderState::~plResponderState() {
+    for (size_t i=0; i<fCmds.getSize(); i++)
+        delete fCmds[i];
+}
+
+void plResponderModifier::plResponderState::addCommand(plMessage* msg, hsByte waitOn) {
+    fCmds.append(new plResponderCmd(msg, waitOn));
+}
+
+void plResponderModifier::plResponderState::delCommand(size_t idx) {
+    delete fCmds[idx];
+    fCmds.remove(idx);
+}
+
+void plResponderModifier::plResponderState::clearCommands() {
+    for (size_t i=0; i<fCmds.getSize(); i++)
+        delete fCmds[i];
+    fCmds.clear();
+}
+
+
+/* plResponderModifier */
 plResponderModifier::plResponderModifier()
                    : fCurState(0), fEnabled(true), fFlags(0) { }
 
-plResponderModifier::~plResponderModifier() { }
+plResponderModifier::~plResponderModifier() {
+    for (size_t i=0; i<fStates.getSize(); i++)
+        delete fStates[i];
+}
 
 IMPLEMENT_CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
 
@@ -23,20 +52,22 @@ void plResponderModifier::read(hsStream* S, plResManager* mgr) {
 
     fStates.setSize(S->readByte());
     for (size_t i=0; i<fStates.getSize(); i++) {
-        fStates[i].fNumCallbacks = S->readByte();
-        fStates[i].fSwitchToState = S->readByte();
-        fStates[i].fCmds.setSize(S->readByte());
-        for (size_t j=0; j<fStates[i].fCmds.getSize(); j++) {
-            fStates[i].fCmds[j].fMsg = plMessage::Convert(mgr->ReadCreatable(S));
-            fStates[i].fCmds[j].fWaitOn = S->readByte();
-            if (fStates[i].fCmds[j].fMsg == NULL)
+        fStates[i] = new plResponderState();
+        fStates[i]->fNumCallbacks = S->readByte();
+        fStates[i]->fSwitchToState = S->readByte();
+        fStates[i]->fCmds.setSize(S->readByte());
+        for (size_t j=0; j<fStates[i]->fCmds.getSize(); j++) {
+            plMessage* msg = plMessage::Convert(mgr->ReadCreatable(S));
+            hsByte waitOn = S->readByte();
+            fStates[i]->fCmds[j] = new plResponderCmd(msg, waitOn);
+            if (msg == NULL)
                 throw hsNotImplementedException(__FILE__, __LINE__, "Responder Message");
         }
-        fStates[i].fWaitToCmd.clear();
+        fStates[i]->fWaitToCmd.clear();
         size_t count = S->readByte();
         for (size_t j=0; j<count; j++) {
             hsByte wait = S->readByte();
-            fStates[i].fWaitToCmd[wait] = S->readByte();
+            fStates[i]->fWaitToCmd[wait] = S->readByte();
         }
     }
 
@@ -56,16 +87,16 @@ void plResponderModifier::write(hsStream* S, plResManager* mgr) {
 
     S->writeByte(fStates.getSize());
     for (size_t i=0; i<fStates.getSize(); i++) {
-        S->writeByte(fStates[i].fNumCallbacks);
-        S->writeByte(fStates[i].fSwitchToState);
-        S->writeByte(fStates[i].fCmds.getSize());
-        for (size_t j=0; j<fStates[i].fCmds.getSize(); j++) {
-            mgr->WriteCreatable(S, fStates[i].fCmds[j].fMsg);
-            S->writeByte(fStates[i].fCmds[j].fWaitOn);
+        S->writeByte(fStates[i]->fNumCallbacks);
+        S->writeByte(fStates[i]->fSwitchToState);
+        S->writeByte(fStates[i]->fCmds.getSize());
+        for (size_t j=0; j<fStates[i]->fCmds.getSize(); j++) {
+            mgr->WriteCreatable(S, fStates[i]->fCmds[j]->fMsg);
+            S->writeByte(fStates[i]->fCmds[j]->fWaitOn);
         }
-        S->writeByte(fStates[i].fWaitToCmd.size());
-        std::map<hsByte, hsByte>::iterator wp = fStates[i].fWaitToCmd.begin();
-        for ( ; wp != fStates[i].fWaitToCmd.end(); wp++) {
+        S->writeByte(fStates[i]->fWaitToCmd.size());
+        std::map<hsByte, hsByte>::iterator wp = fStates[i]->fWaitToCmd.begin();
+        for ( ; wp != fStates[i]->fWaitToCmd.end(); wp++) {
             S->writeByte(wp->first);    // key
             S->writeByte(wp->second);   // value
         }
@@ -88,24 +119,24 @@ void plResponderModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("States");
     for (size_t i=0; i<fStates.getSize(); i++) {
         prc->startTag("plResponderState");
-        prc->writeParam("NumCallbacks", fStates[i].fNumCallbacks);
-        prc->writeParam("SwitchToState", fStates[i].fSwitchToState);
+        prc->writeParam("NumCallbacks", fStates[i]->fNumCallbacks);
+        prc->writeParam("SwitchToState", fStates[i]->fSwitchToState);
         prc->endTag();
         
         prc->writeSimpleTag("Commands");
-        for (size_t j=0; j<fStates[i].fCmds.getSize(); j++) {
+        for (size_t j=0; j<fStates[i]->fCmds.getSize(); j++) {
             prc->writeSimpleTag("Command");
-            fStates[i].fCmds[j].fMsg->prcWrite(prc);
+            fStates[i]->fCmds[j]->fMsg->prcWrite(prc);
             prc->startTag("WaitOn");
-            prc->writeParam("value", fStates[i].fCmds[j].fWaitOn);
+            prc->writeParam("value", fStates[i]->fCmds[j]->fWaitOn);
             prc->endTag(true);
             prc->closeTag();
         }
         prc->closeTag();    // Commands
 
         prc->writeSimpleTag("WaitToCmdTable");
-        std::map<hsByte, hsByte>::iterator wp = fStates[i].fWaitToCmd.begin();
-        for ( ; wp != fStates[i].fWaitToCmd.end(); wp++) {
+        std::map<hsByte, hsByte>::iterator wp = fStates[i]->fWaitToCmd.begin();
+        for ( ; wp != fStates[i]->fWaitToCmd.end(); wp++) {
             prc->startTag("Item");
             prc->writeParam("Wait", wp->first);
             prc->writeParam("Cmd", wp->second);
@@ -129,26 +160,30 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fStates.getSize(); i++) {
             if (state->getName() != "plResponderState")
                 throw pfPrcTagException(__FILE__, __LINE__, state->getName());
-            fStates[i].fNumCallbacks = state->getParam("NumCallbacks", "0").toInt();
-            fStates[i].fSwitchToState = state->getParam("SwitchToState", "-1").toInt();
+            fStates[i] = new plResponderState();
+            fStates[i]->fNumCallbacks = state->getParam("NumCallbacks", "0").toInt();
+            fStates[i]->fSwitchToState = state->getParam("SwitchToState", "-1").toInt();
 
             const pfPrcTag* child = state->getFirstChild();
             while (child != NULL) {
                 if (child->getName() == "Commands") {
-                    fStates[i].fCmds.setSize(child->countChildren());
+                    fStates[i]->fCmds.setSize(child->countChildren());
                     const pfPrcTag* cmdChild = child->getFirstChild();
-                    for (size_t j=0; j<fStates[i].fCmds.getSize(); j++) {
+                    for (size_t j=0; j<fStates[i]->fCmds.getSize(); j++) {
                         if (cmdChild->getName() != "Command")
                             throw pfPrcTagException(__FILE__, __LINE__, cmdChild->getName());
+                        plMessage* msg = NULL;
+                        hsByte waitOn = -1;
                         const pfPrcTag* subChild = cmdChild->getFirstChild();
                         while (subChild != NULL) {
                             if (subChild->getName() == "WaitOn") {
-                                fStates[i].fCmds[j].fWaitOn = subChild->getParam("value", "-1").toInt();
+                                waitOn = subChild->getParam("value", "-1").toInt();
                             } else {
-                                fStates[i].fCmds[j].fMsg = plMessage::Convert(mgr->prcParseCreatable(subChild));
+                                msg = plMessage::Convert(mgr->prcParseCreatable(subChild));
                             }
                             subChild = subChild->getNextSibling();
                         }
+                        fStates[i]->fCmds[j] = new plResponderCmd(msg, waitOn);
                         cmdChild = cmdChild->getNextSibling();
                     }
                 } else if (child->getName() == "WaitToCmdTable") {
@@ -158,7 +193,7 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                         if (waitChild->getName() != "Item")
                             throw pfPrcTagException(__FILE__, __LINE__, waitChild->getName());
                         hsByte wait = waitChild->getParam("Wait", "0").toInt();
-                        fStates[i].fWaitToCmd[wait] = waitChild->getParam("Cmd", "0").toInt();
+                        fStates[i]->fWaitToCmd[wait] = waitChild->getParam("Cmd", "0").toInt();
                         waitChild = waitChild->getNextSibling();
                     }
                 } else {
@@ -173,8 +208,31 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+size_t plResponderModifier::getNumStates() const { return fStates.getSize(); }
+plResponderModifier::plResponderState* plResponderModifier::getState(size_t idx) const { return fStates[idx]; }
+void plResponderModifier::addState(plResponderState* state) { fStates.append(state); }
 
-// plResponderEnableMsg //
+void plResponderModifier::delState(size_t idx) {
+    delete fStates[idx];
+    fStates.remove(idx);
+}
+
+void plResponderModifier::clearStates() {
+    for (size_t i=0; i<fStates.getSize(); i++)
+        delete fStates[i];
+    fStates.clear();
+}
+
+bool plResponderModifier::isEnabled() const { return fEnabled; }
+size_t plResponderModifier::getCurState() const { return (size_t)fCurState; }
+unsigned char plResponderModifier::getFlags() const { return fFlags; }
+
+void plResponderModifier::setEnabled(bool enabled) { fEnabled = enabled; }
+void plResponderModifier::setCurState(size_t state) { fCurState = state; }
+void plResponderModifier::setFlags(unsigned char flags) { fFlags = flags; }
+
+
+/* plResponderEnableMsg */
 plResponderEnableMsg::plResponderEnableMsg() { }
 plResponderEnableMsg::~plResponderEnableMsg() { }
 
@@ -205,3 +263,6 @@ void plResponderEnableMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
+
+bool plResponderEnableMsg::getEnable() const { return fEnable; }
+void plResponderEnableMsg::setEnable(bool enable) { fEnable = enable; }

@@ -6,7 +6,7 @@
 DllClass plOneShotMod : public plMultiModifier {
 protected:
     plString fAnimName;
-    bool fDrivable, fReversible, fSmartSeek, fNoSeek;
+    bool fDrivable, fReversable, fSmartSeek, fNoSeek;
     float fSeekDuration;
 
 public:
@@ -21,6 +21,21 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plString getAnimName() const;
+    bool isDrivable() const;
+    bool isReversable() const;
+    bool getSmartSeek() const;
+    bool getNoSeek() const;
+    float getSeekDuration();
+
+    void setAnimName(const plString& name);
+    void setDrivable(bool drivable);
+    void setReversable(bool reversable);
+    void setSmartSeek(bool smartSeek);
+    void setNoSeek(bool noSeek);
+    void setSeekDuration(float duration);
 };
 
 #endif

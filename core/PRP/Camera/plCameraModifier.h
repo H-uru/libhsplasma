@@ -2,7 +2,7 @@
 #define _PLCAMERAMODIFIER_H
 
 #include "PRP/Modifier/plModifier.h"
-#include "PRP/Messages/plCameraMsg.h"
+#include "PRP/Message/plCameraMsg.h"
 
 DllClass plCameraModifier1 : public plSingleModifier {
 public:
