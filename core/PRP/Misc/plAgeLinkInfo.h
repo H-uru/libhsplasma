@@ -42,6 +42,12 @@ protected:
 public:
     bool isEmpty();
     void clear();
+
+    const plString& getAgeFilename() const;
+    const plString& getAgeInstanceName() const;
+
+    void setAgeFilename(const plString& name);
+    void setAgeInstanceName(const plString& name);
 };
 
 DllClass plAgeLinkStruct : public plCreatable {
@@ -80,6 +86,20 @@ protected:
 
 public:
     void clear();
+};
+
+DllClass plAgeLinkEffects {
+protected:
+    plString fLinkInAnimName;
+    bool fBool1, fBool2, fBool3, fBool4;
+
+public:
+    plAgeLinkEffects();
+
+    void read(hsStream* S);
+    void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
+    void prcParse(const pfPrcTag* tag);
 };
 
 #endif

@@ -3,23 +3,21 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-/* Obviously needs a lot more research */
+DllStruct pfFlock {
+    float fGoalWeight, fRandomWeight;
+    float fSeparationWeight, fSeparationRadius;
+    float fCohesionWeight, fCohesionRadius;
+    float fMaxForce, fMaxSpeed, fMinSpeed;
+
+    pfFlock();
+};
+
 DllClass pfObjectFlocker : public plSingleModifier {
-public:
-    DllStruct FlockStruct {
-        float fFloat1;
-        float fFloat2[6];
-        float fFloat3;
-
-        FlockStruct();
-    };
-
 protected:
-    unsigned char fFlags;
-    bool fBool1, fBool2;
-    plKey fTarget;
-    float fFloat1;
-    FlockStruct fFlockStruct;
+    unsigned char fNumBoids;
+    bool fUseTargetRotation, fRandomizeAnimationStart;
+    plKey fBoidKey;
+    pfFlock fFlock;
 
 public:
     pfObjectFlocker();

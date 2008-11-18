@@ -7,8 +7,8 @@
 DllClass plLinkToAgeMsg : public plMessage {
 protected:
     plAgeLinkStruct fAgeLink;
-    plString fLinkInAnimName;
-    hsByte fStreamVersion;
+    plAgeLinkEffects fLinkEffects;
+    hsByte fStreamVersion, fEoaUnknown;
 
 public:
     plLinkToAgeMsg();

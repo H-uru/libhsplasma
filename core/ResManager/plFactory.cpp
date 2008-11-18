@@ -473,7 +473,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kCameraBrainUru_FirstPerson: return new plCameraBrain1_FirstPerson();
         case kCameraBrainUru_Circle: return new plCameraBrain1_Circle();
         //case kEAXReverbEffect: return new plEAXReverbEffect();
-        //case kSpawnMod: return new plSpawnMod();
+        case kSpawnMod: return new plSpawnMod();
         case kCameraBrain_Novice: return new plCameraBrain_Novice();
         //case kAvatarPhysicalSDLModifier: return new plAvatarPhysicalSDLModifier();
         //case kDirectMusicSound: return new plDirectMusicSound();

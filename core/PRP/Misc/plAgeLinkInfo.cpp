@@ -1,6 +1,7 @@
 #include "plAgeLinkInfo.h"
+#include "Util/hsBitVector.h"
 
-// plAgeInfoStruct //
+/* plAgeInfoStruct */
 plAgeInfoStruct::plAgeInfoStruct()
                : fFlags(0), fAgeSequenceNumber(0), fAgeLanguage(0) { }
 plAgeInfoStruct::~plAgeInfoStruct() { }
@@ -146,44 +147,92 @@ void plAgeInfoStruct::clear() {
     fFlags = 0;
 }
 
+const plString& plAgeInfoStruct::getAgeFilename() const { return fAgeFilename; }
+const plString& plAgeInfoStruct::getAgeInstanceName() const { return fAgeInstanceName; }
 
-// plAgeLinkStruct //
+void plAgeInfoStruct::setAgeFilename(const plString& name) {
+    fFlags |= kHasAgeFilename;
+    fAgeFilename = name;
+}
+
+void plAgeInfoStruct::setAgeInstanceName(const plString& name) {
+    fFlags |= kHasAgeInstanceName;
+    fAgeInstanceName = name;
+}
+
+
+/* plAgeLinkStruct */
 plAgeLinkStruct::plAgeLinkStruct() : fFlags(0), fLinkingRules(0), fAmCCR(0) { }
 plAgeLinkStruct::~plAgeLinkStruct() { }
 
 IMPLEMENT_CREATABLE(plAgeLinkStruct, kAgeLinkStruct, plCreatable)
 
 void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
-    fFlags = S->readShort();
-    if (fFlags & kHasAgeInfo)
-        fAgeInfo.read(S, mgr);
-    if (fFlags & kHasLinkingRules)
-        fLinkingRules = S->readByte();
-    if (fFlags & (kHasSpawnPt_DEAD | kHasSpawnPt_DEAD2))
-        throw hsNotImplementedException(__FILE__, __LINE__, "Old Code");
-    if (fFlags & kHasSpawnPt)
-        fSpawnPoint.read(S);
-    if (fFlags & kHasAmCCR)
-        fAmCCR = S->readByte();
-    if (fFlags & kHasParentAgeFilename) {
-        size_t len = S->readShort();
-        fParentAgeFilename = S->readStr(len);
+    if (S->getVer() < pvEoa) {
+        fFlags = S->readShort();
+        if (fFlags & kHasAgeInfo)
+            fAgeInfo.read(S, mgr);
+        if (fFlags & kHasLinkingRules)
+            fLinkingRules = S->readByte();
+        if (fFlags & (kHasSpawnPt_DEAD | kHasSpawnPt_DEAD2))
+            throw hsNotImplementedException(__FILE__, __LINE__, "Old Code");
+        if (fFlags & kHasSpawnPt)
+            fSpawnPoint.read(S);
+        if (fFlags & kHasAmCCR)
+            fAmCCR = S->readByte();
+        if (fFlags & kHasParentAgeFilename) {
+            size_t len = S->readShort();
+            fParentAgeFilename = S->readStr(len);
+        }
+    } else {
+        hsBitVector fields;
+        fields.read(S);
+
+        clear();
+        fAgeInfo.clear();
+        if (fields[0]) {
+            fFlags |= kHasAgeInfo;
+            size_t len = S->readShort();
+            fAgeInfo.setAgeFilename(S->readStr(len));
+        }
+        if (fields[1]) {
+            fFlags |= kHasAgeInfo;
+            size_t len = S->readShort();
+            fAgeInfo.setAgeInstanceName(S->readStr(len));
+        }
+        if (fields[2]) {
+            fFlags |= kHasSpawnPt;
+            fSpawnPoint.read(S);
+        }
     }
 }
 
 void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
-    S->writeShort(fFlags);
-    if (fFlags & kHasAgeInfo)
-        fAgeInfo.write(S, mgr);
-    if (fFlags & kHasLinkingRules)
-        S->writeByte(fLinkingRules);
-    if (fFlags & kHasSpawnPt)
+    if (S->getVer() < pvEoa) {
+        S->writeShort(fFlags);
+        if (fFlags & kHasAgeInfo)
+            fAgeInfo.write(S, mgr);
+        if (fFlags & kHasLinkingRules)
+            S->writeByte(fLinkingRules);
+        if (fFlags & kHasSpawnPt)
+            fSpawnPoint.write(S);
+        if (fFlags & kHasAmCCR)
+            S->writeByte(fAmCCR);
+        if (fFlags & kHasParentAgeFilename) {
+            S->writeShort(fParentAgeFilename.len());
+            S->writeStr(fParentAgeFilename);
+        }
+    } else {
+        hsBitVector fields;
+        fields[0] = true;
+        fields[1] = true;
+        fields[2] = true;
+
+        S->writeShort(fAgeInfo.getAgeFilename().len());
+        S->writeStr(fAgeInfo.getAgeFilename());
+        S->writeShort(fAgeInfo.getAgeInstanceName().len());
+        S->writeStr(fAgeInfo.getAgeInstanceName());
         fSpawnPoint.write(S);
-    if (fFlags & kHasAmCCR)
-        S->writeByte(fAmCCR);
-    if (fFlags & kHasParentAgeFilename) {
-        S->writeShort(fParentAgeFilename.len());
-        S->writeStr(fParentAgeFilename);
     }
 }
 
@@ -249,4 +298,71 @@ void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plAgeLinkStruct::clear() {
     fFlags = 0;
+}
+
+
+/* plAgeLinkEffects */
+plAgeLinkEffects::plAgeLinkEffects()
+                : fLinkInAnimName("LinkOut"), fBool1(true), fBool2(true),
+                  fBool3(true), fBool4(true) { }
+
+void plAgeLinkEffects::read(hsStream* S) {
+    if (S->getVer() < pvEoa) {
+        fLinkInAnimName = S->readSafeStr();
+    } else {
+        hsBitVector fields;
+        fields.read(S);
+
+        if (fields[0]) {
+            size_t len = S->readShort();
+            fLinkInAnimName = S->readStr(len);
+        }
+        if (fields[1])
+            fBool1 = S->readInt() != 0;
+        if (fields[2])
+            fBool2 = S->readInt() != 0;
+        if (fields[3])
+            fBool3 = S->readInt() != 0;
+        if (fields[4])
+            fBool4 = S->readInt() != 0;
+    }
+}
+
+void plAgeLinkEffects::write(hsStream* S) {
+    if (S->getVer() < pvEoa) {
+        S->writeSafeStr(fLinkInAnimName);
+    } else {
+        hsBitVector fields;
+        fields[1] = true;
+        fields[2] = true;
+        fields[3] = true;
+        fields[4] = true;
+        fields.write(S);
+
+        S->writeInt(fBool1 ? 1 : 0);
+        S->writeInt(fBool2 ? 1 : 0);
+        S->writeInt(fBool3 ? 1 : 0);
+        S->writeInt(fBool4 ? 1 : 0);
+    }
+}
+
+void plAgeLinkEffects::prcWrite(pfPrcHelper* prc) {
+    prc->startTag("plAgeLinkEffects");
+    prc->writeParam("LinkInAnimName", fLinkInAnimName);
+    prc->writeParam("Bool1", fBool1);
+    prc->writeParam("Bool2", fBool2);
+    prc->writeParam("Bool3", fBool3);
+    prc->writeParam("Bool4", fBool4);
+    prc->endTag(true);
+}
+
+void plAgeLinkEffects::prcParse(const pfPrcTag* tag) {
+    if (tag->getName() != "plAgeLinkEffects")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fLinkInAnimName = tag->getParam("LinkInAnimName", "");
+    fBool1 = tag->getParam("Bool1", "true").toBool();
+    fBool2 = tag->getParam("Bool2", "true").toBool();
+    fBool3 = tag->getParam("Bool3", "true").toBool();
+    fBool4 = tag->getParam("Bool4", "true").toBool();
 }

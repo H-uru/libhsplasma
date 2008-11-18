@@ -1,17 +1,16 @@
 #include "pfObjectFlocker.h"
 
-pfObjectFlocker::FlockStruct::FlockStruct()
-               : fFloat1(0.0f), fFloat3(0.0f) {
-    fFloat2[0] = 0.0f;
-    fFloat2[1] = 0.0f;
-    fFloat2[2] = 0.0f;
-    fFloat2[3] = 0.0f;
-    fFloat2[4] = 0.0f;
-    fFloat2[5] = 0.0f;
-}
+/* pfFlock */
+pfFlock::pfFlock()
+       : fGoalWeight(8.0f), fRandomWeight(12.0f), fSeparationWeight(12.0f),
+         fSeparationRadius(5.0f), fCohesionWeight(8.0f), fCohesionRadius(9.0f),
+         fMaxForce(10.0f), fMaxSpeed(5.0f), fMinSpeed(4.0f) { }
 
+
+/* pfObjectFlocker */
 pfObjectFlocker::pfObjectFlocker()
-               : fFlags(0), fBool1(false), fBool2(false), fFloat1(0.0f) { }
+               : fNumBoids(0), fUseTargetRotation(false),
+                 fRandomizeAnimationStart(false) { }
 
 IMPLEMENT_CREATABLE(pfObjectFlocker, kObjectFlocker, plSingleModifier)
 
@@ -19,90 +18,88 @@ void pfObjectFlocker::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
     S->readByte();
-    fFlags = S->readByte();
-    fTarget = mgr->readKey(S);
+    fNumBoids = S->readByte();
+    fBoidKey = mgr->readKey(S);
 
-    fFlockStruct.fFloat1 = S->readFloat();
-    fFlockStruct.fFloat2[0] = S->readFloat();
-    fFlockStruct.fFloat2[1] = S->readFloat();
-    fFlockStruct.fFloat2[2] = S->readFloat();
-    fFlockStruct.fFloat2[3] = S->readFloat();
-    fFlockStruct.fFloat2[4] = S->readFloat();
-    fFlockStruct.fFloat2[5] = S->readFloat();
-    fFlockStruct.fFloat3 = S->readFloat();
+    fFlock.fGoalWeight = S->readFloat();
+    fFlock.fRandomWeight = S->readFloat();
+    fFlock.fSeparationWeight = S->readFloat();
+    fFlock.fSeparationRadius = S->readFloat();
+    fFlock.fCohesionWeight = S->readFloat();
+    fFlock.fCohesionRadius = S->readFloat();
+    fFlock.fMaxForce = S->readFloat();
+    fFlock.fMaxSpeed = S->readFloat();
+    fFlock.fMinSpeed = S->readFloat();
 
-    fFloat1 = S->readFloat();
-    fBool1 = S->readBool();
-    fBool2 = S->readBool();
+    fUseTargetRotation = S->readBool();
+    fRandomizeAnimationStart = S->readBool();
 }
 
 void pfObjectFlocker::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
     S->writeByte(1);
-    S->writeByte(fFlags);
-    mgr->writeKey(S, fTarget);
+    S->writeByte(fNumBoids);
+    mgr->writeKey(S, fBoidKey);
 
-    S->writeFloat(fFlockStruct.fFloat1);
-    S->writeFloat(fFlockStruct.fFloat2[0]);
-    S->writeFloat(fFlockStruct.fFloat2[1]);
-    S->writeFloat(fFlockStruct.fFloat2[2]);
-    S->writeFloat(fFlockStruct.fFloat2[3]);
-    S->writeFloat(fFlockStruct.fFloat2[4]);
-    S->writeFloat(fFlockStruct.fFloat2[5]);
-    S->writeFloat(fFlockStruct.fFloat3);
+    S->writeFloat(fFlock.fGoalWeight);
+    S->writeFloat(fFlock.fRandomWeight);
+    S->writeFloat(fFlock.fSeparationWeight);
+    S->writeFloat(fFlock.fSeparationRadius);
+    S->writeFloat(fFlock.fCohesionWeight);
+    S->writeFloat(fFlock.fCohesionRadius);
+    S->writeFloat(fFlock.fMaxForce);
+    S->writeFloat(fFlock.fMaxSpeed);
+    S->writeFloat(fFlock.fMinSpeed);
 
-    S->writeFloat(fFloat1);
-    S->writeBool(fBool1);
-    S->writeBool(fBool2);
+    S->writeBool(fUseTargetRotation);
+    S->writeBool(fRandomizeAnimationStart);
 }
 
 void pfObjectFlocker::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
-    prc->writeComment("This stuff obviously needs research");
-
     prc->startTag("FlockParams");
-    prc->writeParamHex("Flags", fFlags);
-    prc->writeParam("Float1", fFloat1);
-    prc->writeParam("Bool1", fBool1);
-    prc->writeParam("Bool2", fBool2);
+    prc->writeParam("NumBoids", fNumBoids);
+    prc->writeParam("UseTargetRotation", fUseTargetRotation);
+    prc->writeParam("RandomizeAnimationStart", fRandomizeAnimationStart);
     prc->endTag(true);
 
-    prc->writeSimpleTag("Target");
-    fTarget->prcWrite(prc);
+    prc->writeSimpleTag("Boid");
+    fBoidKey->prcWrite(prc);
     prc->closeTag();
 
-    prc->startTag("FlockStruct");
-    prc->writeParam("Float1", fFlockStruct.fFloat1);
-    prc->writeParam("Float2_0", fFlockStruct.fFloat2[0]);
-    prc->writeParam("Float2_1", fFlockStruct.fFloat2[1]);
-    prc->writeParam("Float2_2", fFlockStruct.fFloat2[2]);
-    prc->writeParam("Float2_3", fFlockStruct.fFloat2[3]);
-    prc->writeParam("Float2_4", fFlockStruct.fFloat2[4]);
-    prc->writeParam("Float2_5", fFlockStruct.fFloat2[5]);
-    prc->writeParam("Float3", fFlockStruct.fFloat3);
+    prc->startTag("Flock");
+    prc->writeParam("GoalWeight", fFlock.fGoalWeight);
+    prc->writeParam("RandomWeight", fFlock.fRandomWeight);
+    prc->writeParam("SeparationWeight", fFlock.fSeparationWeight);
+    prc->writeParam("SeparationRadius", fFlock.fSeparationRadius);
+    prc->writeParam("CohesionWeight", fFlock.fCohesionWeight);
+    prc->writeParam("CohesionRadius", fFlock.fCohesionRadius);
+    prc->writeParam("MaxForce", fFlock.fMaxForce);
+    prc->writeParam("MaxSpeed", fFlock.fMaxSpeed);
+    prc->writeParam("MinSpeed", fFlock.fMinSpeed);
     prc->endTag(true);
 }
 
 void pfObjectFlocker::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FlockParams") {
-        fFlags = tag->getParam("Flags", "0").toUint();
-        fFloat1 = tag->getParam("Float1", "0").toFloat();
-        fBool1 = tag->getParam("Bool1", "false").toBool();
-        fBool2 = tag->getParam("Bool2", "false").toBool();
-    } else if (tag->getName() == "Target") {
+        fNumBoids = tag->getParam("NumBoids", "0").toUint();
+        fUseTargetRotation = tag->getParam("UseTargetRotation", "false").toBool();
+        fRandomizeAnimationStart = tag->getParam("RandomizeAnimationStart", "false").toBool();
+    } else if (tag->getName() == "Boid") {
         if (tag->hasChildren())
-            fTarget = mgr->prcParseKey(tag->getFirstChild());
-    } else if (tag->getName() == "FlockStruct") {
-        fFlockStruct.fFloat1 = tag->getParam("Float1", "0").toFloat();
-        fFlockStruct.fFloat2[0] = tag->getParam("Float2_0", "0").toFloat();
-        fFlockStruct.fFloat2[1] = tag->getParam("Float2_1", "0").toFloat();
-        fFlockStruct.fFloat2[2] = tag->getParam("Float2_2", "0").toFloat();
-        fFlockStruct.fFloat2[3] = tag->getParam("Float2_3", "0").toFloat();
-        fFlockStruct.fFloat2[4] = tag->getParam("Float2_4", "0").toFloat();
-        fFlockStruct.fFloat2[5] = tag->getParam("Float2_5", "0").toFloat();
-        fFlockStruct.fFloat3 = tag->getParam("Float3", "0").toFloat();
+            fBoidKey = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "Flock") {
+        fFlock.fGoalWeight = tag->getParam("GoalWeight", "0").toFloat();
+        fFlock.fRandomWeight = tag->getParam("RandomWeight", "0").toFloat();
+        fFlock.fSeparationWeight = tag->getParam("SeparationWeight", "0").toFloat();
+        fFlock.fSeparationRadius = tag->getParam("SeparationRadius", "0").toFloat();
+        fFlock.fCohesionWeight = tag->getParam("CohesionWeight", "0").toFloat();
+        fFlock.fCohesionRadius = tag->getParam("CohesionRadius", "0").toFloat();
+        fFlock.fMaxForce = tag->getParam("MaxForce", "0").toFloat();
+        fFlock.fMaxSpeed = tag->getParam("MaxSpeed", "0").toFloat();
+        fFlock.fMinSpeed = tag->getParam("MinSpeed", "0").toFloat();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

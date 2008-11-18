@@ -1,40 +1,55 @@
 #include "plLinkToAgeMsg.h"
+#include "Debug/plDebug.h"
 
-plLinkToAgeMsg::plLinkToAgeMsg() : fStreamVersion(0) { }
+plLinkToAgeMsg::plLinkToAgeMsg() : fStreamVersion(0), fEoaUnknown(0) { }
 plLinkToAgeMsg::~plLinkToAgeMsg() { }
 
 IMPLEMENT_CREATABLE(plLinkToAgeMsg, kLinkToAgeMsg, plMessage)
 
 void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
-    fStreamVersion = S->readByte();
+
+    if (S->getVer() < pvEoa)
+        fStreamVersion = S->readByte();
+    else
+        fStreamVersion = 0;
+    if (fStreamVersion != 0)
+        plDebug::Debug("Got plLinkToAgeMsg StreamVersion %u", fStreamVersion);
     fAgeLink.read(S, mgr);
-    fLinkInAnimName = S->readSafeStr();
+    fLinkEffects.read(S);
+    if (S->getVer() >= pvEoa)
+        fEoaUnknown = S->readByte();
 }
 
 void plLinkToAgeMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
-    S->writeByte(fStreamVersion);
+
+    if (S->getVer() < pvEoa)
+        S->writeByte(fStreamVersion);
     fAgeLink.write(S, mgr);
-    S->writeSafeStr(fLinkInAnimName);
+    fLinkEffects.write(S);
+    if (S->getVer() >= pvEoa)
+        S->writeByte(fEoaUnknown);
 }
 
 void plLinkToAgeMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessage::IPrcWrite(prc);
 
-    prc->startTag("LinkParams");
-    prc->writeParam("LinkInAnimName", fLinkInAnimName);
-    prc->writeParam("StreamVersion", fStreamVersion);
-    prc->endTag(true);
     fAgeLink.prcWrite(prc);
+    fLinkEffects.prcWrite(prc);
+
+    prc->startTag("EoaUnknown");
+    prc->writeParamHex("value", (unsigned char)fEoaUnknown);
+    prc->endTag(true);
 }
 
 void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "LinkParams") {
-        fLinkInAnimName = tag->getParam("LinkInAnimName", "");
-        fStreamVersion = tag->getParam("StreamVersion", "0").toInt();
-    } else if (tag->getName() == "plAgeLinkStruct") {
+    if (tag->getName() == "plAgeLinkStruct") {
         fAgeLink.prcParse(tag, mgr);
+    } else if (tag->getName() == "plAgeLinkEffects") {
+        fLinkEffects.prcParse(tag);
+    } else if (tag->getName() == "EoaUnknown") {
+        fEoaUnknown = tag->getParam("value", "0").toUint();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }
