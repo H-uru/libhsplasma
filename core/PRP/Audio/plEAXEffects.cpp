@@ -66,27 +66,28 @@ void plEAXSourceSettings::Enable(bool enable) {
 }
 
 void plEAXSourceSettings::read(hsStream* S) {
-    fEnabled = S->readBool();
-    if (!fEnabled) {
-        Enable(false);
-        return;
+    Enable(S->readBool());
+    if (fEnabled) {
+        fRoom = S->readShort();
+        fRoomHF = S->readShort();
+        fRoomAuto = S->readBool();
+        fRoomHFAuto = S->readBool();
+        fOutsideVolHF = S->readShort();
+        fAirAbsorptionFactor = S->readFloat();
+        fRoomRolloffFactor = S->readFloat();
+        fDopplerFactor = S->readFloat();
+        fRolloffFactor = S->readFloat();
+        if (S->getVer() < pvEoa) {
+            fSoftStarts.read(S);
+            fSoftEnds.read(S);
+        }
+        fOcclusionSoftValue = S->readFloat();
+        if (S->getVer() >= pvEoa) {
+            fSoftStarts.read(S);
+            fSoftEnds.Reset();
+        }
+        fDirtyParams = kAll;
     }
-
-    fRoom = S->readShort();
-    fRoomHF = S->readShort();
-    fRoomAuto = S->readBool();
-    fRoomHFAuto = S->readBool();
-    fOutsideVolHF = S->readShort();
-    fAirAbsorptionFactor = S->readFloat();
-    fRoomRolloffFactor = S->readFloat();
-    fDopplerFactor = S->readFloat();
-    fRolloffFactor = S->readFloat();
-    fSoftStarts.read(S);
-    fSoftEnds.read(S);
-    fOcclusionSoftValue = S->readFloat();
-    //if (fOcclusionSoftValue != -1.0)
-    //    IRecalcSofts(kOcclusion);
-    fDirtyParams = kAll;
 }
 
 void plEAXSourceSettings::write(hsStream* S) {
@@ -101,9 +102,14 @@ void plEAXSourceSettings::write(hsStream* S) {
         S->writeFloat(fRoomRolloffFactor);
         S->writeFloat(fDopplerFactor);
         S->writeFloat(fRolloffFactor);
-        fSoftStarts.write(S);
-        fSoftEnds.write(S);
+        if (S->getVer() < pvEoa) {
+            fSoftStarts.write(S);
+            fSoftEnds.write(S);
+        }
         S->writeFloat(fOcclusionSoftValue);
+        if (S->getVer() >= pvEoa) {
+            fSoftStarts.write(S);
+        }
     }
 }
 

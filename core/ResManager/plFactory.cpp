@@ -14,15 +14,16 @@
 #include "PRP/Audio/plEAXListenerMod.h"
 #include "PRP/Audio/plSoundBuffer.h"
 #include "PRP/Audio/plWin32StaticSound.h"
-#include "PRP/Avatar/plAGAnim.h"
 #include "PRP/Avatar/plAGMasterMod.h"
 #include "PRP/Avatar/plAGModifier.h"
 #include "PRP/Avatar/plArmatureBrain.h"
 #include "PRP/Avatar/plArmatureEffects.h"
 #include "PRP/Avatar/plArmatureMod.h"
+#include "PRP/Avatar/plATCAnim.h"
 #include "PRP/Avatar/plAvatarClothing.h"
-#include "PRP/Avatar/plAvLadderMod.h"
 #include "PRP/Avatar/plClothingItem.h"
+#include "PRP/Avatar/plElevatorModifier.h"
+#include "PRP/Avatar/plLadderModifier.h"
 #include "PRP/Avatar/plMatrixChannel.h"
 #include "PRP/Avatar/plMultistageBehMod.h"
 #include "PRP/Avatar/plNPCSpawnMod.h"
@@ -165,7 +166,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kPhysical: ABSTRACT(kPhysical);
         //case kPhysicalMesh: return new plPhysicalMesh();
         case kSimulationInterface: return new plSimulationInterface();
-        case kCameraModifier: NOTIMPL(kCameraModifier);
+        //case kCameraModifier: return new plCameraModifier();
         case kModifier: ABSTRACT(kModifier);
         case kSingleModifier: ABSTRACT(kSingleModifier);
         //case kSimpleModifier: return new plSimpleModifier();
@@ -469,7 +470,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kCameraBrainUru_Follow: return new plCameraBrain1_Avatar();
         case kCameraBrainUru_Fixed: return new plCameraBrain1_Fixed();
         //case kGUISketchCtrl: return new pfGUISketchCtrl();
-        //case kLadderModifier: return new plLadderModifier();
+        case kLadderModifier: return new plLadderModifier();
         case kCameraBrainUru_FirstPerson: return new plCameraBrain1_FirstPerson();
         case kCameraBrainUru_Circle: return new plCameraBrain1_Circle();
         //case kEAXReverbEffect: return new plEAXReverbEffect();
@@ -480,7 +481,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kClientSessionMgr: return new plClientSessionMgr();
         //case kSDLVarChangeNotifier: return new plSDLVarChangeNotifier();
         //case kInterestWellModifier: return new plInterestWellModifier();
-        //case kElevatorModifier: return new plElevatorModifier();
+        case kElevatorModifier: return new plElevatorModifier();
         case kCameraBrain_Expert: return new plCameraBrain_Expert();
         //case kPagingRegionModifier: return new plPagingRegionModifier();
         //case kGuidepathModifier: return new plGuidepathModifier();
@@ -489,7 +490,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kEAXPitchShifter: return new plEAXPitchShifter();
         //case kIKModifier: return new plIKModifier();
         case kCameraBrain_M5: return new plCameraBrain_M5();
-        //case kAGAnimBink: return new plAGAnimBink();
+        case kAGAnimBink: return new plAGAnimBink();
         //case kTreeShader: return new plTreeShader();
         //case kNodeRegionModifier: return new plNodeRegionModifier();
         //case kPiranhaRegionModifier: return new plPiranhaRegionModifier();

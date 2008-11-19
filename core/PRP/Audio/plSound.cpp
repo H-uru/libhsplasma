@@ -106,9 +106,7 @@ void plSound::IRead(hsStream* S, plResManager* mgr) {
     fSoftRegion = mgr->readKey(S);
     fDataBuffer = mgr->readKey(S);
     fEAXSettings.read(S);
-
-    if (S->getVer() < pvEoa)
-        fSoftOcclusionRegion = mgr->readKey(S);
+    fSoftOcclusionRegion = mgr->readKey(S);
 }
 
 void plSound::IWrite(hsStream* S, plResManager* mgr) {
@@ -134,9 +132,7 @@ void plSound::IWrite(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSoftRegion);
     mgr->writeKey(S, fDataBuffer);
     fEAXSettings.write(S);
-
-    if (S->getVer() < pvEoa)
-        mgr->writeKey(S, fSoftOcclusionRegion);
+    mgr->writeKey(S, fSoftOcclusionRegion);
 }
 
 void plSound::IPrcWrite(pfPrcHelper* prc) {

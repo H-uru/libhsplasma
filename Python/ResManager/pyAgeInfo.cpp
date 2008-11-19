@@ -102,7 +102,7 @@ static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
 
 static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
     int idx, ver;
-    if (!PyArg_ParseTuple(args, "ii", &idx)) {
+    if (!PyArg_ParseTuple(args, "ii", &idx, &ver)) {
         PyErr_SetString(PyExc_TypeError, "getPageLoc expects int, int");
         return NULL;
     }

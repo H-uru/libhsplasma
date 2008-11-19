@@ -23,7 +23,7 @@ static PyObject* pyCompressedQuatKey64_new(PyTypeObject* type, PyObject* args, P
 static PyObject* pyCompressedQuatKey64_setValue(pyCompressedQuatKey64* self, PyObject* args) {
     pyQuat* value;
     int type;
-    if (!PyArg_ParseTuple(args, "Oi", &value, type)) {
+    if (!PyArg_ParseTuple(args, "Oi", &value, &type)) {
         PyErr_SetString(PyExc_TypeError, "setValue expects hsQuat, int");
         return NULL;
     }

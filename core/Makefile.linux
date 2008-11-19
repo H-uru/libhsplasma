@@ -74,9 +74,11 @@ PLSOBJ=\
 	$(OBJDIR)plArmatureBrain.o \
 	$(OBJDIR)plArmatureEffects.o \
 	$(OBJDIR)plArmatureMod.o \
+	$(OBJDIR)plATCAnim.o \
 	$(OBJDIR)plAvatarClothing.o \
-	$(OBJDIR)plAvLadderMod.o \
 	$(OBJDIR)plClothingItem.o \
+	$(OBJDIR)plElevatorModifier.o \
+	$(OBJDIR)plLadderModifier.o \
 	$(OBJDIR)plMatrixChannel.o \
 	$(OBJDIR)plMultistageBehMod.o \
 	$(OBJDIR)plNPCSpawnMod.o \
@@ -485,14 +487,20 @@ $(OBJDIR)plArmatureEffects.o: PRP/Avatar/plArmatureEffects.h PRP/Avatar/plArmatu
 $(OBJDIR)plArmatureMod.o: PRP/Avatar/plArmatureMod.h PRP/Avatar/plArmatureMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plArmatureMod.cpp -o $(OBJDIR)plArmatureMod.o
 
+$(OBJDIR)plATCAnim.o: PRP/Avatar/plATCAnim.h PRP/Avatar/plATCAnim.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plATCAnim.cpp -o $(OBJDIR)plATCAnim.o
+
 $(OBJDIR)plAvatarClothing.o: PRP/Avatar/plAvatarClothing.h PRP/Avatar/plAvatarClothing.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvatarClothing.cpp -o $(OBJDIR)plAvatarClothing.o
 
-$(OBJDIR)plAvLadderMod.o: PRP/Avatar/plAvLadderMod.h PRP/Avatar/plAvLadderMod.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvLadderMod.cpp -o $(OBJDIR)plAvLadderMod.o
-
 $(OBJDIR)plClothingItem.o: PRP/Avatar/plClothingItem.h PRP/Avatar/plClothingItem.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plClothingItem.cpp -o $(OBJDIR)plClothingItem.o
+
+$(OBJDIR)plElevatorModifier.o: PRP/Avatar/plElevatorModifier.h PRP/Avatar/plElevatorModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plElevatorModifier.cpp -o $(OBJDIR)plElevatorModifier.o
+
+$(OBJDIR)plLadderModifier.o: PRP/Avatar/plLadderModifier.h PRP/Avatar/plLadderModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plLadderModifier.cpp -o $(OBJDIR)plLadderModifier.o
 
 $(OBJDIR)plMatrixChannel.o: PRP/Avatar/plMatrixChannel.h PRP/Avatar/plMatrixChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plMatrixChannel.cpp -o $(OBJDIR)plMatrixChannel.o

@@ -614,6 +614,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Avatar\plATCAnim.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plATCAnim.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Avatar\plAvatarClothing.cpp"
 					>
 				</File>
@@ -622,19 +630,27 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Avatar\plAvLadderMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Avatar\plAvLadderMod.h"
-					>
-				</File>
-				<File
 					RelativePath=".\PRP\Avatar\plClothingItem.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PRP\Avatar\plClothingItem.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plElevatorModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plElevatorModifier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plLadderModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plLadderModifier.h"
 					>
 				</File>
 				<File
