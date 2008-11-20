@@ -1,14 +1,14 @@
 #include "plCameraModifier.h"
 
-/* plCameraModifier1::CamTrans */
-plCameraModifier1::CamTrans::CamTrans()
+/* plCameraModifier::CamTrans */
+plCameraModifier::CamTrans::CamTrans()
                 : fCutPos(false), fCutPOA(false), fIgnore(false), fAccel(60.0f),
                   fDecel(60.0f), fVelocity(60.0f), fPOAAccel(60.0f),
                   fPOADecel(60.0f), fPOAVelocity(60.0f) { }
 
-plCameraModifier1::CamTrans::~CamTrans() { }
+plCameraModifier::CamTrans::~CamTrans() { }
 
-void plCameraModifier1::CamTrans::read(hsStream* S, plResManager* mgr) {
+void plCameraModifier::CamTrans::read(hsStream* S, plResManager* mgr) {
     fTransTo = mgr->readKey(S);
     fCutPos = S->readBool();
     fCutPOA = S->readBool();
@@ -21,7 +21,7 @@ void plCameraModifier1::CamTrans::read(hsStream* S, plResManager* mgr) {
     fPOADecel = S->readFloat();
 }
 
-void plCameraModifier1::CamTrans::write(hsStream* S, plResManager* mgr) {
+void plCameraModifier::CamTrans::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fTransTo);
     S->writeBool(fCutPos);
     S->writeBool(fCutPOA);
@@ -34,7 +34,7 @@ void plCameraModifier1::CamTrans::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fPOADecel);
 }
 
-void plCameraModifier1::CamTrans::prcWrite(pfPrcHelper* prc) {
+void plCameraModifier::CamTrans::prcWrite(pfPrcHelper* prc) {
     prc->startTag("CamTrans");
     prc->writeParam("CutPos", fCutPos);
     prc->writeParam("CutPOA", fCutPOA);
@@ -52,7 +52,7 @@ void plCameraModifier1::CamTrans::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraModifier1::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraModifier::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() != "CamTrans")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
@@ -78,14 +78,14 @@ void plCameraModifier1::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mg
 }
 
 
-/* plCameraModifier1 */
-plCameraModifier1::plCameraModifier1()
+/* plCameraModifier */
+plCameraModifier::plCameraModifier()
                  : fFrom(0.0f, 0.0f, 0.0f), fAt(0.0f, 1.0f, 0.0f),
                    fFOVw(45.0f), fFOVh(33.75f), fAnimated(false),
                    fStartAnimOnPush(false), fStopAnimOnPop(false),
                    fResetAnimOnPop(false) { }
 
-plCameraModifier1::~plCameraModifier1() {
+plCameraModifier::~plCameraModifier() {
     for (size_t i=0; i<fTrans.getSize(); i++)
         delete fTrans[i];
     for (size_t i=0; i<fMessageQueue.getSize(); i++)
@@ -94,9 +94,9 @@ plCameraModifier1::~plCameraModifier1() {
         delete fFOVInstructions[i];
 }
 
-IMPLEMENT_CREATABLE(plCameraModifier1, kCameraModifier1, plSingleModifier)
+IMPLEMENT_CREATABLE(plCameraModifier, kCameraModifier, plSingleModifier)
 
-void plCameraModifier1::read(hsStream* S, plResManager* mgr) {
+void plCameraModifier::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
     fBrain = mgr->readKey(S);
@@ -125,7 +125,7 @@ void plCameraModifier1::read(hsStream* S, plResManager* mgr) {
     fResetAnimOnPop = S->readBool();
 }
 
-void plCameraModifier1::write(hsStream* S, plResManager* mgr) {
+void plCameraModifier::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
 
     mgr->writeKey(S, fBrain);
@@ -151,7 +151,7 @@ void plCameraModifier1::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fResetAnimOnPop);
 }
 
-void plCameraModifier1::IPrcWrite(pfPrcHelper* prc) {
+void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->startTag("CameraModParams");
@@ -189,7 +189,7 @@ void plCameraModifier1::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 }
 
-void plCameraModifier1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CameraModParams") {
         fFOVw = tag->getParam("FOVw", "45").toFloat();
         fFOVh = tag->getParam("FOVh", "33.75").toFloat();

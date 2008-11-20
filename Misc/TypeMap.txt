@@ -27,7 +27,7 @@ x0019 U[0019] P[0019] L[0019] E[0019] H[----] plDrawableIce
 x001A U[001A] P[001A] L[001A] E[001A] H[001A] plPhysical
 x001B U[001B] P[001B] L[001B] E[----] H[----] plPhysicalMesh
 x001C U[001C] P[001C] L[001C] E[001C] H[001C] plSimulationInterface
-x001D U[001D] P[001D] L[001D] E[0083] H[0083] plCameraModifier
+x001D U[009B] P[009B] L[009B] E[0083] H[0083] plCameraModifier
 x001E U[001E] P[001E] L[001E] E[001E] H[001E] plModifier
 x001F U[001F] P[001F] L[001F] E[001F] H[001F] plSingleModifier
 x0020 U[0020] P[0020] L[0020] E[0020] H[0020] plSimpleModifier
@@ -153,7 +153,7 @@ x0097 U[0097] P[0097] L[0097] E[007F] H[007F] pfGameGUIMgr
 x0098 U[0098] P[0098] L[0098] E[0080] H[0080] pfGUIDialogMod
 x0099 U[0099] P[0099] L[0099] E[----] H[----] plCameraBrain1
 x009A U[009A] P[009A] L[009A] E[----] H[----] plVirtualCam1
-x009B U[009B] P[009B] L[009B] E[----] H[----] plCameraModifier1
+x009B U[009B] P[009B] L[009B] E[----] H[----] (null)
 x009C U[009C] P[009C] L[009C] E[----] H[----] plCameraBrain1_Drive
 x009D U[009D] P[009D] L[009D] E[----] H[----] plCameraBrain1_POA
 x009E U[009E] P[009E] L[009E] E[----] H[----] plCameraBrain1_Avatar

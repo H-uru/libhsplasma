@@ -77,7 +77,7 @@ typedef enum {
     kLayerLinkAnimation, kArmatureMod, kCameraBrain_Freelook,
     kHavokConstraintsMod, kHingeConstraintMod, kWheelConstraintMod,
     kStrongSpringConstraintMod, kArmatureLODMod, kWin32StaticSound, kGameGUIMgr,
-    kGUIDialogMod, kCameraBrain1, kVirtualCam1, kCameraModifier1,
+    kGUIDialogMod, kCameraBrain1, kVirtualCam1, kCameraModifier1_UNUSED,
     kCameraBrain1_Drive, kCameraBrain1_POA, kCameraBrain1_Avatar,
     kCameraBrain1_Fixed, kCameraBrain1_POAFixed, kGUIButtonMod, kPythonFileMod,
     kGUIControlMod, kExcludeRegionModifier, kGUIDraggableMod,

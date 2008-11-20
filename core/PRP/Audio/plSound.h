@@ -59,9 +59,7 @@ protected:
     plEAXSourceSettings fEAXSettings;
     plFadeParams fFadeInParams, fFadeOutParams;
     plKey fSoftRegion, fSoftOcclusionRegion, fDataBuffer;
-
-    // Eoa
-    plString fEoaString;
+    plString fSubtitleId;
 
     static bool fLoadOnDemandFlag;
     static bool fLoadFromDiskOnDemandFlag;

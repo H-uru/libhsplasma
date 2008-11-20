@@ -62,7 +62,7 @@ protected:
 
 DllClass plAGAnimBink : public plATCAnim {
 protected:
-    plString fBinkFilename, fSgtFilename, fAnimName;
+    plString fBinkFilename, fSgtFilename, fSubtitleId;
 
 public:
     plAGAnimBink();

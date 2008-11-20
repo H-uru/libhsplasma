@@ -4,7 +4,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plCameraMsg.h"
 
-DllClass plCameraModifier1 : public plSingleModifier {
+DllClass plCameraModifier : public plSingleModifier {
 public:
     DllClass CamTrans {
     protected:
@@ -35,10 +35,10 @@ protected:
     void DeleteTrans();
 
 public:
-    plCameraModifier1();
-    virtual ~plCameraModifier1();
+    plCameraModifier();
+    virtual ~plCameraModifier();
 
-    DECLARE_CREATABLE(plCameraModifier1)
+    DECLARE_CREATABLE(plCameraModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

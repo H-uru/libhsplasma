@@ -59,6 +59,7 @@ PLSOBJ=\
 	$(OBJDIR)plTMController.o \
 	$(OBJDIR)plViewFaceModifier.o \
 	$(OBJDIR)plAudible.o \
+	$(OBJDIR)plDirectMusicSound.o \
 	$(OBJDIR)plEAXEffects.o \
 	$(OBJDIR)plEAXListenerMod.o \
 	$(OBJDIR)plSound.o \
@@ -180,6 +181,7 @@ PLSOBJ=\
 	$(OBJDIR)plLogicModBase.o \
 	$(OBJDIR)plLogicModifier.o \
 	$(OBJDIR)plModifier.o \
+	$(OBJDIR)plNodeRegionModifier.o \
 	$(OBJDIR)plOneShotMod.o \
 	$(OBJDIR)plPostEffectMod.o \
 	$(OBJDIR)plPythonFileMod.o \
@@ -440,6 +442,9 @@ $(OBJDIR)plViewFaceModifier.o: PRP/Animation/plViewFaceModifier.h PRP/Animation/
 
 $(OBJDIR)plAudible.o: PRP/Audio/plAudible.h PRP/Audio/plAudible.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plAudible.cpp -o $(OBJDIR)plAudible.o
+
+$(OBJDIR)plDirectMusicSound.o: PRP/Audio/plDirectMusicSound.h PRP/Audio/plDirectMusicSound.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Audio/plDirectMusicSound.cpp -o $(OBJDIR)plDirectMusicSound.o
 
 $(OBJDIR)plEAXEffects.o: PRP/Audio/plEAXEffects.h PRP/Audio/plEAXEffects.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plEAXEffects.cpp -o $(OBJDIR)plEAXEffects.o
@@ -803,6 +808,9 @@ $(OBJDIR)plLogicModifier.o: PRP/Modifier/plLogicModifier.h PRP/Modifier/plLogicM
 
 $(OBJDIR)plModifier.o: PRP/Modifier/plModifier.h PRP/Modifier/plModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plModifier.cpp -o $(OBJDIR)plModifier.o
+
+$(OBJDIR)plNodeRegionModifier.o: PRP/Modifier/plNodeRegionModifier.h PRP/Modifier/plNodeRegionModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plNodeRegionModifier.cpp -o $(OBJDIR)plNodeRegionModifier.o
 
 $(OBJDIR)plOneShotMod.o: PRP/Modifier/plOneShotMod.h PRP/Modifier/plOneShotMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plOneShotMod.cpp -o $(OBJDIR)plOneShotMod.o

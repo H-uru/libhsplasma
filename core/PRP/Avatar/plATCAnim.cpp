@@ -243,7 +243,7 @@ void plAGAnimBink::read(hsStream* S, plResManager* mgr) {
 
     fBinkFilename = S->readSafeStr();
     fSgtFilename = S->readSafeStr();
-    fAnimName = S->readSafeStr();
+    fSubtitleId = S->readSafeStr();
 }
 
 void plAGAnimBink::write(hsStream* S, plResManager* mgr) {
@@ -251,7 +251,7 @@ void plAGAnimBink::write(hsStream* S, plResManager* mgr) {
 
     S->writeSafeStr(fBinkFilename);
     S->writeSafeStr(fSgtFilename);
-    S->writeSafeStr(fAnimName);
+    S->writeSafeStr(fSubtitleId);
 }
 
 void plAGAnimBink::IPrcWrite(pfPrcHelper* prc) {
@@ -260,15 +260,15 @@ void plAGAnimBink::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("BinkParams");
     prc->writeParam("BinkFile", fBinkFilename);
     prc->writeParam("SgtFile", fSgtFilename);
-    prc->writeParam("AnimName", fAnimName);
+    prc->writeParam("SubtitleId", fSubtitleId);
     prc->endTag(true);
 }
 
 void plAGAnimBink::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "Strings") {
+    if (tag->getName() == "BinkParams") {
         fBinkFilename = tag->getParam("BinkFile", "");
         fSgtFilename = tag->getParam("SgtFile", "");
-        fAnimName = tag->getParam("AnimName", "");
+        fSubtitleId = tag->getParam("SubtitleId", "");
     } else {
         plATCAnim::IPrcParse(tag, mgr);
     }

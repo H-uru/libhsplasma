@@ -96,7 +96,7 @@ void plSound::IRead(hsStream* S, plResManager* mgr) {
     fPriority = S->readByte();
 
     if (S->getVer() >= pvEoa)
-        fEoaString = S->readSafeStr();
+        fSubtitleId = S->readSafeStr();
 
     if (fPlaying)
         fProperties |= kPropAutoStart;
@@ -125,7 +125,7 @@ void plSound::IWrite(hsStream* S, plResManager* mgr) {
     S->writeByte(fPriority);
 
     if (S->getVer() == pvEoa)
-        S->writeSafeStr(fEoaString);
+        S->writeSafeStr(fSubtitleId);
 
     fFadeInParams.write(S);
     fFadeOutParams.write(S);
@@ -158,8 +158,8 @@ void plSound::IPrcWrite(pfPrcHelper* prc) {
       prc->writeParam("OuterCone", fOuterCone);
     prc->endTag(true);
 
-    prc->startTag("EoaParams");
-    prc->writeParam("String1", fEoaString);
+    prc->startTag("Localization");
+    prc->writeParam("SubtitleId", fSubtitleId);
     prc->endTag(true);
 
     prc->writeSimpleTag("FadeInParams");
@@ -198,8 +198,8 @@ void plSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fOuterVol = tag->getParam("OuterVol", "0").toInt();
         fInnerCone = tag->getParam("InnerCone", "360").toInt();
         fOuterCone = tag->getParam("OuterCone", "360").toInt();
-    } else if (tag->getName() == "EoaParams") {
-        fEoaString = tag->getParam("String1", "");
+    } else if (tag->getName() == "Localization") {
+        fSubtitleId = tag->getParam("SubtitleId", "");
     } else if (tag->getName() == "FadeInParams") {
         if (tag->hasChildren())
             fFadeInParams.prcParse(tag->getFirstChild());

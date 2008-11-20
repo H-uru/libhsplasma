@@ -11,6 +11,7 @@
 #include "PRP/Animation/plStereizer.h"
 #include "PRP/Animation/plViewFaceModifier.h"
 #include "PRP/Audio/plAudible.h"
+#include "PRP/Audio/plDirectMusicSound.h"
 #include "PRP/Audio/plEAXListenerMod.h"
 #include "PRP/Audio/plSoundBuffer.h"
 #include "PRP/Audio/plWin32StaticSound.h"
@@ -86,6 +87,7 @@
 #include "PRP/Modifier/plExcludeRegionModifier.h"
 #include "PRP/Modifier/plInterfaceInfoModifier.h"
 #include "PRP/Modifier/plLogicModifier.h"
+#include "PRP/Modifier/plNodeRegionModifier.h"
 #include "PRP/Modifier/plOneShotMod.h"
 #include "PRP/Modifier/plPostEffectMod.h"
 #include "PRP/Modifier/plPythonFileMod.h"
@@ -166,7 +168,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kPhysical: ABSTRACT(kPhysical);
         //case kPhysicalMesh: return new plPhysicalMesh();
         case kSimulationInterface: return new plSimulationInterface();
-        //case kCameraModifier: return new plCameraModifier();
+        case kCameraModifier: return new plCameraModifier();
         case kModifier: ABSTRACT(kModifier);
         case kSingleModifier: ABSTRACT(kSingleModifier);
         //case kSimpleModifier: return new plSimpleModifier();
@@ -292,7 +294,6 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kGUIDialogMod: return new pfGUIDialogMod();
         case kCameraBrain1: return new plCameraBrain1();
         //case kVirtualCam1: return new plVirtualCam1();
-        case kCameraModifier1: return new plCameraModifier1();
         case kCameraBrain1_Drive: return new plCameraBrain1_Drive();
         case kCameraBrain1_POA: NOTIMPL(kCameraBrain1_POA);
         case kCameraBrain1_Avatar: return new plCameraBrain1_Avatar();
@@ -477,7 +478,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kSpawnMod: return new plSpawnMod();
         case kCameraBrain_Novice: return new plCameraBrain_Novice();
         //case kAvatarPhysicalSDLModifier: return new plAvatarPhysicalSDLModifier();
-        //case kDirectMusicSound: return new plDirectMusicSound();
+        case kDirectMusicSound: return new plDirectMusicSound();
         //case kClientSessionMgr: return new plClientSessionMgr();
         //case kSDLVarChangeNotifier: return new plSDLVarChangeNotifier();
         //case kInterestWellModifier: return new plInterestWellModifier();
@@ -492,7 +493,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kCameraBrain_M5: return new plCameraBrain_M5();
         case kAGAnimBink: return new plAGAnimBink();
         //case kTreeShader: return new plTreeShader();
-        //case kNodeRegionModifier: return new plNodeRegionModifier();
+        case kNodeRegionModifier: return new plNodeRegionModifier();
         //case kPiranhaRegionModifier: return new plPiranhaRegionModifier();
         case kRidingAnimatedPhysicalDetector: return new plRidingAnimatedPhysicalDetector();
         case kVolumeSensorConditionalObjectNoArbitration: return new plVolumeSensorConditionalObjectNoArbitration();

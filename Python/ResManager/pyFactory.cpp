@@ -305,7 +305,6 @@ PyObject* Init_pyFactory_Type() {
     ADD_CREATABLE(pyFactory_Type.tp_dict, kGUIDialogMod);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kCameraBrain1);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kVirtualCam1);
-    ADD_CREATABLE(pyFactory_Type.tp_dict, kCameraModifier1);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kCameraBrain1_Drive);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kCameraBrain1_POA);
     ADD_CREATABLE(pyFactory_Type.tp_dict, kCameraBrain1_Avatar);
