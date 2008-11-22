@@ -49,6 +49,7 @@ class ExplorerFrm : public wxFrame
             ID_TB_SAVE_FILE,
             ID_TB_BACK,
             ID_TB_FORWARD,
+            ID_TB_INDICENAMES,
             ID_TREEVIEW,
             ID_EDITOR,
         };
@@ -78,6 +79,7 @@ class ExplorerFrm : public wxFrame
         void SavePrcFile( wxCommandEvent& event );
         void LoadObjPrc( wxTreeEvent& event );
         void GoBack( wxCommandEvent& event );
+        void RedrawTree( wxCommandEvent& event );
 
 
     public:

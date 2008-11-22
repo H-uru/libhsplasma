@@ -23,7 +23,13 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
     m_toolBar->AddTool( ID_TB_SAVE_FILE, wxT("Save PRC"), wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS), wxNullBitmap, wxITEM_NORMAL, wxT("Save the current PRC to a file"), wxEmptyString );
     m_toolBar->AddSeparator();
     m_toolBar->AddTool( ID_TB_BACK, wxT("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK), wxNullBitmap, wxITEM_NORMAL, wxT("Go to the previously viewed object"), wxEmptyString );
+    m_toolBar->AddSeparator();
+    m_toolBar->AddTool( ID_TB_INDICENAMES, wxT("Show Indices"), wxArtProvider::GetBitmap(wxART_TIP), wxNullBitmap, wxITEM_CHECK, wxT("Show/Hide the Class Indices in the treeview"), wxEmptyString );
     m_toolBar->Realize();
+    
+    m_toolBar->EnableTool(ID_TB_BACK, false);
+    m_toolBar->EnableTool(ID_TB_SAVE_FILE, false);
+    m_toolBar->EnableTool(ID_TB_SAVE, false);
 
     wxBoxSizer* bSizer;
     bSizer = new wxBoxSizer( wxVERTICAL );
@@ -40,6 +46,7 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
     wxImageList* iml_prpTree = new wxImageList(16, 16);
     iml_prpTree->Add(wxArtProvider::GetBitmap(wxART_FOLDER, wxART_OTHER, wxSize(16, 16)));
     iml_prpTree->Add(wxArtProvider::GetBitmap(wxART_NORMAL_FILE, wxART_OTHER, wxSize(16, 16)));
+    iml_prpTree->Add(wxArtProvider::GetBitmap(wxART_GO_HOME, wxART_OTHER, wxSize(16, 16)));
     m_prpTree->SetImageList(iml_prpTree);
 
     m_panelLeft->SetSizer( panelLeft_Sizer );
@@ -82,6 +89,7 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
     this->Connect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
     this->Connect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
     this->Connect( ID_TB_BACK, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::GoBack ) );
+    this->Connect( ID_TB_INDICENAMES, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::RedrawTree ) );
     m_prpTree->Connect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
 }
 
@@ -91,6 +99,7 @@ ExplorerFrm::~ExplorerFrm()
     this->Disconnect( ID_TB_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePage ) );
     this->Disconnect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
     this->Disconnect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
+    this->Disconnect( ID_TB_INDICENAMES, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::RedrawTree ) );
     m_prpTree->Disconnect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
 
     delete m_prpTree->GetImageList();
@@ -108,7 +117,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
     try {
         if (plString(filename.ToUTF8()).afterFirst('.') == "age") {
             plAgeInfo* age = rm.ReadAge(filename.ToUTF8(), true);
-            fRoot = m_prpTree->AddRoot(wxString::FromUTF8(age->getAgeName().cstr()), 0, 0);
+            fRoot = m_prpTree->AddRoot(wxString::FromUTF8(age->getAgeName().cstr()), 2, 2);
             fCurrent = fRoot;
             for (unsigned int i=0; i<age->getNumPages(); i++) {
                 plPageInfo* page = rm.FindPage(age->getPageLoc(i, rm.getVer()));
@@ -118,7 +127,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
         else if (plString(filename.ToUTF8()).afterFirst('.') == "prp") {
             plPageInfo* page = rm.ReadPage(filename.ToUTF8());
             pages.push_back(page);
-            fRoot = m_prpTree->AddRoot(wxString::FromUTF8(page->getAge().cstr()), 0, 0);
+            fRoot = m_prpTree->AddRoot(wxString::FromUTF8(page->getAge().cstr()), 2, 2);
             fCurrent = fRoot;
         }
     } catch (const hsException& e) {
@@ -131,6 +140,8 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
         plDebug::Error("Undefined error!");
         return;
     }
+    
+    m_toolBar->EnableTool(ID_TB_SAVE, true);
 
     fPath = plString(wxPathOnly(filename).ToUTF8());
     plDebug::Error("Path is %s", fPath.cstr());
@@ -146,7 +157,17 @@ void ExplorerFrm::LoadObjects(plPageInfo* page)
     std::vector<short> types = rm.getTypes(page->getLocation());
 
     for(unsigned int f = 0; f < types.size(); f++) {
-        plString TypeName = plString::Format("[%04hX] %s", types[f], pdUnifiedTypeMap::ClassName(types[f]));
+        plString TypeName;
+        if(m_toolBar->GetToolState( ID_TB_INDICENAMES )) {
+            TypeName = plString::Format("[%04hX] %s", types[f], pdUnifiedTypeMap::ClassName(types[f]));
+        } else {
+            plString className = pdUnifiedTypeMap::ClassName(types[f]);
+            if(className.startsWith("pl", false)) className = className.mid(2);
+            if(className.startsWith("hs", false)) className = className.mid(2);
+            if(className.startsWith("pf", false)) className = className.mid(2);
+            if(className.startsWith("hsg", false)) className = className.mid(3);
+            TypeName = plString::Format("%s", className.cstr());
+        }
         wxTreeItemId fType = m_prpTree->AppendItem(fPageN, wxString::FromUTF8(TypeName.cstr()), 0, 0);
 
         std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
@@ -222,11 +243,15 @@ void ExplorerFrm::LoadObjPrc(wxTreeEvent& event)
         delete prc;
         delete S;
     }
+    
+    if(fBack.size() >= 1)
+        m_toolBar->EnableTool(ID_TB_BACK, true);
+    m_toolBar->EnableTool(ID_TB_SAVE_FILE, true);
 }
 
 void ExplorerFrm::SavePrcFile( wxCommandEvent& event )
 {
-    if(m_prcEditor->GetLineCount() > 2) {
+    if(m_prcEditor->GetLineCount()) {
         wxFileDialog* sfd = new wxFileDialog(NULL, wxT("Choose a file"), wxEmptyString, wxEmptyString, wxT("Plasma Resource file (*.prc)|*.prc"), wxFD_SAVE, wxDefaultPosition);
         if (sfd->ShowModal() == wxID_CANCEL) {
             delete sfd;
@@ -289,6 +314,21 @@ void ExplorerFrm::GoBack( wxCommandEvent& event )
 
         wxTreeEvent t = wxTreeEvent(wxEVT_COMMAND_TREE_ITEM_ACTIVATED, m_prpTree, fID);
         this->LoadObjPrc(t);
+    }
+}
+
+void ExplorerFrm::RedrawTree( wxCommandEvent& event )
+{
+    fBack.clear();
+    m_prcEditor->ClearAll();
+    if(fRoot && m_prpTree->ItemHasChildren(fRoot))
+        m_prpTree->DeleteChildren(fRoot);
+    
+    m_toolBar->EnableTool(ID_TB_BACK, false);
+    m_toolBar->EnableTool(ID_TB_SAVE_FILE, false);
+    
+    for(unsigned int j=0; j<pages.size();j++) {
+        this->LoadObjects(pages[j]);
     }
 }
 
