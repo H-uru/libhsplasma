@@ -165,7 +165,8 @@ void ExplorerFrm::LoadObjects(plPageInfo* page)
             if(className.startsWith("pl", false)) className = className.mid(2);
             if(className.startsWith("hs", false)) className = className.mid(2);
             if(className.startsWith("pf", false)) className = className.mid(2);
-            if(className.startsWith("hsg", false)) className = className.mid(3);
+            if(className.startsWith("hsg", true)) className = className.mid(3);
+            if(className.startsWith("plg", false)) className = className.mid(3);
             TypeName = plString::Format("%s", className.cstr());
         }
         wxTreeItemId fType = m_prpTree->AppendItem(fPageN, wxString::FromUTF8(TypeName.cstr()), 0, 0);
@@ -178,6 +179,8 @@ void ExplorerFrm::LoadObjects(plPageInfo* page)
 
         m_prpTree->SortChildren(fType);
     }
+    
+    m_prpTree->SortChildren(fPageN);
 
     m_prpTree->SortChildren(fRoot);
 }
