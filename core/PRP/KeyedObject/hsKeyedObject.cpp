@@ -49,6 +49,12 @@ plWeakKey hsKeyedObject::getKey() const {
     return myKey;
 }
 
+void hsKeyedObject::setKey(plWeakKey key) {
+    myKey = key;
+    if (myKey != NULL)
+        myKey->setObj(this);
+}
+
 
 /* hsKeyedObjectStub */
 hsKeyedObjectStub::hsKeyedObjectStub() : fStub(NULL) { }

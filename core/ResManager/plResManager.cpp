@@ -50,13 +50,7 @@ plKey plResManager::readUoid(hsStream* S) {
     k->readUoid(S);
     if (!k->getLocation().isValid())
         return plKey();
-    plKey xkey = keys.findKey(k);
-    if (xkey.Exists()) {
-        return xkey;
-    } else {
-        keys.add(k);
-        return k;
-    }
+    return AddKey(k);
 }
 
 void plResManager::writeKey(hsStream* S, plKey key) {
@@ -92,14 +86,8 @@ void plResManager::writeUoid(hsStream* S, hsKeyedObject* ko) {
 
 plKey plResManager::prcParseKey(const pfPrcTag* tag) {
     plKey k = plKeyData::PrcParse(tag);
-    if (k.Exists()) {
-        plKey xkey = keys.findKey(k);
-        if (xkey.Exists()) {
-            return xkey;
-        } else {
-            keys.add(k);
-        }
-    }
+    if (k.Exists())
+        return AddKey(k);
     return k;
 }
 
@@ -489,6 +477,16 @@ std::vector<short> plResManager::getTypes(const plLocation& loc) {
 
 std::vector<plKey> plResManager::getKeys(const plLocation& loc, short type) {
     return keys.getKeys(loc, type);
+}
+
+plKey plResManager::AddKey(plKey key) {
+    plKey xkey = keys.findKey(key);
+    if (xkey.Exists()) {
+        return xkey;
+    } else {
+        keys.add(key);
+        return key;
+    }
 }
 
 void plResManager::AddObject(const plLocation& loc, hsKeyedObject* obj) {

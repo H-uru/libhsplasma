@@ -17,7 +17,7 @@ public:
     };
 
 protected:
-    unsigned short fVisWidth, fVisHeight;
+    unsigned int fVisWidth, fVisHeight;
     bool fHasAlpha, fHasBeenCreated;
     unsigned int* fInitBuffer;
     size_t fInitBufferLen;
@@ -37,6 +37,18 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getVisWidth() const;
+    unsigned int getVisHeight() const;
+    bool hasAlpha() const;
+    const unsigned int* getInitBuffer() const;
+    size_t getInitBufferSize() const;
+
+    void setVisWidth(unsigned int width);
+    void setVisHeight(unsigned int height);
+    void setHasAlpha(bool hasAlpha);
+    void setInitBuffer(const unsigned int* buffer, size_t size);
 };
 
 #endif

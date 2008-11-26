@@ -46,6 +46,7 @@
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
+#include "PRP/Surface/pyDynamicTextMap.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
@@ -234,6 +235,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plLayerBink", Init_pyLayerBink_Type());
     PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
     PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
+    PyModule_AddObject(module, "plDynamicTextMap", Init_pyDynamicTextMap_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

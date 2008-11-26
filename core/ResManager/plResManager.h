@@ -55,7 +55,7 @@ public:
     void WritePagePrc(pfPrcHelper* prc, plPageInfo* page);
     plPageInfo* FindPage(const plLocation& loc);
     void UnloadPage(const plLocation& loc);
-    
+
     plAgeInfo* ReadAge(const char* filename, bool readPages);
     plAgeInfo* ReadAgePrc(const pfPrcTag* root);
     void WriteAge(const char* filename, plAgeInfo* age);
@@ -72,6 +72,7 @@ public:
     std::vector<short> getTypes(const plLocation& loc);
     std::vector<plKey> getKeys(const plLocation& loc, short type);
 
+    plKey AddKey(plKey key);
     void AddObject(const plLocation& loc, hsKeyedObject* obj);
     void AddPage(plPageInfo* page);
     void AddAge(plAgeInfo* age);

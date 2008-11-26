@@ -40,7 +40,7 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
     fStride = (fPixelSize * width) / 8;
     fWidth = width;
     fHeight = height;
-    
+
     if (numLevels == 0) {
         numLevels = 1;
         while (width > 1 && height > 1) {
@@ -209,7 +209,7 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("ImageRLE", !isImageJPEG());
         prc->writeParam("AlphaRLE", !isAlphaJPEG());
         prc->endTag();
-        
+
         prc->writeSimpleTag("Image");
         if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData)) {
             if (isImageJPEG())
@@ -230,7 +230,7 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
             prc->writeComment("Texture data excluded");
         }
         prc->closeTag();    // Alpha
-        
+
         prc->closeTag();    // JPEG
     } else {
         prc->writeSimpleTag("DDS");
@@ -438,7 +438,7 @@ void plMipmap::IWriteRLEImage(hsStream* S, bool alpha) {
     }
     S->writeInt(count);
     S->writeInt(data);
-    
+
     // Stop indicator
     S->writeInt(0);
     S->writeInt(0);
@@ -547,7 +547,7 @@ plMipmap* plMipmap::ISplitAlpha() {
 void plMipmap::CopyFrom(plMipmap* src) {
     if (fImageData != NULL)
         delete[] fImageData;
-    
+
     fWidth = src->fWidth;
     fHeight = src->fHeight;
     fStride = src->fStride;

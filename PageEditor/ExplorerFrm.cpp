@@ -24,7 +24,7 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
     m_toolBar->AddSeparator();
     m_toolBar->AddTool( ID_TB_BACK, wxT("Back"), wxArtProvider::GetBitmap(wxART_GO_BACK), wxNullBitmap, wxITEM_NORMAL, wxT("Go to the previously viewed object"), wxEmptyString );
     m_toolBar->AddSeparator();
-    m_toolBar->AddTool( ID_TB_INDICENAMES, wxT("Show Indices"), wxArtProvider::GetBitmap(wxART_TIP), wxNullBitmap, wxITEM_CHECK, wxT("Show/Hide the Class Indices in the treeview"), wxEmptyString );
+    m_toolBar->AddTool( ID_TB_INDICENAMES, wxT("Show Indices"), wxArtProvider::GetBitmap(wxART_TIP, wxART_OTHER, wxSize(16, 16)), wxNullBitmap, wxITEM_CHECK, wxT("Show/Hide the Class Indices in the treeview"), wxEmptyString );
     m_toolBar->Realize();
     
     m_toolBar->EnableTool(ID_TB_BACK, false);

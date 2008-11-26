@@ -3,7 +3,7 @@
 
 plDynamicTextMap::plDynamicTextMap()
                 : fVisWidth(0), fVisHeight(0), fHasAlpha(false),
-                  fHasBeenCreated(false), fInitBuffer(NULL) { }
+                  fHasBeenCreated(false), fInitBuffer(NULL), fInitBufferLen(0) { }
 
 plDynamicTextMap::~plDynamicTextMap() {
     if (fInitBuffer != NULL)
@@ -40,7 +40,7 @@ void plDynamicTextMap::Create(unsigned int width, unsigned int height,
 
 void plDynamicTextMap::read(hsStream* S, plResManager* mgr) {
     plBitmap::read(S, mgr);
-    
+
     fVisWidth = S->readInt();
     fVisHeight = S->readInt();
     fHasAlpha = S->readBool();
@@ -103,4 +103,22 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plBitmap::IPrcParse(tag, mgr);
     }
+}
+
+unsigned int plDynamicTextMap::getVisWidth() const { return fVisWidth; }
+unsigned int plDynamicTextMap::getVisHeight() const { return fVisHeight; }
+bool plDynamicTextMap::hasAlpha() const { return fHasAlpha; }
+const unsigned int* plDynamicTextMap::getInitBuffer() const { return fInitBuffer; }
+size_t plDynamicTextMap::getInitBufferSize() const { return fInitBufferLen; }
+
+void plDynamicTextMap::setVisWidth(unsigned int width) { fVisWidth = width; }
+void plDynamicTextMap::setVisHeight(unsigned int height) { fVisHeight = height; }
+void plDynamicTextMap::setHasAlpha(bool hasAlpha) { fHasAlpha = hasAlpha; }
+
+void plDynamicTextMap::setInitBuffer(const unsigned int* buffer, size_t size) {
+    fInitBufferLen = size;
+    if (fInitBuffer != NULL)
+        delete[] fInitBuffer;
+    fInitBuffer = new unsigned int[size];
+    memcpy(fInitBuffer, buffer, size * sizeof(unsigned int));
 }

@@ -96,7 +96,7 @@ public:
     void setLODBias(float bias);
     void setSpecularPower(float power);
 
-    hsGMatState& getState(); 
+    hsGMatState& getState();
 };
 
 #endif

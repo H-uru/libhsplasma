@@ -15,7 +15,7 @@ DllClass plKeyData {
 protected:
     plUoid fUoid;
     class hsKeyedObject* fObjPtr;
-    
+
     hsUint32 fFileOff, fObjSize;
     hsUint32 fRefCnt;
 
@@ -33,7 +33,7 @@ private:
 public:
     bool operator==(plKeyData& other) const;
     plString toString() const;
-    
+
     void read(hsStream* S);
     void write(hsStream* S);
     void readUoid(hsStream* S);
@@ -44,7 +44,7 @@ public:
     plUoid& getUoid();
     class hsKeyedObject* getObj();
     void setObj(class hsKeyedObject* obj);
-    
+
     short getType() const;
     const plString& getName() const;
     const plLocation& getLocation() const;

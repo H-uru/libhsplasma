@@ -10,10 +10,10 @@ plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
 
 plKeyData::~plKeyData() {
     if (fObjPtr != NULL) {
-		Ref();
+        Ref();
         delete fObjPtr;
-		--fRefCnt;  // Under absolutely NO circumstance replace this with UnRef()
-	}
+       --fRefCnt;  // Under absolutely NO circumstance replace this with UnRef()
+    }
 }
 
 bool plKeyData::operator==(plKeyData& other) const {
@@ -21,6 +21,8 @@ bool plKeyData::operator==(plKeyData& other) const {
 }
 
 plString plKeyData::toString() const {
+    if (this == NULL)
+        return "NULL";
     return fUoid.toString();
 }
 

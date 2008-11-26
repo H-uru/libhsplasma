@@ -108,6 +108,7 @@ PYOBJ=\
 	$(OBJDIR)pyBounds3Ext.o \
 	$(OBJDIR)pyBoundsOriented.o \
 	$(OBJDIR)pyBitmap.o \
+	$(OBJDIR)pyDynamicTextMap.o \
 	$(OBJDIR)pyGMaterial.o \
 	$(OBJDIR)pyGMatState.o \
 	$(OBJDIR)pyLayer.o \
@@ -455,6 +456,9 @@ $(OBJDIR)pyBoundsOriented.o: PRP/Region/pyBoundsOriented.cpp
 
 $(OBJDIR)pyBitmap.o: PRP/Surface/pyBitmap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyBitmap.cpp -o $(OBJDIR)pyBitmap.o
+
+$(OBJDIR)pyDynamicTextMap.o: PRP/Surface/pyDynamicTextMap.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyDynamicTextMap.cpp -o $(OBJDIR)pyDynamicTextMap.o
 
 $(OBJDIR)pyGMaterial.o: PRP/Surface/pyGMaterial.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyGMaterial.cpp -o $(OBJDIR)pyGMaterial.o

@@ -23,6 +23,7 @@ protected:
     
 public:
     plWeakKey getKey() const;
+    void setKey(plWeakKey key);
 };
 
 DllClass hsKeyedObjectStub : public hsKeyedObject {

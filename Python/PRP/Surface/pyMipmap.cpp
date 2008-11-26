@@ -293,9 +293,9 @@ static PyMethodDef pyMipmap_Methods[] = {
     { "writeAlphaToStream", (PyCFunction)pyMipmap_writeToA, METH_VARARGS,
       "Params: stream\n"
       "Writes the mipmap's alpha data to a file stream" },
-    { "getSuggestedExt\n", (PyCFunction)pyMipmap_getExt, METH_NOARGS,
+    { "getSuggestedExt", (PyCFunction)pyMipmap_getExt, METH_NOARGS,
       "Returns the suggested file extension for exporting the image" },
-    { "getSuggestedAlphaExt\n", (PyCFunction)pyMipmap_getAExt, METH_NOARGS,
+    { "getSuggestedAlphaExt", (PyCFunction)pyMipmap_getAExt, METH_NOARGS,
       "Returns the suggested file extension for exporting the alpha data" },
     { "getLevelWidth", (PyCFunction)pyMipmap_getLevelWidth, METH_VARARGS,
       "Params: level\n"
