@@ -44,7 +44,8 @@ void hsElfStream::writeLine(const plString& ln) {
     unsigned int p = pos();
     unsigned short segSize = ln.len();
 
-    char* lnWrite = ln.copybuf();
+    char* lnWrite = new char[ln.len() + 1];
+    memcpy(lnWrite, ln.cstr(), ln.len() + 1);
     encipher((unsigned char*)lnWrite, segSize, (p & 0xFF));
     writeShort(segSize ^ (p & 0xFFFF));
     write(segSize, lnWrite);

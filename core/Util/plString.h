@@ -7,40 +7,30 @@
 #include <wchar.h>
 #include "PlasmaDefs.h"
 
-DllClass plStringBase {
+DllClass plString {
 protected:
-    size_t fLen;
-    mutable unsigned int fHash;
-    mutable bool fHaveHash;
+    struct plStrData {
+        char* fStr;
+        size_t fLen;
+        unsigned int fHash, fRefs;
 
-public:
-    plStringBase();
-    plStringBase(const plStringBase& init);
-    virtual ~plStringBase();
-
-    virtual bool empty() const =0;
-    virtual size_t len() const;
-
-    virtual unsigned int hash() const =0;
-
-    virtual long toInt(int base = 0) const =0;
-    virtual unsigned long toUint(int base = 0) const =0;
-    virtual double toFloat() const =0;
-    virtual bool toBool() const =0;
-};
-
-DllClass plString : public plStringBase {
-protected:
-    char* fStr;
+        plStrData();
+        ~plStrData();
+        void ref();
+        void unref();
+        const char* get() const;
+    };
+    plStrData* fString;
 
 public:
     plString();
     plString(const plString& init);
     plString(const char* init);
     plString(char c);
-    virtual ~plString();
+    ~plString();
 
-    virtual bool empty() const;
+    bool empty() const;
+    size_t len() const;
 
     //char& operator[](size_t idx) const;
     plString& operator=(const plString& other);
@@ -68,9 +58,8 @@ public:
 
     const char* cstr() const;
     operator const char*() const;
-    char* copybuf() const;
 
-    virtual unsigned int hash() const;
+    unsigned int hash() const;
     static unsigned int hash(const char* str);
 
     long find(char c) const;
@@ -91,27 +80,39 @@ public:
     plString afterLast(char sep) const;
     std::vector<plString> split(char sep) const;
 
-    virtual long toInt(int base = 0) const;
-    virtual unsigned long toUint(int base = 0) const;
-    virtual double toFloat() const;
-    virtual bool toBool() const;
+    long toInt(int base = 0) const;
+    unsigned long toUint(int base = 0) const;
+    double toFloat() const;
+    bool toBool() const;
 
     static plString Format(const char* fmt, ...);
     static plString FormatV(const char* fmt, va_list aptr);
 };
 
-DllClass plWString : public plStringBase {
+DllClass plWString {
 protected:
-    wchar_t* fStr;
+    struct plStrData {
+        wchar_t* fStr;
+        size_t fLen;
+        unsigned int fHash, fRefs;
+
+        plStrData();
+        ~plStrData();
+        void ref();
+        void unref();
+        const wchar_t* get() const;
+    };
+    plStrData* fString;
 
 public:
     plWString();
     plWString(const plWString& init);
     plWString(const wchar_t* init);
     plWString(wchar_t c);
-    virtual ~plWString();
+    ~plWString();
 
-    virtual bool empty() const;
+    bool empty() const;
+    size_t len() const;
 
     //wchar_t& operator[](size_t idx) const;
     plWString& operator=(const plWString& other);
@@ -139,9 +140,8 @@ public:
 
     const wchar_t* cstr() const;
     operator const wchar_t*() const;
-    wchar_t* copybuf() const;
 
-    virtual unsigned int hash() const;
+    unsigned int hash() const;
     static unsigned int hash(const wchar_t* str);
 
     long find(wchar_t c) const;
@@ -162,10 +162,10 @@ public:
     plWString afterLast(wchar_t sep) const;
     std::vector<plWString> split(char sep) const;
 
-    virtual long toInt(int base = 0) const;
-    virtual unsigned long toUint(int base = 0) const;
-    virtual double toFloat() const;
-    virtual bool toBool() const;
+    long toInt(int base = 0) const;
+    unsigned long toUint(int base = 0) const;
+    double toFloat() const;
+    bool toBool() const;
 
     static plWString Format(const wchar_t* fmt, ...);
     static plWString FormatV(const wchar_t* fmt, va_list aptr);

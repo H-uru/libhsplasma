@@ -501,6 +501,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Surface\pyDynamicTextMap.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\pyDynamicTextMap.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Surface\pyGMaterial.cpp"
 					>
 				</File>
