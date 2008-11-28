@@ -39,8 +39,8 @@ Tools/prcdc: Tools/src/prcdc.cpp core/lib/libPlasma.so
 Tools/Prp2Obj: Tools/src/Prp2Obj.cpp core/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
 
-Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp core/lib/libPlasma.so
-	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp -o Tools/PageEditor
+Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp core/lib/libPlasma.so
+	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp -o Tools/PageEditor
 
 Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.so
 	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap

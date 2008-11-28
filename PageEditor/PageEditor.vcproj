@@ -198,6 +198,14 @@
 			RelativePath=".\wxPlasmaTextCtrl.h"
 			>
 		</File>
+		<File
+			RelativePath=".\PlasmaTreeItem.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\PlasmaTreeItem.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

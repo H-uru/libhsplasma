@@ -32,6 +32,8 @@
 #include "Debug/plDebug.h"
 #include "PlasmaDefs.h"
 
+#include "PlasmaTreeItem.h"
+
 ///////////////////////////////////////////////////////////////////////////
 
 
@@ -47,9 +49,10 @@ class ExplorerFrm : public wxFrame
             ID_TB_SAVE,
             ID_TB_OPEN,
             ID_TB_SAVE_FILE,
+            ID_TB_NEW,
             ID_TB_BACK,
             ID_TB_FORWARD,
-            ID_TB_INDICENAMES,
+            ID_TB_INDEXNAMES,
             ID_TREEVIEW,
             ID_EDITOR,
         };
@@ -80,6 +83,8 @@ class ExplorerFrm : public wxFrame
         void LoadObjPrc( wxTreeEvent& event );
         void GoBack( wxCommandEvent& event );
         void RedrawTree( wxCommandEvent& event );
+        
+        
 
 
     public:
@@ -94,23 +99,6 @@ class ExplorerFrm : public wxFrame
         }
 
 
-};
-
-///////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class wxTreeKeyData
-///////////////////////////////////////////////////////////////////////////////
-class wxTreeKeyData : public wxTreeItemData
-{
-   public:
-      wxTreeKeyData(const plKey& key = plKey(NULL));
-      ~wxTreeKeyData();
-      plKey& getKey();
-      void setKey(plKey key);
-
-   protected:
-      plKey fKey;
 };
 
 #endif //__ExplorerFrm__
