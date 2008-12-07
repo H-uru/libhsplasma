@@ -74,7 +74,18 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
     m_panelPRC->Layout();
     panelPRC_Sizer->Fit( m_panelPRC );
     m_notebook->AddPage( m_panelPRC, wxT("PRC"), true );
+    
     m_panelHEX = new wxPanel( m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+    wxBoxSizer* panelHEX_Sizer;
+    panelHEX_Sizer = new wxBoxSizer( wxVERTICAL );
+    
+    m_hexCtrl = new CHexEditCtrl(m_panelHEX, ID_HEXVIEW);
+    m_hexCtrl->SetReadOnly(true);
+    panelHEX_Sizer->Add( m_hexCtrl, 1, wxALL|wxEXPAND, 1 );
+
+    m_panelHEX->SetSizer( panelHEX_Sizer );
+    m_panelHEX->Layout();
+    panelHEX_Sizer->Fit( m_panelHEX );
     m_notebook->AddPage( m_panelHEX, wxT("HEX"), false );
 
     panelRight_Sizer->Add( m_notebook, 1, wxEXPAND | wxALL, 5 );
@@ -154,7 +165,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
     
     m_toolBar->EnableTool(ID_TB_SAVE, true);
 
-    fPath = plString(wxPathOnly(filename).ToUTF8());
+    fPath = wxPathOnly(filename).ToUTF8();
     plDebug::Error("Path is %s", fPath.cstr());
 
     for(unsigned int j=0; j<pages.size();j++) {
@@ -230,11 +241,21 @@ void ExplorerFrm::LoadObjPrc(wxTreeEvent& event)
     if (data->getObject()) {
         plKey fKey = data->getObject();
         
+        hsRAMStream* HS = new hsRAMStream(rm.getVer());
+        
         hsKeyedObject* fObj = rm.getObject(fKey);
 
         if (fObj != NULL) {
             try {
                 fObj->prcWrite(prc);
+                fObj->write(HS, &rm);
+                
+                hsUint32 size = HS->size();
+                wxByte* dat = new wxByte[size + 1];
+                HS->copyTo((void*&)dat, size);
+                dat[size] = 0;
+                
+                m_hexCtrl->SetData(dat, size);
             } catch (hsException& e) {
                 plString msg = plString::Format("%s:%lu: %s", e.File(), e.Line(), e.what());
                 wxMessageBox(wxString(msg, wxConvUTF8), wxT("Error"), wxOK | wxICON_ERROR, this);
@@ -304,6 +325,24 @@ void ExplorerFrm::SavePrcFile( wxCommandEvent& event )
 
 void ExplorerFrm::SavePage( wxCommandEvent& event )
 {
+    PlasmaTreeItem* data = (PlasmaTreeItem*)m_prpTree->GetItemData(fCurrent);
+    if(data == NULL) return;
+    
+    if(m_prcEditor->GetText().IsEmpty()) return;
+    
+    wxString wTxt = m_prcEditor->GetText();
+    plString txt = plString(wTxt.ToUTF8());
+    hsRAMStream* S = new hsRAMStream(rm.getVer());
+    S->copyFrom((const void*)txt.cstr(), txt.len());
+    
+    if (data->getAge() != NULL) {
+        plAgeInfo* age = data->getAge();
+        
+        if(age != NULL) {
+        }
+    } else {
+        return;
+    }
   /*  wxTreeKeyData* KeyData = (wxTreeKeyData*)m_prpTree->GetItemData(fCurrent);
     if (KeyData == NULL) return;
 

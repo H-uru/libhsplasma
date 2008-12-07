@@ -31,7 +31,7 @@
 #include "Stream/hsRAMStream.h"
 #include "Debug/plDebug.h"
 #include "PlasmaDefs.h"
-
+#include "CHexEditCtrl.h"
 #include "PlasmaTreeItem.h"
 
 ///////////////////////////////////////////////////////////////////////////
@@ -55,6 +55,7 @@ class ExplorerFrm : public wxFrame
             ID_TB_INDEXNAMES,
             ID_TREEVIEW,
             ID_EDITOR,
+            ID_HEXVIEW
         };
 
     protected:
@@ -66,6 +67,7 @@ class ExplorerFrm : public wxFrame
         wxNotebook* m_notebook;
         wxPanel* m_panelPRC;
         wxPlasmaTextCtrl* m_prcEditor;
+        CHexEditCtrl* m_hexCtrl;
         wxPanel* m_panelHEX;
         plResManager rm;
         std::vector<plPageInfo*> pages;
