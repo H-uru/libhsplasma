@@ -17,7 +17,7 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
     wxInitAllImageHandlers();
 
     m_toolBar = this->CreateToolBar( wxTB_HORIZONTAL|wxTB_TEXT, ID_TOOLBAR );
-    m_toolBar->AddTool( ID_TB_SAVE, wxT("Save PRP"), wxArtProvider::GetBitmap(wxART_FILE_SAVE), wxNullBitmap, wxITEM_NORMAL, wxT("Commit PRC edits to file"), wxEmptyString );
+    m_toolBar->AddTool( ID_TB_SAVE, wxT("Save"), wxArtProvider::GetBitmap(wxART_FILE_SAVE), wxNullBitmap, wxITEM_NORMAL, wxT("Commit PRC edits to file"), wxEmptyString );
     m_toolBar->AddSeparator();
     m_toolBar->AddTool( ID_TB_OPEN, wxT("Open"), wxArtProvider::GetBitmap(wxART_FILE_OPEN), wxNullBitmap, wxITEM_NORMAL, wxT("Load .age or .prp files"), wxEmptyString );
     m_toolBar->AddTool( ID_TB_SAVE_FILE, wxT("Save PRC"), wxArtProvider::GetBitmap(wxART_FILE_SAVE_AS), wxNullBitmap, wxITEM_NORMAL, wxT("Save the current PRC to a file"), wxEmptyString );
@@ -165,7 +165,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
     
     m_toolBar->EnableTool(ID_TB_SAVE, true);
 
-    fPath = wxPathOnly(filename).ToUTF8();
+    fPath = plString(wxPathOnly(filename).ToUTF8());
     plDebug::Error("Path is %s", fPath.cstr());
 
     for(unsigned int j=0; j<pages.size();j++) {
@@ -190,11 +190,12 @@ void ExplorerFrm::LoadObjects(plPageInfo* page)
             TypeName = plString::Format("<%04hX> %s", types[f], pdUnifiedTypeMap::ClassName(types[f]));
         } else {
             plString className = pdUnifiedTypeMap::ClassName(types[f]);
+            if(className.startsWith("hsg", true)) className = className.mid(3);
+            if(className.startsWith("hsG", true)) className = className.mid(3);
+            if(className.startsWith("plg", false)) className = className.mid(3);
             if(className.startsWith("pl", false)) className = className.mid(2);
             if(className.startsWith("hs", false)) className = className.mid(2);
             if(className.startsWith("pf", false)) className = className.mid(2);
-            if(className.startsWith("hsg", true)) className = className.mid(3);
-            if(className.startsWith("plg", false)) className = className.mid(3);
             TypeName = plString::Format("%s", className.cstr());
         }
         wxTreeItemId fType = m_prpTree->AppendItem(fPageN, wxString::FromUTF8(TypeName.cstr()), 0, 0, new PlasmaTreeItem(types[f]));
@@ -335,46 +336,45 @@ void ExplorerFrm::SavePage( wxCommandEvent& event )
     hsRAMStream* S = new hsRAMStream(rm.getVer());
     S->copyFrom((const void*)txt.cstr(), txt.len());
     
-    if (data->getAge() != NULL) {
+    pfPrcParser prc;
+    prc.read(S);
+    const pfPrcTag* root = prc.getRoot();
+    
+    if (data->getObject()) {
+        plKey fKey = data->getObject();
+        
+        data = new PlasmaTreeItem(plKey());
+        rm.DelObject(fKey);
+        hsKeyedObject* obj = hsKeyedObject::Convert(rm.prcParseCreatable(root));
+        if (obj != NULL) {
+            plPageInfo* page = rm.FindPage(obj->getKey()->getLocation());
+            if(page) {
+                data = new PlasmaTreeItem(obj->getKey());
+                rm.AddObject(obj->getKey()->getLocation(), obj);
+                m_prpTree->SetItemText(fCurrent, wxString(obj->getKey()->getName().cstr(), wxConvUTF8));
+                
+                rm.WritePage(fPath + PATHSEP + page->getFilename(rm.getVer()), page);
+            } else {
+                m_prpTree->Delete(fCurrent);
+                //Invalid Location specified (page not loaded)
+            }
+        } else {
+            m_prpTree->Delete(fCurrent);
+        }
+    } else if (data->getAge() != NULL) {
         plAgeInfo* age = data->getAge();
         
         if(age != NULL) {
+            age->prcParse(root);
+            rm.WriteAge(fPath + PATHSEP + plString::Format("%s.age", age->getAgeName().cstr()), age);
         }
     } else {
         return;
     }
-  /*  wxTreeKeyData* KeyData = (wxTreeKeyData*)m_prpTree->GetItemData(fCurrent);
-    if (KeyData == NULL) return;
-
-    plKey fKey = KeyData->getKey();
-    pfPrcParser prc;
-    wxString wTxt = m_prcEditor->GetText();
-    plString txt = plString(wTxt.ToUTF8());
-    hsRAMStream* S = new hsRAMStream(rm.getVer());
-    S->copyFrom((const void*)txt.cstr(), txt.len());
-
-    prc.read(S);
-    const pfPrcTag* root = prc.getRoot();
-
-    KeyData->setKey(plKey());
-    rm.DelObject(fKey);
-    hsKeyedObject* obj = hsKeyedObject::Convert(rm.prcParseCreatable(root));
-    if (obj != NULL) {
-        KeyData->setKey(obj->getKey());
-        rm.AddObject(obj->getKey()->getLocation(), obj);
-        m_prpTree->SetItemText(fCurrent, wxString(obj->getKey()->getName().cstr(), wxConvUTF8));
-    } else {
-        m_prpTree->Delete(fCurrent);
-    }
-
-    for(unsigned int j=0; j<pages.size();j++) {
-        plPageInfo* page = pages[j];
-        rm.WritePage(fPath + PATHSEP + page->getFilename(rm.getVer()), page);
-    }
-
+    
     wxTreeEvent treeEvt;
     treeEvt.SetItem(fCurrent);
-    LoadObjPrc(treeEvt);*/
+    LoadObjPrc(treeEvt);
 }
 
 void ExplorerFrm::GoBack( wxCommandEvent& event )
@@ -439,11 +439,11 @@ void ExplorerFrm::RedrawTree( wxCommandEvent& event )
                     TypeName = plString::Format("<%04hX> %s", cti->getClass(), pdUnifiedTypeMap::ClassName(cti->getClass()));
                 } else {
                     plString className = pdUnifiedTypeMap::ClassName(cti->getClass());
+                    if(className.startsWith("hsg", true)) className = className.mid(3);
+                    if(className.startsWith("plg", false)) className = className.mid(3);
                     if(className.startsWith("pl", false)) className = className.mid(2);
                     if(className.startsWith("hs", false)) className = className.mid(2);
                     if(className.startsWith("pf", false)) className = className.mid(2);
-                    if(className.startsWith("hsg", true)) className = className.mid(3);
-                    if(className.startsWith("plg", false)) className = className.mid(3);
                     TypeName = plString::Format("%s", className.cstr());
                 }
                 

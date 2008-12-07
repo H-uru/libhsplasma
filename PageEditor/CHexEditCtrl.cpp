@@ -1009,7 +1009,7 @@ void CHexEditCtrl::OnChar(wxKeyEvent& _event)
 				return;
 
 #if wxUSE_UNICODE
-			wxChar wChar = _event.GetUnicodeKey();
+			//wxChar wChar = _event.GetUnicodeKey();
 			m_data[m_editPos] = wxByte(nChar);
 #else
 			m_data[m_editPos] = _event.GetKeyCode();
