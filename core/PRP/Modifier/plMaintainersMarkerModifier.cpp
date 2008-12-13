@@ -8,6 +8,9 @@ plMaintainersMarkerModifier::plMaintainersMarkerModifier()
                            : fCalibrated(kBroken) { }
 plMaintainersMarkerModifier::~plMaintainersMarkerModifier() { }
 
+IMPLEMENT_CREATABLE(plMaintainersMarkerModifier, kMaintainersMarkerModifier,
+                    plMultiModifier)
+
 void plMaintainersMarkerModifier::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
     fCalibrated = S->readInt();

@@ -14,6 +14,8 @@ public:
     plMaintainersMarkerModifier();
     virtual ~plMaintainersMarkerModifier();
 
+    DECLARE_CREATABLE(plMaintainersMarkerModifier)
+
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
