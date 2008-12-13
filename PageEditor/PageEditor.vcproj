@@ -175,6 +175,14 @@
 	</References>
 	<Files>
 		<File
+			RelativePath=".\CHexEditCtrl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\CHexEditCtrl.h"
+			>
+		</File>
+		<File
 			RelativePath=".\ExplorerFrm.cpp"
 			>
 		</File>
@@ -191,19 +199,19 @@
 			>
 		</File>
 		<File
-			RelativePath=".\wxPlasmaTextCtrl.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\wxPlasmaTextCtrl.h"
-			>
-		</File>
-		<File
 			RelativePath=".\PlasmaTreeItem.cpp"
 			>
 		</File>
 		<File
 			RelativePath=".\PlasmaTreeItem.h"
+			>
+		</File>
+		<File
+			RelativePath=".\wxPlasmaTextCtrl.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\wxPlasmaTextCtrl.h"
 			>
 		</File>
 	</Files>
