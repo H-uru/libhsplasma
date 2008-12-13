@@ -42,3 +42,7 @@ void plLoadMask::setAlways() {
 unsigned short plLoadMask::getMask() const {
     return fMask;
 }
+
+unsigned char plLoadMask::getQuality(size_t which) const {
+    return fQuality[which];
+}

@@ -180,6 +180,7 @@ PLSOBJ=\
 	$(OBJDIR)plInterfaceInfoModifier.o \
 	$(OBJDIR)plLogicModBase.o \
 	$(OBJDIR)plLogicModifier.o \
+	$(OBJDIR)plMaintainersMarkerModifier.o \
 	$(OBJDIR)plModifier.o \
 	$(OBJDIR)plNodeRegionModifier.o \
 	$(OBJDIR)plOneShotMod.o \
@@ -805,6 +806,9 @@ $(OBJDIR)plLogicModBase.o: PRP/Modifier/plLogicModBase.h PRP/Modifier/plLogicMod
 
 $(OBJDIR)plLogicModifier.o: PRP/Modifier/plLogicModifier.h PRP/Modifier/plLogicModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plLogicModifier.cpp -o $(OBJDIR)plLogicModifier.o
+
+$(OBJDIR)plMaintainersMarkerModifier.o: PRP/Modifier/plMaintainersMarkerModifier.h PRP/Modifier/plMaintainersMarkerModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plMaintainersMarkerModifier.cpp -o $(OBJDIR)plMaintainersMarkerModifier.o
 
 $(OBJDIR)plModifier.o: PRP/Modifier/plModifier.h PRP/Modifier/plModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plModifier.cpp -o $(OBJDIR)plModifier.o

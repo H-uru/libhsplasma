@@ -114,9 +114,16 @@ const plString& plUoid::getName() const { return objName; }
 const plLocation& plUoid::getLocation() const { return location; }
 const plLoadMask& plUoid::getLoadMask() const { return loadMask; }
 unsigned int plUoid::getID() const { return objID; }
+unsigned int plUoid::getCloneID() const { return cloneID; }
+unsigned int plUoid::getClonePlayerID() const { return clonePlayerID; }
 
 void plUoid::setType(short type) { classType = type; }
 void plUoid::setName(const plString& name) { objName = name; }
 void plUoid::setLocation(const plLocation& loc) { location = loc; }
 void plUoid::setLoadMask(const plLoadMask& mask) { loadMask = mask; }
 void plUoid::setID(unsigned int id) { objID = id; }
+
+void plUoid::setCloneIDs(unsigned int clone, unsigned int clonePlayer) {
+    cloneID = clone;
+    clonePlayerID = clonePlayer;
+}

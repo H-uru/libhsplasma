@@ -1510,6 +1510,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Modifier\plMaintainersMarkerModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plMaintainersMarkerModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Modifier\plModifier.cpp"
 					>
 				</File>

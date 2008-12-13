@@ -78,6 +78,8 @@ const plString& plKeyData::getName() const { return fUoid.getName(); }
 const plLocation& plKeyData::getLocation() const { return fUoid.getLocation(); }
 const plLoadMask& plKeyData::getLoadMask() const { return fUoid.getLoadMask(); }
 hsUint32 plKeyData::getID() const { return fUoid.getID(); }
+hsUint32 plKeyData::getCloneID() const { return fUoid.getCloneID(); }
+hsUint32 plKeyData::getClonePlayerID() const { return fUoid.getClonePlayerID(); }
 hsUint32 plKeyData::getFileOff() const { return fFileOff; }
 hsUint32 plKeyData::getObjSize() const { return fObjSize; }
 
@@ -86,6 +88,7 @@ void plKeyData::setName(const plString& name) { fUoid.setName(name); }
 void plKeyData::setLocation(const plLocation& loc) { fUoid.setLocation(loc); }
 void plKeyData::setLoadMask(const plLoadMask& mask) { fUoid.setLoadMask(mask); }
 void plKeyData::setID(hsUint32 id) { fUoid.setID(id); }
+void plKeyData::setCloneIDs(hsUint32 clone, hsUint32 player) { fUoid.setCloneIDs(clone, player); }
 void plKeyData::setFileOff(hsUint32 off) { fFileOff = off; }
 void plKeyData::setObjSize(hsUint32 size) { fObjSize = size; }
 

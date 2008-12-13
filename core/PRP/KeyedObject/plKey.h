@@ -50,6 +50,8 @@ public:
     const plLocation& getLocation() const;
     const plLoadMask& getLoadMask() const;
     hsUint32 getID() const;
+    hsUint32 getCloneID() const;
+    hsUint32 getClonePlayerID() const;
     hsUint32 getFileOff() const;
     hsUint32 getObjSize() const;
 
@@ -58,6 +60,7 @@ public:
     void setLocation(const plLocation& loc);
     void setLoadMask(const plLoadMask& mask);
     void setID(hsUint32 id);
+    void setCloneIDs(hsUint32 clone, hsUint32 player);
     void setFileOff(hsUint32 off);
     void setObjSize(hsUint32 size);
 };

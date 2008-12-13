@@ -39,12 +39,15 @@ public:
     const plLocation& getLocation() const;
     const plLoadMask& getLoadMask() const;
     unsigned int getID() const;
+    unsigned int getCloneID() const;
+    unsigned int getClonePlayerID() const;
 
     void setType(short type);
     void setName(const plString& name);
     void setLocation(const plLocation& loc);
     void setLoadMask(const plLoadMask& mask);
     void setID(unsigned int id);
+    void setCloneIDs(unsigned int cloneID, unsigned int clonePlayerID);
 };
 
 #endif

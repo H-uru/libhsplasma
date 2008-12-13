@@ -25,6 +25,7 @@ public:
     void setMask(unsigned short mask);
     void setAlways();
     unsigned short getMask() const;
+    unsigned char getQuality(size_t which) const;
 };
 
 #endif

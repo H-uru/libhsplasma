@@ -87,6 +87,7 @@
 #include "PRP/Modifier/plExcludeRegionModifier.h"
 #include "PRP/Modifier/plInterfaceInfoModifier.h"
 #include "PRP/Modifier/plLogicModifier.h"
+#include "PRP/Modifier/plMaintainersMarkerModifier.h"
 #include "PRP/Modifier/plNodeRegionModifier.h"
 #include "PRP/Modifier/plOneShotMod.h"
 #include "PRP/Modifier/plPostEffectMod.h"
@@ -407,7 +408,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kDynaRippleVSMgr: return new plDynaRippleVSMgr();
         case kWaveSet6: return new plWaveSet6();
         case kGUIProgressCtrl: return new pfGUIProgressCtrl();
-        //case kMaintainersMarkerModifier: return new plMaintainersMarkerModifier();
+        case kMaintainersMarkerModifier: return new plMaintainersMarkerModifier();
         //case kMorphSequenceSDLMod: return new plMorphSequenceSDLMod();
         case kMorphDataSet: return new plMorphDataSet();
         case kHardRegion: return new plHardRegion();
