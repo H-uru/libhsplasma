@@ -12,7 +12,7 @@ IMPLEMENT_CREATABLE(plAGAnim, kAGAnim, plSynchedObject)
 
 void plAGAnim::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
-    
+
     fName = S->readSafeStr();
     fStart = S->readFloat();
     fEnd = S->readFloat();
@@ -109,6 +109,31 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+size_t plAGAnim::getNumApplicators() const { return fApps.getSize(); }
+plAGApplicator* plAGAnim::getApplicator(size_t idx) const { return fApps[idx]; }
+void plAGAnim::addApplicator(plAGApplicator* app) { fApps.append(app); }
+
+void plAGAnim::clearApplicators() {
+    for (size_t i=0; i<fApps.getSize(); i++)
+        delete fApps[i];
+    fApps.clear();
+}
+
+void plAGAnim::delApplicator(size_t idx) {
+    delete fApps[idx];
+    fApps.remove(idx);
+}
+
+float plAGAnim::getBlend() const { return fBlend; }
+float plAGAnim::getStart() const { return fStart; }
+float plAGAnim::getEnd() const { return fEnd; }
+plString plAGAnim::getName() const { return fName; }
+
+void plAGAnim::setBlend(float blend) { fBlend = blend; }
+void plAGAnim::setStart(float start) { fStart = start; }
+void plAGAnim::setEnd(float end) { fEnd = end; }
+void plAGAnim::setName(const plString& name) { fName = name; }
+
 
 /* plAgeGlobalAnim */
 plAgeGlobalAnim::plAgeGlobalAnim() { }
@@ -141,3 +166,6 @@ void plAgeGlobalAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plAGAnim::IPrcParse(tag, mgr);
     }
 }
+
+plString plAgeGlobalAnim::getVarName() const { return fGlobalVarName; }
+void plAgeGlobalAnim::setVarName(const plString& name) { fGlobalVarName = name; }

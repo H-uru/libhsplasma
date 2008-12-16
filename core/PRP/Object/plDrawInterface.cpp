@@ -1,5 +1,6 @@
 #include "plDrawInterface.h"
 
+/* plDrawInterface */
 plDrawInterface::plDrawInterface() { }
 plDrawInterface::~plDrawInterface() { }
 
@@ -104,3 +105,45 @@ plKey plDrawInterface::getRegion(size_t idx) const { return fRegions[idx]; }
 void plDrawInterface::clearRegions() { fRegions.clear(); }
 void plDrawInterface::addRegion(plKey obj) { fRegions.append(obj); }
 void plDrawInterface::delRegion(size_t idx) { fRegions.remove(idx); }
+
+
+/* plInstanceDrawInterface */
+plInstanceDrawInterface::plInstanceDrawInterface() : fTargetID(0) { }
+plInstanceDrawInterface::~plInstanceDrawInterface() { }
+
+IMPLEMENT_CREATABLE(plInstanceDrawInterface, kInstanceDrawInterface,
+                    plDrawInterface)
+
+void plInstanceDrawInterface::read(hsStream* S, plResManager* mgr) {
+    plDrawInterface::read(S, mgr);
+
+    fTargetID = S->readInt();
+    fDrawable = mgr->readKey(S);
+}
+
+void plInstanceDrawInterface::write(hsStream* S, plResManager* mgr) {
+    plDrawInterface::write(S, mgr);
+
+    S->writeInt(fTargetID);
+    mgr->writeKey(S, fDrawable);
+}
+
+void plInstanceDrawInterface::IPrcWrite(pfPrcHelper* prc) {
+    plDrawInterface::IPrcWrite(prc);
+
+    prc->startTag("Target");
+    prc->writeParam("ID", fTargetID);
+    prc->endTag();
+    fDrawable->prcWrite(prc);
+    prc->closeTag();
+}
+
+void plInstanceDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Target") {
+        fTargetID = tag->getParam("ID", "0").toUint();
+        if (tag->hasChildren())
+            fDrawable = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plDrawInterface::IPrcParse(tag, mgr);
+    }
+}

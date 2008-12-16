@@ -25,6 +25,11 @@ protected:
 public:
     plAGChannel* getChannel() const;
     void setChannel(plAGChannel*);
+
+    bool isEnabled() const;
+    plString getChannelName() const;
+    void setEnabled(bool enabled);
+    void setChannelName(const plString& channelName);
 };
 
 DllClass plSoundVolumeApplicator : public plAGApplicator {
@@ -43,6 +48,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getIndex() const;
+    void setIndex(unsigned int index);
 };
 
 DllClass plLightAmbientApplicator : public plAGApplicator {

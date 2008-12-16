@@ -349,7 +349,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kVehicleModifier: return new plVehicleModifier();
         case kParticleLocalWind: return new plParticleLocalWind();
         case kParticleUniformWind: return new plParticleUniformWind();
-        //case kInstanceDrawInterface: return new plInstanceDrawInterface();
+        case kInstanceDrawInterface: return new plInstanceDrawInterface();
         case kShadowMaster: return new plShadowMaster();
         case kShadowCaster: return new plShadowCaster();
         case kPointShadowMaster: return new plPointShadowMaster();

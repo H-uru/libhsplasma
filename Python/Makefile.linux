@@ -49,6 +49,54 @@ PYOBJ=\
 	$(OBJDIR)pySplineEaseCurve.o \
 	$(OBJDIR)pyTMController.o \
 	$(OBJDIR)pyViewFaceModifier.o \
+	$(OBJDIR)pyAGAnim.o \
+	$(OBJDIR)pyAGAnimBink.o \
+	$(OBJDIR)pyAGApplicator.o \
+	$(OBJDIR)pyAGChannel.o \
+	$(OBJDIR)pyAgeGlobalAnim.o \
+	$(OBJDIR)pyATCAnim.o \
+	$(OBJDIR)pyATCChannel.o \
+	$(OBJDIR)pyEmoteAnim.o \
+	$(OBJDIR)pyMatrixBlend.o \
+	$(OBJDIR)pyMatrixChannel.o \
+	$(OBJDIR)pyMatrixChannelApplicator.o \
+	$(OBJDIR)pyMatrixConstant.o \
+	$(OBJDIR)pyMatrixControllerCacheChannel.o \
+	$(OBJDIR)pyMatrixControllerChannel.o \
+	$(OBJDIR)pyMatrixDelayedCorrectionApplicator.o \
+	$(OBJDIR)pyMatrixDifferenceApp.o \
+	$(OBJDIR)pyMatrixTimeScale.o \
+	$(OBJDIR)pyLightAmbientApplicator.o \
+	$(OBJDIR)pyLightDiffuseApplicator.o \
+	$(OBJDIR)pyLightSpecularApplicator.o \
+	$(OBJDIR)pyOmniApplicator.o \
+	$(OBJDIR)pyOmniCutoffApplicator.o \
+	$(OBJDIR)pyOmniSqApplicator.o \
+	$(OBJDIR)pyPointBlend.o \
+	$(OBJDIR)pyPointChannel.o \
+	$(OBJDIR)pyPointChannelApplicator.o \
+	$(OBJDIR)pyPointConstant.o \
+	$(OBJDIR)pyPointControllerCacheChannel.o \
+	$(OBJDIR)pyPointControllerChannel.o \
+	$(OBJDIR)pyPointTimeScale.o \
+	$(OBJDIR)pyQuatBlend.o \
+	$(OBJDIR)pyQuatChannel.o \
+	$(OBJDIR)pyQuatChannelApplicator.o \
+	$(OBJDIR)pyQuatConstant.o \
+	$(OBJDIR)pyQuatPointCombine.o \
+	$(OBJDIR)pyQuatTimeScale.o \
+	$(OBJDIR)pyRelativeMatrixChannelApplicator.o \
+	$(OBJDIR)pyScalarBlend.o \
+	$(OBJDIR)pyScalarChannel.o \
+	$(OBJDIR)pyScalarChannelApplicator.o \
+	$(OBJDIR)pyScalarConstant.o \
+	$(OBJDIR)pyScalarControllerCacheChannel.o \
+	$(OBJDIR)pyScalarControllerChannel.o \
+	$(OBJDIR)pyScalarTimeScale.o \
+	$(OBJDIR)pyScalarSDLChannel.o \
+	$(OBJDIR)pySoundVolumeApplicator.o \
+	$(OBJDIR)pySpotInnerApplicator.o \
+	$(OBJDIR)pySpotOuterApplicator.o \
 	$(OBJDIR)pySceneNode.o \
 	$(OBJDIR)pySoundBuffer.o \
 	$(OBJDIR)pyWAVHeader.o \
@@ -282,6 +330,150 @@ $(OBJDIR)pyTMController.o: PRP/Animation/pyTMController.cpp
 
 $(OBJDIR)pyViewFaceModifier.o: PRP/Animation/pyViewFaceModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyViewFaceModifier.cpp -o $(OBJDIR)pyViewFaceModifier.o
+
+$(OBJDIR)pyAGAnim.o: PRP/Avatar/pyAGAnim.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGAnim.cpp -o $(OBJDIR)pyAGAnim.o
+
+$(OBJDIR)pyAGAnimBink.o: PRP/Avatar/pyAGAnimBink.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGAnimBink.cpp -o $(OBJDIR)pyAGAnimBink.o
+
+$(OBJDIR)pyAGApplicator.o: PRP/Avatar/pyAGApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGApplicator.cpp -o $(OBJDIR)pyAGApplicator.o
+
+$(OBJDIR)pyAGChannel.o: PRP/Avatar/pyAGChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGChannel.cpp -o $(OBJDIR)pyAGChannel.o
+
+$(OBJDIR)pyAgeGlobalAnim.o: PRP/Avatar/pyAgeGlobalAnim.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAgeGlobalAnim.cpp -o $(OBJDIR)pyAgeGlobalAnim.o
+
+$(OBJDIR)pyATCAnim.o: PRP/Avatar/pyATCAnim.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyATCAnim.cpp -o $(OBJDIR)pyATCAnim.o
+
+$(OBJDIR)pyATCChannel.o: PRP/Avatar/pyATCChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyATCChannel.cpp -o $(OBJDIR)pyATCChannel.o
+
+$(OBJDIR)pyEmoteAnim.o: PRP/Avatar/pyEmoteAnim.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyEmoteAnim.cpp -o $(OBJDIR)pyEmoteAnim.o
+
+$(OBJDIR)pyLightAmbientApplicator.o: PRP/Avatar/pyLightAmbientApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightAmbientApplicator.cpp -o $(OBJDIR)pyLightAmbientApplicator.o
+
+$(OBJDIR)pyLightDiffuseApplicator.o: PRP/Avatar/pyLightDiffuseApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightDiffuseApplicator.cpp -o $(OBJDIR)pyLightDiffuseApplicator.o
+
+$(OBJDIR)pyLightSpecularApplicator.o: PRP/Avatar/pyLightSpecularApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightSpecularApplicator.cpp -o $(OBJDIR)pyLightSpecularApplicator.o
+
+$(OBJDIR)pyMatrixBlend.o: PRP/Avatar/pyMatrixBlend.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixBlend.cpp -o $(OBJDIR)pyMatrixBlend.o
+
+$(OBJDIR)pyMatrixChannel.o: PRP/Avatar/pyMatrixChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixChannel.cpp -o $(OBJDIR)pyMatrixChannel.o
+
+$(OBJDIR)pyMatrixChannelApplicator.o: PRP/Avatar/pyMatrixChannelApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixChannelApplicator.cpp -o $(OBJDIR)pyMatrixChannelApplicator.o
+
+$(OBJDIR)pyMatrixConstant.o: PRP/Avatar/pyMatrixConstant.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixConstant.cpp -o $(OBJDIR)pyMatrixConstant.o
+
+$(OBJDIR)pyMatrixControllerCacheChannel.o: PRP/Avatar/pyMatrixControllerCacheChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixControllerCacheChannel.cpp -o $(OBJDIR)pyMatrixControllerCacheChannel.o
+
+$(OBJDIR)pyMatrixControllerChannel.o: PRP/Avatar/pyMatrixControllerChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixControllerChannel.cpp -o $(OBJDIR)pyMatrixControllerChannel.o
+
+$(OBJDIR)pyMatrixDelayedCorrectionApplicator.o: PRP/Avatar/pyMatrixDelayedCorrectionApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixDelayedCorrectionApplicator.cpp -o $(OBJDIR)pyMatrixDelayedCorrectionApplicator.o
+
+$(OBJDIR)pyMatrixDifferenceApp.o: PRP/Avatar/pyMatrixDifferenceApp.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixDifferenceApp.cpp -o $(OBJDIR)pyMatrixDifferenceApp.o
+
+$(OBJDIR)pyMatrixTimeScale.o: PRP/Avatar/pyMatrixTimeScale.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixTimeScale.cpp -o $(OBJDIR)pyMatrixTimeScale.o
+
+$(OBJDIR)pyOmniApplicator.o: PRP/Avatar/pyOmniApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniApplicator.cpp -o $(OBJDIR)pyOmniApplicator.o
+
+$(OBJDIR)pyOmniCutoffApplicator.o: PRP/Avatar/pyOmniCutoffApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniCutoffApplicator.cpp -o $(OBJDIR)pyOmniCutoffApplicator.o
+
+$(OBJDIR)pyOmniSqApplicator.o: PRP/Avatar/pyOmniSqApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniSqApplicator.cpp -o $(OBJDIR)pyOmniSqApplicator.o
+
+$(OBJDIR)pyPointBlend.o: PRP/Avatar/pyPointBlend.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointBlend.cpp -o $(OBJDIR)pyPointBlend.o
+
+$(OBJDIR)pyPointChannel.o: PRP/Avatar/pyPointChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointChannel.cpp -o $(OBJDIR)pyPointChannel.o
+
+$(OBJDIR)pyPointChannelApplicator.o: PRP/Avatar/pyPointChannelApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointChannelApplicator.cpp -o $(OBJDIR)pyPointChannelApplicator.o
+
+$(OBJDIR)pyPointConstant.o: PRP/Avatar/pyPointConstant.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointConstant.cpp -o $(OBJDIR)pyPointConstant.o
+
+$(OBJDIR)pyPointControllerCacheChannel.o: PRP/Avatar/pyPointControllerCacheChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointControllerCacheChannel.cpp -o $(OBJDIR)pyPointControllerCacheChannel.o
+
+$(OBJDIR)pyPointControllerChannel.o: PRP/Avatar/pyPointControllerChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointControllerChannel.cpp -o $(OBJDIR)pyPointControllerChannel.o
+
+$(OBJDIR)pyPointTimeScale.o: PRP/Avatar/pyPointTimeScale.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointTimeScale.cpp -o $(OBJDIR)pyPointTimeScale.o
+
+$(OBJDIR)pyQuatBlend.o: PRP/Avatar/pyQuatBlend.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatBlend.cpp -o $(OBJDIR)pyQuatBlend.o
+
+$(OBJDIR)pyQuatChannel.o: PRP/Avatar/pyQuatChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatChannel.cpp -o $(OBJDIR)pyQuatChannel.o
+
+$(OBJDIR)pyQuatChannelApplicator.o: PRP/Avatar/pyQuatChannelApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatChannelApplicator.cpp -o $(OBJDIR)pyQuatChannelApplicator.o
+
+$(OBJDIR)pyQuatConstant.o: PRP/Avatar/pyQuatConstant.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatConstant.cpp -o $(OBJDIR)pyQuatConstant.o
+
+$(OBJDIR)pyQuatPointCombine.o: PRP/Avatar/pyQuatPointCombine.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatPointCombine.cpp -o $(OBJDIR)pyQuatPointCombine.o
+
+$(OBJDIR)pyQuatTimeScale.o: PRP/Avatar/pyQuatTimeScale.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatTimeScale.cpp -o $(OBJDIR)pyQuatTimeScale.o
+
+$(OBJDIR)pyRelativeMatrixChannelApplicator.o: PRP/Avatar/pyRelativeMatrixChannelApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyRelativeMatrixChannelApplicator.cpp -o $(OBJDIR)pyRelativeMatrixChannelApplicator.o
+
+$(OBJDIR)pyScalarBlend.o: PRP/Avatar/pyScalarBlend.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarBlend.cpp -o $(OBJDIR)pyScalarBlend.o
+
+$(OBJDIR)pyScalarChannel.o: PRP/Avatar/pyScalarChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarChannel.cpp -o $(OBJDIR)pyScalarChannel.o
+
+$(OBJDIR)pyScalarChannelApplicator.o: PRP/Avatar/pyScalarChannelApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarChannelApplicator.cpp -o $(OBJDIR)pyScalarChannelApplicator.o
+
+$(OBJDIR)pyScalarConstant.o: PRP/Avatar/pyScalarConstant.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarConstant.cpp -o $(OBJDIR)pyScalarConstant.o
+
+$(OBJDIR)pyScalarControllerCacheChannel.o: PRP/Avatar/pyScalarControllerCacheChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarControllerCacheChannel.cpp -o $(OBJDIR)pyScalarControllerCacheChannel.o
+
+$(OBJDIR)pyScalarControllerChannel.o: PRP/Avatar/pyScalarControllerChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarControllerChannel.cpp -o $(OBJDIR)pyScalarControllerChannel.o
+
+$(OBJDIR)pyScalarSDLChannel.o: PRP/Avatar/pyScalarSDLChannel.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarSDLChannel.cpp -o $(OBJDIR)pyScalarSDLChannel.o
+
+$(OBJDIR)pyScalarTimeScale.o: PRP/Avatar/pyScalarTimeScale.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarTimeScale.cpp -o $(OBJDIR)pyScalarTimeScale.o
+
+$(OBJDIR)pySpotInnerApplicator.o: PRP/Avatar/pySpotInnerApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySpotInnerApplicator.cpp -o $(OBJDIR)pySpotInnerApplicator.o
+
+$(OBJDIR)pySpotOuterApplicator.o: PRP/Avatar/pySpotOuterApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySpotOuterApplicator.cpp -o $(OBJDIR)pySpotOuterApplicator.o
+
+$(OBJDIR)pySoundVolumeApplicator.o: PRP/Avatar/pySoundVolumeApplicator.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySoundVolumeApplicator.cpp -o $(OBJDIR)pySoundVolumeApplicator.o
 
 $(OBJDIR)pySoundBuffer.o: PRP/Audio/pySoundBuffer.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/pySoundBuffer.cpp -o $(OBJDIR)pySoundBuffer.o

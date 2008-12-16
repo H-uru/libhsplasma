@@ -27,18 +27,19 @@ void plATCAnim::read(hsStream* S, plResManager* mgr) {
     fEaseOutMin = S->readFloat();
     fEaseOutMax = S->readFloat();
     fEaseOutLength = S->readFloat();
-    
-    fMarkers.setSize(S->readInt());
-    for (size_t i=0; i<fMarkers.getSize(); i++) {
-        fMarkers[i].fKey = S->readSafeStr();
-        fMarkers[i].fValue = S->readFloat();
+
+    size_t numMarkers = S->readInt();
+    for (size_t i=0; i<numMarkers; i++) {
+        plString key = S->readSafeStr();
+        fMarkers[key] = S->readFloat();
     }
 
-    fLoops.setSize(S->readInt());
-    for (size_t i=0; i<fLoops.getSize(); i++) {
-        fLoops[i].fKey = S->readSafeStr();
-        fLoops[i].fStart = S->readFloat();
-        fLoops[i].fEnd = S->readFloat();
+    size_t numLoops = S->readInt();
+    for (size_t i=0; i<numLoops; i++) {
+        plString key = S->readSafeStr();
+        float start = S->readFloat();
+        float end = S->readFloat();
+        fLoops[key] = std::pair<float, float>(start, end);
     }
 
     fStopPoints.setSizeNull(S->readInt());
@@ -48,7 +49,7 @@ void plATCAnim::read(hsStream* S, plResManager* mgr) {
 
 void plATCAnim::write(hsStream* S, plResManager* mgr) {
     plAGAnim::write(S, mgr);
-    
+
     S->writeFloat(fInitial);
     S->writeBool(fAutoStart);
     S->writeFloat(fLoopStart);
@@ -65,17 +66,17 @@ void plATCAnim::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fEaseOutMax);
     S->writeFloat(fEaseOutLength);
 
-    S->writeInt(fMarkers.getSize());
-    for (size_t i=0; i<fMarkers.getSize(); i++) {
-        S->writeSafeStr(fMarkers[i].fKey);
-        S->writeFloat(fMarkers[i].fValue);
+    S->writeInt(fMarkers.size());
+    for (marker_t::iterator i = fMarkers.begin(); i != fMarkers.end(); i++) {
+        S->writeSafeStr(i->first);
+        S->writeFloat(i->second);
     }
 
-    S->writeInt(fLoops.getSize());
-    for (size_t i=0; i<fLoops.getSize(); i++) {
-        S->writeSafeStr(fLoops[i].fKey);
-        S->writeFloat(fLoops[i].fStart);
-        S->writeFloat(fLoops[i].fEnd);
+    S->writeInt(fLoops.size());
+    for (loop_t::iterator i = fLoops.begin(); i != fLoops.end(); i++) {
+        S->writeSafeStr(i->first);
+        S->writeFloat(i->second.first);
+        S->writeFloat(i->second.second);
     }
 
     S->writeInt(fStopPoints.getSize());
@@ -109,20 +110,20 @@ void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Markers");
-    for (size_t i=0; i<fMarkers.getSize(); i++) {
+    for (marker_t::iterator i = fMarkers.begin(); i != fMarkers.end(); i++) {
         prc->startTag("Marker");
-        prc->writeParam("Name", fMarkers[i].fKey);
-        prc->writeParam("Pos", fMarkers[i].fValue);
+        prc->writeParam("Name", i->first);
+        prc->writeParam("Pos", i->second);
         prc->endTag(true);
     }
     prc->closeTag();
 
     prc->writeSimpleTag("Loops");
-    for (size_t i=0; i<fLoops.getSize(); i++) {
+    for (loop_t::iterator i = fLoops.begin(); i != fLoops.end(); i++) {
         prc->startTag("Loop");
-        prc->writeParam("Name", fLoops[i].fKey);
-        prc->writeParam("Start", fLoops[i].fStart);
-        prc->writeParam("End", fLoops[i].fEnd);
+        prc->writeParam("Name", i->first);
+        prc->writeParam("Start", i->second.first);
+        prc->writeParam("End", i->second.second);
         prc->endTag(true);
     }
     prc->closeTag();
@@ -154,24 +155,22 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fEaseOutMax = tag->getParam("Max", "0").toFloat();
         fEaseOutLength = tag->getParam("Length", "0").toFloat();
     } else if (tag->getName() == "Markers") {
-        fMarkers.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMarkers.getSize(); i++) {
+        while (child != NULL) {
             if (child->getName() != "Marker")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fMarkers[i].fKey = child->getParam("Name", "");
-            fMarkers[i].fValue = child->getParam("Pos", "0").toFloat();
+            fMarkers[child->getParam("Name", "")] = child->getParam("Pos", "0").toFloat();
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Loops") {
-        fLoops.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fLoops.getSize(); i++) {
+        while (child != NULL) {
             if (child->getName() != "Loop")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fLoops[i].fKey = child->getParam("Name", "");
-            fLoops[i].fStart = child->getParam("Start", "0").toFloat();
-            fLoops[i].fEnd = child->getParam("End", "0").toFloat();
+            plString key = child->getParam("Name", "");
+            float start = child->getParam("Start", "0").toFloat();
+            float end = child->getParam("End", "0").toFloat();
+            fLoops[key] = std::pair<float, float>(start, end);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "StopPoints") {
@@ -188,6 +187,57 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+plATCAnim::marker_t& plATCAnim::getMarkers() { return fMarkers; }
+plATCAnim::loop_t& plATCAnim::getLoops() { return fLoops; }
+
+float plATCAnim::getInitial() const { return fInitial; }
+float plATCAnim::getLoopStart() const { return fLoopStart; }
+float plATCAnim::getLoopEnd() const { return fLoopEnd; }
+bool plATCAnim::getAutoStart() const { return fAutoStart; }
+bool plATCAnim::getDoLoop() const { return fLoop; }
+unsigned char plATCAnim::getEaseInType() const { return fEaseInType; }
+unsigned char plATCAnim::getEaseOutType() const { return fEaseOutType; }
+float plATCAnim::getEaseInLength() const { return fEaseInLength; }
+float plATCAnim::getEaseInMin() const { return fEaseInMin; }
+float plATCAnim::getEaseInMax() const { return fEaseInMax; }
+float plATCAnim::getEaseOutLength() const { return fEaseOutLength; }
+float plATCAnim::getEaseOutMin() const { return fEaseOutMin; }
+float plATCAnim::getEaseOutMax() const { return fEaseOutMax; }
+
+float plATCAnim::getMarker(const plString& key) const { return fMarkers.find(key)->second; }
+std::pair<float, float> plATCAnim::getLoop(const plString& key) const { return fLoops.find(key)->second; }
+const hsTArray<float>& plATCAnim::getStops() const { return fStopPoints; }
+
+void plATCAnim::setInitial(float init) { fInitial = init; }
+void plATCAnim::setLoopStart(float start) { fLoopStart = start; }
+void plATCAnim::setLoopEnd(float end) { fLoopEnd = end; }
+void plATCAnim::setAutoStart(bool autoStart) { fAutoStart = autoStart; }
+void plATCAnim::setDoLoop(bool loop) { fLoop = loop; }
+void plATCAnim::setEaseInType(unsigned char type) { fEaseInType = type; }
+void plATCAnim::setEaseOutType(unsigned char type) { fEaseOutType = type; }
+
+void plATCAnim::setEaseInParams(float length, float min, float max) {
+    fEaseInLength = length;
+    fEaseInMin = min;
+    fEaseInMax = max;
+}
+
+void plATCAnim::setEaseOutParams(float length, float min, float max) {
+    fEaseOutLength = length;
+    fEaseOutMin = min;
+    fEaseOutMax = max;
+}
+
+void plATCAnim::setMarker(const plString& key, float value) {
+    fMarkers[key] = value;
+}
+
+void plATCAnim::setLoop(const plString& key, float start, float end) {
+    fLoops[key] = std::pair<float, float>(start, end);
+}
+
+void plATCAnim::setStops(const hsTArray<float>& stops) { fStopPoints = stops; }
+
 
 /* plEmoteAnim */
 plEmoteAnim::plEmoteAnim() : fBodyUsage(plAGAnim::kBodyUnknown) { }
@@ -197,7 +247,7 @@ IMPLEMENT_CREATABLE(plEmoteAnim, kEmoteAnim, plATCAnim)
 
 void plEmoteAnim::read(hsStream* S, plResManager* mgr) {
     plATCAnim::read(S, mgr);
-    
+
     fFadeIn = S->readFloat();
     fFadeOut = S->readFloat();
     fBodyUsage = (plAGAnim::BodyUsage)S->readByte();
@@ -205,7 +255,7 @@ void plEmoteAnim::read(hsStream* S, plResManager* mgr) {
 
 void plEmoteAnim::write(hsStream* S, plResManager* mgr) {
     plATCAnim::write(S, mgr);
-    
+
     S->writeFloat(fFadeIn);
     S->writeFloat(fFadeOut);
     S->writeByte((hsUbyte)fBodyUsage);
@@ -230,6 +280,14 @@ void plEmoteAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plATCAnim::IPrcParse(tag, mgr);
     }
 }
+
+plAGAnim::BodyUsage plEmoteAnim::getBodyUsage() const { return fBodyUsage; }
+float plEmoteAnim::getFadeIn() const { return fFadeIn; }
+float plEmoteAnim::getFadeOut() const { return fFadeOut; }
+
+void plEmoteAnim::setBodyUsage(plAGAnim::BodyUsage usage) { fBodyUsage = usage; }
+void plEmoteAnim::setFadeIn(float fade) { fFadeIn = fade; }
+void plEmoteAnim::setFadeOut(float fade) { fFadeOut = fade; }
 
 
 /* plAGAnimBink */
@@ -273,3 +331,11 @@ void plAGAnimBink::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plATCAnim::IPrcParse(tag, mgr);
     }
 }
+
+plString plAGAnimBink::getBinkFilename() const { return fBinkFilename; }
+plString plAGAnimBink::getSgtFilename() const { return fSgtFilename; }
+plString plAGAnimBink::getSubtitleId() const { return fSubtitleId; }
+
+void plAGAnimBink::setBinkFilename(const plString& filename) { fBinkFilename = filename; }
+void plAGAnimBink::setSgtFilename(const plString& filename) { fSgtFilename = filename; }
+void plAGAnimBink::setSubtitleId(const plString& id) { fSubtitleId = id; }

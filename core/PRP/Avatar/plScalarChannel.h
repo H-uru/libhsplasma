@@ -14,6 +14,10 @@ public:
     virtual ~plScalarChannel();
 
     DECLARE_CREATABLE(plScalarChannel)
+
+public:
+    float getResult() const;
+    void setResult(float result);
 };
 
 DllClass plScalarBlend : public plScalarChannel {
@@ -63,6 +67,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plController* getController() const;
+    void setController(plController* controller);
 };
 
 DllClass plScalarTimeScale : public plScalarChannel {

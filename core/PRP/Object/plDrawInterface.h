@@ -4,7 +4,7 @@
 #include "plObjInterface.h"
 
 DllClass plDrawInterface : public plObjInterface {
-public:
+protected:
     hsTArray<plKey> fDrawables;
     hsTArray<plKey> fRegions;
     hsTArray<int> fDrawableKeys;
@@ -35,6 +35,25 @@ public:
     void clearRegions();
     void addRegion(plKey obj);
     void delRegion(size_t idx);
+};
+
+DllClass plInstanceDrawInterface : public plDrawInterface {
+protected:
+    unsigned int fTargetID;
+    plKey fDrawable;
+
+public:
+    plInstanceDrawInterface();
+    virtual ~plInstanceDrawInterface();
+
+    DECLARE_CREATABLE(plInstanceDrawInterface)
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

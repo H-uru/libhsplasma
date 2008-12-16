@@ -1,20 +1,23 @@
 #include "plPointChannel.h"
 
-// plPointChannel //
+/* plPointChannel */
 plPointChannel::plPointChannel() { }
 plPointChannel::~plPointChannel() { }
 
 IMPLEMENT_CREATABLE(plPointChannel, kPointChannel, plAGChannel)
 
+hsVector3 plPointChannel::getResult() const { return fResult; }
+void plPointChannel::setResult(const hsVector3& result) { fResult = result; }
 
-// plPointBlend //
+
+/* plPointBlend */
 plPointBlend::plPointBlend() { }
 plPointBlend::~plPointBlend() { }
 
 IMPLEMENT_CREATABLE(plPointBlend, kPointBlend, plPointChannel)
 
 
-// plPointConstant //
+/* plPointConstant */
 plPointConstant::plPointConstant() { }
 plPointConstant::~plPointConstant() { }
 
@@ -48,7 +51,7 @@ void plPointConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-// plPointControllerCacheChannel //
+/* plPointControllerCacheChannel */
 plPointControllerCacheChannel::plPointControllerCacheChannel() { }
 plPointControllerCacheChannel::~plPointControllerCacheChannel() { }
 
@@ -57,7 +60,7 @@ IMPLEMENT_CREATABLE(plPointControllerCacheChannel,
                     plPointChannel)
 
 
-// plPointControllerChannel //
+/* plPointControllerChannel */
 plPointControllerChannel::plPointControllerChannel() : fController(NULL) { }
 
 plPointControllerChannel::~plPointControllerChannel() {
@@ -95,15 +98,23 @@ void plPointControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     }
 }
 
+plController* plPointControllerChannel::getController() const { return fController; }
 
-// plPointTimeScale //
+void plPointControllerChannel::setController(plController* controller) {
+    if (fController != NULL)
+        delete fController;
+    fController = controller;
+}
+
+
+/* plPointTimeScale */
 plPointTimeScale::plPointTimeScale() { }
 plPointTimeScale::~plPointTimeScale() { }
 
 IMPLEMENT_CREATABLE(plPointTimeScale, kPointTimeScale, plPointChannel)
 
 
-// plPointChannelApplicator //
+/* plPointChannelApplicator */
 plPointChannelApplicator::plPointChannelApplicator() { }
 plPointChannelApplicator::~plPointChannelApplicator() { }
 

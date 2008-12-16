@@ -14,6 +14,10 @@ public:
     virtual ~plPointChannel();
 
     DECLARE_CREATABLE(plPointChannel)
+
+public:
+    hsVector3 getResult() const;
+    void setResult(const hsVector3& result);
 };
 
 DllClass plPointBlend : public plPointChannel {
@@ -63,6 +67,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plController* getController() const;
+    void setController(plController* controller);
 };
 
 DllClass plPointTimeScale : public plPointChannel {

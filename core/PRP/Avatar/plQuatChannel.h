@@ -14,6 +14,10 @@ public:
     virtual ~plQuatChannel();
 
     DECLARE_CREATABLE(plQuatChannel)
+
+public:
+    hsQuat getResult() const;
+    void setResult(const hsQuat& result);
 };
 
 DllClass plQuatBlend : public plQuatChannel {

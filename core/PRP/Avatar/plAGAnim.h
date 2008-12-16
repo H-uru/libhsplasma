@@ -28,6 +28,23 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumApplicators() const;
+    plAGApplicator* getApplicator(size_t idx) const;
+    void clearApplicators();
+    void addApplicator(plAGApplicator* app);
+    void delApplicator(size_t idx);
+
+    float getBlend() const;
+    float getStart() const;
+    float getEnd() const;
+    plString getName() const;
+
+    void setBlend(float blend);
+    void setStart(float start);
+    void setEnd(float end);
+    void setName(const plString& name);
 };
 
 DllClass plAgeGlobalAnim : public plAGAnim {
@@ -46,6 +63,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plString getVarName() const;
+    void setVarName(const plString& name);
 };
 
 #endif

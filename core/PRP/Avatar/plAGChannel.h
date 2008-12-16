@@ -19,6 +19,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plString getName() const;
+    void setName(const plString& name);
 };
 
 #endif

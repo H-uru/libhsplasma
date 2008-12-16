@@ -26,3 +26,6 @@ void plAGChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plCreatable::IPrcParse(tag, mgr);
     }
 }
+
+plString plAGChannel::getName() const { return fName; }
+void plAGChannel::setName(const plString& name) { fName = name; }

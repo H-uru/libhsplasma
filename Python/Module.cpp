@@ -21,6 +21,10 @@
 #include "PRP/Animation/pyRotController.h"
 #include "PRP/Animation/pyScaleController.h"
 #include "PRP/Animation/pyViewFaceModifier.h"
+#include "PRP/Avatar/pyAGAnim.h"
+#include "PRP/Avatar/pyAGApplicator.h"
+#include "PRP/Avatar/pyAGChannel.h"
+#include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
@@ -236,6 +240,11 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
     PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
     PyModule_AddObject(module, "plDynamicTextMap", Init_pyDynamicTextMap_Type());
+    PyModule_AddObject(module, "plAGAnim", Init_pyAGAnim_Type());
+    PyModule_AddObject(module, "plAgeGlobalAnim", Init_pyAgeGlobalAnim_Type());
+    PyModule_AddObject(module, "plATCAnim", Init_pyATCAnim_Type());
+    PyModule_AddObject(module, "plEmoteAnim", Init_pyEmoteAnim_Type());
+    PyModule_AddObject(module, "plAGAnimBink", Init_pyAGAnimBink_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -264,4 +273,47 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plMessage", Init_pyMessage_Type());
     PyModule_AddObject(module, "plEventCallbackMsg", Init_pyEventCallbackMsg_Type());
     PyModule_AddObject(module, "plResponderEnableMsg", Init_pyResponderEnableMsg_Type());
+    PyModule_AddObject(module, "plAGApplicator", Init_pyAGApplicator_Type());
+    PyModule_AddObject(module, "plAGChannel", Init_pyAGChannel_Type());
+    PyModule_AddObject(module, "plSoundVolumeApplicator", Init_pySoundVolumeApplicator_Type());
+    PyModule_AddObject(module, "plLightAmbientApplicator", Init_pyLightAmbientApplicator_Type());
+    PyModule_AddObject(module, "plLightDiffuseApplicator", Init_pyLightDiffuseApplicator_Type());
+    PyModule_AddObject(module, "plLightSpecularApplicator", Init_pyLightSpecularApplicator_Type());
+    PyModule_AddObject(module, "plOmniApplicator", Init_pyOmniApplicator_Type());
+    PyModule_AddObject(module, "plOmniCutoffApplicator", Init_pyOmniCutoffApplicator_Type());
+    PyModule_AddObject(module, "plOmniSqApplicator", Init_pyOmniSqApplicator_Type());
+    PyModule_AddObject(module, "plSpotInnerApplicator", Init_pySpotInnerApplicator_Type());
+    PyModule_AddObject(module, "plSpotOuterApplicator", Init_pySpotOuterApplicator_Type());
+    PyModule_AddObject(module, "plMatrixChannel", Init_pyMatrixChannel_Type());
+    PyModule_AddObject(module, "plMatrixBlend", Init_pyMatrixBlend_Type());
+    PyModule_AddObject(module, "plMatrixConstant", Init_pyMatrixConstant_Type());
+    PyModule_AddObject(module, "plMatrixControllerCacheChannel", Init_pyMatrixControllerCacheChannel_Type());
+    PyModule_AddObject(module, "plMatrixControllerChannel", Init_pyMatrixControllerChannel_Type());
+    PyModule_AddObject(module, "plMatrixTimeScale", Init_pyMatrixTimeScale_Type());
+    PyModule_AddObject(module, "plQuatPointCombine", Init_pyQuatPointCombine_Type());
+    PyModule_AddObject(module, "plMatrixChannelApplicator", Init_pyMatrixChannelApplicator_Type());
+    PyModule_AddObject(module, "plMatrixDelayedCorrectionApplicator", Init_pyMatrixDelayedCorrectionApplicator_Type());
+    PyModule_AddObject(module, "plMatrixDifferenceApp", Init_pyMatrixDifferenceApp_Type());
+    PyModule_AddObject(module, "plRelativeMatrixChannelApplicator", Init_pyRelativeMatrixChannelApplicator_Type());
+    PyModule_AddObject(module, "plPointChannel", Init_pyPointChannel_Type());
+    PyModule_AddObject(module, "plPointBlend", Init_pyPointBlend_Type());
+    PyModule_AddObject(module, "plPointConstant", Init_pyPointConstant_Type());
+    PyModule_AddObject(module, "plPointControllerCacheChannel", Init_pyPointControllerCacheChannel_Type());
+    PyModule_AddObject(module, "plPointControllerChannel", Init_pyPointControllerChannel_Type());
+    PyModule_AddObject(module, "plPointTimeScale", Init_pyPointTimeScale_Type());
+    PyModule_AddObject(module, "plPointChannelApplicator", Init_pyPointChannelApplicator_Type());
+    PyModule_AddObject(module, "plQuatChannel", Init_pyQuatChannel_Type());
+    PyModule_AddObject(module, "plQuatBlend", Init_pyQuatBlend_Type());
+    PyModule_AddObject(module, "plQuatConstant", Init_pyQuatConstant_Type());
+    PyModule_AddObject(module, "plQuatTimeScale", Init_pyQuatTimeScale_Type());
+    PyModule_AddObject(module, "plQuatChannelApplicator", Init_pyQuatChannelApplicator_Type());
+    PyModule_AddObject(module, "plScalarChannel", Init_pyScalarChannel_Type());
+    PyModule_AddObject(module, "plScalarBlend", Init_pyScalarBlend_Type());
+    PyModule_AddObject(module, "plScalarConstant", Init_pyScalarConstant_Type());
+    PyModule_AddObject(module, "plScalarControllerCacheChannel", Init_pyScalarControllerCacheChannel_Type());
+    PyModule_AddObject(module, "plScalarControllerChannel", Init_pyScalarControllerChannel_Type());
+    PyModule_AddObject(module, "plScalarTimeScale", Init_pyScalarTimeScale_Type());
+    PyModule_AddObject(module, "plScalarSDLChannel", Init_pyScalarSDLChannel_Type());
+    PyModule_AddObject(module, "plATCChannel", Init_pyATCChannel_Type());
+    PyModule_AddObject(module, "plScalarChannelApplicator", Init_pyScalarChannelApplicator_Type());
 }

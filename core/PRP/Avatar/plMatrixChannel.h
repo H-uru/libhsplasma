@@ -7,7 +7,6 @@
 /* Matrix Channels */
 DllClass plMatrixChannel : public plAGChannel {
 protected:
-    hsMatrix44 fResult;
     hsAffineParts fAP;
 
 public:
@@ -15,6 +14,10 @@ public:
     virtual ~plMatrixChannel();
 
     DECLARE_CREATABLE(plMatrixChannel)
+
+public:
+    hsAffineParts getAffine() const;
+    void setAffine(const hsAffineParts& ap);
 };
 
 DllClass plMatrixBlend : public plMatrixChannel {
@@ -64,6 +67,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plController* getController() const;
+    void setController(plController* controller);
 };
 
 DllClass plMatrixTimeScale : public plMatrixChannel {

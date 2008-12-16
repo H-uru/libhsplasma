@@ -39,6 +39,11 @@ void plAGApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plAGChannel* plAGApplicator::getChannel() const { return fChannel; }
 void plAGApplicator::setChannel(plAGChannel* chan) { fChannel = chan; }
 
+bool plAGApplicator::isEnabled() const { return fEnabled; }
+plString plAGApplicator::getChannelName() const { return fChannelName; }
+void plAGApplicator::setEnabled(bool enabled) { fEnabled = enabled; }
+void plAGApplicator::setChannelName(const plString& channelName) { fChannelName = channelName; }
+
 
 // plSoundVolumeApplicator //
 plSoundVolumeApplicator::plSoundVolumeApplicator() : fIndex(0) { }
@@ -72,6 +77,9 @@ void plSoundVolumeApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
         plAGApplicator::IPrcParse(tag, mgr);
     }
 }
+
+unsigned int plSoundVolumeApplicator::getIndex() const { return fIndex; }
+void plSoundVolumeApplicator::setIndex(unsigned int index) { fIndex = index; }
 
 
 // plLightAmbientApplicator //

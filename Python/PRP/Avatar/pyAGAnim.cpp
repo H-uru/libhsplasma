@@ -1,0 +1,245 @@
+#include <Python.h>
+#include <PRP/Avatar/plAGAnim.h>
+#include "pyAGAnim.h"
+#include "pyAGApplicator.h"
+#include "../pyCreatable.h"
+#include "../Object/pySynchedObject.h"
+
+extern "C" {
+
+static PyObject* pyAGAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyAGAnim* self = (pyAGAnim*)type->tp_alloc(type, 0);
+    if (self != NULL) {
+        self->fThis = new plAGAnim();
+        self->fPyOwned = true;
+    }
+    return (PyObject*)self;
+}
+
+static PyObject* pyAGAnim_Convert(PyObject*, PyObject* args) {
+    pyCreatable* cre;
+    if (!PyArg_ParseTuple(args, "O", &cre)) {
+        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
+        return NULL;
+    }
+    if (!pyCreatable_Check((PyObject*)cre)) {
+        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
+        return NULL;
+    }
+    return pyAGAnim_FromAGAnim(plAGAnim::Convert(cre->fThis));
+}
+
+static PyObject* pyAGAnim_clearApps(pyAGAnim* self) {
+    self->fThis->clearApplicators();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyAGAnim_addApplicator(pyAGAnim* self, PyObject* args) {
+    pyAGApplicator* app;
+    if (!PyArg_ParseTuple(args, "O", &app)) {
+        PyErr_SetString(PyExc_TypeError, "addApplicator expects a plAGApplicator");
+        return NULL;
+    }
+    if (!pyAGApplicator_Check((PyObject*)app)) {
+        PyErr_SetString(PyExc_TypeError, "addApplicator expects a plAGApplicator");
+        return NULL;
+    }
+    self->fThis->addApplicator(app->fThis);
+    app->fPyOwned = false;
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyAGAnim_delApplicator(pyAGAnim* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delApplicator expects an int");
+        return NULL;
+    }
+    self->fThis->delApplicator(idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyAGAnim_getBlend(pyAGAnim* self, void*) {
+    return PyFloat_FromDouble(self->fThis->getBlend());
+}
+
+static PyObject* pyAGAnim_getStart(pyAGAnim* self, void*) {
+    return PyFloat_FromDouble(self->fThis->getStart());
+}
+
+static PyObject* pyAGAnim_getEnd(pyAGAnim* self, void*) {
+    return PyFloat_FromDouble(self->fThis->getEnd());
+}
+
+static PyObject* pyAGAnim_getName(pyAGAnim* self, void*) {
+    return PyString_FromString(self->fThis->getName());
+}
+
+static PyObject* pyAGAnim_getApps(pyAGAnim* self, void*) {
+    PyObject* list = PyList_New(self->fThis->getNumApplicators());
+    for (size_t i=0; i<self->fThis->getNumApplicators(); i++)
+        PyList_SET_ITEM(list, i, pyAGApplicator_FromAGApplicator(self->fThis->getApplicator(i)));
+    return list;
+}
+
+static int pyAGAnim_setBlend(pyAGAnim* self, PyObject* value, void*) {
+    if (value == NULL || !PyFloat_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "blend should be a float");
+        return -1;
+    }
+    self->fThis->setBlend(PyFloat_AsDouble(value));
+    return 0;
+}
+
+static int pyAGAnim_setStart(pyAGAnim* self, PyObject* value, void*) {
+    if (value == NULL || !PyFloat_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "start should be a float");
+        return -1;
+    }
+    self->fThis->setStart(PyFloat_AsDouble(value));
+    return 0;
+}
+
+static int pyAGAnim_setEnd(pyAGAnim* self, PyObject* value, void*) {
+    if (value == NULL || !PyFloat_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "end should be a float");
+        return -1;
+    }
+    self->fThis->setEnd(PyFloat_AsDouble(value));
+    return 0;
+}
+
+static int pyAGAnim_setName(pyAGAnim* self, PyObject* value, void*) {
+    if (value == NULL || !PyString_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "name should be a string");
+        return -1;
+    }
+    self->fThis->setName(PyString_AsString(value));
+    return 0;
+}
+
+static int pyAGAnim_setApps(pyAGAnim* self, PyObject* value, void*) {
+    PyErr_SetString(PyExc_RuntimeError, "To add applicators, use addApplicator()");
+    return -1;
+}
+
+static PyMethodDef pyAGAnim_Methods[] = {
+    { "Convert", (PyCFunction)pyAGAnim_Convert, METH_VARARGS | METH_STATIC,
+      "Convert a Creatable to a plAGAnim" },
+    { "clearApplicators", (PyCFunction)pyAGAnim_clearApps, METH_NOARGS,
+      "Remove all plAGApplicators from the anim" },
+    { "addApplicator", (PyCFunction)pyAGAnim_addApplicator, METH_VARARGS,
+      "Params: applicator\n"
+      "Add a plAGApplicator to the anim" },
+    { "delApplicator", (PyCFunction)pyAGAnim_delApplicator, METH_VARARGS,
+      "Params: idx\n"
+      "Delete a plAGApplicator from the anim" },
+    { NULL, NULL, 0, NULL }
+};
+
+static PyGetSetDef pyAGAnim_GetSet[] = {
+    { "blend", (getter)pyAGAnim_getBlend, (setter)pyAGAnim_setBlend, NULL, NULL },
+    { "start", (getter)pyAGAnim_getStart, (setter)pyAGAnim_setStart, NULL, NULL },
+    { "end", (getter)pyAGAnim_getEnd, (setter)pyAGAnim_setEnd, NULL, NULL },
+    { "name", (getter)pyAGAnim_getName, (setter)pyAGAnim_setName, NULL, NULL },
+    { "applicators", (getter)pyAGAnim_getApps, (setter)pyAGAnim_setApps, NULL, NULL },
+    { NULL, NULL, NULL, NULL, NULL }
+};
+
+PyTypeObject pyAGAnim_Type = {
+    PyObject_HEAD_INIT(NULL)
+    0,                                  /* ob_size */
+    "PyPlasma.plAGAnim",                /* tp_name */
+    sizeof(pyAGAnim),                   /* tp_basicsize */
+    0,                                  /* tp_itemsize */
+
+    NULL,                               /* tp_dealloc */
+    NULL,                               /* tp_print */
+    NULL,                               /* tp_getattr */
+    NULL,                               /* tp_setattr */
+    NULL,                               /* tp_compare */
+    NULL,                               /* tp_repr */
+    NULL,                               /* tp_as_number */
+    NULL,                               /* tp_as_sequence */
+    NULL,                               /* tp_as_mapping */
+    NULL,                               /* tp_hash */
+    NULL,                               /* tp_call */
+    NULL,                               /* tp_str */
+    NULL,                               /* tp_getattro */
+    NULL,                               /* tp_setattro */
+    NULL,                               /* tp_as_buffer */
+
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
+    "plAGAnim wrapper",                 /* tp_doc */
+
+    NULL,                               /* tp_traverse */
+    NULL,                               /* tp_clear */
+    NULL,                               /* tp_richcompare */
+    0,                                  /* tp_weaklistoffset */
+    NULL,                               /* tp_iter */
+    NULL,                               /* tp_iternext */
+
+    pyAGAnim_Methods,                   /* tp_methods */
+    NULL,                               /* tp_members */
+    pyAGAnim_GetSet,                    /* tp_getset */
+    NULL,                               /* tp_base */
+    NULL,                               /* tp_dict */
+    NULL,                               /* tp_descr_get */
+    NULL,                               /* tp_descr_set */
+    0,                                  /* tp_dictoffset */
+
+    NULL,                               /* tp_init */
+    NULL,                               /* tp_alloc */
+    pyAGAnim_new,                       /* tp_new */
+    NULL,                               /* tp_free */
+    NULL,                               /* tp_is_gc */
+
+    NULL,                               /* tp_bases */
+    NULL,                               /* tp_mro */
+    NULL,                               /* tp_cache */
+    NULL,                               /* tp_subclasses */
+    NULL,                               /* tp_weaklist */
+};
+
+PyObject* Init_pyAGAnim_Type() {
+    pyAGAnim_Type.tp_base = &pySynchedObject_Type;
+    if (PyType_Ready(&pyAGAnim_Type) < 0)
+        return NULL;
+
+    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyUnknown",
+                         PyInt_FromLong(plAGAnim::kBodyUnknown));
+    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyUpper",
+                         PyInt_FromLong(plAGAnim::kBodyUpper));
+    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyFull",
+                         PyInt_FromLong(plAGAnim::kBodyFull));
+    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyLower",
+                         PyInt_FromLong(plAGAnim::kBodyLower));
+    PyDict_SetItemString(pyAGAnim_Type.tp_dict, "kBodyMax",
+                         PyInt_FromLong(plAGAnim::kBodyMax));
+
+    Py_INCREF(&pyAGAnim_Type);
+    return (PyObject*)&pyAGAnim_Type;
+}
+
+int pyAGAnim_Check(PyObject* obj) {
+    if (obj->ob_type == &pyAGAnim_Type
+        || PyType_IsSubtype(obj->ob_type, &pyAGAnim_Type))
+        return 1;
+    return 0;
+}
+
+PyObject* pyAGAnim_FromAGAnim(class plAGAnim* anim) {
+    if (anim == NULL) {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
+    pyAGAnim* pyobj = PyObject_New(pyAGAnim, &pyAGAnim_Type);
+    pyobj->fThis = anim;
+    pyobj->fPyOwned = false;
+    return (PyObject*)pyobj;
+}
+
+}

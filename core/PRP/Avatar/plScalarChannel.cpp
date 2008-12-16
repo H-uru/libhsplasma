@@ -1,20 +1,23 @@
 #include "plScalarChannel.h"
 
-// plScalarChannel //
+/* plScalarChannel */
 plScalarChannel::plScalarChannel() { }
 plScalarChannel::~plScalarChannel() { }
 
 IMPLEMENT_CREATABLE(plScalarChannel, kScalarChannel, plAGChannel)
 
+float plScalarChannel::getResult() const { return fResult; }
+void plScalarChannel::setResult(float result) { fResult = result; }
 
-// plScalarBlend //
+
+/* plScalarBlend */
 plScalarBlend::plScalarBlend() { }
 plScalarBlend::~plScalarBlend() { }
 
 IMPLEMENT_CREATABLE(plScalarBlend, kScalarBlend, plScalarChannel)
 
 
-// plScalarConstant //
+/* plScalarConstant */
 plScalarConstant::plScalarConstant() { }
 plScalarConstant::~plScalarConstant() { }
 
@@ -47,7 +50,7 @@ void plScalarConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-// plScalarControllerCacheChannel //
+/* plScalarControllerCacheChannel */
 plScalarControllerCacheChannel::plScalarControllerCacheChannel() { }
 plScalarControllerCacheChannel::~plScalarControllerCacheChannel() { }
 
@@ -56,7 +59,7 @@ IMPLEMENT_CREATABLE(plScalarControllerCacheChannel,
                     plScalarChannel)
 
 
-// plScalarControllerChannel //
+/* plScalarControllerChannel */
 plScalarControllerChannel::plScalarControllerChannel() : fController(NULL) { }
 
 plScalarControllerChannel::~plScalarControllerChannel() {
@@ -94,29 +97,37 @@ void plScalarControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr
     }
 }
 
+plController* plScalarControllerChannel::getController() const { return fController; }
 
-// plScalarTimeScale //
+void plScalarControllerChannel::setController(plController* controller) {
+    if (fController != NULL)
+        delete fController;
+    fController = controller;
+}
+
+
+/* plScalarTimeScale */
 plScalarTimeScale::plScalarTimeScale() { }
 plScalarTimeScale::~plScalarTimeScale() { }
 
 IMPLEMENT_CREATABLE(plScalarTimeScale, kScalarTimeScale, plScalarChannel)
 
 
-// plScalarSDLChannel //
+/* plScalarSDLChannel */
 plScalarSDLChannel::plScalarSDLChannel() { }
 plScalarSDLChannel::~plScalarSDLChannel() { }
 
 IMPLEMENT_CREATABLE(plScalarSDLChannel, kScalarSDLChannel, plScalarChannel)
 
 
-// plATCChannel //
+/* plATCChannel */
 plATCChannel::plATCChannel() { }
 plATCChannel::~plATCChannel() { }
 
 IMPLEMENT_CREATABLE(plATCChannel, kATCChannel, plScalarChannel)
 
 
-// plScalarChannelApplicator //
+/* plScalarChannelApplicator */
 plScalarChannelApplicator::plScalarChannelApplicator() { }
 plScalarChannelApplicator::~plScalarChannelApplicator() { }
 
