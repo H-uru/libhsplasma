@@ -6,12 +6,8 @@
 extern "C" {
 
 static PyObject* pyAGChannel_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAGChannel* self = (pyAGChannel*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAGChannel();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
+    PyErr_SetString(PyExc_RuntimeError, "plAGApplicator is abstract");
+    return NULL;
 }
 
 static PyObject* pyAGChannel_Convert(PyObject*, PyObject* args) {

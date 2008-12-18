@@ -32,19 +32,6 @@ void plLayerAnimationBase::read(hsStream* S, plResManager* mgr) {
     setSpecularCtl(plController::Convert(mgr->ReadCreatable(S)));
     setOpacityCtl(plController::Convert(mgr->ReadCreatable(S)));
     setTransformCtl(plController::Convert(mgr->ReadCreatable(S)));
-
-    if (fOpacityCtl != NULL)
-        fOwnedChannels |= kOpacity;
-    if (fPreshadeColorCtl != NULL)
-        fOwnedChannels |= kPreshadeColor;
-    if (fRuntimeColorCtl != NULL)
-        fOwnedChannels |= kRuntimeColor;
-    if (fAmbientColorCtl != NULL)
-        fOwnedChannels |= kAmbientColor;
-    if (fSpecularColorCtl != NULL)
-        fOwnedChannels |= kSpecularColor;
-    if (fTransformCtl != NULL)
-        fOwnedChannels |= kTransform;
 }
 
 void plLayerAnimationBase::write(hsStream* S, plResManager* mgr) {
@@ -95,18 +82,6 @@ void plLayerAnimationBase::IPrcWrite(pfPrcHelper* prc) {
 
 void plLayerAnimationBase::prcParse(const pfPrcTag* tag, plResManager* mgr) {
     plCreatable::prcParse(tag, mgr);
-    if (fOpacityCtl != NULL)
-        fOwnedChannels |= kOpacity;
-    if (fPreshadeColorCtl != NULL)
-        fOwnedChannels |= kPreshadeColor;
-    if (fRuntimeColorCtl != NULL)
-        fOwnedChannels |= kRuntimeColor;
-    if (fAmbientColorCtl != NULL)
-        fOwnedChannels |= kAmbientColor;
-    if (fSpecularColorCtl != NULL)
-        fOwnedChannels |= kSpecularColor;
-    if (fTransformCtl != NULL)
-        fOwnedChannels |= kTransform;
 }
 
 void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {

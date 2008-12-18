@@ -1,8 +1,7 @@
 #include "plLayerInterface.h"
 
 plLayerInterface::plLayerInterface()
-                : fOwnedChannels(0), fOpacity(1.0f), fUVWSrc(0), fLODBias(0.0f),
-                  fSpecularPower(0.0f) { }
+                : fOpacity(1.0f), fUVWSrc(0), fLODBias(0.0f), fSpecularPower(0.0f) { }
 
 plLayerInterface::~plLayerInterface() { }
 
@@ -58,12 +57,10 @@ void plLayerInterface::setRuntime(const hsColorRGBA& color) { fRuntime = color; 
 void plLayerInterface::setAmbient(const hsColorRGBA& color) { fAmbient = color; }
 void plLayerInterface::setSpecular(const hsColorRGBA& color) { fSpecular = color; }
 
-unsigned int plLayerInterface::getOwnedChannels() const { return fOwnedChannels; }
 float plLayerInterface::getOpacity() const { return fOpacity; }
 unsigned int plLayerInterface::getUVWSrc() const { return fUVWSrc; }
 float plLayerInterface::getLODBias() const { return fLODBias; }
 float plLayerInterface::getSpecularPower() const { return fSpecularPower; }
-void plLayerInterface::setOwnedChannels(unsigned int channels) { fOwnedChannels = channels; }
 void plLayerInterface::setOpacity(float opac) { fOpacity = opac; }
 void plLayerInterface::setUVWSrc(unsigned int src) { fUVWSrc = src; }
 void plLayerInterface::setLODBias(float bias) { fLODBias = bias; }

@@ -37,7 +37,6 @@ public:
 
 protected:
     plKey fUnderLay;
-    unsigned int fOwnedChannels;
     hsMatrix44 fTransform;
     hsColorRGBA fPreshade, fRuntime, fAmbient, fSpecular;
     float fOpacity;
@@ -85,12 +84,10 @@ public:
     void setAmbient(const hsColorRGBA& color);
     void setSpecular(const hsColorRGBA& color);
 
-    unsigned int getOwnedChannels() const;
     float getOpacity() const;
     unsigned int getUVWSrc() const;
     float getLODBias() const;
     float getSpecularPower() const;
-    void setOwnedChannels(unsigned int channels);
     void setOpacity(float opac);
     void setUVWSrc(unsigned int src);
     void setLODBias(float bias);

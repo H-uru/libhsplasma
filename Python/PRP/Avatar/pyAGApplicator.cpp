@@ -7,12 +7,8 @@
 extern "C" {
 
 static PyObject* pyAGApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyAGApplicator* self = (pyAGApplicator*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plAGApplicator();
-        self->fPyOwned = true;
-    }
-    return (PyObject*)self;
+    PyErr_SetString(PyExc_RuntimeError, "plAGApplicator is abstract");
+    return NULL;
 }
 
 static PyObject* pyAGApplicator_Convert(PyObject*, PyObject* args) {

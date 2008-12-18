@@ -1,10 +1,7 @@
 #include "plLayerMovie.h"
 
 /* plLayerMovie */
-plLayerMovie::plLayerMovie() {
-    fOwnedChannels |= kTexture;
-}
-
+plLayerMovie::plLayerMovie() { }
 plLayerMovie::~plLayerMovie() { }
 
 IMPLEMENT_CREATABLE(plLayerMovie, kLayerMovie, plLayerAnimation)
