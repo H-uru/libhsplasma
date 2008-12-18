@@ -130,6 +130,7 @@ PYOBJ=\
 	$(OBJDIR)pySpotLightInfo.o \
 	$(OBJDIR)pyEventCallbackMsg.o \
 	$(OBJDIR)pyMessage.o \
+	$(OBJDIR)pyMsgForwarder.o \
 	$(OBJDIR)pyRenderLevel.o \
 	$(OBJDIR)pyModifier.o \
 	$(OBJDIR)pyMultiModifier.o \
@@ -570,6 +571,9 @@ $(OBJDIR)pyEventCallbackMsg.o: PRP/Message/pyEventCallbackMsg.cpp
 
 $(OBJDIR)pyMessage.o: PRP/Message/pyMessage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMessage.cpp -o $(OBJDIR)pyMessage.o
+
+$(OBJDIR)pyMsgForwarder.o: PRP/Message/pyMsgForwarder.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMsgForwarder.cpp -o $(OBJDIR)pyMsgForwarder.o
 
 $(OBJDIR)pyRenderLevel.o: PRP/Misc/pyRenderLevel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $(OBJDIR)pyRenderLevel.o

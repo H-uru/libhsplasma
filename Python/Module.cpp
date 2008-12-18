@@ -39,6 +39,7 @@
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyMessage.h"
+#include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyOneShotMod.h"
@@ -245,6 +246,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plATCAnim", Init_pyATCAnim_Type());
     PyModule_AddObject(module, "plEmoteAnim", Init_pyEmoteAnim_Type());
     PyModule_AddObject(module, "plAGAnimBink", Init_pyAGAnimBink_Type());
+    PyModule_AddObject(module, "plMsgForwarder", Init_pyMsgForwarder_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

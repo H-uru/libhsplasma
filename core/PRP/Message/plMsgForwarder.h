@@ -19,6 +19,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumForwardKeys() const;
+    plKey getForwardKey(size_t idx) const;
+    void addForwardKey(plKey fwd);
+    void delForwardKey(size_t idx);
+    void clearForwardKeys();
 };
 
 #endif

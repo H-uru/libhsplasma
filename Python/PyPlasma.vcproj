@@ -912,6 +912,14 @@
 					RelativePath=".\PRP\Message\pyMessage.h"
 					>
 				</File>
+				<File
+					RelativePath=".\PRP\Message\pyMsgForwarder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyMsgForwarder.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Avatar"
