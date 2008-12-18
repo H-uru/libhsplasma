@@ -67,10 +67,6 @@ static PyObject* pyLayerInterface_getSpecular(pyLayerInterface* self, void*) {
     return pyColorRGBA_FromColorRGBA(self->fThis->getSpecular());
 }
 
-static PyObject* pyLayerInterface_getOwnedChans(pyLayerInterface* self, void*) {
-    return PyInt_FromLong(self->fThis->getOwnedChannels());
-}
-
 static PyObject* pyLayerInterface_getOpacity(pyLayerInterface* self, void*) {
     return PyFloat_FromDouble(self->fThis->getOpacity());
 }
@@ -202,15 +198,6 @@ static int pyLayerInterface_setSpecular(pyLayerInterface* self, PyObject* value,
     return 0;
 }
 
-static int pyLayerInterface_setOwnedChans(pyLayerInterface* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "ownedChans should be an int");
-        return -1;
-    }
-    self->fThis->setOwnedChannels(PyInt_AsLong(value));
-    return 0;
-}
-
 static int pyLayerInterface_setOpacity(pyLayerInterface* self, PyObject* value, void*) {
     if (value == NULL || !PyFloat_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "opacity should be a float");
@@ -264,7 +251,6 @@ static PyGetSetDef pyLayerInterface_GetSet[] = {
     { "runtime", (getter)pyLayerInterface_getRuntime, (setter)pyLayerInterface_setRuntime, NULL, NULL },
     { "ambient", (getter)pyLayerInterface_getAmbient, (setter)pyLayerInterface_setAmbient, NULL, NULL },
     { "specular", (getter)pyLayerInterface_getSpecular, (setter)pyLayerInterface_setSpecular, NULL, NULL },
-    { "ownedChannels", (getter)pyLayerInterface_getOwnedChans, (setter)pyLayerInterface_setOwnedChans, NULL, NULL },
     { "opacity", (getter)pyLayerInterface_getOpacity, (setter)pyLayerInterface_setOpacity, NULL, NULL },
     { "UVWSrc", (getter)pyLayerInterface_getUVWSrc, (setter)pyLayerInterface_setUVWSrc, NULL, NULL },
     { "LODBias", (getter)pyLayerInterface_getLODBias, (setter)pyLayerInterface_setLODBias, NULL, NULL },
