@@ -8,7 +8,7 @@ DllClass plSceneObject : public plSynchedObject {
 public:
     plKey fDrawIntf, fSimIntf, fCoordIntf, fAudioIntf;
     hsTArray<plKey> fInterfaces, fModifiers;
-    plWeakKey fSceneNode;
+    plKey fSceneNode;
 
 public:
     plSceneObject();
@@ -28,13 +28,13 @@ public:
     plKey getSimInterface() const;
     plKey getCoordInterface() const;
     plKey getAudioInterface() const;
-    plWeakKey getSceneNode() const;
+    plKey getSceneNode() const;
 
     void setDrawInterface(plKey intf);
     void setSimInterface(plKey intf);
     void setCoordInterface(plKey intf);
     void setAudioInterface(plKey intf);
-    void setSceneNode(plWeakKey node);
+    void setSceneNode(plKey node);
 
     size_t getNumInterfaces() const;
     size_t getNumModifiers() const;

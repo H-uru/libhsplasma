@@ -112,13 +112,13 @@ plKey plSceneObject::getDrawInterface() const { return fDrawIntf; }
 plKey plSceneObject::getSimInterface() const { return fSimIntf; }
 plKey plSceneObject::getCoordInterface() const { return fCoordIntf; }
 plKey plSceneObject::getAudioInterface() const { return fAudioIntf; }
-plWeakKey plSceneObject::getSceneNode() const { return fSceneNode; }
+plKey plSceneObject::getSceneNode() const { return fSceneNode; }
 
 void plSceneObject::setDrawInterface(plKey intf) { fDrawIntf = intf; }
 void plSceneObject::setSimInterface(plKey intf) { fSimIntf = intf; }
 void plSceneObject::setCoordInterface(plKey intf) { fCoordIntf = intf; }
 void plSceneObject::setAudioInterface(plKey intf) { fAudioIntf = intf; }
-void plSceneObject::setSceneNode(plWeakKey node) { fSceneNode = node; }
+void plSceneObject::setSceneNode(plKey node) { fSceneNode = node; }
 
 size_t plSceneObject::getNumInterfaces() const { return fInterfaces.getSize(); }
 size_t plSceneObject::getNumModifiers() const { return fModifiers.getSize(); }

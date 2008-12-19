@@ -65,43 +65,30 @@ public:
     void setObjSize(hsUint32 size);
 };
 
-DllClass plWeakKey {
+DllClass plKey {
 protected:
     plKeyData* fKeyData;
 
 public:
-    plWeakKey();
-    plWeakKey(const plWeakKey& init);
-    plWeakKey(plKeyData* init);
-    virtual ~plWeakKey();
+    plKey();
+    plKey(const plKey& init);
+    plKey(plKeyData* init);
+    virtual ~plKey();
 
     plKeyData& operator*() const;
     plKeyData* operator->() const;
     operator plKeyData*() const;
 
-    virtual plWeakKey& operator=(const plWeakKey& other);
-    virtual plWeakKey& operator=(plKeyData* other);
-    bool operator==(const plWeakKey& other) const;
+    virtual plKey& operator=(const plKey& other);
+    virtual plKey& operator=(plKeyData* other);
+    bool operator==(const plKey& other) const;
     bool operator==(const plKeyData* other) const;
-    bool operator!=(const plWeakKey& other) const;
+    bool operator!=(const plKey& other) const;
     bool operator!=(const plKeyData* other) const;
-    bool operator<(const plWeakKey& other) const;
+    bool operator<(const plKey& other) const;
 
     bool Exists() const;
     bool isLoaded() const;
-};
-
-DllClass plKey : public plWeakKey {
-public:
-    plKey();
-    plKey(const plWeakKey& init);
-    plKey(const plKey& init);
-    plKey(plKeyData* init);
-    virtual ~plKey();
-
-    virtual plKey& operator=(const plWeakKey& other);
-    virtual plKey& operator=(const plKey& other);
-    virtual plKey& operator=(plKeyData* other);
 };
 
 #endif

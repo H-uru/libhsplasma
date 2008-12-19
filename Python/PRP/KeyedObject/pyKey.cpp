@@ -334,13 +334,13 @@ int pyKey_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyKey_FromKey(plWeakKey key) {
+PyObject* pyKey_FromKey(plKey key) {
     if (!key.Exists()) {
         Py_INCREF(Py_None);
         return Py_None;
     }
     pyKey* obj = PyObject_New(pyKey, &pyKey_Type);
-    obj->fThis = new plWeakKey(key);
+    obj->fThis = new plKey(key);
     return (PyObject*)obj;
 }
 

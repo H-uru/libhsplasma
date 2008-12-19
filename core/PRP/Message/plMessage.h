@@ -31,8 +31,8 @@ public:
     };
 
 protected:
-    plWeakKey fSender;
-    hsTArray<plWeakKey> fReceivers;
+    plKey fSender;
+    hsTArray<plKey> fReceivers;
     double fTimeStamp;
     unsigned int fBCastFlags;
 
@@ -52,17 +52,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plWeakKey getSender() const;
+    plKey getSender() const;
     double getTimeStamp() const;
     unsigned int getBCastFlags() const;
 
-    void setSender(plWeakKey sender);
+    void setSender(plKey sender);
     void setTimeStamp(double timestamp);
     void setBCastFlags(unsigned int flags);
 
     size_t getNumReceivers() const;
-    plWeakKey getReceiver(size_t idx) const;
-    void addReceiver(plWeakKey receiver);
+    plKey getReceiver(size_t idx) const;
+    void addReceiver(plKey receiver);
     void delReceiver(size_t idx);
     void clearReceivers();
 };

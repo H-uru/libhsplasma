@@ -175,13 +175,13 @@ plLODDist& plClusterGroup::getLOD() { return fLOD; }
 plSpanTemplate& plClusterGroup::getTemplate() { return fTemplate; }
 
 plKey plClusterGroup::getMaterial() const { return fMaterial; }
-plWeakKey plClusterGroup::getSceneNode() const { return fSceneNode; }
-plWeakKey plClusterGroup::getDrawable() const { return fDrawable; }
+plKey plClusterGroup::getSceneNode() const { return fSceneNode; }
+plKey plClusterGroup::getDrawable() const { return fDrawable; }
 unsigned int plClusterGroup::getRenderLevel() const { return fRenderLevel; }
 
 void plClusterGroup::setMaterial(plKey mat) { fMaterial = mat; }
-void plClusterGroup::setSceneNode(plWeakKey node) { fSceneNode = node; }
-void plClusterGroup::setDrawable(plWeakKey draw) { fDrawable = draw; }
+void plClusterGroup::setSceneNode(plKey node) { fSceneNode = node; }
+void plClusterGroup::setDrawable(plKey draw) { fDrawable = draw; }
 void plClusterGroup::setRenderLevel(unsigned int level) { fRenderLevel = level; }
 
 size_t plClusterGroup::getNumClusters() const { return fClusters.getSize(); }

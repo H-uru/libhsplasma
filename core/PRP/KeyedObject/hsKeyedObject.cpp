@@ -45,11 +45,9 @@ void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plWeakKey hsKeyedObject::getKey() const {
-    return myKey;
-}
+plKey hsKeyedObject::getKey() const { return myKey; }
 
-void hsKeyedObject::setKey(plWeakKey key) {
+void hsKeyedObject::setKey(plKey key) {
     myKey = key;
     if (myKey != NULL)
         myKey->setObj(this);

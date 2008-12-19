@@ -7,7 +7,7 @@ DllClass plLogicModifier : public plLogicModBase {
 protected:
     hsTArray<plKey> fConditionList;
     unsigned int fMyCursor;
-    plWeakKey fParent;
+    plKey fParent;
 
 public:
     plLogicModifier();

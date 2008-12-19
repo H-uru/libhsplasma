@@ -611,8 +611,8 @@ void plDrawableSpans::setSpaceTree(plSpaceTree* tree) { fSpaceTree = tree; }
 unsigned int plDrawableSpans::getProps() const { return fProps; }
 unsigned int plDrawableSpans::getCriteria() const { return fCriteria; }
 unsigned int plDrawableSpans::getRenderLevel() const { return fRenderLevel; }
-plWeakKey plDrawableSpans::getSceneNode() const { return fSceneNode; }
+plKey plDrawableSpans::getSceneNode() const { return fSceneNode; }
 void plDrawableSpans::setProps(unsigned int props) { fProps = props; }
 void plDrawableSpans::setCriteria(unsigned int crit) { fCriteria = crit; }
 void plDrawableSpans::setRenderLevel(unsigned int level) { fRenderLevel = level; }
-void plDrawableSpans::setSceneNode(plWeakKey node) { fSceneNode = node; }
+void plDrawableSpans::setSceneNode(plKey node) { fSceneNode = node; }

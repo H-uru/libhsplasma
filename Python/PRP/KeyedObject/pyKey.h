@@ -5,7 +5,7 @@ extern "C" {
 
 typedef struct {
     PyObject_HEAD
-    class plWeakKey* fThis;
+    class plKey* fThis;
 } pyKey;
 
 typedef struct {
@@ -16,7 +16,7 @@ typedef struct {
 extern PyTypeObject pyKey_Type;
 PyObject* Init_pyKey_Type();
 int pyKey_Check(PyObject* obj);
-PyObject* pyKey_FromKey(class plWeakKey key);
+PyObject* pyKey_FromKey(class plKey key);
 
 extern PyTypeObject pyLocation_Type;
 PyObject* Init_pyLocation_Type();

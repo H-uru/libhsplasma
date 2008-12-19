@@ -294,11 +294,11 @@ void plPythonFileMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 const plString& plPythonFileMod::getFilename() const { return fPythonFile; }
 size_t plPythonFileMod::getNumReceivers() const { return fReceivers.getSize(); }
 size_t plPythonFileMod::getNumParameters() const { return fParameters.getSize(); }
-plWeakKey plPythonFileMod::getReceiver(size_t idx) const { return fReceivers[idx]; }
+plKey plPythonFileMod::getReceiver(size_t idx) const { return fReceivers[idx]; }
 const plPythonParameter& plPythonFileMod::getParameter(size_t idx) const { return fParameters[idx]; }
 
 void plPythonFileMod::setFilename(const plString& filename) { fPythonFile = filename; }
 void plPythonFileMod::clearReceivers() { fReceivers.clear(); }
 void plPythonFileMod::clearParameters() { fParameters.clear(); }
-void plPythonFileMod::addReceiver(plWeakKey rcvr) { fReceivers.append(rcvr); }
+void plPythonFileMod::addReceiver(plKey rcvr) { fReceivers.append(rcvr); }
 void plPythonFileMod::addParameter(const plPythonParameter& param) { fParameters.append(param); }

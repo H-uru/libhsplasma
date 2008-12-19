@@ -24,7 +24,7 @@ public:
 DllClass plWinAudible : public plAudible {
 protected:
     hsTArray<plKey> fSoundObjs;
-    plWeakKey fSceneNode, fSceneObj;
+    plKey fSceneNode, fSceneObj;
     hsMatrix44 fLocalToWorld;
 
 public:

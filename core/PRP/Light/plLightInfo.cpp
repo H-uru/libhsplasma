@@ -154,7 +154,7 @@ hsMatrix44 plLightInfo::getLightToWorld() const { return fLightToWorld; }
 hsMatrix44 plLightInfo::getWorldToLight() const { return fWorldToLight; }
 plKey plLightInfo::getProjection() const { return fProjection; }
 plKey plLightInfo::getSoftVolume() const { return fSoftVolume; }
-plWeakKey plLightInfo::getSceneNode() const { return fSceneNode; }
+plKey plLightInfo::getSceneNode() const { return fSceneNode; }
 
 void plLightInfo::setAmbient(const hsColorRGBA& color) { fAmbient = color; }
 void plLightInfo::setDiffuse(const hsColorRGBA& color) { fDiffuse = color; }
@@ -165,7 +165,7 @@ void plLightInfo::setLightToWorld(const hsMatrix44& xform) { fLightToWorld = xfo
 void plLightInfo::setWorldToLight(const hsMatrix44& xform) { fWorldToLight = xform; }
 void plLightInfo::setProjection(plKey proj) { fProjection = proj; }
 void plLightInfo::setSoftVolume(plKey vol) { fSoftVolume = vol; }
-void plLightInfo::setSceneNode(plWeakKey node) { fSceneNode = node; }
+void plLightInfo::setSceneNode(plKey node) { fSceneNode = node; }
 
 size_t plLightInfo::getNumVisRegions() const { return fVisRegions.getSize(); }
 plKey plLightInfo::getVisRegion(size_t idx) { return fVisRegions[idx]; }

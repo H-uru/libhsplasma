@@ -3,7 +3,19 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
 plKeyCollector::plKeyCollector() { }
-plKeyCollector::~plKeyCollector() { }
+
+plKeyCollector::~plKeyCollector() {
+    // This is now the "ultimate owner" of KeyedObjects, so we must delete
+    // all the KOs that we own...
+    for (keymap_t::iterator it = keys.begin(); it != keys.end(); it++) {
+        for (std::map<short, std::vector<plKey> >::iterator i2 = it->second.begin(); i2 != it->second.end(); i2++) {
+            for (std::vector<plKey>::iterator i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
+                if ((*i3).Exists() && (*i3).isLoaded())
+                    delete (*i3)->getObj();
+            }
+        }
+    }
+}
 
 plKey plKeyCollector::findKey(plKey match) {
     plKey key;
@@ -33,9 +45,20 @@ void plKeyCollector::del(plKey key) {
             it++;
         }
     }
+    if (key.Exists() && key.isLoaded())
+        delete key->getObj();
 }
 
 void plKeyCollector::delAll(const plLocation& loc) {
+    std::map<short, std::vector<plKey> >& locList = keys[loc];
+    std::map<short, std::vector<plKey> >::iterator it = locList.begin();
+    while (it != locList.end()) {
+        for (std::vector<plKey>::iterator i2 = it->second.begin(); i2 != it->second.end(); i2++) {
+            if ((*i2).Exists() && (*i2).isLoaded())
+                delete (*i2)->getObj();
+        }
+        it++;
+    }
     keys.erase(loc);
 }
 

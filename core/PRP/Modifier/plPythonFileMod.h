@@ -17,7 +17,7 @@ public:
     static const char* ValueTypeNames[];
 
     unsigned int fID, fValueType;
-    plWeakKey fObjKey;
+    plKey fObjKey;
     plString fStrValue;
 
     union {
@@ -61,7 +61,7 @@ public:
 
 protected:
     plString fPythonFile;
-    hsTArray<plWeakKey> fReceivers;
+    hsTArray<plKey> fReceivers;
     hsTArray<plPythonParameter> fParameters;
     
 public:
@@ -81,13 +81,13 @@ public:
     const plString& getFilename() const;
     size_t getNumReceivers() const;
     size_t getNumParameters() const;
-    plWeakKey getReceiver(size_t idx) const;
+    plKey getReceiver(size_t idx) const;
     const plPythonParameter& getParameter(size_t idx) const;
 
     void setFilename(const plString& filename);
     void clearReceivers();
     void clearParameters();
-    void addReceiver(plWeakKey rcvr);
+    void addReceiver(plKey rcvr);
     void addParameter(const plPythonParameter& param);
 };
 

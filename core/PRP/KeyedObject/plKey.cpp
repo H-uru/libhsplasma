@@ -8,13 +8,7 @@
 plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
                          fRefCnt(0) { }
 
-plKeyData::~plKeyData() {
-    if (fObjPtr != NULL) {
-        Ref();
-        delete fObjPtr;
-       --fRefCnt;  // Under absolutely NO circumstance replace this with UnRef()
-    }
-}
+plKeyData::~plKeyData() { }
 
 bool plKeyData::operator==(plKeyData& other) const {
     return (fUoid == other.fUoid);
@@ -103,99 +97,76 @@ void plKeyData::UnRef() {
 }
 
 
-/* plWeakKey */
-plWeakKey::plWeakKey() : fKeyData(NULL) { }
-plWeakKey::plWeakKey(const plWeakKey& init) : fKeyData(init) { }
-plWeakKey::plWeakKey(plKeyData* init) : fKeyData(init) { }
-plWeakKey::~plWeakKey() { }
-
-plWeakKey::operator plKeyData*() const { return fKeyData; }
-plKeyData& plWeakKey::operator*() const { return *fKeyData; }
-plKeyData* plWeakKey::operator->() const { return fKeyData; }
-
-plWeakKey& plWeakKey::operator=(const plWeakKey& other) {
-    fKeyData = other;
-    return *this;
-}
-
-plWeakKey& plWeakKey::operator=(plKeyData* other) {
-    fKeyData = other;
-    return *this;
-}
-
-bool plWeakKey::operator==(const plWeakKey& other) const {
-    return fKeyData == other.fKeyData;
-}
-
-bool plWeakKey::operator==(const plKeyData* other) const {
-    return fKeyData == other;
-}
-
-bool plWeakKey::operator!=(const plWeakKey& other) const {
-    return fKeyData != other.fKeyData;
-}
-
-bool plWeakKey::operator!=(const plKeyData* other) const {
-    return fKeyData != other;
-}
-
-bool plWeakKey::operator<(const plWeakKey& other) const {
-    return fKeyData->getUoid() < other->getUoid();
-}
-
-bool plWeakKey::Exists() const {
-    return (fKeyData != NULL);
-}
-
-bool plWeakKey::isLoaded() const {
-    if (!Exists())
-        return true;
-    return fKeyData->getObj() != NULL;
-}
-
-
 /* plKey */
-plKey::plKey() { }
+plKey::plKey() : fKeyData(NULL) { }
 
-plKey::plKey(const plWeakKey& init) : plWeakKey(init) {
-    if (fKeyData) fKeyData->Ref();
+plKey::plKey(const plKey& init) : fKeyData(init.fKeyData) {
+    if (fKeyData != NULL)
+        fKeyData->Ref();
 }
 
-plKey::plKey(const plKey& init) : plWeakKey(init) {
-    if (fKeyData) fKeyData->Ref();
-}
-
-plKey::plKey(plKeyData* init) : plWeakKey(init) {
-    if (fKeyData) fKeyData->Ref();
+plKey::plKey(plKeyData* init) : fKeyData(init) {
+    if (fKeyData != NULL)
+        fKeyData->Ref();
 }
 
 plKey::~plKey() {
-    if (fKeyData) fKeyData->UnRef();
+    if (fKeyData != NULL)
+        fKeyData->UnRef();
 }
 
-plKey& plKey::operator=(const plWeakKey& other) {
-    if (*this != other) {
-        if (other) other->Ref();
-        if (fKeyData) fKeyData->UnRef();
-        *this = other;
-    }
-    return *this;
-}
+plKey::operator plKeyData*() const { return fKeyData; }
+plKeyData& plKey::operator*() const { return *fKeyData; }
+plKeyData* plKey::operator->() const { return fKeyData; }
 
 plKey& plKey::operator=(const plKey& other) {
-    if (*this != other) {
-        if (other) other->Ref();
-        if (fKeyData) fKeyData->UnRef();
-        fKeyData = other;
+    if (fKeyData != other.fKeyData) {
+        if (other.fKeyData != NULL)
+            other->Ref();
+        if (fKeyData != NULL)
+            fKeyData->UnRef();
+        fKeyData = other.fKeyData;
     }
     return *this;
 }
 
 plKey& plKey::operator=(plKeyData* other) {
     if (fKeyData != other) {
-        if (other) other->Ref();
-        if (fKeyData) fKeyData->UnRef();
+        if (other != NULL)
+            other->Ref();
+        if (fKeyData != NULL)
+            fKeyData->UnRef();
         fKeyData = other;
     }
     return *this;
+}
+
+bool plKey::operator==(const plKey& other) const {
+    return fKeyData == other.fKeyData;
+}
+
+bool plKey::operator==(const plKeyData* other) const {
+    return fKeyData == other;
+}
+
+bool plKey::operator!=(const plKey& other) const {
+    return fKeyData != other.fKeyData;
+}
+
+bool plKey::operator!=(const plKeyData* other) const {
+    return fKeyData != other;
+}
+
+bool plKey::operator<(const plKey& other) const {
+    return fKeyData->getUoid() < other->getUoid();
+}
+
+bool plKey::Exists() const {
+    return (fKeyData != NULL);
+}
+
+bool plKey::isLoaded() const {
+    if (!Exists())
+        return true;
+    return fKeyData->getObj() != NULL;
 }

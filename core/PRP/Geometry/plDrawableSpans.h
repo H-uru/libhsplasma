@@ -100,7 +100,7 @@ protected:
     hsTArray<plDISpanIndex> fDIIndices;
     unsigned int fProps, fCriteria;
     unsigned int fRenderLevel;
-    plWeakKey fSceneNode;
+    plKey fSceneNode;
     hsTArray<plGeometrySpan*> fSourceSpans;
 
 public:
@@ -165,11 +165,11 @@ public:
     unsigned int getProps() const;
     unsigned int getCriteria() const;
     unsigned int getRenderLevel() const;
-    plWeakKey getSceneNode() const;
+    plKey getSceneNode() const;
     void setProps(unsigned int props);
     void setCriteria(unsigned int crit);
     void setRenderLevel(unsigned int level);
-    void setSceneNode(plWeakKey node);
+    void setSceneNode(plKey node);
 };
 
 #endif

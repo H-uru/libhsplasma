@@ -15,7 +15,7 @@ protected:
     pfGUIColorScheme* fColorScheme;
     plKey fProcReceiver;
     hsTArray<plKey> pfGUIListElement;
-    plWeakKey fSceneNode;
+    plKey fSceneNode;
 
 public:
     pfGUIDialogMod();

@@ -91,7 +91,7 @@ plKey plResManager::prcParseKey(const pfPrcTag* tag) {
     return k;
 }
 
-hsKeyedObject* plResManager::getObject(const plKey& key) {
+hsKeyedObject* plResManager::getObject(plKey key) {
     plKey fk = keys.findKey(key);
     if (!fk.Exists()) return NULL;
     return fk->getObj();
@@ -142,7 +142,7 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
         std::vector<short> types = keys.getTypes(page->getLocation());
         page->setClassList(types);
     }
-    keys.sortKeys(page->getLocation());
+    //keys.sortKeys(page->getLocation());
     page->write(S);
     page->setDataStart(S->pos());
     page->setNumObjects(WriteObjects(S, page->getLocation()));

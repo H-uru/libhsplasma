@@ -46,7 +46,7 @@ public:
     void writeUoid(hsStream* S, plKey key);
     void writeUoid(hsStream* S, hsKeyedObject* ko);
     plKey prcParseKey(const pfPrcTag* tag);
-    class hsKeyedObject* getObject(const plKey& key);
+    class hsKeyedObject* getObject(plKey key);
     unsigned int countKeys(const plLocation& loc);
 
     plPageInfo* ReadPage(const char* filename);

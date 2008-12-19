@@ -9,7 +9,7 @@ public:
     enum { kDisable };
 
 protected:
-    plWeakKey fOwner;
+    plKey fOwner;
     hsBitVector fProps;
 
 public:
@@ -29,8 +29,8 @@ public:
     hsBitVector& getProperties();
     bool getProperty(size_t prop) const;
     void setProperty(size_t prop, bool value);
-    plWeakKey getOwner() const;
-    void setOwner(plWeakKey owner);
+    plKey getOwner() const;
+    void setOwner(plKey owner);
 };
 
 #endif

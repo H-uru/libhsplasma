@@ -31,7 +31,7 @@ protected:
     hsTArray<plCluster*> fClusters;
     hsTArray<plKey> fRegions, fLights;
     plLODDist fLOD;
-    plWeakKey fSceneNode, fDrawable;
+    plKey fSceneNode, fDrawable;
     unsigned int fRenderLevel;
 
 public:
@@ -52,13 +52,13 @@ public:
     plSpanTemplate& getTemplate();
 
     plKey getMaterial() const;
-    plWeakKey getSceneNode() const;
-    plWeakKey getDrawable() const;
+    plKey getSceneNode() const;
+    plKey getDrawable() const;
     unsigned int getRenderLevel() const;
 
     void setMaterial(plKey mat);
-    void setSceneNode(plWeakKey node);
-    void setDrawable(plWeakKey draw);
+    void setSceneNode(plKey node);
+    void setDrawable(plKey draw);
     void setRenderLevel(unsigned int level);
 
     size_t getNumClusters() const;

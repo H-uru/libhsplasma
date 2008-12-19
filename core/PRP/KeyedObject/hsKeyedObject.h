@@ -5,7 +5,7 @@
 
 DllClass hsKeyedObject : public plReceiver {
 protected:
-    plWeakKey myKey;
+    plKey myKey;
 
 public:
     hsKeyedObject();
@@ -22,8 +22,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
     
 public:
-    plWeakKey getKey() const;
-    void setKey(plWeakKey key);
+    plKey getKey() const;
+    void setKey(plKey key);
 };
 
 DllClass hsKeyedObjectStub : public hsKeyedObject {

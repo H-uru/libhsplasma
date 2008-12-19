@@ -20,7 +20,7 @@ protected:
     hsColorRGBA fAmbient, fDiffuse, fSpecular;
     hsMatrix44 fLightToLocal, fLocalToLight, fLightToWorld, fWorldToLight;
     plKey fProjection, fSoftVolume;
-    plWeakKey fSceneNode;
+    plKey fSceneNode;
 
 public:
     plLightInfo();
@@ -45,7 +45,7 @@ public:
     hsMatrix44 getWorldToLight() const;
     plKey getProjection() const;
     plKey getSoftVolume() const;
-    plWeakKey getSceneNode() const;
+    plKey getSceneNode() const;
 
     void setAmbient(const hsColorRGBA& color);
     void setDiffuse(const hsColorRGBA& color);
@@ -56,7 +56,7 @@ public:
     void setWorldToLight(const hsMatrix44& xform);
     void setProjection(plKey proj);
     void setSoftVolume(plKey vol);
-    void setSceneNode(plWeakKey node);
+    void setSceneNode(plKey node);
 
     size_t getNumVisRegions() const;
     plKey getVisRegion(size_t idx);

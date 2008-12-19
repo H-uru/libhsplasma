@@ -8,7 +8,7 @@ public:
     enum { kBlockCameras };
 
 protected:
-    hsTArray<plWeakKey> fSafePoints, fContainedAvatars;
+    hsTArray<plKey> fSafePoints, fContainedAvatars;
     bool fSeek;
     float fSeekTime;
 

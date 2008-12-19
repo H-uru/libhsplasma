@@ -70,16 +70,16 @@ void plMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plWeakKey plMessage::getSender() const { return fSender; }
+plKey plMessage::getSender() const { return fSender; }
 double plMessage::getTimeStamp() const { return fTimeStamp; }
 unsigned int plMessage::getBCastFlags() const { return fBCastFlags; }
 
-void plMessage::setSender(plWeakKey sender) { fSender = sender; }
+void plMessage::setSender(plKey sender) { fSender = sender; }
 void plMessage::setTimeStamp(double timestamp) { fTimeStamp = timestamp; }
 void plMessage::setBCastFlags(unsigned int flags) { fBCastFlags = flags; }
 
 size_t plMessage::getNumReceivers() const { return fReceivers.getSize(); }
-plWeakKey plMessage::getReceiver(size_t idx) const { return fReceivers[idx]; }
-void plMessage::addReceiver(plWeakKey receiver) { fReceivers.append(receiver); }
+plKey plMessage::getReceiver(size_t idx) const { return fReceivers[idx]; }
+void plMessage::addReceiver(plKey receiver) { fReceivers.append(receiver); }
 void plMessage::delReceiver(size_t idx) { fReceivers.remove(idx); }
 void plMessage::clearReceivers() { fReceivers.clear(); }
