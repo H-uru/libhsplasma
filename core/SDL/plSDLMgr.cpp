@@ -123,7 +123,9 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
                         tok.cstr());
             }
         } else if (state == kUruVarLine) {
-            if (tok == "VAR" || tok == "VERSION" || tok == "}") {
+            if (tok == ";") {
+                // Skip
+            } else if (tok == "VAR" || tok == "VERSION" || tok == "}") {
                 curDesc->addVariable(curVar);
                 curVar = NULL;
                 state = kUruStateDesc;

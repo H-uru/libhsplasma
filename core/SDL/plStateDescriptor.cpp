@@ -122,7 +122,7 @@ plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, b
             return kRGB;
         else if (itype == "rgba")
             return kRGBA;
-        else if (itype == "quat")
+        else if (itype == "quat" || itype == "quaternion")
             return kQuaternion;
         else if (itype == "rgb8")
             return kRGB8;
