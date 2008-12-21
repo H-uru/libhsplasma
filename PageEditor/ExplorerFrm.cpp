@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #include "ExplorerFrm.h"
+#include "icon.xpm"
 #include <wx/imaglist.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -15,6 +16,9 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
     this->SetSizeHints( wxDefaultSize, wxDefaultSize );
     this->SetExtraStyle( wxFRAME_EX_METAL );
     wxInitAllImageHandlers();
+    
+    wxIcon ico = wxIcon(icon_xpm);
+    SetIcon(ico);
 
     m_toolBar = this->CreateToolBar( wxTB_HORIZONTAL|wxTB_TEXT, ID_TOOLBAR );
     m_toolBar->AddTool( ID_TB_SAVE, wxT("Save"), wxArtProvider::GetBitmap(wxART_FILE_SAVE), wxNullBitmap, wxITEM_NORMAL, wxT("Commit PRC edits to file"), wxEmptyString );
@@ -103,6 +107,7 @@ ExplorerFrm::ExplorerFrm( wxWindow* parent, wxWindowID id, const wxString& title
     this->Connect( ID_TB_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePage ) );
     this->Connect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
     this->Connect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
+    this->Connect( ID_TB_NEW, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::NewObject ) );
     this->Connect( ID_TB_BACK, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::GoBack ) );
     this->Connect( ID_TB_INDEXNAMES, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::RedrawTree ) );
     m_prpTree->Connect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
@@ -114,6 +119,7 @@ ExplorerFrm::~ExplorerFrm()
     this->Disconnect( ID_TB_SAVE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePage ) );
     this->Disconnect( ID_TB_OPEN, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::OpenBrowser ) );
     this->Disconnect( ID_TB_SAVE_FILE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::SavePrcFile ) );
+    this->Disconnect( ID_TB_BACK, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::GoBack ) );
     this->Disconnect( ID_TB_INDEXNAMES, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( ExplorerFrm::RedrawTree ) );
     m_prpTree->Disconnect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( ExplorerFrm::LoadObjPrc ), NULL, this );
 
@@ -123,15 +129,19 @@ ExplorerFrm::~ExplorerFrm()
 
 void ExplorerFrm::InitFromFile( const wxString& filename)
 {
-    pages.clear();
-    fBack.clear();
-    m_prcEditor->ClearAll();
-    m_prpTree->DeleteAllItems();
-    m_prcEditor->SetReadOnly(true);
-    fCurrent = NULL;
+    plString tempPath = plString(wxPathOnly(filename).ToUTF8());
+    
+    if(tempPath != fPath) {
+        pages.clear();
+        fBack.clear();
+        m_prcEditor->ClearAll();
+        m_prpTree->DeleteAllItems();
+        m_prcEditor->SetReadOnly(true);
+        fCurrent = NULL;
+    }
 
     try {
-        if (plString(filename.ToUTF8()).afterFirst('.') == "age") {
+        if (plString(filename.ToUTF8()).afterLast('.') == "age") {
             plAgeInfo* age = rm.ReadAge(filename.ToUTF8(), true);
             fRoot = m_prpTree->AddRoot(wxString::FromUTF8(age->getAgeName().cstr()), 2, 2, new PlasmaTreeItem(age));
             for (unsigned int i=0; i<age->getNumPages(); i++) {
@@ -143,7 +153,7 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
                 pages.push_back(page);
             }
         }
-        else if (plString(filename.ToUTF8()).afterFirst('.') == "prp") {
+        else if (plString(filename.ToUTF8()).afterLast('.') == "prp") {
             plPageInfo* page = rm.ReadPage(filename.ToUTF8());
             pages.push_back(page);
             plAgeInfo* age = rm.FindAge(page->getAge());
@@ -165,12 +175,14 @@ void ExplorerFrm::InitFromFile( const wxString& filename)
     
     m_toolBar->EnableTool(ID_TB_SAVE, true);
 
-    fPath = plString(wxPathOnly(filename).ToUTF8());
+    fPath = tempPath;
     plDebug::Error("Path is %s", fPath.cstr());
 
     for(unsigned int j=0; j<pages.size();j++) {
         this->LoadObjects(pages[j]);
     }
+    
+    m_toolBar->EnableTool(ID_TB_NEW, true);
 }
 
 void ExplorerFrm::LoadObjects(plPageInfo* page)
@@ -375,6 +387,13 @@ void ExplorerFrm::SavePage( wxCommandEvent& event )
     wxTreeEvent treeEvt;
     treeEvt.SetItem(fCurrent);
     LoadObjPrc(treeEvt);
+}
+
+void ExplorerFrm::NewObject( wxCommandEvent& event )
+{
+    CreateObjDlg cf(this, wxID_ANY, wxT("New Object..."), wxDefaultPosition, wxSize( 350,185 ), wxDEFAULT_DIALOG_STYLE, &rm);
+    if(cf.ShowModal() == wxID_OK) {
+    }
 }
 
 void ExplorerFrm::GoBack( wxCommandEvent& event )

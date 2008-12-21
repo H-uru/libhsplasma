@@ -33,6 +33,7 @@
 #include "PlasmaDefs.h"
 #include "CHexEditCtrl.h"
 #include "PlasmaTreeItem.h"
+#include "CreateFrm.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -85,12 +86,9 @@ class ExplorerFrm : public wxFrame
         void LoadObjPrc( wxTreeEvent& event );
         void GoBack( wxCommandEvent& event );
         void RedrawTree( wxCommandEvent& event );
-        
-        
-
+        void NewObject( wxCommandEvent& event );
 
     public:
-
         ExplorerFrm( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("PageEditor"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL, const wxString& name = wxT("PageEditor") );
         ~ExplorerFrm();
         void InitFromFile( const wxString& filename);
