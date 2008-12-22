@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="PageEditor"
-	ProjectGUID="{75F5644A-049F-4836-A8EC-BC236EDFA94A}"
-	RootNamespace="PageEditor"
+	Name="squish"
+	ProjectGUID="{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}"
+	RootNamespace="squish"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -20,8 +20,8 @@
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(SolutionDir)out"
-			ConfigurationType="1"
-			CharacterSet="1"
+			ConfigurationType="4"
+			CharacterSet="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;"
+				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -61,21 +61,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28ud.lib wxmsw28ud_core.lib comctl32.lib rpcrt4.lib wxmsw28ud_stc.lib wxpngd.lib wxjpegd.lib wxtiffd.lib wxzlibd.lib"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -87,9 +76,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -97,8 +83,8 @@
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)bin"
 			IntermediateDirectory="$(SolutionDir)out"
-			ConfigurationType="1"
-			CharacterSet="1"
+			ConfigurationType="4"
+			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -118,7 +104,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;"
+				AdditionalIncludeDirectories="."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -136,23 +122,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="wxbase28u.lib wxmsw28u_core.lib comctl32.lib rpcrt4.lib wxmsw28u_stc.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -164,9 +137,6 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -174,54 +144,48 @@
 	<References>
 	</References>
 	<Files>
-		<File
-			RelativePath=".\CHexEditCtrl.cpp"
+		<Filter
+			Name="src"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-		</File>
-		<File
-			RelativePath=".\CHexEditCtrl.h"
-			>
-		</File>
-		<File
-			RelativePath=".\CreateFrm.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\CreateFrm.h"
-			>
-		</File>
-		<File
-			RelativePath=".\ExplorerFrm.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\ExplorerFrm.h"
-			>
-		</File>
-		<File
-			RelativePath=".\PageEditor.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\PageEditor.h"
-			>
-		</File>
-		<File
-			RelativePath=".\PlasmaTreeItem.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\PlasmaTreeItem.h"
-			>
-		</File>
-		<File
-			RelativePath=".\wxPlasmaTextCtrl.cpp"
-			>
-		</File>
-		<File
-			RelativePath=".\wxPlasmaTextCtrl.h"
-			>
-		</File>
+			<File
+				RelativePath="alpha.cpp"
+				>
+			</File>
+			<File
+				RelativePath="clusterfit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="colourblock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="colourfit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="colourset.cpp"
+				>
+			</File>
+			<File
+				RelativePath="maths.cpp"
+				>
+			</File>
+			<File
+				RelativePath="rangefit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="singlecolourfit.cpp"
+				>
+			</File>
+			<File
+				RelativePath="squish.cpp"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

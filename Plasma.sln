@@ -4,6 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plasma", "core\Plasma.vcproj", "{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957} = {A4B8FE2F-FDFB-4C81-80F0-F015BC607957}
+		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C} = {C7B66F89-2EA9-4F34-A838-84F3817FDA5C}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlasmaCrypt", "Tools\PlasmaCrypt.vcproj", "{ED5AFABC-DC60-4474-9F60-EF55B4D65746}"
@@ -52,6 +53,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PageEditor", "PageEditor\Pa
 	ProjectSection(ProjectDependencies) = postProject
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "squish", "core\3rdPartyLibs\squish\squish.vcproj", "{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -126,6 +129,12 @@ Global
 		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
 		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Release|Win32.ActiveCfg = Release|Win32
 		{75F5644A-049F-4836-A8EC-BC236EDFA94A}.Release|Win32.Build.0 = Release|Win32
+		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Debug|Win32.Build.0 = Debug|Win32
+		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Debug-NoDLL|Win32.ActiveCfg = Debug|Win32
+		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
+		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Release|Win32.ActiveCfg = Release|Win32
+		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

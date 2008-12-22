@@ -73,10 +73,6 @@ protected:
     void IWriteRawImage(hsStream* S);
     void IWriteRLEImage(hsStream* S, bool alpha);
 
-    void IDecompressDXT1(const void* src, void* dest, size_t size);
-    void IDecompressDXT3(const void* src, void* dest, size_t size);
-    void IDecompressDXT5(const void* src, void* dest, size_t size);
-
 public:
     void readFromStream(hsStream* S);
     void writeToStream(hsStream* S);

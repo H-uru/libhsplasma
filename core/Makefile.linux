@@ -3,6 +3,7 @@ CXXFLAGS += -I. -fPIC -Wall -g -ansi -fno-rtti
 CXXFLAGSEXTERN = -fPIC -O2
 
 OBJDIR=out/
+PREFIX=/usr/local
 
 PLSOBJ=\
 	$(OBJDIR)plDebug.o \
@@ -249,7 +250,8 @@ PLSOBJ=\
 # 3rd Party Libs
 OBJFILES3P=\
 	$(OBJDIR)rijndael.o \
-	3rdPartyLibs/jpeg-6b/libjpeg.a
+	3rdPartyLibs/jpeg-6b/libjpeg.a \
+	3rdPartyLibs/squish/libsquish.a
 
 PLSLIB=lib/libPlasma.so
 
@@ -257,11 +259,15 @@ all: $(PLSLIB) 3rdPartyLibs/jpeg-6b/Makefile
 
 $(PLSLIB): $(PLSOBJ) $(OBJFILES3P)
 	( cd 3rdPartyLibs/jpeg-6b ; $(MAKE) )
+	( cd 3rdPartyLibs/squish  ; $(MAKE) )
 	$(CXX) $(CXXFLAGS) $(PLSOBJ) $(OBJFILES3P) -shared -Wl,-soname,libPlasma.so -o $(PLSLIB)
 
 install:
-	cp $(PLSLIB) /usr/local/lib
+	cp $(PLSLIB) $(PREFIX)/lib
 	ldconfig
+
+uninstall:
+	rm -f $(PREFIX)/$(PLSLIB)
 
 clean:
 	rm -f $(PLSOBJ)
@@ -280,6 +286,9 @@ $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 
 3rdPartyLibs/jpeg-6b/libjpeg.a: 3rdPartyLibs/jpeg-6b/Makefile
 	( cd 3rdPartyLibs/jpeg-6b ; $(MAKE) )
+
+3rdPartyLibs/squish/libsquish.a:
+	( cd 3rdPartyLibs/squish ; $(MAKE) )
 
 
 # Pls Lib

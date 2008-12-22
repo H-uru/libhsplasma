@@ -1,5 +1,7 @@
-CC = g++
-CFLAGS += -fPIC -Wall -g -ansi -fno-rtti -arch ppc -arch i386 -DMACOSX
+CXX = g++
+CXXFLAGS += -fPIC -Wall -g -ansi -fno-rtti -arch ppc -arch i386 -DMACOSX
+
+PREFIX = /usr/local
 
 all:
 	(cd core ; $(MAKE) -fMakefile.macosx)
@@ -16,62 +18,65 @@ all:
 	($(MAKE) -fMakefile.macosx Misc/TypeMap)
 
 Tools/PageConvert: Tools/src/PageConvert.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageConvert.cpp -o Tools/PageConvert
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageConvert.cpp -o Tools/PageConvert
 
 Tools/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt
 
 Tools/PrpPack: Tools/src/PrpPack.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrpPack.cpp -o Tools/PrpPack
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrpPack.cpp -o Tools/PrpPack
 
 Tools/PrcExtract: Tools/src/PrcExtract.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrcExtract.cpp -o Tools/PrcExtract
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrcExtract.cpp -o Tools/PrcExtract
 
 Tools/PageList: Tools/src/PageList.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageList.cpp -o Tools/PageList
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageList.cpp -o Tools/PageList
 
 Tools/prcc: Tools/src/prcc.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcc.cpp -o Tools/prcc
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcc.cpp -o Tools/prcc
 
 Tools/prcdc: Tools/src/prcdc.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcdc.cpp -o Tools/prcdc
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcdc.cpp -o Tools/prcdc
 
 Tools/Prp2Obj: Tools/src/Prp2Obj.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
 
-Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp  PageEditor/PlasmaTreeItem.cpp -o Tools/PageEditor
+Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/CreateFrm.cpp PageEditor/CHexEditCtrl.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp core/lib/libPlasma.dylib
+	$(CXX) $(CXXFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/CreateFrm.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/CHexEditCtrl.cpp PageEditor/PlasmaTreeItem.cpp -o Tools/PageEditor
 
 Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.dylib
-	$(CC) $(CFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap
 
 install:
 	(cd core ; $(MAKE) -fMakefile.macosx install)
-	cp Tools/PageConvert /usr/local/bin/
-	cp Tools/PlasmaCrypt /usr/local/bin/
-	cp Tools/PrpPack /usr/local/bin/
-	cp Tools/PrcExtract /usr/local/bin/
-	cp Tools/PageList /usr/local/bin/
-	cp Tools/prcc /usr/local/bin/
-	cp Tools/prcdc /usr/local/bin/
-	cp Tools/Prp2Obj /usr/local/bin/
+	(cd Python ; $(MAKE) -fMakefile.macosx install)
+	cp Tools/PageConvert $(PREFIX)/bin/
+	cp Tools/PlasmaCrypt $(PREFIX)/bin/
+	cp Tools/PrpPack $(PREFIX)/bin/
+	cp Tools/PrcExtract $(PREFIX)/bin/
+	cp Tools/PageList $(PREFIX)/bin/
+	cp Tools/prcc $(PREFIX)/bin/
+	cp Tools/prcdc $(PREFIX)/bin/
+	cp Tools/Prp2Obj $(PREFIX)/bin/
 	mkdir -p Tools/PageEditor.app/Contents/MacOS
 	cp Tools/PageEditor Tools/PageEditor.app/Contents/MacOS/
 	chmod +x Tools/eoaedit Tools/uruedit
-	cp Tools/eoaedit Tools/uruedit /usr/local/bin/
+	cp Tools/eoaedit Tools/uruedit $(PREFIX)/bin/
 
 uninstall:
-	rm -f /usr/local/bin/PageConvert
-	rm -f /usr/local/bin/PlasmaCrypt
-	rm -f /usr/local/bin/PrpPack
-	rm -f /usr/local/bin/PrcExtract
-	rm -f /usr/local/bin/PageList
-	rm -f /usr/local/bin/prcc
-	rm -f /usr/local/bin/prcdc
-	rm -f /usr/local/bin/Prp2Obj
+	(cd core ; $(MAKE) -fMakefile.macosx uninstall)
+	(cd Python ; $(MAKE) -fMakefile.macosx uninstall)
+	rm -f $(PREFIX)/bin/PageConvert
+	rm -f $(PREFIX)/bin/PlasmaCrypt
+	rm -f $(PREFIX)/bin/PrpPack
+	rm -f $(PREFIX)/bin/PrcExtract
+	rm -f $(PREFIX)/bin/PageList
+	rm -f $(PREFIX)/bin/prcc
+	rm -f $(PREFIX)/bin/prcdc
+	rm -f $(PREFIX)/bin/Prp2Obj
 	rm -rf Tools/PageEditor.app/Contents/MacOS
-	rm -f /usr/local/bin/eoaedit
-	rm -f /usr/local/bin/uruedit
+	rm -f $(PREFIX)/bin/eoaedit
+	rm -f $(PREFIX)/bin/uruedit
 
 clean:
 	(cd core ; $(MAKE) -fMakefile.macosx clean)

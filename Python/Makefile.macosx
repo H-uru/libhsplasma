@@ -1,6 +1,7 @@
 CXX = g++
-CXXFLAGS = -I../core -fPIC -Wall -g -ansi -fno-rtti `python-config --cflags` -arch ppc -arch i386 -DMACOSX
-CXXLINK  = -L../core/lib -lPlasma `python-config --libs` -arch ppc -arch i386
+CXXFLAGS = -I../core -fPIC -Wall -g -ansi -fno-rtti `python-config --cflags`
+CXXLINK  = -L../core/lib -lPlasma
+PYTHON_VER = 2.5
 
 OBJDIR=out/
 
@@ -196,6 +197,12 @@ clean:
 
 distclean:
 	rm -f $(PYLIB)
+
+install: $(PYLIB)
+	cp $(PYLIB) `python-config --prefix`/lib/python$(PYTHON_VER)/
+
+uninstall:
+	rm -f `python-config --prefix`/lib/python$(PYTHON_VER)/$(PYLIB)
 
 $(OBJDIR)Module.o: Module.cpp
 	$(CXX) $(CXXFLAGS) -c Module.cpp -o $(OBJDIR)Module.o

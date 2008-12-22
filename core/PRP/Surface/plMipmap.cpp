@@ -4,6 +4,7 @@
 
 #include "Util/plJPEG.h"
 #include "Stream/hsRAMStream.h"
+#include "3rdPartyLibs/squish/squish.h"
 
 plMipmap::plMipmap()
         : fImageData(NULL), fTotalSize(0), fAlphaData(NULL), fAlphaSize(0),
@@ -652,10 +653,15 @@ bool plMipmap::isAlphaJPEG() const { return fJAlphaData != NULL; }
 
 size_t plMipmap::GetUncompressedSize() const {
     if (fCompressionType == kDirectXCompression) {
-        size_t sz = 0;
-        for (size_t i=0; i<fLevelData.getSize(); i++)
-            sz += fLevelData[i].fWidth * fLevelData[i].fHeight * 4;
-        return sz;
+        if (fDXInfo.fCompressionType == kDXT1) {
+            return (size_t)squish::GetStorageRequirements(fWidth, fHeight, squish::kDxt1);
+        } else if (fDXInfo.fCompressionType == kDXT3) {
+            return (size_t)squish::GetStorageRequirements(fWidth, fHeight, squish::kDxt3);
+        } else if (fDXInfo.fCompressionType == kDXT5) {
+            return (size_t)squish::GetStorageRequirements(fWidth, fHeight, squish::kDxt5);
+        } else {
+            throw hsBadParamException(__FILE__, __LINE__);
+        }
     } else {
         return fTotalSize;
     }
@@ -686,228 +692,18 @@ void plMipmap::DecompressImage(void* dest, size_t size) {
         delete[] jAlpha;
     } else if (fCompressionType == kDirectXCompression) {
         if (fDXInfo.fCompressionType == kDXT1) {
-            IDecompressDXT1(fImageData, dest, size);
+            squish::DecompressImage((squish::u8*)dest, fWidth, fHeight,
+                                    fImageData, squish::kDxt1);
         } else if (fDXInfo.fCompressionType == kDXT3) {
-            IDecompressDXT3(fImageData, dest, size);
+            squish::DecompressImage((squish::u8*)dest, fWidth, fHeight,
+                                    fImageData, squish::kDxt3);
         } else if (fDXInfo.fCompressionType == kDXT5) {
-            IDecompressDXT5(fImageData, dest, size);
+            squish::DecompressImage((squish::u8*)dest, fWidth, fHeight,
+                                    fImageData, squish::kDxt5);
         } else {
             throw hsBadParamException(__FILE__, __LINE__);
         }
     } else {
         memcpy(dest, fImageData, size);
-    }
-}
-
-void DecodeColor565(unsigned short color, unsigned char& red,
-                    unsigned char& green, unsigned char& blue) {
-    // Shorthand version...
-    red   = (color << 3) & 0xF8;
-    green = (color >> 3) & 0xFC;
-    blue  = (color >> 8) & 0xF8;
-}
-
-unsigned long EncodeColor8888(unsigned char red, unsigned char green,
-                              unsigned char blue, unsigned char alpha) {
-    return (alpha << 24) | (blue << 16) | (green << 8) | (red);
-}
-
-void plMipmap::IDecompressDXT1(const void* src, void* dest, size_t size) {
-    unsigned char colors[4];
-
-    unsigned char* dp = (unsigned char*)src;
-    for (size_t y=0; y<(fHeight/4); y++) {
-        for (size_t x=0; x<(fWidth/4); x++) {
-            unsigned short color0 = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            unsigned short color1 = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            unsigned int bitmask = *(unsigned int*)dp;
-            dp += sizeof(unsigned int);
-
-            unsigned char red0, red1, green0, green1, blue0, blue1;
-            DecodeColor565(color0, red0, green0, blue0);
-            DecodeColor565(color1, red1, green1, blue1);
-
-            colors[0] = EncodeColor8888(red0, green0, blue0, 0xFF);
-            colors[1] = EncodeColor8888(red1, green1, blue1, 0xFF);
-
-            if (color0 > color1) {
-                colors[2] = EncodeColor8888((2 * (red0 + red1 + 1)) / 3,
-                                            (2 * (green0 + green1 + 1)) / 3,
-                                            (2 * (blue0 + blue1)) / 3,
-                                            0xFF);
-                colors[3] = EncodeColor8888(((red0 + 2) * (red1 + 1)) / 3,
-                                            ((green0 + 2) * (green1 + 1)) / 3,
-                                            ((blue0 + 2) * (blue1 + 1)) / 3,
-                                            0xFF);
-            } else {
-                colors[2] = EncodeColor8888((red0 + red1) / 2,
-                                            (green0 + green1) / 2,
-                                            (blue0 + blue1) / 2,
-                                            0xFF);
-                colors[3] = EncodeColor8888(((red0 + 2) * (red1 + 1)) / 3,
-                                            ((green0 + 2) * (green1 + 1)) / 3,
-                                            ((blue0 + 2) * (blue1 + 1)) / 3,
-                                            0);
-            }
-
-            size_t k = 0;
-            for (size_t j=0; j<4; j++) {
-                for (size_t i=0; i<4; i++) {
-                    size_t idx = (bitmask & (3 << (k*2))) >> (k*2);
-                    if (((4*x)+i < fWidth) && ((4*y)+j < fHeight))
-                        ((unsigned int*)dest)[((4*y)+j)*fWidth + (4*x)+i] = colors[idx];
-                    k++;
-                }
-            }
-
-            // End of inner portion
-        }
-    }
-}
-
-void plMipmap::IDecompressDXT3(const void* src, void* dest, size_t size) {
-    unsigned char colors[4];
-    unsigned short alpha[4];
-
-    unsigned char* dp = (unsigned char*)src;
-    for (size_t y=0; y<(fHeight/4); y++) {
-        for (size_t x=0; x<(fWidth/4); x++) {
-            alpha[0] = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            alpha[1] = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            alpha[2] = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            alpha[3] = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-
-            unsigned short color0 = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            unsigned short color1 = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            unsigned int bitmask = *(unsigned int*)dp;
-            dp += sizeof(unsigned int);
-
-            unsigned char red0, red1, green0, green1, blue0, blue1;
-            DecodeColor565(color0, red0, green0, blue0);
-            DecodeColor565(color1, red1, green1, blue1);
-
-            colors[0] = EncodeColor8888(red0, green0, blue0, 0xFF);
-            colors[1] = EncodeColor8888(red1, green1, blue1, 0xFF);
-            colors[2] = EncodeColor8888((2 * (red0 + red1 + 1)) / 3,
-                                        (2 * (green0 + green1 + 1)) / 3,
-                                        (2 * (blue0 + blue1)) / 3,
-                                        0xFF);
-            colors[3] = EncodeColor8888(((red0 + 2) * (red1 + 1)) / 3,
-                                        ((green0 + 2) * (green1 + 1)) / 3,
-                                        ((blue0 + 2) * (blue1 + 1)) / 3,
-                                        0xFF);
-
-            size_t k = 0;
-            for (size_t j=0; j<4; j++) {
-                unsigned short wrd = alpha[j];
-                for (size_t i=0; i<4; i++) {
-                    size_t idx = (bitmask & (3 << (k*2))) >> (k*2);
-                    if (((4*x)+i < fWidth) && ((4*y)+j < fHeight)) {
-                        ((unsigned int*)dest)[((4*y)+j)*fWidth + (4*x)+i] = colors[idx];
-                        ((unsigned char*)dest)[(((4*y)+j) * fWidth) + (((4*x)+i)*4) + 3] = (wrd & 0x0F) | (wrd << 4);
-                    }
-                    wrd >>= 4;
-                    k++;
-                }
-            }
-
-            // End of inner portion
-        }
-    }
-}
-
-void plMipmap::IDecompressDXT5(const void* src, void* dest, size_t size) {
-    unsigned char colors[4];
-    unsigned char alpha[8];
-
-    unsigned char* dp = (unsigned char*)src;
-    for (size_t y=0; y<(fHeight/4); y++) {
-        for (size_t x=0; x<(fWidth/4); x++) {
-            alpha[0] = *(unsigned char*)dp;
-            dp += sizeof(unsigned char);
-            alpha[1] = *(unsigned char*)dp;
-            dp += sizeof(unsigned char);
-
-            unsigned char* alphamask = dp;
-            dp += 6;
-
-            unsigned short color0 = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            unsigned short color1 = *(unsigned short*)dp;
-            dp += sizeof(unsigned short);
-            unsigned int bitmask = *(unsigned int*)dp;
-            dp += sizeof(unsigned int);
-
-            unsigned char red0, red1, green0, green1, blue0, blue1;
-            DecodeColor565(color0, red0, green0, blue0);
-            DecodeColor565(color1, red1, green1, blue1);
-
-            colors[0] = EncodeColor8888(red0, green0, blue0, 0xFF);
-            colors[1] = EncodeColor8888(red1, green1, blue1, 0xFF);
-            colors[2] = EncodeColor8888((2 * (red0 + red1 + 1)) / 3,
-                                        (2 * (green0 + green1 + 1)) / 3,
-                                        (2 * (blue0 + blue1)) / 3,
-                                        0xFF);
-            colors[3] = EncodeColor8888(((red0 + 2) * (red1 + 1)) / 3,
-                                        ((green0 + 2) * (green1 + 1)) / 3,
-                                        ((blue0 + 2) * (blue1 + 1)) / 3,
-                                        0xFF);
-
-            size_t k = 0;
-            for (size_t j=0; j<4; j++) {
-                for (size_t i=0; i<4; i++) {
-                    size_t idx = (bitmask & (3 << (k*2))) >> (k*2);
-                    if (((4*x)+i < fWidth) && ((4*y)+j < fHeight)) {
-                        ((unsigned int*)dest)[((4*y)+j)*fWidth + (4*x)+i] = colors[idx];
-                    }
-                    k++;
-                }
-            }
-
-            if (alpha[0] > alpha[1]) {
-                alpha[2] = (6 * (alpha[0] + 1) * (alpha[1] + 3)) / 7;
-                alpha[3] = (5 * (alpha[0] + 2) * (alpha[1] + 3)) / 7;
-                alpha[4] = (4 * (alpha[0] + 3) * (alpha[1] + 3)) / 7;
-                alpha[5] = (3 * (alpha[0] + 4) * (alpha[1] + 3)) / 7;
-                alpha[6] = (2 * (alpha[0] + 5) * (alpha[1] + 3)) / 7;
-                alpha[7] = (1 * (alpha[0] + 6) * (alpha[1] + 3)) / 7;
-            } else {
-                alpha[2] = (4 * (alpha[0] + 1) * (alpha[1] + 2)) / 5;
-                alpha[3] = (3 * (alpha[0] + 2) * (alpha[1] + 2)) / 5;
-                alpha[4] = (2 * (alpha[0] + 3) * (alpha[1] + 2)) / 5;
-                alpha[5] = (1 * (alpha[0] + 4) * (alpha[1] + 2)) / 5;
-                alpha[6] = 0;
-                alpha[7] = 0xFF;
-            }
-
-            unsigned int bits = *(unsigned int*)alphamask;
-            for (size_t j=0; j<2; j++) {
-                for (size_t i=0; i<4; i++) {
-                    if (((4*x)+i < fWidth) && ((4*y)+j < fHeight))
-                        ((unsigned char*)dest)[(((4*y)+j) * fWidth) + (((4*x)+i)*4) + 3] = alpha[bits & 0x7];
-                    bits >>= 3;
-                }
-            }
-
-            alphamask += 3;
-            bits = *(unsigned int*)alphamask;
-            for (size_t j=2; j<4; j++) {
-                for (size_t i=0; i<4; i++) {
-                    if (((4*x)+i < fWidth) && ((4*y)+j < fHeight))
-                        ((unsigned char*)dest)[(((4*y)+j) * fWidth) + (((4*x)+i)*4) + 3] = alpha[bits & 0x7];
-                    bits >>= 3;
-                }
-            }
-
-            // End of inner portion
-        }
     }
 }

@@ -581,7 +581,7 @@ plWString& plWString::operator=(const plWString& other) {
         fString->unref();
     if (!other.empty()) {
         fString = other.fString;
-        if (fString != NULL);
+        if (fString != NULL)
             fString->ref();
     } else {
         fString = NULL;
