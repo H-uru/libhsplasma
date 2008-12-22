@@ -20,9 +20,12 @@ plKeyCollector::~plKeyCollector() {
 plKey plKeyCollector::findKey(plKey match) {
     plKey key;
     std::vector<plKey> kList = getKeys(match->getLocation(), match->getType());
-    for (unsigned int i=0; i < kList.size(); i++)
-        if (*kList[i] == *match)
+    for (unsigned int i=0; i < kList.size(); i++) {
+        if (*kList[i] == *match) {
             key = kList[i];
+            break;
+        }
+    }
     return key;
 }
 
