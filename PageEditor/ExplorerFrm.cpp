@@ -194,6 +194,9 @@ void ExplorerFrm::LoadObjects(plPageInfo* page)
         PageName = page->getPage();
     }
     wxTreeItemId fPageN = m_prpTree->AppendItem(fRoot, wxString::FromUTF8(PageName.cstr()), 0, 0, new PlasmaTreeItem(page));
+    
+    fPageNodes[page->getLocation()] = fPageN;
+    
     std::vector<short> types = rm.getTypes(page->getLocation());
 
     for(unsigned int f = 0; f < types.size(); f++) {
@@ -393,6 +396,58 @@ void ExplorerFrm::NewObject( wxCommandEvent& event )
 {
     CreateObjDlg cf(this, wxID_ANY, wxT("New Object..."), wxDefaultPosition, wxSize( 350,185 ), wxDEFAULT_DIALOG_STYLE, &rm);
     if(cf.ShowModal() == wxID_OK) {
+        
+        plLocation loc = cf.GetLocation();
+        wxString name = cf.GetName();
+        unsigned int type = cf.GetClassType();
+        
+        if((loc.isValid()) && (!name.IsEmpty())) {
+            plCreatable* pCre = plFactory::Create(type, rm.getVer());
+            
+            if(pCre) {
+                hsKeyedObject* ko = (hsKeyedObject*)pCre;
+                ko->init(plString(name.ToUTF8()));
+                rm.AddObject(loc, ko);
+                
+                wxTreeItemId pageN = fPageNodes[loc];
+                //m_prpTree->SetItemBackgroundColour(pageN, wxColour(wxT("CYAN")));
+                //this->LoadObjects(rm.FindPage(loc));
+                
+                if(m_prpTree->ItemHasChildren(pageN)) {
+                    wxTreeItemIdValue Types;
+            
+                    wxTreeItemId child = m_prpTree->GetFirstChild(pageN, Types);
+                    while( child.IsOk() )
+                    {
+                        PlasmaTreeItem* cti = (PlasmaTreeItem*)m_prpTree->GetItemData(child);
+                        
+                        if (cti->getClass() == type) {
+                            m_prpTree->AppendItem(child, name, 1, 1, new PlasmaTreeItem(ko->getKey()));
+                            return;
+                        }
+                        
+                        child = m_prpTree->GetNextChild(pageN, Types);
+                    }
+                }
+                
+                plString TypeName;
+                if(m_toolBar->GetToolState( ID_TB_INDEXNAMES )) {
+                    TypeName = plString::Format("<%04hX> %s", type, pdUnifiedTypeMap::ClassName(type));
+                } else {
+                    plString className = pdUnifiedTypeMap::ClassName(type);
+                    if(className.startsWith("hsg", true)) className = className.mid(3);
+                    if(className.startsWith("hsG", true)) className = className.mid(3);
+                    if(className.startsWith("plg", false)) className = className.mid(3);
+                    if(className.startsWith("pl", false)) className = className.mid(2);
+                    if(className.startsWith("hs", false)) className = className.mid(2);
+                    if(className.startsWith("pf", false)) className = className.mid(2);
+                    TypeName = plString::Format("%s", className.cstr());
+                }
+                wxTreeItemId fType = m_prpTree->AppendItem(pageN, wxString::FromUTF8(TypeName.cstr()), 0, 0, new PlasmaTreeItem(type));
+                
+                m_prpTree->AppendItem(fType, name, 1, 1, new PlasmaTreeItem(ko->getKey()));
+            }
+        }
     }
 }
 

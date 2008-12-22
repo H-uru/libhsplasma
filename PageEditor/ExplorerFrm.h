@@ -26,6 +26,7 @@
 #include <wx/frame.h>
 #include <wx/artprov.h>
 #include "ResManager/plResManager.h"
+#include "ResManager/plFactory.h"
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Debug/hsExceptions.h"
 #include "Stream/hsRAMStream.h"
@@ -72,6 +73,7 @@ class ExplorerFrm : public wxFrame
         wxPanel* m_panelHEX;
         plResManager rm;
         std::vector<plPageInfo*> pages;
+        std::map<plLocation, wxTreeItemId> fPageNodes;
         wxTreeItemId fRoot;
         plString fPath;
         std::vector<wxTreeItemId> fBack;

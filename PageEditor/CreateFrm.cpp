@@ -61,19 +61,35 @@ CreateObjDlg::CreateObjDlg( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	this->SetSizer( fgSizer1 );
 	this->Layout();
-	
-	this->Connect( wxID_OK, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( CreateObjDlg::Create ) );
 }
 
 CreateObjDlg::~CreateObjDlg()
 {
-    this->Disconnect( wxID_OK, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( CreateObjDlg::Create ) );
 }
 
-void CreateObjDlg::Create( wxCommandEvent& event )
+plLocation CreateObjDlg::GetLocation()
 {
-    if(txtObjName->IsEmpty()) return;
+    int sel = chObjLoc->GetSelection();
+    int toparse = (int)chObjLoc->GetClientData(sel);
     
-    EndModal(wxID_OK);
+    plLocation loc;
+    loc.parse(toparse);
+    
+    if(!loc.isValid())
+        loc.invalidate();
+    
+    return loc;
 }
 
+wxString CreateObjDlg::GetName()
+{
+    return txtObjName->GetValue();
+}
+
+unsigned int CreateObjDlg::GetClassType()
+{
+    int sel = chObjType->GetSelection();
+    unsigned int type = (unsigned int)chObjType->GetClientData(sel);
+    
+    return type;
+}
