@@ -252,11 +252,13 @@ void hsScaleKey::prcParse(const pfPrcTag* tag) {
             const pfPrcTag* subchild = child->getFirstChild();
             while (subchild != NULL) {
                 if (subchild->getName() == "hsVector3") {
-                    if (subchild->hasChildren())
-                        fS.prcParse(subchild->getFirstChild());
+                    fS.prcParse(subchild);
+                    /*if (subchild->hasChildren())
+                        fS.prcParse(subchild->getFirstChild());*/
                 } else if (subchild->getName() == "hsQuat") {
-                    if (subchild->hasChildren())
-                        fQ.prcParse(subchild->getFirstChild());
+                    fQ.prcParse(subchild);
+                    /*if (subchild->hasChildren())
+                        fQ.prcParse(subchild->getFirstChild());*/
                 } else {
                     throw pfPrcTagException(__FILE__, __LINE__, subchild->getName());
                 }

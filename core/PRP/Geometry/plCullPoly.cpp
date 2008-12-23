@@ -80,3 +80,7 @@ void plCullPoly::prcParse(const pfPrcTag* tag) {
         child = child->getNextSibling();
     }
 }
+
+hsTArray<hsVector3> plCullPoly::GetVerts() const {
+    return fVerts;
+}

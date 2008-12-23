@@ -410,8 +410,6 @@ void ExplorerFrm::NewObject( wxCommandEvent& event )
                 rm.AddObject(loc, ko);
                 
                 wxTreeItemId pageN = fPageNodes[loc];
-                //m_prpTree->SetItemBackgroundColour(pageN, wxColour(wxT("CYAN")));
-                //this->LoadObjects(rm.FindPage(loc));
                 
                 if(m_prpTree->ItemHasChildren(pageN)) {
                     wxTreeItemIdValue Types;

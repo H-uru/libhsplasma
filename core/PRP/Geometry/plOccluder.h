@@ -28,6 +28,12 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float GetPriority() const;
+    const hsBounds3Ext& GetBounds();
+    size_t GetNumPolys() const;
+    const plCullPoly& GetPoly(size_t idx);
 };
 
 DllClass plMobileOccluder : public plOccluder {

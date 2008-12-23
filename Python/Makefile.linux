@@ -50,6 +50,7 @@ PYOBJ=\
 	$(OBJDIR)pySplineEaseCurve.o \
 	$(OBJDIR)pyTMController.o \
 	$(OBJDIR)pyViewFaceModifier.o \
+	$(OBJDIR)pyOccluder.o \
 	$(OBJDIR)pyAGAnim.o \
 	$(OBJDIR)pyAGAnimBink.o \
 	$(OBJDIR)pyAGApplicator.o \
@@ -183,7 +184,8 @@ PYOBJ=\
 	$(OBJDIR)pyStream.o \
 	$(OBJDIR)pyColor32.o \
 	$(OBJDIR)pyColorRGBA.o \
-	$(OBJDIR)pyBitVector.o
+	$(OBJDIR)pyBitVector.o \
+	$(OBJDIR)pyCullPoly.o
 
 PYLIB=PyPlasma.so
 
@@ -737,3 +739,9 @@ $(OBJDIR)pyColorRGBA.o: Sys/pyColorRGBA.cpp
 
 $(OBJDIR)pyBitVector.o: Util/pyBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/pyBitVector.cpp -o $(OBJDIR)pyBitVector.o
+
+$(OBJDIR)pyOccluder.o: PRP/Geometry/pyOccluder.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyOccluder.cpp -o $(OBJDIR)pyOccluder.o
+
+$(OBJDIR)pyCullPoly.o: PRP/Geometry/pyCullPoly.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyCullPoly.cpp -o $(OBJDIR)pyCullPoly.o

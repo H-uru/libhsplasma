@@ -26,6 +26,8 @@ public:
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+    
+    hsTArray<hsVector3> GetVerts() const;
 };
 
 #endif

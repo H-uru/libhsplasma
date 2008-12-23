@@ -92,6 +92,22 @@ void plOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+float plOccluder::GetPriority() const {
+    return fPriority;
+}
+
+const hsBounds3Ext&  plOccluder::GetBounds() {
+    return fWorldBounds;
+}
+
+size_t plOccluder::GetNumPolys() const {
+    return fPolys.getSize();
+}
+
+const plCullPoly& plOccluder::GetPoly(size_t idx) {
+    return fPolys[idx];
+}
+
 
 /* plMobileOccluder */
 plMobileOccluder::plMobileOccluder() { }

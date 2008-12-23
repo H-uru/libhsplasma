@@ -30,6 +30,7 @@
 #include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
 #include "PRP/Geometry/pyGBufferGroup.h"
+#include "PRP/Geometry/pyOccluder.h"
 #include "PRP/Geometry/pySpaceTree.h"
 #include "PRP/Geometry/pySpan.h"
 #include "PRP/Geometry/pySpanInstance.h"
@@ -241,6 +242,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
     PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
     PyModule_AddObject(module, "plDynamicTextMap", Init_pyDynamicTextMap_Type());
+    PyModule_AddObject(module, "plOccluder", Init_pyOccluder_Type());
     PyModule_AddObject(module, "plAGAnim", Init_pyAGAnim_Type());
     PyModule_AddObject(module, "plAgeGlobalAnim", Init_pyAgeGlobalAnim_Type());
     PyModule_AddObject(module, "plATCAnim", Init_pyATCAnim_Type());
@@ -318,4 +320,6 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plScalarSDLChannel", Init_pyScalarSDLChannel_Type());
     PyModule_AddObject(module, "plATCChannel", Init_pyATCChannel_Type());
     PyModule_AddObject(module, "plScalarChannelApplicator", Init_pyScalarChannelApplicator_Type());
+    
+    PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
 }
