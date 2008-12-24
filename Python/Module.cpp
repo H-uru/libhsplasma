@@ -195,6 +195,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plPythonParameter", Init_pyPythonParameter_Type());
     PyModule_AddObject(module, "plResponderModifier_Cmd", Init_pyResponderModifier_Cmd_Type());
     PyModule_AddObject(module, "plResponderModifier_State", Init_pyResponderModifier_State_Type());
+    PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -242,13 +243,14 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
     PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
     PyModule_AddObject(module, "plDynamicTextMap", Init_pyDynamicTextMap_Type());
-    PyModule_AddObject(module, "plOccluder", Init_pyOccluder_Type());
     PyModule_AddObject(module, "plAGAnim", Init_pyAGAnim_Type());
     PyModule_AddObject(module, "plAgeGlobalAnim", Init_pyAgeGlobalAnim_Type());
     PyModule_AddObject(module, "plATCAnim", Init_pyATCAnim_Type());
     PyModule_AddObject(module, "plEmoteAnim", Init_pyEmoteAnim_Type());
     PyModule_AddObject(module, "plAGAnimBink", Init_pyAGAnimBink_Type());
     PyModule_AddObject(module, "plMsgForwarder", Init_pyMsgForwarder_Type());
+    PyModule_AddObject(module, "plOccluder", Init_pyOccluder_Type());
+    PyModule_AddObject(module, "plMobileOccluder", Init_pyMobileOccluder_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -320,6 +322,4 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plScalarSDLChannel", Init_pyScalarSDLChannel_Type());
     PyModule_AddObject(module, "plATCChannel", Init_pyATCChannel_Type());
     PyModule_AddObject(module, "plScalarChannelApplicator", Init_pyScalarChannelApplicator_Type());
-    
-    PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
 }

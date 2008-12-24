@@ -50,7 +50,6 @@ PYOBJ=\
 	$(OBJDIR)pySplineEaseCurve.o \
 	$(OBJDIR)pyTMController.o \
 	$(OBJDIR)pyViewFaceModifier.o \
-	$(OBJDIR)pyOccluder.o \
 	$(OBJDIR)pyAGAnim.o \
 	$(OBJDIR)pyAGAnimBink.o \
 	$(OBJDIR)pyAGApplicator.o \
@@ -104,6 +103,7 @@ PYOBJ=\
 	$(OBJDIR)pyWAVHeader.o \
 	$(OBJDIR)pyCluster.o \
 	$(OBJDIR)pyClusterGroup.o \
+	$(OBJDIR)pyCullPoly.o \
 	$(OBJDIR)pyDISpanIndex.o \
 	$(OBJDIR)pyDrawable.o \
 	$(OBJDIR)pyDrawableSpans.o \
@@ -113,6 +113,8 @@ PYOBJ=\
 	$(OBJDIR)pyGBufferVertex.o \
 	$(OBJDIR)pyIcicle.o \
 	$(OBJDIR)pyLODDist.o \
+	$(OBJDIR)pyMobileOccluder.o \
+	$(OBJDIR)pyOccluder.o \
 	$(OBJDIR)pyParticleSpan.o \
 	$(OBJDIR)pySpaceTree.o \
 	$(OBJDIR)pySpaceTreeNode.o \
@@ -184,8 +186,7 @@ PYOBJ=\
 	$(OBJDIR)pyStream.o \
 	$(OBJDIR)pyColor32.o \
 	$(OBJDIR)pyColorRGBA.o \
-	$(OBJDIR)pyBitVector.o \
-	$(OBJDIR)pyCullPoly.o
+	$(OBJDIR)pyBitVector.o
 
 PYLIB=PyPlasma.so
 
@@ -497,6 +498,9 @@ $(OBJDIR)pyCluster.o: PRP/Geometry/pyCluster.cpp
 $(OBJDIR)pyClusterGroup.o: PRP/Geometry/pyClusterGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyClusterGroup.cpp -o $(OBJDIR)pyClusterGroup.o
 
+$(OBJDIR)pyCullPoly.o: PRP/Geometry/pyCullPoly.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyCullPoly.cpp -o $(OBJDIR)pyCullPoly.o
+
 $(OBJDIR)pyDISpanIndex.o: PRP/Geometry/pyDISpanIndex.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDISpanIndex.cpp -o $(OBJDIR)pyDISpanIndex.o
 
@@ -523,6 +527,12 @@ $(OBJDIR)pyIcicle.o: PRP/Geometry/pyIcicle.cpp
 
 $(OBJDIR)pyLODDist.o: PRP/Geometry/pyLODDist.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyLODDist.cpp -o $(OBJDIR)pyLODDist.o
+
+$(OBJDIR)pyMobileOccluder.o: PRP/Geometry/pyMobileOccluder.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyMobileOccluder.cpp -o $(OBJDIR)pyMobileOccluder.o
+
+$(OBJDIR)pyOccluder.o: PRP/Geometry/pyOccluder.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyOccluder.cpp -o $(OBJDIR)pyOccluder.o
 
 $(OBJDIR)pyParticleSpan.o: PRP/Geometry/pyParticleSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyParticleSpan.cpp -o $(OBJDIR)pyParticleSpan.o
@@ -739,9 +749,3 @@ $(OBJDIR)pyColorRGBA.o: Sys/pyColorRGBA.cpp
 
 $(OBJDIR)pyBitVector.o: Util/pyBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/pyBitVector.cpp -o $(OBJDIR)pyBitVector.o
-
-$(OBJDIR)pyOccluder.o: PRP/Geometry/pyOccluder.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyOccluder.cpp -o $(OBJDIR)pyOccluder.o
-
-$(OBJDIR)pyCullPoly.o: PRP/Geometry/pyCullPoly.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyCullPoly.cpp -o $(OBJDIR)pyCullPoly.o

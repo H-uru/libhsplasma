@@ -92,21 +92,19 @@ void plOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-float plOccluder::GetPriority() const {
-    return fPriority;
-}
+float plOccluder::getPriority() const { return fPriority; }
+hsBounds3Ext plOccluder::getWorldBounds() const { return fWorldBounds; }
+plKey plOccluder::getSceneNode() const { return fSceneNode; }
 
-const hsBounds3Ext&  plOccluder::GetBounds() {
-    return fWorldBounds;
-}
+void plOccluder::setPriority(float priority) { fPriority = priority; }
+void plOccluder::setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
+void plOccluder::setSceneNode(plKey node) { fSceneNode = node; }
 
-size_t plOccluder::GetNumPolys() const {
-    return fPolys.getSize();
-}
-
-const plCullPoly& plOccluder::GetPoly(size_t idx) {
-    return fPolys[idx];
-}
+size_t plOccluder::getNumPolys() const { return fPolys.getSize(); }
+plCullPoly plOccluder::getPoly(size_t idx) const { return fPolys[idx]; }
+void plOccluder::addPoly(const plCullPoly& poly) { fPolys.append(poly); }
+void plOccluder::delPoly(size_t idx) { fPolys.remove(idx); }
+void plOccluder::clearPolys() { fPolys.clear(); }
 
 
 /* plMobileOccluder */
@@ -160,3 +158,11 @@ void plMobileOccluder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plOccluder::IPrcParse(tag, mgr);
     }
 }
+
+hsMatrix44 plMobileOccluder::getLocalToWorld() const { return fLocalToWorld; }
+hsMatrix44 plMobileOccluder::getWorldToLocal() const { return fWorldToLocal; }
+hsBounds3Ext plMobileOccluder::getLocalBounds() const { return fLocalBounds; }
+
+void plMobileOccluder::setLocalToWorld(const hsMatrix44& l2w) { fLocalToWorld = l2w; }
+void plMobileOccluder::setWorldToLocal(const hsMatrix44& w2l) { fWorldToLocal = w2l; }
+void plMobileOccluder::setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }

@@ -381,6 +381,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Geometry\pyCullPoly.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Geometry\pyDISpanIndex.cpp"
 					>
 				</File>
@@ -422,6 +426,18 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Geometry\pyLODDist.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyMobileOccluder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyOccluder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\pyOccluder.h"
 					>
 				</File>
 				<File

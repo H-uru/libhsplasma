@@ -1,6 +1,11 @@
 #include "plCullPoly.h"
 
 plCullPoly::plCullPoly() : fFlags(kNone), fDist(0.0f), fRadius(0.0f) { }
+
+plCullPoly::plCullPoly(const plCullPoly& init)
+          : fFlags(init.fFlags), fVerts(init.fVerts), fNorm(init.fNorm),
+            fCenter(init.fCenter), fDist(init.fDist), fRadius(init.fRadius) { }
+
 plCullPoly::~plCullPoly() { }
 
 void plCullPoly::read(hsStream* S) {
@@ -81,6 +86,16 @@ void plCullPoly::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsTArray<hsVector3> plCullPoly::GetVerts() const {
-    return fVerts;
-}
+unsigned int plCullPoly::getFlags() const { return fFlags; }
+const hsTArray<hsVector3>& plCullPoly::getVerts() const { return fVerts; }
+hsVector3 plCullPoly::getNorm() const { return fNorm; }
+hsVector3 plCullPoly::getCenter() const { return fCenter; }
+float plCullPoly::getDist() const { return fDist; }
+float plCullPoly::getRadius() const { return fRadius; }
+
+void plCullPoly::setFlags(unsigned int flags) { fFlags = flags; }
+void plCullPoly::setVerts(const hsTArray<hsVector3>& verts) { fVerts = verts; }
+void plCullPoly::setNorm(const hsVector3& norm) { fNorm = norm; }
+void plCullPoly::setCenter(const hsVector3& center) { fCenter = center; }
+void plCullPoly::setDist(float dist) { fDist = dist; }
+void plCullPoly::setRadius(float radius) { fRadius = radius; }
