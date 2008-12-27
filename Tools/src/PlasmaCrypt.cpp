@@ -110,8 +110,8 @@ int main(int argc, char** argv) {
                 if (strlen(argv[i]) != 32) {
                     fprintf(stderr, "Error:  key must be exactly 32 Hex characters, in network byte order.\n");
                     fprintf(stderr, "Example:  To use the key { 0x01234567, 0x89ABCDEF, 0x01234567, 0x89ABCDEF } :\n"
-                                    "    DroidCrypt encrypt droid -key 0123456789ABCDEF0123456789ABCDEF Filename.sdl\n");
-                    return 0;
+                                    "    PlasmaCrypt encrypt droid -key 0123456789ABCDEF0123456789ABCDEF Filename.sdl\n");
+                    return 1;
                 }
                 for (size_t j=0; j<4; j++)
                     if (!parseKey(&argv[i][j*8], uruKey[j]))

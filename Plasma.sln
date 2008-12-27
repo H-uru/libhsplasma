@@ -56,6 +56,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PageEditor", "PageEditor\Pa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "squish", "core\3rdPartyLibs\squish\squish.vcproj", "{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PyPack", "Tools\PyPack.vcproj", "{CC048F94-D897-4FE8-8D92-54018EC1B919}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -135,6 +140,12 @@ Global
 		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Debug-NoDLL|Win32.Build.0 = Debug|Win32
 		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Release|Win32.ActiveCfg = Release|Win32
 		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Release|Win32.Build.0 = Release|Win32
+		{CC048F94-D897-4FE8-8D92-54018EC1B919}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CC048F94-D897-4FE8-8D92-54018EC1B919}.Debug|Win32.Build.0 = Debug|Win32
+		{CC048F94-D897-4FE8-8D92-54018EC1B919}.Debug-NoDLL|Win32.ActiveCfg = Debug-NoDLL|Win32
+		{CC048F94-D897-4FE8-8D92-54018EC1B919}.Debug-NoDLL|Win32.Build.0 = Debug-NoDLL|Win32
+		{CC048F94-D897-4FE8-8D92-54018EC1B919}.Release|Win32.ActiveCfg = Release|Win32
+		{CC048F94-D897-4FE8-8D92-54018EC1B919}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

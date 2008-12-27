@@ -14,6 +14,7 @@ all:
 	($(MAKE) -fMakefile.linux Tools/prcc)
 	($(MAKE) -fMakefile.linux Tools/prcdc)
 	($(MAKE) -fMakefile.linux Tools/Prp2Obj)
+	($(MAKE) -fMakefile.linux Tools/PyPack)
 	($(MAKE) -fMakefile.linux Tools/PageEditor)
 	($(MAKE) -fMakefile.linux Misc/TypeMap)
 
@@ -41,6 +42,9 @@ Tools/prcdc: Tools/src/prcdc.cpp core/lib/libPlasma.so
 Tools/Prp2Obj: Tools/src/Prp2Obj.cpp core/lib/libPlasma.so
 	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
 
+Tools/PyPack: Tools/src/PyPack.cpp core/lib/libPlasma.so
+	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PyPack.cpp -o Tools/PyPack
+
 Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/CreateFrm.cpp PageEditor/CHexEditCtrl.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp core/lib/libPlasma.so
 	$(CXX) $(CXXFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/CreateFrm.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/CHexEditCtrl.cpp PageEditor/PlasmaTreeItem.cpp -o Tools/PageEditor
 
@@ -58,6 +62,7 @@ install:
 	cp Tools/prcc $(PREFIX)/bin/
 	cp Tools/prcdc $(PREFIX)/bin/
 	cp Tools/Prp2Obj $(PREFIX)/bin/
+	cp Tools/PyPack $(PREFIX)/bin/
 	cp Tools/PageEditor $(PREFIX)/bin/
 	chmod +x Tools/eoaedit Tools/uruedit
 	cp Tools/eoaedit Tools/uruedit $(PREFIX)/bin/
@@ -73,6 +78,7 @@ uninstall:
 	rm -f $(PREFIX)/bin/prcc
 	rm -f $(PREFIX)/bin/prcdc
 	rm -f $(PREFIX)/bin/Prp2Obj
+	rm -f $(PREFIX)/bin/PyPack
 	rm -f $(PREFIX)/bin/PageEditor
 	rm -f $(PREFIX)/bin/eoaedit
 	rm -f $(PREFIX)/bin/uruedit
@@ -92,5 +98,6 @@ distclean:
 	rm -f Tools/prcc
 	rm -f Tools/prcdc
 	rm -f Tools/Prp2Obj
+	rm -f Tools/PyPack
 	rm -f Tools/PageEditor
 	rm -f Misc/TypeMap
