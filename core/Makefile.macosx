@@ -39,6 +39,11 @@ PLSOBJ=\
 	$(OBJDIR)plJPEG.o \
 	$(OBJDIR)PlasmaVersions.o \
 	$(OBJDIR)plString.o \
+	$(OBJDIR)plServerGuid.o \
+	$(OBJDIR)plVaultNode.o \
+	$(OBJDIR)plVaultNodeRef.o \
+	$(OBJDIR)plVaultNodeTypes.o \
+	$(OBJDIR)plVaultStore.o \
 	$(OBJDIR)plCreatable.o \
 	$(OBJDIR)plPageInfo.o \
 	$(OBJDIR)plSceneNode.o \
@@ -389,6 +394,21 @@ $(OBJDIR)PlasmaVersions.o: Util/PlasmaVersions.h Util/PlasmaVersions.cpp
 
 $(OBJDIR)plString.o: Util/plString.h Util/plString.cpp
 	$(CXX) $(CXXFLAGS) -c Util/plString.cpp -o $(OBJDIR)plString.o
+
+$(OBJDIR)plServerGuid.o: Vault/plServerGuid.h Vault/plServerGuid.cpp
+	$(CXX) $(CXXFLAGS) -c Vault/plServerGuid.cpp -o $(OBJDIR)plServerGuid.o
+
+$(OBJDIR)plVaultNode.o: Vault/plVaultNode.h Vault/plVaultNode.cpp
+	$(CXX) $(CXXFLAGS) -c Vault/plVaultNode.cpp -o $(OBJDIR)plVaultNode.o
+
+$(OBJDIR)plVaultNodeRef.o: Vault/plVaultNodeRef.h Vault/plVaultNodeRef.cpp
+	$(CXX) $(CXXFLAGS) -c Vault/plVaultNodeRef.cpp -o $(OBJDIR)plVaultNodeRef.o
+
+$(OBJDIR)plVaultNodeTypes.o: Vault/plVaultNodeTypes.h Vault/plVaultNodeTypes.cpp
+	$(CXX) $(CXXFLAGS) -c Vault/plVaultNodeTypes.cpp -o $(OBJDIR)plVaultNodeTypes.o
+
+$(OBJDIR)plVaultStore.o: Vault/plVaultStore.h Vault/plVaultStore.cpp
+	$(CXX) $(CXXFLAGS) -c Vault/plVaultStore.cpp -o $(OBJDIR)plVaultStore.o
 
 $(OBJDIR)plCreatable.o: PRP/plCreatable.h PRP/plCreatable.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/plCreatable.cpp -o $(OBJDIR)plCreatable.o

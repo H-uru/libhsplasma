@@ -69,8 +69,8 @@ void plSound::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
     IRead(S, mgr);
 
-    if (fProperties & kPropLocalOnly)
-        fSynchFlags |= kLocalOnly;
+    //if (fProperties & kPropLocalOnly)
+    //    fSynchFlags |= kLocalOnly;
 }
 
 void plSound::write(hsStream* S, plResManager* mgr) {

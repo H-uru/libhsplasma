@@ -540,3 +540,23 @@ void plGBufferGroup::clearIndices() {
 void plGBufferGroup::clearCells() {
     fCells.clear();
 }
+
+const unsigned char* plGBufferGroup::getVertBufferStorage(size_t idx) const {
+    return fVertBuffStorage[idx];
+}
+
+size_t plGBufferGroup::getVertBufferSize(size_t idx) const {
+    return fVertBuffSizes[idx];
+}
+
+const unsigned short* plGBufferGroup::getIdxBufferStorage(size_t idx) const {
+    return fIdxBuffStorage[idx];
+}
+
+size_t plGBufferGroup::getIdxBufferCount(size_t idx) const {
+    return fIdxBuffCounts[idx];
+}
+
+unsigned int plGBufferGroup::getStride() const {
+    return fStride;
+}

@@ -2354,6 +2354,50 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Vault"
+			>
+			<File
+				RelativePath=".\Vault\plServerGuid.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plServerGuid.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plVaultNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plVaultNode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plVaultNodeRef.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plVaultNodeRef.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plVaultNodeTypes.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plVaultNodeTypes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plVaultStore.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Vault\plVaultStore.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\PlasmaDefs.h"
 			>
