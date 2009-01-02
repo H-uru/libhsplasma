@@ -3,7 +3,7 @@
 #include "../Util/hsBitVector.h"
 
 plVaultStore::plVaultStore(unsigned int firstNode)
-            : fNextNodeID(firstNode) { }
+            : fFirstNodeID(firstNode), fLastNodeID(firstNode - 1) { }
 
 void plVaultStore::ImportFile(const char* filename) {
     hsStream* S;
@@ -31,7 +31,7 @@ void plVaultStore::ImportFile(const char* filename) {
         hsBitVector vaultFields;
         vaultFields.read(S);
         if (vaultFields[0]) {
-            fNextNodeID = S->readInt() + 1;
+            fLastNodeID = S->readInt();
         }
         if (vaultFields[2]) {
             size_t numNodes = S->readInt();
@@ -40,6 +40,8 @@ void plVaultStore::ImportFile(const char* filename) {
                 node.read(S);
                 fNodes[node.getNodeID()] = node;
             }
+            if (numNodes > 0)
+                fFirstNodeID = fNodes.begin()->first;
         }
         if (vaultFields[1]) {
             size_t numRefs = S->readInt();
@@ -80,7 +82,7 @@ void plVaultStore::ExportFile(const char* filename, bool encrypt) {
     vaultFields[2] = true;
     vaultFields.write(S);
 
-    S->writeInt(fNextNodeID - 1);
+    S->writeInt(fLastNodeID);
 
     S->writeInt(fNodes.size());
     for (std::map<unsigned int, plVaultNode>::iterator it=fNodes.begin(); it!=fNodes.end(); it++)
@@ -129,12 +131,19 @@ std::vector<plVaultNode> plVaultStore::findParents(unsigned int child) const {
     return nodes;
 }
 
+unsigned int plVaultStore::getFirstNodeID() const { return fFirstNodeID; }
+unsigned int plVaultStore::getLastNodeID() const { return fLastNodeID; }
+
 void plVaultStore::addNode(const plVaultNode& node) {
     if (node.getNodeID() == 0) {
-        fNodes[fNextNodeID] = node;
-        fNodes[fNextNodeID].setNodeID(fNextNodeID);
-        fNextNodeID++;
+        fLastNodeID++;
+        fNodes[fLastNodeID] = node;
+        fNodes[fLastNodeID].setNodeID(fLastNodeID);
     } else {
+        if (node.getNodeID() < fFirstNodeID)
+            fFirstNodeID = node.getNodeID();
+        if (node.getNodeID() > fLastNodeID)
+            fLastNodeID = node.getNodeID();
         fNodes[node.getNodeID()] = node;
     }
 }

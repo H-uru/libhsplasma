@@ -10,7 +10,7 @@ DllClass plVaultStore {
 protected:
     std::map<unsigned int, plVaultNode> fNodes;
     std::list<plVaultNodeRef> fNodeRefs;
-    unsigned int fNextNodeID;
+    unsigned int fFirstNodeID, fLastNodeID;
 
 public:
     plVaultStore(unsigned int firstNode = 20001);
@@ -21,6 +21,8 @@ public:
     plVaultNode getNode(unsigned int idx) const;
     std::vector<plVaultNode> getChildren(unsigned int parent) const;
     std::vector<plVaultNode> findParents(unsigned int child) const;
+    unsigned int getFirstNodeID() const;
+    unsigned int getLastNodeID() const;
 
     void addNode(const plVaultNode& node);
     void delNode(unsigned int idx);
