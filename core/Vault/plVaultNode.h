@@ -102,15 +102,15 @@ protected:
 public:
     plVaultNode();
     plVaultNode(const plVaultNode& init);
-    virtual ~plVaultNode();
+    ~plVaultNode();
 
     bool isValid() const;
     bool hasField(unsigned int field) const;
     void delField(unsigned int field);
     void makeField(unsigned int field);
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    void read(hsStream* S);
+    void write(hsStream* S);
 
     unsigned int getNodeID() const;
     unsigned int getOwner() const;
