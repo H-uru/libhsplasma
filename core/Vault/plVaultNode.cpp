@@ -64,8 +64,6 @@ plVaultNode::plVaultNode(const plVaultNode& init) {
     copy(init);
 }
 
-plVaultNode::~plVaultNode() { }
-
 void plVaultNode::copy(const plVaultNode& init) {
     fFields = init.fFields;
     fNodeID = init.fNodeID;
@@ -695,80 +693,121 @@ void plVaultNode::setBlob_2(const plVaultBlob& value) {
     fBlob2 = value;
 }
 
-plVaultPlayerNode plVaultNode::upcastToPlayerNode() const {
-    return plVaultPlayerNode(*this);
+plVaultPlayerNode* plVaultNode::upcastToPlayerNode() const {
+    return (fNodeType == plVault::kNodePlayer)
+         ? (plVaultPlayerNode*)this
+         : NULL;
 }
 
-plVaultAgeNode plVaultNode::upcastToAgeNode() const {
-    return plVaultAgeNode(*this);
+plVaultAgeNode* plVaultNode::upcastToAgeNode() const {
+    return (fNodeType == plVault::kNodeAge)
+         ? (plVaultAgeNode*)this
+         : NULL;
 }
 
-plVaultGameServerNode plVaultNode::upcastToGameServerNode() const {
-    return plVaultGameServerNode(*this);
+plVaultGameServerNode* plVaultNode::upcastToGameServerNode() const {
+    return (fNodeType == plVault::kNodeGameServer)
+         ? (plVaultGameServerNode*)this
+         : NULL;
 }
 
-plVaultAdminNode plVaultNode::upcastToAdminNode() const {
-    return plVaultAdminNode(*this);
+plVaultAdminNode* plVaultNode::upcastToAdminNode() const {
+    return (fNodeType == plVault::kNodeAdmin)
+         ? (plVaultAdminNode*)this
+         : NULL;
 }
 
-plVaultServerNode plVaultNode::upcastToServerNode() const {
-    return plVaultServerNode(*this);
+plVaultServerNode* plVaultNode::upcastToServerNode() const {
+    return (fNodeType == plVault::kNodeVaultServer)
+         ? (plVaultServerNode*)this
+         : NULL;
 }
 
 /*
-plVaultCCRNode plVaultNode::upcastToCCRNode() const {
-    return plVaultCCRNode(*this);
+plVaultCCRNode* plVaultNode::upcastToCCRNode() const {
+    return (fNodeType == plVault::kNodeCCR)
+         ? (plVaultCCRNode*)this
+         : NULL;
 }
 */
 
-plVaultFolderNode plVaultNode::upcastToFolderNode() const {
-    return plVaultFolderNode(*this);
+plVaultFolderNode* plVaultNode::upcastToFolderNode() const {
+    return (fNodeType == plVault::kNodeFolder||
+            fNodeType == plVault::kNodePlayerInfoList ||
+            fNodeType == plVault::kNodeAgeInfoList ||
+            fNodeType == plVault::kNodeMarkerList)
+         ? (plVaultFolderNode*)this
+         : NULL;
 }
 
-plVaultPlayerInfoNode plVaultNode::upcastToPlayerInfoNode() const {
-    return plVaultPlayerInfoNode(*this);
+plVaultPlayerInfoNode* plVaultNode::upcastToPlayerInfoNode() const {
+    return (fNodeType == plVault::kNodePlayerInfo)
+         ? (plVaultPlayerInfoNode*)this
+         : NULL;
 }
 
-plVaultSystemNode plVaultNode::upcastToSystemNode() const {
-    return plVaultSystemNode(*this);
+plVaultSystemNode* plVaultNode::upcastToSystemNode() const {
+    return (fNodeType == plVault::kNodeSystem)
+         ? (plVaultSystemNode*)this
+         : NULL;
 }
 
-plVaultImageNode plVaultNode::upcastToImageNode() const {
-    return plVaultImageNode(*this);
+plVaultImageNode* plVaultNode::upcastToImageNode() const {
+    return (fNodeType == plVault::kNodeImage)
+         ? (plVaultImageNode*)this
+         : NULL;
 }
 
-plVaultTextNoteNode plVaultNode::upcastToTextNoteNode() const {
-    return plVaultTextNoteNode(*this);
+plVaultTextNoteNode* plVaultNode::upcastToTextNoteNode() const {
+    return (fNodeType == plVault::kNodeTextNote)
+         ? (plVaultTextNoteNode*)this
+         : NULL;
 }
 
-plVaultSDLNode plVaultNode::upcastToSDLNode() const {
-    return plVaultSDLNode(*this);
+plVaultSDLNode* plVaultNode::upcastToSDLNode() const {
+    return (fNodeType == plVault::kNodeSDL)
+         ? (plVaultSDLNode*)this
+         : NULL;
 }
 
-plVaultAgeLinkNode plVaultNode::upcastToAgeLinkNode() const {
-    return plVaultAgeLinkNode(*this);
+plVaultAgeLinkNode* plVaultNode::upcastToAgeLinkNode() const {
+    return (fNodeType == plVault::kNodeAgeLink)
+         ? (plVaultAgeLinkNode*)this
+         : NULL;
 }
 
-plVaultChronicleNode plVaultNode::upcastToChronicleNode() const {
-    return plVaultChronicleNode(*this);
+plVaultChronicleNode* plVaultNode::upcastToChronicleNode() const {
+    return (fNodeType == plVault::kNodeChronicle)
+         ? (plVaultChronicleNode*)this
+         : NULL;
 }
 
-plVaultPlayerInfoListNode plVaultNode::upcastToPlayerInfoListNode() const {
-    return plVaultPlayerInfoListNode(*this);
+plVaultPlayerInfoListNode* plVaultNode::upcastToPlayerInfoListNode() const {
+    return (fNodeType == plVault::kNodePlayerInfoList)
+         ? (plVaultPlayerInfoListNode*)this
+         : NULL;
 }
 
-plVaultMarkerNode plVaultNode::upcastToMarkerNode() const {
-    return plVaultMarkerNode(*this);
+plVaultMarkerNode* plVaultNode::upcastToMarkerNode() const {
+    return (fNodeType == plVault::kNodeMarker)
+         ? (plVaultMarkerNode*)this
+         : NULL;
 }
 
-plVaultAgeInfoNode plVaultNode::upcastToAgeInfoNode() const {
-    return plVaultAgeInfoNode(*this);
+plVaultAgeInfoNode* plVaultNode::upcastToAgeInfoNode() const {
+    return (fNodeType == plVault::kNodeAgeInfo)
+         ? (plVaultAgeInfoNode*)this
+         : NULL;
 }
 
-plVaultAgeInfoListNode plVaultNode::upcastToAgeInfoListNode() const {
-    return plVaultAgeInfoListNode(*this);
+plVaultAgeInfoListNode* plVaultNode::upcastToAgeInfoListNode() const {
+    return (fNodeType == plVault::kNodeAgeInfoList)
+         ? (plVaultAgeInfoListNode*)this
+         : NULL;
 }
 
-plVaultMarkerListNode plVaultNode::upcastToMarkerListNode() const {
-    return plVaultMarkerListNode(*this);
+plVaultMarkerListNode* plVaultNode::upcastToMarkerListNode() const {
+    return (fNodeType == plVault::kNodeMarkerList)
+         ? (plVaultMarkerListNode*)this
+         : NULL;
 }

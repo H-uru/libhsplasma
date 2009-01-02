@@ -102,7 +102,6 @@ protected:
 public:
     plVaultNode();
     plVaultNode(const plVaultNode& init);
-    ~plVaultNode();
 
     bool isValid() const;
     bool hasField(unsigned int field) const;
@@ -180,25 +179,25 @@ public:
     void setBlob_1(const plVaultBlob& value);
     void setBlob_2(const plVaultBlob& value);
 
-    class plVaultPlayerNode upcastToPlayerNode() const;
-    class plVaultAgeNode upcastToAgeNode() const;
-    class plVaultGameServerNode upcastToGameServerNode() const;
-    class plVaultAdminNode upcastToAdminNode() const;
-    class plVaultServerNode upcastToServerNode() const;
-    //class plVaultCCRNode upcastToCCRNode() const;
-    class plVaultFolderNode upcastToFolderNode() const;
-    class plVaultPlayerInfoNode upcastToPlayerInfoNode() const;
-    class plVaultSystemNode upcastToSystemNode() const;
-    class plVaultImageNode upcastToImageNode() const;
-    class plVaultTextNoteNode upcastToTextNoteNode() const;
-    class plVaultSDLNode upcastToSDLNode() const;
-    class plVaultAgeLinkNode upcastToAgeLinkNode() const;
-    class plVaultChronicleNode upcastToChronicleNode() const;
-    class plVaultPlayerInfoListNode upcastToPlayerInfoListNode() const;
-    class plVaultMarkerNode upcastToMarkerNode() const;
-    class plVaultAgeInfoNode upcastToAgeInfoNode() const;
-    class plVaultAgeInfoListNode upcastToAgeInfoListNode() const;
-    class plVaultMarkerListNode upcastToMarkerListNode() const;
+    class plVaultPlayerNode* upcastToPlayerNode() const;
+    class plVaultAgeNode* upcastToAgeNode() const;
+    class plVaultGameServerNode* upcastToGameServerNode() const;
+    class plVaultAdminNode* upcastToAdminNode() const;
+    class plVaultServerNode* upcastToServerNode() const;
+    //class plVaultCCRNode* upcastToCCRNode() const;
+    class plVaultFolderNode* upcastToFolderNode() const;
+    class plVaultPlayerInfoNode* upcastToPlayerInfoNode() const;
+    class plVaultSystemNode* upcastToSystemNode() const;
+    class plVaultImageNode* upcastToImageNode() const;
+    class plVaultTextNoteNode* upcastToTextNoteNode() const;
+    class plVaultSDLNode* upcastToSDLNode() const;
+    class plVaultAgeLinkNode* upcastToAgeLinkNode() const;
+    class plVaultChronicleNode* upcastToChronicleNode() const;
+    class plVaultPlayerInfoListNode* upcastToPlayerInfoListNode() const;
+    class plVaultMarkerNode* upcastToMarkerNode() const;
+    class plVaultAgeInfoNode* upcastToAgeInfoNode() const;
+    class plVaultAgeInfoListNode* upcastToAgeInfoListNode() const;
+    class plVaultMarkerListNode* upcastToMarkerListNode() const;
 };
 
 #endif
