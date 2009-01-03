@@ -26,6 +26,9 @@ static long pyKey_Hash(pyKey* self) {
 }
 
 static int pyKey_Compare(pyKey* left, pyKey* right) {
+    if (!pyKey_Check((PyObject*)right))
+        return -1;
+
     if ((*left->fThis) == (*right->fThis))
         return 0;
     else if ((*left->fThis) < (*right->fThis))
@@ -37,30 +40,37 @@ static int pyKey_Compare(pyKey* left, pyKey* right) {
 static PyObject* pyKey_RichCompare(pyKey* left, pyKey* right, int op) {
     bool result = false;
     
-    switch (op) {
-    case Py_LT:
-        result = ((*left->fThis) < (*right->fThis));
-        break;
-    case Py_LE:
-        result = ((*left->fThis) == (*right->fThis))
-               || ((*left->fThis) < (*right->fThis));
-        break;
-    case Py_EQ:
-        result = ((*left->fThis) == (*right->fThis));
-        break;
-    case Py_NE:
-        result = ((*left->fThis) != (*right->fThis));
-        break;
-    case Py_GT:
-        result = !((*left->fThis) < (*right->fThis))
-               && ((*left->fThis) != (*right->fThis));
-        break;
-    case Py_GE:
-        result = !((*left->fThis) < (*right->fThis));
-        break;
-    default:
-        PyErr_SetString(PyExc_RuntimeError, "Comparison failed");
-        return NULL;
+    if (!pyKey_Check((PyObject*)right)) {
+        if (op == Py_NE || op == Py_LT)
+            result = true;
+        else
+            result = false;
+    } else {
+        switch (op) {
+        case Py_LT:
+            result = ((*left->fThis) < (*right->fThis));
+            break;
+        case Py_LE:
+            result = ((*left->fThis) == (*right->fThis))
+                   || ((*left->fThis) < (*right->fThis));
+            break;
+        case Py_EQ:
+            result = ((*left->fThis) == (*right->fThis));
+            break;
+        case Py_NE:
+            result = ((*left->fThis) != (*right->fThis));
+            break;
+        case Py_GT:
+            result = !((*left->fThis) < (*right->fThis))
+                   && ((*left->fThis) != (*right->fThis));
+            break;
+        case Py_GE:
+            result = !((*left->fThis) < (*right->fThis));
+            break;
+        default:
+            PyErr_SetString(PyExc_RuntimeError, "Comparison failed");
+            return NULL;
+        }
     }
 
     if (result) {

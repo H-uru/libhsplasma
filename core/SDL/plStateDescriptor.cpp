@@ -102,7 +102,7 @@ plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, b
             return kString;
         else if (itype == "plkey")
             return kKey;
-        else if (itype == "creatable")
+        else if (itype == "creatable" || itype == "message")
             return kCreatable;
         else if (itype == "double")
             return kDouble;
