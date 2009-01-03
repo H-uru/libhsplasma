@@ -50,9 +50,18 @@ namespace plVault {
 }
 
 DllClass plVaultBlob {
-protected:
-    size_t fSize;
-    unsigned char* fData;
+private:
+    struct BlobData {
+        unsigned int fRefs;
+        size_t fSize;
+        unsigned char* fData;
+
+        BlobData();
+        ~BlobData();
+        void ref();
+        void unRef();
+    };
+    BlobData* fBlob;
 
 public:
     plVaultBlob();

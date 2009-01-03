@@ -170,6 +170,8 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
                 tok = tokStream->next();
                 if (tok.toLower() == "vault") {
                     curVar->setAlwaysNew(true);
+                } else if (tok.toLower() == "hidden") {
+                    curVar->setInternal(true);
                 } else {
                     delete curVar;
                     delete curDesc;

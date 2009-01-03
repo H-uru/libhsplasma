@@ -24,7 +24,7 @@ public:
     unsigned int getFirstNodeID() const;
     unsigned int getLastNodeID() const;
 
-    void addNode(const plVaultNode& node);
+    plVaultNode& addNode(const plVaultNode& node);
     void delNode(unsigned int idx);
     void addRef(unsigned int parent, unsigned int child, unsigned int saver=0);
     void delRef(unsigned int parent, unsigned int child);

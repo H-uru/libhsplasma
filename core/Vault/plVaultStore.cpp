@@ -134,17 +134,19 @@ std::vector<plVaultNode> plVaultStore::findParents(unsigned int child) const {
 unsigned int plVaultStore::getFirstNodeID() const { return fFirstNodeID; }
 unsigned int plVaultStore::getLastNodeID() const { return fLastNodeID; }
 
-void plVaultStore::addNode(const plVaultNode& node) {
+plVaultNode& plVaultStore::addNode(const plVaultNode& node) {
     if (node.getNodeID() == 0) {
         fLastNodeID++;
         fNodes[fLastNodeID] = node;
         fNodes[fLastNodeID].setNodeID(fLastNodeID);
+        return fNodes[fLastNodeID];
     } else {
         if (node.getNodeID() < fFirstNodeID)
             fFirstNodeID = node.getNodeID();
         if (node.getNodeID() > fLastNodeID)
             fLastNodeID = node.getNodeID();
         fNodes[node.getNodeID()] = node;
+        return fNodes[node.getNodeID()];
     }
 }
 

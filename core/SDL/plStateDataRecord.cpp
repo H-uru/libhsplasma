@@ -48,7 +48,7 @@ void plStateDataRecord::read(hsStream* S, plResManager* mgr) {
         if (idx < fVarsList.getSize())
             fVarsList[i]->read(S, mgr);
     }
-    
+
     num = plSDL::VariableLengthRead(S, fDescriptor->getNumVars());
     all = (num == fSDVarsList.getSize());
     for (size_t i=0; i<num; i++) {

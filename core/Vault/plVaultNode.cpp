@@ -3,46 +3,72 @@
 #include <cstring>
 
 /* plVaultBlob */
-plVaultBlob::plVaultBlob() : fSize(0), fData(NULL) { }
+plVaultBlob::BlobData::BlobData() : fRefs(1), fSize(0), fData(NULL) { }
 
-plVaultBlob::plVaultBlob(const plVaultBlob& init)
-           : fSize(init.fSize) {
-    fData = new unsigned char[fSize];
-    memcpy(fData, init.fData, fSize);
-}
-
-plVaultBlob::~plVaultBlob() {
+plVaultBlob::BlobData::~BlobData() {
     if (fData != NULL)
         delete[] fData;
 }
 
+void plVaultBlob::BlobData::ref() { ++fRefs; }
+
+void plVaultBlob::BlobData::unRef() {
+    if (--fRefs == 0)
+        delete this;
+}
+
+plVaultBlob::plVaultBlob() : fBlob(NULL) { }
+
+plVaultBlob::plVaultBlob(const plVaultBlob& init) : fBlob(init.fBlob) {
+    if (fBlob != NULL)
+        fBlob->ref();
+}
+
+plVaultBlob::~plVaultBlob() {
+    if (fBlob != NULL)
+        fBlob->unRef();
+}
+
 plVaultBlob& plVaultBlob::operator=(const plVaultBlob& init) {
-    setData(init.fSize, init.fData);
+    if (fBlob != NULL)
+        fBlob->unRef();
+    fBlob = init.fBlob;
+    if (fBlob != NULL)
+        fBlob->ref();
     return *this;
 }
 
 void plVaultBlob::read(hsStream* S) {
-    if (fData != NULL)
-        delete[] fData;
-    fSize = S->readInt();
-    fData = new unsigned char[fSize];
-    S->read(fSize, fData);
+    if (fBlob != NULL)
+        fBlob->unRef();
+
+    fBlob = new BlobData();
+    fBlob->fSize = S->readInt();
+    fBlob->fData = new unsigned char[fBlob->fSize];
+    S->read(fBlob->fSize, fBlob->fData);
 }
 
 void plVaultBlob::write(hsStream* S) {
-    S->writeInt(fSize);
-    S->write(fSize, fData);
+    S->writeInt(fBlob->fSize);
+    S->write(fBlob->fSize, fBlob->fData);
 }
 
-size_t plVaultBlob::getSize() const { return fSize; }
-const unsigned char* plVaultBlob::getData() const { return fData; }
+size_t plVaultBlob::getSize() const {
+    return (fBlob != NULL) ? fBlob->fSize : 0;
+}
+
+const unsigned char* plVaultBlob::getData() const {
+    return (fBlob != NULL) ? fBlob->fData : NULL;
+}
 
 void plVaultBlob::setData(size_t size, const unsigned char* data) {
-    if (fData != NULL)
-        delete[] fData;
-    fSize = size;
-    fData = new unsigned char[fSize];
-    memcpy(fData, data, fSize);
+    if (fBlob != NULL)
+        fBlob->unRef();
+
+    fBlob = new BlobData();
+    fBlob->fSize = size;
+    fBlob->fData = new unsigned char[size];
+    memcpy(fBlob->fData, data, size);
 }
 
 

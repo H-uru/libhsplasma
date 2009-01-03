@@ -59,7 +59,7 @@ void plSDStateVariable::read(hsStream* S, plResManager* mgr) {
 
 void plSDStateVariable::write(hsStream* S, plResManager* mgr) {
     plStateVariable::write(S, mgr);
-    
+
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
@@ -414,7 +414,7 @@ void plSimpleStateVariable::SetFromDefault() {
         throw hsBadParamException(__FILE__, __LINE__);
     plString def = fDescriptor->getDefault();
     def.toLower();
-    
+
     for (size_t i=0; i<fDescriptor->getCount(); i++) {
         switch (fDescriptor->getType()) {
         case plVarDescriptor::kInt:
