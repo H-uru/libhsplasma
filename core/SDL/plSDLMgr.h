@@ -18,6 +18,7 @@ public:
     ~plSDLMgr();
 
     void ReadDescriptors(const plString& filename);
+    void ClearDescriptors();
     plStateDescriptor* GetDescriptor(const plString& name, int version = -1);
 };
 

@@ -5,6 +5,7 @@
 
 /* plSDLMgr */
 plSDLMgr::plSDLMgr() { }
+
 plSDLMgr::~plSDLMgr() {
     for (size_t i=0; i<fDescriptors.getSize(); i++)
         delete fDescriptors[i];
@@ -19,7 +20,7 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
         fileStream = new hsFileStream();
         ((hsFileStream*)fileStream)->open(filename, fmRead);
     }
-    
+
     hsTokenStream* tokStream = new hsTokenStream(fileStream);
     tokStream->setDelimiters("{}[]()=,;");
     hsTArray<hsTokenStream::Region> commentMarkers;
@@ -30,7 +31,7 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
     hsTArray<hsTokenStream::Region> stringMarkers;
     stringMarkers.append(hsTokenStream::Region("\"", "\""));
     tokStream->setStringMarkers(stringMarkers);
-    
+
     ParseState state = kFile;
     plStateDescriptor* curDesc = NULL;
     plVarDescriptor* curVar = NULL;
@@ -294,11 +295,17 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
             }
         }
     }
-    
+
     delete tokStream;
     delete fileStream;
     if (state != kFile)
         throw plSDLParseException(__FILE__, __LINE__, "Unexpected End of File");
+}
+
+void plSDLMgr::ClearDescriptors() {
+    for (size_t i=0; i<fDescriptors.getSize(); i++)
+        delete fDescriptors[i];
+    fDescriptors.clear();
 }
 
 plStateDescriptor* plSDLMgr::GetDescriptor(const plString& name, int version) {

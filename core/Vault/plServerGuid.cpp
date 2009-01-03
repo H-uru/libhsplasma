@@ -66,7 +66,8 @@ plString plServerGuid::toString() const {
 plServerGuid plServerGuid::FromString(const plString& str) {
     plServerGuid guid;
     for (size_t i=0; i<8; i++) {
-        char x = str[i];
+        char x = str[(2*i)  ];
+        char y = str[(2*i)+1];
         if (x >= '0' && x <= '9')
             guid[i] = x - '0';
         else if (x >= 'A' && x <= 'F')
@@ -75,10 +76,20 @@ plServerGuid plServerGuid::FromString(const plString& str) {
             guid[i] = (x - 'a') + 10;
         else
             throw hsBadParamException(__FILE__, __LINE__, "Bad hex character");
+
+        guid[i] <<= 4;
+        if (y >= '0' && y <= '9')
+            guid[i] += y - '0';
+        else if (y >= 'A' && y <= 'F')
+            guid[i] += (y - 'A') + 10;
+        else if (y >= 'a' && y <= 'f')
+            guid[i] += (y - 'a') + 10;
+        else
+            throw hsBadParamException(__FILE__, __LINE__, "Bad hex character");
     }
     return guid;
 }
-    
+
 void plServerGuid::read(hsStream* S) {
     S->read(8, fGuid);
 }
