@@ -490,6 +490,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Audio\plCrossfade.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\plCrossfade.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Audio\plDirectMusicSound.cpp"
 					>
 				</File>
@@ -1283,14 +1291,6 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Message\plClimbMsg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Message\plCrossfadeMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Message\plCrossfadeMsg.h"
 					>
 				</File>
 				<File

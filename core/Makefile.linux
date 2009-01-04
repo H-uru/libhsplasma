@@ -65,6 +65,7 @@ PLSOBJ=\
 	$(OBJDIR)plTMController.o \
 	$(OBJDIR)plViewFaceModifier.o \
 	$(OBJDIR)plAudible.o \
+	$(OBJDIR)plCrossfade.o \
 	$(OBJDIR)plDirectMusicSound.o \
 	$(OBJDIR)plEAXEffects.o \
 	$(OBJDIR)plEAXListenerMod.o \
@@ -160,7 +161,6 @@ PLSOBJ=\
 	$(OBJDIR)plArmatureEffectMsg.o \
 	$(OBJDIR)plCameraMsg.o \
 	$(OBJDIR)plClimbMsg.o \
-	$(OBJDIR)plCrossfadeMsg.o \
 	$(OBJDIR)plEnableMsg.o \
 	$(OBJDIR)plEventCallbackMsg.o \
 	$(OBJDIR)proEventData.o \
@@ -475,6 +475,9 @@ $(OBJDIR)plViewFaceModifier.o: PRP/Animation/plViewFaceModifier.h PRP/Animation/
 $(OBJDIR)plAudible.o: PRP/Audio/plAudible.h PRP/Audio/plAudible.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plAudible.cpp -o $(OBJDIR)plAudible.o
 
+$(OBJDIR)plCrossfade.o: PRP/Audio/plCrossfade.h PRP/Audio/plCrossfade.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Audio/plCrossfade.cpp -o $(OBJDIR)plCrossfade.o
+
 $(OBJDIR)plDirectMusicSound.o: PRP/Audio/plDirectMusicSound.h PRP/Audio/plDirectMusicSound.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plDirectMusicSound.cpp -o $(OBJDIR)plDirectMusicSound.o
 
@@ -759,9 +762,6 @@ $(OBJDIR)plCameraMsg.o: PRP/Message/plCameraMsg.h PRP/Message/plCameraMsg.cpp
 
 $(OBJDIR)plClimbMsg.o: PRP/Message/plClimbMsg.h PRP/Message/plClimbMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plClimbMsg.cpp -o $(OBJDIR)plClimbMsg.o
-
-$(OBJDIR)plCrossfadeMsg.o: PRP/Message/plCrossfadeMsg.h PRP/Message/plCrossfadeMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Message/plCrossfadeMsg.cpp -o $(OBJDIR)plCrossfadeMsg.o
 
 $(OBJDIR)plEnableMsg.o: PRP/Message/plEnableMsg.h PRP/Message/plEnableMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plEnableMsg.cpp -o $(OBJDIR)plEnableMsg.o

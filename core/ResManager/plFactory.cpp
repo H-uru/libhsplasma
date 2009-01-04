@@ -11,6 +11,7 @@
 #include "PRP/Animation/plStereizer.h"
 #include "PRP/Animation/plViewFaceModifier.h"
 #include "PRP/Audio/plAudible.h"
+#include "PRP/Audio/plCrossfade.h"
 #include "PRP/Audio/plDirectMusicSound.h"
 #include "PRP/Audio/plEAXListenerMod.h"
 #include "PRP/Audio/plSoundBuffer.h"
@@ -71,7 +72,6 @@
 #include "PRP/Message/plAnimCmdMsg.h"
 #include "PRP/Message/plArmatureEffectMsg.h"
 #include "PRP/Message/plClimbMsg.h"
-#include "PRP/Message/plCrossfadeMsg.h"
 #include "PRP/Message/plEnableMsg.h"
 #include "PRP/Message/plExcludeRegionMsg.h"
 #include "PRP/Message/plLinkToAgeMsg.h"
@@ -455,7 +455,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kGrassShaderMod: return new plGrassShaderMod();
         case kDynamicCamMap: return new plDynamicCamMap();
         case kAutoWalkRegion: return new plAutoWalkRegion();
-        //case kCrossfade: return new plCrossfade();
+        case kCrossfade: return new plCrossfade();
         case kParticleFadeOutEffect: return new plParticleFadeOutEffect();
         //case kSecurePreloader: return new pfSecurePreloader();
         //case kWindBoneMod: return new plWindBoneMod();
