@@ -1,5 +1,6 @@
 #include <Python.h>
 #include <PRP/Surface/plLayer.h>
+#include "pyGMatState.h"
 #include "pyLayer.h"
 #include "../pyCreatable.h"
 #include "../KeyedObject/pyKey.h"
@@ -81,6 +82,10 @@ static PyObject* pyLayerInterface_getLODBias(pyLayerInterface* self, void*) {
 
 static PyObject* pyLayerInterface_getSpecPower(pyLayerInterface* self, void*) {
     return PyFloat_FromDouble(self->fThis->getSpecularPower());
+}
+
+static PyObject* pyLayerInterface_getState(pyLayerInterface* self, void*) {
+	return pyGMatState_FromGMatState(self->fThis->getState());
 }
 
 static int pyLayerInterface_setUnderLay(pyLayerInterface* self, PyObject* value, void*) {
@@ -234,6 +239,15 @@ static int pyLayerInterface_setSpecPower(pyLayerInterface* self, PyObject* value
     return 0;
 }
 
+static int pyLayerInterface_setState(pyLayerInterface* self, PyObject* value, void*) {
+    if (value == NULL || !pyGMatState_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "state should be an hsGMatState");
+        return -1;
+    }
+    self->fThis->setState(*((pyGMatState*)value)->fThis);
+    return 0;
+}
+
 static PyMethodDef pyLayerInterface_Methods[] = {
     { "Convert", (PyCFunction)pyLayerInterface_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plLayerInterface" },
@@ -255,6 +269,7 @@ static PyGetSetDef pyLayerInterface_GetSet[] = {
     { "UVWSrc", (getter)pyLayerInterface_getUVWSrc, (setter)pyLayerInterface_setUVWSrc, NULL, NULL },
     { "LODBias", (getter)pyLayerInterface_getLODBias, (setter)pyLayerInterface_setLODBias, NULL, NULL },
     { "specularPower", (getter)pyLayerInterface_getSpecPower, (setter)pyLayerInterface_setSpecPower, NULL, NULL },
+	{ "state", (getter)pyLayerInterface_getState, (setter)pyLayerInterface_setState, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

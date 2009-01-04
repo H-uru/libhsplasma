@@ -10,6 +10,7 @@ typedef struct {
 
 extern PyTypeObject pyGMatState_Type;
 PyObject* Init_pyGMatState_Type();
+int pyGMatState_Check(PyObject* obj);
 PyObject* pyGMatState_FromGMatState(class hsGMatState& state);
 
 }
