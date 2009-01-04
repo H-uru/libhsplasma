@@ -1286,6 +1286,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Message\plCrossfadeMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plCrossfadeMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plEnableMsg.cpp"
 					>
 				</File>

@@ -71,6 +71,7 @@
 #include "PRP/Message/plAnimCmdMsg.h"
 #include "PRP/Message/plArmatureEffectMsg.h"
 #include "PRP/Message/plClimbMsg.h"
+#include "PRP/Message/plCrossfadeMsg.h"
 #include "PRP/Message/plEnableMsg.h"
 #include "PRP/Message/plExcludeRegionMsg.h"
 #include "PRP/Message/plLinkToAgeMsg.h"
@@ -957,7 +958,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPlayerMsg: return new plPlayerMsg();
         case kAvBrainPirahna: return new plAvBrainPirahna();
         //case kAxisEventMsg: return new plAxisEventMsg();
-        //case kCrossfadeMsg: return new plCrossfadeMsg();
+        case kCrossfadeMsg: return new plCrossfadeMsg();
         //case kSubtitleMsg: return new pfSubtitleMsg();
         //case kSDLStoreMsg: return new plSDLStoreMsg();
         case kOmniSqApplicator: return new plOmniSqApplicator();

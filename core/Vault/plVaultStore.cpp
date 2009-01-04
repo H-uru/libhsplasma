@@ -164,7 +164,9 @@ void plVaultStore::addRef(unsigned int parent, unsigned int child, unsigned int 
 
 void plVaultStore::delRef(unsigned int parent, unsigned int child) {
     for (std::list<plVaultNodeRef>::iterator it=fNodeRefs.begin(); it!=fNodeRefs.end(); it++) {
-        if ((*it).getParent() == parent && (*it).getChild() == child)
+        if ((*it).getParent() == parent && (*it).getChild() == child) {
             it = fNodeRefs.erase(it);
+            return;
+        }
     }
 }

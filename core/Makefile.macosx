@@ -160,6 +160,7 @@ PLSOBJ=\
 	$(OBJDIR)plArmatureEffectMsg.o \
 	$(OBJDIR)plCameraMsg.o \
 	$(OBJDIR)plClimbMsg.o \
+	$(OBJDIR)plCrossfadeMsg.o \
 	$(OBJDIR)plEnableMsg.o \
 	$(OBJDIR)plEventCallbackMsg.o \
 	$(OBJDIR)proEventData.o \
@@ -757,6 +758,9 @@ $(OBJDIR)plCameraMsg.o: PRP/Message/plCameraMsg.h PRP/Message/plCameraMsg.cpp
 
 $(OBJDIR)plClimbMsg.o: PRP/Message/plClimbMsg.h PRP/Message/plClimbMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plClimbMsg.cpp -o $(OBJDIR)plClimbMsg.o
+
+$(OBJDIR)plCrossfadeMsg.o: PRP/Message/plCrossfadeMsg.h PRP/Message/plCrossfadeMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plCrossfadeMsg.cpp -o $(OBJDIR)plCrossfadeMsg.o
 
 $(OBJDIR)plEnableMsg.o: PRP/Message/plEnableMsg.h PRP/Message/plEnableMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plEnableMsg.cpp -o $(OBJDIR)plEnableMsg.o
