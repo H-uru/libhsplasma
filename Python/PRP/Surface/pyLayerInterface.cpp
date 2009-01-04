@@ -85,7 +85,7 @@ static PyObject* pyLayerInterface_getSpecPower(pyLayerInterface* self, void*) {
 }
 
 static PyObject* pyLayerInterface_getState(pyLayerInterface* self, void*) {
-	return pyGMatState_FromGMatState(self->fThis->getState());
+    return pyGMatState_FromGMatState(self->fThis->getState());
 }
 
 static int pyLayerInterface_setUnderLay(pyLayerInterface* self, PyObject* value, void*) {
@@ -240,12 +240,8 @@ static int pyLayerInterface_setSpecPower(pyLayerInterface* self, PyObject* value
 }
 
 static int pyLayerInterface_setState(pyLayerInterface* self, PyObject* value, void*) {
-    if (value == NULL || !pyGMatState_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "state should be an hsGMatState");
-        return -1;
-    }
-    self->fThis->setState(*((pyGMatState*)value)->fThis);
-    return 0;
+    PyErr_SetString(PyExc_RuntimeError, "state is not assignable");
+    return -1;
 }
 
 static PyMethodDef pyLayerInterface_Methods[] = {
@@ -269,7 +265,7 @@ static PyGetSetDef pyLayerInterface_GetSet[] = {
     { "UVWSrc", (getter)pyLayerInterface_getUVWSrc, (setter)pyLayerInterface_setUVWSrc, NULL, NULL },
     { "LODBias", (getter)pyLayerInterface_getLODBias, (setter)pyLayerInterface_setLODBias, NULL, NULL },
     { "specularPower", (getter)pyLayerInterface_getSpecPower, (setter)pyLayerInterface_setSpecPower, NULL, NULL },
-	{ "state", (getter)pyLayerInterface_getState, (setter)pyLayerInterface_setState, NULL, NULL },
+    { "state", (getter)pyLayerInterface_getState, (setter)pyLayerInterface_setState, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

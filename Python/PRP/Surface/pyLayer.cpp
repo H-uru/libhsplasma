@@ -1,7 +1,6 @@
 #include <Python.h>
 #include <PRP/Surface/plLayer.h>
 #include "pyLayer.h"
-#include "pyGMatState.h"
 #include "../pyCreatable.h"
 
 extern "C" {
@@ -28,24 +27,10 @@ static PyObject* pyLayer_Convert(PyObject*, PyObject* args) {
     return pyLayer_FromLayer(plLayer::Convert(cre->fThis));
 }
 
-static PyObject* pyLayer_getState(pyLayer* self, void*) {
-    return pyGMatState_FromGMatState(self->fThis->getState());
-}
-
-static int pyLayer_setState(pyLayer* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "state is not assignable");
-    return -1;
-}
-
 static PyMethodDef pyLayer_Methods[] = {
     { "Convert", (PyCFunction)pyLayer_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plLayer" },
     { NULL, NULL, 0, NULL }
-};
-
-static PyGetSetDef pyLayer_GetSet[] = {
-    { "state", (getter)pyLayer_getState, (setter)pyLayer_setState, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
 };
 
 PyTypeObject pyLayer_Type = {
@@ -83,7 +68,7 @@ PyTypeObject pyLayer_Type = {
 
     pyLayer_Methods,                    /* tp_methods */
     NULL,                               /* tp_members */
-    pyLayer_GetSet,                     /* tp_getset */
+    NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */

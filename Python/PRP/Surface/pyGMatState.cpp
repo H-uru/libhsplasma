@@ -318,13 +318,6 @@ PyObject* Init_pyGMatState_Type() {
     return (PyObject*)&pyGMatState_Type;
 }
 
-int pyGMatState_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGMatState_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGMatState_Type))
-        return 1;
-    return 0;
-}
-
 PyObject* pyGMatState_FromGMatState(hsGMatState& state) {
     pyGMatState* pystate = PyObject_New(pyGMatState, &pyGMatState_Type);
     pystate->fThis = &state;

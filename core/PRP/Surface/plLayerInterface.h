@@ -94,7 +94,6 @@ public:
     void setSpecularPower(float power);
 
     hsGMatState& getState();
-	void setState(const hsGMatState& state);
 };
 
 #endif
