@@ -67,4 +67,4 @@ void plLayerInterface::setLODBias(float bias) { fLODBias = bias; }
 void plLayerInterface::setSpecularPower(float power) { fSpecularPower = power; }
 
 hsGMatState& plLayerInterface::getState() { return fState; }
-void plLayerInterface::setState(hsGMatState& state) { fState = state; }
+void plLayerInterface::setState(const hsGMatState& state) { fState = state; }
