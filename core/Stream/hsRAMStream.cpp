@@ -8,7 +8,7 @@ hsRAMStream::~hsRAMStream() {
         delete[] fData;
 }
 
-void hsRAMStream::copyFrom(const void* data, hsUint32 size) {
+void hsRAMStream::copyFrom(const void* data, size_t size) {
     fSize = size;
     fMax = ((size / BLOCKSIZE) * BLOCKSIZE) + (size % BLOCKSIZE ? BLOCKSIZE : 0);
     fPos = 0;
@@ -22,12 +22,8 @@ void hsRAMStream::copyFrom(const void* data, hsUint32 size) {
     }
 }
 
-void hsRAMStream::copyTo(void*& data, hsUint32& size) {
-    if (data == NULL) {
-        data = new hsUbyte[fSize];
-        size = fSize;
-    }
-    hsUint32 cpysize = (size < fSize) ? size : fSize;
+void hsRAMStream::copyTo(void* data, size_t size) {
+    size_t cpysize = (size < fSize) ? size : fSize;
     memcpy(data, fData, cpysize);
 }
 

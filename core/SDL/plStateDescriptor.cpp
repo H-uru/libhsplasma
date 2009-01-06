@@ -11,6 +11,7 @@ const plString& plVarDescriptor::getDefault() const { return fDefault; }
 size_t plVarDescriptor::getCount() const { return fCount; }
 plVarDescriptor::Type plVarDescriptor::getType() const { return fType; }
 const plString& plVarDescriptor::getStateDescType() const { return fStateDescType; }
+plStateDescriptor* plVarDescriptor::getStateDesc() const { return fStateDesc; }
 
 bool plVarDescriptor::isInternal() const { return fFlags & kInternal; }
 bool plVarDescriptor::isAlwaysNew() const { return fFlags & kAlwaysNew; }
@@ -22,6 +23,7 @@ void plVarDescriptor::setDefault(const plString& def) { fDefault = def; }
 void plVarDescriptor::setCount(size_t count) { fCount = count; }
 void plVarDescriptor::setType(plVarDescriptor::Type type) { fType = type; }
 void plVarDescriptor::setStateDescType(const plString& type) { fStateDescType = type; }
+void plVarDescriptor::setStateDesc(plStateDescriptor* desc) { fStateDesc = desc; }
 
 void plVarDescriptor::setInternal(bool internal) {
     if (internal)
@@ -88,7 +90,7 @@ plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, b
         else if (itype == "gametimeelapsed")
             return kGameTimeElapsed;
         else
-            return kStateDescriptor; 
+            return kStateDescriptor;
     } else {
         if (type.startsWith("$"))
             return kStateDescriptor;

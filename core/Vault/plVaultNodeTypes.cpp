@@ -207,11 +207,9 @@ plVaultSDLNode::plVaultSDLNode(const plVaultNode& init) : plVaultNode() {
         copy(init);
 }
 
-plString plVaultSDLNode::getSDLName() const { return getCreateAgeName(); }
 int plVaultSDLNode::getSDLIdent() const { return getInt32_1(); }
 plVaultBlob plVaultSDLNode::getSDLData() const { return getBlob_1(); }
 
-void plVaultSDLNode::setSDLName(const plString& name) { setCreateAgeName(name); }
 void plVaultSDLNode::setSDLIdent(int ident) { setInt32_1(ident); }
 void plVaultSDLNode::setSDLData(const plVaultBlob& data) { setBlob_1(data); }
 

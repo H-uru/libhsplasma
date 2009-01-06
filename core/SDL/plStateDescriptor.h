@@ -34,6 +34,7 @@ protected:
     Type fType;
     unsigned int fFlags;
     plString fStateDescType;
+    class plStateDescriptor* fStateDesc;
 
 public:
     plVarDescriptor();
@@ -44,6 +45,7 @@ public:
     size_t getCount() const;
     Type getType() const;
     const plString& getStateDescType() const;
+    plStateDescriptor* getStateDesc() const;
     bool isInternal() const;
     bool isAlwaysNew() const;
     bool isVariableLength() const;
@@ -54,6 +56,7 @@ public:
     void setCount(size_t count);
     void setType(Type type);
     void setStateDescType(const plString& type);
+    void setStateDesc(plStateDescriptor* desc);
     void setInternal(bool internal);
     void setAlwaysNew(bool alwaysNew);
     void setVariableLength(bool varLength);

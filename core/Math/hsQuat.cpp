@@ -31,6 +31,10 @@ bool hsQuat::operator==(const hsQuat& other) const {
     return (X == other.X) && (Y == other.Y) && (Z == other.Z) && (W == other.W);
 }
 
+bool hsQuat::operator!=(const hsQuat& other) const {
+    return (X != other.X) || (Y != other.Y) || (Z != other.Z) || (W != other.W);
+}
+
 hsQuat hsQuat::operator+(const hsQuat& rt) const {
     return hsQuat(X + rt.X, Y + rt.Y, Z + rt.Z, W + rt.W);
 }

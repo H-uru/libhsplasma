@@ -59,19 +59,19 @@ public:
     operator timeval();
     operator tm*();
 
-    unsigned int getSecs();
-    unsigned int getMicros();
-    double getSecsDouble();
+    unsigned int getSecs() const;
+    unsigned int getMicros() const;
+    double getSecsDouble() const;
 
-    int getYear();
-    int getMonth();
-    int getDay();
-    int getDayOfWeek();
-    int getHour();
-    int getMinute();
-    int getSecond();
-    void getTime(int& year, int& month, int& day, int& hour, int& minute, int& second);
-    tm* getTm();
+    int getYear() const;
+    int getMonth() const;
+    int getDay() const;
+    int getDayOfWeek() const;
+    int getHour() const;
+    int getMinute() const;
+    int getSecond() const;
+    void getTime(int& year, int& month, int& day, int& hour, int& minute, int& second) const;
+    tm* getTm() const;
 
     void setSecs(unsigned int secs);
     void setMicros(unsigned int micros);
@@ -90,7 +90,7 @@ public:
 
     plString format(const char* fmt);
     void fromString(const char* buf, const char* fmt);
-    
+
     bool atEpoch();
     void toEpoch();
     void toGMT();
@@ -99,7 +99,7 @@ public:
 
 protected:
     static int IGetLocalTimeZoneOffset();
-    tm* IGetTime(time_t* secs);
+    tm* IGetTime(const time_t* secs) const;
 };
 
 plUnifiedTime operator+(const plUnifiedTime& left, const plUnifiedTime& right);

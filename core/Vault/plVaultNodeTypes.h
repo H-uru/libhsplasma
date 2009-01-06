@@ -132,11 +132,9 @@ public:
     plVaultSDLNode();
     plVaultSDLNode(const plVaultNode& init);
 
-    plString getSDLName() const;
     int getSDLIdent() const;
     plVaultBlob getSDLData() const;
 
-    void setSDLName(const plString& name);
     void setSDLIdent(int ident);
     void setSDLData(const plVaultBlob& data);
 };

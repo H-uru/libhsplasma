@@ -16,6 +16,7 @@ DllStruct hsVector3 {
     void Zero();
     float magnitude() const;
     bool operator==(const hsVector3& other) const;
+    bool operator!=(const hsVector3& other) const;
 
     void read(hsStream* S);
     void write(hsStream* S);

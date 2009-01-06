@@ -69,6 +69,7 @@ hsBitVector::Bit hsBitVector::operator[](size_t idx) {
 }
 
 hsBitVector& hsBitVector::operator=(const hsBitVector& cpy) {
+    if (fBits) delete[] fBits;
     fNumVectors = cpy.fNumVectors;
     fBits = new hsUint32[fNumVectors];
     memcpy(fBits, cpy.fBits, fNumVectors * sizeof(hsUint32));

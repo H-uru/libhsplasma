@@ -323,6 +323,12 @@ plStateDescriptor* plSDLMgr::GetDescriptor(const plString& name, int version) {
             }
         }
     }
+    if (desc != NULL) {
+        for (size_t i=0; i<desc->getNumVars(); i++) {
+            if (desc->get(i)->getType() == plVarDescriptor::kStateDescriptor)
+                desc->get(i)->setStateDesc(GetDescriptor(desc->get(i)->getStateDescType()));
+        }
+    }
     return desc;
 }
 

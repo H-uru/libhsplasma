@@ -31,6 +31,10 @@ bool hsVector3::operator==(const hsVector3& other) const {
     return (X == other.X) && (Y == other.Y) && (Z == other.Z);
 }
 
+bool hsVector3::operator!=(const hsVector3& other) const {
+    return (X != other.X) || (Y != other.Y) || (Z != other.Z);
+}
+
 void hsVector3::read(hsStream* S) {
     X = S->readFloat();
     Y = S->readFloat();

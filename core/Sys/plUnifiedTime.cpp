@@ -6,7 +6,7 @@ extern "C" {
 
 int gettimeofday(struct timeval* tv, void* tz) {
     FILETIME ft;
-    
+
     if (!tv) return -1;
     GetSystemTimeAsFileTime(&ft);
 
@@ -179,23 +179,23 @@ plUnifiedTime::operator tm*() {
     return IGetTime(&fSecs);
 }
 
-unsigned int plUnifiedTime::getSecs() { return fSecs; }
-unsigned int plUnifiedTime::getMicros() { return fMicros; }
+unsigned int plUnifiedTime::getSecs() const { return fSecs; }
+unsigned int plUnifiedTime::getMicros() const { return fMicros; }
 
-double plUnifiedTime::getSecsDouble() {
+double plUnifiedTime::getSecsDouble() const {
     return (double)fSecs + ((double)fMicros / 1000000.0);
 }
 
-int plUnifiedTime::getYear() { return IGetTime(&fSecs)->tm_year + 1900; }
-int plUnifiedTime::getMonth() { return IGetTime(&fSecs)->tm_mon; }
-int plUnifiedTime::getDay() { return IGetTime(&fSecs)->tm_mday; }
-int plUnifiedTime::getDayOfWeek() { return IGetTime(&fSecs)->tm_wday; }
-int plUnifiedTime::getHour() { return IGetTime(&fSecs)->tm_hour; }
-int plUnifiedTime::getMinute() { return IGetTime(&fSecs)->tm_min; }
-int plUnifiedTime::getSecond() { return IGetTime(&fSecs)->tm_sec; }
+int plUnifiedTime::getYear() const { return IGetTime(&fSecs)->tm_year + 1900; }
+int plUnifiedTime::getMonth() const { return IGetTime(&fSecs)->tm_mon; }
+int plUnifiedTime::getDay() const { return IGetTime(&fSecs)->tm_mday; }
+int plUnifiedTime::getDayOfWeek() const { return IGetTime(&fSecs)->tm_wday; }
+int plUnifiedTime::getHour() const { return IGetTime(&fSecs)->tm_hour; }
+int plUnifiedTime::getMinute() const { return IGetTime(&fSecs)->tm_min; }
+int plUnifiedTime::getSecond() const { return IGetTime(&fSecs)->tm_sec; }
 
 void plUnifiedTime::getTime(int& year, int& month, int& day, int& hour,
-                            int& minute, int& second) {
+                            int& minute, int& second) const {
     tm* time = IGetTime(&fSecs);
     year = time->tm_year + 1900;
     month = time->tm_mon;
@@ -205,7 +205,7 @@ void plUnifiedTime::getTime(int& year, int& month, int& day, int& hour,
     second = time->tm_sec;
 }
 
-tm* plUnifiedTime::getTm() {
+tm* plUnifiedTime::getTm() const {
     return IGetTime(&fSecs);
 }
 
@@ -254,7 +254,7 @@ void plUnifiedTime::write(hsStream* S) {
 void plUnifiedTime::prcWrite(pfPrcHelper* prc) {
     int year, month, day, hour, minute, second;
     getTime(year, month, day, hour, minute, second);
-    
+
     prc->startTag("plUnifiedTime");
     prc->writeParam("year", year);
     prc->writeParam("month", month);
@@ -332,7 +332,7 @@ int plUnifiedTime::IGetLocalTimeZoneOffset() {
     return fLocalTimeZoneOffset;
 }
 
-tm* plUnifiedTime::IGetTime(time_t* secs) {
+tm* plUnifiedTime::IGetTime(const time_t* secs) const {
     tm* time = (fMode == kGMT) ? gmtime(secs) : localtime(secs);
     time->tm_isdst = -1;
     return time;

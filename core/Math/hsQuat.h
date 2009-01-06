@@ -15,6 +15,7 @@ DllStruct hsQuat {
 
     hsQuat& operator=(const hsQuat& cpy);
     bool operator==(const hsQuat& other) const;
+    bool operator!=(const hsQuat& other) const;
     hsQuat operator+(const hsQuat& rt) const;
     hsQuat operator-(const hsQuat& rt) const;
     hsQuat operator*(const hsQuat& rt) const;

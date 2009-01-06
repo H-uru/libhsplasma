@@ -26,6 +26,9 @@ public:
     void set(float red, float green, float blue, float alpha = 1.0f);
     void set(const hsColorRGBA& init);
 
+    bool operator==(const hsColorRGBA& other) const;
+    bool operator!=(const hsColorRGBA& other) const;
+
     void read(hsStream* S);
     void write(hsStream* S);
     void readRGB(hsStream* S);
@@ -47,6 +50,9 @@ public:
     hsColor32(unsigned char red, unsigned char green, unsigned char blue,
               unsigned char alpha = 255);
     hsColor32(const hsColor32& init);
+
+    bool operator==(const hsColor32& other) const;
+    bool operator!=(const hsColor32& other) const;
 
     void read32(hsStream* S);
     void write32(hsStream* S);

@@ -1,4 +1,5 @@
 #include "plStateVariable.h"
+#include "plStateDataRecord.h"
 #include "ResManager/plFactory.h"
 
 /* plStateVarNotificationInfo */
@@ -40,35 +41,86 @@ void plStateVariable::write(hsStream* S, plResManager* mgr) {
 
 /* plSDStateVariable */
 plSDStateVariable::plSDStateVariable() { }
-plSDStateVariable::~plSDStateVariable() { }
+
+plSDStateVariable::~plSDStateVariable() {
+    for (size_t i=0; i<fDataRecList.getSize(); i++)
+        delete fDataRecList[i];
+}
 
 void plSDStateVariable::setDescriptor(plVarDescriptor* desc) {
     fDescriptor = desc;
+    resize(fDescriptor->getCount());
+}
 
-    throw hsNotImplementedException(__FILE__, __LINE__);
+void plSDStateVariable::setSDVarDescriptor(plStateDescriptor* desc) {
+    fSDVarDescriptor = desc;
+}
+
+void plSDStateVariable::resize(size_t size) {
+    for (size_t i=0; i<fDataRecList.getSize(); i++)
+        delete fDataRecList[i];
+    fCount = size;
+    fDataRecList.setSize(size);
+    for (size_t i=0; i<fDataRecList.getSize(); i++) {
+        fDataRecList[i] = new plStateDataRecord();
+        fDataRecList[i]->setDescriptor(fSDVarDescriptor);
+    }
 }
 
 void plSDStateVariable::read(hsStream* S, plResManager* mgr) {
     plStateVariable::read(S, mgr);
 
-    throw hsNotImplementedException(__FILE__, __LINE__);
-    //S->readByte();
-    //if (fDescriptor->getFlags() & plStateDescritpr::kVariableLength)
-    //    Resize(S->readInt());
+    S->readByte();
+    if (fDescriptor->isVariableLength())
+        resize(S->readInt());
+
+    unsigned int count = plSDL::VariableLengthRead(S, fCount);
+    bool all = (count == fCount);
+    for (size_t i=0; i<count; i++) {
+        size_t idx;
+        if (!all)
+            idx = plSDL::VariableLengthRead(S, fCount);
+        else
+            idx = i;
+
+        if (idx < fDataRecList.getSize())
+            fDataRecList[idx]->read(S, mgr);
+    }
 }
 
 void plSDStateVariable::write(hsStream* S, plResManager* mgr) {
     plStateVariable::write(S, mgr);
 
-    throw hsNotImplementedException(__FILE__, __LINE__);
+    S->writeByte(0);
+    if (fDescriptor->isVariableLength())
+        S->writeInt(fCount);
+
+    plSDL::VariableLengthWrite(S, fCount, fCount);
+    for (size_t i=0; i<fCount; i++)
+        fDataRecList[i]->write(S, mgr);
 }
+
+void plSDStateVariable::SetFromDefault() {
+    for (size_t i=0; i<fCount; i++) {
+        for (size_t j=0; j<fDataRecList[i]->getNumVars(); j++)
+            fDataRecList[i]->get(j)->SetFromDefault();
+    }
+}
+
+plStateDataRecord* plSDStateVariable::Record(size_t idx) { return fDataRecList[idx]; }
 
 
 /* plSimpleStateVariable */
-plSimpleStateVariable::plSimpleStateVariable() { }
+plSimpleStateVariable::plSimpleStateVariable() {
+    fGenPtr = NULL;
+}
 
 plSimpleStateVariable::~plSimpleStateVariable() {
-    if (fDescriptor == NULL)
+    IDeAlloc();
+}
+
+void plSimpleStateVariable::IDeAlloc() {
+    if (fGenPtr == NULL)
         return;
 
     switch (fDescriptor->getType()) {
@@ -141,69 +193,79 @@ plSimpleStateVariable::~plSimpleStateVariable() {
 
 void plSimpleStateVariable::setDescriptor(plVarDescriptor* desc) {
     fDescriptor = desc;
+    resize(fDescriptor->getCount());
+}
+
+void plSimpleStateVariable::resize(size_t size) {
+    IDeAlloc();
+    fCount = size;
+    if (fDescriptor == NULL || fCount == 0) {
+        fGenPtr = NULL;
+        return;
+    }
 
     switch (fDescriptor->getType()) {
     case plVarDescriptor::kInt:
-        fInt = new int[fDescriptor->getCount()];
+        fInt = new int[fCount];
         break;
     case plVarDescriptor::kUint:
-        fUint = new unsigned int[fDescriptor->getCount()];
+        fUint = new unsigned int[fCount];
         break;
     case plVarDescriptor::kFloat:
-        fFloat = new float[fDescriptor->getCount()];
+        fFloat = new float[fCount];
         break;
     case plVarDescriptor::kBool:
-        fBool = new bool[fDescriptor->getCount()];
+        fBool = new bool[fCount];
         break;
     case plVarDescriptor::kString:
-        fString = new plString[fDescriptor->getCount()];
+        fString = new plString[fCount];
         break;
     case plVarDescriptor::kKey:
-        fUoid = new plUoid[fDescriptor->getCount()];
+        fUoid = new plUoid[fCount];
         break;
     case plVarDescriptor::kCreatable:
-        fCreatable = new plCreatable*[fDescriptor->getCount()];
-        for (size_t i=0; i<fDescriptor->getCount(); i++)
+        fCreatable = new plCreatable*[fCount];
+        for (size_t i=0; i<fCount; i++)
             fCreatable[i] = NULL;
         break;
     case plVarDescriptor::kDouble:
-        fDouble = new double[fDescriptor->getCount()];
+        fDouble = new double[fCount];
         break;
     case plVarDescriptor::kTime:
-        fTime = new plUnifiedTime[fDescriptor->getCount()];
+        fTime = new plUnifiedTime[fCount];
         break;
     case plVarDescriptor::kByte:
-        fByte = new unsigned char[fDescriptor->getCount()];
+        fByte = new unsigned char[fCount];
         break;
     case plVarDescriptor::kChar:
-        fChar = new signed char[fDescriptor->getCount()];
+        fChar = new signed char[fCount];
         break;
     case plVarDescriptor::kShort:
-        fShort = new short[fDescriptor->getCount()];
+        fShort = new short[fCount];
         break;
     case plVarDescriptor::kAgeTimeOfDay:
         break;
     case plVarDescriptor::kVector3:
     case plVarDescriptor::kPoint3:
-        fVector = new hsVector3[fDescriptor->getCount()];
+        fVector = new hsVector3[fCount];
         break;
     case plVarDescriptor::kRGB:
-        fColorRGBA = new hsColorRGBA[fDescriptor->getCount()];
+        fColorRGBA = new hsColorRGBA[fCount];
         break;
     case plVarDescriptor::kRGBA:
-        fColorRGBA = new hsColorRGBA[fDescriptor->getCount()];
+        fColorRGBA = new hsColorRGBA[fCount];
         break;
     case plVarDescriptor::kQuaternion:
-        fQuat = new hsQuat[fDescriptor->getCount()];
+        fQuat = new hsQuat[fCount];
         break;
     case plVarDescriptor::kRGB8:
-        fColor32 = new hsColor32[fDescriptor->getCount()];
+        fColor32 = new hsColor32[fCount];
         break;
     case plVarDescriptor::kRGBA8:
-        fColor32 = new hsColor32[fDescriptor->getCount()];
+        fColor32 = new hsColor32[fCount];
         break;
     case plVarDescriptor::kMatrix44:
-        fMatrix = new hsMatrix44[fDescriptor->getCount()];
+        fMatrix = new hsMatrix44[fCount];
         break;
     default:
         throw hsBadParamException(__FILE__, __LINE__);
@@ -213,20 +275,16 @@ void plSimpleStateVariable::setDescriptor(plVarDescriptor* desc) {
 void plSimpleStateVariable::read(hsStream* S, plResManager* mgr) {
     plStateVariable::read(S, mgr);
 
-    plUnifiedTime ut;
-    unsigned int contents = S->readByte();
-    if (contents & plSDL::kHasTimeStamp)
-        ut.read(S);
-    else
-        ut.toCurrentTime();
+    fSimpleVarContents = S->readByte();
+    if (fSimpleVarContents & plSDL::kHasTimeStamp)
+        fTimeStamp.read(S);
 
-    if (!(contents & plSDL::kSameAsDefault)) {
+    if (!(fSimpleVarContents & plSDL::kSameAsDefault)) {
         if (fDescriptor->isVariableLength()) {
-            fCount = S->readInt();
+            size_t count = S->readInt();
             if (fCount > 9999)
                 throw hsBadParamException(__FILE__, __LINE__);
-        } else {
-            fCount = fDescriptor->getCount();
+            resize(count);
         }
 
         for (size_t i=0; i<fCount; i++)
@@ -238,8 +296,23 @@ void plSimpleStateVariable::read(hsStream* S, plResManager* mgr) {
 
 void plSimpleStateVariable::write(hsStream* S, plResManager* mgr) {
     plStateVariable::write(S, mgr);
-    
-    throw hsNotImplementedException(__FILE__, __LINE__);
+
+    if (fCount <= 1 && IIsDefault())
+        fSimpleVarContents |= plSDL::kSameAsDefault;
+    else
+        fSimpleVarContents &= ~plSDL::kSameAsDefault;
+
+    S->writeByte(fSimpleVarContents);
+    if (fSimpleVarContents & plSDL::kHasTimeStamp)
+        fTimeStamp.write(S);
+
+    if (!(fSimpleVarContents & plSDL::kSameAsDefault)) {
+        if (fDescriptor->isVariableLength())
+            S->writeInt(fCount);
+
+        for (size_t i=0; i<fCount; i++)
+            IWriteData(S, mgr, i);
+    }
 }
 
 void plSimpleStateVariable::IReadData(hsStream* S, plResManager* mgr, size_t idx) {
@@ -497,10 +570,10 @@ void plSimpleStateVariable::SetFromDefault() {
             }
             break;
         case plVarDescriptor::kRGB:
-            throw hsNotImplementedException(__FILE__, __LINE__);
+            throw hsNotImplementedException(__FILE__, __LINE__, def);
             break;
         case plVarDescriptor::kRGBA:
-            throw hsNotImplementedException(__FILE__, __LINE__);
+            throw hsNotImplementedException(__FILE__, __LINE__, def);
             break;
         case plVarDescriptor::kQuaternion:
             if (def.empty()) {
@@ -518,10 +591,220 @@ void plSimpleStateVariable::SetFromDefault() {
             }
             break;
         case plVarDescriptor::kRGB8:
-            throw hsNotImplementedException(__FILE__, __LINE__);
+            if (def.empty()) {
+                fColor32[i] = hsColor32(0xFF000000);
+            } else {
+                plString parse = def;
+                parse = parse.afterFirst('(');
+                fColor32[i].r = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                fColor32[i].g = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                fColor32[i].b = parse.beforeFirst(')').toFloat() * 255;
+            }
             break;
         case plVarDescriptor::kRGBA8:
+            if (def.empty()) {
+                fColor32[i] = hsColor32(0xFF000000);
+            } else {
+                plString parse = def;
+                parse = parse.afterFirst('(');
+                fColor32[i].r = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                fColor32[i].g = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                fColor32[i].b = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                fColor32[i].a = parse.beforeFirst(')').toFloat() * 255;
+            }
+            break;
+        case plVarDescriptor::kMatrix44:
+            throw hsNotImplementedException(__FILE__, __LINE__, def);
+            break;
+        default:
+            throw hsBadParamException(__FILE__, __LINE__);
+        }
+    }
+}
+
+bool plSimpleStateVariable::IIsDefault() {
+    if (fDescriptor == NULL)
+        throw hsBadParamException(__FILE__, __LINE__);
+    plString def = fDescriptor->getDefault();
+    def.toLower();
+
+    for (size_t i=0; i<fDescriptor->getCount(); i++) {
+        switch (fDescriptor->getType()) {
+        case plVarDescriptor::kInt:
+            if (def.empty()) {
+                if (fInt[i] != 0)
+                    return false;
+            } else {
+                if (fInt[i] != def.toInt())
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kUint:
+            if (def.empty()) {
+                if (fUint[i] != 0)
+                    return false;
+            } else {
+                if (fUint[i] != def.toUint())
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kFloat:
+            if (def.empty()) {
+                if (fFloat[i] != 0.0f)
+                    return false;
+            } else {
+                if (fFloat[i] != def.toFloat())
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kBool:
+            if (def.empty() || def == "false") {
+                if (fBool[i] != false)
+                    return false;
+            } else if (def == "true") {
+                if (fBool[i] != true)
+                    return false;
+            } else {
+                if (fBool[i] != (def.toInt() != 0))
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kString:
+            if (fString[i] != def.mid(1, def.len() - 2))
+                return false;
+            break;
+        case plVarDescriptor::kKey:
+            return false;
+            break;
+        case plVarDescriptor::kCreatable:
+            if (fCreatable[i] != NULL)
+                return false;
+            break;
+        case plVarDescriptor::kDouble:
+            if (def.empty()) {
+                if (fDouble[i] != 0.0)
+                    return false;
+            } else {
+                if (fDouble[i] != def.toFloat())
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kTime:
+            return false;
+            break;
+        case plVarDescriptor::kByte:
+            if (def.empty()) {
+                if (fByte[i] != 0)
+                    return false;
+            } else {
+                if (fByte[i] != def.toUint())
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kChar:
+            if (def.empty()) {
+                if (fChar[i] != 0)
+                    return false;
+            } else {
+                if (fChar[i] != (char)def.toUint())
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kShort:
+            if (def.empty()) {
+                if (fShort[i] != 0)
+                    return false;
+            } else {
+                if (fShort[i] != def.toInt())
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kAgeTimeOfDay:
+            return false;
+            break;
+        case plVarDescriptor::kVector3:
+        case plVarDescriptor::kPoint3:
+            if (def.empty()) {
+                if (fVector[i] == hsVector3(0.0f, 0.0f, 0.0f))
+                    return false;
+            } else {
+                plString parse = def;
+                hsVector3 vec;
+                parse = parse.afterFirst('(');
+                vec.X = parse.beforeFirst(',').toFloat();
+                parse = parse.afterFirst(',');
+                vec.Y = parse.beforeFirst(',').toFloat();
+                parse = parse.afterFirst(',');
+                vec.Z = parse.beforeFirst(')').toFloat();
+                if (fVector[i] != vec)
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kRGB:
             throw hsNotImplementedException(__FILE__, __LINE__);
+            break;
+        case plVarDescriptor::kRGBA:
+            throw hsNotImplementedException(__FILE__, __LINE__);
+            break;
+        case plVarDescriptor::kQuaternion:
+            if (def.empty()) {
+                if (fQuat[i] != hsQuat(0.0f, 0.0f, 0.0f, 0.0f))
+                    return false;
+            } else {
+                plString parse = def;
+                hsQuat quat;
+                parse = parse.afterFirst('(');
+                quat.X = parse.beforeFirst(',').toFloat();
+                parse = parse.afterFirst(',');
+                quat.Y = parse.beforeFirst(',').toFloat();
+                parse = parse.afterFirst(',');
+                quat.Z = parse.beforeFirst(',').toFloat();
+                parse = parse.afterFirst(',');
+                quat.W = parse.beforeFirst(')').toFloat();
+                if (fQuat[i] != quat)
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kRGB8:
+            if (def.empty()) {
+                if (fColor32[i] != hsColor32(0xFF000000))
+                    return false;
+            } else {
+                plString parse = def;
+                hsColor32 color;
+                parse = parse.afterFirst('(');
+                color.r = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                color.g = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                color.b = parse.beforeFirst(')').toFloat() * 255;
+                if (fColor32[i] != color)
+                    return false;
+            }
+            break;
+        case plVarDescriptor::kRGBA8:
+            if (def.empty()) {
+                if (fColor32[i] != hsColor32(0xFF000000))
+                    return false;
+            } else {
+                plString parse = def;
+                hsColor32 color;
+                parse = parse.afterFirst('(');
+                color.r = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                color.g = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                color.b = parse.beforeFirst(',').toFloat() * 255;
+                parse = parse.afterFirst(',');
+                color.a = parse.beforeFirst(')').toFloat() * 255;
+                if (fColor32[i] != color)
+                    return false;
+            }
             break;
         case plVarDescriptor::kMatrix44:
             throw hsNotImplementedException(__FILE__, __LINE__);
@@ -530,7 +813,11 @@ void plSimpleStateVariable::SetFromDefault() {
             throw hsBadParamException(__FILE__, __LINE__);
         }
     }
+    return true;
 }
+
+const plUnifiedTime& plSimpleStateVariable::getTimeStamp() const { return fTimeStamp; }
+void plSimpleStateVariable::setTimeStamp(const plUnifiedTime& time) { fTimeStamp = time; }
 
 int& plSimpleStateVariable::Int(size_t idx) { return fInt[idx]; }
 unsigned int& plSimpleStateVariable::Uint(size_t idx) { return fUint[idx]; }

@@ -32,6 +32,14 @@ void hsColorRGBA::set(const hsColorRGBA& init) {
     a = init.a;
 }
 
+bool hsColorRGBA::operator==(const hsColorRGBA& other) const {
+    return (r == other.r) && (g == other.g) && (b == other.b) && (a == other.a);
+}
+
+bool hsColorRGBA::operator!=(const hsColorRGBA& other) const {
+    return (r != other.r) || (g != other.g) || (b != other.b) || (a != other.a);
+}
+
 void hsColorRGBA::read(hsStream* S) {
     r = S->readFloat();
     g = S->readFloat();
@@ -87,6 +95,14 @@ hsColor32::hsColor32(unsigned char red, unsigned char green,
          : b(blue), g(green), r(red), a(alpha) { }
 
 hsColor32::hsColor32(const hsColor32& init) : color(init.color) { }
+
+bool hsColor32::operator==(const hsColor32& other) const {
+    return (color == other.color);
+}
+
+bool hsColor32::operator!=(const hsColor32& other) const {
+    return (color != other.color);
+}
 
 void hsColor32::read32(hsStream* S) {
     color = S->readInt();

@@ -34,29 +34,42 @@ public:
 
     virtual void setDescriptor(plVarDescriptor* desc) = 0;
     plVarDescriptor* getDescriptor() const;
+
+    virtual void resize(size_t size) = 0;
     size_t getCount() const;
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+    virtual void SetFromDefault() = 0;
 };
 
 DllClass plSDStateVariable : public plStateVariable {
 protected:
     hsTArray<class plStateDataRecord*> fDataRecList;
+    plStateDescriptor* fSDVarDescriptor;
 
 public:
     plSDStateVariable();
     virtual ~plSDStateVariable();
 
     virtual void setDescriptor(plVarDescriptor* desc);
+    void setSDVarDescriptor(plStateDescriptor* desc);
+    virtual void resize(size_t size);
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+    virtual void SetFromDefault();
+
+    plStateDataRecord* Record(size_t idx);
 };
 
 DllClass plSimpleStateVariable : public plStateVariable {
 protected:
     union {
+        void* fGenPtr;
+
         int* fInt;
         unsigned int* fUint;
         short* fShort;
@@ -76,17 +89,22 @@ protected:
         hsMatrix44* fMatrix;
     };
     plUnifiedTime fTimeStamp;
+    unsigned char fSimpleVarContents;
 
 public:
     plSimpleStateVariable();
     virtual ~plSimpleStateVariable();
 
     virtual void setDescriptor(plVarDescriptor* desc);
+    virtual void resize(size_t size);
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
-    void SetFromDefault();
+    virtual void SetFromDefault();
+
+    const plUnifiedTime& getTimeStamp() const;
+    void setTimeStamp(const plUnifiedTime& time);
 
     int& Int(size_t idx);
     unsigned int& Uint(size_t idx);
@@ -107,8 +125,10 @@ public:
     hsMatrix44& Matrix(size_t idx);
 
 protected:
+    void IDeAlloc();
     void IReadData(hsStream* S, plResManager* mgr, size_t idx);
     void IWriteData(hsStream* S, plResManager* mgr, size_t idx);
+    bool IIsDefault();
 };
 
 #endif

@@ -14,13 +14,13 @@ public:
     hsRAMStream(PlasmaVer pv = pvUnknown);
     virtual ~hsRAMStream();
 
-    void copyFrom(const void* data, hsUint32 size);
-    void copyTo(void*& data, hsUint32& size);
+    void copyFrom(const void* data, size_t size);
+    void copyTo(void* data, size_t size);
 
     virtual hsUint32 size() const;
     virtual hsUint32 pos() const;
     virtual bool eof() const;
-    
+
     virtual void seek(hsUint32 pos);
     virtual void skip(hsInt32 count);
     virtual void fastForward();
