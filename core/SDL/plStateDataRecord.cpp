@@ -11,7 +11,7 @@ plStateDataRecord::~plStateDataRecord() {
 
 void plStateDataRecord::ReadStreamHeader(hsStream* S, plString& name,
                                          int& version, plUoid* objUoid) {
-    unsigned int flag = S->readShort();
+    unsigned short flag = S->readShort();
     if (!(flag & 0x8000)) {
         name = "";
         return;
@@ -27,6 +27,19 @@ void plStateDataRecord::ReadStreamHeader(hsStream* S, plString& name,
             objUoid->read(S);
         }
     }
+}
+
+void plStateDataRecord::WriteStreamHeader(hsStream* S, plString name,
+                                          int version, plUoid* objUoid) {
+    unsigned short flag = 0x8000;
+    if (objUoid != NULL)
+        flag |= kVolatile;
+    S->writeShort(flag);
+    S->writeSafeStr(name);
+    S->writeShort(version);
+
+    if (flag & kVolatile)
+        objUoid->write(S);
 }
 
 void plStateDataRecord::read(hsStream* S, plResManager* mgr) {
@@ -45,7 +58,8 @@ void plStateDataRecord::read(hsStream* S, plResManager* mgr) {
             idx = plSDL::VariableLengthRead(S, fDescriptor->getNumVars());
         else
             idx = i;
-        fVarsList[idx].fVariable->read(S, mgr);
+        fVarsList[idx]->read(S, mgr);
+        fVarsList[idx]->setDirty();
     }
 
     num = plSDL::VariableLengthRead(S, fDescriptor->getNumVars());
@@ -56,7 +70,8 @@ void plStateDataRecord::read(hsStream* S, plResManager* mgr) {
             idx = plSDL::VariableLengthRead(S, fDescriptor->getNumVars());
         else
             idx = i;
-        fSDVarsList[idx].fVariable->read(S, mgr);
+        fSDVarsList[idx]->read(S, mgr);
+        fSDVarsList[idx]->setDirty();
     }
 }
 
@@ -64,20 +79,38 @@ void plStateDataRecord::write(hsStream* S, plResManager* mgr) {
     S->writeShort(fFlags);
     S->writeByte(kIOVersion);
 
-    plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), fVarsList.getSize());
-    bool all = (fDescriptor->getNumVars() == fVarsList.getSize());
+    size_t numDirty = 0;
     for (size_t i=0; i<fVarsList.getSize(); i++) {
-        if (!all)
-            plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), fVarsList[i].fOffset);
-        fVarsList[i].fVariable->write(S, mgr);
+        if (!fVarsList[i]->isDefault())
+            fVarsList[i]->setDirty();
+        if (fVarsList[i]->isDirty())
+            numDirty++;
+    }
+    plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), numDirty);
+    bool all = (numDirty == fVarsList.getSize());
+    for (size_t i=0; i<fVarsList.getSize(); i++) {
+        if (fVarsList[i]->isDirty()) {
+            if (!all)
+                plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), i);
+            fVarsList[i]->write(S, mgr);
+        }
     }
 
-    plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), fSDVarsList.getSize());
-    all = (fDescriptor->getNumVars() == fSDVarsList.getSize());
+    numDirty = 0;
     for (size_t i=0; i<fSDVarsList.getSize(); i++) {
-        if (!all)
-            plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), fSDVarsList[i].fOffset);
-        fSDVarsList[i].fVariable->write(S, mgr);
+        if (!fSDVarsList[i]->isDefault())
+            fSDVarsList[i]->setDirty();
+        if (fSDVarsList[i]->isDirty())
+            numDirty++;
+    }
+    plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), numDirty);
+    all = (numDirty == fSDVarsList.getSize());
+    for (size_t i=0; i<fSDVarsList.getSize(); i++) {
+        if (fSDVarsList[i]->isDirty()) {
+            if (!all)
+                plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), i);
+            fSDVarsList[i]->write(S, mgr);
+        }
     }
 }
 
@@ -92,18 +125,17 @@ void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
 
     for (size_t i=0; i<fDescriptor->getNumVars(); i++) {
         plVarDescriptor* varDesc = fDescriptor->get(i);
-        OffsetVar var;
-        var.fOffset = i;
+        plStateVariable* var;
         if (varDesc->getType() == plVarDescriptor::kStateDescriptor) {
-            var.fVariable = new plSDStateVariable();
-            ((plSDStateVariable*)var.fVariable)->setSDVarDescriptor(varDesc->getStateDesc());
+            var = new plSDStateVariable();
+            ((plSDStateVariable*)var)->setSDVarDescriptor(varDesc->getStateDesc());
             fSDVarsList.append(var);
         } else {
-            var.fVariable = new plSimpleStateVariable();
+            var = new plSimpleStateVariable();
             fVarsList.append(var);
         }
-        var.fVariable->setDescriptor(varDesc);
-        fAllVars.append(var.fVariable);
+        var->setDescriptor(varDesc);
+        fAllVars.append(var);
     }
 }
 

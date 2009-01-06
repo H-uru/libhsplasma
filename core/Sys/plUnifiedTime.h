@@ -91,7 +91,7 @@ public:
     plString format(const char* fmt);
     void fromString(const char* buf, const char* fmt);
 
-    bool atEpoch();
+    bool atEpoch() const;
     void toEpoch();
     void toGMT();
     void toLocal();

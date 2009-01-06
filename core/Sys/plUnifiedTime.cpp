@@ -296,7 +296,7 @@ void plUnifiedTime::fromString(const char* buf, const char* fmt) {
     operator=(FromString(buf, fmt));
 }
 
-bool plUnifiedTime::atEpoch() {
+bool plUnifiedTime::atEpoch() const {
     return (fSecs == 0 && fMicros == 0);
 }
 

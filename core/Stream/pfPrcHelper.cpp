@@ -161,6 +161,11 @@ void pfPrcHelper::finalize() {
     while (!openTags.empty()) closeTag();
 }
 
+static bool goodChar(unsigned char ch) {
+    return (ch >= 0x20) && (ch < 0x7F)
+        && (ch != (unsigned char)'<') && (ch != (unsigned char)'>');
+}
+
 void pfPrcHelper::writeHexStream(size_t length, const unsigned char* data) {
     // Remember that the comments need to remain valid UTF-8, so only characters
     // between 0x20 and 0x7F can be displayed...
@@ -176,22 +181,22 @@ void pfPrcHelper::writeHexStream(size_t length, const unsigned char* data) {
                              ));
         file->writeStr(
             plString::Format("    <!-- %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c -->\n",
-                             (ln[0x0] >= 0x20 && ln[0x0] < 0x7F) ? ln[0x0] : '.',
-                             (ln[0x1] >= 0x20 && ln[0x1] < 0x7F) ? ln[0x1] : '.',
-                             (ln[0x2] >= 0x20 && ln[0x2] < 0x7F) ? ln[0x2] : '.',
-                             (ln[0x3] >= 0x20 && ln[0x3] < 0x7F) ? ln[0x3] : '.',
-                             (ln[0x4] >= 0x20 && ln[0x4] < 0x7F) ? ln[0x4] : '.',
-                             (ln[0x5] >= 0x20 && ln[0x5] < 0x7F) ? ln[0x5] : '.',
-                             (ln[0x6] >= 0x20 && ln[0x6] < 0x7F) ? ln[0x6] : '.',
-                             (ln[0x7] >= 0x20 && ln[0x7] < 0x7F) ? ln[0x7] : '.',
-                             (ln[0x8] >= 0x20 && ln[0x8] < 0x7F) ? ln[0x8] : '.',
-                             (ln[0x9] >= 0x20 && ln[0x9] < 0x7F) ? ln[0x9] : '.',
-                             (ln[0xA] >= 0x20 && ln[0xA] < 0x7F) ? ln[0xA] : '.',
-                             (ln[0xB] >= 0x20 && ln[0xB] < 0x7F) ? ln[0xB] : '.',
-                             (ln[0xC] >= 0x20 && ln[0xC] < 0x7F) ? ln[0xC] : '.',
-                             (ln[0xD] >= 0x20 && ln[0xD] < 0x7F) ? ln[0xD] : '.',
-                             (ln[0xE] >= 0x20 && ln[0xE] < 0x7F) ? ln[0xE] : '.',
-                             (ln[0xF] >= 0x20 && ln[0xF] < 0x7F) ? ln[0xF] : '.'
+                             goodChar(ln[0x0]) ? ln[0x0] : '.',
+                             goodChar(ln[0x1]) ? ln[0x1] : '.',
+                             goodChar(ln[0x2]) ? ln[0x2] : '.',
+                             goodChar(ln[0x3]) ? ln[0x3] : '.',
+                             goodChar(ln[0x4]) ? ln[0x4] : '.',
+                             goodChar(ln[0x5]) ? ln[0x5] : '.',
+                             goodChar(ln[0x6]) ? ln[0x6] : '.',
+                             goodChar(ln[0x7]) ? ln[0x7] : '.',
+                             goodChar(ln[0x8]) ? ln[0x8] : '.',
+                             goodChar(ln[0x9]) ? ln[0x9] : '.',
+                             goodChar(ln[0xA]) ? ln[0xA] : '.',
+                             goodChar(ln[0xB]) ? ln[0xB] : '.',
+                             goodChar(ln[0xC]) ? ln[0xC] : '.',
+                             goodChar(ln[0xD]) ? ln[0xD] : '.',
+                             goodChar(ln[0xE]) ? ln[0xE] : '.',
+                             goodChar(ln[0xF]) ? ln[0xF] : '.'
                              ));
     }
     if ((length % 16) != 0) {
@@ -204,7 +209,7 @@ void pfPrcHelper::writeHexStream(size_t length, const unsigned char* data) {
         file->writeStr("    <!-- ");
         for (i=0; i<(length % 16); i++)
             file->writeStr(
-                plString::Format("%c", (ln[i] >= 0x20 && ln[i] < 0x80) ? ln[i] : '.'));
+                plString::Format("%c", goodChar(ln[i]) ? ln[i] : '.'));
         for (; i<16; i++)
             file->writeStr(" ");
         file->writeStr(" -->\n");

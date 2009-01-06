@@ -13,14 +13,9 @@ public:
 protected:
     static const unsigned char kIOVersion;
 
-    struct OffsetVar {
-        plStateVariable* fVariable;
-        size_t fOffset;
-    };
-
     plStateDescriptor* fDescriptor;
     plUoid fAssocObject;
-    hsTArray<OffsetVar> fVarsList, fSDVarsList;
+    hsTArray<plStateVariable*> fVarsList, fSDVarsList;
     hsTArray<plStateVariable*> fAllVars;
     unsigned int fFlags;
 
@@ -30,7 +25,8 @@ public:
 
     static void ReadStreamHeader(hsStream* S, plString& name, int& version,
                                  plUoid* objUoid);
-
+    static void WriteStreamHeader(hsStream* S, plString name, int version,
+                                  plUoid* objUoid);
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
 

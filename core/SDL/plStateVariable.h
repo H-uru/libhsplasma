@@ -27,6 +27,7 @@ protected:
     plStateVarNotificationInfo fNotificationInfo;
     plVarDescriptor* fDescriptor;
     size_t fCount;
+    bool fIsDirty;
 
 public:
     plStateVariable();
@@ -42,6 +43,9 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
 
     virtual void SetFromDefault() = 0;
+    virtual bool isDefault() const = 0;
+    void setDirty(bool dirty = true);
+    bool isDirty() const;
 };
 
 DllClass plSDStateVariable : public plStateVariable {
@@ -61,6 +65,7 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
 
     virtual void SetFromDefault();
+    virtual bool isDefault() const;
 
     plStateDataRecord* Record(size_t idx);
 };
@@ -102,6 +107,7 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
 
     virtual void SetFromDefault();
+    virtual bool isDefault() const;
 
     const plUnifiedTime& getTimeStamp() const;
     void setTimeStamp(const plUnifiedTime& time);
@@ -128,7 +134,6 @@ protected:
     void IDeAlloc();
     void IReadData(hsStream* S, plResManager* mgr, size_t idx);
     void IWriteData(hsStream* S, plResManager* mgr, size_t idx);
-    bool IIsDefault();
 };
 
 #endif

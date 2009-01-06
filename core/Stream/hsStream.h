@@ -25,7 +25,7 @@ public:
     virtual hsUint32 size() const = 0;
     virtual hsUint32 pos() const = 0;
     virtual bool eof() const = 0;
-    
+
     virtual void seek(hsUint32 pos) = 0;
     virtual void skip(hsInt32 count) = 0;
     virtual void fastForward() = 0;
@@ -88,7 +88,7 @@ public:
     virtual hsUint32 size() const;
     virtual hsUint32 pos() const;
     virtual bool eof() const;
-    
+
     virtual void seek(hsUint32 pos);
     virtual void skip(hsInt32 count);
     virtual void fastForward();

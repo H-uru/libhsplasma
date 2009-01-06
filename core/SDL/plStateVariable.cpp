@@ -1,6 +1,7 @@
 #include "plStateVariable.h"
 #include "plStateDataRecord.h"
 #include "ResManager/plFactory.h"
+#include "Util/hsBitVector.h"
 
 /* plStateVarNotificationInfo */
 plStateVarNotificationInfo::plStateVarNotificationInfo() { }
@@ -20,7 +21,7 @@ void plStateVarNotificationInfo::write(hsStream* S) {
 /* plStateVariable */
 plStateVariable::plStateVariable()
                : fContents(plSDL::kHasNotificationInfo), fDescriptor(NULL),
-                 fCount(1) { }
+                 fCount(1), fIsDirty(false) { }
 plStateVariable::~plStateVariable() { }
 
 plVarDescriptor* plStateVariable::getDescriptor() const { return fDescriptor; }
@@ -35,8 +36,11 @@ void plStateVariable::read(hsStream* S, plResManager* mgr) {
 void plStateVariable::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fContents);
     if (fContents & plSDL::kHasNotificationInfo)
-        fNotificationInfo.read(S);
+        fNotificationInfo.write(S);
 }
+
+void plStateVariable::setDirty(bool dirty) { fIsDirty = dirty; }
+bool plStateVariable::isDirty() const { return fIsDirty; }
 
 
 /* plSDStateVariable */
@@ -95,9 +99,26 @@ void plSDStateVariable::write(hsStream* S, plResManager* mgr) {
     if (fDescriptor->isVariableLength())
         S->writeInt(fCount);
 
-    plSDL::VariableLengthWrite(S, fCount, fCount);
-    for (size_t i=0; i<fCount; i++)
-        fDataRecList[i]->write(S, mgr);
+    size_t numDirty = 0;
+    hsBitVector dirty;
+    for (size_t i=0; i<fCount; i++) {
+        dirty[i] = false;
+        for (size_t j=0; j<fDataRecList[i]->getNumVars(); j++) {
+            if (fDataRecList[i]->get(j)->isDirty())
+                dirty[i] = true;
+        }
+        if (dirty[i])
+            numDirty++;
+    }
+    plSDL::VariableLengthWrite(S, fCount, numDirty);
+    bool all = (numDirty == fCount);
+    for (size_t i=0; i<fCount; i++) {
+        if (dirty[i]) {
+            if (!all)
+                plSDL::VariableLengthWrite(S, fCount, i);
+            fDataRecList[i]->write(S, mgr);
+        }
+    }
 }
 
 void plSDStateVariable::SetFromDefault() {
@@ -105,6 +126,19 @@ void plSDStateVariable::SetFromDefault() {
         for (size_t j=0; j<fDataRecList[i]->getNumVars(); j++)
             fDataRecList[i]->get(j)->SetFromDefault();
     }
+    setDirty(false);
+}
+
+bool plSDStateVariable::isDefault() const {
+    if (fCount != fDataRecList.getSize())
+        return false;
+    for (size_t i=0; i<fCount; i++) {
+        for (size_t j=0; j<fDataRecList[i]->getNumVars(); j++) {
+            if (!fDataRecList[i]->get(j)->isDefault())
+                return false;
+        }
+    }
+    return true;
 }
 
 plStateDataRecord* plSDStateVariable::Record(size_t idx) { return fDataRecList[idx]; }
@@ -297,7 +331,7 @@ void plSimpleStateVariable::read(hsStream* S, plResManager* mgr) {
 void plSimpleStateVariable::write(hsStream* S, plResManager* mgr) {
     plStateVariable::write(S, mgr);
 
-    if (fCount <= 1 && IIsDefault())
+    if (isDefault())
         fSimpleVarContents |= plSDL::kSameAsDefault;
     else
         fSimpleVarContents &= ~plSDL::kSameAsDefault;
@@ -625,13 +659,17 @@ void plSimpleStateVariable::SetFromDefault() {
             throw hsBadParamException(__FILE__, __LINE__);
         }
     }
+    setDirty(false);
 }
 
-bool plSimpleStateVariable::IIsDefault() {
+bool plSimpleStateVariable::isDefault() const {
     if (fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
     plString def = fDescriptor->getDefault();
     def.toLower();
+
+    if (fDescriptor->getCount() != fCount)
+        return false;
 
     for (size_t i=0; i<fDescriptor->getCount(); i++) {
         switch (fDescriptor->getType()) {
@@ -725,7 +763,7 @@ bool plSimpleStateVariable::IIsDefault() {
             }
             break;
         case plVarDescriptor::kAgeTimeOfDay:
-            return false;
+            return fTimeStamp.atEpoch();
             break;
         case plVarDescriptor::kVector3:
         case plVarDescriptor::kPoint3:
@@ -778,11 +816,11 @@ bool plSimpleStateVariable::IIsDefault() {
                 plString parse = def;
                 hsColor32 color;
                 parse = parse.afterFirst('(');
-                color.r = parse.beforeFirst(',').toFloat() * 255;
+                color.r = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
                 parse = parse.afterFirst(',');
-                color.g = parse.beforeFirst(',').toFloat() * 255;
+                color.g = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
                 parse = parse.afterFirst(',');
-                color.b = parse.beforeFirst(')').toFloat() * 255;
+                color.b = (unsigned char)parse.beforeFirst(')').toFloat() * 255;
                 if (fColor32[i] != color)
                     return false;
             }
@@ -795,13 +833,13 @@ bool plSimpleStateVariable::IIsDefault() {
                 plString parse = def;
                 hsColor32 color;
                 parse = parse.afterFirst('(');
-                color.r = parse.beforeFirst(',').toFloat() * 255;
+                color.r = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
                 parse = parse.afterFirst(',');
-                color.g = parse.beforeFirst(',').toFloat() * 255;
+                color.g = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
                 parse = parse.afterFirst(',');
-                color.b = parse.beforeFirst(',').toFloat() * 255;
+                color.b = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
                 parse = parse.afterFirst(',');
-                color.a = parse.beforeFirst(')').toFloat() * 255;
+                color.a = (unsigned char)parse.beforeFirst(')').toFloat() * 255;
                 if (fColor32[i] != color)
                     return false;
             }
