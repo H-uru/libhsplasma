@@ -630,11 +630,11 @@ void plSimpleStateVariable::SetFromDefault() {
             } else {
                 plString parse = def;
                 parse = parse.afterFirst('(');
-                fColor32[i].r = parse.beforeFirst(',').toFloat() * 255;
+                fColor32[i].r = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                fColor32[i].g = parse.beforeFirst(',').toFloat() * 255;
+                fColor32[i].g = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                fColor32[i].b = parse.beforeFirst(')').toFloat() * 255;
+                fColor32[i].b = (unsigned char)(parse.beforeFirst(')').toFloat() * 255);
             }
             break;
         case plVarDescriptor::kRGBA8:
@@ -643,13 +643,13 @@ void plSimpleStateVariable::SetFromDefault() {
             } else {
                 plString parse = def;
                 parse = parse.afterFirst('(');
-                fColor32[i].r = parse.beforeFirst(',').toFloat() * 255;
+                fColor32[i].r = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                fColor32[i].g = parse.beforeFirst(',').toFloat() * 255;
+                fColor32[i].g = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                fColor32[i].b = parse.beforeFirst(',').toFloat() * 255;
+                fColor32[i].b = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                fColor32[i].a = parse.beforeFirst(')').toFloat() * 255;
+                fColor32[i].a = (unsigned char)(parse.beforeFirst(')').toFloat() * 255);
             }
             break;
         case plVarDescriptor::kMatrix44:
@@ -816,11 +816,11 @@ bool plSimpleStateVariable::isDefault() const {
                 plString parse = def;
                 hsColor32 color;
                 parse = parse.afterFirst('(');
-                color.r = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
+                color.r = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                color.g = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
+                color.g = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                color.b = (unsigned char)parse.beforeFirst(')').toFloat() * 255;
+                color.b = (unsigned char)(parse.beforeFirst(')').toFloat() * 255);
                 if (fColor32[i] != color)
                     return false;
             }
@@ -833,13 +833,13 @@ bool plSimpleStateVariable::isDefault() const {
                 plString parse = def;
                 hsColor32 color;
                 parse = parse.afterFirst('(');
-                color.r = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
+                color.r = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                color.g = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
+                color.g = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                color.b = (unsigned char)parse.beforeFirst(',').toFloat() * 255;
+                color.b = (unsigned char)(parse.beforeFirst(',').toFloat() * 255);
                 parse = parse.afterFirst(',');
-                color.a = (unsigned char)parse.beforeFirst(')').toFloat() * 255;
+                color.a = (unsigned char)(parse.beforeFirst(')').toFloat() * 255);
                 if (fColor32[i] != color)
                     return false;
             }

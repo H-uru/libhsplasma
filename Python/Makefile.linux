@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -I../core -fPIC -Wall -g -ansi -fno-rtti `python-config --cflags`
-CXXLINK  = -L../core/lib -lPlasma
+CXXLINK  = -L../bin -lPlasma
 PYTHON_VER = 2.5
 
 OBJDIR=out/
@@ -189,563 +189,564 @@ PYOBJ=\
 	$(OBJDIR)pyBitVector.o
 
 PYLIB=PyPlasma.so
+LIBDIR=../bin
 
-all: $(PYLIB)
+all: $(LIBDIR)/$(PYLIB)
 
-$(PYLIB): $(PYOBJ)
-	$(CXX) $(CXXFLAGS) $(PYOBJ) $(CXXLINK) -shared -Wl-soname,PyPlasma.so -o $(PYLIB)
+$(LIBDIR)/$(PYLIB): $(PYOBJ)
+	$(CXX) $(CXXFLAGS) $(PYOBJ) $(CXXLINK) -shared -Wl-soname,$(PYLIB) -o $@
 
 clean:
 	rm -f $(PYOBJ)
 
 distclean:
-	rm -f $(PYLIB)
+	rm -f $(LIBDIR)/$(PYLIB)
 
-install: $(PYLIB)
-	cp $(PYLIB) `python-config --prefix`/lib/python$(PYTHON_VER)/
+install: $(LIBDIR)/$(PYLIB)
+	cp $(LIBDIR)/$(PYLIB) `python-config --prefix`/lib/python$(PYTHON_VER)/
 
 uninstall:
 	rm -f `python-config --prefix`/lib/python$(PYTHON_VER)/$(PYLIB)
 
 $(OBJDIR)Module.o: Module.cpp
-	$(CXX) $(CXXFLAGS) -c Module.cpp -o $(OBJDIR)Module.o
+	$(CXX) $(CXXFLAGS) -c Module.cpp -o $@
 
 $(OBJDIR)pyDebug.o: Debug/pyDebug.cpp
-	$(CXX) $(CXXFLAGS) -c Debug/pyDebug.cpp -o $(OBJDIR)pyDebug.o
+	$(CXX) $(CXXFLAGS) -c Debug/pyDebug.cpp -o $@
 
 $(OBJDIR)pyAffineParts.o: Math/pyAffineParts.cpp
-	$(CXX) $(CXXFLAGS) -c Math/pyAffineParts.cpp -o $(OBJDIR)pyAffineParts.o
+	$(CXX) $(CXXFLAGS) -c Math/pyAffineParts.cpp -o $@
 
 $(OBJDIR)pyMatrix33.o: Math/pyMatrix33.cpp
-	$(CXX) $(CXXFLAGS) -c Math/pyMatrix33.cpp -o $(OBJDIR)pyMatrix33.o
+	$(CXX) $(CXXFLAGS) -c Math/pyMatrix33.cpp -o $@
 
 $(OBJDIR)pyMatrix44.o: Math/pyMatrix44.cpp
-	$(CXX) $(CXXFLAGS) -c Math/pyMatrix44.cpp -o $(OBJDIR)pyMatrix44.o
+	$(CXX) $(CXXFLAGS) -c Math/pyMatrix44.cpp -o $@
 
 $(OBJDIR)pyPlane3.o: Math/pyPlane3.cpp
-	$(CXX) $(CXXFLAGS) -c Math/pyPlane3.cpp -o $(OBJDIR)pyPlane3.o
+	$(CXX) $(CXXFLAGS) -c Math/pyPlane3.cpp -o $@
 
 $(OBJDIR)pyQuat.o: Math/pyQuat.cpp
-	$(CXX) $(CXXFLAGS) -c Math/pyQuat.cpp -o $(OBJDIR)pyQuat.o
+	$(CXX) $(CXXFLAGS) -c Math/pyQuat.cpp -o $@
 
 $(OBJDIR)pyVector3.o: Math/pyVector3.cpp
-	$(CXX) $(CXXFLAGS) -c Math/pyVector3.cpp -o $(OBJDIR)pyVector3.o
+	$(CXX) $(CXXFLAGS) -c Math/pyVector3.cpp -o $@
 
 $(OBJDIR)pyCreatable.o: PRP/pyCreatable.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/pyCreatable.cpp -o $(OBJDIR)pyCreatable.o
+	$(CXX) $(CXXFLAGS) -c PRP/pyCreatable.cpp -o $@
 
 $(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/pyCreatableStub.cpp -o $(OBJDIR)pyCreatableStub.o
+	$(CXX) $(CXXFLAGS) -c PRP/pyCreatableStub.cpp -o $@
 
 $(OBJDIR)pySceneNode.o: PRP/pySceneNode.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/pySceneNode.cpp -o $(OBJDIR)pySceneNode.o
+	$(CXX) $(CXXFLAGS) -c PRP/pySceneNode.cpp -o $@
 
 $(OBJDIR)pyAnimTimeConvert.o: PRP/Animation/pyAnimTimeConvert.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyAnimTimeConvert.cpp -o $(OBJDIR)pyAnimTimeConvert.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyAnimTimeConvert.cpp -o $@
 
 $(OBJDIR)pyATCEaseCurve.o: PRP/Animation/pyATCEaseCurve.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyATCEaseCurve.cpp -o $(OBJDIR)pyATCEaseCurve.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyATCEaseCurve.cpp -o $@
 
 $(OBJDIR)pyCompoundController.o: PRP/Animation/pyCompoundController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundController.cpp -o $(OBJDIR)pyCompoundController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundController.cpp -o $@
 
 $(OBJDIR)pyCompoundPosController.o: PRP/Animation/pyCompoundPosController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundPosController.cpp -o $(OBJDIR)pyCompoundPosController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundPosController.cpp -o $@
 
 $(OBJDIR)pyCompoundRotController.o: PRP/Animation/pyCompoundRotController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundRotController.cpp -o $(OBJDIR)pyCompoundRotController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompoundRotController.cpp -o $@
 
 $(OBJDIR)pyCompressedQuatKey32.o: PRP/Animation/pyCompressedQuatKey32.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompressedQuatKey32.cpp -o $(OBJDIR)pyCompressedQuatKey32.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompressedQuatKey32.cpp -o $@
 
 $(OBJDIR)pyCompressedQuatKey64.o: PRP/Animation/pyCompressedQuatKey64.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompressedQuatKey64.cpp -o $(OBJDIR)pyCompressedQuatKey64.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyCompressedQuatKey64.cpp -o $@
 
 $(OBJDIR)pyConstAccelEaseCurve.o: PRP/Animation/pyConstAccelEaseCurve.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyConstAccelEaseCurve.cpp -o $(OBJDIR)pyConstAccelEaseCurve.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyConstAccelEaseCurve.cpp -o $@
 
 $(OBJDIR)pyController.o: PRP/Animation/pyController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyController.cpp -o $(OBJDIR)pyController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyController.cpp -o $@
 
 $(OBJDIR)pyEaseController.o: PRP/Animation/pyEaseController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyEaseController.cpp -o $(OBJDIR)pyEaseController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyEaseController.cpp -o $@
 
 $(OBJDIR)pyG3DSMaxKeyFrame.o: PRP/Animation/pyG3DSMaxKeyFrame.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyG3DSMaxKeyFrame.cpp -o $(OBJDIR)pyG3DSMaxKeyFrame.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyG3DSMaxKeyFrame.cpp -o $@
 
 $(OBJDIR)pyKeyFrame.o: PRP/Animation/pyKeyFrame.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyKeyFrame.cpp -o $(OBJDIR)pyKeyFrame.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyKeyFrame.cpp -o $@
 
 $(OBJDIR)pyLeafController.o: PRP/Animation/pyLeafController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyLeafController.cpp -o $(OBJDIR)pyLeafController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyLeafController.cpp -o $@
 
 $(OBJDIR)pyMatrix33Controller.o: PRP/Animation/pyMatrix33Controller.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix33Controller.cpp -o $(OBJDIR)pyMatrix33Controller.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix33Controller.cpp -o $@
 
 $(OBJDIR)pyMatrix33Key.o: PRP/Animation/pyMatrix33Key.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix33Key.cpp -o $(OBJDIR)pyMatrix33Key.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix33Key.cpp -o $@
 
 $(OBJDIR)pyMatrix44Controller.o: PRP/Animation/pyMatrix44Controller.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix44Controller.cpp -o $(OBJDIR)pyMatrix44Controller.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix44Controller.cpp -o $@
 
 $(OBJDIR)pyMatrix44Key.o: PRP/Animation/pyMatrix44Key.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix44Key.cpp -o $(OBJDIR)pyMatrix44Key.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyMatrix44Key.cpp -o $@
 
 $(OBJDIR)pyPoint3Controller.o: PRP/Animation/pyPoint3Controller.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPoint3Controller.cpp -o $(OBJDIR)pyPoint3Controller.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPoint3Controller.cpp -o $@
 
 $(OBJDIR)pyPoint3Key.o: PRP/Animation/pyPoint3Key.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPoint3Key.cpp -o $(OBJDIR)pyPoint3Key.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPoint3Key.cpp -o $@
 
 $(OBJDIR)pyPosController.o: PRP/Animation/pyPosController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPosController.cpp -o $(OBJDIR)pyPosController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyPosController.cpp -o $@
 
 $(OBJDIR)pyQuatController.o: PRP/Animation/pyQuatController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyQuatController.cpp -o $(OBJDIR)pyQuatController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyQuatController.cpp -o $@
 
 $(OBJDIR)pyQuatKey.o: PRP/Animation/pyQuatKey.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyQuatKey.cpp -o $(OBJDIR)pyQuatKey.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyQuatKey.cpp -o $@
 
 $(OBJDIR)pyRotController.o: PRP/Animation/pyRotController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyRotController.cpp -o $(OBJDIR)pyRotController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyRotController.cpp -o $@
 
 $(OBJDIR)pyScalarController.o: PRP/Animation/pyScalarController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScalarController.cpp -o $(OBJDIR)pyScalarController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScalarController.cpp -o $@
 
 $(OBJDIR)pyScalarKey.o: PRP/Animation/pyScalarKey.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScalarKey.cpp -o $(OBJDIR)pyScalarKey.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScalarKey.cpp -o $@
 
 $(OBJDIR)pyScaleController.o: PRP/Animation/pyScaleController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleController.cpp -o $(OBJDIR)pyScaleController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleController.cpp -o $@
 
 $(OBJDIR)pyScaleKey.o: PRP/Animation/pyScaleKey.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleKey.cpp -o $(OBJDIR)pyScaleKey.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleKey.cpp -o $@
 
 $(OBJDIR)pyScaleValueController.o: PRP/Animation/pyScaleValueController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleValueController.cpp -o $(OBJDIR)pyScaleValueController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyScaleValueController.cpp -o $@
 
 $(OBJDIR)pySimplePosController.o: PRP/Animation/pySimplePosController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimplePosController.cpp -o $(OBJDIR)pySimplePosController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimplePosController.cpp -o $@
 
 $(OBJDIR)pySimpleRotController.o: PRP/Animation/pySimpleRotController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimpleRotController.cpp -o $(OBJDIR)pySimpleRotController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimpleRotController.cpp -o $@
 
 $(OBJDIR)pySimpleScaleController.o: PRP/Animation/pySimpleScaleController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimpleScaleController.cpp -o $(OBJDIR)pySimpleScaleController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySimpleScaleController.cpp -o $@
 
 $(OBJDIR)pySplineEaseCurve.o: PRP/Animation/pySplineEaseCurve.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySplineEaseCurve.cpp -o $(OBJDIR)pySplineEaseCurve.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pySplineEaseCurve.cpp -o $@
 
 $(OBJDIR)pyTMController.o: PRP/Animation/pyTMController.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyTMController.cpp -o $(OBJDIR)pyTMController.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyTMController.cpp -o $@
 
 $(OBJDIR)pyViewFaceModifier.o: PRP/Animation/pyViewFaceModifier.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyViewFaceModifier.cpp -o $(OBJDIR)pyViewFaceModifier.o
+	$(CXX) $(CXXFLAGS) -c PRP/Animation/pyViewFaceModifier.cpp -o $@
 
 $(OBJDIR)pyAGAnim.o: PRP/Avatar/pyAGAnim.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGAnim.cpp -o $(OBJDIR)pyAGAnim.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGAnim.cpp -o $@
 
 $(OBJDIR)pyAGAnimBink.o: PRP/Avatar/pyAGAnimBink.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGAnimBink.cpp -o $(OBJDIR)pyAGAnimBink.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGAnimBink.cpp -o $@
 
 $(OBJDIR)pyAGApplicator.o: PRP/Avatar/pyAGApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGApplicator.cpp -o $(OBJDIR)pyAGApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGApplicator.cpp -o $@
 
 $(OBJDIR)pyAGChannel.o: PRP/Avatar/pyAGChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGChannel.cpp -o $(OBJDIR)pyAGChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAGChannel.cpp -o $@
 
 $(OBJDIR)pyAgeGlobalAnim.o: PRP/Avatar/pyAgeGlobalAnim.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAgeGlobalAnim.cpp -o $(OBJDIR)pyAgeGlobalAnim.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAgeGlobalAnim.cpp -o $@
 
 $(OBJDIR)pyATCAnim.o: PRP/Avatar/pyATCAnim.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyATCAnim.cpp -o $(OBJDIR)pyATCAnim.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyATCAnim.cpp -o $@
 
 $(OBJDIR)pyATCChannel.o: PRP/Avatar/pyATCChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyATCChannel.cpp -o $(OBJDIR)pyATCChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyATCChannel.cpp -o $@
 
 $(OBJDIR)pyEmoteAnim.o: PRP/Avatar/pyEmoteAnim.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyEmoteAnim.cpp -o $(OBJDIR)pyEmoteAnim.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyEmoteAnim.cpp -o $@
 
 $(OBJDIR)pyLightAmbientApplicator.o: PRP/Avatar/pyLightAmbientApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightAmbientApplicator.cpp -o $(OBJDIR)pyLightAmbientApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightAmbientApplicator.cpp -o $@
 
 $(OBJDIR)pyLightDiffuseApplicator.o: PRP/Avatar/pyLightDiffuseApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightDiffuseApplicator.cpp -o $(OBJDIR)pyLightDiffuseApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightDiffuseApplicator.cpp -o $@
 
 $(OBJDIR)pyLightSpecularApplicator.o: PRP/Avatar/pyLightSpecularApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightSpecularApplicator.cpp -o $(OBJDIR)pyLightSpecularApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyLightSpecularApplicator.cpp -o $@
 
 $(OBJDIR)pyMatrixBlend.o: PRP/Avatar/pyMatrixBlend.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixBlend.cpp -o $(OBJDIR)pyMatrixBlend.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixBlend.cpp -o $@
 
 $(OBJDIR)pyMatrixChannel.o: PRP/Avatar/pyMatrixChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixChannel.cpp -o $(OBJDIR)pyMatrixChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixChannel.cpp -o $@
 
 $(OBJDIR)pyMatrixChannelApplicator.o: PRP/Avatar/pyMatrixChannelApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixChannelApplicator.cpp -o $(OBJDIR)pyMatrixChannelApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixChannelApplicator.cpp -o $@
 
 $(OBJDIR)pyMatrixConstant.o: PRP/Avatar/pyMatrixConstant.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixConstant.cpp -o $(OBJDIR)pyMatrixConstant.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixConstant.cpp -o $@
 
 $(OBJDIR)pyMatrixControllerCacheChannel.o: PRP/Avatar/pyMatrixControllerCacheChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixControllerCacheChannel.cpp -o $(OBJDIR)pyMatrixControllerCacheChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixControllerCacheChannel.cpp -o $@
 
 $(OBJDIR)pyMatrixControllerChannel.o: PRP/Avatar/pyMatrixControllerChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixControllerChannel.cpp -o $(OBJDIR)pyMatrixControllerChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixControllerChannel.cpp -o $@
 
 $(OBJDIR)pyMatrixDelayedCorrectionApplicator.o: PRP/Avatar/pyMatrixDelayedCorrectionApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixDelayedCorrectionApplicator.cpp -o $(OBJDIR)pyMatrixDelayedCorrectionApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixDelayedCorrectionApplicator.cpp -o $@
 
 $(OBJDIR)pyMatrixDifferenceApp.o: PRP/Avatar/pyMatrixDifferenceApp.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixDifferenceApp.cpp -o $(OBJDIR)pyMatrixDifferenceApp.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixDifferenceApp.cpp -o $@
 
 $(OBJDIR)pyMatrixTimeScale.o: PRP/Avatar/pyMatrixTimeScale.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixTimeScale.cpp -o $(OBJDIR)pyMatrixTimeScale.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixTimeScale.cpp -o $@
 
 $(OBJDIR)pyOmniApplicator.o: PRP/Avatar/pyOmniApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniApplicator.cpp -o $(OBJDIR)pyOmniApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniApplicator.cpp -o $@
 
 $(OBJDIR)pyOmniCutoffApplicator.o: PRP/Avatar/pyOmniCutoffApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniCutoffApplicator.cpp -o $(OBJDIR)pyOmniCutoffApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniCutoffApplicator.cpp -o $@
 
 $(OBJDIR)pyOmniSqApplicator.o: PRP/Avatar/pyOmniSqApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniSqApplicator.cpp -o $(OBJDIR)pyOmniSqApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniSqApplicator.cpp -o $@
 
 $(OBJDIR)pyPointBlend.o: PRP/Avatar/pyPointBlend.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointBlend.cpp -o $(OBJDIR)pyPointBlend.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointBlend.cpp -o $@
 
 $(OBJDIR)pyPointChannel.o: PRP/Avatar/pyPointChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointChannel.cpp -o $(OBJDIR)pyPointChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointChannel.cpp -o $@
 
 $(OBJDIR)pyPointChannelApplicator.o: PRP/Avatar/pyPointChannelApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointChannelApplicator.cpp -o $(OBJDIR)pyPointChannelApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointChannelApplicator.cpp -o $@
 
 $(OBJDIR)pyPointConstant.o: PRP/Avatar/pyPointConstant.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointConstant.cpp -o $(OBJDIR)pyPointConstant.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointConstant.cpp -o $@
 
 $(OBJDIR)pyPointControllerCacheChannel.o: PRP/Avatar/pyPointControllerCacheChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointControllerCacheChannel.cpp -o $(OBJDIR)pyPointControllerCacheChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointControllerCacheChannel.cpp -o $@
 
 $(OBJDIR)pyPointControllerChannel.o: PRP/Avatar/pyPointControllerChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointControllerChannel.cpp -o $(OBJDIR)pyPointControllerChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointControllerChannel.cpp -o $@
 
 $(OBJDIR)pyPointTimeScale.o: PRP/Avatar/pyPointTimeScale.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointTimeScale.cpp -o $(OBJDIR)pyPointTimeScale.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyPointTimeScale.cpp -o $@
 
 $(OBJDIR)pyQuatBlend.o: PRP/Avatar/pyQuatBlend.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatBlend.cpp -o $(OBJDIR)pyQuatBlend.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatBlend.cpp -o $@
 
 $(OBJDIR)pyQuatChannel.o: PRP/Avatar/pyQuatChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatChannel.cpp -o $(OBJDIR)pyQuatChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatChannel.cpp -o $@
 
 $(OBJDIR)pyQuatChannelApplicator.o: PRP/Avatar/pyQuatChannelApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatChannelApplicator.cpp -o $(OBJDIR)pyQuatChannelApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatChannelApplicator.cpp -o $@
 
 $(OBJDIR)pyQuatConstant.o: PRP/Avatar/pyQuatConstant.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatConstant.cpp -o $(OBJDIR)pyQuatConstant.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatConstant.cpp -o $@
 
 $(OBJDIR)pyQuatPointCombine.o: PRP/Avatar/pyQuatPointCombine.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatPointCombine.cpp -o $(OBJDIR)pyQuatPointCombine.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatPointCombine.cpp -o $@
 
 $(OBJDIR)pyQuatTimeScale.o: PRP/Avatar/pyQuatTimeScale.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatTimeScale.cpp -o $(OBJDIR)pyQuatTimeScale.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyQuatTimeScale.cpp -o $@
 
 $(OBJDIR)pyRelativeMatrixChannelApplicator.o: PRP/Avatar/pyRelativeMatrixChannelApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyRelativeMatrixChannelApplicator.cpp -o $(OBJDIR)pyRelativeMatrixChannelApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyRelativeMatrixChannelApplicator.cpp -o $@
 
 $(OBJDIR)pyScalarBlend.o: PRP/Avatar/pyScalarBlend.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarBlend.cpp -o $(OBJDIR)pyScalarBlend.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarBlend.cpp -o $@
 
 $(OBJDIR)pyScalarChannel.o: PRP/Avatar/pyScalarChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarChannel.cpp -o $(OBJDIR)pyScalarChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarChannel.cpp -o $@
 
 $(OBJDIR)pyScalarChannelApplicator.o: PRP/Avatar/pyScalarChannelApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarChannelApplicator.cpp -o $(OBJDIR)pyScalarChannelApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarChannelApplicator.cpp -o $@
 
 $(OBJDIR)pyScalarConstant.o: PRP/Avatar/pyScalarConstant.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarConstant.cpp -o $(OBJDIR)pyScalarConstant.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarConstant.cpp -o $@
 
 $(OBJDIR)pyScalarControllerCacheChannel.o: PRP/Avatar/pyScalarControllerCacheChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarControllerCacheChannel.cpp -o $(OBJDIR)pyScalarControllerCacheChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarControllerCacheChannel.cpp -o $@
 
 $(OBJDIR)pyScalarControllerChannel.o: PRP/Avatar/pyScalarControllerChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarControllerChannel.cpp -o $(OBJDIR)pyScalarControllerChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarControllerChannel.cpp -o $@
 
 $(OBJDIR)pyScalarSDLChannel.o: PRP/Avatar/pyScalarSDLChannel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarSDLChannel.cpp -o $(OBJDIR)pyScalarSDLChannel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarSDLChannel.cpp -o $@
 
 $(OBJDIR)pyScalarTimeScale.o: PRP/Avatar/pyScalarTimeScale.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarTimeScale.cpp -o $(OBJDIR)pyScalarTimeScale.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyScalarTimeScale.cpp -o $@
 
 $(OBJDIR)pySpotInnerApplicator.o: PRP/Avatar/pySpotInnerApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySpotInnerApplicator.cpp -o $(OBJDIR)pySpotInnerApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySpotInnerApplicator.cpp -o $@
 
 $(OBJDIR)pySpotOuterApplicator.o: PRP/Avatar/pySpotOuterApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySpotOuterApplicator.cpp -o $(OBJDIR)pySpotOuterApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySpotOuterApplicator.cpp -o $@
 
 $(OBJDIR)pySoundVolumeApplicator.o: PRP/Avatar/pySoundVolumeApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySoundVolumeApplicator.cpp -o $(OBJDIR)pySoundVolumeApplicator.o
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pySoundVolumeApplicator.cpp -o $@
 
 $(OBJDIR)pySoundBuffer.o: PRP/Audio/pySoundBuffer.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Audio/pySoundBuffer.cpp -o $(OBJDIR)pySoundBuffer.o
+	$(CXX) $(CXXFLAGS) -c PRP/Audio/pySoundBuffer.cpp -o $@
 
 $(OBJDIR)pyWAVHeader.o: PRP/Audio/pyWAVHeader.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Audio/pyWAVHeader.cpp -o $(OBJDIR)pyWAVHeader.o
+	$(CXX) $(CXXFLAGS) -c PRP/Audio/pyWAVHeader.cpp -o $@
 
 $(OBJDIR)pyCluster.o: PRP/Geometry/pyCluster.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyCluster.cpp -o $(OBJDIR)pyCluster.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyCluster.cpp -o $@
 
 $(OBJDIR)pyClusterGroup.o: PRP/Geometry/pyClusterGroup.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyClusterGroup.cpp -o $(OBJDIR)pyClusterGroup.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyClusterGroup.cpp -o $@
 
 $(OBJDIR)pyCullPoly.o: PRP/Geometry/pyCullPoly.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyCullPoly.cpp -o $(OBJDIR)pyCullPoly.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyCullPoly.cpp -o $@
 
 $(OBJDIR)pyDISpanIndex.o: PRP/Geometry/pyDISpanIndex.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDISpanIndex.cpp -o $(OBJDIR)pyDISpanIndex.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDISpanIndex.cpp -o $@
 
 $(OBJDIR)pyDrawable.o: PRP/Geometry/pyDrawable.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDrawable.cpp -o $(OBJDIR)pyDrawable.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDrawable.cpp -o $@
 
 $(OBJDIR)pyDrawableSpans.o: PRP/Geometry/pyDrawableSpans.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDrawableSpans.cpp -o $(OBJDIR)pyDrawableSpans.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyDrawableSpans.cpp -o $@
 
 $(OBJDIR)pyGBufferCell.o: PRP/Geometry/pyGBufferCell.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferCell.cpp -o $(OBJDIR)pyGBufferCell.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferCell.cpp -o $@
 
 $(OBJDIR)pyGBufferGroup.o: PRP/Geometry/pyGBufferGroup.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferGroup.cpp -o $(OBJDIR)pyGBufferGroup.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferGroup.cpp -o $@
 
 $(OBJDIR)pyGBufferTriangle.o: PRP/Geometry/pyGBufferTriangle.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferTriangle.cpp -o $(OBJDIR)pyGBufferTriangle.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferTriangle.cpp -o $@
 
 $(OBJDIR)pyGBufferVertex.o: PRP/Geometry/pyGBufferVertex.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferVertex.cpp -o $(OBJDIR)pyGBufferVertex.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyGBufferVertex.cpp -o $@
 
 $(OBJDIR)pyIcicle.o: PRP/Geometry/pyIcicle.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyIcicle.cpp -o $(OBJDIR)pyIcicle.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyIcicle.cpp -o $@
 
 $(OBJDIR)pyLODDist.o: PRP/Geometry/pyLODDist.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyLODDist.cpp -o $(OBJDIR)pyLODDist.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyLODDist.cpp -o $@
 
 $(OBJDIR)pyMobileOccluder.o: PRP/Geometry/pyMobileOccluder.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyMobileOccluder.cpp -o $(OBJDIR)pyMobileOccluder.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyMobileOccluder.cpp -o $@
 
 $(OBJDIR)pyOccluder.o: PRP/Geometry/pyOccluder.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyOccluder.cpp -o $(OBJDIR)pyOccluder.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyOccluder.cpp -o $@
 
 $(OBJDIR)pyParticleSpan.o: PRP/Geometry/pyParticleSpan.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyParticleSpan.cpp -o $(OBJDIR)pyParticleSpan.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyParticleSpan.cpp -o $@
 
 $(OBJDIR)pySpaceTree.o: PRP/Geometry/pySpaceTree.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpaceTree.cpp -o $(OBJDIR)pySpaceTree.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpaceTree.cpp -o $@
 
 $(OBJDIR)pySpaceTreeNode.o: PRP/Geometry/pySpaceTreeNode.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpaceTreeNode.cpp -o $(OBJDIR)pySpaceTreeNode.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpaceTreeNode.cpp -o $@
 
 $(OBJDIR)pySpan.o: PRP/Geometry/pySpan.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpan.cpp -o $(OBJDIR)pySpan.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpan.cpp -o $@
 
 $(OBJDIR)pySpanEncoding.o: PRP/Geometry/pySpanEncoding.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanEncoding.cpp -o $(OBJDIR)pySpanEncoding.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanEncoding.cpp -o $@
 
 $(OBJDIR)pySpanInstance.o: PRP/Geometry/pySpanInstance.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanInstance.cpp -o $(OBJDIR)pySpanInstance.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanInstance.cpp -o $@
 
 $(OBJDIR)pySpanTemplate.o: PRP/Geometry/pySpanTemplate.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanTemplate.cpp -o $(OBJDIR)pySpanTemplate.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanTemplate.cpp -o $@
 
 $(OBJDIR)pySpanTemplateVertex.o: PRP/Geometry/pySpanTemplateVertex.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanTemplateVertex.cpp -o $(OBJDIR)pySpanTemplateVertex.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pySpanTemplateVertex.cpp -o $@
 
 $(OBJDIR)pyVertexSpan.o: PRP/Geometry/pyVertexSpan.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyVertexSpan.cpp -o $(OBJDIR)pyVertexSpan.o
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyVertexSpan.cpp -o $@
 
 $(OBJDIR)pyKey.o: PRP/KeyedObject/pyKey.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKey.cpp -o $(OBJDIR)pyKey.o
+	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKey.cpp -o $@
 
 $(OBJDIR)pyKeyedObject.o: PRP/KeyedObject/pyKeyedObject.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKeyedObject.cpp -o $(OBJDIR)pyKeyedObject.o
+	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKeyedObject.cpp -o $@
 
 $(OBJDIR)pyLocation.o: PRP/KeyedObject/pyLocation.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $(OBJDIR)pyLocation.o
+	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $@
 
 $(OBJDIR)pyDirectionalLightInfo.o: PRP/Light/pyDirectionalLightInfo.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Light/pyDirectionalLightInfo.cpp -o $(OBJDIR)pyDirectionalLightInfo.o
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pyDirectionalLightInfo.cpp -o $@
 
 $(OBJDIR)pyLightInfo.o: PRP/Light/pyLightInfo.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Light/pyLightInfo.cpp -o $(OBJDIR)pyLightInfo.o
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pyLightInfo.cpp -o $@
 
 $(OBJDIR)pyLimitedDirLightInfo.o: PRP/Light/pyLimitedDirLightInfo.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Light/pyLimitedDirLightInfo.cpp -o $(OBJDIR)pyLimitedDirLightInfo.o
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pyLimitedDirLightInfo.cpp -o $@
 
 $(OBJDIR)pyOmniLightInfo.o: PRP/Light/pyOmniLightInfo.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Light/pyOmniLightInfo.cpp -o $(OBJDIR)pyOmniLightInfo.o
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pyOmniLightInfo.cpp -o $@
 
 $(OBJDIR)pySpotLightInfo.o: PRP/Light/pySpotLightInfo.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Light/pySpotLightInfo.cpp -o $(OBJDIR)pySpotLightInfo.o
+	$(CXX) $(CXXFLAGS) -c PRP/Light/pySpotLightInfo.cpp -o $@
 
 $(OBJDIR)pyEventCallbackMsg.o: PRP/Message/pyEventCallbackMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Message/pyEventCallbackMsg.cpp -o $(OBJDIR)pyEventCallbackMsg.o
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyEventCallbackMsg.cpp -o $@
 
 $(OBJDIR)pyMessage.o: PRP/Message/pyMessage.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMessage.cpp -o $(OBJDIR)pyMessage.o
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMessage.cpp -o $@
 
 $(OBJDIR)pyMsgForwarder.o: PRP/Message/pyMsgForwarder.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMsgForwarder.cpp -o $(OBJDIR)pyMsgForwarder.o
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMsgForwarder.cpp -o $@
 
 $(OBJDIR)pyRenderLevel.o: PRP/Misc/pyRenderLevel.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $(OBJDIR)pyRenderLevel.o
+	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $@
 
 $(OBJDIR)pyModifier.o: PRP/Modifier/pyModifier.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyModifier.cpp -o $(OBJDIR)pyModifier.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyModifier.cpp -o $@
 
 $(OBJDIR)pyMultiModifier.o: PRP/Modifier/pyMultiModifier.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyMultiModifier.cpp -o $(OBJDIR)pyMultiModifier.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyMultiModifier.cpp -o $@
 
 $(OBJDIR)pyOneShotMod.o: PRP/Modifier/pyOneShotMod.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyOneShotMod.cpp -o $(OBJDIR)pyOneShotMod.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyOneShotMod.cpp -o $@
 
 $(OBJDIR)pyPythonFileMod.o: PRP/Modifier/pyPythonFileMod.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyPythonFileMod.cpp -o $(OBJDIR)pyPythonFileMod.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyPythonFileMod.cpp -o $@
 
 $(OBJDIR)pyPythonParameter.o: PRP/Modifier/pyPythonParameter.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyPythonParameter.cpp -o $(OBJDIR)pyPythonParameter.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyPythonParameter.cpp -o $@
 
 $(OBJDIR)pyResponderEnableMsg.o: PRP/Modifier/pyResponderEnableMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyResponderEnableMsg.cpp -o $(OBJDIR)pyResponderEnableMsg.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyResponderEnableMsg.cpp -o $@
 
 $(OBJDIR)pyResponderModifier.o: PRP/Modifier/pyResponderModifier.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyResponderModifier.cpp -o $(OBJDIR)pyResponderModifier.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyResponderModifier.cpp -o $@
 
 $(OBJDIR)pyResponderModifier_Cmd.o: PRP/Modifier/pyResponderModifier_Cmd.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyResponderModifier_Cmd.cpp -o $(OBJDIR)pyResponderModifier_Cmd.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyResponderModifier_Cmd.cpp -o $@
 
 $(OBJDIR)pyResponderModifier_State.o: PRP/Modifier/pyResponderModifier_State.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyResponderModifier_State.cpp -o $(OBJDIR)pyResponderModifier_State.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyResponderModifier_State.cpp -o $@
 
 $(OBJDIR)pySingleModifier.o: PRP/Modifier/pySingleModifier.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pySingleModifier.cpp -o $(OBJDIR)pySingleModifier.o
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pySingleModifier.cpp -o $@
 
 $(OBJDIR)pyAudioInterface.o: PRP/Object/pyAudioInterface.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Object/pyAudioInterface.cpp -o $(OBJDIR)pyAudioInterface.o
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pyAudioInterface.cpp -o $@
 
 $(OBJDIR)pyCoordinateInterface.o: PRP/Object/pyCoordinateInterface.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Object/pyCoordinateInterface.cpp -o $(OBJDIR)pyCoordinateInterface.o
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pyCoordinateInterface.cpp -o $@
 
 $(OBJDIR)pyDrawInterface.o: PRP/Object/pyDrawInterface.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Object/pyDrawInterface.cpp -o $(OBJDIR)pyDrawInterface.o
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pyDrawInterface.cpp -o $@
 
 $(OBJDIR)pyObjInterface.o: PRP/Object/pyObjInterface.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Object/pyObjInterface.cpp -o $(OBJDIR)pyObjInterface.o
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pyObjInterface.cpp -o $@
 
 $(OBJDIR)pySceneObject.o: PRP/Object/pySceneObject.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Object/pySceneObject.cpp -o $(OBJDIR)pySceneObject.o
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pySceneObject.cpp -o $@
 
 $(OBJDIR)pySimulationInterface.o: PRP/Object/pySimulationInterface.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Object/pySimulationInterface.cpp -o $(OBJDIR)pySimulationInterface.o
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pySimulationInterface.cpp -o $@
 
 $(OBJDIR)pySynchedObject.o: PRP/Object/pySynchedObject.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Object/pySynchedObject.cpp -o $(OBJDIR)pySynchedObject.o
+	$(CXX) $(CXXFLAGS) -c PRP/Object/pySynchedObject.cpp -o $@
 
 $(OBJDIR)pyGenericPhysical.o: PRP/Physics/pyGenericPhysical.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/pyGenericPhysical.cpp -o $(OBJDIR)pyGenericPhysical.o
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/pyGenericPhysical.cpp -o $@
 
 $(OBJDIR)pyPhysical.o: PRP/Physics/pyPhysical.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/pyPhysical.cpp -o $(OBJDIR)pyPhysical.o
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/pyPhysical.cpp -o $@
 
 $(OBJDIR)pySimDefs.o: PRP/Physics/pySimDefs.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Physics/pySimDefs.cpp -o $(OBJDIR)pySimDefs.o
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/pySimDefs.cpp -o $@
 
 $(OBJDIR)pyBounds.o: PRP/Region/pyBounds.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds.cpp -o $(OBJDIR)pyBounds.o
+	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds.cpp -o $@
 
 $(OBJDIR)pyBounds3.o: PRP/Region/pyBounds3.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds3.cpp -o $(OBJDIR)pyBounds3.o
+	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds3.cpp -o $@
 
 $(OBJDIR)pyBounds3Ext.o: PRP/Region/pyBounds3Ext.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds3Ext.cpp -o $(OBJDIR)pyBounds3Ext.o
+	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBounds3Ext.cpp -o $@
 
 $(OBJDIR)pyBoundsOriented.o: PRP/Region/pyBoundsOriented.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBoundsOriented.cpp -o $(OBJDIR)pyBoundsOriented.o
+	$(CXX) $(CXXFLAGS) -c PRP/Region/pyBoundsOriented.cpp -o $@
 
 $(OBJDIR)pyBitmap.o: PRP/Surface/pyBitmap.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyBitmap.cpp -o $(OBJDIR)pyBitmap.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyBitmap.cpp -o $@
 
 $(OBJDIR)pyDynamicTextMap.o: PRP/Surface/pyDynamicTextMap.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyDynamicTextMap.cpp -o $(OBJDIR)pyDynamicTextMap.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyDynamicTextMap.cpp -o $@
 
 $(OBJDIR)pyGMaterial.o: PRP/Surface/pyGMaterial.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyGMaterial.cpp -o $(OBJDIR)pyGMaterial.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyGMaterial.cpp -o $@
 
 $(OBJDIR)pyGMatState.o: PRP/Surface/pyGMatState.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyGMatState.cpp -o $(OBJDIR)pyGMatState.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyGMatState.cpp -o $@
 
 $(OBJDIR)pyLayer.o: PRP/Surface/pyLayer.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayer.cpp -o $(OBJDIR)pyLayer.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayer.cpp -o $@
 
 $(OBJDIR)pyLayerAnimation.o: PRP/Surface/pyLayerAnimation.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAnimation.cpp -o $(OBJDIR)pyLayerAnimation.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAnimation.cpp -o $@
 
 $(OBJDIR)pyLayerAnimationBase.o: PRP/Surface/pyLayerAnimationBase.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAnimationBase.cpp -o $(OBJDIR)pyLayerAnimationBase.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAnimationBase.cpp -o $@
 
 $(OBJDIR)pyLayerAVI.o: PRP/Surface/pyLayerAVI.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAVI.cpp -o $(OBJDIR)pyLayerAVI.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerAVI.cpp -o $@
 
 $(OBJDIR)pyLayerBink.o: PRP/Surface/pyLayerBink.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerBink.cpp -o $(OBJDIR)pyLayerBink.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerBink.cpp -o $@
 
 $(OBJDIR)pyLayerDepth.o: PRP/Surface/pyLayerDepth.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerDepth.cpp -o $(OBJDIR)pyLayerDepth.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerDepth.cpp -o $@
 
 $(OBJDIR)pyLayerInterface.o: PRP/Surface/pyLayerInterface.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerInterface.cpp -o $(OBJDIR)pyLayerInterface.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerInterface.cpp -o $@
 
 $(OBJDIR)pyLayerLinkAnimation.o: PRP/Surface/pyLayerLinkAnimation.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerLinkAnimation.cpp -o $(OBJDIR)pyLayerLinkAnimation.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerLinkAnimation.cpp -o $@
 
 $(OBJDIR)pyLayerMovie.o: PRP/Surface/pyLayerMovie.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerMovie.cpp -o $(OBJDIR)pyLayerMovie.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerMovie.cpp -o $@
 
 $(OBJDIR)pyLayerSDLAnimation.o: PRP/Surface/pyLayerSDLAnimation.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerSDLAnimation.cpp -o $(OBJDIR)pyLayerSDLAnimation.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyLayerSDLAnimation.cpp -o $@
 
 $(OBJDIR)pyMipmap.o: PRP/Surface/pyMipmap.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyMipmap.cpp -o $(OBJDIR)pyMipmap.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyMipmap.cpp -o $@
 
 $(OBJDIR)pyShader.o: PRP/Surface/pyShader.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyShader.cpp -o $(OBJDIR)pyShader.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyShader.cpp -o $@
 
 $(OBJDIR)pyShaderConst.o: PRP/Surface/pyShaderConst.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyShaderConst.cpp -o $(OBJDIR)pyShaderConst.o
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/pyShaderConst.cpp -o $@
 
 $(OBJDIR)pyAgeInfo.o: ResManager/pyAgeInfo.cpp
-	$(CXX) $(CXXFLAGS) -c ResManager/pyAgeInfo.cpp -o $(OBJDIR)pyAgeInfo.o
+	$(CXX) $(CXXFLAGS) -c ResManager/pyAgeInfo.cpp -o $@
 
 $(OBJDIR)pyFactory.o: ResManager/pyFactory.cpp
-	$(CXX) $(CXXFLAGS) -c ResManager/pyFactory.cpp -o $(OBJDIR)pyFactory.o
+	$(CXX) $(CXXFLAGS) -c ResManager/pyFactory.cpp -o $@
 
 $(OBJDIR)pyResManager.o: ResManager/pyResManager.cpp
-	$(CXX) $(CXXFLAGS) -c ResManager/pyResManager.cpp -o $(OBJDIR)pyResManager.o
+	$(CXX) $(CXXFLAGS) -c ResManager/pyResManager.cpp -o $@
 
 $(OBJDIR)pyPageInfo.o: ResManager/pyPageInfo.cpp
-	$(CXX) $(CXXFLAGS) -c ResManager/pyPageInfo.cpp -o $(OBJDIR)pyPageInfo.o
+	$(CXX) $(CXXFLAGS) -c ResManager/pyPageInfo.cpp -o $@
 
 $(OBJDIR)pyEncryptedStream.o: Stream/pyEncryptedStream.cpp
-	$(CXX) $(CXXFLAGS) -c Stream/pyEncryptedStream.cpp -o $(OBJDIR)pyEncryptedStream.o
+	$(CXX) $(CXXFLAGS) -c Stream/pyEncryptedStream.cpp -o $@
 
 $(OBJDIR)pyFileStream.o: Stream/pyFileStream.cpp
-	$(CXX) $(CXXFLAGS) -c Stream/pyFileStream.cpp -o $(OBJDIR)pyFileStream.o
+	$(CXX) $(CXXFLAGS) -c Stream/pyFileStream.cpp -o $@
 
 $(OBJDIR)pyStream.o: Stream/pyStream.cpp
-	$(CXX) $(CXXFLAGS) -c Stream/pyStream.cpp -o $(OBJDIR)pyStream.o
+	$(CXX) $(CXXFLAGS) -c Stream/pyStream.cpp -o $@
 
 $(OBJDIR)pyColor32.o: Sys/pyColor32.cpp
-	$(CXX) $(CXXFLAGS) -c Sys/pyColor32.cpp -o $(OBJDIR)pyColor32.o
+	$(CXX) $(CXXFLAGS) -c Sys/pyColor32.cpp -o $@
 
 $(OBJDIR)pyColorRGBA.o: Sys/pyColorRGBA.cpp
-	$(CXX) $(CXXFLAGS) -c Sys/pyColorRGBA.cpp -o $(OBJDIR)pyColorRGBA.o
+	$(CXX) $(CXXFLAGS) -c Sys/pyColorRGBA.cpp -o $@
 
 $(OBJDIR)pyBitVector.o: Util/pyBitVector.cpp
-	$(CXX) $(CXXFLAGS) -c Util/pyBitVector.cpp -o $(OBJDIR)pyBitVector.o
+	$(CXX) $(CXXFLAGS) -c Util/pyBitVector.cpp -o $@

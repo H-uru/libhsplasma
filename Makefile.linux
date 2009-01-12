@@ -2,70 +2,71 @@ CXX = g++
 CXXFLAGS += -fPIC -Wall -g -ansi -fno-rtti
 
 PREFIX = /usr/local
+BINDIR = bin
 
 all:
 	(cd core ; $(MAKE) -fMakefile.linux)
 	(cd Python ; $(MAKE) -fMakefile.linux)
-	($(MAKE) -fMakefile.linux Tools/PageConvert)
-	($(MAKE) -fMakefile.linux Tools/PlasmaCrypt)
-	($(MAKE) -fMakefile.linux Tools/PrpPack)
-	($(MAKE) -fMakefile.linux Tools/PrcExtract)
-	($(MAKE) -fMakefile.linux Tools/PageList)
-	($(MAKE) -fMakefile.linux Tools/prcc)
-	($(MAKE) -fMakefile.linux Tools/prcdc)
-	($(MAKE) -fMakefile.linux Tools/Prp2Obj)
-	($(MAKE) -fMakefile.linux Tools/PyPack)
-	($(MAKE) -fMakefile.linux Tools/PageEditor)
+	($(MAKE) -fMakefile.linux $(BINDIR)/PageConvert)
+	($(MAKE) -fMakefile.linux $(BINDIR)/PlasmaCrypt)
+	($(MAKE) -fMakefile.linux $(BINDIR)/PrpPack)
+	($(MAKE) -fMakefile.linux $(BINDIR)/PrcExtract)
+	($(MAKE) -fMakefile.linux $(BINDIR)/PageList)
+	($(MAKE) -fMakefile.linux $(BINDIR)/prcc)
+	($(MAKE) -fMakefile.linux $(BINDIR)/prcdc)
+	($(MAKE) -fMakefile.linux $(BINDIR)/Prp2Obj)
+	($(MAKE) -fMakefile.linux $(BINDIR)/PyPack)
+	($(MAKE) -fMakefile.linux $(BINDIR)/PageEditor)
 	($(MAKE) -fMakefile.linux Misc/TypeMap)
 
-Tools/PageConvert: Tools/src/PageConvert.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageConvert.cpp -o Tools/PageConvert
+$(BINDIR)/PageConvert: Tools/src/PageConvert.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/PageConvert.cpp -o $@
 
-Tools/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PlasmaCrypt.cpp -o Tools/PlasmaCrypt
+$(BINDIR)/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/PlasmaCrypt.cpp -o $@
 
-Tools/PrpPack: Tools/src/PrpPack.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrpPack.cpp -o Tools/PrpPack
+$(BINDIR)/PrpPack: Tools/src/PrpPack.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/PrpPack.cpp -o $@
 
-Tools/PrcExtract: Tools/src/PrcExtract.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PrcExtract.cpp -o Tools/PrcExtract
+$(BINDIR)/PrcExtract: Tools/src/PrcExtract.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/PrcExtract.cpp -o $@
 
-Tools/PageList: Tools/src/PageList.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PageList.cpp -o Tools/PageList
+$(BINDIR)/PageList: Tools/src/PageList.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/PageList.cpp -o $@
 
-Tools/prcc: Tools/src/prcc.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcc.cpp -o Tools/prcc
+$(BINDIR)/prcc: Tools/src/prcc.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/prcc.cpp -o $@
 
-Tools/prcdc: Tools/src/prcdc.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/prcdc.cpp -o Tools/prcdc
+$(BINDIR)/prcdc: Tools/src/prcdc.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/prcdc.cpp -o $@
 
-Tools/Prp2Obj: Tools/src/Prp2Obj.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o Tools/Prp2Obj
+$(BINDIR)/Prp2Obj: Tools/src/Prp2Obj.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/Prp2Obj.cpp -o $@
 
-Tools/PyPack: Tools/src/PyPack.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Tools/src/PyPack.cpp -o Tools/PyPack
+$(BINDIR)/PyPack: Tools/src/PyPack.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/PyPack.cpp -o $@
 
-Tools/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/CreateFrm.cpp PageEditor/CHexEditCtrl.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) `wx-config --cxxflags --libs std,stc` -Lcore/lib/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/CreateFrm.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/CHexEditCtrl.cpp PageEditor/PlasmaTreeItem.cpp -o Tools/PageEditor
+$(BINDIR)/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/CreateFrm.cpp PageEditor/CHexEditCtrl.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) `wx-config --cxxflags --libs std,stc` -L$(BINDIR)/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/CreateFrm.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/CHexEditCtrl.cpp PageEditor/PlasmaTreeItem.cpp -o $@
 
-Misc/TypeMap: Misc/TypeMap.cpp core/lib/libPlasma.so
-	$(CXX) $(CXXFLAGS) -Lcore/lib/ -lPlasma -Icore Misc/TypeMap.cpp -o Misc/TypeMap
+Misc/TypeMap: Misc/TypeMap.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Misc/TypeMap.cpp -o $@
 
 install:
 	(cd core ; $(MAKE) -fMakefile.linux install)
 	(cd Python ; $(MAKE) -fMakefile.linux install)
-	cp Tools/PageConvert $(PREFIX)/bin/
-	cp Tools/PlasmaCrypt $(PREFIX)/bin/
-	cp Tools/PrpPack $(PREFIX)/bin/
-	cp Tools/PrcExtract $(PREFIX)/bin/
-	cp Tools/PageList $(PREFIX)/bin/
-	cp Tools/prcc $(PREFIX)/bin/
-	cp Tools/prcdc $(PREFIX)/bin/
-	cp Tools/Prp2Obj $(PREFIX)/bin/
-	cp Tools/PyPack $(PREFIX)/bin/
-	cp Tools/PageEditor $(PREFIX)/bin/
-	chmod +x Tools/eoaedit Tools/uruedit
-	cp Tools/eoaedit Tools/uruedit $(PREFIX)/bin/
+	cp $(BINDIR)/PageConvert $(PREFIX)/bin/
+	cp $(BINDIR)/PlasmaCrypt $(PREFIX)/bin/
+	cp $(BINDIR)/PrpPack $(PREFIX)/bin/
+	cp $(BINDIR)/PrcExtract $(PREFIX)/bin/
+	cp $(BINDIR)/PageList $(PREFIX)/bin/
+	cp $(BINDIR)/prcc $(PREFIX)/bin/
+	cp $(BINDIR)/prcdc $(PREFIX)/bin/
+	cp $(BINDIR)/Prp2Obj $(PREFIX)/bin/
+	cp $(BINDIR)/PyPack $(PREFIX)/bin/
+	cp $(BINDIR)/PageEditor $(PREFIX)/bin/
+	chmod +x $(BINDIR)/eoaedit $(BINDIR)/uruedit
+	cp $(BINDIR)/eoaedit $(BINDIR)/uruedit $(PREFIX)/bin/
 
 uninstall:
 	(cd core ; $(MAKE) -fMakefile.linux uninstall)
@@ -90,14 +91,14 @@ clean:
 distclean:
 	(cd core ; $(MAKE) -fMakefile.linux distclean)
 	(cd Python ; $(MAKE) -fMakefile.linux distclean)
-	rm -f Tools/PageConvert
-	rm -f Tools/PlasmaCrypt
-	rm -f Tools/PrpPack
-	rm -f Tools/PrcExtract
-	rm -f Tools/PageList
-	rm -f Tools/prcc
-	rm -f Tools/prcdc
-	rm -f Tools/Prp2Obj
-	rm -f Tools/PyPack
-	rm -f Tools/PageEditor
+	rm -f $(BINDIR)/PageConvert
+	rm -f $(BINDIR)/PlasmaCrypt
+	rm -f $(BINDIR)/PrpPack
+	rm -f $(BINDIR)/PrcExtract
+	rm -f $(BINDIR)/PageList
+	rm -f $(BINDIR)/prcc
+	rm -f $(BINDIR)/prcdc
+	rm -f $(BINDIR)/Prp2Obj
+	rm -f $(BINDIR)/PyPack
+	rm -f $(BINDIR)/PageEditor
 	rm -f Misc/TypeMap
