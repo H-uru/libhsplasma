@@ -1898,6 +1898,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Surface\plDistOpacityMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Surface\plDistOpacityMod.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Surface\plDynaDecalMgr.cpp"
 					>
 				</File>

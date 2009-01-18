@@ -25,26 +25,19 @@ static long pyKey_Hash(pyKey* self) {
     return (long)(plKeyData*)(*self->fThis);
 }
 
-static int pyKey_Compare(pyKey* left, pyKey* right) {
-    if (!pyKey_Check((PyObject*)right))
-        return -1;
-
-    if ((*left->fThis) == (*right->fThis))
-        return 0;
-    else if ((*left->fThis) < (*right->fThis))
-        return -1;
-    else
-        return 1;
-}
-
 static PyObject* pyKey_RichCompare(pyKey* left, pyKey* right, int op) {
     bool result = false;
     
     if (!pyKey_Check((PyObject*)right)) {
-        if (op == Py_NE || op == Py_LT)
-            result = true;
-        else
-            result = false;
+        if ((PyObject*)right == Py_None) {
+            if (op == Py_NE || op == Py_LT)
+                result = true;
+            else
+                result = false;
+        } else {
+            PyErr_SetString(PyExc_TypeError, "Incompatible types in comparison");
+            return NULL;
+        }
     } else {
         switch (op) {
         case Py_LT:
@@ -285,7 +278,7 @@ PyTypeObject pyKey_Type = {
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
-    (cmpfunc)pyKey_Compare,             /* tp_compare */
+    NULL,                               /* tp_compare */
     (reprfunc)pyKey_Repr,               /* tp_repr */
     NULL,                               /* tp_as_number */
     NULL,                               /* tp_as_sequence */

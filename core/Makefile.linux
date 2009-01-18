@@ -230,6 +230,7 @@ PLSOBJ=\
 	$(OBJDIR)plVolumeIsect.o \
 	$(OBJDIR)plBitmap.o \
 	$(OBJDIR)plCubicEnvironmap.o \
+	$(OBJDIR)plDistOpacityMod.o \
 	$(OBJDIR)plDynaDecalMgr.o \
 	$(OBJDIR)plDynamicEnvMap.o \
 	$(OBJDIR)plDynamicTextMap.o \
@@ -970,6 +971,9 @@ $(OBJDIR)plBitmap.o: PRP/Surface/plBitmap.h PRP/Surface/plBitmap.cpp
 
 $(OBJDIR)plCubicEnvironmap.o: PRP/Surface/plCubicEnvironmap.h PRP/Surface/plCubicEnvironmap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plCubicEnvironmap.cpp -o $@
+
+$(OBJDIR)plDistOpacityMod.o: PRP/Surface/plDistOpacityMod.h PRP/Surface/plDistOpacityMod.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/plDistOpacityMod.cpp -o $@
 
 $(OBJDIR)plDynaDecalMgr.o: PRP/Surface/plDynaDecalMgr.h PRP/Surface/plDynaDecalMgr.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plDynaDecalMgr.cpp -o $@

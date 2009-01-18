@@ -116,6 +116,7 @@
 #include "PRP/Region/plSwimRegion.h"
 #include "PRP/Region/plVisRegion.h"
 #include "PRP/Surface/plCubicEnvironmap.h"
+#include "PRP/Surface/plDistOpacityMod.h"
 #include "PRP/Surface/plDynamicEnvMap.h"
 #include "PRP/Surface/plDynamicTextMap.h"
 #include "PRP/Surface/plDynaRippleMgr.h"
@@ -445,7 +446,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kSwimDetector: return new plSwimDetector();
         case kFadeOpacityMod: return new plFadeOpacityMod();
         //case kFadeOpacityLay: return new plFadeOpacityLay();
-        //case kDistOpacityMod: return new plDistOpacityMod();
+        case kDistOpacityMod: return new plDistOpacityMod();
         case kArmatureModBase: ABSTRACT(kArmatureModBase);
         case kSwimRegionInterface: return new plSwimRegionInterface();
         case kSwimCircularCurrentRegion: return new plSwimCircularCurrentRegion();

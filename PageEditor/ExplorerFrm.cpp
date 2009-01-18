@@ -268,7 +268,7 @@ void ExplorerFrm::LoadObjPrc(wxTreeEvent& event)
                 
                 hsUint32 size = HS->size();
                 wxByte* dat = new wxByte[size + 1];
-                HS->copyTo((void*&)dat, size);
+                HS->copyTo(dat, size);
                 dat[size] = 0;
                 
                 m_hexCtrl->SetData(dat, size);
@@ -307,7 +307,7 @@ void ExplorerFrm::LoadObjPrc(wxTreeEvent& event)
     
     hsUint32 size = S->size();
     char* junk = new char[size + 1];
-    S->copyTo((void*&)junk, size);
+    S->copyTo(junk, size);
     junk[size] = 0;
 
     m_prcEditor->SetText(wxString::FromUTF8(junk));
