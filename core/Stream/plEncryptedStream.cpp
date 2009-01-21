@@ -11,7 +11,7 @@ static const char* uruMagic2 = "BriceIsSmart";
 static const char* liveMagic = "notthedroids";
 static const int eoaMagic = 0x0D874288;
 
-plEncryptedStream::plEncryptedStream(PlasmaVer pv) {
+plEncryptedStream::plEncryptedStream(PlasmaVer pv) : hsFileStream(pv) {
     eKey[0] = uruKey[0];
     eKey[1] = uruKey[1];
     eKey[2] = uruKey[2];

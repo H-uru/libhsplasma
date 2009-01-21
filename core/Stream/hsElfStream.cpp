@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "hsElfStream.h"
 
-hsElfStream::hsElfStream() { }
+hsElfStream::hsElfStream() : hsFileStream(pvUnknown) { }
 
 hsElfStream::~hsElfStream() { }
 

@@ -267,7 +267,7 @@ void hsStream::writeLine(const plString& ln, bool winEOL) {
 
 
 // hsFileStream //
-hsFileStream::hsFileStream(PlasmaVer pv) : F(NULL) { }
+hsFileStream::hsFileStream(PlasmaVer pv) : hsStream(pv), F(NULL) { }
 
 hsFileStream::~hsFileStream() {
     close();
