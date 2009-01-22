@@ -190,6 +190,7 @@ plAgeInfo::PageEntry plAgeInfo::getCommonPage(size_t idx, PlasmaVer pv) const {
 
 void plAgeInfo::setPage(size_t idx, const PageEntry& page) { fPages[idx] = page; }
 void plAgeInfo::addPage(const PageEntry& page) { fPages.append(page); }
+void plAgeInfo::clearPages() { fPages.clear(); }
 
 plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
     if (pv == pvUnknown)

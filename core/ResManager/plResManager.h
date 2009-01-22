@@ -73,6 +73,7 @@ public:
     std::vector<plKey> getKeys(const plLocation& loc, short type);
 
     plKey AddKey(plKey key);
+    void MoveKey(plKey key, const plLocation& to);
     void AddObject(const plLocation& loc, hsKeyedObject* obj);
     void AddPage(plPageInfo* page);
     void AddAge(plAgeInfo* age);

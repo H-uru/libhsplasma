@@ -179,11 +179,11 @@ void plFixedWaterState6::prcParse(const pfPrcTag* tag) {
             if (child->hasChildren())
                 fTexState.prcParse(child->getFirstChild());
         } else if (child->getName() == "WaterStateParams") {
-            fRippleScale = tag->getParam("RippleScale", "0").toFloat();
-            fWaterHeight = tag->getParam("WaterHeight", "0").toFloat();
-            fWispiness = tag->getParam("Wispiness", "0").toFloat();
-            fPeriod = tag->getParam("Period", "0").toFloat();
-            fFingerLength = tag->getParam("FingerLength", "0").toFloat();
+            fRippleScale = child->getParam("RippleScale", "0").toFloat();
+            fWaterHeight = child->getParam("WaterHeight", "0").toFloat();
+            fWispiness = child->getParam("Wispiness", "0").toFloat();
+            fPeriod = child->getParam("Period", "0").toFloat();
+            fFingerLength = child->getParam("FingerLength", "0").toFloat();
         } else if (child->getName() == "WindDir") {
             if (child->hasChildren())
                 fWindDir.prcParse(child->getFirstChild());
@@ -206,11 +206,11 @@ void plFixedWaterState6::prcParse(const pfPrcTag* tag) {
             if (child->hasChildren())
                 fMinColor.prcParse(child->getFirstChild());
         } else if (child->getName() == "Edge") {
-            fEdgeOpac = tag->getParam("Opacity", "0").toFloat();
-            fEdgeRadius = tag->getParam("Radius", "0").toFloat();
+            fEdgeOpac = child->getParam("Opacity", "0").toFloat();
+            fEdgeRadius = child->getParam("Radius", "0").toFloat();
         } else if (child->getName() == "Env") {
-            fEnvRefresh = tag->getParam("Refresh", "0").toFloat();
-            fEnvRadius = tag->getParam("Radius", "0").toFloat();
+            fEnvRefresh = child->getParam("Refresh", "0").toFloat();
+            fEnvRadius = child->getParam("Radius", "0").toFloat();
         } else if (child->getName() == "EnvCenter") {
             if (child->hasChildren())
                 fEnvCenter.prcParse(child->getFirstChild());

@@ -29,6 +29,7 @@ public:
     std::vector<plLocation> getPages();
 
     void ChangeLocation(const plLocation& from, const plLocation& to);
+    void MoveKey(plKey key, const plLocation& to);
 };
 
 #endif

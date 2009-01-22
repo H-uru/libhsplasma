@@ -137,3 +137,20 @@ void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to
     }
     keys.erase(keys.find(from));
 }
+
+void plKeyCollector::MoveKey(plKey key, const plLocation& to) {
+    std::vector<plKey>& keyList = keys[key->getLocation()][key->getType()];
+    std::vector<plKey>::iterator it = keyList.begin();
+    size_t sub = 0;
+    while (it != keyList.end()) {
+        if ((*it) == key) {
+            it = keyList.erase(it);
+            sub++;
+        } else {
+            (*it)->setID((*it)->getID() - sub);
+            it++;
+        }
+    }
+    key->setLocation(to);
+    add(key);
+}

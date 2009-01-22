@@ -107,6 +107,14 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
         throw hsFileReadException(__FILE__, __LINE__, filename);
     plPageInfo* page = new plPageInfo();
     page->read(S);
+
+    for (size_t i=0; i<pages.size(); i++) {
+        if (pages[i]->getLocation() == page->getLocation()) {
+            delete page;
+            return pages[i];
+        }
+    }
+
     pages.push_back(page);
     setVer(S->getVer(), true);
 
@@ -128,6 +136,13 @@ plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root) {
         if (ko != NULL)
             ko->getKey()->setObj(ko);
         tag = tag->getNextSibling();
+    }
+
+    for (size_t i=0; i<pages.size(); i++) {
+        if (pages[i]->getLocation() == page->getLocation()) {
+            delete page;
+            return pages[i];
+        }
     }
 
     pages.push_back(page);
@@ -191,6 +206,13 @@ void plResManager::UnloadPage(const plLocation& loc) {
 plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
     plAgeInfo* age = new plAgeInfo();
     age->readFromFile(filename);
+
+    for (size_t i=0; i<ages.size(); i++) {
+        if (ages[i]->getAgeName() == age->getAgeName()) {
+            delete age;
+            age = ages[i];
+        }
+    }
     
     if (readPages) {
         plString path = plString(filename).beforeLast(PATHSEP);
@@ -223,6 +245,14 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
 plAgeInfo* plResManager::ReadAgePrc(const pfPrcTag* root) {
     plAgeInfo* age = new plAgeInfo();
     age->prcParse(root);
+
+    for (size_t i=0; i<ages.size(); i++) {
+        if (ages[i]->getAgeName() == age->getAgeName()) {
+            delete age;
+            return ages[i];
+        }
+    }
+
     ages.push_back(age);
     return age;
 }
@@ -354,6 +384,9 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                             kList[j]->getType(), kList[j]->getName().cstr(),
                             (int)(kList[j]->getObjSize() -
                                   (S->pos() - kList[j]->getFileOff())));
+                        plDebug::Debug("At: 0x%08X (%d bytes)",
+                            kList[j]->getFileOff(),
+                            kList[j]->getObjSize());
                     }
                 }
             } catch (const hsException& e) {
@@ -487,6 +520,10 @@ plKey plResManager::AddKey(plKey key) {
         keys.add(key);
         return key;
     }
+}
+
+void plResManager::MoveKey(plKey key, const plLocation& to) {
+    keys.MoveKey(key, to);
 }
 
 void plResManager::AddObject(const plLocation& loc, hsKeyedObject* obj) {

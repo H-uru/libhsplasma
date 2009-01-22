@@ -68,6 +68,7 @@ public:
     PageEntry getCommonPage(size_t idx, PlasmaVer pv) const;
     void setPage(size_t idx, const PageEntry& page);
     void addPage(const PageEntry& page);
+    void clearPages();
 
     plString getPageFilename(size_t idx, PlasmaVer pv) const;
     plString getCommonPageFilename(size_t idx, PlasmaVer pv) const;
