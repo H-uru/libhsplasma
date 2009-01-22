@@ -207,10 +207,12 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
     plAgeInfo* age = new plAgeInfo();
     age->readFromFile(filename);
 
-    for (size_t i=0; i<ages.size(); i++) {
-        if (ages[i]->getAgeName() == age->getAgeName()) {
-            delete age;
-            age = ages[i];
+    for (std::vector<plAgeInfo*>::iterator it=ages.begin(); it!=ages.end(); ) {
+        if ((*it)->getAgeName() == age->getAgeName()) {
+            delete *it;
+            it = ages.erase(it);
+        } else {
+            it++;
         }
     }
     
@@ -246,10 +248,12 @@ plAgeInfo* plResManager::ReadAgePrc(const pfPrcTag* root) {
     plAgeInfo* age = new plAgeInfo();
     age->prcParse(root);
 
-    for (size_t i=0; i<ages.size(); i++) {
-        if (ages[i]->getAgeName() == age->getAgeName()) {
-            delete age;
-            return ages[i];
+    for (std::vector<plAgeInfo*>::iterator it=ages.begin(); it!=ages.end(); ) {
+        if ((*it)->getAgeName() == age->getAgeName()) {
+            delete *it;
+            it = ages.erase(it);
+        } else {
+            it++;
         }
     }
 
