@@ -101,7 +101,7 @@ void plSoundMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fVolume = tag->getParam("Volume", "0").toFloat();
         fFadeType = (FadeType)tag->getParam("FadeType", "0").toInt();
     } else if (tag->getName() == "Command") {
-        if (tag->hasChildren());
+        if (tag->hasChildren())
             fCmd.prcParse(tag->getFirstChild());
     } else {
         plMessageWithCallbacks::IPrcParse(tag, mgr);

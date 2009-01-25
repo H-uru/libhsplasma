@@ -5,7 +5,7 @@ extern "C" {
 
 typedef struct {
     PyObject_HEAD
-    class plPythonParameter* fThis;
+    struct plPythonParameter* fThis;
 } pyPythonParameter;
 
 typedef struct {
@@ -17,7 +17,7 @@ typedef struct {
 extern PyTypeObject pyPythonParameter_Type;
 PyObject* Init_pyPythonParameter_Type();
 int pyPythonParameter_Check(PyObject* obj);
-PyObject* pyPythonParameter_FromPythonParameter(const class plPythonParameter& param);
+PyObject* pyPythonParameter_FromPythonParameter(const struct plPythonParameter& param);
 
 extern PyTypeObject pyPythonFileMod_Type;
 PyObject* Init_pyPythonFileMod_Type();

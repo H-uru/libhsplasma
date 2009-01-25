@@ -13,9 +13,9 @@ plVarDescriptor::Type plVarDescriptor::getType() const { return fType; }
 const plString& plVarDescriptor::getStateDescType() const { return fStateDescType; }
 plStateDescriptor* plVarDescriptor::getStateDesc() const { return fStateDesc; }
 
-bool plVarDescriptor::isInternal() const { return fFlags & kInternal; }
-bool plVarDescriptor::isAlwaysNew() const { return fFlags & kAlwaysNew; }
-bool plVarDescriptor::isVariableLength() const { return fFlags & kVariableLength; }
+bool plVarDescriptor::isInternal() const { return (fFlags & kInternal) != 0; }
+bool plVarDescriptor::isAlwaysNew() const { return (fFlags & kAlwaysNew) != 0; }
+bool plVarDescriptor::isVariableLength() const { return (fFlags & kVariableLength) != 0; }
 bool plVarDescriptor::isValid() const { return fType != kNone; }
 
 void plVarDescriptor::setName(const plString& name) { fName = name; }

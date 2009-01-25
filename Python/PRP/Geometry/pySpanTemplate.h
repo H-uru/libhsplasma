@@ -7,7 +7,7 @@ extern "C" {
 
 typedef struct {
     PyObject_HEAD
-    class plSpanTemplate::Vertex* fThis;
+    struct plSpanTemplate::Vertex* fThis;
     bool fPyOwned;
 } pySpanTemplateVertex;
 
@@ -19,7 +19,7 @@ typedef struct {
 extern PyTypeObject pySpanTemplateVertex_Type;
 PyObject* Init_pySpanTemplateVertex_Type();
 int pySpanTemplateVertex_Check(PyObject* obj);
-PyObject* pySpanTemplateVertex_FromVertex(class plSpanTemplate::Vertex& vert);
+PyObject* pySpanTemplateVertex_FromVertex(struct plSpanTemplate::Vertex& vert);
 
 extern PyTypeObject pySpanTemplate_Type;
 PyObject* Init_pySpanTemplate_Type();

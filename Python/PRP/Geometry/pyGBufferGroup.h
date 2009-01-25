@@ -15,7 +15,7 @@ typedef struct {
 
 typedef struct {
     PyObject_HEAD
-    struct plGBufferVertex* fThis;
+    class plGBufferVertex* fThis;
 } pyGBufferVertex;
 
 typedef struct {

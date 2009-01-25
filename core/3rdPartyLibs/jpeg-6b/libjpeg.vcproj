@@ -112,6 +112,7 @@
 				WarningLevel="3"
 				DebugInformationFormat="3"
 				CompileAs="1"
+				DisableSpecificWarnings="4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -198,7 +199,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Creating jconfig.h"
-					CommandLine="copy &quot;$(InputPath)&quot; &quot;jconfig.h&quot;"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;jconfig.h&quot;&#x0D;&#x0A;"
 					Outputs="jconfig.h"
 				/>
 			</FileConfiguration>
@@ -208,7 +209,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Creating jconfig.h"
-					CommandLine="copy &quot;$(InputPath)&quot; &quot;jconfig.h&quot;"
+					CommandLine="copy &quot;$(InputPath)&quot; &quot;jconfig.h&quot;&#x0D;&#x0A;"
 					Outputs="jconfig.h"
 				/>
 			</FileConfiguration>

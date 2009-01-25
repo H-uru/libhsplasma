@@ -43,7 +43,7 @@ void plCreatable::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plCreatableStub */
 plCreatableStub::plCreatableStub()
-              : fClassIdx(0x8000), fData(NULL), fDataLen(0) { }
+              : fClassIdx((short)0x8000), fData(NULL), fDataLen(0) { }
 
 plCreatableStub::plCreatableStub(short hClass, size_t length)
               : fClassIdx(hClass), fDataLen(length) {

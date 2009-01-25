@@ -44,16 +44,15 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="."
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;MAKEDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				AssemblerOutput="2"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4251;4267"
+				DisableSpecificWarnings="4244;4251;4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -120,13 +119,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="."
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;MAKEDLL;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;MAKEDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4251;4267"
+				DisableSpecificWarnings="4244;4251;4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -202,16 +200,15 @@
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="."
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;NODLL;_CRT_SECURE_NO_WARNINGS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;NODLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				AssemblerOutput="2"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4267"
+				DisableSpecificWarnings="4244;4251;4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

@@ -255,7 +255,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
                 prc->endTag(true);
 
                 prc->writeSimpleTag("UVWMaps");
-                for (size_t j=0; j<(fFormat & kUVCountMask); j++)
+                for (size_t j=0; j<(size_t)(fFormat & kUVCountMask); j++)
                     verts[i].fUVWs[j].prcWrite(prc);
                 prc->closeTag();
 
@@ -404,7 +404,7 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t start, 
         // Zero (Color2?)
         cp += sizeof(unsigned int);
 
-        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
+        for (size_t j=0; j<(size_t)(fFormat & kUVCountMask); j++) {
             buf[i].fUVWs[j].X = *(float*)cp; cp += sizeof(float);
             buf[i].fUVWs[j].Y = *(float*)cp; cp += sizeof(float);
             buf[i].fUVWs[j].Z = *(float*)cp; cp += sizeof(float);
@@ -468,7 +468,7 @@ void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
         *(unsigned int*)cp = 0;
         cp += sizeof(unsigned int);
 
-        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
+        for (size_t j=0; j<(size_t)(fFormat & kUVCountMask); j++) {
             *(float*)cp = verts[i].fUVWs[j].X; cp += sizeof(float);
             *(float*)cp = verts[i].fUVWs[j].Y; cp += sizeof(float);
             *(float*)cp = verts[i].fUVWs[j].Z; cp += sizeof(float);

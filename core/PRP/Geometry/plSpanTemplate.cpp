@@ -64,13 +64,13 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
             }
             if (fFormat & kUVWMask) {
                 prc->writeSimpleTag("UVWs");
-                for (size_t j=0; j<(fFormat & kUVWMask) / 0x10; j++)
+                for (size_t j=0; j<(size_t)((fFormat & kUVWMask) / 0x10); j++)
                     verts[i].fUVWs[j].prcWrite(prc);
                 prc->closeTag();
             }
             if (fFormat & kWeightMask) {
                 prc->writeTagNoBreak("Weights");
-                for (size_t j=0; j<(fFormat & kWeightMask) / 0x100; j++)
+                for (size_t j=0; j<(size_t)((fFormat & kWeightMask) / 0x100); j++)
                     prc->getStream()->writeStr(plString::Format("%f ", verts[i].fWeights[j]));
                 prc->closeTagNoBreak();
             }
@@ -124,7 +124,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
                         if ((fFormat & kUVWMask) / 0x10 != subChild->countChildren())
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of UVW maps");
                         const pfPrcTag* uvwChild = subChild->getFirstChild();
-                        for (size_t j=0; j<(fFormat & kUVWMask) / 0x10; j++) {
+                        for (size_t j=0; j<(size_t)((fFormat & kUVWMask) / 0x10); j++) {
                             verts[i].fUVWs[j].prcParse(uvwChild);
                             uvwChild = uvwChild->getNextSibling();
                         }
@@ -132,7 +132,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
                         hsTList<plString> wgtList = subChild->getContents();
                         if (wgtList.getSize() != (fFormat & kWeightMask) / 0x100)
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of Weights");
-                        for (size_t j=0; j<(fFormat & kWeightMask) / 0x100; j++)
+                        for (size_t j=0; j<(size_t)((fFormat & kWeightMask) / 0x100); j++)
                             verts[i].fWeights[j] = wgtList.pop().toFloat();
                     } else {
                         throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
@@ -176,7 +176,7 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
             dataPtr += sizeof(float);
         }
         if (fFormat & kWeightMask) {
-            for (size_t j=0; j<(fFormat & kWeightMask) / 0x100; j++) {
+            for (size_t j=0; j<(size_t)((fFormat & kWeightMask) / 0x100); j++) {
                 verts[i].fWeights[j] = *(float*)dataPtr;
                 dataPtr += sizeof(float);
             }
@@ -202,7 +202,7 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
             dataPtr += sizeof(unsigned int);
         }
         if (fFormat & kUVWMask) {
-            for (size_t j=0; j<(fFormat & kUVWMask) / 0x10; j++) {
+            for (size_t j=0; j<(size_t)((fFormat & kUVWMask) / 0x10); j++) {
                 verts[i].fUVWs[j].X = *(float*)dataPtr;
                 dataPtr += sizeof(float);
                 verts[i].fUVWs[j].Y = *(float*)dataPtr;
@@ -240,7 +240,7 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
             dataPtr += sizeof(float);
         }
         if (fFormat & kWeightMask) {
-            for (size_t j=0; j<(fFormat & kWeightMask) / 0x100; j++) {
+            for (size_t j=0; j<(size_t)((fFormat & kWeightMask) / 0x100); j++) {
                 *(float*)dataPtr = verts[i].fWeights[j];
                 dataPtr += sizeof(float);
             }
@@ -266,7 +266,7 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
             dataPtr += sizeof(unsigned int);
         }
         if (fFormat & kUVWMask) {
-            for (size_t j=0; j<(fFormat & kUVWMask) / 0x10; j++) {
+            for (size_t j=0; j<(size_t)((fFormat & kUVWMask) / 0x10); j++) {
                 *(float*)dataPtr = verts[i].fUVWs[j].X;
                 dataPtr += sizeof(float);
                 *(float*)dataPtr = verts[i].fUVWs[j].Y;

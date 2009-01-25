@@ -4,7 +4,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-plUoid::plUoid() : classType(0x8000), objID(0), clonePlayerID(0), cloneID(0) { }
+plUoid::plUoid()
+      : classType((short)0x8000), objID(0), clonePlayerID(0), cloneID(0) { }
+
 plUoid::~plUoid() { }
 
 plUoid& plUoid::operator=(const plUoid& other) {

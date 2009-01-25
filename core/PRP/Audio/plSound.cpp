@@ -11,8 +11,8 @@ void plSound::plFadeParams::read(hsStream* S) {
     fVolEnd = S->readFloat();
     fType = S->readByte();
     fCurrTime = S->readFloat();
-    fStopWhenDone = S->readInt();
-    fFadeSoftVol = S->readInt();
+    fStopWhenDone = S->readInt() != 0;
+    fFadeSoftVol = S->readInt() != 0;
 }
 
 void plSound::plFadeParams::write(hsStream* S) {
@@ -21,8 +21,8 @@ void plSound::plFadeParams::write(hsStream* S) {
     S->writeFloat(fVolEnd);
     S->writeByte(fType);
     S->writeFloat(fCurrTime);
-    S->writeInt(fStopWhenDone);
-    S->writeInt(fFadeSoftVol);
+    S->writeInt(fStopWhenDone ? 1 : 0);
+    S->writeInt(fFadeSoftVol ? 1 : 0);
 }
 
 void plSound::plFadeParams::prcWrite(pfPrcHelper* prc) {

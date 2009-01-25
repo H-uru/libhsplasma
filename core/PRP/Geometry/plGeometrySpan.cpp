@@ -165,7 +165,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
             prc->closeTag();
 
             prc->writeSimpleTag("UVWMaps");
-            for (size_t j=0; j<(fFormat & kUVCountMask); j++)
+            for (size_t j=0; j<(size_t)(fFormat & kUVCountMask); j++)
                 verts[i].fUVs[j].prcWrite(prc);
             prc->closeTag();
 
@@ -351,7 +351,7 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
         buf[i].fNormal.Y = *(float*)cp; cp += sizeof(float);
         buf[i].fNormal.Z = *(float*)cp; cp += sizeof(float);
 
-        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
+        for (size_t j=0; j<(size_t)(fFormat & kUVCountMask); j++) {
             buf[i].fUVs[j].X = *(float*)cp; cp += sizeof(float);
             buf[i].fUVs[j].Y = *(float*)cp; cp += sizeof(float);
             buf[i].fUVs[j].Z = *(float*)cp; cp += sizeof(float);
@@ -385,7 +385,7 @@ void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
         *(float*)cp = verts[i].fNormal.Y; cp += sizeof(float);
         *(float*)cp = verts[i].fNormal.Z; cp += sizeof(float);
 
-        for (size_t j=0; j<(fFormat & kUVCountMask); j++) {
+        for (size_t j=0; j<(size_t)(fFormat & kUVCountMask); j++) {
             *(float*)cp = verts[i].fUVs[j].X; cp += sizeof(float);
             *(float*)cp = verts[i].fUVs[j].Y; cp += sizeof(float);
             *(float*)cp = verts[i].fUVs[j].Z; cp += sizeof(float);
