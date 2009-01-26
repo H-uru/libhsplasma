@@ -55,6 +55,7 @@ PYOBJ=\
 	$(OBJDIR)pyAGApplicator.o \
 	$(OBJDIR)pyAGChannel.o \
 	$(OBJDIR)pyAgeGlobalAnim.o \
+	$(OBJDIR)pyAnimStage.o \
 	$(OBJDIR)pyATCAnim.o \
 	$(OBJDIR)pyATCChannel.o \
 	$(OBJDIR)pyEmoteAnim.o \
@@ -67,6 +68,7 @@ PYOBJ=\
 	$(OBJDIR)pyMatrixDelayedCorrectionApplicator.o \
 	$(OBJDIR)pyMatrixDifferenceApp.o \
 	$(OBJDIR)pyMatrixTimeScale.o \
+	$(OBJDIR)pyMultistageBehMod.o \
 	$(OBJDIR)pyLightAmbientApplicator.o \
 	$(OBJDIR)pyLightDiffuseApplicator.o \
 	$(OBJDIR)pyLightSpecularApplicator.o \
@@ -358,6 +360,9 @@ $(OBJDIR)pyAGChannel.o: PRP/Avatar/pyAGChannel.cpp
 $(OBJDIR)pyAgeGlobalAnim.o: PRP/Avatar/pyAgeGlobalAnim.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAgeGlobalAnim.cpp -o $@
 
+$(OBJDIR)pyAnimStage.o: PRP/Avatar/pyAnimStage.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyAnimStage.cpp -o $@
+
 $(OBJDIR)pyATCAnim.o: PRP/Avatar/pyATCAnim.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyATCAnim.cpp -o $@
 
@@ -402,6 +407,9 @@ $(OBJDIR)pyMatrixDifferenceApp.o: PRP/Avatar/pyMatrixDifferenceApp.cpp
 
 $(OBJDIR)pyMatrixTimeScale.o: PRP/Avatar/pyMatrixTimeScale.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMatrixTimeScale.cpp -o $@
+
+$(OBJDIR)pyMultistageBehMod.o: PRP/Avatar/pyMultistageBehMod.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyMultistageBehMod.cpp -o $@
 
 $(OBJDIR)pyOmniApplicator.o: PRP/Avatar/pyOmniApplicator.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/pyOmniApplicator.cpp -o $@

@@ -1,4 +1,5 @@
 #include "hsKeys.h"
+#include "Debug/plDebug.h"
 #include <cmath>
 
 /* hsKeyFrame */
@@ -19,6 +20,8 @@ void hsKeyFrame::read(hsStream* S, unsigned int type) {
         unsigned int flags = S->readInt();
         fFrame = S->readInt();
         fFrameTime = S->readFloat();
+        //if (fFrameTime != (fFrame / 30.0f))
+        //    plDebug::Debug("WARNING: Frame time mismatch: %d:%f", fFrame, fFrameTime);
 
         if ((fType == kPoint3KeyFrame || fType == kScalarKeyFrame ||
             fType == kScaleKeyFrame) && ((flags & kBezController) != 0))

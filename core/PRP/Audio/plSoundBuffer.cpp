@@ -1,6 +1,6 @@
 #include "plSoundBuffer.h"
 
-// plWAVHeader //
+/* plWAVHeader */
 plWAVHeader::plWAVHeader()
            : fFormatTag(0), fNumChannels(0), fNumSamplesPerSec(0),
              fAvgBytesPerSec(0), fBlockAlign(0), fBitsPerSample(0) { }
@@ -61,7 +61,7 @@ void plWAVHeader::setBlockAlign(unsigned short align) { fBlockAlign = align; }
 void plWAVHeader::setBitsPerSample(unsigned short bits) { fBitsPerSample = bits; }
 
 
-// plSoundBuffer //
+/* plSoundBuffer */
 plSoundBuffer::plSoundBuffer() : fDataLength(0), fData(NULL), fFlags(0) { }
 
 plSoundBuffer::~plSoundBuffer() {

@@ -22,6 +22,27 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumStages() const;
+    plAnimStage* getStage(size_t idx) const;
+    void addStage(plAnimStage* stage);
+    void delStage(size_t idx);
+    void clearStages();
+
+    size_t getNumReceivers() const;
+    plKey getReceiver(size_t idx) const;
+    void addReceiver(plKey receiver);
+    void delReceiver(size_t idx);
+    void clearReceivers();
+
+    bool getFreezePhys() const;
+    bool getSmartSeek() const;
+    bool getReverseFBControlsOnRelease() const;
+
+    void setFreezePhys(bool freeze);
+    void setSmartSeek(bool seek);
+    void setReverseFBControlsOnRelease(bool release);
 };
 
 #endif

@@ -25,6 +25,7 @@
 #include "PRP/Avatar/pyAGApplicator.h"
 #include "PRP/Avatar/pyAGChannel.h"
 #include "PRP/Avatar/pyATCAnim.h"
+#include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
@@ -251,6 +252,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plMsgForwarder", Init_pyMsgForwarder_Type());
     PyModule_AddObject(module, "plOccluder", Init_pyOccluder_Type());
     PyModule_AddObject(module, "plMobileOccluder", Init_pyMobileOccluder_Type());
+    PyModule_AddObject(module, "plMultistageBehMod", Init_pyMultistageBehMod_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -322,4 +324,5 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plScalarSDLChannel", Init_pyScalarSDLChannel_Type());
     PyModule_AddObject(module, "plATCChannel", Init_pyATCChannel_Type());
     PyModule_AddObject(module, "plScalarChannelApplicator", Init_pyScalarChannelApplicator_Type());
+    PyModule_AddObject(module, "plAnimStage", Init_pyAnimStage_Type());
 }

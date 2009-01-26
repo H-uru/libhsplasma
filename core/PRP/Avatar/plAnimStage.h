@@ -13,7 +13,7 @@ public:
     };
 
     enum PlayType { kPlayNone, kPlayKey, kPlayAuto, kPlayMax };
-    
+
     enum AdvanceType {
         kAdvanceNone, kAdvanceOnMove, kAdvanceAuto, kAdvanceOnAnyKey,
         kAdvanceMax
@@ -24,13 +24,9 @@ protected:
     AdvanceType fAdvanceType, fRegressType;
     plString fAnimName;
     unsigned char fNotify;
-    int fLoops, fCurLoop;
+    int fLoops;
     bool fDoAdvanceTo, fDoRegressTo;
     unsigned int fAdvanceTo, fRegressTo;
-    float fLocalTime, fLength;
-    bool fAttached, fAnimatedHandle;
-    unsigned char fSentNotifiers;
-    bool fReverseOnIdle, fDone;
 
 public:
     plAnimStage();
@@ -44,6 +40,29 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    PlayType getForwardType() const;
+    PlayType getBackType() const;
+    AdvanceType getAdvanceType() const;
+    AdvanceType getRegressType() const;
+    plString getAnimName() const;
+    unsigned char getNotify() const;
+    int getLoops() const;
+    bool doAdvanceTo() const;
+    bool doRegressTo() const;
+    unsigned int getAdvanceTo() const;
+    unsigned int getRegressTo() const;
+
+    void setForwardType(PlayType fwd);
+    void setBackType(PlayType back);
+    void setAdvanceType(AdvanceType adv);
+    void setRegressType(AdvanceType reg);
+    void setAnimName(const plString& name);
+    void setNotify(unsigned char notify);
+    void setLoops(int loops);
+    void setAdvanceTo(bool doAdvance, unsigned int advance = 0);
+    void setRegressTo(bool doRegress, unsigned int regress = 0);
 };
 
 #endif

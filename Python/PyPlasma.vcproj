@@ -973,6 +973,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Avatar\pyAnimStage.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Avatar\pyATCAnim.cpp"
 					>
 				</File>
@@ -1034,6 +1038,14 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Avatar\pyMatrixTimeScale.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\pyMultistageBehMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\pyMultistageBehMod.h"
 					>
 				</File>
 				<File

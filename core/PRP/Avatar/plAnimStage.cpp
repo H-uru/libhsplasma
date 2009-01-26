@@ -78,3 +78,33 @@ void plAnimStage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plCreatable::IPrcParse(tag, mgr);
     }
 }
+
+plAnimStage::PlayType plAnimStage::getForwardType() const { return fForwardType; }
+plAnimStage::PlayType plAnimStage::getBackType() const { return fBackType; }
+plAnimStage::AdvanceType plAnimStage::getAdvanceType() const { return fAdvanceType; }
+plAnimStage::AdvanceType plAnimStage::getRegressType() const { return fRegressType; }
+plString plAnimStage::getAnimName() const { return fAnimName; }
+unsigned char plAnimStage::getNotify() const { return fNotify; }
+int plAnimStage::getLoops() const { return fLoops; }
+bool plAnimStage::doAdvanceTo() const { return fDoAdvanceTo; }
+bool plAnimStage::doRegressTo() const { return fDoRegressTo; }
+unsigned int plAnimStage::getAdvanceTo() const { return fAdvanceTo; }
+unsigned int plAnimStage::getRegressTo() const { return fRegressTo; }
+
+void plAnimStage::setForwardType(PlayType fwd) { fForwardType = fwd; }
+void plAnimStage::setBackType(PlayType back) { fBackType = back; }
+void plAnimStage::setAdvanceType(AdvanceType adv) { fAdvanceType = adv; }
+void plAnimStage::setRegressType(AdvanceType reg) { fRegressType = reg; }
+void plAnimStage::setAnimName(const plString& name) { fAnimName = name; }
+void plAnimStage::setNotify(unsigned char notify) { fNotify = notify; }
+void plAnimStage::setLoops(int loops) { fLoops = loops; }
+
+void plAnimStage::setAdvanceTo(bool doAdvance, unsigned int advance) {
+    fDoAdvanceTo = doAdvance;
+    fAdvanceTo = advance;
+}
+
+void plAnimStage::setRegressTo(bool doRegress, unsigned int regress) {
+    fDoRegressTo = doRegress;
+    fRegressTo = regress;
+}
