@@ -395,7 +395,9 @@ void plMipmap::IBuildLevelSizes() {
                 fLevelData[i].fSize = (fDXInfo.fBlockSize * curHeight * curWidth) / 16;
         } else if (fCompressionType == kUncompressed) {
             fLevelData[i].fSize = curStride * curHeight;
-        } else return;
+        } else {
+            fLevelData[i].fSize = curStride * curHeight;
+        }
 
         fLevelData[i].fWidth = curWidth;
         fLevelData[i].fHeight = curHeight;
@@ -526,6 +528,7 @@ void plMipmap::IWriteRawImage(hsStream* S) {
     }
 }
 
+/*
 void plMipmap::IRecombineAlpha(plMipmap* alphaImg) {
     if (fUncompressedInfo.fType == kRGB8888) {
         for (size_t i=0; i<((fTotalSize-1)/4)+1; i++)
@@ -544,6 +547,7 @@ plMipmap* plMipmap::ISplitAlpha() {
     }
     return alpha;
 }
+*/
 
 void plMipmap::CopyFrom(plMipmap* src) {
     if (fImageData != NULL)
@@ -651,23 +655,31 @@ void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
 bool plMipmap::isImageJPEG() const { return fJPEGData != NULL; }
 bool plMipmap::isAlphaJPEG() const { return fJAlphaData != NULL; }
 
-size_t plMipmap::GetUncompressedSize() const {
+size_t plMipmap::GetUncompressedSize(size_t level) const {
+    const LevelData& lvl = fLevelData[level];
+    return lvl.fHeight * lvl.fWidth * 4;
+}
+
+size_t plMipmap::GetCompressedSize(size_t level) const {
+    const LevelData& lvl = fLevelData[level];
     if (fCompressionType == kDirectXCompression) {
         if (fDXInfo.fCompressionType == kDXT1) {
-            return (size_t)squish::GetStorageRequirements(fWidth, fHeight, squish::kDxt1);
+            return (size_t)squish::GetStorageRequirements(lvl.fWidth, lvl.fHeight, squish::kDxt1);
         } else if (fDXInfo.fCompressionType == kDXT3) {
-            return (size_t)squish::GetStorageRequirements(fWidth, fHeight, squish::kDxt3);
+            return (size_t)squish::GetStorageRequirements(lvl.fWidth, lvl.fHeight, squish::kDxt3);
         } else if (fDXInfo.fCompressionType == kDXT5) {
-            return (size_t)squish::GetStorageRequirements(fWidth, fHeight, squish::kDxt5);
+            return (size_t)squish::GetStorageRequirements(lvl.fWidth, lvl.fHeight, squish::kDxt5);
         } else {
             throw hsBadParamException(__FILE__, __LINE__);
         }
     } else {
-        return fTotalSize;
+        return lvl.fSize;
     }
 }
 
-void plMipmap::DecompressImage(void* dest, size_t size) {
+void plMipmap::DecompressImage(size_t level, void* dest, size_t size) {
+    const LevelData& lvl = fLevelData[level];
+
     if (fCompressionType == kJPEGCompression) {
         unsigned char* jAlpha = new unsigned char[size];
 
@@ -687,23 +699,26 @@ void plMipmap::DecompressImage(void* dest, size_t size) {
             memcpy(jAlpha, fAlphaData, size);
         }
 
-        for (size_t i=0; i<((size-1)/4)+1; i++)
-            ((unsigned char*)dest)[(i*4)+3] = jAlpha[(i*4)+2];
+        size_t alphaOffset = isAlphaJPEG() ? 0 : 2;
+        for (size_t i=0; i<size; i+=4)
+            ((unsigned char*)dest)[i+3] = jAlpha[i + alphaOffset];
         delete[] jAlpha;
     } else if (fCompressionType == kDirectXCompression) {
+        unsigned char* imgPtr = fImageData + fLevelData[level].fOffset;
         if (fDXInfo.fCompressionType == kDXT1) {
-            squish::DecompressImage((squish::u8*)dest, fWidth, fHeight,
-                                    fImageData, squish::kDxt1);
+            squish::DecompressImage((squish::u8*)dest, lvl.fWidth, lvl.fHeight,
+                                    imgPtr, squish::kDxt1);
         } else if (fDXInfo.fCompressionType == kDXT3) {
-            squish::DecompressImage((squish::u8*)dest, fWidth, fHeight,
-                                    fImageData, squish::kDxt3);
+            squish::DecompressImage((squish::u8*)dest, lvl.fWidth, lvl.fHeight,
+                                    imgPtr, squish::kDxt3);
         } else if (fDXInfo.fCompressionType == kDXT5) {
-            squish::DecompressImage((squish::u8*)dest, fWidth, fHeight,
-                                    fImageData, squish::kDxt5);
+            squish::DecompressImage((squish::u8*)dest, lvl.fWidth, lvl.fHeight,
+                                    imgPtr, squish::kDxt5);
         } else {
             throw hsBadParamException(__FILE__, __LINE__);
         }
     } else {
-        memcpy(dest, fImageData, size);
+        unsigned char* imgPtr = fImageData + fLevelData[level].fOffset;
+        memcpy(dest, imgPtr, size);
     }
 }

@@ -213,10 +213,15 @@ static PyObject* pyMipmap_isAlphaJPEG(pyMipmap* self) {
     return PyBool_FromLong(self->fThis->isAlphaJPEG() ? 1 : 0);
 }
 
-static PyObject* pyMipmap_DecompressImage(pyMipmap* self) {
-    size_t size = self->fThis->GetUncompressedSize();
+static PyObject* pyMipmap_DecompressImage(pyMipmap* self, PyObject* args) {
+    int level;
+    if (!PyArg_ParseTuple(args, "i", &level)) {
+        PyErr_SetString(PyExc_TypeError, "DecompressImage expects an int");
+        return NULL;
+    }
+    size_t size = self->fThis->GetUncompressedSize(level);
     unsigned char* buf = new unsigned char[size];
-    self->fThis->DecompressImage(buf, size);
+    self->fThis->DecompressImage(level, buf, size);
     PyObject* img = PyString_FromStringAndSize((char*)buf, size);
     delete[] buf;
     return img;
@@ -322,8 +327,9 @@ static PyMethodDef pyMipmap_Methods[] = {
       "Returns whether the imageData member is a JPEG stream" },
     { "isAlphaJPEG", (PyCFunction)pyMipmap_isAlphaJPEG, METH_NOARGS,
       "Returns whether the alphaData member is a JPEG stream" },
-    { "DecompressImage", (PyCFunction)pyMipmap_DecompressImage, METH_NOARGS,
-      "Deompresses the image and returns the uncompressed ARGB buffer" },
+    { "DecompressImage", (PyCFunction)pyMipmap_DecompressImage, METH_VARARGS,
+      "Params: level\n"
+      "Deompresses the specified mip level and returns the uncompressed RGBA buffer" },
     { NULL, NULL, 0, NULL }
 };
 

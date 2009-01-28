@@ -62,8 +62,10 @@ protected:
 
     void CopyFrom(plMipmap* src);
     void ICopyImage(plMipmap* src);
+    /*
     void IRecombineAlpha(plMipmap* alphaImg);
     plMipmap* ISplitAlpha();
+    */
 
     void IBuildLevelSizes();
     void IReadJPEGImage(hsStream* S);
@@ -101,8 +103,9 @@ public:
     bool isImageJPEG() const;
     bool isAlphaJPEG() const;
 
-    size_t GetUncompressedSize() const;
-    void DecompressImage(void* dest, size_t size);
+    size_t GetUncompressedSize(size_t level) const;
+    size_t GetCompressedSize(size_t level) const;
+    void DecompressImage(size_t level, void* dest, size_t size);
 };
 
 #endif
