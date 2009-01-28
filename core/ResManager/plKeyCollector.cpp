@@ -48,8 +48,10 @@ void plKeyCollector::del(plKey key) {
             it++;
         }
     }
-    if (key.Exists() && key.isLoaded())
+    if (key.Exists() && key.isLoaded()) {
         delete key->getObj();
+        key->setObj(NULL);
+    }
 }
 
 void plKeyCollector::delAll(const plLocation& loc) {

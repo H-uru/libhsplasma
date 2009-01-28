@@ -9,9 +9,7 @@
 plMipmap::plMipmap()
         : fImageData(NULL), fTotalSize(0), fAlphaData(NULL), fAlphaSize(0),
           fJPEGData(NULL), fJPEGSize(0), fJAlphaData(NULL), fJAlphaSize(0) {
-    fPixelSize = 32;
-    fSpace = kDirectSpace;
-    fFlags = kAlphaChannelFlag;
+    Create(0, 0, kARGB32Config, 0, kUncompressed, kRGB8888);
 }
 
 plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
@@ -19,9 +17,6 @@ plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
                    unsigned char format)
         : fImageData(NULL), fTotalSize(0), fAlphaData(NULL), fAlphaSize(0),
           fJPEGData(NULL), fJPEGSize(0), fJAlphaData(NULL), fJAlphaSize(0) {
-    fPixelSize = 32;
-    fSpace = kDirectSpace;
-    fFlags = kAlphaChannelFlag;
     Create(width, height, cfg, numLevels, compType, format);
 }
 
@@ -37,22 +32,15 @@ IMPLEMENT_CREATABLE(plMipmap, kMipmap, plBitmap)
 void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
                       unsigned char numLevels, unsigned char compType,
                       unsigned char format) {
+    if (fImageData != NULL) delete[] fImageData;
+    if (fAlphaData != NULL) delete[] fAlphaData;
+    if (fJPEGData != NULL) delete[] fJPEGData;
+    if (fJAlphaData != NULL) delete[] fJAlphaData;
+                          
     setConfig(cfg);
     fStride = (fPixelSize * width) / 8;
     fWidth = width;
     fHeight = height;
-
-    if (numLevels == 0) {
-        numLevels = 1;
-        while (width > 1 && height > 1) {
-            if (width > 1)
-                width /= 2;
-            if (height > 1)
-                height /= 2;
-            numLevels++;
-        }
-    }
-    fLevelData.setSize(numLevels);
 
     fCompressionType = compType;
     if (compType == kUncompressed || compType == kJPEGCompression) {
@@ -68,6 +56,28 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
             fFlags |= kAlphaChannelFlag;
         }
     }
+
+    if (fWidth == 0 || fHeight == 0) {
+        fLevelData.setSize(0);
+        fTotalSize = 0;
+        fImageData = NULL;
+        fAlphaData = NULL;
+        fJPEGData = NULL;
+        fJAlphaData = NULL;
+        return;
+    }
+
+    if (numLevels == 0) {
+        numLevels = 1;
+        while (width > 1 && height > 1) {
+            if (width > 1)
+                width /= 2;
+            if (height > 1)
+                height /= 2;
+            numLevels++;
+        }
+    }
+    fLevelData.setSize(numLevels);
 
     fLevelData.clear();
     IBuildLevelSizes();
