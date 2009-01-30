@@ -329,11 +329,10 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
 }
 
 void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
-    std::vector<short> types = keys.getTypes(loc);
+    std::vector<short> types = keys.getTypes(loc, true);
     S->writeInt(types.size());
     for (unsigned int i=0; i<types.size(); i++) {
-        std::vector<plKey> kList = keys.getKeys(loc, types[i]);
-        if (kList.size() <= 0) continue;
+        std::vector<plKey> kList = keys.getKeys(loc, types[i], true);
         S->writeShort(pdUnifiedTypeMap::MappedToPlasma(kList[0]->getType(), S->getVer()));
         unsigned int lenPos = S->pos();
         if (S->getVer() >= pvLive) {

@@ -1,6 +1,7 @@
 #include "plKeyCollector.h"
 #include "pdUnifiedTypeMap.h"
 #include "PRP/KeyedObject/hsKeyedObject.h"
+#include <list>
 
 plKeyCollector::plKeyCollector() { }
 
@@ -73,7 +74,7 @@ void plKeyCollector::reserveKeySpace(const plLocation& loc, short type, int num)
 
 void plKeyCollector::sortKeys(const plLocation& loc) {
     std::vector<short> types = getTypes(loc);
-    std::vector<plKey> sortKeys;
+    std::list<plKey> sortKeys;
     for (unsigned int i=0; i<types.size(); i++) {
         sortKeys.clear();
         unsigned int id = 1;
@@ -86,40 +87,63 @@ void plKeyCollector::sortKeys(const plLocation& loc) {
                 }
             }
         }
-        keys[loc][types[i]] = sortKeys;
+        keys[loc][types[i]] = std::vector<plKey>(sortKeys.begin(), sortKeys.end());
     }
 }
 
-unsigned int plKeyCollector::countTypes(const plLocation& loc) {
-    return getTypes(loc).size();
+unsigned int plKeyCollector::countTypes(const plLocation& loc, bool checkKeys) {
+    return getTypes(loc, checkKeys).size();
 }
 
-unsigned int plKeyCollector::countKeys(const plLocation& loc) {
+unsigned int plKeyCollector::countKeys(const plLocation& loc, bool checkKeys) {
     unsigned int kCount = 0;
     for (unsigned int i=0; i<TYPESPACE_MAX; i++)
-        kCount += keys[loc][i].size();
+        kCount += getKeys(loc, i, checkKeys).size();
     return kCount;
 }
 
-const std::vector<plKey>& plKeyCollector::getKeys(const plLocation& loc, short type) {
-    return keys[loc][type];
+std::vector<plKey> plKeyCollector::getKeys(const plLocation& loc, short type,
+                                           bool checkKeys) {
+    if (checkKeys) {
+        std::list<plKey> kList;
+        std::vector<plKey>::iterator it;
+        for (it = keys[loc][type].begin(); it != keys[loc][type].end(); it++) {
+            if ((*it).Exists() && (*it).isLoaded())
+                kList.push_back(*it);
+        }
+        return std::vector<plKey>(kList.begin(), kList.end());
+    } else {
+        return keys[loc][type];
+    }
 }
 
-std::vector<short> plKeyCollector::getTypes(const plLocation& loc) {
-    std::vector<short> types;
-    for (unsigned int i=0; i<TYPESPACE_MAX; i++) {
-        if (keys[loc][i].size() > 0)
-            types.push_back(i);
+std::vector<short> plKeyCollector::getTypes(const plLocation& loc, bool checkKeys) {
+    std::list<short> types;
+    for (unsigned short i=0; i<TYPESPACE_MAX; i++) {
+        if (checkKeys) {
+            bool hasValidKeys = false;
+            for (size_t j=0; j<keys[loc][i].size(); j++) {
+                if (keys[loc][i][j].Exists() && keys[loc][i][j].isLoaded()) {
+                    hasValidKeys = true;
+                    break;
+                }
+            }
+            if (hasValidKeys)
+                types.push_back(i);
+        } else {
+            if (keys[loc][i].size() > 0)
+                types.push_back(i);
+        }
     }
-    return types;
+    return std::vector<short>(types.begin(), types.end());
 }
 
 std::vector<plLocation> plKeyCollector::getPages() {
-    std::vector<plLocation> pages;
+    std::list<plLocation> pages;
     keymap_t::iterator i;
     for (i = keys.begin(); i != keys.end(); i++)
         pages.push_back(i->first);
-    return pages;
+    return std::vector<plLocation>(pages.begin(), pages.end());
 }
 
 void plKeyCollector::ChangeLocation(const plLocation& from, const plLocation& to) {

@@ -22,10 +22,11 @@ public:
     void reserveKeySpace(const plLocation& loc, short type, int num);
     void sortKeys(const plLocation& loc);
 
-    unsigned int countTypes(const plLocation& loc);
-    unsigned int countKeys(const plLocation& loc);
-    const std::vector<plKey>& getKeys(const plLocation& loc, short type);
-    std::vector<short> getTypes(const plLocation& loc);
+    unsigned int countTypes(const plLocation& loc, bool checkKeys = false);
+    unsigned int countKeys(const plLocation& loc, bool checkKeys = false);
+    std::vector<plKey> getKeys(const plLocation& loc, short type,
+                               bool checkKeys = false);
+    std::vector<short> getTypes(const plLocation& loc, bool checkKeys = false);
     std::vector<plLocation> getPages();
 
     void ChangeLocation(const plLocation& from, const plLocation& to);
