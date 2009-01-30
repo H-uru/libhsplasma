@@ -1,6 +1,7 @@
 #include "plKeyCollector.h"
 #include "pdUnifiedTypeMap.h"
 #include "PRP/KeyedObject/hsKeyedObject.h"
+#include "Debug/plDebug.h"
 #include <list>
 
 plKeyCollector::plKeyCollector() { }
@@ -110,6 +111,8 @@ std::vector<plKey> plKeyCollector::getKeys(const plLocation& loc, short type,
         for (it = keys[loc][type].begin(); it != keys[loc][type].end(); it++) {
             if ((*it).Exists() && (*it).isLoaded())
                 kList.push_back(*it);
+            else
+                plDebug::Debug("Got erroneous key: %s", (*it)->toString().cstr());
         }
         return std::vector<plKey>(kList.begin(), kList.end());
     } else {
@@ -122,10 +125,13 @@ std::vector<short> plKeyCollector::getTypes(const plLocation& loc, bool checkKey
     for (unsigned short i=0; i<TYPESPACE_MAX; i++) {
         if (checkKeys) {
             bool hasValidKeys = false;
-            for (size_t j=0; j<keys[loc][i].size(); j++) {
-                if (keys[loc][i][j].Exists() && keys[loc][i][j].isLoaded()) {
+            std::vector<plKey>::iterator it;
+            for (it = keys[loc][i].begin(); it != keys[loc][i].end(); it++) {
+                if ((*it).Exists() && (*it).isLoaded()) {
                     hasValidKeys = true;
                     break;
+                } else {
+                    plDebug::Debug("Got erroneous key: %s", (*it)->toString().cstr());
                 }
             }
             if (hasValidKeys)

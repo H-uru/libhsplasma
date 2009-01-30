@@ -43,6 +43,7 @@
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Misc/pyRenderLevel.h"
+#include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyOneShotMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
@@ -253,6 +254,7 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plOccluder", Init_pyOccluder_Type());
     PyModule_AddObject(module, "plMobileOccluder", Init_pyMobileOccluder_Type());
     PyModule_AddObject(module, "plMultistageBehMod", Init_pyMultistageBehMod_Type());
+    PyModule_AddObject(module, "plInterfaceInfoModifier", Init_pyInterfaceInfoModifier_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

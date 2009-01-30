@@ -677,6 +677,14 @@
 				Name="Modifier"
 				>
 				<File
+					RelativePath=".\PRP\Modifier\pyInterfaceInfoModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pyInterfaceInfoModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Modifier\pyModifier.cpp"
 					>
 				</File>

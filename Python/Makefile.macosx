@@ -138,6 +138,7 @@ PYOBJ=\
 	$(OBJDIR)pyMessage.o \
 	$(OBJDIR)pyMsgForwarder.o \
 	$(OBJDIR)pyRenderLevel.o \
+	$(OBJDIR)pyInterfaceInfoModifier.o \
 	$(OBJDIR)pyModifier.o \
 	$(OBJDIR)pyMultiModifier.o \
 	$(OBJDIR)pyOneShotMod.o \
@@ -605,6 +606,9 @@ $(OBJDIR)pyMsgForwarder.o: PRP/Message/pyMsgForwarder.cpp
 
 $(OBJDIR)pyRenderLevel.o: PRP/Misc/pyRenderLevel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $@
+
+$(OBJDIR)pyInterfaceInfoModifier.o: PRP/Modifier/pyInterfaceInfoModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyInterfaceInfoModifier.cpp -o $@
 
 $(OBJDIR)pyModifier.o: PRP/Modifier/pyModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyModifier.cpp -o $@

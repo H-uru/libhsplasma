@@ -19,6 +19,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumIntfKeys() const;
+    plKey getIntfKey(size_t idx) const;
+    void addIntfKey(plKey key);
+    void delIntfKey(size_t idx);
+    void clearIntfKeys();
 };
 
 #endif

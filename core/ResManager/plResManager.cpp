@@ -507,12 +507,13 @@ std::vector<plLocation> plResManager::getLocations() {
     return locArr;
 }
 
-std::vector<short> plResManager::getTypes(const plLocation& loc) {
-    return keys.getTypes(loc);
+std::vector<short> plResManager::getTypes(const plLocation& loc, bool checkKeys) {
+    return keys.getTypes(loc, checkKeys);
 }
 
-std::vector<plKey> plResManager::getKeys(const plLocation& loc, short type) {
-    return keys.getKeys(loc, type);
+std::vector<plKey> plResManager::getKeys(const plLocation& loc, short type,
+                                         bool checkKeys) {
+    return keys.getKeys(loc, type, checkKeys);
 }
 
 plKey plResManager::AddKey(plKey key) {
