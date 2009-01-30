@@ -6,12 +6,18 @@ plGeometrySpan::plGeometrySpan()
                 fAddColor(NULL), fDiffuseRGBA(NULL), fSpecularRGBA(NULL) { }
 
 plGeometrySpan::~plGeometrySpan() {
-    if (fVertexData) delete[] fVertexData;
-    if (fMultColor) delete[] fMultColor;
-    if (fAddColor) delete[] fAddColor;
-    if (fDiffuseRGBA) delete[] fDiffuseRGBA;
-    if (fSpecularRGBA) delete[] fSpecularRGBA;
-    if (fIndexData) delete[] fIndexData;
+    if (fVertexData != NULL)
+        delete[] fVertexData;
+    if (fMultColor != NULL)
+        delete[] fMultColor;
+    if (fAddColor != NULL)
+        delete[] fAddColor;
+    if (fDiffuseRGBA != NULL)
+        delete[] fDiffuseRGBA;
+    if (fSpecularRGBA != NULL)
+        delete[] fSpecularRGBA;
+    if (fIndexData != NULL)
+        delete[] fIndexData;
 }
 
 unsigned int plGeometrySpan::CalcVertexSize(unsigned char format) {
@@ -400,5 +406,26 @@ void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
             *(int*)cp = verts[i].fIndices;
             cp += sizeof(int);
         }
+    }
+}
+
+hsTArray<unsigned short> plGeometrySpan::getIndices() const {
+    hsTArray<unsigned short> buf;
+    buf.setSize(fNumIndices);
+    for (size_t i=0; i<fNumIndices; i++)
+        buf[i] = fIndexData[i];
+    return buf;
+}
+
+void plGeometrySpan::setIndices(const hsTArray<unsigned short>& indices) {
+    if (fIndexData != NULL)
+        delete[] fIndexData;
+    fNumIndices = indices.getSize();
+    if (fNumIndices > 0) {
+        fIndexData = new unsigned short[fNumIndices];
+        for (size_t i=0; i<fNumIndices; i++)
+            fIndexData[i] = indices[i];
+    } else {
+        fIndexData = NULL;
     }
 }

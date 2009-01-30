@@ -3,10 +3,10 @@
 plSharedMesh::plSharedMesh() : fMorphSet(NULL), fFlags(kDontSaveMorphState) { }
 
 plSharedMesh::~plSharedMesh() {
-	for (size_t i=0; i<fSpans.getSize(); i++)
-		delete fSpans[i];
-	for (size_t i=0; i<fActiveInstances.getSize(); i++)
-		delete fActiveInstances[i];
+    for (size_t i=0; i<fSpans.getSize(); i++)
+        delete fSpans[i];
+    for (size_t i=0; i<fActiveInstances.getSize(); i++)
+        delete fActiveInstances[i];
 }
 
 IMPLEMENT_CREATABLE(plSharedMesh, kSharedMesh, hsKeyedObject)
@@ -66,3 +66,6 @@ void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
+
+size_t plSharedMesh::getNumSpans() const { return fSpans.getSize(); }
+plGeometrySpan* plSharedMesh::getSpan(size_t idx) const { return fSpans[idx]; }

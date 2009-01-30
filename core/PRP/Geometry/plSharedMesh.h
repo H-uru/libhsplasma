@@ -15,12 +15,12 @@ public:
 
 public:
     hsTArray<plGeometrySpan*> fSpans;
-	hsTArray<plSceneObject const*> fActiveInstances;
+    hsTArray<plSceneObject const*> fActiveInstances;
     plKey fMorphSet;
     unsigned char fFlags;
 
 public:
-	plSharedMesh();
+    plSharedMesh();
     virtual ~plSharedMesh();
 
     DECLARE_CREATABLE(plSharedMesh)
@@ -31,6 +31,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumSpans() const;
+    plGeometrySpan* getSpan(size_t idx) const;
 };
 
 #endif

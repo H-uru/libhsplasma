@@ -84,8 +84,6 @@ protected:
     unsigned int fSpanRefIndex;
     hsMatrix44 fLocalToOBB, fOBBToLocal;
     bool fCreating;
-    hsTArray<TempVertex> fVertAccum;
-    hsTArray<unsigned short> fIndexAccum;
 
     unsigned int numInstanceRefs;
     
@@ -105,6 +103,8 @@ public:
 
     hsTArray<TempVertex> getVertices() const;
     void setVertices(const hsTArray<TempVertex>& verts);
+    hsTArray<unsigned short> getIndices() const;
+    void setIndices(const hsTArray<unsigned short>& indices);
 };
 
 #endif
