@@ -28,6 +28,21 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    int getType() const;
+    float getState() const;
+    int getID() const;
+
+    void setType(int type);
+    void setState(float state);
+    void setID(int id);
+
+    size_t getNumEvents() const;
+    proEventData* getEvent(size_t idx) const;
+    void addEvent(proEventData* evt);
+    void delEvent(size_t idx);
+    void clearEvents();
 };
 
 #endif

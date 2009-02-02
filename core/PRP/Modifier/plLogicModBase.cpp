@@ -13,7 +13,7 @@ plLogicModBase::plLogicModBase()
 
 plLogicModBase::~plLogicModBase() {
     for (size_t i=0; i<fCommandList.getSize(); i++)
-        if (fCommandList[i]) delete fCommandList[i];
+        delete fCommandList[i];
     if (fNotify) delete fNotify;
 }
 
@@ -23,6 +23,7 @@ void plLogicModBase::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
     fCommandList.setSizeNull(S->readInt());
+    clearCommands();
     for (size_t i=0; i<fCommandList.getSize(); i++)
         fCommandList[i] = plMessage::Convert(mgr->ReadCreatable(S));
 
@@ -51,7 +52,7 @@ void plLogicModBase::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("LogicModParams");
     prc->writeParam("Disabled", fDisabled);
     prc->endTag(true);
-    
+
     prc->writeSimpleTag("Commands");
     for (size_t i=0; i<fCommandList.getSize(); i++)
         fCommandList[i]->prcWrite(prc);
@@ -86,3 +87,30 @@ void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
+
+size_t plLogicModBase::getNumCommands() const { return fCommandList.getSize(); }
+plMessage* plLogicModBase::getCommand(size_t idx) const { return fCommandList[idx]; }
+void plLogicModBase::addCommand(plMessage* cmd) { fCommandList.append(cmd); }
+
+void plLogicModBase::delCommand(size_t idx) {
+    delete fCommandList[idx];
+    fCommandList.remove(idx);
+}
+
+void plLogicModBase::clearCommands() {
+    for (size_t i=0; i<fCommandList.getSize(); i++)
+        delete fCommandList[i];
+    fCommandList.clear();
+}
+
+plNotifyMsg* plLogicModBase::getNotify() const { return fNotify; }
+bool plLogicModBase::isDisabled() const { return fDisabled; }
+
+void plLogicModBase::setNotify(plNotifyMsg* notify) {
+    if (fNotify != NULL)
+        delete fNotify;
+    fNotify = notify;
+}
+
+void plLogicModBase::setDisabled(bool disabled) { fDisabled = disabled; }
+hsBitVector& plLogicModBase::getLogicFlags() { return fLogicFlags; }

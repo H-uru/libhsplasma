@@ -21,6 +21,19 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumConditions() const;
+    plKey getCondition(size_t idx) const;
+    void addCondition(plKey cond);
+    void delCondition(size_t idx);
+    void clearConditions();
+
+    unsigned int getCursor() const;
+    plKey getParent() const;
+
+    void setCursor(unsigned int cursor);
+    void setParent(plKey parent);
 };
 
 #endif

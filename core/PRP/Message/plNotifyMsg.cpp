@@ -3,8 +3,10 @@
 plNotifyMsg::plNotifyMsg() : fType(0), fID(0), fState(0.0f) { }
 
 plNotifyMsg::~plNotifyMsg() {
-    for (size_t i=0; i<fEvents.getSize(); i++)
-        delete fEvents[i];
+    for (size_t i=0; i<fEvents.getSize(); i++) {
+        if (fEvents[i] != NULL)
+            delete fEvents[i];
+    }
 }
 
 IMPLEMENT_CREATABLE(plNotifyMsg, kNotifyMsg, plMessage)
@@ -64,4 +66,30 @@ void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plMessage::IPrcParse(tag, mgr);
     }
+}
+
+int plNotifyMsg::getType() const { return fType; }
+float plNotifyMsg::getState() const { return fState; }
+int plNotifyMsg::getID() const { return fID; }
+
+void plNotifyMsg::setType(int type) { fType = type; }
+void plNotifyMsg::setState(float state) { fState = state; }
+void plNotifyMsg::setID(int id) { fID = id; }
+
+size_t plNotifyMsg::getNumEvents() const { return fEvents.getSize(); }
+proEventData* plNotifyMsg::getEvent(size_t idx) const { return fEvents[idx]; }
+void plNotifyMsg::addEvent(proEventData* evt) { fEvents.append(evt); }
+
+void plNotifyMsg::delEvent(size_t idx) {
+    if (fEvents[idx] != NULL)
+        delete fEvents[idx];
+    fEvents.remove(idx);
+}
+
+void plNotifyMsg::clearEvents() {
+    for (size_t i=0; i<fEvents.getSize(); i++) {
+        if (fEvents[i] != NULL)
+            delete fEvents[i];
+    }
+    fEvents.clear();
 }

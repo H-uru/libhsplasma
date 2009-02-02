@@ -64,3 +64,15 @@ void plLogicModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plLogicModBase::IPrcParse(tag, mgr);
     }
 }
+
+size_t plLogicModifier::getNumConditions() const { return fConditionList.getSize(); }
+plKey plLogicModifier::getCondition(size_t idx) const { return fConditionList[idx]; }
+void plLogicModifier::addCondition(plKey cond) { fConditionList.append(cond); }
+void plLogicModifier::delCondition(size_t idx) { fConditionList.remove(idx); }
+void plLogicModifier::clearConditions() { fConditionList.clear(); }
+
+unsigned int plLogicModifier::getCursor() const { return fMyCursor; }
+plKey plLogicModifier::getParent() const { return fParent; }
+
+void plLogicModifier::setCursor(unsigned int cursor) { fMyCursor = cursor; }
+void plLogicModifier::setParent(plKey parent) { fParent = parent; }

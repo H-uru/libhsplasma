@@ -13,7 +13,6 @@ public:
 
 protected:
     hsTArray<plMessage*> fCommandList;
-    hsTArray<plKey> fReceiverList;
     hsBitVector fLogicFlags;
     plNotifyMsg* fNotify;
     bool fDisabled;
@@ -30,6 +29,21 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumCommands() const;
+    plMessage* getCommand(size_t idx) const;
+    void addCommand(plMessage* cmd);
+    void delCommand(size_t idx);
+    void clearCommands();
+
+    plNotifyMsg* getNotify() const;
+    bool isDisabled() const;
+
+    void setNotify(plNotifyMsg* notify);
+    void setDisabled(bool disabled);
+
+    hsBitVector& getLogicFlags();
 };
 
 #endif

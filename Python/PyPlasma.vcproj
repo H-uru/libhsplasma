@@ -685,6 +685,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Modifier\pyLogicModBase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pyLogicModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pyLogicModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Modifier\pyModifier.cpp"
 					>
 				</File>
@@ -921,11 +933,59 @@
 				Name="Message"
 				>
 				<File
+					RelativePath=".\PRP\Message\pyActivateEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyBookEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyCallbackEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyClickDragEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyClimbingBlockerHitEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyCollisionEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyContainedEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyControlKeyEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyCoopEventData.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\pyEventCallbackMsg.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PRP\Message\pyEventCallbackMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyEventData.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyFacingEventData.cpp"
 					>
 				</File>
 				<File
@@ -942,6 +1002,38 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Message\pyMsgForwarder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyMultiStageEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyNotifyMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyNotifyMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyOfferLinkBookEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyPickedEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyResponderStateEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pySpawnedEventData.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pyVariableEventData.cpp"
 					>
 				</File>
 			</Filter>

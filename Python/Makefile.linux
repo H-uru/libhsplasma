@@ -134,11 +134,31 @@ PYOBJ=\
 	$(OBJDIR)pyLimitedDirLightInfo.o \
 	$(OBJDIR)pyOmniLightInfo.o \
 	$(OBJDIR)pySpotLightInfo.o \
+	$(OBJDIR)pyActivateEventData.o \
+	$(OBJDIR)pyBookEventData.o \
+	$(OBJDIR)pyCallbackEventData.o \
+	$(OBJDIR)pyClickDragEventData.o \
+	$(OBJDIR)pyClimbingBlockerHitEventData.o \
+	$(OBJDIR)pyCollisionEventData.o \
+	$(OBJDIR)pyContainedEventData.o \
+	$(OBJDIR)pyControlKeyEventData.o \
+	$(OBJDIR)pyCoopEventData.o \
 	$(OBJDIR)pyEventCallbackMsg.o \
+	$(OBJDIR)pyEventData.o \
+	$(OBJDIR)pyFacingEventData.o \
 	$(OBJDIR)pyMessage.o \
 	$(OBJDIR)pyMsgForwarder.o \
+	$(OBJDIR)pyMultiStageEventData.o \
+	$(OBJDIR)pyNotifyMsg.o \
+	$(OBJDIR)pyOfferLinkBookEventData.o \
+	$(OBJDIR)pyPickedEventData.o \
+	$(OBJDIR)pyResponderStateEventData.o \
+	$(OBJDIR)pySpawnedEventData.o \
+	$(OBJDIR)pyVariableEventData.o \
 	$(OBJDIR)pyRenderLevel.o \
 	$(OBJDIR)pyInterfaceInfoModifier.o \
+	$(OBJDIR)pyLogicModBase.o \
+	$(OBJDIR)pyLogicModifier.o \
 	$(OBJDIR)pyModifier.o \
 	$(OBJDIR)pyMultiModifier.o \
 	$(OBJDIR)pyOneShotMod.o \
@@ -595,8 +615,41 @@ $(OBJDIR)pyOmniLightInfo.o: PRP/Light/pyOmniLightInfo.cpp
 $(OBJDIR)pySpotLightInfo.o: PRP/Light/pySpotLightInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/pySpotLightInfo.cpp -o $@
 
+$(OBJDIR)pyActivateEventData.o: PRP/Message/pyActivateEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyActivateEventData.cpp -o $@
+
+$(OBJDIR)pyBookEventData.o: PRP/Message/pyBookEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyBookEventData.cpp -o $@
+
+$(OBJDIR)pyCallbackEventData.o: PRP/Message/pyCallbackEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyCallbackEventData.cpp -o $@
+
+$(OBJDIR)pyClickDragEventData.o: PRP/Message/pyClickDragEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyClickDragEventData.cpp -o $@
+
+$(OBJDIR)pyClimbingBlockerHitEventData.o: PRP/Message/pyClimbingBlockerHitEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyClimbingBlockerHitEventData.cpp -o $@
+
+$(OBJDIR)pyCollisionEventData.o: PRP/Message/pyCollisionEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyCollisionEventData.cpp -o $@
+
+$(OBJDIR)pyContainedEventData.o: PRP/Message/pyContainedEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyContainedEventData.cpp -o $@
+
+$(OBJDIR)pyControlKeyEventData.o: PRP/Message/pyControlKeyEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyControlKeyEventData.cpp -o $@
+
+$(OBJDIR)pyCoopEventData.o: PRP/Message/pyCoopEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyCoopEventData.cpp -o $@
+
 $(OBJDIR)pyEventCallbackMsg.o: PRP/Message/pyEventCallbackMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/pyEventCallbackMsg.cpp -o $@
+
+$(OBJDIR)pyEventData.o: PRP/Message/pyEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyEventData.cpp -o $@
+
+$(OBJDIR)pyFacingEventData.o: PRP/Message/pyFacingEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyFacingEventData.cpp -o $@
 
 $(OBJDIR)pyMessage.o: PRP/Message/pyMessage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMessage.cpp -o $@
@@ -604,11 +657,38 @@ $(OBJDIR)pyMessage.o: PRP/Message/pyMessage.cpp
 $(OBJDIR)pyMsgForwarder.o: PRP/Message/pyMsgForwarder.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMsgForwarder.cpp -o $@
 
+$(OBJDIR)pyMultiStageEventData.o: PRP/Message/pyMultiStageEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyMultiStageEventData.cpp -o $@
+
+$(OBJDIR)pyNotifyMsg.o: PRP/Message/pyNotifyMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyNotifyMsg.cpp -o $@
+
+$(OBJDIR)pyOfferLinkBookEventData.o: PRP/Message/pyOfferLinkBookEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyOfferLinkBookEventData.cpp -o $@
+
+$(OBJDIR)pyPickedEventData.o: PRP/Message/pyPickedEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyPickedEventData.cpp -o $@
+
+$(OBJDIR)pyResponderStateEventData.o: PRP/Message/pyResponderStateEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyResponderStateEventData.cpp -o $@
+
+$(OBJDIR)pySpawnedEventData.o: PRP/Message/pySpawnedEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pySpawnedEventData.cpp -o $@
+
+$(OBJDIR)pyVariableEventData.o: PRP/Message/pyVariableEventData.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pyVariableEventData.cpp -o $@
+
 $(OBJDIR)pyRenderLevel.o: PRP/Misc/pyRenderLevel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/pyRenderLevel.cpp -o $@
 
 $(OBJDIR)pyInterfaceInfoModifier.o: PRP/Modifier/pyInterfaceInfoModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyInterfaceInfoModifier.cpp -o $@
+
+$(OBJDIR)pyLogicModBase.o: PRP/Modifier/pyLogicModBase.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyLogicModBase.cpp -o $@
+
+$(OBJDIR)pyLogicModifier.o: PRP/Modifier/pyLogicModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyLogicModifier.cpp -o $@
 
 $(OBJDIR)pyModifier.o: PRP/Modifier/pyModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyModifier.cpp -o $@

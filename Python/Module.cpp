@@ -40,10 +40,14 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
+#include "PRP/Message/pyEventData.h"
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
+#include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
+#include "PRP/Modifier/pyLogicModifier.h"
+#include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyOneShotMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
@@ -182,6 +186,25 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "hsMatrix33Key", Init_pyMatrix33Key_Type());
     PyModule_AddObject(module, "hsMatrix44Key", Init_pyMatrix44Key_Type());
 
+    /* proEventData stuff */
+    PyModule_AddObject(module, "proEventData", Init_pyEventData_Type());
+    PyModule_AddObject(module, "proCollisionEventData", Init_pyCollisionEventData_Type());
+    PyModule_AddObject(module, "proPickedEventData", Init_pyPickedEventData_Type());
+    PyModule_AddObject(module, "proControlKeyEventData", Init_pyControlKeyEventData_Type());
+    PyModule_AddObject(module, "proVariableEventData", Init_pyVariableEventData_Type());
+    PyModule_AddObject(module, "proFacingEventData", Init_pyFacingEventData_Type());
+    PyModule_AddObject(module, "proContainedEventData", Init_pyContainedEventData_Type());
+    PyModule_AddObject(module, "proActivateEventData", Init_pyActivateEventData_Type());
+    PyModule_AddObject(module, "proCallbackEventData", Init_pyCallbackEventData_Type());
+    PyModule_AddObject(module, "proResponderStateEventData", Init_pyResponderStateEventData_Type());
+    PyModule_AddObject(module, "proMultiStageEventData", Init_pyMultiStageEventData_Type());
+    PyModule_AddObject(module, "proSpawnedEventData", Init_pySpawnedEventData_Type());
+    PyModule_AddObject(module, "proClickDragEventData", Init_pyClickDragEventData_Type());
+    PyModule_AddObject(module, "proCoopEventData", Init_pyCoopEventData_Type());
+    PyModule_AddObject(module, "proOfferLinkBookEventData", Init_pyOfferLinkBookEventData_Type());
+    PyModule_AddObject(module, "proBookEventData", Init_pyBookEventData_Type());
+    PyModule_AddObject(module, "proClimbingBlockerHitEventData", Init_pyClimbingBlockerHitEventData_Type());
+
     /* Other Creatable Dependancies */
     PyModule_AddObject(module, "plDISpanIndex", Init_pyDISpanIndex_Type());
     PyModule_AddObject(module, "plGBufferCell", Init_pyGBufferCell_Type());
@@ -255,6 +278,8 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plMobileOccluder", Init_pyMobileOccluder_Type());
     PyModule_AddObject(module, "plMultistageBehMod", Init_pyMultistageBehMod_Type());
     PyModule_AddObject(module, "plInterfaceInfoModifier", Init_pyInterfaceInfoModifier_Type());
+    PyModule_AddObject(module, "plLogicModBase", Init_pyLogicModBase_Type());
+    PyModule_AddObject(module, "plLogicModifier", Init_pyLogicModifier_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -327,4 +352,5 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plATCChannel", Init_pyATCChannel_Type());
     PyModule_AddObject(module, "plScalarChannelApplicator", Init_pyScalarChannelApplicator_Type());
     PyModule_AddObject(module, "plAnimStage", Init_pyAnimStage_Type());
+    PyModule_AddObject(module, "plNotifyMsg", Init_pyNotifyMsg_Type());
 }
