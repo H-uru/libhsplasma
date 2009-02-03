@@ -20,8 +20,6 @@ public:
         kFlagsMask = 0xFF
     };
 
-    //enum plEaseCurveType { kEaseNone, kEaseIn, kEaseOut, kEaseSpeed };
-
 protected:
     unsigned int fFlags;
     float fBegin, fEnd, fLoopBegin, fLoopEnd;

@@ -1,6 +1,6 @@
 #include "plATCEaseCurves.h"
 
-// plATCEaseCurve //
+/* plATCEaseCurve */
 plATCEaseCurve::plATCEaseCurve()
               : fStartSpeed(0.0f), fMinLength(0.0f), fMaxLength(0.0f),
                 fBeginWorldTime(0.0), fLength(0.0f), fSpeed(0.0f) { }
@@ -69,8 +69,14 @@ void plATCEaseCurve::setLengthBounds(float min, float max) { fMinLength = min; f
 void plATCEaseCurve::setBeginWorldTime(double time) { fBeginWorldTime = time; }
 
 
-// plSplineEaseCurve //
-plSplineEaseCurve::plSplineEaseCurve() { }
+/* plSplineEaseCurve */
+plSplineEaseCurve::plSplineEaseCurve() {
+    fCoef[0] = 0.0f;
+    fCoef[1] = 0.0f;
+    fCoef[2] = 0.0f;
+    fCoef[3] = 0.0f;
+}
+
 plSplineEaseCurve::~plSplineEaseCurve() { }
 
 IMPLEMENT_CREATABLE(plSplineEaseCurve, kSplineEaseCurve, plATCEaseCurve)
@@ -118,7 +124,7 @@ float plSplineEaseCurve::getSplineCoef(size_t idx) const { return fCoef[idx]; }
 void plSplineEaseCurve::setSplineCoef(size_t idx, float coef) { fCoef[idx] = coef; }
 
 
-// plConstAccelEaseCurve //
+/* plConstAccelEaseCurve */
 plConstAccelEaseCurve::plConstAccelEaseCurve() { }
 plConstAccelEaseCurve::~plConstAccelEaseCurve() { }
 
