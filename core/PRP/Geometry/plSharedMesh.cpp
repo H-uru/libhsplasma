@@ -54,7 +54,7 @@ void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fSpans.getSize(); i++) {
             fSpans[i] = new plGeometrySpan();
-            fSpans[i]->prcParse(tag);
+            fSpans[i]->prcParse(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "MorphSet") {

@@ -184,6 +184,7 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             if (child->getName() != "Element")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fElementNames[i] = child->getParam("Name", "");
+            fTextures[i] = new plKey[10];
             size_t nSubChildren = child->countChildren();
             const pfPrcTag* subChild = child->getFirstChild();
             for (size_t j=0; j<nSubChildren; j++) {

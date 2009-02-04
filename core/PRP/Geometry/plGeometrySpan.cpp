@@ -195,14 +195,18 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
         for (size_t i=0; i<fNumVerts; i++)
             fAddColor[i].prcWrite(prc);
         prc->closeTag();
-        prc->writeTagNoBreak("DiffuseColors");
-        for (size_t i=0; i<fNumVerts; i++)
-            prc->getStream()->writeStr(plString::Format("0x%08X ", fDiffuseRGBA[i]));
-        prc->closeTagNoBreak();
-        prc->writeTagNoBreak("SpecularColors");
-        for (size_t i=0; i<fNumVerts; i++)
-            prc->getStream()->writeStr(plString::Format("0x%08X ", fSpecularRGBA[i]));
-        prc->closeTagNoBreak();
+        prc->writeSimpleTag("DiffuseColors");
+        for (size_t i=0; i<fNumVerts; i++) {
+            hsColor32 cl(fDiffuseRGBA[i]);
+            cl.prcWrite(prc);
+        }
+        prc->closeTag();
+        prc->writeSimpleTag("SpecularColors");
+        for (size_t i=0; i<fNumVerts; i++) {
+            hsColor32 cl(fSpecularRGBA[i]);
+            cl.prcWrite(prc);
+        }
+        prc->closeTag();
 
         prc->writeSimpleTag("Triangles");
         for (size_t i=0; i<fNumIndices; i += 3) {
@@ -243,8 +247,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Vertices") {
-            if (child->countChildren() != fNumVerts)
-                throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of vertices");
+            fNumVerts = child->countChildren();
             hsTArray<TempVertex> verts;
             verts.setSize(fNumVerts);
             const pfPrcTag* vertChild = child->getFirstChild();
@@ -301,22 +304,29 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
                 clrChild = clrChild->getNextSibling();
             }
         } else if (child->getName() == "DiffuseColors") {
-            hsTList<plString> colorList = child->getContents();
-            if (colorList.getSize() != fNumVerts)
+            if (child->countChildren() != fNumVerts)
                 throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
             fDiffuseRGBA = new unsigned int[fNumVerts];
-            for (size_t i=0; i<fNumVerts; i++)
-                fDiffuseRGBA[i] = colorList.pop().toUint();
+            const pfPrcTag* clrChild = child->getFirstChild();
+            for (size_t i=0; i<fNumVerts; i++) {
+                hsColor32 cl;
+                cl.prcParse(clrChild);
+                fDiffuseRGBA[i] = cl.color;
+                clrChild = clrChild->getNextSibling();
+            }
         } else if (child->getName() == "SpecularColors") {
-            hsTList<plString> colorList = child->getContents();
-            if (colorList.getSize() != fNumVerts)
+            if (child->countChildren() != fNumVerts)
                 throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
             fSpecularRGBA = new unsigned int[fNumVerts];
-            for (size_t i=0; i<fNumVerts; i++)
-                fSpecularRGBA[i] = colorList.pop().toUint();
+            const pfPrcTag* clrChild = child->getFirstChild();
+            for (size_t i=0; i<fNumVerts; i++) {
+                hsColor32 cl;
+                cl.prcParse(clrChild);
+                fSpecularRGBA[i] = cl.color;
+                clrChild = clrChild->getNextSibling();
+            }
         } else if (child->getName() == "Triangles") {
-            if (fNumIndices != child->countChildren() * 3)
-                throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of tris");
+            fNumIndices = child->countChildren() * 3;
             fIndexData = new unsigned short[fNumIndices];
             const pfPrcTag* triChild = child->getFirstChild();
             for (size_t i=0; i<fNumIndices; i += 3) {
