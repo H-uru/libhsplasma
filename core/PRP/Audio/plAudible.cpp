@@ -66,6 +66,15 @@ void plWinAudible::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+size_t plWinAudible::getNumSounds() const { return fSoundObjs.getSize(); }
+plKey plWinAudible::getSound(size_t idx) const { return fSoundObjs[idx]; }
+void plWinAudible::addSound(plKey sound) { fSoundObjs.append(sound); }
+void plWinAudible::delSound(size_t idx) { fSoundObjs.remove(idx); }
+void plWinAudible::clearSounds() { fSoundObjs.clear(); }
+
+plKey plWinAudible::getSceneNode() const { return fSceneNode; }
+void plWinAudible::setSceneNode(plKey node) { fSceneNode = node; }
+
 
 /* pl2WayWinAudible */
 pl2WayWinAudible::pl2WayWinAudible() { }

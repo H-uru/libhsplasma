@@ -135,6 +135,10 @@ def hasRef(cre, ref):
     if cre.ClassInstance(plFactory.kViewFaceModifier):
         obj = plViewFaceModifier.Convert(cre)
         if obj.faceObj == ref: return True
+    if cre.ClassInstance(plFactory.kWinAudible):
+        obj = plWinAudible.Convert(cre)
+        if obj.sceneNode == ref: return True
+        if ref in obj.sounds: return True
 
     # Non-Keyed objects
     if cre.ClassInstance(plFactory.kMessage):

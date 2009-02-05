@@ -14,8 +14,6 @@ public:
 protected:
     float fAttenDist, fMaxDist, fMinDist, fPower;
     unsigned int fMaxSize, fMinSize;
-    hsTArray<plShadowSlave*> fSlavePool;
-    plLightInfo* fLightInfo;
 
 public:
     plShadowMaster();
@@ -29,12 +27,22 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getAttenDist() const;
+    float getMaxDist() const;
+    float getMinDist() const;
+    float getPower() const;
+    unsigned int getMaxSize() const;
+    unsigned int getMinSize() const;
+
+    void setAttenDist(float dist);
+    void setDist(float min, float max);
+    void setPower(float power);
+    void setSize(unsigned int min, unsigned int max);
 };
 
 DllClass plPointShadowMaster : public plShadowMaster {
-protected:
-    hsVector3 fLastUp;
-
 public:
     plPointShadowMaster();
     virtual ~plPointShadowMaster();
@@ -43,9 +51,6 @@ public:
 };
 
 DllClass plDirectShadowMaster : public plShadowMaster {
-protected:
-    hsTArray<plShadowSlave*> fPerspSlavePool;
-
 public:
     plDirectShadowMaster();
     virtual ~plDirectShadowMaster();

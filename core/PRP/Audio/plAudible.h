@@ -2,8 +2,6 @@
 #define _PLAUDIBLE_H
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
-#include "PRP/Message/plEventCallbackMsg.h"
-#include "Math/hsMatrix44.h"
 
 DllClass plAudible : public hsKeyedObject {
 public:
@@ -24,8 +22,7 @@ public:
 DllClass plWinAudible : public plAudible {
 protected:
     hsTArray<plKey> fSoundObjs;
-    plKey fSceneNode, fSceneObj;
-    hsMatrix44 fLocalToWorld;
+    plKey fSceneNode;
 
 public:
     plWinAudible();
@@ -39,6 +36,16 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumSounds() const;
+    plKey getSound(size_t idx) const;
+    void addSound(plKey sound);
+    void delSound(size_t idx);
+    void clearSounds();
+
+    plKey getSceneNode() const;
+    void setSceneNode(plKey node);
 };
 
 DllClass pl2WayWinAudible : public plWinAudible {

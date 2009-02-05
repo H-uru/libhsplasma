@@ -617,6 +617,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Light\pyDirectShadowMaster.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Light\pyLightInfo.cpp"
 					>
 				</File>
@@ -633,6 +637,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Light\pyPointShadowMaster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\pyShadowMaster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Light\pyShadowMaster.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Light\pySpotLightInfo.cpp"
 					>
 				</File>
@@ -640,6 +656,22 @@
 			<Filter
 				Name="Audio"
 				>
+				<File
+					RelativePath=".\PRP\Audio\py2WayWinAudible.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\pyAudible.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\pyAudible.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\pyAudibleNull.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\PRP\Audio\pySoundBuffer.cpp"
 					>
@@ -650,6 +682,10 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Audio\pyWAVHeader.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Audio\pyWinAudible.cpp"
 					>
 				</File>
 			</Filter>

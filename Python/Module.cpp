@@ -26,6 +26,7 @@
 #include "PRP/Avatar/pyAGChannel.h"
 #include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
+#include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
@@ -39,6 +40,7 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
+#include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyEventData.h"
 #include "PRP/Message/pyMessage.h"
@@ -280,6 +282,13 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plInterfaceInfoModifier", Init_pyInterfaceInfoModifier_Type());
     PyModule_AddObject(module, "plLogicModBase", Init_pyLogicModBase_Type());
     PyModule_AddObject(module, "plLogicModifier", Init_pyLogicModifier_Type());
+    PyModule_AddObject(module, "plAudible", Init_pyAudible_Type());
+    PyModule_AddObject(module, "plAudibleNull", Init_pyAudibleNull_Type());
+    PyModule_AddObject(module, "plWinAudible", Init_pyWinAudible_Type());
+    PyModule_AddObject(module, "pl2WayWinAudible", Init_py2WayWinAudible_Type());
+    PyModule_AddObject(module, "plShadowMaster", Init_pyShadowMaster_Type());
+    PyModule_AddObject(module, "plPointShadowMaster", Init_pyPointShadowMaster_Type());
+    PyModule_AddObject(module, "plDirectShadowMaster", Init_pyDirectShadowMaster_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
