@@ -7,7 +7,7 @@ pfGUICtrlProcObject::~pfGUICtrlProcObject() { }
 
 
 /* pfGUIDialogProc */
-pfGUIDialogProc::pfGUIDialogProc() : fDialog(NULL) { }
+pfGUIDialogProc::pfGUIDialogProc() { }
 pfGUIDialogProc::~pfGUIDialogProc() { }
 
 

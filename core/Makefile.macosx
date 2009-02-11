@@ -172,7 +172,6 @@ PLSOBJ=\
 	$(OBJDIR)plNotifyMsg.o \
 	$(OBJDIR)plOneShotCallbacks.o \
 	$(OBJDIR)plResponderMsg.o \
-	$(OBJDIR)plSimStateMsg.o \
 	$(OBJDIR)plSimulationMsg.o \
 	$(OBJDIR)plSoundMsg.o \
 	$(OBJDIR)plSwimMsg.o \
@@ -796,9 +795,6 @@ $(OBJDIR)plOneShotCallbacks.o: PRP/Message/plOneShotCallbacks.h PRP/Message/plOn
 
 $(OBJDIR)plResponderMsg.o: PRP/Message/plResponderMsg.h PRP/Message/plResponderMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plResponderMsg.cpp -o $@
-
-$(OBJDIR)plSimStateMsg.o: PRP/Message/plSimStateMsg.h PRP/Message/plSimStateMsg.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Message/plSimStateMsg.cpp -o $@
 
 $(OBJDIR)plSimulationMsg.o: PRP/Message/plSimulationMsg.h PRP/Message/plSimulationMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plSimulationMsg.cpp -o $@

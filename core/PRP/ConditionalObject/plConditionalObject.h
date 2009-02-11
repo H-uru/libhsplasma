@@ -7,7 +7,6 @@
 DllClass plConditionalObject : public hsKeyedObject {
 protected:
     bool fSatisfied, fToggle;
-    hsBitVector fFlags;
 
 public:
     plConditionalObject();

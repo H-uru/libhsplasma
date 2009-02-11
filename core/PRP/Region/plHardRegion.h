@@ -5,13 +5,6 @@
 
 DllClass plHardRegion : public plRegionBase {
 public:
-    enum { kDirty, kCamInside };
-
-protected:
-    unsigned int fState;
-    hsVector3 fCamPos;
-
-public:
     plHardRegion();
     virtual ~plHardRegion();
 

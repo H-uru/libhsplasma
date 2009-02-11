@@ -264,6 +264,12 @@ static PyObject* pyDrawableSpans_addMaterial(pyDrawableSpans* self, PyObject* ar
     return Py_None;
 }
 
+static PyObject* pyDrawableSpans_BuildSpaceTree(pyDrawableSpans* self) {
+    self->fThis->BuildSpaceTree();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyDrawableSpans_getSpans(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumSpans());
     for (size_t i=0; i<self->fThis->getNumSpans(); i++)
@@ -499,6 +505,8 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
     { "addMaterial", (PyCFunction)pyDrawableSpans_addMaterial, METH_VARARGS,
       "Params: key\n"
       "Add a material ref to the DrawableSpans" },
+    { "BuildSpaceTree", (PyCFunction)pyDrawableSpans_BuildSpaceTree, METH_NOARGS,
+      "Build a plSpaceTree for this draw spans object" },
     { NULL, NULL, 0, NULL }
 };
 

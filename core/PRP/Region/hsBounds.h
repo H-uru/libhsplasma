@@ -44,7 +44,12 @@ public:
     virtual ~hsBounds3();
 
     virtual const char* ClassName();
-    
+
+    void init(const hsVector3& right);
+    hsBounds3 operator+(const hsBounds3& right) const;
+    hsBounds3& operator+=(const hsBounds3& right);
+    hsBounds3& operator+=(const hsVector3& point);
+
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
 
@@ -59,6 +64,8 @@ public:
     void setMins(const hsVector3& mins);
     void setMaxs(const hsVector3& maxs);
     void setCenter(const hsVector3& center);
+
+    const hsVector3& updateCenter();
 };
 
 DllClass hsBounds3Ext : public hsBounds3 {
@@ -85,7 +92,9 @@ public:
     virtual ~hsBounds3Ext();
 
     virtual const char* ClassName();
-    
+
+    hsBounds3Ext operator+(const hsBounds3Ext& right) const;
+
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
 

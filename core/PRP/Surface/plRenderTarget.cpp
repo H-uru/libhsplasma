@@ -3,8 +3,7 @@
 /* plRenderTarget */
 plRenderTarget::plRenderTarget()
               : fWidth(0), fHeight(0), fApplyTexQuality(false),
-                fProportionalViewport(false), fZDepth(0), fStencilDepth(0),
-                fParent(NULL) { }
+                fProportionalViewport(false), fZDepth(0), fStencilDepth(0) { }
 plRenderTarget::~plRenderTarget() { }
 
 IMPLEMENT_CREATABLE(plRenderTarget, kRenderTarget, plBitmap)
@@ -117,9 +116,6 @@ void plRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plCubicRenderTarget* plRenderTarget::getParent() const { return fParent; }
-void plRenderTarget::setParent(plCubicRenderTarget* parent) { fParent = parent; }
-
 
 /* plCubicRenderTarget */
 plCubicRenderTarget::plCubicRenderTarget() { }
@@ -131,7 +127,6 @@ void plCubicRenderTarget::read(hsStream* S, plResManager* mgr) {
     plRenderTarget::read(S, mgr);
 
     for (size_t i=0; i<6; i++) {
-        fFaces[i].setParent(this);
         if (S->getVer() < pvEoa)
             fFaces[i].readData(S);
         else
@@ -166,7 +161,6 @@ void plCubicRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<6; i++) {
-            fFaces[i].setParent(this);
             fFaces[i].prcParse(child, mgr);
             child = child->getNextSibling();
         }

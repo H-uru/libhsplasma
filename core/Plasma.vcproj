@@ -1371,14 +1371,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Message\plSimStateMsg.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Message\plSimStateMsg.h"
-					>
-				</File>
-				<File
 					RelativePath=".\PRP\Message\plSimulationMsg.cpp"
 					>
 				</File>

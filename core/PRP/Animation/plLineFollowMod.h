@@ -47,12 +47,6 @@ protected:
 };
 
 DllClass plRailCameraMod : public plLineFollowMod {
-protected:
-    hsMatrix44 fDesiredMatrix;
-    float fCurrentTime, fTargetTime;
-    hsVector3 fGoal;
-    int fFarthest;
-
 public:
     plRailCameraMod();
     virtual ~plRailCameraMod();

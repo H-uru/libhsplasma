@@ -35,7 +35,6 @@ public:
         kFootDeepWater, kFootMaintainerGlass, kFootMaintainerStone,
         kFootSwimming, kFootNoSurface, kMaxSurface = kFootNoSurface
     };
-
     static const char* const SurfaceStrings[];
 
 protected:

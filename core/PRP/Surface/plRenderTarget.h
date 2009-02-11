@@ -20,7 +20,6 @@ protected:
     } fViewport;
     bool fApplyTexQuality, fProportionalViewport;
     unsigned char fZDepth, fStencilDepth;
-    class plCubicRenderTarget* fParent;
 
 public:
     plRenderTarget();
@@ -38,10 +37,6 @@ protected:
     void IWrite(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-
-public:
-    class plCubicRenderTarget* getParent() const;
-    void setParent(class plCubicRenderTarget* parent);
 };
 
 DllClass plCubicRenderTarget : public plRenderTarget {

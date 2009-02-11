@@ -136,7 +136,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     }
     */
 
-    fSpaceTree = plSpaceTree::Convert(mgr->ReadCreatable(S));
+    setSpaceTree(plSpaceTree::Convert(mgr->ReadCreatable(S)));
     fSceneNode = mgr->readKey(S);
 }
 
@@ -498,13 +498,127 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "SpaceTree") {
         if (tag->hasChildren())
-            fSpaceTree = plSpaceTree::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setSpaceTree(plSpaceTree::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "SceneNode") {
         if (tag->hasChildren())
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
+}
+
+void plDrawableSpans::CalcBounds() {
+    for (size_t i=0; i<fIcicles.getSize(); i++) {
+        if (i == 0)
+            fWorldBounds = fIcicles[i].getWorldBounds();
+        else
+            fWorldBounds += fIcicles[i].getWorldBounds();
+    }
+    fWorldBounds.setFlags(hsBounds3Ext::kAxisAligned);
+    fLocalBounds.setMins(fWorldBounds.getMins());
+    fLocalBounds.setMaxs(fWorldBounds.getMaxs());
+    fLocalBounds.setCorner(fWorldBounds.getCorner());
+    fLocalBounds.setAxis(0, hsVector3(0.0f, fLocalBounds.getMaxs().Y - fLocalBounds.getMins().Y, 0.0f));
+    fLocalBounds.setAxis(1, hsVector3(0.0f, 0.0f, fLocalBounds.getMaxs().Z - fLocalBounds.getMins().Z));
+    fLocalBounds.setAxis(2, hsVector3(fLocalBounds.getMaxs().X - fLocalBounds.getMins().X, 0.0f, 0.0f));
+}
+
+void plDrawableSpans::BuildSpaceTree() {
+    plSpaceTree* tree = new plSpaceTree();
+    std::vector<plSpaceBuilderNode*> leaves;
+    leaves.resize(fIcicles.getSize());
+    for (size_t i=0; i<leaves.size(); i++) {
+        leaves[i] = new plSpaceBuilderNode();
+        leaves[i]->fBounds = fIcicles[i].getWorldBounds();
+        leaves[i]->fBounds.updateCenter();
+    }
+    plSpaceBuilderNode* root = IBuildTree(leaves);
+    tree->buildTree(root);
+    setSpaceTree(tree);
+    delete root;
+}
+
+plSpaceBuilderNode* plDrawableSpans::IBuildTree(std::vector<plSpaceBuilderNode*>& nodes) {
+    if (nodes.size() == 0)
+        return NULL;
+    if (nodes.size() == 1)
+        return nodes[0];
+    plSpaceBuilderNode* node = new plSpaceBuilderNode();
+    std::vector<plSpaceBuilderNode*> left, right;
+    ISplitSpace(nodes, left, right);
+    plSpaceBuilderNode* lNode = IBuildTree(left);
+    plSpaceBuilderNode* rNode = IBuildTree(right);
+    node->fBounds = lNode->fBounds + rNode->fBounds;
+    node->fBounds.setFlags(hsBounds3Ext::kAxisAligned);
+    node->fBounds.updateCenter();
+    node->fChildren[0] = lNode;
+    node->fChildren[1] = rNode;
+    return node;
+}
+
+void plDrawableSpans::ISplitSpace(std::vector<plSpaceBuilderNode*>& nodes,
+                                  std::vector<plSpaceBuilderNode*>& left,
+                                  std::vector<plSpaceBuilderNode*>& right) {
+    hsVector3 big(0.0f, 0.0f, 0.0f);
+    for (size_t i=0; i<nodes.size(); i++) {
+        if (nodes[i]->fBounds.getMaxs().X - nodes[i]->fBounds.getMins().X > big.X)
+            big.X = nodes[i]->fBounds.getMaxs().X - nodes[i]->fBounds.getMins().X;
+        if (nodes[i]->fBounds.getMaxs().Y - nodes[i]->fBounds.getMins().Y > big.Y)
+            big.Y = nodes[i]->fBounds.getMaxs().Y - nodes[i]->fBounds.getMins().Y;
+        if (nodes[i]->fBounds.getMaxs().Z - nodes[i]->fBounds.getMins().Z > big.Z)
+            big.Z = nodes[i]->fBounds.getMaxs().Z - nodes[i]->fBounds.getMins().Z;
+    }
+    if (big.X >= big.Y && big.X >= big.Z)
+        ISortSpace(nodes, 0);
+    else if (big.Y >= big.X && big.Y >= big.Z)
+        ISortSpace(nodes, 1);
+    else
+        ISortSpace(nodes, 2);
+    left.resize(nodes.size() / 2);
+    right.resize(nodes.size() - left.size());
+    std::copy(nodes.begin(), nodes.begin() + left.size(), left.begin());
+    std::copy(nodes.begin() + left.size(), nodes.end(), right.begin());
+}
+
+void plDrawableSpans::ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int axis) {
+    if (nodes.size() < 2)
+        // Already sorted
+        return;
+
+    // Merge sort, using the bounds center along an axis for sorting >.>
+    std::list<plSpaceBuilderNode*> left, right;
+    plSpaceBuilderNode* pivot = nodes[0];
+    for (size_t i=1; i<nodes.size(); i++) {
+        switch (axis) {
+        case 0:
+            if (nodes[i]->fBounds.getCenter().X < pivot->fBounds.getCenter().X)
+                left.push_back(nodes[i]);
+            else
+                right.push_back(nodes[i]);
+            break;
+        case 1:
+            if (nodes[i]->fBounds.getCenter().Y < pivot->fBounds.getCenter().Y)
+                left.push_back(nodes[i]);
+            else
+                right.push_back(nodes[i]);
+            break;
+        case 2:
+            if (nodes[i]->fBounds.getCenter().Z < pivot->fBounds.getCenter().Z)
+                left.push_back(nodes[i]);
+            else
+                right.push_back(nodes[i]);
+            break;
+        }
+    }
+    // Don't shoot me!
+    std::vector<plSpaceBuilderNode*> lvec(left.begin(), left.end());
+    std::vector<plSpaceBuilderNode*> rvec(right.begin(), right.end());
+    ISortSpace(lvec, axis);
+    ISortSpace(rvec, axis);
+    std::vector<plSpaceBuilderNode*>::iterator cit = nodes.begin();
+    cit = std::copy(lvec.begin(), lvec.end(), cit);
+    *cit++ = pivot;
+    std::copy(rvec.begin(), rvec.end(), cit);
 }
 
 size_t plDrawableSpans::getNumSpans() const { return fSpans.getSize(); }
@@ -606,7 +720,12 @@ void plDrawableSpans::clearMaterials() { fMaterials.clear(); }
 void plDrawableSpans::addMaterial(plKey mat) { fMaterials.append(mat); }
 
 plSpaceTree* plDrawableSpans::getSpaceTree() const { return fSpaceTree; }
-void plDrawableSpans::setSpaceTree(plSpaceTree* tree) { fSpaceTree = tree; }
+
+void plDrawableSpans::setSpaceTree(plSpaceTree* tree) {
+    if (fSpaceTree != NULL)
+        delete fSpaceTree;
+    fSpaceTree = tree;
+}
 
 unsigned int plDrawableSpans::getProps() const { return fProps; }
 unsigned int plDrawableSpans::getCriteria() const { return fCriteria; }

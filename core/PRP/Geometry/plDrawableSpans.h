@@ -8,6 +8,8 @@
 #include "plSpaceTree.h"
 #include "plIcicle.h"
 #include "plGeometrySpan.h"
+#include <vector>
+#include <list>
 
 DllClass plDISpanIndex {
 public:
@@ -112,9 +114,18 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
+    void CalcBounds();
+    void BuildSpaceTree();
+
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+    plSpaceBuilderNode* IBuildTree(std::vector<plSpaceBuilderNode*>& nodes);
+    void ISplitSpace(std::vector<plSpaceBuilderNode*>& nodes,
+                     std::vector<plSpaceBuilderNode*>& left,
+                     std::vector<plSpaceBuilderNode*>& right);
+    void ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int axis);
 
 public:
     size_t getNumSpans() const;

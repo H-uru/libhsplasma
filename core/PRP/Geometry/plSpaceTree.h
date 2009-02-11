@@ -7,6 +7,15 @@
 #include "PRP/Region/hsBounds.h"
 #include "Util/hsBitVector.h"
 
+DllStruct plSpaceBuilderNode {
+    hsBounds3Ext fBounds;
+    plSpaceBuilderNode* fChildren[2];
+
+    plSpaceBuilderNode();
+    ~plSpaceBuilderNode();
+    size_t size() const;
+};
+
 DllClass plSpaceTreeNode {
 public:
     enum {
@@ -69,8 +78,11 @@ protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
+    short IBuildTree(plSpaceBuilderNode* node, short idx);
+
 public:
     void clear();
+    void buildTree(plSpaceBuilderNode* root);
     const plSpaceTreeNode& getNode(short idx) const;
     const plSpaceTreeNode& getRoot() const;
     short addLeaf(const hsBounds3Ext& bounds);

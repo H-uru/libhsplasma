@@ -59,6 +59,38 @@ hsBounds3::~hsBounds3() { }
 
 const char* hsBounds3::ClassName() { return "hsBounds3"; }
 
+void hsBounds3::init(const hsVector3& right) {
+    fMins = right;
+    fMaxs = right;
+    fCenter = right;
+}
+
+hsBounds3 hsBounds3::operator+(const hsBounds3& right) const {
+    hsBounds3 result = *this;
+    result += right;
+    return result;
+}
+
+hsBounds3& hsBounds3::operator+=(const hsBounds3& right) {
+    if (right.fMins.X < fMins.X) fMins.X = right.fMins.X;
+    if (right.fMaxs.X > fMaxs.X) fMaxs.X = right.fMaxs.X;
+    if (right.fMins.Y < fMins.Y) fMins.Y = right.fMins.Y;
+    if (right.fMaxs.Y > fMaxs.Y) fMaxs.Y = right.fMaxs.Y;
+    if (right.fMins.Z < fMins.Z) fMins.Z = right.fMins.Z;
+    if (right.fMaxs.Z > fMaxs.Z) fMaxs.Z = right.fMaxs.Z;
+    return *this;
+}
+
+hsBounds3& hsBounds3::operator+=(const hsVector3& point) {
+    if (point.X < fMins.X) fMins.X = point.X;
+    if (point.X > fMaxs.X) fMaxs.X = point.X;
+    if (point.Y < fMins.Y) fMins.Y = point.Y;
+    if (point.Y > fMaxs.Y) fMaxs.Y = point.Y;
+    if (point.Z < fMins.Z) fMins.Z = point.Z;
+    if (point.Z > fMaxs.Z) fMaxs.Z = point.Z;
+    return *this;
+}
+
 void hsBounds3::read(hsStream* S) {
     hsBounds::read(S);
     fMins.read(S);
@@ -96,9 +128,17 @@ void hsBounds3::IPrcParse(const pfPrcTag* tag) {
 hsVector3 hsBounds3::getMins() const { return fMins; }
 hsVector3 hsBounds3::getMaxs() const { return fMaxs; }
 hsVector3 hsBounds3::getCenter() const { return fCenter; }
+
 void hsBounds3::setMins(const hsVector3& mins) { fMins = mins; }
 void hsBounds3::setMaxs(const hsVector3& maxs) { fMaxs = maxs; }
 void hsBounds3::setCenter(const hsVector3& center) { fCenter = center; }
+
+const hsVector3& hsBounds3::updateCenter() {
+    fCenter.X = (fMins.X + fMaxs.X) / 2.0f;
+    fCenter.Y = (fMins.Y + fMaxs.Y) / 2.0f;
+    fCenter.Z = (fMins.Z + fMaxs.Z) / 2.0f;
+    return fCenter;
+}
 
 
 /* hsBounds3Ext */
@@ -117,6 +157,12 @@ hsBounds3Ext::hsBounds3Ext(const hsBounds3Ext& src)
 hsBounds3Ext::~hsBounds3Ext() { }
 
 const char* hsBounds3Ext::ClassName() { return "hsBounds3Ext"; }
+
+hsBounds3Ext hsBounds3Ext::operator+(const hsBounds3Ext& right) const {
+    hsBounds3Ext result = *this;
+    result += right;
+    return result;
+}
 
 void hsBounds3Ext::read(hsStream* S) {
     fExtFlags = S->readInt();

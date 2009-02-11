@@ -77,7 +77,7 @@
 #include "PRP/Message/plLinkToAgeMsg.h"
 #include "PRP/Message/plMsgForwarder.h"
 #include "PRP/Message/plResponderMsg.h"
-#include "PRP/Message/plSimStateMsg.h"
+#include "PRP/Message/plSimulationMsg.h"
 #include "PRP/Message/plSoundMsg.h"
 #include "PRP/Message/plSwimMsg.h"
 #include "PRP/Message/plTimerCallbackMsg.h"

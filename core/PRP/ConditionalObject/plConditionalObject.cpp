@@ -1,7 +1,7 @@
 #include "plConditionalObject.h"
 
 /* plConditionalObject */
-plConditionalObject::plConditionalObject() /*: fLogicMod(NULL)*/ { }
+plConditionalObject::plConditionalObject() : fSatisfied(false), fToggle(false) { }
 plConditionalObject::~plConditionalObject() { }
 
 IMPLEMENT_CREATABLE(plConditionalObject, kConditionalObject, hsKeyedObject)

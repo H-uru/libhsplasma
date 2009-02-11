@@ -5,7 +5,7 @@
 #include "PRP/KeyedObject/plKey.h"
 #include "ResManager/plResManager.h"
 
-DllClass plOneShotCallbacks /* : hsRefCnt */ {
+DllClass plOneShotCallbacks {
 public:
     DllClass plOneShotCallback {
     public:

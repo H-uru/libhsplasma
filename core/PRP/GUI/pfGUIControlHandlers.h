@@ -14,9 +14,6 @@ DllClass pfGUIDialogProc : public pfGUICtrlProcObject {
 public:
     enum ControlEvt { kExitMode };
 
-protected:
-    class pfGUIDialogMod* fDialog;
-
 public:
     pfGUIDialogProc();
     virtual ~pfGUIDialogProc();

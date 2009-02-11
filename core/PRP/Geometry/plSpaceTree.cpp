@@ -1,9 +1,28 @@
 #include "plSpaceTree.h"
 
+/* plSpaceBuilderNode */
+plSpaceBuilderNode::plSpaceBuilderNode() {
+    fChildren[0] = NULL;
+    fChildren[1] = NULL;
+}
+
+plSpaceBuilderNode::~plSpaceBuilderNode() {
+    if (fChildren[0] != NULL)
+        delete fChildren[0];
+    if (fChildren[1] != NULL)
+        delete fChildren[1];
+}
+
+size_t plSpaceBuilderNode::size() const {
+    return 1 + ((fChildren[0] != NULL) ? fChildren[0]->size() : 0)
+             + ((fChildren[1] != NULL) ? fChildren[1]->size() : 0);
+}
+
+
 /* plSpaceTreeNode */
 plSpaceTreeNode::plSpaceTreeNode() : fFlags(0), fParent(-1) {
-    fChildren[0] = -1;
-    fChildren[1] = -1;
+    fChildren[0] = 0;
+    fChildren[1] = 0;
 }
 
 plSpaceTreeNode::~plSpaceTreeNode() { }
@@ -135,6 +154,29 @@ void plSpaceTree::clear() {
     fTree.clear();
     fRoot = -1;
     fNumLeaves = 0;
+}
+
+short plSpaceTree::IBuildTree(plSpaceBuilderNode* node, short idx) {
+    if (node->fChildren[0] != NULL) {
+        short left = IBuildTree(node->fChildren[0], idx);
+        idx = left + 1;
+        short right = IBuildTree(node->fChildren[1], idx);
+        idx = right + 1;
+        fTree[idx].setChildren(left, right);
+        fTree[left].setParent(idx);
+        fTree[right].setParent(idx);
+    } else {
+        fTree[idx].setLeafIndex(idx);
+        fNumLeaves++;
+    }
+    fTree[idx].setBounds(node->fBounds);
+    return idx;
+}
+
+void plSpaceTree::buildTree(plSpaceBuilderNode* root) {
+    clear();
+    fTree.setSize(root->size());
+    fRoot = IBuildTree(root, 0);
 }
 
 const plSpaceTreeNode& plSpaceTree::getNode(short idx) const { return fTree[idx]; }
