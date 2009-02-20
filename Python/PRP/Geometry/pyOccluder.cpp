@@ -62,6 +62,38 @@ static PyObject* pyOccluder_delPoly(pyOccluder* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyOccluder_clearVisRegions(pyOccluder* self) {
+    self->fThis->clearVisRegions();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyOccluder_addVisRegion(pyOccluder* self, PyObject* args) {
+    pyKey* region;
+    if (!PyArg_ParseTuple(args, "O", &region)) {
+        PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
+        return NULL;
+    }
+    if (!pyKey_Check((PyObject*)region)) {
+        PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
+        return NULL;
+    }
+    self->fThis->addVisRegion(*region->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyOccluder_delVisRegion(pyOccluder* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delVisRegion expects an int");
+        return NULL;
+    }
+    self->fThis->delVisRegion(idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyOccluder_getPriority(pyOccluder* self, void*) {
     return PyFloat_FromDouble(self->fThis->getPriority());
 }
@@ -78,6 +110,13 @@ static PyObject* pyOccluder_getPolys(pyOccluder* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumPolys());
     for (size_t i=0; i<self->fThis->getNumPolys(); i++)
         PyList_SET_ITEM(list, i, pyCullPoly_FromCullPoly(self->fThis->getPoly(i)));
+    return list;
+}
+
+static PyObject* pyOccluder_getVisRegions(pyOccluder* self, void*) {
+    PyObject* list = PyList_New(self->fThis->getNumVisRegions());
+    for (size_t i=0; i<self->fThis->getNumVisRegions(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegion(i)));
     return list;
 }
 
@@ -121,6 +160,11 @@ static int pyOccluder_setPolys(pyOccluder* self, PyObject* value, void*) {
     return -1;
 }
 
+static int pyOccluder_setVisRegions(pyOccluder* self, PyObject* value, void*) {
+    PyErr_SetString(PyExc_RuntimeError, "to add visRegions, use addVisRegion()");
+    return -1;
+}
+
 static PyMethodDef pyOccluder_Methods[] = {
     { "Convert", (PyCFunction)pyOccluder_Convert, METH_VARARGS | METH_STATIC,
       "Convert a plCreatable to a plOccluder" },
@@ -132,6 +176,14 @@ static PyMethodDef pyOccluder_Methods[] = {
     { "delPoly", (PyCFunction)pyOccluder_delPoly, METH_VARARGS,
       "Params: idx\n"
       "Remove a plCullPoly from the occluder" },
+    { "clearVisRegions", (PyCFunction)pyOccluder_clearVisRegions, METH_NOARGS,
+      "Remove all Vis Regions from the occluder" },
+    { "addVisRegion", (PyCFunction)pyOccluder_addVisRegion, METH_VARARGS,
+      "Params: region\n"
+      "Add a Vis Region to the occluder" },
+    { "delVisRegion", (PyCFunction)pyOccluder_delVisRegion, METH_VARARGS,
+      "Params: idx\n"
+      "Remove a Vis Region from the occluder" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -140,6 +192,7 @@ static PyGetSetDef pyOccluder_GetSet[] = {
     { "worldBounds", (getter)pyOccluder_getBounds, (setter)pyOccluder_setBounds, NULL, NULL },
     { "sceneNode", (getter)pyOccluder_getNode, (setter)pyOccluder_setNode, NULL, NULL },
     { "polys", (getter)pyOccluder_getPolys, (setter)pyOccluder_setPolys, NULL, NULL },
+    { "visRegions", (getter)pyOccluder_getVisRegions, (setter)pyOccluder_setVisRegions, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

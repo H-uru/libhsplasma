@@ -21,7 +21,8 @@ public:
     }
 
     ~hsTArray<T>() {
-        if (data != NULL) delete[] data;
+        if (data != NULL)
+            delete[] data;
     }
 
     hsTArray<T>& operator=(const hsTArray& cpy) {
@@ -39,7 +40,7 @@ public:
         data = NULL;
         count = 0;
     }
-    
+
     size_t getSize() const { return count; }
     bool empty() const { return count == 0; }
 
@@ -50,7 +51,7 @@ public:
             clear();
             return;
         }
-        
+
         T* newData = new T[cap];
         size_t min = (count < cap) ? count : cap;
         if (data != NULL) {

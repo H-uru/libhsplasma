@@ -3,6 +3,7 @@
 #include "Util/hsTArray.hpp"
 #include "Debug/plDebug.h"
 #include <list>
+#include <ctime>
 
 void doHelp() {
     printf("Usage: PyPack -x filename.pak [-o outdir]\n");
@@ -156,7 +157,7 @@ int main(int argc, char** argv) {
             OS->writeInt(baseOffs + pakObjects[i].fOffset);
         }
         for (size_t i=0; i<pakObjects.getSize(); i++) {
-            OS->writeInt(pakObjects[i].fSize + 4);
+            OS->writeInt(pakObjects[i].fSize);
             OS->write(pakObjects[i].fSize, pakObjects[i].fData);
         }
         delete OS;
@@ -194,7 +195,7 @@ int main(int argc, char** argv) {
         hsUint32 oldBase = IS->pos();
         for (size_t i=0; i<oldObjCount; i++) {
             IS->seek(pakObjects[i].fOffset);
-            pakObjects[i].fSize = IS->readInt() - 4;
+            pakObjects[i].fSize = IS->readInt();
             pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset -= oldBase;
@@ -242,7 +243,7 @@ int main(int argc, char** argv) {
             OS->writeInt(baseOffs + pakObjects[i].fOffset);
         }
         for (size_t i=0; i<pakObjects.getSize(); i++) {
-            OS->writeInt(pakObjects[i].fSize + 4);
+            OS->writeInt(pakObjects[i].fSize);
             OS->write(pakObjects[i].fSize, pakObjects[i].fData);
         }
         delete OS;
@@ -276,7 +277,7 @@ int main(int argc, char** argv) {
         }
         for (size_t i=0; i<pakObjects.getSize(); i++) {
             IS->seek(pakObjects[i].fOffset);
-            pakObjects[i].fSize = IS->readInt() - 4;
+            pakObjects[i].fSize = IS->readInt();
             pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
 
@@ -284,7 +285,8 @@ int main(int argc, char** argv) {
             FS.open(outdir + PATHSEP + pakObjects[i].fFilename + 'c', fmCreate);
             FS.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)
                         ? kPyc22 : kPyc23);
-            FS.writeInt(0); // Timestamp -- but not really...
+            time_t ts = time(NULL);
+            FS.writeInt(ts);
             FS.write(pakObjects[i].fSize, pakObjects[i].fData);
         }
         delete IS;
