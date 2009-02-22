@@ -11,7 +11,7 @@ void plOccluder::read(hsStream* S, plResManager* mgr) {
 
     fWorldBounds.read(S);
     fPriority = S->readFloat();
-    
+
     fPolys.setSize(S->readShort());
     for (size_t i=0; i<fPolys.getSize(); i++)
         fPolys[i].read(S);
@@ -27,7 +27,7 @@ void plOccluder::write(hsStream* S, plResManager* mgr) {
 
     fWorldBounds.write(S);
     S->writeFloat(fPriority);
-    
+
     S->writeShort(fPolys.getSize());
     for (size_t i=0; i<fPolys.getSize(); i++)
         fPolys[i].write(S);
@@ -105,6 +105,12 @@ plCullPoly plOccluder::getPoly(size_t idx) const { return fPolys[idx]; }
 void plOccluder::addPoly(const plCullPoly& poly) { fPolys.append(poly); }
 void plOccluder::delPoly(size_t idx) { fPolys.remove(idx); }
 void plOccluder::clearPolys() { fPolys.clear(); }
+
+size_t plOccluder::getNumVisRegions() const { return fVisRegions.getSize(); }
+plKey plOccluder::getVisRegion(size_t idx) const { return fVisRegions[idx]; }
+void plOccluder::addVisRegion(plKey region) { fVisRegions.append(region); }
+void plOccluder::delVisRegion(size_t idx) { fVisRegions.remove(idx); }
+void plOccluder::clearVisRegions() { fVisRegions.clear(); }
 
 
 /* plMobileOccluder */

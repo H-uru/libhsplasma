@@ -41,6 +41,12 @@ public:
     void addPoly(const plCullPoly& poly);
     void delPoly(size_t idx);
     void clearPolys();
+
+    size_t getNumVisRegions() const;
+    plKey getVisRegion(size_t idx) const;
+    void addVisRegion(plKey region);
+    void delVisRegion(size_t idx);
+    void clearVisRegions();
 };
 
 DllClass plMobileOccluder : public plOccluder {
