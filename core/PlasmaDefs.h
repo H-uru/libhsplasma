@@ -21,8 +21,8 @@ typedef signed char hsByte;
 typedef unsigned char hsUbyte;
 typedef signed short hsInt16;
 typedef unsigned short hsUint16;
-typedef signed long hsInt32;
-typedef unsigned long hsUint32;
+typedef signed int hsInt32;
+typedef unsigned int hsUint32;
 #ifdef WIN32
   typedef signed __int64 hsInt64;
   typedef unsigned __int64 hsUint64;
