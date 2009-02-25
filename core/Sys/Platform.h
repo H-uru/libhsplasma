@@ -36,7 +36,7 @@
 
 // For old Python versions:
 #ifndef Py_ssize_t
-    #define Py_ssize_t int
+    #define Py_ssize_t ssize_t
 #endif
 
 enum plKeyDef {

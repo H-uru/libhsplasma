@@ -70,7 +70,7 @@ CreateObjDlg::~CreateObjDlg()
 plLocation CreateObjDlg::GetLocation()
 {
     int sel = chObjLoc->GetSelection();
-    int toparse = (int)chObjLoc->GetClientData(sel);
+    int toparse = (long)chObjLoc->GetClientData(sel);
     
     plLocation loc;
     loc.parse(toparse);
@@ -89,7 +89,7 @@ wxString CreateObjDlg::GetName()
 unsigned int CreateObjDlg::GetClassType()
 {
     int sel = chObjType->GetSelection();
-    unsigned int type = (unsigned int)chObjType->GetClientData(sel);
+    unsigned int type = (unsigned long)chObjType->GetClientData(sel);
     
     return type;
 }

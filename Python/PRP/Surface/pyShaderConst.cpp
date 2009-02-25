@@ -102,7 +102,7 @@ static PyObject* pyShaderConst_write(pyShaderConst* self, PyObject* args) {
 }
 
 static PyObject* pyShaderConst_getItem(pyShaderConst* self, void* which) {
-    return PyFloat_FromDouble(self->fThis->fArray[(int)which]);
+    return PyFloat_FromDouble(self->fThis->fArray[(size_t)which]);
 }
 
 static int pyShaderConst_setItem(pyShaderConst* self, PyObject* value, void* which) {
@@ -110,7 +110,7 @@ static int pyShaderConst_setItem(pyShaderConst* self, PyObject* value, void* whi
         PyErr_SetString(PyExc_TypeError, "shader const values should be floats");
         return -1;
     }
-    self->fThis->fArray[(int)which] = PyFloat_AsDouble(value);
+    self->fThis->fArray[(size_t)which] = PyFloat_AsDouble(value);
     return 0;
 }
 

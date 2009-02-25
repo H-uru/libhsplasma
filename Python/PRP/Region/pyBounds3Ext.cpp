@@ -21,11 +21,11 @@ static PyObject* pyBounds3Ext_getCorner(pyBounds3Ext* self, void*) {
 }
 
 static PyObject* pyBounds3Ext_getAxis(pyBounds3Ext* self, void* idx) {
-    return pyVector3_FromVector3(self->fThis->getAxis((int)idx));
+    return pyVector3_FromVector3(self->fThis->getAxis((long)idx));
 }
 
 static PyObject* pyBounds3Ext_getDist(pyBounds3Ext* self, void* idx) {
-    hsFloatPoint2 dist = self->fThis->getDist((int)idx);
+    hsFloatPoint2 dist = self->fThis->getDist((long)idx);
     return Py_BuildValue("ff", dist.X, dist.Y);
 }
 
@@ -56,7 +56,7 @@ static int pyBounds3Ext_setAxis(pyBounds3Ext* self, PyObject* value, void* idx) 
         PyErr_SetString(PyExc_TypeError, "axes should be an hsVector3");
         return -1;
     }
-    self->fThis->setAxis((int)idx, *((pyVector3*)value)->fThis);
+    self->fThis->setAxis((long)idx, *((pyVector3*)value)->fThis);
     return 0;
 }
 
@@ -74,7 +74,7 @@ static int pyBounds3Ext_setDist(pyBounds3Ext* self, PyObject* value, void* idx) 
     }
     dist.X = PyFloat_AsDouble(itmX);
     dist.Y = PyFloat_AsDouble(itmY);
-    self->fThis->setDist((int)idx, dist);
+    self->fThis->setDist((long)idx, dist);
     return 0;
 }
 
