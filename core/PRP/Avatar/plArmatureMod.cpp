@@ -22,7 +22,8 @@ void plArmatureModBase::read(hsStream* S, plResManager* mgr) {
             fUnusedBones[i][j] = mgr->readKey(S);
     }
 
-    fBrains.setSize(S->readInt());
+    clearBrains();
+    fBrains.setSizeNull(S->readInt());
     for (size_t i=0; i<fBrains.getSize(); i++)
         fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
 }
@@ -92,7 +93,8 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Brains") {
-        fBrains.setSize(tag->countChildren());
+        clearBrains();
+        fBrains.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fBrains.getSize(); i++) {
             fBrains[i] = plArmatureBrain::Convert(mgr->prcParseCreatable(child));
@@ -101,6 +103,12 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plAGMasterMod::IPrcParse(tag, mgr);
     }
+}
+
+void plArmatureModBase::clearBrains() {
+    for (size_t i=0; i<fBrains.getSize(); i++)
+        delete fBrains[i];
+    fBrains.clear();
 }
 
 

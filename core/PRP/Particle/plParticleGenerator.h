@@ -31,6 +31,9 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    void clearParticles();
 };
 
 DllClass plSimpleParticleGenerator : public plParticleGenerator {
@@ -48,7 +51,7 @@ protected:
     float* fInitYaw;
     float fAngleRange, fVelMin, fVelMax, fXSize, fYSize, fScaleMin, fScaleMax;
     float fGenLife, fPartLifeMin, fPartLifeMax, fPartMassRange;
-    float fPartRadsPerSecRange, fParticleSum;
+    float fPartRadsPerSecRange;
 
 public:
     plSimpleParticleGenerator();
@@ -62,6 +65,9 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    void clearSources();
 };
 
 #endif

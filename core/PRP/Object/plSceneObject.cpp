@@ -14,11 +14,10 @@ void plSceneObject::read(hsStream* S, plResManager* mgr) {
     fAudioIntf = mgr->readKey(S);
 
     fInterfaces.setSize(S->readInt());
-    size_t i;
-    for (i=0; i<fInterfaces.getSize(); i++)
+    for (size_t i=0; i<fInterfaces.getSize(); i++)
         fInterfaces[i] = mgr->readKey(S);
     fModifiers.setSize(S->readInt());
-    for (i=0; i<fModifiers.getSize(); i++)
+    for (size_t i=0; i<fModifiers.getSize(); i++)
         fModifiers[i] = mgr->readKey(S);
 
     fSceneNode = mgr->readKey(S);
@@ -33,11 +32,10 @@ void plSceneObject::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fAudioIntf);
 
     S->writeInt(fInterfaces.getSize());
-    size_t i;
-    for (i=0; i<fInterfaces.getSize(); i++)
+    for (size_t i=0; i<fInterfaces.getSize(); i++)
         mgr->writeKey(S, fInterfaces[i]);
     S->writeInt(fModifiers.getSize());
-    for (i=0; i<fModifiers.getSize(); i++)
+    for (size_t i=0; i<fModifiers.getSize(); i++)
         mgr->writeKey(S, fModifiers[i]);
     mgr->writeKey(S, fSceneNode);
 }
@@ -58,13 +56,12 @@ void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
       fAudioIntf->prcWrite(prc);
     prc->closeTag();
 
-    size_t i;
     prc->writeSimpleTag("Interfaces");
-    for (i=0; i<fInterfaces.getSize(); i++)
+    for (size_t i=0; i<fInterfaces.getSize(); i++)
         fInterfaces[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Modifiers");
-    for (i=0; i<fModifiers.getSize(); i++)
+    for (size_t i=0; i<fModifiers.getSize(); i++)
         fModifiers[i]->prcWrite(prc);
     prc->closeTag();
 

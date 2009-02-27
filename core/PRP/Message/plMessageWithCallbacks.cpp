@@ -14,6 +14,7 @@ IMPLEMENT_CREATABLE(plMessageWithCallbacks, kMessageWithCallbacks, plMessage)
 void plMessageWithCallbacks::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 
+    clearCallbacks();
     fCallbacks.setSizeNull(S->readInt());
     for (size_t i=0; i<fCallbacks.getSize(); i++) {
         fCallbacks[i] = plMessage::Convert(mgr->ReadCreatable(S));
@@ -41,6 +42,7 @@ void plMessageWithCallbacks::IPrcWrite(pfPrcHelper* prc) {
 
 void plMessageWithCallbacks::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Callbacks") {
+        clearCallbacks();
         fCallbacks.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fCallbacks.getSize(); i++) {
@@ -50,4 +52,21 @@ void plMessageWithCallbacks::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plMessage::IPrcParse(tag, mgr);
     }
+}
+
+size_t plMessageWithCallbacks::getNumCallbacks() const { return fCallbacks.getSize(); }
+plMessage* plMessageWithCallbacks::getCallback(size_t idx) const { return fCallbacks[idx]; }
+void plMessageWithCallbacks::addCallback(plMessage* callback) { fCallbacks.append(callback); }
+
+void plMessageWithCallbacks::delCallback(size_t idx) {
+    delete fCallbacks[idx];
+    fCallbacks.remove(idx);
+}
+
+void plMessageWithCallbacks::clearCallbacks() {
+    for (size_t i=0; i<fCallbacks.getSize(); i++) {
+        if (fCallbacks[i] != NULL)
+            delete fCallbacks[i];
+    }
+    fCallbacks.clear();
 }

@@ -78,15 +78,11 @@ protected:
     hsColorRGBA* fAddColor;
     unsigned int* fDiffuseRGBA;
     unsigned int* fSpecularRGBA;
-    hsTArray<plGeometrySpan*>* fInstanceRefs;
     unsigned int fInstanceGroup;
-    unsigned char* fMaxOwner;
-    unsigned int fSpanRefIndex;
     hsMatrix44 fLocalToOBB, fOBBToLocal;
-    bool fCreating;
 
     unsigned int numInstanceRefs;
-    
+
 public:
     plGeometrySpan();
     ~plGeometrySpan();

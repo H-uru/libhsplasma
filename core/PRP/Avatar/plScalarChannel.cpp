@@ -72,7 +72,7 @@ IMPLEMENT_CREATABLE(plScalarControllerChannel, kScalarControllerChannel,
 
 void plScalarControllerChannel::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
-    fController = plController::Convert(mgr->ReadCreatable(S));
+    setController(plController::Convert(mgr->ReadCreatable(S)));
 }
 
 void plScalarControllerChannel::write(hsStream* S, plResManager* mgr) {
@@ -91,7 +91,7 @@ void plScalarControllerChannel::IPrcWrite(pfPrcHelper* prc) {
 void plScalarControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Controller") {
         if (tag->hasChildren())
-            fController = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
         plAGChannel::IPrcParse(tag, mgr);
     }

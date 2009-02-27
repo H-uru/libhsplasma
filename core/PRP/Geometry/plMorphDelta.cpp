@@ -1,6 +1,6 @@
 #include "plMorphDelta.h"
 
-// plVertDelta //
+/* plVertDelta */
 void plVertDelta::read(hsStream* S) {
     fIdx = S->readShort();
     fPadding = S->readShort();
@@ -54,18 +54,23 @@ void plVertDelta::prcParse(const pfPrcTag* tag) {
 }
 
 
-// plMorphSpan //
+/* plMorphSpan */
 plMorphSpan::plMorphSpan() : fNumUVWChans(0), fUVWs(NULL) { }
 plMorphSpan::~plMorphSpan() {
-    if (fUVWs) delete[] fUVWs;
+    if (fUVWs != NULL)
+        delete[] fUVWs;
 }
 
 void plMorphSpan::read(hsStream* S) {
     fDeltas.setSize(S->readInt());
     fNumUVWChans = S->readInt();
+    if (fUVWs != NULL)
+        delete[] fUVWs;
     if (fNumUVWChans > 0)
         fUVWs = new hsVector3[fNumUVWChans * fDeltas.getSize()];
-    
+    else
+        fUVWs = NULL;
+
     for (size_t i=0; i<fDeltas.getSize(); i++)
         fDeltas[i].read(S);
     for (size_t i=0; i<(fDeltas.getSize() * fNumUVWChans); i++)
@@ -75,7 +80,7 @@ void plMorphSpan::read(hsStream* S) {
 void plMorphSpan::write(hsStream* S) {
     S->writeInt(fDeltas.getSize());
     S->writeInt(fNumUVWChans);
-    
+
     for (size_t i=0; i<fDeltas.getSize(); i++)
         fDeltas[i].write(S);
     for (size_t i=0; i<(fDeltas.getSize() * fNumUVWChans); i++)
@@ -89,7 +94,7 @@ void plMorphSpan::prcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fDeltas.getSize(); i++)
         fDeltas[i].prcWrite(prc);
     prc->closeTag();
-    
+
     prc->startTag("UVWs");
     prc->writeParam("Channels", fNumUVWChans);
     prc->endTag();
@@ -114,6 +119,8 @@ void plMorphSpan::prcParse(const pfPrcTag* tag) {
                 subchild = subchild->getNextSibling();
             }
         } else if (child->getName() == "UVWs") {
+            if (fUVWs != NULL)
+                delete[] fUVWs;
             fNumUVWChans = child->getParam("Channels", "0").toUint();
             size_t nUVWs = fDeltas.getSize() * fNumUVWChans;
             if (child->countChildren() != nUVWs)
@@ -132,8 +139,8 @@ void plMorphSpan::prcParse(const pfPrcTag* tag) {
 }
 
 
-// plMorphDelta //
-plMorphDelta::plMorphDelta() { }
+/* plMorphDelta */
+plMorphDelta::plMorphDelta() : fWeight(0.0f) { }
 plMorphDelta::~plMorphDelta() { }
 
 IMPLEMENT_CREATABLE(plMorphDelta, kMorphDelta, plCreatable)

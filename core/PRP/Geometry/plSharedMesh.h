@@ -15,7 +15,6 @@ public:
 
 public:
     hsTArray<plGeometrySpan*> fSpans;
-    hsTArray<plSceneObject const*> fActiveInstances;
     plKey fMorphSet;
     unsigned char fFlags;
 
@@ -35,6 +34,7 @@ protected:
 public:
     size_t getNumSpans() const;
     plGeometrySpan* getSpan(size_t idx) const;
+    void clearSpans();
 };
 
 #endif

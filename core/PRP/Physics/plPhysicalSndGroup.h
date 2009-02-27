@@ -9,7 +9,6 @@ public:
 
 protected:
     unsigned int fGroup;
-    int fCurrSlideSnd;
     hsTArray<plKey> fImpactSounds, fSlideSounds;
 
 public:

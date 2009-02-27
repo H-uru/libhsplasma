@@ -1,5 +1,7 @@
 #include "plOneShotCallbacks.h"
 
+plOneShotCallbacks::plOneShotCallback::plOneShotCallback() : fUser(0) { }
+
 plOneShotCallbacks::plOneShotCallbacks() { }
 plOneShotCallbacks::~plOneShotCallbacks() { }
 

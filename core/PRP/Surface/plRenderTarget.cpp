@@ -2,8 +2,8 @@
 
 /* plRenderTarget */
 plRenderTarget::plRenderTarget()
-              : fWidth(0), fHeight(0), fApplyTexQuality(false),
-                fProportionalViewport(false), fZDepth(0), fStencilDepth(0) { }
+              : fWidth(0), fHeight(0), fProportionalViewport(false),
+                fZDepth(0), fStencilDepth(0) { }
 plRenderTarget::~plRenderTarget() { }
 
 IMPLEMENT_CREATABLE(plRenderTarget, kRenderTarget, plBitmap)

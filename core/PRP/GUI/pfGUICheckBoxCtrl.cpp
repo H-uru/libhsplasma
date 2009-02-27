@@ -5,10 +5,6 @@ pfGUICheckBoxCtrl::~pfGUICheckBoxCtrl() { }
 
 IMPLEMENT_CREATABLE(pfGUICheckBoxCtrl, kGUICheckBoxCtrl, pfGUIControlMod)
 
-void pfGUICheckBoxCtrl::setChecked(bool checked) {
-    fChecked = checked;
-}
-
 void pfGUICheckBoxCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
@@ -58,3 +54,5 @@ void pfGUICheckBoxCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
 }
+
+void pfGUICheckBoxCtrl::setChecked(bool checked) { fChecked = checked; }

@@ -1,6 +1,6 @@
 #include "plMessage.h"
 
-plMessage::plMessage() { }
+plMessage::plMessage() : fTimeStamp(0.0), fBCastFlags(0) { }
 plMessage::~plMessage() { }
 
 IMPLEMENT_CREATABLE(plMessage, kMessage, plCreatable)

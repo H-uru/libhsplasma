@@ -1,6 +1,6 @@
 #include "plFixedWaterState6.h"
 
-// plFixedWaterState6::WaveState //
+/* plFixedWaterState6::WaveState */
 plFixedWaterState6::WaveState::WaveState()
                              : fMaxLength(0.0f), fMinLength(0.0f),
                                fAmpOverLen(0.0f), fChop(0.0f), fAngleDev(0.0f) { }
@@ -45,7 +45,7 @@ void plFixedWaterState6::WaveState::prcParse(const pfPrcTag* tag) {
 }
 
 
-// plFixedWaterState6 //
+/* plFixedWaterState6 */
 plFixedWaterState6::plFixedWaterState6()
                   : fRippleScale(0.0f), fWaterHeight(0.0f), fWispiness(0.0f),
                     fEdgeOpac(0.0f), fEdgeRadius(0.0f), fPeriod(0.0f),
@@ -106,14 +106,14 @@ void plFixedWaterState6::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("WaterOffset");
     fWaterOffset.prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("GeoState");
     fGeoState.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("TexState");
     fTexState.prcWrite(prc);
     prc->closeTag();
-    
+
     prc->startTag("WaterStateParams");
     prc->writeParam("RippleScale", fRippleScale);
     prc->writeParam("WaterHeight", fWaterHeight);

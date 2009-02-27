@@ -271,9 +271,9 @@ void proVariableEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Name", fName);
     prc->writeParam("DataType", fDataType);
     prc->writeParam("Number", fNumber);
-    prc->endTag(true);
-
+    prc->endTag();
     fKey->prcWrite(prc);
+    prc->closeTag();
 }
 
 void proVariableEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
@@ -281,8 +281,8 @@ void proVariableEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fName = tag->getParam("Name", "");
         fDataType = tag->getParam("DataType", "0").toInt();
         fNumber = tag->getParam("Number", "0").toFloat();
-    } else if (tag->getName() == "plKey") {
-        fKey = mgr->prcParseKey(tag);
+        if (tag->hasChildren())
+            fKey = mgr->prcParseKey(tag->getFirstChild());
     } else {
         proEventData::IPrcParse(tag, mgr);
     }

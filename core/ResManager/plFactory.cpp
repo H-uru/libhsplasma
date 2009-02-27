@@ -69,6 +69,7 @@
 #include "PRP/Light/plDirectionalLightInfo.h"
 #include "PRP/Light/plOmniLightInfo.h"
 #include "PRP/Light/plShadowMaster.h"
+#include "PRP/Light/plShadowCaster.h"
 #include "PRP/Message/plAnimCmdMsg.h"
 #include "PRP/Message/plArmatureEffectMsg.h"
 #include "PRP/Message/plClimbMsg.h"

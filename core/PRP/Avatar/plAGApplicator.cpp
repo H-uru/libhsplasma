@@ -1,6 +1,6 @@
 #include "plAGApplicator.h"
 
-// plAGApplicator //
+/* plAGApplicator */
 plAGApplicator::plAGApplicator() : fChannel(NULL), fEnabled(true) { }
 
 plAGApplicator::~plAGApplicator() {
@@ -37,7 +37,12 @@ void plAGApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 plAGChannel* plAGApplicator::getChannel() const { return fChannel; }
-void plAGApplicator::setChannel(plAGChannel* chan) { fChannel = chan; }
+
+void plAGApplicator::setChannel(plAGChannel* chan) {
+    if (fChannel != NULL)
+        delete fChannel;
+    fChannel = chan;
+}
 
 bool plAGApplicator::isEnabled() const { return fEnabled; }
 plString plAGApplicator::getChannelName() const { return fChannelName; }
@@ -45,7 +50,7 @@ void plAGApplicator::setEnabled(bool enabled) { fEnabled = enabled; }
 void plAGApplicator::setChannelName(const plString& channelName) { fChannelName = channelName; }
 
 
-// plSoundVolumeApplicator //
+/* plSoundVolumeApplicator */
 plSoundVolumeApplicator::plSoundVolumeApplicator() : fIndex(0) { }
 plSoundVolumeApplicator::~plSoundVolumeApplicator() { }
 
@@ -82,7 +87,7 @@ unsigned int plSoundVolumeApplicator::getIndex() const { return fIndex; }
 void plSoundVolumeApplicator::setIndex(unsigned int index) { fIndex = index; }
 
 
-// plLightAmbientApplicator //
+/* plLightAmbientApplicator */
 plLightAmbientApplicator::plLightAmbientApplicator() { }
 plLightAmbientApplicator::~plLightAmbientApplicator() { }
 
@@ -90,7 +95,7 @@ IMPLEMENT_CREATABLE(plLightAmbientApplicator, kLightAmbientApplicator,
                     plAGApplicator)
 
 
-// plLightDiffuseApplicator //
+/* plLightDiffuseApplicator */
 plLightDiffuseApplicator::plLightDiffuseApplicator() { }
 plLightDiffuseApplicator::~plLightDiffuseApplicator() { }
 
@@ -98,7 +103,7 @@ IMPLEMENT_CREATABLE(plLightDiffuseApplicator, kLightDiffuseApplicator,
                     plAGApplicator)
 
 
-// plLightSpecularApplicator //
+/* plLightSpecularApplicator */
 plLightSpecularApplicator::plLightSpecularApplicator() { }
 plLightSpecularApplicator::~plLightSpecularApplicator() { }
 
@@ -106,35 +111,35 @@ IMPLEMENT_CREATABLE(plLightSpecularApplicator, kLightSpecularApplicator,
                     plAGApplicator)
 
 
-// plOmniApplicator //
+/* plOmniApplicator */
 plOmniApplicator::plOmniApplicator() { }
 plOmniApplicator::~plOmniApplicator() { }
 
 IMPLEMENT_CREATABLE(plOmniApplicator, kOmniApplicator, plAGApplicator)
 
 
-// plOmniCutoffApplicator //
+/* plOmniCutoffApplicator */
 plOmniCutoffApplicator::plOmniCutoffApplicator() { }
 plOmniCutoffApplicator::~plOmniCutoffApplicator() { }
 
 IMPLEMENT_CREATABLE(plOmniCutoffApplicator, kOmniCutoffApplicator, plAGApplicator)
 
 
-// plOmniSqApplicator //
+/* plOmniSqApplicator */
 plOmniSqApplicator::plOmniSqApplicator() { }
 plOmniSqApplicator::~plOmniSqApplicator() { }
 
 IMPLEMENT_CREATABLE(plOmniSqApplicator, kOmniSqApplicator, plAGApplicator)
 
 
-// plSpotInnerApplicator //
+/* plSpotInnerApplicator */
 plSpotInnerApplicator::plSpotInnerApplicator() { }
 plSpotInnerApplicator::~plSpotInnerApplicator() { }
 
 IMPLEMENT_CREATABLE(plSpotInnerApplicator, kSpotInnerApplicator, plAGApplicator)
 
 
-// plSpotOuterApplicator //
+/* plSpotOuterApplicator */
 plSpotOuterApplicator::plSpotOuterApplicator() { }
 plSpotOuterApplicator::~plSpotOuterApplicator() { }
 

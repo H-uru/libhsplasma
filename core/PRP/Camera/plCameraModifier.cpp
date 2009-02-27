@@ -99,6 +99,7 @@ IMPLEMENT_CREATABLE(plCameraModifier, kCameraModifier, plSingleModifier)
 void plCameraModifier::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
+    clearTrans();
     fBrain = mgr->readKey(S);
     fTrans.setSizeNull(S->readInt());
     for (size_t i=0; i<fTrans.getSize(); i++) {
@@ -108,6 +109,7 @@ void plCameraModifier::read(hsStream* S, plResManager* mgr) {
     fFOVw = S->readFloat();
     fFOVh = S->readFloat();
 
+    clearMessageQueue();
     fMessageQueue.setSizeNull(S->readInt());
     fSenderQueue.setSize(fMessageQueue.getSize());
     for (size_t i=0; i<fMessageQueue.getSize(); i++)
@@ -115,6 +117,7 @@ void plCameraModifier::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fSenderQueue.getSize(); i++)
         fSenderQueue[i] = mgr->readKey(S);
 
+    clearFOVInstructions();
     fFOVInstructions.setSizeNull(S->readInt());
     for (size_t i=0; i<fFOVInstructions.getSize(); i++)
         fFOVInstructions[i] = plCameraMsg::Convert(mgr->ReadCreatable(S));
@@ -201,6 +204,7 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fBrain = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Transforms") {
+        clearTrans();
         fTrans.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fTrans.getSize(); i++) {
@@ -209,6 +213,7 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "MessageQueue") {
+        clearMessageQueue();
         fMessageQueue.setSizeNull(tag->countChildren() / 2);
         fSenderQueue.setSize(fMessageQueue.getSize());
         const pfPrcTag* child = tag->getFirstChild();
@@ -219,6 +224,7 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "FOVInstructions") {
+        clearFOVInstructions();
         fFOVInstructions.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fFOVInstructions.getSize(); i++) {
@@ -228,4 +234,23 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
+}
+
+void plCameraModifier::clearTrans() {
+    for (size_t i=0; i<fTrans.getSize(); i++)
+        delete fTrans[i];
+    fTrans.clear();
+}
+
+void plCameraModifier::clearMessageQueue() {
+    for (size_t i=0; i<fMessageQueue.getSize(); i++)
+        delete fMessageQueue[i];
+    fMessageQueue.clear();
+    fSenderQueue.clear();
+}
+
+void plCameraModifier::clearFOVInstructions() {
+    for (size_t i=0; i<fFOVInstructions.getSize(); i++)
+        delete fFOVInstructions[i];
+    fFOVInstructions.clear();
 }

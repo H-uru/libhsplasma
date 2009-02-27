@@ -10,9 +10,6 @@ protected:
     float fHither, fYon, fFogStart;
     hsColorRGBA fColor;
     float fRefreshRate;
-    double fLastRefresh;
-    int fLastRender, fOutStanding;
-    hsBitVector fVisSet;
     hsTArray<plKey> fVisRegions;
     hsTArray<plString> fVisRegionNames;
     int fIncCharacters;
@@ -43,9 +40,6 @@ protected:
     float fHither, fYon, fFogStart;
     hsColorRGBA fColor;
     float fRefreshRate;
-    double fLastRefresh;
-    int fOutStanding;
-    hsBitVector fVisSet;
     hsTArray<plKey> fVisRegions, fTargetNodes, fMatLayers;
     hsTArray<plString> fVisRegionNames;
     unsigned char fIncCharacters;

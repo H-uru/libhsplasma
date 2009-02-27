@@ -1,6 +1,6 @@
 #include "plDynaRippleMgr.h"
 
-// plDynaRippleMgr //
+/* plDynaRippleMgr */
 plDynaRippleMgr::plDynaRippleMgr() { }
 plDynaRippleMgr::~plDynaRippleMgr() { }
 
@@ -42,7 +42,7 @@ void plDynaRippleMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-// plDynaRippleVSMgr //
+/* plDynaRippleVSMgr */
 plDynaRippleVSMgr::plDynaRippleVSMgr() { }
 plDynaRippleVSMgr::~plDynaRippleVSMgr() { }
 
@@ -76,14 +76,14 @@ void plDynaRippleVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-// plDynaTorpedoMgr //
+/* plDynaTorpedoMgr */
 plDynaTorpedoMgr::plDynaTorpedoMgr() { }
 plDynaTorpedoMgr::~plDynaTorpedoMgr() { }
 
 IMPLEMENT_CREATABLE(plDynaTorpedoMgr, kDynaTorpedoMgr, plDynaRippleMgr)
 
 
-// plDynaTorpedoVSMgr //
+/* plDynaTorpedoVSMgr */
 plDynaTorpedoVSMgr::plDynaTorpedoVSMgr() { }
 plDynaTorpedoVSMgr::~plDynaTorpedoVSMgr() { }
 
@@ -117,16 +117,20 @@ void plDynaTorpedoVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-// plDynaPuddleMgr //
+/* plDynaPuddleMgr */
 plDynaPuddleMgr::plDynaPuddleMgr() { }
 plDynaPuddleMgr::~plDynaPuddleMgr() { }
 
 IMPLEMENT_CREATABLE(plDynaPuddleMgr, kDynaPuddleMgr, plDynaRippleMgr)
 
 
-// plDynaWakeMgr //
-plDynaWakeMgr::plDynaWakeMgr() { }
-plDynaWakeMgr::~plDynaWakeMgr() { }
+/* plDynaWakeMgr */
+plDynaWakeMgr::plDynaWakeMgr() : fAnimPath(NULL), fAnimWgt(0.0f), fVelWgt(0.0f) { }
+
+plDynaWakeMgr::~plDynaWakeMgr() {
+    if (fAnimPath != NULL)
+        delete fAnimPath;
+}
 
 IMPLEMENT_CREATABLE(plDynaWakeMgr, kDynaWakeMgr, plDynaRippleMgr)
 
@@ -134,7 +138,7 @@ void plDynaWakeMgr::read(hsStream* S, plResManager* mgr) {
     plDynaRippleMgr::read(S, mgr);
 
     fDefaultDir.read(S);
-    fAnimPath = plAnimPath::Convert(mgr->ReadCreatable(S));
+    setAnimPath(plAnimPath::Convert(mgr->ReadCreatable(S)));
     fAnimWgt = S->readFloat();
     fVelWgt = S->readFloat();
 }
@@ -178,12 +182,18 @@ void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fVelWgt = tag->getParam("VelWeight", "0").toFloat();
     } else if (tag->getName() == "plAnimPath") {
         if (tag->getParam("NULL", "false").toBool()) {
-            fAnimPath = NULL;
+            setAnimPath(NULL);
         } else {
             if (tag->hasChildren())
-                fAnimPath = plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+                setAnimPath(plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         }
     } else {
         plDynaRippleMgr::IPrcParse(tag, mgr);
     }
+}
+
+void plDynaWakeMgr::setAnimPath(plAnimPath* path) {
+    if (fAnimPath != NULL)
+        delete fAnimPath;
+    fAnimPath = path;
 }

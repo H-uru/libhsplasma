@@ -19,6 +19,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumCallbacks() const;
+    plMessage* getCallback(size_t idx) const;
+    void addCallback(plMessage* callback);
+    void delCallback(size_t idx);
+    void clearCallbacks();
 };
 
 #endif

@@ -3,7 +3,6 @@
 
 /* hsKeyedObject */
 hsKeyedObject::hsKeyedObject() { }
-
 hsKeyedObject::~hsKeyedObject() { }
 
 IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)

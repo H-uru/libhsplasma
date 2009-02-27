@@ -17,6 +17,7 @@ void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
     fState = S->readFloat();
     fID = (S->getVer() >= pvEoa) ? S->readByte() : S->readInt();
 
+    clearEvents();
     fEvents.setSizeNull(S->readInt());
     for (size_t i=0; i<fEvents.getSize(); i++)
         fEvents[i] = proEventData::Read(S, mgr);
@@ -57,6 +58,7 @@ void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fState = tag->getParam("State", "0").toFloat();
         fID = tag->getParam("ID", "0").toInt();
     } else if (tag->getName() == "Events") {
+        clearEvents();
         fEvents.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fEvents.getSize(); i++) {

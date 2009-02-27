@@ -1,6 +1,7 @@
 #include "plExcludeRegionModifier.h"
 
-plExcludeRegionModifier::plExcludeRegionModifier() : fSeek(false) {
+plExcludeRegionModifier::plExcludeRegionModifier()
+                       : fSeek(false), fSeekTime(0.0f) {
     fFlags.setName(kBlockCameras, "kBlockCameras");
 }
 

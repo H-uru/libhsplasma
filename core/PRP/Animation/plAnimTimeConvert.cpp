@@ -29,12 +29,14 @@ void plAnimTimeConvert::read(hsStream* S, plResManager* mgr) {
     fLoopBegin = S->readFloat();
     fSpeed = S->readFloat();
 
-    fEaseInCurve = plATCEaseCurve::Convert(mgr->ReadCreatable(S));
-    fEaseOutCurve = plATCEaseCurve::Convert(mgr->ReadCreatable(S));
-    fSpeedEaseCurve = plATCEaseCurve::Convert(mgr->ReadCreatable(S));
+    setEaseInCurve(plATCEaseCurve::Convert(mgr->ReadCreatable(S)));
+    setEaseOutCurve(plATCEaseCurve::Convert(mgr->ReadCreatable(S)));
+    setSpeedEaseCurve(plATCEaseCurve::Convert(mgr->ReadCreatable(S)));
     fCurrentAnimTime = S->readFloat();
     fLastEvalWorldTime = S->readDouble();
 
+    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
+        delete fCallbackMsgs[i];
     fCallbackMsgs.setSizeNull(S->readInt());
     for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
         fCallbackMsgs[i] = plEventCallbackMsg::Convert(mgr->ReadCreatable(S));
@@ -134,17 +136,19 @@ void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fSpeed = tag->getParam("Speed", "0").toFloat();
     } else if (tag->getName() == "EaseInCurve") {
         if (!tag->getParam("NULL", "false").toBool() && tag->hasChildren())
-            fSpeedEaseCurve = plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setSpeedEaseCurve(plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "EaseOutCurve") {
         if (!tag->getParam("NULL", "false").toBool() && tag->hasChildren())
-            fSpeedEaseCurve = plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setSpeedEaseCurve(plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "SpeedEaseCurve") {
         if (!tag->getParam("NULL", "false").toBool() && tag->hasChildren())
-            fSpeedEaseCurve = plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setSpeedEaseCurve(plATCEaseCurve::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "Times") {
         fCurrentAnimTime = tag->getParam("CurrentAnimTime", "0").toFloat();
         fLastEvalWorldTime = tag->getParam("LastEvalWorldTime", "0").toFloat();
     } else if (tag->getName() == "Callbacks") {
+        for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
+            delete fCallbackMsgs[i];
         fCallbackMsgs.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fCallbackMsgs.getSize(); i++) {

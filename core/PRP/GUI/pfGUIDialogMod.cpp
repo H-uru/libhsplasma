@@ -3,14 +3,10 @@
 pfGUIDialogMod::pfGUIDialogMod()
               : fTagID(0), fVersion(0) {
     memset(fName, 0, 128);
-    fColorScheme = new pfGUIColorScheme();
-
     fFlags.setName(kModal, "kModal");
 }
 
-pfGUIDialogMod::~pfGUIDialogMod() {
-    delete fColorScheme;
-}
+pfGUIDialogMod::~pfGUIDialogMod() { }
 
 IMPLEMENT_CREATABLE(pfGUIDialogMod, kGUIDialogMod, plSingleModifier)
 
@@ -26,9 +22,9 @@ void pfGUIDialogMod::read(hsStream* S, plResManager* mgr) {
 
     fTagID = S->readInt();
     fProcReceiver = mgr->readKey(S);
-    
+
     fVersion = S->readInt();
-    fColorScheme->read(S);
+    fColorScheme.read(S);
     fSceneNode = mgr->readKey(S);
 }
 
@@ -45,7 +41,7 @@ void pfGUIDialogMod::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fTagID);
     mgr->writeKey(S, fProcReceiver);
     S->writeInt(fVersion);
-    fColorScheme->write(S);
+    fColorScheme.write(S);
     mgr->writeKey(S, fSceneNode);
 }
 
@@ -70,7 +66,7 @@ void pfGUIDialogMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("ProcReceiver");
     fProcReceiver->prcWrite(prc);
     prc->closeTag();
-    fColorScheme->prcWrite(prc);
+    fColorScheme.prcWrite(prc);
     prc->writeSimpleTag("SceneNode");
     fSceneNode->prcWrite(prc);
     prc->closeTag();
@@ -99,7 +95,7 @@ void pfGUIDialogMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "pfGUIColorScheme") {
-        fColorScheme->prcParse(tag);
+        fColorScheme.prcParse(tag);
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

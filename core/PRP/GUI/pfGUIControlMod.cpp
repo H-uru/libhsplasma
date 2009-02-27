@@ -109,7 +109,8 @@ pfGUIControlMod::pfGUIControlMod()
 }
 
 pfGUIControlMod::~pfGUIControlMod() {
-    if (fHandler) delete fHandler;
+    if (fHandler != NULL)
+        delete fHandler;
 }
 
 IMPLEMENT_CREATABLE(pfGUIControlMod, kGUIControlMod, plSingleModifier)
@@ -119,7 +120,8 @@ void pfGUIControlMod::read(hsStream* S, plResManager* mgr) {
 
     fTagID = S->readInt();
     fVisible = S->readBool();
-    if (fHandler != NULL) delete fHandler;
+    if (fHandler != NULL)
+        delete fHandler;
     fHandler = pfGUICtrlProcWriteableObject::Read(S);
 
     if (S->readBool()) {
@@ -127,10 +129,13 @@ void pfGUIControlMod::read(hsStream* S, plResManager* mgr) {
         fDynTextMap = mgr->readKey(S);
     }
 
+    if (fColorScheme != NULL)
+        delete fColorScheme;
     if (S->readBool()) {
-        if (fColorScheme != NULL) delete fColorScheme;
         fColorScheme = new pfGUIColorScheme();
         fColorScheme->read(S);
+    } else {
+        fColorScheme = NULL;
     }
 
     fSoundIndices.setSizeNull(S->readByte());
@@ -184,7 +189,7 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("TagID", fTagID);
     prc->writeParam("Visible", fVisible);
     prc->endTag(true);
-    
+
     prc->writeSimpleTag("Handler");
     pfGUICtrlProcWriteableObject::PrcWrite(prc, fHandler);
     prc->closeTag();
@@ -227,16 +232,21 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fTagID = tag->getParam("TagID", "0").toUint();
         fVisible = tag->getParam("Visible", "true").toBool();
     } else if (tag->getName() == "Handler") {
+        if (fHandler != NULL)
+            delete fHandler;
         if (tag->hasChildren())
             fHandler = pfGUICtrlProcWriteableObject::PrcParse(tag->getFirstChild());
+        else
+            fHandler = NULL;
     } else if (tag->getName() == "DynTextLayer") {
         if (tag->hasChildren())
             fDynTextLayer = mgr->prcParseKey(tag->getFirstChild());
-    } else if (tag->getName() == "DynTextMap") {    
+    } else if (tag->getName() == "DynTextMap") {
         if (tag->hasChildren())
             fDynTextMap = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "pfGUIColorScheme") {
-        if (fColorScheme != NULL) delete fColorScheme;
+        if (fColorScheme != NULL)
+            delete fColorScheme;
         if (tag->getParam("NULL", "false")) {
             fColorScheme = NULL;
         } else {

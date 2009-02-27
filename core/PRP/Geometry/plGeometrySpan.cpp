@@ -32,12 +32,9 @@ void plGeometrySpan::read(hsStream* S) {
     fLocalToWorld.read(S);
     fWorldToLocal.read(S);
     fLocalBounds.read(S);
-    //if (fWorldBounds != fLocalBounds)
-    //    fWorldBounds.Reset(fLocalBounds);
-    //fWorldBounds.Transform(&fLocalToWorld);
     fOBBToLocal.read(S);
     fLocalToOBB.read(S);
-    
+
     fBaseMatrix = S->readInt();
     fNumMatrices = S->readByte();
     fLocalUVWChans = S->readShort();
@@ -52,15 +49,28 @@ void plGeometrySpan::read(hsStream* S) {
     S->readInt();  // Discarded
     S->readByte(); // Discarded
     fDecalLevel = S->readInt();
-    
+
     if (fProps & kWaterHeight)
         fWaterHeight = S->readFloat();
-    
+
+    if (fVertexData != NULL)
+        delete[] fVertexData;
+    if (fMultColor != NULL)
+        delete[] fMultColor;
+    if (fAddColor != NULL)
+        delete[] fAddColor;
+    if (fDiffuseRGBA != NULL)
+        delete[] fDiffuseRGBA;
+    if (fSpecularRGBA != NULL)
+        delete[] fSpecularRGBA;
+    if (fIndexData != NULL)
+        delete[] fIndexData;
+
     if (fNumVerts > 0) {
         unsigned int stride = CalcVertexSize(fFormat);
         fVertexData = new unsigned char[fNumVerts * stride];
         S->read(fNumVerts * stride, fVertexData);
-        
+
         fMultColor = new hsColorRGBA[fNumVerts];
         fAddColor = new hsColorRGBA[fNumVerts];
         for (unsigned int i=0; i<fNumVerts; i++) {
@@ -85,11 +95,9 @@ void plGeometrySpan::read(hsStream* S) {
     } else {
         fIndexData = NULL;
     }
-    
+
     fInstanceGroup = S->readInt();
     if (fInstanceGroup != 0) {
-        //fInstanceRefs = IGetInstanceGroup(fInstanceGroup, S->readInt());
-        //fInstanceRefs->append(this);
         plDebug::Warning("WARNING: plGeometrySpan::read Incomplete");
         numInstanceRefs = S->readInt();
     }
@@ -101,7 +109,7 @@ void plGeometrySpan::write(hsStream* S) {
     fLocalBounds.write(S);
     fOBBToLocal.write(S);
     fLocalToOBB.write(S);
-    
+
     S->writeInt(fBaseMatrix);
     S->writeByte(fNumMatrices);
     S->writeShort(fLocalUVWChans);
@@ -116,10 +124,10 @@ void plGeometrySpan::write(hsStream* S) {
     S->writeInt(0);
     S->writeByte(0);
     S->writeInt(fDecalLevel);
-    
+
     if (fProps & kWaterHeight)
         S->writeFloat(fWaterHeight);
-    
+
     if (fNumVerts > 0) {
         S->write(fNumVerts * CalcVertexSize(fFormat), fVertexData);
         for (unsigned int i=0; i<fNumVerts; i++) {
@@ -128,7 +136,7 @@ void plGeometrySpan::write(hsStream* S) {
         }
         S->writeInts(fNumVerts, (hsUint32*)fDiffuseRGBA);
         S->writeInts(fNumVerts, (hsUint32*)fSpecularRGBA);
-        
+
     }
     if (fNumIndices > 0)
         S->writeShorts(fNumIndices, (hsUint16*)fIndexData);
@@ -155,7 +163,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
     if (fProps & kWaterHeight)
         prc->writeParam("WaterHeight", fWaterHeight);
     prc->endTag();
-    
+
     if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
         hsTArray<TempVertex> verts = getVertices();
         prc->writeSimpleTag("Vertices");
@@ -243,6 +251,25 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
     fProps = tag->getParam("Props", "0").toUint();
     fDecalLevel = tag->getParam("DecalLevel", "0").toUint();
     fWaterHeight = tag->getParam("WaterHeight", "0").toFloat();
+
+    if (fVertexData != NULL)
+        delete[] fVertexData;
+    if (fMultColor != NULL)
+        delete[] fMultColor;
+    if (fAddColor != NULL)
+        delete[] fAddColor;
+    if (fDiffuseRGBA != NULL)
+        delete[] fDiffuseRGBA;
+    if (fSpecularRGBA != NULL)
+        delete[] fSpecularRGBA;
+    if (fIndexData != NULL)
+        delete[] fIndexData;
+    fVertexData = NULL;
+    fMultColor = NULL;
+    fAddColor = NULL;
+    fDiffuseRGBA = NULL;
+    fSpecularRGBA = NULL;
+    fIndexData = NULL;
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -356,7 +383,7 @@ void plGeometrySpan::setFogEnvironment(const plKey& fog) { fFogEnviron = fog; }
 hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
     hsTArray<TempVertex> buf;
     buf.setSize(fNumVerts);
-    
+
     unsigned char* cp = fVertexData;
     for (size_t i=0; i<fNumVerts; i++) {
         buf[i].fPosition.X = *(float*)cp; cp += sizeof(float);

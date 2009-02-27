@@ -181,7 +181,7 @@ plParticleFlockEffect::plParticleFlockEffect()
                        fRepDirStr(0.0f), fGoalOrbitStr(0.0f),
                        fGoalChaseStr(0.0f), fGoalDistSq(0.0f),
                        fFullChaseDistSq(0.0f), fMaxOrbitSpeed(0.0f),
-                       fMaxChaseSpeed(0.0f), fMaxParticles(0), fDistSq(0.0f) { }
+                       fMaxChaseSpeed(0.0f), fMaxParticles(0.0f) { }
 
 plParticleFlockEffect::~plParticleFlockEffect() { }
 
@@ -285,7 +285,7 @@ IMPLEMENT_CREATABLE(plParticleFollowSystemEffect, kParticleFollowSystemEffect,
 /* plParticleWindEffect */
 plParticleWindEffect::plParticleWindEffect()
                     : fStrength(0.0f), fConstancy(0.0f), fSwirl(0.0f),
-                      fHorizontal(false), fLastDirSecs(0.0) { }
+                      fHorizontal(false) { }
 
 plParticleWindEffect::~plParticleWindEffect() { }
 
@@ -301,7 +301,6 @@ void plParticleWindEffect::read(hsStream* S, plResManager* mgr) {
 
     fRefDir.read(S);
     fDir.read(S);
-    fRandDir = fDir;
 }
 
 void plParticleWindEffect::write(hsStream* S, plResManager* mgr) {
@@ -353,8 +352,7 @@ void plParticleWindEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParticleLocalWind */
-plParticleLocalWind::plParticleLocalWind()
-                   : fSpeed(0.0f), fLastPhaseSecs(0.0) { }
+plParticleLocalWind::plParticleLocalWind() : fSpeed(0.0f) { }
 
 plParticleLocalWind::~plParticleLocalWind() { }
 
@@ -399,9 +397,7 @@ void plParticleLocalWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plParticleUniformWind */
 plParticleUniformWind::plParticleUniformWind()
-                     : fFreqMin(0.0f), fFreqMax(0.0f), fFreqCurr(0.0f),
-                       fFreqRate(0.0f), fCurrPhase(0.0), fLastFreqSecs(0.0),
-                       fCurrentStrength(0.0f) { }
+                     : fFreqMin(0.0f), fFreqMax(0.0f), fFreqRate(0.0f) { }
 
 plParticleUniformWind::~plParticleUniformWind() { }
 
@@ -414,7 +410,6 @@ void plParticleUniformWind::read(hsStream* S, plResManager* mgr) {
     fFreqMin = S->readFloat();
     fFreqMax = S->readFloat();
     fFreqRate = S->readFloat();
-    fFreqCurr = fFreqMin;
 }
 
 void plParticleUniformWind::write(hsStream* S, plResManager* mgr) {

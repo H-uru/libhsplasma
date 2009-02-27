@@ -15,8 +15,6 @@ public:
     };
 
 protected:
-    hsVector3 fListenPos;
-    float fListenStrength;
     unsigned int fListenState;
     float fInsideStrength, fOutsideStrength;
 
@@ -51,6 +49,9 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    void setVolume(plVolumeIsect* vol);
 };
 
 DllClass plSoftVolumeComplex : public plSoftVolume {

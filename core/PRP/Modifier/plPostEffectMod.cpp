@@ -18,7 +18,6 @@ void plPostEffectMod::read(hsStream* S, plResManager* mgr) {
     fNodeKey = mgr->readKey(S);
     fDefaultW2C.read(S);
     fDefaultC2W.read(S);
-    //IUpdateRenderRequest();
 }
 
 void plPostEffectMod::write(hsStream* S, plResManager* mgr) {

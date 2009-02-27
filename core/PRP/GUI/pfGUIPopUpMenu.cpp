@@ -10,8 +10,10 @@ pfGUIPopUpMenu::pfGUIPopUpMenu()
 }
 
 pfGUIPopUpMenu::~pfGUIPopUpMenu() {
-    for (size_t i=0; i<fMenuItems.getSize(); i++)
-        if (fMenuItems[i].fHandler) delete fMenuItems[i].fHandler;
+    for (size_t i=0; i<fMenuItems.getSize(); i++) {
+        if (fMenuItems[i].fHandler != NULL)
+            delete fMenuItems[i].fHandler;
+    }
 }
 
 IMPLEMENT_CREATABLE(pfGUIPopUpMenu, kGUIPopUpMenu, pfGUIDialogMod)

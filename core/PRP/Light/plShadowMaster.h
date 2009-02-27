@@ -3,7 +3,6 @@
 
 #include "PRP/Object/plObjInterface.h"
 #include "plLightInfo.h"
-#include "plShadowSlave.h"
 
 DllClass plShadowMaster : public plObjInterface {
 public:

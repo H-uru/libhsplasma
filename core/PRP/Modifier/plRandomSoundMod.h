@@ -5,7 +5,6 @@
 
 DllClass plRandomSoundModGroup {
 protected:
-    unsigned short fNumSounds;
     hsTArray<unsigned short> fIndices;
     short fGroupedIdx;
 
@@ -21,7 +20,6 @@ public:
 
 DllClass plRandomSoundMod : public plRandomCommandMod {
 protected:
-    unsigned short fNumGroups;
     hsTArray<plRandomSoundModGroup> fGroups;
 
 public:

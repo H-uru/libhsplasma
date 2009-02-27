@@ -15,7 +15,7 @@ IMPLEMENT_CREATABLE(plSimStateMsg, kSimStateMsg, plSimulationMsg)
 
 
 /* plSimSuppressMsg */
-plSimSuppressMsg::plSimSuppressMsg() { }
+plSimSuppressMsg::plSimSuppressMsg() : fSuppress(false) { }
 plSimSuppressMsg::~plSimSuppressMsg() { }
 
 IMPLEMENT_CREATABLE(plSimSuppressMsg, kSimSuppressMsg, plSimStateMsg)

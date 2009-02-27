@@ -1,18 +1,13 @@
 #include "plAnimPath.h"
 
-/* ArcLenDeltaInfo */
-plAnimPath::ArcLenDeltaInfo::ArcLenDeltaInfo()
-          : fT(0.0f), fArcLenDelta(0.0f) { }
-plAnimPath::ArcLenDeltaInfo::ArcLenDeltaInfo(float T, float arcLenDelta)
-          : fT(T), fArcLenDelta(arcLenDelta) { }
-
-
 /* plAnimPath */
 plAnimPath::plAnimPath() : fController(NULL), fTMController(NULL) { }
 
 plAnimPath::~plAnimPath() {
-    if (fController) delete fController;
-    if (fTMController) delete fTMController;
+    if (fController != NULL)
+        delete fController;
+    if (fTMController != NULL)
+        delete fTMController;
 }
 
 IMPLEMENT_CREATABLE(plAnimPath, kAnimPath, plCreatable)
@@ -20,8 +15,10 @@ IMPLEMENT_CREATABLE(plAnimPath, kAnimPath, plCreatable)
 void plAnimPath::read(hsStream* S, plResManager* mgr) {
     fAnimPathFlags = S->readInt();
 
-    if (fController != NULL) delete fController;
-    if (fTMController != NULL) delete fTMController;
+    if (fController != NULL)
+        delete fController;
+    if (fTMController != NULL)
+        delete fTMController;
 
     if (S->getVer() == pvPrime || S->getVer() == pvPots) {
         fTMController = new plTMController();
@@ -32,13 +29,11 @@ void plAnimPath::read(hsStream* S, plResManager* mgr) {
         fTMController = NULL;
     }
 
-    //ICalcBounds();
     fParts.read(S);
     fLocalToWorld.read(S);
     fWorldToLocal.read(S);
     fLength = S->readFloat();
     fMinDistSq = S->readFloat();
-    //SetCurTime(0.0f, 0);
 }
 
 void plAnimPath::write(hsStream* S, plResManager* mgr) {
@@ -75,7 +70,7 @@ void plAnimPath::IPrcWrite(pfPrcHelper* prc) {
       prc->writeParam("Length", fLength);
       prc->writeParam("MinDistSq", fMinDistSq);
     prc->endTag(true);
-    
+
     prc->writeSimpleTag("Controller");
     if (fController != NULL)
         fController->prcWrite(prc);
@@ -99,11 +94,17 @@ void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fMinDistSq = tag->getParam("MinDistSq", "0").toFloat();
     } else if (tag->getName() == "Controller") {
         if (tag->hasChildren()) {
+            if (fController != NULL)
+                delete fController;
+            if (fTMController != NULL)
+                delete fTMController;
             if (tag->getFirstChild()->getName() == "plTMController") {
                 fTMController = new plTMController();
                 fTMController->prcParse(tag->getFirstChild(), mgr);
+                fController = NULL;
             } else {
                 fController = plCompoundController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+                fTMController = NULL;
             }
         }
     } else if (tag->getName() == "hsAffineParts") {
@@ -117,4 +118,38 @@ void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
+}
+
+unsigned int plAnimPath::getFlags() const { return fAnimPathFlags; }
+float plAnimPath::getMinDistSq() const { return fMinDistSq; }
+float plAnimPath::getLength() const { return fLength; }
+const hsMatrix44& plAnimPath::getLocalToWorld() const { return fLocalToWorld; }
+const hsMatrix44& plAnimPath::getWorldToLocal() const { return fWorldToLocal; }
+plCompoundController* plAnimPath::getController() const { return fController; }
+plTMController* plAnimPath::getTMController() const { return fTMController; }
+const hsAffineParts& plAnimPath::getAffineParts() const { return fParts; }
+
+void plAnimPath::setFlags(unsigned int flags) { fAnimPathFlags = flags; }
+void plAnimPath::setMinDistSq(float dist) { fMinDistSq = dist; }
+void plAnimPath::setLength(float length) { fLength = length; }
+void plAnimPath::setLocalToWorld(const hsMatrix44& l2w) { fLocalToWorld = l2w; }
+void plAnimPath::setWorldToLocal(const hsMatrix44& w2l) { fWorldToLocal = w2l; }
+void plAnimPath::setAffineParts(const hsAffineParts& parts) { fParts = parts; }
+
+void plAnimPath::setController(plCompoundController* controller) {
+    if (fController != NULL)
+        delete fController;
+    if (fTMController != NULL)
+        delete fTMController;
+    fController = controller;
+    fTMController = NULL;
+}
+
+void plAnimPath::setTMController(plTMController* controller) {
+    if (fController != NULL)
+        delete fController;
+    if (fTMController != NULL)
+        delete fTMController;
+    fTMController = controller;
+    fController = NULL;
 }

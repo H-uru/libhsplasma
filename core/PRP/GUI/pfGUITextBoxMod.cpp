@@ -15,10 +15,7 @@ void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
     int len = S->readInt();
     fText = S->readStr(len);
 
-    if (S->getVer() == pvLive)
-        fUseLocalizationPath = S->readBool();
-    else
-        fUseLocalizationPath = false;
+    fUseLocalizationPath = (S->getVer() == pvLive) ? S->readBool() : false;
     if (fUseLocalizationPath)
         fLocalizationPath = S->readSafeWStr();
 }

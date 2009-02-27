@@ -1,7 +1,10 @@
 #include "plOmniLightInfo.h"
 
-// plOmniLightInfo //
-plOmniLightInfo::plOmniLightInfo() { }
+/* plOmniLightInfo */
+plOmniLightInfo::plOmniLightInfo()
+               : fAttenConst(0.0f), fAttenLinear(0.0f), fAttenQuadratic(0.0f),
+                 fAttenCutoff(0.0f) { }
+
 plOmniLightInfo::~plOmniLightInfo() { }
 
 IMPLEMENT_CREATABLE(plOmniLightInfo, kOmniLightInfo, plLightInfo)
@@ -54,8 +57,10 @@ void plOmniLightInfo::setAttenQuadratic(float atten) { fAttenQuadratic = atten; 
 void plOmniLightInfo::setAttenCutoff(float cutoff) { fAttenCutoff = cutoff; }
 
 
-// plSpotLightInfo //
-plSpotLightInfo::plSpotLightInfo() { }
+/* plSpotLightInfo */
+plSpotLightInfo::plSpotLightInfo()
+               : fFalloff(0.0f), fSpotInner(0.0f), fSpotOuter(0.0f) { }
+
 plSpotLightInfo::~plSpotLightInfo() { }
 
 IMPLEMENT_CREATABLE(plSpotLightInfo, kSpotLightInfo, plOmniLightInfo)
@@ -96,9 +101,7 @@ void plSpotLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 float plSpotLightInfo::getFalloff() const { return fFalloff; }
 float plSpotLightInfo::getSpotInner() const { return fSpotInner; }
 float plSpotLightInfo::getSpotOuter() const { return fSpotOuter; }
-float plSpotLightInfo::getEffectiveFOV() const { return fEffectiveFOV; }
 
 void plSpotLightInfo::setFalloff(float falloff) { fFalloff = falloff; }
 void plSpotLightInfo::setSpotInner(float spot) { fSpotInner = spot; }
 void plSpotLightInfo::setSpotOuter(float spot) { fSpotOuter = spot; }
-void plSpotLightInfo::setEffectiveFOV(float fov) { fEffectiveFOV = fov; }

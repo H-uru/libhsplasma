@@ -143,7 +143,7 @@ void plFont::readP2F(hsStream* S) {
     S->read(256, buf);
     buf[255] = 0;
     fFace = buf;
-    
+
     fSize = S->readByte();
     fFlags = S->readInt();
     fWidth = S->readInt();
@@ -152,24 +152,26 @@ void plFont::readP2F(hsStream* S) {
     fBPP = S->readByte();
 
     size_t size = (fBPP * fWidth * fHeight) / 8;
+    if (fBmpData != NULL)
+        delete[] fBmpData;
     if (size > 0) {
         fBmpData = new unsigned char[size];
         S->read(size, fBmpData);
+    } else {
+        fBmpData = NULL;
     }
 
     fFirstChar = S->readShort();
     fCharacters.setSize(S->readInt());
     for (size_t i=0; i<fCharacters.getSize(); i++)
         fCharacters[i].read(S);
-
-    //ICalcFontAscent();
 }
 
 void plFont::writeP2F(hsStream* S) {
     char buf[256];
     strncpy(buf, fFace.cstr(), 256);
     S->write(256, buf);
-    
+
     S->writeByte(fSize);
     S->writeInt(fFlags);
     S->writeInt(fWidth);
@@ -178,7 +180,7 @@ void plFont::writeP2F(hsStream* S) {
     S->writeByte(fBPP);
 
     S->write((fBPP * fWidth * fHeight) / 8, fBmpData);
-    
+
     S->writeShort(fFirstChar);
     S->writeInt(fCharacters.getSize());
     for (size_t i=0; i<fCharacters.getSize(); i++)
@@ -221,10 +223,13 @@ void plFont::readBitmap(hsStream* S) {
         S->readInt();
 
     // Bitmap Data:
+    if (fBmpData != NULL)
+        delete[] fBmpData;
+    fBmpData = new unsigned char [(fBPP * fWidth * fHeight) / 8];
     unsigned char padding[4];
     for (size_t lin = fHeight; lin > 0; lin++) {
         S->read(lineSize, fBmpData + ((lin - 1) * lineSize));
-        S->write(linePad, padding);
+        S->read(linePad, padding);
     }
 
     if (fBPP == 8) {

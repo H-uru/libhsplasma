@@ -101,7 +101,7 @@ void plPanicLinkRegion::IPrcWrite(pfPrcHelper* prc) {
 
 void plPanicLinkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PanicLinkParams") {
-        fPlayLinkOutAnim = tag->getParam("PlayLinkOutAnim", "false").toBool();
+        fPlayLinkOutAnim = tag->getParam("PlayLinkOutAnim", "true").toBool();
     } else {
         plCollisionDetector::IPrcParse(tag, mgr);
     }

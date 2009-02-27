@@ -3,11 +3,11 @@
 
 #include "PRP/plCreatable.h"
 #include "Math/hsGeometry3.h"
+#include "Util/hsTArray.hpp"
 
 DllClass plConvexVolume : public plCreatable {
 protected:
-    hsPlane3* fLocalPlanes;
-    unsigned int fNumPlanes;
+    hsTArray<hsPlane3> fLocalPlanes;
 
 public:
     plConvexVolume();

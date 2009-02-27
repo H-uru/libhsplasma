@@ -50,6 +50,7 @@ void plClusterGroup::read(hsStream* S, plResManager* mgr) {
     fTemplate.read(S);
     fMaterial = mgr->readKey(S);
 
+    clearClusters();
     fClusters.setSizeNull(S->readInt());
     for (size_t i=0; i<fClusters.getSize(); i++) {
         fClusters[i] = new plCluster();
@@ -137,6 +138,7 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fMaterial = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Clusters") {
+        clearClusters();
         fClusters.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fClusters.getSize(); i++) {

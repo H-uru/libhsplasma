@@ -46,7 +46,11 @@ void plBoundsIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plConeIsect */
-plConeIsect::plConeIsect() { }
+plConeIsect::plConeIsect() : fCapped(0), fRadAngle(0.0f), fLength(0.0f) {
+    for (size_t i=0; i<5; i++)
+        fDists[i] = 0.0f;
+}
+
 plConeIsect::~plConeIsect() { }
 
 IMPLEMENT_CREATABLE(plConeIsect, kConeIsect, plVolumeIsect)
@@ -59,7 +63,7 @@ void plConeIsect::read(hsStream* S, plResManager* mgr) {
     fWorldNorm.read(S);
     fWorldToNDC.read(S);
     fLightToNDC.read(S);
-    
+
     size_t count = 4 + (fCapped != 0 ? 1 : 0);
     for (size_t i=0; i<count; i++) {
         fNorms[i].read(S);
@@ -75,7 +79,7 @@ void plConeIsect::write(hsStream* S, plResManager* mgr) {
     fWorldNorm.write(S);
     fWorldToNDC.write(S);
     fLightToNDC.write(S);
-    
+
     size_t count = 4 + (fCapped != 0 ? 1 : 0);
     for (size_t i=0; i<count; i++) {
         fNorms[i].write(S);
@@ -152,6 +156,8 @@ void plConeIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plConvexIsect */
+plConvexIsect::SinglePlane::SinglePlane() : fDist(0.0f), fWorldDist(0.0f) { }
+
 plConvexIsect::plConvexIsect() { }
 plConvexIsect::~plConvexIsect() { }
 
@@ -235,7 +241,9 @@ void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCylinderIsect */
-plCylinderIsect::plCylinderIsect() { }
+plCylinderIsect::plCylinderIsect()
+               : fRadius(0.0f), fLength(0.0f), fMin(0.0f), fMax(0.0f) { }
+
 plCylinderIsect::~plCylinderIsect() { }
 
 IMPLEMENT_CREATABLE(plCylinderIsect, kCylinderIsect, plVolumeIsect)
@@ -309,6 +317,8 @@ void plCylinderIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParallelIsect */
+plParallelIsect::ParPlane::ParPlane() : fMin(0.0f), fMax(0.0f) { }
+
 plParallelIsect::plParallelIsect() { }
 plParallelIsect::~plParallelIsect() { }
 
@@ -389,7 +399,7 @@ void plParallelIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSphereIsect */
-plSphereIsect::plSphereIsect() { }
+plSphereIsect::plSphereIsect() : fRadius(0.0f) { }
 plSphereIsect::~plSphereIsect() { }
 
 IMPLEMENT_CREATABLE(plSphereIsect, kSphereIsect, plVolumeIsect)
@@ -461,6 +471,7 @@ plComplexIsect::~plComplexIsect() {
 IMPLEMENT_CREATABLE(plComplexIsect, kComplexIsect, plVolumeIsect)
 
 void plComplexIsect::read(hsStream* S, plResManager* mgr) {
+    clearVolumes();
     fVolumes.setSizeNull(S->readShort());
     for (size_t i=0; i<fVolumes.getSize(); i++)
         fVolumes[i] = plVolumeIsect::Convert(mgr->ReadCreatable(S));
@@ -481,6 +492,7 @@ void plComplexIsect::IPrcWrite(pfPrcHelper* prc) {
 
 void plComplexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Volumes") {
+        clearVolumes();
         fVolumes.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fVolumes.getSize(); i++) {
@@ -490,6 +502,12 @@ void plComplexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
+}
+
+void plComplexIsect::clearVolumes() {
+    for (size_t i=0; i<fVolumes.getSize(); i++)
+        delete fVolumes[i];
+    fVolumes.clear();
 }
 
 

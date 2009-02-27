@@ -9,13 +9,6 @@
 
 DllClass plAnimPath : public plCreatable {
 public:
-    struct ArcLenDeltaInfo {
-        float fT, fArcLenDelta;
-
-        ArcLenDeltaInfo();
-        ArcLenDeltaInfo(float T, float arcLenDelta);
-    };
-    
     enum Flags {
         kNone = 0,
         kFavorFwdSearch = 0x1,
@@ -46,6 +39,25 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getFlags() const;
+    float getMinDistSq() const;
+    float getLength() const;
+    const hsMatrix44& getLocalToWorld() const;
+    const hsMatrix44& getWorldToLocal() const;
+    plCompoundController* getController() const;
+    plTMController* getTMController() const;
+    const hsAffineParts& getAffineParts() const;
+
+    void setFlags(unsigned int flags);
+    void setMinDistSq(float dist);
+    void setLength(float length);
+    void setLocalToWorld(const hsMatrix44& l2w);
+    void setWorldToLocal(const hsMatrix44& w2l);
+    void setController(plCompoundController* controller);
+    void setTMController(plTMController* controller);
+    void setAffineParts(const hsAffineParts& parts);
 };
 
 #endif

@@ -18,7 +18,7 @@ protected:
             float fLeft, fTop, fRight, fBottom;
         } fProportional;
     } fViewport;
-    bool fApplyTexQuality, fProportionalViewport;
+    bool fProportionalViewport;
     unsigned char fZDepth, fStencilDepth;
 
 public:

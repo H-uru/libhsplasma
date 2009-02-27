@@ -14,7 +14,6 @@ public:
     };
 
 protected:
-    int fType;
     hsVector3 fOffset;
     float fAccel, fDecel, fVel;
     float fFPAccel, fFPDecel, fFPVel;
@@ -22,6 +21,8 @@ protected:
     bool fWorldspace;
 
 public:
+    plCameraConfig();
+
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);

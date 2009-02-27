@@ -60,6 +60,8 @@ public:
     DllStruct SinglePlane {
         hsVector3 fNorm, fPos, fWorldNorm;
         float fDist, fWorldDist;
+
+        SinglePlane();
     };
 
 protected:
@@ -106,6 +108,8 @@ public:
         hsVector3 fNorm;
         float fMin, fMax;
         hsVector3 fPosOne, fPosTwo;
+
+        ParPlane();
     };
 
 protected:
@@ -161,6 +165,9 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    void clearVolumes();
 };
 
 DllClass plIntersectionIsect : public plComplexIsect {

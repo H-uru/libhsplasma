@@ -29,6 +29,7 @@ void plClothingItem::read(hsStream* S, plResManager* mgr) {
     if (S->readBool())
         fIcon = mgr->readKey(S);
 
+    clearTextures();
     fElementNames.setSize(S->readInt());
     fTextures.setSizeNull(fElementNames.getSize());
     for (size_t i=0; i<fElementNames.getSize(); i++) {
@@ -108,7 +109,7 @@ void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("ClothingName");
     prc->writeParam("value", fItemName);
     prc->endTag(true);
-    
+
     prc->startTag("ClosetOptions");
     prc->writeParam("Group", fGroup);
     prc->writeParam("Type", fType);
@@ -177,6 +178,7 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fIcon = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Elements") {
+        clearTextures();
         fElementNames.setSize(tag->countChildren());
         fTextures.setSizeNull(fElementNames.getSize());
         const pfPrcTag* child = tag->getFirstChild();
@@ -222,4 +224,10 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
+}
+
+void plClothingItem::clearTextures() {
+    for (size_t i=0; i<fTextures.getSize(); i++)
+        delete[] fTextures[i];
+    fTextures.clear();
 }

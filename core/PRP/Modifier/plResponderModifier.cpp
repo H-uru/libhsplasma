@@ -50,6 +50,7 @@ IMPLEMENT_CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
 void plResponderModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
+    clearStates();
     fStates.setSize(S->readByte());
     for (size_t i=0; i<fStates.getSize(); i++) {
         fStates[i] = new plResponderState();
@@ -63,7 +64,6 @@ void plResponderModifier::read(hsStream* S, plResManager* mgr) {
             if (msg == NULL)
                 throw hsNotImplementedException(__FILE__, __LINE__, "Responder Message");
         }
-        fStates[i]->fWaitToCmd.clear();
         size_t count = S->readByte();
         for (size_t j=0; j<count; j++) {
             hsByte wait = S->readByte();
@@ -122,7 +122,7 @@ void plResponderModifier::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("NumCallbacks", fStates[i]->fNumCallbacks);
         prc->writeParam("SwitchToState", fStates[i]->fSwitchToState);
         prc->endTag();
-        
+
         prc->writeSimpleTag("Commands");
         for (size_t j=0; j<fStates[i]->fCmds.getSize(); j++) {
             prc->writeSimpleTag("Command");
@@ -155,7 +155,8 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fEnabled = tag->getParam("Enabled", "false").toBool();
         fFlags = tag->getParam("Flags", "0").toUint();
     } else if (tag->getName() == "States") {
-        fStates.setSize(tag->countChildren());
+        clearStates();
+        fStates.setSizeNull(tag->countChildren());
         const pfPrcTag* state = tag->getFirstChild();
         for (size_t i=0; i<fStates.getSize(); i++) {
             if (state->getName() != "plResponderState")
@@ -233,7 +234,7 @@ void plResponderModifier::setFlags(unsigned char flags) { fFlags = flags; }
 
 
 /* plResponderEnableMsg */
-plResponderEnableMsg::plResponderEnableMsg() { }
+plResponderEnableMsg::plResponderEnableMsg() : fEnable(true) { }
 plResponderEnableMsg::~plResponderEnableMsg() { }
 
 IMPLEMENT_CREATABLE(plResponderEnableMsg, kResponderEnableMsg, plMessage)
@@ -250,7 +251,7 @@ void plResponderEnableMsg::write(hsStream* S, plResManager* mgr) {
 
 void plResponderEnableMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessage::IPrcWrite(prc);
-    
+
     prc->startTag("ResponderParams");
     prc->writeParam("Enable", fEnable);
     prc->endTag(true);

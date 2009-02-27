@@ -73,7 +73,7 @@ IMPLEMENT_CREATABLE(plPointControllerChannel, kPointControllerChannel,
 
 void plPointControllerChannel::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
-    fController = plController::Convert(mgr->ReadCreatable(S));
+    setController(plController::Convert(mgr->ReadCreatable(S)));
 }
 
 void plPointControllerChannel::write(hsStream* S, plResManager* mgr) {
@@ -92,7 +92,7 @@ void plPointControllerChannel::IPrcWrite(pfPrcHelper* prc) {
 void plPointControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Controller") {
         if (tag->hasChildren())
-            fController = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setController(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
         plAGChannel::IPrcParse(tag, mgr);
     }

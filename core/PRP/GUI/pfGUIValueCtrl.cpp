@@ -26,7 +26,7 @@ void pfGUIValueCtrl::write(hsStream* S, plResManager* mgr) {
 void pfGUIValueCtrl::IPrcWrite(pfPrcHelper* prc) {
     pfGUIControlMod::IPrcWrite(prc);
 
-    prc->startTag("ValueParams");
+    prc->startTag("ValueRange");
     prc->writeParam("Min", fMin);
     prc->writeParam("Max", fMax);
     prc->writeParam("Step", fStep);
@@ -34,7 +34,7 @@ void pfGUIValueCtrl::IPrcWrite(pfPrcHelper* prc) {
 }
 
 void pfGUIValueCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "ValueParams") {
+    if (tag->getName() == "ValueRange") {
         fMin = tag->getParam("Min", "0").toFloat();
         fMax = tag->getParam("Max", "0").toFloat();
         fStep = tag->getParam("Step", "0").toFloat();

@@ -1,6 +1,11 @@
 #include "plCameraMsg.h"
 
 /* plCameraConfig */
+plCameraConfig::plCameraConfig()
+              : fAccel(0.0f), fDecel(0.0f), fVel(0.0f), fFPAccel(0.0f),
+                fFPDecel(0.0f), fFPVel(0.0f), fFOVw(0.0f), fFOVh(0.0f),
+                fWorldspace(false) { }
+
 void plCameraConfig::read(hsStream* S) {
     fAccel = S->readFloat();
     fDecel = S->readFloat();

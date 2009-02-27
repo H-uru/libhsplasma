@@ -24,6 +24,20 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getAmbientDist() const;
+    float getTransition() const;
+    float getMaxSepDist() const;
+    float getMinSepDist() const;
+    float getTanAng() const;
+    hsVector3 getInitPos() const;
+
+    void setAmbientDist(float dist);
+    void setTransition(float transition);
+    void setSepDist(float min, float max);
+    void setTanAng(float ang);
+    void setInitPos(const hsVector3& pos);
 };
 
 #endif

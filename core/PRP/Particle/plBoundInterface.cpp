@@ -3,14 +3,15 @@
 plBoundInterface::plBoundInterface() : fBounds(NULL) { }
 
 plBoundInterface::~plBoundInterface() {
-    if (fBounds) delete fBounds;
+    if (fBounds != NULL)
+        delete fBounds;
 }
 
 IMPLEMENT_CREATABLE(plBoundInterface, kBoundInterface, plObjInterface)
 
 void plBoundInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
-    fBounds = plConvexVolume::Convert(mgr->ReadCreatable(S));
+    setBounds(plConvexVolume::Convert(mgr->ReadCreatable(S)));
 }
 
 void plBoundInterface::write(hsStream* S, plResManager* mgr) {
@@ -29,8 +30,16 @@ void plBoundInterface::IPrcWrite(pfPrcHelper* prc) {
 void plBoundInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Bounds") {
         if (tag->hasChildren())
-            fBounds = plConvexVolume::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setBounds(plConvexVolume::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
         plObjInterface::IPrcParse(tag, mgr);
     }
+}
+
+plConvexVolume* plBoundInterface::getBounds() const { return fBounds; }
+
+void plBoundInterface::setBounds(plConvexVolume* bounds) {
+    if (fBounds != NULL)
+        delete fBounds;
+    fBounds = bounds;
 }

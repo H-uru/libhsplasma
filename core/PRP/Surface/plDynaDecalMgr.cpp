@@ -1,13 +1,11 @@
 #include "plDynaDecalMgr.h"
 
-// plDynaDecalMgr //
+/* plDynaDecalMgr */
 plDynaDecalMgr::plDynaDecalMgr()
               : fPartyTime(0.0f), fMaxNumVerts(0), fMaxNumIdx(0),
                 fWaitOnEnable(0), fWetLength(0.0f), fRampEnd(0.0f),
                 fDecayStart(0.0f), fLifeSpan(0.0f), fIntensity(0.0f),
-                fGridSizeU(0.0f), fGridSizeV(0.0f), fInitAtten(0.0f),
-                fMinDepth(0.0f), fMaxDepth(0.0f), fMinDepthRange(0.0f),
-                fMaxDepthRange(0.0f) { }
+                fGridSizeU(0.0f), fGridSizeV(0.0f) { }
 
 plDynaDecalMgr::~plDynaDecalMgr() { }
 
@@ -183,14 +181,14 @@ void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-// plDynaBulletMgr //
+/* plDynaBulletMgr */
 plDynaBulletMgr::plDynaBulletMgr() { }
 plDynaBulletMgr::~plDynaBulletMgr() { }
 
 IMPLEMENT_CREATABLE(plDynaBulletMgr, kDynaBulletMgr, plDynaDecalMgr)
 
 
-// plDynaFootMgr //
+/* plDynaFootMgr */
 plDynaFootMgr::plDynaFootMgr() { }
 plDynaFootMgr::~plDynaFootMgr() { }
 

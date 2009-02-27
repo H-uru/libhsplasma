@@ -5,10 +5,6 @@
 #include "PRP/Message/plCameraMsg.h"
 
 DllClass plObjectInVolumeDetector : public plCollisionDetector {
-protected:
-    bool fWaitingForEval;
-    int fNumEvals, fLastEnterEval, fLastExitEval;
-
 public:
     plObjectInVolumeDetector();
     virtual ~plObjectInVolumeDetector();
@@ -19,7 +15,6 @@ public:
 DllClass plCameraRegionDetector : public plObjectInVolumeDetector {
 protected:
     hsTArray<plCameraMsg*> fMessages;
-    bool fIsInside, fSavingSendMsg, fSavedMsgEnterFlag;
 
 public:
     plCameraRegionDetector();
@@ -33,12 +28,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    void clearMessages();
 };
 
 DllClass plObjectInVolumeAndFacingDetector : public plObjectInVolumeDetector {
 protected:
     float fFacingTolerance;
-    bool fNeedWalkingForward, fAvatarInVolume, fTriggered;
+    bool fNeedWalkingForward;
 
 public:
     plObjectInVolumeAndFacingDetector();

@@ -1,8 +1,7 @@
 #include "plObjectInVolumeDetector.h"
 
 /* plObjectInVolumeDetector */
-plObjectInVolumeDetector::plObjectInVolumeDetector()
-                        : fWaitingForEval(false), fNumEvals(0) { }
+plObjectInVolumeDetector::plObjectInVolumeDetector() { }
 plObjectInVolumeDetector::~plObjectInVolumeDetector() { }
 
 IMPLEMENT_CREATABLE(plObjectInVolumeDetector, kObjectInVolumeDetector,
@@ -10,8 +9,7 @@ IMPLEMENT_CREATABLE(plObjectInVolumeDetector, kObjectInVolumeDetector,
 
 
 /* plCameraRegionDetector */
-plCameraRegionDetector::plCameraRegionDetector()
-    : fIsInside(false), fSavingSendMsg(false), fSavedMsgEnterFlag(false) { }
+plCameraRegionDetector::plCameraRegionDetector() { }
 
 plCameraRegionDetector::~plCameraRegionDetector() {
     for (size_t i=0; i<fMessages.getSize(); i++)
@@ -24,6 +22,7 @@ IMPLEMENT_CREATABLE(plCameraRegionDetector, kCameraRegionDetector,
 void plCameraRegionDetector::read(hsStream* S, plResManager* mgr) {
     plDetectorModifier::read(S, mgr);
 
+    clearMessages();
     fMessages.setSizeNull(S->readInt());
     for (size_t i=0; i<fMessages.getSize(); i++)
         fMessages[i] = plCameraMsg::Convert(mgr->ReadCreatable(S));
@@ -48,6 +47,7 @@ void plCameraRegionDetector::IPrcWrite(pfPrcHelper* prc) {
 
 void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Messages") {
+        clearMessages();
         fMessages.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fMessages.getSize(); i++) {
@@ -59,11 +59,16 @@ void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+void plCameraRegionDetector::clearMessages() {
+    for (size_t i=0; i<fMessages.getSize(); i++)
+        delete fMessages[i];
+    fMessages.clear();
+}
+
 
 /* plObjectInVolumeAndFacingDetector */
 plObjectInVolumeAndFacingDetector::plObjectInVolumeAndFacingDetector()
-    : fFacingTolerance(0.0f), fNeedWalkingForward(false),
-      fAvatarInVolume(false), fTriggered(false) { }
+    : fFacingTolerance(0.0f), fNeedWalkingForward(false) { }
 
 plObjectInVolumeAndFacingDetector::~plObjectInVolumeAndFacingDetector() { }
 

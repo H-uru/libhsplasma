@@ -12,6 +12,7 @@ void plCluster::read(hsStream* S, plClusterGroup* group) {
     fEncoding.read(S);
     fGroup = group;
     unsigned int numVerts = fGroup->getTemplate().getNumVerts();
+    clearInstances();
     fInstances.setSizeNull(S->readInt());
     for (size_t i=0; i<fInstances.getSize(); i++) {
         fInstances[i] = new plSpanInstance();
@@ -53,6 +54,7 @@ void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
             if (child->hasChildren())
                 fEncoding.prcParse(child->getFirstChild());
         } else if (child->getName() == "Instances") {
+            clearInstances();
             fInstances.setSizeNull(child->countChildren());
             const pfPrcTag* inst = child->getFirstChild();
             for (size_t i=0; i<fInstances.getSize(); i++) {

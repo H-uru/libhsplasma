@@ -1,6 +1,6 @@
 #include "plFixedWaterState7.h"
 
-// plFixedWaterState7::WaveState //
+/* plFixedWaterState7::WaveState */
 plFixedWaterState7::WaveState::WaveState()
                              : fMaxLength(0.0f), fMinLength(0.0f),
                                fAmpOverLen(0.0f), fChop(0.0f), fAngleDev(0.0f) { }
@@ -45,7 +45,7 @@ void plFixedWaterState7::WaveState::prcParse(const pfPrcTag* tag) {
 }
 
 
-// plFixedWaterState7 //
+/* plFixedWaterState7 */
 plFixedWaterState7::plFixedWaterState7()
                   : fRippleScale(0.0f), fWaterHeight(0.0f), fWispiness(0.0f),
                     fEdgeOpac(0.0f), fEdgeRadius(0.0f), fPeriod(0.0f),
@@ -115,7 +115,7 @@ void plFixedWaterState7::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("TexState");
     fTexState.prcWrite(prc);
     prc->closeTag();
-    
+
     prc->startTag("WaterStateParams");
     prc->writeParam("RippleScale", fRippleScale);
     prc->writeParam("WaterHeight", fWaterHeight);
@@ -170,7 +170,7 @@ void plFixedWaterState7::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("Refresh", fEnvRefresh);
     prc->writeParam("Radius", fEnvRadius);
     prc->endTag(true);
-    
+
     prc->writeSimpleTag("EnvCenter");
     fEnvCenter.prcWrite(prc);
     prc->closeTag();

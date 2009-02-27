@@ -9,17 +9,14 @@ IMPLEMENT_CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
 void plDrawInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
-    size_t count = S->readInt();
-    fDrawables.setSize(count);
-    fDrawableKeys.setSize(count);
-    size_t i;
-    for (i=0; i<count; i++) {
+    fDrawables.setSize(S->readInt());
+    fDrawableKeys.setSize(fDrawables.getSize());
+    for (size_t i=0; i<fDrawables.getSize(); i++) {
         fDrawableKeys[i] = S->readInt();
         fDrawables[i] = mgr->readKey(S);
     }
-    count = S->readInt();
-    fRegions.setSize(count);
-    for (i=0; i<count; i++)
+    fRegions.setSize(S->readInt());
+    for (size_t i=0; i<fRegions.getSize(); i++)
         fRegions[i] = mgr->readKey(S);
 }
 
@@ -27,22 +24,20 @@ void plDrawInterface::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
 
     S->writeInt(fDrawables.getSize());
-    size_t i;
-    for (i=0; i<fDrawables.getSize(); i++) {
+    for (size_t i=0; i<fDrawables.getSize(); i++) {
         S->writeInt(fDrawableKeys[i]);
         mgr->writeKey(S, fDrawables[i]);
     }
     S->writeInt(fRegions.getSize());
-    for (i=0; i<fRegions.getSize(); i++)
+    for (size_t i=0; i<fRegions.getSize(); i++)
         mgr->writeKey(S, fRegions[i]);
 }
 
 void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
 
-    size_t i;
     prc->writeSimpleTag("Drawables");
-    for (i=0; i<fDrawables.getSize(); i++) {
+    for (size_t i=0; i<fDrawables.getSize(); i++) {
         prc->startTag("Drawable");
         prc->writeParam("key", fDrawableKeys[i]);
         prc->endTag();
@@ -51,7 +46,7 @@ void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
     }
     prc->closeTag();
     prc->writeSimpleTag("Regions");
-    for (i=0; i<fRegions.getSize(); i++)
+    for (size_t i=0; i<fRegions.getSize(); i++)
         fRegions[i]->prcWrite(prc);
     prc->closeTag();
 }

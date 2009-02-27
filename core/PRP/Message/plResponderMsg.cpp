@@ -1,13 +1,13 @@
 #include "plResponderMsg.h"
 
-// plResponderMsg //
+/* plResponderMsg */
 plResponderMsg::plResponderMsg() { }
 plResponderMsg::~plResponderMsg() { }
 
 IMPLEMENT_CREATABLE(plResponderMsg, kResponderMsg, plMessage)
 
 
-// plOneShotMsg //
+/* plOneShotMsg */
 plOneShotMsg::plOneShotMsg() { }
 plOneShotMsg::~plOneShotMsg() { }
 

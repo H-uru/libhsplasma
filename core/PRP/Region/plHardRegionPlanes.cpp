@@ -1,6 +1,6 @@
 #include "plHardRegionPlanes.h"
 
-// plHardRegionPlanes::HardPlane //
+/* plHardRegionPlanes::HardPlane */
 plHardRegionPlanes::HardPlane::HardPlane() { }
 plHardRegionPlanes::HardPlane::~HardPlane() { }
 
@@ -9,9 +9,6 @@ void plHardRegionPlanes::HardPlane::read(hsStream* S) {
     fPos.read(S);
     fWorldNorm.read(S);
     fWorldPos.read(S);
-    fWorldDist = (fWorldPos.X * fWorldNorm.X) +
-                 (fWorldPos.Y * fWorldNorm.Y) +
-                 (fWorldPos.Z * fWorldNorm.Z);
 }
 
 void plHardRegionPlanes::HardPlane::write(hsStream* S) {
@@ -65,8 +62,14 @@ void plHardRegionPlanes::HardPlane::prcParse(const pfPrcTag* tag) {
     }
 }
 
+float plHardRegionPlanes::HardPlane::getWorldDist() const {
+    return (fWorldPos.X * fWorldNorm.X) +
+           (fWorldPos.Y * fWorldNorm.Y) +
+           (fWorldPos.Z * fWorldNorm.Z);
+}
 
-// plHardRegionPlanes //
+
+/* plHardRegionPlanes */
 plHardRegionPlanes::plHardRegionPlanes() { }
 plHardRegionPlanes::~plHardRegionPlanes() { }
 

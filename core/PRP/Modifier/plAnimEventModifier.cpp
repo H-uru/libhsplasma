@@ -15,7 +15,7 @@ void plAnimEventModifier::read(hsStream* S, plResManager* mgr) {
     fReceivers.setSize(S->readInt());
     for (size_t i=0; i<fReceivers.getSize(); i++)
         fReceivers[i] = mgr->readKey(S);
-    fCallback = plMessage::Convert(mgr->ReadCreatable(S));
+    setCallback(plMessage::Convert(mgr->ReadCreatable(S)));
 }
 
 void plAnimEventModifier::write(hsStream* S, plResManager* mgr) {
@@ -50,8 +50,14 @@ void plAnimEventModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "Callback") {
         if (tag->hasChildren())
-            fCallback = plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setCallback(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }
+}
+
+void plAnimEventModifier::setCallback(plMessage* callback) {
+    if (fCallback != NULL)
+        delete fCallback;
+    fCallback = callback;
 }

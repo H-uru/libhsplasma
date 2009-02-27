@@ -20,12 +20,12 @@ public:
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
         void prcParse(const pfPrcTag* tag);
-        void empty();
+        void clear();
     };
 
 protected:
     plKey fTexture;
-    pfSRect fElements[14];
+    pfSRect fElements[kNumElements];
     unsigned short fItemMargin, fBorderMargin;
 
 public:

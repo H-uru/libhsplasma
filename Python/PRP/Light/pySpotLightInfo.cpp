@@ -39,10 +39,6 @@ static PyObject* pySpotLightInfo_getSpotOuter(pySpotLightInfo* self, void*) {
     return PyFloat_FromDouble(self->fThis->getSpotOuter());
 }
 
-static PyObject* pySpotLightInfo_getEffectiveFOV(pySpotLightInfo* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEffectiveFOV());
-}
-
 static int pySpotLightInfo_setFalloff(pySpotLightInfo* self, PyObject* value, void*) {
     if (value == NULL || !PyFloat_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "falloff should be a float");
@@ -70,15 +66,6 @@ static int pySpotLightInfo_setSpotOuter(pySpotLightInfo* self, PyObject* value, 
     return 0;
 }
 
-static int pySpotLightInfo_setEffectiveFOV(pySpotLightInfo* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "effectiveFOV should be a float");
-        return -1;
-    }
-    self->fThis->setEffectiveFOV(PyFloat_AsDouble(value));
-    return 0;
-}
-
 static PyMethodDef pySpotLightInfo_Methods[] = {
     { "Convert", (PyCFunction)pySpotLightInfo_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plSpotLightInfo" },
@@ -89,7 +76,6 @@ static PyGetSetDef pySpotLightInfo_GetSet[] = {
     { "falloff", (getter)pySpotLightInfo_getFalloff, (setter)pySpotLightInfo_setFalloff, NULL, NULL },
     { "spotInner", (getter)pySpotLightInfo_getSpotInner, (setter)pySpotLightInfo_setSpotInner, NULL, NULL },
     { "spotOuter", (getter)pySpotLightInfo_getSpotOuter, (setter)pySpotLightInfo_setSpotOuter, NULL, NULL },
-    { "effectiveFOV", (getter)pySpotLightInfo_getEffectiveFOV, (setter)pySpotLightInfo_setEffectiveFOV, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

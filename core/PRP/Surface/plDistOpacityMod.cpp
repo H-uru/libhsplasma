@@ -2,7 +2,7 @@
 
 plDistOpacityMod::plDistOpacityMod() {
     for (size_t i=0; i<4; i++)
-        fDists[i] = 0.0;
+        fDists[i] = 0.0f;
 }
 
 plDistOpacityMod::~plDistOpacityMod() { }

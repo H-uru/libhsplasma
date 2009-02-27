@@ -2,8 +2,7 @@
 
 /* pfGUIButtonMod */
 pfGUIButtonMod::pfGUIButtonMod()
-              : fClicking(false), fTriggering(false), fOrigHandler(NULL),
-                fOrigReportedDrag(false), fNotifyType(0) { }
+              : fNotifyType(0), fEoaUnknown1(0), fEoaUnknown2(0) { }
 
 pfGUIButtonMod::~pfGUIButtonMod() { }
 

@@ -6,7 +6,6 @@
 DllClass plAGMasterMod : public plModifier {
 protected:
     hsTArray<plKey> fPrivateAnims, fEoaKeys2;
-    bool fFirstEval, fNeedEval, fNeedCompile;
     plString fGroupName; // Only used in UU, auto-deleted in PotS and newer
     bool fLiveA5, fLiveA6;
     plKey fLiveA8;

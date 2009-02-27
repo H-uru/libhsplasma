@@ -84,7 +84,6 @@ protected:
 
 DllClass plParticleFadeVolumeEffect : public plParticleEffect {
 protected:
-    hsVector3 fMax, fMin, fNorm;
     float fLength, fIgnoreZ;
 
 public:
@@ -107,7 +106,7 @@ protected:
     float fInfAvgRadSq, fInfRepRadSq, fAvgVelStr, fRepDirStr;
     float fGoalOrbitStr, fGoalChaseStr, fGoalDistSq;
     float fFullChaseDistSq, fMaxOrbitSpeed, fMaxChaseSpeed;
-    float fMaxParticles, fDistSq;
+    float fMaxParticles;
 
 public:
     plParticleFlockEffect();
@@ -135,8 +134,7 @@ DllClass plParticleWindEffect : public plParticleEffect {
 protected:
     float fStrength, fConstancy, fSwirl;
     bool fHorizontal;
-    hsVector3 fRefDir, fWindVec, fRandDir, fDir;
-    double fLastDirSecs;
+    hsVector3 fRefDir, fDir;
 
 public:
     plParticleWindEffect();
@@ -156,8 +154,6 @@ DllClass plParticleLocalWind : public plParticleWindEffect {
 protected:
     hsVector3 fScale;
     float fSpeed;
-    hsVector3 fPhase, fInvScale;
-    double fLastPhaseSecs;
 
 public:
     plParticleLocalWind();
@@ -175,9 +171,7 @@ protected:
 
 DllClass plParticleUniformWind : public plParticleWindEffect {
 protected:
-    float fFreqMin, fFreqMax, fFreqCurr, fFreqRate;
-    double fCurrPhase, fLastFreqSecs;
-    float fCurrentStrength;
+    float fFreqMin, fFreqMax, fFreqRate;
 
 public:
     plParticleUniformWind();

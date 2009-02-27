@@ -1,13 +1,13 @@
 #include "plParticleGenerator.h"
 
-// plParticleGenerator //
+/* plParticleGenerator */
 plParticleGenerator::plParticleGenerator() { }
 plParticleGenerator::~plParticleGenerator() { }
 
 IMPLEMENT_CREATABLE(plParticleGenerator, kParticleGenerator, plCreatable)
 
 
-// plOneTimeParticleGenerator //
+/* plOneTimeParticleGenerator */
 plOneTimeParticleGenerator::plOneTimeParticleGenerator()
                           : fCount(0), fPosition(NULL), fDirection(NULL),
                             fXSize(0.0f), fYSize(0.0f), fScaleMin(0.0f),
@@ -31,11 +31,14 @@ void plOneTimeParticleGenerator::read(hsStream* S, plResManager* mgr) {
     fScaleMax = S->readFloat();
     fPartRadsPerSecRange = S->readFloat();
 
-    fPosition = new hsVector3[fCount];
-    fDirection = new hsVector3[fCount];
-    for (size_t i=0; i<fCount; i++) {
-        fPosition[i].read(S);
-        fDirection[i].read(S);
+    clearParticles();
+    if (fCount > 0) {
+        fPosition = new hsVector3[fCount];
+        fDirection = new hsVector3[fCount];
+        for (size_t i=0; i<fCount; i++) {
+            fPosition[i].read(S);
+            fDirection[i].read(S);
+        }
     }
 }
 
@@ -85,34 +88,46 @@ void plOneTimeParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mg
         fPartRadsPerSecRange = tag->getParam("RadsPerSecond", "0").toFloat();
     } else if (tag->getName() == "ParticleSources") {
         fCount = tag->countChildren();
-        fPosition = new hsVector3[fCount];
-        fDirection = new hsVector3[fCount];
-        const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fCount; i++) {
-            if (child->getName() != "Source")
-                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            const pfPrcTag* subChild = child->getFirstChild();
-            while (subChild != NULL) {
-                if (subChild->getName() == "Position") {
-                    if (subChild->hasChildren())
-                        fPosition[i].prcParse(subChild->getFirstChild());
-                } else if (subChild->getName() == "Direction") {
-                    if (subChild->hasChildren())
-                        fDirection[i].prcParse(subChild->getFirstChild());
-                } else {
-                    throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
+        clearParticles();
+        if (fCount > 0) {
+            fPosition = new hsVector3[fCount];
+            fDirection = new hsVector3[fCount];
+            const pfPrcTag* child = tag->getFirstChild();
+            for (size_t i=0; i<fCount; i++) {
+                if (child->getName() != "Source")
+                    throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+                const pfPrcTag* subChild = child->getFirstChild();
+                while (subChild != NULL) {
+                    if (subChild->getName() == "Position") {
+                        if (subChild->hasChildren())
+                            fPosition[i].prcParse(subChild->getFirstChild());
+                    } else if (subChild->getName() == "Direction") {
+                        if (subChild->hasChildren())
+                            fDirection[i].prcParse(subChild->getFirstChild());
+                    } else {
+                        throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
+                    }
+                    subChild = subChild->getNextSibling();
                 }
-                subChild = subChild->getNextSibling();
+                child = child->getNextSibling();
             }
-            child = child->getNextSibling();
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
 }
 
+void plOneTimeParticleGenerator::clearParticles() {
+    if (fPosition != NULL)
+        delete[] fPosition;
+    if (fDirection != NULL)
+        delete[] fDirection;
+    fPosition = NULL;
+    fDirection = NULL;
+}
 
-// plSimpleParticleGenerator //
+
+/* plSimpleParticleGenerator */
 plSimpleParticleGenerator::plSimpleParticleGenerator()
                          : fParticlesPerSecond(0.0f), fNumSources(0),
                            fInitPos(NULL), fInitPitch(NULL), fInitYaw(NULL),
@@ -120,7 +135,7 @@ plSimpleParticleGenerator::plSimpleParticleGenerator()
                            fXSize(0.0f), fYSize(0.0f), fScaleMin(0.0f),
                            fScaleMax(0.0f), fGenLife(0.0f), fPartLifeMin(0.0f),
                            fPartLifeMax(0.0f),fPartMassRange(0.0f),
-                           fPartRadsPerSecRange(0.0f), fParticleSum(0.0f) { }
+                           fPartRadsPerSecRange(0.0f) { }
 
 plSimpleParticleGenerator::~plSimpleParticleGenerator() {
     if (fInitPos != NULL)
@@ -139,15 +154,18 @@ void plSimpleParticleGenerator::read(hsStream* S, plResManager* mgr) {
     fPartLifeMin = S->readFloat();
     fPartLifeMax = S->readFloat();
     fParticlesPerSecond = S->readFloat();
-    
+
     fNumSources = S->readInt();
-    fInitPos = new hsVector3[fNumSources];
-    fInitPitch = new float[fNumSources];
-    fInitYaw = new float[fNumSources];
-    for (size_t i=0; i<fNumSources; i++) {
-        fInitPos[i].read(S);
-        fInitPitch[i] = S->readFloat();
-        fInitYaw[i] = S->readFloat();
+    clearSources();
+    if (fNumSources > 0) {
+        fInitPos = new hsVector3[fNumSources];
+        fInitPitch = new float[fNumSources];
+        fInitYaw = new float[fNumSources];
+        for (size_t i=0; i<fNumSources; i++) {
+            fInitPos[i].read(S);
+            fInitPitch[i] = S->readFloat();
+            fInitYaw[i] = S->readFloat();
+        }
     }
 
     fAngleRange = S->readFloat();
@@ -235,20 +253,35 @@ void plSimpleParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr
         fScaleMax = tag->getParam("ScaleMax", "0").toFloat();
     } else if (tag->getName() == "ParticleSources") {
         fNumSources = tag->countChildren();
-        fInitPos = new hsVector3[fNumSources];
-        fInitPitch = new float[fNumSources];
-        fInitYaw = new float[fNumSources];
-        const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fNumSources; i++) {
-            if (child->getName() != "Source")
-                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fInitPitch[i] = tag->getParam("Pitch", "0").toFloat();
-            fInitYaw[i] = tag->getParam("Yaw", "0").toFloat();
-            if (child->hasChildren())
-                fInitPos[i].prcParse(child->getFirstChild());
-            child = child->getNextSibling();
+        clearSources();
+        if (fNumSources > 0) {
+            fInitPos = new hsVector3[fNumSources];
+            fInitPitch = new float[fNumSources];
+            fInitYaw = new float[fNumSources];
+            const pfPrcTag* child = tag->getFirstChild();
+            for (size_t i=0; i<fNumSources; i++) {
+                if (child->getName() != "Source")
+                    throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+                fInitPitch[i] = tag->getParam("Pitch", "0").toFloat();
+                fInitYaw[i] = tag->getParam("Yaw", "0").toFloat();
+                if (child->hasChildren())
+                    fInitPos[i].prcParse(child->getFirstChild());
+                child = child->getNextSibling();
+            }
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
+}
+
+void plSimpleParticleGenerator::clearSources() {
+    if (fInitPos != NULL)
+        delete[] fInitPos;
+    if (fInitPitch != NULL)
+        delete[] fInitPitch;
+    if (fInitYaw != NULL)
+        delete[] fInitYaw;
+    fInitPos = NULL;
+    fInitPitch = NULL;
+    fInitYaw = NULL;
 }

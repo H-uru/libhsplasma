@@ -35,7 +35,7 @@ void pfGUISkin::pfSRect::prcParse(const pfPrcTag* tag) {
     fHeight = tag->getParam("height", "0").toUint();
 }
 
-void pfGUISkin::pfSRect::empty() {
+void pfGUISkin::pfSRect::clear() {
     fX = 0;
     fY = 0;
     fWidth = 0;
@@ -44,7 +44,7 @@ void pfGUISkin::pfSRect::empty() {
 
 
 /* pfGUISkin */
-pfGUISkin::pfGUISkin() { }
+pfGUISkin::pfGUISkin() : fItemMargin(0), fBorderMargin(0) { }
 pfGUISkin::~pfGUISkin() { }
 
 IMPLEMENT_CREATABLE(pfGUISkin, kGUISkin, hsKeyedObject)
@@ -54,11 +54,11 @@ void pfGUISkin::read(hsStream* S, plResManager* mgr) {
 
     fItemMargin = S->readShort();
     fBorderMargin = S->readShort();
-    int i, count = S->readInt();
+    size_t i, count = S->readInt();
     for (i=0; i<count; i++)
         fElements[i].read(S);
-    for (; i<14; i++)
-        fElements[i].empty();
+    for (; i<kNumElements; i++)
+        fElements[i].clear();
 
     fTexture = mgr->readKey(S);
 }
@@ -68,8 +68,8 @@ void pfGUISkin::write(hsStream* S, plResManager* mgr) {
 
     S->writeShort(fItemMargin);
     S->writeShort(fBorderMargin);
-    S->writeInt(14);
-    for (int i=0; i<14; i++)
+    S->writeInt(kNumElements);
+    for (size_t i=0; i<kNumElements; i++)
         fElements[i].write(S);
 
     mgr->writeKey(S, fTexture);
@@ -84,7 +84,7 @@ void pfGUISkin::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Elements");
-    for (int i=0; i<14; i++)
+    for (size_t i=0; i<kNumElements; i++)
         fElements[i].prcWrite(prc);
     prc->closeTag();
 
@@ -99,13 +99,16 @@ void pfGUISkin::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fBorderMargin = tag->getParam("BorderMargin", "0").toUint();
     } else if (tag->getName() == "Elements") {
         size_t nElements = tag->countChildren();
-        if (nElements > 14)
+        if (nElements > kNumElements)
             throw pfPrcParseException(__FILE__, __LINE__, "Too many elements");
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<nElements; i++) {
+        size_t i;
+        for (i=0; i<nElements; i++) {
             fElements[i].prcParse(child);
             child = child->getNextSibling();
         }
+        for (; i<kNumElements; i++)
+            fElements[i].clear();
     } else if (tag->getName() == "Texture") {
         if (tag->hasChildren())
             fTexture = mgr->prcParseKey(tag->getFirstChild());

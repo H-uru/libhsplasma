@@ -2,8 +2,7 @@
 
 /* pfGUIListElement */
 pfGUIListElement::pfGUIListElement()
-                : fSelected(false), fCollapsed(false), fType(kText),
-                  fIndentLevel(0), fColors(NULL), fSkin(NULL) { }
+                : fSelected(false) { }
 
 pfGUIListElement::~pfGUIListElement() { }
 

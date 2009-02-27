@@ -3,7 +3,8 @@
 plNPCSpawnMod::plNPCSpawnMod() : fAutoSpawn(false), fNotify(NULL) { }
 
 plNPCSpawnMod::~plNPCSpawnMod() {
-    if (fNotify) delete fNotify;
+    if (fNotify != NULL)
+        delete fNotify;
 }
 
 IMPLEMENT_CREATABLE(plNPCSpawnMod, kNPCSpawnMod, plSingleModifier)
@@ -16,7 +17,7 @@ void plNPCSpawnMod::read(hsStream* S, plResManager* mgr) {
     fAutoSpawn = S->readBool();
 
     if (S->readBool())
-        fNotify = plNotifyMsg::Convert(mgr->ReadCreatable(S));
+        setNotify(plNotifyMsg::Convert(mgr->ReadCreatable(S)));
 }
 
 void plNPCSpawnMod::write(hsStream* S, plResManager* mgr) {
@@ -58,11 +59,17 @@ void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fAutoSpawn = tag->getParam("AutoSpawn", "false").toBool();
     } else if (tag->getName() == "Notify") {
         if (tag->getParam("NULL", "false").toBool()) {
-            fNotify = NULL;
+            setNotify(NULL);
         } else if (tag->hasChildren()) {
-            fNotify = plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setNotify(plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         }
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }
+}
+
+void plNPCSpawnMod::setNotify(plNotifyMsg* msg) {
+    if (fNotify != NULL)
+        delete fNotify;
+    fNotify = msg;
 }

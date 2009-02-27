@@ -29,12 +29,6 @@ public:
         kIsAvatarState = 0x80
     };
 
-    class StateDefn {
-        plKey* fObjKey;
-        unsigned int fSendFlags;
-        char* fSDLName;
-    };
-
 protected:
     unsigned int fSynchFlags;
     hsTArray<plString> fSDLExcludeList;
@@ -45,7 +39,7 @@ public:
     virtual ~plSynchedObject();
 
     DECLARE_CREATABLE(plSynchedObject)
-    
+
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

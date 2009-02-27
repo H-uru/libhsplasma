@@ -142,6 +142,11 @@ void plGBufferGroup::read(hsStream* S) {
     S->readInt();
     fStride = ICalcVertexSize(fLiteStride);
 
+    for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
+        delete[] fVertBuffStorage[i];
+    for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
+        delete[] fIdxBuffStorage[i];
+
     fVertBuffSizes.clear();
     fIdxBuffCounts.clear();
     fVertBuffStorage.clear();
@@ -293,6 +298,16 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fFormat = tag->getParam("Format", "0").toUint();
     fStride = ICalcVertexSize(fLiteStride);
+
+    for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
+        delete[] fVertBuffStorage[i];
+    for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
+        delete[] fIdxBuffStorage[i];
+
+    fVertBuffSizes.clear();
+    fIdxBuffCounts.clear();
+    fVertBuffStorage.clear();
+    fIdxBuffStorage.clear();
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {

@@ -18,6 +18,7 @@ void plMultistageBehMod::read(hsStream* S, plResManager* mgr) {
     fSmartSeek = S->readBool();
     fReverseFBControlsOnRelease = S->readBool();
 
+    clearStages();
     fStages.setSizeNull(S->readInt());
     for (size_t i=0; i<fStages.getSize(); i++) {
         fStages[i] = new plAnimStage();
@@ -71,6 +72,7 @@ void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fSmartSeek = tag->getParam("SmartSeek", "false").toBool();
         fReverseFBControlsOnRelease = tag->getParam("ReverseFBControlsOnRelease", "false").toBool();
     } else if (tag->getName() == "Stages") {
+        clearStages();
         fStages.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fStages.getSize(); i++) {

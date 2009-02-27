@@ -1,5 +1,7 @@
 #include "plVehicleModifier.h"
 
+plVehicleModifier::Wheel::Wheel() : fRadius(1.0f) { }
+
 plVehicleModifier::plVehicleModifier() { }
 plVehicleModifier::~plVehicleModifier() { }
 

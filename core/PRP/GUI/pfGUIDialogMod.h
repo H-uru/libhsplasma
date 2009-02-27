@@ -12,10 +12,8 @@ protected:
     plKey fRenderMod;
     char fName[128];
     hsTArray<plKey> fControls;
-    pfGUIColorScheme* fColorScheme;
-    plKey fProcReceiver;
-    hsTArray<plKey> pfGUIListElement;
-    plKey fSceneNode;
+    pfGUIColorScheme fColorScheme;
+    plKey fProcReceiver, fSceneNode;
 
 public:
     pfGUIDialogMod();

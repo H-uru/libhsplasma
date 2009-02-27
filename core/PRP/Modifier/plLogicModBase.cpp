@@ -14,7 +14,8 @@ plLogicModBase::plLogicModBase()
 plLogicModBase::~plLogicModBase() {
     for (size_t i=0; i<fCommandList.getSize(); i++)
         delete fCommandList[i];
-    if (fNotify) delete fNotify;
+    if (fNotify != NULL)
+        delete fNotify;
 }
 
 IMPLEMENT_CREATABLE(plLogicModBase, kLogicModBase, plSingleModifier)
@@ -22,14 +23,12 @@ IMPLEMENT_CREATABLE(plLogicModBase, kLogicModBase, plSingleModifier)
 void plLogicModBase::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
-    fCommandList.setSizeNull(S->readInt());
     clearCommands();
+    fCommandList.setSizeNull(S->readInt());
     for (size_t i=0; i<fCommandList.getSize(); i++)
         fCommandList[i] = plMessage::Convert(mgr->ReadCreatable(S));
 
-    if (fNotify != NULL)
-        delete fNotify;
-    fNotify = plNotifyMsg::Convert(mgr->ReadCreatable(S));
+    setNotify(plNotifyMsg::Convert(mgr->ReadCreatable(S)));
     fLogicFlags.read(S);
     fDisabled = S->readBool();
 }
@@ -71,6 +70,7 @@ void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "LogicModParams") {
         fDisabled = tag->getParam("Disabled", "false").toBool();
     } else if (tag->getName() == "Commands") {
+        clearCommands();
         fCommandList.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fCommandList.getSize(); i++) {
@@ -79,7 +79,7 @@ void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "Notify") {
         if (tag->hasChildren())
-            fNotify = plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setNotify(plNotifyMsg::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "LogicFlags") {
         if (tag->hasChildren())
             fLogicFlags.prcParse(tag->getFirstChild());

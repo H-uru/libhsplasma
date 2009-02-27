@@ -17,8 +17,6 @@ void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
         fControls[i] = mgr->readKey(S);
 
     fDefaultValue = S->readShort();
-    if (fDefaultValue != -1 && fControls[fDefaultValue].Exists())
-        pfGUICheckBoxCtrl::Convert(fControls[fDefaultValue]->getObj())->setChecked(true);
 }
 
 void pfGUIRadioGroupCtrl::write(hsStream* S, plResManager* mgr) {

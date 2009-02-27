@@ -27,10 +27,8 @@ protected:
     unsigned short fFollowFlags;
     plAnimPath* fPath;
     plKey fPathParent, fRefObj;
-    hsVector3 fSearchPos;
     hsTArray<plKey> fStereizers;
-    float fTanOffset, fOffset;
-    float fOffsetClamp, fSpeedClamp;
+    float fOffset, fOffsetClamp, fSpeedClamp;
 
 public:
     plLineFollowMod();
@@ -44,6 +42,31 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    FollowMode getFollowMode() const;
+    unsigned short getFollowFlags() const;
+    plAnimPath* getPath() const;
+    plKey getPathParent() const;
+    plKey getRefObj() const;
+    float getOffset() const;
+    float getOffsetClamp() const;
+    float getSpeedClamp() const;
+
+    void setFollowMode(FollowMode mode);
+    void setFollowFlags(unsigned short flags);
+    void setPath(plAnimPath* path);
+    void setPathParent(plKey parent);
+    void setRefObj(plKey obj);
+    void setOffset(float offset);
+    void setOffsetClamp(float clamp);
+    void setSpeedClamp(float clamp);
+
+    size_t getNumStereizers() const;
+    plKey getStereizer(size_t idx) const;
+    void addStereizer(plKey stereizer);
+    void delStereizer(size_t idx);
+    void clearStereizers();
 };
 
 DllClass plRailCameraMod : public plLineFollowMod {

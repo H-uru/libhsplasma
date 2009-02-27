@@ -23,6 +23,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plConvexVolume* getBounds() const;
+    void setBounds(plConvexVolume* bounds);
 };
 
 #endif

@@ -14,9 +14,6 @@ protected:
     float fWetLength, fRampEnd, fDecayStart, fLifeSpan, fIntensity;
     float fGridSizeU, fGridSizeV;
     hsVector3 fScale;
-    float fInitAtten;
-    float fMinDepth, fMaxDepth, fMinDepthRange, fMaxDepthRange;
-    hsTArray<unsigned int> fPartIDs;
     hsTArray<plKey> fNotifies;
 
 public:

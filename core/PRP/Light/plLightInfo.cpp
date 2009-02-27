@@ -2,7 +2,6 @@
 
 plLightInfo::plLightInfo() {
     fProps.setName(kDisable, "kDisable");
-    fProps.setName(kLPObsolete, "kLPObsolete");
     fProps.setName(kLPCastShadows, "kLPCastShadows");
     fProps.setName(kLPMovable, "kLPMovable");
     fProps.setName(kLPHasIncludes, "kLPHasIncludes");
@@ -20,7 +19,7 @@ IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 
 void plLightInfo::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
-    
+
     fAmbient.read(S);
     fDiffuse.read(S);
     fSpecular.read(S);
@@ -42,7 +41,7 @@ void plLightInfo::read(hsStream* S, plResManager* mgr) {
 
 void plLightInfo::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
-    
+
     fAmbient.write(S);
     fDiffuse.write(S);
     fSpecular.write(S);
@@ -62,7 +61,7 @@ void plLightInfo::write(hsStream* S, plResManager* mgr) {
 
 void plLightInfo::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
-    
+
     prc->writeSimpleTag("Ambient");
     fAmbient.prcWrite(prc);
     prc->closeTag();

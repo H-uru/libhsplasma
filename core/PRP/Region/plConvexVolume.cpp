@@ -1,44 +1,34 @@
 #include "plConvexVolume.h"
 
-plConvexVolume::plConvexVolume()
-              : fLocalPlanes(NULL), fNumPlanes(0) { }
-
-plConvexVolume::~plConvexVolume() {
-    if (fLocalPlanes)
-        delete[] fLocalPlanes;
-}
+plConvexVolume::plConvexVolume() { }
+plConvexVolume::~plConvexVolume() { }
 
 IMPLEMENT_CREATABLE(plConvexVolume, kConvexVolume, plCreatable)
 
 void plConvexVolume::read(hsStream* S, plResManager* mgr) {
-    if (fLocalPlanes)
-        delete[] fLocalPlanes;
-
-    fNumPlanes = S->readInt();
-    fLocalPlanes = new hsPlane3[fNumPlanes];
-    for (unsigned int i=0; i<fNumPlanes; i++)
+    fLocalPlanes.setSize(S->readInt());
+    for (size_t i=0; i<fLocalPlanes.getSize(); i++)
         fLocalPlanes[i].read(S);
 }
 
 void plConvexVolume::write(hsStream* S, plResManager* mgr) {
-    S->writeInt(fNumPlanes);
-    for (unsigned int i=0; i<fNumPlanes; i++)
+    S->writeInt(fLocalPlanes.getSize());
+    for (size_t i=0; i<fLocalPlanes.getSize(); i++)
         fLocalPlanes[i].write(S);
 }
 
 void plConvexVolume::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Planes");
-    for (unsigned int i=0; i<fNumPlanes; i++)
+    for (size_t i=0; i<fLocalPlanes.getSize(); i++)
         fLocalPlanes[i].prcWrite(prc);
     prc->closeTag();
 }
 
 void plConvexVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Planes") {
-        fNumPlanes = tag->countChildren();
-        fLocalPlanes = new hsPlane3[fNumPlanes];
+        fLocalPlanes.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fNumPlanes; i++) {
+        for (size_t i=0; i<fLocalPlanes.getSize(); i++) {
             fLocalPlanes[i].prcParse(child);
             child = child->getNextSibling();
         }

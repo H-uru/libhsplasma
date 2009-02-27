@@ -1,8 +1,9 @@
 #include "plSoftVolume.h"
 
-// plSoftVolume //
-plSoftVolume::plSoftVolume() : fListenStrength(0.0f), fListenState(kListenNone),
-                               fInsideStrength(0.0f), fOutsideStrength(0.0f) { }
+/* plSoftVolume */
+plSoftVolume::plSoftVolume()
+            : fListenState(kListenNone), fInsideStrength(0.0f),
+              fOutsideStrength(0.0f) { }
 
 plSoftVolume::~plSoftVolume() { }
 
@@ -45,7 +46,7 @@ void plSoftVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-// plSoftVolumeSimple //
+/* plSoftVolumeSimple */
 plSoftVolumeSimple::plSoftVolumeSimple() : fVolume(NULL), fSoftDist(0.0f) { }
 
 plSoftVolumeSimple::~plSoftVolumeSimple() {
@@ -59,7 +60,7 @@ void plSoftVolumeSimple::read(hsStream* S, plResManager* mgr) {
     plSoftVolume::read(S, mgr);
 
     fSoftDist = S->readFloat();
-    fVolume = plVolumeIsect::Convert(mgr->ReadCreatable(S));
+    setVolume(plVolumeIsect::Convert(mgr->ReadCreatable(S)));
 }
 
 void plSoftVolumeSimple::write(hsStream* S, plResManager* mgr) {
@@ -83,14 +84,20 @@ void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Volume") {
         fSoftDist = tag->getParam("SoftDist", "0").toFloat();
         if (tag->hasChildren())
-            fVolume = plVolumeIsect::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setVolume(plVolumeIsect::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
         plSoftVolume::IPrcParse(tag, mgr);
     }
 }
 
+void plSoftVolumeSimple::setVolume(plVolumeIsect* vol) {
+    if (fVolume != NULL)
+        delete fVolume;
+    fVolume = vol;
+}
 
-// plSoftVolumeComplex //
+
+/* plSoftVolumeComplex */
 plSoftVolumeComplex::plSoftVolumeComplex() { }
 plSoftVolumeComplex::~plSoftVolumeComplex() { }
 
@@ -135,7 +142,7 @@ void plSoftVolumeComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-// plSoftVolumeIntersect //
+/* plSoftVolumeIntersect */
 plSoftVolumeIntersect::plSoftVolumeIntersect() { }
 plSoftVolumeIntersect::~plSoftVolumeIntersect() { }
 
@@ -143,14 +150,14 @@ IMPLEMENT_CREATABLE(plSoftVolumeIntersect, kSoftVolumeIntersect,
                     plSoftVolumeComplex)
 
 
-// plSoftVolumeInvert //
+/* plSoftVolumeInvert */
 plSoftVolumeInvert::plSoftVolumeInvert() { }
 plSoftVolumeInvert::~plSoftVolumeInvert() { }
 
 IMPLEMENT_CREATABLE(plSoftVolumeInvert, kSoftVolumeInvert, plSoftVolumeComplex)
 
 
-// plSoftVolumeUnion //
+/* plSoftVolumeUnion */
 plSoftVolumeUnion::plSoftVolumeUnion() { }
 plSoftVolumeUnion::~plSoftVolumeUnion() { }
 

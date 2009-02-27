@@ -11,11 +11,7 @@ public:
 protected:
     hsTArray<plKey> fAnimationKeys, fMouseOverAnimKeys;
     plString fAnimName, fMouseOverAnimName;
-    bool fClicking, fTriggering;
-    hsVector3 fOrigMouseDownPt;
     plKey fDraggable;
-    pfGUICtrlProcObject* fOrigHandler;
-    bool fOrigReportedDrag;
     int fNotifyType, fEoaUnknown1, fEoaUnknown2;
 
 public:

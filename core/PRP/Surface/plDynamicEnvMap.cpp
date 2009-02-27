@@ -3,7 +3,6 @@
 /* plDynamicEnvMap */
 plDynamicEnvMap::plDynamicEnvMap()
                : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
-                 fLastRefresh(0.0), fLastRender(0), fOutStanding(0),
                  fIncCharacters(false) { }
 plDynamicEnvMap::~plDynamicEnvMap() { }
 
@@ -18,9 +17,7 @@ void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
     fFogStart = S->readFloat();
     fColor.read(S);
     fRefreshRate = S->readFloat();
-    //SetCameraMatrix(fPos);
     fIncCharacters = S->readByte();
-    //SetIncludeCharacters(fIncCharacters);
 
     fVisRegions.setSize(S->readInt());
     for (size_t i=0; i<fVisRegions.getSize(); i++)
@@ -34,7 +31,7 @@ void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
         fRootNode = mgr->readKey(S);
     } else {
         fVisRegionNames.setSize(0);
-        fRootNode = NULL;
+        fRootNode = plKey();
     }
 }
 
@@ -144,7 +141,7 @@ void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 /* plDynamicCamMap */
 plDynamicCamMap::plDynamicCamMap()
                : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
-                 fLastRefresh(0.0), fOutStanding(0), fIncCharacters(false) { }
+                 fIncCharacters(false) { }
 plDynamicCamMap::~plDynamicCamMap() { }
 
 IMPLEMENT_CREATABLE(plDynamicCamMap, kDynamicCamMap, plRenderTarget)
@@ -158,7 +155,6 @@ void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
     fColor.read(S);
     fRefreshRate = S->readFloat();
     fIncCharacters = S->readByte();
-    //SetIncludeCharacters(fIncCharacters);
 
     fCamera = mgr->readKey(S);
     fRootNode = mgr->readKey(S);

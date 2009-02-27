@@ -17,6 +17,7 @@ void plAGAnim::read(hsStream* S, plResManager* mgr) {
     fStart = S->readFloat();
     fEnd = S->readFloat();
 
+    clearApplicators();
     fApps.setSizeNull(S->readInt());
     for (size_t i=0; i<fApps.getSize(); i++) {
         plAGApplicator* agApp = plAGApplicator::Convert(mgr->ReadCreatable(S));
@@ -77,6 +78,7 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fEnd = tag->getParam("End", "0").toFloat();
         fEoaFlag = tag->getParam("EoaFlag", "0").toUint();
     } else if (tag->getName() == "Applicators") {
+        clearApplicators();
         fApps.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fApps.getSize(); i++) {

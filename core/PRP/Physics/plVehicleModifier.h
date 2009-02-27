@@ -6,10 +6,12 @@
 
 DllClass plVehicleModifier : public plSingleModifier {
 public:
-    struct Wheel {
+    DllStruct Wheel {
         plKey fWheelObj;
         hsVector3 fPosition, fDirection;
         float fRadius;
+
+        Wheel();
     };
 
 protected:

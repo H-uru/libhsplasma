@@ -9,7 +9,6 @@ public:
     public:
         hsVector3 fNorm, fWorldNorm;
         hsVector3 fPos, fWorldPos;
-        float fWorldDist;
 
     public:
         HardPlane();
@@ -19,6 +18,8 @@ public:
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
         void prcParse(const pfPrcTag* tag);
+
+        float getWorldDist() const;
     };
 
 protected:

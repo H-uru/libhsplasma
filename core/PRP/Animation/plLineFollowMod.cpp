@@ -1,8 +1,9 @@
 #include "plLineFollowMod.h"
-#include <cmath>
 
 /* plLineFollowMod */
-plLineFollowMod::plLineFollowMod() : fPath(NULL) { }
+plLineFollowMod::plLineFollowMod()
+               : fFollowMode(kFollowObject), fFollowFlags(0), fPath(NULL),
+                 fOffset(0.0f), fOffsetClamp(0.0f), fSpeedClamp(0.0f) { }
 
 plLineFollowMod::~plLineFollowMod() {
     if (fPath != NULL)
@@ -14,7 +15,7 @@ IMPLEMENT_CREATABLE(plLineFollowMod, kLineFollowMod, plMultiModifier)
 void plLineFollowMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 
-    fPath = plAnimPath::Convert(mgr->ReadCreatable(S));
+    setPath(plAnimPath::Convert(mgr->ReadCreatable(S)));
     fPathParent = mgr->readKey(S);
     fRefObj = mgr->readKey(S);
 
@@ -23,14 +24,10 @@ void plLineFollowMod::read(hsStream* S, plResManager* mgr) {
         fStereizers[i] = mgr->readKey(S);
 
     unsigned int modeFlags = S->readInt();
-    //IUnRegister();
     fFollowMode = (FollowMode)(modeFlags & 0xFFFF);
-    //IRegister();
     fFollowFlags = modeFlags >> 16;
     if (fFollowFlags & kOffset)
         fOffset = S->readFloat();
-    if (fFollowFlags & kOffsetAng)
-        fTanOffset = tan(fOffset);
     if (fFollowFlags & kOffsetClamp)
         fOffsetClamp = S->readFloat();
     if (fFollowFlags & kSpeedClamp)
@@ -90,7 +87,7 @@ void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
 void plLineFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Path") {
         if (tag->hasChildren())
-            fPath = plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setPath(plAnimPath::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "Parent") {
         if (tag->hasChildren())
             fPathParent = mgr->prcParseKey(tag->getFirstChild());
@@ -114,6 +111,35 @@ void plLineFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMultiModifier::IPrcParse(tag, mgr);
     }
 }
+
+plLineFollowMod::FollowMode plLineFollowMod::getFollowMode() const { return fFollowMode; }
+unsigned short plLineFollowMod::getFollowFlags() const { return fFollowFlags; }
+plAnimPath* plLineFollowMod::getPath() const { return fPath; }
+plKey plLineFollowMod::getPathParent() const { return fPathParent; }
+plKey plLineFollowMod::getRefObj() const { return fRefObj; }
+float plLineFollowMod::getOffset() const { return fOffset; }
+float plLineFollowMod::getOffsetClamp() const { return fOffsetClamp; }
+float plLineFollowMod::getSpeedClamp() const { return fSpeedClamp; }
+
+void plLineFollowMod::setFollowMode(FollowMode mode) { fFollowMode = mode; }
+void plLineFollowMod::setFollowFlags(unsigned short flags) { fFollowFlags = flags; }
+void plLineFollowMod::setPathParent(plKey parent) { fPathParent = parent; }
+void plLineFollowMod::setRefObj(plKey obj) { fRefObj = obj; }
+void plLineFollowMod::setOffset(float offset) { fOffset = offset; }
+void plLineFollowMod::setOffsetClamp(float clamp) { fOffsetClamp = clamp; }
+void plLineFollowMod::setSpeedClamp(float clamp) { fSpeedClamp = clamp; }
+
+void plLineFollowMod::setPath(plAnimPath* path) {
+    if (fPath != NULL)
+        delete fPath;
+    fPath = path;
+}
+
+size_t plLineFollowMod::getNumStereizers() const { return fStereizers.getSize(); }
+plKey plLineFollowMod::getStereizer(size_t idx) const { return fStereizers[idx]; }
+void plLineFollowMod::addStereizer(plKey stereizer) { fStereizers.append(stereizer); }
+void plLineFollowMod::delStereizer(size_t idx) { fStereizers.remove(idx); }
+void plLineFollowMod::clearStereizers() { fStereizers.clear(); }
 
 
 /* plRailCameraMod */

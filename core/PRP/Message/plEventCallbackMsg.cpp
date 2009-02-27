@@ -1,6 +1,9 @@
 #include "plEventCallbackMsg.h"
 
-plEventCallbackMsg::plEventCallbackMsg() { }
+plEventCallbackMsg::plEventCallbackMsg()
+                  : fEventTime(0.0f), fEvent((CallbackEvent)0), fIndex(0),
+                    fRepeats(0), fUser(0) { }
+
 plEventCallbackMsg::~plEventCallbackMsg() { }
 
 IMPLEMENT_CREATABLE(plEventCallbackMsg, kEventCallbackMsg, plMessage)

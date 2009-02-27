@@ -116,7 +116,7 @@ const char* hsBitVector::getName(size_t idx) {
     if (fBitNames.count(idx) > 0) {
         return fBitNames[idx];
     } else {
-        snprintf(tempName, 11, "%lu", idx);
+        snprintf(tempName, 11, "%u", idx);
         return tempName;
     }
 }

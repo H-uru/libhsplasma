@@ -5,41 +5,36 @@ plTMController::plTMController()
                 fScaleController(NULL) { }
 
 plTMController::~plTMController() {
-    if (fPosController) delete fPosController;
-    if (fRotController) delete fRotController;
-    if (fScaleController) delete fScaleController;
+    if (fPosController != NULL)
+        delete fPosController;
+    if (fRotController != NULL)
+        delete fRotController;
+    if (fScaleController != NULL)
+        delete fScaleController;
 }
 
 IMPLEMENT_CREATABLE(plTMController, kTMController, plController)
 
 void plTMController::read(hsStream* S, plResManager* mgr) {
     int type = S->readInt();
-    if (type == plPosController::kCompound) {
-        if (fPosController != NULL) delete fPosController;
-        fPosController = new plCompoundPosController();
-    } else if (type == plPosController::kSimple) {
-        if (fPosController != NULL) delete fPosController;
-        fPosController = new plSimplePosController();
-    }
+    if (type == plPosController::kCompound)
+        setPosController(new plCompoundPosController());
+    else if (type == plPosController::kSimple)
+        setPosController(new plSimplePosController());
     if (fPosController != NULL)
         fPosController->read(S, mgr);
 
     type = S->readInt();
-    if (type == plRotController::kCompound) {
-        if (fRotController != NULL) delete fRotController;
-        fRotController = new plCompoundRotController();
-    } else if (type == plRotController::kSimple) {
-        if (fRotController != NULL) delete fRotController;
-        fRotController = new plSimpleRotController();
-    }
+    if (type == plRotController::kCompound)
+        setRotController(new plCompoundRotController());
+    else if (type == plRotController::kSimple)
+        setRotController(new plSimpleRotController());
     if (fRotController != NULL)
         fRotController->read(S, mgr);
 
     type = S->readInt();
-    if (type == plScaleController::kSimple) {
-        if (fScaleController != NULL) delete fScaleController;
-        fScaleController = new plSimpleScaleController();
-    }
+    if (type == plScaleController::kSimple)
+        setScaleController(new plSimpleScaleController());
     if (fScaleController != NULL)
         fScaleController->read(S, mgr);
 }
@@ -103,9 +98,9 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Position") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
             if (tag->getFirstChild()->getName() == "plSimplePosController")
-                fPosController = new plSimplePosController();
+                setPosController(new plSimplePosController());
             else if (tag->getFirstChild()->getName() == "plCompoundPosController")
-                fPosController = new plCompoundPosController();
+                setPosController(new plCompoundPosController());
             else
                 throw pfPrcTagException(__FILE__, __LINE__, tag->getFirstChild()->getName());
             fPosController->prcParse(tag->getFirstChild(), mgr);
@@ -113,9 +108,9 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "Rotation") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
             if (tag->getFirstChild()->getName() == "plSimpleRotController")
-                fRotController = new plSimpleRotController();
+                setRotController(new plSimpleRotController());
             else if (tag->getFirstChild()->getName() == "plCompoundRotController")
-                fRotController = new plCompoundRotController();
+                setRotController(new plCompoundRotController());
             else
                 throw pfPrcTagException(__FILE__, __LINE__, tag->getFirstChild()->getName());
             fRotController->prcParse(tag->getFirstChild(), mgr);
@@ -123,7 +118,7 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "Scale") {
         if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
             if (tag->getFirstChild()->getName() == "plSimpleScaleController")
-                fScaleController = new plSimpleScaleController();
+                setScaleController(new plSimpleScaleController());
             else
                 throw pfPrcTagException(__FILE__, __LINE__, tag->getFirstChild()->getName());
             fScaleController->prcParse(tag->getFirstChild(), mgr);

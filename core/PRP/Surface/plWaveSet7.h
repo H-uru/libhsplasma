@@ -4,10 +4,6 @@
 #include "plWaveSetBase.h"
 #include "plFixedWaterState7.h"
 
-/* Yes, this is greatly simplified...  And it'll probably stay that way
- * unless I implement the actual rendering of plWaveSets, which is unlikely
- */
-
 DllClass plWaveSet7 : public plWaveSetBase {
 public:
     enum { kHasRefObject = 0x10 };

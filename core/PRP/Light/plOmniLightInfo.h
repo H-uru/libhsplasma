@@ -34,7 +34,7 @@ public:
 
 DllClass plSpotLightInfo : public plOmniLightInfo {
 protected:
-    float fFalloff, fSpotInner, fSpotOuter, fEffectiveFOV;
+    float fFalloff, fSpotInner, fSpotOuter;
 
 public:
     plSpotLightInfo();
@@ -53,12 +53,10 @@ public:
     float getFalloff() const;
     float getSpotInner() const;
     float getSpotOuter() const;
-    float getEffectiveFOV() const;
 
     void setFalloff(float falloff);
     void setSpotInner(float spot);
     void setSpotOuter(float spot);
-    void setEffectiveFOV(float fov);
 };
 
 #endif

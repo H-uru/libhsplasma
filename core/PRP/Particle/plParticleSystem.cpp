@@ -4,21 +4,24 @@ plParticleSystem::plParticleSystem()
                 : fXTiles(0), fYTiles(0), fPreSim(0.0f), fDrag(0.0f),
                   fWindMult(0.0f), fMaxTotalParticles(0),
                   fNumValidEmitters(0), fMaxEmitters(0),
-                  fEmitters(NULL), fAmbientCtl(NULL), fDiffuseCtl(NULL),
-                  fOpacityCtl(NULL), fWidthCtl(NULL), fHeightCtl(NULL) { }
+                  fAmbientCtl(NULL), fDiffuseCtl(NULL), fOpacityCtl(NULL),
+                  fWidthCtl(NULL), fHeightCtl(NULL) { }
 
 plParticleSystem::~plParticleSystem() {
-    if (fEmitters != NULL) {
-        for (size_t i=0; i<fNumValidEmitters; i++)
-            if (fEmitters[i] != NULL) delete fEmitters[i];
-        delete[] fEmitters;
+    for (size_t i=0; i<fEmitters.getSize(); i++) {
+        if (fEmitters[i] != NULL)
+            delete fEmitters[i];
     }
-    
-    if (fAmbientCtl != NULL) delete fAmbientCtl;
-    if (fDiffuseCtl != NULL) delete fDiffuseCtl;
-    if (fOpacityCtl != NULL) delete fOpacityCtl;
-    if (fWidthCtl != NULL) delete fWidthCtl;
-    if (fHeightCtl != NULL) delete fHeightCtl;
+    if (fAmbientCtl != NULL)
+        delete fAmbientCtl;
+    if (fDiffuseCtl != NULL)
+        delete fDiffuseCtl;
+    if (fOpacityCtl != NULL)
+        delete fOpacityCtl;
+    if (fWidthCtl != NULL)
+        delete fWidthCtl;
+    if (fHeightCtl != NULL)
+        delete fHeightCtl;
 }
 
 IMPLEMENT_CREATABLE(plParticleSystem, kParticleSystem, plSynchedObject)
@@ -27,11 +30,11 @@ void plParticleSystem::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
     fMaterial = mgr->readKey(S);
-    fAmbientCtl = plController::Convert(mgr->ReadCreatable(S));
-    fDiffuseCtl = plController::Convert(mgr->ReadCreatable(S));
-    fOpacityCtl = plController::Convert(mgr->ReadCreatable(S));
-    fWidthCtl = plController::Convert(mgr->ReadCreatable(S));
-    fHeightCtl = plController::Convert(mgr->ReadCreatable(S));
+    setAmbientCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setDiffuseCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setOpacityCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setWidthCtl(plController::Convert(mgr->ReadCreatable(S)));
+    setHeightCtl(plController::Convert(mgr->ReadCreatable(S)));
 
     fXTiles = S->readInt();
     fYTiles = S->readInt();
@@ -43,13 +46,15 @@ void plParticleSystem::read(hsStream* S, plResManager* mgr) {
     fWindMult = S->readFloat();
     fNumValidEmitters = S->readInt();
 
+    fEmitters.setSizeNull(fMaxEmitters);
     if (fNumValidEmitters > fMaxEmitters)
         throw hsBadParamException(__FILE__, __LINE__);
-    fEmitters = new plParticleEmitter*[fMaxEmitters];
+    for (size_t i=0; i<fEmitters.getSize(); i++) {
+        if (fEmitters[i] != NULL)
+            delete fEmitters[i];
+    }
     for (size_t i=0; i<fNumValidEmitters; i++)
         fEmitters[i] = plParticleEmitter::Convert(mgr->ReadCreatable(S));
-    for (size_t i=fNumValidEmitters; i<fMaxEmitters; i++)
-        fEmitters[i] = NULL;
 
     fForces.setSize(S->readInt());
     for (size_t i=0; i<fForces.getSize(); i++)
@@ -187,7 +192,7 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fConstraints.getSize(); i++)
         fConstraints[i]->prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("PermaLights");
     for (size_t i=0; i<fPermaLights.getSize(); i++)
         fPermaLights[i]->prcWrite(prc);
@@ -200,19 +205,19 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fMaterial = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "AmbientCtl") {
         if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
-            fAmbientCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setAmbientCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "DiffuseCtl") {
         if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
-            fDiffuseCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setDiffuseCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "OpacityCtl") {
         if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
-            fOpacityCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setOpacityCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "WidthCtl") {
         if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
-            fWidthCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setWidthCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "HeightCtl") {
         if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
-            fHeightCtl = plController::Convert(mgr->prcParseCreatable(tag->getFirstChild()));
+            setHeightCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "ParticleParams") {
         fXTiles = tag->getParam("XTiles", "0").toUint();
         fYTiles = tag->getParam("YTiles", "0").toUint();
@@ -225,17 +230,19 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fAccel.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Emitters") {
+        for (size_t i=0; i<fEmitters.getSize(); i++) {
+            if (fEmitters[i] != NULL)
+                delete fEmitters[i];
+        }
+        fEmitters.setSizeNull(fMaxEmitters);
         fNumValidEmitters = tag->countChildren();
         if (fNumValidEmitters > fMaxEmitters)
             throw pfPrcParseException(__FILE__, __LINE__, "Too many particle emitters");
-        fEmitters = new plParticleEmitter*[fMaxEmitters];
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fNumValidEmitters; i++) {
             fEmitters[i] = plParticleEmitter::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
-        for (size_t i=fNumValidEmitters; i<fMaxEmitters; i++)
-            fEmitters[i] = NULL;
     } else if (tag->getName() == "Forces") {
         fForces.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -268,3 +275,134 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
+
+plKey plParticleSystem::getMaterial() const { return fMaterial; }
+unsigned int plParticleSystem::getXTiles() const { return fXTiles; }
+unsigned int plParticleSystem::getYTiles() const { return fYTiles; }
+hsVector3 plParticleSystem::getAccel() const { return fAccel; }
+float plParticleSystem::getPreSim() const { return fPreSim; }
+float plParticleSystem::getDrag() const { return fDrag; }
+float plParticleSystem::getWindMult() const { return fWindMult; }
+unsigned int plParticleSystem::getMaxTotalParticles() const { return fMaxTotalParticles; }
+plController* plParticleSystem::getAmbientCtl() const { return fAmbientCtl; }
+plController* plParticleSystem::getDiffuseCtl() const { return fDiffuseCtl; }
+plController* plParticleSystem::getOpacityCtl() const { return fOpacityCtl; }
+plController* plParticleSystem::getWidthCtl() const { return fWidthCtl; }
+plController* plParticleSystem::getHeightCtl() const { return fHeightCtl; }
+
+void plParticleSystem::setMaterial(plKey mat) { fMaterial = mat; }
+
+void plParticleSystem::setTiles(unsigned int xtiles, unsigned int ytiles) {
+    fXTiles = xtiles;
+    fYTiles = ytiles;
+}
+
+void plParticleSystem::setAccel(const hsVector3& accel) { fAccel = accel; }
+void plParticleSystem::setPreSim(float preSim) { fPreSim = preSim; }
+void plParticleSystem::setDrag(float drag) { fDrag = drag; }
+void plParticleSystem::setWindMult(float windMult) { fWindMult = windMult; }
+void plParticleSystem::setMaxTotalParticles(unsigned int max) { fMaxTotalParticles = max; }
+
+void plParticleSystem::setAmbientCtl(plController* ctl) {
+    if (fAmbientCtl != NULL)
+        delete fAmbientCtl;
+    fAmbientCtl = ctl;
+}
+
+void plParticleSystem::setDiffuseCtl(plController* ctl) {
+    if (fDiffuseCtl != NULL)
+        delete fDiffuseCtl;
+    fDiffuseCtl = ctl;
+}
+
+void plParticleSystem::setOpacityCtl(plController* ctl) {
+    if (fOpacityCtl != NULL)
+        delete fOpacityCtl;
+    fOpacityCtl = ctl;
+}
+
+void plParticleSystem::setWidthCtl(plController* ctl) {
+    if (fWidthCtl != NULL)
+        delete fWidthCtl;
+    fWidthCtl = ctl;
+}
+
+void plParticleSystem::setHeightCtl(plController* ctl) {
+    if (fHeightCtl != NULL)
+        delete fHeightCtl;
+    fHeightCtl = ctl;
+}
+
+unsigned int plParticleSystem::getNumValidEmitters() const { return fNumValidEmitters; }
+unsigned int plParticleSystem::getMaxEmitters() const { return fMaxEmitters; }
+
+void plParticleSystem::setMaxEmitters(unsigned int max) {
+    for (size_t i=max; i<fMaxEmitters; i++) {
+        // When max < fMaxEmitters
+        if (fEmitters[i] != NULL)
+            delete fEmitters[i];
+    }
+    fEmitters.setSize(max);
+    for (size_t i=fMaxEmitters; i<max; i++)
+        // When fMaxEmitters < max
+        fEmitters[i] = NULL;
+    fMaxEmitters = max;
+    if (fNumValidEmitters > fMaxEmitters)
+        fNumValidEmitters = fMaxEmitters;
+}
+
+plParticleEmitter* plParticleSystem::getEmitter(size_t idx) const {
+    return fEmitters[idx];
+}
+
+void plParticleSystem::addEmitter(plParticleEmitter* emitter) {
+    fNumValidEmitters++;
+    if (fNumValidEmitters > fMaxEmitters) {
+        fMaxEmitters = fNumValidEmitters;
+        fEmitters.setSize(fMaxEmitters);
+    }
+    fEmitters[fNumValidEmitters-1] = emitter;
+}
+
+void plParticleSystem::delEmitter(size_t idx) {
+    if (fEmitters[idx] != NULL)
+        delete fEmitters[idx];
+    for (size_t i=idx; i<fMaxEmitters-1; i++)
+        fEmitters[i] = fEmitters[i+1];
+    fEmitters[fMaxEmitters-1] = NULL;
+    fNumValidEmitters--;
+}
+
+void plParticleSystem::clearEmitters() {
+    for (size_t i=0; i<fEmitters.getSize(); i++) {
+        if (fEmitters[i] != NULL)
+            delete fEmitters[i];
+    }
+    fEmitters.clear();
+    fNumValidEmitters = 0;
+    fMaxEmitters = 0;
+}
+
+size_t plParticleSystem::getNumForces() const { return fForces.getSize(); }
+plKey plParticleSystem::getForce(size_t idx) const { return fForces[idx]; }
+void plParticleSystem::addForce(plKey force) { fForces.append(force); }
+void plParticleSystem::delForce(size_t idx) { fForces.remove(idx); }
+void plParticleSystem::clearForces() { fForces.clear(); }
+
+size_t plParticleSystem::getNumEffects() const { return fEffects.getSize(); }
+plKey plParticleSystem::getEffect(size_t idx) const { return fEffects[idx]; }
+void plParticleSystem::addEffect(plKey effect) { fEffects.append(effect); }
+void plParticleSystem::delEffect(size_t idx) { fEffects.remove(idx); }
+void plParticleSystem::clearEffects() { fEffects.clear(); }
+
+size_t plParticleSystem::getNumConstraints() const { return fConstraints.getSize(); }
+plKey plParticleSystem::getConstraint(size_t idx) const { return fConstraints[idx]; }
+void plParticleSystem::addConstraint(plKey constraint) { fConstraints.append(constraint); }
+void plParticleSystem::delConstraint(size_t idx) { fConstraints.remove(idx); }
+void plParticleSystem::clearConstraints() { fConstraints.clear(); }
+
+size_t plParticleSystem::getNumPermaLights() const { return fPermaLights.getSize(); }
+plKey plParticleSystem::getPermaLight(size_t idx) const { return fPermaLights[idx]; }
+void plParticleSystem::addPermaLight(plKey light) { fPermaLights.append(light); }
+void plParticleSystem::delPermaLight(size_t idx) { fPermaLights.remove(idx); }
+void plParticleSystem::clearPermaLights() { fPermaLights.clear(); }

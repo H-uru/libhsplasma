@@ -9,10 +9,7 @@ public:
     enum Types { kText, kPicture, kTreeRoot };
 
 protected:
-    bool fSelected, fCollapsed;
-    unsigned char fType, fIndentLevel;
-    pfGUIColorScheme* fColors;
-    pfGUISkin* fSkin;
+    bool fSelected;
 
 public:
     pfGUIListElement();

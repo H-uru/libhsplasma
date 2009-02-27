@@ -1,6 +1,6 @@
 #include "plPhysicalSndGroup.h"
 
-plPhysicalSndGroup::plPhysicalSndGroup() : fGroup(kNone), fCurrSlideSnd(0) { }
+plPhysicalSndGroup::plPhysicalSndGroup() : fGroup(kNone) { }
 plPhysicalSndGroup::~plPhysicalSndGroup() { }
 
 IMPLEMENT_CREATABLE(plPhysicalSndGroup, kPhysicalSndGroup, hsKeyedObject)

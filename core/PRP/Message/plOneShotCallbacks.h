@@ -12,6 +12,8 @@ public:
         plString fMarker;
         plKey fReceiver;
         short fUser;
+
+        plOneShotCallback();
     };
 
 protected:

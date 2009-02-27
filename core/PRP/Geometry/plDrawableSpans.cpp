@@ -52,7 +52,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
         fIcicles[i].read(S);
 
     if (S->readInt() != 0)
-        throw hsBadParamException(__FILE__, __LINE__, "Unsupported field count is > 0");
+        throw hsBadParamException(__FILE__, __LINE__, "Unsupported field count > 0");
 
     fSpans.setSizeNull(S->readInt());
     fSpanSourceIndices.setSizeNull(fSpans.getSize());
@@ -90,7 +90,9 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
         }
     }
 
-    fSourceSpans.setSize(S->readInt());
+    for (size_t i=0; i<fSourceSpans.getSize(); i++)
+        delete fSourceSpans[i];
+    fSourceSpans.setSizeNull(S->readInt());
     if (fSourceSpans.getSize() > 0)
         plDebug::Debug("Reading deprecated SourceSpans");
     for (size_t i=0; i<fSourceSpans.getSize(); i++) {
@@ -123,26 +125,19 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
             fDIIndices[i].fIndices[j] = S->readInt();
     }
 
-    fGroups.setSize(S->readInt());
+    for (size_t i=0; i<fGroups.getSize(); i++)
+        delete fGroups[i];
+    fGroups.setSizeNull(S->readInt());
     for (size_t i=0; i<fGroups.getSize(); i++) {
         fGroups[i] = new plGBufferGroup(0);
         fGroups[i]->read(S);
     }
-
-    /*
-    if (fProps & kPropSortFaces) {
-        for (i=0; i<fSpans.getSize(); i++)
-            IMakeSpanSortable(i);
-    }
-    */
 
     setSpaceTree(plSpaceTree::Convert(mgr->ReadCreatable(S)));
     fSceneNode = mgr->readKey(S);
 }
 
 void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
-    //if (needCleanup)
-    //    IRemoveGarbage();
     hsKeyedObject::write(S, mgr);
 
     S->writeInt(fProps);
@@ -428,7 +423,9 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "SourceSpans") {
-        fSourceSpans.setSize(tag->countChildren());
+        for (size_t i=0; i<fSourceSpans.getSize(); i++)
+            delete fSourceSpans[i];
+        fSourceSpans.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fSourceSpans.getSize(); i++) {
             fSourceSpans[i] = new plGeometrySpan();
@@ -489,7 +486,9 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "BufferGroups") {
-        fGroups.setSize(tag->countChildren());
+        for (size_t i=0; i<fGroups.getSize(); i++)
+            delete fGroups[i];
+        fGroups.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fGroups.getSize(); i++) {
             fGroups[i] = new plGBufferGroup(0);

@@ -4,11 +4,6 @@
 #include "PRP/Modifier/plModifier.h"
 
 DllClass plBlower : public plSingleModifier {
-public:
-    DllStruct Oscillator {
-        float fFrequency, fPhase, fPower;
-    };
-
 protected:
     float fMasterPower, fDirectRate, fImpulseRate, fSpringKonst;
 

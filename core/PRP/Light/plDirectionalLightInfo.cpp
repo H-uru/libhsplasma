@@ -1,14 +1,16 @@
 #include "plDirectionalLightInfo.h"
 
-// plDirectionalLightInfo //
+/* plDirectionalLightInfo */
 plDirectionalLightInfo::plDirectionalLightInfo() { }
 plDirectionalLightInfo::~plDirectionalLightInfo() { }
 
 IMPLEMENT_CREATABLE(plDirectionalLightInfo, kDirectionalLightInfo, plLightInfo)
 
 
-// plLimitedDirLightInfo //
-plLimitedDirLightInfo::plLimitedDirLightInfo() { }
+/* plLimitedDirLightInfo */
+plLimitedDirLightInfo::plLimitedDirLightInfo()
+                     : fWidth(0.0f), fHeight(0.0f), fDepth(0.0f) { }
+
 plLimitedDirLightInfo::~plLimitedDirLightInfo() { }
 
 IMPLEMENT_CREATABLE(plLimitedDirLightInfo, kLimitedDirLightInfo,
