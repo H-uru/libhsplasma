@@ -167,7 +167,7 @@ int main(int argc, char** argv) {
         if (eType == plEncryptedStream::kEncNone || !plEncryptedStream::IsFileEncrypted(pakfile)) {
             IS = new hsFileStream();
             if (!((hsFileStream*)IS)->open(pakfile, fmRead)) {
-                plDebug::Error("Cannot open file %s\n", pakfile.cstr());
+                plDebug::Error("Cannot open file %s", pakfile.cstr());
                 return 1;
             }
             eType = plEncryptedStream::kEncNone;
@@ -175,7 +175,7 @@ int main(int argc, char** argv) {
             IS = new hsRAMStream();
             plEncryptedStream ES;
             if (!ES.open(pakfile, fmRead, eType)) {
-                plDebug::Error("Cannot open file %s\n", pakfile.cstr());
+                plDebug::Error("Cannot open file %s", pakfile.cstr());
                 return 1;
             }
             size_t datLen = ES.size();
@@ -196,6 +196,10 @@ int main(int argc, char** argv) {
         for (size_t i=0; i<oldObjCount; i++) {
             IS->seek(pakObjects[i].fOffset);
             pakObjects[i].fSize = IS->readInt();
+            if (IS->pos() + pakObjects[i].fSize > IS->size()) {
+                plDebug::Warning("Warning: Truncating last entry");
+                pakObjects[i].fSize = IS->size() - IS->pos();
+            }
             pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset -= oldBase;
@@ -278,6 +282,10 @@ int main(int argc, char** argv) {
         for (size_t i=0; i<pakObjects.getSize(); i++) {
             IS->seek(pakObjects[i].fOffset);
             pakObjects[i].fSize = IS->readInt();
+            if (IS->pos() + pakObjects[i].fSize > IS->size()) {
+                plDebug::Warning("Warning: Truncating last entry");
+                pakObjects[i].fSize = IS->size() - IS->pos();
+            }
             pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
 
