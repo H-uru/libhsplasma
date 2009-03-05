@@ -14,10 +14,10 @@ public:
     DllClass Bit {
     protected:
         hsBitVector* fVector;
-        size_t fOffset;
+        unsigned int fOffset;
 
     public:
-        Bit(hsBitVector* vec, size_t off);
+        Bit(hsBitVector* vec, unsigned int off);
         operator bool() const;
         bool operator!() const;
         bool operator==(bool value) const;
@@ -27,28 +27,28 @@ public:
 private:
     hsUint32* fBits;
     size_t fNumVectors;
-    std::map<size_t, char*> fBitNames;
+    std::map<unsigned int, char*> fBitNames;
 
 public:
     hsBitVector();
     hsBitVector(const hsBitVector& init);
     ~hsBitVector();
 
-    bool get(size_t idx) const;
-    void set(size_t idx, bool b);
-    bool operator[](size_t idx) const;
-    Bit operator[](size_t idx);
+    bool get(unsigned int idx) const;
+    void set(unsigned int idx, bool b);
+    bool operator[](unsigned int idx) const;
+    Bit operator[](unsigned int idx);
     hsBitVector& operator=(const hsBitVector& cpy);
 
     bool isEmpty() const;
     void clear();
-    void setBit(size_t idx);
-    void clearBit(size_t idx);
+    void setBit(unsigned int idx);
+    void clearBit(unsigned int idx);
     void compact();
 
-    const char* getName(size_t idx);
-    size_t getValue(const char* name);
-    void setName(size_t idx, const char* name);
+    const char* getName(unsigned int idx);
+    unsigned int getValue(const char* name);
+    void setName(unsigned int idx, const char* name);
 
     void read(hsStream* S);
     void write(hsStream* S);

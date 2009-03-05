@@ -9,7 +9,7 @@ public:
 
 private:
     unsigned char LBuffer[16]; // Uru modes use only the first 8 bytes
-    size_t dataSize, dataPos;
+    unsigned int dataSize, dataPos;
     unsigned int eKey[4];
     EncryptionType eType;
 

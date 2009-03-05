@@ -2,7 +2,7 @@
 #include <cstring>
 
 /* hsBitVector::Bit */
-hsBitVector::Bit::Bit(hsBitVector* vec, size_t off)
+hsBitVector::Bit::Bit(hsBitVector* vec, unsigned int off)
            : fVector(vec), fOffset(off) { }
 
 hsBitVector::Bit::operator bool() const { return fVector->get(fOffset); }
@@ -28,19 +28,20 @@ hsBitVector::hsBitVector(const hsBitVector& init)
 }
 
 hsBitVector::~hsBitVector() {
-    if (fBits) delete[] fBits;
+    if (fBits != NULL)
+        delete[] fBits;
 
-    std::map<size_t, char*>::iterator it;
+    std::map<unsigned int, char*>::iterator it;
     for (it = fBitNames.begin(); it != fBitNames.end(); it++)
         free(it->second);
 }
 
-bool hsBitVector::get(size_t idx) const {
+bool hsBitVector::get(unsigned int idx) const {
     if ((idx / BVMULT) >= fNumVectors) return false;
     return (fBits[idx / BVMULT] & (1 << (idx & BVMASK))) != 0;
 }
 
-void hsBitVector::set(size_t idx, bool b) {
+void hsBitVector::set(unsigned int idx, bool b) {
     if ((idx / BVMULT) >= fNumVectors) {
         size_t oldNumVectors = fNumVectors;
         fNumVectors = (idx / BVMULT) + 1;
@@ -60,11 +61,11 @@ void hsBitVector::set(size_t idx, bool b) {
     else   fBits[idx / BVMULT] &= ~(1 << (idx & BVMASK));
 }
 
-bool hsBitVector::operator[](size_t idx) const {
+bool hsBitVector::operator[](unsigned int idx) const {
     return get(idx);
 }
 
-hsBitVector::Bit hsBitVector::operator[](size_t idx) {
+hsBitVector::Bit hsBitVector::operator[](unsigned int idx) {
     return hsBitVector::Bit(this, idx);
 }
 
@@ -86,11 +87,11 @@ void hsBitVector::clear() {
     fNumVectors = 0;
 }
 
-void hsBitVector::setBit(size_t idx) {
+void hsBitVector::setBit(unsigned int idx) {
     set(idx, true);
 }
 
-void hsBitVector::clearBit(size_t idx) {
+void hsBitVector::clearBit(unsigned int idx) {
     set(idx, false);
 }
 
@@ -111,7 +112,7 @@ void hsBitVector::compact() {
     }
 }
 
-const char* hsBitVector::getName(size_t idx) {
+const char* hsBitVector::getName(unsigned int idx) {
     static char tempName[11];
     if (fBitNames.count(idx) > 0) {
         return fBitNames[idx];
@@ -121,16 +122,16 @@ const char* hsBitVector::getName(size_t idx) {
     }
 }
 
-size_t hsBitVector::getValue(const char* name) {
-    std::map<size_t, char*>::iterator i;
+unsigned int hsBitVector::getValue(const char* name) {
+    std::map<unsigned int, char*>::iterator i;
     for (i = fBitNames.begin(); i != fBitNames.end(); i++) {
         if (strcmp(i->second, name) == 0)
             return i->first;
     }
-    return (size_t)plString(name).toUint();
+    return (unsigned int)plString(name).toUint();
 }
 
-void hsBitVector::setName(size_t idx, const char* name) {
+void hsBitVector::setName(unsigned int idx, const char* name) {
     fBitNames[idx] = strdup(name);
 }
 
@@ -153,7 +154,7 @@ void hsBitVector::write(hsStream* S) {
 void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsBitVector");
     for (size_t i=0; i<fNumVectors; i++) {
-        for (size_t j=0; j<BVMULT; j++) {
+        for (unsigned int j=0; j<BVMULT; j++) {
             if (get((i*BVMULT) + j)) {
                 prc->getStream()->writeStr(getName((i*BVMULT) + j));
                 prc->getStream()->writeStr(" ");
