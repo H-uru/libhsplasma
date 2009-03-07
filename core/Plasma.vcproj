@@ -1363,6 +1363,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Message\plPseudoLinkEffectMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plPseudoLinkEffectMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plResponderMsg.cpp"
 					>
 				</File>

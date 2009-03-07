@@ -171,6 +171,7 @@ PLSOBJ=\
 	$(OBJDIR)plMsgForwarder.o \
 	$(OBJDIR)plNotifyMsg.o \
 	$(OBJDIR)plOneShotCallbacks.o \
+	$(OBJDIR)plPseudoLinkEffectMsg.o \
 	$(OBJDIR)plResponderMsg.o \
 	$(OBJDIR)plSimulationMsg.o \
 	$(OBJDIR)plSoundMsg.o \
@@ -792,6 +793,9 @@ $(OBJDIR)plNotifyMsg.o: PRP/Message/plNotifyMsg.h PRP/Message/plNotifyMsg.cpp
 
 $(OBJDIR)plOneShotCallbacks.o: PRP/Message/plOneShotCallbacks.h PRP/Message/plOneShotCallbacks.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plOneShotCallbacks.cpp -o $@
+
+$(OBJDIR)plPseudoLinkEffectMsg.o: PRP/Message/plPseudoLinkEffectMsg.h PRP/Message/plPseudoLinkEffectMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plPseudoLinkEffectMsg.cpp -o $@
 
 $(OBJDIR)plResponderMsg.o: PRP/Message/plResponderMsg.h PRP/Message/plResponderMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plResponderMsg.cpp -o $@
