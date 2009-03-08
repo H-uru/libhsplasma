@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
             return 1;
         }
         filename = argv[2];
-    } else if (strcmp(strrchr(filename, '.'), ".prd") == 0) {
+    } else if (strrchr(filename, '.') && strcmp(strrchr(filename, '.'), ".prd") == 0) {
         direction = kCreate;
     }
 
