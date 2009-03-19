@@ -7,7 +7,6 @@
 void doHelp(const char* exename) {
     printf("Usage: %s infile [options]\n\n", exename);
     printf("Options:\n");
-    printf("\t-c       Compile a single creatable, instead of an entire page\n");
     printf("\t-o file  Write output to `file`\n");
     printf("\t-v ver   Select output version (prime, pots, live, eoa, hex)\n");
     printf("\t--help   Display this help and then exit\n\n");
