@@ -3,16 +3,17 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllStruct pfFlock {
-    float fGoalWeight, fRandomWeight;
-    float fSeparationWeight, fSeparationRadius;
-    float fCohesionWeight, fCohesionRadius;
-    float fMaxForce, fMaxSpeed, fMinSpeed;
-
-    pfFlock();
-};
-
 DllClass pfObjectFlocker : public plSingleModifier {
+public:
+    DllStruct pfFlock {
+        float fGoalWeight, fRandomWeight;
+        float fSeparationWeight, fSeparationRadius;
+        float fCohesionWeight, fCohesionRadius;
+        float fMaxForce, fMaxSpeed, fMinSpeed;
+
+        pfFlock();
+    };
+
 protected:
     unsigned char fNumBoids;
     bool fUseTargetRotation, fRandomizeAnimationStart;
@@ -30,6 +31,19 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned char getNumBoids() const;
+    bool getUseTargetRotation() const;
+    bool getRandomizeAnimationStart() const;
+    plKey getBoidKey() const;
+
+    void setNumBoids(unsigned char boids);
+    void setUseTargetRotation(bool use);
+    void setRandomizeAnimationStart(bool randomize);
+    void setBoidKey(plKey boidKey);
+
+    pfFlock& getFlock();
 };
 
 #endif

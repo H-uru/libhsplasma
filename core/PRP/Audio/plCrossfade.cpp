@@ -55,6 +55,20 @@ void plCrossfade::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+unsigned short plCrossfade::getFirstIdx() const { return fFirstIdx; }
+unsigned short plCrossfade::getSecondIdx() const { return fSecondIdx; }
+unsigned int plCrossfade::getStartType() const { return fStartType; }
+unsigned int plCrossfade::getEndType() const { return fEndType; }
+unsigned int plCrossfade::getFlags() const { return fFlags; }
+bool plCrossfade::isRegistered() const { return fRegistered; }
+
+void plCrossfade::setFirstIdx(unsigned short idx) { fFirstIdx = idx; }
+void plCrossfade::setSecondIdx(unsigned short idx) { fSecondIdx = idx; }
+void plCrossfade::setStartType(unsigned int type) { fStartType = type; }
+void plCrossfade::setEndType(unsigned int type) { fEndType = type; }
+void plCrossfade::setFlags(unsigned int flags) { fFlags = flags; }
+void plCrossfade::setRegistered(bool registered) { fRegistered = registered; }
+
 
 /* plCrossfadeMsg */
 IMPLEMENT_CREATABLE(plCrossfadeMsg, kCrossfadeMsg, plMessage)

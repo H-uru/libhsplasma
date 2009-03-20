@@ -31,6 +31,9 @@ void plWin32Sound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+unsigned char plWin32Sound::getChannel() const { return fChannelSelect; }
+void plWin32Sound::setChannel(unsigned char channel) { fChannelSelect = channel; }
+
 
 /* plWin32StreamingSound */
 IMPLEMENT_CREATABLE(plWin32StreamingSound, kWin32StreamingSound, plWin32Sound)

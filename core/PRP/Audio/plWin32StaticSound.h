@@ -21,6 +21,12 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
     virtual void IRead(hsStream* S, plResManager* mgr);
     virtual void IWrite(hsStream* S, plResManager* mgr);
+
+public:
+    size_t getNumVolumes() const;
+    unsigned int getPosition(size_t idx) const;
+    float getVolume(size_t idx) const;
+    void setVolumes(size_t count, unsigned int* positions, float* volumes);
 };
 
 DllClass plWin32LinkSound : public plWin32StaticSound {

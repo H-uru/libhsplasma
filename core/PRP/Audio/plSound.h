@@ -61,9 +61,6 @@ protected:
     plKey fSoftRegion, fSoftOcclusionRegion, fDataBuffer;
     plString fSubtitleId;
 
-    static bool fLoadOnDemandFlag;
-    static bool fLoadFromDiskOnDemandFlag;
-
 public:
     plSound();
     virtual ~plSound();
@@ -78,6 +75,45 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
     virtual void IRead(hsStream* S, plResManager* mgr);
     virtual void IWrite(hsStream* S, plResManager* mgr);
+
+public:
+    unsigned char getType() const;
+    unsigned char getPriority() const;
+    bool isPlaying() const;
+    double getTime() const;
+    int getMaxFalloff() const;
+    int getMinFalloff() const;
+    int getOuterVol() const;
+    int getInnerCone() const;
+    int getOuterCone() const;
+    float getCurrVolume() const;
+    float getDesiredVol() const;
+    float getFadedVolume() const;
+    unsigned int getProperties() const;
+    plKey getSoftRegion() const;
+    plKey getSoftOcclusionRegion() const;
+    plKey getDataBuffer() const;
+    plString getSubtitleId() const;
+
+    void setType(unsigned char type);
+    void setPriority(unsigned char priority);
+    void setPlaying(bool playing);
+    void setTime(double time);
+    void setFalloff(int min, int max);
+    void setOuterVol(int vol);
+    void setCone(int inner, int outer);
+    void setCurrVolume(float vol);
+    void setDesiredVol(float vol);
+    void setFadedVolume(float vol);
+    void setProperties(unsigned int props);
+    void setSoftRegion(plKey region);
+    void setSoftOcclusionRegion(plKey region);
+    void setDataBuffer(plKey buffer);
+    void setSubtitleId(const plString& subtitle);
+
+    plEAXSourceSettings& getEAXSettings();
+    plFadeParams& getFadeInParams();
+    plFadeParams& getFadeOutParams();
 };
 
 #endif

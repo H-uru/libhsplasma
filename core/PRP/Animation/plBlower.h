@@ -19,6 +19,17 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getMasterPower() const;
+    float getDirectRate() const;
+    float getImpulseRate() const;
+    float getSpringKonst() const;
+
+    void setMasterPower(float power);
+    void setDirectRate(float rate);
+    void setImpulseRate(float rate);
+    void setSpringKonst(float konst);
 };
 
 #endif

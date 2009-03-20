@@ -1,10 +1,11 @@
 #include "pfObjectFlocker.h"
 
-/* pfFlock */
-pfFlock::pfFlock()
-       : fGoalWeight(8.0f), fRandomWeight(12.0f), fSeparationWeight(12.0f),
-         fSeparationRadius(5.0f), fCohesionWeight(8.0f), fCohesionRadius(9.0f),
-         fMaxForce(10.0f), fMaxSpeed(5.0f), fMinSpeed(4.0f) { }
+/* pfObjectFlocker::pfFlock */
+pfObjectFlocker::pfFlock::pfFlock()
+               : fGoalWeight(8.0f), fRandomWeight(12.0f),
+                 fSeparationWeight(12.0f), fSeparationRadius(5.0f),
+                 fCohesionWeight(8.0f), fCohesionRadius(9.0f), fMaxForce(10.0f),
+                 fMaxSpeed(5.0f), fMinSpeed(4.0f) { }
 
 
 /* pfObjectFlocker */
@@ -104,3 +105,15 @@ void pfObjectFlocker::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
+
+unsigned char pfObjectFlocker::getNumBoids() const { return fNumBoids; }
+bool pfObjectFlocker::getUseTargetRotation() const { return fUseTargetRotation; }
+bool pfObjectFlocker::getRandomizeAnimationStart() const { return fRandomizeAnimationStart; }
+plKey pfObjectFlocker::getBoidKey() const { return fBoidKey; }
+
+void pfObjectFlocker::setNumBoids(unsigned char boids) { fNumBoids = boids; }
+void pfObjectFlocker::setUseTargetRotation(bool use) { fUseTargetRotation = use; }
+void pfObjectFlocker::setRandomizeAnimationStart(bool randomize) { fRandomizeAnimationStart = randomize; }
+void pfObjectFlocker::setBoidKey(plKey boidKey) { fBoidKey = boidKey; }
+
+pfObjectFlocker::pfFlock& pfObjectFlocker::getFlock() { return fFlock; }

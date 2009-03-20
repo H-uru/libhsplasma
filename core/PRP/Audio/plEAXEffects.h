@@ -10,24 +10,27 @@ protected:
     float fOcclusionLFRatio, fOcclusionRoomRatio, fOcclusionDirectRatio;
 
 public:
-    void Reset();
+    plEAXSourceSoftSettings();
+    void reset();
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+public:
+    short getOcclusion() const;
+    float getLFRatio() const;
+    float getRoomRatio() const;
+    float getDirectRatio() const;
+
+    void setOcclusion(short occlusion);
+    void setLFRatio(float ratio);
+    void setRoomRatio(float ratio);
+    void setDirectRatio(float ratio);
 };
 
 DllClass plEAXSourceSettings {
-public:
-    enum ParamSets {
-        kOcclusion = 0x1,
-        kRoom = 0x2,
-        kOutsideVolHF = 0x4,
-        kFactors = 0x8,
-        kAll = 0xFF
-    };
-
 protected:
     short fRoom, fRoomHF;
     bool fEnabled, fRoomAuto, fRoomHFAuto;
@@ -36,20 +39,43 @@ protected:
     float fDopplerFactor, fRolloffFactor;
     plEAXSourceSoftSettings fSoftStarts, fSoftEnds;
     float fOcclusionSoftValue;
-    unsigned long fDirtyParams;
 
 public:
     plEAXSourceSettings();
 
-    void Enable(bool en);
+    void enable(bool en);
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-protected:
-    void IRecalcSofts(unsigned char which);
+public:
+    bool isEnabled() const;
+    short getRoom() const;
+    short getRoomHF() const;
+    bool getRoomAuto() const;
+    bool getRoomHFAuto() const;
+    short getOutsideVolHF() const;
+    float getAirAbsorptionFactor() const;
+    float getRoomRolloffFactor() const;
+    float getDopplerFactor() const;
+    float getRolloffFactor() const;
+    float getOcclusionSoftValue() const;
+
+    void setRoom(short room);
+    void setRoomHF(short room);
+    void setRoomAuto(bool aut);
+    void setRoomHFAuto(bool aut);
+    void setOutsideVolHF(short vol);
+    void setAirAbsorptionFactor(float factor);
+    void setRoomRolloffFactor(float factor);
+    void setDopplerFactor(float factor);
+    void setRolloffFactor(float factor);
+    void setOcclusionSoftValue(float value);
+
+    plEAXSourceSoftSettings& getSoftStarts();
+    plEAXSourceSoftSettings& getSoftEnds();
 };
 
 #endif

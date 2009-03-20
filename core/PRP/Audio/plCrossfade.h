@@ -21,6 +21,21 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned short getFirstIdx() const;
+    unsigned short getSecondIdx() const;
+    unsigned int getStartType() const;
+    unsigned int getEndType() const;
+    unsigned int getFlags() const;
+    bool isRegistered() const;
+
+    void setFirstIdx(unsigned short idx);
+    void setSecondIdx(unsigned short idx);
+    void setStartType(unsigned int type);
+    void setEndType(unsigned int type);
+    void setFlags(unsigned int flags);
+    void setRegistered(bool registered);
 };
 
 DllClass plCrossfadeMsg : public plMessage {

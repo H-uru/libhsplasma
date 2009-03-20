@@ -3,7 +3,7 @@
 /* plSound::plFadeParams */
 plSound::plFadeParams::plFadeParams()
        : fLengthInSecs(0), fVolStart(0.0f), fVolEnd(0.0f), fType(kLinear),
-         fStopWhenDone(0), fFadeSoftVol(0), fCurrTime(0.0f) { }
+         fStopWhenDone(false), fFadeSoftVol(false), fCurrTime(0.0f) { }
 
 void plSound::plFadeParams::read(hsStream* S) {
     fLengthInSecs = S->readFloat();
@@ -52,9 +52,6 @@ void plSound::plFadeParams::prcParse(const pfPrcTag* tag) {
 
 
 /* plSound */
-bool plSound::fLoadOnDemandFlag = true;
-bool plSound::fLoadFromDiskOnDemandFlag = true;
-
 plSound::plSound()
        : fType(kStartType), fPriority(0), fPlaying(false), fTime(0.0f),
          fMaxFalloff(0), fMinFalloff(0), fOuterVol(0), fInnerCone(360),
@@ -221,3 +218,41 @@ void plSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
+
+unsigned char plSound::getType() const { return fType; }
+unsigned char plSound::getPriority() const { return fPriority; }
+bool plSound::isPlaying() const { return fPlaying; }
+double plSound::getTime() const { return fTime; }
+int plSound::getMaxFalloff() const { return fMaxFalloff; }
+int plSound::getMinFalloff() const { return fMinFalloff; }
+int plSound::getOuterVol() const { return fOuterVol; }
+int plSound::getInnerCone() const { return fInnerCone; }
+int plSound::getOuterCone() const { return fOuterCone; }
+float plSound::getCurrVolume() const { return fCurrVolume; }
+float plSound::getDesiredVol() const { return fDesiredVol; }
+float plSound::getFadedVolume() const { return fFadedVolume; }
+unsigned int plSound::getProperties() const { return fProperties; }
+plKey plSound::getSoftRegion() const { return fSoftRegion; }
+plKey plSound::getSoftOcclusionRegion() const { return fSoftOcclusionRegion; }
+plKey plSound::getDataBuffer() const { return fDataBuffer; }
+plString plSound::getSubtitleId() const { return fSubtitleId; }
+
+void plSound::setType(unsigned char type) { fType = type; }
+void plSound::setPriority(unsigned char priority) { fPriority = priority; }
+void plSound::setPlaying(bool playing) { fPlaying = playing; }
+void plSound::setTime(double time) { fTime = time; }
+void plSound::setFalloff(int min, int max) { fMinFalloff = min; fMaxFalloff = max; }
+void plSound::setOuterVol(int vol) { fOuterVol = vol; }
+void plSound::setCone(int inner, int outer) { fInnerCone = inner; fOuterCone = outer; }
+void plSound::setCurrVolume(float vol) { fCurrVolume = vol; }
+void plSound::setDesiredVol(float vol) { fDesiredVol = vol; }
+void plSound::setFadedVolume(float vol) { fFadedVolume = vol; }
+void plSound::setProperties(unsigned int props) { fProperties = props; }
+void plSound::setSoftRegion(plKey region) { fSoftRegion = region; }
+void plSound::setSoftOcclusionRegion(plKey region) { fSoftOcclusionRegion = region; }
+void plSound::setDataBuffer(plKey buffer) { fDataBuffer = buffer; }
+void plSound::setSubtitleId(const plString& subtitle) { fSubtitleId = subtitle; }
+
+plEAXSourceSettings& plSound::getEAXSettings() { return fEAXSettings; }
+plSound::plFadeParams& plSound::getFadeInParams() { return fFadeInParams; }
+plSound::plFadeParams& plSound::getFadeOutParams() { return fFadeOutParams; }

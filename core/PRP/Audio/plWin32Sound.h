@@ -21,6 +21,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
     virtual void IRead(hsStream* S, plResManager* mgr);
     virtual void IWrite(hsStream* S, plResManager* mgr);
+
+public:
+    unsigned char getChannel() const;
+    void setChannel(unsigned char channel);
 };
 
 DllClass plWin32StreamingSound : public plWin32Sound {
