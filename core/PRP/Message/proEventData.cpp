@@ -40,7 +40,7 @@ proEventData* proEventData::ICreateEventDataType(int type) {
 
 proEventData* proEventData::ICreateEventDataType(const char* typeName) {
     int type = -1;
-    for (int i=0; i<=kNone; i++) {
+    for (int i=0; i<kNone; i++) {
         if (strcmp(typeName, fEventNames[i]) == 0)
            type = i;
     }
