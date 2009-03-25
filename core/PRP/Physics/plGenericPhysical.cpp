@@ -44,7 +44,7 @@ void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
 
 void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
-    
+
     if (S->getVer() >= pvEoa)
         IWriteODEPhysical(S, mgr);
     else if (S->getVer() == pvLive)
@@ -98,7 +98,7 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Bounds");
     prc->writeParam("Type", plSimDefs::BoundsNames[fBounds]);
     prc->endTag();
-    
+
     if (fBounds == plSimDefs::kSphereBounds) {
         prc->startTag("SphereBounds");
         prc->writeParam("Radius", fRadius);
@@ -106,6 +106,7 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
         fOffset.prcWrite(prc);
         prc->closeTag();
     } else if (fBounds == plSimDefs::kBoxBounds) {
+        // ODE/PhysX format
         prc->writeSimpleTag("BoxBounds");
         prc->writeSimpleTag("Dimensions");
         fDimensions.prcWrite(prc);
@@ -113,6 +114,23 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Offset");
         fOffset.prcWrite(prc);
         prc->closeTag();
+        prc->closeTag();
+
+        // Havok format
+        prc->writeSimpleTag("Verts");
+        for (size_t i=0; i<fVerts.getSize(); i++)
+            fVerts[i].prcWrite(prc);
+        prc->closeTag();
+
+        prc->writeSimpleTag("Faces");
+        for (size_t i=0; i<fIndices.getSize(); i += 3) {
+            prc->writeTagNoBreak("Triangle");
+            prc->getStream()->writeStr(plString::Format("%d %d %d",
+                                    fIndices[i+0],
+                                    fIndices[i+1],
+                                    fIndices[i+2]));
+            prc->closeTagNoBreak();
+        }
         prc->closeTag();
     } else if (fBounds == plSimDefs::kCylinderBounds) {
         prc->startTag("CylinderBounds");
@@ -135,7 +153,7 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
             prc->closeTagNoBreak();
         }
         prc->closeTag();
-        
+
         if (fTMDBuffer != NULL) {
             prc->writeSimpleTag("TriMeshDataBuffer");
             for (size_t i=0; i<fTMDSize; i++) {
@@ -161,7 +179,7 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fUnk2 = tag->getParam("Unknown2", "0").toUint();
         fHKBool1 = tag->getParam("HKBool1", "false").toBool();
         fHKBool2 = tag->getParam("HKBool2", "false").toBool();
-        
+
         plString group = tag->getParam("Group", "kGroupStatic");
         for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
             if (group == plSimDefs::GroupNames[i])
@@ -269,7 +287,7 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     hsVector3 axis;
     axis.read(S);
     fRot = hsQuat(axis.X, axis.Y, axis.Z, rad);
-    
+
     fMass = S->readFloat();
     fFriction = S->readFloat();
     fRestitution = S->readFloat();
@@ -405,7 +423,7 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
         for (size_t i=0; i<fVerts.getSize(); i++)
             fVerts[i].read(S);
         S->readInt();
-        
+
         for (size_t i=0; i<fIndices.getSize(); i += 3) {
             if (fVerts.getSize() < 256) {
                 fIndices[i+0] = S->readByte();
@@ -440,7 +458,7 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
 
         for (size_t i=0; i<fVerts.getSize(); i++)
             fVerts[i].read(S);
-        
+
         for (size_t i=0; i<fIndices.getSize(); i += 3) {
             if (fVerts.getSize() < 256) {
                 fIndices[i+0] = S->readByte();
@@ -478,7 +496,7 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
     S->writeFloat(fRot.X);
     S->writeFloat(fRot.Y);
     S->writeFloat(fRot.Z);
-    
+
     S->writeFloat(fMass);
     S->writeFloat(fFriction);
     S->writeFloat(fRestitution);
@@ -515,7 +533,7 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
 
 void plGenericPhysical::IWriteODEPhysical(hsStream* S, plResManager* mgr) {
     S->writeInt(fBounds);
-    
+
     if (fBounds == plSimDefs::kExplicitBounds) {
         S->writeInt(fVerts.getSize());
         for (size_t i=0; i<fVerts.getSize(); i++)
