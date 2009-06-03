@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;."
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;PYPLASMA_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -118,7 +118,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)core&quot;;."
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PYPLASMA_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -1348,6 +1348,10 @@
 		</Filter>
 		<File
 			RelativePath=".\Module.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\PyPlasma.h"
 			>
 		</File>
 	</Files>
