@@ -1,11 +1,11 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Light/plLightInfo.h>
 #include "pyLightInfo.h"
-#include "../Object/pyObjInterface.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
-#include "../../Sys/pyColor.h"
-#include "../../Math/pyMatrix.h"
+#include "PRP/Object/pyObjInterface.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
+#include "Sys/pyColor.h"
+#include "Math/pyMatrix.h"
 
 extern "C" {
 
@@ -221,8 +221,7 @@ static PyGetSetDef pyLightInfo_GetSet[] = {
 };
 
 PyTypeObject pyLightInfo_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLightInfo",             /* tp_name */
     sizeof(pyLightInfo),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

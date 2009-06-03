@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -39,8 +39,7 @@ static PyGetSetDef pyG3DSMaxKeyFrame_GetSet[] = {
 };
 
 PyTypeObject pyG3DSMaxKeyFrame_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsG3DSMaxKeyFrame",       /* tp_name */
     sizeof(pyG3DSMaxKeyFrame),          /* tp_basicsize */
     0,                                  /* tp_itemsize */

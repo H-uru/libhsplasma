@@ -1,11 +1,11 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plClusterGroup.h>
 #include "pyClusterGroup.h"
 #include "pyCluster.h"
 #include "pySpanTemplate.h"
-#include "../KeyedObject/pyKeyedObject.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -290,10 +290,9 @@ static PyGetSetDef pyClusterGroup_GetSet[] = {
 };
 
 PyTypeObject pyClusterGroup_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plClusterGroup",          /* tp_name */
-    sizeof(pyClusterGroup),               /* tp_basicsize */
+    sizeof(pyClusterGroup),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

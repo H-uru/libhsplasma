@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plSpanInstance.h>
 #include "pySpanInstance.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pySpanEncoding_dealloc(pySpanEncoding* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pySpanEncoding___init__(pySpanEncoding* self, PyObject* args, PyObject* kwds) {
@@ -99,8 +99,7 @@ static PyGetSetDef pySpanEncoding_GetSet[] = {
 };
 
 PyTypeObject pySpanEncoding_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSpanEncoding",          /* tp_name */
     sizeof(pySpanEncoding),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

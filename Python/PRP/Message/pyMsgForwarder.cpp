@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/plMsgForwarder.h>
 #include "pyMsgForwarder.h"
-#include "../KeyedObject/pyKeyedObject.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -93,8 +93,7 @@ static PyGetSetDef pyMsgForwarder_GetSet[] = {
 };
 
 PyTypeObject pyMsgForwarder_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plMsgForwarder",          /* tp_name */
     sizeof(pyMsgForwarder),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

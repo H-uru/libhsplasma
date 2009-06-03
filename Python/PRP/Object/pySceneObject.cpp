@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Object/plSceneObject.h>
 #include "pySceneObject.h"
 #include "pySynchedObject.h"
-#include "../pyCreatable.h"
-#include "../KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
@@ -243,8 +243,7 @@ PyGetSetDef pySceneObject_GetSet[] = {
 };
 
 PyTypeObject pySceneObject_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSceneObject",           /* tp_name */
     sizeof(pySceneObject),              /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Physics/plPhysical.h>
 #include "pyPhysical.h"
-#include "../Object/pySynchedObject.h"
-#include "../pyCreatable.h"
+#include "PRP/Object/pySynchedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -31,8 +31,7 @@ static PyMethodDef pyPhysical_Methods[] = {
 };
 
 PyTypeObject pyPhysical_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plPhysical",              /* tp_name */
     sizeof(pyPhysical),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

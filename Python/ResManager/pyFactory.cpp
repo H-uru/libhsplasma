@@ -1,6 +1,6 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <ResManager/plFactory.h>
-#include "../PRP/pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -89,8 +89,7 @@ static PyMethodDef pyFactory_Methods[] = {
 };
 
 PyTypeObject pyFactory_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plFactory",               /* tp_name */
     0,                                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/hsGMaterial.h>
 #include "pyGMaterial.h"
-#include "../KeyedObject/pyKey.h"
-#include "../Object/pySynchedObject.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/Object/pySynchedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -174,8 +174,7 @@ static PyGetSetDef pyGMaterial_GetSet[] = {
 };
 
 PyTypeObject pyGMaterial_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsGMaterial",             /* tp_name */
     sizeof(pyGMaterial),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

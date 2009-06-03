@@ -1,10 +1,10 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Object/plObjInterface.h>
 #include "pyObjInterface.h"
 #include "pySynchedObject.h"
-#include "../pyCreatable.h"
-#include "../KeyedObject/pyKey.h"
-#include "../../Util/pyBitVector.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "Util/pyBitVector.h"
 
 extern "C" {
 
@@ -67,8 +67,7 @@ PyGetSetDef pyObjInterface_GetSet[] = {
 };
 
 PyTypeObject pyObjInterface_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plObjInterface",          /* tp_name */
     sizeof(pyObjInterface),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

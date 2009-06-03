@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Util/hsBitVector.h>
 #include "pyBitVector.h"
-#include "../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyBitVector_dealloc(pyBitVector* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyBitVector___init__(pyBitVector* self, PyObject* args, PyObject* kwds) {
@@ -30,7 +30,7 @@ static PyObject* pyBitVector_new(PyTypeObject* type, PyObject* args, PyObject* k
 static PyObject* pyBitVector_Subscript(pyBitVector* self, PyObject* key) {
     if (PyString_Check(key)) {
         Py_INCREF(key);
-        char* name = PyString_AsString(key);
+        const char* name = PyString_AsString(key);
         int idx = (int)self->fThis->getValue(name);
         Py_DECREF(key);
         bool v = self->fThis->get(idx);
@@ -54,7 +54,7 @@ static int pyBitVector_AssSubscript(pyBitVector* self, PyObject* key, PyObject* 
 
     if (PyString_Check(key)) {
         Py_INCREF(key);
-        char* name = PyString_AsString(key);
+        const char* name = PyString_AsString(key);
         int idx = (int)self->fThis->getValue(name);
         Py_DECREF(key);
         self->fThis->set(idx, b);
@@ -178,8 +178,7 @@ static PyMethodDef pyBitVector_Methods[] = {
 };
 
 PyTypeObject pyBitVector_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsBitVector",             /* tp_name */
     sizeof(pyBitVector),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

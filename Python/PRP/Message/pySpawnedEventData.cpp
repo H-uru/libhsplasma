@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
-#include "../KeyedObject/pyKey.h"
+#include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
@@ -74,8 +74,7 @@ static PyGetSetDef pySpawnedEventData_GetSet[] = {
 };
 
 PyTypeObject pySpawnedEventData_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.proSpawnedEventData",     /* tp_name */
     sizeof(pySpawnedEventData),         /* tp_basicsize */
     0,                                  /* tp_itemsize */

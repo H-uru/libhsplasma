@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plDrawableSpans.h>
 #include "pyDrawableSpans.h"
 
@@ -6,7 +6,7 @@ extern "C" {
 
 static void pyDISpanIndex_dealloc(pyDISpanIndex* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyDISpanIndex___init__(pyDISpanIndex* self, PyObject* args, PyObject* kwds) {
@@ -70,8 +70,7 @@ static PyGetSetDef pyDISpanIndex_GetSet[] = {
 };
 
 PyTypeObject pyDISpanIndex_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plDISpanIndex",           /* tp_name */
     sizeof(pyDISpanIndex),              /* tp_basicsize */
     0,                                  /* tp_itemsize */

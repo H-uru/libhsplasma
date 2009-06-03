@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGApplicator.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,10 +34,9 @@ static PyMethodDef pyScalarChannelApplicator_Methods[] = {
 };
 
 PyTypeObject pyScalarChannelApplicator_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plScalarChannelApplicator", /* tp_name */
-    sizeof(pyScalarChannelApplicator),   /* tp_basicsize */
+    sizeof(pyScalarChannelApplicator),  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

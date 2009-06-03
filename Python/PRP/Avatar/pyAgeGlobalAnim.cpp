@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plAGAnim.h>
 #include "pyAGAnim.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -52,8 +52,7 @@ static PyGetSetDef pyAgeGlobalAnim_GetSet[] = {
 };
 
 PyTypeObject pyAgeGlobalAnim_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plAgeGlobalAnim",         /* tp_name */
     sizeof(pyAgeGlobalAnim),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

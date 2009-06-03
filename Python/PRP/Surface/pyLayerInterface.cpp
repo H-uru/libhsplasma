@@ -1,12 +1,12 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plLayer.h>
 #include "pyGMatState.h"
 #include "pyLayer.h"
-#include "../pyCreatable.h"
-#include "../KeyedObject/pyKey.h"
-#include "../Object/pySynchedObject.h"
-#include "../../Math/pyMatrix.h"
-#include "../../Sys/pyColor.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/Object/pySynchedObject.h"
+#include "Math/pyMatrix.h"
+#include "Sys/pyColor.h"
 
 extern "C" {
 
@@ -270,8 +270,7 @@ static PyGetSetDef pyLayerInterface_GetSet[] = {
 };
 
 PyTypeObject pyLayerInterface_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLayerInterface",        /* tp_name */
     sizeof(pyLayerInterface),           /* tp_basicsize */
     0,                                  /* tp_itemsize */

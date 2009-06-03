@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,10 +34,9 @@ static PyMethodDef pyScalarSDLChannel_Methods[] = {
 };
 
 PyTypeObject pyScalarSDLChannel_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.plScalarSDLChannel",           /* tp_name */
-    sizeof(pyScalarSDLChannel),              /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.plScalarSDLChannel",      /* tp_name */
+    sizeof(pyScalarSDLChannel),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

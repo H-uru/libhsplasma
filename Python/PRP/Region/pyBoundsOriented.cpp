@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Region/hsBounds.h>
 #include "pyBounds.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -75,10 +75,9 @@ static PyGetSetDef pyBoundsOriented_GetSet[] = {
 };
 
 PyTypeObject pyBoundsOriented_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.hsBoundsOriented",            /* tp_name */
-    sizeof(pyBoundsOriented),               /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.hsBoundsOriented",        /* tp_name */
+    sizeof(pyBoundsOriented),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

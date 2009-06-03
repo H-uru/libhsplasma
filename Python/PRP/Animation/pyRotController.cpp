@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plRotController.h>
 #include "pyRotController.h"
 #include "pyController.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -45,8 +45,7 @@ static PyGetSetDef pyRotController_GetSet[] = {
 };
 
 PyTypeObject pyRotController_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plRotController",         /* tp_name */
     sizeof(pyRotController),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

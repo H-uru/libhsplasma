@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plSpaceTree.h>
 #include "pySpaceTree.h"
-#include "../Region/pyBounds.h"
-#include "../pyCreatable.h"
+#include "PRP/Region/pyBounds.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -100,8 +100,7 @@ static PyMethodDef pySpaceTree_Methods[] = {
 };
 
 PyTypeObject pySpaceTree_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSpaceTree",             /* tp_name */
     sizeof(pySpaceTree),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

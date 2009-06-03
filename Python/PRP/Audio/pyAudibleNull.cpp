@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Audio/plAudible.h>
 #include "pyAudible.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef pyAudibleNull_Methods[] = {
 };
 
 PyTypeObject pyAudibleNull_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plAudibleNull",           /* tp_name */
     sizeof(pyAudibleNull),              /* tp_basicsize */
     0,                                  /* tp_itemsize */

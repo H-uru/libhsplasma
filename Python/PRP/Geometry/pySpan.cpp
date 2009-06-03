@@ -1,17 +1,17 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plSpan.h>
 #include "pySpan.h"
-#include "../KeyedObject/pyKey.h"
-#include "../Region/pyBounds.h"
-#include "../../Stream/pyStream.h"
-#include "../../Math/pyMatrix.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/Region/pyBounds.h"
+#include "Stream/pyStream.h"
+#include "Math/pyMatrix.h"
 
 extern "C" {
 
 static void pySpan_dealloc(pySpan* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pySpan___init__(pySpan* self, PyObject* args, PyObject* kwds) {
@@ -379,8 +379,7 @@ static PyGetSetDef pySpan_GetSet[] = {
 };
 
 PyTypeObject pySpan_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSpan",                  /* tp_name */
     sizeof(pySpan),                     /* tp_basicsize */
     0,                                  /* tp_itemsize */

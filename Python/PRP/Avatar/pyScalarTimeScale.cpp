@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,10 +34,9 @@ static PyMethodDef pyScalarTimeScale_Methods[] = {
 };
 
 PyTypeObject pyScalarTimeScale_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.plScalarTimeScale",           /* tp_name */
-    sizeof(pyScalarTimeScale),              /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.plScalarTimeScale",       /* tp_name */
+    sizeof(pyScalarTimeScale),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

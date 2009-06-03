@@ -1,15 +1,15 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/plPageInfo.h>
 #include "pyResManager.h"
-#include "../Stream/pyStream.h"
-#include "../PRP/KeyedObject/pyKey.h"
+#include "Stream/pyStream.h"
+#include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
 static void pyPageInfo_dealloc(pyPageInfo* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyPageInfo___init__(pyPageInfo* self, PyObject* args, PyObject* kwds) {
@@ -214,8 +214,7 @@ static PyGetSetDef pyPageInfo_GetSet[] = {
 };
 
 PyTypeObject pyPageInfo_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plPageInfo",              /* tp_name */
     sizeof(pyPageInfo),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

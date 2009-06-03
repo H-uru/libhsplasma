@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plSpaceTree.h>
 #include "pySpaceTree.h"
-#include "../Region/pyBounds.h"
+#include "PRP/Region/pyBounds.h"
 
 extern "C" {
 
 static void pySpaceTreeNode_dealloc(pySpaceTreeNode* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pySpaceTreeNode___init__(pySpaceTreeNode* self, PyObject* args, PyObject* kwds) {
@@ -117,8 +117,7 @@ static PyGetSetDef pySpaceTreeNode_GetSet[] = {
 };
 
 PyTypeObject pySpaceTreeNode_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSpaceTreeNode",         /* tp_name */
     sizeof(pySpaceTreeNode),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Light/plShadowMaster.h>
 #include "pyShadowMaster.h"
-#include "../Object/pyObjInterface.h"
-#include "../pyCreatable.h"
+#include "PRP/Object/pyObjInterface.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -123,8 +123,7 @@ static PyGetSetDef pyShadowMaster_GetSet[] = {
 };
 
 PyTypeObject pyShadowMaster_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plShadowMaster",          /* tp_name */
     sizeof(pyShadowMaster),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

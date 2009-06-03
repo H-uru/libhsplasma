@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
 
@@ -33,8 +33,7 @@ static PyMethodDef pyClickDragEventData_Methods[] = {
 };
 
 PyTypeObject pyClickDragEventData_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.proClickDragEventData",   /* tp_name */
     sizeof(pyClickDragEventData),       /* tp_basicsize */
     0,                                  /* tp_itemsize */

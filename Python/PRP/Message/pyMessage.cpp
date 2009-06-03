@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/plMessage.h>
 #include "pyMessage.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -138,8 +138,7 @@ static PyGetSetDef pyMessage_GetSet[] = {
 };
 
 PyTypeObject pyMessage_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plMessage",               /* tp_name */
     sizeof(pyMessage),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

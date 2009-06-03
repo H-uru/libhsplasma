@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/plSceneNode.h>
 #include "pySceneNode.h"
 #include "KeyedObject/pyKey.h"
@@ -185,8 +185,7 @@ PyGetSetDef pySceneNode_GetSet[] = {
 };
 
 PyTypeObject pySceneNode_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSceneNode",             /* tp_name */
     sizeof(pySceneNode),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

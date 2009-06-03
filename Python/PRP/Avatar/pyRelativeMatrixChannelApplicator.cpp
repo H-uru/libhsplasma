@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGApplicator.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,10 +34,9 @@ static PyMethodDef pyRelativeMatrixChannelApplicator_Methods[] = {
 };
 
 PyTypeObject pyRelativeMatrixChannelApplicator_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plRelativeMatrixChannelApplicator", /* tp_name */
-    sizeof(pyRelativeMatrixChannelApplicator),   /* tp_basicsize */
+    sizeof(pyRelativeMatrixChannelApplicator), /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

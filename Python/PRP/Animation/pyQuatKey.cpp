@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -39,8 +39,7 @@ static PyGetSetDef pyQuatKey_GetSet[] = {
 };
 
 PyTypeObject pyQuatKey_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsQuatKey",               /* tp_name */
     sizeof(pyQuatKey),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Math/hsMatrix33.h>
 #include "pyMatrix.h"
-#include "../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyMatrix33_dealloc(pyMatrix33* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyMatrix33___init__(pyMatrix33* self, PyObject* args, PyObject* kwds) {
@@ -136,8 +136,7 @@ PyMethodDef pyMatrix33_Methods[] = {
 };
 
 PyTypeObject pyMatrix33_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsMatrix33",              /* tp_name */
     sizeof(pyMatrix33),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

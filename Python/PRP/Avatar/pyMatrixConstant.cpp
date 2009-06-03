@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,10 +34,9 @@ static PyMethodDef pyMatrixConstant_Methods[] = {
 };
 
 PyTypeObject pyMatrixConstant_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.plMatrixConstant",           /* tp_name */
-    sizeof(pyMatrixConstant),              /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.plMatrixConstant",        /* tp_name */
+    sizeof(pyMatrixConstant),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

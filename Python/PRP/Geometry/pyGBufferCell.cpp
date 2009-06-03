@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plGBufferGroup.h>
 #include "pyGBufferGroup.h"
 
@@ -6,7 +6,7 @@ extern "C" {
 
 static void pyGBufferCell_dealloc(pyGBufferCell* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyGBufferCell___init__(pyGBufferCell* self, PyObject* args, PyObject* kwds) {
@@ -69,8 +69,7 @@ static PyGetSetDef pyGBufferCell_GetSet[] = {
 };
 
 PyTypeObject pyGBufferCell_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plGBufferCell",           /* tp_name */
     sizeof(pyGBufferCell),              /* tp_basicsize */
     0,                                  /* tp_itemsize */

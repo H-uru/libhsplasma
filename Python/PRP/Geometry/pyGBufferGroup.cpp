@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plGBufferGroup.h>
 #include "pyGBufferGroup.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyGBufferGroup_dealloc(pyGBufferGroup* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyGBufferGroup___init__(pyGBufferGroup* self, PyObject* args, PyObject* kwds) {
@@ -338,8 +338,7 @@ static PyGetSetDef pyGBufferGroup_GetSet[] = {
 };
 
 PyTypeObject pyGBufferGroup_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plGBufferGroup",          /* tp_name */
     sizeof(pyGBufferGroup),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

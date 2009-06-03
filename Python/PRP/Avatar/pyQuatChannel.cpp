@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plQuatChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
-#include "../../Math/pyGeometry3.h"
+#include "PRP/pyCreatable.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -53,10 +53,9 @@ static PyGetSetDef pyQuatChannel_GetSet[] = {
 };
 
 PyTypeObject pyQuatChannel_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.plQuatChannel",         /* tp_name */
-    sizeof(pyQuatChannel),            /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.plQuatChannel",           /* tp_name */
+    sizeof(pyQuatChannel),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Region/hsBounds.h>
 #include "pyBounds.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -59,8 +59,7 @@ static PyGetSetDef pyBounds3_GetSet[] = {
 };
 
 PyTypeObject pyBounds3_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsBounds3",               /* tp_name */
     sizeof(pyBounds3),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

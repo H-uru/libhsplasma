@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plSpanTemplate.h>
 #include "pySpanTemplate.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
 static void pySpanTemplateVertex_dealloc(pySpanTemplateVertex* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pySpanTemplateVertex___init__(pySpanTemplateVertex* self, PyObject* args, PyObject* kwds) {
@@ -169,8 +169,7 @@ static PyGetSetDef pySpanTemplateVertex_GetSet[] = {
 };
 
 PyTypeObject pySpanTemplateVertex_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSpanTemplateVertex",    /* tp_name */
     sizeof(pySpanTemplateVertex),       /* tp_basicsize */
     0,                                  /* tp_itemsize */

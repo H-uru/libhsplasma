@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Object/plSimulationInterface.h>
 #include "pyObjInterface.h"
-#include "../pyCreatable.h"
-#include "../KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
@@ -58,8 +58,7 @@ PyGetSetDef pySimulationInterface_GetSet[] = {
 };
 
 PyTypeObject pySimulationInterface_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSimulationInterface",   /* tp_name */
     sizeof(pySimulationInterface),      /* tp_basicsize */
     0,                                  /* tp_itemsize */

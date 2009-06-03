@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Math/hsMatrix44.h>
 #include "pyMatrix.h"
 #include "pyGeometry3.h"
-#include "../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyMatrix44_dealloc(pyMatrix44* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyMatrix44___init__(pyMatrix44* self, PyObject* args, PyObject* kwds) {
@@ -307,7 +307,9 @@ PyNumberMethods pyMatrix44_As_Number = {
     NULL,                               /* nb_add */
     NULL,                               /* nb_subtract */
     (binaryfunc)pyMatrix44_multiply,    /* nb_multiply */
+#if (PY_MAJOR_VERSION < 3)
     NULL,                               /* nb_divide */
+#endif
     NULL,                               /* nb_remainder */
     NULL,                               /* nb_divmod */
     NULL,                               /* nb_power */
@@ -321,15 +323,22 @@ PyNumberMethods pyMatrix44_As_Number = {
     NULL,                               /* nb_and */
     NULL,                               /* nb_xor */
     NULL,                               /* nb_or */
+#if (PY_MAJOR_VERSION < 3)
     NULL,                               /* nb_coerce */
+#endif
     NULL,                               /* nb_int */
     NULL,                               /* nb_long */
     NULL,                               /* nb_float */
+#if (PY_MAJOR_VERSION < 3)
     NULL,                               /* nb_oct */
     NULL,                               /* nb_hex */
+#endif
     NULL,                               /* nb_inplace_add */
     NULL,                               /* nb_inplace_subtract */
+    NULL,                               /* nb_inplace_multiply */
+#if (PY_MAJOR_VERSION < 3)
     NULL,                               /* nb_inplace_divide */
+#endif
     NULL,                               /* nb_inplace_remainder */
     NULL,                               /* nb_inplace_power */
     NULL,                               /* nb_inplace_lshift */
@@ -400,8 +409,7 @@ PyMethodDef pyMatrix44_Methods[] = {
 };
 
 PyTypeObject pyMatrix44_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsMatrix44",              /* tp_name */
     sizeof(pyMatrix44),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Object/plCoordinateInterface.h>
 #include "pyObjInterface.h"
-#include "../pyCreatable.h"
-#include "../KeyedObject/pyKey.h"
-#include "../../Math/pyMatrix.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "Math/pyMatrix.h"
 
 extern "C" {
 
@@ -154,8 +154,7 @@ PyGetSetDef pyCoordinateInterface_GetSet[] = {
 };
 
 PyTypeObject pyCoordinateInterface_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plCoordinateInterface",   /* tp_name */
     sizeof(pyCoordinateInterface),      /* tp_basicsize */
     0,                                  /* tp_itemsize */

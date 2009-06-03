@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Math/hsGeometry3.h>
 #include <Math/hsQuat.h>
 #include "pyGeometry3.h"
-#include "../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyQuat_dealloc(pyQuat* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyQuat___init__(pyQuat* self, PyObject* args, PyObject* kwds) {
@@ -214,7 +214,9 @@ PyNumberMethods pyQuat_As_Number = {
     (binaryfunc)pyQuat_add,             /* nb_add */
     (binaryfunc)pyQuat_subtract,        /* nb_subtract */
     (binaryfunc)pyQuat_multiply,        /* nb_multiply */
+#if (PY_MAJOR_VERSION < 3)
     NULL,                               /* nb_divide */
+#endif
     NULL,                               /* nb_remainder */
     NULL,                               /* nb_divmod */
     NULL,                               /* nb_power */
@@ -228,15 +230,22 @@ PyNumberMethods pyQuat_As_Number = {
     NULL,                               /* nb_and */
     NULL,                               /* nb_xor */
     NULL,                               /* nb_or */
+#if (PY_MAJOR_VERSION < 3)
     NULL,                               /* nb_coerce */
+#endif
     NULL,                               /* nb_int */
     NULL,                               /* nb_long */
     NULL,                               /* nb_float */
+#if (PY_MAJOR_VERSION < 3)
     NULL,                               /* nb_oct */
     NULL,                               /* nb_hex */
+#endif
     NULL,                               /* nb_inplace_add */
     NULL,                               /* nb_inplace_subtract */
+    NULL,                               /* nb_inplace_multiply */
+#if (PY_MAJOR_VERSION < 3)
     NULL,                               /* nb_inplace_divide */
+#endif
     NULL,                               /* nb_inplace_remainder */
     NULL,                               /* nb_inplace_power */
     NULL,                               /* nb_inplace_lshift */
@@ -276,8 +285,7 @@ PyGetSetDef pyQuat_GetSet[] = {
 };
 
 PyTypeObject pyQuat_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsQuat",                  /* tp_name */
     sizeof(pyQuat),                     /* tp_basicsize */
     0,                                  /* tp_itemsize */

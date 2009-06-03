@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plCullPoly.h>
 #include <Math/hsGeometry3.h>
 #include "pyOccluder.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
 static void pyCullPoly_dealloc(pyCullPoly* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyCullPoly___init__(pyCullPoly* self, PyObject* args, PyObject* kwds) {
@@ -131,8 +131,7 @@ static PyGetSetDef pyCullPoly_GetSet[] = {
 };
 
 PyTypeObject pyCullPoly_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plCullPoly",              /* tp_name */
     sizeof(pyCullPoly),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

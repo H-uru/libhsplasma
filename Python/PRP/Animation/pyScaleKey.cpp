@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -76,8 +76,7 @@ static PyGetSetDef pyScaleKey_GetSet[] = {
 };
 
 PyTypeObject pyScaleKey_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsScaleKey",              /* tp_name */
     sizeof(pyScaleKey),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

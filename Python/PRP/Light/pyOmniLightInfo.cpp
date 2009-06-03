@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Light/plOmniLightInfo.h>
 #include "pyLightInfo.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -94,8 +94,7 @@ static PyGetSetDef pyOmniLightInfo_GetSet[] = {
 };
 
 PyTypeObject pyOmniLightInfo_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plOmniLightInfo",         /* tp_name */
     sizeof(pyOmniLightInfo),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

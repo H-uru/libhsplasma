@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
-#include "../KeyedObject/pyKey.h"
+#include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
@@ -66,8 +66,7 @@ static PyGetSetDef pyControlKeyEventData_GetSet[] = {
 };
 
 PyTypeObject pyControlKeyEventData_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.proControlKeyEventData",  /* tp_name */
     sizeof(pyControlKeyEventData),      /* tp_basicsize */
     0,                                  /* tp_itemsize */

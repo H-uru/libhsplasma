@@ -1,10 +1,10 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plOccluder.h>
 #include "pyOccluder.h"
-#include "../Object/pyObjInterface.h"
-#include "../Region/pyBounds.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
+#include "PRP/Object/pyObjInterface.h"
+#include "PRP/Region/pyBounds.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -197,8 +197,7 @@ static PyGetSetDef pyOccluder_GetSet[] = {
 };
 
 PyTypeObject pyOccluder_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plOccluder",              /* tp_name */
     sizeof(pyOccluder),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

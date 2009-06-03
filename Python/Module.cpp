@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Stream/hsStream.h>
 #include <Util/PlasmaVersions.h>
 
@@ -84,11 +84,25 @@ static PyObject* PyPlasma_CleanFileName(PyObject*, PyObject* args) {
 
 static PyMethodDef PyPlasma_Methods[] = {
     { "CleanFileName", (PyCFunction)PyPlasma_CleanFileName, METH_VARARGS,
-      "Params: string, allowPathChars=Talse\n"
+      "Params: string, allowPathChars=False\n"
       "Strips illegal characters from a filename. If allowPathChars is True,\n"
       "the characters '\\', '/' and ':' will not be removed" },
     { NULL, NULL, 0, NULL }
 };
+
+#if PY_MAJOR_VERSION >= 3
+static PyModuleDef PyPlasma_Module = {
+    PyModuleDef_HEAD_INIT,      /* m_base */
+    "PyPlasma",                 /* m_name */
+    "Python libPlasma interface module",    /* m_doc */
+    0,                          /* m_size */
+    PyPlasma_Methods,           /* m_methods */
+    NULL,                       /* m_reload */
+    NULL,                       /* m_traverse */
+    NULL,                       /* m_clear */
+    NULL,                       /* m_free */
+};
+#endif
 
 void initPyPlasma_Constants(PyObject* module) {
     /* Generic constants */
@@ -118,9 +132,16 @@ void initPyPlasma_Constants(PyObject* module) {
     PyModule_AddIntConstant(module, "kSingleFrameEval", kSingleFrameEval);
 }
 
+#if PY_MAJOR_VERSION >= 3
+PyMODINIT_FUNC PyInit_PyPlasma() {
+    PyObject* module = PyModule_Create(&PyPlasma_Module);
+
+#else
 PyMODINIT_FUNC initPyPlasma() {
     PyObject* module = Py_InitModule3("PyPlasma", PyPlasma_Methods,
                                       "libPlasma Python Interface Module");
+
+#endif
     initPyPlasma_Constants(module);
 
     /* Debug */
@@ -362,4 +383,8 @@ PyMODINIT_FUNC initPyPlasma() {
     PyModule_AddObject(module, "plScalarChannelApplicator", Init_pyScalarChannelApplicator_Type());
     PyModule_AddObject(module, "plAnimStage", Init_pyAnimStage_Type());
     PyModule_AddObject(module, "plNotifyMsg", Init_pyNotifyMsg_Type());
+
+#if PY_MAJOR_VERSION >= 3
+    return module;
+#endif
 }

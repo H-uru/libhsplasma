@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/plNotifyMsg.h>
 #include "pyNotifyMsg.h"
 #include "pyMessage.h"
 #include "pyEventData.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -136,8 +136,7 @@ static PyGetSetDef pyNotifyMsg_GetSet[] = {
 };
 
 PyTypeObject pyNotifyMsg_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plNotifyMsg",             /* tp_name */
     sizeof(pyNotifyMsg),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

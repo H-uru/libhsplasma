@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plATCAnim.h>
 #include "pyATCAnim.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -80,8 +80,7 @@ static PyGetSetDef pyAGAnimBink_GetSet[] = {
 };
 
 PyTypeObject pyAGAnimBink_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plAGAnimBink",            /* tp_name */
     sizeof(pyAGAnimBink),               /* tp_basicsize */
     0,                                  /* tp_itemsize */

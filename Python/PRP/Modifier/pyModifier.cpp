@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plModifier.h>
 #include "pyModifier.h"
-#include "../Object/pySynchedObject.h"
-#include "../pyCreatable.h"
+#include "PRP/Object/pySynchedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -31,8 +31,7 @@ static PyMethodDef pyModifier_Methods[] = {
 };
 
 PyTypeObject pyModifier_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plModifier",              /* tp_name */
     sizeof(pyModifier),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

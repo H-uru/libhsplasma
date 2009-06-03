@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/KeyedObject/plKey.h>
 #include "pyKey.h"
 #include "pyKeyedObject.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyKey_dealloc(pyKey* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static PyObject* pyKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -268,8 +268,7 @@ static PyGetSetDef pyKey_GetSet[] = {
 };
 
 PyTypeObject pyKey_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plKey",                   /* tp_name */
     sizeof(pyKey),                      /* tp_basicsize */
     0,                                  /* tp_itemsize */

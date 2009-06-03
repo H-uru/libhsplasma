@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plModifier.h>
 #include "pyModifier.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -70,8 +70,7 @@ static PyMethodDef pySingleModifier_Methods[] = {
 };
 
 PyTypeObject pySingleModifier_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSingleModifier",        /* tp_name */
     sizeof(pySingleModifier),           /* tp_basicsize */
     0,                                  /* tp_itemsize */

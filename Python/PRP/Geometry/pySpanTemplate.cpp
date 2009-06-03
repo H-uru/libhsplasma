@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plSpanTemplate.h>
 #include "pySpanTemplate.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
@@ -136,8 +136,7 @@ static PyGetSetDef pySpanTemplate_GetSet[] = {
 };
 
 PyTypeObject pySpanTemplate_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSpanTemplate",          /* tp_name */
     sizeof(pySpanTemplate),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

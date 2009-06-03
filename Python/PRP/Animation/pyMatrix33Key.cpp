@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
-#include "../../Math/pyMatrix.h"
+#include "Math/pyMatrix.h"
 
 extern "C" {
 
@@ -39,8 +39,7 @@ static PyGetSetDef pyMatrix33Key_GetSet[] = {
 };
 
 PyTypeObject pyMatrix33Key_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsMatrix33Key",           /* tp_name */
     sizeof(pyMatrix33Key),              /* tp_basicsize */
     0,                                  /* tp_itemsize */

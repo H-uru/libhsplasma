@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Audio/plSoundBuffer.h>
 #include "pySoundBuffer.h"
-#include "../KeyedObject/pyKeyedObject.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -49,8 +49,8 @@ static PyObject* pySoundBuffer_getData(pySoundBuffer* self, void*) {
         Py_INCREF(Py_None);
         return Py_None;
     } else {
-        return PyString_FromStringAndSize((const char*)self->fThis->getData(),
-                                          self->fThis->getDataLength());
+        return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
+                                         self->fThis->getDataLength());
     }
 }
 
@@ -91,13 +91,13 @@ static int pySoundBuffer_setData(pySoundBuffer* self, PyObject* value, void*) {
         self->fThis->setData(0, NULL);
         return 0;
     }
-    if (!PyString_Check(value)) {
+    if (!PyBytes_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "data should be a binary string");
         return -1;
     }
     char* buffer;
     Py_ssize_t length;
-    PyString_AsStringAndSize(value, &buffer, &length);
+    PyBytes_AsStringAndSize(value, &buffer, &length);
     self->fThis->setData(length, (const unsigned char*)buffer);
     return 0;
 }
@@ -118,8 +118,7 @@ static PyGetSetDef pySoundBuffer_GetSet[] = {
 };
 
 PyTypeObject pySoundBuffer_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSoundBuffer",           /* tp_name */
     sizeof(pySoundBuffer),              /* tp_basicsize */
     0,                                  /* tp_itemsize */

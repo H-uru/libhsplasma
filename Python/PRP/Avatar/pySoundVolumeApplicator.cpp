@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGApplicator.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -52,8 +52,7 @@ static PyGetSetDef pySoundVolumeApplicator_GetSet[] = {
 };
 
 PyTypeObject pySoundVolumeApplicator_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSoundVolumeApplicator", /* tp_name */
     sizeof(pySoundVolumeApplicator),    /* tp_basicsize */
     0,                                  /* tp_itemsize */

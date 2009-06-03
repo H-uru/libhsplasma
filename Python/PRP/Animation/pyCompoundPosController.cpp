@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plPosController.h>
 #include "pyPosController.h"
 #include "pyLeafController.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -102,8 +102,7 @@ static PyGetSetDef pyCompoundPosController_GetSet[] = {
 };
 
 PyTypeObject pyCompoundPosController_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plCompoundPosController", /* tp_name */
     sizeof(pyCompoundPosController),    /* tp_basicsize */
     0,                                  /* tp_itemsize */

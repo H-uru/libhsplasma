@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Object/plSynchedObject.h>
 #include "pySynchedObject.h"
-#include "../pyCreatable.h"
-#include "../KeyedObject/pyKeyedObject.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
 
 extern "C" {
 
@@ -141,8 +141,7 @@ static PyGetSetDef pySynchedObject_GetSet[] = {
 };
 
 PyTypeObject pySynchedObject_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSynchedObject",         /* tp_name */
     sizeof(pySynchedObject),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

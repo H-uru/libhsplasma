@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plOccluder.h>
 #include "pyOccluder.h"
-#include "../Region/pyBounds.h"
-#include "../pyCreatable.h"
-#include "../../Math/pyMatrix.h"
+#include "PRP/Region/pyBounds.h"
+#include "PRP/pyCreatable.h"
+#include "Math/pyMatrix.h"
 
 extern "C" {
 
@@ -86,8 +86,7 @@ static PyGetSetDef pyMobileOccluder_GetSet[] = {
 };
 
 PyTypeObject pyMobileOccluder_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plMobileOccluder",        /* tp_name */
     sizeof(pyMobileOccluder),           /* tp_basicsize */
     0,                                  /* tp_itemsize */

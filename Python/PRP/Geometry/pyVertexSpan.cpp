@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plVertexSpan.h>
 #include "pySpan.h"
 
@@ -108,8 +108,7 @@ static PyGetSetDef pyVertexSpan_GetSet[] = {
 };
 
 PyTypeObject pyVertexSpan_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plVertexSpan",            /* tp_name */
     sizeof(pyVertexSpan),               /* tp_basicsize */
     0,                                  /* tp_itemsize */

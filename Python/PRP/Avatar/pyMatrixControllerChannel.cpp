@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
-#include "../Animation/pyController.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/Animation/pyController.h"
 
 extern "C" {
 
@@ -58,8 +58,7 @@ static PyGetSetDef pyMatrixControllerChannel_GetSet[] = {
 };
 
 PyTypeObject pyMatrixControllerChannel_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plMatrixControllerChannel", /* tp_name */
     sizeof(pyMatrixControllerChannel),  /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef pyATCChannel_Methods[] = {
 };
 
 PyTypeObject pyATCChannel_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plATCChannel",            /* tp_name */
     sizeof(pyATCChannel),               /* tp_basicsize */
     0,                                  /* tp_itemsize */

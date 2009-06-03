@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyKeyFrame_dealloc(pyKeyFrame* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static PyObject* pyKeyFrame_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -104,8 +104,7 @@ static PyGetSetDef pyKeyFrame_GetSet[] = {
 };
 
 PyTypeObject pyKeyFrame_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsKeyFrame",              /* tp_name */
     sizeof(pyKeyFrame),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

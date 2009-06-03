@@ -1,12 +1,12 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plViewFaceModifier.h>
 #include "pyViewFaceModifier.h"
-#include "../Modifier/pyModifier.h"
-#include "../Region/pyBounds.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
-#include "../../Math/pyGeometry3.h"
-#include "../../Math/pyMatrix.h"
+#include "PRP/Modifier/pyModifier.h"
+#include "PRP/Region/pyBounds.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
+#include "Math/pyGeometry3.h"
+#include "Math/pyMatrix.h"
 
 extern "C" {
 
@@ -127,8 +127,7 @@ static PyGetSetDef pyViewFaceModifier_GetSet[] = {
 };
 
 PyTypeObject pyViewFaceModifier_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plViewFaceModifier",      /* tp_name */
     sizeof(pyViewFaceModifier),         /* tp_basicsize */
     0,                                  /* tp_itemsize */

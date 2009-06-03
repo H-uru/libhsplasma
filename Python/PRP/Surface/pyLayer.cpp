@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plLayer.h>
 #include "pyLayer.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef pyLayer_Methods[] = {
 };
 
 PyTypeObject pyLayer_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLayer",                 /* tp_name */
     sizeof(pyLayer),                    /* tp_basicsize */
     0,                                  /* tp_itemsize */

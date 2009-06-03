@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plController.h>
 #include "pyController.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -30,8 +30,7 @@ static PyMethodDef pyController_Methods[] = {
 };
 
 PyTypeObject pyController_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plController",            /* tp_name */
     sizeof(pyController),               /* tp_basicsize */
     0,                                  /* tp_itemsize */

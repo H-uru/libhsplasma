@@ -1,15 +1,15 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
-#include "../../Stream/pyStream.h"
-#include "../../ResManager/pyResManager.h"
+#include "Stream/pyStream.h"
+#include "ResManager/pyResManager.h"
 
 extern "C" {
 
 static void pyEventData_dealloc(pyEventData* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyEventData___init__(pyEventData* self, PyObject* args, PyObject* kwds) {
@@ -73,8 +73,7 @@ static PyMethodDef pyEventData_Methods[] = {
 };
 
 PyTypeObject pyEventData_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.proEventData",            /* tp_name */
     sizeof(pyEventData),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

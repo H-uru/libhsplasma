@@ -1,15 +1,15 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/plCreatable.h>
 #include "pyCreatable.h"
-#include "../Stream/pyStream.h"
-#include "../ResManager/pyResManager.h"
+#include "Stream/pyStream.h"
+#include "ResManager/pyResManager.h"
 
 extern "C" {
 
 static void pyCreatable_dealloc(pyCreatable* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyCreatable___init__(pyCreatable* self, PyObject* args, PyObject* kwds) {
@@ -112,8 +112,7 @@ static PyMethodDef pyCreatable_Methods[] = {
 };
 
 PyTypeObject pyCreatable_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plCreatable",             /* tp_name */
     sizeof(pyCreatable),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/KeyedObject/plLocation.h>
 #include "pyKey.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyLocation_dealloc(pyLocation* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyLocation___init__(pyLocation* self, PyObject* args, PyObject* kwds) {
@@ -264,8 +264,7 @@ static PyGetSetDef pyLocation_GetSet[] = {
 };
 
 PyTypeObject pyLocation_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLocation",              /* tp_name */
     sizeof(pyLocation),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

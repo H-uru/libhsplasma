@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Sys/hsColor.h>
 #include "pyColor.h"
-#include "../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyColorRGBA_dealloc(pyColorRGBA* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyColorRGBA___init__(pyColorRGBA* self, PyObject* args, PyObject* kwds) {
@@ -219,8 +219,7 @@ static PyGetSetDef pyColorRGBA_GetSet[] = {
 };
 
 PyTypeObject pyColorRGBA_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsColorRGBA",             /* tp_name */
     sizeof(pyColorRGBA),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plIcicle.h>
 #include "pySpan.h"
 
@@ -14,8 +14,7 @@ static PyObject* pyParticleSpan_new(PyTypeObject* type, PyObject* args, PyObject
 }
 
 PyTypeObject pyParticleSpan_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plParticleSpan",          /* tp_name */
     sizeof(pyParticleSpan),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

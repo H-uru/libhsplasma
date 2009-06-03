@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Physics/plPhysical.h>
 #include "pyPhysical.h"
 
@@ -10,8 +10,7 @@ static PyObject* pySimDefs_new(PyTypeObject* type, PyObject* args, PyObject* kwd
 }
 
 PyTypeObject pySimDefs_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plSimDefs",               /* tp_name */
     sizeof(PyObject),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Sys/hsColor.h>
 #include "pyColor.h"
-#include "../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyColor32_dealloc(pyColor32* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) {
@@ -246,8 +246,7 @@ static PyGetSetDef pyColor32_GetSet[] = {
 };
 
 PyTypeObject pyColor32_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsColor32",               /* tp_name */
     sizeof(pyColor32),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

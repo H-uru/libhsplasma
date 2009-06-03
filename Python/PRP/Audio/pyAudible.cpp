@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Audio/plAudible.h>
 #include "pyAudible.h"
-#include "../KeyedObject/pyKeyedObject.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -35,8 +35,7 @@ static PyMethodDef pyAudible_Methods[] = {
 };
 
 PyTypeObject pyAudible_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plAudible",               /* tp_name */
     sizeof(pyAudible),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,10 +1,10 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Physics/plGenericPhysical.h>
 #include "pyPhysical.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
-#include "../../Math/pyGeometry3.h"
-#include "../../Util/pyBitVector.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
+#include "Math/pyGeometry3.h"
+#include "Util/pyBitVector.h"
 
 extern "C" {
 
@@ -127,8 +127,8 @@ static PyObject* pyGenericPhysical_getIndices(pyGenericPhysical* self, void*) {
 }
 
 static PyObject* pyGenericPhysical_getTMDBuffer(pyGenericPhysical* self, void*) {
-    return PyString_FromStringAndSize((const char*)self->fThis->getTMDBuffer(),
-                                      self->fThis->getTMDSize());
+    return PyBytes_FromStringAndSize((const char*)self->fThis->getTMDBuffer(),
+                                     self->fThis->getTMDSize());
 }
 
 static int pyGenericPhysical_setMass(pyGenericPhysical* self, PyObject* value, void*) {
@@ -368,13 +368,13 @@ static int pyGenericPhysical_setTMDBuffer(pyGenericPhysical* self, PyObject* val
     if (value == NULL) {
         self->fThis->setTMDBuffer(0, NULL);
         return 0;
-    } else if (!PyString_Check(value)) {
+    } else if (!PyBytes_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "TMDBuffer should be a binary string");
         return -1;
     }
     char* buffer;
     Py_ssize_t bufSize;
-    PyString_AsStringAndSize(value, &buffer, &bufSize);
+    PyBytes_AsStringAndSize(value, &buffer, &bufSize);
     self->fThis->setTMDBuffer(bufSize, (const unsigned char*)buffer);
     return 0;
 }
@@ -406,8 +406,7 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
 };
 
 PyTypeObject pyGenericPhysical_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plGenericPhysical",       /* tp_name */
     sizeof(pyPhysical),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

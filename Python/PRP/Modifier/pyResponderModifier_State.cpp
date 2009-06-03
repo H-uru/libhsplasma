@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plResponderModifier.h>
 #include "pyResponderModifier.h"
-#include "../Message/pyMessage.h"
+#include "PRP/Message/pyMessage.h"
 
 extern "C" {
 
 static void pyResponderModifier_State_dealloc(pyResponderModifier_State* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyResponderModifier_State___init__(pyResponderModifier_State* self, PyObject* args, PyObject* kwds) {
@@ -151,8 +151,7 @@ static PyGetSetDef pyResponderModifier_State_GetSet[] = {
 };
 
 PyTypeObject pyResponderModifier_State_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plResponderModifier_State", /* tp_name */
     sizeof(pyResponderModifier_State),  /* tp_basicsize */
     0,                                  /* tp_itemsize */

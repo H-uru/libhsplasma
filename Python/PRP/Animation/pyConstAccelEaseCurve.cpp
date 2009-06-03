@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plATCEaseCurves.h>
 #include "pyATCEaseCurves.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef pyConstAccelEaseCurve_Methods[] = {
 };
 
 PyTypeObject pyConstAccelEaseCurve_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plConstAccelEaseCurve",   /* tp_name */
     sizeof(pyConstAccelEaseCurve),      /* tp_basicsize */
     0,                                  /* tp_itemsize */

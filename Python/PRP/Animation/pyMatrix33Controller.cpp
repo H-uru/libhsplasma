@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plKeyControllers.h>
 #include "pyLeafController.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -40,8 +40,7 @@ static PyMethodDef pyMatrix33Controller_Methods[] = {
 };
 
 PyTypeObject pyMatrix33Controller_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plMatrix33Controller",    /* tp_name */
     sizeof(pyMatrix33Controller),       /* tp_basicsize */
     0,                                  /* tp_itemsize */

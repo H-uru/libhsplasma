@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Light/plShadowMaster.h>
 #include "pyShadowMaster.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef pyPointShadowMaster_Methods[] = {
 };
 
 PyTypeObject pyPointShadowMaster_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plPointShadowMaster",     /* tp_name */
     sizeof(pyPointShadowMaster),        /* tp_basicsize */
     0,                                  /* tp_itemsize */

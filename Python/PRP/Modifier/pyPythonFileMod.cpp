@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plPythonFileMod.h>
 #include "pyPythonFileMod.h"
 #include "pyModifier.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -136,8 +136,7 @@ static PyGetSetDef pyPythonFileMod_GetSet[] = {
 };
 
 PyTypeObject pyPythonFileMod_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plPythonFileMod",         /* tp_name */
     sizeof(pyPythonFileMod),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

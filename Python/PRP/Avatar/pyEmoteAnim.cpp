@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plATCAnim.h>
 #include "pyATCAnim.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -80,8 +80,7 @@ static PyGetSetDef pyEmoteAnim_GetSet[] = {
 };
 
 PyTypeObject pyEmoteAnim_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plEmoteAnim",             /* tp_name */
     sizeof(pyEmoteAnim),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

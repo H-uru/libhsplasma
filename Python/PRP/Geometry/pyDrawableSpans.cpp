@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plDrawableSpans.h>
 #include "pyDrawableSpans.h"
 #include "pySpan.h"
 #include "pyGBufferGroup.h"
 #include "pySpaceTree.h"
-#include "../pyCreatable.h"
-#include "../KeyedObject/pyKey.h"
-#include "../Region/pyBounds.h"
-#include "../../Math/pyMatrix.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/Region/pyBounds.h"
+#include "Math/pyMatrix.h"
 
 extern "C" {
 
@@ -531,8 +531,7 @@ static PyGetSetDef pyDrawableSpans_GetSet[] = {
 };
 
 PyTypeObject pyDrawableSpans_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plDrawableSpans",         /* tp_name */
     sizeof(pyDrawableSpans),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

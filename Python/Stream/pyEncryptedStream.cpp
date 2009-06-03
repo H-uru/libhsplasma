@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Stream/plEncryptedStream.h>
 #include "pyStream.h"
 
@@ -6,7 +6,7 @@ extern "C" {
 
 static void pyEncryptedStream_dealloc(pyEncryptedStream* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static PyObject* pyEncryptedStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -103,8 +103,7 @@ static PyMethodDef pyEncryptedStream_Methods[] = {
 };
 
 PyTypeObject pyEncryptedStream_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plEncryptedStream",       /* tp_name */
     sizeof(pyEncryptedStream),          /* tp_basicsize */
     0,                                  /* tp_itemsize */

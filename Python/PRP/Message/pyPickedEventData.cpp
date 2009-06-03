@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
-#include "../KeyedObject/pyKey.h"
-#include "../../Math/pyGeometry3.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -103,8 +103,7 @@ static PyGetSetDef pyPickedEventData_GetSet[] = {
 };
 
 PyTypeObject pyPickedEventData_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.proPickedEventData",      /* tp_name */
     sizeof(pyPickedEventData),          /* tp_basicsize */
     0,                                  /* tp_itemsize */

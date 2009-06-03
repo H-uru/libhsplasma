@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Audio/plAudible.h>
 #include "pyAudible.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef py2WayWinAudible_Methods[] = {
 };
 
 PyTypeObject py2WayWinAudible_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.pl2WayWinAudible",        /* tp_name */
     sizeof(py2WayWinAudible),           /* tp_basicsize */
     0,                                  /* tp_itemsize */

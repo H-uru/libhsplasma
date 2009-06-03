@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plShader.h>
 #include "pyShader.h"
-#include "../KeyedObject/pyKeyedObject.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -120,8 +120,7 @@ static PyGetSetDef pyShader_GetSet[] = {
 };
 
 PyTypeObject pyShader_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plShader",                /* tp_name */
     sizeof(pyShader),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,14 +1,14 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plGBufferGroup.h>
 #include "pyGBufferGroup.h"
-#include "../../Math/pyGeometry3.h"
-#include "../../Stream/pyStream.h"
+#include "Math/pyGeometry3.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyGBufferTriangle_dealloc(pyGBufferTriangle* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyGBufferTriangle___init__(pyGBufferTriangle* self, PyObject* args, PyObject* kwds) {
@@ -139,8 +139,7 @@ static PyGetSetDef pyGBufferTriangle_GetSet[] = {
 };
 
 PyTypeObject pyGBufferTriangle_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plGBufferTriangle",       /* tp_name */
     sizeof(pyGBufferTriangle),          /* tp_basicsize */
     0,                                  /* tp_itemsize */

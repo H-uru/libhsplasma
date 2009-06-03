@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plShader.h>
 #include "pyShader.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyShaderConst_dealloc(pyShaderConst* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyShaderConst___init__(pyShaderConst* self, PyObject* args, PyObject* kwds) {
@@ -143,8 +143,7 @@ static PyGetSetDef pyShaderConst_GetSet[] = {
 };
 
 PyTypeObject pyShaderConst_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plShaderConst",           /* tp_name */
     sizeof(pyShaderConst),              /* tp_basicsize */
     0,                                  /* tp_itemsize */

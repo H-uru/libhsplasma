@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
 
@@ -65,8 +65,7 @@ static PyGetSetDef pyActivateEventData_GetSet[] = {
 };
 
 PyTypeObject pyActivateEventData_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.proActivateEventData",    /* tp_name */
     sizeof(pyActivateEventData),        /* tp_basicsize */
     0,                                  /* tp_itemsize */

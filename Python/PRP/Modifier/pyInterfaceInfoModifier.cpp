@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plInterfaceInfoModifier.h>
 #include "pyInterfaceInfoModifier.h"
-#include "../Modifier/pyModifier.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
+#include "PRP/Modifier/pyModifier.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -93,8 +93,7 @@ static PyGetSetDef pyInterfaceInfoModifier_GetSet[] = {
 };
 
 PyTypeObject pyInterfaceInfoModifier_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plInterfaceInfoModifier", /* tp_name */
     sizeof(pyInterfaceInfoModifier),    /* tp_basicsize */
     0,                                  /* tp_itemsize */

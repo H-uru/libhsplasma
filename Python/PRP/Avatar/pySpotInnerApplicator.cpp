@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGApplicator.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,10 +34,9 @@ static PyMethodDef pySpotInnerApplicator_Methods[] = {
 };
 
 PyTypeObject pySpotInnerApplicator_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.plSpotInnerApplicator", /* tp_name */
-    sizeof(pySpotInnerApplicator),   /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.plSpotInnerApplicator",   /* tp_name */
+    sizeof(pySpotInnerApplicator),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

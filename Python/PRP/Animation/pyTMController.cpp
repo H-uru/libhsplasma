@@ -1,10 +1,10 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plTMController.h>
 #include "pyController.h"
 #include "pyPosController.h"
 #include "pyRotController.h"
 #include "pyScaleController.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -104,8 +104,7 @@ static PyGetSetDef pyTMController_GetSet[] = {
 };
 
 PyTypeObject pyTMController_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plTMController",          /* tp_name */
     sizeof(pyTMController),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

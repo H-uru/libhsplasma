@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plOneShotMod.h>
 #include "pyOneShotMod.h"
 #include "pyModifier.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -127,8 +127,7 @@ static PyGetSetDef pyOneShotMod_GetSet[] = {
 };
 
 PyTypeObject pyOneShotMod_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plOneShotMod",            /* tp_name */
     sizeof(pyOneShotMod),               /* tp_basicsize */
     0,                                  /* tp_itemsize */

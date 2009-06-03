@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Math/hsGeometry3.h>
 #include "pyGeometry3.h"
-#include "../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyPlane3_dealloc(pyPlane3* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
@@ -150,8 +150,7 @@ PyGetSetDef pyPlane3_GetSet[] = {
 };
 
 PyTypeObject pyPlane3_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsPlane3",                /* tp_name */
     sizeof(pyPlane3),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */

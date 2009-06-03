@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plModifier.h>
 #include "pyModifier.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -70,8 +70,7 @@ static PyMethodDef pyMultiModifier_Methods[] = {
 };
 
 PyTypeObject pyMultiModifier_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plMultiModifier",         /* tp_name */
     sizeof(pyMultiModifier),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

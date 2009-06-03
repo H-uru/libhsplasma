@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plDrawableSpans.h>
 #include "pyDrawableSpans.h"
-#include "../KeyedObject/pyKeyedObject.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
 
 extern "C" {
 
@@ -11,8 +11,7 @@ static PyObject* pyDrawable_new(PyTypeObject* type, PyObject* args, PyObject* kw
 }
 
 PyTypeObject pyDrawable_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plDrawable",              /* tp_name */
     sizeof(pyDrawable),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

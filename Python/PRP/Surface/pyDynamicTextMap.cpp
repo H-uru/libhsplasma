@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plDynamicTextMap.h>
 #include "pyDynamicTextMap.h"
 #include "pyBitmap.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -113,8 +113,7 @@ static PyGetSetDef pyDynamicTextMap_GetSet[] = {
 };
 
 PyTypeObject pyDynamicTextMap_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plDynamicTextMap",        /* tp_name */
     sizeof(pyDynamicTextMap),           /* tp_basicsize */
     0,                                  /* tp_itemsize */

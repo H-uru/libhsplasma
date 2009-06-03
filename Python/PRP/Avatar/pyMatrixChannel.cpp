@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
-#include "../../Math/pyGeometry3.h"
+#include "PRP/pyCreatable.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -53,8 +53,7 @@ static PyGetSetDef pyMatrixChannel_GetSet[] = {
 };
 
 PyTypeObject pyMatrixChannel_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plMatrixChannel",         /* tp_name */
     sizeof(pyMatrixChannel),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

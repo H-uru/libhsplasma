@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Light/plDirectionalLightInfo.h>
 #include "pyLightInfo.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef pyDirectionalLightInfo_Methods[] = {
 };
 
 PyTypeObject pyDirectionalLightInfo_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plDirectionalLightInfo",  /* tp_name */
     sizeof(pyDirectionalLightInfo),     /* tp_basicsize */
     0,                                  /* tp_itemsize */

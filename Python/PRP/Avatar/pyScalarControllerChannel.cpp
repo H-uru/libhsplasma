@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
-#include "../Animation/pyController.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/Animation/pyController.h"
 
 extern "C" {
 
@@ -58,8 +58,7 @@ static PyGetSetDef pyScalarControllerChannel_GetSet[] = {
 };
 
 PyTypeObject pyScalarControllerChannel_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plScalarControllerChannel", /* tp_name */
     sizeof(pyScalarControllerChannel),  /* tp_basicsize */
     0,                                  /* tp_itemsize */

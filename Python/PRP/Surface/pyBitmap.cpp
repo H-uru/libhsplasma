@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plBitmap.h>
 #include "pyBitmap.h"
-#include "../KeyedObject/pyKeyedObject.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -155,8 +155,7 @@ static PyGetSetDef pyBitmap_GetSet[] = {
 };
 
 PyTypeObject pyBitmap_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plBitmap",                /* tp_name */
     sizeof(pyBitmap),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */

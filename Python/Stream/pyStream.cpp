@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Stream/hsStream.h>
 #include "pyStream.h"
 
@@ -6,7 +6,7 @@ extern "C" {
 
 static void pyStream_dealloc(pyStream* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyStream___init__(pyStream* self, PyObject* args, PyObject* kwds) {
@@ -85,7 +85,7 @@ static PyObject* pyStream_read(pyStream* self, PyObject* args) {
     char* buf = new char[size];
     try {
         self->fThis->read((size_t)size, buf);
-        PyObject* data = PyString_FromStringAndSize(buf, size);
+        PyObject* data = PyBytes_FromStringAndSize(buf, size);
         delete[] buf;
         return data;
     } catch (...) {
@@ -191,7 +191,7 @@ static PyObject* pyStream_readBool(pyStream* self) {
 static PyObject* pyStream_readSafeStr(pyStream* self) {
     try {
         plString str = self->fThis->readSafeStr();
-        return PyString_FromStringAndSize(str.cstr(), str.len());
+        return PyString_FromString(str.cstr());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -211,7 +211,7 @@ static PyObject* pyStream_readSafeWStr(pyStream* self) {
 static PyObject* pyStream_readLine(pyStream* self) {
     try {
         plString str = self->fThis->readLine();
-        return PyString_FromStringAndSize(str.cstr(), str.len());
+        return PyString_FromString(str.cstr());
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -453,8 +453,7 @@ static PyGetSetDef pyStream_GetSet[] = {
 };
 
 PyTypeObject pyStream_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsStream",                /* tp_name */
     sizeof(pyStream),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */

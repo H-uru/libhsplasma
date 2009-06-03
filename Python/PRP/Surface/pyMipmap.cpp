@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plMipmap.h>
 #include "pyBitmap.h"
-#include "../pyCreatable.h"
-#include "../../Stream/pyStream.h"
+#include "PRP/pyCreatable.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
@@ -152,8 +152,8 @@ static PyObject* pyMipmap_getLevel(pyMipmap* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getLevel expects an int");
         return NULL;
     }
-    PyObject* data = PyString_FromStringAndSize((const char*)self->fThis->getLevelData(level),
-                                                self->fThis->getLevelSize(level));
+    PyObject* data = PyBytes_FromStringAndSize((const char*)self->fThis->getLevelData(level),
+                                               self->fThis->getLevelSize(level));
     return data;
 }
 
@@ -222,7 +222,7 @@ static PyObject* pyMipmap_DecompressImage(pyMipmap* self, PyObject* args) {
     size_t size = self->fThis->GetUncompressedSize(level);
     unsigned char* buf = new unsigned char[size];
     self->fThis->DecompressImage(level, buf, size);
-    PyObject* img = PyString_FromStringAndSize((char*)buf, size);
+    PyObject* img = PyBytes_FromStringAndSize((char*)buf, size);
     delete[] buf;
     return img;
 }
@@ -236,8 +236,8 @@ static PyObject* pyMipmap_getHeight(pyMipmap* self, void*) {
 }
 
 static PyObject* pyMipmap_getImageData(pyMipmap* self, void*) {
-    PyObject* data = PyString_FromStringAndSize((const char*)self->fThis->getImageData(),
-                                                self->fThis->getImageSize());
+    PyObject* data = PyBytes_FromStringAndSize((const char*)self->fThis->getImageData(),
+                                               self->fThis->getImageSize());
     return data;
 }
 
@@ -246,8 +246,8 @@ static PyObject* pyMipmap_getAlphaData(pyMipmap* self, void*) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    PyObject* data = PyString_FromStringAndSize((const char*)self->fThis->getAlphaData(),
-                                                self->fThis->getAlphaSize());
+    PyObject* data = PyBytes_FromStringAndSize((const char*)self->fThis->getAlphaData(),
+                                               self->fThis->getAlphaSize());
     return data;
 }
 
@@ -343,8 +343,7 @@ static PyGetSetDef pyMipmap_GetSet[] = {
 };
 
 PyTypeObject pyMipmap_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plMipmap",                /* tp_name */
     sizeof(pyMipmap),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */

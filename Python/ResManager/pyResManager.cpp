@@ -1,17 +1,17 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <ResManager/plResManager.h>
 #include "pyResManager.h"
-#include "../Stream/pyStream.h"
-#include "../PRP/pyCreatable.h"
-#include "../PRP/pySceneNode.h"
-#include "../PRP/KeyedObject/pyKey.h"
-#include "../PRP/KeyedObject/pyKeyedObject.h"
+#include "Stream/pyStream.h"
+#include "PRP/pyCreatable.h"
+#include "PRP/pySceneNode.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
 
 extern "C" {
 
 static void pyResManager_dealloc(pyResManager* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyResManager___init__(pyResManager* self, PyObject* args, PyObject* kwds) {
@@ -591,8 +591,7 @@ static PyMethodDef pyResManager_Methods[] = {
 };
 
 PyTypeObject pyResManager_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plResManager",            /* tp_name */
     sizeof(pyResManager),               /* tp_basicsize */
     0,                                  /* tp_itemsize */

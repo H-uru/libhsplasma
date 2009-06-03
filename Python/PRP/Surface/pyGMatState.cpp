@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/hsGMatState.h>
 #include "pyGMatState.h"
 
@@ -84,8 +84,7 @@ static PyGetSetDef pyGMatState_GetSet[] = {
 };
 
 PyTypeObject pyGMatState_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsGMatState",             /* tp_name */
     sizeof(pyGMatState),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plResponderModifier.h>
 #include "pyResponderModifier.h"
-#include "../Message/pyMessage.h"
-#include "../pyCreatable.h"
+#include "PRP/Message/pyMessage.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -53,8 +53,7 @@ static PyGetSetDef pyResponderEnableMsg_GetSet[] = {
 };
 
 PyTypeObject pyResponderEnableMsg_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plResponderEnableMsg",    /* tp_name */
     sizeof(pyResponderEnableMsg),       /* tp_basicsize */
     0,                                  /* tp_itemsize */

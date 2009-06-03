@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plScalarChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -52,8 +52,7 @@ static PyGetSetDef pyScalarChannel_GetSet[] = {
 };
 
 PyTypeObject pyScalarChannel_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plScalarChannel",         /* tp_name */
     sizeof(pyScalarChannel),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

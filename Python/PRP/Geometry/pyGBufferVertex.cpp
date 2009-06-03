@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plGBufferGroup.h>
 #include "pyGBufferGroup.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
 static void pyGBufferVertex_dealloc(pyGBufferVertex* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyGBufferVertex___init__(pyGBufferVertex* self, PyObject* args, PyObject* kwds) {
@@ -145,8 +145,7 @@ static PyGetSetDef pyGBufferVertex_GetSet[] = {
 };
 
 PyTypeObject pyGBufferVertex_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plGBufferVertex",         /* tp_name */
     sizeof(pyGBufferVertex),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

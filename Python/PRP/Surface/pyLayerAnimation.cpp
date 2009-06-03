@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plLayerAnimation.h>
 #include "pyLayerAnimation.h"
-#include "../Animation/pyAnimTimeConvert.h"
-#include "../pyCreatable.h"
+#include "PRP/Animation/pyAnimTimeConvert.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -49,8 +49,7 @@ static PyGetSetDef pyLayerAnimation_GetSet[] = {
 };
 
 PyTypeObject pyLayerAnimation_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLayerAnimation",        /* tp_name */
     sizeof(pyLayerAnimation),           /* tp_basicsize */
     0,                                  /* tp_itemsize */

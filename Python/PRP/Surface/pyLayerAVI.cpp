@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plLayerMovie.h>
 #include "pyLayerMovie.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef pyLayerAVI_Methods[] = {
 };
 
 PyTypeObject pyLayerAVI_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLayerAVI",              /* tp_name */
     sizeof(pyLayerAVI),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */

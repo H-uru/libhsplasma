@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plAGApplicator.h>
 #include "pyAGApplicator.h"
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -82,8 +82,7 @@ static PyGetSetDef pyAGApplicator_GetSet[] = {
 };
 
 PyTypeObject pyAGApplicator_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plAGApplicator",          /* tp_name */
     sizeof(pyAGApplicator),             /* tp_basicsize */
     0,                                  /* tp_itemsize */

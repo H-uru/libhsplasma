@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plKeyControllers.h>
 #include "pyLeafController.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -40,8 +40,7 @@ static PyMethodDef pyScaleValueController_Methods[] = {
 };
 
 PyTypeObject pyScaleValueController_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plScaleValueController",  /* tp_name */
     sizeof(pyScaleValueController),     /* tp_basicsize */
     0,                                  /* tp_itemsize */

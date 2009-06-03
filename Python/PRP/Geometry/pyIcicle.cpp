@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plIcicle.h>
 #include "pySpan.h"
 #include "pyGBufferGroup.h"
@@ -103,8 +103,7 @@ static PyGetSetDef pyIcicle_GetSet[] = {
 };
 
 PyTypeObject pyIcicle_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plIcicle",                /* tp_name */
     sizeof(pyIcicle),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */

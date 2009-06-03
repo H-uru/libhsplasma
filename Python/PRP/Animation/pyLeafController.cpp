@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plLeafController.h>
 #include "pyLeafController.h"
 #include "pyController.h"
 #include "pyKeys.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -153,8 +153,7 @@ static PyGetSetDef pyLeafController_GetSet[] = {
 };
 
 PyTypeObject pyLeafController_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLeafController",        /* tp_name */
     sizeof(pyLeafController),           /* tp_basicsize */
     0,                                  /* tp_itemsize */

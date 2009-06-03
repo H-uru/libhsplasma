@@ -1,13 +1,13 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Math/hsAffineParts.h>
 #include "pyGeometry3.h"
-#include "../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyAffineParts_dealloc(pyAffineParts* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyAffineParts___init__(pyAffineParts* self, PyObject* args, PyObject* kwds) {
@@ -152,8 +152,7 @@ PyGetSetDef pyAffineParts_GetSet[] = {
 };
 
 PyTypeObject pyAffineParts_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsAffineParts",           /* tp_name */
     sizeof(pyAffineParts),              /* tp_basicsize */
     0,                                  /* tp_itemsize */

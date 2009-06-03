@@ -1,15 +1,15 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <ResManager/plAgeInfo.h>
 #include "pyResManager.h"
-#include "../Stream/pyStream.h"
-#include "../PRP/KeyedObject/pyKey.h"
+#include "Stream/pyStream.h"
+#include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
 static void pyAgeInfo_dealloc(pyAgeInfo* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyAgeInfo___init__(pyAgeInfo* self, PyObject* args, PyObject* kwds) {
@@ -274,8 +274,7 @@ static PyGetSetDef pyAgeInfo_GetSet[] = {
 };
 
 PyTypeObject pyAgeInfo_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plAgeInfo",               /* tp_name */
     sizeof(pyAgeInfo),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

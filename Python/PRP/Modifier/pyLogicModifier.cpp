@@ -1,8 +1,8 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plLogicModifier.h>
 #include "pyLogicModifier.h"
-#include "../KeyedObject/pyKey.h"
-#include "../pyCreatable.h"
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -124,8 +124,7 @@ static PyGetSetDef pyLogicModifier_GetSet[] = {
 };
 
 PyTypeObject pyLogicModifier_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLogicModifier",         /* tp_name */
     sizeof(pyLogicModifier),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

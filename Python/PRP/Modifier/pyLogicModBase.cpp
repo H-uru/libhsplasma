@@ -1,11 +1,11 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Modifier/plLogicModBase.h>
 #include "pyLogicModifier.h"
-#include "../Modifier/pyModifier.h"
-#include "../Message/pyNotifyMsg.h"
-#include "../Message/pyMessage.h"
-#include "../pyCreatable.h"
-#include "../../Util/pyBitVector.h"
+#include "PRP/Modifier/pyModifier.h"
+#include "PRP/Message/pyNotifyMsg.h"
+#include "PRP/Message/pyMessage.h"
+#include "PRP/pyCreatable.h"
+#include "Util/pyBitVector.h"
 
 extern "C" {
 
@@ -135,10 +135,9 @@ static PyGetSetDef pyLogicModBase_GetSet[] = {
 };
 
 PyTypeObject pyLogicModBase_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.plLogicModBase", /* tp_name */
-    sizeof(pyLogicModBase),    /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.plLogicModBase",          /* tp_name */
+    sizeof(pyLogicModBase),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

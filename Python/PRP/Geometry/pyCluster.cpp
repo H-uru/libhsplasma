@@ -1,16 +1,16 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plCluster.h>
 #include "pyCluster.h"
 #include "pyClusterGroup.h"
 #include "pySpanInstance.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
 static void pyCluster_dealloc(pyCluster* self) {
     if (self->fPyOwned)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyCluster___init__(pyCluster* self, PyObject* args, PyObject* kwds) {
@@ -156,8 +156,7 @@ static PyGetSetDef pyCluster_GetSet[] = {
 };
 
 PyTypeObject pyCluster_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plCluster",               /* tp_name */
     sizeof(pyCluster),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

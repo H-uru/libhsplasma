@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
-#include "../../Math/pyGeometry3.h"
+#include "Math/pyGeometry3.h"
 
 extern "C" {
 
@@ -67,8 +67,7 @@ static PyGetSetDef pyPoint3Key_GetSet[] = {
 };
 
 PyTypeObject pyPoint3Key_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsPoint3Key",             /* tp_name */
     sizeof(pyPoint3Key),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

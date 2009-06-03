@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGApplicator.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,10 +34,9 @@ static PyMethodDef pyMatrixDifferenceApp_Methods[] = {
 };
 
 PyTypeObject pyMatrixDifferenceApp_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.plMatrixDifferenceApp", /* tp_name */
-    sizeof(pyMatrixDifferenceApp),   /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.plMatrixDifferenceApp",   /* tp_name */
+    sizeof(pyMatrixDifferenceApp),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

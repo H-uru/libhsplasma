@@ -1,9 +1,9 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Animation/plAnimTimeConvert.h>
 #include "pyAnimTimeConvert.h"
 #include "pyATCEaseCurves.h"
-#include "../Message/pyEventCallbackMsg.h"
-#include "../pyCreatable.h"
+#include "PRP/Message/pyEventCallbackMsg.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -298,8 +298,7 @@ static PyGetSetDef pyAnimTimeConvert_GetSet[] = {
 };
 
 PyTypeObject pyAnimTimeConvert_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plAnimTimeConvert",       /* tp_name */
     sizeof(pyAnimTimeConvert),          /* tp_basicsize */
     0,                                  /* tp_itemsize */

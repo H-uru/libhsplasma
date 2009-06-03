@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
-#include "../KeyedObject/pyKey.h"
+#include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
 
@@ -56,8 +56,7 @@ static PyGetSetDef pyClimbingBlockerHitEventData_GetSet[] = {
 };
 
 PyTypeObject pyClimbingBlockerHitEventData_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.proClimbingBlockerHitEventData", /* tp_name */
     sizeof(pyClimbingBlockerHitEventData), /* tp_basicsize */
     0,                                  /* tp_itemsize */

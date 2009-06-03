@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/plCreatable.h>
 #include "pyCreatable.h"
 
@@ -7,7 +7,7 @@ extern "C" {
 static void pyCreatableStub_dealloc(pyCreatable* self) {
     if (self->fThis != NULL)
         delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static int pyCreatableStub___init__(pyCreatableStub* self, PyObject* args, PyObject* kwds) {
@@ -33,8 +33,8 @@ static PyObject* pyCreatableStub_getClassIdx(pyCreatableStub* self) {
 }
 
 static PyObject* pyCreatableStub_getData(pyCreatableStub* self) {
-    return PyString_FromStringAndSize((const char*)self->fThis->getData(),
-                                      self->fThis->getLength());
+    return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
+                                     self->fThis->getLength());
 }
 
 static PyObject* pyCreatableStub_getLength(pyCreatableStub* self) {
@@ -52,8 +52,7 @@ static PyMethodDef pyCreatableStub_Methods[] = {
 };
 
 PyTypeObject pyCreatableStub_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plCreatableStub",         /* tp_name */
     sizeof(pyCreatableStub),            /* tp_basicsize */
     0,                                  /* tp_itemsize */

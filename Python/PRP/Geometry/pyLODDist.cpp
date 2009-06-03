@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Geometry/plClusterGroup.h>
 #include "pyClusterGroup.h"
-#include "../../Stream/pyStream.h"
+#include "Stream/pyStream.h"
 
 extern "C" {
 
@@ -83,8 +83,7 @@ static PyGetSetDef pyLODDist_GetSet[] = {
 };
 
 PyTypeObject pyLODDist_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLODDist",               /* tp_name */
     sizeof(pyLODDist),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */

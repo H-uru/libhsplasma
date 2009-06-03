@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Surface/plLayerMovie.h>
 #include "pyLayerMovie.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,8 +34,7 @@ static PyMethodDef pyLayerBink_Methods[] = {
 };
 
 PyTypeObject pyLayerBink_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.plLayerBink",             /* tp_name */
     sizeof(pyLayerBink),                /* tp_basicsize */
     0,                                  /* tp_itemsize */

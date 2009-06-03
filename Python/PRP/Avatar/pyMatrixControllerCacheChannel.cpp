@@ -1,7 +1,7 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Avatar/plMatrixChannel.h>
 #include "pyAGChannel.h"
-#include "../pyCreatable.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 
@@ -34,10 +34,9 @@ static PyMethodDef pyMatrixControllerCacheChannel_Methods[] = {
 };
 
 PyTypeObject pyMatrixControllerCacheChannel_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
-    "PyPlasma.plMatrixControllerCacheChannel",           /* tp_name */
-    sizeof(pyMatrixControllerCacheChannel),              /* tp_basicsize */
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "PyPlasma.plMatrixControllerCacheChannel", /* tp_name */
+    sizeof(pyMatrixControllerCacheChannel), /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */

@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <Stream/hsStream.h>
 #include "pyStream.h"
 
@@ -6,7 +6,7 @@ extern "C" {
 
 static void pyFileStream_dealloc(pyFileStream* self) {
     delete self->fThis;
-    self->ob_type->tp_free((PyObject*)self);
+    Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
 static PyObject* pyFileStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -54,8 +54,7 @@ static PyMethodDef pyFileStream_Methods[] = {
 };
 
 PyTypeObject pyFileStream_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.hsFileStream",            /* tp_name */
     sizeof(pyFileStream),               /* tp_basicsize */
     0,                                  /* tp_itemsize */

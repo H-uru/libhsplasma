@@ -1,4 +1,4 @@
-#include <Python.h>
+#include <PyPlasma.h>
 #include <PRP/Message/proEventData.h>
 #include "pyEventData.h"
 
@@ -51,8 +51,7 @@ static PyGetSetDef pyResponderStateEventData_GetSet[] = {
 };
 
 PyTypeObject pyResponderStateEventData_Type = {
-    PyObject_HEAD_INIT(NULL)
-    0,                                  /* ob_size */
+    PyVarObject_HEAD_INIT(NULL, 0)
     "PyPlasma.proResponderStateEventData", /* tp_name */
     sizeof(pyResponderStateEventData),  /* tp_basicsize */
     0,                                  /* tp_itemsize */
