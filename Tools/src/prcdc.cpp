@@ -1,24 +1,28 @@
 #include <ResManager/plResManager.h>
+#include <ResManager/plFactory.h>
 #include <Debug/hsExceptions.h>
 #include <Stream/hsStdioStream.h>
 #include <Debug/plDebug.h>
-#include <PRP/plCreatable.h>
+#include <PRP/KeyedObject/hsKeyedObject.h>
 
 void doHelp(const char* exename) {
     printf("Usage: %s [options] filename\n\n", exename);
     printf("Options:\n");
-    printf("\t-o file  Write output to `file`\n");
-    printf("\t-v ver   Select input version (prime, pots, live, eoa, hex)\n");
-    printf("\t         (for use with Creatables; PRP versions are determined automatically)\n");
-    printf("\t--novtx  Don't include vertex data\n");
-    printf("\t--notex  Don't include texture data\n");
-    printf("\t--help   Display this help message and then exit\n\n");
+    printf("\t-o file      Write output to `file`\n");
+    printf("\t-v ver       Select input version (prime, pots, live, eoa, hex)\n");
+    printf("\t             (for use with Creatables; PRP versions are determined automatically)\n");
+    printf("\t-x type:name Decompyle a single object from a PRP file\n");
+    printf("\t--novtx      Don't include vertex data\n");
+    printf("\t--notex      Don't include texture data\n");
+    printf("\t--help       Display this help message and then exit\n\n");
 }
 
 int main(int argc, char** argv) {
     plString inputFile, outputFile;
     bool exVtx = false, exTex = false;
     PlasmaVer inVer = pvUnknown;
+    plString objName;
+    short objType = -1;
 
     if (argc == 1) {
         doHelp(argv[0]);
@@ -27,9 +31,17 @@ int main(int argc, char** argv) {
 
     for (int i=1; i<argc; i++) {
         if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--out") == 0) {
-            outputFile = argv[++i];
+            if (++i >= argc) {
+                fprintf(stderr, "Error: expected filename\n");
+                return 1;
+            }
+            outputFile = argv[i];
         } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--ver") == 0) {
-            plString ver = argv[++i];
+            if (++i >= argc) {
+                fprintf(stderr, "Error: expected version specifier\n");
+                return 1;
+            }
+            plString ver = argv[i];
             ver.toLower();
             if (ver == "prime")     inVer = pvPrime;
             else if (ver == "pots") inVer = pvPots;
@@ -39,6 +51,27 @@ int main(int argc, char** argv) {
             else {
                 fprintf(stderr, "Error: unrecognized version: %s\n", ver.cstr());
                 return 1;
+            }
+        } else if (strcmp(argv[i], "-x") == 0 || strcmp(argv[i], "--extract") == 0) {
+            if (++i >= argc) {
+                fprintf(stderr, "Error: expected object specifier");
+                return 1;
+            }
+            plString objSpec = argv[i];
+            plString type = objSpec.beforeFirst(':');
+            objType = plFactory::ClassIndex(type);
+            if (objType == -1)
+                objType = type.toInt();
+            objName = objSpec.afterLast(':');
+            if (objName.startsWith('"')) {
+                do {
+                    if (++i >= argc) {
+                        fprintf(stderr, "Error: Unterminated string");
+                        return 1;
+                    }
+                    objName += plString(" ") + argv[i];
+                } while (!objName.endsWith('"'));
+                objName = objName.mid(1, objName.len() - 2);
             }
         } else if (strcmp(argv[i], "--notex") == 0) {
             exTex = true;
@@ -78,7 +111,23 @@ int main(int argc, char** argv) {
     try {
         if (inputFile.afterLast('.') == "prp") {
             plPageInfo* page = rm.ReadPage(inputFile);
-            rm.WritePagePrc(&prc, page);
+            if (objType == -1) {
+                rm.WritePagePrc(&prc, page);
+            } else {
+                std::vector<plKey> keys = rm.getKeys(page->getLocation(), objType);
+                bool found = false;
+                for (std::vector<plKey>::iterator it = keys.begin(); it != keys.end(); it++) {
+                    if ((*it)->getName() == objName && (*it)->getObj() != NULL) {
+                        (*it)->getObj()->prcWrite(&prc);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                    fprintf(stderr, "Object %s:%s does not exist\n",
+                                    plFactory::ClassName(objType),
+                                    objName.cstr());
+            }
         } else if (inputFile.afterLast('.') == "age") {
             plAgeInfo* age = rm.ReadAge(inputFile, false);
             rm.WriteAgePrc(&prc, age);
