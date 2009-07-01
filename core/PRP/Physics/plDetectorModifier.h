@@ -20,13 +20,23 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumReceivers() const;
+    plKey getReceiver(size_t idx) const;
+    void addReceiver(plKey rcvr);
+    void delReceiver(size_t idx);
+    void clearReceivers();
+
+    plKey getRemoteMod() const;
+    plKey getProxy() const;
+
+    void setRemoteMod(plKey mod);
+    void setProxy(plKey proxy);
 };
 
 DllClass plPickingDetector : public plDetectorModifier {
 public:
-    plPickingDetector();
-    virtual ~plPickingDetector();
-
     DECLARE_CREATABLE(plPickingDetector)
 };
 

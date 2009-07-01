@@ -97,6 +97,8 @@ public:
 
     virtual size_t read(size_t size, void* buf);
     virtual size_t write(size_t size, const void* buf);
+
+    time_t getModTime() const;
 };
 
 DllClass hsFileReadException : public hsException {

@@ -66,6 +66,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prpmod", "Tools\prpmod.vcpr
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlasmaSum", "Tools\PlasmaSum.vcproj", "{07B7C2ED-F5E2-4CFE-9570-677F2F8D1663}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -157,6 +162,12 @@ Global
 		{CBD8A19E-642F-4301-AEC1-29759CC4AB3D}.Debug-NoDLL|Win32.Build.0 = Debug-NoDLL|Win32
 		{CBD8A19E-642F-4301-AEC1-29759CC4AB3D}.Release|Win32.ActiveCfg = Release|Win32
 		{CBD8A19E-642F-4301-AEC1-29759CC4AB3D}.Release|Win32.Build.0 = Release|Win32
+		{07B7C2ED-F5E2-4CFE-9570-677F2F8D1663}.Debug|Win32.ActiveCfg = Debug|Win32
+		{07B7C2ED-F5E2-4CFE-9570-677F2F8D1663}.Debug|Win32.Build.0 = Debug|Win32
+		{07B7C2ED-F5E2-4CFE-9570-677F2F8D1663}.Debug-NoDLL|Win32.ActiveCfg = Debug-NoDLL|Win32
+		{07B7C2ED-F5E2-4CFE-9570-677F2F8D1663}.Debug-NoDLL|Win32.Build.0 = Debug-NoDLL|Win32
+		{07B7C2ED-F5E2-4CFE-9570-677F2F8D1663}.Release|Win32.ActiveCfg = Release|Win32
+		{07B7C2ED-F5E2-4CFE-9570-677F2F8D1663}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

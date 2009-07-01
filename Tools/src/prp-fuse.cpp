@@ -6,11 +6,13 @@
 #include <cstring>
 #include <errno.h>
 #include <unistd.h>
+#include <Debug/plDebug.h>
 #include <ResManager/plResManager.h>
 #include <ResManager/plFactory.h>
 #include <Stream/hsRAMStream.h>
+#include <PRP/KeyedObject/hsKeyedObject.h>
 
-#define PAGEINFO "pageinfo.prc"
+#define PAGEINFO "PageInfo.prc"
 
 static time_t s_fatime = 0, s_fmtime = 0, s_fctime = 0;
 static uid_t s_uid = 0;
@@ -31,6 +33,71 @@ static struct _session {
 #define RESMGR  (s_session->resMan)
 #define PAGE    (s_session->page)
 #define CLASSES (s_session->classes)
+
+void CacheFile(struct FileCache* obj);
+void DecacheFile(size_t fh);
+
+struct FileCache {
+    long refs;
+    unsigned char* prcdata;
+    size_t prcsize;
+    unsigned char* objdata;
+    size_t objsize;
+
+    // Object identification
+    plKey key;
+    size_t fh;
+
+    FileCache() : refs(1)
+    {
+        CacheFile(this);
+    }
+
+    ~FileCache()
+    {
+        delete[] prcdata;
+        delete[] objdata;
+        DecacheFile(fh);
+    }
+
+    void ref()
+    {
+        ++refs;
+    }
+
+    void unref()
+    {
+        if (--refs == 0)
+            delete this;
+    }
+};
+
+typedef std::vector<FileCache*> FILELIST;
+static FILELIST s_openfiles;
+
+static char* s_pageInfoPrc = NULL;
+static size_t s_pageInfoPrcSize = 0;
+
+void CacheFile(struct FileCache* obj)
+{
+    for (size_t i=0; i<s_openfiles.size(); i++) {
+        if (s_openfiles[i] == NULL) {
+            obj->fh = i + 1;
+            s_openfiles[i] = obj;
+            return;
+        }
+    }
+
+    // No empty space, allocate some new room and store it there
+    obj->fh = s_openfiles.size() + 1;
+    s_openfiles.resize(s_openfiles.size() + 8);
+    s_openfiles[obj->fh - 1] = obj;
+}
+
+void DecacheFile(size_t fh)
+{
+    s_openfiles[fh-1] = NULL;
+}
 
 static int prp_getattr(const char* path, struct stat* stbuf)
 {
@@ -104,6 +171,98 @@ static int prp_getattr(const char* path, struct stat* stbuf)
     return 0;
 }
 
+static int prp_open(const char* path, fuse_file_info* fi)
+{
+    // Check if this is the special PageInfo file
+    if (strcmp(path, "/" PAGEINFO) == 0) {
+        fi->fh = 0;
+        return 0;
+    }
+
+    // Get the type
+    plString typeStr = plString(path + 1).beforeFirst('/');
+    if (typeStr.empty())
+        return -ENOENT;
+    short type = plFactory::ClassIndex(typeStr);
+    if (type < 0)
+        return -ENOENT;
+
+    // Make sure the object is actually present (O_CREAT is already handled)
+    plString oname = plString(path + 1).afterFirst('/').beforeLast('.');
+    plKey myKey;
+    std::vector<plKey> keys = RESMGR.getKeys(PAGE->getLocation(), type);
+    for (std::vector<plKey>::iterator it = keys.begin(); it != keys.end(); it++) {
+        if ((*it)->getName() == oname)
+            myKey = *it;
+    }
+    if (!myKey.Exists())
+        return -ENOENT;
+
+    // Look for an already-open object:
+    for (FILELIST::iterator it = s_openfiles.begin(); it != s_openfiles.end(); it++) {
+        if ((*it)->key == myKey) {
+            if ((fi->flags & (O_RDWR | O_WRONLY)) != 0)
+                return -EACCES;
+            (*it)->ref();
+            fi->fh = (*it)->fh;
+            return 0;
+        }
+    }
+
+    // First time to open:
+    FileCache* fc = new FileCache();
+    fc->key = myKey;
+
+    // Cache the object raw data
+    {
+        hsRAMStream RS(RESMGR.getVer());
+        myKey->getObj()->write(&RS, &RESMGR);
+        fc->objsize = RS.size();
+        fc->objdata = new unsigned char[fc->objsize];
+        RS.copyTo(fc->objdata, fc->objsize);
+    }
+
+    // Cache the PRC data
+    {
+        hsRAMStream RS(RESMGR.getVer());
+        pfPrcHelper prc(&RS);
+        myKey->getObj()->prcWrite(&prc);
+        fc->prcsize = RS.size();
+        fc->prcdata = new unsigned char[fc->prcsize];
+        RS.copyTo(fc->prcdata, fc->prcsize);
+    }
+    return 0;
+}
+
+static int prp_read(const char* path, char* buf, size_t size, off_t offset,
+                    fuse_file_info* fi)
+{
+    if (strcmp(path, "/" PAGEINFO) == 0) {
+        // TODO
+        return -1;
+    }
+
+    plString ext = plString(path).afterLast('.');
+    FileCache* fc = s_openfiles[fi->fh - 1];
+    if (ext == "prc") {
+        if (offset >= fc->prcsize)
+            return 0;
+        if (offset + size > fc->prcsize)
+            size = fc->prcsize - offset;
+        memcpy(buf, fc->prcdata + offset, size);
+        return size;
+    } else if (ext == "po") {
+        if (offset >= fc->objsize)
+            return 0;
+        if (offset + size > fc->objsize)
+            size = fc->objsize - offset;
+        memcpy(buf, fc->objdata + offset, size);
+        return size;
+    } else {
+        return -ENOENT;
+    }
+}
+
 static int prp_readdir(const char* path, void* buf, fuse_fill_dir_t filler,
                        off_t offset, fuse_file_info* fi)
 {
@@ -147,7 +306,7 @@ static int prp_readdir(const char* path, void* buf, fuse_fill_dir_t filler,
 }
 
 static fuse_operations prp_oper = {
-    /* COMPAT: V2 */
+    /* COMPAT: V25 */
     &prp_getattr,           /* getattr */
     NULL,                   /* readlink */
     NULL,                   /* getdir */
@@ -162,8 +321,8 @@ static fuse_operations prp_oper = {
     NULL,                   /* chown */
     NULL,                   /* truncate */
     NULL,                   /* utime */
-    NULL,                   /* open */
-    NULL,                   /* read */
+    &prp_open,              /* open */
+    &prp_read,              /* read */
     NULL,                   /* write */
     NULL,                   /* statfs */
     NULL,                   /* flush */
@@ -192,8 +351,7 @@ static void printUsage(char* progName)
 
 int main(int argc, char* argv[])
 {
-    s_uid = getuid();
-    s_gid = getgid();
+    plDebug::InitFile(plDebug::kDLAll, "prp-fuse.log");
 
     if (argc < 2) {
         printUsage(argv[0]);
@@ -210,6 +368,14 @@ int main(int argc, char* argv[])
         CLASSES[i].clsName = plFactory::ClassName(types[i]);
         CLASSES[i].clsIdx = types[i];
     }
+
+    struct stat stbuf;
+    stat(argv[1], &stbuf);
+    s_uid = stbuf.st_uid;
+    s_gid = stbuf.st_gid;
+    s_fatime = stbuf.st_atime;
+    s_fmtime = stbuf.st_mtime;
+    s_fctime = stbuf.st_ctime;
 
     return fuse_main(argc - 1, argv + 1, &prp_oper);
 }

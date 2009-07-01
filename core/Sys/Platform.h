@@ -4,6 +4,7 @@
 #define ENDSWAP32(val) \
     ((val & 0x000000FF) << 24 | (val & 0x0000FF00) << 8 | \
      (val & 0x00FF0000) >> 8  | (val & 0xFF000000) >> 24)
+
 #define ENDSWAP16(val) \
     ((val & 0x00FF) << 8 | (val & 0xFF00) >> 8)
 
@@ -30,8 +31,10 @@
     #define strcasecmp _stricmp
     #define wcscasecmp _wcsicmp
     #define PATHSEP '\\'
+    #define PATHSEPSTR "\\"
 #else
     #define PATHSEP '/'
+    #define PATHSEPSTR "/"
 #endif
 
 // For old Python versions:

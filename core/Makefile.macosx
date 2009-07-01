@@ -37,6 +37,7 @@ PLSOBJ=\
 	$(OBJDIR)plUUID.o \
 	$(OBJDIR)hsBitVector.o \
 	$(OBJDIR)plJPEG.o \
+	$(OBJDIR)plMD5.o \
 	$(OBJDIR)PlasmaVersions.o \
 	$(OBJDIR)plString.o \
 	$(OBJDIR)plServerGuid.o \
@@ -391,6 +392,9 @@ $(OBJDIR)hsBitVector.o: Util/hsBitVector.h Util/hsBitVector.cpp
 
 $(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp 3rdPartyLibs/jpeg-6b/jconfig.h
 	$(CXX) $(CXXFLAGS) -c Util/plJPEG.cpp -o $@
+
+$(OBJDIR)plMD5.o: Util/plMD5.h Util/plMD5.cpp
+	$(CXX) $(CXXFLAGS) -c Util/plMD5.cpp -o $@
 
 $(OBJDIR)PlasmaVersions.o: Util/PlasmaVersions.h Util/PlasmaVersions.cpp
 	$(CXX) $(CXXFLAGS) -c Util/PlasmaVersions.cpp -o $@

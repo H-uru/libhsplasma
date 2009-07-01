@@ -61,9 +61,18 @@ void plDetectorModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+size_t plDetectorModifier::getNumReceivers() const { return fReceivers.getSize(); }
+plKey plDetectorModifier::getReceiver(size_t idx) const { return fReceivers[idx]; }
+void plDetectorModifier::addReceiver(plKey rcvr) { fReceivers.append(rcvr); }
+void plDetectorModifier::delReceiver(size_t idx) { fReceivers.remove(idx); }
+void plDetectorModifier::clearReceivers() { fReceivers.clear(); }
+
+plKey plDetectorModifier::getRemoteMod() const { return fRemoteMod; }
+plKey plDetectorModifier::getProxy() const { return fProxyKey; }
+
+void plDetectorModifier::setRemoteMod(plKey mod) { fRemoteMod = mod; }
+void plDetectorModifier::setProxy(plKey proxy) { fProxyKey = proxy; }
+
 
 /* plPickingDetector */
-plPickingDetector::plPickingDetector() { }
-plPickingDetector::~plPickingDetector() { }
-
 IMPLEMENT_CREATABLE(plPickingDetector, kPickingDetector, plDetectorModifier)

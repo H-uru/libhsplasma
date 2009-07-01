@@ -1,11 +1,12 @@
 #include <string.h>
+#include <sys/stat.h>
 #include "hsStream.h"
 #include "Sys/Platform.h"
 
 static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 static const wchar_t eoaWStrKey[8] = {L'm',L'y',L's',L't',L'n',L'e',L'r',L'd'};
 
-// hsStream //
+/* hsStream */
 hsStream::hsStream(PlasmaVer pv) {
     setVer(pv);
 }
@@ -266,7 +267,7 @@ void hsStream::writeLine(const plString& ln, bool winEOL) {
 }
 
 
-// hsFileStream //
+/* hsFileStream */
 hsFileStream::hsFileStream(PlasmaVer pv) : hsStream(pv), F(NULL) { }
 
 hsFileStream::~hsFileStream() {
@@ -373,8 +374,17 @@ size_t hsFileStream::write(size_t size, const void* buf) {
     return fwrite(buf, size, 1, F);
 }
 
+time_t hsFileStream::getModTime() const {
+    if (F == NULL)
+        return 0;
 
-// hsFileReadException //
+    struct stat stbuf;
+    fstat(fileno(F), &stbuf);
+    return stbuf.st_mtime;
+}
+
+
+/* hsFileReadException */
 hsFileReadException::hsFileReadException(const char* file,
                      unsigned long line, const char* filename) throw()
                    : hsException(file, line) {
@@ -384,7 +394,7 @@ hsFileReadException::hsFileReadException(const char* file,
 }
 
 
-// hsFileWriteException //
+/* hsFileWriteException */
 hsFileWriteException::hsFileWriteException(const char* file,
                       unsigned long line, const char* filename) throw()
                     : hsException(file, line) {

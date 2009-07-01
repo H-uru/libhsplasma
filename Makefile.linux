@@ -18,6 +18,7 @@ all:
 	($(MAKE) -fMakefile.linux $(BINDIR)/PyPack)
 	($(MAKE) -fMakefile.linux $(BINDIR)/prpmod)
 	($(MAKE) -fMakefile.linux $(BINDIR)/prp-fuse)
+	($(MAKE) -fMakefile.linux $(BINDIR)/PlasmaSum)
 	($(MAKE) -fMakefile.linux $(BINDIR)/PageEditor)
 	($(MAKE) -fMakefile.linux Misc/TypeMap)
 
@@ -54,6 +55,9 @@ $(BINDIR)/prpmod: Tools/src/prpmod.cpp $(BINDIR)/libPlasma.so
 $(BINDIR)/prp-fuse: Tools/src/prp-fuse.cpp $(BINDIR)/libPlasma.so
 	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -lfuse -Icore Tools/src/prp-fuse.cpp -o $@
 
+$(BINDIR)/PlasmaSum: Tools/src/PlasmaSum.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/PlasmaSum.cpp -o $@
+
 $(BINDIR)/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/CreateFrm.cpp PageEditor/CHexEditCtrl.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp $(BINDIR)/libPlasma.so
 	$(CXX) $(CXXFLAGS) `wx-config --cxxflags --libs std,stc` -L$(BINDIR)/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/CreateFrm.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/CHexEditCtrl.cpp PageEditor/PlasmaTreeItem.cpp -o $@
 
@@ -74,6 +78,7 @@ install:
 	cp $(BINDIR)/PyPack $(PREFIX)/bin/
 	cp $(BINDIR)/prpmod $(PREFIX)/bin/
 	cp $(BINDIR)/prp-fuse $(PREFIX)/bin/
+	cp $(BINDIR)/PlasmaSum $(PREFIX)/bin/
 	cp $(BINDIR)/PageEditor $(PREFIX)/bin/
 	chmod +x $(BINDIR)/eoaedit $(BINDIR)/uruedit
 	cp $(BINDIR)/eoaedit $(BINDIR)/uruedit $(PREFIX)/bin/
@@ -92,6 +97,7 @@ uninstall:
 	rm -f $(PREFIX)/bin/PyPack
 	rm -f $(PREFIX)/bin/prpmod
 	rm -f $(PREFIX)/bin/prp-fuse
+	rm -f $(PREFIX)/bin/PlasmaSum
 	rm -f $(PREFIX)/bin/PageEditor
 	rm -f $(PREFIX)/bin/eoaedit
 	rm -f $(PREFIX)/bin/uruedit
@@ -114,5 +120,6 @@ distclean:
 	rm -f $(BINDIR)/PyPack
 	rm -f $(BINDIR)/prpmod
 	rm -f $(BINDIR)/prp-fuse
+	rm -f $(BINDIR)/PlasmaSum
 	rm -f $(BINDIR)/PageEditor
 	rm -f Misc/TypeMap

@@ -32,6 +32,9 @@ void plCollisionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+unsigned char plCollisionDetector::getType() const { return fType; }
+void plCollisionDetector::setType(unsigned char type) { fType = type; }
+
 
 /* plSubworldRegionDetector */
 plSubworldRegionDetector::plSubworldRegionDetector() : fOnExit(false) { }
@@ -40,19 +43,19 @@ plSubworldRegionDetector::~plSubworldRegionDetector() { }
 IMPLEMENT_CREATABLE(plSubworldRegionDetector, kSubworldRegionDetector, plCollisionDetector)
 
 void plSubworldRegionDetector::read(hsStream* S, plResManager* mgr) {
-    plDetectorModifier::read(S, mgr);
+    plDetectorModifier::read(S, mgr);   // <-- Not a bug
     fSub = mgr->readKey(S);
     fOnExit = S->readBool();
 }
 
 void plSubworldRegionDetector::write(hsStream* S, plResManager* mgr) {
-    plDetectorModifier::write(S, mgr);
+    plDetectorModifier::write(S, mgr);  // <-- Not a bug
     mgr->writeKey(S, fSub);
     S->writeBool(fOnExit);
 }
 
 void plSubworldRegionDetector::IPrcWrite(pfPrcHelper* prc) {
-    plDetectorModifier::IPrcWrite(prc);
+    plDetectorModifier::IPrcWrite(prc); // <-- Not a bug
 
     prc->startTag("SubworldParams");
     prc->writeParam("OnExit", fOnExit);
@@ -70,9 +73,14 @@ void plSubworldRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         if (tag->hasChildren())
             fSub = mgr->prcParseKey(tag->getFirstChild());
     } else {
-        plDetectorModifier::IPrcParse(tag, mgr);
+        plDetectorModifier::IPrcParse(tag, mgr);    // <-- Not a bug
     }
 }
+
+plKey plSubworldRegionDetector::getSubworld() const { return fSub; }
+bool plSubworldRegionDetector::getOnExit() const { return fOnExit; }
+void plSubworldRegionDetector::setSubworld(plKey subworld) { fSub = subworld; }
+void plSubworldRegionDetector::setOnExit(bool onExit) { fOnExit = onExit; }
 
 
 /* plPanicLinkRegion */
@@ -106,3 +114,6 @@ void plPanicLinkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plCollisionDetector::IPrcParse(tag, mgr);
     }
 }
+
+bool plPanicLinkRegion::getPlayLinkOutAnim() const { return fPlayLinkOutAnim; }
+void plPanicLinkRegion::setPlayLinkOutAnim(bool play) { fPlayLinkOutAnim = play; }

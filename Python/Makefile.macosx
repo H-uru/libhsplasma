@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -I../core -fPIC -Wall -g -ansi -fno-rtti `python-config --cflags`
 CXXLINK  = -L../bin -lPlasma
-PYTHON_VER = 2.5
+PYTHON_VER = 2.6
 
 OBJDIR=out/
 

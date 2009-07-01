@@ -29,6 +29,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned char getType() const;
+    void setType(unsigned char type);
 };
 
 DllClass plSubworldRegionDetector : public plCollisionDetector {
@@ -48,6 +52,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plKey getSubworld() const;
+    bool getOnExit() const;
+
+    void setSubworld(plKey subworld);
+    void setOnExit(bool onExit);
 };
 
 DllClass plPanicLinkRegion : public plCollisionDetector {
@@ -66,6 +77,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    bool getPlayLinkOutAnim() const;
+    void setPlayLinkOutAnim(bool play);
 };
 
 #endif
