@@ -65,14 +65,24 @@ public:
         kEncoded = 0x80
     };
 
+    enum GeometryStorage {
+        kStoreUncompressed = 0,
+        kStoreCompV1 = 0x1,
+        kStoreCompV2 = 0x2,
+        kStoreCompTypeMask = 0x3,
+        kStoreIsDirty = 0x4
+    };
+
 protected:
-    unsigned char fFormat, fStride, fLiteStride;
-    hsTArray<unsigned int> fVertBuffSizes, fIdxBuffCounts;
+    unsigned char fFormat, fStride, fLiteStride, fGBuffStorageType;
+    hsTArray<unsigned int> fVertBuffSizes, fIdxBuffCounts, fCompGBuffSizes;
     hsTArray<unsigned char*> fVertBuffStorage;
     hsTArray<unsigned short*> fIdxBuffStorage;
     hsTArray<hsTArray<plGBufferCell> > fCells;
+    hsTArray<unsigned char*> fCompGBuffStorage;
 
     unsigned char ICalcVertexSize(unsigned char& lStride);
+    bool INeedVertRecompression(PlasmaVer ver) const;
 
 public:
     plGBufferGroup(unsigned char fmt);

@@ -115,7 +115,8 @@ plGBufferVertex::plGBufferVertex(const plGBufferVertex& init)
 
 
 /* plGBufferGroup */
-plGBufferGroup::plGBufferGroup(unsigned char fmt) {
+plGBufferGroup::plGBufferGroup(unsigned char fmt)
+              : fGBuffStorageType(kStoreUncompressed) {
     setFormat(fmt);
 }
 
@@ -124,6 +125,10 @@ plGBufferGroup::~plGBufferGroup() {
         delete[] fVertBuffStorage[i];
     for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
         delete[] fIdxBuffStorage[i];
+    for (size_t i=0; i<fCompGBuffStorage.getSize(); i++) {
+        if (fCompGBuffStorage[i] != NULL)
+            delete[] fCompGBuffStorage[i];
+    }
 }
 
 unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {
@@ -137,25 +142,35 @@ unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {
     return lStride + 8;
 }
 
+bool plGBufferGroup::INeedVertRecompression(PlasmaVer ver) const {
+    if ((fGBuffStorageType & kStoreIsDirty) != 0)
+        return true;
+    if (ver == pvLive)
+        return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV2;
+    else
+        return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV1;
+}
+
 void plGBufferGroup::read(hsStream* S) {
     fFormat = S->readByte();
     S->readInt();
     fStride = ICalcVertexSize(fLiteStride);
 
-    for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
-        delete[] fVertBuffStorage[i];
-    for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
-        delete[] fIdxBuffStorage[i];
+    clearVertices();
+    clearIndices();
+    clearCells();
 
-    fVertBuffSizes.clear();
-    fIdxBuffCounts.clear();
-    fVertBuffStorage.clear();
-    fIdxBuffStorage.clear();
+    if (fFormat & kEncoded)
+        fGBuffStorageType = (S->getVer() == pvLive) ? kStoreCompV2 : kStoreCompV1;
+    else
+        fGBuffStorageType = kStoreUncompressed;
 
     plVertCoder coder;
     size_t count = S->readInt();
     fVertBuffSizes.setSize(count);
     fVertBuffStorage.setSize(count);
+    fCompGBuffSizes.setSize(count);
+    fCompGBuffStorage.setSize(count);
     for (size_t i=0; i<count; i++) {
         unsigned int colorCount = 0;
         unsigned char* vData;
@@ -166,7 +181,16 @@ void plGBufferGroup::read(hsStream* S) {
             fVertBuffSizes[i] = vtxSize;
             vData = new unsigned char[vtxSize];
             fVertBuffStorage[i] = vData;
+            hsUint32 compStart = S->pos();
             coder.read(S, vData, fFormat, vtxCount);
+
+            // Store the compressed buffer too, so we don't have to
+            // recompress anything later
+            size_t compSize = S->pos() - compStart;
+            fCompGBuffSizes[i] = compSize;
+            fCompGBuffStorage[i] = new unsigned char[compSize];
+            S->seek(compStart);
+            S->read(compSize, fCompGBuffStorage[i]);
         } else {
             vtxSize = S->readInt();
             fVertBuffSizes[i] = vtxSize;
@@ -174,6 +198,8 @@ void plGBufferGroup::read(hsStream* S) {
             S->read(vtxSize, vData);
             fVertBuffStorage[i] = vData;
             colorCount = S->readInt();
+            fCompGBuffSizes[i] = 0;
+            fCompGBuffStorage[i] = NULL;
         }
     }
 
@@ -212,7 +238,10 @@ void plGBufferGroup::write(hsStream* S) {
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
         unsigned int count = fVertBuffSizes[i] / fStride;
         S->writeShort(count);
-        coder.write(S, fVertBuffStorage[i], fFormat, fStride, count);
+        if (INeedVertRecompression(S->getVer()) || fCompGBuffStorage[i] == NULL)
+            coder.write(S, fVertBuffStorage[i], fFormat, fStride, count);
+        else
+            S->write(fCompGBuffSizes[i], fCompGBuffStorage[i]);
     }
 
     S->writeInt(fIdxBuffStorage.getSize());
@@ -299,15 +328,11 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     fFormat = tag->getParam("Format", "0").toUint();
     fStride = ICalcVertexSize(fLiteStride);
 
-    for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
-        delete[] fVertBuffStorage[i];
-    for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
-        delete[] fIdxBuffStorage[i];
+    clearVertices();
+    clearIndices();
+    clearCells();
 
-    fVertBuffSizes.clear();
-    fIdxBuffCounts.clear();
-    fVertBuffStorage.clear();
-    fIdxBuffStorage.clear();
+    fGBuffStorageType = kStoreUncompressed;
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -452,6 +477,8 @@ void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
     size_t vtxSize = verts.getSize() * fStride;
     fVertBuffSizes.append(vtxSize);
     fVertBuffStorage.append(new unsigned char[vtxSize]);
+    fCompGBuffSizes.append(0);
+    fCompGBuffStorage.append(NULL);
     size_t idx = fVertBuffStorage.getSize() - 1;
 
     unsigned char* cp = fVertBuffStorage[idx];
@@ -507,16 +534,19 @@ void plGBufferGroup::addCells(const hsTArray<plGBufferCell>& cells) {
 void plGBufferGroup::setFormat(unsigned char format) {
     fFormat = format;
     fStride = ICalcVertexSize(fLiteStride);
+    fGBuffStorageType |= kStoreIsDirty;
 }
 
 void plGBufferGroup::setSkinWeights(size_t skinWeights) {
     fFormat &= ~kSkinWeightMask;
     fFormat |= (skinWeights << 4) & kSkinWeightMask;
+    fGBuffStorageType |= kStoreIsDirty;
 }
 
 void plGBufferGroup::setNumUVs(size_t numUVs) {
     fFormat &= ~kUVCountMask;
     fFormat |= numUVs & kUVCountMask;
+    fGBuffStorageType |= kStoreIsDirty;
 }
 
 void plGBufferGroup::setHasSkinIndices(bool hasSI) {
@@ -524,16 +554,23 @@ void plGBufferGroup::setHasSkinIndices(bool hasSI) {
         fFormat |= kSkinIndices;
     else
         fFormat &= ~kSkinIndices;
+    fGBuffStorageType |= kStoreIsDirty;
 }
 
 void plGBufferGroup::delVertices(size_t idx) {
     delete[] fVertBuffStorage[idx];
     fVertBuffStorage.remove(idx);
+    if (fCompGBuffStorage[idx] != NULL)
+        delete[] fCompGBuffStorage[idx];
+    fCompGBuffStorage.remove(idx);
+    fVertBuffSizes.remove(idx);
+    fCompGBuffSizes.remove(idx);
 }
 
 void plGBufferGroup::delIndices(size_t idx) {
     delete[] fIdxBuffStorage[idx];
     fIdxBuffStorage.remove(idx);
+    fIdxBuffCounts.remove(idx);
 }
 
 void plGBufferGroup::delCells(size_t idx) {
@@ -543,13 +580,21 @@ void plGBufferGroup::delCells(size_t idx) {
 void plGBufferGroup::clearVertices() {
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
         delete[] fVertBuffStorage[i];
+    for (size_t i=0; i<fCompGBuffStorage.getSize(); i++) {
+        if (fCompGBuffStorage[i] != NULL)
+            delete[] fCompGBuffStorage[i];
+    }
     fVertBuffStorage.clear();
+    fVertBuffSizes.clear();
+    fCompGBuffStorage.clear();
+    fCompGBuffSizes.clear();
 }
 
 void plGBufferGroup::clearIndices() {
     for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
         delete[] fIdxBuffStorage[i];
     fIdxBuffStorage.clear();
+    fIdxBuffCounts.clear();
 }
 
 void plGBufferGroup::clearCells() {
