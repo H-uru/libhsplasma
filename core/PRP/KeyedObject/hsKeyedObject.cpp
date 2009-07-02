@@ -19,8 +19,12 @@ void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
         myKey = mgr->readKey(S);
     else
         myKey = mgr->readUoid(S);
-    if (myKey != NULL)
+    if (myKey != NULL) {
+        // In case we're replacing a key
+        if (myKey->getObj() != NULL)
+            delete myKey->getObj();
         myKey->setObj(this);
+    }
 }
 
 void hsKeyedObject::write(hsStream* S, plResManager* mgr) {

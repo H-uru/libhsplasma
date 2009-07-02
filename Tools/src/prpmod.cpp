@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
         if (argv[i][0] == '-') {
             if (strcmp(argv[i], "-o") == 0) {
                 if (++i >= argc) {
-                    fprintf(stderr, "Missing output filename");
+                    fprintf(stderr, "Missing output filename\n");
                     return 1;
                 }
                 outFile = argv[i];
@@ -55,20 +55,20 @@ int main(int argc, char* argv[]) {
                 doHelp(argv[0]);
                 return 0;
             } else {
-                fprintf(stderr, "Unrecognized option: %s\nSee --help for usage details", argv[i]);
+                fprintf(stderr, "Unrecognized option: %s\nSee --help for usage details\n", argv[i]);
                 return 1;
             }
         } else {
             if (strcmp(argv[i], "add") == 0) {
                 if (++i >= argc) {
-                    fprintf(stderr, "Missing input filename");
+                    fprintf(stderr, "Missing input filename\n");
                     return 1;
                 }
                 action = (action & ~kActionMask) | kActionAdd;
                 inFile = argv[i];
             } else if (strcmp(argv[i], "del") == 0) {
                 if (++i >= argc) {
-                    fprintf(stderr, "Missing object specifier");
+                    fprintf(stderr, "Missing object specifier\n");
                     return 1;
                 }
                 action = (action & ~kActionMask) | kActionDel;
@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
                 if (objName.startsWith('"')) {
                     do {
                         if (++i >= argc) {
-                            fprintf(stderr, "Error: Unterminated string");
+                            fprintf(stderr, "Error: Unterminated string\n");
                             return 1;
                         }
                         objName += plString(" ") + argv[i];
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
                 }
             } else if (strcmp(argv[i], "extract") == 0) {
                 if (++i >= argc) {
-                    fprintf(stderr, "Missing object specifier");
+                    fprintf(stderr, "Missing object specifier\n");
                     return 1;
                 }
                 action = (action & ~kActionMask) | kActionExtract;
@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
                 if (objName.startsWith('"')) {
                     do {
                         if (++i >= argc) {
-                            fprintf(stderr, "Error: Unterminated string");
+                            fprintf(stderr, "Error: Unterminated string\n");
                             return 1;
                         }
                         objName += plString(" ") + argv[i];
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
                 if (prpFile.empty()) {
                     prpFile = argv[i];
                 } else {
-                    fprintf(stderr, "Unknown action: %s\nSee --help for usage details", argv[i]);
+                    fprintf(stderr, "Unknown action: %s\nSee --help for usage details\n", argv[i]);
                     return 1;
                 }
             }
@@ -145,7 +145,7 @@ int main(int argc, char* argv[]) {
         hsFileStream in;
         plCreatable* cre = NULL;
 
-        if (inFile.endsWith(".prc") || (action & kModePRC) != 0) {
+        if (inFile.endsWith(".prc") || inFile.endsWith(".xml") || (action & kModePRC) != 0) {
             // Add PRC source
             pfPrcParser prc;
             try {
@@ -178,11 +178,14 @@ int main(int argc, char* argv[]) {
         if (cre != NULL) {
             hsKeyedObject* kobj = hsKeyedObject::Convert(cre);
             if (kobj == NULL) {
-                fprintf(stderr, "Creatable '%s` is not a keyed object\n",
+                fprintf(stderr, "Creatable '%s' is not a keyed object\n",
                         plFactory::ClassName(cre->ClassIndex()));
+                delete cre;
                 return 1;
             }
-            resMgr.AddObject(page->getLocation(), kobj);
+            // The key is already registered with the ResManager, but
+            // let's make sure it's in the right Location:
+            resMgr.MoveKey(kobj->getKey(), page->getLocation());
         } else {
             fprintf(stderr, "Failure parsing %s\n", inFile.cstr());
             return 1;
@@ -214,7 +217,7 @@ int main(int argc, char* argv[]) {
             pfPrcHelper prc(&out);
             key->getObj()->prcWrite(&prc);
         } else {
-            key->getObj()->write(&out, &resMgr);
+            resMgr.WriteCreatable(&out, key->getObj());
         }
         out.close();
     }

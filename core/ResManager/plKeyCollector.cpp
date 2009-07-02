@@ -50,6 +50,10 @@ void plKeyCollector::del(plKey key) {
             it++;
         }
     }
+    if (keyList.empty())
+        keys[key->getLocation()].erase(key->getType());
+    if (keys[key->getLocation()].empty())
+        keys.erase(key->getLocation());
     if (key.Exists() && key.isLoaded()) {
         delete key->getObj();
         key->setObj(NULL);
@@ -183,6 +187,10 @@ void plKeyCollector::MoveKey(plKey key, const plLocation& to) {
             it++;
         }
     }
+    if (keyList.empty())
+        keys[key->getLocation()].erase(key->getType());
+    if (keys[key->getLocation()].empty())
+        keys.erase(key->getLocation());
     key->setLocation(to);
     add(key);
 }
