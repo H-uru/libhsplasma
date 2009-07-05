@@ -157,7 +157,7 @@ int main(int argc, char** argv) {
       #endif
         for (i=0; i<tCount; i++) {
             short type = S->readShort();
-            if (S->getVer() == pvEoa || S->getVer() == pvHex) {
+            if (S->getVer() >= pvLive) {
                 S->readInt();
                 unsigned char b = S->readByte();
                 if (b != 0)
