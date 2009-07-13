@@ -94,6 +94,24 @@ void pfGUIColorScheme::prcParse(const pfPrcTag* tag) {
     }
 }
 
+hsColorRGBA pfGUIColorScheme::getForeColor() const { return fForeColor; }
+hsColorRGBA pfGUIColorScheme::getBackColor() const { return fBackColor; }
+hsColorRGBA pfGUIColorScheme::getSelForeColor() const { return fSelForeColor; }
+hsColorRGBA pfGUIColorScheme::getSelBackColor() const { return fSelBackColor; }
+int pfGUIColorScheme::getTransparent() const { return fTransparent; }
+plString pfGUIColorScheme::getFontFace() const { return fFontFace; }
+unsigned char pfGUIColorScheme::getFontSize() const { return fFontSize; }
+unsigned char pfGUIColorScheme::getFontFlags() const { return fFontFlags; }
+
+void pfGUIColorScheme::setForeColor(const hsColorRGBA& color) { fForeColor = color; }
+void pfGUIColorScheme::setBackColor(const hsColorRGBA& color) { fBackColor = color; }
+void pfGUIColorScheme::setSelForeColor(const hsColorRGBA& color) { fSelForeColor = color; }
+void pfGUIColorScheme::setSelBackColor(const hsColorRGBA& color) { fSelBackColor = color; }
+void pfGUIColorScheme::setTransparent(int trans) { fTransparent = trans; }
+void pfGUIColorScheme::setFontFace(const plString& face) { fFontFace = face; }
+void pfGUIColorScheme::setFontSize(unsigned char size) { fFontSize = size; }
+void pfGUIColorScheme::setFontFlags(unsigned char flags) { fFontFlags = flags; }
+
 
 /* pfGUIControlMod */
 pfGUIControlMod::pfGUIControlMod()

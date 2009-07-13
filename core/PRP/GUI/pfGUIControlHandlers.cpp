@@ -78,6 +78,8 @@ pfGUICtrlProcWriteableObject* pfGUICtrlProcWriteableObject::PrcParse(const pfPrc
     }
 }
 
+unsigned int pfGUICtrlProcWriteableObject::getType() const { return fType; }
+
 
 /* pfGUICloseDlgProc */
 pfGUICloseDlgProc::pfGUICloseDlgProc() {
@@ -119,6 +121,9 @@ void pfGUIConsoleCmdProc::IPrcWrite(pfPrcHelper* prc) {
 void pfGUIConsoleCmdProc::IPrcParse(const pfPrcTag* tag) {
     fCommand = tag->getParam("Command", "");
 }
+
+plString pfGUIConsoleCmdProc::getCommand() const { return fCommand; }
+void pfGUIConsoleCmdProc::setCommand(const plString& cmd) { fCommand = cmd; }
 
 
 /* pfGUIPythonScriptProc */

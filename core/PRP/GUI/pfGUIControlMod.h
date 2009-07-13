@@ -26,6 +26,25 @@ public:
 
 private:
     void IReset();
+
+public:
+    hsColorRGBA getForeColor() const;
+    hsColorRGBA getBackColor() const;
+    hsColorRGBA getSelForeColor() const;
+    hsColorRGBA getSelBackColor() const;
+    int getTransparent() const;
+    plString getFontFace() const;
+    unsigned char getFontSize() const;
+    unsigned char getFontFlags() const;
+
+    void setForeColor(const hsColorRGBA& color);
+    void setBackColor(const hsColorRGBA& color);
+    void setSelForeColor(const hsColorRGBA& color);
+    void setSelBackColor(const hsColorRGBA& color);
+    void setTransparent(int trans);
+    void setFontFace(const plString& face);
+    void setFontSize(unsigned char size);
+    void setFontFlags(unsigned char flags);
 };
 
 DllClass pfGUIControlMod : public plSingleModifier {

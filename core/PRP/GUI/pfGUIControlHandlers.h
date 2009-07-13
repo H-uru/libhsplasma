@@ -12,9 +12,6 @@ public:
 
 DllClass pfGUIDialogProc : public pfGUICtrlProcObject {
 public:
-    enum ControlEvt { kExitMode };
-
-public:
     pfGUIDialogProc();
     virtual ~pfGUIDialogProc();
 };
@@ -37,6 +34,9 @@ protected:
     virtual void IWrite(hsStream* S)=0;
     virtual void IPrcWrite(pfPrcHelper* prc)=0;
     virtual void IPrcParse(const pfPrcTag* tag)=0;
+
+public:
+    unsigned int getType() const;
 };
 
 DllClass pfGUICloseDlgProc : public pfGUICtrlProcWriteableObject {
@@ -62,6 +62,10 @@ protected:
     virtual void IWrite(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
+
+public:
+    plString getCommand() const;
+    void setCommand(const plString& cmd);
 };
 
 DllClass pfGUIPythonScriptProc : public pfGUICtrlProcWriteableObject {

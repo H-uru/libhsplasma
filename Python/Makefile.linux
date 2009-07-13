@@ -130,6 +130,12 @@ PYOBJ=\
 	$(OBJDIR)pySpanTemplate.o \
 	$(OBJDIR)pySpanTemplateVertex.o \
 	$(OBJDIR)pyVertexSpan.o \
+	$(OBJDIR)pyGUICloseDlgProc.o \
+	$(OBJDIR)pyGUIConsoleCmdProc.o \
+	$(OBJDIR)pyGUICtrlProcObject.o \
+	$(OBJDIR)pyGUICtrlProcWriteableObject.o \
+	$(OBJDIR)pyGUIDialogProc.o \
+	$(OBJDIR)pyGUIPythonScriptProc.o \
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
 	$(OBJDIR)pyLocation.o \
@@ -609,6 +615,24 @@ $(OBJDIR)pySpanTemplateVertex.o: PRP/Geometry/pySpanTemplateVertex.cpp
 
 $(OBJDIR)pyVertexSpan.o: PRP/Geometry/pyVertexSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/pyVertexSpan.cpp -o $@
+
+$(OBJDIR)pyGUICloseDlgProc.o: PRP/GUI/pyGUICloseDlgProc.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/GUI/pyGUICloseDlgProc.cpp -o $@
+
+$(OBJDIR)pyGUIConsoleCmdProc.o: PRP/GUI/pyGUIConsoleCmdProc.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/GUI/pyGUIConsoleCmdProc.cpp -o $@
+
+$(OBJDIR)pyGUICtrlProcObject.o: PRP/GUI/pyGUICtrlProcObject.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/GUI/pyGUICtrlProcObject.cpp -o $@
+
+$(OBJDIR)pyGUICtrlProcWriteableObject.o: PRP/GUI/pyGUICtrlProcWriteableObject.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/GUI/pyGUICtrlProcWriteableObject.cpp -o $@
+
+$(OBJDIR)pyGUIDialogProc.o: PRP/GUI/pyGUIDialogProc.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/GUI/pyGUIDialogProc.cpp -o $@
+
+$(OBJDIR)pyGUIPythonScriptProc.o: PRP/GUI/pyGUIPythonScriptProc.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/GUI/pyGUIPythonScriptProc.cpp -o $@
 
 $(OBJDIR)pyKey.o: PRP/KeyedObject/pyKey.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKey.cpp -o $@
