@@ -1297,6 +1297,38 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="GUI"
+				>
+				<File
+					RelativePath=".\PRP\GUI\pyGUICloseDlgProc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pyGUIConsoleCmdProc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pyGUIControlHandlers.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pyGUICtrlProcObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pyGUICtrlProcWriteableObject.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pyGUIDialogProc.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pyGUIPythonScriptProc.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Math"

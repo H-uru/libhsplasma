@@ -48,29 +48,70 @@ void PrintFile(const SumEntry& file, char op) {
            buf, file.fPath.cstr()); 
 }
 
-hsFileStream* FindFilePath(plString path) {
-    if (path.empty())
-        return NULL;
-    
-    // Fix slashes:
-    char* pbuf = strdup(path);
+plString FixSlashes(const plString& src) {
+    if (src.empty())
+        return plString();
+
+    char* pbuf = strdup(src);
     for (char* pc = pbuf; *pc != 0; pc++) {
         if (*pc == '/' || *pc == '\\')
             *pc = PATHSEP;
     }
-
-    path = plString(".." PATHSEPSTR) + pbuf;    // So we can find sfx/
-    hsFileStream* S = NULL;
+    plString dest(pbuf);
     free(pbuf);
+    return dest;
+}
 
-    while (!path.empty()) {
-        if (hsFileStream::FileExists(path)) {
-            S = new hsFileStream();
-            S->open(path, fmRead);
-            return S;
-        }
-        path = path.afterFirst(PATHSEP);
+plString cdUp(plString path) {
+    // Check for root paths, we can't go up from there!
+#ifdef WIN32
+    if (path.mid(1) == ":\\")
+        return path;
+#else
+    if (path == "/")
+        return path;
+#endif
+
+    // Not very robust, but it works for one level of parent scanning
+    if (path.empty())
+        return ".." PATHSEPSTR;
+
+    // Strip the ending slash, if necessary, and then go up one dir
+    if (path[path.len()-1] == PATHSEP)
+        path = path.left(path.len() - 1);
+    plString up = path.beforeLast(PATHSEP);
+    if (path[0] == PATHSEP) {
+        // Absolute path specified -- make sure we keep it that way
+        return up + PATHSEP;
+    } else {
+        // Relative path specified
+        return up.empty() ? "" : up + PATHSEP;
     }
+}
+
+hsFileStream* FindFilePath(plString path, plString base) {
+    if (path.empty())
+        return NULL;
+    
+    // Scan first from the provided path:
+    hsFileStream* S = NULL;
+    path = FixSlashes(path);
+    if (hsFileStream::FileExists(base + path)) {
+        S = new hsFileStream();
+        S->open(base + path, fmRead);
+        return S;
+    }
+
+    // If that fails, scan the parent, so we can loop around and find
+    // files with explicit locations (sfx/ and dat/ prefixes)
+    base = cdUp(base);
+    if (hsFileStream::FileExists(base + path)) {
+        S = new hsFileStream();
+        S->open(base + path, fmRead);
+        return S;
+    }
+
+    // Otherwise, we can't find the referenced file
     return NULL;
 }
 
@@ -87,7 +128,7 @@ void UpdateSums(const plString& filename) {
         S.close();
 
         for (size_t i=0; i<sum.fEntries.size(); i++) {
-            hsFileStream* FS = FindFilePath(sum.fEntries[i].fPath);
+            hsFileStream* FS = FindFilePath(sum.fEntries[i].fPath, cdUp(filename));
             if (FS == NULL) {
                 if (s_autoYes) {
                     PrintFile(sum.fEntries[i], '-');
@@ -250,7 +291,7 @@ int main(int argc, char* argv[]) {
             }
 
             for (std::list<plString>::iterator pi = addPaths.begin(); pi != addPaths.end(); pi++) {
-                hsFileStream* FS = FindFilePath(*pi);
+                hsFileStream* FS = FindFilePath(*pi, "");
                 if (FS == NULL) {
                     fprintf(stderr, "Warning: path '%s' not found\n", pi->cstr());
                     continue;

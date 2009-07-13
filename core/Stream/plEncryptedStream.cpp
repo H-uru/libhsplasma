@@ -25,7 +25,7 @@ plEncryptedStream::~plEncryptedStream() {
 
 void plEncryptedStream::TeaDecipher(unsigned int* buf) {
     unsigned int second = buf[1], first = buf[0], key = 0xC6EF3720;
-    
+
     for (int i=0; i<32; i++) {
         second -= (((first >> 5) ^ (first << 4)) + first)
                 ^ (eKey[(key >> 11) & 3] + key);
@@ -212,11 +212,11 @@ bool plEncryptedStream::open(const char* file, FileMode mode, EncryptionType typ
 }
 
 void plEncryptedStream::close() {
-    size_t szInc = (eType == kEncAES ? 16 : 8);
-    if ((dataPos % szInc) != 0)
-        CryptFlush();
-
     if (fm == fmWrite || fm == fmCreate) {
+        size_t szInc = (eType == kEncAES ? 16 : 8);
+        if ((dataPos % szInc) != 0)
+            CryptFlush();
+
         // Write header info
         fseek(F, 0, SEEK_SET);
         if (eType == kEncAES)
@@ -271,9 +271,9 @@ void plEncryptedStream::rewind() {
 size_t plEncryptedStream::read(size_t size, void* buf) {
     if (dataPos + size > dataSize)
         throw hsFileReadException(__FILE__, __LINE__, "Read past end of stream");
-    
+
     size_t szInc = (eType == kEncAES ? 16 : 8);
-    size_t pp = dataPos, bp = 0, lp = dataPos % szInc;
+    size_t bp = 0, lp = dataPos % szInc;
     while (bp < size) {
         if (lp == 0) {
             // Advance the buffer
@@ -291,7 +291,6 @@ size_t plEncryptedStream::read(size_t size, void* buf) {
         if (lp + (size - bp) >= szInc) {
             memcpy(((unsigned char*)buf)+bp, LBuffer+lp, szInc - lp);
             bp += szInc - lp;
-            pp += szInc - lp;
             lp = 0;
         } else {
             memcpy(((unsigned char*)buf)+bp, LBuffer+lp, size - bp);
@@ -305,20 +304,18 @@ size_t plEncryptedStream::read(size_t size, void* buf) {
 
 size_t plEncryptedStream::write(size_t size, const void* buf) {
     size_t szInc = (eType == kEncAES ? 16 : 8);
-    size_t pp = dataPos, bp = 0, lp = dataPos % szInc;
+    size_t bp = 0, lp = dataPos % szInc;
     while (bp < size) {
         if (lp + (size - bp) >= szInc) {
             memcpy(LBuffer+lp, ((unsigned char*)buf)+bp, szInc - lp);
             bp += szInc - lp;
-            pp += szInc - lp;
-            
+
             // Flush the buffer
             CryptFlush();
             lp = 0;
         } else {
             memcpy(LBuffer+lp, ((unsigned char*)buf)+bp, size - bp);
             bp = size; // end loop
-            lp += (size - bp);
         }
     }
 
