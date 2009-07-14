@@ -28,10 +28,6 @@ static PyObject* pyCreatableStub_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyCreatableStub_getClassIdx(pyCreatableStub* self) {
-    return PyInt_FromLong(self->fThis->getClassIdx());
-}
-
 static PyObject* pyCreatableStub_getData(pyCreatableStub* self) {
     return PyBytes_FromStringAndSize((const char*)self->fThis->getData(),
                                      self->fThis->getLength());
@@ -42,8 +38,6 @@ static PyObject* pyCreatableStub_getLength(pyCreatableStub* self) {
 }
 
 static PyMethodDef pyCreatableStub_Methods[] = {
-    { "getClassIdx", (PyCFunction)pyCreatableStub_getClassIdx, METH_NOARGS,
-      "Returns the Stub's Class Index" },
     { "getData", (PyCFunction)pyCreatableStub_getData, METH_NOARGS,
       "Returns the Creatable's raw data" },
     { "getLength", (PyCFunction)pyCreatableStub_getLength, METH_NOARGS,

@@ -14,7 +14,7 @@ public:
         kOpenSubMenusOnHover, kScaleWithResolution
     };
 
-    struct pfMenuItem {
+    DllStruct pfMenuItem {
         plString fName;
         pfGUICtrlProcWriteableObject* fHandler;
         plKey fSubMenu;

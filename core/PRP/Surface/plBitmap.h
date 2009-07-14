@@ -40,12 +40,12 @@ public:
     static const char* kCompressedTypeNames[];
 
 protected:
-    struct DirectXInfo {
+    DllStruct DirectXInfo {
         unsigned char fCompressionType;
         unsigned char fBlockSize;
     };
 
-    struct UncompressedInfo {
+    DllStruct UncompressedInfo {
         unsigned char fType;
     };
 

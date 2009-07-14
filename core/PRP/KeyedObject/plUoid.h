@@ -5,13 +5,13 @@
 #include "plLocation.h"
 
 DllClass plUoid {
-public:
+private:
     enum ContentsFlags {
         kHasCloneIDs = 0x1,
         kHasLoadMask = 0x2
     };
 
-protected:
+private:
     plLocation location;
     plLoadMask loadMask;
     short classType;

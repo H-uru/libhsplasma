@@ -18,7 +18,7 @@ public:
     enum { kColorDataRLE = 0x1, kAlphaDataRLE = 0x2 };
 
 protected:
-    struct LevelData {
+    DllStruct LevelData {
         unsigned int fSize, fOffset;
         unsigned int fWidth, fHeight;
     };

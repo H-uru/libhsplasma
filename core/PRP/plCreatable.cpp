@@ -90,6 +90,5 @@ void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 void plCreatableStub::IPrcWrite(pfPrcHelper* prc) { }
 void plCreatableStub::IPrcParse(const pfPrcTag* tag, plResManager* mgr) { }
 
-short plCreatableStub::getClassIdx() const { return fClassIdx; }
 const unsigned char* plCreatableStub::getData() const { return fData; }
 size_t plCreatableStub::getLength() const { return fDataLen; }

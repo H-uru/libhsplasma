@@ -66,7 +66,7 @@ hsKeyedObjectStub::~hsKeyedObjectStub() {
 }
 
 short hsKeyedObjectStub::ClassIndex() const {
-    return fStub->getClassIdx();
+    return fStub->ClassIndex();
 }
 
 const char* hsKeyedObjectStub::ClassName() const {

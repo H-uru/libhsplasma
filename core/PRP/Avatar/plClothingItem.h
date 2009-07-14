@@ -4,7 +4,7 @@
 #include "Util/hsTArray.hpp"
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class plClothingItem : public hsKeyedObject {
+DllClass plClothingItem : public hsKeyedObject {
 protected:
     plString fItemName, fDescription, fCustomText;
     unsigned char fGroup, fType, fTileset, fSortOrder;
