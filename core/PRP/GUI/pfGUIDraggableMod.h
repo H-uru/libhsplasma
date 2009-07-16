@@ -10,12 +10,8 @@ public:
         kAlwaysSnapBackToStart
     };
 
-    enum ExtendedEvents { kDragging, kCancelled, kStartingDrag };
-
 public:
     pfGUIDraggableMod();
-    virtual ~pfGUIDraggableMod();
-
     DECLARE_CREATABLE(pfGUIDraggableMod)
 };
 

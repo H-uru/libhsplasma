@@ -14,12 +14,7 @@ public:
 protected:
     hsTArray<plKey> fAnimationKeys;
     plString fAnimName;
-    hsVector3 fDragStart;
-    float fDragValue;
-    bool fDragging;
     hsVector3 fAnimStartPos, fAnimEndPos;
-    float fDragRangeMin, fDragRangeMax, fAnimBegin, fAnimEnd;
-    bool fAnimTimesCalced;
 
 public:
     pfGUIKnobCtrl();
@@ -33,6 +28,21 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumAnimationKeys() const;
+    plKey getAnimationKey(size_t idx) const;
+    void addAnimationKey(plKey key);
+    void delAnimationKey(size_t idx);
+    void clearAnimationKeys();
+
+    const plString& getAnimName() const;
+    const hsVector3& getAnimStartPos() const;
+    const hsVector3& getAnimEndPos() const;
+
+    void setAnimName(const plString& name);
+    void setAnimStartPos(const hsVector3& pos);
+    void setAnimEndPos(const hsVector3& pos);
 };
 
 #endif

@@ -19,6 +19,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plKey getUpControl() const;
+    plKey getDownControl() const;
+
+    void setUpControl(plKey ctrl);
+    void setDownControl(plKey ctrl);
 };
 
 #endif

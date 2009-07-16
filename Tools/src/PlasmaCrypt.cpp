@@ -84,7 +84,10 @@ int main(int argc, char** argv) {
         method = emAes;
     else if (strcmp(argv[1], "droid") == 0)
         method = emDroid;
-    else {
+    else if (strcmp(argv[1], "-help") == 0 || strcmp(argv[1], "--help") == 0) {
+        doHelp();
+        return 0;
+    } else {
         fprintf(stderr, "Unrecognized action.\nSee -help for available "
                         "options and encryption methods.\n");
         return 1;
@@ -97,9 +100,10 @@ int main(int argc, char** argv) {
     for (int i=2; i<argc; i++) {
         if (argv[i][0] == '-') {
             if (argv[i][1] == '-') argv[i]++;
-            if (strcmp(argv[i], "-help") == 0)
+            if (strcmp(argv[i], "-help") == 0) {
                 doHelp();
-            else if (strcmp(argv[i], "-noreplace") == 0)
+                return 0;
+            } else if (strcmp(argv[i], "-noreplace") == 0)
                 doReplace = false;
             else if (strcmp(argv[i], "-verbose") == 0)
                 verbosity++;

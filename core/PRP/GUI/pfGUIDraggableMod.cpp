@@ -6,6 +6,4 @@ pfGUIDraggableMod::pfGUIDraggableMod() {
     fFlags.setName(kAlwaysSnapBackToStart, "kAlwaysSnapBackToStart");
 }
 
-pfGUIDraggableMod::~pfGUIDraggableMod() { }
-
 IMPLEMENT_CREATABLE(pfGUIDraggableMod, kGUIDraggableMod, pfGUIControlMod)

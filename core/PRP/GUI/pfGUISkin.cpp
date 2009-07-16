@@ -116,3 +116,14 @@ void pfGUISkin::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
+
+pfGUISkin::pfSRect& pfGUISkin::getElement(size_t which) { return fElements[which]; }
+const pfGUISkin::pfSRect& pfGUISkin::getElement(size_t which) const { return fElements[which]; }
+
+plKey pfGUISkin::getTexture() const { return fTexture; }
+unsigned short pfGUISkin::getItemMargin() const { return fItemMargin; }
+unsigned short pfGUISkin::getBorderMargin() const { return fBorderMargin; }
+
+void pfGUISkin::setTexture(plKey tex) { fTexture = tex; }
+void pfGUISkin::setItemMargin(unsigned short margin) { fItemMargin = margin; }
+void pfGUISkin::setBorderMargin(unsigned short margin) { fBorderMargin = margin; }

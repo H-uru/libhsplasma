@@ -24,8 +24,8 @@ public:
 protected:
     unsigned short fMargin;
     hsTArray<pfMenuItem> fMenuItems;
-    plKey fSkin, fOriginContext;
-    plKey fOriginAnchor;
+    plKey fSkin;
+    plKey fOriginContext, fOriginAnchor;
     Alignment fAlignment;
 
 public:
@@ -40,6 +40,27 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumItems() const;
+    pfMenuItem& getItem(size_t idx);
+    void addItem(const plString& name, pfGUICtrlProcWriteableObject* handler,
+                 plKey subMenu = plKey(), float yoffs = 0.0f);
+    void delItem(size_t idx);
+    void moveItem(size_t from, size_t to);
+    void clearItems();
+
+    unsigned short getMargin() const;
+    plKey getSkin() const;
+    plKey getOriginContext() const;
+    plKey getOriginAnchor() const;
+    Alignment getAlignment() const;
+
+    void setMargin(unsigned short margin);
+    void setSkin(plKey skin);
+    void setOriginContext(plKey context);
+    void setOriginAnchor(plKey anchor);
+    void setAlignment(Alignment align);
 };
 
 #endif

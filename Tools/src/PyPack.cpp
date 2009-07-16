@@ -150,6 +150,7 @@ int main(int argc, char** argv) {
         } else {
             OS = new plEncryptedStream();
             ((plEncryptedStream*)OS)->open(pakfile, fmCreate, eType);
+            ((plEncryptedStream*)OS)->setKey(uruKey);
         }
         OS->writeInt(pakObjects.getSize());
         for (size_t i=0; i<pakObjects.getSize(); i++) {
@@ -178,6 +179,7 @@ int main(int argc, char** argv) {
                 plDebug::Error("Cannot open file %s", pakfile.cstr());
                 return 1;
             }
+            ES.setKey(uruKey);
             size_t datLen = ES.size();
             hsUbyte* dat = new hsUbyte[datLen];
             ES.read(datLen, dat);
@@ -240,6 +242,7 @@ int main(int argc, char** argv) {
         } else {
             OS = new plEncryptedStream();
             ((plEncryptedStream*)OS)->open(pakfile, fmCreate, eType);
+            ((plEncryptedStream*)OS)->setKey(uruKey);
         }
         OS->writeInt(pakObjects.getSize());
         for (size_t i=0; i<pakObjects.getSize(); i++) {
@@ -267,6 +270,7 @@ int main(int argc, char** argv) {
                 plDebug::Error("Cannot open file %s\n", pakfile.cstr());
                 return 1;
             }
+            ES.setKey(uruKey);
             size_t datLen = ES.size();
             hsUbyte* dat = new hsUbyte[datLen];
             ES.read(datLen, dat);
@@ -290,7 +294,9 @@ int main(int argc, char** argv) {
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
 
             hsFileStream FS;
-            FS.open(outdir + PATHSEP + pakObjects[i].fFilename + 'c', fmCreate);
+            if (!outdir.empty())
+                outdir += PATHSEP;
+            FS.open(outdir + pakObjects[i].fFilename + 'c', fmCreate);
             FS.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)
                         ? kPyc22 : kPyc23);
             time_t ts = time(NULL);

@@ -8,7 +8,7 @@ DllClass pfGUIListElement {
 public:
     enum Types { kText, kPicture, kTreeRoot };
 
-protected:
+private:
     bool fSelected;
 
 public:
@@ -19,6 +19,9 @@ public:
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+    bool getSelected() const;
+    void setSelected(bool sel);
 };
 
 DllClass pfGUIListBoxMod : public pfGUIControlMod {
@@ -28,10 +31,6 @@ public:
         kDisableSelection, kDisableKeyActions, kAllowMultipleElementsPerRow,
         kScrollLeftToRight, kAllowMousePassThrough, kGrowLeavesAndProcessOxygen,
         kHandsOffMultiSelect, kForbidNoSelection
-    };
-
-    enum ExtendedEvents {
-        kScrollPosChanged, kItemAdded, kItemRemoved, kListCleared
     };
 
 protected:
@@ -49,6 +48,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plKey getScrollCtrl() const;
+    void setScrollCtrl(plKey ctrl);
 };
 
 #endif

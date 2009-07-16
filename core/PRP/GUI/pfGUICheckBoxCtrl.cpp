@@ -55,4 +55,14 @@ void pfGUICheckBoxCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+size_t pfGUICheckBoxCtrl::getNumAnimKeys() const { return fAnimKeys.getSize(); }
+plKey pfGUICheckBoxCtrl::getAnimKey(size_t idx) const { return fAnimKeys[idx]; }
+void pfGUICheckBoxCtrl::addAnimKey(plKey key) { fAnimKeys.append(key); }
+void pfGUICheckBoxCtrl::delAnimKey(size_t idx) { fAnimKeys.remove(idx); }
+void pfGUICheckBoxCtrl::clearAnimKeys() { fAnimKeys.clear(); }
+
+const plString& pfGUICheckBoxCtrl::getAnimName() const { return fAnimName; }
+bool pfGUICheckBoxCtrl::getChecked() const { return fChecked; }
+
+void pfGUICheckBoxCtrl::setAnimName(const plString& name) { fAnimName = name; }
 void pfGUICheckBoxCtrl::setChecked(bool checked) { fChecked = checked; }

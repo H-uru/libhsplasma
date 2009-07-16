@@ -6,17 +6,7 @@
 
 DllClass pfGUIEditBoxMod : public pfGUIControlMod {
 public:
-    enum {
-        kShift = 0x1,
-        kCtrl = 0x2
-    };
-
-    enum ExtendedEvents { kValueChanging };
-
-public:
     pfGUIEditBoxMod();
-    virtual ~pfGUIEditBoxMod();
-
     DECLARE_CREATABLE(pfGUIEditBoxMod)
 };
 

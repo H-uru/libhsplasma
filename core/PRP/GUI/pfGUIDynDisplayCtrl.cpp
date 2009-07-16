@@ -86,3 +86,21 @@ void pfGUIDynDisplayCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
 }
+
+size_t pfGUIDynDisplayCtrl::getNumTextMaps() const { return fTextMaps.getSize(); }
+plKey pfGUIDynDisplayCtrl::getTextMap(size_t idx) const { return fTextMaps[idx]; }
+void pfGUIDynDisplayCtrl::addTextMap(plKey map) { fTextMaps.append(map); }
+void pfGUIDynDisplayCtrl::delTextMap(size_t idx) { fTextMaps.remove(idx); }
+void pfGUIDynDisplayCtrl::clearTextMaps() { fTextMaps.clear(); }
+
+size_t pfGUIDynDisplayCtrl::getNumLayers() const { return fLayers.getSize(); }
+plKey pfGUIDynDisplayCtrl::getLayer(size_t idx) const { return fLayers[idx]; }
+void pfGUIDynDisplayCtrl::addLayer(plKey layer) { fLayers.append(layer); }
+void pfGUIDynDisplayCtrl::delLayer(size_t idx) { fLayers.remove(idx); }
+void pfGUIDynDisplayCtrl::clearLayers() { fLayers.clear(); }
+
+size_t pfGUIDynDisplayCtrl::getNumMaterials() const { return fMaterials.getSize(); }
+plKey pfGUIDynDisplayCtrl::getMaterial(size_t idx) const { return fMaterials[idx]; }
+void pfGUIDynDisplayCtrl::addMaterial(plKey mat) { fMaterials.append(mat); }
+void pfGUIDynDisplayCtrl::delMaterial(size_t idx) { fMaterials.remove(idx); }
+void pfGUIDynDisplayCtrl::clearMaterials() { fMaterials.clear(); }

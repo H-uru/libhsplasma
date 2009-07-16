@@ -103,13 +103,33 @@ void pfGUIButtonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+size_t pfGUIButtonMod::getNumAnimationKeys() const { return fAnimationKeys.getSize(); }
+plKey pfGUIButtonMod::getAnimationKey(size_t idx) const { return fAnimationKeys[idx]; }
+void pfGUIButtonMod::addAnimationKey(plKey key) { fAnimationKeys.append(key); }
+void pfGUIButtonMod::delAnimationKey(size_t idx) { fAnimationKeys.remove(idx); }
+void pfGUIButtonMod::clearAnimationKeys() { fAnimationKeys.clear(); }
+
+size_t pfGUIButtonMod::getNumMouseOverKeys() const { return fMouseOverAnimKeys.getSize(); }
+plKey pfGUIButtonMod::getMouseOverKey(size_t idx) const { return fMouseOverAnimKeys[idx]; }
+void pfGUIButtonMod::addMouseOverKey(plKey key) { fMouseOverAnimKeys.append(key); }
+void pfGUIButtonMod::delMouseOverKey(size_t idx) { fMouseOverAnimKeys.remove(idx); }
+void pfGUIButtonMod::clearMouseOverKeys() { fMouseOverAnimKeys.clear(); }
+
+const plString& pfGUIButtonMod::getAnimationName() const { return fAnimName; }
+const plString& pfGUIButtonMod::getMouseOverAnimName() const { return fMouseOverAnimName; }
+plKey pfGUIButtonMod::getDraggable() const { return fDraggable; }
+int pfGUIButtonMod::getNotifyType() const { return fNotifyType; }
+
+void pfGUIButtonMod::setAnimationName(const plString& name) { fAnimName = name; }
+void pfGUIButtonMod::setMouseOverAnimName(const plString& name) { fMouseOverAnimName = name; }
+void pfGUIButtonMod::setDraggable(plKey draggable) { fDraggable = draggable; }
+void pfGUIButtonMod::setNotifyType(int type) { fNotifyType = type; }
+
 
 /* pfGUIMenuItem */
 pfGUIMenuItem::pfGUIMenuItem() {
     fFlags.setName(kDrawSubMenuArrow, "kDrawSubMenuArrow");
     fFlags.setName(kReportHovers, "kReportHovers");
 }
-
-pfGUIMenuItem::~pfGUIMenuItem() { }
 
 IMPLEMENT_CREATABLE(pfGUIMenuItem, kGUIMenuItem, pfGUIButtonMod)

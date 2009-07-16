@@ -6,8 +6,6 @@
 DllClass pfGUIDragBarCtrl : public pfGUIControlMod {
 public:
     pfGUIDragBarCtrl();
-    virtual ~pfGUIDragBarCtrl();
-
     DECLARE_CREATABLE(pfGUIDragBarCtrl)
 };
 

@@ -19,6 +19,16 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getMin() const;
+    float getMax() const;
+    float getStep() const;
+
+    void setMin(float min);
+    void setMax(float max);
+    void setStep(float step);
+    void setRange(float min, float max);
 };
 
 #endif

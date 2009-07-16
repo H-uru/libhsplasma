@@ -27,6 +27,9 @@ void pfGUIListElement::prcParse(const pfPrcTag* tag) {
     fSelected = tag->getParam("Selected", "false").toBool();
 }
 
+bool pfGUIListElement::getSelected() const { return fSelected; }
+void pfGUIListElement::setSelected(bool sel) { fSelected = sel; }
+
 
 /* pfGUIListBoxMod */
 pfGUIListBoxMod::pfGUIListBoxMod() {
@@ -83,3 +86,6 @@ void pfGUIListBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
 }
+
+plKey pfGUIListBoxMod::getScrollCtrl() const { return fScrollCtrl; }
+void pfGUIListBoxMod::setScrollCtrl(plKey ctrl) { fScrollCtrl = ctrl; }

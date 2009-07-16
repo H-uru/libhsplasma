@@ -4,14 +4,10 @@
 #include "pfGUIControlMod.h"
 
 DllClass pfGUICheckBoxCtrl : public pfGUIControlMod {
-public:
-    enum SoundEvents { kMouseDown, kMouseUp, kMouseOver, kMouseOff };
-
 protected:
     hsTArray<plKey> fAnimKeys;
     plString fAnimName;
     bool fChecked;
-    int fPlaySound;
 
 public:
     pfGUICheckBoxCtrl();
@@ -27,6 +23,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
+    size_t getNumAnimKeys() const;
+    plKey getAnimKey(size_t idx) const;
+    void addAnimKey(plKey key);
+    void delAnimKey(size_t idx);
+    void clearAnimKeys();
+
+    const plString& getAnimName() const;
+    bool getChecked() const;
+
+    void setAnimName(const plString& name);
     void setChecked(bool checked);
 };
 

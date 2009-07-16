@@ -135,3 +135,57 @@ void pfGUIPopUpMenu::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIDialogMod::IPrcParse(tag, mgr);
     }
 }
+
+size_t pfGUIPopUpMenu::getNumItems() const { return fMenuItems.getSize(); }
+pfGUIPopUpMenu::pfMenuItem& pfGUIPopUpMenu::getItem(size_t idx) { return fMenuItems[idx]; }
+
+void pfGUIPopUpMenu::addItem(const plString& name, pfGUICtrlProcWriteableObject* handler,
+                             plKey subMenu, float yoffs) {
+    pfMenuItem item;
+    item.fName = name;
+    item.fHandler = handler;
+    item.fSubMenu = subMenu;
+    item.fYOffsetToNext = yoffs;
+    fMenuItems.append(item);
+}
+
+void pfGUIPopUpMenu::delItem(size_t idx) {
+    if (fMenuItems[idx].fHandler != NULL)
+        delete fMenuItems[idx].fHandler;
+    fMenuItems.remove(idx);
+}
+
+void pfGUIPopUpMenu::moveItem(size_t from, size_t to) {
+    if (from == to)
+        return;
+
+    pfMenuItem item = fMenuItems[from];
+    if (from > to) {
+        for (size_t i=from; i>to; i--)
+            fMenuItems[i] = fMenuItems[i-1];
+    } else {
+        for (size_t i=from; i<to; i++)
+            fMenuItems[i] = fMenuItems[i+1];
+    }
+    fMenuItems[to] = item;
+}
+
+void pfGUIPopUpMenu::clearItems() {
+    for (size_t i=0; i<fMenuItems.getSize(); i++) {
+        if (fMenuItems[i].fHandler != NULL)
+            delete fMenuItems[i].fHandler;
+    }
+    fMenuItems.clear();
+}
+
+unsigned short pfGUIPopUpMenu::getMargin() const { return fMargin; }
+plKey pfGUIPopUpMenu::getSkin() const { return fSkin; }
+plKey pfGUIPopUpMenu::getOriginContext() const { return fOriginContext; }
+plKey pfGUIPopUpMenu::getOriginAnchor() const { return fOriginAnchor; }
+pfGUIPopUpMenu::Alignment pfGUIPopUpMenu::getAlignment() const { return fAlignment; }
+
+void pfGUIPopUpMenu::setMargin(unsigned short margin) { fMargin = margin; }
+void pfGUIPopUpMenu::setSkin(plKey skin) { fSkin = skin; }
+void pfGUIPopUpMenu::setOriginContext(plKey context) { fOriginContext = context; }
+void pfGUIPopUpMenu::setOriginAnchor(plKey anchor) { fOriginAnchor = anchor; }
+void pfGUIPopUpMenu::setAlignment(Alignment align) { fAlignment = align; }

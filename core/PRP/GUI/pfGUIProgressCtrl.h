@@ -26,6 +26,16 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumAnimKeys() const;
+    plKey getAnimKey(size_t idx) const;
+    void addAnimKey(plKey key);
+    void delAnimKey(size_t idx);
+    void clearAnimKeys();
+
+    const plString& getAnimName() const;
+    void setAnimName(const plString& name);
 };
 
 #endif

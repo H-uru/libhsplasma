@@ -40,6 +40,18 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    pfSRect& getElement(size_t which);
+    const pfSRect& getElement(size_t which) const;
+
+    plKey getTexture() const;
+    unsigned short getItemMargin() const;
+    unsigned short getBorderMargin() const;
+
+    void setTexture(plKey tex);
+    void setItemMargin(unsigned short margin);
+    void setBorderMargin(unsigned short margin);
 };
 
 #endif

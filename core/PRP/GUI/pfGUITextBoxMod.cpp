@@ -1,6 +1,6 @@
 #include "pfGUITextBoxMod.h"
 
-pfGUITextBoxMod::pfGUITextBoxMod() : fUseLocalizationPath(false) {
+pfGUITextBoxMod::pfGUITextBoxMod() {
     fFlags.setName(kCenterJustify, "kCenterJustify");
     fFlags.setName(kRightJustify, "kRightJustify");
 }
@@ -15,9 +15,10 @@ void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
     int len = S->readInt();
     fText = S->readStr(len);
 
-    fUseLocalizationPath = (S->getVer() == pvLive) ? S->readBool() : false;
-    if (fUseLocalizationPath)
+    if ((S->getVer() == pvLive) && S->readBool())
         fLocalizationPath = S->readSafeWStr();
+    else
+        fLocalizationPath = plWString();
 }
 
 void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
@@ -26,11 +27,9 @@ void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fText.len());
     S->writeStr(fText);
 
-    if (fLocalizationPath.empty())
-        fUseLocalizationPath = false;
     if (S->getVer() == pvLive) {
-        S->writeBool(fUseLocalizationPath);
-        if (fUseLocalizationPath)
+        S->writeBool(!fLocalizationPath.empty());
+        if (!fLocalizationPath.empty())
             S->writeSafeWStr(fLocalizationPath);
     }
 }
@@ -43,10 +42,7 @@ void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->startTag("LocalizationPath");
-    if (fUseLocalizationPath)
-        prc->writeParam("value", hsWStringToString(fLocalizationPath));
-    else
-        prc->writeParam("Use", false);
+    prc->writeParam("value", hsWStringToString(fLocalizationPath));
     prc->endTag(true);
 }
 
@@ -59,8 +55,13 @@ void pfGUITextBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fText = buf;
     } else if (tag->getName() == "LocalizationPath") {
         fLocalizationPath = hsStringToWString(tag->getParam("value", ""));
-        fUseLocalizationPath = tag->getParam("Use", "true").toBool();
     } else {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
 }
+
+const plString& pfGUITextBoxMod::getText() const { return fText; }
+const plWString& pfGUITextBoxMod::getLocalizationPath() const { return fLocalizationPath; }
+
+void pfGUITextBoxMod::setText(const plString& text) { fText = text; }
+void pfGUITextBoxMod::setLocalizationPath(const plWString& path) { fLocalizationPath = path; }

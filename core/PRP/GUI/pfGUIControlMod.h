@@ -9,7 +9,7 @@
 #include "pfGUIControlHandlers.h"
 
 DllClass pfGUIColorScheme {
-protected:
+private:
     hsColorRGBA fForeColor, fBackColor, fSelForeColor, fSelBackColor;
     int fTransparent;
     plString fFontFace;
@@ -58,7 +58,6 @@ public:
 protected:
     unsigned int fTagID;
     bool fVisible;
-    hsBounds3 fBounds, fInitialBounds;
     pfGUICtrlProcWriteableObject* fHandler;
     plKey fDynTextMap, fDynTextLayer;
     pfGUIColorScheme* fColorScheme;
@@ -77,6 +76,31 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    size_t getNumSoundIndices() const;
+    int getSoundIndex(size_t idx) const;
+    void addSoundIndex(int index);
+    void setSoundIndices(const hsTArray<int>& indices);
+    void clearSoundIndices();
+
+    unsigned int getTagID() const;
+    bool getVisible() const;
+    pfGUICtrlProcWriteableObject* getHandler() const;
+    plKey getDynTextMap() const;
+    plKey getDynTextLayer() const;
+    pfGUIColorScheme* getColorScheme() const;
+    plKey getProxy() const;
+    plKey getSkin() const;
+
+    void setTagID(unsigned int id);
+    void setVisible(bool visible);
+    void setHandler(pfGUICtrlProcWriteableObject* handler);
+    void setDynTextMap(plKey map);
+    void setDynTextLayer(plKey layer);
+    void setColorScheme(pfGUIColorScheme* scheme);
+    void setProxy(plKey proxy);
+    void setSkin(plKey skin);
 };
 
 #endif

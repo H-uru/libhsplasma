@@ -129,6 +129,8 @@ pfGUIControlMod::pfGUIControlMod()
 pfGUIControlMod::~pfGUIControlMod() {
     if (fHandler != NULL)
         delete fHandler;
+    if (fColorScheme != NULL)
+        delete fColorScheme;
 }
 
 IMPLEMENT_CREATABLE(pfGUIControlMod, kGUIControlMod, plSingleModifier)
@@ -138,22 +140,18 @@ void pfGUIControlMod::read(hsStream* S, plResManager* mgr) {
 
     fTagID = S->readInt();
     fVisible = S->readBool();
-    if (fHandler != NULL)
-        delete fHandler;
-    fHandler = pfGUICtrlProcWriteableObject::Read(S);
+    setHandler(pfGUICtrlProcWriteableObject::Read(S));
 
     if (S->readBool()) {
         fDynTextLayer = mgr->readKey(S);
         fDynTextMap = mgr->readKey(S);
     }
 
-    if (fColorScheme != NULL)
-        delete fColorScheme;
     if (S->readBool()) {
-        fColorScheme = new pfGUIColorScheme();
+        setColorScheme(new pfGUIColorScheme());
         fColorScheme->read(S);
     } else {
-        fColorScheme = NULL;
+        setColorScheme(NULL);
     }
 
     fSoundIndices.setSizeNull(S->readByte());
@@ -250,12 +248,10 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fTagID = tag->getParam("TagID", "0").toUint();
         fVisible = tag->getParam("Visible", "true").toBool();
     } else if (tag->getName() == "Handler") {
-        if (fHandler != NULL)
-            delete fHandler;
         if (tag->hasChildren())
-            fHandler = pfGUICtrlProcWriteableObject::PrcParse(tag->getFirstChild());
+            setHandler(pfGUICtrlProcWriteableObject::PrcParse(tag->getFirstChild()));
         else
-            fHandler = NULL;
+            setHandler(NULL);
     } else if (tag->getName() == "DynTextLayer") {
         if (tag->hasChildren())
             fDynTextLayer = mgr->prcParseKey(tag->getFirstChild());
@@ -263,12 +259,10 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fDynTextMap = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "pfGUIColorScheme") {
-        if (fColorScheme != NULL)
-            delete fColorScheme;
         if (tag->getParam("NULL", "false")) {
-            fColorScheme = NULL;
+            setColorScheme(NULL);
         } else {
-            fColorScheme = new pfGUIColorScheme();
+            setColorScheme(new pfGUIColorScheme());
             fColorScheme->prcParse(tag);
         }
     } else if (tag->getName() == "SoundIndices") {
@@ -289,4 +283,38 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }
+}
+
+size_t pfGUIControlMod::getNumSoundIndices() const { return fSoundIndices.getSize(); }
+int pfGUIControlMod::getSoundIndex(size_t idx) const { return fSoundIndices[idx]; }
+void pfGUIControlMod::addSoundIndex(int index) { fSoundIndices.append(index); }
+void pfGUIControlMod::setSoundIndices(const hsTArray<int>& indices) { fSoundIndices = indices; }
+void pfGUIControlMod::clearSoundIndices() { fSoundIndices.clear(); }
+
+unsigned int pfGUIControlMod::getTagID() const { return fTagID; }
+bool pfGUIControlMod::getVisible() const { return fVisible; }
+pfGUICtrlProcWriteableObject* pfGUIControlMod::getHandler() const { return fHandler; }
+plKey pfGUIControlMod::getDynTextMap() const { return fDynTextMap; }
+plKey pfGUIControlMod::getDynTextLayer() const { return fDynTextLayer; }
+pfGUIColorScheme* pfGUIControlMod::getColorScheme() const { return fColorScheme; }
+plKey pfGUIControlMod::getProxy() const { return fProxy; }
+plKey pfGUIControlMod::getSkin() const { return fSkin; }
+
+void pfGUIControlMod::setTagID(unsigned int id) { fTagID = id; }
+void pfGUIControlMod::setVisible(bool visible) { fVisible = visible; }
+void pfGUIControlMod::setDynTextMap(plKey map) { fDynTextMap = map; }
+void pfGUIControlMod::setDynTextLayer(plKey layer) { fDynTextLayer = layer; }
+void pfGUIControlMod::setProxy(plKey proxy) { fProxy = proxy; }
+void pfGUIControlMod::setSkin(plKey skin) { fSkin = skin; }
+
+void pfGUIControlMod::setHandler(pfGUICtrlProcWriteableObject* handler) {
+    if (fHandler != NULL)
+        delete fHandler;
+    fHandler = handler;
+}
+
+void pfGUIControlMod::setColorScheme(pfGUIColorScheme* scheme) {
+    if (fColorScheme != NULL)
+        delete fColorScheme;
+    fColorScheme = scheme;
 }

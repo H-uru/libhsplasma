@@ -10,7 +10,6 @@ public:
 protected:
     plString fText;
     plWString fLocalizationPath;
-    bool fUseLocalizationPath;
 
 public:
     pfGUITextBoxMod();
@@ -24,6 +23,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const plString& getText() const;
+    const plWString& getLocalizationPath() const;
+
+    void setText(const plString& text);
+    void setLocalizationPath(const plWString& path);
 };
 
 #endif

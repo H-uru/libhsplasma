@@ -56,3 +56,12 @@ void pfGUIProgressCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIValueCtrl::IPrcParse(tag, mgr);
     }
 }
+
+size_t pfGUIProgressCtrl::getNumAnimKeys() const { return fAnimationKeys.getSize(); }
+plKey pfGUIProgressCtrl::getAnimKey(size_t idx) const { return fAnimationKeys[idx]; }
+void pfGUIProgressCtrl::addAnimKey(plKey key) { fAnimationKeys.append(key); }
+void pfGUIProgressCtrl::delAnimKey(size_t idx) { fAnimationKeys.remove(idx); }
+void pfGUIProgressCtrl::clearAnimKeys() { fAnimationKeys.clear(); }
+
+const plString& pfGUIProgressCtrl::getAnimName() const { return fAnimName; }
+void pfGUIProgressCtrl::setAnimName(const plString& name) { fAnimName = name; }
