@@ -335,9 +335,9 @@ public:
     /**
      * This function can completely change a location identifier for
      * all loaded data.  Any plKeys or plPageInfos that are registered
-     * whose location matches 'from' will be updated to the location 'to',
-     * and when the files are written back to disk, they will be stored
-     * with the new location info.
+     * whose location matches \a from will be updated to the location
+     * \a to, and when the files are written back to disk, they will be
+     * stored with the new location info.
      */
     void ChangeLocation(plLocation from, plLocation to);
 

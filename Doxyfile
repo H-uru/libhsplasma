@@ -593,7 +593,10 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = core/3rdPartyLibs core/out
+EXCLUDE                = core/3rdPartyLibs core/out \
+                         core/PRP/Physics/plHKPhysical.h \
+                         core/PRP/Physics/plPXPhysical.h \
+                         core/PRP/Physics/plODEPhysical.h
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 

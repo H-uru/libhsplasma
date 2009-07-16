@@ -2,7 +2,7 @@
 #include <string.h>
 #include "3rdPartyLibs/rijndael.h"
 
-static const int uruKey[4] = { 0x6c0a5452, 0x03827d0f, 0x3a170b92, 0x16db7fc2 };
+static const unsigned int uruKey[4] = { 0x6c0a5452, 0x03827d0f, 0x3a170b92, 0x16db7fc2 };
 static const unsigned char eoaKey[16] = { 240, 77, 37, 51, 172, 93, 39, 90,
                                           158, 24, 120, 62, 101, 44, 72, 8 };
 
@@ -10,6 +10,8 @@ static const char* uruMagic = "whatdoyousee";
 static const char* uruMagic2 = "BriceIsSmart";
 static const char* liveMagic = "notthedroids";
 static const int eoaMagic = 0x0D874288;
+
+const unsigned int* plEncryptedStream::DefaultKey() { return uruKey; }
 
 plEncryptedStream::plEncryptedStream(PlasmaVer pv) : hsFileStream(pv) {
     eKey[0] = uruKey[0];

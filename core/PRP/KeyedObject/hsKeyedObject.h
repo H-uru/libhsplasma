@@ -3,6 +3,15 @@
 
 #include "plReceiver.h"
 
+/**
+ * \brief The base class for any top-level PRP object.
+ *
+ * Any class that has a unique plKey and can be loaded from a PRP is
+ * derived from this class.  hsKeyedObject and plKey go hand-in-hand,
+ * and as such, each contains a reference to the other.  For Creatable
+ * Class IDs, hsKeyedObject classes will always be in the < 0x0200 range,
+ * whereas non-keyed classes are >= 0x0200.
+ */
 DllClass hsKeyedObject : public plReceiver {
 private:
     plKey myKey;
@@ -40,8 +49,19 @@ public:
     void setKey(plKey key);
 };
 
+/**
+ * \brief Stores the stub of an hsKeyedObject class
+ *
+ * Like plCreatableStub, this class stores a data buffer containing
+ * the contents of an unparsed Creatable.  hsKeyedObjectStub is actually
+ * just a convenience class to provide the hsKeyedObject interface to
+ * the plCreatableStub, specifically, being able to access the object's
+ * key.  If your stub is an hsKeyedObject-derived class, it's very
+ * highly recommended you use this instead of a normal plCreatableStub!
+ * \sa plCreatableStub
+ */
 DllClass hsKeyedObjectStub : public hsKeyedObject {
-protected:
+private:
     plCreatableStub* fStub;
 
 public:
@@ -58,7 +78,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
+    /** Returns the underlying plCreatableStub object of this stub */
     const plCreatableStub* getStub() const;
+
+    /** Sets the underlying plCreatableStub object of this stub */
     void setStub(plCreatableStub* stub);
 };
 

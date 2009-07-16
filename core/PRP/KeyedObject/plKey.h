@@ -12,6 +12,8 @@
     (obj == NULL ? plKey() : obj->getKey())
 
 /**
+ * \brief Contains plKey data.
+ *
  * This class contains the actual description and pointers for hsKeyedObjects,
  * and is used by plKey.  You generally shouldn't use this class directly,
  * but rather keep it contained in a plKey object, and use plKeyData's members

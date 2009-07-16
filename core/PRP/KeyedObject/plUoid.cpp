@@ -7,6 +7,11 @@
 plUoid::plUoid()
       : classType((short)0x8000), objID(0), clonePlayerID(0), cloneID(0) { }
 
+plUoid::plUoid(const plUoid& other)
+      : location(other.location), loadMask(other.loadMask),
+        classType(other.classType), objName(other.objName), objID(other.objID),
+        clonePlayerID(other.clonePlayerID), cloneID(other.cloneID) { }
+
 plUoid::~plUoid() { }
 
 plUoid& plUoid::operator=(const plUoid& other) {

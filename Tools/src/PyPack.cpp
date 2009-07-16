@@ -68,6 +68,7 @@ int main(int argc, char** argv) {
     std::list<plString> infiles;
     plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
     unsigned int uruKey[4];
+    memcpy(uruKey, plEncryptedStream::DefaultKey(), sizeof(uruKey));
     
     for (int i=1; i<argc; i++) {
         if (strcmp(argv[i], "-x") == 0) {

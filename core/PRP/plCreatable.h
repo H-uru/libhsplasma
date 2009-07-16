@@ -105,15 +105,31 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+/**
+ * \brief Stores the contents of a Creatable without actually parsing it.
+ *
+ * This stores a plCreatable (most commonly, one that isn't supported,
+ * or one found in an SDL node) as a data buffer that can easily be
+ * read or written as a chunk of data, but is not parsed.  This can be
+ * useful so that files with unsupported classes don't lose information,
+ * but can also be harmful, as changes to plKeys stored in the stubbed
+ * object will not get updated if they are changed.  In general, it's
+ * a good idea to use a real Creatable class whenever possible.
+ * \sa hsKeyedObjectStub
+ */
 DllClass plCreatableStub : public plCreatable {
-protected:
+private:
     short fClassIdx;
     unsigned char* fData;
     size_t fDataLen;
 
 public:
+    /** Constructs an empty stub.  Only useful for NULL creatables. */
     plCreatableStub();
+
+    /** Constructs a stub whose type is \a hClass, and size is \a length */
     plCreatableStub(short hClass, size_t length);
+
     virtual ~plCreatableStub();
 
     virtual short ClassIndex() const;
@@ -129,7 +145,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
+    /**
+     * Returns a pointer to the data buffer that contains the
+     * creatable's contents.
+     * \sa getLength()
+     */
     const unsigned char* getData() const;
+
+    /**
+     * Returns the size of the creatable's data buffer
+     * \sa getData()
+     */
     size_t getLength() const;
 };
 
