@@ -249,7 +249,10 @@ int main(int argc, char* argv[]) {
             printf("%s:\n", fn->cstr());
             try {
                 plEncryptedStream S;
-                S.open(*fn, fmRead, plEncryptedStream::kEncAuto);
+                if (!S.open(*fn, fmRead, plEncryptedStream::kEncAuto)) {
+                    fprintf(stderr, "Could not open file %s\n", fn->cstr());
+                    continue;
+                }
                 SumFile sum;
                 sum.read(&S);
                 S.close();
@@ -274,7 +277,10 @@ int main(int argc, char* argv[]) {
         }
         try {
             plEncryptedStream S;
-            S.open(sumFiles.front(), fmRead, plEncryptedStream::kEncAuto);
+            if (!S.open(sumFiles.front(), fmRead, plEncryptedStream::kEncAuto)) {
+                fprintf(stderr, "Could not open file %s\n", sumFiles.front().cstr());
+                return 1;
+            }
             plEncryptedStream::EncryptionType eType = S.getEncType();
             SumFile sum;
             sum.read(&S);
