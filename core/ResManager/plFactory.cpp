@@ -611,7 +611,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetMsgOmnibus: return new plNetMsgOmnibus();
         //case kNetMsgObject: return new plNetMsgObject();
         //case kCCRInvisibleMsg: return new plCCRInvisibleMsg();
-        //case kLinkInDoneMsg: return new plLinkInDoneMsg();
+        case kLinkInDoneMsg: return new plLinkInDoneMsg();
         //case kNetMsgGameMessage: return new plNetMsgGameMessage();
         //case kNetMsgStream: return new plNetMsgStream();
         //case kAudioSysMsg: return new plAudioSysMsg();

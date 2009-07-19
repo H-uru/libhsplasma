@@ -37,3 +37,6 @@ void plFadeOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
+
+float plFadeOpacityMod::getFadeUp() const { return fFadeUp; }
+float plFadeOpacityMod::getFadeDown() const { return fFadeDown; }

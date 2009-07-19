@@ -54,3 +54,24 @@ void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
+
+plLinkInDoneMsg::plLinkInDoneMsg() { }
+plLinkInDoneMsg::~plLinkInDoneMsg() { }
+
+IMPLEMENT_CREATABLE(plLinkInDoneMsg, kLinkInDoneMsg, plMessage)
+
+void plLinkInDoneMsg::read(hsStream* S, plResManager* mgr) {
+    plMessage::read(S, mgr);
+}
+
+void plLinkInDoneMsg::write(hsStream* S, plResManager* mgr) {
+    plMessage::write(S, mgr);
+}
+
+void plLinkInDoneMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
+}
+
+void plLinkInDoneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    plMessage::IPrcParse(tag, mgr);
+}
