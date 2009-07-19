@@ -26,9 +26,11 @@ typedef unsigned int hsUint32;
 #ifdef WIN32
   typedef signed __int64 hsInt64;
   typedef unsigned __int64 hsUint64;
+  typedef __wchar_t hsWchar;
 #else
   typedef signed long long hsInt64;
   typedef unsigned long long hsUint64;
+  typedef wchar_t hsWchar;
 #endif
 
 enum CallbackEvent {

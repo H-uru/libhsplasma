@@ -121,7 +121,10 @@ void UpdateSums(const plString& filename) {
     printf("%s:\n", filename.cstr());
     try {
         plEncryptedStream S;
-        S.open(filename, fmRead, plEncryptedStream::kEncAuto);
+        if (!S.open(filename, fmRead, plEncryptedStream::kEncAuto)) {
+            fprintf(stderr, "Could not open file %s\n", filename.cstr());
+            return;
+        }
         plEncryptedStream::EncryptionType eType = S.getEncType();
         SumFile sum;
         sum.read(&S);

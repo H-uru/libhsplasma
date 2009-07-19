@@ -9,6 +9,13 @@
 #include "pfGUIControlHandlers.h"
 
 DllClass pfGUIColorScheme {
+public:
+    enum FontFlags {
+        kFontBold = 0x01,
+        kFontItalic = 0x02,
+        kFontShadowed = 0x04
+    };
+
 private:
     hsColorRGBA fForeColor, fBackColor, fSelForeColor, fSelBackColor;
     int fTransparent;

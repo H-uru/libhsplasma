@@ -9,7 +9,7 @@
 
 #ifndef wcscasecmp
 // Mac OSX doesn't have wcscasecmp :(
-int wcscasecmp(const wchar_t* s1, const wchar_t* s2) {
+int wcscasecmp(const hsWchar* s1, const hsWchar* s2) {
     wint_t c1, c2;
     do {
         c1 = towlower(*s1++);
@@ -537,7 +537,7 @@ void plWString::plStrData::unref() {
         delete this;
 }
 
-const wchar_t* plWString::plStrData::get() const { return (fStr != NULL) ? fStr : L""; }
+const hsWchar* plWString::plStrData::get() const { return (fStr != NULL) ? fStr : L""; }
 
 plWString::plWString() : fString(NULL) { }
 
@@ -546,22 +546,22 @@ plWString::plWString(const plWString& init) : fString(init.fString) {
         fString->ref();
 }
 
-plWString::plWString(const wchar_t* init) : fString(NULL) {
+plWString::plWString(const hsWchar* init) : fString(NULL) {
     if (init != NULL) {
         size_t len = wcslen(init);
         if (len > 0) {
             fString = new plStrData();
             fString->fLen = len;
-            fString->fStr = new wchar_t[len+1];
+            fString->fStr = new hsWchar[len+1];
             wcscpy(fString->fStr, init);
         }
     }
 }
 
-plWString::plWString(wchar_t c) {
+plWString::plWString(hsWchar c) {
     fString = new plStrData();
     fString->fLen = 1;
-    fString->fStr = new wchar_t[2];
+    fString->fStr = new hsWchar[2];
     fString->fStr[0] = c;
     fString->fStr[1] = 0;
 }
@@ -574,7 +574,7 @@ plWString::~plWString() {
 bool plWString::empty() const { return (fString == NULL) || (fString->fLen == 0); }
 size_t plWString::len() const { return (fString != NULL) ? fString->fLen : 0; }
 
-//wchar_t& plWString::operator[](size_t idx) const { return fStr[idx]; }
+//hsWchar& plWString::operator[](size_t idx) const { return fStr[idx]; }
 
 plWString& plWString::operator=(const plWString& other) {
     if (fString != NULL)
@@ -589,7 +589,7 @@ plWString& plWString::operator=(const plWString& other) {
     return (*this);
 }
 
-plWString& plWString::operator=(const wchar_t* str) {
+plWString& plWString::operator=(const hsWchar* str) {
     if (fString != NULL)
         fString->unref();
     if (str != NULL) {
@@ -597,7 +597,7 @@ plWString& plWString::operator=(const wchar_t* str) {
         if (len > 0) {
             fString = new plStrData();
             fString->fLen = len;
-            fString->fStr = new wchar_t[len+1];
+            fString->fStr = new hsWchar[len+1];
             wcscpy(fString->fStr, str);
         } else {
             fString = NULL;
@@ -608,12 +608,12 @@ plWString& plWString::operator=(const wchar_t* str) {
     return (*this);
 }
 
-plWString& plWString::operator=(wchar_t c) {
+plWString& plWString::operator=(hsWchar c) {
     if (fString != NULL)
         fString->unref();
     fString = new plStrData();
     fString->fLen = 1;
-    fString->fStr = new wchar_t[2];
+    fString->fStr = new hsWchar[2];
     fString->fStr[0] = c;
     fString->fStr[1] = 0;
     return (*this);
@@ -633,7 +633,7 @@ plWString& plWString::operator+=(const plWString& other) {
 
     plStrData* newStr = new plStrData();
     newStr->fLen = fString->fLen + other.fString->fLen;
-    newStr->fStr = new wchar_t[newStr->fLen + 1];
+    newStr->fStr = new hsWchar[newStr->fLen + 1];
     wcscpy(newStr->fStr, fString->fStr);
     wcscpy(newStr->fStr + fString->fLen, other.fString->fStr);
     fString->unref();
@@ -641,7 +641,7 @@ plWString& plWString::operator+=(const plWString& other) {
     return (*this);
 }
 
-plWString& plWString::operator+=(const wchar_t* str) {
+plWString& plWString::operator+=(const hsWchar* str) {
     if (str == NULL)
         return (*this);
     if (empty())
@@ -650,7 +650,7 @@ plWString& plWString::operator+=(const wchar_t* str) {
     size_t len = wcslen(str);
     plStrData* newStr = new plStrData();
     newStr->fLen = fString->fLen + len;
-    newStr->fStr = new wchar_t[newStr->fLen + 1];
+    newStr->fStr = new hsWchar[newStr->fLen + 1];
     wcscpy(newStr->fStr, fString->fStr);
     wcscpy(newStr->fStr + fString->fLen, str);
     fString->unref();
@@ -658,13 +658,13 @@ plWString& plWString::operator+=(const wchar_t* str) {
     return (*this);
 }
 
-plWString& plWString::operator+=(wchar_t c) {
+plWString& plWString::operator+=(hsWchar c) {
     if (empty())
         return operator=(c);
 
     plStrData* newStr = new plStrData();
     newStr->fLen = fString->fLen + 1;
-    newStr->fStr = new wchar_t[newStr->fLen + 1];
+    newStr->fStr = new hsWchar[newStr->fLen + 1];
     newStr->fStr[fString->fLen] = c;
     newStr->fStr[fString->fLen + 1] = 0;
     fString->unref();
@@ -677,12 +677,12 @@ plWString plWString::operator+(const plWString& other) const {
     return (result += other);
 }
 
-plWString plWString::operator+(const wchar_t* str) const {
+plWString plWString::operator+(const hsWchar* str) const {
     plWString result(*this);
     return (result += str);
 }
 
-plWString plWString::operator+(wchar_t c) const {
+plWString plWString::operator+(hsWchar c) const {
     plWString result(*this);
     return (result += c);
 }
@@ -693,7 +693,7 @@ bool plWString::operator==(const plWString& other) const {
     return (wcscmp(fString->fStr, other.fString->fStr)==0);
 }
 
-bool plWString::operator==(const wchar_t* str) const {
+bool plWString::operator==(const hsWchar* str) const {
     if (str == NULL) return empty();
     if (empty()) return false;
     return (wcscmp(fString->fStr, str)==0);
@@ -705,7 +705,7 @@ bool plWString::operator!=(const plWString& other) const {
     return (wcscmp(fString->fStr, other.fString->fStr)!=0);
 }
 
-bool plWString::operator!=(const wchar_t* str) const {
+bool plWString::operator!=(const hsWchar* str) const {
     if (str == NULL) return !empty();
     if (empty()) return true;
     return (wcscmp(fString->fStr, str)!=0);
@@ -717,7 +717,7 @@ bool plWString::operator<(const plWString& other) const {
     return (wcscmp(fString->fStr, other.fString->fStr) < 0);
 }
 
-bool plWString::operator<(const wchar_t* str) const {
+bool plWString::operator<(const hsWchar* str) const {
     if (str == NULL) return false;
     if (empty()) return true;
     return (wcscmp(fString->fStr, str) < 0);
@@ -731,7 +731,7 @@ int plWString::compareTo(const plWString& other, bool ignoreCase) const {
     }
 }
 
-int plWString::compareTo(const wchar_t* other, bool ignoreCase) const {
+int plWString::compareTo(const hsWchar* other, bool ignoreCase) const {
     if (ignoreCase) {
         return wcscasecmp(fString->fStr, other);
     } else {
@@ -746,7 +746,7 @@ bool plWString::startsWith(const plWString& cmp, bool ignoreCase) const {
     return (left(cmp.len()).compareTo(cmp, ignoreCase) == 0);
 }
 
-bool plWString::startsWith(const wchar_t* cmp, bool ignoreCase) const {
+bool plWString::startsWith(const hsWchar* cmp, bool ignoreCase) const {
     if (cmp == NULL) return true;
     if (empty()) return false;
     if (fString->fLen < wcslen(cmp)) return false;
@@ -760,15 +760,15 @@ bool plWString::endsWith(const plWString& cmp, bool ignoreCase) const {
     return (right(cmp.len()).compareTo(cmp, ignoreCase) == 0);
 }
 
-bool plWString::endsWith(const wchar_t* cmp, bool ignoreCase) const {
+bool plWString::endsWith(const hsWchar* cmp, bool ignoreCase) const {
     if (cmp == NULL) return true;
     if (empty()) return false;
     if (fString->fLen < wcslen(cmp)) return false;
     return (right(wcslen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
 
-const wchar_t* plWString::cstr() const { return (fString != NULL) ? fString->get() : L""; }
-plWString::operator const wchar_t*() const { return cstr(); }
+const hsWchar* plWString::cstr() const { return (fString != NULL) ? fString->get() : L""; }
+plWString::operator const hsWchar*() const { return cstr(); }
 
 unsigned int plWString::hash() const {
     if (fString != NULL) {
@@ -779,7 +779,7 @@ unsigned int plWString::hash() const {
     return hash(NULL);
 }
 
-unsigned int plWString::hash(const wchar_t* str) {
+unsigned int plWString::hash(const hsWchar* str) {
     if (str == NULL)
         str = L"";
 
@@ -791,15 +791,15 @@ unsigned int plWString::hash(const wchar_t* str) {
     return hash;
 }
 
-long plWString::find(wchar_t c) const {
+long plWString::find(hsWchar c) const {
     if (empty()) return -1;
-    wchar_t* pos = wcschr(fString->fStr, c);
+    hsWchar* pos = wcschr(fString->fStr, c);
     if (pos != NULL)
         return (long)(pos - fString->fStr);
     return -1;
 }
 
-long plWString::find(const wchar_t* sub) const {
+long plWString::find(const hsWchar* sub) const {
     if (empty()) return -1;
     if (sub == NULL) return 0;
     size_t len = wcslen(sub);
@@ -822,15 +822,15 @@ long plWString::find(const plWString& sub) const {
     return -1;
 }
 
-long plWString::rfind(wchar_t c) const {
+long plWString::rfind(hsWchar c) const {
     if (empty()) return -1;
-    wchar_t* pos = wcsrchr(fString->fStr, c);
+    hsWchar* pos = wcsrchr(fString->fStr, c);
     if (pos != NULL)
         return (long)(pos - fString->fStr);
     return -1;
 }
 
-long plWString::rfind(const wchar_t* sub) const {
+long plWString::rfind(const hsWchar* sub) const {
     if (empty()) return -1;
     if (sub == NULL) return 0;
     size_t len = wcslen(sub);
@@ -857,9 +857,9 @@ plWString& plWString::toUpper() {
     if (!empty()) {
         plStrData* upper = new plStrData();
         upper->fLen = fString->fLen;
-        upper->fStr = new wchar_t[upper->fLen + 1];
-        wchar_t* d = upper->fStr;
-        for (wchar_t* c=fString->fStr; *c; c++)
+        upper->fStr = new hsWchar[upper->fLen + 1];
+        hsWchar* d = upper->fStr;
+        for (hsWchar* c=fString->fStr; *c; c++)
             *d++ = towupper(*c);
         *d = 0;
         fString->unref();
@@ -872,9 +872,9 @@ plWString& plWString::toLower() {
     if (!empty()) {
         plStrData* lower = new plStrData();
         lower->fLen = fString->fLen;
-        lower->fStr = new wchar_t[lower->fLen + 1];
-        wchar_t* d = lower->fStr;
-        for (wchar_t* c=fString->fStr; *c; c++)
+        lower->fStr = new hsWchar[lower->fLen + 1];
+        hsWchar* d = lower->fStr;
+        for (hsWchar* c=fString->fStr; *c; c++)
             *d++ = towlower(*c);
         *d = 0;
         fString->unref();
@@ -891,7 +891,7 @@ plWString plWString::left(size_t num) const {
     plWString retn;
     retn.fString = new plStrData();
     retn.fString->fLen = num;
-    retn.fString->fStr = new wchar_t[num+1];
+    retn.fString->fStr = new hsWchar[num+1];
     wcsncpy(retn.fString->fStr, fString->fStr, num);
     retn.fString->fStr[num] = 0;
     return retn;
@@ -905,7 +905,7 @@ plWString plWString::right(size_t num) const {
     plWString retn;
     retn.fString = new plStrData();
     retn.fString->fLen = num;
-    retn.fString->fStr = new wchar_t[num+1];
+    retn.fString->fStr = new hsWchar[num+1];
     wcsncpy(retn.fString->fStr, fString->fStr + (fString->fLen - num), num);
     retn.fString->fStr[num] = 0;
     return retn;
@@ -919,7 +919,7 @@ plWString plWString::mid(size_t idx, size_t num) const {
     plWString retn;
     retn.fString = new plStrData();
     retn.fString->fLen = num;
-    retn.fString->fStr = new wchar_t[num+1];
+    retn.fString->fStr = new hsWchar[num+1];
     wcsncpy(retn.fString->fStr, fString->fStr + idx, num);
     retn.fString->fStr[num] = 0;
     return retn;
@@ -930,7 +930,7 @@ plWString plWString::mid(size_t idx) const {
     return mid(idx, fString->fLen - idx);
 }
 
-plWString plWString::beforeFirst(wchar_t sep) const {
+plWString plWString::beforeFirst(hsWchar sep) const {
     long pos = find(sep);
     if (pos >= 0)
         return left(pos);
@@ -938,7 +938,7 @@ plWString plWString::beforeFirst(wchar_t sep) const {
         return (*this);
 }
 
-plWString plWString::afterFirst(wchar_t sep) const {
+plWString plWString::afterFirst(hsWchar sep) const {
     long pos = find(sep);
     if (pos >= 0)
         return mid(pos+1);
@@ -946,7 +946,7 @@ plWString plWString::afterFirst(wchar_t sep) const {
         return plWString();
 }
 
-plWString plWString::beforeLast(wchar_t sep) const {
+plWString plWString::beforeLast(hsWchar sep) const {
     long pos = rfind(sep);
     if (pos >= 0)
         return left(pos);
@@ -954,7 +954,7 @@ plWString plWString::beforeLast(wchar_t sep) const {
         return plWString();
 }
 
-plWString plWString::afterLast(wchar_t sep) const {
+plWString plWString::afterLast(hsWchar sep) const {
     long pos = rfind(sep);
     if (pos >= 0)
         return mid(pos+1);
@@ -1010,7 +1010,7 @@ bool plWString::toBool() const {
     return (toUint() != 0);
 }
 
-plWString plWString::Format(const wchar_t* fmt, ...) {
+plWString plWString::Format(const hsWchar* fmt, ...) {
     va_list argptr;
     va_start(argptr, fmt);
     plWString str = FormatV(fmt, argptr);
@@ -1018,15 +1018,15 @@ plWString plWString::Format(const wchar_t* fmt, ...) {
     return str;
 }
 
-plWString plWString::FormatV(const wchar_t* fmt, va_list aptr) {
-    wchar_t buf[4096];
+plWString plWString::FormatV(const hsWchar* fmt, va_list aptr) {
+    hsWchar buf[4096];
     vswprintf(buf, 4096, fmt, aptr);
     return plWString(buf);
 }
 
 
 /***************************** Utility Functions ******************************/
-plString hsWStringToString(const wchar_t* str) {
+plString hsWStringToString(const hsWchar* str) {
     size_t cnvLen = wcstombs(NULL, str, 0);
     if (cnvLen > 0 && cnvLen != (size_t)(-1)) {
         char* buf = new char[cnvLen+1];
@@ -1042,7 +1042,7 @@ plString hsWStringToString(const wchar_t* str) {
 plWString hsStringToWString(const char* str) {
     size_t cnvLen = mbstowcs(NULL, str, 0);
     if (cnvLen > 0 && cnvLen != (size_t)(-1)) {
-        wchar_t* buf = new wchar_t[cnvLen+1];
+        hsWchar* buf = new hsWchar[cnvLen+1];
         mbstowcs(buf, str, cnvLen+1);
         plWString result(buf);
         delete[] buf;
