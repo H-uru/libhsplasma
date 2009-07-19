@@ -40,3 +40,6 @@ void plFadeOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 float plFadeOpacityMod::getFadeUp() const { return fFadeUp; }
 float plFadeOpacityMod::getFadeDown() const { return fFadeDown; }
+
+void plFadeOpacityMod::setFadeUp(float fade) { fFadeUp = fade; }
+void plFadeOpacityMod::setFadeDown(float fade) { fFadeDown = fade; }

@@ -28,6 +28,9 @@ protected:
 public:
     float getFadeUp() const;
     float getFadeDown() const;
+
+    void setFadeUp(float fade);
+    void setFadeDown(float fade);
 };
 
 #endif

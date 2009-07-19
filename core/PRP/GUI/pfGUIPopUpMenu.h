@@ -6,7 +6,7 @@
 DllClass pfGUIPopUpMenu : public pfGUIDialogMod {
 public:
     enum Alignment {
-        kAlignUpLeft, kAlignUpRight, kAlignDownLoeft, kAlignDownRight
+        kAlignUpLeft, kAlignUpRight, kAlignDownLeft, kAlignDownRight
     };
 
     enum MenuFlags {

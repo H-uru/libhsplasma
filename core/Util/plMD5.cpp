@@ -291,8 +291,14 @@ plMD5Hash plMD5::hashString(const plString& str) {
     size_t lastSize = size - pos;
     memcpy(buf, str.cstr() + pos, lastSize);
 
-    unsigned int padBytes = (lastSize < 56) ? 56 - lastSize : 120 - lastSize;
-    memcpy(buf + lastSize, kPadArray, padBytes);
+    if (lastSize >= 56) {
+        memcpy(buf + lastSize, kPadArray, 64 - lastSize);
+        ctx.processBlock(buf);
+        memset(buf, 0, sizeof(buf));
+    } else {
+        unsigned int padBytes = 56 - lastSize;
+        memcpy(buf + lastSize, kPadArray, padBytes);
+    }
 
     unsigned int bitSize[2];
     bitSize[0] = LESWAP32((size <<  3));
