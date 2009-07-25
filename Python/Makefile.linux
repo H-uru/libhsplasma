@@ -1,7 +1,11 @@
-CXX = g++
-CXXFLAGS = -I../core -I. -fPIC -Wall -g -ansi -fno-rtti `python-config --cflags`
-CXXLINK  = -L../bin -lPlasma
+# Configure your Python parameters here
+# Py3k users should use python3-config for the PYTHON_CONFIG variable
 PYTHON_VER = 2.6
+PYTHON_CONFIG = python-config
+
+CXX = g++
+CXXFLAGS = -I../core -I. -fPIC -Wall -g -ansi -fno-rtti `$(PYTHON_CONFIG) --cflags`
+CXXLINK  = -L../bin -lPlasma
 
 OBJDIR=out/
 
@@ -239,10 +243,10 @@ distclean:
 	rm -f $(LIBDIR)/$(PYLIB)
 
 install: $(LIBDIR)/$(PYLIB)
-	cp $(LIBDIR)/$(PYLIB) `python-config --prefix`/lib/python$(PYTHON_VER)/
+	cp $(LIBDIR)/$(PYLIB) `$(PYTHON_CONFIG) --prefix`/lib/python$(PYTHON_VER)/
 
 uninstall:
-	rm -f `python-config --prefix`/lib/python$(PYTHON_VER)/$(PYLIB)
+	rm -f `$(PYTHON_CONFIG) --prefix`/lib/python$(PYTHON_VER)/$(PYLIB)
 
 $(OBJDIR)Module.o: Module.cpp
 	$(CXX) $(CXXFLAGS) -c Module.cpp -o $@
