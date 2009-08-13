@@ -4,20 +4,20 @@
 #include "plModifier.h"
 
 DllStruct PY_MATERIAL_ANIM {
-    const char* material_name;  // [this+0x0]
-    const char* note_name;  // [this+0x4]
-    plKey modKey;  // [this+0x8]
+    plString material_name;
+    plString note_name;
+    plKey modKey;
 };
 
 DllStruct PY_NOTETRACK {
-    plKey objKey;  // [this+0x0]
-    const char* note_name;  // [this+0x4]
-    plKey modKey;  // [this+0x8]
+    plKey objKey;
+    plString note_name;
+    plKey modKey;
 };
 
 DllStruct PY_SOUND_IDX {
-    const char* sound_name;  // [this+0x0]
-    int sound_index;  // [this+0x4]
+    plString sound_name;
+    int sound_index;
 };
 
 DllClass plPythonMod : public plMultiModifier {
@@ -30,7 +30,7 @@ public:
 
 protected:
 	unsigned char* fPythonCode;
-	unsigned int fPythonSize; //Somewhat of a hack >.>
+	unsigned int fPythonSize;
     hsTArray<plKey> fReceivers;
     hsTArray<PY_NOTETRACK> fAnimNotetracks;
     hsTArray<PY_SOUND_IDX> fSoundName2Idx;
