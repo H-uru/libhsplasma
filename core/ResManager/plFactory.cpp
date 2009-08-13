@@ -94,6 +94,7 @@
 #include "PRP/Modifier/plOneShotMod.h"
 #include "PRP/Modifier/plPostEffectMod.h"
 #include "PRP/Modifier/plPythonFileMod.h"
+#include "PRP/Modifier/plPythonMod.h"
 #include "PRP/Modifier/plRandomSoundMod.h"
 #include "PRP/Modifier/plResponderModifier.h"
 #include "PRP/Modifier/plSpawnModifier.h"
@@ -286,7 +287,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kInventoryObjMod: return new plInventoryObjMod();
         //case kLinkEffectsMgr: return new plLinkEffectsMgr();
         case kWin32StreamingSound: return new plWin32StreamingSound();
-        //case kPythonMod: return new plPythonMod();
+        case kPythonMod: return new plPythonMod();
         case kActivatorActivatorConditionalObject: return new plActivatorActivatorConditionalObject();
         case kSoftVolume: return new plSoftVolume();
         case kSoftVolumeSimple: return new plSoftVolumeSimple();

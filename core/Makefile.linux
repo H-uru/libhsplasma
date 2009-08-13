@@ -194,6 +194,7 @@ PLSOBJ=\
 	$(OBJDIR)plOneShotMod.o \
 	$(OBJDIR)plPostEffectMod.o \
 	$(OBJDIR)plPythonFileMod.o \
+	$(OBJDIR)plPythonMod.o \
 	$(OBJDIR)plRandomCommandMod.o \
 	$(OBJDIR)plRandomSoundMod.o \
 	$(OBJDIR)plResponderModifier.o \
@@ -881,6 +882,9 @@ $(OBJDIR)plPostEffectMod.o: PRP/Modifier/plPostEffectMod.h PRP/Modifier/plPostEf
 
 $(OBJDIR)plPythonFileMod.o: PRP/Modifier/plPythonFileMod.h PRP/Modifier/plPythonFileMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plPythonFileMod.cpp -o $@
+
+$(OBJDIR)plPythonMod.o: PRP/Modifier/plPythonMod.h PRP/Modifier/plPythonMod.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plPythonMod.cpp -o $@
 
 $(OBJDIR)plRandomCommandMod.o: PRP/Modifier/plRandomCommandMod.h PRP/Modifier/plRandomCommandMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plRandomCommandMod.cpp -o $@

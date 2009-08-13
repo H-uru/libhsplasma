@@ -1563,6 +1563,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Modifier\plPythonMod.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plPythonMod.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Modifier\plRandomCommandMod.cpp"
 					>
 				</File>
