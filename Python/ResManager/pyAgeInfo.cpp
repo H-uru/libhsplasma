@@ -97,7 +97,7 @@ static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getPageFilename expects int, int");
         return NULL;
     }
-    return PyString_FromString(self->fThis->getPageFilename((size_t)idx, (PlasmaVer)version).cstr());
+    return PlStr_To_PyStr(self->fThis->getPageFilename((size_t)idx, (PlasmaVer)version));
 }
 
 static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
@@ -110,7 +110,7 @@ static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
 }
 
 static PyObject* pyAgeInfo_getName(pyAgeInfo* self, void*) {
-    return PyString_FromString(self->fThis->getAgeName().cstr());
+    return PlStr_To_PyStr(self->fThis->getAgeName());
 }
 
 static PyObject* pyAgeInfo_getStartDateTime(pyAgeInfo* self, void*) {
@@ -141,11 +141,11 @@ static int pyAgeInfo_setName(pyAgeInfo* self, PyObject* value, void*) {
     if (value == NULL) {
         self->fThis->setAgeName("");
     } else {
-        if (!PyString_Check(value)) {
+        if (!PyAnyStr_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "name must be a string");
             return -1;
         }
-        self->fThis->setAgeName(PyString_AsString(value));
+        self->fThis->setAgeName(PyStr_To_PlStr(value));
     }
     return 0;
 }
@@ -349,7 +349,7 @@ PyObject* Init_pyAgeInfo_Type() {
 
     PyObject* list = PyList_New(plAgeInfo::kNumCommonPages);
     for (size_t i=0; i<plAgeInfo::kNumCommonPages; i++)
-        PyList_SET_ITEM(list, i, PyString_FromString(plAgeInfo::kCommonPages[i]));
+        PyList_SET_ITEM(list, i, PlStr_To_PyStr(plAgeInfo::kCommonPages[i]));
     PyDict_SetItemString(pyAgeInfo_Type.tp_dict, "kCommonPages", list);
 
     Py_INCREF(&pyAgeInfo_Type);

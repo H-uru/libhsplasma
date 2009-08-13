@@ -1383,6 +1383,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\PyPlasma.cpp"
+			>
+		</File>
+		<File
 			RelativePath=".\PyPlasma.h"
 			>
 		</File>

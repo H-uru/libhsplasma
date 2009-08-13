@@ -52,7 +52,7 @@ static PyObject* pyColor32_new(PyTypeObject* type, PyObject* args, PyObject* kwd
 static PyObject* pyColor32_Repr(pyColor32* self) {
     plString repr = plString::Format("hsColor32(%u, %u, %u, %u)",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
-    return PyString_FromString(repr.cstr());
+    return PlStr_To_PyStr(repr);
 }
 
 static PyObject* pyColor32_read32(pyColor32* self, PyObject* args) {

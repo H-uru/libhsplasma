@@ -56,7 +56,7 @@ static PyObject* pyQuat_new(PyTypeObject* type, PyObject* args, PyObject* kwds) 
 static PyObject* pyQuat_Repr(pyQuat* self) {
     plString repr = plString::Format("hsQuat(%f, %f, %f, %f)",
              self->fThis->X, self->fThis->Y, self->fThis->Z, self->fThis->W);
-    return PyString_FromString(repr.cstr());
+    return PlStr_To_PyStr(repr);
 }
 
 static PyObject* pyQuat_add(PyObject* left, PyObject* right) {

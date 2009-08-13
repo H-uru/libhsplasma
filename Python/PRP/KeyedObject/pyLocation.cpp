@@ -30,7 +30,7 @@ static PyObject* pyLocation_Repr(pyLocation* self) {
     plString repr = plString::Format("<plLocation \"%d|%d\">",
                                      self->fThis->getSeqPrefix(),
                                      self->fThis->getPageNum());
-    return PyString_FromString(repr.cstr());
+    return PlStr_To_PyStr(repr);
 }
 
 static long pyLocation_Hash(pyLocation* self) {

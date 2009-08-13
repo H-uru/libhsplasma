@@ -11,6 +11,7 @@ OBJDIR=out/
 
 PYOBJ=\
 	$(OBJDIR)Module.o \
+	$(OBJDIR)PyPlasma.o \
 	$(OBJDIR)pyDebug.o \
 	$(OBJDIR)pyAffineParts.o \
 	$(OBJDIR)pyMatrix33.o \
@@ -250,6 +251,9 @@ uninstall:
 
 $(OBJDIR)Module.o: Module.cpp
 	$(CXX) $(CXXFLAGS) -c Module.cpp -o $@
+
+$(OBJDIR)PyPlasma.o: PyPlasma.h PyPlasma.cpp
+	$(CXX) $(CXXFLAGS) -c PyPlasma.cpp -o $@
 
 $(OBJDIR)pyDebug.o: Debug/pyDebug.cpp
 	$(CXX) $(CXXFLAGS) -c Debug/pyDebug.cpp -o $@

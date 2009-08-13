@@ -53,14 +53,14 @@ static PyObject* pySynchedObject_getFlags(pySynchedObject* self, void*) {
 static PyObject* pySynchedObject_getExcludes(pySynchedObject* self, void*) {
     PyObject* list = PyList_New(self->fThis->getExcludes().getSize());
     for (size_t i=0; i<self->fThis->getExcludes().getSize(); i++)
-        PyList_SET_ITEM(list, i, PyString_FromString(self->fThis->getExcludes()[i].cstr()));
+        PyList_SET_ITEM(list, i, PlStr_To_PyStr(self->fThis->getExcludes()[i]));
     return list;
 }
 
 static PyObject* pySynchedObject_getVolatiles(pySynchedObject* self, void*) {
     PyObject* list = PyList_New(self->fThis->getVolatiles().getSize());
     for (size_t i=0; i<self->fThis->getVolatiles().getSize(); i++)
-        PyList_SET_ITEM(list, i, PyString_FromString(self->fThis->getVolatiles()[i].cstr()));
+        PyList_SET_ITEM(list, i, PlStr_To_PyStr(self->fThis->getVolatiles()[i]));
     return list;
 }
 
@@ -85,11 +85,11 @@ static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, v
     } else if (PyList_Check(value)) {
         size_t count = PyList_Size(value);
         for (size_t i=0; i<count; i++) {
-            if (!PyString_Check(PyList_GetItem(value, i))) {
+            if (!PyAnyStr_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
                 return -1;
             }
-            self->fThis->setExclude(PyString_AsString(PyList_GetItem(value, i)));
+            self->fThis->setExclude(PyStr_To_PlStr(PyList_GetItem(value, i)));
         }
         return 0;
     } else {
@@ -105,11 +105,11 @@ static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, 
     } else if (PyList_Check(value)) {
         size_t count = PyList_Size(value);
         for (size_t i=0; i<count; i++) {
-            if (!PyString_Check(PyList_GetItem(value, i))) {
+            if (!PyAnyStr_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
                 return -1;
             }
-            self->fThis->setVolatile(PyString_AsString(PyList_GetItem(value, i)));
+            self->fThis->setVolatile(PyStr_To_PlStr(PyList_GetItem(value, i)));
         }
         return 0;
     } else {

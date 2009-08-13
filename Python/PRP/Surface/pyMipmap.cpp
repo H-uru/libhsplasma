@@ -121,11 +121,11 @@ static PyObject* pyMipmap_writeToA(pyMipmap* self, PyObject* args) {
 }
 
 static PyObject* pyMipmap_getExt(pyMipmap* self) {
-    return PyString_FromString(self->fThis->getSuggestedExt().cstr());
+    return PlStr_To_PyStr(self->fThis->getSuggestedExt());
 }
 
 static PyObject* pyMipmap_getAExt(pyMipmap* self) {
-    return PyString_FromString(self->fThis->getSuggestedAlphaExt().cstr());
+    return PlStr_To_PyStr(self->fThis->getSuggestedAlphaExt());
 }
 
 static PyObject* pyMipmap_getLevelWidth(pyMipmap* self, PyObject* args) {

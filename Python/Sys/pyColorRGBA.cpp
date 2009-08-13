@@ -43,7 +43,7 @@ static PyObject* pyColorRGBA_new(PyTypeObject* type, PyObject* args, PyObject* k
 static PyObject* pyColorRGBA_Repr(pyColorRGBA* self) {
     plString repr = plString::Format("hsColorRGBA(%f, %f, %f, %f)",
         self->fThis->r, self->fThis->g, self->fThis->b, self->fThis->a);
-    return PyString_FromString(repr.cstr());
+    return PlStr_To_PyStr(repr);
 }
 
 static PyObject* pyColorRGBA_set(pyColorRGBA* self, PyObject* args, PyObject* kwds) {

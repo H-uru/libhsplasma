@@ -14,18 +14,18 @@ static PyObject* pyGUIConsoleCmdProc_new(PyTypeObject* type, PyObject* args, PyO
 }
 
 static PyObject* pyGUIConsoleCmdProc_getCmd(pyGUIConsoleCmdProc* self, void*) {
-    return PyString_FromString(self->fThis->getCommand().cstr());
+    return PlStr_To_PyStr(self->fThis->getCommand());
 }
 
 static int pyGUIConsoleCmdProc_setCmd(pyGUIConsoleCmdProc* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
         self->fThis->setCommand("");
     } else {
-        if (!PyString_Check(value)) {
+        if (!PyAnyStr_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "command should be a string");
             return -1;
         }
-        self->fThis->setCommand(PyString_AsString(value));
+        self->fThis->setCommand(PyStr_To_PlStr(value));
     }
     return 0;
 }

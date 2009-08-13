@@ -75,7 +75,7 @@ static PyObject* pyAGAnim_getEnd(pyAGAnim* self, void*) {
 }
 
 static PyObject* pyAGAnim_getName(pyAGAnim* self, void*) {
-    return PyString_FromString(self->fThis->getName());
+    return PlStr_To_PyStr(self->fThis->getName());
 }
 
 static PyObject* pyAGAnim_getApps(pyAGAnim* self, void*) {
@@ -113,11 +113,11 @@ static int pyAGAnim_setEnd(pyAGAnim* self, PyObject* value, void*) {
 }
 
 static int pyAGAnim_setName(pyAGAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "name should be a string");
         return -1;
     }
-    self->fThis->setName(PyString_AsString(value));
+    self->fThis->setName(PyStr_To_PlStr(value));
     return 0;
 }
 

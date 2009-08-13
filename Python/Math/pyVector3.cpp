@@ -46,7 +46,7 @@ static PyObject* pyVector3_new(PyTypeObject* type, PyObject* args, PyObject* kwd
 static PyObject* pyVector3_Repr(pyVector3* self) {
     plString repr = plString::Format("hsVector3(%f, %f, %f)",
              self->fThis->X, self->fThis->Y, self->fThis->Z);
-    return PyString_FromString(repr.cstr());
+    return PlStr_To_PyStr(repr);
 }
 
 static PyObject* pyVector3_add(PyObject* left, PyObject* right) {

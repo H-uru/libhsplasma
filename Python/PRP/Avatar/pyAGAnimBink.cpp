@@ -28,41 +28,41 @@ static PyObject* pyAGAnimBink_Convert(PyObject*, PyObject* args) {
 }
 
 static PyObject* pyAGAnimBink_getBinkFilename(pyAGAnimBink* self, void*) {
-    return PyString_FromString(self->fThis->getBinkFilename());
+    return PlStr_To_PyStr(self->fThis->getBinkFilename());
 }
 
 static PyObject* pyAGAnimBink_getSgtFilename(pyAGAnimBink* self, void*) {
-    return PyString_FromString(self->fThis->getSgtFilename());
+    return PlStr_To_PyStr(self->fThis->getSgtFilename());
 }
 
 static PyObject* pyAGAnimBink_getSubtitleId(pyAGAnimBink* self, void*) {
-    return PyString_FromString(self->fThis->getSubtitleId());
+    return PlStr_To_PyStr(self->fThis->getSubtitleId());
 }
 
 static int pyAGAnimBink_setBinkFilename(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "binkFilename should be a string");
         return -1;
     }
-    self->fThis->setBinkFilename(PyString_AsString(value));
+    self->fThis->setBinkFilename(PyStr_To_PlStr(value));
     return 0;
 }
 
 static int pyAGAnimBink_setSgtFilename(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "sgtFilename should be a string");
         return -1;
     }
-    self->fThis->setSgtFilename(PyString_AsString(value));
+    self->fThis->setSgtFilename(PyStr_To_PlStr(value));
     return 0;
 }
 
 static int pyAGAnimBink_setSubtitleId(pyAGAnimBink* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "subtitleId should be a string");
         return -1;
     }
-    self->fThis->setSubtitleId(PyString_AsString(value));
+    self->fThis->setSubtitleId(PyStr_To_PlStr(value));
     return 0;
 }
 

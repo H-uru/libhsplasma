@@ -72,7 +72,7 @@ static PyObject* pyPythonFileMod_addParameter(pyPythonFileMod* self, PyObject* a
 }
 
 static PyObject* pyPythonFileMod_getFilename(pyPythonFileMod* self, void*) {
-    return PyString_FromString(self->fThis->getFilename().cstr());
+    return PlStr_To_PyStr(self->fThis->getFilename());
 }
 
 static PyObject* pyPythonFileMod_getReceivers(pyPythonFileMod* self, void*) {
@@ -94,11 +94,11 @@ static int pyPythonFileMod_setFilename(pyPythonFileMod* self, PyObject* value, v
         self->fThis->setFilename("");
         return 0;
     }
-    if (!PyString_Check(value)) {
+    if (!PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "filename should be a string");
         return -1;
     }
-    self->fThis->setFilename(PyString_AsString(value));
+    self->fThis->setFilename(PyStr_To_PlStr(value));
     return 0;
 }
 

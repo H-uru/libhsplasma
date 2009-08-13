@@ -191,7 +191,7 @@ static PyObject* pyStream_readBool(pyStream* self) {
 static PyObject* pyStream_readSafeStr(pyStream* self) {
     try {
         plString str = self->fThis->readSafeStr();
-        return PyString_FromString(str.cstr());
+        return PlStr_To_PyStr(str);
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -211,7 +211,7 @@ static PyObject* pyStream_readSafeWStr(pyStream* self) {
 static PyObject* pyStream_readLine(pyStream* self) {
     try {
         plString str = self->fThis->readLine();
-        return PyString_FromString(str.cstr());
+        return PlStr_To_PyStr(str);
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;

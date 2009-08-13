@@ -46,7 +46,7 @@ static PyObject* pyPlane3_new(PyTypeObject* type, PyObject* args, PyObject* kwds
 static PyObject* pyPlane3_Repr(pyPlane3* self) {
     plString repr = plString::Format("hsPlane3(%f, %f, %f, %f)",
              self->fThis->N.X, self->fThis->N.Y, self->fThis->N.Z, self->fThis->W);
-    return PyString_FromString(repr.cstr());
+    return PlStr_To_PyStr(repr);
 }
 
 static PyObject* pyPlane3_read(pyPlane3* self, PyObject* args) {

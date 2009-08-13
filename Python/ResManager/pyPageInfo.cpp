@@ -82,19 +82,19 @@ static PyObject* pyPageInfo_getFilename(pyPageInfo* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getFilename expects an int");
         return NULL;
     }
-    return PyString_FromString(self->fThis->getFilename((PlasmaVer)version));
+    return PlStr_To_PyStr(self->fThis->getFilename((PlasmaVer)version));
 }
 
 static PyObject* pyPageInfo_getAge(pyPageInfo* self, void*) {
-    return PyString_FromString(self->fThis->getAge().cstr());
+    return PlStr_To_PyStr(self->fThis->getAge());
 }
 
 static PyObject* pyPageInfo_getChapter(pyPageInfo* self, void*) {
-    return PyString_FromString(self->fThis->getChapter().cstr());
+    return PlStr_To_PyStr(self->fThis->getChapter());
 }
 
 static PyObject* pyPageInfo_getPage(pyPageInfo* self, void*) {
-    return PyString_FromString(self->fThis->getPage().cstr());
+    return PlStr_To_PyStr(self->fThis->getPage());
 }
 
 static PyObject* pyPageInfo_getRelease(pyPageInfo* self, void*) {
@@ -113,11 +113,11 @@ static int pyPageInfo_setAge(pyPageInfo* self, PyObject* value, void*) {
     if (value == NULL) {
         self->fThis->setAge("");
     } else {
-        if (!PyString_Check(value)) {
+        if (!PyAnyStr_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "age must be a string");
             return -1;
         }
-        self->fThis->setAge(PyString_AsString(value));
+        self->fThis->setAge(PyStr_To_PlStr(value));
     }
     return 0;
 }
@@ -131,11 +131,11 @@ static int pyPageInfo_setPage(pyPageInfo* self, PyObject* value, void*) {
     if (value == NULL) {
         self->fThis->setPage("");
     } else {
-        if (!PyString_Check(value)) {
+        if (!PyAnyStr_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "page must be a string");
             return -1;
         }
-        self->fThis->setPage(PyString_AsString(value));
+        self->fThis->setPage(PyStr_To_PlStr(value));
     }
     return 0;
 }

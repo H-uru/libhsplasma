@@ -83,7 +83,7 @@ static PyObject* pyPythonParameter_getKey(pyPythonParameter* self, void*) {
 }
 
 static PyObject* pyPythonParameter_getString(pyPythonParameter* self, void*) {
-    return PyString_FromString(self->fThis->fStrValue);
+    return PlStr_To_PyStr(self->fThis->fStrValue);
 }
 
 static PyObject* pyPythonParameter_getInt(pyPythonParameter* self, void*) {
@@ -126,11 +126,11 @@ static int pyPythonParameter_setKey(pyPythonParameter* self, PyObject* value, vo
 }
 
 static int pyPythonParameter_setString(pyPythonParameter* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "strValue should be a string");
         return -1;
     }
-    self->fThis->fStrValue = PyString_AsString(value);
+    self->fThis->fStrValue = PyStr_To_PlStr(value);
     return 0;
 }
 

@@ -29,15 +29,15 @@ static PyObject* pyLayerMovie_Convert(PyObject*, PyObject* args) {
 }
 
 static PyObject* pyLayerMovie_getMovieName(pyLayerMovie* self, void*) {
-    return PyString_FromString(self->fThis->getMovieName().cstr());
+    return PlStr_To_PyStr(self->fThis->getMovieName());
 }
 
 static int pyLayerMovie_setMovieName(pyLayerMovie* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "movieName should be a string");
         return -1;
     }
-    self->fThis->setMovieName(PyString_AsString(value));
+    self->fThis->setMovieName(PyStr_To_PlStr(value));
     return 0;
 }
 

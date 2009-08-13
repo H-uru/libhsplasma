@@ -29,7 +29,7 @@ static PyObject* pyOneShotMod_Convert(PyObject*, PyObject* args) {
 }
 
 static PyObject* pyOneShotMod_getAnimName(pyOneShotMod* self, void*) {
-    return PyString_FromString(self->fThis->getAnimName().cstr());
+    return PlStr_To_PyStr(self->fThis->getAnimName());
 }
 
 static PyObject* pyOneShotMod_getDrivable(pyOneShotMod* self, void*) {
@@ -57,11 +57,11 @@ static int pyOneShotMod_setAnimName(pyOneShotMod* self, PyObject* value, void*) 
         self->fThis->setAnimName("");
         return 0;
     }
-    if (!PyString_Check(value)) {
+    if (!PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "animName should be a string");
         return -1;
     }
-    self->fThis->setAnimName(PyString_AsString(value));
+    self->fThis->setAnimName(PyStr_To_PlStr(value));
     return 0;
 }
 

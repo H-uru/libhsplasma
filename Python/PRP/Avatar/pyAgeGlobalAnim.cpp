@@ -28,15 +28,15 @@ static PyObject* pyAgeGlobalAnim_Convert(PyObject*, PyObject* args) {
 }
 
 static PyObject* pyAgeGlobalAnim_getGlobalVarName(pyAgeGlobalAnim* self, void*) {
-    return PyString_FromString(self->fThis->getVarName());
+    return PlStr_To_PyStr(self->fThis->getVarName());
 }
 
 static int pyAgeGlobalAnim_setGlobalVarName(pyAgeGlobalAnim* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "globalVarName should be a string");
         return -1;
     }
-    self->fThis->setVarName(PyString_AsString(value));
+    self->fThis->setVarName(PyStr_To_PlStr(value));
     return 0;
 }
 

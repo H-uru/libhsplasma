@@ -78,7 +78,7 @@ static PyObject* PyPlasma_CleanFileName(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "CleanFileName expects a string");
         return NULL;
     }
-    return PyString_FromString(CleanFileName(fname, allowPathChars != 0).cstr());
+    return PlStr_To_PyStr(CleanFileName(fname, allowPathChars != 0));
 }
 
 }

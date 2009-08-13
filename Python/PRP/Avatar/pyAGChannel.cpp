@@ -24,15 +24,15 @@ static PyObject* pyAGChannel_Convert(PyObject*, PyObject* args) {
 }
 
 static PyObject* pyAGChannel_getName(pyAGChannel* self, void*) {
-    return PyString_FromString(self->fThis->getName());
+    return PlStr_To_PyStr(self->fThis->getName());
 }
 
 static int pyAGChannel_setName(pyAGChannel* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "name should be a string");
         return -1;
     }
-    self->fThis->setName(PyString_AsString(value));
+    self->fThis->setName(PyStr_To_PlStr(value));
     return 0;
 }
 

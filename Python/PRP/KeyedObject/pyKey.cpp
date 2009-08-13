@@ -18,7 +18,7 @@ static PyObject* pyKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
 
 static PyObject* pyKey_Repr(pyKey* self) {
     plString repr = plString::Format("<plKey \"%s\">", (*self->fThis)->toString().cstr());
-    return PyString_FromString(repr.cstr());
+    return PlStr_To_PyStr(repr);
 }
 
 static long pyKey_Hash(pyKey* self) {
@@ -148,7 +148,7 @@ static PyObject* pyKey_getType(pyKey* self, void* closure) {
 }
 
 static PyObject* pyKey_getName(pyKey* self, void* closure) {
-    return PyString_FromString((*self->fThis)->getName().cstr());
+    return PlStr_To_PyStr((*self->fThis)->getName());
 }
 
 static PyObject* pyKey_getLocation(pyKey* self, void* closure) {
@@ -176,11 +176,11 @@ static int pyKey_setName(pyKey* self, PyObject* value, void* closure) {
     if (value == NULL) {
         (*self->fThis)->setName("");
     } else {
-        if (!PyString_Check(value)) {
+        if (!PyAnyStr_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "name must be a string");
             return -1;
         }
-        (*self->fThis)->setName(PyString_AsString(value));
+        (*self->fThis)->setName(PyStr_To_PlStr(value));
     }
     return 0;
 }

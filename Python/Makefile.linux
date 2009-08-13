@@ -1,7 +1,6 @@
 # Configure your Python parameters here
-# Py3k users should use python3-config for the PYTHON_CONFIG variable
 PYTHON_VER = 2.6
-PYTHON_CONFIG = python-config
+PYTHON_CONFIG = python$(PYTHON_VER)-config
 
 CXX = g++
 CXXFLAGS = -I../core -I. -fPIC -Wall -g -ansi -fno-rtti `$(PYTHON_CONFIG) --cflags`
@@ -11,6 +10,7 @@ OBJDIR=out/
 
 PYOBJ=\
 	$(OBJDIR)Module.o \
+	$(OBJDIR)PyPlasma.o \
 	$(OBJDIR)pyDebug.o \
 	$(OBJDIR)pyAffineParts.o \
 	$(OBJDIR)pyMatrix33.o \
@@ -250,6 +250,9 @@ uninstall:
 
 $(OBJDIR)Module.o: Module.cpp
 	$(CXX) $(CXXFLAGS) -c Module.cpp -o $@
+
+$(OBJDIR)PyPlasma.o: PyPlasma.h PyPlasma.cpp
+	$(CXX) $(CXXFLAGS) -c PyPlasma.cpp -o $@
 
 $(OBJDIR)pyDebug.o: Debug/pyDebug.cpp
 	$(CXX) $(CXXFLAGS) -c Debug/pyDebug.cpp -o $@

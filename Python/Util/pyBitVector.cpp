@@ -28,9 +28,9 @@ static PyObject* pyBitVector_new(PyTypeObject* type, PyObject* args, PyObject* k
 }
 
 static PyObject* pyBitVector_Subscript(pyBitVector* self, PyObject* key) {
-    if (PyString_Check(key)) {
+    if (PyAnyStr_Check(key)) {
         Py_INCREF(key);
-        const char* name = PyString_AsString(key);
+        plString name = PyStr_To_PlStr(key);
         int idx = (int)self->fThis->getValue(name);
         Py_DECREF(key);
         bool v = self->fThis->get(idx);
@@ -52,9 +52,9 @@ static int pyBitVector_AssSubscript(pyBitVector* self, PyObject* key, PyObject* 
     }
     bool b = (PyInt_AsLong(value) != 0);
 
-    if (PyString_Check(key)) {
+    if (PyAnyStr_Check(key)) {
         Py_INCREF(key);
-        const char* name = PyString_AsString(key);
+        plString name = PyStr_To_PlStr(key);
         int idx = (int)self->fThis->getValue(name);
         Py_DECREF(key);
         self->fThis->set(idx, b);
@@ -91,7 +91,7 @@ static PyObject* pyBitVector_getName(pyBitVector* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getName expects an int");
         return NULL;
     }
-    return PyString_FromString(self->fThis->getName((size_t)index));
+    return PlStr_To_PyStr(self->fThis->getName((size_t)index));
 }
 
 static PyObject* pyBitVector_getValue(pyBitVector* self, PyObject* args) {

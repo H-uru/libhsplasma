@@ -33,7 +33,7 @@ static PyObject* pySoundBuffer_getHeader(pySoundBuffer* self, void*) {
 }
 
 static PyObject* pySoundBuffer_getFileName(pySoundBuffer* self, void*) {
-    return PyString_FromString(self->fThis->getFileName().cstr());
+    return PlStr_To_PyStr(self->fThis->getFileName());
 }
 
 static PyObject* pySoundBuffer_getFlags(pySoundBuffer* self, void*) {
@@ -60,11 +60,11 @@ static int pySoundBuffer_setHeader(pySoundBuffer* self, PyObject* value, void*) 
 }
 
 static int pySoundBuffer_setFileName(pySoundBuffer* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "fileName should be a string");
         return -1;
     }
-    self->fThis->setFileName(PyString_AsString(value));
+    self->fThis->setFileName(PyStr_To_PlStr(value));
     return 0;
 }
 

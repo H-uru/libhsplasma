@@ -50,7 +50,7 @@ static PyObject* pyAnimStage_getRegressType(pyAnimStage* self, void*) {
 }
 
 static PyObject* pyAnimStage_getAnimName(pyAnimStage* self, void*) {
-    return PyString_FromString(self->fThis->getAnimName().cstr());
+    return PlStr_To_PyStr(self->fThis->getAnimName());
 }
 
 static PyObject* pyAnimStage_getNotify(pyAnimStage* self, void*) {
@@ -116,11 +116,11 @@ static int pyAnimStage_setRegressType(pyAnimStage* self, PyObject* value, void*)
 }
 
 static int pyAnimStage_setAnimName(pyAnimStage* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "animName should be a string");
         return -1;
     }
-    self->fThis->setAnimName(PyString_AsString(value));
+    self->fThis->setAnimName(PyStr_To_PlStr(value));
     return 0;
 }
 

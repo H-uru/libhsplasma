@@ -33,7 +33,7 @@ static PyObject* pyAGApplicator_getEnabled(pyAGApplicator* self, void*) {
 }
 
 static PyObject* pyAGApplicator_getChannelName(pyAGApplicator* self, void*) {
-    return PyString_FromString(self->fThis->getChannelName());
+    return PlStr_To_PyStr(self->fThis->getChannelName());
 }
 
 static int pyAGApplicator_setChannel(pyAGApplicator* self, PyObject* value, void*) {
@@ -60,11 +60,11 @@ static int pyAGApplicator_setEnabled(pyAGApplicator* self, PyObject* value, void
 }
 
 static int pyAGApplicator_setChannelName(pyAGApplicator* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "channelName should be a string");
         return -1;
     }
-    self->fThis->setChannelName(PyString_AsString(value));
+    self->fThis->setChannelName(PyStr_To_PlStr(value));
     return 0;
 }
 

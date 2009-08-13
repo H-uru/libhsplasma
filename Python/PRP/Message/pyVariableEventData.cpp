@@ -28,7 +28,7 @@ static PyObject* pyVariableEventData_Convert(PyObject*, PyObject* args) {
 }
 
 static PyObject* pyVariableEventData_getName(pyVariableEventData* self, void*) {
-    return PyString_FromString(self->fThis->getName().cstr());
+    return PlStr_To_PyStr(self->fThis->getName());
 }
 
 static PyObject* pyVariableEventData_getDataType(pyVariableEventData* self, void*) {
@@ -44,11 +44,11 @@ static PyObject* pyVariableEventData_getKey(pyVariableEventData* self, void*) {
 }
 
 static int pyVariableEventData_setName(pyVariableEventData* self, PyObject* value, void*) {
-    if (value == NULL || !PyString_Check(value)) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "name should be a string");
         return -1;
     }
-    self->fThis->setName(PyString_AsString(value));
+    self->fThis->setName(PyStr_To_PlStr(value));
     return 0;
 }
 

@@ -68,7 +68,7 @@ static int pyShaderConst_AssSubscript(pyShaderConst* self, PyObject* key, PyObje
 static PyObject* pyShaderConst_Repr(pyShaderConst* self) {
     plString repr = plString::Format("plShaderConst(%f, %f, %f, %f)",
         self->fThis->fX, self->fThis->fY, self->fThis->fZ, self->fThis->fW);
-    return PyString_FromString(repr.cstr());
+    return PlStr_To_PyStr(repr);
 }
 
 static PyObject* pyShaderConst_read(pyShaderConst* self, PyObject* args) {
