@@ -2,7 +2,7 @@
 #define _PLNETSERVERSESSIONINFO_H
 
 #include "PRP/plCreatable.h"
-#include "Sys/plUUID.h"
+#include "Sys/plUuid.h"
 #include "plSpawnPointInfo.h"
 
 DllClass plAgeInfoStruct : public plCreatable {
@@ -20,7 +20,7 @@ public:
 protected:
     unsigned char fFlags;
     plString fAgeFilename, fAgeInstanceName;
-    plUUID fAgeInstanceGuid;
+    plUuid fAgeInstanceGuid;
     plString fAgeUserDefinedName, fAgeDescription;
     int fAgeSequenceNumber, fAgeLanguage;
     plString fDisplayName;

@@ -1,6 +1,7 @@
 #include "hsAffineParts.h"
 
-hsAffineParts::hsAffineParts() : fI(0), fF(0.0f) { }
+hsAffineParts::hsAffineParts()
+             : fI(0), fK(1.0f, 1.0f, 1.0f), fF(1.0f) { }
 
 hsAffineParts::hsAffineParts(const hsAffineParts& init)
              : fI(init.fI), fT(init.fT), fQ(init.fQ), fU(init.fU),

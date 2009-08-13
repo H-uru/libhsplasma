@@ -97,6 +97,16 @@
 #include "PRP/Modifier/plRandomSoundMod.h"
 #include "PRP/Modifier/plResponderModifier.h"
 #include "PRP/Modifier/plSpawnModifier.h"
+#include "PRP/NetMessage/plNetMsgGameMessage.h"
+#include "PRP/NetMessage/plNetMsgGroupOwner.h"
+#include "PRP/NetMessage/plNetMsgInitialAgeStateSent.h"
+#include "PRP/NetMessage/plNetMsgLoadClone.h"
+#include "PRP/NetMessage/plNetMsgMembersList.h"
+#include "PRP/NetMessage/plNetMsgPlayerPage.h"
+#include "PRP/NetMessage/plNetMsgRelevanceRegions.h"
+#include "PRP/NetMessage/plNetMsgRoomsList.h"
+#include "PRP/NetMessage/plNetMsgSDLState.h"
+#include "PRP/NetMessage/plNetMsgSharedState.h"
 #include "PRP/Object/plAudioInterface.h"
 #include "PRP/Object/plCoordinateInterface.h"
 #include "PRP/Object/plDrawInterface.h"
@@ -508,7 +518,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kParticleBulletEffect: return new plParticleBulletEffect();
         case kCameraBrain_Ground: return new plCameraBrain_Ground();
         case kCameraBrain_Flight: return new plCameraBrain_Flight();
-        
+
         // Non-Keyed Classes //
         //case kObjRefMsg: return new plObjRefMsg();
         //case kNodeRefMsg: return new plNodeRefMsg();
@@ -534,7 +544,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kMultiModMsg: return new plMultiModMsg();
         //case kAvatarPhysicsEnableCallbackMsg: return new plAvatarPhysicsEnableCallbackMsg();
         //case kMemberUpdateMsg: return new plMemberUpdateMsg();
-        //case kNetMsgPagingRoom: return new plNetMsgPagingRoom();
+        case kNetMsgPagingRoom: return new plNetMsgPagingRoom();
         //case kActivatorMsg: return new plActivatorMsg();
         //case kDispatch: return new plDispatch();
         //case kReceiver: return new plReceiver();
@@ -599,27 +609,27 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kInterestingPing: return new plInterestingPing();
         //case kNodeCleanupMsg: return new plNodeCleanupMsg();
         case kSpaceTree: return new plSpaceTree();
-        //case kNetMessage: return new plNetMessage();
+        case kNetMessage: ABSTRACT(kNetMessage);
         //case kNetMsgJoinReq: return new plNetMsgJoinReq();
         //case kNetMsgJoinAck: return new plNetMsgJoinAck();
         //case kNetMsgLeave: return new plNetMsgLeave();
         //case kNetMsgPing: return new plNetMsgPing();
-        //case kNetMsgRoomsList: return new plNetMsgRoomsList();
-        //case kNetMsgGroupOwner: return new plNetMsgGroupOwner();
-        //case kNetMsgGameStateRequest: return new plNetMsgGameStateRequest();
+        case kNetMsgRoomsList: return new plNetMsgRoomsList();
+        case kNetMsgGroupOwner: return new plNetMsgGroupOwner();
+        case kNetMsgGameStateRequest: return new plNetMsgGameStateRequest();
         //case kNetMsgSessionReset: return new plNetMsgSessionReset();
         //case kNetMsgOmnibus: return new plNetMsgOmnibus();
-        //case kNetMsgObject: return new plNetMsgObject();
+        case kNetMsgObject: return new plNetMsgObject();
         //case kCCRInvisibleMsg: return new plCCRInvisibleMsg();
         case kLinkInDoneMsg: return new plLinkInDoneMsg();
-        //case kNetMsgGameMessage: return new plNetMsgGameMessage();
-        //case kNetMsgStream: return new plNetMsgStream();
+        case kNetMsgGameMessage: return new plNetMsgGameMessage();
+        case kNetMsgStream: return new plNetMsgStream();
         //case kAudioSysMsg: return new plAudioSysMsg();
         //case kDispatchBase: return new plDispatchBase();
         //case kServerReplyMsg: return new plServerReplyMsg();
         //case kDeviceRecreateMsg: return new plDeviceRecreateMsg();
-        //case kNetMsgStreamHelper: return new plNetMsgStreamHelper();
-        //case kNetMsgObjectHelper: return new plNetMsgObjectHelper();
+        case kNetMsgStreamHelper: return new plNetMsgStreamHelper();
+        case kNetMsgObjectHelper: return new plNetMsgObjectHelper();
         //case kIMouseXEventMsg: return new plIMouseXEventMsg();
         //case kIMouseYEventMsg: return new plIMouseYEventMsg();
         //case kIMouseBEventMsg: return new plIMouseBEventMsg();
@@ -628,9 +638,9 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kDX8Pipeline: return new plDX8Pipeline();
         //case kNetMsgVoice: return new plNetMsgVoice();
         //case kLightRefMsg: return new plLightRefMsg();
-        //case kNetMsgStreamedObject: return new plNetMsgStreamedObject();
-        //case kNetMsgSharedState: return new plNetMsgSharedState();
-        //case kNetMsgTestAndSet: return new plNetMsgTestAndSet();
+        case kNetMsgStreamedObject: return new plNetMsgStreamedObject();
+        case kNetMsgSharedState: return new plNetMsgSharedState();
+        case kNetMsgTestAndSet: return new plNetMsgTestAndSet();
         //case kNetMsgGetSharedState: return new plNetMsgGetSharedState();
         //case kSharedStateMsg: return new plSharedStateMsg();
         //case kNetGenericServerTask: return new plNetGenericServerTask();
@@ -678,18 +688,18 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kFreezeMsg: return new plFreezeMsg();
         //case kEventGroupMsg: return new plEventGroupMsg();
         //case kSuspendEventMsg: return new plSuspendEventMsg();
-        //case kNetMsgMembersListReq: return new plNetMsgMembersListReq();
-        //case kNetMsgMembersList: return new plNetMsgMembersList();
-        //case kNetMsgMemberInfoHelper: return new plNetMsgMemberInfoHelper();
-        //case kNetMsgMemberListHelper: return new plNetMsgMemberListHelper();
+        case kNetMsgMembersListReq: return new plNetMsgMembersListReq();
+        case kNetMsgMembersList: return new plNetMsgMembersList();
+        case kNetMsgMemberInfoHelper: return new plNetMsgMemberInfoHelper();
+        case kNetMsgMemberListHelper: return new plNetMsgMemberListHelper();
         //case kNetMsgMemberUpdate: return new plNetMsgMemberUpdate();
-        //case kNetMsgServerToClient: return new plNetMsgServerToClient();
+        case kNetMsgServerToClient: ABSTRACT(kNetMsgServerToClient);
         //case kNetMsgCreatePlayer: return new plNetMsgCreatePlayer();
         //case kNetMsgAuthenticateHello: return new plNetMsgAuthenticateHello();
         //case kNetMsgAuthenticateChallenge: return new plNetMsgAuthenticateChallenge();
         //case kConnectedToVaultMsg: return new plConnectedToVaultMsg();
         //case kCCRCommunicationMsg: return new plCCRCommunicationMsg();
-        //case kNetMsgInitialAgeStateSent: return new plNetMsgInitialAgeStateSent();
+        case kNetMsgInitialAgeStateSent: return new plNetMsgInitialAgeStateSent();
         //case kInitialAgeStateLoadedMsg: return new plInitialAgeStateLoadedMsg();
         //case kNetServerMsgFindServerBase: return new plNetServerMsgFindServerBase();
         //case kNetServerMsgFindServerReplyBase: return new plNetServerMsgFindServerReplyBase();
@@ -710,7 +720,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetMsgAlive: return new plNetMsgAlive();
         //case kNetMsgTerminated: return new plNetMsgTerminated();
         //case kSDLModifierMsg: return new plSDLModifierMsg();
-        //case kNetMsgSDLState: return new plNetMsgSDLState();
+        case kNetMsgSDLState: return new plNetMsgSDLState();
         //case kNetServerMsgSessionReset: return new plNetServerMsgSessionReset();
         //case kCCRBanLinkingMsg: return new plCCRBanLinkingMsg();
         //case kCCRSilencePlayerMsg: return new plCCRSilencePlayerMsg();
@@ -802,7 +812,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetServerMsgVaultGameStateSaved: return new plNetServerMsgVaultGameStateSaved();
         //case kNetServerMsgVaultGameStateLoad: return new plNetServerMsgVaultGameStateLoad();
         //case kNetClientTask: return new plNetClientTask();
-        //case kNetMsgSDLStateBCast: return new plNetMsgSDLStateBCast();
+        case kNetMsgSDLStateBCast: return new plNetMsgSDLStateBCast();
         //case kReplaceGeometryMsg: return new plReplaceGeometryMsg();
         //case kNetServerMsgExitProcess: return new plNetServerMsgExitProcess();
         //case kNetServerMsgSaveGameState: return new plNetServerMsgSaveGameState();
@@ -880,7 +890,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetServerMsgAuthRequest: return new plNetServerMsgAuthRequest();
         //case kNetServerMsgAuthReply: return new plNetServerMsgAuthReply();
         //case kNetClientCommAuthTask: return new plNetClientCommAuthTask();
-        //case kClientGuid: return new plClientGuid();
+        case kClientGuid: return new plClientGuid();
         //case kNetMsgVaultPlayerList: return new plNetMsgVaultPlayerList();
         //case kNetMsgSetMyActivePlayer: return new plNetMsgSetMyActivePlayer();
         //case kNetServerMsgRequestAccountPlayerList: return new plNetServerMsgRequestAccountPlayerList();
@@ -933,15 +943,15 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kArmatureUpdateMsg: return new plArmatureUpdateMsg();
         //case kAvatarFootMsg: return new plAvatarFootMsg();
         //case kNetOwnershipMsg: return new plNetOwnershipMsg();
-        //case kNetMsgRelevanceRegions: return new plNetMsgRelevanceRegions();
+        case kNetMsgRelevanceRegions: return new plNetMsgRelevanceRegions();
         //case kParticleFlockMsg: return new plParticleFlockMsg();
         //case kAvatarBehaviorNotifyMsg: return new plAvatarBehaviorNotifyMsg();
         case kATCChannel: return new plATCChannel();
         case kScalarSDLChannel: return new plScalarSDLChannel();
         //case kLoadAvatarMsg: return new plLoadAvatarMsg();
         //case kAvatarSetTypeMsg: return new plAvatarSetTypeMsg();
-        //case kNetMsgLoadClone: return new plNetMsgLoadClone();
-        //case kNetMsgPlayerPage: return new plNetMsgPlayerPage();
+        case kNetMsgLoadClone: return new plNetMsgLoadClone();
+        case kNetMsgPlayerPage: return new plNetMsgPlayerPage();
         //case kVNodeInitTask: return new plVNodeInitTask();
         //case kRippleShapeMsg: return new plRippleShapeMsg();
         //case kEventManager: return new plEventManager();

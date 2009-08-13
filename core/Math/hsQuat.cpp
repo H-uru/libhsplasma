@@ -2,7 +2,7 @@
 #include <cmath>
 
 hsQuat::hsQuat()
-      : X(0.0f), Y(0.0f), Z(0.0f), W(0.0f) { }
+      : X(0.0f), Y(0.0f), Z(0.0f), W(1.0f) { }
 hsQuat::hsQuat(const hsQuat& init)
       : X(init.X), Y(init.Y), Z(init.Z), W(init.W) { }
 hsQuat::hsQuat(float _x, float _y, float _z, float _w)
@@ -84,7 +84,7 @@ void hsQuat::prcParse(const pfPrcTag* tag) {
     X = tag->getParam("X", "0").toFloat();
     Y = tag->getParam("Y", "0").toFloat();
     Z = tag->getParam("Z", "0").toFloat();
-    W = tag->getParam("W", "0").toFloat();
+    W = tag->getParam("W", "1").toFloat();
 }
 
 hsQuat hsQuat::conjugate() const {

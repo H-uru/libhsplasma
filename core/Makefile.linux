@@ -34,7 +34,7 @@ PLSOBJ=\
 	$(OBJDIR)hsColor.o \
 	$(OBJDIR)hsSemaphore.o \
 	$(OBJDIR)plUnifiedTime.o \
-	$(OBJDIR)plUUID.o \
+	$(OBJDIR)plUuid.o \
 	$(OBJDIR)hsBitVector.o \
 	$(OBJDIR)plJPEG.o \
 	$(OBJDIR)plMD5.o \
@@ -198,6 +198,23 @@ PLSOBJ=\
 	$(OBJDIR)plRandomSoundMod.o \
 	$(OBJDIR)plResponderModifier.o \
 	$(OBJDIR)plSpawnModifier.o \
+	$(OBJDIR)plClientGuid.o \
+	$(OBJDIR)plNetGroupId.o \
+	$(OBJDIR)plNetMessage.o \
+	$(OBJDIR)plNetMsgGameMessage.o \
+	$(OBJDIR)plNetMsgGroupOwner.o \
+	$(OBJDIR)plNetMsgInitialAgeStateSent.o \
+	$(OBJDIR)plNetMsgLoadClone.o \
+	$(OBJDIR)plNetMsgMembersList.o \
+	$(OBJDIR)plNetMsgObject.o \
+	$(OBJDIR)plNetMsgPlayerPage.o \
+	$(OBJDIR)plNetMsgRelevanceRegions.o \
+	$(OBJDIR)plNetMsgRoomsList.o \
+	$(OBJDIR)plNetMsgSDLState.o \
+	$(OBJDIR)plNetMsgSharedState.o \
+	$(OBJDIR)plNetMsgStream.o \
+	$(OBJDIR)plNetMsgStreamedObject.o \
+	$(OBJDIR)plNetSharedState.o \
 	$(OBJDIR)plAudioInterface.o \
 	$(OBJDIR)plCoordinateInterface.o \
 	$(OBJDIR)plDrawInterface.o \
@@ -385,8 +402,8 @@ $(OBJDIR)hsSemaphore.o: Sys/hsSemaphore.h Sys/hsSemaphore.cpp
 $(OBJDIR)plUnifiedTime.o: Sys/plUnifiedTime.h Sys/plUnifiedTime.cpp
 	$(CXX) $(CXXFLAGS) -c Sys/plUnifiedTime.cpp -o $@
 
-$(OBJDIR)plUUID.o: Sys/plUUID.h Sys/plUUID.cpp
-	$(CXX) $(CXXFLAGS) -c Sys/plUUID.cpp -o $@
+$(OBJDIR)plUuid.o: Sys/plUuid.h Sys/plUuid.cpp
+	$(CXX) $(CXXFLAGS) -c Sys/plUuid.cpp -o $@
 
 $(OBJDIR)hsBitVector.o: Util/hsBitVector.h Util/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/hsBitVector.cpp -o $@
@@ -876,6 +893,57 @@ $(OBJDIR)plResponderModifier.o: PRP/Modifier/plResponderModifier.h PRP/Modifier/
 
 $(OBJDIR)plSpawnModifier.o: PRP/Modifier/plSpawnModifier.h PRP/Modifier/plSpawnModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plSpawnModifier.cpp -o $@
+
+$(OBJDIR)plClientGuid.o: PRP/NetMessage/plClientGuid.h PRP/NetMessage/plClientGuid.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plClientGuid.cpp -o $@
+
+$(OBJDIR)plNetGroupId.o: PRP/NetMessage/plNetGroupId.h PRP/NetMessage/plNetGroupId.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetGroupId.cpp -o $@
+
+$(OBJDIR)plNetMessage.o: PRP/NetMessage/plNetMessage.h PRP/NetMessage/plNetMessage.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMessage.cpp -o $@
+
+$(OBJDIR)plNetMsgGameMessage.o: PRP/NetMessage/plNetMsgGameMessage.h PRP/NetMessage/plNetMsgGameMessage.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgGameMessage.cpp -o $@
+
+$(OBJDIR)plNetMsgGroupOwner.o: PRP/NetMessage/plNetMsgGroupOwner.h PRP/NetMessage/plNetMsgGroupOwner.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgGroupOwner.cpp -o $@
+
+$(OBJDIR)plNetMsgInitialAgeStateSent.o: PRP/NetMessage/plNetMsgInitialAgeStateSent.h PRP/NetMessage/plNetMsgInitialAgeStateSent.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgInitialAgeStateSent.cpp -o $@
+
+$(OBJDIR)plNetMsgLoadClone.o: PRP/NetMessage/plNetMsgLoadClone.h PRP/NetMessage/plNetMsgLoadClone.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgLoadClone.cpp -o $@
+
+$(OBJDIR)plNetMsgMembersList.o: PRP/NetMessage/plNetMsgMembersList.h PRP/NetMessage/plNetMsgMembersList.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgMembersList.cpp -o $@
+
+$(OBJDIR)plNetMsgObject.o: PRP/NetMessage/plNetMsgObject.h PRP/NetMessage/plNetMsgObject.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgObject.cpp -o $@
+
+$(OBJDIR)plNetMsgPlayerPage.o: PRP/NetMessage/plNetMsgPlayerPage.h PRP/NetMessage/plNetMsgPlayerPage.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgPlayerPage.cpp -o $@
+
+$(OBJDIR)plNetMsgRelevanceRegions.o: PRP/NetMessage/plNetMsgRelevanceRegions.h PRP/NetMessage/plNetMsgRelevanceRegions.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgRelevanceRegions.cpp -o $@
+
+$(OBJDIR)plNetMsgRoomsList.o: PRP/NetMessage/plNetMsgRoomsList.h PRP/NetMessage/plNetMsgRoomsList.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgRoomsList.cpp -o $@
+
+$(OBJDIR)plNetMsgSDLState.o: PRP/NetMessage/plNetMsgSDLState.h PRP/NetMessage/plNetMsgSDLState.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgSDLState.cpp -o $@
+
+$(OBJDIR)plNetMsgSharedState.o: PRP/NetMessage/plNetMsgSharedState.h PRP/NetMessage/plNetMsgSharedState.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgSharedState.cpp -o $@
+
+$(OBJDIR)plNetMsgStream.o: PRP/NetMessage/plNetMsgStream.h PRP/NetMessage/plNetMsgStream.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgStream.cpp -o $@
+
+$(OBJDIR)plNetMsgStreamedObject.o: PRP/NetMessage/plNetMsgStreamedObject.h PRP/NetMessage/plNetMsgStreamedObject.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgStreamedObject.cpp -o $@
+
+$(OBJDIR)plNetSharedState.o: PRP/NetMessage/plNetSharedState.h PRP/NetMessage/plNetSharedState.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetSharedState.cpp -o $@
 
 $(OBJDIR)plAudioInterface.o: PRP/Object/plAudioInterface.h PRP/Object/plAudioInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/plAudioInterface.cpp -o $@
