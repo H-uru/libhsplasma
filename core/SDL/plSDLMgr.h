@@ -3,6 +3,7 @@
 
 #include "plStateDescriptor.h"
 #include "Debug/hsExceptions.h"
+#include "Stream/hsStream.h"
 
 DllClass plSDLMgr {
 protected:
@@ -18,6 +19,7 @@ public:
     ~plSDLMgr();
 
     void ReadDescriptors(const plString& filename);
+    void ReadDescriptors(hsStream* S);
     void ClearDescriptors();
     plStateDescriptor* GetDescriptor(const plString& name, int version = -1);
 };

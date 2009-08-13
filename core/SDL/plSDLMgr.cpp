@@ -21,6 +21,11 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
         ((hsFileStream*)fileStream)->open(filename, fmRead);
     }
 
+    ReadDescriptors(fileStream);
+    delete fileStream;
+}
+
+void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
     hsTokenStream* tokStream = new hsTokenStream(fileStream);
     tokStream->setDelimiters("{}[]()=,;");
     hsTArray<hsTokenStream::Region> commentMarkers;
@@ -299,7 +304,6 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
     }
 
     delete tokStream;
-    delete fileStream;
     if (state != kFile)
         throw plSDLParseException(__FILE__, __LINE__, "Unexpected End of File");
 }

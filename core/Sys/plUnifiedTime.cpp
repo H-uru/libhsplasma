@@ -198,7 +198,7 @@ void plUnifiedTime::getTime(int& year, int& month, int& day, int& hour,
                             int& minute, int& second) const {
     tm* time = IGetTime(&fSecs);
     year = time->tm_year + 1900;
-    month = time->tm_mon;
+    month = time->tm_mon + 1;
     day = time->tm_mday;
     hour = time->tm_hour;
     minute = time->tm_min;
@@ -230,7 +230,7 @@ void plUnifiedTime::setTime(int year, int month, int day, int hour, int minute,
                             int second, unsigned int usec, bool dst) {
     tm time;
     time.tm_year = year - 1900;
-    time.tm_mon = month;
+    time.tm_mon = month - 1;
     time.tm_mday = day;
     time.tm_hour = hour;
     time.tm_min = minute;
