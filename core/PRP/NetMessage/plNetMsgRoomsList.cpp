@@ -37,9 +37,8 @@ void plNetMsgRoomsList::IPrcWrite(pfPrcHelper* prc) {
     for (size_t i=0; i<fRooms.getSize(); i++) {
         prc->startTag("Room");
         prc->writeParam("Name", fRoomNames[i]);
-        prc->endTag();
         fRooms[i].prcWrite(prc);
-        prc->closeTag();
+        prc->endTag(true);
     }
     prc->closeTag();
 }

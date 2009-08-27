@@ -15,9 +15,8 @@ void plNetGroupId::write(hsStream* S) {
 void plNetGroupId::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plNetGroupId");
     prc->writeParam("Flags", fFlags);
-    prc->endTag();
     fID.prcWrite(prc);
-    prc->closeTag();
+    prc->endTag(true);
 }
 
 void plNetGroupId::prcParse(const pfPrcTag* tag) {
