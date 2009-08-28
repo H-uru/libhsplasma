@@ -3,6 +3,7 @@
 
 #include "plNetMessage.h"
 #include "Stream/hsRAMStream.h"
+#include "Util/plZlib.h"
 
 DllClass plNetMsgStreamHelper : public plCreatable {
 private:
@@ -33,6 +34,8 @@ public:
     void setStream(const unsigned char* stream, unsigned int length);
     void setUncompressedSize(unsigned int size);
     void setCompressionType(unsigned char type);
+    
+    void Uncompress();
 };
 
 DllClass plNetMsgStream : public plNetMessage {
