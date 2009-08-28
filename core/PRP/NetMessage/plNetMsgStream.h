@@ -6,6 +6,14 @@
 #include "Util/plZlib.h"
 
 DllClass plNetMsgStreamHelper : public plCreatable {
+public:
+	enum CompressionType {
+        kCompressionNone,
+        kCompressionFailed,
+        kCompressionZlib,
+        kCompressionDont
+    };
+    
 private:
     unsigned int fUncompressedSize;
     unsigned char fCompressionType;
@@ -35,7 +43,7 @@ public:
     void setUncompressedSize(unsigned int size);
     void setCompressionType(unsigned char type);
     
-    void Uncompress();
+    void Uncompress(int offset);
 };
 
 DllClass plNetMsgStream : public plNetMessage {

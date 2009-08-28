@@ -21,12 +21,9 @@ void plNetMsgStreamHelper::read(hsStream* S, plResManager* mgr) {
     if (fStreamLength > 0) {
         fStream = new unsigned char[fStreamLength];
         S->read(fStreamLength, fStream);
+        Uncompress(2);
     } else {
         fStream = NULL;
-    }
-    
-    if(fCompressionType == 2) {
-        Uncompress();
     }
 }
 
@@ -81,12 +78,20 @@ void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int l
 void plNetMsgStreamHelper::setUncompressedSize(unsigned int size) { fUncompressedSize = size; }
 void plNetMsgStreamHelper::setCompressionType(unsigned char type) { fCompressionType = type; }
 
-void plNetMsgStreamHelper::Uncompress() {
-    unsigned char* unStream = new unsigned char[fUncompressedSize];
-    
-    plZlib::Uncompress(fStream, fStreamLength, unStream, &fUncompressedSize);
-    
-    setStream(unStream, fUncompressedSize);
+void plNetMsgStreamHelper::Uncompress(int offset) {
+	if(fCompressionType == kCompressionZlib) {
+		unsigned int bufLen = fStreamLength;
+		unsigned char* buf = fStream;
+		
+		if(!plZlib::Uncompress(&buf, &bufLen, fUncompressedSize, offset)) {
+			fCompressionType = kCompressionFailed;
+			return;
+		}
+		
+		fCompressionType = kCompressionNone;
+		
+		setStream(buf, bufLen);
+	}
 }
 
 
