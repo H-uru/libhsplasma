@@ -29,6 +29,8 @@ public:
                                   plUoid* objUoid);
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
+    void prcWrite(pfPrcHelper* prc);
+    /*void prcParse(const pfPrcTag* tag);*/ //Zrax'll kill me >.>
 
     void setDescriptor(plStateDescriptor* desc);
 
