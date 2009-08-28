@@ -32,6 +32,7 @@ public:
 
     void startTag(const char* name);
     void writeParam(const char* name, const char* value);
+    void writeParam(const char* name, const wchar_t* value);
     void writeParam(const char* name, int value);
     void writeParam(const char* name, long value);
     void writeParam(const char* name, unsigned int value);

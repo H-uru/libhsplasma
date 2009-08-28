@@ -25,6 +25,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine="copy jconfig.vc jconfig.h"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"

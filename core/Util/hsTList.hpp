@@ -4,7 +4,7 @@
 #include "Debug/hsExceptions.h"
 
 template<typename T>
-class hsTList {
+DllClass hsTList {
 private:
     struct Link {
         T item;

@@ -39,6 +39,14 @@ void pfPrcHelper::writeParam(const char* name, const char* value) {
     file->writeStr(buf);
 }
 
+void pfPrcHelper::writeParam(const char* name, const wchar_t* value) {
+    char buf[256];
+    char buf2[256];
+    wcstombs(buf2, value, 255);
+    snprintf(buf, 256, " %s=\"%s\"", name, buf2);
+    file->writeStr(buf);
+}
+
 void pfPrcHelper::writeParam(const char* name, int value) {
     char buf[256];
     snprintf(buf, 256, " %s=\"%d\"", name, value);

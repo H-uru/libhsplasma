@@ -1,8 +1,8 @@
 #ifndef _HSEXCEPTIONS_H
 #define _HSEXCEPTIONS_H
 
-#include <exception>
 #include "Util/plString.h"
+#include <exception>
 
 DllClass hsException : public std::exception {
 protected:

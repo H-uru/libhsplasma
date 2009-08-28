@@ -1,11 +1,11 @@
 #ifndef _PLSTRING_H
 #define _PLSTRING_H
 
+#include "PlasmaDefs.h"
 #include <cstring>
 #include <cstdio>
 #include <vector>
 #include <wchar.h>
-#include "PlasmaDefs.h"
 
 DllClass plString {
 protected:
