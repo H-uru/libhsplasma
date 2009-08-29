@@ -2,11 +2,8 @@
 
 bool plZlib::Uncompress(unsigned char** bufIn, unsigned int* bufLenIn, unsigned int bufLenOut, int offset) {
 	char* bufOut = new char[bufLenOut];
-	
-	(*bufLenIn) -= offset;
-	(*bufIn) += offset;
-	
-	bool ok = Uncompress((unsigned char*)bufOut, &bufLenOut, *bufIn, *bufLenIn);
+		
+	bool ok = Uncompress((unsigned char*)bufOut, &bufLenOut, *bufIn + offset, *bufLenIn - offset);
 	
 	return ICopyBuffers(bufIn, bufLenIn, bufOut, bufLenOut, offset, ok);
 }
@@ -25,9 +22,11 @@ bool plZlib::ICopyBuffers(unsigned char** bufIn, unsigned int* bufLenIn, char* b
 		s->write(bufLenOut, bufOut);
 		
 		delete[] *bufIn;
+        *bufIn = new unsigned char[*bufLenIn];
 		delete[] bufOut;
 		
 		s->copyTo(*bufIn, *bufLenIn);
+        return true;
 		
 	} else {
 		delete[] bufOut;

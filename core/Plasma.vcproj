@@ -67,8 +67,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib libjpeg.lib squish.lib"
-				AdditionalLibraryDirectories=""
+				AdditionalDependencies="opengl32.lib libjpeg.lib squish.lib zdll.lib"
+				AdditionalLibraryDirectories="$(ProjectDir)/3rdPartyLibs/zlib/lib"
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -2522,6 +2522,10 @@
 			</File>
 			<File
 				RelativePath=".\Util\plString.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\plZlib.cpp"
 				>
 			</File>
 		</Filter>

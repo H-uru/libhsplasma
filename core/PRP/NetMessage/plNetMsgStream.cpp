@@ -80,17 +80,11 @@ void plNetMsgStreamHelper::setCompressionType(unsigned char type) { fCompression
 
 void plNetMsgStreamHelper::Uncompress(int offset) {
 	if(fCompressionType == kCompressionZlib) {
-		unsigned int bufLen = fStreamLength;
-		unsigned char* buf = fStream;
-		
-		if(!plZlib::Uncompress(&buf, &bufLen, fUncompressedSize, offset)) {
+    
+		if(!plZlib::Uncompress(&fStream, &fStreamLength, fUncompressedSize, offset))
 			fCompressionType = kCompressionFailed;
-			return;
-		}
+		else fCompressionType = kCompressionNone;
 		
-		fCompressionType = kCompressionNone;
-		
-		setStream(buf, bufLen);
 	}
 }
 
