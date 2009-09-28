@@ -112,7 +112,7 @@ void plSoundBuffer::IPrcWrite(pfPrcHelper* prc) {
 
     prc->startTag("SoundBuffer");
     prc->writeParamHex("Flags", fFlags);
-    prc->writeParam("Length", fDataLength);
+    prc->writeParam("Length", (unsigned long)fDataLength);
     prc->writeParam("Filename", fFileName);
     prc->endTag(fData == NULL);
     if (fData != NULL) {

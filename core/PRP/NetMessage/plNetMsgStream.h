@@ -7,10 +7,8 @@
 
 DllClass plNetMsgStreamHelper : public plCreatable {
 public:
-	enum CompressionType {
-        kCompressionNone,
-        kCompressionFailed,
-        kCompressionZlib,
+    enum CompressionType {
+        kCompressionNone, kCompressionFailed, kCompressionZlib,
         kCompressionDont
     };
     
@@ -42,8 +40,9 @@ public:
     void setStream(const unsigned char* stream, unsigned int length);
     void setUncompressedSize(unsigned int size);
     void setCompressionType(unsigned char type);
-    
-    void Uncompress(int offset);
+
+private:
+    void decompress(int offset);
 };
 
 DllClass plNetMsgStream : public plNetMessage {

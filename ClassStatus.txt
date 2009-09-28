@@ -384,6 +384,7 @@ plNodeRegionModifier            Basic       No          No
 plOneShotMod                    Complete    Complete    No
 plPostEffectMod                 Basic       No          No
 plPythonFileMod                 Complete    Complete    PrpShop
+plPythonMod                     Basic       No          No
 plRandomCommandMod              Basic       No          No
 plRandomSoundMod                Basic       No          No
 plResponderModifier             Complete    Complete    No

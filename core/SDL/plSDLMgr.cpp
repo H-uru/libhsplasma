@@ -4,8 +4,6 @@
 #include <stdarg.h>
 
 /* plSDLMgr */
-plSDLMgr *plSDLMgr::global = new plSDLMgr();
-
 plSDLMgr::plSDLMgr() { }
 
 plSDLMgr::~plSDLMgr() {

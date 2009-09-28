@@ -14,8 +14,6 @@ private:
         kFile, kUruStateDesc, kUruVarLine, kEoaStateDesc, kEoaVarLine
     };
 
-    static plSDLMgr *global;
-
 public:
     plSDLMgr();
     ~plSDLMgr();
@@ -24,7 +22,6 @@ public:
     void ReadDescriptors(hsStream* S);
     void ClearDescriptors();
     plStateDescriptor* GetDescriptor(const plString& name, int version = -1);
-    static plSDLMgr* GetManager() { return global; }
 };
 
 DllClass plSDLParseException : public hsException {

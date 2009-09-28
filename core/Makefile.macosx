@@ -287,7 +287,7 @@ all: $(LIBDIR)/$(PLSLIB) 3rdPartyLibs/jpeg-6b/Makefile
 $(LIBDIR)/$(PLSLIB): $(PLSOBJ) $(OBJFILES3P)
 	( cd 3rdPartyLibs/jpeg-6b ; $(MAKE) )
 	( cd 3rdPartyLibs/squish  ; $(MAKE) )
-	$(CXX) $(CXXFLAGS) $(PLSOBJ) $(OBJFILES3P) -dynamiclib -install_name $(PREFIX)/lib/$(PLSLIB) -o $@
+	$(CXX) $(CXXFLAGS) $(PLSOBJ) $(OBJFILES3P) -lz -dynamiclib -install_name $(PREFIX)/lib/$(PLSLIB) -o $@
 
 install:
 	cp $(LIBDIR)/$(PLSLIB) $(PREFIX)/lib

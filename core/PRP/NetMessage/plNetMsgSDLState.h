@@ -2,16 +2,14 @@
 #define _PLNETMSGSDLSTATE_H
 
 #include "plNetMsgStreamedObject.h"
-#include "SDL/plStateDataRecord.h"
+#include "SDL/plSDLMgr.h"
 
 DllClass plNetMsgSDLState : public plNetMsgStreamedObject {
 private:
     bool fIsInitialState, fPersistOnServer, fIsAvatarState;
-    plString fDescName;
-    int fDescVersion;
     // The stream is an SDL blob that will need to be parsed from
     // an SDL Manager with the correct descriptors loaded
-    plStateDataRecord fRecord; //That would be this record...
+    plStateDescriptor* fDescriptor;
 
 public:
     plNetMsgSDLState();
@@ -21,6 +19,8 @@ public:
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+    
+    void findDescriptor(plSDLMgr* sdl);
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);

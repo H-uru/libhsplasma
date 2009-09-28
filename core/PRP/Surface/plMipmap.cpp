@@ -212,7 +212,7 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Height", fHeight);
     prc->writeParam("Stride", fStride);
     prc->writeParam("TotalSize", fTotalSize);
-    prc->writeParam("MipLevels", fLevelData.getSize());
+    prc->writeParam("MipLevels", (unsigned long)fLevelData.getSize());
     prc->endTag(true);
 
     if (fCompressionType == kJPEGCompression) {

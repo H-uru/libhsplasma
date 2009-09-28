@@ -29,13 +29,6 @@ public:
         kNeedsReliableSend = 0x40000,
         kRouteToAllPlayers = 0x80000
     };
-    
-    enum CompressionType {
-        kCompressionNone,
-        kCompressionFailed,
-        kCompressionZlib,
-        kCompressionDont
-    };
 
 private:
     unsigned int fFlags;

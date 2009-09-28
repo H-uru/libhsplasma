@@ -21,17 +21,38 @@ void plNetMsgStreamHelper::read(hsStream* S, plResManager* mgr) {
     if (fStreamLength > 0) {
         fStream = new unsigned char[fStreamLength];
         S->read(fStreamLength, fStream);
-        Uncompress(2);
+        decompress(2);
     } else {
         fStream = NULL;
     }
 }
 
 void plNetMsgStreamHelper::write(hsStream* S, plResManager* mgr) {
+    unsigned char* outStream = fStream;
+    fUncompressedSize = fStreamLength;
+    if (fCompressionType == kCompressionZlib) {
+        unsigned char* tempStream = NULL;
+        if (plZlib::Compress(tempStream, fStreamLength,
+                             fStream + 2, fUncompressedSize - 2)) {
+            outStream = new unsigned char[fStreamLength + 2];
+            memcpy(outStream, fStream, 2);
+            memcpy(outStream + 2, tempStream, fStreamLength);
+            fStreamLength += 2;
+        } else {
+            fStreamLength = fUncompressedSize;
+            fCompressionType = kCompressionNone;
+            if (tempStream != NULL)
+                delete[] tempStream;
+        }
+    }
+
     S->writeInt(fUncompressedSize);
     S->writeByte(fCompressionType);
     S->writeInt(fStreamLength);
-    S->write(fStreamLength, fStream);
+    S->write(fStreamLength, outStream);
+    
+    if (fCompressionType == kCompressionZlib)
+        delete[] outStream;
 }
 
 void plNetMsgStreamHelper::IPrcWrite(pfPrcHelper* prc) {
@@ -78,14 +99,21 @@ void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int l
 void plNetMsgStreamHelper::setUncompressedSize(unsigned int size) { fUncompressedSize = size; }
 void plNetMsgStreamHelper::setCompressionType(unsigned char type) { fCompressionType = type; }
 
-void plNetMsgStreamHelper::Uncompress(int offset) {
-	if(fCompressionType == kCompressionZlib) {
-    
-		if(!plZlib::Uncompress(&fStream, &fStreamLength, fUncompressedSize, offset))
-			fCompressionType = kCompressionFailed;
-		else fCompressionType = kCompressionNone;
-		
-	}
+void plNetMsgStreamHelper::decompress(int offset) {
+    if (fCompressionType == kCompressionZlib) {
+        unsigned char* newStream = new unsigned char[fUncompressedSize];
+        fUncompressedSize -= offset;
+        if (plZlib::Uncompress(newStream + offset, fUncompressedSize,
+                               fStream + offset, fStreamLength - offset)) {
+            memcpy(newStream, fStream, offset);
+            delete[] fStream;
+            fStream = newStream;
+        } else {
+            delete[] newStream;
+            fCompressionType = kCompressionFailed;
+        }
+        fUncompressedSize += offset;
+    }
 }
 
 
