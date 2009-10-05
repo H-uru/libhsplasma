@@ -3,8 +3,10 @@
 #include <cstdlib>
 
 hsStream* plDebug::fDebugStream = NULL;
-int plDebug::fDebugLevel = kDLNone;
+int plDebug::fDebugLevel = kDLWarning;
 bool plDebug::fIOwnStream = false;
+bool plDebug::fIsExitRegistered = false;
+plString plDebug::fDebugFile;
 
 void plDebug::Init(int level, hsStream* stream) {
     DeInit();
@@ -19,17 +21,35 @@ void plDebug::Init(int level, hsStream* stream) {
     }
 
     // Register cleanup
-    atexit(&plDebug::DeInit);
+    if (!fIsExitRegistered) {
+        fIsExitRegistered = true;
+        atexit(&plDebug::DeInit);
+    }
 }
 
 void plDebug::InitFile(int level, const char* filename) {
+    DeInit();
+
     fDebugLevel = level;
-    fDebugStream = new hsFileStream();
-    ((hsFileStream*)fDebugStream)->open(filename, fmCreate);
-    fIOwnStream = true;
+    fDebugFile = filename;
 
     // Register cleanup
-    atexit(&plDebug::DeInit);
+    if (!fIsExitRegistered) {
+        fIsExitRegistered = true;
+        atexit(&plDebug::DeInit);
+    }
+}
+
+void plDebug::DelayInit() {
+    if (fDebugFile.empty()) {
+        // Nobody ever called Init(), so use stderr
+        Init(kDLWarning, NULL);
+    } else {
+        // Init to the provided filename
+        fDebugStream = new hsFileStream();
+        ((hsFileStream*)fDebugStream)->open(fDebugFile, fmCreate);
+        fIOwnStream = true;
+    }
 }
 
 void plDebug::DeInit() {
@@ -39,36 +59,36 @@ void plDebug::DeInit() {
 }
 
 void plDebug::Error(const char* fmt, ...) {
+    if (fDebugLevel < kDLError)
+        return;
     if (fDebugStream == NULL)
-        Init();
-    if (fDebugLevel >= kDLError) {
-        va_list aptr;
-        va_start(aptr, fmt);
-        WriteLn(fmt, aptr);
-        va_end(aptr);
-    }
+        DelayInit();
+    va_list aptr;
+    va_start(aptr, fmt);
+    WriteLn(fmt, aptr);
+    va_end(aptr);
 }
 
 void plDebug::Warning(const char* fmt, ...) {
+    if (fDebugLevel < kDLWarning)
+        return;
     if (fDebugStream == NULL)
-        Init();
-    if (fDebugLevel >= kDLWarning) {
-        va_list aptr;
-        va_start(aptr, fmt);
-        WriteLn(fmt, aptr);
-        va_end(aptr);
-    }
+        DelayInit();
+    va_list aptr;
+    va_start(aptr, fmt);
+    WriteLn(fmt, aptr);
+    va_end(aptr);
 }
 
 void plDebug::Debug(const char* fmt, ...) {
+    if (fDebugLevel < kDLDebug)
+        return;
     if (fDebugStream == NULL)
-        Init();
-    if (fDebugLevel >= kDLDebug) {
-        va_list aptr;
-        va_start(aptr, fmt);
-        WriteLn(fmt, aptr);
-        va_end(aptr);
-    }
+        DelayInit();
+    va_list aptr;
+    va_start(aptr, fmt);
+    WriteLn(fmt, aptr);
+    va_end(aptr);
 }
 
 void plDebug::WriteLn(const char* fmt, va_list args) {
