@@ -122,80 +122,83 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
         
         for (size_t j=0; j<fAllVars[i]->getCount(); j++) {
             switch (fAllVars[i]->getDescriptor()->getType()) {
-                case plVarDescriptor::kNone:
-                    prc->startTag("None");
-                    prc->endTag(true);
-                    break;
-                case plVarDescriptor::kInt:
-                    prc->startTag("Int");
-                    prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Int(j));
-                    prc->endTag(true);
-                    break;
-                case plVarDescriptor::kFloat:
-                    prc->startTag("Float");
-                    prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Float(j));
-                    prc->endTag(true);
-                    break;
-                case plVarDescriptor::kBool:
-                    prc->startTag("Boolean");
-                    prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Bool(j) ? "true" : "false");
-                    prc->endTag(true);
-                    break;
-                case plVarDescriptor::kString:
-                    prc->startTag("String");
-                    prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->String(j));
-                    prc->endTag(true);
-                    break;
-                case plVarDescriptor::kKey:
-                    prc->startTag("Key");
+            case plVarDescriptor::kNone:
+                prc->startTag("None");
+                prc->endTag(true);
+                break;
+            case plVarDescriptor::kInt:
+                prc->startTag("Int");
+                prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Int(j));
+                prc->endTag(true);
+                break;
+            case plVarDescriptor::kFloat:
+                prc->startTag("Float");
+                prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Float(j));
+                prc->endTag(true);
+                break;
+            case plVarDescriptor::kBool:
+                prc->startTag("Boolean");
+                prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Bool(j) ? "true" : "false");
+                prc->endTag(true);
+                break;
+            case plVarDescriptor::kString:
+                prc->startTag("String");
+                prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->String(j));
+                prc->endTag(true);
+                break;
+            case plVarDescriptor::kKey:
+                prc->startTag("Key");
+                prc->endTag();
+                ((plSimpleStateVariable*)fAllVars[i])->Uoid(j).prcWrite(prc);
+                prc->closeTag();
+                break;
+            case plVarDescriptor::kDouble:
+                prc->startTag("Double");
+                prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Double(j));
+                prc->endTag(true);
+                break;
+            case plVarDescriptor::kByte:
+                prc->startTag("Byte");
+                prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Byte(j));
+                prc->endTag(true);
+                break;
+            case plVarDescriptor::kShort:
+                prc->startTag("Short");
+                prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Short(j));
+                prc->endTag(true);
+                break;
+            case plVarDescriptor::kRGB:
+            case plVarDescriptor::kRGBA:
+                prc->startTag("Color");
+                prc->endTag();
+                ((plSimpleStateVariable*)fAllVars[i])->ColorRGBA(j).prcWrite(prc);
+                prc->closeTag();
+                break;
+            case plVarDescriptor::kRGB8:
+            case plVarDescriptor::kRGBA8:
+                prc->startTag("Color32");
+                prc->endTag();
+                ((plSimpleStateVariable*)fAllVars[i])->Color32(j).prcWrite(prc);
+                prc->closeTag();
+                break;
+            case plVarDescriptor::kAgeTimeOfDay:
+                prc->startTag("AgeTimeOfDay");
+                if (!((plSimpleStateVariable*)fAllVars[i])->getTimeStamp().atEpoch()) {
                     prc->endTag();
-                    ((plSimpleStateVariable*)fAllVars[i])->Uoid(j).prcWrite(prc);
+                    ((plUnifiedTime)((plSimpleStateVariable*)fAllVars[i])->getTimeStamp()).prcWrite(prc);
                     prc->closeTag();
-                    break;
-                case plVarDescriptor::kDouble:
-                    prc->startTag("Double");
-                    prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Double(j));
+                } else {
                     prc->endTag(true);
-                    break;
-                case plVarDescriptor::kByte:
-                    prc->startTag("Byte");
-                    prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Byte(j));
-                    prc->endTag(true);
-                    break;
-                case plVarDescriptor::kShort:
-                    prc->startTag("Short");
-                    prc->writeParam("Value", ((plSimpleStateVariable*)fAllVars[i])->Short(j));
-                    prc->endTag(true);
-                    break;
-                case plVarDescriptor::kRGB:
-                case plVarDescriptor::kRGBA:
-                    prc->startTag("Colour");
-                    prc->endTag();
-                    ((plSimpleStateVariable*)fAllVars[i])->ColorRGBA(j).prcWrite(prc);
-                    prc->closeTag();
-                    break;
-                case plVarDescriptor::kRGB8:
-                case plVarDescriptor::kRGBA8:
-                    prc->startTag("Colour32");
-                    prc->endTag();
-                    ((plSimpleStateVariable*)fAllVars[i])->Color32(j).prcWrite(prc);
-                    prc->closeTag();
-                    break;
-                case plVarDescriptor::kAgeTimeOfDay:
-                    prc->startTag("AgeTimeOfDay");
-                    if (!((plSimpleStateVariable*)fAllVars[i])->getTimeStamp().atEpoch()) {
-                        prc->endTag();
-                        ((plUnifiedTime)((plSimpleStateVariable*)fAllVars[i])->getTimeStamp()).prcWrite(prc);
-                        prc->closeTag();
-                    } else {
-                        prc->endTag(true);
-                    }
-                    break;
-                case plVarDescriptor::kStateDescriptor:
-                    prc->startTag("SDLRecord");
-                    prc->writeParam("Value", fAllVars[i]->getDescriptor()->getStateDescType());
-                    prc->endTag(true);
-                    break;
+                }
+                break;
+            case plVarDescriptor::kStateDescriptor:
+                prc->startTag("SDLRecord");
+                prc->writeParam("Value", fAllVars[i]->getDescriptor()->getStateDescType());
+                prc->endTag(true);
+                break;
+            default:
+                prc->startTag("Incomplete");
+                prc->writeParam("TypeID", fAllVars[i]->getDescriptor()->getType());
             }
         }
         

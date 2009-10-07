@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS += -I. -fPIC -Wall -g -ansi -fno-rtti
+CXXFLAGS += -I. -fPIC -Wall -g -ansi -fno-rtti -msse -msse2
 CXXFLAGSEXTERN = -fPIC -O2
 
 OBJDIR=out/
