@@ -10,11 +10,15 @@ struct SumEntry {
     plMD5Hash fHash;
     time_t fTimestamp;
     unsigned int fUnknown;
+
+    SumEntry() : fTimestamp(0), fUnknown(0) { }
 };
 
 struct SumFile {
     unsigned int fUnknown;
     std::vector<SumEntry> fEntries;
+
+    SumFile() : fUnknown(0) { }
 
     void read(hsStream* S) {
         fEntries.resize(S->readInt());
@@ -116,55 +120,64 @@ hsFileStream* FindFilePath(plString path, plString base) {
 }
 
 static bool s_autoYes = false;
+static bool s_createFile = false;
 
 void UpdateSums(const plString& filename) {
     printf("%s:\n", filename.cstr());
     try {
-        plEncryptedStream S;
-        if (!S.open(filename, fmRead, plEncryptedStream::kEncAuto)) {
-            fprintf(stderr, "Could not open file %s\n", filename.cstr());
-            return;
-        }
-        plEncryptedStream::EncryptionType eType = S.getEncType();
         SumFile sum;
-        sum.read(&S);
-        S.close();
+        plEncryptedStream S;
+        plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
+        if (!s_createFile) {
+            if (!S.open(filename, fmRead, plEncryptedStream::kEncAuto)) {
+                fprintf(stderr, "Could not open file %s\n", filename.cstr());
+                return;
+            }
+            eType = S.getEncType();
+            sum.read(&S);
+            S.close();
+        }
 
-        for (size_t i=0; i<sum.fEntries.size(); i++) {
-            hsFileStream* FS = FindFilePath(sum.fEntries[i].fPath, cdUp(filename));
+        std::vector<SumEntry>::iterator it = sum.fEntries.begin();
+        while (it != sum.fEntries.end()) {
+            hsFileStream* FS = FindFilePath(it->fPath, cdUp(filename));
             if (FS == NULL) {
                 if (s_autoYes) {
-                    PrintFile(sum.fEntries[i], '-');
-                    sum.fEntries.erase(sum.fEntries.begin() + i);
-                    --i;
+                    PrintFile(*it, '-');
+                    it = sum.fEntries.erase(it);
                 } else {
                     fprintf(stderr, "File %s not found.  Remove it? [y/N] ",
-                            sum.fEntries[i].fPath.cstr());
+                            it->fPath.cstr());
                     char buf[256];
                     fgets(buf, 256, stdin);
  
                     if (strcmp(buf, "y\n") == 0 || strcmp(buf, "Y\n") == 0) {
-                        PrintFile(sum.fEntries[i], '-');
-                        sum.fEntries.erase(sum.fEntries.begin() + i);
-                        --i;
+                        PrintFile(*it, '-');
+                        it = sum.fEntries.erase(it);
                     } else {
-                        PrintFile(sum.fEntries[i], '!');
+                        PrintFile(*it, '!');
+                        ++it;
                     }
                 }
                 continue;
             }
             plMD5Hash hash = plMD5::hashStream(FS);
-            sum.fEntries[i].fTimestamp = FS->getModTime();
-            if (sum.fEntries[i].fHash != hash) {
-                sum.fEntries[i].fHash = hash;
-                PrintFile(sum.fEntries[i], '*');
+            it->fTimestamp = FS->getModTime();
+            if (it->fHash != hash) {
+                it->fHash = hash;
+                PrintFile(*it, '*');
             } else {
-                PrintFile(sum.fEntries[i], ' ');
+                PrintFile(*it, ' ');
             }
-            delete FS;
+            if (FS != NULL)
+                delete FS;
+            ++it;
         }
 
-        S.open(filename, fmWrite, eType);
+        if (!S.open(filename, fmCreate, eType)) {
+            fprintf(stderr, "Error: Could not open %s for writing!\n", filename.cstr());
+            return;
+        }
         sum.write(&S);
         S.close();
         printf("\n");
@@ -181,6 +194,7 @@ void doHelp(const char* progName) {
     printf("Usage: %s [options] sumfile [...]\n\n", progName);
     printf("Options:\n");
     printf("    -L        List the contents of the sumfile\n");
+    printf("    -c        Create a new sumfile (or overwrite one if it already exists)\n");
     printf("    -i path   Insert `path` into the sumfile\n");
     printf("    -d path   Remove `path` from the sumfile\n");
     printf("    -y        Answer YES to delete prompts\n\n");
@@ -221,6 +235,8 @@ int main(int argc, char* argv[]) {
                     return 1;
                 }
                 delPaths.push_back(argv[i]);
+            } else if (strcmp(argv[i], "-c") == 0) {
+                s_createFile = true;
             } else if (strcmp(argv[i], "-y") == 0) {
                 s_autoYes = true;
             } else if (strcmp(argv[i], "--help") == 0) {
@@ -235,12 +251,17 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    if (sumFiles.empty()) {
+        fprintf(stderr, "Error: No sum files specified\n");
+        return 1;
+    }
+    if (s_createFile && mode == kModeList) {
+        fprintf(stderr, "Error: -c and -L options cannot be combined\n");
+        return 1;
+    }
+
     switch (mode) {
     case kModeUpdate:
-        if (sumFiles.empty()) {
-            fprintf(stderr, "Error: No files specified\n");
-            return 1;
-        }
         for (std::list<plString>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++)
             UpdateSums(*fn);
         break;
@@ -257,8 +278,9 @@ int main(int argc, char* argv[]) {
                 sum.read(&S);
                 S.close();
 
-                for (size_t i=0; i<sum.fEntries.size(); i++)
-                    PrintFile(sum.fEntries[i], ' ');
+                std::vector<SumEntry>::iterator it;
+                for (it = sum.fEntries.begin(); it != sum.fEntries.end(); it++)
+                    PrintFile(*it, ' ');
                 printf("\n");
             } catch (hsException& e) {
                 fprintf(stderr, "%s:%ld: %s\n", e.File(), e.Line(), e.what());
@@ -276,30 +298,37 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         try {
-            plEncryptedStream S;
-            if (!S.open(sumFiles.front(), fmRead, plEncryptedStream::kEncAuto)) {
-                fprintf(stderr, "Could not open file %s\n", sumFiles.front().cstr());
-                return 1;
-            }
-            plEncryptedStream::EncryptionType eType = S.getEncType();
             SumFile sum;
-            sum.read(&S);
-            S.close();
+            plEncryptedStream S;
+            plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
+            if (!s_createFile) {
+                if (!S.open(sumFiles.front(), fmRead, plEncryptedStream::kEncAuto)) {
+                    fprintf(stderr, "Could not open file %s\n", sumFiles.front().cstr());
+                    return 1;
+                }
+                eType = S.getEncType();
+                sum.read(&S);
+                S.close();
+            }
 
-            for (std::list<plString>::iterator pi = delPaths.begin(); pi != delPaths.end(); pi++) {
+            std::list<plString>::iterator pi;
+            std::vector<SumEntry>::iterator it;
+            for (pi = delPaths.begin(); pi != delPaths.end(); pi++) {
                 bool found = false;
-                for (size_t i=0; i<sum.fEntries.size(); i++) {
-                    if (sum.fEntries[i].fPath == *pi) {
-                        sum.fEntries.erase(sum.fEntries.begin() + i);
-                        --i;
+                it = sum.fEntries.begin();
+                while (it != sum.fEntries.end()) {
+                    if (it->fPath == *pi) {
+                        it = sum.fEntries.erase(it);
                         found = true;
+                    } else {
+                        ++it;
                     }
                 }
                 if (!found)
                     fprintf(stderr, "Warning: path '%s' not found\n", pi->cstr());
             }
 
-            for (std::list<plString>::iterator pi = addPaths.begin(); pi != addPaths.end(); pi++) {
+            for (pi = addPaths.begin(); pi != addPaths.end(); pi++) {
                 hsFileStream* FS = FindFilePath(*pi, "");
                 if (FS == NULL) {
                     fprintf(stderr, "Warning: path '%s' not found\n", pi->cstr());
@@ -310,12 +339,16 @@ int main(int argc, char* argv[]) {
                 ent.fPath = *pi;
                 ent.fHash = plMD5::hashStream(FS);
                 ent.fTimestamp = FS->getModTime();
-                ent.fUnknown = 0;
                 sum.fEntries.push_back(ent);
-                delete FS;
+                if (FS != NULL)
+                    delete FS;
             }
 
-            S.open(sumFiles.front(), fmWrite, eType);
+            if (!S.open(sumFiles.front(), fmWrite, eType)) {
+                fprintf(stderr, "Error: Could not open %s for writing!\n",
+                        sumFiles.front().cstr());
+                return 1;
+            }
             sum.write(&S);
             S.close();
             printf("Successfully updated %s\n", sumFiles.front().cstr());
