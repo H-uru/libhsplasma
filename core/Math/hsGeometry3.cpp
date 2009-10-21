@@ -88,7 +88,7 @@ hsVector3 hsVector3::crossP(const hsVector3& other) const {
 
 
 /* hsPlane3 */
-hsPlane3::hsPlane3() : W(0.0f) { }
+hsPlane3::hsPlane3() : N(0.0f, 0.0f, 1.0f), W(0.0f) { }
 hsPlane3::hsPlane3(const hsVector3& n, float w) : N(n), W(w) { }
 hsPlane3::hsPlane3(const hsPlane3& src) : N(src.N), W(src.W) { }
 

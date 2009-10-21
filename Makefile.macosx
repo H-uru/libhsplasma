@@ -18,7 +18,6 @@ all:
 	($(MAKE) -fMakefile.macosx $(BINDIR)/PyPack)
 	($(MAKE) -fMakefile.macosx $(BINDIR)/prpmod)
 	($(MAKE) -fMakefile.macosx $(BINDIR)/PlasmaSum)
-	($(MAKE) -fMakefile.macosx $(BINDIR)/PageEditor)
 	($(MAKE) -fMakefile.macosx Misc/TypeMap)
 
 $(BINDIR)/PageConvert: Tools/src/PageConvert.cpp $(BINDIR)/libPlasma.dylib
@@ -54,9 +53,6 @@ $(BINDIR)/prpmod: Tools/src/prpmod.cpp $(BINDIR)/libPlasma.dylib
 $(BINDIR)/PlasmaSum: Tools/src/PlasmaSum.cpp $(BINDIR)/libPlasma.dylib
 	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/PlasmaSum.cpp -o $@
 
-$(BINDIR)/PageEditor: PageEditor/PageEditor.cpp PageEditor/ExplorerFrm.cpp PageEditor/CreateFrm.cpp PageEditor/CHexEditCtrl.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/PlasmaTreeItem.cpp $(BINDIR)/libPlasma.dylib
-	$(CXX) $(CXXFLAGS) `wx-config --cxxflags --libs std,stc` -L$(BINDIR)/ -lPlasma -Icore PageEditor/PageEditor.cpp PageEditor/CreateFrm.cpp PageEditor/ExplorerFrm.cpp PageEditor/wxPlasmaTextCtrl.cpp PageEditor/CHexEditCtrl.cpp PageEditor/PlasmaTreeItem.cpp -o $@
-
 Misc/TypeMap: Misc/TypeMap.cpp $(BINDIR)/libPlasma.dylib
 	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Misc/TypeMap.cpp -o $@
 
@@ -74,8 +70,6 @@ install:
 	cp $(BINDIR)/PyPack $(PREFIX)/bin/
 	cp $(BINDIR)/prpmod $(PREFIX)/bin/
 	cp $(BINDIR)/PlasmaSum $(PREFIX)/bin/
-	mkdir -p $(BINDIR)/PageEditor.app/Contents/MacOS
-	cp $(BINDIR)/PageEditor $(BINDIR)/PageEditor.app/Contents/MacOS/
 	chmod +x $(BINDIR)/eoaedit $(BINDIR)/uruedit
 	cp $(BINDIR)/eoaedit $(BINDIR)/uruedit $(PREFIX)/bin/
 
@@ -93,7 +87,6 @@ uninstall:
 	rm -f $(PREFIX)/bin/PyPack
 	rm -f $(PREFIX)/bin/prpmod
 	rm -f $(PREFIX)/bin/PlasmaSum
-	rm -rf $(BINDIR)/PageEditor.app/Contents/MacOS
 	rm -f $(PREFIX)/bin/eoaedit
 	rm -f $(PREFIX)/bin/uruedit
 
@@ -115,5 +108,4 @@ distclean:
 	rm -f $(BINDIR)/PyPack
 	rm -f $(BINDIR)/prpmod
 	rm -f $(BINDIR)/PlasmaSum
-	rm -f $(BINDIR)/PageEditor
 	rm -f Misc/TypeMap

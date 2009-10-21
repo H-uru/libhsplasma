@@ -230,7 +230,7 @@ plEmoteAnim                     Complete    Complete    No
 plAGAnimBink                    Complete    Complete    No
 plClothingOutfit                Basic       No          No
 plClothingBase                  Basic       No          No
-plClothingItem                  Basic       No          No
+plClothingItem                  Complete    No          No
 plElevatorModifier              Complete    No          No
 plAvLadderMod                   Basic       No          No
 plLadderModifier                Basic       No          No

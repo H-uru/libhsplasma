@@ -29,24 +29,24 @@ void plClothingItem::read(hsStream* S, plResManager* mgr) {
     if (S->readBool())
         fIcon = mgr->readKey(S);
 
-    clearTextures();
+    clearElements();
     fElementNames.setSize(S->readInt());
     fTextures.setSizeNull(fElementNames.getSize());
     for (size_t i=0; i<fElementNames.getSize(); i++) {
         fElementNames[i] = S->readSafeStr();
-        fTextures[i] = new plKey[10];
+        fTextures[i] = new plKey[kLayerMax];
         size_t count = S->readByte();
         for (size_t j=0; j<count; j++) {
             size_t idx = S->readByte();
             plKey k = mgr->readKey(S);
-            if (idx < 10)
+            if (idx < kLayerMax)
                 fTextures[i][idx] = k;
             else
                 plDebug::Warning("Throwing away key %s", k->toString().cstr());
         }
     }
 
-    for (size_t i=0; i<3; i++) {
+    for (size_t i=0; i<kNumLODLevels; i++) {
         if (S->readBool())
             fMeshes[i] = mgr->readKey(S);
     }
@@ -78,10 +78,12 @@ void plClothingItem::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fTextures.getSize(); i++) {
         S->writeSafeStr(fElementNames[i]);
         int count = 0;
-        for (size_t j=0; j<10; j++)
-            if (fTextures[i][j].Exists()) count++;
+        for (size_t j=0; j<kLayerMax; j++) {
+            if (fTextures[i][j].Exists())
+                count++;
+        }
         S->writeByte(count);
-        for (size_t j=0; j<10; j++) {
+        for (size_t j=0; j<kLayerMax; j++) {
             if (fTextures[i][j].Exists()) {
                 S->writeByte(j);
                 mgr->writeKey(S, fTextures[i][j]);
@@ -89,7 +91,7 @@ void plClothingItem::write(hsStream* S, plResManager* mgr) {
         }
     }
 
-    for (size_t i=0; i<3; i++) {
+    for (size_t i=0; i<kNumLODLevels; i++) {
         S->writeBool(fMeshes[i].Exists());
         if (fMeshes[i].Exists())
             mgr->writeKey(S, fMeshes[i]);
@@ -134,14 +136,14 @@ void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
         prc->startTag("Element");
         prc->writeParam("Name", fElementNames[i]);
         prc->endTag();
-        for (size_t j=0; j<10; j++)
+        for (size_t j=0; j<kLayerMax; j++)
             fTextures[i][j]->prcWrite(prc);
         prc->closeTag();
     }
     prc->closeTag();
 
     prc->writeSimpleTag("Meshes");
-    for (size_t i=0; i<3; i++)
+    for (size_t i=0; i<kNumLODLevels; i++)
         fMeshes[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -150,12 +152,16 @@ void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("DefaultTints");
-    for (size_t i=0; i<3; i++) {
-        prc->startTag("Tint");
-        prc->writeParam("color1", fDefaultTint1[i]);
-        prc->writeParam("color2", fDefaultTint2[i]);
-        prc->endTag(true);
-    }
+    prc->startTag("Tint1");
+    prc->writeParam("red", fDefaultTint1[0]);
+    prc->writeParam("green", fDefaultTint1[1]);
+    prc->writeParam("blue", fDefaultTint1[2]);
+    prc->endTag(true);
+    prc->startTag("Tint2");
+    prc->writeParam("red", fDefaultTint2[0]);
+    prc->writeParam("green", fDefaultTint2[1]);
+    prc->writeParam("blue", fDefaultTint2[2]);
+    prc->endTag(true);
     prc->closeTag();
 }
 
@@ -178,7 +184,7 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fIcon = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Elements") {
-        clearTextures();
+        clearElements();
         fElementNames.setSize(tag->countChildren());
         fTextures.setSizeNull(fElementNames.getSize());
         const pfPrcTag* child = tag->getFirstChild();
@@ -191,7 +197,7 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             const pfPrcTag* subChild = child->getFirstChild();
             for (size_t j=0; j<nSubChildren; j++) {
                 plKey k = mgr->prcParseKey(subChild);
-                if (j < 10)
+                if (j < kLayerMax)
                     fTextures[i][j] = k;
                 else
                     plDebug::Warning("Throwing away key %s", k->toString().cstr());
@@ -201,10 +207,10 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "Meshes") {
         size_t nMeshes = tag->countChildren();
-        if (nMeshes > 3)
+        if (nMeshes != kNumLODLevels)
             throw hsBadParamException(__FILE__, __LINE__);
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<3; i++) {
+        for (size_t i=0; i<kNumLODLevels; i++) {
             fMeshes[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
@@ -212,13 +218,19 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fAccessory = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "DefaultTints") {
-        size_t nTints = tag->countChildren();
-        if (nTints > 3)
-            throw hsBadParamException(__FILE__, __LINE__);
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<3; i++) {
-            fDefaultTint1[i] = child->getParam("color1", "0").toUint();
-            fDefaultTint2[i] = child->getParam("color2", "0").toUint();
+        while (child != NULL) {
+            if (child->getName() == "Tint1") {
+                fDefaultTint1[0] = child->getParam("red", "0").toUint();
+                fDefaultTint1[1] = child->getParam("green", "0").toUint();
+                fDefaultTint1[2] = child->getParam("blue", "0").toUint();
+            } else if (child->getName() == "Tint2") {
+                fDefaultTint2[0] = child->getParam("red", "0").toUint();
+                fDefaultTint2[1] = child->getParam("green", "0").toUint();
+                fDefaultTint2[2] = child->getParam("blue", "0").toUint();
+            } else {
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            }
             child = child->getNextSibling();
         }
     } else {
@@ -226,8 +238,9 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plClothingItem::clearTextures() {
+void plClothingItem::clearElements() {
     for (size_t i=0; i<fTextures.getSize(); i++)
         delete[] fTextures[i];
     fTextures.clear();
+    fElementNames.clear();
 }
