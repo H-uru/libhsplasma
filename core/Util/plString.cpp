@@ -44,14 +44,16 @@ plString::plString(const plString& init) : fString(init.fString) {
         fString->ref();
 }
 
-plString::plString(const char* init) : fString(NULL) {
+plString::plString(const char* init, size_t len) : fString(NULL) {
     if (init != NULL) {
-        size_t len = strlen(init);
+        if (len == (size_t)-1)
+            len = strlen(init);
         if (len > 0) {
             fString = new plStrData();
             fString->fLen = len;
             fString->fStr = new char[len+1];
-            strcpy(fString->fStr, init);
+            strncpy(fString->fStr, init, len);
+            fString->fStr[len] = 0;
         }
     }
 }
@@ -546,14 +548,16 @@ plWString::plWString(const plWString& init) : fString(init.fString) {
         fString->ref();
 }
 
-plWString::plWString(const hsWchar* init) : fString(NULL) {
+plWString::plWString(const hsWchar* init, size_t len) : fString(NULL) {
     if (init != NULL) {
-        size_t len = wcslen(init);
+        if (len == (size_t)-1)
+            len = wcslen(init);
         if (len > 0) {
             fString = new plStrData();
             fString->fLen = len;
             fString->fStr = new hsWchar[len+1];
-            wcscpy(fString->fStr, init);
+            wcsncpy(fString->fStr, init, len);
+            fString->fStr[len] = 0;
         }
     }
 }

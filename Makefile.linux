@@ -17,6 +17,7 @@ all:
 	($(MAKE) -fMakefile.linux $(BINDIR)/Prp2Obj)
 	($(MAKE) -fMakefile.linux $(BINDIR)/PyPack)
 	($(MAKE) -fMakefile.linux $(BINDIR)/prpmod)
+	($(MAKE) -fMakefile.linux $(BINDIR)/prpgrep)
 #	($(MAKE) -fMakefile.linux $(BINDIR)/prp-fuse)
 	($(MAKE) -fMakefile.linux $(BINDIR)/PlasmaSum)
 	($(MAKE) -fMakefile.linux Misc/TypeMap)
@@ -51,6 +52,9 @@ $(BINDIR)/PyPack: Tools/src/PyPack.cpp $(BINDIR)/libPlasma.so
 $(BINDIR)/prpmod: Tools/src/prpmod.cpp $(BINDIR)/libPlasma.so
 	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/prpmod.cpp -o $@
 
+$(BINDIR)/prpgrep: Tools/src/prpgrep.cpp $(BINDIR)/libPlasma.so
+	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -Icore Tools/src/prpgrep.cpp -o $@
+
 #$(BINDIR)/prp-fuse: Tools/src/prp-fuse.cpp $(BINDIR)/libPlasma.so
 #	$(CXX) $(CXXFLAGS) -L$(BINDIR)/ -lPlasma -lfuse -Icore Tools/src/prp-fuse.cpp -o $@
 
@@ -73,6 +77,7 @@ install:
 	cp $(BINDIR)/Prp2Obj $(PREFIX)/bin/
 	cp $(BINDIR)/PyPack $(PREFIX)/bin/
 	cp $(BINDIR)/prpmod $(PREFIX)/bin/
+	cp $(BINDIR)/prpgrep $(PREFIX)/bin/
 #	cp $(BINDIR)/prp-fuse $(PREFIX)/bin/
 	cp $(BINDIR)/PlasmaSum $(PREFIX)/bin/
 	chmod +x $(BINDIR)/eoaedit $(BINDIR)/uruedit
@@ -91,6 +96,7 @@ uninstall:
 	rm -f $(PREFIX)/bin/Prp2Obj
 	rm -f $(PREFIX)/bin/PyPack
 	rm -f $(PREFIX)/bin/prpmod
+	rm -f $(PREFIX)/bin/prpgrep
 #	rm -f $(PREFIX)/bin/prp-fuse
 	rm -f $(PREFIX)/bin/PlasmaSum
 	rm -f $(PREFIX)/bin/eoaedit
@@ -113,6 +119,7 @@ distclean:
 	rm -f $(BINDIR)/Prp2Obj
 	rm -f $(BINDIR)/PyPack
 	rm -f $(BINDIR)/prpmod
+	rm -f $(BINDIR)/prpgrep
 #	rm -f $(BINDIR)/prp-fuse
 	rm -f $(BINDIR)/PlasmaSum
 	rm -f Misc/TypeMap

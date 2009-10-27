@@ -25,7 +25,7 @@ protected:
 public:
     plString();
     plString(const plString& init);
-    plString(const char* init);
+    plString(const char* init, size_t len = (size_t)-1);
     plString(char c);
     ~plString();
 
@@ -107,7 +107,7 @@ protected:
 public:
     plWString();
     plWString(const plWString& init);
-    plWString(const hsWchar* init);
+    plWString(const hsWchar* init, size_t len = (size_t)-1);
     plWString(hsWchar c);
     ~plWString();
 
