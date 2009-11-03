@@ -121,8 +121,38 @@ hsFileStream* FindFilePath(plString path, plString base) {
 
 static bool s_autoYes = false;
 static bool s_createFile = false;
+static bool s_oldFormat = false;
 
-void UpdateSums(const plString& filename) {
+plString GetInternalName(const plString& filename) {
+    // Different files are stored in different locations; this function
+    // will try to guess where to put things based on the file's extension.
+    // This is all based on the contents of .sum files included with the
+    // games that I examined for this.
+
+    plString split = s_oldFormat ? "/" : "\\";
+    plString name = FixSlashes(filename).afterLast(PATHSEP);
+    plString ext = name.afterLast('.');
+    if (s_oldFormat && ext == "prp")
+        return name;
+    if (ext == "ogg" || ext == "wav")
+        return plString("sfx") + split + name;
+    if (ext == "exe" || ext == "dll" || ext == "map" || ext == "pdb")
+        return name;
+    if (ext == "sdl")
+        return plString("SDL") + split + name;
+    if (ext == "pak")
+        return plString("Python") + split + name;
+    if (ext == "fx")
+        return plString("fx") + split + name;
+
+    // dat is the default, since so many file types go there...
+    // To name a few,
+    // prp, age, fni, csv, sub, node, pfp, dat, tron, hex, tga, loc
+    return plString("dat") + split + name;
+}
+
+bool UpdateSums(const plString& filename) {
+    bool isUpdated = false;
     printf("%s:\n", filename.cstr());
     try {
         SumFile sum;
@@ -131,7 +161,7 @@ void UpdateSums(const plString& filename) {
         if (!s_createFile) {
             if (!S.open(filename, fmRead, plEncryptedStream::kEncAuto)) {
                 fprintf(stderr, "Could not open file %s\n", filename.cstr());
-                return;
+                return false;
             }
             eType = S.getEncType();
             sum.read(&S);
@@ -145,6 +175,7 @@ void UpdateSums(const plString& filename) {
                 if (s_autoYes) {
                     PrintFile(*it, '-');
                     it = sum.fEntries.erase(it);
+                    isUpdated = true;
                 } else {
                     fprintf(stderr, "File %s not found.  Remove it? [y/N] ",
                             it->fPath.cstr());
@@ -154,6 +185,7 @@ void UpdateSums(const plString& filename) {
                     if (strcmp(buf, "y\n") == 0 || strcmp(buf, "Y\n") == 0) {
                         PrintFile(*it, '-');
                         it = sum.fEntries.erase(it);
+                        isUpdated = true;
                     } else {
                         PrintFile(*it, '!');
                         ++it;
@@ -166,6 +198,7 @@ void UpdateSums(const plString& filename) {
             if (it->fHash != hash) {
                 it->fHash = hash;
                 PrintFile(*it, '*');
+                isUpdated = true;
             } else {
                 PrintFile(*it, ' ');
             }
@@ -174,18 +207,21 @@ void UpdateSums(const plString& filename) {
             ++it;
         }
 
-        if (!S.open(filename, fmCreate, eType)) {
-            fprintf(stderr, "Error: Could not open %s for writing!\n", filename.cstr());
-            return;
+        if (isUpdated) {
+            if (!S.open(filename, fmCreate, eType)) {
+                fprintf(stderr, "Error: Could not open %s for writing!\n", filename.cstr());
+                return false;
+            }
+            sum.write(&S);
+            S.close();
         }
-        sum.write(&S);
-        S.close();
         printf("\n");
     } catch (hsException& e) {
         fprintf(stderr, "%s:%ld: %s\n", e.File(), e.Line(), e.what());
     } catch (...) {
         fprintf(stderr, "An unknown error occured\n");
     }
+    return isUpdated;
 }
 
 
@@ -195,9 +231,10 @@ void doHelp(const char* progName) {
     printf("Options:\n");
     printf("    -L        List the contents of the sumfile\n");
     printf("    -c        Create a new sumfile (or overwrite one if it already exists)\n");
-    printf("    -i path   Insert `path` into the sumfile\n");
+    printf("    -i path   Insert `path` into the sumfile (or re-hash if it exists)\n");
     printf("    -d path   Remove `path` from the sumfile\n");
-    printf("    -y        Answer YES to delete prompts\n\n");
+    printf("    -y        Answer YES to delete prompts\n");
+    printf("    -old      Use the older (pre-Path of the Shell) format\n\n");
     printf("If no options are specified, the default is to re-sum the contents\n");
     printf("of `sumfile`\n\n");
 }
@@ -239,6 +276,8 @@ int main(int argc, char* argv[]) {
                 s_createFile = true;
             } else if (strcmp(argv[i], "-y") == 0) {
                 s_autoYes = true;
+            } else if (strcmp(argv[i], "-old") == 0) {
+                s_oldFormat = true;
             } else if (strcmp(argv[i], "--help") == 0) {
                 doHelp(argv[0]);
                 return 0;
@@ -262,8 +301,10 @@ int main(int argc, char* argv[]) {
 
     switch (mode) {
     case kModeUpdate:
-        for (std::list<plString>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++)
-            UpdateSums(*fn);
+        for (std::list<plString>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++) {
+            if (UpdateSums(*fn))
+                printf("Successfully updated %s\n", fn->cstr());
+        }
         break;
     case kModeList:
         for (std::list<plString>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++) {
@@ -298,6 +339,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         try {
+            bool isUpdated = false;
             SumFile sum;
             plEncryptedStream S;
             plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
@@ -309,6 +351,8 @@ int main(int argc, char* argv[]) {
                 eType = S.getEncType();
                 sum.read(&S);
                 S.close();
+            } else {
+                isUpdated = true;
             }
 
             std::list<plString>::iterator pi;
@@ -318,8 +362,10 @@ int main(int argc, char* argv[]) {
                 it = sum.fEntries.begin();
                 while (it != sum.fEntries.end()) {
                     if (it->fPath == *pi) {
+                        PrintFile(*it, '-');
                         it = sum.fEntries.erase(it);
                         found = true;
+                        isUpdated = true;
                     } else {
                         ++it;
                     }
@@ -336,22 +382,46 @@ int main(int argc, char* argv[]) {
                 }
 
                 SumEntry ent;
-                ent.fPath = *pi;
+                ent.fPath = GetInternalName(*pi);
                 ent.fHash = plMD5::hashStream(FS);
                 ent.fTimestamp = FS->getModTime();
-                sum.fEntries.push_back(ent);
-                if (FS != NULL)
-                    delete FS;
+                bool found = false;
+                it = sum.fEntries.begin();
+                while (it != sum.fEntries.end()) {
+                    if (it->fPath == *pi) {
+                        found = true;
+                        if (it->fHash != ent.fHash) {
+                            PrintFile(*it, '*');
+                            it->fHash = ent.fHash;
+                            it->fTimestamp = ent.fTimestamp;
+                            isUpdated = true;
+                        } else {
+                            PrintFile(*it, ' ');
+                        }
+                    }
+                    ++it;
+                }
+                if (!found) {
+                    PrintFile(ent, '+');
+                    sum.fEntries.push_back(ent);
+                    if (FS != NULL)
+                        delete FS;
+                    isUpdated = true;
+                }
             }
 
-            if (!S.open(sumFiles.front(), fmWrite, eType)) {
-                fprintf(stderr, "Error: Could not open %s for writing!\n",
-                        sumFiles.front().cstr());
-                return 1;
+            if (isUpdated) {
+                if (!S.open(sumFiles.front(), fmWrite, eType)) {
+                    fprintf(stderr, "Error: Could not open %s for writing!\n",
+                            sumFiles.front().cstr());
+                    return 1;
+                }
+                sum.write(&S);
+                S.close();
+                printf("Successfully %s %s\n",
+                       s_createFile ? "created" : "updated",
+                       sumFiles.front().cstr());
             }
-            sum.write(&S);
-            S.close();
-            printf("Successfully updated %s\n", sumFiles.front().cstr());
         } catch (hsException& e) {
             fprintf(stderr, "%s:%ld: %s\n", e.File(), e.Line(), e.what());
             return 1;
