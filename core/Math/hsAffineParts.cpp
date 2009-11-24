@@ -77,3 +77,12 @@ void hsAffineParts::prcParse(const pfPrcTag* tag) {
         child = child->getNextSibling();
     }
 }
+
+void hsAffineParts::reset() {
+    fI = 0;
+    fT = hsVector3(0.0f, 0.0f, 0.0f);
+    fQ = hsQuat(0.0f, 0.0f, 0.0f, 1.0f);
+    fU = hsQuat(0.0f, 0.0f, 0.0f, 1.0f);
+    fK = hsVector3(1.0f, 1.0f, 1.0f);
+    fF = 1.0f;
+}

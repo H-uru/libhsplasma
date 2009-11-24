@@ -25,12 +25,18 @@ IMPLEMENT_CREATABLE(plMatrixConstant, kMatrixConstant, plMatrixChannel)
 
 void plMatrixConstant::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
-    fAP.read(S);
+
+    if (S->getVer() >= pvLive)
+        fAP.read(S);
+    else
+        fAP.reset();
 }
 
 void plMatrixConstant::write(hsStream* S, plResManager* mgr) {
     plAGChannel::write(S, mgr);
-    fAP.write(S);
+
+    if (S->getVer() >= pvLive)
+        fAP.write(S);
 }
 
 void plMatrixConstant::IPrcWrite(pfPrcHelper* prc) {

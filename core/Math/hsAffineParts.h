@@ -54,6 +54,9 @@ public:
 
     /** Parse an Affine Transformation tag into the current object */
     void prcParse(const pfPrcTag* tag);
+
+    /** Reset the Affine Transformation to its identity form */
+    void reset();
 };
 
 #endif
