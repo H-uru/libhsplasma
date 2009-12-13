@@ -86,6 +86,7 @@
 #include "PRP/Misc/plFogEnvironment.h"
 #include "PRP/Modifier/plAliasModifier.h"
 #include "PRP/Modifier/plAnimEventModifier.h"
+#include "PRP/Modifier/plAxisAnimModifier.h"
 #include "PRP/Modifier/plExcludeRegionModifier.h"
 #include "PRP/Modifier/plInterfaceInfoModifier.h"
 #include "PRP/Modifier/plLogicModifier.h"
@@ -279,7 +280,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kPostEffectMod: return new plPostEffectMod();
         case kObjectInVolumeDetector: return new plObjectInVolumeDetector();
         case kResponderModifier: return new plResponderModifier();
-        //case kAxisAnimModifier: return new plAxisAnimModifier();
+        case kAxisAnimModifier: return new plAxisAnimModifier();
         //case kLayerLightBase: return new plLayerLightBase();
         //case kFollowMod: return new plFollowMod();
         //case kTransitionMgr: return new plTransitionMgr();

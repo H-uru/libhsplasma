@@ -51,8 +51,10 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fIcicles.getSize(); i++)
         fIcicles[i].read(S);
 
-    if (S->readInt() != 0)
-        throw hsBadParamException(__FILE__, __LINE__, "Unsupported field count > 0");
+    if (S->getVer() < pvHex) {
+        if (S->readInt() != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Unsupported field count > 0");
+    }
 
     fSpans.setSizeNull(S->readInt());
     fSpanSourceIndices.setSizeNull(fSpans.getSize());

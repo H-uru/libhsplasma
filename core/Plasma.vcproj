@@ -1576,6 +1576,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Modifier\plAxisAnimModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plAxisAnimModifier.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Modifier\plExcludeRegionModifier.cpp"
 					>
 				</File>

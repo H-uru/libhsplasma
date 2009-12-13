@@ -40,6 +40,7 @@ PLSOBJ=\
 	$(OBJDIR)plMD5.o \
 	$(OBJDIR)PlasmaVersions.o \
 	$(OBJDIR)plString.o \
+	$(OBJDIR)plZlib.o \
 	$(OBJDIR)plServerGuid.o \
 	$(OBJDIR)plVaultNode.o \
 	$(OBJDIR)plVaultNodeRef.o \
@@ -184,6 +185,7 @@ PLSOBJ=\
 	$(OBJDIR)plSpawnPointInfo.o \
 	$(OBJDIR)plAliasModifier.o \
 	$(OBJDIR)plAnimEventModifier.o \
+	$(OBJDIR)plAxisAnimModifier.o \
 	$(OBJDIR)plExcludeRegionModifier.o \
 	$(OBJDIR)plInterfaceInfoModifier.o \
 	$(OBJDIR)plLogicModBase.o \
@@ -419,6 +421,9 @@ $(OBJDIR)PlasmaVersions.o: Util/PlasmaVersions.h Util/PlasmaVersions.cpp
 
 $(OBJDIR)plString.o: Util/plString.h Util/plString.cpp
 	$(CXX) $(CXXFLAGS) -c Util/plString.cpp -o $@
+
+$(OBJDIR)plZlib.o: Util/plZlib.h Util/plZlib.cpp
+	$(CXX) $(CXXFLAGS) -c Util/plZlib.cpp -o $@
 
 $(OBJDIR)plServerGuid.o: Vault/plServerGuid.h Vault/plServerGuid.cpp
 	$(CXX) $(CXXFLAGS) -c Vault/plServerGuid.cpp -o $@
@@ -851,6 +856,9 @@ $(OBJDIR)plAliasModifier.o: PRP/Modifier/plAliasModifier.h PRP/Modifier/plAliasM
 
 $(OBJDIR)plAnimEventModifier.o: PRP/Modifier/plAnimEventModifier.h PRP/Modifier/plAnimEventModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plAnimEventModifier.cpp -o $@
+
+$(OBJDIR)plAxisAnimModifier.o: PRP/Modifier/plAxisAnimModifier.h PRP/Modifier/plAxisAnimModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plAxisAnimModifier.cpp -o $@
 
 $(OBJDIR)plExcludeRegionModifier.o: PRP/Modifier/plExcludeRegionModifier.h PRP/Modifier/plExcludeRegionModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plExcludeRegionModifier.cpp -o $@

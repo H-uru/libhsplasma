@@ -69,19 +69,20 @@ public:
         kStoreUncompressed = 0,
         kStoreCompV1 = 0x1,
         kStoreCompV2 = 0x2,
+        kStoreCompV3 = 0x3,
         kStoreCompTypeMask = 0x3,
         kStoreIsDirty = 0x4
     };
 
 protected:
-    unsigned char fFormat, fStride, fLiteStride, fGBuffStorageType;
+    unsigned int fFormat, fStride, fLiteStride, fGBuffStorageType;
     hsTArray<unsigned int> fVertBuffSizes, fIdxBuffCounts, fCompGBuffSizes;
     hsTArray<unsigned char*> fVertBuffStorage;
     hsTArray<unsigned short*> fIdxBuffStorage;
     hsTArray<hsTArray<plGBufferCell> > fCells;
     hsTArray<unsigned char*> fCompGBuffStorage;
 
-    unsigned char ICalcVertexSize(unsigned char& lStride);
+    unsigned int ICalcVertexSize(unsigned int& lStride);
     bool INeedVertRecompression(PlasmaVer ver) const;
 
 public:

@@ -372,6 +372,7 @@ plAgeLinkEffects                Basic       No          No
 plFogEnvironment                Basic       No          No
 plAliasModifier                 Basic       No          No
 plAnimEventModifier             Basic       No          No
+plAxisAnimModifier              Complete    No          No
 plExcludeRegionModifier         Basic       No          No
 plInterfaceInfoModifier         Complete    Complete    PrpShop
 plLogicModBase                  Complete    Complete    No

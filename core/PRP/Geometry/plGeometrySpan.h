@@ -63,7 +63,7 @@ protected:
     plKey fMaterial, fFogEnviron;
     hsMatrix44 fLocalToWorld, fWorldToLocal;
     hsBounds3Ext fLocalBounds, fWorldBounds;
-    unsigned char fFormat, fNumMatrices;
+    unsigned int fFormat, fNumMatrices;
     unsigned int fBaseMatrix;
     unsigned short fLocalUVWChans, fMaxBoneIdx;
     unsigned int fPenBoneIdx;

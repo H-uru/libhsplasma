@@ -53,6 +53,12 @@ static PyObject* pyAffineParts_write(pyAffineParts* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyAffineParts_reset(pyAffineParts* self) {
+    self->fThis->reset();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyAffineParts_getI(pyAffineParts* self, void*) {
     return PyInt_FromLong(self->fThis->fI);
 }
@@ -138,6 +144,8 @@ PyMethodDef pyAffineParts_Methods[] = {
     { "write", (PyCFunction)pyAffineParts_write, METH_VARARGS,
       "Params: stream\n"
       "Writes this object to `stream`" },
+    { "reset", (PyCFunction)pyAffineParts_reset, METH_NOARGS,
+      "Resets the transform to the identity" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -42,12 +42,22 @@ void plGeometrySpan::read(hsStream* S) {
     fPenBoneIdx = S->readShort();
     fMinDist = S->readFloat();
     fMaxDist = S->readFloat();
-    fFormat = S->readByte();
+    if (S->getVer() >= pvHex) {
+        fFormat = S->readInt();
+        S->readByte();
+        S->readByte();
+        // Don't know what the format parameters are, so better to just crash
+        throw hsNotImplementedException(__FILE__, __LINE__, "HexIsle GSpans");
+    } else {
+        fFormat = S->readByte();
+    }
     fProps = S->readInt();
     fNumVerts = S->readInt();
     fNumIndices = S->readInt();
-    S->readInt();  // Discarded
-    S->readByte(); // Discarded
+    if (S->getVer() < pvHex) {
+        S->readInt();  // Discarded
+        S->readByte(); // Discarded
+    }
     fDecalLevel = S->readInt();
 
     if (fProps & kWaterHeight)

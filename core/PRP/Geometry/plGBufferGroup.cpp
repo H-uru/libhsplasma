@@ -131,7 +131,7 @@ plGBufferGroup::~plGBufferGroup() {
     }
 }
 
-unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {
+unsigned int plGBufferGroup::ICalcVertexSize(unsigned int& lStride) {
     lStride = (getNumUVs() + 2) * 12;
     unsigned int numSkinWeights = getSkinWeights();
     if (numSkinWeights > 0) {
@@ -145,25 +145,45 @@ unsigned char plGBufferGroup::ICalcVertexSize(unsigned char& lStride) {
 bool plGBufferGroup::INeedVertRecompression(PlasmaVer ver) const {
     if ((fGBuffStorageType & kStoreIsDirty) != 0)
         return true;
-    if (ver == pvLive)
+    if (ver == pvHex)
+        return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV3;
+    else if (ver == pvLive)
         return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV2;
     else
         return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV1;
 }
 
 void plGBufferGroup::read(hsStream* S) {
-    fFormat = S->readByte();
-    S->readInt();
-    fStride = ICalcVertexSize(fLiteStride);
+    if (S->getVer() == pvHex) {
+        fFormat = S->readInt();
+        S->readByte();
+        S->readByte();
+        S->readBool();
+        S->readBool();
+        S->readInt();
+        S->readByte();
+        // Don't know what the format parameters are, so better to just crash
+        throw hsNotImplementedException(__FILE__, __LINE__, "HexIsle GBufferGroup");
+    } else {
+        fFormat = S->readByte();
+        S->readInt();
+        fStride = ICalcVertexSize(fLiteStride);
+    }
 
     clearVertices();
     clearIndices();
     clearCells();
 
-    if (fFormat & kEncoded)
-        fGBuffStorageType = (S->getVer() == pvLive) ? kStoreCompV2 : kStoreCompV1;
-    else
+    if (fFormat & kEncoded) {
+        if (S->getVer() == pvHex)
+            fGBuffStorageType = kStoreCompV3;
+        else if (S->getVer() == pvLive)
+            fGBuffStorageType = kStoreCompV2;
+        else
+            fGBuffStorageType = kStoreCompV1;
+    } else {
         fGBuffStorageType = kStoreUncompressed;
+    }
 
     plVertCoder coder;
     size_t count = S->readInt();
