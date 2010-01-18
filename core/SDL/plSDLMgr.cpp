@@ -35,6 +35,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
     tokStream->setCommentMarkers(commentMarkers);
     hsTArray<hsTokenStream::Region> stringMarkers;
     stringMarkers.append(hsTokenStream::Region("\"", "\""));
+    stringMarkers.append(hsTokenStream::Region("'", "'"));
     tokStream->setStringMarkers(stringMarkers);
 
     ParseState state = kFile;

@@ -157,6 +157,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
             hsTArray<unsigned short> indices = span->getIndices(ice);
 
             unsigned int uvwSrc = 0;
+            hsMatrix44 uvwXform;
             if (span->getMaterial(ice->getMaterialIdx()).Exists()) {
                 hsGMaterial* mat = hsGMaterial::Convert(span->getMaterial(ice->getMaterialIdx())->getObj());
                 if (mat != NULL && mat->getNumLayers() > 0) {
@@ -164,6 +165,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
                     while (lay != NULL && lay->getUnderLay().Exists())
                         lay = plLayerInterface::Convert(lay->getUnderLay()->getObj());
                     uvwSrc = lay->getUVWSrc();
+                    uvwXform = lay->getTransform();
                 }
             }
 
@@ -182,10 +184,9 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
 
             if (span->getBuffer(ice->getGroupIdx())->getNumUVs() > uvwSrc) {
                 for (size_t j = 0; j < verts.getSize(); j++) {
+                    hsVector3 txUvw = verts[j].fUVWs[uvwSrc] * uvwXform;
                     S->writeStr(plString::Format("vt %f %f %f\n",
-                                verts[j].fUVWs[uvwSrc].X,
-                                verts[j].fUVWs[uvwSrc].Y,
-                                verts[j].fUVWs[uvwSrc].Z));
+                                txUvw.X, txUvw.Y, txUvw.Z));
                 }
             }
 
