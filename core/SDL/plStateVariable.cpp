@@ -553,7 +553,7 @@ void plSimpleStateVariable::SetFromDefault() {
                 fBool[i] = (def.toInt() != 0);
             break;
         case plVarDescriptor::kString:
-            fString[i] = def.mid(1, def.len() - 2);
+            fString[i] = def;
             break;
         case plVarDescriptor::kKey:
             break;
@@ -713,7 +713,7 @@ bool plSimpleStateVariable::isDefault() const {
             }
             break;
         case plVarDescriptor::kString:
-            if (fString[i] != def.mid(1, def.len() - 2))
+            if (fString[i] != def)
                 return false;
             break;
         case plVarDescriptor::kKey:

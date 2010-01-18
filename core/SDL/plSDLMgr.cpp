@@ -66,6 +66,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                 curDesc->setName(tokStream->next());
                 tok = tokStream->next();
                 if (tok != "{") {
+                    delete curDesc;
                     delete tokStream;
                     delete fileStream;
                     throw plSDLParseException(__FILE__, __LINE__,
@@ -147,21 +148,20 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                     throw plSDLParseException(__FILE__, __LINE__,
                             "Unexpected '%s', expected '='", tok.cstr());
                 }
-                int nParens = 0;
                 plString defStr;
+                bool isEnd = false;
                 do {
                     tok = tokStream->next();
-                    if (tok == "(") nParens++;
-                    if (tok == ")") nParens--;
-                    if (nParens < 0) {
-                        delete curVar;
-                        delete curDesc;
-                        delete tokStream;
-                        delete fileStream;
-                        throw plSDLParseException(__FILE__, __LINE__, "Unexpected ')'");
+                    if (tok == "VAR" || tok == "VERSION" || tok == "}" ||
+                        tok == "DEFAULT" || tok == "DEFAULTOPTION" ||
+                        tok == "DISPLAYOPTION" || tok == "INTERNAL" ||
+                        tok == "PHASED") {
+                        isEnd = true;
+                        reexamine = true;
+                    } else {
+                        defStr += tok;
                     }
-                    defStr += tok;
-                } while (nParens > 0);
+                } while (!isEnd);
                 curVar->setDefault(defStr);
             } else if (tok == "DEFAULTOPTION") {
                 tok = tokStream->next();
