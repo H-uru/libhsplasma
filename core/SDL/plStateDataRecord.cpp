@@ -231,6 +231,8 @@ void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
     }
 }
 
+plStateDescriptor* plStateDataRecord::getDescriptor() const { return fDescriptor; }
+
 plStateVariable* plStateDataRecord::get(size_t idx) const {
     return fAllVars[idx];
 }

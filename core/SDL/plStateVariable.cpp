@@ -316,7 +316,7 @@ void plSimpleStateVariable::read(hsStream* S, plResManager* mgr) {
     if (!(fSimpleVarContents & plSDL::kSameAsDefault)) {
         if (fDescriptor->isVariableLength()) {
             size_t count = S->readInt();
-            if (fCount > 9999)
+            if (count > 9999)
                 throw hsBadParamException(__FILE__, __LINE__);
             resize(count);
         }

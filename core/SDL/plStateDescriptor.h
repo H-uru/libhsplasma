@@ -29,22 +29,28 @@ public:
     };
 
 protected:
-    plString fName, fDefault;
+    plString fName, fDefault, fDisplay;
     size_t fCount;
     Type fType;
     unsigned int fFlags;
     plString fStateDescType;
+    int fStateDescVer;
     class plStateDescriptor* fStateDesc;
 
 public:
     plVarDescriptor();
     ~plVarDescriptor();
 
+    void read(hsStream* S);
+    void write(hsStream* S);
+
     const plString& getName() const;
     const plString& getDefault() const;
+    const plString& getDisplay() const;
     size_t getCount() const;
     Type getType() const;
     const plString& getStateDescType() const;
+    int getStateDescVer() const;
     plStateDescriptor* getStateDesc() const;
     bool isInternal() const;
     bool isAlwaysNew() const;
@@ -53,9 +59,11 @@ public:
 
     void setName(const plString& name);
     void setDefault(const plString& def);
+    void setDisplay(const plString& disp);
     void setCount(size_t count);
     void setType(Type type);
     void setStateDescType(const plString& type);
+    void setStateDescVer(int ver);
     void setStateDesc(plStateDescriptor* desc);
     void setInternal(bool internal);
     void setAlwaysNew(bool alwaysNew);
@@ -74,6 +82,9 @@ public:
     plStateDescriptor();
     ~plStateDescriptor();
 
+    void read(hsStream* S);
+    void write(hsStream* S);
+
     const plString& getName() const;
     int getVersion() const;
     bool isValid() const;
@@ -90,6 +101,7 @@ public:
     void addVariable(plVarDescriptor* var);
     void delVariable(size_t idx);
     void delVariable(const plString& name);
+    void clearVariables();
 };
 
 #endif

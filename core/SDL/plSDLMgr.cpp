@@ -197,6 +197,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                             "Unexpected '%s', expected '='", tok.cstr());
                 }
                 tok = tokStream->next();
+                curVar->setDisplay(tok);
                 if (tok.toLower() == "hidden") {
                     curVar->setInternal(true);
                 }
@@ -331,10 +332,37 @@ plStateDescriptor* plSDLMgr::GetDescriptor(const plString& name, int version) {
     if (desc != NULL) {
         for (size_t i=0; i<desc->getNumVars(); i++) {
             if (desc->get(i)->getType() == plVarDescriptor::kStateDescriptor)
-                desc->get(i)->setStateDesc(GetDescriptor(desc->get(i)->getStateDescType()));
+                desc->get(i)->setStateDesc(GetDescriptor(desc->get(i)->getStateDescType(),
+                                                         desc->get(i)->getStateDescVer()));
         }
     }
     return desc;
+}
+
+void plSDLMgr::read(hsStream* S) {
+    ClearDescriptors();
+    fDescriptors.setSize(S->readShort());
+    for (size_t i=0; i<fDescriptors.getSize(); i++) {
+        fDescriptors[i] = new plStateDescriptor();
+        fDescriptors[i]->read(S);
+    }
+
+    // Propagate types on SDVars
+    for (size_t i=0; i<fDescriptors.getSize(); i++) {
+        plStateDescriptor* desc = fDescriptors[i];
+        for (size_t j=0; j<desc->getNumVars(); j++) {
+            plVarDescriptor* var = desc->get(j);
+            if (var->getType() == plVarDescriptor::kStateDescriptor)
+                var->setStateDesc(GetDescriptor(var->getStateDescType(),
+                                                var->getStateDescVer()));
+        }
+    }
+}
+
+void plSDLMgr::write(hsStream* S) {
+    S->writeShort(fDescriptors.getSize());
+    for (size_t i=0; i<fDescriptors.getSize(); i++)
+        fDescriptors[i]->write(S);
 }
 
 

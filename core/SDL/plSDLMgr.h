@@ -22,6 +22,9 @@ public:
     void ReadDescriptors(hsStream* S);
     void ClearDescriptors();
     plStateDescriptor* GetDescriptor(const plString& name, int version = -1);
+
+    void read(hsStream* S);
+    void write(hsStream* S);
 };
 
 DllClass plSDLParseException : public hsException {

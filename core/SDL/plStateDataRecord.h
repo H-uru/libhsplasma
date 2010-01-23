@@ -33,6 +33,7 @@ public:
     /*void prcParse(const pfPrcTag* tag);*/ //Zrax'll kill me >.>
 
     void setDescriptor(plStateDescriptor* desc);
+    plStateDescriptor* getDescriptor() const;
 
     plStateVariable* get(size_t idx) const;
     plStateVariable* get(plString& name) const;
