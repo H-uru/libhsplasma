@@ -18,6 +18,7 @@ PLSOBJ=\
 	$(OBJDIR)plKeyCollector.o \
 	$(OBJDIR)plResManager.o \
 	$(OBJDIR)pdUnifiedTypeMap.o \
+	$(OBJDIR)plNetGameServerState.o \
 	$(OBJDIR)plSDL.o \
 	$(OBJDIR)plSDLMgr.o \
 	$(OBJDIR)plStateDataRecord.o \
@@ -355,6 +356,9 @@ $(OBJDIR)plResManager.o: ResManager/plResManager.h ResManager/plResManager.cpp
 
 $(OBJDIR)pdUnifiedTypeMap.o: ResManager/pdUnifiedTypeMap.h ResManager/pdUnifiedTypeMap.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/pdUnifiedTypeMap.cpp -o $@
+
+$(OBJDIR)plNetGameServerState.o: SDL/plNetGameServerState.h SDL/plNetGameServerState.cpp
+	$(CXX) $(CXXFLAGS) -c SDL/plNetGameServerState.cpp -o $@
 
 $(OBJDIR)plSDL.o: SDL/plSDL.h SDL/plSDL.cpp
 	$(CXX) $(CXXFLAGS) -c SDL/plSDL.cpp -o $@

@@ -2361,6 +2361,14 @@
 			Name="SDL"
 			>
 			<File
+				RelativePath=".\SDL\plNetGameServerState.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SDL\plNetGameServerState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SDL\plSDL.cpp"
 				>
 			</File>

@@ -111,8 +111,8 @@ void plNetGameServerState::read(hsStream* S) {
     fMinorVer = S->readShort();
     fSession.read(S);
 
-    size_t uncompLen = S->readInt();
-    size_t compLen = S->readInt();
+    unsigned int uncompLen = S->readInt();
+    unsigned int compLen = S->readInt();
     unsigned char* cbuf = new unsigned char[compLen];
     S->read(compLen, cbuf);
     unsigned char* ubuf = new unsigned char[uncompLen];
