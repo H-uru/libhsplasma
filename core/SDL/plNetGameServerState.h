@@ -84,7 +84,8 @@ public:
     void clearRecords();
     size_t numRecords() const;
     plStateDataRecord* getRecord(size_t idx) const;
-    void addRecord(plStateDataRecord* rec);
+    plUoid getObject(size_t idx) const;
+    void addRecord(plStateDataRecord* rec, const plUoid& obj);
     void delRecord(size_t idx);
 };
 

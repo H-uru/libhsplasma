@@ -16,7 +16,7 @@ public:
         kNone = 0xFF,
         kInt = 0, kFloat, kBool, kString, kKey, kStateDescriptor, kCreatable,
         kDouble, kTime, kByte, kShort, kAgeTimeOfDay,
-        kVector3 = 0x32, kPoint3, kRGB, kRGBA, kQuaternion, kRGB8, kRGBA8,
+        kVector3 = 50, kPoint3, kRGB, kRGBA, kQuaternion, kRGB8, kRGBA8,
 
         // For Myst 5
         kUint, kChar, kMatrix44, kBuffer, kAgeTimeElapsed, kGameTimeElapsed
