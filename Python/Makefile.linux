@@ -3,8 +3,8 @@ PYTHON_VER = 2.6
 PYTHON_CONFIG = python$(PYTHON_VER)-config
 
 CXX = g++
-CXXFLAGS = -I../core -I. -fPIC -Wall -g -ansi -fno-rtti \
-           `$(PYTHON_CONFIG) --cflags` -msse -msse2
+CXXFLAGS = -I../core -I. -fPIC -Wall -g -ansi -fno-rtti -msse \
+           `$(PYTHON_CONFIG) --cflags`
 CXXLINK  = -L../bin -lPlasma
 
 OBJDIR=out/

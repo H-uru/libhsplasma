@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS += -fPIC -Wall -g -ansi -fno-rtti -msse -msse2
+CXXFLAGS += -fPIC -Wall -g -ansi -fno-rtti -msse
 
 PREFIX = /usr/local
 BINDIR = bin
