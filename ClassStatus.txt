@@ -135,8 +135,8 @@ hsBounds3                       Complete    Partial*    No
 hsBounds3Ext                    Complete    Complete    No
 hsBoundsOriented                Complete    Complete    No
 hsGMatState                     Complete    Complete    Case
-plFixedWaterState6              Basic       No          No
-plFixedWaterState7              Basic       No          No
+plFixedWaterState6              Complete    No          No
+plFixedWaterState7              Complete    No          No
 plGrassWave                     Basic       No          No
 plShaderConst                   Complete    Complete    No
 plClientGuid                    Basic       No          No
@@ -211,7 +211,7 @@ plAGMasterMod                   Basic       No          No
 plAGModifier                    Basic       No          No
 plAnimStage                     Complete    Complete    PrpShop
 plArmatureBrain                 Complete    No          No
-plAvBrainHuman                  Basic       No          No
+plAvBrainHuman                  Complete    No          No
 plAvBrainClimb                  Complete    No          No
 plAvBrainCritter                Complete    No          No
 plAvBrainDrive                  Complete    No          No

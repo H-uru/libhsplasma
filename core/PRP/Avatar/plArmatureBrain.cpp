@@ -67,6 +67,9 @@ void plAvBrainHuman::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+bool plAvBrainHuman::isCustomAvatar() const { return fIsCustomAvatar; }
+void plAvBrainHuman::setIsCustomAvatar(bool value) { fIsCustomAvatar = value; }
+
 
 /* plAvBrainClimb */
 IMPLEMENT_CREATABLE(plAvBrainClimb, kAvBrainClimb, plArmatureBrain)

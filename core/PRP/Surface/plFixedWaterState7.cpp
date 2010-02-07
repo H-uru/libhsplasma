@@ -244,3 +244,51 @@ void plFixedWaterState7::prcParse(const pfPrcTag* tag) {
         child = child->getNextSibling();
     }
 }
+
+plFixedWaterState7::WaveState& plFixedWaterState7::getGeoState() { return fGeoState; }
+const plFixedWaterState7::WaveState& plFixedWaterState7::getGeoState() const { return fGeoState; }
+plFixedWaterState7::WaveState& plFixedWaterState7::getTexState() { return fTexState; }
+const plFixedWaterState7::WaveState& plFixedWaterState7::getTexState() const { return fTexState; }
+float plFixedWaterState7::getRippleScale() const { return fRippleScale; }
+float plFixedWaterState7::getWaterHeight() const { return fWaterHeight; }
+hsVector3 plFixedWaterState7::getWindDir() const { return fWindDir; }
+hsVector3 plFixedWaterState7::getSpecVector() const { return fSpecVec; }
+hsVector3 plFixedWaterState7::getWaterOffset() const { return fWaterOffset; }
+hsVector3 plFixedWaterState7::getMaxAtten() const { return fMaxAtten; }
+hsVector3 plFixedWaterState7::getMinAtten() const { return fMinAtten; }
+hsVector3 plFixedWaterState7::getDepthFalloff() const { return fDepthFalloff; }
+float plFixedWaterState7::getWispiness() const { return fWispiness; }
+hsColorRGBA plFixedWaterState7::getShoreTint() const { return fShoreTint; }
+hsColorRGBA plFixedWaterState7::getMaxColor() const { return fMaxColor; }
+hsColorRGBA plFixedWaterState7::getMinColor() const { return fMinColor; }
+float plFixedWaterState7::getEdgeOpacity() const { return fEdgeOpac; }
+float plFixedWaterState7::getEdgeRadius() const { return fEdgeRadius; }
+float plFixedWaterState7::getPeriod() const { return fPeriod; }
+float plFixedWaterState7::getFingerLength() const { return fFingerLength; }
+hsColorRGBA plFixedWaterState7::getWaterTint() const { return fWaterTint; }
+hsColorRGBA plFixedWaterState7::getSpecularTint() const { return fSpecularTint; }
+hsVector3 plFixedWaterState7::getEnvCenter() const { return fEnvCenter; }
+float plFixedWaterState7::getEnvRefresh() const { return fEnvRefresh; }
+float plFixedWaterState7::getEnvRadius() const { return fEnvRadius; }
+
+void plFixedWaterState7::setRippleScale(float scale) { fRippleScale = scale; }
+void plFixedWaterState7::setWaterHeight(float height) { fWaterHeight = height; }
+void plFixedWaterState7::setWindDir(const hsVector3& dir) { fWindDir = dir; }
+void plFixedWaterState7::setSpecVector(const hsVector3& vec) { fSpecVec = vec; }
+void plFixedWaterState7::setWaterOffset(const hsVector3& offset) { fWaterOffset = offset; }
+void plFixedWaterState7::setMaxAtten(const hsVector3& atten) { fMaxAtten = atten; }
+void plFixedWaterState7::setMinAtten(const hsVector3& atten) { fMinAtten = atten; }
+void plFixedWaterState7::setDepthFalloff(const hsVector3& falloff) { fDepthFalloff = falloff; }
+void plFixedWaterState7::setWispiness(float wispiness) { fWispiness = wispiness; }
+void plFixedWaterState7::setShoreTint(const hsColorRGBA& tint) { fShoreTint = tint; }
+void plFixedWaterState7::setMaxColor(const hsColorRGBA& color) { fMaxColor = color; }
+void plFixedWaterState7::setMinColor(const hsColorRGBA& color) { fMinColor = color; }
+void plFixedWaterState7::setEdgeOpacity(float opacity) { fEdgeOpac = opacity; }
+void plFixedWaterState7::setEdgeRadius(float radius) { fEdgeRadius = radius; }
+void plFixedWaterState7::setPeriod(float period) { fPeriod = period; }
+void plFixedWaterState7::setFingerLength(float length) { fFingerLength = length; }
+void plFixedWaterState7::setWaterTint(const hsColorRGBA& tint) { fWaterTint = tint; }
+void plFixedWaterState7::setSpecularTint(const hsColorRGBA& tint) { fSpecularTint = tint; }
+void plFixedWaterState7::setEnvCenter(const hsVector3& center) { fEnvCenter = center; }
+void plFixedWaterState7::setEnvRefresh(float refresh) { fEnvRefresh = refresh; }
+void plFixedWaterState7::setEnvRadius(float radius) { fEnvRadius = radius; }

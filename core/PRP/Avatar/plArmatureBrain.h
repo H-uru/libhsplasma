@@ -34,6 +34,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    bool isCustomAvatar() const;
+    void setIsCustomAvatar(bool value);
 };
 
 DllClass plAvBrainClimb : public plArmatureBrain {
