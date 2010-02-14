@@ -79,6 +79,7 @@
 #include "PRP/Message/plLinkToAgeMsg.h"
 #include "PRP/Message/plMsgForwarder.h"
 #include "PRP/Message/plResponderMsg.h"
+#include "PRP/Message/plServerReplyMsg.h"
 #include "PRP/Message/plSimulationMsg.h"
 #include "PRP/Message/plSoundMsg.h"
 #include "PRP/Message/plSwimMsg.h"
@@ -629,7 +630,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kNetMsgStream: return new plNetMsgStream();
         //case kAudioSysMsg: return new plAudioSysMsg();
         //case kDispatchBase: return new plDispatchBase();
-        //case kServerReplyMsg: return new plServerReplyMsg();
+        case kServerReplyMsg: return new plServerReplyMsg();
         //case kDeviceRecreateMsg: return new plDeviceRecreateMsg();
         case kNetMsgStreamHelper: return new plNetMsgStreamHelper();
         case kNetMsgObjectHelper: return new plNetMsgObjectHelper();

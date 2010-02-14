@@ -1479,6 +1479,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Message\plServerReplyMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plServerReplyMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plSimulationMsg.cpp"
 					>
 				</File>
