@@ -72,6 +72,7 @@
 #include "PRP/Light/plShadowCaster.h"
 #include "PRP/Message/plAnimCmdMsg.h"
 #include "PRP/Message/plArmatureEffectMsg.h"
+#include "PRP/Message/plAvatarInputStateMsg.h"
 #include "PRP/Message/plClimbMsg.h"
 #include "PRP/Message/plEnableMsg.h"
 #include "PRP/Message/plExcludeRegionMsg.h"
@@ -844,7 +845,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kScalarControllerCacheChannel: return new plScalarControllerCacheChannel();
         //case kLinkEffectsTriggerPrepMsg: return new plLinkEffectsTriggerPrepMsg();
         //case kLinkEffectPrepBCMsg: return new plLinkEffectPrepBCMsg();
-        //case kAvatarInputStateMsg: return new plAvatarInputStateMsg();
+        case kAvatarInputStateMsg: return new plAvatarInputStateMsg();
         case kAgeInfoStruct: return new plAgeInfoStruct();
         //case kSDLNotificationMsg: return new plSDLNotificationMsg();
         //case kNetClientConnectAgeVaultTask: return new plNetClientConnectAgeVaultTask();

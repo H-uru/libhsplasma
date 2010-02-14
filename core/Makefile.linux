@@ -162,6 +162,7 @@ PLSOBJ=\
 	$(OBJDIR)plShadowMaster.o \
 	$(OBJDIR)plAnimCmdMsg.o \
 	$(OBJDIR)plArmatureEffectMsg.o \
+	$(OBJDIR)plAvatarInputStateMsg.o \
 	$(OBJDIR)plCameraMsg.o \
 	$(OBJDIR)plClimbMsg.o \
 	$(OBJDIR)plEnableMsg.o \
@@ -789,6 +790,9 @@ $(OBJDIR)plAnimCmdMsg.o: PRP/Message/plAnimCmdMsg.h PRP/Message/plAnimCmdMsg.cpp
 
 $(OBJDIR)plArmatureEffectMsg.o: PRP/Message/plArmatureEffectMsg.h PRP/Message/plArmatureEffectMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plArmatureEffectMsg.cpp -o $@
+
+$(OBJDIR)plAvatarInputStateMsg.o: PRP/Message/plAvatarInputStateMsg.h PRP/Message/plAvatarInputStateMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvatarInputStateMsg.cpp -o $@
 
 $(OBJDIR)plCameraMsg.o: PRP/Message/plCameraMsg.h PRP/Message/plCameraMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plCameraMsg.cpp -o $@

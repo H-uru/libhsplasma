@@ -1367,6 +1367,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Message\plAvatarInputStateMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plAvatarInputStateMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plCameraMsg.cpp"
 					>
 				</File>
