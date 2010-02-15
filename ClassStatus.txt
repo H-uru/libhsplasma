@@ -345,6 +345,7 @@ plPointShadowMaster             Complete    Complete    PrpShop
 plDirectShadowMaster            Complete    Complete    PrpShop
 plAnimCmdMsg                    Basic       No          No
 plArmatureEffectStateMsg        Basic       No          No
+plAvatarInputStateMsg			Basic		No			No
 plCameraMsg                     Basic       No          No
 plClimbMsg                      Basic       No          No
 plEnableMsg                     Basic       No          No
@@ -359,6 +360,7 @@ plNotifyMsg                     Complete    Complete    No
 plResponderMsg                  Basic       No          No
 plPseudoLinkEffectMsg           Basic       No          No
 plOneShotMsg                    Basic       No          No
+plServerReplyMsg				Bsic		No			No
 plSimStateMsg                   Complete    No          No
 plSimSuppressMsg                Basic       No          No
 plSimulationMsg                 Complete    No          No
