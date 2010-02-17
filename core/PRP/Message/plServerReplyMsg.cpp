@@ -21,13 +21,13 @@ void plServerReplyMsg::write(hsStream* S, plResManager* mgr) {
 void plServerReplyMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessage::IPrcWrite(prc);
 
-    prc->startTag("Type");
+    prc->startTag("ReplyType");
     prc->writeParamHex("value", (unsigned int)fType);
     prc->endTag(true);
 }
 
 void plServerReplyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "Type") {
+    if (tag->getName() == "ReplyType") {
         fType = tag->getParam("value", "0").toInt();
     } else {
         plMessage::IPrcParse(tag, mgr);

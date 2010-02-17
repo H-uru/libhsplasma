@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS += -I. -fPIC -Wall -g -ansi -fno-rtti -msse
+CXXFLAGS += -I. -fPIC -Wall -g -ansi -fno-rtti -msse -pthread
 CXXFLAGSEXTERN = -fPIC -O2
 
 OBJDIR=out/
@@ -33,7 +33,7 @@ PLSOBJ=\
 	$(OBJDIR)hsStream.o \
 	$(OBJDIR)hsTokenStream.o \
 	$(OBJDIR)hsColor.o \
-	$(OBJDIR)hsSemaphore.o \
+	$(OBJDIR)hsThread.o \
 	$(OBJDIR)plUnifiedTime.o \
 	$(OBJDIR)plUuid.o \
 	$(OBJDIR)hsBitVector.o \
@@ -405,8 +405,8 @@ $(OBJDIR)hsTokenStream.o: Stream/hsTokenStream.h Stream/hsTokenStream.cpp
 $(OBJDIR)hsColor.o: Sys/hsColor.h Sys/hsColor.cpp
 	$(CXX) $(CXXFLAGS) -c Sys/hsColor.cpp -o $@
 
-$(OBJDIR)hsSemaphore.o: Sys/hsSemaphore.h Sys/hsSemaphore.cpp
-	$(CXX) $(CXXFLAGS) -c Sys/hsSemaphore.cpp -o $@
+$(OBJDIR)hsThread.o: Sys/hsThread.h Sys/hsThread_pthread.cpp
+	$(CXX) $(CXXFLAGS) -c Sys/hsThread_pthread.cpp -o $@
 
 $(OBJDIR)plUnifiedTime.o: Sys/plUnifiedTime.h Sys/plUnifiedTime.cpp
 	$(CXX) $(CXXFLAGS) -c Sys/plUnifiedTime.cpp -o $@
