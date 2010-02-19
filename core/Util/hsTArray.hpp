@@ -26,6 +26,9 @@ public:
     }
 
     hsTArray<T>& operator=(const hsTArray& cpy) {
+        if (&cpy == this)
+            return *this;
+
         clear();
         count = cpy.count;
         data = new T[count];

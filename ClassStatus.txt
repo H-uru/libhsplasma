@@ -40,22 +40,22 @@ plVaultNode                     Complete    No          VaultShop
 plVaultNodeRef                  Complete    No          VaultShop
 plVaultPlayerNode               Complete    No          VaultShop
 plVaultAgeNode                  Complete    No          VaultShop
-plVaultGameServerNode           Complete    No
-plVaultAdminNode                Complete    No
-plVaultServerNode               Complete    No
+plVaultGameServerNode           Complete    No          No
+plVaultAdminNode                Complete    No          No
+plVaultServerNode               Complete    No          No
 plVaultFolderNode               Complete    No          VaultShop
 plVaultPlayerInfoNode           Complete    No          VaultShop
-plVaultSystemNode               Complete    No
-plVaultImageNode                Complete    No
+plVaultSystemNode               Complete    No          No
+plVaultImageNode                Complete    No          No
 plVaultTextNoteNode             Complete    No          VaultShop
 plVaultSDLNode                  Complete    No          VaultShop
 plVaultAgeLinkNode              Complete    No          VaultShop
 plVaultChronicleNode            Complete    No          VaultShop
 plVaultPlayerInfoListNode       Complete    No          VaultShop
-plVaultMarkerNode               Complete    No
+plVaultMarkerNode               Complete    No          No
 plVaultAgeInfoNode              Complete    No          VaultShop
 plVaultAgeInfoListNode          Complete    No          VaultShop
-plVaultMarkerListNode           Complete    No
+plVaultMarkerListNode           Complete    No          No
 plVaultStore                    Complete    No          ----
 
 plPageInfo                      Complete    Complete    PrpShop

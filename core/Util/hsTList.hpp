@@ -26,9 +26,6 @@ public:
             rpush(init.iBegin());
             while (!init.iAtEnd())
                 rpush(init.next());
-        } else {
-            first = NULL;
-            last = NULL;
         }
     }
 
@@ -37,20 +34,22 @@ public:
     }
 
     hsTList<T>& operator=(const hsTList<T>& cpy) {
+        if (&cpy == this)
+            return *this;
+
+        clear();
         if (cpy.count > 0) {
             rpush(cpy.iBegin());
             while (!cpy.iAtEnd())
                 rpush(cpy.next());
-        } else {
-            first = NULL;
-            last = NULL;
         }
-        iter = NULL;
         return *this;
     }
 
     void clear() {
-        while (first != NULL) pop();
+        while (first != NULL)
+            pop();
+        iter = NULL;
     }
 
     size_t getSize() const { return count; }
