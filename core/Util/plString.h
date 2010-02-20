@@ -4,6 +4,7 @@
 #include "PlasmaDefs.h"
 #include <cstring>
 #include <cstdio>
+#include <cstdarg>
 #include <vector>
 #include <wchar.h>
 

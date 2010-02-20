@@ -353,6 +353,7 @@ plEventCallbackMsg              Complete    Complete    No
 plExcludeRegionMsg              Basic       No          No
 plLinkToAgeMsg                  Basic       No          No
 plLinkInDoneMsg                 Complete    No          No
+plLoadCloneMsg                  Basic       No          No
 plMessage                       Complete    Complete    No
 plMessageWithCallbacks          Complete    No          No
 plMsgForwarder                  Complete    Complete    PrpShop

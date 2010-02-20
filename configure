@@ -1,0 +1,197 @@
+#!/bin/bash
+
+doHelp() {
+    echo "Usage ./configure [options]"
+    echo
+    echo "Options:"
+    echo "  --prefix=<path>  Set installation prefix"
+    echo "  --no-debug       Turn off debug info"
+    echo "  --no-python      Don't compile PyPlasma"
+    echo "  --with-py3k      Use Python 3.x instead of Python 2.x"
+    echo
+    echo "Specify explicit library locations:"
+    echo "  --with-python=<path>"
+    echo "  --with-zlib=<path>"
+    echo "  --with-jpeg=<path>"
+    echo "  --with-ssl=<path>"
+}
+
+DONT_CONTINUE=0
+
+# Default values
+MF_PREFIX="/usr/local"
+MF_LIBSUFFIX=""
+MF_CXX="g++"
+MF_CXXFLAGS="-fPIC -Wall -ansi -fno-rtti -msse -pthread"
+MF_CXXFLAGS3="-fPIC -msse"
+MF_CXXLINK=""
+MF_LINKLIB=""
+MF_FEATURES=""
+MF_PYTHONVER=""
+MF_PYTHONCFG=""
+
+while [ $# != 0 ]; do
+    case "$1" in
+        --help)
+            doHelp
+            DONT_CONTINUE=1
+            ;;
+        --prefix=*)
+            MF_PREFIX="`echo "$1" | cut -d '=' -f 2`"
+            ;;
+        --no-debug)
+            MF_FEATURES="$MF_FEATURES nodebug"
+            ;;
+        --no-python)
+            MF_FEATURES="$MF_FEATURES nopython"
+            ;;
+        --with-py3k)
+            MF_FEATURES="$MF_FEATURES py3k"
+            ;;
+        CXX=*)
+            MF_CXX="`echo "$1" | cut -d '=' -f 2`"
+            ;;
+        CXXFLAGS=*)
+            MF_CXXFLAGS="$MF_CXXFLAGS `echo "$1" | cut -d '=' -f 2`"
+            MF_CXXFLAGS3="$MF_CXXFLAGS3 `echo "$1" | cut -d '=' -f 2`"
+            ;;
+        CXXLINK=*)
+            MF_CXXLINK="$MF_CXXLINK `echo "$1" | cut -d '=' -f 2`"
+            ;;
+        *)
+            echo "Unrecognized argument: $1"
+            DONT_CONTINUE=1
+            ;;
+    esac
+    shift
+done
+if [ $DONT_CONTINUE == 1 ]; then exit 1; fi
+
+### Start generating config
+echo "Installing to: $MF_PREFIX"
+
+if [[ $MF_FEATURES =~ "nodebug" ]]; then
+    echo "Turning off debug"
+else
+    MF_CXXFLAGS="$MF_CXXFLAGS -g"
+fi
+
+### Check what platform we're on, and set some flags accordingly
+case "`uname -s`" in
+    Linux)
+        echo "Building for Linux"
+        MF_LIBSUFFIX="so"
+        MF_LINKLIB="-shared -Wl,-soname,"
+        ;;
+    Darwin)
+        echo "Building for Mac OSX"
+        MF_CXXFLAGS="$MF_CXXFLAGS -arch ppc -arch i386 -DMACOSX"
+        MF_CXXFLAGS3="$MF_CXXFLAGS3 -arch ppc -arch i386"
+        MF_LIBSUFFIX="dylib"
+        MF_LINKLIB="-dynamiclib -install_name ${MF_PREFIX}/lib/"
+        ;;
+    *)
+        echo "Sorry, your platform isn't supported yet."
+        echo "Please bug Zrax if you would like support to be added"
+        exit 1
+        ;;
+esac
+
+### Look for necessary packages
+echo -n "Looking for zlib: "
+if [ -e "/usr/include/zlib.h" ]; then
+    MF_CXXLINK="$MF_CXXLINK -lz"
+    MF_ZLIB="sys"
+    echo "Found"
+elif [ -e "/usr/local/include/zlib.h" ]; then
+    MF_CXXLINK="$MF_CXXLINK -lz"
+    MF_ZLIB="sys"
+    echo "Found"
+else
+    echo "Not found!"
+    echo "Please install zlib dev packages before continuing"
+    exit 1
+fi
+
+echo -n "Looking for libjpeg: "
+if [ -e "/usr/include/jpeglib.h" ]; then
+    MF_CXXLINK="$MF_CXXLINK -ljpeg"
+    echo "Found"
+elif [ -e "/usr/local/include/jpeglib.h" ]; then
+    MF_CXXLINK="$MF_CXXLINK -ljpeg"
+    echo "Found"
+else
+    echo "Not found!"
+    echo "Please install libjpeg dev packages before continuing"
+    exit 1
+fi
+
+
+### The fun part, find Python!
+pythonVer() {
+    echo `$1 -c 'import sys; print(sys.version[:3])'`
+}
+
+if [[ $MF_FEATURES =~ "nopython" ]]; then
+    echo "Turning off PyPlasma"
+    MF_PYTHONVER="no"
+else
+    # Find current python dev files
+    if [[ $MF_FEATURES =~ "py3k" ]]; then
+        echo -n "Looking for Python 3: "
+        if [ -e "`which python3-config`" ]; then
+            MF_PYTHONCFG="`which python3-config`"
+            PYTHONCMD="`${MF_PYTHONCFG} --exec-prefix`/bin/python3"
+            MF_PYTHONVER="`pythonVer $PYTHONCMD`"
+            echo "Found version $MF_PYTHONVER"
+        elif [ -e "/usr/bin/python3-config" ]; then
+            MF_PYTHONCFG="`/usr/bin/python3-config`"
+            MF_PYTHONVER="`pythonVer /usr/bin/python3`"
+            echo "Found version $MF_PYTHONVER"
+        elif [ -e "/usr/local/bin/python3-config" ]; then
+            MF_PYTHONCFG="`/usr/local/bin/python3-config`"
+            MF_PYTHONVER="`pythonVer /usr/local/bin/python3`"
+            echo "Found version $MF_PYTHONVER"
+        else
+            echo "Not found!"
+        fi
+    fi
+    if [ -z "$MF_PYTHONVER" ]; then
+        echo -n "Looking for Python: "
+        if [ -e "`which python-config`" ]; then
+            MF_PYTHONCFG="`which python-config`"
+            PYTHONCMD="`${MF_PYTHONCFG} --exec-prefix`/bin/python"
+            MF_PYTHONVER="`pythonVer $PYTHONCMD`"
+            echo "Found version $MF_PYTHONVER"
+        elif [ -e "/usr/bin/python-config" ]; then
+            MF_PYTHONCFG="`/usr/bin/python-config`"
+            MF_PYTHONVER="`pythonVer /usr/bin/python`"
+            echo "Found version $MF_PYTHONVER"
+        elif [ -e "/usr/local/bin/python-config" ]; then
+            MF_PYTHONCFG="`/usr/local/bin/python-config`"
+            MF_PYTHONVER="`pythonVer /usr/local/bin/python`"
+            echo "Found version $MF_PYTHONVER"
+        else
+            echo "Not found!  Please install Python dev packages,"
+            echo "    or turn off PyPlasma support with --no-python"
+            exit 1
+        fi
+    fi
+fi
+
+
+### Generate the configuration file
+echo "# File generated by configure. DO NOT EDIT!" > config.mf
+echo "" >> config.mf
+echo "CXX=$MF_CXX" >> config.mf
+echo "CXXFLAGS=$MF_CXXFLAGS" >> config.mf
+echo "CXXFLAGS3=$MF_CXXFLAGS3" >> config.mf
+echo "CXXLINK=$MF_CXXLINK" >> config.mf
+echo "PREFIX=$MF_PREFIX" >> config.mf
+echo "LIBSUFFIX=$MF_LIBSUFFIX" >> config.mf
+echo "LINKLIB=$MF_LINKLIB" >> config.mf
+echo "" >> config.mf
+echo "PYTHON_VER=$MF_PYTHONVER" >> config.mf
+echo "PYTHON_CONFIG=$MF_PYTHONCFG" >> config.mf
+
+echo "Done configuring.  You may now run make!"

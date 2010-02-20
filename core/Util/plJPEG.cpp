@@ -2,8 +2,7 @@
 #include "Debug/plDebug.h"
 
 extern "C" {
-#include "3rdPartyLibs/jpeg-6b/jinclude.h"
-#include "3rdPartyLibs/jpeg-6b/jerror.h"
+#include <jerror.h>
 }
 
 /* hsJPEGException */
@@ -80,11 +79,11 @@ GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S) {
     if (dinfo->src == NULL) {
         dinfo->src = (struct jpeg_source_mgr*)
             (*dinfo->mem->alloc_small)((j_common_ptr)dinfo, JPOOL_PERMANENT,
-				                       SIZEOF(jpeg_hsStream_source));
+                                       sizeof(jpeg_hsStream_source));
         src = (jpeg_hsStream_source*)dinfo->src;
         src->buffer = (JOCTET *)
             (*dinfo->mem->alloc_small)((j_common_ptr)dinfo, JPOOL_PERMANENT,
-				                       INPUT_BUF_SIZE * SIZEOF(JOCTET));
+                                       INPUT_BUF_SIZE * sizeof(JOCTET));
     }
 
     src = (jpeg_hsStream_source*)dinfo->src;

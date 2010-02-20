@@ -3,7 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plasma", "core\Plasma.vcproj", "{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
 	ProjectSection(ProjectDependencies) = postProject
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957} = {A4B8FE2F-FDFB-4C81-80F0-F015BC607957}
 		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C} = {C7B66F89-2EA9-4F34-A838-84F3817FDA5C}
 	EndProjectSection
 EndProject
@@ -46,8 +45,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PyPlasma", "Python\PyPlasma
 	ProjectSection(ProjectDependencies) = postProject
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjpeg", "core\3rdPartyLibs\jpeg-6b\libjpeg.vcproj", "{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "squish", "core\3rdPartyLibs\squish\squish.vcproj", "{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}"
 EndProject
@@ -151,14 +148,6 @@ Global
 		{E9BB26E9-EB2D-4C0A-A294-5DA7C6B2699F}.Release|Win32.Build.0 = Release|Win32
 		{E9BB26E9-EB2D-4C0A-A294-5DA7C6B2699F}.Release|x64.ActiveCfg = Release|x64
 		{E9BB26E9-EB2D-4C0A-A294-5DA7C6B2699F}.Release|x64.Build.0 = Release|x64
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug|Win32.Build.0 = Debug|Win32
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug|x64.ActiveCfg = Debug|x64
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Debug|x64.Build.0 = Debug|x64
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Release|Win32.ActiveCfg = Release|Win32
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Release|Win32.Build.0 = Release|Win32
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Release|x64.ActiveCfg = Release|x64
-		{A4B8FE2F-FDFB-4C81-80F0-F015BC607957}.Release|x64.Build.0 = Release|x64
 		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Debug|Win32.Build.0 = Debug|Win32
 		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C}.Debug|x64.ActiveCfg = Debug|x64

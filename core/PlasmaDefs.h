@@ -23,7 +23,7 @@ typedef signed short hsInt16;
 typedef unsigned short hsUint16;
 typedef signed int hsInt32;
 typedef unsigned int hsUint32;
-#ifdef WIN32
+#ifdef _MSC_VER
   typedef signed __int64 hsInt64;
   typedef unsigned __int64 hsUint64;
   typedef __wchar_t hsWchar;

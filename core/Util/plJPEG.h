@@ -4,7 +4,7 @@
 #include "PRP/Surface/plMipmap.h"
 
 extern "C" {
-#include "3rdPartyLibs/jpeg-6b/jpeglib.h"
+#include <jpeglib.h>
 }
 
 DllClass hsJPEGException : public hsException {

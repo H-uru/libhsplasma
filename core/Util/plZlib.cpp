@@ -1,6 +1,6 @@
 #include "plZlib.h"
 #include "Stream/hsRAMStream.h"
-#include "3rdPartyLibs/zlib/include/zlib.h"
+#include <zlib.h>
 
 bool plZlib::Uncompress(unsigned char* bufOut, unsigned int& bufLenOut, const unsigned char* bufIn, unsigned int bufLenIn) {
 	return (::uncompress(bufOut, (uLongf*)&bufLenOut, bufIn, bufLenIn) == Z_OK);

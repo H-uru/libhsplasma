@@ -4,7 +4,7 @@
 #include "../PlasmaDefs.h"
 
 #ifdef WIN32
-#  define S_THREADSTART int s_threadstart()
+#  define S_THREADSTART unsigned int s_threadstart(void*)
 #else
 #  define S_THREADSTART void* s_threadstart(void*)
 #endif
