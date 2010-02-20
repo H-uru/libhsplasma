@@ -170,6 +170,7 @@ PLSOBJ=\
 	$(OBJDIR)proEventData.o \
 	$(OBJDIR)plExcludeRegionMsg.o \
 	$(OBJDIR)plLinkToAgeMsg.o \
+	$(OBJDIR)plLoadCloneMsg.o \
 	$(OBJDIR)plMessage.o \
 	$(OBJDIR)plMessageWithCallbacks.o \
 	$(OBJDIR)plMsgForwarder.o \
@@ -814,6 +815,9 @@ $(OBJDIR)plExcludeRegionMsg.o: PRP/Message/plExcludeRegionMsg.h PRP/Message/plEx
 
 $(OBJDIR)plLinkToAgeMsg.o: PRP/Message/plLinkToAgeMsg.h PRP/Message/plLinkToAgeMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLinkToAgeMsg.cpp -o $@
+
+$(OBJDIR)plLoadCloneMsg.o: PRP/Message/plLoadCloneMsg.h PRP/Message/plLoadCloneMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plLoadCloneMsg.cpp -o $@
 
 $(OBJDIR)plMessage.o: PRP/Message/plMessage.h PRP/Message/plMessage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plMessage.cpp -o $@

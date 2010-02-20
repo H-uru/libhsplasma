@@ -1423,6 +1423,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Message\plLoadCloneMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plLoadCloneMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plMessage.cpp"
 					>
 				</File>

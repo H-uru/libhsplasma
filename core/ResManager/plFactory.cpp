@@ -77,6 +77,7 @@
 #include "PRP/Message/plEnableMsg.h"
 #include "PRP/Message/plExcludeRegionMsg.h"
 #include "PRP/Message/plLinkToAgeMsg.h"
+#include "PRP/Message/plLoadCloneMsg.h"
 #include "PRP/Message/plMsgForwarder.h"
 #include "PRP/Message/plResponderMsg.h"
 #include "PRP/Message/plServerReplyMsg.h"
@@ -602,7 +603,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kEventCallbackMsg: return new plEventCallbackMsg();
         //case kSpawnModMsg: return new plSpawnModMsg();
         //case kSpawnRequestMsg: return new plSpawnRequestMsg();
-        //case kLoadCloneMsg: return new plLoadCloneMsg();
+        case kLoadCloneMsg: return new plLoadCloneMsg();
         case kEnableMsg: return new plEnableMsg();
         //case kWarpMsg: return new plWarpMsg();
         //case kAttachMsg: return new plAttachMsg();
