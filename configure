@@ -7,6 +7,7 @@ doHelp() {
     echo "  --prefix=<path>  Set installation prefix"
     echo "  --no-debug       Turn off debug info"
     echo "  --no-python      Don't compile PyPlasma"
+    echo "  --no-net         Don't compile libPlasmaNet"
     echo "  --with-py3k      Use Python 3.x instead of Python 2.x"
     echo
     echo "Specify explicit library locations:"
@@ -24,11 +25,14 @@ MF_LIBSUFFIX=""
 MF_CXX="g++"
 MF_CXXFLAGS="-fPIC -Wall -ansi -fno-rtti -msse -pthread"
 MF_CXXFLAGS3="-fPIC -msse"
+MF_CXXFLAGS_NET=""
 MF_CXXLINK=""
+MF_CXXLINK_NET=""
 MF_LINKLIB=""
 MF_FEATURES=""
 MF_PYTHONVER=""
 MF_PYTHONCFG=""
+MF_MAKENET="yes"
 
 LOC_PYTHON=""
 LOC_ZLIB=""
@@ -49,6 +53,9 @@ while [ $# != 0 ]; do
             ;;
         --no-python)
             MF_FEATURES="$MF_FEATURES nopython"
+            ;;
+        --no-net)
+            MF_FEATURES="$MF_FEATURES nonet"
             ;;
         --with-py3k)
             MF_FEATURES="$MF_FEATURES py3k"
@@ -88,7 +95,7 @@ if [ $DONT_CONTINUE == 1 ]; then exit 1; fi
 echo "Installing to: $MF_PREFIX"
 
 if [[ $MF_FEATURES =~ "nodebug" ]]; then
-    echo "Turning off debug"
+    echo "Disabling debug info"
 else
     MF_CXXFLAGS="$MF_CXXFLAGS -g"
 fi
@@ -126,12 +133,12 @@ if [ -n "$LOC_ZLIB" ]; then
         exit 1
     fi
 
-    if [ -e "${LOC_ZLIB}/lib/libz.so" ]; then
+    if [ -e "${LOC_ZLIB}/lib/libz.${MF_LIBSUFFIX}" ]; then
         MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB}/lib -lz"
+    elif [ -e "${LOC_ZLIB}/libz.${MF_LIBSUFFIX}" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB} -lz"
     elif [ -e "${LOC_ZLIB}/lib/libz.a" ]; then
         MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB}/lib -lz"
-    elif [ -e "${LOC_ZLIB}/libz.so" ]; then
-        MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB} -lz"
     elif [ -e "${LOC_ZLIB}/libz.a" ]; then
         MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB} -lz"
     else
@@ -170,12 +177,12 @@ if [ -n "$LOC_JPEG" ]; then
         exit 1
     fi
 
-    if [ -e "${LOC_JPEG}/lib/libjpeg.so" ]; then
+    if [ -e "${LOC_JPEG}/lib/libjpeg.${MF_LIBSUFFIX}" ]; then
         MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG}/lib -ljpeg"
+    elif [ -e "${LOC_JPEG}/libjpeg.${MF_LIBSUFFIX}" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG} -ljpeg"
     elif [ -e "${LOC_JPEG}/lib/libjpeg.a" ]; then
         MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG}/lib -ljpeg"
-    elif [ -e "${LOC_JPEG}/libjpeg.so" ]; then
-        MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG} -ljpeg"
     elif [ -e "${LOC_JPEG}/libjpeg.a" ]; then
         MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG} -ljpeg"
     else
@@ -200,6 +207,53 @@ else
     fi
 fi
 
+### OpenSSL
+if [[ $MF_FEATURES =~ "nonet" ]]; then
+    echo "Disabling libPlasmaNet"
+    MF_MAKENET="no"
+else
+    if [ -n "$LOC_SSL" ]; then
+        if [ -e "${LOC_SSL}/include/openssl/ssl.h" ]; then
+            MF_CXXFLAGS_NET="$MF_CXXFLAGS_NET -I${LOC_SSL}/include"
+        elif [ -e "${LOC_SSL}/openssl/ssl.h" ]; then
+            MF_CXXFLAGS_NET="$MF_CXXFLAGS_NET -I${LOC_SSL}"
+        else
+            echo "OpenSSL not found at $LOC_SSL"
+            echo "Please install OpenSSL dev packages before continuing"
+            exit 1
+        fi
+
+        if [ -e "${LOC_SSL}/lib/libssl.${MF_LIBSUFFIX}" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL}/lib -lssl"
+        elif [ -e "${LOC_SSL}/libssl.${MF_LIBSUFFIX}" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL} -lssl"
+        elif [ -e "${LOC_SSL}/lib/libssl.a" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL}/lib -lssl"
+        elif [ -e "${LOC_SSL}/libssl.a" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL} -lssl"
+        else
+            echo "OpenSSL not found at $LOC_SSL"
+            echo "Please install OpenSSL dev packages before continuing"
+            exit 1
+        fi
+
+        echo "Using libssl at $LOC_SSL"
+    else
+        echo -n "Looking for OpenSSL: "
+        if [ -e "/usr/include/openssl/ssl.h" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -lssl"
+            echo "Found"
+        elif [ -e "/usr/local/include/openssl/ssl.h" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -lssl"
+            echo "Found"
+        else
+            echo "Not found!"
+            echo "Please install OpenSSL dev packages before continuing"
+            exit 1
+        fi
+    fi
+fi
+
 
 ### The fun part, find Python!
 pythonVer() {
@@ -207,7 +261,7 @@ pythonVer() {
 }
 
 if [[ $MF_FEATURES =~ "nopython" ]]; then
-    echo "Turning off PyPlasma"
+    echo "Disabling PyPlasma"
     MF_PYTHONVER="no"
 else
     if [ -n "$LOC_PYTHON" ]; then
@@ -300,5 +354,9 @@ echo "LINKLIB=$MF_LINKLIB" >> config.mf
 echo "" >> config.mf
 echo "PYTHON_VER=$MF_PYTHONVER" >> config.mf
 echo "PYTHON_CONFIG=$MF_PYTHONCFG" >> config.mf
+echo "" >> config.mf
+echo "MAKE_NET=$MF_MAKENET" >> config.mf
+echo "CXXFLAGS_NET=$MF_CXXFLAGS_NET" >> config.mf
+echo "CXXLINK_NET=$MF_CXXLINK_NET" >> config.mf
 
 echo "Successfully configured.  You may now run make!"

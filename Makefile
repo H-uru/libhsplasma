@@ -4,7 +4,9 @@ CXXFLAGS += -Icore
 
 all:
 	(cd core ; $(MAKE))
+ifneq ($(MAKE_NET),no)
 	(cd net ; $(MAKE))
+endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE))
 endif
@@ -67,7 +69,9 @@ Misc/TypeMap: Misc/TypeMap.cpp lib/libPlasma.$(LIBSUFFIX)
 
 install:
 	(cd core ; $(MAKE) install)
+ifneq ($(MAKE_NET),no)
 	(cd net ; $(MAKE) install)
+endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE) install)
 endif
@@ -89,7 +93,9 @@ endif
 
 uninstall:
 	(cd core ; $(MAKE) uninstall)
+ifneq ($(MAKE_NET),no)
 	(cd net ; $(MAKE) uninstall)
+endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE) uninstall)
 endif
@@ -111,14 +117,18 @@ endif
 
 clean:
 	(cd core ; $(MAKE) clean)
+ifneq ($(MAKE_NET),no)
 	(cd net ; $(MAKE) clean)
+endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE) clean)
 endif
 
 distclean:
 	(cd core ; $(MAKE) distclean)
+ifneq ($(MAKE_NET),no)
 	(cd net ; $(MAKE) distclean)
+endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE) distclean)
 endif

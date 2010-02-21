@@ -1,11 +1,14 @@
 include ../config.mf
 
-CXXFLAGS += -I../core
-CXXLINK  += -L../lib -lPlasma -lssl
+CXXFLAGS += -I../core $(CXXFLAGS_NET)
+CXXLINK  += -L../lib -lPlasma $(CXXLINK_NET)
 OBJDIR=out/
 
 PLSOBJ=\
-	$(OBJDIR)pnSocket.o
+	$(OBJDIR)pnNetMsg.o \
+	$(OBJDIR)pnSocket.o \
+	$(OBJDIR)pnBigInteger.o \
+	$(OBJDIR)pnSha1.o
 
 PLSLIB=libPlasmaNet.so
 LIBDIR=../lib
@@ -29,5 +32,14 @@ distclean:
 	rm -f $(LIBDIR)/$(PLSLIB)
 
 # Plasma Net Lib
+$(OBJDIR)pnNetMsg.o: pnNetMsg.h pnNetMsg.cpp
+	$(CXX) $(CXXFLAGS) -c pnNetMsg.cpp -o $@
+
 $(OBJDIR)pnSocket.o: pnSocket.h pnSocket.cpp
 	$(CXX) $(CXXFLAGS) -c pnSocket.cpp -o $@
+
+$(OBJDIR)pnBigInteger.o: crypt/pnBigInteger.h crypt/pnBigInteger.cpp
+	$(CXX) $(CXXFLAGS) -c crypt/pnBigInteger.cpp -o $@
+
+$(OBJDIR)pnSha1.o: crypt/pnSha1.h crypt/pnSha1.cpp
+	$(CXX) $(CXXFLAGS) -c crypt/pnSha1.cpp -o $@

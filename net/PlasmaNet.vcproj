@@ -66,7 +66,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib libeay32.lib"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
@@ -142,7 +142,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib libeay32.lib"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
@@ -218,7 +218,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib libeay32.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -299,7 +299,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ws2_32.lib"
+				AdditionalDependencies="ws2_32.lib libeay32.lib"
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -337,6 +337,34 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="crypt"
+			>
+			<File
+				RelativePath=".\crypt\pnBigInteger.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\crypt\pnBigInteger.h"
+				>
+			</File>
+			<File
+				RelativePath=".\crypt\pnSha1.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\crypt\pnSha1.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath=".\pnNetMsg.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\pnNetMsg.h"
+			>
+		</File>
 		<File
 			RelativePath=".\pnSocket.cpp"
 			>

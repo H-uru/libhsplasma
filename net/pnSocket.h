@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <list>
 
-class pnSocket {
+DllClass pnSocket {
 protected:
     int fSockHandle;
 
@@ -33,7 +33,7 @@ public:
     static unsigned long GetAddress(const char* addrName);
 };
 
-class pnAsyncSocket {
+DllClass pnAsyncSocket {
 private:
     class _async : public hsThread {
     public:
