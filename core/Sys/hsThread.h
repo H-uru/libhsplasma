@@ -4,7 +4,8 @@
 #include "../PlasmaDefs.h"
 
 #ifdef WIN32
-#  define S_THREADSTART unsigned int s_threadstart(void*)
+#  include <windows.h>
+#  define S_THREADSTART DWORD WINAPI s_threadstart(LPVOID)
 #else
 #  define S_THREADSTART void* s_threadstart(void*)
 #endif
@@ -15,15 +16,13 @@ private:
 
 public:
     hsThread();
-    hsThread(const hsThread& init);
     ~hsThread();
 
     void start();
     void wait();
-    void finish();
     bool isFinished();
 
-    static void Yield();
+    static void YieldThread();
 
 protected:
     virtual void run() = 0;
@@ -38,11 +37,13 @@ protected:
 
 public:
     hsMutex();
-    hsMutex(const hsMutex& init);
     ~hsMutex();
 
     void lock();
     void unlock();
+
+private:
+    friend class hsThread;
 };
 
 #endif
