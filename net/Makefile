@@ -1,6 +1,6 @@
 include ../config.mf
 
-CXXFLAGS += -I../core $(CXXFLAGS_NET)
+CXXFLAGS += -I. -I../core $(CXXFLAGS_NET)
 CXXLINK  += -L../lib -lPlasma $(CXXLINK_NET)
 OBJDIR=out/
 
@@ -8,6 +8,7 @@ PLSOBJ=\
 	$(OBJDIR)pnNetMsg.o \
 	$(OBJDIR)pnSocket.o \
 	$(OBJDIR)pnBigInteger.o \
+	$(OBJDIR)pnRC4.o \
 	$(OBJDIR)pnSha1.o
 
 PLSLIB=libPlasmaNet.so
@@ -40,6 +41,9 @@ $(OBJDIR)pnSocket.o: pnSocket.h pnSocket.cpp
 
 $(OBJDIR)pnBigInteger.o: crypt/pnBigInteger.h crypt/pnBigInteger.cpp
 	$(CXX) $(CXXFLAGS) -c crypt/pnBigInteger.cpp -o $@
+
+$(OBJDIR)pnRC4.o: crypt/pnRC4.h crypt/pnRC4.cpp
+	$(CXX) $(CXXFLAGS) -c crypt/pnRC4.cpp -o $@
 
 $(OBJDIR)pnSha1.o: crypt/pnSha1.h crypt/pnSha1.cpp
 	$(CXX) $(CXXFLAGS) -c crypt/pnSha1.cpp -o $@

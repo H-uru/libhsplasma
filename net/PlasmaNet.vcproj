@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../core"
+				AdditionalIncludeDirectories=".;../core"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;MAKEDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../core"
+				AdditionalIncludeDirectories=".;../core"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;MAKEDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -198,7 +198,7 @@
 				Name="VCCLCompilerTool"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../core"
+				AdditionalIncludeDirectories=".;../core"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;MAKEDLL"
 				RuntimeLibrary="2"
 				EnableEnhancedInstructionSet="1"
@@ -280,7 +280,7 @@
 				Name="VCCLCompilerTool"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="../core"
+				AdditionalIncludeDirectories=".;../core"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;MAKEDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -346,6 +346,14 @@
 			</File>
 			<File
 				RelativePath=".\crypt\pnBigInteger.h"
+				>
+			</File>
+			<File
+				RelativePath=".\crypt\pnRC4.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\crypt\pnRC4.h"
 				>
 			</File>
 			<File

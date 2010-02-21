@@ -4,6 +4,7 @@
 #ifdef WIN32
 #  include <winsock2.h>
 #  include <ws2tcpip.h>
+
    typedef char* sockbuf_t;
 
    static WSADATA s_wsadata;
@@ -18,13 +19,17 @@
 #else
 #  include <sys/types.h>
 #  include <sys/socket.h>
+#  include <sys/ioctl.h>
 #  include <netinet/in.h>
+#  include <netinet/tcp.h>
 #  include <arpa/inet.h>
 #  include <netdb.h>
 #  include <poll.h>
 #  include <unistd.h>
 #  include <errno.h>
+
 #  define closesocket ::close
+#  define ioctlsocket ::ioctl
    typedef void* sockbuf_t;
 
    static int sockError()
@@ -228,11 +233,13 @@ long pnSocket::peek(void* buffer, size_t size)
 
 long pnSocket::rsize()
 {
-    unsigned char buf;
-    long count = ::recv(fSockHandle, (sockbuf_t)&buf, 1, MSG_PEEK | MSG_TRUNC);
-    if (count < 1)
-        return 0;
-    return count;
+#ifdef WIN32
+    unsigned long size;
+#else
+    int size;
+#endif
+    ioctlsocket(fSockHandle, FIONREAD, &size);
+    return (long)size;
 }
 
 unsigned long pnSocket::GetAddress(const char* addrName)
@@ -251,7 +258,9 @@ unsigned long pnSocket::GetAddress(const char* addrName)
 /* pnAsyncSocket */
 pnAsyncSocket::_async::_async()
              : fSock(NULL), fReadPos(0), fFinished(false)
-{ }
+{
+    fSockMutex = new hsMutex();
+}
 
 pnAsyncSocket::_async::~_async()
 {
@@ -259,7 +268,7 @@ pnAsyncSocket::_async::~_async()
         fSock->close(true);
         delete fSock;
     }
-    fSockMutex.lock();
+    fSockMutex->lock();
     while (!fSendQueue.empty()) {
         delete[] fSendQueue.front().fData;
         fSendQueue.pop_front();
@@ -268,7 +277,8 @@ pnAsyncSocket::_async::~_async()
         delete[] fRecvQueue.front().fData;
         fRecvQueue.pop_front();
     }
-    fSockMutex.unlock();
+    fSockMutex->unlock();
+    delete fSockMutex;
 }
 
 void pnAsyncSocket::_async::flush()
@@ -278,49 +288,58 @@ void pnAsyncSocket::_async::flush()
         hsThread::YieldThread();
 }
 
-void pnAsyncSocket::_async::finish()
-{ fFinished = true; }
-
 void pnAsyncSocket::_async::run()
 {
     if (fSock == NULL)
         return;
 
+    struct timeval stimeout;
     fd_set sread, swrite;
     FD_ZERO(&sread);
     FD_ZERO(&swrite);
-    FD_SET(fSock->getHandle(), &sread);
-    FD_SET(fSock->getHandle(), &swrite);
 
     while (!fFinished) {
-        int si = select(fSock->getHandle() + 1, &sread, &swrite, NULL, NULL);
+        FD_SET(fSock->getHandle(), &sread);
+        FD_SET(fSock->getHandle(), &swrite);
+
+        /* 0.1 second poll timeout */
+        stimeout.tv_sec = 0;
+        stimeout.tv_usec = 100000;
+
+        int si = select(fSock->getHandle() + 1, &sread, &swrite, NULL, &stimeout);
         if (si < 0) {
             plDebug::Error("Error reading from socket: %s", getSockErrorStr());
             // TODO: Reconnect socket instead of dumping it
-            return;
-        } else if (si == 0) {
-            // No data, probably disconnected
-            return;
+            break;
         }
 
-        fSockMutex.lock();
+        fSockMutex->lock();
         if (FD_ISSET(fSock->getHandle(), &sread)) {
             _datum msg;
             msg.fSize = (size_t)fSock->rsize();
+            if (msg.fSize < 0) {
+                plDebug::Error("Error reading from socket: %s", getSockErrorStr());
+                fSockMutex->unlock();
+                break;
+            } else if (msg.fSize == 0) {
+                // Disconnected
+                fSockMutex->unlock();
+                break;
+            }
             msg.fData = new unsigned char[msg.fSize];
             fSock->recv(msg.fData, msg.fSize);
             fRecvQueue.push_back(msg);
         }
 
-        if (FD_ISSET(fSock->getHandle(), &swrite)) {
-            _datum msg = *fSendQueue.begin();
+        if (!fSendQueue.empty() && FD_ISSET(fSock->getHandle(), &swrite)) {
+            _datum msg = fSendQueue.front();
             fSendQueue.pop_front();
             fSock->send(msg.fData, msg.fSize);
             delete[] msg.fData;
         }
-        fSockMutex.unlock();
+        fSockMutex->unlock();
     }
-    flush();
+    fFinished = true;
 }
 
 pnAsyncSocket::pnAsyncSocket(pnSocket* sock)
@@ -331,7 +350,7 @@ pnAsyncSocket::pnAsyncSocket(pnSocket* sock)
 
 pnAsyncSocket::~pnAsyncSocket()
 {
-    fAsyncIO.finish();
+    fAsyncIO.fFinished = true;
 }
 
 long pnAsyncSocket::send(const void* buffer, size_t size)
@@ -341,10 +360,10 @@ long pnAsyncSocket::send(const void* buffer, size_t size)
     msg.fData = new unsigned char[size];
     memcpy(msg.fData, buffer, size);
 
-    if (!fAsyncIO.isFinished()) {
-        fAsyncIO.fSockMutex.lock();
+    if (!fAsyncIO.fFinished) {
+        fAsyncIO.fSockMutex->lock();
         fAsyncIO.fSendQueue.push_back(msg);
-        fAsyncIO.fSockMutex.unlock();
+        fAsyncIO.fSockMutex->unlock();
         return size;
     } else {
         return -1;
@@ -358,7 +377,7 @@ long pnAsyncSocket::recv(void* buffer, size_t size)
         if (!waitForData())
             return -1;
 
-        fAsyncIO.fSockMutex.lock();
+        fAsyncIO.fSockMutex->lock();
         _async::_datum msg = fAsyncIO.fRecvQueue.front();
         size_t cpySize = size;
         if (size + fAsyncIO.fReadPos >= msg.fSize)
@@ -371,7 +390,7 @@ long pnAsyncSocket::recv(void* buffer, size_t size)
         } else {
             fAsyncIO.fReadPos += cpySize;
         }
-        fAsyncIO.fSockMutex.unlock();
+        fAsyncIO.fSockMutex->unlock();
         buffer = (void*)((unsigned char*)buffer + cpySize);
         size -= cpySize;
         rSize += cpySize;
@@ -384,7 +403,7 @@ long pnAsyncSocket::peek(void* buffer, size_t size)
     if (!waitForData())
         return -1;
 
-    fAsyncIO.fSockMutex.lock();
+    fAsyncIO.fSockMutex->lock();
     std::list<_async::_datum>::iterator it = fAsyncIO.fRecvQueue.begin();
     long rSize = 0;
     size_t readPos = fAsyncIO.fReadPos;
@@ -404,7 +423,7 @@ long pnAsyncSocket::peek(void* buffer, size_t size)
         size -= cpySize;
         rSize += cpySize;
     }
-    fAsyncIO.fSockMutex.unlock();
+    fAsyncIO.fSockMutex->unlock();
     return rSize;
 }
 
@@ -415,7 +434,10 @@ void pnAsyncSocket::flush()
 
 bool pnAsyncSocket::readAvailable() const
 {
-    return (!fAsyncIO.fRecvQueue.empty());
+    fAsyncIO.fSockMutex->lock();
+    bool hasData = !fAsyncIO.fRecvQueue.empty();
+    fAsyncIO.fSockMutex->unlock();
+    return hasData;
 }
 
 bool pnAsyncSocket::waitForData()
@@ -425,9 +447,22 @@ bool pnAsyncSocket::waitForData()
     return isConnected();
 }
 
+size_t pnAsyncSocket::rsize() const
+{
+    fAsyncIO.fSockMutex->lock();
+    size_t msgSize = 0;
+    if (!fAsyncIO.fRecvQueue.empty())
+        msgSize = fAsyncIO.fRecvQueue.front().fSize;
+    fAsyncIO.fSockMutex->unlock();
+    return msgSize;
+}
+
 bool pnAsyncSocket::isConnected() const
 {
-    return !fAsyncIO.isFinished();
+    fAsyncIO.fSockMutex->lock();
+    bool done = fAsyncIO.fFinished && fAsyncIO.fRecvQueue.empty();
+    fAsyncIO.fSockMutex->unlock();
+    return !done;
 }
 
 void pnAsyncSocket::close(bool force)

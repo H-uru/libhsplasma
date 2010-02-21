@@ -43,7 +43,7 @@ private:
         };
 
         std::list<_datum> fSendQueue, fRecvQueue;
-        hsMutex fSockMutex;
+        hsMutex* fSockMutex;
         pnSocket* fSock;
         size_t fReadPos;
         bool fFinished;
@@ -53,7 +53,6 @@ private:
         ~_async();
 
         void flush();
-        void finish();
 
     protected:
         virtual void run();
@@ -69,6 +68,7 @@ public:
     void flush();
     bool readAvailable() const;
     bool waitForData();
+    size_t rsize() const;
     bool isConnected() const;
 
     void close(bool force=false);
