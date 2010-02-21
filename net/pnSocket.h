@@ -25,10 +25,10 @@ public:
     void unlink();
     void link(int handle);
 
-    ssize_t send(const void* buffer, size_t size);
-    ssize_t recv(void* buffer, size_t size);
-    ssize_t peek(void* buffer, size_t size);
-    ssize_t rsize();
+    long send(const void* buffer, size_t size);
+    long recv(void* buffer, size_t size);
+    long peek(void* buffer, size_t size);
+    long rsize();
 
     static unsigned long GetAddress(const char* addrName);
 };
@@ -46,14 +46,14 @@ private:
         hsMutex fSockMutex;
         pnSocket* fSock;
         size_t fReadPos;
+        bool fFinished;
 
     public:
         _async();
         ~_async();
-        virtual void initialize();
-        virtual void finalize();
 
         void flush();
+        void finish();
 
     protected:
         virtual void run();
@@ -63,9 +63,9 @@ public:
     pnAsyncSocket(pnSocket* sock);   // Steals the socket
     ~pnAsyncSocket();
 
-    ssize_t send(const void* buffer, size_t size);
-    ssize_t recv(void* buffer, size_t size);
-    ssize_t peek(void* buffer, size_t size);
+    long send(const void* buffer, size_t size);
+    long recv(void* buffer, size_t size);
+    long peek(void* buffer, size_t size);
     void flush();
     bool readAvailable() const;
     bool waitForData();

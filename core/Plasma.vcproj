@@ -65,8 +65,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib zlib1.lib"
-				AdditionalLibraryDirectories="$(ProjectDir)/3rdPartyLibs/zlib/lib"
+				AdditionalDependencies="opengl32.lib zlib1.lib jpeg.lib"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -141,8 +141,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib zlib1.lib"
-				AdditionalLibraryDirectories="$(ProjectDir)/3rdPartyLibs/zlib/lib64"
+				AdditionalDependencies="opengl32.lib zlib1.lib jpeg.lib"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -2589,6 +2589,14 @@
 			</File>
 			<File
 				RelativePath=".\Sys\hsSemaphore.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\hsThread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Sys\hsThread_win32.cpp"
 				>
 			</File>
 			<File

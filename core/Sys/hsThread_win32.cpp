@@ -57,8 +57,8 @@ void hsThread::wait() {
         YieldThread();
 }
 
-bool hsThread::isFinished() {
-    hsThread_WIN32* _this = (hsThread_WIN32*)fThreadData;
+bool hsThread::isFinished() const {
+    const hsThread_WIN32* _this = (const hsThread_WIN32*)fThreadData;
     return (_this->fState == kStateFinished);
 }
 

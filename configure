@@ -30,6 +30,11 @@ MF_FEATURES=""
 MF_PYTHONVER=""
 MF_PYTHONCFG=""
 
+LOC_PYTHON=""
+LOC_ZLIB=""
+LOC_JPEG=""
+LOC_SSL=""
+
 while [ $# != 0 ]; do
     case "$1" in
         --help)
@@ -47,6 +52,18 @@ while [ $# != 0 ]; do
             ;;
         --with-py3k)
             MF_FEATURES="$MF_FEATURES py3k"
+            ;;
+        --with-python=*)
+            LOC_PYTHON="`echo "$1" | cut -d '=' -f 2`"
+            ;;
+        --with-zlib=*)
+            LOC_ZLIB="`echo "$1" | cut -d '=' -f 2`"
+            ;;
+        --with-jpeg=*)
+            LOC_JPEG="`echo "$1" | cut -d '=' -f 2`"
+            ;;
+        --with-ssl=*)
+            LOC_SSL="`echo "$1" | cut -d '=' -f 2`"
             ;;
         CXX=*)
             MF_CXX="`echo "$1" | cut -d '=' -f 2`"
@@ -97,33 +114,90 @@ case "`uname -s`" in
         ;;
 esac
 
-### Look for necessary packages
-echo -n "Looking for zlib: "
-if [ -e "/usr/include/zlib.h" ]; then
-    MF_CXXLINK="$MF_CXXLINK -lz"
-    MF_ZLIB="sys"
-    echo "Found"
-elif [ -e "/usr/local/include/zlib.h" ]; then
-    MF_CXXLINK="$MF_CXXLINK -lz"
-    MF_ZLIB="sys"
-    echo "Found"
+### zlib
+if [ -n "$LOC_ZLIB" ]; then
+    if [ -e "${LOC_ZLIB}/include/zlib.h" ]; then
+        MF_CXXFLAGS="$MF_CXXFLAGS -I${LOC_ZLIB}/include"
+    elif [ -e "${LOC_ZLIB}/zlib.h" ]; then
+        MF_CXXFLAGS="$MF_CXXFLAGS -I${LOC_ZLIB}"
+    else
+        echo "Zlib not found at $LOC_ZLIB"
+        echo "Please install zlib dev packages before continuing"
+        exit 1
+    fi
+
+    if [ -e "${LOC_ZLIB}/lib/libz.so" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB}/lib -lz"
+    elif [ -e "${LOC_ZLIB}/lib/libz.a" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB}/lib -lz"
+    elif [ -e "${LOC_ZLIB}/libz.so" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB} -lz"
+    elif [ -e "${LOC_ZLIB}/libz.a" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_ZLIB} -lz"
+    else
+        echo "Zlib not found at $LOC_ZLIB"
+        echo "Please install zlib dev packages before continuing"
+        exit 1
+    fi
+
+    echo "Using zlib at $LOC_ZLIB"
 else
-    echo "Not found!"
-    echo "Please install zlib dev packages before continuing"
-    exit 1
+    echo -n "Looking for zlib: "
+    if [ -e "/usr/include/zlib.h" ]; then
+        MF_CXXLINK="$MF_CXXLINK -lz"
+        MF_ZLIB="sys"
+        echo "Found"
+    elif [ -e "/usr/local/include/zlib.h" ]; then
+        MF_CXXLINK="$MF_CXXLINK -lz"
+        MF_ZLIB="sys"
+        echo "Found"
+    else
+        echo "Not found!"
+        echo "Please install zlib dev packages before continuing"
+        exit 1
+    fi
 fi
 
-echo -n "Looking for libjpeg: "
-if [ -e "/usr/include/jpeglib.h" ]; then
-    MF_CXXLINK="$MF_CXXLINK -ljpeg"
-    echo "Found"
-elif [ -e "/usr/local/include/jpeglib.h" ]; then
-    MF_CXXLINK="$MF_CXXLINK -ljpeg"
-    echo "Found"
+### libjpeg
+if [ -n "$LOC_JPEG" ]; then
+    if [ -e "${LOC_JPEG}/include/jpeglib.h" ]; then
+        MF_CXXFLAGS="$MF_CXXFLAGS -I${LOC_JPEG}/include"
+    elif [ -e "${LOC_JPEG}/jpeglib.h" ]; then
+        MF_CXXFLAGS="$MF_CXXFLAGS -I${LOC_JPEG}"
+    else
+        echo "libjpeg not found at $LOC_JPEG"
+        echo "Please install libjpeg dev packages before continuing"
+        exit 1
+    fi
+
+    if [ -e "${LOC_JPEG}/lib/libjpeg.so" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG}/lib -ljpeg"
+    elif [ -e "${LOC_JPEG}/lib/libjpeg.a" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG}/lib -ljpeg"
+    elif [ -e "${LOC_JPEG}/libjpeg.so" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG} -ljpeg"
+    elif [ -e "${LOC_JPEG}/libjpeg.a" ]; then
+        MF_CXXLINK="$MF_CXXLINK -L${LOC_JPEG} -ljpeg"
+    else
+        echo "libjpeg not found at $LOC_JPEG"
+        echo "Please install libjpeg dev packages before continuing"
+        exit 1
+    fi
+
+    echo "Using libjpeg at $LOC_JPEG"
 else
-    echo "Not found!"
-    echo "Please install libjpeg dev packages before continuing"
-    exit 1
+    echo -n "Looking for libjpeg: "
+    if [ -e "/usr/include/jpeglib.h" ]; then
+        MF_CXXLINK="$MF_CXXLINK -ljpeg"
+        echo "Found"
+    elif [ -e "/usr/local/include/jpeglib.h" ]; then
+        MF_CXXLINK="$MF_CXXLINK -ljpeg"
+        echo "Found"
+    else
+        echo "Not found!"
+        echo "Please install libjpeg dev packages before continuing"
+        exit 1
+    fi
 fi
 
 
@@ -136,47 +210,80 @@ if [[ $MF_FEATURES =~ "nopython" ]]; then
     echo "Turning off PyPlasma"
     MF_PYTHONVER="no"
 else
-    # Find current python dev files
-    if [[ $MF_FEATURES =~ "py3k" ]]; then
-        echo -n "Looking for Python 3: "
-        if [ -e "`which python3-config`" ]; then
-            MF_PYTHONCFG="`which python3-config`"
-            PYTHONCMD="`${MF_PYTHONCFG} --exec-prefix`/bin/python3"
-            MF_PYTHONVER="`pythonVer $PYTHONCMD`"
-            echo "Found version $MF_PYTHONVER"
-        elif [ -e "/usr/bin/python3-config" ]; then
-            MF_PYTHONCFG="`/usr/bin/python3-config`"
-            MF_PYTHONVER="`pythonVer /usr/bin/python3`"
-            echo "Found version $MF_PYTHONVER"
-        elif [ -e "/usr/local/bin/python3-config" ]; then
-            MF_PYTHONCFG="`/usr/local/bin/python3-config`"
-            MF_PYTHONVER="`pythonVer /usr/local/bin/python3`"
-            echo "Found version $MF_PYTHONVER"
-        else
-            echo "Not found!"
+    if [ -n "$LOC_PYTHON" ]; then
+        if [[ $MF_FEATURES =~ "py3k" ]]; then
+            if [ -e "${LOC_PYTHON}/bin/python3-config" ]; then
+                MF_PYTHONCFG="${LOC_PYTHON}/bin/python3-config"
+                MF_PYTHONVER="`pythonVer ${LOC_PYTHON}/bin/python3`"
+                echo "Using Python $MF_PYTHONVER at $LOC_PYTHON"
+            elif [ -e "${LOC_PYTHON}/python3-config" ]; then
+                MF_PYTHONCFG="${LOC_PYTHON}/python3-config"
+                MF_PYTHONVER="`pythonVer ${LOC_PYTHON}/python3`"
+                echo "Using Python $MF_PYTHONVER at $LOC_PYTHON"
+            fi
         fi
-    fi
-    if [ -z "$MF_PYTHONVER" ]; then
-        echo -n "Looking for Python: "
-        if [ -e "`which python-config`" ]; then
-            MF_PYTHONCFG="`which python-config`"
-            PYTHONCMD="`${MF_PYTHONCFG} --exec-prefix`/bin/python"
-            MF_PYTHONVER="`pythonVer $PYTHONCMD`"
-            echo "Found version $MF_PYTHONVER"
-        elif [ -e "/usr/bin/python-config" ]; then
-            MF_PYTHONCFG="`/usr/bin/python-config`"
-            MF_PYTHONVER="`pythonVer /usr/bin/python`"
-            echo "Found version $MF_PYTHONVER"
-        elif [ -e "/usr/local/bin/python-config" ]; then
-            MF_PYTHONCFG="`/usr/local/bin/python-config`"
-            MF_PYTHONVER="`pythonVer /usr/local/bin/python`"
-            echo "Found version $MF_PYTHONVER"
-        else
-            echo "Not found!  Please install Python dev packages,"
-            echo "    or turn off PyPlasma support with --no-python"
-            exit 1
+        if [ -z "$MF_PYTHONVER" ]; then
+            if [ -e "${LOC_PYTHON}/bin/python-config" ]; then
+                MF_PYTHONCFG="${LOC_PYTHON}/bin/python-config"
+                MF_PYTHONVER="`pythonVer ${LOC_PYTHON}/bin/python`"
+                echo "Using Python $MF_PYTHONVER at $LOC_PYTHON"
+            elif [ -e "${LOC_PYTHON}/python-config" ]; then
+                MF_PYTHONCFG="${LOC_PYTHON}/python-config"
+                MF_PYTHONVER="`pythonVer ${LOC_PYTHON}/python`"
+                echo "Using Python $MF_PYTHONVER at $LOC_PYTHON"
+            else
+                echo "Could not find Python at $LOC_PYTHON"
+                echo "Please install Python dev packages before continuing"
+                exit 1
+            fi
         fi
+    else
+        # Find current python dev files
+        if [[ $MF_FEATURES =~ "py3k" ]]; then
+            echo -n "Looking for Python 3: "
+            if [ -e "`which python3-config`" ]; then
+                MF_PYTHONCFG="`which python3-config`"
+                PYTHONCMD="`${MF_PYTHONCFG} --exec-prefix`/bin/python3"
+                MF_PYTHONVER="`pythonVer $PYTHONCMD`"
+                echo "Found version $MF_PYTHONVER"
+            elif [ -e "/usr/bin/python3-config" ]; then
+                MF_PYTHONCFG="/usr/bin/python3-config"
+                MF_PYTHONVER="`pythonVer /usr/bin/python3`"
+                echo "Found version $MF_PYTHONVER"
+            elif [ -e "/usr/local/bin/python3-config" ]; then
+                MF_PYTHONCFG="/usr/local/bin/python3-config"
+                MF_PYTHONVER="`pythonVer /usr/local/bin/python3`"
+                echo "Found version $MF_PYTHONVER"
+            else
+                echo "Not found!"
+            fi
+        fi
+        if [ -z "$MF_PYTHONVER" ]; then
+            echo -n "Looking for Python: "
+            if [ -e "`which python-config`" ]; then
+                MF_PYTHONCFG="`which python-config`"
+                PYTHONCMD="`${MF_PYTHONCFG} --exec-prefix`/bin/python"
+                MF_PYTHONVER="`pythonVer $PYTHONCMD`"
+                echo "Found version $MF_PYTHONVER"
+            elif [ -e "/usr/bin/python-config" ]; then
+                MF_PYTHONCFG="/usr/bin/python-config"
+                MF_PYTHONVER="`pythonVer /usr/bin/python`"
+                echo "Found version $MF_PYTHONVER"
+            elif [ -e "/usr/local/bin/python-config" ]; then
+                MF_PYTHONCFG="/usr/local/bin/python-config"
+                MF_PYTHONVER="`pythonVer /usr/local/bin/python`"
+                echo "Found version $MF_PYTHONVER"
+            else
+                echo "Not found!  Please install Python dev packages,"
+                echo "    or turn off PyPlasma support with --no-python"
+                exit 1
+            fi
+        fi
+
+    # LOC_PYTHON
     fi
+
+# nopython
 fi
 
 
@@ -194,4 +301,4 @@ echo "" >> config.mf
 echo "PYTHON_VER=$MF_PYTHONVER" >> config.mf
 echo "PYTHON_CONFIG=$MF_PYTHONCFG" >> config.mf
 
-echo "Done configuring.  You may now run make!"
+echo "Successfully configured.  You may now run make!"

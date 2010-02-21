@@ -1,22 +1,70 @@
 #include "pnSocket.h"
 #include "Debug/plDebug.h"
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <errno.h>
-#include <netdb.h>
-#include <poll.h>
-#include <fcntl.h>
 
 #ifdef WIN32
-  #include <winsock.h>
+#  include <winsock2.h>
+#  include <ws2tcpip.h>
+   typedef char* sockbuf_t;
+
+   static WSADATA s_wsadata;
+
+   static void closeWinsock()
+   { WSACleanup(); }
+
+   static int sockError()
+   { return WSAGetLastError(); }
+
+#  define ECONNRESET WSAECONNRESET
 #else
-  #include <unistd.h>
-  #define closesocket ::close
+#  include <sys/types.h>
+#  include <sys/socket.h>
+#  include <netinet/in.h>
+#  include <arpa/inet.h>
+#  include <netdb.h>
+#  include <poll.h>
+#  include <unistd.h>
+#  include <errno.h>
+#  define closesocket ::close
+   typedef void* sockbuf_t;
+
+   static int sockError()
+   { return errno; }
+
+#  define INVALID_SOCKET (-1)
 #endif
 
+static const char* getSockErrorStr()
+{
+#ifdef WIN32
+    static char msgbuf[4096];
+
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(),
+                  0, msgbuf, 4096, NULL);
+    return msgbuf;
+#else
+    return strerror(errno);
+#endif
+}
+
 /* pnSocket */
+pnSocket::pnSocket()
+        : fSockHandle(-1)
+{
+#ifdef WIN32
+    WSAStartup(MAKEWORD(2, 0), &s_wsadata);
+    atexit(closeWinsock);
+#endif
+}
+
+pnSocket::pnSocket(int handle)
+        : fSockHandle(handle)
+{ }
+
+pnSocket::~pnSocket()
+{
+    close();
+}
+
 plString pnSocket::getRemoteIpStr() const
 {
     static hsMutex ipStrMutex;
@@ -30,6 +78,11 @@ plString pnSocket::getRemoteIpStr() const
     plString result(str);
     ipStrMutex.unlock();
     return result;
+}
+
+int pnSocket::getHandle() const
+{
+    return fSockHandle;
 }
 
 bool pnSocket::connect(const char* address, unsigned short port)
@@ -53,7 +106,7 @@ bool pnSocket::connect(const char* address, unsigned short port)
 
     for (addrinfo* ap = addr; ap != NULL; ap = ap->ai_next) {
         fSockHandle = socket(ap->ai_family, ap->ai_socktype, ap->ai_protocol);
-        if (fSockHandle != -1) {
+        if (fSockHandle != INVALID_SOCKET) {
             if (::connect(fSockHandle, ap->ai_addr, ap->ai_addrlen) != -1)
                 break;
         }
@@ -91,11 +144,11 @@ bool pnSocket::bind(unsigned short port)
 
     for (addrinfo* ap = addr; ap != NULL; ap = ap->ai_next) {
         fSockHandle = socket(ap->ai_family, ap->ai_socktype, ap->ai_protocol);
-        if (fSockHandle != -1) {
+        if (fSockHandle != INVALID_SOCKET) {
             if (::bind(fSockHandle, ap->ai_addr, ap->ai_addrlen) == 0)
                 break;
         }
-        ::close(fSockHandle);
+        closesocket(fSockHandle);
         fSockHandle = -1;
     }
 
@@ -112,14 +165,14 @@ pnSocket* pnSocket::listen(int backlog)
 {
     if (::listen(fSockHandle, backlog) == -1) {
         if (fSockHandle != -1)
-            plDebug::Error("Listen failed: %s", strerror(errno));
+            plDebug::Error("Listen failed: %s", getSockErrorStr());
         return NULL;
     }
 
     int client = accept(fSockHandle, NULL, NULL);
     if (client == -1) {
         if (fSockHandle != -1)
-            plDebug::Error("Listen failed: %s", strerror(errno));
+            plDebug::Error("Listen failed: %s", getSockErrorStr());
         return NULL;
     }
     return new pnSocket(client);
@@ -131,41 +184,52 @@ void pnSocket::close(bool force)
         if (force)
             ::shutdown(fSockHandle, 2);
         else
-            ::close(fSockHandle);
+            closesocket(fSockHandle);
     }
     fSockHandle = -1;
 }
 
-ssize_t pnSocket::send(const void* buffer, size_t size)
+void pnSocket::unlink()
 {
-    ssize_t count = ::send(fSockHandle, buffer, size, 0);
+    fSockHandle = -1;
+    delete this;
+}
+
+void pnSocket::link(int handle)
+{
+    fSockHandle = handle;
+}
+
+long pnSocket::send(const void* buffer, size_t size)
+{
+    long count = ::send(fSockHandle, (const sockbuf_t)buffer, size, 0);
     if (count == -1)
-        plDebug::Error("Send failed: %s", strerror(errno));
+        plDebug::Error("Send failed: %s", getSockErrorStr());
     else if ((size_t)count < size)
         plDebug::Warning("Send truncated");
     return count;
 }
 
-ssize_t pnSocket::recv(void* buffer, size_t size)
+long pnSocket::recv(void* buffer, size_t size)
 {
-    ssize_t count = ::recv(fSockHandle, buffer, size, 0);
-    if (count == -1 && errno != ECONNRESET)
-        plDebug::Error("Recv failed: %s", strerror(errno));
+    long count = ::recv(fSockHandle, (sockbuf_t)buffer, size, 0);
+    if (count == -1 && sockError() != ECONNRESET)
+        plDebug::Error("Recv failed: %s", getSockErrorStr());
     return count;
 }
 
-ssize_t pnSocket::peek(void* buffer, size_t size)
+long pnSocket::peek(void* buffer, size_t size)
 {
-    ssize_t count = ::recv(fSockHandle, buffer, size, MSG_PEEK);
-    if (count == -1 && errno != ECONNRESET)
-        plDebug::Error("Peek failed: %s", strerror(errno));
+    long count = ::recv(fSockHandle, (sockbuf_t)buffer, size, MSG_PEEK);
+    if (count == -1 && sockError() != ECONNRESET)
+        plDebug::Error("Peek failed: %s", getSockErrorStr());
     return count;
 }
 
-ssize_t pnSocket::rsize()
+long pnSocket::rsize()
 {
     unsigned char buf;
-    ssize_t count = ::recv(fSockHandle, &buf, 1, MSG_PEEK | MSG_DONTWAIT | MSG_TRUNC);
+    long count = ::recv(fSockHandle, (sockbuf_t)&buf, 1, MSG_PEEK | MSG_TRUNC);
     if (count < 1)
         return 0;
     return count;
@@ -185,6 +249,10 @@ unsigned long pnSocket::GetAddress(const char* addrName)
 
 
 /* pnAsyncSocket */
+pnAsyncSocket::_async::_async()
+             : fSock(NULL), fReadPos(0), fFinished(false)
+{ }
+
 pnAsyncSocket::_async::~_async()
 {
     if (fSock != NULL) {
@@ -203,52 +271,70 @@ pnAsyncSocket::_async::~_async()
     fSockMutex.unlock();
 }
 
+void pnAsyncSocket::_async::flush()
+{
+    while (!fSendQueue.empty() || !fRecvQueue.empty())
+        /* wait for the I/O queues to flush */
+        hsThread::YieldThread();
+}
+
+void pnAsyncSocket::_async::finish()
+{ fFinished = true; }
+
 void pnAsyncSocket::_async::run()
 {
     if (fSock == NULL)
         return;
 
-    struct pollfd pinfo;
-    pinfo.fd = fSock->getHandle();
-    pinfo.events = POLLIN | POLLOUT;
+    fd_set sread, swrite;
+    FD_ZERO(&sread);
+    FD_ZERO(&swrite);
+    FD_SET(fSock->getHandle(), &sread);
+    FD_SET(fSock->getHandle(), &swrite);
 
-    while (!isFinished()) {
-        int id = poll(&pinfo, 1, -1);
-        if (id <= 0) {
-            plDebug::Error("Error reading from socket: %s", strerror(errno));
+    while (!fFinished) {
+        int si = select(fSock->getHandle() + 1, &sread, &swrite, NULL, NULL);
+        if (si < 0) {
+            plDebug::Error("Error reading from socket: %s", getSockErrorStr());
             // TODO: Reconnect socket instead of dumping it
             return;
-        }
-
-        if ((pinfo.revents & (POLLHUP | POLLNVAL)) != 0)
-            return;
-
-        if ((pinfo.revents & POLLERR) != 0) {
-            plDebug::Error("Socket error: %s", strerror(errno));
+        } else if (si == 0) {
+            // No data, probably disconnected
             return;
         }
 
         fSockMutex.lock();
-        if ((pinfo.revents & POLLOUT) != 0 && !fSendQueue.empty()) {
-            // Dump the next queued message to the socket
-            _datum msg = *fSendQueue.begin();
-            fSendQueue.pop_front();
-            fSock->send(msg.fData, msg.fSize);
-            delete[] msg.fData;
-        }
-
-        if ((pinfo.revents & POLLIN) != 0) {
+        if (FD_ISSET(fSock->getHandle(), &sread)) {
             _datum msg;
             msg.fSize = (size_t)fSock->rsize();
             msg.fData = new unsigned char[msg.fSize];
             fSock->recv(msg.fData, msg.fSize);
             fRecvQueue.push_back(msg);
         }
+
+        if (FD_ISSET(fSock->getHandle(), &swrite)) {
+            _datum msg = *fSendQueue.begin();
+            fSendQueue.pop_front();
+            fSock->send(msg.fData, msg.fSize);
+            delete[] msg.fData;
+        }
         fSockMutex.unlock();
     }
+    flush();
 }
 
-ssize_t pnAsyncSocket::send(const void* buffer, size_t size)
+pnAsyncSocket::pnAsyncSocket(pnSocket* sock)
+{
+    fAsyncIO.fSock = sock;
+    fAsyncIO.start();
+}
+
+pnAsyncSocket::~pnAsyncSocket()
+{
+    fAsyncIO.finish();
+}
+
+long pnAsyncSocket::send(const void* buffer, size_t size)
 {
     _async::_datum msg;
     msg.fSize = size;
@@ -265,9 +351,9 @@ ssize_t pnAsyncSocket::send(const void* buffer, size_t size)
     }
 }
 
-ssize_t pnAsyncSocket::recv(void* buffer, size_t size)
+long pnAsyncSocket::recv(void* buffer, size_t size)
 {
-    ssize_t rSize = 0;
+    long rSize = 0;
     while (size > 0) {
         if (!waitForData())
             return -1;
@@ -293,14 +379,14 @@ ssize_t pnAsyncSocket::recv(void* buffer, size_t size)
     return rSize;
 }
 
-ssize_t pnAsyncSocket::peek(void* buffer, size_t size)
+long pnAsyncSocket::peek(void* buffer, size_t size)
 {
     if (!waitForData())
         return -1;
 
     fAsyncIO.fSockMutex.lock();
     std::list<_async::_datum>::iterator it = fAsyncIO.fRecvQueue.begin();
-    ssize_t rSize = 0;
+    long rSize = 0;
     size_t readPos = fAsyncIO.fReadPos;
     while (size > 0 && it != fAsyncIO.fRecvQueue.end()) {
         _async::_datum msg = *it;
@@ -319,5 +405,32 @@ ssize_t pnAsyncSocket::peek(void* buffer, size_t size)
         rSize += cpySize;
     }
     fAsyncIO.fSockMutex.unlock();
-    return (ssize_t)rSize;
+    return rSize;
+}
+
+void pnAsyncSocket::flush()
+{
+    fAsyncIO.flush();
+}
+
+bool pnAsyncSocket::readAvailable() const
+{
+    return (!fAsyncIO.fRecvQueue.empty());
+}
+
+bool pnAsyncSocket::waitForData()
+{
+    while (isConnected() && !readAvailable())
+        hsThread::YieldThread();
+    return isConnected();
+}
+
+bool pnAsyncSocket::isConnected() const
+{
+    return !fAsyncIO.isFinished();
+}
+
+void pnAsyncSocket::close(bool force)
+{
+    fAsyncIO.fSock->close(force);
 }
