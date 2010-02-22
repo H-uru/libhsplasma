@@ -30,8 +30,8 @@ static PyObject* pySceneNode_Convert(PyObject*, PyObject* args) {
 }
 
 static PyObject* pySceneNode_clear(pySceneNode* self) {
-    self->fThis->getSceneObjects().clear();
-    self->fThis->getPoolObjects().clear();
+    self->fThis->clearSceneObjects();
+    self->fThis->clearPoolObjects();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -46,7 +46,7 @@ static PyObject* pySceneNode_addSceneObject(pySceneNode* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addSceneObject expects a plKey");
         return NULL;
     }
-    self->fThis->getSceneObjects().append(*key->fThis);
+    self->fThis->addSceneObject(*key->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -61,7 +61,7 @@ static PyObject* pySceneNode_addPoolObject(pySceneNode* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addPoolObject expects a plKey");
         return NULL;
     }
-    self->fThis->getPoolObjects().append(*key->fThis);
+    self->fThis->addPoolObject(*key->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }

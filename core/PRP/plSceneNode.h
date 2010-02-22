@@ -25,9 +25,17 @@ protected:
 
 public:
     size_t getNumSceneObjects() const;
-    size_t getNumPoolObjects() const;
     plKey getSceneObject(size_t idx) const;
+    void addSceneObject(plKey obj);
+    void delSceneObject(size_t idx);
+    void clearSceneObjects();
+
+    size_t getNumPoolObjects() const;
     plKey getPoolObject(size_t idx) const;
+    void addPoolObject(plKey obj);
+    void delPoolObject(size_t idx);
+    void clearPoolObjects();
+
     hsTArray<plKey>& getSceneObjects();
     hsTArray<plKey>& getPoolObjects();
 };
