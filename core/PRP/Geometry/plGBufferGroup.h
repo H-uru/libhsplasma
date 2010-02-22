@@ -119,6 +119,8 @@ public:
     
     const unsigned char* getVertBufferStorage(size_t idx) const;
     const unsigned short* getIdxBufferStorage(size_t idx) const;
+    unsigned char* getMutableVertBuffer(size_t idx);
+    unsigned short* getMutableIdxBuffer(size_t idx);
     size_t getVertBufferSize(size_t idx) const;
     size_t getIdxBufferCount(size_t idx) const;
     unsigned int getStride() const;

@@ -625,11 +625,19 @@ const unsigned char* plGBufferGroup::getVertBufferStorage(size_t idx) const {
     return fVertBuffStorage[idx];
 }
 
+unsigned char* plGBufferGroup::getMutableVertBuffer(size_t idx) {
+    return fVertBuffStorage[idx];
+}
+
 size_t plGBufferGroup::getVertBufferSize(size_t idx) const {
     return fVertBuffSizes[idx];
 }
 
 const unsigned short* plGBufferGroup::getIdxBufferStorage(size_t idx) const {
+    return fIdxBuffStorage[idx];
+}
+
+unsigned short* plGBufferGroup::getMutableIdxBuffer(size_t idx) {
     return fIdxBuffStorage[idx];
 }
 
