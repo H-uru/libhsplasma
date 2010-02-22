@@ -38,7 +38,7 @@ DllExport size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
 #define MAKE_NETMSG(name) \
     static pnNetMsg name = { \
         k##name, #name, \
-        (sizeof(name##_Fields) / sizeof(pnNetMsgField)) \
+        (sizeof(name##_Fields) / sizeof(pnNetMsgField)), \
         name##_Fields \
     };
 

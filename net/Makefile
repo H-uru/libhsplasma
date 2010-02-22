@@ -9,7 +9,9 @@ PLSOBJ=\
 	$(OBJDIR)pnSocket.o \
 	$(OBJDIR)pnBigInteger.o \
 	$(OBJDIR)pnRC4.o \
-	$(OBJDIR)pnSha1.o
+	$(OBJDIR)pnSha1.o \
+	$(OBJDIR)AuthMessages.o \
+	$(OBJDIR)pnVaultNode.o
 
 PLSLIB=libPlasmaNet.so
 LIBDIR=../lib
@@ -47,3 +49,9 @@ $(OBJDIR)pnRC4.o: crypt/pnRC4.h crypt/pnRC4.cpp
 
 $(OBJDIR)pnSha1.o: crypt/pnSha1.h crypt/pnSha1.cpp
 	$(CXX) $(CXXFLAGS) -c crypt/pnSha1.cpp -o $@
+
+$(OBJDIR)AuthMessages.o: auth/AuthMessages.h auth/AuthMessages.cpp
+	$(CXX) $(CXXFLAGS) -c auth/AuthMessages.cpp -o $@
+
+$(OBJDIR)pnVaultNode.o: auth/pnVaultNode.h auth/pnVaultNode.cpp
+	$(CXX) $(CXXFLAGS) -c auth/pnVaultNode.cpp -o $@

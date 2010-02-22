@@ -2,8 +2,8 @@
 #define _PLVAULTNODE_H
 
 #include "plServerGuid.h"
-#include "../Sys/plUnifiedTime.h"
-#include "../Util/hsBitVector.h"
+#include "Sys/plUnifiedTime.h"
+#include "Util/hsBitVector.h"
 
 namespace plVault {
     enum NodeTypes {
@@ -193,7 +193,6 @@ public:
     class plVaultGameServerNode* upcastToGameServerNode() const;
     class plVaultAdminNode* upcastToAdminNode() const;
     class plVaultServerNode* upcastToServerNode() const;
-    //class plVaultCCRNode* upcastToCCRNode() const;
     class plVaultFolderNode* upcastToFolderNode() const;
     class plVaultPlayerInfoNode* upcastToPlayerInfoNode() const;
     class plVaultSystemNode* upcastToSystemNode() const;
