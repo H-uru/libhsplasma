@@ -379,6 +379,8 @@ ENetError pnAuthClient::performConnect(pnSocket* sock)
         plDebug::Error("Got junk response from server");
         return kNetErrConnectFailed;
     }
+    fDispatch = new Dispatch(fSock, this);
+    fDispatch->start();
     return kNetSuccess;
 }
 
