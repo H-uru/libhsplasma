@@ -239,13 +239,12 @@ void pnAuthClient::Dispatch::run()
         //case kAuth2Cli_ScoreGetRanksReply:
         case kAuth2Cli_PropagateBuffer:
             {
-                plCreatable* pCre = plFactory::Create(msgbuf[0].fUint);
+                hsRAMStream rs(pvLive);
+                rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
+                fReceiver->fResMgrMutex.lock();
+                plCreatable* pCre = fReceiver->fResMgr.ReadCreatable(&rs, true, msgbuf[1].fUint);
+                fReceiver->fResMgrMutex.unlock();
                 if (pCre != NULL) {
-                    hsRAMStream rs(pvLive);
-                    rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
-                    fReceiver->fResMgrMutex.lock();
-                    pCre->read(&rs, &fReceiver->fResMgr);
-                    fReceiver->fResMgrMutex.unlock();
                     fReceiver->onPropagateMessage(pCre);
                     delete pCre;
                 } else {
@@ -384,6 +383,9 @@ ENetError pnAuthClient::performConnect(pnSocket* sock)
     fDispatch->start();
     return kNetSuccess;
 }
+
+bool pnAuthClient::isConnected() const
+{ return fSock->isConnected(); }
 
 hsUint32 pnAuthClient::nextTransId()
 {
@@ -978,7 +980,7 @@ void pnAuthClient::propagateMessage(plCreatable* pCre)
     msg[0].fUint = pCre->ClassIndex();
     hsRAMStream rs(pvLive);
     fResMgrMutex.lock();
-    pCre->write(&rs, &fResMgr);
+    fResMgr.WriteCreatable(&rs, pCre);
     fResMgrMutex.unlock();
     msg[1].fUint = rs.size();
     msg[2].fData = new hsUbyte[msg[1].fUint];

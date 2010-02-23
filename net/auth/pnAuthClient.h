@@ -25,6 +25,7 @@ public:
                        const plUuid& productId);
     ENetError connect(const char* host, short port = 14617);
     ENetError connect(int sockFd);
+    bool isConnected() const;
 
     /* Outgoing Protocol */
     hsUint32 sendPingRequest(hsUint32 pingTimeMs);

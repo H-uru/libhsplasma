@@ -10,7 +10,6 @@ plNetMessage::~plNetMessage() { }
 IMPLEMENT_CREATABLE(plNetMessage, kNetMessage, plCreatable)
 
 void plNetMessage::read(hsStream* S, plResManager* mgr) {
-    S->readShort(); // Should be the ClassIndex
     fFlags = S->readInt();
 
     if ((fFlags & kHasVersion) != 0) {
@@ -32,7 +31,6 @@ void plNetMessage::read(hsStream* S, plResManager* mgr) {
 }
 
 void plNetMessage::write(hsStream* S, plResManager* mgr) {
-    S->writeShort(ClassIndex());
     S->writeInt(fFlags);
 
     if ((fFlags & kHasVersion) != 0) {
