@@ -254,6 +254,7 @@ void pnAuthClient::Dispatch::run()
             }
             break;
         }
+        NCFreeMessage(msgbuf, msgDesc);
     } /* while connected */
 }
 

@@ -20,7 +20,7 @@ struct hsMutex_POSIX {
     pthread_t fOwner;
     bool fLocked;
 
-    hsMutex_POSIX() {
+    hsMutex_POSIX() : fLocked(false) {
         pthread_mutex_init(&fMutex, NULL);
     }
 
