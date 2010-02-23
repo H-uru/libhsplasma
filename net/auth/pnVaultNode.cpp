@@ -72,7 +72,7 @@ void pnVaultNode::setModifyNow() {
     setModifyTime((hsUint32)time(NULL));
 }
 
-size_t pnVaultNode::calcSize() {
+size_t pnVaultNode::calcSize() const {
     size_t size = sizeof(hsUint64); // Field Mask
 
     hsUint64 bit = 1;
@@ -406,7 +406,7 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
         plDebug::Warning("Incomplete read of node %d", fNodeIdx);
 }
 
-void pnVaultNode::write(unsigned char* buffer, size_t size) {
+void pnVaultNode::write(unsigned char* buffer, size_t size) const {
     if (size < sizeof(hsUint64)) {
         plDebug::Error("Invalid node buffer");
         return;
@@ -863,4 +863,22 @@ void pnVaultNode::setBlob(size_t which, const plVaultBlob& value)
 {
     fBlob[which] = value;
     fFieldMask |= (hsUint64)(kBlob_1 << which);
+}
+
+
+/* pnVaultNodeRef */
+void pnVaultNodeRef::read(const unsigned char* buffer)
+{
+    fParent = *(hsUint32*)(buffer     );
+    fChild  = *(hsUint32*)(buffer +  4);
+    fOwner  = *(hsUint32*)(buffer +  8);
+    fSeen   = *(hsUbyte* )(buffer + 12);
+}
+
+void pnVaultNodeRef::write(const unsigned char* buffer)
+{
+    *(hsUint32*)(buffer     ) = fParent;
+    *(hsUint32*)(buffer +  4) = fChild;
+    *(hsUint32*)(buffer +  8) = fOwner;
+    *(hsUbyte* )(buffer + 12) = fSeen;
 }

@@ -1,0 +1,190 @@
+#ifndef _PNAUTHCLIENT_H
+#define _PNAUTHCLIENT_H
+
+#include "PlasmaDefs.h"
+#include "Sys/hsThread.h"
+#include "Sys/plUuid.h"
+#include "PRP/plCreatable.h"
+#include "Protocol.h"
+#include "pnNetMsg.h"
+#include "pnVaultNode.h"
+#include "crypt/pnRC4.h"
+
+DllStruct pnAuthFileItem {
+    plString fFilename;
+    hsUint32 fFileSize;
+};
+
+DllClass pnAuthClient {
+public:
+    pnAuthClient();
+    virtual ~pnAuthClient();
+
+    void setKeys(const unsigned char* keyX, const unsigned char* keyN);
+    void setClientInfo(hsUint32 buildId, hsUint32 buildType, hsUint32 branchId,
+                       const plUuid& productId);
+    ENetError connect(const char* host, short port = 14617);
+    ENetError connect(int sockFd);
+
+    /* Outgoing Protocol */
+    hsUint32 sendPingRequest(hsUint32 pingTimeMs);
+    void sendClientRegisterRequest();
+    void sendClientSetCCRLevel(hsUint32 level);
+    hsUint32 sendAcctLoginRequest(hsUint32 serverChallenge, hsUint32 clientChallenge,
+                const plString& acctName, const plString& password,
+                const plString& authToken = "", const plString& os = "win");
+    hsUint32 sendAcctSetPlayerRequest(hsUint32 playerId);
+    hsUint32 sendAcctCreateRequest(const plString& acctName,
+                const plString& password, hsUint32 acctFlags,
+                hsUint32 billingType);
+    hsUint32 sendAcctChangePasswordRequest(const plString& acctName,
+                const plString& password);
+    hsUint32 sendAcctSetRolesRequest(const plString& acctName, hsUint32 acctFlags);
+    hsUint32 sendAcctSetBillingTypeRequest(const plString& acctName, hsUint32 billingType);
+    hsUint32 sendAcctActivateRequest(const plUuid& activationKey);
+    hsUint32 sendAcctCreateFromKeyRequest(const plString& acctName,
+                const plString& password, const plUuid& key, hsUint32 billingType);
+    hsUint32 sendPlayerDeleteRequest(hsUint32 playerId);
+    hsUint32 sendPlayerCreateRequest(const plString& playerName,
+                const plString& playerShape, const plString& friendInvite);
+    hsUint32 sendUpgradeVisitorRequest(hsUint32 playerId);
+    hsUint32 sendSetPlayerBanStatusRequest(hsUint32 playerId, hsUint32 banned);
+    void sendKickPlayer(hsUint32 playerId);
+    hsUint32 sendChangePlayerNameRequest(hsUint32 playerId, const plString& name);
+    hsUint32 sendFriendInviteRequest(const plUuid& invite, const plString& email,
+                const plString& sendTo);
+    hsUint32 sendVaultNodeCreate(const pnVaultNode& node);
+    hsUint32 sendVaultNodeFetch(hsUint32 nodeId);
+    hsUint32 sendVaultNodeSave(hsUint32 nodeId, const plUuid& revisionId,
+                const pnVaultNode& node);
+    hsUint32 sendVaultNodeAdd(hsUint32 parent, hsUint32 child, hsUint32 owner = 0);
+    hsUint32 sendVaultNodeRemove(hsUint32 parent, hsUint32 child);
+    hsUint32 sendVaultFetchNodeRefs(hsUint32 nodeId);
+    hsUint32 sendVaultInitAgeRequest(const plUuid& ageUuid, const plString& filename,
+                const plString& instanceName, const plString& userDefinedName,
+                const plString& description, hsUint32 sequence, hsUint32 language,
+                const plUuid& parentUuid = plUuid());
+    hsUint32 sendVaultNodeFind(const pnVaultNode& templateNode);
+    void sendVaultSetSeen(hsUint32 parent, hsUint32 child, hsUbyte seen);
+    void sendVaultSendNode(hsUint32 nodeId, hsUint32 playerId);
+    hsUint32 sendAgeRequest(const plString& ageName, const plUuid& ageUuid);
+    hsUint32 sendFileListRequest(const plString& directory, const plString& ext);
+    hsUint32 sendFileDownloadRequest(const plString& filename);
+    void sendFileDownloadChunkAck(hsUint32 transId);
+    hsUint32 sendGetPublicAgeList(const plString& filename);
+    void sendSetAgePublic(hsUint32 ageInfoId, hsUbyte isPublic);
+    void sendLogPythonTraceback(const plString& traceback);
+    void sendLogStackDump(const plString& stackdump);
+    void sendLogClientDebuggerConnect();
+    hsUint32 sendScoreCreate(hsUint32 owner, const plString& gameName,
+                hsUint32 gameType, hsUint32 scoreValue);
+    hsUint32 sendScoreDelete(hsUint32 scoreId);
+    hsUint32 sendScoreGetScores(hsUint32 owner, const plString& gameName);
+    hsUint32 sendScoreAddPoints(hsUint32 scoreId, hsUint32 points);
+    hsUint32 sendScoreTransferPoints(hsUint32 source, hsUint32 dest, hsUint32 points);
+    hsUint32 sendScoreSetPoints(hsUint32 scoreId, hsUint32 points);
+    hsUint32 sendScoreGetRanks(hsUint32 ownerId, hsUint32 group, hsUint32 parent,
+                const plString& gameName, hsUint32 timePeriod, hsUint32 numResults,
+                hsUint32 pageNumber, hsUint32 sortDesc);
+    void propagateMessage(plCreatable* msg);
+
+    /* Incoming Protocol - To be implemented by subclasses */
+    virtual void onPingReply(hsUint32 transId, hsUint32 pingTimeMs);
+    virtual void onServerAddr(hsUint32 address, const plUuid& token);
+    virtual void onNotifyNewBuild(hsUint32 buildId);
+    virtual void onClientRegisterReply(hsUint32 serverChallenge);
+    virtual void onAcctLoginReply(hsUint32 transId, ENetError result,
+                    const plUuid& acctUuid, hsUint32 acctFlags,
+                    hsUint32 billingType, const hsUint32* encryptionKey);
+    virtual void onAcctPlayerInfo(hsUint32 transId, hsUint32 playerId,
+                    const plString& playerName, const plString& avatarModel,
+                    hsUint32 explorer);
+    virtual void onAcctSetPlayerReply(hsUint32 transId, ENetError result);
+    virtual void onAcctCreateReply(hsUint32 transId, ENetError result,
+                    const plUuid& accountUuid);
+    virtual void onAcctChangePasswordReply(hsUint32 transId, ENetError result);
+    virtual void onAcctSetRolesReply(hsUint32 transId, ENetError result);
+    virtual void onAcctSetBillingTypeReply(hsUint32 transId, ENetError result);
+    virtual void onAcctActivateReply(hsUint32 transId, ENetError result);
+    virtual void onAcctCreateFromKeyReply(hsUint32 transId, ENetError result,
+                    const plUuid& acctUuid, const plUuid& activationKey);
+    virtual void onPlayerCreateReply(hsUint32 transId, ENetError result,
+                    hsUint32 playerId, hsUint32 explorer,
+                    const plString& playerName, const plString& avatarShape);
+    virtual void onPlayerDeleteReply(hsUint32 transId, ENetError result);
+    virtual void onUpgradeVisitorReply(hsUint32 transId, ENetError result);
+    virtual void onSetPlayerBanStatusReply(hsUint32 transId, ENetError result);
+    virtual void onChangePlayerNameReply(hsUint32 transId, ENetError result);
+    virtual void onSendFriendInviteReply(hsUint32 transId, ENetError result);
+    virtual void onVaultNodeCreated(hsUint32 transId, ENetError result,
+                    hsUint32 nodeId);
+    virtual void onVaultNodeFetched(hsUint32 transId, ENetError result,
+                    const pnVaultNode& node);
+    virtual void onVaultNodeChanged(hsUint32 nodeId, const plUuid& revisionId);
+    virtual void onVaultNodeDeleted(hsUint32 nodeId);
+    virtual void onVaultNodeAdded(hsUint32 parent, hsUint32 child, hsUint32 owner);
+    virtual void onVaultNodeRemoved(hsUint32 parent, hsUint32 child);
+    virtual void onVaultNodeRefsFetched(hsUint32 transId, ENetError result,
+                    size_t count, const pnVaultNodeRef* refs);
+    virtual void onVaultInitAgeReply(hsUint32 transId, ENetError result,
+                    hsUint32 ageId, hsUint32 ageInfoId);
+    virtual void onVaultNodeFindReply(hsUint32 transId, ENetError result,
+                    size_t count, const hsUint32* nodes);
+    virtual void onVaultSaveNodeReply(hsUint32 transId, ENetError result);
+    virtual void onVaultAddNodeReply(hsUint32 transId, ENetError result);
+    virtual void onVaultRemoveNodeReply(hsUint32 transId, ENetError result);
+    virtual void onAgeReply(hsUint32 transId, ENetError result, hsUint32 mcpId,
+                    const plUuid& ageInstanceId, hsUint32 ageVaultId,
+                    hsUint32 gameServerAddress);
+    virtual void onFileListReply(hsUint32 transId, ENetError result,
+                    size_t count, const pnAuthFileItem* files);
+    virtual void onFileDownloadChunk(hsUint32 transId, ENetError result,
+                    hsUint32 totalSize, hsUint32 chunkOffset, size_t chunkSize,
+                    const unsigned char* chunkData);
+    virtual void onKickedOff(hsUint32 reason);
+    virtual void onPublicAgeList(hsUint32 transId, ENetError result,
+                    size_t count, const pnNetAgeInfo* ages);
+    virtual void onScoreCreateReply(hsUint32 transId, ENetError result,
+                    hsUint32 scoreId, hsUint32 createdTime);
+    virtual void onScoreDeleteReply(hsUint32 transId, ENetError result);
+    //virtual void onScoreGetScoresReply(hsUint32 transId, ENetError result,
+    //                size_t count, const pnNetGameScore* scores);
+    virtual void onScoreAddPointsReply(hsUint32 transId, ENetError result);
+    virtual void onScoreTransferPointsReply(hsUint32 transId, ENetError result);
+    virtual void onScoreSetPointsReply(hsUint32 transId, ENetError result);
+    //virtual void onScoreGetRanksReply(hsUint32 transId, ENetError result,
+    //                size_t count, const ???* ranks);
+    virtual void onPropagateMessage(plCreatable* msg);
+
+protected:
+    hsUint32 nextTransId();
+
+    pnRC4Socket* fSock;
+    plResManager fResMgr;
+    hsMutex fResMgrMutex;
+
+    hsUint32 fBuildId, fBuildType, fBranchId;
+    plUuid fProductId;
+
+private:
+    hsUint32 fLastTransId;
+    hsMutex fTransMutex;
+    unsigned char fKeyX[64];
+    unsigned char fKeyN[64];
+
+    class Dispatch : public hsThread {
+    public:
+        Dispatch(pnRC4Socket* sock, pnAuthClient* self);
+        virtual ~Dispatch();
+
+    private:
+        virtual void run();
+
+        pnAuthClient* fReceiver;
+        pnRC4Socket* fSock;
+    } *fDispatch;
+
+    ENetError performConnect(pnSocket* sock);
+};
+
+#endif

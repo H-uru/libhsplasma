@@ -749,14 +749,6 @@ plVaultServerNode* plVaultNode::upcastToServerNode() const {
          : NULL;
 }
 
-/*
-plVaultCCRNode* plVaultNode::upcastToCCRNode() const {
-    return (fNodeType == plVault::kNodeCCR)
-         ? (plVaultCCRNode*)this
-         : NULL;
-}
-*/
-
 plVaultFolderNode* plVaultNode::upcastToFolderNode() const {
     return (fNodeType == plVault::kNodeFolder||
             fNodeType == plVault::kNodePlayerInfoList ||

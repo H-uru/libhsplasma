@@ -32,7 +32,7 @@ MAKE_NETMSG(Cli2Auth_AcctLoginRequest)
 
 static pnNetMsgField Cli2Auth_AcctSetPlayerRequest_Fields[] = {
     { kFieldInteger,    0, sizeof(hsUint32) },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsInt32)  },  // Player ID
+    { kFieldInteger,    0, sizeof(hsUint32) },  // Player ID
 };
 MAKE_NETMSG(Cli2Auth_AcctSetPlayerRequest)
 
@@ -259,7 +259,7 @@ static pnNetMsgField Cli2Auth_LogStackDump_Fields[] = {
 MAKE_NETMSG(Cli2Auth_LogStackDump)
 
 static pnNetMsgField Cli2Auth_LogClientDebuggerConnect_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Message ID
+    { kFieldInteger,    0, sizeof(hsUint32) },  // Unused
 };
 MAKE_NETMSG(Cli2Auth_LogClientDebuggerConnect)
 
@@ -572,10 +572,10 @@ static pnNetMsgField Auth2Cli_KickedOff_Fields[] = {
 MAKE_NETMSG(Auth2Cli_KickedOff)
 
 static pnNetMsgField Auth2Cli_PublicAgeList_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Result
-    { kFieldVarCount,   0, 0x9A0            },  // Ages (NetAgeInfo)
-    { kFieldVarPtr,     0, 0                },
+    { kFieldInteger,    0, sizeof(hsUint32)     },  // Trans ID
+    { kFieldInteger,    0, sizeof(hsUint32)     },  // Result
+    { kFieldVarCount,   0, pnNetAgeInfo::Stride },  // Ages (NetAgeInfo)
+    { kFieldVarPtr,     0, 0                    },
 };
 MAKE_NETMSG(Auth2Cli_PublicAgeList)
 
@@ -715,7 +715,7 @@ const pnNetMsg* GET_Auth2Cli(hsUint32 msgId)
         &Auth2Cli_SetPlayerBanStatusReply,
         &Auth2Cli_ChangePlayerNameReply,
         &Auth2Cli_SendFriendInviteReply,
-        NULL /* kAuth2Cli_Unknown_22 */,
+        NULL /* kAuth2Cli_FriendNotify */,
         &Auth2Cli_VaultNodeCreated,
         &Auth2Cli_VaultNodeFetched,
         &Auth2Cli_VaultNodeChanged,

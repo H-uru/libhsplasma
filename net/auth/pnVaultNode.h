@@ -69,9 +69,9 @@ public:
     void setTimeNow();
     void setModifyNow();
 
-    size_t calcSize();
+    size_t calcSize() const;
     void read(const unsigned char* buffer, size_t size);
-    void write(unsigned char* buffer, size_t size);
+    void write(unsigned char* buffer, size_t size) const;
 
     hsInt32 getNodeIdx() const;
     hsUint32 getCreateTime() const;

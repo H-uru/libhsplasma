@@ -39,7 +39,7 @@ enum {  /* Server -> Client */
     kAuth2Cli_PlayerList, kAuth2Cli_PlayerChat, kAuth2Cli_PlayerCreateReply,
     kAuth2Cli_PlayerDeleteReply, kAuth2Cli_UpgradeVisitorReply,
     kAuth2Cli_SetPlayerBanStatusReply, kAuth2Cli_ChangePlayerNameReply,
-    kAuth2Cli_SendFriendInviteReply, kAuth2Cli_Unknown_22,
+    kAuth2Cli_SendFriendInviteReply, kAuth2Cli_FriendNotify,
     kAuth2Cli_VaultNodeCreated, kAuth2Cli_VaultNodeFetched,
     kAuth2Cli_VaultNodeChanged, kAuth2Cli_VaultNodeDeleted,
     kAuth2Cli_VaultNodeAdded, kAuth2Cli_VaultNodeRemoved,
@@ -54,5 +54,5 @@ enum {  /* Server -> Client */
     kAuth2Cli_ScoreGetRanksReply, kAuth2Cli_LastMessage,
 };
 
-DllExport const pnNetMsg* GET_Cli2Auth(size_t msgId);
-DllExport const pnNetMsg* GET_Auth2Cli(size_t msgId);
+DllExport const pnNetMsg* GET_Cli2Auth(hsUint32 msgId);
+DllExport const pnNetMsg* GET_Auth2Cli(hsUint32 msgId);

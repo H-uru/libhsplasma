@@ -3,6 +3,7 @@
 
 #include "PlasmaDefs.h"
 #include "Util/plString.h"
+#include "Sys/plUuid.h"
 #include <cstdlib>
 
 enum ENetMsgFieldType {
@@ -25,7 +26,6 @@ DllStruct pnNetMsg {
 typedef unsigned short NCchar_t;
 
 typedef union {
-    hsInt32 fInt;
     hsUint32 fUint;
     NCchar_t* fString;
     hsUbyte* fData;
@@ -46,5 +46,20 @@ DllExport size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
 DllExport size_t NCstrlen(const NCchar_t* str);
 DllExport plString NCstrToString(const NCchar_t* str);
 DllExport NCchar_t* StringToNCstr(const plString& str);
+DllExport void NCstrlower(NCchar_t* str);
+
+/* Other stuff that doesn't really belong anywhere else */
+DllStruct pnNetAgeInfo {
+    enum { Stride = 0x9A0 };
+
+    plUuid fAgeInstanceId;
+    plString fAgeFilename, fAgeInstanceName, fAgeUserName, fDescription;
+    hsUint32 fSequenceNumber, fLanguage, fPopulation, fCurrPopulation;
+
+    void read(const unsigned char* buffer);
+    void write(unsigned char* buffer);
+};
+
+DllExport plUuid NCGetUuid(const msgparm_t& field);
 
 #endif

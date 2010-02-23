@@ -116,7 +116,9 @@ public:
     void clearVertices();
     void clearIndices();
     void clearCells();
-    
+
+    size_t getNumVertBuffers() const;
+    size_t getNumIdxBuffers() const;
     const unsigned char* getVertBufferStorage(size_t idx) const;
     const unsigned short* getIdxBufferStorage(size_t idx) const;
     unsigned char* getMutableVertBuffer(size_t idx);

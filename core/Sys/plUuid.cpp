@@ -49,11 +49,25 @@ void plUuid::read(hsStream* S) {
     S->read(8, fData4);
 }
 
+void plUuid::read(const unsigned char* buffer) {
+    fData1 = *(unsigned int*  )(buffer    );
+    fData2 = *(unsigned short*)(buffer + 4);
+    fData3 = *(unsigned short*)(buffer + 6);
+    memcpy(fData4, buffer + 8, 8);
+}
+
 void plUuid::write(hsStream* S) {
     S->writeInt(fData1);
     S->writeShort(fData2);
     S->writeShort(fData3);
     S->write(8, fData4);
+}
+
+void plUuid::write(unsigned char* buffer) const {
+    *(unsigned int*  )(buffer    ) = fData1;
+    *(unsigned short*)(buffer + 4) = fData2;
+    *(unsigned short*)(buffer + 6) = fData3;
+    memcpy(buffer + 8, fData4, 8);
 }
 
 void plUuid::prcWrite(pfPrcHelper* prc) {

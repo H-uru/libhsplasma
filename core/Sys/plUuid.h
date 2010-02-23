@@ -22,7 +22,9 @@ public:
     bool operator!=(const plUuid& other) const;
 
     void read(hsStream* S);
+    void read(const unsigned char* buffer);
     void write(hsStream* S);
+    void write(unsigned char* buffer) const;
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 

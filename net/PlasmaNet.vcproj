@@ -365,6 +365,34 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="auth"
+			>
+			<File
+				RelativePath=".\auth\AuthMessages.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\auth\AuthMessages.h"
+				>
+			</File>
+			<File
+				RelativePath=".\auth\pnAuthClient.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\auth\pnAuthClient.h"
+				>
+			</File>
+			<File
+				RelativePath=".\auth\pnVaultNode.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\auth\pnVaultNode.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\pnNetMsg.cpp"
 			>
@@ -379,6 +407,10 @@
 		</File>
 		<File
 			RelativePath=".\pnSocket.h"
+			>
+		</File>
+		<File
+			RelativePath=".\Protocol.h"
 			>
 		</File>
 	</Files>

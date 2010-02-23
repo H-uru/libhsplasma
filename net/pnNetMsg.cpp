@@ -227,3 +227,129 @@ NCchar_t* StringToNCstr(const plString& str)
     *p = 0;
     return buf;
 }
+
+void NCstrlower(NCchar_t* str)
+{
+    while (*str++ != 0) {
+        if (*str >= (NCchar_t)'A' && *str <= (NCchar_t)'Z')
+            *str += (NCchar_t)('a' - 'A');
+    }
+}
+
+plUuid NCGetUuid(const msgparm_t& field)
+{
+    plUuid uuid;
+    uuid.read(field.fData);
+    return uuid;
+}
+
+void pnNetAgeInfo::read(const unsigned char* buffer)
+{
+    fAgeInstanceId.read(buffer);
+    buffer += 16;
+
+    fAgeFilename = NCstrToString((const NCchar_t*)buffer);
+    buffer += 64 * sizeof(NCchar_t);
+
+    fAgeInstanceName = NCstrToString((const NCchar_t*)buffer);
+    buffer += 64 * sizeof(NCchar_t);
+
+    fAgeUserName = NCstrToString((const NCchar_t*)buffer);
+    buffer += 64 * sizeof(NCchar_t);
+
+    fDescription = NCstrToString((const NCchar_t*)buffer);
+    buffer += 1024 * sizeof(NCchar_t);
+
+    fSequenceNumber = *(hsUint32*)buffer;
+    buffer += sizeof(hsUint32);
+
+    fLanguage = *(hsUint32*)buffer;
+    buffer += sizeof(hsUint32);
+
+    fPopulation = *(hsUint32*)buffer;
+    buffer += sizeof(hsUint32);
+
+    fCurrPopulation = *(hsUint32*)buffer;
+    buffer += sizeof(hsUint32);
+}
+
+void pnNetAgeInfo::write(unsigned char* buffer)
+{
+    NCchar_t* strbuf;
+    size_t length;
+
+    fAgeInstanceId.write(buffer);
+    buffer += 16;
+
+    strbuf = StringToNCstr(fAgeFilename);
+    length = NCstrlen(strbuf);
+    memcpy(buffer, strbuf, (length >= 64 ? 63 : length) * sizeof(NCchar_t));
+    buffer[63 * sizeof(NCchar_t)] = 0;
+    buffer += 64 * sizeof(NCchar_t);
+    delete[] strbuf;
+
+    strbuf = StringToNCstr(fAgeInstanceName);
+    length = NCstrlen(strbuf);
+    memcpy(buffer, strbuf, (length >= 64 ? 63 : length) * sizeof(NCchar_t));
+    buffer[63 * sizeof(NCchar_t)] = 0;
+    buffer += 64 * sizeof(NCchar_t);
+    delete[] strbuf;
+
+    strbuf = StringToNCstr(fAgeUserName);
+    length = NCstrlen(strbuf);
+    memcpy(buffer, strbuf, (length >= 64 ? 63 : length) * sizeof(NCchar_t));
+    buffer[63 * sizeof(NCchar_t)] = 0;
+    buffer += 64 * sizeof(NCchar_t);
+    delete[] strbuf;
+
+    strbuf = StringToNCstr(fDescription);
+    length = NCstrlen(strbuf);
+    memcpy(buffer, strbuf, (length >= 1024 ? 1023 : length) * sizeof(NCchar_t));
+    buffer[1023 * sizeof(NCchar_t)] = 0;
+    buffer += 1024 * sizeof(NCchar_t);
+    delete[] strbuf;
+
+    *(hsUint32*)buffer = fSequenceNumber;
+    buffer += sizeof(hsUint32);
+
+    *(hsUint32*)buffer = fLanguage;
+    buffer += sizeof(hsUint32);
+
+    *(hsUint32*)buffer = fPopulation;
+    buffer += sizeof(hsUint32);
+
+    *(hsUint32*)buffer = fCurrPopulation;
+    buffer += sizeof(hsUint32);
+}
+
+
+#include "Protocol.h"
+const char* GetNetErrorString(int errcode)
+{
+    static const char* s_errText[] = {
+        "Success", "Internal Error", "Timeout", "Bad Server Data",
+        "Age Not Found", "Connect Failed", "Disconnected", "File Not Found",
+        "Old Build ID", "Remote Shutdown", "ODBC Timeout",
+        "Account Already Exists", "Player Already Exists", "Account Not Found",
+        "Player Not Found", "Invalid Parameter", "Name Lookup Failed",
+        "Logged In Elsewhere", "Vault Node Not Found", "Max Players On Account",
+        "Authentication Failed", "State Object Not Found", "Login Denied",
+        "Circular Reference", "Account Not Activated", "Key Already Used",
+        "Key Not Found", "Activation Code Not Found", "Player Name Invalid",
+        "Not Supported", "Service Forbidden", "Auth Token Too Old",
+        "Must Use GameTap Client", "Too Many Failed Logins",
+        "GameTap Connection Failed", "GameTap: Too Many Auth Options",
+        "GameTap: Missing Parameter", "GameTap: Server Error", "Account Banned",
+        "Kicked By CCR", "Wrong Score Type", "Score: Not Enough Points",
+        "Score Already Exists", "No Score Data Found",
+        "Invite: No Matching Player", "Invite: Too Many Hoods", "Need To Pay",
+        "Server Busy",
+    };
+
+    if (errcode < 0)
+        return "Pending";
+    else if (errcode < kNumNetErrors)
+        return s_errText[errcode];
+    else
+        return "Invalid error code";
+}

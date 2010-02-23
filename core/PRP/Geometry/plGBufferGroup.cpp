@@ -621,6 +621,14 @@ void plGBufferGroup::clearCells() {
     fCells.clear();
 }
 
+size_t plGBufferGroup::getNumVertBuffers() const {
+    return fVertBuffStorage.getSize();
+}
+
+size_t plGBufferGroup::getNumIdxBuffers() const {
+    return fIdxBuffStorage.getSize();
+}
+
 const unsigned char* plGBufferGroup::getVertBufferStorage(size_t idx) const {
     return fVertBuffStorage[idx];
 }

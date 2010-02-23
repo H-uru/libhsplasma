@@ -17,7 +17,7 @@ private:
 
 public:
     hsThread();
-    ~hsThread();
+    virtual ~hsThread();
 
     void start();
     void wait();

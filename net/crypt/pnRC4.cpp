@@ -5,7 +5,6 @@ pnRC4Socket::pnRC4Socket(pnSocket* sock)
            : pnAsyncSocket(sock), fEncrypted(false)
 { }
 
-
 void pnRC4Socket::init(size_t keySize, const unsigned char* keyData)
 {
     if (keyData != NULL) {
@@ -16,7 +15,6 @@ void pnRC4Socket::init(size_t keySize, const unsigned char* keyData)
         fEncrypted = false;
     }
 }
-
 
 long pnRC4Socket::send(const void* buf, size_t size)
 {
