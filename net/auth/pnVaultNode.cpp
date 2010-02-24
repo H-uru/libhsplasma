@@ -78,9 +78,6 @@ size_t pnVaultNode::calcSize() const {
     hsUint64 bit = 1;
     while (bit != 0 && bit <= fFieldMask) {
         switch (fFieldMask & bit) {
-        case kNodeIdx:
-        case kCreatorIdx:
-        case kNodeType:
         case kInt32_1:
         case kInt32_2:
         case kInt32_3:
@@ -89,6 +86,9 @@ size_t pnVaultNode::calcSize() const {
             break;
         case kCreateTime:
         case kModifyTime:
+        case kNodeIdx:
+        case kCreatorIdx:
+        case kNodeType:
         case kUint32_1:
         case kUint32_2:
         case kUint32_3:
@@ -161,9 +161,9 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
     while (bit != 0 && bit <= fFieldMask && ((int)size) > 0) {
         switch (fFieldMask & bit) {
         case kNodeIdx:
-            fNodeIdx = *(hsInt32*)buffer;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
+            fNodeIdx = *(hsUint32*)buffer;
+            buffer += sizeof(hsUint32);
+            size -= sizeof(hsUint32);
             break;
         case kCreateTime:
             fCreateTime = *(hsUint32*)buffer;
@@ -197,14 +197,14 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
             size -= sizeof(plUuid);
             break;
         case kCreatorIdx:
-            fCreatorIdx = *(hsInt32*)buffer;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
+            fCreatorIdx = *(hsUint32*)buffer;
+            buffer += sizeof(hsUint32);
+            size -= sizeof(hsUint32);
             break;
         case kNodeType:
-            fNodeType = *(hsInt32*)buffer;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
+            fNodeType = *(hsUint32*)buffer;
+            buffer += sizeof(hsUint32);
+            size -= sizeof(hsUint32);
             break;
         case kInt32_1:
             fInt32[0] = *(hsInt32*)buffer;
@@ -419,9 +419,9 @@ void pnVaultNode::write(unsigned char* buffer, size_t size) const {
     while (bit != 0 && bit <= fFieldMask && ((int)size) > 0) {
         switch (fFieldMask & bit) {
         case kNodeIdx:
-            *(hsInt32*)buffer = fNodeIdx;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
+            *(hsUint32*)buffer = fNodeIdx;
+            buffer += sizeof(hsUint32);
+            size -= sizeof(hsUint32);
             break;
         case kCreateTime:
             *(hsUint32*)buffer = fCreateTime;
@@ -458,14 +458,14 @@ void pnVaultNode::write(unsigned char* buffer, size_t size) const {
             size -= sizeof(plUuid);
             break;
         case kCreatorIdx:
-            *(hsInt32*)buffer = fCreatorIdx;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
+            *(hsUint32*)buffer = fCreatorIdx;
+            buffer += sizeof(hsUint32);
+            size -= sizeof(hsUint32);
             break;
         case kNodeType:
-            *(hsInt32*)buffer = fNodeType;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
+            *(hsUint32*)buffer = fNodeType;
+            buffer += sizeof(hsUint32);
+            size -= sizeof(hsUint32);
             break;
         case kInt32_1:
             *(hsInt32*)buffer = fInt32[0];
@@ -693,7 +693,7 @@ void pnVaultNode::write(unsigned char* buffer, size_t size) const {
         plDebug::Warning("Node %d is truncated", fNodeIdx);
 }
 
-hsInt32 pnVaultNode::getNodeIdx() const
+hsUint32 pnVaultNode::getNodeIdx() const
 {
     return (fFieldMask & kNodeIdx) != 0 ? fNodeIdx : 0;
 }
@@ -723,12 +723,12 @@ plUuid pnVaultNode::getCreatorUuid() const
     return (fFieldMask & kCreatorUuid) != 0 ? fCreatorUuid : plUuid();
 }
 
-hsInt32 pnVaultNode::getCreatorIdx() const
+hsUint32 pnVaultNode::getCreatorIdx() const
 {
     return (fFieldMask & kCreatorIdx) != 0 ? fCreatorIdx : 0;
 }
 
-hsInt32 pnVaultNode::getNodeType() const
+hsUint32 pnVaultNode::getNodeType() const
 {
     return (fFieldMask & kNodeType) != 0 ? fNodeType : 0;
 }
@@ -775,7 +775,7 @@ plVaultBlob pnVaultNode::getBlob(size_t which) const
            ? fBlob[which] : plVaultBlob();
 }
 
-void pnVaultNode::setNodeIdx(hsInt32 idx)
+void pnVaultNode::setNodeIdx(hsUint32 idx)
 {
     fNodeIdx = idx;
     fFieldMask |= kNodeIdx;
@@ -811,13 +811,13 @@ void pnVaultNode::setCreatorUuid(const plUuid& uuid)
     fFieldMask |= kCreatorUuid;
 }
 
-void pnVaultNode::setCreatorIdx(hsInt32 idx)
+void pnVaultNode::setCreatorIdx(hsUint32 idx)
 {
     fCreatorIdx = idx;
     fFieldMask |= kCreatorIdx;
 }
 
-void pnVaultNode::setNodeType(hsInt32 type)
+void pnVaultNode::setNodeType(hsUint32 type)
 {
     fNodeType = type;
     fFieldMask |= kNodeType;

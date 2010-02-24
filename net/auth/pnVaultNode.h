@@ -73,14 +73,14 @@ public:
     void read(const unsigned char* buffer, size_t size);
     void write(unsigned char* buffer, size_t size) const;
 
-    hsInt32 getNodeIdx() const;
+    hsUint32 getNodeIdx() const;
     hsUint32 getCreateTime() const;
     hsUint32 getModifyTime() const;
     plString getCreateAgeName() const;
     plUuid getCreateAgeUuid() const;
     plUuid getCreatorUuid() const;
-    hsInt32 getCreatorIdx() const;
-    hsInt32 getNodeType() const;
+    hsUint32 getCreatorIdx() const;
+    hsUint32 getNodeType() const;
     hsInt32 getInt32(size_t which) const;
     hsUint32 getUint32(size_t which) const;
     plUuid getUuid(size_t which) const;
@@ -89,14 +89,14 @@ public:
     plString getText(size_t which) const;
     plVaultBlob getBlob(size_t which) const;
 
-    void setNodeIdx(hsInt32 idx);
+    void setNodeIdx(hsUint32 idx);
     void setCreateTime(hsUint32 createTime);
     void setModifyTime(hsUint32 modTime);
     void setCreateAgeName(const plString& name);
     void setCreateAgeUuid(const plUuid& uuid);
     void setCreatorUuid(const plUuid& uuid);
-    void setCreatorIdx(hsInt32 idx);
-    void setNodeType(hsInt32 type);
+    void setCreatorIdx(hsUint32 idx);
+    void setNodeType(hsUint32 type);
     void setInt32(size_t which, hsInt32 value);
     void setUInt32(size_t which, hsUint32 value);
     void setUuid(size_t which, const plUuid& value);

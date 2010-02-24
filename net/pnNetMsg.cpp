@@ -221,6 +221,7 @@ NCchar_t* StringToNCstr(const plString& str)
             ch += 2;
         } else {
             *p = *ch & 0x7F;
+            ch += 1;
         }
         p++;
     }

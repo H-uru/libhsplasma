@@ -12,7 +12,7 @@ namespace plVault {
         kNodeFolder, kNodePlayerInfo, kNodeSystem, kNodeImage, kNodeTextNote,
         kNodeSDL, kNodeAgeLink, kNodeChronicle, kNodePlayerInfoList,
         kNodeUNUSED, kNodeMarker, kNodeAgeInfo, kNodeAgeInfoList,
-        kNodeMarkerList
+        kNodeMarkerList, kNodeNumTypes,
     };
 
     enum StandardNodes {
