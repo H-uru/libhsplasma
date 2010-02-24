@@ -79,6 +79,7 @@ public:
     plString afterFirst(char sep) const;
     plString beforeLast(char sep) const;
     plString afterLast(char sep) const;
+    plString replace(const char* src, const char* dest) const;
     std::vector<plString> split(char sep) const;
 
     long toInt(int base = 0) const;
@@ -161,6 +162,7 @@ public:
     plWString afterFirst(hsWchar sep) const;
     plWString beforeLast(hsWchar sep) const;
     plWString afterLast(hsWchar sep) const;
+    plWString replace(const hsWchar* src, const hsWchar* dest) const;
     std::vector<plWString> split(char sep) const;
 
     long toInt(int base = 0) const;

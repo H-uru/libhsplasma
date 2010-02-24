@@ -4,7 +4,7 @@
 /* plNetMsgSDLState */
 plNetMsgSDLState::plNetMsgSDLState()
                 : fIsInitialState(false), fPersistOnServer(false),
-                  fIsAvatarState(false) { }
+                  fIsAvatarState(false), fDescriptor(NULL) { }
 
 plNetMsgSDLState::~plNetMsgSDLState() { }
 

@@ -460,6 +460,27 @@ plString plString::afterLast(char sep) const {
         return (*this);
 }
 
+plString plString::replace(const char* src, const char* dest) const {
+    if (empty() || src == NULL || dest == NULL) return *this;
+    size_t len = strlen(src);
+    if (len > fString->fLen) return *this;
+
+    plString result;
+    size_t begin = 0;
+    size_t i = 0;
+    while (i < (fString->fLen - len)) {
+        if (strncmp(fString->fStr + i, src, len) == 0) {
+            result += plString(fString->fStr + begin, i - begin);
+            result += dest;
+            i += len;
+            begin = i;
+        } else {
+            i++;
+        }
+    }
+    return result + plString(fString->fStr + begin, (i + 1) - begin);
+}
+
 std::vector<plString> plString::split(char sep) const {
     std::vector<plString> splits;
     if (!empty()) {
@@ -964,6 +985,27 @@ plWString plWString::afterLast(hsWchar sep) const {
         return mid(pos+1);
     else
         return (*this);
+}
+
+plWString plWString::replace(const hsWchar* src, const hsWchar* dest) const {
+    if (empty() || src == NULL || dest == NULL) return *this;
+    size_t len = wcslen(src);
+    if (len > fString->fLen) return *this;
+
+    plWString result;
+    size_t begin = 0;
+    size_t i = 0;
+    while (i < (fString->fLen - len)) {
+        if (wcsncmp(fString->fStr + i, src, len) == 0) {
+            result += plWString(fString->fStr + begin, i - begin);
+            result += dest;
+            i += len;
+            begin = i;
+        } else {
+            i++;
+        }
+    }
+    return result + plWString(fString->fStr + begin, (i + 1) - begin);
 }
 
 std::vector<plWString> plWString::split(char sep) const {
