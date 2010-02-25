@@ -70,6 +70,7 @@
 #include "PRP/Light/plOmniLightInfo.h"
 #include "PRP/Light/plShadowMaster.h"
 #include "PRP/Light/plShadowCaster.h"
+#include "PRP/Message/pfKIMsg.h"
 #include "PRP/Message/plAnimCmdMsg.h"
 #include "PRP/Message/plArmatureEffectMsg.h"
 #include "PRP/Message/plAvatarInputStateMsg.h"
@@ -879,7 +880,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAvBrainPuppet: return new plAvBrainPuppet();
         //case kAvBrainLadder: return new plAvBrainLadder();
         case kInputIfaceMgrMsg: return new plInputIfaceMgrMsg();
-        //case kKIMsg: return new pfKIMsg();
+        case kKIMsg: return new pfKIMsg();
         //case kRemoteAvatarInfoMsg: return new plRemoteAvatarInfoMsg();
         case kMatrixDelayedCorrectionApplicator: return new plMatrixDelayedCorrectionApplicator();
         //case kAvPushBrainMsg: return new plAvPushBrainMsg();

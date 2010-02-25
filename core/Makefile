@@ -158,6 +158,7 @@ PLSOBJ=\
 	$(OBJDIR)plOmniLightInfo.o \
 	$(OBJDIR)plShadowCaster.o \
 	$(OBJDIR)plShadowMaster.o \
+    $(OBJDIR)pfKIMsg.o \
 	$(OBJDIR)plAnimCmdMsg.o \
 	$(OBJDIR)plArmatureEffectMsg.o \
 	$(OBJDIR)plAvatarInputStateMsg.o \
@@ -778,6 +779,9 @@ $(OBJDIR)plShadowCaster.o: PRP/Light/plShadowCaster.h PRP/Light/plShadowCaster.c
 
 $(OBJDIR)plShadowMaster.o: PRP/Light/plShadowMaster.h PRP/Light/plShadowMaster.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/plShadowMaster.cpp -o $@
+
+$(OBJDIR)pfKIMsg.o: PRP/Message/pfKIMsg.h PRP/Message/pfKIMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/pfKIMsg.cpp -o $@
 
 $(OBJDIR)plAnimCmdMsg.o: PRP/Message/plAnimCmdMsg.h PRP/Message/plAnimCmdMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plAnimCmdMsg.cpp -o $@
