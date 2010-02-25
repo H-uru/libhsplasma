@@ -73,10 +73,13 @@
 #include "PRP/Message/plAnimCmdMsg.h"
 #include "PRP/Message/plArmatureEffectMsg.h"
 #include "PRP/Message/plAvatarInputStateMsg.h"
+#include "PRP/Message/plAvatarMsg.h"
 #include "PRP/Message/plClimbMsg.h"
 #include "PRP/Message/plEnableMsg.h"
 #include "PRP/Message/plExcludeRegionMsg.h"
+#include "PRP/Message/plInputIfaceMgrMsg.h"
 #include "PRP/Message/plLinkToAgeMsg.h"
+#include "PRP/Message/plLinkEffectsTriggerMsg.h"
 #include "PRP/Message/plLoadCloneMsg.h"
 #include "PRP/Message/plMsgForwarder.h"
 #include "PRP/Message/plResponderMsg.h"
@@ -671,7 +674,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kSimulationMsg: ABSTRACT(kSimulationMsg);
         //case kSimulationSynchMsg: return new plSimulationSynchMsg();
         //case kHKSimulationSynchMsg: return new plHKSimulationSynchMsg();
-        //case kAvatarMsg: return new plAvatarMsg();
+        case kAvatarMsg: ABSTRACT(kAvatarMsg);
         //case kAvTaskMsg: return new plAvTaskMsg();
         //case kAvSeekMsg: return new plAvSeekMsg();
         //case kAvOneShotMsg: return new plAvOneShotMsg();
@@ -776,7 +779,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kIntersectionIsect: return new plIntersectionIsect();
         //case kModulator: return new plModulator();
         //case kInventoryMsg: return new plInventoryMsg();
-        //case kLinkEffectsTriggerMsg: return new plLinkEffectsTriggerMsg();
+        case kLinkEffectsTriggerMsg: return new plLinkEffectsTriggerMsg();
         //case kLinkEffectBCMsg: return new plLinkEffectBCMsg();
         case kResponderEnableMsg: return new plResponderEnableMsg();
         //case kNetServerMsgHello: return new plNetServerMsgHello();
@@ -822,7 +825,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetServerMsgExitProcess: return new plNetServerMsgExitProcess();
         //case kNetServerMsgSaveGameState: return new plNetServerMsgSaveGameState();
         //case kDniCoordinateInfo: return new plDniCoordinateInfo();
-        //case kNetMsgGameMessageDirected: return new plNetMsgGameMessageDirected();
+        case kNetMsgGameMessageDirected: return new plNetMsgGameMessageDirected();
         //case kLinkOutUnloadMsg: return new plLinkOutUnloadMsg();
         case kScalarConstant: return new plScalarConstant();
         case kMatrixConstant: return new plMatrixConstant();
@@ -875,7 +878,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAvBrainGeneric: return new plAvBrainGeneric();
         //case kAvBrainPuppet: return new plAvBrainPuppet();
         //case kAvBrainLadder: return new plAvBrainLadder();
-        //case kInputIfaceMgrMsg: return new plInputIfaceMgrMsg();
+        case kInputIfaceMgrMsg: return new plInputIfaceMgrMsg();
         //case kKIMsg: return new pfKIMsg();
         //case kRemoteAvatarInfoMsg: return new plRemoteAvatarInfoMsg();
         case kMatrixDelayedCorrectionApplicator: return new plMatrixDelayedCorrectionApplicator();
@@ -919,7 +922,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCreatableGenericValue: return new plCreatableGenericValue();
         //case kCreatableListHelper: return new plCreatableListHelper();
         //case kCreatableStream: return new plCreatableStream();
-        //case kAvBrainGenericMsg: return new plAvBrainGenericMsg();
+        case kAvBrainGenericMsg: return new plAvBrainGenericMsg();
         //case kAvTaskSeek: return new plAvTaskSeek();
         //case kAGInstanceCallbackMsg: return new plAGInstanceCallbackMsg();
         //case kArmatureEffectMsg: return new plArmatureEffectMsg();

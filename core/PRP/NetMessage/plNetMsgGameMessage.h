@@ -24,4 +24,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+DllClass plNetMsgGameMessageDirected : public plNetMsgGameMessage {
+private:
+    hsTArray<unsigned int> fReceivers;
+
+public:
+    plNetMsgGameMessageDirected();
+    ~plNetMsgGameMessageDirected();
+
+    DECLARE_CREATABLE(plNetMsgGameMessageDirected)
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+};
+
 #endif

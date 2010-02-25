@@ -161,13 +161,16 @@ PLSOBJ=\
 	$(OBJDIR)plAnimCmdMsg.o \
 	$(OBJDIR)plArmatureEffectMsg.o \
 	$(OBJDIR)plAvatarInputStateMsg.o \
+	$(OBJDIR)plAvatarMsg.o \
 	$(OBJDIR)plCameraMsg.o \
 	$(OBJDIR)plClimbMsg.o \
 	$(OBJDIR)plEnableMsg.o \
 	$(OBJDIR)plEventCallbackMsg.o \
 	$(OBJDIR)proEventData.o \
 	$(OBJDIR)plExcludeRegionMsg.o \
+	$(OBJDIR)plInputIfaceMgrMsg.o \
 	$(OBJDIR)plLinkToAgeMsg.o \
+	$(OBJDIR)plLinkEffectsTriggerMsg.o \
 	$(OBJDIR)plLoadCloneMsg.o \
 	$(OBJDIR)plMessage.o \
 	$(OBJDIR)plMessageWithCallbacks.o \
@@ -785,6 +788,9 @@ $(OBJDIR)plArmatureEffectMsg.o: PRP/Message/plArmatureEffectMsg.h PRP/Message/pl
 $(OBJDIR)plAvatarInputStateMsg.o: PRP/Message/plAvatarInputStateMsg.h PRP/Message/plAvatarInputStateMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvatarInputStateMsg.cpp -o $@
 
+$(OBJDIR)plAvatarMsg.o: PRP/Message/plAvatarMsg.h PRP/Message/plAvatarMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvatarMsg.cpp -o $@
+
 $(OBJDIR)plCameraMsg.o: PRP/Message/plCameraMsg.h PRP/Message/plCameraMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plCameraMsg.cpp -o $@
 
@@ -803,8 +809,14 @@ $(OBJDIR)proEventData.o: PRP/Message/proEventData.h PRP/Message/proEventData.cpp
 $(OBJDIR)plExcludeRegionMsg.o: PRP/Message/plExcludeRegionMsg.h PRP/Message/plExcludeRegionMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plExcludeRegionMsg.cpp -o $@
 
+$(OBJDIR)plInputIfaceMgrMsg.o: PRP/Message/plInputIfaceMgrMsg.h PRP/Message/plInputIfaceMgrMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plInputIfaceMgrMsg.cpp -o $@
+
 $(OBJDIR)plLinkToAgeMsg.o: PRP/Message/plLinkToAgeMsg.h PRP/Message/plLinkToAgeMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLinkToAgeMsg.cpp -o $@
+
+$(OBJDIR)plLinkEffectsTriggerMsg.o: PRP/Message/plLinkEffectsTriggerMsg.h PRP/Message/plLinkEffectsTriggerMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plLinkEffectsTriggerMsg.cpp -o $@
 
 $(OBJDIR)plLoadCloneMsg.o: PRP/Message/plLoadCloneMsg.h PRP/Message/plLoadCloneMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLoadCloneMsg.cpp -o $@

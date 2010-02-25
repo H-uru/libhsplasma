@@ -346,12 +346,16 @@ plDirectShadowMaster            Complete    Complete    PrpShop
 plAnimCmdMsg                    Basic       No          No
 plArmatureEffectStateMsg        Basic       No          No
 plAvatarInputStateMsg           Basic       No          No
+plAvatarMsg                     Basic       No          No
+plAvBrainGenericMsg             Basic       No          No
 plCameraMsg                     Basic       No          No
 plClimbMsg                      Basic       No          No
 plEnableMsg                     Basic       No          No
 plEventCallbackMsg              Complete    Complete    No
 plExcludeRegionMsg              Basic       No          No
+plInputIfaceMgrMsg              Basic       No          No
 plLinkToAgeMsg                  Basic       No          No
+plLinkEffectsTriggerMsg         Basic       No          No
 plLinkInDoneMsg                 Complete    No          No
 plLoadCloneMsg                  Basic       No          No
 plMessage                       Complete    Complete    No
@@ -398,6 +402,7 @@ plSpawnMod                      Basic       No          No
 plNetMessage                    Basic       No          No
 plNetMsgServerToClient          Complete    No          No
 plNetMsgGameMessage             Basic       No          No
+plNetMsgGameMessageDirected     Basic       No          No
 plNetMsgGroupOwner              Basic       No          No
 plNetMsgInitialAgeStateSent     Basic       No          No
 plNetMsgLoadClone               Basic       No          No

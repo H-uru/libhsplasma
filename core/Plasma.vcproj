@@ -1375,6 +1375,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Message\plAvatarMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plAvatarMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plCameraMsg.cpp"
 					>
 				</File>
@@ -1412,6 +1420,22 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Message\plExcludeRegionMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plInputIfaceMgrMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plInputIfaceMgrMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plLinkEffectsTriggerMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plLinkEffectsTriggerMsg.h"
 					>
 				</File>
 				<File

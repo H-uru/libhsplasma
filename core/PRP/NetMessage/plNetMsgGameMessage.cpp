@@ -1,5 +1,6 @@
 #include "plNetMsgGameMessage.h"
 
+/* plNetMsgGameMessage */
 plNetMsgGameMessage::plNetMsgGameMessage() : fMessage(NULL) { }
 
 plNetMsgGameMessage::~plNetMsgGameMessage() {
@@ -65,3 +66,56 @@ void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plNetMessage::IPrcParse(tag, mgr);
     }
 }
+
+
+/* plNetMsgGameMessageDirected */
+plNetMsgGameMessageDirected::plNetMsgGameMessageDirected() { }
+plNetMsgGameMessageDirected::~plNetMsgGameMessageDirected() { }
+
+IMPLEMENT_CREATABLE(plNetMsgGameMessageDirected, kNetMsgGameMessageDirected,
+                    plNetMsgGameMessage)
+
+void plNetMsgGameMessageDirected::read(hsStream* S, plResManager* mgr) {
+    plNetMsgGameMessage::read(S, mgr);
+
+    unsigned char count = S->readByte();
+    fReceivers.setSize(count);
+    for (size_t i=0; i<count; i++)
+        fReceivers[i] = S->readInt();
+}
+
+void plNetMsgGameMessageDirected::write(hsStream* S, plResManager* mgr) {
+    plNetMsgGameMessage::write(S, mgr);
+
+    S->writeByte(fReceivers.getSize());
+    for (size_t i=0; i<fReceivers.getSize(); i++)
+        S->writeInt(fReceivers[i]);
+}
+
+void plNetMsgGameMessageDirected::IPrcWrite(pfPrcHelper* prc) {
+    plNetMsgGameMessage::IPrcWrite(prc);
+
+    prc->writeSimpleTag("Receivers");
+    for (size_t i=0; i<fReceivers.getSize(); i++) {
+        prc->startTag("Receiver");
+        prc->writeParam("ID", fReceivers[i]);
+        prc->endTag(true);
+    }
+    prc->closeTag();
+}
+
+void plNetMsgGameMessageDirected::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Receivers") {
+        fReceivers.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fReceivers.getSize(); i++) {
+            if (child->getName() != "Receiver")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fReceivers[i] = child->getParam("ID", "0").toUint();
+            child = child->getNextSibling();
+        }
+    } else {
+        plNetMsgGameMessage::IPrcParse(tag, mgr);
+    }
+}
+
