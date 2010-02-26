@@ -85,6 +85,7 @@ PLSOBJ=\
 	$(OBJDIR)plArmatureMod.o \
 	$(OBJDIR)plATCAnim.o \
 	$(OBJDIR)plAvatarClothing.o \
+	$(OBJDIR)plAvTask.o \
 	$(OBJDIR)plClothingItem.o \
 	$(OBJDIR)plElevatorModifier.o \
 	$(OBJDIR)plLadderModifier.o \
@@ -158,11 +159,13 @@ PLSOBJ=\
 	$(OBJDIR)plOmniLightInfo.o \
 	$(OBJDIR)plShadowCaster.o \
 	$(OBJDIR)plShadowMaster.o \
-    $(OBJDIR)pfKIMsg.o \
+	$(OBJDIR)pfKIMsg.o \
 	$(OBJDIR)plAnimCmdMsg.o \
 	$(OBJDIR)plArmatureEffectMsg.o \
 	$(OBJDIR)plAvatarInputStateMsg.o \
 	$(OBJDIR)plAvatarMsg.o \
+	$(OBJDIR)plAvTaskMsg.o \
+	$(OBJDIR)plAvSeekMsg.o \
 	$(OBJDIR)plCameraMsg.o \
 	$(OBJDIR)plClimbMsg.o \
 	$(OBJDIR)plEnableMsg.o \
@@ -561,6 +564,9 @@ $(OBJDIR)plATCAnim.o: PRP/Avatar/plATCAnim.h PRP/Avatar/plATCAnim.cpp
 $(OBJDIR)plAvatarClothing.o: PRP/Avatar/plAvatarClothing.h PRP/Avatar/plAvatarClothing.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvatarClothing.cpp -o $@
 
+$(OBJDIR)plAvTask.o: PRP/Avatar/plAvTask.h PRP/Avatar/plAvTask.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvTask.cpp -o $@
+
 $(OBJDIR)plClothingItem.o: PRP/Avatar/plClothingItem.h PRP/Avatar/plClothingItem.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plClothingItem.cpp -o $@
 
@@ -794,6 +800,12 @@ $(OBJDIR)plAvatarInputStateMsg.o: PRP/Message/plAvatarInputStateMsg.h PRP/Messag
 
 $(OBJDIR)plAvatarMsg.o: PRP/Message/plAvatarMsg.h PRP/Message/plAvatarMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvatarMsg.cpp -o $@
+
+$(OBJDIR)plAvTaskMsg.o: PRP/Message/plAvTaskMsg.h PRP/Message/plAvTaskMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvTaskMsg.cpp -o $@
+
+$(OBJDIR)plAvSeekMsg.o: PRP/Message/plAvSeekMsg.h PRP/Message/plAvSeekMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvSeekMsg.cpp -o $@
 
 $(OBJDIR)plCameraMsg.o: PRP/Message/plCameraMsg.h PRP/Message/plCameraMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plCameraMsg.cpp -o $@

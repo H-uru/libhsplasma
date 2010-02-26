@@ -1,8 +1,7 @@
 #include "pfKIMsg.h"
 
-pfKIMsg::pfKIMsg() : fCommand(kNoCommand), fFlags(0),
-    fPlayerID(0), fDelay(0.0), fValue(0)
-{
+pfKIMsg::pfKIMsg()
+       : fCommand(kNoCommand), fFlags(0), fPlayerID(0), fDelay(0.0f), fValue(0) {
     fBCastFlags |= kBCastByExactType;
 }
 
@@ -50,7 +49,7 @@ void pfKIMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->startTag("Message");
-    prc->writeParam("String", hsWStringToString(fString));
+    prc->writeParam("value", hsWStringToString(fString));
     prc->endTag(true);
 }
 
@@ -64,7 +63,7 @@ void pfKIMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fUser = tag->getParam("User", "");
         fPlayerID = tag->getParam("ID", "0").toInt();
     } else if (tag->getName() == "Message") {
-        fString = hsStringToWString(tag->getParam("String", ""));
+        fString = hsStringToWString(tag->getParam("value", ""));
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

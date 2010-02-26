@@ -1,28 +1,33 @@
 #include "plLoadCloneMsg.h"
 
-plLoadCloneMsg::plLoadCloneMsg() {
+plLoadCloneMsg::plLoadCloneMsg()
+              : fValidMsg(0), fIsLoading(0), fUserData(0),
+                fOriginatingPlayerID(0), fTriggerMsg(NULL) {
     fBCastFlags |= kNetPropagate;
 }
 
-plLoadCloneMsg::~plLoadCloneMsg() { }
+plLoadCloneMsg::~plLoadCloneMsg() {
+    if (fTriggerMsg != NULL)
+        delete fTriggerMsg;
+}
 
 IMPLEMENT_CREATABLE(plLoadCloneMsg, kLoadCloneMsg, plMessage)
 
 void plLoadCloneMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
-    
+
     fCloneKey = mgr->readKey(S);
     fRequestorKey = mgr->readKey(S);
     fOriginatingPlayerID = S->readIntSwap();
     fUserData = S->readIntSwap();
     fValidMsg = S->readByte();
     fIsLoading = S->readByte();
-    fTriggerMsg = plMessage::Convert(mgr->ReadCreatable(S));
+    setTriggerMsg(plMessage::Convert(mgr->ReadCreatable(S)));
 }
 
 void plLoadCloneMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
-    
+
     mgr->writeKey(S, fCloneKey);
     mgr->writeKey(S, fRequestorKey);
     S->writeIntSwap(fOriginatingPlayerID);
@@ -38,18 +43,18 @@ void plLoadCloneMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("CloneKey");
     fCloneKey->prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("RequestorKey");
     fRequestorKey->prcWrite(prc);
     prc->closeTag();
-    
+
     prc->startTag("LoadCloneParams");
     prc->writeParam("OriginatingPlayerID", fOriginatingPlayerID);
     prc->writeParam("UserData", fUserData);
     prc->writeParam("Valid", fValidMsg);
     prc->writeParam("Loading", fIsLoading);
     prc->endTag(true);
-    
+
     if (fTriggerMsg != NULL) {
         prc->writeSimpleTag("TriggerMsg");
         fTriggerMsg->prcWrite(prc);
@@ -74,13 +79,19 @@ void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fValidMsg = tag->getParam("Valid", "0").toBool();
         fIsLoading = tag->getParam("Loading", "0").toBool();
     } else if (tag->getName() == "TriggerMsg") {
-        if (fTriggerMsg != NULL)
-            delete fTriggerMsg;
         if (tag->getParam("NULL", "false").toBool())
-            fTriggerMsg = NULL;
-        else
-            fTriggerMsg = plMessage::Convert(mgr->prcParseCreatable(tag));
+            setTriggerMsg(NULL);
+        else if (tag->hasChildren())
+            setTriggerMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else {
         plMessage::IPrcParse(tag, mgr);
     }
+}
+
+plMessage* plLoadCloneMsg::getTriggerMsg() const { return fTriggerMsg; }
+
+void plLoadCloneMsg::setTriggerMsg(plMessage* msg) {
+    if (fTriggerMsg != NULL)
+        delete fTriggerMsg;
+    fTriggerMsg = msg;
 }

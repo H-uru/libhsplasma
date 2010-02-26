@@ -735,6 +735,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Avatar\plAvTask.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plAvTask.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Avatar\plClothingItem.cpp"
 					>
 				</File>
@@ -1351,6 +1359,14 @@
 				Name="Message"
 				>
 				<File
+					RelativePath=".\PRP\Message\pfKIMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\pfKIMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plAnimCmdMsg.cpp"
 					>
 				</File>
@@ -1380,6 +1396,22 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Message\plAvatarMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plAvSeekMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plAvSeekMsg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plAvTaskMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plAvTaskMsg.h"
 					>
 				</File>
 				<File

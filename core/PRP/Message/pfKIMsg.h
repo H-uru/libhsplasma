@@ -6,63 +6,22 @@
 DllClass pfKIMsg : public plMessage {
 public:
     enum {
-        kHACKChatMsg,
-        kEnterChatMode,
-        kSetChatFadeDelay,
-        kSetTextChatAdminMode,
-        kDisableKIandBB,
-        kEnableKIandBB,
-        kYesNoDialog,
-        kAddPlayerDevice,
-        kRemovePlayerDevice,
-        kUpgradeKILevel,
-        kDowngradeKILevel,
-        kRateIt,
-        kSetPrivateChatChannel,
-        kUnsetPrivateChatChannel,
-        kStartBookAlert,
-        kMiniBigKIToggle,
-        kKIPutAway,
-        kChatAreaPageUp,
-        kChatAreaPageDown,
-        kChatAreaGoToBegin,
-        kChatAreaGoToEnd,
-        KITakePicture,
-        kKICreateJournalNote,
-        kKIToggleFade,
-        kKIToggleFadeEnable,
-        kKIChatStatusMsg,
-        kKILocalChatStatusMsg,
-        kKIUpSizeFont,
-        kKIDownSizeFont,
-        kKIOpenYeehsaBook,
-        kKIOpenKI,
-        kKIShowCCRHelp,
-        kKICreateMarker,
-        kKICreateMarkerFolder,
-        kKILocalChatErrorMsg,
-        kKIPhasedAllOn,
-        kKIPhasedAllOff,
-        kKIOKDialog,
-        kDisableYeeshaBook,
-        kEnableYeeshaBook,
-        kQuitDialog,
-        kTempDisableKIandBB,
-        kTempEnableKIandBB,
-        kDisableEntireYeeshaBook,
-        kEnableEntireYeeshaBook,
-        kKIOKDialogNoQuit,
-        kGZUpdated,
-        kGZInRange,
-        kGZOutRange,
-        kUpgradeKIMarkerLevel,
-        kKIShowMiniKI,
-        kGZFlashUpdate,
-        kStartJournalAlert,
-        kAddJournalBook,
-        kRemoveJournalBook,
-        kKIOpenJournalBook,
-        kNoCommand
+        kHACKChatMsg, kEnterChatMode, kSetChatFadeDelay, kSetTextChatAdminMode,
+        kDisableKIandBB, kEnableKIandBB, kYesNoDialog, kAddPlayerDevice,
+        kRemovePlayerDevice, kUpgradeKILevel, kDowngradeKILevel, kRateIt,
+        kSetPrivateChatChannel, kUnsetPrivateChatChannel, kStartBookAlert,
+        kMiniBigKIToggle, kKIPutAway, kChatAreaPageUp, kChatAreaPageDown,
+        kChatAreaGoToBegin, kChatAreaGoToEnd, KITakePicture,
+        kKICreateJournalNote, kKIToggleFade, kKIToggleFadeEnable,
+        kKIChatStatusMsg, kKILocalChatStatusMsg, kKIUpSizeFont,
+        kKIDownSizeFont, kKIOpenYeehsaBook, kKIOpenKI, kKIShowCCRHelp,
+        kKICreateMarker, kKICreateMarkerFolder, kKILocalChatErrorMsg,
+        kKIPhasedAllOn, kKIPhasedAllOff, kKIOKDialog, kDisableYeeshaBook,
+        kEnableYeeshaBook, kQuitDialog, kTempDisableKIandBB, kTempEnableKIandBB,
+        kDisableEntireYeeshaBook, kEnableEntireYeeshaBook, kKIOKDialogNoQuit,
+        kGZUpdated, kGZInRange, kGZOutRange, kUpgradeKIMarkerLevel,
+        kKIShowMiniKI, kGZFlashUpdate, kStartJournalAlert, kAddJournalBook,
+        kRemoveJournalBook, kKIOpenJournalBook, kNoCommand
     };
 
     enum Flags {
@@ -76,19 +35,16 @@ public:
     };
 
     enum KILevels {
-        kNanoKI,
-        kMicroKI,
-        kNormalKI
+        kNanoKI, kMicroKI, kNormalKI
     };
 
 protected:
-    hsUbyte fCommand;
-    hsUint32 fFlags;
+    unsigned char fCommand;
+    unsigned int fFlags, fPlayerID;
     plString fUser;
-    hsUint32 fPlayerID;
     plWString fString;
     float fDelay;
-    hsInt32 fValue;
+    int fValue;
 
 public:
     pfKIMsg();

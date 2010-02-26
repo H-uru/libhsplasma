@@ -23,6 +23,7 @@
 #include "PRP/Avatar/plArmatureMod.h"
 #include "PRP/Avatar/plATCAnim.h"
 #include "PRP/Avatar/plAvatarClothing.h"
+#include "PRP/Avatar/plAvTask.h"
 #include "PRP/Avatar/plClothingItem.h"
 #include "PRP/Avatar/plElevatorModifier.h"
 #include "PRP/Avatar/plLadderModifier.h"
@@ -70,15 +71,17 @@
 #include "PRP/Light/plOmniLightInfo.h"
 #include "PRP/Light/plShadowMaster.h"
 #include "PRP/Light/plShadowCaster.h"
-#include "PRP/Message/pfKIMsg.h"
 #include "PRP/Message/plAnimCmdMsg.h"
 #include "PRP/Message/plArmatureEffectMsg.h"
 #include "PRP/Message/plAvatarInputStateMsg.h"
 #include "PRP/Message/plAvatarMsg.h"
+#include "PRP/Message/plAvSeekMsg.h"
+#include "PRP/Message/plAvTaskMsg.h"
 #include "PRP/Message/plClimbMsg.h"
 #include "PRP/Message/plEnableMsg.h"
 #include "PRP/Message/plExcludeRegionMsg.h"
 #include "PRP/Message/plInputIfaceMgrMsg.h"
+#include "PRP/Message/pfKIMsg.h"
 #include "PRP/Message/plLinkToAgeMsg.h"
 #include "PRP/Message/plLinkEffectsTriggerMsg.h"
 #include "PRP/Message/plLoadCloneMsg.h"
@@ -676,9 +679,9 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSimulationSynchMsg: return new plSimulationSynchMsg();
         //case kHKSimulationSynchMsg: return new plHKSimulationSynchMsg();
         case kAvatarMsg: ABSTRACT(kAvatarMsg);
-        //case kAvTaskMsg: return new plAvTaskMsg();
-        //case kAvSeekMsg: return new plAvSeekMsg();
-        //case kAvOneShotMsg: return new plAvOneShotMsg();
+        case kAvTaskMsg: return new plAvTaskMsg();
+        case kAvSeekMsg: return new plAvSeekMsg();
+        case kAvOneShotMsg: return new plAvOneShotMsg();
         //case kSatisfiedMsg: return new plSatisfiedMsg();
         //case kNetMsgObjectListHelper: return new plNetMsgObjectListHelper();
         //case kNetMsgObjectUpdateFilter: return new plNetMsgObjectUpdateFilter();
@@ -883,16 +886,16 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kKIMsg: return new pfKIMsg();
         //case kRemoteAvatarInfoMsg: return new plRemoteAvatarInfoMsg();
         case kMatrixDelayedCorrectionApplicator: return new plMatrixDelayedCorrectionApplicator();
-        //case kAvPushBrainMsg: return new plAvPushBrainMsg();
-        //case kAvPopBrainMsg: return new plAvPopBrainMsg();
+        case kAvPushBrainMsg: return new plAvPushBrainMsg();
+        case kAvPopBrainMsg: return new plAvPopBrainMsg();
         //case kRoomLoadNotifyMsg: return new plRoomLoadNotifyMsg();
-        //case kAvTask: return new plAvTask();
-        //case kAvAnimTask: return new plAvAnimTask();
-        //case kAvSeekTask: return new plAvSeekTask();
+        case kAvTask: ABSTRACT(kAvTask);
+        case kAvAnimTask: return new plAvAnimTask();
+        case kAvSeekTask: return new plAvSeekTask();
         //case kAvBlendedSeekTask: return new plAvBlendedSeekTask();
-        //case kAvOneShotTask: return new plAvOneShotTask();
+        case kAvOneShotTask: return new plAvOneShotTask();
         //case kAvEnableTask: return new plAvEnableTask();
-        //case kAvTaskBrain: return new plAvTaskBrain();
+        case kAvTaskBrain: return new plAvTaskBrain();
         case kAnimStage: return new plAnimStage();
         //case kNetClientMember: return new plNetClientMember();
         //case kNetClientCommTask: return new plNetClientCommTask();
@@ -924,7 +927,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kCreatableListHelper: return new plCreatableListHelper();
         //case kCreatableStream: return new plCreatableStream();
         case kAvBrainGenericMsg: return new plAvBrainGenericMsg();
-        //case kAvTaskSeek: return new plAvTaskSeek();
+        case kAvTaskSeek: return new plAvTaskSeek();
         //case kAGInstanceCallbackMsg: return new plAGInstanceCallbackMsg();
         //case kArmatureEffectMsg: return new plArmatureEffectMsg();
         case kArmatureEffectStateMsg: return new plArmatureEffectStateMsg();
@@ -1116,7 +1119,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetMsgPublicAgeRemoved: return new plNetMsgPublicAgeRemoved();
         //case kNetClientCommRemovePublicAgeTask: return new plNetClientCommRemovePublicAgeTask();
         //case kCCRMessage: return new plCCRMessage();
-        //case kAvOneShotLinkTask: return new plAvOneShotLinkTask();
+        case kAvOneShotLinkTask: return new plAvOneShotLinkTask();
         //case kNetAuthDatabase: return new plNetAuthDatabase();
         //case kAvatarOpacityCallbackMsg: return new plAvatarOpacityCallbackMsg();
         //case kAGDetachCallbackMsg: return new plAGDetachCallbackMsg();

@@ -6,8 +6,8 @@
 DllClass plLoadCloneMsg : public plMessage {
 protected:
     plKey fCloneKey, fRequestorKey;
-    hsUbyte fValidMsg, fIsLoading;
-    hsUint32 fUserData, fOriginatingPlayerID;
+    unsigned char fValidMsg, fIsLoading;
+    unsigned int fUserData, fOriginatingPlayerID;
     plMessage* fTriggerMsg;
 
 public:
@@ -22,6 +22,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plMessage* getTriggerMsg() const;
+    void setTriggerMsg(plMessage* msg);
 };
 
 #endif
