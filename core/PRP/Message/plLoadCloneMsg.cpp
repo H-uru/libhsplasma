@@ -1,6 +1,8 @@
 #include "plLoadCloneMsg.h"
 
-plLoadCloneMsg::plLoadCloneMsg() { }
+plLoadCloneMsg::plLoadCloneMsg() {
+    fBCastFlags |= kNetPropagate;
+}
 
 plLoadCloneMsg::~plLoadCloneMsg() { }
 

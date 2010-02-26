@@ -1,7 +1,9 @@
 #include "plTransitionMsg.h"
 
 plTransitionMsg::plTransitionMsg()
-               : fEffect(0), fLengthInSecs(0.0f), fHoldUntilNext(0) { }
+               : fEffect(0), fLengthInSecs(0.0f), fHoldUntilNext(0) {
+    fBCastFlags |= kBCastByExactType;
+}
 
 plTransitionMsg::~plTransitionMsg() { }
 

@@ -1,6 +1,8 @@
 #include "plPseudoLinkEffectMsg.h"
 
-plPseudoLinkEffectMsg::plPseudoLinkEffectMsg() { }
+plPseudoLinkEffectMsg::plPseudoLinkEffectMsg() {
+    fBCastFlags |= (kNetPropagate | kBCastByExactType);
+}
 
 IMPLEMENT_CREATABLE(plPseudoLinkEffectMsg, kPseudoLinkEffectMsg, plMessage)
 

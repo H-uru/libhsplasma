@@ -1,6 +1,8 @@
 #include "plNotifyMsg.h"
 
-plNotifyMsg::plNotifyMsg() : fType(0), fID(0), fState(0.0f) { }
+plNotifyMsg::plNotifyMsg() : fType(0), fID(0), fState(0.0f) {
+    fBCastFlags |= kNetPropagate;
+}
 
 plNotifyMsg::~plNotifyMsg() {
     for (size_t i=0; i<fEvents.getSize(); i++) {
