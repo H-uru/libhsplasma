@@ -15,6 +15,19 @@ DllStruct pnAuthFileItem {
     hsUint32 fFileSize;
 };
 
+DllStruct pnNetGameScore {
+    hsUint32 fScoreId, fOwnerId;
+    hsUint32 fCreatedTime, fGameType;
+    hsInt32 fValue;
+    plString fGameName;
+};
+
+DllStruct pnNetGameRank {
+    hsUint32 fRank;
+    hsInt32 fScore;
+    plString fName;
+};
+
 DllClass pnAuthClient {
 public:
     pnAuthClient();
@@ -148,13 +161,13 @@ public:
     virtual void onScoreCreateReply(hsUint32 transId, ENetError result,
                     hsUint32 scoreId, hsUint32 createdTime);
     virtual void onScoreDeleteReply(hsUint32 transId, ENetError result);
-    //virtual void onScoreGetScoresReply(hsUint32 transId, ENetError result,
-    //                size_t count, const pnNetGameScore* scores);
+    virtual void onScoreGetScoresReply(hsUint32 transId, ENetError result,
+                    size_t count, const pnNetGameScore* scores);
     virtual void onScoreAddPointsReply(hsUint32 transId, ENetError result);
     virtual void onScoreTransferPointsReply(hsUint32 transId, ENetError result);
     virtual void onScoreSetPointsReply(hsUint32 transId, ENetError result);
-    //virtual void onScoreGetRanksReply(hsUint32 transId, ENetError result,
-    //                size_t count, const ???* ranks);
+    virtual void onScoreGetRanksReply(hsUint32 transId, ENetError result,
+                    size_t count, const pnNetGameRank* ranks);
     virtual void onPropagateMessage(plCreatable* msg);
 
 protected:

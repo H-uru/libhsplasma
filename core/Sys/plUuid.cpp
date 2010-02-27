@@ -104,7 +104,7 @@ void plUuid::fromString(const plString& str) {
     if (str.len() != 36 || str[8] != '-' || str[13] != '-' ||
                            str[18] != '-' || str[23] != '-')
         throw hsBadParamException(__FILE__, __LINE__, "Incorrect Uuid format");
-    
+
     fData1 = str.mid(0, 8).toUint(16);
     fData2 = str.mid(9, 4).toUint(16);
     fData3 = str.mid(14, 4).toUint(16);

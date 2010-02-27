@@ -1,7 +1,6 @@
 #include "pnAuthClient.h"
 #include "AuthMessages.h"
 #include "Debug/plDebug.h"
-#include "ResManager/plFactory.h"
 #include "Stream/hsRAMStream.h"
 #include "crypt/pnBigInteger.h"
 #include "crypt/pnSha1.h"
@@ -226,7 +225,26 @@ void pnAuthClient::Dispatch::run()
         case kAuth2Cli_ScoreDeleteReply:
             fReceiver->onScoreDeleteReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
             break;
-        //case kAuth2Cli_ScoreGetScoresReply:
+        case kAuth2Cli_ScoreGetScoresReply:
+            {
+                size_t scoreCount = msgbuf[2].fUint;
+                pnNetGameScore* scores = new pnNetGameScore[scoreCount];
+                const hsUbyte* buf = msgbuf[3].fData;
+                for (size_t i=0; i<scoreCount; i++) {
+                    scores[i].fScoreId     = *(hsUint32*)(buf     );
+                    scores[i].fOwnerId     = *(hsUint32*)(buf +  4);
+                    scores[i].fCreatedTime = *(hsUint32*)(buf +  8);
+                    scores[i].fGameType    = *(hsUint32*)(buf + 12);
+                    scores[i].fValue       = *(hsInt32* )(buf + 16);
+                    size_t strDataSize     = *(hsUint32*)(buf + 20);
+                    scores[i].fGameName    = NCstrToString((const NCchar_t*)buf + 24);
+                    buf += 24 + strDataSize;
+                }
+                fReceiver->onScoreGetScoresReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                                scoreCount, scores);
+                delete[] scores;
+            }
+            break;
         case kAuth2Cli_ScoreAddPointsReply:
             fReceiver->onScoreAddPointsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
             break;
@@ -236,7 +254,23 @@ void pnAuthClient::Dispatch::run()
         case kAuth2Cli_ScoreSetPointsReply:
             fReceiver->onScoreSetPointsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
             break;
-        //case kAuth2Cli_ScoreGetRanksReply:
+        case kAuth2Cli_ScoreGetRanksReply:
+            {
+                size_t rankCount = msgbuf[2].fUint;
+                pnNetGameRank* ranks = new pnNetGameRank[rankCount];
+                const hsUbyte* buf = msgbuf[3].fData;
+                for (size_t i=0; i<rankCount; i++) {
+                    ranks[i].fRank     = *(hsUint32*)(buf    );
+                    ranks[i].fScore    = *(hsUint32*)(buf + 4);
+                    size_t strDataSize = *(hsUint32*)(buf + 8);
+                    ranks[i].fName     = NCstrToString((const NCchar_t*)buf + 12);
+                    buf += 12 + strDataSize;
+                }
+                fReceiver->onScoreGetRanksReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                                rankCount, ranks);
+                delete[] ranks;
+            }
+            break;
         case kAuth2Cli_PropagateBuffer:
             {
                 hsRAMStream rs(pvLive);
@@ -248,7 +282,7 @@ void pnAuthClient::Dispatch::run()
                     fReceiver->onPropagateMessage(pCre);
                     delete pCre;
                 } else {
-                    plDebug::Error("Ignored propagated message %04X\n", msgbuf[0].fUint);
+                    plDebug::Error("Ignored propagated message %04X", msgbuf[0].fUint);
                 }
             }
             break;
@@ -975,7 +1009,7 @@ hsUint32 pnAuthClient::sendScoreGetRanks(hsUint32 ownerId, hsUint32 group, hsUin
 
 void pnAuthClient::propagateMessage(plCreatable* pCre)
 {
-    const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_FileDownloadChunkAck);
+    const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_PropagateBuffer);
     msgparm_t* msg = NCAllocMessage(desc);
     msg[0].fUint = pCre->ClassIndex();
     hsRAMStream rs(pvLive);
@@ -1199,11 +1233,11 @@ void pnAuthClient::onScoreDeleteReply(hsUint32 transId, ENetError result)
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreDeleteReply");
 }
 
-//void pnAuthClient::onScoreGetScoresReply(hsUint32 transId, ENetError result,
-//                        size_t count, const pnNetGameScore* scores)
-//{
-//    plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreGetScoresReply");
-//}
+void pnAuthClient::onScoreGetScoresReply(hsUint32 transId, ENetError result,
+                        size_t count, const pnNetGameScore* scores)
+{
+    plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreGetScoresReply");
+}
 
 void pnAuthClient::onScoreAddPointsReply(hsUint32 transId, ENetError result)
 {
@@ -1220,11 +1254,11 @@ void pnAuthClient::onScoreSetPointsReply(hsUint32 transId, ENetError result)
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreSetPointsReply");
 }
 
-//void pnAuthClient::onScoreGetRanksReply(hsUint32 transId, ENetError result,
-//                        size_t count, const ???* ranks)
-//{
-//    plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreGetRanksReply");
-//}
+void pnAuthClient::onScoreGetRanksReply(hsUint32 transId, ENetError result,
+                        size_t count, const pnNetGameRank* ranks)
+{
+    plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreGetRanksReply");
+}
 
 void pnAuthClient::onPropagateMessage(plCreatable* msg)
 {
