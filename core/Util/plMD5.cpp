@@ -12,6 +12,23 @@ static const char kHexTable[16] = {
     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
 };
 
+static int charToHex(char ch) {
+    switch (ch) {
+        case '0':   return 0;   case '1':   return 1;
+        case '2':   return 2;   case '3':   return 3;
+        case '4':   return 4;   case '5':   return 5;
+        case '6':   return 6;   case '7':   return 7;
+        case '8':   return 8;   case '9':   return 9;
+        case 'a':   return 10;  case 'A':   return 10;
+        case 'b':   return 11;  case 'B':   return 11;
+        case 'c':   return 12;  case 'C':   return 12;
+        case 'd':   return 13;  case 'D':   return 13;
+        case 'e':   return 14;  case 'E':   return 14;
+        case 'f':   return 15;  case 'F':   return 15;
+        default:    return -1;
+    }
+}
+
 plMD5Hash::plMD5Hash() {
     // Empty hash
     fHash[0] = 0xd98c1dd4;
@@ -22,6 +39,10 @@ plMD5Hash::plMD5Hash() {
 
 plMD5Hash::plMD5Hash(const plMD5Hash& cpy) {
     memcpy(fHash, cpy.fHash, sizeof(fHash));
+}
+
+plMD5Hash::plMD5Hash(const char* hex) {
+    fromHex(hex);
 }
 
 plMD5Hash& plMD5Hash::operator=(const plMD5Hash& cpy) {
@@ -52,6 +73,25 @@ plString plMD5Hash::toHex() const {
     }
     buf[32] = 0;
     return buf;
+}
+
+void plMD5Hash::fromHex(const char* hex) {
+    HashConvert hc;
+
+    if (strlen(hex) != 32)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid hex string");
+    for (size_t i=0; i<16; i++) {
+        int ch1 = charToHex(hex[(2*i)    ]);
+        int ch2 = charToHex(hex[(2*i) + 1]);
+        if (ch1 == -1 || ch2 == -1)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid hex string");
+        hc.hash8[i] = ((ch1 << 4) & 0xF0) | (ch2 & 0x0F);
+    }
+
+    fHash[0] = LESWAP32(hc.hash32[0]);
+    fHash[1] = LESWAP32(hc.hash32[1]);
+    fHash[2] = LESWAP32(hc.hash32[2]);
+    fHash[3] = LESWAP32(hc.hash32[3]);
 }
 
 void plMD5Hash::read(hsStream* S) {

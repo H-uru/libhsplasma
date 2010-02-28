@@ -38,7 +38,7 @@ void pfKIMsg::IPrcWrite(pfPrcHelper* prc) {
 
     prc->startTag("Parameters");
     prc->writeParam("Command", fCommand);
-    prc->writeParam("Flags", fFlags);
+    prc->writeParamHex("Flags", fFlags);
     prc->writeParam("Delay", fDelay);
     prc->writeParam("Value", fValue);
     prc->endTag(true);

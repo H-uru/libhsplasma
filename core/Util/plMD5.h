@@ -8,11 +8,13 @@ public:
 public:
     plMD5Hash();
     plMD5Hash(const plMD5Hash& cpy);
+    plMD5Hash(const char* hex);
     plMD5Hash& operator=(const plMD5Hash& cpy);
     bool operator==(const plMD5Hash& cmp);
     bool operator!=(const plMD5Hash& cmp);
 
     plString toHex() const;
+    void fromHex(const char* hex);
     void read(hsStream* S);
     void write(hsStream* S);
 };

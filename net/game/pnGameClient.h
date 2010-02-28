@@ -5,7 +5,6 @@
 #include "Sys/hsThread.h"
 #include "Sys/plUuid.h"
 #include "PRP/plCreatable.h"
-#include "Protocol.h"
 #include "pnNetMsg.h"
 #include "crypt/pnRC4.h"
 

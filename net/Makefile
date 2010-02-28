@@ -14,7 +14,8 @@ PLSOBJ=\
 	$(OBJDIR)pnAuthClient.o \
 	$(OBJDIR)pnVaultNode.o \
 	$(OBJDIR)GameMessages.o \
-	$(OBJDIR)pnGameClient.o
+	$(OBJDIR)pnGameClient.o \
+	$(OBJDIR)pnFileClient.o
 
 PLSLIB=libPlasmaNet.so
 LIBDIR=../lib
@@ -67,3 +68,6 @@ $(OBJDIR)GameMessages.o: game/GameMessages.h game/GameMessages.cpp
 
 $(OBJDIR)pnGameClient.o: game/pnGameClient.h game/pnGameClient.cpp
 	$(CXX) $(CXXFLAGS) -c game/pnGameClient.cpp -o $@
+
+$(OBJDIR)pnFileClient.o: file/pnFileClient.h file/pnFileClient.cpp
+	$(CXX) $(CXXFLAGS) -c file/pnFileClient.cpp -o $@

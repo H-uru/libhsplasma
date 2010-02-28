@@ -2,6 +2,7 @@
 #define _PNNETMSG_H
 
 #include "PlasmaDefs.h"
+#include "Protocol.h"
 #include "Util/plString.h"
 #include "Sys/plUuid.h"
 #include <cstdlib>
@@ -23,17 +24,11 @@ DllStruct pnNetMsg {
     const pnNetMsgField* fFields;
 };
 
-typedef unsigned short NCchar_t;
-
 typedef union {
     hsUint32 fUint;
     NCchar_t* fString;
     hsUbyte* fData;
 } msgparm_t;
-
-DllExport msgparm_t* NCAllocMessage(const pnNetMsg* msg);
-DllExport void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg);
-DllExport size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
 
 #define MAKE_NETMSG(name) \
     static pnNetMsg name = { \
@@ -42,11 +37,10 @@ DllExport size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
         name##_Fields \
     };
 
-/* Some NCstring utilities */
-DllExport size_t NCstrlen(const NCchar_t* str);
-DllExport plString NCstrToString(const NCchar_t* str);
-DllExport NCchar_t* StringToNCstr(const plString& str);
-DllExport void NCstrlower(NCchar_t* str);
+DllExport msgparm_t* NCAllocMessage(const pnNetMsg* msg);
+DllExport void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg);
+DllExport size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
+
 
 /* Other stuff that doesn't really belong anywhere else */
 DllStruct pnNetAgeInfo {
