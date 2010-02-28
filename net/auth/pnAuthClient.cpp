@@ -676,7 +676,7 @@ hsUint32 pnAuthClient::sendVaultNodeCreate(const pnVaultNode& node)
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fUint = node.calcSize();
+    msg[1].fUint = node.bufferSize();
     msg[2].fData = new hsUbyte[msg[1].fUint];
     node.write(msg[2].fData, msg[1].fUint);
     fSock->sendMsg(msg, desc);
@@ -705,7 +705,7 @@ hsUint32 pnAuthClient::sendVaultNodeSave(hsUint32 nodeId, const plUuid& revision
     msg[0].fUint = transId;
     msg[1].fUint = nodeId;
     revisionId.write(msg[2].fData);
-    msg[3].fUint = node.calcSize();
+    msg[3].fUint = node.bufferSize();
     msg[4].fData = new hsUbyte[msg[3].fUint];
     node.write(msg[4].fData, msg[3].fUint);
     fSock->sendMsg(msg, desc);
@@ -780,7 +780,7 @@ hsUint32 pnAuthClient::sendVaultNodeFind(const pnVaultNode& templateNode)
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fUint = templateNode.calcSize();
+    msg[1].fUint = templateNode.bufferSize();
     msg[2].fData = new hsUbyte[msg[1].fUint];
     templateNode.write(msg[2].fData, msg[1].fUint);
     fSock->sendMsg(msg, desc);

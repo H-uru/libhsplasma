@@ -5,18 +5,56 @@
 
 /* pnVaultNode */
 pnVaultNode::pnVaultNode()
-           : fFieldMask(0), fNodeIdx(0), fNodeType(0) { }
+           : fFieldMask(0), fDirtyMask(0), fCachedSize(0), fDirtySize(0),
+             fNodeIdx(0), fNodeType(0) {
+    fCreateAgeName = NULL;
+    memset(fString64, 0, sizeof(fString64));
+    memset(fIString64, 0, sizeof(fIString64));
+    memset(fText, 0, sizeof(fText));
+}
 
 pnVaultNode::pnVaultNode(const pnVaultNode& init) {
+    fCreateAgeName = NULL;
+    memset(fString64, 0, sizeof(fString64));
+    memset(fIString64, 0, sizeof(fIString64));
+    memset(fText, 0, sizeof(fText));
     copy(init);
+}
+
+pnVaultNode::~pnVaultNode() {
+    if (fCreateAgeName != NULL)
+        delete[] fCreateAgeName;
+    if (fString64[0] != NULL)
+        delete[] fString64[0];
+    if (fString64[1] != NULL)
+        delete[] fString64[1];
+    if (fString64[2] != NULL)
+        delete[] fString64[2];
+    if (fString64[3] != NULL)
+        delete[] fString64[3];
+    if (fString64[4] != NULL)
+        delete[] fString64[4];
+    if (fString64[5] != NULL)
+        delete[] fString64[5];
+    if (fIString64[0] != NULL)
+        delete[] fIString64[0];
+    if (fIString64[1] != NULL)
+        delete[] fIString64[1];
+    if (fText[0] != NULL)
+        delete[] fText[0];
+    if (fText[1] != NULL)
+        delete[] fText[1];
 }
 
 void pnVaultNode::copy(const pnVaultNode& init) {
     fFieldMask = init.fFieldMask;
+    fDirtyMask = init.fDirtyMask;
+    fCachedSize = init.fCachedSize;
+    fDirtySize = init.fDirtySize;
     fNodeIdx = init.fNodeIdx;
     fCreateTime = init.fCreateTime;
     fModifyTime = init.fModifyTime;
-    fCreateAgeName = init.fCreateAgeName;
+    fCreateAgeName = NCstrdup(init.fCreateAgeName);
     fCreateAgeUuid = init.fCreateAgeUuid;
     fCreatorUuid = init.fCreatorUuid;
     fCreatorIdx = init.fCreatorIdx;
@@ -33,34 +71,50 @@ void pnVaultNode::copy(const pnVaultNode& init) {
     fUuid[1] = init.fUuid[1];
     fUuid[2] = init.fUuid[2];
     fUuid[3] = init.fUuid[3];
-    fString64[0] = init.fString64[0];
-    fString64[1] = init.fString64[1];
-    fString64[2] = init.fString64[2];
-    fString64[3] = init.fString64[3];
-    fString64[4] = init.fString64[4];
-    fString64[5] = init.fString64[5];
-    fIString64[0] = init.fIString64[0];
-    fIString64[1] = init.fIString64[1];
-    fText[0] = init.fText[0];
-    fText[1] = init.fText[1];
+    fString64[0] = NCstrdup(init.fString64[0]);
+    fString64[1] = NCstrdup(init.fString64[1]);
+    fString64[2] = NCstrdup(init.fString64[2]);
+    fString64[3] = NCstrdup(init.fString64[3]);
+    fString64[4] = NCstrdup(init.fString64[4]);
+    fString64[5] = NCstrdup(init.fString64[5]);
+    fIString64[0] = NCstrdup(init.fIString64[0]);
+    fIString64[1] = NCstrdup(init.fIString64[1]);
+    fText[0] = NCstrdup(init.fText[0]);
+    fText[1] = NCstrdup(init.fText[1]);
     fBlob[0] = init.fBlob[0];
     fBlob[1] = init.fBlob[1];
 }
 
 void pnVaultNode::clear() {
     fFieldMask = 0;
+    fDirtyMask = 0;
+    fCachedSize = 0;
 }
 
 bool pnVaultNode::isValid() const {
-    return fNodeIdx != 0;
+    return (fFieldMask & (1<<kNodeIdx)) != 0 && fNodeIdx != 0;
 }
 
-bool pnVaultNode::hasField(hsUint64 field) const {
-    return (fFieldMask & field) != 0;
+bool pnVaultNode::isDirty() const {
+    return fDirtyMask != 0;
 }
 
-void pnVaultNode::clearField(hsUint64 field) {
-    fFieldMask &= ~field;
+bool pnVaultNode::hasField(size_t field) const {
+    return (fFieldMask & (1<<field)) != 0;
+}
+
+bool pnVaultNode::hasDirty(size_t field) const {
+    return (fDirtyMask & (1<<field)) != 0;
+}
+
+void pnVaultNode::allDirty() {
+    fDirtyMask = fFieldMask;
+    fDirtySize = fCachedSize;
+}
+
+void pnVaultNode::allClean() {
+    fDirtyMask = 0;
+    fDirtySize = 0;
 }
 
 void pnVaultNode::setTimeNow() {
@@ -72,80 +126,44 @@ void pnVaultNode::setModifyNow() {
     setModifyTime((hsUint32)time(NULL));
 }
 
-size_t pnVaultNode::calcSize() const {
-    size_t size = sizeof(hsUint64); // Field Mask
+size_t pnVaultNode::bufferSize() const {
+    return fDirtySize + sizeof(hsUint64);
+}
 
-    hsUint64 bit = 1;
-    while (bit != 0 && bit <= fFieldMask) {
-        switch (fFieldMask & bit) {
-        case kInt32_1:
-        case kInt32_2:
-        case kInt32_3:
-        case kInt32_4:
-            size += sizeof(hsInt32);
-            break;
-        case kCreateTime:
-        case kModifyTime:
-        case kNodeIdx:
-        case kCreatorIdx:
-        case kNodeType:
-        case kUint32_1:
-        case kUint32_2:
-        case kUint32_3:
-        case kUint32_4:
-            size += sizeof(hsUint32);
-            break;
-        case kCreateAgeUuid:
-        case kCreatorUuid:
-        case kUuid_1:
-        case kUuid_2:
-        case kUuid_3:
-        case kUuid_4:
-            size += sizeof(plUuid);
-            break;
-        case kCreateAgeName:
-            size += sizeof(hsUint32) + ((fCreateAgeName.len() + 1) * sizeof(NCchar_t));
-            break;
-        case kString64_1:
-            size += sizeof(hsUint32) + ((fString64[0].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kString64_2:
-            size += sizeof(hsUint32) + ((fString64[1].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kString64_3:
-            size += sizeof(hsUint32) + ((fString64[2].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kString64_4:
-            size += sizeof(hsUint32) + ((fString64[3].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kString64_5:
-            size += sizeof(hsUint32) + ((fString64[4].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kString64_6:
-            size += sizeof(hsUint32) + ((fString64[5].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kIString64_1:
-            size += sizeof(hsUint32) + ((fIString64[0].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kIString64_2:
-            size += sizeof(hsUint32) + ((fIString64[1].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kText_1:
-            size += sizeof(hsUint32) + ((fText[0].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kText_2:
-            size += sizeof(hsUint32) + ((fText[1].len() + 1) * sizeof(NCchar_t));
-            break;
-        case kBlob_1:
-            size += sizeof(hsUint32) + fBlob[0].getSize();
-            break;
-        case kBlob_2:
-            size += sizeof(hsUint32) + fBlob[1].getSize();
-            break;
-        }
-        bit <<= 1;
-    }
-    return size;
+static hsUint64 readU64(const unsigned char*& buffer, size_t& size) {
+    hsUint64 v = *(hsUint64*)buffer;
+    buffer += sizeof(hsUint64);
+    size -= sizeof(hsUint64);
+    return v;
+}
+
+static hsUint32 readU32(const unsigned char*& buffer, size_t& size) {
+    hsUint32 v = *(hsUint32*)buffer;
+    buffer += sizeof(hsUint32);
+    size -= sizeof(hsUint32);
+    return v;
+}
+
+static hsInt32 readS32(const unsigned char*& buffer, size_t& size) {
+    hsInt32 v = *(hsInt32*)buffer;
+    buffer += sizeof(hsInt32);
+    size -= sizeof(hsInt32);
+    return v;
+}
+
+static plUuid readUuid(const unsigned char*& buffer, size_t& size) {
+    plUuid v = *(plUuid*)buffer;
+    buffer += sizeof(plUuid);
+    size -= sizeof(plUuid);
+    return v;
+}
+
+static NCchar_t* readString(const unsigned char*& buffer, size_t& size) {
+    size_t len = readU32(buffer, size);
+    NCchar_t* v = NCstrdup((NCchar_t*)buffer);
+    buffer += len;
+    size -= len;
+    return v;
 }
 
 void pnVaultNode::read(const unsigned char* buffer, size_t size) {
@@ -153,257 +171,128 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
         plDebug::Error("Invalid node data");
         return;
     }
-    fFieldMask = *(hsUint64*)buffer;
-    buffer += sizeof(hsUint64);
-    size -= sizeof(hsUint64);
+    fCachedSize = size;
+    fDirtyMask = 0;
+    fDirtySize = 0;
+    fFieldMask = readU64(buffer, size);
 
-    hsUint64 bit = 1;
-    while (bit != 0 && bit <= fFieldMask && ((int)size) > 0) {
-        switch (fFieldMask & bit) {
+    for (size_t bit=0; bit<kNumFields; bit++) {
+        if ((fFieldMask & (1<<bit)) == 0)
+            continue;
+
+        switch (bit) {
         case kNodeIdx:
-            fNodeIdx = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            fNodeIdx = readU32(buffer, size);
             break;
         case kCreateTime:
-            fCreateTime = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            fCreateTime = readU32(buffer, size);
             break;
         case kModifyTime:
-            fModifyTime = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            fModifyTime = readU32(buffer, size);
             break;
         case kCreateAgeName:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fCreateAgeName = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
+            if (fCreateAgeName != NULL)
+                delete[] fCreateAgeName;
+            fCreateAgeName = readString(buffer, size);
             break;
         case kCreateAgeUuid:
-            fCreateAgeUuid = *(plUuid*)buffer;
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
+            fCreateAgeUuid = readUuid(buffer, size);
             break;
         case kCreatorUuid:
-            fCreatorUuid = *(plUuid*)buffer;
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
+            fCreatorUuid = readUuid(buffer, size);
             break;
         case kCreatorIdx:
-            fCreatorIdx = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            fCreatorIdx = readU32(buffer, size);
             break;
         case kNodeType:
-            fNodeType = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            fNodeType = readU32(buffer, size);
             break;
         case kInt32_1:
-            fInt32[0] = *(hsInt32*)buffer;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
-            break;
         case kInt32_2:
-            fInt32[1] = *(hsInt32*)buffer;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
-            break;
         case kInt32_3:
-            fInt32[2] = *(hsInt32*)buffer;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
-            break;
         case kInt32_4:
-            fInt32[3] = *(hsInt32*)buffer;
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
+            fInt32[bit - kInt32_1] = readS32(buffer, size);
             break;
         case kUint32_1:
-            fUint32[0] = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
-            break;
         case kUint32_2:
-            fUint32[1] = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
-            break;
         case kUint32_3:
-            fUint32[2] = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
-            break;
         case kUint32_4:
-            fUint32[3] = *(hsUint32*)buffer;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            fUint32[bit - kUint32_1] = readU32(buffer, size);
             break;
         case kUuid_1:
-            fUuid[0] = *(plUuid*)buffer;
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
-            break;
         case kUuid_2:
-            fUuid[1] = *(plUuid*)buffer;
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
-            break;
         case kUuid_3:
-            fUuid[2] = *(plUuid*)buffer;
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
-            break;
         case kUuid_4:
-            fUuid[3] = *(plUuid*)buffer;
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
+            fUuid[bit - kUuid_1] = readUuid(buffer, size);
             break;
         case kString64_1:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fString64[0] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
-            break;
         case kString64_2:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fString64[1] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
-            break;
         case kString64_3:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fString64[2] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
-            break;
         case kString64_4:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fString64[3] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
-            break;
         case kString64_5:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fString64[4] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
-            break;
         case kString64_6:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fString64[5] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
+            if (fString64[bit - kString64_1] != NULL)
+                delete[] fString64[bit - kString64_1];
+            fString64[bit - kString64_1] = readString(buffer, size);
             break;
         case kIString64_1:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fIString64[0] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
-            break;
         case kIString64_2:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fIString64[1] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
+            if (fIString64[bit - kIString64_1] != NULL)
+                delete[] fIString64[bit - kIString64_1];
+            fIString64[bit - kIString64_1] = readString(buffer, size);
             break;
         case kText_1:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fText[0] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
-            break;
         case kText_2:
-            {
-                size_t len = *(hsUint32*)buffer / sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fText[1] = NCstrToString((NCchar_t*)buffer);
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-            }
+            if (fText[bit - kText_1] != NULL)
+                delete[] fText[bit - kText_1];
+            fText[bit - kText_1] = readString(buffer, size);
             break;
         case kBlob_1:
-            {
-                size_t len = *(hsUint32*)buffer;
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fBlob[0].setData(len, buffer);
-                buffer += len;
-                size -= len;
-            }
-            break;
         case kBlob_2:
             {
-                size_t len = *(hsUint32*)buffer;
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                fBlob[1].setData(len, buffer);
+                size_t len = readU32(buffer, size);
+                fBlob[bit - kBlob_1].setData(len, buffer);
                 buffer += len;
                 size -= len;
             }
             break;
         }
-        bit <<= 1;
     }
 
-    if (bit <= fFieldMask || size != 0)
+    if (size != 0)
         plDebug::Warning("Incomplete read of node %d", fNodeIdx);
+}
+
+static void writeU64(hsUint64 v, unsigned char*& buffer, size_t& size) {
+    *(hsUint64*)buffer = v;
+    buffer += sizeof(hsUint64);
+    size -= sizeof(hsUint64);
+}
+
+static void writeU32(hsUint32 v, unsigned char*& buffer, size_t& size) {
+    *(hsUint32*)buffer = v;
+    buffer += sizeof(hsUint32);
+    size -= sizeof(hsUint32);
+}
+
+static void writeS32(hsInt32 v, unsigned char*& buffer, size_t& size) {
+    *(hsInt32*)buffer = v;
+    buffer += sizeof(hsInt32);
+    size -= sizeof(hsInt32);
+}
+
+static void writeUuid(const plUuid& v, unsigned char*& buffer, size_t& size) {
+    *(plUuid*)buffer = v;
+    buffer += sizeof(plUuid);
+    size -= sizeof(plUuid);
+}
+
+static void writeString(const NCchar_t* v, unsigned char*& buffer, size_t& size) {
+    size_t len = (NCstrlen(v) + 1) * sizeof(NCchar_t);
+    writeU32(len, buffer, size);
+    memcpy(buffer, v, len);
+    buffer += len;
+    size -= len;
 }
 
 void pnVaultNode::write(unsigned char* buffer, size_t size) const {
@@ -411,458 +300,306 @@ void pnVaultNode::write(unsigned char* buffer, size_t size) const {
         plDebug::Error("Invalid node buffer");
         return;
     }
-    *(hsUint64*)buffer = fFieldMask;
-    buffer += sizeof(hsUint64);
-    size -= sizeof(hsUint64);
+    writeU64(fDirtyMask, buffer, size);
 
-    hsUint64 bit = 1;
-    while (bit != 0 && bit <= fFieldMask && ((int)size) > 0) {
-        switch (fFieldMask & bit) {
+    for (size_t bit=0; bit<kNumFields; bit++) {
+        if ((fDirtyMask & (1<<bit)) == 0)
+            continue;
+
+        switch (bit) {
         case kNodeIdx:
-            *(hsUint32*)buffer = fNodeIdx;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            writeU32(fNodeIdx, buffer, size);
             break;
         case kCreateTime:
-            *(hsUint32*)buffer = fCreateTime;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            writeU32(fCreateTime, buffer, size);
             break;
         case kModifyTime:
-            *(hsUint32*)buffer = fModifyTime;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            writeU32(fModifyTime, buffer, size);
             break;
         case kCreateAgeName:
-            {
-                NCchar_t* str = StringToNCstr(fCreateAgeName);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
+            writeString(fCreateAgeName, buffer, size);
             break;
         case kCreateAgeUuid:
-            *(plUuid*)buffer = fCreateAgeUuid;
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
+            writeUuid(fCreateAgeUuid, buffer, size);
             break;
         case kCreatorUuid:
-            *(plUuid*)buffer = fCreatorUuid;
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
+            writeUuid(fCreatorUuid, buffer, size);
             break;
         case kCreatorIdx:
-            *(hsUint32*)buffer = fCreatorIdx;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            writeU32(fCreatorIdx, buffer, size);
             break;
         case kNodeType:
-            *(hsUint32*)buffer = fNodeType;
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            writeU32(fNodeType, buffer, size);
             break;
         case kInt32_1:
-            *(hsInt32*)buffer = fInt32[0];
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
-            break;
         case kInt32_2:
-            *(hsInt32*)buffer = fInt32[1];
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
-            break;
         case kInt32_3:
-            *(hsInt32*)buffer = fInt32[2];
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
-            break;
         case kInt32_4:
-            *(hsInt32*)buffer = fInt32[3];
-            buffer += sizeof(hsInt32);
-            size -= sizeof(hsInt32);
+            writeS32(fInt32[bit - kInt32_1], buffer, size);
             break;
         case kUint32_1:
-            *(hsUint32*)buffer = fUint32[0];
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
-            break;
         case kUint32_2:
-            *(hsUint32*)buffer = fUint32[1];
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
-            break;
         case kUint32_3:
-            *(hsUint32*)buffer = fUint32[2];
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
-            break;
         case kUint32_4:
-            *(hsUint32*)buffer = fUint32[3];
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
+            writeU32(fUint32[bit - kUint32_1], buffer, size);
             break;
         case kUuid_1:
-            *(plUuid*)buffer = fUuid[0];
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
-            break;
         case kUuid_2:
-            *(plUuid*)buffer = fUuid[1];
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
-            break;
         case kUuid_3:
-            *(plUuid*)buffer = fUuid[2];
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
-            break;
         case kUuid_4:
-            *(plUuid*)buffer = fUuid[3];
-            buffer += sizeof(plUuid);
-            size -= sizeof(plUuid);
+            writeUuid(fUuid[bit - kUuid_1], buffer, size);
             break;
         case kString64_1:
-            {
-                NCchar_t* str = StringToNCstr(fString64[0]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
-            break;
         case kString64_2:
-            {
-                NCchar_t* str = StringToNCstr(fString64[1]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
-            break;
         case kString64_3:
-            {
-                NCchar_t* str = StringToNCstr(fString64[2]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
-            break;
         case kString64_4:
-            {
-                NCchar_t* str = StringToNCstr(fString64[3]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
-            break;
         case kString64_5:
-            {
-                NCchar_t* str = StringToNCstr(fString64[4]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
-            break;
         case kString64_6:
-            {
-                NCchar_t* str = StringToNCstr(fString64[5]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
+            writeString(fString64[bit - kString64_1], buffer, size);
             break;
         case kIString64_1:
-            {
-                NCchar_t* str = StringToNCstr(fIString64[0]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
-            break;
         case kIString64_2:
-            {
-                NCchar_t* str = StringToNCstr(fIString64[1]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
+            writeString(fIString64[bit - kIString64_1], buffer, size);
             break;
         case kText_1:
-            {
-                NCchar_t* str = StringToNCstr(fText[0]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
-            break;
         case kText_2:
-            {
-                NCchar_t* str = StringToNCstr(fText[1]);
-                size_t len = NCstrlen(str) + 1;
-                *(hsUint32*)buffer = len * sizeof(NCchar_t);
-                buffer += sizeof(hsUint32);
-                size -= sizeof(hsUint32);
-
-                memcpy(buffer, str, len * sizeof(NCchar_t));
-                buffer += len * sizeof(NCchar_t);
-                size -= len * sizeof(NCchar_t);
-                delete[] str;
-            }
+            writeString(fText[bit - kText_1], buffer, size);
             break;
         case kBlob_1:
-            *(hsUint32*)buffer = fBlob[0].getSize();
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
-
-            memcpy(buffer, fBlob[0].getData(), fBlob[0].getSize());
-            buffer += fBlob[0].getSize();
-            size -= fBlob[0].getSize();
-            break;
         case kBlob_2:
-            *(hsUint32*)buffer = fBlob[1].getSize();
-            buffer += sizeof(hsUint32);
-            size -= sizeof(hsUint32);
-
-            memcpy(buffer, fBlob[1].getData(), fBlob[1].getSize());
-            buffer += fBlob[1].getSize();
-            size -= fBlob[1].getSize();
+            writeU32(fBlob[bit - kBlob_1].getSize(), buffer, size);
+            memcpy(buffer, fBlob[bit - kBlob_1].getData(), fBlob[bit - kBlob_1].getSize());
+            buffer += fBlob[bit - kBlob_1].getSize();
+            size -= fBlob[bit - kBlob_1].getSize();
             break;
         }
-        bit <<= 1;
     }
 
-    if (bit <= fFieldMask || size != 0)
+    if (size != 0)
         plDebug::Warning("Node %d is truncated", fNodeIdx);
 }
 
 hsUint32 pnVaultNode::getNodeIdx() const
 {
-    return (fFieldMask & kNodeIdx) != 0 ? fNodeIdx : 0;
+    return (fFieldMask & (1<<kNodeIdx)) != 0 ? fNodeIdx : 0;
 }
 
 hsUint32 pnVaultNode::getCreateTime() const
 {
-    return (fFieldMask & kCreateTime) != 0 ? fCreateTime : 0;
+    return (fFieldMask & (1<<kCreateTime)) != 0 ? fCreateTime : 0;
 }
 
 hsUint32 pnVaultNode::getModifyTime() const
 {
-    return (fFieldMask & kModifyTime) != 0 ? fModifyTime : 0;
+    return (fFieldMask & (1<<kModifyTime)) != 0 ? fModifyTime : 0;
 }
 
 plString pnVaultNode::getCreateAgeName() const
 {
-    return (fFieldMask & kCreateAgeName) != 0 ? fCreateAgeName : plString();
+    return (fFieldMask & (1<<kCreateAgeName)) != 0
+           ? NCstrToString(fCreateAgeName) : plString();
 }
 
 plUuid pnVaultNode::getCreateAgeUuid() const
 {
-    return (fFieldMask & kCreateAgeUuid) != 0 ? fCreateAgeUuid : plUuid();
+    return (fFieldMask & (1<<kCreateAgeUuid)) != 0 ? fCreateAgeUuid : plUuid();
 }
 
 plUuid pnVaultNode::getCreatorUuid() const
 {
-    return (fFieldMask & kCreatorUuid) != 0 ? fCreatorUuid : plUuid();
+    return (fFieldMask & (1<<kCreatorUuid)) != 0 ? fCreatorUuid : plUuid();
 }
 
 hsUint32 pnVaultNode::getCreatorIdx() const
 {
-    return (fFieldMask & kCreatorIdx) != 0 ? fCreatorIdx : 0;
+    return (fFieldMask & (1<<kCreatorIdx)) != 0 ? fCreatorIdx : 0;
 }
 
 hsUint32 pnVaultNode::getNodeType() const
 {
-    return (fFieldMask & kNodeType) != 0 ? fNodeType : 0;
+    return (fFieldMask & (1<<kNodeType)) != 0 ? fNodeType : 0;
 }
 
 hsInt32 pnVaultNode::getInt32(size_t which) const
 {
-    return (fFieldMask & (hsUint64)(kInt32_1 << which)) != 0
+    return (fFieldMask & (hsUint64)((1<<kInt32_1) << which)) != 0
            ? fInt32[which] : 0;
 }
 
 hsUint32 pnVaultNode::getUint32(size_t which) const
 {
-    return (fFieldMask & (hsUint64)(kUint32_1 << which)) != 0
+    return (fFieldMask & (hsUint64)((1<<kUint32_1) << which)) != 0
            ? fUint32[which] : 0;
 }
 
 plUuid pnVaultNode::getUuid(size_t which) const
 {
-    return (fFieldMask & (hsUint64)(kUuid_1 << which)) != 0
+    return (fFieldMask & (hsUint64)((1<<kUuid_1) << which)) != 0
            ? fUuid[which] : plUuid();
 }
 
 plString pnVaultNode::getString64(size_t which) const
 {
-    return (fFieldMask & (hsUint64)(kString64_1 << which)) != 0
-           ? fString64[which] : plString();
+    return (fFieldMask & (hsUint64)((1<<kString64_1) << which)) != 0
+           ? NCstrToString(fString64[which]) : plString();
 }
 
 plString pnVaultNode::getIString64(size_t which) const
 {
-    return (fFieldMask & (hsUint64)(kIString64_1 << which)) != 0
-           ? fIString64[which] : plString();
+    return (fFieldMask & (hsUint64)((1<<kIString64_1) << which)) != 0
+           ? NCstrToString(fIString64[which]) : plString();
 }
 
 plString pnVaultNode::getText(size_t which) const
 {
-    return (fFieldMask & (hsUint64)(kText_1 << which)) != 0
-           ? fText[which] : plString();
+    return (fFieldMask & (hsUint64)((1<<kText_1) << which)) != 0
+           ? NCstrToString(fText[which]) : plString();
 }
 
 plVaultBlob pnVaultNode::getBlob(size_t which) const
 {
-    return (fFieldMask & (hsUint64)(kBlob_1 << which)) != 0
+    return (fFieldMask & (hsUint64)((1<<kBlob_1) << which)) != 0
            ? fBlob[which] : plVaultBlob();
 }
+
+void pnVaultNode::ISetField(size_t which, size_t size)
+{
+    if (!hasField(which))
+        fCachedSize += size;
+    if (!hasDirty(which))
+        fDirtySize += size;
+    fFieldMask |= (1<<which);
+    fDirtyMask |= (1<<which);
+}
+
+void pnVaultNode::IClearField(size_t which, size_t size)
+{
+    if (hasField(which))
+        fCachedSize -= size;
+    if (hasDirty(which))
+        fDirtySize -= size;
+    fFieldMask &= ~(1<<which);
+    fDirtyMask &= ~(1<<which);
+}
+
 
 void pnVaultNode::setNodeIdx(hsUint32 idx)
 {
     fNodeIdx = idx;
-    fFieldMask |= kNodeIdx;
+    ISetField(kNodeIdx, sizeof(hsUint32));
 }
 
 void pnVaultNode::setCreateTime(hsUint32 createTime)
 {
     fCreateTime = createTime;
-    fFieldMask |= kCreateTime;
+    ISetField(kCreateTime, sizeof(hsUint32));
 }
 
 void pnVaultNode::setModifyTime(hsUint32 modTime)
 {
     fModifyTime = modTime;
-    fFieldMask |= kModifyTime;
+    ISetField(kModifyTime, sizeof(hsUint32));
 }
 
 void pnVaultNode::setCreateAgeName(const plString& name)
 {
-    fCreateAgeName = name;
-    fFieldMask |= kCreateAgeName;
+    if (fCreateAgeName != NULL) {
+        size_t oldLen = (NCstrlen(fCreateAgeName) + 1) * sizeof(NCchar_t);
+        IClearField(kCreateAgeName, oldLen + sizeof(hsUint32));
+        delete[] fCreateAgeName;
+    }
+
+    fCreateAgeName = StringToNCstr(name);
+    size_t len = (NCstrlen(fCreateAgeName) + 1) * sizeof(NCchar_t);
+    ISetField(kCreateAgeName, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setCreateAgeUuid(const plUuid& uuid)
 {
     fCreateAgeUuid = uuid;
-    fFieldMask |= kCreateAgeUuid;
+    ISetField(kCreateAgeUuid, sizeof(plUuid));
 }
 
 void pnVaultNode::setCreatorUuid(const plUuid& uuid)
 {
     fCreatorUuid = uuid;
-    fFieldMask |= kCreatorUuid;
+    ISetField(kCreatorUuid, sizeof(plUuid));
 }
 
 void pnVaultNode::setCreatorIdx(hsUint32 idx)
 {
     fCreatorIdx = idx;
-    fFieldMask |= kCreatorIdx;
+    ISetField(kCreatorIdx, sizeof(hsUint32));
 }
 
 void pnVaultNode::setNodeType(hsUint32 type)
 {
     fNodeType = type;
-    fFieldMask |= kNodeType;
+    ISetField(kNodeType, sizeof(hsUint32));
 }
 
 void pnVaultNode::setInt32(size_t which, hsInt32 value)
 {
     fInt32[which] = value;
-    fFieldMask |= (hsUint64)(kInt32_1 << which);
+    ISetField(kInt32_1 << which, sizeof(hsInt32));
 }
 
 void pnVaultNode::setUInt32(size_t which, hsUint32 value)
 {
     fUint32[which] = value;
-    fFieldMask |= (hsUint64)(kUint32_1 << which);
+    ISetField(kUint32_1 << which, sizeof(hsUint32));
 }
 
 void pnVaultNode::setUuid(size_t which, const plUuid& value)
 {
     fUuid[which] = value;
-    fFieldMask |= (hsUint64)(kUuid_1 << which);
+    ISetField(kUuid_1 << which, sizeof(plUuid));
 }
 
 void pnVaultNode::setString64(size_t which, const plString& value)
 {
-    fString64[which] = value;
-    fFieldMask |= (hsUint64)(kString64_1 << which);
+    if (fString64[which] != NULL) {
+        size_t oldLen = (NCstrlen(fString64[which]) + 1) * sizeof(NCchar_t);
+        IClearField(kString64_1 << which, oldLen + sizeof(hsUint32));
+        delete[] fString64[which];
+    }
+
+    fString64[which] = StringToNCstr(value);
+    size_t len = (NCstrlen(fString64[which]) + 1) * sizeof(NCchar_t);
+    ISetField(kString64_1 << which, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setIString64(size_t which, const plString& value)
 {
-    fIString64[which] = value;
-    fFieldMask |= (hsUint64)(kIString64_1 << which);
+    if (fIString64[which] != NULL) {
+        size_t oldLen = (NCstrlen(fIString64[which]) + 1) * sizeof(NCchar_t);
+        IClearField(kIString64_1 << which, oldLen + sizeof(hsUint32));
+        delete[] fIString64[which];
+    }
+
+    fIString64[which] = StringToNCstr(value);
+    size_t len = (NCstrlen(fIString64[which]) + 1) * sizeof(NCchar_t);
+    ISetField(kIString64_1 << which, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setText(size_t which, const plString& value)
 {
-    fText[which] = value;
-    fFieldMask |= (hsUint64)(kText_1 << which);
+    if (fText[which] != NULL) {
+        size_t oldLen = (NCstrlen(fText[which]) + 1) * sizeof(NCchar_t);
+        IClearField(kText_1 << which, oldLen + sizeof(hsUint32));
+        delete[] fText[which];
+    }
+
+    fText[which] = StringToNCstr(value);
+    size_t len = (NCstrlen(fText[which]) + 1) * sizeof(NCchar_t);
+    ISetField(kText_1 << which, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setBlob(size_t which, const plVaultBlob& value)
 {
+    IClearField(kBlob_1 << which, fBlob[which].getSize() + sizeof(hsUint32));
     fBlob[which] = value;
-    fFieldMask |= (hsUint64)(kBlob_1 << which);
+    ISetField(kBlob_1 << which, fBlob[which].getSize() + sizeof(hsUint32));
 }
 
 

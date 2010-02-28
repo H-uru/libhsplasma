@@ -140,6 +140,18 @@ size_t NCstrlen(const NCchar_t* str)
     return (size_t)((p - str) - 1);
 }
 
+NCchar_t* NCstrdup(const NCchar_t* str)
+{
+    if (str == NULL)
+        return NULL;
+
+    size_t len = NCstrlen(str);
+    NCchar_t* dup = new NCchar_t[len + 1];
+    memcpy(dup, str, len * sizeof(NCchar_t));
+    dup[len] = 0;
+    return dup;
+}
+
 plString NCstrToString(const NCchar_t* str)
 {
     /* Use UTF-8 to preserve the Unicode data */

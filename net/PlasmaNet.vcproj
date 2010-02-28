@@ -393,6 +393,42 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="file"
+			>
+			<File
+				RelativePath=".\file\FileMessages.h"
+				>
+			</File>
+			<File
+				RelativePath=".\file\pnFileClient.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\file\pnFileClient.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="game"
+			>
+			<File
+				RelativePath=".\game\GameMessages.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\game\GameMessages.h"
+				>
+			</File>
+			<File
+				RelativePath=".\game\pnGameClient.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\game\pnGameClient.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\pnNetMsg.cpp"
 			>

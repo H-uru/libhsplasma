@@ -49,6 +49,7 @@ enum NetCliConnectMsg {
 typedef unsigned short NCchar_t;
 
 DllExport size_t NCstrlen(const NCchar_t* str);
+DllExport NCchar_t* NCstrdup(const NCchar_t* str);
 DllExport plString NCstrToString(const NCchar_t* str);
 DllExport NCchar_t* StringToNCstr(const plString& str);
 DllExport void NCstrlower(NCchar_t* str);
