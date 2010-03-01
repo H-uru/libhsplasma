@@ -22,6 +22,8 @@ public:
     void start();
     void wait();
     bool isFinished() const;
+    void destroy();
+    void terminate();
 
     static void YieldThread();
 

@@ -56,7 +56,7 @@ private:
 
     protected:
         virtual void run();
-    } fAsyncIO;
+    } *fAsyncIO;
 
 public:
     pnAsyncSocket(pnSocket* sock);   // Steals the socket
@@ -71,7 +71,7 @@ public:
     size_t rsize() const;
     bool isConnected() const;
 
-    void close(bool force=false);
+    void close();
 };
 
 #endif

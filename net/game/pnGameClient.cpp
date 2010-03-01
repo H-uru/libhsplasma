@@ -68,8 +68,8 @@ pnGameClient::pnGameClient()
 
 pnGameClient::~pnGameClient()
 {
-    if (fDispatch != NULL)
-        delete fDispatch;
+    fSock->close();
+    fDispatch->destroy();
     if (fSock != NULL)
         delete fSock;
 }

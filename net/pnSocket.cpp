@@ -339,18 +339,21 @@ void pnAsyncSocket::_async::run()
         }
         fSockMutex->unlock();
     }
+    fSock->close();
     fFinished = true;
 }
 
 pnAsyncSocket::pnAsyncSocket(pnSocket* sock)
 {
-    fAsyncIO.fSock = sock;
-    fAsyncIO.start();
+    fAsyncIO = new _async();
+    fAsyncIO->fSock = sock;
+    fAsyncIO->start();
 }
 
 pnAsyncSocket::~pnAsyncSocket()
 {
-    fAsyncIO.fFinished = true;
+    fAsyncIO->fFinished = true;
+    fAsyncIO->destroy();
 }
 
 long pnAsyncSocket::send(const void* buffer, size_t size)
@@ -360,10 +363,10 @@ long pnAsyncSocket::send(const void* buffer, size_t size)
     msg.fData = new unsigned char[size];
     memcpy(msg.fData, buffer, size);
 
-    if (!fAsyncIO.fFinished) {
-        fAsyncIO.fSockMutex->lock();
-        fAsyncIO.fSendQueue.push_back(msg);
-        fAsyncIO.fSockMutex->unlock();
+    if (!fAsyncIO->fFinished) {
+        fAsyncIO->fSockMutex->lock();
+        fAsyncIO->fSendQueue.push_back(msg);
+        fAsyncIO->fSockMutex->unlock();
         return size;
     } else {
         return -1;
@@ -377,20 +380,20 @@ long pnAsyncSocket::recv(void* buffer, size_t size)
         if (!waitForData())
             return -1;
 
-        fAsyncIO.fSockMutex->lock();
-        _async::_datum msg = fAsyncIO.fRecvQueue.front();
+        fAsyncIO->fSockMutex->lock();
+        _async::_datum msg = fAsyncIO->fRecvQueue.front();
         size_t cpySize = size;
-        if (size + fAsyncIO.fReadPos >= msg.fSize)
-            cpySize = msg.fSize - fAsyncIO.fReadPos;
-        memcpy(buffer, msg.fData + fAsyncIO.fReadPos, cpySize);
-        if (size + fAsyncIO.fReadPos >= msg.fSize) {
+        if (size + fAsyncIO->fReadPos >= msg.fSize)
+            cpySize = msg.fSize - fAsyncIO->fReadPos;
+        memcpy(buffer, msg.fData + fAsyncIO->fReadPos, cpySize);
+        if (size + fAsyncIO->fReadPos >= msg.fSize) {
             delete[] msg.fData;
-            fAsyncIO.fRecvQueue.pop_front();
-            fAsyncIO.fReadPos = 0;
+            fAsyncIO->fRecvQueue.pop_front();
+            fAsyncIO->fReadPos = 0;
         } else {
-            fAsyncIO.fReadPos += cpySize;
+            fAsyncIO->fReadPos += cpySize;
         }
-        fAsyncIO.fSockMutex->unlock();
+        fAsyncIO->fSockMutex->unlock();
         buffer = (void*)((unsigned char*)buffer + cpySize);
         size -= cpySize;
         rSize += cpySize;
@@ -403,11 +406,11 @@ long pnAsyncSocket::peek(void* buffer, size_t size)
     if (!waitForData())
         return -1;
 
-    fAsyncIO.fSockMutex->lock();
-    std::list<_async::_datum>::iterator it = fAsyncIO.fRecvQueue.begin();
+    fAsyncIO->fSockMutex->lock();
+    std::list<_async::_datum>::iterator it = fAsyncIO->fRecvQueue.begin();
     long rSize = 0;
-    size_t readPos = fAsyncIO.fReadPos;
-    while (size > 0 && it != fAsyncIO.fRecvQueue.end()) {
+    size_t readPos = fAsyncIO->fReadPos;
+    while (size > 0 && it != fAsyncIO->fRecvQueue.end()) {
         _async::_datum msg = *it;
         size_t cpySize = size;
         if (size + readPos >= msg.fSize)
@@ -423,20 +426,20 @@ long pnAsyncSocket::peek(void* buffer, size_t size)
         size -= cpySize;
         rSize += cpySize;
     }
-    fAsyncIO.fSockMutex->unlock();
+    fAsyncIO->fSockMutex->unlock();
     return rSize;
 }
 
 void pnAsyncSocket::flush()
 {
-    fAsyncIO.flush();
+    fAsyncIO->flush();
 }
 
 bool pnAsyncSocket::readAvailable() const
 {
-    fAsyncIO.fSockMutex->lock();
-    bool hasData = !fAsyncIO.fRecvQueue.empty();
-    fAsyncIO.fSockMutex->unlock();
+    fAsyncIO->fSockMutex->lock();
+    bool hasData = !fAsyncIO->fRecvQueue.empty();
+    fAsyncIO->fSockMutex->unlock();
     return hasData;
 }
 
@@ -449,23 +452,26 @@ bool pnAsyncSocket::waitForData()
 
 size_t pnAsyncSocket::rsize() const
 {
-    fAsyncIO.fSockMutex->lock();
+    fAsyncIO->fSockMutex->lock();
     size_t msgSize = 0;
-    if (!fAsyncIO.fRecvQueue.empty())
-        msgSize = fAsyncIO.fRecvQueue.front().fSize;
-    fAsyncIO.fSockMutex->unlock();
+    if (!fAsyncIO->fRecvQueue.empty())
+        msgSize = fAsyncIO->fRecvQueue.front().fSize;
+    fAsyncIO->fSockMutex->unlock();
     return msgSize;
 }
 
 bool pnAsyncSocket::isConnected() const
 {
-    fAsyncIO.fSockMutex->lock();
-    bool done = fAsyncIO.fFinished && fAsyncIO.fRecvQueue.empty();
-    fAsyncIO.fSockMutex->unlock();
+    fAsyncIO->fSockMutex->lock();
+    bool done = fAsyncIO->fFinished && fAsyncIO->fRecvQueue.empty();
+    fAsyncIO->fSockMutex->unlock();
     return !done;
 }
 
-void pnAsyncSocket::close(bool force)
+void pnAsyncSocket::close()
 {
-    fAsyncIO.fSock->close(force);
+    fAsyncIO->fSockMutex->lock();
+    fAsyncIO->fFinished = true;
+    fAsyncIO->fSockMutex->unlock();
+    fAsyncIO->wait();
 }

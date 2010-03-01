@@ -3,14 +3,19 @@
 #include <pthread.h>
 #include <list>
 
-enum { kStatePending, kStateRunning, kStateFinished };
+enum {
+    kStatePending = 0,
+    kStateRunning = 0x1,
+    kStateFinished = 0x2,
+    kStateDeleteReady = 0x4,
+    kStateCanDelete = (kStateFinished | kStateDeleteReady),
+};
 
 struct hsThread_POSIX {
     pthread_t fThreadHandle;
     int fState;
 
     hsThread_POSIX() : fState(kStatePending) { }
-
     ~hsThread_POSIX() { }
 };
 
@@ -38,7 +43,9 @@ void* hsThread::s_threadstart(void* self) {
     hsThread_POSIX* _thread = (hsThread_POSIX*)_this->fThreadData;
 
     _this->run();
-    _thread->fState = kStateFinished;
+    _thread->fState = (_thread->fState & ~kStateRunning) | kStateFinished;
+    if ((_thread->fState & kStateCanDelete) == kStateCanDelete)
+        delete _this;
     return NULL;
 }
 
@@ -48,9 +55,39 @@ hsThread::hsThread() {
 
 hsThread::~hsThread() {
     hsThread_POSIX* _this = (hsThread_POSIX*)fThreadData;
+    delete _this;
+}
 
-    // Deleting a thread kills it!
-    if (!isFinished()) {
+void hsThread::start() {
+    hsThread_POSIX* _this = (hsThread_POSIX*)fThreadData;
+    if ((_this->fState & kStateRunning) != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Thread already running!");
+
+    _this->fState |= kStateRunning;
+    if (pthread_create(&_this->fThreadHandle, NULL, &s_threadstart, this) != 0)
+        _this->fState = (_this->fState & ~kStateRunning) | kStateFinished;
+}
+
+void hsThread::wait() {
+    while (!isFinished())
+        YieldThread();
+}
+
+bool hsThread::isFinished() const {
+    const hsThread_POSIX* _this = (const hsThread_POSIX*)fThreadData;
+    return (_this->fState & kStateFinished) != 0;
+}
+
+void hsThread::destroy() {
+    hsThread_POSIX* _this = (hsThread_POSIX*)fThreadData;
+    _this->fState |= kStateDeleteReady;
+    if ((_this->fState & kStateCanDelete) == kStateCanDelete)
+        delete this;
+}
+
+void hsThread::terminate() {
+    hsThread_POSIX* _this = (hsThread_POSIX*)fThreadData;
+    if ((_this->fState & kStateRunning) != 0) {
         pthread_cancel(_this->fThreadHandle);
 
         // Clean up mutexes that were in use by the thread
@@ -62,31 +99,9 @@ hsThread::~hsThread() {
                 (*it)->unlock();
         }
         s_allMutexLock.unlock();
+        _this->fState = (_this->fState & ~kStateRunning) | kStateFinished;
     }
-
-    delete _this;
-}
-
-void hsThread::start() {
-    hsThread_POSIX* _this = (hsThread_POSIX*)fThreadData;
-    if (_this->fState == kStateRunning)
-        throw hsBadParamException(__FILE__, __LINE__, "Thread already running!");
-
-    _this->fState = kStateRunning;
-    if (pthread_create(&_this->fThreadHandle, NULL, &s_threadstart, this) != 0) {
-        // If the thread didn't get started, we don't need to mutex-protect this
-        _this->fState = kStateFinished;
-    }
-}
-
-void hsThread::wait() {
-    while (!isFinished())
-        YieldThread();
-}
-
-bool hsThread::isFinished() const {
-    const hsThread_POSIX* _this = (const hsThread_POSIX*)fThreadData;
-    return (_this->fState == kStateFinished);
+    destroy();
 }
 
 void hsThread::YieldThread() {

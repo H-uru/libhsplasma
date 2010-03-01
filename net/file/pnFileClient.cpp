@@ -166,8 +166,8 @@ pnFileClient::pnFileClient()
 
 pnFileClient::~pnFileClient()
 {
-    if (fDispatch != NULL)
-        delete fDispatch;
+    fSock->close();
+    fDispatch->destroy();
     if (fSock != NULL)
         delete fSock;
 }
