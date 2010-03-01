@@ -21,8 +21,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)bin"
-			IntermediateDirectory="$(SolutionDir)out"
+			OutputDirectory="$(SolutionDir)bin-dbg"
+			IntermediateDirectory="$(SolutionDir)out-dbg"
 			ConfigurationType="1"
 			CharacterSet="0"
 			>
@@ -99,8 +99,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="$(SolutionDir)bin64"
-			IntermediateDirectory="$(SolutionDir)out64"
+			OutputDirectory="$(SolutionDir)bin64-dbg"
+			IntermediateDirectory="$(SolutionDir)out64-dbg"
 			ConfigurationType="1"
 			CharacterSet="0"
 			>
