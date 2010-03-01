@@ -76,6 +76,10 @@ public:
     /**
      * Parses the UUID from a plString representation in the form of
      * "00000000-0000-0000-0000-000000000000".
+	 * 
+	 * \exception hsBadParamException given string doesn't appear to be a
+	 *            valid UUID string representation
+	 */
      */
     void fromString(const plString& str);
 };
