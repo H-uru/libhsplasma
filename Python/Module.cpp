@@ -138,7 +138,7 @@ PyMODINIT_FUNC PyInit_PyPlasma() {
     PyObject* module = PyModule_Create(&PyPlasma_Module);
 
 #else
-PyMODINIT_FUNC initPyPlasma() {
+PyMODINIT_FUNC initPyHSPlasma() {
     PyObject* module = Py_InitModule3("PyHSPlasma", PyPlasma_Methods,
                                       "libHSPlasma Python Interface Module");
 
