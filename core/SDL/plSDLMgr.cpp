@@ -178,6 +178,8 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                     curVar->setAlwaysNew(true);
                 } else if (tok.toLower() == "hidden") {
                     curVar->setInternal(true);
+                } else if (tok.toLower() == "red") {
+                    curVar->setDisplay(tok);
                 } else {
                     delete curVar;
                     delete curDesc;
