@@ -4,33 +4,79 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
+/**
+ * \brief Stores a UUID (Universally Unique Identifier).
+ */
+
 DllStruct plUuid {
-protected:
+private:
     unsigned int fData1;
     unsigned short fData2, fData3;
     unsigned char fData4[8];
 
 public:
+    /** Constructs a null UUID, i.e. 00000000-0000-0000-0000-000000000000. */
     plUuid();
+
+    /**
+     * Constructs a UUID from the four arguments. The argument \a data4 should
+     * be a pointer to an unsigned char array with 8 elements.
+     */
     plUuid(unsigned int data1, unsigned short data2, unsigned short data3,
            const unsigned char* data4);
+
+    /** Copy constructor, copies the UUID of \a init. */
     plUuid(const plUuid& init);
+
+    /**
+     * Constructs a UUID from a string in the form of
+     * "00000000-0000-0000-0000-000000000000".
+     */
     plUuid(const char* str);
 
+    /** Copies the UUID data from \a init to this UUID object. */
     plUuid& operator=(const plUuid& init);
+
+    /** Returns true if the two UUIDs are identical. */
     bool operator==(const plUuid& other) const;
+
+    /** Returns true if the two UUIDs are non-identical. */
     bool operator!=(const plUuid& other) const;
 
+    /** Read the UUID from a stream */
     void read(hsStream* S);
+
+    /** Reads the UUID from a buffer. */
     void read(const unsigned char* buffer);
+
+    /** Writes the UUID to a stream */
     void write(hsStream* S);
+
+    /** Writes the UUID to a buffer. */
     void write(unsigned char* buffer) const;
+
+    /** Writes the UUID to PRC source. */
     void prcWrite(pfPrcHelper* prc);
+
+    /** Parses the UUID from PRC source. */
     void prcParse(const pfPrcTag* tag);
 
+    /** Sets the UUID to 00000000-0000-0000-0000-000000000000. */
     void clear();
+
+    /** Returns true if the UUID is 00000000-0000-0000-0000-000000000000. */
     bool isNull() const;
+
+    /**
+     * Returns a string representation of this UUID in the form of
+     * "00000000-0000-0000-0000-000000000000" as a plString.
+     */
     plString toString() const;
+
+    /**
+     * Parses the UUID from a plString representation in the form of
+     * "00000000-0000-0000-0000-000000000000".
+     */
     void fromString(const plString& str);
 };
 
