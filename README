@@ -20,10 +20,10 @@ Prerequisites
 libPlasma depends on the following libraries; you'll need to have the dev
 packages installed in order for libPlasma to compile successfully:
 
-* zlib
-* libJpeg
-* OpenSSL
-* Python 2.4+ or 3.0+
+* zlib                     http://www.zlib.net/
+* libJpeg                  http://www.ijg.org/
+* OpenSSL                  http://www.openssl.org/
+* Python 2.4+ or 3.0+      http://www.python.org/
 
 
 Win32/64 Special Considerations
