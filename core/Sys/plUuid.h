@@ -80,7 +80,6 @@ public:
 	 * \exception hsBadParamException given string doesn't appear to be a
 	 *            valid UUID string representation
 	 */
-     */
     void fromString(const plString& str);
 };
 
