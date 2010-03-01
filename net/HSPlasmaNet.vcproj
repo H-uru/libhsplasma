@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="PlasmaNet"
+	Name="HSPlasmaNet"
 	ProjectGUID="{FC94359B-1907-44BF-8889-8B9605C79961}"
-	RootNamespace="PlasmaNet"
+	RootNamespace="HSPlasmaNet"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>

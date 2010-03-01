@@ -25,47 +25,47 @@ endif
 	($(MAKE) bin/PlasmaSum)
 	($(MAKE) Misc/TypeMap)
 
-bin/PageConvert: Tools/src/PageConvert.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/PageConvert.cpp -o $@
+bin/PageConvert: Tools/src/PageConvert.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/PageConvert.cpp -o $@
 
-bin/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/PlasmaCrypt.cpp -o $@
+bin/PlasmaCrypt: Tools/src/PlasmaCrypt.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/PlasmaCrypt.cpp -o $@
 
-bin/PrpPack: Tools/src/PrpPack.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/PrpPack.cpp -o $@
+bin/PrpPack: Tools/src/PrpPack.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/PrpPack.cpp -o $@
 
-bin/PrcExtract: Tools/src/PrcExtract.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/PrcExtract.cpp -o $@
+bin/PrcExtract: Tools/src/PrcExtract.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/PrcExtract.cpp -o $@
 
-bin/PageList: Tools/src/PageList.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/PageList.cpp -o $@
+bin/PageList: Tools/src/PageList.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/PageList.cpp -o $@
 
-bin/prcc: Tools/src/prcc.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/prcc.cpp -o $@
+bin/prcc: Tools/src/prcc.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/prcc.cpp -o $@
 
-bin/prcdc: Tools/src/prcdc.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/prcdc.cpp -o $@
+bin/prcdc: Tools/src/prcdc.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/prcdc.cpp -o $@
 
-bin/Prp2Obj: Tools/src/Prp2Obj.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/Prp2Obj.cpp -o $@
+bin/Prp2Obj: Tools/src/Prp2Obj.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/Prp2Obj.cpp -o $@
 
-bin/PyPack: Tools/src/PyPack.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/PyPack.cpp -o $@
+bin/PyPack: Tools/src/PyPack.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/PyPack.cpp -o $@
 
-bin/prpmod: Tools/src/prpmod.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/prpmod.cpp -o $@
+bin/prpmod: Tools/src/prpmod.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/prpmod.cpp -o $@
 
-bin/prpgrep: Tools/src/prpgrep.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/prpgrep.cpp -o $@
+bin/prpgrep: Tools/src/prpgrep.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/prpgrep.cpp -o $@
 
-#lib/prp-fuse: Tools/src/prp-fuse.cpp lib/libPlasma.$(LIBSUFFIX)
-#	$(CXX) $(CXXFLAGS) -Llib -lPlasma -lfuse Tools/src/prp-fuse.cpp -o $@
+#lib/prp-fuse: Tools/src/prp-fuse.cpp lib/libHSPlasma.$(LIBSUFFIX)
+#	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma -lfuse Tools/src/prp-fuse.cpp -o $@
 
-bin/PlasmaSum: Tools/src/PlasmaSum.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Tools/src/PlasmaSum.cpp -o $@
+bin/PlasmaSum: Tools/src/PlasmaSum.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/PlasmaSum.cpp -o $@
 
-Misc/TypeMap: Misc/TypeMap.cpp lib/libPlasma.$(LIBSUFFIX)
-	$(CXX) $(CXXFLAGS) -Llib -lPlasma Misc/TypeMap.cpp -o $@
+Misc/TypeMap: Misc/TypeMap.cpp lib/libHSPlasma.$(LIBSUFFIX)
+	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Misc/TypeMap.cpp -o $@
 
 install:
 	(cd core ; $(MAKE) install)

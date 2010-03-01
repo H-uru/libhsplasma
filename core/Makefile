@@ -289,7 +289,7 @@ OBJFILES3P=\
 	$(OBJDIR)rijndael.o \
 	3rdPartyLibs/squish/libsquish.a
 
-PLSLIB=libPlasma.$(LIBSUFFIX)
+PLSLIB=libHSPlasma.$(LIBSUFFIX)
 LIBDIR=../lib
 
 all: $(LIBDIR)/$(PLSLIB)
@@ -320,7 +320,7 @@ $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 3rdPartyLibs/squish/libsquish.a:
 	( cd 3rdPartyLibs/squish ; $(MAKE) )
 
-# Plasma Lib
+# HSPlasma Lib
 $(OBJDIR)plDebug.o: Debug/plDebug.h Debug/plDebug.cpp
 	$(CXX) $(CXXFLAGS) -c Debug/plDebug.cpp -o $@
 

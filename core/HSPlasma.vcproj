@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Plasma"
+	Name="HSPlasma"
 	ProjectGUID="{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
-	RootNamespace="Plasma"
+	RootNamespace="HSPlasma"
 	TargetFrameworkVersion="131072"
 	>
 	<Platforms>

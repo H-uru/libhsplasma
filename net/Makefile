@@ -1,7 +1,7 @@
 include ../config.mf
 
 CXXFLAGS += -I. -I../core $(CXXFLAGS_NET)
-CXXLINK  += -L../lib -lPlasma $(CXXLINK_NET)
+CXXLINK  += -L../lib -lHSPlasma $(CXXLINK_NET)
 OBJDIR=out/
 
 PLSOBJ=\
@@ -17,7 +17,7 @@ PLSOBJ=\
 	$(OBJDIR)pnGameClient.o \
 	$(OBJDIR)pnFileClient.o
 
-PLSLIB=libPlasmaNet.so
+PLSLIB=libHSPlasmaNet.so
 LIBDIR=../lib
 
 all: $(LIBDIR)/$(PLSLIB)
@@ -38,7 +38,7 @@ clean:
 distclean:
 	rm -f $(LIBDIR)/$(PLSLIB)
 
-# Plasma Net Lib
+# HSPlasma Net Lib
 $(OBJDIR)pnNetMsg.o: pnNetMsg.h pnNetMsg.cpp
 	$(CXX) $(CXXFLAGS) -c pnNetMsg.cpp -o $@
 

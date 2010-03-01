@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plasma", "core\Plasma.vcproj", "{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HSPlasma", "core\HSPlasma.vcproj", "{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C7B66F89-2EA9-4F34-A838-84F3817FDA5C} = {C7B66F89-2EA9-4F34-A838-84F3817FDA5C}
 	EndProjectSection
@@ -41,7 +41,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Prp2Obj", "Tools\Prp2Obj.vc
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PyPlasma", "Python\PyPlasma.vcproj", "{E9BB26E9-EB2D-4C0A-A294-5DA7C6B2699F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PyHSPlasma", "Python\PyHSPlasma.vcproj", "{E9BB26E9-EB2D-4C0A-A294-5DA7C6B2699F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
@@ -68,7 +68,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "prpgrep", "Tools\prpgrep.vc
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlasmaNet", "net\PlasmaNet.vcproj", "{FC94359B-1907-44BF-8889-8B9605C79961}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HSPlasmaNet", "net\HSPlasmaNet.vcproj", "{FC94359B-1907-44BF-8889-8B9605C79961}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9} = {4943C3D4-C673-4A9C-AEB2-DBED8A3CA2E9}
 	EndProjectSection

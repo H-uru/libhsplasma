@@ -6,8 +6,8 @@ doHelp() {
     echo "Options:"
     echo "  --prefix=<path>  Set installation prefix"
     echo "  --no-debug       Turn off debug info"
-    echo "  --no-python      Don't compile PyPlasma"
-    echo "  --no-net         Don't compile libPlasmaNet"
+    echo "  --no-python      Don't compile PyHSPlasma"
+    echo "  --no-net         Don't compile libHSPlasmaNet"
     echo "  --with-py3k      Use Python 3.x instead of Python 2.x"
     echo
     echo "Specify explicit library locations:"
@@ -209,7 +209,7 @@ fi
 
 ### OpenSSL
 if [[ $MF_FEATURES =~ "nonet" ]]; then
-    echo "Disabling libPlasmaNet"
+    echo "Disabling libHSPlasmaNet"
     MF_MAKENET="no"
 else
     if [ -n "$LOC_SSL" ]; then
@@ -261,7 +261,7 @@ pythonVer() {
 }
 
 if [[ $MF_FEATURES =~ "nopython" ]]; then
-    echo "Disabling PyPlasma"
+    echo "Disabling PyHSPlasma"
     MF_PYTHONVER="no"
 else
     if [ -n "$LOC_PYTHON" ]; then
@@ -329,7 +329,7 @@ else
                 echo "Found version $MF_PYTHONVER"
             else
                 echo "Not found!  Please install Python dev packages,"
-                echo "    or turn off PyPlasma support with --no-python"
+                echo "    or turn off PyHSPlasma support with --no-python"
                 exit 1
             fi
         fi
