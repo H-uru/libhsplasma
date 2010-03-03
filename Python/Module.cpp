@@ -94,8 +94,8 @@ static PyMethodDef PyPlasma_Methods[] = {
 #if PY_MAJOR_VERSION >= 3
 static PyModuleDef PyPlasma_Module = {
     PyModuleDef_HEAD_INIT,      /* m_base */
-    "PyPlasma",                 /* m_name */
-    "Python libPlasma interface module",    /* m_doc */
+    "PyHSPlasma",               /* m_name */
+    "Python libHSPlasma interface module",  /* m_doc */
     0,                          /* m_size */
     PyPlasma_Methods,           /* m_methods */
     NULL,                       /* m_reload */
@@ -134,7 +134,7 @@ void initPyPlasma_Constants(PyObject* module) {
 }
 
 #if PY_MAJOR_VERSION >= 3
-PyMODINIT_FUNC PyInit_PyPlasma() {
+PyMODINIT_FUNC PyInit_PyHSPlasma() {
     PyObject* module = PyModule_Create(&PyPlasma_Module);
 
 #else
