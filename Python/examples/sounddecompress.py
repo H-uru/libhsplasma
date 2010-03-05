@@ -1,6 +1,6 @@
-#!/usr/bin/env python2.6
+#!/usr/bin/env python
 
-"""SoundDecompress.py
+"""sounddecompress.py
 
     A Utility for decompressing Uru audio
     by Joseph Davies (deledrius@gmail.com)
@@ -23,10 +23,15 @@ from __future__ import print_function
 import os, sys, glob, math
 import subprocess
 from optparse import OptionParser
-import PyHSPlasma
+
+try:
+    import PyHSPlasma
+except ImportError as e:
+    print("Unable to load module: {0}\nThis program requires PyHSPlasma.".format(e))
+    sys.exit()
 
 
-version = 1.0
+version = 1.01
 
 ## Default Paths
 DefaultUruDir = "."
