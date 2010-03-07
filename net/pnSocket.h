@@ -42,17 +42,16 @@ private:
             size_t fSize;
         };
 
-        std::list<_datum> fSendQueue, fRecvQueue;
+        std::list<_datum> fRecvQueue;
         hsMutex* fSockMutex;
+        hsThreadCondition* fStatusChange;
         pnSocket* fSock;
         size_t fReadPos;
         bool fFinished;
 
     public:
         _async();
-        ~_async();
-
-        void flush();
+        virtual void destroy();
 
     protected:
         virtual void run();
@@ -65,11 +64,12 @@ public:
     long send(const void* buffer, size_t size);
     long recv(void* buffer, size_t size);
     long peek(void* buffer, size_t size);
-    void flush();
     bool readAvailable() const;
     bool waitForData();
     size_t rsize() const;
     bool isConnected() const;
+    void signalStatus() const;
+    void waitForStatus() const;
 
     void close();
 };

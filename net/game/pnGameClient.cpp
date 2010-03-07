@@ -57,19 +57,21 @@ void pnGameClient::Dispatch::run()
             break;
         }
         NCFreeMessage(msgbuf, msgDesc);
+        fSock->signalStatus();
     } /* while connected */
 }
 
 
 /* pnGameClient */
-pnGameClient::pnGameClient()
-            : fSock(NULL), fLastTransId(0), fDispatch(NULL)
+pnGameClient::pnGameClient() : fSock(NULL), fDispatch(NULL)
 { }
 
 pnGameClient::~pnGameClient()
 {
-    fSock->close();
-    fDispatch->destroy();
+    if (fSock != NULL)
+        fSock->close();
+    if (fDispatch != NULL)
+        delete fDispatch;
     if (fSock != NULL)
         delete fSock;
 }
@@ -128,9 +130,7 @@ ENetError pnGameClient::performConnect(pnSocket* sock)
     *(hsUint32*)(connectHeader + 31) = 36;
     fAccountId.write(connectHeader + 35);
     fAgeId.write(connectHeader + 51);
-
     fSock->send(connectHeader, 67);
-    fSock->flush();
 
     if (!fSock->isConnected()) {
         delete fSock;
@@ -155,9 +155,7 @@ ENetError pnGameClient::performConnect(pnSocket* sock)
     *(hsUbyte*)(cryptHeader    ) = kNetCliCli2SrvConnect;
     *(hsUbyte*)(cryptHeader + 1) = 66;
     memcpy(cryptHeader + 2, y_data, 64);
-
     fSock->send(cryptHeader, 66);
-    fSock->flush();
 
     hsUbyte msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {
@@ -197,13 +195,11 @@ ENetError pnGameClient::performConnect(pnSocket* sock)
 bool pnGameClient::isConnected() const
 { return fSock->isConnected(); }
 
-hsUint32 pnGameClient::nextTransId()
-{
-    fTransMutex.lock();
-    hsUint32 transId = ++fLastTransId;
-    fTransMutex.unlock();
-    return transId;
-}
+void pnGameClient::signalStatus()
+{ fSock->signalStatus(); }
+
+void pnGameClient::waitForStatus()
+{ fSock->waitForStatus(); }
 
 void pnGameClient::sendPingRequest(hsUint32 pingTimeMs)
 {

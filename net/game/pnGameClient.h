@@ -1,14 +1,13 @@
 #ifndef _PNGAMECLIENT_H
 #define _PNGAMECLIENT_H
 
-#include "PlasmaDefs.h"
-#include "Sys/hsThread.h"
+#include "pnClient.h"
 #include "Sys/plUuid.h"
 #include "PRP/plCreatable.h"
 #include "pnNetMsg.h"
 #include "crypt/pnRC4.h"
 
-DllClass pnGameClient {
+DllClass pnGameClient : public pnClient {
 public:
     pnGameClient();
     virtual ~pnGameClient();
@@ -17,9 +16,12 @@ public:
     void setClientInfo(hsUint32 buildId, hsUint32 buildType, hsUint32 branchId,
                        const plUuid& productId);
     void setJoinInfo(const plUuid& accountId, const plUuid& ageId);
-    ENetError connect(const char* host, short port = 14617);
-    ENetError connect(int sockFd);
-    bool isConnected() const;
+    virtual ENetError connect(const char* host, short port = 14617);
+    virtual ENetError connect(int sockFd);
+    virtual bool isConnected() const;
+
+    virtual void signalStatus();
+    virtual void waitForStatus();
 
     /* Outgoing Protocol */
     void sendPingRequest(hsUint32 pingTimeMs);
@@ -35,8 +37,6 @@ public:
     // TODO: GameMgrMsg
 
 protected:
-    hsUint32 nextTransId();
-
     pnRC4Socket* fSock;
     plResManager fResMgr;
     hsMutex fResMgrMutex;
@@ -46,8 +46,6 @@ protected:
     plUuid fAccountId, fAgeId;
 
 private:
-    hsUint32 fLastTransId;
-    hsMutex fTransMutex;
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
 

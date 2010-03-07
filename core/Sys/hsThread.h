@@ -11,27 +11,16 @@
 #  define S_THREADSTART void* s_threadstart(void*)
 #endif
 
-DllClass hsThread {
-private:
-    void* fThreadData;
+DllClass hsThreadCondition {
+protected:
+    void* fConditionData;
 
 public:
-    hsThread();
-    virtual ~hsThread();
+    hsThreadCondition();
+    ~hsThreadCondition();
 
-    void start();
     void wait();
-    bool isFinished() const;
-    void destroy();
-    void terminate();
-
-    static void YieldThread();
-
-protected:
-    virtual void run() = 0;
-
-private:
-    static S_THREADSTART;
+    void signal();
 };
 
 DllClass hsMutex {
@@ -47,6 +36,28 @@ public:
 
 private:
     friend class hsThread;
+};
+
+DllClass hsThread {
+private:
+    void* fThreadData;
+    hsThreadCondition fFinishCondition;
+
+public:
+    hsThread();
+    virtual ~hsThread();
+    virtual void destroy();
+
+    void start();
+    void wait();
+    bool isFinished() const;
+    void terminate();
+
+protected:
+    virtual void run() = 0;
+
+private:
+    static S_THREADSTART;
 };
 
 #endif

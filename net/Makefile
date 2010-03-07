@@ -5,6 +5,7 @@ CXXLINK  += -L../lib -lHSPlasma $(CXXLINK_NET)
 OBJDIR=out/
 
 PLSOBJ=\
+	$(OBJDIR)pnClient.o \
 	$(OBJDIR)pnNetMsg.o \
 	$(OBJDIR)pnSocket.o \
 	$(OBJDIR)pnBigInteger.o \
@@ -39,6 +40,9 @@ distclean:
 	rm -f $(LIBDIR)/$(PLSLIB)
 
 # HSPlasma Net Lib
+$(OBJDIR)pnClient.o: pnClient.h pnClient.cpp
+	$(CXX) $(CXXFLAGS) -c pnClient.cpp -o $@
+
 $(OBJDIR)pnNetMsg.o: pnNetMsg.h pnNetMsg.cpp
 	$(CXX) $(CXXFLAGS) -c pnNetMsg.cpp -o $@
 

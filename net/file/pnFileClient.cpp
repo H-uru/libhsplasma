@@ -155,19 +155,21 @@ void pnFileClient::Dispatch::run()
             break;
         }
         delete[] msgbuf;
+        fSock->signalStatus();
     } /* while connected */
 }
 
 
 /* pnFileClient */
-pnFileClient::pnFileClient()
-            : fSock(NULL), fLastTransId(0), fDispatch(NULL)
+pnFileClient::pnFileClient() : fSock(NULL), fDispatch(NULL)
 { }
 
 pnFileClient::~pnFileClient()
 {
-    fSock->close();
-    fDispatch->destroy();
+    if (fSock != NULL)
+        fSock->close();
+    if (fDispatch != NULL)
+        delete fDispatch;
     if (fSock != NULL)
         delete fSock;
 }
@@ -213,9 +215,7 @@ ENetError pnFileClient::performConnect(pnSocket* sock)
     *(hsUint32*)(connectHeader + 31) = 12;
     *(hsUint32*)(connectHeader + 35) = 0;
     *(hsUint32*)(connectHeader + 39) = 0;
-
     fSock->send(connectHeader, 43);
-    fSock->flush();
 
     if (!fSock->isConnected()) {
         delete fSock;
@@ -232,13 +232,11 @@ ENetError pnFileClient::performConnect(pnSocket* sock)
 bool pnFileClient::isConnected() const
 { return fSock->isConnected(); }
 
-hsUint32 pnFileClient::nextTransId()
-{
-    fTransMutex.lock();
-    hsUint32 transId = ++fLastTransId;
-    fTransMutex.unlock();
-    return transId;
-}
+void pnFileClient::signalStatus()
+{ fSock->signalStatus(); }
+
+void pnFileClient::waitForStatus()
+{ fSock->waitForStatus(); }
 
 void pnFileClient::sendPingRequest(hsUint32 pingTimeMs)
 {

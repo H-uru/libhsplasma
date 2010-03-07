@@ -1,8 +1,7 @@
 #ifndef _PNAUTHCLIENT_H
 #define _PNAUTHCLIENT_H
 
-#include "PlasmaDefs.h"
-#include "Sys/hsThread.h"
+#include "pnClient.h"
 #include "Sys/plUuid.h"
 #include "PRP/plCreatable.h"
 #include "pnNetMsg.h"
@@ -27,7 +26,7 @@ DllStruct pnNetGameRank {
     plString fName;
 };
 
-DllClass pnAuthClient {
+DllClass pnAuthClient : public pnClient {
 public:
     pnAuthClient();
     virtual ~pnAuthClient();
@@ -35,9 +34,12 @@ public:
     void setKeys(const unsigned char* keyX, const unsigned char* keyN);
     void setClientInfo(hsUint32 buildId, hsUint32 buildType, hsUint32 branchId,
                        const plUuid& productId);
-    ENetError connect(const char* host, short port = 14617);
-    ENetError connect(int sockFd);
-    bool isConnected() const;
+    virtual ENetError connect(const char* host, short port = 14617);
+    virtual ENetError connect(int sockFd);
+    virtual bool isConnected() const;
+
+    virtual void signalStatus();
+    virtual void waitForStatus();
 
     /* Outgoing Protocol */
     hsUint32 sendPingRequest(hsUint32 pingTimeMs);
@@ -170,8 +172,6 @@ public:
     virtual void onPropagateMessage(plCreatable* msg);
 
 protected:
-    hsUint32 nextTransId();
-
     pnRC4Socket* fSock;
     plResManager fResMgr;
     hsMutex fResMgrMutex;
@@ -180,8 +180,6 @@ protected:
     plUuid fProductId;
 
 private:
-    hsUint32 fLastTransId;
-    hsMutex fTransMutex;
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
 

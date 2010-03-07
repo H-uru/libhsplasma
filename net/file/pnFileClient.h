@@ -1,11 +1,9 @@
 #ifndef _PNFILECLIENT_H
 #define _PNFILECLIENT_H
 
-#include "PlasmaDefs.h"
-#include "Sys/hsThread.h"
+#include "pnClient.h"
 #include "Sys/plUuid.h"
 #include "Util/plMD5.h"
-#include "Protocol.h"
 #include "pnSocket.h"
 
 DllStruct pnFileManifest {
@@ -18,15 +16,18 @@ DllStruct pnFileManifest {
     size_t calcSize() const;
 };
 
-DllClass pnFileClient {
+DllClass pnFileClient : public pnClient {
 public:
     pnFileClient();
     virtual ~pnFileClient();
 
     void setClientInfo(hsUint32 buildType, hsUint32 branchId, const plUuid& productId);
-    ENetError connect(const char* host, short port = 14617);
-    ENetError connect(int sockFd);
-    bool isConnected() const;
+    virtual ENetError connect(const char* host, short port = 14617);
+    virtual ENetError connect(int sockFd);
+    virtual bool isConnected() const;
+
+    virtual void signalStatus();
+    virtual void waitForStatus();
 
     /* Outgoing Protocol */
     void sendPingRequest(hsUint32 pingTimeMs);
@@ -47,16 +48,11 @@ public:
                     const hsUbyte* bufferData);
 
 protected:
-    hsUint32 nextTransId();
-
     pnAsyncSocket* fSock;
     hsUint32 fBuildType, fBranchId;
     plUuid fProductId;
 
 private:
-    hsUint32 fLastTransId;
-    hsMutex fTransMutex;
-
     class Dispatch : public hsThread {
     public:
         Dispatch(pnAsyncSocket* sock, pnFileClient* self);
