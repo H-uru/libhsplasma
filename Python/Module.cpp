@@ -152,6 +152,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "hsStream", Init_pyStream_Type());
     PyModule_AddObject(module, "hsFileStream", Init_pyFileStream_Type());
     PyModule_AddObject(module, "plEncryptedStream", Init_pyEncryptedStream_Type());
+    PyModule_AddObject(module, "hsRAMStream", Init_pyRAMStream_Type());
 
     /* Util */
     PyModule_AddObject(module, "hsBitVector", Init_pyBitVector_Type());

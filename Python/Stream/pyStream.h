@@ -18,6 +18,11 @@ typedef struct {
     class plEncryptedStream* fThis;
 } pyEncryptedStream;
 
+typedef struct {
+    PyObject_HEAD
+    class hsRAMStream* fThis;
+} pyRAMStream;
+
 
 extern PyTypeObject pyStream_Type;
 PyObject* Init_pyStream_Type();
@@ -28,6 +33,9 @@ PyObject* Init_pyFileStream_Type();
 
 extern PyTypeObject pyEncryptedStream_Type;
 PyObject* Init_pyEncryptedStream_Type();
+
+extern PyTypeObject pyRAMStream_Type;
+PyObject* Init_pyRAMStream_Type();
 
 }
 

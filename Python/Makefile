@@ -219,6 +219,7 @@ PYOBJ=\
 	$(OBJDIR)pyPageInfo.o \
 	$(OBJDIR)pyEncryptedStream.o \
 	$(OBJDIR)pyFileStream.o \
+	$(OBJDIR)pyRAMStream.o \
 	$(OBJDIR)pyStream.o \
 	$(OBJDIR)pyColor32.o \
 	$(OBJDIR)pyColorRGBA.o \
@@ -885,6 +886,9 @@ $(OBJDIR)pyEncryptedStream.o: Stream/pyEncryptedStream.cpp
 
 $(OBJDIR)pyFileStream.o: Stream/pyFileStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/pyFileStream.cpp -o $@
+
+$(OBJDIR)pyRAMStream.o: Stream/pyRAMStream.cpp
+	$(CXX) $(CXXFLAGS) -c Stream/pyRAMStream.cpp -o $@
 
 $(OBJDIR)pyStream.o: Stream/pyStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/pyStream.cpp -o $@
