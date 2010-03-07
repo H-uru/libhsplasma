@@ -55,7 +55,7 @@ void hsThreadCondition::wait() {
 }
 
 void hsThreadCondition::signal() {
-    hsCondition_POSIX* _this = (hsCondition_POSIX*)fConditionData;
+    hsCondition_WIN32* _this = (hsCondition_WIN32*)fConditionData;
 
     _this->fMutex.lock();
     for (int i=0; i<_this->fWaiters; i++)
@@ -80,11 +80,6 @@ void hsMutex::lock() {
 
 void hsMutex::unlock() {
     ReleaseMutex((HANDLE)fMutexData);
-}
-
-void hsMutex::sync() {
-    lock();
-    unlock();
 }
 
 

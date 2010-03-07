@@ -430,6 +430,14 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\pnClient.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\pnClient.h"
+			>
+		</File>
+		<File
 			RelativePath=".\pnNetMsg.cpp"
 			>
 		</File>

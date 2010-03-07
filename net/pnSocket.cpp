@@ -345,7 +345,11 @@ void pnAsyncSocket::_async::run()
 
 pnAsyncSocket::pnAsyncSocket(pnSocket* sock)
 {
+#ifdef WIN32
+    unsigned long yes = 1;
+#else
     int yes = 1;
+#endif
     fAsyncIO = new _async();
     fAsyncIO->fSock = sock;
     ioctlsocket(sock->getHandle(), FIOASYNC, &yes);
@@ -360,14 +364,9 @@ pnAsyncSocket::~pnAsyncSocket()
 
 long pnAsyncSocket::send(const void* buffer, size_t size)
 {
-    _async::_datum msg;
-    msg.fSize = size;
-    msg.fData = new unsigned char[size];
-    memcpy(msg.fData, buffer, size);
-
     fAsyncIO->fSockMutex->lock();
     if (!fAsyncIO->fFinished) {
-        fAsyncIO->fSock->send(msg.fData, msg.fSize);
+        fAsyncIO->fSock->send(buffer, size);
         fAsyncIO->fSockMutex->unlock();
         return size;
     }
