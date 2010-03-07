@@ -335,8 +335,8 @@ void pnAsyncSocket::_async::run()
             fStatusChange->signal();
             fSockMutex->unlock();
         }
+        fSockMutex->lock();
     }
-    fSockMutex->lock();
     fSock->close();
     fFinished = true;
     fStatusChange->signal();
