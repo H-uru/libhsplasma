@@ -203,6 +203,7 @@ void pnAuthClient::Dispatch::run()
             fReceiver->onFileDownloadChunk(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
                             msgbuf[2].fUint, msgbuf[3].fUint, msgbuf[4].fUint,
                             msgbuf[5].fData);
+            fReceiver->sendFileDownloadChunkAck(msgbuf[0].fUint);
             break;
         case kAuth2Cli_KickedOff:
             fReceiver->onKickedOff(msgbuf[0].fUint);

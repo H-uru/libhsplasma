@@ -34,8 +34,6 @@ public:
     hsUint32 sendBuildIdRequest();
     hsUint32 sendManifestRequest(const plString& group, hsUint32 buildId);
     hsUint32 sendFileDownloadRequest(const plString& filename, hsUint32 buildId);
-    void sendManifestEntryAck(hsUint32 transId, hsUint32 readerId);
-    void sendFileDownloadChunkAck(hsUint32 transId, hsUint32 readerId);
 
     /* Incoming Protocol - To be implemented by subclasses */
     virtual void onPingReply(hsUint32 pingTimeMs);
@@ -63,9 +61,15 @@ private:
 
         pnFileClient* fReceiver;
         pnAsyncSocket* fSock;
+
+    private:
+        std::map<hsUint32, pnFileManifest*> fMfsQueue;
+        std::map<hsUint32, size_t> fMfsOffset;
     } *fDispatch;
 
     ENetError performConnect(pnSocket* sock);
+    void sendManifestEntryAck(hsUint32 transId, hsUint32 readerId);
+    void sendFileDownloadChunkAck(hsUint32 transId, hsUint32 readerId);
 };
 
 #endif

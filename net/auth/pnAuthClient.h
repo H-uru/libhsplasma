@@ -85,7 +85,6 @@ public:
     hsUint32 sendAgeRequest(const plString& ageName, const plUuid& ageUuid);
     hsUint32 sendFileListRequest(const plString& directory, const plString& ext);
     hsUint32 sendFileDownloadRequest(const plString& filename);
-    void sendFileDownloadChunkAck(hsUint32 transId);
     hsUint32 sendGetPublicAgeList(const plString& filename);
     void sendSetAgePublic(hsUint32 ageInfoId, hsUbyte isPublic);
     void sendLogPythonTraceback(const plString& traceback);
@@ -196,6 +195,7 @@ private:
     } *fDispatch;
 
     ENetError performConnect(pnSocket* sock);
+    void sendFileDownloadChunkAck(hsUint32 transId);
 };
 
 #endif

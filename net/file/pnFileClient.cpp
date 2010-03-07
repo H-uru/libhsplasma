@@ -133,15 +133,37 @@ void pnFileClient::Dispatch::run()
             break;
         case kFile2Cli_ManifestReply:
             {
-                size_t numFiles = *(hsUint32*)(msgbuf + 12);
+                pnFileManifest* files;
+                size_t i = 0;
+                hsUint32 transId  = *(hsUint32*)(msgbuf     );
+                hsUint32 readerId = *(hsUint32*)(msgbuf +  8);
+                size_t totalFiles = *(hsUint32*)(msgbuf + 12);
+                if (fMfsOffset.find(transId) != fMfsOffset.end()) {
+                    files = fMfsQueue[transId];
+                    i = fMfsOffset[transId];
+                } else {
+                    files = new pnFileManifest[totalFiles];
+                }
                 const NCchar_t* bufp = (NCchar_t*)(msgbuf + 20);
-                pnFileManifest* files = new pnFileManifest[numFiles];
-                for (size_t i=0; i<numFiles; i++)
+                for (; i<totalFiles; i++) {
+                    if (*bufp == 0) {
+                        fMfsQueue[transId] = files;
+                        fMfsOffset[transId] = i;
+                        break;
+                    }
                     bufp = files[i].read(bufp);
+                }
+                fReceiver->sendManifestEntryAck(transId, readerId);
+                if (i < totalFiles)
+                    break;
                 fReceiver->onManifestReply(*(hsUint32*)(msgbuf     ),
                                (ENetError)(*(hsUint32*)(msgbuf +  4)),
                                            *(hsUint32*)(msgbuf +  8),
-                                           numFiles, files);
+                                           totalFiles, files);
+                if (fMfsOffset.find(transId) != fMfsOffset.end()) {
+                    fMfsQueue.erase(fMfsQueue.find(transId));
+                    fMfsOffset.erase(fMfsOffset.find(transId));
+                }
                 delete[] files;
             }
             break;
@@ -152,6 +174,8 @@ void pnFileClient::Dispatch::run()
                                            *(hsUint32*)(msgbuf + 12),
                                            *(hsUint32*)(msgbuf + 16),
                                             (const hsUbyte*)(msgbuf + 20));
+            fReceiver->sendFileDownloadChunkAck(*(hsUint32*)(msgbuf     ),
+                                                *(hsUint32*)(msgbuf +  8));
             break;
         }
         delete[] msgbuf;
@@ -261,7 +285,7 @@ hsUint32 pnFileClient::sendBuildIdRequest()
 hsUint32 pnFileClient::sendManifestRequest(const plString& group, hsUint32 buildId)
 {
     NCchar_t* wgroup = StringToNCstr(group);
-    size_t wgroup_len = NCstrlen(wgroup);
+    size_t wgroup_len = NCstrlen(wgroup) + 1;
 
     hsUint32 transId = nextTransId();
     hsUbyte msgbuf[536];
@@ -279,7 +303,7 @@ hsUint32 pnFileClient::sendManifestRequest(const plString& group, hsUint32 build
 hsUint32 pnFileClient::sendFileDownloadRequest(const plString& filename, hsUint32 buildId)
 {
     NCchar_t* wfilename = StringToNCstr(filename);
-    size_t wfilename_len = NCstrlen(wfilename);
+    size_t wfilename_len = NCstrlen(wfilename) + 1;
 
     hsUint32 transId = nextTransId();
     hsUbyte msgbuf[536];

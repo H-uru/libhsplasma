@@ -334,6 +334,18 @@ void pnAsyncSocket::_async::run()
             fRecvQueue.push_back(msg);
             fStatusChange->signal();
             fSockMutex->unlock();
+
+#ifdef COMMDEBUG2
+            printf("RECV <<");
+            size_t i, j;
+            for (i=0; i<msg.fSize; i += 16) {
+                for (j=0; j<16 && (i+j)<msg.fSize; j++)
+                    printf(" %02X", msg.fData[i+j]);
+                printf("\n");
+                if ((i+j) < msg.fSize)
+                    printf("       ");
+            }
+#endif
         }
         fSockMutex->lock();
     }
@@ -345,11 +357,7 @@ void pnAsyncSocket::_async::run()
 
 pnAsyncSocket::pnAsyncSocket(pnSocket* sock)
 {
-#ifdef WIN32
-    unsigned long yes = 1;
-#else
     int yes = 1;
-#endif
     fAsyncIO = new _async();
     fAsyncIO->fSock = sock;
     ioctlsocket(sock->getHandle(), FIOASYNC, &yes);
@@ -364,6 +372,17 @@ pnAsyncSocket::~pnAsyncSocket()
 
 long pnAsyncSocket::send(const void* buffer, size_t size)
 {
+#ifdef COMMDEBUG2
+    printf("SEND >>");
+    size_t i, j;
+    for (i=0; i<size; i += 16) {
+        for (j=0; j<16 && (i+j)<size; j++)
+            printf(" %02X", ((const hsUbyte*)buffer)[i+j]);
+        printf("\n");
+        if ((i+j) < size)
+            printf("       ");
+    }
+#endif
     fAsyncIO->fSockMutex->lock();
     if (!fAsyncIO->fFinished) {
         fAsyncIO->fSock->send(buffer, size);
