@@ -20,18 +20,23 @@
 
 from __future__ import print_function
 
-import os, sys, glob, math
+import os
+import sys
+import glob
+import math
 import subprocess
-from optparse import OptionParser
+from xml.dom.minidom import parse, getDOMImplementation
+from optparse import OptionParser, OptionGroup
 
 try:
     import PyHSPlasma
 except ImportError as e:
-    print("Unable to load module: {0}\nThis program requires PyHSPlasma.".format(e))
-    sys.exit()
+    libPlasma = False
+else:
+    libPlasma = True
 
 
-version = 1.02
+version = 1.1
 
 ## Default Paths
 DefaultUruDir = "."
@@ -39,24 +44,20 @@ DefaultDataDir = "dat"
 DefaultSFXDir = "sfx"
 DefaultCacheDir = os.path.join(DefaultSFXDir,"streamingCache")
 
-PlasmaVersion = {
-    "prime": PyHSPlasma.pvPrime,
-    "pots": PyHSPlasma.pvPots,
-    "moul": PyHSPlasma.pvLive,
-    "eoa": PyHSPlasma.pvEoa,
-    "hex": PyHSPlasma.pvHex,
-    }
 
 ## Initialize empty queue of sound files to decompress
 queue = {}
 
 
-def getDecompressQueue(datadir, gameversion):
+def getDecompressQueue(datadir):
+    if not libPlasma:
+        print("\nFatal Error: PyHSPlasma module not loaded.  Reading of Age files unavailable.")
+        return False
     ## Only display Errors
     PyHSPlasma.plDebug.Init(PyHSPlasma.plDebug.kDLError)
 
     ## Create our Resource Manager
-    plResMgr = PyHSPlasma.plResManager(gameversion)
+    plResMgr = PyHSPlasma.plResManager()
 
     ## Get Age list for progress
     print("Loading Age files...")
@@ -166,6 +167,60 @@ def doDecompress(sfxdir, cachedir):
         progress(50, float(numFilesProcessed)/float(numFiles) * 100)
     return True
 
+## XML Queue Writer
+def writeQueueToXML(outfile):
+    print("Writing queue to xml: {0}".format(outfile))
+    root = getDOMImplementation().createDocument(None, "conversionlist", None)
+    with open(os.path.abspath(outfile), "w") as xmlfile:
+        print("Writing XML file \"{0}\"".format(outfile))
+        root.documentElement.setAttribute("version", str(version))
+        root.documentElement.setAttribute("game", "Unknown")
+        root.documentElement.setAttribute("gamebuild", "Unknown")
+        
+        numFilesProcessed = 0
+        numFiles = len(queue)
+        progress(50, float(numFilesProcessed)/float(numFiles) * 100)
+        for soundfile in queue.keys():
+            sfNode = root.createElement("soundfile")
+            sfNode.setAttribute("name", soundfile)
+            coNode = root.createElement("channeloutputs")
+            coNode.setAttribute("stereo", str(queue[soundfile].has_key("Both") and queue[soundfile]["Both"]))
+            coNode.setAttribute("left", str(queue[soundfile].has_key("Left") and queue[soundfile]["Left"]))
+            coNode.setAttribute("right", str(queue[soundfile].has_key("Right") and queue[soundfile]["Right"]))
+            sfNode.appendChild(coNode)
+            root.documentElement.appendChild(sfNode)
+            
+            numFilesProcessed = numFilesProcessed + 1
+            progress(50, float(numFilesProcessed)/float(numFiles) * 100)
+        root.writexml(xmlfile, addindent="\t", newl="\n", encoding="utf-8")
+
+## XML Queue Reader
+def readQueueFromXML(infile):
+    print("Reading queue from xml: {0}".format(infile))
+    queueXML = minidom.parse(infile)
+    soundfiles = queueXML.getElementsByTagName("soundfile")
+    
+    numFilesProcessed = 0
+    numFiles = len(soundfiles)
+    progress(50, float(numFilesProcessed)/float(numFiles) * 100)
+        
+    for soundfile in soundfiles:
+        channelOptions = {}
+        channelXML = soundfile.getElementsByTagName("channeloutputs")
+        for channelNode in channelXML:
+            if "stereo" in channelNode.attributes.keys() and channelNode.attributes["stereo"].value == "True":
+                channelOptions["Both"] = True
+            if "left" in channelNode.attributes.keys() and channelNode.attributes["left"].value == "True":
+                channelOptions["Left"] = True
+            if "right" in channelNode.attributes.keys() and channelNode.attributes["right"].value == "True":
+                channelOptions["Right"] = True
+        queue[soundfile.attributes["name"].value] = channelOptions
+        
+        numFilesProcessed = numFilesProcessed + 1
+        progress(50, float(numFilesProcessed)/float(numFiles) * 100)
+        
+    print("{0} sound files added to queue.".format(len(queue)))
+    return True
 
 ## Handy Progress Meter
 def progress(width, percent):
@@ -179,18 +234,26 @@ def progress(width, percent):
         sys.stdout.write("\n")
     sys.stdout.flush()
 
-
 if __name__ == '__main__':
     parser = OptionParser(usage="usage: %prog [options]", version="%prog {0}".format(version))
-    parser.add_option("-u", "--uru", dest="urudir", default=DefaultUruDir, help="Sets base path for Uru")
-    parser.add_option("-d", "--data", dest="datadir", help="Override path for input data files")
-    parser.add_option("-s", "--sfx", dest="sfxdir", help="Override path for input sound files")
-    parser.add_option("-c", "--cache", dest="cachedir", help="Override path for output sound files")
-    parser.add_option("-g", "--game", dest="gamever", default="moul", metavar="GAMEVERSION", help="Override game version (prime, pots, moul, eoa, hex)")
     parser.add_option("-q", "--quiet", dest="verbose", default=True, action="store_false", help="Don't print status messages")
+    
+    pathgroup = OptionGroup(parser, "Path Output Options")
+    pathgroup.add_option("-u", "--uru", dest="urudir", default=DefaultUruDir, help="Sets base path for Uru.")
+    pathgroup.add_option("-d", "--data", dest="datadir", help="Override path for input data files.")
+    pathgroup.add_option("-s", "--sfx", dest="sfxdir", help="Override path for input sound files.")
+    pathgroup.add_option("-c", "--cache", dest="cachedir", help="Override path for output sound files.")
+    parser.add_option_group(pathgroup)
+    
+    xmlgroup = OptionGroup(parser, "XML Output Options", "")
+    xmlgroup.add_option("--xml", dest="xml", default=False, action="store_true", help="Dump queue to XML after Age processing and audio conversion.")
+    xmlgroup.add_option("--xmlonly", dest="xmlonly", default=False, action="store_true", help="Don't convert audio after Age processing, only dump XML.")
+    xmlgroup.add_option("--xmlof", dest="xmloutfile", metavar="OUTFILE", default="wavlist.xml", help="File to dump queue to after processing if --xml or --xmlonly option is specified.")
+    xmlgroup.add_option("--xmlin", dest="xmlinfile", metavar="INFILE", help="Use specified XML file instead of local Age files, then do audio conversion.")
+    parser.add_option_group(xmlgroup)
 
     (options, args) = parser.parse_args()
-    
+
     ## Send output to OS's null if unwanted
     if not options.verbose:
         sys.stdout = open(os.devnull,"w")
@@ -204,12 +267,13 @@ if __name__ == '__main__':
     if options.sfxdir: sfxdir = os.path.abspath(options.sfxdir)
     if options.cachedir: cachedir = os.path.abspath(options.cachedir) 
     
-    ## Check Game Version
-    if options.gamever not in PlasmaVersion.keys():
-        print("Invalid option: {0} is not a recognized game version.\nGame version must be one of {1}\n".format(options.gamever, PlasmaVersion.keys()))
-        parser.print_help()
-        sys.exit()
-    
     ## Do the work!
-    if getDecompressQueue(datadir, PlasmaVersion[options.gamever]):
+    if not options.xmlinfile:
+        if getDecompressQueue(datadir):
+            if not options.xmlonly:
+                doDecompress(sfxdir, cachedir)
+    
+            if options.xml or options.xmlonly:
+                writeQueueToXML(options.xmloutfile)
+    elif readQueueFromXML(options.xmlinfile):
         doDecompress(sfxdir, cachedir)
