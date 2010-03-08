@@ -31,7 +31,7 @@ except ImportError as e:
 else:
     libPlasma = True
 
-version = 1.1
+version = 1.11
 
 ## Default paths
 PlatformDefaultDir = {
@@ -112,7 +112,7 @@ class Interface(wx.Frame):
             self.xmlPathField.Enabled = True
             self.xmlBrowseButton.Enabled = True
             self.xmlPathField.SetValue(os.getcwd())
-        self.pathField.SetValue(DefaultUruDir)    
+        self.pathField.SetValue(os.path.expanduser(DefaultUruDir))    
     
     def _doLayout(self):
         panel = wx.Panel(self, -1)
@@ -176,20 +176,20 @@ class Interface(wx.Frame):
         if sys.platform == "darwin":
             ## The wxDirDialog doesn't allow traversing .app bundles in OSX, so
             ##  a file picker will have to do
-            dlg = wx.FileDialog(self, "Please choose a file in your MOUL directory:", defaultDir = self.pathField.GetValue(), wildcard = "EXE files (*.exe)|*.exe", style = wx.OPEN)
+            dlg = wx.FileDialog(self, "Please choose a file in your MOUL directory:", defaultDir = os.path.expanduser(self.pathField.GetValue()), wildcard = "EXE files (*.exe)|*.exe", style = wx.OPEN)
             dlg.Centre()
             if dlg.ShowModal() == wx.ID_OK:
                 self.pathField.SetValue(os.path.dirname(dlg.GetPath()))
             dlg.Destroy()
         else:
-            dlg = wx.DirDialog(self, "Please choose your MOUL directory:", defaultPath = self.pathField.GetValue())
+            dlg = wx.DirDialog(self, "Please choose your MOUL directory:", defaultPath = os.path.expanduser(self.pathField.GetValue()))
             dlg.Centre()
             if dlg.ShowModal() == wx.ID_OK:
                 self.pathField.SetValue(dlg.GetPath())
             dlg.Destroy()
     
     def OnBrowseXML(self, event):
-        dlg = wx.FileDialog(self, "Please choose an XML queue file:", defaultDir = self.xmlPathField.GetValue(), wildcard = "XML files (*.xml)|*.xml", style = wx.OPEN)
+        dlg = wx.FileDialog(self, "Please choose an XML queue file:", defaultDir = os.path.expanduser(self.xmlPathField.GetValue()), wildcard = "XML files (*.xml)|*.xml", style = wx.OPEN)
         dlg.Centre()
         if dlg.ShowModal() == wx.ID_OK:
             self.xmlPathField.SetValue(dlg.GetPath())

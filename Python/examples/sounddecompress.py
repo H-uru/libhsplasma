@@ -36,7 +36,7 @@ else:
     libPlasma = True
 
 
-version = 1.1
+version = 1.11
 
 ## Default Paths
 DefaultUruDir = "."
@@ -260,12 +260,13 @@ if __name__ == '__main__':
         sys.stderr = open(os.devnull,"w")
         
     ## Compute Paths
-    datadir = os.path.join(options.urudir, DefaultDataDir)
-    sfxdir = os.path.join(options.urudir, DefaultSFXDir)
-    cachedir = os.path.join(options.urudir, DefaultCacheDir)
-    if options.datadir: datadir = os.path.abspath(options.datadir)
-    if options.sfxdir: sfxdir = os.path.abspath(options.sfxdir)
-    if options.cachedir: cachedir = os.path.abspath(options.cachedir) 
+    basedir = os.path.expanduser(options.urudir)
+    datadir = os.path.join(basedir, DefaultDataDir)
+    sfxdir = os.path.join(basedir, DefaultSFXDir)
+    cachedir = os.path.join(basedir, DefaultCacheDir)
+    if options.datadir: datadir = os.path.expanduser(options.datadir)
+    if options.sfxdir: sfxdir = os.path.expanduser(options.sfxdir)
+    if options.cachedir: cachedir = os.path.expanduser(options.cachedir) 
     
     ## Do the work!
     if not options.xmlinfile:
@@ -274,6 +275,6 @@ if __name__ == '__main__':
                 doDecompress(sfxdir, cachedir)
     
             if options.xml or options.xmlonly:
-                writeQueueToXML(options.xmloutfile)
-    elif readQueueFromXML(options.xmlinfile):
+                writeQueueToXML(os.path.expanduser(options.xmloutfile))
+    elif readQueueFromXML(os.path.expanduser(options.xmlinfile)):
         doDecompress(sfxdir, cachedir)
