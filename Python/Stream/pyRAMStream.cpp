@@ -31,7 +31,9 @@ static PyObject* pyRAMStream_resize(pyRAMStream* self, PyObject* args) {
 static PyObject* pyRAMStream_getBuffer(pyRAMStream* self, void* closure) {
     char* buf = new char[self->fThis->size()];
     self->fThis->copyTo(buf, self->fThis->size());
-    return PyBytes_FromStringAndSize(buf, self->fThis->size());
+    PyObject* bufObj = PyBytes_FromStringAndSize(buf, self->fThis->size());
+    delete[] buf;
+    return bufObj;
 }
 
 static int pyRAMStream_setBuffer(pyRAMStream* self, PyObject* value, void* closure) {
