@@ -18,8 +18,8 @@ void plLoadCloneMsg::read(hsStream* S, plResManager* mgr) {
 
     fCloneKey = mgr->readKey(S);
     fRequestorKey = mgr->readKey(S);
-    fOriginatingPlayerID = S->readIntSwap();
-    fUserData = S->readIntSwap();
+    fOriginatingPlayerID = S->readInt();
+    fUserData = S->readInt();
     fValidMsg = S->readByte();
     fIsLoading = S->readByte();
     setTriggerMsg(plMessage::Convert(mgr->ReadCreatable(S)));
@@ -30,8 +30,8 @@ void plLoadCloneMsg::write(hsStream* S, plResManager* mgr) {
 
     mgr->writeKey(S, fCloneKey);
     mgr->writeKey(S, fRequestorKey);
-    S->writeIntSwap(fOriginatingPlayerID);
-    S->writeIntSwap(fUserData);
+    S->writeInt(fOriginatingPlayerID);
+    S->writeInt(fUserData);
     S->writeByte(fValidMsg);
     S->writeByte(fIsLoading);
     mgr->WriteCreatable(S, fTriggerMsg);

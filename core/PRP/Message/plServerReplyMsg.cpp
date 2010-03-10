@@ -8,14 +8,12 @@ IMPLEMENT_CREATABLE(plServerReplyMsg, kServerReplyMsg, plMessage)
 
 void plServerReplyMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
-
-    fType = S->readIntSwap();
+    fType = S->readInt();
 }
 
 void plServerReplyMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
-
-    S->writeIntSwap(fType);
+    S->writeInt(fType);
 }
 
 void plServerReplyMsg::IPrcWrite(pfPrcHelper* prc) {
