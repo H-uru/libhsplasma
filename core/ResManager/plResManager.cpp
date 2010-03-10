@@ -174,7 +174,7 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
 
 void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page) {
     page->prcWrite(prc); // starts <Page>
-    
+
     // Objects:
     std::vector<short> types = keys.getTypes(page->getLocation());
     for (unsigned int i=0; i<types.size(); i++) {
@@ -184,7 +184,7 @@ void plResManager::WritePagePrc(pfPrcHelper* prc, plPageInfo* page) {
                 kList[j]->getObj()->prcWrite(prc);
         }
     }
-    
+
     prc->closeTag();
 }
 
@@ -215,7 +215,7 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
             it++;
         }
     }
-    
+
     if (readPages) {
         plString path = plString(filename).beforeLast(PATHSEP);
         if (path.len() > 0)
@@ -236,8 +236,11 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
 
         for (size_t i=0; i<age->getNumPages(); i++)
             ReadPage(path + age->getPageFilename(i, getVer()));
-        for (size_t i=0; i<age->getNumCommonPages(getVer()); i++)
-            ReadPage(path + age->getCommonPageFilename(i, getVer()));
+
+        for (size_t i=0; i<age->getNumCommonPages(getVer()); i++) {
+            if (hsFileStream::FileExists(age->getCommonPageFilename(i, getVer())))
+                ReadPage(path + age->getCommonPageFilename(i, getVer()));
+        }
     }
 
     ages.push_back(age);

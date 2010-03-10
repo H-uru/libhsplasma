@@ -27,7 +27,7 @@ public:
         PageEntry(const plString& name, int seqSuffix, unsigned int loadFlags);
         PageEntry();
     };
-    
+
 protected:
     plString fName;
     unsigned int fStartDateTime;

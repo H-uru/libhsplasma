@@ -35,7 +35,7 @@ void plAgeInfo::readFromFile(const plString& filename) {
         plString ln = S->readLine();
         plString field = ln.beforeFirst('=').toLower();
         plString value = ln.afterFirst('=');
-        
+
         if (field == "startdatetime") {
             fStartDateTime = value.toUint();
         } else if (field == "daylength") {
@@ -128,7 +128,7 @@ void plAgeInfo::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "Age")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fName = tag->getParam("Name", "");
-    
+
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "AgeParams") {

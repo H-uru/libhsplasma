@@ -64,6 +64,25 @@ static PyObject* pyAgeInfo_getPage(pyAgeInfo* self, PyObject* args) {
     return Py_BuildValue("sii", pe.fName.cstr(), pe.fSeqSuffix, pe.fLoadFlags);
 }
 
+static PyObject* pyAgeInfo_getNumCommonPages(pyAgeInfo* self, PyObject* args) {
+    int version;
+    if (!PyArg_ParseTuple(args, "i", &version)) {
+        PyErr_SetString(PyExc_TypeError, "getNumCommonPages expects an int");
+        return NULL;
+    }
+    return PyInt_FromLong(self->fThis->getNumCommonPages((PlasmaVer)version));
+}
+
+static PyObject* pyAgeInfo_getCommonPage(pyAgeInfo* self, PyObject* args) {
+    int idx, version;
+    if (!PyArg_ParseTuple(args, "ii", &idx, &version)) {
+        PyErr_SetString(PyExc_TypeError, "getCommonPage expects int, int");
+        return NULL;
+    }
+    plAgeInfo::PageEntry pe = self->fThis->getCommonPage(idx, (PlasmaVer)version);
+    return Py_BuildValue("sii", pe.fName.cstr(), pe.fSeqSuffix, pe.fLoadFlags);
+}
+
 static PyObject* pyAgeInfo_setPage(pyAgeInfo* self, PyObject* args) {
     int idx;
     const char* name;
@@ -100,6 +119,15 @@ static PyObject* pyAgeInfo_getPageFilename(pyAgeInfo* self, PyObject* args) {
     return PlStr_To_PyStr(self->fThis->getPageFilename((size_t)idx, (PlasmaVer)version));
 }
 
+static PyObject* pyAgeInfo_getCommonPageFilename(pyAgeInfo* self, PyObject* args) {
+    int idx, version;
+    if (!PyArg_ParseTuple(args, "ii", &idx, &version)) {
+        PyErr_SetString(PyExc_TypeError, "getCommonPageFilename expects int, int");
+        return NULL;
+    }
+    return PlStr_To_PyStr(self->fThis->getCommonPageFilename((size_t)idx, (PlasmaVer)version));
+}
+
 static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
     int idx, ver;
     if (!PyArg_ParseTuple(args, "ii", &idx, &ver)) {
@@ -107,6 +135,15 @@ static PyObject* pyAgeInfo_getPageLoc(pyAgeInfo* self, PyObject* args) {
         return NULL;
     }
     return pyLocation_FromLocation(self->fThis->getPageLoc((size_t)idx, (PlasmaVer)ver));
+}
+
+static PyObject* pyAgeInfo_getCommonPageLoc(pyAgeInfo* self, PyObject* args) {
+    int idx, ver;
+    if (!PyArg_ParseTuple(args, "ii", &idx, &ver)) {
+        PyErr_SetString(PyExc_TypeError, "getCommonPageLoc expects int, int");
+        return NULL;
+    }
+    return pyLocation_FromLocation(self->fThis->getCommonPageLoc((size_t)idx, (PlasmaVer)ver));
 }
 
 static PyObject* pyAgeInfo_getName(pyAgeInfo* self, void*) {
@@ -240,6 +277,12 @@ static PyMethodDef pyAgeInfo_Methods[] = {
     { "getPage", (PyCFunction)pyAgeInfo_getPage, METH_VARARGS,
       "Params: idx\n"
       "Returns a tuple (name, pageNum, loadFlags) for the specified page" },
+    { "getNumCommonPages", (PyCFunction)pyAgeInfo_getNumCommonPages, METH_VARARGS,
+      "Params: version\n"
+      "Returns the number of common pages described by this AgeInfo" },
+    { "getCommonPage", (PyCFunction)pyAgeInfo_getCommonPage, METH_VARARGS,
+      "Params: idx, version\n"
+      "Returns a tuple (name, pageNum, loadFlags) for the specified common page" },
     { "setPage", (PyCFunction)pyAgeInfo_setPage, METH_VARARGS,
       "Params: idx, (name, pageNum, loadFlags)\n"
       "Sets info for the specified page" },
@@ -249,9 +292,15 @@ static PyMethodDef pyAgeInfo_Methods[] = {
     { "getPageFilename", (PyCFunction)pyAgeInfo_getPageFilename, METH_VARARGS,
       "Params: idx, version\n"
       "Returns the standard Page Filename for the specified page" },
+    { "getCommonPageFilename", (PyCFunction)pyAgeInfo_getCommonPageFilename, METH_VARARGS,
+      "Params: idx, version\n"
+      "Returns the standard Page Filename for the specified common page" },
     { "getPageLoc", (PyCFunction)pyAgeInfo_getPageLoc, METH_VARARGS,
       "Params: idx\n"
       "Returns a plLocation for the specified page" },
+    { "getCommonPageLoc", (PyCFunction)pyAgeInfo_getCommonPageLoc, METH_VARARGS,
+      "Params: idx\n"
+      "Returns a plLocation for the specified common page" },
     { NULL, NULL, 0, NULL }
 };
 
