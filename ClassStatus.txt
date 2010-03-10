@@ -375,6 +375,7 @@ plLinkToAgeMsg                  Basic       No          No
 plLinkEffectsTriggerMsg         Basic       No          No
 plLinkInDoneMsg                 Complete    No          No
 plLoadCloneMsg                  Basic       No          No
+plLoadAvatarMsg                 Basic       No          No
 plMessage                       Complete    Complete    No
 plMessageWithCallbacks          Complete    No          No
 plMsgForwarder                  Complete    Complete    PrpShop

@@ -366,6 +366,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Stream\pyRAMStream.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Stream\pyStream.cpp"
 				>
 			</File>

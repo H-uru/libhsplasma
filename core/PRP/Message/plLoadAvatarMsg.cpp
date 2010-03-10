@@ -1,7 +1,11 @@
 #include "plLoadAvatarMsg.h"
 
 plLoadAvatarMsg::plLoadAvatarMsg() : fInitialTask(NULL) { }
-plLoadAvatarMsg::~plLoadAvatarMsg() { }
+
+plLoadAvatarMsg::~plLoadAvatarMsg() {
+    if (fInitialTask != NULL)
+        delete fInitialTask;
+}
 
 IMPLEMENT_CREATABLE(plLoadAvatarMsg, kLoadAvatarMsg, plLoadCloneMsg)
 
@@ -10,15 +14,14 @@ void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr) {
 
     fIsPlayer = S->readBool();
     fSpawnPoint = mgr->readKey(S);
-    if(S->readBool()) {
+    if (S->readBool()) {
         setInitialTask(plAvTask::Convert(mgr->ReadCreatable(S)));
     } else {
         setInitialTask(NULL);
     }
 
-    if (S->getVer() == pvLive) {
+    if (S->getVer() == pvLive)
         fUserStr = S->readSafeStr();
-    }
 }
 
 void plLoadAvatarMsg::write(hsStream* S, plResManager* mgr) {
@@ -34,9 +37,8 @@ void plLoadAvatarMsg::write(hsStream* S, plResManager* mgr) {
         S->writeBool(false);
     }
 
-    if (S->getVer() == pvLive) {
+    if (S->getVer() == pvLive)
         S->writeSafeStr(fUserStr);
-    }
 }
 
 void plLoadAvatarMsg::IPrcWrite(pfPrcHelper* prc) {

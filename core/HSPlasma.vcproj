@@ -1479,6 +1479,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Message\plLoadAvatarMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plLoadAvatarMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plLoadCloneMsg.cpp"
 					>
 				</File>

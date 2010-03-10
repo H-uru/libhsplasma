@@ -357,7 +357,11 @@ void pnAsyncSocket::_async::run()
 
 pnAsyncSocket::pnAsyncSocket(pnSocket* sock)
 {
+#ifdef WIN32
+    unsigned long yes = 1;
+#else
     int yes = 1;
+#endif
     fAsyncIO = new _async();
     fAsyncIO->fSock = sock;
     ioctlsocket(sock->getHandle(), FIOASYNC, &yes);

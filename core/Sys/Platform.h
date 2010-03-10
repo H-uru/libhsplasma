@@ -8,10 +8,8 @@
 #define ENDSWAP16(val) \
     ((val & 0x00FF) << 8 | (val & 0xFF00) >> 8)
 
-#ifdef MACOSX
-    #ifdef __BIG_ENDIAN__
-        #define WORDS_BIGENDIAN
-    #endif
+#if defined(MACOSX) && defined(__BIG_ENDIAN__)
+    #define WORDS_BIGENDIAN
 #endif
 
 #ifdef WORDS_BIGENDIAN
