@@ -84,6 +84,7 @@
 #include "PRP/Message/pfKIMsg.h"
 #include "PRP/Message/plLinkToAgeMsg.h"
 #include "PRP/Message/plLinkEffectsTriggerMsg.h"
+#include "PRP/Message/plLoadAvatarMsg.h"
 #include "PRP/Message/plLoadCloneMsg.h"
 #include "PRP/Message/plMsgForwarder.h"
 #include "PRP/Message/plResponderMsg.h"
@@ -960,7 +961,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kAvatarBehaviorNotifyMsg: return new plAvatarBehaviorNotifyMsg();
         case kATCChannel: return new plATCChannel();
         case kScalarSDLChannel: return new plScalarSDLChannel();
-        //case kLoadAvatarMsg: return new plLoadAvatarMsg();
+        case kLoadAvatarMsg: return new plLoadAvatarMsg();
         //case kAvatarSetTypeMsg: return new plAvatarSetTypeMsg();
         case kNetMsgLoadClone: return new plNetMsgLoadClone();
         case kNetMsgPlayerPage: return new plNetMsgPlayerPage();

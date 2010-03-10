@@ -175,6 +175,7 @@ PLSOBJ=\
 	$(OBJDIR)plInputIfaceMgrMsg.o \
 	$(OBJDIR)plLinkToAgeMsg.o \
 	$(OBJDIR)plLinkEffectsTriggerMsg.o \
+	$(OBJDIR)plLoadAvatarMsg.o \
 	$(OBJDIR)plLoadCloneMsg.o \
 	$(OBJDIR)plMessage.o \
 	$(OBJDIR)plMessageWithCallbacks.o \
@@ -833,6 +834,9 @@ $(OBJDIR)plLinkToAgeMsg.o: PRP/Message/plLinkToAgeMsg.h PRP/Message/plLinkToAgeM
 
 $(OBJDIR)plLinkEffectsTriggerMsg.o: PRP/Message/plLinkEffectsTriggerMsg.h PRP/Message/plLinkEffectsTriggerMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLinkEffectsTriggerMsg.cpp -o $@
+
+$(OBJDIR)plLoadAvatarMsg.o: PRP/Message/plLoadAvatarMsg.h PRP/Message/plLoadAvatarMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plLoadAvatarMsg.cpp -o $@
 
 $(OBJDIR)plLoadCloneMsg.o: PRP/Message/plLoadCloneMsg.h PRP/Message/plLoadCloneMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLoadCloneMsg.cpp -o $@
