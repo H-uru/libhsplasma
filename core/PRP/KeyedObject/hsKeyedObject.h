@@ -36,7 +36,7 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    
+
 public:
     /** Returns the key that describes this object */
     plKey getKey() const;

@@ -63,14 +63,6 @@ float hsMatrix44::operator()(int y, int x) const {
     return data[y][x];
 }
 
-/*
-hsMatrix44& hsMatrix44::operator=(const hsMatrix44& other) {
-    for (int y=0; y<4; y++)
-        for (int x=0; x<4; x++)
-            data[y][x] = other.data[y][x];
-    return (*this);
-}*/
-
 bool hsMatrix44::operator==(const hsMatrix44& other) const {
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)
@@ -206,7 +198,7 @@ hsMatrix44& hsMatrix44::setScale(const hsVector3& scale) {
 
 void hsMatrix44::read(hsStream* S) {
     bool hasData = true;
-    if (S->getVer() == pvLive || S->getVer() == pvHex)
+    if (S->getVer() >= pvLive && S->getVer() != pvUniversal)
         hasData = S->readBool();
 
     if (hasData) {
@@ -220,11 +212,11 @@ void hsMatrix44::read(hsStream* S) {
 
 void hsMatrix44::write(hsStream* S) {
     bool hasData = true;
-    if (S->getVer() == pvLive) {
+    if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
         hasData = !IsIdentity();
         S->writeBool(hasData);
     }
-    
+
     if (hasData) {
         for (int y=0; y<4; y++)
             for (int x=0; x<4; x++)

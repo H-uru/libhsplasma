@@ -42,15 +42,15 @@ bool plUoid::operator<(const plUoid& other) const {
 void plUoid::read(hsStream* S) {
     unsigned char contents = S->readByte();
     location.read(S);
-    if ((contents & kHasLoadMask) && S->getVer() < pvEoa)
+    if ((contents & kHasLoadMask) && (S->getVer() < pvEoa || S->getVer() == pvUniversal))
         loadMask.read(S);
     else
         loadMask.setAlways();
     classType = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer());
-    if (S->getVer() >= pvLive)
+    if (S->getVer() >= pvLive && S->getVer() != pvUniversal)
         objID = S->readInt();
     objName = S->readSafeStr();
-    if ((contents & kHasCloneIDs) && S->getVer() < pvEoa) {
+    if ((contents & kHasCloneIDs) && (S->getVer() < pvEoa || S->getVer() == pvUniversal)) {
         cloneID = S->readInt();
         clonePlayerID = S->readInt();
     } else {
@@ -63,18 +63,22 @@ void plUoid::read(hsStream* S) {
 
 void plUoid::write(hsStream* S) {
     unsigned char contents = 0;
-    if (cloneID != 0) contents |= kHasCloneIDs;
-    if (loadMask.isUsed()) contents |= kHasLoadMask;
-    if (eoaExtra != 0 && S->getVer() >= pvEoa) contents |= 0x4;
+    if (cloneID != 0)
+        contents |= kHasCloneIDs;
+    if (loadMask.isUsed())
+        contents |= kHasLoadMask;
+    if (eoaExtra != 0 && S->getVer() >= pvEoa)
+        contents |= 0x4;
     S->writeByte(contents);
+
     location.write(S);
-    if ((contents & kHasLoadMask) && S->getVer() < pvEoa)
+    if ((contents & kHasLoadMask) && (S->getVer() < pvEoa || S->getVer() == pvUniversal))
         loadMask.write(S);
     S->writeShort(pdUnifiedTypeMap::MappedToPlasma(classType, S->getVer()));
-    if (S->getVer() >= pvLive)
+    if (S->getVer() >= pvLive && S->getVer() != pvUniversal)
         S->writeInt(objID);
     S->writeSafeStr(objName);
-    if ((contents & kHasCloneIDs) && S->getVer() < pvEoa) {
+    if ((contents & kHasCloneIDs) && (S->getVer() < pvEoa || S->getVer() == pvUniversal)) {
         S->writeInt(cloneID);
         S->writeInt(clonePlayerID);
     }

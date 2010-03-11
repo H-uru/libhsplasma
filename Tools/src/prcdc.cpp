@@ -9,7 +9,7 @@ void doHelp(const char* exename) {
     printf("Usage: %s [options] filename\n\n", exename);
     printf("Options:\n");
     printf("\t-o file      Write output to `file`\n");
-    printf("\t-v ver       Select input version (prime, pots, live, eoa, hex)\n");
+    printf("\t-v ver       Select input version (prime, pots, live, eoa, hex, universal)\n");
     printf("\t             (for use with Creatables; PRP versions are determined automatically)\n");
     printf("\t-x type:name Decompyle a single object from a PRP file\n");
     printf("\t--novtx      Don't include vertex data\n");
@@ -43,11 +43,18 @@ int main(int argc, char** argv) {
             }
             plString ver = argv[i];
             ver.toLower();
-            if (ver == "prime")     inVer = pvPrime;
-            else if (ver == "pots") inVer = pvPots;
-            else if (ver == "live") inVer = pvLive;
-            else if (ver == "eoa")  inVer = pvEoa;
-            else if (ver == "hex")  inVer = pvHex;
+            if (ver == "prime")
+                inVer = pvPrime;
+            else if (ver == "pots")
+                inVer = pvPots;
+            else if (ver == "live")
+                inVer = pvLive;
+            else if (ver == "eoa")
+                inVer = pvEoa;
+            else if (ver == "hex")
+                inVer = pvHex;
+            else if (ver == "universal")
+                inVer = pvUniversal;
             else {
                 fprintf(stderr, "Error: unrecognized version: %s\n", ver.cstr());
                 return 1;

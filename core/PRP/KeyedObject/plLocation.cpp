@@ -39,53 +39,68 @@ void plLocation::parse(unsigned int id) {
     if (id == 0xFFFFFFFF) {
         fPageNum = -1;
         fSeqPrefix = -1;
-    } else {
-        fPageNum = id & (fVer == pvLive ? 0x0000FFFF : 0x000000FF);
-        if (id & 0x80000000) {
-            id -= 1;
-            fPageNum -= 1;
-        } else {
-            id -= 0x21;
-            fPageNum -= 0x21;
-        }
-        fSeqPrefix = (signed int)id >> (fVer == pvLive ? 16 : 8);
-        if (id & 0x80000000)
-            fSeqPrefix = (fSeqPrefix & 0xFFFFFF00) | (0x100 - fSeqPrefix);
     }
+    if (fVer == pvUniversal)
+        throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
+
+    fPageNum = id & (fVer == pvLive ? 0x0000FFFF : 0x000000FF);
+    if (id & 0x80000000) {
+        id -= 1;
+        fPageNum -= 1;
+    } else {
+        id -= 0x21;
+        fPageNum -= 0x21;
+    }
+    fSeqPrefix = (signed int)id >> (fVer == pvLive ? 16 : 8);
+    if (id & 0x80000000)
+        fSeqPrefix = (fSeqPrefix & 0xFFFFFF00) | (0x100 - fSeqPrefix);
 }
 
 unsigned int plLocation::unparse() const {
-    if (fPageNum == -1 && fSeqPrefix == -1) {
+    if (fPageNum == -1 && fSeqPrefix == -1)
         return 0xFFFFFFFF;
-    } else {
-        int sp = fSeqPrefix;
-        if (sp < 0)
-            sp = (sp & 0xFFFFFF00) | (0x100 - sp);
-        if (fPageNum < 0)
-            sp++;
-        unsigned int id = sp << (fVer == pvLive ? 16 : 8);
-        id += fPageNum + (fSeqPrefix < 0 ? 1 : 0x21);
-        return id;
-    }
+    if (fVer == pvUniversal)
+        throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
+
+    int sp = fSeqPrefix;
+    if (sp < 0)
+        sp = (sp & 0xFFFFFF00) | (0x100 - sp);
+    if (fPageNum < 0)
+        sp++;
+    unsigned int id = sp << (fVer == pvLive ? 16 : 8);
+    id += fPageNum + (fSeqPrefix < 0 ? 1 : 0x21);
+    return id;
 }
 
 void plLocation::read(hsStream* S) {
     setVer(S->getVer());
-    parse(S->readInt());
-    if (S->getVer() >= pvEoa)
-        fFlags = S->readByte();
-    else
+    if (S->getVer() == pvUniversal) {
+        fSeqPrefix = S->readInt();
+        fPageNum = S->readInt();
         fFlags = S->readShort();
+    } else {
+        parse(S->readInt());
+        if (S->getVer() >= pvEoa)
+            fFlags = S->readByte();
+        else
+            fFlags = S->readShort();
+    }
 }
 
 void plLocation::write(hsStream* S) {
     if (S->getVer() != pvUnknown)
         setVer(S->getVer());
-    S->writeInt(unparse());
-    if (S->getVer() >= pvEoa)
-        S->writeByte(fFlags);
-    else
+    if (S->getVer() == pvUniversal) {
+        S->writeInt(fSeqPrefix);
+        S->writeInt(fPageNum);
         S->writeShort(fFlags);
+    } else {
+        S->writeInt(unparse());
+        if (S->getVer() >= pvEoa)
+            S->writeByte(fFlags);
+        else
+            S->writeShort(fFlags);
+    }
 }
 
 void plLocation::prcWrite(pfPrcHelper* prc) {
@@ -102,11 +117,15 @@ void plLocation::prcParse(const pfPrcTag* tag) {
 }
 
 void plLocation::invalidate() {
-    parse(0xFFFFFFFF);
+    fPageNum = -1;
+    fSeqPrefix = -1;
     fFlags = 0;
 }
 
-bool plLocation::isValid() const { return (unparse() != 0xFFFFFFFF); }
+bool plLocation::isValid() const {
+    return (fPageNum != -1) || (fSeqPrefix != -1);
+}
+
 bool plLocation::isReserved() const { return (fFlags & kReserved) != 0; }
 bool plLocation::isItinerant() const { return (fFlags & kItinerant) != 0; }
 bool plLocation::isVirtual() const { return unparse() == 0; }
@@ -121,6 +140,8 @@ void plLocation::setSeqPrefix(int sp) { fSeqPrefix = sp; }
 void plLocation::setFlags(unsigned short flags) { fFlags = flags; }
 
 void plLocation::set(int pid, unsigned short flags, PlasmaVer pv) {
+    if (pv == pvUniversal)
+        throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
     setVer(pv);
     parse(pid);
     fFlags = flags;

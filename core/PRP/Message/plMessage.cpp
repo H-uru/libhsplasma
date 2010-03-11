@@ -10,7 +10,7 @@ void plMessage::IMsgRead(hsStream* S, plResManager* mgr) {
     fReceivers.setSize(S->readInt());
     for (size_t i=0; i<fReceivers.getSize(); i++)
         fReceivers[i] = mgr->readKey(S);
-    if (S->getVer() < pvEoa)
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
         fTimeStamp = S->readDouble();
     else
         fTimeStamp = 0.0;
@@ -22,7 +22,7 @@ void plMessage::IMsgWrite(hsStream* S, plResManager* mgr) {
     S->writeInt(fReceivers.getSize());
     for (size_t i=0; i<fReceivers.getSize(); i++)
         mgr->writeKey(S, fReceivers[i]);
-    if (S->getVer() < pvEoa)
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
         S->writeDouble(fTimeStamp);
     S->writeInt(fBCastFlags);
 }

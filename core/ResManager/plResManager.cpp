@@ -32,7 +32,7 @@ plKey plResManager::readKey(hsStream* S) {
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
-    if (S->getVer() < pvEoa) {
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
         if (S->readBool())
             return readUoid(S);
         else
@@ -58,9 +58,9 @@ void plResManager::writeKey(hsStream* S, plKey key) {
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
     //key->exists = (strcmp(key->objName, "") != 0);
-    if (S->getVer() < pvEoa)
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
         S->writeBool(key.Exists());
-    if (key.Exists() || S->getVer() >= pvEoa)
+    if (key.Exists() || (S->getVer() >= pvEoa && S->getVer() != pvUniversal))
         writeUoid(S, key);
 }
 
@@ -153,7 +153,7 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     hsFileStream* S = new hsFileStream();
     S->open(filename, fmWrite);
     S->setVer(getVer());
-    if (getVer() >= pvLive) {
+    if (getVer() >= pvLive && getVer() != pvUniversal) {
         std::vector<short> types = keys.getTypes(page->getLocation());
         page->setClassList(types);
     }
@@ -221,25 +221,23 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
         if (path.len() > 0)
             path = path + PATHSEP;
 
+        PlasmaVer ageVer = pvUnknown;
         if (age->getNumPages() > 0) {
             plString file = plString::Format("%s_District_%s.prp",
                     age->getAgeName().cstr(),
                     age->getPage(0).fName.cstr());
-            FILE* F = fopen((path + file).cstr(), "rb");
-            if (F == NULL) {
-                setVer(pvEoa, true);
-            } else {
-                setVer(pvPots, true);
-                fclose(F);
-            }
+            if (hsFileStream::FileExists(path + file))
+                ageVer = pvPots;
+            else
+                ageVer = pvEoa;
         }
 
         for (size_t i=0; i<age->getNumPages(); i++)
-            ReadPage(path + age->getPageFilename(i, getVer()));
+            ReadPage(path + age->getPageFilename(i, ageVer));
 
-        for (size_t i=0; i<age->getNumCommonPages(getVer()); i++) {
-            if (hsFileStream::FileExists(age->getCommonPageFilename(i, getVer())))
-                ReadPage(path + age->getCommonPageFilename(i, getVer()));
+        for (size_t i=0; i<age->getNumCommonPages(ageVer); i++) {
+            if (hsFileStream::FileExists(age->getCommonPageFilename(i, ageVer)))
+                ReadPage(path + age->getCommonPageFilename(i, ageVer));
         }
     }
 
@@ -309,7 +307,7 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer()); // objType
-        if (S->getVer() >= pvLive) {
+        if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
             S->readInt();   // # of bytes after this int to next key list
             S->readByte();  // flag?
         }
@@ -338,14 +336,14 @@ void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i], true);
         S->writeShort(pdUnifiedTypeMap::MappedToPlasma(kList[0]->getType(), S->getVer()));
         unsigned int lenPos = S->pos();
-        if (S->getVer() >= pvLive) {
+        if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
             S->writeInt(0);
             S->writeByte(0);
         }
         S->writeInt(kList.size());
         for (unsigned int j=0; j<kList.size(); j++)
             kList[j]->write(S);
-        if (S->getVer() >= pvLive) {
+        if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
             unsigned int nextPos = S->pos();
             S->seek(lenPos);
             S->writeInt(nextPos - lenPos - 4);
@@ -357,18 +355,18 @@ void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
 unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
     std::vector<short> types = keys.getTypes(loc);
     unsigned int nRead = 0;
-    
+
     if (progressFunc != NULL)
         progressFunc(0.0f);
 
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
-        //plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
-        //               types[i], pdUnifiedTypeMap::ClassName(types[i]));
+        plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
+                       types[i], pdUnifiedTypeMap::ClassName(types[i]));
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->getFileOff() <= 0) continue;
-            //plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName(),
-            //               kList[j]->fileOff);
+            plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName().cstr(),
+                           kList[j]->getFileOff());
             S->seek(kList[j]->getFileOff());
             try {
                 plCreatable* pCre = ReadCreatable(S, true, kList[j]->getObjSize());

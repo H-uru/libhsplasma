@@ -8,7 +8,7 @@ void doHelp(const char* exename) {
     printf("Usage: %s infile [options]\n\n", exename);
     printf("Options:\n");
     printf("\t-o file  Write output to `file`\n");
-    printf("\t-v ver   Select output version (prime, pots, live, eoa, hex)\n");
+    printf("\t-v ver   Select output version (prime, pots, live, eoa, hex, universal)\n");
     printf("\t--help   Display this help and then exit\n\n");
 }
 
@@ -27,11 +27,18 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--ver") == 0) {
             plString ver = argv[++i];
             ver.toLower();
-            if (ver == "prime")     outVer = pvPrime;
-            else if (ver == "pots") outVer = pvPots;
-            else if (ver == "live") outVer = pvLive;
-            else if (ver == "eoa")  outVer = pvEoa;
-            else if (ver == "hex")  outVer = pvHex;
+            if (ver == "prime")
+                outVer = pvPrime;
+            else if (ver == "pots")
+                outVer = pvPots;
+            else if (ver == "live")
+                outVer = pvLive;
+            else if (ver == "eoa")
+                outVer = pvEoa;
+            else if (ver == "hex")
+                outVer = pvHex;
+            else if (ver == "universal")
+                outVer = pvUniversal;
             else {
                 fprintf(stderr, "Error: unrecognized version: %s\n", ver.cstr());
                 return 1;

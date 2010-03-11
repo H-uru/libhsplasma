@@ -11,7 +11,7 @@ plAxisAnimModifier::~plAxisAnimModifier() {
 void plAxisAnimModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
-    if (S->getVer() == pvEoa) {
+    if (S->getVer() >= pvEoa) {
         b65 = S->readBool();
         b66 = S->readBool();
     }
@@ -25,7 +25,7 @@ void plAxisAnimModifier::read(hsStream* S, plResManager* mgr) {
     size_t len = S->readShort();
     fAnimLabel = S->readStr(len);
 
-    if (S->getVer() == pvEoa) {
+    if (S->getVer() >= pvEoa) {
         af38.setSizeNull(S->readInt());
         for (size_t i=0; i<af38.getSize(); i++)
             af38[i] = S->readFloat();
@@ -54,7 +54,7 @@ void plAxisAnimModifier::read(hsStream* S, plResManager* mgr) {
 void plAxisAnimModifier::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
-    if (S->getVer() == pvEoa) {
+    if (S->getVer() >= pvEoa) {
         S->writeBool(b65);
         S->writeBool(b66);
     }
@@ -68,7 +68,7 @@ void plAxisAnimModifier::write(hsStream* S, plResManager* mgr) {
     S->writeShort(fAnimLabel.len());
     S->writeStr(fAnimLabel);
 
-    if (S->getVer() == pvEoa) {
+    if (S->getVer() >= pvEoa) {
         S->writeInt(af38.getSize());
         for (size_t i=0; i<af38.getSize(); i++)
             S->writeFloat(af38[i]);

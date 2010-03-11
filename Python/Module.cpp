@@ -113,6 +113,7 @@ void initPyPlasma_Constants(PyObject* module) {
     PyModule_AddIntConstant(module, "pvLive", pvLive);
     PyModule_AddIntConstant(module, "pvEoa", pvEoa);
     PyModule_AddIntConstant(module, "pvHex", pvHex);
+    PyModule_AddIntConstant(module, "pvUniversal", pvUniversal);
 
     /* File modes */
     PyModule_AddIntConstant(module, "fmRead", fmRead);

@@ -174,7 +174,7 @@ void plGBufferGroup::read(hsStream* S) {
     clearIndices();
     clearCells();
 
-    if (fFormat & kEncoded) {
+    if (S->getVer() != pvUniversal && (fFormat & kEncoded) != 0) {
         if (S->getVer() == pvHex)
             fGBuffStorageType = kStoreCompV3;
         else if (S->getVer() == pvLive)
@@ -192,7 +192,6 @@ void plGBufferGroup::read(hsStream* S) {
     fCompGBuffSizes.setSize(count);
     fCompGBuffStorage.setSize(count);
     for (size_t i=0; i<count; i++) {
-        unsigned int colorCount = 0;
         unsigned char* vData;
         unsigned int vtxCount = 0, vtxSize = 0;
         if (fFormat & kEncoded) {
@@ -217,7 +216,7 @@ void plGBufferGroup::read(hsStream* S) {
             vData = new unsigned char[vtxSize];
             S->read(vtxSize, vData);
             fVertBuffStorage[i] = vData;
-            colorCount = S->readInt();
+            S->readInt();   // Color count
             fCompGBuffSizes[i] = 0;
             fCompGBuffStorage[i] = NULL;
         }
@@ -258,10 +257,14 @@ void plGBufferGroup::write(hsStream* S) {
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
         unsigned int count = fVertBuffSizes[i] / fStride;
         S->writeShort(count);
-        if (INeedVertRecompression(S->getVer()) || fCompGBuffStorage[i] == NULL)
+        if (S->getVer() == pvUniversal) {
+            S->writeInt(fVertBuffSizes[i]);
+            S->write(fVertBuffSizes[i], fVertBuffStorage[i]);
+        } else if (INeedVertRecompression(S->getVer()) || fCompGBuffStorage[i] == NULL) {
             coder.write(S, fVertBuffStorage[i], fFormat, fStride, count);
-        else
+        } else {
             S->write(fCompGBuffSizes[i], fCompGBuffStorage[i]);
+        }
     }
 
     S->writeInt(fIdxBuffStorage.getSize());

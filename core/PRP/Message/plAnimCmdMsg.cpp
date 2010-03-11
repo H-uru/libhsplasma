@@ -40,7 +40,7 @@ void plAnimCmdMsg::read(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::read(S, mgr);
 
     fCmd.read(S);
-    if (S->getVer() < pvEoa) {
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
         fBegin = S->readFloat();
         fEnd = S->readFloat();
         fLoopEnd = S->readFloat();
@@ -72,7 +72,7 @@ void plAnimCmdMsg::write(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::write(S, mgr);
 
     fCmd.write(S);
-    if (S->getVer() < pvEoa) {
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
         S->writeFloat(fBegin);
         S->writeFloat(fEnd);
         S->writeFloat(fLoopEnd);

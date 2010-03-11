@@ -166,7 +166,7 @@ void plPythonParameter::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver) {
     if (ver == pvUnknown)
         throw hsBadVersionException(__FILE__, __LINE__);
-    if (type < 20)
+    if (ver == pvUniversal || type < 20)
         return type;
     if (ver >= pvEoa) {
         switch (type) {
@@ -193,7 +193,7 @@ unsigned int plPythonParameter::PlasmaToMapped(unsigned int type, PlasmaVer ver)
 unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver) {
     if (ver == pvUnknown)
         throw hsBadVersionException(__FILE__, __LINE__);
-    if (type < 20)
+    if (ver == pvUniversal || type < 20)
         return type;
     if (ver >= pvEoa) {
         switch (type) {

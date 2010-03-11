@@ -32,7 +32,13 @@ bool plPageInfo::isValid() const { return fLocation.isValid(); }
 
 void plPageInfo::read(hsStream* S) {
     short prpVer = S->readShort();
-    if (prpVer == 6) {
+    if (prpVer == 0x7FFF) {
+        S->setVer(pvUniversal);
+        fLocation.read(S);
+        fAge = S->readSafeStr();
+        fPage = S->readSafeStr();
+        fFlags = S->readInt();
+    } else if (prpVer == 6) {
         unsigned short numTypes = S->readShort();
         if (numTypes == 0) {
             S->setVer(pvLive);
@@ -80,7 +86,8 @@ void plPageInfo::read(hsStream* S) {
         short minorVer = S->readShort();
         if (majorVer > 63) // Old Live version (e.g. 69.x)
             throw hsBadVersionException(__FILE__, __LINE__);
-        else if (minorVer >= 12) S->setVer(pvPots);
+        else if (minorVer >= 12)
+            S->setVer(pvPots);
         fLocation.set(pid, pflags, S->getVer());
         fReleaseVersion = S->readInt();
         fFlags = S->readInt();
@@ -100,7 +107,13 @@ void plPageInfo::read(hsStream* S) {
 }
 
 void plPageInfo::write(hsStream* S) {
-    if (S->getVer() == pvEoa) {
+    if (S->getVer() == pvUniversal) {
+        S->writeShort(0x7FFF);
+        fLocation.write(S);
+        S->writeSafeStr(fAge);
+        S->writeSafeStr(fPage);
+        S->writeInt(fFlags);
+    } else if (S->getVer() == pvEoa) {
         S->writeShort(6);
         S->writeShort(fClassList.size());
         for (size_t i=0; i<fClassList.size(); i++) {

@@ -1,6 +1,6 @@
 #include "plAGMasterMod.h"
 
-plAGMasterMod::plAGMasterMod() : fLiveA5(false), fLiveA6(false) { }
+plAGMasterMod::plAGMasterMod() : fIsGrouped(false), fIsGroupMaster(false) { }
 plAGMasterMod::~plAGMasterMod() { }
 
 IMPLEMENT_CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
@@ -8,7 +8,9 @@ IMPLEMENT_CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
 void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
-    if (S->getVer() < pvEoa) {
+    if (S->getVer() == pvUniversal) {
+        fGroupName = S->readSafeStr();
+    } else if (S->getVer() < pvEoa) {
         int len = S->readInt();
         fGroupName = S->readStr(len);
     }
@@ -17,11 +19,11 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fPrivateAnims.getSize(); i++)
         fPrivateAnims[i] = mgr->readKey(S);
 
-    if (S->getVer() == pvLive) {
-        fLiveA5 = S->readBool();
-        fLiveA6 = S->readBool();
-        if (fLiveA6)
-            fLiveA8 = mgr->readKey(S);
+    if (S->getVer() == pvLive || S->getVer() == pvUniversal) {
+        fIsGrouped = S->readBool();
+        fIsGroupMaster = S->readBool();
+        if (fIsGroupMaster)
+            fMsgForwarder = mgr->readKey(S);
     }
 
     if (S->getVer() >= pvEoa) {
@@ -33,8 +35,10 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
 
 void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
-    
-    if (S->getVer() != pvPrime) {
+
+    if (S->getVer() == pvUniversal) {
+        S->writeSafeStr(fGroupName);
+    } else if (S->getVer() != pvPrime) {
         S->writeInt(0);
     } else if (S->getVer() < pvEoa) {
         S->writeInt(fGroupName.len());
@@ -45,11 +49,11 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fPrivateAnims.getSize(); i++)
         mgr->writeKey(S, fPrivateAnims[i]);
 
-    if (S->getVer() == pvLive) {
-        S->writeBool(fLiveA5);
-        S->writeBool(fLiveA6);
-        if (fLiveA6)
-            mgr->writeKey(S, fLiveA8);
+    if (S->getVer() == pvLive || S->getVer() == pvUniversal) {
+        S->writeBool(fIsGrouped);
+        S->writeBool(fIsGroupMaster);
+        if (fIsGroupMaster)
+            mgr->writeKey(S, fMsgForwarder);
     }
 
     if (S->getVer() >= pvEoa) {
@@ -62,23 +66,19 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
 void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
-    if (!fGroupName.empty()) {
-        prc->startTag("Group");
-        prc->writeParam("Name", fGroupName);
-        prc->endTag(true);
-    }
+    prc->startTag("Group");
+    prc->writeParam("Name", fGroupName);
+    prc->writeParam("IsGrouped", fIsGrouped);
+    prc->writeParam("IsGroupMaster", fIsGroupMaster);
+    prc->endTag();
+    prc->writeSimpleTag("MsgForwarder");
+    fMsgForwarder->prcWrite(prc);
+    prc->closeTag();
+    prc->closeTag();
+
     prc->writeSimpleTag("PrivateAnims");
     for (size_t i=0; i<fPrivateAnims.getSize(); i++)
         fPrivateAnims[i]->prcWrite(prc);
-    prc->closeTag();
-
-    prc->writeComment("Unknown Live Params");
-    prc->startTag("LiveParams");
-    prc->writeParam("thisA5", fLiveA5);
-    prc->writeParam("thisA6", fLiveA6);
-    prc->endTag();
-    if (fLiveA6)
-        fLiveA8->prcWrite(prc);
     prc->closeTag();
 
     prc->writeComment("Unknown EoA/HexIsle Keys");
@@ -91,6 +91,15 @@ void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
 void plAGMasterMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Group") {
         fGroupName = tag->getParam("Name", "");
+        fIsGrouped = tag->getParam("IsGrouped", "False").toBool();
+        fIsGroupMaster = tag->getParam("IsGroupMaster", "False").toBool();
+        if (tag->hasChildren()) {
+            const pfPrcTag* child = tag->getFirstChild();
+            if (child->getName() != "MsgForwarder")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            if (child->hasChildren())
+                fMsgForwarder = mgr->prcParseKey(child->getFirstChild());;;;;;;
+        }
     } else if (tag->getName() == "PrivateAnims") {
         fPrivateAnims.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -98,11 +107,6 @@ void plAGMasterMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fPrivateAnims[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
-    } else if (tag->getName() == "LiveParams") {
-        fLiveA5 = tag->getParam("thisA5", "false").toBool();
-        fLiveA6 = tag->getParam("thisA6", "false").toBool();
-        if (tag->hasChildren())
-            fLiveA8 = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "EoaKeys") {
         fEoaKeys2.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

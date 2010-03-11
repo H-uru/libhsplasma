@@ -6,23 +6,25 @@
 
 const char* getSuffix(PlasmaVer pv) {
     switch (pv) {
-    case pvPrime:   return "prime";
-    case pvPots:    return "pots";
-    case pvLive:    return "live";
-    case pvEoa:     return "eoa";
-    case pvHex:     return "hex";
-    default:        return "err";
+    case pvPrime:       return "prime";
+    case pvPots:        return "pots";
+    case pvLive:        return "live";
+    case pvEoa:         return "eoa";
+    case pvHex:         return "hex";
+    case pvUniversal:   return "universal";
+    default:            return "err";
     }
 }
 
 const char* getVerName(PlasmaVer pv) {
     switch (pv) {
-    case pvPrime:   return "Prime";
-    case pvPots:    return "PotS";
-    case pvLive:    return "Live";
-    case pvEoa:     return "EoA";
-    case pvHex:     return "HexIsle";
-    default:        return "Unknown";
+    case pvPrime:       return "Prime";
+    case pvPots:        return "PotS";
+    case pvLive:        return "Live";
+    case pvEoa:         return "EoA";
+    case pvHex:         return "HexIsle";
+    case pvUniversal:   return "Universal";
+    default:            return "Unknown";
     }
 }
 
@@ -34,6 +36,7 @@ void doHelp() {
     printf("  -tolive   Converts to Uru Live format\n");
     printf("  -toeoa    Converts to Myst V: End of Ages format\n");
     printf("  -tohex    Converts to Hex Isle format\n");
+    printf("  -touniv   Converts to Universal format\n");
     printf("  -help     Displays this screen\n\n");
 }
 
@@ -62,6 +65,8 @@ int main(int argc, char** argv) {
                 toVer = pvLive;
             else if (strcmp(argv[i], "-tohex") == 0)
                 toVer = pvHex;
+            else if (strcmp(argv[i], "-touniv") == 0)
+                toVer = pvUniversal;
             else if (strcmp(argv[i], "-help") == 0) {
                 doHelp();
                 return 0;

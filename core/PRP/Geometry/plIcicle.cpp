@@ -25,7 +25,7 @@ const char* plIcicle::ClassName() { return "plIcicle"; }
 
 void plIcicle::read(hsStream* S) {
     plVertexSpan::read(S);
-    if (S->getVer() < pvHex) {
+    if (S->getVer() != pvHex) {
         fIBufferIdx = S->readInt();
         fIStartIdx = S->readInt();
     }
@@ -43,8 +43,10 @@ void plIcicle::read(hsStream* S) {
 
 void plIcicle::write(hsStream* S) {
     plVertexSpan::write(S);
-    S->writeInt(fIBufferIdx);
-    S->writeInt(fIStartIdx);
+    if (S->getVer() != pvHex) {
+        S->writeInt(fIBufferIdx);
+        S->writeInt(fIStartIdx);
+    }
     S->writeInt(fILength);
     if (fProps & kPropFacesSortable) {
         for (size_t i=0; i<(fILength / 3); i++)

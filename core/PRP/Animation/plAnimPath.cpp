@@ -20,7 +20,11 @@ void plAnimPath::read(hsStream* S, plResManager* mgr) {
     if (fTMController != NULL)
         delete fTMController;
 
-    if (S->getVer() == pvPrime || S->getVer() == pvPots) {
+    bool useTM = (S->getVer() <= pvPots);
+    if (S->getVer() == pvUniversal)
+        useTM = S->readBool();
+
+    if (useTM) {
         fTMController = new plTMController();
         fTMController->read(S, mgr);
         fController = NULL;
@@ -39,7 +43,13 @@ void plAnimPath::read(hsStream* S, plResManager* mgr) {
 void plAnimPath::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fAnimPathFlags);
 
-    if (S->getVer() == pvPrime || S->getVer() == pvPots) {
+    bool useTM = (S->getVer() <= pvPots);
+    if (S->getVer() == pvUniversal) {
+        useTM = (fTMController != NULL);
+        S->writeBool(useTM);
+    }
+
+    if (useTM) {
         plTMController* controller = fTMController;
         if (controller == NULL && fController != NULL)
             controller = fController->convertToTMController();

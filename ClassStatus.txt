@@ -387,6 +387,7 @@ plServerReplyMsg                Basic       No          No
 plSimStateMsg                   Complete    No          No
 plSimSuppressMsg                Basic       No          No
 plSimulationMsg                 Complete    No          No
+plSubWorldMsg                   Basic       No          No
 plSoundMsg                      Basic       No          No
 plSwimMsg                       Basic       No          No
 plTimerCallbackMsg              Basic       No          No

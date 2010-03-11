@@ -8,13 +8,16 @@ IMPLEMENT_CREATABLE(plExcludeRegionMsg, kExcludeRegionMsg, plMessage)
 void plExcludeRegionMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fCmd = S->readByte();
-    fSynchFlags = (S->getVer() < pvEoa) ? S->readInt() : 0;
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+        fSynchFlags = S->readInt();
+    else
+        fSynchFlags = 0;
 }
 
 void plExcludeRegionMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
     S->writeByte(fCmd);
-    if (S->getVer() < pvEoa)
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
         S->writeInt(fSynchFlags);
 }
 

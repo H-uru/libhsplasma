@@ -42,7 +42,7 @@ void plGeometrySpan::read(hsStream* S) {
     fPenBoneIdx = S->readShort();
     fMinDist = S->readFloat();
     fMaxDist = S->readFloat();
-    if (S->getVer() >= pvHex) {
+    if (S->getVer() == pvHex) {
         fFormat = S->readInt();
         S->readByte();
         S->readByte();

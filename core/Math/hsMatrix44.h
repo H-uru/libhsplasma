@@ -25,23 +25,22 @@ public:
 
     void Reset();
     bool IsIdentity() const;
-    
+
     float& operator()(int y, int x);
     float operator()(int y, int x) const;
-    //hsMatrix44& operator=(const hsMatrix44& other);
     bool operator==(const hsMatrix44& other) const;
     const float* glMatrix() const;
 
     hsMatrix44 operator*(const hsMatrix44& right) const;
     hsVector3 operator*(const hsVector3& vec) const;
-    
+
     hsMatrix44& translate(const hsVector3& translate);
     hsMatrix44& rotate(int axis, float angle);
     hsMatrix44& scale(const hsVector3& scale);
     hsMatrix44& setTranslate(const hsVector3& translate);
     hsMatrix44& setRotate(int axis, float angle);
     hsMatrix44& setScale(const hsVector3& scale);
-    
+
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);

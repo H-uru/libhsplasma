@@ -62,7 +62,7 @@ short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
     0x0200, 0x0201, 0x0202, 0x0203, 0x0204, 0x0205, 0x0206, 0x0207, 0x0208,
     0x0209, 0x020A, 0x020B, 0x020C, 0x020D, 0x020E, 0x020F, 0x0210, 0x0211,
     0x0212, 0x0213, 0x0214, 0x0215,     -1, 0x0217, 0x0218, 0x0219, 0x021A,
@@ -120,7 +120,7 @@ short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -210,7 +210,7 @@ short pdUnifiedTypeMap::fPotSM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
     0x0200, 0x0201, 0x0202, 0x0203, 0x0204, 0x0205, 0x0206, 0x0207, 0x0208,
     0x0209, 0x020A, 0x020B, 0x020C, 0x020D, 0x020E, 0x020F, 0x0210, 0x0211,
     0x0212, 0x0213, 0x0214, 0x0215, 0x0216, 0x0217, 0x0218, 0x0219, 0x021A,
@@ -268,7 +268,7 @@ short pdUnifiedTypeMap::fPotSM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -358,7 +358,7 @@ short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
     0x0200, 0x0201, 0x0202, 0x0203, 0x0204, 0x0205, 0x0206, 0x0207, 0x0208,
     0x0209, 0x020A, 0x020B, 0x020C, 0x020D, 0x020E, 0x020F, 0x0210, 0x0211,
     0x0212, 0x0213, 0x0214, 0x0215, 0x0216, 0x0217, 0x0218, 0x0219, 0x021A,
@@ -416,7 +416,7 @@ short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -506,7 +506,7 @@ short pdUnifiedTypeMap::fEoaM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1, 0x0201, 0x0202,     -1, 0x0203, 0x0204, 0x0205,     -1,
         -1, 0x0206, 0x0207, 0x0208,     -1, 0x020A, 0x020B, 0x020C,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1, 0x0211, 0x0212,
@@ -564,7 +564,7 @@ short pdUnifiedTypeMap::fEoaM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -654,7 +654,7 @@ short pdUnifiedTypeMap::fHexM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1, 0x0201, 0x0202,     -1, 0x0203, 0x0204, 0x0205,     -1,
         -1, 0x0206, 0x0207, 0x0208,     -1, 0x020A, 0x020B, 0x020C,     -1,
         -1,     -1,     -1,     -1, 0x033A,     -1,     -1, 0x0211, 0x0212,
@@ -712,7 +712,7 @@ short pdUnifiedTypeMap::fHexM2PTable[TYPESPACE_MAX] = {
     0x021D, 0x02D4,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -802,7 +802,7 @@ short pdUnifiedTypeMap::fUruP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
     0x0200, 0x0201, 0x0202, 0x0203, 0x0204, 0x0205, 0x0206, 0x0207, 0x0208,
     0x0209, 0x020A, 0x020B, 0x020C, 0x020D, 0x020E, 0x020F, 0x0210, 0x0211,
     0x0212, 0x0213, 0x0214, 0x0215, 0x03BF, 0x0217, 0x0218, 0x0219, 0x021A,
@@ -860,7 +860,7 @@ short pdUnifiedTypeMap::fUruP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -950,7 +950,7 @@ short pdUnifiedTypeMap::fPotSP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
     0x0200, 0x0201, 0x0202, 0x0203, 0x0204, 0x0205, 0x0206, 0x0207, 0x0208,
     0x0209, 0x020A, 0x020B, 0x020C, 0x020D, 0x020E, 0x020F, 0x0210, 0x0211,
     0x0212, 0x0213, 0x0214, 0x0215, 0x0216, 0x0217, 0x0218, 0x0219, 0x021A,
@@ -1008,7 +1008,7 @@ short pdUnifiedTypeMap::fPotSP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -1098,7 +1098,7 @@ short pdUnifiedTypeMap::fLiveP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
     0x0200, 0x0201, 0x0202, 0x0203, 0x0204, 0x0205, 0x0206, 0x0207, 0x0208,
     0x0209, 0x020A, 0x020B, 0x020C, 0x020D, 0x020E, 0x020F, 0x0210, 0x0211,
     0x0212, 0x0213, 0x0214, 0x0215, 0x0216, 0x0217, 0x0218, 0x0219, 0x021A,
@@ -1156,7 +1156,7 @@ short pdUnifiedTypeMap::fLiveP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -1246,7 +1246,7 @@ short pdUnifiedTypeMap::fEoaP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
     0x03C0, 0x0202, 0x0203, 0x0205, 0x0206, 0x0207, 0x020A, 0x020B, 0x020C,
     0x03C1, 0x020E, 0x020F, 0x0210, 0x03C2, 0x03C3, 0x03BD, 0x03C4, 0x0219,
     0x021A, 0x021B, 0x03C5, 0x0226, 0x0227, 0x0228, 0x0229, 0x022A, 0x022B,
@@ -1304,7 +1304,7 @@ short pdUnifiedTypeMap::fEoaP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -1394,7 +1394,7 @@ short pdUnifiedTypeMap::fHexP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
     0x03C0, 0x0202, 0x0203, 0x0205, 0x0206, 0x0207, 0x020A, 0x020B, 0x020C,
     0x03C1, 0x020E, 0x020F, 0x0210, 0x03C2, 0x03C3, 0x03E0, 0x03C4, 0x0219,
     0x021A, 0x021B, 0x03C5, 0x03E1, 0x03E2, 0x03E3, 0x03E4, 0x022A, 0x022B,
@@ -1452,7 +1452,7 @@ short pdUnifiedTypeMap::fHexP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
-    
+
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
         -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1,
@@ -1783,7 +1783,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    
+
     "plObjRefMsg", "plNodeRefMsg", "plMessage", "plRefMsg", "plGenRefMsg",
     "plTimeMsg", "plAnimCmdMsg", "plParticleUpdateMsg", "plLayRefMsg",
     "plMatRefMsg", "plCameraMsg", "plInputEventMsg", "plKeyEventMsg",
@@ -1953,7 +1953,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plParticleBulletHitMsg", "pfPanicLinkMsg", "plAvTaskOneShot", 
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-    
+
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
@@ -2072,6 +2072,8 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
         return fEoaP2MTable[typeIdx];
     case pvHex:
         return fHexP2MTable[typeIdx];
+    case pvUniversal:
+        return typeIdx;
     default:
         return -1;
     }
@@ -2094,6 +2096,8 @@ short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
         return fEoaM2PTable[typeIdx];
     case pvHex:
         return fHexM2PTable[typeIdx];
+    case pvUniversal:
+        return typeIdx;
     default:
         return -1;
     }

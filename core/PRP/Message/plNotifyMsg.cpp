@@ -17,7 +17,10 @@ void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fType = S->readInt();
     fState = S->readFloat();
-    fID = (S->getVer() >= pvEoa) ? S->readByte() : S->readInt();
+    if (S->getVer() >= pvEoa && S->getVer() != pvUniversal)
+        fID = S->readByte();
+    else
+        fID = S->readInt();
 
     clearEvents();
     fEvents.setSizeNull(S->readInt());
@@ -29,7 +32,7 @@ void plNotifyMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
     S->writeInt(fType);
     S->writeFloat(fState);
-    if (S->getVer() >= pvEoa)
+    if (S->getVer() >= pvEoa && S->getVer() != pvUniversal)
         S->writeByte(fID);
     else
         S->writeInt(fID);

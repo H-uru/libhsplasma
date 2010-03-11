@@ -9,6 +9,7 @@ enum PlasmaVer {
     pvLive      = 0x02007000,   // 2.0 r70
     pvEoa       = 0x02010610,   // 2.1 r6.10
     pvHex       = 0x03000000,   // 3.0
+    pvUniversal = 0x7FFFFFFF,   // Maps 1:1 with libHSPlasma mappings
 };
 
 const char* GetVersionName(PlasmaVer ver);

@@ -141,7 +141,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     else
         fEffects = plKey();
 
-    if (S->getVer() < pvLive) {
+    if (S->getVer() < pvLive || S->getVer() == pvUniversal) {
         fMins.read(S);
         fMaxs.read(S);
     }
@@ -149,7 +149,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     fPhysHeight = S->readFloat();
     fPhysWidth = S->readFloat();
 
-    if (S->getVer() == pvLive) {
+    if (S->getVer() == pvLive || S->getVer() == pvUniversal) {
         fFootstepType = S->readSafeStr();
         fFootstepAge = S->readSafeStr();
         fFootstepPage = S->readSafeStr();
@@ -186,7 +186,7 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
     if (fEffects.Exists())
         mgr->writeKey(S, fEffects);
 
-    if (S->getVer() < pvLive) {
+    if (S->getVer() < pvLive || S->getVer() == pvUniversal) {
         fMins.write(S);
         fMaxs.write(S);
     }
@@ -194,7 +194,7 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fPhysHeight);
     S->writeFloat(fPhysWidth);
 
-    if (S->getVer() == pvLive) {
+    if (S->getVer() == pvLive || S->getVer() == pvUniversal) {
         S->writeSafeStr(fFootstepType);
         S->writeSafeStr(fFootstepAge);
         S->writeSafeStr(fFootstepPage);

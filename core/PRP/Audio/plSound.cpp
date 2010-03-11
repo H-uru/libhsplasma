@@ -121,7 +121,7 @@ void plSound::IWrite(hsStream* S, plResManager* mgr) {
     S->writeByte(fType);
     S->writeByte(fPriority);
 
-    if (S->getVer() == pvEoa)
+    if (S->getVer() >= pvEoa)
         S->writeSafeStr(fSubtitleId);
 
     fFadeInParams.write(S);

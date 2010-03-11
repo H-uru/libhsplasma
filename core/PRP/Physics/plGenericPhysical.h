@@ -16,7 +16,17 @@
  **************/
 
 DllClass plGenericPhysical : public plPhysical {
+public:
+    enum PhysType {
+        kPhysNone, kPhysHavok, kPhysODE, kPhysX, kNumPhysTypes
+    };
+
 protected:
+    // Generic properties
+    PhysType fInternalType;
+    unsigned char* fInternalBuffer;
+    size_t fInternalSize;
+
     // Shared Properties
     float fMass, fFriction, fRestitution;
     plSimDefs::Bounds fBounds;
@@ -36,7 +46,7 @@ protected:
     // Havok Properties
     unsigned int fUnk1, fUnk2;
     bool fHKBool1, fHKBool2;
-    
+
     // ODE Properties
     //unsigned int fUnk1, fUnk2;
     size_t fTMDSize;
@@ -117,6 +127,12 @@ public:
     void setVerts(size_t numVerts, const hsVector3* verts);
     void setIndices(size_t numIndices, const unsigned int* indices);
     void setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer);
+
+    // Direct baked data buffer access (Currently only for PhysX with baked data)
+    PhysType getBufferType() const;
+    size_t getBufferSize() const;
+    const unsigned char* getBufferData() const;
+    void setBuffer(PhysType type, size_t size, const unsigned char* data);
 };
 
 #endif

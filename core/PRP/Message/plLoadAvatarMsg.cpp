@@ -20,7 +20,7 @@ void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr) {
         setInitialTask(NULL);
     }
 
-    if (S->getVer() == pvLive)
+    if (S->getVer() == pvLive || S->getVer() == pvUniversal)
         fUserStr = S->readSafeStr();
 }
 
@@ -37,7 +37,7 @@ void plLoadAvatarMsg::write(hsStream* S, plResManager* mgr) {
         S->writeBool(false);
     }
 
-    if (S->getVer() == pvLive)
+    if (S->getVer() == pvLive || S->getVer() == pvUniversal)
         S->writeSafeStr(fUserStr);
 }
 

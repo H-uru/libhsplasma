@@ -63,13 +63,19 @@ void plAgeInfo::readFromFile(const plString& filename) {
 }
 
 void plAgeInfo::writeToFile(const plString& filename, PlasmaVer ver) {
-    plEncryptedStream* S = new plEncryptedStream();
-    plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
-    if (ver >= pvEoa)
-        eType = plEncryptedStream::kEncAES;
-    else
-        eType = plEncryptedStream::kEncXtea;
-    S->open(filename, fmCreate, eType);
+    hsStream* S;
+    if (ver == pvUniversal) {
+        S = new hsFileStream();
+        ((hsFileStream*)S)->open(filename, fmCreate);
+    } else {
+        S = new plEncryptedStream();
+        plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
+        if (ver >= pvEoa)
+            eType = plEncryptedStream::kEncAES;
+        else
+            eType = plEncryptedStream::kEncXtea;
+        ((plEncryptedStream*)S)->open(filename, fmCreate, eType);
+    }
 
     S->writeLine(plString::Format("StartDateTime=%010u", fStartDateTime), true);
     S->writeLine(plString::Format("DayLength=%f", fDayLength), true);
@@ -180,7 +186,7 @@ size_t plAgeInfo::getNumPages() const { return fPages.getSize(); }
 size_t plAgeInfo::getNumCommonPages(PlasmaVer pv) const {
     if (fSeqPrefix < 0)
         return 0;
-    return (pv < pvEoa) ? 2 : 1;
+    return (pv < pvEoa || pv == pvUniversal) ? 2 : 1;
 }
 
 plAgeInfo::PageEntry plAgeInfo::getPage(size_t idx) const { return fPages[idx]; }
@@ -195,7 +201,7 @@ void plAgeInfo::clearPages() { fPages.clear(); }
 plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
     if (pv == pvUnknown)
         throw hsBadVersionException(__FILE__, __LINE__);
-    if (pv >= pvEoa)
+    if (pv >= pvEoa)    // Includes pvUniversal
         return plString::Format("%s_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
     else
         return plString::Format("%s_District_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
@@ -204,7 +210,7 @@ plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
 plString plAgeInfo::getCommonPageFilename(size_t idx, PlasmaVer pv) const {
     if (pv == pvUnknown)
         throw hsBadVersionException(__FILE__, __LINE__);
-    if (pv >= pvEoa)
+    if (pv >= pvEoa)    // Includes pvUniversal
         return plString::Format("%s_%s.prp", fName.cstr(), kCommonPages[idx].cstr());
     else
         return plString::Format("%s_District_%s.prp", fName.cstr(), kCommonPages[idx].cstr());

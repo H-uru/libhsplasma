@@ -127,17 +127,18 @@ int main(int argc, char** argv) {
         OS->writeStr(page->getAge());
         OS->writeShort(strlen(page->getPage()));
         OS->writeStr(page->getPage());
-        if (S->getVer() == pvEoa) {
+        if (S->getVer() == pvUniversal) {
+            maj = 0x7FFF;
+            min = 0x7FFF;
+        } else  if (S->getVer() == pvEoa) {
             maj = -1;
             min = 1;
-        }
-        if (S->getVer() == pvHex) {
+        } else if (S->getVer() == pvHex) {
             maj = -1;
             min = 2;
-        }
-        if (S->getVer() == pvPots)
+        } else if (S->getVer() == pvPots) {
             min = 12;
-        if (S->getVer() == pvLive) {
+        } else if (S->getVer() == pvLive) {
             maj = 70;
             min = 0;
         }
@@ -157,11 +158,9 @@ int main(int argc, char** argv) {
       #endif
         for (i=0; i<tCount; i++) {
             short type = S->readShort();
-            if (S->getVer() >= pvLive) {
+            if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
                 S->readInt();
-                unsigned char b = S->readByte();
-                if (b != 0)
-                    printf("NOTICE: Type %04hX got flag of %02hhX\n", type, b);
+                S->readByte();
             }
             unsigned int oCount = S->readInt();
             keys = new plKey[oCount];
@@ -208,7 +207,9 @@ int main(int argc, char** argv) {
         page->setPage(pageName);
         maj = S->readShort();
         min = S->readShort();
-        if (maj == -1) {
+        if (maj == 0x7FFF) {
+            OS->setVer(pvUniversal);
+        } else if (maj == -1) {
             if (min == 1)
                 OS->setVer(pvEoa);
             else if (min == 2)
@@ -313,29 +314,28 @@ int main(int argc, char** argv) {
             std::vector<plKey> kList = keys.getKeys(page->getLocation(), types[i]);
             OS->writeShort(pdUnifiedTypeMap::MappedToPlasma(types[i], OS->getVer()));
             unsigned int lenPos = OS->pos();
-            if (OS->getVer() == pvLive || OS->getVer() == pvEoa) {
+            if (OS->getVer() >= pvLive && OS->getVer() != pvUniversal) {
                 OS->writeInt(0);
                 OS->writeByte(0);
             }
             OS->writeInt(kList.size());
             for (j=0; j<kList.size(); j++)
                 kList[j]->write(OS);
-            if (OS->getVer() == pvEoa || OS->getVer() == pvHex ||
-                OS->getVer() == pvLive) {
+            if (OS->getVer() >= pvLive && OS->getVer() != pvUniversal) {
                 unsigned int nextPos = OS->pos();
                 OS->seek(lenPos);
                 OS->writeInt(nextPos - lenPos - 4);
                 OS->seek(nextPos);
             }
         }
-        if (OS->getVer() == pvEoa || OS->getVer() == pvHex)
+        if (OS->getVer() >= pvEoa)
             page->setChecksum(OS->pos());
         else
             page->setChecksum(OS->pos() - page->getDataStart());
         page->writeSums(OS);
         OS->close();
     }
-    
+
     // Delete temp files with the repack option
     if (direction == kRepack) {
       #ifdef WIN32

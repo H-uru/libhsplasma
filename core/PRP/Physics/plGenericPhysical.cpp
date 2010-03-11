@@ -3,7 +3,8 @@
 #include "PRP/Object/plSimulationInterface.h"
 
 plGenericPhysical::plGenericPhysical()
-                 : fMass(0.0f), fFriction(0.0f), fRestitution(0.0f),
+                 : fInternalType(kPhysNone), fInternalBuffer(NULL), fInternalSize(0),
+                   fMass(0.0f), fFriction(0.0f), fRestitution(0.0f),
                    fBounds(plSimDefs::kBoxBounds), fGroup(plSimDefs::kGroupStatic),
                    fCategory(0), fLOSDBs(0), fRadius(0.0f), fLength(0.0f),
                    fUnk1(0), fUnk2(0), fHKBool1(false), fHKBool2(false),
@@ -25,6 +26,8 @@ plGenericPhysical::plGenericPhysical()
 }
 
 plGenericPhysical::~plGenericPhysical() {
+    if (fInternalBuffer != NULL)
+        delete[] fInternalBuffer;
     if (fTMDBuffer != NULL)
         delete[] fTMDBuffer;
 }
@@ -34,23 +37,58 @@ IMPLEMENT_CREATABLE(plGenericPhysical, kGenericPhysical, plPhysical)
 void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
-    if (S->getVer() >= pvEoa)
-        IReadODEPhysical(S, mgr);
+    if (S->getVer() == pvUniversal)
+        fInternalType = (PhysType)S->readInt();
+    else if (S->getVer() >= pvEoa)
+        fInternalType = kPhysODE;
     else if (S->getVer() == pvLive)
-        IReadPXPhysical(S, mgr);
+        fInternalType = kPhysX;
     else
+        fInternalType = kPhysHavok;
+
+    switch (fInternalType) {
+    case kPhysODE:
+        IReadODEPhysical(S, mgr);
+        break;
+    case kPhysX:
+        IReadPXPhysical(S, mgr);
+        break;
+    case kPhysHavok:
         IReadHKPhysical(S, mgr);
+        break;
+    default:
+        throw hsBadParamException(__FILE__, __LINE__, "Physics type");
+    }
 }
 
 void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
 
-    if (S->getVer() >= pvEoa)
+    PhysType wtype;
+    if (S->getVer() == pvUniversal) {
+        wtype = fInternalType;
+        S->writeInt(wtype);
+    } else if (S->getVer() >= pvEoa) {
+        wtype = kPhysODE;
+    } else if (S->getVer() == pvLive) {
+        wtype = kPhysX;
+    } else {
+        wtype = kPhysHavok;
+    }
+
+    switch (wtype) {
+    case kPhysODE:
         IWriteODEPhysical(S, mgr);
-    else if (S->getVer() == pvLive)
+        break;
+    case kPhysX:
         IWritePXPhysical(S, mgr);
-    else
+        break;
+    case kPhysHavok:
         IWriteHKPhysical(S, mgr);
+        break;
+    default:
+        throw hsBadParamException(__FILE__, __LINE__, "Physics type");
+    }
 }
 
 void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {

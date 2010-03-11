@@ -30,7 +30,7 @@ void plController::WriteController(hsStream* S, plResManager* mgr, plController*
     case kQuatController:
     case kScalarController:
     case kScaleValueController:
-        if (S->getVer() <= pvPots) {
+        if (S->getVer() <= pvPots || S->getVer() == pvUniversal) {
             mgr->WriteCreatable(S, controller);
         } else {
             plLeafController* toWrite = ((plLeafController*)controller)->CompactToLeafController();

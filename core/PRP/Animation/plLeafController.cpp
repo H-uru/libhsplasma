@@ -13,7 +13,23 @@ plLeafController::~plLeafController() {
 IMPLEMENT_CREATABLE(plLeafController, kLeafController, plController)
 
 void plLeafController::read(hsStream* S, plResManager* mgr) {
-    if (S->getVer() <= pvPots) {
+    if (S->getVer() == pvUniversal) {
+        if (ClassIndex() == kLeafController) {
+            fType = S->readByte();
+            unsigned int numKeys = S->readInt();
+            AllocKeys(numKeys, fType);
+
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                fKeys[i]->read(S, fType);
+        } else {
+            unsigned int numControllers = S->readInt();
+            AllocControllers(numControllers);
+
+            for (size_t i=0; i<fEaseControllers.getSize(); i++)
+                fEaseControllers[i]->read(S, mgr);
+            IReadUruController(S);
+        }
+    } else if (S->getVer() <= pvPots) {
         fUruUnknown = S->readInt();
         if (fUruUnknown != 0)
             plDebug::Debug("Found an UruUnknown of %d", fUruUnknown);
@@ -38,7 +54,21 @@ void plLeafController::read(hsStream* S, plResManager* mgr) {
 }
 
 void plLeafController::write(hsStream* S, plResManager* mgr) {
-    if (S->getVer() <= pvPots) {
+    if (S->getVer() == pvUniversal) {
+        if (ClassIndex() == kLeafController) {
+            S->writeByte(fType);
+            S->writeInt(fKeys.getSize());
+
+            for (size_t i=0; i<fKeys.getSize(); i++)
+                fKeys[i]->write(S);
+        } else {
+            S->writeInt(fEaseControllers.getSize());
+
+            for (size_t i=0; i<fEaseControllers.getSize(); i++)
+                fEaseControllers[i]->write(S, mgr);
+            IWriteUruController(S);
+        }
+    } else if (S->getVer() <= pvPots) {
         S->writeInt(fUruUnknown);
         S->writeInt(fEaseControllers.getSize());
 

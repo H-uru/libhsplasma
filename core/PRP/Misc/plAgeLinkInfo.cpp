@@ -168,7 +168,7 @@ plAgeLinkStruct::~plAgeLinkStruct() { }
 IMPLEMENT_CREATABLE(plAgeLinkStruct, kAgeLinkStruct, plCreatable)
 
 void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
-    if (S->getVer() < pvEoa) {
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
         fFlags = S->readShort();
         if (fFlags & kHasAgeInfo)
             fAgeInfo.read(S, mgr);
@@ -208,7 +208,7 @@ void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
 }
 
 void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
-    if (S->getVer() < pvEoa) {
+    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
         S->writeShort(fFlags);
         if (fFlags & kHasAgeInfo)
             fAgeInfo.write(S, mgr);
@@ -307,7 +307,13 @@ plAgeLinkEffects::plAgeLinkEffects()
                   fBool3(true), fBool4(true) { }
 
 void plAgeLinkEffects::read(hsStream* S) {
-    if (S->getVer() < pvEoa) {
+    if (S->getVer() == pvUniversal) {
+        fLinkInAnimName = S->readSafeStr();
+        fBool1 = S->readBool();
+        fBool2 = S->readBool();
+        fBool3 = S->readBool();
+        fBool4 = S->readBool();
+    } else if (S->getVer() < pvEoa) {
         fLinkInAnimName = S->readSafeStr();
     } else {
         hsBitVector fields;
@@ -329,7 +335,13 @@ void plAgeLinkEffects::read(hsStream* S) {
 }
 
 void plAgeLinkEffects::write(hsStream* S) {
-    if (S->getVer() < pvEoa) {
+    if (S->getVer() == pvUniversal) {
+        S->writeSafeStr(fLinkInAnimName);
+        S->writeBool(fBool1);
+        S->writeBool(fBool2);
+        S->writeBool(fBool3);
+        S->writeBool(fBool4);
+    } else if (S->getVer() < pvEoa) {
         S->writeSafeStr(fLinkInAnimName);
     } else {
         hsBitVector fields;

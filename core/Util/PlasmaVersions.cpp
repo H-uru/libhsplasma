@@ -12,6 +12,8 @@ const char* GetVersionName(PlasmaVer ver) {
         return "Myst V/Crowthistle";
     case pvHex:
         return "Hex Isle";
+    case pvUniversal:
+        return "Universal";
     default:
         return "Unknown";
     }
