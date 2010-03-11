@@ -975,7 +975,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kNetServerMsgAgentRecoveryData: return new plNetServerMsgAgentRecoveryData();
         //case kNetServerMsgFrontendRecoveryData: return new plNetServerMsgFrontendRecoveryData();
         //case kNetServerMsgBackendRecoveryData: return new plNetServerMsgBackendRecoveryData();
-        //case kSubWorldMsg: return new plSubWorldMsg();
+        case kSubWorldMsg: return new plSubWorldMsg();
         case kMatrixDifferenceApp: return new plMatrixDifferenceApp();
         //case kAvBrainUser: return new plAvBrainUser();
         //case kDX9Pipeline: return new plDX9Pipeline();

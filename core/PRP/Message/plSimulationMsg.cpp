@@ -45,3 +45,35 @@ void plSimSuppressMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
+
+/* plSubWorldMsg */
+plSubWorldMsg::plSubWorldMsg() { }
+plSubWorldMsg::~plSubWorldMsg() { }
+
+IMPLEMENT_CREATABLE(plSubWorldMsg, kSubWorldMsg, plSimulationMsg)
+
+void plSubWorldMsg::read(hsStream* S, plResManager* mgr) {
+    plMessage::read(S, mgr);
+    fWorldKey = mgr->readKey(S);
+}
+
+void plSubWorldMsg::write(hsStream* S, plResManager* mgr) {
+    plMessage::write(S, mgr);
+    mgr->writeKey(S, fWorldKey);
+}
+
+void plSubWorldMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
+
+    prc->writeSimpleTag("WorldKey");
+    fWorldKey->prcWrite(prc);
+    prc->closeTag();
+}
+
+void plSubWorldMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "WorldKey") {
+        fWorldKey = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}

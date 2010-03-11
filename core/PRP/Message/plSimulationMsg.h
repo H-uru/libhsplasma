@@ -37,4 +37,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+DllClass plSubWorldMsg : public plSimulationMsg {
+protected:
+    plKey fWorldKey;
+
+public:
+    plSubWorldMsg();
+    virtual ~plSubWorldMsg();
+
+    DECLARE_CREATABLE(plSubWorldMsg)
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+};
+
 #endif
