@@ -36,59 +36,54 @@ hsUbyte hsStream::readByte() {
     return v;
 }
 
-void hsStream::readBytes(size_t count, hsUbyte* buf) {
-    read(count * sizeof(hsUbyte), buf);
-}
-
 hsUint16 hsStream::readShort() {
     hsUint16 v;
     read(sizeof(v), &v);
-    return v;
+    return LESWAP16(v);
 }
 
 void hsStream::readShorts(size_t count, hsUint16* buf) {
-    read(count * sizeof(hsUint16), buf);
+    read(sizeof(hsUint16) * count, buf);
+#ifdef WORDS_BIGENDIAN
+    for (size_t i=0; i<count; i++)
+        buf[i] = LESWAP16(buf[i]);
+#endif
 }
 
 hsUint32 hsStream::readInt() {
     hsUint32 v;
     read(sizeof(v), &v);
-    return v;
+    return LESWAP32(v);
 }
 
 void hsStream::readInts(size_t count, hsUint32* buf) {
-    read(count * sizeof(hsUint32), buf);
+    read(sizeof(hsUint32) * count, buf);
+#ifdef WORDS_BIGENDIAN
+    for (size_t i=0; i<count; i++)
+        buf[i] = LESWAP32(buf[i]);
+#endif
 }
 
 hsUint32 hsStream::readIntSwap() {
     hsUint32 v;
     read(sizeof(v), &v);
-    return ENDSWAP32(v);
+    return BESWAP32(v);
 }
 
 float hsStream::readFloat() {
     float v;
     read(sizeof(v), &v);
-    return v;
-}
-
-void hsStream::readFloats(size_t count, float* buf) {
-    read(count * sizeof(float), buf);
+    return LESWAPF(v);
 }
 
 double hsStream::readDouble() {
     double v;
     read(sizeof(v), &v);
-    return v;
+    return LESWAPD(v);
 }
 
 bool hsStream::readBool() {
     return readByte() == 0 ? false : true;
-}
-
-void hsStream::readBools(size_t count, bool* buf) {
-    for (unsigned int i=0; i<count; i++)
-        buf[i] = readBool();
 }
 
 plString hsStream::readStr(size_t len) {
@@ -177,55 +172,62 @@ plString hsStream::readLine() {
     return str;
 }
 
-void hsStream::writeByte(const hsUbyte v) {
+void hsStream::writeByte(hsUbyte v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeBytes(size_t count, const hsUbyte* buf) {
-    write(count * sizeof(hsUbyte), buf);
-}
-
-void hsStream::writeShort(const hsUint16 v) {
+void hsStream::writeShort(hsUint16 v) {
+    v = LESWAP16(v);
     write(sizeof(v), &v);
 }
 
 void hsStream::writeShorts(size_t count, const hsUint16* buf) {
-    write(count * sizeof(hsUint16), buf);
+#ifdef WORDS_BIGENDIAN
+    hsUint16* swbuf = new hsUint16[count];
+    for (size_t i=0; i<count; i++)
+        swbuf[i] = LESWAP16(buf[i]);
+    write(sizeof(hsUint16) * count, swbuf);
+    delete[] swbuf;
+#else
+    write(sizeof(hsUint16) * count, buf);
+#endif
 }
 
-void hsStream::writeInt(const hsUint32 v) {
+void hsStream::writeInt(hsUint32 v) {
+    v = LESWAP32(v);
     write(sizeof(v), &v);
 }
 
 void hsStream::writeInts(size_t count, const hsUint32* buf) {
-    write(count * sizeof(hsUint32), buf);
+#ifdef WORDS_BIGENDIAN
+    hsUint32* swbuf = new hsUint32[count];
+    for (size_t i=0; i<count; i++)
+        swbuf[i] = LESWAP32(buf[i]);
+    write(sizeof(hsUint32) * count, swbuf);
+    delete[] swbuf;
+#else
+    write(sizeof(hsUint32) * count, buf);
+#endif
 }
 
-void hsStream::writeIntSwap(const hsUint32 v) {
-    hsUint32 tv = ENDSWAP32(v);
-    write(sizeof(tv), &tv);
-}
-
-void hsStream::writeFloat(const float v) {
+void hsStream::writeIntSwap(hsUint32 v) {
+    v = BESWAP32(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeFloats(size_t count, const float* buf) {
-    write(count * sizeof(float), buf);
-}
-
-void hsStream::writeDouble(const double v) {
+void hsStream::writeFloat(float v) {
+    v = LESWAPF(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeBool(const bool v) {
+void hsStream::writeDouble(double v) {
+    v = LESWAPD(v);
+    write(sizeof(v), &v);
+}
+
+void hsStream::writeBool(bool v) {
     char b = v ? 1 : 0;
     write(sizeof(b), &b);
-}
-
-void hsStream::writeBools(size_t count, const bool* buf) {
-    for (size_t i=0; i<count; i++)
-        writeBool(buf[i]);
 }
 
 void hsStream::writeStr(const plString& str) {

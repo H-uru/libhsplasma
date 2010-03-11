@@ -1,27 +1,53 @@
 #ifndef _PLATFORM_H
 #define _PLATFORM_H
 
+#define ENDSWAP16(val) \
+    ((val & 0x00FF) << 8 | (val & 0xFF00) >> 8)
+
 #define ENDSWAP32(val) \
     ((val & 0x000000FF) << 24 | (val & 0x0000FF00) << 8 | \
      (val & 0x00FF0000) >> 8  | (val & 0xFF000000) >> 24)
 
-#define ENDSWAP16(val) \
-    ((val & 0x00FF) << 8 | (val & 0xFF00) >> 8)
+inline float ENDSWAPF(float val) {
+    hsUint32 fb = *(hsUint32*)&val;
+    fb = ENDSWAP32(fb);
+    return *(float*)&fb;
+}
+
+inline double ENDSWAPD(double val) {
+    union {
+        double fv;
+        hsUint32 fb[2];
+    } conv;
+    conv.fv = val;
+    hsUint32 temp = conv.fb[0];
+    conv.fb[0] = ENDSWAP32(conv.fb[1]);
+    conv.fb[1] = ENDSWAP32(temp);
+    return conv.fv;
+}
 
 #if defined(MACOSX) && defined(__BIG_ENDIAN__)
     #define WORDS_BIGENDIAN
 #endif
 
 #ifdef WORDS_BIGENDIAN
-    #define LESWAP32(val) ENDSWAP32(val)
-    #define BESWAP32(val) (val)
     #define LESWAP16(val) ENDSWAP16(val)
     #define BESWAP16(val) (val)
+    #define LESWAP32(val) ENDSWAP32(val)
+    #define BESWAP32(val) (val)
+    #define LESWAPF(val)  ENDSWAPF(val)
+    #define BESWAPF(val)  (val)
+    #define LESWAPD(val)  ENDSWAPD(val)
+    #define BESWAPD(val)  (val)
 #else
-    #define LESWAP32(val) (val)
-    #define BESWAP32(val) ENDSWAP32(val)
     #define LESWAP16(val) (val)
     #define BESWAP16(val) ENDSWAP16(val)
+    #define LESWAP32(val) (val)
+    #define BESWAP32(val) ENDSWAP32(val)
+    #define LESWAPF(val)  (val)
+    #define BESWAPF(val)  ENDSWAPF(val)
+    #define LESWAPD(val)  (val)
+    #define BESWAPD(val)  ENDSWAPD(val)
 #endif
 
 #ifdef WIN32
