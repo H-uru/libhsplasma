@@ -624,9 +624,9 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
         fDimensions.write(S);
         fOffset.write(S);
     } else if (fBounds == plSimDefs::kHullBounds) {
-        plDebug::Warning("plPXPhysical: HullBounds not implemented");
+        throw hsNotImplementedException(__FILE__, __LINE__, "PhysX HullBounds");
     } else {    // Proxy or Explicit
-        plDebug::Warning("plPXPhysical: TriangleMesh not implemented");
+        throw hsNotImplementedException(__FILE__, __LINE__, "PhysX TriangleMesh");
     }
 }
 

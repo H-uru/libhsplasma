@@ -7,7 +7,7 @@ DllClass plMaintainersMarkerModifier : public plMultiModifier {
 public:
     enum { kBroken, kRepaired, kCalibrated, kNumCalibratedLevels };
 
-protected:
+private:
     unsigned int fCalibrated;
 
 public:
@@ -22,6 +22,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getCalibration() const;
+    void setCalibration(unsigned int cal);
 };
 
 #endif

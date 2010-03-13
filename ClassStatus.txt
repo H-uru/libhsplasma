@@ -403,7 +403,7 @@ plExcludeRegionModifier         Basic       No          No
 plInterfaceInfoModifier         Complete    Complete    PrpShop
 plLogicModBase                  Complete    Complete    No
 plLogicModifier                 Complete    Complete    No
-plMaintainersMarkerModifier     Basic       No          No
+plMaintainersMarkerModifier     Complete    No          No
 plModifier                      Complete    Complete    ----
 plSingleModifier                Complete    Complete    Case
 plMultiModifier                 Complete    Complete    Case

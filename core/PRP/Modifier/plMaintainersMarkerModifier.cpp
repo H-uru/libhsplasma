@@ -24,13 +24,13 @@ void plMaintainersMarkerModifier::write(hsStream* S, plResManager* mgr) {
 void plMaintainersMarkerModifier::IPrcWrite(pfPrcHelper* prc) {
     plMultiModifier::IPrcWrite(prc);
 
-    prc->startTag("Calibrated");
+    prc->startTag("Calibration");
     prc->writeParam("Level", CalibratedLevelNames[fCalibrated]);
     prc->endTag(true);
 }
 
 void plMaintainersMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "Calibrated") {
+    if (tag->getName() == "Calibration") {
         plString level = tag->getParam("Level", "Broken");
         fCalibrated = kBroken;
         for (size_t i=0; i<kNumCalibratedLevels; i++) {
@@ -41,3 +41,6 @@ void plMaintainersMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* m
         plMultiModifier::IPrcParse(tag, mgr);
     }
 }
+
+unsigned int plMaintainersMarkerModifier::getCalibration() const { return fCalibrated; }
+void plMaintainersMarkerModifier::setCalibration(unsigned int cal) { fCalibrated = cal; }
