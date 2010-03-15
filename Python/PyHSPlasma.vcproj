@@ -956,6 +956,14 @@
 					RelativePath=".\PRP\Modifier\pySingleModifier.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pySpawnModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\pySpawnModifier.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Animation"
