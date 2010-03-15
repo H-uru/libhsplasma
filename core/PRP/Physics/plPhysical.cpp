@@ -1,7 +1,4 @@
 #include "plPhysical.h"
-#include "plHKPhysical.h"
-#include "plPXPhysical.h"
-#include "plODEPhysical.h"
 
 const char* plSimDefs::BoundsNames[] = {
     "(Invalid)", "kBoxBounds", "kSphereBounds", "kHullBounds",

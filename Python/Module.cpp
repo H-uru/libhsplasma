@@ -55,6 +55,7 @@
 #include "PRP/Modifier/pyOneShotMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
 #include "PRP/Modifier/pyResponderModifier.h"
+#include "PRP/Modifier/pySpawnModifier.h"
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
@@ -282,6 +283,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
     PyModule_AddObject(module, "plMultiModifier", Init_pyMultiModifier_Type());
     PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
+    PyModule_AddObject(module, "plSpawnModifier", Init_pySpawnModifier_Type());
     PyModule_AddObject(module, "plViewFaceModifier", Init_pyViewFaceModifier_Type());
     PyModule_AddObject(module, "plClusterGroup", Init_pyClusterGroup_Type());
     PyModule_AddObject(module, "plLayerAnimationBase", Init_pyLayerAnimationBase_Type());

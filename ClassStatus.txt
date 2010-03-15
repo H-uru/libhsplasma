@@ -416,7 +416,7 @@ plRandomCommandMod              Basic       No          No
 plRandomSoundMod                Basic       No          No
 plResponderModifier             Complete    Complete    No
 plResponderEnableMsg            Complete    Complete    No
-plSpawnModifier                 Complete    No          No
+plSpawnModifier                 Complete    Complete    No
 plSpawnMod                      Basic       No          No
 plNetMessage                    Basic       No          No
 plNetMsgServerToClient          Complete    No          No

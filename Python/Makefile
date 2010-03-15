@@ -182,6 +182,7 @@ PYOBJ=\
 	$(OBJDIR)pyResponderModifier_Cmd.o \
 	$(OBJDIR)pyResponderModifier_State.o \
 	$(OBJDIR)pySingleModifier.o \
+	$(OBJDIR)pySpawnModifier.o \
 	$(OBJDIR)pyAudioInterface.o \
 	$(OBJDIR)pyCoordinateInterface.o \
 	$(OBJDIR)pyDrawInterface.o \
@@ -775,6 +776,9 @@ $(OBJDIR)pyResponderModifier_State.o: PRP/Modifier/pyResponderModifier_State.cpp
 
 $(OBJDIR)pySingleModifier.o: PRP/Modifier/pySingleModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pySingleModifier.cpp -o $@
+
+$(OBJDIR)pySpawnModifier.o: PRP/Modifier/pySpawnModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pySpawnModifier.cpp -o $@
 
 $(OBJDIR)pyAudioInterface.o: PRP/Object/pyAudioInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/pyAudioInterface.cpp -o $@
