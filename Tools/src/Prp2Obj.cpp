@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
     plString outfile = filenameConvert(filename, ".obj");
     plString mtlfile = filenameConvert(filename, ".mtl");
     hsTArray<plString> objects;
-    
+
     for (int i=2; i<argc; i++) {
         if (argv[i][0] == '-') {
             if (strcmp(argv[i], "-o") == 0) {
@@ -159,11 +159,11 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
             unsigned int uvwSrc = 0;
             hsMatrix44 uvwXform;
             if (span->getMaterial(ice->getMaterialIdx()).Exists()) {
-                hsGMaterial* mat = hsGMaterial::Convert(span->getMaterial(ice->getMaterialIdx())->getObj());
+                hsGMaterial* mat = hsGMaterial::Convert(span->getMaterial(ice->getMaterialIdx())->getObj(), false);
                 if (mat != NULL && mat->getNumLayers() > 0) {
-                    plLayerInterface* lay = plLayerInterface::Convert(mat->getLayer(0)->getObj());
+                    plLayerInterface* lay = plLayerInterface::Convert(mat->getLayer(0)->getObj(), false);
                     while (lay != NULL && lay->getUnderLay().Exists())
-                        lay = plLayerInterface::Convert(lay->getUnderLay()->getObj());
+                        lay = plLayerInterface::Convert(lay->getUnderLay()->getObj(), false);
                     uvwSrc = lay->getUVWSrc();
                     uvwXform = lay->getTransform();
                 }
@@ -234,9 +234,9 @@ void WriteMat(hsGMaterial* mat, hsStream* S) {
 
     // Obj doesn't support multiple textures, so we just get the texture
     // on the base of the first layer in each material...
-    plLayerInterface* lay = plLayerInterface::Convert(mat->getLayer(0)->getObj());
+    plLayerInterface* lay = plLayerInterface::Convert(mat->getLayer(0)->getObj(), false);
     while (lay != NULL && lay->getUnderLay().Exists())
-        lay = plLayerInterface::Convert(lay->getUnderLay()->getObj());
+        lay = plLayerInterface::Convert(lay->getUnderLay()->getObj(), false);
     if (lay == NULL) {
         plDebug::Warning("Cannot get layer for %s", mat->getKey()->getName().cstr());
         return;

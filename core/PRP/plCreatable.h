@@ -7,7 +7,7 @@
 #define DECLARE_CREATABLE(classname) \
     virtual short ClassIndex() const; \
     virtual bool ClassInstance(short hClass) const; \
-    static classname* Convert(plCreatable* pCre);
+    static classname* Convert(plCreatable* pCre, bool requireValid = true);
 
 #define IMPLEMENT_CREATABLE(classname, classid, parentclass) \
     short classname::ClassIndex() const { return classid; } \
@@ -15,9 +15,18 @@
         if (hClass == classid) return true; \
         return parentclass::ClassInstance(hClass); \
     } \
-    classname* classname::Convert(plCreatable* pCre) { \
-        if (pCre != NULL && pCre->ClassInstance(classid)) \
+    classname* classname::Convert(plCreatable* pCre, bool requireValid) { \
+        if (pCre == NULL) \
+            return NULL; \
+        if (pCre->ClassInstance(classid)) \
             return (classname*)pCre; \
+        if (requireValid) { \
+            delete pCre; \
+            throw hsBadParamException(__FILE__, __LINE__, \
+                    plString::Format("Required conversion failed for %s -> %s", \
+                                     pdUnifiedTypeMap::ClassName(pCre->ClassIndex()), \
+                                     pdUnifiedTypeMap::ClassName(classid))); \
+        } \
         return NULL; \
     }
 
