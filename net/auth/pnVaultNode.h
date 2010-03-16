@@ -17,6 +17,11 @@ public:
         kBlob_1, kBlob_2, kNumFields,
     };
 
+    enum {
+        /* For those who can't handle starting at 0 ;)  */
+        k_1, k_2, k_3, k_4, k_5, k_6
+    };
+
 protected:
     hsUint64 fFieldMask;
     hsUint64 fDirtyMask;

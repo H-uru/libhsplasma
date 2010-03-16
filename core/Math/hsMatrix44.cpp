@@ -304,7 +304,7 @@ void hsMatrix44::prcParse(const pfPrcTag* tag) {
 
 plString hsMatrix44::toString() const {
     return plString::Format("[ %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f\n"
-                            "%5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f ]",
+                            "  %5.1f %5.1f %5.1f %5.1f\n  %5.1f %5.1f %5.1f %5.1f ]",
         data[0][0], data[0][1], data[0][2], data[0][3],
         data[1][0], data[1][1], data[1][2], data[1][3],
         data[2][0], data[2][1], data[2][2], data[2][3],
