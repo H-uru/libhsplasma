@@ -21,10 +21,11 @@
         if (pCre->ClassInstance(classid)) \
             return (classname*)pCre; \
         if (requireValid) { \
+            short otherClassId = pCre->ClassIndex(); \
             delete pCre; \
             throw hsBadParamException(__FILE__, __LINE__, \
                     plString::Format("Required conversion failed for %s -> %s", \
-                                     pdUnifiedTypeMap::ClassName(pCre->ClassIndex()), \
+                                     pdUnifiedTypeMap::ClassName(otherClassId), \
                                      pdUnifiedTypeMap::ClassName(classid))); \
         } \
         return NULL; \
