@@ -9,9 +9,13 @@
      (val & 0x00FF0000) >> 8  | (val & 0xFF000000) >> 24)
 
 inline float ENDSWAPF(float val) {
-    hsUint32 fb = *(hsUint32*)&val;
-    fb = ENDSWAP32(fb);
-    return *(float*)&fb;
+    union {
+        float fv;
+        hsUint32 fb;
+    } conv;
+    conv.fv = val;
+    conv.fb = ENDSWAP32(conv.fb);
+    return conv.fv;
 }
 
 inline double ENDSWAPD(double val) {

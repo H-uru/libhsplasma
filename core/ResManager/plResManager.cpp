@@ -236,7 +236,7 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
             ReadPage(path + age->getPageFilename(i, ageVer));
 
         for (size_t i=0; i<age->getNumCommonPages(ageVer); i++) {
-            if (hsFileStream::FileExists(age->getCommonPageFilename(i, ageVer)))
+            if (hsFileStream::FileExists(path + age->getCommonPageFilename(i, ageVer)))
                 ReadPage(path + age->getCommonPageFilename(i, ageVer));
         }
     }
@@ -361,12 +361,13 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
 
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
-        plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
-                       types[i], pdUnifiedTypeMap::ClassName(types[i]));
+        //plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
+        //               types[i], pdUnifiedTypeMap::ClassName(types[i]));
         for (unsigned int j=0; j<kList.size(); j++) {
-            if (kList[j]->getFileOff() <= 0) continue;
-            plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName().cstr(),
-                           kList[j]->getFileOff());
+            if (kList[j]->getFileOff() <= 0)
+                continue;
+            //plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName(),
+            //               kList[j]->fileOff);
             S->seek(kList[j]->getFileOff());
             try {
                 plCreatable* pCre = ReadCreatable(S, true, kList[j]->getObjSize());
