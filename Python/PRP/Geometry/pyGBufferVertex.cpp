@@ -59,7 +59,7 @@ static int pyGBufferVertex_setPos(pyGBufferVertex* self, PyObject* value, void*)
         PyErr_SetString(PyExc_TypeError, "pos should be an hsVector3");
         return -1;
     }
-    self->fThis->fPos = *((pyVector3*)self)->fThis;
+    self->fThis->fPos = *((pyVector3*)value)->fThis;
     return 0;
 }
 
@@ -68,7 +68,7 @@ static int pyGBufferVertex_setNormal(pyGBufferVertex* self, PyObject* value, voi
         PyErr_SetString(PyExc_TypeError, "normal should be an hsVector3");
         return -1;
     }
-    self->fThis->fNormal = *((pyVector3*)self)->fThis;
+    self->fThis->fNormal = *((pyVector3*)value)->fThis;
     return 0;
 }
 
