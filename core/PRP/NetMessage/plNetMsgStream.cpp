@@ -50,7 +50,7 @@ void plNetMsgStreamHelper::write(hsStream* S, plResManager* mgr) {
     S->writeByte(fCompressionType);
     S->writeInt(fStreamLength);
     S->write(fStreamLength, outStream);
-    
+
     if (fCompressionType == kCompressionZlib)
         delete[] outStream;
 }

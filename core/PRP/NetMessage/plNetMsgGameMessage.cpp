@@ -22,6 +22,11 @@ void plNetMsgGameMessage::read(hsStream* S, plResManager* mgr) {
 }
 
 void plNetMsgGameMessage::write(hsStream* S, plResManager* mgr) {
+    hsRAMStream* msgStream = (hsRAMStream*)getStream();
+    msgStream->rewind();
+    msgStream->resize(0);
+    mgr->WriteCreatable(msgStream, fMessage);
+
     plNetMsgStream::write(S, mgr);
 
     if (fDeliveryTime.atEpoch()) {

@@ -11,7 +11,7 @@ public:
         kCompressionNone, kCompressionFailed, kCompressionZlib,
         kCompressionDont
     };
-    
+
 private:
     unsigned int fUncompressedSize;
     unsigned char fCompressionType;
