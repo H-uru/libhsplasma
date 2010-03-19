@@ -134,7 +134,7 @@ public:
     /** Returns the load mask of the object referenced by this key */
     const plLoadMask& getLoadMask() const;
 
-    /** Returns the numeric ID of the key; only meaningful for EoA and Hex Isle */
+    /** Returns the numeric ID of the key; only meaningful for EoA, Hex Isle and MOUL */
     hsUint32 getID() const;
 
     /** Returns the Clone ID of this key (usually 0) */

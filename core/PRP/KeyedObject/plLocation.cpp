@@ -1,11 +1,12 @@
 #include "plLocation.h"
 
 plLocation::plLocation(PlasmaVer pv)
-          : fSeqPrefix(-1), fPageNum(-1), fVer(pv), fFlags(0) { }
+          : fVer(pv), fState(kStateInvalid), fSeqPrefix(0), fPageNum(0),
+            fFlags(0) { }
 
 plLocation::plLocation(const plLocation& init)
-          : fSeqPrefix(init.fSeqPrefix), fPageNum(init.fPageNum),
-            fVer(init.fVer), fFlags(init.fFlags) { }
+          : fVer(init.fVer), fState(init.fState), fSeqPrefix(init.fSeqPrefix),
+            fPageNum(init.fPageNum), fFlags(init.fFlags) { }
 
 plLocation::~plLocation() { }
 
@@ -17,16 +18,18 @@ plLocation& plLocation::operator=(const plLocation& other) {
     fSeqPrefix = other.fSeqPrefix;
     fVer = other.fVer;
     fFlags = other.fFlags;
+    fState = other.fState;
     return *this;
 }
 
 bool plLocation::operator==(const plLocation& other) const {
-    return (fPageNum == other.fPageNum && fSeqPrefix == other.fSeqPrefix);
+    return (fState == other.fState && fPageNum == other.fPageNum
+            && fSeqPrefix == other.fSeqPrefix);
 }
 
 bool plLocation::operator!=(const plLocation& other) const {
-    return (fPageNum != other.fPageNum || fSeqPrefix != other.fSeqPrefix ||
-            fFlags != other.fFlags);
+    return (fState != other.fState || fPageNum != other.fPageNum
+            || fSeqPrefix != other.fSeqPrefix || fFlags != other.fFlags);
 }
 
 bool plLocation::operator<(const plLocation& other) const {
@@ -37,12 +40,20 @@ bool plLocation::operator<(const plLocation& other) const {
 
 void plLocation::parse(unsigned int id) {
     if (id == 0xFFFFFFFF) {
-        fPageNum = -1;
-        fSeqPrefix = -1;
+        fState = kStateInvalid;
+        fSeqPrefix = 0;
+        fPageNum = 0;
+        return;
+    } else if (id == 0) {
+        fState = kStateVirtual;
+        fSeqPrefix = 0;
+        fPageNum = 0;
+        return;
     }
     if (fVer == pvUniversal)
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
+    fState = kStateNormal;
     fPageNum = id & (fVer == pvLive ? 0x0000FFFF : 0x000000FF);
     if (id & 0x80000000) {
         id -= 1;
@@ -57,8 +68,10 @@ void plLocation::parse(unsigned int id) {
 }
 
 unsigned int plLocation::unparse() const {
-    if (fPageNum == -1 && fSeqPrefix == -1)
+    if (fState == kStateInvalid)
         return 0xFFFFFFFF;
+    else if (fState == kStateVirtual)
+        return 0;
     if (fVer == pvUniversal)
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
@@ -104,31 +117,47 @@ void plLocation::write(hsStream* S) {
 }
 
 void plLocation::prcWrite(pfPrcHelper* prc) {
-    plString buf = plString::Format("%d;%d", fSeqPrefix, fPageNum);
-    prc->writeParam("Location", buf);
-    prc->writeParamHex("LocFlag", fFlags);
+    if (fState == kStateInvalid) {
+        prc->writeParam("Location", "INVALID");
+    } else if (fState == kStateVirtual) {
+        prc->writeParam("Location", "VIRTUAL");
+        prc->writeParamHex("LocFlag", fFlags);
+    } else {
+        plString buf = plString::Format("%d;%d", fSeqPrefix, fPageNum);
+        prc->writeParam("Location", buf);
+        prc->writeParamHex("LocFlag", fFlags);
+    }
 }
 
 void plLocation::prcParse(const pfPrcTag* tag) {
-    plString buf = tag->getParam("Location", "-1;-1");
-    fSeqPrefix = buf.beforeFirst(';').toInt();
-    fPageNum = buf.afterFirst(';').toInt();
+    plString buf = tag->getParam("Location", "INVALID");
+    if (buf == "INVALID") {
+        fState = kStateInvalid;
+        fSeqPrefix = 0;
+        fPageNum = 0;
+    } else if (buf == "VIRTUAL") {
+        fState = kStateVirtual;
+        fSeqPrefix = 0;
+        fPageNum = 0;
+    } else {
+        fState = kStateNormal;
+        fSeqPrefix = buf.beforeFirst(';').toInt();
+        fPageNum = buf.afterFirst(';').toInt();
+    }
     fFlags = tag->getParam("LocFlag", "0").toUint();
 }
 
 void plLocation::invalidate() {
-    fPageNum = -1;
-    fSeqPrefix = -1;
+    fState = kStateInvalid;
+    fPageNum = 0;
+    fSeqPrefix = 0;
     fFlags = 0;
 }
 
-bool plLocation::isValid() const {
-    return (fPageNum != -1) || (fSeqPrefix != -1);
-}
-
+bool plLocation::isValid() const { return (fState != kStateInvalid); }
 bool plLocation::isReserved() const { return (fFlags & kReserved) != 0; }
 bool plLocation::isItinerant() const { return (fFlags & kItinerant) != 0; }
-bool plLocation::isVirtual() const { return unparse() == 0; }
+bool plLocation::isVirtual() const { return (fState == kStateVirtual); }
 bool plLocation::isGlobal() const { return (fSeqPrefix < 0); }
 
 int plLocation::getPageNum() const { return fPageNum; }
@@ -148,5 +177,9 @@ void plLocation::set(int pid, unsigned short flags, PlasmaVer pv) {
 }
 
 plString plLocation::toString() const {
+    if (fState == kStateInvalid)
+        return "<INVALID>";
+    else if (fState == kStateVirtual)
+        return "<VIRTUAL>";
     return plString::Format("<%d|%d>", fSeqPrefix, fPageNum);
 }

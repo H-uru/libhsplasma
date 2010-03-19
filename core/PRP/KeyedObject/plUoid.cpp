@@ -99,6 +99,8 @@ void plUoid::prcWrite(pfPrcHelper* prc) {
     }
     if (eoaExtra != 0)
         prc->writeParam("EoaExtra", eoaExtra);
+    if (objID != 0)
+        prc->writeParam("ObjID", objID);
     prc->endTag(true);
 }
 

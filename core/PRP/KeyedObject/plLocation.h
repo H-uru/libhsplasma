@@ -16,9 +16,14 @@ public:
         kItinerant = 0x10
     };
 
+    enum LocState {
+        kStateInvalid, kStateNormal, kStateVirtual
+    };
+
 protected:
-    int fSeqPrefix, fPageNum;
     PlasmaVer fVer;
+    int fState;
+    int fSeqPrefix, fPageNum;
     unsigned short fFlags;
 
 public:
@@ -36,7 +41,7 @@ public:
 
     void parse(unsigned int id);
     unsigned int unparse() const;
-    
+
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
@@ -44,7 +49,7 @@ public:
 
     void invalidate();
     bool isValid() const;
-    
+
     bool isReserved() const;
     bool isItinerant() const;
     bool isVirtual() const;
