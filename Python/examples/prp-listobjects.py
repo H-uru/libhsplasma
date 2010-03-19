@@ -1,5 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
+# This script reads a prp file (passed as first argument) and prints the names of all scene objects.
+# Alternatively, you can specifiy the type to be listed as second argument.
+# by Diafero
+
 import PyHSPlasma, sys
 
 if len(sys.argv) == 1:
