@@ -159,12 +159,26 @@ bool plLocation::isItinerant() const { return (fFlags & kItinerant) != 0; }
 bool plLocation::isVirtual() const { return (fState == kStateVirtual); }
 bool plLocation::isGlobal() const { return (fSeqPrefix < 0); }
 
+void plLocation::setVirtual() {
+    fState = kStateVirtual;
+    fPageNum = 0;
+    fSeqPrefix = 0;
+}
+
 int plLocation::getPageNum() const { return fPageNum; }
 int plLocation::getSeqPrefix() const { return fSeqPrefix; }
 unsigned short plLocation::getFlags() const { return fFlags; }
 
-void plLocation::setPageNum(int pn) { fPageNum = pn; }
-void plLocation::setSeqPrefix(int sp) { fSeqPrefix = sp; }
+void plLocation::setPageNum(int pn) {
+    fPageNum = pn;
+    fState = kStateNormal;
+}
+
+void plLocation::setSeqPrefix(int sp) {
+    fSeqPrefix = sp;
+    fState = kStateNormal;
+}
+
 void plLocation::setFlags(unsigned short flags) { fFlags = flags; }
 
 void plLocation::set(int pid, unsigned short flags, PlasmaVer pv) {

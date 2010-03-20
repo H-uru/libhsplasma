@@ -54,6 +54,7 @@ public:
     bool isItinerant() const;
     bool isVirtual() const;
     bool isGlobal() const;
+    void setVirtual();
 
     int getPageNum() const;
     int getSeqPrefix() const;
