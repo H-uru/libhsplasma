@@ -64,7 +64,7 @@ static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getVertices expects an int");
         return NULL;
     }
-    
+
     hsTArray<plGBufferVertex> verts;
     if (start == 0 && len == -1)
         verts = self->fThis->getVertices(idx);
@@ -82,7 +82,7 @@ static PyObject* pyGBufferGroup_getIndices(pyGBufferGroup* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "getIndices expects an int");
         return NULL;
     }
-    
+
     hsTArray<unsigned short> indices;
     if (start == 0 && len == -1)
         indices = self->fThis->getIndices(idx);
@@ -100,7 +100,7 @@ static PyObject* pyGBufferGroup_getCells(pyGBufferGroup* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getCells expects an int");
         return NULL;
     }
-    
+
     hsTArray<plGBufferCell> cells = self->fThis->getCells(idx);
     PyObject* list = PyList_New(cells.getSize());
     for (size_t i=0; i<cells.getSize(); i++)
@@ -234,6 +234,56 @@ static PyObject* pyGBufferGroup_clearCells(pyGBufferGroup* self) {
     return Py_None;
 }
 
+static PyObject* pyGBufferGroup_getNumVertBuffers(pyGBufferGroup* self) {
+    return PyInt_FromLong(self->fThis->getNumVertBuffers());
+}
+
+static PyObject* pyGBufferGroup_getNumIdxBuffers(pyGBufferGroup* self) {
+    return PyInt_FromLong(self->fThis->getNumIdxBuffers());
+}
+
+static PyObject* pyGBufferGroup_getVertBufferStorage(pyGBufferGroup* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getVertBufferStorage expects an int");
+        return NULL;
+    }
+    return PyBytes_FromStringAndSize((const char*)self->fThis->getVertBufferStorage(idx),
+                                     self->fThis->getVertBufferSize(idx));
+}
+
+static PyObject* pyGBufferGroup_getIdxBufferStorage(pyGBufferGroup* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getIdxBufferStorage expects an int");
+        return NULL;
+    }
+    size_t count = self->fThis->getIdxBufferCount(idx);
+    const unsigned short* indices = self->fThis->getIdxBufferStorage(idx);
+    PyObject* idxList = PyList_New(count);
+    for (size_t i=0; i<count; i++)
+        PyList_SET_ITEM(idxList, i, PyInt_FromLong(indices[i]));
+    return idxList;
+}
+
+static PyObject* pyGBufferGroup_getVertBufferSize(pyGBufferGroup* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getVertBufferSize expects an int");
+        return NULL;
+    }
+    return PyInt_FromLong(self->fThis->getVertBufferSize(idx));
+}
+
+static PyObject* pyGBufferGroup_getIdxBufferCount(pyGBufferGroup* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getIdxBufferCount expects an int");
+        return NULL;
+    }
+    return PyInt_FromLong(self->fThis->getIdxBufferCount(idx));
+}
+
 static PyObject* pyGBufferGroup_getFormat(pyGBufferGroup* self, void*) {
     return PyInt_FromLong(self->fThis->getFormat());
 }
@@ -248,6 +298,10 @@ static PyObject* pyGBufferGroup_getNumUVs(pyGBufferGroup* self, void*) {
 
 static PyObject* pyGBufferGroup_getHasSIs(pyGBufferGroup* self, void*) {
     return PyBool_FromLong(self->fThis->getHasSkinIndices());
+}
+
+static PyObject* pyGBufferGroup_getStride(pyGBufferGroup* self, void*) {
+    return PyInt_FromLong(self->fThis->getStride());
 }
 
 static int pyGBufferGroup_setFormat(pyGBufferGroup* self, PyObject* value, void*) {
@@ -284,6 +338,11 @@ static int pyGBufferGroup_setHasSIs(pyGBufferGroup* self, PyObject* value, void*
     }
     self->fThis->setHasSkinIndices(PyInt_AsLong(value) != 0);
     return 0;
+}
+
+static int pyGBufferGroup_setStride(pyGBufferGroup* self, PyObject* value, void*) {
+    PyErr_SetString(PyExc_RuntimeError, "stride is read-only");
+    return -1;
 }
 
 static PyMethodDef pyGBufferGroup_Methods[] = {
@@ -326,6 +385,22 @@ static PyMethodDef pyGBufferGroup_Methods[] = {
       "Remove all Face Index buffers" },
     { "clearCells", (PyCFunction)pyGBufferGroup_clearCells, METH_NOARGS,
       "Remove all Cell buffers" },
+    { "getNumVertBuffers", (PyCFunction)pyGBufferGroup_getNumVertBuffers, METH_NOARGS,
+      "Return the nubmer of stored Vertex buffers" },
+    { "getNumIdxBuffers", (PyCFunction)pyGBufferGroup_getNumIdxBuffers, METH_NOARGS,
+      "Return the nubmer of stored Index buffers" },
+    { "getVertBufferStorage", (PyCFunction)pyGBufferGroup_getVertBufferStorage, METH_VARARGS,
+      "Params: idx\n"
+      "Retrieve a raw Vertex buffer" },
+    { "getIdxBufferStorage", (PyCFunction)pyGBufferGroup_getIdxBufferStorage, METH_VARARGS,
+      "Params: idx\n"
+      "Retrieve a raw Vertex buffer" },
+    { "getVertBufferSize", (PyCFunction)pyGBufferGroup_getVertBufferSize, METH_VARARGS,
+      "Params: idx\n"
+      "Return the size of the specified Vertex buffer" },
+    { "getIdxBufferCount", (PyCFunction)pyGBufferGroup_getIdxBufferCount, METH_VARARGS,
+      "Params: idx\n"
+      "Return the number of indices in the specified Index buffer" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -334,6 +409,7 @@ static PyGetSetDef pyGBufferGroup_GetSet[] = {
     { "skinWeights", (getter)pyGBufferGroup_getSkinWeights, (setter)pyGBufferGroup_setSkinWeights, NULL, NULL },
     { "numUVs", (getter)pyGBufferGroup_getNumUVs, (setter)pyGBufferGroup_setNumUVs, NULL, NULL },
     { "hasSkinIndices", (getter)pyGBufferGroup_getHasSIs, (setter)pyGBufferGroup_setHasSIs, NULL, NULL },
+    { "stride", (getter)pyGBufferGroup_getStride, (setter)pyGBufferGroup_setStride, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
