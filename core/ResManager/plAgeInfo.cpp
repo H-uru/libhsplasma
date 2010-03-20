@@ -220,14 +220,12 @@ plLocation plAgeInfo::getPageLoc(size_t idx, PlasmaVer pv) const {
     plLocation loc(pv);
     loc.setSeqPrefix(fSeqPrefix);
     loc.setPageNum(fPages[idx].fSeqSuffix);
-    loc.parse(loc.unparse());   // Adjust for broken ages (Pahts)
     return loc;
 }
 
 plLocation plAgeInfo::getCommonPageLoc(size_t idx, PlasmaVer pv) const {
     plLocation loc(pv);
     loc.setSeqPrefix(fSeqPrefix);
-    loc.setPageNum((-1) - idx);
-    loc.parse(loc.unparse());
+    loc.setPageNum(255 - idx);
     return loc;
 }
