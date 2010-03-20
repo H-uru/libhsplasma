@@ -54,17 +54,16 @@ void plLocation::parse(unsigned int id) {
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
     fState = kStateNormal;
-    fPageNum = id & (fVer == pvLive ? 0x0000FFFF : 0x000000FF);
-    if (id & 0x80000000) {
-        id -= 1;
-        fPageNum -= 1;
+    if ((id & 0x80000000) != 0) {
+        id -= (fVer == pvLive ? 0xFF000001 : 0xFFFF0001);
+        fSeqPrefix = id >> (fVer == pvLive ? 16 : 8);
+        fPageNum = id - (fSeqPrefix << (fVer == pvLive ? 16 : 8));
+        fSeqPrefix = -fSeqPrefix;
     } else {
-        id -= 0x21;
-        fPageNum -= 0x21;
+        id -= 33;
+        fSeqPrefix = id >> (fVer == pvLive ? 16 : 8);
+        fPageNum = id - (fSeqPrefix << (fVer == pvLive ? 16 : 8));
     }
-    fSeqPrefix = (signed int)id >> (fVer == pvLive ? 16 : 8);
-    if (id & 0x80000000)
-        fSeqPrefix = (fSeqPrefix & 0xFFFFFF00) | (0x100 - fSeqPrefix);
 }
 
 unsigned int plLocation::unparse() const {
@@ -75,19 +74,18 @@ unsigned int plLocation::unparse() const {
     if (fVer == pvUniversal)
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
-    int sp = fSeqPrefix;
-    if (sp < 0)
-        sp = (sp & 0xFFFFFF00) | (0x100 - sp);
-    if (fPageNum < 0)
-        sp++;
-    unsigned int id = sp << (fVer == pvLive ? 16 : 8);
-    id += fPageNum + (fSeqPrefix < 0 ? 1 : 0x21);
-    return id;
+    if (fSeqPrefix < 0) {
+        return fPageNum - (fSeqPrefix << (fVer == pvLive ? 16 : 8))
+                        + (fVer == pvLive ? 0xFF000001 : 0xFFFF0001);
+    } else {
+        return fPageNum + (fSeqPrefix << (fVer == pvLive ? 16 : 8)) + 33;
+    }
 }
 
 void plLocation::read(hsStream* S) {
     setVer(S->getVer());
     if (S->getVer() == pvUniversal) {
+        fState = S->readByte();
         fSeqPrefix = S->readInt();
         fPageNum = S->readInt();
         fFlags = S->readShort();
@@ -104,6 +102,7 @@ void plLocation::write(hsStream* S) {
     if (S->getVer() != pvUnknown)
         setVer(S->getVer());
     if (S->getVer() == pvUniversal) {
+        S->writeByte(fState);
         S->writeInt(fSeqPrefix);
         S->writeInt(fPageNum);
         S->writeShort(fFlags);

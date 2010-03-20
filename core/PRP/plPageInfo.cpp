@@ -32,7 +32,7 @@ bool plPageInfo::isValid() const { return fLocation.isValid(); }
 
 void plPageInfo::read(hsStream* S) {
     short prpVer = S->readShort();
-    if (prpVer == 0x7FFF) {
+    if (prpVer == -1) {
         S->setVer(pvUniversal);
         fLocation.read(S);
         fAge = S->readSafeStr();
@@ -108,7 +108,7 @@ void plPageInfo::read(hsStream* S) {
 
 void plPageInfo::write(hsStream* S) {
     if (S->getVer() == pvUniversal) {
-        S->writeShort(0x7FFF);
+        S->writeShort(-1);
         fLocation.write(S);
         S->writeSafeStr(fAge);
         S->writeSafeStr(fPage);
