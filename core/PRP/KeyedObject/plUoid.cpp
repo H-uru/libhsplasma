@@ -5,12 +5,14 @@
 #include <stdlib.h>
 
 plUoid::plUoid()
-      : classType((short)0x8000), objID(0), clonePlayerID(0), cloneID(0) { }
+      : classType((short)0x8000), objID(0), clonePlayerID(0), cloneID(0),
+        eoaExtra(0) { }
 
 plUoid::plUoid(const plUoid& other)
       : location(other.location), loadMask(other.loadMask),
         classType(other.classType), objName(other.objName), objID(other.objID),
-        clonePlayerID(other.clonePlayerID), cloneID(other.cloneID) { }
+        clonePlayerID(other.clonePlayerID), cloneID(other.cloneID),
+        eoaExtra(0) { }
 
 plUoid::~plUoid() { }
 
