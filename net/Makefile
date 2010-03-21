@@ -18,17 +18,19 @@ PLSOBJ=\
 	$(OBJDIR)pnGameClient.o \
 	$(OBJDIR)pnFileClient.o
 
-PLSLIB=libHSPlasmaNet.so
+PLSLIB=libHSPlasmaNet.$(LIBSUFFIX)
 LIBDIR=../lib
 
 all: $(LIBDIR)/$(PLSLIB)
 
 $(LIBDIR)/$(PLSLIB): $(PLSOBJ)
-	$(CXX) $(CXXFLAGS) $(CXXLINK) $(PLSOBJ) -shared -Wl,-soname,$(PLSLIB) -o $@
+	$(CXX) $(CXXFLAGS) $(CXXLINK) $(PLSOBJ) $(LINKLIB)$(PLSLIB) -o $@
 
 install:
 	cp $(LIBDIR)/$(PLSLIB) $(PREFIX)/lib
+ifneq ($(LIBSUFFIX),dylib)
 	ldconfig
+endif
 
 uninstall:
 	rm -f $(PREFIX)/lib/$(PLSLIB)

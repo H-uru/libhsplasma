@@ -1,7 +1,7 @@
 include ../config.mf
 
 CXXFLAGS += -I../core -I. `$(PYTHON_CONFIG) --cflags`
-CXXLINK  += -L../lib -lHSPlasma
+CXXLINK  += -L../lib -lHSPlasma `$(PYTHON_CONFIG) --libs`
 OBJDIR=out/
 
 PYOBJ=\
@@ -226,7 +226,7 @@ PYOBJ=\
 	$(OBJDIR)pyColorRGBA.o \
 	$(OBJDIR)pyBitVector.o
 
-PYLIB=PyHSPlasma.$(LIBSUFFIX)
+PYLIB=PyHSPlasma.so
 LIBDIR=../lib
 
 all: $(LIBDIR)/$(PYLIB)

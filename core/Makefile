@@ -301,7 +301,9 @@ $(LIBDIR)/$(PLSLIB): $(PLSOBJ) $(OBJFILES3P)
 
 install:
 	cp $(LIBDIR)/$(PLSLIB) $(PREFIX)/lib
+ifneq ($(LIBSUFFIX),dylib)
 	ldconfig
+endif
 
 uninstall:
 	rm -f $(PREFIX)/lib/$(PLSLIB)

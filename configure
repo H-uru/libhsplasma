@@ -109,8 +109,8 @@ case "`uname -s`" in
         ;;
     Darwin)
         echo "Building for Mac OSX"
-        MF_CXXFLAGS="$MF_CXXFLAGS -arch ppc -arch i386 -DMACOSX"
-        MF_CXXFLAGS3="$MF_CXXFLAGS3 -arch ppc -arch i386"
+        MF_CXXFLAGS="$MF_CXXFLAGS -DMACOSX"
+        MF_CXXFLAGS3="$MF_CXXFLAGS3"
         MF_LIBSUFFIX="dylib"
         MF_LINKLIB="-dynamiclib -install_name ${MF_PREFIX}/lib/"
         ;;
@@ -223,14 +223,14 @@ else
             exit 1
         fi
 
-        if [ -e "${LOC_SSL}/lib/libssl.${MF_LIBSUFFIX}" ]; then
-            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL}/lib -lssl"
-        elif [ -e "${LOC_SSL}/libssl.${MF_LIBSUFFIX}" ]; then
-            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL} -lssl"
-        elif [ -e "${LOC_SSL}/lib/libssl.a" ]; then
-            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL}/lib -lssl"
-        elif [ -e "${LOC_SSL}/libssl.a" ]; then
-            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL} -lssl"
+        if [ -e "${LOC_SSL}/lib/libcrypto.${MF_LIBSUFFIX}" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL}/lib -lcrypto"
+        elif [ -e "${LOC_SSL}/libcrypto.${MF_LIBSUFFIX}" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL} -lcrypto"
+        elif [ -e "${LOC_SSL}/lib/libcrypto.a" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL}/lib -lcrypto"
+        elif [ -e "${LOC_SSL}/libcrypto.a" ]; then
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -L${LOC_SSL} -lcrypto"
         else
             echo "OpenSSL not found at $LOC_SSL"
             echo "Please install OpenSSL dev packages before continuing"
@@ -241,10 +241,10 @@ else
     else
         echo -n "Looking for OpenSSL: "
         if [ -e "/usr/include/openssl/ssl.h" ]; then
-            MF_CXXLINK_NET="$MF_CXXLINK_NET -lssl"
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -lcrypto"
             echo "Found"
         elif [ -e "/usr/local/include/openssl/ssl.h" ]; then
-            MF_CXXLINK_NET="$MF_CXXLINK_NET -lssl"
+            MF_CXXLINK_NET="$MF_CXXLINK_NET -lcrypto"
             echo "Found"
         else
             echo "Not found!"
