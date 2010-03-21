@@ -64,6 +64,10 @@ void plLocation::parse(unsigned int id) {
         fSeqPrefix = id >> (fVer == pvLive ? 16 : 8);
         fPageNum = id - (fSeqPrefix << (fVer == pvLive ? 16 : 8));
     }
+    if (fVer == pvLive)
+        fPageNum = (signed short)(unsigned short)fPageNum;
+    else
+        fPageNum = (signed char)(unsigned char)fPageNum;
 }
 
 unsigned int plLocation::unparse() const {
@@ -74,11 +78,16 @@ unsigned int plLocation::unparse() const {
     if (fVer == pvUniversal)
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
+    int pgNum;
+    if (fVer == pvLive)
+        pgNum = (unsigned short)(signed short)fPageNum;
+    else
+        pgNum = (unsigned char)(signed char)fPageNum;
     if (fSeqPrefix < 0) {
-        return fPageNum - (fSeqPrefix << (fVer == pvLive ? 16 : 8))
-                        + (fVer == pvLive ? 0xFF000001 : 0xFFFF0001);
+        return pgNum - (fSeqPrefix << (fVer == pvLive ? 16 : 8))
+                     + (fVer == pvLive ? 0xFF000001 : 0xFFFF0001);
     } else {
-        return fPageNum + (fSeqPrefix << (fVer == pvLive ? 16 : 8)) + 33;
+        return pgNum + (fSeqPrefix << (fVer == pvLive ? 16 : 8)) + 33;
     }
 }
 

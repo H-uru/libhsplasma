@@ -48,7 +48,7 @@ static int pyLocation_Compare(pyLocation* left, pyLocation* right) {
 
 static PyObject* pyLocation_RichCompare(pyLocation* left, pyLocation* right, int op) {
     bool result = false;
-    
+
     switch (op) {
     case Py_LT:
         result = ((*left->fThis) < (*right->fThis));
@@ -138,6 +138,12 @@ static PyObject* pyLocation_isVirtual(pyLocation* self) {
 
 static PyObject* pyLocation_isGlobal(pyLocation* self) {
     return PyBool_FromLong(self->fThis->isGlobal() ? 1 : 0);
+}
+
+static PyObject* pyLocation_setVirtual(pyLocation* self) {
+    self->fThis->setVirtual();
+    Py_INCREF(Py_None);
+    return Py_None;
 }
 
 static PyObject* pyLocation_parse(pyLocation* self, PyObject* args) {
@@ -243,6 +249,8 @@ static PyMethodDef pyLocation_Methods[] = {
       "Returns True if the location is virtual" },
     { "isGlobal", (PyCFunction)pyLocation_isGlobal, METH_NOARGS,
       "Returns True if the sequence prefix points to a global age" },
+    { "setVirtual", (PyCFunction)pyLocation_setVirtual, METH_NOARGS,
+      "Makes the location virtual" },
     { "parse", (PyCFunction)pyLocation_parse, METH_VARARGS,
       "Params: locationId\n"
       "Parses a raw location" },
