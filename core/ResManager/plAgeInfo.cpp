@@ -226,6 +226,6 @@ plLocation plAgeInfo::getPageLoc(size_t idx, PlasmaVer pv) const {
 plLocation plAgeInfo::getCommonPageLoc(size_t idx, PlasmaVer pv) const {
     plLocation loc(pv);
     loc.setSeqPrefix(fSeqPrefix);
-    loc.setPageNum(255 - idx);
+    loc.setPageNum((-1) - idx);
     return loc;
 }
