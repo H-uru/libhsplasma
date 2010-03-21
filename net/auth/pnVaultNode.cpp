@@ -619,3 +619,8 @@ void pnVaultNodeRef::write(const unsigned char* buffer)
     *(hsUint32*)(buffer +  8) = fOwner;
     *(hsUbyte* )(buffer + 12) = fSeen;
 }
+
+bool pnVaultNodeRef::operator==(const pnVaultNodeRef& ref)
+{
+    return (ref.fParent == fParent) && (ref.fParent == fChild);
+}

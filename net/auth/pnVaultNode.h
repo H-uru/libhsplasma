@@ -105,6 +105,7 @@ DllStruct pnVaultNodeRef {
 
     void read(const unsigned char* buffer);
     void write(const unsigned char* buffer);
+    bool operator==(const pnVaultNodeRef& ref);
 };
 
 #endif
