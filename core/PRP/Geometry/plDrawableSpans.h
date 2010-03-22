@@ -42,14 +42,14 @@ public:
         kPropSortAsOne = 0x100,
         kPropHasVisLOS = 0x200
     };
-    
+
     enum {
         kCritStatic = 0x1,
         kCritSortSpans = 0x2,
         kCritSortFaces = 0x8,
         kCritCharacter = 0x10
     };
-    
+
     enum plDrawableType {
         kNormal = 0x1,
         kNonDrawable = 0x2,
@@ -65,14 +65,14 @@ public:
         kAllProxies = 0xFF0000,
         kAllTypes = 0x0000FF
     };
-    
+
     enum plSubDrawableType {
         kSubNormal = 0x1,
         kSubNonDrawable = 0x2,
         kSubEnviron = 0x4,
         kSubAllTypes = 0xFF
     };
-    
+
     static const unsigned int kSpanTypeMask = 0xC0000000;
     static const unsigned int kSpanIDMask = 0x3FFFFFFF;
     static const unsigned int kSpanTypeIcicle = 0x00000000;
@@ -94,8 +94,8 @@ protected:
     hsTArray<hsMatrix44> fLocalToBones, fBoneToLocals;
     hsTArray<plKey> fMaterials;
     plSpaceTree* fSpaceTree;
-    hsTArray<plIcicle> fIcicles;
-    hsTArray<plParticleSpan> fParticleSpans;
+    hsTArray<plIcicle*> fIcicles;
+    hsTArray<plParticleSpan*> fParticleSpans;
     hsTArray<plSpan*> fSpans;
     hsTArray<unsigned int> fSpanSourceIndices;
     hsTArray<plGBufferGroup*> fGroups;

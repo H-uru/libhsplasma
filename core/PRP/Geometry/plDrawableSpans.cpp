@@ -30,6 +30,8 @@ plDrawableSpans::~plDrawableSpans() {
         delete fSourceSpans[i];
     for (size_t i=0; i<fGroups.getSize(); i++)
         delete fGroups[i];
+    for (size_t i=0; i<fSpans.getSize(); i++)
+        delete[] fSpans[i];
     if (fSpaceTree != NULL)
         delete fSpaceTree;
 }
@@ -47,9 +49,14 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fMaterials.getSize(); i++)
         fMaterials[i] = mgr->readKey(S);
 
+    for (size_t i=0; i<fSpans.getSize(); i++)
+        delete fSpans[i];
+
     fIcicles.setSize(S->readInt());
-    for (size_t i=0; i<fIcicles.getSize(); i++)
-        fIcicles[i].read(S);
+    for (size_t i=0; i<fIcicles.getSize(); i++) {
+        fIcicles[i] = new plIcicle();
+        fIcicles[i]->read(S);
+    }
 
     if (S->getVer() < pvHex) {
         if (S->readInt() != 0)
@@ -61,9 +68,9 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fSpanSourceIndices.getSize(); i++) {
         fSpanSourceIndices[i] = S->readInt();
         if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeIcicle)
-            fSpans[i] = &(fIcicles[fSpanSourceIndices[i] & kSpanIDMask]);
+            fSpans[i] = fIcicles[fSpanSourceIndices[i] & kSpanIDMask];
         else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
-            fSpans[i] = &(fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask]);
+            fSpans[i] = fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask];
     }
 
     for (size_t i=0; i<fSpans.getSize(); i++)
@@ -152,9 +159,9 @@ void plDrawableSpans::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fIcicles.getSize());
     for (size_t i=0; i<fIcicles.getSize(); i++)
-        fIcicles[i].write(S);
+        fIcicles[i]->write(S);
 
-    S->writeInt(0); // Icicles2
+    S->writeInt(0); // Particle spans (unused)
 
     S->writeInt(fSpanSourceIndices.getSize());
     for (size_t i=0; i<fSpanSourceIndices.getSize(); i++)
@@ -226,12 +233,12 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Icicles");
     for (size_t i=0; i<fIcicles.getSize(); i++)
-        fIcicles[i].prcWrite(prc);
+        fIcicles[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("ParticleSpans");
     for (size_t i=0; i<fParticleSpans.getSize(); i++)
-        fParticleSpans[i].prcWrite(prc);
+        fParticleSpans[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("SpanSourceIndices");
@@ -345,17 +352,23 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Icicles") {
+        for (size_t i=0; i<fIcicles.getSize(); i++)
+            delete fIcicles[i];
         fIcicles.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fIcicles.getSize(); i++) {
-            fIcicles[i].prcParse(child);
+            fIcicles[i] = new plIcicle();
+            fIcicles[i]->prcParse(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "ParticleSpans") {
+        for (size_t i=0; i<fParticleSpans.getSize(); i++)
+            delete fParticleSpans[i];
         fParticleSpans.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fParticleSpans.getSize(); i++) {
-            fParticleSpans[i].prcParse(child);
+            fParticleSpans[i] = new plParticleSpan();
+            fParticleSpans[i]->prcParse(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "SpanSourceIndices") {
@@ -368,9 +381,9 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fSpanSourceIndices[i] = child->getParam("value", "0").toUint()
                                   | child->getParam("type", "0").toUint();
             if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeIcicle)
-                fSpans[i] = &(fIcicles[fSpanSourceIndices[i] & kSpanIDMask]);
+                fSpans[i] = fIcicles[fSpanSourceIndices[i] & kSpanIDMask];
             else if ((fSpanSourceIndices[i] & kSpanTypeMask) == kSpanTypeParticleSpan)
-                fSpans[i] = &(fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask]);
+                fSpans[i] = fParticleSpans[fSpanSourceIndices[i] & kSpanIDMask];
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "FogEnvironments") {
@@ -511,9 +524,9 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 void plDrawableSpans::CalcBounds() {
     for (size_t i=0; i<fIcicles.getSize(); i++) {
         if (i == 0)
-            fWorldBounds = fIcicles[i].getWorldBounds();
+            fWorldBounds = fIcicles[i]->getWorldBounds();
         else
-            fWorldBounds += fIcicles[i].getWorldBounds();
+            fWorldBounds += fIcicles[i]->getWorldBounds();
     }
     fWorldBounds.setFlags(hsBounds3Ext::kAxisAligned);
     fLocalBounds.setMins(fWorldBounds.getMins());
@@ -530,7 +543,7 @@ void plDrawableSpans::BuildSpaceTree() {
     leaves.resize(fIcicles.getSize());
     for (size_t i=0; i<leaves.size(); i++) {
         leaves[i] = new plSpaceBuilderNode();
-        leaves[i]->fBounds = fIcicles[i].getWorldBounds();
+        leaves[i]->fBounds = fIcicles[i]->getWorldBounds();
         leaves[i]->fBounds.updateCenter();
     }
     plSpaceBuilderNode* root = IBuildTree(leaves);
@@ -626,6 +639,8 @@ size_t plDrawableSpans::getNumSpans() const { return fSpans.getSize(); }
 plSpan* plDrawableSpans::getSpan(size_t idx) const { return fSpans[idx]; }
 
 void plDrawableSpans::clearSpans() {
+    for (size_t i=0; i<fSpans.getSize(); i++)
+        delete fSpans[i];
     fIcicles.clear();
     fParticleSpans.clear();
     fSpans.clear();
@@ -633,9 +648,10 @@ void plDrawableSpans::clearSpans() {
 }
 
 size_t plDrawableSpans::addIcicle(const plIcicle& span) {
-    fIcicles.append(span);
+    plIcicle* iceCopy = new plIcicle(span);
+    fIcicles.append(iceCopy);
     size_t iceId = fIcicles.getSize() - 1;
-    fSpans.append(&fIcicles[iceId]);
+    fSpans.append(fIcicles[iceId]);
     fSpanSourceIndices.append(iceId | kSpanTypeIcicle);
     return fSpans.getSize() - 1;
 }
