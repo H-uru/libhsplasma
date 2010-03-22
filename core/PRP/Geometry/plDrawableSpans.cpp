@@ -31,7 +31,7 @@ plDrawableSpans::~plDrawableSpans() {
     for (size_t i=0; i<fGroups.getSize(); i++)
         delete fGroups[i];
     for (size_t i=0; i<fSpans.getSize(); i++)
-        delete[] fSpans[i];
+        delete fSpans[i];
     if (fSpaceTree != NULL)
         delete fSpaceTree;
 }

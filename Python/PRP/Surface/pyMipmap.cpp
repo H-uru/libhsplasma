@@ -62,15 +62,17 @@ static PyObject* pyMipmap_setConfig(pyMipmap* self, PyObject* args) {
 
 static PyObject* pyMipmap_readFrom(pyMipmap* self, PyObject* args) {
     pyStream* stream;
-    if (!PyArg_ParseTuple(args, "O", &stream)) {
-        PyErr_SetString(PyExc_TypeError, "readFromStream expects an hsStream");
+    int asJPEG;
+    int size = 0;
+    if (!PyArg_ParseTuple(args, "Oi|i", &stream, &asJPEG, &size)) {
+        PyErr_SetString(PyExc_TypeError, "readFromStream expects hsStream, bool, [int]");
         return NULL;
     }
     if (!pyStream_Check((PyObject*)stream)) {
-        PyErr_SetString(PyExc_TypeError, "readFromStream expects an hsStream");
+        PyErr_SetString(PyExc_TypeError, "readFromStream expects hsStream, bool, [int]");
         return NULL;
     }
-    self->fThis->readFromStream(stream->fThis);
+    self->fThis->readFromStream(stream->fThis, asJPEG != 0, size);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -92,15 +94,16 @@ static PyObject* pyMipmap_writeTo(pyMipmap* self, PyObject* args) {
 
 static PyObject* pyMipmap_readFromA(pyMipmap* self, PyObject* args) {
     pyStream* stream;
-    if (!PyArg_ParseTuple(args, "O", &stream)) {
-        PyErr_SetString(PyExc_TypeError, "readAlphaFromStream expects an hsStream");
+    int size = 0;
+    if (!PyArg_ParseTuple(args, "O", &stream, &size)) {
+        PyErr_SetString(PyExc_TypeError, "readAlphaFromStream expects hsStream, [int]");
         return NULL;
     }
     if (!pyStream_Check((PyObject*)stream)) {
-        PyErr_SetString(PyExc_TypeError, "readAlphaFromStream expects an hsStream");
+        PyErr_SetString(PyExc_TypeError, "readAlphaFromStream expects hsStream, [int]");
         return NULL;
     }
-    self->fThis->readAlphaFromStream(stream->fThis);
+    self->fThis->readAlphaFromStream(stream->fThis, size);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -287,10 +290,10 @@ static PyMethodDef pyMipmap_Methods[] = {
       "Params: config\n"
       "Set the configuration of the image data" },
     { "readFromStream", (PyCFunction)pyMipmap_readFrom, METH_VARARGS,
-      "Params: stream\n"
+      "Params: stream, asJPEG, [length]\n"
       "Reads the mipmap from a file stream" },
     { "writeToStream", (PyCFunction)pyMipmap_writeTo, METH_VARARGS,
-      "Params: stream\n"
+      "Params: stream, asJPEG, [length]\n"
       "Writes the mipmap to a file stream" },
     { "readAlphaFromStream", (PyCFunction)pyMipmap_readFromA, METH_VARARGS,
       "Params: stream\n"
