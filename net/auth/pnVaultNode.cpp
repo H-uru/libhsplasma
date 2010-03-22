@@ -622,5 +622,5 @@ void pnVaultNodeRef::write(const unsigned char* buffer)
 
 bool pnVaultNodeRef::operator==(const pnVaultNodeRef& ref)
 {
-    return (ref.fParent == fParent) && (ref.fParent == fChild);
+    return (ref.fParent == fParent) && (ref.fChild == fChild);
 }
