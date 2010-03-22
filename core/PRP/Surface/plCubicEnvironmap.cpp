@@ -1,5 +1,9 @@
 #include "plCubicEnvironmap.h"
 
+const char* plCubicEnvironmap::kFaceNames[kNumFaces] = {
+    "Left", "Right", "Front", "Back", "Top", "Bottom"
+};
+
 plCubicEnvironmap::plCubicEnvironmap() { }
 plCubicEnvironmap::~plCubicEnvironmap() { }
 
@@ -9,10 +13,12 @@ void plCubicEnvironmap::read(hsStream* S, plResManager* mgr) {
     plBitmap::read(S, mgr);
 
     for (int i=0; i<kNumFaces; i++) {
-        if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+        if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
             fFaces[i].readData(S);
-        else
+            fFaces[i].init(getKey()->getName() + "-" + kFaceNames[i]);
+        } else {
             fFaces[i].read(S, mgr);
+        }
     }
 }
 

@@ -76,9 +76,9 @@ protected:
     void IWriteRLEImage(hsStream* S, bool alpha);
 
 public:
-    void readFromStream(hsStream* S);
+    void readFromStream(hsStream* S, bool asJPEG, size_t length = 0);
     void writeToStream(hsStream* S);
-    void readAlphaFromStream(hsStream* S);
+    void readAlphaFromStream(hsStream* S, size_t length = 0);
     void writeAlphaToStream(hsStream* S);
     plString getSuggestedExt() const;
     plString getSuggestedAlphaExt() const;

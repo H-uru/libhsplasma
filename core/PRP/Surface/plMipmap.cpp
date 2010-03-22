@@ -21,10 +21,14 @@ plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
 }
 
 plMipmap::~plMipmap() {
-    if (fImageData != NULL) delete[] fImageData;
-    if (fAlphaData != NULL) delete[] fAlphaData;
-    if (fJPEGData != NULL) delete[] fJPEGData;
-    if (fJAlphaData != NULL) delete[] fJAlphaData;
+    if (fImageData != NULL)
+        delete[] fImageData;
+    if (fAlphaData != NULL)
+        delete[] fAlphaData;
+    if (fJPEGData != NULL)
+        delete[] fJPEGData;
+    if (fJAlphaData != NULL)
+        delete[] fJAlphaData;
 }
 
 IMPLEMENT_CREATABLE(plMipmap, kMipmap, plBitmap)
@@ -32,11 +36,15 @@ IMPLEMENT_CREATABLE(plMipmap, kMipmap, plBitmap)
 void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
                       unsigned char numLevels, unsigned char compType,
                       unsigned char format) {
-    if (fImageData != NULL) delete[] fImageData;
-    if (fAlphaData != NULL) delete[] fAlphaData;
-    if (fJPEGData != NULL) delete[] fJPEGData;
-    if (fJAlphaData != NULL) delete[] fJAlphaData;
-                          
+    if (fImageData != NULL)
+        delete[] fImageData;
+    if (fAlphaData != NULL)
+        delete[] fAlphaData;
+    if (fJPEGData != NULL)
+        delete[] fJPEGData;
+    if (fJAlphaData != NULL)
+        delete[] fJAlphaData;
+
     setConfig(cfg);
     fStride = (fPixelSize * width) / 8;
     fWidth = width;
@@ -261,17 +269,25 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "JPEG") {
         IBuildLevelSizes();
         if (tag->getParam("ImageRLE", "false").toBool()) {
+            if (fImageData != NULL)
+                delete[] fImageData;
             fImageData = new unsigned char[fTotalSize];
             tag->readHexStream(fLevelData[0].fSize, fImageData);
         } else {
+            if (fJPEGData != NULL)
+                delete[] fJPEGData;
             fJPEGSize = tag->getContents().getSize();
             fJPEGData = new unsigned char[fJPEGSize];
             tag->readHexStream(fJPEGSize, fJPEGData);
         }
         if (tag->getParam("AlphaRLE", "false").toBool()) {
+            if (fAlphaData != NULL)
+                delete[] fAlphaData;
             fAlphaData = new unsigned char[fTotalSize];
             tag->readHexStream(fLevelData[0].fSize, fAlphaData);
         } else {
+            if (fJAlphaData != NULL)
+                delete[] fJAlphaData;
             fJAlphaSize = tag->getContents().getSize();
             fJAlphaData = new unsigned char[fJAlphaSize];
             tag->readHexStream(fJAlphaSize, fJAlphaData);
@@ -280,6 +296,10 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->getContents().getSize() != fTotalSize)
             throw pfPrcParseException(__FILE__, __LINE__, "DDS Data is not of the correct length");
         IBuildLevelSizes();
+        if (fImageData != NULL) {
+            delete[] fImageData;
+            fImageData = NULL;
+        }
         if (fTotalSize > 0) {
             fImageData = new unsigned char[fTotalSize];
             tag->readHexStream(fTotalSize, fImageData);
@@ -303,20 +323,20 @@ void ExportDDS(hsStream* S, bool isDXT, plMipmap* img, bool isAlpha) {
     S->writeInt(img->getHeight());
     S->writeInt(img->getWidth());
     if (isDXT) {
-        unsigned int size = img->getHeight() * img->getWidth();
         if (img->getDXCompression() == plBitmap::kDXT1)
-            size /= 2;
-        S->writeInt(size);
+            S->writeInt((img->getHeight() * img->getWidth()) / 2);
+        else
+            S->writeInt(img->getHeight() * img->getWidth());
     } else {
         S->writeInt(img->getWidth() * 4);
     }
-    S->writeInt(0); // Depth
-    S->writeInt(img->getNumLevels());
-    for (size_t i=0; i<11; i++)
-        S->writeInt(0); // Unused
+    S->writeInt(0);                     // Depth
+    S->writeInt(img->getNumLevels());   // Mipmap count
+    for (size_t i=0; i<11; i++)         // Reserved
+        S->writeInt(0);
 
     // DDPIXELFORMAT
-    S->writeInt(32);    // sizeof(DDPIXELFORMAT)
+    S->writeInt(32);                // sizeof(DDPIXELFORMAT)
     if (isDXT) {
         S->writeInt(0x00000004);    // DDPF_FOURCC
         if (img->getDXCompression() == plBitmap::kDXT1)
@@ -325,11 +345,11 @@ void ExportDDS(hsStream* S, bool isDXT, plMipmap* img, bool isAlpha) {
             S->write(4, "DXT3");
         else if (img->getDXCompression() == plBitmap::kDXT5)
             S->write(4, "DXT5");
-        S->writeInt(0); // RGBBitCount
-        S->writeInt(0); // RBitMask
-        S->writeInt(0); // GBitMask
-        S->writeInt(0); // BBitMask
-        S->writeInt(0); // ABitMask
+        S->writeInt(0);             // RGBBitCount
+        S->writeInt(0);             // RBitMask
+        S->writeInt(0);             // GBitMask
+        S->writeInt(0);             // BBitMask
+        S->writeInt(0);             // ABitMask
     } else {
         S->writeInt(0x00000041);    // DDPF_ALPHAPIXELS | DDPF_RGB
         S->writeInt(0);             // FourCC
@@ -355,8 +375,31 @@ void ExportDDS(hsStream* S, bool isDXT, plMipmap* img, bool isAlpha) {
              (isAlpha ? img->getAlphaData() : img->getImageData()));
 }
 
-void plMipmap::readFromStream(hsStream* S) {
-    throw hsNotImplementedException(__FILE__, __LINE__);
+void ImportDDS(hsStream* S, bool isDXT, plMipmap* img, bool isAlpha) {
+    // DDSURFACEDESC
+    if (S->readInt() != 124)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid DDSURFACEDESC size");
+
+    unsigned int ddsdFlags = S->readInt();
+    throw hsNotImplementedException(__FILE__, __LINE__, "ImportDDS incomplete");
+}
+
+void plMipmap::readFromStream(hsStream* S, bool asJPEG, size_t length) {
+    char magic[4];
+    S->read(4, magic);
+    if (memcmp(magic, "DDS ", 4) == 0) {
+        ImportDDS(S, !asJPEG, this, false);
+    } else {
+        if (!asJPEG)
+            throw hsBadParamException(__FILE__, __LINE__, "Reading JPEG when DXT requested");
+        if (fJPEGData != NULL)
+            delete[] fJPEGData;
+        fJPEGSize = (length == 0) ? 4 + (S->size() - S->pos()) : length;
+        fJPEGData = new unsigned char[fJPEGSize];
+        memcpy(fJPEGData, magic, 4);
+        S->read(fJPEGSize - 4, fJPEGData + 4);
+        return;
+    }
 }
 
 void plMipmap::writeToStream(hsStream* S) {
@@ -369,8 +412,22 @@ void plMipmap::writeToStream(hsStream* S) {
     }
 }
 
-void plMipmap::readAlphaFromStream(hsStream* S) {
-    throw hsNotImplementedException(__FILE__, __LINE__);
+void plMipmap::readAlphaFromStream(hsStream* S, size_t length) {
+    bool isDXT = false;
+    char magic[4];
+    S->read(4, magic);
+    if (memcmp(magic, "DDS ", 4) == 0) {
+        isDXT = true;
+        ImportDDS(S, false, this, true);
+    } else {
+        if (fJPEGData != NULL)
+            delete[] fJPEGData;
+        fJPEGSize = (length == 0) ? 4 + (S->size() - S->pos()) : length;
+        fJPEGData = new unsigned char[fJPEGSize];
+        memcpy(fJPEGData, magic, 4);
+        S->read(fJPEGSize - 4, fJPEGData + 4);
+        return;
+    }
 }
 
 void plMipmap::writeAlphaToStream(hsStream* S) {
@@ -379,7 +436,7 @@ void plMipmap::writeAlphaToStream(hsStream* S) {
     } else if (fCompressionType == kJPEGCompression) {
         ExportDDS(S, false, this, true);
     } else {
-        throw hsBadParamException(__FILE__, __LINE__);
+        throw hsBadParamException(__FILE__, __LINE__, "DDS Textures don't have split alpha");
     }
 }
 
@@ -461,9 +518,15 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     unsigned char rleFlag = S->readByte();
 
     if (rleFlag & kColorDataRLE) {
+        if (fJPEGData != NULL)
+            delete[] fJPEGData;
         fJPEGData = NULL;
         IReadRLEImage(S, false);
     } else {
+        if (fImageData != NULL)
+            delete[] fImageData;
+        if (fJPEGData != NULL)
+            delete[] fJPEGData;
         fImageData = NULL;
         fJPEGSize = S->readInt();
         fJPEGData = new unsigned char[fJPEGSize];
@@ -471,9 +534,15 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     }
 
     if (rleFlag & kAlphaDataRLE) {
+        if (fJAlphaData != NULL)
+            delete[] fJAlphaData;
         fJAlphaData = NULL;
         IReadRLEImage(S, true);
     } else {
+        if (fAlphaData != NULL)
+            delete[] fAlphaData;
+        if (fJAlphaData != NULL)
+            delete[] fJAlphaData;
         fAlphaData = NULL;
         fJAlphaSize = S->readInt();
         fJAlphaData = new unsigned char[fJAlphaSize];

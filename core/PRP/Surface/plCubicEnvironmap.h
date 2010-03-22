@@ -8,13 +8,15 @@ public:
     enum Faces { kLeftFace, kRightFace, kFrontFace, kBackFace,
                  kTopFace, kBottomFace, kNumFaces };
 
+    static const char* kFaceNames[kNumFaces];
+
 protected:
     plMipmap fFaces[kNumFaces];
 
 public:
     plCubicEnvironmap();
     virtual ~plCubicEnvironmap();
-    
+
     DECLARE_CREATABLE(plCubicEnvironmap)
 
     virtual void read(hsStream* S, plResManager* mgr);
