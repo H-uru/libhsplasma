@@ -465,9 +465,10 @@ plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen)
             pCre = new plCreatableStub(pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()), stubLen - 2);
             pCre->read(S, this);
         } else {
-            plDebug::Warning("Warning: NOT reading type [%04hX]%s",
-                             pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
-                             pdUnifiedTypeMap::ClassName(type, S->getVer()));
+            throw hsNotImplementedException(__FILE__, __LINE__,
+                        plString::Format("Cannot read unimplemented type [%04hX]%s",
+                                         pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
+                                         pdUnifiedTypeMap::ClassName(type, S->getVer())));
         }
     }
     return pCre;
