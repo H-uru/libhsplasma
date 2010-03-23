@@ -353,7 +353,7 @@ static int pyGenericPhysical_setIndices(pyGenericPhysical* self, PyObject* value
     unsigned int* indices = new unsigned int[nIndices];
     for (size_t i=0; i<nIndices; i++) {
         PyObject* idx = PyList_GetItem(value, i);
-        if (idx == NULL || !pyVector3_Check(idx)) {
+        if (idx == NULL || !PyInt_Check(idx)) {
             PyErr_SetString(PyExc_TypeError, "indices should be list of ints");
             return -1;
         }
