@@ -171,10 +171,10 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
         plDebug::Error("Invalid node data");
         return;
     }
-    fCachedSize = size;
     fDirtyMask = 0;
     fDirtySize = 0;
     fFieldMask = readU64(buffer, size);
+    fCachedSize = size;
 
     for (size_t bit=0; bit<kNumFields; bit++) {
         if ((fFieldMask & (1<<bit)) == 0)
