@@ -541,65 +541,65 @@ void pnVaultNode::setNodeType(hsUint32 type)
 void pnVaultNode::setInt32(size_t which, hsInt32 value)
 {
     fInt32[which] = value;
-    ISetField(kInt32_1 << which, sizeof(hsInt32));
+    ISetField(kInt32_1 + which, sizeof(hsInt32));
 }
 
 void pnVaultNode::setUInt32(size_t which, hsUint32 value)
 {
     fUint32[which] = value;
-    ISetField(kUint32_1 << which, sizeof(hsUint32));
+    ISetField(kUint32_1 + which, sizeof(hsUint32));
 }
 
 void pnVaultNode::setUuid(size_t which, const plUuid& value)
 {
     fUuid[which] = value;
-    ISetField(kUuid_1 << which, sizeof(plUuid));
+    ISetField(kUuid_1 + which, sizeof(plUuid));
 }
 
 void pnVaultNode::setString64(size_t which, const plString& value)
 {
     if (fString64[which] != NULL) {
         size_t oldLen = (NCstrlen(fString64[which]) + 1) * sizeof(NCchar_t);
-        IClearField(kString64_1 << which, oldLen + sizeof(hsUint32));
+        IClearField(kString64_1 + which, oldLen + sizeof(hsUint32));
         delete[] fString64[which];
     }
 
     fString64[which] = StringToNCstr(value);
     size_t len = (NCstrlen(fString64[which]) + 1) * sizeof(NCchar_t);
-    ISetField(kString64_1 << which, len + sizeof(hsUint32));
+    ISetField(kString64_1 + which, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setIString64(size_t which, const plString& value)
 {
     if (fIString64[which] != NULL) {
         size_t oldLen = (NCstrlen(fIString64[which]) + 1) * sizeof(NCchar_t);
-        IClearField(kIString64_1 << which, oldLen + sizeof(hsUint32));
+        IClearField(kIString64_1 + which, oldLen + sizeof(hsUint32));
         delete[] fIString64[which];
     }
 
     fIString64[which] = StringToNCstr(value);
     size_t len = (NCstrlen(fIString64[which]) + 1) * sizeof(NCchar_t);
-    ISetField(kIString64_1 << which, len + sizeof(hsUint32));
+    ISetField(kIString64_1 + which, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setText(size_t which, const plString& value)
 {
     if (fText[which] != NULL) {
         size_t oldLen = (NCstrlen(fText[which]) + 1) * sizeof(NCchar_t);
-        IClearField(kText_1 << which, oldLen + sizeof(hsUint32));
+        IClearField(kText_1 + which, oldLen + sizeof(hsUint32));
         delete[] fText[which];
     }
 
     fText[which] = StringToNCstr(value);
     size_t len = (NCstrlen(fText[which]) + 1) * sizeof(NCchar_t);
-    ISetField(kText_1 << which, len + sizeof(hsUint32));
+    ISetField(kText_1 + which, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setBlob(size_t which, const plVaultBlob& value)
 {
-    IClearField(kBlob_1 << which, fBlob[which].getSize() + sizeof(hsUint32));
+    IClearField(kBlob_1 + which, fBlob[which].getSize() + sizeof(hsUint32));
     fBlob[which] = value;
-    ISetField(kBlob_1 << which, fBlob[which].getSize() + sizeof(hsUint32));
+    ISetField(kBlob_1 + which, fBlob[which].getSize() + sizeof(hsUint32));
 }
 
 
