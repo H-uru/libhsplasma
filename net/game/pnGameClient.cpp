@@ -193,7 +193,7 @@ ENetError pnGameClient::performConnect(pnSocket* sock)
 }
 
 bool pnGameClient::isConnected() const
-{ return fSock->isConnected(); }
+{ return (fSock != NULL) && fSock->isConnected(); }
 
 void pnGameClient::signalStatus()
 { fSock->signalStatus(); }

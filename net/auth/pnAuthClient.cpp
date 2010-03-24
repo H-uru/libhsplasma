@@ -418,7 +418,7 @@ ENetError pnAuthClient::performConnect(pnSocket* sock)
 }
 
 bool pnAuthClient::isConnected() const
-{ return fSock->isConnected(); }
+{ return (fSock != NULL) && fSock->isConnected(); }
 
 void pnAuthClient::signalStatus()
 { fSock->signalStatus(); }

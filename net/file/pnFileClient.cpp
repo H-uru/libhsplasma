@@ -254,7 +254,7 @@ ENetError pnFileClient::performConnect(pnSocket* sock)
 }
 
 bool pnFileClient::isConnected() const
-{ return fSock->isConnected(); }
+{ return (fSock != NULL) && fSock->isConnected(); }
 
 void pnFileClient::signalStatus()
 { fSock->signalStatus(); }
