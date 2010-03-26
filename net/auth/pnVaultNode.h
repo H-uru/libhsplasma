@@ -85,7 +85,7 @@ public:
     void setCreatorIdx(hsUint32 idx);
     void setNodeType(hsUint32 type);
     void setInt32(size_t which, hsInt32 value);
-    void setUInt32(size_t which, hsUint32 value);
+    void setUint32(size_t which, hsUint32 value);
     void setUuid(size_t which, const plUuid& value);
     void setString64(size_t which, const plString& value);
     void setIString64(size_t which, const plString& value);

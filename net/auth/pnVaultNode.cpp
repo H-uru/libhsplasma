@@ -544,7 +544,7 @@ void pnVaultNode::setInt32(size_t which, hsInt32 value)
     ISetField(kInt32_1 + which, sizeof(hsInt32));
 }
 
-void pnVaultNode::setUInt32(size_t which, hsUint32 value)
+void pnVaultNode::setUint32(size_t which, hsUint32 value)
 {
     fUint32[which] = value;
     ISetField(kUint32_1 + which, sizeof(hsUint32));
