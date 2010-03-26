@@ -100,7 +100,7 @@ private:
 DllStruct pnVaultNodeRef {
     enum { Stride = 13 };
 
-    hsInt32 fParent, fChild, fOwner;
+    hsUint32 fParent, fChild, fOwner;
     hsUbyte fSeen;
 
     void read(const unsigned char* buffer);
