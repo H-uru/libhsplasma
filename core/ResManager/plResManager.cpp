@@ -13,6 +13,9 @@ plResManager::plResManager(PlasmaVer pv) : fPlasmaVer(pvUnknown) {
 }
 
 plResManager::~plResManager() {
+    if (ages.size() > 0 || pages.size() > 0)
+        plDebug::Debug("~plResManager: cleaning up %d ages and %d pages",
+                       ages.size(), pages.size());
     while (ages.size() > 0)
         UnloadAge(ages[0]->getAgeName());
     while (pages.size() > 0)
@@ -290,8 +293,17 @@ void plResManager::UnloadAge(const plString& name) {
     while (ai != ages.end()) {
         if ((*ai)->getAgeName() == name) {
             plAgeInfo* age = *ai;
-            for (size_t i=0; i<age->getNumPages(); i++)
-                UnloadPage(age->getPageLoc(i, fPlasmaVer));
+            std::vector<plPageInfo*>::iterator pi = pages.begin();
+            while (pi != pages.end()) {
+                plLocation loc = (*pi)->getLocation();
+                if (loc.getSeqPrefix() == age->getSeqPrefix()) {
+                    keys.delAll(loc);
+                    delete *pi;
+                    pi = pages.erase(pi);
+                } else {
+                    pi++;
+                }
+            }
             delete age;
             ages.erase(ai);
             ai = ages.end();
