@@ -88,6 +88,7 @@ plMorphArray                    Basic       No          No
 plMorphDataSet                  Basic       No          No
 plVertDelta                     Basic       No          No
 plMorphSpan                     Basic       No          No
+plMorphSequence                 Basic       No          No
 plSpaceBuilderNode              Complete    No          ----
 plSpaceTreeNode                 Complete    Complete    No
 plSpan                          Complete    Complete    No
@@ -381,6 +382,7 @@ plMessageWithCallbacks          Complete    No          No
 plMsgForwarder                  Complete    Complete    PrpShop
 plNotifyMsg                     Complete    Complete    No
 plResponderMsg                  Basic       No          No
+plRideAnimatedPhysMsg           Basic       No          No
 plPseudoLinkEffectMsg           Basic       No          No
 plOneShotMsg                    Basic       No          No
 plServerReplyMsg                Basic       No          No
@@ -400,6 +402,7 @@ plAliasModifier                 Basic       No          No
 plAnimEventModifier             Basic       No          No
 plAxisAnimModifier              Complete    No          No
 plExcludeRegionModifier         Basic       No          No
+plGameMarkerModifier            Basic       No          No
 plInterfaceInfoModifier         Complete    Complete    PrpShop
 plLogicModBase                  Complete    Complete    No
 plLogicModifier                 Complete    Complete    No
@@ -484,6 +487,7 @@ plPanicLinkRegion               Complete    No          PrpShop
 plDetectorModifier              Complete    No          PrpShop
 plPickingDetector               Complete    No          PrpShop
 plGenericPhysical               Complete    Complete    No
+plHKSubWorld                    Basic       No          No
 plObjectInVolumeDetector        Basic       No          No
 plCameraRegionDetector          Basic       No          No
 plObjectInVolumeAndFacingDetec… Basic       No          No
@@ -553,6 +557,7 @@ plLayerMovie                    Complete    Complete    PrpShop
 plLayerAVI                      Complete    Complete    PrpShop
 plLayerBink                     Complete    Complete    PrpShop
 plMipmap                        Complete    Complete    PrpShop
+plLODMipmap                     Complete    No          No
 plPrintShape                    Basic       No          No
 plActivePrintShape              Basic       No          No
 plRenderTarget                  Basic       No          No

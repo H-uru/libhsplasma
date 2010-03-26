@@ -6,6 +6,7 @@
 #include "Stream/hsRAMStream.h"
 #include "3rdPartyLibs/squish/squish.h"
 
+/* plMipmap */
 plMipmap::plMipmap()
         : fImageData(NULL), fTotalSize(0), fAlphaData(NULL), fAlphaSize(0),
           fJPEGData(NULL), fJPEGSize(0), fJAlphaData(NULL), fJAlphaSize(0) {
@@ -801,3 +802,40 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size) {
         memcpy(dest, imgPtr, size);
     }
 }
+
+
+/* plLODMipmap */
+plLODMipmap::plLODMipmap() { }
+plLODMipmap::~plLODMipmap() { }
+
+IMPLEMENT_CREATABLE(plLODMipmap, kLODMipmap, plMipmap)
+
+void plLODMipmap::read(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::read(S, mgr);    // Not a typo
+    fBase = mgr->readKey(S);
+}
+
+void plLODMipmap::write(hsStream* S, plResManager* mgr) {
+    hsKeyedObject::write(S, mgr);   // Not a typo
+    mgr->writeKey(S, fBase);
+}
+
+void plLODMipmap::IPrcWrite(pfPrcHelper* prc) {
+    hsKeyedObject::IPrcWrite(prc);
+
+    prc->writeSimpleTag("Base");
+    fBase->prcWrite(prc);
+    prc->closeTag();
+}
+
+void plLODMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "Base") {
+        if (tag->hasChildren())
+            fBase = mgr->prcParseKey(tag->getFirstChild());
+    } else {
+        hsKeyedObject::IPrcParse(tag, mgr);
+    }
+}
+
+plKey plLODMipmap::getBase() const { return fBase; }
+void plLODMipmap::setBase(plKey base) { fBase = base; }

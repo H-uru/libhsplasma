@@ -119,6 +119,7 @@ PLSOBJ=\
 	$(OBJDIR)plMorphArray.o \
 	$(OBJDIR)plMorphDataSet.o \
 	$(OBJDIR)plMorphDelta.o \
+	$(OBJDIR)plMorphSequence.o \
 	$(OBJDIR)plOccluder.o \
 	$(OBJDIR)plSharedMesh.o \
 	$(OBJDIR)plSpaceTree.o \
@@ -184,6 +185,7 @@ PLSOBJ=\
 	$(OBJDIR)plOneShotCallbacks.o \
 	$(OBJDIR)plPseudoLinkEffectMsg.o \
 	$(OBJDIR)plResponderMsg.o \
+	$(OBJDIR)plRideAnimatedPhysMsg.o \
 	$(OBJDIR)plServerReplyMsg.o \
 	$(OBJDIR)plSimulationMsg.o \
 	$(OBJDIR)plSoundMsg.o \
@@ -197,6 +199,7 @@ PLSOBJ=\
 	$(OBJDIR)plAnimEventModifier.o \
 	$(OBJDIR)plAxisAnimModifier.o \
 	$(OBJDIR)plExcludeRegionModifier.o \
+	$(OBJDIR)plGameMarkerModifier.o \
 	$(OBJDIR)plInterfaceInfoModifier.o \
 	$(OBJDIR)plLogicModBase.o \
 	$(OBJDIR)plLogicModifier.o \
@@ -244,6 +247,7 @@ PLSOBJ=\
 	$(OBJDIR)plCollisionDetector.o \
 	$(OBJDIR)plDetectorModifier.o \
 	$(OBJDIR)plGenericPhysical.o \
+	$(OBJDIR)plHKSubWorld.o \
 	$(OBJDIR)plObjectInVolumeDetector.o \
 	$(OBJDIR)plPhysical.o \
 	$(OBJDIR)plPhysicalSndGroup.o \
@@ -669,6 +673,9 @@ $(OBJDIR)plMorphDataSet.o: PRP/Geometry/plMorphDataSet.h PRP/Geometry/plMorphDat
 $(OBJDIR)plMorphDelta.o: PRP/Geometry/plMorphDelta.h PRP/Geometry/plMorphDelta.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plMorphDelta.cpp -o $@
 
+$(OBJDIR)plMorphSequence.o: PRP/Geometry/plMorphSequence.h PRP/Geometry/plMorphSequence.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plMorphSequence.cpp -o $@
+
 $(OBJDIR)plOccluder.o: PRP/Geometry/plOccluder.h PRP/Geometry/plOccluder.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plOccluder.cpp -o $@
 
@@ -864,6 +871,9 @@ $(OBJDIR)plPseudoLinkEffectMsg.o: PRP/Message/plPseudoLinkEffectMsg.h PRP/Messag
 $(OBJDIR)plResponderMsg.o: PRP/Message/plResponderMsg.h PRP/Message/plResponderMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plResponderMsg.cpp -o $@
 
+$(OBJDIR)plRideAnimatedPhysMsg.o: PRP/Message/plRideAnimatedPhysMsg.h PRP/Message/plRideAnimatedPhysMsg.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Message/plRideAnimatedPhysMsg.cpp -o $@
+
 $(OBJDIR)plServerReplyMsg.o: PRP/Message/plServerReplyMsg.h PRP/Message/plServerReplyMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plServerReplyMsg.cpp -o $@
 
@@ -902,6 +912,9 @@ $(OBJDIR)plAxisAnimModifier.o: PRP/Modifier/plAxisAnimModifier.h PRP/Modifier/pl
 
 $(OBJDIR)plExcludeRegionModifier.o: PRP/Modifier/plExcludeRegionModifier.h PRP/Modifier/plExcludeRegionModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plExcludeRegionModifier.cpp -o $@
+
+$(OBJDIR)plGameMarkerModifier.o: PRP/Modifier/plGameMarkerModifier.h PRP/Modifier/plGameMarkerModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plGameMarkerModifier.cpp -o $@
 
 $(OBJDIR)plInterfaceInfoModifier.o: PRP/Modifier/plInterfaceInfoModifier.h PRP/Modifier/plInterfaceInfoModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plInterfaceInfoModifier.cpp -o $@
@@ -1043,6 +1056,9 @@ $(OBJDIR)plDetectorModifier.o: PRP/Physics/plDetectorModifier.h PRP/Physics/plDe
 
 $(OBJDIR)plGenericPhysical.o: PRP/Physics/plGenericPhysical.h PRP/Physics/plGenericPhysical.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plGenericPhysical.cpp -o $@
+
+$(OBJDIR)plHKSubWorld.o: PRP/Physics/plHKSubWorld.h PRP/Physics/plHKSubWorld.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Physics/plHKSubWorld.cpp -o $@
 
 $(OBJDIR)plObjectInVolumeDetector.o: PRP/Physics/plObjectInVolumeDetector.h PRP/Physics/plObjectInVolumeDetector.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plObjectInVolumeDetector.cpp -o $@

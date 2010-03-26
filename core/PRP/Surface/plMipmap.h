@@ -108,4 +108,26 @@ public:
     void DecompressImage(size_t level, void* dest, size_t size);
 };
 
+DllClass plLODMipmap : public plMipmap {
+private:
+    plKey fBase;
+
+public:
+    plLODMipmap();
+    virtual ~plLODMipmap();
+
+    DECLARE_CREATABLE(plLODMipmap)
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plKey getBase() const;
+    void setBase(plKey base);
+};
+
 #endif

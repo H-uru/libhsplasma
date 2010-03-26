@@ -48,6 +48,7 @@
 #include "PRP/Geometry/plClusterGroup.h"
 #include "PRP/Geometry/plDrawableSpans.h"
 #include "PRP/Geometry/plMorphDataSet.h"
+#include "PRP/Geometry/plMorphSequence.h"
 #include "PRP/Geometry/plOccluder.h"
 #include "PRP/Geometry/plSharedMesh.h"
 #include "PRP/GUI/pfGUIButtonMod.h"
@@ -88,6 +89,7 @@
 #include "PRP/Message/plLoadCloneMsg.h"
 #include "PRP/Message/plMsgForwarder.h"
 #include "PRP/Message/plResponderMsg.h"
+#include "PRP/Message/plRideAnimatedPhysMsg.h"
 #include "PRP/Message/plServerReplyMsg.h"
 #include "PRP/Message/plSimulationMsg.h"
 #include "PRP/Message/plSoundMsg.h"
@@ -99,6 +101,7 @@
 #include "PRP/Modifier/plAnimEventModifier.h"
 #include "PRP/Modifier/plAxisAnimModifier.h"
 #include "PRP/Modifier/plExcludeRegionModifier.h"
+#include "PRP/Modifier/plGameMarkerModifier.h"
 #include "PRP/Modifier/plInterfaceInfoModifier.h"
 #include "PRP/Modifier/plLogicModifier.h"
 #include "PRP/Modifier/plMaintainersMarkerModifier.h"
@@ -131,6 +134,7 @@
 #include "PRP/Particle/plParticleSystem.h"
 #include "PRP/Physics/plObjectInVolumeDetector.h"
 #include "PRP/Physics/plGenericPhysical.h"
+#include "PRP/Physics/plHKSubWorld.h"
 #include "PRP/Physics/plPhysicalSndGroup.h"
 #include "PRP/Physics/plVehicleModifier.h"
 #include "PRP/Region/plHardRegionPlanes.h"
@@ -391,7 +395,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kResponderSDLModifier: return new plResponderSDLModifier();
         //case kSoundSDLModifier: return new plSoundSDLModifier();
         //case kResManagerHelper: return new plResManagerHelper();
-        //case kHKSubWorld: return new plHKSubWorld();
+        case kHKSubWorld: return new plHKSubWorld();
         case kArmatureEffect: ABSTRACT(kArmatureEffect);
         case kArmatureEffectFootSound: return new plArmatureEffectFootSound();
         case kEAXListenerMod: return new plEAXListenerMod();
@@ -429,7 +433,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kShader: return new plShader();
         case kDynamicEnvMap: return new plDynamicEnvMap();
         case kSimpleRegionSensor: return new plSimpleRegionSensor();
-        //case kMorphSequence: return new plMorphSequence();
+        case kMorphSequence: return new plMorphSequence();
         case kEmoteAnim: return new plEmoteAnim();
         case kDynaRippleVSMgr: return new plDynaRippleVSMgr();
         case kWaveSet6: return new plWaveSet6();
@@ -465,8 +469,8 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kDynaTorpedoMgr: return new plDynaTorpedoMgr();
         case kDynaTorpedoVSMgr: return new plDynaTorpedoVSMgr();
         case kClusterGroup: return new plClusterGroup();
-        //case kGameMarkerModifier: return new plGameMarkerModifier();
-        //case kLODMipmap: return new plLODMipmap();
+        case kGameMarkerModifier: return new plGameMarkerModifier();
+        case kLODMipmap: return new plLODMipmap();
         case kSwimDetector: return new plSwimDetector();
         case kFadeOpacityMod: return new plFadeOpacityMod();
         //case kFadeOpacityLay: return new plFadeOpacityLay();
@@ -1218,7 +1222,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kGmVarSync: return new pfGmVarSync();
         //case kLinearVelocityMsg: return new plLinearVelocityMsg();
         //case kAngularVelocityMsg: return new plAngularVelocityMsg();
-        //case kRideAnimatedPhysMsg: return new plRideAnimatedPhysMsg();
+        case kRideAnimatedPhysMsg: return new plRideAnimatedPhysMsg();
         case kAvBrainRideAnimatedPhysical: return new plAvBrainRideAnimatedPhysical();
 
         // Got an invalid or unsupported ClassIndex //

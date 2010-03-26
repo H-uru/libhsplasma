@@ -1019,6 +1019,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Geometry\plMorphSequence.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Geometry\plMorphSequence.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Geometry\plOccluder.cpp"
 					>
 				</File>
@@ -1551,6 +1559,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Message\plRideAnimatedPhysMsg.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Message\plRideAnimatedPhysMsg.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Message\plServerReplyMsg.cpp"
 					>
 				</File>
@@ -1676,6 +1692,14 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Modifier\plExcludeRegionModifier.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plGameMarkerModifier.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Modifier\plGameMarkerModifier.h"
 					>
 				</File>
 				<File
@@ -1928,6 +1952,14 @@
 				</File>
 				<File
 					RelativePath=".\PRP\Physics\plGenericPhysical.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Physics\plHKSubWorld.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Physics\plHKSubWorld.h"
 					>
 				</File>
 				<File
