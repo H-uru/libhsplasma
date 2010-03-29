@@ -293,20 +293,18 @@ void plResManager::UnloadAge(const plString& name) {
     while (ai != ages.end()) {
         if ((*ai)->getAgeName() == name) {
             plAgeInfo* age = *ai;
-            std::vector<plPageInfo*>::iterator pi = pages.begin();
-            while (pi != pages.end()) {
-                plLocation loc = (*pi)->getLocation();
-                if (loc.getSeqPrefix() == age->getSeqPrefix()) {
-                    keys.delAll(loc);
-                    delete *pi;
-                    pi = pages.erase(pi);
-                } else {
-                    pi++;
-                }
+            for (size_t i=0; i<age->getNumPages(); i++) {
+                plPageInfo* page = FindPage(age->getPageLoc(i, getVer()));
+                if (page != NULL)
+                    UnloadPage(page->getLocation());
+            }
+            for (size_t i=0; i<age->getNumCommonPages(getVer()); i++) {
+                plPageInfo* page = FindPage(age->getPageLoc(i, getVer()));
+                if (page != NULL)
+                    UnloadPage(page->getLocation());
             }
             delete age;
-            ages.erase(ai);
-            ai = ages.end();
+            ai = ages.erase(ai);
         } else {
             ai++;
         }
