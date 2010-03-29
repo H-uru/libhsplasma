@@ -120,7 +120,6 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
 
     pages.push_back(page);
     setVer(S->getVer(), true);
-
     S->seek(page->getIndexStart());
     ReadKeyring(S, page->getLocation());
     page->setNumObjects(ReadObjects(S, page->getLocation()));
@@ -294,17 +293,13 @@ void plResManager::UnloadAge(const plString& name) {
         if ((*ai)->getAgeName() == name) {
             plAgeInfo* age = *ai;
             for (size_t i=0; i<age->getNumPages(); i++) {
-                plPageInfo* page = FindPage(age->getPageLoc(i, getVer()));
-                if (page != NULL)
-                    UnloadPage(page->getLocation());
+                UnloadPage(age->getPageLoc(i, getVer()));
             }
             for (size_t i=0; i<age->getNumCommonPages(getVer()); i++) {
-                plPageInfo* page = FindPage(age->getCommonPageLoc(i, getVer()));
-                if (page != NULL)
-                    UnloadPage(page->getLocation());
+                UnloadPage(age->getCommonPageLoc(i, getVer()));
             }
             delete age;
-            ai = ages.erase(ai);
+            return;
         } else {
             ai++;
         }
@@ -567,7 +562,7 @@ void plResManager::DelPage(const plLocation& loc) {
             plPageInfo* page = *pi;
             delete page;
             pages.erase(pi);
-            pi = pages.end();
+            return;
         } else {
             pi++;
         }
@@ -581,7 +576,7 @@ void plResManager::DelAge(const plString& name) {
             plAgeInfo* age = *ai;
             delete age;
             ages.erase(ai);
-            ai = ages.end();
+            return;
         } else {
             ai++;
         }
