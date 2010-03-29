@@ -299,7 +299,7 @@ void plResManager::UnloadAge(const plString& name) {
                     UnloadPage(page->getLocation());
             }
             for (size_t i=0; i<age->getNumCommonPages(getVer()); i++) {
-                plPageInfo* page = FindPage(age->getPageLoc(i, getVer()));
+                plPageInfo* page = FindPage(age->getCommonPageLoc(i, getVer()));
                 if (page != NULL)
                     UnloadPage(page->getLocation());
             }
