@@ -288,18 +288,21 @@ plAgeInfo* plResManager::FindAge(const plString& name) {
 }
 
 void plResManager::UnloadAge(const plString& name) {
+    std::vector<plPageInfo*>::iterator pi = pages.begin();
+    while (pi != pages.end()) {
+        if ((*pi)->getAge() == name) {
+            delete *pi;
+            pi = pages.erase(pi);
+        } else {
+            pi++;
+        }
+    }
+
     std::vector<plAgeInfo*>::iterator ai = ages.begin();
     while (ai != ages.end()) {
         if ((*ai)->getAgeName() == name) {
-            plAgeInfo* age = *ai;
-            for (size_t i=0; i<age->getNumPages(); i++) {
-                UnloadPage(age->getPageLoc(i, getVer()));
-            }
-            for (size_t i=0; i<age->getNumCommonPages(getVer()); i++) {
-                UnloadPage(age->getCommonPageLoc(i, getVer()));
-            }
-            delete age;
-            return;
+            delete *ai;
+            ai = ages.erase(ai);
         } else {
             ai++;
         }
@@ -561,8 +564,7 @@ void plResManager::DelPage(const plLocation& loc) {
         if ((*pi)->getLocation() == loc) {
             plPageInfo* page = *pi;
             delete page;
-            pages.erase(pi);
-            return;
+            pi = pages.erase(pi);
         } else {
             pi++;
         }
@@ -575,8 +577,7 @@ void plResManager::DelAge(const plString& name) {
         if ((*ai)->getAgeName() == name) {
             plAgeInfo* age = *ai;
             delete age;
-            ages.erase(ai);
-            return;
+            ai = ages.erase(ai);
         } else {
             ai++;
         }
