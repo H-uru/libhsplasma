@@ -16,6 +16,8 @@ PLSOBJ=\
 	$(OBJDIR)pnVaultNode.o \
 	$(OBJDIR)GameMessages.o \
 	$(OBJDIR)pnGameClient.o \
+	$(OBJDIR)GateKeeperMessages.o \
+	$(OBJDIR)pnGateKeeperClient.o \
 	$(OBJDIR)pnFileClient.o
 
 PLSLIB=libHSPlasmaNet.$(LIBSUFFIX)
@@ -74,6 +76,12 @@ $(OBJDIR)GameMessages.o: game/GameMessages.h game/GameMessages.cpp
 
 $(OBJDIR)pnGameClient.o: game/pnGameClient.h game/pnGameClient.cpp
 	$(CXX) $(CXXFLAGS) -c game/pnGameClient.cpp -o $@
+
+$(OBJDIR)GateKeeperMessages.o: gate/GateKeeperMessages.h gate/GateKeeperMessages.cpp
+	$(CXX) $(CXXFLAGS) -c gate/GateKeeperMessages.cpp -o $@
+
+$(OBJDIR)pnGateKeeperClient.o: gate/pnGateKeeperClient.h gate/pnGateKeeperClient.cpp
+	$(CXX) $(CXXFLAGS) -c gate/pnGateKeeperClient.cpp -o $@
 
 $(OBJDIR)pnFileClient.o: file/pnFileClient.h file/pnFileClient.cpp
 	$(CXX) $(CXXFLAGS) -c file/pnFileClient.cpp -o $@

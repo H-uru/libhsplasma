@@ -39,6 +39,7 @@ enum EConnType {
     kConnTypeSrvToMcp, kConnTypeSrvToVault, kConnTypeSrvToDb,
     kConnTypeCliToFile, kConnTypeSrvToState, kConnTypeSrvToLog,
     kConnTypeSrvToScore, kConnTypeCliToCsr, kConnTypeSimpleNet,
+    kConnTypeCliToGateKeeper,
 };
 
 enum NetCliConnectMsg {
