@@ -15,14 +15,16 @@ void plNetMsgGameMessage::read(hsStream* S, plResManager* mgr) {
 
     if (fMessage != NULL)
         delete fMessage;
-    fMessage = plMessage::Convert(mgr->ReadCreatable(getStream()));
+    hsRAMStream* msgStream = getStream();
+    fMessage = plMessage::Convert(mgr->ReadCreatable(msgStream));
 
     if (S->readBool())
         fDeliveryTime.read(S);
 }
 
 void plNetMsgGameMessage::write(hsStream* S, plResManager* mgr) {
-    hsRAMStream* msgStream = (hsRAMStream*)getStream();
+    hsRAMStream* msgStream = getStream();
+    msgStream->setVer(S->getVer());
     msgStream->rewind();
     msgStream->resize(0);
     mgr->WriteCreatable(msgStream, fMessage);
@@ -85,8 +87,11 @@ void plNetMsgGameMessage::setDeliveryTime(plUnifiedTime DeliveryTime) {
 }
 
 void plNetMsgGameMessage::setMessage(plMessage* Message) {
+    if (fMessage != NULL)
+        delete fMessage;
     fMessage = Message;
 }
+
 
 /* plNetMsgGameMessageDirected */
 plNetMsgGameMessageDirected::plNetMsgGameMessageDirected() { }

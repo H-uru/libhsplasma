@@ -64,7 +64,7 @@ private:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    hsStream* getStream();
+    hsRAMStream* getStream();
 
     unsigned char getCompressionType() const;
     void setCompressionType(unsigned char type);

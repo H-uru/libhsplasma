@@ -169,7 +169,7 @@ void plNetMsgStream::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-hsStream* plNetMsgStream::getStream() { return &fStream; }
+hsRAMStream* plNetMsgStream::getStream() { return &fStream; }
 
 unsigned char plNetMsgStream::getCompressionType() const { return fCompressionType; }
 void plNetMsgStream::setCompressionType(unsigned char type) { fCompressionType = type; }
