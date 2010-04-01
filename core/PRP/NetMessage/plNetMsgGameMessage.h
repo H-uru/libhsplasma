@@ -22,6 +22,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plUnifiedTime getDeliveryTime() const;
+    plMessage* getMessage() const;
+
+    void setDeliveryTime(plUnifiedTime DeliveryTime);
+    void setMessage(plMessage* Message);
 };
 
 DllClass plNetMsgGameMessageDirected : public plNetMsgGameMessage {
@@ -40,6 +47,11 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    hsTArray<unsigned int> getReceivers() const;
+
+    void setReceivers(hsTArray<unsigned int> Receivers);
 };
 
 #endif

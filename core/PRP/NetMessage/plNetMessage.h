@@ -49,6 +49,25 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getFlags() const;
+    unsigned char getProtocolVerMaj() const;
+    unsigned char getProtocolVerMin() const;
+    plUnifiedTime getTimeSent() const;
+    unsigned int getContext() const;
+    unsigned int getTransID() const;
+    unsigned int getPlayerID() const;
+    plUuid getAcctUuid() const;
+
+    void setFlags(unsigned int Flags);
+    void setProtocolVerMaj(unsigned char ProtocolVerMaj);
+    void setProtocolVerMin(unsigned char ProtocolVerMin);
+    void setTimeSent(plUnifiedTime TimeSent);
+    void setContext(unsigned int Context);
+    void setTransID(unsigned int TransID);
+    void setPlayerID(unsigned int PlayerID);
+    void setAcctUuid(plUuid AcctUuid);
 };
 
 DllClass plNetMsgServerToClient : public plNetMessage {

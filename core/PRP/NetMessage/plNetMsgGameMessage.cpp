@@ -72,6 +72,21 @@ void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+plUnifiedTime plNetMsgGameMessage::getDeliveryTime() const {
+    return fDeliveryTime;
+}
+
+plMessage* plNetMsgGameMessage::getMessage() const {
+    return fMessage;
+}
+
+void plNetMsgGameMessage::setDeliveryTime(plUnifiedTime DeliveryTime) {
+    fDeliveryTime = DeliveryTime;
+}
+
+void plNetMsgGameMessage::setMessage(plMessage* Message) {
+    fMessage = Message;
+}
 
 /* plNetMsgGameMessageDirected */
 plNetMsgGameMessageDirected::plNetMsgGameMessageDirected() { }
@@ -124,3 +139,10 @@ void plNetMsgGameMessageDirected::IPrcParse(const pfPrcTag* tag, plResManager* m
     }
 }
 
+hsTArray<unsigned int> plNetMsgGameMessageDirected::getReceivers() const {
+    return fReceivers;
+}
+
+void plNetMsgGameMessageDirected::setReceivers(hsTArray<unsigned int> Receivers) {
+    fReceivers = Receivers;
+}

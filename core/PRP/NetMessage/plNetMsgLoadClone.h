@@ -21,6 +21,17 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plNetMsgObjectHelper getObject() const;
+    bool getIsPlayer() const;
+    bool getIsLoading() const;
+    bool getIsInitialState() const;
+
+    void setObject(plNetMsgObjectHelper Object);
+    void setIsPlayer(bool IsPlayer);
+    void setIsLoading(bool IsLoading);
+    void setIsInitialState(bool IsInitialState);
 };
 
 #endif

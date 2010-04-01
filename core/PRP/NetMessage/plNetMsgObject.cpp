@@ -26,6 +26,14 @@ void plNetMsgObjectHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+plUoid plNetMsgObjectHelper::getUoid() const {
+    return fUoid;
+}
+
+void plNetMsgObjectHelper::setUoid(plUoid Uoid) {
+    fUoid = Uoid;
+}
+
 
 /* plNetMsgObject */
 plNetMsgObject::plNetMsgObject() { }
@@ -54,4 +62,12 @@ void plNetMsgObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plNetMessage::IPrcParse(tag, mgr);
     }
+}
+
+plNetMsgObjectHelper plNetMsgObject::getHelper() const {
+    return fHelper;
+}
+
+void plNetMsgObject::setHelper(plNetMsgObjectHelper Helper) {
+    fHelper = Helper;
 }

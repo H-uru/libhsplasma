@@ -24,8 +24,21 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
+    plKey getCloneKey() const;
+    plKey getRequestorKey() const;
+    unsigned char getValidMsg() const;
+    unsigned char getIsLoading() const;
+    unsigned int getUserData() const;
+    unsigned int getOriginatingPlayerID() const;
     plMessage* getTriggerMsg() const;
-    void setTriggerMsg(plMessage* msg);
+
+    void setCloneKey(plKey CloneKey);
+    void setRequestorKey(plKey RequestorKey);
+    void setValidMsg(unsigned char ValidMsg);
+    void setIsLoading(unsigned char IsLoading);
+    void setUserData(unsigned int UserData);
+    void setOriginatingPlayerID(unsigned int OriginatingPlayerID);
+    void setTriggerMsg(plMessage* TriggerMsg);
 };
 
 #endif

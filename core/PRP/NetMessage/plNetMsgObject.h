@@ -20,6 +20,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    //accessors
+    plUoid getUoid() const;
+
+    //mutators
+    void setUoid(plUoid Uoid);
 };
 
 DllClass plNetMsgObject : public plNetMessage {
@@ -38,6 +45,11 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plNetMsgObjectHelper getHelper() const;
+
+    void setHelper(plNetMsgObjectHelper Helper);
 };
 
 #endif

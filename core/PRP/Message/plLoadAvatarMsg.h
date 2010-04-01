@@ -25,8 +25,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
+    bool getIsPlayer() const;
+    plKey getSpawnPoint() const;
     plAvTask* getInitialTask() const;
-    void setInitialTask(plAvTask* task);
+    plString getUserStr() const;
+
+    void setIsPlayer(bool IsPlayer);
+    void setSpawnPoint(plKey SpawnPoint);
+    void setInitialTask(plAvTask* InitialTask);
+    void setUserStr(plString UserStr);
 };
 
 #endif

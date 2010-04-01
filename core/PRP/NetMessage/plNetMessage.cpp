@@ -120,6 +120,69 @@ void plNetMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+unsigned int plNetMessage::getFlags() const {
+    return fFlags;
+}
+
+unsigned char plNetMessage::getProtocolVerMaj() const {
+    return fProtocolVerMaj;
+}
+
+unsigned char plNetMessage::getProtocolVerMin() const {
+    return fProtocolVerMin;
+}
+
+plUnifiedTime plNetMessage::getTimeSent() const {
+    return fTimeSent;
+}
+
+unsigned int plNetMessage::getContext() const {
+    return fContext;
+}
+
+unsigned int plNetMessage::getTransID() const {
+    return fTransID;
+}
+
+unsigned int plNetMessage::getPlayerID() const {
+    return fPlayerID;
+}
+
+plUuid plNetMessage::getAcctUuid() const {
+    return fAcctUuid;
+}
+
+void plNetMessage::setFlags(unsigned int Flags) {
+    fFlags = Flags;
+}
+
+void plNetMessage::setProtocolVerMaj(unsigned char ProtocolVerMaj) {
+    fProtocolVerMaj = ProtocolVerMaj;
+}
+
+void plNetMessage::setProtocolVerMin(unsigned char ProtocolVerMin) {
+    fProtocolVerMin = ProtocolVerMin;
+}
+
+void plNetMessage::setTimeSent(plUnifiedTime TimeSent) {
+    fTimeSent = TimeSent;
+}
+
+void plNetMessage::setContext(unsigned int Context) {
+    fContext = Context;
+}
+
+void plNetMessage::setTransID(unsigned int TransID) {
+    fTransID = TransID;
+}
+
+void plNetMessage::setPlayerID(unsigned int PlayerID) {
+    fPlayerID = PlayerID;
+}
+
+void plNetMessage::setAcctUuid(plUuid AcctUuid) {
+    fAcctUuid = AcctUuid;
+}
 
 /* plNetMsgServerToClient */
 IMPLEMENT_CREATABLE(plNetMsgServerToClient, kNetMsgServerToClient, plNetMessage)
