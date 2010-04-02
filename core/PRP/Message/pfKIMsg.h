@@ -55,6 +55,20 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
+    unsigned char getCommand() { return fCommand; }
+    unsigned int getFlags() { return fFlags; }
+    unsigned int getPlayerID() { return fPlayerID; }
+    plString getUser() { return fUser; }
+    plWString getString() { return fString; }
+    int getValue() { return fValue; }
+
+    void setCommand(unsigned char command) { fCommand = command; }
+    void setFlags(unsigned int flags) { fFlags = flags; }
+    void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
+    void setUser(const plString& user) { fUser = user; }
+    void setString(const plWString& string) { fString = string; }
+    void setValue(int value) { fValue = value; }
+
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
