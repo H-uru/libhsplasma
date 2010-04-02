@@ -2,7 +2,6 @@
 #include "AuthMessages.h"
 #include "Debug/plDebug.h"
 #include "Stream/hsRAMStream.h"
-#include "ResManager/pdUnifiedTypeMap.h"
 #include "crypt/pnBigInteger.h"
 #include "crypt/pnSha1.h"
 
@@ -1009,7 +1008,7 @@ void pnAuthClient::propagateMessage(plCreatable* pCre)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_PropagateBuffer);
     msgparm_t* msg = NCAllocMessage(desc);
-    msg[0].fUint = pdUnifiedTypeMap::MappedToPlasma(pCre->ClassIndex(), pvLive);
+    msg[0].fUint = pCre->ClassIndex(pvLive);
     hsRAMStream rs(pvLive);
     fResMgrMutex.lock();
     fResMgr.WriteCreatable(&rs, pCre);
