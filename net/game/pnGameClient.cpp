@@ -2,6 +2,7 @@
 #include "GameMessages.h"
 #include "Debug/plDebug.h"
 #include "Stream/hsRAMStream.h"
+#include "ResManager/pdUnifiedTypeMap.h"
 #include "crypt/pnBigInteger.h"
 #include "crypt/pnSha1.h"
 
@@ -229,7 +230,7 @@ void pnGameClient::propagateMessage(plCreatable* pCre)
 {
     const pnNetMsg* desc = GET_Cli2Game(kCli2Game_PropagateBuffer);
     msgparm_t* msg = NCAllocMessage(desc);
-    msg[0].fUint = pCre->ClassIndex();
+    msg[0].fUint = pdUnifiedTypeMap::MappedToPlasma(pCre->ClassIndex(), pvLive);
     hsRAMStream rs(pvLive);
     fResMgrMutex.lock();
     fResMgr.WriteCreatable(&rs, pCre);
