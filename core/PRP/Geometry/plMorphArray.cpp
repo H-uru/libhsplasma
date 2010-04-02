@@ -1,8 +1,5 @@
 #include "plMorphArray.h"
 
-plMorphArray::plMorphArray() { }
-plMorphArray::~plMorphArray() { }
-
 void plMorphArray::read(hsStream* S, plResManager* mgr) {
     fDeltas.setSize(S->readInt());
     for (size_t i=0; i<fDeltas.getSize(); i++)

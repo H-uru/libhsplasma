@@ -24,15 +24,7 @@ pfPrcTag* pfPrcTag::Destroy() {
     return next;
 }
 
-const plString& pfPrcTag::getName() const { return fName; }
-const hsTList<plString>& pfPrcTag::getContents() const { return fContents; }
-const pfPrcTag* pfPrcTag::getFirstChild() const { return fFirstChild; }
-const pfPrcTag* pfPrcTag::getNextSibling() const { return fNextSibling; }
-bool pfPrcTag::hasChildren() const { return (fFirstChild != NULL); }
-bool pfPrcTag::hasNextSibling() const { return (fNextSibling != NULL); }
-bool pfPrcTag::isEndTag() const { return fIsEndTag; }
-
-const plString& pfPrcTag::getParam(const plString& key, const plString& def) const {
+plString pfPrcTag::getParam(const plString& key, const plString& def) const {
     std::map<plString, plString>::const_iterator f = fParams.find(key);
     if (f == fParams.end())
         return def;
@@ -87,12 +79,10 @@ void pfPrcParser::read(hsStream* S) {
     delete tok;
 }
 
-const pfPrcTag* pfPrcParser::getRoot() const { return fRootTag; }
-
 pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     if (!tok->hasNext())
         return NULL;
-    
+
     plString str = tok->next();
     while ((str != "<") && tok->hasNext()) {
         plDebug::Warning("WARN: Ignoring extraneous token %s", str.cstr());
@@ -100,7 +90,7 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     }
     if (!tok->hasNext())
         throw hsBadParamException(__FILE__, __LINE__);
-    
+
     pfPrcTag* tag = new pfPrcTag();
     if (tok->peekNext() == "/") {
         tag->fIsEndTag = true;

@@ -4,6 +4,8 @@
 #include "PRP/Object/plObjInterface.h"
 
 DllClass plVisRegion : public plObjInterface {
+    CREATABLE(plVisRegion, kVisRegion, plObjInterface)
+
 public:
     enum { kDisable, kIsNot, kReplaceNormal, kDisableNormal };
 
@@ -12,9 +14,6 @@ protected:
 
 public:
     plVisRegion();
-    virtual ~plVisRegion();
-
-    DECLARE_CREATABLE(plVisRegion)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

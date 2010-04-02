@@ -4,15 +4,14 @@
 #include "plModifier.h"
 
 DllClass plGameMarkerModifier : public plSingleModifier {
+    CREATABLE(plGameMarkerModifier, kGameMarkerModifier, plSingleModifier)
+
 private:
     plKey fGreenAnimKey, fRedAnimKey, fOpenAnimKey, fBounceAnimKey;
     unsigned short fPlaceSoundIdx, fHitSoundIdx;
 
 public:
     plGameMarkerModifier();
-    virtual ~plGameMarkerModifier();
-
-    DECLARE_CREATABLE(plGameMarkerModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

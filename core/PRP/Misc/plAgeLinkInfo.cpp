@@ -4,9 +4,6 @@
 /* plAgeInfoStruct */
 plAgeInfoStruct::plAgeInfoStruct()
                : fFlags(0), fAgeSequenceNumber(0), fAgeLanguage(0) { }
-plAgeInfoStruct::~plAgeInfoStruct() { }
-
-IMPLEMENT_CREATABLE(plAgeInfoStruct, kAgeInfoStruct, plCreatable)
 
 void plAgeInfoStruct::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readByte();
@@ -139,17 +136,6 @@ void plAgeInfoStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-bool plAgeInfoStruct::isEmpty() {
-    return (fFlags == 0);
-}
-
-void plAgeInfoStruct::clear() {
-    fFlags = 0;
-}
-
-const plString& plAgeInfoStruct::getAgeFilename() const { return fAgeFilename; }
-const plString& plAgeInfoStruct::getAgeInstanceName() const { return fAgeInstanceName; }
-
 void plAgeInfoStruct::setAgeFilename(const plString& name) {
     fFlags |= kHasAgeFilename;
     fAgeFilename = name;
@@ -163,9 +149,6 @@ void plAgeInfoStruct::setAgeInstanceName(const plString& name) {
 
 /* plAgeLinkStruct */
 plAgeLinkStruct::plAgeLinkStruct() : fFlags(0), fLinkingRules(0), fAmCCR(0) { }
-plAgeLinkStruct::~plAgeLinkStruct() { }
-
-IMPLEMENT_CREATABLE(plAgeLinkStruct, kAgeLinkStruct, plCreatable)
 
 void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
     if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {

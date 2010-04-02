@@ -7,10 +7,6 @@ plDynaDecalMgr::plDynaDecalMgr()
                 fDecayStart(0.0f), fLifeSpan(0.0f), fIntensity(0.0f),
                 fGridSizeU(0.0f), fGridSizeV(0.0f) { }
 
-plDynaDecalMgr::~plDynaDecalMgr() { }
-
-IMPLEMENT_CREATABLE(plDynaDecalMgr, kDynaDecalMgr, plSynchedObject)
-
 void plDynaDecalMgr::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
@@ -179,17 +175,3 @@ void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plDynaBulletMgr */
-plDynaBulletMgr::plDynaBulletMgr() { }
-plDynaBulletMgr::~plDynaBulletMgr() { }
-
-IMPLEMENT_CREATABLE(plDynaBulletMgr, kDynaBulletMgr, plDynaDecalMgr)
-
-
-/* plDynaFootMgr */
-plDynaFootMgr::plDynaFootMgr() { }
-plDynaFootMgr::~plDynaFootMgr() { }
-
-IMPLEMENT_CREATABLE(plDynaFootMgr, kDynaFootMgr, plDynaDecalMgr)

@@ -1,12 +1,6 @@
 #include "plBooleanConditionalObject.h"
 
 /* plANDConditionalObject */
-plANDConditionalObject::plANDConditionalObject() { }
-plANDConditionalObject::~plANDConditionalObject() { }
-
-IMPLEMENT_CREATABLE(plANDConditionalObject, kANDConditionalObject,
-                    plConditionalObject)
-
 void plANDConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fChildren.setSize(S->readInt());
@@ -44,12 +38,6 @@ void plANDConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plORConditionalObject */
-plORConditionalObject::plORConditionalObject() { }
-plORConditionalObject::~plORConditionalObject() { }
-
-IMPLEMENT_CREATABLE(plORConditionalObject, kORConditionalObject,
-                    plConditionalObject)
-
 void plORConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fChildren.setSize(S->readInt());

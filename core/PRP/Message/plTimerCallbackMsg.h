@@ -4,15 +4,14 @@
 #include "plMessage.h"
 
 DllClass plTimerCallbackMsg : public plMessage {
+    CREATABLE(plTimerCallbackMsg, kTimerCallbackMsg, plMessage)
+
 protected:
     unsigned int fID;
     float fTime;
 
 public:
     plTimerCallbackMsg();
-    virtual ~plTimerCallbackMsg();
-
-    DECLARE_CREATABLE(plTimerCallbackMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

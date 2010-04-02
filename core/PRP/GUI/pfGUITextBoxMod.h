@@ -4,6 +4,8 @@
 #include "pfGUIControlMod.h"
 
 DllClass pfGUITextBoxMod : public pfGUIControlMod {
+    CREATABLE(pfGUITextBoxMod, kGUITextBoxMod, pfGUIControlMod)
+
 public:
     enum TextBoxFlags { kCenterJustify = kDerivedFlagsStart, kRightJustify };
 
@@ -13,9 +15,6 @@ protected:
 
 public:
     pfGUITextBoxMod();
-    virtual ~pfGUITextBoxMod();
-
-    DECLARE_CREATABLE(pfGUITextBoxMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -25,11 +24,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const plString& getText() const;
-    const plWString& getLocalizationPath() const;
+    plString getText() const { return fText; }
+    plWString getLocalizationPath() const { return fLocalizationPath; }
 
-    void setText(const plString& text);
-    void setLocalizationPath(const plWString& path);
+    void setText(const plString& text) { fText = text; }
+    void setLocalizationPath(const plWString& path) { fLocalizationPath = path; }
 };
 
 #endif

@@ -36,13 +36,13 @@ public:
         kBlendRevSubtract = 0x2000000,
         kBlendAlphaTestHigh = 0x4000000
     };
-    
+
     enum hsGMatClampFlags {
         kClampTextureU = 0x1,
         kClampTextureV = 0x2,
         kClampTexture = 0x3
     };
-    
+
     enum hsGMatShadeFlags {
         kShadeSoftShadow = 0x1,
         kShadeNoProjectors = 0x2,
@@ -62,7 +62,7 @@ public:
         kShadeEmissive = 0x10000,
         kShadeReallyNoFog = 0x20000
     };
-    
+
     enum hsGMatZFlags {
         kZIncLayer = 0x1,
         kZClearZ = 0x4,
@@ -71,7 +71,7 @@ public:
         kZMask = 0x1C,
         kZLODBias = 0x20
     };
-    
+
     enum hsGMatMiscFlags {
         kMiscWireFrame = 0x1,
         kMiscDrawMeshOutlines = 0x2,
@@ -101,7 +101,7 @@ public:
         kMiscCam2Screen = 0x400000,
         kAllMiscFlags = 0xFF
     };
-    
+
 public:
     unsigned int fBlendFlags, fClampFlags, fShadeFlags, fZFlags, fMiscFlags;
 

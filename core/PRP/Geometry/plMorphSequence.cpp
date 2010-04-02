@@ -1,10 +1,5 @@
 #include "plMorphSequence.h"
 
-plMorphSequence::plMorphSequence() { }
-plMorphSequence::~plMorphSequence() { }
-
-IMPLEMENT_CREATABLE(plMorphSequence, kMorphSequence, plSingleModifier)
-
 void plMorphSequence::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

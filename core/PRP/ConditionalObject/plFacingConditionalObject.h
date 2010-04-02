@@ -4,15 +4,15 @@
 #include "plConditionalObject.h"
 
 DllClass plFacingConditionalObject : public plConditionalObject {
+    CREATABLE(plFacingConditionalObject, kFacingConditionalObject,
+              plConditionalObject)
+
 protected:
     float fTolerance;
     bool fDirectional;
 
 public:
     plFacingConditionalObject();
-    virtual ~plFacingConditionalObject();
-
-    DECLARE_CREATABLE(plFacingConditionalObject)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

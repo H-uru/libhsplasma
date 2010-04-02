@@ -1,9 +1,6 @@
 #include "plAGMasterMod.h"
 
 plAGMasterMod::plAGMasterMod() : fIsGrouped(false), fIsGroupMaster(false) { }
-plAGMasterMod::~plAGMasterMod() { }
-
-IMPLEMENT_CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
 
 void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);

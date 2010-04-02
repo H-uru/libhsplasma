@@ -21,8 +21,6 @@ plLayerAnimationBase::~plLayerAnimationBase() {
         delete fTransformCtl;
 }
 
-IMPLEMENT_CREATABLE(plLayerAnimationBase, kLayerAnimationBase, plLayerInterface)
-
 void plLayerAnimationBase::read(hsStream* S, plResManager* mgr) {
     plLayerInterface::read(S, mgr);
 
@@ -108,13 +106,6 @@ void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plController* plLayerAnimationBase::getPreshadeCtl() const { return fPreshadeColorCtl; }
-plController* plLayerAnimationBase::getRuntimeCtl() const { return fSpecularColorCtl; }
-plController* plLayerAnimationBase::getAmbientCtl() const { return fAmbientColorCtl; }
-plController* plLayerAnimationBase::getSpecularCtl() const { return fSpecularColorCtl; }
-plController* plLayerAnimationBase::getOpacityCtl() const { return fOpacityCtl; }
-plController* plLayerAnimationBase::getTransformCtl() const { return fTransformCtl; }
-
 void plLayerAnimationBase::setPreshadeCtl(plController* ctrl) {
     if (fPreshadeColorCtl != NULL)
         delete fPreshadeColorCtl;
@@ -153,11 +144,6 @@ void plLayerAnimationBase::setTransformCtl(plController* ctrl) {
 
 
 /* plLayerAnimation */
-plLayerAnimation::plLayerAnimation() { }
-plLayerAnimation::~plLayerAnimation() { }
-
-IMPLEMENT_CREATABLE(plLayerAnimation, kLayerAnimation, plLayerAnimationBase)
-
 void plLayerAnimation::read(hsStream* S, plResManager* mgr) {
     plLayerAnimationBase::read(S, mgr);
     fTimeConvert.read(S, mgr);
@@ -181,15 +167,10 @@ void plLayerAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plAnimTimeConvert& plLayerAnimation::getTimeConvert() { return fTimeConvert; }
-
 
 /* plLayerLinkAnimation */
 plLayerLinkAnimation::plLayerLinkAnimation()
                     : fLeavingAge(true) { }
-plLayerLinkAnimation::~plLayerLinkAnimation() { }
-
-IMPLEMENT_CREATABLE(plLayerLinkAnimation, kLayerLinkAnimation, plLayerAnimation)
 
 void plLayerLinkAnimation::read(hsStream* S, plResManager* mgr) {
     plLayerAnimation::read(S, mgr);
@@ -225,19 +206,8 @@ void plLayerLinkAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey plLayerLinkAnimation::getLinkKey() const { return fLinkKey; }
-bool plLayerLinkAnimation::getLeavingAge() const { return fLeavingAge; }
-
-void plLayerLinkAnimation::setLinkKey(plKey key) { fLinkKey = key; }
-void plLayerLinkAnimation::setLeavingAge(bool leaving) { fLeavingAge = leaving; }
-
 
 /* plLayerSDLAnimation */
-plLayerSDLAnimation::plLayerSDLAnimation() { }
-plLayerSDLAnimation::~plLayerSDLAnimation() { }
-
-IMPLEMENT_CREATABLE(plLayerSDLAnimation, kLayerSDLAnimation, plLayerAnimationBase)
-
 void plLayerSDLAnimation::read(hsStream* S, plResManager* mgr) {
     plLayerAnimationBase::read(S, mgr);
     fVarName = S->readSafeStr();
@@ -263,6 +233,3 @@ void plLayerSDLAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plLayerAnimationBase::IPrcParse(tag, mgr);
     }
 }
-
-plString plLayerSDLAnimation::getVarName() const { return fVarName; }
-void plLayerSDLAnimation::setVarName(const plString& name) { fVarName = name; }

@@ -4,6 +4,8 @@
 #include "plMessage.h"
 
 DllClass plInputIfaceMgrMsg : public plMessage {
+    CREATABLE(plInputIfaceMgrMsg, kInputIfaceMgrMsg, plMessage)
+
 private:
     unsigned char fCommand;
     unsigned int fPageID;
@@ -12,9 +14,6 @@ private:
 
 public:
     plInputIfaceMgrMsg();
-    virtual ~plInputIfaceMgrMsg();
-
-    DECLARE_CREATABLE(plInputIfaceMgrMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -17,7 +17,7 @@ protected:
 
         plStrData();
         ~plStrData();
-        void ref();
+        void ref() { fRefs++; }
         void unref();
         const char* get() const;
     };
@@ -30,10 +30,9 @@ public:
     plString(char c);
     ~plString();
 
-    bool empty() const;
-    size_t len() const;
+    bool empty() const { return (fString == NULL) || (fString->fLen == 0); }
+    size_t len() const { return (fString != NULL) ? fString->fLen : 0; }
 
-    //char& operator[](size_t idx) const;
     plString& operator=(const plString& other);
     plString& operator=(const char* str);
     plString& operator=(char c);
@@ -58,7 +57,7 @@ public:
     bool endsWith(const char* cmp, bool ignoreCase = false) const;
 
     const char* cstr() const;
-    operator const char*() const;
+    operator const char*() const { return cstr(); }
 
     unsigned int hash() const;
     static unsigned int hash(const char* str);
@@ -100,7 +99,7 @@ protected:
 
         plStrData();
         ~plStrData();
-        void ref();
+        void ref() { fRefs++; }
         void unref();
         const hsWchar* get() const;
     };
@@ -113,10 +112,9 @@ public:
     plWString(hsWchar c);
     ~plWString();
 
-    bool empty() const;
-    size_t len() const;
+    bool empty() const { return (fString == NULL) || (fString->fLen == 0); }
+    size_t len() const { return (fString != NULL) ? fString->fLen : 0; }
 
-    //hsWchar& operator[](size_t idx) const;
     plWString& operator=(const plWString& other);
     plWString& operator=(const hsWchar* str);
     plWString& operator=(hsWchar c);
@@ -141,7 +139,7 @@ public:
     bool endsWith(const hsWchar* cmp, bool ignoreCase = false) const;
 
     const hsWchar* cstr() const;
-    operator const hsWchar*() const;
+    operator const hsWchar*() const { return cstr(); }
 
     unsigned int hash() const;
     static unsigned int hash(const hsWchar* str);

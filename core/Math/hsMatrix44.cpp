@@ -55,14 +55,6 @@ bool hsMatrix44::IsIdentity() const {
     return true;
 }
 
-float& hsMatrix44::operator()(int y, int x) {
-    return data[y][x];
-}
-
-float hsMatrix44::operator()(int y, int x) const {
-    return data[y][x];
-}
-
 bool hsMatrix44::operator==(const hsMatrix44& other) const {
     for (int y=0; y<4; y++)
         for (int x=0; x<4; x++)

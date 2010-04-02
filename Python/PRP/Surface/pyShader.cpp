@@ -28,31 +28,10 @@ static PyObject* pyShader_Convert(PyObject*, PyObject* args) {
     return pyShader_FromShader(plShader::Convert(cre->fThis));
 }
 
-static PyObject* pyShader_clearConsts(pyShader* self) {
-    self->fThis->clearConsts();
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyShader_addConst(pyShader* self, PyObject* args) {
-    pyShaderConst* sc;
-    if (!PyArg_ParseTuple(args, "O", &sc)) {
-        PyErr_SetString(PyExc_TypeError, "addConstant expects a plShaderConst");
-        return NULL;
-    }
-    if (!pyShaderConst_Check((PyObject*)sc)) {
-        PyErr_SetString(PyExc_TypeError, "addConstant expects a plShaderConst");
-        return NULL;
-    }
-    self->fThis->addConst(*sc->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 static PyObject* pyShader_getConsts(pyShader* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumConsts());
-    for (size_t i=0; self->fThis->getNumConsts(); i++)
-        PyList_SET_ITEM(list, i, pyShaderConst_FromShaderConst(self->fThis->getConst(i)));
+    PyObject* list = PyList_New(self->fThis->getConsts().getSize());
+    for (size_t i=0; self->fThis->getConsts().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyShaderConst_FromShaderConst(self->fThis->getConsts()[i]));
     return list;
 }
 
@@ -69,8 +48,26 @@ static PyObject* pyShader_getOutput(pyShader* self, void*) {
 }
 
 static int pyShader_setConsts(pyShader* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To add constants, use addConstant()");
-    return -1;
+    if (value == NULL || value == Py_None) {
+        self->fThis->setConsts(hsTArray<plShaderConst>());
+        return 0;
+    } else if (PyList_Check(value)) {
+        size_t count = PyList_Size(value);
+        hsTArray<plShaderConst> constList;
+        constList.setSize(count);
+        for (size_t i=0; i<count; i++) {
+            if (!pyShaderConst_Check(PyList_GetItem(value, i))) {
+                PyErr_SetString(PyExc_TypeError, "consts should be a list of strings");
+                return -1;
+            }
+            constList[i] = *((pyShaderConst*)(PyList_GetItem(value, i)))->fThis;
+        }
+        self->fThis->setConsts(constList);
+        return 0;
+    } else {
+        PyErr_SetString(PyExc_TypeError, "consts should be a list of strings");
+        return -1;
+    }
 }
 
 static int pyShader_setID(pyShader* self, PyObject* value, void*) {
@@ -103,11 +100,6 @@ static int pyShader_setOutput(pyShader* self, PyObject* value, void*) {
 static PyMethodDef pyShader_Methods[] = {
     { "Convert", (PyCFunction)pyShader_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plShader" },
-    { "clearConstants", (PyCFunction)pyShader_clearConsts, METH_NOARGS,
-      "Remove all constants from the shaader" },
-    { "addConstant", (PyCFunction)pyShader_addConst, METH_VARARGS,
-      "Params: const\n"
-      "Add a shader constant to the shader" },
     { NULL, NULL, 0, NULL }
 };
 

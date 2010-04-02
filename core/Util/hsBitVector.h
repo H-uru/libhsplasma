@@ -44,10 +44,10 @@ public:
         Bit(hsBitVector* vec, unsigned int off);
 
         /** Behave like a bool rvalue */
-        operator bool() const;
+        operator bool() const { return fVector->get(fOffset); }
 
         /** Negation operator */
-        bool operator!() const;
+        bool operator!() const { return !fVector->get(fOffset); }
 
         /** Comparison operator */
         bool operator==(bool value) const;
@@ -78,25 +78,25 @@ public:
     void set(unsigned int idx, bool b);
 
     /** Return the value of bit \a idx, for const hsBitVectors */
-    bool operator[](unsigned int idx) const;
+    bool operator[](unsigned int idx) const { return get(idx); }
 
     /** Return a Bit class referencing bit \a idx */
-    Bit operator[](unsigned int idx);
+    Bit operator[](unsigned int idx) { return hsBitVector::Bit(this, idx); }
 
     /** Assignment operator, copies the value of \a cpy */
     hsBitVector& operator=(const hsBitVector& cpy);
 
     /** Returns true if the bit vector is empty (all zeroes) */
-    bool isEmpty() const;
+    bool isEmpty() const { return (fNumVectors == 0); }
 
     /** Clears the bit vector (set to all zeroes) */
     void clear();
 
     /** Sets the bit at \a idx to true */
-    void setBit(unsigned int idx);
+    void setBit(unsigned int idx) { set(idx, true); }
 
     /** Sets the bit at \a idx to false */
-    void clearBit(unsigned int idx);
+    void clearBit(unsigned int idx) { set(idx, false); }
 
     /**
      * Clean up extra space in the bit vector.  This is called automatically

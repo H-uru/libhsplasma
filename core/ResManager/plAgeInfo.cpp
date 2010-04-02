@@ -15,8 +15,6 @@ plAgeInfo::PageEntry::PageEntry()
 plAgeInfo::plAgeInfo() : fStartDateTime(0), fDayLength(24.0f), fMaxCapacity(-1),
                          fLingerTime(180), fSeqPrefix(0), fReleaseVersion(0) { }
 
-plAgeInfo::~plAgeInfo() { }
-
 void plAgeInfo::readFromFile(const plString& filename) {
     fName = filename.afterLast(PATHSEP);
     if (!fName.beforeLast('.').empty())
@@ -162,41 +160,15 @@ void plAgeInfo::prcParse(const pfPrcTag* tag) {
     }
 }
 
-const plString& plAgeInfo::getAgeName() const { return fName; }
-unsigned int plAgeInfo::getStartDateTime() const { return fStartDateTime; }
-float plAgeInfo::getDayLength() const { return fDayLength; }
-short plAgeInfo::getMaxCapacity() const { return fMaxCapacity; }
-short plAgeInfo::getLingerTime() const { return fLingerTime; }
-int plAgeInfo::getSeqPrefix() const { return fSeqPrefix; }
-unsigned int plAgeInfo::getReleaseVersion() const { return fReleaseVersion; }
-
-void plAgeInfo::setAgeName(const plString& name) {
-    if (name != fName)
-        fName = name;
-}
-
-void plAgeInfo::setStartDateTime(unsigned int time) { fStartDateTime = time; }
-void plAgeInfo::setDayLength(float length) { fDayLength = length; }
-void plAgeInfo::setMaxCapacity(short maxCap) { fMaxCapacity = maxCap; }
-void plAgeInfo::setLingerTime(short time) { fLingerTime = time; }
-void plAgeInfo::setSeqPrefix(int prefix) { fSeqPrefix = prefix; }
-void plAgeInfo::setReleaseVersion(unsigned int ver) { fReleaseVersion = ver; }
-
-size_t plAgeInfo::getNumPages() const { return fPages.getSize(); }
 size_t plAgeInfo::getNumCommonPages(PlasmaVer pv) const {
     if (fSeqPrefix < 0)
         return 0;
     return (pv < pvEoa || pv == pvUniversal) ? 2 : 1;
 }
 
-plAgeInfo::PageEntry plAgeInfo::getPage(size_t idx) const { return fPages[idx]; }
 plAgeInfo::PageEntry plAgeInfo::getCommonPage(size_t idx, PlasmaVer pv) const {
     return PageEntry(kCommonPages[idx], (-1) - idx, 0);
 }
-
-void plAgeInfo::setPage(size_t idx, const PageEntry& page) { fPages[idx] = page; }
-void plAgeInfo::addPage(const PageEntry& page) { fPages.append(page); }
-void plAgeInfo::clearPages() { fPages.clear(); }
 
 plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
     if (pv == pvUnknown)

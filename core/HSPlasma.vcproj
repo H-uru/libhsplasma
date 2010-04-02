@@ -495,11 +495,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Animation\plKeyControllers.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Animation\plKeyControllers.h"
+					RelativePath=".\PRP\Animation\plKeyControllers.hpp"
 					>
 				</File>
 				<File
@@ -751,14 +747,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Avatar\plElevatorModifier.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Avatar\plElevatorModifier.h"
-					>
-				</File>
-				<File
 					RelativePath=".\PRP\Avatar\plLadderModifier.cpp"
 					>
 				</File>
@@ -895,11 +883,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\ConditionalObject\plDetectConditionalObjects.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\ConditionalObject\plDetectConditionalObjects.h"
+					RelativePath=".\PRP\ConditionalObject\plDetectConditionalObjects.hpp"
 					>
 				</File>
 				<File
@@ -1111,14 +1095,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\GUI\pfGUIClickMapCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\GUI\pfGUIClickMapCtrl.h"
-					>
-				</File>
-				<File
 					RelativePath=".\PRP\GUI\pfGUIControlHandlers.cpp"
 					>
 				</File>
@@ -1143,35 +1119,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\GUI\pfGUIDragBarCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\GUI\pfGUIDragBarCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\GUI\pfGUIDraggableMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\GUI\pfGUIDraggableMod.h"
-					>
-				</File>
-				<File
 					RelativePath=".\PRP\GUI\pfGUIDynDisplayCtrl.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\PRP\GUI\pfGUIDynDisplayCtrl.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\GUI\pfGUIEditBoxMod.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\GUI\pfGUIEditBoxMod.h"
 					>
 				</File>
 				<File
@@ -1188,6 +1140,10 @@
 				</File>
 				<File
 					RelativePath=".\PRP\GUI\pfGUIListBoxMod.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\GUI\pfGUIMisc.hpp"
 					>
 				</File>
 				<File
@@ -1296,14 +1252,6 @@
 				</File>
 				<File
 					RelativePath=".\PRP\KeyedObject\plLocation.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\KeyedObject\plReceiver.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\KeyedObject\plReceiver.h"
 					>
 				</File>
 				<File
@@ -1887,11 +1835,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Particle\plParticleApplicator.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Particle\plParticleApplicator.h"
+					RelativePath=".\PRP\Particle\plParticleApplicator.hpp"
 					>
 				</File>
 				<File
@@ -2031,11 +1975,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Region\plRegionBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Region\plRegionBase.h"
+					RelativePath=".\PRP\Region\plRegionBase.hpp"
 					>
 				</File>
 				<File
@@ -2267,27 +2207,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Surface\plWaveSet6.cpp"
+					RelativePath=".\PRP\Surface\plWaveSet.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\PRP\Surface\plWaveSet6.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Surface\plWaveSet7.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Surface\plWaveSet7.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Surface\plWaveSetBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\PRP\Surface\plWaveSetBase.h"
+					RelativePath=".\PRP\Surface\plWaveSet.h"
 					>
 				</File>
 			</Filter>

@@ -5,10 +5,6 @@ plAvLadderMod::plAvLadderMod()
              : fGoingUp(false), fEnabled(true), fAvatarInBox(false),
                fAvatarMounting(false), fType(kBig), fLoops(0) { }
 
-plAvLadderMod::~plAvLadderMod() { }
-
-IMPLEMENT_CREATABLE(plAvLadderMod, kAvLadderMod, plSingleModifier)
-
 void plAvLadderMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -60,11 +56,6 @@ void plAvLadderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plLadderModifier */
-plLadderModifier::plLadderModifier() { }
-plLadderModifier::~plLadderModifier() { }
-
-IMPLEMENT_CREATABLE(plLadderModifier, kLadderModifier, plSingleModifier)
-
 void plLadderModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

@@ -107,9 +107,9 @@ static PyObject* pyDrawInterface_getDrawables(pyDrawInterface* self, void*) {
 }
 
 static PyObject* pyDrawInterface_getRegions(pyDrawInterface* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumRegions());
-    for (size_t i=0; i<self->fThis->getNumRegions(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getRegion(i)));
+    PyObject* list = PyList_New(self->fThis->getRegions().getSize());
+    for (size_t i=0; i<self->fThis->getRegions().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getRegions()[i]));
     return list;
 }
 

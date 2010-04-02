@@ -4,6 +4,8 @@
 #include "PRP/plCreatable.h"
 
 DllClass plAnimStage : public plCreatable {
+    CREATABLE(plAnimStage, kAnimStage, plCreatable)
+
 public:
     enum NotifyType {
         kNotifyEnter = 0x1,
@@ -30,9 +32,6 @@ protected:
 
 public:
     plAnimStage();
-    virtual ~plAnimStage();
-
-    DECLARE_CREATABLE(plAnimStage)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -42,27 +41,31 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    PlayType getForwardType() const;
-    PlayType getBackType() const;
-    AdvanceType getAdvanceType() const;
-    AdvanceType getRegressType() const;
-    plString getAnimName() const;
-    unsigned char getNotify() const;
-    int getLoops() const;
-    bool doAdvanceTo() const;
-    bool doRegressTo() const;
-    unsigned int getAdvanceTo() const;
-    unsigned int getRegressTo() const;
+    PlayType getForwardType() const { return fForwardType; }
+    PlayType getBackType() const { return fBackType; }
+    AdvanceType getAdvanceType() const { return fAdvanceType; }
+    AdvanceType getRegressType() const { return fRegressType; }
+    plString getAnimName() const { return fAnimName; }
+    unsigned char getNotify() const { return fNotify; }
+    int getLoops() const { return fLoops; }
+    bool doAdvanceTo() const { return fDoAdvanceTo; }
+    bool doRegressTo() const { return fDoRegressTo; }
+    unsigned int getAdvanceTo() const { return fAdvanceTo; }
+    unsigned int getRegressTo() const { return fRegressTo; }
 
-    void setForwardType(PlayType fwd);
-    void setBackType(PlayType back);
-    void setAdvanceType(AdvanceType adv);
-    void setRegressType(AdvanceType reg);
-    void setAnimName(const plString& name);
-    void setNotify(unsigned char notify);
-    void setLoops(int loops);
-    void setAdvanceTo(bool doAdvance, unsigned int advance = 0);
-    void setRegressTo(bool doRegress, unsigned int regress = 0);
+    void setForwardType(PlayType fwd) { fForwardType = fwd; }
+    void setBackType(PlayType back) { fBackType = back; }
+    void setAdvanceType(AdvanceType adv) { fAdvanceType = adv; }
+    void setRegressType(AdvanceType reg) { fRegressType = reg; }
+    void setAnimName(const plString& name) { fAnimName = name; }
+    void setNotify(unsigned char notify) { fNotify = notify; }
+    void setLoops(int loops) { fLoops = loops; }
+
+    void setAdvanceTo(bool doAdvance, unsigned int advance = 0)
+    { fDoAdvanceTo = doAdvance; fAdvanceTo = advance; }
+
+    void setRegressTo(bool doRegress, unsigned int regress = 0)
+    { fDoRegressTo = doRegress; fRegressTo = regress; }
 };
 
 #endif

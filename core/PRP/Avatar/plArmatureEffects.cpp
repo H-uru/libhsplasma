@@ -1,17 +1,6 @@
 #include "plArmatureEffects.h"
 #include "Debug/plDebug.h"
 
-/* plArmatureEffect */
-IMPLEMENT_CREATABLE(plArmatureEffect, kArmatureEffect, hsKeyedObject)
-
-
-/* plArmatureEffectFootSound */
-plArmatureEffectFootSound::plArmatureEffectFootSound() { }
-plArmatureEffectFootSound::~plArmatureEffectFootSound() { }
-
-IMPLEMENT_CREATABLE(plArmatureEffectFootSound, kArmatureEffectFootSound,
-                    plArmatureEffect)
-
 void plArmatureEffectFootSound::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
@@ -63,11 +52,6 @@ const char* const plArmatureEffectsMgr::SurfaceStrings[] = {
     "WoodLadder", "DeepWater", "Maintainer(Glass)", "Maintainer(Stone)",
     "Swimming", "(none)"
 };
-
-plArmatureEffectsMgr::plArmatureEffectsMgr() { }
-plArmatureEffectsMgr::~plArmatureEffectsMgr() { }
-
-IMPLEMENT_CREATABLE(plArmatureEffectsMgr, kArmatureEffectsMgr, hsKeyedObject)
 
 void plArmatureEffectsMgr::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);

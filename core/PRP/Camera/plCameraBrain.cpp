@@ -1,55 +1,5 @@
 #include "plCameraBrain.h"
 
-/* plCameraBrain */
-plCameraBrain::plCameraBrain() { }
-plCameraBrain::~plCameraBrain() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain, kCameraBrain, hsKeyedObject)
-
-
-/* plCameraBrain_M5 */
-plCameraBrain_M5::plCameraBrain_M5() { }
-plCameraBrain_M5::~plCameraBrain_M5() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain_M5, kCameraBrain_M5, plCameraBrain)
-
-
-/* plCameraBrain_Novice */
-plCameraBrain_Novice::plCameraBrain_Novice() { }
-plCameraBrain_Novice::~plCameraBrain_Novice() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain_Novice, kCameraBrain_Novice, plCameraBrain_M5)
-
-
-/* plCameraBrain_NovicePlus */
-plCameraBrain_NovicePlus::plCameraBrain_NovicePlus() { }
-plCameraBrain_NovicePlus::~plCameraBrain_NovicePlus() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain_NovicePlus, kCameraBrain_NovicePlus,
-                    plCameraBrain_M5)
-
-
-/* plCameraBrain_Expert */
-plCameraBrain_Expert::plCameraBrain_Expert() { }
-plCameraBrain_Expert::~plCameraBrain_Expert() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain_Expert, kCameraBrain_Expert, plCameraBrain_M5)
-
-
-/* plCameraBrain_Flight */
-plCameraBrain_Flight::plCameraBrain_Flight() { }
-plCameraBrain_Flight::~plCameraBrain_Flight() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain_Flight, kCameraBrain_Flight, plCameraBrain_M5)
-
-
-/* plCameraBrain_Ground */
-plCameraBrain_Ground::plCameraBrain_Ground() { }
-plCameraBrain_Ground::~plCameraBrain_Ground() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain_Ground, kCameraBrain_Ground, plCameraBrain_M5)
-
-
 /* plCameraBrain1 */
 plCameraBrain1::plCameraBrain1()
               : fVelocity(30.0f), fAccel(30.0f), fDecel(30.0f),
@@ -83,10 +33,6 @@ plCameraBrain1::plCameraBrain1()
     fFlags.setName(kFallingStopped, "kFallingStopped");
     fFlags.setName(kBeginFalling, "kBeginFalling");
 }
-
-plCameraBrain1::~plCameraBrain1() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain1, kCameraBrain1, plCameraBrain)
 
 void plCameraBrain1::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -195,19 +141,7 @@ void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plCameraBrain1_Drive */
-plCameraBrain1_Drive::plCameraBrain1_Drive() { }
-plCameraBrain1_Drive::~plCameraBrain1_Drive() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain1_Drive, kCameraBrain1_Drive, plCameraBrain1)
-
-
 /* plCameraBrain1_Avatar */
-plCameraBrain1_Avatar::plCameraBrain1_Avatar() { }
-plCameraBrain1_Avatar::~plCameraBrain1_Avatar() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain1_Avatar, kCameraBrain1_Avatar, plCameraBrain1)
-
 void plCameraBrain1_Avatar::read(hsStream* S, plResManager* mgr) {
     plCameraBrain1::read(S, mgr);
     fOffset.read(S);
@@ -238,20 +172,7 @@ void plCameraBrain1_Avatar::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plCameraBrain1_FirstPerson */
-plCameraBrain1_FirstPerson::plCameraBrain1_FirstPerson() { }
-plCameraBrain1_FirstPerson::~plCameraBrain1_FirstPerson() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain1_FirstPerson, kCameraBrain1_FirstPerson,
-                    plCameraBrain1_Avatar)
-
-
 /* plCameraBrain1_Fixed */
-plCameraBrain1_Fixed::plCameraBrain1_Fixed() { }
-plCameraBrain1_Fixed::~plCameraBrain1_Fixed() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain1_Fixed, kCameraBrain1_Fixed, plCameraBrain1)
-
 void plCameraBrain1_Fixed::read(hsStream* S, plResManager* mgr) {
     plCameraBrain1::read(S, mgr);
     fTargetPoint = mgr->readKey(S);
@@ -283,14 +204,10 @@ void plCameraBrain1_Fixed::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 /* plCameraBrain1_Circle */
 plCameraBrain1_Circle::plCameraBrain1_Circle()
                      : fCircleFlags(0), fRadius(0), fCirPerSec(0) { }
-plCameraBrain1_Circle::~plCameraBrain1_Circle() { }
-
-IMPLEMENT_CREATABLE(plCameraBrain1_Circle, kCameraBrain1_Circle,
-                    plCameraBrain1_Fixed)
 
 void plCameraBrain1_Circle::read(hsStream* S, plResManager* mgr) {
     plCameraBrain1::read(S, mgr);
-    
+
     fCircleFlags = S->readInt();
     fCenter.read(S);
     fRadius = S->readFloat();
@@ -301,7 +218,7 @@ void plCameraBrain1_Circle::read(hsStream* S, plResManager* mgr) {
 
 void plCameraBrain1_Circle::write(hsStream* S, plResManager* mgr) {
     plCameraBrain1::write(S, mgr);
-    
+
     S->writeInt(fCircleFlags);
     fCenter.write(S);
     S->writeFloat(fRadius);
@@ -327,7 +244,7 @@ void plCameraBrain1_Circle::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("CenterObject");
     fCenterObject->prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("POAObject");
     fPOAObject->prcWrite(prc);
     prc->closeTag();

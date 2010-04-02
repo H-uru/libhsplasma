@@ -17,17 +17,18 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
 
-    unsigned int getSaver() const;
-    unsigned int getParent() const;
-    unsigned int getChild() const;
-    plUnifiedTime getAutoTime() const;
-    bool getSeen() const;
+public:
+    unsigned int getSaver() const { return fSaver; }
+    unsigned int getParent() const { return fParent; }
+    unsigned int getChild() const { return fChild; }
+    plUnifiedTime getAutoTime() const { return fAutoTime; }
+    bool getSeen() const { return fSeen; }
 
-    void setSaver(unsigned int id);
-    void setParent(unsigned int id);
-    void setChild(unsigned int id);
-    void setAutoTime(const plUnifiedTime& time);
-    void setSeen(bool seen);
+    void setSaver(unsigned int id) { fSaver = id; }
+    void setParent(unsigned int id) { fParent = id; }
+    void setChild(unsigned int id) { fChild = id; }
+    void setAutoTime(const plUnifiedTime& time) { fAutoTime = time; }
+    void setSeen(bool seen) { fSeen = seen; }
 };
 
 #endif

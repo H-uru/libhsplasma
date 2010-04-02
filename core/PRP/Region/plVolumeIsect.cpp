@@ -1,18 +1,6 @@
 #include "plVolumeIsect.h"
 
-/* plVolumeIsect */
-plVolumeIsect::plVolumeIsect() { }
-plVolumeIsect::~plVolumeIsect() { }
-
-IMPLEMENT_CREATABLE(plVolumeIsect, kVolumeIsect, plCreatable)
-
-
 /* plBoundsIsect */
-plBoundsIsect::plBoundsIsect() { }
-plBoundsIsect::~plBoundsIsect() { }
-
-IMPLEMENT_CREATABLE(plBoundsIsect, kBoundsIsect, plVolumeIsect)
-
 void plBoundsIsect::read(hsStream* S, plResManager* mgr) {
     fLocalBounds.read(S);
     fWorldBounds.read(S);
@@ -50,10 +38,6 @@ plConeIsect::plConeIsect() : fCapped(0), fRadAngle(0.0f), fLength(0.0f) {
     for (size_t i=0; i<5; i++)
         fDists[i] = 0.0f;
 }
-
-plConeIsect::~plConeIsect() { }
-
-IMPLEMENT_CREATABLE(plConeIsect, kConeIsect, plVolumeIsect)
 
 void plConeIsect::read(hsStream* S, plResManager* mgr) {
     fCapped = S->readInt();
@@ -158,11 +142,6 @@ void plConeIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 /* plConvexIsect */
 plConvexIsect::SinglePlane::SinglePlane() : fDist(0.0f), fWorldDist(0.0f) { }
 
-plConvexIsect::plConvexIsect() { }
-plConvexIsect::~plConvexIsect() { }
-
-IMPLEMENT_CREATABLE(plConvexIsect, kConvexIsect, plVolumeIsect)
-
 void plConvexIsect::read(hsStream* S, plResManager* mgr) {
     fPlanes.setSize(S->readShort());
     for (size_t i=0; i<fPlanes.getSize(); i++) {
@@ -244,10 +223,6 @@ void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plCylinderIsect::plCylinderIsect()
                : fRadius(0.0f), fLength(0.0f), fMin(0.0f), fMax(0.0f) { }
 
-plCylinderIsect::~plCylinderIsect() { }
-
-IMPLEMENT_CREATABLE(plCylinderIsect, kCylinderIsect, plVolumeIsect)
-
 void plCylinderIsect::read(hsStream* S, plResManager* mgr) {
     fTop.read(S);
     fBot.read(S);
@@ -318,11 +293,6 @@ void plCylinderIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plParallelIsect */
 plParallelIsect::ParPlane::ParPlane() : fMin(0.0f), fMax(0.0f) { }
-
-plParallelIsect::plParallelIsect() { }
-plParallelIsect::~plParallelIsect() { }
-
-IMPLEMENT_CREATABLE(plParallelIsect, kParallelIsect, plVolumeIsect)
 
 void plParallelIsect::read(hsStream* S, plResManager* mgr) {
     fPlanes.setSize(S->readShort());
@@ -400,9 +370,6 @@ void plParallelIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plSphereIsect */
 plSphereIsect::plSphereIsect() : fRadius(0.0f) { }
-plSphereIsect::~plSphereIsect() { }
-
-IMPLEMENT_CREATABLE(plSphereIsect, kSphereIsect, plVolumeIsect)
 
 void plSphereIsect::read(hsStream* S, plResManager* mgr) {
     fCenter.read(S);
@@ -461,14 +428,10 @@ void plSphereIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plComplexIsect */
-plComplexIsect::plComplexIsect() { }
-
 plComplexIsect::~plComplexIsect() {
     for (size_t i=0; i<fVolumes.getSize(); i++)
         delete fVolumes[i];
 }
-
-IMPLEMENT_CREATABLE(plComplexIsect, kComplexIsect, plVolumeIsect)
 
 void plComplexIsect::read(hsStream* S, plResManager* mgr) {
     clearVolumes();
@@ -509,17 +472,3 @@ void plComplexIsect::clearVolumes() {
         delete fVolumes[i];
     fVolumes.clear();
 }
-
-
-/* plIntersectionIsect */
-plIntersectionIsect::plIntersectionIsect() { }
-plIntersectionIsect::~plIntersectionIsect() { }
-
-IMPLEMENT_CREATABLE(plIntersectionIsect, kIntersectionIsect, plComplexIsect)
-
-
-/* plUnionIsect */
-plUnionIsect::plUnionIsect() { }
-plUnionIsect::~plUnionIsect() { }
-
-IMPLEMENT_CREATABLE(plUnionIsect, kUnionIsect, plComplexIsect)

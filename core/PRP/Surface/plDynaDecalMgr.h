@@ -5,6 +5,8 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plDynaDecalMgr : public plSynchedObject {
+    CREATABLE(plDynaDecalMgr, kDynaDecalMgr, plSynchedObject)
+
 protected:
     plKey fMatPreShade, fMatRTShade;
     hsTArray<plKey> fTargets, fPartyObjects;
@@ -18,9 +20,6 @@ protected:
 
 public:
     plDynaDecalMgr();
-    virtual ~plDynaDecalMgr();
-
-    DECLARE_CREATABLE(plDynaDecalMgr)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -30,20 +29,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plDynaBulletMgr : public plDynaDecalMgr {
-public:
-    plDynaBulletMgr();
-    virtual ~plDynaBulletMgr();
 
-    DECLARE_CREATABLE(plDynaBulletMgr)
+DllClass plDynaBulletMgr : public plDynaDecalMgr {
+    CREATABLE(plDynaBulletMgr, kDynaBulletMgr, plDynaDecalMgr)
 };
 
-DllClass plDynaFootMgr : public plDynaDecalMgr {
-public:
-    plDynaFootMgr();
-    virtual ~plDynaFootMgr();
 
-    DECLARE_CREATABLE(plDynaFootMgr)
+DllClass plDynaFootMgr : public plDynaDecalMgr {
+    CREATABLE(plDynaFootMgr, kDynaFootMgr, plDynaDecalMgr)
 };
 
 #endif

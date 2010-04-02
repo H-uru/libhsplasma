@@ -3,10 +3,6 @@
 plArmatureEffectStateMsg::plArmatureEffectStateMsg()
                         : fSurface(0), fAddSurface(false) { }
 
-plArmatureEffectStateMsg::~plArmatureEffectStateMsg() { }
-
-IMPLEMENT_CREATABLE(plArmatureEffectStateMsg, kArmatureEffectStateMsg, plMessage)
-
 void plArmatureEffectStateMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fSurface = S->readByte();

@@ -5,6 +5,8 @@
 #include "PRP/Message/plNotifyMsg.h"
 
 DllClass plNPCSpawnMod : public plSingleModifier {
+    CREATABLE(plNPCSpawnMod, kNPCSpawnMod, plSingleModifier)
+
 protected:
     plString fModelName, fAccountName;
     bool fAutoSpawn;
@@ -13,8 +15,6 @@ protected:
 public:
     plNPCSpawnMod();
     virtual ~plNPCSpawnMod();
-
-    DECLARE_CREATABLE(plNPCSpawnMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

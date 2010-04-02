@@ -95,16 +95,16 @@ static PyObject* pyMultistageBehMod_clearReceivers(pyMultistageBehMod* self) {
 }
 
 static PyObject* pyMultistageBehMod_getStages(pyMultistageBehMod* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumStages());
-    for (size_t i=0; i<self->fThis->getNumStages(); i++)
-        PyList_SET_ITEM(list, i, pyAnimStage_FromAnimStage(self->fThis->getStage(i)));
+    PyObject* list = PyList_New(self->fThis->getStages().getSize());
+    for (size_t i=0; i<self->fThis->getStages().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyAnimStage_FromAnimStage(self->fThis->getStages()[i]));
     return list;
 }
 
 static PyObject* pyMultistageBehMod_getReceivers(pyMultistageBehMod* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumReceivers());
-    for (size_t i=0; i<self->fThis->getNumReceivers(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceiver(i)));
+    PyObject* list = PyList_New(self->fThis->getReceivers().getSize());
+    for (size_t i=0; i<self->fThis->getReceivers().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
     return list;
 }
 

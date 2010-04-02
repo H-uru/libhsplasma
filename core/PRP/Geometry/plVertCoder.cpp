@@ -8,9 +8,6 @@ float plVertCoder::FieldScales[] = {
    65536.0f, 65536.0f, 65536.0f, 65536.0f, 65536.0f
 };
 
-plVertCoder::plVertCoder() { }
-plVertCoder::~plVertCoder() { }
-
 void plVertCoder::clear() {
     memset(fFloats, 0, sizeof(fFloats));
     memset(fColors, 0, sizeof(fColors));
@@ -33,7 +30,7 @@ void plVertCoder::write(hsStream* S, const unsigned char* src,
 
 void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char format) {
     int i;
-    
+
     // The X, Y, Z coordinates of this vertex
     IDecodeFloat(S, kPosition, 0, dest);
     IDecodeFloat(S, kPosition, 1, dest);
@@ -127,7 +124,7 @@ void plVertCoder::IEncode(hsStream* S, unsigned int vertsLeft,
                           const unsigned char*& src, unsigned int stride,
                           unsigned char format) {
     int i;
-    
+
     // The X, Y, Z coordinates of this vertex
     IEncodeFloat(S, vertsLeft, kPosition, 0, src, stride);
     IEncodeFloat(S, vertsLeft, kPosition, 1, src, stride);

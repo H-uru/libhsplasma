@@ -4,10 +4,6 @@ plInputIfaceMgrMsg::plInputIfaceMgrMsg() : fCommand(0), fPageID(0) {
     fBCastFlags |= kBCastByExactType;
 }
 
-plInputIfaceMgrMsg::~plInputIfaceMgrMsg() { }
-
-IMPLEMENT_CREATABLE(plInputIfaceMgrMsg, kInputIfaceMgrMsg, plMessage)
-
 void plInputIfaceMgrMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

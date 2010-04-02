@@ -17,7 +17,10 @@ public:
     void prcParse(const pfPrcTag* tag);
 };
 
+
 DllClass plGrassShaderMod : public plModifier {
+    CREATABLE(plGrassShaderMod, kGrassShaderMod, plModifier)
+
 public:
     enum { kNumWaves = 4 };
 
@@ -26,11 +29,6 @@ protected:
     plKey fMaterial;
 
 public:
-    plGrassShaderMod();
-    virtual ~plGrassShaderMod();
-
-    DECLARE_CREATABLE(plGrassShaderMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

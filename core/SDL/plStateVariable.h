@@ -14,12 +14,10 @@ protected:
     plString fHintString;
 
 public:
-    plStateVarNotificationInfo();
-    ~plStateVarNotificationInfo();
-
     void read(hsStream* S);
     void write(hsStream* S);
 };
+
 
 DllClass plStateVariable {
 protected:
@@ -31,22 +29,24 @@ protected:
 
 public:
     plStateVariable();
-    virtual ~plStateVariable();
+    virtual ~plStateVariable() { }
 
     virtual void setDescriptor(plVarDescriptor* desc) = 0;
-    plVarDescriptor* getDescriptor() const;
+    plVarDescriptor* getDescriptor() const { return fDescriptor; }
 
     virtual void resize(size_t size) = 0;
-    size_t getCount() const;
+    size_t getCount() const { return fCount; }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
     virtual void SetFromDefault() = 0;
     virtual bool isDefault() const = 0;
-    void setDirty(bool dirty = true);
-    bool isDirty() const;
+
+    void setDirty(bool dirty = true) { fIsDirty = dirty; }
+    bool isDirty() const { return fIsDirty; }
 };
+
 
 DllClass plSDStateVariable : public plStateVariable {
 protected:
@@ -54,7 +54,7 @@ protected:
     plStateDescriptor* fSDVarDescriptor;
 
 public:
-    plSDStateVariable();
+    plSDStateVariable() { }
     virtual ~plSDStateVariable();
 
     virtual void setDescriptor(plVarDescriptor* desc);
@@ -67,8 +67,9 @@ public:
     virtual void SetFromDefault();
     virtual bool isDefault() const;
 
-    plStateDataRecord* Record(size_t idx);
+    plStateDataRecord* Record(size_t idx) const { return fDataRecList[idx]; }
 };
+
 
 DllClass plSimpleStateVariable : public plStateVariable {
 protected:
@@ -109,26 +110,26 @@ public:
     virtual void SetFromDefault();
     virtual bool isDefault() const;
 
-    const plUnifiedTime& getTimeStamp() const;
-    void setTimeStamp(const plUnifiedTime& time);
+    const plUnifiedTime& getTimeStamp() const { return fTimeStamp; }
+    void setTimeStamp(const plUnifiedTime& time) { fTimeStamp = time; }
 
-    int& Int(size_t idx);
-    unsigned int& Uint(size_t idx);
-    short& Short(size_t idx);
-    unsigned char& Byte(size_t idx);
-    signed char& Char(size_t idx);
-    float& Float(size_t idx);
-    double& Double(size_t idx);
-    bool& Bool(size_t idx);
-    plUoid& Uoid(size_t idx);
-    plCreatable*& Creatable(size_t idx);
-    plString& String(size_t idx);
-    plUnifiedTime& Time(size_t idx);
-    hsVector3& Vector(size_t idx);
-    hsQuat& Quat(size_t idx);
-    hsColorRGBA& ColorRGBA(size_t idx);
-    hsColor32& Color32(size_t idx);
-    hsMatrix44& Matrix(size_t idx);
+    int& Int(size_t idx) { return fInt[idx]; }
+    unsigned int& Uint(size_t idx) { return fUint[idx]; }
+    short& Short(size_t idx) { return fShort[idx]; }
+    unsigned char& Byte(size_t idx) { return fByte[idx]; }
+    signed char& Char(size_t idx) { return fChar[idx]; }
+    float& Float(size_t idx) { return fFloat[idx]; }
+    double& Double(size_t idx) { return fDouble[idx]; }
+    bool& Bool(size_t idx) { return fBool[idx]; }
+    plUoid& Uoid(size_t idx) { return fUoid[idx]; }
+    plCreatable*& Creatable(size_t idx) { return fCreatable[idx]; }
+    plString& String(size_t idx) { return fString[idx]; }
+    plUnifiedTime& Time(size_t idx) { return fTime[idx]; }
+    hsVector3& Vector(size_t idx) { return fVector[idx]; }
+    hsQuat& Quat(size_t idx) { return fQuat[idx]; }
+    hsColorRGBA& ColorRGBA(size_t idx) { return fColorRGBA[idx]; }
+    hsColor32& Color32(size_t idx) { return fColor32[idx]; }
+    hsMatrix44& Matrix(size_t idx) { return fMatrix[idx]; }
 
 protected:
     void IDeAlloc();

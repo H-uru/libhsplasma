@@ -39,31 +39,31 @@ protected:
 
 public:
     plVarDescriptor();
-    ~plVarDescriptor();
 
     void read(hsStream* S);
     void write(hsStream* S);
 
-    const plString& getName() const;
-    const plString& getDefault() const;
-    const plString& getDisplay() const;
-    size_t getCount() const;
-    Type getType() const;
-    const plString& getStateDescType() const;
-    int getStateDescVer() const;
-    plStateDescriptor* getStateDesc() const;
-    bool isInternal() const;
-    bool isAlwaysNew() const;
-    bool isVariableLength() const;
-    bool isValid() const;
+public:
+    plString getName() const { return fName; }
+    plString getDefault() const { return fDefault; }
+    plString getDisplay() const { return fDisplay; }
+    size_t getCount() const { return fCount; }
+    Type getType() const { return fType; }
+    plString getStateDescType() const { return fStateDescType; }
+    int getStateDescVer() const { return fStateDescVer; }
+    plStateDescriptor* getStateDesc() const { return fStateDesc; }
+    bool isInternal() const { return (fFlags & kInternal) != 0; }
+    bool isAlwaysNew() const { return (fFlags & kAlwaysNew) != 0; }
+    bool isVariableLength() const { return (fFlags & kVariableLength) != 0; }
+    bool isValid() const { return fType != kNone; }
 
-    void setName(const plString& name);
-    void setDefault(const plString& def);
-    void setDisplay(const plString& disp);
-    void setCount(size_t count);
-    void setType(Type type);
-    void setStateDescType(const plString& type);
-    void setStateDescVer(int ver);
+    void setName(const plString& name) { fName = name; }
+    void setDefault(const plString& def) { fDefault = def; }
+    void setDisplay(const plString& disp) { fDisplay = disp; }
+    void setCount(size_t count) { fCount = count; }
+    void setType(Type type) { fType = type; }
+    void setStateDescType(const plString& type) { fStateDescType = type; }
+    void setStateDescVer(int ver) { fStateDescVer = ver; }
     void setStateDesc(plStateDescriptor* desc);
     void setInternal(bool internal);
     void setAlwaysNew(bool alwaysNew);
@@ -71,6 +71,7 @@ public:
 
     static Type GetTypeFromString(const plString& type, bool isEoa);
 };
+
 
 DllClass plStateDescriptor {
 protected:
@@ -85,20 +86,21 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
 
-    const plString& getName() const;
-    int getVersion() const;
-    bool isValid() const;
+public:
+    plString getName() const { return fName; }
+    int getVersion() const { return fVersion; }
+    bool isValid() const { return fVersion != -1; }
 
-    void setName(const plString& name);
-    void setVersion(int ver);
+    void setName(const plString& name) { fName = name; }
+    void setVersion(int ver) { fVersion = ver; }
 
-    plVarDescriptor* get(size_t idx);
+    plVarDescriptor* get(size_t idx) { return fVariables[idx]; }
     plVarDescriptor* get(const plString& name);
-    void set(size_t idx, plVarDescriptor* var);
+    void set(size_t idx, plVarDescriptor* var) { fVariables[idx] = var; }
     void set(const plString& name, plVarDescriptor* var);
 
-    size_t getNumVars() const;
-    void addVariable(plVarDescriptor* var);
+    size_t getNumVars() const { return fVariables.getSize(); }
+    void addVariable(plVarDescriptor* var) { fVariables.append(var); }
     void delVariable(size_t idx);
     void delVariable(const plString& name);
     void clearVariables();

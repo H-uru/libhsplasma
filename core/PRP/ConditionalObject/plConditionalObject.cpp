@@ -2,9 +2,6 @@
 
 /* plConditionalObject */
 plConditionalObject::plConditionalObject() : fSatisfied(false), fToggle(false) { }
-plConditionalObject::~plConditionalObject() { }
-
-IMPLEMENT_CREATABLE(plConditionalObject, kConditionalObject, hsKeyedObject)
 
 void plConditionalObject::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -34,14 +31,3 @@ void plConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plPickedConditionalObject */
-IMPLEMENT_CREATABLE(plPickedConditionalObject, kPickedConditionalObject,
-                    plConditionalObject)
-
-
-/* plPythonFileModConditionalObject */
-IMPLEMENT_CREATABLE(plPythonFileModConditionalObject,
-                    kPythonFileModConditionalObject,
-                    plConditionalObject)

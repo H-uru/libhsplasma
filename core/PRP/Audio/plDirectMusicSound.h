@@ -4,15 +4,14 @@
 #include "plSound.h"
 
 DllClass plDirectMusicSound : public plSound {
+    CREATABLE(plDirectMusicSound, kDirectMusicSound, plSound)
+
 protected:
     unsigned int fUnknown1;
     plString fFileName;
 
 public:
     plDirectMusicSound();
-    virtual ~plDirectMusicSound();
-
-    DECLARE_CREATABLE(plDirectMusicSound)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

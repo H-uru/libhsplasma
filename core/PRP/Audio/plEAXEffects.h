@@ -19,16 +19,17 @@ public:
     void prcParse(const pfPrcTag* tag);
 
 public:
-    short getOcclusion() const;
-    float getLFRatio() const;
-    float getRoomRatio() const;
-    float getDirectRatio() const;
+    short getOcclusion() const { return fOcclusion; }
+    float getLFRatio() const { return fOcclusionLFRatio; }
+    float getRoomRatio() const { return fOcclusionRoomRatio; }
+    float getDirectRatio() const { return fOcclusionDirectRatio; }
 
-    void setOcclusion(short occlusion);
-    void setLFRatio(float ratio);
-    void setRoomRatio(float ratio);
-    void setDirectRatio(float ratio);
+    void setOcclusion(short occlusion) { fOcclusion = occlusion; }
+    void setLFRatio(float ratio) { fOcclusionLFRatio = ratio; }
+    void setRoomRatio(float ratio) { fOcclusionRoomRatio = ratio; }
+    void setDirectRatio(float ratio) { fOcclusionDirectRatio = ratio; }
 };
+
 
 DllClass plEAXSourceSettings {
 protected:
@@ -51,31 +52,33 @@ public:
     void prcParse(const pfPrcTag* tag);
 
 public:
-    bool isEnabled() const;
-    short getRoom() const;
-    short getRoomHF() const;
-    bool getRoomAuto() const;
-    bool getRoomHFAuto() const;
-    short getOutsideVolHF() const;
-    float getAirAbsorptionFactor() const;
-    float getRoomRolloffFactor() const;
-    float getDopplerFactor() const;
-    float getRolloffFactor() const;
-    float getOcclusionSoftValue() const;
+    bool isEnabled() const { return fEnabled; }
+    short getRoom() const { return fRoom; }
+    short getRoomHF() const { return fRoomHF; }
+    bool getRoomAuto() const { return fRoomAuto; }
+    bool getRoomHFAuto() const { return fRoomHFAuto; }
+    short getOutsideVolHF() const { return fOutsideVolHF; }
+    float getAirAbsorptionFactor() const { return fAirAbsorptionFactor; }
+    float getRoomRolloffFactor() const { return fRoomRolloffFactor; }
+    float getDopplerFactor() const { return fDopplerFactor; }
+    float getRolloffFactor() const { return fRolloffFactor; }
+    float getOcclusionSoftValue() const { return fOcclusionSoftValue; }
 
-    void setRoom(short room);
-    void setRoomHF(short room);
-    void setRoomAuto(bool aut);
-    void setRoomHFAuto(bool aut);
-    void setOutsideVolHF(short vol);
-    void setAirAbsorptionFactor(float factor);
-    void setRoomRolloffFactor(float factor);
-    void setDopplerFactor(float factor);
-    void setRolloffFactor(float factor);
-    void setOcclusionSoftValue(float value);
+    void setRoom(short room) { fRoom = room; }
+    void setRoomHF(short roomHF) { fRoomHF = roomHF; }
+    void setRoomAuto(bool aut) { fRoomAuto = aut; }
+    void setRoomHFAuto(bool aut) { fRoomHFAuto = aut; }
+    void setOutsideVolHF(short vol) { fOutsideVolHF = vol; }
+    void setAirAbsorptionFactor(float factor) { fAirAbsorptionFactor = factor; }
+    void setRoomRolloffFactor(float factor) { fRoomRolloffFactor = factor; }
+    void setDopplerFactor(float factor) { fDopplerFactor = factor; }
+    void setRolloffFactor(float factor) { fRolloffFactor = factor; }
+    void setOcclusionSoftValue(float value) { fOcclusionSoftValue = value; }
 
-    plEAXSourceSoftSettings& getSoftStarts();
-    plEAXSourceSoftSettings& getSoftEnds();
+    const plEAXSourceSoftSettings& getSoftStarts() const { return fSoftStarts; }
+    plEAXSourceSoftSettings& getSoftStarts() { return fSoftStarts; }
+    const plEAXSourceSoftSettings& getSoftEnds() const { return fSoftEnds; }
+    plEAXSourceSoftSettings& getSoftEnds() { return fSoftEnds; }
 };
 
 #endif

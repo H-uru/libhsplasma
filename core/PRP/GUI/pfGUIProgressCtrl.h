@@ -4,6 +4,8 @@
 #include "pfGUIValueCtrl.h"
 
 DllClass pfGUIProgressCtrl : public pfGUIValueCtrl {
+    CREATABLE(pfGUIProgressCtrl, kGUIProgressCtrl, pfGUIValueCtrl)
+
 public:
     enum ProgressFlags {
         kReverseValues = kDerivedFlagsStart, kLeftRightOrientation,
@@ -16,9 +18,6 @@ protected:
 
 public:
     pfGUIProgressCtrl();
-    virtual ~pfGUIProgressCtrl();
-
-    DECLARE_CREATABLE(pfGUIProgressCtrl)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -28,14 +27,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumAnimKeys() const;
-    plKey getAnimKey(size_t idx) const;
-    void addAnimKey(plKey key);
-    void delAnimKey(size_t idx);
-    void clearAnimKeys();
+    const hsTArray<plKey>& getAnimKeys() const { return fAnimationKeys; }
+    hsTArray<plKey>& getAnimKeys() { return fAnimationKeys; }
+    void addAnimKey(plKey key) { fAnimationKeys.append(key); }
+    void delAnimKey(size_t idx) { fAnimationKeys.remove(idx); }
+    void clearAnimKeys() { fAnimationKeys.clear(); }
 
-    const plString& getAnimName() const;
-    void setAnimName(const plString& name);
+    const plString& getAnimName() const { return fAnimName; }
+    void setAnimName(const plString& name) { fAnimName = name; }
 };
 
 #endif

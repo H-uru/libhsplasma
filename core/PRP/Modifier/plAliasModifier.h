@@ -4,15 +4,12 @@
 #include "plModifier.h"
 
 DllClass plAliasModifier : public plSingleModifier {
+    CREATABLE(plAliasModifier, kAliasModifier, plSingleModifier)
+
 protected:
     plString fAlias;
 
 public:
-    plAliasModifier();
-    virtual ~plAliasModifier();
-
-    DECLARE_CREATABLE(plAliasModifier)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

@@ -19,8 +19,6 @@ plAnimTimeConvert::~plAnimTimeConvert() {
         delete fCallbackMsgs[i];
 }
 
-IMPLEMENT_CREATABLE(plAnimTimeConvert, kAnimTimeConvert, plCreatable)
-
 void plAnimTimeConvert::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readInt();
     fBegin = S->readFloat();
@@ -169,35 +167,6 @@ void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-unsigned int plAnimTimeConvert::getFlags() const { return fFlags; }
-float plAnimTimeConvert::getBegin() const { return fBegin; }
-float plAnimTimeConvert::getEnd() const { return fEnd; }
-float plAnimTimeConvert::getLoopBegin() const { return fLoopBegin; }
-float plAnimTimeConvert::getLoopEnd() const { return fLoopEnd; }
-float plAnimTimeConvert::getSpeed() const { return fSpeed; }
-float plAnimTimeConvert::getCurrentAnimTime() const { return fCurrentAnimTime; }
-double plAnimTimeConvert::getLastEvalWorldTime() const { return fLastEvalWorldTime; }
-plATCEaseCurve* plAnimTimeConvert::getEaseInCurve() const { return fEaseInCurve; }
-plATCEaseCurve* plAnimTimeConvert::getEaseOutCurve() const { return fEaseOutCurve; }
-plATCEaseCurve* plAnimTimeConvert::getSpeedEaseCurve() const { return fSpeedEaseCurve; }
-const hsTArray<float>& plAnimTimeConvert::getStopPoints() const { return fStopPoints; }
-
-void plAnimTimeConvert::setFlags(unsigned int flags) { fFlags = flags; }
-
-void plAnimTimeConvert::setRange(float begin, float end) {
-    fBegin = begin;
-    fEnd = end;
-}
-
-void plAnimTimeConvert::setLoop(float begin, float end) {
-    fLoopBegin = begin;
-    fLoopEnd = end;
-}
-
-void plAnimTimeConvert::setSpeed(float speed) { fSpeed = speed; }
-void plAnimTimeConvert::setCurrentAnimTime(float time) { fCurrentAnimTime = time; }
-void plAnimTimeConvert::setLastEvalWorldTime(double time) { fLastEvalWorldTime = time; }
-
 void plAnimTimeConvert::setEaseInCurve(plATCEaseCurve* curve) {
     if (fEaseInCurve != NULL)
         delete fEaseInCurve;
@@ -215,14 +184,6 @@ void plAnimTimeConvert::setSpeedEaseCurve(plATCEaseCurve* curve) {
         delete fSpeedEaseCurve;
     fSpeedEaseCurve = curve;
 }
-
-void plAnimTimeConvert::setStopPoints(const hsTArray<float>& stops) {
-    fStopPoints = stops;
-}
-
-size_t plAnimTimeConvert::getNumCallbacks() const { return fCallbackMsgs.getSize(); }
-plEventCallbackMsg* plAnimTimeConvert::getCallback(size_t idx) const { return fCallbackMsgs[idx]; }
-void plAnimTimeConvert::addCallback(plEventCallbackMsg* callback) { fCallbackMsgs.append(callback); }
 
 void plAnimTimeConvert::delCallback(size_t idx) {
     delete fCallbackMsgs[idx];

@@ -6,10 +6,6 @@ pfGUIDialogMod::pfGUIDialogMod()
     fFlags.setName(kModal, "kModal");
 }
 
-pfGUIDialogMod::~pfGUIDialogMod() { }
-
-IMPLEMENT_CREATABLE(pfGUIDialogMod, kGUIDialogMod, plSingleModifier)
-
 void pfGUIDialogMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -100,26 +96,3 @@ void pfGUIDialogMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-size_t pfGUIDialogMod::getNumControls() const { return fControls.getSize(); }
-plKey pfGUIDialogMod::getControl(size_t idx) const { return fControls[idx]; }
-void pfGUIDialogMod::addControl(plKey ctrl) { fControls.append(ctrl); }
-void pfGUIDialogMod::delControl(size_t idx) { fControls.remove(idx); }
-void pfGUIDialogMod::clearControls() { fControls.clear(); }
-
-unsigned int pfGUIDialogMod::getTagID() const { return fTagID; }
-unsigned int pfGUIDialogMod::getVersion() const { return fVersion; }
-plKey pfGUIDialogMod::getRenderMod() const { return fRenderMod; }
-plString pfGUIDialogMod::getName() const { return fName; }
-plKey pfGUIDialogMod::getProcReceiver() const { return fProcReceiver; }
-plKey pfGUIDialogMod::getSceneNode() const { return fSceneNode; }
-
-void pfGUIDialogMod::setTagID(unsigned int id) { fTagID = id; }
-void pfGUIDialogMod::setVersion(unsigned int version) { fVersion = version; }
-void pfGUIDialogMod::setRenderMod(plKey mod) { fRenderMod = mod; }
-void pfGUIDialogMod::setName(const char* name) { strncpy(fName, name, 128); }
-void pfGUIDialogMod::setProcReceiver(plKey receiver) { fProcReceiver = receiver; }
-void pfGUIDialogMod::setSceneNode(plKey node) { fSceneNode = node; }
-
-pfGUIColorScheme& pfGUIDialogMod::getColorScheme() { return fColorScheme; }
-const pfGUIColorScheme& pfGUIDialogMod::getColorScheme() const { return fColorScheme; }

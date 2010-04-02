@@ -31,11 +31,11 @@ public:
     virtual bool open(const char* file, FileMode mode, EncryptionType type);
     virtual void close();
     void setKey(unsigned int* keys);
-    EncryptionType getEncType() const;
+    EncryptionType getEncType() const { return eType; }
 
-    virtual hsUint32 size() const;
-    virtual hsUint32 pos() const;
-    virtual bool eof() const;
+    virtual hsUint32 size() const { return dataSize; }
+    virtual hsUint32 pos() const { return dataPos; }
+    virtual bool eof() const { return dataPos >= dataSize; }
 
     virtual void seek(hsUint32 pos);  // Less efficient than skip...
     virtual void skip(hsInt32 count);

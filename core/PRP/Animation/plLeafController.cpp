@@ -1,5 +1,5 @@
 #include "plLeafController.h"
-#include "plKeyControllers.h"
+#include "plKeyControllers.hpp"
 #include "Debug/plDebug.h"
 
 /* plLeafController */
@@ -9,8 +9,6 @@ plLeafController::~plLeafController() {
     DeallocKeys();
     DeallocControllers();
 }
-
-IMPLEMENT_CREATABLE(plLeafController, kLeafController, plController)
 
 void plLeafController::read(hsStream* S, plResManager* mgr) {
     if (S->getVer() == pvUniversal) {
@@ -424,18 +422,6 @@ plLeafController* plLeafController::CompactToLeafController() const {
         plDebug::Warning("Warning: Throwing away %d Ease Controllers", fEaseControllers.getSize());
     return ctrl;
 }
-
-bool plLeafController::hasKeys() const {
-    return fKeys.getSize() != 0;
-}
-
-bool plLeafController::hasEaseControllers() const {
-    return fEaseControllers.getSize() != 0;
-}
-
-unsigned int plLeafController::getType() const { return fType; }
-const hsTArray<hsKeyFrame*>& plLeafController::getKeys() const { return fKeys; }
-const hsTArray<class plEaseController*>& plLeafController::getEaseControllers() const { return fEaseControllers; }
 
 void plLeafController::setKeys(const hsTArray<hsKeyFrame*>& keys, unsigned int type) {
     DeallocKeys();

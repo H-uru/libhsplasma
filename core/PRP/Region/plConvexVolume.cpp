@@ -1,10 +1,5 @@
 #include "plConvexVolume.h"
 
-plConvexVolume::plConvexVolume() { }
-plConvexVolume::~plConvexVolume() { }
-
-IMPLEMENT_CREATABLE(plConvexVolume, kConvexVolume, plCreatable)
-
 void plConvexVolume::read(hsStream* S, plResManager* mgr) {
     fLocalPlanes.setSize(S->readInt());
     for (size_t i=0; i<fLocalPlanes.getSize(); i++)

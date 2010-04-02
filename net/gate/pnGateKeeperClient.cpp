@@ -9,9 +9,6 @@ pnGateKeeperClient::Dispatch::Dispatch(pnRC4Socket* sock, pnGateKeeperClient* se
                   : fReceiver(self), fSock(sock)
 { }
 
-pnGateKeeperClient::Dispatch::~Dispatch()
-{ }
-
 void pnGateKeeperClient::Dispatch::run()
 {
     hsUint16 msgId;
@@ -172,15 +169,6 @@ ENetError pnGateKeeperClient::performConnect(pnSocket* sock)
     fDispatch->start();
     return kNetSuccess;
 }
-
-bool pnGateKeeperClient::isConnected() const
-{ return (fSock != NULL) && fSock->isConnected(); }
-
-void pnGateKeeperClient::signalStatus()
-{ fSock->signalStatus(); }
-
-void pnGateKeeperClient::waitForStatus()
-{ fSock->waitForStatus(); }
 
 hsUint32 pnGateKeeperClient::sendPingRequest(hsUint32 pingTimeMs)
 {

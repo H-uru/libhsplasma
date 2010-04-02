@@ -48,15 +48,15 @@ public:
     void clear();
 
     bool isValid() const;
-    bool isDirty() const;
-    bool hasField(size_t field) const;
-    bool hasDirty(size_t field) const;
+    bool isDirty() const { return fDirtyMask != 0; }
+    bool hasField(size_t field) const { return (fFieldMask & (1<<field)) != 0; }
+    bool hasDirty(size_t field) const { return (fDirtyMask & (1<<field)) != 0; }
     void allDirty();
     void allClean();
     void setTimeNow();
     void setModifyNow();
 
-    size_t bufferSize() const;
+    size_t bufferSize() const { return fDirtySize + sizeof(hsUint64); }
     void read(const unsigned char* buffer, size_t size);
     void write(unsigned char* buffer, size_t size) const;
 

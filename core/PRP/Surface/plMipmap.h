@@ -4,6 +4,8 @@
 #include "plBitmap.h"
 
 DllClass plMipmap : public plBitmap {
+    CREATABLE(plMipmap, kMipmap, plBitmap)
+
 public:
     enum {
         kColor8Config = 0x0,
@@ -41,8 +43,6 @@ public:
              unsigned char numLevels, unsigned char compType,
              unsigned char format);
     virtual ~plMipmap();
-
-    DECLARE_CREATABLE(plMipmap)
 
     void Create(unsigned int width, unsigned int height, unsigned int cfg,
                 unsigned char numLevels, unsigned char compType,
@@ -83,16 +83,16 @@ public:
     plString getSuggestedExt() const;
     plString getSuggestedAlphaExt() const;
 
-    unsigned int getWidth() const;
-    unsigned int getHeight() const;
+    unsigned int getWidth() const { return fWidth; }
+    unsigned int getHeight() const { return fHeight; }
     const void* getImageData() const;
     unsigned int getImageSize() const;
     const void* getAlphaData() const;
     unsigned int getAlphaSize() const;
-    size_t getNumLevels() const;
-    unsigned int getLevelSize(size_t idx) const;
-    unsigned int getLevelWidth(size_t idx) const;
-    unsigned int getLevelHeight(size_t idx) const;
+    size_t getNumLevels() const { return fLevelData.getSize(); }
+    unsigned int getLevelSize(size_t idx) const { return fLevelData[idx].fSize; }
+    unsigned int getLevelWidth(size_t idx) const { return fLevelData[idx].fWidth; }
+    unsigned int getLevelHeight(size_t idx) const { return fLevelData[idx].fHeight; }
     const void* getLevelData(size_t idx) const;
 
     void setImageData(const void* data);
@@ -100,24 +100,22 @@ public:
     void setImageJPEG(const void* data, unsigned int size);
     void setAlphaJPEG(const void* data, unsigned int size);
 
-    bool isImageJPEG() const;
-    bool isAlphaJPEG() const;
+    bool isImageJPEG() const { return fJPEGData != NULL; }
+    bool isAlphaJPEG() const { return fJAlphaData != NULL; }
 
     size_t GetUncompressedSize(size_t level) const;
     size_t GetCompressedSize(size_t level) const;
     void DecompressImage(size_t level, void* dest, size_t size);
 };
 
+
 DllClass plLODMipmap : public plMipmap {
+    CREATABLE(plLODMipmap, kLODMipmap, plMipmap)
+
 private:
     plKey fBase;
 
 public:
-    plLODMipmap();
-    virtual ~plLODMipmap();
-
-    DECLARE_CREATABLE(plLODMipmap)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -126,8 +124,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getBase() const;
-    void setBase(plKey base);
+    plKey getBase() const { return fBase; }
+    void setBase(plKey base) { fBase = base; }
 };
 
 #endif

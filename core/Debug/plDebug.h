@@ -11,7 +11,7 @@ private:
     static hsStream* fDebugStream;
     static int fDebugLevel;
     static bool fIOwnStream;
-	static bool fIsExitRegistered;
+    static bool fIsExitRegistered;
     static plString fDebugFile;
 
 public:

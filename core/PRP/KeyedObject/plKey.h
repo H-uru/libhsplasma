@@ -40,11 +40,10 @@ public:
      * once its ref count is zero (meaning there are no more keys that
      * own references to this KeyData).
      */
-    ~plKeyData();
+    ~plKeyData() { }
 
 private:
-    hsUint32 RefCnt() const;
-    hsUint32 Ref();
+    hsUint32 Ref() { return ++fRefCnt; }
     void UnRef();
     friend class plKey;
 
@@ -113,49 +112,50 @@ public:
      */
     static plKeyData* PrcParse(const pfPrcTag* tag);
 
+public:
     /** Returns the plUoid that describes the object */
-    plUoid& getUoid();
+    plUoid& getUoid() { return fUoid; }
 
     /** Returns a pointer to the object referenced by this key */
-    class hsKeyedObject* getObj();
+    class hsKeyedObject* getObj() { return fObjPtr; }
 
     /** Sets the object referenced by this key. */
-    void setObj(class hsKeyedObject* obj);
+    void setObj(class hsKeyedObject* obj) { fObjPtr = obj; }
 
     /** Returns the Class Index of the object referenced by this key */
-    short getType() const;
+    short getType() const { return fUoid.getType(); }
 
     /** Returns the name of the object referenced by this key */
-    const plString& getName() const;
+    const plString& getName() const { return fUoid.getName(); }
 
     /** Returns the location where this key and its object are stored */
-    const plLocation& getLocation() const;
+    const plLocation& getLocation() const { return fUoid.getLocation(); }
 
     /** Returns the load mask of the object referenced by this key */
-    const plLoadMask& getLoadMask() const;
+    const plLoadMask& getLoadMask() const { return fUoid.getLoadMask(); }
 
     /** Returns the numeric ID of the key; only meaningful for EoA, Hex Isle and MOUL */
-    hsUint32 getID() const;
+    hsUint32 getID() const { return fUoid.getID(); }
 
     /** Returns the Clone ID of this key (usually 0) */
-    hsUint32 getCloneID() const;
+    hsUint32 getCloneID() const { return fUoid.getCloneID(); }
 
     /** Returns the Clone Player ID of this key (usually 0) */
-    hsUint32 getClonePlayerID() const;
+    hsUint32 getClonePlayerID() const { return fUoid.getClonePlayerID(); }
 
     /**
      * Returns the location in the PRP file where this key's data starts.
      * This is not updated until the PRP file's key index is either read
      * or written.
      */
-    hsUint32 getFileOff() const;
+    hsUint32 getFileOff() const { return fFileOff; }
 
     /**
      * Returns the total size of the object referenced by this key.
      * This is not updated until the PRP file's key index is either read
      * or written.
      */
-    hsUint32 getObjSize() const;
+    hsUint32 getObjSize() const { return fObjSize; }
 
     /**
      * Sets the Class Index of the object referenced by this key.
@@ -163,13 +163,13 @@ public:
      * to set up the key for an object.
      * \sa hsKeyedObject::init()
      */
-    void setType(short type);
+    void setType(short type) { fUoid.setType(type); }
 
     /**
      * Sets the name of an object/key.  This can be done at any time.
      * \sa hsKeyedObject::init()
      */
-    void setName(const plString& name);
+    void setName(const plString& name) { fUoid.setName(name); }
 
     /**
      * Sets the location of this key and its object.  Generally, you should
@@ -177,35 +177,35 @@ public:
      * a key's location.
      * \sa plResManager::MoveKey(), plResManager::ChangeLocation()
      */
-    void setLocation(const plLocation& loc);
+    void setLocation(const plLocation& loc) { fUoid.setLocation(loc); }
 
     /**
      * Sets the load mask of this object and key.  This can be done at
      * any time.
      */
-    void setLoadMask(const plLoadMask& mask);
+    void setLoadMask(const plLoadMask& mask) { fUoid.setLoadMask(mask); }
 
     /**
      * Sets the numeric ID of this key.  This is handled automatically
      * by the plResManager while managing keys, so you should never
      * call this directly unless you are not using a ResManager.
      */
-    void setID(hsUint32 id);
+    void setID(hsUint32 id) { fUoid.setID(id); }
 
     /** Sets the Clone IDs of the key.  Basically useless. */
-    void setCloneIDs(hsUint32 clone, hsUint32 player);
+    void setCloneIDs(hsUint32 clone, hsUint32 player) { fUoid.setCloneIDs(clone, player); }
 
     /**
      * Set the file offset for the object pointed to by the key.  This
      * is done automatically by the plResManager when writing pages.
      */
-    void setFileOff(hsUint32 off);
+    void setFileOff(hsUint32 off) { fFileOff = off; }
 
     /**
      * Set the object size for the object pointed to by the key.  This
      * is done automatically by the plResManager when writing pages.
      */
-    void setObjSize(hsUint32 size);
+    void setObjSize(hsUint32 size) { fObjSize = size; }
 };
 
 /**
@@ -248,13 +248,13 @@ public:
     virtual ~plKey();
 
     /** Allows for *(plKey) usage as a pointer. */
-    plKeyData& operator*() const;
+    plKeyData& operator*() const { return *fKeyData; }
 
     /** Allows for (plKey)->member usage as a pointer. */
-    plKeyData* operator->() const;
+    plKeyData* operator->() const { return fKeyData; }
 
     /** Allows for typecasts to plKeyData* pointers. */
-    operator plKeyData*() const;
+    operator plKeyData*() const { return fKeyData; }
 
     /** Copies and refs the key data in other */
     virtual plKey& operator=(const plKey& other);

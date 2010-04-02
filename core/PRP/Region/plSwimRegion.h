@@ -4,13 +4,13 @@
 #include "PRP/Object/plObjInterface.h"
 
 DllClass plSwimRegionInterface : public plObjInterface {
+    CREATABLE(plSwimRegionInterface, kSwimRegionInterface, plObjInterface)
+
 protected:
     float fDownBuoyancy, fUpBuoyancy, fMaxUpwardVel;
 
 public:
     plSwimRegionInterface();
-
-    DECLARE_CREATABLE(plSwimRegionInterface)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -20,7 +20,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plSwimCircularCurrentRegion : public plSwimRegionInterface {
+    CREATABLE(plSwimCircularCurrentRegion, kSwimCircularCurrentRegion,
+              plSwimRegionInterface)
+
 protected:
     float fRotation;
     float fPullNearDistSq, fPullFarDistSq;
@@ -30,8 +34,6 @@ protected:
 public:
     plSwimCircularCurrentRegion();
 
-    DECLARE_CREATABLE(plSwimCircularCurrentRegion)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -40,7 +42,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plSwimStraightCurrentRegion : public plSwimRegionInterface {
+    CREATABLE(plSwimStraightCurrentRegion, kSwimStraightCurrentRegion,
+              plSwimRegionInterface)
+
 protected:
     float fNearDist, fFarDist;
     float fNearVel, fFarVel;
@@ -48,8 +54,6 @@ protected:
 
 public:
     plSwimStraightCurrentRegion();
-
-    DECLARE_CREATABLE(plSwimStraightCurrentRegion)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

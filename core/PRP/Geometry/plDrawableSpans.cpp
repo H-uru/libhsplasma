@@ -14,13 +14,6 @@ plDISpanIndex& plDISpanIndex::operator=(const plDISpanIndex& cpy) {
 }
 
 
-/* plDrawable */
-plDrawable::plDrawable() { }
-plDrawable::~plDrawable() { }
-
-IMPLEMENT_CREATABLE(plDrawable, kDrawable, hsKeyedObject)
-
-
 /* plDrawableSpans */
 plDrawableSpans::plDrawableSpans()
                : fSpaceTree(NULL), fProps(0), fCriteria(0), fRenderLevel(0) { }
@@ -35,8 +28,6 @@ plDrawableSpans::~plDrawableSpans() {
     if (fSpaceTree != NULL)
         delete fSpaceTree;
 }
-
-IMPLEMENT_CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
 
 void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -635,9 +626,6 @@ void plDrawableSpans::ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int ax
     std::copy(rvec.begin(), rvec.end(), cit);
 }
 
-size_t plDrawableSpans::getNumSpans() const { return fSpans.getSize(); }
-plSpan* plDrawableSpans::getSpan(size_t idx) const { return fSpans[idx]; }
-
 void plDrawableSpans::clearSpans() {
     for (size_t i=0; i<fSpans.getSize(); i++)
         delete fSpans[i];
@@ -656,14 +644,6 @@ size_t plDrawableSpans::addIcicle(const plIcicle& span) {
     return fSpans.getSize() - 1;
 }
 
-size_t plDrawableSpans::getNumBufferGroups() const {
-    return fGroups.getSize();
-}
-
-plGBufferGroup* plDrawableSpans::getBuffer(size_t group) const {
-    return fGroups[group];
-}
-
 size_t plDrawableSpans::createBufferGroup(unsigned char format) {
     fGroups.append(new plGBufferGroup(format));
     return fGroups.getSize() - 1;
@@ -675,11 +655,13 @@ void plDrawableSpans::deleteBufferGroup(size_t group) {
 }
 
 hsTArray<plGBufferVertex> plDrawableSpans::getVerts(const plIcicle* span) const {
-    return fGroups[span->getGroupIdx()]->getVertices(span->getVBufferIdx(), span->getVStartIdx(), span->getVLength());
+    return fGroups[span->getGroupIdx()]->getVertices(span->getVBufferIdx(),
+                span->getVStartIdx(), span->getVLength());
 }
 
 hsTArray<unsigned short> plDrawableSpans::getIndices(const plIcicle* span) const {
-    return fGroups[span->getGroupIdx()]->getIndices(span->getIBufferIdx(), span->getIStartIdx(), span->getILength(), span->getVStartIdx());
+    return fGroups[span->getGroupIdx()]->getIndices(span->getIBufferIdx(),
+                span->getIStartIdx(), span->getILength(), span->getVStartIdx());
 }
 
 hsTArray<plGBufferCell> plDrawableSpans::getCells(size_t group, size_t buffer) const {
@@ -698,17 +680,6 @@ void plDrawableSpans::addCells(size_t group, const hsTArray<plGBufferCell>& cell
     fGroups[group]->addCells(cells);
 }
 
-size_t plDrawableSpans::getNumDIIndices() const { return fDIIndices.getSize(); }
-const plDISpanIndex& plDrawableSpans::getDIIndex(size_t idx) const { return fDIIndices[idx]; }
-void plDrawableSpans::clearDIIndices() { fDIIndices.clear(); }
-void plDrawableSpans::addDIIndex(const plDISpanIndex& idx) { fDIIndices.append(idx); }
-
-size_t plDrawableSpans::getNumTransforms() const { return fLocalToWorlds.getSize(); }
-hsMatrix44 plDrawableSpans::getLocalToWorld(size_t idx) const { return fLocalToWorlds[idx]; }
-hsMatrix44 plDrawableSpans::getWorldToLocal(size_t idx) const { return fWorldToLocals[idx]; }
-hsMatrix44 plDrawableSpans::getLocalToBone(size_t idx) const { return fLocalToBones[idx]; }
-hsMatrix44 plDrawableSpans::getBoneToLocal(size_t idx) const { return fBoneToLocals[idx]; }
-
 void plDrawableSpans::clearTransforms() {
     fLocalToWorlds.clear();
     fWorldToLocals.clear();
@@ -724,31 +695,8 @@ void plDrawableSpans::addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
     fBoneToLocals.append(b2l);
 }
 
-const hsBounds3Ext& plDrawableSpans::getLocalBounds() { return fLocalBounds; }
-const hsBounds3Ext& plDrawableSpans::getWorldBounds() { return fWorldBounds; }
-const hsBounds3Ext& plDrawableSpans::getMaxWorldBounds() { return fMaxWorldBounds; }
-void plDrawableSpans::setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }
-void plDrawableSpans::setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
-void plDrawableSpans::setMaxWorldBounds(const hsBounds3Ext& bounds) { fMaxWorldBounds = bounds; }
-
-size_t plDrawableSpans::getNumMaterials() const { return fMaterials.getSize(); }
-plKey plDrawableSpans::getMaterial(size_t idx) const { return fMaterials[idx]; }
-void plDrawableSpans::clearMaterials() { fMaterials.clear(); }
-void plDrawableSpans::addMaterial(plKey mat) { fMaterials.append(mat); }
-
-plSpaceTree* plDrawableSpans::getSpaceTree() const { return fSpaceTree; }
-
 void plDrawableSpans::setSpaceTree(plSpaceTree* tree) {
     if (fSpaceTree != NULL)
         delete fSpaceTree;
     fSpaceTree = tree;
 }
-
-unsigned int plDrawableSpans::getProps() const { return fProps; }
-unsigned int plDrawableSpans::getCriteria() const { return fCriteria; }
-unsigned int plDrawableSpans::getRenderLevel() const { return fRenderLevel; }
-plKey plDrawableSpans::getSceneNode() const { return fSceneNode; }
-void plDrawableSpans::setProps(unsigned int props) { fProps = props; }
-void plDrawableSpans::setCriteria(unsigned int crit) { fCriteria = crit; }
-void plDrawableSpans::setRenderLevel(unsigned int level) { fRenderLevel = level; }
-void plDrawableSpans::setSceneNode(plKey node) { fSceneNode = node; }

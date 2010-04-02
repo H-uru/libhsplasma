@@ -2,11 +2,6 @@
 
 plVehicleModifier::Wheel::Wheel() : fRadius(1.0f) { }
 
-plVehicleModifier::plVehicleModifier() { }
-plVehicleModifier::~plVehicleModifier() { }
-
-IMPLEMENT_CREATABLE(plVehicleModifier, kVehicleModifier, plSingleModifier)
-
 void plVehicleModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

@@ -6,6 +6,8 @@
 #include "plNetMessage.h"
 
 DllClass plNetMsgMemberInfoHelper : public plCreatable {
+    CREATABLE(plNetMsgMemberInfoHelper, kNetMsgMemberInfoHelper, plCreatable)
+
 private:
     unsigned int fFlags;
     plUoid fAvatarUoid;
@@ -13,9 +15,6 @@ private:
 
 public:
     plNetMsgMemberInfoHelper();
-    ~plNetMsgMemberInfoHelper();
-
-    DECLARE_CREATABLE(plNetMsgMemberInfoHelper)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -25,16 +24,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plNetMsgMemberListHelper : public plCreatable {
+    CREATABLE(plNetMsgMemberListHelper, kNetMsgMemberListHelper, plCreatable)
+
 private:
     hsTArray<plNetMsgMemberInfoHelper> fMembers;
 
 public:
-    plNetMsgMemberListHelper();
-    ~plNetMsgMemberListHelper();
-
-    DECLARE_CREATABLE(plNetMsgMemberListHelper)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -43,16 +40,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plNetMsgMembersList : public plNetMsgServerToClient {
+    CREATABLE(plNetMsgMembersList, kNetMsgMembersList, plNetMsgServerToClient)
+
 private:
     plNetMsgMemberListHelper fHelper;
 
 public:
-    plNetMsgMembersList();
-    ~plNetMsgMembersList();
-
-    DECLARE_CREATABLE(plNetMsgMembersList)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -61,9 +56,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plNetMsgMembersListReq : public plNetMessage {
-public:
-    DECLARE_CREATABLE(plNetMsgMembersListReq)
+    CREATABLE(plNetMsgMembersListReq, kNetMsgMembersListReq, plNetMessage)
 };
 
 #endif

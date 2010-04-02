@@ -4,10 +4,6 @@ plShadowCaster::plShadowCaster()
               : fCastFlags(0), fBoost(0.0f), fAttenScale(0.0f),
                 fBlurScale(0.0f), fMaxOpacity(0.0f) { }
 
-plShadowCaster::~plShadowCaster() { }
-
-IMPLEMENT_CREATABLE(plShadowCaster, kShadowCaster, plMultiModifier)
-
 void plShadowCaster::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 

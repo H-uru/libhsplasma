@@ -5,15 +5,14 @@
 #include "PRP/KeyedObject/plUoid.h"
 
 DllClass plNetMsgPlayerPage : public plNetMessage {
+    CREATABLE(plNetMsgPlayerPage, kNetMsgPlayerPage, plNetMessage)
+
 private:
     unsigned char fUnload;
     plUoid fUoid;
 
 public:
     plNetMsgPlayerPage();
-    ~plNetMsgPlayerPage();
-
-    DECLARE_CREATABLE(plNetMsgPlayerPage)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

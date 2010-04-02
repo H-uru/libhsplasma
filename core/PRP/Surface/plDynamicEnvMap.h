@@ -4,6 +4,8 @@
 #include "plRenderTarget.h"
 
 DllClass plDynamicEnvMap : public plCubicRenderTarget {
+    CREATABLE(plDynamicEnvMap, kDynamicEnvMap, plCubicRenderTarget)
+
 protected:
     plKey fRootNode;
     hsVector3 fPos;
@@ -16,9 +18,6 @@ protected:
 
 public:
     plDynamicEnvMap();
-    virtual ~plDynamicEnvMap();
-
-    DECLARE_CREATABLE(plDynamicEnvMap)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -28,7 +27,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plDynamicCamMap : public plRenderTarget {
+    CREATABLE(plDynamicCamMap, kDynamicCamMap, plRenderTarget)
+
 public:
     enum {
         kReflectionCapable = 0x1,
@@ -47,9 +49,6 @@ protected:
 
 public:
     plDynamicCamMap();
-    virtual ~plDynamicCamMap();
-
-    DECLARE_CREATABLE(plDynamicCamMap)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

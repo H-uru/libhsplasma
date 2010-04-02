@@ -15,7 +15,7 @@ private:
     };
 
 public:
-    plSDLMgr();
+    plSDLMgr() { }
     ~plSDLMgr();
 
     void ReadDescriptors(const plString& filename);

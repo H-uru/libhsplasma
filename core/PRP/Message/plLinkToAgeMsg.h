@@ -5,6 +5,8 @@
 #include "PRP/Misc/plAgeLinkInfo.h"
 
 DllClass plLinkToAgeMsg : public plMessage {
+    CREATABLE(plLinkToAgeMsg, kLinkToAgeMsg, plMessage)
+
 protected:
     plAgeLinkStruct fAgeLink;
     plAgeLinkEffects fLinkEffects;
@@ -12,9 +14,6 @@ protected:
 
 public:
     plLinkToAgeMsg();
-    virtual ~plLinkToAgeMsg();
-
-    DECLARE_CREATABLE(plLinkToAgeMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -26,11 +25,7 @@ protected:
 
 
 DllClass plLinkInDoneMsg : public plMessage {
-public:
-    plLinkInDoneMsg();
-    virtual ~plLinkInDoneMsg();
-
-    DECLARE_CREATABLE(plLinkInDoneMsg)
+    CREATABLE(plLinkInDoneMsg, kLinkInDoneMsg, plMessage)
 };
 
 #endif

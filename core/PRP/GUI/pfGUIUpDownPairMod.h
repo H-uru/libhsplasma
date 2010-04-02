@@ -4,15 +4,12 @@
 #include "pfGUIValueCtrl.h"
 
 DllClass pfGUIUpDownPairMod : public pfGUIValueCtrl {
+    CREATABLE(pfGUIUpDownPairMod, kGUIUpDownPairMod, pfGUIValueCtrl)
+
 protected:
     plKey fUpControl, fDownControl;
 
 public:
-    pfGUIUpDownPairMod();
-    virtual ~pfGUIUpDownPairMod();
-
-    DECLARE_CREATABLE(pfGUIUpDownPairMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,11 +18,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getUpControl() const;
-    plKey getDownControl() const;
+    plKey getUpControl() const { return fUpControl; }
+    plKey getDownControl() const { return fDownControl; }
 
-    void setUpControl(plKey ctrl);
-    void setDownControl(plKey ctrl);
+    void setUpControl(plKey ctrl) { fUpControl = ctrl; }
+    void setDownControl(plKey ctrl) { fDownControl = ctrl; }
 };
 
 #endif

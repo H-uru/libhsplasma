@@ -8,8 +8,6 @@ plNetMsgGameMessage::~plNetMsgGameMessage() {
         delete fMessage;
 }
 
-IMPLEMENT_CREATABLE(plNetMsgGameMessage, kNetMsgGameMessage, plNetMsgStream)
-
 void plNetMsgGameMessage::read(hsStream* S, plResManager* mgr) {
     plNetMsgStream::read(S, mgr);
 
@@ -74,18 +72,6 @@ void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plUnifiedTime plNetMsgGameMessage::getDeliveryTime() const {
-    return fDeliveryTime;
-}
-
-plMessage* plNetMsgGameMessage::getMessage() const {
-    return fMessage;
-}
-
-void plNetMsgGameMessage::setDeliveryTime(plUnifiedTime DeliveryTime) {
-    fDeliveryTime = DeliveryTime;
-}
-
 void plNetMsgGameMessage::setMessage(plMessage* Message) {
     if (fMessage != NULL)
         delete fMessage;
@@ -94,12 +80,6 @@ void plNetMsgGameMessage::setMessage(plMessage* Message) {
 
 
 /* plNetMsgGameMessageDirected */
-plNetMsgGameMessageDirected::plNetMsgGameMessageDirected() { }
-plNetMsgGameMessageDirected::~plNetMsgGameMessageDirected() { }
-
-IMPLEMENT_CREATABLE(plNetMsgGameMessageDirected, kNetMsgGameMessageDirected,
-                    plNetMsgGameMessage)
-
 void plNetMsgGameMessageDirected::read(hsStream* S, plResManager* mgr) {
     plNetMsgGameMessage::read(S, mgr);
 
@@ -142,12 +122,4 @@ void plNetMsgGameMessageDirected::IPrcParse(const pfPrcTag* tag, plResManager* m
     } else {
         plNetMsgGameMessage::IPrcParse(tag, mgr);
     }
-}
-
-hsTArray<unsigned int> plNetMsgGameMessageDirected::getReceivers() const {
-    return fReceivers;
-}
-
-void plNetMsgGameMessageDirected::setReceivers(hsTArray<unsigned int> Receivers) {
-    fReceivers = Receivers;
 }

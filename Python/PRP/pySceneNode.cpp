@@ -120,25 +120,17 @@ static PyObject* pySceneNode_addPoolObjects(pySceneNode* self, PyObject* args) {
     return Py_None;
 }
 
-static PyObject* pySceneNode_numSceneObjects(pySceneNode* self) {
-    return PyInt_FromLong(self->fThis->getNumSceneObjects());
-}
-
-static PyObject* pySceneNode_numPoolObjects(pySceneNode* self) {
-    return PyInt_FromLong(self->fThis->getNumPoolObjects());
-}
-
 static PyObject* pySceneNode_getSceneObjects(pySceneNode* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumSceneObjects());
-    for (size_t i=0; i<self->fThis->getNumSceneObjects(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSceneObject(i)));
+    PyObject* list = PyList_New(self->fThis->getSceneObjects().getSize());
+    for (size_t i=0; i<self->fThis->getSceneObjects().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSceneObjects()[i]));
     return list;
 }
 
 static PyObject* pySceneNode_getPoolObjects(pySceneNode* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumPoolObjects());
-    for (size_t i=0; i<self->fThis->getNumPoolObjects(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPoolObject(i)));
+    PyObject* list = PyList_New(self->fThis->getPoolObjects().getSize());
+    for (size_t i=0; i<self->fThis->getPoolObjects().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPoolObjects()[i]));
     return list;
 }
 
@@ -169,10 +161,6 @@ PyMethodDef pySceneNode_Methods[] = {
     { "addPoolObject", (PyCFunction)pySceneNode_addPoolObjects, METH_VARARGS,
       "Params: keyArray\n"
       "Adds multiple Object to the Scene Node" },
-    { "numSceneObjects", (PyCFunction)pySceneNode_numSceneObjects, METH_NOARGS,
-      "Faster than len(plSceneNode.sceneObjects)" },
-    { "numPoolObjects", (PyCFunction)pySceneNode_numPoolObjects, METH_NOARGS,
-      "Faster than len(plSceneNode.poolObjects)" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -2,10 +2,6 @@
 
 /* plNetMsgSharedState */
 plNetMsgSharedState::plNetMsgSharedState() : fLockRequest(0) { }
-plNetMsgSharedState::~plNetMsgSharedState() { }
-
-IMPLEMENT_CREATABLE(plNetMsgSharedState, kNetMsgSharedState,
-                    plNetMsgStreamedObject)
 
 void plNetMsgSharedState::read(hsStream* S, plResManager* mgr) {
     plNetMsgStreamedObject::read(S, mgr);
@@ -37,7 +33,3 @@ void plNetMsgSharedState::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plNetMsgObject::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plNetMsgTestAndSet */
-IMPLEMENT_CREATABLE(plNetMsgTestAndSet, kNetMsgTestAndSet, plNetMsgSharedState)

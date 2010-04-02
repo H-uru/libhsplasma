@@ -5,6 +5,8 @@
 #include "plLightInfo.h"
 
 DllClass plShadowMaster : public plObjInterface {
+    CREATABLE(plShadowMaster, kShadowMaster, plObjInterface)
+
 public:
     enum DrawProperties {
         kDisable, kSelfShadow, kNumProps
@@ -16,9 +18,6 @@ protected:
 
 public:
     plShadowMaster();
-    virtual ~plShadowMaster();
-
-    DECLARE_CREATABLE(plShadowMaster)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -28,33 +27,27 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    float getAttenDist() const;
-    float getMaxDist() const;
-    float getMinDist() const;
-    float getPower() const;
-    unsigned int getMaxSize() const;
-    unsigned int getMinSize() const;
+    float getAttenDist() const { return fAttenDist; }
+    float getMaxDist() const { return fMaxDist; }
+    float getMinDist() const { return fMinDist; }
+    float getPower() const { return fPower; }
+    unsigned int getMaxSize() const { return fMaxSize; }
+    unsigned int getMinSize() const { return fMinSize; }
 
-    void setAttenDist(float dist);
-    void setDist(float min, float max);
-    void setPower(float power);
-    void setSize(unsigned int min, unsigned int max);
+    void setAttenDist(float dist) { fAttenDist = dist; }
+    void setDist(float min, float max) { fMinDist = min; fMaxDist = max; }
+    void setPower(float power) { fPower = power; }
+    void setSize(unsigned int min, unsigned int max) { fMinSize = min; fMaxSize = max; }
 };
+
 
 DllClass plPointShadowMaster : public plShadowMaster {
-public:
-    plPointShadowMaster();
-    virtual ~plPointShadowMaster();
-
-    DECLARE_CREATABLE(plPointShadowMaster)
+    CREATABLE(plPointShadowMaster, kPointShadowMaster, plShadowMaster)
 };
 
-DllClass plDirectShadowMaster : public plShadowMaster {
-public:
-    plDirectShadowMaster();
-    virtual ~plDirectShadowMaster();
 
-    DECLARE_CREATABLE(plDirectShadowMaster)
+DllClass plDirectShadowMaster : public plShadowMaster {
+    CREATABLE(plDirectShadowMaster, kDirectShadowMaster, plShadowMaster)
 };
 
 #endif

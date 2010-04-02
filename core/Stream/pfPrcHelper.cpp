@@ -9,8 +9,6 @@ pfPrcHelper::~pfPrcHelper() {
     finalize();
 }
 
-hsStream* pfPrcHelper::getStream() { return file; }
-
 void pfPrcHelper::exclude(PrcExclude excl) {
     excludes |= excl;
 }

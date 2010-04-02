@@ -4,15 +4,16 @@
 #include "plConditionalObject.h"
 
 DllClass plAnimationEventConditionalObject : public plConditionalObject {
+    CREATABLE(plAnimationEventConditionalObject,
+              kAnimationEventConditionalObject,
+              plConditionalObject)
+
 protected:
     CallbackEvent fAction;
     plKey fTarget;
 
 public:
     plAnimationEventConditionalObject();
-    virtual ~plAnimationEventConditionalObject();
-
-    DECLARE_CREATABLE(plAnimationEventConditionalObject)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

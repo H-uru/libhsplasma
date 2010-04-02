@@ -97,10 +97,11 @@ public:
     hsTArray<plGBufferVertex> getVertices(size_t idx, size_t start = 0, size_t count = (size_t)-1) const;
     hsTArray<unsigned short> getIndices(size_t idx, size_t start = 0, size_t count = (size_t)-1, size_t offset = 0) const;
     hsTArray<plGBufferCell> getCells(size_t idx) const;
-    unsigned char getFormat() const;
-    size_t getSkinWeights() const;
-    size_t getNumUVs() const;
-    bool getHasSkinIndices() const;
+
+    unsigned char getFormat() const { return fFormat; }
+    size_t getSkinWeights() const { return (fFormat & kSkinWeightMask) >> 4; }
+    size_t getNumUVs() const { return (fFormat & kUVCountMask); }
+    bool getHasSkinIndices() const { return (fFormat & kSkinIndices) != 0; }
 
     void addVertices(const hsTArray<plGBufferVertex>& verts);
     void addIndices(const hsTArray<unsigned short>& indices);
@@ -117,15 +118,15 @@ public:
     void clearIndices();
     void clearCells();
 
-    size_t getNumVertBuffers() const;
-    size_t getNumIdxBuffers() const;
-    const unsigned char* getVertBufferStorage(size_t idx) const;
-    const unsigned short* getIdxBufferStorage(size_t idx) const;
-    unsigned char* getMutableVertBuffer(size_t idx);
-    unsigned short* getMutableIdxBuffer(size_t idx);
-    size_t getVertBufferSize(size_t idx) const;
-    size_t getIdxBufferCount(size_t idx) const;
-    unsigned int getStride() const;
+    size_t getNumVertBuffers() const { return fVertBuffStorage.getSize(); }
+    size_t getNumIdxBuffers() const { return fIdxBuffStorage.getSize(); }
+    const unsigned char* getVertBufferStorage(size_t idx) const { return fVertBuffStorage[idx]; }
+    const unsigned short* getIdxBufferStorage(size_t idx) const { return fIdxBuffStorage[idx]; }
+    unsigned char* getMutableVertBuffer(size_t idx) { return fVertBuffStorage[idx]; }
+    unsigned short* getMutableIdxBuffer(size_t idx) { return fIdxBuffStorage[idx]; }
+    size_t getVertBufferSize(size_t idx) const { return fVertBuffSizes[idx]; }
+    size_t getIdxBufferCount(size_t idx) const { return fIdxBuffCounts[idx]; }
+    unsigned int getStride() const { return fStride; }
 };
 
 #endif

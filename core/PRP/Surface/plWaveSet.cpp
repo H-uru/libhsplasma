@@ -1,12 +1,30 @@
-#include "plWaveSet7.h"
+#include "plWaveSet.h"
 
+/* plWaveSet6 */
+void plWaveSet6::read(hsStream* S, plResManager* mgr) {
+    plMultiModifier::read(S, mgr);
+    throw hsNotImplementedException(__FILE__, __LINE__);
+}
+
+void plWaveSet6::write(hsStream* S, plResManager* mgr) {
+    plMultiModifier::write(S, mgr);
+    throw hsNotImplementedException(__FILE__, __LINE__);
+}
+
+void plWaveSet6::IPrcWrite(pfPrcHelper* prc) {
+    plMultiModifier::IPrcWrite(prc);
+    prc->writeComment("plWaveSet6 Not Implemented");
+}
+
+void plWaveSet6::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    throw hsNotImplementedException(__FILE__, __LINE__);
+}
+
+
+/* plWaveSet7 */
 plWaveSet7::plWaveSet7() : fMaxLen(0.0f) {
     fFlags.setName(kHasRefObject, "kHasRefObject");
 }
-
-plWaveSet7::~plWaveSet7() { }
-
-IMPLEMENT_CREATABLE(plWaveSet7, kWaveSet7, plWaveSetBase)
 
 void plWaveSet7::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);

@@ -40,9 +40,6 @@ pnAuthClient::Dispatch::Dispatch(pnRC4Socket* sock, pnAuthClient* self)
             : fReceiver(self), fSock(sock)
 { }
 
-pnAuthClient::Dispatch::~Dispatch()
-{ }
-
 void pnAuthClient::Dispatch::run()
 {
     hsUint16 msgId;
@@ -416,15 +413,6 @@ ENetError pnAuthClient::performConnect(pnSocket* sock)
     fDispatch->start();
     return kNetSuccess;
 }
-
-bool pnAuthClient::isConnected() const
-{ return (fSock != NULL) && fSock->isConnected(); }
-
-void pnAuthClient::signalStatus()
-{ fSock->signalStatus(); }
-
-void pnAuthClient::waitForStatus()
-{ fSock->waitForStatus(); }
 
 hsUint32 pnAuthClient::sendPingRequest(hsUint32 pingTimeMs)
 {

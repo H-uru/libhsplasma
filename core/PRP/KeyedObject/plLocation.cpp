@@ -8,11 +8,6 @@ plLocation::plLocation(const plLocation& init)
           : fVer(init.fVer), fState(init.fState), fSeqPrefix(init.fSeqPrefix),
             fPageNum(init.fPageNum), fFlags(init.fFlags) { }
 
-plLocation::~plLocation() { }
-
-PlasmaVer plLocation::getVer() const { return fVer; }
-void plLocation::setVer(PlasmaVer pv) { fVer = pv; }
-
 plLocation& plLocation::operator=(const plLocation& other) {
     fPageNum = other.fPageNum;
     fSeqPrefix = other.fSeqPrefix;
@@ -162,21 +157,11 @@ void plLocation::invalidate() {
     fFlags = 0;
 }
 
-bool plLocation::isValid() const { return (fState != kStateInvalid); }
-bool plLocation::isReserved() const { return (fFlags & kReserved) != 0; }
-bool plLocation::isItinerant() const { return (fFlags & kItinerant) != 0; }
-bool plLocation::isVirtual() const { return (fState == kStateVirtual); }
-bool plLocation::isGlobal() const { return (fSeqPrefix < 0); }
-
 void plLocation::setVirtual() {
     fState = kStateVirtual;
     fPageNum = 0;
     fSeqPrefix = 0;
 }
-
-int plLocation::getPageNum() const { return fPageNum; }
-int plLocation::getSeqPrefix() const { return fSeqPrefix; }
-unsigned short plLocation::getFlags() const { return fFlags; }
 
 void plLocation::setPageNum(int pn) {
     fPageNum = pn;
@@ -187,8 +172,6 @@ void plLocation::setSeqPrefix(int sp) {
     fSeqPrefix = sp;
     fState = kStateNormal;
 }
-
-void plLocation::setFlags(unsigned short flags) { fFlags = flags; }
 
 void plLocation::set(int pid, unsigned short flags, PlasmaVer pv) {
     if (pv == pvUniversal)

@@ -2,9 +2,6 @@
 #include "Debug/plDebug.h"
 
 plServerReplyMsg::plServerReplyMsg() : fType(kUnInit) { }
-plServerReplyMsg::~plServerReplyMsg() { }
-
-IMPLEMENT_CREATABLE(plServerReplyMsg, kServerReplyMsg, plMessage)
 
 void plServerReplyMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);

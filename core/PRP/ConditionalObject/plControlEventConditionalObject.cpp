@@ -1,11 +1,7 @@
 #include "plControlEventConditionalObject.h"
 
-plControlEventConditionalObject::plControlEventConditionalObject() { }
-plControlEventConditionalObject::~plControlEventConditionalObject() { }
-
-IMPLEMENT_CREATABLE(plControlEventConditionalObject,
-                    kControlEventConditionalObject,
-                    plConditionalObject)
+plControlEventConditionalObject::plControlEventConditionalObject()
+                               : fControlEvent((ControlEventCode)0) { }
 
 void plControlEventConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);

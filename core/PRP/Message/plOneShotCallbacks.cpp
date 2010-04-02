@@ -2,9 +2,6 @@
 
 plOneShotCallbacks::plOneShotCallback::plOneShotCallback() : fUser(0) { }
 
-plOneShotCallbacks::plOneShotCallbacks() { }
-plOneShotCallbacks::~plOneShotCallbacks() { }
-
 void plOneShotCallbacks::read(hsStream* S, plResManager* mgr) {
     fCallbacks.setSize(S->readInt());
     for (size_t i=0; i<fCallbacks.getSize(); i++) {

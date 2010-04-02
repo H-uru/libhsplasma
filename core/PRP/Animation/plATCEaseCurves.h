@@ -4,16 +4,15 @@
 #include "PRP/plCreatable.h"
 
 DllClass plATCEaseCurve : public plCreatable {
-protected:
+    CREATABLE(plATCEaseCurve, kATCEaseCurve, plCreatable)
+
+private:
     float fStartSpeed, fMinLength, fMaxLength;
     double fBeginWorldTime;
     float fLength, fSpeed;
 
 public:
     plATCEaseCurve();
-    virtual ~plATCEaseCurve();
-
-    DECLARE_CREATABLE(plATCEaseCurve)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -23,29 +22,32 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    float getStartSpeed() const;
-    float getSpeed() const;
-    float getMinLength() const;
-    float getMaxLength() const;
-    float getLength() const;
-    double getBeginWorldTime() const;
+    float getStartSpeed() const { return fStartSpeed; }
+    float getSpeed() const { return fSpeed; }
+    float getMinLength() const { return fMinLength; }
+    float getMaxLength() const { return fMaxLength; }
+    float getLength() const { return fLength; }
+    double getBeginWorldTime() const { return fBeginWorldTime; }
 
-    void setStartSpeed(float speed);
-    void setSpeed(float speed);
-    void setLength(float length);
-    void setLengthBounds(float min, float max);
-    void setBeginWorldTime(double time);
+    void setStartSpeed(float speed) { fStartSpeed = speed; }
+    void setSpeed(float speed) { fSpeed = speed; }
+    void setLength(float length) { fLength = length; }
+    void setLengthBounds(float min, float max) { fMinLength = min; fMaxLength = max; }
+    void setBeginWorldTime(double time) { fBeginWorldTime = time; }
 };
 
+
 DllClass plSplineEaseCurve : public plATCEaseCurve {
-protected:
+    CREATABLE(plSplineEaseCurve, kSplineEaseCurve, plATCEaseCurve)
+
+public:
+    enum { kNumCoefficients = 4 };
+
+private:
     float fCoef[4];
 
 public:
     plSplineEaseCurve();
-    virtual ~plSplineEaseCurve();
-
-    DECLARE_CREATABLE(plSplineEaseCurve)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -55,16 +57,13 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    float getSplineCoef(size_t idx) const;
-    void setSplineCoef(size_t idx, float coef);
+    float getSplineCoef(size_t idx) const { return fCoef[idx]; }
+    void setSplineCoef(size_t idx, float coef) { fCoef[idx] = coef; }
 };
 
-DllClass plConstAccelEaseCurve : public plATCEaseCurve {
-public:
-    plConstAccelEaseCurve();
-    virtual ~plConstAccelEaseCurve();
 
-    DECLARE_CREATABLE(plConstAccelEaseCurve)
+DllClass plConstAccelEaseCurve : public plATCEaseCurve {
+    CREATABLE(plConstAccelEaseCurve, kConstAccelEaseCurve, plATCEaseCurve)
 };
 
 #endif

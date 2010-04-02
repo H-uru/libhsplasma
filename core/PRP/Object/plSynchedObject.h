@@ -5,6 +5,8 @@
 #include "Util/hsTArray.hpp"
 
 DllClass plSynchedObject : public hsKeyedObject {
+    CREATABLE(plSynchedObject, kSynchedObject, hsKeyedObject)
+
 public:
     enum Flags {
         kDontDirty = 0x1,
@@ -36,9 +38,6 @@ protected:
 
 public:
     plSynchedObject();
-    virtual ~plSynchedObject();
-
-    DECLARE_CREATABLE(plSynchedObject)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -48,15 +47,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    int getFlags() const;
-    void setFlags(int flags);
+    int getFlags() const { return fSynchFlags; }
+    void setFlags(int flags) { fSynchFlags = flags; }
 
-    void clearExcludes();
-    void clearVolatiles();
+    const hsTArray<plString>& getExcludes() const { return fSDLExcludeList; }
+    const hsTArray<plString>& getVolatiles() const { return fSDLVolatileList; }
     void setExclude(const plString& sdl);
     void setVolatile(const plString& sdl);
-    const hsTArray<plString>& getExcludes() const;
-    const hsTArray<plString>& getVolatiles() const;
+    void clearExcludes();
+    void clearVolatiles();
 };
 
 #endif

@@ -11,8 +11,6 @@ plLoadCloneMsg::~plLoadCloneMsg() {
         delete fTriggerMsg;
 }
 
-IMPLEMENT_CREATABLE(plLoadCloneMsg, kLoadCloneMsg, plMessage)
-
 void plLoadCloneMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 
@@ -88,60 +86,8 @@ void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey plLoadCloneMsg::getCloneKey() const {
-    return fCloneKey;
-}
-
-plKey plLoadCloneMsg::getRequestorKey() const {
-    return fRequestorKey;
-}
-
-unsigned char plLoadCloneMsg::getValidMsg() const {
-    return fValidMsg;
-}
-
-unsigned char plLoadCloneMsg::getIsLoading() const {
-    return fIsLoading;
-}
-
-unsigned int plLoadCloneMsg::getUserData() const {
-    return fUserData;
-}
-
-unsigned int plLoadCloneMsg::getOriginatingPlayerID() const {
-    return fOriginatingPlayerID;
-}
-
-plMessage* plLoadCloneMsg::getTriggerMsg() const {
-    return fTriggerMsg;
-}
-
-void plLoadCloneMsg::setCloneKey(plKey CloneKey) {
-    fCloneKey = CloneKey;
-}
-
-void plLoadCloneMsg::setRequestorKey(plKey RequestorKey) {
-    fRequestorKey = RequestorKey;
-}
-
-void plLoadCloneMsg::setValidMsg(unsigned char ValidMsg) {
-    fValidMsg = ValidMsg;
-}
-
-void plLoadCloneMsg::setIsLoading(unsigned char IsLoading) {
-    fIsLoading = IsLoading;
-}
-
-void plLoadCloneMsg::setUserData(unsigned int UserData) {
-    fUserData = UserData;
-}
-
-void plLoadCloneMsg::setOriginatingPlayerID(unsigned int OriginatingPlayerID) {
-    fOriginatingPlayerID = OriginatingPlayerID;
-}
-
-void plLoadCloneMsg::setTriggerMsg(plMessage* TriggerMsg) {
+void plLoadCloneMsg::setTriggerMsg(plMessage* msg) {
     if (fTriggerMsg != NULL)
         delete fTriggerMsg;
-    fTriggerMsg = TriggerMsg;
+    fTriggerMsg = msg;
 }

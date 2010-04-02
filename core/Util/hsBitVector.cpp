@@ -5,9 +5,6 @@
 hsBitVector::Bit::Bit(hsBitVector* vec, unsigned int off)
            : fVector(vec), fOffset(off) { }
 
-hsBitVector::Bit::operator bool() const { return fVector->get(fOffset); }
-bool hsBitVector::Bit::operator!() const { return !fVector->get(fOffset); }
-
 bool hsBitVector::Bit::operator==(bool value) const {
     return fVector->get(fOffset) == value;
 }
@@ -61,14 +58,6 @@ void hsBitVector::set(unsigned int idx, bool b) {
     else   fBits[idx / BVMULT] &= ~(1 << (idx & BVMASK));
 }
 
-bool hsBitVector::operator[](unsigned int idx) const {
-    return get(idx);
-}
-
-hsBitVector::Bit hsBitVector::operator[](unsigned int idx) {
-    return hsBitVector::Bit(this, idx);
-}
-
 hsBitVector& hsBitVector::operator=(const hsBitVector& cpy) {
     if (fBits) delete[] fBits;
     fNumVectors = cpy.fNumVectors;
@@ -77,22 +66,10 @@ hsBitVector& hsBitVector::operator=(const hsBitVector& cpy) {
     return *this;
 }
 
-bool hsBitVector::isEmpty() const {
-    return (fNumVectors == 0);
-}
-
 void hsBitVector::clear() {
     if (fBits) delete[] fBits;
     fBits = NULL;
     fNumVectors = 0;
-}
-
-void hsBitVector::setBit(unsigned int idx) {
-    set(idx, true);
-}
-
-void hsBitVector::clearBit(unsigned int idx) {
-    set(idx, false);
 }
 
 void hsBitVector::compact() {

@@ -429,6 +429,26 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="gate"
+			>
+			<File
+				RelativePath=".\gate\GateKeeperMessages.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gate\GateKeeperMessages.h"
+				>
+			</File>
+			<File
+				RelativePath=".\gate\pnGateKeeperClient.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\gate\pnGateKeeperClient.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\pnClient.cpp"
 			>

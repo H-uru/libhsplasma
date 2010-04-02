@@ -13,10 +13,6 @@ plLightInfo::plLightInfo() {
     fProps.setName(kLPForceProj, "kLPForceProj");
 }
 
-plLightInfo::~plLightInfo() { }
-
-IMPLEMENT_CREATABLE(plLightInfo, kLightInfo, plObjInterface)
-
 void plLightInfo::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
@@ -143,30 +139,3 @@ void plLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
-
-hsColorRGBA plLightInfo::getAmbient() const { return fAmbient; }
-hsColorRGBA plLightInfo::getDiffuse() const { return fDiffuse; }
-hsColorRGBA plLightInfo::getSpecular() const { return fSpecular; }
-hsMatrix44 plLightInfo::getLightToLocal() const { return fLightToLocal; }
-hsMatrix44 plLightInfo::getLocalToLight() const { return fLocalToLight; }
-hsMatrix44 plLightInfo::getLightToWorld() const { return fLightToWorld; }
-hsMatrix44 plLightInfo::getWorldToLight() const { return fWorldToLight; }
-plKey plLightInfo::getProjection() const { return fProjection; }
-plKey plLightInfo::getSoftVolume() const { return fSoftVolume; }
-plKey plLightInfo::getSceneNode() const { return fSceneNode; }
-
-void plLightInfo::setAmbient(const hsColorRGBA& color) { fAmbient = color; }
-void plLightInfo::setDiffuse(const hsColorRGBA& color) { fDiffuse = color; }
-void plLightInfo::setSpecular(const hsColorRGBA& color) { fSpecular = color; }
-void plLightInfo::setLightToLocal(const hsMatrix44& xform) { fLightToLocal = xform; }
-void plLightInfo::setLocalToLight(const hsMatrix44& xform) { fLocalToLight = xform; }
-void plLightInfo::setLightToWorld(const hsMatrix44& xform) { fLightToWorld = xform; }
-void plLightInfo::setWorldToLight(const hsMatrix44& xform) { fWorldToLight = xform; }
-void plLightInfo::setProjection(plKey proj) { fProjection = proj; }
-void plLightInfo::setSoftVolume(plKey vol) { fSoftVolume = vol; }
-void plLightInfo::setSceneNode(plKey node) { fSceneNode = node; }
-
-size_t plLightInfo::getNumVisRegions() const { return fVisRegions.getSize(); }
-plKey plLightInfo::getVisRegion(size_t idx) { return fVisRegions[idx]; }
-void plLightInfo::clearVisRegions() { fVisRegions.clear(); }
-void plLightInfo::addVisRegion(plKey region) { fVisRegions.append(region); }

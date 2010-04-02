@@ -6,10 +6,6 @@ static const char* CalibratedLevelNames[] = {
 
 plMaintainersMarkerModifier::plMaintainersMarkerModifier()
                            : fCalibrated(kBroken) { }
-plMaintainersMarkerModifier::~plMaintainersMarkerModifier() { }
-
-IMPLEMENT_CREATABLE(plMaintainersMarkerModifier, kMaintainersMarkerModifier,
-                    plMultiModifier)
 
 void plMaintainersMarkerModifier::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
@@ -41,6 +37,3 @@ void plMaintainersMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* m
         plMultiModifier::IPrcParse(tag, mgr);
     }
 }
-
-unsigned int plMaintainersMarkerModifier::getCalibration() const { return fCalibrated; }
-void plMaintainersMarkerModifier::setCalibration(unsigned int cal) { fCalibrated = cal; }

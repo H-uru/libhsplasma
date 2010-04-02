@@ -6,35 +6,26 @@
 
 /* Scalar Channels */
 DllClass plScalarChannel : public plAGChannel {
+    CREATABLE(plScalarChannel, kScalarChannel, plAGChannel)
+
 protected:
     float fResult;
 
 public:
-    plScalarChannel();
-    virtual ~plScalarChannel();
-
-    DECLARE_CREATABLE(plScalarChannel)
-
-public:
-    float getResult() const;
-    void setResult(float result);
+    float getResult() const { return fResult; }
+    void setResult(float result) { fResult = result; }
 };
+
 
 DllClass plScalarBlend : public plScalarChannel {
-public:
-    plScalarBlend();
-    virtual ~plScalarBlend();
-
-    DECLARE_CREATABLE(plScalarBlend)
+    CREATABLE(plScalarBlend, kScalarBlend, plScalarChannel)
 };
 
+
 DllClass plScalarConstant : public plScalarChannel {
+    CREATABLE(plScalarConstant, kScalarConstant, plScalarChannel)
+
 public:
-    plScalarConstant();
-    virtual ~plScalarConstant();
-
-    DECLARE_CREATABLE(plScalarConstant)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -43,15 +34,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plScalarControllerCacheChannel : public plScalarChannel {
-public:
-    plScalarControllerCacheChannel();
-    virtual ~plScalarControllerCacheChannel();
 
-    DECLARE_CREATABLE(plScalarControllerCacheChannel)
+DllClass plScalarControllerCacheChannel : public plScalarChannel {
+    CREATABLE(plScalarControllerCacheChannel, kScalarControllerCacheChannel,
+              plScalarChannel)
 };
 
+
 DllClass plScalarControllerChannel : public plScalarChannel {
+    CREATABLE(plScalarControllerChannel, kScalarControllerChannel,
+              plScalarChannel)
+
 protected:
     plController* fController;
 
@@ -59,8 +52,6 @@ public:
     plScalarControllerChannel();
     virtual ~plScalarControllerChannel();
 
-    DECLARE_CREATABLE(plScalarControllerChannel)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -69,42 +60,28 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plController* getController() const;
+    plController* getController() const { return fController; }
     void setController(plController* controller);
 };
 
-DllClass plScalarTimeScale : public plScalarChannel {
-public:
-    plScalarTimeScale();
-    virtual ~plScalarTimeScale();
 
-    DECLARE_CREATABLE(plScalarTimeScale)
+DllClass plScalarTimeScale : public plScalarChannel {
+    CREATABLE(plScalarTimeScale, kScalarTimeScale, plScalarChannel)
 };
 
 DllClass plScalarSDLChannel : public plScalarChannel {
-public:
-    plScalarSDLChannel();
-    virtual ~plScalarSDLChannel();
-
-    DECLARE_CREATABLE(plScalarSDLChannel)
+    CREATABLE(plScalarSDLChannel, kScalarSDLChannel, plScalarChannel)
 };
 
 DllClass plATCChannel : public plScalarChannel {
-public:
-    plATCChannel();
-    virtual ~plATCChannel();
-
-    DECLARE_CREATABLE(plATCChannel)
+    CREATABLE(plATCChannel, kATCChannel, plScalarChannel)
 };
 
 
 /* Scalar Channel Applicators */
 DllClass plScalarChannelApplicator : public plAGApplicator {
-public:
-    plScalarChannelApplicator();
-    virtual ~plScalarChannelApplicator();
-
-    DECLARE_CREATABLE(plScalarChannelApplicator)
+    CREATABLE(plScalarChannelApplicator, kScalarChannelApplicator,
+              plAGApplicator)
 };
 
 #endif

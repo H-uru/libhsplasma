@@ -58,10 +58,6 @@ plSound::plSound()
          fOuterCone(360), fCurrVolume(0.0f), fDesiredVol(0.0f),
          fFadedVolume(0.0f), fProperties(0) { }
 
-plSound::~plSound() { }
-
-IMPLEMENT_CREATABLE(plSound, kSound, plSynchedObject)
-
 void plSound::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
     IRead(S, mgr);
@@ -218,41 +214,3 @@ void plSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
-
-unsigned char plSound::getType() const { return fType; }
-unsigned char plSound::getPriority() const { return fPriority; }
-bool plSound::isPlaying() const { return fPlaying; }
-double plSound::getTime() const { return fTime; }
-int plSound::getMaxFalloff() const { return fMaxFalloff; }
-int plSound::getMinFalloff() const { return fMinFalloff; }
-int plSound::getOuterVol() const { return fOuterVol; }
-int plSound::getInnerCone() const { return fInnerCone; }
-int plSound::getOuterCone() const { return fOuterCone; }
-float plSound::getCurrVolume() const { return fCurrVolume; }
-float plSound::getDesiredVol() const { return fDesiredVol; }
-float plSound::getFadedVolume() const { return fFadedVolume; }
-unsigned int plSound::getProperties() const { return fProperties; }
-plKey plSound::getSoftRegion() const { return fSoftRegion; }
-plKey plSound::getSoftOcclusionRegion() const { return fSoftOcclusionRegion; }
-plKey plSound::getDataBuffer() const { return fDataBuffer; }
-plString plSound::getSubtitleId() const { return fSubtitleId; }
-
-void plSound::setType(unsigned char type) { fType = type; }
-void plSound::setPriority(unsigned char priority) { fPriority = priority; }
-void plSound::setPlaying(bool playing) { fPlaying = playing; }
-void plSound::setTime(double time) { fTime = time; }
-void plSound::setFalloff(int min, int max) { fMinFalloff = min; fMaxFalloff = max; }
-void plSound::setOuterVol(int vol) { fOuterVol = vol; }
-void plSound::setCone(int inner, int outer) { fInnerCone = inner; fOuterCone = outer; }
-void plSound::setCurrVolume(float vol) { fCurrVolume = vol; }
-void plSound::setDesiredVol(float vol) { fDesiredVol = vol; }
-void plSound::setFadedVolume(float vol) { fFadedVolume = vol; }
-void plSound::setProperties(unsigned int props) { fProperties = props; }
-void plSound::setSoftRegion(plKey region) { fSoftRegion = region; }
-void plSound::setSoftOcclusionRegion(plKey region) { fSoftOcclusionRegion = region; }
-void plSound::setDataBuffer(plKey buffer) { fDataBuffer = buffer; }
-void plSound::setSubtitleId(const plString& subtitle) { fSubtitleId = subtitle; }
-
-plEAXSourceSettings& plSound::getEAXSettings() { return fEAXSettings; }
-plSound::plFadeParams& plSound::getFadeInParams() { return fFadeInParams; }
-plSound::plFadeParams& plSound::getFadeOutParams() { return fFadeOutParams; }

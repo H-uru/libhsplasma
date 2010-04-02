@@ -29,7 +29,10 @@ public:
     void prcParse(const pfPrcTag* tag);
 };
 
+
 DllClass plCameraMsg : public plMessage {
+    CREATABLE(plCameraMsg, kCameraMsg, plMessage)
+
 public:
     enum ModCmds {
         kSetSubject, kCameraMod, kSetAsPrimary, kTransitionTo, kPush, kPop,
@@ -53,9 +56,6 @@ protected:
 
 public:
     plCameraMsg();
-    virtual ~plCameraMsg();
-
-    DECLARE_CREATABLE(plCameraMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

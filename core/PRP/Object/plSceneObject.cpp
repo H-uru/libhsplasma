@@ -1,10 +1,5 @@
 #include "plSceneObject.h"
 
-plSceneObject::plSceneObject() { }
-plSceneObject::~plSceneObject() { }
-
-IMPLEMENT_CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
-
 void plSceneObject::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
@@ -104,26 +99,3 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
-
-plKey plSceneObject::getDrawInterface() const { return fDrawIntf; }
-plKey plSceneObject::getSimInterface() const { return fSimIntf; }
-plKey plSceneObject::getCoordInterface() const { return fCoordIntf; }
-plKey plSceneObject::getAudioInterface() const { return fAudioIntf; }
-plKey plSceneObject::getSceneNode() const { return fSceneNode; }
-
-void plSceneObject::setDrawInterface(plKey intf) { fDrawIntf = intf; }
-void plSceneObject::setSimInterface(plKey intf) { fSimIntf = intf; }
-void plSceneObject::setCoordInterface(plKey intf) { fCoordIntf = intf; }
-void plSceneObject::setAudioInterface(plKey intf) { fAudioIntf = intf; }
-void plSceneObject::setSceneNode(plKey node) { fSceneNode = node; }
-
-size_t plSceneObject::getNumInterfaces() const { return fInterfaces.getSize(); }
-size_t plSceneObject::getNumModifiers() const { return fModifiers.getSize(); }
-plKey plSceneObject::getInterface(size_t idx) const { return fInterfaces[idx]; }
-plKey plSceneObject::getModifier(size_t idx) const { return fModifiers[idx]; }
-void plSceneObject::clearInterfaces() { fInterfaces.clear(); }
-void plSceneObject::clearModifiers() { fModifiers.clear(); }
-void plSceneObject::addInterface(plKey intf) { fInterfaces.append(intf); }
-void plSceneObject::addModifier(plKey mod) { fModifiers.append(mod); }
-void plSceneObject::delInterface(size_t idx) { fInterfaces.remove(idx); }
-void plSceneObject::delModifier(size_t idx) { fModifiers.remove(idx); }

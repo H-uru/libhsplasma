@@ -5,7 +5,6 @@
 /* plNetServerSessionInfo */
 plNetServerSessionInfo::plNetServerSessionInfo()
                       : fServerType(0), fServerPort(0) { }
-plNetServerSessionInfo::~plNetServerSessionInfo() { }
 
 void plNetServerSessionInfo::read(hsStream* S) {
     fContents = S->readByte();
@@ -42,13 +41,6 @@ void plNetServerSessionInfo::write(hsStream* S) {
     if (fContents & kHasServerGuid)
         fServerGuid.write(S);
 }
-
-unsigned char plNetServerSessionInfo::getContents() const { return fContents; }
-plString plNetServerSessionInfo::getServerName() const { return fServerName; }
-plString plNetServerSessionInfo::getServerAddr() const { return fServerAddr; }
-unsigned char plNetServerSessionInfo::getServerType() const { return fServerType; }
-unsigned short plNetServerSessionInfo::getServerPort() const { return fServerPort; }
-plUuid plNetServerSessionInfo::getServerGuid() const { return fServerGuid; }
 
 void plNetServerSessionInfo::setServerName(const plString& name) {
     fContents |= kHasServerName;
@@ -122,10 +114,10 @@ void plNetGameServerState::read(hsStream* S) {
     data.copyFrom(ubuf, uncompLen);
     delete[] cbuf;
     delete[] ubuf;
-    
+
     if (data.size() == 0)  // Check if there's actually any data
         return;
-    
+
     fSDLMgr.read(&data);
     fRecords.setSize(data.readInt());
     fObjects.setSize(fRecords.getSize());
@@ -168,29 +160,6 @@ void plNetGameServerState::write(hsStream* S) {
     delete[] ubuf;
 }
 
-unsigned int plNetGameServerState::getFlags() const { return fFlags; }
-unsigned short plNetGameServerState::getMajorVer() const { return fMajorVer; }
-unsigned short plNetGameServerState::getMinorVer() const { return fMinorVer; }
-plNetServerSessionInfo& plNetGameServerState::getSession() { return fSession; }
-plSDLMgr& plNetGameServerState::getSDLMgr() { return fSDLMgr; }
-
-void plNetGameServerState::setFlags(unsigned int flags) { fFlags = flags; }
-
-void plNetGameServerState::setVersion(unsigned short major, unsigned short minor) {
-    fMajorVer = major;
-    fMinorVer = minor;
-}
-
-void plNetGameServerState::clearRecords() {
-    for (size_t i=0; i<fRecords.getSize(); i++)
-        delete fRecords[i];
-    fRecords.setSize(0);
-}
-
-size_t plNetGameServerState::numRecords() const { return fRecords.getSize(); }
-plStateDataRecord* plNetGameServerState::getRecord(size_t idx) const { return fRecords[idx]; }
-plUoid plNetGameServerState::getObject(size_t idx) const { return fObjects[idx]; }
-
 void plNetGameServerState::addRecord(plStateDataRecord* rec, const plUoid& obj) {
     fRecords.append(rec);
     fObjects.append(obj);
@@ -200,4 +169,10 @@ void plNetGameServerState::delRecord(size_t idx) {
     delete fRecords[idx];
     fRecords.remove(idx);
     fObjects.remove(idx);
+}
+
+void plNetGameServerState::clearRecords() {
+    for (size_t i=0; i<fRecords.getSize(); i++)
+        delete fRecords[i];
+    fRecords.setSize(0);
 }

@@ -6,16 +6,13 @@
 #include "plSharedMesh.h"
 
 DllClass plMorphSequence : public plSingleModifier {
+    CREATABLE(plMorphSequence, kMorphSequence, plSingleModifier)
+
 private:
     hsTArray<plMorphArray> fMorphs;
     hsTArray<plKey> fSharedMeshes;
 
 public:
-    plMorphSequence();
-    virtual ~plMorphSequence();
-
-    DECLARE_CREATABLE(plMorphSequence)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

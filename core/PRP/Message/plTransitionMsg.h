@@ -4,6 +4,8 @@
 #include "plMessageWithCallbacks.h"
 
 DllClass plTransitionMsg : public plMessageWithCallbacks {
+    CREATABLE(plTransitionMsg, kTransitionMsg, plMessageWithCallbacks)
+
 public:
     enum { kFadeIn, kFadeOut, kFadeInNoSound, kFadeOutNoSound };
 
@@ -14,9 +16,6 @@ protected:
 
 public:
     plTransitionMsg();
-    virtual ~plTransitionMsg();
-
-    DECLARE_CREATABLE(plTransitionMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

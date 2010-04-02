@@ -101,9 +101,9 @@ static PyObject* pyCluster_getGroup(pyCluster* self, void*) {
 }
 
 static PyObject* pyCluster_getInstances(pyCluster* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumInstances());
-    for (size_t i=0; i<self->fThis->getNumInstances(); i++)
-        PyList_SET_ITEM(list, i, pySpanInstance_FromSpanInstance(self->fThis->getInstance(i)));
+    PyObject* list = PyList_New(self->fThis->getInstances().getSize());
+    for (size_t i=0; i<self->fThis->getInstances().getSize(); i++)
+        PyList_SET_ITEM(list, i, pySpanInstance_FromSpanInstance(self->fThis->getInstances()[i]));
     return list;
 }
 

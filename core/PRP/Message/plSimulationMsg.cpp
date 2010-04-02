@@ -1,24 +1,7 @@
 #include "plSimulationMsg.h"
 
-/* plSimulationMsg */
-plSimulationMsg::plSimulationMsg() { }
-plSimulationMsg::~plSimulationMsg() { }
-
-IMPLEMENT_CREATABLE(plSimulationMsg, kSimulationMsg, plMessage)
-
-
-/* plSimStateMsg */
-plSimStateMsg::plSimStateMsg() { }
-plSimStateMsg::~plSimStateMsg() { }
-
-IMPLEMENT_CREATABLE(plSimStateMsg, kSimStateMsg, plSimulationMsg)
-
-
 /* plSimSuppressMsg */
 plSimSuppressMsg::plSimSuppressMsg() : fSuppress(false) { }
-plSimSuppressMsg::~plSimSuppressMsg() { }
-
-IMPLEMENT_CREATABLE(plSimSuppressMsg, kSimSuppressMsg, plSimStateMsg)
 
 void plSimSuppressMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
@@ -46,12 +29,8 @@ void plSimSuppressMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+
 /* plSubWorldMsg */
-plSubWorldMsg::plSubWorldMsg() { }
-plSubWorldMsg::~plSubWorldMsg() { }
-
-IMPLEMENT_CREATABLE(plSubWorldMsg, kSubWorldMsg, plSimulationMsg)
-
 void plSubWorldMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fWorldKey = mgr->readKey(S);

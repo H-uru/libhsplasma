@@ -5,10 +5,6 @@ pfGUITextBoxMod::pfGUITextBoxMod() {
     fFlags.setName(kRightJustify, "kRightJustify");
 }
 
-pfGUITextBoxMod::~pfGUITextBoxMod() { }
-
-IMPLEMENT_CREATABLE(pfGUITextBoxMod, kGUITextBoxMod, pfGUIControlMod)
-
 void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
@@ -59,9 +55,3 @@ void pfGUITextBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
 }
-
-const plString& pfGUITextBoxMod::getText() const { return fText; }
-const plWString& pfGUITextBoxMod::getLocalizationPath() const { return fLocalizationPath; }
-
-void pfGUITextBoxMod::setText(const plString& text) { fText = text; }
-void pfGUITextBoxMod::setLocalizationPath(const plWString& path) { fLocalizationPath = path; }

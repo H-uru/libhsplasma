@@ -32,10 +32,6 @@ plAnimCmdMsg::plAnimCmdMsg()
     fCmd.setName(kGoToPercent, "kGoToPercent");
 }
 
-plAnimCmdMsg::~plAnimCmdMsg() { }
-
-IMPLEMENT_CREATABLE(plAnimCmdMsg, kAnimCmdMsg, plMessageWithCallbacks)
-
 void plAnimCmdMsg::read(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::read(S, mgr);
 

@@ -26,7 +26,7 @@ public:
 
     /** Defines the Rotation component */
     hsQuat fQ;
-    
+
     /** Defines the axis system of the Scaling component */
     hsQuat fU;
 

@@ -8,10 +8,6 @@ plShadowMaster::plShadowMaster()
     fProps.setName(kSelfShadow, "kSelfShadow");
 }
 
-plShadowMaster::~plShadowMaster() { }
-
-IMPLEMENT_CREATABLE(plShadowMaster, kShadowMaster, plObjInterface)
-
 void plShadowMaster::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
@@ -59,29 +55,3 @@ void plShadowMaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
-
-float plShadowMaster::getAttenDist() const { return fAttenDist; }
-float plShadowMaster::getMaxDist() const { return fMaxDist; }
-float plShadowMaster::getMinDist() const { return fMinDist; }
-float plShadowMaster::getPower() const { return fPower; }
-unsigned int plShadowMaster::getMaxSize() const { return fMaxSize; }
-unsigned int plShadowMaster::getMinSize() const { return fMinSize; }
-
-void plShadowMaster::setAttenDist(float dist) { fAttenDist = dist; }
-void plShadowMaster::setDist(float min, float max) { fMinDist = min; fMaxDist = max; }
-void plShadowMaster::setPower(float power) { fPower = power; }
-void plShadowMaster::setSize(unsigned int min, unsigned int max) { fMinSize = min; fMaxSize = max; }
-
-
-/* plPointShadowMaster */
-plPointShadowMaster::plPointShadowMaster() { }
-plPointShadowMaster::~plPointShadowMaster() { }
-
-IMPLEMENT_CREATABLE(plPointShadowMaster, kPointShadowMaster, plShadowMaster)
-
-
-/* plDirectShadowMaster */
-plDirectShadowMaster::plDirectShadowMaster() { }
-plDirectShadowMaster::~plDirectShadowMaster() { }
-
-IMPLEMENT_CREATABLE(plDirectShadowMaster, kDirectShadowMaster, plShadowMaster)

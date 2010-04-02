@@ -4,8 +4,6 @@ plPseudoLinkEffectMsg::plPseudoLinkEffectMsg() {
     fBCastFlags |= (kNetPropagate | kBCastByExactType);
 }
 
-IMPLEMENT_CREATABLE(plPseudoLinkEffectMsg, kPseudoLinkEffectMsg, plMessage)
-
 void plPseudoLinkEffectMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fLinkObjKey = mgr->readKey(S);

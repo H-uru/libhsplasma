@@ -5,6 +5,8 @@
 #include "plNetGroupId.h"
 
 DllClass plNetMsgGroupOwner : public plNetMsgServerToClient {
+    CREATABLE(plNetMsgGroupOwner, kNetMsgGroupOwner, plNetMsgServerToClient)
+
 public:
     DllStruct GroupInfo {
         plNetGroupId fGroupID;
@@ -17,11 +19,6 @@ private:
     hsTArray<GroupInfo> fGroups;
 
 public:
-    plNetMsgGroupOwner();
-    ~plNetMsgGroupOwner();
-
-    DECLARE_CREATABLE(plNetMsgGroupOwner);
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

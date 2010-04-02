@@ -32,8 +32,6 @@ plMipmap::~plMipmap() {
         delete[] fJAlphaData;
 }
 
-IMPLEMENT_CREATABLE(plMipmap, kMipmap, plBitmap)
-
 void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
                       unsigned char numLevels, unsigned char compType,
                       unsigned char format) {
@@ -666,9 +664,6 @@ void plMipmap::ICopyImage(plMipmap* src) {
     fLevelData = src->fLevelData;
 }
 
-unsigned int plMipmap::getWidth() const { return fWidth; }
-unsigned int plMipmap::getHeight() const { return fHeight; }
-
 const void* plMipmap::getImageData() const {
     if (fCompressionType == kJPEGCompression)
         return isImageJPEG() ? fJPEGData : fImageData ;
@@ -692,11 +687,6 @@ unsigned int plMipmap::getAlphaSize() const {
         return isAlphaJPEG() ? fJAlphaSize : fTotalSize;
     return 0;
 }
-
-size_t plMipmap::getNumLevels() const { return fLevelData.getSize(); }
-unsigned int plMipmap::getLevelWidth(size_t idx) const { return fLevelData[idx].fWidth; }
-unsigned int plMipmap::getLevelHeight(size_t idx) const { return fLevelData[idx].fHeight; }
-unsigned int plMipmap::getLevelSize(size_t idx) const { return fLevelData[idx].fSize; }
 
 const void* plMipmap::getLevelData(size_t idx) const {
     return fImageData + fLevelData[idx].fOffset;
@@ -731,9 +721,6 @@ void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
     fJAlphaData = new unsigned char[size];
     memcpy(fJAlphaData, data, size);
 }
-
-bool plMipmap::isImageJPEG() const { return fJPEGData != NULL; }
-bool plMipmap::isAlphaJPEG() const { return fJAlphaData != NULL; }
 
 size_t plMipmap::GetUncompressedSize(size_t level) const {
     const LevelData& lvl = fLevelData[level];
@@ -805,11 +792,6 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size) {
 
 
 /* plLODMipmap */
-plLODMipmap::plLODMipmap() { }
-plLODMipmap::~plLODMipmap() { }
-
-IMPLEMENT_CREATABLE(plLODMipmap, kLODMipmap, plMipmap)
-
 void plLODMipmap::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);    // Not a typo
     fBase = mgr->readKey(S);
@@ -836,6 +818,3 @@ void plLODMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
-
-plKey plLODMipmap::getBase() const { return fBase; }
-void plLODMipmap::setBase(plKey base) { fBase = base; }

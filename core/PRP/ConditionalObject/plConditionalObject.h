@@ -5,14 +5,13 @@
 #include "Util/hsBitVector.h"
 
 DllClass plConditionalObject : public hsKeyedObject {
+    CREATABLE(plConditionalObject, kConditionalObject, hsKeyedObject)
+
 protected:
     bool fSatisfied, fToggle;
 
 public:
     plConditionalObject();
-    virtual ~plConditionalObject();
-
-    DECLARE_CREATABLE(plConditionalObject)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -22,14 +21,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plPickedConditionalObject : public plConditionalObject {
-public:
-    DECLARE_CREATABLE(plPickedConditionalObject)
+    CREATABLE(plPickedConditionalObject, kPickedConditionalObject,
+              plConditionalObject)
 };
 
+
 DllClass plPythonFileModConditionalObject : public plConditionalObject {
-public:
-    DECLARE_CREATABLE(plPythonFileModConditionalObject)
+    CREATABLE(plPythonFileModConditionalObject,
+              kPythonFileModConditionalObject,
+              plConditionalObject)
 };
 
 #endif

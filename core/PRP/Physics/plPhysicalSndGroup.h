@@ -4,6 +4,8 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plPhysicalSndGroup : public hsKeyedObject {
+    CREATABLE(plPhysicalSndGroup, kPhysicalSndGroup, hsKeyedObject)
+
 public:
     enum SoundGroup { kNone, kMetal, kGrass, kWood, kStone };
 
@@ -13,9 +15,6 @@ protected:
 
 public:
     plPhysicalSndGroup();
-    virtual ~plPhysicalSndGroup();
-
-    DECLARE_CREATABLE(plPhysicalSndGroup)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

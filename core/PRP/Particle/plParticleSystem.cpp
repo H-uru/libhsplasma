@@ -24,8 +24,6 @@ plParticleSystem::~plParticleSystem() {
         delete fHeightCtl;
 }
 
-IMPLEMENT_CREATABLE(plParticleSystem, kParticleSystem, plSynchedObject)
-
 void plParticleSystem::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
@@ -276,33 +274,6 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey plParticleSystem::getMaterial() const { return fMaterial; }
-unsigned int plParticleSystem::getXTiles() const { return fXTiles; }
-unsigned int plParticleSystem::getYTiles() const { return fYTiles; }
-hsVector3 plParticleSystem::getAccel() const { return fAccel; }
-float plParticleSystem::getPreSim() const { return fPreSim; }
-float plParticleSystem::getDrag() const { return fDrag; }
-float plParticleSystem::getWindMult() const { return fWindMult; }
-unsigned int plParticleSystem::getMaxTotalParticles() const { return fMaxTotalParticles; }
-plController* plParticleSystem::getAmbientCtl() const { return fAmbientCtl; }
-plController* plParticleSystem::getDiffuseCtl() const { return fDiffuseCtl; }
-plController* plParticleSystem::getOpacityCtl() const { return fOpacityCtl; }
-plController* plParticleSystem::getWidthCtl() const { return fWidthCtl; }
-plController* plParticleSystem::getHeightCtl() const { return fHeightCtl; }
-
-void plParticleSystem::setMaterial(plKey mat) { fMaterial = mat; }
-
-void plParticleSystem::setTiles(unsigned int xtiles, unsigned int ytiles) {
-    fXTiles = xtiles;
-    fYTiles = ytiles;
-}
-
-void plParticleSystem::setAccel(const hsVector3& accel) { fAccel = accel; }
-void plParticleSystem::setPreSim(float preSim) { fPreSim = preSim; }
-void plParticleSystem::setDrag(float drag) { fDrag = drag; }
-void plParticleSystem::setWindMult(float windMult) { fWindMult = windMult; }
-void plParticleSystem::setMaxTotalParticles(unsigned int max) { fMaxTotalParticles = max; }
-
 void plParticleSystem::setAmbientCtl(plController* ctl) {
     if (fAmbientCtl != NULL)
         delete fAmbientCtl;
@@ -333,10 +304,7 @@ void plParticleSystem::setHeightCtl(plController* ctl) {
     fHeightCtl = ctl;
 }
 
-unsigned int plParticleSystem::getNumValidEmitters() const { return fNumValidEmitters; }
-unsigned int plParticleSystem::getMaxEmitters() const { return fMaxEmitters; }
-
-void plParticleSystem::setMaxEmitters(unsigned int max) {
+void plParticleSystem::allocEmitters(unsigned int max) {
     for (size_t i=max; i<fMaxEmitters; i++) {
         // When max < fMaxEmitters
         if (fEmitters[i] != NULL)
@@ -351,8 +319,10 @@ void plParticleSystem::setMaxEmitters(unsigned int max) {
         fNumValidEmitters = fMaxEmitters;
 }
 
-plParticleEmitter* plParticleSystem::getEmitter(size_t idx) const {
-    return fEmitters[idx];
+void plParticleSystem::setEmitter(size_t idx, plParticleEmitter* emitter) {
+    if (fEmitters[idx] != NULL)
+        delete fEmitters[idx];
+    fEmitters[idx] = emitter;
 }
 
 void plParticleSystem::addEmitter(plParticleEmitter* emitter) {
@@ -382,27 +352,3 @@ void plParticleSystem::clearEmitters() {
     fNumValidEmitters = 0;
     fMaxEmitters = 0;
 }
-
-size_t plParticleSystem::getNumForces() const { return fForces.getSize(); }
-plKey plParticleSystem::getForce(size_t idx) const { return fForces[idx]; }
-void plParticleSystem::addForce(plKey force) { fForces.append(force); }
-void plParticleSystem::delForce(size_t idx) { fForces.remove(idx); }
-void plParticleSystem::clearForces() { fForces.clear(); }
-
-size_t plParticleSystem::getNumEffects() const { return fEffects.getSize(); }
-plKey plParticleSystem::getEffect(size_t idx) const { return fEffects[idx]; }
-void plParticleSystem::addEffect(plKey effect) { fEffects.append(effect); }
-void plParticleSystem::delEffect(size_t idx) { fEffects.remove(idx); }
-void plParticleSystem::clearEffects() { fEffects.clear(); }
-
-size_t plParticleSystem::getNumConstraints() const { return fConstraints.getSize(); }
-plKey plParticleSystem::getConstraint(size_t idx) const { return fConstraints[idx]; }
-void plParticleSystem::addConstraint(plKey constraint) { fConstraints.append(constraint); }
-void plParticleSystem::delConstraint(size_t idx) { fConstraints.remove(idx); }
-void plParticleSystem::clearConstraints() { fConstraints.clear(); }
-
-size_t plParticleSystem::getNumPermaLights() const { return fPermaLights.getSize(); }
-plKey plParticleSystem::getPermaLight(size_t idx) const { return fPermaLights[idx]; }
-void plParticleSystem::addPermaLight(plKey light) { fPermaLights.append(light); }
-void plParticleSystem::delPermaLight(size_t idx) { fPermaLights.remove(idx); }
-void plParticleSystem::clearPermaLights() { fPermaLights.clear(); }

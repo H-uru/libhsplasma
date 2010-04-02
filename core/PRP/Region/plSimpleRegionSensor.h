@@ -2,8 +2,11 @@
 #define _PLSIMPLEREGIONSENSOR_H
 
 #include "PRP/Modifier/plModifier.h"
+#include "PRP/Message/plMessage.h"
 
 DllClass plSimpleRegionSensor : public plSingleModifier {
+    CREATABLE(plSimpleRegionSensor, kSimpleRegionSensor, plSingleModifier)
+
 protected:
     plMessage* fEnterMsg;
     plMessage* fExitMsg;
@@ -11,8 +14,6 @@ protected:
 public:
     plSimpleRegionSensor();
     virtual ~plSimpleRegionSensor();
-
-    DECLARE_CREATABLE(plSimpleRegionSensor)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -26,24 +27,24 @@ public:
     void setExitMsg(plMessage* msg);
 };
 
+
 DllClass plSwimDetector : public plSimpleRegionSensor {
+    CREATABLE(plSwimDetector, kSwimDetector, plSimpleRegionSensor)
+
 public:
-    plSwimDetector();
-
-    DECLARE_CREATABLE(plSwimDetector)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 };
 
+
 DllClass plAutoWalkRegion : public plSimpleRegionSensor {
+    CREATABLE(plAutoWalkRegion, kAutoWalkRegion, plSimpleRegionSensor)
+
 protected:
     unsigned int fUnknown;
 
 public:
     plAutoWalkRegion();
-
-    DECLARE_CREATABLE(plAutoWalkRegion)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -53,11 +54,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plRidingAnimatedPhysicalDetector : public plSimpleRegionSensor {
-public:
-    plRidingAnimatedPhysicalDetector();
 
-    DECLARE_CREATABLE(plRidingAnimatedPhysicalDetector)
+DllClass plRidingAnimatedPhysicalDetector : public plSimpleRegionSensor {
+    CREATABLE(plRidingAnimatedPhysicalDetector,
+              kRidingAnimatedPhysicalDetector,
+              plSimpleRegionSensor)
 };
 
 #endif

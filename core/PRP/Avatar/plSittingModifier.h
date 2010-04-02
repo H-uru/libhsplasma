@@ -4,6 +4,8 @@
 #include "PRP/Modifier/plModifier.h"
 
 DllClass plSittingModifier : public plSingleModifier {
+    CREATABLE(plSittingModifier, kSittingModifier, plSingleModifier)
+
 public:
     enum {
         kApproachFront = 0x1,
@@ -22,9 +24,6 @@ protected:
 
 public:
     plSittingModifier();
-    virtual ~plSittingModifier();
-
-    DECLARE_CREATABLE(plSittingModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

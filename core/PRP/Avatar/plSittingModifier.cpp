@@ -1,9 +1,6 @@
 #include "plSittingModifier.h"
 
 plSittingModifier::plSittingModifier() : fMiscFlags(0) { }
-plSittingModifier::~plSittingModifier() { }
-
-IMPLEMENT_CREATABLE(plSittingModifier, kSittingModifier, plSingleModifier)
 
 void plSittingModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);

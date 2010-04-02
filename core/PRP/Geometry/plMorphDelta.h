@@ -17,6 +17,7 @@ public:
     void prcParse(const pfPrcTag* tag);
 };
 
+
 DllClass plMorphSpan {
 protected:
     hsTArray<plVertDelta> fDeltas;
@@ -33,16 +34,16 @@ public:
     void prcParse(const pfPrcTag* tag);
 };
 
+
 DllClass plMorphDelta : public plCreatable {
+    CREATABLE(plMorphDelta, kMorphDelta, plCreatable)
+
 protected:
     hsTArray<plMorphSpan> fSpans;
     float fWeight;
 
 public:
     plMorphDelta();
-    virtual ~plMorphDelta();
-
-    DECLARE_CREATABLE(plMorphDelta)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

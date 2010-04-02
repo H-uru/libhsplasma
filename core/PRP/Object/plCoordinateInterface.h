@@ -6,6 +6,8 @@
 #include "Math/hsMatrix44.h"
 
 DllClass plCoordinateInterface : public plObjInterface {
+    CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
+
 public:
     enum plCoordinateProperties {
         kDisable, kCanEverDelayTransform, kDelayedTransformEval, kNumProps
@@ -20,9 +22,6 @@ public:
 
 public:
     plCoordinateInterface();
-    virtual ~plCoordinateInterface();
-
-    DECLARE_CREATABLE(plCoordinateInterface)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -32,16 +31,21 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    hsMatrix44& getLocalToParent();
-    hsMatrix44& getParentToLocal();
-    hsMatrix44& getLocalToWorld();
-    hsMatrix44& getWorldToLocal();
+    const hsMatrix44& getLocalToParent() const { return fLocalToParent; }
+    const hsMatrix44& getParentToLocal() const { return fParentToLocal; }
+    const hsMatrix44& getLocalToWorld() const { return fLocalToWorld; }
+    const hsMatrix44& getWorldToLocal() const { return fWorldToLocal; }
 
-    size_t getNumChildren() const;
-    plKey getChild(size_t idx) const;
-    void clearChildren();
-    void addChild(plKey child);
-    void delChild(size_t idx);
+    void setLocalToParent(const hsMatrix44& xform) { fLocalToParent = xform; }
+    void setParentToLocal(const hsMatrix44& xform) { fParentToLocal = xform; }
+    void setLocalToWorld(const hsMatrix44& xform) { fLocalToWorld = xform; }
+    void setWorldToLocal(const hsMatrix44& xform) { fWorldToLocal = xform; }
+
+    const hsTArray<plKey>& getChildren() const { return fChildren; }
+    hsTArray<plKey>& getChildren() { return fChildren; }
+    void addChild(plKey child) { fChildren.append(child); }
+    void delChild(size_t idx) { fChildren.remove(idx); }
+    void clearChildren() { fChildren.clear(); }
 };
 
 #endif

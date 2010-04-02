@@ -4,18 +4,15 @@
 #include "ResManager/pdUnifiedTypeMap.h"
 #include "ResManager/plResManager.h"
 
-#define DECLARE_CREATABLE(classname) \
-    virtual short ClassIndex() const; \
-    virtual bool ClassInstance(short hClass) const; \
-    static classname* Convert(plCreatable* pCre, bool requireValid = true);
-
-#define IMPLEMENT_CREATABLE(classname, classid, parentclass) \
-    short classname::ClassIndex() const { return classid; } \
-    bool classname::ClassInstance(short hClass) const { \
-        if (hClass == classid) return true; \
+#define CREATABLE(classname, classid, parentclass) \
+public: \
+    virtual short ClassIndex() const { return classid; } \
+    virtual bool ClassInstance(short hClass) const { \
+        if (hClass == classid) \
+            return true; \
         return parentclass::ClassInstance(hClass); \
     } \
-    classname* classname::Convert(plCreatable* pCre, bool requireValid) { \
+    static classname* Convert(plCreatable* pCre, bool requireValid = true) { \
         if (pCre == NULL) \
             return NULL; \
         if (pCre->ClassInstance(classid)) \
@@ -34,15 +31,14 @@
 
 DllClass plCreatable {
 public:
-    plCreatable();
-    virtual ~plCreatable();
+    plCreatable() { }
+    virtual ~plCreatable() { }
 
     /**
      * Returns the Creatable Class ID for this Creatable.  Use the
-     * DECLARE_CREATABLE and IMPLEMENT_CREATABLE macros to set this
-     * automatically in subclasses.
+     * CREATABLE macro to set this automatically in subclasses.
      */
-    virtual short ClassIndex() const =0;
+    virtual short ClassIndex() const = 0;
 
     /**
      * Returns the Plasma-Engine specific Class ID for this Creatable
@@ -52,18 +48,16 @@ public:
 
     /**
      * Returns a string of the creatable's class name.  Use the
-     * DECLARE_CREATABLE and IMPLEMENT_CREATABLE macros to set this
-     * automatically in subclasses.
+     * CREATABLE macro to set this automatically in subclasses.
      */
     virtual const char* ClassName() const;
 
     /**
      * Determines whether a creatable is an instance of the specified
-     * Class Index (or one of its subclasses).  Use the
-     * DECLARE_CREATABLE and IMPLEMENT_CREATABLE macros to set this
-     * automatically in subclasses.
+     * Class Index (or one of its subclasses).  Use the CREATABLE macro
+     * to set this automatically in subclasses.
      */
-    virtual bool ClassInstance(short hClass) const;
+    virtual bool ClassInstance(short) const { return false; }
 
     /**
      * Returns whether this is really a plCreatableStub.  Note that
@@ -71,19 +65,19 @@ public:
      * so you must use this function to determine whether a class is
      * actually a stub or the real class.
      */
-    virtual bool isStub() const;
+    virtual bool isStub() const { return false; }
 
     /**
      * Reads this creatable directly from the stream.  If any keys are
      * read, they will be added to the plResManager automatically.
      */
-    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void read(hsStream*, plResManager*) { }
 
     /**
      * Writes this creatable directly to the stream.  The plResManager
      * is used to manage any key references written by this creatable.
      */
-    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream*, plResManager*) { }
 
     /**
      * Writes this creatable to a PRC document.
@@ -102,7 +96,7 @@ protected:
      * to the class to the PRC document.  Do not write the top-level
      * creatable tag, that is handled by prcWrite().
      */
-    virtual void IPrcWrite(pfPrcHelper* prc) =0;
+    virtual void IPrcWrite(pfPrcHelper* prc) = 0;
 
     /**
      * This must be overloaded by subclasses to parse PRC data specific
@@ -114,6 +108,7 @@ protected:
      */
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
+
 
 /**
  * \brief Stores the contents of a Creatable without actually parsing it.
@@ -142,8 +137,8 @@ public:
 
     virtual ~plCreatableStub();
 
-    virtual short ClassIndex() const;
-    virtual bool isStub() const;
+    virtual short ClassIndex() const { return fClassIdx; }
+    virtual bool isStub() const { return true; }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -160,13 +155,27 @@ public:
      * creatable's contents.
      * \sa getLength()
      */
-    const unsigned char* getData() const;
+    const unsigned char* getData() const { return fData; }
 
     /**
      * Returns the size of the creatable's data buffer
      * \sa getData()
      */
-    size_t getLength() const;
+    size_t getLength() const { return fDataLen; }
+};
+
+
+/**
+ * \brief Base class that can receive plMessages.
+ *
+ * Within the Plasma game engines, any class that can receive (and handle)
+ * a plMessage is derived from this class.  Specifically, it implements
+ * a MsgReceive() function that handles the message that was thrown at it.
+ * In libPlasma, this functionality is not necessary, so its only real
+ * purpose here is to reserve the plReceiver Class Index.
+ */
+DllClass plReceiver : public plCreatable {
+    CREATABLE(plReceiver, kReceiver, plCreatable)
 };
 
 #endif

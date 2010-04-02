@@ -10,8 +10,6 @@ plVaultBlob::BlobData::~BlobData() {
         delete[] fData;
 }
 
-void plVaultBlob::BlobData::ref() { ++fRefs; }
-
 void plVaultBlob::BlobData::unRef() {
     if (--fRefs == 0)
         delete this;
@@ -51,14 +49,6 @@ void plVaultBlob::read(hsStream* S) {
 void plVaultBlob::write(hsStream* S) {
     S->writeInt(fBlob->fSize);
     S->write(fBlob->fSize, fBlob->fData);
-}
-
-size_t plVaultBlob::getSize() const {
-    return (fBlob != NULL) ? fBlob->fSize : 0;
-}
-
-const unsigned char* plVaultBlob::getData() const {
-    return (fBlob != NULL) ? fBlob->fData : NULL;
 }
 
 void plVaultBlob::setData(size_t size, const unsigned char* data) {
@@ -125,18 +115,6 @@ void plVaultNode::copy(const plVaultNode& init) {
     fIString64[1] = init.fIString64[1];
     fText[0] = init.fText[0];
     fText[1] = init.fText[1];
-}
-
-bool plVaultNode::isValid() const {
-    return fNodeID != 0;
-}
-
-bool plVaultNode::hasField(unsigned int field) const {
-    return fFields[field];
-}
-
-void plVaultNode::delField(unsigned int field) {
-    fFields[field] = false;
 }
 
 void plVaultNode::makeField(unsigned int field) {

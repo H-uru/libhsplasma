@@ -6,24 +6,17 @@
 #include "Util/hsBitVector.h"
 
 DllClass plModifier : public plSynchedObject {
-public:
-    plModifier();
-    virtual ~plModifier();
-
-    DECLARE_CREATABLE(plModifier)
+    CREATABLE(plModifier, kModifier, plSynchedObject)
 };
 
 
 DllClass plSingleModifier : public plModifier {
+    CREATABLE(plSingleModifier, kSingleModifier, plModifier)
+
 protected:
     hsBitVector fFlags;
 
 public:
-    plSingleModifier();
-    virtual ~plSingleModifier();
-
-    DECLARE_CREATABLE(plSingleModifier)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -32,22 +25,18 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool getFlag(size_t flag) const;
-    void setFlag(size_t flag);
-    void clearFlag(size_t flag);
+    bool getFlag(size_t flag) const { return fFlags.get(flag); }
+    void setFlag(size_t flag, bool value) { fFlags.set(flag, value); }
 };
 
 
 DllClass plMultiModifier : public plModifier {
+    CREATABLE(plMultiModifier, kMultiModifier, plModifier)
+
 protected:
     hsBitVector fFlags;
 
 public:
-    plMultiModifier();
-    virtual ~plMultiModifier();
-
-    DECLARE_CREATABLE(plMultiModifier)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -56,9 +45,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool getFlag(size_t flag) const;
-    void setFlag(size_t flag);
-    void clearFlag(size_t flag);
+    bool getFlag(size_t flag) const { return fFlags.get(flag); }
+    void setFlag(size_t flag, bool value) { fFlags.set(flag, value); }
+};
+
+
+/* Misc empty modifiers that don't make sense to put elsewhere */
+DllClass plElevatorModifier : public plSingleModifier {
+    CREATABLE(plElevatorModifier, kElevatorModifier, plSingleModifier)
 };
 
 #endif

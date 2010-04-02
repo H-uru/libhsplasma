@@ -1,10 +1,12 @@
 #ifndef _PLSOFTVOLUME_H
 #define _PLSOFTVOLUME_H
 
-#include "plRegionBase.h"
+#include "plRegionBase.hpp"
 #include "plVolumeIsect.h"
 
 DllClass plSoftVolume : public plRegionBase {
+    CREATABLE(plSoftVolume, kSoftVolume, plRegionBase)
+
 public:
     enum {
         kListenNone = 0,
@@ -20,9 +22,6 @@ protected:
 
 public:
     plSoftVolume();
-    virtual ~plSoftVolume();
-
-    DECLARE_CREATABLE(plSoftVolume)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -32,7 +31,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plSoftVolumeSimple : public plSoftVolume {
+    CREATABLE(plSoftVolumeSimple, kSoftVolumeSimple, plSoftVolume)
+
 protected:
     plVolumeIsect* fVolume;
     float fSoftDist;
@@ -40,8 +42,6 @@ protected:
 public:
     plSoftVolumeSimple();
     virtual ~plSoftVolumeSimple();
-
-    DECLARE_CREATABLE(plSoftVolumeSimple)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -54,16 +54,14 @@ public:
     void setVolume(plVolumeIsect* vol);
 };
 
+
 DllClass plSoftVolumeComplex : public plSoftVolume {
+    CREATABLE(plSoftVolumeComplex, kSoftVolumeComplex, plSoftVolume)
+
 protected:
     hsTArray<plKey> fSubVolumes;
 
 public:
-    plSoftVolumeComplex();
-    virtual ~plSoftVolumeComplex();
-
-    DECLARE_CREATABLE(plSoftVolumeComplex)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -72,28 +70,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plSoftVolumeIntersect : public plSoftVolumeComplex {
-public:
-    plSoftVolumeIntersect();
-    virtual ~plSoftVolumeIntersect();
 
-    DECLARE_CREATABLE(plSoftVolumeIntersect)
+DllClass plSoftVolumeIntersect : public plSoftVolumeComplex {
+    CREATABLE(plSoftVolumeIntersect, kSoftVolumeIntersect, plSoftVolumeComplex)
 };
+
 
 DllClass plSoftVolumeInvert : public plSoftVolumeComplex {
-public:
-    plSoftVolumeInvert();
-    virtual ~plSoftVolumeInvert();
-
-    DECLARE_CREATABLE(plSoftVolumeInvert)
+    CREATABLE(plSoftVolumeInvert, kSoftVolumeInvert, plSoftVolumeComplex)
 };
 
-DllClass plSoftVolumeUnion : public plSoftVolumeComplex {
-public:
-    plSoftVolumeUnion();
-    virtual ~plSoftVolumeUnion();
 
-    DECLARE_CREATABLE(plSoftVolumeUnion)
+DllClass plSoftVolumeUnion : public plSoftVolumeComplex {
+    CREATABLE(plSoftVolumeUnion, kSoftVolumeUnion, plSoftVolumeComplex)
 };
 
 #endif

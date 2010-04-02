@@ -5,10 +5,6 @@ plAvSeekMsg::plAvSeekMsg()
            : fDuration(0.0f), fSmartSeek(true), fNoSeek(false),
              fAlignType(kAlignHandle), fFlags(kSeekFlagForce3rdPersonOnStart) { }
 
-plAvSeekMsg::~plAvSeekMsg() { }
-
-IMPLEMENT_CREATABLE(plAvSeekMsg, kAvSeekMsg, plAvTaskMsg)
-
 void plAvSeekMsg::read(hsStream* S, plResManager* mgr) {
     plAvTaskMsg::read(S, mgr);
 
@@ -107,9 +103,6 @@ void plAvSeekMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plAvOneShotMsg */
 plAvOneShotMsg::plAvOneShotMsg() : fDrivable(false), fReversible(false) { }
-plAvOneShotMsg::~plAvOneShotMsg() { }
-
-IMPLEMENT_CREATABLE(plAvOneShotMsg, kAvOneShotMsg, plAvSeekMsg)
 
 void plAvOneShotMsg::read(hsStream* S, plResManager* mgr) {
     plAvSeekMsg::read(S, mgr);

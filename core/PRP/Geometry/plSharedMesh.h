@@ -7,6 +7,8 @@
 #include "plGeometrySpan.h"
 
 DllClass plSharedMesh : public hsKeyedObject {
+    CREATABLE(plSharedMesh, kSharedMesh, hsKeyedObject)
+
 public:
     enum {
         kDontSaveMorphState = 0x1,
@@ -22,8 +24,6 @@ public:
     plSharedMesh();
     virtual ~plSharedMesh();
 
-    DECLARE_CREATABLE(plSharedMesh)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -32,8 +32,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumSpans() const;
-    plGeometrySpan* getSpan(size_t idx) const;
+    plKey getMorphSet() const { return fMorphSet; }
+    unsigned char getFlags() const { return fFlags; }
+
+    void setMorphSet(plKey set) { fMorphSet = set; }
+    void setFlags(unsigned char flags) { fFlags = flags; }
+
+    const hsTArray<plGeometrySpan*>& getSpans() const { return fSpans; }
+    hsTArray<plGeometrySpan*>& getSpans() { return fSpans; }
+    void addSpan(plGeometrySpan* span) { fSpans.append(span); }
+    void delSpan(size_t idx);
     void clearSpans();
 };
 

@@ -1,11 +1,5 @@
 #include "plNetMsgRelevanceRegions.h"
 
-plNetMsgRelevanceRegions::plNetMsgRelevanceRegions() { }
-plNetMsgRelevanceRegions::~plNetMsgRelevanceRegions() { }
-
-IMPLEMENT_CREATABLE(plNetMsgRelevanceRegions, kNetMsgRelevanceRegions,
-                    plNetMessage)
-
 void plNetMsgRelevanceRegions::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 

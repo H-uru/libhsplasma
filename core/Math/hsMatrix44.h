@@ -17,7 +17,7 @@ private:
 public:
     hsMatrix44();
     hsMatrix44(const hsMatrix44& init);
-    
+
     static hsMatrix44 Identity();
     static hsMatrix44 TranslateMat(const hsVector3& translate);
     static hsMatrix44 RotateMat(int axis, float angle);
@@ -26,8 +26,8 @@ public:
     void Reset();
     bool IsIdentity() const;
 
-    float& operator()(int y, int x);
-    float operator()(int y, int x) const;
+    float operator()(int y, int x) const { return data[y][x]; }
+    float& operator()(int y, int x) { return data[y][x]; }
     bool operator==(const hsMatrix44& other) const;
     const float* glMatrix() const;
 

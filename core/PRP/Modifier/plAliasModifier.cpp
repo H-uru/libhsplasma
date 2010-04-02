@@ -1,10 +1,5 @@
 #include "plAliasModifier.h"
 
-plAliasModifier::plAliasModifier() { }
-plAliasModifier::~plAliasModifier() { }
-
-IMPLEMENT_CREATABLE(plAliasModifier, kAliasModifier, plSingleModifier)
-
 void plAliasModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

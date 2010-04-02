@@ -11,9 +11,6 @@ const char* hsKeyFrame::TypeNames[] = {
     "kMatrix44KeyFrame"
 };
 
-hsKeyFrame::hsKeyFrame() { }
-hsKeyFrame::~hsKeyFrame() { }
-
 void hsKeyFrame::read(hsStream* S, unsigned int type) {
     fType = type;
     if (S->getVer() <= pvPots) {
@@ -48,12 +45,6 @@ void hsKeyFrame::write(hsStream* S) {
         S->writeShort(fFrame);
     }
 }
-
-unsigned int hsKeyFrame::getType() const { return fType; }
-unsigned int hsKeyFrame::getFrame() const { return fFrame; }
-float hsKeyFrame::getFrameTime() const { return fFrameTime; }
-
-void hsKeyFrame::setType(unsigned int type) { fType = type; }
 
 void hsKeyFrame::setFrame(unsigned int frame) {
     fFrame = frame;

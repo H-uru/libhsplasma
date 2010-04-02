@@ -4,6 +4,8 @@
 #include "plMipmap.h"
 
 DllClass plCubicEnvironmap : public plBitmap {
+    CREATABLE(plCubicEnvironmap, kCubicEnvironmap, plBitmap)
+
 public:
     enum Faces { kLeftFace, kRightFace, kFrontFace, kBackFace,
                  kTopFace, kBottomFace, kNumFaces };
@@ -14,11 +16,6 @@ protected:
     plMipmap fFaces[kNumFaces];
 
 public:
-    plCubicEnvironmap();
-    virtual ~plCubicEnvironmap();
-
-    DECLARE_CREATABLE(plCubicEnvironmap)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -27,7 +24,7 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plMipmap* getFace(size_t idx);
+    plMipmap* getFace(size_t idx) { return &fFaces[idx]; }
 };
 
 #endif

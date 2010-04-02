@@ -1,19 +1,6 @@
 #include "plParticleEffect.h"
 
-/* plParticleEffect */
-plParticleEffect::plParticleEffect() { }
-plParticleEffect::~plParticleEffect() { }
-
-IMPLEMENT_CREATABLE(plParticleEffect, kParticleEffect, hsKeyedObject)
-
-
 /* plParticleCollisionEffect */
-plParticleCollisionEffect::plParticleCollisionEffect() { }
-plParticleCollisionEffect::~plParticleCollisionEffect() { }
-
-IMPLEMENT_CREATABLE(plParticleCollisionEffect, kParticleCollisionEffect,
-                    plParticleEffect)
-
 void plParticleCollisionEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     fSceneObj = mgr->readKey(S);
@@ -41,23 +28,9 @@ void plParticleCollisionEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 }
 
 
-/* plParticleCollisionEffectBeat */
-plParticleCollisionEffectBeat::plParticleCollisionEffectBeat() { }
-plParticleCollisionEffectBeat::~plParticleCollisionEffectBeat() { }
-
-IMPLEMENT_CREATABLE(plParticleCollisionEffectBeat, kParticleCollisionEffectBeat,
-                    plParticleCollisionEffect)
-
-
 /* plParticleCollisionEffectBounce */
 plParticleCollisionEffectBounce::plParticleCollisionEffectBounce()
                                : fBounce(0.0f), fFriction(0.0f) { }
-
-plParticleCollisionEffectBounce::~plParticleCollisionEffectBounce() { }
-
-IMPLEMENT_CREATABLE(plParticleCollisionEffectBounce,
-                    kParticleCollisionEffectBounce,
-                    plParticleCollisionEffect)
 
 void plParticleCollisionEffectBounce::read(hsStream* S, plResManager* mgr) {
     plParticleCollisionEffect::read(S, mgr);
@@ -89,22 +62,9 @@ void plParticleCollisionEffectBounce::IPrcParse(const pfPrcTag* tag, plResManage
 }
 
 
-/* plParticleCollisionEffectDie */
-plParticleCollisionEffectDie::plParticleCollisionEffectDie() { }
-plParticleCollisionEffectDie::~plParticleCollisionEffectDie() { }
-
-IMPLEMENT_CREATABLE(plParticleCollisionEffectDie, kParticleCollisionEffectDie,
-                    plParticleCollisionEffect)
-
-
 /* plParticleFadeOutEffect */
 plParticleFadeOutEffect::plParticleFadeOutEffect()
                        : fLength(0.0f), fIgnoreZ(0.0f) { }
-
-plParticleFadeOutEffect::~plParticleFadeOutEffect() { }
-
-IMPLEMENT_CREATABLE(plParticleFadeOutEffect, kParticleFadeOutEffect,
-                    plParticleEffect)
 
 void plParticleFadeOutEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -139,11 +99,6 @@ void plParticleFadeOutEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
 /* plParticleFadeVolumeEffect */
 plParticleFadeVolumeEffect::plParticleFadeVolumeEffect()
                        : fLength(0.0f), fIgnoreZ(0.0f) { }
-
-plParticleFadeVolumeEffect::~plParticleFadeVolumeEffect() { }
-
-IMPLEMENT_CREATABLE(plParticleFadeVolumeEffect, kParticleFadeVolumeEffect,
-                    plParticleEffect)
 
 void plParticleFadeVolumeEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -182,11 +137,6 @@ plParticleFlockEffect::plParticleFlockEffect()
                        fGoalChaseStr(0.0f), fGoalDistSq(0.0f),
                        fFullChaseDistSq(0.0f), fMaxOrbitSpeed(0.0f),
                        fMaxChaseSpeed(0.0f), fMaxParticles(0.0f) { }
-
-plParticleFlockEffect::~plParticleFlockEffect() { }
-
-IMPLEMENT_CREATABLE(plParticleFlockEffect, kParticleFlockEffect,
-                    plParticleEffect)
 
 void plParticleFlockEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -274,22 +224,10 @@ void plParticleFlockEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plParticleFollowSystemEffect */
-plParticleFollowSystemEffect::plParticleFollowSystemEffect() { }
-plParticleFollowSystemEffect::~plParticleFollowSystemEffect() { }
-
-IMPLEMENT_CREATABLE(plParticleFollowSystemEffect, kParticleFollowSystemEffect,
-                    plParticleEffect)
-
-
 /* plParticleWindEffect */
 plParticleWindEffect::plParticleWindEffect()
                     : fStrength(0.0f), fConstancy(0.0f), fSwirl(0.0f),
                       fHorizontal(false) { }
-
-plParticleWindEffect::~plParticleWindEffect() { }
-
-IMPLEMENT_CREATABLE(plParticleWindEffect, kParticleWindEffect, plParticleEffect)
 
 void plParticleWindEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -354,11 +292,6 @@ void plParticleWindEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 /* plParticleLocalWind */
 plParticleLocalWind::plParticleLocalWind() : fSpeed(0.0f) { }
 
-plParticleLocalWind::~plParticleLocalWind() { }
-
-IMPLEMENT_CREATABLE(plParticleLocalWind, kParticleLocalWind,
-                    plParticleWindEffect)
-
 void plParticleLocalWind::read(hsStream* S, plResManager* mgr) {
     plParticleWindEffect::read(S, mgr);
     fScale.read(S);
@@ -398,11 +331,6 @@ void plParticleLocalWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 /* plParticleUniformWind */
 plParticleUniformWind::plParticleUniformWind()
                      : fFreqMin(0.0f), fFreqMax(0.0f), fFreqRate(0.0f) { }
-
-plParticleUniformWind::~plParticleUniformWind() { }
-
-IMPLEMENT_CREATABLE(plParticleUniformWind, kParticleUniformWind,
-                    plParticleWindEffect)
 
 void plParticleUniformWind::read(hsStream* S, plResManager* mgr) {
     plParticleWindEffect::read(S, mgr);

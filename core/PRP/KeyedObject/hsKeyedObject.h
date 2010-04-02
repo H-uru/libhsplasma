@@ -1,7 +1,8 @@
 #ifndef _HSKEYEDOBJECT_H
 #define _HSKEYEDOBJECT_H
 
-#include "plReceiver.h"
+#include "PRP/plCreatable.h"
+#include "plKey.h"
 
 /**
  * \brief The base class for any top-level PRP object.
@@ -13,15 +14,12 @@
  * whereas non-keyed classes are >= 0x0200.
  */
 DllClass hsKeyedObject : public plReceiver {
+    CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
+
 private:
     plKey myKey;
 
 public:
-    hsKeyedObject();
-    virtual ~hsKeyedObject();
-
-    DECLARE_CREATABLE(hsKeyedObject)
-
     /**
      * Initializes the key for this KeyedObject with the specified
      * object name.  You will need to either set the location manually
@@ -39,7 +37,7 @@ protected:
 
 public:
     /** Returns the key that describes this object */
-    plKey getKey() const;
+    plKey getKey() const { return myKey; }
 
     /**
      * Set the object's key.  Most of the time, you will never need to
@@ -68,8 +66,8 @@ public:
     hsKeyedObjectStub();
     virtual ~hsKeyedObjectStub();
 
-    virtual short ClassIndex() const;
-    virtual const char* ClassName() const;
+    virtual short ClassIndex() const { return fStub->ClassIndex(); }
+    virtual const char* ClassName() const { return "hsKeyedObjectStub"; }
 
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -79,7 +77,7 @@ protected:
 
 public:
     /** Returns the underlying plCreatableStub object of this stub */
-    const plCreatableStub* getStub() const;
+    const plCreatableStub* getStub() const { return fStub; }
 
     /** Sets the underlying plCreatableStub object of this stub */
     void setStub(plCreatableStub* stub);

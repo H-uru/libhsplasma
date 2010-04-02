@@ -185,19 +185,6 @@ void plAxisAnimModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey plAxisAnimModifier::getXAnim() const { return fXAnim; }
-plKey plAxisAnimModifier::getYAnim() const { return fYAnim; }
-plKey plAxisAnimModifier::getNotificationKey() const { return fNotificationKey; }
-plNotifyMsg* plAxisAnimModifier::getNotify() const { return fNotify; }
-plString plAxisAnimModifier::getAnimLabel() const { return fAnimLabel; }
-bool plAxisAnimModifier::getAllOrNothing() const { return fAllOrNothing; }
-
-void plAxisAnimModifier::setXAnim(plKey anim) { fXAnim = anim; }
-void plAxisAnimModifier::setYAnim(plKey anim) { fYAnim = anim; }
-void plAxisAnimModifier::setNotificationKey(plKey notify) { fNotificationKey = notify; }
-void plAxisAnimModifier::setAnimLabel(const plString& label) { fAnimLabel = label; }
-void plAxisAnimModifier::setAllOrNothing(bool value) { fAllOrNothing = value; }
-
 void plAxisAnimModifier::setNotify(plNotifyMsg* msg) {
     if (fNotify == NULL)
         delete fNotify;

@@ -6,35 +6,26 @@
 
 /* Quat Channels */
 DllClass plQuatChannel : public plAGChannel {
+    CREATABLE(plQuatChannel, kQuatChannel, plAGChannel)
+
 protected:
     hsQuat fResult;
 
 public:
-    plQuatChannel();
-    virtual ~plQuatChannel();
-
-    DECLARE_CREATABLE(plQuatChannel)
-
-public:
-    hsQuat getResult() const;
-    void setResult(const hsQuat& result);
+    hsQuat getResult() const { return fResult; }
+    void setResult(const hsQuat& result) { fResult = result; }
 };
+
 
 DllClass plQuatBlend : public plQuatChannel {
-public:
-    plQuatBlend();
-    virtual ~plQuatBlend();
-
-    DECLARE_CREATABLE(plQuatBlend)
+    CREATABLE(plQuatBlend, kQuatBlend, plQuatChannel)
 };
 
+
 DllClass plQuatConstant : public plQuatChannel {
+    CREATABLE(plQuatConstant, kQuatConstant, plQuatChannel)
+
 public:
-    plQuatConstant();
-    virtual ~plQuatConstant();
-
-    DECLARE_CREATABLE(plQuatConstant)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -43,22 +34,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plQuatTimeScale : public plQuatChannel {
-public:
-    plQuatTimeScale();
-    virtual ~plQuatTimeScale();
 
-    DECLARE_CREATABLE(plQuatTimeScale)
+DllClass plQuatTimeScale : public plQuatChannel {
+    CREATABLE(plQuatTimeScale, kQuatTimeScale, plQuatChannel)
 };
 
 
 /* Quat Channel Applicators */
 DllClass plQuatChannelApplicator : public plAGApplicator {
-public:
-    plQuatChannelApplicator();
-    virtual ~plQuatChannelApplicator();
-
-    DECLARE_CREATABLE(plQuatChannelApplicator)
+    CREATABLE(plQuatChannelApplicator, kQuatChannelApplicator, plAGApplicator)
 };
 
 #endif

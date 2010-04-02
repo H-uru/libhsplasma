@@ -387,9 +387,6 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
     }
 }
 
-void plGeometrySpan::setMaterial(const plKey& mat) { fMaterial = mat; }
-void plGeometrySpan::setFogEnvironment(const plKey& fog) { fFogEnviron = fog; }
-
 hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
     hsTArray<TempVertex> buf;
     buf.setSize(fNumVerts);

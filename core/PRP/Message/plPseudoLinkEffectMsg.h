@@ -4,13 +4,13 @@
 #include "plMessage.h"
 
 DllClass plPseudoLinkEffectMsg : public plMessage {
+    CREATABLE(plPseudoLinkEffectMsg, kPseudoLinkEffectMsg, plMessage)
+
 protected:
     plKey fLinkObjKey, fAvatarKey;
 
 public:
     plPseudoLinkEffectMsg();
-
-    DECLARE_CREATABLE(plPseudoLinkEffectMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

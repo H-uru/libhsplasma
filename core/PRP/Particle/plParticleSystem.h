@@ -6,6 +6,8 @@
 #include "plParticleEmitter.h"
 
 DllClass plParticleSystem : public plSynchedObject {
+    CREATABLE(plParticleSystem, kParticleSystem, plSynchedObject)
+
 public:
     enum EffectType {
         kEffectForce = 0x1,
@@ -36,8 +38,6 @@ public:
     plParticleSystem();
     virtual ~plParticleSystem();
 
-    DECLARE_CREATABLE(plParticleSystem)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -46,64 +46,65 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getMaterial() const;
-    unsigned int getXTiles() const;
-    unsigned int getYTiles() const;
-    hsVector3 getAccel() const;
-    float getPreSim() const;
-    float getDrag() const;
-    float getWindMult() const;
-    unsigned int getMaxTotalParticles() const;
-    plController* getAmbientCtl() const;
-    plController* getDiffuseCtl() const;
-    plController* getOpacityCtl() const;
-    plController* getWidthCtl() const;
-    plController* getHeightCtl() const;
+    plKey getMaterial() const { return fMaterial; }
+    unsigned int getXTiles() const { return fXTiles; }
+    unsigned int getYTiles() const { return fYTiles; }
+    hsVector3 getAccel() const { return fAccel; }
+    float getPreSim() const { return fPreSim; }
+    float getDrag() const { return fDrag; }
+    float getWindMult() const { return fWindMult; }
+    unsigned int getMaxTotalParticles() const { return fMaxTotalParticles; }
+    plController* getAmbientCtl() const { return fAmbientCtl; }
+    plController* getDiffuseCtl() const { return fDiffuseCtl; }
+    plController* getOpacityCtl() const { return fOpacityCtl; }
+    plController* getWidthCtl() const { return fWidthCtl; }
+    plController* getHeightCtl() const { return fHeightCtl; }
 
-    void setMaterial(plKey mat);
-    void setTiles(unsigned int xtiles, unsigned int ytiles);
-    void setAccel(const hsVector3& accel);
-    void setPreSim(float preSim);
-    void setDrag(float drag);
-    void setWindMult(float windMult);
-    void setMaxTotalParticles(unsigned int max);
+    void setMaterial(plKey mat) { fMaterial = mat; }
+    void setTiles(unsigned int xtiles, unsigned int ytiles) { fXTiles = xtiles; fYTiles = ytiles; }
+    void setAccel(const hsVector3& accel) { fAccel = accel; }
+    void setPreSim(float preSim) { fPreSim = preSim; }
+    void setDrag(float drag) { fDrag = drag; }
+    void setWindMult(float windMult) { fWindMult = windMult; }
+    void setMaxTotalParticles(unsigned int max) { fMaxTotalParticles = max; }
     void setAmbientCtl(plController* ctl);
     void setDiffuseCtl(plController* ctl);
     void setOpacityCtl(plController* ctl);
     void setWidthCtl(plController* ctl);
     void setHeightCtl(plController* ctl);
 
-    unsigned int getNumValidEmitters() const;
-    unsigned int getMaxEmitters() const;
-    void setMaxEmitters(unsigned int max);
-    plParticleEmitter* getEmitter(size_t idx) const;
+    unsigned int getNumValidEmitters() const { return fNumValidEmitters; }
+    unsigned int getMaxEmitters() const { return fMaxEmitters; }
+    plParticleEmitter* getEmitter(size_t idx) const { return fEmitters[idx]; }
+    void allocEmitters(unsigned int max);
+    void setEmitter(size_t idx, plParticleEmitter* emitter);
     void addEmitter(plParticleEmitter* emitter);
     void delEmitter(size_t idx);
     void clearEmitters();
 
-    size_t getNumForces() const;
-    plKey getForce(size_t idx) const;
-    void addForce(plKey force);
-    void delForce(size_t idx);
-    void clearForces();
+    const hsTArray<plKey>& getForces() const { return fForces; }
+    hsTArray<plKey>& getForces() { return fForces; }
+    void addForce(plKey force) { fForces.append(force); }
+    void delForce(size_t idx) { fForces.remove(idx); }
+    void clearForces() { fForces.clear(); }
 
-    size_t getNumEffects() const;
-    plKey getEffect(size_t idx) const;
-    void addEffect(plKey effect);
-    void delEffect(size_t idx);
-    void clearEffects();
+    const hsTArray<plKey>& getEffects() const { return fEffects; }
+    hsTArray<plKey>& getEffects() { return fEffects; }
+    void addEffect(plKey force) { fEffects.append(force); }
+    void delEffect(size_t idx) { fEffects.remove(idx); }
+    void clearEffects() { fEffects.clear(); }
 
-    size_t getNumConstraints() const;
-    plKey getConstraint(size_t idx) const;
-    void addConstraint(plKey constraint);
-    void delConstraint(size_t idx);
-    void clearConstraints();
+    const hsTArray<plKey>& getConstraints() const { return fConstraints; }
+    hsTArray<plKey>& getConstraints() { return fConstraints; }
+    void addConstraint(plKey force) { fConstraints.append(force); }
+    void delConstraint(size_t idx) { fConstraints.remove(idx); }
+    void clearConstraints() { fConstraints.clear(); }
 
-    size_t getNumPermaLights() const;
-    plKey getPermaLight(size_t idx) const;
-    void addPermaLight(plKey light);
-    void delPermaLight(size_t idx);
-    void clearPermaLights();
+    const hsTArray<plKey>& getPermaLights() const { return fPermaLights; }
+    hsTArray<plKey>& getPermaLights() { return fPermaLights; }
+    void addPermaLight(plKey force) { fPermaLights.append(force); }
+    void delPermaLight(size_t idx) { fPermaLights.remove(idx); }
+    void clearPermaLights() { fPermaLights.clear(); }
 };
 
 #endif

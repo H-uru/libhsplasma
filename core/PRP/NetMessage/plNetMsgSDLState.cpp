@@ -6,10 +6,6 @@ plNetMsgSDLState::plNetMsgSDLState()
                 : fIsInitialState(false), fPersistOnServer(false),
                   fIsAvatarState(false), fDescriptor(NULL) { }
 
-plNetMsgSDLState::~plNetMsgSDLState() { }
-
-IMPLEMENT_CREATABLE(plNetMsgSDLState, kNetMsgSDLState, plNetMsgStreamedObject)
-
 void plNetMsgSDLState::read(hsStream* S, plResManager* mgr) {
     plNetMsgStreamedObject::read(S, mgr);
 
@@ -31,7 +27,7 @@ void plNetMsgSDLState::IPrcWrite(pfPrcHelper* prc) {
         // We have a loaded descriptor, so we can output actual
         // PRC data, instead of just a hex stream
         plNetMsgObject::IPrcWrite(prc);
-        
+
         hsStream* blob = getStream();
         plStateDataRecord rec;
         rec.setDescriptor(fDescriptor);
@@ -75,6 +71,3 @@ void plNetMsgSDLState::findDescriptor(plSDLMgr* sdl) {
     plStateDataRecord::ReadStreamHeader(blob, descName, descVersion, NULL);
     fDescriptor = sdl->GetDescriptor(descName, descVersion);
 }
-
-/* plNetMsgSDLStateBCast */
-IMPLEMENT_CREATABLE(plNetMsgSDLStateBCast, kNetMsgSDLStateBCast, plNetMsgSDLState)

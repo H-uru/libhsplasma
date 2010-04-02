@@ -21,26 +21,26 @@ protected:
 public:
     plCullPoly();
     plCullPoly(const plCullPoly& init);
-    ~plCullPoly();
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
-    
-    unsigned int getFlags() const;
-    const hsTArray<hsVector3>& getVerts() const;
-    hsVector3 getNorm() const;
-    hsVector3 getCenter() const;
-    float getDist() const;
-    float getRadius() const;
 
-    void setFlags(unsigned int flags);
-    void setVerts(const hsTArray<hsVector3>& verts);
-    void setNorm(const hsVector3& norm);
-    void setCenter(const hsVector3& center);
-    void setDist(float dist);
-    void setRadius(float radius);
+public:
+    unsigned int getFlags() const { return fFlags; }
+    const hsTArray<hsVector3>& getVerts() const { return fVerts; }
+    hsVector3 getNorm() const { return fNorm; }
+    hsVector3 getCenter() const { return fCenter; }
+    float getDist() const { return fDist; }
+    float getRadius() const { return fRadius; }
+
+    void setFlags(unsigned int flags) { fFlags = flags; }
+    void setVerts(const hsTArray<hsVector3>& verts) { fVerts = verts; }
+    void setNorm(const hsVector3& norm) { fNorm = norm; }
+    void setCenter(const hsVector3& center) { fCenter = center; }
+    void setDist(float dist) { fDist = dist; }
+    void setRadius(float radius) { fRadius = radius; }
 };
 
 #endif

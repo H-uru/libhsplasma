@@ -3,10 +3,6 @@
 plGameMarkerModifier::plGameMarkerModifier()
                     : fPlaceSoundIdx(0), fHitSoundIdx(0) { }
 
-plGameMarkerModifier::~plGameMarkerModifier() { }
-
-IMPLEMENT_CREATABLE(plGameMarkerModifier, kGameMarkerModifier, plSingleModifier)
-
 void plGameMarkerModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

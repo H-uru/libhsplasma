@@ -8,9 +8,6 @@ protected:
     hsTArray<plMorphDelta> fDeltas;
 
 public:
-    plMorphArray();
-    ~plMorphArray();
-
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);

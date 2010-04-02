@@ -4,8 +4,6 @@
 
 hsElfStream::hsElfStream() : hsFileStream(pvUnknown) { }
 
-hsElfStream::~hsElfStream() { }
-
 void hsElfStream::decipher(unsigned char* v, int size, unsigned char hint) {
     unsigned char key = (v[0] ^ hint) >> 5;
     for (int i=size-1; i>=0; i--) {

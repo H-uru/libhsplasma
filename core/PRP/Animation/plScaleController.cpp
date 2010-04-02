@@ -1,9 +1,5 @@
 #include "plScaleController.h"
 
-/* plScaleController */
-IMPLEMENT_CREATABLE(plScaleController, kScaleController, plController)
-
-
 /* plSimpleScaleController */
 plSimpleScaleController::plSimpleScaleController() : fValue(NULL) { }
 
@@ -11,8 +7,6 @@ plSimpleScaleController::~plSimpleScaleController() {
     if (fValue != NULL)
         delete fValue;
 }
-
-IMPLEMENT_CREATABLE(plSimpleScaleController, kSimpleScaleController, plScaleController)
 
 void plSimpleScaleController::read(hsStream* S, plResManager* mgr) {
     if (S->readInt() != 0) {
@@ -54,9 +48,6 @@ void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
         plCreatable::IPrcParse(tag, mgr);
     }
 }
-
-int plSimpleScaleController::getType() const { return kSimple; }
-plScaleValueController* plSimpleScaleController::getValue() const { return fValue; }
 
 void plSimpleScaleController::setValue(plScaleValueController* value) {
     if (fValue != NULL)

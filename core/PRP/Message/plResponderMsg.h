@@ -5,26 +5,17 @@
 #include "plOneShotCallbacks.h"
 
 DllClass plResponderMsg : public plMessage {
-protected:
-    plKey fPlayerKey;
-
-public:
-    plResponderMsg();
-    virtual ~plResponderMsg();
-
-    DECLARE_CREATABLE(plResponderMsg)
+    CREATABLE(plResponderMsg, kResponderMsg, plMessage)
 };
 
+
 DllClass plOneShotMsg : public plResponderMsg {
+    CREATABLE(plOneShotMsg, kOneShotMsg, plResponderMsg)
+
 protected:
     plOneShotCallbacks fCallbacks;
 
 public:
-    plOneShotMsg();
-    virtual ~plOneShotMsg();
-
-    DECLARE_CREATABLE(plOneShotMsg)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

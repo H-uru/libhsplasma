@@ -4,6 +4,10 @@
 #include "plConditionalObject.h"
 
 DllClass plVolumeSensorConditionalObject : public plConditionalObject {
+    CREATABLE(plVolumeSensorConditionalObject,
+              kVolumeSensorConditionalObject,
+              plConditionalObject)
+
 public:
     enum { kTypeEnter = 0x1, kTypeExit = 0x2 };
 
@@ -14,9 +18,6 @@ protected:
 
 public:
     plVolumeSensorConditionalObject();
-    virtual ~plVolumeSensorConditionalObject();
-
-    DECLARE_CREATABLE(plVolumeSensorConditionalObject)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -26,12 +27,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plVolumeSensorConditionalObjectNoArbitration : public plVolumeSensorConditionalObject {
-public:
-    plVolumeSensorConditionalObjectNoArbitration();
-    virtual ~plVolumeSensorConditionalObjectNoArbitration();
 
-    DECLARE_CREATABLE(plVolumeSensorConditionalObjectNoArbitration)
+DllClass plVolumeSensorConditionalObjectNoArbitration : public plVolumeSensorConditionalObject {
+    CREATABLE(plVolumeSensorConditionalObjectNoArbitration,
+              kVolumeSensorConditionalObjectNoArbitration,
+              plVolumeSensorConditionalObject)
 };
 
 #endif

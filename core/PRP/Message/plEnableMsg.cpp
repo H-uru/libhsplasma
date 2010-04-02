@@ -10,10 +10,6 @@ plEnableMsg::plEnableMsg() {
     fCmd.setName(kByType, "kByType");
 }
 
-plEnableMsg::~plEnableMsg() { }
-
-IMPLEMENT_CREATABLE(plEnableMsg, kEnableMsg, plMessage)
-
 void plEnableMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fCmd.read(S);

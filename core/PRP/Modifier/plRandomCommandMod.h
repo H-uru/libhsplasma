@@ -5,6 +5,8 @@
 #include "Util/hsBitVector.h"
 
 DllClass plRandomCommandMod : public plSingleModifier {
+    CREATABLE(plRandomCommandMod, kRandomCommandMod, plSingleModifier)
+
 public:
     enum {
         kNormal = 0,
@@ -24,9 +26,6 @@ protected:
 
 public:
     plRandomCommandMod();
-    virtual ~plRandomCommandMod();
-
-    DECLARE_CREATABLE(plRandomCommandMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

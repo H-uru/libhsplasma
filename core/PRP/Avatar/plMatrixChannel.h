@@ -6,35 +6,26 @@
 
 /* Matrix Channels */
 DllClass plMatrixChannel : public plAGChannel {
+    CREATABLE(plMatrixChannel, kMatrixChannel, plAGChannel)
+
 protected:
     hsAffineParts fAP;
 
 public:
-    plMatrixChannel();
-    virtual ~plMatrixChannel();
-
-    DECLARE_CREATABLE(plMatrixChannel)
-
-public:
-    hsAffineParts getAffine() const;
-    void setAffine(const hsAffineParts& ap);
+    hsAffineParts getAffine() const { return fAP; }
+    void setAffine(const hsAffineParts& ap) { fAP = ap; }
 };
+
 
 DllClass plMatrixBlend : public plMatrixChannel {
-public:
-    plMatrixBlend();
-    virtual ~plMatrixBlend();
-
-    DECLARE_CREATABLE(plMatrixBlend)
+    CREATABLE(plMatrixBlend, kMatrixBlend, plMatrixChannel)
 };
 
+
 DllClass plMatrixConstant : public plMatrixChannel {
+    CREATABLE(plMatrixConstant, kMatrixConstant, plMatrixChannel)
+
 public:
-    plMatrixConstant();
-    virtual ~plMatrixConstant();
-
-    DECLARE_CREATABLE(plMatrixConstant)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -43,15 +34,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plMatrixControllerCacheChannel : public plMatrixChannel {
-public:
-    plMatrixControllerCacheChannel();
-    virtual ~plMatrixControllerCacheChannel();
 
-    DECLARE_CREATABLE(plMatrixControllerCacheChannel)
+DllClass plMatrixControllerCacheChannel : public plMatrixChannel {
+    CREATABLE(plMatrixControllerCacheChannel, kMatrixControllerCacheChannel,
+              plMatrixChannel)
 };
 
+
 DllClass plMatrixControllerChannel : public plMatrixChannel {
+    CREATABLE(plMatrixControllerChannel, kMatrixControllerChannel,
+              plMatrixChannel)
+
 protected:
     plController* fController;
 
@@ -59,8 +52,6 @@ public:
     plMatrixControllerChannel();
     virtual ~plMatrixControllerChannel();
 
-    DECLARE_CREATABLE(plMatrixControllerChannel)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -69,58 +60,41 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plController* getController() const;
+    plController* getController() const { return fController; }
     void setController(plController* controller);
 };
 
-DllClass plMatrixTimeScale : public plMatrixChannel {
-public:
-    plMatrixTimeScale();
-    virtual ~plMatrixTimeScale();
 
-    DECLARE_CREATABLE(plMatrixTimeScale)
+DllClass plMatrixTimeScale : public plMatrixChannel {
+    CREATABLE(plMatrixTimeScale, kMatrixTimeScale, plMatrixChannel)
 };
 
 DllClass plQuatPointCombine : public plMatrixChannel {
-public:
-    plQuatPointCombine();
-    virtual ~plQuatPointCombine();
-
-    DECLARE_CREATABLE(plQuatPointCombine)
+    CREATABLE(plQuatPointCombine, kQuatPointCombine, plMatrixChannel)
 };
 
 
 /* Matrix Channel Applicators */
 DllClass plMatrixChannelApplicator : public plAGApplicator {
-public:
-    plMatrixChannelApplicator();
-    virtual ~plMatrixChannelApplicator();
-
-    DECLARE_CREATABLE(plMatrixChannelApplicator)
+    CREATABLE(plMatrixChannelApplicator, kMatrixChannelApplicator,
+              plAGApplicator)
 };
 
 DllClass plMatrixDelayedCorrectionApplicator : public plMatrixChannelApplicator {
-public:
-    plMatrixDelayedCorrectionApplicator();
-    virtual ~plMatrixDelayedCorrectionApplicator();
-
-    DECLARE_CREATABLE(plMatrixDelayedCorrectionApplicator)
+    CREATABLE(plMatrixDelayedCorrectionApplicator,
+              kMatrixDelayedCorrectionApplicator,
+              plMatrixChannelApplicator)
 };
 
 DllClass plMatrixDifferenceApp : public plMatrixChannelApplicator {
-public:
-    plMatrixDifferenceApp();
-    virtual ~plMatrixDifferenceApp();
-
-    DECLARE_CREATABLE(plMatrixDifferenceApp)
+    CREATABLE(plMatrixDifferenceApp, kMatrixDifferenceApp,
+              plMatrixChannelApplicator)
 };
 
 DllClass plRelativeMatrixChannelApplicator : public plAGApplicator {
-public:
-    plRelativeMatrixChannelApplicator();
-    virtual ~plRelativeMatrixChannelApplicator();
-
-    DECLARE_CREATABLE(plRelativeMatrixChannelApplicator)
+    CREATABLE(plRelativeMatrixChannelApplicator,
+              kRelativeMatrixChannelApplicator,
+              plAGApplicator)
 };
 
 #endif

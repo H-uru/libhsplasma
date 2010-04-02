@@ -5,14 +5,14 @@
 #include "Sys/Platform.h"
 
 DllClass plKeyPressConditionalObject : public plConditionalObject {
+    CREATABLE(plKeyPressConditionalObject, kKeyPressConditionalObject,
+              plConditionalObject)
+
 protected:
     plKeyDef fKeyEvent;
 
 public:
     plKeyPressConditionalObject();
-    virtual ~plKeyPressConditionalObject();
-
-    DECLARE_CREATABLE(plKeyPressConditionalObject)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

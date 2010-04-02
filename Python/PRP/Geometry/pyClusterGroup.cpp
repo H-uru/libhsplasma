@@ -153,23 +153,23 @@ static PyObject* pyClusterGroup_getRenderLevel(pyClusterGroup* self, void*) {
 }
 
 static PyObject* pyClusterGroup_getClusters(pyClusterGroup* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumClusters());
-    for (size_t i=0; i<self->fThis->getNumClusters(); i++)
-        PyList_SET_ITEM(list, i, pyCluster_FromCluster(self->fThis->getCluster(i)));
+    PyObject* list = PyList_New(self->fThis->getClusters().getSize());
+    for (size_t i=0; i<self->fThis->getClusters().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyCluster_FromCluster(self->fThis->getClusters()[i]));
     return list;
 }
 
 static PyObject* pyClusterGroup_getRegions(pyClusterGroup* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumRegions());
-    for (size_t i=0; i<self->fThis->getNumRegions(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getRegion(i)));
+    PyObject* list = PyList_New(self->fThis->getRegions().getSize());
+    for (size_t i=0; i<self->fThis->getRegions().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getRegions()[i]));
     return list;
 }
 
 static PyObject* pyClusterGroup_getLights(pyClusterGroup* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumLights());
-    for (size_t i=0; i<self->fThis->getNumLights(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getLight(i)));
+    PyObject* list = PyList_New(self->fThis->getLights().getSize());
+    for (size_t i=0; i<self->fThis->getLights().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getLights()[i]));
     return list;
 }
 

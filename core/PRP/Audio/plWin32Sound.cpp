@@ -1,11 +1,6 @@
 #include "plWin32Sound.h"
 
 /* plWin32Sound */
-plWin32Sound::plWin32Sound() { }
-plWin32Sound::~plWin32Sound() { }
-
-IMPLEMENT_CREATABLE(plWin32Sound, kWin32Sound, plSound)
-
 void plWin32Sound::IRead(hsStream* S, plResManager* mgr) {
     plSound::IRead(S, mgr);
     fChannelSelect = S->readByte();
@@ -30,10 +25,3 @@ void plWin32Sound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSound::IPrcParse(tag, mgr);
     }
 }
-
-unsigned char plWin32Sound::getChannel() const { return fChannelSelect; }
-void plWin32Sound::setChannel(unsigned char channel) { fChannelSelect = channel; }
-
-
-/* plWin32StreamingSound */
-IMPLEMENT_CREATABLE(plWin32StreamingSound, kWin32StreamingSound, plWin32Sound)

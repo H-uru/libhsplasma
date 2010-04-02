@@ -5,6 +5,8 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plVehicleModifier : public plSingleModifier {
+    CREATABLE(plVehicleModifier, kVehicleModifier, plSingleModifier)
+
 public:
     DllStruct Wheel {
         plKey fWheelObj;
@@ -19,11 +21,6 @@ protected:
     Wheel fWheels[4];
 
 public:
-    plVehicleModifier();
-    virtual ~plVehicleModifier();
-
-    DECLARE_CREATABLE(plVehicleModifier)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

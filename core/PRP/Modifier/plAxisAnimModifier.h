@@ -5,6 +5,8 @@
 #include "PRP/Message/plNotifyMsg.h"
 
 DllClass plAxisAnimModifier : public plSingleModifier {
+    CREATABLE(plAxisAnimModifier, kAxisAnimModifier, plSingleModifier)
+
 private:
     plKey fXAnim, fYAnim, fNotificationKey;
     plNotifyMsg* fNotify;
@@ -31,19 +33,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getXAnim() const;
-    plKey getYAnim() const;
-    plKey getNotificationKey() const;
-    plNotifyMsg* getNotify() const;
-    plString getAnimLabel() const;
-    bool getAllOrNothing() const;
+    plKey getXAnim() const { return fXAnim; }
+    plKey getYAnim() const { return fYAnim; }
+    plKey getNotificationKey() const { return fNotificationKey; }
+    plNotifyMsg* getNotify() const { return fNotify; }
+    plString getAnimLabel() const { return fAnimLabel; }
+    bool getAllOrNothing() const { return fAllOrNothing; }
 
-    void setXAnim(plKey anim);
-    void setYAnim(plKey anim);
-    void setNotificationKey(plKey notify);
+    void setXAnim(plKey anim) { fXAnim = anim; }
+    void setYAnim(plKey anim) { fYAnim = anim; }
+    void setNotificationKey(plKey notify) { fNotificationKey = notify; }
+    void setAnimLabel(const plString& label) { fAnimLabel = label; }
+    void setAllOrNothing(bool value) { fAllOrNothing = value; }
     void setNotify(plNotifyMsg* msg);
-    void setAnimLabel(const plString& label);
-    void setAllOrNothing(bool value);
 };
 
 #endif

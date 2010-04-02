@@ -2,9 +2,6 @@
 
 /* plCollisionDetector */
 plCollisionDetector::plCollisionDetector() : fType(0) { }
-plCollisionDetector::~plCollisionDetector() { }
-
-IMPLEMENT_CREATABLE(plCollisionDetector, kCollisionDetector, plDetectorModifier)
 
 void plCollisionDetector::read(hsStream* S, plResManager* mgr) {
     plDetectorModifier::read(S, mgr);
@@ -32,15 +29,9 @@ void plCollisionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-unsigned char plCollisionDetector::getType() const { return fType; }
-void plCollisionDetector::setType(unsigned char type) { fType = type; }
-
 
 /* plSubworldRegionDetector */
 plSubworldRegionDetector::plSubworldRegionDetector() : fOnExit(false) { }
-plSubworldRegionDetector::~plSubworldRegionDetector() { }
-
-IMPLEMENT_CREATABLE(plSubworldRegionDetector, kSubworldRegionDetector, plCollisionDetector)
 
 void plSubworldRegionDetector::read(hsStream* S, plResManager* mgr) {
     plDetectorModifier::read(S, mgr);   // <-- Not a bug
@@ -77,17 +68,9 @@ void plSubworldRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     }
 }
 
-plKey plSubworldRegionDetector::getSubworld() const { return fSub; }
-bool plSubworldRegionDetector::getOnExit() const { return fOnExit; }
-void plSubworldRegionDetector::setSubworld(plKey subworld) { fSub = subworld; }
-void plSubworldRegionDetector::setOnExit(bool onExit) { fOnExit = onExit; }
-
 
 /* plPanicLinkRegion */
 plPanicLinkRegion::plPanicLinkRegion() : fPlayLinkOutAnim(true) { }
-plPanicLinkRegion::~plPanicLinkRegion() { }
-
-IMPLEMENT_CREATABLE(plPanicLinkRegion, kPanicLinkRegion, plCollisionDetector)
 
 void plPanicLinkRegion::read(hsStream* S, plResManager* mgr) {
     plCollisionDetector::read(S, mgr);
@@ -114,6 +97,3 @@ void plPanicLinkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plCollisionDetector::IPrcParse(tag, mgr);
     }
 }
-
-bool plPanicLinkRegion::getPlayLinkOutAnim() const { return fPlayLinkOutAnim; }
-void plPanicLinkRegion::setPlayLinkOutAnim(bool play) { fPlayLinkOutAnim = play; }

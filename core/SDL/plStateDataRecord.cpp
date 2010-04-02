@@ -119,7 +119,7 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
         prc->startTag("Variable");
         prc->writeParam("Name", fAllVars[i]->getDescriptor()->getName());
         prc->endTag();
-        
+
         for (size_t j=0; j<fAllVars[i]->getCount(); j++) {
             switch (fAllVars[i]->getDescriptor()->getType()) {
             case plVarDescriptor::kNone:
@@ -201,7 +201,7 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
                 prc->writeParam("TypeID", fAllVars[i]->getDescriptor()->getType());
             }
         }
-        
+
         prc->closeTag();
     }
 }
@@ -231,19 +231,9 @@ void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
     }
 }
 
-plStateDescriptor* plStateDataRecord::getDescriptor() const { return fDescriptor; }
-
-plStateVariable* plStateDataRecord::get(size_t idx) const {
-    return fAllVars[idx];
-}
-
 plStateVariable* plStateDataRecord::get(plString& name) const {
     for (size_t i=0; i<fAllVars.getSize(); i++)
         if (fAllVars[i]->getDescriptor()->getName() == name)
             return fAllVars[i];
     return NULL;
-}
-
-size_t plStateDataRecord::getNumVars() const {
-    return fAllVars.getSize();
 }

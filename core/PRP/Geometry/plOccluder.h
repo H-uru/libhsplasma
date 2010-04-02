@@ -7,6 +7,8 @@
 #include "plCullPoly.h"
 
 DllClass plOccluder : public plObjInterface {
+    CREATABLE(plOccluder, kOccluder, plObjInterface)
+
 protected:
     hsTArray<plCullPoly> fPolys;
     hsTArray<plKey> fVisRegions;
@@ -16,9 +18,6 @@ protected:
 
 public:
     plOccluder();
-    virtual ~plOccluder();
-
-    DECLARE_CREATABLE(plOccluder)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -28,38 +27,36 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    float getPriority() const;
-    hsBounds3Ext getWorldBounds() const;
-    plKey getSceneNode() const;
+    float getPriority() const { return fPriority; }
+    hsBounds3Ext getWorldBounds() const { return fWorldBounds; }
+    plKey getSceneNode() const { return fSceneNode; }
 
-    void setPriority(float priority);
-    void setWorldBounds(const hsBounds3Ext& bounds);
-    void setSceneNode(plKey node);
+    void setPriority(float priority) { fPriority = priority; }
+    void setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
+    void setSceneNode(plKey node) { fSceneNode = node; }
 
-    size_t getNumPolys() const;
-    plCullPoly getPoly(size_t idx) const;
-    void addPoly(const plCullPoly& poly);
-    void delPoly(size_t idx);
-    void clearPolys();
+    const hsTArray<plCullPoly>& getPolys() const { return fPolys; }
+    hsTArray<plCullPoly>& getPolys() { return fPolys; }
+    void addPoly(const plCullPoly& poly) { fPolys.append(poly); }
+    void delPoly(size_t idx) { fPolys.remove(idx); }
+    void clearPolys() { fPolys.clear(); }
 
-    size_t getNumVisRegions() const;
-    plKey getVisRegion(size_t idx) const;
-    void addVisRegion(plKey region);
-    void delVisRegion(size_t idx);
-    void clearVisRegions();
+    const hsTArray<plKey>& getVisRegions() const { return fVisRegions; }
+    hsTArray<plKey>& getVisRegions() { return fVisRegions; }
+    void addVisRegion(plKey region) { fVisRegions.append(region); }
+    void delVisRegion(size_t idx) { fVisRegions.remove(idx); }
+    void clearVisRegions() { fVisRegions.clear(); }
 };
 
+
 DllClass plMobileOccluder : public plOccluder {
+    CREATABLE(plMobileOccluder, kMobileOccluder, plOccluder)
+
 protected:
     hsMatrix44 fLocalToWorld, fWorldToLocal;
     hsBounds3Ext fLocalBounds;
 
 public:
-    plMobileOccluder();
-    virtual ~plMobileOccluder();
-
-    DECLARE_CREATABLE(plMobileOccluder)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -68,13 +65,13 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    hsMatrix44 getLocalToWorld() const;
-    hsMatrix44 getWorldToLocal() const;
-    hsBounds3Ext getLocalBounds() const;
+    hsMatrix44 getLocalToWorld() const { return fLocalToWorld; }
+    hsMatrix44 getWorldToLocal() const { return fWorldToLocal; }
+    hsBounds3Ext getLocalBounds() const { return fLocalBounds; }
 
-    void setLocalToWorld(const hsMatrix44& l2w);
-    void setWorldToLocal(const hsMatrix44& w2l);
-    void setLocalBounds(const hsBounds3Ext& bounds);
+    void setLocalToWorld(const hsMatrix44& l2w) { fLocalToWorld = l2w; }
+    void setWorldToLocal(const hsMatrix44& w2l) { fWorldToLocal = w2l; }
+    void setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }
 };
 
 #endif

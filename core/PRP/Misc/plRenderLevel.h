@@ -11,9 +11,9 @@ namespace plRenderLevel {
         kBlendRendMajorLevel = 0x4,
         kLateRendMajorLevel = 0x8
     };
-    
+
     enum { kMajorShift = 0x1C };
-    
+
     enum {
         kDefRendMinorLevel = 0x0,
         kOpaqueMinorLevel = 0x0,

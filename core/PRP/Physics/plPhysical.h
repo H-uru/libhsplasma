@@ -34,8 +34,7 @@ public:
 };
 
 DllClass plPhysical : public plSynchedObject {
-public:
-    DECLARE_CREATABLE(plPhysical)
+    CREATABLE(plPhysical, kPhysical, plSynchedObject)
 };
 
 #endif

@@ -2,7 +2,6 @@
 #include <cstring>
 
 /* hsTokenStream::Region */
-hsTokenStream::Region::Region() { }
 hsTokenStream::Region::Region(const plString& start, const plString& end)
                      : fStart(start), fEnd(end) { }
 

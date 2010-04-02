@@ -19,8 +19,6 @@ plPythonParameter::plPythonParameter(const plPythonParameter& init)
                    fObjKey(init.fObjKey), fStrValue(init.fStrValue),
                    fIntValue(init.fIntValue) { }
 
-plPythonParameter::~plPythonParameter() { }
-
 void plPythonParameter::read(hsStream* S, plResManager* mgr) {
     fID = S->readInt();
     fValueType = PlasmaToMapped(S->readInt(), S->getVer());
@@ -89,10 +87,10 @@ void plPythonParameter::write(hsStream* S, plResManager* mgr) {
 
 void plPythonParameter::prcWrite(pfPrcHelper* prc) {
     prc->startTag("plPythonParameter");
-    
+
     prc->writeParam("ID", fID);
     prc->writeParam("Type", ValueTypeNames[fValueType]);
-    
+
     switch (fValueType) {
     case kInt:
         prc->writeParam("Value", fIntValue);
@@ -219,11 +217,6 @@ unsigned int plPythonParameter::MappedToPlasma(unsigned int type, PlasmaVer ver)
 
 
 /* plPythonFileMod */
-plPythonFileMod::plPythonFileMod() { }
-plPythonFileMod::~plPythonFileMod() { }
-
-IMPLEMENT_CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
-
 void plPythonFileMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
     fPythonFile = S->readSafeStr();
@@ -262,7 +255,7 @@ void plPythonFileMod::IPrcWrite(pfPrcHelper* prc) {
     for (i=0; i<fReceivers.getSize(); i++)
         fReceivers[i]->prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("Parameters");
     for (i=0; i<fParameters.getSize(); i++)
         fParameters[i].prcWrite(prc);
@@ -290,15 +283,3 @@ void plPythonFileMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMultiModifier::IPrcParse(tag, mgr);
     }
 }
-
-const plString& plPythonFileMod::getFilename() const { return fPythonFile; }
-size_t plPythonFileMod::getNumReceivers() const { return fReceivers.getSize(); }
-size_t plPythonFileMod::getNumParameters() const { return fParameters.getSize(); }
-plKey plPythonFileMod::getReceiver(size_t idx) const { return fReceivers[idx]; }
-const plPythonParameter& plPythonFileMod::getParameter(size_t idx) const { return fParameters[idx]; }
-
-void plPythonFileMod::setFilename(const plString& filename) { fPythonFile = filename; }
-void plPythonFileMod::clearReceivers() { fReceivers.clear(); }
-void plPythonFileMod::clearParameters() { fParameters.clear(); }
-void plPythonFileMod::addReceiver(plKey rcvr) { fReceivers.append(rcvr); }
-void plPythonFileMod::addParameter(const plPythonParameter& param) { fParameters.append(param); }

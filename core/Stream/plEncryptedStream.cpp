@@ -240,14 +240,6 @@ void plEncryptedStream::setKey(unsigned int* keys) {
     eKey[3] = keys[3];
 }
 
-plEncryptedStream::EncryptionType plEncryptedStream::getEncType() const {
-    return eType;
-}
-
-hsUint32 plEncryptedStream::size() const { return dataSize; }
-hsUint32 plEncryptedStream::pos() const { return dataPos; }
-bool plEncryptedStream::eof() const { return dataPos >= dataSize; }
-
 void plEncryptedStream::seek(hsUint32 pos) {
     rewind();
     skip(pos);

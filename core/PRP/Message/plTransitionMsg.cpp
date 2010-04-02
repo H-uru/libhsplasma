@@ -5,10 +5,6 @@ plTransitionMsg::plTransitionMsg()
     fBCastFlags |= kBCastByExactType;
 }
 
-plTransitionMsg::~plTransitionMsg() { }
-
-IMPLEMENT_CREATABLE(plTransitionMsg, kTransitionMsg, plMessageWithCallbacks)
-
 void plTransitionMsg::read(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::read(S, mgr);
 

@@ -4,10 +4,11 @@
 #include "PRP/plCreatable.h"
 #include "Math/hsAffineParts.h"
 #include "Math/hsMatrix44.h"
-#include "Util/hsTArray.hpp"
 #include "plTMController.h"
 
 DllClass plAnimPath : public plCreatable {
+    CREATABLE(plAnimPath, kAnimPath, plCreatable)
+
 public:
     enum Flags {
         kNone = 0,
@@ -31,8 +32,6 @@ public:
     plAnimPath();
     virtual ~plAnimPath();
 
-    DECLARE_CREATABLE(plAnimPath)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -41,23 +40,24 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned int getFlags() const;
-    float getMinDistSq() const;
-    float getLength() const;
-    const hsMatrix44& getLocalToWorld() const;
-    const hsMatrix44& getWorldToLocal() const;
-    plCompoundController* getController() const;
-    plTMController* getTMController() const;
-    const hsAffineParts& getAffineParts() const;
+    unsigned int getFlags() const { return fAnimPathFlags; }
+    float getMinDistSq() const { return fMinDistSq; }
+    float getLength() const { return fLength; }
+    const hsMatrix44& getLocalToWorld() const { return fLocalToWorld; }
+    const hsMatrix44& getWorldToLocal() const { return fWorldToLocal; }
+    plCompoundController* getController() const { return fController; }
+    plTMController* getTMController() const { return fTMController; }
+    const hsAffineParts& getAffineParts() const { return fParts; }
 
-    void setFlags(unsigned int flags);
-    void setMinDistSq(float dist);
-    void setLength(float length);
-    void setLocalToWorld(const hsMatrix44& l2w);
-    void setWorldToLocal(const hsMatrix44& w2l);
+    void setFlags(unsigned int flags) { fAnimPathFlags = flags; }
+    void setMinDistSq(float dist) { fMinDistSq = dist; }
+    void setLength(float length) { fLength = length; }
+    void setLocalToWorld(const hsMatrix44& l2w) { fLocalToWorld = l2w; }
+    void setWorldToLocal(const hsMatrix44& w2l) { fWorldToLocal = w2l; }
+    void setAffineParts(const hsAffineParts& parts) { fParts = parts; }
+
     void setController(plCompoundController* controller);
     void setTMController(plTMController* controller);
-    void setAffineParts(const hsAffineParts& parts);
 };
 
 #endif

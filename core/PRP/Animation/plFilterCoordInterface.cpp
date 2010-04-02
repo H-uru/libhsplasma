@@ -1,10 +1,6 @@
 #include "plFilterCoordInterface.h"
 
 plFilterCoordInterface::plFilterCoordInterface() : fFilterMask(0) { }
-plFilterCoordInterface::~plFilterCoordInterface() { }
-
-IMPLEMENT_CREATABLE(plFilterCoordInterface, kFilterCoordInterface,
-                    plCoordinateInterface)
 
 void plFilterCoordInterface::read(hsStream* S, plResManager* mgr) {
     plCoordinateInterface::read(S, mgr);

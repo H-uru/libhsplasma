@@ -4,15 +4,13 @@
 #include "plConditionalObject.h"
 
 DllClass plActivatorConditionalObject : public plConditionalObject {
+    CREATABLE(plActivatorConditionalObject, kActivatorConditionalObject,
+              plConditionalObject)
+
 protected:
     hsTArray<plKey> fActivators;
 
 public:
-    plActivatorConditionalObject();
-    virtual ~plActivatorConditionalObject();
-
-    DECLARE_CREATABLE(plActivatorConditionalObject)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,14 +19,18 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plActivatorActivatorConditionalObject : public plActivatorConditionalObject {
-public:
-    DECLARE_CREATABLE(plActivatorActivatorConditionalObject)
+    CREATABLE(plActivatorActivatorConditionalObject,
+              kActivatorActivatorConditionalObject,
+              plActivatorConditionalObject)
 };
 
+
 DllClass plVolActivatorConditionalObject : public plActivatorConditionalObject {
-public:
-    DECLARE_CREATABLE(plVolActivatorConditionalObject)
+    CREATABLE(plVolActivatorConditionalObject,
+              kVolActivatorConditionalObject,
+              plActivatorConditionalObject)
 };
 
 #endif

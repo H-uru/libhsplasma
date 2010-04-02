@@ -6,6 +6,8 @@
 #include "PRP/Message/plMessage.h"
 
 DllClass plNetMsgGameMessage : public plNetMsgStream {
+    CREATABLE(plNetMsgGameMessage, kNetMsgGameMessage, plNetMsgStream)
+
 private:
     plUnifiedTime fDeliveryTime;
     plMessage* fMessage;
@@ -14,8 +16,6 @@ public:
     plNetMsgGameMessage();
     ~plNetMsgGameMessage();
 
-    DECLARE_CREATABLE(plNetMsgGameMessage)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -24,23 +24,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plUnifiedTime getDeliveryTime() const;
-    plMessage* getMessage() const;
+    plUnifiedTime getDeliveryTime() const { return fDeliveryTime; }
+    plMessage* getMessage() const { return fMessage; }
 
-    void setDeliveryTime(plUnifiedTime DeliveryTime);
+    void setDeliveryTime(const plUnifiedTime& deliveryTime) { fDeliveryTime = deliveryTime; }
     void setMessage(plMessage* Message);
 };
 
+
 DllClass plNetMsgGameMessageDirected : public plNetMsgGameMessage {
+    CREATABLE(plNetMsgGameMessageDirected, kNetMsgGameMessageDirected,
+              plNetMsgGameMessage)
+
 private:
     hsTArray<unsigned int> fReceivers;
 
 public:
-    plNetMsgGameMessageDirected();
-    ~plNetMsgGameMessageDirected();
-
-    DECLARE_CREATABLE(plNetMsgGameMessageDirected)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -49,9 +48,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    hsTArray<unsigned int> getReceivers() const;
-
-    void setReceivers(hsTArray<unsigned int> Receivers);
+    const hsTArray<unsigned int>& getReceivers() const { return fReceivers; }
+    void setReceivers(const hsTArray<unsigned int>& receivers) { fReceivers = receivers; }
 };
 
 #endif

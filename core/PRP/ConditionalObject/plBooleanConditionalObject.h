@@ -4,15 +4,13 @@
 #include "plConditionalObject.h"
 
 DllClass plANDConditionalObject : public plConditionalObject {
+    CREATABLE(plANDConditionalObject, kANDConditionalObject,
+              plConditionalObject)
+
 protected:
     hsTArray<plKey> fChildren;
 
 public:
-    plANDConditionalObject();
-    virtual ~plANDConditionalObject();
-
-    DECLARE_CREATABLE(plANDConditionalObject)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,16 +19,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plORConditionalObject : public plConditionalObject {
+    CREATABLE(plORConditionalObject, kORConditionalObject,
+              plConditionalObject)
+
 protected:
     hsTArray<plKey> fChildren;
 
 public:
-    plORConditionalObject();
-    virtual ~plORConditionalObject();
-
-    DECLARE_CREATABLE(plORConditionalObject)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

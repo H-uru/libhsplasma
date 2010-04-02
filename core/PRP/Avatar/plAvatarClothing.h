@@ -4,6 +4,8 @@
 #include "PRP/Object/plSynchedObject.h"
 
 DllClass plClothingOutfit : public plSynchedObject {
+    CREATABLE(plClothingOutfit, kClothingOutfit, plSynchedObject)
+
 public:
     enum {
         kClothingGroupMale, kClothingGroupFemale, kClothingGroupNoOptions,
@@ -25,9 +27,6 @@ protected:
 
 public:
     plClothingOutfit();
-    virtual ~plClothingOutfit();
-
-    DECLARE_CREATABLE(plClothingOutfit)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -37,17 +36,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plClothingBase : public hsKeyedObject {
+    CREATABLE(plClothingBase, kClothingBase, hsKeyedObject)
+
 protected:
     plString fName, fLayoutName;
     plKey fBaseTexture;
 
 public:
-    plClothingBase();
-    virtual ~plClothingBase();
-
-    DECLARE_CREATABLE(plClothingBase)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

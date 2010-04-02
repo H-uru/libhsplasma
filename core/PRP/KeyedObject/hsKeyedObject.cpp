@@ -2,11 +2,6 @@
 #include "Stream/hsRAMStream.h"
 
 /* hsKeyedObject */
-hsKeyedObject::hsKeyedObject() { }
-hsKeyedObject::~hsKeyedObject() { }
-
-IMPLEMENT_CREATABLE(hsKeyedObject, kKeyedObject, plReceiver)
-
 void hsKeyedObject::init(const plString& name) {
     myKey = new plKeyData();
     myKey->setType(ClassIndex());
@@ -48,8 +43,6 @@ void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey hsKeyedObject::getKey() const { return myKey; }
-
 void hsKeyedObject::setKey(plKey key) {
     myKey = key;
     if (myKey != NULL)
@@ -63,14 +56,6 @@ hsKeyedObjectStub::hsKeyedObjectStub() : fStub(NULL) { }
 hsKeyedObjectStub::~hsKeyedObjectStub() {
     if (fStub != NULL)
         delete fStub;
-}
-
-short hsKeyedObjectStub::ClassIndex() const {
-    return fStub->ClassIndex();
-}
-
-const char* hsKeyedObjectStub::ClassName() const {
-    return "hsKeyedObjectStub";
 }
 
 void hsKeyedObjectStub::write(hsStream* S, plResManager* mgr) {
@@ -89,10 +74,8 @@ void hsKeyedObjectStub::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
 }
 
-const plCreatableStub* hsKeyedObjectStub::getStub() const {
-    return fStub;
-}
-
 void hsKeyedObjectStub::setStub(plCreatableStub* stub) {
+    if (fStub != NULL)
+        delete fStub;
     fStub = stub;
 }

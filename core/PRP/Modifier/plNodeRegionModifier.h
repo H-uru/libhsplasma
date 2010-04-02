@@ -4,14 +4,13 @@
 #include "plModifier.h"
 
 DllClass plNodeRegionModifier : public plSingleModifier {
+    CREATABLE(plNodeRegionModifier, kNodeRegionModifier, plSingleModifier)
+
 protected:
     bool fEnabled;
 
 public:
     plNodeRegionModifier();
-    virtual ~plNodeRegionModifier();
-
-    DECLARE_CREATABLE(plNodeRegionModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -5,16 +5,15 @@
 #include "Util/hsBitVector.h"
 
 DllClass plRelevanceRegion : public plObjInterface {
+    CREATABLE(plRelevanceRegion, kRelevanceRegion, plObjInterface)
+
 protected:
     plKey fRegion;
-	hsBitVector fRegionsICareAbout;
+    hsBitVector fRegionsICareAbout;
     unsigned int fMgrIdx;
 
 public:
     plRelevanceRegion();
-    virtual ~plRelevanceRegion();
-
-    DECLARE_CREATABLE(plRelevanceRegion)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

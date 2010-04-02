@@ -10,8 +10,6 @@ plDynamicTextMap::~plDynamicTextMap() {
         delete[] fInitBuffer;
 }
 
-IMPLEMENT_CREATABLE(plDynamicTextMap, kDynamicTextMap, plMipmap)
-
 void plDynamicTextMap::Create(unsigned int width, unsigned int height,
                               bool hasAlpha, unsigned int extraWidth,
                               unsigned int extraHeight) {
@@ -104,16 +102,6 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plBitmap::IPrcParse(tag, mgr);
     }
 }
-
-unsigned int plDynamicTextMap::getVisWidth() const { return fVisWidth; }
-unsigned int plDynamicTextMap::getVisHeight() const { return fVisHeight; }
-bool plDynamicTextMap::hasAlpha() const { return fHasAlpha; }
-const unsigned int* plDynamicTextMap::getInitBuffer() const { return fInitBuffer; }
-size_t plDynamicTextMap::getInitBufferSize() const { return fInitBufferLen; }
-
-void plDynamicTextMap::setVisWidth(unsigned int width) { fVisWidth = width; }
-void plDynamicTextMap::setVisHeight(unsigned int height) { fVisHeight = height; }
-void plDynamicTextMap::setHasAlpha(bool hasAlpha) { fHasAlpha = hasAlpha; }
 
 void plDynamicTextMap::setInitBuffer(const unsigned int* buffer, size_t size) {
     fInitBufferLen = size;

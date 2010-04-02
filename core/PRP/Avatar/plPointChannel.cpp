@@ -1,28 +1,6 @@
 #include "plPointChannel.h"
 
-/* plPointChannel */
-plPointChannel::plPointChannel() { }
-plPointChannel::~plPointChannel() { }
-
-IMPLEMENT_CREATABLE(plPointChannel, kPointChannel, plAGChannel)
-
-hsVector3 plPointChannel::getResult() const { return fResult; }
-void plPointChannel::setResult(const hsVector3& result) { fResult = result; }
-
-
-/* plPointBlend */
-plPointBlend::plPointBlend() { }
-plPointBlend::~plPointBlend() { }
-
-IMPLEMENT_CREATABLE(plPointBlend, kPointBlend, plPointChannel)
-
-
 /* plPointConstant */
-plPointConstant::plPointConstant() { }
-plPointConstant::~plPointConstant() { }
-
-IMPLEMENT_CREATABLE(plPointConstant, kPointConstant, plPointChannel)
-
 void plPointConstant::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
     fResult.read(S);
@@ -51,15 +29,6 @@ void plPointConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plPointControllerCacheChannel */
-plPointControllerCacheChannel::plPointControllerCacheChannel() { }
-plPointControllerCacheChannel::~plPointControllerCacheChannel() { }
-
-IMPLEMENT_CREATABLE(plPointControllerCacheChannel,
-                    kPointControllerCacheChannel,
-                    plPointChannel)
-
-
 /* plPointControllerChannel */
 plPointControllerChannel::plPointControllerChannel() : fController(NULL) { }
 
@@ -67,9 +36,6 @@ plPointControllerChannel::~plPointControllerChannel() {
     if (fController != NULL)
         delete fController;
 }
-
-IMPLEMENT_CREATABLE(plPointControllerChannel, kPointControllerChannel,
-                    plPointChannel)
 
 void plPointControllerChannel::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
@@ -98,25 +64,8 @@ void plPointControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
     }
 }
 
-plController* plPointControllerChannel::getController() const { return fController; }
-
 void plPointControllerChannel::setController(plController* controller) {
     if (fController != NULL)
         delete fController;
     fController = controller;
 }
-
-
-/* plPointTimeScale */
-plPointTimeScale::plPointTimeScale() { }
-plPointTimeScale::~plPointTimeScale() { }
-
-IMPLEMENT_CREATABLE(plPointTimeScale, kPointTimeScale, plPointChannel)
-
-
-/* plPointChannelApplicator */
-plPointChannelApplicator::plPointChannelApplicator() { }
-plPointChannelApplicator::~plPointChannelApplicator() { }
-
-IMPLEMENT_CREATABLE(plPointChannelApplicator, kPointChannelApplicator,
-                    plAGApplicator)

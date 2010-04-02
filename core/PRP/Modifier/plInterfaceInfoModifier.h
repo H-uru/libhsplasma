@@ -4,15 +4,12 @@
 #include "plModifier.h"
 
 DllClass plInterfaceInfoModifier : public plSingleModifier {
+    CREATABLE(plInterfaceInfoModifier, kInterfaceInfoModifier, plSingleModifier)
+
 protected:
     hsTArray<plKey> fKeyList;
 
 public:
-    plInterfaceInfoModifier();
-    virtual ~plInterfaceInfoModifier();
-
-    DECLARE_CREATABLE(plInterfaceInfoModifier)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,11 +18,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumIntfKeys() const;
-    plKey getIntfKey(size_t idx) const;
-    void addIntfKey(plKey key);
-    void delIntfKey(size_t idx);
-    void clearIntfKeys();
+    const hsTArray<plKey>& getIntfKeys() const { return fKeyList; }
+    hsTArray<plKey>& getIntfKeys() { return fKeyList; }
+    void addIntfKey(plKey key) { fKeyList.append(key); }
+    void delIntfKey(size_t idx) { fKeyList.remove(idx); }
+    void clearIntfKeys() { fKeyList.clear(); }
 };
 
 #endif

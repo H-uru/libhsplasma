@@ -4,9 +4,6 @@
 plDynamicEnvMap::plDynamicEnvMap()
                : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
                  fIncCharacters(false) { }
-plDynamicEnvMap::~plDynamicEnvMap() { }
-
-IMPLEMENT_CREATABLE(plDynamicEnvMap, kDynamicEnvMap, plCubicRenderTarget)
 
 void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
     plCubicRenderTarget::read(S, mgr);
@@ -142,9 +139,6 @@ void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plDynamicCamMap::plDynamicCamMap()
                : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
                  fIncCharacters(false) { }
-plDynamicCamMap::~plDynamicCamMap() { }
-
-IMPLEMENT_CREATABLE(plDynamicCamMap, kDynamicCamMap, plRenderTarget)
 
 void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
     plRenderTarget::read(S, mgr);

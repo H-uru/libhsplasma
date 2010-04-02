@@ -6,6 +6,8 @@
 #include "PRP/KeyedObject/plKey.h"
 
 DllClass plMessage : public plCreatable {
+    CREATABLE(plMessage, kMessage, plCreatable)
+
 public:
     enum plBCastFlags {
         kBCastNone = 0x0,
@@ -38,9 +40,6 @@ protected:
 
 public:
     plMessage();
-    virtual ~plMessage();
-
-    DECLARE_CREATABLE(plMessage)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -52,19 +51,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getSender() const;
-    double getTimeStamp() const;
-    unsigned int getBCastFlags() const;
+    plKey getSender() const { return fSender; }
+    double getTimeStamp() const { return fTimeStamp; }
+    unsigned int getBCastFlags() const { return fBCastFlags; }
 
-    void setSender(plKey sender);
-    void setTimeStamp(double timestamp);
-    void setBCastFlags(unsigned int flags);
+    void setSender(plKey sender) { fSender = sender; }
+    void setTimeStamp(double timestamp) { fTimeStamp = timestamp; }
+    void setBCastFlags(unsigned int flags) { fBCastFlags = flags; }
 
-    size_t getNumReceivers() const;
-    plKey getReceiver(size_t idx) const;
-    void addReceiver(plKey receiver);
-    void delReceiver(size_t idx);
-    void clearReceivers();
+    const hsTArray<plKey>& getReceivers() const { return fReceivers; }
+    hsTArray<plKey>& getReceivers() { return fReceivers; }
+    void addReceiver(plKey receiver) { fReceivers.append(receiver); }
+    void delReceiver(size_t idx) { fReceivers.remove(idx); }
+    void clearReceivers() { fReceivers.clear(); }
 };
 
 #endif

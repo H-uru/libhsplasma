@@ -4,15 +4,12 @@
 #include "plLayerAnimation.h"
 
 DllClass plLayerMovie : public plLayerAnimation {
+    CREATABLE(plLayerMovie, kLayerMovie, plLayerAnimation)
+
 protected:
     plString fMovieName;
 
 public:
-    plLayerMovie();
-    virtual ~plLayerMovie();
-
-    DECLARE_CREATABLE(plLayerMovie)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,18 +18,18 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plString getMovieName() const;
-    void setMovieName(const plString& name);
+    plString getMovieName() const { return fMovieName; }
+    void setMovieName(const plString& name) { fMovieName = name; }
 };
+
 
 DllClass plLayerAVI : public plLayerMovie {
-public:
-    DECLARE_CREATABLE(plLayerAVI)
+    CREATABLE(plLayerAVI, kLayerAVI, plLayerMovie)
 };
 
+
 DllClass plLayerBink : public plLayerMovie {
-public:
-    DECLARE_CREATABLE(plLayerBink)
+    CREATABLE(plLayerBink, kLayerBink, plLayerMovie)
 };
 
 #endif

@@ -5,6 +5,8 @@
 #include "PRP/Message/plNotifyMsg.h"
 
 DllClass plLogicModBase : public plSingleModifier {
+    CREATABLE(plLogicModBase, kLogicModBase, plSingleModifier)
+
 public:
     enum Flags {
         kLocalElement, kReset, kTriggered, kOneShot, kRequestingTrigger,
@@ -21,8 +23,6 @@ public:
     plLogicModBase();
     virtual ~plLogicModBase();
 
-    DECLARE_CREATABLE(plLogicModBase)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -31,19 +31,20 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumCommands() const;
-    plMessage* getCommand(size_t idx) const;
-    void addCommand(plMessage* cmd);
+    const hsTArray<plMessage*> getCommands() const { return fCommandList; }
+    hsTArray<plMessage*> getCommands() { return fCommandList; }
+    void addCommand(plMessage* cmd) { fCommandList.append(cmd); }
     void delCommand(size_t idx);
     void clearCommands();
 
-    plNotifyMsg* getNotify() const;
-    bool isDisabled() const;
+    plNotifyMsg* getNotify() const { return fNotify; }
+    bool isDisabled() const { return fDisabled; }
 
     void setNotify(plNotifyMsg* notify);
-    void setDisabled(bool disabled);
+    void setDisabled(bool disabled) { fDisabled = disabled; }
 
-    hsBitVector& getLogicFlags();
+    bool getLogicFlag(size_t flag) const { return fLogicFlags.get(flag); }
+    void setLogicFlag(size_t flag, bool value) { return fLogicFlags.set(flag, value); }
 };
 
 #endif

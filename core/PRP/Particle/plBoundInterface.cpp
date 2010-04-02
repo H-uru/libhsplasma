@@ -7,8 +7,6 @@ plBoundInterface::~plBoundInterface() {
         delete fBounds;
 }
 
-IMPLEMENT_CREATABLE(plBoundInterface, kBoundInterface, plObjInterface)
-
 void plBoundInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     setBounds(plConvexVolume::Convert(mgr->ReadCreatable(S)));
@@ -35,8 +33,6 @@ void plBoundInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
-
-plConvexVolume* plBoundInterface::getBounds() const { return fBounds; }
 
 void plBoundInterface::setBounds(plConvexVolume* bounds) {
     if (fBounds != NULL)

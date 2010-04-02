@@ -1,17 +1,7 @@
 #include "plSpawnModifier.h"
 
-/* plSpawnModifier */
-plSpawnModifier::plSpawnModifier() { }
-plSpawnModifier::~plSpawnModifier() { }
-
-IMPLEMENT_CREATABLE(plSpawnModifier, kSpawnModifier, plMultiModifier)
-
-
 /* plSpawnMod */
 plSpawnMod::plSpawnMod() : fBool1(false), fDisableDraw(false) { }
-plSpawnMod::~plSpawnMod() { }
-
-IMPLEMENT_CREATABLE(plSpawnMod, kSpawnMod, plModifier)
 
 void plSpawnMod::read(hsStream* S, plResManager* mgr) {
     plModifier::read(S, mgr);

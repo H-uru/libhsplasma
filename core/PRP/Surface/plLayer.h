@@ -3,12 +3,9 @@
 #include "plLayerInterface.h"
 
 DllClass plLayer : public plLayerInterface {
+    CREATABLE(plLayer, kLayer, plLayerInterface)
+
 public:
-    plLayer();
-    virtual ~plLayer();
-
-    DECLARE_CREATABLE(plLayer)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -17,9 +14,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plLayerDepth : public plLayer {
-public:
-    DECLARE_CREATABLE(plLayerDepth)
+    CREATABLE(plLayerDepth, kLayerDepth, plLayer)
 };
 
 #endif

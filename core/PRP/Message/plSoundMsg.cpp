@@ -27,10 +27,6 @@ plSoundMsg::plSoundMsg()
     fCmd.setName(kFastForwardToggle, "kFastForwardToggle");
 }
 
-plSoundMsg::~plSoundMsg() { }
-
-IMPLEMENT_CREATABLE(plSoundMsg, kSoundMsg, plMessageWithCallbacks)
-
 void plSoundMsg::read(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::read(S, mgr);
 

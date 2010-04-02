@@ -28,14 +28,14 @@ plString::plStrData::~plStrData() {
         delete[] fStr;
 }
 
-void plString::plStrData::ref() { fRefs++; }
-
 void plString::plStrData::unref() {
     if (--fRefs == 0)
         delete this;
 }
 
-const char* plString::plStrData::get() const { return (fStr != NULL) ? fStr : ""; }
+const char* plString::plStrData::get() const {
+    return (fStr != NULL) ? fStr : "";
+}
 
 plString::plString() : fString(NULL) { }
 
@@ -70,11 +70,6 @@ plString::~plString() {
     if (fString != NULL)
         fString->unref();
 }
-
-bool plString::empty() const { return (fString == NULL) || (fString->fLen == 0); }
-size_t plString::len() const { return (fString != NULL) ? fString->fLen : 0; }
-
-//char& plString::operator[](size_t idx) const { return fStr[idx]; }
 
 plString& plString::operator=(const plString& other) {
     if (fString != NULL)
@@ -129,7 +124,7 @@ plString& plString::operator+=(const plString& other) {
             fString->ref();
         return (*this);
     }
-    
+
     plStrData* newStr = new plStrData();
     newStr->fLen = fString->fLen + other.fString->fLen;
     newStr->fStr = new char[newStr->fLen + 1];
@@ -267,8 +262,9 @@ bool plString::endsWith(const char* cmp, bool ignoreCase) const {
     return (right(strlen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
 
-const char* plString::cstr() const { return (fString != NULL) ? fString->get() : ""; }
-plString::operator const char*() const { return cstr(); }
+const char* plString::cstr() const {
+    return (fString != NULL) ? fString->get() : "";
+}
 
 unsigned int plString::hash() const {
     if (fString != NULL) {
@@ -281,8 +277,8 @@ unsigned int plString::hash() const {
 
 unsigned int plString::hash(const char* str) {
     if (str == NULL) str = "";
-    
-    // djb2 hash //
+
+    // djb2 hash
     unsigned int hash = 5381;
     while (*str++)
         hash = ((hash << 5) + hash) ^ *str;
@@ -385,7 +381,7 @@ plString plString::left(size_t num) const {
     if (empty()) return plString();
     if (num > fString->fLen) num = fString->fLen;
     if (num == fString->fLen) return *this;
-    
+
     plString retn;
     retn.fString = new plStrData();
     retn.fString->fLen = num;
@@ -553,14 +549,14 @@ plWString::plStrData::~plStrData() {
         delete[] fStr;
 }
 
-void plWString::plStrData::ref() { fRefs++; }
-
 void plWString::plStrData::unref() {
     if (--fRefs == 0)
         delete this;
 }
 
-const hsWchar* plWString::plStrData::get() const { return (fStr != NULL) ? fStr : L""; }
+const hsWchar* plWString::plStrData::get() const {
+    return (fStr != NULL) ? fStr : L"";
+}
 
 plWString::plWString() : fString(NULL) { }
 
@@ -595,11 +591,6 @@ plWString::~plWString() {
     if (fString != NULL)
         fString->unref();
 }
-
-bool plWString::empty() const { return (fString == NULL) || (fString->fLen == 0); }
-size_t plWString::len() const { return (fString != NULL) ? fString->fLen : 0; }
-
-//hsWchar& plWString::operator[](size_t idx) const { return fStr[idx]; }
 
 plWString& plWString::operator=(const plWString& other) {
     if (fString != NULL)
@@ -792,8 +783,9 @@ bool plWString::endsWith(const hsWchar* cmp, bool ignoreCase) const {
     return (right(wcslen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
 
-const hsWchar* plWString::cstr() const { return (fString != NULL) ? fString->get() : L""; }
-plWString::operator const hsWchar*() const { return cstr(); }
+const hsWchar* plWString::cstr() const {
+    return (fString != NULL) ? fString->get() : L"";
+}
 
 unsigned int plWString::hash() const {
     if (fString != NULL) {

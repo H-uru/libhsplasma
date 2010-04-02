@@ -1,9 +1,6 @@
 #include "plHardRegionPlanes.h"
 
 /* plHardRegionPlanes::HardPlane */
-plHardRegionPlanes::HardPlane::HardPlane() { }
-plHardRegionPlanes::HardPlane::~HardPlane() { }
-
 void plHardRegionPlanes::HardPlane::read(hsStream* S) {
     fNorm.read(S);
     fPos.read(S);
@@ -70,11 +67,6 @@ float plHardRegionPlanes::HardPlane::getWorldDist() const {
 
 
 /* plHardRegionPlanes */
-plHardRegionPlanes::plHardRegionPlanes() { }
-plHardRegionPlanes::~plHardRegionPlanes() { }
-
-IMPLEMENT_CREATABLE(plHardRegionPlanes, kHardRegionPlanes, plHardRegion)
-
 void plHardRegionPlanes::read(hsStream* S, plResManager* mgr) {
     plHardRegion::read(S, mgr);
 

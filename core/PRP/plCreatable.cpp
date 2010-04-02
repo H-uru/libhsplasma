@@ -1,23 +1,13 @@
 #include "plCreatable.h"
 
 /* plCreatable */
-plCreatable::plCreatable() { }
-plCreatable::~plCreatable() { }
-
 short plCreatable::ClassIndex(PlasmaVer ver) const {
     return pdUnifiedTypeMap::MappedToPlasma(ClassIndex(), ver);
 }
 
-bool plCreatable::ClassInstance(short hClass) const { return false; }
-
 const char* plCreatable::ClassName() const {
     return pdUnifiedTypeMap::ClassName(ClassIndex());
 }
-
-bool plCreatable::isStub() const { return false; }
-
-void plCreatable::read(hsStream* S, plResManager* mgr) { }
-void plCreatable::write(hsStream* S, plResManager* mgr) { }
 
 void plCreatable::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag(ClassName());
@@ -55,10 +45,6 @@ plCreatableStub::~plCreatableStub() {
         delete[] fData;
 }
 
-short plCreatableStub::ClassIndex() const { return fClassIdx; }
-
-bool plCreatableStub::isStub() const { return true; }
-
 void plCreatableStub::read(hsStream* S, plResManager* mgr) {
     S->read(fDataLen, fData);
 }
@@ -89,6 +75,3 @@ void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plCreatableStub::IPrcWrite(pfPrcHelper* prc) { }
 void plCreatableStub::IPrcParse(const pfPrcTag* tag, plResManager* mgr) { }
-
-const unsigned char* plCreatableStub::getData() const { return fData; }
-size_t plCreatableStub::getLength() const { return fDataLen; }

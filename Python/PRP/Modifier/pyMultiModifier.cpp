@@ -33,23 +33,12 @@ static PyObject* pyMultiModifier_getFlag(pyMultiModifier* self, PyObject* args) 
 }
 
 static PyObject* pyMultiModifier_setFlag(pyMultiModifier* self, PyObject* args) {
-    int flag;
-    if (!PyArg_ParseTuple(args, "i", &flag)) {
-        PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
+    int flag, value;
+    if (!PyArg_ParseTuple(args, "ii", &flag, &value)) {
+        PyErr_SetString(PyExc_TypeError, "setFlag expects int, bool");
         return NULL;
     }
-    self->fThis->setFlag(flag);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyMultiModifier_clearFlag(pyMultiModifier* self, PyObject* args) {
-    int flag;
-    if (!PyArg_ParseTuple(args, "i", &flag)) {
-        PyErr_SetString(PyExc_TypeError, "clearFlag expects an int");
-        return NULL;
-    }
-    self->fThis->clearFlag(flag);
+    self->fThis->setFlag(flag, value != 0);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -61,11 +50,8 @@ static PyMethodDef pyMultiModifier_Methods[] = {
       "Params: flag\n"
       "Returns whether the specified modifier flag is set" },
     { "setFlag", (PyCFunction)pyMultiModifier_setFlag, METH_VARARGS,
-      "Params: flag\n"
+      "Params: flag, value\n"
       "Sets the specified modifier flag" },
-    { "clearFlag", (PyCFunction)pyMultiModifier_clearFlag, METH_VARARGS,
-      "Params: flag\n"
-      "Clears the specified modifier flag" },
     { NULL, NULL, 0, NULL }
 };
 

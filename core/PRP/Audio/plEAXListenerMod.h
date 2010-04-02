@@ -5,17 +5,13 @@
 #include "3rdPartyLibs/AL/EFX-Util.h"
 
 DllClass plEAXListenerMod : public plSingleModifier {
+    CREATABLE(plEAXListenerMod, kEAXListenerMod, plSingleModifier)
+
 protected:
     plKey fSoftRegion;
     EAXREVERBPROPERTIES fListenerProps;
-    bool fRegistered, fGetsMessages;
 
 public:
-    plEAXListenerMod();
-    virtual ~plEAXListenerMod();
-
-    DECLARE_CREATABLE(plEAXListenerMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

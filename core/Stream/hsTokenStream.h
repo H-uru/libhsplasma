@@ -12,7 +12,7 @@ public:
         plString fEnd;
 
         Region(const plString& start, const plString& end);
-        Region();
+        Region() { }
     };
 
 protected:

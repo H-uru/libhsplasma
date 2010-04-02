@@ -5,6 +5,8 @@
 #include "PRP/Avatar/plAvTask.h"
 
 DllClass plAvTaskMsg : public plAvatarMsg {
+    CREATABLE(plAvTaskMsg, kAvTaskMsg, plAvatarMsg)
+
 private:
     plAvTask* fTask;
 
@@ -12,8 +14,6 @@ public:
     plAvTaskMsg();
     virtual ~plAvTaskMsg();
 
-    DECLARE_CREATABLE(plAvTaskMsg)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -22,11 +22,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plAvTask* getTask() const;
+    plAvTask* getTask() const { return fTask; }
     void setTask(plAvTask* task);
 };
 
+
 DllClass plAvPushBrainMsg : public plAvTaskMsg {
+    CREATABLE(plAvPushBrainMsg, kAvPushBrainMsg, plAvTaskMsg)
+
 private:
     plArmatureBrain* fBrain;
 
@@ -34,8 +37,6 @@ public:
     plAvPushBrainMsg();
     virtual ~plAvPushBrainMsg();
 
-    DECLARE_CREATABLE(plAvPushBrainMsg)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -44,16 +45,13 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plArmatureBrain* getBrain() const;
+    plArmatureBrain* getBrain() const { return fBrain; }
     void setBrain(plArmatureBrain* brain);
 };
 
-DllClass plAvPopBrainMsg : public plAvTaskMsg {
-public:
-    plAvPopBrainMsg();
-    virtual ~plAvPopBrainMsg();
 
-    DECLARE_CREATABLE(plAvPopBrainMsg)
+DllClass plAvPopBrainMsg : public plAvTaskMsg {
+    CREATABLE(plAvPopBrainMsg, kAvPopBrainMsg, plAvTaskMsg)
 };
 
 #endif

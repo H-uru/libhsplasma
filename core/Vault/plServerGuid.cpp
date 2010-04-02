@@ -47,14 +47,6 @@ bool plServerGuid::operator==(const plServerGuid& other) {
            (fGuid[7] == other.fGuid[7]);
 }
 
-bool plServerGuid::operator!=(const plServerGuid& other) {
-    return !operator==(other);
-}
-
-unsigned char& plServerGuid::operator[](size_t idx) {
-    return fGuid[idx];
-}
-
 plString plServerGuid::toString() const {
     char buf[17];
     snprintf(buf, 17, "%02X%02X%02X%02X%02X%02X%02X%02X",

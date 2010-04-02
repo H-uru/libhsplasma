@@ -8,6 +8,8 @@
 #include "hsGMatState.h"
 
 DllClass plLayerInterface : public plSynchedObject {
+    CREATABLE(plLayerInterface, kLayerInterface, plSynchedObject)
+
 public:
     enum plLayerDirtyBits {
         kTransform = 0x1,
@@ -26,7 +28,7 @@ public:
         kBumpEnvXfm = 0x2000,
         kAllDirty = 0xFF
     };
-    
+
     enum plUVWSrcModifiers {
         kUVWPassThru = 0,
         kUVWIdxMask = 0xFFFF,
@@ -49,9 +51,6 @@ protected:
 
 public:
     plLayerInterface();
-    virtual ~plLayerInterface();
-
-    DECLARE_CREATABLE(plLayerInterface)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -61,39 +60,40 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getUnderLay() const;
-    plKey getTexture() const;
-    plKey getVertexShader() const;
-    plKey getPixelShader() const;
-    void setUnderLay(plKey layer);
-    void setTexture(plKey tex);
-    void setVertexShader(plKey shader);
-    void setPixelShader(plKey shader);
+    plKey getUnderLay() const { return fUnderLay; }
+    plKey getTexture() const { return fTexture; }
+    plKey getVertexShader() const { return fVertexShader; }
+    plKey getPixelShader() const { return fPixelShader; }
+    void setUnderLay(plKey layer) { fUnderLay = layer; }
+    void setTexture(plKey tex) { fTexture = tex; }
+    void setVertexShader(plKey shader) { fVertexShader = shader; }
+    void setPixelShader(plKey shader) { fPixelShader = shader; }
 
-    hsMatrix44 getTransform() const;
-    hsMatrix44 getBumpEnvTransform() const;
-    void setTransform(const hsMatrix44& xform);
-    void setBumpEnvTransform(const hsMatrix44& xform);
+    hsMatrix44 getTransform() const { return fTransform; }
+    hsMatrix44 getBumpEnvTransform() const { return fBumpEnvXfm; }
+    void setTransform(const hsMatrix44& xform) { fTransform = xform; }
+    void setBumpEnvTransform(const hsMatrix44& xform) { fBumpEnvXfm =  xform; }
 
-    hsColorRGBA getPreshade() const;
-    hsColorRGBA getRuntime() const;
-    hsColorRGBA getAmbient() const;
-    hsColorRGBA getSpecular() const;
-    void setPreshade(const hsColorRGBA& color);
-    void setRuntime(const hsColorRGBA& color);
-    void setAmbient(const hsColorRGBA& color);
-    void setSpecular(const hsColorRGBA& color);
+    hsColorRGBA getPreshade() const { return fPreshade; }
+    hsColorRGBA getRuntime() const { return fRuntime; }
+    hsColorRGBA getAmbient() const { return fAmbient; }
+    hsColorRGBA getSpecular() const { return fSpecular; }
+    void setPreshade(const hsColorRGBA& color) { fPreshade = color; }
+    void setRuntime(const hsColorRGBA& color) { fRuntime = color; }
+    void setAmbient(const hsColorRGBA& color) { fAmbient = color; }
+    void setSpecular(const hsColorRGBA& color) { fSpecular = color; }
 
-    float getOpacity() const;
-    unsigned int getUVWSrc() const;
-    float getLODBias() const;
-    float getSpecularPower() const;
-    void setOpacity(float opac);
-    void setUVWSrc(unsigned int src);
-    void setLODBias(float bias);
-    void setSpecularPower(float power);
+    float getOpacity() const { return fOpacity; }
+    unsigned int getUVWSrc() const { return fUVWSrc; }
+    float getLODBias() const { return fLODBias; }
+    float getSpecularPower() const { return fSpecularPower; }
+    void setOpacity(float opac) { fOpacity = opac; }
+    void setUVWSrc(unsigned int src) { fUVWSrc = src; }
+    void setLODBias(float bias) { fLODBias = bias; }
+    void setSpecularPower(float power) { fSpecularPower = power; }
 
-    hsGMatState& getState();
+    const hsGMatState& getState() const { return fState; }
+    hsGMatState& getState() { return fState; }
 };
 
 #endif

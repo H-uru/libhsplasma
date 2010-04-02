@@ -5,10 +5,6 @@ pfGUIRadioGroupCtrl::pfGUIRadioGroupCtrl() : fDefaultValue(0) {
     fFlags.setName(kAllowNoSelection, "kAllowNoSelection");
 }
 
-pfGUIRadioGroupCtrl::~pfGUIRadioGroupCtrl() { }
-
-IMPLEMENT_CREATABLE(pfGUIRadioGroupCtrl, kGUIRadioGroupCtrl, pfGUIControlMod)
-
 void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
@@ -53,12 +49,3 @@ void pfGUIRadioGroupCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
 }
-
-size_t pfGUIRadioGroupCtrl::getNumControls() const { return fControls.getSize(); }
-plKey pfGUIRadioGroupCtrl::getControl(size_t idx) const { return fControls[idx]; }
-void pfGUIRadioGroupCtrl::addControl(plKey ctrl) { fControls.append(ctrl); }
-void pfGUIRadioGroupCtrl::delControl(size_t idx) { fControls.remove(idx); }
-void pfGUIRadioGroupCtrl::clearControls() { fControls.clear(); }
-
-int pfGUIRadioGroupCtrl::getDefaultValue() const { return fDefaultValue; }
-void pfGUIRadioGroupCtrl::setDefaultValue(int value) { fDefaultValue = value; }

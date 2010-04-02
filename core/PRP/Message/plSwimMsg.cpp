@@ -2,8 +2,6 @@
 
 plSwimMsg::plSwimMsg() : fIsEntering(false) { }
 
-IMPLEMENT_CREATABLE(plSwimMsg, kSwimMsg, plMessage)
-
 void plSwimMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fIsEntering = S->readBool();

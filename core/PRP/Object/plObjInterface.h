@@ -5,6 +5,8 @@
 #include "plSynchedObject.h"
 
 DllClass plObjInterface : public plSynchedObject {
+    CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
+
 public:
     enum { kDisable };
 
@@ -14,9 +16,6 @@ protected:
 
 public:
     plObjInterface();
-    virtual ~plObjInterface();
-
-    DECLARE_CREATABLE(plObjInterface)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -26,11 +25,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    hsBitVector& getProperties();
-    bool getProperty(size_t prop) const;
-    void setProperty(size_t prop, bool value);
-    plKey getOwner() const;
-    void setOwner(plKey owner);
+    bool getProperty(size_t prop) const { return fProps.get(prop); }
+    void setProperty(size_t prop, bool value) { fProps.set(prop, value); }
+
+    plKey getOwner() const { return fOwner; }
+    void setOwner(plKey owner) { fOwner = owner; }
 };
 
 #endif

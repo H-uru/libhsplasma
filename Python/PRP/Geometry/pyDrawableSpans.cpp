@@ -332,9 +332,9 @@ static PyObject* pyDrawableSpans_getMaxBounds(pyDrawableSpans* self, void*) {
 }
 
 static PyObject* pyDrawableSpans_getMaterials(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumMaterials());
-    for (size_t i=0; i<self->fThis->getNumMaterials(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getMaterial(i)));
+    PyObject* list = PyList_New(self->fThis->getMaterials().getSize());
+    for (size_t i=0; i<self->fThis->getMaterials().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getMaterials()[i]));
     return list;
 }
 

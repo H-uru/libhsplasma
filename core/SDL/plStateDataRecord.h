@@ -32,12 +32,12 @@ public:
     void prcWrite(pfPrcHelper* prc);
     /*void prcParse(const pfPrcTag* tag);*/ //Zrax'll kill me >.>
 
+    plStateDescriptor* getDescriptor() const { return fDescriptor; }
     void setDescriptor(plStateDescriptor* desc);
-    plStateDescriptor* getDescriptor() const;
 
-    plStateVariable* get(size_t idx) const;
+    size_t getNumVars() const { return fAllVars.getSize(); }
+    plStateVariable* get(size_t idx) const { return fAllVars[idx]; }
     plStateVariable* get(plString& name) const;
-    size_t getNumVars() const;
 };
 
 #endif

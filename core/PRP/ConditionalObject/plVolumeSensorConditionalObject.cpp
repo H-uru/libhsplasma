@@ -5,12 +5,6 @@ plVolumeSensorConditionalObject::plVolumeSensorConditionalObject()
     : fTrigNum(-1), fType(kTypeEnter), fFirst(false), fTriggered(false),
       fIgnoreExtraEnters(true) { }
 
-plVolumeSensorConditionalObject::~plVolumeSensorConditionalObject() { }
-
-IMPLEMENT_CREATABLE(plVolumeSensorConditionalObject,
-                    kVolumeSensorConditionalObject,
-                    plConditionalObject)
-
 void plVolumeSensorConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fTrigNum = S->readInt();
@@ -43,12 +37,3 @@ void plVolumeSensorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManage
         plConditionalObject::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plVolumeSensorConditionalObjectNoArbitration */
-plVolumeSensorConditionalObjectNoArbitration::plVolumeSensorConditionalObjectNoArbitration() { }
-plVolumeSensorConditionalObjectNoArbitration::~plVolumeSensorConditionalObjectNoArbitration() { }
-
-IMPLEMENT_CREATABLE(plVolumeSensorConditionalObjectNoArbitration,
-                    kVolumeSensorConditionalObjectNoArbitration,
-                    plVolumeSensorConditionalObject)

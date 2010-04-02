@@ -1,11 +1,6 @@
 #include "pfGUIUpDownPairMod.h"
 #include "pfGUIButtonMod.h"
 
-pfGUIUpDownPairMod::pfGUIUpDownPairMod() { }
-pfGUIUpDownPairMod::~pfGUIUpDownPairMod() { }
-
-IMPLEMENT_CREATABLE(pfGUIUpDownPairMod, kGUIUpDownPairMod, pfGUIValueCtrl)
-
 void pfGUIUpDownPairMod::read(hsStream* S, plResManager* mgr) {
     pfGUIValueCtrl::read(S, mgr);
 
@@ -48,9 +43,3 @@ void pfGUIUpDownPairMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIValueCtrl::IPrcParse(tag, mgr);
     }
 }
-
-plKey pfGUIUpDownPairMod::getUpControl() const { return fUpControl; }
-plKey pfGUIUpDownPairMod::getDownControl() const { return fDownControl; }
-
-void pfGUIUpDownPairMod::setUpControl(plKey ctrl) { fUpControl = ctrl; }
-void pfGUIUpDownPairMod::setDownControl(plKey ctrl) { fDownControl = ctrl; }

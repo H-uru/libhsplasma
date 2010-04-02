@@ -33,7 +33,6 @@ protected:
 public:
     plPythonParameter();
     plPythonParameter(const plPythonParameter& init);
-    ~plPythonParameter();
 
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
@@ -43,6 +42,8 @@ public:
 
 
 DllClass plPythonFileMod : public plMultiModifier {
+    CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
+
 public:
     enum func_num {
         kfunc_FirstUpdate, kfunc_Update, kfunc_Notify, kfunc_AtTimer,
@@ -63,13 +64,8 @@ protected:
     plString fPythonFile;
     hsTArray<plKey> fReceivers;
     hsTArray<plPythonParameter> fParameters;
-    
+
 public:
-    plPythonFileMod();
-    virtual ~plPythonFileMod();
-
-    DECLARE_CREATABLE(plPythonFileMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -78,17 +74,20 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const plString& getFilename() const;
-    size_t getNumReceivers() const;
-    size_t getNumParameters() const;
-    plKey getReceiver(size_t idx) const;
-    const plPythonParameter& getParameter(size_t idx) const;
+    const plString& getFilename() const { return fPythonFile; }
+    void setFilename(const plString& filename) { fPythonFile = filename; }
 
-    void setFilename(const plString& filename);
-    void clearReceivers();
-    void clearParameters();
-    void addReceiver(plKey rcvr);
-    void addParameter(const plPythonParameter& param);
+    const hsTArray<plKey>& getReceivers() const { return fReceivers; }
+    hsTArray<plKey>& getReceivers() { return fReceivers; }
+    void addReceiver(plKey rcvr) { fReceivers.append(rcvr); }
+    void delReceiver(size_t idx) { fReceivers.remove(idx); }
+    void clearReceivers() { fReceivers.clear(); }
+
+    const hsTArray<plPythonParameter>& getParameters() const { return fParameters; }
+    hsTArray<plPythonParameter>& getParameters() { return fParameters; }
+    void addParameter(const plPythonParameter& param) { fParameters.append(param); }
+    void delParameter(size_t idx) { fParameters.remove(idx); }
+    void clearParameters() { fParameters.clear(); }
 };
 
 #endif

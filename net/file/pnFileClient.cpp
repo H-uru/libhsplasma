@@ -102,9 +102,6 @@ pnFileClient::Dispatch::Dispatch(pnAsyncSocket* sock, pnFileClient* self)
             : fReceiver(self), fSock(sock)
 { }
 
-pnFileClient::Dispatch::~Dispatch()
-{ }
-
 void pnFileClient::Dispatch::run()
 {
     FileMsg_Header header;
@@ -252,15 +249,6 @@ ENetError pnFileClient::performConnect(pnSocket* sock)
     fDispatch->start();
     return kNetSuccess;
 }
-
-bool pnFileClient::isConnected() const
-{ return (fSock != NULL) && fSock->isConnected(); }
-
-void pnFileClient::signalStatus()
-{ fSock->signalStatus(); }
-
-void pnFileClient::waitForStatus()
-{ fSock->waitForStatus(); }
 
 void pnFileClient::sendPingRequest(hsUint32 pingTimeMs)
 {

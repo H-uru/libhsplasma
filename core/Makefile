@@ -55,7 +55,6 @@ PLSOBJ=\
 	$(OBJDIR)plController.o \
 	$(OBJDIR)plFilterCoordInterface.o \
 	$(OBJDIR)hsKeys.o \
-	$(OBJDIR)plKeyControllers.o \
 	$(OBJDIR)plLeafController.o \
 	$(OBJDIR)plLineFollowMod.o \
 	$(OBJDIR)pfObjectFlocker.o \
@@ -87,7 +86,6 @@ PLSOBJ=\
 	$(OBJDIR)plAvatarClothing.o \
 	$(OBJDIR)plAvTask.o \
 	$(OBJDIR)plClothingItem.o \
-	$(OBJDIR)plElevatorModifier.o \
 	$(OBJDIR)plLadderModifier.o \
 	$(OBJDIR)plMatrixChannel.o \
 	$(OBJDIR)plMultistageBehMod.o \
@@ -104,7 +102,6 @@ PLSOBJ=\
 	$(OBJDIR)plBooleanConditionalObject.o \
 	$(OBJDIR)plConditionalObject.o \
 	$(OBJDIR)plControlEventConditionalObject.o \
-	$(OBJDIR)plDetectConditionalObjects.o \
 	$(OBJDIR)plFacingConditionalObject.o \
 	$(OBJDIR)plKeyPressConditionalObject.o \
 	$(OBJDIR)plVolumeSensorConditionalObject.o \
@@ -130,14 +127,10 @@ PLSOBJ=\
 	$(OBJDIR)plVertexSpan.o \
 	$(OBJDIR)pfGUIButtonMod.o \
 	$(OBJDIR)pfGUICheckBoxCtrl.o \
-	$(OBJDIR)pfGUIClickMapCtrl.o \
 	$(OBJDIR)pfGUIControlHandlers.o \
 	$(OBJDIR)pfGUIControlMod.o \
 	$(OBJDIR)pfGUIDialogMod.o \
-	$(OBJDIR)pfGUIDragBarCtrl.o \
-	$(OBJDIR)pfGUIDraggableMod.o \
 	$(OBJDIR)pfGUIDynDisplayCtrl.o \
-	$(OBJDIR)pfGUIEditBoxMod.o \
 	$(OBJDIR)pfGUIKnobCtrl.o \
 	$(OBJDIR)pfGUIListBoxMod.o \
 	$(OBJDIR)pfGUIMultiLineEditCtrl.o \
@@ -153,7 +146,6 @@ PLSOBJ=\
 	$(OBJDIR)plKey.o \
 	$(OBJDIR)plLoadMask.o \
 	$(OBJDIR)plLocation.o \
-	$(OBJDIR)plReceiver.o \
 	$(OBJDIR)plUoid.o \
 	$(OBJDIR)plDirectionalLightInfo.o \
 	$(OBJDIR)plLightInfo.o \
@@ -239,7 +231,6 @@ PLSOBJ=\
 	$(OBJDIR)plSimulationInterface.o \
 	$(OBJDIR)plSynchedObject.o \
 	$(OBJDIR)plBoundInterface.o \
-	$(OBJDIR)plParticleApplicator.o \
 	$(OBJDIR)plParticleEffect.o \
 	$(OBJDIR)plParticleEmitter.o \
 	$(OBJDIR)plParticleGenerator.o \
@@ -256,7 +247,6 @@ PLSOBJ=\
 	$(OBJDIR)plConvexVolume.o \
 	$(OBJDIR)plHardRegion.o \
 	$(OBJDIR)plHardRegionPlanes.o \
-	$(OBJDIR)plRegionBase.o \
 	$(OBJDIR)plRelevanceRegion.o \
 	$(OBJDIR)plSimpleRegionSensor.o \
 	$(OBJDIR)plSoftVolume.o \
@@ -285,9 +275,7 @@ PLSOBJ=\
 	$(OBJDIR)plPrintShape.o \
 	$(OBJDIR)plRenderTarget.o \
 	$(OBJDIR)plShader.o \
-	$(OBJDIR)plWaveSet6.o \
-	$(OBJDIR)plWaveSet7.o \
-	$(OBJDIR)plWaveSetBase.o
+	$(OBJDIR)plWaveSet.o
 
 # 3rd Party Libs
 OBJFILES3P=\
@@ -481,9 +469,6 @@ $(OBJDIR)plFilterCoordInterface.o: PRP/Animation/plFilterCoordInterface.h PRP/An
 $(OBJDIR)hsKeys.o: PRP/Animation/hsKeys.h PRP/Animation/hsKeys.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/hsKeys.cpp -o $@
 
-$(OBJDIR)plKeyControllers.o: PRP/Animation/plKeyControllers.h PRP/Animation/plKeyControllers.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Animation/plKeyControllers.cpp -o $@
-
 $(OBJDIR)plLeafController.o: PRP/Animation/plLeafController.h PRP/Animation/plLeafController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plLeafController.cpp -o $@
 
@@ -577,9 +562,6 @@ $(OBJDIR)plAvTask.o: PRP/Avatar/plAvTask.h PRP/Avatar/plAvTask.cpp
 $(OBJDIR)plClothingItem.o: PRP/Avatar/plClothingItem.h PRP/Avatar/plClothingItem.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plClothingItem.cpp -o $@
 
-$(OBJDIR)plElevatorModifier.o: PRP/Avatar/plElevatorModifier.h PRP/Avatar/plElevatorModifier.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plElevatorModifier.cpp -o $@
-
 $(OBJDIR)plLadderModifier.o: PRP/Avatar/plLadderModifier.h PRP/Avatar/plLadderModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plLadderModifier.cpp -o $@
 
@@ -627,9 +609,6 @@ $(OBJDIR)plConditionalObject.o: PRP/ConditionalObject/plConditionalObject.h PRP/
 
 $(OBJDIR)plControlEventConditionalObject.o: PRP/ConditionalObject/plControlEventConditionalObject.h PRP/ConditionalObject/plControlEventConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plControlEventConditionalObject.cpp -o $@
-
-$(OBJDIR)plDetectConditionalObjects.o: PRP/ConditionalObject/plDetectConditionalObjects.h PRP/ConditionalObject/plDetectConditionalObjects.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plDetectConditionalObjects.cpp -o $@
 
 $(OBJDIR)plFacingConditionalObject.o: PRP/ConditionalObject/plFacingConditionalObject.h PRP/ConditionalObject/plFacingConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plFacingConditionalObject.cpp -o $@
@@ -706,9 +685,6 @@ $(OBJDIR)pfGUIButtonMod.o: PRP/GUI/pfGUIButtonMod.h PRP/GUI/pfGUIButtonMod.cpp
 $(OBJDIR)pfGUICheckBoxCtrl.o: PRP/GUI/pfGUICheckBoxCtrl.h PRP/GUI/pfGUICheckBoxCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUICheckBoxCtrl.cpp -o $@
 
-$(OBJDIR)pfGUIClickMapCtrl.o: PRP/GUI/pfGUIClickMapCtrl.h PRP/GUI/pfGUIClickMapCtrl.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIClickMapCtrl.cpp -o $@
-
 $(OBJDIR)pfGUIControlHandlers.o: PRP/GUI/pfGUIControlHandlers.h PRP/GUI/pfGUIControlHandlers.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIControlHandlers.cpp -o $@
 
@@ -718,17 +694,8 @@ $(OBJDIR)pfGUIControlMod.o: PRP/GUI/pfGUIControlMod.h PRP/GUI/pfGUIControlMod.cp
 $(OBJDIR)pfGUIDialogMod.o: PRP/GUI/pfGUIDialogMod.h PRP/GUI/pfGUIDialogMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIDialogMod.cpp -o $@
 
-$(OBJDIR)pfGUIDragBarCtrl.o: PRP/GUI/pfGUIDragBarCtrl.h PRP/GUI/pfGUIDragBarCtrl.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIDragBarCtrl.cpp -o $@
-
-$(OBJDIR)pfGUIDraggableMod.o: PRP/GUI/pfGUIDraggableMod.h PRP/GUI/pfGUIDraggableMod.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIDraggableMod.cpp -o $@
-
 $(OBJDIR)pfGUIDynDisplayCtrl.o: PRP/GUI/pfGUIDynDisplayCtrl.h PRP/GUI/pfGUIDynDisplayCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIDynDisplayCtrl.cpp -o $@
-
-$(OBJDIR)pfGUIEditBoxMod.o: PRP/GUI/pfGUIEditBoxMod.h PRP/GUI/pfGUIEditBoxMod.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIEditBoxMod.cpp -o $@
 
 $(OBJDIR)pfGUIKnobCtrl.o: PRP/GUI/pfGUIKnobCtrl.h PRP/GUI/pfGUIKnobCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIKnobCtrl.cpp -o $@
@@ -774,9 +741,6 @@ $(OBJDIR)plLoadMask.o: PRP/KeyedObject/plLoadMask.h PRP/KeyedObject/plLoadMask.c
 
 $(OBJDIR)plLocation.o: PRP/KeyedObject/plLocation.h PRP/KeyedObject/plLocation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/plLocation.cpp -o $@
-
-$(OBJDIR)plReceiver.o: PRP/KeyedObject/plReceiver.h PRP/KeyedObject/plReceiver.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/plReceiver.cpp -o $@
 
 $(OBJDIR)plUoid.o: PRP/KeyedObject/plUoid.h PRP/KeyedObject/plUoid.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/plUoid.cpp -o $@
@@ -1033,9 +997,6 @@ $(OBJDIR)plSynchedObject.o: PRP/Object/plSynchedObject.h PRP/Object/plSynchedObj
 $(OBJDIR)plBoundInterface.o: PRP/Particle/plBoundInterface.h PRP/Particle/plBoundInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Particle/plBoundInterface.cpp -o $@
 
-$(OBJDIR)plParticleApplicator.o: PRP/Particle/plParticleApplicator.h PRP/Particle/plParticleApplicator.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Particle/plParticleApplicator.cpp -o $@
-
 $(OBJDIR)plParticleEffect.o: PRP/Particle/plParticleEffect.h PRP/Particle/plParticleEffect.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Particle/plParticleEffect.cpp -o $@
 
@@ -1083,9 +1044,6 @@ $(OBJDIR)plHardRegion.o: PRP/Region/plHardRegion.h PRP/Region/plHardRegion.cpp
 
 $(OBJDIR)plHardRegionPlanes.o: PRP/Region/plHardRegionPlanes.h PRP/Region/plHardRegionPlanes.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plHardRegionPlanes.cpp -o $@
-
-$(OBJDIR)plRegionBase.o: PRP/Region/plRegionBase.h PRP/Region/plRegionBase.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Region/plRegionBase.cpp -o $@
 
 $(OBJDIR)plRelevanceRegion.o: PRP/Region/plRelevanceRegion.h PRP/Region/plRelevanceRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plRelevanceRegion.cpp -o $@
@@ -1171,11 +1129,5 @@ $(OBJDIR)plRenderTarget.o: PRP/Surface/plRenderTarget.h PRP/Surface/plRenderTarg
 $(OBJDIR)plShader.o: PRP/Surface/plShader.h PRP/Surface/plShader.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plShader.cpp -o $@
 
-$(OBJDIR)plWaveSet6.o: PRP/Surface/plWaveSet6.h PRP/Surface/plWaveSet6.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/plWaveSet6.cpp -o $@
-
-$(OBJDIR)plWaveSet7.o: PRP/Surface/plWaveSet7.h PRP/Surface/plWaveSet7.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/plWaveSet7.cpp -o $@
-
-$(OBJDIR)plWaveSetBase.o: PRP/Surface/plWaveSetBase.h PRP/Surface/plWaveSetBase.cpp
-	$(CXX) $(CXXFLAGS) -c PRP/Surface/plWaveSetBase.cpp -o $@
+$(OBJDIR)plWaveSet.o: PRP/Surface/plWaveSet.h PRP/Surface/plWaveSet.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Surface/plWaveSet.cpp -o $@

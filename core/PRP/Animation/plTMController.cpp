@@ -13,8 +13,6 @@ plTMController::~plTMController() {
         delete fScaleController;
 }
 
-IMPLEMENT_CREATABLE(plTMController, kTMController, plController)
-
 void plTMController::read(hsStream* S, plResManager* mgr) {
     int type = S->readInt();
     if (type == plPosController::kCompound)
@@ -131,10 +129,6 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plCompoundController* plTMController::convertToCompoundController() {
     return NULL;
 }
-
-plPosController* plTMController::getPosController() const { return fPosController; }
-plRotController* plTMController::getRotController() const { return fRotController; }
-plScaleController* plTMController::getScaleController() const { return fScaleController; }
 
 void plTMController::setPosController(plPosController* controller) {
     if (fPosController != NULL)

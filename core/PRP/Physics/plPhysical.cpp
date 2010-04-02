@@ -9,5 +9,3 @@ const char* plSimDefs::GroupNames[] = {
     "kGroupStatic", "kGroupAvatarBlocker", "kGroupDynamicBlocker",
     "kGroupAvatar", "kGroupDynamic", "kGroupDetector", "kGroupLOSOnly"
 };
-
-IMPLEMENT_CREATABLE(plPhysical, kPhysical, plSynchedObject)

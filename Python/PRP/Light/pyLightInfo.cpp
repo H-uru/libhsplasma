@@ -85,9 +85,9 @@ static PyObject* pyLightInfo_getNode(pyLightInfo* self, void*) {
 }
 
 static PyObject* pyLightInfo_getVisRegions(pyLightInfo* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumVisRegions());
-    for (size_t i=0; i<self->fThis->getNumVisRegions(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegion(i)));
+    PyObject* list = PyList_New(self->fThis->getVisRegions().getSize());
+    for (size_t i=0; i<self->fThis->getVisRegions().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
     return list;
 }
 

@@ -37,6 +37,7 @@ public:
     void prcParse(const pfPrcTag* tag);
 };
 
+
 DllStruct hsColor32 {
 public:
     union {

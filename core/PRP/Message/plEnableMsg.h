@@ -5,6 +5,8 @@
 #include "Util/hsBitVector.h"
 
 DllClass plEnableMsg : public plMessage {
+    CREATABLE(plEnableMsg, kEnableMsg, plMessage)
+
 public:
     enum { kDisable, kEnable, kDrawable, kPhysical, kAudible, kAll, kByType };
 
@@ -13,9 +15,6 @@ protected:
 
 public:
     plEnableMsg();
-    virtual ~plEnableMsg();
-
-    DECLARE_CREATABLE(plEnableMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -47,11 +47,6 @@ void plGrassWave::prcParse(const pfPrcTag* tag) {
 
 
 /* plGrassShaderMod */
-plGrassShaderMod::plGrassShaderMod() { }
-plGrassShaderMod::~plGrassShaderMod() { }
-
-IMPLEMENT_CREATABLE(plGrassShaderMod, kGrassShaderMod, plModifier)
-
 void plGrassShaderMod::read(hsStream* S, plResManager* mgr) {
     plModifier::read(S, mgr);
 

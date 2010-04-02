@@ -4,6 +4,8 @@
 #include "PRP/Modifier/plModifier.h"
 
 DllClass plAGMasterMod : public plModifier {
+    CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
+
 protected:
     hsTArray<plKey> fPrivateAnims, fEoaKeys2;
     plString fGroupName; // Only used in UU, auto-deleted in PotS and newer
@@ -12,9 +14,6 @@ protected:
 
 public:
     plAGMasterMod();
-    virtual ~plAGMasterMod();
-
-    DECLARE_CREATABLE(plAGMasterMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

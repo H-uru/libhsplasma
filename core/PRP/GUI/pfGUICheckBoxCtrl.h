@@ -4,6 +4,8 @@
 #include "pfGUIControlMod.h"
 
 DllClass pfGUICheckBoxCtrl : public pfGUIControlMod {
+    CREATABLE(pfGUICheckBoxCtrl, kGUICheckBoxCtrl, pfGUIControlMod)
+
 protected:
     hsTArray<plKey> fAnimKeys;
     plString fAnimName;
@@ -11,9 +13,6 @@ protected:
 
 public:
     pfGUICheckBoxCtrl();
-    virtual ~pfGUICheckBoxCtrl();
-
-    DECLARE_CREATABLE(pfGUICheckBoxCtrl)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -23,17 +22,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumAnimKeys() const;
-    plKey getAnimKey(size_t idx) const;
-    void addAnimKey(plKey key);
-    void delAnimKey(size_t idx);
-    void clearAnimKeys();
+    const hsTArray<plKey>& getAnimKeys() const { return fAnimKeys; }
+    hsTArray<plKey>& getAnimKeys() { return fAnimKeys; }
+    void addAnimKey(plKey key) { fAnimKeys.append(key); }
+    void delAnimKey(size_t idx) { fAnimKeys.remove(idx); }
+    void clearAnimKeys() { fAnimKeys.clear(); }
 
-    const plString& getAnimName() const;
-    bool getChecked() const;
+    const plString& getAnimName() const { return fAnimName; }
+    bool isChecked() const { return fChecked; }
 
-    void setAnimName(const plString& name);
-    void setChecked(bool checked);
+    void setAnimName(const plString& name) { fAnimName = name; }
+    void setChecked(bool checked) { fChecked = checked; }
 };
 
 #endif

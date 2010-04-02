@@ -1,9 +1,6 @@
 #include "plRelevanceRegion.h"
 
 plRelevanceRegion::plRelevanceRegion() : fMgrIdx((unsigned int)-1) { }
-plRelevanceRegion::~plRelevanceRegion() { }
-
-IMPLEMENT_CREATABLE(plRelevanceRegion, kRelevanceRegion, plObjInterface)
 
 void plRelevanceRegion::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);

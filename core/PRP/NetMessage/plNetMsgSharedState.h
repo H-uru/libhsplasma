@@ -5,15 +5,14 @@
 #include "plNetSharedState.h"
 
 DllClass plNetMsgSharedState : public plNetMsgStreamedObject {
+    CREATABLE(plNetMsgSharedState, kNetMsgSharedState, plNetMsgStreamedObject)
+
 private:
     unsigned char fLockRequest;
     plNetSharedState fState;
 
 public:
     plNetMsgSharedState();
-    ~plNetMsgSharedState();
-
-    DECLARE_CREATABLE(plNetMsgSharedState)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -23,9 +22,9 @@ private:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plNetMsgTestAndSet : public plNetMsgSharedState {
-public:
-    DECLARE_CREATABLE(plNetMsgTestAndSet)
+    CREATABLE(plNetMsgTestAndSet, kNetMsgTestAndSet, plNetMsgSharedState)
 };
 
 #endif

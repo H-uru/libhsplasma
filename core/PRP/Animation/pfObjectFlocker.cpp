@@ -13,8 +13,6 @@ pfObjectFlocker::pfObjectFlocker()
                : fNumBoids(0), fUseTargetRotation(false),
                  fRandomizeAnimationStart(false) { }
 
-IMPLEMENT_CREATABLE(pfObjectFlocker, kObjectFlocker, plSingleModifier)
-
 void pfObjectFlocker::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -105,15 +103,3 @@ void pfObjectFlocker::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-unsigned char pfObjectFlocker::getNumBoids() const { return fNumBoids; }
-bool pfObjectFlocker::getUseTargetRotation() const { return fUseTargetRotation; }
-bool pfObjectFlocker::getRandomizeAnimationStart() const { return fRandomizeAnimationStart; }
-plKey pfObjectFlocker::getBoidKey() const { return fBoidKey; }
-
-void pfObjectFlocker::setNumBoids(unsigned char boids) { fNumBoids = boids; }
-void pfObjectFlocker::setUseTargetRotation(bool use) { fUseTargetRotation = use; }
-void pfObjectFlocker::setRandomizeAnimationStart(bool randomize) { fRandomizeAnimationStart = randomize; }
-void pfObjectFlocker::setBoidKey(plKey boidKey) { fBoidKey = boidKey; }
-
-pfObjectFlocker::pfFlock& pfObjectFlocker::getFlock() { return fFlock; }

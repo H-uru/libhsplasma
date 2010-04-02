@@ -11,13 +11,9 @@ plCoordinateInterface::plCoordinateInterface() {
     fProps.setName(kDelayedTransformEval, "kDelayedTransformEval");
 }
 
-plCoordinateInterface::~plCoordinateInterface() { }
-
-IMPLEMENT_CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
-
 void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
-    
+
     fLocalToParent.read(S);
     fParentToLocal.read(S);
     fLocalToWorld.read(S);
@@ -87,13 +83,3 @@ void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
-
-hsMatrix44& plCoordinateInterface::getLocalToParent() { return fLocalToParent; }
-hsMatrix44& plCoordinateInterface::getParentToLocal() { return fParentToLocal; }
-hsMatrix44& plCoordinateInterface::getLocalToWorld() { return fLocalToWorld; }
-hsMatrix44& plCoordinateInterface::getWorldToLocal() { return fWorldToLocal; }
-size_t plCoordinateInterface::getNumChildren() const { return fChildren.getSize(); }
-plKey plCoordinateInterface::getChild(size_t idx) const { return fChildren[idx]; }
-void plCoordinateInterface::clearChildren() { fChildren.clear(); }
-void plCoordinateInterface::addChild(plKey child) { fChildren.append(child); }
-void plCoordinateInterface::delChild(size_t idx) { fChildren.remove(idx); }

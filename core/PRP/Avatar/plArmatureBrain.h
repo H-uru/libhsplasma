@@ -4,12 +4,9 @@
 #include "PRP/plCreatable.h"
 
 DllClass plArmatureBrain : public plCreatable {
+    CREATABLE(plArmatureBrain, kArmatureBrain, plCreatable)
+
 public:
-    plArmatureBrain();
-    virtual ~plArmatureBrain();
-
-    DECLARE_CREATABLE(plArmatureBrain)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -18,15 +15,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plAvBrainHuman : public plArmatureBrain {
+    CREATABLE(plAvBrainHuman, kAvBrainHuman, plArmatureBrain)
+
 protected:
     bool fIsCustomAvatar;
 
 public:
     plAvBrainHuman();
-    virtual ~plAvBrainHuman();
-
-    DECLARE_CREATABLE(plAvBrainHuman);
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -36,43 +33,38 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool isCustomAvatar() const;
-    void setIsCustomAvatar(bool value);
+    bool isCustomAvatar() const { return fIsCustomAvatar; }
+    void setIsCustomAvatar(bool value) { fIsCustomAvatar = value; }
 };
 
+
 DllClass plAvBrainClimb : public plArmatureBrain {
-public:
-    DECLARE_CREATABLE(plAvBrainClimb);
+    CREATABLE(plAvBrainClimb, kAvBrainClimb, plArmatureBrain)
 };
 
 DllClass plAvBrainCritter : public plArmatureBrain {
-public:
-    DECLARE_CREATABLE(plAvBrainCritter);
+    CREATABLE(plAvBrainCritter, kAvBrainCritter, plArmatureBrain)
 };
 
 DllClass plAvBrainDrive : public plArmatureBrain {
-public:
-    DECLARE_CREATABLE(plAvBrainDrive);
+    CREATABLE(plAvBrainDrive, kAvBrainDrive, plArmatureBrain)
 };
 
 DllClass plAvBrainPirahna : public plArmatureBrain {
-public:
-    DECLARE_CREATABLE(plAvBrainPirahna);
+    CREATABLE(plAvBrainPirahna, kAvBrainPirahna, plArmatureBrain)
 };
 
 DllClass plAvBrainQuab : public plArmatureBrain {
-public:
-    DECLARE_CREATABLE(plAvBrainQuab);
+    CREATABLE(plAvBrainQuab, kAvBrainQuab, plArmatureBrain)
 };
 
 DllClass plAvBrainRideAnimatedPhysical : public plArmatureBrain {
-public:
-    DECLARE_CREATABLE(plAvBrainRideAnimatedPhysical);
+    CREATABLE(plAvBrainRideAnimatedPhysical, kAvBrainRideAnimatedPhysical,
+              plArmatureBrain)
 };
 
 DllClass plAvBrainSwim : public plArmatureBrain {
-public:
-    DECLARE_CREATABLE(plAvBrainSwim);
+    CREATABLE(plAvBrainSwim, kAvBrainSwim, plArmatureBrain)
 };
 
 #endif

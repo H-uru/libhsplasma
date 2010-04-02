@@ -10,8 +10,6 @@ plSimpleRegionSensor::~plSimpleRegionSensor() {
         delete fExitMsg;
 }
 
-IMPLEMENT_CREATABLE(plSimpleRegionSensor, kSimpleRegionSensor, plSingleModifier)
-
 void plSimpleRegionSensor::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -89,10 +87,6 @@ void plSimpleRegionSensor::setExitMsg(plMessage* msg) {
 
 
 /* plSwimDetector */
-plSwimDetector::plSwimDetector() { }
-
-IMPLEMENT_CREATABLE(plSwimDetector, kSwimDetector, plSimpleRegionSensor)
-
 void plSwimDetector::read(hsStream* S, plResManager* mgr) {
     plSimpleRegionSensor::read(S, mgr);
     S->readByte();
@@ -110,8 +104,6 @@ void plSwimDetector::write(hsStream* S, plResManager* mgr) {
 
 /* plAutoWalkRegion */
 plAutoWalkRegion::plAutoWalkRegion() : fUnknown(0) { }
-
-IMPLEMENT_CREATABLE(plAutoWalkRegion, kAutoWalkRegion, plSimpleRegionSensor)
 
 void plAutoWalkRegion::read(hsStream* S, plResManager* mgr) {
     plSimpleRegionSensor::read(S, mgr);
@@ -138,11 +130,3 @@ void plAutoWalkRegion::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSimpleRegionSensor::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plRidingAnimatedPhysicalDetector */
-plRidingAnimatedPhysicalDetector::plRidingAnimatedPhysicalDetector() { }
-
-IMPLEMENT_CREATABLE(plRidingAnimatedPhysicalDetector,
-                    kRidingAnimatedPhysicalDetector,
-                    plSimpleRegionSensor)

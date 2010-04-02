@@ -9,8 +9,6 @@ plMultistageBehMod::~plMultistageBehMod() {
         delete fStages[i];
 }
 
-IMPLEMENT_CREATABLE(plMultistageBehMod, kMultistageBehMod, plSingleModifier)
-
 void plMultistageBehMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -92,10 +90,6 @@ void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plMultistageBehMod::getNumStages() const { return fStages.getSize(); }
-plAnimStage* plMultistageBehMod::getStage(size_t idx) const { return fStages[idx]; }
-void plMultistageBehMod::addStage(plAnimStage* stage) { fStages.append(stage); }
-
 void plMultistageBehMod::delStage(size_t idx) {
     delete fStages[idx];
     fStages.remove(idx);
@@ -106,17 +100,3 @@ void plMultistageBehMod::clearStages() {
         delete fStages[i];
     fStages.clear();
 }
-
-size_t plMultistageBehMod::getNumReceivers() const { return fReceivers.getSize(); }
-plKey plMultistageBehMod::getReceiver(size_t idx) const { return fReceivers[idx]; }
-void plMultistageBehMod::addReceiver(plKey receiver) { fReceivers.append(receiver); }
-void plMultistageBehMod::delReceiver(size_t idx) { fReceivers.remove(idx); }
-void plMultistageBehMod::clearReceivers() { fReceivers.clear(); }
-
-bool plMultistageBehMod::getFreezePhys() const { return fFreezePhys; }
-bool plMultistageBehMod::getSmartSeek() const { return fSmartSeek; }
-bool plMultistageBehMod::getReverseFBControlsOnRelease() const { return fReverseFBControlsOnRelease; }
-
-void plMultistageBehMod::setFreezePhys(bool freeze) { fFreezePhys = freeze; }
-void plMultistageBehMod::setSmartSeek(bool seek) { fSmartSeek = seek; }
-void plMultistageBehMod::setReverseFBControlsOnRelease(bool release) { fReverseFBControlsOnRelease = release; }

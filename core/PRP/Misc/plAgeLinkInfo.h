@@ -6,6 +6,8 @@
 #include "plSpawnPointInfo.h"
 
 DllClass plAgeInfoStruct : public plCreatable {
+    CREATABLE(plAgeInfoStruct, kAgeInfoStruct, plCreatable)
+
 public:
     enum {
         kHasAgeFilename = 0x1,
@@ -27,9 +29,6 @@ protected:
 
 public:
     plAgeInfoStruct();
-    virtual ~plAgeInfoStruct();
-
-    DECLARE_CREATABLE(plAgeInfoStruct)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -40,17 +39,20 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool isEmpty();
-    void clear();
+    bool isEmpty() { return (fFlags == 0); }
+    void clear() { fFlags = 0; }
 
-    const plString& getAgeFilename() const;
-    const plString& getAgeInstanceName() const;
+    const plString& getAgeFilename() const { return fAgeFilename; }
+    const plString& getAgeInstanceName() const { return fAgeInstanceName; }
 
     void setAgeFilename(const plString& name);
     void setAgeInstanceName(const plString& name);
 };
 
+
 DllClass plAgeLinkStruct : public plCreatable {
+    CREATABLE(plAgeLinkStruct, kAgeLinkStruct, plCreatable)
+
 public:
     enum {
         kHasAgeInfo = 0x1,
@@ -72,9 +74,6 @@ protected:
 
 public:
     plAgeLinkStruct();
-    virtual ~plAgeLinkStruct();
-
-    DECLARE_CREATABLE(plAgeLinkStruct)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -87,6 +86,7 @@ protected:
 public:
     void clear();
 };
+
 
 DllClass plAgeLinkEffects {
 protected:

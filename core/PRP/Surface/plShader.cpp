@@ -17,8 +17,6 @@ plShaderConst& plShaderConst::operator=(const plShaderConst& init) {
     return *this;
 }
 
-float& plShaderConst::operator[](size_t idx) { return fArray[idx]; }
-
 void plShaderConst::read(hsStream* S) {
     fArray[0] = S->readFloat();
     fArray[1] = S->readFloat();
@@ -55,9 +53,6 @@ void plShaderConst::prcParse(const pfPrcTag* tag) {
 
 /* plShader */
 plShader::plShader() : fID(kUnregistered), fInput(0), fOutput(0) { }
-plShader::~plShader() { }
-
-IMPLEMENT_CREATABLE(plShader, kShader, hsKeyedObject)
 
 void plShader::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -114,15 +109,3 @@ void plShader::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
-
-size_t plShader::getNumConsts() const { return fConsts.getSize(); }
-plShaderConst plShader::getConst(size_t idx) const { return fConsts[idx]; }
-void plShader::clearConsts() { fConsts.clear(); }
-void plShader::addConst(const plShaderConst& sc) { fConsts.append(sc); }
-
-plShader::plShaderID plShader::getID() const { return fID; }
-unsigned char plShader::getInput() const { return fInput; }
-unsigned char plShader::getOutput() const { return fOutput; }
-void plShader::setID(plShader::plShaderID id) { fID = id; }
-void plShader::setInput(unsigned char input) { fInput = input; }
-void plShader::setOutput(unsigned char output) { fOutput = output; }

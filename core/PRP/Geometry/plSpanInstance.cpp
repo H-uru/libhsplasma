@@ -4,7 +4,6 @@
 plSpanEncoding::plSpanEncoding() : fCode(0), fPosScale(0.0f) { }
 plSpanEncoding::plSpanEncoding(const plSpanEncoding& init)
               : fCode(init.fCode), fPosScale(init.fPosScale) { }
-plSpanEncoding::~plSpanEncoding() { }
 
 plSpanEncoding& plSpanEncoding::operator=(const plSpanEncoding& init) {
     fCode = init.fCode;
@@ -36,12 +35,6 @@ void plSpanEncoding::prcParse(const pfPrcTag* tag) {
     fCode = tag->getParam("Code", "0").toUint();
     fPosScale = tag->getParam("PosScale", "0").toFloat();
 }
-
-unsigned int plSpanEncoding::getCode() const { return fCode; }
-float plSpanEncoding::getPosScale() const { return fPosScale; }
-
-void plSpanEncoding::setCode(unsigned int code) { fCode = code; }
-void plSpanEncoding::setPosScale(float scale) { fPosScale = scale; }
 
 
 /* plSpanInstance */

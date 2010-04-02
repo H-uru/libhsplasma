@@ -9,11 +9,10 @@ public:
                  fCellOffset, fVStartIdx, fVLength;
 
 public:
+    virtual const char* ClassName() const { return "plVertexSpan"; }
+
     plVertexSpan();
     plVertexSpan(const plVertexSpan& init);
-    virtual ~plVertexSpan();
-
-    virtual const char* ClassName();
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
@@ -23,19 +22,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag);
 
 public:
-    unsigned int getGroupIdx() const;
-    unsigned int getVBufferIdx() const;
-    unsigned int getCellIdx() const;
-    unsigned int getCellOffset() const;
-    unsigned int getVStartIdx() const;
-    unsigned int getVLength() const;
+    unsigned int getGroupIdx() const { return fGroupIdx; }
+    unsigned int getVBufferIdx() const { return fVBufferIdx; }
+    unsigned int getCellIdx() const { return fCellIdx; }
+    unsigned int getCellOffset() const { return fCellOffset; }
+    unsigned int getVStartIdx() const { return fVStartIdx; }
+    unsigned int getVLength() const { return fVLength; }
 
-    void setGroupIdx(unsigned int idx);
-    void setVBufferIdx(unsigned int idx);
-    void setCellIdx(unsigned int idx);
-    void setCellOffset(unsigned int off);
-    void setVStartIdx(unsigned int idx);
-    void setVLength(unsigned int len);
+    void setGroupIdx(unsigned int idx) { fGroupIdx = idx; }
+    void setVBufferIdx(unsigned int idx) { fVBufferIdx = idx; }
+    void setCellIdx(unsigned int idx) { fCellIdx = idx; }
+    void setCellOffset(unsigned int off) { fCellOffset = off; }
+    void setVStartIdx(unsigned int idx) { fVStartIdx = idx; }
+    void setVLength(unsigned int len) { fVLength = len; }
 };
 
 #endif

@@ -29,8 +29,6 @@ void plResManager::setVer(PlasmaVer pv, bool force) {
         fPlasmaVer = pv;
 }
 
-PlasmaVer plResManager::getVer() { return fPlasmaVer; }
-
 plKey plResManager::readKey(hsStream* S) {
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
@@ -98,10 +96,6 @@ hsKeyedObject* plResManager::getObject(plKey key) {
     plKey fk = keys.findKey(key);
     if (!fk.Exists()) return NULL;
     return fk->getObj();
-}
-
-unsigned int plResManager::countKeys(const plLocation& loc) {
-    return keys.countKeys(loc);
 }
 
 plPageInfo* plResManager::ReadPage(const char* filename) {

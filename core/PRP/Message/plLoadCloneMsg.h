@@ -4,6 +4,8 @@
 #include "plMessage.h"
 
 DllClass plLoadCloneMsg : public plMessage {
+    CREATABLE(plLoadCloneMsg, kLoadCloneMsg, plMessage)
+
 protected:
     plKey fCloneKey, fRequestorKey;
     unsigned char fValidMsg, fIsLoading;
@@ -14,8 +16,6 @@ public:
     plLoadCloneMsg();
     virtual ~plLoadCloneMsg();
 
-    DECLARE_CREATABLE(plLoadCloneMsg)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -24,20 +24,21 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getCloneKey() const;
-    plKey getRequestorKey() const;
-    unsigned char getValidMsg() const;
-    unsigned char getIsLoading() const;
-    unsigned int getUserData() const;
-    unsigned int getOriginatingPlayerID() const;
-    plMessage* getTriggerMsg() const;
+    plKey getCloneKey() const { return fCloneKey; }
+    plKey getRequestor() const { return fRequestorKey; }
+    unsigned char getValidMsg() const { return fValidMsg; }
+    unsigned char getIsLoading() const { return fIsLoading; }
+    unsigned int getUserData() const { return fUserData; }
+    unsigned int getOriginatingPlayerID() const { return fOriginatingPlayerID; }
+    plMessage* getTriggerMsg() const { return fTriggerMsg; }
 
-    void setCloneKey(plKey CloneKey);
-    void setRequestorKey(plKey RequestorKey);
-    void setValidMsg(unsigned char ValidMsg);
-    void setIsLoading(unsigned char IsLoading);
-    void setUserData(unsigned int UserData);
-    void setOriginatingPlayerID(unsigned int OriginatingPlayerID);
+    void setCloneKey(plKey key) { fCloneKey = key; }
+    void setRequestor(plKey key) { fRequestorKey = key; }
+    void setValidMsg(unsigned char validMsg) { fValidMsg = validMsg; }
+    void setIsLoading(unsigned char isLoading) { fIsLoading = isLoading; }
+    void setUserData(unsigned int userData) { fUserData = userData; }
+    void setOriginatingPlayerID(unsigned int playerID) { fOriginatingPlayerID = playerID; }
+
     void setTriggerMsg(plMessage* TriggerMsg);
 };
 

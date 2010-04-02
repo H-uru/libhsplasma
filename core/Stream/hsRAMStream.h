@@ -17,14 +17,14 @@ public:
     void copyFrom(const void* data, size_t size);
     void copyTo(void* data, size_t size);
 
-    virtual hsUint32 size() const;
-    virtual hsUint32 pos() const;
-    virtual bool eof() const;
+    virtual hsUint32 size() const { return fSize; }
+    virtual hsUint32 pos() const { return fPos; }
+    virtual bool eof() const { return (fPos >= fSize); }
 
-    virtual void seek(hsUint32 pos);
-    virtual void skip(hsInt32 count);
-    virtual void fastForward();
-    virtual void rewind();
+    virtual void seek(hsUint32 pos) { fPos = pos; }
+    virtual void skip(hsInt32 count) { fPos += count; }
+    virtual void fastForward() { fPos = fSize; }
+    virtual void rewind() { fPos = 0; }
 
     virtual size_t read(size_t size, void* buf);
     virtual size_t write(size_t size, const void* buf);

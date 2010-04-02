@@ -13,8 +13,7 @@ protected:
 
 public:
     hsElfStream();
-    virtual ~hsElfStream();
-    
+
     virtual plString readLine();
     virtual void writeLine(const plString& ln);
 };

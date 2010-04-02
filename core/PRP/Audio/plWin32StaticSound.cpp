@@ -1,12 +1,6 @@
 #include "plWin32StaticSound.h"
 
-/* plWin32StaticSound */
-IMPLEMENT_CREATABLE(plWin32StaticSound, kWin32StaticSound, plWin32Sound)
-
-
 /* plWin32GroupedSound */
-IMPLEMENT_CREATABLE(plWin32GroupedSound, kWin32GroupedSound, plWin32StaticSound)
-
 void plWin32GroupedSound::IRead(hsStream* S, plResManager* mgr) {
     plWin32Sound::IRead(S, mgr);
 
@@ -58,10 +52,6 @@ void plWin32GroupedSound::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plWin32GroupedSound::getNumVolumes() const { return fVolumes.getSize(); }
-unsigned int plWin32GroupedSound::getPosition(size_t idx) const { return fStartPositions[idx]; }
-float plWin32GroupedSound::getVolume(size_t idx) const { return fVolumes[idx]; }
-
 void plWin32GroupedSound::setVolumes(size_t count, unsigned int* positions, float* volumes) {
     fVolumes.setSizeNull(count);
     fStartPositions.setSizeNull(count);
@@ -73,8 +63,6 @@ void plWin32GroupedSound::setVolumes(size_t count, unsigned int* positions, floa
 
 
 /* plWin32LinkSound */
-IMPLEMENT_CREATABLE(plWin32LinkSound, kWin32LinkSound, plWin32StaticSound)
-
 void plWin32LinkSound::read(hsStream* S, plResManager* mgr) {
     plSound::read(S, mgr);
     fSynchFlags |= kLocalOnly;

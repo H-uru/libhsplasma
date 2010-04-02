@@ -4,17 +4,13 @@
 #include "plSound.h"
 
 DllClass plWin32Sound : public plSound {
+    CREATABLE(plWin32Sound, kWin32Sound, plSound)
+
 public:
     enum ChannelSelect { kLeftChannel, kRightChannel };
 
 protected:
     unsigned char fChannelSelect;
-
-public:
-    plWin32Sound();
-    virtual ~plWin32Sound();
-
-    DECLARE_CREATABLE(plWin32Sound)
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
@@ -23,13 +19,12 @@ protected:
     virtual void IWrite(hsStream* S, plResManager* mgr);
 
 public:
-    unsigned char getChannel() const;
-    void setChannel(unsigned char channel);
+    unsigned char getChannel() const { return fChannelSelect; }
+    void setChannel(unsigned char channel) { fChannelSelect = channel; }
 };
 
 DllClass plWin32StreamingSound : public plWin32Sound {
-public:
-    DECLARE_CREATABLE(plWin32StreamingSound)
+    CREATABLE(plWin32StreamingSound, kWin32StreamingSound, plWin32Sound)
 };
 
 #endif

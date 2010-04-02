@@ -4,6 +4,8 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plBitmap : public hsKeyedObject {
+    CREATABLE(plBitmap, kBitmap, hsKeyedObject)
+
 public:
     enum Flags {
         kNoFlag = 0x0,
@@ -60,9 +62,6 @@ protected:
 
 public:
     plBitmap();
-    virtual ~plBitmap();
-
-    DECLARE_CREATABLE(plBitmap)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -74,24 +73,26 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned char getBPP() const;
-    unsigned char getSpace() const;
-    unsigned short getFlags() const;
-    unsigned char getCompressionType() const;
-    unsigned char getDXCompression() const;
-    unsigned char getDXBlockSize() const;
-    unsigned char getARGBType() const;
-    unsigned int getLowModTime() const;
-    unsigned int getHighModTime() const;
+    unsigned char getBPP() const { return fPixelSize; }
+    unsigned char getSpace() const { return fSpace; }
+    unsigned short getFlags() const { return fFlags; }
+    unsigned char getCompressionType() const { return fCompressionType; }
+    unsigned char getDXCompression() const { return fDXInfo.fCompressionType; }
+    unsigned char getDXBlockSize() const { return fDXInfo.fBlockSize; }
+    unsigned char getARGBType() const { return fUncompressedInfo.fType; }
+    unsigned int getLowModTime() const { return fLowModTime; }
+    unsigned int getHighModTime() const { return fHighModTime; }
 
-    void setBPP(unsigned char bpp);
-    void setSpace(unsigned char space);
-    void setFlags(unsigned short flags);
-    void setCompressionType(unsigned char type);
-    void setDXCompression(unsigned char type);
-    void setDXBlockSize(unsigned char size);
-    void setARGBType(unsigned char type);
-    void setModTime(unsigned int low, unsigned int high);
+    void setBPP(unsigned char bpp) { fPixelSize = bpp; }
+    void setSpace(unsigned char space) { fSpace = space; }
+    void setFlags(unsigned short flags) { fFlags = flags; }
+    void setCompressionType(unsigned char type) { fCompressionType = type; }
+    void setDXCompression(unsigned char type) { fDXInfo.fCompressionType = type; }
+    void setDXBlockSize(unsigned char size) { fDXInfo.fBlockSize = size; }
+    void setARGBType(unsigned char type) { fUncompressedInfo.fType = type; }
+
+    void setModTime(unsigned int low, unsigned int high)
+    { fLowModTime = low; fHighModTime = high; }
 };
 
 #endif

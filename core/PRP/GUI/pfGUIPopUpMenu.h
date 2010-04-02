@@ -4,6 +4,8 @@
 #include "pfGUIDialogMod.h"
 
 DllClass pfGUIPopUpMenu : public pfGUIDialogMod {
+    CREATABLE(pfGUIPopUpMenu, kGUIPopUpMenu, pfGUIDialogMod)
+
 public:
     enum Alignment {
         kAlignUpLeft, kAlignUpRight, kAlignDownLeft, kAlignDownRight
@@ -32,8 +34,6 @@ public:
     pfGUIPopUpMenu();
     virtual ~pfGUIPopUpMenu();
 
-    DECLARE_CREATABLE(pfGUIPopUpMenu)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -42,25 +42,25 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumItems() const;
-    pfMenuItem& getItem(size_t idx);
+    size_t getNumItems() const { return fMenuItems.getSize(); }
+    pfMenuItem& getItem(size_t idx) { return fMenuItems[idx]; }
     void addItem(const plString& name, pfGUICtrlProcWriteableObject* handler,
                  plKey subMenu = plKey(), float yoffs = 0.0f);
     void delItem(size_t idx);
     void moveItem(size_t from, size_t to);
     void clearItems();
 
-    unsigned short getMargin() const;
-    plKey getSkin() const;
-    plKey getOriginContext() const;
-    plKey getOriginAnchor() const;
-    Alignment getAlignment() const;
+    unsigned short getMargin() const { return fMargin; }
+    plKey getSkin() const { return fSkin; }
+    plKey getOriginContext() const { return fOriginContext; }
+    plKey getOriginAnchor() const { return fOriginAnchor; }
+    Alignment getAlignment() const { return fAlignment; }
 
-    void setMargin(unsigned short margin);
-    void setSkin(plKey skin);
-    void setOriginContext(plKey context);
-    void setOriginAnchor(plKey anchor);
-    void setAlignment(Alignment align);
+    void setMargin(unsigned short margin) { fMargin = margin; }
+    void setSkin(plKey skin) { fSkin = skin; }
+    void setOriginContext(plKey context) { fOriginContext = context; }
+    void setOriginAnchor(plKey anchor) { fOriginAnchor = anchor; }
+    void setAlignment(Alignment align) { fAlignment = align; }
 };
 
 #endif

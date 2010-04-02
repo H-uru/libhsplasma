@@ -62,9 +62,9 @@ static PyObject* pyMsgForwarder_delKey(pyMsgForwarder* self, PyObject* args) {
 }
 
 static PyObject* pyMsgForwarder_getForwardKeys(pyMsgForwarder* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumForwardKeys());
-    for (size_t i=0; i<self->fThis->getNumForwardKeys(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getForwardKey(i)));
+    PyObject* list = PyList_New(self->fThis->getForwardKeys().getSize());
+    for (size_t i=0; i<self->fThis->getForwardKeys().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getForwardKeys()[i]));
     return list;
 }
 

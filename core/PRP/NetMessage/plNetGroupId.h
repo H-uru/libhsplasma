@@ -21,6 +21,13 @@ public:
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+public:
+    plLocation getID() const { return fID; }
+    unsigned char getFlags() const { return fFlags; }
+
+    void setID(const plLocation& loc) { fID = loc; }
+    void setFlags(unsigned char flags) { fFlags = flags; }
 };
 
 #endif

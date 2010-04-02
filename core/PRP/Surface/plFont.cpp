@@ -45,21 +45,6 @@ void plFont::plCharacter::prcParse(const pfPrcTag* tag) {
     fRightKern = tag->getParam("RightKern", "0").toFloat();
 }
 
-unsigned int plFont::plCharacter::getOffset() const { return fBitmapOffset; }
-unsigned int plFont::plCharacter::getHeight() const { return fHeight; }
-int plFont::plCharacter::getBaseline() const { return fBaseline; }
-float plFont::plCharacter::getLeftKern() const { return fLeftKern; }
-float plFont::plCharacter::getRightKern() const { return fRightKern; }
-
-void plFont::plCharacter::setOffset(unsigned int off) { fBitmapOffset = off; }
-void plFont::plCharacter::setHeight(unsigned int height) { fHeight = height; }
-void plFont::plCharacter::setBaseline(int baseline) { fBaseline = baseline; }
-
-void plFont::plCharacter::setKern(float left, float right) {
-    fLeftKern = left;
-    fRightKern = right;
-}
-
 
 /* plFont */
 plFont::plFont() : fSize(0), fBPP(0), fFirstChar(0), fFlags(0), fWidth(0),
@@ -71,8 +56,6 @@ plFont::~plFont() {
     if (fBmpData != NULL)
         delete[] fBmpData;
 }
-
-IMPLEMENT_CREATABLE(plFont, kFont, hsKeyedObject)
 
 void plFont::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -290,37 +273,6 @@ void plFont::writeBitmap(hsStream* S) {
 
     delete[] bmpDataInv;
 }
-
-plFont::plCharacter& plFont::operator[](size_t idx) {
-    return fCharacters[idx];
-}
-
-void plFont::addCharacter(const plCharacter& add) {
-    fCharacters.append(add);
-}
-
-void plFont::delCharacter(size_t idx) {
-    fCharacters.remove(idx);
-}
-
-const plString& plFont::getName() const { return fFace; }
-unsigned char plFont::getSize() const { return fSize; }
-unsigned char plFont::getBPP() const { return fBPP; }
-unsigned int plFont::getWidth() const { return fWidth; }
-unsigned int plFont::getHeight() const { return fHeight; }
-unsigned short plFont::getFirstChar() const { return fFirstChar; }
-int plFont::getMaxCharHeight() const { return fMaxCharHeight; }
-
-void plFont::setName(const plString& name) { fFace = name; }
-void plFont::setSize(unsigned char size) { fSize = size; }
-void plFont::setBPP(unsigned char bpp) { fBPP = bpp; }
-void plFont::setWidth(unsigned int width) { fWidth = width; }
-void plFont::setHeight(unsigned int height) { fHeight = height; }
-void plFont::setFirstChar(unsigned short first) { fFirstChar = first; }
-void plFont::setMaxCharHeight(int maxCharHeight) { fMaxCharHeight = maxCharHeight; }
-
-bool plFont::isBold() const { return (fFlags & kFontBold) != 0; }
-bool plFont::isItalic() const { return (fFlags & kFontItalic) != 0; }
 
 void plFont::setBold(bool bold) {
     if (bold)

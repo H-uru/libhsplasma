@@ -19,23 +19,24 @@ protected:
     ~pfPrcTag();
 
     pfPrcTag* Destroy();
-    
+
     friend class pfPrcParser;
 
 public:
-    const plString& getName() const;
-    const plString& getParam(const plString& key, const plString& def) const;
-    const hsTList<plString>& getContents() const;
-    const pfPrcTag* getFirstChild() const;
-    const pfPrcTag* getNextSibling() const;
-    bool hasChildren() const;
-    bool hasNextSibling() const;
-    bool isEndTag() const;
+    plString getName() const { return fName; }
+    plString getParam(const plString& key, const plString& def) const;
+    const hsTList<plString>& getContents() const { return fContents; }
+    const pfPrcTag* getFirstChild() const { return fFirstChild; }
+    const pfPrcTag* getNextSibling() const { return fNextSibling; }
+    bool hasChildren() const { return (fFirstChild != NULL); }
+    bool hasNextSibling() const { return (fNextSibling != NULL); }
+    bool isEndTag() const { return fIsEndTag; }
     bool hasParam(const plString& key) const;
     size_t countChildren() const;
 
     void readHexStream(size_t maxLen, unsigned char* buf) const;
 };
+
 
 DllClass pfPrcParser {
 private:
@@ -46,17 +47,19 @@ public:
     ~pfPrcParser();
 
     void read(hsStream* S);
-    const pfPrcTag* getRoot() const;
+    const pfPrcTag* getRoot() const { return fRootTag; }
 
 private:
     pfPrcTag* readTag(hsTokenStream* tok);
 };
+
 
 DllClass pfPrcParseException : public hsException {
 public:
     pfPrcParseException(const char* file, unsigned long line,
                         const char* msg, ...) throw();
 };
+
 
 DllClass pfPrcTagException : public pfPrcParseException {
 public:

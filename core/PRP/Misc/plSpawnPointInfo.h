@@ -7,13 +7,10 @@
 DllClass plSpawnPointInfo {
 protected:
     enum { kHasTitle, kHasSpawnPt, kHasCameraStack };
-    
+
     plString fTitle, fSpawnPt, fCameraStack;
 
 public:
-    plSpawnPointInfo();
-    ~plSpawnPointInfo();
-
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);

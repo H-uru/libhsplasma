@@ -5,6 +5,8 @@
 #include "PRP/Avatar/plAvTask.h"
 
 DllClass plLoadAvatarMsg : public plLoadCloneMsg {
+    CREATABLE(plLoadAvatarMsg, kLoadAvatarMsg, plLoadCloneMsg)
+
 protected:
     bool fIsPlayer;
     plKey fSpawnPoint;
@@ -15,8 +17,6 @@ public:
     plLoadAvatarMsg();
     virtual ~plLoadAvatarMsg();
 
-    DECLARE_CREATABLE(plLoadAvatarMsg)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -25,15 +25,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool getIsPlayer() const;
-    plKey getSpawnPoint() const;
-    plAvTask* getInitialTask() const;
-    plString getUserStr() const;
+    bool getIsPlayer() const { return fIsPlayer; }
+    plKey getSpawnPoint() const { return fSpawnPoint; }
+    plAvTask* getInitialTask() const { return fInitialTask; }
+    plString getUserStr() const { return fUserStr; }
 
-    void setIsPlayer(bool IsPlayer);
-    void setSpawnPoint(plKey SpawnPoint);
+    void setIsPlayer(bool isPlayer) { fIsPlayer = isPlayer; }
+    void setSpawnPoint(plKey spawnPoint) { fSpawnPoint = spawnPoint; }
+    void setUserStr(plString userStr) { fUserStr = userStr; }
+
     void setInitialTask(plAvTask* InitialTask);
-    void setUserStr(plString UserStr);
 };
 
 #endif

@@ -1,19 +1,22 @@
 #ifndef _PLROTCONTROLLER_H
 #define _PLROTCONTROLLER_H
 
-#include "plKeyControllers.h"
+#include "plKeyControllers.hpp"
 
 DllClass plRotController : public plController {
+    CREATABLE(plRotController, kRotController, plController)
+
 public:
     enum { kSimple = 1, kUnused, kCompound };
 
 public:
-    DECLARE_CREATABLE(plRotController)
-
-    virtual int getType() const =0;
+    virtual int getType() const = 0;
 };
 
+
 DllClass plSimpleRotController : public plRotController {
+    CREATABLE(plSimpleRotController, kSimpleRotController, plRotController)
+
 protected:
     plQuatController* fRot;
 
@@ -21,9 +24,7 @@ public:
     plSimpleRotController();
     virtual ~plSimpleRotController();
 
-    DECLARE_CREATABLE(plSimpleRotController)
-
-    virtual int getType() const;
+    virtual int getType() const { return kSimple; }
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -32,11 +33,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plQuatController* getRot() const;
+    plQuatController* getRot() const { return fRot; }
     void setRot(plQuatController* rot);
 };
 
+
 DllClass plCompoundRotController : public plRotController {
+    CREATABLE(plCompoundRotController, kCompoundRotController, plRotController)
+
 protected:
     plScalarController* fXController;
     plScalarController* fYController;
@@ -46,9 +50,7 @@ public:
     plCompoundRotController();
     virtual ~plCompoundRotController();
 
-    DECLARE_CREATABLE(plCompoundRotController)
-
-    virtual int getType() const;
+    virtual int getType() const { return kCompound; }
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -57,9 +59,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plScalarController* getX() const;
-    plScalarController* getY() const;
-    plScalarController* getZ() const;
+    plScalarController* getX() const { return fXController; }
+    plScalarController* getY() const { return fYController; }
+    plScalarController* getZ() const { return fZController; }
 
     void setX(plScalarController* controller);
     void setY(plScalarController* controller);

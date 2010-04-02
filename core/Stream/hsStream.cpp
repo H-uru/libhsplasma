@@ -11,13 +11,6 @@ hsStream::hsStream(PlasmaVer pv) {
     setVer(pv);
 }
 
-hsStream::~hsStream() { }
-
-void hsStream::setVer(PlasmaVer pv) { ver = pv; }
-PlasmaVer hsStream::getVer() const { return ver; }
-
-void hsStream::flush() { }
-
 #define BLOCKSIZE 4096
 void hsStream::writeFrom(hsStream* src) {
     unsigned char buf[BLOCKSIZE];
@@ -333,12 +326,14 @@ bool hsFileStream::open(const char* file, FileMode mode) {
 }
 
 void hsFileStream::close() {
-    if (F) fclose(F);
+    if (F != NULL)
+        fclose(F);
     F = NULL;
 }
 
 hsUint32 hsFileStream::size() const {
-    if (F == NULL) return 0;
+    if (F == NULL)
+        return 0;
     unsigned int p = ftell(F);
     fseek(F, 0, SEEK_END);
     unsigned int sz = ftell(F);
@@ -347,39 +342,46 @@ hsUint32 hsFileStream::size() const {
 }
 
 hsUint32 hsFileStream::pos() const {
-    if (F == NULL) return 0;
+    if (F == NULL)
+        return 0;
     return ftell(F);
 }
 
 bool hsFileStream::eof() const {
-    if (F == NULL) return true;
+    if (F == NULL)
+        return true;
     int c = fgetc(F);
     ungetc(c, F);
     return (c == EOF);
 }
 
 void hsFileStream::seek(hsUint32 pos) {
-    if (F == NULL) return;
+    if (F == NULL)
+        return;
     fseek(F, pos, SEEK_SET);
 }
 
 void hsFileStream::skip(hsInt32 count) {
-    if (F == NULL) return;
+    if (F == NULL)
+        return;
     fseek(F, count, SEEK_CUR);
 }
 
 void hsFileStream::fastForward() {
-    if (F == NULL) return;
+    if (F == NULL)
+        return;
     fseek(F, 0, SEEK_END);
 }
 
 void hsFileStream::rewind() {
-    if (F == NULL) return;
+    if (F == NULL)
+        return;
     fseek(F, 0, SEEK_SET);
 }
 
 void hsFileStream::flush() {
-    if (F == NULL) return;
+    if (F == NULL)
+        return;
     fflush(F);
 }
 

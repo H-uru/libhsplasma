@@ -4,11 +4,6 @@ const char* plCubicEnvironmap::kFaceNames[kNumFaces] = {
     "Left", "Right", "Front", "Back", "Top", "Bottom"
 };
 
-plCubicEnvironmap::plCubicEnvironmap() { }
-plCubicEnvironmap::~plCubicEnvironmap() { }
-
-IMPLEMENT_CREATABLE(plCubicEnvironmap, kCubicEnvironmap, plBitmap)
-
 void plCubicEnvironmap::read(hsStream* S, plResManager* mgr) {
     plBitmap::read(S, mgr);
 
@@ -53,8 +48,4 @@ void plCubicEnvironmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plBitmap::IPrcParse(tag, mgr);
     }
-}
-
-plMipmap* plCubicEnvironmap::getFace(size_t idx) {
-    return &fFaces[idx];
 }

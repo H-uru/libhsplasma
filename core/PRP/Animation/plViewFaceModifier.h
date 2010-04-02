@@ -7,6 +7,8 @@
 #include "PRP/Region/hsBounds.h"
 
 DllClass plViewFaceModifier : public plSingleModifier {
+    CREATABLE(plViewFaceModifier, kViewFaceModifier, plSingleModifier)
+
 public:
     enum plVFFlags {
         kPivotFace, kPivotFavorY, kPivotY, kPivotTumple, kScale, kFaceCam,
@@ -25,9 +27,6 @@ protected:
 
 public:
     plViewFaceModifier();
-    virtual ~plViewFaceModifier();
-
-    DECLARE_CREATABLE(plViewFaceModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -37,19 +36,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    hsVector3 getScale() const;
-    hsVector3 getOffset() const;
-    hsMatrix44 getLocalToParent() const;
-    hsMatrix44 getParentToLocal() const;
-    plKey getFaceObj() const;
-    hsBounds3Ext getMaxBounds() const;
+    hsVector3 getScale() const { return fScale; }
+    hsVector3 getOffset() const { return fOffset; }
+    hsMatrix44 getLocalToParent() const { return fLocalToParent; }
+    hsMatrix44 getParentToLocal() const { return fParentToLocal; }
+    plKey getFaceObj() const { return fFaceObj; }
+    hsBounds3Ext getMaxBounds() const { return fMaxBounds; }
 
-    void setScale(const hsVector3& scale);
-    void setOffset(const hsVector3& offset);
-    void setLocalToParent(const hsMatrix44& l2p);
-    void setParentToLocal(const hsMatrix44& p2l);
-    void setFaceObj(plKey obj);
-    void setMaxBounds(const hsBounds3Ext& bounds);
+    void setScale(const hsVector3& scale) { fScale = scale; }
+    void setOffset(const hsVector3& offset) { fOffset = offset; }
+    void setLocalToParent(const hsMatrix44& l2p) { fLocalToParent = l2p; }
+    void setParentToLocal(const hsMatrix44& p2l) { fParentToLocal = p2l; }
+    void setFaceObj(plKey obj) { fFaceObj = obj; }
+    void setMaxBounds(const hsBounds3Ext& bounds) { fMaxBounds = bounds; }
 };
 
 #endif

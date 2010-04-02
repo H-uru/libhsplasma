@@ -4,17 +4,16 @@
 #include "plWin32Sound.h"
 
 DllClass plWin32StaticSound : public plWin32Sound {
-public:
-    DECLARE_CREATABLE(plWin32StaticSound)
+    CREATABLE(plWin32StaticSound, kWin32StaticSound, plWin32Sound)
 };
 
+
 DllClass plWin32GroupedSound : public plWin32StaticSound {
+    CREATABLE(plWin32GroupedSound, kWin32GroupedSound, plWin32StaticSound)
+
 protected:
     hsTArray<unsigned int> fStartPositions;
     hsTArray<float> fVolumes;
-
-public:
-    DECLARE_CREATABLE(plWin32GroupedSound)
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
@@ -23,16 +22,17 @@ protected:
     virtual void IWrite(hsStream* S, plResManager* mgr);
 
 public:
-    size_t getNumVolumes() const;
-    unsigned int getPosition(size_t idx) const;
-    float getVolume(size_t idx) const;
+    size_t getNumVolumes() const { return fVolumes.getSize(); }
+    unsigned int getPosition(size_t idx) const { return fStartPositions[idx]; }
+    float getVolume(size_t idx) const { return fVolumes[idx]; }
     void setVolumes(size_t count, unsigned int* positions, float* volumes);
 };
 
-DllClass plWin32LinkSound : public plWin32StaticSound {
-public:
-    DECLARE_CREATABLE(plWin32LinkSound)
 
+DllClass plWin32LinkSound : public plWin32StaticSound {
+    CREATABLE(plWin32LinkSound, kWin32LinkSound, plWin32StaticSound)
+
+public:
     virtual void read(hsStream* S, plResManager* mgr);
 };
 

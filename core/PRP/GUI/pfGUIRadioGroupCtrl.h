@@ -4,6 +4,8 @@
 #include "pfGUIControlMod.h"
 
 DllClass pfGUIRadioGroupCtrl : public pfGUIControlMod {
+    CREATABLE(pfGUIRadioGroupCtrl, kGUIRadioGroupCtrl, pfGUIControlMod)
+
 public:
     enum RadioGroupFlags { kAllowNoSelection = kDerivedFlagsStart };
 
@@ -13,9 +15,6 @@ protected:
 
 public:
     pfGUIRadioGroupCtrl();
-    virtual ~pfGUIRadioGroupCtrl();
-
-    DECLARE_CREATABLE(pfGUIRadioGroupCtrl)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -25,14 +24,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumControls() const;
-    plKey getControl(size_t idx) const;
-    void addControl(plKey ctrl);
-    void delControl(size_t idx);
-    void clearControls();
+    const hsTArray<plKey>& getControls() const { return fControls; }
+    hsTArray<plKey>& getControls() { return fControls; }
+    void addControl(plKey ctrl) { fControls.append(ctrl); }
+    void delControl(size_t idx) { fControls.remove(idx); }
+    void clearControls() { fControls.clear(); }
 
-    int getDefaultValue() const;
-    void setDefaultValue(int value);
+    int getDefaultValue() const { return fDefaultValue; }
+    void setDefaultValue(int value) { fDefaultValue = value; }
 };
 
 #endif

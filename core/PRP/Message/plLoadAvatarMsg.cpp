@@ -7,8 +7,6 @@ plLoadAvatarMsg::~plLoadAvatarMsg() {
         delete fInitialTask;
 }
 
-IMPLEMENT_CREATABLE(plLoadAvatarMsg, kLoadAvatarMsg, plLoadCloneMsg)
-
 void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr) {
     plLoadCloneMsg::read(S, mgr);
 
@@ -80,36 +78,8 @@ void plLoadAvatarMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-bool plLoadAvatarMsg::getIsPlayer() const {
-    return fIsPlayer;
-}
-
-plKey plLoadAvatarMsg::getSpawnPoint() const {
-    return fSpawnPoint;
-}
-
-plAvTask* plLoadAvatarMsg::getInitialTask() const {
-    return fInitialTask;
-}
-
-plString plLoadAvatarMsg::getUserStr() const {
-    return fUserStr;
-}
-
-void plLoadAvatarMsg::setIsPlayer(bool IsPlayer) {
-    fIsPlayer = IsPlayer;
-}
-
-void plLoadAvatarMsg::setSpawnPoint(plKey SpawnPoint) {
-    fSpawnPoint = SpawnPoint;
-}
-
-void plLoadAvatarMsg::setInitialTask(plAvTask* InitialTask) {
+void plLoadAvatarMsg::setInitialTask(plAvTask* task) {
     if (fInitialTask != NULL)
         delete fInitialTask;
-    fInitialTask = InitialTask;
-}
-
-void plLoadAvatarMsg::setUserStr(plString UserStr) {
-    fUserStr = UserStr;
+    fInitialTask = task;
 }

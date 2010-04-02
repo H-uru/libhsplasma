@@ -10,12 +10,12 @@ protected:
     plGBufferTriangle* fSortData;
 
 public:
+    virtual const char* ClassName() const { return "plIcicle"; }
+
     plIcicle();
     plIcicle(const plIcicle& init);
     virtual ~plIcicle();
 
-    virtual const char* ClassName();
-    
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
 
@@ -24,20 +24,20 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag);
 
 public:
-    unsigned int getIBufferIdx() const;
-    unsigned int getIStartIdx() const;
-    unsigned int getILength() const;
-    const plGBufferTriangle* getSortData() const;
+    unsigned int getIBufferIdx() const { return fIBufferIdx; }
+    unsigned int getIStartIdx() const { return fIStartIdx; }
+    unsigned int getILength() const { return fILength; }
+    const plGBufferTriangle* getSortData() const { return fSortData; }
 
-    void setIBufferIdx(unsigned int idx);
-    void setIStartIdx(unsigned int idx);
-    void setILength(unsigned int len);
+    void setIBufferIdx(unsigned int idx) { fIBufferIdx = idx; }
+    void setIStartIdx(unsigned int idx) { fIStartIdx = idx; }
+    void setILength(unsigned int len) { fILength = len; }
     void setSortData(const plGBufferTriangle* data);
 };
 
 DllClass plParticleSpan : public plIcicle {
 public:
-    virtual const char* ClassName();
+    virtual const char* ClassName() const { return "plParticleSpan"; }
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

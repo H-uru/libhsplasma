@@ -5,6 +5,8 @@
 #include "Util/hsTArray.hpp"
 
 DllClass hsGMaterial : public plSynchedObject {
+    CREATABLE(hsGMaterial, kGMaterial, plSynchedObject)
+
 public:
     enum hsGCompFlags {
         kCompShaded = 0x1,
@@ -29,9 +31,6 @@ private:
 
 public:
     hsGMaterial();
-    virtual ~hsGMaterial();
-
-    DECLARE_CREATABLE(hsGMaterial)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -41,22 +40,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumLayers() const;
-    plKey getLayer(size_t idx) const;
-    void clearLayers();
-    void addLayer(plKey layer);
-    void delLayer(size_t idx);
+    const hsTArray<plKey>& getLayers() const { return fLayers; }
+    hsTArray<plKey>& getLayers() { return fLayers; }
+    void addLayer(plKey layer) { fLayers.append(layer); }
+    void delLayer(size_t idx) { fLayers.remove(idx); }
+    void clearLayers() { fLayers.clear(); }
 
-    size_t getNumPiggyBacks() const;
-    plKey getPiggyBack(size_t idx) const;
-    void clearPiggyBacks();
-    void addPiggyBack(plKey pb);
-    void delPiggyBack(size_t idx);
+    const hsTArray<plKey>& getPiggyBacks() const { return fPiggyBacks; }
+    hsTArray<plKey>& getPiggyBacks() { return fPiggyBacks; }
+    void addPiggyBack(plKey layer) { fPiggyBacks.append(layer); }
+    void delPiggyBack(size_t idx) { fPiggyBacks.remove(idx); }
+    void clearPiggyBacks() { fPiggyBacks.clear(); }
 
-    unsigned int getCompFlags() const;
-    unsigned int getLoadFlags() const;
-    void setCompFlags(unsigned int flags);
-    void setLoadFlags(unsigned int flags);
+    unsigned int getCompFlags() const { return fCompFlags; }
+    unsigned int getLoadFlags() const { return fLoadFlags; }
+    void setCompFlags(unsigned int flags) { fCompFlags = flags; }
+    void setLoadFlags(unsigned int flags) { fLoadFlags = flags; }
 };
 
 #endif

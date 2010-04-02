@@ -1,11 +1,6 @@
 #include "plDynaRippleMgr.h"
 
 /* plDynaRippleMgr */
-plDynaRippleMgr::plDynaRippleMgr() { }
-plDynaRippleMgr::~plDynaRippleMgr() { }
-
-IMPLEMENT_CREATABLE(plDynaRippleMgr, kDynaRippleMgr, plDynaDecalMgr)
-
 void plDynaRippleMgr::read(hsStream* S, plResManager* mgr) {
     plDynaDecalMgr::read(S, mgr);
     fInitUVW.read(S);
@@ -43,11 +38,6 @@ void plDynaRippleMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plDynaRippleVSMgr */
-plDynaRippleVSMgr::plDynaRippleVSMgr() { }
-plDynaRippleVSMgr::~plDynaRippleVSMgr() { }
-
-IMPLEMENT_CREATABLE(plDynaRippleVSMgr, kDynaRippleVSMgr, plDynaRippleMgr)
-
 void plDynaRippleVSMgr::read(hsStream* S, plResManager* mgr) {
     plDynaRippleMgr::read(S, mgr);
     fWaveSetBase = mgr->readKey(S);
@@ -76,19 +66,7 @@ void plDynaRippleVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plDynaTorpedoMgr */
-plDynaTorpedoMgr::plDynaTorpedoMgr() { }
-plDynaTorpedoMgr::~plDynaTorpedoMgr() { }
-
-IMPLEMENT_CREATABLE(plDynaTorpedoMgr, kDynaTorpedoMgr, plDynaRippleMgr)
-
-
 /* plDynaTorpedoVSMgr */
-plDynaTorpedoVSMgr::plDynaTorpedoVSMgr() { }
-plDynaTorpedoVSMgr::~plDynaTorpedoVSMgr() { }
-
-IMPLEMENT_CREATABLE(plDynaTorpedoVSMgr, kDynaTorpedoVSMgr, plDynaTorpedoMgr)
-
 void plDynaTorpedoVSMgr::read(hsStream* S, plResManager* mgr) {
     plDynaTorpedoMgr::read(S, mgr);
     fWaveSetBase = mgr->readKey(S);
@@ -117,13 +95,6 @@ void plDynaTorpedoVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plDynaPuddleMgr */
-plDynaPuddleMgr::plDynaPuddleMgr() { }
-plDynaPuddleMgr::~plDynaPuddleMgr() { }
-
-IMPLEMENT_CREATABLE(plDynaPuddleMgr, kDynaPuddleMgr, plDynaRippleMgr)
-
-
 /* plDynaWakeMgr */
 plDynaWakeMgr::plDynaWakeMgr() : fAnimPath(NULL), fAnimWgt(0.0f), fVelWgt(0.0f) { }
 
@@ -131,8 +102,6 @@ plDynaWakeMgr::~plDynaWakeMgr() {
     if (fAnimPath != NULL)
         delete fAnimPath;
 }
-
-IMPLEMENT_CREATABLE(plDynaWakeMgr, kDynaWakeMgr, plDynaRippleMgr)
 
 void plDynaWakeMgr::read(hsStream* S, plResManager* mgr) {
     plDynaRippleMgr::read(S, mgr);

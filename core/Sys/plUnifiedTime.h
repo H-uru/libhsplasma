@@ -59,8 +59,8 @@ public:
     operator timeval();
     operator tm*();
 
-    unsigned int getSecs() const;
-    unsigned int getMicros() const;
+    unsigned int getSecs() const { return fSecs; }
+    unsigned int getMicros() const { return fMicros; }
     double getSecsDouble() const;
 
     int getYear() const;
@@ -73,9 +73,9 @@ public:
     void getTime(int& year, int& month, int& day, int& hour, int& minute, int& second) const;
     tm* getTm() const;
 
-    void setSecs(unsigned int secs);
-    void setMicros(unsigned int micros);
-    void setMode(Mode mode);
+    void setSecs(unsigned int secs) { fSecs = secs; }
+    void setMicros(unsigned int micros) { fMicros = micros; }
+    void setMode(Mode mode) { fMode = mode; }
     void setSecsDouble(double secs);
 
     void setGMTime(int year, int month, int day, int hour, int minute, int second,
@@ -91,8 +91,8 @@ public:
     plString format(const char* fmt);
     void fromString(const char* buf, const char* fmt);
 
-    bool atEpoch() const;
-    void toEpoch();
+    bool atEpoch() const { return (fSecs == 0 && fMicros == 0); }
+    void toEpoch() { fSecs = 0; fMicros = 0; }
     void toGMT();
     void toLocal();
     void toCurrentTime();

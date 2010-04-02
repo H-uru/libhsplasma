@@ -1,9 +1,6 @@
 #include "plNodeRegionModifier.h"
 
 plNodeRegionModifier::plNodeRegionModifier() : fEnabled(true) { }
-plNodeRegionModifier::~plNodeRegionModifier() { }
-
-IMPLEMENT_CREATABLE(plNodeRegionModifier, kNodeRegionModifier, plSingleModifier)
 
 void plNodeRegionModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);

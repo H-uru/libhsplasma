@@ -10,8 +10,6 @@ plAnimPath::~plAnimPath() {
         delete fTMController;
 }
 
-IMPLEMENT_CREATABLE(plAnimPath, kAnimPath, plCreatable)
-
 void plAnimPath::read(hsStream* S, plResManager* mgr) {
     fAnimPathFlags = S->readInt();
 
@@ -129,22 +127,6 @@ void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plCreatable::IPrcParse(tag, mgr);
     }
 }
-
-unsigned int plAnimPath::getFlags() const { return fAnimPathFlags; }
-float plAnimPath::getMinDistSq() const { return fMinDistSq; }
-float plAnimPath::getLength() const { return fLength; }
-const hsMatrix44& plAnimPath::getLocalToWorld() const { return fLocalToWorld; }
-const hsMatrix44& plAnimPath::getWorldToLocal() const { return fWorldToLocal; }
-plCompoundController* plAnimPath::getController() const { return fController; }
-plTMController* plAnimPath::getTMController() const { return fTMController; }
-const hsAffineParts& plAnimPath::getAffineParts() const { return fParts; }
-
-void plAnimPath::setFlags(unsigned int flags) { fAnimPathFlags = flags; }
-void plAnimPath::setMinDistSq(float dist) { fMinDistSq = dist; }
-void plAnimPath::setLength(float length) { fLength = length; }
-void plAnimPath::setLocalToWorld(const hsMatrix44& l2w) { fLocalToWorld = l2w; }
-void plAnimPath::setWorldToLocal(const hsMatrix44& w2l) { fWorldToLocal = w2l; }
-void plAnimPath::setAffineParts(const hsAffineParts& parts) { fParts = parts; }
 
 void plAnimPath::setController(plCompoundController* controller) {
     if (fController != NULL)

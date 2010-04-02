@@ -2,11 +2,6 @@
 
 plNetMsgGroupOwner::GroupInfo::GroupInfo() : fOwnIt(false) { }
 
-plNetMsgGroupOwner::plNetMsgGroupOwner() { }
-plNetMsgGroupOwner::~plNetMsgGroupOwner() { }
-
-IMPLEMENT_CREATABLE(plNetMsgGroupOwner, kNetMsgGroupOwner, plNetMsgServerToClient)
-
 void plNetMsgGroupOwner::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 

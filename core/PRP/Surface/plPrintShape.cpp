@@ -2,9 +2,6 @@
 
 /* plPrintShape */
 plPrintShape::plPrintShape() : fWidth(0.0f), fLength(0.0f), fHeight(0.0f) { }
-plPrintShape::~plPrintShape() { }
-
-IMPLEMENT_CREATABLE(plPrintShape, kPrintShape, plObjInterface)
 
 void plPrintShape::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
@@ -42,11 +39,6 @@ void plPrintShape::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plActivePrintShape */
-plActivePrintShape::plActivePrintShape() { }
-plActivePrintShape::~plActivePrintShape() { }
-
-IMPLEMENT_CREATABLE(plActivePrintShape, kActivePrintShape, plPrintShape)
-
 void plActivePrintShape::read(hsStream* S, plResManager* mgr) {
     plPrintShape::read(S, mgr);
 

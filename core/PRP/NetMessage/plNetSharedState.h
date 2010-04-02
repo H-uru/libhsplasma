@@ -24,13 +24,13 @@ private:
 
 public:
     plGenericType();
-    ~plGenericType();
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 };
+
 
 DllClass plGenericVar {
 private:
@@ -38,14 +38,12 @@ private:
     plGenericType fValue;
 
 public:
-    plGenericVar();
-    ~plGenericVar();
-
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 };
+
 
 DllClass plNetSharedState {
 private:
@@ -55,7 +53,6 @@ private:
 
 public:
     plNetSharedState();
-    ~plNetSharedState();
 
     void read(hsStream* S);
     void write(hsStream* S);

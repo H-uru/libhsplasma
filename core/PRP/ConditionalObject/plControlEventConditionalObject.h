@@ -4,14 +4,15 @@
 #include "plConditionalObject.h"
 
 DllClass plControlEventConditionalObject : public plConditionalObject {
+    CREATABLE(plControlEventConditionalObject,
+              kControlEventConditionalObject,
+              plConditionalObject)
+
 protected:
     ControlEventCode fControlEvent;
 
 public:
     plControlEventConditionalObject();
-    virtual ~plControlEventConditionalObject();
-
-    DECLARE_CREATABLE(plControlEventConditionalObject)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -1,15 +1,11 @@
 #include "plMessageWithCallbacks.h"
 
-plMessageWithCallbacks::plMessageWithCallbacks() { }
-
 plMessageWithCallbacks::~plMessageWithCallbacks() {
     for (size_t i=0; i<fCallbacks.getSize(); i++) {
         if (fCallbacks[i] != NULL)
             delete fCallbacks[i];
     }
 }
-
-IMPLEMENT_CREATABLE(plMessageWithCallbacks, kMessageWithCallbacks, plMessage)
 
 void plMessageWithCallbacks::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
@@ -53,10 +49,6 @@ void plMessageWithCallbacks::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
-
-size_t plMessageWithCallbacks::getNumCallbacks() const { return fCallbacks.getSize(); }
-plMessage* plMessageWithCallbacks::getCallback(size_t idx) const { return fCallbacks[idx]; }
-void plMessageWithCallbacks::addCallback(plMessage* callback) { fCallbacks.append(callback); }
 
 void plMessageWithCallbacks::delCallback(size_t idx) {
     delete fCallbacks[idx];

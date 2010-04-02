@@ -5,14 +5,14 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plParticleGenerator : public plCreatable {
-public:
-    plParticleGenerator();
-    virtual ~plParticleGenerator();
-
-    DECLARE_CREATABLE(plParticleGenerator)
+    CREATABLE(plParticleGenerator, kParticleGenerator, plCreatable)
 };
 
+
 DllClass plOneTimeParticleGenerator : public plParticleGenerator {
+    CREATABLE(plOneTimeParticleGenerator, kOneTimeParticleGenerator,
+              plParticleGenerator)
+
 protected:
     unsigned int fCount;
     hsVector3* fPosition;
@@ -22,8 +22,6 @@ protected:
 public:
     plOneTimeParticleGenerator();
     virtual ~plOneTimeParticleGenerator();
-
-    DECLARE_CREATABLE(plOneTimeParticleGenerator);
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -36,7 +34,11 @@ public:
     void clearParticles();
 };
 
+
 DllClass plSimpleParticleGenerator : public plParticleGenerator {
+    CREATABLE(plSimpleParticleGenerator, kSimpleParticleGenerator,
+              plParticleGenerator)
+
 public:
     enum {
         kImmortal = 0x1,
@@ -56,8 +58,6 @@ protected:
 public:
     plSimpleParticleGenerator();
     virtual ~plSimpleParticleGenerator();
-
-    DECLARE_CREATABLE(plSimpleParticleGenerator);
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

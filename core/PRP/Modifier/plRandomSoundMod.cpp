@@ -4,8 +4,6 @@
 plRandomSoundModGroup::plRandomSoundModGroup()
                      : fGroupedIdx(0) { }
 
-plRandomSoundModGroup::~plRandomSoundModGroup() { }
-
 void plRandomSoundModGroup::read(hsStream* S) {
     fIndices.setSizeNull(S->readShort());
     fGroupedIdx = S->readShort();
@@ -53,11 +51,6 @@ void plRandomSoundModGroup::prcParse(const pfPrcTag* tag) {
 
 
 /* plRandomSoundMod */
-plRandomSoundMod::plRandomSoundMod() { }
-plRandomSoundMod::~plRandomSoundMod() { }
-
-IMPLEMENT_CREATABLE(plRandomSoundMod, kRandomSoundMod, plRandomCommandMod)
-
 void plRandomSoundMod::read(hsStream* S, plResManager* mgr) {
     plRandomCommandMod::read(S, mgr);
 

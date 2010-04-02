@@ -1,9 +1,6 @@
 #include "plDirectMusicSound.h"
 
 plDirectMusicSound::plDirectMusicSound() : fUnknown1(0) { }
-plDirectMusicSound::~plDirectMusicSound() { }
-
-IMPLEMENT_CREATABLE(plDirectMusicSound, kDirectMusicSound, plSound)
 
 void plDirectMusicSound::read(hsStream* S, plResManager* mgr) {
     plSound::read(S, mgr);

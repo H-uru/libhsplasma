@@ -6,15 +6,13 @@
 
 DllClass pfGUICtrlProcObject {
 public:
-    pfGUICtrlProcObject();
-    virtual ~pfGUICtrlProcObject();
+    pfGUICtrlProcObject() { }
+    virtual ~pfGUICtrlProcObject() { }
 };
 
-DllClass pfGUIDialogProc : public pfGUICtrlProcObject {
-public:
-    pfGUIDialogProc();
-    virtual ~pfGUIDialogProc();
-};
+
+DllClass pfGUIDialogProc : public pfGUICtrlProcObject { };
+
 
 DllClass pfGUICtrlProcWriteableObject : public pfGUICtrlProcObject {
 public:
@@ -36,8 +34,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag)=0;
 
 public:
-    unsigned int getType() const;
+    unsigned int getType() const { return fType; }
 };
+
 
 DllClass pfGUICloseDlgProc : public pfGUICtrlProcWriteableObject {
 public:
@@ -49,6 +48,7 @@ protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag);
 };
+
 
 DllClass pfGUIConsoleCmdProc : public pfGUICtrlProcWriteableObject {
 protected:
@@ -64,9 +64,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag);
 
 public:
-    plString getCommand() const;
-    void setCommand(const plString& cmd);
+    plString getCommand() const { return fCommand; }
+    void setCommand(const plString& cmd) { fCommand = cmd; }
 };
+
 
 DllClass pfGUIPythonScriptProc : public pfGUICtrlProcWriteableObject {
 public:

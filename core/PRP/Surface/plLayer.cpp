@@ -1,11 +1,6 @@
 #include "plLayer.h"
 
 /* plLayer */
-plLayer::plLayer() { }
-plLayer::~plLayer() { }
-
-IMPLEMENT_CREATABLE(plLayer, kLayer, plLayerInterface)
-
 void plLayer::read(hsStream* S, plResManager* mgr) {
     plLayerInterface::read(S, mgr);
     fState.read(S);
@@ -85,7 +80,7 @@ void plLayer::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("PixelShader");
       fPixelShader->prcWrite(prc);
     prc->closeTag();
-    
+
     prc->writeSimpleTag("BumpEnvXfm");
       fBumpEnvXfm.prcWrite(prc);
     prc->closeTag();
@@ -130,7 +125,3 @@ void plLayer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plLayerInterface::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plLayerDepth */
-IMPLEMENT_CREATABLE(plLayerDepth, kLayerDepth, plLayer)

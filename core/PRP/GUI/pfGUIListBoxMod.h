@@ -13,18 +13,21 @@ private:
 
 public:
     pfGUIListElement();
-    ~pfGUIListElement();
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    bool getSelected() const;
-    void setSelected(bool sel);
+public:
+    bool isSelected() const { return fSelected; }
+    void setSelected(bool sel) { fSelected = sel; }
 };
 
+
 DllClass pfGUIListBoxMod : public pfGUIControlMod {
+    CREATABLE(pfGUIListBoxMod, kGUIListBoxMod, pfGUIControlMod)
+
 public:
     enum ListBoxFlags {
         kSingleSelect = kDerivedFlagsStart, kDragAndDropCapable,
@@ -38,9 +41,6 @@ protected:
 
 public:
     pfGUIListBoxMod();
-    virtual ~pfGUIListBoxMod();
-
-    DECLARE_CREATABLE(pfGUIListBoxMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -50,8 +50,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getScrollCtrl() const;
-    void setScrollCtrl(plKey ctrl);
+    plKey getScrollCtrl() const { return fScrollCtrl; }
+    void setScrollCtrl(plKey ctrl) { fScrollCtrl = ctrl; }
 };
 
 #endif

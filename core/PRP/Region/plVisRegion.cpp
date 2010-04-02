@@ -7,10 +7,6 @@ plVisRegion::plVisRegion() {
     fProps.setName(kDisableNormal, "kDisableNormal");
 }
 
-plVisRegion::~plVisRegion() { }
-
-IMPLEMENT_CREATABLE(plVisRegion, kVisRegion, plObjInterface)
-
 void plVisRegion::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     fRegion = mgr->readKey(S);

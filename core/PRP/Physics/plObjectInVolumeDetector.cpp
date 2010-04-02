@@ -1,23 +1,10 @@
 #include "plObjectInVolumeDetector.h"
 
-/* plObjectInVolumeDetector */
-plObjectInVolumeDetector::plObjectInVolumeDetector() { }
-plObjectInVolumeDetector::~plObjectInVolumeDetector() { }
-
-IMPLEMENT_CREATABLE(plObjectInVolumeDetector, kObjectInVolumeDetector,
-                    plCollisionDetector)
-
-
 /* plCameraRegionDetector */
-plCameraRegionDetector::plCameraRegionDetector() { }
-
 plCameraRegionDetector::~plCameraRegionDetector() {
     for (size_t i=0; i<fMessages.getSize(); i++)
         delete fMessages[i];
 }
-
-IMPLEMENT_CREATABLE(plCameraRegionDetector, kCameraRegionDetector,
-                    plObjectInVolumeDetector)
 
 void plCameraRegionDetector::read(hsStream* S, plResManager* mgr) {
     plDetectorModifier::read(S, mgr);
@@ -69,12 +56,6 @@ void plCameraRegionDetector::clearMessages() {
 /* plObjectInVolumeAndFacingDetector */
 plObjectInVolumeAndFacingDetector::plObjectInVolumeAndFacingDetector()
     : fFacingTolerance(0.0f), fNeedWalkingForward(false) { }
-
-plObjectInVolumeAndFacingDetector::~plObjectInVolumeAndFacingDetector() { }
-
-IMPLEMENT_CREATABLE(plObjectInVolumeAndFacingDetector,
-                    kObjectInVolumeAndFacingDetector,
-                    plObjectInVolumeDetector)
 
 void plObjectInVolumeAndFacingDetector::read(hsStream* S, plResManager* mgr) {
     plObjectInVolumeDetector::read(S, mgr);

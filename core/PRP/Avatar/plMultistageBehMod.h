@@ -5,6 +5,8 @@
 #include "plAnimStage.h"
 
 DllClass plMultistageBehMod : public plSingleModifier {
+    CREATABLE(plMultistageBehMod, kMultistageBehMod, plSingleModifier)
+
 protected:
     hsTArray<plAnimStage*> fStages;
     bool fFreezePhys, fSmartSeek, fReverseFBControlsOnRelease;
@@ -14,8 +16,6 @@ public:
     plMultistageBehMod();
     virtual ~plMultistageBehMod();
 
-    DECLARE_CREATABLE(plMultistageBehMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -24,25 +24,25 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumStages() const;
-    plAnimStage* getStage(size_t idx) const;
-    void addStage(plAnimStage* stage);
+    const hsTArray<plAnimStage*>& getStages() const { return fStages; }
+    hsTArray<plAnimStage*>& getStages() { return fStages; }
+    void addStage(plAnimStage* stage) { fStages.append(stage); }
     void delStage(size_t idx);
     void clearStages();
 
-    size_t getNumReceivers() const;
-    plKey getReceiver(size_t idx) const;
-    void addReceiver(plKey receiver);
-    void delReceiver(size_t idx);
-    void clearReceivers();
+    const hsTArray<plKey>& getReceivers() const { return fReceivers; }
+    hsTArray<plKey>& getReceivers() { return fReceivers; }
+    void addReceiver(plKey receiver) { fReceivers.append(receiver); }
+    void delReceiver(size_t idx) { fReceivers.remove(idx); }
+    void clearReceivers() { fReceivers.clear(); }
 
-    bool getFreezePhys() const;
-    bool getSmartSeek() const;
-    bool getReverseFBControlsOnRelease() const;
+    bool getFreezePhys() const { return fFreezePhys; }
+    bool getSmartSeek() const { return fSmartSeek; }
+    bool getReverseFBControlsOnRelease() const { return fReverseFBControlsOnRelease; }
 
-    void setFreezePhys(bool freeze);
-    void setSmartSeek(bool seek);
-    void setReverseFBControlsOnRelease(bool release);
+    void setFreezePhys(bool freeze) { fFreezePhys = freeze; }
+    void setSmartSeek(bool seek) { fSmartSeek = seek; }
+    void setReverseFBControlsOnRelease(bool reverse) { fReverseFBControlsOnRelease = reverse; }
 };
 
 #endif

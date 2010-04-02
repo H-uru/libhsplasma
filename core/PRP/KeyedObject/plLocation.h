@@ -29,10 +29,9 @@ protected:
 public:
     plLocation(PlasmaVer pv=pvUnknown);
     plLocation(const plLocation& init);
-    ~plLocation();
 
-    PlasmaVer getVer() const;
-    void setVer(PlasmaVer pv);
+    PlasmaVer getVer() const { return fVer; }
+    void setVer(PlasmaVer pv) { fVer = pv; }
 
     plLocation& operator=(const plLocation& other);
     bool operator==(const plLocation& other) const;
@@ -48,20 +47,20 @@ public:
     void prcParse(const pfPrcTag* tag);
 
     void invalidate();
-    bool isValid() const;
+    bool isValid() const { return (fState != kStateInvalid); }
 
-    bool isReserved() const;
-    bool isItinerant() const;
-    bool isVirtual() const;
-    bool isGlobal() const;
+    bool isReserved() const { return (fFlags & kReserved) != 0; }
+    bool isItinerant() const { return (fFlags & kItinerant) != 0; }
+    bool isVirtual() const { return (fState == kStateVirtual); }
+    bool isGlobal() const { return (fSeqPrefix < 0); }
     void setVirtual();
 
-    int getPageNum() const;
-    int getSeqPrefix() const;
-    unsigned short getFlags() const;
+    int getPageNum() const { return fPageNum; }
+    int getSeqPrefix() const { return fSeqPrefix; }
+    unsigned short getFlags() const { return fFlags; }
     void setPageNum(int pn);
     void setSeqPrefix(int sp);
-    void setFlags(unsigned short flags);
+    void setFlags(unsigned short flags) { fFlags = flags; }
     void set(int pid, unsigned short flags, PlasmaVer pv);
 
     plString toString() const;

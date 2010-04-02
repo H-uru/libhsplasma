@@ -179,9 +179,6 @@ plUnifiedTime::operator tm*() {
     return IGetTime(&fSecs);
 }
 
-unsigned int plUnifiedTime::getSecs() const { return fSecs; }
-unsigned int plUnifiedTime::getMicros() const { return fMicros; }
-
 double plUnifiedTime::getSecsDouble() const {
     return (double)fSecs + ((double)fMicros / 1000000.0);
 }
@@ -208,10 +205,6 @@ void plUnifiedTime::getTime(int& year, int& month, int& day, int& hour,
 tm* plUnifiedTime::getTm() const {
     return IGetTime(&fSecs);
 }
-
-void plUnifiedTime::setSecs(unsigned int secs) { fSecs = secs; }
-void plUnifiedTime::setMicros(unsigned int micros) { fMicros = micros; }
-void plUnifiedTime::setMode(Mode mode) { fMode = mode; }
 
 void plUnifiedTime::setSecsDouble(double secs) {
     double ipart, fpart;
@@ -305,15 +298,6 @@ plString plUnifiedTime::format(const char* fmt) {
 
 void plUnifiedTime::fromString(const char* buf, const char* fmt) {
     operator=(FromString(buf, fmt));
-}
-
-bool plUnifiedTime::atEpoch() const {
-    return (fSecs == 0 && fMicros == 0);
-}
-
-void plUnifiedTime::toEpoch() {
-    fSecs = 0;
-    fMicros = 0;
 }
 
 void plUnifiedTime::toGMT() {

@@ -1,25 +1,6 @@
 #include "plAudible.h"
 
-/* plAudible */
-plAudible::plAudible() { }
-plAudible::~plAudible() { }
-
-IMPLEMENT_CREATABLE(plAudible, kAudible, hsKeyedObject)
-
-
-/* plAudibleNull */
-plAudibleNull::plAudibleNull() { }
-plAudibleNull::~plAudibleNull() { }
-
-IMPLEMENT_CREATABLE(plAudibleNull, kAudibleNull, plAudible)
-
-
 /* plWinAudible */
-plWinAudible::plWinAudible() { }
-plWinAudible::~plWinAudible() { }
-
-IMPLEMENT_CREATABLE(plWinAudible, kWinAudible, plAudible)
-
 void plWinAudible::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
@@ -65,19 +46,3 @@ void plWinAudible::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
-
-size_t plWinAudible::getNumSounds() const { return fSoundObjs.getSize(); }
-plKey plWinAudible::getSound(size_t idx) const { return fSoundObjs[idx]; }
-void plWinAudible::addSound(plKey sound) { fSoundObjs.append(sound); }
-void plWinAudible::delSound(size_t idx) { fSoundObjs.remove(idx); }
-void plWinAudible::clearSounds() { fSoundObjs.clear(); }
-
-plKey plWinAudible::getSceneNode() const { return fSceneNode; }
-void plWinAudible::setSceneNode(plKey node) { fSceneNode = node; }
-
-
-/* pl2WayWinAudible */
-pl2WayWinAudible::pl2WayWinAudible() { }
-pl2WayWinAudible::~pl2WayWinAudible() { }
-
-IMPLEMENT_CREATABLE(pl2WayWinAudible, k2WayWinAudible, plWinAudible)

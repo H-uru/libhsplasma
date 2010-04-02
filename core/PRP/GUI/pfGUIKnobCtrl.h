@@ -5,6 +5,8 @@
 #include "Math/hsGeometry3.h"
 
 DllClass pfGUIKnobCtrl : public pfGUIValueCtrl {
+    CREATABLE(pfGUIKnobCtrl, kGUIKnobCtrl, pfGUIValueCtrl)
+
 public:
     enum KnobFlags {
         kReverseValues = kDerivedFlagsStart, kLeftRightOrientation,
@@ -18,9 +20,6 @@ protected:
 
 public:
     pfGUIKnobCtrl();
-    virtual ~pfGUIKnobCtrl();
-
-    DECLARE_CREATABLE(pfGUIKnobCtrl)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -30,19 +29,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumAnimationKeys() const;
-    plKey getAnimationKey(size_t idx) const;
-    void addAnimationKey(plKey key);
-    void delAnimationKey(size_t idx);
-    void clearAnimationKeys();
+    const hsTArray<plKey>& getAnimationKeys() const { return fAnimationKeys; }
+    hsTArray<plKey>& getAnimationKeys() { return fAnimationKeys; }
+    void addAnimationKey(plKey key) { fAnimationKeys.append(key); }
+    void delAnimationKey(size_t idx) { fAnimationKeys.remove(idx); }
+    void clearAnimationKeys() { fAnimationKeys.clear(); }
 
-    const plString& getAnimName() const;
-    const hsVector3& getAnimStartPos() const;
-    const hsVector3& getAnimEndPos() const;
+    plString getAnimName() const { return fAnimName; }
+    hsVector3 getAnimStartPos() const { return fAnimStartPos; }
+    hsVector3 getAnimEndPos() const { return fAnimEndPos; }
 
-    void setAnimName(const plString& name);
-    void setAnimStartPos(const hsVector3& pos);
-    void setAnimEndPos(const hsVector3& pos);
+    void setAnimName(const plString& name) { fAnimName = name; }
+    void setAnimStartPos(const hsVector3& pos) { fAnimStartPos = pos; }
+    void setAnimEndPos(const hsVector3& pos) { fAnimEndPos = pos; }
 };
 
 #endif

@@ -7,10 +7,6 @@ plStereizer::plStereizer()
     fFlags.setName(kHasMaster, "kHasMaster");
 }
 
-plStereizer::~plStereizer() { }
-
-IMPLEMENT_CREATABLE(plStereizer, kStereizer, plSingleModifier)
-
 void plStereizer::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -63,16 +59,3 @@ void plStereizer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-float plStereizer::getAmbientDist() const { return fAmbientDist; }
-float plStereizer::getTransition() const { return fTransition; }
-float plStereizer::getMaxSepDist() const { return fMaxSepDist; }
-float plStereizer::getMinSepDist() const { return fMinSepDist; }
-float plStereizer::getTanAng() const { return fTanAng; }
-hsVector3 plStereizer::getInitPos() const { return fInitPos; }
-
-void plStereizer::setAmbientDist(float dist) { fAmbientDist = dist; }
-void plStereizer::setTransition(float transition) { fTransition = transition; }
-void plStereizer::setSepDist(float min, float max) { fMinSepDist = min; fMaxSepDist = max; }
-void plStereizer::setTanAng(float ang) { fTanAng = ang; }
-void plStereizer::setInitPos(const hsVector3& pos) { fInitPos = pos; }

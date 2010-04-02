@@ -24,17 +24,17 @@ private:
 
 public:
     plNetServerSessionInfo();
-    ~plNetServerSessionInfo();
 
     void read(hsStream* S);
     void write(hsStream* S);
 
-    unsigned char getContents() const;
-    plString getServerName() const;
-    plString getServerAddr() const;
-    unsigned char getServerType() const;
-    unsigned short getServerPort() const;
-    plUuid getServerGuid() const;
+public:
+    unsigned char getContents() const { return fContents; }
+    plString getServerName() const { return fServerName; }
+    plString getServerAddr() const { return fServerAddr; }
+    unsigned char getServerType() const { return fServerType; }
+    unsigned short getServerPort() const { return fServerPort; }
+    plUuid getServerGuid() const { return fServerGuid; }
 
     void setServerName(const plString& name);
     void setServerAddr(const plString& addr);
@@ -48,6 +48,7 @@ public:
     void clearServerPort();
     void clearServerGuid();
 };
+
 
 DllClass plNetGameServerState {
 public:
@@ -72,21 +73,26 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
 
-    unsigned int getFlags() const;
-    unsigned short getMajorVer() const;
-    unsigned short getMinorVer() const;
-    plNetServerSessionInfo& getSession();
-    plSDLMgr& getSDLMgr();
+public:
+    unsigned int getFlags() const { return fFlags; }
+    unsigned short getMajorVer() const { return fMajorVer; }
+    unsigned short getMinorVer() const { return fMinorVer; }
+    const plNetServerSessionInfo& getSession() const { return fSession; }
+    plNetServerSessionInfo& getSession() { return fSession; }
+    const plSDLMgr& getSDLMgr() const { return fSDLMgr; }
+    plSDLMgr& getSDLMgr() { return fSDLMgr; }
 
-    void setFlags(unsigned int flags);
-    void setVersion(unsigned short major, unsigned short minor);
+    void setFlags(unsigned int flags) { fFlags = flags; }
 
-    void clearRecords();
-    size_t numRecords() const;
-    plStateDataRecord* getRecord(size_t idx) const;
-    plUoid getObject(size_t idx) const;
+    void setVersion(unsigned short major, unsigned short minor)
+    { fMajorVer = major; fMinorVer = minor; }
+
+    size_t numRecords() const { return fRecords.getSize(); }
+    plStateDataRecord* getRecord(size_t idx) const { return fRecords[idx]; }
+    plUoid getObject(size_t idx) const { return fObjects[idx]; }
     void addRecord(plStateDataRecord* rec, const plUoid& obj);
     void delRecord(size_t idx);
+    void clearRecords();
 };
 
 #endif

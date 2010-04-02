@@ -1,14 +1,10 @@
 #include "plArmatureMod.h"
 
 /* plArmatureModBase */
-plArmatureModBase::plArmatureModBase() { }
-
 plArmatureModBase::~plArmatureModBase() {
     for (size_t i=0; i<fBrains.getSize(); i++)
         delete fBrains[i];
 }
-
-IMPLEMENT_CREATABLE(plArmatureModBase, kArmatureModBase, plAGMasterMod)
 
 void plArmatureModBase::read(hsStream* S, plResManager* mgr) {
     plAGMasterMod::read(S, mgr);
@@ -115,10 +111,6 @@ void plArmatureModBase::clearBrains() {
 /* plArmatureMod */
 plArmatureMod::plArmatureMod()
              : fBodyType(0), fPhysHeight(0.0f), fPhysWidth(0.0f) { }
-
-plArmatureMod::~plArmatureMod() { }
-
-IMPLEMENT_CREATABLE(plArmatureMod, kArmatureMod, plArmatureModBase)
 
 void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     plAGMasterMod::read(S, mgr);
@@ -282,11 +274,6 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plArmatureLODMod */
-plArmatureLODMod::plArmatureLODMod() { }
-plArmatureLODMod::~plArmatureLODMod() { }
-
-IMPLEMENT_CREATABLE(plArmatureLODMod, kArmatureLODMod, plArmatureMod)
-
 void plArmatureLODMod::read(hsStream* S, plResManager* mgr) {
     plArmatureMod::read(S, mgr);
 

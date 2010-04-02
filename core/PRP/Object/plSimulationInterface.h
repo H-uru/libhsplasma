@@ -4,6 +4,8 @@
 #include "plObjInterface.h"
 
 DllClass plSimulationInterface : public plObjInterface {
+    CREATABLE(plSimulationInterface, kSimulationInterface, plObjInterface)
+
 public:
     enum plSimulationProperties {
         kDisable, kWeightless, kPinned, kWarp, kUpright, kPassive,
@@ -17,9 +19,6 @@ protected:
 
 public:
     plSimulationInterface();
-    virtual ~plSimulationInterface();
-
-    DECLARE_CREATABLE(plSimulationInterface)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -29,8 +28,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getPhysical() const;
-    void setPhysical(plKey phys);
+    plKey getPhysical() const { return fPhysical; }
+    void setPhysical(plKey phys) { fPhysical = phys; }
 };
 
 #endif

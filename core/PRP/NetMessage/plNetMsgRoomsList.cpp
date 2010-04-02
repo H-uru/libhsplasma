@@ -1,11 +1,6 @@
 #include "plNetMsgRoomsList.h"
 
 /* plNetMsgRoomsList */
-plNetMsgRoomsList::plNetMsgRoomsList() { }
-plNetMsgRoomsList::~plNetMsgRoomsList() { }
-
-IMPLEMENT_CREATABLE(plNetMsgRoomsList, kNetMsgRoomsList, plNetMessage)
-
 void plNetMsgRoomsList::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 
@@ -64,9 +59,6 @@ void plNetMsgRoomsList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plNetMsgPagingRoom */
 plNetMsgPagingRoom::plNetMsgPagingRoom() : fPageFlags(0) { }
-plNetMsgPagingRoom::~plNetMsgPagingRoom() { }
-
-IMPLEMENT_CREATABLE(plNetMsgPagingRoom, kNetMsgPagingRoom, plNetMsgRoomsList)
 
 void plNetMsgPagingRoom::read(hsStream* S, plResManager* mgr) {
     plNetMsgRoomsList::read(S, mgr);
@@ -93,8 +85,3 @@ void plNetMsgPagingRoom::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plNetMsgRoomsList::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plNetMsgGameStateRequest */
-IMPLEMENT_CREATABLE(plNetMsgGameStateRequest, kNetMsgGameStateRequest,
-                    plNetMsgRoomsList)

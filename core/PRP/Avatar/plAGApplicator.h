@@ -4,6 +4,8 @@
 #include "plAGChannel.h"
 
 DllClass plAGApplicator : public plCreatable {
+    CREATABLE(plAGApplicator, kAGApplicator, plCreatable)
+
 protected:
     plAGChannel* fChannel;
     bool fEnabled;
@@ -13,8 +15,6 @@ public:
     plAGApplicator();
     virtual ~plAGApplicator();
 
-    DECLARE_CREATABLE(plAGApplicator)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -23,24 +23,25 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plAGChannel* getChannel() const;
+    plAGChannel* getChannel() const { return fChannel; }
     void setChannel(plAGChannel*);
 
-    bool isEnabled() const;
-    plString getChannelName() const;
-    void setEnabled(bool enabled);
-    void setChannelName(const plString& channelName);
+    bool isEnabled() const { return fEnabled; }
+    plString getChannelName() const { return fChannelName; }
+
+    void setEnabled(bool enabled) { fEnabled = enabled; }
+    void setChannelName(const plString& channelName) { fChannelName = channelName; }
 };
 
+
 DllClass plSoundVolumeApplicator : public plAGApplicator {
+    CREATABLE(plSoundVolumeApplicator, kSoundVolumeApplicator, plAGApplicator)
+
 protected:
     unsigned int fIndex;
 
 public:
     plSoundVolumeApplicator();
-    virtual ~plSoundVolumeApplicator();
-
-    DECLARE_CREATABLE(plSoundVolumeApplicator)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -50,72 +51,41 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned int getIndex() const;
-    void setIndex(unsigned int index);
+    unsigned int getIndex() const { return fIndex; }
+    void setIndex(unsigned int index) { fIndex = index; }
 };
 
-DllClass plLightAmbientApplicator : public plAGApplicator {
-public:
-    plLightAmbientApplicator();
-    virtual ~plLightAmbientApplicator();
 
-    DECLARE_CREATABLE(plLightAmbientApplicator)
+DllClass plLightAmbientApplicator : public plAGApplicator {
+    CREATABLE(plLightAmbientApplicator, kLightAmbientApplicator, plAGApplicator)
 };
 
 DllClass plLightDiffuseApplicator : public plAGApplicator {
-public:
-    plLightDiffuseApplicator();
-    virtual ~plLightDiffuseApplicator();
-
-    DECLARE_CREATABLE(plLightDiffuseApplicator)
+    CREATABLE(plLightDiffuseApplicator, kLightDiffuseApplicator, plAGApplicator)
 };
 
 DllClass plLightSpecularApplicator : public plAGApplicator {
-public:
-    plLightSpecularApplicator();
-    virtual ~plLightSpecularApplicator();
-
-    DECLARE_CREATABLE(plLightSpecularApplicator)
+    CREATABLE(plLightSpecularApplicator, kLightSpecularApplicator, plAGApplicator)
 };
 
 DllClass plOmniApplicator : public plAGApplicator {
-public:
-    plOmniApplicator();
-    virtual ~plOmniApplicator();
-
-    DECLARE_CREATABLE(plOmniApplicator)
+    CREATABLE(plOmniApplicator, kOmniApplicator, plAGApplicator)
 };
 
 DllClass plOmniCutoffApplicator : public plAGApplicator {
-public:
-    plOmniCutoffApplicator();
-    virtual ~plOmniCutoffApplicator();
-
-    DECLARE_CREATABLE(plOmniCutoffApplicator)
+    CREATABLE(plOmniCutoffApplicator, kOmniCutoffApplicator, plAGApplicator)
 };
 
 DllClass plOmniSqApplicator : public plAGApplicator {
-public:
-    plOmniSqApplicator();
-    virtual ~plOmniSqApplicator();
-
-    DECLARE_CREATABLE(plOmniSqApplicator)
+    CREATABLE(plOmniSqApplicator, kOmniSqApplicator, plAGApplicator)
 };
 
 DllClass plSpotInnerApplicator : public plAGApplicator {
-public:
-    plSpotInnerApplicator();
-    virtual ~plSpotInnerApplicator();
-
-    DECLARE_CREATABLE(plSpotInnerApplicator)
+    CREATABLE(plSpotInnerApplicator, kSpotInnerApplicator, plAGApplicator)
 };
 
 DllClass plSpotOuterApplicator : public plAGApplicator {
-public:
-    plSpotOuterApplicator();
-    virtual ~plSpotOuterApplicator();
-
-    DECLARE_CREATABLE(plSpotOuterApplicator)
+    CREATABLE(plSpotOuterApplicator, kSpotOuterApplicator, plAGApplicator)
 };
 
 #endif

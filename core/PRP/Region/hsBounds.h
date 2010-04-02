@@ -8,11 +8,11 @@ protected:
     int fType;
 
 public:
+    virtual const char* ClassName() const { return "hsBounds"; }
+
     hsBounds();
     hsBounds(const hsBounds&);
-    virtual ~hsBounds();
-    
-    virtual const char* ClassName();
+    virtual ~hsBounds() { }
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
@@ -24,8 +24,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag);
 
 public:
-    int getType() const;
-    void setType(int type);
+    int getType() const { return fType; }
+    void setType(int type) { fType = type; }
 };
 
 DllClass hsBounds3 : public hsBounds {
@@ -39,11 +39,10 @@ protected:
     hsVector3 fMins, fMaxs, fCenter;
 
 public:
-    hsBounds3();
-    hsBounds3(const hsBounds3&);
-    virtual ~hsBounds3();
+    virtual const char* ClassName() const { return "hsBounds3"; }
 
-    virtual const char* ClassName();
+    hsBounds3() { }
+    hsBounds3(const hsBounds3&);
 
     void init(const hsVector3& right);
     hsBounds3 operator+(const hsBounds3& right) const;
@@ -58,15 +57,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag);
 
 public:
-    hsVector3 getMins() const;
-    hsVector3 getMaxs() const;
-    hsVector3 getCenter() const;
-    void setMins(const hsVector3& mins);
-    void setMaxs(const hsVector3& maxs);
-    void setCenter(const hsVector3& center);
+    hsVector3 getMins() const { return fMins; }
+    hsVector3 getMaxs() const { return fMaxs; }
+    hsVector3 getCenter() const { return fCenter; }
+
+    void setMins(const hsVector3& mins) { fMins = mins; }
+    void setMaxs(const hsVector3& maxs) { fMaxs = maxs; }
+    void setCenter(const hsVector3& center) { fCenter = center; }
 
     const hsVector3& updateCenter();
 };
+
 
 DllClass hsBounds3Ext : public hsBounds3 {
 public:
@@ -87,11 +88,10 @@ protected:
     float fRadius;
 
 public:
+    virtual const char* ClassName() const { return "hsBounds3Ext"; }
+
     hsBounds3Ext();
     hsBounds3Ext(const hsBounds3Ext&);
-    virtual ~hsBounds3Ext();
-
-    virtual const char* ClassName();
 
     hsBounds3Ext operator+(const hsBounds3Ext& right) const;
 
@@ -103,18 +103,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag);
 
 public:
-    unsigned int getFlags() const;
-    hsVector3 getCorner() const;
-    hsVector3 getAxis(size_t idx) const;
-    hsFloatPoint2 getDist(size_t idx) const;
-    float getRadius() const;
+    unsigned int getFlags() const { return fExtFlags; }
+    hsVector3 getCorner() const { return fCorner; }
+    hsVector3 getAxis(size_t idx) const { return fAxes[idx]; }
+    hsFloatPoint2 getDist(size_t idx) const { return fDists[idx]; }
+    float getRadius() const { return fRadius; }
 
-    void setFlags(unsigned int flags);
-    void setCorner(const hsVector3& corner);
-    void setAxis(size_t idx, const hsVector3& ax);
-    void setDist(size_t idx, const hsFloatPoint2& dist);
-    void setRadius(float rad);
+    void setFlags(unsigned int flags) { fExtFlags = flags; }
+    void setCorner(const hsVector3& corner) { fCorner = corner; }
+    void setAxis(size_t idx, const hsVector3& ax) { fAxes[idx] = ax; }
+    void setDist(size_t idx, const hsFloatPoint2& dist) { fDists[idx] = dist; }
+    void setRadius(float rad) { fRadius = rad; }
 };
+
 
 DllClass hsBoundsOriented : public hsBounds {
 protected:
@@ -124,11 +125,11 @@ protected:
     unsigned int fNumPlanes;
 
 public:
+    virtual const char* ClassName() const { return "hsBoundsOriented"; }
+
     hsBoundsOriented();
     hsBoundsOriented(const hsBoundsOriented&);
     virtual ~hsBoundsOriented();
-    
-    virtual const char* ClassName();
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -138,13 +139,13 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag);
 
 public:
-    unsigned int getCenterValid() const;
-    hsVector3 getCenter() const;
-    const hsPlane3* getPlanes() const;
-    unsigned int getNumPlanes() const;
+    unsigned int getCenterValid() const { return fCenterValid; }
+    hsVector3 getCenter() const { return fCenter; }
+    unsigned int getNumPlanes() const { return fNumPlanes; }
+    const hsPlane3* getPlanes() const { return fPlanes; }
 
-    void setCenterValid(unsigned int valid);
-    void setCenter(const hsVector3& center);
+    void setCenterValid(unsigned int valid) { fCenterValid = valid; }
+    void setCenter(const hsVector3& center) { fCenter = center; }
     void setPlanes(unsigned int numPlanes, const hsPlane3* planes);
 };
 

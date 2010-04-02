@@ -5,6 +5,8 @@
 #include "PRP/Region/plConvexVolume.h"
 
 DllClass plBoundInterface : public plObjInterface {
+    CREATABLE(plBoundInterface, kBoundInterface, plObjInterface)
+
 public:
     enum { kDisable, kNumProps };
 
@@ -15,8 +17,6 @@ public:
     plBoundInterface();
     virtual ~plBoundInterface();
 
-    DECLARE_CREATABLE(plBoundInterface)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -25,7 +25,7 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plConvexVolume* getBounds() const;
+    plConvexVolume* getBounds() const { return fBounds; }
     void setBounds(plConvexVolume* bounds);
 };
 

@@ -2,8 +2,11 @@
 #define _PLRESPONDERMODIFIER_H
 
 #include "plModifier.h"
+#include "PRP/Message/plMessage.h"
 
 DllClass plResponderModifier : public plSingleModifier {
+    CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
+
 public:
     DllClass plResponderCmd {
     public:
@@ -44,8 +47,6 @@ public:
     plResponderModifier();
     virtual ~plResponderModifier();
 
-    DECLARE_CREATABLE(plResponderModifier)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -54,30 +55,30 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumStates() const;
-    plResponderState* getState(size_t idx) const;
-    void addState(plResponderState* state);
+    const hsTArray<plResponderState*>& getStates() const { return fStates; }
+    hsTArray<plResponderState*>& getStates() { return fStates; }
+    void addState(plResponderState* state) { fStates.append(state); }
     void delState(size_t idx);
     void clearStates();
 
-    bool isEnabled() const;
-    size_t getCurState() const;
-    unsigned char getFlags() const;
+    bool isEnabled() const { return fEnabled; }
+    signed char getCurState() const { return fCurState; }
+    unsigned char getFlags() const { return fFlags; }
 
-    void setEnabled(bool enabled);
-    void setCurState(size_t state);
-    void setFlags(unsigned char flags);
+    void setEnabled(bool enabled) { fEnabled = enabled; }
+    void setCurState(signed char state) { fCurState = state; }
+    void setFlags(unsigned char flags) { fFlags = flags; }
 };
 
+
 DllClass plResponderEnableMsg : public plMessage {
+    CREATABLE(plResponderEnableMsg, kResponderEnableMsg, plMessage)
+
 protected:
     bool fEnable;
 
 public:
     plResponderEnableMsg();
-    virtual ~plResponderEnableMsg();
-
-    DECLARE_CREATABLE(plResponderEnableMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -87,8 +88,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool getEnable() const;
-    void setEnable(bool enable);
+    bool getEnable() const { return fEnable; }
+    void setEnable(bool enable) { fEnable = enable; }
 };
 
 #endif

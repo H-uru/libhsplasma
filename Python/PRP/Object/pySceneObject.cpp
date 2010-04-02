@@ -114,16 +114,16 @@ static PyObject* pySceneObject_getNode(pySceneObject* self, void*) {
 }
 
 static PyObject* pySceneObject_getIntfs(pySceneObject* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumInterfaces());
-    for (size_t i=0; i<self->fThis->getNumInterfaces(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getInterface(i)));
+    PyObject* list = PyList_New(self->fThis->getInterfaces().getSize());
+    for (size_t i=0; i<self->fThis->getInterfaces().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getInterfaces()[i]));
     return list;
 }
 
 static PyObject* pySceneObject_getMods(pySceneObject* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumModifiers());
-    for (size_t i=0; i<self->fThis->getNumModifiers(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getModifier(i)));
+    PyObject* list = PyList_New(self->fThis->getModifiers().getSize());
+    for (size_t i=0; i<self->fThis->getModifiers().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getModifiers()[i]));
     return list;
 }
 

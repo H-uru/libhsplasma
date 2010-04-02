@@ -6,16 +6,16 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plArmatureModBase : public plAGMasterMod {
+    CREATABLE(plArmatureModBase, kArmatureModBase, plAGMasterMod)
+
 protected:
     hsTArray<plKey> fMeshKeys;
     hsTArray<hsTArray<plKey> > fUnusedBones;
     hsTArray<plArmatureBrain*> fBrains;
 
 public:
-    plArmatureModBase();
+    plArmatureModBase() { }
     virtual ~plArmatureModBase();
-
-    DECLARE_CREATABLE(plArmatureModBase)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -30,6 +30,8 @@ public:
 
 
 DllClass plArmatureMod : public plArmatureModBase {
+    CREATABLE(plArmatureMod, kArmatureMod, plArmatureModBase)
+
 public:
     enum {
         kBoneBaseMale, kBoneBaseFemale, kBoneBaseCritter, kBoneBaseActor,
@@ -49,9 +51,6 @@ protected:
 
 public:
     plArmatureMod();
-    virtual ~plArmatureMod();
-
-    DECLARE_CREATABLE(plArmatureMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -63,12 +62,9 @@ protected:
 
 
 DllClass plArmatureLODMod : public plArmatureMod {
+    CREATABLE(plArmatureLODMod, kArmatureLODMod, plArmatureMod)
+
 public:
-    plArmatureLODMod();
-    virtual ~plArmatureLODMod();
-
-    DECLARE_CREATABLE(plArmatureLODMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

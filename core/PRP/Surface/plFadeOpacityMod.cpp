@@ -4,10 +4,6 @@ plFadeOpacityMod::plFadeOpacityMod() : fFadeUp(0.0f), fFadeDown(0.0f) {
     fFlags.setName(kBoundsCenter, "kBoundsCenter");
 }
 
-plFadeOpacityMod::~plFadeOpacityMod() { }
-
-IMPLEMENT_CREATABLE(plFadeOpacityMod, kFadeOpacityMod, plSingleModifier)
-
 void plFadeOpacityMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
     fFadeUp = S->readFloat();
@@ -37,9 +33,3 @@ void plFadeOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-float plFadeOpacityMod::getFadeUp() const { return fFadeUp; }
-float plFadeOpacityMod::getFadeDown() const { return fFadeDown; }
-
-void plFadeOpacityMod::setFadeUp(float fade) { fFadeUp = fade; }
-void plFadeOpacityMod::setFadeDown(float fade) { fFadeDown = fade; }

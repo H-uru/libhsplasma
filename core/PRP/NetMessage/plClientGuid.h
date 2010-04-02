@@ -5,6 +5,8 @@
 #include "Sys/plUuid.h"
 
 DllClass plClientGuid : public plCreatable {
+    CREATABLE(plClientGuid, kClientGuid, plCreatable)
+
 public:
     enum Flags {
         kAcctUuid = 0x1,
@@ -33,9 +35,6 @@ private:
 
 public:
     plClientGuid();
-    ~plClientGuid();
-
-    DECLARE_CREATABLE(plClientGuid)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

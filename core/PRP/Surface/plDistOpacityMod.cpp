@@ -5,8 +5,6 @@ plDistOpacityMod::plDistOpacityMod() {
         fDists[i] = 0.0f;
 }
 
-plDistOpacityMod::~plDistOpacityMod() { }
-
 void plDistOpacityMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
     for (size_t i=0; i<4; i++)

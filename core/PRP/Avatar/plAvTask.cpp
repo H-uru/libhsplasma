@@ -1,11 +1,6 @@
 #include "plAvTask.h"
 
 /* plAvTask */
-plAvTask::plAvTask() { }
-plAvTask::~plAvTask() { }
-
-IMPLEMENT_CREATABLE(plAvTask, kAvTask, plCreatable)
-
 void plAvTask::read(hsStream* S, plResManager* mgr) { }
 void plAvTask::write(hsStream* S, plResManager* mgr) { }
 void plAvTask::IPrcWrite(pfPrcHelper* prc) { }
@@ -19,10 +14,6 @@ void plAvTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plAvAnimTask::plAvAnimTask()
             : fInitialBlend(0.0f), fTargetBlend(0.0f), fFadeSpeed(0.0f),
               fSetTime(0.0f), fStart(false), fLoop(false), fAttach(false) { }
-
-plAvAnimTask::~plAvAnimTask() { }
-
-IMPLEMENT_CREATABLE(plAvAnimTask, kAvAnimTask, plAvTask)
 
 void plAvAnimTask::read(hsStream* S, plResManager* mgr) {
     fAnimName = S->readSafeStr();
@@ -75,19 +66,7 @@ void plAvAnimTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plAvOneShotTask */
-plAvOneShotTask::plAvOneShotTask() { }
-plAvOneShotTask::~plAvOneShotTask() { }
-
-IMPLEMENT_CREATABLE(plAvOneShotTask, kAvOneShotTask, plAvTask)
-
-
 /* plAvOneShotLinkTask */
-plAvOneShotLinkTask::plAvOneShotLinkTask() { }
-plAvOneShotLinkTask::~plAvOneShotLinkTask() { }
-
-IMPLEMENT_CREATABLE(plAvOneShotLinkTask, kAvOneShotLinkTask, plAvOneShotTask)
-
 void plAvOneShotLinkTask::read(hsStream* S, plResManager* mgr) {
     fAnimName = S->readSafeStr();
     fMarkerName = S->readSafeStr();
@@ -115,13 +94,6 @@ void plAvOneShotLinkTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plAvSeekTask */
-plAvSeekTask::plAvSeekTask() { }
-plAvSeekTask::~plAvSeekTask() { }
-
-IMPLEMENT_CREATABLE(plAvSeekTask, kAvSeekTask, plAvTask)
-
-
 /* plAvTaskBrain */
 plAvTaskBrain::plAvTaskBrain() : fBrain(NULL) { }
 
@@ -129,8 +101,6 @@ plAvTaskBrain::~plAvTaskBrain() {
     if (fBrain != NULL)
         delete fBrain;
 }
-
-IMPLEMENT_CREATABLE(plAvTaskBrain, kAvTaskBrain, plAvTask)
 
 void plAvTaskBrain::read(hsStream* S, plResManager* mgr) {
     setBrain(plArmatureBrain::Convert(mgr->ReadCreatable(S)));
@@ -163,17 +133,8 @@ void plAvTaskBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plArmatureBrain* plAvTaskBrain::getBrain() const { return fBrain; }
-
 void plAvTaskBrain::setBrain(plArmatureBrain* brain) {
     if (fBrain != NULL)
         delete fBrain;
     fBrain = brain;
 }
-
-
-/* plAvTaskSeek */
-plAvTaskSeek::plAvTaskSeek() { }
-plAvTaskSeek::~plAvTaskSeek() { }
-
-IMPLEMENT_CREATABLE(plAvTaskSeek, kAvTaskSeek, plAvTask)

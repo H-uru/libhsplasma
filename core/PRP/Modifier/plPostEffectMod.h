@@ -5,6 +5,8 @@
 #include "Math/hsMatrix44.h"
 
 DllClass plPostEffectMod : public plSingleModifier {
+    CREATABLE(plPostEffectMod, kPostEffectMod, plSingleModifier)
+
 public:
     enum plPostEffectModStates { kEnabled };
 
@@ -16,9 +18,6 @@ protected:
 
 public:
     plPostEffectMod();
-    virtual ~plPostEffectMod();
-
-    DECLARE_CREATABLE(plPostEffectMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

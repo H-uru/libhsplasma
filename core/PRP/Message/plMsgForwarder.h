@@ -4,15 +4,12 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plMsgForwarder : public hsKeyedObject {
+    CREATABLE(plMsgForwarder, kMsgForwarder, hsKeyedObject)
+
 protected:
     hsTArray<plKey> fForwardKeys;
 
 public:
-    plMsgForwarder();
-    virtual ~plMsgForwarder();
-
-    DECLARE_CREATABLE(plMsgForwarder)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,11 +18,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumForwardKeys() const;
-    plKey getForwardKey(size_t idx) const;
-    void addForwardKey(plKey fwd);
-    void delForwardKey(size_t idx);
-    void clearForwardKeys();
+    const hsTArray<plKey>& getForwardKeys() const { return fForwardKeys; }
+    hsTArray<plKey>& getForwardKeys() { return fForwardKeys; }
+    void addForwardKey(plKey fwd) { fForwardKeys.append(fwd); }
+    void delForwardKey(size_t idx) { fForwardKeys.remove(idx); }
+    void clearForwardKeys() { fForwardKeys.clear(); }
 };
 
 #endif

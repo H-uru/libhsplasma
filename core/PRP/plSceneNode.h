@@ -6,16 +6,13 @@
 #include "Util/hsTArray.hpp"
 
 DllClass plSceneNode : public hsKeyedObject {
+    CREATABLE(plSceneNode, kSceneNode, hsKeyedObject)
+
 protected:
     hsTArray<plKey> fSceneObjects;
-    hsTArray<plKey> fOtherObjects;
+    hsTArray<plKey> fPoolObjects;
 
 public:
-    plSceneNode();
-    virtual ~plSceneNode();
-
-    DECLARE_CREATABLE(plSceneNode)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -24,20 +21,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumSceneObjects() const;
-    plKey getSceneObject(size_t idx) const;
-    void addSceneObject(plKey obj);
-    void delSceneObject(size_t idx);
-    void clearSceneObjects();
+    const hsTArray<plKey>& getSceneObjects() const { return fSceneObjects; }
+    hsTArray<plKey>& getSceneObjects() { return fSceneObjects; }
+    void addSceneObject(plKey obj) { fSceneObjects.append(obj); }
+    void delSceneObject(size_t idx) { fSceneObjects.remove(idx); }
+    void clearSceneObjects() { fSceneObjects.clear(); }
 
-    size_t getNumPoolObjects() const;
-    plKey getPoolObject(size_t idx) const;
-    void addPoolObject(plKey obj);
-    void delPoolObject(size_t idx);
-    void clearPoolObjects();
-
-    hsTArray<plKey>& getSceneObjects();
-    hsTArray<plKey>& getPoolObjects();
+    const hsTArray<plKey>& getPoolObjects() const { return fPoolObjects; }
+    hsTArray<plKey>& getPoolObjects() { return fPoolObjects; }
+    void addPoolObject(plKey obj) { fPoolObjects.append(obj); }
+    void delPoolObject(size_t idx) { fPoolObjects.remove(idx); }
+    void clearPoolObjects() { fPoolObjects.clear(); }
 };
 
 #endif

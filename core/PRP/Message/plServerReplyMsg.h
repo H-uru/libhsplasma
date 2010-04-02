@@ -4,6 +4,8 @@
 #include "plMessage.h"
 
 DllClass plServerReplyMsg : public plMessage {
+    CREATABLE(plServerReplyMsg, kServerReplyMsg, plMessage)
+
 public:
     enum { kUnInit = -1, kDeny, kAffirm };
 
@@ -12,9 +14,6 @@ protected:
 
 public:
     plServerReplyMsg();
-    virtual ~plServerReplyMsg();
-
-    DECLARE_CREATABLE(plServerReplyMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -5,6 +5,8 @@
 #include <map>
 
 DllClass plATCAnim : public plAGAnim {
+    CREATABLE(plATCAnim, kATCAnim, plAGAnim)
+
 public:
     typedef std::map<plString, float> marker_t;
     typedef std::map<plString, std::pair<float, float> > loop_t;
@@ -21,9 +23,6 @@ protected:
 
 public:
     plATCAnim();
-    virtual ~plATCAnim();
-
-    DECLARE_CREATABLE(plATCAnim)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -33,52 +32,61 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    marker_t& getMarkers();
-    loop_t& getLoops();
+    const marker_t& getMarkers() const { return fMarkers; }
+    marker_t& getMarkers() { return fMarkers; }
+    const loop_t& getLoops() const { return fLoops; }
+    loop_t& getLoops() { return fLoops; }
 
-    float getInitial() const;
-    float getLoopStart() const;
-    float getLoopEnd() const;
-    bool getAutoStart() const;
-    bool getDoLoop() const;
-    unsigned char getEaseInType() const;
-    unsigned char getEaseOutType() const;
-    float getEaseInLength() const;
-    float getEaseInMin() const;
-    float getEaseInMax() const;
-    float getEaseOutLength() const;
-    float getEaseOutMin() const;
-    float getEaseOutMax() const;
+    float getInitial() const { return fInitial; }
+    float getLoopStart() const { return fLoopStart; }
+    float getLoopEnd() const { return fLoopEnd; }
+    bool getAutoStart() const { return fAutoStart; }
+    bool getDoLoop() const { return fLoop; }
+    unsigned char getEaseInType() const { return fEaseInType; }
+    unsigned char getEaseOutType() const { return fEaseOutType; }
+    float getEaseInLength() const { return fEaseInLength; }
+    float getEaseInMin() const { return fEaseInMin; }
+    float getEaseInMax() const { return fEaseInMax; }
+    float getEaseOutLength() const { return fEaseOutLength; }
+    float getEaseOutMin() const { return fEaseOutMin; }
+    float getEaseOutMax() const { return fEaseOutMax; }
 
     float getMarker(const plString& key) const;
     std::pair<float, float> getLoop(const plString& key) const;
-    const hsTArray<float>& getStops() const;
+    const hsTArray<float>& getStops() const { return fStopPoints; }
 
-    void setInitial(float init);
-    void setLoopStart(float start);
-    void setLoopEnd(float end);
-    void setAutoStart(bool autoStart);
-    void setDoLoop(bool loop);
-    void setEaseInType(unsigned char type);
-    void setEaseOutType(unsigned char type);
-    void setEaseInParams(float length, float min, float max);
-    void setEaseOutParams(float length, float min, float max);
+    void setInitial(float init) { fInitial = init; }
+    void setLoopStart(float start) { fLoopStart = start; }
+    void setLoopEnd(float end) { fLoopEnd = end; }
+    void setAutoStart(bool autoStart) { fAutoStart = autoStart; }
+    void setDoLoop(bool loop) { fLoop = loop; }
+    void setEaseInType(unsigned char type) { fEaseInType = type; }
+    void setEaseOutType(unsigned char type) { fEaseOutType = type; }
 
-    void setMarker(const plString& key, float value);
-    void setLoop(const plString& key, float start, float end);
-    void setStops(const hsTArray<float>& stops);
+    void setEaseInParams(float length, float min, float max)
+    { fEaseInLength = length; fEaseInMin = min; fEaseInMax = max; }
+
+    void setEaseOutParams(float length, float min, float max)
+    { fEaseOutLength = length; fEaseOutMin = min; fEaseOutMax = max; }
+
+    void setMarker(const plString& key, float value) { fMarkers[key] = value; }
+
+    void setLoop(const plString& key, float start, float end)
+    { fLoops[key] = std::pair<float, float>(start, end); }
+
+    void setStops(const hsTArray<float>& stops) { fStopPoints = stops; }
 };
 
+
 DllClass plEmoteAnim : public plATCAnim {
+    CREATABLE(plEmoteAnim, kEmoteAnim, plATCAnim)
+
 protected:
     plAGAnim::BodyUsage fBodyUsage;
     float fFadeIn, fFadeOut;
 
 public:
     plEmoteAnim();
-    virtual ~plEmoteAnim();
-
-    DECLARE_CREATABLE(plEmoteAnim)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -88,25 +96,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plAGAnim::BodyUsage getBodyUsage() const;
-    float getFadeIn() const;
-    float getFadeOut() const;
+    plAGAnim::BodyUsage getBodyUsage() const { return fBodyUsage; }
+    float getFadeIn() const { return fFadeIn; }
+    float getFadeOut() const { return fFadeOut; }
 
-    void setBodyUsage(plAGAnim::BodyUsage usage);
-    void setFadeIn(float fade);
-    void setFadeOut(float fade);
+    void setBodyUsage(plAGAnim::BodyUsage usage) { fBodyUsage = usage; }
+    void setFadeIn(float fade) { fFadeIn = fade; }
+    void setFadeOut(float fade) { fFadeOut = fade; }
 };
 
 DllClass plAGAnimBink : public plATCAnim {
+    CREATABLE(plAGAnimBink, kAGAnimBink, plATCAnim)
+
 protected:
     plString fBinkFilename, fSgtFilename, fSubtitleId;
 
 public:
-    plAGAnimBink();
-    virtual ~plAGAnimBink();
-
-    DECLARE_CREATABLE(plAGAnimBink)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -115,13 +120,13 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plString getBinkFilename() const;
-    plString getSgtFilename() const;
-    plString getSubtitleId() const;
+    plString getBinkFilename() const { return fBinkFilename; }
+    plString getSgtFilename() const { return fSgtFilename; }
+    plString getSubtitleId() const { return fSubtitleId; }
 
-    void setBinkFilename(const plString& filename);
-    void setSgtFilename(const plString& filename);
-    void setSubtitleId(const plString& id);
+    void setBinkFilename(const plString& filename) { fBinkFilename = filename; }
+    void setSgtFilename(const plString& filename) { fSgtFilename = filename; }
+    void setSubtitleId(const plString& id) { fSubtitleId = id; }
 };
 
 #endif

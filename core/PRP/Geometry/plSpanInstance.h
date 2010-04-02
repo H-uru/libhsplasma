@@ -32,7 +32,6 @@ protected:
 public:
     plSpanEncoding();
     plSpanEncoding(const plSpanEncoding& init);
-    ~plSpanEncoding();
 
     plSpanEncoding& operator=(const plSpanEncoding& init);
 
@@ -41,12 +40,14 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    unsigned int getCode() const;
-    float getPosScale() const;
+public:
+    unsigned int getCode() const { return fCode; }
+    float getPosScale() const { return fPosScale; }
 
-    void setCode(unsigned int code);
-    void setPosScale(float scale);
+    void setCode(unsigned int code) { fCode = code; }
+    void setPosScale(float scale) { fPosScale = scale; }
 };
+
 
 DllClass plSpanInstance {
 protected:

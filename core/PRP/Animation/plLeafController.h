@@ -4,6 +4,8 @@
 #include "plController.h"
 
 DllClass plLeafController : public plController {
+    CREATABLE(plLeafController, kLeafController, plController)
+
 protected:
     unsigned int fType, fUruUnknown;
     hsTArray<hsKeyFrame*> fKeys;
@@ -12,8 +14,6 @@ protected:
 public:
     plLeafController();
     virtual ~plLeafController();
-
-    DECLARE_CREATABLE(plLeafController)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -34,12 +34,12 @@ public:
     plLeafController* ExpandToKeyController() const;
     plLeafController* CompactToLeafController() const;
 
-    bool hasKeys() const;
-    bool hasEaseControllers() const;
+    bool hasKeys() const { return fKeys.getSize() != 0; }
+    bool hasEaseControllers() const { return fEaseControllers.getSize() != 0; }
 
-    unsigned int getType() const;
-    const hsTArray<hsKeyFrame*>& getKeys() const;
-    const hsTArray<class plEaseController*>& getEaseControllers() const;
+    unsigned int getType() const { return fType; }
+    const hsTArray<hsKeyFrame*>& getKeys() const { return fKeys; }
+    const hsTArray<class plEaseController*>& getEaseControllers() const { return fEaseControllers; }
 
     void setKeys(const hsTArray<hsKeyFrame*>& keys, unsigned int type);
     void setEaseControllers(const hsTArray<class plEaseController*>& controllers);

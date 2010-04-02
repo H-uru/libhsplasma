@@ -82,7 +82,7 @@ static int pySoundBuffer_setDataLength(pySoundBuffer* self, PyObject* value, voi
         PyErr_SetString(PyExc_TypeError, "dataLength should be an int");
         return -1;
     }
-    self->fThis->setDataLength(PyInt_AsLong(value));
+    self->fThis->setData(PyInt_AsLong(value), NULL);
     return 0;
 }
 

@@ -17,10 +17,6 @@ plSimulationInterface::plSimulationInterface() {
     fProps.setName(kAvAnimPushable, "kAvAnimPushable");
 }
 
-plSimulationInterface::~plSimulationInterface() { }
-
-IMPLEMENT_CREATABLE(plSimulationInterface, kSimulationInterface, plObjInterface)
-
 void plSimulationInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
@@ -58,6 +54,3 @@ void plSimulationInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
-
-plKey plSimulationInterface::getPhysical() const { return fPhysical; }
-void plSimulationInterface::setPhysical(plKey phys) { fPhysical = phys; }

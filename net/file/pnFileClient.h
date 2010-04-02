@@ -24,10 +24,12 @@ public:
     void setClientInfo(hsUint32 buildType, hsUint32 branchId, const plUuid& productId);
     virtual ENetError connect(const char* host, short port = 14617);
     virtual ENetError connect(int sockFd);
-    virtual bool isConnected() const;
 
-    virtual void signalStatus();
-    virtual void waitForStatus();
+    virtual bool isConnected() const
+    { return (fSock != NULL) && fSock->isConnected(); }
+
+    virtual void signalStatus() { fSock->signalStatus(); }
+    virtual void waitForStatus() { fSock->waitForStatus(); }
 
     /* Outgoing Protocol */
     void sendPingRequest(hsUint32 pingTimeMs);
@@ -54,7 +56,6 @@ private:
     class Dispatch : public hsThread {
     public:
         Dispatch(pnAsyncSocket* sock, pnFileClient* self);
-        virtual ~Dispatch();
 
     private:
         virtual void run();

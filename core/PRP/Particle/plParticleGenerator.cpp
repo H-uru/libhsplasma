@@ -1,12 +1,5 @@
 #include "plParticleGenerator.h"
 
-/* plParticleGenerator */
-plParticleGenerator::plParticleGenerator() { }
-plParticleGenerator::~plParticleGenerator() { }
-
-IMPLEMENT_CREATABLE(plParticleGenerator, kParticleGenerator, plCreatable)
-
-
 /* plOneTimeParticleGenerator */
 plOneTimeParticleGenerator::plOneTimeParticleGenerator()
                           : fCount(0), fPosition(NULL), fDirection(NULL),
@@ -19,9 +12,6 @@ plOneTimeParticleGenerator::~plOneTimeParticleGenerator() {
     if (fDirection != NULL)
         delete[] fDirection;
 }
-
-IMPLEMENT_CREATABLE(plOneTimeParticleGenerator, kOneTimeParticleGenerator,
-                    plParticleGenerator)
 
 void plOneTimeParticleGenerator::read(hsStream* S, plResManager* mgr) {
     fCount = S->readInt();
@@ -145,9 +135,6 @@ plSimpleParticleGenerator::~plSimpleParticleGenerator() {
     if (fInitYaw != NULL)
         delete[] fInitYaw;
 }
-
-IMPLEMENT_CREATABLE(plSimpleParticleGenerator, kSimpleParticleGenerator,
-                    plParticleGenerator)
 
 void plSimpleParticleGenerator::read(hsStream* S, plResManager* mgr) {
     fGenLife = S->readFloat();

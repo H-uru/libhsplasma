@@ -7,8 +7,8 @@
 
 DllClass pnClient {
 public:
-    pnClient();
-    virtual ~pnClient();
+    pnClient() { }
+    virtual ~pnClient() { }
 
     virtual ENetError connect(const char* host, short port = 14617) = 0;
     virtual ENetError connect(int sockFd) = 0;

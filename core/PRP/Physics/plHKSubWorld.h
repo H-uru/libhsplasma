@@ -5,15 +5,12 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plHKSubWorld : public plObjInterface {
+    CREATABLE(plHKSubWorld, kHKSubWorld, plObjInterface)
+
 private:
     hsVector3 fPosition;
 
 public:
-    plHKSubWorld();
-    virtual ~plHKSubWorld();
-
-    DECLARE_CREATABLE(plHKSubWorld)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

@@ -10,9 +10,6 @@ pnGameClient::Dispatch::Dispatch(pnRC4Socket* sock, pnGameClient* self)
             : fReceiver(self), fSock(sock)
 { }
 
-pnGameClient::Dispatch::~Dispatch()
-{ }
-
 void pnGameClient::Dispatch::run()
 {
     hsUint16 msgId;
@@ -191,15 +188,6 @@ ENetError pnGameClient::performConnect(pnSocket* sock)
     fDispatch->start();
     return kNetSuccess;
 }
-
-bool pnGameClient::isConnected() const
-{ return (fSock != NULL) && fSock->isConnected(); }
-
-void pnGameClient::signalStatus()
-{ fSock->signalStatus(); }
-
-void pnGameClient::waitForStatus()
-{ fSock->waitForStatus(); }
 
 void pnGameClient::sendPingRequest(hsUint32 pingTimeMs)
 {

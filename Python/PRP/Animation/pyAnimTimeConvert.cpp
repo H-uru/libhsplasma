@@ -114,9 +114,9 @@ static PyObject* pyAnimTimeConvert_getStops(pyAnimTimeConvert* self, void*) {
 }
 
 static PyObject* pyAnimTimeConvert_getCallbacks(pyAnimTimeConvert* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumCallbacks());
-    for (size_t i=0; i<self->fThis->getNumCallbacks(); i++)
-        PyList_SET_ITEM(list, i, pyEventCallbackMsg_FromEventCallbackMsg(self->fThis->getCallback(i)));
+    PyObject* list = PyList_New(self->fThis->getCallbacks().getSize());
+    for (size_t i=0; i<self->fThis->getCallbacks().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyEventCallbackMsg_FromEventCallbackMsg(self->fThis->getCallbacks()[i]));
     return list;
 }
 

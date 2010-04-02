@@ -1,10 +1,5 @@
 #include "plEAXListenerMod.h"
 
-plEAXListenerMod::plEAXListenerMod() { }
-plEAXListenerMod::~plEAXListenerMod() { }
-
-IMPLEMENT_CREATABLE(plEAXListenerMod, kEAXListenerMod, plSingleModifier)
-
 void plEAXListenerMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

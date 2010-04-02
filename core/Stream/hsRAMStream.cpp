@@ -27,15 +27,6 @@ void hsRAMStream::copyTo(void* data, size_t size) {
     memcpy(data, fData, cpysize);
 }
 
-hsUint32 hsRAMStream::size() const { return fSize; }
-hsUint32 hsRAMStream::pos() const { return fPos; }
-bool hsRAMStream::eof() const { return (fPos >= fSize); }
-
-void hsRAMStream::seek(hsUint32 pos) { fPos = pos; }
-void hsRAMStream::skip(hsInt32 count) { fPos += count; }
-void hsRAMStream::fastForward() { fPos = fSize; }
-void hsRAMStream::rewind() { fPos = 0; }
-
 size_t hsRAMStream::read(size_t size, void* buf) {
     if (size + fPos > fSize)
         throw hsFileReadException(__FILE__, __LINE__, "Read past end of buffer");

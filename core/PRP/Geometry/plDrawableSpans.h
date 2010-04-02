@@ -28,7 +28,10 @@ public:
     plDISpanIndex& operator=(const plDISpanIndex& cpy);
 };
 
+
 DllClass plDrawable : public hsKeyedObject {
+    CREATABLE(plDrawable, kDrawable, hsKeyedObject)
+
 public:
     enum {
         kPropNoDraw = 0x1,
@@ -78,16 +81,12 @@ public:
     static const unsigned int kSpanTypeIcicle = 0x00000000;
     static const unsigned int kSpanTypeUnknown = 0x80000000;
     static const unsigned int kSpanTypeParticleSpan = 0xC0000000;
-
-public:
-    plDrawable();
-    virtual ~plDrawable();
-
-    DECLARE_CREATABLE(plDrawable)
 };
 
 
 DllClass plDrawableSpans : public plDrawable {
+    CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
+
 protected:
     hsBounds3Ext fLocalBounds, fWorldBounds, fMaxWorldBounds;
     hsTArray<hsMatrix44> fLocalToWorlds, fWorldToLocals;
@@ -109,8 +108,6 @@ public:
     plDrawableSpans();
     virtual ~plDrawableSpans();
 
-    DECLARE_CREATABLE(plDrawableSpans)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -128,13 +125,14 @@ protected:
     void ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int axis);
 
 public:
-    size_t getNumSpans() const;
-    plSpan* getSpan(size_t idx) const;
-    void clearSpans();
+    size_t getNumSpans() const { return fSpans.getSize(); }
+    plSpan* getSpan(size_t idx) const { return fSpans[idx]; }
+    plIcicle* getIcicle(size_t idx) const { return (plIcicle*)fSpans[idx]; }
     size_t addIcicle(const plIcicle& span);
+    void clearSpans();
 
-    size_t getNumBufferGroups() const;
-    plGBufferGroup* getBuffer(size_t group) const;
+    size_t getNumBufferGroups() const { return fGroups.getSize(); }
+    plGBufferGroup* getBuffer(size_t group) const { return fGroups[group]; }
     size_t createBufferGroup(unsigned char format);
     void deleteBufferGroup(size_t group);
     hsTArray<plGBufferVertex> getVerts(const plIcicle* span) const;
@@ -144,43 +142,43 @@ public:
     void addIndices(size_t group, const hsTArray<unsigned short>& indices);
     void addCells(size_t group, const hsTArray<plGBufferCell>& cells);
 
-    size_t getNumDIIndices() const;
-    const plDISpanIndex& getDIIndex(size_t idx) const;
-    void clearDIIndices();
-    void addDIIndex(const plDISpanIndex& idx);
+    size_t getNumDIIndices() const { return fDIIndices.getSize(); }
+    const plDISpanIndex& getDIIndex(size_t idx) const { return fDIIndices[idx]; }
+    void clearDIIndices() { fDIIndices.clear(); }
+    void addDIIndex(const plDISpanIndex& idx) { fDIIndices.append(idx); }
 
-    size_t getNumTransforms() const;
-    hsMatrix44 getLocalToWorld(size_t idx) const;
-    hsMatrix44 getWorldToLocal(size_t idx) const;
-    hsMatrix44 getLocalToBone(size_t idx) const;
-    hsMatrix44 getBoneToLocal(size_t idx) const;
+    size_t getNumTransforms() const { return fLocalToWorlds.getSize(); }
+    hsMatrix44 getLocalToWorld(size_t idx) const { return fLocalToWorlds[idx]; }
+    hsMatrix44 getWorldToLocal(size_t idx) const { return fWorldToLocals[idx]; }
+    hsMatrix44 getLocalToBone(size_t idx) const { return fLocalToBones[idx]; }
+    hsMatrix44 getBoneToLocal(size_t idx) const { return fBoneToLocals[idx]; }
     void clearTransforms();
     void addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
                       const hsMatrix44& l2b, const hsMatrix44& b2l);
 
-    const hsBounds3Ext& getLocalBounds();
-    const hsBounds3Ext& getWorldBounds();
-    const hsBounds3Ext& getMaxWorldBounds();
-    void setLocalBounds(const hsBounds3Ext& bounds);
-    void setWorldBounds(const hsBounds3Ext& bounds);
-    void setMaxWorldBounds(const hsBounds3Ext& bounds);
+    const hsBounds3Ext& getLocalBounds() { return fLocalBounds; }
+    const hsBounds3Ext& getWorldBounds() { return fWorldBounds; }
+    const hsBounds3Ext& getMaxWorldBounds() { return fMaxWorldBounds; }
+    void setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }
+    void setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
+    void setMaxWorldBounds(const hsBounds3Ext& bounds) { fMaxWorldBounds = bounds; }
 
-    size_t getNumMaterials() const;
-    plKey getMaterial(size_t idx) const;
-    void clearMaterials();
-    void addMaterial(plKey mat);
+    const hsTArray<plKey>& getMaterials() const { return fMaterials; }
+    hsTArray<plKey>& getMaterials() { return fMaterials; }
+    void addMaterial(plKey mat) { fMaterials.append(mat); }
+    void clearMaterials() { fMaterials.clear(); }
 
-    plSpaceTree* getSpaceTree() const;
+    plSpaceTree* getSpaceTree() const { return fSpaceTree; }
     void setSpaceTree(plSpaceTree* tree);
 
-    unsigned int getProps() const;
-    unsigned int getCriteria() const;
-    unsigned int getRenderLevel() const;
-    plKey getSceneNode() const;
-    void setProps(unsigned int props);
-    void setCriteria(unsigned int crit);
-    void setRenderLevel(unsigned int level);
-    void setSceneNode(plKey node);
+    unsigned int getProps() const { return fProps; }
+    unsigned int getCriteria() const { return fCriteria; }
+    unsigned int getRenderLevel() const { return fRenderLevel; }
+    plKey getSceneNode() const { return fSceneNode; }
+    void setProps(unsigned int props) { fProps = props; }
+    void setCriteria(unsigned int crit) { fCriteria = crit; }
+    void setRenderLevel(unsigned int level) { fRenderLevel = level; }
+    void setSceneNode(plKey node) { fSceneNode = node; }
 };
 
 #endif

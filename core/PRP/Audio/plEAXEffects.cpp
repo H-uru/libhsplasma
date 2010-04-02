@@ -45,16 +45,6 @@ void plEAXSourceSoftSettings::prcParse(const pfPrcTag* tag) {
     fOcclusionDirectRatio = tag->getParam("DirectRatio", "0").toFloat();
 }
 
-short plEAXSourceSoftSettings::getOcclusion() const { return fOcclusion; }
-float plEAXSourceSoftSettings::getLFRatio() const { return fOcclusionLFRatio; }
-float plEAXSourceSoftSettings::getRoomRatio() const { return fOcclusionRoomRatio; }
-float plEAXSourceSoftSettings::getDirectRatio() const { return fOcclusionDirectRatio; }
-
-void plEAXSourceSoftSettings::setOcclusion(short occlusion) { fOcclusion = occlusion; }
-void plEAXSourceSoftSettings::setLFRatio(float ratio) { fOcclusionLFRatio = ratio; }
-void plEAXSourceSoftSettings::setRoomRatio(float ratio) { fOcclusionRoomRatio = ratio; }
-void plEAXSourceSoftSettings::setDirectRatio(float ratio) { fOcclusionDirectRatio = ratio; }
-
 
 /* plEAXSourceSettings */
 plEAXSourceSettings::plEAXSourceSettings() {
@@ -191,29 +181,3 @@ void plEAXSourceSettings::prcParse(const pfPrcTag* tag) {
         enable(false);
     }
 }
-
-bool plEAXSourceSettings::isEnabled() const { return fEnabled; }
-short plEAXSourceSettings::getRoom() const { return fRoom; }
-short plEAXSourceSettings::getRoomHF() const { return fRoomHF; }
-bool plEAXSourceSettings::getRoomAuto() const { return fRoomAuto; }
-bool plEAXSourceSettings::getRoomHFAuto() const { return fRoomHFAuto; }
-short plEAXSourceSettings::getOutsideVolHF() const { return fOutsideVolHF; }
-float plEAXSourceSettings::getAirAbsorptionFactor() const { return fAirAbsorptionFactor; }
-float plEAXSourceSettings::getRoomRolloffFactor() const { return fRoomRolloffFactor; }
-float plEAXSourceSettings::getDopplerFactor() const { return fDopplerFactor; }
-float plEAXSourceSettings::getRolloffFactor() const { return fRolloffFactor; }
-float plEAXSourceSettings::getOcclusionSoftValue() const { return fOcclusionSoftValue; }
-
-void plEAXSourceSettings::setRoom(short room) { fRoom = room; }
-void plEAXSourceSettings::setRoomHF(short room) { fRoomHF = room; }
-void plEAXSourceSettings::setRoomAuto(bool aut) { fRoomAuto = aut; }
-void plEAXSourceSettings::setRoomHFAuto(bool aut) { fRoomHFAuto = aut; }
-void plEAXSourceSettings::setOutsideVolHF(short vol) { fOutsideVolHF = vol; }
-void plEAXSourceSettings::setAirAbsorptionFactor(float factor) { fAirAbsorptionFactor = factor; }
-void plEAXSourceSettings::setRoomRolloffFactor(float factor) { fRoomRolloffFactor = factor; }
-void plEAXSourceSettings::setDopplerFactor(float factor) { fDopplerFactor = factor; }
-void plEAXSourceSettings::setRolloffFactor(float factor) { fRolloffFactor = factor; }
-void plEAXSourceSettings::setOcclusionSoftValue(float value) { fOcclusionSoftValue = value; }
-
-plEAXSourceSoftSettings& plEAXSourceSettings::getSoftStarts() { return fSoftStarts; }
-plEAXSourceSoftSettings& plEAXSourceSettings::getSoftEnds() { return fSoftEnds; }

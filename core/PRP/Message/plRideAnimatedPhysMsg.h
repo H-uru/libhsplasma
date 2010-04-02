@@ -4,15 +4,14 @@
 #include "plMessage.h"
 
 DllClass plRideAnimatedPhysMsg : public plMessage {
+    CREATABLE(plRideAnimatedPhysMsg, kRideAnimatedPhysMsg, plMessage)
+
 private:
     bool fEntering;
     plKey fRegion;
 
 public:
     plRideAnimatedPhysMsg();
-    virtual ~plRideAnimatedPhysMsg();
-
-    DECLARE_CREATABLE(plRideAnimatedPhysMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* s, plResManager* mgr);

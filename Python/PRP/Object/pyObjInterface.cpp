@@ -26,12 +26,28 @@ static PyObject* pyObjInterface_Convert(PyObject*, PyObject* args) {
     return pyObjInterface_FromObjInterface(plObjInterface::Convert(cre->fThis));
 }
 
-static PyObject* pyObjInterface_getOwner(pyObjInterface* self, void*) {
-    return pyKey_FromKey(self->fThis->getOwner());
+static PyObject* pyObjInterface_getProp(pyObjInterface* self, PyObject* args) {
+    int prop;
+    if (!PyArg_ParseTuple(args, "i", &prop)) {
+        PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
+        return NULL;
+    }
+    return PyBool_FromLong(self->fThis->getProperty(prop) ? 1 : 0);
 }
 
-static PyObject* pyObjInterface_getProps(pyObjInterface* self, void*) {
-    return pyBitVector_FromBitVector(self->fThis->getProperties());
+static PyObject* pyObjInterface_setProp(pyObjInterface* self, PyObject* args) {
+    int prop, value;
+    if (!PyArg_ParseTuple(args, "ii", &prop, &value)) {
+        PyErr_SetString(PyExc_TypeError, "setProperty expects int, bool");
+        return NULL;
+    }
+    self->fThis->setProperty(prop, value != 0);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyObjInterface_getOwner(pyObjInterface* self, void*) {
+    return pyKey_FromKey(self->fThis->getOwner());
 }
 
 static int pyObjInterface_setOwner(pyObjInterface* self, PyObject* value, void*) {
@@ -47,22 +63,21 @@ static int pyObjInterface_setOwner(pyObjInterface* self, PyObject* value, void*)
     }
 }
 
-static int pyObjInterface_setProps(pyObjInterface* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "properties is not assignable");
-    return -1;
-}
-
 PyMethodDef pyObjInterface_Methods[] = {
     { "Convert", (PyCFunction)pyObjInterface_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plObjInterface" },
+    { "getProperty", (PyCFunction)pyObjInterface_getProp, METH_VARARGS,
+      "Params: flag\n"
+      "Returns whether the specified property is set" },
+    { "setProperty", (PyCFunction)pyObjInterface_setProp, METH_VARARGS,
+      "Params: flag, value\n"
+      "Sets the specified property" },
     { NULL, NULL, 0, NULL }
 };
 
 PyGetSetDef pyObjInterface_GetSet[] = {
     { "owner", (getter)pyObjInterface_getOwner, (setter)pyObjInterface_setOwner,
       "The SceneObject that owns this interface", NULL },
-    { "properties", (getter)pyObjInterface_getProps, (setter)pyObjInterface_setProps,
-      "Properties for this interface", NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

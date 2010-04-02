@@ -3,10 +3,6 @@
 plLinkEffectsTriggerMsg::plLinkEffectsTriggerMsg() 
                        : fInvisLevel(0), fEffects(0), fLeavingAge(false) { }
 
-plLinkEffectsTriggerMsg::~plLinkEffectsTriggerMsg() { }
-
-IMPLEMENT_CREATABLE(plLinkEffectsTriggerMsg, kLinkEffectsTriggerMsg, plMessage)
-
 void plLinkEffectsTriggerMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

@@ -35,11 +35,11 @@ METHODDEF(void) init_hsStream_source(j_decompress_ptr dinfo) {
 METHODDEF(boolean) hsStream_fill_input_buffer(j_decompress_ptr dinfo) {
     jpeg_hsStream_source* src = (jpeg_hsStream_source*)dinfo->src;
     size_t nbytes = INPUT_BUF_SIZE;
-    
+
     if (src->stream->pos() + nbytes > src->stream->size())
         nbytes = src->stream->size() - src->stream->pos();
     src->stream->read(nbytes, src->buffer);
-    
+
     if (nbytes <= 0) {
         if (src->start_of_stream)
             ERREXIT(dinfo, JERR_INPUT_EMPTY);

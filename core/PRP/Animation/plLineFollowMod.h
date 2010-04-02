@@ -5,6 +5,8 @@
 #include "plAnimPath.h"
 
 DllClass plLineFollowMod : public plMultiModifier {
+    CREATABLE(plLineFollowMod, kLineFollowMod, plMultiModifier)
+
 public:
     enum FollowMode {
         kFollowObject, kFollowListener, kFollowCamera, kFollowLocalAvatar
@@ -34,8 +36,6 @@ public:
     plLineFollowMod();
     virtual ~plLineFollowMod();
 
-    DECLARE_CREATABLE(plLineFollowMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -44,37 +44,33 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    FollowMode getFollowMode() const;
-    unsigned short getFollowFlags() const;
-    plAnimPath* getPath() const;
-    plKey getPathParent() const;
-    plKey getRefObj() const;
-    float getOffset() const;
-    float getOffsetClamp() const;
-    float getSpeedClamp() const;
+    FollowMode getFollowMode() const { return fFollowMode; }
+    unsigned short getFollowFlags() const { return fFollowFlags; }
+    plAnimPath* getPath() const { return fPath; }
+    plKey getPathParent() const { return fPathParent; }
+    plKey getRefObj() const { return fRefObj; }
+    float getOffset() const { return fOffset; }
+    float getOffsetClamp() const { return fOffsetClamp; }
+    float getSpeedClamp() const { return fSpeedClamp; }
 
-    void setFollowMode(FollowMode mode);
-    void setFollowFlags(unsigned short flags);
+    void setFollowMode(FollowMode mode) { fFollowMode = mode; }
+    void setFollowFlags(unsigned short flags) { fFollowFlags = flags; }
+    void setPathParent(plKey parent) { fPathParent = parent; }
+    void setRefObj(plKey obj) { fRefObj = obj; }
+    void setOffset(float offset) { fOffset = offset; }
+    void setOffsetClamp(float clamp) { fOffsetClamp = clamp; }
+    void setSpeedClamp(float clamp) { fSpeedClamp = clamp; }
     void setPath(plAnimPath* path);
-    void setPathParent(plKey parent);
-    void setRefObj(plKey obj);
-    void setOffset(float offset);
-    void setOffsetClamp(float clamp);
-    void setSpeedClamp(float clamp);
 
-    size_t getNumStereizers() const;
-    plKey getStereizer(size_t idx) const;
-    void addStereizer(plKey stereizer);
-    void delStereizer(size_t idx);
-    void clearStereizers();
+    const hsTArray<plKey>& getStereizers() const { return fStereizers; }
+    hsTArray<plKey>& getStereizers() { return fStereizers; }
+    void addStereizer(plKey stereizer) { fStereizers.append(stereizer); }
+    void delStereizer(size_t idx) { fStereizers.remove(idx); }
+    void clearStereizers() { fStereizers.clear(); }
 };
 
 DllClass plRailCameraMod : public plLineFollowMod {
-public:
-    plRailCameraMod();
-    virtual ~plRailCameraMod();
-
-    DECLARE_CREATABLE(plRailCameraMod)
+    CREATABLE(plRailCameraMod, kRailCameraMod, plLineFollowMod)
 };
 
 #endif

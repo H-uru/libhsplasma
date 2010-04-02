@@ -4,20 +4,17 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plArmatureEffect : public hsKeyedObject {
-public:
-    DECLARE_CREATABLE(plArmatureEffect)
+    CREATABLE(plArmatureEffect, kArmatureEffect, hsKeyedObject)
 };
 
+
 DllClass plArmatureEffectFootSound : public plArmatureEffect {
+    CREATABLE(plArmatureEffectFootSound, kArmatureEffectFootSound, plArmatureEffect)
+
 protected:
     hsTArray<plKey> fMods;
 
 public:
-    plArmatureEffectFootSound();
-    virtual ~plArmatureEffectFootSound();
-
-    DECLARE_CREATABLE(plArmatureEffectFootSound)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -26,7 +23,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plArmatureEffectsMgr : public hsKeyedObject {
+    CREATABLE(plArmatureEffectsMgr, kArmatureEffectsMgr, hsKeyedObject)
+
 public:
     enum {
         kFootDirt, kFootPuddle, kFootWater, kFootTile, kFootMetal,
@@ -41,11 +41,6 @@ protected:
     hsTArray<plKey> fEffects;
 
 public:
-    plArmatureEffectsMgr();
-    virtual ~plArmatureEffectsMgr();
-
-    DECLARE_CREATABLE(plArmatureEffectsMgr)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

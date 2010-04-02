@@ -1,10 +1,5 @@
 #include "plMorphDataSet.h"
 
-plMorphDataSet::plMorphDataSet() { }
-plMorphDataSet::~plMorphDataSet() { }
-
-IMPLEMENT_CREATABLE(plMorphDataSet, kMorphDataSet, hsKeyedObject)
-
 void plMorphDataSet::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 

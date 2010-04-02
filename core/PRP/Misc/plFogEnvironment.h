@@ -5,6 +5,8 @@
 #include "Sys/hsColor.h"
 
 DllClass plFogEnvironment : public hsKeyedObject {
+    CREATABLE(plFogEnvironment, kFogEnvironment, hsKeyedObject)
+
 public:
     enum FogType { kLinearFog, kExpFog, kExp2Fog, kNoFog };
 
@@ -17,9 +19,6 @@ protected:
 
 public:
     plFogEnvironment();
-    virtual ~plFogEnvironment();
-
-    DECLARE_CREATABLE(plFogEnvironment)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

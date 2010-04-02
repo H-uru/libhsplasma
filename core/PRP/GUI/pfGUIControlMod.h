@@ -24,7 +24,6 @@ private:
 
 public:
     pfGUIColorScheme();
-    ~pfGUIColorScheme();
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -35,26 +34,29 @@ private:
     void IReset();
 
 public:
-    hsColorRGBA getForeColor() const;
-    hsColorRGBA getBackColor() const;
-    hsColorRGBA getSelForeColor() const;
-    hsColorRGBA getSelBackColor() const;
-    int getTransparent() const;
-    plString getFontFace() const;
-    unsigned char getFontSize() const;
-    unsigned char getFontFlags() const;
+    hsColorRGBA getForeColor() const { return fForeColor; }
+    hsColorRGBA getBackColor() const { return fBackColor; }
+    hsColorRGBA getSelForeColor() const { return fSelForeColor; }
+    hsColorRGBA getSelBackColor() const { return fSelBackColor; }
+    int getTransparent() const { return fTransparent; }
+    plString getFontFace() const { return fFontFace; }
+    unsigned char getFontSize() const { return fFontSize; }
+    unsigned char getFontFlags() const { return fFontFlags; }
 
-    void setForeColor(const hsColorRGBA& color);
-    void setBackColor(const hsColorRGBA& color);
-    void setSelForeColor(const hsColorRGBA& color);
-    void setSelBackColor(const hsColorRGBA& color);
-    void setTransparent(int trans);
-    void setFontFace(const plString& face);
-    void setFontSize(unsigned char size);
-    void setFontFlags(unsigned char flags);
+    void setForeColor(const hsColorRGBA& color) { fForeColor = color; }
+    void setBackColor(const hsColorRGBA& color) { fBackColor = color; }
+    void setSelForeColor(const hsColorRGBA& color) { fSelForeColor = color; }
+    void setSelBackColor(const hsColorRGBA& color) { fSelBackColor = color; }
+    void setTransparent(int trans) { fTransparent = trans; }
+    void setFontFace(const plString& face) { fFontFace = face; }
+    void setFontSize(unsigned char size) { fFontSize = size; }
+    void setFontFlags(unsigned char flags) { fFontFlags = flags; }
 };
 
+
 DllClass pfGUIControlMod : public plSingleModifier {
+    CREATABLE(pfGUIControlMod, kGUIControlMod, plSingleModifier)
+
 public:
     enum {
         kWantsInterest, kInheritProcFromDlg, kIntangible, kXparentBgnd,
@@ -75,8 +77,6 @@ public:
     pfGUIControlMod();
     virtual ~pfGUIControlMod();
 
-    DECLARE_CREATABLE(pfGUIControlMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -85,29 +85,28 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumSoundIndices() const;
-    int getSoundIndex(size_t idx) const;
-    void addSoundIndex(int index);
-    void setSoundIndices(const hsTArray<int>& indices);
-    void clearSoundIndices();
+    const hsTArray<int>& getSoundIndices() const { return fSoundIndices; }
+    hsTArray<int>& getSoundIndices() { return fSoundIndices; }
+    void setSoundIndices(const hsTArray<int>& indices) { fSoundIndices = indices; }
+    void clearSoundIndices() { fSoundIndices.clear(); }
 
-    unsigned int getTagID() const;
-    bool getVisible() const;
-    pfGUICtrlProcWriteableObject* getHandler() const;
-    plKey getDynTextMap() const;
-    plKey getDynTextLayer() const;
-    pfGUIColorScheme* getColorScheme() const;
-    plKey getProxy() const;
-    plKey getSkin() const;
+    unsigned int getTagID() const { return fTagID; }
+    bool isVisible() const { return fVisible; }
+    pfGUICtrlProcWriteableObject* getHandler() const { return fHandler; }
+    plKey getDynTextMap() const { return fDynTextMap; }
+    plKey getDynTextLayer() const { return fDynTextLayer; }
+    pfGUIColorScheme* getColorScheme() const { return fColorScheme; }
+    plKey getProxy() const { return fProxy; }
+    plKey getSkin() const { return fSkin; }
 
-    void setTagID(unsigned int id);
-    void setVisible(bool visible);
+    void setTagID(unsigned int id) { fTagID = id; }
+    void setVisible(bool visible) { fVisible = visible; }
+    void setDynTextMap(plKey map) { fDynTextMap = map; }
+    void setDynTextLayer(plKey layer) { fDynTextLayer = layer; }
+    void setProxy(plKey proxy) { fProxy = proxy; }
+    void setSkin(plKey skin) { fSkin = skin; }
     void setHandler(pfGUICtrlProcWriteableObject* handler);
-    void setDynTextMap(plKey map);
-    void setDynTextLayer(plKey layer);
     void setColorScheme(pfGUIColorScheme* scheme);
-    void setProxy(plKey proxy);
-    void setSkin(plKey skin);
 };
 
 #endif

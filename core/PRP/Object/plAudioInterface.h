@@ -4,15 +4,12 @@
 #include "plObjInterface.h"
 
 DllClass plAudioInterface : public plObjInterface {
+    CREATABLE(plAudioInterface, kAudioInterface, plObjInterface)
+
 protected:
     plKey fAudible;
 
 public:
-    plAudioInterface();
-    virtual ~plAudioInterface();
-
-    DECLARE_CREATABLE(plAudioInterface)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,8 +18,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getAudible() const;
-    void setAudible(plKey audible);
+    plKey getAudible() const { return fAudible; }
+    void setAudible(plKey audible) { fAudible = audible; }
 };
 
 #endif

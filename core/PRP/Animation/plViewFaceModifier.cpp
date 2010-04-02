@@ -15,10 +15,6 @@ plViewFaceModifier::plViewFaceModifier() {
     fFlags.setName(kMaxBounds, "kMaxBounds");
 }
 
-plViewFaceModifier::~plViewFaceModifier() { }
-
-IMPLEMENT_CREATABLE(plViewFaceModifier, kViewFaceModifier, plSingleModifier)
-
 void plViewFaceModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -99,17 +95,3 @@ void plViewFaceModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-hsVector3 plViewFaceModifier::getScale() const { return fScale; }
-hsVector3 plViewFaceModifier::getOffset() const { return fOffset; }
-hsMatrix44 plViewFaceModifier::getLocalToParent() const { return fLocalToParent; }
-hsMatrix44 plViewFaceModifier::getParentToLocal() const { return fParentToLocal; }
-plKey plViewFaceModifier::getFaceObj() const { return fFaceObj; }
-hsBounds3Ext plViewFaceModifier::getMaxBounds() const { return fMaxBounds; }
-
-void plViewFaceModifier::setScale(const hsVector3& scale) { fScale = scale; }
-void plViewFaceModifier::setOffset(const hsVector3& offset) { fOffset = offset; }
-void plViewFaceModifier::setLocalToParent(const hsMatrix44& l2p) { fLocalToParent = l2p; }
-void plViewFaceModifier::setParentToLocal(const hsMatrix44& p2l) { fParentToLocal = p2l; }
-void plViewFaceModifier::setFaceObj(plKey obj) { fFaceObj = obj; }
-void plViewFaceModifier::setMaxBounds(const hsBounds3Ext& bounds) { fMaxBounds = bounds; }

@@ -11,8 +11,6 @@ plNotifyMsg::~plNotifyMsg() {
     }
 }
 
-IMPLEMENT_CREATABLE(plNotifyMsg, kNotifyMsg, plMessage)
-
 void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fType = S->readInt();
@@ -74,18 +72,6 @@ void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
-
-int plNotifyMsg::getType() const { return fType; }
-float plNotifyMsg::getState() const { return fState; }
-int plNotifyMsg::getID() const { return fID; }
-
-void plNotifyMsg::setType(int type) { fType = type; }
-void plNotifyMsg::setState(float state) { fState = state; }
-void plNotifyMsg::setID(int id) { fID = id; }
-
-size_t plNotifyMsg::getNumEvents() const { return fEvents.getSize(); }
-proEventData* plNotifyMsg::getEvent(size_t idx) const { return fEvents[idx]; }
-void plNotifyMsg::addEvent(proEventData* evt) { fEvents.append(evt); }
 
 void plNotifyMsg::delEvent(size_t idx) {
     if (fEvents[idx] != NULL)

@@ -4,6 +4,8 @@
 #include "PRP/Modifier/plModifier.h"
 
 DllClass pfObjectFlocker : public plSingleModifier {
+    CREATABLE(pfObjectFlocker, kObjectFlocker, plSingleModifier)
+
 public:
     DllStruct pfFlock {
         float fGoalWeight, fRandomWeight;
@@ -23,8 +25,6 @@ protected:
 public:
     pfObjectFlocker();
 
-    DECLARE_CREATABLE(pfObjectFlocker)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -33,17 +33,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned char getNumBoids() const;
-    bool getUseTargetRotation() const;
-    bool getRandomizeAnimationStart() const;
-    plKey getBoidKey() const;
+    unsigned char getNumBoids() const { return fNumBoids; }
+    bool getUseTargetRotation() const { return fUseTargetRotation; }
+    bool getRandomizeAnimationStart() const { return fRandomizeAnimationStart; }
+    plKey getBoidKey() const { return fBoidKey; }
 
-    void setNumBoids(unsigned char boids);
-    void setUseTargetRotation(bool use);
-    void setRandomizeAnimationStart(bool randomize);
-    void setBoidKey(plKey boidKey);
+    void setNumBoids(unsigned char boids) { fNumBoids = boids; }
+    void setUseTargetRotation(bool use) { fUseTargetRotation = use; }
+    void setRandomizeAnimationStart(bool randomize) { fRandomizeAnimationStart = randomize; }
+    void setBoidKey(plKey boidKey) { fBoidKey = boidKey; }
 
-    pfFlock& getFlock();
+    pfFlock& getFlock() { return fFlock; }
 };
 
 #endif

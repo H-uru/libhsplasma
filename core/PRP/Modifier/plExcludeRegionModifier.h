@@ -4,6 +4,8 @@
 #include "plModifier.h"
 
 DllClass plExcludeRegionModifier : public plSingleModifier {
+    CREATABLE(plExcludeRegionModifier, kExcludeRegionModifier, plSingleModifier)
+
 public:
     enum { kBlockCameras };
 
@@ -14,9 +16,6 @@ protected:
 
 public:
     plExcludeRegionModifier();
-    virtual ~plExcludeRegionModifier();
-
-    DECLARE_CREATABLE(plExcludeRegionModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

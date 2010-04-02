@@ -1,12 +1,6 @@
 #include "plActivatorConditionalObject.h"
 
 /* plActivatorConditionalObject */
-plActivatorConditionalObject::plActivatorConditionalObject() { }
-plActivatorConditionalObject::~plActivatorConditionalObject() { }
-
-IMPLEMENT_CREATABLE(plActivatorConditionalObject, kActivatorConditionalObject,
-                    plConditionalObject)
-
 void plActivatorConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fActivators.setSize(S->readInt());
@@ -41,15 +35,3 @@ void plActivatorConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* 
         plConditionalObject::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plActivatorActivatorConditionalObject */
-IMPLEMENT_CREATABLE(plActivatorActivatorConditionalObject,
-                    kActivatorActivatorConditionalObject,
-                    plActivatorConditionalObject)
-
-
-/* plVolActivatorConditionalObject */
-IMPLEMENT_CREATABLE(plVolActivatorConditionalObject,
-                    kVolActivatorConditionalObject,
-                    plActivatorConditionalObject)

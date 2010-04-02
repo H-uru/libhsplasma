@@ -4,10 +4,6 @@ plOneShotMod::plOneShotMod()
             : fDrivable(false), fReversable(false), fSmartSeek(false),
               fNoSeek(true), fSeekDuration(0.0f) { }
 
-plOneShotMod::~plOneShotMod() { }
-
-IMPLEMENT_CREATABLE(plOneShotMod, kOneShotMod, plMultiModifier)
-
 void plOneShotMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 
@@ -55,17 +51,3 @@ void plOneShotMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMultiModifier::IPrcParse(tag, mgr);
     }
 }
-
-plString plOneShotMod::getAnimName() const { return fAnimName; }
-bool plOneShotMod::isDrivable() const { return fDrivable; }
-bool plOneShotMod::isReversable() const { return fReversable; }
-bool plOneShotMod::getSmartSeek() const { return fSmartSeek; }
-bool plOneShotMod::getNoSeek() const { return fNoSeek; }
-float plOneShotMod::getSeekDuration() { return fSeekDuration; }
-
-void plOneShotMod::setAnimName(const plString& name) { fAnimName = name; }
-void plOneShotMod::setDrivable(bool drivable) { fDrivable = drivable; }
-void plOneShotMod::setReversable(bool reversable) { fReversable = reversable; }
-void plOneShotMod::setSmartSeek(bool smartSeek) { fSmartSeek = smartSeek; }
-void plOneShotMod::setNoSeek(bool noSeek) { fNoSeek = noSeek; }
-void plOneShotMod::setSeekDuration(float duration) { fSeekDuration = duration; }

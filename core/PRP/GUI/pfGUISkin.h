@@ -4,6 +4,8 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass pfGUISkin : public hsKeyedObject {
+    CREATABLE(pfGUISkin, kGUISkin, hsKeyedObject)
+
 public:
     enum Elements {
         kUpLeftCorner, kTopSpan, kUpRightCorner, kRightSpan, kLowerRightCorner,
@@ -30,9 +32,6 @@ protected:
 
 public:
     pfGUISkin();
-    virtual ~pfGUISkin();
-
-    DECLARE_CREATABLE(pfGUISkin)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -42,16 +41,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    pfSRect& getElement(size_t which);
-    const pfSRect& getElement(size_t which) const;
+    const pfSRect& getElement(size_t which) const { return fElements[which]; }
+    pfSRect& getElement(size_t which) { return fElements[which]; }
 
-    plKey getTexture() const;
-    unsigned short getItemMargin() const;
-    unsigned short getBorderMargin() const;
+    plKey getTexture() const { return fTexture; }
+    unsigned short getItemMargin() const { return fItemMargin; }
+    unsigned short getBorderMargin() const { return fBorderMargin; }
 
-    void setTexture(plKey tex);
-    void setItemMargin(unsigned short margin);
-    void setBorderMargin(unsigned short margin);
+    void setTexture(plKey tex) { fTexture = tex; }
+    void setItemMargin(unsigned short margin) { fItemMargin = margin; }
+    void setBorderMargin(unsigned short margin) { fBorderMargin = margin; }
 };
 
 #endif

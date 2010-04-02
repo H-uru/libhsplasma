@@ -1,9 +1,5 @@
 #include "hsMatrix33.h"
 
-float& hsMatrix33::operator()(int y, int x) {
-    return data[y][x];
-}
-
 void hsMatrix33::Reset() {
     for (int y=0; y<3; y++)
         for (int x=0; x<3; x++)

@@ -4,14 +4,14 @@
 #include "plNetMessage.h"
 
 DllClass plNetMsgInitialAgeStateSent : public plNetMsgServerToClient {
+    CREATABLE(plNetMsgInitialAgeStateSent, kNetMsgInitialAgeStateSent,
+              plNetMsgServerToClient)
+
 private:
     unsigned int fNumInitialStates;
 
 public:
     plNetMsgInitialAgeStateSent();
-    ~plNetMsgInitialAgeStateSent();
-
-    DECLARE_CREATABLE(plNetMsgInitialAgeStateSent)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

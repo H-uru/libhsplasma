@@ -8,8 +8,6 @@ plPythonMod::~plPythonMod() {
         delete[] fPythonCode;
 }
 
-IMPLEMENT_CREATABLE(plPythonMod, kPythonMod, plMultiModifier)
-
 void plPythonMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 

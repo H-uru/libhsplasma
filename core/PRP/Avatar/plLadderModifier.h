@@ -5,6 +5,8 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plAvLadderMod : public plSingleModifier {
+    CREATABLE(plAvLadderMod, kAvLadderMod, plSingleModifier)
+
 public:
     enum TypeField { kBig, kFourFeet, kTwoFeet, kNumTypeFields };
 
@@ -15,9 +17,6 @@ protected:
 
 public:
     plAvLadderMod();
-    virtual ~plAvLadderMod();
-
-    DECLARE_CREATABLE(plAvLadderMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -27,17 +26,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plLadderModifier : public plSingleModifier {
+    CREATABLE(plLadderModifier, kLadderModifier, plSingleModifier)
+
 protected:
     plKey fTopLogic, fBottomLogic, fMainLogic;
     plKey fExitTop, fExitBottom, fTopPos, fBottomPos;
 
 public:
-    plLadderModifier();
-    virtual ~plLadderModifier();
-
-    DECLARE_CREATABLE(plLadderModifier)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

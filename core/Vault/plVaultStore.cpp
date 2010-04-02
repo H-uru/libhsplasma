@@ -131,9 +131,6 @@ std::vector<plVaultNode> plVaultStore::findParents(unsigned int child) const {
     return nodes;
 }
 
-unsigned int plVaultStore::getFirstNodeID() const { return fFirstNodeID; }
-unsigned int plVaultStore::getLastNodeID() const { return fLastNodeID; }
-
 plVaultNode& plVaultStore::addNode(const plVaultNode& node) {
     if (node.getNodeID() == 0) {
         fLastNodeID++;
@@ -148,10 +145,6 @@ plVaultNode& plVaultStore::addNode(const plVaultNode& node) {
         fNodes[node.getNodeID()] = node;
         return fNodes[node.getNodeID()];
     }
-}
-
-void plVaultStore::delNode(unsigned int idx) {
-    fNodes.erase(idx);
 }
 
 void plVaultStore::addRef(unsigned int parent, unsigned int child, unsigned int saver) {

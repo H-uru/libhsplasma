@@ -4,12 +4,13 @@
 #include "../Modifier/plModifier.h"
 
 DllClass plDistOpacityMod : public plSingleModifier {
+    CREATABLE(plDistOpacityMod, kDistOpacityMod, plSingleModifier)
+
 protected:
     float fDists[4];
 
 public:
     plDistOpacityMod();
-    virtual ~plDistOpacityMod();
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

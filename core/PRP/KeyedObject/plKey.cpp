@@ -8,8 +8,6 @@
 plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
                          fRefCnt(0) { }
 
-plKeyData::~plKeyData() { }
-
 bool plKeyData::operator==(plKeyData& other) const {
     return (fUoid == other.fUoid);
 }
@@ -63,32 +61,6 @@ plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
     }
 }
 
-plUoid& plKeyData::getUoid() { return fUoid; }
-class hsKeyedObject* plKeyData::getObj() { return fObjPtr; }
-void plKeyData::setObj(class hsKeyedObject* obj) { fObjPtr = obj; }
-
-short plKeyData::getType() const { return fUoid.getType(); }
-const plString& plKeyData::getName() const { return fUoid.getName(); }
-const plLocation& plKeyData::getLocation() const { return fUoid.getLocation(); }
-const plLoadMask& plKeyData::getLoadMask() const { return fUoid.getLoadMask(); }
-hsUint32 plKeyData::getID() const { return fUoid.getID(); }
-hsUint32 plKeyData::getCloneID() const { return fUoid.getCloneID(); }
-hsUint32 plKeyData::getClonePlayerID() const { return fUoid.getClonePlayerID(); }
-hsUint32 plKeyData::getFileOff() const { return fFileOff; }
-hsUint32 plKeyData::getObjSize() const { return fObjSize; }
-
-void plKeyData::setType(short type) { fUoid.setType(type); }
-void plKeyData::setName(const plString& name) { fUoid.setName(name); }
-void plKeyData::setLocation(const plLocation& loc) { fUoid.setLocation(loc); }
-void plKeyData::setLoadMask(const plLoadMask& mask) { fUoid.setLoadMask(mask); }
-void plKeyData::setID(hsUint32 id) { fUoid.setID(id); }
-void plKeyData::setCloneIDs(hsUint32 clone, hsUint32 player) { fUoid.setCloneIDs(clone, player); }
-void plKeyData::setFileOff(hsUint32 off) { fFileOff = off; }
-void plKeyData::setObjSize(hsUint32 size) { fObjSize = size; }
-
-hsUint32 plKeyData::RefCnt() const { return fRefCnt; }
-hsUint32 plKeyData::Ref() { return ++fRefCnt; }
-
 void plKeyData::UnRef() {
     if (--fRefCnt == 0) {
         //plDebug::Debug("Key %s no longer in use, deleting...", toString().cstr());
@@ -114,10 +86,6 @@ plKey::~plKey() {
     if (fKeyData != NULL)
         fKeyData->UnRef();
 }
-
-plKey::operator plKeyData*() const { return fKeyData; }
-plKeyData& plKey::operator*() const { return *fKeyData; }
-plKeyData* plKey::operator->() const { return fKeyData; }
 
 plKey& plKey::operator=(const plKey& other) {
     if (fKeyData != other.fKeyData) {

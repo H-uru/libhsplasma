@@ -42,15 +42,15 @@ private:
     static unsigned short CalcStride(unsigned short format);
 
 public:
-    unsigned short getNumVerts() const;
+    unsigned short getNumVerts() const { return fNumVerts; }
     hsTArray<Vertex> getVertices() const;
     void setVertices(const hsTArray<Vertex>& verts);
 
-    unsigned short getNumTris() const;
-    const unsigned short* getIndices() const;
+    unsigned short getNumTris() const { return fNumTris; }
+    const unsigned short* getIndices() const { return fIndices; }
     void setIndices(unsigned short count, const unsigned short* indices);
 
-    unsigned short getFormat() const;
+    unsigned short getFormat() const { return fFormat; }
     void setFormat(unsigned short fmt);
 };
 

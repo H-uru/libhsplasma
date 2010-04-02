@@ -5,6 +5,8 @@
 #include "Util/hsBitVector.h"
 
 DllClass plAnimCmdMsg : public plMessageWithCallbacks {
+    CREATABLE(plAnimCmdMsg, kAnimCmdMsg, plMessageWithCallbacks)
+
 public:
     enum ModCmds {
         kContinue, kStop, kSetLooping, kUnSetLooping, kSetBegin, kSetEnd,
@@ -23,9 +25,6 @@ protected:
 
 public:
     plAnimCmdMsg();
-    virtual ~plAnimCmdMsg();
-
-    DECLARE_CREATABLE(plAnimCmdMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

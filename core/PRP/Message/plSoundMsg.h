@@ -5,6 +5,8 @@
 #include "Util/hsBitVector.h"
 
 DllClass plSoundMsg : public plMessageWithCallbacks {
+    CREATABLE(plSoundMsg, kSoundMsg, plMessageWithCallbacks)
+
 public:
     enum ModCmds {
         kPlay, kStop, kSetLooping, kUnSetLooping, kSetBegin, kToggleState,
@@ -29,9 +31,6 @@ protected:
 
 public:
     plSoundMsg();
-    virtual ~plSoundMsg();
-
-    DECLARE_CREATABLE(plSoundMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -60,10 +60,30 @@ static PyObject* pyLogicModBase_delCommand(pyLogicModBase* self, PyObject* args)
     return Py_None;
 }
 
+static PyObject* pyLogicModBase_getFlag(pyLogicModBase* self, PyObject* args) {
+    int idx;
+    if (!PyArg_ParseTuple(args, "i", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
+        return NULL;
+    }
+    return PyBool_FromLong(self->fThis->getFlag(idx) ? 1 : 0);
+}
+
+static PyObject* pyLogicModBase_setFlag(pyLogicModBase* self, PyObject* args) {
+    int idx, value;
+    if (!PyArg_ParseTuple(args, "ii", &idx, &value)) {
+        PyErr_SetString(PyExc_TypeError, "setFlag expects int, bool");
+        return NULL;
+    }
+    self->fThis->setFlag(idx, value != 0);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyLogicModBase_getCommands(pyLogicModBase* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumCommands());
-    for (size_t i=0; i<self->fThis->getNumCommands(); i++)
-        PyList_SET_ITEM(list, i, pyMessage_FromMessage(self->fThis->getCommand(i)));
+    PyObject* list = PyList_New(self->fThis->getCommands().getSize());
+    for (size_t i=0; i<self->fThis->getCommands().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyMessage_FromMessage(self->fThis->getCommands()[i]));
     return list;
 }
 
@@ -73,10 +93,6 @@ static PyObject* pyLogicModBase_getNotify(pyLogicModBase* self, void*) {
 
 static PyObject* pyLogicModBase_getDisabled(pyLogicModBase* self, void*) {
     return PyBool_FromLong(self->fThis->isDisabled() ? 1 : 0);
-}
-
-static PyObject* pyLogicModBase_getLogicFlags(pyLogicModBase* self, void*) {
-    return pyBitVector_FromBitVector(self->fThis->getLogicFlags());
 }
 
 static int pyLogicModBase_setCommands(pyLogicModBase* self, PyObject* value, void*) {
@@ -107,11 +123,6 @@ static int pyLogicModBase_setDisabled(pyLogicModBase* self, PyObject* value, voi
     return 0;
 }
 
-static int pyLogicModBase_setLogicFlags(pyLogicModBase* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "logicFlags is not assignable");
-    return -1;
-}
-
 static PyMethodDef pyLogicModBase_Methods[] = {
     { "Convert", (PyCFunction)pyLogicModBase_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plLogicModBase" },
@@ -123,6 +134,12 @@ static PyMethodDef pyLogicModBase_Methods[] = {
     { "delCommand", (PyCFunction)pyLogicModBase_delCommand, METH_NOARGS,
       "Params: idx\n"
       "Remove a command" },
+    { "getLogicFlag", (PyCFunction)pyLogicModBase_getFlag, METH_VARARGS,
+      "Params: flag\n"
+      "Returns True if the LogicMod flag is set" },
+    { "setLogicFlag", (PyCFunction)pyLogicModBase_setFlag, METH_VARARGS,
+      "Params: flag, value\n"
+      "Sets the specified LogicMod flag" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -130,7 +147,6 @@ static PyGetSetDef pyLogicModBase_GetSet[] = {
     { "commands", (getter)pyLogicModBase_getCommands, (setter)pyLogicModBase_setCommands, NULL, NULL },
     { "notify", (getter)pyLogicModBase_getNotify, (setter)pyLogicModBase_setNotify, NULL, NULL },
     { "disabled", (getter)pyLogicModBase_getDisabled, (setter)pyLogicModBase_setDisabled, NULL, NULL },
-    { "logicFlags", (getter)pyLogicModBase_getLogicFlags, (setter)pyLogicModBase_setLogicFlags, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

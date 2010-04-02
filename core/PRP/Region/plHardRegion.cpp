@@ -1,18 +1,6 @@
 #include "plHardRegion.h"
 
-/* plHardRegion */
-plHardRegion::plHardRegion() { }
-plHardRegion::~plHardRegion() { }
-
-IMPLEMENT_CREATABLE(plHardRegion, kHardRegion, plRegionBase)
-
-
 /* plHardRegionComplex */
-plHardRegionComplex::plHardRegionComplex() { }
-plHardRegionComplex::~plHardRegionComplex() { }
-
-IMPLEMENT_CREATABLE(plHardRegionComplex, kHardRegionComplex, plHardRegion)
-
 void plHardRegionComplex::read(hsStream* S, plResManager* mgr) {
     plHardRegion::read(S, mgr);
 
@@ -50,25 +38,3 @@ void plHardRegionComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plHardRegion::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plHardRegionIntersect */
-plHardRegionIntersect::plHardRegionIntersect() { }
-plHardRegionIntersect::~plHardRegionIntersect() { }
-
-IMPLEMENT_CREATABLE(plHardRegionIntersect, kHardRegionIntersect,
-                    plHardRegionComplex)
-
-
-/* plHardRegionInvert */
-plHardRegionInvert::plHardRegionInvert() { }
-plHardRegionInvert::~plHardRegionInvert() { }
-
-IMPLEMENT_CREATABLE(plHardRegionInvert, kHardRegionInvert, plHardRegionComplex)
-
-
-/* plHardRegionUnion */
-plHardRegionUnion::plHardRegionUnion() { }
-plHardRegionUnion::~plHardRegionUnion() { }
-
-IMPLEMENT_CREATABLE(plHardRegionUnion, kHardRegionUnion, plHardRegionComplex)

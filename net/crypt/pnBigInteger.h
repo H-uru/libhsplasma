@@ -19,15 +19,15 @@ public:
     pnBigInteger& operator=(const pnBigInteger& init);
     pnBigInteger& operator=(unsigned int init);
 
-    void set(const pnBigInteger& init);
-    void set(unsigned int init);
+    void set(const pnBigInteger& init) { BN_copy(fValue, init.fValue); }
+    void set(unsigned int init) { BN_set_word(fValue, init); }
     void set(const unsigned char* data, size_t count);
     void setBit(size_t bit, bool on);
 
-    size_t getByteSize() const;
-    size_t getBitSize() const;
+    size_t getByteSize() const { return BN_num_bytes(fValue); }
+    size_t getBitSize() const { return BN_num_bits(fValue); }
     void getData(unsigned char* data, size_t bytes) const;
-    bool getBit(size_t bit) const;
+    bool getBit(size_t bit) const { return BN_is_bit_set(fValue, bit) != 0; }
 
     // Comparison
     bool operator==(const pnBigInteger& num) const;

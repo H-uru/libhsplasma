@@ -17,10 +17,10 @@ protected:
 
 public:
     explicit hsStream(PlasmaVer pv = pvUnknown);
-    virtual ~hsStream();
+    virtual ~hsStream() { }
 
-    virtual void setVer(PlasmaVer pv);
-    PlasmaVer getVer() const;
+    virtual void setVer(PlasmaVer pv) { ver = pv; }
+    PlasmaVer getVer() const { return ver; }
 
     virtual hsUint32 size() const = 0;
     virtual hsUint32 pos() const = 0;
@@ -30,7 +30,7 @@ public:
     virtual void skip(hsInt32 count) = 0;
     virtual void fastForward() = 0;
     virtual void rewind() = 0;
-    virtual void flush();
+    virtual void flush() { }
 
     virtual size_t read(size_t size, void* buf) = 0;
     virtual size_t write(size_t size, const void* buf) = 0;

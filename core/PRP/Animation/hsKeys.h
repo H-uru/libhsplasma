@@ -23,19 +23,19 @@ protected:
     float fFrameTime;
 
 public:
-    hsKeyFrame();
-    virtual ~hsKeyFrame();
+    hsKeyFrame() { }
+    virtual ~hsKeyFrame() { }
 
     virtual void read(hsStream* S, unsigned int type);
     virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc)=0;
-    virtual void prcParse(const pfPrcTag* tag)=0;
+    virtual void prcWrite(pfPrcHelper* prc) = 0;
+    virtual void prcParse(const pfPrcTag* tag) = 0;
 
-    unsigned int getType() const;
-    unsigned int getFrame() const;
-    float getFrameTime() const;
+    unsigned int getType() const { return fType; }
+    unsigned int getFrame() const { return fFrame; }
+    float getFrameTime() const { return fFrameTime; }
 
-    void setType(unsigned int type);
+    void setType(unsigned int type) { fType = type; }
     void setFrame(unsigned int frame);
     void setFrame(float frame);
 };

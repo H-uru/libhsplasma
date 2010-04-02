@@ -5,11 +5,7 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plRegionBase : public plObjInterface {
-public:
-    plRegionBase();
-    virtual ~plRegionBase();
-
-    DECLARE_CREATABLE(plRegionBase)
+    CREATABLE(plRegionBase, kRegionBase, plObjInterface)
 };
 
 #endif

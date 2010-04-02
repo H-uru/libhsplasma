@@ -5,10 +5,6 @@ plATCEaseCurve::plATCEaseCurve()
               : fStartSpeed(0.0f), fMinLength(0.0f), fMaxLength(0.0f),
                 fBeginWorldTime(0.0), fLength(0.0f), fSpeed(0.0f) { }
 
-plATCEaseCurve::~plATCEaseCurve() { }
-
-IMPLEMENT_CREATABLE(plATCEaseCurve, kATCEaseCurve, plCreatable)
-
 void plATCEaseCurve::read(hsStream* S, plResManager* mgr) {
     fMinLength = S->readFloat();
     fMaxLength = S->readFloat();
@@ -55,19 +51,6 @@ void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-float plATCEaseCurve::getStartSpeed() const { return fStartSpeed; }
-float plATCEaseCurve::getSpeed() const { return fSpeed; }
-float plATCEaseCurve::getMinLength() const { return fMinLength; }
-float plATCEaseCurve::getMaxLength() const { return fMaxLength; }
-float plATCEaseCurve::getLength() const { return fLength; }
-double plATCEaseCurve::getBeginWorldTime() const { return fBeginWorldTime; }
-
-void plATCEaseCurve::setStartSpeed(float speed) { fStartSpeed = speed; }
-void plATCEaseCurve::setSpeed(float speed) { fSpeed = speed; }
-void plATCEaseCurve::setLength(float length) { fLength = length; }
-void plATCEaseCurve::setLengthBounds(float min, float max) { fMinLength = min; fMaxLength = max; }
-void plATCEaseCurve::setBeginWorldTime(double time) { fBeginWorldTime = time; }
-
 
 /* plSplineEaseCurve */
 plSplineEaseCurve::plSplineEaseCurve() {
@@ -76,10 +59,6 @@ plSplineEaseCurve::plSplineEaseCurve() {
     fCoef[2] = 0.0f;
     fCoef[3] = 0.0f;
 }
-
-plSplineEaseCurve::~plSplineEaseCurve() { }
-
-IMPLEMENT_CREATABLE(plSplineEaseCurve, kSplineEaseCurve, plATCEaseCurve)
 
 void plSplineEaseCurve::read(hsStream* S, plResManager* mgr) {
     plATCEaseCurve::read(S, mgr);
@@ -119,13 +98,3 @@ void plSplineEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plATCEaseCurve::IPrcParse(tag, mgr);
     }
 }
-
-float plSplineEaseCurve::getSplineCoef(size_t idx) const { return fCoef[idx]; }
-void plSplineEaseCurve::setSplineCoef(size_t idx, float coef) { fCoef[idx] = coef; }
-
-
-/* plConstAccelEaseCurve */
-plConstAccelEaseCurve::plConstAccelEaseCurve() { }
-plConstAccelEaseCurve::~plConstAccelEaseCurve() { }
-
-IMPLEMENT_CREATABLE(plConstAccelEaseCurve, kConstAccelEaseCurve, plATCEaseCurve)

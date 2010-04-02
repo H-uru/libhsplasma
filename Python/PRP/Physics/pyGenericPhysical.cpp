@@ -30,9 +30,35 @@ static PyObject* pyGenericPhysical_Convert(PyObject*, PyObject* args) {
     return pyGenericPhysical_FromGenericPhysical(plGenericPhysical::Convert(cre->fThis));
 }
 
+static PyObject* pyGenericPhysical_getProp(pyGenericPhysical* self, PyObject* args) {
+    int prop;
+    if (!PyArg_ParseTuple(args, "i", &prop)) {
+        PyErr_SetString(PyExc_TypeError, "getProperty expects an int");
+        return NULL;
+    }
+    return PyBool_FromLong(self->fThis->getProperty(prop) ? 1 : 0);
+}
+
+static PyObject* pyGenericPhysical_setProp(pyGenericPhysical* self, PyObject* args) {
+    int prop, value;
+    if (!PyArg_ParseTuple(args, "ii", &prop, &value)) {
+        PyErr_SetString(PyExc_TypeError, "setProperty expects int, bool");
+        return NULL;
+    }
+    self->fThis->setProperty(prop, value != 0);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyMethodDef pyGenericPhysical_Methods[] = {
     { "Convert", (PyCFunction)pyGenericPhysical_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plGenericPhysical" },
+    { "getProperty", (PyCFunction)pyGenericPhysical_getProp, METH_VARARGS,
+      "Params: flag\n"
+      "Returns whether the specified property is set" },
+    { "setProperty", (PyCFunction)pyGenericPhysical_setProp, METH_VARARGS,
+      "Params: flag, value\n"
+      "Sets the specified property" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -92,10 +118,6 @@ static PyObject* pyGenericPhysical_getRot(pyGenericPhysical* self, void*) {
     return pyQuat_FromQuat(self->fThis->getRot());
 }
 
-static PyObject* pyGenericPhysical_getProps(pyGenericPhysical* self, void*) {
-    return pyBitVector_FromBitVector(self->fThis->getProps());
-}
-
 static PyObject* pyGenericPhysical_getDims(pyGenericPhysical* self, void*) {
     return pyVector3_FromVector3(self->fThis->getDimensions());
 }
@@ -113,16 +135,16 @@ static PyObject* pyGenericPhysical_getLength(pyGenericPhysical* self, void*) {
 }
 
 static PyObject* pyGenericPhysical_getVerts(pyGenericPhysical* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumVerts());
-    for (size_t i=0; i<self->fThis->getNumVerts(); i++)
-        PyList_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->getVert(i)));
+    PyObject* list = PyList_New(self->fThis->getVerts().getSize());
+    for (size_t i=0; i<self->fThis->getVerts().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->getVerts()[i]));
     return list;
 }
 
 static PyObject* pyGenericPhysical_getIndices(pyGenericPhysical* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumIndices());
-    for (size_t i=0; i<self->fThis->getNumIndices(); i++)
-        PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->getIndex(i)));
+    PyObject* list = PyList_New(self->fThis->getIndices().getSize());
+    for (size_t i=0; i<self->fThis->getIndices().getSize(); i++)
+        PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->getIndices()[i]));
     return list;
 }
 
@@ -269,11 +291,6 @@ static int pyGenericPhysical_setRot(pyGenericPhysical* self, PyObject* value, vo
     return 0;
 }
 
-static int pyGenericPhysical_setProps(pyGenericPhysical* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "props cannot be assigned to");
-    return -1;
-}
-
 static int pyGenericPhysical_setDims(pyGenericPhysical* self, PyObject* value, void*) {
     if (value == NULL || !pyVector3_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "dimensions should be an hsVector3");
@@ -394,7 +411,6 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
     { "soundGroup", (getter)pyGenericPhysical_getSoundGroup, (setter)pyGenericPhysical_setSoundGroup, NULL, NULL },
     { "pos", (getter)pyGenericPhysical_getPos, (setter)pyGenericPhysical_setPos, NULL, NULL },
     { "rot", (getter)pyGenericPhysical_getRot, (setter)pyGenericPhysical_setRot, NULL, NULL },
-    { "props", (getter)pyGenericPhysical_getProps, (setter)pyGenericPhysical_setProps, NULL, NULL },
     { "dimensions", (getter)pyGenericPhysical_getDims, (setter)pyGenericPhysical_setDims, NULL, NULL },
     { "offset", (getter)pyGenericPhysical_getOffset, (setter)pyGenericPhysical_setOffset, NULL, NULL },
     { "radius", (getter)pyGenericPhysical_getRadius, (setter)pyGenericPhysical_setRadius, NULL, NULL },

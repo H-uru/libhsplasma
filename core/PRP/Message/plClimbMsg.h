@@ -4,6 +4,8 @@
 #include "plMessage.h"
 
 DllClass plClimbMsg : public plMessage {
+    CREATABLE(plClimbMsg, kClimbMsg, plMessage)
+
 public:
     enum Direction {
         kUp = 0x1,
@@ -30,8 +32,6 @@ protected:
 
 public:
     plClimbMsg();
-
-    DECLARE_CREATABLE(plClimbMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

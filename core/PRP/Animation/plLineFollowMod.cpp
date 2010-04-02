@@ -10,8 +10,6 @@ plLineFollowMod::~plLineFollowMod() {
         delete fPath;
 }
 
-IMPLEMENT_CREATABLE(plLineFollowMod, kLineFollowMod, plMultiModifier)
-
 void plLineFollowMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 
@@ -112,38 +110,8 @@ void plLineFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plLineFollowMod::FollowMode plLineFollowMod::getFollowMode() const { return fFollowMode; }
-unsigned short plLineFollowMod::getFollowFlags() const { return fFollowFlags; }
-plAnimPath* plLineFollowMod::getPath() const { return fPath; }
-plKey plLineFollowMod::getPathParent() const { return fPathParent; }
-plKey plLineFollowMod::getRefObj() const { return fRefObj; }
-float plLineFollowMod::getOffset() const { return fOffset; }
-float plLineFollowMod::getOffsetClamp() const { return fOffsetClamp; }
-float plLineFollowMod::getSpeedClamp() const { return fSpeedClamp; }
-
-void plLineFollowMod::setFollowMode(FollowMode mode) { fFollowMode = mode; }
-void plLineFollowMod::setFollowFlags(unsigned short flags) { fFollowFlags = flags; }
-void plLineFollowMod::setPathParent(plKey parent) { fPathParent = parent; }
-void plLineFollowMod::setRefObj(plKey obj) { fRefObj = obj; }
-void plLineFollowMod::setOffset(float offset) { fOffset = offset; }
-void plLineFollowMod::setOffsetClamp(float clamp) { fOffsetClamp = clamp; }
-void plLineFollowMod::setSpeedClamp(float clamp) { fSpeedClamp = clamp; }
-
 void plLineFollowMod::setPath(plAnimPath* path) {
     if (fPath != NULL)
         delete fPath;
     fPath = path;
 }
-
-size_t plLineFollowMod::getNumStereizers() const { return fStereizers.getSize(); }
-plKey plLineFollowMod::getStereizer(size_t idx) const { return fStereizers[idx]; }
-void plLineFollowMod::addStereizer(plKey stereizer) { fStereizers.append(stereizer); }
-void plLineFollowMod::delStereizer(size_t idx) { fStereizers.remove(idx); }
-void plLineFollowMod::clearStereizers() { fStereizers.clear(); }
-
-
-/* plRailCameraMod */
-plRailCameraMod::plRailCameraMod() { }
-plRailCameraMod::~plRailCameraMod() { }
-
-IMPLEMENT_CREATABLE(plRailCameraMod, kRailCameraMod, plLineFollowMod)

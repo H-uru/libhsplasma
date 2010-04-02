@@ -18,8 +18,6 @@ plLogicModBase::~plLogicModBase() {
         delete fNotify;
 }
 
-IMPLEMENT_CREATABLE(plLogicModBase, kLogicModBase, plSingleModifier)
-
 void plLogicModBase::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -88,10 +86,6 @@ void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plLogicModBase::getNumCommands() const { return fCommandList.getSize(); }
-plMessage* plLogicModBase::getCommand(size_t idx) const { return fCommandList[idx]; }
-void plLogicModBase::addCommand(plMessage* cmd) { fCommandList.append(cmd); }
-
 void plLogicModBase::delCommand(size_t idx) {
     delete fCommandList[idx];
     fCommandList.remove(idx);
@@ -103,14 +97,8 @@ void plLogicModBase::clearCommands() {
     fCommandList.clear();
 }
 
-plNotifyMsg* plLogicModBase::getNotify() const { return fNotify; }
-bool plLogicModBase::isDisabled() const { return fDisabled; }
-
 void plLogicModBase::setNotify(plNotifyMsg* notify) {
     if (fNotify != NULL)
         delete fNotify;
     fNotify = notify;
 }
-
-void plLogicModBase::setDisabled(bool disabled) { fDisabled = disabled; }
-hsBitVector& plLogicModBase::getLogicFlags() { return fLogicFlags; }

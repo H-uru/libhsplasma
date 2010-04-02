@@ -13,9 +13,10 @@ public:
     plServerGuid(const plServerGuid& init);
     plServerGuid& operator=(const plServerGuid& other);
     bool operator==(const plServerGuid& other);
-    bool operator!=(const plServerGuid& other);
+    bool operator!=(const plServerGuid& other) { return !operator==(other); }
 
-    unsigned char& operator[](size_t idx);
+    unsigned char operator[](size_t idx) const { return fGuid[idx]; }
+    unsigned char& operator[](size_t idx) { return fGuid[idx]; }
     plString toString() const;
     static plServerGuid FromString(const plString& str);
 

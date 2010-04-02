@@ -5,6 +5,8 @@
 #include "plAGApplicator.h"
 
 DllClass plAGAnim : public plSynchedObject {
+    CREATABLE(plAGAnim, kAGAnim, plSynchedObject)
+
 public:
     enum BodyUsage {
         kBodyUnknown, kBodyUpper, kBodyFull, kBodyLower, kBodyMax
@@ -20,8 +22,6 @@ public:
     plAGAnim();
     virtual ~plAGAnim();
 
-    DECLARE_CREATABLE(plAGAnim)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -30,33 +30,30 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumApplicators() const;
-    plAGApplicator* getApplicator(size_t idx) const;
-    void clearApplicators();
-    void addApplicator(plAGApplicator* app);
+    const hsTArray<plAGApplicator*>& getApplicators() const { return fApps; }
+    hsTArray<plAGApplicator*>& getApplicators() { return fApps; }
+    void addApplicator(plAGApplicator* app) { fApps.append(app); }
     void delApplicator(size_t idx);
+    void clearApplicators();
 
-    float getBlend() const;
-    float getStart() const;
-    float getEnd() const;
-    plString getName() const;
+    float getBlend() const { return fBlend; }
+    float getStart() const { return fStart; }
+    float getEnd() const { return fEnd; }
+    plString getName() const { return fName; }
 
-    void setBlend(float blend);
-    void setStart(float start);
-    void setEnd(float end);
-    void setName(const plString& name);
+    void setBlend(float blend) { fBlend = blend; }
+    void setStart(float start) { fStart = start; }
+    void setEnd(float end) { fEnd = end; }
+    void setName(const plString& name) { fName = name; }
 };
 
 DllClass plAgeGlobalAnim : public plAGAnim {
+    CREATABLE(plAgeGlobalAnim, kAgeGlobalAnim, plAGAnim)
+
 protected:
     plString fGlobalVarName;
 
 public:
-    plAgeGlobalAnim();
-    virtual ~plAgeGlobalAnim();
-
-    DECLARE_CREATABLE(plAgeGlobalAnim)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -65,8 +62,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plString getVarName() const;
-    void setVarName(const plString& name);
+    plString getVarName() const { return fGlobalVarName; }
+    void setVarName(const plString& name) { fGlobalVarName = name; }
 };
 
 #endif

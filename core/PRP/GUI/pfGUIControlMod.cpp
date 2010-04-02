@@ -5,8 +5,6 @@ pfGUIColorScheme::pfGUIColorScheme() {
     IReset();
 }
 
-pfGUIColorScheme::~pfGUIColorScheme() { }
-
 void pfGUIColorScheme::IReset() {
     fForeColor.set(1.0f, 1.0f, 1.0f, 1.0f);
     fBackColor.set(0.0f, 0.0f, 0.0f, 1.0f);
@@ -94,24 +92,6 @@ void pfGUIColorScheme::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsColorRGBA pfGUIColorScheme::getForeColor() const { return fForeColor; }
-hsColorRGBA pfGUIColorScheme::getBackColor() const { return fBackColor; }
-hsColorRGBA pfGUIColorScheme::getSelForeColor() const { return fSelForeColor; }
-hsColorRGBA pfGUIColorScheme::getSelBackColor() const { return fSelBackColor; }
-int pfGUIColorScheme::getTransparent() const { return fTransparent; }
-plString pfGUIColorScheme::getFontFace() const { return fFontFace; }
-unsigned char pfGUIColorScheme::getFontSize() const { return fFontSize; }
-unsigned char pfGUIColorScheme::getFontFlags() const { return fFontFlags; }
-
-void pfGUIColorScheme::setForeColor(const hsColorRGBA& color) { fForeColor = color; }
-void pfGUIColorScheme::setBackColor(const hsColorRGBA& color) { fBackColor = color; }
-void pfGUIColorScheme::setSelForeColor(const hsColorRGBA& color) { fSelForeColor = color; }
-void pfGUIColorScheme::setSelBackColor(const hsColorRGBA& color) { fSelBackColor = color; }
-void pfGUIColorScheme::setTransparent(int trans) { fTransparent = trans; }
-void pfGUIColorScheme::setFontFace(const plString& face) { fFontFace = face; }
-void pfGUIColorScheme::setFontSize(unsigned char size) { fFontSize = size; }
-void pfGUIColorScheme::setFontFlags(unsigned char flags) { fFontFlags = flags; }
-
 
 /* pfGUIControlMod */
 pfGUIControlMod::pfGUIControlMod()
@@ -132,8 +112,6 @@ pfGUIControlMod::~pfGUIControlMod() {
     if (fColorScheme != NULL)
         delete fColorScheme;
 }
-
-IMPLEMENT_CREATABLE(pfGUIControlMod, kGUIControlMod, plSingleModifier)
 
 void pfGUIControlMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
@@ -284,28 +262,6 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-size_t pfGUIControlMod::getNumSoundIndices() const { return fSoundIndices.getSize(); }
-int pfGUIControlMod::getSoundIndex(size_t idx) const { return fSoundIndices[idx]; }
-void pfGUIControlMod::addSoundIndex(int index) { fSoundIndices.append(index); }
-void pfGUIControlMod::setSoundIndices(const hsTArray<int>& indices) { fSoundIndices = indices; }
-void pfGUIControlMod::clearSoundIndices() { fSoundIndices.clear(); }
-
-unsigned int pfGUIControlMod::getTagID() const { return fTagID; }
-bool pfGUIControlMod::getVisible() const { return fVisible; }
-pfGUICtrlProcWriteableObject* pfGUIControlMod::getHandler() const { return fHandler; }
-plKey pfGUIControlMod::getDynTextMap() const { return fDynTextMap; }
-plKey pfGUIControlMod::getDynTextLayer() const { return fDynTextLayer; }
-pfGUIColorScheme* pfGUIControlMod::getColorScheme() const { return fColorScheme; }
-plKey pfGUIControlMod::getProxy() const { return fProxy; }
-plKey pfGUIControlMod::getSkin() const { return fSkin; }
-
-void pfGUIControlMod::setTagID(unsigned int id) { fTagID = id; }
-void pfGUIControlMod::setVisible(bool visible) { fVisible = visible; }
-void pfGUIControlMod::setDynTextMap(plKey map) { fDynTextMap = map; }
-void pfGUIControlMod::setDynTextLayer(plKey layer) { fDynTextLayer = layer; }
-void pfGUIControlMod::setProxy(plKey proxy) { fProxy = proxy; }
-void pfGUIControlMod::setSkin(plKey skin) { fSkin = skin; }
 
 void pfGUIControlMod::setHandler(pfGUICtrlProcWriteableObject* handler) {
     if (fHandler != NULL)

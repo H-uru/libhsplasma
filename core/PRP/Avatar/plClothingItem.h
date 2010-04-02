@@ -16,6 +16,8 @@
  */
 
 DllClass plClothingItem : public hsKeyedObject {
+    CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
+
 public:
     enum LODLevels { kLODHigh, kLODMedium, kLODLow, kNumLODLevels };
 
@@ -56,8 +58,6 @@ public:
     plClothingItem();
     virtual ~plClothingItem();
 
-    DECLARE_CREATABLE(plClothingItem)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -67,96 +67,102 @@ protected:
 
 public:
     /** Returns the name of the clothing item. */
-    plString getItemName() const;
+    plString getItemName() const { return fItemName; }
 
     /** Returns the properties description for the clothing item. */
-    plString getDescription() const;
+    plString getDescription() const { return fDescription; }
 
-    /** Returns the custom text for the clothing item. */
-    plString getCustomText() const;
+    /** Returns the customization text for the clothing item. */
+    plString getCustomText() const { return  fCustomText; }
 
     /**
      * Returns the group this item belongs to.
      * \sa Groups
      */
-    unsigned char getGroup() const;
+    unsigned char getGroup() const { return fGroup; }
 
     /**
      * Returns the clothing item's item type.
      * \sa Types
      */
-    unsigned char getType() const;
+    unsigned char getType() const { return fType; }
 
     /**
      * Returns the clothing item's tileset for AvatarCustomization.
      * \sa Tilesets
      */
-    unsigned char getTileset() const;
+    unsigned char getTileset() const { return fTileset; }
 
     /** Returns the sorting order for the item in AvatarCustomization. */
-    unsigned char getSortOrder() const;
+    unsigned char getSortOrder() const { return fSortOrder; }
 
     /** Returns the icon to display this clothing item in AvatarCustomization. */
-    plKey getIcon() const;
+    plKey getIcon() const { return fIcon; }
 
     /** Returns this item's accessory link. */
-    plKey getAccessory() const;
+    plKey getAccessory() const { return fAccessory; }
 
     /**
      * Returns a key for the plSharedMesh that stores this items geometry
      * at LOD of \a lodLevel.
      * \sa LODLevels
      */
-    plKey getMesh(int lodLevel) const;
+    plKey getMesh(int lodLevel) const { return fMeshes[lodLevel]; }
 
     /** Returns the default first tint color for the item. */
-    hsColorRGBA getDefaultTint1() const;
+    hsColorRGBA getDefaultTint1() const {
+        return hsColorRGBA(fDefaultTint1[0] / 255.0f, fDefaultTint1[1] / 255.0f,
+                           fDefaultTint1[2] / 255.0f, 1.0f);
+    }
 
     /** Returns the default second tint color for the item. */
-    hsColorRGBA getDefaultTint2() const;
+    hsColorRGBA getDefaultTint2() const {
+        return hsColorRGBA(fDefaultTint2[0] / 255.0f, fDefaultTint2[1] / 255.0f,
+                           fDefaultTint2[2] / 255.0f, 1.0f);
+    }
 
     /** Set the name of the clothing item. */
-    void setItemName(const plString& name);
+    void setItemName(const plString& name) { fItemName = name; }
 
     /** Set the property description string for this item. */
-    void setDescription(const plString& desc);
+    void setDescription(const plString& desc) { fDescription = desc; }
 
-    /** Set the custom text for this clothing item. */
-    void setCustomText(const plString& text);
+    /** Set the customization text for this clothing item. */
+    void setCustomText(const plString& text) { fCustomText = text; }
 
     /**
      * Set the group this item belongs to.
      * \sa Groups
      */
-    void setGroup(unsigned char group);
+    void setGroup(unsigned char group) { fGroup = group; }
 
     /**
      * Set the clothing item's type.
      * \sa Types
      */
-    void setType(unsigned char type);
+    void setType(unsigned char type) { fType = type; }
 
     /**
      * Set the tileset to assign this item in AvatarCustomization.
      * \sa Tilesets
      */
-    void setTileset(unsigned char set);
+    void setTileset(unsigned char set) { fTileset = set; }
 
     /** Set the sort order for listing in AvatarCustomization. */
-    void setSortOrder(unsigned char order);
+    void setSortOrder(unsigned char order) { fSortOrder = order; }
 
     /** Set the clothing item's icon for AvatarCustomization. */
-    void setIcon(plKey icon);
+    void setIcon(plKey icon) { fIcon = icon; }
 
     /** Set the accessory key for this item. */
-    void setAccessory(plKey acc);
+    void setAccessory(plKey acc) { fAccessory = acc; }
 
     /**
      * Set the key for the plSharedMesh that contains this item's geometry
      * at LOD level \a lodLevel.
      * \sa LODLevels
      */
-    void setMesh(int lodLevel, plKey mesh);
+    void setMesh(int lodLevel, plKey mesh) { fMeshes[lodLevel] = mesh; }
 
     /** Set the default first tint color for this item. */
     void setDefaultTint1(const hsColorRGBA& tint);
@@ -175,24 +181,28 @@ public:
      * to \a texture.
      * \sa ClothingLayers
      */
-    void setElementTexture(int element, int layer, plKey texture);
+    void setElementTexture(int element, int layer, plKey texture)
+    { fTextures[element][layer] = texture; }
 
     /**
      * Sets the element name for element number \a element to \a elementName.
      */
-    void setElementName(int element, const plString& elementName);
+    void setElementName(int element, const plString& elementName)
+    { fElementNames[element] = elementName; }
 
     /**
      * Returns the element texture for element number \a element, at layer
      * \a layer.
      * \sa ClothingLayers
      */
-    plKey getElementTexture(int element, int layer) const;
+    plKey getElementTexture(int element, int layer) const
+    { return fTextures[element][layer]; }
 
     /**
      * Returns the element name for element number \a element.
      */
-    plString getElementName(int element) const;
+    plString getElementName(int element) const
+    { return fElementNames[element]; }
 
     /** Remove the specified element from the clothing item. */
     void delElement(int element);

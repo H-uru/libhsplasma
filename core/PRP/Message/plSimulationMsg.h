@@ -4,30 +4,23 @@
 #include "plMessage.h"
 
 DllClass plSimulationMsg : public plMessage {
-public:
-    plSimulationMsg();
-    virtual ~plSimulationMsg();
-
-    DECLARE_CREATABLE(plSimulationMsg)
+    CREATABLE(plSimulationMsg, kSimulationMsg, plMessage)
 };
+
 
 DllClass plSimStateMsg : public plSimulationMsg {
-public:
-    plSimStateMsg();
-    virtual ~plSimStateMsg();
-
-    DECLARE_CREATABLE(plSimStateMsg)
+    CREATABLE(plSimStateMsg, kSimStateMsg, plSimulationMsg)
 };
 
+
 DllClass plSimSuppressMsg : public plSimStateMsg {
+    CREATABLE(plSimSuppressMsg, kSimSuppressMsg, plSimStateMsg)
+
 protected:
     bool fSuppress;
 
 public:
     plSimSuppressMsg();
-    virtual ~plSimSuppressMsg();
-
-    DECLARE_CREATABLE(plSimSuppressMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -37,16 +30,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plSubWorldMsg : public plSimulationMsg {
+    CREATABLE(plSubWorldMsg, kSubWorldMsg, plSimulationMsg)
+
 protected:
     plKey fWorldKey;
 
 public:
-    plSubWorldMsg();
-    virtual ~plSubWorldMsg();
-
-    DECLARE_CREATABLE(plSubWorldMsg)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

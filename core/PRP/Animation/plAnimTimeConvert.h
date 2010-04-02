@@ -6,6 +6,8 @@
 #include "plATCEaseCurves.h"
 
 DllClass plAnimTimeConvert : public plCreatable {
+    CREATABLE(plAnimTimeConvert, kAnimTimeConvert, plCreatable)
+
 public:
     enum plAnimTimeFlags {
         kNone = 0,
@@ -35,8 +37,6 @@ public:
     plAnimTimeConvert();
     virtual ~plAnimTimeConvert();
 
-    DECLARE_CREATABLE(plAnimTimeConvert)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -45,33 +45,33 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned int getFlags() const;
-    float getBegin() const;
-    float getEnd() const;
-    float getLoopBegin() const;
-    float getLoopEnd() const;
-    float getSpeed() const;
-    float getCurrentAnimTime() const;
-    double getLastEvalWorldTime() const;
-    plATCEaseCurve* getEaseInCurve() const;
-    plATCEaseCurve* getEaseOutCurve() const;
-    plATCEaseCurve* getSpeedEaseCurve() const;
-    const hsTArray<float>& getStopPoints() const;
+    unsigned int getFlags() const { return fFlags; }
+    float getBegin() const { return fBegin; }
+    float getEnd() const { return fEnd; }
+    float getLoopBegin() const { return fLoopBegin; }
+    float getLoopEnd() const { return fLoopEnd; }
+    float getSpeed() const { return fSpeed; }
+    float getCurrentAnimTime() const { return fCurrentAnimTime; }
+    double getLastEvalWorldTime() const { return fLastEvalWorldTime; }
+    plATCEaseCurve* getEaseInCurve() const { return fEaseInCurve; }
+    plATCEaseCurve* getEaseOutCurve() const { return fEaseOutCurve; }
+    plATCEaseCurve* getSpeedEaseCurve() const { return fSpeedEaseCurve; }
+    const hsTArray<float>& getStopPoints() const { return fStopPoints; }
 
-    void setFlags(unsigned int flags);
-    void setRange(float begin, float end);
-    void setLoop(float begin, float end);
-    void setSpeed(float speed);
-    void setCurrentAnimTime(float time);
-    void setLastEvalWorldTime(double time);
+    void setFlags(unsigned int flags) { fFlags = flags; }
+    void setRange(float begin, float end) { fBegin = begin; fEnd = end; }
+    void setLoop(float begin, float end) { fLoopBegin = begin; fLoopEnd = end; }
+    void setSpeed(float speed) { fSpeed = speed; }
+    void setCurrentAnimTime(float time) { fCurrentAnimTime = time; }
+    void setLastEvalWorldTime(double time) { fLastEvalWorldTime = time; }
     void setEaseInCurve(plATCEaseCurve* curve);
     void setEaseOutCurve(plATCEaseCurve* curve);
     void setSpeedEaseCurve(plATCEaseCurve* curve);
-    void setStopPoints(const hsTArray<float>& stops);
+    void setStopPoints(const hsTArray<float>& stops) { fStopPoints = stops; }
 
-    size_t getNumCallbacks() const;
-    plEventCallbackMsg* getCallback(size_t idx) const;
-    void addCallback(plEventCallbackMsg* callback);
+    const hsTArray<plEventCallbackMsg*>& getCallbacks() const { return fCallbackMsgs; }
+    hsTArray<plEventCallbackMsg*>& getCallbacks() { return fCallbackMsgs; }
+    void addCallback(plEventCallbackMsg* callback) { fCallbackMsgs.append(callback); }
     void delCallback(size_t idx);
     void clearCallbacks();
 };

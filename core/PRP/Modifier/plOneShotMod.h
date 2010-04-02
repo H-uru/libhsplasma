@@ -4,6 +4,8 @@
 #include "plModifier.h"
 
 DllClass plOneShotMod : public plMultiModifier {
+    CREATABLE(plOneShotMod, kOneShotMod, plMultiModifier)
+
 protected:
     plString fAnimName;
     bool fDrivable, fReversable, fSmartSeek, fNoSeek;
@@ -11,9 +13,6 @@ protected:
 
 public:
     plOneShotMod();
-    virtual ~plOneShotMod();
-
-    DECLARE_CREATABLE(plOneShotMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -23,19 +22,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plString getAnimName() const;
-    bool isDrivable() const;
-    bool isReversable() const;
-    bool getSmartSeek() const;
-    bool getNoSeek() const;
-    float getSeekDuration();
+    plString getAnimName() const { return fAnimName; }
+    bool isDrivable() const { return fDrivable; }
+    bool isReversable() const { return fReversable; }
+    bool getSmartSeek() const { return fSmartSeek; }
+    bool getNoSeek() const { return fNoSeek; }
+    float getSeekDuration() { return fSeekDuration; }
 
-    void setAnimName(const plString& name);
-    void setDrivable(bool drivable);
-    void setReversable(bool reversable);
-    void setSmartSeek(bool smartSeek);
-    void setNoSeek(bool noSeek);
-    void setSeekDuration(float duration);
+    void setAnimName(const plString& name) { fAnimName = name; }
+    void setDrivable(bool drivable) { fDrivable = drivable; }
+    void setReversable(bool reversable) { fReversable = reversable; }
+    void setSmartSeek(bool smartSeek) { fSmartSeek = smartSeek; }
+    void setNoSeek(bool noSeek) { fNoSeek = noSeek; }
+    void setSeekDuration(float duration) { fSeekDuration = duration; }
 };
 
 #endif

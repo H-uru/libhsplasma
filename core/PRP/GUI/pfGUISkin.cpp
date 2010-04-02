@@ -45,9 +45,6 @@ void pfGUISkin::pfSRect::clear() {
 
 /* pfGUISkin */
 pfGUISkin::pfGUISkin() : fItemMargin(0), fBorderMargin(0) { }
-pfGUISkin::~pfGUISkin() { }
-
-IMPLEMENT_CREATABLE(pfGUISkin, kGUISkin, hsKeyedObject)
 
 void pfGUISkin::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -116,14 +113,3 @@ void pfGUISkin::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
-
-pfGUISkin::pfSRect& pfGUISkin::getElement(size_t which) { return fElements[which]; }
-const pfGUISkin::pfSRect& pfGUISkin::getElement(size_t which) const { return fElements[which]; }
-
-plKey pfGUISkin::getTexture() const { return fTexture; }
-unsigned short pfGUISkin::getItemMargin() const { return fItemMargin; }
-unsigned short pfGUISkin::getBorderMargin() const { return fBorderMargin; }
-
-void pfGUISkin::setTexture(plKey tex) { fTexture = tex; }
-void pfGUISkin::setItemMargin(unsigned short margin) { fItemMargin = margin; }
-void pfGUISkin::setBorderMargin(unsigned short margin) { fBorderMargin = margin; }

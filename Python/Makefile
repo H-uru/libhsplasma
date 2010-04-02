@@ -1,6 +1,6 @@
 include ../config.mf
 
-CXXFLAGS += -I../core -I. `$(PYTHON_CONFIG) --cflags`
+CXXFLAGS += -I../core -I. `$(PYTHON_CONFIG) --cflags` -Wno-write-strings
 CXXLINK  += -L../lib -lHSPlasma `$(PYTHON_CONFIG) --libs`
 OBJDIR=out/
 

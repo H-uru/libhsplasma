@@ -1,10 +1,8 @@
 #include "plLinkToAgeMsg.h"
 #include "Debug/plDebug.h"
 
+/* plLinkToAgeMsg */
 plLinkToAgeMsg::plLinkToAgeMsg() : fStreamVersion(0), fEoaUnknown(0) { }
-plLinkToAgeMsg::~plLinkToAgeMsg() { }
-
-IMPLEMENT_CREATABLE(plLinkToAgeMsg, kLinkToAgeMsg, plMessage)
 
 void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
@@ -54,8 +52,3 @@ void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
-
-plLinkInDoneMsg::plLinkInDoneMsg() { }
-plLinkInDoneMsg::~plLinkInDoneMsg() { }
-
-IMPLEMENT_CREATABLE(plLinkInDoneMsg, kLinkInDoneMsg, plMessage)

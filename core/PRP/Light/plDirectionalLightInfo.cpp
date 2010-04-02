@@ -1,20 +1,8 @@
 #include "plDirectionalLightInfo.h"
 
-/* plDirectionalLightInfo */
-plDirectionalLightInfo::plDirectionalLightInfo() { }
-plDirectionalLightInfo::~plDirectionalLightInfo() { }
-
-IMPLEMENT_CREATABLE(plDirectionalLightInfo, kDirectionalLightInfo, plLightInfo)
-
-
 /* plLimitedDirLightInfo */
 plLimitedDirLightInfo::plLimitedDirLightInfo()
                      : fWidth(0.0f), fHeight(0.0f), fDepth(0.0f) { }
-
-plLimitedDirLightInfo::~plLimitedDirLightInfo() { }
-
-IMPLEMENT_CREATABLE(plLimitedDirLightInfo, kLimitedDirLightInfo,
-                    plDirectionalLightInfo)
 
 void plLimitedDirLightInfo::read(hsStream* S, plResManager* mgr) {
     plLightInfo::read(S, mgr);
@@ -48,11 +36,3 @@ void plLimitedDirLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plLightInfo::IPrcParse(tag, mgr);
     }
 }
-
-float plLimitedDirLightInfo::getWidth() const { return fWidth; }
-float plLimitedDirLightInfo::getHeight() const { return fHeight; }
-float plLimitedDirLightInfo::getDepth() const { return fDepth; }
-
-void plLimitedDirLightInfo::setWidth(float width) { fWidth = width; }
-void plLimitedDirLightInfo::setHeight(float height) { fHeight = height; }
-void plLimitedDirLightInfo::setDepth(float depth) { fDepth = depth; }

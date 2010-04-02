@@ -35,7 +35,7 @@ public:
         kPartialSort = 0x800000,
         kVisLOS = 0x1000000
     };
-    
+
     enum plSpanType {
         kSpan = 0x0,
         kVertexSpan = 0x1,
@@ -60,11 +60,11 @@ protected:
     hsTArray<plKey> fPermaLights, fPermaProjs;
 
 public:
+    virtual const char* ClassName() const { return "plSpan"; }
+
     plSpan();
     plSpan(const plSpan& init);
-    virtual ~plSpan();
-
-    virtual const char* ClassName();
+    virtual ~plSpan() { }
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);
@@ -76,45 +76,51 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag);
 
 public:
-    plKey getFogEnvironment() const;
-    const hsTArray<plKey>& getPermaLights() const;
-    const hsTArray<plKey>& getPermaProjs() const;
-    hsMatrix44 getLocalToWorld() const;
-    hsMatrix44 getWorldToLocal() const;
-    unsigned short getSubType() const;
-    unsigned int getMaterialIdx() const;
-    unsigned char getNumMatrices() const;
-    unsigned int getProps() const;
-    unsigned int getBaseMatrix() const;
-    unsigned short getMaxBoneIdx() const;
-    unsigned short getPenBoneIdx() const;
-    unsigned short getLocalUVWChans() const;
-    float getMinDist() const;
-    float getMaxDist() const;
-    float getWaterHeight() const;
-    const hsBounds3Ext& getLocalBounds() const;
-    const hsBounds3Ext& getWorldBounds() const;
+    plKey getFogEnvironment() const { return fFogEnvironment; }
+    hsMatrix44 getLocalToWorld() const { return fLocalToWorld; }
+    hsMatrix44 getWorldToLocal() const { return fWorldToLocal; }
+    unsigned short getSubType() const { return fSubType; }
+    unsigned int getMaterialIdx() const { return fMaterialIdx; }
+    unsigned char getNumMatrices() const { return fNumMatrices; }
+    unsigned int getProps() const { return fProps; }
+    unsigned int getBaseMatrix() const { return fBaseMatrix; }
+    unsigned short getMaxBoneIdx() const { return fMaxBoneIdx; }
+    unsigned short getPenBoneIdx() const { return fPenBoneIdx; }
+    unsigned short getLocalUVWChans() const { return fLocalUVWChans; }
+    float getMinDist() const { return fMinDist; }
+    float getMaxDist() const { return fMaxDist; }
+    float getWaterHeight() const { return fWaterHeight; }
+    const hsBounds3Ext& getLocalBounds() const { return fLocalBounds; }
+    const hsBounds3Ext& getWorldBounds() const { return fWorldBounds; }
 
-    void setFogEnvironment(plKey fog);
-    void clearPermaLights();
-    void addPermaLight(plKey light);
-    void clearPermaProjs();
-    void addPermaProj(plKey proj);
-    void setLocalToWorld(hsMatrix44 l2w);
-    void setWorldToLocal(hsMatrix44 w2l);
-    void setSubType(unsigned short type);
-    void setMaterialIdx(unsigned int idx);
-    void setNumMatrices(unsigned char mats);
-    void setProps(unsigned int props);
-    void setBaseMatrix(unsigned int mat);
-    void setMaxBoneIdx(unsigned short idx);
-    void setPenBoneIdx(unsigned short idx);
-    void setLocalUVWChans(unsigned short chans);
-    void setMinDist(float dist);
-    void setMaxDist(float dist);
-    void setWaterHeight(float height);
-    void setLocalBounds(const hsBounds3Ext& bounds);
-    void setWorldBounds(const hsBounds3Ext& bounds);
+    void setFogEnvironment(plKey fog) { fFogEnvironment = fog; }
+    void setLocalToWorld(hsMatrix44 l2w) { fLocalToWorld = l2w; }
+    void setWorldToLocal(hsMatrix44 w2l) { fWorldToLocal = w2l; }
+    void setSubType(unsigned short type) { fSubType = type; }
+    void setMaterialIdx(unsigned int idx) { fMaterialIdx = idx; }
+    void setNumMatrices(unsigned char mats) { fNumMatrices = mats; }
+    void setProps(unsigned int props) { fProps = props; }
+    void setBaseMatrix(unsigned int mat) { fBaseMatrix = mat; }
+    void setMaxBoneIdx(unsigned short idx) { fMaxBoneIdx = idx; }
+    void setPenBoneIdx(unsigned short idx) { fPenBoneIdx = idx; }
+    void setLocalUVWChans(unsigned short chans) { fLocalUVWChans = chans; }
+    void setMinDist(float dist) { fMinDist = dist; }
+    void setMaxDist(float dist) { fMaxDist = dist; }
+    void setWaterHeight(float height) { fWaterHeight = height; }
+    void setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }
+    void setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
+
+    const hsTArray<plKey>& getPermaLights() const { return fPermaLights; }
+    hsTArray<plKey>& getPermaLights() { return fPermaLights; }
+    void addPermaLight(plKey light) { fPermaLights.append(light); }
+    void delPermaLight(size_t idx) { fPermaLights.remove(idx); }
+    void clearPermaLights() { fPermaLights.clear(); }
+
+    const hsTArray<plKey>& getPermaProjs() const { return fPermaProjs; }
+    hsTArray<plKey>& getPermaProjs() { return fPermaProjs; }
+    void addPermaProj(plKey proj) { fPermaProjs.append(proj); }
+    void delPermaProj(size_t idx) { fPermaProjs.remove(idx); }
+    void clearPermaProjs() { fPermaProjs.clear(); }
 };
 
 #endif

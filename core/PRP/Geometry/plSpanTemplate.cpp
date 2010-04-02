@@ -215,8 +215,6 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
     return verts;
 }
 
-unsigned short plSpanTemplate::getNumVerts() const { return fNumVerts; }
-
 void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
     if (fData != NULL)
         delete[] fData;
@@ -278,9 +276,6 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
     }
 }
 
-unsigned short plSpanTemplate::getNumTris() const { return fNumTris; }
-const unsigned short* plSpanTemplate::getIndices() const { return fIndices; }
-
 void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indices) {
     if (fIndices != NULL)
         delete[] fIndices;
@@ -291,8 +286,6 @@ void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indi
     fIndices = new unsigned short[count];
     memcpy(fIndices, indices, count * sizeof(unsigned short));
 }
-
-unsigned short plSpanTemplate::getFormat() const { return fFormat; }
 
 void plSpanTemplate::setFormat(unsigned short fmt) {
     fFormat = fmt;

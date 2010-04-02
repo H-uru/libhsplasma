@@ -5,15 +5,14 @@
 #include "plNetMsgObject.h"
 
 DllClass plNetMsgLoadClone : public plNetMsgGameMessage {
+    CREATABLE(plNetMsgLoadClone, kNetMsgLoadClone, plNetMsgGameMessage)
+
 private:
     plNetMsgObjectHelper fObject;
     bool fIsPlayer, fIsLoading, fIsInitialState;
 
 public:
     plNetMsgLoadClone();
-    ~plNetMsgLoadClone();
-
-    DECLARE_CREATABLE(plNetMsgLoadClone)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -23,15 +22,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plNetMsgObjectHelper getObject() const;
-    bool getIsPlayer() const;
-    bool getIsLoading() const;
-    bool getIsInitialState() const;
+    const plNetMsgObjectHelper& getObject() const { return fObject; }
+    plNetMsgObjectHelper& getObject() { return fObject; }
 
-    void setObject(plNetMsgObjectHelper Object);
-    void setIsPlayer(bool IsPlayer);
-    void setIsLoading(bool IsLoading);
-    void setIsInitialState(bool IsInitialState);
+    bool isPlayer() const { return fIsPlayer; }
+    bool isLoading() const { return fIsLoading; }
+    bool isInitialState() const { return fIsInitialState; }
+
+    void setIsPlayer(bool isPlayer) { fIsPlayer = isPlayer; }
+    void setIsLoading(bool isLoading) { fIsLoading = isLoading; }
+    void setIsInitialState(bool isInitialState) { fIsInitialState = isInitialState; }
 };
 
 #endif

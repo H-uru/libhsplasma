@@ -4,15 +4,14 @@
 #include "PRP/Modifier/plModifier.h"
 
 DllClass plAGModifier : public plSingleModifier {
+    CREATABLE(plAGModifier, kAGModifier, plSingleModifier)
+
 protected:
     plString fChannelName;
     bool fAutoApply, fEnabled;
 
 public:
     plAGModifier();
-    virtual ~plAGModifier();
-
-    DECLARE_CREATABLE(plAGModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

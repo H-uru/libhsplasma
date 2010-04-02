@@ -1,8 +1,5 @@
 #include "pnClient.h"
 
-pnClient::pnClient() { }
-pnClient::~pnClient() { }
-
 hsUint32 pnClient::nextTransId() {
     static hsUint32 s_transId = 0;
     static hsMutex s_tidMutex;

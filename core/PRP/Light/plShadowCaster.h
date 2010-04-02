@@ -5,6 +5,8 @@
 #include "PRP/Geometry/plDrawableSpans.h"
 
 DllClass plShadowCaster : public plMultiModifier {
+    CREATABLE(plShadowCaster, kShadowCaster, plMultiModifier)
+
 public:
     DllStruct DrawSpan {
     public:
@@ -27,9 +29,6 @@ protected:
 
 public:
     plShadowCaster();
-    virtual ~plShadowCaster();
-
-    DECLARE_CREATABLE(plShadowCaster)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

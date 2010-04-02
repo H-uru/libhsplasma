@@ -95,18 +95,6 @@ bool pnVaultNode::isValid() const {
     return (fFieldMask & (1<<kNodeIdx)) != 0 && fNodeIdx != 0;
 }
 
-bool pnVaultNode::isDirty() const {
-    return fDirtyMask != 0;
-}
-
-bool pnVaultNode::hasField(size_t field) const {
-    return (fFieldMask & (1<<field)) != 0;
-}
-
-bool pnVaultNode::hasDirty(size_t field) const {
-    return (fDirtyMask & (1<<field)) != 0;
-}
-
 void pnVaultNode::allDirty() {
     fDirtyMask = fFieldMask;
     fDirtySize = fCachedSize;
@@ -124,10 +112,6 @@ void pnVaultNode::setTimeNow() {
 
 void pnVaultNode::setModifyNow() {
     setModifyTime((hsUint32)time(NULL));
-}
-
-size_t pnVaultNode::bufferSize() const {
-    return fDirtySize + sizeof(hsUint64);
 }
 
 static hsUint64 readU64(const unsigned char*& buffer, size_t& size) {

@@ -4,14 +4,14 @@
 #include "plMessage.h"
 
 DllClass plSwimMsg : public plMessage {
+    CREATABLE(plSwimMsg, kSwimMsg, plMessage)
+
 protected:
     bool fIsEntering;
     plKey fSwimRegion;
 
 public:
     plSwimMsg();
-
-    DECLARE_CREATABLE(plSwimMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

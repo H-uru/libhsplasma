@@ -4,15 +4,12 @@
 #include "pfGUIControlMod.h"
 
 DllClass pfGUIDynDisplayCtrl : public pfGUIControlMod {
+    CREATABLE(pfGUIDynDisplayCtrl, kGUIDynDisplayCtrl, pfGUIControlMod)
+
 protected:
     hsTArray<plKey> fTextMaps, fLayers, fMaterials;
 
 public:
-    pfGUIDynDisplayCtrl();
-    virtual ~pfGUIDynDisplayCtrl();
-
-    DECLARE_CREATABLE(pfGUIDynDisplayCtrl)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,23 +18,23 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumTextMaps() const;
-    plKey getTextMap(size_t idx) const;
-    void addTextMap(plKey map);
-    void delTextMap(size_t idx);
-    void clearTextMaps();
+    const hsTArray<plKey>& getTextMaps() const { return fTextMaps; }
+    hsTArray<plKey>& getTextMaps() { return fTextMaps; }
+    void addTextMap(plKey map) { fTextMaps.append(map); }
+    void delTextMap(size_t idx) { fTextMaps.remove(idx); }
+    void clearTextMaps() { fTextMaps.clear(); }
 
-    size_t getNumLayers() const;
-    plKey getLayer(size_t idx) const;
-    void addLayer(plKey layer);
-    void delLayer(size_t idx);
-    void clearLayers();
+    const hsTArray<plKey>& getLayers() const { return fLayers; }
+    hsTArray<plKey>& getLayers() { return fLayers; }
+    void addLayer(plKey map) { fLayers.append(map); }
+    void delLayer(size_t idx) { fLayers.remove(idx); }
+    void clearLayers() { fLayers.clear(); }
 
-    size_t getNumMaterials() const;
-    plKey getMaterial(size_t idx) const;
-    void addMaterial(plKey mat);
-    void delMaterial(size_t idx);
-    void clearMaterials();
+    const hsTArray<plKey>& getMaterials() const { return fMaterials; }
+    hsTArray<plKey>& getMaterials() { return fMaterials; }
+    void addMaterial(plKey map) { fMaterials.append(map); }
+    void delMaterial(size_t idx) { fMaterials.remove(idx); }
+    void clearMaterials() { fMaterials.clear(); }
 };
 
 #endif

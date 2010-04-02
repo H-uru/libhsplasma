@@ -8,16 +8,10 @@ hsException::hsException(const hsException& e) throw()
 hsException::hsException(const plString& w, const char* file,
     unsigned long line) throw() : fWhat(w), fFile(file), fLine(line) { }
 
-hsException::~hsException() throw() { }
-
 hsException& hsException::operator=(const hsException& other) throw() {
     fWhat = other.fWhat;
     return *this;
 }
-
-const char* hsException::what() const throw() { return fWhat; }
-const char* hsException::File() const throw() { return fFile; }
-unsigned long hsException::Line() const throw() { return fLine; }
 
 
 /* hsNotImplementedException */

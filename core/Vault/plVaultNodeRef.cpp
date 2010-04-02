@@ -31,15 +31,3 @@ void plVaultNodeRef::write(hsStream* S) {
     fAutoTime.write(S);
     S->writeBool(fSeen);
 }
-
-unsigned int plVaultNodeRef::getSaver() const { return fSaver; }
-unsigned int plVaultNodeRef::getParent() const { return fParent; }
-unsigned int plVaultNodeRef::getChild() const { return fChild; }
-plUnifiedTime plVaultNodeRef::getAutoTime() const { return fAutoTime; }
-bool plVaultNodeRef::getSeen() const { return fSeen; }
-
-void plVaultNodeRef::setSaver(unsigned int id) { fSaver = id; }
-void plVaultNodeRef::setParent(unsigned int id) { fParent = id; }
-void plVaultNodeRef::setChild(unsigned int id) { fChild = id; }
-void plVaultNodeRef::setAutoTime(const plUnifiedTime& time) { fAutoTime = time; }
-void plVaultNodeRef::setSeen(bool seen) { fSeen = seen; }

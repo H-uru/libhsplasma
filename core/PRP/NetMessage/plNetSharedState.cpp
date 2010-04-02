@@ -2,7 +2,6 @@
 
 /* plGenericType */
 plGenericType::plGenericType() : fType(kNone) { }
-plGenericType::~plGenericType() { }
 
 void plGenericType::read(hsStream* S) {
     fType = S->readByte();
@@ -120,9 +119,6 @@ void plGenericType::prcParse(const pfPrcTag* tag) {
 
 
 /* plGenericVar */
-plGenericVar::plGenericVar() { }
-plGenericVar::~plGenericVar() { }
-
 void plGenericVar::read(hsStream* S) {
     fName = S->readSafeStr();
     fValue.read(S);
@@ -153,7 +149,6 @@ void plGenericVar::prcParse(const pfPrcTag* tag) {
 
 /* plNetSharedState */
 plNetSharedState::plNetSharedState() : fServerMayDelete(false) { }
-plNetSharedState::~plNetSharedState() { }
 
 void plNetSharedState::read(hsStream* S) {
     unsigned short sz = S->readShort();

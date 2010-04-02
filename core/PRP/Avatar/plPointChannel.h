@@ -6,35 +6,26 @@
 
 /* Point Channels */
 DllClass plPointChannel : public plAGChannel {
+    CREATABLE(plPointChannel, kPointChannel, plAGChannel)
+
 protected:
     hsVector3 fResult;
 
 public:
-    plPointChannel();
-    virtual ~plPointChannel();
-
-    DECLARE_CREATABLE(plPointChannel)
-
-public:
-    hsVector3 getResult() const;
-    void setResult(const hsVector3& result);
+    hsVector3 getResult() const { return fResult; }
+    void setResult(const hsVector3& result) { fResult = result; }
 };
+
 
 DllClass plPointBlend : public plPointChannel {
-public:
-    plPointBlend();
-    virtual ~plPointBlend();
-
-    DECLARE_CREATABLE(plPointBlend)
+    CREATABLE(plPointBlend, kPointBlend, plPointChannel)
 };
 
+
 DllClass plPointConstant : public plPointChannel {
+    CREATABLE(plPointConstant, kPointConstant, plPointChannel)
+
 public:
-    plPointConstant();
-    virtual ~plPointConstant();
-
-    DECLARE_CREATABLE(plPointConstant)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -43,15 +34,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plPointControllerCacheChannel : public plPointChannel {
-public:
-    plPointControllerCacheChannel();
-    virtual ~plPointControllerCacheChannel();
 
-    DECLARE_CREATABLE(plPointControllerCacheChannel)
+DllClass plPointControllerCacheChannel : public plPointChannel {
+    CREATABLE(plPointControllerCacheChannel, kPointControllerCacheChannel,
+              plPointChannel)
 };
 
+
 DllClass plPointControllerChannel : public plPointChannel {
+    CREATABLE(plPointControllerChannel, kPointControllerChannel, plPointChannel)
+
 protected:
     plController* fController;
 
@@ -59,8 +51,6 @@ public:
     plPointControllerChannel();
     virtual ~plPointControllerChannel();
 
-    DECLARE_CREATABLE(plPointControllerChannel)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -69,26 +59,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plController* getController() const;
+    plController* getController() const { return fController; }
     void setController(plController* controller);
 };
 
-DllClass plPointTimeScale : public plPointChannel {
-public:
-    plPointTimeScale();
-    virtual ~plPointTimeScale();
 
-    DECLARE_CREATABLE(plPointTimeScale)
+DllClass plPointTimeScale : public plPointChannel {
+    CREATABLE(plPointTimeScale, kPointTimeScale, plPointChannel)
 };
 
 
 /* Point Channel Applicators */
 DllClass plPointChannelApplicator : public plAGApplicator {
-public:
-    plPointChannelApplicator();
-    virtual ~plPointChannelApplicator();
-
-    DECLARE_CREATABLE(plPointChannelApplicator)
+    CREATABLE(plPointChannelApplicator, kPointChannelApplicator, plAGApplicator)
 };
 
 #endif

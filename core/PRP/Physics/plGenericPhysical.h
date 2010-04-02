@@ -16,6 +16,8 @@
  **************/
 
 DllClass plGenericPhysical : public plPhysical {
+    CREATABLE(plGenericPhysical, kGenericPhysical, plPhysical)
+
 public:
     enum PhysType {
         kPhysNone, kPhysHavok, kPhysODE, kPhysX, kNumPhysTypes
@@ -66,8 +68,6 @@ public:
     plGenericPhysical();
     virtual ~plGenericPhysical();
 
-    DECLARE_CREATABLE(plGenericPhysical)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -76,54 +76,57 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    float getMass() const;
-    float getFriction() const;
-    float getRestitution() const;
-    plSimDefs::Bounds getBoundsType() const;
-    plSimDefs::Group getGroup() const;
-    unsigned int getCategory() const;
-    unsigned short getLOSDBs() const;
-    unsigned int getReportsOn() const;
+    float getMass() const { return fMass; }
+    float getFriction() const { return fFriction; }
+    float getRestitution() const { return fRestitution; }
+    plSimDefs::Bounds getBoundsType() const { return fBounds; }
+    plSimDefs::Group getGroup() const { return fGroup; }
+    unsigned int getCategory() const { return fCategory; }
+    unsigned short getLOSDBs() const { return fLOSDBs; }
+    unsigned int getReportsOn() const { return fReportsOn; }
 
-    plKey getObject() const;
-    plKey getSceneNode() const;
-    plKey getSubWorld() const;
-    plKey getSoundGroup() const;
-    hsVector3 getPos() const;
-    hsQuat getRot() const;
-    hsBitVector& getProps();
+    plKey getObject() const { return fObjectKey; }
+    plKey getSceneNode() const { return fSceneNode; }
+    plKey getSubWorld() const { return fSubWorld; }
+    plKey getSoundGroup() const { return fSoundGroup; }
+    hsVector3 getPos() const { return fPos; }
+    hsQuat getRot() const { return fRot; }
 
-    hsVector3 getDimensions() const;
-    hsVector3 getOffset() const;
-    float getRadius() const;
-    float getLength() const;
-    size_t getNumVerts() const;
-    size_t getNumIndices() const;
-    hsVector3 getVert(size_t idx) const;
-    unsigned int getIndex(size_t idx) const;
-    size_t getTMDSize() const;
-    const unsigned char* getTMDBuffer() const;
+    bool getProperty(size_t prop) const { return fProps.get(prop); }
+    void setProperty(size_t prop, bool value) { fProps.set(prop, value); }
 
-    void setMass(float mass);
-    void setFriction(float friction);
-    void setRestitution(float restitution);
-    void setBoundsType(plSimDefs::Bounds bounds);
-    void setGroup(plSimDefs::Group group);
-    void setCategory(unsigned int category);
-    void setLOSDBs(unsigned short los);
-    void setReportsOn(unsigned int reports);
+    hsVector3 getDimensions() const { return fDimensions; }
+    hsVector3 getOffset() const { return fOffset; }
+    float getRadius() const { return fRadius; }
+    float getLength() const { return fLength; }
 
-    void setObject(plKey object);
-    void setSceneNode(plKey node);
-    void setSubWorld(plKey world);
-    void setSoundGroup(plKey group);
-    void setPos(const hsVector3& pos);
-    void setRot(const hsQuat& rot);
+    const hsTArray<hsVector3>& getVerts() const { return fVerts; }
+    hsTArray<hsVector3>& getVerts() { return fVerts; }
+    const hsTArray<unsigned int>& getIndices() const { return fIndices; }
+    hsTArray<unsigned int>& getIndices() { return fIndices; }
+    size_t getTMDSize() const { return fTMDSize; }
+    const unsigned char* getTMDBuffer() const { return fTMDBuffer; }
 
-    void setDimensions(const hsVector3& box);
-    void setOffset(const hsVector3& offset);
-    void setRadius(float radius);
-    void setLength(float length);
+    void setMass(float mass) { fMass = mass; }
+    void setFriction(float friction) { fFriction = friction; }
+    void setRestitution(float restitution) { fRestitution = restitution; }
+    void setBoundsType(plSimDefs::Bounds bounds) { fBounds = bounds; }
+    void setGroup(plSimDefs::Group group) { fGroup = group; }
+    void setCategory(unsigned int category) { fCategory = category; }
+    void setLOSDBs(unsigned short los) { fLOSDBs = los; }
+    void setReportsOn(unsigned int reports) { fReportsOn = reports; }
+
+    void setObject(plKey object) { fObjectKey = object; }
+    void setSceneNode(plKey node) { fSceneNode = node; }
+    void setSubWorld(plKey world) { fSubWorld = world; }
+    void setSoundGroup(plKey group) { fSoundGroup = group; }
+    void setPos(const hsVector3& pos) { fPos = pos; }
+    void setRot(const hsQuat& rot) { fRot = rot; }
+
+    void setDimensions(const hsVector3& box) { fDimensions = box; }
+    void setOffset(const hsVector3& offset) { fOffset = offset; }
+    void setRadius(float radius) { fRadius = radius; }
+    void setLength(float length) { fLength = length; }
     void setVerts(size_t numVerts, const hsVector3* verts);
     void setIndices(size_t numIndices, const unsigned int* indices);
     void setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer);

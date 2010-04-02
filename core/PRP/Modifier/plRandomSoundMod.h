@@ -10,7 +10,6 @@ protected:
 
 public:
     plRandomSoundModGroup();
-    ~plRandomSoundModGroup();
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -18,16 +17,14 @@ public:
     void prcParse(const pfPrcTag* tag);
 };
 
+
 DllClass plRandomSoundMod : public plRandomCommandMod {
+    CREATABLE(plRandomSoundMod, kRandomSoundMod, plRandomCommandMod)
+
 protected:
     hsTArray<plRandomSoundModGroup> fGroups;
 
 public:
-    plRandomSoundMod();
-    virtual ~plRandomSoundMod();
-
-    DECLARE_CREATABLE(plRandomSoundMod)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

@@ -46,20 +46,6 @@ void plWAVHeader::prcParse(const pfPrcTag* tag) {
     fBitsPerSample = tag->getParam("BitsPerSample", "0").toUint();
 }
 
-unsigned short plWAVHeader::getFormatTag() const { return fFormatTag; }
-unsigned short plWAVHeader::getNumChannels() const { return fNumChannels; }
-unsigned int plWAVHeader::getNumSamplesPerSec() const { return fNumSamplesPerSec; }
-unsigned int plWAVHeader::getAvgBytesPerSec() const { return fAvgBytesPerSec; }
-unsigned short plWAVHeader::getBlockAlign() const { return fBlockAlign; }
-unsigned short plWAVHeader::getBitsPerSample() const { return fBitsPerSample; }
-
-void plWAVHeader::setFormatTag(unsigned short tag) { fFormatTag = tag; }
-void plWAVHeader::setNumChannels(unsigned short channels) { fNumChannels = channels; }
-void plWAVHeader::setNumSamplesPerSec(unsigned int samples) { fNumSamplesPerSec = samples; }
-void plWAVHeader::setAvgBytesPerSec(unsigned int bytes) { fAvgBytesPerSec = bytes; }
-void plWAVHeader::setBlockAlign(unsigned short align) { fBlockAlign = align; }
-void plWAVHeader::setBitsPerSample(unsigned short bits) { fBitsPerSample = bits; }
-
 
 /* plSoundBuffer */
 plSoundBuffer::plSoundBuffer() : fDataLength(0), fData(NULL), fFlags(0) { }
@@ -68,8 +54,6 @@ plSoundBuffer::~plSoundBuffer() {
     if (fData != NULL)
         delete[] fData;
 }
-
-IMPLEMENT_CREATABLE(plSoundBuffer, kSoundBuffer, hsKeyedObject)
 
 void plSoundBuffer::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -138,24 +122,12 @@ void plSoundBuffer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plWAVHeader& plSoundBuffer::getHeader() { return fHeader; }
-const plWAVHeader& plSoundBuffer::getHeader() const { return fHeader; }
-
-plString plSoundBuffer::getFileName() const { return fFileName; }
-unsigned int plSoundBuffer::getFlags() const { return fFlags; }
-size_t plSoundBuffer::getDataLength() const { return fDataLength; }
-unsigned char* plSoundBuffer::getData() const { return fData; }
-
-void plSoundBuffer::setFileName(const plString& name) { fFileName = name; }
-void plSoundBuffer::setFlags(unsigned int flags) { fFlags = flags; }
-void plSoundBuffer::setDataLength(size_t length) { fDataLength = length; }
-
 void plSoundBuffer::setData(size_t length, const unsigned char* data) {
     if (fData != NULL)
         delete[] fData;
 
     if (length == 0 || data == NULL) {
-        // Length can still be meaningful; don't modify it!
+        fDataLength = length;   // Length can be specified with a null datum
         fData = NULL;
     } else {
         fDataLength = length;

@@ -6,6 +6,8 @@
 #include "plEAXEffects.h"
 
 DllClass plSound : public plSynchedObject {
+    CREATABLE(plSound, kSound, plSynchedObject)
+
 public:
     enum Property {
         kPropIs3DSound = 0x1,
@@ -63,9 +65,6 @@ protected:
 
 public:
     plSound();
-    virtual ~plSound();
-
-    DECLARE_CREATABLE(plSound)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -77,43 +76,47 @@ protected:
     virtual void IWrite(hsStream* S, plResManager* mgr);
 
 public:
-    unsigned char getType() const;
-    unsigned char getPriority() const;
-    bool isPlaying() const;
-    double getTime() const;
-    int getMaxFalloff() const;
-    int getMinFalloff() const;
-    int getOuterVol() const;
-    int getInnerCone() const;
-    int getOuterCone() const;
-    float getCurrVolume() const;
-    float getDesiredVol() const;
-    float getFadedVolume() const;
-    unsigned int getProperties() const;
-    plKey getSoftRegion() const;
-    plKey getSoftOcclusionRegion() const;
-    plKey getDataBuffer() const;
-    plString getSubtitleId() const;
+    unsigned char getType() const { return fType; }
+    unsigned char getPriority() const { return fPriority; }
+    bool isPlaying() const { return fPlaying; }
+    double getTime() const { return fTime; }
+    int getMaxFalloff() const { return fMaxFalloff; }
+    int getMinFalloff() const { return fMinFalloff; }
+    int getOuterVol() const { return fOuterVol; }
+    int getInnerCone() const { return fInnerCone; }
+    int getOuterCone() const { return fOuterCone; }
+    float getCurrVolume() const { return fCurrVolume; }
+    float getDesiredVolume() const { return fDesiredVol; }
+    float getFadedVolume() const { return fFadedVolume; }
+    unsigned int getProperties() const { return fProperties; }
+    plKey getSoftRegion() const { return fSoftRegion; }
+    plKey getSoftOcclusionRegion() const { return fSoftOcclusionRegion; }
+    plKey getDataBuffer() const { return fDataBuffer; }
+    plString getSubtitleId() const { return fSubtitleId; }
 
-    void setType(unsigned char type);
-    void setPriority(unsigned char priority);
-    void setPlaying(bool playing);
-    void setTime(double time);
-    void setFalloff(int min, int max);
-    void setOuterVol(int vol);
-    void setCone(int inner, int outer);
-    void setCurrVolume(float vol);
-    void setDesiredVol(float vol);
-    void setFadedVolume(float vol);
-    void setProperties(unsigned int props);
-    void setSoftRegion(plKey region);
-    void setSoftOcclusionRegion(plKey region);
-    void setDataBuffer(plKey buffer);
-    void setSubtitleId(const plString& subtitle);
+    void setType(unsigned char type) { fType = type; }
+    void setPriority(unsigned char priority) { fPriority = priority; }
+    void setPlaying(bool playing) { fPlaying = playing; }
+    void setTime(double time) { fTime = time; }
+    void setFalloff(int min, int max) { fMinFalloff = min; fMaxFalloff = max; }
+    void setOuterVol(int vol) { fOuterVol = vol; }
+    void setCone(int inner, int outer) { fInnerCone = inner; fOuterCone = outer; }
+    void setCurrVolume(float vol) { fCurrVolume = vol; }
+    void setDesiredVolume(float vol) { fDesiredVol = vol; }
+    void setFadedVolume(float vol) { fFadedVolume = vol; }
+    void setProperties(unsigned int props) { fProperties = props; }
+    void setSoftRegion(plKey region) { fSoftRegion = region; }
+    void setSoftOcclusionRegion(plKey region) { fSoftOcclusionRegion = region; }
+    void setDataBuffer(plKey buffer) { fDataBuffer = buffer; }
+    void setSubtitleId(const plString& subtitle) { fSubtitleId = subtitle; }
 
-    plEAXSourceSettings& getEAXSettings();
-    plFadeParams& getFadeInParams();
-    plFadeParams& getFadeOutParams();
+    const plEAXSourceSettings& getEAXSettings() const { return fEAXSettings; }
+    const plFadeParams& getFadeInParams() const { return fFadeInParams; }
+    const plFadeParams& getFadeOutParams() const { return fFadeOutParams; }
+
+    plEAXSourceSettings& getEAXSettings() { return fEAXSettings; }
+    plFadeParams& getFadeInParams() { return fFadeInParams; }
+    plFadeParams& getFadeOutParams() { return fFadeOutParams; }
 };
 
 #endif

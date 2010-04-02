@@ -1,28 +1,6 @@
 #include "plScalarChannel.h"
 
-/* plScalarChannel */
-plScalarChannel::plScalarChannel() { }
-plScalarChannel::~plScalarChannel() { }
-
-IMPLEMENT_CREATABLE(plScalarChannel, kScalarChannel, plAGChannel)
-
-float plScalarChannel::getResult() const { return fResult; }
-void plScalarChannel::setResult(float result) { fResult = result; }
-
-
-/* plScalarBlend */
-plScalarBlend::plScalarBlend() { }
-plScalarBlend::~plScalarBlend() { }
-
-IMPLEMENT_CREATABLE(plScalarBlend, kScalarBlend, plScalarChannel)
-
-
 /* plScalarConstant */
-plScalarConstant::plScalarConstant() { }
-plScalarConstant::~plScalarConstant() { }
-
-IMPLEMENT_CREATABLE(plScalarConstant, kScalarConstant, plScalarChannel)
-
 void plScalarConstant::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
     fResult = S->readFloat();
@@ -50,15 +28,6 @@ void plScalarConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plScalarControllerCacheChannel */
-plScalarControllerCacheChannel::plScalarControllerCacheChannel() { }
-plScalarControllerCacheChannel::~plScalarControllerCacheChannel() { }
-
-IMPLEMENT_CREATABLE(plScalarControllerCacheChannel,
-                    kScalarControllerCacheChannel,
-                    plScalarChannel)
-
-
 /* plScalarControllerChannel */
 plScalarControllerChannel::plScalarControllerChannel() : fController(NULL) { }
 
@@ -66,9 +35,6 @@ plScalarControllerChannel::~plScalarControllerChannel() {
     if (fController != NULL)
         delete fController;
 }
-
-IMPLEMENT_CREATABLE(plScalarControllerChannel, kScalarControllerChannel,
-                    plScalarChannel)
 
 void plScalarControllerChannel::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
@@ -97,39 +63,8 @@ void plScalarControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr
     }
 }
 
-plController* plScalarControllerChannel::getController() const { return fController; }
-
 void plScalarControllerChannel::setController(plController* controller) {
     if (fController != NULL)
         delete fController;
     fController = controller;
 }
-
-
-/* plScalarTimeScale */
-plScalarTimeScale::plScalarTimeScale() { }
-plScalarTimeScale::~plScalarTimeScale() { }
-
-IMPLEMENT_CREATABLE(plScalarTimeScale, kScalarTimeScale, plScalarChannel)
-
-
-/* plScalarSDLChannel */
-plScalarSDLChannel::plScalarSDLChannel() { }
-plScalarSDLChannel::~plScalarSDLChannel() { }
-
-IMPLEMENT_CREATABLE(plScalarSDLChannel, kScalarSDLChannel, plScalarChannel)
-
-
-/* plATCChannel */
-plATCChannel::plATCChannel() { }
-plATCChannel::~plATCChannel() { }
-
-IMPLEMENT_CREATABLE(plATCChannel, kATCChannel, plScalarChannel)
-
-
-/* plScalarChannelApplicator */
-plScalarChannelApplicator::plScalarChannelApplicator() { }
-plScalarChannelApplicator::~plScalarChannelApplicator() { }
-
-IMPLEMENT_CREATABLE(plScalarChannelApplicator, kScalarChannelApplicator,
-                    plAGApplicator)

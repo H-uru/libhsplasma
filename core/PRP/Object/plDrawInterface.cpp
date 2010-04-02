@@ -1,11 +1,6 @@
 #include "plDrawInterface.h"
 
 /* plDrawInterface */
-plDrawInterface::plDrawInterface() { }
-plDrawInterface::~plDrawInterface() { }
-
-IMPLEMENT_CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
-
 void plDrawInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
@@ -76,10 +71,6 @@ void plDrawInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plDrawInterface::getNumDrawables() const { return fDrawables.getSize(); }
-plKey plDrawInterface::getDrawable(size_t idx) const { return fDrawables[idx]; }
-int plDrawInterface::getDrawableKey(size_t idx) const { return fDrawableKeys[idx]; }
-
 void plDrawInterface::clearDrawables() {
     fDrawables.clear();
     fDrawableKeys.clear();
@@ -95,19 +86,9 @@ void plDrawInterface::delDrawable(size_t idx) {
     fDrawableKeys.remove(idx);
 }
 
-size_t plDrawInterface::getNumRegions() const { return fRegions.getSize(); }
-plKey plDrawInterface::getRegion(size_t idx) const { return fRegions[idx]; }
-void plDrawInterface::clearRegions() { fRegions.clear(); }
-void plDrawInterface::addRegion(plKey obj) { fRegions.append(obj); }
-void plDrawInterface::delRegion(size_t idx) { fRegions.remove(idx); }
-
 
 /* plInstanceDrawInterface */
 plInstanceDrawInterface::plInstanceDrawInterface() : fTargetID(0) { }
-plInstanceDrawInterface::~plInstanceDrawInterface() { }
-
-IMPLEMENT_CREATABLE(plInstanceDrawInterface, kInstanceDrawInterface,
-                    plDrawInterface)
 
 void plInstanceDrawInterface::read(hsStream* S, plResManager* mgr) {
     plDrawInterface::read(S, mgr);

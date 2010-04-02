@@ -491,11 +491,6 @@ hsTArray<plGBufferCell> plGBufferGroup::getCells(size_t idx) const {
     return fCells[idx];
 }
 
-unsigned char plGBufferGroup::getFormat() const { return fFormat; }
-size_t plGBufferGroup::getSkinWeights() const { return (fFormat & kSkinWeightMask) >> 4; }
-size_t plGBufferGroup::getNumUVs() const { return (fFormat & kUVCountMask); }
-bool plGBufferGroup::getHasSkinIndices() const { return (fFormat & kSkinIndices) != 0; }
-
 void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
     size_t vtxSize = verts.getSize() * fStride;
     fVertBuffSizes.append(vtxSize);
@@ -622,40 +617,4 @@ void plGBufferGroup::clearIndices() {
 
 void plGBufferGroup::clearCells() {
     fCells.clear();
-}
-
-size_t plGBufferGroup::getNumVertBuffers() const {
-    return fVertBuffStorage.getSize();
-}
-
-size_t plGBufferGroup::getNumIdxBuffers() const {
-    return fIdxBuffStorage.getSize();
-}
-
-const unsigned char* plGBufferGroup::getVertBufferStorage(size_t idx) const {
-    return fVertBuffStorage[idx];
-}
-
-unsigned char* plGBufferGroup::getMutableVertBuffer(size_t idx) {
-    return fVertBuffStorage[idx];
-}
-
-size_t plGBufferGroup::getVertBufferSize(size_t idx) const {
-    return fVertBuffSizes[idx];
-}
-
-const unsigned short* plGBufferGroup::getIdxBufferStorage(size_t idx) const {
-    return fIdxBuffStorage[idx];
-}
-
-unsigned short* plGBufferGroup::getMutableIdxBuffer(size_t idx) {
-    return fIdxBuffStorage[idx];
-}
-
-size_t plGBufferGroup::getIdxBufferCount(size_t idx) const {
-    return fIdxBuffCounts[idx];
-}
-
-unsigned int plGBufferGroup::getStride() const {
-    return fStride;
 }

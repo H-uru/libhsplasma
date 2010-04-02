@@ -7,8 +7,6 @@ plAnimEventModifier::~plAnimEventModifier() {
         delete fCallback;
 }
 
-IMPLEMENT_CREATABLE(plAnimEventModifier, kAnimEventModifier, plSingleModifier)
-
 void plAnimEventModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

@@ -8,6 +8,8 @@
 #include "PRP/Geometry/hsGDeviceRef.h"
 
 DllClass plLightInfo : public plObjInterface {
+    CREATABLE(plLightInfo, kLightInfo, plObjInterface)
+
 public:
     enum {
         kDisable, kLPObsolete, kLPCastShadows, kLPMovable, kLPHasIncludes,
@@ -24,9 +26,6 @@ protected:
 
 public:
     plLightInfo();
-    virtual ~plLightInfo();
-
-    DECLARE_CREATABLE(plLightInfo)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -36,32 +35,33 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    hsColorRGBA getAmbient() const;
-    hsColorRGBA getDiffuse() const;
-    hsColorRGBA getSpecular() const;
-    hsMatrix44 getLightToLocal() const;
-    hsMatrix44 getLocalToLight() const;
-    hsMatrix44 getLightToWorld() const;
-    hsMatrix44 getWorldToLight() const;
-    plKey getProjection() const;
-    plKey getSoftVolume() const;
-    plKey getSceneNode() const;
+    hsColorRGBA getAmbient() const { return fAmbient; }
+    hsColorRGBA getDiffuse() const { return fDiffuse; }
+    hsColorRGBA getSpecular() const { return fSpecular; }
+    hsMatrix44 getLightToLocal() const { return fLightToLocal; }
+    hsMatrix44 getLocalToLight() const { return fLocalToLight; }
+    hsMatrix44 getLightToWorld() const { return fLightToWorld; }
+    hsMatrix44 getWorldToLight() const { return fWorldToLight; }
+    plKey getProjection() const { return fProjection; }
+    plKey getSoftVolume() const { return fSoftVolume; }
+    plKey getSceneNode() const { return fSceneNode; }
 
-    void setAmbient(const hsColorRGBA& color);
-    void setDiffuse(const hsColorRGBA& color);
-    void setSpecular(const hsColorRGBA& color);
-    void setLightToLocal(const hsMatrix44& xform);
-    void setLocalToLight(const hsMatrix44& xform);
-    void setLightToWorld(const hsMatrix44& xform);
-    void setWorldToLight(const hsMatrix44& xform);
-    void setProjection(plKey proj);
-    void setSoftVolume(plKey vol);
-    void setSceneNode(plKey node);
+    void setAmbient(const hsColorRGBA& color) { fAmbient = color; }
+    void setDiffuse(const hsColorRGBA& color) { fDiffuse = color; }
+    void setSpecular(const hsColorRGBA& color) { fSpecular = color; }
+    void setLightToLocal(const hsMatrix44& xform) { fLightToLocal = xform; }
+    void setLocalToLight(const hsMatrix44& xform) { fLocalToLight = xform; }
+    void setLightToWorld(const hsMatrix44& xform) { fLightToWorld = xform; }
+    void setWorldToLight(const hsMatrix44& xform) { fWorldToLight = xform; }
+    void setProjection(plKey proj) { fProjection = proj; }
+    void setSoftVolume(plKey vol) { fSoftVolume = vol; }
+    void setSceneNode(plKey node) { fSceneNode = node; }
 
-    size_t getNumVisRegions() const;
-    plKey getVisRegion(size_t idx);
-    void clearVisRegions();
-    void addVisRegion(plKey region);
+    const hsTArray<plKey>& getVisRegions() const { return fVisRegions; }
+    hsTArray<plKey>& getVisRegions() { return fVisRegions; }
+    void addVisRegion(plKey region) { fVisRegions.append(region); }
+    void delVisRegion(size_t idx) { fVisRegions.remove(idx); }
+    void clearVisRegions() { fVisRegions.clear(); }
 };
 
 #endif

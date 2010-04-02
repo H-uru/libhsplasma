@@ -1,5 +1,5 @@
 #include <PyPlasma.h>
-#include <PRP/Animation/plKeyControllers.h>
+#include <PRP/Animation/plKeyControllers.hpp>
 #include "pyLeafController.h"
 #include "PRP/pyCreatable.h"
 

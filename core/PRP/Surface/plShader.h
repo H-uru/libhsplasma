@@ -17,7 +17,8 @@ public:
     plShaderConst(const plShaderConst& init);
 
     plShaderConst& operator=(const plShaderConst& init);
-    float& operator[](size_t idx);
+    float operator[](size_t idx) const { return fArray[idx]; }
+    float& operator[](size_t idx) { return fArray[idx]; }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -25,7 +26,10 @@ public:
     void prcParse(const pfPrcTag* tag);
 };
 
+
 DllClass plShader : public hsKeyedObject {
+    CREATABLE(plShader, kShader, hsKeyedObject)
+
 public:
     enum plShaderID {
         kUnregistered,
@@ -48,9 +52,6 @@ protected:
 
 public:
     plShader();
-    virtual ~plShader();
-
-    DECLARE_CREATABLE(plShader)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -60,17 +61,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumConsts() const;
-    plShaderConst getConst(size_t idx) const;
-    void clearConsts();
-    void addConst(const plShaderConst& sc);
+    const hsTArray<plShaderConst>& getConsts() const { return fConsts; }
+    plShaderID getID() const { return fID; }
+    unsigned char getInput() const { return fInput; }
+    unsigned char getOutput() const { return fOutput; }
 
-    plShaderID getID() const;
-    unsigned char getInput() const;
-    unsigned char getOutput() const;
-    void setID(plShaderID id);
-    void setInput(unsigned char input);
-    void setOutput(unsigned char output);
+    void setConsts(const hsTArray<plShaderConst>& consts) { fConsts = consts; }
+    void setID(plShaderID id) { fID = id; }
+    void setInput(unsigned char input) { fInput = input; }
+    void setOutput(unsigned char output) { fOutput = output; }
 };
 
 #endif

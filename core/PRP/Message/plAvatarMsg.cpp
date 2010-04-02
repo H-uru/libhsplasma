@@ -1,20 +1,9 @@
 #include "plAvatarMsg.h"
 
-/* plAvatarMsg */
-plAvatarMsg::plAvatarMsg() { }
-plAvatarMsg::~plAvatarMsg() { }
-
-IMPLEMENT_CREATABLE(plAvatarMsg, kAvatarMsg, plMessage)
-
-
 /* plArmatureUpdateMsg */
 plArmatureUpdateMsg::plArmatureUpdateMsg() {
     fBCastFlags |= kBCastByExactType;
 }
-
-plArmatureUpdateMsg::~plArmatureUpdateMsg() { }
-
-IMPLEMENT_CREATABLE(plArmatureUpdateMsg, kArmatureUpdateMsg, plAvatarMsg)
 
 void plArmatureUpdateMsg::read(hsStream* S, plResManager* mgr) { }
 void plArmatureUpdateMsg::write(hsStream* S, plResManager* mgr) { }
@@ -27,9 +16,6 @@ void plArmatureUpdateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plAvatarSetTypeMsg */
 plAvatarSetTypeMsg::plAvatarSetTypeMsg() : fIsPlayer(false) { }
-plAvatarSetTypeMsg::~plAvatarSetTypeMsg() { }
-
-IMPLEMENT_CREATABLE(plAvatarSetTypeMsg, kAvatarSetTypeMsg, plAvatarMsg)
 
 void plAvatarSetTypeMsg::read(hsStream* S, plResManager* mgr) {
     fIsPlayer = S->readBool();
@@ -59,10 +45,6 @@ plAvatarStealthModeMsg::plAvatarStealthModeMsg() {
     fBCastFlags |= kBCastByExactType;
 }
 
-plAvatarStealthModeMsg::~plAvatarStealthModeMsg() { }
-
-IMPLEMENT_CREATABLE(plAvatarStealthModeMsg, kAvatarStealthModeMsg, plAvatarMsg)
-
 void plAvatarStealthModeMsg::read(hsStream* S, plResManager* mgr) { }
 void plAvatarStealthModeMsg::write(hsStream* S, plResManager* mgr) { }
 void plAvatarStealthModeMsg::IPrcWrite(pfPrcHelper* prc) { }
@@ -76,10 +58,6 @@ void plAvatarStealthModeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plAvBrainGenericMsg::plAvBrainGenericMsg()
                    : fType(0), fWhichStage(0), fSetTime(false), fSetDirection(false),
                      fNewDirection(false), fNewTime(0.0f), fTransitionTime(0.0f) { }
-
-plAvBrainGenericMsg::~plAvBrainGenericMsg() { }
-
-IMPLEMENT_CREATABLE(plAvBrainGenericMsg, kAvBrainGenericMsg, plAvatarMsg)
 
 void plAvBrainGenericMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
@@ -136,9 +114,6 @@ void plAvBrainGenericMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plAvTaskSeekDoneMsg */
 plAvTaskSeekDoneMsg::plAvTaskSeekDoneMsg() : fAborted(false) { }
-plAvTaskSeekDoneMsg::~plAvTaskSeekDoneMsg() { }
-
-IMPLEMENT_CREATABLE(plAvTaskSeekDoneMsg, kAvTaskSeekDoneMsg, plAvatarMsg)
 
 void plAvTaskSeekDoneMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);

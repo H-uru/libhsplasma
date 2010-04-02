@@ -8,8 +8,6 @@ plAvTaskMsg::~plAvTaskMsg() {
         delete fTask;
 }
 
-IMPLEMENT_CREATABLE(plAvTaskMsg, kAvTaskMsg, plAvatarMsg)
-
 void plAvTaskMsg::read(hsStream* S, plResManager* mgr) {
     plAvatarMsg::read(S, mgr);
 
@@ -55,8 +53,6 @@ void plAvTaskMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plAvTask* plAvTaskMsg::getTask() const { return fTask; }
-
 void plAvTaskMsg::setTask(plAvTask* task) {
     if (fTask != NULL)
         delete fTask;
@@ -71,8 +67,6 @@ plAvPushBrainMsg::~plAvPushBrainMsg() {
     if (fBrain != NULL)
         delete fBrain;
 }
-
-IMPLEMENT_CREATABLE(plAvPushBrainMsg, kAvPushBrainMsg, plAvTaskMsg)
 
 void plAvPushBrainMsg::read(hsStream* S, plResManager* mgr) {
     plAvTaskMsg::read(S, mgr);
@@ -109,17 +103,8 @@ void plAvPushBrainMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plArmatureBrain* plAvPushBrainMsg::getBrain() const { return fBrain; }
-
 void plAvPushBrainMsg::setBrain(plArmatureBrain* brain) {
     if (fBrain != NULL)
         delete fBrain;
     fBrain = brain;
 }
-
-
-/* plAvPopBrainMsg */
-plAvPopBrainMsg::plAvPopBrainMsg() { }
-plAvPopBrainMsg::~plAvPopBrainMsg() { }
-
-IMPLEMENT_CREATABLE(plAvPopBrainMsg, kAvPopBrainMsg, plAvTaskMsg)

@@ -1,9 +1,6 @@
 #include "plNetMsgPlayerPage.h"
 
 plNetMsgPlayerPage::plNetMsgPlayerPage() : fUnload(0) { }
-plNetMsgPlayerPage::~plNetMsgPlayerPage() { }
-
-IMPLEMENT_CREATABLE(plNetMsgPlayerPage, kNetMsgPlayerPage, plNetMessage)
 
 void plNetMsgPlayerPage::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);

@@ -50,16 +50,6 @@ pnBigInteger& pnBigInteger::operator=(unsigned int init)
     return *this;
 }
 
-void pnBigInteger::set(const pnBigInteger& init)
-{
-    BN_copy(fValue, init.fValue);
-}
-
-void pnBigInteger::set(unsigned int init)
-{
-    BN_set_word(fValue, init);
-}
-
 void pnBigInteger::set(const unsigned char* data, size_t count)
 {
     unsigned char* buf = new unsigned char[count];
@@ -77,27 +67,12 @@ void pnBigInteger::setBit(size_t bit, bool on)
         BN_clear_bit(fValue, bit);
 }
 
-size_t pnBigInteger::getByteSize() const
-{
-    return BN_num_bytes(fValue);
-}
-
-size_t pnBigInteger::getBitSize() const
-{
-    return BN_num_bits(fValue);
-}
-
 void pnBigInteger::getData(unsigned char* data, size_t bytes) const
 {
     if (bytes != 0 && data != NULL) {
         BN_bn2bin(fValue, data);
         BYTESWAP_BUFFER(data, bytes)
     }
-}
-
-bool pnBigInteger::getBit(size_t bit) const
-{
-    return BN_is_bit_set(fValue, bit) != 0;
 }
 
 bool pnBigInteger::operator==(const pnBigInteger& num) const

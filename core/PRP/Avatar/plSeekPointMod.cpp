@@ -1,10 +1,5 @@
 #include "plSeekPointMod.h"
 
-plSeekPointMod::plSeekPointMod() { }
-plSeekPointMod::~plSeekPointMod() { }
-
-IMPLEMENT_CREATABLE(plSeekPointMod, kSeekPointMod, plMultiModifier)
-
 void plSeekPointMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
     size_t len = S->readInt();

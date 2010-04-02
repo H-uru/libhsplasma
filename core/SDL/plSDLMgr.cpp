@@ -4,8 +4,6 @@
 #include <stdarg.h>
 
 /* plSDLMgr */
-plSDLMgr::plSDLMgr() { }
-
 plSDLMgr::~plSDLMgr() {
     for (size_t i=0; i<fDescriptors.getSize(); i++)
         delete fDescriptors[i];

@@ -4,6 +4,8 @@
 #include "plMessage.h"
 
 DllClass plLinkEffectsTriggerMsg : public plMessage {
+    CREATABLE(plLinkEffectsTriggerMsg, kLinkEffectsTriggerMsg, plMessage)
+
 private:
     unsigned int fInvisLevel, fEffects;
     bool fLeavingAge;
@@ -11,9 +13,6 @@ private:
 
 public:
     plLinkEffectsTriggerMsg();
-    virtual ~plLinkEffectsTriggerMsg();
-
-    DECLARE_CREATABLE(plLinkEffectsTriggerMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

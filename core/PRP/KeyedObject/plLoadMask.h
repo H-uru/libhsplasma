@@ -13,19 +13,18 @@ protected:
 
 public:
     plLoadMask();
-    ~plLoadMask();
-    
+
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    bool isUsed();
+    bool isUsed() { return (fMask != 0xFFFF); }
     void setQuality(unsigned char low, unsigned char high);
-    void setMask(unsigned short mask);
-    void setAlways();
-    unsigned short getMask() const;
-    unsigned char getQuality(size_t which) const;
+    void setMask(unsigned short mask) { fMask = mask; }
+    void setAlways() { fMask = 0xFFFF; }
+    unsigned short getMask() const { return fMask; }
+    unsigned char getQuality(size_t which) const { return fQuality[which]; }
 };
 
 #endif

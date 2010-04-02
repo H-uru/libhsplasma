@@ -4,10 +4,6 @@ plObjInterface::plObjInterface() {
     fProps.setName(kDisable, "kDisable");
 }
 
-plObjInterface::~plObjInterface() { }
-
-IMPLEMENT_CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
-
 void plObjInterface::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
     fOwner = mgr->readKey(S);
@@ -43,9 +39,3 @@ void plObjInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSynchedObject::IPrcParse(tag, mgr);
     }
 }
-
-hsBitVector& plObjInterface::getProperties() { return fProps; }
-bool plObjInterface::getProperty(size_t prop) const { return fProps[prop]; }
-void plObjInterface::setProperty(size_t prop, bool value) { fProps.set(prop, value); }
-plKey plObjInterface::getOwner() const { return fOwner; }
-void plObjInterface::setOwner(plKey owner) { fOwner = owner; }

@@ -78,9 +78,9 @@ static PyObject* pyCoordinateInterface_getP2L(pyCoordinateInterface* self, void*
 }
 
 static PyObject* pyCoordinateInterface_getChildren(pyCoordinateInterface* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getNumChildren());
-    for (size_t i=0; i<self->fThis->getNumChildren(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getChild(i)));
+    PyObject* list = PyList_New(self->fThis->getChildren().getSize());
+    for (size_t i=0; i<self->fThis->getChildren().getSize(); i++)
+        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getChildren()[i]));
     return list;
 }
 
@@ -89,7 +89,7 @@ static int pyCoordinateInterface_setL2W(pyCoordinateInterface* self, PyObject* v
         PyErr_SetString(PyExc_TypeError, "localToWorld should be an hsMatrix44");
         return -1;
     }
-    self->fThis->getLocalToWorld() = *((pyMatrix44*)value)->fThis;
+    self->fThis->setLocalToWorld(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
@@ -98,7 +98,7 @@ static int pyCoordinateInterface_setW2L(pyCoordinateInterface* self, PyObject* v
         PyErr_SetString(PyExc_TypeError, "worldToLocal should be an hsMatrix44");
         return -1;
     }
-    self->fThis->getWorldToLocal() = *((pyMatrix44*)value)->fThis;
+    self->fThis->setWorldToLocal(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
@@ -107,7 +107,7 @@ static int pyCoordinateInterface_setL2P(pyCoordinateInterface* self, PyObject* v
         PyErr_SetString(PyExc_TypeError, "local2Parent should be an hsMatrix44");
         return -1;
     }
-    self->fThis->getLocalToParent() = *((pyMatrix44*)value)->fThis;
+    self->fThis->setLocalToParent(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
@@ -116,7 +116,7 @@ static int pyCoordinateInterface_setP2L(pyCoordinateInterface* self, PyObject* v
         PyErr_SetString(PyExc_TypeError, "parentToLocal should be an hsMatrix44");
         return -1;
     }
-    self->fThis->getParentToLocal() = *((pyMatrix44*)value)->fThis;
+    self->fThis->setParentToLocal(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 

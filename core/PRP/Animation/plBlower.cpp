@@ -4,10 +4,6 @@ plBlower::plBlower()
         : fMasterPower(0.0f), fDirectRate(0.0f), fImpulseRate(0.0f),
           fSpringKonst(0.0f) { }
 
-plBlower::~plBlower() { }
-
-IMPLEMENT_CREATABLE(plBlower, kBlower, plSingleModifier)
-
 void plBlower::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -47,13 +43,3 @@ void plBlower::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-float plBlower::getMasterPower() const { return fMasterPower; }
-float plBlower::getDirectRate() const { return fDirectRate; }
-float plBlower::getImpulseRate() const { return fImpulseRate; }
-float plBlower::getSpringKonst() const { return fSpringKonst; }
-
-void plBlower::setMasterPower(float power) { fMasterPower = power; }
-void plBlower::setDirectRate(float rate) { fDirectRate = rate; }
-void plBlower::setImpulseRate(float rate) { fImpulseRate = rate; }
-void plBlower::setSpringKonst(float konst) { fSpringKonst = konst; }

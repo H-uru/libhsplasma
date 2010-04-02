@@ -39,36 +39,37 @@ protected:
 
 public:
     plAgeInfo();
-    ~plAgeInfo();
 
     void readFromFile(const plString& filename);
     void writeToFile(const plString& filename, PlasmaVer ver);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    const plString& getAgeName() const;
-    unsigned int getStartDateTime() const;
-    float getDayLength() const;
-    short getMaxCapacity() const;
-    short getLingerTime() const;
-    int getSeqPrefix() const;
-    unsigned int getReleaseVersion() const;
+public:
+    plString getAgeName() const { return fName; }
+    unsigned int getStartDateTime() const { return fStartDateTime; }
+    float getDayLength() const { return fDayLength; }
+    short getMaxCapacity() const { return fMaxCapacity; }
+    short getLingerTime() const { return fLingerTime; }
+    int getSeqPrefix() const { return fSeqPrefix; }
+    unsigned int getReleaseVersion() const { return fReleaseVersion; }
 
-    void setAgeName(const plString&);
-    void setStartDateTime(unsigned int);
-    void setDayLength(float);
-    void setMaxCapacity(short);
-    void setLingerTime(short);
-    void setSeqPrefix(int);
-    void setReleaseVersion(unsigned int);
+    void setAgeName(const plString& name) { fName = name; }
+    void setStartDateTime(unsigned int time) { fStartDateTime = time; }
+    void setDayLength(float length) { fDayLength = length; }
+    void setMaxCapacity(short maxCap) { fMaxCapacity = maxCap; }
+    void setLingerTime(short time) { fLingerTime = time; }
+    void setSeqPrefix(int prefix) { fSeqPrefix = prefix; }
+    void setReleaseVersion(unsigned int ver) { fReleaseVersion = ver; }
 
-    size_t getNumPages() const;
+    size_t getNumPages() const { return fPages.getSize(); }
+    PageEntry getPage(size_t idx) const { return fPages[idx]; }
+    void setPage(size_t idx, const PageEntry& page) { fPages[idx] = page; }
+    void addPage(const PageEntry& page) { fPages.append(page); }
+    void clearPages() { fPages.clear(); }
+
     size_t getNumCommonPages(PlasmaVer pv) const;
-    PageEntry getPage(size_t idx) const;
     PageEntry getCommonPage(size_t idx, PlasmaVer pv) const;
-    void setPage(size_t idx, const PageEntry& page);
-    void addPage(const PageEntry& page);
-    void clearPages();
 
     plString getPageFilename(size_t idx, PlasmaVer pv) const;
     plString getCommonPageFilename(size_t idx, PlasmaVer pv) const;

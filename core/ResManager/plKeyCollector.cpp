@@ -4,8 +4,6 @@
 #include "Debug/plDebug.h"
 #include <list>
 
-plKeyCollector::plKeyCollector() { }
-
 plKeyCollector::~plKeyCollector() {
     // This is now the "ultimate owner" of KeyedObjects, so we must delete
     // all the KOs that we own...

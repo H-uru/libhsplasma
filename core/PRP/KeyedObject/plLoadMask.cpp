@@ -1,7 +1,6 @@
 #include "plLoadMask.h"
 
 plLoadMask::plLoadMask() : fMask(0xFFFF) { }
-plLoadMask::~plLoadMask() { }
 
 void plLoadMask::read(hsStream* S) {
     unsigned char m = S->readByte();
@@ -22,27 +21,7 @@ void plLoadMask::prcParse(const pfPrcTag* tag) {
     fMask = tag->getParam("LoadMask", "0xFFFF").toUint();
 }
 
-bool plLoadMask::isUsed() {
-    return (fMask != 0xFFFF);
-}
-
 void plLoadMask::setQuality(unsigned char low, unsigned char high) {
     fQuality[0] = low;
     fQuality[1] = high;
-}
-
-void plLoadMask::setMask(unsigned short mask) {
-    fMask = mask;
-}
-
-void plLoadMask::setAlways() {
-    fMask = 0xFFFF;
-}
-
-unsigned short plLoadMask::getMask() const {
-    return fMask;
-}
-
-unsigned char plLoadMask::getQuality(size_t which) const {
-    return fQuality[which];
 }

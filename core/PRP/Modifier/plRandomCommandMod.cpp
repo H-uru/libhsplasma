@@ -3,10 +3,6 @@
 plRandomCommandMod::plRandomCommandMod()
                   : fState(0), fMode(0), fMinDelay(0.0f), fMaxDelay(0.0f) { }
 
-plRandomCommandMod::~plRandomCommandMod() { }
-
-IMPLEMENT_CREATABLE(plRandomCommandMod, kRandomCommandMod, plSingleModifier)
-
 void plRandomCommandMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

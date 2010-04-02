@@ -6,14 +6,11 @@
 
 DllClass plFixedWaterState6 {
 public:
-    DllClass WaveState {
-    public:
+    DllStruct WaveState {
         float fMaxLength, fMinLength, fAmpOverLen, fChop, fAngleDev;
 
-    public:
         WaveState();
-        ~WaveState();
-        
+
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
@@ -36,54 +33,54 @@ protected:
 
 public:
     plFixedWaterState6();
-    ~plFixedWaterState6();
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    hsVector3 getWaterOffset() const;
-    WaveState& getGeoState();
-    const WaveState& getGeoState() const;
-    WaveState& getTexState();
-    const WaveState& getTexState() const;
-    float getRippleScale() const;
-    float getWaterHeight() const;
-    hsVector3 getWindDir() const;
-    hsVector3 getSpecVector() const;
-    hsVector3 getMaxAtten() const;
-    hsVector3 getMinAtten() const;
-    float getWispiness() const;
-    hsColorRGBA getShoreTint() const;
-    hsColorRGBA getMaxColor() const;
-    hsColorRGBA getMinColor() const;
-    float getEdgeOpacity() const;
-    float getEdgeRadius() const;
-    float getPeriod() const;
-    float getFingerLength() const;
-    hsVector3 getEnvCenter() const;
-    float getEnvRefresh() const;
-    float getEnvRadius() const;
+public:
+    hsVector3 getWaterOffset() const { return fWaterOffset; }
+    const WaveState& getGeoState() const { return fGeoState; }
+    WaveState& getGeoState() { return fGeoState; }
+    const WaveState& getTexState() const { return fTexState; }
+    WaveState& getTexState() { return fTexState; }
+    float getRippleScale() const { return fRippleScale; }
+    float getWaterHeight() const { return fWaterHeight; }
+    hsVector3 getWindDir() const { return fWindDir; }
+    hsVector3 getSpecVector() const { return fSpecVec; }
+    hsVector3 getMaxAtten() const { return fMaxAtten; }
+    hsVector3 getMinAtten() const { return fMinAtten; }
+    float getWispiness() const { return fWispiness; }
+    hsColorRGBA getShoreTint() const { return fShoreTint; }
+    hsColorRGBA getMaxColor() const { return fMaxColor; }
+    hsColorRGBA getMinColor() const { return fMinColor; }
+    float getEdgeOpacity() const { return fEdgeOpac; }
+    float getEdgeRadius() const { return fEdgeRadius; }
+    float getPeriod() const { return fPeriod; }
+    float getFingerLength() const { return fFingerLength; }
+    hsVector3 getEnvCenter() const { return fEnvCenter; }
+    float getEnvRefresh() const { return fEnvRefresh; }
+    float getEnvRadius() const { return fEnvRadius; }
 
-    void setWaterOffset(const hsVector3& offset);
-    void setRippleScale(float scale);
-    void setWaterHeight(float height);
-    void setWindDir(const hsVector3& dir);
-    void setSpecVector(const hsVector3& vec);
-    void setMaxAtten(const hsVector3& atten);
-    void setMinAtten(const hsVector3& atten);
-    void setWispiness(float wispiness);
-    void setShoreTint(const hsColorRGBA& tint);
-    void setMaxColor(const hsColorRGBA& color);
-    void setMinColor(const hsColorRGBA& color);
-    void setEdgeOpacity(float opacity);
-    void setEdgeRadius(float radius);
-    void setPeriod(float period);
-    void setFingerLength(float length);
-    void setEnvCenter(const hsVector3& center);
-    void setEnvRefresh(float refresh);
-    void setEnvRadius(float radius);
+    void setWaterOffset(const hsVector3& offset) { fWaterOffset = offset; }
+    void setRippleScale(float scale) { fRippleScale = scale; }
+    void setWaterHeight(float height) { fWaterHeight = height; }
+    void setWindDir(const hsVector3& dir) { fWindDir = dir; }
+    void setSpecVector(const hsVector3& vec) { fSpecVec = vec; }
+    void setMaxAtten(const hsVector3& atten) { fMaxAtten = atten; }
+    void setMinAtten(const hsVector3& atten) { fMinAtten = atten; }
+    void setWispiness(float wispiness) { fWispiness = wispiness; }
+    void setShoreTint(const hsColorRGBA& tint) { fShoreTint = tint; }
+    void setMaxColor(const hsColorRGBA& color) { fMaxColor = color; }
+    void setMinColor(const hsColorRGBA& color) { fMinColor = color; }
+    void setEdgeOpacity(float opacity) { fEdgeOpac = opacity; }
+    void setEdgeRadius(float radius) { fEdgeRadius = radius; }
+    void setPeriod(float period) { fPeriod = period; }
+    void setFingerLength(float length) { fFingerLength = length; }
+    void setEnvCenter(const hsVector3& center) { fEnvCenter = center; }
+    void setEnvRefresh(float refresh) { fEnvRefresh = refresh; }
+    void setEnvRadius(float radius) { fEnvRadius = radius; }
 };
 
 #endif

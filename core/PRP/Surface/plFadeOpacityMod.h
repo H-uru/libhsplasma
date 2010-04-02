@@ -4,6 +4,8 @@
 #include "PRP/Modifier/plModifier.h"
 
 DllClass plFadeOpacityMod : public plSingleModifier {
+    CREATABLE(plFadeOpacityMod, kFadeOpacityMod, plSingleModifier)
+
 public:
     enum {
         kBoundsCenter = 0x1
@@ -14,9 +16,6 @@ protected:
 
 public:
     plFadeOpacityMod();
-    virtual ~plFadeOpacityMod();
-
-    DECLARE_CREATABLE(plFadeOpacityMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -26,11 +25,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    float getFadeUp() const;
-    float getFadeDown() const;
+    float getFadeUp() const { return fFadeUp; }
+    float getFadeDown() const { return fFadeDown; }
 
-    void setFadeUp(float fade);
-    void setFadeDown(float fade);
+    void setFadeUp(float fade) { fFadeUp = fade; }
+    void setFadeDown(float fade) { fFadeDown = fade; }
 };
 
 #endif

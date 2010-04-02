@@ -4,6 +4,8 @@
 #include "plHardRegion.h"
 
 DllClass plHardRegionPlanes : public plHardRegion {
+    CREATABLE(plHardRegionPlanes, kHardRegionPlanes, plHardRegion)
+
 public:
     DllClass HardPlane {
     public:
@@ -11,9 +13,6 @@ public:
         hsVector3 fPos, fWorldPos;
 
     public:
-        HardPlane();
-        ~HardPlane();
-
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
@@ -26,11 +25,6 @@ protected:
     hsTArray<HardPlane> fPlanes;
 
 public:
-    plHardRegionPlanes();
-    virtual ~plHardRegionPlanes();
-
-    DECLARE_CREATABLE(plHardRegionPlanes)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

@@ -26,7 +26,7 @@ public:
     pfPrcHelper(hsStream* S);
     ~pfPrcHelper();
 
-    hsStream* getStream();
+    hsStream* getStream() { return file; }
     void exclude(PrcExclude excl);
     bool isExcluded(PrcExclude excl);
 

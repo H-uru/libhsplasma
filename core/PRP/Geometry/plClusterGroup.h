@@ -18,13 +18,16 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    float getMin() const;
-    float getMax() const;
-    void setMin(float dist);
-    void setMax(float dist);
+public:
+    float getMin() const { return fMinDist; }
+    float getMax() const { return fMaxDist; }
+    void setMin(float dist) { fMinDist = dist; }
+    void setMax(float dist) { fMaxDist = dist; }
 };
 
 DllClass plClusterGroup : public hsKeyedObject {
+    CREATABLE(plClusterGroup, kClusterGroup, hsKeyedObject)
+
 protected:
     plSpanTemplate fTemplate;
     plKey fMaterial;
@@ -38,8 +41,6 @@ public:
     plClusterGroup();
     virtual ~plClusterGroup();
 
-    DECLARE_CREATABLE(plClusterGroup)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -48,36 +49,38 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plLODDist& getLOD();
-    plSpanTemplate& getTemplate();
+    const plLODDist& getLOD() const { return fLOD; }
+    plLODDist& getLOD() { return fLOD; }
+    const plSpanTemplate& getTemplate() const { return fTemplate; }
+    plSpanTemplate& getTemplate() { return fTemplate; }
 
-    plKey getMaterial() const;
-    plKey getSceneNode() const;
-    plKey getDrawable() const;
-    unsigned int getRenderLevel() const;
+    plKey getMaterial() const { return fMaterial; }
+    plKey getSceneNode() const { return fSceneNode; }
+    plKey getDrawable() const { return fDrawable; }
+    unsigned int getRenderLevel() const { return fRenderLevel; }
 
-    void setMaterial(plKey mat);
-    void setSceneNode(plKey node);
-    void setDrawable(plKey draw);
-    void setRenderLevel(unsigned int level);
+    void setMaterial(plKey mat) { fMaterial = mat; }
+    void setSceneNode(plKey node) { fSceneNode = node; }
+    void setDrawable(plKey draw) { fDrawable = draw; }
+    void setRenderLevel(unsigned int level) { fRenderLevel = level; }
 
-    size_t getNumClusters() const;
-    plCluster* getCluster(size_t idx) const;
-    void addCluster(plCluster* cluster);
+    const hsTArray<plCluster*>& getClusters() const { return fClusters; }
+    hsTArray<plCluster*>& getClusters() { return fClusters; }
+    void addCluster(plCluster* cluster) { fClusters.append(cluster); }
     void delCluster(size_t idx);
     void clearClusters();
 
-    size_t getNumRegions() const;
-    plKey getRegion(size_t idx) const;
-    void addRegion(plKey region);
-    void delRegion(size_t idx);
-    void clearRegions();
+    const hsTArray<plKey>& getRegions() const { return fRegions; }
+    hsTArray<plKey>& getRegions() { return fRegions; }
+    void addRegion(plKey region) { fRegions.append(region); }
+    void delRegion(size_t idx) { fRegions.remove(idx); }
+    void clearRegions() { fRegions.clear(); }
 
-    size_t getNumLights() const;
-    plKey getLight(size_t idx) const;
-    void addLight(plKey light);
-    void delLight(size_t idx);
-    void clearLights();
+    const hsTArray<plKey>& getLights() const { return fLights; }
+    hsTArray<plKey>& getLights() { return fLights; }
+    void addLight(plKey light) { fLights.append(light); }
+    void delLight(size_t idx) { fLights.remove(idx); }
+    void clearLights() { fLights.clear(); }
 };
 
 #endif

@@ -4,9 +4,6 @@
 #include "Util/hsBitVector.h"
 
 /* plStateVarNotificationInfo */
-plStateVarNotificationInfo::plStateVarNotificationInfo() { }
-plStateVarNotificationInfo::~plStateVarNotificationInfo() { }
-
 void plStateVarNotificationInfo::read(hsStream* S) {
     S->readByte();
     fHintString = S->readSafeStr();
@@ -22,10 +19,6 @@ void plStateVarNotificationInfo::write(hsStream* S) {
 plStateVariable::plStateVariable()
                : fContents(plSDL::kHasNotificationInfo), fDescriptor(NULL),
                  fCount(1), fIsDirty(false) { }
-plStateVariable::~plStateVariable() { }
-
-plVarDescriptor* plStateVariable::getDescriptor() const { return fDescriptor; }
-size_t plStateVariable::getCount() const { return fCount; }
 
 void plStateVariable::read(hsStream* S, plResManager* mgr) {
     fContents = S->readByte();
@@ -39,13 +32,8 @@ void plStateVariable::write(hsStream* S, plResManager* mgr) {
         fNotificationInfo.write(S);
 }
 
-void plStateVariable::setDirty(bool dirty) { fIsDirty = dirty; }
-bool plStateVariable::isDirty() const { return fIsDirty; }
-
 
 /* plSDStateVariable */
-plSDStateVariable::plSDStateVariable() { }
-
 plSDStateVariable::~plSDStateVariable() {
     for (size_t i=0; i<fDataRecList.getSize(); i++)
         delete fDataRecList[i];
@@ -140,8 +128,6 @@ bool plSDStateVariable::isDefault() const {
     }
     return true;
 }
-
-plStateDataRecord* plSDStateVariable::Record(size_t idx) { return fDataRecList[idx]; }
 
 
 /* plSimpleStateVariable */
@@ -853,24 +839,3 @@ bool plSimpleStateVariable::isDefault() const {
     }
     return true;
 }
-
-const plUnifiedTime& plSimpleStateVariable::getTimeStamp() const { return fTimeStamp; }
-void plSimpleStateVariable::setTimeStamp(const plUnifiedTime& time) { fTimeStamp = time; }
-
-int& plSimpleStateVariable::Int(size_t idx) { return fInt[idx]; }
-unsigned int& plSimpleStateVariable::Uint(size_t idx) { return fUint[idx]; }
-short& plSimpleStateVariable::Short(size_t idx) { return fShort[idx]; }
-unsigned char& plSimpleStateVariable::Byte(size_t idx) { return fByte[idx]; }
-signed char& plSimpleStateVariable::Char(size_t idx) { return fChar[idx]; }
-float& plSimpleStateVariable::Float(size_t idx) { return fFloat[idx]; }
-double& plSimpleStateVariable::Double(size_t idx) { return fDouble[idx]; }
-bool& plSimpleStateVariable::Bool(size_t idx) { return fBool[idx]; }
-plUoid& plSimpleStateVariable::Uoid(size_t idx) { return fUoid[idx]; }
-plCreatable*& plSimpleStateVariable::Creatable(size_t idx) { return fCreatable[idx]; }
-plString& plSimpleStateVariable::String(size_t idx) { return fString[idx]; }
-plUnifiedTime& plSimpleStateVariable::Time(size_t idx) { return fTime[idx]; }
-hsVector3& plSimpleStateVariable::Vector(size_t idx) { return fVector[idx]; }
-hsQuat& plSimpleStateVariable::Quat(size_t idx) { return fQuat[idx]; }
-hsColorRGBA& plSimpleStateVariable::ColorRGBA(size_t idx) { return fColorRGBA[idx]; }
-hsColor32& plSimpleStateVariable::Color32(size_t idx) { return fColor32[idx]; }
-hsMatrix44& plSimpleStateVariable::Matrix(size_t idx) { return fMatrix[idx]; }

@@ -5,6 +5,8 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plAvSeekMsg : public plAvTaskMsg {
+    CREATABLE(plAvSeekMsg, kAvSeekMsg, plAvTaskMsg)
+
 public:
     enum Alignment {
         kAlignHandle, kAlignHandleAnimEnd, kAlignWorld, kAlignBone,
@@ -30,9 +32,6 @@ private:
 
 public:
     plAvSeekMsg();
-    virtual ~plAvSeekMsg();
-
-    DECLARE_CREATABLE(plAvSeekMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -42,16 +41,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plAvOneShotMsg : public plAvSeekMsg {
+    CREATABLE(plAvOneShotMsg, kAvOneShotMsg, plAvSeekMsg)
+
 private:
     plString fAnimName;
     bool fDrivable, fReversible;
 
 public:
     plAvOneShotMsg();
-    virtual ~plAvOneShotMsg();
-
-    DECLARE_CREATABLE(plAvOneShotMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -5,10 +5,6 @@ pfKIMsg::pfKIMsg()
     fBCastFlags |= kBCastByExactType;
 }
 
-pfKIMsg::~pfKIMsg() { }
-
-IMPLEMENT_CREATABLE(pfKIMsg, kKIMsg, plMessage)
-
 void pfKIMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

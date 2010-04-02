@@ -4,6 +4,8 @@
 #include "plDetectorModifier.h"
 
 DllClass plCollisionDetector : public plDetectorModifier {
+    CREATABLE(plCollisionDetector, kCollisionDetector, plDetectorModifier)
+
 public:
     enum {
         kTypeEnter = 0x1,
@@ -19,9 +21,6 @@ protected:
 
 public:
     plCollisionDetector();
-    virtual ~plCollisionDetector();
-
-    DECLARE_CREATABLE(plCollisionDetector)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -31,20 +30,21 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned char getType() const;
-    void setType(unsigned char type);
+    unsigned char getType() const { return fType; }
+    void setType(unsigned char type) { fType = type; }
 };
 
+
 DllClass plSubworldRegionDetector : public plCollisionDetector {
+    CREATABLE(plSubworldRegionDetector, kSubworldRegionDetector,
+              plCollisionDetector)
+
 protected:
     plKey fSub;
     bool fOnExit;
 
 public:
     plSubworldRegionDetector();
-    virtual ~plSubworldRegionDetector();
-
-    DECLARE_CREATABLE(plSubworldRegionDetector)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -54,22 +54,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getSubworld() const;
-    bool getOnExit() const;
+    plKey getSubworld() const { return fSub; }
+    bool getOnExit() const { return fOnExit; }
 
-    void setSubworld(plKey subworld);
-    void setOnExit(bool onExit);
+    void setSubworld(plKey subworld) { fSub = subworld; }
+    void setOnExit(bool onExit) { fOnExit = onExit; }
 };
 
+
 DllClass plPanicLinkRegion : public plCollisionDetector {
+    CREATABLE(plPanicLinkRegion, kPanicLinkRegion, plCollisionDetector)
+
 protected:
     bool fPlayLinkOutAnim;
 
 public:
     plPanicLinkRegion();
-    virtual ~plPanicLinkRegion();
-
-    DECLARE_CREATABLE(plPanicLinkRegion)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -79,8 +79,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool getPlayLinkOutAnim() const;
-    void setPlayLinkOutAnim(bool play);
+    bool getPlayLinkOutAnim() const { return fPlayLinkOutAnim; }
+    void setPlayLinkOutAnim(bool play) { fPlayLinkOutAnim = play; }
 };
 
 #endif

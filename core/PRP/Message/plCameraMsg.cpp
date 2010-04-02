@@ -128,10 +128,6 @@ plCameraMsg::plCameraMsg() : fTransTime(0.0), fActivated(false) {
     fCmd.setName(kResetPanning, "kResetPanning");
 }
 
-plCameraMsg::~plCameraMsg() { }
-
-IMPLEMENT_CREATABLE(plCameraMsg, kCameraMsg, plMessage)
-
 void plCameraMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

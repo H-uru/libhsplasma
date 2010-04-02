@@ -1,10 +1,5 @@
 #include "pfGUIMultiLineEditCtrl.h"
 
-pfGUIMultiLineEditCtrl::pfGUIMultiLineEditCtrl() { }
-pfGUIMultiLineEditCtrl::~pfGUIMultiLineEditCtrl() { }
-
-IMPLEMENT_CREATABLE(pfGUIMultiLineEditCtrl, kGUIMultiLineEditCtrl, pfGUIControlMod)
-
 void pfGUIMultiLineEditCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
@@ -39,6 +34,3 @@ void pfGUIMultiLineEditCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
 }
-
-plKey pfGUIMultiLineEditCtrl::getScrollCtrl() const { return fScrollCtrl; }
-void pfGUIMultiLineEditCtrl::setScrollCtrl(plKey ctrl) { fScrollCtrl = ctrl; }

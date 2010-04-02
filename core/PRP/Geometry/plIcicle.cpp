@@ -21,8 +21,6 @@ plIcicle::~plIcicle() {
         delete[] fSortData;
 }
 
-const char* plIcicle::ClassName() { return "plIcicle"; }
-
 void plIcicle::read(hsStream* S) {
     plVertexSpan::read(S);
     if (S->getVer() != pvHex) {
@@ -90,15 +88,6 @@ void plIcicle::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
-unsigned int plIcicle::getIBufferIdx() const { return fIBufferIdx; }
-unsigned int plIcicle::getIStartIdx() const { return fIStartIdx; }
-unsigned int plIcicle::getILength() const { return fILength; }
-const plGBufferTriangle* plIcicle::getSortData() const { return fSortData; }
-
-void plIcicle::setIBufferIdx(unsigned int idx) { fIBufferIdx = idx; }
-void plIcicle::setIStartIdx(unsigned int idx) { fIStartIdx = idx; }
-void plIcicle::setILength(unsigned int len) { fILength = len; }
-
 void plIcicle::setSortData(const plGBufferTriangle* data) {
     if (fSortData != NULL)
         delete[] fSortData;
@@ -115,8 +104,6 @@ void plIcicle::setSortData(const plGBufferTriangle* data) {
 
 
 /* plParticleSpan */
-const char* plParticleSpan::ClassName() { return "plParticleSpan"; }
-
 void plParticleSpan::read(hsStream* S) { }
 void plParticleSpan::write(hsStream* S) { }
 void plParticleSpan::IPrcWrite(pfPrcHelper* prc) { }

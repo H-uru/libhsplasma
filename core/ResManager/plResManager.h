@@ -75,7 +75,7 @@ public:
      * deal with.  Used for reading or writing data to files only.
      * \sa setVer()
      */
-    PlasmaVer getVer();
+    PlasmaVer getVer() { return fPlasmaVer; }
 
     /** Read a plKey and register it with the ResManager */
     plKey readKey(hsStream* S);
@@ -108,7 +108,7 @@ public:
     class hsKeyedObject* getObject(plKey key);
 
     /** Returns the total number of keys registered for the specified plLocation */
-    unsigned int countKeys(const plLocation& loc);
+    unsigned int countKeys(const plLocation& loc) { return keys.countKeys(loc); }
 
     /**
      * Read a Page (PRP File) and register it with the ResManager.

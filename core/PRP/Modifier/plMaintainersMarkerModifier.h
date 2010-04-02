@@ -4,6 +4,9 @@
 #include "plModifier.h"
 
 DllClass plMaintainersMarkerModifier : public plMultiModifier {
+    CREATABLE(plMaintainersMarkerModifier, kMaintainersMarkerModifier,
+              plMultiModifier)
+
 public:
     enum { kBroken, kRepaired, kCalibrated, kNumCalibratedLevels };
 
@@ -12,9 +15,6 @@ private:
 
 public:
     plMaintainersMarkerModifier();
-    virtual ~plMaintainersMarkerModifier();
-
-    DECLARE_CREATABLE(plMaintainersMarkerModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -24,8 +24,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned int getCalibration() const;
-    void setCalibration(unsigned int cal);
+    unsigned int getCalibration() const { return fCalibrated; }
+    void setCalibration(unsigned int cal) { fCalibrated = cal; }
 };
 
 #endif

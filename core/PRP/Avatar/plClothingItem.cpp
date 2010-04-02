@@ -13,8 +13,6 @@ plClothingItem::~plClothingItem() {
         delete[] fTextures[i];
 }
 
-IMPLEMENT_CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
-
 void plClothingItem::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
@@ -238,9 +236,32 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+void plClothingItem::setDefaultTint1(const hsColorRGBA& tint) {
+    fDefaultTint1[0] = tint.r * 255;
+    fDefaultTint1[1] = tint.g * 255;
+    fDefaultTint1[2] = tint.b * 255;
+}
+
+void plClothingItem::setDefaultTint2(const hsColorRGBA& tint) {
+    fDefaultTint2[0] = tint.r * 255;
+    fDefaultTint2[1] = tint.g * 255;
+    fDefaultTint2[2] = tint.b * 255;
+}
+
 void plClothingItem::clearElements() {
     for (size_t i=0; i<fTextures.getSize(); i++)
         delete[] fTextures[i];
     fTextures.clear();
     fElementNames.clear();
+}
+
+void plClothingItem::addElement(const plString& elementName) {
+    fElementNames.append(elementName);
+    fTextures.append(new plKey[kLayerMax]);
+}
+
+void plClothingItem::delElement(int element) {
+    delete[] fTextures[element];
+    fTextures.remove(element);
+    fElementNames.remove(element);
 }

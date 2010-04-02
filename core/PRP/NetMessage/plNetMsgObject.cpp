@@ -1,11 +1,6 @@
 #include "plNetMsgObject.h"
 
 /* plNetMsgObjectHelper */
-plNetMsgObjectHelper::plNetMsgObjectHelper() { }
-plNetMsgObjectHelper::~plNetMsgObjectHelper() { }
-
-IMPLEMENT_CREATABLE(plNetMsgObjectHelper, kNetMsgObjectHelper, plCreatable)
-
 void plNetMsgObjectHelper::read(hsStream* S, plResManager* mgr) {
     fUoid.read(S);
 }
@@ -26,21 +21,8 @@ void plNetMsgObjectHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plUoid plNetMsgObjectHelper::getUoid() const {
-    return fUoid;
-}
-
-void plNetMsgObjectHelper::setUoid(plUoid Uoid) {
-    fUoid = Uoid;
-}
-
 
 /* plNetMsgObject */
-plNetMsgObject::plNetMsgObject() { }
-plNetMsgObject::~plNetMsgObject() { }
-
-IMPLEMENT_CREATABLE(plNetMsgObject, kNetMsgObject, plNetMessage)
-
 void plNetMsgObject::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
     fHelper.read(S, mgr);
@@ -62,12 +44,4 @@ void plNetMsgObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plNetMessage::IPrcParse(tag, mgr);
     }
-}
-
-plNetMsgObjectHelper plNetMsgObject::getHelper() const {
-    return fHelper;
-}
-
-void plNetMsgObject::setHelper(plNetMsgObjectHelper Helper) {
-    fHelper = Helper;
 }

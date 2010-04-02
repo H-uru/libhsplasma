@@ -17,7 +17,7 @@ public:
         kPatchFlags = kPatchHeaderOnly | kPartialPatchFile
     };
 
-protected:
+private:
     plLocation fLocation;
     plString fAge, fPage;
     unsigned int fIdxChecksum, fChecksum;
@@ -27,14 +27,11 @@ protected:
     unsigned int fNumObjects;
     std::vector<short> fClassList;
 
-    static const plString kDistrict;
-
 public:
     plPageInfo();
     plPageInfo(const plString& age, const plString& page);
-    ~plPageInfo();
 
-    bool isValid() const;
+    bool isValid() const { return fLocation.isValid(); }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -42,31 +39,32 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
+public:
     plString getFilename(PlasmaVer ver) const;
-    const plString& getAge() const;
-    const plString& getChapter() const;
-    const plString& getPage() const;
-    unsigned int getChecksum() const;
-    unsigned int getReleaseVersion() const;
-    unsigned int getDataStart() const;
-    unsigned int getIndexStart() const;
-    unsigned int getFlags() const;
-    const plLocation& getLocation() const;
-    unsigned int getNumObjects() const;
+    plString getAge() const { return fAge; }
+    plString getChapter() const { return "District"; }
+    plString getPage() const { return fPage; }
+    unsigned int getChecksum() const { return fChecksum; }
+    unsigned int getReleaseVersion() const { return fReleaseVersion; }
+    unsigned int getDataStart() const { return fDataStart; }
+    unsigned int getIndexStart() const { return fIdxStart; }
+    unsigned int getFlags() const { return fFlags; }
+    const plLocation& getLocation() const { return fLocation; }
+    unsigned int getNumObjects() const { return fNumObjects; }
 
-    void setAge(const plString&);
-    void setPage(const plString&);
-    void setChecksum(unsigned int);
-    void setReleaseVersion(unsigned int);
-    void setDataStart(unsigned int);
-    void setIndexStart(unsigned int);
-    void setFlags(unsigned int);
-    void setLocation(const plLocation&);
-    void setNumObjects(unsigned int);
+    void setAge(const plString& age) { fAge = age; }
+    void setPage(const plString& page) { fPage = page; }
+    void setChecksum(unsigned int sum) { fChecksum = sum; }
+    void setReleaseVersion(unsigned int relVer) { fReleaseVersion = relVer; }
+    void setDataStart(unsigned int loc) { fDataStart = loc; }
+    void setIndexStart(unsigned int loc) { fIdxStart = loc; }
+    void setFlags(unsigned int flags) { fFlags = flags; }
+    void setLocation(const plLocation& loc) { fLocation = loc; }
+    void setNumObjects(unsigned int nObjects) { fNumObjects = nObjects; }
 
-    void clearClassList();
-    void addClass(short classIdx);
-    void setClassList(std::vector<short>& list);
+    void clearClassList() { fClassList.clear(); }
+    void addClass(short classIdx) { fClassList.push_back(classIdx); }
+    void setClassList(std::vector<short>& list) { fClassList = list; }
 
 protected:
     void IInit();

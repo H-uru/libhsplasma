@@ -1,9 +1,6 @@
 #include "plExcludeRegionMsg.h"
 
 plExcludeRegionMsg::plExcludeRegionMsg() : fCmd(0), fSynchFlags(0) { }
-plExcludeRegionMsg::~plExcludeRegionMsg() { }
-
-IMPLEMENT_CREATABLE(plExcludeRegionMsg, kExcludeRegionMsg, plMessage)
 
 void plExcludeRegionMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);

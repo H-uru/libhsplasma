@@ -16,6 +16,7 @@ DllStruct plSpaceBuilderNode {
     size_t size() const;
 };
 
+
 DllClass plSpaceTreeNode {
 public:
     enum {
@@ -31,46 +32,45 @@ protected:
     hsBounds3Ext fWorldBounds;
     unsigned short fFlags;
     short fParent;
-    
+
     union {
         short fChildren[2];
         short fLeafIndex;
     };
-    
+
 public:
     plSpaceTreeNode();
-    ~plSpaceTreeNode();
-    
+
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    const hsBounds3Ext& getBounds();
-    unsigned short getFlags() const;
-    short getParent() const;
-    short getLChild() const;
-    short getRChild() const;
-    short getLeafIndex() const;
+public:
+    const hsBounds3Ext& getBounds() const { return fWorldBounds; }
+    unsigned short getFlags() const { return fFlags; }
+    short getParent() const { return fParent; }
+    short getLChild() const { return fChildren[0]; }
+    short getRChild() const { return fChildren[1]; }
+    short getLeafIndex() const { return fLeafIndex; }
 
-    void setBounds(const hsBounds3Ext& bounds);
-    void setFlags(unsigned short flags);
-    void setParent(short parent);
+    void setBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
+    void setFlags(unsigned short flags) { fFlags = flags; }
+    void setParent(short parent) { fParent = parent; }
     void setChildren(short left, short right);
     void setLeafIndex(short idx);
 };
 
 DllClass plSpaceTree : public plCreatable {
+    CREATABLE(plSpaceTree, kSpaceTree, plCreatable)
+
 protected:
     hsTArray<plSpaceTreeNode> fTree;
     short fRoot, fNumLeaves;
 
 public:
     plSpaceTree();
-    virtual ~plSpaceTree();
-    
-    DECLARE_CREATABLE(plSpaceTree);
-    
+
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -83,8 +83,9 @@ protected:
 public:
     void clear();
     void buildTree(plSpaceBuilderNode* root);
-    const plSpaceTreeNode& getNode(short idx) const;
-    const plSpaceTreeNode& getRoot() const;
+
+    const plSpaceTreeNode& getNode(short idx) const { return fTree[idx]; }
+    const plSpaceTreeNode& getRoot() const { return fTree[fRoot]; }
     short addLeaf(const hsBounds3Ext& bounds);
     short addParent(const hsBounds3Ext& bounds, short left, short right);
 };

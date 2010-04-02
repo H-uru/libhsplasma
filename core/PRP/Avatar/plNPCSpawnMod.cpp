@@ -7,8 +7,6 @@ plNPCSpawnMod::~plNPCSpawnMod() {
         delete fNotify;
 }
 
-IMPLEMENT_CREATABLE(plNPCSpawnMod, kNPCSpawnMod, plSingleModifier)
-
 void plNPCSpawnMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

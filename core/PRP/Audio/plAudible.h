@@ -4,32 +4,23 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plAudible : public hsKeyedObject {
-public:
-    plAudible();
-    virtual ~plAudible();
-
-    DECLARE_CREATABLE(plAudible)
+    CREATABLE(plAudible, kAudible, hsKeyedObject)
 };
+
 
 DllClass plAudibleNull : public plAudible {
-public:
-    plAudibleNull();
-    virtual ~plAudibleNull();
-
-    DECLARE_CREATABLE(plAudibleNull)
+    CREATABLE(plAudibleNull, kAudibleNull, plAudible)
 };
 
+
 DllClass plWinAudible : public plAudible {
-protected:
+    CREATABLE(plWinAudible, kWinAudible, plAudible)
+
+private:
     hsTArray<plKey> fSoundObjs;
     plKey fSceneNode;
 
 public:
-    plWinAudible();
-    virtual ~plWinAudible();
-
-    DECLARE_CREATABLE(plWinAudible)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -38,22 +29,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumSounds() const;
-    plKey getSound(size_t idx) const;
-    void addSound(plKey sound);
-    void delSound(size_t idx);
-    void clearSounds();
+    const hsTArray<plKey>& getSounds() const { return fSoundObjs; }
+    hsTArray<plKey>& getSounds() { return fSoundObjs; }
+    void addSound(plKey sound) { fSoundObjs.append(sound); }
+    void delSound(size_t idx) { fSoundObjs.remove(idx); }
+    void clearSounds() { fSoundObjs.clear(); }
 
-    plKey getSceneNode() const;
-    void setSceneNode(plKey node);
+    plKey getSceneNode() const { return fSceneNode; }
+    void setSceneNode(plKey node) { fSceneNode = node; }
 };
 
-DllClass pl2WayWinAudible : public plWinAudible {
-public:
-    pl2WayWinAudible();
-    virtual ~pl2WayWinAudible();
 
-    DECLARE_CREATABLE(pl2WayWinAudible)
+DllClass pl2WayWinAudible : public plWinAudible {
+    CREATABLE(pl2WayWinAudible, k2WayWinAudible, plWinAudible)
 };
 
 #endif

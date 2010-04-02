@@ -6,15 +6,12 @@
 #include "Util/hsTArray.hpp"
 
 DllClass plConvexVolume : public plCreatable {
+    CREATABLE(plConvexVolume, kConvexVolume, plCreatable)
+
 protected:
     hsTArray<hsPlane3> fLocalPlanes;
 
 public:
-    plConvexVolume();
-    virtual ~plConvexVolume();
-
-    DECLARE_CREATABLE(plConvexVolume)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

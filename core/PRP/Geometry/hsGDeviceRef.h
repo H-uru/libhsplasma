@@ -12,7 +12,6 @@ protected:
 
 public:
     hsGDeviceRef();
-    ~hsGDeviceRef();
 
     bool IsDirty();
     void SetDirty(bool dirty);

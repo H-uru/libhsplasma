@@ -4,6 +4,9 @@
 #include "PRP/Object/plCoordinateInterface.h"
 
 DllClass plFilterCoordInterface : public plCoordinateInterface {
+    CREATABLE(plFilterCoordInterface, kFilterCoordInterface,
+              plCoordinateInterface)
+
 public:
     enum {
         kNoRotation = 0x1,
@@ -20,9 +23,6 @@ protected:
 
 public:
     plFilterCoordInterface();
-    virtual ~plFilterCoordInterface();
-
-    DECLARE_CREATABLE(plFilterCoordInterface)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

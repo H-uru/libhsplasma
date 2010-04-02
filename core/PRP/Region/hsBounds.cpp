@@ -3,9 +3,6 @@
 /* hsBounds */
 hsBounds::hsBounds() : fType(0) { }
 hsBounds::hsBounds(const hsBounds& src) : fType(src.fType) { }
-hsBounds::~hsBounds() { }
-
-const char* hsBounds::ClassName() { return "hsBounds"; }
 
 void hsBounds::read(hsStream* S) {
     fType = S->readInt();
@@ -46,18 +43,11 @@ void hsBounds::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
-int hsBounds::getType() const { return fType; }
-void hsBounds::setType(int type) { fType = type; }
-
 
 /* hsBounds3 */
-hsBounds3::hsBounds3() { }
 hsBounds3::hsBounds3(const hsBounds3& src)
          : hsBounds(src), fMins(src.fMins), fMaxs(src.fMaxs),
            fCenter(src.fCenter) { }
-hsBounds3::~hsBounds3() { }
-
-const char* hsBounds3::ClassName() { return "hsBounds3"; }
 
 void hsBounds3::init(const hsVector3& right) {
     fMins = right;
@@ -125,14 +115,6 @@ void hsBounds3::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
-hsVector3 hsBounds3::getMins() const { return fMins; }
-hsVector3 hsBounds3::getMaxs() const { return fMaxs; }
-hsVector3 hsBounds3::getCenter() const { return fCenter; }
-
-void hsBounds3::setMins(const hsVector3& mins) { fMins = mins; }
-void hsBounds3::setMaxs(const hsVector3& maxs) { fMaxs = maxs; }
-void hsBounds3::setCenter(const hsVector3& center) { fCenter = center; }
-
 const hsVector3& hsBounds3::updateCenter() {
     fCenter.X = (fMins.X + fMaxs.X) / 2.0f;
     fCenter.Y = (fMins.Y + fMaxs.Y) / 2.0f;
@@ -153,10 +135,6 @@ hsBounds3Ext::hsBounds3Ext(const hsBounds3Ext& src)
         fDists[i].Y = src.fDists[i].Y;
     }
 }
-
-hsBounds3Ext::~hsBounds3Ext() { }
-
-const char* hsBounds3Ext::ClassName() { return "hsBounds3Ext"; }
 
 hsBounds3Ext hsBounds3Ext::operator+(const hsBounds3Ext& right) const {
     hsBounds3Ext result = *this;
@@ -228,25 +206,13 @@ void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
             fDists[i].Y = child->getParam("DistY", "0").toFloat();
             if (child->hasChildren())
                 fAxes[i].prcParse(child->getFirstChild());
-            
+
             child = child->getNextSibling();
         }
     } else {
         hsBounds3::IPrcParse(tag);
     }
 }
-
-unsigned int hsBounds3Ext::getFlags() const { return fExtFlags; }
-hsVector3 hsBounds3Ext::getCorner() const { return fCorner; }
-hsVector3 hsBounds3Ext::getAxis(size_t idx) const { return fAxes[idx]; }
-hsFloatPoint2 hsBounds3Ext::getDist(size_t idx) const { return fDists[idx]; }
-float hsBounds3Ext::getRadius() const { return fRadius; }
-
-void hsBounds3Ext::setFlags(unsigned int flags) { fExtFlags = flags; }
-void hsBounds3Ext::setCorner(const hsVector3& corner) { fCorner = corner; }
-void hsBounds3Ext::setAxis(size_t idx, const hsVector3& ax) { fAxes[idx] = ax; }
-void hsBounds3Ext::setDist(size_t idx, const hsFloatPoint2& dist) { fDists[idx] = dist; }
-void hsBounds3Ext::setRadius(float rad) { fRadius = rad; }
 
 
 /* hsBoundsOriented */
@@ -265,8 +231,6 @@ hsBoundsOriented::~hsBoundsOriented() {
     if (fPlanes != NULL)
         delete[] fPlanes;
 }
-
-const char* hsBoundsOriented::ClassName() { return "hsBoundsOriented"; }
 
 void hsBoundsOriented::read(hsStream* S) {
     hsBounds::read(S);
@@ -321,14 +285,6 @@ void hsBoundsOriented::IPrcParse(const pfPrcTag* tag) {
         hsBounds::IPrcParse(tag);
     }
 }
-
-unsigned int hsBoundsOriented::getCenterValid() const { return fCenterValid; }
-hsVector3 hsBoundsOriented::getCenter() const { return fCenter; }
-const hsPlane3* hsBoundsOriented::getPlanes() const { return fPlanes; }
-unsigned int hsBoundsOriented::getNumPlanes() const { return fNumPlanes; }
-
-void hsBoundsOriented::setCenterValid(unsigned int valid) { fCenterValid = valid; }
-void hsBoundsOriented::setCenter(const hsVector3& center) { fCenter = center; }
 
 void hsBoundsOriented::setPlanes(unsigned int numPlanes, const hsPlane3* planes) {
     if (fPlanes != NULL)

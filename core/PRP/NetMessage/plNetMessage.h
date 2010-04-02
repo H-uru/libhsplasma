@@ -6,6 +6,8 @@
 #include "Sys/plUuid.h"
 
 DllClass plNetMessage : public plCreatable {
+    CREATABLE(plNetMessage, kNetMessage, plCreatable)
+
 public:
     enum ContentFlags {
         kHasTimeSent = 0x1,
@@ -39,9 +41,6 @@ private:
 
 public:
     plNetMessage();
-    virtual ~plNetMessage();
-
-    DECLARE_CREATABLE(plNetMessage)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -51,28 +50,27 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned int getFlags() const;
-    unsigned char getProtocolVerMaj() const;
-    unsigned char getProtocolVerMin() const;
-    plUnifiedTime getTimeSent() const;
-    unsigned int getContext() const;
-    unsigned int getTransID() const;
-    unsigned int getPlayerID() const;
-    plUuid getAcctUuid() const;
+    unsigned int getFlags() const { return fFlags; }
+    unsigned char getProtocolVerMaj() const { return fProtocolVerMaj; }
+    unsigned char getProtocolVerMin() const { return fProtocolVerMin; }
+    plUnifiedTime getTimeSent() const { return fTimeSent; }
+    unsigned int getContext() const { return fContext; }
+    unsigned int getTransID() const { return fTransID; }
+    unsigned int getPlayerID() const { return fPlayerID; }
+    plUuid getAcctUuid() const { return fAcctUuid; }
 
-    void setFlags(unsigned int Flags);
-    void setProtocolVerMaj(unsigned char ProtocolVerMaj);
-    void setProtocolVerMin(unsigned char ProtocolVerMin);
-    void setTimeSent(plUnifiedTime TimeSent);
-    void setContext(unsigned int Context);
-    void setTransID(unsigned int TransID);
-    void setPlayerID(unsigned int PlayerID);
-    void setAcctUuid(plUuid AcctUuid);
+    void setFlags(unsigned int flags) { fFlags = flags; }
+    void setTimeSent(const plUnifiedTime& timeSent) { fTimeSent = timeSent; }
+    void setContext(unsigned int context) { fContext = context; }
+    void setTransID(unsigned int transID) { fTransID = transID; }
+    void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
+    void setAcctUuid(const plUuid& acctUuid) { fAcctUuid = acctUuid; }
+    void setProtocolVer(unsigned char maj, unsigned char min) { fProtocolVerMaj = maj; fProtocolVerMin = min; }
 };
 
+
 DllClass plNetMsgServerToClient : public plNetMessage {
-public:
-    DECLARE_CREATABLE(plNetMsgServerToClient)
+    CREATABLE(plNetMsgServerToClient, kNetMsgServerToClient, plNetMessage)
 };
 
 #endif

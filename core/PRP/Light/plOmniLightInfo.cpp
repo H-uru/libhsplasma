@@ -5,10 +5,6 @@ plOmniLightInfo::plOmniLightInfo()
                : fAttenConst(0.0f), fAttenLinear(0.0f), fAttenQuadratic(0.0f),
                  fAttenCutoff(0.0f) { }
 
-plOmniLightInfo::~plOmniLightInfo() { }
-
-IMPLEMENT_CREATABLE(plOmniLightInfo, kOmniLightInfo, plLightInfo)
-
 void plOmniLightInfo::read(hsStream* S, plResManager* mgr) {
     plLightInfo::read(S, mgr);
     fAttenConst = S->readFloat();
@@ -46,24 +42,10 @@ void plOmniLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-float plOmniLightInfo::getAttenConst() const { return fAttenConst; }
-float plOmniLightInfo::getAttenLinear() const { return fAttenLinear; }
-float plOmniLightInfo::getAttenQuadratic() const { return fAttenQuadratic; }
-float plOmniLightInfo::getAttenCutoff() const { return fAttenCutoff; }
-
-void plOmniLightInfo::setAttenConst(float atten) { fAttenConst = atten; }
-void plOmniLightInfo::setAttenLinear(float atten) { fAttenLinear = atten; }
-void plOmniLightInfo::setAttenQuadratic(float atten) { fAttenQuadratic = atten; }
-void plOmniLightInfo::setAttenCutoff(float cutoff) { fAttenCutoff = cutoff; }
-
 
 /* plSpotLightInfo */
 plSpotLightInfo::plSpotLightInfo()
                : fFalloff(0.0f), fSpotInner(0.0f), fSpotOuter(0.0f) { }
-
-plSpotLightInfo::~plSpotLightInfo() { }
-
-IMPLEMENT_CREATABLE(plSpotLightInfo, kSpotLightInfo, plOmniLightInfo)
 
 void plSpotLightInfo::read(hsStream* S, plResManager* mgr) {
     plOmniLightInfo::read(S, mgr);
@@ -97,11 +79,3 @@ void plSpotLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plOmniLightInfo::IPrcParse(tag, mgr);
     }
 }
-
-float plSpotLightInfo::getFalloff() const { return fFalloff; }
-float plSpotLightInfo::getSpotInner() const { return fSpotInner; }
-float plSpotLightInfo::getSpotOuter() const { return fSpotOuter; }
-
-void plSpotLightInfo::setFalloff(float falloff) { fFalloff = falloff; }
-void plSpotLightInfo::setSpotInner(float spot) { fSpotInner = spot; }
-void plSpotLightInfo::setSpotOuter(float spot) { fSpotOuter = spot; }

@@ -4,16 +4,13 @@
 #include "PRP/Modifier/plModifier.h"
 
 DllClass plDetectorModifier : public plSingleModifier {
+    CREATABLE(plDetectorModifier, kDetectorModifier, plSingleModifier)
+
 protected:
     hsTArray<plKey> fReceivers;
     plKey fRemoteMod, fProxyKey;
 
 public:
-    plDetectorModifier();
-    virtual ~plDetectorModifier();
-
-    DECLARE_CREATABLE(plDetectorModifier)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -22,22 +19,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumReceivers() const;
-    plKey getReceiver(size_t idx) const;
-    void addReceiver(plKey rcvr);
-    void delReceiver(size_t idx);
-    void clearReceivers();
+    const hsTArray<plKey>& getReceivers() const { return fReceivers; }
+    hsTArray<plKey>& getReceivers() { return fReceivers; }
+    void addReceiver(plKey rcvr) { fReceivers.append(rcvr); }
+    void delReceiver(size_t idx) { fReceivers.remove(idx); }
+    void clearReceivers() { fReceivers.clear(); }
 
-    plKey getRemoteMod() const;
-    plKey getProxy() const;
+    plKey getRemoteMod() const { return fRemoteMod; }
+    plKey getProxy() const { return fProxyKey; }
 
-    void setRemoteMod(plKey mod);
-    void setProxy(plKey proxy);
+    void setRemoteMod(plKey mod) { fRemoteMod = mod; }
+    void setProxy(plKey proxy) { fProxyKey = proxy; }
 };
 
+
 DllClass plPickingDetector : public plDetectorModifier {
-public:
-    DECLARE_CREATABLE(plPickingDetector)
+    CREATABLE(plPickingDetector, kPickingDetector, plDetectorModifier)
 };
 
 #endif

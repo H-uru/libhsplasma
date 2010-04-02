@@ -6,23 +6,19 @@
 // Yeah, I dunno either...
 
 DllClass plSpawnModifier : public plMultiModifier {
-public:
-    plSpawnModifier();
-    virtual ~plSpawnModifier();
-
-    DECLARE_CREATABLE(plSpawnModifier)
+    CREATABLE(plSpawnModifier, kSpawnModifier, plMultiModifier)
 };
 
+
 DllClass plSpawnMod : public plModifier {
+    CREATABLE(plSpawnMod, kSpawnMod, plModifier)
+
 protected:
     bool fBool1, fDisableDraw;
     plString fAge, fPage, fObjName;
 
 public:
     plSpawnMod();
-    virtual ~plSpawnMod();
-
-    DECLARE_CREATABLE(plSpawnMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

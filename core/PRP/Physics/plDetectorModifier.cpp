@@ -1,11 +1,6 @@
 #include "plDetectorModifier.h"
 
 /* plDetectorModifier */
-plDetectorModifier::plDetectorModifier() { }
-plDetectorModifier::~plDetectorModifier() { }
-
-IMPLEMENT_CREATABLE(plDetectorModifier, kDetectorModifier, plSingleModifier)
-
 void plDetectorModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -60,19 +55,3 @@ void plDetectorModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-size_t plDetectorModifier::getNumReceivers() const { return fReceivers.getSize(); }
-plKey plDetectorModifier::getReceiver(size_t idx) const { return fReceivers[idx]; }
-void plDetectorModifier::addReceiver(plKey rcvr) { fReceivers.append(rcvr); }
-void plDetectorModifier::delReceiver(size_t idx) { fReceivers.remove(idx); }
-void plDetectorModifier::clearReceivers() { fReceivers.clear(); }
-
-plKey plDetectorModifier::getRemoteMod() const { return fRemoteMod; }
-plKey plDetectorModifier::getProxy() const { return fProxyKey; }
-
-void plDetectorModifier::setRemoteMod(plKey mod) { fRemoteMod = mod; }
-void plDetectorModifier::setProxy(plKey proxy) { fProxyKey = proxy; }
-
-
-/* plPickingDetector */
-IMPLEMENT_CREATABLE(plPickingDetector, kPickingDetector, plDetectorModifier)

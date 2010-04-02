@@ -1,11 +1,6 @@
 #include "plArmatureBrain.h"
 
 /* plArmatureBrain */
-plArmatureBrain::plArmatureBrain() { }
-plArmatureBrain::~plArmatureBrain() { }
-
-IMPLEMENT_CREATABLE(plArmatureBrain, kArmatureBrain, plCreatable)
-
 void plArmatureBrain::read(hsStream* S, plResManager* mgr) {
     // Yay for uselessness
     S->readInt();
@@ -33,9 +28,6 @@ void plArmatureBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plAvBrainHuman */
 plAvBrainHuman::plAvBrainHuman() : fIsCustomAvatar(false) { }
-plAvBrainHuman::~plAvBrainHuman() { }
-
-IMPLEMENT_CREATABLE(plAvBrainHuman, kAvBrainHuman, plArmatureBrain)
 
 void plAvBrainHuman::read(hsStream* S, plResManager* mgr) {
     plArmatureBrain::read(S, mgr);
@@ -66,34 +58,3 @@ void plAvBrainHuman::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plArmatureBrain::IPrcParse(tag, mgr);
     }
 }
-
-bool plAvBrainHuman::isCustomAvatar() const { return fIsCustomAvatar; }
-void plAvBrainHuman::setIsCustomAvatar(bool value) { fIsCustomAvatar = value; }
-
-
-/* plAvBrainClimb */
-IMPLEMENT_CREATABLE(plAvBrainClimb, kAvBrainClimb, plArmatureBrain)
-
-
-/* plAvBrainCritter */
-IMPLEMENT_CREATABLE(plAvBrainCritter, kAvBrainCritter, plArmatureBrain)
-
-
-/* plAvBrainDrive */
-IMPLEMENT_CREATABLE(plAvBrainDrive, kAvBrainDrive, plArmatureBrain)
-
-
-/* plAvBrainPirahna */
-IMPLEMENT_CREATABLE(plAvBrainPirahna, kAvBrainPirahna, plArmatureBrain)
-
-
-/* plAvBrainQuab */
-IMPLEMENT_CREATABLE(plAvBrainQuab, kAvBrainQuab, plArmatureBrain)
-
-
-/* plAvBrainRideAnimatedPhysical */
-IMPLEMENT_CREATABLE(plAvBrainRideAnimatedPhysical, kAvBrainRideAnimatedPhysical, plArmatureBrain)
-
-
-/* plAvBrainSwim */
-IMPLEMENT_CREATABLE(plAvBrainSwim, kAvBrainSwim, plArmatureBrain)

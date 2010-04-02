@@ -1,8 +1,6 @@
 #include "plCluster.h"
 #include "plClusterGroup.h"
 
-plCluster::plCluster() { }
-
 plCluster::~plCluster() {
     for (size_t i=0; i<fInstances.getSize(); i++)
         delete fInstances[i];
@@ -68,14 +66,6 @@ void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
         child = child->getNextSibling();
     }
 }
-
-plSpanEncoding& plCluster::getEncoding() { return fEncoding; }
-plClusterGroup* plCluster::getGroup() const { return fGroup; }
-void plCluster::setGroup(plClusterGroup* group) { fGroup = group; }
-
-size_t plCluster::getNumInstances() const { return fInstances.getSize(); }
-plSpanInstance* plCluster::getInstance(size_t idx) const { return fInstances[idx]; }
-void plCluster::addInstance(plSpanInstance* inst) { fInstances.append(inst); }
 
 void plCluster::delInstance(size_t idx) {
     delete fInstances[idx];

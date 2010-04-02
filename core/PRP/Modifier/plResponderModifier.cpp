@@ -45,8 +45,6 @@ plResponderModifier::~plResponderModifier() {
         delete fStates[i];
 }
 
-IMPLEMENT_CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
-
 void plResponderModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -209,10 +207,6 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plResponderModifier::getNumStates() const { return fStates.getSize(); }
-plResponderModifier::plResponderState* plResponderModifier::getState(size_t idx) const { return fStates[idx]; }
-void plResponderModifier::addState(plResponderState* state) { fStates.append(state); }
-
 void plResponderModifier::delState(size_t idx) {
     delete fStates[idx];
     fStates.remove(idx);
@@ -224,20 +218,9 @@ void plResponderModifier::clearStates() {
     fStates.clear();
 }
 
-bool plResponderModifier::isEnabled() const { return fEnabled; }
-size_t plResponderModifier::getCurState() const { return (size_t)fCurState; }
-unsigned char plResponderModifier::getFlags() const { return fFlags; }
-
-void plResponderModifier::setEnabled(bool enabled) { fEnabled = enabled; }
-void plResponderModifier::setCurState(size_t state) { fCurState = state; }
-void plResponderModifier::setFlags(unsigned char flags) { fFlags = flags; }
-
 
 /* plResponderEnableMsg */
 plResponderEnableMsg::plResponderEnableMsg() : fEnable(true) { }
-plResponderEnableMsg::~plResponderEnableMsg() { }
-
-IMPLEMENT_CREATABLE(plResponderEnableMsg, kResponderEnableMsg, plMessage)
 
 void plResponderEnableMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
@@ -264,6 +247,3 @@ void plResponderEnableMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
-
-bool plResponderEnableMsg::getEnable() const { return fEnable; }
-void plResponderEnableMsg::setEnable(bool enable) { fEnable = enable; }

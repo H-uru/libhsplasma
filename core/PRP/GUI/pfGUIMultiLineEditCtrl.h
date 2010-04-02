@@ -4,15 +4,12 @@
 #include "pfGUIControlMod.h"
 
 DllClass pfGUIMultiLineEditCtrl : public pfGUIControlMod {
+    CREATABLE(pfGUIMultiLineEditCtrl, kGUIMultiLineEditCtrl, pfGUIControlMod)
+
 protected:
     plKey fScrollCtrl;
 
 public:
-    pfGUIMultiLineEditCtrl();
-    virtual ~pfGUIMultiLineEditCtrl();
-
-    DECLARE_CREATABLE(pfGUIMultiLineEditCtrl)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -21,8 +18,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getScrollCtrl() const;
-    void setScrollCtrl(plKey ctrl);
+    plKey getScrollCtrl() const { return fScrollCtrl; }
+    void setScrollCtrl(plKey ctrl) { fScrollCtrl = ctrl; }
 };
 
 #endif

@@ -20,7 +20,10 @@ DllStruct PY_SOUND_IDX {
     int sound_index;
 };
 
+
 DllClass plPythonMod : public plMultiModifier {
+    CREATABLE(plPythonMod, kPythonMod, plMultiModifier)
+
 public:
     enum func_num {
         kfunc_Init, kfunc_Update, kfunc_Notify, kfunc_AnimAtStart,
@@ -29,18 +32,16 @@ public:
     };
 
 protected:
-	unsigned char* fPythonCode;
-	unsigned int fPythonSize;
+    unsigned char* fPythonCode;
+    unsigned int fPythonSize;
     hsTArray<plKey> fReceivers;
     hsTArray<PY_NOTETRACK> fAnimNotetracks;
     hsTArray<PY_SOUND_IDX> fSoundName2Idx;
     hsTArray<PY_MATERIAL_ANIM> fMaterialAnim;
-    
+
 public:
     plPythonMod();
     virtual ~plPythonMod();
-
-    DECLARE_CREATABLE(plPythonMod)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

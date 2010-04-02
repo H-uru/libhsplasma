@@ -5,8 +5,6 @@ plCrossfade::plCrossfade()
            : fFirstIdx(0), fSecondIdx(0), fStartType(0), fEndType(0),
              fFlags(0), fRegistered(false) { }
 
-IMPLEMENT_CREATABLE(plCrossfade, kCrossfade, plSingleModifier)
-
 void plCrossfade::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -54,21 +52,3 @@ void plCrossfade::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-unsigned short plCrossfade::getFirstIdx() const { return fFirstIdx; }
-unsigned short plCrossfade::getSecondIdx() const { return fSecondIdx; }
-unsigned int plCrossfade::getStartType() const { return fStartType; }
-unsigned int plCrossfade::getEndType() const { return fEndType; }
-unsigned int plCrossfade::getFlags() const { return fFlags; }
-bool plCrossfade::isRegistered() const { return fRegistered; }
-
-void plCrossfade::setFirstIdx(unsigned short idx) { fFirstIdx = idx; }
-void plCrossfade::setSecondIdx(unsigned short idx) { fSecondIdx = idx; }
-void plCrossfade::setStartType(unsigned int type) { fStartType = type; }
-void plCrossfade::setEndType(unsigned int type) { fEndType = type; }
-void plCrossfade::setFlags(unsigned int flags) { fFlags = flags; }
-void plCrossfade::setRegistered(bool registered) { fRegistered = registered; }
-
-
-/* plCrossfadeMsg */
-IMPLEMENT_CREATABLE(plCrossfadeMsg, kCrossfadeMsg, plMessage)

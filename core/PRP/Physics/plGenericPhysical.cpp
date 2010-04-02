@@ -32,8 +32,6 @@ plGenericPhysical::~plGenericPhysical() {
         delete[] fTMDBuffer;
 }
 
-IMPLEMENT_CREATABLE(plGenericPhysical, kGenericPhysical, plPhysical)
-
 void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
@@ -629,55 +627,6 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
         throw hsNotImplementedException(__FILE__, __LINE__, "PhysX TriangleMesh");
     }
 }
-
-float plGenericPhysical::getMass() const { return fMass; }
-float plGenericPhysical::getFriction() const { return fFriction; }
-float plGenericPhysical::getRestitution() const { return fRestitution; }
-plSimDefs::Bounds plGenericPhysical::getBoundsType() const { return fBounds; }
-plSimDefs::Group plGenericPhysical::getGroup() const { return fGroup; }
-unsigned int plGenericPhysical::getCategory() const { return fCategory; }
-unsigned short plGenericPhysical::getLOSDBs() const { return fLOSDBs; }
-unsigned int plGenericPhysical::getReportsOn() const { return fReportsOn; }
-
-plKey plGenericPhysical::getObject() const { return fObjectKey; }
-plKey plGenericPhysical::getSceneNode() const { return fSceneNode; }
-plKey plGenericPhysical::getSubWorld() const { return fSubWorld; }
-plKey plGenericPhysical::getSoundGroup() const { return fSoundGroup; }
-hsVector3 plGenericPhysical::getPos() const { return fPos; }
-hsQuat plGenericPhysical::getRot() const { return fRot; }
-hsBitVector& plGenericPhysical::getProps() { return fProps; }
-
-hsVector3 plGenericPhysical::getDimensions() const { return fDimensions; }
-hsVector3 plGenericPhysical::getOffset() const { return fOffset; }
-float plGenericPhysical::getRadius() const { return fRadius; }
-float plGenericPhysical::getLength() const { return fLength; }
-size_t plGenericPhysical::getNumVerts() const { return fVerts.getSize(); }
-size_t plGenericPhysical::getNumIndices() const { return fIndices.getSize(); }
-hsVector3 plGenericPhysical::getVert(size_t idx) const { return fVerts[idx]; }
-unsigned int plGenericPhysical::getIndex(size_t idx) const { return fIndices[idx]; }
-size_t plGenericPhysical::getTMDSize() const { return fTMDSize; }
-const unsigned char* plGenericPhysical::getTMDBuffer() const { return fTMDBuffer; }
-
-void plGenericPhysical::setMass(float mass) { fMass = mass; }
-void plGenericPhysical::setFriction(float friction) { fFriction = friction; }
-void plGenericPhysical::setRestitution(float restitution) { fRestitution = restitution; }
-void plGenericPhysical::setBoundsType(plSimDefs::Bounds bounds) { fBounds = bounds; }
-void plGenericPhysical::setGroup(plSimDefs::Group group) { fGroup = group; }
-void plGenericPhysical::setCategory(unsigned int category) { fCategory = category; }
-void plGenericPhysical::setLOSDBs(unsigned short los) { fLOSDBs = los; }
-void plGenericPhysical::setReportsOn(unsigned int reports) { fReportsOn = reports; }
-
-void plGenericPhysical::setObject(plKey object) { fObjectKey = object; }
-void plGenericPhysical::setSceneNode(plKey node) { fSceneNode = node; }
-void plGenericPhysical::setSubWorld(plKey world) { fSubWorld = world; }
-void plGenericPhysical::setSoundGroup(plKey group) { fSoundGroup = group; }
-void plGenericPhysical::setPos(const hsVector3& pos) { fPos = pos; }
-void plGenericPhysical::setRot(const hsQuat& rot) { fRot = rot; }
-
-void plGenericPhysical::setDimensions(const hsVector3& box) { fDimensions = box; }
-void plGenericPhysical::setOffset(const hsVector3& offset) { fOffset = offset; }
-void plGenericPhysical::setRadius(float radius) { fRadius = radius; }
-void plGenericPhysical::setLength(float length) { fLength = length; }
 
 void plGenericPhysical::setVerts(size_t numVerts, const hsVector3* verts) {
     fVerts.setSize(numVerts);

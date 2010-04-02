@@ -5,11 +5,6 @@ plExcludeRegionModifier::plExcludeRegionModifier()
     fFlags.setName(kBlockCameras, "kBlockCameras");
 }
 
-plExcludeRegionModifier::~plExcludeRegionModifier() { }
-
-IMPLEMENT_CREATABLE(plExcludeRegionModifier, kExcludeRegionModifier,
-                    plSingleModifier)
-
 void plExcludeRegionModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

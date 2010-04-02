@@ -7,23 +7,17 @@
 #include "hsBounds.h"
 
 DllClass plVolumeIsect : public plCreatable {
-public:
-    plVolumeIsect();
-    virtual ~plVolumeIsect();
-
-    DECLARE_CREATABLE(plVolumeIsect)
+    CREATABLE(plVolumeIsect, kVolumeIsect, plCreatable)
 };
 
+
 DllClass plBoundsIsect : public plVolumeIsect {
+    CREATABLE(plBoundsIsect, kBoundsIsect, plVolumeIsect)
+
 protected:
     hsBounds3Ext fLocalBounds, fWorldBounds;
 
 public:
-    plBoundsIsect();
-    virtual ~plBoundsIsect();
-
-    DECLARE_CREATABLE(plBoundsIsect)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -32,7 +26,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plConeIsect : public plVolumeIsect {
+    CREATABLE(plConeIsect, kConeIsect, plVolumeIsect)
+
 protected:
     int fCapped;
     float fRadAngle, fLength;
@@ -43,9 +40,6 @@ protected:
 
 public:
     plConeIsect();
-    virtual ~plConeIsect();
-
-    DECLARE_CREATABLE(plConeIsect)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -55,7 +49,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plConvexIsect : public plVolumeIsect {
+    CREATABLE(plConvexIsect, kConvexIsect, plVolumeIsect)
+
 public:
     DllStruct SinglePlane {
         hsVector3 fNorm, fPos, fWorldNorm;
@@ -68,11 +65,6 @@ protected:
     hsTArray<SinglePlane> fPlanes;
 
 public:
-    plConvexIsect();
-    virtual ~plConvexIsect();
-
-    DECLARE_CREATABLE(plConvexIsect)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -81,7 +73,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plCylinderIsect : public plVolumeIsect {
+    CREATABLE(plCylinderIsect, kCylinderIsect, plVolumeIsect)
+
 protected:
     hsVector3 fTop, fBot;
     float fRadius;
@@ -90,9 +85,6 @@ protected:
 
 public:
     plCylinderIsect();
-    virtual ~plCylinderIsect();
-
-    DECLARE_CREATABLE(plCylinderIsect)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -102,7 +94,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plParallelIsect : public plVolumeIsect {
+    CREATABLE(plParallelIsect, kParallelIsect, plVolumeIsect)
+
 public:
     DllStruct ParPlane {
         hsVector3 fNorm;
@@ -116,11 +111,6 @@ protected:
     hsTArray<ParPlane> fPlanes;
 
 public:
-    plParallelIsect();
-    virtual ~plParallelIsect();
-
-    DECLARE_CREATABLE(plParallelIsect)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -129,7 +119,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plSphereIsect : public plVolumeIsect {
+    CREATABLE(plSphereIsect, kSphereIsect, plVolumeIsect)
+
 protected:
     hsVector3 fCenter, fWorldCenter;
     float fRadius;
@@ -137,9 +130,6 @@ protected:
 
 public:
     plSphereIsect();
-    virtual ~plSphereIsect();
-
-    DECLARE_CREATABLE(plSphereIsect)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -149,15 +139,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plComplexIsect : public plVolumeIsect {
+    CREATABLE(plComplexIsect, kComplexIsect, plVolumeIsect)
+
 protected:
     hsTArray<plVolumeIsect*> fVolumes;
 
 public:
-    plComplexIsect();
+    plComplexIsect() { }
     virtual ~plComplexIsect();
-
-    DECLARE_CREATABLE(plComplexIsect)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -170,20 +161,14 @@ public:
     void clearVolumes();
 };
 
-DllClass plIntersectionIsect : public plComplexIsect {
-public:
-    plIntersectionIsect();
-    virtual ~plIntersectionIsect();
 
-    DECLARE_CREATABLE(plIntersectionIsect)
+DllClass plIntersectionIsect : public plComplexIsect {
+    CREATABLE(plIntersectionIsect, kIntersectionIsect, plComplexIsect)
 };
 
-DllClass plUnionIsect : public plComplexIsect {
-public:
-    plUnionIsect();
-    virtual ~plUnionIsect();
 
-    DECLARE_CREATABLE(plUnionIsect)
+DllClass plUnionIsect : public plComplexIsect {
+    CREATABLE(plUnionIsect, kUnionIsect, plComplexIsect)
 };
 
 #endif

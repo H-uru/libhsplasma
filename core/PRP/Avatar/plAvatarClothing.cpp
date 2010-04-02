@@ -10,10 +10,7 @@ const char* const plClothingOutfit::TypeNames[] = {
     "LeftFoot", "RightFoot", "Accessory"
 };
 
-plClothingOutfit::plClothingOutfit() { }
-plClothingOutfit::~plClothingOutfit() { }
-
-IMPLEMENT_CREATABLE(plClothingOutfit, kClothingOutfit, plSynchedObject)
+plClothingOutfit::plClothingOutfit() : fGroup(kClothingGroupNoOptions) { }
 
 void plClothingOutfit::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
@@ -83,11 +80,6 @@ void plClothingOutfit::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plClothingBase */
-plClothingBase::plClothingBase() { }
-plClothingBase::~plClothingBase() { }
-
-IMPLEMENT_CREATABLE(plClothingBase, kClothingBase, hsKeyedObject)
-
 void plClothingBase::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 

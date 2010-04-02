@@ -1,9 +1,5 @@
 #include "plPosController.h"
 
-/* plPosController */
-IMPLEMENT_CREATABLE(plPosController, kPosController, plController)
-
-
 /* plSimplePosController */
 plSimplePosController::plSimplePosController()
                      : fPosition(NULL) { }
@@ -12,8 +8,6 @@ plSimplePosController::~plSimplePosController() {
     if (fPosition != NULL)
         delete fPosition;
 }
-
-IMPLEMENT_CREATABLE(plSimplePosController, kSimplePosController, plPosController)
 
 void plSimplePosController::read(hsStream* S, plResManager* mgr) {
     if (S->readInt() != 0) {
@@ -56,9 +50,6 @@ void plSimplePosController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-int plSimplePosController::getType() const { return kSimple; }
-plPoint3Controller* plSimplePosController::getPosition() const { return fPosition; }
-
 void plSimplePosController::setPosition(plPoint3Controller* pos) {
     if (fPosition != NULL)
         delete fPosition;
@@ -78,8 +69,6 @@ plCompoundPosController::~plCompoundPosController() {
     if (fZController != NULL)
         delete fZController;
 }
-
-IMPLEMENT_CREATABLE(plCompoundPosController, kCompoundPosController, plPosController)
 
 void plCompoundPosController::read(hsStream* S, plResManager* mgr) {
     if (S->readInt() != 0) {
@@ -179,12 +168,6 @@ void plCompoundPosController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
         plCreatable::IPrcParse(tag, mgr);
     }
 }
-
-int plCompoundPosController::getType() const { return kCompound; }
-
-plScalarController* plCompoundPosController::getX() const { return fXController; }
-plScalarController* plCompoundPosController::getY() const { return fYController; }
-plScalarController* plCompoundPosController::getZ() const { return fZController; }
 
 void plCompoundPosController::setX(plScalarController* controller) {
     if (fXController != NULL)

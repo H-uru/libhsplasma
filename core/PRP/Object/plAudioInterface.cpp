@@ -1,10 +1,5 @@
 #include "plAudioInterface.h"
 
-plAudioInterface::plAudioInterface() { }
-plAudioInterface::~plAudioInterface() { }
-
-IMPLEMENT_CREATABLE(plAudioInterface, kAudioInterface, plObjInterface)
-
 void plAudioInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     fAudible = mgr->readKey(S);
@@ -31,6 +26,3 @@ void plAudioInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plObjInterface::IPrcParse(tag, mgr);
     }
 }
-
-plKey plAudioInterface::getAudible() const { return fAudible; }
-void plAudioInterface::setAudible(plKey audible) { fAudible = audible; }

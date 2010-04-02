@@ -1,9 +1,6 @@
 #include "plAGModifier.h"
 
 plAGModifier::plAGModifier() : fAutoApply(true), fEnabled(true) { }
-plAGModifier::~plAGModifier() { }
-
-IMPLEMENT_CREATABLE(plAGModifier, kAGModifier, plSingleModifier)
 
 void plAGModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);

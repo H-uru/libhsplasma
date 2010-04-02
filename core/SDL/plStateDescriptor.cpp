@@ -4,8 +4,6 @@
 plVarDescriptor::plVarDescriptor()
                : fCount(0), fType(kNone), fFlags(0), fStateDescVer(-1) { }
 
-plVarDescriptor::~plVarDescriptor() { }
-
 void plVarDescriptor::read(hsStream* S) {
     if (S->readByte() != 3)
         throw hsBadParamException(__FILE__, __LINE__, "Bad plVarDescriptor IO Version");
@@ -45,28 +43,6 @@ void plVarDescriptor::write(hsStream* S) {
         S->writeByte(fType);
     }
 }
-
-const plString& plVarDescriptor::getName() const { return fName; }
-const plString& plVarDescriptor::getDefault() const { return fDefault; }
-const plString& plVarDescriptor::getDisplay() const { return fDisplay; }
-size_t plVarDescriptor::getCount() const { return fCount; }
-plVarDescriptor::Type plVarDescriptor::getType() const { return fType; }
-const plString& plVarDescriptor::getStateDescType() const { return fStateDescType; }
-int plVarDescriptor::getStateDescVer() const { return fStateDescVer; }
-plStateDescriptor* plVarDescriptor::getStateDesc() const { return fStateDesc; }
-
-bool plVarDescriptor::isInternal() const { return (fFlags & kInternal) != 0; }
-bool plVarDescriptor::isAlwaysNew() const { return (fFlags & kAlwaysNew) != 0; }
-bool plVarDescriptor::isVariableLength() const { return (fFlags & kVariableLength) != 0; }
-bool plVarDescriptor::isValid() const { return fType != kNone; }
-
-void plVarDescriptor::setName(const plString& name) { fName = name; }
-void plVarDescriptor::setDefault(const plString& def) { fDefault = def; }
-void plVarDescriptor::setDisplay(const plString& disp) { fDisplay = disp; }
-void plVarDescriptor::setCount(size_t count) { fCount = count; }
-void plVarDescriptor::setType(plVarDescriptor::Type type) { fType = type; }
-void plVarDescriptor::setStateDescType(const plString& type) { fStateDescType = type; }
-void plVarDescriptor::setStateDescVer(int ver) { fStateDescVer = ver; }
 
 void plVarDescriptor::setStateDesc(plStateDescriptor* desc) {
     fStateDesc = desc;
@@ -220,26 +196,11 @@ void plStateDescriptor::write(hsStream* S) {
     }
 }
 
-const plString& plStateDescriptor::getName() const { return fName; }
-int plStateDescriptor::getVersion() const { return fVersion; }
-bool plStateDescriptor::isValid() const { return fVersion != -1; }
-
-void plStateDescriptor::setName(const plString& name) { fName = name; }
-void plStateDescriptor::setVersion(int ver) { fVersion = ver; }
-
-plVarDescriptor* plStateDescriptor::get(size_t idx) {
-    return fVariables[idx];
-}
-
 plVarDescriptor* plStateDescriptor::get(const plString& name) {
     for (size_t i=0; i<fVariables.getSize(); i++)
         if (fVariables[i]->getName() == name)
             return fVariables[i];
     return NULL;
-}
-
-void plStateDescriptor::set(size_t idx, plVarDescriptor* var) {
-    fVariables[idx] = var;
 }
 
 void plStateDescriptor::set(const plString& name, plVarDescriptor* var) {
@@ -254,21 +215,15 @@ void plStateDescriptor::set(const plString& name, plVarDescriptor* var) {
     fVariables[idx] = var;
 }
 
-size_t plStateDescriptor::getNumVars() const {
-    return fVariables.getSize();
-}
-
-void plStateDescriptor::addVariable(plVarDescriptor* var) {
-    fVariables.append(var);
-}
-
 void plStateDescriptor::delVariable(size_t idx) {
+    delete fVariables[idx];
     fVariables.remove(idx);
 }
 
 void plStateDescriptor::delVariable(const plString& name) {
     for (size_t i=0; i<fVariables.getSize(); i++) {
         if (fVariables[i]->getName() == name) {
+            delete fVariables[i];
             fVariables.remove(i);
             return;
         }

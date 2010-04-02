@@ -1,10 +1,5 @@
 #include "plHKSubWorld.h"
 
-plHKSubWorld::plHKSubWorld() { }
-plHKSubWorld::~plHKSubWorld() { }
-
-IMPLEMENT_CREATABLE(plHKSubWorld, kHKSubWorld, plObjInterface)
-
 void plHKSubWorld::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     fPosition.read(S);

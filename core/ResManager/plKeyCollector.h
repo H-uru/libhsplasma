@@ -20,7 +20,7 @@ private:
     keymap_t keys;
 
 public:
-    plKeyCollector();
+    plKeyCollector() { }
     ~plKeyCollector();
 
     plKey findKey(plKey match);

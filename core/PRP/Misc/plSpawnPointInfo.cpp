@@ -1,9 +1,6 @@
 #include "plSpawnPointInfo.h"
 #include "Util/hsBitVector.h"
 
-plSpawnPointInfo::plSpawnPointInfo() { }
-plSpawnPointInfo::~plSpawnPointInfo() { }
-
 void plSpawnPointInfo::read(hsStream* S) {
     hsBitVector flags;
     flags.read(S);

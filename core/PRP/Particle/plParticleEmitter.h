@@ -8,6 +8,8 @@
 #include "plParticleGenerator.h"
 
 DllClass plParticleEmitter : public plCreatable {
+    CREATABLE(plParticleEmitter, kParticleEmitter, plCreatable)
+
 public:
     enum {
         kMatIsEmissive = 0x1,
@@ -40,8 +42,6 @@ protected:
 public:
     plParticleEmitter();
     virtual ~plParticleEmitter();
-
-    DECLARE_CREATABLE(plParticleEmitter)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

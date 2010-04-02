@@ -6,9 +6,6 @@ const char* const plFogEnvironment::FogTypeNames[] = {
 
 plFogEnvironment::plFogEnvironment()
                 : fType(kLinearFog), fStart(1.0f), fEnd(1000.0f), fDensity(0.5f) { }
-plFogEnvironment::~plFogEnvironment() { }
-
-IMPLEMENT_CREATABLE(plFogEnvironment, kFogEnvironment, hsKeyedObject)
 
 void plFogEnvironment::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);

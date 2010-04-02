@@ -3,10 +3,6 @@
 plNetMsgLoadClone::plNetMsgLoadClone()
                  : fIsPlayer(false), fIsLoading(false), fIsInitialState(false) { }
 
-plNetMsgLoadClone::~plNetMsgLoadClone() { }
-
-IMPLEMENT_CREATABLE(plNetMsgLoadClone, kNetMsgLoadClone, plNetMsgGameMessage)
-
 void plNetMsgLoadClone::read(hsStream* S, plResManager* mgr) {
     plNetMsgGameMessage::read(S, mgr);
 
@@ -50,36 +46,4 @@ void plNetMsgLoadClone::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plNetMsgGameMessage::IPrcParse(tag, mgr);
     }
-}
-
-plNetMsgObjectHelper plNetMsgLoadClone::getObject() const {
-    return fObject;
-}
-
-bool plNetMsgLoadClone::getIsPlayer() const {
-    return fIsPlayer;
-}
-
-bool plNetMsgLoadClone::getIsLoading() const {
-    return fIsLoading;
-}
-
-bool plNetMsgLoadClone::getIsInitialState() const {
-    return fIsInitialState;
-}
-
-void plNetMsgLoadClone::setObject(plNetMsgObjectHelper Object) {
-    fObject = Object;
-}
-
-void plNetMsgLoadClone::setIsPlayer(bool IsPlayer) {
-    fIsPlayer = IsPlayer;
-}
-
-void plNetMsgLoadClone::setIsLoading(bool IsLoading) {
-    fIsLoading = IsLoading;
-}
-
-void plNetMsgLoadClone::setIsInitialState(bool IsInitialState) {
-    fIsInitialState = IsInitialState;
 }

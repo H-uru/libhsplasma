@@ -1,10 +1,7 @@
 #include "plFacingConditionalObject.h"
 
-plFacingConditionalObject::plFacingConditionalObject() { }
-plFacingConditionalObject::~plFacingConditionalObject() { }
-
-IMPLEMENT_CREATABLE(plFacingConditionalObject, kFacingConditionalObject,
-                    plConditionalObject)
+plFacingConditionalObject::plFacingConditionalObject()
+                         : fTolerance(0.0f), fDirectional(false) { }
 
 void plFacingConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);

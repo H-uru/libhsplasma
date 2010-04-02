@@ -10,8 +10,6 @@ plNetMsgStreamHelper::~plNetMsgStreamHelper() {
         delete[] fStream;
 }
 
-IMPLEMENT_CREATABLE(plNetMsgStreamHelper, kNetMsgStreamHelper, plCreatable)
-
 void plNetMsgStreamHelper::read(hsStream* S, plResManager* mgr) {
     fUncompressedSize = S->readInt();
     fCompressionType = S->readByte();
@@ -79,11 +77,6 @@ void plNetMsgStreamHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-const unsigned char* plNetMsgStreamHelper::getStream() const { return fStream; }
-unsigned int plNetMsgStreamHelper::getStreamLength() const { return fStreamLength; }
-unsigned int plNetMsgStreamHelper::getUncompressedSize() const { return fUncompressedSize; }
-unsigned char plNetMsgStreamHelper::getCompressionType() const { return fCompressionType; }
-
 void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int length) {
     if (fStream != NULL)
         delete[] fStream;
@@ -95,9 +88,6 @@ void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int l
         fStream = NULL;
     }
 }
-
-void plNetMsgStreamHelper::setUncompressedSize(unsigned int size) { fUncompressedSize = size; }
-void plNetMsgStreamHelper::setCompressionType(unsigned char type) { fCompressionType = type; }
 
 void plNetMsgStreamHelper::decompress(int offset) {
     if (fCompressionType == kCompressionZlib) {
@@ -118,10 +108,7 @@ void plNetMsgStreamHelper::decompress(int offset) {
 
 
 /* plNetMsgStream */
-plNetMsgStream::plNetMsgStream() { }
-plNetMsgStream::~plNetMsgStream() { }
-
-IMPLEMENT_CREATABLE(plNetMsgStream, kNetMsgStream, plNetMessage)
+plNetMsgStream::plNetMsgStream() : fCompressionType(0) { }
 
 void plNetMsgStream::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
@@ -168,8 +155,3 @@ void plNetMsgStream::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plNetMessage::IPrcParse(tag, mgr);
     }
 }
-
-hsRAMStream* plNetMsgStream::getStream() { return &fStream; }
-
-unsigned char plNetMsgStream::getCompressionType() const { return fCompressionType; }
-void plNetMsgStream::setCompressionType(unsigned char type) { fCompressionType = type; }

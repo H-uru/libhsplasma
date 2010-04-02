@@ -1,10 +1,5 @@
 #include "plMsgForwarder.h"
 
-plMsgForwarder::plMsgForwarder() { }
-plMsgForwarder::~plMsgForwarder() { }
-
-IMPLEMENT_CREATABLE(plMsgForwarder, kMsgForwarder, hsKeyedObject)
-
 void plMsgForwarder::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
@@ -42,9 +37,3 @@ void plMsgForwarder::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
 }
-
-size_t plMsgForwarder::getNumForwardKeys() const { return fForwardKeys.getSize(); }
-plKey plMsgForwarder::getForwardKey(size_t idx) const { return fForwardKeys[idx]; }
-void plMsgForwarder::addForwardKey(plKey fwd) { fForwardKeys.append(fwd); }
-void plMsgForwarder::delForwardKey(size_t idx) { fForwardKeys.remove(idx); }
-void plMsgForwarder::clearForwardKeys() { fForwardKeys.clear(); }

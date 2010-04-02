@@ -8,6 +8,8 @@
 #include "Util/hsBitVector.h"
 
 DllClass plRenderTarget : public plBitmap {
+    CREATABLE(plRenderTarget, kRenderTarget, plBitmap)
+
 protected:
     unsigned short fWidth, fHeight;
     union {
@@ -23,9 +25,6 @@ protected:
 
 public:
     plRenderTarget();
-    virtual ~plRenderTarget();
-
-    DECLARE_CREATABLE(plRenderTarget)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -39,7 +38,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plCubicRenderTarget : public plRenderTarget {
+    CREATABLE(plCubicRenderTarget, kCubicRenderTarget, plRenderTarget)
+
 public:
     enum Faces {
         kLeftFace, kRightFace, kFrontFace, kBackFace, kTopFace, kBottomFace
@@ -49,16 +51,15 @@ protected:
     plRenderTarget fFaces[6];
 
 public:
-    plCubicRenderTarget();
-    virtual ~plCubicRenderTarget();
-
-    DECLARE_CREATABLE(plCubicRenderTarget)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plRenderTarget* getFace(size_t which) { return &fFaces[which]; }
 };
+
 #endif

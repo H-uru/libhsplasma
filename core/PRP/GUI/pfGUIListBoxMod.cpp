@@ -4,8 +4,6 @@
 pfGUIListElement::pfGUIListElement()
                 : fSelected(false) { }
 
-pfGUIListElement::~pfGUIListElement() { }
-
 void pfGUIListElement::read(hsStream* S) {
     fSelected = S->readBool();
 }
@@ -27,9 +25,6 @@ void pfGUIListElement::prcParse(const pfPrcTag* tag) {
     fSelected = tag->getParam("Selected", "false").toBool();
 }
 
-bool pfGUIListElement::getSelected() const { return fSelected; }
-void pfGUIListElement::setSelected(bool sel) { fSelected = sel; }
-
 
 /* pfGUIListBoxMod */
 pfGUIListBoxMod::pfGUIListBoxMod() {
@@ -44,10 +39,6 @@ pfGUIListBoxMod::pfGUIListBoxMod() {
     fFlags.setName(kHandsOffMultiSelect, "kHandsOffMultiSelect");
     fFlags.setName(kForbidNoSelection, "kForbidNoSelection");
 }
-
-pfGUIListBoxMod::~pfGUIListBoxMod() { }
-
-IMPLEMENT_CREATABLE(pfGUIListBoxMod, kGUIListBoxMod, pfGUIControlMod)
 
 void pfGUIListBoxMod::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
@@ -86,6 +77,3 @@ void pfGUIListBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
 }
-
-plKey pfGUIListBoxMod::getScrollCtrl() const { return fScrollCtrl; }
-void pfGUIListBoxMod::setScrollCtrl(plKey ctrl) { fScrollCtrl = ctrl; }

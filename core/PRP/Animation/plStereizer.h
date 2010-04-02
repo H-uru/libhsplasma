@@ -5,6 +5,8 @@
 #include "Math/hsGeometry3.h"
 
 DllClass plStereizer : public plSingleModifier {
+    CREATABLE(plStereizer, kStereizer, plSingleModifier)
+
 public:
     enum { kLeftChannel, kHasMaster };
 
@@ -14,9 +16,6 @@ protected:
 
 public:
     plStereizer();
-    virtual ~plStereizer();
-
-    DECLARE_CREATABLE(plStereizer)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -26,18 +25,18 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    float getAmbientDist() const;
-    float getTransition() const;
-    float getMaxSepDist() const;
-    float getMinSepDist() const;
-    float getTanAng() const;
-    hsVector3 getInitPos() const;
+    float getAmbientDist() const { return fAmbientDist; }
+    float getTransition() const { return fTransition; }
+    float getMaxSepDist() const { return fMaxSepDist; }
+    float getMinSepDist() const { return fMinSepDist; }
+    float getTanAng() const { return fTanAng; }
+    hsVector3 getInitPos() const { return fInitPos; }
 
-    void setAmbientDist(float dist);
-    void setTransition(float transition);
-    void setSepDist(float min, float max);
-    void setTanAng(float ang);
-    void setInitPos(const hsVector3& pos);
+    void setAmbientDist(float dist) { fAmbientDist = dist; }
+    void setTransition(float transition) { fTransition = transition; }
+    void setSepDist(float min, float max) { fMinSepDist = min; fMaxSepDist = max; }
+    void setTanAng(float ang) { fTanAng = ang; }
+    void setInitPos(const hsVector3& pos) { fInitPos = pos; }
 };
 
 #endif

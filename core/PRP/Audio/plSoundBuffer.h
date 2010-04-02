@@ -20,22 +20,26 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    unsigned short getFormatTag() const;
-    unsigned short getNumChannels() const;
-    unsigned int getNumSamplesPerSec() const;
-    unsigned int getAvgBytesPerSec() const;
-    unsigned short getBlockAlign() const;
-    unsigned short getBitsPerSample() const;
+public:
+    unsigned short getFormatTag() const { return fFormatTag; }
+    unsigned short getNumChannels() const { return fNumChannels; }
+    unsigned int getNumSamplesPerSec() const { return fNumSamplesPerSec; }
+    unsigned int getAvgBytesPerSec() const { return fAvgBytesPerSec; }
+    unsigned short getBlockAlign() const { return fBlockAlign; }
+    unsigned short getBitsPerSample() const { return fBitsPerSample; }
 
-    void setFormatTag(unsigned short tag);
-    void setNumChannels(unsigned short channels);
-    void setNumSamplesPerSec(unsigned int samples);
-    void setAvgBytesPerSec(unsigned int bytes);
-    void setBlockAlign(unsigned short align);
-    void setBitsPerSample(unsigned short bits);
+    void setFormatTag(unsigned short tag) { fFormatTag = tag; }
+    void setNumChannels(unsigned short channels) { fNumChannels = channels; }
+    void setNumSamplesPerSec(unsigned int samples) { fNumSamplesPerSec = samples; }
+    void setAvgBytesPerSec(unsigned int bytes) { fAvgBytesPerSec = bytes; }
+    void setBlockAlign(unsigned short align) { fBlockAlign = align; }
+    void setBitsPerSample(unsigned short bits) { fBitsPerSample = bits; }
 };
 
+
 DllClass plSoundBuffer : public hsKeyedObject {
+    CREATABLE(plSoundBuffer, kSoundBuffer, hsKeyedObject)
+
 public:
     enum Flags {
         kIsExternal = 0x1,
@@ -56,8 +60,6 @@ public:
     plSoundBuffer();
     virtual ~plSoundBuffer();
 
-    DECLARE_CREATABLE(plSoundBuffer)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -66,17 +68,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plWAVHeader& getHeader();
-    const plWAVHeader& getHeader() const;
-    
-    plString getFileName() const;
-    unsigned int getFlags() const;
-    size_t getDataLength() const;
-    unsigned char* getData() const;
+    const plWAVHeader& getHeader() const { return fHeader; }
+    plWAVHeader& getHeader() { return fHeader; }
 
-    void setFileName(const plString& name);
-    void setFlags(unsigned int flags);
-    void setDataLength(size_t length);
+    plString getFileName() const { return fFileName; }
+    unsigned int getFlags() const { return fFlags; }
+    size_t getDataLength() const { return fDataLength; }
+    unsigned char* getData() const { return fData; }
+
+    void setFileName(const plString& name) { fFileName = name; }
+    void setFlags(unsigned int flags) { fFlags = flags; }
     void setData(size_t length, const unsigned char* data);
 };
 

@@ -4,16 +4,13 @@
 #include "plNetMessage.h"
 
 DllClass plNetMsgRoomsList : public plNetMessage {
+    CREATABLE(plNetMsgRoomsList, kNetMsgRoomsList, plNetMessage)
+
 private:
     hsTArray<plLocation> fRooms;
     hsTArray<plString> fRoomNames;
 
 public:
-    plNetMsgRoomsList();
-    ~plNetMsgRoomsList();
-
-    DECLARE_CREATABLE(plNetMsgRoomsList)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -22,7 +19,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plNetMsgPagingRoom : public plNetMsgRoomsList {
+    CREATABLE(plNetMsgPagingRoom, kNetMsgPagingRoom, plNetMsgRoomsList)
+
 public:
     enum PageFlags {
         kPagingOut = 0x1,
@@ -36,9 +36,6 @@ private:
 
 public:
     plNetMsgPagingRoom();
-    ~plNetMsgPagingRoom();
-
-    DECLARE_CREATABLE(plNetMsgPagingRoom)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -48,9 +45,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plNetMsgGameStateRequest : public plNetMsgRoomsList {
-public:
-    DECLARE_CREATABLE(plNetMsgGameStateRequest)
+    CREATABLE(plNetMsgGameStateRequest, kNetMsgGameStateRequest, plNetMsgRoomsList)
 };
 
 #endif

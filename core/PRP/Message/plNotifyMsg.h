@@ -5,6 +5,8 @@
 #include "proEventData.h"
 
 DllClass plNotifyMsg : public plMessage {
+    CREATABLE(plNotifyMsg, kNotifyMsg, plMessage)
+
 public:
     enum notificationType {
         kActivator, kVarNotification, kNotifySelf, kResponderFF,
@@ -20,8 +22,6 @@ public:
     plNotifyMsg();
     virtual ~plNotifyMsg();
 
-    DECLARE_CREATABLE(plNotifyMsg)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -30,17 +30,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    int getType() const;
-    float getState() const;
-    int getID() const;
+    int getType() const { return fType; }
+    float getState() const { return fState; }
+    int getID() const { return fID; }
 
-    void setType(int type);
-    void setState(float state);
-    void setID(int id);
+    void setType(int type) { fType = type; }
+    void setState(float state) { fState = state; }
+    void setID(int id) { fID = id; }
 
-    size_t getNumEvents() const;
-    proEventData* getEvent(size_t idx) const;
-    void addEvent(proEventData* evt);
+    const hsTArray<proEventData*>& getEvents() const { return fEvents; }
+    hsTArray<proEventData*>& getEvents() { return fEvents; }
+    void addEvent(proEventData* evt) { fEvents.append(evt); }
     void delEvent(size_t idx);
     void clearEvents();
 };

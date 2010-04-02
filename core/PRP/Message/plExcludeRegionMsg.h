@@ -4,6 +4,8 @@
 #include "plMessage.h"
 
 DllClass plExcludeRegionMsg : public plMessage {
+    CREATABLE(plExcludeRegionMsg, kExcludeRegionMsg, plMessage)
+
 public:
     enum CmdType { kClear, kRelease };
 
@@ -13,9 +15,6 @@ protected:
 
 public:
     plExcludeRegionMsg();
-    virtual ~plExcludeRegionMsg();
-
-    DECLARE_CREATABLE(plExcludeRegionMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

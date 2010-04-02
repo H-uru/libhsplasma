@@ -1,10 +1,7 @@
 #include "plNetMsgStreamedObject.h"
 
 /* plNetMsgStreamedObject */
-plNetMsgStreamedObject::plNetMsgStreamedObject() { }
-plNetMsgStreamedObject::~plNetMsgStreamedObject() { }
-
-IMPLEMENT_CREATABLE(plNetMsgStreamedObject, kNetMsgStreamedObject, plNetMsgObject)
+plNetMsgStreamedObject::plNetMsgStreamedObject() : fCompressionType(0) { }
 
 void plNetMsgStreamedObject::read(hsStream* S, plResManager* mgr) {
     plNetMsgObject::read(S, mgr);
@@ -51,8 +48,3 @@ void plNetMsgStreamedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plNetMsgObject::IPrcParse(tag, mgr);
     }
 }
-
-hsStream* plNetMsgStreamedObject::getStream() { return &fStream; }
-
-unsigned char plNetMsgStreamedObject::getCompressionType() const { return fCompressionType; }
-void plNetMsgStreamedObject::setCompressionType(unsigned char type) { fCompressionType = type; }

@@ -6,15 +6,14 @@
 #include "PRP/KeyedObject/plKey.h"
 #include "ResManager/plResManager.h"
 
-#define DECLARE_EVTDATA(classname) \
-    static classname* Convert(proEventData* evt);
-
-#define IMPLEMENT_EVTDATA(classname, evtType) \
-    classname* classname::Convert(proEventData* evt) { \
+#define EVTDATA(classname, evtType) \
+public:\
+    static classname* Convert(proEventData* evt) { \
         if (evt != NULL && evt->EventType() == evtType) \
             return (classname*)evt; \
         return NULL; \
     }
+
 
 DllClass proEventData {
 public:
@@ -40,9 +39,9 @@ protected:
 
 public:
     proEventData();
-    virtual ~proEventData();
+    virtual ~proEventData() { }
 
-    int EventType() const;
+    int EventType() const { return fEventType; }
 
     static proEventData* Read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
@@ -58,7 +57,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass proCollisionEventData : public proEventData {
+    EVTDATA(proCollisionEventData, kCollision)
+
 protected:
     bool fEnter;
     plKey fHitter;
@@ -66,7 +68,6 @@ protected:
 
 public:
     proCollisionEventData();
-    DECLARE_EVTDATA(proCollisionEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -75,16 +76,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool isEnter() const;
-    plKey getHitter() const;
-    plKey getHittee() const;
+    bool isEnter() const { return fEnter; }
+    plKey getHitter() const { return fHitter; }
+    plKey getHittee() const { return fHittee; }
 
-    void setEnter(bool enter);
-    void setHitter(plKey hitter);
-    void setHittee(plKey hittee);
+    void setEnter(bool enter) { fEnter = enter; }
+    void setHitter(plKey hitter) { fHitter = hitter; }
+    void setHittee(plKey hittee) { fHittee = hittee; }
 };
 
+
 DllClass proPickedEventData : public proEventData {
+    EVTDATA(proPickedEventData, kPicked)
+
 protected:
     plKey fPicker;
     plKey fPicked;
@@ -93,7 +97,6 @@ protected:
 
 public:
     proPickedEventData();
-    DECLARE_EVTDATA(proPickedEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -102,25 +105,27 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getPicker() const;
-    plKey getPicked() const;
-    bool isEnabled() const;
-    hsVector3 getHitPoint() const;
+    plKey getPicker() const { return fPicker; }
+    plKey getPicked() const { return fPicked; }
+    bool isEnabled() const { return fEnabled; }
+    hsVector3 getHitPoint() const { return fHitPoint; }
 
-    void setPicker(plKey picker);
-    void setPicked(plKey picked);
-    void setEnabled(bool enabled);
-    void setHitPoint(const hsVector3& point);
+    void setPicker(plKey picker) { fPicker = picker; }
+    void setPicked(plKey picked) { fPicked = picked; }
+    void setEnabled(bool enabled) { fEnabled = enabled; }
+    void setHitPoint(const hsVector3& point) { fHitPoint = point; }
 };
 
+
 DllClass proControlKeyEventData : public proEventData {
+    EVTDATA(proControlKeyEventData, kControlKey)
+
 protected:
     int fControlKey;
     bool fDown;
 
 public:
     proControlKeyEventData();
-    DECLARE_EVTDATA(proControlKeyEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -129,14 +134,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    int getControlKey() const;
-    bool isDown() const;
+    int getControlKey() const { return fControlKey; }
+    bool isDown() const { return fDown; }
 
-    void setControlKey(int key);
-    void setDown(bool down);
+    void setControlKey(int key) { fControlKey = key; }
+    void setDown(bool down) { fDown = down; }
 };
 
+
 DllClass proVariableEventData : public proEventData {
+    EVTDATA(proVariableEventData, kVariable)
+
 protected:
     plString fName;
     int fDataType;
@@ -145,7 +153,6 @@ protected:
 
 public:
     proVariableEventData();
-    DECLARE_EVTDATA(proVariableEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -154,18 +161,21 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plString getName() const;
-    int getDataType() const;
-    float getNumber() const;
-    plKey getKey() const;
+    plString getName() const { return fName; }
+    int getDataType() const { return fDataType; }
+    float getNumber() const { return fNumber; }
+    plKey getKey() const { return fKey; }
 
-    void setName(const plString& name);
-    void setDataType(int type);
-    void setNumber(float number);
-    void setKey(plKey key);
+    void setName(const plString& name) { fName = name; }
+    void setDataType(int type) { fDataType = type; }
+    void setNumber(float number) { fNumber = number; }
+    void setKey(plKey key) { fKey = key; }
 };
 
+
 DllClass proFacingEventData : public proEventData {
+    EVTDATA(proFacingEventData, kFacing)
+
 protected:
     plKey fFacer;
     plKey fFacee;
@@ -174,7 +184,6 @@ protected:
 
 public:
     proFacingEventData();
-    DECLARE_EVTDATA(proFacingEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -183,18 +192,21 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getFacer() const;
-    plKey getFacee() const;
-    float getDot() const;
-    bool isEnabled() const;
+    plKey getFacer() const { return fFacer; }
+    plKey getFacee() const { return fFacee; }
+    float getDot() const { return fDot; }
+    bool isEnabled() const { return fEnabled; }
 
-    void setFacer(plKey facer);
-    void setFacee(plKey facee);
-    void setDot(float dot);
-    void setEnabled(bool enabled);
+    void setFacer(plKey facer) { fFacer = facer; }
+    void setFacee(plKey facee) { fFacee = facee; }
+    void setDot(float dot) { fDot = dot; }
+    void setEnabled(bool enabled) { fEnabled = enabled; }
 };
 
+
 DllClass proContainedEventData : public proEventData {
+    EVTDATA(proContainedEventData, kContained)
+
 protected:
     plKey fContained;
     plKey fContainer;
@@ -202,7 +214,6 @@ protected:
 
 public:
     proContainedEventData();
-    DECLARE_EVTDATA(proContainedEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -211,22 +222,24 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getContained() const;
-    plKey getContainer() const;
-    bool isEntering() const;
+    plKey getContained() const { return fContained; }
+    plKey getContainer() const { return fContainer; }
+    bool isEntering() const { return fEntering; }
 
-    void setContained(plKey contained);
-    void setContainer(plKey container);
-    void setEntering(bool entering);
+    void setContained(plKey contained) { fContained = contained; }
+    void setContainer(plKey container) { fContainer = container; }
+    void setEntering(bool entering) { fEntering = entering; }
 };
 
+
 DllClass proActivateEventData : public proEventData {
+    EVTDATA(proActivateEventData, kActivate)
+
 protected:
     bool fActive, fActivate;
 
 public:
     proActivateEventData();
-    DECLARE_EVTDATA(proActivateEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -235,20 +248,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    bool isActive() const;
-    bool isActivate() const;
+    bool isActive() const { return fActive; }
+    bool isActivate() const { return fActivate; }
 
-    void setActive(bool active);
-    void setActivate(bool activate);
+    void setActive(bool active) { fActive = active; }
+    void setActivate(bool activate) { fActivate = activate; }
 };
 
+
 DllClass proCallbackEventData : public proEventData {
+    EVTDATA(proCallbackEventData, kCallback)
+
 protected:
     int fCallbackEventType;
 
 public:
     proCallbackEventData();
-    DECLARE_EVTDATA(proCallbackEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -257,17 +272,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    int getCallbackEventType() const;
-    void setCallbackEventType(int type);
+    int getCallbackEventType() const { return fCallbackEventType; }
+    void setCallbackEventType(int type) { fCallbackEventType = type; }
 };
 
+
 DllClass proResponderStateEventData : public proEventData {
+    EVTDATA(proResponderStateEventData, kResponderState)
+
 protected:
     int fState;
 
 public:
     proResponderStateEventData();
-    DECLARE_EVTDATA(proResponderStateEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -276,18 +293,20 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    int getState() const;
-    void setState(int state);
+    int getState() const { return fState; }
+    void setState(int state) { fState = state; }
 };
 
+
 DllClass proMultiStageEventData : public proEventData {
+    EVTDATA(proMultiStageEventData, kMultiStage)
+
 protected:
     int fStage, fEvent;
     plKey fAvatar;
 
 public:
     proMultiStageEventData();
-    DECLARE_EVTDATA(proMultiStageEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -296,23 +315,25 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    int getStage() const;
-    int getEvent() const;
-    plKey getAvatar() const;
+    int getStage() const { return fStage; }
+    int getEvent() const { return fEvent; }
+    plKey getAvatar() const { return fAvatar; }
 
-    void setStage(int stage);
-    void setEvent(int event);
-    void setAvatar(plKey avatar);
+    void setStage(int stage) { fStage = stage; }
+    void setEvent(int event) { fEvent = event; }
+    void setAvatar(plKey avatar) { fAvatar = avatar; }
 };
 
+
 DllClass proSpawnedEventData : public proEventData {
+    EVTDATA(proSpawnedEventData, kSpawned)
+
 protected:
     plKey fSpawner;
     plKey fSpawnee;
 
 public:
     proSpawnedEventData();
-    DECLARE_EVTDATA(proSpawnedEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -321,17 +342,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getSpawner() const;
-    plKey getSpawnee() const;
+    plKey getSpawner() const { return fSpawner; }
+    plKey getSpawnee() const { return fSpawnee; }
 
-    void setSpawner(plKey spawner);
-    void setSpawnee(plKey spawnee);
+    void setSpawner(plKey spawner) { fSpawner = spawner; }
+    void setSpawnee(plKey spawnee) { fSpawnee = spawnee; }
 };
 
+
 DllClass proClickDragEventData : public proEventData {
+    EVTDATA(proClickDragEventData, kClickDrag)
+
 public:
     proClickDragEventData();
-    DECLARE_EVTDATA(proClickDragEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -339,14 +362,16 @@ protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
 };
 
+
 DllClass proCoopEventData : public proEventData {
+    EVTDATA(proCoopEventData, kCoop)
+
 protected:
     unsigned int fID;
     unsigned short fSerial;
 
 public:
     proCoopEventData();
-    DECLARE_EVTDATA(proCoopEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -355,21 +380,23 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned int getID() const;
-    unsigned short getSerial() const;
+    unsigned int getID() const { return fID; }
+    unsigned short getSerial() const { return fSerial; }
 
-    void setID(unsigned int id);
-    void setSerial(unsigned short serial);
+    void setID(unsigned int id) { fID = id; }
+    void setSerial(unsigned short serial) { fSerial = serial; }
 };
 
+
 DllClass proOfferLinkBookEventData : public proEventData {
+    EVTDATA(proOfferLinkBookEventData, kOfferLinkBook)
+
 protected:
     plKey fOfferer;
     int fTargetAge, fOfferee;
 
 public:
     proOfferLinkBookEventData();
-    DECLARE_EVTDATA(proOfferLinkBookEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -378,22 +405,24 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getOfferer() const;
-    int getTargetAge() const;
-    int getOfferee() const;
+    plKey getOfferer() const { return fOfferer; }
+    int getTargetAge() const { return fTargetAge; }
+    int getOfferee() const { return fOfferee; }
 
-    void setOfferer(plKey offerer);
-    void setTargetAge(int age);
-    void setOfferee(int offeree);
+    void setOfferer(plKey offerer) { fOfferer = offerer; }
+    void setTargetAge(int age) { fTargetAge = age; }
+    void setOfferee(int offeree) { fOfferee = offeree; }
 };
 
+
 DllClass proBookEventData : public proEventData {
+    EVTDATA(proBookEventData, kBook)
+
 protected:
     unsigned int fEvent, fLinkID;
 
 public:
     proBookEventData();
-    DECLARE_EVTDATA(proBookEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -402,20 +431,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    unsigned int getEvent() const;
-    unsigned int getLinkID() const;
+    unsigned int getEvent() const { return fEvent; }
+    unsigned int getLinkID() const { return fLinkID; }
 
-    void setEvent(unsigned int event);
-    void setLinkID(unsigned int id);
+    void setEvent(unsigned int event) { fEvent = event; }
+    void setLinkID(unsigned int id) { fLinkID = id; }
 };
 
+
 DllClass proClimbingBlockerHitEventData : public proEventData {
+    EVTDATA(proClimbingBlockerHitEventData, kClimbingBlockerHit)
+
 protected:
     plKey fBlockerKey;
 
 public:
     proClimbingBlockerHitEventData();
-    DECLARE_EVTDATA(proClimbingBlockerHitEventData)
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -424,8 +455,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plKey getBlocker() const;
-    void setBlocker(plKey blocker);
+    plKey getBlocker() const { return fBlockerKey; }
+    void setBlocker(plKey blocker) { fBlockerKey = blocker; }
 };
 
 #endif

@@ -1,9 +1,6 @@
 #include "plPhysicalSndGroup.h"
 
 plPhysicalSndGroup::plPhysicalSndGroup() : fGroup(kNone) { }
-plPhysicalSndGroup::~plPhysicalSndGroup() { }
-
-IMPLEMENT_CREATABLE(plPhysicalSndGroup, kPhysicalSndGroup, hsKeyedObject)
 
 void plPhysicalSndGroup::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);

@@ -5,16 +5,13 @@
 #include "Util/hsBitVector.h"
 
 DllClass plNetMsgRelevanceRegions : public plNetMessage {
+    CREATABLE(plNetMsgRelevanceRegions, kNetMsgRelevanceRegions, plNetMessage)
+
 private:
     hsBitVector fRegionsICareAbout;
     hsBitVector fRegionsImIn;
 
 public:
-    plNetMsgRelevanceRegions();
-    ~plNetMsgRelevanceRegions();
-
-    DECLARE_CREATABLE(plNetMsgRelevanceRegions)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 

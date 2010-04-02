@@ -58,7 +58,7 @@ private:
 
         BlobData();
         ~BlobData();
-        void ref();
+        void ref() { ++fRefs; }
         void unRef();
     };
     BlobData* fBlob;
@@ -73,8 +73,8 @@ public:
     void read(hsStream* S);
     void write(hsStream* S);
 
-    size_t getSize() const;
-    const unsigned char* getData() const;
+    size_t getSize() const { return (fBlob != NULL) ? fBlob->fSize : 0; }
+    const unsigned char* getData() const { return (fBlob != NULL) ? fBlob->fData : NULL; }
     void setData(size_t size, const unsigned char* data);
 };
 
@@ -112,9 +112,9 @@ public:
     plVaultNode();
     plVaultNode(const plVaultNode& init);
 
-    bool isValid() const;
-    bool hasField(unsigned int field) const;
-    void delField(unsigned int field);
+    bool isValid() const { return fNodeID != 0; }
+    bool hasField(unsigned int field) const { return fFields[field]; }
+    void delField(unsigned int field) { fFields[field] = false; }
     void makeField(unsigned int field);
 
     void read(hsStream* S);

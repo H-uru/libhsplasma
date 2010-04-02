@@ -2,8 +2,11 @@
 #define _PLANIMEVENTMODIFIER_H
 
 #include "plModifier.h"
+#include "PRP/Message/plMessage.h"
 
 DllClass plAnimEventModifier : public plSingleModifier {
+    CREATABLE(plAnimEventModifier, kAnimEventModifier, plSingleModifier)
+
 protected:
     hsTArray<plKey> fReceivers;
     plMessage* fCallback;
@@ -12,8 +15,6 @@ protected:
 public:
     plAnimEventModifier();
     virtual ~plAnimEventModifier();
-
-    DECLARE_CREATABLE(plAnimEventModifier)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

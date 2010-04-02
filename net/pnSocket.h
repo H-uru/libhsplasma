@@ -16,14 +16,14 @@ public:
     ~pnSocket();
 
     plString getRemoteIpStr() const;
-    int getHandle() const;
+    int getHandle() const { return fSockHandle; }
 
     bool connect(const char* address, unsigned short port);
     bool bind(unsigned short port);
     pnSocket* listen(int backlog);
     void close(bool force=false);
     void unlink();
-    void link(int handle);
+    void link(int handle) { fSockHandle = handle; }
 
     long send(const void* buffer, size_t size);
     long recv(void* buffer, size_t size);
@@ -68,8 +68,8 @@ public:
     bool waitForData();
     size_t rsize() const;
     bool isConnected() const;
-    void signalStatus() const;
-    void waitForStatus() const;
+    void signalStatus() const { fAsyncIO->fStatusChange->signal(); }
+    void waitForStatus() const { fAsyncIO->fStatusChange->wait(); }
 
     void close();
 };

@@ -5,10 +5,6 @@ plSoftVolume::plSoftVolume()
             : fListenState(kListenNone), fInsideStrength(0.0f),
               fOutsideStrength(0.0f) { }
 
-plSoftVolume::~plSoftVolume() { }
-
-IMPLEMENT_CREATABLE(plSoftVolume, kSoftVolume, plRegionBase)
-
 void plSoftVolume::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
@@ -54,8 +50,6 @@ plSoftVolumeSimple::~plSoftVolumeSimple() {
         delete fVolume;
 }
 
-IMPLEMENT_CREATABLE(plSoftVolumeSimple, kSoftVolumeSimple, plSoftVolume)
-
 void plSoftVolumeSimple::read(hsStream* S, plResManager* mgr) {
     plSoftVolume::read(S, mgr);
 
@@ -98,11 +92,6 @@ void plSoftVolumeSimple::setVolume(plVolumeIsect* vol) {
 
 
 /* plSoftVolumeComplex */
-plSoftVolumeComplex::plSoftVolumeComplex() { }
-plSoftVolumeComplex::~plSoftVolumeComplex() { }
-
-IMPLEMENT_CREATABLE(plSoftVolumeComplex, kSoftVolumeComplex, plSoftVolume)
-
 void plSoftVolumeComplex::read(hsStream* S, plResManager* mgr) {
     plSoftVolume::read(S, mgr);
 
@@ -140,25 +129,3 @@ void plSoftVolumeComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSoftVolume::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plSoftVolumeIntersect */
-plSoftVolumeIntersect::plSoftVolumeIntersect() { }
-plSoftVolumeIntersect::~plSoftVolumeIntersect() { }
-
-IMPLEMENT_CREATABLE(plSoftVolumeIntersect, kSoftVolumeIntersect,
-                    plSoftVolumeComplex)
-
-
-/* plSoftVolumeInvert */
-plSoftVolumeInvert::plSoftVolumeInvert() { }
-plSoftVolumeInvert::~plSoftVolumeInvert() { }
-
-IMPLEMENT_CREATABLE(plSoftVolumeInvert, kSoftVolumeInvert, plSoftVolumeComplex)
-
-
-/* plSoftVolumeUnion */
-plSoftVolumeUnion::plSoftVolumeUnion() { }
-plSoftVolumeUnion::~plSoftVolumeUnion() { }
-
-IMPLEMENT_CREATABLE(plSoftVolumeUnion, kSoftVolumeUnion, plSoftVolumeComplex)

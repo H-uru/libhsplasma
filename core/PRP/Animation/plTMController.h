@@ -6,6 +6,8 @@
 #include "plScaleController.h"
 
 DllClass plTMController : public plController {
+    CREATABLE(plTMController, kTMController, plController)
+
 protected:
     plPosController* fPosController;
     plRotController* fRotController;
@@ -14,8 +16,6 @@ protected:
 public:
     plTMController();
     virtual ~plTMController();
-
-    DECLARE_CREATABLE(plTMController)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -26,9 +26,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plPosController* getPosController() const;
-    plRotController* getRotController() const;
-    plScaleController* getScaleController() const;
+    plPosController* getPosController() const { return fPosController; }
+    plRotController* getRotController() const { return fRotController; }
+    plScaleController* getScaleController() const { return fScaleController; }
 
     void setPosController(plPosController* controller);
     void setRotController(plRotController* controller);

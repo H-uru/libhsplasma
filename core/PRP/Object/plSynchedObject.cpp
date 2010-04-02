@@ -2,9 +2,6 @@
 #include "Debug/plDebug.h"
 
 plSynchedObject::plSynchedObject() : fSynchFlags(0) { }
-plSynchedObject::~plSynchedObject() { }
-
-IMPLEMENT_CREATABLE(plSynchedObject, kSynchedObject, hsKeyedObject)
 
 void plSynchedObject::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -90,7 +87,7 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
 
 void plSynchedObject::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
-    
+
     prc->startTag("SynchParams");
     prc->writeParamHex("flags", fSynchFlags);
     prc->endTag();
@@ -100,7 +97,7 @@ void plSynchedObject::IPrcWrite(pfPrcHelper* prc) {
     for (i=0; i<fSDLExcludeList.getSize(); i++)
         prc->getStream()->writeStr(fSDLExcludeList[i] + " ");
     prc->closeTagNoBreak();
-    
+
     prc->writeTagNoBreak("VolatileStates");
     for (i=0; i<fSDLVolatileList.getSize(); i++)
         prc->getStream()->writeStr(fSDLVolatileList[i] + " ");
@@ -132,12 +129,6 @@ void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-int plSynchedObject::getFlags() const { return fSynchFlags; }
-void plSynchedObject::setFlags(int flags) { fSynchFlags = flags; }
-
-void plSynchedObject::clearExcludes() { fSDLExcludeList.clear(); }
-void plSynchedObject::clearVolatiles() { fSDLVolatileList.clear(); }
-
 void plSynchedObject::setExclude(const plString& sdl) {
     fSynchFlags |= kExcludePersistentState;
     fSDLExcludeList.append(sdl);
@@ -148,5 +139,12 @@ void plSynchedObject::setVolatile(const plString& sdl) {
     fSDLVolatileList.append(sdl);
 }
 
-const hsTArray<plString>& plSynchedObject::getExcludes() const { return fSDLExcludeList; }
-const hsTArray<plString>& plSynchedObject::getVolatiles() const { return fSDLVolatileList; }
+void plSynchedObject::clearExcludes() {
+    fSDLExcludeList.clear();
+    fSynchFlags &= ~kExcludePersistentState;
+}
+
+void plSynchedObject::clearVolatiles() {
+    fSDLVolatileList.clear();
+    fSynchFlags &= ~kHasVolatileState;
+}

@@ -1,9 +1,6 @@
 #include "plMessage.h"
 
 plMessage::plMessage() : fTimeStamp(0.0), fBCastFlags(kLocalPropagate) { }
-plMessage::~plMessage() { }
-
-IMPLEMENT_CREATABLE(plMessage, kMessage, plCreatable)
 
 void plMessage::IMsgRead(hsStream* S, plResManager* mgr) {
     fSender = mgr->readKey(S);
@@ -69,17 +66,3 @@ void plMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plCreatable::IPrcParse(tag, mgr);
     }
 }
-
-plKey plMessage::getSender() const { return fSender; }
-double plMessage::getTimeStamp() const { return fTimeStamp; }
-unsigned int plMessage::getBCastFlags() const { return fBCastFlags; }
-
-void plMessage::setSender(plKey sender) { fSender = sender; }
-void plMessage::setTimeStamp(double timestamp) { fTimeStamp = timestamp; }
-void plMessage::setBCastFlags(unsigned int flags) { fBCastFlags = flags; }
-
-size_t plMessage::getNumReceivers() const { return fReceivers.getSize(); }
-plKey plMessage::getReceiver(size_t idx) const { return fReceivers[idx]; }
-void plMessage::addReceiver(plKey receiver) { fReceivers.append(receiver); }
-void plMessage::delReceiver(size_t idx) { fReceivers.remove(idx); }
-void plMessage::clearReceivers() { fReceivers.clear(); }

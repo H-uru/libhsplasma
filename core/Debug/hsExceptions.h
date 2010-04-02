@@ -13,13 +13,13 @@ protected:
 public:
     hsException(const char* file, unsigned long line) throw();
     hsException(const hsException& e) throw();
-    virtual ~hsException() throw();
+    virtual ~hsException() throw() { }
 
     hsException& operator=(const hsException& other) throw();
-    virtual const char* what() const throw();
 
-    const char* File() const throw();
-    unsigned long Line() const throw();
+    virtual const char* what() const throw() { return fWhat; }
+    const char* File() const throw() { return fFile; }
+    unsigned long Line() const throw() { return fLine; }
 
 protected:
     hsException(const plString& w, const char* file,

@@ -56,9 +56,6 @@ private:
                       bool& same, unsigned short& count);
 
 public:
-    plVertCoder();
-    ~plVertCoder();
-
     void clear();
     void read(hsStream* S, unsigned char* dest, unsigned char format,
               unsigned short numVerts);

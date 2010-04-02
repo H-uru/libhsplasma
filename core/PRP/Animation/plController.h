@@ -2,20 +2,19 @@
 #define _PLCONTROLLER_H
 
 #include "PRP/plCreatable.h"
-#include "Util/hsTArray.hpp"
 #include "hsKeys.h"
 
 DllClass plController : public plCreatable {
+    CREATABLE(plController, kController, plCreatable)
+
 public:
-    plController();
-    virtual ~plController();
-
-    DECLARE_CREATABLE(plController)
-
     static void WriteController(hsStream* S, plResManager* mgr, plController* controller);
 };
 
+
 DllClass plCompoundController : public plController {
+    CREATABLE(plCompoundController, kCompoundController, plController)
+
 protected:
     plController* fXController;
     plController* fYController;
@@ -24,8 +23,6 @@ protected:
 public:
     plCompoundController();
     virtual ~plCompoundController();
-
-    DECLARE_CREATABLE(plCompoundController)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -36,9 +33,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plController* getXController() const;
-    plController* getYController() const;
-    plController* getZController() const;
+    plController* getXController() const { return fXController; }
+    plController* getYController() const { return fYController; }
+    plController* getZController() const { return fZController; }
 
     void setXController(plController* controller);
     void setYController(plController* controller);

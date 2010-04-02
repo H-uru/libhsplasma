@@ -5,23 +5,18 @@
 #include "plBoundInterface.h"
 
 DllClass plParticleEffect : public hsKeyedObject {
-public:
-    plParticleEffect();
-    virtual ~plParticleEffect();
-
-    DECLARE_CREATABLE(plParticleEffect)
+    CREATABLE(plParticleEffect, kParticleEffect, hsKeyedObject)
 };
 
+
 DllClass plParticleCollisionEffect : public plParticleEffect {
+    CREATABLE(plParticleCollisionEffect, kParticleCollisionEffect,
+              plParticleEffect)
+
 protected:
     plKey fSceneObj;
 
 public:
-    plParticleCollisionEffect();
-    virtual ~plParticleCollisionEffect();
-
-    DECLARE_CREATABLE(plParticleCollisionEffect)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -30,23 +25,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plParticleCollisionEffectBeat : public plParticleCollisionEffect {
-public:
-    plParticleCollisionEffectBeat();
-    virtual ~plParticleCollisionEffectBeat();
 
-    DECLARE_CREATABLE(plParticleCollisionEffectBeat)
+DllClass plParticleCollisionEffectBeat : public plParticleCollisionEffect {
+    CREATABLE(plParticleCollisionEffectBeat, kParticleCollisionEffectBeat,
+              plParticleCollisionEffect)
 };
 
+
 DllClass plParticleCollisionEffectBounce : public plParticleCollisionEffect {
+    CREATABLE(plParticleCollisionEffectBounce, kParticleCollisionEffectBounce,
+              plParticleCollisionEffect)
+
 protected:
     float fBounce, fFriction;
 
 public:
     plParticleCollisionEffectBounce();
-    virtual ~plParticleCollisionEffectBounce();
-
-    DECLARE_CREATABLE(plParticleCollisionEffectBounce)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -56,23 +50,22 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plParticleCollisionEffectDie : public plParticleCollisionEffect {
-public:
-    plParticleCollisionEffectDie();
-    virtual ~plParticleCollisionEffectDie();
 
-    DECLARE_CREATABLE(plParticleCollisionEffectDie)
+DllClass plParticleCollisionEffectDie : public plParticleCollisionEffect {
+    CREATABLE(plParticleCollisionEffectDie, kParticleCollisionEffectDie,
+              plParticleCollisionEffect)
 };
 
+
 DllClass plParticleFadeOutEffect : public plParticleEffect {
+    CREATABLE(plParticleFadeOutEffect, kParticleFadeOutEffect,
+              plParticleEffect)
+
 protected:
     float fLength, fIgnoreZ;
 
 public:
     plParticleFadeOutEffect();
-    virtual ~plParticleFadeOutEffect();
-
-    DECLARE_CREATABLE(plParticleFadeOutEffect)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -82,15 +75,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plParticleFadeVolumeEffect : public plParticleEffect {
+    CREATABLE(plParticleFadeVolumeEffect, kParticleFadeVolumeEffect,
+              plParticleEffect)
+
 protected:
     float fLength, fIgnoreZ;
 
 public:
     plParticleFadeVolumeEffect();
-    virtual ~plParticleFadeVolumeEffect();
-
-    DECLARE_CREATABLE(plParticleFadeVolumeEffect)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -100,7 +94,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plParticleFlockEffect : public plParticleEffect {
+    CREATABLE(plParticleFlockEffect, kParticleFlockEffect, plParticleEffect)
+
 protected:
     hsVector3 fTargetOffset, fDissenterTarget;
     float fInfAvgRadSq, fInfRepRadSq, fAvgVelStr, fRepDirStr;
@@ -110,9 +107,6 @@ protected:
 
 public:
     plParticleFlockEffect();
-    virtual ~plParticleFlockEffect();
-
-    DECLARE_CREATABLE(plParticleFlockEffect)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -122,15 +116,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plParticleFollowSystemEffect : public plParticleEffect {
-public:
-    plParticleFollowSystemEffect();
-    virtual ~plParticleFollowSystemEffect();
 
-    DECLARE_CREATABLE(plParticleFollowSystemEffect)
+DllClass plParticleFollowSystemEffect : public plParticleEffect {
+    CREATABLE(plParticleFollowSystemEffect, kParticleFollowSystemEffect,
+              plParticleEffect)
 };
 
+
 DllClass plParticleWindEffect : public plParticleEffect {
+    CREATABLE(plParticleWindEffect, kParticleWindEffect, plParticleEffect)
+
 protected:
     float fStrength, fConstancy, fSwirl;
     bool fHorizontal;
@@ -138,9 +133,6 @@ protected:
 
 public:
     plParticleWindEffect();
-    virtual ~plParticleWindEffect();
-
-    DECLARE_CREATABLE(plParticleWindEffect)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -150,16 +142,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plParticleLocalWind : public plParticleWindEffect {
+    CREATABLE(plParticleLocalWind, kParticleLocalWind, plParticleWindEffect)
+
 protected:
     hsVector3 fScale;
     float fSpeed;
 
 public:
     plParticleLocalWind();
-    virtual ~plParticleLocalWind();
-
-    DECLARE_CREATABLE(plParticleLocalWind)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -169,15 +161,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plParticleUniformWind : public plParticleWindEffect {
+    CREATABLE(plParticleUniformWind, kParticleUniformWind, plParticleWindEffect)
+
 protected:
     float fFreqMin, fFreqMax, fFreqRate;
 
 public:
     plParticleUniformWind();
-    virtual ~plParticleUniformWind();
-
-    DECLARE_CREATABLE(plParticleUniformWind)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

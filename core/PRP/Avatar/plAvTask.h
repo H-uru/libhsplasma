@@ -5,12 +5,9 @@
 #include "plArmatureBrain.h"
 
 DllClass plAvTask : public plCreatable {
+    CREATABLE(plAvTask, kAvTask, plCreatable)
+
 public:
-    plAvTask();
-    virtual ~plAvTask();
-
-    DECLARE_CREATABLE(plAvTask)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -19,7 +16,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
+
 DllClass plAvAnimTask : public plAvTask {
+    CREATABLE(plAvAnimTask, kAvAnimTask, plAvTask)
+
 private:
     plString fAnimName;
     float fInitialBlend, fTargetBlend;
@@ -28,9 +28,6 @@ private:
 
 public:
     plAvAnimTask();
-    virtual ~plAvAnimTask();
-
-    DECLARE_CREATABLE(plAvAnimTask)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -40,24 +37,19 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plAvOneShotTask : public plAvTask {
-public:
-    plAvOneShotTask();
-    virtual ~plAvOneShotTask();
 
-    DECLARE_CREATABLE(plAvOneShotTask)
+DllClass plAvOneShotTask : public plAvTask {
+    CREATABLE(plAvOneShotTask, kAvOneShotTask, plAvTask)
 };
 
+
 DllClass plAvOneShotLinkTask : public plAvOneShotTask {
+    CREATABLE(plAvOneShotLinkTask, kAvOneShotLinkTask, plAvOneShotTask)
+
 private:
     plString fAnimName, fMarkerName;
 
 public:
-    plAvOneShotLinkTask();
-    virtual ~plAvOneShotLinkTask();
-
-    DECLARE_CREATABLE(plAvOneShotLinkTask)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -66,15 +58,15 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plAvSeekTask : public plAvTask {
-public:
-    plAvSeekTask();
-    virtual ~plAvSeekTask();
 
-    DECLARE_CREATABLE(plAvSeekTask)
+DllClass plAvSeekTask : public plAvTask {
+    CREATABLE(plAvSeekTask, kAvSeekTask, plAvTask)
 };
 
+
 DllClass plAvTaskBrain : public plAvTask {
+    CREATABLE(plAvTaskBrain, kAvTaskBrain, plAvTask)
+
 private:
     plArmatureBrain* fBrain;
 
@@ -82,8 +74,6 @@ public:
     plAvTaskBrain();
     virtual ~plAvTaskBrain();
 
-    DECLARE_CREATABLE(plAvTaskBrain)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -92,17 +82,14 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plArmatureBrain* getBrain() const;
+    plArmatureBrain* getBrain() const { return fBrain; }
     void setBrain(plArmatureBrain* brain);
 };
 
+
 // Yay redundancy
 DllClass plAvTaskSeek : public plAvTask {
-public:
-    plAvTaskSeek();
-    virtual ~plAvTaskSeek();
-
-    DECLARE_CREATABLE(plAvTaskSeek)
+    CREATABLE(plAvTaskSeek, kAvTaskSeek, plAvTask)
 };
 
 #endif

@@ -2,8 +2,6 @@
 
 plClimbMsg::plClimbMsg() : fCommand(0), fDirection(0), fStatus(false) { }
 
-IMPLEMENT_CREATABLE(plClimbMsg, kClimbMsg, plMessage)
-
 void plClimbMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

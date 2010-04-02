@@ -2,10 +2,6 @@
 
 /* plNetMsgMemberInfoHelper */
 plNetMsgMemberInfoHelper::plNetMsgMemberInfoHelper() : fFlags(0) { }
-plNetMsgMemberInfoHelper::~plNetMsgMemberInfoHelper() { }
-
-IMPLEMENT_CREATABLE(plNetMsgMemberInfoHelper, kNetMsgMemberInfoHelper,
-                    plCreatable)
 
 void plNetMsgMemberInfoHelper::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readInt();
@@ -58,12 +54,6 @@ void plNetMsgMemberInfoHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
 
 /* plNetMsgMemberListHelper */
-plNetMsgMemberListHelper::plNetMsgMemberListHelper() { }
-plNetMsgMemberListHelper::~plNetMsgMemberListHelper() { }
-
-IMPLEMENT_CREATABLE(plNetMsgMemberListHelper, kNetMsgMemberListHelper,
-                    plCreatable)
-
 void plNetMsgMemberListHelper::read(hsStream* S, plResManager* mgr) {
     fMembers.setSize(S->readShort());
     for (size_t i=0; i<fMembers.getSize(); i++)
@@ -98,12 +88,6 @@ void plNetMsgMemberListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
 
 /* plNetMsgMembersList */
-plNetMsgMembersList::plNetMsgMembersList() { }
-plNetMsgMembersList::~plNetMsgMembersList() { }
-
-IMPLEMENT_CREATABLE(plNetMsgMembersList, kNetMsgMembersList,
-                    plNetMsgServerToClient)
-
 void plNetMsgMembersList::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
     fHelper.read(S, mgr);
@@ -126,7 +110,3 @@ void plNetMsgMembersList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plNetMessage::IPrcParse(tag, mgr);
     }
 }
-
-
-/* plNetMsgMembersListReq */
-IMPLEMENT_CREATABLE(plNetMsgMembersListReq, kNetMsgMembersListReq, plNetMessage)

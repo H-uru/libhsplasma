@@ -20,9 +20,6 @@ protected:
     hsTArray<plOneShotCallback> fCallbacks;
 
 public:
-    plOneShotCallbacks();
-    ~plOneShotCallbacks();
-
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);

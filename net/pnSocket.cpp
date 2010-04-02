@@ -100,11 +100,6 @@ plString pnSocket::getRemoteIpStr() const
     return result;
 }
 
-int pnSocket::getHandle() const
-{
-    return fSockHandle;
-}
-
 bool pnSocket::connect(const char* address, unsigned short port)
 {
     addrinfo conn;
@@ -213,11 +208,6 @@ void pnSocket::unlink()
 {
     fSockHandle = -1;
     delete this;
-}
-
-void pnSocket::link(int handle)
-{
-    fSockHandle = handle;
 }
 
 long pnSocket::send(const void* buffer, size_t size)
@@ -485,16 +475,6 @@ bool pnAsyncSocket::isConnected() const
     bool done = fAsyncIO->fFinished && fAsyncIO->fRecvQueue.empty();
     fAsyncIO->fSockMutex->unlock();
     return !done;
-}
-
-void pnAsyncSocket::signalStatus() const
-{
-    fAsyncIO->fStatusChange->signal();
-}
-
-void pnAsyncSocket::waitForStatus() const
-{
-    fAsyncIO->fStatusChange->wait();
 }
 
 void pnAsyncSocket::close()

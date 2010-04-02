@@ -7,8 +7,6 @@ plSharedMesh::~plSharedMesh() {
         delete fSpans[i];
 }
 
-IMPLEMENT_CREATABLE(plSharedMesh, kSharedMesh, hsKeyedObject)
-
 void plSharedMesh::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
@@ -67,8 +65,10 @@ void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-size_t plSharedMesh::getNumSpans() const { return fSpans.getSize(); }
-plGeometrySpan* plSharedMesh::getSpan(size_t idx) const { return fSpans[idx]; }
+void plSharedMesh::delSpan(size_t idx) {
+    delete fSpans[idx];
+    fSpans.remove(idx);
+}
 
 void plSharedMesh::clearSpans() {
     for (size_t i=0; i<fSpans.getSize(); i++)

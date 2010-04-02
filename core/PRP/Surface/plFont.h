@@ -4,6 +4,8 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
 DllClass plFont : public hsKeyedObject {
+    CREATABLE(plFont, kFont, hsKeyedObject)
+
 public:
     DllClass plCharacter {
     protected:
@@ -13,22 +15,25 @@ public:
 
     public:
         plCharacter();
-        
+
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
         void prcParse(const pfPrcTag* tag);
 
-        unsigned int getOffset() const;
-        unsigned int getHeight() const;
-        int getBaseline() const;
-        float getLeftKern() const;
-        float getRightKern() const;
+    public:
+        unsigned int getOffset() const { return fBitmapOffset; }
+        unsigned int getHeight() const { return fHeight; }
+        int getBaseline() const { return fBaseline; }
+        float getLeftKern() const { return fLeftKern; }
+        float getRightKern() const { return fRightKern; }
 
-        void setOffset(unsigned int off);
-        void setHeight(unsigned int height);
-        void setBaseline(int baseline);
-        void setKern(float left, float right);
+        void setOffset(unsigned int off) { fBitmapOffset = off; }
+        void setHeight(unsigned int height) { fHeight = height; }
+        void setBaseline(int baseline) { fBaseline = baseline; }
+
+        void setKern(float left, float right)
+        { fLeftKern = left; fRightKern = right; }
     };
 
     static const plCharacter kNullChar;
@@ -51,15 +56,13 @@ public:
     plFont();
     virtual ~plFont();
 
-    DECLARE_CREATABLE(plFont)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    
+
 public:
     void readP2F(hsStream* S);
     void writeP2F(hsStream* S);
@@ -67,28 +70,29 @@ public:
     void readBitmap(hsStream* S);
     void writeBitmap(hsStream* S);
 
-    plCharacter& operator[](size_t idx);
-    void addCharacter(const plCharacter& add);
-    void delCharacter(size_t idx);
+public:
+    const plCharacter& operator[](size_t idx) const { return fCharacters[idx]; }
+    plCharacter& operator[](size_t idx) { return fCharacters[idx]; }
+    void setNumCharacters(size_t count) { fCharacters.setSize(count); }
 
-    const plString& getName() const;
-    unsigned char getSize() const;
-    unsigned char getBPP() const;
-    unsigned int getWidth() const;
-    unsigned int getHeight() const;
-    unsigned short getFirstChar() const;
-    int getMaxCharHeight() const;
+    const plString& getName() const { return fFace; }
+    unsigned char getSize() const { return fSize; }
+    unsigned char getBPP() const { return fBPP; }
+    unsigned int getWidth() const { return fWidth; }
+    unsigned int getHeight() const { return fHeight; }
+    unsigned short getFirstChar() const { return fFirstChar; }
+    int getMaxCharHeight() const { return fMaxCharHeight; }
 
-    void setName(const plString& name);
-    void setSize(unsigned char size);
-    void setBPP(unsigned char bpp);
-    void setWidth(unsigned int width);
-    void setHeight(unsigned int height);
-    void setFirstChar(unsigned short first);
-    void setMaxCharHeight(int maxCharHeight);
+    void setName(const plString& name) { fFace = name; }
+    void setSize(unsigned char size) { fSize = size; }
+    void setBPP(unsigned char bpp) { fBPP = bpp; }
+    void setWidth(unsigned int width) { fWidth = width; }
+    void setHeight(unsigned int height) { fHeight = height; }
+    void setFirstChar(unsigned short first) { fFirstChar = first; }
+    void setMaxCharHeight(int maxCharHeight) { fMaxCharHeight = maxCharHeight; }
 
-    bool isBold() const;
-    bool isItalic() const;
+    bool isBold() const { return (fFlags & kFontBold) != 0; }
+    bool isItalic() const { return (fFlags & kFontItalic) != 0; }
     void setBold(bool bold);
     void setItalic(bool italic);
 };

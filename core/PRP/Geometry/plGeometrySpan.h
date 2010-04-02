@@ -94,8 +94,8 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    void setMaterial(const plKey& mat);
-    void setFogEnvironment(const plKey& fog);
+    void setMaterial(plKey mat) { fMaterial = mat; }
+    void setFogEnvironment(plKey fog) { fFogEnviron = fog; }
 
     hsTArray<TempVertex> getVertices() const;
     void setVertices(const hsTArray<TempVertex>& verts);

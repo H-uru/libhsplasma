@@ -35,8 +35,6 @@ public:
     /** Copy constructor, makes an identical Uoid to the source */
     plUoid(const plUoid& other);
 
-    ~plUoid();
-
     /** Copies a uoid's data into this Uoid */ 
     plUoid& operator=(const plUoid& other);
 
@@ -68,51 +66,53 @@ public:
      */
     plString toString() const;
 
+public:
     /** Returns the class type of the object */
-    short getType() const;
+    short getType() const { return classType; }
 
     /** Returns the name of the object */
-    const plString& getName() const;
+    const plString& getName() const { return objName; }
 
     /** Returns the location where the object is stored */
-    const plLocation& getLocation() const;
+    const plLocation& getLocation() const { return location; }
 
     /** Returns the load mask of the object */
-    const plLoadMask& getLoadMask() const;
+    const plLoadMask& getLoadMask() const { return loadMask; }
 
     /**
      * Returns the list ID for the object in the Page Key index.
      * (Only meaningful for EoA and Hex Isle)
      */
-    unsigned int getID() const;
+    unsigned int getID() const { return objID; }
 
     /** Returns the object's clone ID (useless) */
-    unsigned int getCloneID() const;
+    unsigned int getCloneID() const { return cloneID; }
 
     /** Returns the object's clone Player ID (useless) */
-    unsigned int getClonePlayerID() const;
+    unsigned int getClonePlayerID() const { return clonePlayerID; }
 
     /** Set the class type of the object referred to by this Uoid */
-    void setType(short type);
+    void setType(short type) { classType = type; }
 
     /** Set the name of the object referred to by this Uoid */
-    void setName(const plString& name);
+    void setName(const plString& name) { objName = name; }
 
     /** Set the location of the object referred to by this Uoid */
-    void setLocation(const plLocation& loc);
+    void setLocation(const plLocation& loc) { location = loc; }
 
     /** Set the load mask of this Uoid and referenced object */
-    void setLoadMask(const plLoadMask& mask);
+    void setLoadMask(const plLoadMask& mask) { loadMask = mask; }
 
     /**
      * Set the list ID for the object within the Page Key index.
      * This is only meaningful for EoA and Hex Isle, and should be
      * left for the ResManager to handle automatically.
      */
-    void setID(unsigned int id);
+    void setID(unsigned int id) { objID = id; }
 
     /** Sets the Clone IDs for the object (useless) */
-    void setCloneIDs(unsigned int cloneID, unsigned int clonePlayerID);
+    void setCloneIDs(unsigned int clone, unsigned int clonePlayer)
+    { cloneID = clone; clonePlayerID = clonePlayer; }
 };
 
 #endif

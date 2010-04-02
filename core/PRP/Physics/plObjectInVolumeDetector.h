@@ -5,22 +5,21 @@
 #include "PRP/Message/plCameraMsg.h"
 
 DllClass plObjectInVolumeDetector : public plCollisionDetector {
-public:
-    plObjectInVolumeDetector();
-    virtual ~plObjectInVolumeDetector();
-
-    DECLARE_CREATABLE(plObjectInVolumeDetector)
+    CREATABLE(plObjectInVolumeDetector, kObjectInVolumeDetector,
+              plCollisionDetector)
 };
 
+
 DllClass plCameraRegionDetector : public plObjectInVolumeDetector {
+    CREATABLE(plCameraRegionDetector, kCameraRegionDetector,
+              plObjectInVolumeDetector)
+
 protected:
     hsTArray<plCameraMsg*> fMessages;
 
 public:
-    plCameraRegionDetector();
+    plCameraRegionDetector() { }
     virtual ~plCameraRegionDetector();
-
-    DECLARE_CREATABLE(plCameraRegionDetector)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -33,16 +32,18 @@ public:
     void clearMessages();
 };
 
+
 DllClass plObjectInVolumeAndFacingDetector : public plObjectInVolumeDetector {
+    CREATABLE(plObjectInVolumeAndFacingDetector,
+              kObjectInVolumeAndFacingDetector,
+              plObjectInVolumeDetector)
+
 protected:
     float fFacingTolerance;
     bool fNeedWalkingForward;
 
 public:
     plObjectInVolumeAndFacingDetector();
-    virtual ~plObjectInVolumeAndFacingDetector();
-
-    DECLARE_CREATABLE(plObjectInVolumeAndFacingDetector)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -12,9 +12,6 @@ const char* const proEventData::fEventNames[] = {
 };
 
 proEventData::proEventData() : fEventType(0) { }
-proEventData::~proEventData() { }
-
-int proEventData::EventType() const { return fEventType; }
 
 proEventData* proEventData::ICreateEventDataType(int type) {
     switch (type) {
@@ -89,8 +86,6 @@ proCollisionEventData::proCollisionEventData() : fEnter(false) {
     fEventType = kCollision;
 }
 
-IMPLEMENT_EVTDATA(proCollisionEventData, kCollision)
-
 void proCollisionEventData::IRead(hsStream* S, plResManager* mgr) {
     fEnter = S->readBool();
     fHitter = mgr->readKey(S);
@@ -130,21 +125,11 @@ void proCollisionEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-bool proCollisionEventData::isEnter() const { return fEnter; }
-plKey proCollisionEventData::getHitter() const { return fHitter; }
-plKey proCollisionEventData::getHittee() const { return fHittee; }
-
-void proCollisionEventData::setEnter(bool enter) { fEnter = enter; }
-void proCollisionEventData::setHitter(plKey hitter) { fHitter = hitter; }
-void proCollisionEventData::setHittee(plKey hittee) { fHittee = hittee; }
-
 
 /* proPickedEventData */
 proPickedEventData::proPickedEventData() : fEnabled(false) {
     fEventType = kPicked;
 }
-
-IMPLEMENT_EVTDATA(proPickedEventData, kPicked)
 
 void proPickedEventData::IRead(hsStream* S, plResManager* mgr) {
     fPicker = mgr->readKey(S);
@@ -193,23 +178,11 @@ void proPickedEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey proPickedEventData::getPicker() const { return fPicker; }
-plKey proPickedEventData::getPicked() const { return fPicked; }
-bool proPickedEventData::isEnabled() const { return fEnabled; }
-hsVector3 proPickedEventData::getHitPoint() const { return fHitPoint; }
-
-void proPickedEventData::setPicker(plKey picker) { fPicker = picker; }
-void proPickedEventData::setPicked(plKey picked) { fPicked = picked; }
-void proPickedEventData::setEnabled(bool enabled) { fEnabled = enabled; }
-void proPickedEventData::setHitPoint(const hsVector3& point) { fHitPoint = point; }
-
 
 /* proControlKeyEventData */
 proControlKeyEventData::proControlKeyEventData() : fControlKey(0), fDown(false) {
     fEventType = kControlKey;
 }
-
-IMPLEMENT_EVTDATA(proControlKeyEventData, kControlKey)
 
 void proControlKeyEventData::IRead(hsStream* S, plResManager* mgr) {
     fControlKey = S->readInt();
@@ -237,20 +210,12 @@ void proControlKeyEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-int proControlKeyEventData::getControlKey() const { return fControlKey; }
-bool proControlKeyEventData::isDown() const { return fDown; }
-
-void proControlKeyEventData::setControlKey(int key) { fControlKey = key; }
-void proControlKeyEventData::setDown(bool down) { fDown = down; }
-
 
 /* proVariableEventData */
 proVariableEventData::proVariableEventData() : fNumber(0.0f) {
     fEventType = kVariable;
     fDataType = kNotta;
 }
-
-IMPLEMENT_EVTDATA(proVariableEventData, kVariable)
 
 void proVariableEventData::IRead(hsStream* S, plResManager* mgr) {
     fName = S->readSafeStr();
@@ -288,23 +253,11 @@ void proVariableEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plString proVariableEventData::getName() const { return fName; }
-int proVariableEventData::getDataType() const { return fDataType; }
-float proVariableEventData::getNumber() const { return fNumber; }
-plKey proVariableEventData::getKey() const { return fKey; }
-
-void proVariableEventData::setName(const plString& name) { fName = name; }
-void proVariableEventData::setDataType(int type) { fDataType = type; }
-void proVariableEventData::setNumber(float number) { fNumber = number; }
-void proVariableEventData::setKey(plKey key) { fKey = key; }
-
 
 /* proFacingEventData */
 proFacingEventData::proFacingEventData() : fDot(0.0f), fEnabled(false) {
     fEventType = kFacing;
 }
-
-IMPLEMENT_EVTDATA(proFacingEventData, kFacing)
 
 void proFacingEventData::IRead(hsStream* S, plResManager* mgr) {
     fFacer = mgr->readKey(S);
@@ -349,23 +302,11 @@ void proFacingEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey proFacingEventData::getFacer() const { return fFacer; }
-plKey proFacingEventData::getFacee() const { return fFacee; }
-float proFacingEventData::getDot() const { return fDot; }
-bool proFacingEventData::isEnabled() const { return fEnabled; }
-
-void proFacingEventData::setFacer(plKey facer) { fFacer = facer; }
-void proFacingEventData::setFacee(plKey facee) { fFacee = facee; }
-void proFacingEventData::setDot(float dot) { fDot = dot; }
-void proFacingEventData::setEnabled(bool enabled) { fEnabled = enabled; }
-
 
 /* proContainedEventData */
 proContainedEventData::proContainedEventData() : fEntering(false) {
     fEventType = kContained;
 }
-
-IMPLEMENT_EVTDATA(proContainedEventData, kContained)
 
 void proContainedEventData::IRead(hsStream* S, plResManager* mgr) {
     fContained = mgr->readKey(S);
@@ -406,21 +347,11 @@ void proContainedEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey proContainedEventData::getContained() const { return fContained; }
-plKey proContainedEventData::getContainer() const { return fContainer; }
-bool proContainedEventData::isEntering() const { return fEntering; }
-
-void proContainedEventData::setContained(plKey contained) { fContained = contained; }
-void proContainedEventData::setContainer(plKey container) { fContainer = container; }
-void proContainedEventData::setEntering(bool entering) { fEntering = entering; }
-
 
 /* proActivateEventData */
 proActivateEventData::proActivateEventData() : fActive(false), fActivate(false) {
     fEventType = kActivate;
 }
-
-IMPLEMENT_EVTDATA(proActivateEventData, kActivate)
 
 void proActivateEventData::IRead(hsStream* S, plResManager* mgr) {
     fActive = S->readBool();
@@ -448,19 +379,11 @@ void proActivateEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-bool proActivateEventData::isActive() const { return fActive; }
-bool proActivateEventData::isActivate() const { return fActivate; }
-
-void proActivateEventData::setActive(bool active) { fActive = active; }
-void proActivateEventData::setActivate(bool activate) { fActivate = activate; }
-
 
 /* proCallbackEventData */
 proCallbackEventData::proCallbackEventData() : fCallbackEventType(0) {
     fEventType = kCallback;
 }
-
-IMPLEMENT_EVTDATA(proCallbackEventData, kCallback)
 
 void proCallbackEventData::IRead(hsStream* S, plResManager* mgr) {
     fCallbackEventType = S->readInt();
@@ -484,16 +407,11 @@ void proCallbackEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-int proCallbackEventData::getCallbackEventType() const { return fCallbackEventType; }
-void proCallbackEventData::setCallbackEventType(int type) { fCallbackEventType = type; }
-
 
 /* proResponderStateEventData */
 proResponderStateEventData::proResponderStateEventData() : fState(0) {
     fEventType = kResponderState;
 }
-
-IMPLEMENT_EVTDATA(proResponderStateEventData, kResponderState)
 
 void proResponderStateEventData::IRead(hsStream* S, plResManager* mgr) {
     fState = S->readInt();
@@ -517,16 +435,11 @@ void proResponderStateEventData::IPrcParse(const pfPrcTag* tag, plResManager* mg
     }
 }
 
-int proResponderStateEventData::getState() const { return fState; }
-void proResponderStateEventData::setState(int state) { fState = state; }
-
 
 /* proMultiStageEventData */
 proMultiStageEventData::proMultiStageEventData() : fStage(0), fEvent(kNothing) {
     fEventType = kMultiStage;
 }
-
-IMPLEMENT_EVTDATA(proMultiStageEventData, kMultiStage)
 
 void proMultiStageEventData::IRead(hsStream* S, plResManager* mgr) {
     fStage = S->readInt();
@@ -563,21 +476,11 @@ void proMultiStageEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-int proMultiStageEventData::getStage() const { return fStage; }
-int proMultiStageEventData::getEvent() const { return fEvent; }
-plKey proMultiStageEventData::getAvatar() const { return fAvatar; }
-
-void proMultiStageEventData::setStage(int stage) { fStage = stage; }
-void proMultiStageEventData::setEvent(int event) { fEvent = event; }
-void proMultiStageEventData::setAvatar(plKey avatar) { fAvatar = avatar; }
-
 
 /* proSpawnedEventData */
 proSpawnedEventData::proSpawnedEventData() {
     fEventType = kSpawned;
 }
-
-IMPLEMENT_EVTDATA(proSpawnedEventData, kSpawned)
 
 void proSpawnedEventData::IRead(hsStream* S, plResManager* mgr) {
     fSpawner = mgr->readKey(S);
@@ -610,19 +513,11 @@ void proSpawnedEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-plKey proSpawnedEventData::getSpawner() const { return fSpawner; }
-plKey proSpawnedEventData::getSpawnee() const { return fSpawnee; }
-
-void proSpawnedEventData::setSpawner(plKey spawner) { fSpawner = spawner; }
-void proSpawnedEventData::setSpawnee(plKey spawnee) { fSpawnee = spawnee; }
-
 
 /* proClickDragEventData */
 proClickDragEventData::proClickDragEventData() {
     fEventType = kClickDrag;
 }
-
-IMPLEMENT_EVTDATA(proClickDragEventData, kClickDrag)
 
 void proClickDragEventData::IRead(hsStream* S, plResManager* mgr) { }
 void proClickDragEventData::IWrite(hsStream* S, plResManager* mgr) { }
@@ -633,8 +528,6 @@ void proClickDragEventData::IPrcWrite(pfPrcHelper* prc) { }
 proCoopEventData::proCoopEventData() : fID(0), fSerial(0) {
     fEventType = kCoop;
 }
-
-IMPLEMENT_EVTDATA(proCoopEventData, kCoop)
 
 void proCoopEventData::IRead(hsStream* S, plResManager* mgr) {
     fID = S->readInt();
@@ -662,19 +555,11 @@ void proCoopEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-unsigned int proCoopEventData::getID() const { return fID; }
-unsigned short proCoopEventData::getSerial() const { return fSerial; }
-
-void proCoopEventData::setID(unsigned int id) { fID = id; }
-void proCoopEventData::setSerial(unsigned short serial) { fSerial = serial; }
-
 
 /* proOfferLinkBookEventData */
 proOfferLinkBookEventData::proOfferLinkBookEventData() : fTargetAge(0), fOfferee(0) {
     fEventType = kOfferLinkBook;
 }
-
-IMPLEMENT_EVTDATA(proOfferLinkBookEventData, kOfferLinkBook)
 
 void proOfferLinkBookEventData::IRead(hsStream* S, plResManager* mgr) {
     fOfferer = mgr->readKey(S);
@@ -711,21 +596,11 @@ void proOfferLinkBookEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr
     }
 }
 
-plKey proOfferLinkBookEventData::getOfferer() const { return fOfferer; }
-int proOfferLinkBookEventData::getTargetAge() const { return fTargetAge; }
-int proOfferLinkBookEventData::getOfferee() const { return fOfferee; }
-
-void proOfferLinkBookEventData::setOfferer(plKey offerer) { fOfferer = offerer; }
-void proOfferLinkBookEventData::setTargetAge(int age) { fTargetAge = age; }
-void proOfferLinkBookEventData::setOfferee(int offeree) { fOfferee = offeree; }
-
 
 /* proBookEventData */
 proBookEventData::proBookEventData() : fEvent(0), fLinkID(0) {
     fEventType = kBook;
 }
-
-IMPLEMENT_EVTDATA(proBookEventData, kBook)
 
 void proBookEventData::IRead(hsStream* S, plResManager* mgr) {
     fEvent = S->readInt();
@@ -753,19 +628,11 @@ void proBookEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-unsigned int proBookEventData::getEvent() const { return fEvent; }
-unsigned int proBookEventData::getLinkID() const { return fLinkID; }
-
-void proBookEventData::setEvent(unsigned int event) { fEvent = event; }
-void proBookEventData::setLinkID(unsigned int id) { fLinkID = id; }
-
 
 /* proClimbingBlockerHitEventData */
 proClimbingBlockerHitEventData::proClimbingBlockerHitEventData() {
     fEventType = kClimbingBlockerHit;
 }
-
-IMPLEMENT_EVTDATA(proClimbingBlockerHitEventData, kClimbingBlockerHit)
 
 void proClimbingBlockerHitEventData::IRead(hsStream* S, plResManager* mgr) {
     fBlockerKey = mgr->readKey(S);
@@ -789,6 +656,3 @@ void proClimbingBlockerHitEventData::IPrcParse(const pfPrcTag* tag, plResManager
         proEventData::IPrcParse(tag, mgr);
     }
 }
-
-plKey proClimbingBlockerHitEventData::getBlocker() const { return fBlockerKey; }
-void proClimbingBlockerHitEventData::setBlocker(plKey blocker) { fBlockerKey = blocker; }

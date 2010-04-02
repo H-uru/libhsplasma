@@ -2,11 +2,6 @@
 #include "plLeafController.h"
 
 /* plController */
-plController::plController() { }
-plController::~plController() { }
-
-IMPLEMENT_CREATABLE(plController, kController, plCreatable)
-
 void plController::WriteController(hsStream* S, plResManager* mgr, plController* controller) {
     if (controller == NULL) {
         mgr->WriteCreatable(S, NULL);
@@ -56,8 +51,6 @@ plCompoundController::~plCompoundController() {
     if (fZController != NULL)
         delete fZController;
 }
-
-IMPLEMENT_CREATABLE(plCompoundController, kCompoundController, plController)
 
 void plCompoundController::read(hsStream* S, plResManager* mgr) {
     setXController(plController::Convert(mgr->ReadCreatable(S)));
@@ -119,10 +112,6 @@ void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plTMController* plCompoundController::convertToTMController() {
     return NULL;
 }
-
-plController* plCompoundController::getXController() const { return fXController; }
-plController* plCompoundController::getYController() const { return fYController; }
-plController* plCompoundController::getZController() const { return fZController; }
 
 void plCompoundController::setXController(plController* controller) {
     if (fXController != NULL)

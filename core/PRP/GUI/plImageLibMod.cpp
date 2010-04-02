@@ -1,10 +1,5 @@
 #include "plImageLibMod.h"
 
-plImageLibMod::plImageLibMod() { }
-plImageLibMod::~plImageLibMod() { }
-
-IMPLEMENT_CREATABLE(plImageLibMod, kImageLibMod, plSingleModifier)
-
 void plImageLibMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -42,9 +37,3 @@ void plImageLibMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plSingleModifier::IPrcParse(tag, mgr);
     }
 }
-
-size_t plImageLibMod::getNumImages() const { return fImages.getSize(); }
-plKey plImageLibMod::getImage(size_t idx) const { return fImages[idx]; }
-void plImageLibMod::addImage(plKey img) { fImages.append(img); }
-void plImageLibMod::delImage(size_t idx) { fImages.remove(idx); }
-void plImageLibMod::clearImages() { fImages.clear(); }

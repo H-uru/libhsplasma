@@ -4,14 +4,14 @@
 #include "plMessage.h"
 
 DllClass plMessageWithCallbacks : public plMessage {
+    CREATABLE(plMessageWithCallbacks, kMessageWithCallbacks, plMessage)
+
 protected:
     hsTArray<plMessage*> fCallbacks;
 
 public:
-    plMessageWithCallbacks();
+    plMessageWithCallbacks() { }
     virtual ~plMessageWithCallbacks();
-
-    DECLARE_CREATABLE(plMessageWithCallbacks)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -21,9 +21,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumCallbacks() const;
-    plMessage* getCallback(size_t idx) const;
-    void addCallback(plMessage* callback);
+    const hsTArray<plMessage*>& getCallbacks() const { return fCallbacks; }
+    hsTArray<plMessage*>& getCallbacks() { return fCallbacks; }
+    void addCallback(plMessage* callback) { fCallbacks.append(callback); }
     void delCallback(size_t idx);
     void clearCallbacks();
 };

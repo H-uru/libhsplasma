@@ -8,18 +8,6 @@ hsStdioStream::hsStdioStream(bool useStdErr) : hsFileStream(pvUnknown) {
     fm = fmReadWrite;
 }
 
-hsStdioStream::~hsStdioStream() { }
-
-bool hsStdioStream::open(const char* file, FileMode mode) {
-    return false;
-}
-
-void hsStdioStream::close() { }
-
-hsUint32 hsStdioStream::size() const { return 0; }
-hsUint32 hsStdioStream::pos() const { return 0; }
-bool hsStdioStream::eof() const { return false; }
-
 void hsStdioStream::seek(hsUint32 pos) {
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
@@ -27,9 +15,6 @@ void hsStdioStream::seek(hsUint32 pos) {
 void hsStdioStream::skip(hsInt32 count) {
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
-
-void hsStdioStream::fastForward() { }
-void hsStdioStream::rewind() { }
 
 void hsStdioStream::flush() {
     fflush(Fin);
@@ -43,11 +28,3 @@ size_t hsStdioStream::read(size_t size, void* buf) {
 size_t hsStdioStream::write(size_t size, const void* buf) {
     return fwrite(buf, size, 1, Fout);
 }
-
-void hsStdioStream::setFiles(FILE* in, FILE* out) {
-    Fin = in;
-    Fout = out;
-}
-
-FILE* hsStdioStream::getInFile() { return Fin; }
-FILE* hsStdioStream::getOutFile() { return Fout; }

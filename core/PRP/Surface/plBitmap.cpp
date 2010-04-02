@@ -21,9 +21,6 @@ const char* plBitmap::kCompressedTypeNames[] = {
 
 plBitmap::plBitmap() : fPixelSize(0), fSpace(0), fFlags(0), fCompressionType(0),
                        fLowModTime(0), fHighModTime(0) { }
-plBitmap::~plBitmap() { }
-
-IMPLEMENT_CREATABLE(plBitmap, kBitmap, hsKeyedObject)
 
 void plBitmap::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
@@ -130,27 +127,4 @@ void plBitmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
-}
-
-unsigned char plBitmap::getBPP() const { return fPixelSize; }
-unsigned char plBitmap::getSpace() const { return fSpace; }
-unsigned short plBitmap::getFlags() const { return fFlags; }
-unsigned char plBitmap::getCompressionType() const { return fCompressionType; }
-unsigned char plBitmap::getDXCompression() const { return fDXInfo.fCompressionType; }
-unsigned char plBitmap::getDXBlockSize() const { return fDXInfo.fBlockSize; }
-unsigned char plBitmap::getARGBType() const { return fUncompressedInfo.fType; }
-unsigned int plBitmap::getLowModTime() const { return fLowModTime; }
-unsigned int plBitmap::getHighModTime() const { return fHighModTime; }
-
-void plBitmap::setBPP(unsigned char bpp) { fPixelSize = bpp; }
-void plBitmap::setSpace(unsigned char space) { fSpace = space; }
-void plBitmap::setFlags(unsigned short flags) { fFlags = flags; }
-void plBitmap::setCompressionType(unsigned char type) { fCompressionType = type; }
-void plBitmap::setDXCompression(unsigned char type) { fDXInfo.fCompressionType = type; }
-void plBitmap::setDXBlockSize(unsigned char size) { fDXInfo.fBlockSize = size; }
-void plBitmap::setARGBType(unsigned char type) { fUncompressedInfo.fType = type; }
-
-void plBitmap::setModTime(unsigned int low, unsigned int high) {
-    fLowModTime = low;
-    fHighModTime = high;
 }

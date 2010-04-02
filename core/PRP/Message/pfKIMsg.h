@@ -4,6 +4,8 @@
 #include "plMessage.h"
 
 DllClass pfKIMsg : public plMessage {
+    CREATABLE(pfKIMsg, kKIMsg, plMessage)
+
 public:
     enum {
         kHACKChatMsg, kEnterChatMode, kSetChatFadeDelay, kSetTextChatAdminMode,
@@ -48,30 +50,30 @@ protected:
 
 public:
     pfKIMsg();
-    virtual ~pfKIMsg();
-
-    DECLARE_CREATABLE(pfKIMsg)
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
-    unsigned char getCommand() { return fCommand; }
-    unsigned int getFlags() { return fFlags; }
-    unsigned int getPlayerID() { return fPlayerID; }
-    plString getUser() { return fUser; }
-    plWString getString() { return fString; }
-    int getValue() { return fValue; }
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned char getCommand() const { return fCommand; }
+    unsigned int getFlags() const { return fFlags; }
+    unsigned int getPlayerID() const { return fPlayerID; }
+    plString getUser() const { return fUser; }
+    plWString getString() const { return fString; }
+    float getDelay() const { return fDelay; }
+    int getValue() const { return fValue; }
 
     void setCommand(unsigned char command) { fCommand = command; }
     void setFlags(unsigned int flags) { fFlags = flags; }
     void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
     void setUser(const plString& user) { fUser = user; }
-    void setString(const plWString& string) { fString = string; }
+    void setString(const plWString& str) { fString = str; }
+    void setDelay(float delay) { fDelay = delay; }
     void setValue(int value) { fValue = value; }
-
-protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 #endif

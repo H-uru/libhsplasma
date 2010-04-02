@@ -4,9 +4,6 @@
 plRenderTarget::plRenderTarget()
               : fWidth(0), fHeight(0), fProportionalViewport(false),
                 fZDepth(0), fStencilDepth(0) { }
-plRenderTarget::~plRenderTarget() { }
-
-IMPLEMENT_CREATABLE(plRenderTarget, kRenderTarget, plBitmap)
 
 void plRenderTarget::read(hsStream* S, plResManager* mgr) {
     plBitmap::read(S, mgr);
@@ -118,11 +115,6 @@ void plRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCubicRenderTarget */
-plCubicRenderTarget::plCubicRenderTarget() { }
-plCubicRenderTarget::~plCubicRenderTarget() { }
-
-IMPLEMENT_CREATABLE(plCubicRenderTarget, kCubicRenderTarget, plRenderTarget)
-
 void plCubicRenderTarget::read(hsStream* S, plResManager* mgr) {
     plRenderTarget::read(S, mgr);
 

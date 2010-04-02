@@ -5,15 +5,12 @@
 #include "PRP/KeyedObject/plUoid.h"
 
 DllClass plNetMsgObjectHelper : public plCreatable {
+    CREATABLE(plNetMsgObjectHelper, kNetMsgObjectHelper, plCreatable)
+
 private:
     plUoid fUoid;
 
 public:
-    plNetMsgObjectHelper();
-    ~plNetMsgObjectHelper();
-
-    DECLARE_CREATABLE(plNetMsgObjectHelper)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -22,23 +19,18 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    //accessors
-    plUoid getUoid() const;
-
-    //mutators
-    void setUoid(plUoid Uoid);
+    plUoid getUoid() const { return fUoid; }
+    void setUoid(const plUoid& uoid) { fUoid = uoid; }
 };
 
+
 DllClass plNetMsgObject : public plNetMessage {
+    CREATABLE(plNetMsgObject, kNetMsgObject, plNetMessage)
+
 private:
     plNetMsgObjectHelper fHelper;
 
 public:
-    plNetMsgObject();
-    ~plNetMsgObject();
-
-    DECLARE_CREATABLE(plNetMsgObject)
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
@@ -47,9 +39,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    plNetMsgObjectHelper getHelper() const;
-
-    void setHelper(plNetMsgObjectHelper Helper);
+    const plNetMsgObjectHelper& getHelper() const { return fHelper; }
+    plNetMsgObjectHelper& getHelper() { return fHelper; }
 };
 
 #endif

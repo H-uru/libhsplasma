@@ -9,8 +9,6 @@ plParticleEmitter::~plParticleEmitter() {
         delete fGenerator;
 }
 
-IMPLEMENT_CREATABLE(plParticleEmitter, kParticleEmitter, plCreatable)
-
 void plParticleEmitter::read(hsStream* S, plResManager* mgr) {
     setGenerator(plParticleGenerator::Convert(mgr->ReadCreatable(S)));
 
