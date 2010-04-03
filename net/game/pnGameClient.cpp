@@ -39,13 +39,22 @@ void pnGameClient::Dispatch::run()
                 hsRAMStream rs(pvLive);
                 rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
                 fReceiver->fResMgrMutex.lock();
-                plCreatable* pCre = fReceiver->fResMgr.ReadCreatable(&rs, true, msgbuf[1].fUint);
+                plCreatable* pCre;
+                try {
+                    pCre = fReceiver->fResMgr.ReadCreatable(&rs, true, msgbuf[1].fUint);
+                } catch (hsException& ex) {
+                    plDebug::Error("Error reading propagated message: %s\n", ex.what());
+                    delete pCre;
+                    pCre = NULL;
+                }
                 fReceiver->fResMgrMutex.unlock();
                 if (pCre != NULL) {
                     fReceiver->onPropagateMessage(pCre);
                     delete pCre;
                 } else {
-                    plDebug::Error("Ignored propagated message %04X", msgbuf[0].fUint);
+                    plDebug::Error("Ignored propagated message [%04X]%s",
+                                   pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, pvLive),
+                                   pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, pvLive));
                 }
             }
             break;
