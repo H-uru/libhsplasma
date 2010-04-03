@@ -21,7 +21,7 @@ public:
         kAdvanceMax
     };
 
-protected:
+private:
     PlayType fForwardType, fBackType;
     AdvanceType fAdvanceType, fRegressType;
     plString fAnimName;
@@ -30,11 +30,21 @@ protected:
     bool fDoAdvanceTo, fDoRegressTo;
     unsigned int fAdvanceTo, fRegressTo;
 
+    // Aux Params
+    float fLocalTime, fLength;
+    int fCurLoop;
+    bool fAttached;
+
 public:
     plAnimStage();
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
+
+    void readAux(hsStream* S);
+    void writeAux(hsStream* S);
+    void prcWriteAux(pfPrcHelper* prc);
+    void prcParseAux(const pfPrcTag* tag);
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
@@ -66,6 +76,16 @@ public:
 
     void setRegressTo(bool doRegress, unsigned int regress = 0)
     { fDoRegressTo = doRegress; fRegressTo = regress; }
+
+    float getLocalTime() const { return fLocalTime; }
+    float getLength() const { return fLength; }
+    int getCurLoop() const { return fCurLoop; }
+    bool isAttached() const { return fAttached; }
+
+    void setLocalTime(float time) { fLocalTime = time; }
+    void setLength(float length) { fLength = length; }
+    void setCurLoop(int loop) { fCurLoop = loop; }
+    void setAttached(bool att) { fAttached = att; }
 };
 
 #endif

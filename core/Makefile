@@ -84,6 +84,8 @@ PLSOBJ=\
 	$(OBJDIR)plArmatureMod.o \
 	$(OBJDIR)plATCAnim.o \
 	$(OBJDIR)plAvatarClothing.o \
+	$(OBJDIR)plAvBrainCoop.o \
+	$(OBJDIR)plAvBrainGeneric.o \
 	$(OBJDIR)plAvTask.o \
 	$(OBJDIR)plClothingItem.o \
 	$(OBJDIR)plLadderModifier.o \
@@ -555,6 +557,12 @@ $(OBJDIR)plATCAnim.o: PRP/Avatar/plATCAnim.h PRP/Avatar/plATCAnim.cpp
 
 $(OBJDIR)plAvatarClothing.o: PRP/Avatar/plAvatarClothing.h PRP/Avatar/plAvatarClothing.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvatarClothing.cpp -o $@
+
+$(OBJDIR)plAvBrainCoop.o: PRP/Avatar/plAvBrainCoop.h PRP/Avatar/plAvBrainCoop.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvBrainCoop.cpp -o $@
+
+$(OBJDIR)plAvBrainGeneric.o: PRP/Avatar/plAvBrainGeneric.h PRP/Avatar/plAvBrainGeneric.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvBrainGeneric.cpp -o $@
 
 $(OBJDIR)plAvTask.o: PRP/Avatar/plAvTask.h PRP/Avatar/plAvTask.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvTask.cpp -o $@

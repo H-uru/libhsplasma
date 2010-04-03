@@ -220,6 +220,8 @@ plAvBrainPirahna                Complete    No          No
 plAvBrainQuab                   Complete    No          No
 plAvBrainRideAnimatedPhysical   Complete    No          No
 plAvBrainSwim                   Complete    No          No
+plAvBrainCoop                   Complete    No          No
+plAvBrainGeneric                Complete    No          No
 plArmatureEffect                Complete    No          No
 plArmatureEffectFootSound       Basic       No          No
 plArmatureEffectsMgr            Basic       No          No

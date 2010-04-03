@@ -1,0 +1,46 @@
+#ifndef _PLAVBRAINCOOP_H
+#define _PLAVBRAINCOOP_H
+
+#include "plAvBrainGeneric.h"
+
+DllClass plAvBrainCoop : public plAvBrainGeneric {
+    CREATABLE(plAvBrainCoop, kAvBrainCoop, plAvBrainGeneric)
+
+private:
+    unsigned int fInitiatorID;
+    unsigned short fInitiatorSerial;
+    bool fWaitingForClick;
+    plKey fHostKey, fGuestKey;
+    hsTArray<plKey> fRecipients;
+
+public:
+    plAvBrainCoop();
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const hsTArray<plKey>& getRecipients() const { return fRecipients; }
+    hsTArray<plKey>& getRecipients() { return fRecipients; }
+    void addRecipeient(plKey recp) { fRecipients.append(recp); }
+    void delRecipient(size_t idx) { fRecipients.remove(idx); }
+    void clearRecipients() { fRecipients.clear(); }
+
+    unsigned int getInitiatorID() const { return fInitiatorID; }
+    unsigned short getInitiatorSerial() const { return fInitiatorSerial; }
+    bool isWaitingForClick() const { return fWaitingForClick; }
+    plKey getHostKey() const { return fHostKey; }
+    plKey getGuestKey() const { return fGuestKey; }
+
+    void setInitiatorID(unsigned int id) { fInitiatorID = id; }
+    void setInitiatorSerial(unsigned short serial) { fInitiatorSerial = serial; }
+    void setWaitingForClick(bool waiting) { fWaitingForClick = waiting; }
+    void setHostKey(plKey host) { fHostKey = host; }
+    void setGuestKey(plKey guest) { fGuestKey = guest; }
+};
+
+#endif

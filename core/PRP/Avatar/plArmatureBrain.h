@@ -42,26 +42,32 @@ DllClass plAvBrainClimb : public plArmatureBrain {
     CREATABLE(plAvBrainClimb, kAvBrainClimb, plArmatureBrain)
 };
 
+
 DllClass plAvBrainCritter : public plArmatureBrain {
     CREATABLE(plAvBrainCritter, kAvBrainCritter, plArmatureBrain)
 };
+
 
 DllClass plAvBrainDrive : public plArmatureBrain {
     CREATABLE(plAvBrainDrive, kAvBrainDrive, plArmatureBrain)
 };
 
+
 DllClass plAvBrainPirahna : public plArmatureBrain {
     CREATABLE(plAvBrainPirahna, kAvBrainPirahna, plArmatureBrain)
 };
+
 
 DllClass plAvBrainQuab : public plArmatureBrain {
     CREATABLE(plAvBrainQuab, kAvBrainQuab, plArmatureBrain)
 };
 
+
 DllClass plAvBrainRideAnimatedPhysical : public plArmatureBrain {
     CREATABLE(plAvBrainRideAnimatedPhysical, kAvBrainRideAnimatedPhysical,
               plArmatureBrain)
 };
+
 
 DllClass plAvBrainSwim : public plArmatureBrain {
     CREATABLE(plAvBrainSwim, kAvBrainSwim, plArmatureBrain)

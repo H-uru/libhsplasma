@@ -4,7 +4,8 @@ plAnimStage::plAnimStage()
            : fForwardType(kPlayNone), fBackType(kPlayNone),
              fAdvanceType(kAdvanceNone), fRegressType(kAdvanceNone),
              fNotify(0), fLoops(0), fDoAdvanceTo(false), fDoRegressTo(false),
-             fAdvanceTo(0), fRegressTo(0) { }
+             fAdvanceTo(0), fRegressTo(0), fLocalTime(0.0f), fLength(0.0f),
+             fCurLoop(0), fAttached(false) { }
 
 void plAnimStage::read(hsStream* S, plResManager* mgr) {
     fAnimName = S->readSafeStr();
@@ -78,4 +79,37 @@ void plAnimStage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
+}
+
+void plAnimStage::readAux(hsStream* S) {
+    fLocalTime = S->readFloat();
+    fLength = S->readFloat();
+    fCurLoop = S->readInt();
+    fAttached = S->readBool();
+}
+
+void plAnimStage::writeAux(hsStream* S) {
+    S->writeFloat(fLocalTime);
+    S->writeFloat(fLength);
+    S->writeInt(fCurLoop);
+    S->writeBool(fAttached);
+}
+
+void plAnimStage::prcWriteAux(pfPrcHelper* prc) {
+    prc->startTag("plAnimStage_Aux");
+    prc->writeParam("LocalTime", fLocalTime);
+    prc->writeParam("Length", fLength);
+    prc->writeParam("CurLoop", fCurLoop);
+    prc->writeParam("Attached", fAttached);
+    prc->endTag(true);
+}
+
+void plAnimStage::prcParseAux(const pfPrcTag* tag) {
+    if (tag->getName() != "plAnimStage_Aux")
+        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
+
+    fLocalTime = tag->getParam("LocalTime", "0").toFloat();
+    fLength = tag->getParam("Length", "0").toFloat();
+    fCurLoop = tag->getParam("CurLoop", "0").toInt();
+    fAttached = tag->getParam("Attached", "False").toBool();
 }

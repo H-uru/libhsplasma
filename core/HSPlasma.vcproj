@@ -731,6 +731,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PRP\Avatar\plAvBrainCoop.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plAvBrainCoop.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plAvBrainGeneric.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PRP\Avatar\plAvBrainGeneric.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PRP\Avatar\plAvTask.cpp"
 					>
 				</File>

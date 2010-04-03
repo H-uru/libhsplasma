@@ -18,11 +18,11 @@
 #include "PRP/Audio/plWin32StaticSound.h"
 #include "PRP/Avatar/plAGMasterMod.h"
 #include "PRP/Avatar/plAGModifier.h"
-#include "PRP/Avatar/plArmatureBrain.h"
 #include "PRP/Avatar/plArmatureEffects.h"
 #include "PRP/Avatar/plArmatureMod.h"
 #include "PRP/Avatar/plATCAnim.h"
 #include "PRP/Avatar/plAvatarClothing.h"
+#include "PRP/Avatar/plAvBrainCoop.h"
 #include "PRP/Avatar/plAvTask.h"
 #include "PRP/Avatar/plClothingItem.h"
 #include "PRP/Avatar/plLadderModifier.h"
@@ -879,7 +879,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kAvBrainCritter: return new plAvBrainCritter();
         case kAvBrainDrive: return new plAvBrainDrive();
         //case kAvBrainSample: return new plAvBrainSample();
-        //case kAvBrainGeneric: return new plAvBrainGeneric();
+        case kAvBrainGeneric: return new plAvBrainGeneric();
         //case kAvBrainPuppet: return new plAvBrainPuppet();
         //case kAvBrainLadder: return new plAvBrainLadder();
         case kInputIfaceMgrMsg: return new plInputIfaceMgrMsg();
@@ -1078,7 +1078,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPipeRTMakeMsg: return new plPipeRTMakeMsg();
         //case kPipeGeoMakeMsg: return new plPipeGeoMakeMsg();
         //case kAvCoopMsg: return new plAvCoopMsg();
-        //case kAvBrainCoop: return new plAvBrainCoop();
+        case kAvBrainCoop: return new plAvBrainCoop();
         case kSimSuppressMsg: return new plSimSuppressMsg();
         //case kVaultMarkerListNode: return new plVaultMarkerListNode();
         //case kAvTaskOrient: return new plAvTaskOrient();
