@@ -190,7 +190,7 @@ hsMatrix44& hsMatrix44::setScale(const hsVector3& scale) {
 
 void hsMatrix44::read(hsStream* S) {
     bool hasData = true;
-    if (S->getVer() >= pvLive && S->getVer() != pvUniversal)
+    if (S->getVer() >= pvLive && S->getVer() < pvEoa && S->getVer() != pvUniversal)
         hasData = S->readBool();
 
     if (hasData) {
@@ -204,7 +204,7 @@ void hsMatrix44::read(hsStream* S) {
 
 void hsMatrix44::write(hsStream* S) {
     bool hasData = true;
-    if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
+    if (S->getVer() >= pvLive && S->getVer() < pvEoa && S->getVer() != pvUniversal) {
         hasData = !IsIdentity();
         S->writeBool(hasData);
     }

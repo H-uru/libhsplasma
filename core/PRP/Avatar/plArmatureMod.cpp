@@ -113,7 +113,11 @@ plArmatureMod::plArmatureMod()
              : fBodyType(0), fPhysHeight(0.0f), fPhysWidth(0.0f) { }
 
 void plArmatureMod::read(hsStream* S, plResManager* mgr) {
-    plAGMasterMod::read(S, mgr);
+    if (S->getVer() <= pvLive) {
+        plAGMasterMod::read(S, mgr);
+    } else {
+        plArmatureModBase::read(S, mgr);
+    }
 
     fMeshKeys.append(mgr->readKey(S));
     fRootName = S->readSafeStr();
@@ -160,7 +164,11 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
 }
 
 void plArmatureMod::write(hsStream* S, plResManager* mgr) {
-    plAGMasterMod::write(S, mgr);
+    if (S->getVer() <= pvLive) {
+        plAGMasterMod::write(S, mgr);
+    } else {
+        plArmatureModBase::write(S, mgr);
+    }
 
     mgr->writeKey(S, fMeshKeys[0]);
     S->writeSafeStr(fRootName);

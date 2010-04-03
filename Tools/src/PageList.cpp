@@ -81,7 +81,7 @@ int main(int argc, char** argv) {
         printf("%s :: %s\n", page->getAge().cstr(), page->getPage().cstr());
         
         for(unsigned int f = 0; f < keys.countTypes(page->getLocation()); f++) {
-        	printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f], S->getVer()));
+        	printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f]));
         	
         	std::vector<plKey> mykeys = keys.getKeys(page->getLocation(), types[f]);
         	
