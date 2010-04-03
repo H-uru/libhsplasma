@@ -23,7 +23,9 @@ public:
         kDisableEntireYeeshaBook, kEnableEntireYeeshaBook, kKIOKDialogNoQuit,
         kGZUpdated, kGZInRange, kGZOutRange, kUpgradeKIMarkerLevel,
         kKIShowMiniKI, kGZFlashUpdate, kStartJournalAlert, kAddJournalBook,
-        kRemoveJournalBook, kKIOpenJournalBook, kNoCommand
+        kRemoveJournalBook, kKIOpenJournalBook, kMGStartCGZGame, kMGStopCGZGame,
+        kKICreateMarkerNode, kStartKIAlert, kUpdatePelletScore, kFriendInviteSent,
+        kRegisterImager, kNoCommand
     };
 
     enum Flags {
@@ -33,7 +35,7 @@ public:
         kUNUSED1 = 0x8,
         kStatusMsg = 0x10,
         kNeighborMsg = 0x20,
-        kChannelMask = 0xFFFFFF00
+        kChannelMask = 0xFF00
     };
 
     enum KILevels {
