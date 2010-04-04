@@ -42,6 +42,31 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned short getFlags() const { return fFlags; }
+    plUuid getAcctUuid() const { return fAcctUuid; }
+    unsigned int getPlayerID() const { return fPlayerID; }
+    plString getPlayerName() const { return fPlayerName; }
+    unsigned char getCCRLevel() const { return fCCRLevel; }
+    unsigned char getProtectedLogin() const { return fProtectedLogin; }
+    unsigned char getBuildType() const { return fBuildType; }
+    unsigned int getSrcAddr() const { return fSrcAddr; }
+    unsigned short getSrcPort() const { return fSrcPort; }
+    unsigned short getReserved() const { return fReserved; }
+    plString getClientKey() const { return fClientKey; }
+
+    void setFlags(unsigned short flags) { fFlags = flags; }
+    void setAcctUuid(const plUuid& acctUuid) { fAcctUuid = acctUuid; }
+    void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
+    void setPlayerName(const plString& playerName) { fPlayerName = playerName; }
+    void setCCRLevel(unsigned char cCRLevel) { fCCRLevel = cCRLevel; }
+    void setProtectedLogin(unsigned char protectedLogin) { fProtectedLogin = protectedLogin; }
+    void setBuildType(unsigned char buildType) { fBuildType = buildType; }
+    void setSrcAddr(unsigned int srcAddr) { fSrcAddr = srcAddr; }
+    void setSrcPort(unsigned short srcPort) { fSrcPort = srcPort; }
+    void setReserved(unsigned short reserved) { fReserved = reserved; }
+    void setClientKey(const plString& clientKey) { fClientKey = clientKey; }
 };
 
 #endif
