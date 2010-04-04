@@ -60,7 +60,7 @@ public:
     void setAcctUuid(const plUuid& acctUuid) { fAcctUuid = acctUuid; }
     void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
     void setPlayerName(const plString& playerName) { fPlayerName = playerName; }
-    void setCCRLevel(unsigned char cCRLevel) { fCCRLevel = cCRLevel; }
+    void setCCRLevel(unsigned char level) { fCCRLevel = level; }
     void setProtectedLogin(unsigned char protectedLogin) { fProtectedLogin = protectedLogin; }
     void setBuildType(unsigned char buildType) { fBuildType = buildType; }
     void setSrcAddr(unsigned int srcAddr) { fSrcAddr = srcAddr; }

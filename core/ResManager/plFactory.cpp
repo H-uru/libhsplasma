@@ -703,7 +703,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kNetMsgMembersListReq: return new plNetMsgMembersListReq();
         case kNetMsgMembersList: return new plNetMsgMembersList();
         case kNetMsgMemberInfoHelper: return new plNetMsgMemberInfoHelper();
-        case kNetMsgMemberListHelper: return new plNetMsgMemberListHelper();
+        case kNetMsgMemberListHelper: NOTIMPL(kNetMsgMemberListHelper);
         //case kNetMsgMemberUpdate: return new plNetMsgMemberUpdate();
         case kNetMsgServerToClient: ABSTRACT(kNetMsgServerToClient);
         //case kNetMsgCreatePlayer: return new plNetMsgCreatePlayer();

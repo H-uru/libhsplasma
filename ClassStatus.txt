@@ -140,7 +140,7 @@ plFixedWaterState6              Complete    No          No
 plFixedWaterState7              Complete    No          No
 plGrassWave                     Basic       No          No
 plShaderConst                   Complete    Complete    No
-plClientGuid                    Basic       No          No
+plClientGuid                    Complete    No          No
 plNetGroupId                    Basic       No          No
 plGenericType                   Basic       No          No
 plGenericVar                    Basic       No          No
@@ -430,9 +430,8 @@ plNetMsgGameMessageDirected     Basic       No          No
 plNetMsgGroupOwner              Basic       No          No
 plNetMsgInitialAgeStateSent     Basic       No          No
 plNetMsgLoadClone               Complete    No          No
-plNetMsgMemberInfoHelper        Basic       No          No
-plNetMsgMemberListHelper        Basic       No          No
-plNetMsgMembersList             Basic       No          No
+plNetMsgMemberInfoHelper        Complete    No          No
+plNetMsgMembersList             Complete    No          No
 plNetMsgMembersListReq          Complete    No          No
 plNetMsgObjectHelper            Complete    No          No
 plNetMsgObject                  Complete    No          No

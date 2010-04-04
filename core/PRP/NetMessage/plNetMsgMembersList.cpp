@@ -53,27 +53,33 @@ void plNetMsgMemberInfoHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 }
 
 
-/* plNetMsgMemberListHelper */
-void plNetMsgMemberListHelper::read(hsStream* S, plResManager* mgr) {
+/* plNetMsgMembersList */
+void plNetMsgMembersList::read(hsStream* S, plResManager* mgr) {
+    plNetMessage::read(S, mgr);
+
     fMembers.setSize(S->readShort());
     for (size_t i=0; i<fMembers.getSize(); i++)
         fMembers[i].read(S, mgr);
 }
 
-void plNetMsgMemberListHelper::write(hsStream* S, plResManager* mgr) {
+void plNetMsgMembersList::write(hsStream* S, plResManager* mgr) {
+    plNetMessage::write(S, mgr);
+
     S->writeShort(fMembers.getSize());
     for (size_t i=0; i<fMembers.getSize(); i++)
         fMembers[i].write(S, mgr);
 }
 
-void plNetMsgMemberListHelper::IPrcWrite(pfPrcHelper* prc) {
+void plNetMsgMembersList::IPrcWrite(pfPrcHelper* prc) {
+    plNetMessage::IPrcWrite(prc);
+
     prc->writeSimpleTag("Members");
     for (size_t i=0; i<fMembers.getSize(); i++)
         fMembers[i].prcWrite(prc);
     prc->closeTag();
 }
 
-void plNetMsgMemberListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+void plNetMsgMembersList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Members") {
         fMembers.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -81,31 +87,6 @@ void plNetMsgMemberListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
             fMembers[i].prcParse(child, mgr);
             child = child->getNextSibling();
         }
-    } else {
-        plCreatable::IPrcParse(tag, mgr);
-    }
-}
-
-
-/* plNetMsgMembersList */
-void plNetMsgMembersList::read(hsStream* S, plResManager* mgr) {
-    plNetMessage::read(S, mgr);
-    fHelper.read(S, mgr);
-}
-
-void plNetMsgMembersList::write(hsStream* S, plResManager* mgr) {
-    plNetMessage::write(S, mgr);
-    fHelper.write(S, mgr);
-}
-
-void plNetMsgMembersList::IPrcWrite(pfPrcHelper* prc) {
-    plNetMessage::IPrcWrite(prc);
-    fHelper.prcWrite(prc);
-}
-
-void plNetMsgMembersList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "plNetMsgMemberListHelper") {
-        fHelper.prcParse(tag, mgr);
     } else {
         plNetMessage::IPrcParse(tag, mgr);
     }
