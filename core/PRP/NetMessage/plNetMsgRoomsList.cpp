@@ -6,11 +6,10 @@ void plNetMsgRoomsList::read(hsStream* S, plResManager* mgr) {
 
     size_t count = S->readInt();
     fRooms.setSize(count);
-    fRoomNames.setSize(count);
     for (size_t i=0; i<count; i++) {
-        fRooms[i].read(S);
+        fRooms[i].fLocation.read(S);
         unsigned short slen = S->readShort();
-        fRoomNames[i] = S->readStr(slen);
+        fRooms[i].fName = S->readStr(slen);
     }
 }
 
@@ -19,9 +18,9 @@ void plNetMsgRoomsList::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fRooms.getSize());
     for (size_t i=0; i<fRooms.getSize(); i++) {
-        fRooms[i].write(S);
-        S->writeShort(fRoomNames[i].len());
-        S->writeStr(fRoomNames[i]);
+        fRooms[i].fLocation.write(S);
+        S->writeShort(fRooms[i].fName.len());
+        S->writeStr(fRooms[i].fName);
     }
 }
 
@@ -31,8 +30,8 @@ void plNetMsgRoomsList::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Rooms");
     for (size_t i=0; i<fRooms.getSize(); i++) {
         prc->startTag("Room");
-        prc->writeParam("Name", fRoomNames[i]);
-        fRooms[i].prcWrite(prc);
+        prc->writeParam("Name", fRooms[i].fName);
+        fRooms[i].fLocation.prcWrite(prc);
         prc->endTag(true);
     }
     prc->closeTag();
@@ -41,19 +40,25 @@ void plNetMsgRoomsList::IPrcWrite(pfPrcHelper* prc) {
 void plNetMsgRoomsList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Rooms") {
         fRooms.setSize(tag->countChildren());
-        fRoomNames.setSize(fRooms.getSize());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fRooms.getSize(); i++) {
             if (child->getName() != "Room")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fRoomNames[i] = child->getParam("Name", "");
+            fRooms[i].fName = child->getParam("Name", "");
             if (child->hasChildren())
-                fRooms[i].prcParse(child->getFirstChild());
+                fRooms[i].fLocation.prcParse(child->getFirstChild());
             child = child->getNextSibling();
         }
     } else {
         plNetMessage::IPrcParse(tag, mgr);
     }
+}
+
+void plNetMsgRoomsList::addRoom(const plLocation& loc, const plString& name) {
+    Room rm;
+    rm.fLocation = loc;
+    rm.fName = name;
+    fRooms.append(rm);
 }
 
 

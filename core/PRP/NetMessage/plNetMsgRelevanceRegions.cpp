@@ -37,3 +37,8 @@ void plNetMsgRelevanceRegions::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
         plNetMessage::IPrcParse(tag, mgr);
     }
 }
+
+void plNetMsgRelevanceRegions::setRegion(size_t region, bool in, bool careAbout) {
+    fRegionsImIn.set(region, in);
+    fRegionsICareAbout.set(region, careAbout);
+}

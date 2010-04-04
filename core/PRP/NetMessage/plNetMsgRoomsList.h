@@ -6,9 +6,14 @@
 DllClass plNetMsgRoomsList : public plNetMessage {
     CREATABLE(plNetMsgRoomsList, kNetMsgRoomsList, plNetMessage)
 
+public:
+    DllStruct Room {
+        plLocation fLocation;
+        plString fName;
+    };
+
 private:
-    hsTArray<plLocation> fRooms;
-    hsTArray<plString> fRoomNames;
+    hsTArray<Room> fRooms;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -17,6 +22,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const hsTArray<Room>& getRooms() const { return fRooms; }
+    hsTArray<Room>& getRooms() { return fRooms; }
+    void addRoom(const plLocation& loc, const plString& name);
+    void delRoom(size_t idx) { fRooms.remove(idx); }
+    void clearRooms() { fRooms.clear(); }
 };
 
 
@@ -43,6 +55,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned char getPageFlags() const { return fPageFlags; }
+    void setPageFlags(unsigned char flags) { fPageFlags = flags; }
 };
 
 

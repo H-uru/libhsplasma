@@ -64,10 +64,11 @@ void plNetMsgSDLState::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plNetMsgSDLState::findDescriptor(plSDLMgr* sdl) {
+bool plNetMsgSDLState::findDescriptor(plSDLMgr* sdl) {
     hsStream* blob = getStream();
     plString descName;
     int descVersion = -1;
     plStateDataRecord::ReadStreamHeader(blob, descName, descVersion, NULL);
     fDescriptor = sdl->GetDescriptor(descName, descVersion);
+    return (fDescriptor != NULL);
 }

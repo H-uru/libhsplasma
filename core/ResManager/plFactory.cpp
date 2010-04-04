@@ -641,7 +641,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kServerReplyMsg: return new plServerReplyMsg();
         //case kDeviceRecreateMsg: return new plDeviceRecreateMsg();
         case kNetMsgStreamHelper: return new plNetMsgStreamHelper();
-        case kNetMsgObjectHelper: return new plNetMsgObjectHelper();
+        case kNetMsgObjectHelper: NOTIMPL(kNetMsgObjectHelper);
         //case kIMouseXEventMsg: return new plIMouseXEventMsg();
         //case kIMouseYEventMsg: return new plIMouseYEventMsg();
         //case kIMouseBEventMsg: return new plIMouseBEventMsg();

@@ -19,6 +19,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getNumInitialStates() const { return fNumInitialStates; }
+    void setNumInitialStates(unsigned int num) { fNumInitialStates = num; }
 };
 
 #endif

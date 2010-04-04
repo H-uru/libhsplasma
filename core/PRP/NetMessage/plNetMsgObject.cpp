@@ -1,46 +1,28 @@
 #include "plNetMsgObject.h"
 
-/* plNetMsgObjectHelper */
-void plNetMsgObjectHelper::read(hsStream* S, plResManager* mgr) {
-    fUoid.read(S);
-}
-
-void plNetMsgObjectHelper::write(hsStream* S, plResManager* mgr) {
-    fUoid.write(S);
-}
-
-void plNetMsgObjectHelper::IPrcWrite(pfPrcHelper* prc) {
-    fUoid.prcWrite(prc);
-}
-
-void plNetMsgObjectHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "plKey") {
-        fUoid.prcParse(tag);
-    } else {
-        plCreatable::IPrcParse(tag, mgr);
-    }
-}
-
-
 /* plNetMsgObject */
 void plNetMsgObject::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
-    fHelper.read(S, mgr);
+    fUoid.read(S);
 }
 
 void plNetMsgObject::write(hsStream* S, plResManager* mgr) {
     plNetMessage::write(S, mgr);
-    fHelper.write(S, mgr);
+    fUoid.write(S);
 }
 
 void plNetMsgObject::IPrcWrite(pfPrcHelper* prc) {
     plNetMessage::IPrcWrite(prc);
-    fHelper.prcWrite(prc);
+
+    prc->writeSimpleTag("Object");
+    fUoid.prcWrite(prc);
+    prc->closeTag();
 }
 
 void plNetMsgObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    if (tag->getName() == "plNetMsgObjectHelper") {
-        fHelper.prcParse(tag, mgr);
+    if (tag->getName() == "Object") {
+        if (tag->hasChildren())
+            fUoid.prcParse(tag->getFirstChild());
     } else {
         plNetMessage::IPrcParse(tag, mgr);
     }

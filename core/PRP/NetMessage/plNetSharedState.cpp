@@ -17,8 +17,8 @@ void plGenericType::read(hsStream* S) {
         fByte = S->readByte();
         break;
     case kInt:
-    case kUInt:
-        fUInt = S->readInt();
+    case kUint:
+        fUint = S->readInt();
         break;
     case kFloat:
         fFloat = S->readFloat();
@@ -26,6 +26,8 @@ void plGenericType::read(hsStream* S) {
     case kDouble:
         fDouble = S->readDouble();
         break;
+    default:
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid variable type");
     }
 }
 
@@ -43,8 +45,8 @@ void plGenericType::write(hsStream* S) {
         S->writeByte(fByte);
         break;
     case kInt:
-    case kUInt:
-        S->writeInt(fUInt);
+    case kUint:
+        S->writeInt(fUint);
         break;
     case kFloat:
         S->writeFloat(fFloat);
@@ -73,8 +75,8 @@ void plGenericType::prcWrite(pfPrcHelper* prc) {
     case kInt:
         prc->writeParam("Value", fInt);
         break;
-    case kUInt:
-        prc->writeParam("Value", fUInt);
+    case kUint:
+        prc->writeParam("Value", fUint);
         break;
     case kFloat:
         prc->writeParam("Value", fFloat);
@@ -105,8 +107,8 @@ void plGenericType::prcParse(const pfPrcTag* tag) {
     case kInt:
         fInt = tag->getParam("Value", "0").toInt();
         break;
-    case kUInt:
-        fUInt = tag->getParam("Value", "0").toUint();
+    case kUint:
+        fUint = tag->getParam("Value", "0").toUint();
         break;
     case kFloat:
         fFloat = tag->getParam("Value", "0").toFloat();
@@ -114,6 +116,8 @@ void plGenericType::prcParse(const pfPrcTag* tag) {
     case kDouble:
         fDouble = tag->getParam("Value", "0").toFloat();
         break;
+    default:
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid variable type");
     }
 }
 

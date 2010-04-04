@@ -6,7 +6,7 @@ plNetMsgLoadClone::plNetMsgLoadClone()
 void plNetMsgLoadClone::read(hsStream* S, plResManager* mgr) {
     plNetMsgGameMessage::read(S, mgr);
 
-    fObject.read(S, mgr);
+    fObject.read(S);
     fIsPlayer = S->readBool();
     fIsLoading = S->readBool();
     fIsInitialState = S->readBool();
@@ -15,7 +15,7 @@ void plNetMsgLoadClone::read(hsStream* S, plResManager* mgr) {
 void plNetMsgLoadClone::write(hsStream* S, plResManager* mgr) {
     plNetMsgGameMessage::write(S, mgr);
 
-    fObject.write(S, mgr);
+    fObject.write(S);
     S->writeBool(fIsPlayer);
     S->writeBool(fIsLoading);
     S->writeBool(fIsInitialState);
@@ -42,7 +42,7 @@ void plNetMsgLoadClone::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fIsInitialState = tag->getParam("IsInitialState", "false").toBool();
     } else if (tag->getName() == "Object") {
         if (tag->hasChildren())
-            fObject.prcParse(tag->getFirstChild(), mgr);
+            fObject.prcParse(tag->getFirstChild());
     } else {
         plNetMsgGameMessage::IPrcParse(tag, mgr);
     }

@@ -20,6 +20,13 @@ public:
 private:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const plNetSharedState& getState() const { return fState; }
+    plNetSharedState& getState() { return fState; }
+
+    unsigned char getLockRequest() const { return fLockRequest; }
+    void setLockRequest(unsigned char req) { fLockRequest = req; }
 };
 
 

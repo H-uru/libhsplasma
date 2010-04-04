@@ -8,7 +8,7 @@ DllClass plNetMsgLoadClone : public plNetMsgGameMessage {
     CREATABLE(plNetMsgLoadClone, kNetMsgLoadClone, plNetMsgGameMessage)
 
 private:
-    plNetMsgObjectHelper fObject;
+    plUoid fObject;
     bool fIsPlayer, fIsLoading, fIsInitialState;
 
 public:
@@ -22,13 +22,12 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const plNetMsgObjectHelper& getObject() const { return fObject; }
-    plNetMsgObjectHelper& getObject() { return fObject; }
-
+    plUoid getObject() const { return fObject; }
     bool isPlayer() const { return fIsPlayer; }
     bool isLoading() const { return fIsLoading; }
     bool isInitialState() const { return fIsInitialState; }
 
+    void setObject(const plUoid& obj) { fObject = obj; }
     void setIsPlayer(bool isPlayer) { fIsPlayer = isPlayer; }
     void setIsLoading(bool isLoading) { fIsLoading = isLoading; }
     void setIsInitialState(bool isInitialState) { fIsInitialState = isInitialState; }

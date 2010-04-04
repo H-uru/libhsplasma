@@ -19,11 +19,21 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
-    void findDescriptor(plSDLMgr* sdl);
+    bool findDescriptor(plSDLMgr* sdl);
+    plStateDescriptor* getDescriptor() const { return fDescriptor; }
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    bool isInitialState() const { return fIsInitialState; }
+    bool getPersistOnServer() const { return fPersistOnServer; }
+    bool isAvatarState() const { return fIsAvatarState; }
+
+    void setInitialState(bool initialState) { fIsInitialState = initialState; }
+    void setPersistOnServer(bool persist) { fPersistOnServer = persist; }
+    void setIsAvatarState(bool avState) { fIsAvatarState = avState; }
 };
 
 
