@@ -47,10 +47,6 @@ void plParticleSystem::read(hsStream* S, plResManager* mgr) {
     fEmitters.setSizeNull(fMaxEmitters);
     if (fNumValidEmitters > fMaxEmitters)
         throw hsBadParamException(__FILE__, __LINE__);
-    for (size_t i=0; i<fEmitters.getSize(); i++) {
-        if (fEmitters[i] != NULL)
-            delete fEmitters[i];
-    }
     for (size_t i=0; i<fNumValidEmitters; i++)
         fEmitters[i] = plParticleEmitter::Convert(mgr->ReadCreatable(S));
 

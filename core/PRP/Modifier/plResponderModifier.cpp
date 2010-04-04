@@ -49,12 +49,12 @@ void plResponderModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
     clearStates();
-    fStates.setSize(S->readByte());
+    fStates.setSizeNull(S->readByte());
     for (size_t i=0; i<fStates.getSize(); i++) {
         fStates[i] = new plResponderState();
         fStates[i]->fNumCallbacks = S->readByte();
         fStates[i]->fSwitchToState = S->readByte();
-        fStates[i]->fCmds.setSize(S->readByte());
+        fStates[i]->fCmds.setSizeNull(S->readByte());
         for (size_t j=0; j<fStates[i]->fCmds.getSize(); j++) {
             plMessage* msg = plMessage::Convert(mgr->ReadCreatable(S));
             hsByte waitOn = S->readByte();

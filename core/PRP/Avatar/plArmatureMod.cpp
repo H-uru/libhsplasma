@@ -122,7 +122,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     fMeshKeys.append(mgr->readKey(S));
     fRootName = S->readSafeStr();
 
-    fBrains.setSize(S->readInt());
+    fBrains.setSizeNull(S->readInt());
     for (size_t i=0; i<fBrains.getSize(); i++)
         fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
 
