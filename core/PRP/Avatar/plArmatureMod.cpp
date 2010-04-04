@@ -2,8 +2,10 @@
 
 /* plArmatureModBase */
 plArmatureModBase::~plArmatureModBase() {
-    for (size_t i=0; i<fBrains.getSize(); i++)
-        delete fBrains[i];
+    for (size_t i=0; i<fBrains.getSize(); i++) {
+        if (fBrains[i] != NULL)
+            delete fBrains[i];
+    }
 }
 
 void plArmatureModBase::read(hsStream* S, plResManager* mgr) {
@@ -102,8 +104,10 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plArmatureModBase::clearBrains() {
-    for (size_t i=0; i<fBrains.getSize(); i++)
-        delete fBrains[i];
+    for (size_t i=0; i<fBrains.getSize(); i++) {
+        if (fBrains[i] != NULL)
+            delete fBrains[i];
+    }
     fBrains.clear();
 }
 
@@ -265,7 +269,7 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fFootstepPage = tag->getParam("Page", "");
         fFootstepType = tag->getParam("Type", "");
     } else if (tag->getName() == "Brains") {
-        fBrains.setSize(tag->countChildren());
+        fBrains.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fBrains.getSize(); i++) {
             fBrains[i] = plArmatureBrain::Convert(mgr->prcParseCreatable(child));
