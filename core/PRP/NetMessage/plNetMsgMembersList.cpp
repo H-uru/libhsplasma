@@ -91,3 +91,38 @@ void plNetMsgMembersList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plNetMessage::IPrcParse(tag, mgr);
     }
 }
+
+/* plNetMsgMemberUpdate */
+void plNetMsgMemberUpdate::read(hsStream* S, plResManager* mgr) {
+    plNetMessage::read(S, mgr);
+
+    fMemberInfo.read(S, mgr);
+    fAddMember = S->readBool();
+}
+
+void plNetMsgMemberUpdate::write(hsStream* S, plResManager* mgr) {
+    plNetMessage::write(S, mgr);
+
+    fMemberInfo.write(S, mgr);
+    S->writeBool(fAddMember);
+}
+
+void plNetMsgMemberUpdate::IPrcWrite(pfPrcHelper* prc) {
+    plNetMessage::IPrcWrite(prc);
+
+    prc->startTag("MemberUpdate");
+    prc->writeParam("AddMember", fAddMember);
+    prc->endTag(false);
+    fMemberInfo.prcWrite(prc);
+    prc->closeTag();
+}
+
+void plNetMsgMemberUpdate::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "MemberUpdate") {
+        fAddMember = tag->getParam("AddMember", "0").toBool();
+        const pfPrcTag* child = tag->getFirstChild();
+        fMemberInfo.prcParse(child, mgr);
+    } else {
+        plNetMessage::IPrcParse(tag, mgr);
+    }
+}

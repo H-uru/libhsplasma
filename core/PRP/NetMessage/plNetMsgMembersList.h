@@ -56,6 +56,25 @@ public:
     void clearMembers() { fMembers.clear(); }
 };
 
+DllClass plNetMsgMemberUpdate : public plNetMsgServerToClient {
+    CREATABLE(plNetMsgMemberUpdate, kNetMsgMemberUpdate, plNetMsgServerToClient)
+
+private:
+    plNetMsgMemberInfoHelper fMemberInfo;
+    bool fAddMember;
+
+public:
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const plNetMsgMemberInfoHelper& getMember() const { return fMemberInfo; }
+    bool getAddMember() { return fAddMember; }
+};
 
 DllClass plNetMsgMembersListReq : public plNetMessage {
     CREATABLE(plNetMsgMembersListReq, kNetMsgMembersListReq, plNetMessage)
