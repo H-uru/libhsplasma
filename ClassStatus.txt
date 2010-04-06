@@ -432,6 +432,7 @@ plNetMsgInitialAgeStateSent     Complete    No          No
 plNetMsgLoadClone               Complete    No          No
 plNetMsgMemberInfoHelper        Complete    No          No
 plNetMsgMembersList             Complete    No          No
+plNetMsgMemberUpdate            Complete    No          No
 plNetMsgMembersListReq          Complete    No          No
 plNetMsgObject                  Complete    No          No
 plNetMsgPlayerPage              Complete    No          No

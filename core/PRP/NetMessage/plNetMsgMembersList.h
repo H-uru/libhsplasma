@@ -56,6 +56,7 @@ public:
     void clearMembers() { fMembers.clear(); }
 };
 
+
 DllClass plNetMsgMemberUpdate : public plNetMsgServerToClient {
     CREATABLE(plNetMsgMemberUpdate, kNetMsgMemberUpdate, plNetMsgServerToClient)
 
@@ -73,8 +74,12 @@ protected:
 
 public:
     const plNetMsgMemberInfoHelper& getMember() const { return fMemberInfo; }
+    plNetMsgMemberInfoHelper& getMember() { return fMemberInfo; }
+
     bool getAddMember() { return fAddMember; }
+    void setAddMember(bool add) { fAddMember = add; }
 };
+
 
 DllClass plNetMsgMembersListReq : public plNetMessage {
     CREATABLE(plNetMsgMembersListReq, kNetMsgMembersListReq, plNetMessage)

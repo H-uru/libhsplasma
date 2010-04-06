@@ -144,8 +144,12 @@ public:
 
     size_t getNumDIIndices() const { return fDIIndices.getSize(); }
     const plDISpanIndex& getDIIndex(size_t idx) const { return fDIIndices[idx]; }
-    void clearDIIndices() { fDIIndices.clear(); }
+    plDISpanIndex& getDIIndex(size_t idx) { return fDIIndices[idx]; }
+    const hsTArray<plDISpanIndex>& getDIIndices() const { return fDIIndices; }
+    hsTArray<plDISpanIndex>& getDIIndices() { return fDIIndices; }
     void addDIIndex(const plDISpanIndex& idx) { fDIIndices.append(idx); }
+    void delDIIndex(size_t idx) { fDIIndices.remove(idx); }
+    void clearDIIndices() { fDIIndices.clear(); }
 
     size_t getNumTransforms() const { return fLocalToWorlds.getSize(); }
     hsMatrix44 getLocalToWorld(size_t idx) const { return fLocalToWorlds[idx]; }

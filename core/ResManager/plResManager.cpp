@@ -228,8 +228,10 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
                 ageVer = pvEoa;
         }
 
-        for (size_t i=0; i<age->getNumPages(); i++)
-            ReadPage(path + age->getPageFilename(i, ageVer));
+        for (size_t i=0; i<age->getNumPages(); i++) {
+            if (hsFileStream::FileExists(path + age->getPageFilename(i, ageVer)))
+                ReadPage(path + age->getPageFilename(i, ageVer));
+        }
 
         for (size_t i=0; i<age->getNumCommonPages(ageVer); i++) {
             if (hsFileStream::FileExists(path + age->getCommonPageFilename(i, ageVer)))
