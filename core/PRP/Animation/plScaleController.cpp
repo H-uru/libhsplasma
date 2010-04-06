@@ -4,8 +4,7 @@
 plSimpleScaleController::plSimpleScaleController() : fValue(NULL) { }
 
 plSimpleScaleController::~plSimpleScaleController() {
-    if (fValue != NULL)
-        delete fValue;
+    delete fValue;
 }
 
 void plSimpleScaleController::read(hsStream* S, plResManager* mgr) {
@@ -50,7 +49,6 @@ void plSimpleScaleController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
 }
 
 void plSimpleScaleController::setValue(plScaleValueController* value) {
-    if (fValue != NULL)
-        delete fValue;
+    delete fValue;
     fValue = value;
 }

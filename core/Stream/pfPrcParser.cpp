@@ -10,10 +10,8 @@ pfPrcTag::~pfPrcTag() {
     /* This can cause a stack overflow if there are lots of tags
      * (e.g., hsGBufferGroup's verts.  For now, use Destroy() */
 
-    //if (fNextSibling != NULL)
-    //    delete fNextSibling;
-    //if (fFirstChild != NULL)
-    //    delete fFirstChild;
+    //delete fNextSibling;
+    //delete fFirstChild;
 }
 
 pfPrcTag* pfPrcTag::Destroy() {

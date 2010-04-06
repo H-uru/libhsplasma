@@ -26,10 +26,8 @@ plGenericPhysical::plGenericPhysical()
 }
 
 plGenericPhysical::~plGenericPhysical() {
-    if (fInternalBuffer != NULL)
-        delete[] fInternalBuffer;
-    if (fTMDBuffer != NULL)
-        delete[] fTMDBuffer;
+    delete[] fInternalBuffer;
+    delete[] fTMDBuffer;
 }
 
 void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
@@ -361,8 +359,7 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
 void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr) {
     fBounds = (plSimDefs::Bounds)S->readInt();
 
-    if (fTMDBuffer != NULL)
-        delete[] fTMDBuffer;
+    delete[] fTMDBuffer;
     fTMDBuffer = NULL;
 
     if (fBounds == plSimDefs::kExplicitBounds) {
@@ -411,8 +408,7 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     fRot.read(S);
     fProps.read(S);
 
-    if (fTMDBuffer != NULL)
-        delete[] fTMDBuffer;
+    delete[] fTMDBuffer;
     fTMDBuffer = NULL;
 
     if (fBounds == plSimDefs::kSphereBounds) {
@@ -641,8 +637,7 @@ void plGenericPhysical::setIndices(size_t numIndices, const unsigned int* indice
 }
 
 void plGenericPhysical::setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer) {
-    if (fTMDBuffer != NULL)
-        delete[] fTMDBuffer;
+    delete[] fTMDBuffer;
     if (tmdSize == 0 || tmdBuffer == NULL) {
         fTMDSize = 0;
         fTMDBuffer = NULL;

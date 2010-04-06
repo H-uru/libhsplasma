@@ -279,8 +279,7 @@ void pnAuthClient::Dispatch::run()
                     pCre = fReceiver->fResMgr.ReadCreatable(&rs, true, msgbuf[1].fUint);
                 } catch (hsException& ex) {
                     plDebug::Error("Error reading propagated message: %s\n", ex.what());
-                    if (pCre != NULL)
-                        delete pCre;
+                    delete pCre;
                     pCre = NULL;
                 }
                 fReceiver->fResMgrMutex.unlock();
@@ -309,10 +308,8 @@ pnAuthClient::~pnAuthClient()
 {
     if (fSock != NULL)
         fSock->close();
-    if (fDispatch != NULL)
-        delete fDispatch;
-    if (fSock != NULL)
-        delete fSock;
+    delete fDispatch;
+    delete fSock;
 }
 
 void pnAuthClient::setKeys(const unsigned char* keyX, const unsigned char* keyN)

@@ -51,8 +51,7 @@ void plWAVHeader::prcParse(const pfPrcTag* tag) {
 plSoundBuffer::plSoundBuffer() : fDataLength(0), fData(NULL), fFlags(0) { }
 
 plSoundBuffer::~plSoundBuffer() {
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
 }
 
 void plSoundBuffer::read(hsStream* S, plResManager* mgr) {
@@ -123,8 +122,7 @@ void plSoundBuffer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plSoundBuffer::setData(size_t length, const unsigned char* data) {
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
 
     if (length == 0 || data == NULL) {
         fDataLength = length;   // Length can be specified with a null datum

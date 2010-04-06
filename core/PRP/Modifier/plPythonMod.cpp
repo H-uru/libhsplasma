@@ -4,15 +4,13 @@
 plPythonMod::plPythonMod() : fPythonCode(NULL), fPythonSize(0) { }
 
 plPythonMod::~plPythonMod() {
-    if (fPythonCode != NULL)
-        delete[] fPythonCode;
+    delete[] fPythonCode;
 }
 
 void plPythonMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 
-    if (fPythonCode != NULL)
-        delete[] fPythonCode;
+    delete[] fPythonCode;
     fPythonSize = S->readInt();
     fPythonCode = new unsigned char[fPythonSize];
     S->read(fPythonSize, fPythonCode);
@@ -146,8 +144,7 @@ void plPythonMod::IPrcWrite(pfPrcHelper* prc) {
 
 void plPythonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PythonCode") {
-        if (fPythonCode != NULL)
-            delete[] fPythonCode;
+        delete[] fPythonCode;
         fPythonSize = tag->getContents().getSize();
         fPythonCode = new unsigned char[fPythonSize];
         tag->readHexStream(fPythonSize, fPythonCode);

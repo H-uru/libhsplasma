@@ -33,8 +33,7 @@ void plPointConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plPointControllerChannel::plPointControllerChannel() : fController(NULL) { }
 
 plPointControllerChannel::~plPointControllerChannel() {
-    if (fController != NULL)
-        delete fController;
+    delete fController;
 }
 
 void plPointControllerChannel::read(hsStream* S, plResManager* mgr) {
@@ -65,7 +64,6 @@ void plPointControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 }
 
 void plPointControllerChannel::setController(plController* controller) {
-    if (fController != NULL)
-        delete fController;
+    delete fController;
     fController = controller;
 }

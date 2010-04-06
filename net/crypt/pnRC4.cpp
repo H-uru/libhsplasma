@@ -314,8 +314,7 @@ msgparm_t* pnRC4Socket::recvMsg(const pnNetMsg* msg)
             break;
         case kFieldVarPtr:
         case kFieldRawVarPtr:
-            if (data[i].fData != NULL)
-                delete[] data[i].fData;
+            delete[] data[i].fData;
             data[i].fData = new hsUbyte[size * count];
             recv(data[i].fData, size * count);
 #ifdef COMMDEBUG

@@ -4,16 +4,14 @@ hsRAMStream::hsRAMStream(PlasmaVer pv)
            : hsStream(pv), fData(NULL), fSize(0), fMax(0), fPos(0) { }
 
 hsRAMStream::~hsRAMStream() {
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
 }
 
 void hsRAMStream::copyFrom(const void* data, size_t size) {
     fSize = size;
     fMax = ((size / BLOCKSIZE) * BLOCKSIZE) + (size % BLOCKSIZE ? BLOCKSIZE : 0);
     fPos = 0;
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
     if (size == 0) {
         fData = NULL;
     } else {
@@ -62,8 +60,7 @@ void hsRAMStream::resize(hsUint32 newsize) {
         if (newsize > cpysize)
             memset(newData + cpysize, 0, (newsize - cpysize));
     }
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
 
     fMax = newsize;
     fData = newData;

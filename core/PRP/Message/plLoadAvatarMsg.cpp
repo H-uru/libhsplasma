@@ -3,8 +3,7 @@
 plLoadAvatarMsg::plLoadAvatarMsg() : fInitialTask(NULL) { }
 
 plLoadAvatarMsg::~plLoadAvatarMsg() {
-    if (fInitialTask != NULL)
-        delete fInitialTask;
+    delete fInitialTask;
 }
 
 void plLoadAvatarMsg::read(hsStream* S, plResManager* mgr) {
@@ -79,7 +78,6 @@ void plLoadAvatarMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plLoadAvatarMsg::setInitialTask(plAvTask* task) {
-    if (fInitialTask != NULL)
-        delete fInitialTask;
+    delete fInitialTask;
     fInitialTask = task;
 }

@@ -18,12 +18,14 @@ bool pfPrcHelper::isExcluded(PrcExclude excl) {
 }
 
 void pfPrcHelper::writeTabbed(const char* str) {
-    for (int i=0; i<iLvl; i++) file->writeStr("\t");
+    for (int i=0; i<iLvl; i++)
+        file->writeStr("\t");
     file->writeStr(str);
 }
 
 void pfPrcHelper::startTag(const char* name) {
-    if (inTag) endTag();
+    if (inTag)
+        endTag();
     char buf[256];
     snprintf(buf, 256, "<%s", name);
     writeTabbed(buf);

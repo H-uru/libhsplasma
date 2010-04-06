@@ -3,8 +3,7 @@
 plNPCSpawnMod::plNPCSpawnMod() : fAutoSpawn(false), fNotify(NULL) { }
 
 plNPCSpawnMod::~plNPCSpawnMod() {
-    if (fNotify != NULL)
-        delete fNotify;
+    delete fNotify;
 }
 
 void plNPCSpawnMod::read(hsStream* S, plResManager* mgr) {
@@ -67,7 +66,6 @@ void plNPCSpawnMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plNPCSpawnMod::setNotify(plNotifyMsg* msg) {
-    if (fNotify != NULL)
-        delete fNotify;
+    delete fNotify;
     fNotify = msg;
 }

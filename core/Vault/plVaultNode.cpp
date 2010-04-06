@@ -6,8 +6,7 @@
 plVaultBlob::BlobData::BlobData() : fRefs(1), fSize(0), fData(NULL) { }
 
 plVaultBlob::BlobData::~BlobData() {
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
 }
 
 void plVaultBlob::BlobData::unRef() {

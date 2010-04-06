@@ -6,18 +6,12 @@ plGeometrySpan::plGeometrySpan()
                 fAddColor(NULL), fDiffuseRGBA(NULL), fSpecularRGBA(NULL) { }
 
 plGeometrySpan::~plGeometrySpan() {
-    if (fVertexData != NULL)
-        delete[] fVertexData;
-    if (fMultColor != NULL)
-        delete[] fMultColor;
-    if (fAddColor != NULL)
-        delete[] fAddColor;
-    if (fDiffuseRGBA != NULL)
-        delete[] fDiffuseRGBA;
-    if (fSpecularRGBA != NULL)
-        delete[] fSpecularRGBA;
-    if (fIndexData != NULL)
-        delete[] fIndexData;
+    delete[] fVertexData;
+    delete[] fMultColor;
+    delete[] fAddColor;
+    delete[] fDiffuseRGBA;
+    delete[] fSpecularRGBA;
+    delete[] fIndexData;
 }
 
 unsigned int plGeometrySpan::CalcVertexSize(unsigned char format) {
@@ -63,18 +57,12 @@ void plGeometrySpan::read(hsStream* S) {
     if (fProps & kWaterHeight)
         fWaterHeight = S->readFloat();
 
-    if (fVertexData != NULL)
-        delete[] fVertexData;
-    if (fMultColor != NULL)
-        delete[] fMultColor;
-    if (fAddColor != NULL)
-        delete[] fAddColor;
-    if (fDiffuseRGBA != NULL)
-        delete[] fDiffuseRGBA;
-    if (fSpecularRGBA != NULL)
-        delete[] fSpecularRGBA;
-    if (fIndexData != NULL)
-        delete[] fIndexData;
+    delete[] fVertexData;
+    delete[] fMultColor;
+    delete[] fAddColor;
+    delete[] fDiffuseRGBA;
+    delete[] fSpecularRGBA;
+    delete[] fIndexData;
 
     if (fNumVerts > 0) {
         unsigned int stride = CalcVertexSize(fFormat);
@@ -262,18 +250,12 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
     fDecalLevel = tag->getParam("DecalLevel", "0").toUint();
     fWaterHeight = tag->getParam("WaterHeight", "0").toFloat();
 
-    if (fVertexData != NULL)
-        delete[] fVertexData;
-    if (fMultColor != NULL)
-        delete[] fMultColor;
-    if (fAddColor != NULL)
-        delete[] fAddColor;
-    if (fDiffuseRGBA != NULL)
-        delete[] fDiffuseRGBA;
-    if (fSpecularRGBA != NULL)
-        delete[] fSpecularRGBA;
-    if (fIndexData != NULL)
-        delete[] fIndexData;
+    delete[] fVertexData;
+    delete[] fMultColor;
+    delete[] fAddColor;
+    delete[] fDiffuseRGBA;
+    delete[] fSpecularRGBA;
+    delete[] fIndexData;
     fVertexData = NULL;
     fMultColor = NULL;
     fAddColor = NULL;
@@ -462,8 +444,7 @@ hsTArray<unsigned short> plGeometrySpan::getIndices() const {
 }
 
 void plGeometrySpan::setIndices(const hsTArray<unsigned short>& indices) {
-    if (fIndexData != NULL)
-        delete[] fIndexData;
+    delete[] fIndexData;
     fNumIndices = indices.getSize();
     if (fNumIndices > 0) {
         fIndexData = new unsigned short[fNumIndices];

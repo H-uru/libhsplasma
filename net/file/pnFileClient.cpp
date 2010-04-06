@@ -189,10 +189,8 @@ pnFileClient::~pnFileClient()
 {
     if (fSock != NULL)
         fSock->close();
-    if (fDispatch != NULL)
-        delete fDispatch;
-    if (fSock != NULL)
-        delete fSock;
+    delete fDispatch;
+    delete fSock;
 }
 
 void pnFileClient::setClientInfo(hsUint32 buildType, hsUint32 branchId,

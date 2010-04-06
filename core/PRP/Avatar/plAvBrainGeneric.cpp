@@ -10,10 +10,8 @@ plAvBrainGeneric::plAvBrainGeneric()
 plAvBrainGeneric::~plAvBrainGeneric() {
     for (size_t i=0; i<fStages.getSize(); i++)
         delete fStages[i];
-    if (fStartMessage != NULL)
-        delete fStartMessage;
-    if (fEndMessage != NULL)
-        delete fEndMessage;
+    delete fStartMessage;
+    delete fEndMessage;
 }
 
 void plAvBrainGeneric::read(hsStream* S, plResManager* mgr) {
@@ -193,13 +191,11 @@ void plAvBrainGeneric::clearStages() {
 }
 
 void plAvBrainGeneric::setStartMessage(plMessage* msg) {
-    if (fStartMessage != NULL)
-        delete fStartMessage;
+    delete fStartMessage;
     fStartMessage = msg;
 }
 
 void plAvBrainGeneric::setEndMessage(plMessage* msg) {
-    if (fEndMessage != NULL)
-        delete fEndMessage;
+    delete fEndMessage;
     fEndMessage = msg;
 }

@@ -41,8 +41,7 @@ plCreatableStub::plCreatableStub(short hClass, size_t length)
 }
 
 plCreatableStub::~plCreatableStub() {
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
 }
 
 void plCreatableStub::read(hsStream* S, plResManager* mgr) {
@@ -66,8 +65,7 @@ void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     fClassIdx = pdUnifiedTypeMap::ClassIndex(tag->getParam("Type", ""));
 
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
     fDataLen = tag->getContents().getSize();
     fData = new unsigned char[fDataLen];
     tag->readHexStream(fDataLen, fData);

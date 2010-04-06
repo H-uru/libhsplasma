@@ -4,8 +4,7 @@
 plAvTaskMsg::plAvTaskMsg() : fTask(NULL) { }
 
 plAvTaskMsg::~plAvTaskMsg() {
-    if (fTask != NULL)
-        delete fTask;
+    delete fTask;
 }
 
 void plAvTaskMsg::read(hsStream* S, plResManager* mgr) {
@@ -54,8 +53,7 @@ void plAvTaskMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAvTaskMsg::setTask(plAvTask* task) {
-    if (fTask != NULL)
-        delete fTask;
+    delete fTask;
     fTask = task;
 }
 
@@ -64,8 +62,7 @@ void plAvTaskMsg::setTask(plAvTask* task) {
 plAvPushBrainMsg::plAvPushBrainMsg() : fBrain(NULL) { }
 
 plAvPushBrainMsg::~plAvPushBrainMsg() {
-    if (fBrain != NULL)
-        delete fBrain;
+    delete fBrain;
 }
 
 void plAvPushBrainMsg::read(hsStream* S, plResManager* mgr) {
@@ -104,7 +101,6 @@ void plAvPushBrainMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAvPushBrainMsg::setBrain(plArmatureBrain* brain) {
-    if (fBrain != NULL)
-        delete fBrain;
+    delete fBrain;
     fBrain = brain;
 }

@@ -7,18 +7,12 @@ plLayerAnimationBase::plLayerAnimationBase()
                       fOpacityCtl(NULL), fTransformCtl(NULL) { }
 
 plLayerAnimationBase::~plLayerAnimationBase() {
-    if (fPreshadeColorCtl != NULL)
-        delete fPreshadeColorCtl;
-    if (fRuntimeColorCtl != NULL)
-        delete fRuntimeColorCtl;
-    if (fAmbientColorCtl != NULL)
-        delete fAmbientColorCtl;
-    if (fSpecularColorCtl != NULL)
-        delete fSpecularColorCtl;
-    if (fOpacityCtl != NULL)
-        delete fOpacityCtl;
-    if (fTransformCtl != NULL)
-        delete fTransformCtl;
+    delete fPreshadeColorCtl;
+    delete fRuntimeColorCtl;
+    delete fAmbientColorCtl;
+    delete fSpecularColorCtl;
+    delete fOpacityCtl;
+    delete fTransformCtl;
 }
 
 void plLayerAnimationBase::read(hsStream* S, plResManager* mgr) {
@@ -107,38 +101,32 @@ void plLayerAnimationBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plLayerAnimationBase::setPreshadeCtl(plController* ctrl) {
-    if (fPreshadeColorCtl != NULL)
-        delete fPreshadeColorCtl;
+    delete fPreshadeColorCtl;
     fPreshadeColorCtl = ctrl;
 }
 
 void plLayerAnimationBase::setRuntimeCtl(plController* ctrl) {
-    if (fRuntimeColorCtl != NULL)
-        delete fRuntimeColorCtl;
+    delete fRuntimeColorCtl;
     fRuntimeColorCtl = ctrl;
 }
 
 void plLayerAnimationBase::setAmbientCtl(plController* ctrl) {
-    if (fAmbientColorCtl != NULL)
-        delete fAmbientColorCtl;
+    delete fAmbientColorCtl;
     fAmbientColorCtl = ctrl;
 }
 
 void plLayerAnimationBase::setSpecularCtl(plController* ctrl) {
-    if (fSpecularColorCtl != NULL)
-        delete fSpecularColorCtl;
+    delete fSpecularColorCtl;
     fSpecularColorCtl = ctrl;
 }
 
 void plLayerAnimationBase::setOpacityCtl(plController* ctrl) {
-    if (fOpacityCtl != NULL)
-        delete fOpacityCtl;
+    delete fOpacityCtl;
     fOpacityCtl = ctrl;
 }
 
 void plLayerAnimationBase::setTransformCtl(plController* ctrl) {
-    if (fTransformCtl != NULL)
-        delete fTransformCtl;
+    delete fTransformCtl;
     fTransformCtl = ctrl;
 }
 

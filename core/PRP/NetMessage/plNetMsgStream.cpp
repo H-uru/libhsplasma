@@ -6,16 +6,14 @@ plNetMsgStreamHelper::plNetMsgStreamHelper()
                       fStreamLength(0), fStream(NULL) { }
 
 plNetMsgStreamHelper::~plNetMsgStreamHelper() {
-    if (fStream != NULL)
-        delete[] fStream;
+    delete[] fStream;
 }
 
 void plNetMsgStreamHelper::read(hsStream* S, plResManager* mgr) {
     fUncompressedSize = S->readInt();
     fCompressionType = S->readByte();
     fStreamLength = S->readInt();
-    if (fStream != NULL)
-        delete[] fStream;
+    delete[] fStream;
     if (fStreamLength > 0) {
         fStream = new unsigned char[fStreamLength];
         S->read(fStreamLength, fStream);
@@ -39,8 +37,7 @@ void plNetMsgStreamHelper::write(hsStream* S, plResManager* mgr) {
         } else {
             fStreamLength = fUncompressedSize;
             fCompressionType = kCompressionNone;
-            if (tempStream != NULL)
-                delete[] tempStream;
+            delete[] tempStream;
         }
     }
 
@@ -67,8 +64,7 @@ void plNetMsgStreamHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fUncompressedSize = tag->getParam("UncompressedSize", "0").toUint();
         fCompressionType = tag->getParam("CompressionType", "0").toUint();
 
-        if (fStream != NULL)
-            delete[] fStream;
+        delete[] fStream;
         fStreamLength = tag->getContents().getSize();
         fStream = new unsigned char[fStreamLength];
         tag->readHexStream(fStreamLength, fStream);
@@ -78,8 +74,7 @@ void plNetMsgStreamHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plNetMsgStreamHelper::setStream(const unsigned char* stream, unsigned int length) {
-    if (fStream != NULL)
-        delete[] fStream;
+    delete[] fStream;
     fStreamLength = length;
     if (fStreamLength != 0) {
         fStream = new unsigned char[fStreamLength];

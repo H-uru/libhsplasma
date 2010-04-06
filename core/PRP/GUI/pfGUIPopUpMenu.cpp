@@ -10,10 +10,8 @@ pfGUIPopUpMenu::pfGUIPopUpMenu()
 }
 
 pfGUIPopUpMenu::~pfGUIPopUpMenu() {
-    for (size_t i=0; i<fMenuItems.getSize(); i++) {
-        if (fMenuItems[i].fHandler != NULL)
-            delete fMenuItems[i].fHandler;
-    }
+    for (size_t i=0; i<fMenuItems.getSize(); i++)
+        delete fMenuItems[i].fHandler;
 }
 
 void pfGUIPopUpMenu::read(hsStream* S, plResManager* mgr) {
@@ -145,8 +143,7 @@ void pfGUIPopUpMenu::addItem(const plString& name, pfGUICtrlProcWriteableObject*
 }
 
 void pfGUIPopUpMenu::delItem(size_t idx) {
-    if (fMenuItems[idx].fHandler != NULL)
-        delete fMenuItems[idx].fHandler;
+    delete fMenuItems[idx].fHandler;
     fMenuItems.remove(idx);
 }
 
@@ -166,9 +163,7 @@ void pfGUIPopUpMenu::moveItem(size_t from, size_t to) {
 }
 
 void pfGUIPopUpMenu::clearItems() {
-    for (size_t i=0; i<fMenuItems.getSize(); i++) {
-        if (fMenuItems[i].fHandler != NULL)
-            delete fMenuItems[i].fHandler;
-    }
+    for (size_t i=0; i<fMenuItems.getSize(); i++)
+        delete fMenuItems[i].fHandler;
     fMenuItems.clear();
 }

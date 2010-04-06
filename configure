@@ -356,6 +356,7 @@ echo "PYTHON_VER=$MF_PYTHONVER" >> config.mf
 if [[ "$MF_PYTHONVER" != "no" ]] ; then
   echo "PYTHON_FLAGS=`$MF_PYTHONCFG --cflags`" >> config.mf
   echo "PYTHON_LIBS=`$MF_PYTHONCFG --libs`" >> config.mf
+  echo "PYTHON_PREFIX=`$MF_PYTHONCFG --prefix`" >> config.mf
 fi
 echo "" >> config.mf
 echo "MAKE_NET=$MF_MAKENET" >> config.mf

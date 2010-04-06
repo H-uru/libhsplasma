@@ -5,17 +5,13 @@ plSpanTemplate::plSpanTemplate()
                 fData(NULL), fIndices(NULL) { }
 
 plSpanTemplate::~plSpanTemplate() {
-    if (fData != NULL)
-        delete[] fData;
-    if (fIndices != NULL)
-        delete[] fIndices;
+    delete[] fData;
+    delete[] fIndices;
 }
 
 void plSpanTemplate::read(hsStream* S) {
-    if (fData != NULL)
-        delete[] fData;
-    if (fIndices != NULL)
-        delete[] fIndices;
+    delete[] fData;
+    delete[] fIndices;
 
     fNumVerts = S->readShort();
     setFormat(S->readShort());
@@ -216,8 +212,7 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
 }
 
 void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
-    if (fData != NULL)
-        delete[] fData;
+    delete[] fData;
     if (verts.getSize() == 0) {
         fData = NULL;
         return;
@@ -277,8 +272,7 @@ void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
 }
 
 void plSpanTemplate::setIndices(unsigned short count, const unsigned short* indices) {
-    if (fIndices != NULL)
-        delete[] fIndices;
+    delete[] fIndices;
     if (count == 0) {
         fIndices = NULL;
         return;

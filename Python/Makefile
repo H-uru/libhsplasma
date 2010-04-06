@@ -241,10 +241,10 @@ distclean:
 	rm -f $(LIBDIR)/$(PYLIB)
 
 install: $(LIBDIR)/$(PYLIB)
-	cp $(LIBDIR)/$(PYLIB) `$(PYTHON_CONFIG) --prefix`/lib/python$(PYTHON_VER)/
+	cp $(LIBDIR)/$(PYLIB) $(PYTHON_PREFIX)/lib/python$(PYTHON_VER)/
 
 uninstall:
-	rm -f `$(PYTHON_CONFIG) --prefix`/lib/python$(PYTHON_VER)/$(PYLIB)
+	rm -f $(PYTHON_PREFIX)/lib/python$(PYTHON_VER)/$(PYLIB)
 
 $(OBJDIR)Module.o: Module.cpp
 	$(CXX) $(CXXFLAGS) -c Module.cpp -o $@

@@ -2,10 +2,8 @@
 
 /* plArmatureModBase */
 plArmatureModBase::~plArmatureModBase() {
-    for (size_t i=0; i<fBrains.getSize(); i++) {
-        if (fBrains[i] != NULL)
-            delete fBrains[i];
-    }
+    for (size_t i=0; i<fBrains.getSize(); i++)
+        delete fBrains[i];
 }
 
 void plArmatureModBase::read(hsStream* S, plResManager* mgr) {
@@ -104,10 +102,8 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plArmatureModBase::clearBrains() {
-    for (size_t i=0; i<fBrains.getSize(); i++) {
-        if (fBrains[i] != NULL)
-            delete fBrains[i];
-    }
+    for (size_t i=0; i<fBrains.getSize(); i++)
+        delete fBrains[i];
     fBrains.clear();
 }
 

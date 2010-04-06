@@ -3,8 +3,7 @@
 plBoundInterface::plBoundInterface() : fBounds(NULL) { }
 
 plBoundInterface::~plBoundInterface() {
-    if (fBounds != NULL)
-        delete fBounds;
+    delete fBounds;
 }
 
 void plBoundInterface::read(hsStream* S, plResManager* mgr) {
@@ -35,7 +34,6 @@ void plBoundInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plBoundInterface::setBounds(plConvexVolume* bounds) {
-    if (fBounds != NULL)
-        delete fBounds;
+    delete fBounds;
     fBounds = bounds;
 }

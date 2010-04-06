@@ -107,10 +107,8 @@ pfGUIControlMod::pfGUIControlMod()
 }
 
 pfGUIControlMod::~pfGUIControlMod() {
-    if (fHandler != NULL)
-        delete fHandler;
-    if (fColorScheme != NULL)
-        delete fColorScheme;
+    delete fHandler;
+    delete fColorScheme;
 }
 
 void pfGUIControlMod::read(hsStream* S, plResManager* mgr) {
@@ -264,13 +262,11 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void pfGUIControlMod::setHandler(pfGUICtrlProcWriteableObject* handler) {
-    if (fHandler != NULL)
-        delete fHandler;
+    delete fHandler;
     fHandler = handler;
 }
 
 void pfGUIControlMod::setColorScheme(pfGUIColorScheme* scheme) {
-    if (fColorScheme != NULL)
-        delete fColorScheme;
+    delete fColorScheme;
     fColorScheme = scheme;
 }

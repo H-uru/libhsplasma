@@ -4,8 +4,7 @@
 plAGApplicator::plAGApplicator() : fChannel(NULL), fEnabled(true) { }
 
 plAGApplicator::~plAGApplicator() {
-    if (fChannel != NULL)
-        delete fChannel;
+    delete fChannel;
 }
 
 void plAGApplicator::read(hsStream* S, plResManager* mgr) {
@@ -35,8 +34,7 @@ void plAGApplicator::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAGApplicator::setChannel(plAGChannel* chan) {
-    if (fChannel != NULL)
-        delete fChannel;
+    delete fChannel;
     fChannel = chan;
 }
 

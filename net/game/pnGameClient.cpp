@@ -44,8 +44,7 @@ void pnGameClient::Dispatch::run()
                     pCre = fReceiver->fResMgr.ReadCreatable(&rs, true, msgbuf[1].fUint);
                 } catch (hsException& ex) {
                     plDebug::Error("Error reading propagated message: %s\n", ex.what());
-                    if (pCre != NULL)
-                        delete pCre;
+                    delete pCre;
                     pCre = NULL;
                 }
                 fReceiver->fResMgrMutex.unlock();
@@ -77,10 +76,8 @@ pnGameClient::~pnGameClient()
 {
     if (fSock != NULL)
         fSock->close();
-    if (fDispatch != NULL)
-        delete fDispatch;
-    if (fSock != NULL)
-        delete fSock;
+    delete fDispatch;
+    delete fSock;
 }
 
 void pnGameClient::setKeys(const unsigned char* keyX, const unsigned char* keyN)

@@ -6,8 +6,7 @@ plLineFollowMod::plLineFollowMod()
                  fOffset(0.0f), fOffsetClamp(0.0f), fSpeedClamp(0.0f) { }
 
 plLineFollowMod::~plLineFollowMod() {
-    if (fPath != NULL)
-        delete fPath;
+    delete fPath;
 }
 
 void plLineFollowMod::read(hsStream* S, plResManager* mgr) {
@@ -111,7 +110,6 @@ void plLineFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plLineFollowMod::setPath(plAnimPath* path) {
-    if (fPath != NULL)
-        delete fPath;
+    delete fPath;
     fPath = path;
 }

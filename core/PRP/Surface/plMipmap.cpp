@@ -22,27 +22,19 @@ plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
 }
 
 plMipmap::~plMipmap() {
-    if (fImageData != NULL)
-        delete[] fImageData;
-    if (fAlphaData != NULL)
-        delete[] fAlphaData;
-    if (fJPEGData != NULL)
-        delete[] fJPEGData;
-    if (fJAlphaData != NULL)
-        delete[] fJAlphaData;
+    delete[] fImageData;
+    delete[] fAlphaData;
+    delete[] fJPEGData;
+    delete[] fJAlphaData;
 }
 
 void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
                       unsigned char numLevels, unsigned char compType,
                       unsigned char format) {
-    if (fImageData != NULL)
-        delete[] fImageData;
-    if (fAlphaData != NULL)
-        delete[] fAlphaData;
-    if (fJPEGData != NULL)
-        delete[] fJPEGData;
-    if (fJAlphaData != NULL)
-        delete[] fJAlphaData;
+    delete[] fImageData;
+    delete[] fAlphaData;
+    delete[] fJPEGData;
+    delete[] fJAlphaData;
 
     setConfig(cfg);
     fStride = (fPixelSize * width) / 8;
@@ -161,14 +153,11 @@ void plMipmap::IRead(hsStream* S) {
     fTotalSize = S->readInt();
     fLevelData.setSize(S->readByte());
 
-    if (fImageData != NULL) {
-        delete[] fImageData;
-        fImageData = NULL;
-    }
-    if (fAlphaData != NULL) {
-        delete[] fAlphaData;
-        fAlphaData = NULL;
-    }
+    delete[] fImageData;
+    delete[] fAlphaData;
+    fImageData = NULL;
+    fAlphaData = NULL;
+
     if (fTotalSize == 0)
         return;
 
@@ -268,25 +257,21 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "JPEG") {
         IBuildLevelSizes();
         if (tag->getParam("ImageRLE", "false").toBool()) {
-            if (fImageData != NULL)
-                delete[] fImageData;
+            delete[] fImageData;
             fImageData = new unsigned char[fTotalSize];
             tag->readHexStream(fLevelData[0].fSize, fImageData);
         } else {
-            if (fJPEGData != NULL)
-                delete[] fJPEGData;
+            delete[] fJPEGData;
             fJPEGSize = tag->getContents().getSize();
             fJPEGData = new unsigned char[fJPEGSize];
             tag->readHexStream(fJPEGSize, fJPEGData);
         }
         if (tag->getParam("AlphaRLE", "false").toBool()) {
-            if (fAlphaData != NULL)
-                delete[] fAlphaData;
+            delete[] fAlphaData;
             fAlphaData = new unsigned char[fTotalSize];
             tag->readHexStream(fLevelData[0].fSize, fAlphaData);
         } else {
-            if (fJAlphaData != NULL)
-                delete[] fJAlphaData;
+            delete[] fJAlphaData;
             fJAlphaSize = tag->getContents().getSize();
             fJAlphaData = new unsigned char[fJAlphaSize];
             tag->readHexStream(fJAlphaSize, fJAlphaData);
@@ -295,10 +280,8 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->getContents().getSize() != fTotalSize)
             throw pfPrcParseException(__FILE__, __LINE__, "DDS Data is not of the correct length");
         IBuildLevelSizes();
-        if (fImageData != NULL) {
-            delete[] fImageData;
-            fImageData = NULL;
-        }
+        delete[] fImageData;
+        fImageData = NULL;
         if (fTotalSize > 0) {
             fImageData = new unsigned char[fTotalSize];
             tag->readHexStream(fTotalSize, fImageData);
@@ -391,8 +374,7 @@ void plMipmap::readFromStream(hsStream* S, bool asJPEG, size_t length) {
     } else {
         if (!asJPEG)
             throw hsBadParamException(__FILE__, __LINE__, "Reading JPEG when DXT requested");
-        if (fJPEGData != NULL)
-            delete[] fJPEGData;
+        delete[] fJPEGData;
         fJPEGSize = (length == 0) ? 4 + (S->size() - S->pos()) : length;
         fJPEGData = new unsigned char[fJPEGSize];
         memcpy(fJPEGData, magic, 4);
@@ -419,8 +401,7 @@ void plMipmap::readAlphaFromStream(hsStream* S, size_t length) {
         isDXT = true;
         ImportDDS(S, false, this, true);
     } else {
-        if (fJPEGData != NULL)
-            delete[] fJPEGData;
+        delete[] fJPEGData;
         fJPEGSize = (length == 0) ? 4 + (S->size() - S->pos()) : length;
         fJPEGData = new unsigned char[fJPEGSize];
         memcpy(fJPEGData, magic, 4);
@@ -517,15 +498,12 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     unsigned char rleFlag = S->readByte();
 
     if (rleFlag & kColorDataRLE) {
-        if (fJPEGData != NULL)
-            delete[] fJPEGData;
+        delete[] fJPEGData;
         fJPEGData = NULL;
         IReadRLEImage(S, false);
     } else {
-        if (fImageData != NULL)
-            delete[] fImageData;
-        if (fJPEGData != NULL)
-            delete[] fJPEGData;
+        delete[] fImageData;
+        delete[] fJPEGData;
         fImageData = NULL;
         fJPEGSize = S->readInt();
         fJPEGData = new unsigned char[fJPEGSize];
@@ -533,15 +511,12 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     }
 
     if (rleFlag & kAlphaDataRLE) {
-        if (fJAlphaData != NULL)
-            delete[] fJAlphaData;
+        delete[] fJAlphaData;
         fJAlphaData = NULL;
         IReadRLEImage(S, true);
     } else {
-        if (fAlphaData != NULL)
-            delete[] fAlphaData;
-        if (fJAlphaData != NULL)
-            delete[] fJAlphaData;
+        delete[] fAlphaData;
+        delete[] fJAlphaData;
         fAlphaData = NULL;
         fJAlphaSize = S->readInt();
         fJAlphaData = new unsigned char[fJAlphaSize];
@@ -628,8 +603,7 @@ plMipmap* plMipmap::ISplitAlpha() {
 */
 
 void plMipmap::CopyFrom(plMipmap* src) {
-    if (fImageData != NULL)
-        delete[] fImageData;
+    delete[] fImageData;
 
     fWidth = src->fWidth;
     fHeight = src->fHeight;
@@ -651,8 +625,7 @@ void plMipmap::CopyFrom(plMipmap* src) {
 }
 
 void plMipmap::ICopyImage(plMipmap* src) {
-    if (fImageData != NULL)
-        delete[] fImageData;
+    delete[] fImageData;
 
     fWidth = src->fWidth;
     fHeight = src->fHeight;
@@ -707,16 +680,14 @@ void plMipmap::setLevelData(size_t idx, const void* data) {
 }
 
 void plMipmap::setImageJPEG(const void* data, unsigned int size) {
-    if (fJPEGData != NULL)
-        delete[] fJPEGData;
+    delete[] fJPEGData;
     fJPEGSize = size;
     fJPEGData = new unsigned char[size];
     memcpy(fJPEGData, data, size);
 }
 
 void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
-    if (fJAlphaData != NULL)
-        delete[] fJAlphaData;
+    delete[] fJAlphaData;
     fJAlphaSize = size;
     fJAlphaData = new unsigned char[size];
     memcpy(fJAlphaData, data, size);

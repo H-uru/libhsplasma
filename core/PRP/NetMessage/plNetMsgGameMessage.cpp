@@ -4,15 +4,13 @@
 plNetMsgGameMessage::plNetMsgGameMessage() : fMessage(NULL) { }
 
 plNetMsgGameMessage::~plNetMsgGameMessage() {
-    if (fMessage != NULL)
-        delete fMessage;
+    delete fMessage;
 }
 
 void plNetMsgGameMessage::read(hsStream* S, plResManager* mgr) {
     plNetMsgStream::read(S, mgr);
 
-    if (fMessage != NULL)
-        delete fMessage;
+    delete fMessage;
     hsRAMStream* msgStream = getStream();
     fMessage = plMessage::Convert(mgr->ReadCreatable(msgStream));
 
@@ -57,8 +55,7 @@ void plNetMsgGameMessage::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "GameMessage") {
-        if (fMessage != NULL)
-            delete fMessage;
+        delete fMessage;
         if (tag->getParam("NULL", "false").toBool())
             fMessage = NULL;
         else
@@ -73,8 +70,7 @@ void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plNetMsgGameMessage::setMessage(plMessage* Message) {
-    if (fMessage != NULL)
-        delete fMessage;
+    delete fMessage;
     fMessage = Message;
 }
 

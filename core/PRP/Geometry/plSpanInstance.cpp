@@ -41,10 +41,8 @@ void plSpanEncoding::prcParse(const pfPrcTag* tag) {
 plSpanInstance::plSpanInstance() : fPosDelta(NULL), fCol(NULL) { }
 
 plSpanInstance::~plSpanInstance() {
-    if (fPosDelta != NULL)
-        delete[] fPosDelta;
-    if (fCol != NULL)
-        delete[] fCol;
+    delete[] fPosDelta;
+    delete[] fCol;
 }
 
 void plSpanInstance::read(hsStream* S, const plSpanEncoding& encoding,
@@ -54,10 +52,8 @@ void plSpanInstance::read(hsStream* S, const plSpanEncoding& encoding,
 
     S->read(sizeof(fL2W), fL2W);
 
-    if (fPosDelta != NULL)
-        delete[] fPosDelta;
-    if (fCol != NULL)
-        delete[] fCol;
+    delete[] fPosDelta;
+    delete[] fCol;
 
     unsigned int posStride = CalcPosStride(fEncoding);
     if (posStride != 0) {
@@ -363,8 +359,7 @@ hsMatrix44 plSpanInstance::getLocalToWorld() const {
 }
 
 void plSpanInstance::setPosDeltas(const hsTArray<hsVector3>& verts) {
-    if (fPosDelta != NULL)
-        delete[] fPosDelta;
+    delete[] fPosDelta;
     fNumVerts = verts.getSize();
     fPosDelta = new unsigned char[fNumVerts * CalcPosStride(fEncoding)];
 
@@ -415,8 +410,7 @@ void plSpanInstance::setPosDeltas(const hsTArray<hsVector3>& verts) {
 }
 
 void plSpanInstance::setColors(const hsTArray<unsigned int>& colors) {
-    if (fCol != NULL)
-        delete[] fCol;
+    delete[] fCol;
     // Because of bugs in Cyan's code:
     fCol = NULL;
     return;

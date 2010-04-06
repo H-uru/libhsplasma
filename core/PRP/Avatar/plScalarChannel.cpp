@@ -32,8 +32,7 @@ void plScalarConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plScalarControllerChannel::plScalarControllerChannel() : fController(NULL) { }
 
 plScalarControllerChannel::~plScalarControllerChannel() {
-    if (fController != NULL)
-        delete fController;
+    delete fController;
 }
 
 void plScalarControllerChannel::read(hsStream* S, plResManager* mgr) {
@@ -64,7 +63,6 @@ void plScalarControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 }
 
 void plScalarControllerChannel::setController(plController* controller) {
-    if (fController != NULL)
-        delete fController;
+    delete fController;
     fController = controller;
 }

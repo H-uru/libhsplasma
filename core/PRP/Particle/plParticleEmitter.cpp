@@ -5,8 +5,7 @@ plParticleEmitter::plParticleEmitter()
                    fGenerator(NULL) { }
 
 plParticleEmitter::~plParticleEmitter() {
-    if (fGenerator != NULL)
-        delete fGenerator;
+    delete fGenerator;
 }
 
 void plParticleEmitter::read(hsStream* S, plResManager* mgr) {
@@ -60,7 +59,6 @@ void plParticleEmitter::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plParticleEmitter::setGenerator(plParticleGenerator* generator) {
-    if (fGenerator != NULL)
-        delete fGenerator;
+    delete fGenerator;
     fGenerator = generator;
 }

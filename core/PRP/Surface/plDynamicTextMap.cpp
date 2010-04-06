@@ -6,8 +6,7 @@ plDynamicTextMap::plDynamicTextMap()
                   fHasBeenCreated(false), fInitBuffer(NULL), fInitBufferLen(0) { }
 
 plDynamicTextMap::~plDynamicTextMap() {
-    if (fInitBuffer != NULL)
-        delete[] fInitBuffer;
+    delete[] fInitBuffer;
 }
 
 void plDynamicTextMap::Create(unsigned int width, unsigned int height,
@@ -105,8 +104,7 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plDynamicTextMap::setInitBuffer(const unsigned int* buffer, size_t size) {
     fInitBufferLen = size;
-    if (fInitBuffer != NULL)
-        delete[] fInitBuffer;
+    delete[] fInitBuffer;
     fInitBuffer = new unsigned int[size];
     memcpy(fInitBuffer, buffer, size * sizeof(unsigned int));
 }

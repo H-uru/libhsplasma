@@ -53,8 +53,7 @@ plFont::plFont() : fSize(0), fBPP(0), fFirstChar(0), fFlags(0), fWidth(0),
 }
 
 plFont::~plFont() {
-    if (fBmpData != NULL)
-        delete[] fBmpData;
+    delete[] fBmpData;
 }
 
 void plFont::read(hsStream* S, plResManager* mgr) {
@@ -135,8 +134,7 @@ void plFont::readP2F(hsStream* S) {
     fBPP = S->readByte();
 
     size_t size = (fBPP * fWidth * fHeight) / 8;
-    if (fBmpData != NULL)
-        delete[] fBmpData;
+    delete[] fBmpData;
     if (size > 0) {
         fBmpData = new unsigned char[size];
         S->read(size, fBmpData);
@@ -206,8 +204,7 @@ void plFont::readBitmap(hsStream* S) {
         S->readInt();
 
     // Bitmap Data:
-    if (fBmpData != NULL)
-        delete[] fBmpData;
+    delete[] fBmpData;
     fBmpData = new unsigned char [(fBPP * fWidth * fHeight) / 8];
     unsigned char padding[4];
     for (size_t lin = fHeight; lin > 0; lin++) {

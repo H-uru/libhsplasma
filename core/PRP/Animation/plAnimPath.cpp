@@ -4,19 +4,15 @@
 plAnimPath::plAnimPath() : fController(NULL), fTMController(NULL) { }
 
 plAnimPath::~plAnimPath() {
-    if (fController != NULL)
-        delete fController;
-    if (fTMController != NULL)
-        delete fTMController;
+    delete fController;
+    delete fTMController;
 }
 
 void plAnimPath::read(hsStream* S, plResManager* mgr) {
     fAnimPathFlags = S->readInt();
 
-    if (fController != NULL)
-        delete fController;
-    if (fTMController != NULL)
-        delete fTMController;
+    delete fController;
+    delete fTMController;
 
     bool useTM = (S->getVer() <= pvPots);
     if (S->getVer() == pvUniversal)
@@ -102,10 +98,8 @@ void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fMinDistSq = tag->getParam("MinDistSq", "0").toFloat();
     } else if (tag->getName() == "Controller") {
         if (tag->hasChildren()) {
-            if (fController != NULL)
-                delete fController;
-            if (fTMController != NULL)
-                delete fTMController;
+            delete fController;
+            delete fTMController;
             if (tag->getFirstChild()->getName() == "plTMController") {
                 fTMController = new plTMController();
                 fTMController->prcParse(tag->getFirstChild(), mgr);
@@ -129,19 +123,15 @@ void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAnimPath::setController(plCompoundController* controller) {
-    if (fController != NULL)
-        delete fController;
-    if (fTMController != NULL)
-        delete fTMController;
+    delete fController;
+    delete fTMController;
     fController = controller;
     fTMController = NULL;
 }
 
 void plAnimPath::setTMController(plTMController* controller) {
-    if (fController != NULL)
-        delete fController;
-    if (fTMController != NULL)
-        delete fTMController;
+    delete fController;
+    delete fTMController;
     fTMController = controller;
     fController = NULL;
 }

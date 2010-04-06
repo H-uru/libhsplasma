@@ -21,8 +21,7 @@ public:
     }
 
     ~hsTArray<T>() {
-        if (data != NULL)
-            delete[] data;
+        delete[] data;
     }
 
     hsTArray<T>& operator=(const hsTArray& cpy) {
@@ -38,8 +37,7 @@ public:
     }
 
     void clear() {
-        if (data != NULL)
-            delete[] data;
+        delete[] data;
         data = NULL;
         count = 0;
     }

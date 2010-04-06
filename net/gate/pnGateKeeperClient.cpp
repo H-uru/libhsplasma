@@ -55,10 +55,8 @@ pnGateKeeperClient::~pnGateKeeperClient()
 {
     if (fSock != NULL)
         fSock->close();
-    if (fDispatch != NULL)
-        delete fDispatch;
-    if (fSock != NULL)
-        delete fSock;
+    delete fDispatch;
+    delete fSock;
 }
 
 void pnGateKeeperClient::setKeys(const unsigned char* keyX, const unsigned char* keyN)

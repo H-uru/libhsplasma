@@ -25,8 +25,7 @@ plDrawableSpans::~plDrawableSpans() {
         delete fGroups[i];
     for (size_t i=0; i<fSpans.getSize(); i++)
         delete fSpans[i];
-    if (fSpaceTree != NULL)
-        delete fSpaceTree;
+    delete fSpaceTree;
 }
 
 void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
@@ -696,7 +695,6 @@ void plDrawableSpans::addTransform(const hsMatrix44& l2w, const hsMatrix44& w2l,
 }
 
 void plDrawableSpans::setSpaceTree(plSpaceTree* tree) {
-    if (fSpaceTree != NULL)
-        delete fSpaceTree;
+    delete fSpaceTree;
     fSpaceTree = tree;
 }

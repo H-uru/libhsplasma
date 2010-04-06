@@ -5,8 +5,7 @@ plSimplePosController::plSimplePosController()
                      : fPosition(NULL) { }
 
 plSimplePosController::~plSimplePosController() {
-    if (fPosition != NULL)
-        delete fPosition;
+    delete fPosition;
 }
 
 void plSimplePosController::read(hsStream* S, plResManager* mgr) {
@@ -51,8 +50,7 @@ void plSimplePosController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plSimplePosController::setPosition(plPoint3Controller* pos) {
-    if (fPosition != NULL)
-        delete fPosition;
+    delete fPosition;
     fPosition = pos;
 }
 
@@ -62,12 +60,9 @@ plCompoundPosController::plCompoundPosController()
     : fXController(NULL), fYController(NULL), fZController(NULL) { }
 
 plCompoundPosController::~plCompoundPosController() {
-    if (fXController != NULL)
-        delete fXController;
-    if (fYController != NULL)
-        delete fYController;
-    if (fZController != NULL)
-        delete fZController;
+    delete fXController;
+    delete fYController;
+    delete fZController;
 }
 
 void plCompoundPosController::read(hsStream* S, plResManager* mgr) {
@@ -170,19 +165,16 @@ void plCompoundPosController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
 }
 
 void plCompoundPosController::setX(plScalarController* controller) {
-    if (fXController != NULL)
-        delete fXController;
+    delete fXController;
     fXController = controller;
 }
 
 void plCompoundPosController::setY(plScalarController* controller) {
-    if (fYController != NULL)
-        delete fYController;
+    delete fYController;
     fYController = controller;
 }
 
 void plCompoundPosController::setZ(plScalarController* controller) {
-    if (fZController != NULL)
-        delete fZController;
+    delete fZController;
     fZController = controller;
 }

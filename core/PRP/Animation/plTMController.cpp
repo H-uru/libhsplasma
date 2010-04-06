@@ -5,12 +5,9 @@ plTMController::plTMController()
                 fScaleController(NULL) { }
 
 plTMController::~plTMController() {
-    if (fPosController != NULL)
-        delete fPosController;
-    if (fRotController != NULL)
-        delete fRotController;
-    if (fScaleController != NULL)
-        delete fScaleController;
+    delete fPosController;
+    delete fRotController;
+    delete fScaleController;
 }
 
 void plTMController::read(hsStream* S, plResManager* mgr) {
@@ -131,19 +128,16 @@ plCompoundController* plTMController::convertToCompoundController() {
 }
 
 void plTMController::setPosController(plPosController* controller) {
-    if (fPosController != NULL)
-        delete fPosController;
+    delete fPosController;
     fPosController = controller;
 }
 
 void plTMController::setRotController(plRotController* controller) {
-    if (fRotController != NULL)
-        delete fRotController;
+    delete fRotController;
     fRotController = controller;
 }
 
 void plTMController::setScaleController(plScaleController* controller) {
-    if (fScaleController != NULL)
-        delete fScaleController;
+    delete fScaleController;
     fScaleController = controller;
 }

@@ -164,7 +164,7 @@ void plSimpleStateVariable::IDeAlloc() {
         break;
     case plVarDescriptor::kCreatable:
         for (size_t i=0; i<fDescriptor->getCount(); i++)
-            if (fCreatable[i] != NULL) delete fCreatable[i];
+            delete fCreatable[i];
         delete[] fCreatable;
         break;
     case plVarDescriptor::kDouble:

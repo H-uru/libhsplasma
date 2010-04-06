@@ -7,10 +7,8 @@ plSpaceBuilderNode::plSpaceBuilderNode() {
 }
 
 plSpaceBuilderNode::~plSpaceBuilderNode() {
-    if (fChildren[0] != NULL)
-        delete fChildren[0];
-    if (fChildren[1] != NULL)
-        delete fChildren[1];
+    delete fChildren[0];
+    delete fChildren[1];
 }
 
 size_t plSpaceBuilderNode::size() const {

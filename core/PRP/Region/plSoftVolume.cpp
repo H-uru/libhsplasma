@@ -46,8 +46,7 @@ void plSoftVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plSoftVolumeSimple::plSoftVolumeSimple() : fVolume(NULL), fSoftDist(0.0f) { }
 
 plSoftVolumeSimple::~plSoftVolumeSimple() {
-    if (fVolume != NULL)
-        delete fVolume;
+    delete fVolume;
 }
 
 void plSoftVolumeSimple::read(hsStream* S, plResManager* mgr) {
@@ -85,8 +84,7 @@ void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plSoftVolumeSimple::setVolume(plVolumeIsect* vol) {
-    if (fVolume != NULL)
-        delete fVolume;
+    delete fVolume;
     fVolume = vol;
 }
 

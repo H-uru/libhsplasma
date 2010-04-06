@@ -99,8 +99,7 @@ void plDynaTorpedoVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plDynaWakeMgr::plDynaWakeMgr() : fAnimPath(NULL), fAnimWgt(0.0f), fVelWgt(0.0f) { }
 
 plDynaWakeMgr::~plDynaWakeMgr() {
-    if (fAnimPath != NULL)
-        delete fAnimPath;
+    delete fAnimPath;
 }
 
 void plDynaWakeMgr::read(hsStream* S, plResManager* mgr) {
@@ -162,7 +161,6 @@ void plDynaWakeMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plDynaWakeMgr::setAnimPath(plAnimPath* path) {
-    if (fAnimPath != NULL)
-        delete fAnimPath;
+    delete fAnimPath;
     fAnimPath = path;
 }

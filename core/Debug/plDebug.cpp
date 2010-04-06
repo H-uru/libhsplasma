@@ -53,7 +53,7 @@ void plDebug::DelayInit() {
 }
 
 void plDebug::DeInit() {
-    if (fIOwnStream && (fDebugStream != NULL))
+    if (fIOwnStream)
         delete fDebugStream;
     fDebugStream = NULL;
 }

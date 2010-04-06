@@ -8,20 +8,13 @@ plParticleSystem::plParticleSystem()
                   fWidthCtl(NULL), fHeightCtl(NULL) { }
 
 plParticleSystem::~plParticleSystem() {
-    for (size_t i=0; i<fEmitters.getSize(); i++) {
-        if (fEmitters[i] != NULL)
-            delete fEmitters[i];
-    }
-    if (fAmbientCtl != NULL)
-        delete fAmbientCtl;
-    if (fDiffuseCtl != NULL)
-        delete fDiffuseCtl;
-    if (fOpacityCtl != NULL)
-        delete fOpacityCtl;
-    if (fWidthCtl != NULL)
-        delete fWidthCtl;
-    if (fHeightCtl != NULL)
-        delete fHeightCtl;
+    for (size_t i=0; i<fEmitters.getSize(); i++)
+        delete fEmitters[i];
+    delete fAmbientCtl;
+    delete fDiffuseCtl;
+    delete fOpacityCtl;
+    delete fWidthCtl;
+    delete fHeightCtl;
 }
 
 void plParticleSystem::read(hsStream* S, plResManager* mgr) {
@@ -44,10 +37,8 @@ void plParticleSystem::read(hsStream* S, plResManager* mgr) {
     fWindMult = S->readFloat();
     fNumValidEmitters = S->readInt();
 
-    for (size_t i=0; i<fEmitters.getSize(); i++) {
-        if (fEmitters[i] != NULL)
-            delete fEmitters[i];
-    }
+    for (size_t i=0; i<fEmitters.getSize(); i++)
+        delete fEmitters[i];
     fEmitters.setSizeNull(fMaxEmitters);
     if (fNumValidEmitters > fMaxEmitters)
         throw hsBadParamException(__FILE__, __LINE__);
@@ -228,10 +219,8 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fAccel.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Emitters") {
-        for (size_t i=0; i<fEmitters.getSize(); i++) {
-            if (fEmitters[i] != NULL)
-                delete fEmitters[i];
-        }
+        for (size_t i=0; i<fEmitters.getSize(); i++)
+            delete fEmitters[i];
         fEmitters.setSizeNull(fMaxEmitters);
         fNumValidEmitters = tag->countChildren();
         if (fNumValidEmitters > fMaxEmitters)
@@ -275,41 +264,34 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plParticleSystem::setAmbientCtl(plController* ctl) {
-    if (fAmbientCtl != NULL)
-        delete fAmbientCtl;
+    delete fAmbientCtl;
     fAmbientCtl = ctl;
 }
 
 void plParticleSystem::setDiffuseCtl(plController* ctl) {
-    if (fDiffuseCtl != NULL)
-        delete fDiffuseCtl;
+    delete fDiffuseCtl;
     fDiffuseCtl = ctl;
 }
 
 void plParticleSystem::setOpacityCtl(plController* ctl) {
-    if (fOpacityCtl != NULL)
-        delete fOpacityCtl;
+    delete fOpacityCtl;
     fOpacityCtl = ctl;
 }
 
 void plParticleSystem::setWidthCtl(plController* ctl) {
-    if (fWidthCtl != NULL)
-        delete fWidthCtl;
+    delete fWidthCtl;
     fWidthCtl = ctl;
 }
 
 void plParticleSystem::setHeightCtl(plController* ctl) {
-    if (fHeightCtl != NULL)
-        delete fHeightCtl;
+    delete fHeightCtl;
     fHeightCtl = ctl;
 }
 
 void plParticleSystem::allocEmitters(unsigned int max) {
-    for (size_t i=max; i<fMaxEmitters; i++) {
+    for (size_t i=max; i<fMaxEmitters; i++)
         // When max < fMaxEmitters
-        if (fEmitters[i] != NULL)
-            delete fEmitters[i];
-    }
+        delete fEmitters[i];
     fEmitters.setSize(max);
     for (size_t i=fMaxEmitters; i<max; i++)
         // When fMaxEmitters < max
@@ -320,8 +302,7 @@ void plParticleSystem::allocEmitters(unsigned int max) {
 }
 
 void plParticleSystem::setEmitter(size_t idx, plParticleEmitter* emitter) {
-    if (fEmitters[idx] != NULL)
-        delete fEmitters[idx];
+    delete fEmitters[idx];
     fEmitters[idx] = emitter;
 }
 
@@ -335,8 +316,7 @@ void plParticleSystem::addEmitter(plParticleEmitter* emitter) {
 }
 
 void plParticleSystem::delEmitter(size_t idx) {
-    if (fEmitters[idx] != NULL)
-        delete fEmitters[idx];
+    delete fEmitters[idx];
     for (size_t i=idx; i<fMaxEmitters-1; i++)
         fEmitters[i] = fEmitters[i+1];
     fEmitters[fMaxEmitters-1] = NULL;
@@ -344,10 +324,8 @@ void plParticleSystem::delEmitter(size_t idx) {
 }
 
 void plParticleSystem::clearEmitters() {
-    for (size_t i=0; i<fEmitters.getSize(); i++) {
-        if (fEmitters[i] != NULL)
-            delete fEmitters[i];
-    }
+    for (size_t i=0; i<fEmitters.getSize(); i++)
+        delete fEmitters[i];
     fEmitters.clear();
     fNumValidEmitters = 0;
     fMaxEmitters = 0;

@@ -228,8 +228,7 @@ hsBoundsOriented::hsBoundsOriented(const hsBoundsOriented& src)
 }
 
 hsBoundsOriented::~hsBoundsOriented() {
-    if (fPlanes != NULL)
-        delete[] fPlanes;
+    delete[] fPlanes;
 }
 
 void hsBoundsOriented::read(hsStream* S) {
@@ -237,8 +236,7 @@ void hsBoundsOriented::read(hsStream* S) {
     fCenter.read(S);
     fCenterValid = S->readInt();
     fNumPlanes = S->readInt();
-    if (fPlanes != NULL)
-        delete[] fPlanes;
+    delete[] fPlanes;
     fPlanes = new hsPlane3[fNumPlanes];
     for (unsigned int i=0; i<fNumPlanes; i++)
         fPlanes[i].read(S);
@@ -272,8 +270,7 @@ void hsBoundsOriented::IPrcParse(const pfPrcTag* tag) {
         if (tag->hasChildren())
             fCenter.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Planes") {
-        if (fPlanes != NULL)
-            delete[] fPlanes;
+        delete[] fPlanes;
         fNumPlanes = tag->countChildren();
         fPlanes = new hsPlane3[fNumPlanes];
         const pfPrcTag* child = tag->getFirstChild();
@@ -287,8 +284,7 @@ void hsBoundsOriented::IPrcParse(const pfPrcTag* tag) {
 }
 
 void hsBoundsOriented::setPlanes(unsigned int numPlanes, const hsPlane3* planes) {
-    if (fPlanes != NULL)
-        delete[] fPlanes;
+    delete[] fPlanes;
     fNumPlanes = numPlanes;
     if (fNumPlanes > 0) {
         fPlanes = new hsPlane3[fNumPlanes];

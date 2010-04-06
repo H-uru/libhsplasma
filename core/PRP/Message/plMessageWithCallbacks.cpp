@@ -1,10 +1,8 @@
 #include "plMessageWithCallbacks.h"
 
 plMessageWithCallbacks::~plMessageWithCallbacks() {
-    for (size_t i=0; i<fCallbacks.getSize(); i++) {
-        if (fCallbacks[i] != NULL)
-            delete fCallbacks[i];
-    }
+    for (size_t i=0; i<fCallbacks.getSize(); i++)
+        delete fCallbacks[i];
 }
 
 void plMessageWithCallbacks::read(hsStream* S, plResManager* mgr) {
@@ -56,9 +54,7 @@ void plMessageWithCallbacks::delCallback(size_t idx) {
 }
 
 void plMessageWithCallbacks::clearCallbacks() {
-    for (size_t i=0; i<fCallbacks.getSize(); i++) {
-        if (fCallbacks[i] != NULL)
-            delete fCallbacks[i];
-    }
+    for (size_t i=0; i<fCallbacks.getSize(); i++)
+        delete fCallbacks[i];
     fCallbacks.clear();
 }

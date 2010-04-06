@@ -5,10 +5,8 @@ plNotifyMsg::plNotifyMsg() : fType(0), fID(0), fState(0.0f) {
 }
 
 plNotifyMsg::~plNotifyMsg() {
-    for (size_t i=0; i<fEvents.getSize(); i++) {
-        if (fEvents[i] != NULL)
-            delete fEvents[i];
-    }
+    for (size_t i=0; i<fEvents.getSize(); i++)
+        delete fEvents[i];
 }
 
 void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
@@ -74,15 +72,12 @@ void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plNotifyMsg::delEvent(size_t idx) {
-    if (fEvents[idx] != NULL)
-        delete fEvents[idx];
+    delete fEvents[idx];
     fEvents.remove(idx);
 }
 
 void plNotifyMsg::clearEvents() {
-    for (size_t i=0; i<fEvents.getSize(); i++) {
-        if (fEvents[i] != NULL)
-            delete fEvents[i];
-    }
+    for (size_t i=0; i<fEvents.getSize(); i++)
+        delete fEvents[i];
     fEvents.clear();
 }

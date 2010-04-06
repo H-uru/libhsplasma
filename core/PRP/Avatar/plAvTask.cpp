@@ -98,8 +98,7 @@ void plAvOneShotLinkTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plAvTaskBrain::plAvTaskBrain() : fBrain(NULL) { }
 
 plAvTaskBrain::~plAvTaskBrain() {
-    if (fBrain != NULL)
-        delete fBrain;
+    delete fBrain;
 }
 
 void plAvTaskBrain::read(hsStream* S, plResManager* mgr) {
@@ -134,7 +133,6 @@ void plAvTaskBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAvTaskBrain::setBrain(plArmatureBrain* brain) {
-    if (fBrain != NULL)
-        delete fBrain;
+    delete fBrain;
     fBrain = brain;
 }

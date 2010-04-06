@@ -58,15 +58,13 @@ void plVertDelta::prcParse(const pfPrcTag* tag) {
 plMorphSpan::plMorphSpan() : fNumUVWChans(0), fUVWs(NULL) { }
 
 plMorphSpan::~plMorphSpan() {
-    if (fUVWs != NULL)
-        delete[] fUVWs;
+    delete[] fUVWs;
 }
 
 void plMorphSpan::read(hsStream* S) {
     fDeltas.setSize(S->readInt());
     fNumUVWChans = S->readInt();
-    if (fUVWs != NULL)
-        delete[] fUVWs;
+    delete[] fUVWs;
     if (fNumUVWChans > 0)
         fUVWs = new hsVector3[fNumUVWChans * fDeltas.getSize()];
     else
@@ -120,8 +118,7 @@ void plMorphSpan::prcParse(const pfPrcTag* tag) {
                 subchild = subchild->getNextSibling();
             }
         } else if (child->getName() == "UVWs") {
-            if (fUVWs != NULL)
-                delete[] fUVWs;
+            delete[] fUVWs;
             fNumUVWChans = child->getParam("Channels", "0").toUint();
             size_t nUVWs = fDeltas.getSize() * fNumUVWChans;
             if (child->countChildren() != nUVWs)

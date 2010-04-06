@@ -7,10 +7,8 @@ plOneTimeParticleGenerator::plOneTimeParticleGenerator()
                             fScaleMax(0.0f), fPartRadsPerSecRange(0.0f) { }
 
 plOneTimeParticleGenerator::~plOneTimeParticleGenerator() {
-    if (fPosition != NULL)
-        delete[] fPosition;
-    if (fDirection != NULL)
-        delete[] fDirection;
+    delete[] fPosition;
+    delete[] fDirection;
 }
 
 void plOneTimeParticleGenerator::read(hsStream* S, plResManager* mgr) {
@@ -108,10 +106,8 @@ void plOneTimeParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mg
 }
 
 void plOneTimeParticleGenerator::clearParticles() {
-    if (fPosition != NULL)
-        delete[] fPosition;
-    if (fDirection != NULL)
-        delete[] fDirection;
+    delete[] fPosition;
+    delete[] fDirection;
     fPosition = NULL;
     fDirection = NULL;
 }
@@ -128,12 +124,9 @@ plSimpleParticleGenerator::plSimpleParticleGenerator()
                            fPartRadsPerSecRange(0.0f) { }
 
 plSimpleParticleGenerator::~plSimpleParticleGenerator() {
-    if (fInitPos != NULL)
-        delete[] fInitPos;
-    if (fInitPitch != NULL)
-        delete[] fInitPitch;
-    if (fInitYaw != NULL)
-        delete[] fInitYaw;
+    delete[] fInitPos;
+    delete[] fInitPitch;
+    delete[] fInitYaw;
 }
 
 void plSimpleParticleGenerator::read(hsStream* S, plResManager* mgr) {
@@ -262,12 +255,9 @@ void plSimpleParticleGenerator::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 }
 
 void plSimpleParticleGenerator::clearSources() {
-    if (fInitPos != NULL)
-        delete[] fInitPos;
-    if (fInitPitch != NULL)
-        delete[] fInitPitch;
-    if (fInitYaw != NULL)
-        delete[] fInitYaw;
+    delete[] fInitPos;
+    delete[] fInitPitch;
+    delete[] fInitYaw;
     fInitPos = NULL;
     fInitPitch = NULL;
     fInitYaw = NULL;

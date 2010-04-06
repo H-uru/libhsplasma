@@ -4,8 +4,7 @@ plAxisAnimModifier::plAxisAnimModifier()
                   : fNotify(NULL), fAllOrNothing(false) { }
 
 plAxisAnimModifier::~plAxisAnimModifier() {
-    if (fNotify != NULL)
-        delete fNotify;
+    delete fNotify;
 }
 
 void plAxisAnimModifier::read(hsStream* S, plResManager* mgr) {
@@ -186,7 +185,6 @@ void plAxisAnimModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAxisAnimModifier::setNotify(plNotifyMsg* msg) {
-    if (fNotify == NULL)
-        delete fNotify;
+    delete fNotify;
     fNotify = msg;
 }

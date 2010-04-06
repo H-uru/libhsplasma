@@ -24,8 +24,7 @@ plString::plStrData::plStrData()
         : fStr(NULL), fLen(0), fHash(0), fRefs(1) { }
 
 plString::plStrData::~plStrData() {
-    if (fStr != NULL)
-        delete[] fStr;
+    delete[] fStr;
 }
 
 void plString::plStrData::unref() {
@@ -545,8 +544,7 @@ plWString::plStrData::plStrData()
          : fStr(NULL), fLen(0), fHash(0), fRefs(1) { }
 
 plWString::plStrData::~plStrData() {
-    if (fStr != NULL)
-        delete[] fStr;
+    delete[] fStr;
 }
 
 void plWString::plStrData::unref() {

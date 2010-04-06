@@ -8,12 +8,9 @@ plAnimTimeConvert::plAnimTimeConvert()
                    fEaseOutCurve(NULL), fSpeedEaseCurve(NULL) { }
 
 plAnimTimeConvert::~plAnimTimeConvert() {
-    if (fEaseInCurve != NULL)
-        delete fEaseInCurve;
-    if (fEaseOutCurve != NULL)
-        delete fEaseOutCurve;
-    if (fSpeedEaseCurve != NULL)
-        delete fSpeedEaseCurve;
+    delete fEaseInCurve;
+    delete fEaseOutCurve;
+    delete fSpeedEaseCurve;
 
     for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
         delete fCallbackMsgs[i];
@@ -168,20 +165,17 @@ void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAnimTimeConvert::setEaseInCurve(plATCEaseCurve* curve) {
-    if (fEaseInCurve != NULL)
-        delete fEaseInCurve;
+    delete fEaseInCurve;
     fEaseInCurve = curve;
 }
 
 void plAnimTimeConvert::setEaseOutCurve(plATCEaseCurve* curve) {
-    if (fEaseOutCurve != NULL)
-        delete fEaseOutCurve;
+    delete fEaseOutCurve;
     fEaseOutCurve = curve;
 }
 
 void plAnimTimeConvert::setSpeedEaseCurve(plATCEaseCurve* curve) {
-    if (fSpeedEaseCurve != NULL)
-        delete fSpeedEaseCurve;
+    delete fSpeedEaseCurve;
     fSpeedEaseCurve = curve;
 }
 

@@ -73,8 +73,7 @@ void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg)
         case kFieldRawVarPtr:
         case kFieldString:
             // Variable array
-            if (data[i].fData != NULL)
-                delete[] data[i].fData;
+            delete[] data[i].fData;
             break;
         case kFieldData:
         case kFieldPtr:

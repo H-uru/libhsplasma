@@ -16,8 +16,7 @@ void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
         myKey = mgr->readUoid(S);
     if (myKey != NULL) {
         // In case we're replacing a key
-        if (myKey->getObj() != NULL)
-            delete myKey->getObj();
+        delete myKey->getObj();
         myKey->setObj(this);
     }
 }
@@ -54,8 +53,7 @@ void hsKeyedObject::setKey(plKey key) {
 hsKeyedObjectStub::hsKeyedObjectStub() : fStub(NULL) { }
 
 hsKeyedObjectStub::~hsKeyedObjectStub() {
-    if (fStub != NULL)
-        delete fStub;
+    delete fStub;
 }
 
 void hsKeyedObjectStub::write(hsStream* S, plResManager* mgr) {
@@ -75,7 +73,6 @@ void hsKeyedObjectStub::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void hsKeyedObjectStub::setStub(plCreatableStub* stub) {
-    if (fStub != NULL)
-        delete fStub;
+    delete fStub;
     fStub = stub;
 }

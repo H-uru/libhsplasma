@@ -7,8 +7,7 @@ plLoadCloneMsg::plLoadCloneMsg()
 }
 
 plLoadCloneMsg::~plLoadCloneMsg() {
-    if (fTriggerMsg != NULL)
-        delete fTriggerMsg;
+    delete fTriggerMsg;
 }
 
 void plLoadCloneMsg::read(hsStream* S, plResManager* mgr) {
@@ -87,7 +86,6 @@ void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plLoadCloneMsg::setTriggerMsg(plMessage* msg) {
-    if (fTriggerMsg != NULL)
-        delete fTriggerMsg;
+    delete fTriggerMsg;
     fTriggerMsg = msg;
 }

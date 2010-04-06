@@ -3,8 +3,7 @@
 plAnimEventModifier::plAnimEventModifier() : fCallback(NULL), fDisabled(false) { }
 
 plAnimEventModifier::~plAnimEventModifier() {
-    if (fCallback != NULL)
-        delete fCallback;
+    delete fCallback;
 }
 
 void plAnimEventModifier::read(hsStream* S, plResManager* mgr) {
@@ -55,7 +54,6 @@ void plAnimEventModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAnimEventModifier::setCallback(plMessage* callback) {
-    if (fCallback != NULL)
-        delete fCallback;
+    delete fCallback;
     fCallback = callback;
 }

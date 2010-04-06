@@ -14,8 +14,7 @@ plLogicModBase::plLogicModBase()
 plLogicModBase::~plLogicModBase() {
     for (size_t i=0; i<fCommandList.getSize(); i++)
         delete fCommandList[i];
-    if (fNotify != NULL)
-        delete fNotify;
+    delete fNotify;
 }
 
 void plLogicModBase::read(hsStream* S, plResManager* mgr) {
@@ -98,7 +97,6 @@ void plLogicModBase::clearCommands() {
 }
 
 void plLogicModBase::setNotify(plNotifyMsg* notify) {
-    if (fNotify != NULL)
-        delete fNotify;
+    delete fNotify;
     fNotify = notify;
 }

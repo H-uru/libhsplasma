@@ -17,7 +17,7 @@ hsTokenStream::hsTokenStream(const plString& filename)
 }
 
 hsTokenStream::~hsTokenStream() {
-    if (fIOwnStream && fStream != NULL)
+    if (fIOwnStream)
         delete fStream;
 }
 

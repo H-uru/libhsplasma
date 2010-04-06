@@ -4,10 +4,8 @@
 plSimpleRegionSensor::plSimpleRegionSensor() : fEnterMsg(NULL), fExitMsg(NULL) { }
 
 plSimpleRegionSensor::~plSimpleRegionSensor() {
-    if (fEnterMsg != NULL)
-        delete fEnterMsg;
-    if (fExitMsg != NULL)
-        delete fExitMsg;
+    delete fEnterMsg;
+    delete fExitMsg;
 }
 
 void plSimpleRegionSensor::read(hsStream* S, plResManager* mgr) {
@@ -74,14 +72,12 @@ void plSimpleRegionSensor::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plSimpleRegionSensor::setEnterMsg(plMessage* msg) {
-    if (fEnterMsg != NULL)
-        delete fEnterMsg;
+    delete fEnterMsg;
     fEnterMsg = msg;
 }
 
 void plSimpleRegionSensor::setExitMsg(plMessage* msg) {
-    if (fExitMsg != NULL)
-        delete fExitMsg;
+    delete fExitMsg;
     fExitMsg = msg;
 }
 

@@ -6,8 +6,7 @@ plResponderModifier::plResponderCmd::plResponderCmd(plMessage* msg, hsByte waitO
                    : fMsg(msg), fWaitOn(waitOn) { }
 
 plResponderModifier::plResponderCmd::~plResponderCmd() {
-    if (fMsg != NULL)
-        delete fMsg;
+    delete fMsg;
 }
 
 
@@ -16,10 +15,8 @@ plResponderModifier::plResponderState::plResponderState()
                    : fNumCallbacks(0), fSwitchToState(0) { }
 
 plResponderModifier::plResponderState::~plResponderState() {
-    for (size_t i=0; i<fCmds.getSize(); i++) {
-        if (fCmds[i] != NULL)
-            delete fCmds[i];
-    }
+    for (size_t i=0; i<fCmds.getSize(); i++)
+        delete fCmds[i];
 }
 
 void plResponderModifier::plResponderState::addCommand(plMessage* msg, hsByte waitOn) {
@@ -27,16 +24,13 @@ void plResponderModifier::plResponderState::addCommand(plMessage* msg, hsByte wa
 }
 
 void plResponderModifier::plResponderState::delCommand(size_t idx) {
-    if (fCmds[idx] != NULL)
-        delete fCmds[idx];
+    delete fCmds[idx];
     fCmds.remove(idx);
 }
 
 void plResponderModifier::plResponderState::clearCommands() {
-    for (size_t i=0; i<fCmds.getSize(); i++) {
-        if (fCmds[i] != NULL)
-            delete fCmds[i];
-    }
+    for (size_t i=0; i<fCmds.getSize(); i++)
+        delete fCmds[i];
     fCmds.clear();
 }
 
@@ -46,10 +40,8 @@ plResponderModifier::plResponderModifier()
                    : fCurState(0), fEnabled(true), fFlags(0) { }
 
 plResponderModifier::~plResponderModifier() {
-    for (size_t i=0; i<fStates.getSize(); i++) {
-        if (fStates[i] != NULL)
-            delete fStates[i];
-    }
+    for (size_t i=0; i<fStates.getSize(); i++)
+        delete fStates[i];
 }
 
 void plResponderModifier::read(hsStream* S, plResManager* mgr) {
@@ -215,16 +207,13 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plResponderModifier::delState(size_t idx) {
-    if (fStates[idx] != NULL)
-        delete fStates[idx];
+    delete fStates[idx];
     fStates.remove(idx);
 }
 
 void plResponderModifier::clearStates() {
-    for (size_t i=0; i<fStates.getSize(); i++) {
-        if (fStates[i] != NULL)
-            delete fStates[i];
-    }
+    for (size_t i=0; i<fStates.getSize(); i++)
+        delete fStates[i];
     fStates.clear();
 }
 

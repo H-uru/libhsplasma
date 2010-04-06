@@ -39,8 +39,7 @@ void plMatrixConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 plMatrixControllerChannel::plMatrixControllerChannel() : fController(NULL) { }
 
 plMatrixControllerChannel::~plMatrixControllerChannel() {
-    if (fController != NULL)
-        delete fController;
+    delete fController;
 }
 
 void plMatrixControllerChannel::read(hsStream* S, plResManager* mgr) {
@@ -80,7 +79,6 @@ void plMatrixControllerChannel::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 }
 
 void plMatrixControllerChannel::setController(plController* controller) {
-    if (fController != NULL)
-        delete fController;
+    delete fController;
     fController = controller;
 }

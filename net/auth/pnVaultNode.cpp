@@ -22,28 +22,17 @@ pnVaultNode::pnVaultNode(const pnVaultNode& init) {
 }
 
 pnVaultNode::~pnVaultNode() {
-    if (fCreateAgeName != NULL)
-        delete[] fCreateAgeName;
-    if (fString64[0] != NULL)
-        delete[] fString64[0];
-    if (fString64[1] != NULL)
-        delete[] fString64[1];
-    if (fString64[2] != NULL)
-        delete[] fString64[2];
-    if (fString64[3] != NULL)
-        delete[] fString64[3];
-    if (fString64[4] != NULL)
-        delete[] fString64[4];
-    if (fString64[5] != NULL)
-        delete[] fString64[5];
-    if (fIString64[0] != NULL)
-        delete[] fIString64[0];
-    if (fIString64[1] != NULL)
-        delete[] fIString64[1];
-    if (fText[0] != NULL)
-        delete[] fText[0];
-    if (fText[1] != NULL)
-        delete[] fText[1];
+    delete[] fCreateAgeName;
+    delete[] fString64[0];
+    delete[] fString64[1];
+    delete[] fString64[2];
+    delete[] fString64[3];
+    delete[] fString64[4];
+    delete[] fString64[5];
+    delete[] fIString64[0];
+    delete[] fIString64[1];
+    delete[] fText[0];
+    delete[] fText[1];
 }
 
 void pnVaultNode::copy(const pnVaultNode& init) {
@@ -175,8 +164,7 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
             fModifyTime = readU32(buffer, size);
             break;
         case kCreateAgeName:
-            if (fCreateAgeName != NULL)
-                delete[] fCreateAgeName;
+            delete[] fCreateAgeName;
             fCreateAgeName = readString(buffer, size);
             break;
         case kCreateAgeUuid:
@@ -215,20 +203,17 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
         case kString64_4:
         case kString64_5:
         case kString64_6:
-            if (fString64[bit - kString64_1] != NULL)
-                delete[] fString64[bit - kString64_1];
+            delete[] fString64[bit - kString64_1];
             fString64[bit - kString64_1] = readString(buffer, size);
             break;
         case kIString64_1:
         case kIString64_2:
-            if (fIString64[bit - kIString64_1] != NULL)
-                delete[] fIString64[bit - kIString64_1];
+            delete[] fIString64[bit - kIString64_1];
             fIString64[bit - kIString64_1] = readString(buffer, size);
             break;
         case kText_1:
         case kText_2:
-            if (fText[bit - kText_1] != NULL)
-                delete[] fText[bit - kText_1];
+            delete[] fText[bit - kText_1];
             fText[bit - kText_1] = readString(buffer, size);
             break;
         case kBlob_1:

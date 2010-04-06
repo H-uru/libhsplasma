@@ -44,12 +44,9 @@ plCompoundController::plCompoundController()
     : fXController(NULL), fYController(NULL), fZController(NULL) { }
 
 plCompoundController::~plCompoundController() {
-    if (fXController != NULL)
-        delete fXController;
-    if (fYController != NULL)
-        delete fYController;
-    if (fZController != NULL)
-        delete fZController;
+    delete fXController;
+    delete fYController;
+    delete fZController;
 }
 
 void plCompoundController::read(hsStream* S, plResManager* mgr) {
@@ -114,19 +111,16 @@ plTMController* plCompoundController::convertToTMController() {
 }
 
 void plCompoundController::setXController(plController* controller) {
-    if (fXController != NULL)
-        delete fXController;
+    delete fXController;
     fXController = controller;
 }
 
 void plCompoundController::setYController(plController* controller) {
-    if (fYController != NULL)
-        delete fYController;
+    delete fYController;
     fYController = controller;
 }
 
 void plCompoundController::setZController(plController* controller) {
-    if (fZController != NULL)
-        delete fZController;
+    delete fZController;
     fZController = controller;
 }

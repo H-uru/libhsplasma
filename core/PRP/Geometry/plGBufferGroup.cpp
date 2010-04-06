@@ -125,10 +125,8 @@ plGBufferGroup::~plGBufferGroup() {
         delete[] fVertBuffStorage[i];
     for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
         delete[] fIdxBuffStorage[i];
-    for (size_t i=0; i<fCompGBuffStorage.getSize(); i++) {
-        if (fCompGBuffStorage[i] != NULL)
-            delete[] fCompGBuffStorage[i];
-    }
+    for (size_t i=0; i<fCompGBuffStorage.getSize(); i++)
+        delete[] fCompGBuffStorage[i];
 }
 
 unsigned int plGBufferGroup::ICalcVertexSize(unsigned int& lStride) {
@@ -577,9 +575,8 @@ void plGBufferGroup::setHasSkinIndices(bool hasSI) {
 
 void plGBufferGroup::delVertices(size_t idx) {
     delete[] fVertBuffStorage[idx];
+    delete[] fCompGBuffStorage[idx];
     fVertBuffStorage.remove(idx);
-    if (fCompGBuffStorage[idx] != NULL)
-        delete[] fCompGBuffStorage[idx];
     fCompGBuffStorage.remove(idx);
     fVertBuffSizes.remove(idx);
     fCompGBuffSizes.remove(idx);
@@ -598,10 +595,8 @@ void plGBufferGroup::delCells(size_t idx) {
 void plGBufferGroup::clearVertices() {
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
         delete[] fVertBuffStorage[i];
-    for (size_t i=0; i<fCompGBuffStorage.getSize(); i++) {
-        if (fCompGBuffStorage[i] != NULL)
-            delete[] fCompGBuffStorage[i];
-    }
+    for (size_t i=0; i<fCompGBuffStorage.getSize(); i++)
+        delete[] fCompGBuffStorage[i];
     fVertBuffStorage.clear();
     fVertBuffSizes.clear();
     fCompGBuffStorage.clear();
