@@ -353,7 +353,10 @@ echo "LIBSUFFIX=$MF_LIBSUFFIX" >> config.mf
 echo "LINKLIB=$MF_LINKLIB" >> config.mf
 echo "" >> config.mf
 echo "PYTHON_VER=$MF_PYTHONVER" >> config.mf
-echo "PYTHON_CONFIG=$MF_PYTHONCFG" >> config.mf
+if [[ "$MF_PYTHONVER" != "no" ]] ; then
+  echo "PYTHON_FLAGS=`$MF_PYTHONCFG --cflags`" >> config.mf
+  echo "PYTHON_LIBS=`$MF_PYTHONCFG --libs`" >> config.mf
+fi
 echo "" >> config.mf
 echo "MAKE_NET=$MF_MAKENET" >> config.mf
 echo "CXXFLAGS_NET=$MF_CXXFLAGS_NET" >> config.mf

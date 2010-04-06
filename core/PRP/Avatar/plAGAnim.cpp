@@ -84,8 +84,8 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
             const pfPrcTag* subChild = child->getFirstChild();
-            plAGApplicator* agApp;
-            plAGChannel* agChan;
+            plAGApplicator* agApp = NULL;
+            plAGChannel* agChan = NULL;
             while (subChild != NULL) {
                 if (subChild->getName() == "Applicator") {
                     if (subChild->hasChildren())

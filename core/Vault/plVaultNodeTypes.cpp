@@ -1,11 +1,21 @@
 #include "plVaultNodeTypes.h"
 
 static float uintAsFloat(unsigned int i) {
-    return *(float*)(&i);
+    union {
+        unsigned int ival;
+        float fval;
+    } conv;
+    conv.ival = i;
+    return conv.fval;
 }
 
 static unsigned int floatAsUint(float f) {
-    return *(unsigned int*)(&f);
+    union {
+        unsigned int ival;
+        float fval;
+    } conv;
+    conv.fval = f;
+    return conv.ival;
 }
 
 

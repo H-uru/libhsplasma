@@ -1,7 +1,7 @@
 include ../config.mf
 
-CXXFLAGS += -I../core -I. `$(PYTHON_CONFIG) --cflags` -Wno-write-strings
-CXXLINK  += -L../lib -lHSPlasma `$(PYTHON_CONFIG) --libs`
+CXXFLAGS += -I../core -I. $(PYTHON_FLAGS) -Wno-write-strings
+CXXLINK  += -L../lib -lHSPlasma $(PYTHON_LIBS)
 OBJDIR=out/
 
 PYOBJ=\

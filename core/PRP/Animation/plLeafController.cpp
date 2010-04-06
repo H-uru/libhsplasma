@@ -323,7 +323,7 @@ void plLeafController::IWriteUruController(hsStream* S) {
 }
 
 plLeafController* plLeafController::ExpandToKeyController() const {
-    plLeafController* ctrl;
+    plLeafController* ctrl = NULL;
     switch (fType) {
     case hsKeyFrame::kPoint3KeyFrame:
     case hsKeyFrame::kBezPoint3KeyFrame:

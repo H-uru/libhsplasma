@@ -274,12 +274,13 @@ void pnAuthClient::Dispatch::run()
                 hsRAMStream rs(pvLive);
                 rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
                 fReceiver->fResMgrMutex.lock();
-                plCreatable* pCre;
+                plCreatable* pCre = NULL;
                 try {
                     pCre = fReceiver->fResMgr.ReadCreatable(&rs, true, msgbuf[1].fUint);
                 } catch (hsException& ex) {
                     plDebug::Error("Error reading propagated message: %s\n", ex.what());
-                    delete pCre;
+                    if (pCre != NULL)
+                        delete pCre;
                     pCre = NULL;
                 }
                 fReceiver->fResMgrMutex.unlock();
