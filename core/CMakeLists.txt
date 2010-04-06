@@ -777,7 +777,6 @@ install(TARGETS HSPlasma
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
 )
-install(EXPORT HSPlasma-targets DESTINATION share/cmake/HSPlasma)
 install(FILES HSPlasmaConfig.cmake DESTINATION share/cmake/HSPlasma)
 install(FILES ${DEBUG_HDRS} DESTINATION include/HSPlasma/Debug)
 install(FILES ${MATH_HDRS} DESTINATION include/HSPlasma/Math)
