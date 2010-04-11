@@ -68,7 +68,7 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
 
     if (numLevels == 0) {
         numLevels = 1;
-        while (width > 1 && height > 1) {
+        while (width > 1 || height > 1) {
             if (width > 1)
                 width /= 2;
             if (height > 1)
