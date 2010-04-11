@@ -46,7 +46,7 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
         fUncompressedInfo.fType = format;
     } else {
         fDXInfo.fCompressionType = format;
-        fDXInfo.fBlockSize = (format != kDXT1 ? 1 : 0);
+        fDXInfo.fBlockSize = (format != kDXT1 ? 16 : 8);
         if (format == kDXT1) {
             fFlags &= ~kAlphaChannelFlag;
             fFlags |= kAlphaBitFlag;
