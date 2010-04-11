@@ -78,7 +78,6 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned int cfg,
     }
     fLevelData.setSize(numLevels);
 
-    fLevelData.clear();
     IBuildLevelSizes();
     fTotalSize = 0;
     for (size_t i=0; i<fLevelData.getSize(); i++)
