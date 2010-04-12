@@ -93,6 +93,36 @@ static PyObject* pyMipmap_readFrom(pyMipmap* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyMipmap_readData(pyMipmap* self, PyObject* args) {
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream)) {
+        PyErr_SetString(PyExc_TypeError, "readData expects an hsStream");
+        return NULL;
+    }
+    if (!pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "readData expects an hsStream");
+        return NULL;
+    }
+    self->fThis->readData(stream->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyMipmap_writeData(pyMipmap* self, PyObject* args) {
+    pyStream* stream;
+    if (!PyArg_ParseTuple(args, "O", &stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeData expects an hsStream");
+        return NULL;
+    }
+    if (!pyStream_Check((PyObject*)stream)) {
+        PyErr_SetString(PyExc_TypeError, "writeData expects an hsStream");
+        return NULL;
+    }
+    self->fThis->writeData(stream->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyMipmap_writeTo(pyMipmap* self, PyObject* args) {
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
@@ -317,6 +347,12 @@ static PyMethodDef pyMipmap_Methods[] = {
     { "writeAlphaToStream", (PyCFunction)pyMipmap_writeToA, METH_VARARGS,
       "Params: stream\n"
       "Writes the mipmap's alpha data to a file stream" },
+    { "readData", (PyCFunction)pyMipmap_readData, METH_VARARGS,
+      "Params: stream\n"
+      "Reads a plMipmap from a stream, exluding the plKey" },
+    { "writeData", (PyCFunction)pyMipmap_writeData, METH_VARARGS,
+      "Params: stream\n"
+      "Writes a plMipmap to a stream, exluding the plKey" },
     { "getSuggestedExt", (PyCFunction)pyMipmap_getExt, METH_NOARGS,
       "Returns the suggested file extension for exporting the image" },
     { "getSuggestedAlphaExt", (PyCFunction)pyMipmap_getAExt, METH_NOARGS,
