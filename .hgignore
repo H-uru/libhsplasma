@@ -1,14 +1,13 @@
-.*\.o
-.*\.a
-.*\.so
-.*\.log
-.*\.dSYM
+syntax: glob
+*.o
+*.a
+*.so
+*.log
+*.dSYM
 config.mf
 CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
-dat/
-doc/
 bin/PageConvert
 bin/PageList
 bin/PlasmaCrypt
@@ -25,3 +24,7 @@ bin/prp-fuse
 bin/prpgrep
 bin/prpmod
 Misc/TypeMap
+
+syntax: regexp
+^dat/
+^doc/
