@@ -1,24 +1,27 @@
-libPlasma, the universal Plasma Game Engine library!
+libHSPlasma, the universal Plasma Game Engine library!
 
 Building
 --------
 
 On Linux, MacOSX, it should be as simple as a traditional
-$ ./configure && make && make install
+$ ./configure && make && sudo make install
 
 On Windows, make sure you have the required libraries as well as
 Visual Studio 2008 (Express Edition works fine), and then use the provided
 .sln files to compile.  Note that building the prerequisites on Win64 can
 be a bit of a pain, so I've included some hints below for this...
 Of course, you can always just stick to Win32 compilation, which works
-on all Win64 installations too ;)
+on Win64 (x86_64) installations too ;)
+
+Note that IA64, PowerPC, etc. compilations *may* work, but are completely
+unsupported for now.
 
 
 Prerequisites
 -------------
 
-libPlasma depends on the following libraries; you'll need to have the dev
-packages installed in order for libPlasma to compile successfully:
+libHSPlasma depends on the following libraries; you'll need to have the dev
+packages installed in order for libHSPlasma to compile successfully:
 
 * zlib                     http://www.zlib.net/
 * libJpeg                  http://www.ijg.org/
@@ -31,7 +34,7 @@ Win32/64 Special Considerations
 
 A lot of libraries have trouble dealing with Win64 still, even though they
 work fine on Linux64.  In my builds, I've found ways to overcome some of
-these to build the packages I need for the libPlasma-x64 build.
+these to build the packages I need for the libHSPlasma-x64 build.
 
 zlib:
     You can create an x64 project in VS, but it will still put the binaries
@@ -47,13 +50,13 @@ libjpeg:
 OpenSSL:
     OpenSSL is a bit of a pain on Windows.  You'll need ActivePerl (either the
     32-bit or 64-bit version should work fine), and then you'll need to do
-    some makefile editing.  Also, you can only build the static version as of
+    some makefile editing.  Also, you can only use the static version as of
     this writing.  (The version I release uses the static libssl for both the
     Win32 and Win64 builds).  If you want to build both the Win32 and Win64
     versions, you must create a separate build dir (or do more makefile editing
-    which I don't cover here).
-    
-    To build on Win64, what I do is:
+    which isn't covered here).
+
+    To build on Win64, here are the steps I use (in a command prompt):
     > perl Configure VC-WIN64A no-shared no-idea
     > ms\do_win64a
     Open ms\nt.mak and remove bufferoverflowu.lib from EX_LIBS
