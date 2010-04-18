@@ -24,6 +24,7 @@ bin/prp-fuse
 bin/prpgrep
 bin/prpmod
 Misc/TypeMap
+build
 
 syntax: regexp
 ^dat/
