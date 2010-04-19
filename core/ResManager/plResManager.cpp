@@ -539,6 +539,15 @@ std::vector<plKey> plResManager::getKeys(const plLocation& loc, short type,
     return keys.getKeys(loc, type, checkKeys);
 }
 
+std::vector<plKey> plResManager::getKeys(short type, bool checkKeys) {
+    std::vector<plKey> kList;
+    for (size_t i=0; i<pages.size(); i++) {
+        std::vector<plKey> kPageKeys = keys.getKeys(pages[i]->getLocation(), type, checkKeys);
+        kList.insert(kList.end(), kPageKeys.begin(), kPageKeys.end());
+    }
+    return kList;
+}
+
 plKey plResManager::AddKey(plKey key) {
     plKey xkey = keys.findKey(key);
     if (xkey.Exists()) {

@@ -266,6 +266,14 @@ public:
      */
     std::vector<plKey> getKeys(const plLocation& loc, short type,
                                bool checkKeys = false);
+    
+    /**
+     * Return an array of all the plKeys of the specified Creatable Class
+     * for all locations.
+     * \param checkKeys if set to true, the ResManager will clean out
+     *        any invalid keys while building the type list.
+     */
+    std::vector<plKey> getKeys(short type, bool checkKeys = false);
 
     /**
      * Manually register a plKey with the ResManager.
