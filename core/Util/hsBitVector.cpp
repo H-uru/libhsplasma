@@ -45,7 +45,7 @@ hsBitVector::~hsBitVector() {
 
     std::map<unsigned int, char*>::iterator it;
     for (it = fBitNames.begin(); it != fBitNames.end(); it++)
-        delete[] (it->second);
+        delete[] it->second;
 }
 
 bool hsBitVector::get(unsigned int idx) const {
@@ -140,7 +140,8 @@ void hsBitVector::read(hsStream* S) {
 }
 
 void hsBitVector::write(hsStream* S) {
-#ifndef DEBUG // don't modify the written objects, we might want to compare them
+#ifndef DEBUG
+    // don't modify the written objects, we might want to compare them
     compact();
 #endif
     S->writeInt(fNumVectors);
