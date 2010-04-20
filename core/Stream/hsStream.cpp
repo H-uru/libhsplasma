@@ -18,6 +18,7 @@
 #include <sys/stat.h>
 #include "hsStream.h"
 #include "Sys/Platform.h"
+#include "Debug/plDebug.h"
 
 static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 static const wchar_t eoaWStrKey[8] = {L'm',L'y',L's',L't',L'n',L'e',L'r',L'd'};
@@ -244,6 +245,8 @@ void hsStream::writeStr(const plString& str) {
 }
 
 void hsStream::writeSafeStr(const plString& str) {
+    if (str.len() > 0xFFF)
+        plDebug::Warning("SafeString length is excessively long");
     hsUint16 ssInfo = (hsUint16)str.len();
     char* wbuf;
     if (ver == pvUniversal) {
@@ -267,6 +270,8 @@ void hsStream::writeSafeStr(const plString& str) {
 }
 
 void hsStream::writeSafeWStr(const plWString& str) {
+    if (str.len() > 0xFFF)
+        plDebug::Warning("SafeWString length is excessively long");
     hsUint16 ssInfo = (hsUint16)str.len();
     if (ver == pvUniversal) {
         writeShort(ssInfo);
@@ -315,22 +320,22 @@ bool hsFileStream::FileExists(const char* file) {
 bool hsFileStream::open(const char* file, FileMode mode) {
     const char* fms;
     switch (mode) {
-      case fmRead:
+    case fmRead:
         fms = "rb";
         break;
-      case fmWrite:
+    case fmWrite:
         fms = "wb";
         break;
-      case fmCreate:
+    case fmCreate:
         fms = "w+b";
         break;
-      case fmReadWrite:
+    case fmReadWrite:
         fms = "r+b";
         break;
-      default:
-        fms = "";
-        break;
+    default:
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid mode");
     }
+
     F = fopen(file, fms);
     if (F != NULL) {
         fm = mode;
@@ -402,15 +407,20 @@ void hsFileStream::flush() {
 }
 
 size_t hsFileStream::read(size_t size, void* buf) {
-    if (F == NULL || fm == fmWrite)
+    if (F == NULL || fm == fmWrite || fm == fmCreate)
         throw hsFileReadException(__FILE__, __LINE__);
-    return fread(buf, size, 1, F);
+    size_t nread = fread(buf, 1, size, F);
+    if (nread != size) {
+        plDebug::Warning("Read past end of stream. %d bytes requested, %d available",
+                         size, nread);
+    }
+    return nread;
 }
 
 size_t hsFileStream::write(size_t size, const void* buf) {
     if (F == NULL || fm == fmRead)
         throw hsFileWriteException(__FILE__, __LINE__);
-    return fwrite(buf, size, 1, F);
+    return fwrite(buf, 1, size, F);
 }
 
 time_t hsFileStream::getModTime() const {
