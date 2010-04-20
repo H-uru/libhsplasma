@@ -134,6 +134,12 @@ ENetError pnGameClient::connect(int sockFd)
     return performConnect(sock);
 }
 
+void pnGameClient::disconnect()
+{
+    delete fSock;
+    fSock = NULL;
+}
+
 ENetError pnGameClient::performConnect(pnSocket* sock)
 {
     fSock = new pnRC4Socket(sock);

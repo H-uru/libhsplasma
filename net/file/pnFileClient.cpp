@@ -234,6 +234,12 @@ ENetError pnFileClient::connect(int sockFd)
     return performConnect(sock);
 }
 
+void pnFileClient::disconnect()
+{
+    delete fSock;
+    fSock = NULL;
+}
+
 ENetError pnFileClient::performConnect(pnSocket* sock)
 {
     fSock = new pnAsyncSocket(sock);

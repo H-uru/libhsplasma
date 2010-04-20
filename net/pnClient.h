@@ -28,6 +28,7 @@ public:
 
     virtual ENetError connect(const char* host, short port = 14617) = 0;
     virtual ENetError connect(int sockFd) = 0;
+    virtual void disconnect() = 0;
     virtual bool isConnected() const = 0;
 
     virtual void signalStatus() = 0;

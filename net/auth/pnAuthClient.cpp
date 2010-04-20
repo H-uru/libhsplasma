@@ -360,6 +360,12 @@ ENetError pnAuthClient::connect(int sockFd)
     return performConnect(sock);
 }
 
+void pnAuthClient::disconnect()
+{
+    delete fSock;
+    fSock = NULL;
+}
+
 ENetError pnAuthClient::performConnect(pnSocket* sock)
 {
     fSock = new pnRC4Socket(sock);

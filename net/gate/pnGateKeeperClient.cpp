@@ -107,6 +107,12 @@ ENetError pnGateKeeperClient::connect(int sockFd)
     return performConnect(sock);
 }
 
+void pnGateKeeperClient::disconnect()
+{
+    delete fSock;
+    fSock = NULL;
+}
+
 ENetError pnGateKeeperClient::performConnect(pnSocket* sock)
 {
     fSock = new pnRC4Socket(sock);

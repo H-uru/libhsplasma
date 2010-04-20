@@ -40,6 +40,7 @@ public:
     void setClientInfo(hsUint32 buildType, hsUint32 branchId, const plUuid& productId);
     virtual ENetError connect(const char* host, short port = 14617);
     virtual ENetError connect(int sockFd);
+    virtual void disconnect();
 
     virtual bool isConnected() const
     { return (fSock != NULL) && fSock->isConnected(); }
