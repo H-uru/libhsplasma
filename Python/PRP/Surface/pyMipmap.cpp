@@ -24,15 +24,16 @@ extern "C" {
 
 static int pyMipmap___init__(pyMipmap* self, PyObject* args, PyObject* kwds) {
     const char* name = "";
-    int width, height, cfg, numLevels, compType, format;
-    static char* kwlist[] = { "name", "width", "height", "cfg", "numLevels",
-                              "compType", "format", NULL };
+    int width, height, numLevels, compType, format, dxtLevel;
+    static char* kwlist[] = { "name", "width", "height", "numLevels",
+                              "compType", "format", "dxtLevel", NULL };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "siiiiii", kwlist,
-                                    &name, &width, &height, &cfg, &numLevels,
-                                    &compType, &format)) {
+                                    &name, &width, &height, &numLevels,
+                                    &compType, &format, &dxtLevel)) {
         self->fThis->init(name);
-        self->fThis->Create(width, height, cfg, numLevels, compType, format);
+        self->fThis->Create(width, height, numLevels, compType,
+                            (plBitmap::ColorFormat)format, dxtLevel);
         return 0;
     } else if (PyErr_Clear(), PyArg_ParseTuple(args, "|s", &name)) {
         self->fThis->init(name);
@@ -65,34 +66,6 @@ static PyObject* pyMipmap_Convert(PyObject*, PyObject* args) {
     return pyMipmap_FromMipmap(plMipmap::Convert(cre->fThis));
 }
 
-static PyObject* pyMipmap_setConfig(pyMipmap* self, PyObject* args) {
-    int cfg;
-    if (!PyArg_ParseTuple(args, "i", &cfg)) {
-        PyErr_SetString(PyExc_TypeError, "setConfig expects an int");
-        return NULL;
-    }
-    self->fThis->setConfig(cfg);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyMipmap_readFrom(pyMipmap* self, PyObject* args) {
-    pyStream* stream;
-    int asJPEG;
-    int size = 0;
-    if (!PyArg_ParseTuple(args, "Oi|i", &stream, &asJPEG, &size)) {
-        PyErr_SetString(PyExc_TypeError, "readFromStream expects hsStream, bool, [int]");
-        return NULL;
-    }
-    if (!pyStream_Check((PyObject*)stream)) {
-        PyErr_SetString(PyExc_TypeError, "readFromStream expects hsStream, bool, [int]");
-        return NULL;
-    }
-    self->fThis->readFromStream(stream->fThis, asJPEG != 0, size);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 static PyObject* pyMipmap_readData(pyMipmap* self, PyObject* args) {
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
@@ -121,60 +94,6 @@ static PyObject* pyMipmap_writeData(pyMipmap* self, PyObject* args) {
     self->fThis->writeData(stream->fThis);
     Py_INCREF(Py_None);
     return Py_None;
-}
-
-static PyObject* pyMipmap_writeTo(pyMipmap* self, PyObject* args) {
-    pyStream* stream;
-    if (!PyArg_ParseTuple(args, "O", &stream)) {
-        PyErr_SetString(PyExc_TypeError, "writeToStream expects an hsStream");
-        return NULL;
-    }
-    if (!pyStream_Check((PyObject*)stream)) {
-        PyErr_SetString(PyExc_TypeError, "writeToStream expects an hsStream");
-        return NULL;
-    }
-    self->fThis->writeToStream(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyMipmap_readFromA(pyMipmap* self, PyObject* args) {
-    pyStream* stream;
-    int size = 0;
-    if (!PyArg_ParseTuple(args, "O", &stream, &size)) {
-        PyErr_SetString(PyExc_TypeError, "readAlphaFromStream expects hsStream, [int]");
-        return NULL;
-    }
-    if (!pyStream_Check((PyObject*)stream)) {
-        PyErr_SetString(PyExc_TypeError, "readAlphaFromStream expects hsStream, [int]");
-        return NULL;
-    }
-    self->fThis->readAlphaFromStream(stream->fThis, size);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyMipmap_writeToA(pyMipmap* self, PyObject* args) {
-    pyStream* stream;
-    if (!PyArg_ParseTuple(args, "O", &stream)) {
-        PyErr_SetString(PyExc_TypeError, "writeAlphaToStream expects an hsStream");
-        return NULL;
-    }
-    if (!pyStream_Check((PyObject*)stream)) {
-        PyErr_SetString(PyExc_TypeError, "writeAlphaToStream expects an hsStream");
-        return NULL;
-    }
-    self->fThis->writeAlphaToStream(stream->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
-static PyObject* pyMipmap_getExt(pyMipmap* self) {
-    return PlStr_To_PyStr(self->fThis->getSuggestedExt());
-}
-
-static PyObject* pyMipmap_getAExt(pyMipmap* self) {
-    return PlStr_To_PyStr(self->fThis->getSuggestedAlphaExt());
 }
 
 static PyObject* pyMipmap_getLevelWidth(pyMipmap* self, PyObject* args) {
@@ -286,17 +205,7 @@ static PyObject* pyMipmap_getHeight(pyMipmap* self, void*) {
 
 static PyObject* pyMipmap_getImageData(pyMipmap* self, void*) {
     PyObject* data = PyBytes_FromStringAndSize((const char*)self->fThis->getImageData(),
-                                               self->fThis->getImageSize());
-    return data;
-}
-
-static PyObject* pyMipmap_getAlphaData(pyMipmap* self, void*) {
-    if (self->fThis->getAlphaData() == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    PyObject* data = PyBytes_FromStringAndSize((const char*)self->fThis->getAlphaData(),
-                                               self->fThis->getAlphaSize());
+                                               self->fThis->getTotalSize());
     return data;
 }
 
@@ -319,11 +228,6 @@ static int pyMipmap_setImageData(pyMipmap* self, PyObject* value, void*) {
     return -1;
 }
 
-static int pyMipmap_setAlphaData(pyMipmap* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the image data, use the mipmap set methods");
-    return -1;
-}
-
 static int pyMipmap_setNumLevels(pyMipmap* self, PyObject* value, void*) {
     PyErr_SetString(PyExc_RuntimeError, "To set the number of mip levels, you must re-create the mipmap object");
     return -1;
@@ -332,31 +236,12 @@ static int pyMipmap_setNumLevels(pyMipmap* self, PyObject* value, void*) {
 static PyMethodDef pyMipmap_Methods[] = {
     { "Convert", (PyCFunction)pyMipmap_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plMipmap" },
-    { "setConfig", (PyCFunction)pyMipmap_setConfig, METH_VARARGS,
-      "Params: config\n"
-      "Set the configuration of the image data" },
-    { "readFromStream", (PyCFunction)pyMipmap_readFrom, METH_VARARGS,
-      "Params: stream, asJPEG, [length]\n"
-      "Reads the mipmap from a file stream" },
-    { "writeToStream", (PyCFunction)pyMipmap_writeTo, METH_VARARGS,
-      "Params: stream, asJPEG, [length]\n"
-      "Writes the mipmap to a file stream" },
-    { "readAlphaFromStream", (PyCFunction)pyMipmap_readFromA, METH_VARARGS,
-      "Params: stream\n"
-      "Reads the mipmap's alpha data from a file stream" },
-    { "writeAlphaToStream", (PyCFunction)pyMipmap_writeToA, METH_VARARGS,
-      "Params: stream\n"
-      "Writes the mipmap's alpha data to a file stream" },
     { "readData", (PyCFunction)pyMipmap_readData, METH_VARARGS,
       "Params: stream\n"
       "Reads a plMipmap from a stream, exluding the plKey" },
     { "writeData", (PyCFunction)pyMipmap_writeData, METH_VARARGS,
       "Params: stream\n"
       "Writes a plMipmap to a stream, exluding the plKey" },
-    { "getSuggestedExt", (PyCFunction)pyMipmap_getExt, METH_NOARGS,
-      "Returns the suggested file extension for exporting the image" },
-    { "getSuggestedAlphaExt", (PyCFunction)pyMipmap_getAExt, METH_NOARGS,
-      "Returns the suggested file extension for exporting the alpha data" },
     { "getLevelWidth", (PyCFunction)pyMipmap_getLevelWidth, METH_VARARGS,
       "Params: level\n"
       "Get the width of a specified mip level" },
@@ -392,7 +277,6 @@ static PyGetSetDef pyMipmap_GetSet[] = {
     { "width", (getter)pyMipmap_getWidth, (setter)pyMipmap_setWidth, NULL, NULL },
     { "height", (getter)pyMipmap_getHeight, (setter)pyMipmap_setHeight, NULL, NULL },
     { "imageData", (getter)pyMipmap_getImageData, (setter)pyMipmap_setImageData, NULL, NULL },
-    { "alphaData", (getter)pyMipmap_getAlphaData, (setter)pyMipmap_setAlphaData, NULL, NULL },
     { "numLevels", (getter)pyMipmap_getNumLevels, (setter)pyMipmap_setNumLevels, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
@@ -455,22 +339,6 @@ PyObject* Init_pyMipmap_Type() {
     pyMipmap_Type.tp_base = &pyBitmap_Type;
     if (PyType_Ready(&pyMipmap_Type) < 0)
         return NULL;
-
-    // Config
-    PyDict_SetItemString(pyMipmap_Type.tp_dict, "kColor8Config",
-                         PyInt_FromLong(plMipmap::kColor8Config));
-    PyDict_SetItemString(pyMipmap_Type.tp_dict, "kGray44Config",
-                         PyInt_FromLong(plMipmap::kGray44Config));
-    PyDict_SetItemString(pyMipmap_Type.tp_dict, "kGray4Config",
-                         PyInt_FromLong(plMipmap::kGray4Config));
-    PyDict_SetItemString(pyMipmap_Type.tp_dict, "kGray8Config",
-                         PyInt_FromLong(plMipmap::kGray8Config));
-    PyDict_SetItemString(pyMipmap_Type.tp_dict, "kRGB16Config",
-                         PyInt_FromLong(plMipmap::kRGB16Config));
-    PyDict_SetItemString(pyMipmap_Type.tp_dict, "kRGB32Config",
-                         PyInt_FromLong(plMipmap::kRGB32Config));
-    PyDict_SetItemString(pyMipmap_Type.tp_dict, "kARGB32Config",
-                         PyInt_FromLong(plMipmap::kARGB32Config));
 
     Py_INCREF(&pyMipmap_Type);
     return (PyObject*)&pyMipmap_Type;

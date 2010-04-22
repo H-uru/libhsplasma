@@ -2,6 +2,7 @@ Class                           Interface   PyPlasma    PlasmaShop
 =====                           =========   ========    ==========
 hsAffineParts                   Complete    Complete    No
 hsBitVector                     Complete    Complete    ----
+plDDSurface                     Complete    Complete    ----
 hsVector3                       Complete    Complete    Case
 hsPlane3                        Complete    Complete    No
 hsFloatPoint2                   Complete    ----        Case

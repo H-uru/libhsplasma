@@ -387,9 +387,11 @@ set(SYS_HDRS
 
 set(UTIL_SRCS
     Util/pyBitVector.cpp
+    Util/pyDDSurface.cpp
 )
 set(UTIL_HDRS
     Util/pyBitVector.h
+    Util/pyDDSurface.h
 )
 
 set(PYTHON_SRCS

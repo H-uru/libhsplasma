@@ -35,6 +35,7 @@ PLSOBJ=\
 	$(OBJDIR)plUnifiedTime.o \
 	$(OBJDIR)plUuid.o \
 	$(OBJDIR)hsBitVector.o \
+	$(OBJDIR)plDDSurface.o \
 	$(OBJDIR)plJPEG.o \
 	$(OBJDIR)plMD5.o \
 	$(OBJDIR)PlasmaVersions.o \
@@ -410,6 +411,9 @@ $(OBJDIR)plUuid.o: Sys/plUuid.h Sys/plUuid.cpp
 
 $(OBJDIR)hsBitVector.o: Util/hsBitVector.h Util/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/hsBitVector.cpp -o $@
+
+$(OBJDIR)plDDSurface.o: Util/plDDSurface.h Util/plDDSurface.cpp
+	$(CXX) $(CXXFLAGS) -c Util/plDDSurface.cpp -o $@
 
 $(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp
 	$(CXX) $(CXXFLAGS) -c Util/plJPEG.cpp -o $@

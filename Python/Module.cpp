@@ -25,6 +25,7 @@
 #include "Stream/pyStream.h"
 #include "Sys/pyColor.h"
 #include "Util/pyBitVector.h"
+#include "Util/pyDDSurface.h"
 
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"
@@ -174,6 +175,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
 
     /* Util */
     PyModule_AddObject(module, "hsBitVector", Init_pyBitVector_Type());
+    PyModule_AddObject(module, "plDDSurface", Init_pyDDSurface_Type());
 
     /* pyColor */
     PyModule_AddObject(module, "hsColorRGBA", Init_pyColorRGBA_Type());

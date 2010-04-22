@@ -28,7 +28,7 @@ plDynamicTextMap::~plDynamicTextMap() {
 void plDynamicTextMap::Create(unsigned int width, unsigned int height,
                               bool hasAlpha, unsigned int extraWidth,
                               unsigned int extraHeight) {
-    setConfig(hasAlpha ? kARGB32Config : kRGB32Config);
+    setConfig(kRGB8888);
     fVisWidth = width;
     fVisHeight = height;
     fHasAlpha = hasAlpha;

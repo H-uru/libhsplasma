@@ -389,6 +389,14 @@
 				RelativePath=".\Util\pyBitVector.h"
 				>
 			</File>
+			<File
+				RelativePath=".\Util\pyDDSurface.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\pyDDSurface.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="ResManager"

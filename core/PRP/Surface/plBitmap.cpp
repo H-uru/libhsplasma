@@ -38,6 +38,38 @@ const char* plBitmap::kCompressedTypeNames[] = {
 plBitmap::plBitmap() : fPixelSize(0), fSpace(0), fFlags(0), fCompressionType(0),
                        fLowModTime(0), fHighModTime(0) { }
 
+void plBitmap::setConfig(ColorFormat format) {
+    switch (format) {
+    case kRGB8888:
+        fPixelSize = 32;
+        fSpace = kDirectSpace;
+        fFlags = kAlphaChannelFlag;
+        break;
+    case kRGB4444:
+        fPixelSize = 16;
+        fSpace = kDirectSpace;
+        fFlags = kAlphaChannelFlag;
+        break;
+    case kRGB1555:
+        fPixelSize = 16;
+        fSpace = kDirectSpace;
+        fFlags = kAlphaBitFlag;
+        break;
+    case kInten8:
+        fPixelSize = 8;
+        fSpace = kGraySpace;
+        fFlags = 0;
+        break;
+    case kAInten88:
+        fPixelSize = 16;
+        fSpace = kGraySpace;
+        fFlags = kAlphaChannelFlag;
+        break;
+    default:
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid pixel configuration");
+    }
+}
+
 void plBitmap::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     IRead(S);

@@ -23,16 +23,6 @@ DllClass plMipmap : public plBitmap {
     CREATABLE(plMipmap, kMipmap, plBitmap)
 
 public:
-    enum {
-        kColor8Config = 0x0,
-        kGray44Config = 0x1,
-        kGray4Config = 0x2,
-        kGray8Config = 0x8,
-        kRGB16Config = 0x10,
-        kRGB32Config = 0x18,
-        kARGB32Config = 0x20
-    };
-
     enum { kColorDataRLE = 0x1, kAlphaDataRLE = 0x2 };
 
 protected:
@@ -43,8 +33,6 @@ protected:
 
     unsigned char* fImageData;
     unsigned int fTotalSize;
-    unsigned char* fAlphaData;
-    unsigned int fAlphaSize;
     unsigned char* fJPEGData;
     unsigned int fJPEGSize;
     unsigned char* fJAlphaData;
@@ -55,15 +43,13 @@ protected:
 
 public:
     plMipmap();
-    plMipmap(unsigned int width, unsigned int height, unsigned int cfg,
-             unsigned char numLevels, unsigned char compType,
-             unsigned char format);
+    plMipmap(unsigned int width, unsigned int height, unsigned char numLevels,
+             unsigned char compType, ColorFormat format, unsigned char dxtLevel = kDXTError);
     virtual ~plMipmap();
 
-    void Create(unsigned int width, unsigned int height, unsigned int cfg,
-                unsigned char numLevels, unsigned char compType,
-                unsigned char format);
-    void setConfig(unsigned int cfg);
+    void Create(unsigned int width, unsigned int height, unsigned char numLevels,
+                unsigned char compType, ColorFormat format, unsigned char dxtLevel = kDXTError);
+    void CopyFrom(plMipmap* src);
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -76,14 +62,7 @@ protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
-    void CopyFrom(plMipmap* src);
-    void ICopyImage(plMipmap* src);
-    /*
-    void IRecombineAlpha(plMipmap* alphaImg);
-    plMipmap* ISplitAlpha();
-    */
-
-    void IBuildLevelSizes();
+    size_t IBuildLevelSizes();
     void IReadJPEGImage(hsStream* S);
     void IReadRawImage(hsStream* S);
     void IReadRLEImage(hsStream* S, bool alpha);
@@ -92,24 +71,20 @@ protected:
     void IWriteRLEImage(hsStream* S, bool alpha);
 
 public:
-    void readFromStream(hsStream* S, bool asJPEG, size_t length = 0);
-    void writeToStream(hsStream* S);
-    void readAlphaFromStream(hsStream* S, size_t length = 0);
-    void writeAlphaToStream(hsStream* S);
-    plString getSuggestedExt() const;
-    plString getSuggestedAlphaExt() const;
-
     unsigned int getWidth() const { return fWidth; }
     unsigned int getHeight() const { return fHeight; }
-    const void* getImageData() const;
-    unsigned int getImageSize() const;
-    const void* getAlphaData() const;
-    unsigned int getAlphaSize() const;
+    const void* getImageData() const { return fImageData; }
+    unsigned int getTotalSize() const { return fTotalSize; }
     size_t getNumLevels() const { return fLevelData.getSize(); }
     unsigned int getLevelSize(size_t idx) const { return fLevelData[idx].fSize; }
     unsigned int getLevelWidth(size_t idx) const { return fLevelData[idx].fWidth; }
     unsigned int getLevelHeight(size_t idx) const { return fLevelData[idx].fHeight; }
     const void* getLevelData(size_t idx) const;
+
+    unsigned int getJpegSize() const { return fJPEGSize; }
+    unsigned int getJpegAlphaSize() const { return fJAlphaSize; }
+    const void* getJpegImage() const { return fJPEGData; }
+    const void* getJpegAlpha() const { return fJAlphaData; }
 
     void setImageData(const void* data);
     void setLevelData(size_t idx, const void* data);
@@ -120,7 +95,6 @@ public:
     bool isAlphaJPEG() const { return fJAlphaData != NULL; }
 
     size_t GetUncompressedSize(size_t level) const;
-    size_t GetCompressedSize(size_t level) const;
     void DecompressImage(size_t level, void* dest, size_t size);
 };
 

@@ -4,8 +4,8 @@ syntax: glob
 *.so
 *.log
 *.dSYM
+.*.swp
 config.mf
-CMakeFiles
 CMakeCache.txt
 cmake_install.cmake
 bin/PageConvert
@@ -24,8 +24,9 @@ bin/prp-fuse
 bin/prpgrep
 bin/prpmod
 Misc/TypeMap
-build
 
 syntax: regexp
 ^dat/
 ^doc/
+CMakeFiles/
+build/

@@ -40,6 +40,17 @@ static PyObject* pyBitmap_Convert(PyObject*, PyObject* args) {
     return pyBitmap_FromBitmap(plBitmap::Convert(cre->fThis));
 }
 
+static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
+    int format;
+    if (!PyArg_ParseTuple(args, "i", &format)) {
+        PyErr_SetString(PyExc_TypeError, "setConfig expects an int");
+        return NULL;
+    }
+    self->fThis->setConfig((plBitmap::ColorFormat)format);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyBitmap_getBPP(pyBitmap* self, void*) {
     return PyInt_FromLong(self->fThis->getBPP());
 }
@@ -155,6 +166,9 @@ static int pyBitmap_setModTime(pyBitmap* self, PyObject* value, void*) {
 static PyMethodDef pyBitmap_Methods[] = {
     { "Convert", (PyCFunction)pyBitmap_Convert, METH_VARARGS | METH_STATIC,
       "Convert a Creatable to a plBitmap" },
+    { "setConfig", (PyCFunction)pyBitmap_setConfig, METH_VARARGS,
+      "Params: format\n"
+      "Set the config format of the image data" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -230,8 +244,6 @@ PyObject* Init_pyBitmap_Type() {
         return NULL;
 
     // Flags
-    PyDict_SetItemString(pyBitmap_Type.tp_dict, "kNoFlag",
-                         PyInt_FromLong(plBitmap::kNoFlag));
     PyDict_SetItemString(pyBitmap_Type.tp_dict, "kAlphaChannelFlag",
                          PyInt_FromLong(plBitmap::kAlphaChannelFlag));
     PyDict_SetItemString(pyBitmap_Type.tp_dict, "kAlphaBitFlag",
@@ -260,8 +272,6 @@ PyObject* Init_pyBitmap_Type() {
                          PyInt_FromLong(plBitmap::kIsTexture));
     PyDict_SetItemString(pyBitmap_Type.tp_dict, "kIsOffscreen",
                          PyInt_FromLong(plBitmap::kIsOffscreen));
-    PyDict_SetItemString(pyBitmap_Type.tp_dict, "kMainScreen",
-                         PyInt_FromLong(plBitmap::kMainScreen));
     PyDict_SetItemString(pyBitmap_Type.tp_dict, "kIsProjected",
                          PyInt_FromLong(plBitmap::kIsProjected));
     PyDict_SetItemString(pyBitmap_Type.tp_dict, "kIsOrtho",
@@ -290,12 +300,8 @@ PyObject* Init_pyBitmap_Type() {
                          PyInt_FromLong(plBitmap::kDXTError));
     PyDict_SetItemString(pyBitmap_Type.tp_dict, "kDXT1",
                          PyInt_FromLong(plBitmap::kDXT1));
-    PyDict_SetItemString(pyBitmap_Type.tp_dict, "kDXT2",
-                         PyInt_FromLong(plBitmap::kDXT2));
     PyDict_SetItemString(pyBitmap_Type.tp_dict, "kDXT3",
                          PyInt_FromLong(plBitmap::kDXT3));
-    PyDict_SetItemString(pyBitmap_Type.tp_dict, "kDXT4",
-                         PyInt_FromLong(plBitmap::kDXT4));
     PyDict_SetItemString(pyBitmap_Type.tp_dict, "kDXT5",
                          PyInt_FromLong(plBitmap::kDXT5));
 

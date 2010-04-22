@@ -224,7 +224,8 @@ PYOBJ=\
 	$(OBJDIR)pyStream.o \
 	$(OBJDIR)pyColor32.o \
 	$(OBJDIR)pyColorRGBA.o \
-	$(OBJDIR)pyBitVector.o
+	$(OBJDIR)pyBitVector.o \
+	$(OBJDIR)pyDDSurface.o
 
 PYLIB=PyHSPlasma.so
 LIBDIR=../lib
@@ -905,3 +906,6 @@ $(OBJDIR)pyColorRGBA.o: Sys/pyColorRGBA.cpp
 
 $(OBJDIR)pyBitVector.o: Util/pyBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/pyBitVector.cpp -o $@
+
+$(OBJDIR)pyDDSurface.o: Util/pyDDSurface.cpp
+	$(CXX) $(CXXFLAGS) -c Util/pyDDSurface.cpp -o $@

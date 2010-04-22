@@ -675,21 +675,23 @@ set(SYS_HDRS
 set(UTIL_SRCS
     Util/PlasmaVersions.cpp
     Util/hsBitVector.cpp
+    Util/plDDSurface.cpp
     Util/plJPEG.cpp
     Util/plMD5.cpp
     Util/plString.cpp
     Util/plZlib.cpp
-)  
+)
 set(UTIL_HDRS
     Util/PlasmaVersions.h
     Util/hsBitVector.h
     Util/hsTArray.hpp
     Util/hsTList.hpp
+    Util/plDDSurface.h
     Util/plJPEG.h
     Util/plMD5.h
     Util/plString.h
     Util/plZlib.h
-)  
+)
 
 set(VAULT_SRCS
     Vault/plServerGuid.cpp

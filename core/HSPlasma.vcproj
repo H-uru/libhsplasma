@@ -2684,6 +2684,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Util\plDDSurface.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Util\plDDSurface.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Util\plJPEG.cpp"
 				>
 			</File>
