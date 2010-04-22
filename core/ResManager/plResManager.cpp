@@ -322,8 +322,10 @@ void plResManager::UnloadAge(const plString& name) {
 }
 
 void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
-    //plDebug::Debug("* Reading Keyring");
-    //keys.addPage(loc.pageID);
+#ifdef RMTRACE
+    plDebug::Debug("* Reading Keyring");
+#endif
+
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer()); // objType
@@ -333,7 +335,10 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
         }
         unsigned int oCount = S->readInt();
         keys.reserveKeySpace(loc, type, oCount);
-        //plDebug::Debug("  * Indexing %d objects of type [%04hX]", oCount, type);
+#ifdef RMTRACE
+        plDebug::Debug("  * Indexing %d objects of type [%04hX]%s", oCount, type,
+                       pdUnifiedTypeMap::ClassName(type));
+#endif
         for (unsigned int j=0; j<oCount; j++) {
             plKey key = new plKeyData();
             key->read(S);
@@ -381,13 +386,17 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
 
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
-        //plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
-        //               types[i], pdUnifiedTypeMap::ClassName(types[i]));
+#ifdef RMTRACE
+        plDebug::Debug("* Reading %d objects of type [%04hX]%s", kList.size(),
+                       types[i], pdUnifiedTypeMap::ClassName(types[i]));
+#endif
         for (unsigned int j=0; j<kList.size(); j++) {
             if (kList[j]->getFileOff() <= 0)
                 continue;
-            //plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName(),
-            //               kList[j]->fileOff);
+#ifdef RMTRACE
+            plDebug::Debug("  * (%d) Reading %s @ 0x%08X", j, kList[j]->getName().cstr(),
+                           kList[j]->getFileOff());
+#endif
             S->seek(kList[j]->getFileOff());
             try {
                 plCreatable* pCre = ReadCreatable(S, true, kList[j]->getObjSize());
@@ -446,12 +455,18 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
 
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
-        //plDebug::Debug("* Writing %d objects of type [%04hX]", kList.size(), types[i]);
+#ifdef RMTRACE
+        plDebug::Debug("* Writing %d objects of type [%04hX]", kList.size(), types[i]);
+#endif
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
             kList[j]->setID(j);
             if (kList[j]->getObj() != NULL) {
                 try {
+#ifdef RMTRACE
+                    plDebug::Debug("  * (%d) Writing %s @ 0x%08X", j, kList[j]->getName().cstr(),
+                                   kList[j]->getFileOff());
+#endif
                     WriteCreatable(S, kList[j]->getObj());
                     nWritten++;
                 } catch (const char* e) {
