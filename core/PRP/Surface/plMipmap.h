@@ -32,11 +32,11 @@ protected:
     };
 
     unsigned char* fImageData;
-    unsigned int fTotalSize;
+    size_t fTotalSize;
     unsigned char* fJPEGData;
-    unsigned int fJPEGSize;
+    size_t fJPEGSize;
     unsigned char* fJAlphaData;
-    unsigned int fJAlphaSize;
+    size_t fJAlphaSize;
 
     unsigned int fWidth, fHeight, fStride;
     hsTArray<LevelData> fLevelData;
@@ -74,22 +74,28 @@ public:
     unsigned int getWidth() const { return fWidth; }
     unsigned int getHeight() const { return fHeight; }
     const void* getImageData() const { return fImageData; }
-    unsigned int getTotalSize() const { return fTotalSize; }
+    size_t getTotalSize() const { return fTotalSize; }
     size_t getNumLevels() const { return fLevelData.getSize(); }
     unsigned int getLevelSize(size_t idx) const { return fLevelData[idx].fSize; }
     unsigned int getLevelWidth(size_t idx) const { return fLevelData[idx].fWidth; }
     unsigned int getLevelHeight(size_t idx) const { return fLevelData[idx].fHeight; }
     const void* getLevelData(size_t idx) const;
 
-    unsigned int getJpegSize() const { return fJPEGSize; }
-    unsigned int getJpegAlphaSize() const { return fJAlphaSize; }
+    size_t getJpegSize() const { return fJPEGSize; }
+    size_t getJpegAlphaSize() const { return fJAlphaSize; }
     const void* getJpegImage() const { return fJPEGData; }
     const void* getJpegAlpha() const { return fJAlphaData; }
 
-    void setImageData(const void* data);
-    void setLevelData(size_t idx, const void* data);
-    void setImageJPEG(const void* data, unsigned int size);
-    void setAlphaJPEG(const void* data, unsigned int size);
+    void setImageData(const void* data, size_t size);
+    void setLevelData(size_t idx, const void* data, size_t size);
+    void setImageJPEG(const void* data, size_t size);
+    void setAlphaJPEG(const void* data, size_t size);
+
+    // Separate color and alpha for JPEG images
+    void setColorData(const void* data, size_t size);
+    void setAlphaData(const void* alpha, size_t size);
+    void extractColorData(void* buffer, size_t size) const;
+    void extractAlphaData(void* buffer, size_t size) const;
 
     bool isImageJPEG() const { return fJPEGData != NULL; }
     bool isAlphaJPEG() const { return fJAlphaData != NULL; }

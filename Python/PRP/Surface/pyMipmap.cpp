@@ -132,7 +132,7 @@ static PyObject* pyMipmap_setRawImage(pyMipmap* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "setRawImage expects a binary string");
         return NULL;
     }
-    self->fThis->setImageData((const void*)data);
+    self->fThis->setImageData((const void*)data, dataSize);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -144,7 +144,7 @@ static PyObject* pyMipmap_setLevel(pyMipmap* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "setLevel expects int, binary string");
         return NULL;
     }
-    self->fThis->setLevelData(level, (const void*)data);
+    self->fThis->setLevelData(level, (const void*)data, dataSize);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -171,6 +171,58 @@ static PyObject* pyMipmap_setAlphaJPEG(pyMipmap* self, PyObject* args) {
     self->fThis->setAlphaJPEG((const void*)data, dataSize);
     Py_INCREF(Py_None);
     return Py_None;
+}
+
+static PyObject* pyMipmap_setColorData(pyMipmap* self, PyObject* args) {
+    const char* data;
+    int dataSize;
+    if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
+        PyErr_SetString(PyExc_TypeError, "setColorData expects a binary string");
+        return NULL;
+    }
+    try {
+        self->fThis->setColorData((const void*)data, dataSize);
+    } catch (hsBadParamException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        return NULL;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyMipmap_setAlphaData(pyMipmap* self, PyObject* args) {
+    const char* data;
+    int dataSize;
+    if (!PyArg_ParseTuple(args, "s#", &data, &dataSize)) {
+        PyErr_SetString(PyExc_TypeError, "setAlphaData expects a binary string");
+        return NULL;
+    }
+    try {
+        self->fThis->setAlphaData((const void*)data, dataSize);
+    } catch (hsBadParamException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        return NULL;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyMipmap_extractColorData(pyMipmap* self) {
+    size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 3;
+    char* data = new char[dataSize];
+    self->fThis->extractColorData(data, dataSize);
+    PyObject* buf = PyBytes_FromStringAndSize(data, dataSize);
+    delete[] data;
+    return buf;
+}
+
+static PyObject* pyMipmap_extractAlphaData(pyMipmap* self) {
+    size_t dataSize = self->fThis->getWidth() * self->fThis->getHeight() * 1;
+    char* data = new char[dataSize];
+    self->fThis->extractAlphaData(data, dataSize);
+    PyObject* buf = PyBytes_FromStringAndSize(data, dataSize);
+    delete[] data;
+    return buf;
 }
 
 static PyObject* pyMipmap_isImageJPEG(pyMipmap* self) {
@@ -263,6 +315,16 @@ static PyMethodDef pyMipmap_Methods[] = {
     { "setAlphaJPEG", (PyCFunction)pyMipmap_setAlphaJPEG, METH_VARARGS,
       "Params: jpegData\n"
       "Set the alpha data as a JPEG stream" },
+    { "setColorData", (PyCFunction)pyMipmap_setColorData, METH_VARARGS,
+      "Params: buffer\n"
+      "Set the RGB color data for a JPEG mipmap" },
+    { "setAlphaData", (PyCFunction)pyMipmap_setAlphaData, METH_VARARGS,
+      "Params: buffer\n"
+      "Set the alpha data for a JPEG mipmap" },
+    { "extractColorData", (PyCFunction)pyMipmap_extractColorData, METH_NOARGS,
+      "Extract an RGB color buffer from a JPEG mipmap" },
+    { "extractAlphaData", (PyCFunction)pyMipmap_extractAlphaData, METH_NOARGS,
+      "Extract an alpha intensity buffer from a JPEG mipmap" },
     { "isImageJPEG", (PyCFunction)pyMipmap_isImageJPEG, METH_NOARGS,
       "Returns whether the imageData member is a JPEG stream" },
     { "isAlphaJPEG", (PyCFunction)pyMipmap_isAlphaJPEG, METH_NOARGS,

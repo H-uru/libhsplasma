@@ -50,29 +50,29 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned char num
     delete[] fJPEGData;
     delete[] fJAlphaData;
 
-    fStride = (fPixelSize * width) / 8;
-    fWidth = width;
-    fHeight = height;
-    setConfig(format);
-
     if (compType == kDirectXCompression && dxtLevel == kDXTError)
         throw hsBadParamException(__FILE__, __LINE__, "DXT Type must be set for DirectX textures");
 
     fCompressionType = compType;
     if (compType == kUncompressed || compType == kJPEGCompression) {
+        setConfig(format);
         fUncompressedInfo.fType = format;
     } else {
+        fPixelSize = 32;
+        fSpace = kDirectSpace;
         fDXInfo.fCompressionType = dxtLevel;
         if (dxtLevel == kDXT1) {
             fDXInfo.fBlockSize = 8;
-            fFlags &= ~kAlphaChannelFlag;
-            fFlags |= kAlphaBitFlag;
+            fFlags = kAlphaBitFlag;
         } else {
             fDXInfo.fBlockSize = 16;
-            fFlags &= ~kAlphaBitFlag;
-            fFlags |= kAlphaChannelFlag;
+            fFlags = kAlphaChannelFlag;
         }
     }
+
+    fWidth = width;
+    fHeight = height;
+    fStride = (fPixelSize * fWidth) / 8;
 
     if (fWidth == 0 || fHeight == 0) {
         fLevelData.setSize(0);
@@ -91,8 +91,8 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned char num
             numLevels++;
         }
     }
-    fLevelData.setSize(numLevels);
 
+    fLevelData.setSize(numLevels);
     fTotalSize = IBuildLevelSizes();
     fImageData = new unsigned char[fTotalSize];
     memset(fImageData, 0, fTotalSize);
@@ -116,7 +116,7 @@ void plMipmap::CopyFrom(plMipmap* src) {
         fUncompressedInfo.fType = src->fUncompressedInfo.fType;
     } else if (fCompressionType == kDirectXCompression) {
         fDXInfo.fCompressionType = src->fDXInfo.fCompressionType;
-        fDXInfo.fBlockSize = src->fDXInfo.fCompressionType;
+        fDXInfo.fBlockSize = src->fDXInfo.fBlockSize;
     }
 
     fWidth = src->fWidth;
@@ -190,9 +190,13 @@ void plMipmap::IRead(hsStream* S) {
             if (fTotalSize > realSize) {
                 /* Extra bogus data from miscalculation */
                 S->skip(fTotalSize - realSize);
+                plDebug::Warning("Skipping oversized buffer data (%d bytes)",
+                                 fTotalSize - realSize);
             } else {
                 /* Missing data from miscalculation...  Just make it black */
                 memset(fImageData + fTotalSize, 0, realSize - fTotalSize);
+                plDebug::Warning("Filling undersized buffer data (%d bytes)",
+                                 realSize - fTotalSize);
             }
             fTotalSize = realSize;
         } else {
@@ -240,8 +244,8 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Width", fWidth);
     prc->writeParam("Height", fHeight);
     prc->writeParam("Stride", fStride);
-    prc->writeParam("TotalSize", fTotalSize);
-    prc->writeParam("MipLevels", (unsigned long)fLevelData.getSize());
+    prc->writeParam("TotalSize", (unsigned int)fTotalSize);
+    prc->writeParam("MipLevels", (unsigned int)fLevelData.getSize());
     prc->endTag(true);
 
     if (fCompressionType == kJPEGCompression) {
@@ -522,21 +526,19 @@ const void* plMipmap::getLevelData(size_t idx) const {
     return fImageData + fLevelData[idx].fOffset;
 }
 
-void plMipmap::setImageData(const void* data) {
-    if (data == NULL) {
-        delete[] fImageData;
-        fImageData = NULL;
-    } else {
-        memcpy(fImageData, data, fTotalSize);
-    }
+void plMipmap::setImageData(const void* data, size_t size) {
+    if (size != fTotalSize)
+        throw hsBadParamException(__FILE__, __LINE__, "Image data size mismatch");
+    memcpy(fImageData, data, fTotalSize);
 }
 
-void plMipmap::setLevelData(size_t idx, const void* data) {
-    memcpy(fImageData + fLevelData[idx].fOffset,
-           data, fLevelData[idx].fSize);
+void plMipmap::setLevelData(size_t idx, const void* data, size_t size) {
+    if (size != fLevelData[idx].fSize)
+        throw hsBadParamException(__FILE__, __LINE__, "Image data size mismatch");
+    memcpy(fImageData + fLevelData[idx].fOffset, data, fLevelData[idx].fSize);
 }
 
-void plMipmap::setImageJPEG(const void* data, unsigned int size) {
+void plMipmap::setImageJPEG(const void* data, size_t size) {
     delete[] fJPEGData;
     fJPEGSize = size;
     if (data != NULL) {
@@ -548,7 +550,7 @@ void plMipmap::setImageJPEG(const void* data, unsigned int size) {
     DecompressImage(0, fImageData, fLevelData[0].fSize);
 }
 
-void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
+void plMipmap::setAlphaJPEG(const void* data, size_t size) {
     delete[] fJAlphaData;
     fJAlphaSize = size;
     if (data != NULL) {
@@ -558,6 +560,66 @@ void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
         fJAlphaData = NULL;
     }
     DecompressImage(0, fImageData, fLevelData[0].fSize);
+}
+
+void plMipmap::setColorData(const void* data, size_t size) {
+    if (fCompressionType != kJPEGCompression)
+        throw hsBadParamException(__FILE__, __LINE__, "Color/Alpha split only supported on JPEG textures");
+    if (size != (fWidth * fHeight * 3))
+        throw hsBadParamException(__FILE__, __LINE__, "Pixel configuration does not match buffer size");
+
+    unsigned char* dp = (unsigned char*)fImageData;
+    const unsigned char* sp = (const unsigned char*)data;
+    for (size_t i=0; i<fLevelData[0].fSize; i += 4) {
+        *dp++ = *sp++;  // Blue
+        *dp++ = *sp++;  // Green
+        *dp++ = *sp++;  // Red
+        dp++;           // Skip alpha
+    }
+}
+
+void plMipmap::setAlphaData(const void* alpha, size_t size) {
+    if (fCompressionType != kJPEGCompression)
+        throw hsBadParamException(__FILE__, __LINE__, "Color/Alpha split only supported on JPEG textures");
+    if (size != (fWidth * fHeight * 1))
+        throw hsBadParamException(__FILE__, __LINE__, "Pixel configuration does not match buffer size");
+
+    unsigned char* dp = (unsigned char*)fImageData;
+    const unsigned char* sp = (const unsigned char*)alpha;
+    for (size_t i=0; i<fLevelData[0].fSize; i += 4) {
+        dp += 3;        // Skip RGB
+        *dp++ = *sp++;  // Alpha
+    }
+}
+
+void plMipmap::extractColorData(void* buffer, size_t size) const {
+    if (fCompressionType != kJPEGCompression)
+        throw hsBadParamException(__FILE__, __LINE__, "Color/Alpha split only supported on JPEG textures");
+    if (size != (fWidth * fHeight * 3))
+        throw hsBadParamException(__FILE__, __LINE__, "Pixel configuration does not match buffer size");
+
+    unsigned char* sp = (unsigned char*)fImageData;
+    unsigned char* dp = (unsigned char*)buffer;
+    for (size_t i=0; i<fLevelData[0].fSize; i += 4) {
+        *dp++ = *sp++;  // Blue
+        *dp++ = *sp++;  // Green
+        *dp++ = *sp++;  // Red
+        sp++;           // Skip alpha
+    }
+}
+
+void plMipmap::extractAlphaData(void* buffer, size_t size) const {
+    if (fCompressionType != kJPEGCompression)
+        throw hsBadParamException(__FILE__, __LINE__, "Color/Alpha split only supported on JPEG textures");
+    if (size != (fWidth * fHeight * 1))
+        throw hsBadParamException(__FILE__, __LINE__, "Pixel configuration does not match buffer size");
+
+    unsigned char* sp = (unsigned char*)fImageData;
+    unsigned char* dp = (unsigned char*)buffer;
+    for (size_t i=0; i<fLevelData[0].fSize; i += 4) {
+        sp += 3;        // Skip RGB
+        *dp++ = *sp++;  // Alpha
+    }
 }
 
 size_t plMipmap::GetUncompressedSize(size_t level) const {

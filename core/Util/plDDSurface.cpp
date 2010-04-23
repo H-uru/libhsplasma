@@ -285,8 +285,68 @@ void plDDSurface::setFromMipmap(const plMipmap* img) {
 }
 
 plMipmap* plDDSurface::createMipmap() const {
-    //...
-    return NULL;
+    if ((fFlags & DDSD_HEIGHT) == 0 || (fFlags & DDSD_WIDTH) == 0
+        || (fFlags & DDSD_PIXELFORMAT) == 0)
+        throw hsBadParamException(__FILE__, __LINE__, "DDSurface does not contain required fields");
+
+    unsigned int mipCount = ((fFlags & DDSD_MIPMAPCOUNT) != 0) ? fMipmapCount : 1;
+    plMipmap* tex = NULL;
+
+    if ((fPixelFormat.fFlags & DDPF_FOURCC) != 0) {
+        unsigned int dxtLevel = 0;
+        switch (fPixelFormat.fFourCC) {
+        case FOURCC_DXT1:
+            dxtLevel = plBitmap::kDXT1;
+            break;
+        case FOURCC_DXT3:
+            dxtLevel = plBitmap::kDXT3;
+            break;
+        case FOURCC_DXT5:
+            dxtLevel = plBitmap::kDXT5;
+            break;
+        default:
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid FourCC");
+        }
+        tex = new plMipmap(fWidth, fHeight, mipCount, plBitmap::kDirectXCompression,
+                            plBitmap::kRGB8888, dxtLevel);
+    } else if ((fPixelFormat.fFlags & DDPF_RGB) != 0) {
+        plBitmap::ColorFormat colorConfig = (plBitmap::ColorFormat)0;
+        if ((fPixelFormat.fFlags & DDPF_ALPHAPIXELS) != 0 && fPixelFormat.fBitDepth == 32
+            && fPixelFormat.fRBitMask == 0x00FF0000 && fPixelFormat.fGBitMask == 0x0000FF00
+            && fPixelFormat.fBBitMask == 0x000000FF && fPixelFormat.fAlphaBitMask == 0xFF000000)
+            colorConfig = plBitmap::kRGB8888;
+        else if ((fPixelFormat.fFlags & DDPF_ALPHAPIXELS) != 0 && fPixelFormat.fBitDepth == 16
+            && fPixelFormat.fRBitMask == 0x0F00 && fPixelFormat.fGBitMask == 0x00F0
+            && fPixelFormat.fBBitMask == 0x000F && fPixelFormat.fAlphaBitMask == 0xF000)
+            colorConfig = plBitmap::kRGB4444;
+        else if ((fPixelFormat.fFlags & DDPF_ALPHAPIXELS) != 0 && fPixelFormat.fBitDepth == 16
+            && fPixelFormat.fRBitMask == 0x7C00 && fPixelFormat.fGBitMask == 0x03E0
+            && fPixelFormat.fBBitMask == 0x001F && fPixelFormat.fAlphaBitMask == 0x8000)
+            colorConfig = plBitmap::kRGB1555;
+        else if ((fPixelFormat.fFlags & DDPF_ALPHAPIXELS) != 0 && fPixelFormat.fBitDepth == 16
+            && fPixelFormat.fRBitMask == 0x7C00 && fPixelFormat.fGBitMask == 0x03E0
+            && fPixelFormat.fBBitMask == 0x001F && fPixelFormat.fAlphaBitMask == 0x8000)
+            colorConfig = plBitmap::kRGB1555;
+        else
+            throw hsBadParamException(__FILE__, __LINE__, "Unsupported RGB format");
+        tex = new plMipmap(fWidth, fHeight, mipCount, plBitmap::kUncompressed, colorConfig);
+    } else if ((fPixelFormat.fFlags & DDPF_LUMINANCE) != 0) {
+        plBitmap::ColorFormat colorConfig = (plBitmap::ColorFormat)0;
+        if ((fPixelFormat.fFlags & DDPF_ALPHAPIXELS) != 0 && fPixelFormat.fBitDepth == 16
+            && fPixelFormat.fLuminanceBitMask == 0x00FF && fPixelFormat.fAlphaBitMask == 0xFF00)
+            colorConfig = plBitmap::kAInten88;
+        else if ((fPixelFormat.fFlags & DDPF_ALPHAPIXELS) == 0 && fPixelFormat.fBitDepth == 8
+            && fPixelFormat.fLuminanceBitMask == 0xFF)
+            colorConfig = plBitmap::kInten8;
+        else
+            throw hsBadParamException(__FILE__, __LINE__, "Unsupported Luminance format");
+        tex = new plMipmap(fWidth, fHeight, mipCount, plBitmap::kUncompressed, colorConfig);
+    } else {
+        throw hsBadParamException(__FILE__, __LINE__, "Unsupported texture format");
+    }
+
+    tex->setImageData(fDataBuffer, fDataSize);
+    return tex;
 }
 
 void plDDSurface::setData(size_t size, const unsigned char* data) {
