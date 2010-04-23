@@ -164,7 +164,7 @@ void plMipmap::IRead(hsStream* S) {
     fHeight = S->readInt();
     fStride = S->readInt();
     fTotalSize = S->readInt();
-    fLevelData.setSize(S->readByte());
+    size_t mips = S->readByte();
 
     delete[] fImageData;
     delete[] fJPEGData;
@@ -176,6 +176,19 @@ void plMipmap::IRead(hsStream* S) {
     if (fTotalSize == 0)
         return;
 
+    if (mips == 1) {
+        fLevelData.setSize(1);
+    } else {
+        /* Add missing mipmap levels for Cyan's faulty code */
+        size_t numLevels = 1;
+        unsigned int width = fWidth, height = fHeight;
+        while (width > 1 || height > 1) {
+            width = (width > 1) ? width >> 1 : 1;
+            height = (height > 1) ? height >> 1 : 1;
+            numLevels++;
+        }
+        fLevelData.setSize(numLevels);
+    }
     size_t realSize = IBuildLevelSizes();
     fImageData = new unsigned char[realSize];
 
