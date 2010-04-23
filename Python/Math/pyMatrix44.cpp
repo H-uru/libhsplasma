@@ -56,20 +56,13 @@ static PyObject* pyMatrix44_multiply(PyObject* left, PyObject* right) {
     if (pyMatrix44_Check(left)) {
         if (pyMatrix44_Check(right)) {
             return pyMatrix44_FromMatrix44(*((pyMatrix44*)left)->fThis * *((pyMatrix44*)right)->fThis);
-        } else if (pyVector3_Check(right)) {
-            PyErr_Clear();
-            return pyVector3_FromVector3(*((pyMatrix44*)left)->fThis * *((pyVector3*)right)->fThis);
         } else {
-            PyErr_SetString(PyExc_TypeError, "Matrix multiplication requires a matrix or a vector");
+            PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
             return NULL;
         }
     } else if (pyMatrix44_Check(right)) {
-        if (pyVector3_Check(left)) {
-            return pyVector3_FromVector3(*((pyVector3*)left)->fThis * *((pyMatrix44*)right)->fThis);
-        } else {
-            PyErr_SetString(PyExc_TypeError, "Matrix multiplication requires a matrix or a vector");
-            return NULL;
-        }
+        PyErr_SetString(PyExc_TypeError, "Multiplication operand is not another matrix");
+        return NULL;
     }
     // This should not happen...
     return NULL;
@@ -289,6 +282,36 @@ static PyObject* pyMatrix44_setScale(pyMatrix44* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
+    pyVector3* vec;
+    if (!PyArg_ParseTuple(args, "O", &vec)) {
+        PyErr_SetString(PyExc_TypeError, "multPoint expects an hsVector3");
+        return NULL;
+    }
+    if (!pyVector3_Check((PyObject*)vec)) {
+        PyErr_SetString(PyExc_TypeError, "multPoint expects an hsVector3");
+        return NULL;
+    }
+    self->fThis->multPoint(*vec->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
+    pyVector3* vec;
+    if (!PyArg_ParseTuple(args, "O", &vec)) {
+        PyErr_SetString(PyExc_TypeError, "multVector expects an hsVector3");
+        return NULL;
+    }
+    if (!pyVector3_Check((PyObject*)vec)) {
+        PyErr_SetString(PyExc_TypeError, "multVector expects an hsVector3");
+        return NULL;
+    }
+    self->fThis->multVector(*vec->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
@@ -415,6 +438,12 @@ PyMethodDef pyMatrix44_Methods[] = {
     { "setScale", (PyCFunction)pyMatrix44_setScale, METH_VARARGS,
       "Params: vector\n"
       "Set the absolute scale" },
+    { "multPoint", (PyCFunction)pyMatrix44_multPoint, METH_VARARGS,
+      "Params: vector\n"
+      "Multiply a point by the matrix and add displacement" },
+    { "multVector", (PyCFunction)pyMatrix44_multVector, METH_VARARGS,
+      "Params: vector\n"
+      "Multiply a vector by the matrix and do not add displacement" },
     { "read", (PyCFunction)pyMatrix44_read, METH_VARARGS,
       "Params: stream\n"
       "Reads this matrix from `stream`" },

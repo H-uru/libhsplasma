@@ -193,9 +193,9 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
                 hsVector3 pos;
                 if (doXform) {
                     if (coord != NULL)
-                        pos = verts[j].fPos * coord->getLocalToWorld() * 10.0f;
+                        pos = coord->getLocalToWorld().multPoint(verts[j].fPos) * 10.0f;
                     else
-                        pos = verts[j].fPos * ice->getLocalToWorld() * 10.0f;
+                        pos = ice->getLocalToWorld().multPoint(verts[j].fPos) * 10.0f;
                 } else {
                     pos = verts[j].fPos * 10.0f;
                 }
@@ -204,7 +204,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
 
             if (span->getBuffer(ice->getGroupIdx())->getNumUVs() > uvwSrc) {
                 for (size_t j = 0; j < verts.getSize(); j++) {
-                    hsVector3 txUvw = verts[j].fUVWs[uvwSrc] * uvwXform;
+                    hsVector3 txUvw = uvwXform.multPoint(verts[j].fUVWs[uvwSrc]);
                     S->writeStr(plString::Format("vt %f %f %f\n",
                                 txUvw.X, txUvw.Y, txUvw.Z));
                 }

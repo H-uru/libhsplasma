@@ -48,7 +48,8 @@ public:
     const float* glMatrix() const;
 
     hsMatrix44 operator*(const hsMatrix44& right) const;
-    hsVector3 operator*(const hsVector3& vec) const;
+    hsVector3 multPoint(const hsVector3& point) const;
+    hsVector3 multVector(const hsVector3& vec) const;
 
     hsMatrix44& translate(const hsVector3& translate);
     hsMatrix44& rotate(int axis, float angle);
@@ -63,11 +64,6 @@ public:
     void prcParse(const pfPrcTag* tag);
 
     plString toString() const;
-
-private:
-    friend hsVector3 DllExport operator*(const hsVector3& left, const hsMatrix44& right);
 };
-
-hsVector3 DllExport operator*(const hsVector3& left, const hsMatrix44& right);
 
 #endif

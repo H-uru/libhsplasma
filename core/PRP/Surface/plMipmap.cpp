@@ -545,6 +545,7 @@ void plMipmap::setImageJPEG(const void* data, unsigned int size) {
     } else {
         fJPEGData = NULL;
     }
+    DecompressImage(0, fImageData, fLevelData[0].fSize);
 }
 
 void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
@@ -556,6 +557,7 @@ void plMipmap::setAlphaJPEG(const void* data, unsigned int size) {
     } else {
         fJAlphaData = NULL;
     }
+    DecompressImage(0, fImageData, fLevelData[0].fSize);
 }
 
 size_t plMipmap::GetUncompressedSize(size_t level) const {
