@@ -109,8 +109,12 @@ ENetError pnGateKeeperClient::connect(int sockFd)
 
 void pnGateKeeperClient::disconnect()
 {
+    if (fSock != NULL)
+        fSock->close();
+    delete fDispatch;
     delete fSock;
     fSock = NULL;
+    fDispatch = NULL;
 }
 
 ENetError pnGateKeeperClient::performConnect(pnSocket* sock)

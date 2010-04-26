@@ -136,8 +136,12 @@ ENetError pnGameClient::connect(int sockFd)
 
 void pnGameClient::disconnect()
 {
+    if (fSock != NULL)
+        fSock->close();
+    delete fDispatch;
     delete fSock;
     fSock = NULL;
+    fDispatch = NULL;
 }
 
 ENetError pnGameClient::performConnect(pnSocket* sock)

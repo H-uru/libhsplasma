@@ -236,8 +236,12 @@ ENetError pnFileClient::connect(int sockFd)
 
 void pnFileClient::disconnect()
 {
+    if (fSock != NULL)
+        fSock->close();
+    delete fDispatch;
     delete fSock;
     fSock = NULL;
+    fDispatch = NULL;
 }
 
 ENetError pnFileClient::performConnect(pnSocket* sock)

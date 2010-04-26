@@ -362,8 +362,12 @@ ENetError pnAuthClient::connect(int sockFd)
 
 void pnAuthClient::disconnect()
 {
+    if (fSock != NULL)
+        fSock->close();
+    delete fDispatch;
     delete fSock;
     fSock = NULL;
+    fDispatch = NULL;
 }
 
 ENetError pnAuthClient::performConnect(pnSocket* sock)

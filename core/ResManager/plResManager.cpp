@@ -40,7 +40,8 @@ plResManager::~plResManager() {
 }
 
 void plResManager::setVer(PlasmaVer pv, bool force) {
-    if (fPlasmaVer == pv) return;
+    if (fPlasmaVer == pv)
+        return;
     if ((fPlasmaVer == pvUnknown) || force)
         fPlasmaVer = pv;
 }
@@ -110,7 +111,8 @@ plKey plResManager::prcParseKey(const pfPrcTag* tag) {
 
 hsKeyedObject* plResManager::getObject(plKey key) {
     plKey fk = keys.findKey(key);
-    if (!fk.Exists()) return NULL;
+    if (!fk.Exists())
+        return NULL;
     return fk->getObj();
 }
 
@@ -534,7 +536,8 @@ plCreatable* plResManager::prcParseCreatable(const pfPrcTag* tag) {
 
 plSceneNode* plResManager::getSceneNode(const plLocation& loc) {
     std::vector<plKey> kList = keys.getKeys(loc, kSceneNode);
-    if (kList.size() < 1) return NULL;
+    if (kList.size() < 1)
+        return NULL;
     return plSceneNode::Convert(kList[0]->getObj());
 }
 
