@@ -38,8 +38,6 @@ public:
     virtual void setVer(PlasmaVer pv) { ver = pv; }
     PlasmaVer getVer() const { return ver; }
     
-    virtual plString getFileName() const;
-
     virtual hsUint32 size() const = 0;
     virtual hsUint32 pos() const = 0;
     virtual bool eof() const = 0;
@@ -87,7 +85,6 @@ DllClass hsFileStream : public hsStream {
 protected:
     FILE* F;
     FileMode fm;
-    plString filename;
 
 public:
     explicit hsFileStream(PlasmaVer pv = pvUnknown);
@@ -97,7 +94,6 @@ public:
 
     virtual bool open(const char* file, FileMode mode);
     virtual void close();
-    virtual plString getFileName() const;
 
     virtual hsUint32 size() const;
     virtual hsUint32 pos() const;
