@@ -28,6 +28,10 @@ hsStream::hsStream(PlasmaVer pv) {
     setVer(pv);
 }
 
+plString hsStream::getFileName() const {
+    return plString();
+}
+
 #define BLOCKSIZE 4096
 void hsStream::writeFrom(hsStream* src) {
     unsigned char buf[BLOCKSIZE];
@@ -339,6 +343,7 @@ bool hsFileStream::open(const char* file, FileMode mode) {
     F = fopen(file, fms);
     if (F != NULL) {
         fm = mode;
+        filename = plString(file);
         return true;
     } else if (fm == fmRead || fm == fmReadWrite) {
         throw hsFileReadException(__FILE__, __LINE__, "File does not exist");
@@ -350,6 +355,10 @@ void hsFileStream::close() {
     if (F != NULL)
         fclose(F);
     F = NULL;
+}
+
+plString hsFileStream::getFileName() const {
+    return filename;
 }
 
 hsUint32 hsFileStream::size() const {
