@@ -37,7 +37,7 @@ public:
 
     virtual void setVer(PlasmaVer pv) { ver = pv; }
     PlasmaVer getVer() const { return ver; }
-
+    
     virtual hsUint32 size() const = 0;
     virtual hsUint32 pos() const = 0;
     virtual bool eof() const = 0;
