@@ -10,6 +10,7 @@ endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE))
 endif
+ifneq ($(MAKE_TOOLS),no)
 	($(MAKE) bin/PageConvert)
 	($(MAKE) bin/PlasmaCrypt)
 	($(MAKE) bin/PrpPack)
@@ -24,6 +25,7 @@ endif
 #	($(MAKE) bin/prp-fuse)
 	($(MAKE) bin/PlasmaSum)
 	($(MAKE) Misc/TypeMap)
+endif
 
 bin/PageConvert: Tools/src/PageConvert.cpp lib/libHSPlasma.$(LIBSUFFIX)
 	$(CXX) $(CXXFLAGS) -Llib -lHSPlasma Tools/src/PageConvert.cpp -o $@
@@ -75,6 +77,7 @@ endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE) install)
 endif
+ifneq ($(MAKE_TOOLS),no)
 	cp bin/PageConvert $(PREFIX)/bin/
 	cp bin/PlasmaCrypt $(PREFIX)/bin/
 	cp bin/PrpPack $(PREFIX)/bin/
@@ -90,6 +93,7 @@ endif
 	cp bin/PlasmaSum $(PREFIX)/bin/
 	chmod +x bin/eoaedit bin/uruedit
 	cp bin/eoaedit bin/uruedit $(PREFIX)/bin/
+endif
 
 uninstall:
 	(cd core ; $(MAKE) uninstall)
@@ -99,6 +103,7 @@ endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE) uninstall)
 endif
+ifneq ($(MAKE_TOOLS),no)
 	rm -f $(PREFIX)/bin/PageConvert
 	rm -f $(PREFIX)/bin/PlasmaCrypt
 	rm -f $(PREFIX)/bin/PrpPack
@@ -114,6 +119,7 @@ endif
 	rm -f $(PREFIX)/bin/PlasmaSum
 	rm -f $(PREFIX)/bin/eoaedit
 	rm -f $(PREFIX)/bin/uruedit
+endif
 
 clean:
 	(cd core ; $(MAKE) clean)
@@ -132,6 +138,7 @@ endif
 ifneq ($(PYTHON_VER),no)
 	(cd Python ; $(MAKE) distclean)
 endif
+ifneq ($(MAKE_TOOLS),no)
 	rm -f bin/PageConvert
 	rm -f bin/PlasmaCrypt
 	rm -f bin/PrpPack
@@ -146,3 +153,4 @@ endif
 #	rm -f bin/prp-fuse
 	rm -f bin/PlasmaSum
 	rm -f Misc/TypeMap
+endif
