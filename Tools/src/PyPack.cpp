@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
     plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
     unsigned int uruKey[4];
     memcpy(uruKey, plEncryptedStream::DefaultKey(), sizeof(uruKey));
-    
+
     for (int i=1; i<argc; i++) {
         if (strcmp(argv[i], "-x") == 0) {
             action = kExtract;
@@ -251,7 +251,7 @@ int main(int argc, char** argv) {
             offs += pakObjects[i].fSize + 4;
             baseOffs += pakObjects[i].fFilename.len() + 6;
         }
-        
+
         hsStream* OS;
         if (eType == plEncryptedStream::kEncNone) {
             OS = new hsFileStream();
@@ -312,7 +312,7 @@ int main(int argc, char** argv) {
 
             hsFileStream FS;
             if (!outdir.empty())
-                outdir += PATHSEP;
+                outdir += PATHSEPSTR;
             FS.open(outdir + pakObjects[i].fFilename + 'c', fmCreate);
             FS.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)
                         ? kPyc22 : kPyc23);

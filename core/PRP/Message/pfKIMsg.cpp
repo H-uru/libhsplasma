@@ -61,7 +61,7 @@ void pfKIMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->startTag("Message");
-    prc->writeParam("value", hsWStringToString(fString));
+    prc->writeParam("value", fString);
     prc->endTag(true);
 }
 
@@ -75,7 +75,7 @@ void pfKIMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fUser = tag->getParam("User", "");
         fPlayerID = tag->getParam("ID", "0").toUint();
     } else if (tag->getName() == "Message") {
-        fString = hsStringToWString(tag->getParam("value", ""));
+        fString = tag->getParam("value", "");
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

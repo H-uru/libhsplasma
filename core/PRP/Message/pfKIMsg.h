@@ -61,8 +61,7 @@ public:
 protected:
     unsigned char fCommand;
     unsigned int fFlags, fPlayerID;
-    plString fUser;
-    plWString fString;
+    plString fUser, fString;
     float fDelay;
     int fValue;
 
@@ -81,7 +80,7 @@ public:
     unsigned int getFlags() const { return fFlags; }
     unsigned int getPlayerID() const { return fPlayerID; }
     plString getUser() const { return fUser; }
-    plWString getString() const { return fString; }
+    plString getString() const { return fString; }
     float getDelay() const { return fDelay; }
     int getValue() const { return fValue; }
 
@@ -89,7 +88,7 @@ public:
     void setFlags(unsigned int flags) { fFlags = flags; }
     void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
     void setUser(const plString& user) { fUser = user; }
-    void setString(const plWString& str) { fString = str; }
+    void setString(const plString& str) { fString = str; }
     void setDelay(float delay) { fDelay = delay; }
     void setValue(int value) { fValue = value; }
 };

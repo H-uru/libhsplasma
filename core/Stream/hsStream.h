@@ -63,7 +63,7 @@ public:
     bool readBool();
     plString readStr(size_t len);
     plString readSafeStr();
-    plWString readSafeWStr();
+    plString readSafeWStr();
     virtual plString readLine();
 
     void writeByte(hsUbyte v);
@@ -77,7 +77,7 @@ public:
     void writeBool(bool v);
     void writeStr(const plString& str);
     void writeSafeStr(const plString& str);
-    void writeSafeWStr(const plWString& str);
+    void writeSafeWStr(const plString& str);
     virtual void writeLine(const plString& ln, bool winEOL = false);
 };
 

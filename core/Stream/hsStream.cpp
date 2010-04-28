@@ -20,8 +20,7 @@
 #include "Sys/Platform.h"
 #include "Debug/plDebug.h"
 
-static const char eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
-static const wchar_t eoaWStrKey[8] = {L'm',L'y',L's',L't',L'n',L'e',L'r',L'd'};
+static const int eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
 /* hsStream */
 hsStream::hsStream(PlasmaVer pv) {
@@ -134,30 +133,30 @@ plString hsStream::readSafeStr() {
     return str;
 }
 
-plWString hsStream::readSafeWStr() {
+plString hsStream::readSafeWStr() {
     hsUint16 ssInfo = readShort();
-    wchar_t* buf;
+    pl_wchar_t* buf;
     if (ver == pvUniversal) {
-        buf = new wchar_t[ssInfo+1];
+        buf = new pl_wchar_t[ssInfo+1];
         for (size_t i=0; i<ssInfo; i++)
             buf[i] = readShort() & 0xFFFF;
         readShort();    // Terminator
         buf[ssInfo] = 0;
     } else if (ver >= pvEoa) {
-        buf = new wchar_t[ssInfo+1];
+        buf = new pl_wchar_t[ssInfo+1];
         for (size_t i=0; i<ssInfo; i++)
-            buf[i] = (readShort() ^ eoaWStrKey[i%8]) & 0xFFFF;
+            buf[i] = (readShort() ^ eoaStrKey[i%8]) & 0xFFFF;
         readShort();    // Terminator
         buf[ssInfo] = 0;
     } else {
         hsUint16 size = (ssInfo & 0x0FFF);
-        buf = new wchar_t[size+1];
+        buf = new pl_wchar_t[size+1];
         for (size_t i=0; i<size; i++)
             buf[i] = (~readShort()) & 0xFFFF;
         readShort();    // Terminator
         buf[size] = 0;
     }
-    plWString str(buf);
+    plString str(buf);
     delete[] buf;
     return str;
 }
@@ -269,25 +268,26 @@ void hsStream::writeSafeStr(const plString& str) {
     delete[] wbuf;
 }
 
-void hsStream::writeSafeWStr(const plWString& str) {
+void hsStream::writeSafeWStr(const plString& str) {
     if (str.len() > 0xFFF)
         plDebug::Warning("SafeWString length is excessively long");
     hsUint16 ssInfo = (hsUint16)str.len();
+    plString::Wide buf = str.wstr();
     if (ver == pvUniversal) {
         writeShort(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
-            writeShort(str[i]);
+            writeShort(buf.data()[i]);
         writeShort(0);  // Terminator
     } else if (ver >= pvEoa) {
         writeShort(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
-            writeShort(str[i] ^ eoaWStrKey[i%8]);
+            writeShort(buf.data()[i] ^ eoaStrKey[i%8]);
         writeShort(0);  // Terminator
     } else {
         ssInfo &= 0x0FFF;
         writeShort(ssInfo | 0xF000);
         for (size_t i=0; i<ssInfo; i++)
-            writeShort(~str[i]);
+            writeShort(~buf.data()[i]);
         writeShort(0);  // Terminator
     }
 }

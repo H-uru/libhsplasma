@@ -18,40 +18,206 @@
 #include "Sys/Platform.h"
 #include "Debug/hsExceptions.h"
 #include <ctype.h>
-#include <wctype.h>
 #include <cstdlib>
 #include <cstdarg>
 #include <cerrno>
 
-#ifndef wcscasecmp
-// Mac OSX doesn't have wcscasecmp :(
-int wcscasecmp(const hsWchar* s1, const hsWchar* s2) {
-    wint_t c1, c2;
-    do {
-        c1 = towlower(*s1++);
-        c2 = towlower(*s2++);
-    } while (c1 == c2 && c1 != 0);
-    return c1 - c2;
+/* Helper utils */
+static size_t utf8len(const pl_wchar_t* str, size_t srclen) {
+    if (str == NULL)
+        return 0;
+
+    size_t len = 0;
+    const pl_wchar_t* end = str + srclen;
+    while (str < end) {
+        if ((*str & 0xDC00) == 0xD800 || (*str & 0xDC00) == 0xDC00) {
+            // Surrogate pair
+            str++;
+            if ((*str & 0xDC00) != 0xD800 && (*str & 0xDC00) != 0xDC00)
+                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-16 surrogate pair");
+            len += 4;
+        } else if (*str < 0x80) {
+            len += 1;
+        } else if (*str < 0x800) {
+            len += 2;
+        } else {
+            len += 3;
+        }
+        str++;
+    }
+    return len;
 }
-#endif
 
-/********************************** plString **********************************/
-plString::plStrData::plStrData()
-        : fStr(NULL), fLen(0), fHash(0), fRefs(1) { }
+static size_t utf16len(const char* str, size_t srclen) {
+    if (str == NULL)
+        return 0;
 
-plString::plStrData::~plStrData() {
+    size_t len = 0;
+    const char* end = str + srclen;
+    while (str < end) {
+        if ((*str & 0x80) == 0) {
+            str += 1;
+        } else if ((*str & 0xE0) == 0xC0) {
+            if ((*(str+1) & 0xC0) != 0x80)
+                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 sequence");
+            str += 2;
+        } else if ((*str & 0xF0) == 0xE0) {
+            if ((*(str+1) & 0xC0) != 0x80 || (*(str+2) & 0xC0) != 0x80)
+                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 sequence");
+            str += 3;
+        } else if ((*str & 0xF1) == 0xF0) {
+            if ((*(str+1) & 0xC0) != 0x80 || (*(str+2) & 0xC0) != 0x80 ||
+                (*(str+3) & 0xC0) != 0x80)
+                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 sequence");
+            str += 4;
+            len++;
+        } else {
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 sequence");
+        }
+        len++;
+    }
+    return len;
+}
+
+static size_t plwcslen(const pl_wchar_t* str) {
+    size_t len = 0;
+    while (*str++ != 0)
+        len++;
+    return len;
+}
+
+static void utf8encode(char* dest, size_t length, const pl_wchar_t* src, size_t srclen) {
+    unsigned int ch;
+    char* end = dest + length;
+    const pl_wchar_t* srcend = src + srclen;
+    while (src < srcend) {
+        if ((*src & 0xDC00) == 0xD800) {
+            if (dest + 4 > end)
+                break;
+            ch  = *src++ << 10;
+            ch |= *src++;
+
+            *dest++ = 0xF0 | ((ch >> 18) & 0x07);
+            *dest++ = 0x80 | ((ch >> 12) & 0x3F);
+            *dest++ = 0x80 | ((ch >>  6) & 0x3F);
+            *dest++ = 0x80 | ((ch      ) & 0x3F);
+        } else if ((*src & 0xDC00) == 0xDC00) {
+            if (dest + 4 > end)
+                break;
+            ch  = *src++;
+            ch |= *src++ << 10;
+
+            *dest++ = 0xF0 | ((ch >> 18) & 0x07);
+            *dest++ = 0x80 | ((ch >> 12) & 0x3F);
+            *dest++ = 0x80 | ((ch >>  6) & 0x3F);
+            *dest++ = 0x80 | ((ch      ) & 0x3F);
+        } else if (*src < 0x80) {
+            if (dest + 1 > end)
+                break;
+            *dest++ = *src++;
+        } else if (*src < 0x800) {
+            if (dest + 2 > end)
+                break;
+            ch = *src++;
+            *dest++ = 0xC0 | ((ch >> 6) & 0x1F);
+            *dest++ = 0x80 | ((ch     ) & 0x3F);
+        } else {
+            if (dest + 3 > end)
+                break;
+            ch = *src++;
+            *dest++ = 0xE0 | ((ch >> 12) & 0x0F);
+            *dest++ = 0x80 | ((ch >>  6) & 0x3F);
+            *dest++ = 0x80 | ((ch      ) & 0x3F);
+        }
+    }
+}
+
+static void utf8decode(pl_wchar_t* dest, size_t length, const char* src, size_t srclen) {
+    unsigned int ch;
+    pl_wchar_t* end = dest + length;
+    const char* srcend = src + srclen;
+    while (src < srcend) {
+        if ((*src & 0x80) == 0) {
+            if (dest + 1 > end)
+                break;
+            *dest++ = *src++;
+        } else if ((*src & 0xE0) == 0xC0) {
+            if (dest + 1 > end)
+                break;
+            ch  = ((*src++ & 0x1F) << 6);
+            ch |= ((*src++ & 0x3F)     );
+            *dest++ = ch;
+        } else if ((*src & 0xF0) == 0xE0) {
+            if (dest + 1 > end)
+                break;
+            ch  = ((*src++ & 0x0F) << 12);
+            ch |= ((*src++ & 0x3F) <<  6);
+            ch |= ((*src++ & 0x3F)      );
+            *dest++ = ch;
+        } else if ((*src & 0xF1) == 0xF0) {
+            if (dest + 2 > end)
+                break;
+            ch  = ((*src++ & 0x07) << 18);
+            ch |= ((*src++ & 0x3F) << 12);
+            ch |= ((*src++ & 0x3F) <<  6);
+            ch |= ((*src++ & 0x3F)      );
+            *dest++ = 0xD800 | ((ch >> 10) & 0x3FF);
+            *dest++ = 0xDC00 | ((ch      ) & 0x3FF);
+        }
+    }
+}
+
+
+/* StrBuffer */
+plString::StrBuffer::StrBuffer(char* str, size_t len)
+        : fStr(str), fLen(len), fRefs(1) { }
+
+plString::StrBuffer::~StrBuffer() {
     delete[] fStr;
 }
 
-void plString::plStrData::unref() {
+void plString::StrBuffer::unref() {
     if (--fRefs == 0)
         delete this;
 }
 
-const char* plString::plStrData::get() const {
-    return (fStr != NULL) ? fStr : "";
+
+/* WideBuffer */
+plString::WideBuffer::WideBuffer(pl_wchar_t* str, size_t len)
+        : fStr(str), fLen(len), fRefs(1) { }
+
+plString::WideBuffer::~WideBuffer() {
+    delete[] fStr;
 }
 
+void plString::WideBuffer::unref() {
+    if (--fRefs == 0)
+        delete this;
+}
+
+plString::Wide::Wide(WideBuffer* init) : fString(init) { }
+
+plString::Wide::Wide(const Wide& init) : fString(init.fString) {
+    if (fString != NULL)
+        fString->ref();
+}
+
+plString::Wide::~Wide() {
+    if (fString != NULL)
+        fString->unref();
+}
+
+plString::Wide& plString::Wide::operator=(const Wide& other) {
+    if (other.fString != NULL)
+        other.fString->ref();
+    if (fString != NULL)
+        fString->unref();
+    fString = other.fString;
+    return *this;
+}
+
+
+/* plString */
 plString::plString() : fString(NULL) { }
 
 plString::plString(const plString& init) : fString(init.fString) {
@@ -63,22 +229,27 @@ plString::plString(const char* init, size_t len) : fString(NULL) {
     if (init != NULL) {
         if (len == (size_t)-1)
             len = strlen(init);
-        if (len > 0) {
-            fString = new plStrData();
-            fString->fLen = len;
-            fString->fStr = new char[len+1];
-            strncpy(fString->fStr, init, len);
-            fString->fStr[len] = 0;
+        if (len != 0) {
+            char* buf = new char[len+1];
+            memcpy(buf, init, len);
+            buf[len] = 0;
+            fString = new StrBuffer(buf, len);
         }
     }
 }
 
-plString::plString(char c) {
-    fString = new plStrData();
-    fString->fLen = 1;
-    fString->fStr = new char[2];
-    fString->fStr[0] = c;
-    fString->fStr[1] = 0;
+plString::plString(const pl_wchar_t* init, size_t len) : fString(NULL) {
+    if (init != NULL) {
+        if (len == (size_t)-1)
+            len = plwcslen(init);
+        if (len > 0) {
+            size_t chlen = utf8len(init, len);
+            char* buf = new char[chlen+1];
+            utf8encode(buf, chlen, init, len);
+            buf[chlen] = 0;
+            fString = new StrBuffer(buf, chlen);
+        }
+    }
 }
 
 plString::~plString() {
@@ -87,14 +258,11 @@ plString::~plString() {
 }
 
 plString& plString::operator=(const plString& other) {
+    if (other.fString != NULL)
+        other.fString->ref();
     if (fString != NULL)
         fString->unref();
-    if (!other.empty()) {
-        fString = other.fString;
-        fString->ref();
-    } else {
-        fString = NULL;
-    }
+    fString = other.fString;
     return (*this);
 }
 
@@ -104,10 +272,10 @@ plString& plString::operator=(const char* str) {
     if (str != NULL) {
         size_t len = strlen(str);
         if (len > 0) {
-            fString = new plStrData();
-            fString->fLen = len;
-            fString->fStr = new char[len+1];
-            strcpy(fString->fStr, str);
+            char* buf = new char[len+1];
+            strncpy(buf, str, len);
+            buf[len] = 0;
+            fString = new StrBuffer(buf, len);
         } else {
             fString = NULL;
         }
@@ -117,36 +285,39 @@ plString& plString::operator=(const char* str) {
     return (*this);
 }
 
-plString& plString::operator=(char c) {
+plString& plString::operator=(const pl_wchar_t* str) {
     if (fString != NULL)
         fString->unref();
-    fString = new plStrData();
-    fString->fLen = 1;
-    fString->fStr = new char[2];
-    fString->fStr[0] = c;
-    fString->fStr[1] = 0;
+    if (str != NULL) {
+        size_t len = plwcslen(str);
+        if (len > 0) {
+            size_t chlen = utf8len(str, len);
+            char* buf = new char[chlen+1];
+            utf8encode(buf, chlen, str, len);
+            buf[chlen] = 0;
+            fString = new StrBuffer(buf, chlen);
+        } else {
+            fString = NULL;
+        }
+    } else {
+        fString = NULL;
+    }
     return (*this);
 }
 
 plString& plString::operator+=(const plString& other) {
     if (other.empty())
         return (*this);
-    if (empty()) {
-        if (fString != NULL)
-            fString->unref();
-        fString = other.fString;
-        if (fString != NULL)
-            fString->ref();
-        return (*this);
-    }
+    if (empty())
+        return operator=(other);
 
-    plStrData* newStr = new plStrData();
-    newStr->fLen = fString->fLen + other.fString->fLen;
-    newStr->fStr = new char[newStr->fLen + 1];
-    strcpy(newStr->fStr, fString->fStr);
-    strcpy(newStr->fStr + fString->fLen, other.fString->fStr);
+    size_t catlen = fString->len() + other.fString->len();
+    char* buf = new char[catlen + 1];
+    memcpy(buf, fString->data(), fString->len());
+    memcpy(buf + fString->len(), other.fString->data(), other.fString->len());
+    buf[catlen] = 0;
     fString->unref();
-    fString = newStr;
+    fString = new StrBuffer(buf, catlen);
     return (*this);
 }
 
@@ -156,29 +327,32 @@ plString& plString::operator+=(const char* str) {
     if (empty())
         return operator=(str);
 
-    size_t len = strlen(str);
-    plStrData* newStr = new plStrData();
-    newStr->fLen = fString->fLen + len;
-    newStr->fStr = new char[newStr->fLen + 1];
-    strcpy(newStr->fStr, fString->fStr);
-    strcpy(newStr->fStr + fString->fLen, str);
+    size_t slen = strlen(str);
+    size_t catlen = fString->len() + slen;
+    char* buf = new char[catlen + 1];
+    memcpy(buf, fString->data(), fString->len());
+    memcpy(buf + fString->len(), str, slen);
+    buf[catlen] = 0;
     fString->unref();
-    fString = newStr;
+    fString = new StrBuffer(buf, catlen);
     return (*this);
 }
 
-plString& plString::operator+=(char c) {
+plString& plString::operator+=(const pl_wchar_t* str) {
+    if (str == NULL)
+        return (*this);
     if (empty())
-        return operator=(c);
+        return operator=(str);
 
-    plStrData* newStr = new plStrData();
-    newStr->fLen = fString->fLen + 1;
-    newStr->fStr = new char[newStr->fLen + 1];
-    strcpy(newStr->fStr, fString->fStr);
-    newStr->fStr[fString->fLen] = c;
-    newStr->fStr[fString->fLen + 1] = 0;
+    size_t wlen = plwcslen(str);
+    size_t slen = utf8len(str, wlen);
+    size_t catlen = fString->len() + slen;
+    char* buf = new char[catlen + 1];
+    memcpy(buf, fString->data(), fString->len());
+    utf8encode(buf + fString->len(), slen, str, wlen);
+    buf[catlen] = 0;
     fString->unref();
-    fString = newStr;
+    fString = new StrBuffer(buf, catlen);
     return (*this);
 }
 
@@ -192,106 +366,110 @@ plString plString::operator+(const char* str) const {
     return (result += str);
 }
 
-plString plString::operator+(char c) const {
+plString plString::operator+(const pl_wchar_t* str) const {
     plString result(*this);
-    return (result += c);
+    return (result += str);
 }
 
 bool plString::operator==(const plString& other) const {
-    if (other.empty()) return empty();
-    if (empty()) return false;
-    return (strcmp(fString->fStr, other.fString->fStr)==0);
+    if (other.empty())
+        return empty();
+    if (empty())
+        return false;
+    return (strcmp(fString->data(), other.fString->data()) == 0);
 }
 
 bool plString::operator==(const char* str) const {
-    if (str == NULL) return empty();
-    if (empty()) return false;
-    return (strcmp(fString->fStr, str)==0);
-}
-
-bool plString::operator!=(const plString& other) const {
-    if (other.empty()) return !empty();
-    if (empty()) return true;
-    return (strcmp(fString->fStr, other.fString->fStr)!=0);
-}
-
-bool plString::operator!=(const char* str) const {
-    if (str == NULL) return !empty();
-    if (empty()) return true;
-    return (strcmp(fString->fStr, str)!=0);
+    if (str == NULL)
+        return empty();
+    if (empty())
+        return false;
+    return (strcmp(fString->data(), str) == 0);
 }
 
 bool plString::operator<(const plString& other) const {
-    if (other.empty()) return false;
-    if (empty()) return true;
-    return (strcmp(fString->fStr, other.fString->fStr) < 0);
-}
-
-bool plString::operator<(const char* str) const {
-    if (str == NULL) return false;
-    if (empty()) return true;
-    return (strcmp(fString->fStr, str) < 0);
+    if (other.empty())
+        return false;
+    if (empty())
+        return true;
+    return (strcmp(fString->data(), other.fString->data()) < 0);
 }
 
 int plString::compareTo(const plString& other, bool ignoreCase) const {
     if (ignoreCase) {
-        return strcasecmp(fString->fStr, other.fString->fStr);
+        return strcasecmp(fString->data(), other.fString->data());
     } else {
-        return strcmp(fString->fStr, other.fString->fStr);
+        return strcmp(fString->data(), other.fString->data());
     }
 }
 
 int plString::compareTo(const char* other, bool ignoreCase) const {
     if (ignoreCase) {
-        return strcasecmp(fString->fStr, other);
+        return strcasecmp(fString->data(), other);
     } else {
-        return strcmp(fString->fStr, other);
+        return strcmp(fString->data(), other);
     }
 }
 
 bool plString::startsWith(const plString& cmp, bool ignoreCase) const {
-    if (cmp.empty()) return true;
-    if (empty()) return false;
-    if (fString->fLen < cmp.fString->fLen) return false;
+    if (cmp.empty())
+        return true;
+    if (empty())
+        return false;
+    if (fString->len() < cmp.fString->len())
+        return false;
     return (left(cmp.len()).compareTo(cmp, ignoreCase) == 0);
 }
 
 bool plString::startsWith(const char* cmp, bool ignoreCase) const {
-    if (cmp == NULL) return true;
-    if (empty()) return false;
-    if (fString->fLen < strlen(cmp)) return false;
+    if (cmp == NULL)
+        return true;
+    if (empty())
+        return false;
+    if (fString->len() < strlen(cmp))
+        return false;
     return (left(strlen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
 
 bool plString::endsWith(const plString& cmp, bool ignoreCase) const {
-    if (cmp.empty()) return true;
-    if (empty()) return false;
-    if (fString->fLen < cmp.fString->fLen) return false;
+    if (cmp.empty())
+        return true;
+    if (empty())
+        return false;
+    if (fString->len() < cmp.fString->len())
+        return false;
     return (right(cmp.len()).compareTo(cmp, ignoreCase) == 0);
 }
 
 bool plString::endsWith(const char* cmp, bool ignoreCase) const {
-    if (cmp == NULL) return true;
-    if (empty()) return false;
-    if (fString->fLen < strlen(cmp)) return false;
+    if (cmp == NULL)
+        return true;
+    if (empty())
+        return false;
+    if (fString->len() < strlen(cmp))
+        return false;
     return (right(strlen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
 
-const char* plString::cstr() const {
-    return (fString != NULL) ? fString->get() : "";
+plString::Wide plString::wstr() const {
+    if (empty())
+        return Wide(NULL);
+    size_t wlen = utf16len(fString->data(), fString->len());
+    pl_wchar_t* buf = new pl_wchar_t[wlen+1];
+    utf8decode(buf, wlen, fString->data(), fString->len());
+    buf[wlen] = 0;
+    return Wide(new WideBuffer(buf, wlen));
 }
 
 unsigned int plString::hash() const {
-    if (fString != NULL) {
-        if (fString->fHash == 0)
-            fString->fHash = hash(fString->fStr);
-        return fString->fHash;
-    }
+    if (fString != NULL)
+        return hash(fString->data());
     return hash(NULL);
 }
 
 unsigned int plString::hash(const char* str) {
-    if (str == NULL) str = "";
+    if (str == NULL)
+        str = "";
 
     // djb2 hash
     unsigned int hash = 5381;
@@ -301,142 +479,159 @@ unsigned int plString::hash(const char* str) {
 }
 
 long plString::find(char c) const {
-    if (empty()) return -1;
-    char* pos = strchr(fString->fStr, c);
+    if (empty())
+        return -1;
+    const char* pos = strchr(fString->data(), c);
     if (pos != NULL)
-        return (long)(pos - fString->fStr);
+        return (long)(pos - fString->data());
     return -1;
 }
 
 long plString::find(const char* sub) const {
-    if (empty()) return -1;
-    if (sub == NULL) return 0;
+    if (empty())
+        return -1;
+    if (sub == NULL)
+        return 0;
     size_t len = strlen(sub);
-    if (len > fString->fLen) return -1;
-    for (size_t i=0; i<(fString->fLen - len); i++) {
-        if (strncmp(fString->fStr + i, sub, len) == 0)
+    if (len > fString->len())
+        return -1;
+    for (size_t i=0; i<(fString->len() - len); i++) {
+        if (strncmp(fString->data() + i, sub, len) == 0)
             return (long)i;
     }
     return -1;
 }
 
 long plString::find(const plString& sub) const {
-    if (empty()) return -1;
-    if (sub.empty()) return 0;
-    if (sub.fString->fLen > fString->fLen) return -1;
-    for (size_t i=0; i<(fString->fLen - sub.fString->fLen); i++) {
-        if (strncmp(fString->fStr + i, sub.fString->fStr, sub.fString->fLen) == 0)
+    if (empty())
+        return -1;
+    if (sub.empty())
+        return 0;
+    if (sub.fString->len() > fString->len())
+        return -1;
+    for (size_t i=0; i<(fString->len() - sub.fString->len()); i++) {
+        if (strncmp(fString->data() + i, sub.fString->data(), sub.fString->len()) == 0)
             return (long)i;
     }
     return -1;
 }
 
 long plString::rfind(char c) const {
-    if (empty()) return -1;
-    char* pos = strrchr(fString->fStr, c);
+    if (empty())
+        return -1;
+    const char* pos = strrchr(fString->data(), c);
     if (pos != NULL)
-        return (long)(pos - fString->fStr);
+        return (long)(pos - fString->data());
     return -1;
 }
 
 long plString::rfind(const char* sub) const {
-    if (empty()) return -1;
-    if (sub == NULL) return 0;
+    if (empty())
+        return -1;
+    if (sub == NULL)
+        return 0;
     size_t len = strlen(sub);
-    if (len > fString->fLen) return -1;
-    for (size_t i=(fString->fLen - len); i>0; i--) {
-        if (strncmp(fString->fStr + (i-1), sub, len) == 0)
+    if (len > fString->len())
+        return -1;
+    for (size_t i=(fString->len() - len); i>0; i--) {
+        if (strncmp(fString->data() + (i-1), sub, len) == 0)
             return (long)(i-1);
     }
     return -1;
 }
 
 long plString::rfind(const plString& sub) const {
-    if (empty()) return -1;
-    if (sub.empty()) return 0;
-    if (sub.fString->fLen > fString->fLen) return -1;
-    for (size_t i=(fString->fLen - sub.fString->fLen); i>0; i--) {
-        if (strncmp(fString->fStr + (i-1), sub.fString->fStr, sub.fString->fLen) == 0)
+    if (empty())
+        return -1;
+    if (sub.empty())
+        return 0;
+    if (sub.fString->len() > fString->len())
+        return -1;
+    for (size_t i=(fString->len() - sub.fString->len()); i>0; i--) {
+        if (strncmp(fString->data() + (i-1), sub.fString->data(), sub.fString->len()) == 0)
             return (long)(i-1);
     }
     return -1;
 }
 
-plString& plString::toUpper() {
+plString plString::toUpper() const {
     if (!empty()) {
-        plStrData* upper = new plStrData();
-        upper->fLen = fString->fLen;
-        upper->fStr = new char[upper->fLen + 1];
-        char* d = upper->fStr;
-        for (char* c=fString->fStr; *c; c++)
-            *d++ = toupper(*c);
-        *d = 0;
-        fString->unref();
-        fString = upper;
+        char* buf = new char[fString->len() + 1];
+        memcpy(buf, fString->data(), fString->len());
+        for (size_t i=0; i<fString->len(); i++)
+            buf[i] = toupper(buf[i]);
+        buf[fString->len()] = 0;
+
+        plString result;
+        result.fString = new StrBuffer(buf, fString->len());
+        return result;
     }
-    return (*this);
+    return *this;
 }
 
-plString& plString::toLower() {
+plString plString::toLower() const {
     if (!empty()) {
-        plStrData* lower = new plStrData();
-        lower->fLen = fString->fLen;
-        lower->fStr = new char[lower->fLen + 1];
-        char* d = lower->fStr;
-        for (char* c=fString->fStr; *c; c++)
-            *d++ = tolower(*c);
-        *d = 0;
-        fString->unref();
-        fString = lower;
+        char* buf = new char[fString->len() + 1];
+        memcpy(buf, fString->data(), fString->len());
+        for (size_t i=0; i<fString->len(); i++)
+            buf[i] = tolower(buf[i]);
+        buf[fString->len()] = 0;
+
+        plString result;
+        result.fString = new StrBuffer(buf, fString->len());
+        return result;
     }
-    return (*this);
+    return *this;
 }
 
 plString plString::left(size_t num) const {
-    if (empty()) return plString();
-    if (num > fString->fLen) num = fString->fLen;
-    if (num == fString->fLen) return *this;
+    if (empty())
+        return plString();
+    if (num > fString->len() || num == fString->len())
+        return *this;
 
     plString retn;
-    retn.fString = new plStrData();
-    retn.fString->fLen = num;
-    retn.fString->fStr = new char[num+1];
-    strncpy(retn.fString->fStr, fString->fStr, num);
-    retn.fString->fStr[num] = 0;
+    char* buf = new char[num+1];
+    memcpy(buf, fString->data(), num);
+    buf[num] = 0;
+    retn.fString = new StrBuffer(buf, num);
     return retn;
 }
 
 plString plString::right(size_t num) const {
-    if (empty()) return plString();
-    if (num > fString->fLen) num = fString->fLen;
-    if (num == fString->fLen) return *this;
+    if (empty())
+        return plString();
+    if (num > fString->len() || num == fString->len())
+        return *this;
 
     plString retn;
-    retn.fString = new plStrData();
-    retn.fString->fLen = num;
-    retn.fString->fStr = new char[num+1];
-    strncpy(retn.fString->fStr, fString->fStr + (fString->fLen - num), num);
-    retn.fString->fStr[num] = 0;
+    char* buf = new char[num+1];
+    memcpy(buf, fString->data() + (fString->len() - num), num);
+    buf[num] = 0;
+    retn.fString = new StrBuffer(buf, num);
     return retn;
 }
 
 plString plString::mid(size_t idx, size_t num) const {
-    if (empty()) return plString();
-    if (idx > fString->fLen) return plString();
-    if (idx + num > fString->fLen) num = fString->fLen - idx;
+    if (empty())
+        return plString();
+    if (idx > fString->len())
+        return plString();
+    if (idx + num > fString->len())
+        num = fString->len() - idx;
 
     plString retn;
-    retn.fString = new plStrData();
-    retn.fString->fLen = num;
-    retn.fString->fStr = new char[num+1];
-    strncpy(retn.fString->fStr, fString->fStr + idx, num);
-    retn.fString->fStr[num] = 0;
+    char* buf = new char[num+1];
+    memcpy(buf, fString->data() + idx, num);
+    buf[num] = 0;
+    retn.fString = new StrBuffer(buf, num);
     return retn;
 }
 
 plString plString::mid(size_t idx) const {
-    if (fString == NULL) return plString();
-    return mid(idx, fString->fLen - idx);
+    if (fString == NULL)
+        return plString();
+    return mid(idx, fString->len() - idx);
 }
 
 plString plString::beforeFirst(char sep) const {
@@ -444,7 +639,7 @@ plString plString::beforeFirst(char sep) const {
     if (pos >= 0)
         return left(pos);
     else
-        return (*this);
+        return *this;
 }
 
 plString plString::afterFirst(char sep) const {
@@ -468,20 +663,22 @@ plString plString::afterLast(char sep) const {
     if (pos >= 0)
         return mid(pos+1);
     else
-        return (*this);
+        return *this;
 }
 
 plString plString::replace(const char* src, const char* dest) const {
-    if (empty() || src == NULL || dest == NULL) return *this;
+    if (empty() || src == NULL || dest == NULL)
+        return *this;
     size_t len = strlen(src);
-    if (len > fString->fLen) return *this;
+    if (len > fString->len())
+        return *this;
 
     plString result;
     size_t begin = 0;
     size_t i = 0;
-    while (i < (fString->fLen - len)) {
-        if (strncmp(fString->fStr + i, src, len) == 0) {
-            result += plString(fString->fStr + begin, i - begin);
+    while (i < (fString->len() - len)) {
+        if (strncmp(fString->data() + i, src, len) == 0) {
+            result += plString(fString->data() + begin, i - begin);
             result += dest;
             i += len;
             begin = i;
@@ -489,7 +686,7 @@ plString plString::replace(const char* src, const char* dest) const {
             i++;
         }
     }
-    return result + plString(fString->fStr + begin, (i + 1) - begin);
+    return result + plString(fString->data() + begin, (i + 1) - begin);
 }
 
 std::vector<plString> plString::split(char sep) const {
@@ -506,29 +703,32 @@ std::vector<plString> plString::split(char sep) const {
 }
 
 long plString::toInt(int base) const {
-    if (empty()) return 0;
+    if (empty())
+        return 0;
     errno = 0;
-    long value = strtol(fString->fStr, NULL, base);
+    long value = strtol(fString->data(), NULL, base);
     if (errno == ERANGE || errno == EINVAL)
-        throw hsBadParamException(__FILE__, __LINE__);
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid conversion to int");
     return value;
 }
 
 unsigned long plString::toUint(int base) const {
-    if (empty()) return 0;
+    if (empty())
+        return 0;
     errno = 0;
-    unsigned long value = strtoul(fString->fStr, NULL, base);
+    unsigned long value = strtoul(fString->data(), NULL, base);
     if (errno == ERANGE || errno == EINVAL)
-        throw hsBadParamException(__FILE__, __LINE__);
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid conversion to uint");
     return value;
 }
 
 double plString::toFloat() const {
-    if (empty()) return 0.0;
+    if (empty())
+        return 0.0;
     errno = 0;
-    double value = strtod(fString->fStr, NULL);
+    double value = strtod(fString->data(), NULL);
     if (errno == ERANGE || errno == EINVAL)
-        throw hsBadParamException(__FILE__, __LINE__);
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid conversion to float");
     return value;
 }
 
@@ -555,555 +755,7 @@ plString plString::FormatV(const char* fmt, va_list aptr) {
 }
 
 
-/********************************* plWString *********************************/
-plWString::plStrData::plStrData()
-         : fStr(NULL), fLen(0), fHash(0), fRefs(1) { }
-
-plWString::plStrData::~plStrData() {
-    delete[] fStr;
-}
-
-void plWString::plStrData::unref() {
-    if (--fRefs == 0)
-        delete this;
-}
-
-const hsWchar* plWString::plStrData::get() const {
-    return (fStr != NULL) ? fStr : L"";
-}
-
-plWString::plWString() : fString(NULL) { }
-
-plWString::plWString(const plWString& init) : fString(init.fString) {
-    if (fString != NULL)
-        fString->ref();
-}
-
-plWString::plWString(const hsWchar* init, size_t len) : fString(NULL) {
-    if (init != NULL) {
-        if (len == (size_t)-1)
-            len = wcslen(init);
-        if (len > 0) {
-            fString = new plStrData();
-            fString->fLen = len;
-            fString->fStr = new hsWchar[len+1];
-            wcsncpy(fString->fStr, init, len);
-            fString->fStr[len] = 0;
-        }
-    }
-}
-
-plWString::plWString(hsWchar c) {
-    fString = new plStrData();
-    fString->fLen = 1;
-    fString->fStr = new hsWchar[2];
-    fString->fStr[0] = c;
-    fString->fStr[1] = 0;
-}
-
-plWString::~plWString() {
-    if (fString != NULL)
-        fString->unref();
-}
-
-plWString& plWString::operator=(const plWString& other) {
-    if (fString != NULL)
-        fString->unref();
-    if (!other.empty()) {
-        fString = other.fString;
-        if (fString != NULL)
-            fString->ref();
-    } else {
-        fString = NULL;
-    }
-    return (*this);
-}
-
-plWString& plWString::operator=(const hsWchar* str) {
-    if (fString != NULL)
-        fString->unref();
-    if (str != NULL) {
-        size_t len = wcslen(str);
-        if (len > 0) {
-            fString = new plStrData();
-            fString->fLen = len;
-            fString->fStr = new hsWchar[len+1];
-            wcscpy(fString->fStr, str);
-        } else {
-            fString = NULL;
-        }
-    } else {
-        fString = NULL;
-    }
-    return (*this);
-}
-
-plWString& plWString::operator=(hsWchar c) {
-    if (fString != NULL)
-        fString->unref();
-    fString = new plStrData();
-    fString->fLen = 1;
-    fString->fStr = new hsWchar[2];
-    fString->fStr[0] = c;
-    fString->fStr[1] = 0;
-    return (*this);
-}
-
-plWString& plWString::operator+=(const plWString& other) {
-    if (other.empty())
-        return (*this);
-    if (empty()) {
-        if (fString != NULL)
-            fString->unref();
-        fString = other.fString;
-        if (fString != NULL)
-            fString->ref();
-        return (*this);
-    }
-
-    plStrData* newStr = new plStrData();
-    newStr->fLen = fString->fLen + other.fString->fLen;
-    newStr->fStr = new hsWchar[newStr->fLen + 1];
-    wcscpy(newStr->fStr, fString->fStr);
-    wcscpy(newStr->fStr + fString->fLen, other.fString->fStr);
-    fString->unref();
-    fString = newStr;
-    return (*this);
-}
-
-plWString& plWString::operator+=(const hsWchar* str) {
-    if (str == NULL)
-        return (*this);
-    if (empty())
-        return operator=(str);
-
-    size_t len = wcslen(str);
-    plStrData* newStr = new plStrData();
-    newStr->fLen = fString->fLen + len;
-    newStr->fStr = new hsWchar[newStr->fLen + 1];
-    wcscpy(newStr->fStr, fString->fStr);
-    wcscpy(newStr->fStr + fString->fLen, str);
-    fString->unref();
-    fString = newStr;
-    return (*this);
-}
-
-plWString& plWString::operator+=(hsWchar c) {
-    if (empty())
-        return operator=(c);
-
-    plStrData* newStr = new plStrData();
-    newStr->fLen = fString->fLen + 1;
-    newStr->fStr = new hsWchar[newStr->fLen + 1];
-    newStr->fStr[fString->fLen] = c;
-    newStr->fStr[fString->fLen + 1] = 0;
-    fString->unref();
-    fString = newStr;
-    return (*this);
-}
-
-plWString plWString::operator+(const plWString& other) const {
-    plWString result(*this);
-    return (result += other);
-}
-
-plWString plWString::operator+(const hsWchar* str) const {
-    plWString result(*this);
-    return (result += str);
-}
-
-plWString plWString::operator+(hsWchar c) const {
-    plWString result(*this);
-    return (result += c);
-}
-
-bool plWString::operator==(const plWString& other) const {
-    if (other.empty()) return empty();
-    if (empty()) return false;
-    return (wcscmp(fString->fStr, other.fString->fStr)==0);
-}
-
-bool plWString::operator==(const hsWchar* str) const {
-    if (str == NULL) return empty();
-    if (empty()) return false;
-    return (wcscmp(fString->fStr, str)==0);
-}
-
-bool plWString::operator!=(const plWString& other) const {
-    if (other.empty()) return !empty();
-    if (empty()) return true;
-    return (wcscmp(fString->fStr, other.fString->fStr)!=0);
-}
-
-bool plWString::operator!=(const hsWchar* str) const {
-    if (str == NULL) return !empty();
-    if (empty()) return true;
-    return (wcscmp(fString->fStr, str)!=0);
-}
-
-bool plWString::operator<(const plWString& other) const {
-    if (other.empty()) return false;
-    if (empty()) return true;
-    return (wcscmp(fString->fStr, other.fString->fStr) < 0);
-}
-
-bool plWString::operator<(const hsWchar* str) const {
-    if (str == NULL) return false;
-    if (empty()) return true;
-    return (wcscmp(fString->fStr, str) < 0);
-}
-
-int plWString::compareTo(const plWString& other, bool ignoreCase) const {
-    if (ignoreCase) {
-        return wcscasecmp(fString->fStr, other.fString->fStr);
-    } else {
-        return wcscmp(fString->fStr, other.fString->fStr);
-    }
-}
-
-int plWString::compareTo(const hsWchar* other, bool ignoreCase) const {
-    if (ignoreCase) {
-        return wcscasecmp(fString->fStr, other);
-    } else {
-        return wcscmp(fString->fStr, other);
-    }
-}
-
-bool plWString::startsWith(const plWString& cmp, bool ignoreCase) const {
-    if (cmp.empty()) return true;
-    if (empty()) return false;
-    if (fString->fLen < cmp.fString->fLen) return false;
-    return (left(cmp.len()).compareTo(cmp, ignoreCase) == 0);
-}
-
-bool plWString::startsWith(const hsWchar* cmp, bool ignoreCase) const {
-    if (cmp == NULL) return true;
-    if (empty()) return false;
-    if (fString->fLen < wcslen(cmp)) return false;
-    return (left(wcslen(cmp)).compareTo(cmp, ignoreCase) == 0);
-}
-
-bool plWString::endsWith(const plWString& cmp, bool ignoreCase) const {
-    if (cmp.empty()) return true;
-    if (empty()) return false;
-    if (fString->fLen < cmp.fString->fLen) return false;
-    return (right(cmp.len()).compareTo(cmp, ignoreCase) == 0);
-}
-
-bool plWString::endsWith(const hsWchar* cmp, bool ignoreCase) const {
-    if (cmp == NULL) return true;
-    if (empty()) return false;
-    if (fString->fLen < wcslen(cmp)) return false;
-    return (right(wcslen(cmp)).compareTo(cmp, ignoreCase) == 0);
-}
-
-const hsWchar* plWString::cstr() const {
-    return (fString != NULL) ? fString->get() : L"";
-}
-
-unsigned int plWString::hash() const {
-    if (fString != NULL) {
-        if (fString->fHash == 0)
-            fString->fHash = hash(fString->fStr);
-        return fString->fHash;
-    }
-    return hash(NULL);
-}
-
-unsigned int plWString::hash(const hsWchar* str) {
-    if (str == NULL)
-        str = L"";
-
-    // djb2 hash //
-    // hopefully this works as well on wstrings as on strings... //
-    unsigned int hash = 5381;
-    while (*str++)
-        hash = ((hash << 5) + hash) ^ *str;
-    return hash;
-}
-
-long plWString::find(hsWchar c) const {
-    if (empty()) return -1;
-    hsWchar* pos = wcschr(fString->fStr, c);
-    if (pos != NULL)
-        return (long)(pos - fString->fStr);
-    return -1;
-}
-
-long plWString::find(const hsWchar* sub) const {
-    if (empty()) return -1;
-    if (sub == NULL) return 0;
-    size_t len = wcslen(sub);
-    if (len > fString->fLen) return -1;
-    for (size_t i=0; i<(fString->fLen - len); i++) {
-        if (wcsncmp(fString->fStr + i, sub, len) == 0)
-            return (long)i;
-    }
-    return -1;
-}
-
-long plWString::find(const plWString& sub) const {
-    if (empty()) return -1;
-    if (sub.empty()) return 0;
-    if (sub.fString->fLen > fString->fLen) return -1;
-    for (size_t i=0; i<(fString->fLen - sub.fString->fLen); i++) {
-        if (wcsncmp(fString->fStr + i, sub.fString->fStr, sub.fString->fLen) == 0)
-            return (long)i;
-    }
-    return -1;
-}
-
-long plWString::rfind(hsWchar c) const {
-    if (empty()) return -1;
-    hsWchar* pos = wcsrchr(fString->fStr, c);
-    if (pos != NULL)
-        return (long)(pos - fString->fStr);
-    return -1;
-}
-
-long plWString::rfind(const hsWchar* sub) const {
-    if (empty()) return -1;
-    if (sub == NULL) return 0;
-    size_t len = wcslen(sub);
-    if (len > fString->fLen) return -1;
-    for (size_t i=(fString->fLen - len); i>0; i--) {
-        if (wcsncmp(fString->fStr + (i-1), sub, len) == 0)
-            return (long)(i-1);
-    }
-    return -1;
-}
-
-long plWString::rfind(const plWString& sub) const {
-    if (empty()) return -1;
-    if (sub.empty()) return 0;
-    if (sub.fString->fLen > fString->fLen) return -1;
-    for (size_t i=(fString->fLen - sub.fString->fLen); i>0; i--) {
-        if (wcsncmp(fString->fStr + (i-1), sub.fString->fStr, sub.fString->fLen) == 0)
-            return (long)(i-1);
-    }
-    return -1;
-}
-
-plWString& plWString::toUpper() {
-    if (!empty()) {
-        plStrData* upper = new plStrData();
-        upper->fLen = fString->fLen;
-        upper->fStr = new hsWchar[upper->fLen + 1];
-        hsWchar* d = upper->fStr;
-        for (hsWchar* c=fString->fStr; *c; c++)
-            *d++ = towupper(*c);
-        *d = 0;
-        fString->unref();
-        fString = upper;
-    }
-    return (*this);
-}
-
-plWString& plWString::toLower() {
-    if (!empty()) {
-        plStrData* lower = new plStrData();
-        lower->fLen = fString->fLen;
-        lower->fStr = new hsWchar[lower->fLen + 1];
-        hsWchar* d = lower->fStr;
-        for (hsWchar* c=fString->fStr; *c; c++)
-            *d++ = towlower(*c);
-        *d = 0;
-        fString->unref();
-        fString = lower;
-    }
-    return (*this);
-}
-
-plWString plWString::left(size_t num) const {
-    if (empty()) return plWString();
-    if (num > fString->fLen) num = fString->fLen;
-    if (num == fString->fLen) return *this;
-
-    plWString retn;
-    retn.fString = new plStrData();
-    retn.fString->fLen = num;
-    retn.fString->fStr = new hsWchar[num+1];
-    wcsncpy(retn.fString->fStr, fString->fStr, num);
-    retn.fString->fStr[num] = 0;
-    return retn;
-}
-
-plWString plWString::right(size_t num) const {
-    if (empty()) return plWString();
-    if (num > fString->fLen) num = fString->fLen;
-    if (num == fString->fLen) return *this;
-
-    plWString retn;
-    retn.fString = new plStrData();
-    retn.fString->fLen = num;
-    retn.fString->fStr = new hsWchar[num+1];
-    wcsncpy(retn.fString->fStr, fString->fStr + (fString->fLen - num), num);
-    retn.fString->fStr[num] = 0;
-    return retn;
-}
-
-plWString plWString::mid(size_t idx, size_t num) const {
-    if (empty()) return plWString();
-    if (idx > fString->fLen) return plWString();
-    if (idx + num > fString->fLen) num = fString->fLen - idx;
-
-    plWString retn;
-    retn.fString = new plStrData();
-    retn.fString->fLen = num;
-    retn.fString->fStr = new hsWchar[num+1];
-    wcsncpy(retn.fString->fStr, fString->fStr + idx, num);
-    retn.fString->fStr[num] = 0;
-    return retn;
-}
-
-plWString plWString::mid(size_t idx) const {
-    if (fString == NULL) return plWString();
-    return mid(idx, fString->fLen - idx);
-}
-
-plWString plWString::beforeFirst(hsWchar sep) const {
-    long pos = find(sep);
-    if (pos >= 0)
-        return left(pos);
-    else
-        return (*this);
-}
-
-plWString plWString::afterFirst(hsWchar sep) const {
-    long pos = find(sep);
-    if (pos >= 0)
-        return mid(pos+1);
-    else
-        return plWString();
-}
-
-plWString plWString::beforeLast(hsWchar sep) const {
-    long pos = rfind(sep);
-    if (pos >= 0)
-        return left(pos);
-    else
-        return plWString();
-}
-
-plWString plWString::afterLast(hsWchar sep) const {
-    long pos = rfind(sep);
-    if (pos >= 0)
-        return mid(pos+1);
-    else
-        return (*this);
-}
-
-plWString plWString::replace(const hsWchar* src, const hsWchar* dest) const {
-    if (empty() || src == NULL || dest == NULL) return *this;
-    size_t len = wcslen(src);
-    if (len > fString->fLen) return *this;
-
-    plWString result;
-    size_t begin = 0;
-    size_t i = 0;
-    while (i < (fString->fLen - len)) {
-        if (wcsncmp(fString->fStr + i, src, len) == 0) {
-            result += plWString(fString->fStr + begin, i - begin);
-            result += dest;
-            i += len;
-            begin = i;
-        } else {
-            i++;
-        }
-    }
-    return result + plWString(fString->fStr + begin, (i + 1) - begin);
-}
-
-std::vector<plWString> plWString::split(char sep) const {
-    std::vector<plWString> splits;
-    if (!empty()) {
-        splits.push_back(beforeFirst(sep));
-        plWString rest(afterFirst(sep));
-        std::vector<plWString> spRight = rest.split(sep);
-        splits.resize(1 + spRight.size());
-        for (size_t i=0; i<spRight.size(); i++)
-            splits[1 + i] = spRight[i];
-    }
-    return splits;
-}
-
-long plWString::toInt(int base) const {
-    if (empty()) return 0;
-    errno = 0;
-    long value = wcstol(fString->fStr, NULL, base);
-    if (errno == ERANGE || errno == EINVAL)
-        throw hsBadParamException(__FILE__, __LINE__);
-    return value;
-}
-
-unsigned long plWString::toUint(int base) const {
-    if (empty()) return 0;
-    errno = 0;
-    unsigned long value = wcstoul(fString->fStr, NULL, base);
-    if (errno == ERANGE || errno == EINVAL)
-        throw hsBadParamException(__FILE__, __LINE__);
-    return value;
-}
-
-double plWString::toFloat() const {
-    if (empty()) return 0.0;
-    errno = 0;
-    double value = wcstod(fString->fStr, NULL);
-    if (errno == ERANGE || errno == EINVAL)
-        throw hsBadParamException(__FILE__, __LINE__);
-    return value;
-}
-
-bool plWString::toBool() const {
-    if (compareTo(L"true", true) == 0)
-        return true;
-    if (compareTo(L"false", true) == 0)
-        return false;
-    return (toUint() != 0);
-}
-
-plWString plWString::Format(const hsWchar* fmt, ...) {
-    va_list argptr;
-    va_start(argptr, fmt);
-    plWString str = FormatV(fmt, argptr);
-    va_end(argptr);
-    return str;
-}
-
-plWString plWString::FormatV(const hsWchar* fmt, va_list aptr) {
-    hsWchar buf[4096];
-    vswprintf(buf, 4096, fmt, aptr);
-    return plWString(buf);
-}
-
-
-/***************************** Utility Functions ******************************/
-plString hsWStringToString(const hsWchar* str) {
-    size_t cnvLen = wcstombs(NULL, str, 0);
-    if (cnvLen > 0 && cnvLen != (size_t)(-1)) {
-        char* buf = new char[cnvLen+1];
-        wcstombs(buf, str, cnvLen+1);
-        plString result(buf);
-        delete[] buf;
-        return result;
-    } else {
-        return "";
-    }
-}
-
-plWString hsStringToWString(const char* str) {
-    size_t cnvLen = mbstowcs(NULL, str, 0);
-    if (cnvLen > 0 && cnvLen != (size_t)(-1)) {
-        hsWchar* buf = new hsWchar[cnvLen+1];
-        mbstowcs(buf, str, cnvLen+1);
-        plWString result(buf);
-        delete[] buf;
-        return result;
-    } else {
-        return L"";
-    }
-}
-
+/* Other utilities */
 plString CleanFileName(const char* fname, bool allowPathChars) {
     char* buf = strdup(fname);
     for (char* bp = buf; *bp; bp++) {

@@ -521,8 +521,7 @@ void plSimpleStateVariable::IWriteData(hsStream* S, plResManager* mgr, size_t id
 void plSimpleStateVariable::SetFromDefault() {
     if (fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
-    plString def = fDescriptor->getDefault();
-    def.toLower();
+    plString def = fDescriptor->getDefault().toLower();
 
     for (size_t i=0; i<fDescriptor->getCount(); i++) {
         switch (fDescriptor->getType()) {
@@ -667,8 +666,7 @@ void plSimpleStateVariable::SetFromDefault() {
 bool plSimpleStateVariable::isDefault() const {
     if (fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
-    plString def = fDescriptor->getDefault();
-    def.toLower();
+    plString def = fDescriptor->getDefault().toLower();
 
     if (fDescriptor->getCount() != fCount)
         return false;

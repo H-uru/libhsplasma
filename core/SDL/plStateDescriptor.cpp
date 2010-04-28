@@ -88,8 +88,7 @@ void plVarDescriptor::setVariableLength(bool varLength) {
 }
 
 plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, bool isEoa) {
-    plString itype = type;
-    itype.toLower();
+    plString itype = type.toLower();
     if (isEoa) {
         // These translate differently in Myst5...
         if (itype == "bool")

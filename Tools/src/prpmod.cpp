@@ -94,14 +94,14 @@ int main(int argc, char* argv[]) {
                 if (objType == -1)
                     objType = type.toInt();
                 objName = objSpec.afterLast(':');
-                if (objName.startsWith('"')) {
+                if (objName.startsWith("\"")) {
                     do {
                         if (++i >= argc) {
                             fprintf(stderr, "Error: Unterminated string\n");
                             return 1;
                         }
                         objName += plString(" ") + argv[i];
-                    } while (!objName.endsWith('"'));
+                    } while (!objName.endsWith("\""));
                     objName = objName.mid(1, objName.len() - 2);
                 }
             } else if (strcmp(argv[i], "extract") == 0) {
@@ -116,14 +116,14 @@ int main(int argc, char* argv[]) {
                 if (objType == -1)
                     objType = type.toInt();
                 objName = objSpec.afterLast(':');
-                if (objName.startsWith('"')) {
+                if (objName.startsWith("\"")) {
                     do {
                         if (++i >= argc) {
                             fprintf(stderr, "Error: Unterminated string\n");
                             return 1;
                         }
                         objName += plString(" ") + argv[i];
-                    } while (!objName.endsWith('"'));
+                    } while (!objName.endsWith("\""));
                     objName = objName.mid(1, objName.len() - 2);
                 }
             } else {

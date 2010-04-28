@@ -41,8 +41,7 @@ int main(int argc, char* argv[]) {
         if (strcmp(argv[i], "-o") == 0 || strcmp(argv[i], "--out") == 0) {
             outputFile = argv[++i];
         } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--ver") == 0) {
-            plString ver = argv[++i];
-            ver.toLower();
+            plString ver = plString(argv[++i]).toLower();
             if (ver == "prime")
                 outVer = pvPrime;
             else if (ver == "pots")

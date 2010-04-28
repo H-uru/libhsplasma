@@ -30,7 +30,7 @@ void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
     if ((S->getVer() == pvLive || S->getVer() == pvUniversal) && S->readBool())
         fLocalizationPath = S->readSafeWStr();
     else
-        fLocalizationPath = plWString();
+        fLocalizationPath = plString();
 }
 
 void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
@@ -54,7 +54,7 @@ void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->startTag("LocalizationPath");
-    prc->writeParam("value", hsWStringToString(fLocalizationPath));
+    prc->writeParam("value", fLocalizationPath);
     prc->endTag(true);
 }
 
@@ -66,7 +66,7 @@ void pfGUITextBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         buf[bufLen] = 0;
         fText = buf;
     } else if (tag->getName() == "LocalizationPath") {
-        fLocalizationPath = hsStringToWString(tag->getParam("value", ""));
+        fLocalizationPath = tag->getParam("value", "");
     } else {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }

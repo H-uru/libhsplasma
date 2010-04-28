@@ -57,8 +57,7 @@ int main(int argc, char** argv) {
                 fprintf(stderr, "Error: expected version specifier\n");
                 return 1;
             }
-            plString ver = argv[i];
-            ver.toLower();
+            plString ver = plString(argv[i]).toLower();
             if (ver == "prime")
                 inVer = pvPrime;
             else if (ver == "pots")
@@ -86,14 +85,14 @@ int main(int argc, char** argv) {
             if (objType == -1)
                 objType = type.toInt();
             objName = objSpec.afterLast(':');
-            if (objName.startsWith('"')) {
+            if (objName.startsWith("\"")) {
                 do {
                     if (++i >= argc) {
                         fprintf(stderr, "Error: Unterminated string");
                         return 1;
                     }
                     objName += plString(" ") + argv[i];
-                } while (!objName.endsWith('"'));
+                } while (!objName.endsWith("\""));
                 objName = objName.mid(1, objName.len() - 2);
             }
         } else if (strcmp(argv[i], "--notex") == 0) {

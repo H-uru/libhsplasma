@@ -216,8 +216,8 @@ static PyObject* pyStream_readSafeStr(pyStream* self) {
 
 static PyObject* pyStream_readSafeWStr(pyStream* self) {
     try {
-        plWString str = self->fThis->readSafeWStr();
-        return PyUnicode_FromWideChar(str.cstr(), str.len());
+        plString str = self->fThis->readSafeWStr();
+        return PlStr_To_PyStr(str);
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading from stream");
         return NULL;
@@ -347,9 +347,9 @@ static PyObject* pyStream_writeSafeStr(pyStream* self, PyObject* args) {
 }
 
 static PyObject* pyStream_writeSafeWStr(pyStream* self, PyObject* args) {
-    const wchar_t* str;
-    if (!PyArg_ParseTuple(args, "u", &str)) {
-        PyErr_SetString(PyExc_TypeError, "writeSafeWStr expects a unicode string");
+    const char* str;
+    if (!PyArg_ParseTuple(args, "s", &str)) {
+        PyErr_SetString(PyExc_TypeError, "writeSafeWStr expects a string");
         return NULL;
     }
     try {
