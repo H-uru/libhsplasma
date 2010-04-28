@@ -134,54 +134,54 @@ hsMatrix44 hsMatrix44::inverse() const {
     // This function is intentionally unrolled for performance
     float subDet[4][4];
 
-    subDet[0][0] = data[1][1]*(data[2][2]*data[2][3] - data[3][2]*data[3][3]) -
-                   data[1][2]*(data[2][1]*data[2][3] - data[3][1]*data[3][3]) +
-                   data[1][3]*(data[2][1]*data[2][2] - data[3][1]*data[3][2]);
-    subDet[0][1] = data[1][0]*(data[2][2]*data[2][3] - data[3][2]*data[3][3]) -
-                   data[1][2]*(data[2][0]*data[2][3] - data[3][0]*data[3][3]) +
-                   data[1][3]*(data[2][0]*data[2][2] - data[3][0]*data[3][2]);
-    subDet[0][2] = data[1][0]*(data[2][1]*data[2][3] - data[3][1]*data[3][3]) -
-                   data[1][1]*(data[2][0]*data[2][3] - data[3][0]*data[3][3]) +
-                   data[1][3]*(data[2][0]*data[2][1] - data[3][0]*data[3][1]);
-    subDet[0][3] = data[1][0]*(data[2][1]*data[2][2] - data[3][1]*data[3][2]) -
-                   data[1][1]*(data[2][0]*data[2][2] - data[3][0]*data[3][2]) +
-                   data[1][2]*(data[2][0]*data[2][1] - data[3][0]*data[3][1]);
-    subDet[1][0] = data[0][1]*(data[2][2]*data[2][3] - data[3][2]*data[3][3]) -
-                   data[0][2]*(data[2][1]*data[2][3] - data[3][1]*data[3][3]) +
-                   data[0][3]*(data[2][1]*data[2][2] - data[3][1]*data[3][2]);
-    subDet[1][1] = data[0][0]*(data[2][2]*data[2][3] - data[3][2]*data[3][3]) -
-                   data[0][2]*(data[2][0]*data[2][3] - data[3][0]*data[3][3]) +
-                   data[0][3]*(data[2][0]*data[2][2] - data[3][0]*data[3][2]);
-    subDet[1][2] = data[0][0]*(data[2][1]*data[2][3] - data[3][1]*data[3][3]) -
-                   data[0][1]*(data[2][0]*data[2][3] - data[3][0]*data[3][3]) +
-                   data[0][3]*(data[2][0]*data[2][1] - data[3][0]*data[3][1]);
-    subDet[1][3] = data[0][0]*(data[2][1]*data[2][2] - data[3][1]*data[3][2]) -
-                   data[0][1]*(data[2][0]*data[2][2] - data[3][0]*data[3][2]) +
-                   data[0][2]*(data[2][0]*data[2][1] - data[3][0]*data[3][1]);
-    subDet[2][0] = data[0][1]*(data[1][2]*data[1][3] - data[3][2]*data[3][3]) -
-                   data[0][2]*(data[1][1]*data[1][3] - data[3][1]*data[3][3]) +
-                   data[0][3]*(data[1][1]*data[1][2] - data[3][1]*data[3][2]);
-    subDet[2][1] = data[0][0]*(data[1][2]*data[1][3] - data[3][2]*data[3][3]) -
-                   data[0][2]*(data[1][0]*data[1][3] - data[3][0]*data[3][3]) +
-                   data[0][3]*(data[1][0]*data[1][2] - data[3][0]*data[3][2]);
-    subDet[2][2] = data[0][0]*(data[1][1]*data[1][3] - data[3][1]*data[3][3]) -
-                   data[0][1]*(data[1][0]*data[1][3] - data[3][0]*data[3][3]) +
-                   data[0][3]*(data[1][0]*data[1][1] - data[3][0]*data[3][1]);
-    subDet[2][3] = data[0][0]*(data[1][1]*data[1][2] - data[3][1]*data[3][2]) -
-                   data[0][1]*(data[1][0]*data[1][2] - data[3][0]*data[3][2]) +
-                   data[0][2]*(data[1][0]*data[1][1] - data[3][0]*data[3][1]);
-    subDet[3][0] = data[0][1]*(data[1][2]*data[1][3] - data[2][2]*data[2][3]) -
-                   data[0][2]*(data[1][1]*data[1][3] - data[2][1]*data[2][3]) +
-                   data[0][3]*(data[1][1]*data[1][2] - data[2][1]*data[2][2]);
-    subDet[3][1] = data[0][0]*(data[1][2]*data[1][3] - data[2][2]*data[2][3]) -
-                   data[0][2]*(data[1][0]*data[1][3] - data[2][0]*data[2][3]) +
-                   data[0][3]*(data[1][0]*data[1][2] - data[2][0]*data[2][2]);
-    subDet[3][2] = data[0][0]*(data[1][1]*data[1][3] - data[2][1]*data[2][3]) -
-                   data[0][1]*(data[1][0]*data[1][3] - data[2][0]*data[2][3]) +
-                   data[0][3]*(data[1][0]*data[1][1] - data[2][0]*data[2][1]);
-    subDet[3][3] = data[0][0]*(data[1][1]*data[1][2] - data[2][1]*data[2][2]) -
-                   data[0][1]*(data[1][0]*data[1][2] - data[2][0]*data[2][2]) +
-                   data[0][2]*(data[1][0]*data[1][1] - data[2][0]*data[2][1]);
+    subDet[0][0] = data[1][1]*(data[2][2]*data[3][3] - data[3][2]*data[2][3]) -
+                   data[1][2]*(data[2][1]*data[3][3] - data[3][1]*data[2][3]) +
+                   data[1][3]*(data[2][1]*data[3][2] - data[3][1]*data[2][2]);
+    subDet[0][1] = data[1][0]*(data[2][2]*data[3][3] - data[3][2]*data[2][3]) -
+                   data[1][2]*(data[2][0]*data[3][3] - data[3][0]*data[2][3]) +
+                   data[1][3]*(data[2][0]*data[3][2] - data[3][0]*data[2][2]);
+    subDet[0][2] = data[1][0]*(data[2][1]*data[3][3] - data[3][1]*data[2][3]) -
+                   data[1][1]*(data[2][0]*data[3][3] - data[3][0]*data[2][3]) +
+                   data[1][3]*(data[2][0]*data[3][1] - data[3][0]*data[2][1]);
+    subDet[0][3] = data[1][0]*(data[2][1]*data[3][2] - data[3][1]*data[2][2]) -
+                   data[1][1]*(data[2][0]*data[3][2] - data[3][0]*data[2][2]) +
+                   data[1][2]*(data[2][0]*data[3][1] - data[3][0]*data[2][1]);
+    subDet[1][0] = data[0][1]*(data[2][2]*data[3][3] - data[3][2]*data[2][3]) -
+                   data[0][2]*(data[2][1]*data[3][3] - data[3][1]*data[2][3]) +
+                   data[0][3]*(data[2][1]*data[3][2] - data[3][1]*data[2][2]);
+    subDet[1][1] = data[0][0]*(data[2][2]*data[3][3] - data[3][2]*data[2][3]) -
+                   data[0][2]*(data[2][0]*data[3][3] - data[3][0]*data[2][3]) +
+                   data[0][3]*(data[2][0]*data[3][2] - data[3][0]*data[2][2]);
+    subDet[1][2] = data[0][0]*(data[2][1]*data[3][3] - data[3][1]*data[2][3]) -
+                   data[0][1]*(data[2][0]*data[3][3] - data[3][0]*data[2][3]) +
+                   data[0][3]*(data[2][0]*data[3][1] - data[3][0]*data[2][1]);
+    subDet[1][3] = data[0][0]*(data[2][1]*data[3][2] - data[3][1]*data[2][2]) -
+                   data[0][1]*(data[2][0]*data[3][2] - data[3][0]*data[2][2]) +
+                   data[0][2]*(data[2][0]*data[3][1] - data[3][0]*data[2][1]);
+    subDet[2][0] = data[0][1]*(data[1][2]*data[3][3] - data[3][2]*data[1][3]) -
+                   data[0][2]*(data[1][1]*data[3][3] - data[3][1]*data[1][3]) +
+                   data[0][3]*(data[1][1]*data[3][2] - data[3][1]*data[1][2]);
+    subDet[2][1] = data[0][0]*(data[1][2]*data[3][3] - data[3][2]*data[1][3]) -
+                   data[0][2]*(data[1][0]*data[3][3] - data[3][0]*data[1][3]) +
+                   data[0][3]*(data[1][0]*data[3][2] - data[3][0]*data[1][2]);
+    subDet[2][2] = data[0][0]*(data[1][1]*data[3][3] - data[3][1]*data[1][3]) -
+                   data[0][1]*(data[1][0]*data[3][3] - data[3][0]*data[1][3]) +
+                   data[0][3]*(data[1][0]*data[3][1] - data[3][0]*data[1][1]);
+    subDet[2][3] = data[0][0]*(data[1][1]*data[3][2] - data[3][1]*data[1][2]) -
+                   data[0][1]*(data[1][0]*data[3][2] - data[3][0]*data[1][2]) +
+                   data[0][2]*(data[1][0]*data[3][1] - data[3][0]*data[1][1]);
+    subDet[3][0] = data[0][1]*(data[1][2]*data[2][3] - data[2][2]*data[1][3]) -
+                   data[0][2]*(data[1][1]*data[2][3] - data[2][1]*data[1][3]) +
+                   data[0][3]*(data[1][1]*data[2][2] - data[2][1]*data[1][2]);
+    subDet[3][1] = data[0][0]*(data[1][2]*data[2][3] - data[2][2]*data[1][3]) -
+                   data[0][2]*(data[1][0]*data[2][3] - data[2][0]*data[1][3]) +
+                   data[0][3]*(data[1][0]*data[2][2] - data[2][0]*data[1][2]);
+    subDet[3][2] = data[0][0]*(data[1][1]*data[2][3] - data[2][1]*data[1][3]) -
+                   data[0][1]*(data[1][0]*data[2][3] - data[2][0]*data[1][3]) +
+                   data[0][3]*(data[1][0]*data[2][1] - data[2][0]*data[1][1]);
+    subDet[3][3] = data[0][0]*(data[1][1]*data[2][2] - data[2][1]*data[1][2]) -
+                   data[0][1]*(data[1][0]*data[2][2] - data[2][0]*data[1][2]) +
+                   data[0][2]*(data[1][0]*data[2][1] - data[2][0]*data[1][1]);
 
     float det = data[0][0]*subDet[0][0] - data[0][1]*subDet[0][1] +
                 data[0][2]*subDet[0][2] - data[0][3]*subDet[0][3];
