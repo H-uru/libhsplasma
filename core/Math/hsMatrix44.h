@@ -51,6 +51,8 @@ public:
     hsVector3 multPoint(const hsVector3& point) const;
     hsVector3 multVector(const hsVector3& vec) const;
 
+    hsMatrix44 inverse() const;
+
     hsMatrix44& translate(const hsVector3& translate);
     hsMatrix44& rotate(int axis, float angle);
     hsMatrix44& scale(const hsVector3& scale);

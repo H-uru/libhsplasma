@@ -130,6 +130,84 @@ hsVector3 hsMatrix44::multVector(const hsVector3& vec) const {
     return result;
 }
 
+hsMatrix44 hsMatrix44::inverse() const {
+    // This function is intentionally unrolled for performance
+    float subDet[4][4];
+    float det, negDet;
+    hsMatrix44 result;
+    subDet[0][0] = data[1][1]*(data[2][2]*data[2][3] - data[3][2]*data[3][3]) -
+                   data[1][2]*(data[2][1]*data[2][3] - data[3][1]*data[3][3]) +
+                   data[1][3]*(data[2][1]*data[2][2] - data[3][1]*data[3][2]);
+    subDet[0][1] = data[1][0]*(data[2][2]*data[2][3] - data[3][2]*data[3][3]) -
+                   data[1][2]*(data[2][0]*data[2][3] - data[3][0]*data[3][3]) +
+                   data[1][3]*(data[2][0]*data[2][2] - data[3][0]*data[3][2]);
+    subDet[0][2] = data[1][0]*(data[2][1]*data[2][3] - data[3][1]*data[3][3]) -
+                   data[1][1]*(data[2][0]*data[2][3] - data[3][0]*data[3][3]) +
+                   data[1][3]*(data[2][0]*data[2][1] - data[3][0]*data[3][1]);
+    subDet[0][3] = data[1][0]*(data[2][1]*data[2][2] - data[3][1]*data[3][2]) -
+                   data[1][1]*(data[2][0]*data[2][2] - data[3][0]*data[3][2]) +
+                   data[1][2]*(data[2][0]*data[2][1] - data[3][0]*data[3][1]);
+    subDet[1][0] = data[0][1]*(data[2][2]*data[2][3] - data[3][2]*data[3][3]) -
+                   data[0][2]*(data[2][1]*data[2][3] - data[3][1]*data[3][3]) +
+                   data[0][3]*(data[2][1]*data[2][2] - data[3][1]*data[3][2]);
+    subDet[1][1] = data[0][0]*(data[2][2]*data[2][3] - data[3][2]*data[3][3]) -
+                   data[0][2]*(data[2][0]*data[2][3] - data[3][0]*data[3][3]) +
+                   data[0][3]*(data[2][0]*data[2][2] - data[3][0]*data[3][2]);
+    subDet[1][2] = data[0][0]*(data[2][1]*data[2][3] - data[3][1]*data[3][3]) -
+                   data[0][1]*(data[2][0]*data[2][3] - data[3][0]*data[3][3]) +
+                   data[0][3]*(data[2][0]*data[2][1] - data[3][0]*data[3][1]);
+    subDet[1][3] = data[0][0]*(data[2][1]*data[2][2] - data[3][1]*data[3][2]) -
+                   data[0][1]*(data[2][0]*data[2][2] - data[3][0]*data[3][2]) +
+                   data[0][2]*(data[2][0]*data[2][1] - data[3][0]*data[3][1]);
+    subDet[2][0] = data[0][1]*(data[1][2]*data[1][3] - data[3][2]*data[3][3]) -
+                   data[0][2]*(data[1][1]*data[1][3] - data[3][1]*data[3][3]) +
+                   data[0][3]*(data[1][1]*data[1][2] - data[3][1]*data[3][2]);
+    subDet[2][1] = data[0][0]*(data[1][2]*data[1][3] - data[3][2]*data[3][3]) -
+                   data[0][2]*(data[1][0]*data[1][3] - data[3][0]*data[3][3]) +
+                   data[0][3]*(data[1][0]*data[1][2] - data[3][0]*data[3][2]);
+    subDet[2][2] = data[0][0]*(data[1][1]*data[1][3] - data[3][1]*data[3][3]) -
+                   data[0][1]*(data[1][0]*data[1][3] - data[3][0]*data[3][3]) +
+                   data[0][3]*(data[1][0]*data[1][1] - data[3][0]*data[3][1]);
+    subDet[2][3] = data[0][0]*(data[1][1]*data[1][2] - data[3][1]*data[3][2]) -
+                   data[0][1]*(data[1][0]*data[1][2] - data[3][0]*data[3][2]) +
+                   data[0][2]*(data[1][0]*data[1][1] - data[3][0]*data[3][1]);
+    subDet[3][0] = data[0][1]*(data[1][2]*data[1][3] - data[2][2]*data[2][3]) -
+                   data[0][2]*(data[1][1]*data[1][3] - data[2][1]*data[2][3]) +
+                   data[0][3]*(data[1][1]*data[1][2] - data[2][1]*data[2][2]);
+    subDet[3][1] = data[0][0]*(data[1][2]*data[1][3] - data[2][2]*data[2][3]) -
+                   data[0][2]*(data[1][0]*data[1][3] - data[2][0]*data[2][3]) +
+                   data[0][3]*(data[1][0]*data[1][2] - data[2][0]*data[2][2]);
+    subDet[3][2] = data[0][0]*(data[1][1]*data[1][3] - data[2][1]*data[2][3]) -
+                   data[0][1]*(data[1][0]*data[1][3] - data[2][0]*data[2][3]) +
+                   data[0][3]*(data[1][0]*data[1][1] - data[2][0]*data[2][1]);
+    subDet[3][3] = data[0][0]*(data[1][1]*data[1][2] - data[2][1]*data[2][2]) -
+                   data[0][1]*(data[1][0]*data[1][2] - data[2][0]*data[2][2]) +
+                   data[0][2]*(data[1][0]*data[1][1] - data[2][0]*data[2][1]);
+                   
+    det = data[0][0]*subDet[0][0] - data[0][1]*subDet[0][1] +
+          data[0][2]*subDet[0][2] - data[0][3]*subDet[0][3];
+    negDet = -1.0f * det;
+    
+    result.data[0][0] = subDet[0][0] / det;
+    result.data[0][1] = subDet[1][0] / negDet;
+    result.data[0][2] = subDet[2][0] / det;
+    result.data[0][3] - subDet[3][0] / negDet;
+    result.data[1][0] = subDet[0][1] / negDet;
+    result.data[1][1] = subDet[1][1] / det;
+    result.data[1][2] = subDet[2][1] / negDet;
+    result.data[1][3] - subDet[3][1] / det;
+    result.data[2][0] = subDet[0][2] / det;
+    result.data[2][1] = subDet[1][2] / negDet;
+    result.data[2][2] = subDet[2][2] / det;
+    result.data[2][3] = subDet[3][2] / negDet;
+    result.data[3][0] = subDet[0][3] / negDet;
+    result.data[3][1] = subDet[1][3] / det;
+    result.data[3][2] = subDet[2][3] / negDet;
+    result.data[3][3] = subDet[3][3] / det;
+    
+    return result;
+}
+
 hsMatrix44& hsMatrix44::translate(const hsVector3& translate) {
     data[0][3] += translate.X;
     data[1][3] += translate.Y;
