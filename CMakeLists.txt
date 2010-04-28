@@ -1,6 +1,11 @@
 project(PLASMA)
 cmake_minimum_required(VERSION 2.6)
 
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS "-Wall" ${CMAKE_CXX_FLAGS})
+  set(CMAKE_C_FLAGS "-Wall" ${CMAKE_C_FLAGS})
+endif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+
 option(DISABLE_PYTHON "Don't build HSPlasma Python integration")
 option(DISABLE_TOOLS "Don't build the HSPlasma tools")
 option(DISABLE_NET "Don't build HSPlasmaNet")
