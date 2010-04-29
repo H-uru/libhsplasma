@@ -42,7 +42,7 @@ public:
     long recv(void* buf, size_t size);
     long peek(void* buf, size_t size);
 
-    NCchar_t* recvString(size_t maxlen);
+    plString recvString(size_t maxlen);
     bool sendMsg(const msgparm_t* data, const pnNetMsg* msg);
     msgparm_t* recvMsg(const pnNetMsg* msg);
 };

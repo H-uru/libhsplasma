@@ -71,7 +71,7 @@ public:
 
         bool empty() const { return (fString == NULL) || (fString->len() == 0); }
         size_t len() const { return (fString != NULL) ? fString->len() : 0; }
-        const pl_wchar_t* data() const { return (fString != NULL) ? fString->data() : NULL; }
+        const pl_wchar_t* data() const { return (fString != NULL) ? fString->data() : (const pl_wchar_t[]){0}; }
         operator const pl_wchar_t*() const { return data(); }
     };
 
@@ -110,7 +110,7 @@ public:
     bool endsWith(const plString& cmp, bool ignoreCase = false) const;
     bool endsWith(const char* cmp, bool ignoreCase = false) const;
 
-    const char* cstr() const { return (fString != NULL) ? fString->data() : NULL; }
+    const char* cstr() const { return (fString != NULL) ? fString->data() : ""; }
     operator const char*() const { return cstr(); }
     Wide wstr() const;
 
@@ -147,5 +147,7 @@ public:
 };
 
 plString DllExport CleanFileName(const char* fname, bool allowPathChars = false);
+size_t DllExport plwcslen(const pl_wchar_t* str);
+pl_wchar_t* DllExport plwcsdup(const pl_wchar_t* str);
 
 #endif

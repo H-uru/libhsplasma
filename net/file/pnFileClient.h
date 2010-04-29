@@ -27,8 +27,8 @@ DllStruct pnFileManifest {
     plMD5Hash fHash, fCompressedHash;
     hsUint32 fFileSize, fCompressedSize, fFlags;
 
-    const NCchar_t* read(const NCchar_t* src);
-    NCchar_t* write(NCchar_t* dest);
+    const pl_wchar_t* read(const pl_wchar_t* src);
+    pl_wchar_t* write(pl_wchar_t* dest);
     size_t calcSize() const;
 };
 

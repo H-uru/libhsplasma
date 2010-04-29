@@ -22,34 +22,7 @@
 /* pnVaultNode */
 pnVaultNode::pnVaultNode()
            : fFieldMask(0), fDirtyMask(0), fCachedSize(0), fDirtySize(0),
-             fNodeIdx(0), fNodeType(0) {
-    fCreateAgeName = NULL;
-    memset(fString64, 0, sizeof(fString64));
-    memset(fIString64, 0, sizeof(fIString64));
-    memset(fText, 0, sizeof(fText));
-}
-
-pnVaultNode::pnVaultNode(const pnVaultNode& init) {
-    fCreateAgeName = NULL;
-    memset(fString64, 0, sizeof(fString64));
-    memset(fIString64, 0, sizeof(fIString64));
-    memset(fText, 0, sizeof(fText));
-    copy(init);
-}
-
-pnVaultNode::~pnVaultNode() {
-    delete[] fCreateAgeName;
-    delete[] fString64[0];
-    delete[] fString64[1];
-    delete[] fString64[2];
-    delete[] fString64[3];
-    delete[] fString64[4];
-    delete[] fString64[5];
-    delete[] fIString64[0];
-    delete[] fIString64[1];
-    delete[] fText[0];
-    delete[] fText[1];
-}
+             fNodeIdx(0), fNodeType(0) { }
 
 void pnVaultNode::copy(const pnVaultNode& init) {
     fFieldMask = init.fFieldMask;
@@ -59,7 +32,7 @@ void pnVaultNode::copy(const pnVaultNode& init) {
     fNodeIdx = init.fNodeIdx;
     fCreateTime = init.fCreateTime;
     fModifyTime = init.fModifyTime;
-    fCreateAgeName = NCstrdup(init.fCreateAgeName);
+    fCreateAgeName = init.fCreateAgeName;
     fCreateAgeUuid = init.fCreateAgeUuid;
     fCreatorUuid = init.fCreatorUuid;
     fCreatorIdx = init.fCreatorIdx;
@@ -76,16 +49,16 @@ void pnVaultNode::copy(const pnVaultNode& init) {
     fUuid[1] = init.fUuid[1];
     fUuid[2] = init.fUuid[2];
     fUuid[3] = init.fUuid[3];
-    fString64[0] = NCstrdup(init.fString64[0]);
-    fString64[1] = NCstrdup(init.fString64[1]);
-    fString64[2] = NCstrdup(init.fString64[2]);
-    fString64[3] = NCstrdup(init.fString64[3]);
-    fString64[4] = NCstrdup(init.fString64[4]);
-    fString64[5] = NCstrdup(init.fString64[5]);
-    fIString64[0] = NCstrdup(init.fIString64[0]);
-    fIString64[1] = NCstrdup(init.fIString64[1]);
-    fText[0] = NCstrdup(init.fText[0]);
-    fText[1] = NCstrdup(init.fText[1]);
+    fString64[0] = init.fString64[0];
+    fString64[1] = init.fString64[1];
+    fString64[2] = init.fString64[2];
+    fString64[3] = init.fString64[3];
+    fString64[4] = init.fString64[4];
+    fString64[5] = init.fString64[5];
+    fIString64[0] = init.fIString64[0];
+    fIString64[1] = init.fIString64[1];
+    fText[0] = init.fText[0];
+    fText[1] = init.fText[1];
     fBlob[0] = init.fBlob[0];
     fBlob[1] = init.fBlob[1];
 }
@@ -147,9 +120,9 @@ static plUuid readUuid(const unsigned char*& buffer, size_t& size) {
     return v;
 }
 
-static NCchar_t* readString(const unsigned char*& buffer, size_t& size) {
+static plString readString(const unsigned char*& buffer, size_t& size) {
     size_t len = readU32(buffer, size);
-    NCchar_t* v = NCstrdup((NCchar_t*)buffer);
+    plString v = plString((pl_wchar_t*)buffer, len-1);
     buffer += len;
     size -= len;
     return v;
@@ -272,10 +245,11 @@ static void writeUuid(const plUuid& v, unsigned char*& buffer, size_t& size) {
     size -= sizeof(plUuid);
 }
 
-static void writeString(const NCchar_t* v, unsigned char*& buffer, size_t& size) {
-    size_t len = (NCstrlen(v) + 1) * sizeof(NCchar_t);
+static void writeString(const plString& v, unsigned char*& buffer, size_t& size) {
+    plString::Wide ws = v.wstr();
+    size_t len = (ws.len() + 1) * sizeof(pl_wchar_t);
     writeU32(len, buffer, size);
-    memcpy(buffer, v, len);
+    memcpy(buffer, ws.data(), len);  // Includes the '\0'
     buffer += len;
     size -= len;
 }
@@ -382,7 +356,7 @@ hsUint32 pnVaultNode::getModifyTime() const
 plString pnVaultNode::getCreateAgeName() const
 {
     return (fFieldMask & (1<<kCreateAgeName)) != 0
-           ? NCstrToString(fCreateAgeName) : plString();
+           ? fCreateAgeName : plString();
 }
 
 plUuid pnVaultNode::getCreateAgeUuid() const
@@ -426,19 +400,19 @@ plUuid pnVaultNode::getUuid(size_t which) const
 plString pnVaultNode::getString64(size_t which) const
 {
     return (fFieldMask & (hsUint64)((1<<kString64_1) << which)) != 0
-           ? NCstrToString(fString64[which]) : plString();
+           ? fString64[which] : plString();
 }
 
 plString pnVaultNode::getIString64(size_t which) const
 {
     return (fFieldMask & (hsUint64)((1<<kIString64_1) << which)) != 0
-           ? NCstrToString(fIString64[which]) : plString();
+           ? fIString64[which] : plString();
 }
 
 plString pnVaultNode::getText(size_t which) const
 {
     return (fFieldMask & (hsUint64)((1<<kText_1) << which)) != 0
-           ? NCstrToString(fText[which]) : plString();
+           ? fText[which] : plString();
 }
 
 plVaultBlob pnVaultNode::getBlob(size_t which) const
@@ -489,13 +463,13 @@ void pnVaultNode::setModifyTime(hsUint32 modTime)
 void pnVaultNode::setCreateAgeName(const plString& name)
 {
     if (fCreateAgeName != NULL) {
-        size_t oldLen = (NCstrlen(fCreateAgeName) + 1) * sizeof(NCchar_t);
+        size_t oldLen = (fCreateAgeName.wstr().len() + 1) * sizeof(pl_wchar_t);
         IClearField(kCreateAgeName, oldLen + sizeof(hsUint32));
         delete[] fCreateAgeName;
     }
 
-    fCreateAgeName = StringToNCstr(name);
-    size_t len = (NCstrlen(fCreateAgeName) + 1) * sizeof(NCchar_t);
+    fCreateAgeName = name;
+    size_t len = (fCreateAgeName.wstr().len() + 1) * sizeof(pl_wchar_t);
     ISetField(kCreateAgeName, len + sizeof(hsUint32));
 }
 
@@ -544,39 +518,39 @@ void pnVaultNode::setUuid(size_t which, const plUuid& value)
 void pnVaultNode::setString64(size_t which, const plString& value)
 {
     if (fString64[which] != NULL) {
-        size_t oldLen = (NCstrlen(fString64[which]) + 1) * sizeof(NCchar_t);
+        size_t oldLen = (fString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
         IClearField(kString64_1 + which, oldLen + sizeof(hsUint32));
         delete[] fString64[which];
     }
 
-    fString64[which] = StringToNCstr(value);
-    size_t len = (NCstrlen(fString64[which]) + 1) * sizeof(NCchar_t);
+    fString64[which] = value;
+    size_t len = (fString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
     ISetField(kString64_1 + which, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setIString64(size_t which, const plString& value)
 {
     if (fIString64[which] != NULL) {
-        size_t oldLen = (NCstrlen(fIString64[which]) + 1) * sizeof(NCchar_t);
+        size_t oldLen = (fIString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
         IClearField(kIString64_1 + which, oldLen + sizeof(hsUint32));
         delete[] fIString64[which];
     }
 
-    fIString64[which] = StringToNCstr(value);
-    size_t len = (NCstrlen(fIString64[which]) + 1) * sizeof(NCchar_t);
+    fIString64[which] = value;
+    size_t len = (fIString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
     ISetField(kIString64_1 + which, len + sizeof(hsUint32));
 }
 
 void pnVaultNode::setText(size_t which, const plString& value)
 {
     if (fText[which] != NULL) {
-        size_t oldLen = (NCstrlen(fText[which]) + 1) * sizeof(NCchar_t);
+        size_t oldLen = (fText[which].wstr().len() + 1) * sizeof(pl_wchar_t);
         IClearField(kText_1 + which, oldLen + sizeof(hsUint32));
         delete[] fText[which];
     }
 
-    fText[which] = StringToNCstr(value);
-    size_t len = (NCstrlen(fText[which]) + 1) * sizeof(NCchar_t);
+    fText[which] = value;
+    size_t len = (fText[which].wstr().len() + 1) * sizeof(pl_wchar_t);
     ISetField(kText_1 + which, len + sizeof(hsUint32));
 }
 

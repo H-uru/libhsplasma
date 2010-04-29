@@ -76,23 +76,23 @@ long pnRC4Socket::peek(void* buf, size_t size)
     throw hsBadParamException(__FILE__, __LINE__, "Cannot peek on an encrypted socket");
 }
 
-NCchar_t* pnRC4Socket::recvString(size_t maxlen)
+plString pnRC4Socket::recvString(size_t maxlen)
 {
-    NCchar_t* str = new NCchar_t[maxlen];
-    memset(str, 0, maxlen * sizeof(NCchar_t));
-
     hsUint16 size;
     if (recv(&size, sizeof(hsUint16)) <= 0)
         size = 0;
+    if (size >= maxlen)
+        size = maxlen-1;
 
     if (size > 0) {
-        NCchar_t* buf = new NCchar_t[size];
-        recv(buf, size * sizeof(NCchar_t));
-        memcpy(str, buf, (size >= maxlen ? maxlen-1 : size) * sizeof(NCchar_t));
+        pl_wchar_t* buf = new pl_wchar_t[size];
+        recv(buf, size * sizeof(pl_wchar_t));
+        plString str(buf, size);
         delete[] buf;
+        return str;
+    } else {
+        return plString();
     }
-
-    return str;
 }
 
 static void RecvBasic(pnRC4Socket* sock, msgparm_t& data,
@@ -222,14 +222,13 @@ bool pnRC4Socket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
             break;
         case kFieldString:
             {
-                hsUint16 len = NCstrlen(data[i].fString);
+                hsUint16 len = plwcslen(data[i].fString);
                 *(hsUint16*)bp = len;
                 bp += sizeof(hsUint16);
-                memcpy(bp, data[i].fData, len * sizeof(NCchar_t));
-                bp += len * sizeof(NCchar_t);
+                memcpy(bp, data[i].fString, len * sizeof(pl_wchar_t));
+                bp += len * sizeof(pl_wchar_t);
 #ifdef COMMDEBUG
-                plDebug::Debug("     -> Str: %s",
-                               NCstrToString(data[i].fString).cstr());
+                plDebug::Debug("     -> Str: %s", plString(data[i].fString, len).cstr());
 #endif
             }
             break;
@@ -310,13 +309,12 @@ msgparm_t* pnRC4Socket::recvMsg(const pnNetMsg* msg)
             {
                 hsUint16 len;
                 recv(&len, sizeof(hsUint16));
-                NCchar_t* str = new NCchar_t[len + 1];
-                recv(str, len * sizeof(NCchar_t));
+                pl_wchar_t* str = new pl_wchar_t[len + 1];
+                recv(str, len * sizeof(pl_wchar_t));
                 str[len] = 0;
                 data[i].fString = str;
 #ifdef COMMDEBUG
-                plDebug::Debug("     <- Str: %s",
-                               NCstrToString(data[i].fString).cstr());
+                plDebug::Debug("     <- Str: %s", plString(data[i].fString, len).cstr());
 #endif
             }
             break;

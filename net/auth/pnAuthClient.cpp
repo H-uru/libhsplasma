@@ -21,11 +21,11 @@
 #include "crypt/pnBigInteger.h"
 #include "crypt/pnSha1.h"
 
-static size_t CountFiles(hsUint32 infoSize, const NCchar_t* infoBuffer)
+static size_t CountFiles(hsUint32 infoSize, const pl_wchar_t* infoBuffer)
 {
     size_t count = 0;
     while (((int)infoSize) > 0 && *infoBuffer != 0) {
-        size_t fnLen = NCstrlen(infoBuffer);
+        size_t fnLen = plwcslen(infoBuffer);
         infoBuffer += fnLen + 4;    // '\0', filesize, '\0'
         infoSize -= fnLen + 4;
         count++;
@@ -34,12 +34,12 @@ static size_t CountFiles(hsUint32 infoSize, const NCchar_t* infoBuffer)
 }
 
 static void GetFileList(pnAuthFileItem* files, hsUint32 infoSize,
-                        const NCchar_t* infoBuffer)
+                        const pl_wchar_t* infoBuffer)
 {
     pnAuthFileItem* cur = files;
     while (((int)infoSize) > 0 && *infoBuffer != 0) {
-        size_t fnLen = NCstrlen(infoBuffer);
-        cur->fFilename = NCstrToString(infoBuffer);
+        size_t fnLen = plwcslen(infoBuffer);
+        cur->fFilename = plString(infoBuffer, fnLen);
         infoBuffer += fnLen + 1;
         infoSize -= fnLen + 1;
 
@@ -96,8 +96,7 @@ void pnAuthClient::Dispatch::run()
         // case kAuth2Cli_AcctData:
         case kAuth2Cli_AcctPlayerInfo:
             fReceiver->onAcctPlayerInfo(msgbuf[0].fUint, msgbuf[1].fUint,
-                            NCstrToString(msgbuf[2].fString),
-                            NCstrToString(msgbuf[3].fString), msgbuf[4].fUint);
+                            msgbuf[2].fString, msgbuf[3].fString, msgbuf[4].fUint);
             break;
         case kAuth2Cli_AcctSetPlayerReply:
             fReceiver->onAcctSetPlayerReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
@@ -127,8 +126,7 @@ void pnAuthClient::Dispatch::run()
         case kAuth2Cli_PlayerCreateReply:
             fReceiver->onPlayerCreateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
                             msgbuf[2].fUint, msgbuf[3].fUint,
-                            NCstrToString(msgbuf[4].fString),
-                            NCstrToString(msgbuf[5].fString));
+                            msgbuf[4].fString, msgbuf[5].fString);
             break;
         case kAuth2Cli_PlayerDeleteReply:
             fReceiver->onPlayerDeleteReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
@@ -251,7 +249,7 @@ void pnAuthClient::Dispatch::run()
                     scores[i].fGameType    = *(hsUint32*)(buf + 12);
                     scores[i].fValue       = *(hsInt32* )(buf + 16);
                     size_t strDataSize     = *(hsUint32*)(buf + 20);
-                    scores[i].fGameName    = NCstrToString((const NCchar_t*)buf + 24);
+                    scores[i].fGameName    = (const pl_wchar_t*)(buf + 24);
                     buf += 24 + strDataSize;
                 }
                 fReceiver->onScoreGetScoresReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
@@ -277,7 +275,7 @@ void pnAuthClient::Dispatch::run()
                     ranks[i].fRank     = *(hsUint32*)(buf    );
                     ranks[i].fScore    = *(hsUint32*)(buf + 4);
                     size_t strDataSize = *(hsUint32*)(buf + 8);
-                    ranks[i].fName     = NCstrToString((const NCchar_t*)buf + 12);
+                    ranks[i].fName     = (const pl_wchar_t*)(buf + 12);
                     buf += 12 + strDataSize;
                 }
                 fReceiver->onScoreGetRanksReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
@@ -489,11 +487,11 @@ hsUint32 pnAuthClient::sendAcctLoginRequest(hsUint32 serverChallenge,
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = clientChallenge;
-    msg[2].fString = StringToNCstr(acctName);
+    msg[2].fString = plwcsdup(acctName.wstr());
     pnSha1Hash hash = NCHashLoginInfo(acctName, password, serverChallenge, clientChallenge);
     memcpy(msg[3].fData, &hash, sizeof(hash));
-    msg[4].fString = StringToNCstr(authToken);
-    msg[5].fString = StringToNCstr(os);
+    msg[4].fString = plwcsdup(authToken.wstr());
+    msg[5].fString = plwcsdup(os.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
@@ -519,7 +517,7 @@ hsUint32 pnAuthClient::sendAcctCreateRequest(const plString& acctName,
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(acctName);
+    msg[1].fString = plwcsdup(acctName.wstr());
     pnSha1Hash hash = NCHashPassword(acctName, password);
     memcpy(msg[2].fData, &hash, sizeof(hash));
     msg[3].fUint = acctFlags;
@@ -536,7 +534,7 @@ hsUint32 pnAuthClient::sendAcctChangePasswordRequest(const plString& acctName,
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(acctName);
+    msg[1].fString = plwcsdup(acctName.wstr());
     pnSha1Hash hash = NCHashPassword(acctName, password);
     memcpy(msg[2].fData, &hash, sizeof(hash));
     fSock->sendMsg(msg, desc);
@@ -550,7 +548,7 @@ hsUint32 pnAuthClient::sendAcctSetRolesRequest(const plString& acctName, hsUint3
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(acctName);
+    msg[1].fString = plwcsdup(acctName.wstr());
     msg[2].fUint = acctFlags;
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
@@ -563,7 +561,7 @@ hsUint32 pnAuthClient::sendAcctSetBillingTypeRequest(const plString& acctName, h
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(acctName);
+    msg[1].fString = plwcsdup(acctName.wstr());
     msg[2].fUint = billingType;
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
@@ -589,7 +587,7 @@ hsUint32 pnAuthClient::sendAcctCreateFromKeyRequest(const plString& acctName,
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(acctName);
+    msg[1].fString = plwcsdup(acctName.wstr());
     pnSha1Hash hash = NCHashPassword(acctName, password);
     memcpy(msg[2].fData, &hash, sizeof(hash));
     key.write(msg[3].fData);
@@ -618,9 +616,9 @@ hsUint32 pnAuthClient::sendPlayerCreateRequest(const plString& playerName,
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(playerName);
-    msg[2].fString = StringToNCstr(playerShape);
-    msg[3].fString = StringToNCstr(friendInvite);
+    msg[1].fString = plwcsdup(playerName.wstr());
+    msg[2].fString = plwcsdup(playerShape.wstr());
+    msg[3].fString = plwcsdup(friendInvite.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
@@ -667,7 +665,7 @@ hsUint32 pnAuthClient::sendChangePlayerNameRequest(hsUint32 playerId, const plSt
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = playerId;
-    msg[2].fString = StringToNCstr(name);
+    msg[2].fString = plwcsdup(name.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
@@ -681,8 +679,8 @@ hsUint32 pnAuthClient::sendFriendInviteRequest(const plUuid& invite, const plStr
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
     invite.write(msg[1].fData);
-    msg[2].fString = StringToNCstr(email);
-    msg[3].fString = StringToNCstr(sendTo);
+    msg[2].fString = plwcsdup(email.wstr());
+    msg[3].fString = plwcsdup(sendTo.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
@@ -781,10 +779,10 @@ hsUint32 pnAuthClient::sendVaultInitAgeRequest(const plUuid& ageUuid, const plSt
     msg[0].fUint = transId;
     ageUuid.write(msg[1].fData);
     parentUuid.write(msg[2].fData);
-    msg[3].fString = StringToNCstr(filename);
-    msg[4].fString = StringToNCstr(instanceName);
-    msg[5].fString = StringToNCstr(userDefinedName);
-    msg[6].fString = StringToNCstr(description);
+    msg[3].fString = plwcsdup(filename.wstr());
+    msg[4].fString = plwcsdup(instanceName.wstr());
+    msg[5].fString = plwcsdup(userDefinedName.wstr());
+    msg[6].fString = plwcsdup(description.wstr());
     msg[7].fUint = sequence;
     msg[8].fUint = language;
     fSock->sendMsg(msg, desc);
@@ -833,7 +831,7 @@ hsUint32 pnAuthClient::sendAgeRequest(const plString& ageName, const plUuid& age
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(ageName);
+    msg[1].fString = plwcsdup(ageName.wstr());
     ageUuid.write(msg[2].fData);
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
@@ -846,8 +844,8 @@ hsUint32 pnAuthClient::sendFileListRequest(const plString& directory, const plSt
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(directory);
-    msg[2].fString = StringToNCstr(ext);
+    msg[1].fString = plwcsdup(directory.wstr());
+    msg[2].fString = plwcsdup(ext.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
@@ -859,7 +857,7 @@ hsUint32 pnAuthClient::sendFileDownloadRequest(const plString& filename)
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(filename);
+    msg[1].fString = plwcsdup(filename.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
@@ -880,7 +878,7 @@ hsUint32 pnAuthClient::sendGetPublicAgeList(const plString& filename)
     msgparm_t* msg = NCAllocMessage(desc);
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
-    msg[1].fString = StringToNCstr(filename);
+    msg[1].fString = plwcsdup(filename.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
@@ -900,7 +898,7 @@ void pnAuthClient::sendLogPythonTraceback(const plString& traceback)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_LogPythonTraceback);
     msgparm_t* msg = NCAllocMessage(desc);
-    msg[0].fString = StringToNCstr(traceback);
+    msg[0].fString = plwcsdup(traceback.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
 }
@@ -909,7 +907,7 @@ void pnAuthClient::sendLogStackDump(const plString& stackdump)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_LogStackDump);
     msgparm_t* msg = NCAllocMessage(desc);
-    msg[0].fString = StringToNCstr(stackdump);
+    msg[0].fString = plwcsdup(stackdump.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
 }
@@ -931,7 +929,7 @@ hsUint32 pnAuthClient::sendScoreCreate(hsUint32 owner, const plString& gameName,
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = owner;
-    msg[2].fString = StringToNCstr(gameName);
+    msg[2].fString = plwcsdup(gameName.wstr());
     msg[3].fUint = gameType;
     msg[4].fUint = scoreValue;
     fSock->sendMsg(msg, desc);
@@ -958,7 +956,7 @@ hsUint32 pnAuthClient::sendScoreGetScores(hsUint32 owner, const plString& gameNa
     hsUint32 transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = owner;
-    msg[2].fString = StringToNCstr(gameName);
+    msg[2].fString = plwcsdup(gameName.wstr());
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
@@ -1015,7 +1013,7 @@ hsUint32 pnAuthClient::sendScoreGetRanks(hsUint32 ownerId, hsUint32 group, hsUin
     msg[1].fUint = ownerId;
     msg[2].fUint = group;
     msg[3].fUint = parent;
-    msg[4].fString = StringToNCstr(gameName);
+    msg[4].fString = plwcsdup(gameName.wstr());
     msg[5].fUint = timePeriod;
     msg[6].fUint = numResults;
     msg[7].fUint = pageNumber;

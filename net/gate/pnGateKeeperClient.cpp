@@ -49,12 +49,10 @@ void pnGateKeeperClient::Dispatch::run()
                 plDebug::Debug("Got non-zero payload");
             break;
         case kGateKeeper2Cli_FileSrvIpAddressReply:
-            fReceiver->onFileSrvIpAddressReply(msgbuf[0].fUint,
-                                NCstrToString(msgbuf[1].fString));
+            fReceiver->onFileSrvIpAddressReply(msgbuf[0].fUint, msgbuf[1].fString);
             break;
         case kGateKeeper2Cli_AuthSrvIpAddressReply:
-            fReceiver->onAuthSrvIpAddressReply(msgbuf[0].fUint,
-                                NCstrToString(msgbuf[1].fString));
+            fReceiver->onAuthSrvIpAddressReply(msgbuf[0].fUint, msgbuf[1].fString);
             break;
         }
         NCFreeMessage(msgbuf, msgDesc);

@@ -18,43 +18,43 @@
 
 /* Client -> Server */
 static pnNetMsgField Cli2GateKeeper_PingRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Ping time
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Trans ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)  },  // Payload
-    { kFieldVarPtr,     0, 0                },
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Ping time
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Payload
+    { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Cli2GateKeeper_PingRequest)
 
 static pnNetMsgField Cli2GateKeeper_FileSrvIpAddressRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Trans ID?
-    { kFieldInteger,    0, sizeof(hsUbyte)  },  // ???
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID?
+    { kFieldInteger,    0, sizeof(hsUbyte)    },  // ???
 };
 MAKE_NETMSG(Cli2GateKeeper_FileSrvIpAddressRequest)
 
 static pnNetMsgField Cli2GateKeeper_AuthSrvIpAddressRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Trans ID?
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID?
 };
 MAKE_NETMSG(Cli2GateKeeper_AuthSrvIpAddressRequest)
 
 
 /* Server -> Client */
 static pnNetMsgField GateKeeper2Cli_PingReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Ping time
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Trans ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)  },  // Payload
-    { kFieldVarPtr,     0, 0                },
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Ping time
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Payload
+    { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(GateKeeper2Cli_PingReply)
 
 static pnNetMsgField GateKeeper2Cli_FileSrvIpAddressReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Trans ID?
-    { kFieldString,    24, sizeof(NCchar_t) },  // Address
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID?
+    { kFieldString,    24, sizeof(pl_wchar_t) },  // Address
 };
 MAKE_NETMSG(GateKeeper2Cli_FileSrvIpAddressReply)
 
 static pnNetMsgField GateKeeper2Cli_AuthSrvIpAddressReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32) },  // Trans ID?
-    { kFieldString,    24, sizeof(NCchar_t) },  // Address
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID?
+    { kFieldString,    24, sizeof(pl_wchar_t) },  // Address
 };
 MAKE_NETMSG(GateKeeper2Cli_AuthSrvIpAddressReply)
 

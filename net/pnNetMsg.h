@@ -42,7 +42,7 @@ DllStruct pnNetMsg {
 
 typedef union {
     hsUint32 fUint;
-    NCchar_t* fString;
+    pl_wchar_t* fString;
     hsUbyte* fData;
 } msgparm_t;
 

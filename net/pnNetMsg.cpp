@@ -121,7 +121,7 @@ size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg)
             break;
         case kFieldString:
             bufSize += sizeof(hsUint16);
-            bufSize += NCstrlen((NCchar_t*)(data[i].fData)) * sizeof(NCchar_t);
+            bufSize += plwcslen(data[i].fString) * sizeof(pl_wchar_t);
             break;
         case kFieldVarCount:
             bufSize += sizeof(hsUint32);
@@ -145,125 +145,6 @@ size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg)
     return bufSize;
 }
 
-size_t NCstrlen(const NCchar_t* str)
-{
-    if (str == NULL)
-        return 0;
-
-    const NCchar_t* p = str;
-    while (*p++ != 0) /* do nothing */ ;
-    return (size_t)((p - str) - 1);
-}
-
-NCchar_t* NCstrdup(const NCchar_t* str)
-{
-    if (str == NULL)
-        return NULL;
-
-    size_t len = NCstrlen(str);
-    NCchar_t* dup = new NCchar_t[len + 1];
-    memcpy(dup, str, len * sizeof(NCchar_t));
-    dup[len] = 0;
-    return dup;
-}
-
-plString NCstrToString(const NCchar_t* str)
-{
-    /* Use UTF-8 to preserve the Unicode data */
-    const NCchar_t* ch = str;
-    size_t len = 0;
-    while (*ch != 0) {
-        if (*ch < 0x80)
-            len += 1;
-        else if (*ch < 0x800)
-            len += 2;
-        else
-            len += 3;
-        ch++;
-    }
-
-    char* buf = new char[len+1];
-    ch = str;
-    char* p = buf;
-    while (*ch != 0) {
-        if (*ch < 0x80) {
-            p[0] = *ch;
-            p += 1;
-        } else if (*ch < 0x800) {
-            p[0] = 0xC0 | ((*ch >> 6) & 0x1F);
-            p[1] = 0x80 | ((*ch     ) & 0x3F);
-            p += 2;
-        } else {
-            p[0] = 0xE0 | ((*ch >> 12) & 0x0F);
-            p[1] = 0x80 | ((*ch >>  6) & 0x3F);
-            p[2] = 0x80 | ((*ch      ) & 0x3F);
-            p += 3;
-        }
-        ch++;
-    }
-    *p = 0;
-    plString result(buf);
-    delete[] buf;
-    return result;
-}
-
-NCchar_t* StringToNCstr(const plString& str)
-{
-    /* Use UTF-8 to preserve the Unicode data */
-    size_t len = 0;
-    const char* ch = str.cstr();
-    while (*ch != 0) {
-        if ((*ch & 0xF0) == 0xE0) {
-            if ((ch[1] == 0) || (ch[2] == 0))
-                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 Data");
-            if ((ch[1] & 0xC0) != 0x80 || (ch[2] & 0xC0) != 0x80)
-                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 Data");
-            ch += 3;
-        } else if ((*ch & 0xE0) == 0xC0) {
-            if (ch[1] == 0)
-                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 Data");
-            if ((ch[1] & 0xC0) != 0x80)
-                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 Data");
-            ch += 2;
-        } else {
-            if ((*ch & 0xC0) == 0x80)
-                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 Data");
-            ch += 1;
-        }
-        len++;
-    }
-
-    NCchar_t* buf = new NCchar_t[len+1];
-    ch = str.cstr();
-    NCchar_t* p = buf;
-    while (*ch != 0) {
-        if ((*ch & 0xF0) == 0xE0) {
-            *p = ((ch[0] & 0x0F) << 12)
-               | ((ch[1] & 0x3F) <<  6)
-               | ((ch[2] & 0x3F)      );
-            ch += 3;
-        } else if ((*ch & 0xE0) == 0xC0) {
-            *p = ((ch[0] & 0x1F) << 6)
-               | ((ch[1] & 0x3F)     );
-            ch += 2;
-        } else {
-            *p = *ch & 0x7F;
-            ch += 1;
-        }
-        p++;
-    }
-    *p = 0;
-    return buf;
-}
-
-void NCstrlower(NCchar_t* str)
-{
-    while (*str++ != 0) {
-        if (*str >= (NCchar_t)'A' && *str <= (NCchar_t)'Z')
-            *str += (NCchar_t)('a' - 'A');
-    }
-}
-
 plUuid NCGetUuid(const msgparm_t& field)
 {
     plUuid uuid;
@@ -276,17 +157,17 @@ void pnNetAgeInfo::read(const unsigned char* buffer)
     fAgeInstanceId.read(buffer);
     buffer += 16;
 
-    fAgeFilename = NCstrToString((const NCchar_t*)buffer);
-    buffer += 64 * sizeof(NCchar_t);
+    fAgeFilename = plString((const pl_wchar_t*)buffer);
+    buffer += 64 * sizeof(pl_wchar_t);
 
-    fAgeInstanceName = NCstrToString((const NCchar_t*)buffer);
-    buffer += 64 * sizeof(NCchar_t);
+    fAgeInstanceName = plString((const pl_wchar_t*)buffer);
+    buffer += 64 * sizeof(pl_wchar_t);
 
-    fAgeUserName = NCstrToString((const NCchar_t*)buffer);
-    buffer += 64 * sizeof(NCchar_t);
+    fAgeUserName = plString((const pl_wchar_t*)buffer);
+    buffer += 64 * sizeof(pl_wchar_t);
 
-    fDescription = NCstrToString((const NCchar_t*)buffer);
-    buffer += 1024 * sizeof(NCchar_t);
+    fDescription = plString((const pl_wchar_t*)buffer);
+    buffer += 1024 * sizeof(pl_wchar_t);
 
     fSequenceNumber = *(hsUint32*)buffer;
     buffer += sizeof(hsUint32);
@@ -303,39 +184,28 @@ void pnNetAgeInfo::read(const unsigned char* buffer)
 
 void pnNetAgeInfo::write(unsigned char* buffer)
 {
-    NCchar_t* strbuf;
-    size_t length;
-
     fAgeInstanceId.write(buffer);
     buffer += 16;
 
-    strbuf = StringToNCstr(fAgeFilename);
-    length = NCstrlen(strbuf);
-    memcpy(buffer, strbuf, (length >= 64 ? 63 : length) * sizeof(NCchar_t));
-    buffer[63 * sizeof(NCchar_t)] = 0;
-    buffer += 64 * sizeof(NCchar_t);
-    delete[] strbuf;
+    plString::Wide wsbuf = fAgeFilename.wstr();
+    memcpy(buffer, wsbuf.data(), (wsbuf.len() >= 64 ? 63 : wsbuf.len()) * sizeof(pl_wchar_t));
+    buffer[63 * sizeof(pl_wchar_t)] = 0;
+    buffer += 64 * sizeof(pl_wchar_t);
 
-    strbuf = StringToNCstr(fAgeInstanceName);
-    length = NCstrlen(strbuf);
-    memcpy(buffer, strbuf, (length >= 64 ? 63 : length) * sizeof(NCchar_t));
-    buffer[63 * sizeof(NCchar_t)] = 0;
-    buffer += 64 * sizeof(NCchar_t);
-    delete[] strbuf;
+    wsbuf = fAgeInstanceName.wstr();
+    memcpy(buffer, wsbuf.data(), (wsbuf.len() >= 64 ? 63 : wsbuf.len()) * sizeof(pl_wchar_t));
+    buffer[63 * sizeof(pl_wchar_t)] = 0;
+    buffer += 64 * sizeof(pl_wchar_t);
 
-    strbuf = StringToNCstr(fAgeUserName);
-    length = NCstrlen(strbuf);
-    memcpy(buffer, strbuf, (length >= 64 ? 63 : length) * sizeof(NCchar_t));
-    buffer[63 * sizeof(NCchar_t)] = 0;
-    buffer += 64 * sizeof(NCchar_t);
-    delete[] strbuf;
+    wsbuf = fAgeUserName.wstr();
+    memcpy(buffer, wsbuf.data(), (wsbuf.len() >= 64 ? 63 : wsbuf.len()) * sizeof(pl_wchar_t));
+    buffer[63 * sizeof(pl_wchar_t)] = 0;
+    buffer += 64 * sizeof(pl_wchar_t);
 
-    strbuf = StringToNCstr(fDescription);
-    length = NCstrlen(strbuf);
-    memcpy(buffer, strbuf, (length >= 1024 ? 1023 : length) * sizeof(NCchar_t));
-    buffer[1023 * sizeof(NCchar_t)] = 0;
-    buffer += 1024 * sizeof(NCchar_t);
-    delete[] strbuf;
+    wsbuf = fDescription.wstr();
+    memcpy(buffer, wsbuf.data(), (wsbuf.len() >= 1024 ? 1023 : wsbuf.len()) * sizeof(pl_wchar_t));
+    buffer[1023 * sizeof(pl_wchar_t)] = 0;
+    buffer += 1024 * sizeof(pl_wchar_t);
 
     *(hsUint32*)buffer = fSequenceNumber;
     buffer += sizeof(hsUint32);

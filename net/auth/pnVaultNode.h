@@ -45,21 +45,20 @@ protected:
 
     hsInt32 fNodeIdx;
     hsUint32 fCreateTime, fModifyTime;
-    NCchar_t* fCreateAgeName;
+    plString fCreateAgeName;
     plUuid fCreateAgeUuid, fCreatorUuid;
     hsInt32 fCreatorIdx, fNodeType;
     hsInt32 fInt32[4];
     hsUint32 fUint32[4];
     plUuid fUuid[4];
-    NCchar_t* fString64[6];
-    NCchar_t* fIString64[2];
-    NCchar_t* fText[2];
+    plString fString64[6];
+    plString fIString64[2];
+    plString fText[2];
     plVaultBlob fBlob[2];
 
 public:
     pnVaultNode();
-    pnVaultNode(const pnVaultNode& init);
-    ~pnVaultNode();
+    pnVaultNode(const pnVaultNode& init) { copy(init); }
     void copy(const pnVaultNode& init);
     void clear();
 

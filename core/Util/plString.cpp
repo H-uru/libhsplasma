@@ -79,13 +79,6 @@ static size_t utf16len(const char* str, size_t srclen) {
     return len;
 }
 
-static size_t plwcslen(const pl_wchar_t* str) {
-    size_t len = 0;
-    while (*str++ != 0)
-        len++;
-    return len;
-}
-
 static void utf8encode(char* dest, size_t length, const pl_wchar_t* src, size_t srclen) {
     unsigned int ch;
     char* end = dest + length;
@@ -94,8 +87,9 @@ static void utf8encode(char* dest, size_t length, const pl_wchar_t* src, size_t 
         if ((*src & 0xDC00) == 0xD800) {
             if (dest + 4 > end)
                 break;
-            ch  = *src++ << 10;
-            ch |= *src++;
+            ch  = (*src++ & 0x3FF) << 10;
+            ch |= (*src++ & 0x3FF);
+            ch += 0x10000;
 
             *dest++ = 0xF0 | ((ch >> 18) & 0x07);
             *dest++ = 0x80 | ((ch >> 12) & 0x3F);
@@ -104,8 +98,9 @@ static void utf8encode(char* dest, size_t length, const pl_wchar_t* src, size_t 
         } else if ((*src & 0xDC00) == 0xDC00) {
             if (dest + 4 > end)
                 break;
-            ch  = *src++;
-            ch |= *src++ << 10;
+            ch  = (*src++ & 0x3FF);
+            ch |= (*src++ & 0x3FF) << 10;
+            ch += 0x10000;
 
             *dest++ = 0xF0 | ((ch >> 18) & 0x07);
             *dest++ = 0x80 | ((ch >> 12) & 0x3F);
@@ -161,6 +156,7 @@ static void utf8decode(pl_wchar_t* dest, size_t length, const char* src, size_t 
             ch |= ((*src++ & 0x3F) << 12);
             ch |= ((*src++ & 0x3F) <<  6);
             ch |= ((*src++ & 0x3F)      );
+            ch -= 0x10000;
             *dest++ = 0xD800 | ((ch >> 10) & 0x3FF);
             *dest++ = 0xDC00 | ((ch      ) & 0x3FF);
         }
@@ -768,4 +764,22 @@ plString CleanFileName(const char* fname, bool allowPathChars) {
     plString result(buf);
     free(buf);
     return result;
+}
+
+size_t plwcslen(const pl_wchar_t* str) {
+    size_t len = 0;
+    while (*str++ != 0)
+        len++;
+    return len;
+}
+
+pl_wchar_t* plwcsdup(const pl_wchar_t* str) {
+    if (str == NULL)
+        return NULL;
+
+    size_t len = plwcslen(str);
+    pl_wchar_t* buf = new pl_wchar_t[len+1];
+    memcpy(buf, str, len * sizeof(pl_wchar_t));
+    buf[len] = 0;
+    return buf;
 }

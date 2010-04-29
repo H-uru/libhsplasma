@@ -25,18 +25,20 @@ struct FileMsg_Header {
 
 
 /* pnFileManifest */
-const NCchar_t* pnFileManifest::read(const NCchar_t* src)
+const pl_wchar_t* pnFileManifest::read(const pl_wchar_t* src)
 {
-    fFilename = NCstrToString(src);
-    src += (NCstrlen(src) + 1);
+    size_t len = plwcslen(src);
+    fFilename = plString(src, len);
+    src += (len + 1);
 
-    fDownloadName = NCstrToString(src);
-    src += (NCstrlen(src) + 1);
+    len = plwcslen(src);
+    fDownloadName = plString(src, len);
+    src += (len + 1);
 
-    fHash.fromHex(NCstrToString(src));
+    fHash.fromHex(plString(src).cstr());
     src += 33;
 
-    fCompressedHash.fromHex(NCstrToString(src));
+    fCompressedHash.fromHex(plString(src).cstr());
     src += 33;
 
     fFileSize = (src[0] << 16) | (src[1] & 0xFFFF);
@@ -51,46 +53,40 @@ const NCchar_t* pnFileManifest::read(const NCchar_t* src)
     return src;
 }
 
-NCchar_t* pnFileManifest::write(NCchar_t* dest)
+pl_wchar_t* pnFileManifest::write(pl_wchar_t* dest)
 {
-    NCchar_t* strbuf = StringToNCstr(fFilename);
-    size_t len = NCstrlen(strbuf);
-    memcpy(dest, strbuf, len * sizeof(NCchar_t));
-    dest[len] = 0;
-    dest += (len + 1);
-    delete[] strbuf;
+    plString::Wide wsbuf = fFilename.wstr();
+    memcpy(dest, wsbuf.data(), wsbuf.len() * sizeof(pl_wchar_t));
+    dest[wsbuf.len()] = 0;
+    dest += (wsbuf.len() + 1);
 
-    strbuf = StringToNCstr(fDownloadName);
-    len = NCstrlen(strbuf);
-    memcpy(dest, strbuf, len * sizeof(NCchar_t));
-    dest[len] = 0;
-    dest += (len + 1);
-    delete[] strbuf;
+    wsbuf = fDownloadName.wstr();
+    memcpy(dest, wsbuf.data(), wsbuf.len() * sizeof(pl_wchar_t));
+    dest[wsbuf.len()] = 0;
+    dest += (wsbuf.len() + 1);
 
-    strbuf = StringToNCstr(fHash.toHex());
-    memcpy(dest, strbuf, 32 * sizeof(NCchar_t));
+    wsbuf = fHash.toHex().wstr();
+    memcpy(dest, wsbuf.data(), 32 * sizeof(pl_wchar_t));
     dest[32] = 0;
     dest += 33;
-    delete[] strbuf;
 
-    strbuf = StringToNCstr(fCompressedHash.toHex());
-    memcpy(dest, strbuf, 32 * sizeof(NCchar_t));
+    wsbuf = fCompressedHash.toHex().wstr();
+    memcpy(dest, wsbuf.data(), 32 * sizeof(pl_wchar_t));
     dest[32] = 0;
     dest += 33;
-    delete[] strbuf;
 
-    dest[0] = (NCchar_t)(fFileSize >> 16);
-    dest[1] = (NCchar_t)(fFileSize & 0xFFFF);
+    dest[0] = (pl_wchar_t)(fFileSize >> 16);
+    dest[1] = (pl_wchar_t)(fFileSize & 0xFFFF);
     dest[2] = 0;
     dest += 3;
 
-    dest[0] = (NCchar_t)(fCompressedSize >> 16);
-    dest[1] = (NCchar_t)(fCompressedSize & 0xFFFF);
+    dest[0] = (pl_wchar_t)(fCompressedSize >> 16);
+    dest[1] = (pl_wchar_t)(fCompressedSize & 0xFFFF);
     dest[2] = 0;
     dest += 3;
 
-    dest[0] = (NCchar_t)(fFlags >> 16);
-    dest[1] = (NCchar_t)(fFlags & 0xFFFF);
+    dest[0] = (pl_wchar_t)(fFlags >> 16);
+    dest[1] = (pl_wchar_t)(fFlags & 0xFFFF);
     dest[2] = 0;
     dest += 3;
 
@@ -99,17 +95,8 @@ NCchar_t* pnFileManifest::write(NCchar_t* dest)
 
 size_t pnFileManifest::calcSize() const
 {
-    size_t result = 75;     // 2 MD5 hashes, 3 uint32s, and \0 pads for each
-
-    NCchar_t* strbuf = StringToNCstr(fFilename);
-    result += NCstrlen(strbuf) + 1;
-    delete[] strbuf;
-
-    strbuf = StringToNCstr(fDownloadName);
-    result += NCstrlen(strbuf) + 1;
-    delete[] strbuf;
-
-    return result;
+    // 2 MD5 hashes, 3 uint32s, 2 pl_wchar strings, and \0 pads for each
+    return 77 + fFilename.wstr().len() + fDownloadName.wstr().len();
 }
 
 
@@ -157,7 +144,7 @@ void pnFileClient::Dispatch::run()
                 } else {
                     files = new pnFileManifest[totalFiles];
                 }
-                const NCchar_t* bufp = (NCchar_t*)(msgbuf + 20);
+                const pl_wchar_t* bufp = (pl_wchar_t*)(msgbuf + 20);
                 for (; i<totalFiles; i++) {
                     if (*bufp == 0) {
                         fMfsQueue[transId] = files;
@@ -296,37 +283,35 @@ hsUint32 pnFileClient::sendBuildIdRequest()
 
 hsUint32 pnFileClient::sendManifestRequest(const plString& group, hsUint32 buildId)
 {
-    NCchar_t* wgroup = StringToNCstr(group);
-    size_t wgroup_len = NCstrlen(wgroup) + 1;
+    plString::Wide wgroup = group.wstr();
+    size_t len = wgroup.len() + 1;
 
     hsUint32 transId = nextTransId();
     hsUbyte msgbuf[536];
     *(hsUint32*)(msgbuf    ) = 536;                         // Msg size
     *(hsUint32*)(msgbuf + 4) = kCli2File_ManifestRequest;   // Msg ID
     *(hsUint32*)(msgbuf + 8) = transId;                     // Trans ID
-    memcpy(msgbuf + 12, wgroup, (wgroup_len >= 260 ? 259 : wgroup_len) * sizeof(NCchar_t));
-    *(NCchar_t*)(msgbuf + 530) = 0;                         // Nul terminator
+    memcpy(msgbuf + 12, wgroup.data(), (len >= 260 ? 259 : len) * sizeof(pl_wchar_t));
+    *(pl_wchar_t*)(msgbuf + 530) = 0;                       // Nul terminator
     *(hsUint32*)(msgbuf + 532) = buildId;                   // Build ID
     fSock->send(msgbuf, 536);
-    delete[] wgroup;
     return transId;
 }
 
 hsUint32 pnFileClient::sendFileDownloadRequest(const plString& filename, hsUint32 buildId)
 {
-    NCchar_t* wfilename = StringToNCstr(filename);
-    size_t wfilename_len = NCstrlen(wfilename) + 1;
+    plString::Wide wfilename = filename.wstr();
+    size_t len = wfilename.len() + 1;
 
     hsUint32 transId = nextTransId();
     hsUbyte msgbuf[536];
     *(hsUint32*)(msgbuf    ) = 536;                             // Msg size
     *(hsUint32*)(msgbuf + 4) = kCli2File_FileDownloadRequest;   // Msg ID
     *(hsUint32*)(msgbuf + 8) = transId;                         // Trans ID
-    memcpy(msgbuf + 12, wfilename, (wfilename_len >= 260 ? 259 : wfilename_len) * sizeof(NCchar_t));
-    *(NCchar_t*)(msgbuf + 530) = 0;                             // Nul terminator
+    memcpy(msgbuf + 12, wfilename.data(), (len >= 260 ? 259 : len) * sizeof(pl_wchar_t));
+    *(pl_wchar_t*)(msgbuf + 530) = 0;                           // Nul terminator
     *(hsUint32*)(msgbuf + 532) = buildId;                       // Build ID
     fSock->send(msgbuf, 536);
-    delete[] wfilename;
     return transId;
 }
 
