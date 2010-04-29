@@ -191,6 +191,8 @@ void plString::WideBuffer::unref() {
         delete this;
 }
 
+const pl_wchar_t plString::Wide::EMPTY_STR[] = { 0 };
+
 plString::Wide::Wide(WideBuffer* init) : fString(init) { }
 
 plString::Wide::Wide(const Wide& init) : fString(init.fString) {

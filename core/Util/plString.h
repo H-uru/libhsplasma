@@ -62,6 +62,7 @@ public:
     class Wide {
     private:
         WideBuffer* fString;
+        static const pl_wchar_t EMPTY_STR[];
 
     public:
         explicit Wide(WideBuffer* init);
@@ -71,7 +72,7 @@ public:
 
         bool empty() const { return (fString == NULL) || (fString->len() == 0); }
         size_t len() const { return (fString != NULL) ? fString->len() : 0; }
-        const pl_wchar_t* data() const { return (fString != NULL) ? fString->data() : (const pl_wchar_t[]){0}; }
+        const pl_wchar_t* data() const { return (fString != NULL) ? fString->data() : EMPTY_STR; }
         operator const pl_wchar_t*() const { return data(); }
     };
 
@@ -148,6 +149,6 @@ public:
 
 plString DllExport CleanFileName(const char* fname, bool allowPathChars = false);
 size_t DllExport plwcslen(const pl_wchar_t* str);
-pl_wchar_t* DllExport plwcsdup(const pl_wchar_t* str);
+pl_wchar_t DllExport* plwcsdup(const pl_wchar_t* str);
 
 #endif
