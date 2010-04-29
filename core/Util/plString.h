@@ -27,7 +27,7 @@ typedef unsigned short pl_wchar_t;
 
 DllClass plString {
 public:
-    class StrBuffer {
+    DllClass StrBuffer {
     private:
         char* fStr;
         size_t fLen;
@@ -43,7 +43,7 @@ public:
         size_t len() const { return fLen; }
     };
 
-    class WideBuffer {
+    DllClass WideBuffer {
     private:
         pl_wchar_t* fStr;
         size_t fLen;
@@ -59,10 +59,10 @@ public:
         size_t len() const { return fLen; }
     };
 
-    class Wide {
+    DllClass Wide {
     private:
         WideBuffer* fString;
-        static const pl_wchar_t EMPTY_STR[];
+        static const pl_wchar_t* getNullStringBecauseVisualStudioIsFuckingStupid();
 
     public:
         explicit Wide(WideBuffer* init);
@@ -72,7 +72,8 @@ public:
 
         bool empty() const { return (fString == NULL) || (fString->len() == 0); }
         size_t len() const { return (fString != NULL) ? fString->len() : 0; }
-        const pl_wchar_t* data() const { return (fString != NULL) ? fString->data() : EMPTY_STR; }
+        const pl_wchar_t* data() const { return (fString != NULL) ? fString->data()
+                                         : getNullStringBecauseVisualStudioIsFuckingStupid(); }
         operator const pl_wchar_t*() const { return data(); }
     };
 

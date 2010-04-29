@@ -191,7 +191,10 @@ void plString::WideBuffer::unref() {
         delete this;
 }
 
-const pl_wchar_t plString::Wide::EMPTY_STR[] = { 0 };
+const pl_wchar_t* plString::Wide::getNullStringBecauseVisualStudioIsFuckingStupid() {
+    static pl_wchar_t _nullstr[] = { 0 };
+    return _nullstr;
+}
 
 plString::Wide::Wide(WideBuffer* init) : fString(init) { }
 
