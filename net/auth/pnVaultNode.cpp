@@ -192,17 +192,14 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
         case kString64_4:
         case kString64_5:
         case kString64_6:
-            delete[] fString64[bit - kString64_1];
             fString64[bit - kString64_1] = readString(buffer, size);
             break;
         case kIString64_1:
         case kIString64_2:
-            delete[] fIString64[bit - kIString64_1];
             fIString64[bit - kIString64_1] = readString(buffer, size);
             break;
         case kText_1:
         case kText_2:
-            delete[] fText[bit - kText_1];
             fText[bit - kText_1] = readString(buffer, size);
             break;
         case kBlob_1:
