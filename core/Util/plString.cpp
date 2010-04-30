@@ -30,10 +30,10 @@ static size_t utf8len(const pl_wchar_t* str, size_t srclen) {
     size_t len = 0;
     const pl_wchar_t* end = str + srclen;
     while (str < end) {
-        if ((*str & 0xDC00) == 0xD800 || (*str & 0xDC00) == 0xDC00) {
+        if ((*str & 0xD800) == 0xD800) {
             // Surrogate pair
             str++;
-            if ((*str & 0xDC00) != 0xD800 && (*str & 0xDC00) != 0xDC00)
+            if ((*str & 0xD800) != 0xD800)
                 throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-16 surrogate pair");
             len += 4;
         } else if (*str < 0x80) {

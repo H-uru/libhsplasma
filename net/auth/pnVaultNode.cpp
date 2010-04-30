@@ -153,7 +153,6 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
             fModifyTime = readU32(buffer, size);
             break;
         case kCreateAgeName:
-            delete[] fCreateAgeName;
             fCreateAgeName = readString(buffer, size);
             break;
         case kCreateAgeUuid:
@@ -462,7 +461,6 @@ void pnVaultNode::setCreateAgeName(const plString& name)
     if (fCreateAgeName != NULL) {
         size_t oldLen = (fCreateAgeName.wstr().len() + 1) * sizeof(pl_wchar_t);
         IClearField(kCreateAgeName, oldLen + sizeof(hsUint32));
-        delete[] fCreateAgeName;
     }
 
     fCreateAgeName = name;
