@@ -517,7 +517,6 @@ void pnVaultNode::setString64(size_t which, const plString& value)
     if (fString64[which] != NULL) {
         size_t oldLen = (fString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
         IClearField(kString64_1 + which, oldLen + sizeof(hsUint32));
-        delete[] fString64[which];
     }
 
     fString64[which] = value;
@@ -530,7 +529,6 @@ void pnVaultNode::setIString64(size_t which, const plString& value)
     if (fIString64[which] != NULL) {
         size_t oldLen = (fIString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
         IClearField(kIString64_1 + which, oldLen + sizeof(hsUint32));
-        delete[] fIString64[which];
     }
 
     fIString64[which] = value;
@@ -543,7 +541,6 @@ void pnVaultNode::setText(size_t which, const plString& value)
     if (fText[which] != NULL) {
         size_t oldLen = (fText[which].wstr().len() + 1) * sizeof(pl_wchar_t);
         IClearField(kText_1 + which, oldLen + sizeof(hsUint32));
-        delete[] fText[which];
     }
 
     fText[which] = value;
