@@ -71,6 +71,7 @@ add_library(HSPlasmaNet SHARED
             ${PN_CRYPT_SRCS} ${PN_CRYPT_HDRS}
             ${PN_FILE_SRCS}  ${PN_FILE_HDRS}
             ${PN_GAME_SRCS}  ${PN_GAME_HDRS}
+            ${PN_GATE_SRCS}  ${PN_GATE_HDRS}
             ${PN_SRCS}       ${PN_HDRS}
 )
 target_link_libraries(HSPlasmaNet HSPlasma ${OPENSSL_LIBRARIES})
@@ -95,4 +96,5 @@ source_group("auth" FILES ${PN_AUTH_SRCS} ${PN_AUTH_HDRS})
 source_group("crypt" FILES ${PN_CRYPT_SRCS} ${PN_CRYPT_HDRS})
 source_group("file" FILES ${PN_FILE_SRCS} ${PN_FILE_HDRS})
 source_group("game" FILES ${PN_GAME_SRCS} ${PN_GAME_HDRS})
+source_group("gate" FILES ${PN_GATE_SRCS} ${PN_GATE_HDRS})
 source_group("gate" FILES ${PN_GATE_SRCS} ${PN_GATE_HDRS})
