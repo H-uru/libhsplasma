@@ -62,7 +62,7 @@ public:
     DllClass Wide {
     private:
         WideBuffer* fString;
-        static const pl_wchar_t* getNullStringBecauseVisualStudioIsFuckingStupid();
+        static const pl_wchar_t* getNullStringBecauseVisualStudioIsStupid();
 
     public:
         explicit Wide(WideBuffer* init);
@@ -73,7 +73,7 @@ public:
         bool empty() const { return (fString == NULL) || (fString->len() == 0); }
         size_t len() const { return (fString != NULL) ? fString->len() : 0; }
         const pl_wchar_t* data() const { return (fString != NULL) ? fString->data()
-                                         : getNullStringBecauseVisualStudioIsFuckingStupid(); }
+                                         : getNullStringBecauseVisualStudioIsStupid(); }
         operator const pl_wchar_t*() const { return data(); }
     };
 

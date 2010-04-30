@@ -30,13 +30,7 @@ static size_t utf8len(const pl_wchar_t* str, size_t srclen) {
     size_t len = 0;
     const pl_wchar_t* end = str + srclen;
     while (str < end) {
-        if ((*str & 0xD800) == 0xD800) {
-            // Surrogate pair
-            str++;
-            if ((*str & 0xD800) != 0xD800)
-                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-16 surrogate pair");
-            len += 4;
-        } else if (*str < 0x80) {
+        if (*str < 0x80) {
             len += 1;
         } else if (*str < 0x800) {
             len += 2;
@@ -48,7 +42,7 @@ static size_t utf8len(const pl_wchar_t* str, size_t srclen) {
     return len;
 }
 
-static size_t utf16len(const char* str, size_t srclen) {
+static size_t ucs2len(const char* str, size_t srclen) {
     if (str == NULL)
         return 0;
 
@@ -66,11 +60,7 @@ static size_t utf16len(const char* str, size_t srclen) {
                 throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 sequence");
             str += 3;
         } else if ((*str & 0xF1) == 0xF0) {
-            if ((*(str+1) & 0xC0) != 0x80 || (*(str+2) & 0xC0) != 0x80 ||
-                (*(str+3) & 0xC0) != 0x80)
-                throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 sequence");
-            str += 4;
-            len++;
+            throw hsBadParamException(__FILE__, __LINE__, "Unicode character out of UCS-2 range");
         } else {
             throw hsBadParamException(__FILE__, __LINE__, "Invalid UTF-8 sequence");
         }
@@ -84,29 +74,7 @@ static void utf8encode(char* dest, size_t length, const pl_wchar_t* src, size_t 
     char* end = dest + length;
     const pl_wchar_t* srcend = src + srclen;
     while (src < srcend) {
-        if ((*src & 0xDC00) == 0xD800) {
-            if (dest + 4 > end)
-                break;
-            ch  = (*src++ & 0x3FF) << 10;
-            ch |= (*src++ & 0x3FF);
-            ch += 0x10000;
-
-            *dest++ = 0xF0 | ((ch >> 18) & 0x07);
-            *dest++ = 0x80 | ((ch >> 12) & 0x3F);
-            *dest++ = 0x80 | ((ch >>  6) & 0x3F);
-            *dest++ = 0x80 | ((ch      ) & 0x3F);
-        } else if ((*src & 0xDC00) == 0xDC00) {
-            if (dest + 4 > end)
-                break;
-            ch  = (*src++ & 0x3FF);
-            ch |= (*src++ & 0x3FF) << 10;
-            ch += 0x10000;
-
-            *dest++ = 0xF0 | ((ch >> 18) & 0x07);
-            *dest++ = 0x80 | ((ch >> 12) & 0x3F);
-            *dest++ = 0x80 | ((ch >>  6) & 0x3F);
-            *dest++ = 0x80 | ((ch      ) & 0x3F);
-        } else if (*src < 0x80) {
+        if (*src < 0x80) {
             if (dest + 1 > end)
                 break;
             *dest++ = *src++;
@@ -149,16 +117,6 @@ static void utf8decode(pl_wchar_t* dest, size_t length, const char* src, size_t 
             ch |= ((*src++ & 0x3F) <<  6);
             ch |= ((*src++ & 0x3F)      );
             *dest++ = ch;
-        } else if ((*src & 0xF1) == 0xF0) {
-            if (dest + 2 > end)
-                break;
-            ch  = ((*src++ & 0x07) << 18);
-            ch |= ((*src++ & 0x3F) << 12);
-            ch |= ((*src++ & 0x3F) <<  6);
-            ch |= ((*src++ & 0x3F)      );
-            ch -= 0x10000;
-            *dest++ = 0xD800 | ((ch >> 10) & 0x3FF);
-            *dest++ = 0xDC00 | ((ch      ) & 0x3FF);
         }
     }
 }
@@ -191,7 +149,7 @@ void plString::WideBuffer::unref() {
         delete this;
 }
 
-const pl_wchar_t* plString::Wide::getNullStringBecauseVisualStudioIsFuckingStupid() {
+const pl_wchar_t* plString::Wide::getNullStringBecauseVisualStudioIsStupid() {
     static pl_wchar_t _nullstr[] = { 0 };
     return _nullstr;
 }
@@ -455,7 +413,7 @@ bool plString::endsWith(const char* cmp, bool ignoreCase) const {
 plString::Wide plString::wstr() const {
     if (empty())
         return Wide(NULL);
-    size_t wlen = utf16len(fString->data(), fString->len());
+    size_t wlen = ucs2len(fString->data(), fString->len());
     pl_wchar_t* buf = new pl_wchar_t[wlen+1];
     utf8decode(buf, wlen, fString->data(), fString->len());
     buf[wlen] = 0;
