@@ -23,6 +23,7 @@ static int sockError();
 #ifdef WIN32
 #  include <winsock2.h>
 #  include <ws2tcpip.h>
+#  include <wspiapi.h>
 
    typedef char* sockbuf_t;
 
@@ -120,7 +121,7 @@ bool pnSocket::connect(const char* address, unsigned short port)
 {
     addrinfo conn;
     memset(&conn, 0, sizeof(conn));
-    conn.ai_flags = AI_ADDRCONFIG;
+    conn.ai_flags = 0;
     conn.ai_family = AF_UNSPEC;
     conn.ai_socktype = SOCK_STREAM;
     conn.ai_protocol = 0;
