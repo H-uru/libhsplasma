@@ -203,13 +203,13 @@ void plMipmap::IRead(hsStream* S) {
             if (fTotalSize > realSize) {
                 /* Extra bogus data from miscalculation */
                 S->skip(fTotalSize - realSize);
-                plDebug::Warning("Skipping oversized buffer data (%d bytes)",
-                                 fTotalSize - realSize);
+                //plDebug::Warning("Skipping oversized buffer data (%d bytes)",
+                //                 fTotalSize - realSize);
             } else {
                 /* Missing data from miscalculation...  Just make it black */
                 memset(fImageData + fTotalSize, 0, realSize - fTotalSize);
-                plDebug::Warning("Filling undersized buffer data (%d bytes)",
-                                 realSize - fTotalSize);
+                //plDebug::Warning("Filling undersized buffer data (%d bytes)",
+                //                 realSize - fTotalSize);
             }
             fTotalSize = realSize;
         } else {
@@ -219,11 +219,6 @@ void plMipmap::IRead(hsStream* S) {
     case kUncompressed:
         IReadRawImage(S);
         break;
-    }
-
-    if (realSize != fTotalSize) {
-        plDebug::Warning("%s: Incorrect image buffer storage size",
-                         getKey()->toString().cstr());
     }
 }
 
