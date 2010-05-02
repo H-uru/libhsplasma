@@ -25,7 +25,7 @@
 
 DllClass pnGameClient : public pnClient {
 public:
-    pnGameClient();
+    pnGameClient(plResManager* mgr);
     virtual ~pnGameClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN);
@@ -57,8 +57,7 @@ public:
 
 protected:
     pnRC4Socket* fSock;
-    plResManager fResMgr;
-    hsMutex fResMgrMutex;
+    plResManager* fResMgr;
 
     hsUint32 fBuildId, fBuildType, fBranchId;
     plUuid fProductId;

@@ -28,6 +28,7 @@
 #include "plKeyCollector.h"
 #include "PRP/plPageInfo.h"
 #include "plAgeInfo.h"
+#include "Sys/hsThread.h"
 
 /** Callback to indicate the progress of the current operation, range [0,1] */
 typedef void (*ProgressCallback)(float progress);
@@ -43,7 +44,7 @@ typedef void (*ProgressCallback)(float progress);
  */
 DllClass plResManager {
 private:
-    static unsigned int fNumResMgrs;
+    hsMutex fResMgrMutex;
 
 protected:
     PlasmaVer fPlasmaVer;
@@ -266,7 +267,7 @@ public:
      */
     std::vector<plKey> getKeys(const plLocation& loc, short type,
                                bool checkKeys = false);
-    
+
     /**
      * Return an array of all the plKeys of the specified Creatable Class
      * for all locations.
@@ -369,6 +370,12 @@ public:
      * This function is currently unsupported.
      */
     ProgressCallback SetProgressFunc(ProgressCallback newFunc);
+
+    /** Lock access to the ResManager in multithreaded apps */
+    void lock() { fResMgrMutex.lock(); }
+
+    /** Unlock access to the ResManager in multithreaded apps */
+    void unlock() { fResMgrMutex.unlock(); }
 };
 
 #endif

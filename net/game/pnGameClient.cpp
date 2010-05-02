@@ -54,16 +54,16 @@ void pnGameClient::Dispatch::run()
             {
                 hsRAMStream rs(pvLive);
                 rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
-                fReceiver->fResMgrMutex.lock();
+                fReceiver->fResMgr->lock();
                 plCreatable* pCre = NULL;
                 try {
-                    pCre = fReceiver->fResMgr.ReadCreatable(&rs, true, msgbuf[1].fUint);
+                    pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
                 } catch (hsException& ex) {
                     plDebug::Error("Error reading propagated message: %s\n", ex.what());
                     delete pCre;
                     pCre = NULL;
                 }
-                fReceiver->fResMgrMutex.unlock();
+                fReceiver->fResMgr->unlock();
                 if (pCre != NULL) {
                     fReceiver->onPropagateMessage(pCre);
                     delete pCre;
@@ -85,7 +85,8 @@ void pnGameClient::Dispatch::run()
 
 
 /* pnGameClient */
-pnGameClient::pnGameClient() : fSock(NULL), fDispatch(NULL)
+pnGameClient::pnGameClient(plResManager* mgr)
+            : fSock(NULL), fResMgr(mgr), fDispatch(NULL)
 { }
 
 pnGameClient::~pnGameClient()
@@ -252,9 +253,9 @@ void pnGameClient::propagateMessage(plCreatable* pCre)
     msgparm_t* msg = NCAllocMessage(desc);
     msg[0].fUint = pCre->ClassIndex(pvLive);
     hsRAMStream rs(pvLive);
-    fResMgrMutex.lock();
-    fResMgr.WriteCreatable(&rs, pCre);
-    fResMgrMutex.unlock();
+    fResMgr->lock();
+    fResMgr->WriteCreatable(&rs, pCre);
+    fResMgr->unlock();
     msg[1].fUint = rs.size();
     msg[2].fData = new hsUbyte[msg[1].fUint];
     rs.copyTo(msg[2].fData, msg[1].fUint);

@@ -20,11 +20,8 @@
 #include "Debug/plDebug.h"
 #include "Stream/hsRAMStream.h"
 
-unsigned int plResManager::fNumResMgrs = 0;
-
 plResManager::plResManager(PlasmaVer pv) : fPlasmaVer(pvUnknown) {
     setVer(pv);
-    fNumResMgrs++;
     progressFunc = NULL;
 }
 
@@ -36,7 +33,6 @@ plResManager::~plResManager() {
         UnloadAge(ages[0]->getAgeName());
     while (pages.size() > 0)
         UnloadPage(pages[0]->getLocation());
-    fNumResMgrs--;
 }
 
 void plResManager::setVer(PlasmaVer pv, bool force) {

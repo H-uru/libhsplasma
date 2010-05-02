@@ -44,7 +44,7 @@ DllStruct pnNetGameRank {
 
 DllClass pnAuthClient : public pnClient {
 public:
-    pnAuthClient();
+    pnAuthClient(plResManager* mgr);
     virtual ~pnAuthClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN);
@@ -191,8 +191,7 @@ public:
 
 protected:
     pnRC4Socket* fSock;
-    plResManager fResMgr;
-    hsMutex fResMgrMutex;
+    plResManager* fResMgr;
 
     hsUint32 fBuildId, fBuildType, fBranchId;
     plUuid fProductId;
