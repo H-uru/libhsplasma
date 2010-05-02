@@ -21,14 +21,14 @@
 
 #define DECLARE_NODE_1(type, nodeType) \
 public: \
-    type* Convert(pnVaultNode* node) { \
+    static type* Convert(pnVaultNode* node) { \
         return (node != NULL && node->getNodeType() == nodeType) \
                ? (type*)node : NULL; \
     }
 
 #define DECLARE_NODE_2(type, nodeType, nodeType2) \
 public: \
-    type* Convert(pnVaultNode* node) { \
+    static type* Convert(pnVaultNode* node) { \
         return (node != NULL && (node->getNodeType() == nodeType || \
                                  node->getNodeType() == nodeType2)) \
                ? (type*)node : NULL; \
@@ -36,7 +36,7 @@ public: \
 
 #define DECLARE_NODE_3(type, nodeType, nodeType2, nodeType3) \
 public: \
-    type* Convert(pnVaultNode* node) { \
+    static type* Convert(pnVaultNode* node) { \
         return (node != NULL && (node->getNodeType() == nodeType || \
                                  node->getNodeType() == nodeType2 || \
                                  node->getNodeType() == nodeType3)) \
