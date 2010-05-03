@@ -229,7 +229,7 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
     if (readPages) {
         plString path = plString(filename).beforeLast(PATHSEP);
         if (path.len() > 0)
-            path = path + PATHSEP;
+            path = path + PATHSEPSTR;
 
         PlasmaVer ageVer = pvUnknown;
         if (age->getNumPages() > 0) {
