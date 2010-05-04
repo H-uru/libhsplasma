@@ -36,6 +36,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+  plKey getLinkKey() const { return fLinkKey; }
+  void setLinkKey(const plKey& linkKey) { fLinkKey = linkKey; }
 };
 
 #endif
