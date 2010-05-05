@@ -55,6 +55,22 @@ int main(int argc, char** argv) {
 
         if (clean)
             printf("No errors detected!\n");
+    } else if ((argc > 1) && (strcmp(argv[1], "-live") == 0)) {
+        for (short i=0x0000; i<=MAX_KEYED; i++) {
+            short id = pdUnifiedTypeMap::MappedToPlasma(i, pvLive);
+            if (id >= 0)
+                printf("%04hX %s\n", id, pdUnifiedTypeMap::ClassName(id, pvLive));
+        }
+        for (short i=0x0200; i<=MAX_NONKEYED; i++) {
+            short id = pdUnifiedTypeMap::MappedToPlasma(i, pvLive);
+            if (id >= 0)
+                printf("%04hX %s\n", id, pdUnifiedTypeMap::ClassName(id, pvLive));
+        }
+        for (short i=0x0421; i<=MAX_POSTDB; i++) {
+            short id = pdUnifiedTypeMap::MappedToPlasma(i, pvLive);
+            if (id >= 0)
+                printf("%04hX %s\n", id, pdUnifiedTypeMap::ClassName(id, pvLive));
+        }
     } else {
         /* Print all types */
         for (short i=0x0000; i<=MAX_KEYED; i++)

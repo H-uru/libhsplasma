@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include <cstdarg>
 #include <cerrno>
+#include <list>
 
 /* Helper utils */
 static size_t utf8len(const pl_wchar_t* str, size_t srclen) {
@@ -648,17 +649,35 @@ plString plString::replace(const char* src, const char* dest) const {
     return result + plString(fString->data() + begin, (i + 1) - begin);
 }
 
-std::vector<plString> plString::split(char sep) const {
-    std::vector<plString> splits;
-    if (!empty()) {
-        splits.push_back(beforeFirst(sep));
-        plString rest(afterFirst(sep));
-        std::vector<plString> spRight = rest.split(sep);
-        splits.resize(1 + spRight.size());
-        for (size_t i=0; i<spRight.size(); i++)
-            splits[1 + i] = spRight[i];
+std::vector<plString> plString::split(char sep, size_t max) const {
+    std::list<plString> splits;
+
+    plString cur = *this;
+    while (max > 0) {
+        long sp = cur.find(sep);
+        if (sp >= 0) {
+            splits.push_back(cur.left(sp));
+            cur = cur.mid(sp+1);
+            max--;
+        } else {
+            break;
+        }
     }
-    return splits;
+    splits.push_back(cur);
+
+    return std::vector<plString>(splits.begin(), splits.end());
+}
+
+plString plString::trim() const {
+    if (empty())
+        return *this;
+    const char* cpL = fString->data();
+    const char* cpR = fString->data() + fString->len() - 1;
+    while ((cpL <= cpR) && (*cpL == ' ' || *cpL == '\r' || *cpL == '\n' || *cpL == '\t'))
+        cpL++;
+    while ((cpR > cpL) && (*cpR == ' ' || *cpR == '\r' || *cpR == '\n' || *cpR == '\t'))
+        cpR--;
+    return plString(cpL, (cpR - cpL) + 1);
 }
 
 long plString::toInt(int base) const {

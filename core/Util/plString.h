@@ -71,6 +71,7 @@ public:
         Wide& operator=(const Wide& other);
 
         bool empty() const { return (fString == NULL) || (fString->len() == 0); }
+        bool null() const { return (fString == NULL); }
         size_t len() const { return (fString != NULL) ? fString->len() : 0; }
         const pl_wchar_t* data() const { return (fString != NULL) ? fString->data()
                                          : getNullStringBecauseVisualStudioIsStupid(); }
@@ -88,6 +89,7 @@ public:
     ~plString();
 
     bool empty() const { return (fString == NULL) || (fString->len() == 0); }
+    bool null() const { return (fString == NULL); }
     size_t len() const { return (fString != NULL) ? fString->len() : 0; }
 
     plString& operator=(const plString& other);
@@ -137,7 +139,8 @@ public:
     plString beforeLast(char sep) const;
     plString afterLast(char sep) const;
     plString replace(const char* src, const char* dest) const;
-    std::vector<plString> split(char sep) const;
+    std::vector<plString> split(char sep, size_t max = (size_t)-1) const;
+    plString trim() const;
 
     long toInt(int base = 0) const;
     unsigned long toUint(int base = 0) const;
