@@ -178,7 +178,7 @@ ENetError pnGameClient::performConnect(pnSocket* sock)
         pnBigInteger N(fKeyN, 64);
         pnBigInteger b = pnBigInteger::Random(512);
         clientSeed = X.PowMod(b, N);
-        pnBigInteger serverSeed = pnBigInteger(4).PowMod(b, N);
+        pnBigInteger serverSeed = pnBigInteger(73).PowMod(b, N);
         serverSeed.getData(y_data, 64);
     }
 

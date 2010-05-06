@@ -127,6 +127,7 @@ public:
     virtual void onServerAddr(hsUint32 address, const plUuid& token);
     virtual void onNotifyNewBuild(hsUint32 buildId);
     virtual void onClientRegisterReply(hsUint32 serverChallenge);
+    virtual void onAcctExistsReply(hsUint32 transId, ENetError result, bool exists);
     virtual void onAcctLoginReply(hsUint32 transId, ENetError result,
                     const plUuid& acctUuid, hsUint32 acctFlags,
                     hsUint32 billingType, const hsUint32* encryptionKey);

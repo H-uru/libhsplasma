@@ -88,6 +88,10 @@ void pnAuthClient::Dispatch::run()
         case kAuth2Cli_ClientRegisterReply:
             fReceiver->onClientRegisterReply(msgbuf[0].fUint);
             break;
+        case kAuth2Cli_AcctExistsReply:
+            fReceiver->onAcctExistsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                                         msgbuf[2].fUint != 0);
+            break;
         case kAuth2Cli_AcctLoginReply:
             fReceiver->onAcctLoginReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
                             NCGetUuid(msgbuf[2]), msgbuf[3].fUint, msgbuf[4].fUint,
@@ -401,7 +405,7 @@ ENetError pnAuthClient::performConnect(pnSocket* sock)
         pnBigInteger N(fKeyN, 64);
         pnBigInteger b = pnBigInteger::Random(512);
         clientSeed = X.PowMod(b, N);
-        pnBigInteger serverSeed = pnBigInteger(4).PowMod(b, N);
+        pnBigInteger serverSeed = pnBigInteger(41).PowMod(b, N);
         serverSeed.getData(y_data, 64);
     }
 
@@ -1070,6 +1074,11 @@ void pnAuthClient::onNotifyNewBuild(hsUint32 buildId)
 void pnAuthClient::onClientRegisterReply(hsUint32 serverChallenge)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ClientRegisterReply");
+}
+
+void pnAuthClient::onAcctExistsReply(hsUint32 transId, ENetError result, bool exists)
+{
+    plDebug::Warning("Warning: Ignoring Auth2Cli_AcctExistsReply");
 }
 
 void pnAuthClient::onAcctLoginReply(hsUint32 transId, ENetError result,
