@@ -222,7 +222,7 @@ MAKE_NETMSG(Cli2Auth_VaultSendNode)
 
 static pnNetMsgField Cli2Auth_AgeRequest_Fields[] = {
     { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldString,    40, sizeof(pl_wchar_t) },  // Age Name
+    { kFieldString,    64, sizeof(pl_wchar_t) },  // Age Name
     { kFieldData,      16, sizeof(hsUbyte)    },  // Age UUID
 };
 MAKE_NETMSG(Cli2Auth_AgeRequest)
@@ -335,6 +335,12 @@ static pnNetMsgField Cli2Auth_ScoreGetRanks_Fields[] = {
     { kFieldInteger,    0, sizeof(hsUint32)   },  // Sort Desc
 };
 MAKE_NETMSG(Cli2Auth_ScoreGetRanks)
+
+static pnNetMsgField Cli2Auth_AcctExistsRequest_Fields[] = {
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldString,    64, sizeof(pl_wchar_t) },  // Account Name
+};
+MAKE_NETMSG(Cli2Auth_AcctExistsRequest)
 
 
 /* Server -> Client */
@@ -645,6 +651,13 @@ static pnNetMsgField Auth2Cli_ScoreGetRanksReply_Fields[] = {
 };
 MAKE_NETMSG(Auth2Cli_ScoreGetRanksReply)
 
+static pnNetMsgField Auth2Cli_AcctExistsReply_Fields[] = {
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result?
+    { kFieldInteger,    0, sizeof(hsUbyte)    },  // Exists?
+};
+MAKE_NETMSG(Auth2Cli_AcctExistsReply)
+
 
 const pnNetMsg* GET_Cli2Auth(hsUint32 msgId)
 {
@@ -702,6 +715,7 @@ const pnNetMsg* GET_Cli2Auth(hsUint32 msgId)
         &Cli2Auth_ScoreTransferPoints,
         &Cli2Auth_ScoreSetPoints,
         &Cli2Auth_ScoreGetRanks,
+        &Cli2Auth_AcctExistsRequest,
     };
     return (msgId < kCli2Auth_LastMessage ? s_messages[msgId] : NULL);
 }
@@ -757,6 +771,7 @@ const pnNetMsg* GET_Auth2Cli(hsUint32 msgId)
         &Auth2Cli_ScoreTransferPointsReply,
         &Auth2Cli_ScoreSetPointsReply,
         &Auth2Cli_ScoreGetRanksReply,
+        &Auth2Cli_AcctExistsReply,
     };
     return (msgId < kAuth2Cli_LastMessage ? s_messages[msgId] : NULL);
 }

@@ -478,6 +478,18 @@ void pnAuthClient::sendClientSetCCRLevel(hsUint32 level)
     NCFreeMessage(msg, desc);
 }
 
+hsUint32 pnAuthClient::sendAcctExistsRequest(const plString& acctName)
+{
+    const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctExistsRequest);
+    msgparm_t* msg = NCAllocMessage(desc);
+    hsUint32 transId = nextTransId();
+    msg[0].fUint = transId;
+    msg[1].fString = plwcsdup(acctName.wstr());
+    fSock->sendMsg(msg, desc);
+    NCFreeMessage(msg, desc);
+    return transId;
+}
+
 hsUint32 pnAuthClient::sendAcctLoginRequest(hsUint32 serverChallenge,
                 hsUint32 clientChallenge, const plString& acctName,
                 const plString& password, const plString& authToken,

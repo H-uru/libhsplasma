@@ -42,7 +42,8 @@ enum {  /* Client -> Server */
     kCli2Auth_LogClientDebuggerConnect, kCli2Auth_ScoreCreate,
     kCli2Auth_ScoreDelete, kCli2Auth_ScoreGetScores, kCli2Auth_ScoreAddPoints,
     kCli2Auth_ScoreTransferPoints, kCli2Auth_ScoreSetPoints,
-    kCli2Auth_ScoreGetRanks, kCli2Auth_LastMessage,
+    kCli2Auth_ScoreGetRanks, kCli2Auth_AcctExistsRequest,
+    kCli2Auth_LastMessage,
 };
 
 enum {  /* Server -> Client */
@@ -67,7 +68,8 @@ enum {  /* Server -> Client */
     kAuth2Cli_ScoreCreateReply, kAuth2Cli_ScoreDeleteReply,
     kAuth2Cli_ScoreGetScoresReply, kAuth2Cli_ScoreAddPointsReply,
     kAuth2Cli_ScoreTransferPointsReply, kAuth2Cli_ScoreSetPointsReply,
-    kAuth2Cli_ScoreGetRanksReply, kAuth2Cli_LastMessage,
+    kAuth2Cli_ScoreGetRanksReply, kAuth2Cli_AcctExistsReply,
+    kAuth2Cli_LastMessage,
 };
 
 DllExport const pnNetMsg* GET_Cli2Auth(hsUint32 msgId);

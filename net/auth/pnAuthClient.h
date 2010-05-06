@@ -64,6 +64,7 @@ public:
     hsUint32 sendPingRequest(hsUint32 pingTimeMs);
     void sendClientRegisterRequest();
     void sendClientSetCCRLevel(hsUint32 level);
+    hsUint32 sendAcctExistsRequest(const plString& acctName);
     hsUint32 sendAcctLoginRequest(hsUint32 serverChallenge, hsUint32 clientChallenge,
                 const plString& acctName, const plString& password,
                 const plString& authToken = "", const plString& os = "win");
