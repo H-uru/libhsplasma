@@ -59,6 +59,7 @@ install-dev: install
 ifneq ($(USE_PKGCONFIG),no)
 	echo 'prefix=$(PREFIX)' > libhsplasmanet.pc
 	cat libhsplasmanet.pc.in >> libhsplasmanet.pc
+	mkdir -p $(PREFIX)/lib/pkgconfig
 	cp libhsplasmanet.pc $(PREFIX)/lib/pkgconfig
 endif
 

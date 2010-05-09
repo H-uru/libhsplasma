@@ -594,6 +594,7 @@ install-dev: install
 ifneq ($(USE_PKGCONFIG),no)
 	echo 'prefix=$(PREFIX)' > libhsplasma.pc
 	cat libhsplasma.pc.in >> libhsplasma.pc
+	mkdir -p $(PREFIX)/lib/pkgconfig
 	cp libhsplasma.pc $(PREFIX)/lib/pkgconfig
 endif
 
