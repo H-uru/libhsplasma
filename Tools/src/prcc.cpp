@@ -117,6 +117,6 @@ int main(int argc, char* argv[]) {
     }
 
     printf("Successfully compiled %s!\n", inputFile.cstr());
-    
+
     return 0;
 }

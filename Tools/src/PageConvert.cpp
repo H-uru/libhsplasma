@@ -112,7 +112,7 @@ int main(int argc, char** argv) {
             printf("Plasma Version: %s\n", getVerName(rm.getVer()));
             printf("Keyring: %d keys\n", rm.countKeys(page->getLocation()));
             printf("Objects Read: %d\n", page->getNumObjects());
-            
+
             rm.setVer(toVer, true);
             char fn[256];
             snprintf(fn, 256, "%s.%s", argv[i], getSuffix(toVer));

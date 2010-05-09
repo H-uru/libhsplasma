@@ -112,7 +112,7 @@ plString cdUp(plString path) {
 hsFileStream* FindFilePath(plString path, plString base) {
     if (path.empty())
         return NULL;
-    
+
     // Scan first from the provided path:
     hsFileStream* S = NULL;
     path = FixSlashes(path);

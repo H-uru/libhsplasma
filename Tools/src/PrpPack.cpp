@@ -378,7 +378,7 @@ int main(int argc, char** argv) {
         unlink(filename);
       #endif
     }
-    
+
     delete S;
     delete OS;
     return 0;

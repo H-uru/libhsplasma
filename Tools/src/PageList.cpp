@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
             fprintf(stderr, "Undefined error!\n");
             return 1;
         }
-        
+
         hsFileStream* S = new hsFileStream();
         if (!S->open(fFiles[i], fmRead)) {
             fprintf(stderr, "Error opening %s for writing!\n", fFiles[i].cstr());
@@ -70,11 +70,11 @@ int main(int argc, char** argv) {
             return 1;
         }
         S->setVer(rm.getVer());
-        
+
         S->seek(page->getIndexStart());
-        
+
         plKeyCollector keys;
-        
+
         unsigned int tCount = S->readInt();
         for (unsigned int j=0; j<tCount; j++) {
             short type = S->readShort();
@@ -87,24 +87,23 @@ int main(int argc, char** argv) {
             unsigned int oCount = S->readInt();
             for (unsigned int k=0; k<oCount; k++) {
                 plKey key = new plKeyData();
-				key->read(S);
-				keys.add(key);
+                key->read(S);
+                keys.add(key);
             }
         }
-        
+
         std::vector<short> types = keys.getTypes(page->getLocation());
-        
+
         printf("%s :: %s\n", page->getAge().cstr(), page->getPage().cstr());
-        
+
         for(unsigned int f = 0; f < keys.countTypes(page->getLocation()); f++) {
-        	printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f]));
-        	
-        	std::vector<plKey> mykeys = keys.getKeys(page->getLocation(), types[f]);
-        	
-        	for(unsigned int ks = 0; ks < mykeys.size(); ks++) {
-        		printf("|    |--- %s\n", mykeys[ks]->getName().cstr());
-			}
-		}
+            printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f]));
+
+            std::vector<plKey> mykeys = keys.getKeys(page->getLocation(), types[f]);
+
+            for(unsigned int ks = 0; ks < mykeys.size(); ks++) {
+                printf("|    |--- %s\n", mykeys[ks]->getName().cstr());
+            }
+        }
     }
 }
-        

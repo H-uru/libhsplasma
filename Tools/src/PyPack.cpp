@@ -313,7 +313,7 @@ int main(int argc, char** argv) {
             hsFileStream FS;
             if (!outdir.empty())
                 outdir += PATHSEPSTR;
-            FS.open(outdir + pakObjects[i].fFilename + 'c', fmCreate);
+            FS.open(outdir + pakObjects[i].fFilename + "c", fmCreate);
             FS.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)
                         ? kPyc22 : kPyc23);
             time_t ts = time(NULL);

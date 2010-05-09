@@ -27,7 +27,7 @@ void doHelp(const char* exename) {
     printf("\t-o file      Write output to `file`\n");
     printf("\t-v ver       Select input version (prime, pots, live, eoa, hex, universal)\n");
     printf("\t             (for use with Creatables; PRP versions are determined automatically)\n");
-    printf("\t-x type:name Decompyle a single object from a PRP file\n");
+    printf("\t-x type:name Decompile a single object from a PRP file\n");
     printf("\t--novtx      Don't include vertex data\n");
     printf("\t--notex      Don't include texture data\n");
     printf("\t--help       Display this help message and then exit\n\n");
@@ -170,7 +170,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Caught Exception: %s\n", e.what());
         return 1;
     }
-    
+
     printf("Successfully decompiled %s!\n", inputFile.cstr());
 
     return 0;

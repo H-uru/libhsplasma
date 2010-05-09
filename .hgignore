@@ -2,6 +2,7 @@ syntax: glob
 *.o
 *.a
 *.so
+*.pc
 *.log
 *.dSYM
 .*.swp
