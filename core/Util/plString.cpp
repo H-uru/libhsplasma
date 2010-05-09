@@ -680,6 +680,12 @@ plString plString::trim() const {
     return plString(cpL, (cpR - cpL) + 1);
 }
 
+plString& plString::pack() {
+    if (empty())
+        return *this;
+    return operator=(plString(fString->data()));
+}
+
 long plString::toInt(int base) const {
     if (empty())
         return 0;

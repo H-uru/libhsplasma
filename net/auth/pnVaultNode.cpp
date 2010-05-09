@@ -123,6 +123,7 @@ static plUuid readUuid(const unsigned char*& buffer, size_t& size) {
 static plString readString(const unsigned char*& buffer, size_t& size) {
     size_t len = readU32(buffer, size);
     plString v = plString((pl_wchar_t*)buffer, len-1);
+    v.pack();   // Fix for extra junk that the server likes to give us
     buffer += len;
     size -= len;
     return v;

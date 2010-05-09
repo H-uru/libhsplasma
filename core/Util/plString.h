@@ -141,6 +141,7 @@ public:
     plString replace(const char* src, const char* dest) const;
     std::vector<plString> split(char sep, size_t max = (size_t)-1) const;
     plString trim() const;
+    plString& pack();
 
     long toInt(int base = 0) const;
     unsigned long toUint(int base = 0) const;
