@@ -297,6 +297,7 @@ PLSHEADERS=\
 	PRP/Animation/plBlower.h \
 	PRP/Animation/plController.h \
 	PRP/Animation/plFilterCoordInterface.h \
+	PRP/Animation/plKeyControllers.hpp \
 	PRP/Animation/plLeafController.h \
 	PRP/Animation/plLineFollowMod.h \
 	PRP/Animation/plPosController.h \
@@ -345,6 +346,7 @@ PLSHEADERS=\
 	PRP/ConditionalObject/plBooleanConditionalObject.h \
 	PRP/ConditionalObject/plConditionalObject.h \
 	PRP/ConditionalObject/plControlEventConditionalObject.h \
+	PRP/ConditionalObject/plDetectConditionalObjects.hpp \
 	PRP/ConditionalObject/plFacingConditionalObject.h \
 	PRP/ConditionalObject/plKeyPressConditionalObject.h \
 	PRP/ConditionalObject/plVolumeSensorConditionalObject.h \
@@ -376,6 +378,7 @@ PLSHEADERS=\
 	PRP/GUI/pfGUIDynDisplayCtrl.h \
 	PRP/GUI/pfGUIKnobCtrl.h \
 	PRP/GUI/pfGUIListBoxMod.h \
+	PRP/GUI/pfGUIMisc.hpp \
 	PRP/GUI/pfGUIMultiLineEditCtrl.h \
 	PRP/GUI/pfGUIPopUpMenu.h \
 	PRP/GUI/pfGUIProgressCtrl.h \
@@ -475,6 +478,7 @@ PLSHEADERS=\
 	PRP/Object/plSimulationInterface.h \
 	PRP/Object/plSynchedObject.h \
 	PRP/Particle/plBoundInterface.h \
+	PRP/Particle/plParticleApplicator.hpp \
 	PRP/Particle/plParticleEffect.h \
 	PRP/Particle/plParticleEmitter.h \
 	PRP/Particle/plParticleGenerator.h \
@@ -494,6 +498,7 @@ PLSHEADERS=\
 	PRP/Region/plConvexVolume.h \
 	PRP/Region/plHardRegion.h \
 	PRP/Region/plHardRegionPlanes.h \
+	PRP/Region/plRegionBase.hpp \
 	PRP/Region/plRelevanceRegion.h \
 	PRP/Region/plSimpleRegionSensor.h \
 	PRP/Region/plSoftVolume.h \
@@ -549,6 +554,8 @@ PLSHEADERS=\
 	Sys/plUnifiedTime.h \
 	Sys/plUuid.h \
 	Util/hsBitVector.h \
+	Util/hsTArray.hpp \
+	Util/hsTList.hpp \
 	Util/PlasmaVersions.h \
 	Util/plDDSurface.h \
 	Util/plJPEG.h \

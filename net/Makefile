@@ -28,6 +28,7 @@ PLSHEADERS=\
 	auth/AuthMessages.h \
 	auth/pnAuthClient.h \
 	auth/pnVaultNode.h \
+	auth/pnVaultNodeTypes.hpp \
 	crypt/pnBigInteger.h \
 	crypt/pnRC4.h \
 	crypt/pnSha1.h \
