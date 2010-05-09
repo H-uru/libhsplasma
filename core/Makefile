@@ -591,10 +591,18 @@ endif
 install-dev: install
 	mkdir -p $(PREFIX)/include/libhsplasma
 	cp --parents $(PLSHEADERS) $(PREFIX)/include/libhsplasma
+ifneq ($(USE_PKGCONFIG),no)
+	echo 'prefix=$(PREFIX)' > libhsplasma.pc
+	cat libhsplasma.pc.in >> libhsplasma.pc
+	cp libhsplasma.pc $(PREFIX)/lib/pkgconfig
+endif
 
 uninstall:
 	rm -f $(PREFIX)/lib/$(PLSLIB)
 	rm -rf $(PREFIX)/include/libhsplasma
+ifneq ($(USE_PKGCONFIG),no)
+	rm -f $(PREFIX)/lib/pkgconfig/libhsplasma.pc
+endif
 
 clean:
 	rm -f $(PLSOBJ)
@@ -602,6 +610,9 @@ clean:
 
 distclean:
 	rm -f $(LIBDIR)/$(PLSLIB)
+ifneq ($(USE_PKGCONFIG),no)
+	rm -f libhsplasma.pc
+endif
 
 
 # 3rd Party

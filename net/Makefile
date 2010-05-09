@@ -56,16 +56,27 @@ endif
 install-dev: install
 	mkdir -p $(PREFIX)/include/libhsplasmanet
 	cp --parents $(PLSHEADERS) $(PREFIX)/include/libhsplasmanet
+ifneq ($(USE_PKGCONFIG),no)
+	echo 'prefix=$(PREFIX)' > libhsplasmanet.pc
+	cat libhsplasmanet.pc.in >> libhsplasmanet.pc
+	cp libhsplasmanet.pc $(PREFIX)/lib/pkgconfig
+endif
 
 uninstall:
 	rm -f $(PREFIX)/lib/$(PLSLIB)
 	rm -rf $(PREFIX)/include/libhsplasmanet
+ifneq ($(USE_PKGCONFIG),no)
+	rm -f $(PREFIX)/lib/pkgconfig/libhsplasmanet.pc
+endif
 
 clean:
 	rm -f $(PLSOBJ)
 
 distclean:
 	rm -f $(LIBDIR)/$(PLSLIB)
+ifneq ($(USE_PKGCONFIG),no)
+	rm -f libhsplasmanet.pc
+endif
 
 # HSPlasma Net Lib
 $(OBJDIR)pnClient.o: $(PLSHEADERS) pnClient.cpp
