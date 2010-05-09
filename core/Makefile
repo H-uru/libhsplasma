@@ -280,6 +280,287 @@ PLSOBJ=\
 	$(OBJDIR)plShader.o \
 	$(OBJDIR)plWaveSet.o
 
+PLSHEADERS=\
+	Debug/hsExceptions.h \
+	Debug/plDebug.h \
+	Math/hsAffineParts.h \
+	Math/hsGeometry3.h \
+	Math/hsMatrix33.h \
+	Math/hsMatrix44.h \
+	Math/hsQuat.h \
+	PlasmaDefs.h \
+	PRP/Animation/hsKeys.h \
+	PRP/Animation/pfObjectFlocker.h \
+	PRP/Animation/plAnimPath.h \
+	PRP/Animation/plAnimTimeConvert.h \
+	PRP/Animation/plATCEaseCurves.h \
+	PRP/Animation/plBlower.h \
+	PRP/Animation/plController.h \
+	PRP/Animation/plFilterCoordInterface.h \
+	PRP/Animation/plLeafController.h \
+	PRP/Animation/plLineFollowMod.h \
+	PRP/Animation/plPosController.h \
+	PRP/Animation/plRotController.h \
+	PRP/Animation/plScaleController.h \
+	PRP/Animation/plStereizer.h \
+	PRP/Animation/plTMController.h \
+	PRP/Animation/plViewFaceModifier.h \
+	PRP/Audio/plAudible.h \
+	PRP/Audio/plCrossfade.h \
+	PRP/Audio/plDirectMusicSound.h \
+	PRP/Audio/plEAXEffects.h \
+	PRP/Audio/plEAXListenerMod.h \
+	PRP/Audio/plSoundBuffer.h \
+	PRP/Audio/plSound.h \
+	PRP/Audio/plWin32Sound.h \
+	PRP/Audio/plWin32StaticSound.h \
+	PRP/Avatar/plAGAnim.h \
+	PRP/Avatar/plAGApplicator.h \
+	PRP/Avatar/plAGChannel.h \
+	PRP/Avatar/plAGMasterMod.h \
+	PRP/Avatar/plAGModifier.h \
+	PRP/Avatar/plAnimStage.h \
+	PRP/Avatar/plArmatureBrain.h \
+	PRP/Avatar/plArmatureEffects.h \
+	PRP/Avatar/plArmatureMod.h \
+	PRP/Avatar/plATCAnim.h \
+	PRP/Avatar/plAvatarClothing.h \
+	PRP/Avatar/plAvBrainCoop.h \
+	PRP/Avatar/plAvBrainGeneric.h \
+	PRP/Avatar/plAvTask.h \
+	PRP/Avatar/plClothingItem.h \
+	PRP/Avatar/plLadderModifier.h \
+	PRP/Avatar/plMatrixChannel.h \
+	PRP/Avatar/plMultistageBehMod.h \
+	PRP/Avatar/plNPCSpawnMod.h \
+	PRP/Avatar/plPointChannel.h \
+	PRP/Avatar/plQuatChannel.h \
+	PRP/Avatar/plScalarChannel.h \
+	PRP/Avatar/plSeekPointMod.h \
+	PRP/Avatar/plSittingModifier.h \
+	PRP/Camera/plCameraBrain.h \
+	PRP/Camera/plCameraModifier.h \
+	PRP/ConditionalObject/plActivatorConditionalObject.h \
+	PRP/ConditionalObject/plAnimationEventConditionalObject.h \
+	PRP/ConditionalObject/plBooleanConditionalObject.h \
+	PRP/ConditionalObject/plConditionalObject.h \
+	PRP/ConditionalObject/plControlEventConditionalObject.h \
+	PRP/ConditionalObject/plFacingConditionalObject.h \
+	PRP/ConditionalObject/plKeyPressConditionalObject.h \
+	PRP/ConditionalObject/plVolumeSensorConditionalObject.h \
+	PRP/Geometry/hsGDeviceRef.h \
+	PRP/Geometry/plClusterGroup.h \
+	PRP/Geometry/plCluster.h \
+	PRP/Geometry/plCullPoly.h \
+	PRP/Geometry/plDrawableSpans.h \
+	PRP/Geometry/plGBufferGroup.h \
+	PRP/Geometry/plGeometrySpan.h \
+	PRP/Geometry/plIcicle.h \
+	PRP/Geometry/plMorphArray.h \
+	PRP/Geometry/plMorphDataSet.h \
+	PRP/Geometry/plMorphDelta.h \
+	PRP/Geometry/plMorphSequence.h \
+	PRP/Geometry/plOccluder.h \
+	PRP/Geometry/plSharedMesh.h \
+	PRP/Geometry/plSpaceTree.h \
+	PRP/Geometry/plSpan.h \
+	PRP/Geometry/plSpanInstance.h \
+	PRP/Geometry/plSpanTemplate.h \
+	PRP/Geometry/plVertCoder.h \
+	PRP/Geometry/plVertexSpan.h \
+	PRP/GUI/pfGUIButtonMod.h \
+	PRP/GUI/pfGUICheckBoxCtrl.h \
+	PRP/GUI/pfGUIControlHandlers.h \
+	PRP/GUI/pfGUIControlMod.h \
+	PRP/GUI/pfGUIDialogMod.h \
+	PRP/GUI/pfGUIDynDisplayCtrl.h \
+	PRP/GUI/pfGUIKnobCtrl.h \
+	PRP/GUI/pfGUIListBoxMod.h \
+	PRP/GUI/pfGUIMultiLineEditCtrl.h \
+	PRP/GUI/pfGUIPopUpMenu.h \
+	PRP/GUI/pfGUIProgressCtrl.h \
+	PRP/GUI/pfGUIRadioGroupCtrl.h \
+	PRP/GUI/pfGUISkin.h \
+	PRP/GUI/pfGUITextBoxMod.h \
+	PRP/GUI/pfGUIUpDownPairMod.h \
+	PRP/GUI/pfGUIValueCtrl.h \
+	PRP/GUI/plImageLibMod.h \
+	PRP/KeyedObject/hsKeyedObject.h \
+	PRP/KeyedObject/plKey.h \
+	PRP/KeyedObject/plLoadMask.h \
+	PRP/KeyedObject/plLocation.h \
+	PRP/KeyedObject/plUoid.h \
+	PRP/Light/plDirectionalLightInfo.h \
+	PRP/Light/plLightInfo.h \
+	PRP/Light/plOmniLightInfo.h \
+	PRP/Light/plShadowCaster.h \
+	PRP/Light/plShadowMaster.h \
+	PRP/Message/pfKIMsg.h \
+	PRP/Message/plAnimCmdMsg.h \
+	PRP/Message/plArmatureEffectMsg.h \
+	PRP/Message/plAvatarInputStateMsg.h \
+	PRP/Message/plAvatarMsg.h \
+	PRP/Message/plAvSeekMsg.h \
+	PRP/Message/plAvTaskMsg.h \
+	PRP/Message/plCameraMsg.h \
+	PRP/Message/plClimbMsg.h \
+	PRP/Message/plEnableMsg.h \
+	PRP/Message/plEventCallbackMsg.h \
+	PRP/Message/plExcludeRegionMsg.h \
+	PRP/Message/plInputIfaceMgrMsg.h \
+	PRP/Message/plLinkEffectsTriggerMsg.h \
+	PRP/Message/plLinkToAgeMsg.h \
+	PRP/Message/plLoadAvatarMsg.h \
+	PRP/Message/plLoadCloneMsg.h \
+	PRP/Message/plMessage.h \
+	PRP/Message/plMessageWithCallbacks.h \
+	PRP/Message/plMsgForwarder.h \
+	PRP/Message/plNotifyMsg.h \
+	PRP/Message/plOneShotCallbacks.h \
+	PRP/Message/plPseudoLinkEffectMsg.h \
+	PRP/Message/plResponderMsg.h \
+	PRP/Message/plRideAnimatedPhysMsg.h \
+	PRP/Message/plServerReplyMsg.h \
+	PRP/Message/plSimulationMsg.h \
+	PRP/Message/plSoundMsg.h \
+	PRP/Message/plSwimMsg.h \
+	PRP/Message/plTimerCallbackMsg.h \
+	PRP/Message/plTransitionMsg.h \
+	PRP/Message/proEventData.h \
+	PRP/Misc/plAgeLinkInfo.h \
+	PRP/Misc/plFogEnvironment.h \
+	PRP/Misc/plRenderLevel.h \
+	PRP/Misc/plSpawnPointInfo.h \
+	PRP/Modifier/plAliasModifier.h \
+	PRP/Modifier/plAnimEventModifier.h \
+	PRP/Modifier/plAxisAnimModifier.h \
+	PRP/Modifier/plExcludeRegionModifier.h \
+	PRP/Modifier/plGameMarkerModifier.h \
+	PRP/Modifier/plInterfaceInfoModifier.h \
+	PRP/Modifier/plLogicModBase.h \
+	PRP/Modifier/plLogicModifier.h \
+	PRP/Modifier/plMaintainersMarkerModifier.h \
+	PRP/Modifier/plModifier.h \
+	PRP/Modifier/plNodeRegionModifier.h \
+	PRP/Modifier/plOneShotMod.h \
+	PRP/Modifier/plPostEffectMod.h \
+	PRP/Modifier/plPythonFileMod.h \
+	PRP/Modifier/plPythonMod.h \
+	PRP/Modifier/plRandomCommandMod.h \
+	PRP/Modifier/plRandomSoundMod.h \
+	PRP/Modifier/plResponderModifier.h \
+	PRP/Modifier/plSpawnModifier.h \
+	PRP/NetMessage/plClientGuid.h \
+	PRP/NetMessage/plNetGroupId.h \
+	PRP/NetMessage/plNetMessage.h \
+	PRP/NetMessage/plNetMsgGameMessage.h \
+	PRP/NetMessage/plNetMsgGroupOwner.h \
+	PRP/NetMessage/plNetMsgInitialAgeStateSent.h \
+	PRP/NetMessage/plNetMsgLoadClone.h \
+	PRP/NetMessage/plNetMsgMembersList.h \
+	PRP/NetMessage/plNetMsgObject.h \
+	PRP/NetMessage/plNetMsgPlayerPage.h \
+	PRP/NetMessage/plNetMsgRelevanceRegions.h \
+	PRP/NetMessage/plNetMsgRoomsList.h \
+	PRP/NetMessage/plNetMsgSDLState.h \
+	PRP/NetMessage/plNetMsgSharedState.h \
+	PRP/NetMessage/plNetMsgStreamedObject.h \
+	PRP/NetMessage/plNetMsgStream.h \
+	PRP/NetMessage/plNetSharedState.h \
+	PRP/Object/plAudioInterface.h \
+	PRP/Object/plCoordinateInterface.h \
+	PRP/Object/plDrawInterface.h \
+	PRP/Object/plObjInterface.h \
+	PRP/Object/plSceneObject.h \
+	PRP/Object/plSimulationInterface.h \
+	PRP/Object/plSynchedObject.h \
+	PRP/Particle/plBoundInterface.h \
+	PRP/Particle/plParticleEffect.h \
+	PRP/Particle/plParticleEmitter.h \
+	PRP/Particle/plParticleGenerator.h \
+	PRP/Particle/plParticleSystem.h \
+	PRP/Physics/plCollisionDetector.h \
+	PRP/Physics/plDetectorModifier.h \
+	PRP/Physics/plGenericPhysical.h \
+	PRP/Physics/plHKSubWorld.h \
+	PRP/Physics/plObjectInVolumeDetector.h \
+	PRP/Physics/plPhysical.h \
+	PRP/Physics/plPhysicalSndGroup.h \
+	PRP/Physics/plVehicleModifier.h \
+	PRP/plCreatable.h \
+	PRP/plPageInfo.h \
+	PRP/plSceneNode.h \
+	PRP/Region/hsBounds.h \
+	PRP/Region/plConvexVolume.h \
+	PRP/Region/plHardRegion.h \
+	PRP/Region/plHardRegionPlanes.h \
+	PRP/Region/plRelevanceRegion.h \
+	PRP/Region/plSimpleRegionSensor.h \
+	PRP/Region/plSoftVolume.h \
+	PRP/Region/plSwimRegion.h \
+	PRP/Region/plVisRegion.h \
+	PRP/Region/plVolumeIsect.h \
+	PRP/Surface/hsGMaterial.h \
+	PRP/Surface/hsGMatState.h \
+	PRP/Surface/plBitmap.h \
+	PRP/Surface/plCubicEnvironmap.h \
+	PRP/Surface/plDistOpacityMod.h \
+	PRP/Surface/plDynaDecalMgr.h \
+	PRP/Surface/plDynamicEnvMap.h \
+	PRP/Surface/plDynamicTextMap.h \
+	PRP/Surface/plDynaRippleMgr.h \
+	PRP/Surface/plFadeOpacityMod.h \
+	PRP/Surface/plFixedWaterState6.h \
+	PRP/Surface/plFixedWaterState7.h \
+	PRP/Surface/plFont.h \
+	PRP/Surface/plGrassShaderMod.h \
+	PRP/Surface/plLayerAnimation.h \
+	PRP/Surface/plLayer.h \
+	PRP/Surface/plLayerInterface.h \
+	PRP/Surface/plLayerMovie.h \
+	PRP/Surface/plMipmap.h \
+	PRP/Surface/plPrintShape.h \
+	PRP/Surface/plRenderTarget.h \
+	PRP/Surface/plShader.h \
+	PRP/Surface/plWaveSet.h \
+	ResManager/pdUnifiedTypeMap.h \
+	ResManager/plAgeInfo.h \
+	ResManager/plFactory.h \
+	ResManager/plKeyCollector.h \
+	ResManager/plResManager.h \
+	SDL/plNetGameServerState.h \
+	SDL/plSDL.h \
+	SDL/plSDLMgr.h \
+	SDL/plStateDataRecord.h \
+	SDL/plStateDescriptor.h \
+	SDL/plStateVariable.h \
+	Stream/hsElfStream.h \
+	Stream/hsRAMStream.h \
+	Stream/hsStdioStream.h \
+	Stream/hsStream.h \
+	Stream/hsTokenStream.h \
+	Stream/pfPrcHelper.h \
+	Stream/pfPrcParser.h \
+	Stream/plEncryptedStream.h \
+	Sys/hsColor.h \
+	Sys/hsSemaphore.h \
+	Sys/hsThread.h \
+	Sys/Platform.h \
+	Sys/plUnifiedTime.h \
+	Sys/plUuid.h \
+	Util/hsBitVector.h \
+	Util/PlasmaVersions.h \
+	Util/plDDSurface.h \
+	Util/plJPEG.h \
+	Util/plMD5.h \
+	Util/plString.h \
+	Util/plZlib.h \
+	Vault/plServerGuid.h \
+	Vault/plVaultNode.h \
+	Vault/plVaultNodeRef.h \
+	Vault/plVaultNodeTypes.h \
+	Vault/plVaultStore.h
+
 # 3rd Party Libs
 OBJFILES3P=\
 	$(OBJDIR)rijndael.o \
@@ -300,8 +581,13 @@ ifneq ($(LIBSUFFIX),dylib)
 	ldconfig
 endif
 
+install-dev: install
+	mkdir -p $(PREFIX)/include/libhsplasma
+	cp --parents $(PLSHEADERS) $(PREFIX)/include/libhsplasma
+
 uninstall:
 	rm -f $(PREFIX)/lib/$(PLSLIB)
+	rm -rf $(PREFIX)/include/libhsplasma
 
 clean:
 	rm -f $(PLSOBJ)
@@ -319,827 +605,827 @@ $(OBJDIR)rijndael.o: 3rdPartyLibs/rijndael.h 3rdPartyLibs/rijndael.cpp
 	( cd 3rdPartyLibs/squish ; $(MAKE) )
 
 # HSPlasma Lib
-$(OBJDIR)plDebug.o: Debug/plDebug.h Debug/plDebug.cpp
+$(OBJDIR)plDebug.o: $(PLSHEADERS) Debug/plDebug.cpp
 	$(CXX) $(CXXFLAGS) -c Debug/plDebug.cpp -o $@
 
-$(OBJDIR)hsExceptions.o: Debug/hsExceptions.h Debug/hsExceptions.cpp
+$(OBJDIR)hsExceptions.o: $(PLSHEADERS) Debug/hsExceptions.cpp
 	$(CXX) $(CXXFLAGS) -c Debug/hsExceptions.cpp -o $@
 
-$(OBJDIR)hsAffineParts.o: Math/hsAffineParts.h Math/hsAffineParts.cpp
+$(OBJDIR)hsAffineParts.o: $(PLSHEADERS) Math/hsAffineParts.cpp
 	$(CXX) $(CXXFLAGS) -c Math/hsAffineParts.cpp -o $@
 
-$(OBJDIR)hsGeometry3.o: Math/hsGeometry3.h Math/hsGeometry3.cpp
+$(OBJDIR)hsGeometry3.o: $(PLSHEADERS) Math/hsGeometry3.cpp
 	$(CXX) $(CXXFLAGS) -c Math/hsGeometry3.cpp -o $@
 
-$(OBJDIR)hsMatrix33.o: Math/hsMatrix33.h Math/hsMatrix33.cpp
+$(OBJDIR)hsMatrix33.o: $(PLSHEADERS) Math/hsMatrix33.cpp
 	$(CXX) $(CXXFLAGS) -c Math/hsMatrix33.cpp -o $@
 
-$(OBJDIR)hsMatrix44.o: Math/hsMatrix44.h Math/hsMatrix44.cpp
+$(OBJDIR)hsMatrix44.o: $(PLSHEADERS) Math/hsMatrix44.cpp
 	$(CXX) $(CXXFLAGS) -c Math/hsMatrix44.cpp -o $@
 
-$(OBJDIR)hsQuat.o: Math/hsQuat.h Math/hsQuat.cpp
+$(OBJDIR)hsQuat.o: $(PLSHEADERS) Math/hsQuat.cpp
 	$(CXX) $(CXXFLAGS) -c Math/hsQuat.cpp -o $@
 
-$(OBJDIR)plAgeInfo.o: ResManager/plAgeInfo.h ResManager/plAgeInfo.cpp
+$(OBJDIR)plAgeInfo.o: $(PLSHEADERS) ResManager/plAgeInfo.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/plAgeInfo.cpp -o $@
 
-$(OBJDIR)plFactory.o: ResManager/plFactory.h ResManager/plFactory.cpp
+$(OBJDIR)plFactory.o: $(PLSHEADERS) ResManager/plFactory.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/plFactory.cpp -o $@
 
-$(OBJDIR)plKeyCollector.o: ResManager/plKeyCollector.h ResManager/plKeyCollector.cpp
+$(OBJDIR)plKeyCollector.o: $(PLSHEADERS) ResManager/plKeyCollector.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/plKeyCollector.cpp -o $@
 
-$(OBJDIR)plResManager.o: ResManager/plResManager.h ResManager/plResManager.cpp
+$(OBJDIR)plResManager.o: $(PLSHEADERS) ResManager/plResManager.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/plResManager.cpp -o $@
 
-$(OBJDIR)pdUnifiedTypeMap.o: ResManager/pdUnifiedTypeMap.h ResManager/pdUnifiedTypeMap.cpp
+$(OBJDIR)pdUnifiedTypeMap.o: $(PLSHEADERS) ResManager/pdUnifiedTypeMap.cpp
 	$(CXX) $(CXXFLAGS) -c ResManager/pdUnifiedTypeMap.cpp -o $@
 
-$(OBJDIR)plNetGameServerState.o: SDL/plNetGameServerState.h SDL/plNetGameServerState.cpp
+$(OBJDIR)plNetGameServerState.o: $(PLSHEADERS) SDL/plNetGameServerState.cpp
 	$(CXX) $(CXXFLAGS) -c SDL/plNetGameServerState.cpp -o $@
 
-$(OBJDIR)plSDL.o: SDL/plSDL.h SDL/plSDL.cpp
+$(OBJDIR)plSDL.o: $(PLSHEADERS) SDL/plSDL.cpp
 	$(CXX) $(CXXFLAGS) -c SDL/plSDL.cpp -o $@
 
-$(OBJDIR)plSDLMgr.o: SDL/plSDLMgr.h SDL/plSDLMgr.cpp
+$(OBJDIR)plSDLMgr.o: $(PLSHEADERS) SDL/plSDLMgr.cpp
 	$(CXX) $(CXXFLAGS) -c SDL/plSDLMgr.cpp -o $@
 
-$(OBJDIR)plStateDataRecord.o: SDL/plStateDataRecord.h SDL/plStateDataRecord.cpp
+$(OBJDIR)plStateDataRecord.o: $(PLSHEADERS) SDL/plStateDataRecord.cpp
 	$(CXX) $(CXXFLAGS) -c SDL/plStateDataRecord.cpp -o $@
 
-$(OBJDIR)plStateDescriptor.o: SDL/plStateDescriptor.h SDL/plStateDescriptor.cpp
+$(OBJDIR)plStateDescriptor.o: $(PLSHEADERS) SDL/plStateDescriptor.cpp
 	$(CXX) $(CXXFLAGS) -c SDL/plStateDescriptor.cpp -o $@
 
-$(OBJDIR)plStateVariable.o: SDL/plStateVariable.h SDL/plStateVariable.cpp
+$(OBJDIR)plStateVariable.o: $(PLSHEADERS) SDL/plStateVariable.cpp
 	$(CXX) $(CXXFLAGS) -c SDL/plStateVariable.cpp -o $@
 
-$(OBJDIR)hsElfStream.o: Stream/hsElfStream.h Stream/hsElfStream.cpp
+$(OBJDIR)hsElfStream.o: $(PLSHEADERS) Stream/hsElfStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/hsElfStream.cpp -o $@
 
-$(OBJDIR)plEncryptedStream.o: Stream/plEncryptedStream.h Stream/plEncryptedStream.cpp
+$(OBJDIR)plEncryptedStream.o: $(PLSHEADERS) Stream/plEncryptedStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/plEncryptedStream.cpp -o $@
 
-$(OBJDIR)pfPrcHelper.o: Stream/pfPrcHelper.h Stream/pfPrcHelper.cpp
+$(OBJDIR)pfPrcHelper.o: $(PLSHEADERS) Stream/pfPrcHelper.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/pfPrcHelper.cpp -o $@
 
-$(OBJDIR)pfPrcParser.o: Stream/pfPrcParser.h Stream/pfPrcParser.cpp
+$(OBJDIR)pfPrcParser.o: $(PLSHEADERS) Stream/pfPrcParser.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/pfPrcParser.cpp -o $@
 
-$(OBJDIR)hsRAMStream.o: Stream/hsRAMStream.h Stream/hsRAMStream.cpp
+$(OBJDIR)hsRAMStream.o: $(PLSHEADERS) Stream/hsRAMStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/hsRAMStream.cpp -o $@
 
-$(OBJDIR)hsStdioStream.o: Stream/hsStdioStream.h Stream/hsStdioStream.cpp
+$(OBJDIR)hsStdioStream.o: $(PLSHEADERS) Stream/hsStdioStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/hsStdioStream.cpp -o $@
 
-$(OBJDIR)hsStream.o: Stream/hsStream.h Stream/hsStream.cpp
+$(OBJDIR)hsStream.o: $(PLSHEADERS) Stream/hsStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/hsStream.cpp -o $@
 
-$(OBJDIR)hsTokenStream.o: Stream/hsTokenStream.h Stream/hsTokenStream.cpp
+$(OBJDIR)hsTokenStream.o: $(PLSHEADERS) Stream/hsTokenStream.cpp
 	$(CXX) $(CXXFLAGS) -c Stream/hsTokenStream.cpp -o $@
 
-$(OBJDIR)hsColor.o: Sys/hsColor.h Sys/hsColor.cpp
+$(OBJDIR)hsColor.o: $(PLSHEADERS) Sys/hsColor.cpp
 	$(CXX) $(CXXFLAGS) -c Sys/hsColor.cpp -o $@
 
-$(OBJDIR)hsThread.o: Sys/hsThread.h Sys/hsThread_pthread.cpp
+$(OBJDIR)hsThread.o: $(PLSHEADERS) Sys/hsThread_pthread.cpp
 	$(CXX) $(CXXFLAGS) -c Sys/hsThread_pthread.cpp -o $@
 
-$(OBJDIR)plUnifiedTime.o: Sys/plUnifiedTime.h Sys/plUnifiedTime.cpp
+$(OBJDIR)plUnifiedTime.o: $(PLSHEADERS) Sys/plUnifiedTime.cpp
 	$(CXX) $(CXXFLAGS) -c Sys/plUnifiedTime.cpp -o $@
 
-$(OBJDIR)plUuid.o: Sys/plUuid.h Sys/plUuid.cpp
+$(OBJDIR)plUuid.o: $(PLSHEADERS) Sys/plUuid.cpp
 	$(CXX) $(CXXFLAGS) -c Sys/plUuid.cpp -o $@
 
-$(OBJDIR)hsBitVector.o: Util/hsBitVector.h Util/hsBitVector.cpp
+$(OBJDIR)hsBitVector.o: $(PLSHEADERS) Util/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/hsBitVector.cpp -o $@
 
-$(OBJDIR)plDDSurface.o: Util/plDDSurface.h Util/plDDSurface.cpp
+$(OBJDIR)plDDSurface.o: $(PLSHEADERS) Util/plDDSurface.cpp
 	$(CXX) $(CXXFLAGS) -c Util/plDDSurface.cpp -o $@
 
-$(OBJDIR)plJPEG.o: Util/plJPEG.h Util/plJPEG.cpp
+$(OBJDIR)plJPEG.o: $(PLSHEADERS) Util/plJPEG.cpp
 	$(CXX) $(CXXFLAGS) -c Util/plJPEG.cpp -o $@
 
-$(OBJDIR)plMD5.o: Util/plMD5.h Util/plMD5.cpp
+$(OBJDIR)plMD5.o: $(PLSHEADERS) Util/plMD5.cpp
 	$(CXX) $(CXXFLAGS) -c Util/plMD5.cpp -o $@
 
-$(OBJDIR)PlasmaVersions.o: Util/PlasmaVersions.h Util/PlasmaVersions.cpp
+$(OBJDIR)PlasmaVersions.o: $(PLSHEADERS) Util/PlasmaVersions.cpp
 	$(CXX) $(CXXFLAGS) -c Util/PlasmaVersions.cpp -o $@
 
-$(OBJDIR)plString.o: Util/plString.h Util/plString.cpp
+$(OBJDIR)plString.o: $(PLSHEADERS) Util/plString.cpp
 	$(CXX) $(CXXFLAGS) -c Util/plString.cpp -o $@
 
-$(OBJDIR)plZlib.o: Util/plZlib.h Util/plZlib.cpp
+$(OBJDIR)plZlib.o: $(PLSHEADERS) Util/plZlib.cpp
 	$(CXX) $(CXXFLAGS) -c Util/plZlib.cpp -o $@
 
-$(OBJDIR)plServerGuid.o: Vault/plServerGuid.h Vault/plServerGuid.cpp
+$(OBJDIR)plServerGuid.o: $(PLSHEADERS) Vault/plServerGuid.cpp
 	$(CXX) $(CXXFLAGS) -c Vault/plServerGuid.cpp -o $@
 
-$(OBJDIR)plVaultNode.o: Vault/plVaultNode.h Vault/plVaultNode.cpp
+$(OBJDIR)plVaultNode.o: $(PLSHEADERS) Vault/plVaultNode.cpp
 	$(CXX) $(CXXFLAGS) -c Vault/plVaultNode.cpp -o $@
 
-$(OBJDIR)plVaultNodeRef.o: Vault/plVaultNodeRef.h Vault/plVaultNodeRef.cpp
+$(OBJDIR)plVaultNodeRef.o: $(PLSHEADERS) Vault/plVaultNodeRef.cpp
 	$(CXX) $(CXXFLAGS) -c Vault/plVaultNodeRef.cpp -o $@
 
-$(OBJDIR)plVaultNodeTypes.o: Vault/plVaultNodeTypes.h Vault/plVaultNodeTypes.cpp
+$(OBJDIR)plVaultNodeTypes.o: $(PLSHEADERS) Vault/plVaultNodeTypes.cpp
 	$(CXX) $(CXXFLAGS) -c Vault/plVaultNodeTypes.cpp -o $@
 
-$(OBJDIR)plVaultStore.o: Vault/plVaultStore.h Vault/plVaultStore.cpp
+$(OBJDIR)plVaultStore.o: $(PLSHEADERS) Vault/plVaultStore.cpp
 	$(CXX) $(CXXFLAGS) -c Vault/plVaultStore.cpp -o $@
 
-$(OBJDIR)plCreatable.o: PRP/plCreatable.h PRP/plCreatable.cpp
+$(OBJDIR)plCreatable.o: $(PLSHEADERS) PRP/plCreatable.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/plCreatable.cpp -o $@
 
-$(OBJDIR)plPageInfo.o: PRP/plPageInfo.h PRP/plPageInfo.cpp
+$(OBJDIR)plPageInfo.o: $(PLSHEADERS) PRP/plPageInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/plPageInfo.cpp -o $@
 
-$(OBJDIR)plSceneNode.o: PRP/plSceneNode.h PRP/plSceneNode.cpp
+$(OBJDIR)plSceneNode.o: $(PLSHEADERS) PRP/plSceneNode.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/plSceneNode.cpp -o $@
 
-$(OBJDIR)plAnimPath.o: PRP/Animation/plAnimPath.h PRP/Animation/plAnimPath.cpp
+$(OBJDIR)plAnimPath.o: $(PLSHEADERS) PRP/Animation/plAnimPath.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plAnimPath.cpp -o $@
 
-$(OBJDIR)plAnimTimeConvert.o: PRP/Animation/plAnimTimeConvert.h PRP/Animation/plAnimTimeConvert.cpp
+$(OBJDIR)plAnimTimeConvert.o: $(PLSHEADERS) PRP/Animation/plAnimTimeConvert.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plAnimTimeConvert.cpp -o $@
 
-$(OBJDIR)plATCEaseCurves.o: PRP/Animation/plATCEaseCurves.h PRP/Animation/plATCEaseCurves.cpp
+$(OBJDIR)plATCEaseCurves.o: $(PLSHEADERS) PRP/Animation/plATCEaseCurves.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plATCEaseCurves.cpp -o $@
 
-$(OBJDIR)plBlower.o: PRP/Animation/plBlower.h PRP/Animation/plBlower.cpp
+$(OBJDIR)plBlower.o: $(PLSHEADERS) PRP/Animation/plBlower.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plBlower.cpp -o $@
 
-$(OBJDIR)plController.o: PRP/Animation/plController.h PRP/Animation/plController.cpp
+$(OBJDIR)plController.o: $(PLSHEADERS) PRP/Animation/plController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plController.cpp -o $@
 
-$(OBJDIR)plFilterCoordInterface.o: PRP/Animation/plFilterCoordInterface.h PRP/Animation/plFilterCoordInterface.cpp
+$(OBJDIR)plFilterCoordInterface.o: $(PLSHEADERS) PRP/Animation/plFilterCoordInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plFilterCoordInterface.cpp -o $@
 
-$(OBJDIR)hsKeys.o: PRP/Animation/hsKeys.h PRP/Animation/hsKeys.cpp
+$(OBJDIR)hsKeys.o: $(PLSHEADERS) PRP/Animation/hsKeys.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/hsKeys.cpp -o $@
 
-$(OBJDIR)plLeafController.o: PRP/Animation/plLeafController.h PRP/Animation/plLeafController.cpp
+$(OBJDIR)plLeafController.o: $(PLSHEADERS) PRP/Animation/plLeafController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plLeafController.cpp -o $@
 
-$(OBJDIR)plLineFollowMod.o: PRP/Animation/plLineFollowMod.h PRP/Animation/plLineFollowMod.cpp
+$(OBJDIR)plLineFollowMod.o: $(PLSHEADERS) PRP/Animation/plLineFollowMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plLineFollowMod.cpp -o $@
 
-$(OBJDIR)pfObjectFlocker.o: PRP/Animation/pfObjectFlocker.h PRP/Animation/pfObjectFlocker.cpp
+$(OBJDIR)pfObjectFlocker.o: $(PLSHEADERS) PRP/Animation/pfObjectFlocker.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/pfObjectFlocker.cpp -o $@
 
-$(OBJDIR)plPosController.o: PRP/Animation/plPosController.h PRP/Animation/plPosController.cpp
+$(OBJDIR)plPosController.o: $(PLSHEADERS) PRP/Animation/plPosController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plPosController.cpp -o $@
 
-$(OBJDIR)plRotController.o: PRP/Animation/plRotController.h PRP/Animation/plRotController.cpp
+$(OBJDIR)plRotController.o: $(PLSHEADERS) PRP/Animation/plRotController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plRotController.cpp -o $@
 
-$(OBJDIR)plScaleController.o: PRP/Animation/plScaleController.h PRP/Animation/plScaleController.cpp
+$(OBJDIR)plScaleController.o: $(PLSHEADERS) PRP/Animation/plScaleController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plScaleController.cpp -o $@
 
-$(OBJDIR)plStereizer.o: PRP/Animation/plStereizer.h PRP/Animation/plStereizer.cpp
+$(OBJDIR)plStereizer.o: $(PLSHEADERS) PRP/Animation/plStereizer.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plStereizer.cpp -o $@
 
-$(OBJDIR)plTMController.o: PRP/Animation/plTMController.h PRP/Animation/plTMController.cpp
+$(OBJDIR)plTMController.o: $(PLSHEADERS) PRP/Animation/plTMController.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plTMController.cpp -o $@
 
-$(OBJDIR)plViewFaceModifier.o: PRP/Animation/plViewFaceModifier.h PRP/Animation/plViewFaceModifier.cpp
+$(OBJDIR)plViewFaceModifier.o: $(PLSHEADERS) PRP/Animation/plViewFaceModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Animation/plViewFaceModifier.cpp -o $@
 
-$(OBJDIR)plAudible.o: PRP/Audio/plAudible.h PRP/Audio/plAudible.cpp
+$(OBJDIR)plAudible.o: $(PLSHEADERS) PRP/Audio/plAudible.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plAudible.cpp -o $@
 
-$(OBJDIR)plCrossfade.o: PRP/Audio/plCrossfade.h PRP/Audio/plCrossfade.cpp
+$(OBJDIR)plCrossfade.o: $(PLSHEADERS) PRP/Audio/plCrossfade.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plCrossfade.cpp -o $@
 
-$(OBJDIR)plDirectMusicSound.o: PRP/Audio/plDirectMusicSound.h PRP/Audio/plDirectMusicSound.cpp
+$(OBJDIR)plDirectMusicSound.o: $(PLSHEADERS) PRP/Audio/plDirectMusicSound.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plDirectMusicSound.cpp -o $@
 
-$(OBJDIR)plEAXEffects.o: PRP/Audio/plEAXEffects.h PRP/Audio/plEAXEffects.cpp
+$(OBJDIR)plEAXEffects.o: $(PLSHEADERS) PRP/Audio/plEAXEffects.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plEAXEffects.cpp -o $@
 
-$(OBJDIR)plEAXListenerMod.o: PRP/Audio/plEAXListenerMod.h PRP/Audio/plEAXListenerMod.cpp
+$(OBJDIR)plEAXListenerMod.o: $(PLSHEADERS) PRP/Audio/plEAXListenerMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plEAXListenerMod.cpp -o $@
 
-$(OBJDIR)plSound.o: PRP/Audio/plSound.h PRP/Audio/plSound.cpp
+$(OBJDIR)plSound.o: $(PLSHEADERS) PRP/Audio/plSound.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plSound.cpp -o $@
 
-$(OBJDIR)plSoundBuffer.o: PRP/Audio/plSoundBuffer.h PRP/Audio/plSoundBuffer.cpp
+$(OBJDIR)plSoundBuffer.o: $(PLSHEADERS) PRP/Audio/plSoundBuffer.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plSoundBuffer.cpp -o $@
 
-$(OBJDIR)plWin32Sound.o: PRP/Audio/plWin32Sound.h PRP/Audio/plWin32Sound.cpp
+$(OBJDIR)plWin32Sound.o: $(PLSHEADERS) PRP/Audio/plWin32Sound.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plWin32Sound.cpp -o $@
 
-$(OBJDIR)plWin32StaticSound.o: PRP/Audio/plWin32StaticSound.h PRP/Audio/plWin32StaticSound.cpp
+$(OBJDIR)plWin32StaticSound.o: $(PLSHEADERS) PRP/Audio/plWin32StaticSound.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Audio/plWin32StaticSound.cpp -o $@
 
-$(OBJDIR)plAGAnim.o: PRP/Avatar/plAGAnim.h PRP/Avatar/plAGAnim.cpp
+$(OBJDIR)plAGAnim.o: $(PLSHEADERS) PRP/Avatar/plAGAnim.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAGAnim.cpp -o $@
 
-$(OBJDIR)plAGApplicator.o: PRP/Avatar/plAGApplicator.h PRP/Avatar/plAGApplicator.cpp
+$(OBJDIR)plAGApplicator.o: $(PLSHEADERS) PRP/Avatar/plAGApplicator.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAGApplicator.cpp -o $@
 
-$(OBJDIR)plAGChannel.o: PRP/Avatar/plAGChannel.h PRP/Avatar/plAGChannel.cpp
+$(OBJDIR)plAGChannel.o: $(PLSHEADERS) PRP/Avatar/plAGChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAGChannel.cpp -o $@
 
-$(OBJDIR)plAGMasterMod.o: PRP/Avatar/plAGMasterMod.h PRP/Avatar/plAGMasterMod.cpp
+$(OBJDIR)plAGMasterMod.o: $(PLSHEADERS) PRP/Avatar/plAGMasterMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAGMasterMod.cpp -o $@
 
-$(OBJDIR)plAGModifier.o: PRP/Avatar/plAGModifier.h PRP/Avatar/plAGModifier.cpp
+$(OBJDIR)plAGModifier.o: $(PLSHEADERS) PRP/Avatar/plAGModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAGModifier.cpp -o $@
 
-$(OBJDIR)plAnimStage.o: PRP/Avatar/plAnimStage.h PRP/Avatar/plAnimStage.cpp
+$(OBJDIR)plAnimStage.o: $(PLSHEADERS) PRP/Avatar/plAnimStage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAnimStage.cpp -o $@
 
-$(OBJDIR)plArmatureBrain.o: PRP/Avatar/plArmatureBrain.h PRP/Avatar/plArmatureBrain.cpp
+$(OBJDIR)plArmatureBrain.o: $(PLSHEADERS) PRP/Avatar/plArmatureBrain.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plArmatureBrain.cpp -o $@
 
-$(OBJDIR)plArmatureEffects.o: PRP/Avatar/plArmatureEffects.h PRP/Avatar/plArmatureEffects.cpp
+$(OBJDIR)plArmatureEffects.o: $(PLSHEADERS) PRP/Avatar/plArmatureEffects.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plArmatureEffects.cpp -o $@
 
-$(OBJDIR)plArmatureMod.o: PRP/Avatar/plArmatureMod.h PRP/Avatar/plArmatureMod.cpp
+$(OBJDIR)plArmatureMod.o: $(PLSHEADERS) PRP/Avatar/plArmatureMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plArmatureMod.cpp -o $@
 
-$(OBJDIR)plATCAnim.o: PRP/Avatar/plATCAnim.h PRP/Avatar/plATCAnim.cpp
+$(OBJDIR)plATCAnim.o: $(PLSHEADERS) PRP/Avatar/plATCAnim.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plATCAnim.cpp -o $@
 
-$(OBJDIR)plAvatarClothing.o: PRP/Avatar/plAvatarClothing.h PRP/Avatar/plAvatarClothing.cpp
+$(OBJDIR)plAvatarClothing.o: $(PLSHEADERS) PRP/Avatar/plAvatarClothing.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvatarClothing.cpp -o $@
 
-$(OBJDIR)plAvBrainCoop.o: PRP/Avatar/plAvBrainCoop.h PRP/Avatar/plAvBrainCoop.cpp
+$(OBJDIR)plAvBrainCoop.o: $(PLSHEADERS) PRP/Avatar/plAvBrainCoop.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvBrainCoop.cpp -o $@
 
-$(OBJDIR)plAvBrainGeneric.o: PRP/Avatar/plAvBrainGeneric.h PRP/Avatar/plAvBrainGeneric.cpp
+$(OBJDIR)plAvBrainGeneric.o: $(PLSHEADERS) PRP/Avatar/plAvBrainGeneric.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvBrainGeneric.cpp -o $@
 
-$(OBJDIR)plAvTask.o: PRP/Avatar/plAvTask.h PRP/Avatar/plAvTask.cpp
+$(OBJDIR)plAvTask.o: $(PLSHEADERS) PRP/Avatar/plAvTask.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plAvTask.cpp -o $@
 
-$(OBJDIR)plClothingItem.o: PRP/Avatar/plClothingItem.h PRP/Avatar/plClothingItem.cpp
+$(OBJDIR)plClothingItem.o: $(PLSHEADERS) PRP/Avatar/plClothingItem.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plClothingItem.cpp -o $@
 
-$(OBJDIR)plLadderModifier.o: PRP/Avatar/plLadderModifier.h PRP/Avatar/plLadderModifier.cpp
+$(OBJDIR)plLadderModifier.o: $(PLSHEADERS) PRP/Avatar/plLadderModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plLadderModifier.cpp -o $@
 
-$(OBJDIR)plMatrixChannel.o: PRP/Avatar/plMatrixChannel.h PRP/Avatar/plMatrixChannel.cpp
+$(OBJDIR)plMatrixChannel.o: $(PLSHEADERS) PRP/Avatar/plMatrixChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plMatrixChannel.cpp -o $@
 
-$(OBJDIR)plMultistageBehMod.o: PRP/Avatar/plMultistageBehMod.h PRP/Avatar/plMultistageBehMod.cpp
+$(OBJDIR)plMultistageBehMod.o: $(PLSHEADERS) PRP/Avatar/plMultistageBehMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plMultistageBehMod.cpp -o $@
 
-$(OBJDIR)plNPCSpawnMod.o: PRP/Avatar/plNPCSpawnMod.h PRP/Avatar/plNPCSpawnMod.cpp
+$(OBJDIR)plNPCSpawnMod.o: $(PLSHEADERS) PRP/Avatar/plNPCSpawnMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plNPCSpawnMod.cpp -o $@
 
-$(OBJDIR)plPointChannel.o: PRP/Avatar/plPointChannel.h PRP/Avatar/plPointChannel.cpp
+$(OBJDIR)plPointChannel.o: $(PLSHEADERS) PRP/Avatar/plPointChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plPointChannel.cpp -o $@
 
-$(OBJDIR)plQuatChannel.o: PRP/Avatar/plQuatChannel.h PRP/Avatar/plQuatChannel.cpp
+$(OBJDIR)plQuatChannel.o: $(PLSHEADERS) PRP/Avatar/plQuatChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plQuatChannel.cpp -o $@
 
-$(OBJDIR)plScalarChannel.o: PRP/Avatar/plScalarChannel.h PRP/Avatar/plScalarChannel.cpp
+$(OBJDIR)plScalarChannel.o: $(PLSHEADERS) PRP/Avatar/plScalarChannel.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plScalarChannel.cpp -o $@
 
-$(OBJDIR)plSeekPointMod.o: PRP/Avatar/plSeekPointMod.h PRP/Avatar/plSeekPointMod.cpp
+$(OBJDIR)plSeekPointMod.o: $(PLSHEADERS) PRP/Avatar/plSeekPointMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plSeekPointMod.cpp -o $@
 
-$(OBJDIR)plSittingModifier.o: PRP/Avatar/plSittingModifier.h PRP/Avatar/plSittingModifier.cpp
+$(OBJDIR)plSittingModifier.o: $(PLSHEADERS) PRP/Avatar/plSittingModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Avatar/plSittingModifier.cpp -o $@
 
-$(OBJDIR)plCameraBrain.o: PRP/Camera/plCameraBrain.h PRP/Camera/plCameraBrain.cpp
+$(OBJDIR)plCameraBrain.o: $(PLSHEADERS) PRP/Camera/plCameraBrain.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Camera/plCameraBrain.cpp -o $@
 
-$(OBJDIR)plCameraModifier.o: PRP/Camera/plCameraModifier.h PRP/Camera/plCameraModifier.cpp
+$(OBJDIR)plCameraModifier.o: $(PLSHEADERS) PRP/Camera/plCameraModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Camera/plCameraModifier.cpp -o $@
 
-$(OBJDIR)plActivatorConditionalObject.o: PRP/ConditionalObject/plActivatorConditionalObject.h PRP/ConditionalObject/plActivatorConditionalObject.cpp
+$(OBJDIR)plActivatorConditionalObject.o: $(PLSHEADERS) PRP/ConditionalObject/plActivatorConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plActivatorConditionalObject.cpp -o $@
 
-$(OBJDIR)plAnimationEventConditionalObject.o: PRP/ConditionalObject/plAnimationEventConditionalObject.h PRP/ConditionalObject/plAnimationEventConditionalObject.cpp
+$(OBJDIR)plAnimationEventConditionalObject.o: $(PLSHEADERS) PRP/ConditionalObject/plAnimationEventConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plAnimationEventConditionalObject.cpp -o $@
 
-$(OBJDIR)plBooleanConditionalObject.o: PRP/ConditionalObject/plBooleanConditionalObject.h PRP/ConditionalObject/plBooleanConditionalObject.cpp
+$(OBJDIR)plBooleanConditionalObject.o: $(PLSHEADERS) PRP/ConditionalObject/plBooleanConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plBooleanConditionalObject.cpp -o $@
 
-$(OBJDIR)plConditionalObject.o: PRP/ConditionalObject/plConditionalObject.h PRP/ConditionalObject/plConditionalObject.cpp
+$(OBJDIR)plConditionalObject.o: $(PLSHEADERS) PRP/ConditionalObject/plConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plConditionalObject.cpp -o $@
 
-$(OBJDIR)plControlEventConditionalObject.o: PRP/ConditionalObject/plControlEventConditionalObject.h PRP/ConditionalObject/plControlEventConditionalObject.cpp
+$(OBJDIR)plControlEventConditionalObject.o: $(PLSHEADERS) PRP/ConditionalObject/plControlEventConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plControlEventConditionalObject.cpp -o $@
 
-$(OBJDIR)plFacingConditionalObject.o: PRP/ConditionalObject/plFacingConditionalObject.h PRP/ConditionalObject/plFacingConditionalObject.cpp
+$(OBJDIR)plFacingConditionalObject.o: $(PLSHEADERS) PRP/ConditionalObject/plFacingConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plFacingConditionalObject.cpp -o $@
 
-$(OBJDIR)plKeyPressConditionalObject.o: PRP/ConditionalObject/plKeyPressConditionalObject.h PRP/ConditionalObject/plKeyPressConditionalObject.cpp
+$(OBJDIR)plKeyPressConditionalObject.o: $(PLSHEADERS) PRP/ConditionalObject/plKeyPressConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plKeyPressConditionalObject.cpp -o $@
 
-$(OBJDIR)plVolumeSensorConditionalObject.o: PRP/ConditionalObject/plVolumeSensorConditionalObject.h PRP/ConditionalObject/plVolumeSensorConditionalObject.cpp
+$(OBJDIR)plVolumeSensorConditionalObject.o: $(PLSHEADERS) PRP/ConditionalObject/plVolumeSensorConditionalObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/ConditionalObject/plVolumeSensorConditionalObject.cpp -o $@
 
-$(OBJDIR)plCluster.o: PRP/Geometry/plCluster.h PRP/Geometry/plCluster.cpp
+$(OBJDIR)plCluster.o: $(PLSHEADERS) PRP/Geometry/plCluster.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plCluster.cpp -o $@
 
-$(OBJDIR)plClusterGroup.o: PRP/Geometry/plClusterGroup.h PRP/Geometry/plClusterGroup.cpp
+$(OBJDIR)plClusterGroup.o: $(PLSHEADERS) PRP/Geometry/plClusterGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plClusterGroup.cpp -o $@
 
-$(OBJDIR)plCullPoly.o: PRP/Geometry/plCullPoly.h PRP/Geometry/plCullPoly.cpp
+$(OBJDIR)plCullPoly.o: $(PLSHEADERS) PRP/Geometry/plCullPoly.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plCullPoly.cpp -o $@
 
-$(OBJDIR)plDrawableSpans.o: PRP/Geometry/plDrawableSpans.h PRP/Geometry/plDrawableSpans.cpp
+$(OBJDIR)plDrawableSpans.o: $(PLSHEADERS) PRP/Geometry/plDrawableSpans.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plDrawableSpans.cpp -o $@
 
-$(OBJDIR)plGBufferGroup.o: PRP/Geometry/plGBufferGroup.h PRP/Geometry/plGBufferGroup.cpp
+$(OBJDIR)plGBufferGroup.o: $(PLSHEADERS) PRP/Geometry/plGBufferGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plGBufferGroup.cpp -o $@
 
-$(OBJDIR)hsGDeviceRef.o: PRP/Geometry/hsGDeviceRef.h PRP/Geometry/hsGDeviceRef.cpp
+$(OBJDIR)hsGDeviceRef.o: $(PLSHEADERS) PRP/Geometry/hsGDeviceRef.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/hsGDeviceRef.cpp -o $@
 
-$(OBJDIR)plGeometrySpan.o: PRP/Geometry/plGeometrySpan.h PRP/Geometry/plGeometrySpan.cpp
+$(OBJDIR)plGeometrySpan.o: $(PLSHEADERS) PRP/Geometry/plGeometrySpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plGeometrySpan.cpp -o $@
 
-$(OBJDIR)plIcicle.o: PRP/Geometry/plIcicle.h PRP/Geometry/plIcicle.cpp
+$(OBJDIR)plIcicle.o: $(PLSHEADERS) PRP/Geometry/plIcicle.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plIcicle.cpp -o $@
 
-$(OBJDIR)plMorphArray.o: PRP/Geometry/plMorphArray.h PRP/Geometry/plMorphArray.cpp
+$(OBJDIR)plMorphArray.o: $(PLSHEADERS) PRP/Geometry/plMorphArray.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plMorphArray.cpp -o $@
 
-$(OBJDIR)plMorphDataSet.o: PRP/Geometry/plMorphDataSet.h PRP/Geometry/plMorphDataSet.cpp
+$(OBJDIR)plMorphDataSet.o: $(PLSHEADERS) PRP/Geometry/plMorphDataSet.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plMorphDataSet.cpp -o $@
 
-$(OBJDIR)plMorphDelta.o: PRP/Geometry/plMorphDelta.h PRP/Geometry/plMorphDelta.cpp
+$(OBJDIR)plMorphDelta.o: $(PLSHEADERS) PRP/Geometry/plMorphDelta.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plMorphDelta.cpp -o $@
 
-$(OBJDIR)plMorphSequence.o: PRP/Geometry/plMorphSequence.h PRP/Geometry/plMorphSequence.cpp
+$(OBJDIR)plMorphSequence.o: $(PLSHEADERS) PRP/Geometry/plMorphSequence.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plMorphSequence.cpp -o $@
 
-$(OBJDIR)plOccluder.o: PRP/Geometry/plOccluder.h PRP/Geometry/plOccluder.cpp
+$(OBJDIR)plOccluder.o: $(PLSHEADERS) PRP/Geometry/plOccluder.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plOccluder.cpp -o $@
 
-$(OBJDIR)plSharedMesh.o: PRP/Geometry/plSharedMesh.h PRP/Geometry/plSharedMesh.cpp
+$(OBJDIR)plSharedMesh.o: $(PLSHEADERS) PRP/Geometry/plSharedMesh.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plSharedMesh.cpp -o $@
 
-$(OBJDIR)plSpaceTree.o: PRP/Geometry/plSpaceTree.h PRP/Geometry/plSpaceTree.cpp
+$(OBJDIR)plSpaceTree.o: $(PLSHEADERS) PRP/Geometry/plSpaceTree.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plSpaceTree.cpp -o $@
 
-$(OBJDIR)plSpan.o: PRP/Geometry/plSpan.h PRP/Geometry/plSpan.cpp
+$(OBJDIR)plSpan.o: $(PLSHEADERS) PRP/Geometry/plSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plSpan.cpp -o $@
 
-$(OBJDIR)plSpanInstance.o: PRP/Geometry/plSpanInstance.h PRP/Geometry/plSpanInstance.cpp
+$(OBJDIR)plSpanInstance.o: $(PLSHEADERS) PRP/Geometry/plSpanInstance.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plSpanInstance.cpp -o $@
 
-$(OBJDIR)plSpanTemplate.o: PRP/Geometry/plSpanTemplate.h PRP/Geometry/plSpanTemplate.cpp
+$(OBJDIR)plSpanTemplate.o: $(PLSHEADERS) PRP/Geometry/plSpanTemplate.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plSpanTemplate.cpp -o $@
 
-$(OBJDIR)plVertCoder.o: PRP/Geometry/plVertCoder.h PRP/Geometry/plVertCoder.cpp
+$(OBJDIR)plVertCoder.o: $(PLSHEADERS) PRP/Geometry/plVertCoder.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plVertCoder.cpp -o $@
 
-$(OBJDIR)plVertexSpan.o: PRP/Geometry/plVertexSpan.h PRP/Geometry/plVertexSpan.cpp
+$(OBJDIR)plVertexSpan.o: $(PLSHEADERS) PRP/Geometry/plVertexSpan.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Geometry/plVertexSpan.cpp -o $@
 
-$(OBJDIR)pfGUIButtonMod.o: PRP/GUI/pfGUIButtonMod.h PRP/GUI/pfGUIButtonMod.cpp
+$(OBJDIR)pfGUIButtonMod.o: $(PLSHEADERS) PRP/GUI/pfGUIButtonMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIButtonMod.cpp -o $@
 
-$(OBJDIR)pfGUICheckBoxCtrl.o: PRP/GUI/pfGUICheckBoxCtrl.h PRP/GUI/pfGUICheckBoxCtrl.cpp
+$(OBJDIR)pfGUICheckBoxCtrl.o: $(PLSHEADERS) PRP/GUI/pfGUICheckBoxCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUICheckBoxCtrl.cpp -o $@
 
-$(OBJDIR)pfGUIControlHandlers.o: PRP/GUI/pfGUIControlHandlers.h PRP/GUI/pfGUIControlHandlers.cpp
+$(OBJDIR)pfGUIControlHandlers.o: $(PLSHEADERS) PRP/GUI/pfGUIControlHandlers.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIControlHandlers.cpp -o $@
 
-$(OBJDIR)pfGUIControlMod.o: PRP/GUI/pfGUIControlMod.h PRP/GUI/pfGUIControlMod.cpp
+$(OBJDIR)pfGUIControlMod.o: $(PLSHEADERS) PRP/GUI/pfGUIControlMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIControlMod.cpp -o $@
 
-$(OBJDIR)pfGUIDialogMod.o: PRP/GUI/pfGUIDialogMod.h PRP/GUI/pfGUIDialogMod.cpp
+$(OBJDIR)pfGUIDialogMod.o: $(PLSHEADERS) PRP/GUI/pfGUIDialogMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIDialogMod.cpp -o $@
 
-$(OBJDIR)pfGUIDynDisplayCtrl.o: PRP/GUI/pfGUIDynDisplayCtrl.h PRP/GUI/pfGUIDynDisplayCtrl.cpp
+$(OBJDIR)pfGUIDynDisplayCtrl.o: $(PLSHEADERS) PRP/GUI/pfGUIDynDisplayCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIDynDisplayCtrl.cpp -o $@
 
-$(OBJDIR)pfGUIKnobCtrl.o: PRP/GUI/pfGUIKnobCtrl.h PRP/GUI/pfGUIKnobCtrl.cpp
+$(OBJDIR)pfGUIKnobCtrl.o: $(PLSHEADERS) PRP/GUI/pfGUIKnobCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIKnobCtrl.cpp -o $@
 
-$(OBJDIR)pfGUIListBoxMod.o: PRP/GUI/pfGUIListBoxMod.h PRP/GUI/pfGUIListBoxMod.cpp
+$(OBJDIR)pfGUIListBoxMod.o: $(PLSHEADERS) PRP/GUI/pfGUIListBoxMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIListBoxMod.cpp -o $@
 
-$(OBJDIR)pfGUIMultiLineEditCtrl.o: PRP/GUI/pfGUIMultiLineEditCtrl.h PRP/GUI/pfGUIMultiLineEditCtrl.cpp
+$(OBJDIR)pfGUIMultiLineEditCtrl.o: $(PLSHEADERS) PRP/GUI/pfGUIMultiLineEditCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIMultiLineEditCtrl.cpp -o $@
 
-$(OBJDIR)pfGUIPopUpMenu.o: PRP/GUI/pfGUIPopUpMenu.h PRP/GUI/pfGUIPopUpMenu.cpp
+$(OBJDIR)pfGUIPopUpMenu.o: $(PLSHEADERS) PRP/GUI/pfGUIPopUpMenu.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIPopUpMenu.cpp -o $@
 
-$(OBJDIR)pfGUIProgressCtrl.o: PRP/GUI/pfGUIProgressCtrl.h PRP/GUI/pfGUIProgressCtrl.cpp
+$(OBJDIR)pfGUIProgressCtrl.o: $(PLSHEADERS) PRP/GUI/pfGUIProgressCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIProgressCtrl.cpp -o $@
 
-$(OBJDIR)pfGUIRadioGroupCtrl.o: PRP/GUI/pfGUIRadioGroupCtrl.h PRP/GUI/pfGUIRadioGroupCtrl.cpp
+$(OBJDIR)pfGUIRadioGroupCtrl.o: $(PLSHEADERS) PRP/GUI/pfGUIRadioGroupCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIRadioGroupCtrl.cpp -o $@
 
-$(OBJDIR)pfGUISkin.o: PRP/GUI/pfGUISkin.h PRP/GUI/pfGUISkin.cpp
+$(OBJDIR)pfGUISkin.o: $(PLSHEADERS) PRP/GUI/pfGUISkin.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUISkin.cpp -o $@
 
-$(OBJDIR)pfGUITextBoxMod.o: PRP/GUI/pfGUITextBoxMod.h PRP/GUI/pfGUITextBoxMod.cpp
+$(OBJDIR)pfGUITextBoxMod.o: $(PLSHEADERS) PRP/GUI/pfGUITextBoxMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUITextBoxMod.cpp -o $@
 
-$(OBJDIR)pfGUIUpDownPairMod.o: PRP/GUI/pfGUIUpDownPairMod.h PRP/GUI/pfGUIUpDownPairMod.cpp
+$(OBJDIR)pfGUIUpDownPairMod.o: $(PLSHEADERS) PRP/GUI/pfGUIUpDownPairMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIUpDownPairMod.cpp -o $@
 
-$(OBJDIR)pfGUIValueCtrl.o: PRP/GUI/pfGUIValueCtrl.h PRP/GUI/pfGUIValueCtrl.cpp
+$(OBJDIR)pfGUIValueCtrl.o: $(PLSHEADERS) PRP/GUI/pfGUIValueCtrl.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/pfGUIValueCtrl.cpp -o $@
 
-$(OBJDIR)plImageLibMod.o: PRP/GUI/plImageLibMod.h PRP/GUI/plImageLibMod.cpp
+$(OBJDIR)plImageLibMod.o: $(PLSHEADERS) PRP/GUI/plImageLibMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/GUI/plImageLibMod.cpp -o $@
 
-$(OBJDIR)hsKeyedObject.o: PRP/KeyedObject/hsKeyedObject.h PRP/KeyedObject/hsKeyedObject.cpp
+$(OBJDIR)hsKeyedObject.o: $(PLSHEADERS) PRP/KeyedObject/hsKeyedObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/hsKeyedObject.cpp -o $@
 
-$(OBJDIR)plKey.o: PRP/KeyedObject/plKey.h PRP/KeyedObject/plKey.cpp
+$(OBJDIR)plKey.o: $(PLSHEADERS) PRP/KeyedObject/plKey.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/plKey.cpp -o $@
 
-$(OBJDIR)plLoadMask.o: PRP/KeyedObject/plLoadMask.h PRP/KeyedObject/plLoadMask.cpp
+$(OBJDIR)plLoadMask.o: $(PLSHEADERS) PRP/KeyedObject/plLoadMask.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/plLoadMask.cpp -o $@
 
-$(OBJDIR)plLocation.o: PRP/KeyedObject/plLocation.h PRP/KeyedObject/plLocation.cpp
+$(OBJDIR)plLocation.o: $(PLSHEADERS) PRP/KeyedObject/plLocation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/plLocation.cpp -o $@
 
-$(OBJDIR)plUoid.o: PRP/KeyedObject/plUoid.h PRP/KeyedObject/plUoid.cpp
+$(OBJDIR)plUoid.o: $(PLSHEADERS) PRP/KeyedObject/plUoid.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/plUoid.cpp -o $@
 
-$(OBJDIR)plDirectionalLightInfo.o: PRP/Light/plDirectionalLightInfo.h PRP/Light/plDirectionalLightInfo.cpp
+$(OBJDIR)plDirectionalLightInfo.o: $(PLSHEADERS) PRP/Light/plDirectionalLightInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/plDirectionalLightInfo.cpp -o $@
 
-$(OBJDIR)plLightInfo.o: PRP/Light/plLightInfo.h PRP/Light/plLightInfo.cpp
+$(OBJDIR)plLightInfo.o: $(PLSHEADERS) PRP/Light/plLightInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/plLightInfo.cpp -o $@
 
-$(OBJDIR)plOmniLightInfo.o: PRP/Light/plOmniLightInfo.h PRP/Light/plOmniLightInfo.cpp
+$(OBJDIR)plOmniLightInfo.o: $(PLSHEADERS) PRP/Light/plOmniLightInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/plOmniLightInfo.cpp -o $@
 
-$(OBJDIR)plShadowCaster.o: PRP/Light/plShadowCaster.h PRP/Light/plShadowCaster.cpp
+$(OBJDIR)plShadowCaster.o: $(PLSHEADERS) PRP/Light/plShadowCaster.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/plShadowCaster.cpp -o $@
 
-$(OBJDIR)plShadowMaster.o: PRP/Light/plShadowMaster.h PRP/Light/plShadowMaster.cpp
+$(OBJDIR)plShadowMaster.o: $(PLSHEADERS) PRP/Light/plShadowMaster.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Light/plShadowMaster.cpp -o $@
 
-$(OBJDIR)pfKIMsg.o: PRP/Message/pfKIMsg.h PRP/Message/pfKIMsg.cpp
+$(OBJDIR)pfKIMsg.o: $(PLSHEADERS) PRP/Message/pfKIMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/pfKIMsg.cpp -o $@
 
-$(OBJDIR)plAnimCmdMsg.o: PRP/Message/plAnimCmdMsg.h PRP/Message/plAnimCmdMsg.cpp
+$(OBJDIR)plAnimCmdMsg.o: $(PLSHEADERS) PRP/Message/plAnimCmdMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plAnimCmdMsg.cpp -o $@
 
-$(OBJDIR)plArmatureEffectMsg.o: PRP/Message/plArmatureEffectMsg.h PRP/Message/plArmatureEffectMsg.cpp
+$(OBJDIR)plArmatureEffectMsg.o: $(PLSHEADERS) PRP/Message/plArmatureEffectMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plArmatureEffectMsg.cpp -o $@
 
-$(OBJDIR)plAvatarInputStateMsg.o: PRP/Message/plAvatarInputStateMsg.h PRP/Message/plAvatarInputStateMsg.cpp
+$(OBJDIR)plAvatarInputStateMsg.o: $(PLSHEADERS) PRP/Message/plAvatarInputStateMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvatarInputStateMsg.cpp -o $@
 
-$(OBJDIR)plAvatarMsg.o: PRP/Message/plAvatarMsg.h PRP/Message/plAvatarMsg.cpp
+$(OBJDIR)plAvatarMsg.o: $(PLSHEADERS) PRP/Message/plAvatarMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvatarMsg.cpp -o $@
 
-$(OBJDIR)plAvTaskMsg.o: PRP/Message/plAvTaskMsg.h PRP/Message/plAvTaskMsg.cpp
+$(OBJDIR)plAvTaskMsg.o: $(PLSHEADERS) PRP/Message/plAvTaskMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvTaskMsg.cpp -o $@
 
-$(OBJDIR)plAvSeekMsg.o: PRP/Message/plAvSeekMsg.h PRP/Message/plAvSeekMsg.cpp
+$(OBJDIR)plAvSeekMsg.o: $(PLSHEADERS) PRP/Message/plAvSeekMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plAvSeekMsg.cpp -o $@
 
-$(OBJDIR)plCameraMsg.o: PRP/Message/plCameraMsg.h PRP/Message/plCameraMsg.cpp
+$(OBJDIR)plCameraMsg.o: $(PLSHEADERS) PRP/Message/plCameraMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plCameraMsg.cpp -o $@
 
-$(OBJDIR)plClimbMsg.o: PRP/Message/plClimbMsg.h PRP/Message/plClimbMsg.cpp
+$(OBJDIR)plClimbMsg.o: $(PLSHEADERS) PRP/Message/plClimbMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plClimbMsg.cpp -o $@
 
-$(OBJDIR)plEnableMsg.o: PRP/Message/plEnableMsg.h PRP/Message/plEnableMsg.cpp
+$(OBJDIR)plEnableMsg.o: $(PLSHEADERS) PRP/Message/plEnableMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plEnableMsg.cpp -o $@
 
-$(OBJDIR)plEventCallbackMsg.o: PRP/Message/plEventCallbackMsg.h PRP/Message/plEventCallbackMsg.cpp
+$(OBJDIR)plEventCallbackMsg.o: $(PLSHEADERS) PRP/Message/plEventCallbackMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plEventCallbackMsg.cpp -o $@
 
-$(OBJDIR)proEventData.o: PRP/Message/proEventData.h PRP/Message/proEventData.cpp
+$(OBJDIR)proEventData.o: $(PLSHEADERS) PRP/Message/proEventData.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/proEventData.cpp -o $@
 
-$(OBJDIR)plExcludeRegionMsg.o: PRP/Message/plExcludeRegionMsg.h PRP/Message/plExcludeRegionMsg.cpp
+$(OBJDIR)plExcludeRegionMsg.o: $(PLSHEADERS) PRP/Message/plExcludeRegionMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plExcludeRegionMsg.cpp -o $@
 
-$(OBJDIR)plInputIfaceMgrMsg.o: PRP/Message/plInputIfaceMgrMsg.h PRP/Message/plInputIfaceMgrMsg.cpp
+$(OBJDIR)plInputIfaceMgrMsg.o: $(PLSHEADERS) PRP/Message/plInputIfaceMgrMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plInputIfaceMgrMsg.cpp -o $@
 
-$(OBJDIR)plLinkToAgeMsg.o: PRP/Message/plLinkToAgeMsg.h PRP/Message/plLinkToAgeMsg.cpp
+$(OBJDIR)plLinkToAgeMsg.o: $(PLSHEADERS) PRP/Message/plLinkToAgeMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLinkToAgeMsg.cpp -o $@
 
-$(OBJDIR)plLinkEffectsTriggerMsg.o: PRP/Message/plLinkEffectsTriggerMsg.h PRP/Message/plLinkEffectsTriggerMsg.cpp
+$(OBJDIR)plLinkEffectsTriggerMsg.o: $(PLSHEADERS) PRP/Message/plLinkEffectsTriggerMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLinkEffectsTriggerMsg.cpp -o $@
 
-$(OBJDIR)plLoadAvatarMsg.o: PRP/Message/plLoadAvatarMsg.h PRP/Message/plLoadAvatarMsg.cpp
+$(OBJDIR)plLoadAvatarMsg.o: $(PLSHEADERS) PRP/Message/plLoadAvatarMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLoadAvatarMsg.cpp -o $@
 
-$(OBJDIR)plLoadCloneMsg.o: PRP/Message/plLoadCloneMsg.h PRP/Message/plLoadCloneMsg.cpp
+$(OBJDIR)plLoadCloneMsg.o: $(PLSHEADERS) PRP/Message/plLoadCloneMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plLoadCloneMsg.cpp -o $@
 
-$(OBJDIR)plMessage.o: PRP/Message/plMessage.h PRP/Message/plMessage.cpp
+$(OBJDIR)plMessage.o: $(PLSHEADERS) PRP/Message/plMessage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plMessage.cpp -o $@
 
-$(OBJDIR)plMessageWithCallbacks.o: PRP/Message/plMessageWithCallbacks.h PRP/Message/plMessageWithCallbacks.cpp
+$(OBJDIR)plMessageWithCallbacks.o: $(PLSHEADERS) PRP/Message/plMessageWithCallbacks.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plMessageWithCallbacks.cpp -o $@
 
-$(OBJDIR)plMsgForwarder.o: PRP/Message/plMsgForwarder.h PRP/Message/plMsgForwarder.cpp
+$(OBJDIR)plMsgForwarder.o: $(PLSHEADERS) PRP/Message/plMsgForwarder.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plMsgForwarder.cpp -o $@
 
-$(OBJDIR)plNotifyMsg.o: PRP/Message/plNotifyMsg.h PRP/Message/plNotifyMsg.cpp
+$(OBJDIR)plNotifyMsg.o: $(PLSHEADERS) PRP/Message/plNotifyMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plNotifyMsg.cpp -o $@
 
-$(OBJDIR)plOneShotCallbacks.o: PRP/Message/plOneShotCallbacks.h PRP/Message/plOneShotCallbacks.cpp
+$(OBJDIR)plOneShotCallbacks.o: $(PLSHEADERS) PRP/Message/plOneShotCallbacks.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plOneShotCallbacks.cpp -o $@
 
-$(OBJDIR)plPseudoLinkEffectMsg.o: PRP/Message/plPseudoLinkEffectMsg.h PRP/Message/plPseudoLinkEffectMsg.cpp
+$(OBJDIR)plPseudoLinkEffectMsg.o: $(PLSHEADERS) PRP/Message/plPseudoLinkEffectMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plPseudoLinkEffectMsg.cpp -o $@
 
-$(OBJDIR)plResponderMsg.o: PRP/Message/plResponderMsg.h PRP/Message/plResponderMsg.cpp
+$(OBJDIR)plResponderMsg.o: $(PLSHEADERS) PRP/Message/plResponderMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plResponderMsg.cpp -o $@
 
-$(OBJDIR)plRideAnimatedPhysMsg.o: PRP/Message/plRideAnimatedPhysMsg.h PRP/Message/plRideAnimatedPhysMsg.cpp
+$(OBJDIR)plRideAnimatedPhysMsg.o: $(PLSHEADERS) PRP/Message/plRideAnimatedPhysMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plRideAnimatedPhysMsg.cpp -o $@
 
-$(OBJDIR)plServerReplyMsg.o: PRP/Message/plServerReplyMsg.h PRP/Message/plServerReplyMsg.cpp
+$(OBJDIR)plServerReplyMsg.o: $(PLSHEADERS) PRP/Message/plServerReplyMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plServerReplyMsg.cpp -o $@
 
-$(OBJDIR)plSimulationMsg.o: PRP/Message/plSimulationMsg.h PRP/Message/plSimulationMsg.cpp
+$(OBJDIR)plSimulationMsg.o: $(PLSHEADERS) PRP/Message/plSimulationMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plSimulationMsg.cpp -o $@
 
-$(OBJDIR)plSoundMsg.o: PRP/Message/plSoundMsg.h PRP/Message/plSoundMsg.cpp
+$(OBJDIR)plSoundMsg.o: $(PLSHEADERS) PRP/Message/plSoundMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plSoundMsg.cpp -o $@
 
-$(OBJDIR)plSwimMsg.o: PRP/Message/plSwimMsg.h PRP/Message/plSwimMsg.cpp
+$(OBJDIR)plSwimMsg.o: $(PLSHEADERS) PRP/Message/plSwimMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plSwimMsg.cpp -o $@
 
-$(OBJDIR)plTimerCallbackMsg.o: PRP/Message/plTimerCallbackMsg.h PRP/Message/plTimerCallbackMsg.cpp
+$(OBJDIR)plTimerCallbackMsg.o: $(PLSHEADERS) PRP/Message/plTimerCallbackMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plTimerCallbackMsg.cpp -o $@
 
-$(OBJDIR)plTransitionMsg.o: PRP/Message/plTransitionMsg.h PRP/Message/plTransitionMsg.cpp
+$(OBJDIR)plTransitionMsg.o: $(PLSHEADERS) PRP/Message/plTransitionMsg.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Message/plTransitionMsg.cpp -o $@
 
-$(OBJDIR)plAgeLinkInfo.o: PRP/Misc/plAgeLinkInfo.h PRP/Misc/plAgeLinkInfo.cpp
+$(OBJDIR)plAgeLinkInfo.o: $(PLSHEADERS) PRP/Misc/plAgeLinkInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/plAgeLinkInfo.cpp -o $@
 
-$(OBJDIR)plFogEnvironment.o: PRP/Misc/plFogEnvironment.h PRP/Misc/plFogEnvironment.cpp
+$(OBJDIR)plFogEnvironment.o: $(PLSHEADERS) PRP/Misc/plFogEnvironment.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/plFogEnvironment.cpp -o $@
 
-$(OBJDIR)plSpawnPointInfo.o: PRP/Misc/plSpawnPointInfo.h PRP/Misc/plSpawnPointInfo.cpp
+$(OBJDIR)plSpawnPointInfo.o: $(PLSHEADERS) PRP/Misc/plSpawnPointInfo.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Misc/plSpawnPointInfo.cpp -o $@
 
-$(OBJDIR)plAliasModifier.o: PRP/Modifier/plAliasModifier.h PRP/Modifier/plAliasModifier.cpp
+$(OBJDIR)plAliasModifier.o: $(PLSHEADERS) PRP/Modifier/plAliasModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plAliasModifier.cpp -o $@
 
-$(OBJDIR)plAnimEventModifier.o: PRP/Modifier/plAnimEventModifier.h PRP/Modifier/plAnimEventModifier.cpp
+$(OBJDIR)plAnimEventModifier.o: $(PLSHEADERS) PRP/Modifier/plAnimEventModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plAnimEventModifier.cpp -o $@
 
-$(OBJDIR)plAxisAnimModifier.o: PRP/Modifier/plAxisAnimModifier.h PRP/Modifier/plAxisAnimModifier.cpp
+$(OBJDIR)plAxisAnimModifier.o: $(PLSHEADERS) PRP/Modifier/plAxisAnimModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plAxisAnimModifier.cpp -o $@
 
-$(OBJDIR)plExcludeRegionModifier.o: PRP/Modifier/plExcludeRegionModifier.h PRP/Modifier/plExcludeRegionModifier.cpp
+$(OBJDIR)plExcludeRegionModifier.o: $(PLSHEADERS) PRP/Modifier/plExcludeRegionModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plExcludeRegionModifier.cpp -o $@
 
-$(OBJDIR)plGameMarkerModifier.o: PRP/Modifier/plGameMarkerModifier.h PRP/Modifier/plGameMarkerModifier.cpp
+$(OBJDIR)plGameMarkerModifier.o: $(PLSHEADERS) PRP/Modifier/plGameMarkerModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plGameMarkerModifier.cpp -o $@
 
-$(OBJDIR)plInterfaceInfoModifier.o: PRP/Modifier/plInterfaceInfoModifier.h PRP/Modifier/plInterfaceInfoModifier.cpp
+$(OBJDIR)plInterfaceInfoModifier.o: $(PLSHEADERS) PRP/Modifier/plInterfaceInfoModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plInterfaceInfoModifier.cpp -o $@
 
-$(OBJDIR)plLogicModBase.o: PRP/Modifier/plLogicModBase.h PRP/Modifier/plLogicModBase.cpp
+$(OBJDIR)plLogicModBase.o: $(PLSHEADERS) PRP/Modifier/plLogicModBase.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plLogicModBase.cpp -o $@
 
-$(OBJDIR)plLogicModifier.o: PRP/Modifier/plLogicModifier.h PRP/Modifier/plLogicModifier.cpp
+$(OBJDIR)plLogicModifier.o: $(PLSHEADERS) PRP/Modifier/plLogicModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plLogicModifier.cpp -o $@
 
-$(OBJDIR)plMaintainersMarkerModifier.o: PRP/Modifier/plMaintainersMarkerModifier.h PRP/Modifier/plMaintainersMarkerModifier.cpp
+$(OBJDIR)plMaintainersMarkerModifier.o: $(PLSHEADERS) PRP/Modifier/plMaintainersMarkerModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plMaintainersMarkerModifier.cpp -o $@
 
-$(OBJDIR)plModifier.o: PRP/Modifier/plModifier.h PRP/Modifier/plModifier.cpp
+$(OBJDIR)plModifier.o: $(PLSHEADERS) PRP/Modifier/plModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plModifier.cpp -o $@
 
-$(OBJDIR)plNodeRegionModifier.o: PRP/Modifier/plNodeRegionModifier.h PRP/Modifier/plNodeRegionModifier.cpp
+$(OBJDIR)plNodeRegionModifier.o: $(PLSHEADERS) PRP/Modifier/plNodeRegionModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plNodeRegionModifier.cpp -o $@
 
-$(OBJDIR)plOneShotMod.o: PRP/Modifier/plOneShotMod.h PRP/Modifier/plOneShotMod.cpp
+$(OBJDIR)plOneShotMod.o: $(PLSHEADERS) PRP/Modifier/plOneShotMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plOneShotMod.cpp -o $@
 
-$(OBJDIR)plPostEffectMod.o: PRP/Modifier/plPostEffectMod.h PRP/Modifier/plPostEffectMod.cpp
+$(OBJDIR)plPostEffectMod.o: $(PLSHEADERS) PRP/Modifier/plPostEffectMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plPostEffectMod.cpp -o $@
 
-$(OBJDIR)plPythonFileMod.o: PRP/Modifier/plPythonFileMod.h PRP/Modifier/plPythonFileMod.cpp
+$(OBJDIR)plPythonFileMod.o: $(PLSHEADERS) PRP/Modifier/plPythonFileMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plPythonFileMod.cpp -o $@
 
-$(OBJDIR)plPythonMod.o: PRP/Modifier/plPythonMod.h PRP/Modifier/plPythonMod.cpp
+$(OBJDIR)plPythonMod.o: $(PLSHEADERS) PRP/Modifier/plPythonMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plPythonMod.cpp -o $@
 
-$(OBJDIR)plRandomCommandMod.o: PRP/Modifier/plRandomCommandMod.h PRP/Modifier/plRandomCommandMod.cpp
+$(OBJDIR)plRandomCommandMod.o: $(PLSHEADERS) PRP/Modifier/plRandomCommandMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plRandomCommandMod.cpp -o $@
 
-$(OBJDIR)plRandomSoundMod.o: PRP/Modifier/plRandomSoundMod.h PRP/Modifier/plRandomSoundMod.cpp
+$(OBJDIR)plRandomSoundMod.o: $(PLSHEADERS) PRP/Modifier/plRandomSoundMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plRandomSoundMod.cpp -o $@
 
-$(OBJDIR)plResponderModifier.o: PRP/Modifier/plResponderModifier.h PRP/Modifier/plResponderModifier.cpp
+$(OBJDIR)plResponderModifier.o: $(PLSHEADERS) PRP/Modifier/plResponderModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plResponderModifier.cpp -o $@
 
-$(OBJDIR)plSpawnModifier.o: PRP/Modifier/plSpawnModifier.h PRP/Modifier/plSpawnModifier.cpp
+$(OBJDIR)plSpawnModifier.o: $(PLSHEADERS) PRP/Modifier/plSpawnModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/plSpawnModifier.cpp -o $@
 
-$(OBJDIR)plClientGuid.o: PRP/NetMessage/plClientGuid.h PRP/NetMessage/plClientGuid.cpp
+$(OBJDIR)plClientGuid.o: $(PLSHEADERS) PRP/NetMessage/plClientGuid.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plClientGuid.cpp -o $@
 
-$(OBJDIR)plNetGroupId.o: PRP/NetMessage/plNetGroupId.h PRP/NetMessage/plNetGroupId.cpp
+$(OBJDIR)plNetGroupId.o: $(PLSHEADERS) PRP/NetMessage/plNetGroupId.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetGroupId.cpp -o $@
 
-$(OBJDIR)plNetMessage.o: PRP/NetMessage/plNetMessage.h PRP/NetMessage/plNetMessage.cpp
+$(OBJDIR)plNetMessage.o: $(PLSHEADERS) PRP/NetMessage/plNetMessage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMessage.cpp -o $@
 
-$(OBJDIR)plNetMsgGameMessage.o: PRP/NetMessage/plNetMsgGameMessage.h PRP/NetMessage/plNetMsgGameMessage.cpp
+$(OBJDIR)plNetMsgGameMessage.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgGameMessage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgGameMessage.cpp -o $@
 
-$(OBJDIR)plNetMsgGroupOwner.o: PRP/NetMessage/plNetMsgGroupOwner.h PRP/NetMessage/plNetMsgGroupOwner.cpp
+$(OBJDIR)plNetMsgGroupOwner.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgGroupOwner.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgGroupOwner.cpp -o $@
 
-$(OBJDIR)plNetMsgInitialAgeStateSent.o: PRP/NetMessage/plNetMsgInitialAgeStateSent.h PRP/NetMessage/plNetMsgInitialAgeStateSent.cpp
+$(OBJDIR)plNetMsgInitialAgeStateSent.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgInitialAgeStateSent.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgInitialAgeStateSent.cpp -o $@
 
-$(OBJDIR)plNetMsgLoadClone.o: PRP/NetMessage/plNetMsgLoadClone.h PRP/NetMessage/plNetMsgLoadClone.cpp
+$(OBJDIR)plNetMsgLoadClone.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgLoadClone.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgLoadClone.cpp -o $@
 
-$(OBJDIR)plNetMsgMembersList.o: PRP/NetMessage/plNetMsgMembersList.h PRP/NetMessage/plNetMsgMembersList.cpp
+$(OBJDIR)plNetMsgMembersList.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgMembersList.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgMembersList.cpp -o $@
 
-$(OBJDIR)plNetMsgObject.o: PRP/NetMessage/plNetMsgObject.h PRP/NetMessage/plNetMsgObject.cpp
+$(OBJDIR)plNetMsgObject.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgObject.cpp -o $@
 
-$(OBJDIR)plNetMsgPlayerPage.o: PRP/NetMessage/plNetMsgPlayerPage.h PRP/NetMessage/plNetMsgPlayerPage.cpp
+$(OBJDIR)plNetMsgPlayerPage.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgPlayerPage.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgPlayerPage.cpp -o $@
 
-$(OBJDIR)plNetMsgRelevanceRegions.o: PRP/NetMessage/plNetMsgRelevanceRegions.h PRP/NetMessage/plNetMsgRelevanceRegions.cpp
+$(OBJDIR)plNetMsgRelevanceRegions.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgRelevanceRegions.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgRelevanceRegions.cpp -o $@
 
-$(OBJDIR)plNetMsgRoomsList.o: PRP/NetMessage/plNetMsgRoomsList.h PRP/NetMessage/plNetMsgRoomsList.cpp
+$(OBJDIR)plNetMsgRoomsList.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgRoomsList.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgRoomsList.cpp -o $@
 
-$(OBJDIR)plNetMsgSDLState.o: PRP/NetMessage/plNetMsgSDLState.h PRP/NetMessage/plNetMsgSDLState.cpp
+$(OBJDIR)plNetMsgSDLState.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgSDLState.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgSDLState.cpp -o $@
 
-$(OBJDIR)plNetMsgSharedState.o: PRP/NetMessage/plNetMsgSharedState.h PRP/NetMessage/plNetMsgSharedState.cpp
+$(OBJDIR)plNetMsgSharedState.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgSharedState.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgSharedState.cpp -o $@
 
-$(OBJDIR)plNetMsgStream.o: PRP/NetMessage/plNetMsgStream.h PRP/NetMessage/plNetMsgStream.cpp
+$(OBJDIR)plNetMsgStream.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgStream.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgStream.cpp -o $@
 
-$(OBJDIR)plNetMsgStreamedObject.o: PRP/NetMessage/plNetMsgStreamedObject.h PRP/NetMessage/plNetMsgStreamedObject.cpp
+$(OBJDIR)plNetMsgStreamedObject.o: $(PLSHEADERS) PRP/NetMessage/plNetMsgStreamedObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetMsgStreamedObject.cpp -o $@
 
-$(OBJDIR)plNetSharedState.o: PRP/NetMessage/plNetSharedState.h PRP/NetMessage/plNetSharedState.cpp
+$(OBJDIR)plNetSharedState.o: $(PLSHEADERS) PRP/NetMessage/plNetSharedState.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/NetMessage/plNetSharedState.cpp -o $@
 
-$(OBJDIR)plAudioInterface.o: PRP/Object/plAudioInterface.h PRP/Object/plAudioInterface.cpp
+$(OBJDIR)plAudioInterface.o: $(PLSHEADERS) PRP/Object/plAudioInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/plAudioInterface.cpp -o $@
 
-$(OBJDIR)plCoordinateInterface.o: PRP/Object/plCoordinateInterface.h PRP/Object/plCoordinateInterface.cpp
+$(OBJDIR)plCoordinateInterface.o: $(PLSHEADERS) PRP/Object/plCoordinateInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/plCoordinateInterface.cpp -o $@
 
-$(OBJDIR)plDrawInterface.o: PRP/Object/plDrawInterface.h PRP/Object/plDrawInterface.cpp
+$(OBJDIR)plDrawInterface.o: $(PLSHEADERS) PRP/Object/plDrawInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/plDrawInterface.cpp -o $@
 
-$(OBJDIR)plObjInterface.o: PRP/Object/plObjInterface.h PRP/Object/plObjInterface.cpp
+$(OBJDIR)plObjInterface.o: $(PLSHEADERS) PRP/Object/plObjInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/plObjInterface.cpp -o $@
 
-$(OBJDIR)plSceneObject.o: PRP/Object/plSceneObject.h PRP/Object/plSceneObject.cpp
+$(OBJDIR)plSceneObject.o: $(PLSHEADERS) PRP/Object/plSceneObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/plSceneObject.cpp -o $@
 
-$(OBJDIR)plSimulationInterface.o: PRP/Object/plSimulationInterface.h PRP/Object/plSimulationInterface.cpp
+$(OBJDIR)plSimulationInterface.o: $(PLSHEADERS) PRP/Object/plSimulationInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/plSimulationInterface.cpp -o $@
 
-$(OBJDIR)plSynchedObject.o: PRP/Object/plSynchedObject.h PRP/Object/plSynchedObject.cpp
+$(OBJDIR)plSynchedObject.o: $(PLSHEADERS) PRP/Object/plSynchedObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Object/plSynchedObject.cpp -o $@
 
-$(OBJDIR)plBoundInterface.o: PRP/Particle/plBoundInterface.h PRP/Particle/plBoundInterface.cpp
+$(OBJDIR)plBoundInterface.o: $(PLSHEADERS) PRP/Particle/plBoundInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Particle/plBoundInterface.cpp -o $@
 
-$(OBJDIR)plParticleEffect.o: PRP/Particle/plParticleEffect.h PRP/Particle/plParticleEffect.cpp
+$(OBJDIR)plParticleEffect.o: $(PLSHEADERS) PRP/Particle/plParticleEffect.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Particle/plParticleEffect.cpp -o $@
 
-$(OBJDIR)plParticleEmitter.o: PRP/Particle/plParticleEmitter.h PRP/Particle/plParticleEmitter.cpp
+$(OBJDIR)plParticleEmitter.o: $(PLSHEADERS) PRP/Particle/plParticleEmitter.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Particle/plParticleEmitter.cpp -o $@
 
-$(OBJDIR)plParticleGenerator.o: PRP/Particle/plParticleGenerator.h PRP/Particle/plParticleGenerator.cpp
+$(OBJDIR)plParticleGenerator.o: $(PLSHEADERS) PRP/Particle/plParticleGenerator.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Particle/plParticleGenerator.cpp -o $@
 
-$(OBJDIR)plParticleSystem.o: PRP/Particle/plParticleSystem.h PRP/Particle/plParticleSystem.cpp
+$(OBJDIR)plParticleSystem.o: $(PLSHEADERS) PRP/Particle/plParticleSystem.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Particle/plParticleSystem.cpp -o $@
 
-$(OBJDIR)plCollisionDetector.o: PRP/Physics/plCollisionDetector.h PRP/Physics/plCollisionDetector.cpp
+$(OBJDIR)plCollisionDetector.o: $(PLSHEADERS) PRP/Physics/plCollisionDetector.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plCollisionDetector.cpp -o $@
 
-$(OBJDIR)plDetectorModifier.o: PRP/Physics/plDetectorModifier.h PRP/Physics/plDetectorModifier.cpp
+$(OBJDIR)plDetectorModifier.o: $(PLSHEADERS) PRP/Physics/plDetectorModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plDetectorModifier.cpp -o $@
 
-$(OBJDIR)plGenericPhysical.o: PRP/Physics/plGenericPhysical.h PRP/Physics/plGenericPhysical.cpp
+$(OBJDIR)plGenericPhysical.o: $(PLSHEADERS) PRP/Physics/plGenericPhysical.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plGenericPhysical.cpp -o $@
 
-$(OBJDIR)plHKSubWorld.o: PRP/Physics/plHKSubWorld.h PRP/Physics/plHKSubWorld.cpp
+$(OBJDIR)plHKSubWorld.o: $(PLSHEADERS) PRP/Physics/plHKSubWorld.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plHKSubWorld.cpp -o $@
 
-$(OBJDIR)plObjectInVolumeDetector.o: PRP/Physics/plObjectInVolumeDetector.h PRP/Physics/plObjectInVolumeDetector.cpp
+$(OBJDIR)plObjectInVolumeDetector.o: $(PLSHEADERS) PRP/Physics/plObjectInVolumeDetector.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plObjectInVolumeDetector.cpp -o $@
 
-$(OBJDIR)plPhysical.o: PRP/Physics/plPhysical.h PRP/Physics/plPhysical.cpp
+$(OBJDIR)plPhysical.o: $(PLSHEADERS) PRP/Physics/plPhysical.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPhysical.cpp -o $@
 
-$(OBJDIR)plPhysicalSndGroup.o: PRP/Physics/plPhysicalSndGroup.h PRP/Physics/plPhysicalSndGroup.cpp
+$(OBJDIR)plPhysicalSndGroup.o: $(PLSHEADERS) PRP/Physics/plPhysicalSndGroup.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plPhysicalSndGroup.cpp -o $@
 
-$(OBJDIR)plVehicleModifier.o: PRP/Physics/plVehicleModifier.h PRP/Physics/plVehicleModifier.cpp
+$(OBJDIR)plVehicleModifier.o: $(PLSHEADERS) PRP/Physics/plVehicleModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Physics/plVehicleModifier.cpp -o $@
 
-$(OBJDIR)hsBounds.o: PRP/Region/hsBounds.h PRP/Region/hsBounds.cpp
+$(OBJDIR)hsBounds.o: $(PLSHEADERS) PRP/Region/hsBounds.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/hsBounds.cpp -o $@
 
-$(OBJDIR)plConvexVolume.o: PRP/Region/plConvexVolume.h PRP/Region/plConvexVolume.cpp
+$(OBJDIR)plConvexVolume.o: $(PLSHEADERS) PRP/Region/plConvexVolume.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plConvexVolume.cpp -o $@
 
-$(OBJDIR)plHardRegion.o: PRP/Region/plHardRegion.h PRP/Region/plHardRegion.cpp
+$(OBJDIR)plHardRegion.o: $(PLSHEADERS) PRP/Region/plHardRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plHardRegion.cpp -o $@
 
-$(OBJDIR)plHardRegionPlanes.o: PRP/Region/plHardRegionPlanes.h PRP/Region/plHardRegionPlanes.cpp
+$(OBJDIR)plHardRegionPlanes.o: $(PLSHEADERS) PRP/Region/plHardRegionPlanes.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plHardRegionPlanes.cpp -o $@
 
-$(OBJDIR)plRelevanceRegion.o: PRP/Region/plRelevanceRegion.h PRP/Region/plRelevanceRegion.cpp
+$(OBJDIR)plRelevanceRegion.o: $(PLSHEADERS) PRP/Region/plRelevanceRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plRelevanceRegion.cpp -o $@
 
-$(OBJDIR)plSimpleRegionSensor.o: PRP/Region/plSimpleRegionSensor.h PRP/Region/plSimpleRegionSensor.cpp
+$(OBJDIR)plSimpleRegionSensor.o: $(PLSHEADERS) PRP/Region/plSimpleRegionSensor.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plSimpleRegionSensor.cpp -o $@
 
-$(OBJDIR)plSoftVolume.o: PRP/Region/plSoftVolume.h PRP/Region/plSoftVolume.cpp
+$(OBJDIR)plSoftVolume.o: $(PLSHEADERS) PRP/Region/plSoftVolume.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plSoftVolume.cpp -o $@
 
-$(OBJDIR)plSwimRegion.o: PRP/Region/plSwimRegion.h PRP/Region/plSwimRegion.cpp
+$(OBJDIR)plSwimRegion.o: $(PLSHEADERS) PRP/Region/plSwimRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plSwimRegion.cpp -o $@
 
-$(OBJDIR)plVisRegion.o: PRP/Region/plVisRegion.h PRP/Region/plVisRegion.cpp
+$(OBJDIR)plVisRegion.o: $(PLSHEADERS) PRP/Region/plVisRegion.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plVisRegion.cpp -o $@
 
-$(OBJDIR)plVolumeIsect.o: PRP/Region/plVolumeIsect.h PRP/Region/plVolumeIsect.cpp
+$(OBJDIR)plVolumeIsect.o: $(PLSHEADERS) PRP/Region/plVolumeIsect.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Region/plVolumeIsect.cpp -o $@
 
-$(OBJDIR)plBitmap.o: PRP/Surface/plBitmap.h PRP/Surface/plBitmap.cpp
+$(OBJDIR)plBitmap.o: $(PLSHEADERS) PRP/Surface/plBitmap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plBitmap.cpp -o $@
 
-$(OBJDIR)plCubicEnvironmap.o: PRP/Surface/plCubicEnvironmap.h PRP/Surface/plCubicEnvironmap.cpp
+$(OBJDIR)plCubicEnvironmap.o: $(PLSHEADERS) PRP/Surface/plCubicEnvironmap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plCubicEnvironmap.cpp -o $@
 
-$(OBJDIR)plDistOpacityMod.o: PRP/Surface/plDistOpacityMod.h PRP/Surface/plDistOpacityMod.cpp
+$(OBJDIR)plDistOpacityMod.o: $(PLSHEADERS) PRP/Surface/plDistOpacityMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plDistOpacityMod.cpp -o $@
 
-$(OBJDIR)plDynaDecalMgr.o: PRP/Surface/plDynaDecalMgr.h PRP/Surface/plDynaDecalMgr.cpp
+$(OBJDIR)plDynaDecalMgr.o: $(PLSHEADERS) PRP/Surface/plDynaDecalMgr.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plDynaDecalMgr.cpp -o $@
 
-$(OBJDIR)plDynamicEnvMap.o: PRP/Surface/plDynamicEnvMap.h PRP/Surface/plDynamicEnvMap.cpp
+$(OBJDIR)plDynamicEnvMap.o: $(PLSHEADERS) PRP/Surface/plDynamicEnvMap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plDynamicEnvMap.cpp -o $@
 
-$(OBJDIR)plDynamicTextMap.o: PRP/Surface/plDynamicTextMap.h PRP/Surface/plDynamicTextMap.cpp
+$(OBJDIR)plDynamicTextMap.o: $(PLSHEADERS) PRP/Surface/plDynamicTextMap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plDynamicTextMap.cpp -o $@
 
-$(OBJDIR)plDynaRippleMgr.o: PRP/Surface/plDynaRippleMgr.h PRP/Surface/plDynaRippleMgr.cpp
+$(OBJDIR)plDynaRippleMgr.o: $(PLSHEADERS) PRP/Surface/plDynaRippleMgr.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plDynaRippleMgr.cpp -o $@
 
-$(OBJDIR)plFadeOpacityMod.o: PRP/Surface/plFadeOpacityMod.h PRP/Surface/plFadeOpacityMod.cpp
+$(OBJDIR)plFadeOpacityMod.o: $(PLSHEADERS) PRP/Surface/plFadeOpacityMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plFadeOpacityMod.cpp -o $@
 
-$(OBJDIR)plFixedWaterState6.o: PRP/Surface/plFixedWaterState6.h PRP/Surface/plFixedWaterState6.cpp
+$(OBJDIR)plFixedWaterState6.o: $(PLSHEADERS) PRP/Surface/plFixedWaterState6.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plFixedWaterState6.cpp -o $@
 
-$(OBJDIR)plFixedWaterState7.o: PRP/Surface/plFixedWaterState7.h PRP/Surface/plFixedWaterState7.cpp
+$(OBJDIR)plFixedWaterState7.o: $(PLSHEADERS) PRP/Surface/plFixedWaterState7.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plFixedWaterState7.cpp -o $@
 
-$(OBJDIR)plFont.o: PRP/Surface/plFont.h PRP/Surface/plFont.cpp
+$(OBJDIR)plFont.o: $(PLSHEADERS) PRP/Surface/plFont.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plFont.cpp -o $@
 
-$(OBJDIR)hsGMaterial.o: PRP/Surface/hsGMaterial.h PRP/Surface/hsGMaterial.cpp
+$(OBJDIR)hsGMaterial.o: $(PLSHEADERS) PRP/Surface/hsGMaterial.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/hsGMaterial.cpp -o $@
 
-$(OBJDIR)hsGMatState.o: PRP/Surface/hsGMatState.h PRP/Surface/hsGMatState.cpp
+$(OBJDIR)hsGMatState.o: $(PLSHEADERS) PRP/Surface/hsGMatState.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/hsGMatState.cpp -o $@
 
-$(OBJDIR)plGrassShaderMod.o: PRP/Surface/plGrassShaderMod.h PRP/Surface/plGrassShaderMod.cpp
+$(OBJDIR)plGrassShaderMod.o: $(PLSHEADERS) PRP/Surface/plGrassShaderMod.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plGrassShaderMod.cpp -o $@
 
-$(OBJDIR)plLayer.o: PRP/Surface/plLayer.h PRP/Surface/plLayer.cpp
+$(OBJDIR)plLayer.o: $(PLSHEADERS) PRP/Surface/plLayer.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plLayer.cpp -o $@
 
-$(OBJDIR)plLayerAnimation.o: PRP/Surface/plLayerAnimation.h PRP/Surface/plLayerAnimation.cpp
+$(OBJDIR)plLayerAnimation.o: $(PLSHEADERS) PRP/Surface/plLayerAnimation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plLayerAnimation.cpp -o $@
 
-$(OBJDIR)plLayerInterface.o: PRP/Surface/plLayerInterface.h PRP/Surface/plLayerInterface.cpp
+$(OBJDIR)plLayerInterface.o: $(PLSHEADERS) PRP/Surface/plLayerInterface.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plLayerInterface.cpp -o $@
 
-$(OBJDIR)plLayerMovie.o: PRP/Surface/plLayerMovie.h PRP/Surface/plLayerMovie.cpp
+$(OBJDIR)plLayerMovie.o: $(PLSHEADERS) PRP/Surface/plLayerMovie.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plLayerMovie.cpp -o $@
 
-$(OBJDIR)plMipmap.o: PRP/Surface/plMipmap.h PRP/Surface/plMipmap.cpp
+$(OBJDIR)plMipmap.o: $(PLSHEADERS) PRP/Surface/plMipmap.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plMipmap.cpp -o $@
 
-$(OBJDIR)plPrintShape.o: PRP/Surface/plPrintShape.h PRP/Surface/plPrintShape.cpp
+$(OBJDIR)plPrintShape.o: $(PLSHEADERS) PRP/Surface/plPrintShape.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plPrintShape.cpp -o $@
 
-$(OBJDIR)plRenderTarget.o: PRP/Surface/plRenderTarget.h PRP/Surface/plRenderTarget.cpp
+$(OBJDIR)plRenderTarget.o: $(PLSHEADERS) PRP/Surface/plRenderTarget.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plRenderTarget.cpp -o $@
 
-$(OBJDIR)plShader.o: PRP/Surface/plShader.h PRP/Surface/plShader.cpp
+$(OBJDIR)plShader.o: $(PLSHEADERS) PRP/Surface/plShader.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plShader.cpp -o $@
 
-$(OBJDIR)plWaveSet.o: PRP/Surface/plWaveSet.h PRP/Surface/plWaveSet.cpp
+$(OBJDIR)plWaveSet.o: $(PLSHEADERS) PRP/Surface/plWaveSet.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Surface/plWaveSet.cpp -o $@

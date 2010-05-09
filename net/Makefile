@@ -20,6 +20,24 @@ PLSOBJ=\
 	$(OBJDIR)pnGateKeeperClient.o \
 	$(OBJDIR)pnFileClient.o
 
+PLSHEADERS=\
+	pnClient.h \
+	pnNetMsg.h \
+	pnSocket.h \
+	Protocol.h \
+	auth/AuthMessages.h \
+	auth/pnAuthClient.h \
+	auth/pnVaultNode.h \
+	crypt/pnBigInteger.h \
+	crypt/pnRC4.h \
+	crypt/pnSha1.h \
+	file/FileMessages.h \
+	file/pnFileClient.h \
+	game/GameMessages.h \
+	game/pnGameClient.h \
+	gate/GateKeeperMessages.h \
+	gate/pnGateKeeperClient.h
+
 PLSLIB=libHSPlasmaNet.$(LIBSUFFIX)
 LIBDIR=../lib
 
@@ -34,8 +52,13 @@ ifneq ($(LIBSUFFIX),dylib)
 	ldconfig
 endif
 
+install-dev: install
+	mkdir -p $(PREFIX)/include/libhsplasmanet
+	cp --parents $(PLSHEADERS) $(PREFIX)/include/libhsplasmanet
+
 uninstall:
 	rm -f $(PREFIX)/lib/$(PLSLIB)
+	rm -rf $(PREFIX)/include/libhsplasmanet
 
 clean:
 	rm -f $(PLSOBJ)
@@ -44,44 +67,44 @@ distclean:
 	rm -f $(LIBDIR)/$(PLSLIB)
 
 # HSPlasma Net Lib
-$(OBJDIR)pnClient.o: pnClient.h pnClient.cpp
+$(OBJDIR)pnClient.o: $(PLSHEADERS) pnClient.cpp
 	$(CXX) $(CXXFLAGS) -c pnClient.cpp -o $@
 
-$(OBJDIR)pnNetMsg.o: pnNetMsg.h pnNetMsg.cpp
+$(OBJDIR)pnNetMsg.o: $(PLSHEADERS) pnNetMsg.cpp
 	$(CXX) $(CXXFLAGS) -c pnNetMsg.cpp -o $@
 
-$(OBJDIR)pnSocket.o: pnSocket.h pnSocket.cpp
+$(OBJDIR)pnSocket.o: $(PLSHEADERS) pnSocket.cpp
 	$(CXX) $(CXXFLAGS) -c pnSocket.cpp -o $@
 
-$(OBJDIR)pnBigInteger.o: crypt/pnBigInteger.h crypt/pnBigInteger.cpp
+$(OBJDIR)pnBigInteger.o: $(PLSHEADERS) crypt/pnBigInteger.cpp
 	$(CXX) $(CXXFLAGS) -c crypt/pnBigInteger.cpp -o $@
 
-$(OBJDIR)pnRC4.o: crypt/pnRC4.h crypt/pnRC4.cpp
+$(OBJDIR)pnRC4.o: $(PLSHEADERS) crypt/pnRC4.cpp
 	$(CXX) $(CXXFLAGS) -c crypt/pnRC4.cpp -o $@
 
-$(OBJDIR)pnSha1.o: crypt/pnSha1.h crypt/pnSha1.cpp
+$(OBJDIR)pnSha1.o: $(PLSHEADERS) crypt/pnSha1.cpp
 	$(CXX) $(CXXFLAGS) -c crypt/pnSha1.cpp -o $@
 
-$(OBJDIR)AuthMessages.o: auth/AuthMessages.h auth/AuthMessages.cpp
+$(OBJDIR)AuthMessages.o: $(PLSHEADERS) auth/AuthMessages.cpp
 	$(CXX) $(CXXFLAGS) -c auth/AuthMessages.cpp -o $@
 
-$(OBJDIR)pnAuthClient.o: auth/pnAuthClient.h auth/pnAuthClient.cpp
+$(OBJDIR)pnAuthClient.o: $(PLSHEADERS) auth/pnAuthClient.cpp
 	$(CXX) $(CXXFLAGS) -c auth/pnAuthClient.cpp -o $@
 
-$(OBJDIR)pnVaultNode.o: auth/pnVaultNode.h auth/pnVaultNode.cpp
+$(OBJDIR)pnVaultNode.o: $(PLSHEADERS) auth/pnVaultNode.cpp
 	$(CXX) $(CXXFLAGS) -c auth/pnVaultNode.cpp -o $@
 
-$(OBJDIR)GameMessages.o: game/GameMessages.h game/GameMessages.cpp
+$(OBJDIR)GameMessages.o: $(PLSHEADERS) game/GameMessages.cpp
 	$(CXX) $(CXXFLAGS) -c game/GameMessages.cpp -o $@
 
-$(OBJDIR)pnGameClient.o: game/pnGameClient.h game/pnGameClient.cpp
+$(OBJDIR)pnGameClient.o: $(PLSHEADERS) game/pnGameClient.cpp
 	$(CXX) $(CXXFLAGS) -c game/pnGameClient.cpp -o $@
 
-$(OBJDIR)GateKeeperMessages.o: gate/GateKeeperMessages.h gate/GateKeeperMessages.cpp
+$(OBJDIR)GateKeeperMessages.o: $(PLSHEADERS) gate/GateKeeperMessages.cpp
 	$(CXX) $(CXXFLAGS) -c gate/GateKeeperMessages.cpp -o $@
 
-$(OBJDIR)pnGateKeeperClient.o: gate/pnGateKeeperClient.h gate/pnGateKeeperClient.cpp
+$(OBJDIR)pnGateKeeperClient.o: $(PLSHEADERS) gate/pnGateKeeperClient.cpp
 	$(CXX) $(CXXFLAGS) -c gate/pnGateKeeperClient.cpp -o $@
 
-$(OBJDIR)pnFileClient.o: file/pnFileClient.h file/pnFileClient.cpp
+$(OBJDIR)pnFileClient.o: $(PLSHEADERS) file/pnFileClient.cpp
 	$(CXX) $(CXXFLAGS) -c file/pnFileClient.cpp -o $@

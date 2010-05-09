@@ -95,6 +95,12 @@ ifneq ($(MAKE_TOOLS),no)
 	cp bin/eoaedit bin/uruedit $(PREFIX)/bin/
 endif
 
+install-dev:
+	(cd core ; $(MAKE) install-dev)
+ifneq ($(MAKE_NET),no)
+	(cd net ; $(MAKE) install-dev)
+endif
+
 uninstall:
 	(cd core ; $(MAKE) uninstall)
 ifneq ($(MAKE_NET),no)
