@@ -301,6 +301,7 @@ void plResManager::UnloadAge(const plString& name) {
     std::vector<plPageInfo*>::iterator pi = pages.begin();
     while (pi != pages.end()) {
         if ((*pi)->getAge() == name) {
+            keys.delAll((*pi)->getLocation());
             delete *pi;
             pi = pages.erase(pi);
         } else {
