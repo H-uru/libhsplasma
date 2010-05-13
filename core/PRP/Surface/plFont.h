@@ -89,6 +89,9 @@ public:
 public:
     const plCharacter& operator[](size_t idx) const { return fCharacters[idx]; }
     plCharacter& operator[](size_t idx) { return fCharacters[idx]; }
+    const plCharacter& getCharacter(size_t idx) const { return fCharacters[idx]; }
+    plCharacter& getCharacter(size_t idx) { return fCharacters[idx]; }
+    const unsigned char* getGlyph(size_t idx) const { return fBmpData + fCharacters[idx].getOffset(); }
     void setNumCharacters(size_t count) { fCharacters.setSize(count); }
 
     const plString& getName() const { return fFace; }
