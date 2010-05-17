@@ -215,6 +215,7 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
             default:
                 prc->startTag("Incomplete");
                 prc->writeParam("TypeID", fAllVars[i]->getDescriptor()->getType());
+                prc->endTag(true);
             }
         }
 
