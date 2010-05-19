@@ -207,6 +207,13 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
                     prc->endTag(true);
                 }
                 break;
+            case plVarDescriptor::kVector3:
+            case plVarDescriptor::kPoint3:
+                prc->startTag("Vector3");
+                prc->endTag();
+                ((plSimpleStateVariable*)fAllVars[i])->Vector(j).prcWrite(prc);
+                prc->closeTag();
+                break;
             case plVarDescriptor::kStateDescriptor:
                 prc->startTag("SDLRecord");
                 prc->writeParam("Value", fAllVars[i]->getDescriptor()->getStateDescType());
