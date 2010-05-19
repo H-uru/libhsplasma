@@ -28,6 +28,9 @@ protected:
 public:
     plAvatarInputStateMsg();
 
+    hsUint16 getState() const { return fState; }
+    void setState(hsUint16 state) { fState = state; }
+
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
