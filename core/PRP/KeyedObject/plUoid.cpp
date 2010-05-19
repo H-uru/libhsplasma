@@ -43,13 +43,20 @@ plUoid& plUoid::operator=(const plUoid& other) {
 
 bool plUoid::operator==(const plUoid& other) const {
     return (location == other.location) && (classType == other.classType) &&
-           (objName == other.objName);
+           (objName == other.objName) && (clonePlayerID == other.clonePlayerID) &&
+           (cloneID == other.cloneID);
 }
 
 bool plUoid::operator<(const plUoid& other) const {
     if (location == other.location) {
-        if (classType == other.classType)
+        if (classType == other.classType) {
+            if (objName == other.objName) {
+                if (clonePlayerID == other.clonePlayerID)
+                    return cloneID < other.cloneID;
+                return clonePlayerID < other.clonePlayerID;
+            }
             return objName < other.objName;
+        }
         return classType < other.classType;
     }
     return location < other.location;
