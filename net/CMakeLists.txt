@@ -76,6 +76,10 @@ add_library(HSPlasmaNet SHARED
 )
 target_link_libraries(HSPlasmaNet HSPlasma ${OPENSSL_LIBRARIES})
 
+if(WIN32)
+  target_link_libraries(HSPlasmaNet ws2_32)
+endif(WIN32)
+
 # Package installation
 install(TARGETS HSPlasmaNet
         EXPORT HSPlasma-targets
