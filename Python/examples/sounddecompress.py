@@ -102,6 +102,8 @@ def getDecompressQueue(datadir):
                 ##  which are not set to StreamCompressed
                 for pageNum in range(0, age.getNumPages()):
                     page = plResMgr.FindPage(age.getPageLoc(pageNum, plResMgr.getVer()))
+                    if (page == None):
+                        raise Exception("Unable to completely load age "+age.name+": Can't find page "+str(age.getPageLoc(pageNum, plResMgr.getVer())))
                     if PyHSPlasma.plFactory.kSoundBuffer in plResMgr.getTypes(page.location):
                         for key in plResMgr.getKeys(page.location, PyHSPlasma.plFactory.kSoundBuffer):	            
                             soundBuffer = PyHSPlasma.plSoundBuffer.Convert(key.object)
