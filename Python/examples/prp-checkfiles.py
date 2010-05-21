@@ -51,7 +51,13 @@ for files in args:
         if file.lower().endswith(".prp"):
             rm.UnloadPage(rm.ReadPage(file).location)
         elif file.lower().endswith(".age"):
-            rm.UnloadAge(rm.ReadAge(file, True).name)
+            age = rm.ReadAge(file, True) # readPages=True
+            for pageNum in range(0, age.getNumPages()):
+                loc = age.getPageLoc(pageNum, rm.getVer())
+                page = rm.FindPage(loc)
+                if (page == None):
+                    raise Exception("Unable to completely load age "+age.name+": Can't find page "+str(loc))
+            rm.UnloadAge(age.name)
         else:
             print "Error: Unknown file type!";
 overprint("Done!")
