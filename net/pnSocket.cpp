@@ -34,6 +34,10 @@ static int sockError();
 
    static int sockError()
    { return WSAGetLastError(); }
+ 
+#   ifndef AI_ADDRCONFIG
+#       define AI_ADDRCONFIG 0x0020
+#   endif
 
 #  define ECONNRESET WSAECONNRESET
 #else

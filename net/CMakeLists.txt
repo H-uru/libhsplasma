@@ -66,6 +66,10 @@ set(PN_HDRS
     pnSocket.h
 )
 
+if(WIN32)
+  add_definitions("-DWINVER=0x0501")
+endif(WIN32)
+
 add_library(HSPlasmaNet SHARED
             ${PN_AUTH_SRCS}  ${PN_AUTH_HDRS}
             ${PN_CRYPT_SRCS} ${PN_CRYPT_HDRS}
