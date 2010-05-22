@@ -17,6 +17,10 @@
 #include "plJPEG.h"
 #include "Debug/plDebug.h"
 
+#ifndef JPEG_TRUE
+typedef int JPEG_boolean;
+#endif
+
 extern "C" {
 #include <jerror.h>
 }
