@@ -17,7 +17,9 @@
 #include "plJPEG.h"
 #include "Debug/plDebug.h"
 
-#ifndef JPEG_TRUE
+#if defined(HAVE_BOOLEAN)
+# define JPEG_boolean boolean
+#else
 typedef int JPEG_boolean;
 #endif
 
