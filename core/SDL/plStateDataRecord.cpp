@@ -216,9 +216,10 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
                 break;
             case plVarDescriptor::kStateDescriptor:
                 prc->startTag("SDLRecord");
-                prc->writeParam("Value", fAllVars[i]->getDescriptor()->getStateDescType());
+                prc->writeParam("Type", fAllVars[i]->getDescriptor()->getStateDescType());
+                prc->writeParam("Version", fAllVars[i]->getDescriptor()->getStateDescVer());
                 prc->endTag();
-                fAllVars[i]->getDescriptor()->getStateDesc()->prcWrite(prc);
+                ((plSDStateVariable*)fAllVars[i])->Record(j)->prcWrite(prc);
                 prc->closeTag();
                 break;
             default:
