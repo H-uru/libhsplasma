@@ -211,6 +211,14 @@ void plStateDescriptor::write(hsStream* S) {
     }
 }
 
+void plStateDescriptor::prcWrite(pfPrcHelper* prc) {
+    for (size_t i=0; i<fVariables.getSize(); i++) {
+        prc->startTag("Variable");
+        prc->writeParam("Name", fVariables[i]->getName());
+        prc->endTag(true);
+    }
+}
+
 plVarDescriptor* plStateDescriptor::get(const plString& name) {
     for (size_t i=0; i<fVariables.getSize(); i++)
         if (fVariables[i]->getName() == name)

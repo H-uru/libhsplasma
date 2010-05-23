@@ -20,7 +20,7 @@
 #include "plSDL.h"
 
 /* Note: for plStateDescriptor::fVersion, -1 on a search from plSDLMgr means
- * "get the latest version", whereas -1 on a returned plStateDescritpor means
+ * "get the latest version", whereas -1 on a returned plStateDescriptor means
  * "this descriptor is invalid".  Outside of these classes, it should only be
  * necessary to specify the version when needed in plSDLMgr, and to use the
  * isValid() function on returned plStateDescriptor objects.
@@ -101,6 +101,7 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
+    void prcWrite(pfPrcHelper* prc);
 
 public:
     plString getName() const { return fName; }

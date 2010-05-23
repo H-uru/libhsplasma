@@ -217,7 +217,9 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
             case plVarDescriptor::kStateDescriptor:
                 prc->startTag("SDLRecord");
                 prc->writeParam("Value", fAllVars[i]->getDescriptor()->getStateDescType());
-                prc->endTag(true);
+                prc->endTag();
+                fAllVars[i]->getDescriptor()->getStateDesc()->prcWrite(prc);
+                prc->closeTag();
                 break;
             default:
                 prc->startTag("Incomplete");
