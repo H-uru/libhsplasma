@@ -22,6 +22,7 @@
 #include "Util/hsBitVector.h"
 #include "PRP/Misc/plFogEnvironment.h"
 #include "PRP/Light/plLightInfo.h"
+#include "plGeometrySpan.h"
 
 DllClass plSpan {
 public:
@@ -60,6 +61,9 @@ public:
         kParticleSpan = 0x8,
         kParticleSet = 0x10
     };
+
+public:
+    static hsUint32 deswizzleGeoFlags(hsUint32 flags);
 
 protected:
     unsigned short fSubType;

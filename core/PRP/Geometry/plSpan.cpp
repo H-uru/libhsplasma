@@ -16,6 +16,31 @@
 
 #include "plSpan.h"
 
+static hsUint32 plSpan::deswizzleGeoFlags(hsUint32 flags) {
+    hsUint32 props = (flags & plGeoemtrySpan::kPropRunTimeLight) << 5;
+
+    if (flags & plGeometrySpan::kPropNoShadowCast)
+        props |= kPropNoShadowCast;
+    if (flags & plGeometrySpan::kPropNoShadow)
+        props |= kPropNoShadow;
+    if (flags & plGeometrySpan::kPropForceShadow)
+        props |= kPropForceShadow;
+    if (flags & plGeometrySpan::kPropReverseSort)
+        props |= kPropReverseSort;
+    if (flags & plGeometrySpan::kPartialSort)
+        props |= kPartialSort;
+    if (flags & plGeometrySpan::kLiteVtxPreshaded)
+        props |= kLiteVtxPreshaded;
+    if (flags & plGeometrySpan::kLiteVtxNonPreshaded)
+        props |= kLiteVtxNonPreshaded;
+    if (flags & plGeometrySpan::kWaterHeight)
+        props |= kWaterHeight;
+    if (flags & plGeometrySpan::kVisLOS)
+        props |= kVisLOS;
+
+    return props;
+}
+
 plSpan::plSpan()
       : fSubType(kVertexSpan), fMaterialIdx(0), fBaseMatrix(0), fNumMatrices(0),
         fLocalUVWChans(0), fMaxBoneIdx(0), fPenBoneIdx(0), fProps(0),
