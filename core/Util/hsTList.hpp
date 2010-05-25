@@ -17,6 +17,10 @@
 #ifndef _HSTLIST_H
 #define _HSTLIST_H
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4251)
+#endif
+
 #include "Debug/hsExceptions.h"
 
 template<typename T>
