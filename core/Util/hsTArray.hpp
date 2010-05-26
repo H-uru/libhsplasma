@@ -17,6 +17,10 @@
 #ifndef _HSTARRAY_H
 #define _HSTARRAY_H
 
+#ifdef _MSC_VER
+#pragma warning(disable: 4251)
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include "Debug/hsExceptions.h"
