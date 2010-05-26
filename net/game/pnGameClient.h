@@ -46,7 +46,7 @@ public:
     void sendPingRequest(hsUint32 pingTimeMs);
     hsUint32 sendJoinAgeRequest(hsUint32 ageMcpId, const plUuid& accountUuid,
                 hsUint32 playerId);
-    void propagateMessage(plCreatable* msg);
+    virtual void propagateMessage(plCreatable* msg);
     // TODO: GameMgrMsg
 
     /* Incoming Protocol - To be implemented by subclasses */
