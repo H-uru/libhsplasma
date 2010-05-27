@@ -18,9 +18,12 @@
 #include <string.h>
 #include "3rdPartyLibs/rijndael.h"
 
-static const unsigned int uruKey[4] = { 0x6c0a5452, 0x03827d0f, 0x3a170b92, 0x16db7fc2 };
-static const unsigned char eoaKey[16] = { 240, 77, 37, 51, 172, 93, 39, 90,
-                                          158, 24, 120, 62, 101, 44, 72, 8 };
+static const unsigned int uruKey[4] = { 0x6c0a5452, 0x03827d0f,
+                                        0x3a170b92, 0x16db7fc2 };
+static const unsigned char eoaKey[16] = {
+                                          240, 77, 37, 51, 172, 93, 39, 90,
+                                          158, 24, 120, 62, 101, 44, 72, 8
+                                        };
 
 static const char* uruMagic = "whatdoyousee";
 static const char* uruMagic2 = "BriceIsSmart";
@@ -29,16 +32,28 @@ static const int eoaMagic = 0x0D874288;
 
 const unsigned int* plEncryptedStream::DefaultKey() { return uruKey; }
 
-plEncryptedStream::plEncryptedStream(PlasmaVer pv) : hsFileStream(pv) {
+plEncryptedStream::plEncryptedStream() {
     eKey[0] = uruKey[0];
     eKey[1] = uruKey[1];
     eKey[2] = uruKey[2];
     eKey[3] = uruKey[3];
 }
 
+plEncryptedStream::plEncryptedStream(hsStream* S) {
+    eKey[0] = uruKey[0];
+    eKey[1] = uruKey[1];
+    eKey[2] = uruKey[2];
+    eKey[3] = uruKey[3];
+
+    openRead(S);
+    base = S;
+
+    setVer(base->getVer());
+}
+
 plEncryptedStream::~plEncryptedStream() {
-    if (F != NULL)
-        close();
+    close();
+    delete base;
 }
 
 void plEncryptedStream::TeaDecipher(unsigned int* buf) {
@@ -134,15 +149,18 @@ void plEncryptedStream::DroidEncipher(unsigned int* buf, unsigned int num) {
 }
 
 void plEncryptedStream::CryptFlush() {
+    if (base == NULL)
+        throw hsBadParamException(__FILE__, __LINE__);
+
     if (eType == kEncAES) {
         AesEncipher(LBuffer, 16);
-        fwrite(LBuffer, 16, 1, F);
+        base->write(16, LBuffer);
     } else if (eType == kEncDroid) {
         DroidEncipher((unsigned int*)&LBuffer[0], 2);
-        fwrite(LBuffer, 8, 1, F);
+        base->write(8, LBuffer);
     } else {
         TeaEncipher((unsigned int*)&LBuffer[0]);
-        fwrite(LBuffer, 8, 1, F);
+        base->write(8, LBuffer);
     }
     memset(LBuffer, 0, 16);
 }
@@ -173,81 +191,96 @@ bool plEncryptedStream::IsFileEncrypted(const char* file) {
 }
 
 const char* EncrErr = "File is not encrypted";
+
 bool plEncryptedStream::open(const char* file, FileMode mode, EncryptionType type) {
-    if (!hsFileStream::open(file, mode)) return false;
+    base = new hsFileStream();
+    ((hsFileStream*)base)->open(file, mode);
+
+    if (mode == fmRead || mode == fmReadWrite) {
+        openRead(base);
+    } else if (mode == fmWrite || mode == fmCreate) {
+        openWrite(base, type);
+    } else {
+        throw hsBadParamException(__FILE__, __LINE__);
+    }
+}
+
+bool plEncryptedStream::openRead(hsStream* S) {
+    setVer(S->getVer());
+    base = S;
+
+    unsigned int sz = base->size();
+    if (sz < 8)
+        throw hsFileReadException(__FILE__, __LINE__, EncrErr);
+    int magicN = 0;
+    base->read(sizeof(magicN), &magicN);
+    if (magicN == eoaMagic) {
+        eType = kEncAES;
+        base->read(sizeof(dataSize), &dataSize);
+    } else {
+        base->rewind();
+        char magicS[12];
+        base->read(12, magicS);
+        if (strncmp(magicS, uruMagic, 12) == 0 ||
+            strncmp(magicS, uruMagic2, 12) == 0) {
+            eType = kEncXtea;
+            base->read(sizeof(dataSize), &dataSize);
+        } else if (strncmp(magicS, liveMagic, 12) == 0) {
+            eType = kEncDroid;
+            base->read(sizeof(dataSize), &dataSize);
+        } else {
+            throw hsFileReadException(__FILE__, __LINE__, EncrErr);
+        }
+    }
+    dataPos = 0;
+    return true;
+}
+
+bool plEncryptedStream::openWrite(hsStream* S, EncryptionType type) {
+    setVer(S->getVer());
+    base = S;
     eType = type;
 
     if (eType == kEncNone)
         throw hsBadParamException(__FILE__, __LINE__);
 
-    if (mode == fmRead || mode == fmReadWrite) {
-        fseek(F, 0, SEEK_END);
-        unsigned int sz = ftell(F);
-        fseek(F, 0, SEEK_SET);
-        if (sz < 8) throw hsFileReadException(__FILE__, __LINE__, EncrErr);
-        int magicN = 0;
-        fread(&magicN, sizeof(magicN), 1, F);
-        if (magicN == eoaMagic) {
+    if (eType == kEncAuto) {
+        if (getVer() == pvUnknown)
+            throw hsBadVersionException(__FILE__, __LINE__);
+        else if (getVer() < pvLive)
+            eType = kEncXtea;
+        else if (getVer() > pvLive)
             eType = kEncAES;
-            fread(&dataSize, sizeof(dataSize), 1, F);
-        } else {
-            fseek(F, 0, SEEK_SET);
-            char magicS[12];
-            fread(magicS, 1, 12, F);
-            if (strncmp(magicS, uruMagic, 12) == 0 ||
-                strncmp(magicS, uruMagic2, 12) == 0) {
-                eType = kEncXtea;
-                fread(&dataSize, sizeof(dataSize), 1, F);
-            } else if (strncmp(magicS, liveMagic, 12) == 0) {
-                eType = kEncDroid;
-                fread(&dataSize, sizeof(dataSize), 1, F);
-            } else {
-                throw hsFileReadException(__FILE__, __LINE__, EncrErr);
-            }
-        }
-    } else {
-        if (eType == kEncAuto) {
-            if (getVer() == pvUnknown)
-                throw hsBadVersionException(__FILE__, __LINE__);
-            else if (getVer() < pvLive)
-                eType = kEncXtea;
-            else if (getVer() > pvLive)
-                eType = kEncAES;
-            else
-                eType = kEncDroid;
-        }
-        // Skip header info for now
-        memset(LBuffer, 0, 16);
-        if (eType == kEncAES)
-            fwrite(LBuffer, 8, 1, F);
         else
-            fwrite(LBuffer, 16, 1, F);
-        dataSize = 0;
+            eType = kEncDroid;
     }
-
+    // Skip header info for now
+    memset(LBuffer, 0, 16);
+    if (eType == kEncAES)
+        base->write(8, LBuffer);
+    else
+        base->write(16, LBuffer);
+    dataSize = 0;
     dataPos = 0;
     return true;
 }
 
 void plEncryptedStream::close() {
-    if (fm == fmWrite || fm == fmCreate) {
-        size_t szInc = (eType == kEncAES ? 16 : 8);
-        if ((dataPos % szInc) != 0)
-            CryptFlush();
+    size_t szInc = (eType == kEncAES ? 16 : 8);
+    if ((dataPos % szInc) != 0)
+        CryptFlush();
 
-        // Write header info
-        fseek(F, 0, SEEK_SET);
-        if (eType == kEncAES)
-            fwrite(&eoaMagic, sizeof(eoaMagic), 1, F);
-        else if (eType == kEncDroid)
-            fwrite(liveMagic, 12, 1, F);
-        else
-            fwrite(uruMagic, 12, 1, F);
-        fwrite(&dataSize, sizeof(dataSize), 1, F);
-    }
-
-    hsFileStream::close();
+    // Write header info
+    base->rewind();
+    if (eType == kEncAES)
+        base->write(sizeof(eoaMagic), &eoaMagic);
+    else if (eType == kEncDroid)
+        base->write(12, liveMagic);
+    else
+        base->write(12, uruMagic);
+    base->write(sizeof(dataSize), &dataSize);
 }
+
 
 void plEncryptedStream::setKey(unsigned int* keys) {
     eKey[0] = keys[0];
@@ -274,7 +307,7 @@ void plEncryptedStream::skip(hsInt32 count) {
 }
 
 void plEncryptedStream::rewind() {
-    fseek(F, (eType == kEncAES ? 8 : 16), SEEK_SET);
+    base->seek(eType == kEncAES ? 8 : 16);
     dataPos = 0;
 }
 
@@ -288,13 +321,13 @@ size_t plEncryptedStream::read(size_t size, void* buf) {
         if (lp == 0) {
             // Advance the buffer
             if (eType == kEncAES) {
-                fread(LBuffer, 16, 1, F);
+                base->read(16, LBuffer);
                 AesDecipher(LBuffer, 16);
             } else if (eType == kEncDroid) {
-                fread(LBuffer, 8, 1, F);
+                base->read(8, LBuffer);
                 DroidDecipher((unsigned int*)&LBuffer[0], 2);
             } else {
-                fread(LBuffer, 8, 1, F);
+                base->read(8, LBuffer);
                 TeaDecipher((unsigned int*)&LBuffer[0]);
             }
         }

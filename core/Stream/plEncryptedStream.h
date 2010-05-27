@@ -19,7 +19,7 @@
 
 #include "hsStream.h"
 
-DllClass plEncryptedStream : public hsFileStream {
+DllClass plEncryptedStream : public hsStream {
 public:
     enum EncryptionType { kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto };
 
@@ -30,6 +30,7 @@ private:
     unsigned int dataSize, dataPos;
     unsigned int eKey[4];
     EncryptionType eType;
+    hsStream* base;
 
 protected:
     void TeaDecipher(unsigned int* buf);
@@ -41,21 +42,26 @@ protected:
     void CryptFlush();
 
 public:
-    plEncryptedStream(PlasmaVer pv = pvUnknown);
+    plEncryptedStream();
+    plEncryptedStream(hsStream* S);
     virtual ~plEncryptedStream();
 
-    virtual bool open(const char* file, FileMode mode, EncryptionType type);
-    virtual void close();
+    bool open(const char* file, FileMode mode, EncryptionType type);
+    bool openRead(hsStream* S);
+    bool openWrite(hsStream* S, EncryptionType type);
+    void close();
     void setKey(unsigned int* keys);
     EncryptionType getEncType() const { return eType; }
 
     virtual hsUint32 size() const { return dataSize; }
     virtual hsUint32 pos() const { return dataPos; }
     virtual bool eof() const { return dataPos >= dataSize; }
-
-    virtual void seek(hsUint32 pos);  // Less efficient than skip...
+    
+    virtual void seek(hsUint32 pos);
     virtual void skip(hsInt32 count);
+    virtual void fastForward() { base->fastForward(); }
     virtual void rewind();
+    virtual void flush() { base->flush(); }
 
     virtual size_t read(size_t size, void* buf);
     virtual size_t write(size_t size, const void* buf);
@@ -63,4 +69,5 @@ public:
     static bool IsFileEncrypted(const char* file);
 };
 
-#endif
+#endif    
+
