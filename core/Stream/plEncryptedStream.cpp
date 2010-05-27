@@ -195,19 +195,24 @@ const char* EncrErr = "File is not encrypted";
 bool plEncryptedStream::open(const char* file, FileMode mode, EncryptionType type) {
     base = new hsFileStream();
     ((hsFileStream*)base)->open(file, mode);
+    bool ret;
 
     if (mode == fmRead || mode == fmReadWrite) {
-        openRead(base);
+        ret = openRead(base);
     } else if (mode == fmWrite || mode == fmCreate) {
-        openWrite(base, type);
+        ret = openWrite(base, type);
     } else {
         throw hsBadParamException(__FILE__, __LINE__);
     }
+
+    this->mode = mode;
+    return ret;
 }
 
 bool plEncryptedStream::openRead(hsStream* S) {
     setVer(S->getVer());
     base = S;
+    mode = fmRead;
 
     unsigned int sz = base->size();
     if (sz < 8)
@@ -240,6 +245,7 @@ bool plEncryptedStream::openWrite(hsStream* S, EncryptionType type) {
     setVer(S->getVer());
     base = S;
     eType = type;
+    mode = fmCreate;
 
     if (eType == kEncNone)
         throw hsBadParamException(__FILE__, __LINE__);
@@ -266,19 +272,22 @@ bool plEncryptedStream::openWrite(hsStream* S, EncryptionType type) {
 }
 
 void plEncryptedStream::close() {
-    size_t szInc = (eType == kEncAES ? 16 : 8);
-    if ((dataPos % szInc) != 0)
-        CryptFlush();
 
-    // Write header info
-    base->rewind();
-    if (eType == kEncAES)
-        base->write(sizeof(eoaMagic), &eoaMagic);
-    else if (eType == kEncDroid)
-        base->write(12, liveMagic);
-    else
-        base->write(12, uruMagic);
-    base->write(sizeof(dataSize), &dataSize);
+    if (mode == fmWrite || mode == fmCreate) {
+        size_t szInc = (eType == kEncAES ? 16 : 8);
+        if ((dataPos % szInc) != 0)
+            CryptFlush();
+
+        // Write header info
+        base->rewind();
+        if (eType == kEncAES)
+            base->write(sizeof(eoaMagic), &eoaMagic);
+        else if (eType == kEncDroid)
+            base->write(12, liveMagic);
+        else
+            base->write(12, uruMagic);
+        base->write(sizeof(dataSize), &dataSize);
+    }
 }
 
 

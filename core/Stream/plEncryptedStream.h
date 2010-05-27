@@ -31,6 +31,7 @@ private:
     unsigned int eKey[4];
     EncryptionType eType;
     hsStream* base;
+    FileMode mode;
 
 protected:
     void TeaDecipher(unsigned int* buf);
