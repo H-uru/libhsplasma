@@ -41,6 +41,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getHither() const { return fHither; }
+    float getYon() const { return fYon; }
+    float getFovX() const { return fFovX; }
+    float getFovY() const { return fFovY; }
+    plKey getNodeKey() const { return fNodeKey; }
+    hsMatrix44 getDefaultW2C() const { return fDefaultW2C; }
+    hsMatrix44 getDefaultC2W() const { return fDefaultC2W; }
 };
 
 #endif
