@@ -230,6 +230,32 @@ void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
+void hsBounds3Ext::unalign() {
+    fCorner = fMins;
+    fExtFlags = 0;
+
+    float x = fMaxs.X - fMins.X;
+    if (x < 0.00001) {
+        fExtFlags |= kAxisZeroZero;
+        x = 1.0;
+    }
+    fAxes[0] = hsVector3(x, 0.0, 0.0);
+
+    float y = fMaxs.Y - fMins.Y;
+    if (y < 0.00001) {
+        fExtFlags |= kAxisOneZero;
+        y = 1.0;
+    }
+    fAxes[1] = hsVector3(0.0, y, 0.0);
+
+    float z = fMaxs.Z - fMins.Z;
+    if (z < 0.00001) {
+        fExtFlags |= kAxisTwoZero;
+        z = 1.0;
+    }
+    fAxes[2] = hsVector3(0.0, 0.0, z);
+}
+
 
 /* hsBoundsOriented */
 hsBoundsOriented::hsBoundsOriented() : fCenterValid(0), fPlanes(NULL),

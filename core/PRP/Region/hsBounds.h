@@ -125,6 +125,7 @@ public:
     hsFloatPoint2 getDist(size_t idx) const { return fDists[idx]; }
     float getRadius() const { return fRadius; }
 
+    void unalign();
     void setFlags(unsigned int flags) { fExtFlags = flags; }
     void setCorner(const hsVector3& corner) { fCorner = corner; }
     void setAxis(size_t idx, const hsVector3& ax) { fAxes[idx] = ax; }
