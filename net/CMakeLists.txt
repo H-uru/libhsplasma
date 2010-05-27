@@ -84,6 +84,8 @@ if(WIN32)
   target_link_libraries(HSPlasmaNet ws2_32)
 endif(WIN32)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasmanet.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasmanet.pc @ONLY)
+
 # Package installation
 install(TARGETS HSPlasmaNet
         EXPORT HSPlasma-targets
@@ -98,6 +100,7 @@ install(FILES ${PN_FILE_HDRS} DESTINATION include/HSPlasmaNet/file)
 install(FILES ${PN_GAME_HDRS} DESTINATION include/HSPlasmaNet/game)
 install(FILES ${PN_GATE_HDRS} DESTINATION include/HSPlasmaNet/gate)
 install(FILES ${PN_HDRS} DESTINATION include/HSPlasmaNet)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libhsplasmanet.pc DESTINATION lib/pkgconfig)
 
 # Visual studio source grouping
 source_group("auth" FILES ${PN_AUTH_SRCS} ${PN_AUTH_HDRS})
