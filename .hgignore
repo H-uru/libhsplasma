@@ -6,6 +6,8 @@ syntax: glob
 *.log
 *.dSYM
 .*.swp
+*.orig
+log
 config.mf
 CMakeCache.txt
 cmake_install.cmake

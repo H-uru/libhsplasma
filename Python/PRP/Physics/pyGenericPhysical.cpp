@@ -169,6 +169,14 @@ static PyObject* pyGenericPhysical_getTMDBuffer(pyGenericPhysical* self, void*) 
                                      self->fThis->getTMDSize());
 }
 
+static PyObject* pyGenericPhysical_getUnknown1(pyGenericPhysical* self, void*) {
+    return PyInt_FromLong(self->fThis->getUnknown1());
+}
+
+static PyObject* pyGenericPhysical_getUnknown2(pyGenericPhysical* self, void*) {
+    return PyInt_FromLong(self->fThis->getUnknown2());
+}
+
 static int pyGenericPhysical_setMass(pyGenericPhysical* self, PyObject* value, void*) {
     if (value == NULL || !PyFloat_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "mass should be a float");
@@ -412,6 +420,24 @@ static int pyGenericPhysical_setTMDBuffer(pyGenericPhysical* self, PyObject* val
     return 0;
 }
 
+static int pyGenericPhysical_setUnknown1(pyGenericPhysical* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "unk1 should be an int");
+        return -1;
+    }
+    self->fThis->setUnknown1(PyInt_AsLong(value));
+    return 0;
+}
+
+static int pyGenericPhysical_setUnknown2(pyGenericPhysical* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "unk2 should be an int");
+        return -1;
+    }
+    self->fThis->setUnknown2(PyInt_AsLong(value));
+    return 0;
+}
+
 static PyGetSetDef pyGenericPhysical_GetSet[] = {
     { "mass", (getter)pyGenericPhysical_getMass, (setter)pyGenericPhysical_setMass, NULL, NULL },
     { "friction", (getter)pyGenericPhysical_getFriction, (setter)pyGenericPhysical_setFriction, NULL, NULL },
@@ -434,6 +460,10 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
     { "verts", (getter)pyGenericPhysical_getVerts, (setter)pyGenericPhysical_setVerts, NULL, NULL },
     { "indices", (getter)pyGenericPhysical_getIndices, (setter)pyGenericPhysical_setIndices, NULL, NULL },
     { "TMDBuffer", (getter)pyGenericPhysical_getTMDBuffer, (setter)pyGenericPhysical_setTMDBuffer, NULL, NULL },
+    { "Unknown1", (getter)pyGenericPhysical_getUnknown1,
+        (setter)pyGenericPhysical_setUnknown1, NULL, NULL },
+    { "Unknown2", (getter)pyGenericPhysical_getUnknown2,
+        (setter)pyGenericPhysical_setUnknown2, NULL, NULL },
     { NULL, NULL, 0, NULL }
 };
 
