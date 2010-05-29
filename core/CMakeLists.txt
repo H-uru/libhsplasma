@@ -772,6 +772,8 @@ add_library(HSPlasma SHARED
 )
 target_link_libraries(HSPlasma ${ZLIB_LIBRARIES} ${JPEG_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasma.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc @ONLY)
+
 # Package Installation
 install(TARGETS HSPlasma
         EXPORT HSPlasma-targets
@@ -808,6 +810,7 @@ install(FILES ${SYS_HDRS} DESTINATION include/HSPlasma/Sys)
 install(FILES ${UTIL_HDRS} DESTINATION include/HSPlasma/Util)
 install(FILES ${VAULT_HDRS} DESTINATION include/HSPlasma/Vault)
 install(FILES ${PLASMA_HDRS} DESTINATION include/HSPlasma)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libhsplasma.pc DESTINATION lib/pkgconfig)
 
 # Visual studio source grouping
 source_group("Debug" FILES ${DEBUG_HDRS} ${DEBUG_SRCS})
