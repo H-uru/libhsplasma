@@ -152,7 +152,8 @@ int main(int argc, char** argv) {
     for (size_t i=0; i<files.size(); i++) {
         if (method == emDecrypt) {
             plEncryptedStream SF;
-            if (haveKey) SF.setKey(uruKey);
+            if (haveKey)
+                SF.setKey(uruKey);
             try {
                 if (!plEncryptedStream::IsFileEncrypted(files[i])) {
                     if (verbosity >= 0)
@@ -217,16 +218,20 @@ int main(int argc, char** argv) {
 
             plEncryptedStream DF;
             plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
-            if (method == emTea) eType = plEncryptedStream::kEncXtea;
-            if (method == emAes) eType = plEncryptedStream::kEncAES;
-            if (method == emDroid) eType = plEncryptedStream::kEncDroid;
+            if (method == emTea)
+                eType = plEncryptedStream::kEncXtea;
+            if (method == emAes)
+                eType = plEncryptedStream::kEncAES;
+            if (method == emDroid)
+                eType = plEncryptedStream::kEncDroid;
             if (method == emDroid && !haveKey) {
                 fprintf(stderr, "Error: Droid key not set!\n");
                 return 1;
             }
             if (method == emAes && haveKey && verbosity >= 0)
                 printf("Warning: Ignoring key for AES encryption\n");
-            if (haveKey) DF.setKey(uruKey);
+            if (haveKey)
+                DF.setKey(uruKey);
             outFileName = doReplace ? files[i] : getNextOutFile(files[i]);
             if (verbosity >= 1)
                 printf("Encrypting %s...\n", outFileName.cstr());

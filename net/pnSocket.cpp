@@ -21,46 +21,46 @@ static const char* getSockErrorStr();
 static int sockError();
 
 #ifdef WIN32
-#  include <winsock2.h>
-#  include <ws2tcpip.h>
-#  include <wspiapi.h>
+#   include <winsock2.h>
+#   include <ws2tcpip.h>
+#   include <wspiapi.h>
 
-   typedef char* sockbuf_t;
+    typedef char* sockbuf_t;
 
-   static WSADATA s_wsadata;
+    static WSADATA s_wsadata;
 
-   static void closeWinsock()
-   { WSACleanup(); }
+    static void closeWinsock()
+    { WSACleanup(); }
 
-   static int sockError()
-   { return WSAGetLastError(); }
- 
+    static int sockError()
+    { return WSAGetLastError(); }
+
 #   ifndef AI_ADDRCONFIG
 #       define AI_ADDRCONFIG 0x0020
 #   endif
 
-#  define ECONNRESET WSAECONNRESET
+#   define ECONNRESET WSAECONNRESET
 #else
-#  include <sys/types.h>
-#  include <sys/socket.h>
-#  include <sys/ioctl.h>
-#  include <netinet/in.h>
-#  include <netinet/tcp.h>
-#  include <arpa/inet.h>
-#  include <netdb.h>
-#  include <poll.h>
-#  include <unistd.h>
-#  include <errno.h>
-#  include <signal.h>
+#   include <sys/types.h>
+#   include <sys/socket.h>
+#   include <sys/ioctl.h>
+#   include <netinet/in.h>
+#   include <netinet/tcp.h>
+#   include <arpa/inet.h>
+#   include <netdb.h>
+#   include <poll.h>
+#   include <unistd.h>
+#   include <errno.h>
+#   include <signal.h>
 
-#  define closesocket ::close
-#  define ioctlsocket ::ioctl
-   typedef void* sockbuf_t;
+#   define closesocket ::close
+#   define ioctlsocket ::ioctl
+    typedef void* sockbuf_t;
 
-   static int sockError()
-   { return errno; }
+    static int sockError()
+    { return errno; }
 
-#  define INVALID_SOCKET (-1)
+#   define INVALID_SOCKET (-1)
 #endif
 
 static const char* getSockErrorStr()
