@@ -123,6 +123,9 @@ public:
     size_t getTMDSize() const { return fTMDSize; }
     const unsigned char* getTMDBuffer() const { return fTMDBuffer; }
 
+    unsigned int getUnknown1() const { return fUnk1; }
+    unsigned int getUnknown2() const { return fUnk2; }
+
     void setMass(float mass) { fMass = mass; }
     void setFriction(float friction) { fFriction = friction; }
     void setRestitution(float restitution) { fRestitution = restitution; }
@@ -146,6 +149,9 @@ public:
     void setVerts(size_t numVerts, const hsVector3* verts);
     void setIndices(size_t numIndices, const unsigned int* indices);
     void setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer);
+
+    void setUnknown1(unsigned int uk1) { fUnk1 = uk1; }
+    void setUnknown2(unsigned int uk2) { fUnk2 = uk2; }
 
     // Direct baked data buffer access (Currently only for PhysX with baked data)
     PhysType getBufferType() const;

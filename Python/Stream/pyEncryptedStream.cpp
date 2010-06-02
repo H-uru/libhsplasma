@@ -27,8 +27,10 @@ static void pyEncryptedStream_dealloc(pyEncryptedStream* self) {
 
 static PyObject* pyEncryptedStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyEncryptedStream* self = (pyEncryptedStream*)type->tp_alloc(type, 0);
+    int version = pvUnknown;
+    PyArg_ParseTuple(args, "|i", &version);
     if (self != NULL)
-        self->fThis = new plEncryptedStream();
+        self->fThis = new plEncryptedStream((PlasmaVer)version);
     return (PyObject*)self;
 }
 
@@ -52,6 +54,12 @@ static PyObject* pyEncryptedStream_open(pyEncryptedStream* self, PyObject* args)
         PyErr_SetString(PyExc_IOError, "Error opening file");
         return NULL;
     }
+}
+
+static PyObject* pyEncryptedStream_close(pyEncryptedStream* self) {
+    self->fThis->close();
+    Py_INCREF(Py_None);
+    return Py_None;
 }
 
 static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* args) {
@@ -105,6 +113,8 @@ static PyMethodDef pyEncryptedStream_Methods[] = {
       "Opens the specified file.\n"
       "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate\n"
       "Encryption is: kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto" },
+    { "close", (PyCFunction)pyEncryptedStream_close, METH_NOARGS,
+      "Closes the active file, if it is open" },
     { "setKey", (PyCFunction)pyEncryptedStream_setKey, METH_VARARGS,
       "Params: key\n"
       "Sets the encryption key. `key` should be an array of 4 ints" },
