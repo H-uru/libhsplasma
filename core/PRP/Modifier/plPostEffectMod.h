@@ -43,6 +43,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
+    const hsBitVector& getState() const { return fState; }
+    hsBitVector& getState() { return fState; }
+
     float getHither() const { return fHither; }
     float getYon() const { return fYon; }
     float getFovX() const { return fFovX; }
@@ -50,6 +53,13 @@ public:
     plKey getNodeKey() const { return fNodeKey; }
     hsMatrix44 getDefaultW2C() const { return fDefaultW2C; }
     hsMatrix44 getDefaultC2W() const { return fDefaultC2W; }
+
+    void setHither(float hither) { fHither = hither; }
+    void setYon(float yon) { fYon = yon; }
+    void setFov(float x, float y) { fFovX = x; fFovY = y; }
+    void setNodeKey(plKey node) { fNodeKey = node; }
+    void setDefaultW2C(const hsMatrix44& w2c) { fDefaultW2C = w2c; }
+    void setDefaultC2W(const hsMatrix44& c2w) { fDefaultC2W = c2w; }
 };
 
 #endif

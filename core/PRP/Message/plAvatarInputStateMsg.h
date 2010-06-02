@@ -28,15 +28,16 @@ protected:
 public:
     plAvatarInputStateMsg();
 
-    hsUint16 getState() const { return fState; }
-    void setState(hsUint16 state) { fState = state; }
-
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    hsUint16 getState() const { return fState; }
+    void setState(hsUint16 state) { fState = state; }
 };
 
 #endif

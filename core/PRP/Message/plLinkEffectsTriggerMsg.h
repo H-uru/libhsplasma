@@ -38,8 +38,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-  plKey getLinkKey() const { return fLinkKey; }
-  void setLinkKey(const plKey& linkKey) { fLinkKey = linkKey; }
+    unsigned int getInvisLevel() const { return fInvisLevel; }
+    unsigned int getEffects() const { return fEffects; }
+    bool isLeavingAge() const { return fLeavingAge; }
+    plKey getLinkKey() const { return fLinkKey; }
+    plKey getLinkInAnimKey() const { return fLinkInAnimKey; }
+
+    void setInvisLevel(unsigned int level) { fInvisLevel = level; }
+    void setEffects(unsigned int effects) { fEffects = effects; }
+    void setLeavingAge(bool leaving) { fLeavingAge = leaving; }
+    void setLinkKey(plKey linkKey) { fLinkKey = linkKey; }
+    void setLinkInAnimKey(plKey animKey) { fLinkInAnimKey = animKey; }
 };
 
 #endif
