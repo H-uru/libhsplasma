@@ -575,7 +575,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kNetMsgPagingRoom: return new plNetMsgPagingRoom();
         //case kActivatorMsg: return new plActivatorMsg();
         //case kDispatch: return new plDispatch();
-        //case kReceiver: return new plReceiver();
+        case kReceiver: ABSTRACT(kReceiver);
         //case kMeshRefMsg: return new plMeshRefMsg();
         //case kGRenderProcs: return new hsGRenderProcs();
         //case kSfxAngleFade: return new hsSfxAngleFade();

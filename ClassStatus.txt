@@ -108,7 +108,6 @@ pfGUIListElement                Complete    No          No
 plKey                           Complete    Complete    PrpShop
 plLoadMask                      Complete    ----        Case
 plLocation                      Complete    Complete    PrpShop
-plReceiver                      Complete    ----        ----
 plUoid                          Complete    ----        ----
 plCameraConfig                  Basic       No          No
 plOneShotCallbacks              Basic       No          No
