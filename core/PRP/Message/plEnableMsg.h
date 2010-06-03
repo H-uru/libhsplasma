@@ -38,6 +38,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const hsBitVector& getCmd() const { return fCmd; }
+    hsBitVector& getCmd() { return fCmd; }
+
+    const hsBitVector& getTypes() const { return fTypes; }
+    hsBitVector& getTypes() { return fTypes; }
 };
 
 #endif
