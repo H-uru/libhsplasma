@@ -22,8 +22,8 @@
 #include "crypt/pnSha1.h"
 
 /* Dispatch */
-pnGameClient::Dispatch::Dispatch(pnRC4Socket* sock, pnGameClient* self)
-            : fReceiver(self), fSock(sock)
+pnGameClient::Dispatch::Dispatch(pnRC4Socket* sock, pnGameClient* self, bool deleteMsgs)
+            : fReceiver(self), fSock(sock), fDeleteMsgs(deleteMsgs)
 { }
 
 void pnGameClient::Dispatch::run()
@@ -66,7 +66,8 @@ void pnGameClient::Dispatch::run()
                 fReceiver->fResMgr->unlock();
                 if (pCre != NULL) {
                     fReceiver->onPropagateMessage(pCre);
-                    delete pCre;
+                    if(fDeleteMsgs)
+                        delete pCre;
                 } else {
                     plDebug::Error("Ignored propagated message [%04X]%s",
                                    pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, pvLive),
@@ -85,8 +86,8 @@ void pnGameClient::Dispatch::run()
 
 
 /* pnGameClient */
-pnGameClient::pnGameClient(plResManager* mgr)
-            : fSock(NULL), fResMgr(mgr), fDispatch(NULL)
+pnGameClient::pnGameClient(plResManager* mgr, bool deleteMsgs)
+            : fSock(NULL), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fDispatch(NULL)
 { }
 
 pnGameClient::~pnGameClient()
@@ -218,7 +219,7 @@ ENetError pnGameClient::performConnect(pnSocket* sock)
         plDebug::Error("Got junk response from server");
         return kNetErrConnectFailed;
     }
-    fDispatch = new Dispatch(fSock, this);
+    fDispatch = new Dispatch(fSock, this, fDeleteMsgs);
     fDispatch->start();
     return kNetSuccess;
 }

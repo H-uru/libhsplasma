@@ -25,7 +25,7 @@
 
 DllClass pnGameClient : public pnClient {
 public:
-    pnGameClient(plResManager* mgr);
+    pnGameClient(plResManager* mgr, bool deleteMsgs = true);
     virtual ~pnGameClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN);
@@ -66,16 +66,18 @@ protected:
 private:
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
+    bool fDeleteMsgs;
 
     class Dispatch : public hsThread {
     public:
-        Dispatch(pnRC4Socket* sock, pnGameClient* self);
+        Dispatch(pnRC4Socket* sock, pnGameClient* self, bool deleteMsgs);
 
     private:
         virtual void run();
 
         pnGameClient* fReceiver;
         pnRC4Socket* fSock;
+        bool fDeleteMsgs;
     } *fDispatch;
 
     ENetError performConnect(pnSocket* sock);
