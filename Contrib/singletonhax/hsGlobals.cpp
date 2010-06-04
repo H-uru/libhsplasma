@@ -16,29 +16,17 @@
 
 #include "hsGlobals.h"
 
-static PlasmaVer hsGlobals::getVersion() {
-    if (gVersion == pvUnknown)
-        gVersion = pvUniversal;
-
-    return gVersion;
-}
-
-static void hsGlobals::setVersion(PlasmaVersion ver) {
-    gVersion = ver;
-}
+PlamsaVer hsGlobals::gVersion = pvUniversal;
 
 static plResManager* hsGlobals::getResManager() {
-    if (gResManager == NULL) {
-        gResManager = new plResManager(getVersion());
-    }
+    static plResManager gResManager(pvUnknown);
 
-    return gResManager;
+    gResManager.setVer(getVersion(), false);
+    return &gResManager;
 }
 
 static plSDLMgr* hsGlobals::getSDLManager() {
-    if (gSDLManager == NULL) {
-        gSDLManager = new plSDLMgr();
-    }
+    static plSDLMgr gSDLManager;
 
-    return gSDLManager;
+    return &gSDLManager;
 }

@@ -24,15 +24,12 @@
 DllClass hsGlobals {
 private:
     static PlasmaVer gVersion;
-    static plResManager* gResManager;
-    static plSDLMgr* gSDLManager;
 
 public:
-    static PlasmaVer getVersion();
-    static void setVersion(PlasmaVersion ver);
+    static PlasmaVer getVersion() { return gVersion; }
+    static void setVersion(PlasmaVersion ver) { gVersion = ver; }
 
     static plResManager* getResManager();
-
     static plSDLMgr* getSDLManager();
 };
 

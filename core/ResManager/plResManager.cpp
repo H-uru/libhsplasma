@@ -36,9 +36,7 @@ plResManager::~plResManager() {
 }
 
 void plResManager::setVer(PlasmaVer pv, bool force) {
-    if (fPlasmaVer == pv)
-        return;
-    if ((fPlasmaVer == pvUnknown) || force)
+    if (fPlasmaVer == pvUnknown || force)
         fPlasmaVer = pv;
 }
 
