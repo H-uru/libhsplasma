@@ -5,8 +5,8 @@ syntax: glob
 *.pc
 *.log
 *.dSYM
+*.kdev4
 .*.swp
-*.orig
 log
 config.mf
 CMakeCache.txt

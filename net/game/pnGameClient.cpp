@@ -66,7 +66,7 @@ void pnGameClient::Dispatch::run()
                 fReceiver->fResMgr->unlock();
                 if (pCre != NULL) {
                     fReceiver->onPropagateMessage(pCre);
-                    if(fDeleteMsgs)
+                    if (fDeleteMsgs)
                         delete pCre;
                 } else {
                     plDebug::Error("Ignored propagated message [%04X]%s",

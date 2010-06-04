@@ -52,8 +52,8 @@ static void GetFileList(pnAuthFileItem* files, hsUint32 infoSize,
 
 
 /* Dispatch */
-pnAuthClient::Dispatch::Dispatch(pnRC4Socket* sock, pnAuthClient* self)
-            : fReceiver(self), fSock(sock)
+pnAuthClient::Dispatch::Dispatch(pnRC4Socket* sock, pnAuthClient* self, bool deleteMsgs)
+            : fReceiver(self), fSock(sock), fDeleteMsgs(deleteMsgs)
 { }
 
 void pnAuthClient::Dispatch::run()
@@ -303,7 +303,8 @@ void pnAuthClient::Dispatch::run()
                 fReceiver->fResMgr->unlock();
                 if (pCre != NULL) {
                     fReceiver->onPropagateMessage(pCre);
-                    delete pCre;
+                    if (fDeleteMsgs)
+                        delete pCre;
                 } else {
                     plDebug::Error("Ignored propagated message [%04X]%s",
                                    pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, pvLive),
@@ -319,8 +320,8 @@ void pnAuthClient::Dispatch::run()
 
 
 /* pnAuthClient */
-pnAuthClient::pnAuthClient(plResManager* mgr)
-            : fSock(NULL), fResMgr(mgr), fDispatch(NULL)
+pnAuthClient::pnAuthClient(plResManager* mgr, bool deleteMsgs)
+            : fSock(NULL), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fDispatch(NULL)
 { }
 
 pnAuthClient::~pnAuthClient()
@@ -445,7 +446,7 @@ ENetError pnAuthClient::performConnect(pnSocket* sock)
         plDebug::Error("Got junk response from server");
         return kNetErrConnectFailed;
     }
-    fDispatch = new Dispatch(fSock, this);
+    fDispatch = new Dispatch(fSock, this, fDeleteMsgs);
     fDispatch->start();
     return kNetSuccess;
 }

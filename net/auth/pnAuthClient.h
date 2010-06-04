@@ -44,7 +44,7 @@ DllStruct pnNetGameRank {
 
 DllClass pnAuthClient : public pnClient {
 public:
-    pnAuthClient(plResManager* mgr);
+    pnAuthClient(plResManager* mgr, bool deleteMsgs = true);
     virtual ~pnAuthClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN);
@@ -194,6 +194,7 @@ public:
 protected:
     pnRC4Socket* fSock;
     plResManager* fResMgr;
+    bool fDeleteMsgs;
 
     hsUint32 fBuildId, fBuildType, fBranchId;
     plUuid fProductId;
@@ -204,13 +205,14 @@ private:
 
     class Dispatch : public hsThread {
     public:
-        Dispatch(pnRC4Socket* sock, pnAuthClient* self);
+        Dispatch(pnRC4Socket* sock, pnAuthClient* self, bool deleteMsgs);
 
     private:
         virtual void run();
 
         pnAuthClient* fReceiver;
         pnRC4Socket* fSock;
+        bool fDeleteMsgs;
     } *fDispatch;
 
     ENetError performConnect(pnSocket* sock);
