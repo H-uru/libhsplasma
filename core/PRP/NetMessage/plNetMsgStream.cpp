@@ -109,6 +109,7 @@ void plNetMsgStreamHelper::decompress(int offset) {
             memcpy(newStream, fStream, offset);
             delete[] fStream;
             fStream = newStream;
+            fStreamLength = fUncompressedSize + offset;
         } else {
             delete[] newStream;
             fCompressionType = kCompressionFailed;
