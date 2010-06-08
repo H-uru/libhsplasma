@@ -31,9 +31,9 @@ public:
     };
 
 private:
-    unsigned int fUncompressedSize;
+    size_t fUncompressedSize;
     unsigned char fCompressionType;
-    unsigned int fStreamLength;
+    size_t fStreamLength;
     unsigned char* fStream;
 
 public:

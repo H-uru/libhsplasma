@@ -119,8 +119,8 @@ void plNetGameServerState::read(hsStream* S) {
     fMinorVer = S->readShort();
     fSession.read(S);
 
-    unsigned int uncompLen = S->readInt();
-    unsigned int compLen = S->readInt();
+    size_t uncompLen = S->readInt();
+    size_t compLen = S->readInt();
     unsigned char* cbuf = new unsigned char[compLen];
     S->read(compLen, cbuf);
     unsigned char* ubuf = new unsigned char[uncompLen];
@@ -162,9 +162,9 @@ void plNetGameServerState::write(hsStream* S) {
         fRecords[i]->write(&data, NULL);
     }
 
-    unsigned int uncompLen = data.size();
+    size_t uncompLen = data.size();
     unsigned char* ubuf = new unsigned char[uncompLen];
-    unsigned int compLen;
+    size_t compLen;
     unsigned char* cbuf;
     data.copyTo(ubuf, uncompLen);
     plZlib::Compress(cbuf, compLen, ubuf, uncompLen);
