@@ -15,11 +15,10 @@
  */
 
 #include "plZlib.h"
-#include "Stream/hsRAMStream.h"
 #include <zlib.h>
 
 bool plZlib::Uncompress(unsigned char* bufOut, size_t& bufLenOut, const unsigned char* bufIn, size_t bufLenIn) {
-    uLongf bufLenOut_zlib;
+    uLongf bufLenOut_zlib = (uLongf)bufLenOut;
     int result = ::uncompress(bufOut, &bufLenOut_zlib, bufIn, bufLenIn);
     bufLenOut = (size_t)bufLenOut_zlib;
     return result == Z_OK;
