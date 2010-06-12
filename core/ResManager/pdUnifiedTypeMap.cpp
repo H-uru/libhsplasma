@@ -1966,7 +1966,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plNetCommPublicAgeListMsg", "plNetCommPublicAgeMsg",
     "plNetCommRegisterAgeMsg", "plAnimEvalMsg", "plAvBrainFlight",
     "plAvBrainNPC", "plAvBrainBlimp", "plAvBrainFlightNPC",
-    "plParticleBulletHitMsg", "pfPanicLinkMsg", "plAvTaskOneShot", 
+    "plParticleBulletHitMsg", "pfPanicLinkMsg", "plAvTaskOneShot",
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
 
@@ -2078,7 +2078,7 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
     }
 
     switch (ver) {
-    case pvPrime:
+    case pvPrime: case pvChoru:
         return fUruP2MTable[typeIdx];
     case pvPots:
         return fPotSP2MTable[typeIdx];
@@ -2102,7 +2102,7 @@ short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
     }
 
     switch (ver) {
-    case pvPrime:
+    case pvPrime: case pvChoru:
         return fUruM2PTable[typeIdx];
     case pvPots:
         return fPotSM2PTable[typeIdx];

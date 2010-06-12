@@ -111,7 +111,9 @@ void plLocation::read(hsStream* S) {
         fFlags = S->readShort();
     } else {
         parse(S->readInt());
-        if (S->getVer() >= pvEoa)
+        if (S->getVer() == pvChoru)
+            fFlags = 0;
+        else if (S->getVer() >= pvEoa)
             fFlags = S->readByte();
         else
             fFlags = S->readShort();
@@ -130,7 +132,7 @@ void plLocation::write(hsStream* S) {
         S->writeInt(unparse());
         if (S->getVer() >= pvEoa)
             S->writeByte(fFlags);
-        else
+        else if (S->getVer() != pvChoru)
             S->writeShort(fFlags);
     }
 }

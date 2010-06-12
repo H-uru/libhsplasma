@@ -20,6 +20,7 @@
 /* These MUST remain in order for version matching to work */
 enum PlasmaVer {
     pvUnknown   = 0,
+    pvChoru     = 0x02006000,   // 2.0 r60.0
     pvPrime     = 0x02006311,   // 2.0 r63.11
     pvPots      = 0x02006312,   // 2.0 r63.12
     pvLive      = 0x02007000,   // 2.0 r70

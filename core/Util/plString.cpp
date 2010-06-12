@@ -547,7 +547,7 @@ plString plString::toLower() const {
 plString plString::left(size_t num) const {
     if (empty())
         return plString();
-    if (num > fString->len() || num == fString->len())
+    if (num >= fString->len())
         return *this;
 
     plString retn;
@@ -561,7 +561,7 @@ plString plString::left(size_t num) const {
 plString plString::right(size_t num) const {
     if (empty())
         return plString();
-    if (num > fString->len() || num == fString->len())
+    if (num >= fString->len())
         return *this;
 
     plString retn;
