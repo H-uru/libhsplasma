@@ -35,8 +35,7 @@ public:
     explicit hsStream(PlasmaVer pv = pvUnknown);
     virtual ~hsStream() { }
 
-    virtual void setVer(PlasmaVer pv) { ver = pv; }
-    PlasmaVer getVer() const { return ver; }
+    PLASMA_VER(ver)
 
     virtual hsUint32 size() const = 0;
     virtual hsUint32 pos() const = 0;

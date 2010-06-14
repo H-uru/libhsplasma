@@ -42,88 +42,72 @@ void plPageInfo::IInit() {
 
 void plPageInfo::read(hsStream* S) {
     short prpVer = S->readShort();
-    if (prpVer == -1) {
+    if (prpVer == -1)
         S->setVer(pvUniversal);
-        fLocation.read(S);
-        fAge = S->readSafeStr();
-        fPage = S->readSafeStr();
-        fFlags = S->readInt();
-    } else if (prpVer == 6) {
+    else if (prpVer == 9)
+        S->setVer(pvHex);
+    else
+        S->setVer(pvPrime);
+
+    if (S->getVer() < pvUniversal) {
         unsigned short numTypes = S->readShort();
-        if (numTypes == 0) {
-            S->setVer(pvLive);
-        } else {
-            S->setVer(pvEoa);
-            for (unsigned short i=0; i<numTypes; i++) {
+        if (prpVer >= 6) {
+            if (numTypes && prpVer == 6)
+                S->setVer(pvEoa);
+            if (numTypes == 0 && prpVer == 6)
+                S->setVer(pvLive);
+            for (unsigned short i = 0; i < numTypes; i++) {
                 short type = S->readShort();
                 short ver = S->readShort();
-                if (pdUnifiedTypeMap::ClassVersion(type, pvEoa) != ver) {
+                if (pdUnifiedTypeMap::ClassVersion(type, S->getVer()) != ver) {
                     plDebug::Warning("Warning: Class %s expected version %d, got %d",
-                                     pdUnifiedTypeMap::ClassName(type, pvEoa),
-                                     pdUnifiedTypeMap::ClassVersion(type, pvEoa), ver);
+                                     pdUnifiedTypeMap::ClassName(type, S->getVer()),
+                                     pdUnifiedTypeMap::ClassVersion(type, S->getVer()), ver);
                 }
             }
         }
+    }
+
+    if (prpVer >= 1) {
         fLocation.read(S);
+
         fAge = S->readSafeStr();
+        if (fAge.empty()) {
+            fLocation.setFlags(0);
+            S->skip(-4);
+            fAge = S->readSafeStr();
+        }
+
+        if (prpVer < 6)
+            S->readSafeStr();
+
         fPage = S->readSafeStr();
-        if (S->getVer() == pvLive)
-            S->readShort();  // majorVer == 70
-    } else if (prpVer == 9) {
-        S->setVer(pvHex);
-        unsigned short numTypes = S->readShort();
-        for (unsigned short i=0; i<numTypes; i++) {
-            short type = S->readShort();
-            short ver = S->readShort();
-            if (pdUnifiedTypeMap::ClassVersion(type, pvHex) != ver) {
-                plDebug::Warning("Warning: Class %s expected version %d, got %d",
-                                 pdUnifiedTypeMap::ClassName(type, pvHex),
-                                 pdUnifiedTypeMap::ClassVersion(type, pvHex), ver);
+
+        if (S->getVer() < pvEoa) {
+            S->setMajorVer(S->readShort());
+            if (prpVer < 6) {
+                S->setMinorVer(S->readShort());
+                if (prpVer < 5)
+                    fIdxChecksum = S->readInt();
+                if (prpVer >= 2)
+                    fReleaseVersion = S->readInt();
+                if (prpVer >= 3)
+                    fFlags = S->readInt();
             }
         }
-        fLocation.read(S);
-        fAge = S->readSafeStr();
-        fPage = S->readSafeStr();
-    } else if (prpVer == 5) {
-        S->readShort(); // prpVer is DWORD on <= 5
-        int pid = S->readInt();
-        short pflags = S->readShort();
-        short choruCheck = S->readShort();
-        if (choruCheck == 0) {
-            pflags = 0;
-            S->skip(-4);
-            S->setVer(pvChoru);
-            fAge = S->readSafeStr();
-            S->readSafeStr(); // "District"
-            fPage = S->readSafeStr();
-            short majorVer = S->readShort();
-            short minorVer = S->readShort();
-            if (majorVer != 60 || minorVer != 0)
-                throw hsBadVersionException(__FILE__, __LINE__);
-        } else {
-            S->skip(-2);
-            S->setVer(pvPrime);
-            fAge = S->readSafeStr();
-            S->readSafeStr(); // "District"
-            fPage = S->readSafeStr();
-            short majorVer = S->readShort();
-            short minorVer = S->readShort();
-            if (majorVer != 63) // Old Live version (e.g. 69.x)
-                throw hsBadVersionException(__FILE__, __LINE__);
-            else if (minorVer == 12)
-                S->setVer(pvPots);
-            else if (minorVer != 11)
-                throw hsBadVersionException(__FILE__, __LINE__);
+        if (S->getVer() == pvUniversal) {
+            fFlags = S->readInt();
         }
-        fReleaseVersion = S->readInt();
-        fFlags = S->readInt();
-        fLocation.set(pid, pflags, S->getVer());
-    } else {
-        throw hsBadVersionException(__FILE__, __LINE__);
     }
-    fChecksum = S->readInt();
-    fDataStart = S->readInt();
-    fIdxStart = S->readInt();
+    if (prpVer >= 4 || S->getVer() == pvUniversal)
+        fChecksum = S->readInt();
+    if (prpVer >= 5 || S->getVer() == pvUniversal) {
+        fDataStart = S->readInt();
+        fIdxStart = S->readInt();
+    } else {
+        fDataStart = 0;
+        fIdxStart = S->readByte();
+    }
 
     plDebug::Debug("* Loading: %s (%s)\n"
                    "  Location: <%d|%d>\n"
@@ -172,13 +156,8 @@ void plPageInfo::write(hsStream* S) {
         S->writeSafeStr(getAge());
         S->writeSafeStr(getChapter());
         S->writeSafeStr(getPage());
-        if (S->getVer() == pvChoru) {
-            S->writeShort(60);
-            S->writeShort(0);
-        } else {
-            S->writeShort(63);
-            S->writeShort((S->getVer() == pvPots) ? 12 : 11);
-        }
+        S->writeShort(63);
+        S->writeShort((S->getVer() == pvPots) ? 12 : 11);
         S->writeInt(fReleaseVersion);
         S->writeInt(fFlags);
     }

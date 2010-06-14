@@ -63,7 +63,12 @@ bool plUoid::operator<(const plUoid& other) const {
 }
 
 void plUoid::read(hsStream* S) {
-    unsigned char contents = (S->getVer() >= pvPrime) ? S->readByte() : kHasCloneIDs;
+    unsigned char contents = 0;
+    if (S->getVer() < 0x02006300 && S->getVer() != pvUnknown) {
+        contents = kHasCloneIDs;
+    } else {
+        contents = S->readByte();
+    }
     location.read(S);
     if ((contents & kHasLoadMask) && (S->getVer() < pvEoa || S->getVer() == pvUniversal))
         loadMask.read(S);
@@ -87,7 +92,10 @@ void plUoid::read(hsStream* S) {
 
 void plUoid::write(hsStream* S) {
     unsigned char contents = 0;
-    if (cloneID != 0 || S->getVer() == pvChoru)
+    if (!S->safeVer())
+        S->setVer(GetSafestVersion(S->getVer()));
+
+    if (cloneID != 0)
         contents |= kHasCloneIDs;
     if (loadMask.isUsed())
         contents |= kHasLoadMask;

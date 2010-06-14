@@ -103,7 +103,7 @@ unsigned int plLocation::unparse() const {
 }
 
 void plLocation::read(hsStream* S) {
-    setVer(S->getVer());
+    setVer(GetSafestVersion(S->getVer()));
     if (S->getVer() == pvUniversal) {
         fState = S->readByte();
         fSeqPrefix = S->readInt();
@@ -111,7 +111,7 @@ void plLocation::read(hsStream* S) {
         fFlags = S->readShort();
     } else {
         parse(S->readInt());
-        if (S->getVer() == pvChoru)
+        if (S->getVer() < 0x02006200 && S->getVer() != pvUnknown)
             fFlags = 0;
         else if (S->getVer() >= pvEoa)
             fFlags = S->readByte();
@@ -123,6 +123,10 @@ void plLocation::read(hsStream* S) {
 void plLocation::write(hsStream* S) {
     if (S->getVer() != pvUnknown)
         setVer(S->getVer());
+
+    if (!safeVer())
+        setVer(GetSafestVersion(getVer()));
+
     if (S->getVer() == pvUniversal) {
         S->writeByte(fState);
         S->writeInt(fSeqPrefix);
@@ -132,7 +136,7 @@ void plLocation::write(hsStream* S) {
         S->writeInt(unparse());
         if (S->getVer() >= pvEoa)
             S->writeByte(fFlags);
-        else if (S->getVer() != pvChoru)
+        else
             S->writeShort(fFlags);
     }
 }
