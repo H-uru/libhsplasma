@@ -103,7 +103,7 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
                                unsigned char*& dest) {
     if (fFloats[chan][field].fCount == 0) {
         fFloats[chan][field].fOffset = S->readFloat();
-        if (S->getVer() == pvLive)
+        if (GetSafestVersion(S->getVer()) == pvLive)
             fFloats[chan][field].fAllSame = S->readBool();
         else
             fFloats[chan][field].fAllSame = false;
@@ -117,7 +117,7 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
 }
 
 void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
-    if (S->getVer() == pvLive) {
+    if (GetSafestVersion(S->getVer()) == pvLive) {
         ((float*)dest)[0] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
         ((float*)dest)[1] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
         ((float*)dest)[2] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;

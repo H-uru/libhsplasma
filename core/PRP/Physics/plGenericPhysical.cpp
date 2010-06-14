@@ -53,7 +53,7 @@ void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
         fInternalType = (PhysType)S->readInt();
     else if (S->getVer() >= pvEoa)
         fInternalType = kPhysODE;
-    else if (S->getVer() == pvLive)
+    else if (S->getVer() > pvPots)
         fInternalType = kPhysX;
     else
         fInternalType = kPhysHavok;

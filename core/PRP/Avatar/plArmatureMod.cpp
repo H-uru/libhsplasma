@@ -153,7 +153,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     else
         fEffects = plKey();
 
-    if (S->getVer() < pvLive || S->getVer() == pvUniversal) {
+    if (S->getVer() <= pvPots || S->getVer() == pvUniversal) {
         fMins.read(S);
         fMaxs.read(S);
     }

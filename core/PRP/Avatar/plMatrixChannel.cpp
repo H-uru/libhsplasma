@@ -20,7 +20,7 @@
 void plMatrixConstant::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
 
-    if (S->getVer() >= pvLive)
+    if (S->getVer() >= 0x02006900)
         fAP.read(S);
     else
         fAP.reset();

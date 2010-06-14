@@ -75,7 +75,7 @@ void plUoid::read(hsStream* S) {
     else
         loadMask.setAlways();
     classType = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer());
-    if (S->getVer() >= pvLive && S->getVer() != pvUniversal)
+    if (S->getVer() > pvPots && S->getVer() != pvUniversal)
         objID = S->readInt();
     objName = S->readSafeStr();
     if ((contents & kHasCloneIDs) && (S->getVer() < pvEoa || S->getVer() == pvUniversal)) {

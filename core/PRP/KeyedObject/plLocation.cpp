@@ -103,7 +103,7 @@ unsigned int plLocation::unparse() const {
 }
 
 void plLocation::read(hsStream* S) {
-    setVer(GetSafestVersion(S->getVer()));
+    setVer(S->getVer());
     if (S->getVer() == pvUniversal) {
         fState = S->readByte();
         fSeqPrefix = S->readInt();
