@@ -2077,8 +2077,10 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
         return -1;
     }
 
+    ver = GetSafestVersion(ver);
+
     switch (ver) {
-    case pvPrime: case pvChoru:
+    case pvPrime:
         return fUruP2MTable[typeIdx];
     case pvPots:
         return fPotSP2MTable[typeIdx];
@@ -2101,8 +2103,10 @@ short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
         return -1;
     }
 
+    ver = GetSafestVersion(ver);
+
     switch (ver) {
-    case pvPrime: case pvChoru:
+    case pvPrime:
         return fUruM2PTable[typeIdx];
     case pvPots:
         return fPotSM2PTable[typeIdx];
