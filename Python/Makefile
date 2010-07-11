@@ -172,6 +172,7 @@ PYOBJ=\
 	$(OBJDIR)pyInterfaceInfoModifier.o \
 	$(OBJDIR)pyLogicModBase.o \
 	$(OBJDIR)pyLogicModifier.o \
+	$(OBJDIR)pyMaintainersMarkerModifier.o \
 	$(OBJDIR)pyModifier.o \
 	$(OBJDIR)pyMultiModifier.o \
 	$(OBJDIR)pyOneShotMod.o \
@@ -747,6 +748,9 @@ $(OBJDIR)pyLogicModBase.o: PRP/Modifier/pyLogicModBase.cpp
 
 $(OBJDIR)pyLogicModifier.o: PRP/Modifier/pyLogicModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyLogicModifier.cpp -o $@
+
+$(OBJDIR)pyMaintainersMarkerModifier.o: PRP/Modifier/pyMaintainersMarkerModifier.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyMaintainersMarkerModifier.cpp -o $@
 
 $(OBJDIR)pyModifier.o: PRP/Modifier/pyModifier.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/Modifier/pyModifier.cpp -o $@

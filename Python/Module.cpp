@@ -67,6 +67,7 @@
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
+#include "PRP/Modifier/pyMaintainersMarkerModifier.h"
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyOneShotMod.h"
@@ -303,6 +304,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
     PyModule_AddObject(module, "plSpawnModifier", Init_pySpawnModifier_Type());
     PyModule_AddObject(module, "plViewFaceModifier", Init_pyViewFaceModifier_Type());
+    PyModule_AddObject(module, "plMaintainersMarkerModifier",
+            Init_pyMaintainersMarkerModifier_Type());
     PyModule_AddObject(module, "plClusterGroup", Init_pyClusterGroup_Type());
     PyModule_AddObject(module, "plLayerAnimationBase", Init_pyLayerAnimationBase_Type());
     PyModule_AddObject(module, "plLayerAnimation", Init_pyLayerAnimation_Type());
