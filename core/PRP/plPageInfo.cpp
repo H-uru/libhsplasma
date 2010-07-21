@@ -87,37 +87,20 @@ void plPageInfo::read(hsStream* S) {
     } else if (prpVer == 5) {
         S->readShort(); // prpVer is DWORD on <= 5
         int pid = S->readInt();
-        short pflags = S->readShort();
-        short choruCheck = S->readShort();
-        if (choruCheck == 0) {
-            pflags = 0;
-            S->skip(-4);
-            S->setVer(pvChoru);
-            fAge = S->readSafeStr();
-            S->readSafeStr(); // "District"
-            fPage = S->readSafeStr();
-            short majorVer = S->readShort();
-            short minorVer = S->readShort();
-            if (majorVer != 60 || minorVer != 0)
-                throw hsBadVersionException(__FILE__, __LINE__);
-        } else {
-            S->skip(-2);
-            S->setVer(pvPrime);
-            fAge = S->readSafeStr();
-            S->readSafeStr(); // "District"
-            fPage = S->readSafeStr();
-            short majorVer = S->readShort();
-            short minorVer = S->readShort();
-            if (majorVer != 63) // Old Live version (e.g. 69.x)
-                throw hsBadVersionException(__FILE__, __LINE__);
-            else if (minorVer == 12)
-                S->setVer(pvPots);
-            else if (minorVer != 11)
-                throw hsBadVersionException(__FILE__, __LINE__);
-        }
+        int pflags = S->readShort();
+        S->setVer(pvPrime);
+        fAge = S->readSafeStr();
+        S->readSafeStr(); // "District"
+        fPage = S->readSafeStr();
+        short majorVer = S->readShort();
+        short minorVer = S->readShort();
+        if (majorVer > 63) // Old Live version (e.g. 69.x)
+            throw hsBadVersionException(__FILE__, __LINE__);
+        else if (minorVer >= 12)
+            S->setVer(pvPots);
+        fLocation.set(pid, pflags, S->getVer());
         fReleaseVersion = S->readInt();
         fFlags = S->readInt();
-        fLocation.set(pid, pflags, S->getVer());
     } else {
         throw hsBadVersionException(__FILE__, __LINE__);
     }
@@ -172,13 +155,12 @@ void plPageInfo::write(hsStream* S) {
         S->writeSafeStr(getAge());
         S->writeSafeStr(getChapter());
         S->writeSafeStr(getPage());
-        if (S->getVer() == pvChoru) {
-            S->writeShort(60);
-            S->writeShort(0);
-        } else {
-            S->writeShort(63);
-            S->writeShort((S->getVer() == pvPots) ? 12 : 11);
-        }
+        short majorVer = 63;
+        short minorVer = 11;
+        if (S->getVer() == pvPots)
+            minorVer = 12;
+        S->writeShort(majorVer);
+        S->writeShort(minorVer);
         S->writeInt(fReleaseVersion);
         S->writeInt(fFlags);
     }

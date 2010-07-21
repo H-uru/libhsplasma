@@ -18,8 +18,6 @@
 
 const char* GetVersionName(PlasmaVer ver) {
     switch (ver) {
-    case pvChoru:
-        return "Choru";
     case pvPrime:
         return "Prime/UU";
     case pvPots:
