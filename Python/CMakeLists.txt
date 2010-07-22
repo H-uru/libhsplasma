@@ -261,6 +261,7 @@ set(PRP_MOD_SRCS
     PRP/Modifier/pyInterfaceInfoModifier.cpp
     PRP/Modifier/pyLogicModBase.cpp
     PRP/Modifier/pyLogicModifier.cpp
+    PRP/Modifier/pyMaintainersMarkerModifier.cpp
     PRP/Modifier/pyModifier.cpp
     PRP/Modifier/pyMultiModifier.cpp
     PRP/Modifier/pyOneShotMod.cpp
@@ -276,6 +277,7 @@ set(PRP_MOD_SRCS
 set(PRP_MOD_HDRS
     PRP/Modifier/pyInterfaceInfoModifier.h
     PRP/Modifier/pyLogicModifier.h
+    PRP/Modifier/pyMaintainersMarkerModifier.h
     PRP/Modifier/pyModifier.h
     PRP/Modifier/pyOneShotMod.h
     PRP/Modifier/pyPythonFileMod.h
