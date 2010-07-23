@@ -109,6 +109,20 @@ void plPageInfo::read(hsStream* S) {
         fIdxStart = S->readByte();
     }
 
+    if (S->getVer() == pvLive) {
+        unsigned short numTypes = S->readShort();
+        for (unsigned short i = 0; i < numTypes; i++) {
+            short type = S->readShort();
+            short ver = S->readShort();
+            /* I don't think we have a types file for MOUL, so ignore this part for now */
+            /*if (pdUnifiedTypeMap::ClassVersion(type, S->getVer()) != ver) {
+                plDebug::Warning("Warning: Class %s expected version %d, got %d",
+                                 pdUnifiedTypeMap::ClassName(type, S->getVer()),
+                                 pdUnifiedTypeMap::ClassVersion(type, S->getVer()), ver);
+            }*/
+        }
+    }
+
     plDebug::Debug("* Loading: %s (%s)\n"
                    "  Location: <%d|%d>\n"
                    "  Version: %s",
