@@ -109,7 +109,14 @@ void plUoid::write(hsStream* S) {
     S->writeShort(pdUnifiedTypeMap::MappedToPlasma(classType, S->getVer()));
     if (S->getVer() >= pvLive && S->getVer() != pvUniversal)
         S->writeInt(objID);
+
+    if (S->getVer() < pvLive && classType == kSceneNode && objName.find("_District_") == -1) {
+        objName = objName.replace("_", "_District_");
+    } else if (S->getVer() >= pvLive && classType == kSceneNode) {
+        objName = objName.replace("_District_", "_");
+    }
     S->writeSafeStr(objName);
+
     if ((contents & kHasCloneIDs) && (S->getVer() < pvEoa || S->getVer() == pvUniversal)) {
         S->writeInt(cloneID);
         S->writeInt(clonePlayerID);
