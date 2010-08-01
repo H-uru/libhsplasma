@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
         unsigned int tCount = S->readInt();
         for (unsigned int j=0; j<tCount; j++) {
             short type = S->readShort();
-            if (S->getVer() == pvEoa || S->getVer() == pvHex) {
+            if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
                 S->readInt();
                 unsigned char b = S->readByte();
                 if (b != 0)
