@@ -18,6 +18,9 @@
 #define _PLGENERICPHYSICAL_H
 
 #include "plPhysical.h"
+#include "plHKPhysical.h"
+#include "plODEPhysical.h"
+#include "plPXPhysical.h"
 #include "Math/hsGeometry3.h"
 #include "Math/hsQuat.h"
 #include "Util/hsBitVector.h"
@@ -48,8 +51,9 @@ protected:
     // Shared Properties
     float fMass, fFriction, fRestitution;
     plSimDefs::Bounds fBounds;
-    plSimDefs::Group fGroup;
-    unsigned int fCategory;
+    plSimDefs::Group fMemberGroup;
+    unsigned int fCollideGroup;
+    unsigned int fReportGroup;
     unsigned short fLOSDBs;
     plKey fObjectKey, fSceneNode, fSubWorld, fSoundGroup;
     hsVector3 fPos;
@@ -62,16 +66,12 @@ protected:
     hsTArray<unsigned int> fIndices;
 
     // Havok Properties
-    unsigned int fUnk1, fUnk2;
     bool fHKBool1, fHKBool2;
 
     // ODE Properties
     //unsigned int fUnk1, fUnk2;
     size_t fTMDSize;
     unsigned char* fTMDBuffer;
-
-    // PhysX Properties
-    unsigned int fReportsOn;
 
     void IReadHKPhysical(hsStream* S, plResManager* mgr);
     void IReadODEPhysical(hsStream* S, plResManager* mgr);
@@ -96,10 +96,9 @@ public:
     float getFriction() const { return fFriction; }
     float getRestitution() const { return fRestitution; }
     plSimDefs::Bounds getBoundsType() const { return fBounds; }
-    plSimDefs::Group getGroup() const { return fGroup; }
-    unsigned int getCategory() const { return fCategory; }
+    plSimDefs::Group getMemberGroup() const { return fMemberGroup; }
+    unsigned int getReportGroup() const { return fReportGroup; }
     unsigned short getLOSDBs() const { return fLOSDBs; }
-    unsigned int getReportsOn() const { return fReportsOn; }
 
     plKey getObject() const { return fObjectKey; }
     plKey getSceneNode() const { return fSceneNode; }
@@ -123,17 +122,16 @@ public:
     size_t getTMDSize() const { return fTMDSize; }
     const unsigned char* getTMDBuffer() const { return fTMDBuffer; }
 
-    unsigned int getUnknown1() const { return fUnk1; }
-    unsigned int getUnknown2() const { return fUnk2; }
+    //unsigned int getUnknown1() const { return fUnk1; }
+    //unsigned int getUnknown2() const { return fUnk2; }
 
     void setMass(float mass) { fMass = mass; }
     void setFriction(float friction) { fFriction = friction; }
     void setRestitution(float restitution) { fRestitution = restitution; }
     void setBoundsType(plSimDefs::Bounds bounds) { fBounds = bounds; }
-    void setGroup(plSimDefs::Group group) { fGroup = group; }
-    void setCategory(unsigned int category) { fCategory = category; }
+    void setMemberGroup(plSimDefs::Group group) { fMemberGroup = group; }
+    void setReportGroup(unsigned int report) { fReportGroup = report; }
     void setLOSDBs(unsigned short los) { fLOSDBs = los; }
-    void setReportsOn(unsigned int reports) { fReportsOn = reports; }
 
     void setObject(plKey object) { fObjectKey = object; }
     void setSceneNode(plKey node) { fSceneNode = node; }
@@ -150,8 +148,8 @@ public:
     void setIndices(size_t numIndices, const unsigned int* indices);
     void setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer);
 
-    void setUnknown1(unsigned int uk1) { fUnk1 = uk1; }
-    void setUnknown2(unsigned int uk2) { fUnk2 = uk2; }
+    //void setUnknown1(unsigned int uk1) { fUnk1 = uk1; }
+    //void setUnknown2(unsigned int uk2) { fUnk2 = uk2; }
 
     // Direct baked data buffer access (Currently only for PhysX with baked data)
     PhysType getBufferType() const;
