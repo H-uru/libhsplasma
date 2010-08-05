@@ -74,7 +74,8 @@ void plMatrixControllerChannel::IPrcWrite(pfPrcHelper* prc) {
     plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Controller");
-    fController->prcWrite(prc);
+    if (fController != NULL)
+        fController->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("AffineParts");

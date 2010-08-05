@@ -65,7 +65,8 @@ void plScalarControllerChannel::IPrcWrite(pfPrcHelper* prc) {
     plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Controller");
-    fController->prcWrite(prc);
+    if (fController != NULL)
+        fController->prcWrite(prc);
     prc->closeTag();
 }
 
