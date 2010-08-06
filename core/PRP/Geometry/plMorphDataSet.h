@@ -20,7 +20,7 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "plMorphArray.h"
 
-DllClass plMorphDataSet : public hsKeyedObject {
+DllClass plMorphDataSet : public virtual hsKeyedObject {
     CREATABLE(plMorphDataSet, kMorphDataSet, hsKeyedObject)
 
 protected:

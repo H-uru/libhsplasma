@@ -29,7 +29,7 @@
  * Class IDs, hsKeyedObject classes will always be in the < 0x0200 range,
  * whereas non-keyed classes are >= 0x0200.
  */
-DllClass hsKeyedObject : public plCreatable {
+DllClass hsKeyedObject : public virtual plCreatable {
     CREATABLE(hsKeyedObject, kKeyedObject, plCreatable)
 
 private:

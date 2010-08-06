@@ -45,7 +45,7 @@ public:
 };
 
 
-DllClass plDrawable : public hsKeyedObject {
+DllClass plDrawable : public virtual hsKeyedObject {
     CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 
 public:
@@ -100,7 +100,7 @@ public:
 };
 
 
-DllClass plDrawableSpans : public plDrawable {
+DllClass plDrawableSpans : public virtual plDrawable {
     CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
 
 protected:

@@ -70,7 +70,7 @@ public:
 };
 
 
-DllClass pfGUIControlMod : public plSingleModifier {
+DllClass pfGUIControlMod : public virtual plSingleModifier {
     CREATABLE(pfGUIControlMod, kGUIControlMod, plSingleModifier)
 
 public:

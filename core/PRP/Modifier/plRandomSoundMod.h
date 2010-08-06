@@ -34,7 +34,7 @@ public:
 };
 
 
-DllClass plRandomSoundMod : public plRandomCommandMod {
+DllClass plRandomSoundMod : public virtual plRandomCommandMod {
     CREATABLE(plRandomSoundMod, kRandomSoundMod, plRandomCommandMod)
 
 protected:

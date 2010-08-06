@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-DllClass plFacingConditionalObject : public plConditionalObject {
+DllClass plFacingConditionalObject : public virtual plConditionalObject {
     CREATABLE(plFacingConditionalObject, kFacingConditionalObject,
               plConditionalObject)
 

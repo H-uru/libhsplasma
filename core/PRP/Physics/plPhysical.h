@@ -49,7 +49,7 @@ public:
     static const char* GroupNames[];
 };
 
-DllClass plPhysical : public plSynchedObject {
+DllClass plPhysical : public virtual plSynchedObject {
     CREATABLE(plPhysical, kPhysical, plSynchedObject)
 };
 

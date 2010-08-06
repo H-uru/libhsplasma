@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "plAnimPath.h"
 
-DllClass plLineFollowMod : public plMultiModifier {
+DllClass plLineFollowMod : public virtual plMultiModifier {
     CREATABLE(plLineFollowMod, kLineFollowMod, plMultiModifier)
 
 public:

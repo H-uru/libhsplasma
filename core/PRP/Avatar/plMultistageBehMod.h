@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "plAnimStage.h"
 
-DllClass plMultistageBehMod : public plSingleModifier {
+DllClass plMultistageBehMod : public virtual plSingleModifier {
     CREATABLE(plMultistageBehMod, kMultistageBehMod, plSingleModifier)
 
 protected:

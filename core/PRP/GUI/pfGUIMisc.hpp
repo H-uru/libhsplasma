@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfGUIClickMapCtrl : public pfGUIControlMod {
+DllClass pfGUIClickMapCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUIClickMapCtrl, kGUIClickMapCtrl, pfGUIControlMod)
 
 public:
@@ -30,12 +30,12 @@ public:
 };
 
 
-DllClass pfGUIDragBarCtrl : public pfGUIControlMod {
+DllClass pfGUIDragBarCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUIDragBarCtrl, kGUIDragBarCtrl, pfGUIControlMod)
 };
 
 
-DllClass pfGUIDraggableMod : public pfGUIControlMod {
+DllClass pfGUIDraggableMod : public virtual pfGUIControlMod {
     CREATABLE(pfGUIDraggableMod, kGUIDraggableMod, pfGUIControlMod)
 
 public:
@@ -49,7 +49,7 @@ public:
 };
 
 
-DllClass pfGUIEditBoxMod : public pfGUIControlMod {
+DllClass pfGUIEditBoxMod : public virtual pfGUIControlMod {
     CREATABLE(pfGUIEditBoxMod, kGUIEditBoxMod, pfGUIControlMod)
 };
 

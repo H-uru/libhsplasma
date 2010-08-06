@@ -20,7 +20,7 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Util/hsBitVector.h"
 
-DllClass plConditionalObject : public hsKeyedObject {
+DllClass plConditionalObject : public virtual hsKeyedObject {
     CREATABLE(plConditionalObject, kConditionalObject, hsKeyedObject)
 
 protected:
@@ -38,13 +38,13 @@ protected:
 };
 
 
-DllClass plPickedConditionalObject : public plConditionalObject {
+DllClass plPickedConditionalObject : public virtual plConditionalObject {
     CREATABLE(plPickedConditionalObject, kPickedConditionalObject,
               plConditionalObject)
 };
 
 
-DllClass plPythonFileModConditionalObject : public plConditionalObject {
+DllClass plPythonFileModConditionalObject : public virtual plConditionalObject {
     CREATABLE(plPythonFileModConditionalObject,
               kPythonFileModConditionalObject,
               plConditionalObject)

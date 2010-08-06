@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass pfObjectFlocker : public plSingleModifier {
+DllClass pfObjectFlocker : public virtual plSingleModifier {
     CREATABLE(pfObjectFlocker, kObjectFlocker, plSingleModifier)
 
 public:

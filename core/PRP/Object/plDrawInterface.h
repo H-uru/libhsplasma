@@ -19,7 +19,7 @@
 
 #include "plObjInterface.h"
 
-DllClass plDrawInterface : public plObjInterface {
+DllClass plDrawInterface : public virtual plObjInterface {
     CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
 
 protected:

@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass plSeekPointMod : public plMultiModifier {
+DllClass plSeekPointMod : public virtual plMultiModifier {
     CREATABLE(plSeekPointMod, kSeekPointMod, plMultiModifier)
 
 protected:

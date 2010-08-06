@@ -19,7 +19,7 @@
 
 #include "plLogicModBase.h"
 
-DllClass plLogicModifier : public plLogicModBase {
+DllClass plLogicModifier : public virtual plLogicModBase {
     CREATABLE(plLogicModifier, kLogicModifier, plLogicModBase)
 
 protected:

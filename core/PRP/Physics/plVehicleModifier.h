@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
 
-DllClass plVehicleModifier : public plSingleModifier {
+DllClass plVehicleModifier : public virtual plSingleModifier {
     CREATABLE(plVehicleModifier, kVehicleModifier, plSingleModifier)
 
 public:

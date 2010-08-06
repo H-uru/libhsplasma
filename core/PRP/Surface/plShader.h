@@ -43,7 +43,7 @@ public:
 };
 
 
-DllClass plShader : public hsKeyedObject {
+DllClass plShader : public virtual hsKeyedObject {
     CREATABLE(plShader, kShader, hsKeyedObject)
 
 public:

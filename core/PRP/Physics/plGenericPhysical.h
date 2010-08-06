@@ -34,7 +34,7 @@
  * provide fully working physical objects for all 3 engines.
  **************/
 
-DllClass plGenericPhysical : public plPhysical {
+DllClass plGenericPhysical : public virtual plPhysical {
     CREATABLE(plGenericPhysical, kGenericPhysical, plPhysical)
 
 public:

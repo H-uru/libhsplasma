@@ -53,7 +53,7 @@ public:
 };
 
 
-DllClass plSoundBuffer : public hsKeyedObject {
+DllClass plSoundBuffer : public virtual hsKeyedObject {
     CREATABLE(plSoundBuffer, kSoundBuffer, hsKeyedObject)
 
 public:

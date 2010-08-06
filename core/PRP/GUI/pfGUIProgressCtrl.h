@@ -19,7 +19,7 @@
 
 #include "pfGUIValueCtrl.h"
 
-DllClass pfGUIProgressCtrl : public pfGUIValueCtrl {
+DllClass pfGUIProgressCtrl : public virtual pfGUIValueCtrl {
     CREATABLE(pfGUIProgressCtrl, kGUIProgressCtrl, pfGUIValueCtrl)
 
 public:

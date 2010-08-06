@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "3rdPartyLibs/AL/EFX-Util.h"
 
-DllClass plEAXListenerMod : public plSingleModifier {
+DllClass plEAXListenerMod : public virtual plSingleModifier {
     CREATABLE(plEAXListenerMod, kEAXListenerMod, plSingleModifier)
 
 protected:

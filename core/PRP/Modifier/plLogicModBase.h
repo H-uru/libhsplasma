@@ -20,7 +20,7 @@
 #include "plModifier.h"
 #include "PRP/Message/plNotifyMsg.h"
 
-DllClass plLogicModBase : public plSingleModifier {
+DllClass plLogicModBase : public virtual plSingleModifier {
     CREATABLE(plLogicModBase, kLogicModBase, plSingleModifier)
 
 public:

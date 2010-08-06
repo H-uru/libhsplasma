@@ -21,7 +21,7 @@
 #include "Util/hsTArray.hpp"
 #include "Math/hsMatrix44.h"
 
-DllClass plCoordinateInterface : public plObjInterface {
+DllClass plCoordinateInterface : public virtual plObjInterface {
     CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
 
 public:

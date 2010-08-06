@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-DllClass plGameMarkerModifier : public plSingleModifier {
+DllClass plGameMarkerModifier : public virtual plSingleModifier {
     CREATABLE(plGameMarkerModifier, kGameMarkerModifier, plSingleModifier)
 
 private:

@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-DllClass plAliasModifier : public plSingleModifier {
+DllClass plAliasModifier : public virtual plSingleModifier {
     CREATABLE(plAliasModifier, kAliasModifier, plSingleModifier)
 
 protected:

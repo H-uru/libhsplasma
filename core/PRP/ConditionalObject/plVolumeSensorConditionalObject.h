@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-DllClass plVolumeSensorConditionalObject : public plConditionalObject {
+DllClass plVolumeSensorConditionalObject : public virtual plConditionalObject {
     CREATABLE(plVolumeSensorConditionalObject,
               kVolumeSensorConditionalObject,
               plConditionalObject)
@@ -44,7 +44,7 @@ protected:
 };
 
 
-DllClass plVolumeSensorConditionalObjectNoArbitration : public plVolumeSensorConditionalObject {
+DllClass plVolumeSensorConditionalObjectNoArbitration : public virtual plVolumeSensorConditionalObject {
     CREATABLE(plVolumeSensorConditionalObjectNoArbitration,
               kVolumeSensorConditionalObjectNoArbitration,
               plVolumeSensorConditionalObject)

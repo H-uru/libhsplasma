@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-DllClass plCrossfade : public plSingleModifier {
+DllClass plCrossfade : public virtual plSingleModifier {
     CREATABLE(plCrossfade, kCrossfade, plSingleModifier)
 
 protected:

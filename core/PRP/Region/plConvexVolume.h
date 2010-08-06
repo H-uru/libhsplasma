@@ -21,7 +21,7 @@
 #include "Math/hsGeometry3.h"
 #include "Util/hsTArray.hpp"
 
-DllClass plConvexVolume : public plCreatable {
+DllClass plConvexVolume : public virtual plCreatable {
     CREATABLE(plConvexVolume, kConvexVolume, plCreatable)
 
 protected:

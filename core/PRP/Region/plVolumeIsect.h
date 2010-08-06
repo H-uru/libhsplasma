@@ -22,12 +22,12 @@
 #include "Math/hsMatrix44.h"
 #include "hsBounds.h"
 
-DllClass plVolumeIsect : public plCreatable {
+DllClass plVolumeIsect : public virtual plCreatable {
     CREATABLE(plVolumeIsect, kVolumeIsect, plCreatable)
 };
 
 
-DllClass plBoundsIsect : public plVolumeIsect {
+DllClass plBoundsIsect : public virtual plVolumeIsect {
     CREATABLE(plBoundsIsect, kBoundsIsect, plVolumeIsect)
 
 protected:
@@ -43,7 +43,7 @@ protected:
 };
 
 
-DllClass plConeIsect : public plVolumeIsect {
+DllClass plConeIsect : public virtual plVolumeIsect {
     CREATABLE(plConeIsect, kConeIsect, plVolumeIsect)
 
 protected:
@@ -66,7 +66,7 @@ protected:
 };
 
 
-DllClass plConvexIsect : public plVolumeIsect {
+DllClass plConvexIsect : public virtual plVolumeIsect {
     CREATABLE(plConvexIsect, kConvexIsect, plVolumeIsect)
 
 public:
@@ -90,7 +90,7 @@ protected:
 };
 
 
-DllClass plCylinderIsect : public plVolumeIsect {
+DllClass plCylinderIsect : public virtual plVolumeIsect {
     CREATABLE(plCylinderIsect, kCylinderIsect, plVolumeIsect)
 
 protected:
@@ -111,7 +111,7 @@ protected:
 };
 
 
-DllClass plParallelIsect : public plVolumeIsect {
+DllClass plParallelIsect : public virtual plVolumeIsect {
     CREATABLE(plParallelIsect, kParallelIsect, plVolumeIsect)
 
 public:
@@ -136,7 +136,7 @@ protected:
 };
 
 
-DllClass plSphereIsect : public plVolumeIsect {
+DllClass plSphereIsect : public virtual plVolumeIsect {
     CREATABLE(plSphereIsect, kSphereIsect, plVolumeIsect)
 
 protected:
@@ -156,7 +156,7 @@ protected:
 };
 
 
-DllClass plComplexIsect : public plVolumeIsect {
+DllClass plComplexIsect : public virtual plVolumeIsect {
     CREATABLE(plComplexIsect, kComplexIsect, plVolumeIsect)
 
 protected:
@@ -178,12 +178,12 @@ public:
 };
 
 
-DllClass plIntersectionIsect : public plComplexIsect {
+DllClass plIntersectionIsect : public virtual plComplexIsect {
     CREATABLE(plIntersectionIsect, kIntersectionIsect, plComplexIsect)
 };
 
 
-DllClass plUnionIsect : public plComplexIsect {
+DllClass plUnionIsect : public virtual plComplexIsect {
     CREATABLE(plUnionIsect, kUnionIsect, plComplexIsect)
 };
 

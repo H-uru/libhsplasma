@@ -20,7 +20,7 @@
 #include "plConditionalObject.h"
 #include "Sys/Platform.h"
 
-DllClass plKeyPressConditionalObject : public plConditionalObject {
+DllClass plKeyPressConditionalObject : public virtual plConditionalObject {
     CREATABLE(plKeyPressConditionalObject, kKeyPressConditionalObject,
               plConditionalObject)
 

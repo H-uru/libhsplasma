@@ -20,7 +20,7 @@
 #include "PRP/Object/plObjInterface.h"
 #include "Util/hsBitVector.h"
 
-DllClass plRelevanceRegion : public plObjInterface {
+DllClass plRelevanceRegion : public virtual plObjInterface {
     CREATABLE(plRelevanceRegion, kRelevanceRegion, plObjInterface)
 
 protected:

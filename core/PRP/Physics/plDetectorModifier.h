@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass plDetectorModifier : public plSingleModifier {
+DllClass plDetectorModifier : public virtual plSingleModifier {
     CREATABLE(plDetectorModifier, kDetectorModifier, plSingleModifier)
 
 protected:
@@ -49,7 +49,7 @@ public:
 };
 
 
-DllClass plPickingDetector : public plDetectorModifier {
+DllClass plPickingDetector : public virtual plDetectorModifier {
     CREATABLE(plPickingDetector, kPickingDetector, plDetectorModifier)
 };
 

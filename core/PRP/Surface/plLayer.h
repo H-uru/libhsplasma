@@ -18,7 +18,7 @@
 
 #include "plLayerInterface.h"
 
-DllClass plLayer : public plLayerInterface {
+DllClass plLayer : public virtual plLayerInterface {
     CREATABLE(plLayer, kLayer, plLayerInterface)
 
 public:
@@ -31,7 +31,7 @@ protected:
 };
 
 
-DllClass plLayerDepth : public plLayer {
+DllClass plLayerDepth : public virtual plLayer {
     CREATABLE(plLayerDepth, kLayerDepth, plLayer)
 };
 

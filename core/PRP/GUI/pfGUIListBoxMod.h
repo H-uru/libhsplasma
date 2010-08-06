@@ -41,7 +41,7 @@ public:
 };
 
 
-DllClass pfGUIListBoxMod : public pfGUIControlMod {
+DllClass pfGUIListBoxMod : public virtual pfGUIControlMod {
     CREATABLE(pfGUIListBoxMod, kGUIListBoxMod, pfGUIControlMod)
 
 public:

@@ -20,7 +20,7 @@
 #include "plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-DllClass plResponderModifier : public plSingleModifier {
+DllClass plResponderModifier : public virtual plSingleModifier {
     CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
 
 public:

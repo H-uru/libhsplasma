@@ -19,12 +19,12 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-DllClass plArmatureEffect : public hsKeyedObject {
+DllClass plArmatureEffect : public virtual hsKeyedObject {
     CREATABLE(plArmatureEffect, kArmatureEffect, hsKeyedObject)
 };
 
 
-DllClass plArmatureEffectFootSound : public plArmatureEffect {
+DllClass plArmatureEffectFootSound : public virtual plArmatureEffect {
     CREATABLE(plArmatureEffectFootSound, kArmatureEffectFootSound, plArmatureEffect)
 
 protected:
@@ -40,7 +40,7 @@ protected:
 };
 
 
-DllClass plArmatureEffectsMgr : public hsKeyedObject {
+DllClass plArmatureEffectsMgr : public virtual hsKeyedObject {
     CREATABLE(plArmatureEffectsMgr, kArmatureEffectsMgr, hsKeyedObject)
 
 public:

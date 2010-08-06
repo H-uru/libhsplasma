@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-DllClass plControlEventConditionalObject : public plConditionalObject {
+DllClass plControlEventConditionalObject : public virtual plConditionalObject {
     CREATABLE(plControlEventConditionalObject,
               kControlEventConditionalObject,
               plConditionalObject)
