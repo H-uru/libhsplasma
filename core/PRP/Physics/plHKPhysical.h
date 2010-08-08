@@ -27,39 +27,49 @@ public:
     };
 
     enum Group {
-        kGroupStatic,
-        kGroupAvatarBlocker,
-        kGroupDynamicBlocker,
-        kGroupAvatar,
-        kGroupDynamic = 0x2000000,
+        kGroupLOSOnly  = 0x0, // This seems most accurate?
+
+        kGroupUNKNOWN  = 0x20000,
+
+        kGroupDynamic  = 0x1000000,
+        kGroupStatic   = 0x2000000,
         kGroupDetector = 0x4000000,
-        kGroupLOSOnly,
+        kGroupAvatar   = 0x8000000,
+
+        //kGroupAvatarBlocker,
+        //kGroupDynamicBlocker,
         kGroupMax
     };
 
-    enum LOSDB {
-        kLOSDBNone = 0,
-        kLOSDBUIBlockers = 0x1,
-        kLOSDBUIItems = 0x2,
-        kLOSDBCameraBlockers = 0x4,
-        kLOSDBCustom = 0x8,
-        kLOSDBLocalAvatar = 0x10,
-        kLOSDBShootableItems = 0x20,
-        kLOSDBAvatarWalkable = 0x40,
-        kLOSDBSwimRegion = 0x80,
-        kLOSDBMax = 0x100,
-        kLOSDBForce16 = 0xFFFF
-    };
-
-    static plSimDefs::Bounds fromHKBounds(unsigned int bounds) {
-        return (plSimDefs::Bounds)bounds;
-    }
-
-    static Bounds toHKBounds(plSimDefs::Bounds bounds) {
-        if (bounds == plSimDefs::kCylinderBounds) {
-            /* This should throw an error */
+    static unsigned int fromGroup(unsigned int group) {
+        if (group & kGroupLOSOnly) {
+            return plSimDefs::kGroupLOSOnly;
+        } else if (group & kGroupDynamic) {
+            return plSimDefs::kGroupDynamic;
+        } else if (group & kGroupStatic) {
+            return plSimDefs::kGroupStatic;
+        } else if (group & kGroupDetector) {
+            return plSimDefs::kGroupDetector;
+        } else if (group & kGroupAvatar) {
+            return plSimDefs::kGroupAvatar;
         }
 
-        return (Bounds)bounds;
+        return plSimDefs::kGroupStatic;
+    }
+
+    static unsigned int toGroup(unsigned int group) {
+        if (group == plSimDefs::kGroupStatic) {
+            return kGroupStatic;
+        } else if (group == plSimDefs::kGroupAvatar) {
+            return kGroupAvatar;
+        } else if (group == plSimDefs::kGroupDynamic) {
+            return kGroupDynamic;
+        } else if (group == plSimDefs::kGroupDetector) {
+            return kGroupDetector;
+        } else if (group == plSimDefs::kGroupLOSOnly) {
+            return kGroupLOSOnly;
+        }
+
+        return kGroupStatic;
     }
 };

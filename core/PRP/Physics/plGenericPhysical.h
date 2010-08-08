@@ -51,7 +51,7 @@ protected:
     // Shared Properties
     float fMass, fFriction, fRestitution;
     plSimDefs::Bounds fBounds;
-    plSimDefs::Group fMemberGroup;
+    unsigned int fMemberGroup;
     unsigned int fCollideGroup;
     unsigned int fReportGroup;
     unsigned short fLOSDBs;
@@ -96,7 +96,7 @@ public:
     float getFriction() const { return fFriction; }
     float getRestitution() const { return fRestitution; }
     plSimDefs::Bounds getBoundsType() const { return fBounds; }
-    plSimDefs::Group getMemberGroup() const { return fMemberGroup; }
+    unsigned int getMemberGroup() const { return fMemberGroup; }
     unsigned int getReportGroup() const { return fReportGroup; }
     unsigned short getLOSDBs() const { return fLOSDBs; }
 
@@ -129,7 +129,7 @@ public:
     void setFriction(float friction) { fFriction = friction; }
     void setRestitution(float restitution) { fRestitution = restitution; }
     void setBoundsType(plSimDefs::Bounds bounds) { fBounds = bounds; }
-    void setMemberGroup(plSimDefs::Group group) { fMemberGroup = group; }
+    void setMemberGroup(unsigned int group) { fMemberGroup = group; }
     void setReportGroup(unsigned int report) { fReportGroup = report; }
     void setLOSDBs(unsigned short los) { fLOSDBs = los; }
 

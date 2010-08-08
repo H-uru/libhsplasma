@@ -36,20 +36,4 @@ public:
         kGroupLOSOnly,
         kGroupMax
     };
-
-    static plSimDefs::Bounds fromPXBounds(hsUbyte bounds) {
-        return (plSimDefs::Bounds)bounds;
-    }
-
-    static hsUbyte toPXBounds(plSimDefs::Bounds bounds) {
-        return (hsUbyte)((Bounds)bounds);
-    }
-
-    static plSimDefs::Group fromPXGroup(Group group) {
-        return (plSimDefs::Group)group;
-    }
-
-    static Group toPXGroup(plSimDefs::Group group) {
-        return (Group)group;
-    }
 };

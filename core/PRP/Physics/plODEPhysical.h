@@ -26,6 +26,7 @@ public:
         kExplicitBounds, kCylinderBounds, kNumBounds, kBoundsMax = 0xFF
     };
 
+    /* TODO! */
     enum Group {
         kGroupStatic,
         kGroupAvatarBlocker,
@@ -36,12 +37,4 @@ public:
         kGroupLOSOnly,
         kGroupMax
     };
-
-    static plSimDefs::Bounds fromODEBounds(unsigned int bounds) {
-        return (plSimDefs::Bounds)bounds;
-    }
-
-    static Bounds toODEBounds(plSimDefs::Bounds bounds) {
-        return (Bounds)bounds;
-    }
 };
