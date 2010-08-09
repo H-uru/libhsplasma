@@ -36,4 +36,78 @@ public:
         kGroupLOSOnly,
         kGroupMax
     };
+
+    static unsigned int fromGroup(hsUbyte group) {
+        if (group == kGroupStatic) {
+            return plSimDefs::kGroupStatic;
+        } else if (group == kGroupAvatarBlocker) {
+            return plSimDefs::kGroupStatic;
+        } else if (group == kGroupDynamicBlocker) {
+            return plSimDefs::kGroupStatic;
+        } else if (group == kGroupAvatar) {
+            return plSimDefs::kGroupAvatar;
+        } else if (group == kGroupDynamic) {
+            return plSimDefs::kGroupDynamic;
+        } else if (group == kGroupDetector) {
+            return plSimDefs::kGroupDetector;
+        } else if (group == kGroupLOSOnly) {
+            return plSimDefs::kGroupLOSOnly;
+        }
+
+        return plSimDefs::kGroupStatic;
+    }
+
+    static hsUbyte toGroup(unsigned int group, unsigned int collide) {
+        if (collide == plSimDefs::kGroupAvatar) {
+            return kGroupAvatarBlocker;
+        } else if (collide == plSimDefs::kGroupDynamic) {
+            return kGroupDynamicBlocker;
+        } else if (group == plSimDefs::kGroupStatic) {
+            return kGroupStatic;
+        } else if (group == plSimDefs::kGroupAvatar) {
+            return kGroupAvatar;
+        } else if (group == plSimDefs::kGroupDynamic) {
+            return kGroupDynamic;
+        } else if (group == plSimDefs::kGroupDetector) {
+            return kGroupDetector;
+        } else if (group == plSimDefs::kGroupLOSOnly) {
+            return kGroupLOSOnly;
+        }
+
+        return kGroupStatic;
+    }
+
+    static unsigned int getCollideGroup(hsUbyte group) {
+        if (group == kGroupAvatarBlocker) {
+            return (1 << plSimDefs::kGroupAvatar);
+        } else if (group == kGroupDynamicBlocker) {
+            return (1 << plSimDefs::kGroupDynamic);
+        } else {
+            return 0;
+        }
+    }
+
+    static unsigned int getReportsOn(unsigned int group) {
+        unsigned int retGroup = 0;
+
+        for (size_t i=0; i<kGroupMax; i++) {
+            if ((group & (1 << i)) == (1 << i)) {
+                retGroup |= (1 << fromGroup(i));
+            }
+        }
+
+        return retGroup;
+    }
+
+    static unsigned int setReportsOn(unsigned int group) {
+        unsigned int retGroup = 0;
+
+        for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
+            if ((group & (1 << i)) == (1 << i)) {
+                retGroup |= (1 << toGroup(i,0));
+            }
+        }
+
+        return retGroup;
+    }
 };

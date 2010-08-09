@@ -34,11 +34,7 @@ public:
         kGroupDynamic  = 0x1000000,
         kGroupStatic   = 0x2000000,
         kGroupDetector = 0x4000000,
-        kGroupAvatar   = 0x8000000,
-
-        //kGroupAvatarBlocker,
-        //kGroupDynamicBlocker,
-        kGroupMax
+        kGroupAvatar   = 0x8000000
     };
 
     static unsigned int fromGroup(unsigned int group) {
@@ -71,5 +67,33 @@ public:
         }
 
         return kGroupStatic;
+    }
+
+    static unsigned int getBitshiftGroup(unsigned int group) {
+        unsigned int retGroup = 0;
+
+        if (group & kGroupDynamic) {
+            retGroup |= (1 << plSimDefs::kGroupDynamic);
+        } else if (group & kGroupStatic) {
+            retGroup |= (1 << plSimDefs::kGroupStatic);
+        } else if (group & kGroupDetector) {
+            retGroup |= (1 << plSimDefs::kGroupDetector);
+        } else if (group & kGroupAvatar) {
+            retGroup |= (1 << plSimDefs::kGroupAvatar);
+        }
+
+        return retGroup;
+    }
+
+    static unsigned int setBitshiftGroup(unsigned int group) {
+        unsigned int retGroup = 0;
+
+        for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
+            if ((group & (1 << i)) == (1 << i)) {
+                retGroup |= toGroup(i);
+            }
+        }
+
+        return retGroup;
     }
 };
