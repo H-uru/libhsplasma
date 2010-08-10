@@ -27,14 +27,16 @@ public:
     };
 
     enum Group {
-        kGroupLOSOnly  = 0x0, // This seems most accurate?
+        kGroupLOSOnly   =       0x0, // This seems most accurate?
 
-        kGroupUNKNOWN  = 0x20000,
+        kGroupClickable =   0x20000, //CollideGroup Clickables
 
-        kGroupDynamic  = 0x1000000,
-        kGroupStatic   = 0x2000000,
-        kGroupDetector = 0x4000000,
-        kGroupAvatar   = 0x8000000
+        kGroupUNKNOWN   =  0x800000, //CollideGroup something dynamic?
+
+        kGroupDynamic   = 0x1000000,
+        kGroupStatic    = 0x2000000,
+        kGroupDetector  = 0x4000000,
+        kGroupAvatar    = 0x8000000
     };
 
     static unsigned int fromGroup(unsigned int group) {
