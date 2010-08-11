@@ -100,10 +100,6 @@ PyObject* Init_pySimDefs_Type() {
     /* Group */
     PyDict_SetItemString(pySimDefs_Type.tp_dict, "kGroupStatic",
                          PyInt_FromLong(plSimDefs::kGroupStatic));
-    PyDict_SetItemString(pySimDefs_Type.tp_dict, "kGroupAvatarBlocker",
-                         PyInt_FromLong(plSimDefs::kGroupAvatarBlocker));
-    PyDict_SetItemString(pySimDefs_Type.tp_dict, "kGroupDynamicBlocker",
-                         PyInt_FromLong(plSimDefs::kGroupDynamicBlocker));
     PyDict_SetItemString(pySimDefs_Type.tp_dict, "kGroupAvatar",
                          PyInt_FromLong(plSimDefs::kGroupAvatar));
     PyDict_SetItemString(pySimDefs_Type.tp_dict, "kGroupDynamic",

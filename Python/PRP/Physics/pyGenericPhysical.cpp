@@ -94,20 +94,8 @@ static PyObject* pyGenericPhysical_getBounds(pyGenericPhysical* self, void*) {
     return PyInt_FromLong(self->fThis->getBoundsType());
 }
 
-static PyObject* pyGenericPhysical_getGroup(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getGroup());
-}
-
-static PyObject* pyGenericPhysical_getCat(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getCategory());
-}
-
 static PyObject* pyGenericPhysical_getLOSDBs(pyGenericPhysical* self, void*) {
     return PyInt_FromLong(self->fThis->getLOSDBs());
-}
-
-static PyObject* pyGenericPhysical_getReports(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getReportsOn());
 }
 
 static PyObject* pyGenericPhysical_getObject(pyGenericPhysical* self, void*) {
@@ -169,14 +157,6 @@ static PyObject* pyGenericPhysical_getTMDBuffer(pyGenericPhysical* self, void*) 
                                      self->fThis->getTMDSize());
 }
 
-static PyObject* pyGenericPhysical_getUnknown1(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getUnknown1());
-}
-
-static PyObject* pyGenericPhysical_getUnknown2(pyGenericPhysical* self, void*) {
-    return PyInt_FromLong(self->fThis->getUnknown2());
-}
-
 static int pyGenericPhysical_setMass(pyGenericPhysical* self, PyObject* value, void*) {
     if (value == NULL || !PyFloat_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "mass should be a float");
@@ -213,39 +193,12 @@ static int pyGenericPhysical_setBounds(pyGenericPhysical* self, PyObject* value,
     return 0;
 }
 
-static int pyGenericPhysical_setGroup(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "group should be an int");
-        return -1;
-    }
-    self->fThis->setGroup((plSimDefs::Group)PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setCat(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "category should be an int");
-        return -1;
-    }
-    self->fThis->setCategory(PyInt_AsLong(value));
-    return 0;
-}
-
 static int pyGenericPhysical_setLOSDBs(pyGenericPhysical* self, PyObject* value, void*) {
     if (value == NULL || !PyInt_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "LOSDBs should be an int");
         return -1;
     }
     self->fThis->setLOSDBs(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setReports(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "reportsOn should be an int");
-        return -1;
-    }
-    self->fThis->setReportsOn(PyInt_AsLong(value));
     return 0;
 }
 
@@ -420,33 +373,12 @@ static int pyGenericPhysical_setTMDBuffer(pyGenericPhysical* self, PyObject* val
     return 0;
 }
 
-static int pyGenericPhysical_setUnknown1(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "unk1 should be an int");
-        return -1;
-    }
-    self->fThis->setUnknown1(PyInt_AsLong(value));
-    return 0;
-}
-
-static int pyGenericPhysical_setUnknown2(pyGenericPhysical* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "unk2 should be an int");
-        return -1;
-    }
-    self->fThis->setUnknown2(PyInt_AsLong(value));
-    return 0;
-}
-
 static PyGetSetDef pyGenericPhysical_GetSet[] = {
     { "mass", (getter)pyGenericPhysical_getMass, (setter)pyGenericPhysical_setMass, NULL, NULL },
     { "friction", (getter)pyGenericPhysical_getFriction, (setter)pyGenericPhysical_setFriction, NULL, NULL },
     { "restitution", (getter)pyGenericPhysical_getRestitution, (setter)pyGenericPhysical_setRestitution, NULL, NULL },
     { "boundsType", (getter)pyGenericPhysical_getBounds, (setter)pyGenericPhysical_setBounds, NULL, NULL },
-    { "group", (getter)pyGenericPhysical_getGroup, (setter)pyGenericPhysical_setGroup, NULL, NULL },
-    { "category", (getter)pyGenericPhysical_getCat, (setter)pyGenericPhysical_setCat, NULL, NULL },
     { "LOSDBs", (getter)pyGenericPhysical_getLOSDBs, (setter)pyGenericPhysical_setLOSDBs, NULL, NULL },
-    { "reportsOn", (getter)pyGenericPhysical_getReports, (setter)pyGenericPhysical_setReports, NULL, NULL },
     { "object", (getter)pyGenericPhysical_getObject, (setter)pyGenericPhysical_setObject, NULL, NULL },
     { "sceneNode", (getter)pyGenericPhysical_getSceneNode, (setter)pyGenericPhysical_setSceneNode, NULL, NULL },
     { "subWorld", (getter)pyGenericPhysical_getSubWorld, (setter)pyGenericPhysical_setSubWorld, NULL, NULL },
@@ -460,10 +392,6 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
     { "verts", (getter)pyGenericPhysical_getVerts, (setter)pyGenericPhysical_setVerts, NULL, NULL },
     { "indices", (getter)pyGenericPhysical_getIndices, (setter)pyGenericPhysical_setIndices, NULL, NULL },
     { "TMDBuffer", (getter)pyGenericPhysical_getTMDBuffer, (setter)pyGenericPhysical_setTMDBuffer, NULL, NULL },
-    { "Unknown1", (getter)pyGenericPhysical_getUnknown1,
-        (setter)pyGenericPhysical_setUnknown1, NULL, NULL },
-    { "Unknown2", (getter)pyGenericPhysical_getUnknown2,
-        (setter)pyGenericPhysical_setUnknown2, NULL, NULL },
     { NULL, NULL, 0, NULL }
 };
 
