@@ -29,6 +29,8 @@ public:
     enum Group {
         kGroupLOSOnly   =       0x0, // This seems most accurate?
 
+        kGroupWTFAhnonay =      0x2, // ONLY seen on TreePlane in Sphere02
+
         kGroupClickable =   0x20000, //CollideGroup Clickables
 
         kGroupUNKNOWN   =  0x800000, //CollideGroup something dynamic?
