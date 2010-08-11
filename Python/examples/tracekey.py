@@ -154,6 +154,12 @@ def hasRef(cre, ref):
         obj = plWinAudible.Convert(cre)
         if obj.sceneNode == ref: return True
         if ref in obj.sounds: return True
+    if cre.ClassInstance(plFactory.kLayer):
+        obj = plLayer.Convert(cre)
+        if obj.underLay == ref: return True
+        if obj.texture == ref: return True
+        if obj.vertexShader == ref: return True
+        if obj.pixelShader == ref: return True
 
     # Non-Keyed objects
     if cre.ClassInstance(plFactory.kMessage):

@@ -140,7 +140,9 @@ void hsBitVector::read(hsStream* S) {
 }
 
 void hsBitVector::write(hsStream* S) {
+#ifndef DEBUG // don't modify the written objects, we might want to compare them
     compact();
+#endif
     S->writeInt(fNumVectors);
     for (size_t i=0; i<fNumVectors; i++)
         S->writeInt(fBits[i]);
