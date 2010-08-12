@@ -35,6 +35,7 @@ public:
         kGroupDynamic,
         kGroupDetector,
         kGroupLOSOnly,
+        kGroupClickable,
         kGroupMax
     };
 

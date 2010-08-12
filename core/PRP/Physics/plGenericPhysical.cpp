@@ -109,6 +109,7 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
 
     plString groups = "";
     plString reports = "";
+    plString collides = "";
     for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
         if (fMemberGroup == i) {
            groups += plSimDefs::GroupNames[i];
@@ -118,6 +119,10 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
            reports += plSimDefs::GroupNames[i];
            reports += " ";
         }
+        if ((fCollideGroup & (1 << i)) == (1 << i)) {
+           collides += plSimDefs::GroupNames[i];
+           collides += " ";
+        }
     }
 
     prc->startTag("PhysicalParams");
@@ -126,9 +131,10 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Restitution", fRestitution);
     prc->writeParam("MemberGroup", groups);
     prc->writeParam("ReportGroup", reports);
+    prc->writeParam("CollideGroup", collides);
     prc->writeParamHex("MemberGroupHEX", fMemberGroup);
     prc->writeParamHex("ReportGroupHEX", fReportGroup);
-    prc->writeParamHex("CollideGroup", fCollideGroup);
+    prc->writeParamHex("CollideGroupHEX", fCollideGroup);
     prc->writeParamHex("LOSDBs", fLOSDBs);
     prc->writeParam("HKBool1", fHKBool1);
     prc->writeParam("HKBool2", fHKBool2);
@@ -243,13 +249,17 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
         plString group = tag->getParam("MemberGroup", "kGroupStatic");
         plString reports = tag->getParam("ReportGroup", "");
-        fMemberGroup = fReportGroup = 0;
+        plString collides = tag->getParam("CollideGroup", "");
+        fMemberGroup = fReportGroup = fCollideGroup = 0;
         for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
             if (group.find(plSimDefs::GroupNames[i]) != -1) {
                 fMemberGroup |= i;
             }
             if (reports.find(plSimDefs::GroupNames[i]) != -1) {
                 fReportGroup |= (1 << i);
+            }
+            if (collides.find(plSimDefs::GroupNames[i]) != -1) {
+                fCollideGroup |= (1 << i);
             }
         }
     } else if (tag->getName() == "Object") {
@@ -393,29 +403,28 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
     unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
     unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
+    bool showLOSDB = false;
     // these should be the same hacks as in the write function!
-    if (fLOSDBs & (plSimDefs::kLOSDBUIItems | plSimDefs::kLOSDBUIBlockers)) 
-    {
-        colGroup |= plHKSimDefs::kGroupClickable;
-    }
     if (fMemberGroup == plSimDefs::kGroupDynamic) {
         colGroup |= 0x800000;
     }
     // now compare
-    if (memGroup != hMemberGroup) {
+    if (showLOSDB = (memGroup != hMemberGroup)) {
         plDebug::Error("%s memGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hMemberGroup, memGroup);
     }
-    if (repGroup != hReportGroup) {
+    if (showLOSDB |= (repGroup != hReportGroup)) {
         plDebug::Error("%s repGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hReportGroup, repGroup);
     }
-    if (colGroup != hCollideGroup) {
+    if (showLOSDB |= (colGroup != hCollideGroup)) {
         plDebug::Error("%s colGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hCollideGroup, colGroup);
     }
-    plDebug::Debug("%s LOSDBs = 0x%08X", getKey()->toString().cstr(),
-            fLOSDBs);
+    if (showLOSDB) {
+        plDebug::Debug("%s LOSDBs = 0x%08X", getKey()->toString().cstr(),
+                fLOSDBs);
+    }
 #endif
 }
 
@@ -468,6 +477,10 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     fObjectKey = mgr->readKey(S);
     fSceneNode = mgr->readKey(S);
     fSubWorld = mgr->readKey(S);
+
+    if (fLOSDBs & plSimDefs::kLOSDBUIItems) {
+        fCollideGroup |= (1 << plSimDefs::kGroupClickable);
+    }
 
     fSoundGroup = mgr->readKey(S);
     fPos.read(S);
@@ -607,11 +620,7 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
 
     S->writeInt(plHKSimDefs::toGroup(fMemberGroup));
     S->writeInt(plHKSimDefs::setBitshiftGroup(fReportGroup));
-    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
-    if (fLOSDBs & plSimDefs::kLOSDBUIItems) {
-        colGroup |= plHKSimDefs::kGroupClickable;
-    }
-    S->writeInt(colGroup);
+    S->writeInt(plHKSimDefs::setBitshiftGroup(fCollideGroup));
 
     S->writeBool(fHKBool1);
     S->writeBool(fHKBool2);

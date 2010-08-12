@@ -31,7 +31,7 @@ public:
 
         kGroupWTFAhnonay =      0x2, // ONLY seen on TreePlane in Sphere02
 
-        kGroupClickable =   0x20000, //CollideGroup Clickables
+        kGroupClickable =   0x20000,
 
         kGroupUNKNOWN   =  0x800000, //CollideGroup something dynamic?
 
@@ -52,6 +52,8 @@ public:
             return plSimDefs::kGroupDetector;
         } else if (group & kGroupAvatar) {
             return plSimDefs::kGroupAvatar;
+        } else if (group & kGroupClickable) {
+            return plSimDefs::kGroupClickable;
         }
 
         return plSimDefs::kGroupStatic;
@@ -68,6 +70,8 @@ public:
             return kGroupDetector;
         } else if (group == plSimDefs::kGroupLOSOnly) {
             return kGroupLOSOnly;
+        } else if (group == plSimDefs::kGroupClickable) {
+            return kGroupClickable;
         }
 
         return kGroupStatic;
@@ -87,6 +91,9 @@ public:
         }
         if (group & kGroupAvatar) {
             retGroup |= (1 << plSimDefs::kGroupAvatar);
+        }
+        if (group & kGroupClickable) {
+            retGroup |= (1 << plSimDefs::kGroupClickable);
         }
 
         return retGroup;
