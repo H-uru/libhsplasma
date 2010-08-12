@@ -42,7 +42,7 @@ public:
     };
 
     static unsigned int fromGroup(unsigned int group) {
-        if (group & kGroupLOSOnly) {
+        if (group == kGroupLOSOnly) {
             return plSimDefs::kGroupLOSOnly;
         } else if (group & kGroupDynamic) {
             return plSimDefs::kGroupDynamic;
@@ -78,11 +78,14 @@ public:
 
         if (group & kGroupDynamic) {
             retGroup |= (1 << plSimDefs::kGroupDynamic);
-        } else if (group & kGroupStatic) {
+        }
+        if (group & kGroupStatic) {
             retGroup |= (1 << plSimDefs::kGroupStatic);
-        } else if (group & kGroupDetector) {
+        }
+        if (group & kGroupDetector) {
             retGroup |= (1 << plSimDefs::kGroupDetector);
-        } else if (group & kGroupAvatar) {
+        }
+        if (group & kGroupAvatar) {
             retGroup |= (1 << plSimDefs::kGroupAvatar);
         }
 

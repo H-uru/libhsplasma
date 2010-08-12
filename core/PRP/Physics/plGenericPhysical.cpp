@@ -355,13 +355,14 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     axis.read(S);
     fRot = hsQuat(axis.X, axis.Y, axis.Z, rad);
 
+    unsigned int hMemberGroup, hReportGroup, hCollideGroup;
     fMass = S->readFloat();
     fFriction = S->readFloat();
     fRestitution = S->readFloat();
     fBounds = (plSimDefs::Bounds)S->readInt();
-    fMemberGroup = plHKSimDefs::fromGroup(S->readInt());
-    fReportGroup = plHKSimDefs::getBitshiftGroup(S->readInt());
-    fCollideGroup = plHKSimDefs::getBitshiftGroup(S->readInt());
+    fMemberGroup = plHKSimDefs::fromGroup(hMemberGroup = S->readInt());
+    fReportGroup = plHKSimDefs::getBitshiftGroup(hReportGroup = S->readInt());
+    fCollideGroup = plHKSimDefs::getBitshiftGroup(hCollideGroup = S->readInt());
     fHKBool1 = S->readBool();
     fHKBool2 = S->readBool();
 
@@ -387,6 +388,35 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     fLOSDBs = S->readInt();
     fSubWorld = mgr->readKey(S);
     fSoundGroup = mgr->readKey(S);
+
+#ifdef DEBUG
+    unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
+    unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
+    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
+    // these should be the same hacks as in the write function!
+    if (fLOSDBs & (plSimDefs::kLOSDBUIItems | plSimDefs::kLOSDBUIBlockers)) 
+    {
+        colGroup |= plHKSimDefs::kGroupClickable;
+    }
+    if (fMemberGroup == plSimDefs::kGroupDynamic) {
+        colGroup |= 0x800000;
+    }
+    // now compare
+    if (memGroup != hMemberGroup) {
+        plDebug::Error("%s memGroup changed: 0x%08X => 0x%08X",
+                getKey()->toString().cstr(), hMemberGroup, memGroup);
+    }
+    if (repGroup != hReportGroup) {
+        plDebug::Error("%s repGroup changed: 0x%08X => 0x%08X",
+                getKey()->toString().cstr(), hReportGroup, repGroup);
+    }
+    if (colGroup != hCollideGroup) {
+        plDebug::Error("%s colGroup changed: 0x%08X => 0x%08X",
+                getKey()->toString().cstr(), hCollideGroup, colGroup);
+    }
+    plDebug::Debug("%s LOSDBs = 0x%08X", getKey()->toString().cstr(),
+            fLOSDBs);
+#endif
 }
 
 void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr) {
