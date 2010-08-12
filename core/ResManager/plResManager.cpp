@@ -457,7 +457,7 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
 #endif
         for (unsigned int j=0; j<kList.size(); j++) {
             kList[j]->setFileOff(S->pos());
-            kList[j]->setID(j);
+            kList[j]->setID(j + 1);
             if (kList[j]->getObj() != NULL) {
                 try {
 #ifdef RMTRACE
