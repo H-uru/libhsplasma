@@ -37,6 +37,19 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const plAgeLinkStruct& getAgeLink() const { return fAgeLink; }
+    plAgeLinkStruct& getAgeLink() { return fAgeLink; }
+
+    const plAgeLinkEffects& getLinkEffects() const { return fLinkEffects; }
+    plAgeLinkEffects& getLinkEffects() { return fLinkEffects; }
+
+    hsByte getStreamVersion() const { return fStreamVersion; }
+    hsByte getEoaUnknown() const { return fEoaUnknown; }
+
+    void setStreamVersion(hsByte ver) { fStreamVersion = ver; }
+    void setEoaUnknown(hsByte value) { fEoaUnknown = value; }
 };
 
 

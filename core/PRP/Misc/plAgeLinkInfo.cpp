@@ -152,19 +152,81 @@ void plAgeInfoStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAgeInfoStruct::setAgeFilename(const plString& name) {
+void plAgeInfoStruct::setAgeFilename(plString name) {
     fFlags |= kHasAgeFilename;
     fAgeFilename = name;
 }
 
-void plAgeInfoStruct::setAgeInstanceName(const plString& name) {
+void plAgeInfoStruct::setAgeInstanceName(plString name) {
     fFlags |= kHasAgeInstanceName;
     fAgeInstanceName = name;
 }
 
+void plAgeInfoStruct::setAgeInstanceGuid(const plUuid& guid) {
+    fFlags |= kHasAgeInstanceGuid;
+    fAgeInstanceGuid = guid;
+}
+
+void plAgeInfoStruct::setAgeUserDefinedName(plString name) {
+    fFlags |= kHasAgeUserDefinedName;
+    fAgeUserDefinedName = name;
+}
+
+void plAgeInfoStruct::setAgeDescription(plString desc) {
+    fFlags |= kHasAgeDescription;
+    fAgeDescription = desc;
+}
+
+void plAgeInfoStruct::setAgeSequenceNumber(int seq) {
+    fFlags |= kHasAgeSequenceNumber;
+    fAgeSequenceNumber = seq;
+}
+
+void plAgeInfoStruct::setAgeLanguage(int lang) {
+    fFlags |= kHasAgeLanguage;
+    fAgeLanguage = lang;
+}
+
+void plAgeInfoStruct::clearAgeFilename() {
+    fAgeFilename = plString();
+    fFlags &= ~kHasAgeFilename;
+}
+
+void plAgeInfoStruct::clearAgeInstanceName() {
+    fAgeInstanceName = plString();
+    fFlags &= ~kHasAgeInstanceName;
+}
+
+void plAgeInfoStruct::clearAgeInstanceGuid() {
+    fAgeInstanceGuid = plUuid();
+    fFlags &= ~kHasAgeInstanceGuid;
+}
+
+void plAgeInfoStruct::clearAgeUserDefinedName() {
+    fAgeUserDefinedName = plString();
+    fFlags &= ~kHasAgeUserDefinedName;
+}
+
+void plAgeInfoStruct::clearAgeDescription() {
+    fAgeDescription = plString();
+    fFlags &= ~kHasAgeDescription;
+}
+
+void plAgeInfoStruct::clearAgeSequenceNumber() {
+    fAgeSequenceNumber = 0;
+    fFlags &= ~kHasAgeSequenceNumber;
+}
+
+void plAgeInfoStruct::clearAgeLanguage() {
+    fAgeLanguage = 0;
+    fFlags &= ~kHasAgeLanguage;
+}
+
 
 /* plAgeLinkStruct */
-plAgeLinkStruct::plAgeLinkStruct() : fFlags(0), fLinkingRules(0), fAmCCR(0) { }
+plAgeLinkStruct::plAgeLinkStruct()
+               : fFlags(kHasAgeInfo | kHasSpawnPt), fLinkingRules(0),
+                 fAmCCR(0) { }
 
 void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
     if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
@@ -295,8 +357,48 @@ void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plAgeLinkStruct::clear() {
-    fFlags = 0;
+void plAgeLinkStruct::setLinkingRules(signed char rules) {
+    fLinkingRules = rules;
+    fFlags |= kHasLinkingRules;
+}
+
+void plAgeLinkStruct::setAmCCR(unsigned char ccr) {
+    fAmCCR = ccr;
+    fFlags |= kHasAmCCR;
+}
+
+void plAgeLinkStruct::setParentAgeFilename(plString filename) {
+    fParentAgeFilename = filename;
+    fFlags |= kHasParentAgeFilename;
+}
+
+void plAgeLinkStruct::setHasAgeInfo(bool has) {
+    if (has)
+        fFlags |= kHasAgeInfo;
+    else
+        fFlags &= ~kHasAgeInfo;
+}
+
+void plAgeLinkStruct::setHasSpawnPoint(bool has) {
+    if (has)
+        fFlags |= kHasSpawnPt;
+    else
+        fFlags &= ~kHasSpawnPt;
+}
+
+void plAgeLinkStruct::clearLinkingRules() {
+    fLinkingRules = 0;
+    fFlags &= ~kHasLinkingRules;
+}
+
+void plAgeLinkStruct::clearAmCCR() {
+    fAmCCR = 0;
+    fFlags &= ~kHasAmCCR;
+}
+
+void plAgeLinkStruct::clearParentAgeFilename() {
+    fParentAgeFilename = plString();
+    fFlags &= ~kHasParentAgeFilename;
 }
 
 

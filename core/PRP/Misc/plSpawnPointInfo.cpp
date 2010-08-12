@@ -65,10 +65,6 @@ void plSpawnPointInfo::prcParse(const pfPrcTag* tag) {
     fCameraStack = tag->getParam("CameraStack", "");
 }
 
-bool plSpawnPointInfo::isEmpty() {
-    return (fTitle.empty() && fSpawnPt.empty() && fCameraStack.empty());
-}
-
 void plSpawnPointInfo::clear() {
     fTitle = "";
     fSpawnPt = "";

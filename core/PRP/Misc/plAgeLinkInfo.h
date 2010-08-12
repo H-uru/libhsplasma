@@ -41,7 +41,6 @@ protected:
     plUuid fAgeInstanceGuid;
     plString fAgeUserDefinedName, fAgeDescription;
     int fAgeSequenceNumber, fAgeLanguage;
-    plString fDisplayName;
 
 public:
     plAgeInfoStruct();
@@ -58,11 +57,29 @@ public:
     bool isEmpty() { return (fFlags == 0); }
     void clear() { fFlags = 0; }
 
-    const plString& getAgeFilename() const { return fAgeFilename; }
-    const plString& getAgeInstanceName() const { return fAgeInstanceName; }
+    plString getAgeFilename() const { return fAgeFilename; }
+    plString getAgeInstanceName() const { return fAgeInstanceName; }
+    const plUuid& getAgeInstanceGuid() const { return fAgeInstanceGuid; }
+    plString getAgeUserDefinedName() const { return fAgeUserDefinedName; }
+    plString getAgeDescription() const { return fAgeDescription; }
+    int getAgeSequenceNumber() const { return fAgeSequenceNumber; }
+    int getAgeLanguage() const { return fAgeLanguage; }
 
-    void setAgeFilename(const plString& name);
-    void setAgeInstanceName(const plString& name);
+    void setAgeFilename(plString name);
+    void setAgeInstanceName(plString name);
+    void setAgeInstanceGuid(const plUuid& guid);
+    void setAgeUserDefinedName(plString name);
+    void setAgeDescription(plString desc);
+    void setAgeSequenceNumber(int seq);
+    void setAgeLanguage(int lang);
+
+    void clearAgeFilename();
+    void clearAgeInstanceName();
+    void clearAgeInstanceGuid();
+    void clearAgeUserDefinedName();
+    void clearAgeDescription();
+    void clearAgeSequenceNumber();
+    void clearAgeLanguage();
 };
 
 
@@ -100,7 +117,28 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    void clear();
+    bool isEmpty() { return (fFlags == 0); }
+    void clear() { fFlags = 0; }
+
+    const plAgeInfoStruct& getAgeInfo() const { return fAgeInfo; }
+    plAgeInfoStruct& getAgeInfo() { return fAgeInfo; }
+
+    const plSpawnPointInfo& getSpawnPoint() const { return fSpawnPoint; }
+    plSpawnPointInfo& getSpawnPoint() { return fSpawnPoint; }
+
+    signed char getLinkingRules() const { return fLinkingRules; }
+    unsigned char getAmCCR() const { return fAmCCR; }
+    plString getParentAgeFilename() const { return fParentAgeFilename; }
+
+    void setLinkingRules(signed char rules);
+    void setAmCCR(unsigned char ccr);
+    void setParentAgeFilename(plString filename);
+
+    void setHasAgeInfo(bool has);
+    void setHasSpawnPoint(bool has);
+    void clearLinkingRules();
+    void clearAmCCR();
+    void clearParentAgeFilename();
 };
 
 
@@ -116,6 +154,19 @@ public:
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
+
+public:
+    plString getLinkInAnimName() const { return fLinkInAnimName; }
+    bool getBool1() const { return fBool1; }
+    bool getBool2() const { return fBool2; }
+    bool getBool3() const { return fBool3; }
+    bool getBool4() const { return fBool4; }
+
+    void setLinkInAnimName(plString name) { fLinkInAnimName = name; }
+    void setBool1(bool value) { fBool1 = value; }
+    void setBool2(bool value) { fBool2 = value; }
+    void setBool3(bool value) { fBool3 = value; }
+    void setBool4(bool value) { fBool4 = value; }
 };
 
 #endif

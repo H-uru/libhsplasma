@@ -32,8 +32,16 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    bool isEmpty();
+public:
     void clear();
+
+    plString getTitle() const { return fTitle; }
+    plString getSpawnPt() const { return fSpawnPt; }
+    plString getCameraStack() const { return fCameraStack; }
+
+    void setTitle(plString title) { fTitle = title; }
+    void setSpawnPt(plString spawn) { fSpawnPt = spawn; }
+    void setCameraStack(plString stack) { fCameraStack = stack; }
 };
 
 #endif
