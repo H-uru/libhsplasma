@@ -21,12 +21,12 @@
 #include "PRP/Object/plSceneObject.h"
 #include "Util/hsBitVector.h"
 
-DllClass plModifier : public plSynchedObject {
+DllClass plModifier : public virtual plSynchedObject {
     CREATABLE(plModifier, kModifier, plSynchedObject)
 };
 
 
-DllClass plSingleModifier : public plModifier {
+DllClass plSingleModifier : public virtual plModifier {
     CREATABLE(plSingleModifier, kSingleModifier, plModifier)
 
 protected:
@@ -46,7 +46,7 @@ public:
 };
 
 
-DllClass plMultiModifier : public plModifier {
+DllClass plMultiModifier : public virtual plModifier {
     CREATABLE(plMultiModifier, kMultiModifier, plModifier)
 
 protected:
@@ -67,7 +67,7 @@ public:
 
 
 /* Misc empty modifiers that don't make sense to put elsewhere */
-DllClass plElevatorModifier : public plSingleModifier {
+DllClass plElevatorModifier : public virtual plSingleModifier {
     CREATABLE(plElevatorModifier, kElevatorModifier, plSingleModifier)
 };
 

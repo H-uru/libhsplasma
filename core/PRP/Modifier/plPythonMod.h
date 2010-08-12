@@ -37,7 +37,7 @@ DllStruct PY_SOUND_IDX {
 };
 
 
-DllClass plPythonMod : public plMultiModifier {
+DllClass plPythonMod : public virtual plMultiModifier {
     CREATABLE(plPythonMod, kPythonMod, plMultiModifier)
 
 public:

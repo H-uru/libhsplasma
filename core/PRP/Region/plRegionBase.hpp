@@ -20,7 +20,7 @@
 #include "PRP/Object/plObjInterface.h"
 #include "Math/hsGeometry3.h"
 
-DllClass plRegionBase : public plObjInterface {
+DllClass plRegionBase : public virtual plObjInterface {
     CREATABLE(plRegionBase, kRegionBase, plObjInterface)
 };
 

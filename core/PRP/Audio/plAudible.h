@@ -19,17 +19,17 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-DllClass plAudible : public hsKeyedObject {
+DllClass plAudible : public virtual hsKeyedObject {
     CREATABLE(plAudible, kAudible, hsKeyedObject)
 };
 
 
-DllClass plAudibleNull : public plAudible {
+DllClass plAudibleNull : public virtual plAudible {
     CREATABLE(plAudibleNull, kAudibleNull, plAudible)
 };
 
 
-DllClass plWinAudible : public plAudible {
+DllClass plWinAudible : public virtual plAudible {
     CREATABLE(plWinAudible, kWinAudible, plAudible)
 
 private:
@@ -56,7 +56,7 @@ public:
 };
 
 
-DllClass pl2WayWinAudible : public plWinAudible {
+DllClass pl2WayWinAudible : public virtual plWinAudible {
     CREATABLE(pl2WayWinAudible, k2WayWinAudible, plWinAudible)
 };
 

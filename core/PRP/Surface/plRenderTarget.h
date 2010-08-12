@@ -23,7 +23,7 @@
 #include "Math/hsMatrix44.h"
 #include "Util/hsBitVector.h"
 
-DllClass plRenderTarget : public plBitmap {
+DllClass plRenderTarget : public virtual plBitmap {
     CREATABLE(plRenderTarget, kRenderTarget, plBitmap)
 
 protected:
@@ -55,7 +55,7 @@ protected:
 };
 
 
-DllClass plCubicRenderTarget : public plRenderTarget {
+DllClass plCubicRenderTarget : public virtual plRenderTarget {
     CREATABLE(plCubicRenderTarget, kCubicRenderTarget, plRenderTarget)
 
 public:

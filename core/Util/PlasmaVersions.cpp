@@ -18,19 +18,39 @@
 
 const char* GetVersionName(PlasmaVer ver) {
     switch (ver) {
-    case pvPrime:
-        return "Prime/UU";
-    case pvPots:
-        return "PotS/CC";
-    case pvLive:
-        return "MOUL";
-    case pvEoa:
-        return "Myst V/Crowthistle";
-    case pvHex:
-        return "Hex Isle";
-    case pvUniversal:
-        return "Universal";
-    default:
-        return "Unknown";
+        case pvPrime:
+            return "Prime/UU";
+        case pvPots:
+            return "PotS/CC";
+        case pvLive:
+            return "MOUL";
+        case pvEoa:
+            return "Myst V/Crowthistle";
+        case pvHex:
+            return "Hex Isle";
+        case pvUniversal:
+            return "Universal";
+        default:
+            if (ver < pvPrime)
+                return "Choru";
+            if (ver > pvPots && ver < pvLive)
+                return "MOUL Beta";
+            else
+                return "Unknown";
     }
+}
+
+PlasmaVer GetSafestVersion(PlasmaVer ver) {
+    if (ver <= pvPrime)
+        return pvPrime;
+    else if (ver == pvPots)
+        return pvPots;
+    else if (ver <= pvLive)
+        return pvLive;
+    else if (ver == pvEoa)
+        return pvEoa;
+    else if (ver == pvHex)
+        return pvHex;
+    else
+        return pvUniversal;
 }

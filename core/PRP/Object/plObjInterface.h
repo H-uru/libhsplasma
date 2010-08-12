@@ -20,7 +20,7 @@
 #include "Util/hsBitVector.h"
 #include "plSynchedObject.h"
 
-DllClass plObjInterface : public plSynchedObject {
+DllClass plObjInterface : public virtual plSynchedObject {
     CREATABLE(plObjInterface, kObjInterface, plSynchedObject)
 
 public:

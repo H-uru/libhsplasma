@@ -2077,6 +2077,8 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
         return -1;
     }
 
+    ver = GetSafestVersion(ver);
+
     switch (ver) {
     case pvPrime:
         return fUruP2MTable[typeIdx];
@@ -2100,6 +2102,8 @@ short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
         plDebug::Debug("pdUnifiedTypeMap::MappedToPlasma ERR: Got type %04hX", typeIdx);
         return -1;
     }
+
+    ver = GetSafestVersion(ver);
 
     switch (ver) {
     case pvPrime:

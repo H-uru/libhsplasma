@@ -21,7 +21,7 @@
 #include "Math/hsGeometry3.h"
 #include "plEAXEffects.h"
 
-DllClass plSound : public plSynchedObject {
+DllClass plSound : public virtual plSynchedObject {
     CREATABLE(plSound, kSound, plSynchedObject)
 
 public:

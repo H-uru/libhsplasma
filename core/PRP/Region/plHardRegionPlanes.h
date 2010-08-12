@@ -19,7 +19,7 @@
 
 #include "plHardRegion.h"
 
-DllClass plHardRegionPlanes : public plHardRegion {
+DllClass plHardRegionPlanes : public virtual plHardRegion {
     CREATABLE(plHardRegionPlanes, kHardRegionPlanes, plHardRegion)
 
 public:

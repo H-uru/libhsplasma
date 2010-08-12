@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfGUIDialogMod : public plSingleModifier {
+DllClass pfGUIDialogMod : public virtual plSingleModifier {
     CREATABLE(pfGUIDialogMod, kGUIDialogMod, plSingleModifier)
 
 public:

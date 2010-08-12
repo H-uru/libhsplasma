@@ -20,7 +20,7 @@
 #include "plModifier.h"
 #include "Util/hsBitVector.h"
 
-DllClass plRandomCommandMod : public plSingleModifier {
+DllClass plRandomCommandMod : public virtual plSingleModifier {
     CREATABLE(plRandomCommandMod, kRandomCommandMod, plSingleModifier)
 
 public:

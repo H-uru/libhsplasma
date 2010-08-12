@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfGUITextBoxMod : public pfGUIControlMod {
+DllClass pfGUITextBoxMod : public virtual pfGUIControlMod {
     CREATABLE(pfGUITextBoxMod, kGUITextBoxMod, pfGUIControlMod)
 
 public:

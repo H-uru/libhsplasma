@@ -19,7 +19,7 @@
 
 #include "plSound.h"
 
-DllClass plWin32Sound : public plSound {
+DllClass plWin32Sound : public virtual plSound {
     CREATABLE(plWin32Sound, kWin32Sound, plSound)
 
 public:

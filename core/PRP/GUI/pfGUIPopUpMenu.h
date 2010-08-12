@@ -19,7 +19,7 @@
 
 #include "pfGUIDialogMod.h"
 
-DllClass pfGUIPopUpMenu : public pfGUIDialogMod {
+DllClass pfGUIPopUpMenu : public virtual pfGUIDialogMod {
     CREATABLE(pfGUIPopUpMenu, kGUIPopUpMenu, pfGUIDialogMod)
 
 public:

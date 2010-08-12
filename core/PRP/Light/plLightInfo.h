@@ -23,7 +23,7 @@
 #include "Math/hsMatrix44.h"
 #include "PRP/Geometry/hsGDeviceRef.h"
 
-DllClass plLightInfo : public plObjInterface {
+DllClass plLightInfo : public virtual plObjInterface {
     CREATABLE(plLightInfo, kLightInfo, plObjInterface)
 
 public:

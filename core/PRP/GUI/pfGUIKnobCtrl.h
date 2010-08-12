@@ -20,7 +20,7 @@
 #include "pfGUIValueCtrl.h"
 #include "Math/hsGeometry3.h"
 
-DllClass pfGUIKnobCtrl : public pfGUIValueCtrl {
+DllClass pfGUIKnobCtrl : public virtual pfGUIValueCtrl {
     CREATABLE(pfGUIKnobCtrl, kGUIKnobCtrl, pfGUIValueCtrl)
 
 public:

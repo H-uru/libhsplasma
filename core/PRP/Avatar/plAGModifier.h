@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass plAGModifier : public plSingleModifier {
+DllClass plAGModifier : public virtual plSingleModifier {
     CREATABLE(plAGModifier, kAGModifier, plSingleModifier)
 
 protected:

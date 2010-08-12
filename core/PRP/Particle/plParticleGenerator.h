@@ -25,7 +25,7 @@ DllClass plParticleGenerator : public plCreatable {
 };
 
 
-DllClass plOneTimeParticleGenerator : public plParticleGenerator {
+DllClass plOneTimeParticleGenerator : public virtual plParticleGenerator {
     CREATABLE(plOneTimeParticleGenerator, kOneTimeParticleGenerator,
               plParticleGenerator)
 
@@ -51,7 +51,7 @@ public:
 };
 
 
-DllClass plSimpleParticleGenerator : public plParticleGenerator {
+DllClass plSimpleParticleGenerator : public virtual plParticleGenerator {
     CREATABLE(plSimpleParticleGenerator, kSimpleParticleGenerator,
               plParticleGenerator)
 

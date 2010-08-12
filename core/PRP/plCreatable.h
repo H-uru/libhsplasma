@@ -32,7 +32,7 @@ public: \
         if (pCre == NULL) \
             return NULL; \
         if (pCre->ClassInstance(classid)) \
-            return (classname*)pCre; \
+            return dynamic_cast<classname*>(pCre); \
         if (requireValid) { \
             short otherClassId = pCre->ClassIndex(); \
             delete pCre; \

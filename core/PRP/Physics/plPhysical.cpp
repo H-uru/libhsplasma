@@ -22,6 +22,9 @@ const char* plSimDefs::BoundsNames[] = {
 };
 
 const char* plSimDefs::GroupNames[] = {
-    "kGroupStatic", "kGroupAvatarBlocker", "kGroupDynamicBlocker",
-    "kGroupAvatar", "kGroupDynamic", "kGroupDetector", "kGroupLOSOnly"
+    "kGroupStatic",
+    "kGroupAvatar",
+    "kGroupDynamic",
+    "kGroupDetector",
+    "kGroupLOSOnly"
 };

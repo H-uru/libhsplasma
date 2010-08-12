@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass plSittingModifier : public plSingleModifier {
+DllClass plSittingModifier : public virtual plSingleModifier {
     CREATABLE(plSittingModifier, kSittingModifier, plSingleModifier)
 
 public:

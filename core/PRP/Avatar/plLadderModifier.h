@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
 
-DllClass plAvLadderMod : public plSingleModifier {
+DllClass plAvLadderMod : public virtual plSingleModifier {
     CREATABLE(plAvLadderMod, kAvLadderMod, plSingleModifier)
 
 public:
@@ -43,7 +43,7 @@ protected:
 };
 
 
-DllClass plLadderModifier : public plSingleModifier {
+DllClass plLadderModifier : public virtual plSingleModifier {
     CREATABLE(plLadderModifier, kLadderModifier, plSingleModifier)
 
 protected:

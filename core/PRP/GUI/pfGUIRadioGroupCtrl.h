@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfGUIRadioGroupCtrl : public pfGUIControlMod {
+DllClass pfGUIRadioGroupCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUIRadioGroupCtrl, kGUIRadioGroupCtrl, pfGUIControlMod)
 
 public:

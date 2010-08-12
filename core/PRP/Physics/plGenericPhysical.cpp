@@ -21,10 +21,11 @@
 plGenericPhysical::plGenericPhysical()
                  : fInternalType(kPhysNone), fInternalBuffer(NULL), fInternalSize(0),
                    fMass(0.0f), fFriction(0.0f), fRestitution(0.0f),
-                   fBounds(plSimDefs::kBoxBounds), fGroup(plSimDefs::kGroupStatic),
-                   fCategory(0), fLOSDBs(0), fRadius(0.0f), fLength(0.0f),
-                   fUnk1(0), fUnk2(0), fHKBool1(false), fHKBool2(false),
-                   fTMDSize(0), fTMDBuffer(NULL), fReportsOn(0) {
+                   fBounds(plSimDefs::kBoxBounds),
+                   fMemberGroup(plSimDefs::kGroupStatic),
+                   fCollideGroup(0), fReportGroup(0), fLOSDBs(0),
+                   fRadius(0.0f), fLength(0.0f), fHKBool1(false),
+                   fHKBool2(false), fTMDSize(0), fTMDBuffer(NULL) {
     fProps.setName(plSimulationInterface::kDisable, "kDisable");
     fProps.setName(plSimulationInterface::kWeightless, "kWeightless");
     fProps.setName(plSimulationInterface::kPinned, "kPinned");
@@ -53,7 +54,7 @@ void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
         fInternalType = (PhysType)S->readInt();
     else if (S->getVer() >= pvEoa)
         fInternalType = kPhysODE;
-    else if (S->getVer() == pvLive)
+    else if (S->getVer() > pvPots)
         fInternalType = kPhysX;
     else
         fInternalType = kPhysHavok;
@@ -106,16 +107,29 @@ void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
 void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
     plPhysical::IPrcWrite(prc);
 
+    plString groups = "";
+    plString reports = "";
+    for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
+        if (fMemberGroup == i) {
+           groups += plSimDefs::GroupNames[i];
+           groups += " ";
+        }
+        if ((fReportGroup & (1 << i)) == (1 << i)) {
+           reports += plSimDefs::GroupNames[i];
+           reports += " ";
+        }
+    }
+
     prc->startTag("PhysicalParams");
     prc->writeParam("Mass", fMass);
     prc->writeParam("Friction", fFriction);
     prc->writeParam("Restitution", fRestitution);
-    prc->writeParam("Group", plSimDefs::GroupNames[fGroup]);
-    prc->writeParamHex("Category", fCategory);
-    prc->writeParamHex("ReportsOn", fReportsOn);
+    prc->writeParam("MemberGroup", groups);
+    prc->writeParam("ReportGroup", reports);
+    prc->writeParamHex("MemberGroupHEX", fMemberGroup);
+    prc->writeParamHex("ReportGroupHEX", fReportGroup);
+    prc->writeParamHex("CollideGroup", fCollideGroup);
     prc->writeParamHex("LOSDBs", fLOSDBs);
-    prc->writeParamHex("Unknown1", fUnk1);
-    prc->writeParamHex("Unknown2", fUnk2);
     prc->writeParam("HKBool1", fHKBool1);
     prc->writeParam("HKBool2", fHKBool2);
     prc->endTag(true);
@@ -222,18 +236,21 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fMass = tag->getParam("Mass", "0").toFloat();
         fFriction = tag->getParam("Friction", "0").toFloat();
         fRestitution = tag->getParam("Restitution", "0").toFloat();
-        fCategory = tag->getParam("Category", "0").toUint();
-        fReportsOn = tag->getParam("ReportsOn", "0").toUint();
         fLOSDBs = tag->getParam("LOSDBs", "0").toUint();
-        fUnk1 = tag->getParam("Unknown1", "0").toUint();
-        fUnk2 = tag->getParam("Unknown2", "0").toUint();
+        fCollideGroup = tag->getParam("CollideGroup", "0").toUint();
         fHKBool1 = tag->getParam("HKBool1", "false").toBool();
         fHKBool2 = tag->getParam("HKBool2", "false").toBool();
 
-        plString group = tag->getParam("Group", "kGroupStatic");
+        plString group = tag->getParam("MemberGroup", "kGroupStatic");
+        plString reports = tag->getParam("ReportGroup", "");
+        fMemberGroup = fReportGroup = 0;
         for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
-            if (group == plSimDefs::GroupNames[i])
-                fGroup = (plSimDefs::Group)i;
+            if (group.find(plSimDefs::GroupNames[i]) != -1) {
+                fMemberGroup |= i;
+            }
+            if (reports.find(plSimDefs::GroupNames[i]) != -1) {
+                fReportGroup |= (1 << i);
+            }
         }
     } else if (tag->getName() == "Object") {
         if (tag->hasChildren())
@@ -342,9 +359,9 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     fFriction = S->readFloat();
     fRestitution = S->readFloat();
     fBounds = (plSimDefs::Bounds)S->readInt();
-    fCategory = S->readInt();
-    fUnk1 = S->readInt();
-    fUnk2 = S->readInt();
+    fMemberGroup = plHKSimDefs::fromGroup(S->readInt());
+    fReportGroup = plHKSimDefs::getBitshiftGroup(S->readInt());
+    fCollideGroup = plHKSimDefs::getBitshiftGroup(S->readInt());
     fHKBool1 = S->readBool();
     fHKBool2 = S->readBool();
 
@@ -398,9 +415,9 @@ void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr) {
     }
     fMass = S->readFloat();
 
-    fCategory = S->readInt();
-    fUnk1 = S->readInt();
-    fUnk2 = S->readInt();
+    fMemberGroup = S->readInt();
+    fCollideGroup = S->readInt();
+    fReportGroup = S->readInt();
     fProps.read(S);
     fLOSDBs = S->readShort();
     fObjectKey = mgr->readKey(S);
@@ -412,8 +429,11 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     fFriction = S->readFloat();
     fRestitution = S->readFloat();
     fBounds = (plSimDefs::Bounds)S->readByte();
-    fGroup = (plSimDefs::Group)S->readByte();
-    fReportsOn = S->readInt();
+
+    hsUbyte group = S->readByte();
+    fMemberGroup = plPXSimDefs::fromGroup(group); //fGroup
+    fCollideGroup = plPXSimDefs::getCollideGroup(group);
+    fReportGroup = plPXSimDefs::getReportsOn(S->readInt()); //fReportsOn
     fLOSDBs = S->readShort();
     fObjectKey = mgr->readKey(S);
     fSceneNode = mgr->readKey(S);
@@ -548,10 +568,21 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMass);
     S->writeFloat(fFriction);
     S->writeFloat(fRestitution);
+
+    if (fBounds == plSimDefs::kCylinderBounds) {
+        throw hsBadParamException(__FILE__, __LINE__, 
+                "Invalid Bounds type");
+    } 
     S->writeInt(fBounds);
-    S->writeInt(fCategory);
-    S->writeInt(fUnk1);
-    S->writeInt(fUnk2);
+
+    S->writeInt(plHKSimDefs::toGroup(fMemberGroup));
+    S->writeInt(plHKSimDefs::setBitshiftGroup(fReportGroup));
+    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
+    if (fLOSDBs & plSimDefs::kLOSDBUIItems) {
+        colGroup |= plHKSimDefs::kGroupClickable;
+    }
+    S->writeInt(colGroup);
+
     S->writeBool(fHKBool1);
     S->writeBool(fHKBool2);
 
@@ -601,9 +632,9 @@ void plGenericPhysical::IWriteODEPhysical(hsStream* S, plResManager* mgr) {
     }
     S->writeFloat(fMass);
 
-    S->writeInt(fCategory);
-    S->writeInt(fUnk1);
-    S->writeInt(fUnk2);
+    S->writeInt(fMemberGroup);
+    S->writeInt(fCollideGroup);
+    S->writeInt(fReportGroup);
     fProps.write(S);
     S->writeShort(fLOSDBs);
     mgr->writeKey(S, fObjectKey);
@@ -614,9 +645,9 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMass);
     S->writeFloat(fFriction);
     S->writeFloat(fRestitution);
-    S->writeByte((hsUbyte)fBounds);
-    S->writeByte((hsUbyte)fGroup);
-    S->writeInt(fReportsOn);
+    S->writeByte(fBounds);
+    S->writeByte(plPXSimDefs::toGroup(fMemberGroup, fCollideGroup));
+    S->writeInt(plPXSimDefs::setReportsOn(fReportGroup));
     S->writeShort(fLOSDBs);
     mgr->writeKey(S, fObjectKey);
     mgr->writeKey(S, fSceneNode);

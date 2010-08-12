@@ -41,7 +41,7 @@ public:
     void setMax(float dist) { fMaxDist = dist; }
 };
 
-DllClass plClusterGroup : public hsKeyedObject {
+DllClass plClusterGroup : public virtual hsKeyedObject {
     CREATABLE(plClusterGroup, kClusterGroup, hsKeyedObject)
 
 protected:

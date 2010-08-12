@@ -26,7 +26,7 @@
  * static mipmap and environmaps, dynamic text maps, and render targets for
  * animated layers.
  */
-DllClass plBitmap : public hsKeyedObject {
+DllClass plBitmap : public virtual hsKeyedObject {
     CREATABLE(plBitmap, kBitmap, hsKeyedObject)
 
 public:

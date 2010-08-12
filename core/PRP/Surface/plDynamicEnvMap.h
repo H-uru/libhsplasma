@@ -19,7 +19,7 @@
 
 #include "plRenderTarget.h"
 
-DllClass plDynamicEnvMap : public plCubicRenderTarget {
+DllClass plDynamicEnvMap : public virtual plCubicRenderTarget {
     CREATABLE(plDynamicEnvMap, kDynamicEnvMap, plCubicRenderTarget)
 
 protected:
@@ -44,7 +44,7 @@ protected:
 };
 
 
-DllClass plDynamicCamMap : public plRenderTarget {
+DllClass plDynamicCamMap : public virtual plRenderTarget {
     CREATABLE(plDynamicCamMap, kDynamicCamMap, plRenderTarget)
 
 public:

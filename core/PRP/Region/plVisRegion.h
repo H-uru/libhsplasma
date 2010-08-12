@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plObjInterface.h"
 
-DllClass plVisRegion : public plObjInterface {
+DllClass plVisRegion : public virtual plObjInterface {
     CREATABLE(plVisRegion, kVisRegion, plObjInterface)
 
 public:

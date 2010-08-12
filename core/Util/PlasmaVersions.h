@@ -17,8 +17,47 @@
 #ifndef _PLASMA_VERSIONS_H
 #define _PLASMA_VERSIONS_H
 
+#define PlasmaVer unsigned int
+
+/* Utility stuff */
+#define PLASMA_VER(ver) \
+public:\
+    void setEngineMajorVer(short maj) {\
+        ver = (ver & 0x00FFFFFF) | ((maj & 0xFF) << 24);\
+    }\
+    void setEngineMinorVer(short min) {\
+        ver = (ver & 0xFF00FFFF) | ((min & 0xFF) << 16);\
+    }\
+    void setMajorVer(short maj) {\
+        short tmp = ((maj/10)<<4)+(maj%10);\
+        ver = (ver & 0xFFFF00FF) | ((tmp & 0xFF) << 8);\
+    }\
+    void setMinorVer(short min) {\
+        short tmp = ((min/10)<<4)+(min%10);\
+        ver = (ver & 0xFFFFFF00) | (tmp & 0xFF);\
+    }\
+    bool safeVer() const {\
+        switch(ver) {\
+            case pvPrime:\
+            case pvPots:\
+            case pvLive:\
+            case pvEoa:\
+            case pvHex:\
+            case pvUniversal:\
+                return true;\
+            default:\
+                return false;\
+        }\
+    }\
+    PlasmaVer getVer() const {\
+        return ver;\
+    }\
+    virtual void setVer(PlasmaVer pv) {\
+        ver = pv;\
+    }
+
 /* These MUST remain in order for version matching to work */
-enum PlasmaVer {
+enum SafePlasmaVer {
     pvUnknown   = 0,
     pvPrime     = 0x02006311,   // 2.0 r63.11
     pvPots      = 0x02006312,   // 2.0 r63.12
@@ -29,5 +68,7 @@ enum PlasmaVer {
 };
 
 const char* GetVersionName(PlasmaVer ver);
+
+PlasmaVer GetSafestVersion(PlasmaVer ver);
 
 #endif

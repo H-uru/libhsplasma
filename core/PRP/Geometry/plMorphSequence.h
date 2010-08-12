@@ -21,7 +21,7 @@
 #include "plMorphArray.h"
 #include "plSharedMesh.h"
 
-DllClass plMorphSequence : public plSingleModifier {
+DllClass plMorphSequence : public virtual plSingleModifier {
     CREATABLE(plMorphSequence, kMorphSequence, plSingleModifier)
 
 private:

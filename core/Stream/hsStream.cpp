@@ -105,8 +105,11 @@ plString hsStream::readStr(size_t len) {
 }
 
 plString hsStream::readSafeStr() {
-    hsUint16 ssInfo = readShort();
     char* buf;
+    hsUint16 ssInfo = readShort();
+    if (ssInfo == 0)
+        return plString();
+
     if (ver == pvUniversal) {
         buf = new char[ssInfo+1];
         read(ssInfo, buf);
@@ -118,8 +121,7 @@ plString hsStream::readSafeStr() {
             buf[i] ^= eoaStrKey[i%8];
         buf[ssInfo] = 0;
     } else {
-        if (!(ssInfo & 0xF000))
-            readShort(); // Discarded - debug
+        if (!(ssInfo & 0xF000)) readShort(); // Discarded
         hsUint16 size = (ssInfo & 0x0FFF);
         buf = new char[size+1];
         read(size, buf);
@@ -247,6 +249,10 @@ void hsStream::writeStr(const plString& str) {
 void hsStream::writeSafeStr(const plString& str) {
     if (str.len() > 0xFFF)
         plDebug::Warning("SafeString length is excessively long");
+
+    if (!safeVer())
+        ver = GetSafestVersion(ver);
+
     hsUint16 ssInfo = (hsUint16)str.len();
     char* wbuf;
     if (ver == pvUniversal) {
@@ -272,6 +278,7 @@ void hsStream::writeSafeStr(const plString& str) {
 void hsStream::writeSafeWStr(const plString& str) {
     if (str.len() > 0xFFF)
         plDebug::Warning("SafeWString length is excessively long");
+
     hsUint16 ssInfo = (hsUint16)str.len();
     plString::Wide buf = str.wstr();
     if (ver == pvUniversal) {

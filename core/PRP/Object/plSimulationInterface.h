@@ -19,7 +19,7 @@
 
 #include "plObjInterface.h"
 
-DllClass plSimulationInterface : public plObjInterface {
+DllClass plSimulationInterface : public virtual plObjInterface {
     CREATABLE(plSimulationInterface, kSimulationInterface, plObjInterface)
 
 public:

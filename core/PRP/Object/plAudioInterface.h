@@ -19,7 +19,7 @@
 
 #include "plObjInterface.h"
 
-DllClass plAudioInterface : public plObjInterface {
+DllClass plAudioInterface : public virtual plObjInterface {
     CREATABLE(plAudioInterface, kAudioInterface, plObjInterface)
 
 protected:

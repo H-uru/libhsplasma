@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass plBlower : public plSingleModifier {
+DllClass plBlower : public virtual plSingleModifier {
     CREATABLE(plBlower, kBlower, plSingleModifier)
 
 protected:

@@ -111,7 +111,9 @@ void plLocation::read(hsStream* S) {
         fFlags = S->readShort();
     } else {
         parse(S->readInt());
-        if (S->getVer() >= pvEoa)
+        if (S->getVer() < 0x02006200 && S->getVer() != pvUnknown)
+            fFlags = 0;
+        else if (S->getVer() >= pvEoa)
             fFlags = S->readByte();
         else
             fFlags = S->readShort();
@@ -121,6 +123,10 @@ void plLocation::read(hsStream* S) {
 void plLocation::write(hsStream* S) {
     if (S->getVer() != pvUnknown)
         setVer(S->getVer());
+
+    if (!safeVer())
+        setVer(GetSafestVersion(getVer()));
+
     if (S->getVer() == pvUniversal) {
         S->writeByte(fState);
         S->writeInt(fSeqPrefix);

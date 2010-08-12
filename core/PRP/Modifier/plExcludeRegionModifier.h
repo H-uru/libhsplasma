@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-DllClass plExcludeRegionModifier : public plSingleModifier {
+DllClass plExcludeRegionModifier : public virtual plSingleModifier {
     CREATABLE(plExcludeRegionModifier, kExcludeRegionModifier, plSingleModifier)
 
 public:

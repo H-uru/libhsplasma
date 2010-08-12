@@ -20,13 +20,13 @@
 #include "plCollisionDetector.h"
 #include "PRP/Message/plCameraMsg.h"
 
-DllClass plObjectInVolumeDetector : public plCollisionDetector {
+DllClass plObjectInVolumeDetector : public virtual plCollisionDetector {
     CREATABLE(plObjectInVolumeDetector, kObjectInVolumeDetector,
               plCollisionDetector)
 };
 
 
-DllClass plCameraRegionDetector : public plObjectInVolumeDetector {
+DllClass plCameraRegionDetector : public virtual plObjectInVolumeDetector {
     CREATABLE(plCameraRegionDetector, kCameraRegionDetector,
               plObjectInVolumeDetector)
 
@@ -49,7 +49,7 @@ public:
 };
 
 
-DllClass plObjectInVolumeAndFacingDetector : public plObjectInVolumeDetector {
+DllClass plObjectInVolumeAndFacingDetector : public virtual plObjectInVolumeDetector {
     CREATABLE(plObjectInVolumeAndFacingDetector,
               kObjectInVolumeAndFacingDetector,
               plObjectInVolumeDetector)

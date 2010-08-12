@@ -20,7 +20,7 @@
 #include "plModifier.h"
 #include "PRP/Message/plNotifyMsg.h"
 
-DllClass plAxisAnimModifier : public plSingleModifier {
+DllClass plAxisAnimModifier : public virtual plSingleModifier {
     CREATABLE(plAxisAnimModifier, kAxisAnimModifier, plSingleModifier)
 
 private:

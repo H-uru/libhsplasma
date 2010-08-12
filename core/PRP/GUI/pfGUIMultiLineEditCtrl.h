@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfGUIMultiLineEditCtrl : public pfGUIControlMod {
+DllClass pfGUIMultiLineEditCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUIMultiLineEditCtrl, kGUIMultiLineEditCtrl, pfGUIControlMod)
 
 protected:

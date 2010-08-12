@@ -19,25 +19,25 @@
 
 #include "plConditionalObject.h"
 
-DllClass plLocalPlayerInBoxConditionalObject : public plConditionalObject {
+DllClass plLocalPlayerInBoxConditionalObject : public virtual plConditionalObject {
     CREATABLE(plLocalPlayerInBoxConditionalObject,
               kLocalPlayerInBoxConditionalObject,
               plConditionalObject)
 };
 
-DllClass plLocalPlayerIntersectPlaneConditionalObject : public plConditionalObject {
+DllClass plLocalPlayerIntersectPlaneConditionalObject : public virtual plConditionalObject {
     CREATABLE(plLocalPlayerIntersectPlaneConditionalObject,
               kLocalPlayerIntersectPlaneConditionalObject,
               plConditionalObject)
 };
 
-DllClass plObjectInBoxConditionalObject : public plConditionalObject {
+DllClass plObjectInBoxConditionalObject : public virtual plConditionalObject {
     CREATABLE(plObjectInBoxConditionalObject,
               kObjectInBoxConditionalObject,
               plConditionalObject)
 };
 
-DllClass plObjectIntersectPlaneConditionalObject : public plConditionalObject {
+DllClass plObjectIntersectPlaneConditionalObject : public virtual plConditionalObject {
     CREATABLE(plObjectIntersectPlaneConditionalObject,
               kObjectIntersectPlaneConditionalObject,
               plConditionalObject)

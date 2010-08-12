@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfGUIDynDisplayCtrl : public pfGUIControlMod {
+DllClass pfGUIDynDisplayCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUIDynDisplayCtrl, kGUIDynDisplayCtrl, pfGUIControlMod)
 
 protected:

@@ -20,7 +20,7 @@
 void plMatrixConstant::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
 
-    if (S->getVer() >= pvLive)
+    if (S->getVer() >= 0x02006900)
         fAP.read(S);
     else
         fAP.reset();
@@ -74,7 +74,8 @@ void plMatrixControllerChannel::IPrcWrite(pfPrcHelper* prc) {
     plAGChannel::IPrcWrite(prc);
 
     prc->writeSimpleTag("Controller");
-    fController->prcWrite(prc);
+    if (fController != NULL)
+        fController->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("AffineParts");

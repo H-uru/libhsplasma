@@ -31,7 +31,7 @@
  * clothing manager.
  */
 
-DllClass plClothingItem : public hsKeyedObject {
+DllClass plClothingItem : public virtual hsKeyedObject {
     CREATABLE(plClothingItem, kClothingItem, hsKeyedObject)
 
 public:

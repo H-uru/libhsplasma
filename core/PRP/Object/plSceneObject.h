@@ -20,7 +20,7 @@
 #include "plSynchedObject.h"
 #include "Util/hsTArray.hpp"
 
-DllClass plSceneObject : public plSynchedObject {
+DllClass plSceneObject : public virtual plSynchedObject {
     CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 
 public:

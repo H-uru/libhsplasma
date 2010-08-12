@@ -57,7 +57,7 @@ public:
 };
 
 
-DllClass plPythonFileMod : public plMultiModifier {
+DllClass plPythonFileMod : public virtual plMultiModifier {
     CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
 public:

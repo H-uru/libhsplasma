@@ -14,28 +14,27 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PLKEYPRESSCONDITIONALOBJECT_H
-#define _PLKEYPRESSCONDITIONALOBJECT_H
+/* The enumerations in this file are internal use ONLY.
+ * Do NOT include this file in your own code!
+ */
+#include "plPhysical.h"
 
-#include "plConditionalObject.h"
-#include "Sys/Platform.h"
-
-DllClass plKeyPressConditionalObject : public virtual plConditionalObject {
-    CREATABLE(plKeyPressConditionalObject, kKeyPressConditionalObject,
-              plConditionalObject)
-
-protected:
-    plKeyDef fKeyEvent;
-
+DllClass plODESimDefs {
 public:
-    plKeyPressConditionalObject();
+    enum Bounds {
+        kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,
+        kExplicitBounds, kCylinderBounds, kNumBounds, kBoundsMax = 0xFF
+    };
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-
-protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    /* TODO! */
+    enum Group {
+        kGroupStatic,
+        kGroupAvatarBlocker,
+        kGroupDynamicBlocker,
+        kGroupAvatar,
+        kGroupDynamic,
+        kGroupDetector,
+        kGroupLOSOnly,
+        kGroupMax
+    };
 };
-
-#endif

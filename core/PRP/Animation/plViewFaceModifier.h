@@ -22,7 +22,7 @@
 #include "Math/hsMatrix44.h"
 #include "PRP/Region/hsBounds.h"
 
-DllClass plViewFaceModifier : public plSingleModifier {
+DllClass plViewFaceModifier : public virtual plSingleModifier {
     CREATABLE(plViewFaceModifier, kViewFaceModifier, plSingleModifier)
 
 public:

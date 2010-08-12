@@ -26,9 +26,16 @@ public:
         kExplicitBounds, kCylinderBounds, kNumBounds, kBoundsMax = 0xFF
     };
 
+    /* NOTE - This enum does not match Plasma!
+     * It has been created to hold all possible values across versions.
+     */
     enum Group {
-        kGroupStatic, kGroupAvatarBlocker, kGroupDynamicBlocker, kGroupAvatar,
-        kGroupDynamic, kGroupDetector, kGroupLOSOnly, kGroupMax
+        kGroupStatic,
+        kGroupAvatar,
+        kGroupDynamic,
+        kGroupDetector,
+        kGroupLOSOnly,
+        kGroupMax
     };
 
     enum LOSDB {
@@ -49,7 +56,7 @@ public:
     static const char* GroupNames[];
 };
 
-DllClass plPhysical : public plSynchedObject {
+DllClass plPhysical : public virtual plSynchedObject {
     CREATABLE(plPhysical, kPhysical, plSynchedObject)
 };
 
