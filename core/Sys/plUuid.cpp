@@ -93,9 +93,11 @@ void plUuid::prcWrite(pfPrcHelper* prc) {
 }
 
 void plUuid::prcParse(const pfPrcTag* tag) {
-    if (tag->getName() != "plUuid" || tag->getName() != "plUUID")
-        throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    fromString(tag->getParam("value", "00000000-0000-0000-0000-000000000000"));
+    if (tag->getName() == "plUuid" || tag->getName() == "plUUID") {
+        fromString(tag->getParam("value", "00000000-0000-0000-0000-000000000000"));
+        return;
+    }
+    throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 }
 
 void plUuid::clear() {
