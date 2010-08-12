@@ -577,7 +577,11 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
 
     S->writeInt(plHKSimDefs::toGroup(fMemberGroup));
     S->writeInt(plHKSimDefs::setBitshiftGroup(fReportGroup));
-    S->writeInt(plHKSimDefs::setBitshiftGroup(fCollideGroup));
+    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
+    if (fLOSDBs & plSimDefs::kLOSDBUIItems) {
+        colGroup |= plHKSimDefs::kGroupClickable;
+    }
+    S->writeInt(colGroup);
 
     S->writeBool(fHKBool1);
     S->writeBool(fHKBool2);
