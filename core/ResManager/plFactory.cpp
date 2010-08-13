@@ -177,8 +177,17 @@
     plDebug::Warning("Warning: class %s is not implemented", ClassName(x)); \
     return NULL
 
+plCreatable*(*plFactory::fOverrideFunc)();
+
 plCreatable* plFactory::Create(short typeIdx) {
     if (typeIdx < 0) return NULL;
+
+    if(fOverrideFunc) {
+      plCreatable* override;
+      override = fOverrideFunc();
+      if(override) return override;
+    }
+
     switch (typeIdx) {
         // Keyed Classes //
         case kSceneNode: return new plSceneNode();
@@ -1268,4 +1277,14 @@ short plFactory::ClassIndex(const char* typeName) {
 
 short plFactory::ClassVersion(short typeIdx, PlasmaVer ver) {
     return pdUnifiedTypeMap::ClassVersion(typeIdx, ver);
+}
+
+void plFactory::SetOverride(plCreatable*(*override)())
+{
+    fOverrideFunc = override;
+}
+
+void plFactory::ClearOverride()
+{
+    fOverrideFunc = 0;
 }

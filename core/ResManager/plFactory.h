@@ -19,6 +19,12 @@
 
 #include "pdUnifiedTypeMap.h"
 
+#include <map>
+
+class plCreatable;
+
+\
+
 DllClass plFactory {
 public:
     static class plCreatable* Create(short typeIdx);
@@ -28,6 +34,12 @@ public:
     static const char* ClassName(short typeIdx, PlasmaVer ver);
     static short ClassIndex(const char* typeName);
     static short ClassVersion(short typeIdx, PlasmaVer ver);
+
+    static void SetOverride(plCreatable*(*override)());
+    static void ClearOverride();
+
+private:
+    static plCreatable*(*fOverrideFunc)();
 };
 
 #endif
