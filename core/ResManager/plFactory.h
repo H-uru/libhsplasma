@@ -19,12 +19,6 @@
 
 #include "pdUnifiedTypeMap.h"
 
-#include <map>
-
-class plCreatable;
-
-\
-
 DllClass plFactory {
 public:
     static class plCreatable* Create(short typeIdx);
