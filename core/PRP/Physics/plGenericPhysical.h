@@ -54,6 +54,7 @@ protected:
     unsigned int fMemberGroup;
     unsigned int fCollideGroup;
     unsigned int fReportGroup;
+    bool fDisableReport, fDisableCollide;
     unsigned short fLOSDBs;
     plKey fObjectKey, fSceneNode, fSubWorld, fSoundGroup;
     hsVector3 fPos;
@@ -65,11 +66,7 @@ protected:
     hsTArray<hsVector3> fVerts;
     hsTArray<unsigned int> fIndices;
 
-    // Havok Properties
-    bool fHKBool1, fHKBool2;
-
     // ODE Properties
-    //unsigned int fUnk1, fUnk2;
     size_t fTMDSize;
     unsigned char* fTMDBuffer;
 
@@ -98,6 +95,9 @@ public:
     plSimDefs::Bounds getBoundsType() const { return fBounds; }
     unsigned int getMemberGroup() const { return fMemberGroup; }
     unsigned int getReportGroup() const { return fReportGroup; }
+    unsigned int getCollideGroup() const { return fCollideGroup; }
+    bool isReportEnabled() const { return !fDisableReport; }
+    bool isCollideEnabled() const { return !fDisableCollide; }
     unsigned short getLOSDBs() const { return fLOSDBs; }
 
     plKey getObject() const { return fObjectKey; }
@@ -122,15 +122,15 @@ public:
     size_t getTMDSize() const { return fTMDSize; }
     const unsigned char* getTMDBuffer() const { return fTMDBuffer; }
 
-    //unsigned int getUnknown1() const { return fUnk1; }
-    //unsigned int getUnknown2() const { return fUnk2; }
-
     void setMass(float mass) { fMass = mass; }
     void setFriction(float friction) { fFriction = friction; }
     void setRestitution(float restitution) { fRestitution = restitution; }
     void setBoundsType(plSimDefs::Bounds bounds) { fBounds = bounds; }
     void setMemberGroup(unsigned int group) { fMemberGroup = group; }
     void setReportGroup(unsigned int report) { fReportGroup = report; }
+    void setCollideGroup(unsigned int collide) { fCollideGroup = collide; }
+    void setReportEnabled(bool enable) { fDisableReport = !enable; }
+    void setCollideEnabled(bool enable) { fDisableCollide = !enable; }
     void setLOSDBs(unsigned short los) { fLOSDBs = los; }
 
     void setObject(plKey object) { fObjectKey = object; }
@@ -147,9 +147,6 @@ public:
     void setVerts(size_t numVerts, const hsVector3* verts);
     void setIndices(size_t numIndices, const unsigned int* indices);
     void setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer);
-
-    //void setUnknown1(unsigned int uk1) { fUnk1 = uk1; }
-    //void setUnknown2(unsigned int uk2) { fUnk2 = uk2; }
 
     // Direct baked data buffer access (Currently only for PhysX with baked data)
     PhysType getBufferType() const;

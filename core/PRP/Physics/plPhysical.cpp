@@ -27,5 +27,6 @@ const char* plSimDefs::GroupNames[] = {
     "kGroupDynamic",
     "kGroupDetector",
     "kGroupLOSOnly",
-    "kGroupClickable"
+    "kGroupClickable",
+    "kGroupAnimated"
 };

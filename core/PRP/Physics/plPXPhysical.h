@@ -34,6 +34,7 @@ public:
         kGroupDynamic,
         kGroupDetector,
         kGroupLOSOnly,
+        kGroupExcludeRegion,
         kGroupMax
     };
 

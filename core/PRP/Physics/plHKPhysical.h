@@ -30,11 +30,11 @@ public:
         kGroupLOSOnly   =       0x0, // This seems most accurate?
 
         kGroupWTFAhnonay =      0x2, // ONLY seen on TreePlane in Sphere02
+        kGroupWTFTeledahn =     0x4, // CollideGroup Slave Cave kickables
 
         kGroupClickable =   0x20000,
 
-        kGroupUNKNOWN   =  0x800000, //CollideGroup something dynamic?
-
+        kGroupAnimated  =  0x800000,
         kGroupDynamic   = 0x1000000,
         kGroupStatic    = 0x2000000,
         kGroupDetector  = 0x4000000,
@@ -54,6 +54,8 @@ public:
             return plSimDefs::kGroupAvatar;
         } else if (group & kGroupClickable) {
             return plSimDefs::kGroupClickable;
+        } else if (group & kGroupAnimated) {
+            return plSimDefs::kGroupAnimated;
         }
 
         return plSimDefs::kGroupStatic;
@@ -72,6 +74,8 @@ public:
             return kGroupLOSOnly;
         } else if (group == plSimDefs::kGroupClickable) {
             return kGroupClickable;
+        } else if (group == plSimDefs::kGroupAnimated) {
+            return kGroupAnimated;
         }
 
         return kGroupStatic;
@@ -94,6 +98,9 @@ public:
         }
         if (group & kGroupClickable) {
             retGroup |= (1 << plSimDefs::kGroupClickable);
+        }
+        if (group & kGroupAnimated) {
+            retGroup |= (1 << plSimDefs::kGroupAnimated);
         }
 
         return retGroup;
