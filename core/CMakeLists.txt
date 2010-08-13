@@ -504,10 +504,13 @@ set(PRP_PHYS_HDRS
     PRP/Physics/plCollisionDetector.h
     PRP/Physics/plDetectorModifier.h
     PRP/Physics/plGenericPhysical.h
+    PRP/Physics/plHKPhysical.h
     PRP/Physics/plHKSubWorld.h
     PRP/Physics/plObjectInVolumeDetector.h
+    PRP/Physics/plODEPhysical.h
     PRP/Physics/plPhysical.h
     PRP/Physics/plPhysicalSndGroup.h
+    PRP/Physics/plPXPhysical.h
     PRP/Physics/plVehicleModifier.h
 )
 
