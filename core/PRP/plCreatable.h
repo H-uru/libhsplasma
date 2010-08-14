@@ -31,17 +31,20 @@ public: \
     static classname* Convert(plCreatable* pCre, bool requireValid = true) { \
         if (pCre == NULL) \
             return NULL; \
-        if (pCre->ClassInstance(classid)) \
-            return dynamic_cast<classname*>(pCre); \
         if (requireValid) { \
-            short otherClassId = pCre->ClassIndex(); \
-            delete pCre; \
-            throw hsBadParamException(__FILE__, __LINE__, \
+            classname* result = dynamic_cast<classname*>(pCre); \
+            if(result) \
+                return result; \
+            else { \
+                short otherClassId = pCre->ClassIndex(); \
+                throw hsBadParamException(__FILE__, __LINE__, \
                     plString::Format("Required conversion failed for %s -> %s", \
                                      pdUnifiedTypeMap::ClassName(otherClassId), \
                                      pdUnifiedTypeMap::ClassName(classid))); \
+            } \
+        } else { \
+            return dynamic_cast<classname*>(pCre); \
         } \
-        return NULL; \
     }
 
 
