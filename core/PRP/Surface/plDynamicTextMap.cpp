@@ -44,7 +44,7 @@ void plDynamicTextMap::Create(unsigned int width, unsigned int height,
     }
 
     fHasBeenCreated = true;
-    fFlags |= kDontThrowAwayImage;
+    /*fFlags |= kDontThrowAwayImage;*/
     fStride = fWidth * 4;
     fLevelData.setSize(1);
     fCompressionType = kUncompressed;

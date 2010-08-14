@@ -162,7 +162,7 @@ void plCameraBrain1_Avatar::read(hsStream* S, plResManager* mgr) {
     plCameraBrain1::read(S, mgr);
     fOffset.read(S);
 
-    fFlags[kCutPOA] = true;
+    /*fFlags[kCutPOA] = true;*/
 }
 
 void plCameraBrain1_Avatar::write(hsStream* S, plResManager* mgr) {
