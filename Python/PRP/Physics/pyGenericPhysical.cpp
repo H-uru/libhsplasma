@@ -94,6 +94,18 @@ static PyObject* pyGenericPhysical_getBounds(pyGenericPhysical* self, void*) {
     return PyInt_FromLong(self->fThis->getBoundsType());
 }
 
+static PyObject* pyGenericPhysical_getMemberGroup(pyGenericPhysical* self, void*) {
+    return PyInt_FromLong(self->fThis->getMemberGroup());
+}
+
+static PyObject* pyGenericPhysical_getReportGroup(pyGenericPhysical* self, void*) {
+    return PyInt_FromLong(self->fThis->getReportGroup());
+}
+
+static PyObject* pyGenericPhysical_getCollideGroup(pyGenericPhysical* self, void*) {
+    return PyInt_FromLong(self->fThis->getCollideGroup());
+}
+
 static PyObject* pyGenericPhysical_getLOSDBs(pyGenericPhysical* self, void*) {
     return PyInt_FromLong(self->fThis->getLOSDBs());
 }
@@ -190,6 +202,33 @@ static int pyGenericPhysical_setBounds(pyGenericPhysical* self, PyObject* value,
         return -1;
     }
     self->fThis->setBoundsType((plSimDefs::Bounds)PyInt_AsLong(value));
+    return 0;
+}
+
+static int pyGenericPhysical_setMemberGroup(pyGenericPhysical* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "memberGroup should be an int");
+        return -1;
+    }
+    self->fThis->setMemberGroup(PyInt_AsLong(value));
+    return 0;
+}
+
+static int pyGenericPhysical_setReportGroup(pyGenericPhysical* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "reportGroup should be an int");
+        return -1;
+    }
+    self->fThis->setReportGroup(PyInt_AsLong(value));
+    return 0;
+}
+
+static int pyGenericPhysical_setCollideGroup(pyGenericPhysical* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "collideGroup should be an int");
+        return -1;
+    }
+    self->fThis->setCollideGroup(PyInt_AsLong(value));
     return 0;
 }
 
@@ -378,6 +417,9 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
     { "friction", (getter)pyGenericPhysical_getFriction, (setter)pyGenericPhysical_setFriction, NULL, NULL },
     { "restitution", (getter)pyGenericPhysical_getRestitution, (setter)pyGenericPhysical_setRestitution, NULL, NULL },
     { "boundsType", (getter)pyGenericPhysical_getBounds, (setter)pyGenericPhysical_setBounds, NULL, NULL },
+    { "memberGroup", (getter)pyGenericPhysical_getMemberGroup, (setter)pyGenericPhysical_setMemberGroup, NULL, NULL },
+    { "reportGroup", (getter)pyGenericPhysical_getReportGroup, (setter)pyGenericPhysical_setReportGroup, NULL, NULL },
+    { "collideGroup", (getter)pyGenericPhysical_getCollideGroup, (setter)pyGenericPhysical_setCollideGroup, NULL, NULL },
     { "LOSDBs", (getter)pyGenericPhysical_getLOSDBs, (setter)pyGenericPhysical_setLOSDBs, NULL, NULL },
     { "object", (getter)pyGenericPhysical_getObject, (setter)pyGenericPhysical_setObject, NULL, NULL },
     { "sceneNode", (getter)pyGenericPhysical_getSceneNode, (setter)pyGenericPhysical_setSceneNode, NULL, NULL },
