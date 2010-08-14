@@ -29,11 +29,11 @@ public:
     static short ClassIndex(const char* typeName);
     static short ClassVersion(short typeIdx, PlasmaVer ver);
 
-    static void SetOverride(plCreatable*(*override)());
+    static void SetOverride(plCreatable*(*override)(short));
     static void ClearOverride();
 
 private:
-    static plCreatable*(*fOverrideFunc)();
+    static plCreatable*(*fOverrideFunc)(short);
 };
 
 #endif
