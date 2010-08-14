@@ -18,9 +18,6 @@
 #define _PLGENERICPHYSICAL_H
 
 #include "plPhysical.h"
-#include "plHKPhysical.h"
-#include "plODEPhysical.h"
-#include "plPXPhysical.h"
 #include "Math/hsGeometry3.h"
 #include "Math/hsQuat.h"
 #include "Util/hsBitVector.h"

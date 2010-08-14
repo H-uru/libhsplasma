@@ -17,6 +17,10 @@
 #include "plGenericPhysical.h"
 #include "Debug/plDebug.h"
 #include "PRP/Object/plSimulationInterface.h"
+/* Engine specific headers */
+#include "plHKPhysical.h"
+#include "plODEPhysical.h"
+#include "plPXPhysical.h"
 
 plGenericPhysical::plGenericPhysical()
                  : fInternalType(kPhysNone), fInternalBuffer(NULL), fInternalSize(0),
