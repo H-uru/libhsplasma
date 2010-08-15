@@ -35,6 +35,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getID() const { return fID; }
+    float getTime() const { return fTime; }
+
+    void setID(unsigned int id) { fID = id; }
+    void setTime(float time) { fTime = time; }
 };
 
 #endif
