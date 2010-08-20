@@ -32,8 +32,9 @@
 DllClass plUoid {
 private:
     enum ContentsFlags {
-        kHasCloneIDs = 0x1,
-        kHasLoadMask = 0x2
+        kHasCloneIDs  = 0x1,
+        kHasLoadMask  = 0x2,
+        kHasLoadMask2 = 0x4
     };
 
 private:
@@ -42,7 +43,6 @@ private:
     short classType;
     plString objName;
     unsigned int objID, clonePlayerID, cloneID;
-    unsigned char eoaExtra;
 
 public:
     /** Constructs a new, empty Uoid */

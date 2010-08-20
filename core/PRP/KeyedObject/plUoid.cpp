@@ -21,14 +21,14 @@
 #include <stdlib.h>
 
 plUoid::plUoid()
-      : classType((short)0x8000), objID(0), clonePlayerID(0), cloneID(0),
-        eoaExtra(0) { }
+      : classType((short)0x8000), objID(0), clonePlayerID(0), cloneID(0)
+        { }
 
 plUoid::plUoid(const plUoid& other)
       : location(other.location), loadMask(other.loadMask),
         classType(other.classType), objName(other.objName), objID(other.objID),
-        clonePlayerID(other.clonePlayerID), cloneID(other.cloneID),
-        eoaExtra(0) { }
+        clonePlayerID(other.clonePlayerID), cloneID(other.cloneID)
+        { }
 
 plUoid& plUoid::operator=(const plUoid& other) {
     location = other.location;
@@ -84,10 +84,9 @@ void plUoid::read(hsStream* S) {
     } else {
         cloneID = clonePlayerID = 0;
     }
-    if ((contents & 0x06) && S->getVer() >= pvEoa)
-        eoaExtra = S->readByte();
-    else
-        eoaExtra = 0;
+    if ((contents & (kHasLoadMask | kHasLoadMask2)) && S->getVer() >= pvEoa) {
+        loadMask.read(S);
+    }
 }
 
 void plUoid::write(hsStream* S) {
@@ -97,10 +96,12 @@ void plUoid::write(hsStream* S) {
 
     if (cloneID != 0)
         contents |= kHasCloneIDs;
-    if (loadMask.isUsed())
-        contents |= kHasLoadMask;
-    if (eoaExtra != 0 && S->getVer() >= pvEoa)
-        contents |= 0x4;
+    if (loadMask.isUsed()) {
+        if (S->getVer() >= pvEoa)
+            contents |= kHasLoadMask2;
+        else
+            contents |= kHasLoadMask;
+    }
     S->writeByte(contents);
 
     location.write(S);
@@ -121,8 +122,8 @@ void plUoid::write(hsStream* S) {
         S->writeInt(cloneID);
         S->writeInt(clonePlayerID);
     }
-    if ((contents & 0x06) && S->getVer() >= pvEoa)
-        S->writeByte(eoaExtra);
+    if ((contents & kHasLoadMask) && S->getVer() >= pvEoa)
+        loadMask.write(S);
 }
 
 void plUoid::prcWrite(pfPrcHelper* prc) {
@@ -136,8 +137,6 @@ void plUoid::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("CloneID", cloneID);
         prc->writeParam("ClonePlayerID", clonePlayerID);
     }
-    if (eoaExtra != 0)
-        prc->writeParam("EoaExtra", eoaExtra);
     if (objID != 0)
         prc->writeParam("ObjID", objID);
     prc->endTag(true);
@@ -153,7 +152,6 @@ void plUoid::prcParse(const pfPrcTag* tag) {
     loadMask.prcParse(tag);
     cloneID = tag->getParam("CloneID", "0").toUint();
     clonePlayerID = tag->getParam("ClonePlayerID", "0").toUint();
-    eoaExtra = tag->getParam("EoaExtra", "0").toUint();
 }
 
 plString plUoid::toString() const {
