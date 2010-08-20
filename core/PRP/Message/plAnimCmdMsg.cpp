@@ -60,6 +60,13 @@ void plAnimCmdMsg::read(hsStream* S, plResManager* mgr) {
         fSpeed = S->readFloat();
         fSpeedChangeRate = S->readFloat();
         fTime = S->readFloat();
+
+        if (S->getVer() < 0x02006305) {
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readByte();
+        }
     } else {
         if (fCmd[kSetBegin])
             fBegin = S->readFloat();

@@ -78,6 +78,13 @@ void plSoundBuffer::read(hsStream* S, plResManager* mgr) {
     fFileName = S->readSafeStr();
     fHeader.read(S);
 
+    if (S->getVer() < 0x02006308) {
+        S->readInt();
+        S->readInt();
+        S->readByte();
+        S->readByte();
+    }
+
     if (!(fFlags & kIsExternal)) {
         fData = new unsigned char[fDataLength];
         S->read(fDataLength, fData);

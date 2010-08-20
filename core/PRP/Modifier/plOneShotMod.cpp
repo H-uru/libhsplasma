@@ -28,7 +28,10 @@ void plOneShotMod::read(hsStream* S, plResManager* mgr) {
     fDrivable = S->readBool();
     fReversable = S->readBool();
     fSmartSeek = S->readBool();
-    fNoSeek = S->readBool();
+    
+    if (S->getVer() > 0x02006304) { /*TODO: Verify! */
+        fNoSeek = S->readBool();
+    }
 }
 
 void plOneShotMod::write(hsStream* S, plResManager* mgr) {
