@@ -31,6 +31,7 @@ public:
     enum LoadFlags {
         kPreventAutoLoad = 0x1,
         kLoadIfSDLPresent = 0x2,
+        kDontLoadMask = (kPreventAutoLoad | kLoadIfSDLPresent),
         kIsLocalOnly = 0x4,
         kIsVolatile = 0x8
     };
@@ -91,6 +92,7 @@ public:
     plString getCommonPageFilename(size_t idx, PlasmaVer pv) const;
     plLocation getPageLoc(size_t idx, PlasmaVer pv) const;
     plLocation getCommonPageLoc(size_t idx, PlasmaVer pv) const;
+    std::vector<plLocation> getPageLocs(PlasmaVer pv, bool all = false) const;
 };
 
 #endif
