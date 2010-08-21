@@ -164,7 +164,7 @@ void plMipmap::IRead(hsStream* S) {
     fHeight = S->readInt();
     fStride = S->readInt();
     fTotalSize = S->readInt();
-    size_t mips = S->readByte();
+    fLevelData.setSize(S->readByte());
 
     delete[] fImageData;
     delete[] fJPEGData;
@@ -176,20 +176,9 @@ void plMipmap::IRead(hsStream* S) {
     if (fTotalSize == 0)
         return;
 
-    if (mips == 1) {
-        fLevelData.setSize(1);
-    } else {
-        /* Add missing mipmap levels for Cyan's faulty code */
-        size_t numLevels = 1;
-        unsigned int width = fWidth, height = fHeight;
-        while (width > 1 || height > 1) {
-            width = (width > 1) ? width >> 1 : 1;
-            height = (height > 1) ? height >> 1 : 1;
-            numLevels++;
-        }
-        fLevelData.setSize(numLevels);
-    }
     size_t realSize = IBuildLevelSizes();
+    if (realSize != fTotalSize)
+        plDebug::Warning("%s: Incorrect image buffer storage size", getKey()->toString().cstr());
     fImageData = new unsigned char[realSize];
 
     switch (fCompressionType) {
@@ -198,23 +187,7 @@ void plMipmap::IRead(hsStream* S) {
         DecompressImage(0, fImageData, fLevelData[0].fSize);
         break;
     case kDirectXCompression:
-        if (fTotalSize != realSize) {
-            S->read((fTotalSize > realSize) ? realSize : fTotalSize, fImageData);
-            if (fTotalSize > realSize) {
-                /* Extra bogus data from miscalculation */
-                S->skip(fTotalSize - realSize);
-                //plDebug::Warning("Skipping oversized buffer data (%d bytes)",
-                //                 fTotalSize - realSize);
-            } else {
-                /* Missing data from miscalculation...  Just make it black */
-                memset(fImageData + fTotalSize, 0, realSize - fTotalSize);
-                //plDebug::Warning("Filling undersized buffer data (%d bytes)",
-                //                 realSize - fTotalSize);
-            }
-            fTotalSize = realSize;
-        } else {
-            S->read(fTotalSize, fImageData);
-        }
+        S->read(fTotalSize, fImageData);
         break;
     case kUncompressed:
         IReadRawImage(S);
@@ -357,11 +330,16 @@ size_t plMipmap::IBuildLevelSizes() {
     unsigned int curHeight = fHeight;
     size_t curOffs = 0;
 
+    
     for (size_t i=0; i<fLevelData.getSize(); i++) {
-        if (fCompressionType == kDirectXCompression)
-            fLevelData[i].fSize = fDXInfo.fBlockSize * ((curWidth+3)/4) * ((curHeight+3)/4);
-        else
+        if (fCompressionType == kDirectXCompression) {
+            if ((curHeight | curWidth) & 3)
+                fLevelData[i].fSize = curStride * curHeight;
+            else
+                fLevelData[i].fSize = (fDXInfo.fBlockSize * curHeight * curWidth) / 16;
+        } else {
             fLevelData[i].fSize = curStride * curHeight;
+        }
 
         fLevelData[i].fWidth = curWidth;
         fLevelData[i].fHeight = curHeight;
