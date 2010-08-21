@@ -30,14 +30,14 @@ const char* hsKeyFrame::TypeNames[] = {
 void hsKeyFrame::read(hsStream* S, unsigned int type) {
     fType = type;
     if (S->getVer() <= pvPots) {
-        unsigned int flags = S->readInt();
+        fFlags = S->readInt();
         fFrame = S->readInt();
         fFrameTime = S->readFloat();
         //if (fFrameTime != (fFrame / 30.0f))
         //    plDebug::Debug("WARNING: Frame time mismatch: %d:%f", fFrame, fFrameTime);
 
         if ((fType == kPoint3KeyFrame || fType == kScalarKeyFrame ||
-            fType == kScaleKeyFrame) && ((flags & kBezController) != 0))
+            fType == kScaleKeyFrame) && ((fFlags & kBezController) != 0))
             fType++;    //  Use Bezier version
     } else if (S->getVer() >= pvEoa) {
         setFrame(S->readFloat());
@@ -50,9 +50,9 @@ void hsKeyFrame::write(hsStream* S) {
     if (S->getVer() <= pvPots) {
         if (fType == kBezPoint3KeyFrame || fType == kBezScalarKeyFrame ||
             fType == kBezScaleKeyFrame)
-            S->writeInt(kBezController);
+            S->writeInt(fFlags | kBezController);
         else
-            S->writeInt(0);
+            S->writeInt(fFlags & ~kBezController);
         S->writeInt(fFrame);
         S->writeFloat(fFrameTime);
     } else if (S->getVer() >= pvEoa) {

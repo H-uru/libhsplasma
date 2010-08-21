@@ -23,6 +23,7 @@
 
 DllStruct hsKeyFrame {
     enum {
+        kUruUnknown    = 0x1,
         kBezController = 0x2
     };
 
@@ -35,7 +36,7 @@ DllStruct hsKeyFrame {
     static const char* TypeNames[];
 
 protected:
-    unsigned int fFrame, fType;
+    unsigned int fFlags, fFrame, fType;
     float fFrameTime;
 
 public:
