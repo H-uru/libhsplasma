@@ -33,6 +33,11 @@
 /** Callback to indicate the progress of the current operation, range [0,1] */
 typedef void (*ProgressCallback)(float progress);
 
+struct plPageStream {
+    hsFileStream* stream;
+    plPageInfo* page;
+};
+
 /**
  * \brief Manages the entire library's resources, including keys, creatables,
  *        age info and page info.
@@ -52,9 +57,10 @@ protected:
     std::vector<plPageInfo*> pages;
     std::vector<plAgeInfo*> ages;
     ProgressCallback progressFunc;
+    unsigned int totalKeys, readKeys;
 
 private:
-    void ReadKeyring(hsStream* S, const plLocation& loc);
+    unsigned int ReadKeyring(hsStream* S, const plLocation& loc);
     unsigned int ReadObjects(hsStream* S, const plLocation& loc);
     void WriteKeyring(hsStream* S, const plLocation& loc);
     unsigned int WriteObjects(hsStream* S, const plLocation& loc);
@@ -130,14 +136,22 @@ public:
     /**
      * Read a Page (PRP File) and register it with the ResManager.
      * \return a pointer to the plPageInfo describing the page.
-     * \sa ReadPagePrc(), ReadAge(), ReadAgePrc()
+     * \sa ReadPageRaw(), ReadPagePrc(), ReadAge(), ReadAgePrc()
      */
     plPageInfo* ReadPage(const char* filename);
 
     /**
+     * Read a Page (PRP File) and register it with the ResManager.
+     * The objects are read as hex blobs and not parsed.
+     * \return a pointer to the plPageInfo describing the page.
+     * \sa ReadPage(), ReadPagePrc(), ReadAge(), ReadAgePrc()
+     */
+    plPageInfo* ReadPageRaw(const char* filename);
+
+    /**
      * Parse a page from a PRC data source, and register it with the ResManager.
      * \return a pointer to the plPageInfo describing the page.
-     * \sa ReadPage(), ReadAge(), ReadAgePrc()
+     * \sa ReadPage(), ReadPageRaw(), ReadAge(), ReadAgePrc()
      */
     plPageInfo* ReadPagePrc(const pfPrcTag* root);
 

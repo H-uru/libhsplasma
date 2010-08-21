@@ -20,7 +20,8 @@
 #include "Debug/plDebug.h"
 #include "Stream/hsRAMStream.h"
 
-plResManager::plResManager(PlasmaVer pv) : fPlasmaVer(pvUnknown) {
+plResManager::plResManager(PlasmaVer pv) :
+    fPlasmaVer(pvUnknown), totalKeys(0), readKeys(0) {
     setVer(pv);
     progressFunc = NULL;
 }
@@ -127,8 +128,33 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
     pages.push_back(page);
     setVer(S->getVer(), true);
     S->seek(page->getIndexStart());
-    ReadKeyring(S, page->getLocation());
+    totalKeys = ReadKeyring(S, page->getLocation());
+    readKeys = 0;
     page->setNumObjects(ReadObjects(S, page->getLocation()));
+    S->close();
+    delete S;
+    return page;
+}
+
+plPageInfo* plResManager::ReadPageRaw(const char* filename) {
+    hsFileStream* S = new hsFileStream();
+    if (!S->open(filename, fmRead))
+        throw hsFileReadException(__FILE__, __LINE__, filename);
+    plPageInfo* page = new plPageInfo();
+    page->read(S);
+
+    for (size_t i=0; i<pages.size(); i++) {
+        if (pages[i]->getLocation() == page->getLocation()) {
+            delete page;
+            return pages[i];
+        }
+    }
+
+    pages.push_back(page);
+    setVer(S->getVer(), true);
+    S->seek(page->getIndexStart());
+    ReadKeyring(S, page->getLocation());
+    //page->setNumObjects(ReadObjects(S, page->getLocation()));
     S->close();
     delete S;
     return page;
@@ -240,15 +266,82 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
                 ageVer = pvEoa;
         }
 
+        size_t numpages = age->getNumPages() + age->getNumCommonPages(ageVer);
+        plPageStream* pageStreams = new plPageStream[numpages];
+        hsFileStream* S = NULL;
+        totalKeys = 0;
+        readKeys = 0;
+
         for (size_t i=0; i<age->getNumPages(); i++) {
-            if (hsFileStream::FileExists(path + age->getPageFilename(i, ageVer)))
-                ReadPage(path + age->getPageFilename(i, ageVer));
+            if (hsFileStream::FileExists(path + age->getPageFilename(i, ageVer))) {
+                //ReadPage(path + age->getPageFilename(i, ageVer));
+                S = new hsFileStream();
+                if (!S->open(path + age->getPageFilename(i, ageVer), fmRead))
+                    throw hsFileReadException(__FILE__, __LINE__, filename);
+                plPageInfo* page = new plPageInfo();
+                page->read(S);
+
+                pageStreams[i] = plPageStream();
+                pageStreams[i].stream = S;
+
+                for (size_t j=0; j<pages.size(); j++) {
+                    if (pages[j]->getLocation() == page->getLocation()) {
+                        delete page;
+                        pageStreams[i].page = pages[j];
+                        continue;
+                    }
+                }
+                pageStreams[i].page = page;
+
+                pages.push_back(page);
+                setVer(S->getVer(), true);
+                S->seek(page->getIndexStart());
+                totalKeys += ReadKeyring(S, page->getLocation());
+            }
         }
 
         for (size_t i=0; i<age->getNumCommonPages(ageVer); i++) {
             if (hsFileStream::FileExists(path + age->getCommonPageFilename(i, ageVer)))
-                ReadPage(path + age->getCommonPageFilename(i, ageVer));
+                //ReadPage(path + age->getCommonPageFilename(i, ageVer));
+                S = new hsFileStream();
+                if (!S->open(path + age->getCommonPageFilename(i, ageVer), fmRead))
+                    throw hsFileReadException(__FILE__, __LINE__, filename);
+                plPageInfo* page = new plPageInfo();
+                page->read(S);
+
+                pageStreams[numpages - 1 - i] = plPageStream();
+                pageStreams[numpages - 1 - i].stream = S;
+
+                for (size_t j=0; j<pages.size(); j++) {
+                    if (pages[j]->getLocation() == page->getLocation()) {
+                        delete page;
+                        pageStreams[numpages - 1 - i].page = pages[j];
+                        continue;
+                    }
+                }
+                pageStreams[numpages - 1 - i].page = page;
+
+                pages.push_back(page);
+                setVer(S->getVer(), true);
+                S->seek(page->getIndexStart());
+                totalKeys += ReadKeyring(S, page->getLocation());
         }
+
+        for (size_t i=0; i < numpages; i++) {
+            pageStreams[i].page->setNumObjects(
+                    ReadObjects(pageStreams[i].stream,
+                        pageStreams[i].page->getLocation()));
+            pageStreams[i].stream->close();
+            delete pageStreams[i].stream;
+        }
+        delete pageStreams;
+
+#ifdef DEBUG
+        if (totalKeys != readKeys) {
+            plDebug::Error("* Keyring count %d but we could only read %d",
+                           totalKeys, readKeys);
+        }
+#endif
     }
 
     ages.push_back(age);
@@ -318,11 +411,12 @@ void plResManager::UnloadAge(const plString& name) {
     }
 }
 
-void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
+unsigned int plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
 #ifdef RMTRACE
     plDebug::Debug("* Reading Keyring");
 #endif
 
+    unsigned int pageKeys = 0;
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer()); // objType
@@ -339,6 +433,7 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
         for (unsigned int j=0; j<oCount; j++) {
             plKey key = new plKeyData();
             key->read(S);
+            pageKeys++;
 
             plKey xkey = keys.findKey(key);
             if (xkey.Exists()) {
@@ -349,6 +444,8 @@ void plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
             }
         }
     }
+
+    return pageKeys;
 }
 
 void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
@@ -410,6 +507,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 }
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
+                    readKeys++;
                     if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff()) {
                         plDebug::Warning("[%04hX:%s] Size-Read difference: %d bytes",
                             kList[j]->getType(), kList[j]->getName().cstr(),
@@ -440,7 +538,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
         }
 
         if (progressFunc != NULL)
-            progressFunc((float)(i+1)/types.size());
+            progressFunc((float)(readKeys)/(totalKeys));
     }
 
     return nRead;
