@@ -274,10 +274,10 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
 
         for (size_t i=0; i<age->getNumPages(); i++) {
             if (hsFileStream::FileExists(path + age->getPageFilename(i, ageVer))) {
-                //ReadPage(path + age->getPageFilename(i, ageVer));
                 S = new hsFileStream();
-                if (!S->open(path + age->getPageFilename(i, ageVer), fmRead))
+                if (!S->open(path + age->getPageFilename(i, ageVer), fmRead)) {
                     throw hsFileReadException(__FILE__, __LINE__, filename);
+                }
                 plPageInfo* page = new plPageInfo();
                 page->read(S);
 
@@ -301,11 +301,11 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
         }
 
         for (size_t i=0; i<age->getNumCommonPages(ageVer); i++) {
-            if (hsFileStream::FileExists(path + age->getCommonPageFilename(i, ageVer)))
-                //ReadPage(path + age->getCommonPageFilename(i, ageVer));
+            if (hsFileStream::FileExists(path + age->getCommonPageFilename(i, ageVer))) {
                 S = new hsFileStream();
-                if (!S->open(path + age->getCommonPageFilename(i, ageVer), fmRead))
+                if (!S->open(path + age->getCommonPageFilename(i, ageVer), fmRead)) {
                     throw hsFileReadException(__FILE__, __LINE__, filename);
+                }
                 plPageInfo* page = new plPageInfo();
                 page->read(S);
 
@@ -325,9 +325,17 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
                 setVer(S->getVer(), true);
                 S->seek(page->getIndexStart());
                 totalKeys += ReadKeyring(S, page->getLocation());
+            } else {
+                pageStreams[numpages - 1 - i] = plPageStream();
+                pageStreams[numpages - 1 - i].stream = NULL;
+                pageStreams[numpages - 1 - i].page = NULL;
+            }
         }
 
         for (size_t i=0; i < numpages; i++) {
+            if (pageStreams[i].page == NULL)
+                continue;
+
             pageStreams[i].page->setNumObjects(
                     ReadObjects(pageStreams[i].stream,
                         pageStreams[i].page->getLocation()));
