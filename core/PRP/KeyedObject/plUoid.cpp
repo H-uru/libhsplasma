@@ -80,7 +80,10 @@ void plUoid::read(hsStream* S) {
     objName = S->readSafeStr();
     if ((contents & kHasCloneIDs) && (S->getVer() < pvEoa || S->getVer() == pvUniversal)) {
         cloneID = S->readInt();
-        clonePlayerID = S->readInt();
+        if (S->getVer() < 0x02005700)
+            clonePlayerID = 0;
+        else
+            clonePlayerID = S->readInt();
     } else {
         cloneID = clonePlayerID = 0;
     }

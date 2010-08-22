@@ -63,43 +63,14 @@ int main(int argc, char** argv) {
             return 1;
         }
 
-        hsFileStream* S = new hsFileStream();
-        if (!S->open(fFiles[i], fmRead)) {
-            fprintf(stderr, "Error opening %s for writing!\n", fFiles[i].cstr());
-            delete S;
-            return 1;
-        }
-        S->setVer(rm.getVer());
-
-        S->seek(page->getIndexStart());
-
-        plKeyCollector keys;
-
-        unsigned int tCount = S->readInt();
-        for (unsigned int j=0; j<tCount; j++) {
-            short type = S->readShort();
-            if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
-                S->readInt();
-                unsigned char b = S->readByte();
-                if (b != 0)
-                    printf("NOTICE: Type %04hX got flag of %02hhX\n", type, b);
-            }
-            unsigned int oCount = S->readInt();
-            for (unsigned int k=0; k<oCount; k++) {
-                plKey key = new plKeyData();
-                key->read(S);
-                keys.add(key);
-            }
-        }
-
-        std::vector<short> types = keys.getTypes(page->getLocation());
+        std::vector<short> types = rm.getTypes(page->getLocation());
 
         printf("%s :: %s\n", page->getAge().cstr(), page->getPage().cstr());
 
-        for(unsigned int f = 0; f < keys.countTypes(page->getLocation()); f++) {
+        for(unsigned int f = 0; f < types.size(); f++) {
             printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f]));
 
-            std::vector<plKey> mykeys = keys.getKeys(page->getLocation(), types[f]);
+            std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
 
             for(unsigned int ks = 0; ks < mykeys.size(); ks++) {
                 printf("|    |--- %s\n", mykeys[ks]->getName().cstr());

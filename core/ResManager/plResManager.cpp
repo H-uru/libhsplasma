@@ -112,9 +112,30 @@ hsKeyedObject* plResManager::getObject(plKey key) {
 }
 
 plPageInfo* plResManager::ReadPage(const char* filename) {
+    bool packed = true;
+    plString file = plString(filename);
+
+    if (!file.endsWith(".prp", true)) {
+        if (file.endsWith(".prx", true) || file.endsWith(".prm", true)) {
+            packed = false;
+            file = file.beforeLast('.');
+            if (!hsFileStream::FileExists(file + ".prx"))
+                throw hsFileReadException(__FILE__, __LINE__,
+                        (file+".prx").cstr());
+            if (!hsFileStream::FileExists(file + ".prm"))
+                throw hsFileReadException(__FILE__, __LINE__,
+                        (file+".prm").cstr());
+
+            file += ".prx";
+        } else {
+            throw hsBadParamException(__FILE__, __LINE__,
+                plString::Format("%s is not a valid Page file", file.cstr()).cstr());
+        }
+    }
+
     hsFileStream* S = new hsFileStream();
-    if (!S->open(filename, fmRead))
-        throw hsFileReadException(__FILE__, __LINE__, filename);
+    if (!S->open(file, fmRead))
+        throw hsFileReadException(__FILE__, __LINE__, file.cstr());
     plPageInfo* page = new plPageInfo();
     page->read(S);
 
@@ -129,6 +150,14 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
     setVer(S->getVer(), true);
     S->seek(page->getIndexStart());
     totalKeys = ReadKeyring(S, page->getLocation());
+    if (!packed) {
+        S->close();
+        delete S;
+        file = file.beforeLast('.') + ".prm";
+        S = new hsFileStream();
+        if (!S->open(file, fmRead))
+            throw hsFileReadException(__FILE__, __LINE__, file.cstr());
+    }
     readKeys = 0;
     page->setNumObjects(ReadObjects(S, page->getLocation()));
     S->close();

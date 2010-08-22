@@ -106,7 +106,7 @@ void plPageInfo::read(hsStream* S) {
         fIdxStart = S->readInt();
     } else {
         fDataStart = 0;
-        fIdxStart = S->readByte();
+        fIdxStart = S->pos();
     }
 
     if (S->getVer() == pvLive) {
