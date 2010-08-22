@@ -21,7 +21,7 @@
 #include "Stream/hsRAMStream.h"
 
 plResManager::plResManager(PlasmaVer pv) :
-    fPlasmaVer(pvUnknown), totalKeys(0), readKeys(0) {
+    fPlasmaVer(pvUnknown), totalKeys(0), readKeys(0), mustStub(false) {
     setVer(pv);
     progressFunc = NULL;
 }
@@ -111,7 +111,7 @@ hsKeyedObject* plResManager::getObject(plKey key) {
     return fk->getObj();
 }
 
-plPageInfo* plResManager::ReadPage(const char* filename) {
+plPageInfo* plResManager::ReadPage(const char* filename, bool stub) {
     bool packed = true;
     plString file = plString(filename);
 
@@ -155,35 +155,14 @@ plPageInfo* plResManager::ReadPage(const char* filename) {
         delete S;
         file = file.beforeLast('.') + ".prm";
         S = new hsFileStream();
+        S->setVer(getVer());
         if (!S->open(file, fmRead))
             throw hsFileReadException(__FILE__, __LINE__, file.cstr());
     }
     readKeys = 0;
+    mustStub = stub;
     page->setNumObjects(ReadObjects(S, page->getLocation()));
-    S->close();
-    delete S;
-    return page;
-}
-
-plPageInfo* plResManager::ReadPageRaw(const char* filename) {
-    hsFileStream* S = new hsFileStream();
-    if (!S->open(filename, fmRead))
-        throw hsFileReadException(__FILE__, __LINE__, filename);
-    plPageInfo* page = new plPageInfo();
-    page->read(S);
-
-    for (size_t i=0; i<pages.size(); i++) {
-        if (pages[i]->getLocation() == page->getLocation()) {
-            delete page;
-            return pages[i];
-        }
-    }
-
-    pages.push_back(page);
-    setVer(S->getVer(), true);
-    S->seek(page->getIndexStart());
-    ReadKeyring(S, page->getLocation());
-    //page->setNumObjects(ReadObjects(S, page->getLocation()));
+    mustStub = false;
     S->close();
     delete S;
     return page;
@@ -621,21 +600,27 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
 
 plCreatable* plResManager::ReadCreatable(hsStream* S, bool canStub, int stubLen) {
     unsigned short type = S->readShort();
-    plCreatable* pCre = plFactory::Create(type, S->getVer());
-    if (pCre != NULL) {
+    plCreatable* pCre;
+    if (mustStub) {
+        pCre = new plCreatableStub(pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()), stubLen - 2);
         pCre->read(S, this);
-    } else if (type != 0x8000) {
-        if (canStub) {
-            plDebug::Warning("Warning: Type [%04hX]%s is a STUB",
-                             pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
-                             pdUnifiedTypeMap::ClassName(type, S->getVer()));
-            pCre = new plCreatableStub(pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()), stubLen - 2);
+    } else {
+        pCre = plFactory::Create(type, S->getVer());
+        if (pCre != NULL) {
             pCre->read(S, this);
-        } else {
-            throw hsNotImplementedException(__FILE__, __LINE__,
-                        plString::Format("Cannot read unimplemented type [%04hX]%s",
-                                         pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
-                                         pdUnifiedTypeMap::ClassName(type, S->getVer())));
+        } else if (type != 0x8000) {
+            if (canStub) {
+                plDebug::Warning("Warning: Type [%04hX]%s is a STUB",
+                                 pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
+                                 pdUnifiedTypeMap::ClassName(type, S->getVer()));
+                pCre = new plCreatableStub(pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()), stubLen - 2);
+                pCre->read(S, this);
+            } else {
+                throw hsNotImplementedException(__FILE__, __LINE__,
+                            plString::Format("Cannot read unimplemented type [%04hX]%s",
+                                             pdUnifiedTypeMap::PlasmaToMapped(type, S->getVer()),
+                                             pdUnifiedTypeMap::ClassName(type, S->getVer())));
+            }
         }
     }
     return pCre;

@@ -23,7 +23,10 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     fSDLExcludeList.clear();
     fSDLVolatileList.clear();
-    fSynchFlags = S->readInt();
+    if (S->getVer() < 0x02005700)
+        fSynchFlags = 0;
+    else
+        fSynchFlags = S->readInt();
 
     unsigned short count, len, i;
     if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {

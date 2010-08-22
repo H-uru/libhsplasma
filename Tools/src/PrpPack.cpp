@@ -15,6 +15,7 @@
  */
 
 #include "ResManager/plResManager.h"
+#include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Sys/Platform.h"
 #include <string.h>
 #ifdef WIN32
@@ -122,6 +123,7 @@ int main(int argc, char** argv) {
         direction = kCreate;
     }
 
+    plResManager rm;
     hsFileStream* S = new hsFileStream();
     if (!S->open(filename, fmRead)) {
         fprintf(stderr, "Error opening %s for reading!", filename);
@@ -136,27 +138,31 @@ int main(int argc, char** argv) {
     unsigned int i, j;
     char strBuf[256];
     if (direction == kExtract || direction == kRepack) {
+        S->close();
+        delete S;
+        S = NULL;
+        delete page;
+        page = rm.ReadPage(filename, true);
         OS->open(filenameConvert(filename, kExtract), fmCreate);
-        page->read(S);
         OS->write(4, "PRD");
         OS->writeShort(strlen(page->getAge()));
         OS->writeStr(page->getAge());
         OS->writeShort(strlen(page->getPage()));
         OS->writeStr(page->getPage());
-        if (S->getVer() == pvUniversal) {
+        if (rm.getVer() == pvUniversal) {
             maj = 0x7FFF;
             min = 0x7FFF;
-        } else  if (S->getVer() == pvEoa) {
+        } else  if (rm.getVer() == pvEoa) {
             maj = -1;
             min = 1;
-        } else if (S->getVer() == pvHex) {
+        } else if (rm.getVer() == pvHex) {
             maj = -1;
             min = 2;
-        } else if (S->getVer() == pvPots) {
-            min = 12;
-        } else if (S->getVer() == pvLive) {
-            maj = 70;
-            min = 0;
+        } else {
+            maj = (rm.getVer() & 0x0000FF00) >> 8;
+            maj = ((maj/16)*16)+(maj%16);
+            min = (rm.getVer() & 0x000000FF);
+            min = ((min/16)*16)+(min%16);
         }
         OS->writeShort(maj);
         OS->writeShort(min);
@@ -164,40 +170,21 @@ int main(int argc, char** argv) {
         loc.write(OS);
         OS->close();
 
-        S->seek(page->getIndexStart());
-        plKey* keys;
-        unsigned int tCount = S->readInt();
+        std::vector<short> types = rm.getTypes(loc);
       #ifdef WIN32
         CreateDirectory(getOutputDir(filename, page), NULL);
       #else
         mkdir(getOutputDir(filename, page), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
       #endif
-        for (i=0; i<tCount; i++) {
-            short type = S->readShort();
-            if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
-                S->readInt();
-                S->readByte();
-            }
-            unsigned int oCount = S->readInt();
-            keys = new plKey[oCount];
-            for (j=0; j<oCount; j++) {
-                keys[j] = new plKeyData();
-                keys[j]->read(S);
-            }
-            unsigned int pos = S->pos();
-            for (j=0; j<oCount; j++) {
-                S->seek(keys[j]->getFileOff());
+        for (i=0; i<types.size(); i++) {
+            std::vector<plKey> objs = rm.getKeys(loc, types[i]);
+            for (j=0; j<objs.size(); j++) {
                 sprintf(strBuf, "%s[%04hX]%s.po", getOutputDir(filename, page),
-                                type, CleanFileName(keys[j]->getName()).cstr());
+                                types[i], CleanFileName(objs[j]->getName()).cstr());
                 OS->open(strBuf, fmCreate);
-                void* objBuf = malloc(keys[j]->getObjSize());
-                S->read(keys[j]->getObjSize(), objBuf);
-                OS->write(keys[j]->getObjSize(), objBuf);
-                free(objBuf);
+                rm.WriteCreatable(OS, objs[j]->getObj());
                 OS->close();
             }
-            S->seek(pos);
-            delete[] keys;
         }
     }
     if (direction == kRepack) {

@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
 
     for (size_t i=0; i<fFiles.getSize(); i++) {
         try {
-            page = rm.ReadPage(fFiles[i]);
+            page = rm.ReadPage(fFiles[i], true);
         } catch (hsException& e) {
             fprintf(stderr, "%s:%lu: %s\n", e.File(), e.Line(), e.what());
             return 1;

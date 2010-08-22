@@ -147,13 +147,14 @@ static PyObject* pyResManager_countKeys(pyResManager* self, PyObject* args) {
 
 static PyObject* pyResManager_ReadPage(pyResManager* self, PyObject* args) {
     const char* filename;
-    if (!PyArg_ParseTuple(args, "s", &filename)) {
+    int stub;
+    if (!PyArg_ParseTuple(args, "s|i", &filename, &stub)) {
         PyErr_SetString(PyExc_TypeError, "ReadPage expects a string");
         return NULL;
     }
     plPageInfo* page = NULL;
     try {
-        page = self->fThis->ReadPage(filename);
+        page = self->fThis->ReadPage(filename, (stub != 0));
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error reading page");
         return NULL;
@@ -533,7 +534,7 @@ static PyMethodDef pyResManager_Methods[] = {
       "Params: location\n"
       "Counts the number of loaded keys in `location`" },
     { "ReadPage", (PyCFunction)pyResManager_ReadPage, METH_VARARGS,
-      "Params: filename\n"
+      "Params: filename, [stub]\n"
       "Reads an entire PRP file and returns the plPageInfo for it" },
     { "WritePage", (PyCFunction)pyResManager_WritePage, METH_VARARGS,
       "Params: filename, page\n"

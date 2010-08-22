@@ -58,6 +58,7 @@ protected:
     std::vector<plAgeInfo*> ages;
     ProgressCallback progressFunc;
     unsigned int totalKeys, readKeys;
+    bool mustStub;
 
 private:
     unsigned int ReadKeyring(hsStream* S, const plLocation& loc);
@@ -138,15 +139,7 @@ public:
      * \return a pointer to the plPageInfo describing the page.
      * \sa ReadPageRaw(), ReadPagePrc(), ReadAge(), ReadAgePrc()
      */
-    plPageInfo* ReadPage(const char* filename);
-
-    /**
-     * Read a Page (PRP File) and register it with the ResManager.
-     * The objects are read as hex blobs and not parsed.
-     * \return a pointer to the plPageInfo describing the page.
-     * \sa ReadPage(), ReadPagePrc(), ReadAge(), ReadAgePrc()
-     */
-    plPageInfo* ReadPageRaw(const char* filename);
+    plPageInfo* ReadPage(const char* filename, bool stub = false);
 
     /**
      * Parse a page from a PRC data source, and register it with the ResManager.
