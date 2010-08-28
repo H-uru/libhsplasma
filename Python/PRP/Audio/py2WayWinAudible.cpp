@@ -26,6 +26,7 @@ static PyObject* py2WayWinAudible_new(PyTypeObject* type, PyObject* args, PyObje
     if (self != NULL) {
         self->fThis = new pl2WayWinAudible();
         self->fPyOwned = true;
+        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -40,7 +41,7 @@ static PyObject* py2WayWinAudible_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible::Convert(cre->fThis));
+    return py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible::Convert(IConvert(cre)));
 }
 
 static PyMethodDef py2WayWinAudible_Methods[] = {
@@ -127,6 +128,7 @@ PyObject* py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible* obj) {
     py2WayWinAudible* pyobj = PyObject_New(py2WayWinAudible, &py2WayWinAudible_Type);
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
+    pyobj->fClsType = obj->ClassIndex();
     return (PyObject*)pyobj;
 }
 

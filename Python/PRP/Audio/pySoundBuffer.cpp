@@ -27,6 +27,7 @@ static PyObject* pySoundBuffer_new(PyTypeObject* type, PyObject* args, PyObject*
     if (self != NULL) {
         self->fThis = new plSoundBuffer();
         self->fPyOwned = true;
+        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -41,7 +42,7 @@ static PyObject* pySoundBuffer_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySoundBuffer_FromSoundBuffer(plSoundBuffer::Convert(cre->fThis));
+    return pySoundBuffer_FromSoundBuffer(plSoundBuffer::Convert(IConvert(cre)));
 }
 
 static PyObject* pySoundBuffer_getHeader(pySoundBuffer* self, void*) {
@@ -222,6 +223,7 @@ PyObject* pySoundBuffer_FromSoundBuffer(class plSoundBuffer* buf) {
     pySoundBuffer* pysb = PyObject_New(pySoundBuffer, &pySoundBuffer_Type);
     pysb->fThis = buf;
     pysb->fPyOwned = false;
+    pysb->fClsType = buf->ClassIndex();
     return (PyObject*)pysb;
 }
 

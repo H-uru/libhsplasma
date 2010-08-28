@@ -27,6 +27,7 @@ static PyObject* pyAudible_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     if (self != NULL) {
         self->fThis = new plAudible();
         self->fPyOwned = true;
+        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -41,7 +42,7 @@ static PyObject* pyAudible_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAudible_FromAudible(plAudible::Convert(cre->fThis));
+    return pyAudible_FromAudible(plAudible::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyAudible_Methods[] = {
@@ -128,6 +129,7 @@ PyObject* pyAudible_FromAudible(plAudible* obj) {
     pyAudible* pyobj = PyObject_New(pyAudible, &pyAudible_Type);
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
+    pyobj->fClsType = obj->ClassIndex();
     return (PyObject*)pyobj;
 }
 
