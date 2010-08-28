@@ -49,7 +49,6 @@ static PyObject* pyMipmap_new(PyTypeObject* type, PyObject* args, PyObject* kwds
     if (self != NULL) {
         self->fThis = new plMipmap();
         self->fPyOwned = true;
-        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -422,7 +421,6 @@ PyObject* pyMipmap_FromMipmap(class plMipmap* img) {
     pyMipmap* pybmp = PyObject_New(pyMipmap, &pyMipmap_Type);
     pybmp->fThis = img;
     pybmp->fPyOwned = false;
-    pybmp->fClsType = img->ClassIndex();
     return (PyObject*)pybmp;
 }
 

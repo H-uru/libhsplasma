@@ -28,7 +28,6 @@ typedef struct {
     PyObject_HEAD
     class plSoundBuffer* fThis;
     bool fPyOwned;
-    unsigned short fClsType;
 } pySoundBuffer;
 
 extern PyTypeObject pyWAVHeader_Type;

@@ -336,7 +336,6 @@ PyObject* pyBitmap_FromBitmap(class plBitmap* img) {
     pyBitmap* pybmp = PyObject_New(pyBitmap, &pyBitmap_Type);
     pybmp->fThis = img;
     pybmp->fPyOwned = false;
-    pybmp->fClsType = img->ClassIndex();
     return (PyObject*)pybmp;
 }
 

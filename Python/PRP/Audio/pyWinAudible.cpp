@@ -27,7 +27,6 @@ static PyObject* pyWinAudible_new(PyTypeObject* type, PyObject* args, PyObject* 
     if (self != NULL) {
         self->fThis = new plWinAudible();
         self->fPyOwned = true;
-        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -204,7 +203,6 @@ PyObject* pyWinAudible_FromWinAudible(plWinAudible* obj) {
     pyWinAudible* pyobj = PyObject_New(pyWinAudible, &pyWinAudible_Type);
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
-    pyobj->fClsType = obj->ClassIndex();
     return (PyObject*)pyobj;
 }
 

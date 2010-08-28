@@ -23,7 +23,6 @@ typedef struct {
     PyObject_HEAD
     class plSceneNode* fThis;
     bool fPyOwned;
-    unsigned short fClsType;
 } pySceneNode;
 
 extern PyTypeObject pySceneNode_Type;

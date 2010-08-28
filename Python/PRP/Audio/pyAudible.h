@@ -23,28 +23,24 @@ typedef struct {
     PyObject_HEAD
     class plAudible* fThis;
     bool fPyOwned;
-    unsigned short fClsType;
 } pyAudible;
 
 typedef struct {
     PyObject_HEAD
     class plAudibleNull* fThis;
     bool fPyOwned;
-    unsigned short fClsType;
 } pyAudibleNull;
 
 typedef struct {
     PyObject_HEAD
     class plWinAudible* fThis;
     bool fPyOwned;
-    unsigned short fClsType;
 } pyWinAudible;
 
 typedef struct {
     PyObject_HEAD
     class pl2WayWinAudible* fThis;
     bool fPyOwned;
-    unsigned short fClsType;
 } py2WayWinAudible;
 
 extern PyTypeObject pyAudible_Type;

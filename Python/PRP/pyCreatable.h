@@ -23,14 +23,12 @@ typedef struct {
     PyObject_HEAD
     class plCreatable* fThis;
     bool fPyOwned;
-    unsigned short fClsType;
 } pyCreatable;
 
 typedef struct {
     PyObject_HEAD
     class plCreatableStub* fThis;
     bool fPyOwned;
-    unsigned short fClsType;
 } pyCreatableStub;
 
 extern PyTypeObject pyCreatable_Type;

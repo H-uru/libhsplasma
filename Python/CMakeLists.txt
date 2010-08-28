@@ -351,6 +351,7 @@ set(PRP_SRFC_HDRS
 
 set(PRP_SRCS
     PRP/pyCreatable.cpp
+    PRP/pyCreatableConvert.cpp
     PRP/pyCreatableStub.cpp
     PRP/pySceneNode.cpp
 )

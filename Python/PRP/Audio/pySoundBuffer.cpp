@@ -27,7 +27,6 @@ static PyObject* pySoundBuffer_new(PyTypeObject* type, PyObject* args, PyObject*
     if (self != NULL) {
         self->fThis = new plSoundBuffer();
         self->fPyOwned = true;
-        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -223,7 +222,6 @@ PyObject* pySoundBuffer_FromSoundBuffer(class plSoundBuffer* buf) {
     pySoundBuffer* pysb = PyObject_New(pySoundBuffer, &pySoundBuffer_Type);
     pysb->fThis = buf;
     pysb->fPyOwned = false;
-    pysb->fClsType = buf->ClassIndex();
     return (PyObject*)pysb;
 }
 

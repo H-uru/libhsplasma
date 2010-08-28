@@ -20,7 +20,6 @@
 #include "KeyedObject/pyKey.h"
 #include "KeyedObject/pyKeyedObject.h"
 #include "pyCreatable.h"
-#include <ResManager/plFactory.h>
 
 extern "C" {
 
@@ -29,7 +28,6 @@ static PyObject* pySceneNode_new(PyTypeObject* type, PyObject* args, PyObject* k
     if (self != NULL) {
         self->fThis = new plSceneNode();
         self->fPyOwned = true;
-        self->fClsType = kSceneNode;
     }
     return (PyObject*)self;
 }
@@ -268,7 +266,6 @@ PyObject* pySceneNode_FromSceneNode(class plSceneNode* obj) {
     pySceneNode* node = PyObject_New(pySceneNode, &pySceneNode_Type);
     node->fThis = obj;
     node->fPyOwned = false;
-    node->fClsType = obj->ClassIndex();
     return (PyObject*)node;
 }
 

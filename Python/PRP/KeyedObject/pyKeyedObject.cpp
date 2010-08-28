@@ -30,7 +30,6 @@ static int pyKeyedObject___init__(pyKeyedObject* self, PyObject* args, PyObject*
     }
 
     self->fThis->init(name);
-    self->fClsType = self->fThis->ClassIndex();
     return 0;
 }
 
@@ -156,7 +155,6 @@ PyObject* pyKeyedObject_FromKeyedObject(class hsKeyedObject* obj) {
     pyKeyedObject* ko = PyObject_New(pyKeyedObject, &pyKeyedObject_Type);
     ko->fThis = obj;
     ko->fPyOwned = false;
-    ko->fClsType = obj->ClassIndex();
     return (PyObject*)ko;
 }
 

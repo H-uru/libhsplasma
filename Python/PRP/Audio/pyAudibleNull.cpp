@@ -26,7 +26,6 @@ static PyObject* pyAudibleNull_new(PyTypeObject* type, PyObject* args, PyObject*
     if (self != NULL) {
         self->fThis = new plAudibleNull();
         self->fPyOwned = true;
-        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -128,7 +127,6 @@ PyObject* pyAudibleNull_FromAudibleNull(plAudibleNull* obj) {
     pyAudibleNull* pyobj = PyObject_New(pyAudibleNull, &pyAudibleNull_Type);
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
-    pyobj->fClsType = obj->ClassIndex();
     return (PyObject*)pyobj;
 }
 

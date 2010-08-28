@@ -40,7 +40,7 @@ static PyObject* pyCreatable_new(PyTypeObject* type, PyObject* args, PyObject* k
 }
 
 static PyObject* pyCreatable_ClassIndex(pyCreatable* self) {
-    return PyInt_FromLong(self->fClsType);
+    return PyInt_FromLong(self->fThis->ClassIndex());
 }
 
 static PyObject* pyCreatable_ClassIndexVer(pyCreatable* self, PyObject* args) {

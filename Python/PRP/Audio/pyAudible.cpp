@@ -27,7 +27,6 @@ static PyObject* pyAudible_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     if (self != NULL) {
         self->fThis = new plAudible();
         self->fPyOwned = true;
-        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -129,7 +128,6 @@ PyObject* pyAudible_FromAudible(plAudible* obj) {
     pyAudible* pyobj = PyObject_New(pyAudible, &pyAudible_Type);
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
-    pyobj->fClsType = obj->ClassIndex();
     return (PyObject*)pyobj;
 }
 
