@@ -23,12 +23,14 @@ typedef struct {
     PyObject_HEAD
     class plBitmap* fThis;
     bool fPyOwned;
+    unsigned short fClsType;
 } pyBitmap;
 
 typedef struct {
     PyObject_HEAD
     class plMipmap* fThis;
     bool fPyOwned;
+    unsigned short fClsType;
 } pyMipmap;
 
 extern PyTypeObject pyBitmap_Type;

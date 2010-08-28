@@ -49,6 +49,7 @@ static PyObject* pyMipmap_new(PyTypeObject* type, PyObject* args, PyObject* kwds
     if (self != NULL) {
         self->fThis = new plMipmap();
         self->fPyOwned = true;
+        self->fClsType = self->fThis->ClassIndex();
     }
     return (PyObject*)self;
 }
@@ -63,7 +64,7 @@ static PyObject* pyMipmap_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMipmap_FromMipmap(plMipmap::Convert(cre->fThis));
+    return pyMipmap_FromMipmap(plMipmap::Convert(IConvert(cre)));
 }
 
 static PyObject* pyMipmap_readData(pyMipmap* self, PyObject* args) {
@@ -421,6 +422,7 @@ PyObject* pyMipmap_FromMipmap(class plMipmap* img) {
     pyMipmap* pybmp = PyObject_New(pyMipmap, &pyMipmap_Type);
     pybmp->fThis = img;
     pybmp->fPyOwned = false;
+    pybmp->fClsType = img->ClassIndex();
     return (PyObject*)pybmp;
 }
 

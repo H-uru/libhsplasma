@@ -15,6 +15,7 @@ PYOBJ=\
 	$(OBJDIR)pyQuat.o \
 	$(OBJDIR)pyVector3.o \
 	$(OBJDIR)pyCreatable.o \
+	$(OBJDIR)pyCreatableConvert.o \
 	$(OBJDIR)pyCreatableStub.o \
 	$(OBJDIR)pyAnimTimeConvert.o \
 	$(OBJDIR)pyATCEaseCurve.o \
@@ -277,6 +278,9 @@ $(OBJDIR)pyVector3.o: Math/pyVector3.cpp
 
 $(OBJDIR)pyCreatable.o: PRP/pyCreatable.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/pyCreatable.cpp -o $@
+
+$(OBJDIR)pyCreatableConvert.o: PRP/pyCreatableConvert.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/pyCreatableConvert.cpp -o $@
 
 $(OBJDIR)pyCreatableStub.o: PRP/pyCreatableStub.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/pyCreatableStub.cpp -o $@

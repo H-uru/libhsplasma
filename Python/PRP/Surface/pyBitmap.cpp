@@ -37,7 +37,7 @@ static PyObject* pyBitmap_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyBitmap_FromBitmap(plBitmap::Convert(cre->fThis));
+    return pyBitmap_FromBitmap(plBitmap::Convert(IConvert(cre)));
 }
 
 static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
@@ -336,6 +336,7 @@ PyObject* pyBitmap_FromBitmap(class plBitmap* img) {
     pyBitmap* pybmp = PyObject_New(pyBitmap, &pyBitmap_Type);
     pybmp->fThis = img;
     pybmp->fPyOwned = false;
+    pybmp->fClsType = img->ClassIndex();
     return (PyObject*)pybmp;
 }
 

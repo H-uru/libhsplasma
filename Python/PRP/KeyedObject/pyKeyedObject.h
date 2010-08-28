@@ -23,6 +23,7 @@ typedef struct {
     PyObject_HEAD
     class hsKeyedObject* fThis;
     bool fPyOwned;
+    unsigned short fClsType;
 } pyKeyedObject;
 
 extern PyTypeObject pyKeyedObject_Type;

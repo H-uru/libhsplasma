@@ -30,6 +30,7 @@ static int pyKeyedObject___init__(pyKeyedObject* self, PyObject* args, PyObject*
     }
 
     self->fThis->init(name);
+    self->fClsType = self->fThis->ClassIndex();
     return 0;
 }
 
@@ -62,7 +63,7 @@ static PyObject* pyKeyedObject_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyKeyedObject_FromKeyedObject(hsKeyedObject::Convert(cre->fThis));
+    return pyKeyedObject_FromKeyedObject(hsKeyedObject::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyKeyedObject_Methods[] = {
@@ -155,6 +156,7 @@ PyObject* pyKeyedObject_FromKeyedObject(class hsKeyedObject* obj) {
     pyKeyedObject* ko = PyObject_New(pyKeyedObject, &pyKeyedObject_Type);
     ko->fThis = obj;
     ko->fPyOwned = false;
+    ko->fClsType = obj->ClassIndex();
     return (PyObject*)ko;
 }
 

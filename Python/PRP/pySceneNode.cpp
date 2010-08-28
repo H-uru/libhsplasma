@@ -20,6 +20,7 @@
 #include "KeyedObject/pyKey.h"
 #include "KeyedObject/pyKeyedObject.h"
 #include "pyCreatable.h"
+#include <ResManager/plFactory.h>
 
 extern "C" {
 
@@ -28,6 +29,7 @@ static PyObject* pySceneNode_new(PyTypeObject* type, PyObject* args, PyObject* k
     if (self != NULL) {
         self->fThis = new plSceneNode();
         self->fPyOwned = true;
+        self->fClsType = kSceneNode;
     }
     return (PyObject*)self;
 }
@@ -42,7 +44,7 @@ static PyObject* pySceneNode_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySceneNode_FromSceneNode(plSceneNode::Convert(cre->fThis));
+    return pySceneNode_FromSceneNode(plSceneNode::Convert(IConvert(cre)));
 }
 
 static PyObject* pySceneNode_clear(pySceneNode* self) {
@@ -266,6 +268,7 @@ PyObject* pySceneNode_FromSceneNode(class plSceneNode* obj) {
     pySceneNode* node = PyObject_New(pySceneNode, &pySceneNode_Type);
     node->fThis = obj;
     node->fPyOwned = false;
+    node->fClsType = obj->ClassIndex();
     return (PyObject*)node;
 }
 
