@@ -47,7 +47,7 @@ static PyObject* pySpaceTree_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(cre->fThis));
+    return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(IConvert(cre)));
 }
 
 static PyObject* pySpaceTree_clear(pySpaceTree* self) {

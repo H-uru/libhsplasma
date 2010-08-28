@@ -40,7 +40,7 @@ static PyObject* pyPointShadowMaster_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPointShadowMaster_FromPointShadowMaster(plPointShadowMaster::Convert(cre->fThis));
+    return pyPointShadowMaster_FromPointShadowMaster(plPointShadowMaster::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyPointShadowMaster_Methods[] = {

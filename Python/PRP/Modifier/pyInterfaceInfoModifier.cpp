@@ -42,7 +42,7 @@ static PyObject* pyInterfaceInfoModifier_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModifier::Convert(cre->fThis));
+    return pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModifier::Convert(IConvert(cre)));
 }
 
 static PyObject* pyInterfaceInfoModifier_clearKeys(pyInterfaceInfoModifier* self) {

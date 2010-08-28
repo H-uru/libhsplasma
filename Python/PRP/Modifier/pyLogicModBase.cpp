@@ -40,7 +40,7 @@ static PyObject* pyLogicModBase_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLogicModBase_FromLogicModBase(plLogicModBase::Convert(cre->fThis));
+    return pyLogicModBase_FromLogicModBase(plLogicModBase::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLogicModBase_clearCommands(pyLogicModBase* self) {

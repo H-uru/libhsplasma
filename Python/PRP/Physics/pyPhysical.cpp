@@ -37,7 +37,7 @@ static PyObject* pyPhysical_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPhysical_FromPhysical(plPhysical::Convert(cre->fThis));
+    return pyPhysical_FromPhysical(plPhysical::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyPhysical_Methods[] = {

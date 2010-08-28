@@ -41,7 +41,7 @@ static PyObject* pyShader_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyShader_FromShader(plShader::Convert(cre->fThis));
+    return pyShader_FromShader(plShader::Convert(IConvert(cre)));
 }
 
 static PyObject* pyShader_getConsts(pyShader* self, void*) {

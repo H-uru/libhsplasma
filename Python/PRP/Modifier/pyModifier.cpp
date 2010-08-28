@@ -37,7 +37,7 @@ static PyObject* pyModifier_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyModifier_FromModifier(plModifier::Convert(cre->fThis));
+    return pyModifier_FromModifier(plModifier::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyModifier_Methods[] = {

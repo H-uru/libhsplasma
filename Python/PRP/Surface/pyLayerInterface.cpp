@@ -41,7 +41,7 @@ static PyObject* pyLayerInterface_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerInterface_FromLayerInterface(plLayerInterface::Convert(cre->fThis));
+    return pyLayerInterface_FromLayerInterface(plLayerInterface::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLayerInterface_getUnderLay(pyLayerInterface* self, void*) {

@@ -41,7 +41,7 @@ static PyObject* pyMessage_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMessage_FromMessage(plMessage::Convert(cre->fThis));
+    return pyMessage_FromMessage(plMessage::Convert(IConvert(cre)));
 }
 
 static PyObject* pyMessage_addReceiver(pyMessage* self, PyObject* args) {

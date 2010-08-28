@@ -44,7 +44,7 @@ static PyObject* pyClusterGroup_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyClusterGroup_FromClusterGroup(plClusterGroup::Convert(cre->fThis));
+    return pyClusterGroup_FromClusterGroup(plClusterGroup::Convert(IConvert(cre)));
 }
 
 static PyObject* pyClusterGroup_addCluster(pyClusterGroup* self, PyObject* args) {

@@ -43,7 +43,7 @@ static PyObject* pyGenericPhysical_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyGenericPhysical_FromGenericPhysical(plGenericPhysical::Convert(cre->fThis));
+    return pyGenericPhysical_FromGenericPhysical(plGenericPhysical::Convert(IConvert(cre)));
 }
 
 static PyObject* pyGenericPhysical_getProp(pyGenericPhysical* self, PyObject* args) {

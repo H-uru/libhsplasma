@@ -40,7 +40,7 @@ static PyObject* pyLayer_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayer_FromLayer(plLayer::Convert(cre->fThis));
+    return pyLayer_FromLayer(plLayer::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyLayer_Methods[] = {

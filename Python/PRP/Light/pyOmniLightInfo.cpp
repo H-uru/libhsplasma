@@ -40,7 +40,7 @@ static PyObject* pyOmniLightInfo_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyOmniLightInfo_FromOmniLightInfo(plOmniLightInfo::Convert(cre->fThis));
+    return pyOmniLightInfo_FromOmniLightInfo(plOmniLightInfo::Convert(IConvert(cre)));
 }
 
 static PyObject* pyOmniLightInfo_getAttenConst(pyOmniLightInfo* self, void*) {

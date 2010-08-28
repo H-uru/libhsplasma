@@ -41,7 +41,7 @@ static PyObject* pyDynamicTextMap_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyDynamicTextMap_FromDynamicTextMap(plDynamicTextMap::Convert(cre->fThis));
+    return pyDynamicTextMap_FromDynamicTextMap(plDynamicTextMap::Convert(IConvert(cre)));
 }
 
 static PyObject* pyDynamicTextMap_getWidth(pyDynamicTextMap* self, void*) {

@@ -41,7 +41,7 @@ static PyObject* pyLayerAnimation_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerAnimation_FromLayerAnimation(plLayerAnimation::Convert(cre->fThis));
+    return pyLayerAnimation_FromLayerAnimation(plLayerAnimation::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLayerAnimation_getTimeConvert(pyLayerAnimation* self, void*) {

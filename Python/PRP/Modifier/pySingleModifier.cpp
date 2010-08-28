@@ -36,7 +36,7 @@ static PyObject* pySingleModifier_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySingleModifier_FromSingleModifier(plSingleModifier::Convert(cre->fThis));
+    return pySingleModifier_FromSingleModifier(plSingleModifier::Convert(IConvert(cre)));
 }
 
 static PyObject* pySingleModifier_getFlag(pySingleModifier* self, PyObject* args) {

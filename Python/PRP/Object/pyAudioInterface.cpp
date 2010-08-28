@@ -41,7 +41,7 @@ static PyObject* pyAudioInterface_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAudioInterface_FromAudioInterface(plAudioInterface::Convert(cre->fThis));
+    return pyAudioInterface_FromAudioInterface(plAudioInterface::Convert(IConvert(cre)));
 }
 
 static PyObject* pyAudioInterface_getAudible(pyAudioInterface* self, void*) {

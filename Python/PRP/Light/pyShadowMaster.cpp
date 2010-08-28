@@ -41,7 +41,7 @@ static PyObject* pyShadowMaster_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyShadowMaster_FromShadowMaster(plShadowMaster::Convert(cre->fThis));
+    return pyShadowMaster_FromShadowMaster(plShadowMaster::Convert(IConvert(cre)));
 }
 
 static PyObject* pyShadowMaster_getAttenDist(pyShadowMaster* self, void*) {

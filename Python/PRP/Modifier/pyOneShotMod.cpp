@@ -41,7 +41,7 @@ static PyObject* pyOneShotMod_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyOneShotMod_FromOneShotMod(plOneShotMod::Convert(cre->fThis));
+    return pyOneShotMod_FromOneShotMod(plOneShotMod::Convert(IConvert(cre)));
 }
 
 static PyObject* pyOneShotMod_getAnimName(pyOneShotMod* self, void*) {

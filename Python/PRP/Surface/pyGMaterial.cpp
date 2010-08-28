@@ -42,7 +42,7 @@ static PyObject* pyGMaterial_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyGMaterial_FromGMaterial(hsGMaterial::Convert(cre->fThis));
+    return pyGMaterial_FromGMaterial(hsGMaterial::Convert(IConvert(cre)));
 }
 
 static PyObject* pyGMaterial_clearLayers(pyGMaterial* self) {

@@ -41,7 +41,7 @@ static PyObject* pyLayerLinkAnimation_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerLinkAnimation_FromLayerLinkAnimation(plLayerLinkAnimation::Convert(cre->fThis));
+    return pyLayerLinkAnimation_FromLayerLinkAnimation(plLayerLinkAnimation::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLayerLinkAnimation_getLinkKey(pyLayerLinkAnimation* self, void*) {

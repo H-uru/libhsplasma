@@ -37,7 +37,7 @@ static PyObject* pySynchedObject_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySynchedObject_FromSynchedObject(plSynchedObject::Convert(cre->fThis));
+    return pySynchedObject_FromSynchedObject(plSynchedObject::Convert(IConvert(cre)));
 }
 
 static PyObject* pySynchedObject_setExclude(pySynchedObject* self, PyObject* args) {

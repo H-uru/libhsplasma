@@ -41,7 +41,7 @@ static PyObject* pyEventCallbackMsg_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyEventCallbackMsg_FromEventCallbackMsg(plEventCallbackMsg::Convert(cre->fThis));
+    return pyEventCallbackMsg_FromEventCallbackMsg(plEventCallbackMsg::Convert(IConvert(cre)));
 }
 
 static PyObject* pyEventCallbackMsg_getEventTime(pyEventCallbackMsg* self, void*) {

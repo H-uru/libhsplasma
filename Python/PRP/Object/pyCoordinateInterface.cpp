@@ -42,7 +42,7 @@ static PyObject* pyCoordinateInterface_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyCoordinateInterface_FromCoordinateInterface(plCoordinateInterface::Convert(cre->fThis));
+    return pyCoordinateInterface_FromCoordinateInterface(plCoordinateInterface::Convert(IConvert(cre)));
 }
 
 static PyObject* pyCoordinateInterface_clearChildren(pyCoordinateInterface* self) {

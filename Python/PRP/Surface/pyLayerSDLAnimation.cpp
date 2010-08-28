@@ -40,7 +40,7 @@ static PyObject* pyLayerSDLAnimation_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerSDLAnimation_FromLayerSDLAnimation(plLayerSDLAnimation::Convert(cre->fThis));
+    return pyLayerSDLAnimation_FromLayerSDLAnimation(plLayerSDLAnimation::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLayerSDLAnimation_getVarName(pyLayerSDLAnimation* self, void*) {

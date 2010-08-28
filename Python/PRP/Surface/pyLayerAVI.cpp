@@ -40,7 +40,7 @@ static PyObject* pyLayerAVI_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerAVI_FromLayerAVI(plLayerAVI::Convert(cre->fThis));
+    return pyLayerAVI_FromLayerAVI(plLayerAVI::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyLayerAVI_Methods[] = {

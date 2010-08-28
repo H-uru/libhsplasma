@@ -41,7 +41,7 @@ static PyObject* pySpawnModifier_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySpawnModifier_FromSpawnModifier(plSpawnModifier::Convert(cre->fThis));
+    return pySpawnModifier_FromSpawnModifier(plSpawnModifier::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pySpawnModifier_Methods[] = {

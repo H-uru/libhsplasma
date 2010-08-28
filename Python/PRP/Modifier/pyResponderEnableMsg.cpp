@@ -41,7 +41,7 @@ static PyObject* pyResponderEnableMsg_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyResponderEnableMsg_FromResponderEnableMsg(plResponderEnableMsg::Convert(cre->fThis));
+    return pyResponderEnableMsg_FromResponderEnableMsg(plResponderEnableMsg::Convert(IConvert(cre)));
 }
 
 static PyObject* pyResponderEnableMsg_getEnable(pyResponderEnableMsg* self, void*) {

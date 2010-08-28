@@ -40,7 +40,7 @@ static PyObject* pyDirectShadowMaster_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyDirectShadowMaster_FromDirectShadowMaster(plDirectShadowMaster::Convert(cre->fThis));
+    return pyDirectShadowMaster_FromDirectShadowMaster(plDirectShadowMaster::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyDirectShadowMaster_Methods[] = {

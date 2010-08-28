@@ -42,7 +42,7 @@ static PyObject* pyMobileOccluder_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMobileOccluder_FromMobileOccluder(plMobileOccluder::Convert(cre->fThis));
+    return pyMobileOccluder_FromMobileOccluder(plMobileOccluder::Convert(IConvert(cre)));
 }
 
 static PyObject* pyMobileOccluder_getLocalToWorld(pyMobileOccluder* self, void*) {

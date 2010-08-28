@@ -45,7 +45,7 @@ static PyObject* pyViewFaceModifier_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyViewFaceModifier_FromViewFaceModifier(plViewFaceModifier::Convert(cre->fThis));
+    return pyViewFaceModifier_FromViewFaceModifier(plViewFaceModifier::Convert(IConvert(cre)));
 }
 
 static PyObject* pyViewFaceModifier_getScale(pyViewFaceModifier* self, void*) {

@@ -42,7 +42,7 @@ static PyObject* pyNotifyMsg_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyNotifyMsg_FromNotifyMsg(plNotifyMsg::Convert(cre->fThis));
+    return pyNotifyMsg_FromNotifyMsg(plNotifyMsg::Convert(IConvert(cre)));
 }
 
 static PyObject* pyNotifyMsg_clearEvents(pyNotifyMsg* self) {

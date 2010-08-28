@@ -39,7 +39,7 @@ static PyObject* pyObjInterface_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyObjInterface_FromObjInterface(plObjInterface::Convert(cre->fThis));
+    return pyObjInterface_FromObjInterface(plObjInterface::Convert(IConvert(cre)));
 }
 
 static PyObject* pyObjInterface_getProp(pyObjInterface* self, PyObject* args) {

@@ -41,7 +41,7 @@ static PyObject* pyDrawInterface_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyDrawInterface_FromDrawInterface(plDrawInterface::Convert(cre->fThis));
+    return pyDrawInterface_FromDrawInterface(plDrawInterface::Convert(IConvert(cre)));
 }
 
 static PyObject* pyDrawInterface_clearDrawables(pyDrawInterface* self) {

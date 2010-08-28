@@ -42,7 +42,7 @@ static PyObject* pySceneObject_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySceneObject_FromSceneObject(plSceneObject::Convert(cre->fThis));
+    return pySceneObject_FromSceneObject(plSceneObject::Convert(IConvert(cre)));
 }
 
 static PyObject* pySceneObject_clearInterfaces(pySceneObject* self) {

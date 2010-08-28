@@ -42,7 +42,7 @@ static PyObject* pyPythonFileMod_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPythonFileMod_FromPythonFileMod(plPythonFileMod::Convert(cre->fThis));
+    return pyPythonFileMod_FromPythonFileMod(plPythonFileMod::Convert(IConvert(cre)));
 }
 
 static PyObject* pyPythonFileMod_clearReceivers(pyPythonFileMod* self) {

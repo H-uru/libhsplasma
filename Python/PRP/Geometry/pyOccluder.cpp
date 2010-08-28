@@ -43,7 +43,7 @@ static PyObject* pyOccluder_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyOccluder_FromOccluder(plOccluder::Convert(cre->fThis));
+    return pyOccluder_FromOccluder(plOccluder::Convert(IConvert(cre)));
 }
 
 static PyObject* pyOccluder_clearPolys(pyOccluder* self) {

@@ -41,7 +41,7 @@ static PyObject* pyResponderModifier_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(cre->fThis));
+    return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(IConvert(cre)));
 }
 
 static PyObject* pyResponderModifier_addState(pyResponderModifier* self, PyObject* args) {

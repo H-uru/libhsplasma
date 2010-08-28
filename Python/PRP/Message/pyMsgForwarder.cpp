@@ -42,7 +42,7 @@ static PyObject* pyMsgForwarder_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMsgForwarder_FromMsgForwarder(plMsgForwarder::Convert(cre->fThis));
+    return pyMsgForwarder_FromMsgForwarder(plMsgForwarder::Convert(IConvert(cre)));
 }
 
 static PyObject* pyMsgForwarder_clearKeys(pyMsgForwarder* self) {

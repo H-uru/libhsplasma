@@ -38,7 +38,7 @@ static PyObject* pyLayerAnimationBase_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerAnimationBase_FromLayerAnimationBase(plLayerAnimationBase::Convert(cre->fThis));
+    return pyLayerAnimationBase_FromLayerAnimationBase(plLayerAnimationBase::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLayerAnimationBase_getPreshade(pyLayerAnimationBase* self, void*) {

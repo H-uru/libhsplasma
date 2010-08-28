@@ -41,7 +41,7 @@ static PyObject* pyMaintainersMarkerModifier_Convert(PyObject*, PyObject* args) 
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(plMaintainersMarkerModifier::Convert(cre->fThis));
+    return pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(plMaintainersMarkerModifier::Convert(IConvert(cre)));
 }
 
 static PyObject* pyMaintainersMarkerModifier_getCalibration(

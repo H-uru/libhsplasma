@@ -41,7 +41,7 @@ static PyObject* pySimulationInterface_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySimulationInterface_FromSimulationInterface(plSimulationInterface::Convert(cre->fThis));
+    return pySimulationInterface_FromSimulationInterface(plSimulationInterface::Convert(IConvert(cre)));
 }
 
 static PyObject* pySimulationInterface_getPhysical(pySimulationInterface* self, void*) {

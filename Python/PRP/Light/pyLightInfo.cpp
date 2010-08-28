@@ -40,7 +40,7 @@ static PyObject* pyLightInfo_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLightInfo_FromLightInfo(plLightInfo::Convert(cre->fThis));
+    return pyLightInfo_FromLightInfo(plLightInfo::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLightInfo_clearVisRegions(pyLightInfo* self) {

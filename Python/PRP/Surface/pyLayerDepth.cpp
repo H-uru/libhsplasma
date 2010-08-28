@@ -40,7 +40,7 @@ static PyObject* pyLayerDepth_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerDepth_FromLayerDepth(plLayerDepth::Convert(cre->fThis));
+    return pyLayerDepth_FromLayerDepth(plLayerDepth::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyLayerDepth_Methods[] = {

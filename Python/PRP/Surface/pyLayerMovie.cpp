@@ -41,7 +41,7 @@ static PyObject* pyLayerMovie_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerMovie_FromLayerMovie(plLayerMovie::Convert(cre->fThis));
+    return pyLayerMovie_FromLayerMovie(plLayerMovie::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLayerMovie_getMovieName(pyLayerMovie* self, void*) {

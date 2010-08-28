@@ -40,7 +40,7 @@ static PyObject* pySpotLightInfo_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySpotLightInfo_FromSpotLightInfo(plSpotLightInfo::Convert(cre->fThis));
+    return pySpotLightInfo_FromSpotLightInfo(plSpotLightInfo::Convert(IConvert(cre)));
 }
 
 static PyObject* pySpotLightInfo_getFalloff(pySpotLightInfo* self, void*) {

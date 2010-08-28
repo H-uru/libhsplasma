@@ -40,7 +40,7 @@ static PyObject* pyLayerBink_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLayerBink_FromLayerBink(plLayerBink::Convert(cre->fThis));
+    return pyLayerBink_FromLayerBink(plLayerBink::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyLayerBink_Methods[] = {
