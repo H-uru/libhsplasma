@@ -273,6 +273,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCreatableStub", Init_pyCreatableStub_Type());
 
     PyModule_AddObject(module, "hsKeyedObject", Init_pyKeyedObject_Type());
+    PyModule_AddObject(module, "hsKeyedObjectStub", Init_pyKeyedObjectStub_Type());
     PyModule_AddObject(module, "plSceneNode", Init_pySceneNode_Type());
     PyModule_AddObject(module, "plSynchedObject", Init_pySynchedObject_Type());
     PyModule_AddObject(module, "plSceneObject", Init_pySceneObject_Type());

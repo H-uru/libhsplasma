@@ -361,7 +361,7 @@ static PyObject* pyResManager_getLocations(pyResManager* self) {
 
 static PyObject* pyResManager_getTypes(pyResManager* self, PyObject* args) {
     pyLocation* loc;
-    char checkKeys;
+    char checkKeys = 0;
     if (!PyArg_ParseTuple(args, "O|b", &loc, &checkKeys)) {
         PyErr_SetString(PyExc_TypeError, "getTypes expects a plLocation");
         return NULL;
@@ -381,7 +381,7 @@ static PyObject* pyResManager_getTypes(pyResManager* self, PyObject* args) {
 static PyObject* pyResManager_getKeys(pyResManager* self, PyObject* args) {
     pyLocation* loc;
     int type;
-    char checkKeys;
+    char checkKeys = 0;
     if (!PyArg_ParseTuple(args, "Oi|b", &loc, &type, &checkKeys)) {
         PyErr_SetString(PyExc_TypeError, "getTypes expects plLocation, int");
         return NULL;

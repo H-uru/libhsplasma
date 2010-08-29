@@ -21,7 +21,7 @@
 extern "C" {
 
 static void pyCreatableStub_dealloc(pyCreatable* self) {
-    if (self->fThis != NULL)
+    if (self->fPyOwned)
         delete self->fThis;
     Py_TYPE(self)->tp_free((PyObject*)self);
 }
@@ -32,7 +32,7 @@ static int pyCreatableStub___init__(pyCreatableStub* self, PyObject* args, PyObj
         PyErr_SetString(PyExc_TypeError, "__init__ expects int, int");
         return -1;
     }
-    if (self->fThis != NULL)
+    if (self->fPyOwned)
         delete self->fThis;
     self->fThis = new plCreatableStub(classId, (size_t)length);
     return 0;
