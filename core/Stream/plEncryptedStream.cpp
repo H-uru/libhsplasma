@@ -30,7 +30,7 @@ static const int eoaMagic = 0x0D874288;
 
 const unsigned int* plEncryptedStream::DefaultKey() { return uruKey; }
 
-plEncryptedStream::plEncryptedStream(PlasmaVer pv)
+plEncryptedStream::plEncryptedStream(int pv)
                  : hsStream(pv), fBase(NULL), fIOwnBase(false) {
     fEKey[0] = uruKey[0];
     fEKey[1] = uruKey[1];
@@ -228,11 +228,11 @@ bool plEncryptedStream::open(hsStream* S, FileMode mode, EncryptionType type) {
     } else {
         fEType = type;
         if (fEType == kEncAuto) {
-            if (getVer() == pvUnknown)
+            if (!getVer().isValid())
                 throw hsBadVersionException(__FILE__, __LINE__);
-            else if (getVer() < pvLive)
+            else if (getVer() < MAKE_VERSION(2, 0, 69, 0))
                 fEType = kEncXtea;
-            else if (getVer() > pvLive)
+            else if (getVer().isNewPlasma())
                 fEType = kEncAES;
             else
                 fEType = kEncDroid;

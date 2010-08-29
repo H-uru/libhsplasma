@@ -24,7 +24,7 @@ void plCubicEnvironmap::read(hsStream* S, plResManager* mgr) {
     plBitmap::read(S, mgr);
 
     for (int i=0; i<kNumFaces; i++) {
-        if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+        if (S->getVer().isUru() || S->getVer().isUniversal())
             fFaces[i].readData(S);
         else
             fFaces[i].read(S, mgr);
@@ -36,7 +36,7 @@ void plCubicEnvironmap::write(hsStream* S, plResManager* mgr) {
     plBitmap::write(S, mgr);
 
     for (int i=0; i<kNumFaces; i++) {
-        if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+        if (S->getVer().isUru() || S->getVer().isUniversal())
             fFaces[i].writeData(S);
         else
             fFaces[i].write(S, mgr);

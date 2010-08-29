@@ -16,14 +16,14 @@
 
 #include "PlasmaVersions.h"
 
-const char* GetVersionName(PlasmaVer ver) {
+const char* PlasmaVer::GetVersionName(PlasmaVer ver) {
     switch (ver) {
         case pvPrime:
             return "Prime/UU";
         case pvPots:
             return "PotS/CC";
-        case pvLive:
-            return "MOUL";
+        case pvMoul:
+            return "MOUL/MQO";
         case pvEoa:
             return "Myst V/Crowthistle";
         case pvHex:
@@ -33,20 +33,20 @@ const char* GetVersionName(PlasmaVer ver) {
         default:
             if (ver < pvPrime)
                 return "Choru";
-            if (ver > pvPots && ver < pvLive)
+            if (ver > pvPots && ver < pvMoul)
                 return "MOUL Beta";
             else
                 return "Unknown";
     }
 }
 
-PlasmaVer GetSafestVersion(PlasmaVer ver) {
+PlasmaVer PlasmaVer::GetSafestVersion(PlasmaVer ver) {
     if (ver <= pvPrime)
         return pvPrime;
     else if (ver == pvPots)
         return pvPots;
-    else if (ver <= pvLive)
-        return pvLive;
+    else if (ver <= pvMoul)
+        return pvMoul;
     else if (ver == pvEoa)
         return pvEoa;
     else if (ver == pvHex)

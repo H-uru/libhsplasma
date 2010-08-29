@@ -104,7 +104,7 @@ void plSound::IRead(hsStream* S, plResManager* mgr) {
     fType = S->readByte();
     fPriority = S->readByte();
 
-    if (S->getVer() >= pvEoa)
+    if (S->getVer().isNewPlasma())
         fSubtitleId = S->readSafeStr();
 
     if (fPlaying)
@@ -133,7 +133,7 @@ void plSound::IWrite(hsStream* S, plResManager* mgr) {
     S->writeByte(fType);
     S->writeByte(fPriority);
 
-    if (S->getVer() >= pvEoa)
+    if (S->getVer().isNewPlasma())
         S->writeSafeStr(fSubtitleId);
 
     fFadeInParams.write(S);

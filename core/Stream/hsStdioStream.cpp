@@ -16,7 +16,7 @@
 
 #include "hsStdioStream.h"
 
-hsStdioStream::hsStdioStream(bool useStdErr) : hsFileStream(pvUnknown) {
+hsStdioStream::hsStdioStream(bool useStdErr) : hsFileStream(PlasmaVer::pvUnknown) {
     if (useStdErr)
         setFiles(stdin, stderr);
     else

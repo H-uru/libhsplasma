@@ -159,16 +159,16 @@ unsigned int plGBufferGroup::ICalcVertexSize(unsigned int& lStride) {
 bool plGBufferGroup::INeedVertRecompression(PlasmaVer ver) const {
     if ((fGBuffStorageType & kStoreIsDirty) != 0)
         return true;
-    if (ver == pvHex)
+    if (ver.isHexIsle())
         return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV3;
-    else if (ver == pvLive)
+    else if (ver.isLive())
         return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV2;
     else
         return (fGBuffStorageType & kStoreCompTypeMask) != kStoreCompV1;
 }
 
 void plGBufferGroup::read(hsStream* S) {
-    if (S->getVer() == pvHex) {
+    if (S->getVer().isHexIsle()) {
         fFormat = S->readInt();
         S->readByte();
         S->readByte();
@@ -188,10 +188,10 @@ void plGBufferGroup::read(hsStream* S) {
     clearIndices();
     clearCells();
 
-    if (S->getVer() != pvUniversal && (fFormat & kEncoded) != 0) {
-        if (S->getVer() == pvHex)
+    if (!S->getVer().isUniversal() && (fFormat & kEncoded) != 0) {
+        if (S->getVer().isHexIsle())
             fGBuffStorageType = kStoreCompV3;
-        else if (S->getVer() == pvLive)
+        else if (S->getVer().isLive())
             fGBuffStorageType = kStoreCompV2;
         else
             fGBuffStorageType = kStoreCompV1;
@@ -271,7 +271,7 @@ void plGBufferGroup::write(hsStream* S) {
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
         unsigned int count = fVertBuffSizes[i] / fStride;
         S->writeShort(count);
-        if (S->getVer() == pvUniversal) {
+        if (S->getVer().isUniversal()) {
             S->writeInt(fVertBuffSizes[i]);
             S->write(fVertBuffSizes[i], fVertBuffStorage[i]);
         } else if (INeedVertRecompression(S->getVer()) || fCompGBuffStorage[i] == NULL) {

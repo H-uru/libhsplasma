@@ -23,13 +23,13 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     fSDLExcludeList.clear();
     fSDLVolatileList.clear();
-    if (S->getVer() < 0x02005700)
+    if (S->getVer() < MAKE_VERSION(2, 0, 57, 0))
         fSynchFlags = 0;
     else
         fSynchFlags = S->readInt();
 
     unsigned short count, len, i;
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+    if (S->getVer().isUru() || S->getVer().isUniversal()) {
         if (fSynchFlags & kExcludePersistentState) {
             count = S->readShort();
             fSDLExcludeList.setSize(count);
@@ -71,7 +71,7 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
 
     unsigned short i;
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+    if (S->getVer().isUru() || S->getVer().isUniversal()) {
         S->writeInt(fSynchFlags);
         if (fSynchFlags & kExcludePersistentState) {
             S->writeShort(fSDLExcludeList.getSize());

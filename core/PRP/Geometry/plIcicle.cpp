@@ -38,7 +38,7 @@ plIcicle::~plIcicle() {
 
 void plIcicle::read(hsStream* S) {
     plVertexSpan::read(S);
-    if (S->getVer() != pvHex) {
+    if (!S->getVer().isHexIsle()) {
         fIBufferIdx = S->readInt();
         fIStartIdx = S->readInt();
     }
@@ -55,7 +55,7 @@ void plIcicle::read(hsStream* S) {
 
 void plIcicle::write(hsStream* S) {
     plVertexSpan::write(S);
-    if (S->getVer() != pvHex) {
+    if (!S->getVer().isHexIsle()) {
         S->writeInt(fIBufferIdx);
         S->writeInt(fIStartIdx);
     }

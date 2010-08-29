@@ -31,7 +31,7 @@ static void pyResManager_dealloc(pyResManager* self) {
 }
 
 static int pyResManager___init__(pyResManager* self, PyObject* args, PyObject* kwds) {
-    int version = pvUnknown;
+    int version = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTuple(args, "|i", &version))
         return -1;
 

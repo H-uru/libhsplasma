@@ -27,7 +27,7 @@ void pfGUIDynDisplayCtrl::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fLayers.getSize(); i++)
         fLayers[i] = mgr->readKey(S);
 
-    if (S->getVer() >= pvPots) {
+    if (!S->getVer().isPrime()) { /* Verify! MAKE_VERSION(2, 0, 63, 3) */
         fMaterials.setSize(S->readInt());
         for (size_t i=0; i<fMaterials.getSize(); i++)
             fMaterials[i] = mgr->readKey(S);
@@ -45,7 +45,7 @@ void pfGUIDynDisplayCtrl::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fLayers.getSize(); i++)
         mgr->writeKey(S, fLayers[i]);
 
-    if (S->getVer() >= pvPots) {
+    if (!S->getVer().isPrime()) {
         S->writeInt(fMaterials.getSize());
         for (size_t i=0; i<fMaterials.getSize(); i++)
             mgr->writeKey(S, fMaterials[i]);

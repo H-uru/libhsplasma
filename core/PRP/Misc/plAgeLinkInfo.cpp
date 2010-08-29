@@ -229,7 +229,7 @@ plAgeLinkStruct::plAgeLinkStruct()
                  fAmCCR(0) { }
 
 void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+    if (S->getVer().isUru() || S->getVer().isUniversal()) {
         fFlags = S->readShort();
         if (fFlags & kHasAgeInfo)
             fAgeInfo.read(S, mgr);
@@ -269,7 +269,7 @@ void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
 }
 
 void plAgeLinkStruct::write(hsStream* S, plResManager* mgr) {
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+    if (S->getVer().isUru() || S->getVer().isUniversal()) {
         S->writeShort(fFlags);
         if (fFlags & kHasAgeInfo)
             fAgeInfo.write(S, mgr);
@@ -408,13 +408,13 @@ plAgeLinkEffects::plAgeLinkEffects()
                   fBool3(true), fBool4(true) { }
 
 void plAgeLinkEffects::read(hsStream* S) {
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         fLinkInAnimName = S->readSafeStr();
         fBool1 = S->readBool();
         fBool2 = S->readBool();
         fBool3 = S->readBool();
         fBool4 = S->readBool();
-    } else if (S->getVer() < pvEoa) {
+    } else if (S->getVer().isUru()) {
         fLinkInAnimName = S->readSafeStr();
     } else {
         hsBitVector fields;
@@ -436,13 +436,13 @@ void plAgeLinkEffects::read(hsStream* S) {
 }
 
 void plAgeLinkEffects::write(hsStream* S) {
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         S->writeSafeStr(fLinkInAnimName);
         S->writeBool(fBool1);
         S->writeBool(fBool2);
         S->writeBool(fBool3);
         S->writeBool(fBool4);
-    } else if (S->getVer() < pvEoa) {
+    } else if (S->getVer().isUru()) {
         S->writeSafeStr(fLinkInAnimName);
     } else {
         hsBitVector fields;

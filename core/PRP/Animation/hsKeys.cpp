@@ -29,7 +29,7 @@ const char* hsKeyFrame::TypeNames[] = {
 
 void hsKeyFrame::read(hsStream* S, unsigned int type) {
     fType = type;
-    if (S->getVer() <= pvPots) {
+    if (S->getVer().isUruSP()) {
         fFlags = S->readInt();
         fFrame = S->readInt();
         fFrameTime = S->readFloat();
@@ -39,7 +39,7 @@ void hsKeyFrame::read(hsStream* S, unsigned int type) {
         if ((fType == kPoint3KeyFrame || fType == kScalarKeyFrame ||
             fType == kScaleKeyFrame) && ((fFlags & kBezController) != 0))
             fType++;    //  Use Bezier version
-    } else if (S->getVer() >= pvEoa) {
+    } else if (S->getVer().isNewPlasma()) {
         setFrame(S->readFloat());
     } else {
         setFrame((unsigned int)S->readShort());
@@ -47,7 +47,7 @@ void hsKeyFrame::read(hsStream* S, unsigned int type) {
 }
 
 void hsKeyFrame::write(hsStream* S) {
-    if (S->getVer() <= pvPots) {
+    if (S->getVer().isUruSP()) {
         if (fType == kBezPoint3KeyFrame || fType == kBezScalarKeyFrame ||
             fType == kBezScaleKeyFrame)
             S->writeInt(fFlags | kBezController);
@@ -55,7 +55,7 @@ void hsKeyFrame::write(hsStream* S) {
             S->writeInt(fFlags & ~kBezController);
         S->writeInt(fFrame);
         S->writeFloat(fFrameTime);
-    } else if (S->getVer() >= pvEoa) {
+    } else if (S->getVer().isNewPlasma()) {
         S->writeFloat(fFrameTime);
     } else {
         S->writeShort(fFrame);

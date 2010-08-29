@@ -32,10 +32,11 @@ protected:
     PlasmaVer ver;
 
 public:
-    explicit hsStream(PlasmaVer pv = pvUnknown);
+    explicit hsStream(int pv = PlasmaVer::pvUnknown);
     virtual ~hsStream() { }
 
-    PLASMA_VER(ver)
+    PlasmaVer getVer() const { return ver; }
+    virtual void setVer(PlasmaVer pv) { ver = pv; }
 
     virtual hsUint32 size() const = 0;
     virtual hsUint32 pos() const = 0;
@@ -86,7 +87,7 @@ protected:
     FileMode fm;
 
 public:
-    explicit hsFileStream(PlasmaVer pv = pvUnknown);
+    explicit hsFileStream(int pv = PlasmaVer::pvUnknown);
     virtual ~hsFileStream();
 
     static bool FileExists(const char* file);

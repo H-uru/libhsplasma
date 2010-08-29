@@ -64,43 +64,43 @@ bool plUoid::operator<(const plUoid& other) const {
 
 void plUoid::read(hsStream* S) {
     unsigned char contents = 0;
-    if (S->getVer() < 0x02006300 && S->getVer() != pvUnknown) {
+    if (S->getVer() < MAKE_VERSION(2, 0, 63, 0) && S->getVer().isValid()) {
         contents = kHasCloneIDs;
     } else {
         contents = S->readByte();
     }
     location.read(S);
-    if ((contents & kHasLoadMask) && (S->getVer() < pvEoa || S->getVer() == pvUniversal))
+    if ((contents & kHasLoadMask) && (!S->getVer().isNewPlasma() || S->getVer().isUniversal()))
         loadMask.read(S);
     else
         loadMask.setAlways();
     classType = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer());
-    if (S->getVer() > pvPots && S->getVer() != pvUniversal)
+    if (!S->getVer().isUruSP() && !S->getVer().isUniversal())
         objID = S->readInt();
     objName = S->readSafeStr();
-    if ((contents & kHasCloneIDs) && (S->getVer() < pvEoa || S->getVer() == pvUniversal)) {
+    if ((contents & kHasCloneIDs) && (S->getVer().isUru() || S->getVer().isUniversal())) {
         cloneID = S->readInt();
-        if (S->getVer() < 0x02005700)
+        if (S->getVer() < MAKE_VERSION(2, 0, 57, 0))
             clonePlayerID = 0;
         else
             clonePlayerID = S->readInt();
     } else {
         cloneID = clonePlayerID = 0;
     }
-    if ((contents & (kHasLoadMask | kHasLoadMask2)) && S->getVer() >= pvEoa) {
+    if ((contents & (kHasLoadMask | kHasLoadMask2)) && S->getVer().isNewPlasma()) {
         loadMask.read(S);
     }
 }
 
 void plUoid::write(hsStream* S) {
     unsigned char contents = 0;
-    if (!S->safeVer())
-        S->setVer(GetSafestVersion(S->getVer()));
+    if (!S->getVer().isSafeVer())
+        S->setVer(PlasmaVer::GetSafestVersion(S->getVer()));
 
     if (cloneID != 0)
         contents |= kHasCloneIDs;
     if (loadMask.isUsed()) {
-        if (S->getVer() >= pvEoa)
+        if (S->getVer().isNewPlasma())
             contents |= kHasLoadMask2;
         else
             contents |= kHasLoadMask;
@@ -108,24 +108,19 @@ void plUoid::write(hsStream* S) {
     S->writeByte(contents);
 
     location.write(S);
-    if ((contents & kHasLoadMask) && (S->getVer() < pvEoa || S->getVer() == pvUniversal))
+    if ((contents & kHasLoadMask) && (S->getVer().isUru() || S->getVer().isUniversal()))
         loadMask.write(S);
     S->writeShort(pdUnifiedTypeMap::MappedToPlasma(classType, S->getVer()));
-    if (S->getVer() >= pvLive && S->getVer() != pvUniversal)
+    if (!S->getVer().isUruSP() && !S->getVer().isUniversal())
         S->writeInt(objID);
 
-    if (S->getVer() < pvLive && classType == kSceneNode && objName.find("_District_") == -1) {
-        objName = objName.replace("_", "_District_");
-    } else if (S->getVer() >= pvLive && classType == kSceneNode) {
-        objName = objName.replace("_District_", "_");
-    }
     S->writeSafeStr(objName);
 
-    if ((contents & kHasCloneIDs) && (S->getVer() < pvEoa || S->getVer() == pvUniversal)) {
+    if ((contents & kHasCloneIDs) && (S->getVer().isUru() || S->getVer().isUniversal())) {
         S->writeInt(cloneID);
         S->writeInt(clonePlayerID);
     }
-    if ((contents & kHasLoadMask) && S->getVer() >= pvEoa)
+    if ((contents & kHasLoadMask) && S->getVer().isNewPlasma())
         loadMask.write(S);
 }
 

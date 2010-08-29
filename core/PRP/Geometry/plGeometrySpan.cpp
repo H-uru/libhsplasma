@@ -52,7 +52,7 @@ void plGeometrySpan::read(hsStream* S) {
     fPenBoneIdx = S->readShort();
     fMinDist = S->readFloat();
     fMaxDist = S->readFloat();
-    if (S->getVer() == pvHex) {
+    if (S->getVer().isHexIsle()) {
         fFormat = S->readInt();
         S->readByte();
         S->readByte();
@@ -64,7 +64,7 @@ void plGeometrySpan::read(hsStream* S) {
     fProps = S->readInt();
     fNumVerts = S->readInt();
     fNumIndices = S->readInt();
-    if (S->getVer() < pvHex) {
+    if (!S->getVer().isHexIsle()) {
         S->readInt();  // Discarded
         S->readByte(); // Discarded
     }

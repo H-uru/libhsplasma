@@ -43,19 +43,19 @@ void plPageInfo::IInit() {
 void plPageInfo::read(hsStream* S) {
     short prpVer = S->readShort();
     if (prpVer == -1)
-        S->setVer(pvUniversal);
+        S->setVer(PlasmaVer::pvUniversal);
     else if (prpVer == 9)
-        S->setVer(pvHex);
+        S->setVer(PlasmaVer::pvHex);
     else
-        S->setVer(pvPrime);
+        S->setVer(PlasmaVer::pvPrime);
 
-    if (S->getVer() < pvUniversal) {
+    if (S->getVer().isValid() && !S->getVer().isUniversal()) {
         unsigned short numTypes = S->readShort();
         if (prpVer >= 6) {
             if (numTypes && prpVer == 6)
-                S->setVer(pvEoa);
+                S->setVer(PlasmaVer::pvEoa);
             if (numTypes == 0 && prpVer == 6)
-                S->setVer(pvLive);
+                S->setVer(PlasmaVer::pvMoul);
             for (unsigned short i = 0; i < numTypes; i++) {
                 short type = S->readShort();
                 short ver = S->readShort();
@@ -83,10 +83,10 @@ void plPageInfo::read(hsStream* S) {
 
         fPage = S->readSafeStr();
 
-        if (S->getVer() < pvEoa) {
-            S->setMajorVer(S->readShort());
+        if (!S->getVer().isNewPlasma()) {
+            S->setVer(MAKE_VERSION(S->getVer().plsMajor(), S->getVer().plsMinor(), S->readShort(), 0));
             if (prpVer < 6) {
-                S->setMinorVer(S->readShort());
+                S->setVer(MAKE_VERSION(S->getVer().plsMajor(), S->getVer().plsMinor(), S->getVer().revMajor(), S->readShort()));
                 if (prpVer < 5)
                     fIdxChecksum = S->readInt();
                 if (prpVer >= 2)
@@ -95,13 +95,13 @@ void plPageInfo::read(hsStream* S) {
                     fFlags = S->readInt();
             }
         }
-        if (S->getVer() == pvUniversal) {
+        if (S->getVer().isUniversal()) {
             fFlags = S->readInt();
         }
     }
-    if (prpVer >= 4 || S->getVer() == pvUniversal)
+    if (prpVer >= 4 || S->getVer().isUniversal())
         fChecksum = S->readInt();
-    if (prpVer >= 5 || S->getVer() == pvUniversal) {
+    if (prpVer >= 5 || S->getVer().isUniversal()) {
         fDataStart = S->readInt();
         fIdxStart = S->readInt();
     } else {
@@ -109,7 +109,7 @@ void plPageInfo::read(hsStream* S) {
         fIdxStart = S->pos();
     }
 
-    if (S->getVer() == pvLive) {
+    if (S->getVer().isMoul()) {
         unsigned short numTypes = S->readShort();
         for (unsigned short i = 0; i < numTypes; i++) {
             short type = S->readShort();
@@ -128,37 +128,37 @@ void plPageInfo::read(hsStream* S) {
                    "  Version: %s",
                    fPage.cstr(), fAge.cstr(),
                    fLocation.getSeqPrefix(), fLocation.getPageNum(),
-                   GetVersionName(S->getVer()));
+                   PlasmaVer::GetVersionName(S->getVer()));
 }
 
 void plPageInfo::write(hsStream* S) {
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         S->writeShort(-1);
         fLocation.write(S);
         S->writeSafeStr(fAge);
         S->writeSafeStr(fPage);
         S->writeInt(fFlags);
-    } else if (S->getVer() == pvEoa) {
+    } else if (S->getVer().isEoa()) {
         S->writeShort(6);
         S->writeShort(fClassList.size());
         for (size_t i=0; i<fClassList.size(); i++) {
-            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], pvEoa));
-            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], pvEoa));
+            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer()));
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], S->getVer()));
         }
         fLocation.write(S);
         S->writeSafeStr(getAge());
         S->writeSafeStr(getPage());
-    } else if (S->getVer() == pvHex) {
+    } else if (S->getVer().isHexIsle()) {
         S->writeShort(9);
         S->writeShort(fClassList.size());
         for (size_t i=0; i<fClassList.size(); i++) {
-            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], pvHex));
-            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], pvHex));
+            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer()));
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], S->getVer()));
         }
         fLocation.write(S);
         S->writeSafeStr(getAge());
         S->writeSafeStr(getPage());
-    } else if (S->getVer() == pvLive) {
+    } else if (S->getVer().isMoul()) {
         S->writeInt(6);
         fLocation.write(S);
         S->writeSafeStr(getAge());
@@ -171,7 +171,7 @@ void plPageInfo::write(hsStream* S) {
         S->writeSafeStr(getChapter());
         S->writeSafeStr(getPage());
         S->writeShort(63);
-        S->writeShort((S->getVer() == pvPots) ? 12 : 11);
+        S->writeShort(S->getVer().revMinor());
         S->writeInt(fReleaseVersion);
         S->writeInt(fFlags);
     }
@@ -206,7 +206,7 @@ void plPageInfo::prcParse(const pfPrcTag* tag) {
 }
 
 plString plPageInfo::getFilename(PlasmaVer ver) const {
-    if (ver >= pvEoa)
+    if (ver.isNewPlasma())
         return plString::Format("%s_%s.prp", fAge.cstr(), fPage.cstr());
     else
         return plString::Format("%s_District_%s.prp", fAge.cstr(), fPage.cstr());

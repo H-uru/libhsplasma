@@ -43,10 +43,11 @@ protected:
     unsigned short fFlags;
 
 public:
-    plLocation(PlasmaVer pv=pvUnknown);
+    plLocation(int pv = PlasmaVer::pvUnknown);
     plLocation(const plLocation& init);
 
-    PLASMA_VER(fVer)
+    PlasmaVer getVer() const { return fVer; }
+    virtual void setVer(PlasmaVer pv) { fVer = pv; }
 
     plLocation& operator=(const plLocation& other);
     bool operator==(const plLocation& other) const;

@@ -16,7 +16,7 @@
 
 #include "plLocation.h"
 
-plLocation::plLocation(PlasmaVer pv)
+plLocation::plLocation(int pv)
           : fVer(pv), fState(kStateInvalid), fSeqPrefix(0), fPageNum(0),
             fFlags(0) { }
 
@@ -61,21 +61,21 @@ void plLocation::parse(unsigned int id) {
         fPageNum = 0;
         return;
     }
-    if (fVer == pvUniversal)
+    if (fVer.isUniversal())
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
     fState = kStateNormal;
     if ((id & 0x80000000) != 0) {
-        id -= (fVer == pvLive ? 0xFF000001 : 0xFFFF0001);
-        fSeqPrefix = id >> (fVer == pvLive ? 16 : 8);
-        fPageNum = id - (fSeqPrefix << (fVer == pvLive ? 16 : 8));
+        id -= (fVer.isMoul() ? 0xFF000001 : 0xFFFF0001);
+        fSeqPrefix = id >> (fVer.isMoul() ? 16 : 8);
+        fPageNum = id - (fSeqPrefix << (fVer.isMoul() ? 16 : 8));
         fSeqPrefix = -fSeqPrefix;
     } else {
         id -= 33;
-        fSeqPrefix = id >> (fVer == pvLive ? 16 : 8);
-        fPageNum = id - (fSeqPrefix << (fVer == pvLive ? 16 : 8));
+        fSeqPrefix = id >> (fVer.isMoul() ? 16 : 8);
+        fPageNum = id - (fSeqPrefix << (fVer.isMoul() ? 16 : 8));
     }
-    if (fVer == pvLive)
+    if (fVer.isMoul())
         fPageNum = (signed short)(unsigned short)fPageNum;
     else
         fPageNum = (signed char)(unsigned char)fPageNum;
@@ -86,34 +86,34 @@ unsigned int plLocation::unparse() const {
         return 0xFFFFFFFF;
     else if (fState == kStateVirtual)
         return 0;
-    if (fVer == pvUniversal)
+    if (fVer.isUniversal())
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
     int pgNum;
-    if (fVer == pvLive)
+    if (fVer.isMoul())
         pgNum = (unsigned short)(signed short)fPageNum;
     else
         pgNum = (unsigned char)(signed char)fPageNum;
     if (fSeqPrefix < 0) {
-        return pgNum - (fSeqPrefix << (fVer == pvLive ? 16 : 8))
-                     + (fVer == pvLive ? 0xFF000001 : 0xFFFF0001);
+        return pgNum - (fSeqPrefix << (fVer.isMoul() ? 16 : 8))
+                     + (fVer.isMoul() ? 0xFF000001 : 0xFFFF0001);
     } else {
-        return pgNum + (fSeqPrefix << (fVer == pvLive ? 16 : 8)) + 33;
+        return pgNum + (fSeqPrefix << (fVer.isMoul() ? 16 : 8)) + 33;
     }
 }
 
 void plLocation::read(hsStream* S) {
     setVer(S->getVer());
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         fState = S->readByte();
         fSeqPrefix = S->readInt();
         fPageNum = S->readInt();
         fFlags = S->readShort();
     } else {
         parse(S->readInt());
-        if (S->getVer() < 0x02006200 && S->getVer() != pvUnknown)
+        if (S->getVer() < MAKE_VERSION(2, 0, 62, 0) && S->getVer().isValid())
             fFlags = 0;
-        else if (S->getVer() >= pvEoa)
+        else if (S->getVer().isNewPlasma())
             fFlags = S->readByte();
         else
             fFlags = S->readShort();
@@ -121,20 +121,20 @@ void plLocation::read(hsStream* S) {
 }
 
 void plLocation::write(hsStream* S) {
-    if (S->getVer() != pvUnknown)
+    if (S->getVer().isValid())
         setVer(S->getVer());
 
-    if (!safeVer())
-        setVer(GetSafestVersion(getVer()));
+    if (!getVer().isSafeVer())
+        setVer(PlasmaVer::GetSafestVersion(getVer()));
 
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         S->writeByte(fState);
         S->writeInt(fSeqPrefix);
         S->writeInt(fPageNum);
         S->writeShort(fFlags);
     } else {
         S->writeInt(unparse());
-        if (S->getVer() >= pvEoa)
+        if (S->getVer().isNewPlasma())
             S->writeByte(fFlags);
         else
             S->writeShort(fFlags);
@@ -196,7 +196,7 @@ void plLocation::setSeqPrefix(int sp) {
 }
 
 void plLocation::set(int pid, unsigned short flags, PlasmaVer pv) {
-    if (pv == pvUniversal)
+    if (pv.isUniversal())
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
     setVer(pv);
     parse(pid);

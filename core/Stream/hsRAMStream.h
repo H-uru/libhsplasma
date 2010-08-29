@@ -27,7 +27,7 @@ protected:
     hsUint32 fSize, fMax, fPos;
 
 public:
-    hsRAMStream(PlasmaVer pv = pvUnknown);
+    hsRAMStream(int pv = PlasmaVer::pvUnknown);
     virtual ~hsRAMStream();
 
     void copyFrom(const void* data, size_t size);

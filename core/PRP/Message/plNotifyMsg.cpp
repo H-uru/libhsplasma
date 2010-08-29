@@ -29,7 +29,7 @@ void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fType = S->readInt();
     fState = S->readFloat();
-    if (S->getVer() >= pvEoa && S->getVer() != pvUniversal)
+    if (S->getVer().isNewPlasma())
         fID = S->readByte();
     else
         fID = S->readInt();
@@ -44,7 +44,7 @@ void plNotifyMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
     S->writeInt(fType);
     S->writeFloat(fState);
-    if (S->getVer() >= pvEoa && S->getVer() != pvUniversal)
+    if (S->getVer().isNewPlasma())
         S->writeByte(fID);
     else
         S->writeInt(fID);

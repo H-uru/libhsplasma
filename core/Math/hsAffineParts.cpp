@@ -24,7 +24,7 @@ hsAffineParts::hsAffineParts(const hsAffineParts& init)
                fK(init.fK), fF(init.fF) { }
 
 void hsAffineParts::read(hsStream* S) {
-    fI = (S->getVer() != pvLive) ? S->readInt() : 0;
+    fI = (!S->getVer().isMoul()) ? S->readInt() : 0;
     fT.read(S);
     fQ.read(S);
     fU.read(S);
@@ -33,7 +33,7 @@ void hsAffineParts::read(hsStream* S) {
 }
 
 void hsAffineParts::write(hsStream* S) {
-    if (S->getVer() != pvLive)
+    if (!S->getVer().isMoul())
         S->writeInt(fI);
     fT.write(S);
     fQ.write(S);

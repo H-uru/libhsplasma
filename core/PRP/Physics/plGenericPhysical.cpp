@@ -54,11 +54,11 @@ plGenericPhysical::~plGenericPhysical() {
 void plGenericPhysical::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
-    if (S->getVer() == pvUniversal)
+    if (S->getVer().isUniversal())
         fInternalType = (PhysType)S->readInt();
-    else if (S->getVer() >= pvEoa)
+    else if (S->getVer().isNewPlasma())
         fInternalType = kPhysODE;
-    else if (S->getVer() > pvPots)
+    else if (S->getVer().isLive())
         fInternalType = kPhysX;
     else
         fInternalType = kPhysHavok;
@@ -82,12 +82,12 @@ void plGenericPhysical::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
 
     PhysType wtype;
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         wtype = fInternalType;
         S->writeInt(wtype);
-    } else if (S->getVer() >= pvEoa) {
+    } else if (S->getVer().isNewPlasma()) {
         wtype = kPhysODE;
-    } else if (S->getVer() == pvLive) {
+    } else if (S->getVer().isLive()) {
         wtype = kPhysX;
     } else {
         wtype = kPhysHavok;

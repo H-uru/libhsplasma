@@ -149,20 +149,18 @@ int main(int argc, char** argv) {
         OS->writeStr(page->getAge());
         OS->writeShort(strlen(page->getPage()));
         OS->writeStr(page->getPage());
-        if (rm.getVer() == pvUniversal) {
+        if (rm.getVer().isUniversal()) {
             maj = 0x7FFF;
             min = 0x7FFF;
-        } else  if (rm.getVer() == pvEoa) {
+        } else  if (rm.getVer().isEoa()) {
             maj = -1;
             min = 1;
-        } else if (rm.getVer() == pvHex) {
+        } else if (rm.getVer().isHexIsle()) {
             maj = -1;
             min = 2;
         } else {
-            maj = (rm.getVer() & 0x0000FF00) >> 8;
-            maj = ((maj/16)*10)+(maj%16);
-            min = (rm.getVer() & 0x000000FF);
-            min = ((min/16)*10)+(min%16);
+            maj = rm.getVer().revMajor();
+            min = rm.getVer().revMinor();
         }
         OS->writeShort(maj);
         OS->writeShort(min);
@@ -211,19 +209,19 @@ int main(int argc, char** argv) {
         maj = S->readShort();
         min = S->readShort();
         if (maj == 0x7FFF) {
-            OS->setVer(pvUniversal);
+            OS->setVer(PlasmaVer::pvUniversal);
         } else if (maj == -1) {
             if (min == 1)
-                OS->setVer(pvEoa);
+                OS->setVer(PlasmaVer::pvEoa);
             else if (min == 2)
-                OS->setVer(pvHex);
+                OS->setVer(PlasmaVer::pvHex);
         } else if (maj == 70) {
-            OS->setVer(pvLive);
+            OS->setVer(PlasmaVer::pvMoul);
         } else if (maj == 63) {
             if (min == 11)
-                OS->setVer(pvPrime);
+                OS->setVer(PlasmaVer::pvPrime);
             if (min == 12)
-                OS->setVer(pvPots);
+                OS->setVer(PlasmaVer::pvPots);
         } else {
             fprintf(stderr, "Error: Invalid Plasma version: %hd.%hd\n", maj, min);
             OS->close();
@@ -317,21 +315,21 @@ int main(int argc, char** argv) {
             std::vector<plKey> kList = keys.getKeys(page->getLocation(), types[i]);
             OS->writeShort(pdUnifiedTypeMap::MappedToPlasma(types[i], OS->getVer()));
             unsigned int lenPos = OS->pos();
-            if (OS->getVer() >= pvLive && OS->getVer() != pvUniversal) {
+            if (!OS->getVer().isUruSP() && !OS->getVer().isUniversal()) {
                 OS->writeInt(0);
                 OS->writeByte(0);
             }
             OS->writeInt(kList.size());
             for (j=0; j<kList.size(); j++)
                 kList[j]->write(OS);
-            if (OS->getVer() >= pvLive && OS->getVer() != pvUniversal) {
+            if (!OS->getVer().isUruSP() && !OS->getVer().isUniversal()) {
                 unsigned int nextPos = OS->pos();
                 OS->seek(lenPos);
                 OS->writeInt(nextPos - lenPos - 4);
                 OS->seek(nextPos);
             }
         }
-        if (OS->getVer() >= pvEoa)
+        if (OS->getVer().isNewPlasma())
             page->setChecksum(OS->pos());
         else
             page->setChecksum(OS->pos() - page->getDataStart());

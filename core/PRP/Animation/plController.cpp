@@ -26,7 +26,7 @@ void plController::WriteController(hsStream* S, plResManager* mgr, plController*
 
     switch (controller->ClassIndex()) {
     case kLeafController:
-        if (S->getVer() <= pvPots) {
+        if (S->getVer().isUruSP()) {
             plLeafController* toWrite = ((plLeafController*)controller)->ExpandToKeyController();
             mgr->WriteCreatable(S, toWrite);
             delete toWrite;
@@ -41,7 +41,7 @@ void plController::WriteController(hsStream* S, plResManager* mgr, plController*
     case kQuatController:
     case kScalarController:
     case kScaleValueController:
-        if (S->getVer() <= pvPots || S->getVer() == pvUniversal) {
+        if (S->getVer().isUruSP() || S->getVer().isUniversal()) {
             mgr->WriteCreatable(S, controller);
         } else {
             plLeafController* toWrite = ((plLeafController*)controller)->CompactToLeafController();

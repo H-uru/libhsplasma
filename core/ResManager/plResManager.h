@@ -75,7 +75,7 @@ public:
      * ReadPage() or ReadAge()
      * \sa setVer(), getVer()
      */
-    plResManager(PlasmaVer pv = pvUnknown);
+    plResManager(PlasmaVer pv = PlasmaVer::pvUnknown);
 
     /**
      * Destroy the ResManager.

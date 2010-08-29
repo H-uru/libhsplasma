@@ -103,7 +103,7 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
                                unsigned char*& dest) {
     if (fFloats[chan][field].fCount == 0) {
         fFloats[chan][field].fOffset = S->readFloat();
-        if (GetSafestVersion(S->getVer()) == pvLive)
+        if (S->getVer().isLive())
             fFloats[chan][field].fAllSame = S->readBool();
         else
             fFloats[chan][field].fAllSame = false;
@@ -117,7 +117,7 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
 }
 
 void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
-    if (GetSafestVersion(S->getVer()) == pvLive) {
+    if (S->getVer().isLive()) {
         ((float*)dest)[0] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
         ((float*)dest)[1] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
         ((float*)dest)[2] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
@@ -202,12 +202,12 @@ void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
                      fFloats[chan][field].fAllSame,
                      fFloats[chan][field].fCount);
         S->writeFloat(fFloats[chan][field].fOffset);
-        if (S->getVer() == pvLive)
+        if (S->getVer().isLive())
             S->writeBool(fFloats[chan][field].fAllSame);
         S->writeShort(fFloats[chan][field].fCount);
     }
 
-    if (S->getVer() != pvLive || (!fFloats[chan][field].fAllSame)) {
+    if (!S->getVer().isLive() || (!fFloats[chan][field].fAllSame)) {
         float flt = *(float*)src;
         flt = (flt - fFloats[chan][field].fOffset) * FieldScales[field];
         S->writeShort((unsigned short)(flt + 0.5f));
@@ -217,7 +217,7 @@ void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
 }
 
 void plVertCoder::IEncodeNormal(hsStream* S, const unsigned char*& src) {
-    if (S->getVer() == pvLive) {
+    if (S->getVer().isLive()) {
         S->writeByte(FloatToByte(((((float*)src)[0] + 1.0f) / 2.0f) * 256.0f));
         S->writeByte(FloatToByte(((((float*)src)[1] + 1.0f) / 2.0f) * 256.0f));
         S->writeByte(FloatToByte(((((float*)src)[2] + 1.0f) / 2.0f) * 256.0f));

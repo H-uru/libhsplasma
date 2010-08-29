@@ -26,7 +26,7 @@ void hsKeyedObject::init(const plString& name) {
 }
 
 void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
-    if (S->getVer() == pvLive)
+    if (S->getVer().isMoul())
         myKey = mgr->readKey(S);
     else
         myKey = mgr->readUoid(S);
@@ -38,7 +38,7 @@ void hsKeyedObject::read(hsStream* S, plResManager* mgr) {
 }
 
 void hsKeyedObject::write(hsStream* S, plResManager* mgr) {
-    if (S->getVer() == pvLive)
+    if (S->getVer().isMoul())
         mgr->writeKey(S, myKey);
     else
         mgr->writeUoid(S, myKey);

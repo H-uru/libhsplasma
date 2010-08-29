@@ -129,7 +129,7 @@ plArmatureMod::plArmatureMod()
              : fBodyType(0), fPhysHeight(0.0f), fPhysWidth(0.0f) { }
 
 void plArmatureMod::read(hsStream* S, plResManager* mgr) {
-    if (S->getVer() <= pvLive) {
+    if (S->getVer().isUru()) {
         plAGMasterMod::read(S, mgr);
     } else {
         plArmatureModBase::read(S, mgr);
@@ -153,7 +153,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     else
         fEffects = plKey();
 
-    if (S->getVer() <= pvPots || S->getVer() == pvUniversal) {
+    if (S->getVer().isUruSP() || S->getVer().isUniversal()) {
         fMins.read(S);
         fMaxs.read(S);
     }
@@ -161,7 +161,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     fPhysHeight = S->readFloat();
     fPhysWidth = S->readFloat();
 
-    if (S->getVer() == pvLive || S->getVer() == pvUniversal) {
+    if (S->getVer().isMoul() || S->getVer().isUniversal()) {
         fFootstepType = S->readSafeStr();
         fFootstepAge = S->readSafeStr();
         fFootstepPage = S->readSafeStr();
@@ -180,7 +180,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
 }
 
 void plArmatureMod::write(hsStream* S, plResManager* mgr) {
-    if (S->getVer() <= pvLive) {
+    if (S->getVer().isUru()) {
         plAGMasterMod::write(S, mgr);
     } else {
         plArmatureModBase::write(S, mgr);
@@ -202,7 +202,7 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
     if (fEffects.Exists())
         mgr->writeKey(S, fEffects);
 
-    if (S->getVer() < pvLive || S->getVer() == pvUniversal) {
+    if (S->getVer().isUruSP() || S->getVer().isUniversal()) {
         fMins.write(S);
         fMaxs.write(S);
     }
@@ -210,7 +210,7 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fPhysHeight);
     S->writeFloat(fPhysWidth);
 
-    if (S->getVer() == pvLive || S->getVer() == pvUniversal) {
+    if (S->getVer().isMoul() || S->getVer().isUniversal()) {
         S->writeSafeStr(fFootstepType);
         S->writeSafeStr(fFootstepAge);
         S->writeSafeStr(fFootstepPage);

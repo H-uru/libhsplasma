@@ -34,7 +34,7 @@ void pfGUIButtonMod::read(hsStream* S, plResManager* mgr) {
     fMouseOverAnimName = S->readSafeStr();
 
     fNotifyType = S->readInt();
-    if (S->getVer() >= pvEoa) {
+    if (S->getVer().isNewPlasma()) {
         fEoaUnknown1 = S->readInt();
         fEoaUnknown2 = S->readInt();
     }
@@ -55,7 +55,7 @@ void pfGUIButtonMod::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fMouseOverAnimName);
 
     S->writeInt(fNotifyType);
-    if (S->getVer() >= pvEoa) {
+    if (S->getVer().isNewPlasma()) {
         S->writeInt(fEoaUnknown1);
         S->writeInt(fEoaUnknown2);
     }

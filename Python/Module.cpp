@@ -126,13 +126,13 @@ static PyModuleDef PyPlasma_Module = {
 
 void initPyPlasma_Constants(PyObject* module) {
     /* Generic constants */
-    PyModule_AddIntConstant(module, "pvUnknown", pvUnknown);
-    PyModule_AddIntConstant(module, "pvPrime", pvPrime);
-    PyModule_AddIntConstant(module, "pvPots", pvPots);
-    PyModule_AddIntConstant(module, "pvLive", pvLive);
-    PyModule_AddIntConstant(module, "pvEoa", pvEoa);
-    PyModule_AddIntConstant(module, "pvHex", pvHex);
-    PyModule_AddIntConstant(module, "pvUniversal", pvUniversal);
+    PyModule_AddIntConstant(module, "pvUnknown", PlasmaVer::pvUnknown);
+    PyModule_AddIntConstant(module, "pvPrime", PlasmaVer::pvPrime);
+    PyModule_AddIntConstant(module, "pvPots", PlasmaVer::pvPots);
+    PyModule_AddIntConstant(module, "pvMoul", PlasmaVer::pvMoul);
+    PyModule_AddIntConstant(module, "pvEoa", PlasmaVer::pvEoa);
+    PyModule_AddIntConstant(module, "pvHex", PlasmaVer::pvHex);
+    PyModule_AddIntConstant(module, "pvUniversal", PlasmaVer::pvUniversal);
 
     /* File modes */
     PyModule_AddIntConstant(module, "fmRead", fmRead);

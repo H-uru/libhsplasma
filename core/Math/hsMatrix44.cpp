@@ -279,7 +279,7 @@ hsMatrix44& hsMatrix44::setScale(const hsVector3& scale) {
 
 void hsMatrix44::read(hsStream* S) {
     bool hasData = true;
-    if ((S->getVer() > 0x02006900 && S->getVer() < pvEoa) || S->getVer() == pvHex)
+    if (S->getVer().isLive() || S->getVer().isHexIsle())
         hasData = S->readBool();
 
     if (hasData) {
@@ -293,7 +293,7 @@ void hsMatrix44::read(hsStream* S) {
 
 void hsMatrix44::write(hsStream* S) {
     bool hasData = true;
-    if (S->getVer() == pvLive || S->getVer() == pvHex) {
+    if (S->getVer().isLive() || S->getVer().isHexIsle()) {
         hasData = !IsIdentity();
         S->writeBool(hasData);
     }

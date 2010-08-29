@@ -20,7 +20,7 @@
 void plMatrixConstant::read(hsStream* S, plResManager* mgr) {
     plAGChannel::read(S, mgr);
 
-    if (S->getVer() >= 0x02006900)
+    if (!S->getVer().isUruSP())
         fAP.read(S);
     else
         fAP.reset();
@@ -29,7 +29,7 @@ void plMatrixConstant::read(hsStream* S, plResManager* mgr) {
 void plMatrixConstant::write(hsStream* S, plResManager* mgr) {
     plAGChannel::write(S, mgr);
 
-    if (S->getVer() >= pvLive)
+    if (!S->getVer().isUruSP())
         fAP.write(S);
 }
 

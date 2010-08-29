@@ -1252,7 +1252,7 @@ plCreatable* plFactory::Create(short typeIdx) {
 
 plCreatable* plFactory::Create(short typeIdx, PlasmaVer ver) {
     if (typeIdx < 0) return NULL;
-    if (ver == pvUnknown)
+    if (!ver.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     return Create(pdUnifiedTypeMap::PlasmaToMapped(typeIdx, ver));
 }

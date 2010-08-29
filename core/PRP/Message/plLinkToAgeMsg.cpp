@@ -23,7 +23,7 @@ plLinkToAgeMsg::plLinkToAgeMsg() : fStreamVersion(0), fEoaUnknown(0) { }
 void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 
-    if (S->getVer() < pvEoa)
+    if (S->getVer().isUru())
         fStreamVersion = S->readByte();
     else
         fStreamVersion = 0;
@@ -31,18 +31,18 @@ void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr) {
         plDebug::Debug("Got plLinkToAgeMsg StreamVersion %u", fStreamVersion);
     fAgeLink.read(S, mgr);
     fLinkEffects.read(S);
-    if (S->getVer() >= pvEoa)
+    if (S->getVer().isNewPlasma())
         fEoaUnknown = S->readByte();
 }
 
 void plLinkToAgeMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
 
-    if (S->getVer() < pvEoa)
+    if (S->getVer().isUru())
         S->writeByte(fStreamVersion);
     fAgeLink.write(S, mgr);
     fLinkEffects.write(S);
-    if (S->getVer() >= pvEoa)
+    if (S->getVer().isNewPlasma())
         S->writeByte(fEoaUnknown);
 }
 

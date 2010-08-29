@@ -2057,7 +2057,7 @@ const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
 }
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx, PlasmaVer ver) {
-    if (ver == pvUnknown)
+    if (!ver.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
     return ClassName(PlasmaToMapped(typeIdx, ver));
 }
@@ -2077,20 +2077,20 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
         return -1;
     }
 
-    ver = GetSafestVersion(ver);
+    ver = PlasmaVer::GetSafestVersion(ver);
 
     switch (ver) {
-    case pvPrime:
+    case PlasmaVer::pvPrime:
         return fUruP2MTable[typeIdx];
-    case pvPots:
+    case PlasmaVer::pvPots:
         return fPotSP2MTable[typeIdx];
-    case pvLive:
+    case PlasmaVer::pvMoul:
         return fLiveP2MTable[typeIdx];
-    case pvEoa:
+    case PlasmaVer::pvEoa:
         return fEoaP2MTable[typeIdx];
-    case pvHex:
+    case PlasmaVer::pvHex:
         return fHexP2MTable[typeIdx];
-    case pvUniversal:
+    case PlasmaVer::pvUniversal:
         return typeIdx;
     default:
         return -1;
@@ -2103,20 +2103,20 @@ short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
         return -1;
     }
 
-    ver = GetSafestVersion(ver);
+    ver = PlasmaVer::GetSafestVersion(ver);
 
     switch (ver) {
-    case pvPrime:
+    case PlasmaVer::pvPrime:
         return fUruM2PTable[typeIdx];
-    case pvPots:
+    case PlasmaVer::pvPots:
         return fPotSM2PTable[typeIdx];
-    case pvLive:
+    case PlasmaVer::pvMoul:
         return fLiveM2PTable[typeIdx];
-    case pvEoa:
+    case PlasmaVer::pvEoa:
         return fEoaM2PTable[typeIdx];
-    case pvHex:
+    case PlasmaVer::pvHex:
         return fHexM2PTable[typeIdx];
-    case pvUniversal:
+    case PlasmaVer::pvUniversal:
         return typeIdx;
     default:
         return -1;
@@ -2128,9 +2128,9 @@ short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver) {
         return -1;
 
     switch (ver) {
-    case pvEoa:
+    case PlasmaVer::pvEoa:
         return fEoaVerTable[PlasmaToMapped(typeIdx, ver)];
-    case pvHex:
+    case PlasmaVer::pvHex:
         return fHexVerTable[PlasmaToMapped(typeIdx, ver)];
     default:
         throw hsBadVersionException(__FILE__, __LINE__);

@@ -21,9 +21,9 @@ plAGMasterMod::plAGMasterMod() : fIsGrouped(false), fIsGroupMaster(false) { }
 void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         fGroupName = S->readSafeStr();
-    } else if (S->getVer() < pvEoa) {
+    } else if (!S->getVer().isNewPlasma()) {
         int len = S->readInt();
         fGroupName = S->readStr(len);
     }
@@ -32,14 +32,14 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fPrivateAnims.getSize(); i++)
         fPrivateAnims[i] = mgr->readKey(S);
 
-    if (S->getVer() == pvLive || S->getVer() == pvUniversal) {
+    if (S->getVer().isMoul() || S->getVer().isUniversal()) {
         fIsGrouped = S->readBool();
         fIsGroupMaster = S->readBool();
         if (fIsGroupMaster)
             fMsgForwarder = mgr->readKey(S);
     }
 
-    if (S->getVer() >= pvEoa) {
+    if (S->getVer().isNewPlasma()) {
         fEoaKeys2.setSize(S->readInt());
         for (size_t i=0; i<fEoaKeys2.getSize(); i++)
             fEoaKeys2[i] = mgr->readKey(S);
@@ -49,11 +49,11 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
 void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     plSynchedObject::write(S, mgr);
 
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         S->writeSafeStr(fGroupName);
-    } else if (S->getVer() != pvPrime) {
+    } else if (!S->getVer().isPrime()) {
         S->writeInt(0);
-    } else if (S->getVer() < pvEoa) {
+    } else if (!S->getVer().isNewPlasma()) {
         S->writeInt(fGroupName.len());
         S->writeStr(fGroupName);
     }
@@ -62,14 +62,14 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fPrivateAnims.getSize(); i++)
         mgr->writeKey(S, fPrivateAnims[i]);
 
-    if (S->getVer() == pvLive || S->getVer() == pvUniversal) {
+    if (S->getVer().isMoul() || S->getVer().isUniversal()) {
         S->writeBool(fIsGrouped);
         S->writeBool(fIsGroupMaster);
         if (fIsGroupMaster)
             mgr->writeKey(S, fMsgForwarder);
     }
 
-    if (S->getVer() >= pvEoa) {
+    if (S->getVer().isNewPlasma()) {
         S->writeInt(fEoaKeys2.getSize());
         for (size_t i=0; i<fEoaKeys2.getSize(); i++)
             mgr->writeKey(S, fEoaKeys2[i]);

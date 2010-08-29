@@ -21,7 +21,7 @@ plExcludeRegionMsg::plExcludeRegionMsg() : fCmd(0), fSynchFlags(0) { }
 void plExcludeRegionMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fCmd = S->readByte();
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+    if (S->getVer().isUru() || S->getVer().isUniversal())
         fSynchFlags = S->readInt();
     else
         fSynchFlags = 0;
@@ -30,7 +30,7 @@ void plExcludeRegionMsg::read(hsStream* S, plResManager* mgr) {
 void plExcludeRegionMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
     S->writeByte(fCmd);
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+    if (S->getVer().isUru() || S->getVer().isUniversal())
         S->writeInt(fSynchFlags);
 }
 

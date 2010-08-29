@@ -30,8 +30,8 @@ void plAnimPath::read(hsStream* S, plResManager* mgr) {
     delete fController;
     delete fTMController;
 
-    bool useTM = (S->getVer() <= pvPots);
-    if (S->getVer() == pvUniversal)
+    bool useTM = S->getVer().isUruSP();
+    if (S->getVer().isUniversal())
         useTM = S->readBool();
 
     if (useTM) {
@@ -53,8 +53,8 @@ void plAnimPath::read(hsStream* S, plResManager* mgr) {
 void plAnimPath::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fAnimPathFlags);
 
-    bool useTM = (S->getVer() <= pvPots);
-    if (S->getVer() == pvUniversal) {
+    bool useTM = S->getVer().isUruSP();
+    if (S->getVer().isUniversal()) {
         useTM = (fTMController != NULL);
         S->writeBool(useTM);
     }

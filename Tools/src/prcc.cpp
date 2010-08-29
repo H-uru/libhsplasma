@@ -24,13 +24,13 @@ void doHelp(const char* exename) {
     printf("Usage: %s infile [options]\n\n", exename);
     printf("Options:\n");
     printf("\t-o file  Write output to `file`\n");
-    printf("\t-v ver   Select output version (prime, pots, live, eoa, hex, universal)\n");
+    printf("\t-v ver   Select output version (prime, pots, moul, eoa, hex, universal)\n");
     printf("\t--help   Display this help and then exit\n\n");
 }
 
 int main(int argc, char* argv[]) {
     plString inputFile, outputFile;
-    PlasmaVer outVer = pvUnknown;
+    PlasmaVer outVer = PlasmaVer::pvUnknown;
 
     if (argc == 1) {
         doHelp(argv[0]);
@@ -43,17 +43,17 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--ver") == 0) {
             plString ver = plString(argv[++i]).toLower();
             if (ver == "prime")
-                outVer = pvPrime;
+                outVer = PlasmaVer::pvPrime;
             else if (ver == "pots")
-                outVer = pvPots;
-            else if (ver == "live")
-                outVer = pvLive;
+                outVer = PlasmaVer::pvPots;
+            else if (ver == "moul")
+                outVer = PlasmaVer::pvMoul;
             else if (ver == "eoa")
-                outVer = pvEoa;
+                outVer = PlasmaVer::pvEoa;
             else if (ver == "hex")
-                outVer = pvHex;
+                outVer = PlasmaVer::pvHex;
             else if (ver == "universal")
-                outVer = pvUniversal;
+                outVer = PlasmaVer::pvUniversal;
             else {
                 fprintf(stderr, "Error: unrecognized version: %s\n", ver.cstr());
                 return 1;
@@ -70,9 +70,9 @@ int main(int argc, char* argv[]) {
                 fprintf(stderr, "Warning: ignoring extra parameter %s\n", argv[i]);
         }
     }
-    if (outVer == pvUnknown) {
+    if (outVer == PlasmaVer::pvUnknown) {
         fprintf(stderr, "Warning: Unspecified version.  Defaulting to PotS\n");
-        outVer = pvPots;
+        outVer = PlasmaVer::pvPots;
     }
 
     plDebug::Init(plDebug::kDLAll);

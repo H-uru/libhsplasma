@@ -21,7 +21,9 @@
 #include "Stream/hsRAMStream.h"
 
 plResManager::plResManager(PlasmaVer pv) :
-    fPlasmaVer(pvUnknown), totalKeys(0), readKeys(0), mustStub(false) {
+    fPlasmaVer(PlasmaVer::pvUnknown), totalKeys(0), readKeys(0),
+    mustStub(false)
+{
     setVer(pv);
     progressFunc = NULL;
 }
@@ -37,7 +39,7 @@ plResManager::~plResManager() {
 }
 
 void plResManager::setVer(PlasmaVer pv, bool force) {
-    if (fPlasmaVer == pvUnknown || force)
+    if (fPlasmaVer == PlasmaVer::pvUnknown || force)
         fPlasmaVer = pv;
 }
 
@@ -45,7 +47,7 @@ plKey plResManager::readKey(hsStream* S) {
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+    if (S->getVer().isUru() || S->getVer().isUniversal()) {
         if (S->readBool())
             return readUoid(S);
         else
@@ -71,9 +73,9 @@ void plResManager::writeKey(hsStream* S, plKey key) {
         throw hsVersionMismatchException(__FILE__, __LINE__);
 
     //key->exists = (strcmp(key->objName, "") != 0);
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+    if (S->getVer().isUru() || S->getVer().isUniversal())
         S->writeBool(key.Exists());
-    if (key.Exists() || (S->getVer() >= pvEoa && S->getVer() != pvUniversal))
+    if (key.Exists() || (S->getVer().isNewPlasma()))
         writeUoid(S, key);
 }
 
@@ -195,7 +197,7 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     hsFileStream* S = new hsFileStream();
     S->open(filename, fmWrite);
     S->setVer(getVer());
-    if (getVer() >= pvLive && getVer() != pvUniversal) {
+    if (getVer() >= MAKE_VERSION(2, 0, 70, 0) && !getVer().isUniversal()) {
         std::vector<short> types = keys.getTypes(page->getLocation());
         page->setClassList(types);
     }
@@ -205,7 +207,7 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     page->setNumObjects(WriteObjects(S, page->getLocation()));
     page->setIndexStart(S->pos());
     WriteKeyring(S, page->getLocation());
-    if (getVer() >= pvEoa)
+    if (getVer().isNewPlasma())
         page->setChecksum(S->pos());
     else
         page->setChecksum(S->pos() - page->getDataStart());
@@ -263,15 +265,15 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
         if (path.len() > 0)
             path = path + PATHSEPSTR;
 
-        PlasmaVer ageVer = pvUnknown;
+        PlasmaVer ageVer = PlasmaVer::pvUnknown;
         if (age->getNumPages() > 0) {
             plString file = plString::Format("%s_District_%s.prp",
                     age->getAgeName().cstr(),
                     age->getPage(0).fName.cstr());
             if (hsFileStream::FileExists(path + file))
-                ageVer = pvPots;
+                ageVer = MAKE_VERSION(2, 0, 63, 12);
             else
-                ageVer = pvEoa;
+                ageVer = MAKE_VERSION(2, 1, 6, 10);
         }
 
         size_t numpages = age->getNumPages() + age->getNumCommonPages(ageVer);
@@ -436,7 +438,7 @@ unsigned int plResManager::ReadKeyring(hsStream* S, const plLocation& loc) {
     unsigned int tCount = S->readInt();
     for (unsigned int i=0; i<tCount; i++) {
         short type = pdUnifiedTypeMap::PlasmaToMapped(S->readShort(), S->getVer()); // objType
-        if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
+        if (S->getVer() >= MAKE_VERSION(2, 0, 70, 0) && !S->getVer().isUniversal()) {
             S->readInt();   // # of bytes after this int to next key list
             S->readByte();  // flag?
         }
@@ -471,14 +473,14 @@ void plResManager::WriteKeyring(hsStream* S, const plLocation& loc) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i], true);
         S->writeShort(pdUnifiedTypeMap::MappedToPlasma(kList[0]->getType(), S->getVer()));
         unsigned int lenPos = S->pos();
-        if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
+        if (S->getVer() >= MAKE_VERSION(2, 0, 70, 0) && !S->getVer().isUniversal()) {
             S->writeInt(0);
             S->writeByte(0);
         }
         S->writeInt(kList.size());
         for (unsigned int j=0; j<kList.size(); j++)
             kList[j]->write(S);
-        if (S->getVer() >= pvLive && S->getVer() != pvUniversal) {
+        if (S->getVer() >= MAKE_VERSION(2, 0, 70, 0) && !S->getVer().isUniversal()) {
             unsigned int nextPos = S->pos();
             S->seek(lenPos);
             S->writeInt(nextPos - lenPos - 4);

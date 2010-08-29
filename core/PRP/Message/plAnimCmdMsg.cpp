@@ -52,7 +52,7 @@ void plAnimCmdMsg::read(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::read(S, mgr);
 
     fCmd.read(S);
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+    if (S->getVer().isUru() || S->getVer().isUniversal()) {
         fBegin = S->readFloat();
         fEnd = S->readFloat();
         fLoopEnd = S->readFloat();
@@ -60,13 +60,6 @@ void plAnimCmdMsg::read(hsStream* S, plResManager* mgr) {
         fSpeed = S->readFloat();
         fSpeedChangeRate = S->readFloat();
         fTime = S->readFloat();
-
-        if (S->getVer() < 0x02006305) {
-            S->readFloat();
-            S->readFloat();
-            S->readFloat();
-            S->readByte();
-        }
     } else {
         if (fCmd[kSetBegin])
             fBegin = S->readFloat();
@@ -91,7 +84,7 @@ void plAnimCmdMsg::write(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::write(S, mgr);
 
     fCmd.write(S);
-    if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+    if (S->getVer().isUru() || S->getVer().isUniversal()) {
         S->writeFloat(fBegin);
         S->writeFloat(fEnd);
         S->writeFloat(fLoopEnd);

@@ -64,7 +64,7 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
         fIcicles[i]->read(S);
     }
 
-    if (S->getVer() < pvHex) {
+    if (!S->getVer().isHexIsle()) {
         if (S->readInt() != 0)
             throw hsBadParamException(__FILE__, __LINE__, "Unsupported field count > 0");
     }

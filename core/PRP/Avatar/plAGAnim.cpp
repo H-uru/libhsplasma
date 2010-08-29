@@ -40,7 +40,7 @@ void plAGAnim::read(hsStream* S, plResManager* mgr) {
         fApps[i] = agApp;
     }
 
-    if (S->getVer() >= pvEoa)
+    if (S->getVer().isNewPlasma())
         fEoaFlag = S->readByte();
 }
 
@@ -57,7 +57,7 @@ void plAGAnim::write(hsStream* S, plResManager* mgr) {
         mgr->WriteCreatable(S, fApps[i]->getChannel());
     }
 
-    if (S->getVer() >= pvEoa)
+    if (S->getVer().isNewPlasma())
         S->writeByte(fEoaFlag);
 }
 

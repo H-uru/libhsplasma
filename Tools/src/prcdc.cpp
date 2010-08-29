@@ -25,7 +25,7 @@ void doHelp(const char* exename) {
     printf("Usage: %s [options] filename\n\n", exename);
     printf("Options:\n");
     printf("\t-o file      Write output to `file`\n");
-    printf("\t-v ver       Select input version (prime, pots, live, eoa, hex, universal)\n");
+    printf("\t-v ver       Select input version (prime, pots, moul, eoa, hex, universal)\n");
     printf("\t             (for use with Creatables; PRP versions are determined automatically)\n");
     printf("\t-x type:name Decompile a single object from a PRP file\n");
     printf("\t--novtx      Don't include vertex data\n");
@@ -36,7 +36,7 @@ void doHelp(const char* exename) {
 int main(int argc, char** argv) {
     plString inputFile, outputFile;
     bool exVtx = false, exTex = false;
-    PlasmaVer inVer = pvUnknown;
+    PlasmaVer inVer = PlasmaVer::pvUnknown;
     plString objName;
     short objType = -1;
 
@@ -59,17 +59,17 @@ int main(int argc, char** argv) {
             }
             plString ver = plString(argv[i]).toLower();
             if (ver == "prime")
-                inVer = pvPrime;
+                inVer = PlasmaVer::pvPrime;
             else if (ver == "pots")
-                inVer = pvPots;
-            else if (ver == "live")
-                inVer = pvLive;
+                inVer = PlasmaVer::pvPots;
+            else if (ver == "moul")
+                inVer = PlasmaVer::pvMoul;
             else if (ver == "eoa")
-                inVer = pvEoa;
+                inVer = PlasmaVer::pvEoa;
             else if (ver == "hex")
-                inVer = pvHex;
+                inVer = PlasmaVer::pvHex;
             else if (ver == "universal")
-                inVer = pvUniversal;
+                inVer = PlasmaVer::pvUniversal;
             else {
                 fprintf(stderr, "Error: unrecognized version: %s\n", ver.cstr());
                 return 1;
@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
     }
     if (outputFile.empty())
         outputFile = "out.prc";
-    if (inVer == pvUnknown && inputFile.afterLast('.') != "prp" && inputFile.afterLast('.') != "age") {
+    if (!inVer.isValid() && inputFile.afterLast('.') != "prp" && inputFile.afterLast('.') != "age") {
         fprintf(stderr, "Error: Plasma version must be specified for object decompilation\n");
         return 1;
     }

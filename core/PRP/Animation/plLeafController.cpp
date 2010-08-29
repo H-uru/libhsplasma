@@ -27,7 +27,7 @@ plLeafController::~plLeafController() {
 }
 
 void plLeafController::read(hsStream* S, plResManager* mgr) {
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         if (ClassIndex() == kLeafController) {
             fType = S->readByte();
             unsigned int numKeys = S->readInt();
@@ -43,7 +43,7 @@ void plLeafController::read(hsStream* S, plResManager* mgr) {
                 fEaseControllers[i]->read(S, mgr);
             IReadUruController(S);
         }
-    } else if (S->getVer() <= pvPots) {
+    } else if (S->getVer().isUruSP()) {
         fUruUnknown = S->readInt();
         if (fUruUnknown != 0)
             plDebug::Debug("Found an UruUnknown of %d", fUruUnknown);
@@ -57,7 +57,7 @@ void plLeafController::read(hsStream* S, plResManager* mgr) {
         IReadUruController(S);
     } else {
         fType = S->readByte();
-        if ((S->getVer() >= pvEoa) && fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
+        if ((S->getVer().isNewPlasma()) && fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
             fType++;    // Myst V doesn't have hsCompressedQuatKeyFrame64
         unsigned int numKeys = S->readInt();
         AllocKeys(numKeys, fType);
@@ -68,7 +68,7 @@ void plLeafController::read(hsStream* S, plResManager* mgr) {
 }
 
 void plLeafController::write(hsStream* S, plResManager* mgr) {
-    if (S->getVer() == pvUniversal) {
+    if (S->getVer().isUniversal()) {
         if (ClassIndex() == kLeafController) {
             S->writeByte(fType);
             S->writeInt(fKeys.getSize());
@@ -82,7 +82,7 @@ void plLeafController::write(hsStream* S, plResManager* mgr) {
                 fEaseControllers[i]->write(S, mgr);
             IWriteUruController(S);
         }
-    } else if (S->getVer() <= pvPots) {
+    } else if (S->getVer().isUruSP()) {
         S->writeInt(fUruUnknown);
         S->writeInt(fEaseControllers.getSize());
 
@@ -92,7 +92,7 @@ void plLeafController::write(hsStream* S, plResManager* mgr) {
         S->writeInt(0);
         IWriteUruController(S);
     } else {
-        if ((S->getVer() >= pvEoa) && fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
+        if ((S->getVer().isNewPlasma()) && fType >= hsKeyFrame::kCompressedQuatKeyFrame64)
             S->writeByte(fType - 1);
         else
             S->writeByte(fType);

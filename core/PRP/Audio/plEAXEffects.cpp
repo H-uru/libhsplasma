@@ -97,7 +97,7 @@ void plEAXSourceSettings::read(hsStream* S) {
         fRoomRolloffFactor = S->readFloat();
         fDopplerFactor = S->readFloat();
         fRolloffFactor = S->readFloat();
-        if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+        if (!S->getVer().isNewPlasma() || S->getVer().isUniversal()) {
             fSoftStarts.read(S);
             fSoftEnds.read(S);
             fOcclusionSoftValue = S->readFloat();
@@ -121,7 +121,7 @@ void plEAXSourceSettings::write(hsStream* S) {
         S->writeFloat(fRoomRolloffFactor);
         S->writeFloat(fDopplerFactor);
         S->writeFloat(fRolloffFactor);
-        if (S->getVer() < pvEoa || S->getVer() == pvUniversal) {
+        if (!S->getVer().isNewPlasma() || S->getVer().isUniversal()) {
             fSoftStarts.write(S);
             fSoftEnds.write(S);
             S->writeFloat(fOcclusionSoftValue);

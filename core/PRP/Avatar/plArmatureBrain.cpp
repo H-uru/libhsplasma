@@ -48,7 +48,7 @@ plAvBrainHuman::plAvBrainHuman() : fIsCustomAvatar(false) { }
 void plAvBrainHuman::read(hsStream* S, plResManager* mgr) {
     plArmatureBrain::read(S, mgr);
 
-    if (S->getVer() == pvLive || S->getVer() == pvUniversal)
+    if (S->getVer().isMoul() || S->getVer().isUniversal())
         fIsCustomAvatar = S->readBool();
     else
         fIsCustomAvatar = false;
@@ -57,7 +57,7 @@ void plAvBrainHuman::read(hsStream* S, plResManager* mgr) {
 void plAvBrainHuman::write(hsStream* S, plResManager* mgr) {
     plArmatureBrain::write(S, mgr);
 
-    if (S->getVer() == pvLive || S->getVer() == pvUniversal)
+    if (S->getVer().isMoul() || S->getVer().isUniversal())
         S->writeBool(fIsCustomAvatar);
 }
 

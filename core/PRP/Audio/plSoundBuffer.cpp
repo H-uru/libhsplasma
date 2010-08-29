@@ -78,7 +78,7 @@ void plSoundBuffer::read(hsStream* S, plResManager* mgr) {
     fFileName = S->readSafeStr();
     fHeader.read(S);
 
-    if (S->getVer() < 0x02006308) {
+    if (S->getVer() < MAKE_VERSION(2, 0, 63, 8)) {
         S->readInt();
         S->readInt();
         S->readByte();

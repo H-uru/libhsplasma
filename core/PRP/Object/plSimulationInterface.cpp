@@ -36,7 +36,7 @@ plSimulationInterface::plSimulationInterface() {
 void plSimulationInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
-    if (S->getVer() < pvEoa) {
+    if (S->getVer().isUru()) {
         // Yes, really :(
         fProps.read(S);
         S->readInt();
@@ -47,7 +47,7 @@ void plSimulationInterface::read(hsStream* S, plResManager* mgr) {
 void plSimulationInterface::write(hsStream* S, plResManager* mgr) {
     plObjInterface::write(S, mgr);
 
-    if (S->getVer() < pvEoa) {
+    if (S->getVer().isUru()) {
         fProps.write(S);
         S->writeInt(0);
     }

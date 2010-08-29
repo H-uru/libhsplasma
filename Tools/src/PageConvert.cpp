@@ -22,24 +22,24 @@
 
 const char* getSuffix(PlasmaVer pv) {
     switch (pv) {
-    case pvPrime:       return "prime";
-    case pvPots:        return "pots";
-    case pvLive:        return "live";
-    case pvEoa:         return "eoa";
-    case pvHex:         return "hex";
-    case pvUniversal:   return "universal";
+    case PlasmaVer::pvPrime:       return "prime";
+    case PlasmaVer::pvPots:        return "pots";
+    case PlasmaVer::pvMoul:        return "moul";
+    case PlasmaVer::pvEoa:         return "eoa";
+    case PlasmaVer::pvHex:         return "hex";
+    case PlasmaVer::pvUniversal:   return "universal";
     default:            return "err";
     }
 }
 
 const char* getVerName(PlasmaVer pv) {
     switch (pv) {
-    case pvPrime:       return "Prime";
-    case pvPots:        return "PotS";
-    case pvLive:        return "Live";
-    case pvEoa:         return "EoA";
-    case pvHex:         return "HexIsle";
-    case pvUniversal:   return "Universal";
+    case PlasmaVer::pvPrime:       return "Prime";
+    case PlasmaVer::pvPots:        return "PotS";
+    case PlasmaVer::pvMoul:        return "MOUL";
+    case PlasmaVer::pvEoa:         return "EoA";
+    case PlasmaVer::pvHex:         return "HexIsle";
+    case PlasmaVer::pvUniversal:   return "Universal";
     default:            return "Unknown";
     }
 }
@@ -49,7 +49,7 @@ void doHelp() {
     printf("Usage:  PageConvert [-to???] [-help] filename [filename] [...]\n\n");
     printf("  -toprime  Converts to Prime format (63.11) (Default)\n");
     printf("  -topots   Converts to Path of the Shell format (63.12)\n");
-    printf("  -tolive   Converts to Uru Live format\n");
+    printf("  -tomoul   Converts to Uru Live format\n");
     printf("  -toeoa    Converts to Myst V: End of Ages format\n");
     printf("  -tohex    Converts to Hex Isle format\n");
     printf("  -touniv   Converts to Universal format\n");
@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
     plResManager rm;
     plDebug::Init(plDebug::kDLAll);
 
-    PlasmaVer toVer = pvPrime;
+    PlasmaVer toVer = PlasmaVer::pvPrime;
     int files = 0;
 
     if (argc == 1) {
@@ -72,17 +72,17 @@ int main(int argc, char** argv) {
         if (argv[i][0] == '-') {
             if (argv[i][1] == '-') argv[i]++;
             if (strcmp(argv[i], "-toeoa") == 0)
-                toVer = pvEoa;
+                toVer = PlasmaVer::pvEoa;
             else if (strcmp(argv[i], "-toprime") == 0)
-                toVer = pvPrime;
+                toVer = PlasmaVer::pvPrime;
             else if (strcmp(argv[i], "-topots") == 0)
-                toVer = pvPots;
-            else if (strcmp(argv[i], "-tolive") == 0)
-                toVer = pvLive;
+                toVer = PlasmaVer::pvPots;
+            else if (strcmp(argv[i], "-tomoul") == 0)
+                toVer = PlasmaVer::pvMoul;
             else if (strcmp(argv[i], "-tohex") == 0)
-                toVer = pvHex;
+                toVer = PlasmaVer::pvHex;
             else if (strcmp(argv[i], "-touniv") == 0)
-                toVer = pvUniversal;
+                toVer = PlasmaVer::pvUniversal;
             else if (strcmp(argv[i], "-help") == 0) {
                 doHelp();
                 return 0;

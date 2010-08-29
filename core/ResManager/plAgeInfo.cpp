@@ -78,13 +78,13 @@ void plAgeInfo::readFromFile(const plString& filename) {
 
 void plAgeInfo::writeToFile(const plString& filename, PlasmaVer ver) {
     hsStream* S;
-    if (ver == pvUniversal) {
+    if (ver.isUniversal()) {
         S = new hsFileStream();
         ((hsFileStream*)S)->open(filename, fmCreate);
     } else {
         S = new plEncryptedStream();
         plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncAuto;
-        if (ver >= pvEoa)
+        if (ver.isNewPlasma())
             eType = plEncryptedStream::kEncAES;
         else
             eType = plEncryptedStream::kEncXtea;
@@ -179,7 +179,7 @@ void plAgeInfo::prcParse(const pfPrcTag* tag) {
 size_t plAgeInfo::getNumCommonPages(PlasmaVer pv) const {
     if (fSeqPrefix < 0)
         return 0;
-    return (pv < pvEoa || pv == pvUniversal) ? 2 : 1;
+    return (!pv.isNewPlasma() || pv.isUniversal()) ? 2 : 1;
 }
 
 plAgeInfo::PageEntry plAgeInfo::getCommonPage(size_t idx, PlasmaVer pv) const {
@@ -187,18 +187,18 @@ plAgeInfo::PageEntry plAgeInfo::getCommonPage(size_t idx, PlasmaVer pv) const {
 }
 
 plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
-    if (pv == pvUnknown)
+    if (!pv.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
-    if (pv >= pvEoa)    // Includes pvUniversal
+    if (pv.isNewPlasma() || pv.isUniversal())    // Includes pvUniversal
         return plString::Format("%s_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
     else
         return plString::Format("%s_District_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
 }
 
 plString plAgeInfo::getCommonPageFilename(size_t idx, PlasmaVer pv) const {
-    if (pv == pvUnknown)
+    if (!pv.isValid())
         throw hsBadVersionException(__FILE__, __LINE__);
-    if (pv >= pvEoa)    // Includes pvUniversal
+    if (pv.isNewPlasma() || pv.isUniversal())    // Includes pvUniversal
         return plString::Format("%s_%s.prp", fName.cstr(), kCommonPages[idx].cstr());
     else
         return plString::Format("%s_District_%s.prp", fName.cstr(), kCommonPages[idx].cstr());

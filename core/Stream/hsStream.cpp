@@ -23,8 +23,8 @@
 static const int eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
 /* hsStream */
-hsStream::hsStream(PlasmaVer pv) {
-    setVer(pv);
+hsStream::hsStream(int pv) {
+    setVer(PlasmaVer(pv));
 }
 
 #define BLOCKSIZE 4096
@@ -110,11 +110,11 @@ plString hsStream::readSafeStr() {
     if (ssInfo == 0)
         return plString();
 
-    if (ver == pvUniversal) {
+    if (ver.isUniversal()) {
         buf = new char[ssInfo+1];
         read(ssInfo, buf);
         buf[ssInfo] = 0;
-    } else if (ver >= pvEoa) {
+    } else if (ver.isNewPlasma()) {
         buf = new char[ssInfo+1];
         read(ssInfo, buf);
         for (size_t i=0; i<ssInfo; i++)
@@ -139,13 +139,13 @@ plString hsStream::readSafeStr() {
 plString hsStream::readSafeWStr() {
     hsUint16 ssInfo = readShort();
     pl_wchar_t* buf;
-    if (ver == pvUniversal) {
+    if (ver.isUniversal()) {
         buf = new pl_wchar_t[ssInfo+1];
         for (size_t i=0; i<ssInfo; i++)
             buf[i] = readShort() & 0xFFFF;
         readShort();    // Terminator
         buf[ssInfo] = 0;
-    } else if (ver >= pvEoa) {
+    } else if (ver.isNewPlasma()) {
         buf = new pl_wchar_t[ssInfo+1];
         for (size_t i=0; i<ssInfo; i++)
             buf[i] = (readShort() ^ eoaStrKey[i%8]) & 0xFFFF;
@@ -250,16 +250,16 @@ void hsStream::writeSafeStr(const plString& str) {
     if (str.len() > 0xFFF)
         plDebug::Warning("SafeString length is excessively long");
 
-    if (!safeVer())
-        ver = GetSafestVersion(ver);
+    if (!ver.isSafeVer())
+        ver = PlasmaVer::GetSafestVersion(ver);
 
     hsUint16 ssInfo = (hsUint16)str.len();
     char* wbuf;
-    if (ver == pvUniversal) {
+    if (ver.isUniversal()) {
         writeShort(ssInfo);
         wbuf = new char[ssInfo];
         memcpy(wbuf, str.cstr(), ssInfo);
-    } else if (ver >= pvEoa) {
+    } else if (ver.isNewPlasma()) {
         writeShort(ssInfo);
         wbuf = new char[ssInfo];
         for (size_t i=0; i<ssInfo; i++)
@@ -281,12 +281,12 @@ void hsStream::writeSafeWStr(const plString& str) {
 
     hsUint16 ssInfo = (hsUint16)str.len();
     plString::Wide buf = str.wstr();
-    if (ver == pvUniversal) {
+    if (ver.isUniversal()) {
         writeShort(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
             writeShort(buf.data()[i]);
         writeShort(0);  // Terminator
-    } else if (ver >= pvEoa) {
+    } else if (ver.isNewPlasma()) {
         writeShort(ssInfo);
         for (size_t i=0; i<ssInfo; i++)
             writeShort(buf.data()[i] ^ eoaStrKey[i%8]);
@@ -311,7 +311,7 @@ void hsStream::writeLine(const plString& ln, bool winEOL) {
 
 
 /* hsFileStream */
-hsFileStream::hsFileStream(PlasmaVer pv) : hsStream(pv), F(NULL) { }
+hsFileStream::hsFileStream(int pv) : hsStream(pv), F(NULL) { }
 
 hsFileStream::~hsFileStream() {
     close();

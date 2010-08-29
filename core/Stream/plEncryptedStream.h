@@ -44,7 +44,7 @@ protected:
     void CryptFlush();
 
 public:
-    plEncryptedStream(PlasmaVer pv = pvUnknown);
+    plEncryptedStream(int pv = PlasmaVer::pvUnknown);
     virtual ~plEncryptedStream();
 
     bool open(const char* file, FileMode mode, EncryptionType type);

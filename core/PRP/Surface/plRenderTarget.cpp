@@ -135,7 +135,7 @@ void plCubicRenderTarget::read(hsStream* S, plResManager* mgr) {
     plRenderTarget::read(S, mgr);
 
     for (size_t i=0; i<6; i++) {
-        if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+        if (S->getVer().isUru() || S->getVer().isUniversal())
             fFaces[i].readData(S);
         else
             fFaces[i].read(S, mgr);
@@ -146,7 +146,7 @@ void plCubicRenderTarget::write(hsStream* S, plResManager* mgr) {
     plRenderTarget::write(S, mgr);
 
     for (size_t i=0; i<6; i++) {
-        if (S->getVer() < pvEoa || S->getVer() == pvUniversal)
+        if (S->getVer().isUru() || S->getVer().isUniversal())
             fFaces[i].writeData(S);
         else
             fFaces[i].write(S, mgr);

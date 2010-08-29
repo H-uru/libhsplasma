@@ -27,7 +27,7 @@ void plLogicModifier::read(hsStream* S, plResManager* mgr) {
         fConditionList[i] = mgr->readKey(S);
     fMyCursor = S->readInt();
 
-    if (S->getVer() >= pvEoa)
+    if (S->getVer().isNewPlasma())
         fParent = mgr->readKey(S);
 }
 
@@ -39,7 +39,7 @@ void plLogicModifier::write(hsStream* S, plResManager* mgr) {
         mgr->writeKey(S, fConditionList[i]);
     S->writeInt(fMyCursor);
 
-    if (S->getVer() >= pvEoa)
+    if (S->getVer().isNewPlasma())
         mgr->writeKey(S, fParent);
 }
 
