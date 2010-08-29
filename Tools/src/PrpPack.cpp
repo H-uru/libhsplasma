@@ -160,9 +160,9 @@ int main(int argc, char** argv) {
             min = 2;
         } else {
             maj = (rm.getVer() & 0x0000FF00) >> 8;
-            maj = ((maj/16)*16)+(maj%16);
+            maj = ((maj/16)*10)+(maj%16);
             min = (rm.getVer() & 0x000000FF);
-            min = ((min/16)*16)+(min%16);
+            min = ((min/16)*10)+(min%16);
         }
         OS->writeShort(maj);
         OS->writeShort(min);
