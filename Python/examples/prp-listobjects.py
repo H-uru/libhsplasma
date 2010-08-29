@@ -22,7 +22,7 @@
 
 import PyHSPlasma, sys
 
-if len(sys.argv) == 1:
+if not len(sys.argv) in [2, 3]:
     print "Usage: %s filename [typename]" % sys.argv[0]
     sys.exit(0)
 
