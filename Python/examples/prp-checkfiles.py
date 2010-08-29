@@ -17,39 +17,109 @@
 # along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 
 # This script reads a bunch of prp and age files to check whether libHSPlasma shows any error messages or other problems.
-# Files can be specified by their name or as file pattern (like "*.prp").
-# The first argument can also be "-v" to show not only errors but also warnings, and "-vv" to show all debug output.
+# Call "./prp-checkfiles.py --help" for a list of options.
 # by Diafero
 
-import sys, glob
+import sys, glob, os
+from optparse import OptionParser
 import PyHSPlasma
 
 width = 80
+kTmpFile = "tmpcomparefile.prp"
+
+
+def readObjects(location):
+    data = []
+    # read all the objects
+    for type in rm.getTypes(location):
+        while len(data) <= type: data.append({}) # fill array
+        for key in rm.getKeys(location, type):
+            if key.exists() and key.isLoaded():
+                data[type][key.name] = PyHSPlasma.hsKeyedObjectStub.Convert(key.object).stub.getData()
+    return data
+
+
+def checkObjectsEqual(objs1, objs2, ignorePhysics):
+    if len(objs1) != len(objs2): raise Exception('Number of types changed')
+    for type in range(0, len(objs1)):
+        typeName = PyHSPlasma.plFactory.ClassName(type, rm.getVer())
+        # compare the objects of this type
+        for name in objs1[type].keys():
+            if not name in objs2[type].keys():
+                raise Exception('Type '+typeName+', object '+name+' missing')
+            if ignorePhysics and type == PyHSPlasma.plFactory.kGenericPhysical: continue
+            obj1 = objs1[type][name]
+            obj2 = objs2[type][name]
+            if len(obj1) != len(obj2):
+                raise Exception('Type '+typeName+', object '+name+' changed size ('+str(len(obj1))+' => '+str(len(obj2))+')')
+            if obj1 != obj2:
+                raise Exception('Type '+typeName+', object '+name+' changed but stayed same size')
+        # check if something got added
+        for name in objs2[type].keys():
+            if not name in objs1[type].keys():
+                raise Exception('Type '+typeName+', object '+name+' added')
+
+
+def compareFiles(file1, file2, ignorePhysics):
+    # read old objects
+    location = rm.ReadPage(file1, True).location
+    oldObjects = readObjects(location)
+    rm.UnloadPage(location)
+    # read new objects
+    location = rm.ReadPage(file2, True).location
+    newObjects = readObjects(location)
+    rm.UnloadPage(location)
+    # now compare the objects
+    try:
+        checkObjectsEqual(oldObjects, newObjects, ignorePhysics)
+    except Exception, msg:
+        print msg
+
 
 def overprint(text):
     sys.stdout.write("\r"+text+(" "*(width-len(text))))
     sys.stdout.flush()
 
-if len(sys.argv) == 1:
-    print "Usage: %s [-v|-vv] filename..." % sys.argv[0]
-    sys.exit(0)
 
-args = sys.argv[1:]
-if args[0] == '-vv':
-    args = args[1:]
+### Main app
+parser = OptionParser()
+parser.add_option("-v", "--verbose",
+                  action="count", dest="verbose", default=0,
+                  help="If set one time, warnings are printed. If set two or more times, all debug messages are printed.")
+parser.add_option("-c", "--check-repack",
+                  action="store_true", dest="checkrepack", default=False,
+                  help="Re-pack the prp files and compare to the original file (does nothing for age files)")
+parser.add_option("-k", "--keep-repacked",
+                  action="store_true", dest="keeprepack", default=False,
+                  help="Do not remove the temporary repacked file (has no effect if --check-repack is not given)")
+parser.add_option("-p", "--ignore-physics",
+                  action="store_true", dest="ignorephysics", default=False,
+                  help="Do not compare re-packed physicals (has no effect if --check-repack is not given)")
+(options, args) = parser.parse_args()
+
+# set verbose level
+if options.verbose >= 2:
     PyHSPlasma.plDebug.Init(PyHSPlasma.plDebug.kDLAll)
-elif args[0] == '-v':
-    args = args[1:]
+elif options.verbose == 1:
     PyHSPlasma.plDebug.Init(PyHSPlasma.plDebug.kDLWarning)
-else:
+else: # options.verbose == 0
     PyHSPlasma.plDebug.Init(PyHSPlasma.plDebug.kDLError)
 
+# read files
 rm = PyHSPlasma.plResManager()
 for files in args:
     for file in glob.iglob(files): # do the globbing on Windows, too
         overprint("Reading "+file+"...")
         if file.lower().endswith(".prp"):
-            rm.UnloadPage(rm.ReadPage(file).location)
+            page = rm.ReadPage(file)
+            if options.checkrepack: 
+                overprint("Writing "+file+"...")
+                rm.WritePage(kTmpFile, page)
+            rm.UnloadPage(page.location)
+            if options.checkrepack:
+                overprint("Comparing "+file+"...")
+                compareFiles(file, kTmpFile, options.ignorephysics)
+                if not options.keeprepack: os.remove(kTmpFile)
         elif file.lower().endswith(".age"):
             age = rm.ReadAge(file, True) # readPages=True
             for pageNum in range(0, age.getNumPages()):
