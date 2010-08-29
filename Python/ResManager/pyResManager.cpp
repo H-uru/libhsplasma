@@ -361,7 +361,8 @@ static PyObject* pyResManager_getLocations(pyResManager* self) {
 
 static PyObject* pyResManager_getTypes(pyResManager* self, PyObject* args) {
     pyLocation* loc;
-    if (!PyArg_ParseTuple(args, "O", &loc)) {
+    char checkKeys;
+    if (!PyArg_ParseTuple(args, "O|b", &loc, &checkKeys)) {
         PyErr_SetString(PyExc_TypeError, "getTypes expects a plLocation");
         return NULL;
     }
@@ -370,7 +371,7 @@ static PyObject* pyResManager_getTypes(pyResManager* self, PyObject* args) {
         return NULL;
     }
 
-    std::vector<short> types = self->fThis->getTypes(*loc->fThis);
+    std::vector<short> types = self->fThis->getTypes(*loc->fThis, (checkKeys != 0));
     PyObject* list = PyList_New(types.size());
     for (size_t i=0; i<types.size(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(types[i]));
@@ -380,7 +381,8 @@ static PyObject* pyResManager_getTypes(pyResManager* self, PyObject* args) {
 static PyObject* pyResManager_getKeys(pyResManager* self, PyObject* args) {
     pyLocation* loc;
     int type;
-    if (!PyArg_ParseTuple(args, "Oi", &loc, &type)) {
+    char checkKeys;
+    if (!PyArg_ParseTuple(args, "Oi|b", &loc, &type, &checkKeys)) {
         PyErr_SetString(PyExc_TypeError, "getTypes expects plLocation, int");
         return NULL;
     }
@@ -389,7 +391,7 @@ static PyObject* pyResManager_getKeys(pyResManager* self, PyObject* args) {
         return NULL;
     }
 
-    std::vector<plKey> keys = self->fThis->getKeys(*loc->fThis, type);
+    std::vector<plKey> keys = self->fThis->getKeys(*loc->fThis, type, (checkKeys != 0));
     PyObject* list = PyList_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(keys[i]));
