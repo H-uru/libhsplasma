@@ -25,10 +25,21 @@ typedef struct {
     bool fPyOwned;
 } pyKeyedObject;
 
+typedef struct {
+    PyObject_HEAD
+    class hsKeyedObjectStub* fThis;
+    bool fPyOwned;
+} pyKeyedObjectStub;
+
 extern PyTypeObject pyKeyedObject_Type;
 PyObject* Init_pyKeyedObject_Type();
 int pyKeyedObject_Check(PyObject* obj);
 PyObject* pyKeyedObject_FromKeyedObject(class hsKeyedObject* obj);
+
+extern PyTypeObject pyKeyedObjectStub_Type;
+PyObject* Init_pyKeyedObjectStub_Type();
+int pyKeyedObjectStub_Check(PyObject* obj);
+PyObject* pyKeyedObjectStub_FromKeyedObjectStub(class hsKeyedObjectStub* obj);
 
 }
 

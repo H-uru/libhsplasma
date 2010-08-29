@@ -27,7 +27,7 @@ typedef struct {
 
 typedef struct {
     PyObject_HEAD
-    class plCreatableStub* fThis;
+    const class plCreatableStub* fThis;
     bool fPyOwned;
 } pyCreatableStub;
 
@@ -39,6 +39,7 @@ PyObject* pyCreatable_FromCreatable(class plCreatable* pCre);
 extern PyTypeObject pyCreatableStub_Type;
 PyObject* Init_pyCreatableStub_Type();
 int pyCreatableStub_Check(PyObject* obj);
+PyObject* pyCreatableStub_FromCreatableStub(const class plCreatableStub* obj);
 
 };
 

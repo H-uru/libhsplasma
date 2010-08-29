@@ -139,6 +139,7 @@ PYOBJ=\
 	$(OBJDIR)pyGUIPythonScriptProc.o \
 	$(OBJDIR)pyKey.o \
 	$(OBJDIR)pyKeyedObject.o \
+	$(OBJDIR)pyKeyedObjectStub.o \
 	$(OBJDIR)pyLocation.o \
 	$(OBJDIR)pyDirectionalLightInfo.o \
 	$(OBJDIR)pyDirectShadowMaster.o \
@@ -650,6 +651,9 @@ $(OBJDIR)pyKey.o: PRP/KeyedObject/pyKey.cpp
 
 $(OBJDIR)pyKeyedObject.o: PRP/KeyedObject/pyKeyedObject.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKeyedObject.cpp -o $@
+
+$(OBJDIR)pyKeyedObjectStub.o: PRP/KeyedObject/pyKeyedObjectStub.cpp
+	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyKeyedObjectStub.cpp -o $@
 
 $(OBJDIR)pyLocation.o: PRP/KeyedObject/pyLocation.cpp
 	$(CXX) $(CXXFLAGS) -c PRP/KeyedObject/pyLocation.cpp -o $@

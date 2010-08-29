@@ -197,6 +197,7 @@ set(PRP_GUI_HDRS
 set(PRP_KEY_SRCS
     PRP/KeyedObject/pyKey.cpp
     PRP/KeyedObject/pyKeyedObject.cpp
+    PRP/KeyedObject/pyKeyedObjectStub.cpp
     PRP/KeyedObject/pyLocation.cpp
 )
 set(PRP_KEY_HDRS
