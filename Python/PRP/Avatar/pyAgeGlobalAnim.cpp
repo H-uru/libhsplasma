@@ -40,7 +40,7 @@ static PyObject* pyAgeGlobalAnim_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(cre->fThis));
+    return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(IConvert(cre)));
 }
 
 static PyObject* pyAgeGlobalAnim_getGlobalVarName(pyAgeGlobalAnim* self, void*) {

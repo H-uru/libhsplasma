@@ -40,7 +40,7 @@ static PyObject* pyEmoteAnim_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyEmoteAnim_FromEmoteAnim(plEmoteAnim::Convert(cre->fThis));
+    return pyEmoteAnim_FromEmoteAnim(plEmoteAnim::Convert(IConvert(cre)));
 }
 
 static PyObject* pyEmoteAnim_getBodyUsage(pyEmoteAnim* self, void*) {

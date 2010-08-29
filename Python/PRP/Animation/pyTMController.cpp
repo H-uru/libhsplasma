@@ -49,7 +49,7 @@ static PyObject* pyTMController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyTMController_FromTMController(plTMController::Convert(cre->fThis));
+    return pyTMController_FromTMController(plTMController::Convert(IConvert(cre)));
 }
 
 static PyObject* pyTMController_getPos(pyTMController* self, void*) {

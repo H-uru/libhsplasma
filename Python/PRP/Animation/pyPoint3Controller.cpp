@@ -46,7 +46,7 @@ static PyObject* pyPoint3Controller_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPoint3Controller_FromPoint3Controller(plPoint3Controller::Convert(cre->fThis));
+    return pyPoint3Controller_FromPoint3Controller(plPoint3Controller::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyPoint3Controller_Methods[] = {

@@ -40,7 +40,7 @@ static PyObject* pyPointTimeScale_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPointTimeScale_FromPointTimeScale(plPointTimeScale::Convert(cre->fThis));
+    return pyPointTimeScale_FromPointTimeScale(plPointTimeScale::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyPointTimeScale_Methods[] = {

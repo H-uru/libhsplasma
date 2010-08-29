@@ -40,7 +40,7 @@ static PyObject* pyScalarControllerCacheChannel_Convert(PyObject*, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyScalarControllerCacheChannel_FromScalarControllerCacheChannel(plScalarControllerCacheChannel::Convert(cre->fThis));
+    return pyScalarControllerCacheChannel_FromScalarControllerCacheChannel(plScalarControllerCacheChannel::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyScalarControllerCacheChannel_Methods[] = {

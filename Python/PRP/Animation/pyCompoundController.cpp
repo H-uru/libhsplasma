@@ -46,7 +46,7 @@ static PyObject* pyCompoundController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyCompoundController_FromCompoundController(plCompoundController::Convert(cre->fThis));
+    return pyCompoundController_FromCompoundController(plCompoundController::Convert(IConvert(cre)));
 }
 
 static PyObject* pyCompoundController_getX(pyCompoundController* self, void*) {

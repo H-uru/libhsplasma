@@ -40,7 +40,7 @@ static PyObject* pyLightSpecularApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLightSpecularApplicator_FromLightSpecularApplicator(plLightSpecularApplicator::Convert(cre->fThis));
+    return pyLightSpecularApplicator_FromLightSpecularApplicator(plLightSpecularApplicator::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyLightSpecularApplicator_Methods[] = {

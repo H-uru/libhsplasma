@@ -40,7 +40,7 @@ static PyObject* pyQuatTimeScale_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyQuatTimeScale_FromQuatTimeScale(plQuatTimeScale::Convert(cre->fThis));
+    return pyQuatTimeScale_FromQuatTimeScale(plQuatTimeScale::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyQuatTimeScale_Methods[] = {

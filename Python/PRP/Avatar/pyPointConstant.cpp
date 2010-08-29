@@ -40,7 +40,7 @@ static PyObject* pyPointConstant_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPointConstant_FromPointConstant(plPointConstant::Convert(cre->fThis));
+    return pyPointConstant_FromPointConstant(plPointConstant::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyPointConstant_Methods[] = {

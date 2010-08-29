@@ -40,7 +40,7 @@ static PyObject* pyMatrixBlend_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMatrixBlend_FromMatrixBlend(plMatrixBlend::Convert(cre->fThis));
+    return pyMatrixBlend_FromMatrixBlend(plMatrixBlend::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyMatrixBlend_Methods[] = {

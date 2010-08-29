@@ -40,7 +40,7 @@ static PyObject* pyMatrixControllerCacheChannel_Convert(PyObject*, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMatrixControllerCacheChannel_FromMatrixControllerCacheChannel(plMatrixControllerCacheChannel::Convert(cre->fThis));
+    return pyMatrixControllerCacheChannel_FromMatrixControllerCacheChannel(plMatrixControllerCacheChannel::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyMatrixControllerCacheChannel_Methods[] = {

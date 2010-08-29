@@ -40,7 +40,7 @@ static PyObject* pyMatrixChannelApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMatrixChannelApplicator_FromMatrixChannelApplicator(plMatrixChannelApplicator::Convert(cre->fThis));
+    return pyMatrixChannelApplicator_FromMatrixChannelApplicator(plMatrixChannelApplicator::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyMatrixChannelApplicator_Methods[] = {

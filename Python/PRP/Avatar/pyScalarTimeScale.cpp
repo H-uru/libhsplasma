@@ -40,7 +40,7 @@ static PyObject* pyScalarTimeScale_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyScalarTimeScale_FromScalarTimeScale(plScalarTimeScale::Convert(cre->fThis));
+    return pyScalarTimeScale_FromScalarTimeScale(plScalarTimeScale::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyScalarTimeScale_Methods[] = {

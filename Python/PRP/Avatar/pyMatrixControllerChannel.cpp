@@ -41,7 +41,7 @@ static PyObject* pyMatrixControllerChannel_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMatrixControllerChannel_FromMatrixControllerChannel(plMatrixControllerChannel::Convert(cre->fThis));
+    return pyMatrixControllerChannel_FromMatrixControllerChannel(plMatrixControllerChannel::Convert(IConvert(cre)));
 }
 
 static PyObject* pyMatrixControllerChannel_getController(pyMatrixControllerChannel* self, void*) {

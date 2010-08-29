@@ -40,7 +40,7 @@ static PyObject* pyMatrixDifferenceApp_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMatrixDifferenceApp_FromMatrixDifferenceApp(plMatrixDifferenceApp::Convert(cre->fThis));
+    return pyMatrixDifferenceApp_FromMatrixDifferenceApp(plMatrixDifferenceApp::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyMatrixDifferenceApp_Methods[] = {

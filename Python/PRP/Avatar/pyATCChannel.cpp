@@ -40,7 +40,7 @@ static PyObject* pyATCChannel_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyATCChannel_FromATCChannel(plATCChannel::Convert(cre->fThis));
+    return pyATCChannel_FromATCChannel(plATCChannel::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyATCChannel_Methods[] = {

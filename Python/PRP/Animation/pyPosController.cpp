@@ -37,7 +37,7 @@ static PyObject* pyPosController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPosController_FromPosController(plPosController::Convert(cre->fThis));
+    return pyPosController_FromPosController(plPosController::Convert(IConvert(cre)));
 }
 
 static PyObject* pyPosController_getType(pyPosController* self, void*) {

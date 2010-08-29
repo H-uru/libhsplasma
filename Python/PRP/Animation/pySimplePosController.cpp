@@ -47,7 +47,7 @@ static PyObject* pySimplePosController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySimplePosController_FromSimplePosController(plSimplePosController::Convert(cre->fThis));
+    return pySimplePosController_FromSimplePosController(plSimplePosController::Convert(IConvert(cre)));
 }
 
 static PyObject* pySimplePosController_getPosition(pySimplePosController* self, void*) {

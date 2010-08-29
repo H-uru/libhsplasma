@@ -36,7 +36,7 @@ static PyObject* pyController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyController_FromController(plController::Convert(cre->fThis));
+    return pyController_FromController(plController::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyController_Methods[] = {

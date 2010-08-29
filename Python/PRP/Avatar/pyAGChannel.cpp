@@ -36,7 +36,7 @@ static PyObject* pyAGChannel_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAGChannel_FromAGChannel(plAGChannel::Convert(cre->fThis));
+    return pyAGChannel_FromAGChannel(plAGChannel::Convert(IConvert(cre)));
 }
 
 static PyObject* pyAGChannel_getName(pyAGChannel* self, void*) {

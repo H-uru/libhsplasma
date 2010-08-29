@@ -40,7 +40,7 @@ static PyObject* pyLightAmbientApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLightAmbientApplicator_FromLightAmbientApplicator(plLightAmbientApplicator::Convert(cre->fThis));
+    return pyLightAmbientApplicator_FromLightAmbientApplicator(plLightAmbientApplicator::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyLightAmbientApplicator_Methods[] = {

@@ -40,7 +40,7 @@ static PyObject* pyQuatChannelApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyQuatChannelApplicator_FromQuatChannelApplicator(plQuatChannelApplicator::Convert(cre->fThis));
+    return pyQuatChannelApplicator_FromQuatChannelApplicator(plQuatChannelApplicator::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyQuatChannelApplicator_Methods[] = {

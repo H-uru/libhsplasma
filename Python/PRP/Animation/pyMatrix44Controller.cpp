@@ -46,7 +46,7 @@ static PyObject* pyMatrix44Controller_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMatrix44Controller_FromMatrix44Controller(plMatrix44Controller::Convert(cre->fThis));
+    return pyMatrix44Controller_FromMatrix44Controller(plMatrix44Controller::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyMatrix44Controller_Methods[] = {

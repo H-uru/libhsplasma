@@ -40,7 +40,7 @@ static PyObject* pyPointChannel_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPointChannel_FromPointChannel(plPointChannel::Convert(cre->fThis));
+    return pyPointChannel_FromPointChannel(plPointChannel::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyPointChannel_Methods[] = {

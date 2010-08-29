@@ -40,7 +40,7 @@ static PyObject* pyOmniApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyOmniApplicator_FromOmniApplicator(plOmniApplicator::Convert(cre->fThis));
+    return pyOmniApplicator_FromOmniApplicator(plOmniApplicator::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyOmniApplicator_Methods[] = {

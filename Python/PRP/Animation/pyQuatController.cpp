@@ -46,7 +46,7 @@ static PyObject* pyQuatController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyQuatController_FromQuatController(plQuatController::Convert(cre->fThis));
+    return pyQuatController_FromQuatController(plQuatController::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyQuatController_Methods[] = {

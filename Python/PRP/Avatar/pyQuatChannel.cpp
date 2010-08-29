@@ -41,7 +41,7 @@ static PyObject* pyQuatChannel_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyQuatChannel_FromQuatChannel(plQuatChannel::Convert(cre->fThis));
+    return pyQuatChannel_FromQuatChannel(plQuatChannel::Convert(IConvert(cre)));
 }
 
 static PyObject* pyQuatChannel_getResult(pyQuatChannel* self, void*) {

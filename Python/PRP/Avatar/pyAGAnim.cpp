@@ -42,7 +42,7 @@ static PyObject* pyAGAnim_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAGAnim_FromAGAnim(plAGAnim::Convert(cre->fThis));
+    return pyAGAnim_FromAGAnim(plAGAnim::Convert(IConvert(cre)));
 }
 
 static PyObject* pyAGAnim_clearApps(pyAGAnim* self) {

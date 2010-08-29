@@ -40,7 +40,7 @@ static PyObject* pyAGAnimBink_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAGAnimBink_FromAGAnimBink(plAGAnimBink::Convert(cre->fThis));
+    return pyAGAnimBink_FromAGAnimBink(plAGAnimBink::Convert(IConvert(cre)));
 }
 
 static PyObject* pyAGAnimBink_getBinkFilename(pyAGAnimBink* self, void*) {

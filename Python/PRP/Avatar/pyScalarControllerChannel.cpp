@@ -41,7 +41,7 @@ static PyObject* pyScalarControllerChannel_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyScalarControllerChannel_FromScalarControllerChannel(plScalarControllerChannel::Convert(cre->fThis));
+    return pyScalarControllerChannel_FromScalarControllerChannel(plScalarControllerChannel::Convert(IConvert(cre)));
 }
 
 static PyObject* pyScalarControllerChannel_getController(pyScalarControllerChannel* self, void*) {

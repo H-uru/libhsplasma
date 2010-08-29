@@ -40,7 +40,7 @@ static PyObject* pySoundVolumeApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySoundVolumeApplicator_FromSoundVolumeApplicator(plSoundVolumeApplicator::Convert(cre->fThis));
+    return pySoundVolumeApplicator_FromSoundVolumeApplicator(plSoundVolumeApplicator::Convert(IConvert(cre)));
 }
 
 static PyObject* pySoundVolumeApplicator_getIndex(pySoundVolumeApplicator* self, void*) {

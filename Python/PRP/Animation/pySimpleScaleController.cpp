@@ -47,7 +47,7 @@ static PyObject* pySimpleScaleController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySimpleScaleController_FromSimpleScaleController(plSimpleScaleController::Convert(cre->fThis));
+    return pySimpleScaleController_FromSimpleScaleController(plSimpleScaleController::Convert(IConvert(cre)));
 }
 
 static PyObject* pySimpleScaleController_getValue(pySimpleScaleController* self, void*) {

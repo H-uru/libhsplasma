@@ -37,7 +37,7 @@ static PyObject* pyAGApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAGApplicator_FromAGApplicator(plAGApplicator::Convert(cre->fThis));
+    return pyAGApplicator_FromAGApplicator(plAGApplicator::Convert(IConvert(cre)));
 }
 
 static PyObject* pyAGApplicator_getChannel(pyAGApplicator* self, void*) {

@@ -46,7 +46,7 @@ static PyObject* pyScaleValueController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyScaleValueController_FromScaleValueController(plScaleValueController::Convert(cre->fThis));
+    return pyScaleValueController_FromScaleValueController(plScaleValueController::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyScaleValueController_Methods[] = {

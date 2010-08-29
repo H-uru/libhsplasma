@@ -40,7 +40,7 @@ static PyObject* pyScalarSDLChannel_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyScalarSDLChannel_FromScalarSDLChannel(plScalarSDLChannel::Convert(cre->fThis));
+    return pyScalarSDLChannel_FromScalarSDLChannel(plScalarSDLChannel::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyScalarSDLChannel_Methods[] = {

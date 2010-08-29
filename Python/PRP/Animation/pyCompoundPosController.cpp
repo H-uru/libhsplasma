@@ -47,7 +47,7 @@ static PyObject* pyCompoundPosController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyCompoundPosController_FromCompoundPosController(plCompoundPosController::Convert(cre->fThis));
+    return pyCompoundPosController_FromCompoundPosController(plCompoundPosController::Convert(IConvert(cre)));
 }
 
 static PyObject* pyCompoundPosController_getX(pyCompoundPosController* self, void*) {

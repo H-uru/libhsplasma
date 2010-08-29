@@ -42,7 +42,7 @@ static PyObject* pyAnimTimeConvert_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAnimTimeConvert_FromAnimTimeConvert(plAnimTimeConvert::Convert(cre->fThis));
+    return pyAnimTimeConvert_FromAnimTimeConvert(plAnimTimeConvert::Convert(IConvert(cre)));
 }
 
 static PyObject* pyAnimTimeConvert_addCallback(pyAnimTimeConvert* self, PyObject* args) {

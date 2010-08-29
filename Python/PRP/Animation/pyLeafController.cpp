@@ -48,7 +48,7 @@ static PyObject* pyLeafController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyLeafController_FromLeafController(plLeafController::Convert(cre->fThis));
+    return pyLeafController_FromLeafController(plLeafController::Convert(IConvert(cre)));
 }
 
 static PyObject* pyLeafController_hasKeys(pyLeafController* self) {

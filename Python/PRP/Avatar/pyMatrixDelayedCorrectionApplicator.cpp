@@ -40,7 +40,7 @@ static PyObject* pyMatrixDelayedCorrectionApplicator_Convert(PyObject*, PyObject
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMatrixDelayedCorrectionApplicator_FromMatrixDelayedCorrectionApplicator(plMatrixDelayedCorrectionApplicator::Convert(cre->fThis));
+    return pyMatrixDelayedCorrectionApplicator_FromMatrixDelayedCorrectionApplicator(plMatrixDelayedCorrectionApplicator::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyMatrixDelayedCorrectionApplicator_Methods[] = {

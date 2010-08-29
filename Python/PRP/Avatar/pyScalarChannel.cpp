@@ -40,7 +40,7 @@ static PyObject* pyScalarChannel_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyScalarChannel_FromScalarChannel(plScalarChannel::Convert(cre->fThis));
+    return pyScalarChannel_FromScalarChannel(plScalarChannel::Convert(IConvert(cre)));
 }
 
 static PyObject* pyScalarChannel_getResult(pyScalarChannel* self, void*) {

@@ -42,7 +42,7 @@ static PyObject* pyMultistageBehMod_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod::Convert(cre->fThis));
+    return pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod::Convert(IConvert(cre)));
 }
 
 static PyObject* pyMultistageBehMod_addStage(pyMultistageBehMod* self, PyObject* args) {

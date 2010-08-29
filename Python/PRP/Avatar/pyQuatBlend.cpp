@@ -40,7 +40,7 @@ static PyObject* pyQuatBlend_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyQuatBlend_FromQuatBlend(plQuatBlend::Convert(cre->fThis));
+    return pyQuatBlend_FromQuatBlend(plQuatBlend::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyQuatBlend_Methods[] = {

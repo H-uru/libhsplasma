@@ -40,7 +40,7 @@ static PyObject* pyQuatConstant_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyQuatConstant_FromQuatConstant(plQuatConstant::Convert(cre->fThis));
+    return pyQuatConstant_FromQuatConstant(plQuatConstant::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyQuatConstant_Methods[] = {

@@ -40,7 +40,7 @@ static PyObject* pyMatrixConstant_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyMatrixConstant_FromMatrixConstant(plMatrixConstant::Convert(cre->fThis));
+    return pyMatrixConstant_FromMatrixConstant(plMatrixConstant::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyMatrixConstant_Methods[] = {

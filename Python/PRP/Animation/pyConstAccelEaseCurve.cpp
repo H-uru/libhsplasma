@@ -40,7 +40,7 @@ static PyObject* pyConstAccelEaseCurve_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyConstAccelEaseCurve_FromConstAccelEaseCurve(plConstAccelEaseCurve::Convert(cre->fThis));
+    return pyConstAccelEaseCurve_FromConstAccelEaseCurve(plConstAccelEaseCurve::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyConstAccelEaseCurve_Methods[] = {

@@ -40,7 +40,7 @@ static PyObject* pyScalarBlend_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyScalarBlend_FromScalarBlend(plScalarBlend::Convert(cre->fThis));
+    return pyScalarBlend_FromScalarBlend(plScalarBlend::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyScalarBlend_Methods[] = {

@@ -40,7 +40,7 @@ static PyObject* pyATCEaseCurve_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyATCEaseCurve_FromATCEaseCurve(plATCEaseCurve::Convert(cre->fThis));
+    return pyATCEaseCurve_FromATCEaseCurve(plATCEaseCurve::Convert(IConvert(cre)));
 }
 
 static PyObject* pyATCEaseCurve_getStartSpeed(pyATCEaseCurve* self, void*) {

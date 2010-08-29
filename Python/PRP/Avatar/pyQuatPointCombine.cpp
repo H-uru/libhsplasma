@@ -40,7 +40,7 @@ static PyObject* pyQuatPointCombine_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyQuatPointCombine_FromQuatPointCombine(plQuatPointCombine::Convert(cre->fThis));
+    return pyQuatPointCombine_FromQuatPointCombine(plQuatPointCombine::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyQuatPointCombine_Methods[] = {

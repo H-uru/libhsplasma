@@ -46,7 +46,7 @@ static PyObject* pyEaseController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyEaseController_FromEaseController(plEaseController::Convert(cre->fThis));
+    return pyEaseController_FromEaseController(plEaseController::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyEaseController_Methods[] = {

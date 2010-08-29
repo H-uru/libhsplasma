@@ -40,7 +40,7 @@ static PyObject* pyOmniCutoffApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyOmniCutoffApplicator_FromOmniCutoffApplicator(plOmniCutoffApplicator::Convert(cre->fThis));
+    return pyOmniCutoffApplicator_FromOmniCutoffApplicator(plOmniCutoffApplicator::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyOmniCutoffApplicator_Methods[] = {

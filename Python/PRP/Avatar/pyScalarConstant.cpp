@@ -40,7 +40,7 @@ static PyObject* pyScalarConstant_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyScalarConstant_FromScalarConstant(plScalarConstant::Convert(cre->fThis));
+    return pyScalarConstant_FromScalarConstant(plScalarConstant::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyScalarConstant_Methods[] = {

@@ -47,7 +47,7 @@ static PyObject* pyCompoundRotController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyCompoundRotController_FromCompoundRotController(plCompoundRotController::Convert(cre->fThis));
+    return pyCompoundRotController_FromCompoundRotController(plCompoundRotController::Convert(IConvert(cre)));
 }
 
 static PyObject* pyCompoundRotController_getX(pyCompoundRotController* self, void*) {

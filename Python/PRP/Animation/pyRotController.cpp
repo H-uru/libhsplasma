@@ -37,7 +37,7 @@ static PyObject* pyRotController_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyRotController_FromRotController(plRotController::Convert(cre->fThis));
+    return pyRotController_FromRotController(plRotController::Convert(IConvert(cre)));
 }
 
 static PyObject* pyRotController_getType(pyRotController* self, void*) {

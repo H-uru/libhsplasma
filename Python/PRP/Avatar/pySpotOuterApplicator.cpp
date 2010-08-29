@@ -40,7 +40,7 @@ static PyObject* pySpotOuterApplicator_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySpotOuterApplicator_FromSpotOuterApplicator(plSpotOuterApplicator::Convert(cre->fThis));
+    return pySpotOuterApplicator_FromSpotOuterApplicator(plSpotOuterApplicator::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pySpotOuterApplicator_Methods[] = {

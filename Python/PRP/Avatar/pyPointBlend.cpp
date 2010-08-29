@@ -40,7 +40,7 @@ static PyObject* pyPointBlend_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPointBlend_FromPointBlend(plPointBlend::Convert(cre->fThis));
+    return pyPointBlend_FromPointBlend(plPointBlend::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyPointBlend_Methods[] = {

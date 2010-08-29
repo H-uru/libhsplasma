@@ -46,7 +46,7 @@ static PyObject* pyAnimStage_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyAnimStage_FromAnimStage(plAnimStage::Convert(cre->fThis));
+    return pyAnimStage_FromAnimStage(plAnimStage::Convert(IConvert(cre)));
 }
 
 static PyObject* pyAnimStage_getForwardType(pyAnimStage* self, void*) {

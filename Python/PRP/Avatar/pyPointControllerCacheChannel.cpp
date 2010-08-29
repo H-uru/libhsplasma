@@ -40,7 +40,7 @@ static PyObject* pyPointControllerCacheChannel_Convert(PyObject*, PyObject* args
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyPointControllerCacheChannel_FromPointControllerCacheChannel(plPointControllerCacheChannel::Convert(cre->fThis));
+    return pyPointControllerCacheChannel_FromPointControllerCacheChannel(plPointControllerCacheChannel::Convert(IConvert(cre)));
 }
 
 static PyMethodDef pyPointControllerCacheChannel_Methods[] = {

@@ -40,7 +40,7 @@ static PyObject* pySplineEaseCurve_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pySplineEaseCurve_FromSplineEaseCurve(plSplineEaseCurve::Convert(cre->fThis));
+    return pySplineEaseCurve_FromSplineEaseCurve(plSplineEaseCurve::Convert(IConvert(cre)));
 }
 
 static PyObject* pySplineEaseCurve_getSplineCoef(pySplineEaseCurve* self, void*) {

@@ -41,7 +41,7 @@ static PyObject* pyATCAnim_Convert(PyObject*, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
         return NULL;
     }
-    return pyATCAnim_FromATCAnim(plATCAnim::Convert(cre->fThis));
+    return pyATCAnim_FromATCAnim(plATCAnim::Convert(IConvert(cre)));
 }
 
 static PyObject* pyATCAnim_clearMarkers(pyATCAnim* self) {
