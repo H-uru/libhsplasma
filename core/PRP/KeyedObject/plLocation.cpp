@@ -66,16 +66,16 @@ void plLocation::parse(unsigned int id) {
 
     fState = kStateNormal;
     if ((id & 0x80000000) != 0) {
-        id -= (fVer.isMoul() ? 0xFF000001 : 0xFFFF0001);
-        fSeqPrefix = id >> (fVer.isMoul() ? 16 : 8);
-        fPageNum = id - (fSeqPrefix << (fVer.isMoul() ? 16 : 8));
+        id -= (fVer.isLive() ? 0xFF000001 : 0xFFFF0001);
+        fSeqPrefix = id >> (fVer.isLive() ? 16 : 8);
+        fPageNum = id - (fSeqPrefix << (fVer.isLive() ? 16 : 8));
         fSeqPrefix = -fSeqPrefix;
     } else {
         id -= 33;
-        fSeqPrefix = id >> (fVer.isMoul() ? 16 : 8);
-        fPageNum = id - (fSeqPrefix << (fVer.isMoul() ? 16 : 8));
+        fSeqPrefix = id >> (fVer.isLive() ? 16 : 8);
+        fPageNum = id - (fSeqPrefix << (fVer.isLive() ? 16 : 8));
     }
-    if (fVer.isMoul())
+    if (fVer.isLive())
         fPageNum = (signed short)(unsigned short)fPageNum;
     else
         fPageNum = (signed char)(unsigned char)fPageNum;
@@ -90,15 +90,15 @@ unsigned int plLocation::unparse() const {
         throw hsBadParamException(__FILE__, __LINE__, "Universal PRPs don't use encoded locations");
 
     int pgNum;
-    if (fVer.isMoul())
+    if (fVer.isLive())
         pgNum = (unsigned short)(signed short)fPageNum;
     else
         pgNum = (unsigned char)(signed char)fPageNum;
     if (fSeqPrefix < 0) {
-        return pgNum - (fSeqPrefix << (fVer.isMoul() ? 16 : 8))
-                     + (fVer.isMoul() ? 0xFF000001 : 0xFFFF0001);
+        return pgNum - (fSeqPrefix << (fVer.isLive() ? 16 : 8))
+                     + (fVer.isLive() ? 0xFF000001 : 0xFFFF0001);
     } else {
-        return pgNum + (fSeqPrefix << (fVer.isMoul() ? 16 : 8)) + 33;
+        return pgNum + (fSeqPrefix << (fVer.isLive() ? 16 : 8)) + 33;
     }
 }
 

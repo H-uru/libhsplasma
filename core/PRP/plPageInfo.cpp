@@ -71,11 +71,14 @@ void plPageInfo::read(hsStream* S) {
     }
 
     if (prpVer >= 1) {
-        fLocation.read(S);
+        int location = S->readInt();
+        short locflags = (S->getVer().isNewPlasma() ?
+                S->readByte() :
+                S->readShort());
 
         fAge = S->readSafeStr();
         if (fAge.empty()) {
-            fLocation.setFlags(0);
+            locflags = 0;
             S->skip(-4);
             fAge = S->readSafeStr();
         }
@@ -100,6 +103,10 @@ void plPageInfo::read(hsStream* S) {
         if (S->getVer().isUniversal()) {
             fFlags = S->readInt();
         }
+
+        fLocation.setVer(S->getVer());
+        fLocation.parse(location);
+        fLocation.setFlags(locflags);
     }
     if (prpVer >= 4 || S->getVer().isUniversal())
         fChecksum = S->readInt();

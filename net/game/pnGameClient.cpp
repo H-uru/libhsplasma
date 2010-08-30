@@ -52,7 +52,7 @@ void pnGameClient::Dispatch::run()
             break;
         case kGame2Cli_PropagateBuffer:
             {
-                hsRAMStream rs(pvLive);
+                hsRAMStream rs(PlasmaVer::pvMoul);
                 rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
                 fReceiver->fResMgr->lock();
                 plCreatable* pCre = NULL;
@@ -70,8 +70,8 @@ void pnGameClient::Dispatch::run()
                         delete pCre;
                 } else {
                     plDebug::Error("Ignored propagated message [%04X]%s",
-                                   pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, pvLive),
-                                   pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, pvLive));
+                                   pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, PlasmaVer::pvMoul),
+                                   pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, PlasmaVer::pvMoul));
                 }
             }
             break;
@@ -252,8 +252,8 @@ void pnGameClient::propagateMessage(plCreatable* pCre)
 {
     const pnNetMsg* desc = GET_Cli2Game(kCli2Game_PropagateBuffer);
     msgparm_t* msg = NCAllocMessage(desc);
-    msg[0].fUint = pCre->ClassIndex(pvLive);
-    hsRAMStream rs(pvLive);
+    msg[0].fUint = pCre->ClassIndex(PlasmaVer::pvMoul);
+    hsRAMStream rs(PlasmaVer::pvMoul);
     fResMgr->lock();
     fResMgr->WriteCreatable(&rs, pCre);
     fResMgr->unlock();

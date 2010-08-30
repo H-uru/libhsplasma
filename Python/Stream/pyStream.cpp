@@ -28,7 +28,7 @@ static void pyStream_dealloc(pyStream* self) {
 static int pyStream___init__(pyStream* self, PyObject* args, PyObject* kwds) {
     static char* kwlist[] = { "ver", NULL };
 
-    int ver = pvUnknown;
+    int ver = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|i", kwlist, &ver))
         return -1;
 

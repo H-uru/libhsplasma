@@ -49,13 +49,13 @@ static PyObject* pyFactory_Create(PyObject*, PyObject* args) {
 */
 
 static PyObject* pyFactory_ClassName(PyObject*, PyObject* args) {
-    int classIdx, version = pvUnknown;
+    int classIdx, version = PlasmaVer::pvUnknown;
 
     if (!PyArg_ParseTuple(args, "i|i", &classIdx, &version)) {
         PyErr_SetString(PyExc_TypeError, "ClassName expects int, int");
         return NULL;
     }
-    if (version == pvUnknown)
+    if (version == PlasmaVer::pvUnknown)
         return PyString_FromString(plFactory::ClassName(classIdx));
     else
         return PyString_FromString(plFactory::ClassName(classIdx, (PlasmaVer)version));

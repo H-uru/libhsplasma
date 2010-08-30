@@ -27,7 +27,7 @@ static void pyEncryptedStream_dealloc(pyEncryptedStream* self) {
 
 static PyObject* pyEncryptedStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyEncryptedStream* self = (pyEncryptedStream*)type->tp_alloc(type, 0);
-    int version = pvUnknown;
+    int version = PlasmaVer::pvUnknown;
     PyArg_ParseTuple(args, "|i", &version);
     if (self != NULL)
         self->fThis = new plEncryptedStream((PlasmaVer)version);

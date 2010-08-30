@@ -27,7 +27,7 @@ static void pyLocation_dealloc(pyLocation* self) {
 }
 
 static int pyLocation___init__(pyLocation* self, PyObject* args, PyObject* kwds) {
-    int version = pvUnknown;
+    int version = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTuple(args, "|i", &version))
         return -1;
 
@@ -196,7 +196,7 @@ static PyObject* pyLocation_getFlags(pyLocation* self, void*) {
 
 static int pyLocation_setVer(pyLocation* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->setVer(pvUnknown);
+        self->fThis->setVer(PlasmaVer::pvUnknown);
     } else {
         if (!PyInt_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "version must be an int");
