@@ -46,6 +46,8 @@ void plPageInfo::read(hsStream* S) {
         S->setVer(PlasmaVer::pvUniversal);
     else if (prpVer == 9)
         S->setVer(PlasmaVer::pvHex);
+    else if (prpVer == 2)
+        S->setVer(MAKE_VERSION(2, 0, 56, 0));
     else
         S->setVer(PlasmaVer::pvPrime);
 
