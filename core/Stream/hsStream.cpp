@@ -107,14 +107,16 @@ plString hsStream::readStr(size_t len) {
 plString hsStream::readSafeStr() {
     char* buf;
     hsUint16 ssInfo = readShort();
-    if (ssInfo == 0)
-        return plString();
 
     if (ver.isUniversal()) {
+        if (ssInfo == 0)
+            return plString();
         buf = new char[ssInfo+1];
         read(ssInfo, buf);
         buf[ssInfo] = 0;
     } else if (ver.isNewPlasma()) {
+        if (ssInfo == 0)
+            return plString();
         buf = new char[ssInfo+1];
         read(ssInfo, buf);
         for (size_t i=0; i<ssInfo; i++)
@@ -123,6 +125,8 @@ plString hsStream::readSafeStr() {
     } else {
         if (!(ssInfo & 0xF000)) readShort(); // Discarded
         hsUint16 size = (ssInfo & 0x0FFF);
+        if (size == 0)
+            return plString();
         buf = new char[size+1];
         read(size, buf);
         if ((size > 0) && (buf[0] & 0x80)) {
