@@ -1,5 +1,10 @@
 find_package(PythonLibs REQUIRED)
 
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS "-Wall -Wno-write-strings ${CMAKE_CXX_FLAGS}")
+  set(CMAKE_C_FLAGS "-Wall -Wno-write-strings ${CMAKE_C_FLAGS}")
+endif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+
 include_directories(${PLASMA_SOURCE_DIR}/core)
 include_directories(${PYTHON_INCLUDE_PATH})
 include_directories(./)
