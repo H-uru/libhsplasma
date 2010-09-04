@@ -121,8 +121,8 @@ void plPageInfo::read(hsStream* S) {
     if (S->getVer().isMoul()) {
         unsigned short numTypes = S->readShort();
         for (unsigned short i = 0; i < numTypes; i++) {
-            short type = S->readShort();
-            short ver = S->readShort();
+            /*short type = */S->readShort();
+            /*short ver = */S->readShort();
             /* I don't think we have a types file for MOUL, so ignore this part for now */
             /*if (pdUnifiedTypeMap::ClassVersion(type, S->getVer()) != ver) {
                 plDebug::Warning("Warning: Class %s expected version %d, got %d",

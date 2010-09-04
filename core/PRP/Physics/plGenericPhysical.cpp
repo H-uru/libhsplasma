@@ -27,9 +27,9 @@ plGenericPhysical::plGenericPhysical()
                    fMass(0.0f), fFriction(0.0f), fRestitution(0.0f),
                    fBounds(plSimDefs::kBoxBounds),
                    fMemberGroup(plSimDefs::kGroupStatic),
-                   fCollideGroup(0), fReportGroup(0), fLOSDBs(0),
-                   fRadius(0.0f), fLength(0.0f), fDisableReport(false),
-                   fDisableCollide(false), fTMDSize(0), fTMDBuffer(NULL) {
+                   fCollideGroup(0), fReportGroup(0),
+                   fDisableReport(false), fDisableCollide(false), fLOSDBs(0),
+                   fRadius(0.0f), fLength(0.0f), fTMDSize(0), fTMDBuffer(NULL) {
     fProps.setName(plSimulationInterface::kDisable, "kDisable");
     fProps.setName(plSimulationInterface::kWeightless, "kWeightless");
     fProps.setName(plSimulationInterface::kPinned, "kPinned");
@@ -119,11 +119,11 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
            groups += plSimDefs::GroupNames[i];
            groups += " ";
         }
-        if ((fReportGroup & (1 << i)) == (1 << i)) {
+        if ((fReportGroup & (1u << i)) == (1u << i)) {
            reports += plSimDefs::GroupNames[i];
            reports += " ";
         }
-        if ((fCollideGroup & (1 << i)) == (1 << i)) {
+        if ((fCollideGroup & (1u << i)) == (1u << i)) {
            collides += plSimDefs::GroupNames[i];
            collides += " ";
         }
@@ -415,17 +415,17 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     // now compare
     if (memGroup != hMemberGroup) {
         showLOSDB = true;
-        plDebug::Error("%s memGroup changed: 0x%08X => 0x%08X",
+        plDebug::Warning("%s memGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hMemberGroup, memGroup);
     }
     if (repGroup != hReportGroup) {
         showLOSDB = true;
-        plDebug::Error("%s repGroup changed: 0x%08X => 0x%08X",
+        plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hReportGroup, repGroup);
     }
     if (colGroup != hCollideGroup) {
         showLOSDB = true;
-        plDebug::Error("%s colGroup changed: 0x%08X => 0x%08X",
+        plDebug::Warning("%s colGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hCollideGroup, colGroup);
     }
     if (showLOSDB) {

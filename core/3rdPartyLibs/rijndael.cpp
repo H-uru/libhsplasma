@@ -40,6 +40,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#pragma GCC diagnostic ignored "-Wmissing-braces" // this warning appears several 100 times...
+
 
 static UINT8 S[256]=
 {

@@ -92,7 +92,7 @@ public:
         unsigned int retGroup = 0;
 
         for (size_t i=0; i<kGroupMax; i++) {
-            if ((group & (1 << i)) == (1 << i)) {
+            if ((group & (1u << i)) == (1u << i)) {
                 retGroup |= (1 << fromGroup(i));
             }
         }
@@ -104,7 +104,7 @@ public:
         unsigned int retGroup = 0;
 
         for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
-            if ((group & (1 << i)) == (1 << i)) {
+            if ((group & (1u << i)) == (1u << i)) {
                 retGroup |= (1 << toGroup(i,0));
             }
         }
