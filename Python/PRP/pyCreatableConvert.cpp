@@ -557,5 +557,8 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyParticleBulletEffect_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plParticleBulletEffect*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCameraBrain_Ground_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain_Ground*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCameraBrain_Flight_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain_Flight*>(pCre->fThis));
+
+    else if (Py_TYPE(pCre) == &pyKeyedObjectStub_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<hsKeyedObjectStub*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyCreatableStub_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCreatableStub*>(pCre->fThis));
     else return pCre->fThis;
 }
