@@ -147,7 +147,7 @@ static PyObject* pyResManager_countKeys(pyResManager* self, PyObject* args) {
 
 static PyObject* pyResManager_ReadPage(pyResManager* self, PyObject* args) {
     const char* filename;
-    int stub;
+    int stub = false;
     if (!PyArg_ParseTuple(args, "s|i", &filename, &stub)) {
         PyErr_SetString(PyExc_TypeError, "ReadPage expects a string");
         return NULL;
