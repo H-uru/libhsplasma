@@ -16,6 +16,8 @@
 
 #include <PyPlasma.h>
 #include <PRP/KeyedObject/plKey.h>
+#include <PRP/KeyedObject/hsKeyedObject.h>
+#include "PRP/pyCreatable.h"
 #include "pyKey.h"
 #include "pyKeyedObject.h"
 #include "Stream/pyStream.h"
@@ -180,7 +182,7 @@ static PyObject* pyKey_getID(pyKey* self, void* closure) {
 }
 
 static PyObject* pyKey_getObj(pyKey* self, void* closure) {
-    return pyKeyedObject_FromKeyedObject((*self->fThis)->getObj());
+    return ICreate(dynamic_cast<plCreatable *>((*self->fThis)->getObj()));
 }
 
 static int pyKey_setType(pyKey* self, PyObject* value, void* closure) {

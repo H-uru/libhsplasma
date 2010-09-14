@@ -16,6 +16,8 @@
 
 #include <PyPlasma.h>
 #include <ResManager/plResManager.h>
+#include <PRP/KeyedObject/hsKeyedObject.h>
+#include <PRP/plCreatable.h>
 #include "pyResManager.h"
 #include "Stream/pyStream.h"
 #include "PRP/pyCreatable.h"
@@ -129,7 +131,7 @@ static PyObject* pyResManager_getObject(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getObject expects a plKey");
         return NULL;
     }
-    return pyKeyedObject_FromKeyedObject(self->fThis->getObject(*(key->fThis)));
+    return ICreate(dynamic_cast<plCreatable*>(self->fThis->getObject(*(key->fThis))));
 }
 
 static PyObject* pyResManager_countKeys(pyResManager* self, PyObject* args) {
@@ -305,7 +307,7 @@ static PyObject* pyResManager_ReadCreatable(pyResManager* self, PyObject* args) 
         PyErr_SetString(PyExc_TypeError, "ReadCreatable expects an hsStream");
         return NULL;
     }
-    return pyCreatable_FromCreatable(self->fThis->ReadCreatable(stream->fThis));
+    return ICreate(self->fThis->ReadCreatable(stream->fThis));
 }
 
 static PyObject* pyResManager_ReadCreatableStub(pyResManager* self, PyObject* args) {
@@ -319,7 +321,7 @@ static PyObject* pyResManager_ReadCreatableStub(pyResManager* self, PyObject* ar
         PyErr_SetString(PyExc_TypeError, "ReadCreatable expects hsStream, int");
         return NULL;
     }
-    return pyCreatable_FromCreatable(self->fThis->ReadCreatable(stream->fThis, true, (size_t)size));
+    return ICreate(self->fThis->ReadCreatable(stream->fThis, true, (size_t)size));
 }
 
 static PyObject* pyResManager_WriteCreatable(pyResManager* self, PyObject* args) {

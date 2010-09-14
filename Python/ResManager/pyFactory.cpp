@@ -25,29 +25,6 @@ static PyObject* pyFactory_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     return NULL;
 }
 
-/*
-static PyObject* pyFactory_Create(PyObject*, PyObject* args) {
-    int classIdx, version = pvUnknown;
-    const char* className;
-
-    if (PyArg_ParseTuple(args, "i|i", &classIdx, &version)) {
-        plCreatable* pCre = NULL;
-        if (version == pvUnknown)
-            pCre = plFactory::Create(classIdx);
-        else
-            pCre = plFactory::Create(classIdx, (PlasmaVer)version);
-        return pyCreatable_FromCreatable(pCre);
-    } else if (PyArg_ParseTuple(args, "s", className)) {
-        PyErr_Clear();
-        plCreatable* pCre = plFactory::Create(className);
-        return pyCreatable_FromCreatable(pCre);
-    } else {
-        PyErr_SetString(PyExc_TypeError, "Create expects int, int OR string");
-        return NULL;
-    }
-}
-*/
-
 static PyObject* pyFactory_ClassName(PyObject*, PyObject* args) {
     int classIdx, version = PlasmaVer::pvUnknown;
 
