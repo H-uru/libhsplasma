@@ -44,5 +44,6 @@ PyObject* pyCreatableStub_FromCreatableStub(const class plCreatableStub* obj);
 };
 
 class plCreatable* IConvert(pyCreatable* pCre);
+PyObject* ICreate(plCreatable* pCre);
 
 #endif

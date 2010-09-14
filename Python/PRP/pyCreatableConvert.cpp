@@ -17,8 +17,9 @@
 #include <PyPlasma.h>
 #include "pyCreatable.h"
 #include <ResManager/plFactory.h>
+#include <typeinfo>
 
-// Includes for all KeyedObject types
+// Includes for all plCreatable types
 #include "PRP/plSceneNode.h"
 #include "PRP/Animation/plBlower.h"
 #include "PRP/Animation/plFilterCoordInterface.h"
@@ -84,7 +85,30 @@
 #include "PRP/Light/plOmniLightInfo.h"
 #include "PRP/Light/plShadowMaster.h"
 #include "PRP/Light/plShadowCaster.h"
+#include "PRP/Message/plAnimCmdMsg.h"
+#include "PRP/Message/plArmatureEffectMsg.h"
+#include "PRP/Message/plAvatarInputStateMsg.h"
+#include "PRP/Message/plAvatarMsg.h"
+#include "PRP/Message/plAvSeekMsg.h"
+#include "PRP/Message/plAvTaskMsg.h"
+#include "PRP/Message/plClimbMsg.h"
+#include "PRP/Message/plEnableMsg.h"
+#include "PRP/Message/plExcludeRegionMsg.h"
+#include "PRP/Message/plInputIfaceMgrMsg.h"
+#include "PRP/Message/pfKIMsg.h"
+#include "PRP/Message/plLinkToAgeMsg.h"
+#include "PRP/Message/plLinkEffectsTriggerMsg.h"
+#include "PRP/Message/plLoadAvatarMsg.h"
+#include "PRP/Message/plLoadCloneMsg.h"
 #include "PRP/Message/plMsgForwarder.h"
+#include "PRP/Message/plResponderMsg.h"
+#include "PRP/Message/plRideAnimatedPhysMsg.h"
+#include "PRP/Message/plServerReplyMsg.h"
+#include "PRP/Message/plSimulationMsg.h"
+#include "PRP/Message/plSoundMsg.h"
+#include "PRP/Message/plSwimMsg.h"
+#include "PRP/Message/plTimerCallbackMsg.h"
+#include "PRP/Message/plTransitionMsg.h"
 #include "PRP/Misc/plFogEnvironment.h"
 #include "PRP/Modifier/plAliasModifier.h"
 #include "PRP/Modifier/plAnimEventModifier.h"
@@ -164,12 +188,14 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
+#include "PRP/Message/pyEventCallbackMsg.h"
+#include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
+#include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
-#include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyOneShotMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
@@ -561,4 +587,148 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyKeyedObjectStub_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<hsKeyedObjectStub*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyCreatableStub_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCreatableStub*>(pCre->fThis));
     else return pCre->fThis;
+}
+
+PyObject* ICreate(plCreatable* pCre)
+{
+    if ((typeid(*pCre)) == typeid(hsKeyedObjectStub)) return pyKeyedObjectStub_FromKeyedObjectStub(dynamic_cast<hsKeyedObjectStub*>(pCre));
+    if ((typeid(*pCre)) == typeid(plCreatableStub)) return pyCreatableStub_FromCreatableStub(dynamic_cast<plCreatableStub*>(pCre));
+    switch (pCre->ClassIndex()) {
+        case kKeyedObject: return pyKeyedObject_FromKeyedObject(hsKeyedObject::Convert(pCre));
+        case kSceneNode: return pySceneNode_FromSceneNode(plSceneNode::Convert(pCre));
+        case kSynchedObject: return pySynchedObject_FromSynchedObject(plSynchedObject::Convert(pCre));
+        case kSceneObject: return pySceneObject_FromSceneObject(plSceneObject::Convert(pCre));
+        case kObjInterface: return pyObjInterface_FromObjInterface(plObjInterface::Convert(pCre));
+        case kAudioInterface: return pyAudioInterface_FromAudioInterface(plAudioInterface::Convert(pCre));
+        case kCoordinateInterface: return pyCoordinateInterface_FromCoordinateInterface(plCoordinateInterface::Convert(pCre));
+        case kDrawInterface: return pyDrawInterface_FromDrawInterface(plDrawInterface::Convert(pCre));
+        case kSimulationInterface: return pySimulationInterface_FromSimulationInterface(plSimulationInterface::Convert(pCre));
+        case kDrawable: return pyDrawable_FromDrawable(plDrawable::Convert(pCre));
+        case kDrawableSpans: return pyDrawableSpans_FromDrawableSpans(plDrawableSpans::Convert(pCre));
+        case kGMaterial: return pyGMaterial_FromGMaterial(hsGMaterial::Convert(pCre));
+        case kLayerInterface: return pyLayerInterface_FromLayerInterface(plLayerInterface::Convert(pCre));
+        case kLayer: return pyLayer_FromLayer(plLayer::Convert(pCre));
+        case kLayerDepth: return pyLayerDepth_FromLayerDepth(plLayerDepth::Convert(pCre));
+        case kShader: return pyShader_FromShader(plShader::Convert(pCre));
+        case kBitmap: return pyBitmap_FromBitmap(plBitmap::Convert(pCre));
+        case kMipmap: return pyMipmap_FromMipmap(plMipmap::Convert(pCre));
+        case kLightInfo: return pyLightInfo_FromLightInfo(plLightInfo::Convert(pCre));
+        case kDirectionalLightInfo: return pyDirectionalLightInfo_FromDirectionalLightInfo(plDirectionalLightInfo::Convert(pCre));
+        case kLimitedDirLightInfo: return pyLimitedDirLightInfo_FromLimitedDirLightInfo(plLimitedDirLightInfo::Convert(pCre));
+        case kOmniLightInfo: return pyOmniLightInfo_FromOmniLightInfo(plOmniLightInfo::Convert(pCre));
+        case kSpotLightInfo: return pySpotLightInfo_FromSpotLightInfo(plSpotLightInfo::Convert(pCre));
+        case kSoundBuffer: return pySoundBuffer_FromSoundBuffer(plSoundBuffer::Convert(pCre));
+        case kPhysical: return pyPhysical_FromPhysical(plPhysical::Convert(pCre));
+        case kGenericPhysical: return pyGenericPhysical_FromGenericPhysical(plGenericPhysical::Convert(pCre));
+        case kModifier: return pyModifier_FromModifier(plModifier::Convert(pCre));
+        case kSingleModifier: return pySingleModifier_FromSingleModifier(plSingleModifier::Convert(pCre));
+        case kMultiModifier: return pyMultiModifier_FromMultiModifier(plMultiModifier::Convert(pCre));
+        case kPythonFileMod: return pyPythonFileMod_FromPythonFileMod(plPythonFileMod::Convert(pCre));
+        case kSpawnModifier: return pySpawnModifier_FromSpawnModifier(plSpawnModifier::Convert(pCre));
+        case kViewFaceModifier: return pyViewFaceModifier_FromViewFaceModifier(plViewFaceModifier::Convert(pCre));
+        case kMaintainersMarkerModifier: return pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(plMaintainersMarkerModifier::Convert(pCre));
+        case kClusterGroup: return pyClusterGroup_FromClusterGroup(plClusterGroup::Convert(pCre));
+        case kLayerAnimationBase: return pyLayerAnimationBase_FromLayerAnimationBase(plLayerAnimationBase::Convert(pCre));
+        case kLayerAnimation: return pyLayerAnimation_FromLayerAnimation(plLayerAnimation::Convert(pCre));
+        case kLayerLinkAnimation: return pyLayerLinkAnimation_FromLayerLinkAnimation(plLayerLinkAnimation::Convert(pCre));
+        case kLayerSDLAnimation: return pyLayerSDLAnimation_FromLayerSDLAnimation(plLayerSDLAnimation::Convert(pCre));
+        case kLayerMovie: return pyLayerMovie_FromLayerMovie(plLayerMovie::Convert(pCre));
+        case kLayerAVI: return pyLayerAVI_FromLayerAVI(plLayerAVI::Convert(pCre));
+        case kLayerBink: return pyLayerBink_FromLayerBink(plLayerBink::Convert(pCre));
+        case kOneShotMod: return pyOneShotMod_FromOneShotMod(plOneShotMod::Convert(pCre));
+        case kResponderModifier: return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(pCre));
+        case kDynamicTextMap: return pyDynamicTextMap_FromDynamicTextMap(plDynamicTextMap::Convert(pCre));
+        case kAGAnim: return pyAGAnim_FromAGAnim(plAGAnim::Convert(pCre));
+        case kAgeGlobalAnim: return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(pCre));
+        case kATCAnim: return pyATCAnim_FromATCAnim(plATCAnim::Convert(pCre));
+        case kEmoteAnim: return pyEmoteAnim_FromEmoteAnim(plEmoteAnim::Convert(pCre));
+        case kAGAnimBink: return pyAGAnimBink_FromAGAnimBink(plAGAnimBink::Convert(pCre));
+        case kMsgForwarder: return pyMsgForwarder_FromMsgForwarder(plMsgForwarder::Convert(pCre));
+        case kOccluder: return pyOccluder_FromOccluder(plOccluder::Convert(pCre));
+        case kMobileOccluder: return pyMobileOccluder_FromMobileOccluder(plMobileOccluder::Convert(pCre));
+        case kMultistageBehMod: return pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod::Convert(pCre));
+        case kInterfaceInfoModifier: return pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModifier::Convert(pCre));
+        case kLogicModBase: return pyLogicModBase_FromLogicModBase(plLogicModBase::Convert(pCre));
+        case kLogicModifier: return pyLogicModifier_FromLogicModifier(plLogicModifier::Convert(pCre));
+        case kAudible: return pyAudible_FromAudible(plAudible::Convert(pCre));
+        case kAudibleNull: return pyAudibleNull_FromAudibleNull(plAudibleNull::Convert(pCre));
+        case kWinAudible: return pyWinAudible_FromWinAudible(plWinAudible::Convert(pCre));
+        case k2WayWinAudible: return py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible::Convert(pCre));
+        case kShadowMaster: return pyShadowMaster_FromShadowMaster(plShadowMaster::Convert(pCre));
+        case kPointShadowMaster: return pyPointShadowMaster_FromPointShadowMaster(plPointShadowMaster::Convert(pCre));
+        case kDirectShadowMaster: return pyDirectShadowMaster_FromDirectShadowMaster(plDirectShadowMaster::Convert(pCre));
+        case kSpaceTree: return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(pCre));
+        case kController: return pyController_FromController(plController::Convert(pCre));
+        case kCompoundController: return pyCompoundController_FromCompoundController(plCompoundController::Convert(pCre));
+        case kTMController: return pyTMController_FromTMController(plTMController::Convert(pCre));
+        case kPosController: return pyPosController_FromPosController(plPosController::Convert(pCre));
+        case kSimplePosController: return pySimplePosController_FromSimplePosController(plSimplePosController::Convert(pCre));
+        case kCompoundPosController: return pyCompoundPosController_FromCompoundPosController(plCompoundPosController::Convert(pCre));
+        case kRotController: return pyRotController_FromRotController(plRotController::Convert(pCre));
+        case kSimpleRotController: return pySimpleRotController_FromSimpleRotController(plSimpleRotController::Convert(pCre));
+        case kCompoundRotController: return pyCompoundRotController_FromCompoundRotController(plCompoundRotController::Convert(pCre));
+        case kScaleController: return pyScaleController_FromScaleController(plScaleController::Convert(pCre));
+        case kSimpleScaleController: return pySimpleScaleController_FromSimpleScaleController(plSimpleScaleController::Convert(pCre));
+        case kLeafController: return pyLeafController_FromLeafController(plLeafController::Convert(pCre));
+        case kEaseController: return pyEaseController_FromEaseController(plEaseController::Convert(pCre));
+        case kMatrix33Controller: return pyMatrix33Controller_FromMatrix33Controller(plMatrix33Controller::Convert(pCre));
+        case kMatrix44Controller: return pyMatrix44Controller_FromMatrix44Controller(plMatrix44Controller::Convert(pCre));
+        case kPoint3Controller: return pyPoint3Controller_FromPoint3Controller(plPoint3Controller::Convert(pCre));
+        case kQuatController: return pyQuatController_FromQuatController(plQuatController::Convert(pCre));
+        case kScalarController: return pyScalarController_FromScalarController(plScalarController::Convert(pCre));
+        case kScaleValueController: return pyScaleValueController_FromScaleValueController(plScaleValueController::Convert(pCre));
+        case kATCEaseCurve: return pyATCEaseCurve_FromATCEaseCurve(plATCEaseCurve::Convert(pCre));
+        case kSplineEaseCurve: return pySplineEaseCurve_FromSplineEaseCurve(plSplineEaseCurve::Convert(pCre));
+        case kConstAccelEaseCurve: return pyConstAccelEaseCurve_FromConstAccelEaseCurve(plConstAccelEaseCurve::Convert(pCre));
+        case kAnimTimeConvert: return pyAnimTimeConvert_FromAnimTimeConvert(plAnimTimeConvert::Convert(pCre));
+        case kMessage: return pyMessage_FromMessage(plMessage::Convert(pCre));
+        case kEventCallbackMsg: return pyEventCallbackMsg_FromEventCallbackMsg(plEventCallbackMsg::Convert(pCre));
+        case kResponderEnableMsg: return pyResponderEnableMsg_FromResponderEnableMsg(plResponderEnableMsg::Convert(pCre));
+        case kAGApplicator: return pyAGApplicator_FromAGApplicator(plAGApplicator::Convert(pCre));
+        case kAGChannel: return pyAGChannel_FromAGChannel(plAGChannel::Convert(pCre));
+        case kSoundVolumeApplicator: return pySoundVolumeApplicator_FromSoundVolumeApplicator(plSoundVolumeApplicator::Convert(pCre));
+        case kLightAmbientApplicator: return pyLightAmbientApplicator_FromLightAmbientApplicator(plLightAmbientApplicator::Convert(pCre));
+        case kLightDiffuseApplicator: return pyLightDiffuseApplicator_FromLightDiffuseApplicator(plLightDiffuseApplicator::Convert(pCre));
+        case kLightSpecularApplicator: return pyLightSpecularApplicator_FromLightSpecularApplicator(plLightSpecularApplicator::Convert(pCre));
+        case kOmniApplicator: return pyOmniApplicator_FromOmniApplicator(plOmniApplicator::Convert(pCre));
+        case kOmniCutoffApplicator: return pyOmniCutoffApplicator_FromOmniCutoffApplicator(plOmniCutoffApplicator::Convert(pCre));
+        case kOmniSqApplicator: return pyOmniSqApplicator_FromOmniSqApplicator(plOmniSqApplicator::Convert(pCre));
+        case kSpotInnerApplicator: return pySpotInnerApplicator_FromSpotInnerApplicator(plSpotInnerApplicator::Convert(pCre));
+        case kSpotOuterApplicator: return pySpotOuterApplicator_FromSpotOuterApplicator(plSpotOuterApplicator::Convert(pCre));
+        case kMatrixChannel: return pyMatrixChannel_FromMatrixChannel(plMatrixChannel::Convert(pCre));
+        case kMatrixBlend: return pyMatrixBlend_FromMatrixBlend(plMatrixBlend::Convert(pCre));
+        case kMatrixConstant: return pyMatrixConstant_FromMatrixConstant(plMatrixConstant::Convert(pCre));
+        case kMatrixControllerCacheChannel: return pyMatrixControllerCacheChannel_FromMatrixControllerCacheChannel(plMatrixControllerCacheChannel::Convert(pCre));
+        case kMatrixControllerChannel: return pyMatrixControllerChannel_FromMatrixControllerChannel(plMatrixControllerChannel::Convert(pCre));
+        case kMatrixTimeScale: return pyMatrixTimeScale_FromMatrixTimeScale(plMatrixTimeScale::Convert(pCre));
+        case kQuatPointCombine: return pyQuatPointCombine_FromQuatPointCombine(plQuatPointCombine::Convert(pCre));
+        case kMatrixChannelApplicator: return pyMatrixChannelApplicator_FromMatrixChannelApplicator(plMatrixChannelApplicator::Convert(pCre));
+        case kMatrixDelayedCorrectionApplicator: return pyMatrixDelayedCorrectionApplicator_FromMatrixDelayedCorrectionApplicator(plMatrixDelayedCorrectionApplicator::Convert(pCre));
+        case kMatrixDifferenceApp: return pyMatrixDifferenceApp_FromMatrixDifferenceApp(plMatrixDifferenceApp::Convert(pCre));
+        case kRelativeMatrixChannelApplicator: return pyRelativeMatrixChannelApplicator_FromRelativeMatrixChannelApplicator(plRelativeMatrixChannelApplicator::Convert(pCre));
+        case kPointChannel: return pyPointChannel_FromPointChannel(plPointChannel::Convert(pCre));
+        case kPointBlend: return pyPointBlend_FromPointBlend(plPointBlend::Convert(pCre));
+        case kPointConstant: return pyPointConstant_FromPointConstant(plPointConstant::Convert(pCre));
+        case kPointControllerCacheChannel: return pyPointControllerCacheChannel_FromPointControllerCacheChannel(plPointControllerCacheChannel::Convert(pCre));
+        case kPointControllerChannel: return pyPointControllerChannel_FromPointControllerChannel(plPointControllerChannel::Convert(pCre));
+        case kPointTimeScale: return pyPointTimeScale_FromPointTimeScale(plPointTimeScale::Convert(pCre));
+        case kPointChannelApplicator: return pyPointChannelApplicator_FromPointChannelApplicator(plPointChannelApplicator::Convert(pCre));
+        case kQuatChannel: return pyQuatChannel_FromQuatChannel(plQuatChannel::Convert(pCre));
+        case kQuatBlend: return pyQuatBlend_FromQuatBlend(plQuatBlend::Convert(pCre));
+        case kQuatConstant: return pyQuatConstant_FromQuatConstant(plQuatConstant::Convert(pCre));
+        case kQuatTimeScale: return pyQuatTimeScale_FromQuatTimeScale(plQuatTimeScale::Convert(pCre));
+        case kQuatChannelApplicator: return pyQuatChannelApplicator_FromQuatChannelApplicator(plQuatChannelApplicator::Convert(pCre));
+        case kScalarChannel: return pyScalarChannel_FromScalarChannel(plScalarChannel::Convert(pCre));
+        case kScalarBlend: return pyScalarBlend_FromScalarBlend(plScalarBlend::Convert(pCre));
+        case kScalarConstant: return pyScalarConstant_FromScalarConstant(plScalarConstant::Convert(pCre));
+        case kScalarControllerCacheChannel: return pyScalarControllerCacheChannel_FromScalarControllerCacheChannel(plScalarControllerCacheChannel::Convert(pCre));
+        case kScalarControllerChannel: return pyScalarControllerChannel_FromScalarControllerChannel(plScalarControllerChannel::Convert(pCre));
+        case kScalarTimeScale: return pyScalarTimeScale_FromScalarTimeScale(plScalarTimeScale::Convert(pCre));
+        case kScalarSDLChannel: return pyScalarSDLChannel_FromScalarSDLChannel(plScalarSDLChannel::Convert(pCre));
+        case kATCChannel: return pyATCChannel_FromATCChannel(plATCChannel::Convert(pCre));
+        case kScalarChannelApplicator: return pyScalarChannelApplicator_FromScalarChannelApplicator(plScalarChannelApplicator::Convert(pCre));
+        case kAnimStage: return pyAnimStage_FromAnimStage(plAnimStage::Convert(pCre));
+        case kNotifyMsg: return pyNotifyMsg_FromNotifyMsg(plNotifyMsg::Convert(pCre));
+        default: return pyCreatable_FromCreatable(pCre);
+    }
 }
