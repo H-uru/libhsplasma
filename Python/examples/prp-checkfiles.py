@@ -35,7 +35,7 @@ def readObjects(location):
         while len(data) <= type: data.append({}) # fill array
         for key in rm.getKeys(location, type):
             if key.exists() and key.isLoaded():
-                data[type][key.name] = PyHSPlasma.hsKeyedObjectStub.Convert(key.object).stub.getData()
+                data[type][key.name] = key.object.stub.getData()
     return data
 
 

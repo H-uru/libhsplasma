@@ -429,7 +429,7 @@ class BuildQueueThread(threading.Thread):
                         page = plResMgr.FindPage(age.getPageLoc(pageNum, plResMgr.getVer()))
                         if PyHSPlasma.plFactory.kSoundBuffer in plResMgr.getTypes(page.location):
                             for key in plResMgr.getKeys(page.location, PyHSPlasma.plFactory.kSoundBuffer):	            
-                                soundBuffer = PyHSPlasma.plSoundBuffer.Convert(key.object)
+                                soundBuffer = key.object
 
                                 if soundBuffer.fileName in self._queue.keys():
                                     channelOptions = self._queue[soundBuffer.fileName]

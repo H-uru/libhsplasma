@@ -38,7 +38,7 @@ keys = rm.getKeys(page.location, type)
 for key in keys:
     if key.name != sys.argv[3]: continue
     # get the data
-    data = PyHSPlasma.hsKeyedObjectStub.Convert(key.object).stub.getData()
+    data = key.object.stub.getData()
     # and save it
     f = open(sys.argv[4], 'w')
     f.write(data)
