@@ -30,19 +30,6 @@ static PyObject* pyCollisionEventData_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyCollisionEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyCollisionEventData_FromCollisionEventData(proCollisionEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyCollisionEventData_getEnter(pyCollisionEventData* self, void*) {
     return PyBool_FromLong(self->fThis->isEnter());
 }
@@ -91,8 +78,6 @@ static int pyCollisionEventData_setHittee(pyCollisionEventData* self, PyObject* 
 }
 
 static PyMethodDef pyCollisionEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyCollisionEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proCollisionEventData" },
     { NULL, NULL, 0, NULL }
 };
 

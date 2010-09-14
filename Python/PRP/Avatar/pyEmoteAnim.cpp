@@ -30,19 +30,6 @@ static PyObject* pyEmoteAnim_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyEmoteAnim_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyEmoteAnim_FromEmoteAnim(plEmoteAnim::Convert(IConvert(cre)));
-}
-
 static PyObject* pyEmoteAnim_getBodyUsage(pyEmoteAnim* self, void*) {
     return PyInt_FromLong(self->fThis->getBodyUsage());
 }
@@ -83,8 +70,6 @@ static int pyEmoteAnim_setFadeOut(pyEmoteAnim* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyEmoteAnim_Methods[] = {
-    { "Convert", (PyCFunction)pyEmoteAnim_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plEmoteAnim" },
     { NULL, NULL, 0, NULL }
 };
 

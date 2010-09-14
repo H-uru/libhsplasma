@@ -37,19 +37,6 @@ static PyObject* pyCompoundRotController_new(PyTypeObject* type, PyObject* args,
     return (PyObject*)self;
 }
 
-static PyObject* pyCompoundRotController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyCompoundRotController_FromCompoundRotController(plCompoundRotController::Convert(IConvert(cre)));
-}
-
 static PyObject* pyCompoundRotController_getX(pyCompoundRotController* self, void*) {
     return pyScalarController_FromScalarController(self->fThis->getX());
 }
@@ -105,8 +92,6 @@ static int pyCompoundRotController_setZ(pyCompoundRotController* self, PyObject*
 }
 
 static PyMethodDef pyCompoundRotController_Methods[] = {
-    { "Convert", (PyCFunction)pyCompoundRotController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plCompoundRotController" },
     { NULL, NULL, 0, NULL }
 };
 

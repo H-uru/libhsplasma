@@ -30,22 +30,7 @@ static PyObject* pyQuatPointCombine_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyQuatPointCombine_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyQuatPointCombine_FromQuatPointCombine(plQuatPointCombine::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyQuatPointCombine_Methods[] = {
-    { "Convert", (PyCFunction)pyQuatPointCombine_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plQuatPointCombine" },
     { NULL, NULL, 0, NULL }
 };
 

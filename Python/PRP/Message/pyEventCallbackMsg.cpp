@@ -31,19 +31,6 @@ static PyObject* pyEventCallbackMsg_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyEventCallbackMsg_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyEventCallbackMsg_FromEventCallbackMsg(plEventCallbackMsg::Convert(IConvert(cre)));
-}
-
 static PyObject* pyEventCallbackMsg_getEventTime(pyEventCallbackMsg* self, void*) {
     return PyFloat_FromDouble(self->fThis->getEventTime());
 }
@@ -110,8 +97,6 @@ static int pyEventCallbackMsg_setUser(pyEventCallbackMsg* self, PyObject* value,
 }
 
 static PyMethodDef pyEventCallbackMsg_Methods[] = {
-    { "Convert", (PyCFunction)pyEventCallbackMsg_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plEventCallbackMsg" },
     { NULL, NULL, 0, NULL }
 };
 

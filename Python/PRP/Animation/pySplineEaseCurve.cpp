@@ -30,19 +30,6 @@ static PyObject* pySplineEaseCurve_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pySplineEaseCurve_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySplineEaseCurve_FromSplineEaseCurve(plSplineEaseCurve::Convert(IConvert(cre)));
-}
-
 static PyObject* pySplineEaseCurve_getSplineCoef(pySplineEaseCurve* self, void*) {
     return Py_BuildValue("ffff", PyFloat_FromDouble(self->fThis->getSplineCoef(0)),
                                  PyFloat_FromDouble(self->fThis->getSplineCoef(1)),
@@ -67,8 +54,6 @@ static int pySplineEaseCurve_setSplineCoef(pySplineEaseCurve* self, PyObject* va
 }
 
 static PyMethodDef pySplineEaseCurve_Methods[] = {
-    { "Convert", (PyCFunction)pySplineEaseCurve_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSplineEaseCurve" },
     { NULL, NULL, 0, NULL }
 };
 

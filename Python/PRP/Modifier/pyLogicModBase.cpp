@@ -30,19 +30,6 @@ static PyObject* pyLogicModBase_new(PyTypeObject* type, PyObject* args, PyObject
     return NULL;
 }
 
-static PyObject* pyLogicModBase_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLogicModBase_FromLogicModBase(plLogicModBase::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLogicModBase_clearCommands(pyLogicModBase* self) {
     self->fThis->clearCommands();
     Py_INCREF(Py_None);
@@ -140,8 +127,6 @@ static int pyLogicModBase_setDisabled(pyLogicModBase* self, PyObject* value, voi
 }
 
 static PyMethodDef pyLogicModBase_Methods[] = {
-    { "Convert", (PyCFunction)pyLogicModBase_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLogicModBase" },
     { "clearCommands", (PyCFunction)pyLogicModBase_clearCommands, METH_NOARGS,
       "Remove all commands" },
     { "addCommand", (PyCFunction)pyLogicModBase_addCommand, METH_VARARGS,

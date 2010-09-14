@@ -31,19 +31,6 @@ static PyObject* pyLayerMovie_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerMovie_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLayerMovie_FromLayerMovie(plLayerMovie::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLayerMovie_getMovieName(pyLayerMovie* self, void*) {
     return PlStr_To_PyStr(self->fThis->getMovieName());
 }
@@ -58,8 +45,6 @@ static int pyLayerMovie_setMovieName(pyLayerMovie* self, PyObject* value, void*)
 }
 
 static PyMethodDef pyLayerMovie_Methods[] = {
-    { "Convert", (PyCFunction)pyLayerMovie_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLayerMovie" },
     { NULL, NULL, 0, NULL }
 };
 

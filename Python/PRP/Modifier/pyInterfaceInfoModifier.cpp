@@ -32,19 +32,6 @@ static PyObject* pyInterfaceInfoModifier_new(PyTypeObject* type, PyObject* args,
     return (PyObject*)self;
 }
 
-static PyObject* pyInterfaceInfoModifier_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModifier::Convert(IConvert(cre)));
-}
-
 static PyObject* pyInterfaceInfoModifier_clearKeys(pyInterfaceInfoModifier* self) {
     self->fThis->clearIntfKeys();
     Py_INCREF(Py_None);
@@ -90,8 +77,6 @@ static int pyInterfaceInfoModifier_setIntfKeys(pyInterfaceInfoModifier* self, Py
 }
 
 static PyMethodDef pyInterfaceInfoModifier_Methods[] = {
-    { "Convert", (PyCFunction)pyInterfaceInfoModifier_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plInterfaceInfoModifier" },
     { "clearIntfKeys", (PyCFunction)pyInterfaceInfoModifier_clearKeys, METH_NOARGS,
       "Remove all interface keys" },
     { "addIntfKey", (PyCFunction)pyInterfaceInfoModifier_addKey, METH_VARARGS,

@@ -30,19 +30,6 @@ static PyObject* pyVariableEventData_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyVariableEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyVariableEventData_FromVariableEventData(proVariableEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyVariableEventData_getName(pyVariableEventData* self, void*) {
     return PlStr_To_PyStr(self->fThis->getName());
 }
@@ -99,8 +86,6 @@ static int pyVariableEventData_setKey(pyVariableEventData* self, PyObject* value
     }
 }
 static PyMethodDef pyVariableEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyVariableEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proVariableEventData" },
     { NULL, NULL, 0, NULL }
 };
 

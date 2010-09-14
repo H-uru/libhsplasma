@@ -53,19 +53,6 @@ static PyObject* pyMipmap_new(PyTypeObject* type, PyObject* args, PyObject* kwds
     return (PyObject*)self;
 }
 
-static PyObject* pyMipmap_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMipmap_FromMipmap(plMipmap::Convert(IConvert(cre)));
-}
-
 static PyObject* pyMipmap_readData(pyMipmap* self, PyObject* args) {
     pyStream* stream;
     if (!PyArg_ParseTuple(args, "O", &stream)) {
@@ -286,8 +273,6 @@ static int pyMipmap_setNumLevels(pyMipmap* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyMipmap_Methods[] = {
-    { "Convert", (PyCFunction)pyMipmap_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMipmap" },
     { "readData", (PyCFunction)pyMipmap_readData, METH_VARARGS,
       "Params: stream\n"
       "Reads a plMipmap from a stream, exluding the plKey" },

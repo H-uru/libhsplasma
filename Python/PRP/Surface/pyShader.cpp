@@ -31,19 +31,6 @@ static PyObject* pyShader_new(PyTypeObject* type, PyObject* args, PyObject* kwds
     return (PyObject*)self;
 }
 
-static PyObject* pyShader_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyShader_FromShader(plShader::Convert(IConvert(cre)));
-}
-
 static PyObject* pyShader_getConsts(pyShader* self, void*) {
     PyObject* list = PyList_New(self->fThis->getConsts().getSize());
     for (size_t i=0; self->fThis->getConsts().getSize(); i++)
@@ -114,8 +101,6 @@ static int pyShader_setOutput(pyShader* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyShader_Methods[] = {
-    { "Convert", (PyCFunction)pyShader_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plShader" },
     { NULL, NULL, 0, NULL }
 };
 

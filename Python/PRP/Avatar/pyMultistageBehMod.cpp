@@ -32,19 +32,6 @@ static PyObject* pyMultistageBehMod_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyMultistageBehMod_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod::Convert(IConvert(cre)));
-}
-
 static PyObject* pyMultistageBehMod_addStage(pyMultistageBehMod* self, PyObject* args) {
     pyAnimStage* anim;
     if (!PyArg_ParseTuple(args, "O", &anim)) {
@@ -174,8 +161,6 @@ static int pyMultistageBehMod_setReverse(pyMultistageBehMod* self, PyObject* val
 }
 
 static PyMethodDef pyMultistageBehMod_Methods[] = {
-    { "Convert", (PyCFunction)pyMultistageBehMod_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMultistageBehMod" },
     { "addStage", (PyCFunction)pyMultistageBehMod_addStage, METH_VARARGS,
       "Params: stage\n"
       "Add a plAnimStage to the behavior mod" },

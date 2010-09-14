@@ -29,19 +29,6 @@ static PyObject* pyCallbackEventData_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyCallbackEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyCallbackEventData_FromCallbackEventData(proCallbackEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyCallbackEventData_getType(pyCallbackEventData* self, void*) {
     return PyInt_FromLong(self->fThis->getCallbackEventType());
 }
@@ -56,8 +43,6 @@ static int pyCallbackEventData_setType(pyCallbackEventData* self, PyObject* valu
 }
 
 static PyMethodDef pyCallbackEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyCallbackEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proCallbackEventData" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -31,19 +31,6 @@ static PyObject* pyLayerLinkAnimation_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerLinkAnimation_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLayerLinkAnimation_FromLayerLinkAnimation(plLayerLinkAnimation::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLayerLinkAnimation_getLinkKey(pyLayerLinkAnimation* self, void*) {
     return pyKey_FromKey(self->fThis->getLinkKey());
 }
@@ -76,8 +63,6 @@ static int pyLayerLinkAnimation_setLeavingAge(pyLayerLinkAnimation* self, PyObje
 }
 
 static PyMethodDef pyLayerLinkAnimation_Methods[] = {
-    { "Convert", (PyCFunction)pyLayerLinkAnimation_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLayerLinkAnimation" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -30,19 +30,6 @@ static PyObject* pyClimbingBlockerHitEventData_new(PyTypeObject* type, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pyClimbingBlockerHitEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyClimbingBlockerHitEventData_FromClimbingBlockerHitEventData(proClimbingBlockerHitEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyClimbingBlockerHitEventData_getBlocker(pyClimbingBlockerHitEventData* self, void*) {
     return pyKey_FromKey(self->fThis->getBlocker());
 }
@@ -61,8 +48,6 @@ static int pyClimbingBlockerHitEventData_setBlocker(pyClimbingBlockerHitEventDat
 }
 
 static PyMethodDef pyClimbingBlockerHitEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyClimbingBlockerHitEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proClimbingBlockerHitEventData" },
     { NULL, NULL, 0, NULL }
 };
 

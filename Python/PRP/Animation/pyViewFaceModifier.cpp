@@ -35,19 +35,6 @@ static PyObject* pyViewFaceModifier_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyViewFaceModifier_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyViewFaceModifier_FromViewFaceModifier(plViewFaceModifier::Convert(IConvert(cre)));
-}
-
 static PyObject* pyViewFaceModifier_getScale(pyViewFaceModifier* self, void*) {
     return pyVector3_FromVector3(self->fThis->getScale());
 }
@@ -127,8 +114,6 @@ static int pyViewFaceModifier_setMaxBounds(pyViewFaceModifier* self, PyObject* v
 }
 
 static PyMethodDef pyViewFaceModifier_Methods[] = {
-    { "Convert", (PyCFunction)pyViewFaceModifier_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plViewFaceModifier" },
     { NULL, NULL, 0, NULL }
 };
 

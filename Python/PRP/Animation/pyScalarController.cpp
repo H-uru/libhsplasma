@@ -36,22 +36,7 @@ static PyObject* pyScalarController_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pyScalarController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyScalarController_FromScalarController(plScalarController::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyScalarController_Methods[] = {
-    { "Convert", (PyCFunction)pyScalarController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plScalarController" },
     { NULL, NULL, 0, NULL }
 };
 

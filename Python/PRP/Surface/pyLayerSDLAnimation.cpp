@@ -30,19 +30,6 @@ static PyObject* pyLayerSDLAnimation_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerSDLAnimation_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLayerSDLAnimation_FromLayerSDLAnimation(plLayerSDLAnimation::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLayerSDLAnimation_getVarName(pyLayerSDLAnimation* self, void*) {
     return PlStr_To_PyStr(self->fThis->getVarName());
 }
@@ -57,8 +44,6 @@ static int pyLayerSDLAnimation_setVarName(pyLayerSDLAnimation* self, PyObject* v
 }
 
 static PyMethodDef pyLayerSDLAnimation_Methods[] = {
-    { "Convert", (PyCFunction)pyLayerSDLAnimation_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLayerSDLAnimation" },
     { NULL, NULL, 0, NULL }
 };
 

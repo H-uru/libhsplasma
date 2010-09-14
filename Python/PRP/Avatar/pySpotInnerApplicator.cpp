@@ -30,22 +30,7 @@ static PyObject* pySpotInnerApplicator_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySpotInnerApplicator_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySpotInnerApplicator_FromSpotInnerApplicator(plSpotInnerApplicator::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pySpotInnerApplicator_Methods[] = {
-    { "Convert", (PyCFunction)pySpotInnerApplicator_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSpotInnerApplicator" },
     { NULL, NULL, 0, NULL }
 };
 

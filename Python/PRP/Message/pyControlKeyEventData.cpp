@@ -30,19 +30,6 @@ static PyObject* pyControlKeyEventData_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pyControlKeyEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyControlKeyEventData_FromControlKeyEventData(proControlKeyEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyControlKeyEventData_getControlKey(pyControlKeyEventData* self, void*) {
     return PyInt_FromLong(self->fThis->getControlKey());
 }
@@ -70,8 +57,6 @@ static int pyControlKeyEventData_setDown(pyControlKeyEventData* self, PyObject* 
 }
 
 static PyMethodDef pyControlKeyEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyControlKeyEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proControlKeyEventData" },
     { NULL, NULL, 0, NULL }
 };
 

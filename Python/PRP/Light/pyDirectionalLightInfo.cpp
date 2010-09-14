@@ -30,22 +30,7 @@ static PyObject* pyDirectionalLightInfo_new(PyTypeObject* type, PyObject* args, 
     return (PyObject*)self;
 }
 
-static PyObject* pyDirectionalLightInfo_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyDirectionalLightInfo_FromDirectionalLightInfo(plDirectionalLightInfo::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyDirectionalLightInfo_Methods[] = {
-    { "Convert", (PyCFunction)pyDirectionalLightInfo_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plDirectionalLightInfo" },
     { NULL, NULL, 0, NULL }
 };
 

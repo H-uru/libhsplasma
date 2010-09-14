@@ -30,22 +30,7 @@ static PyObject* pySpotOuterApplicator_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySpotOuterApplicator_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySpotOuterApplicator_FromSpotOuterApplicator(plSpotOuterApplicator::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pySpotOuterApplicator_Methods[] = {
-    { "Convert", (PyCFunction)pySpotOuterApplicator_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSpotOuterApplicator" },
     { NULL, NULL, 0, NULL }
 };
 

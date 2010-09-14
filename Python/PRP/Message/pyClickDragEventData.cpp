@@ -29,22 +29,7 @@ static PyObject* pyClickDragEventData_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyClickDragEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyClickDragEventData_FromClickDragEventData(proClickDragEventData::Convert(evt->fThis));
-}
-
 static PyMethodDef pyClickDragEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyClickDragEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proClickDragEventData" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -30,19 +30,6 @@ static PyObject* pyLimitedDirLightInfo_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pyLimitedDirLightInfo_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLimitedDirLightInfo_FromLimitedDirLightInfo(plLimitedDirLightInfo::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLimitedDirLightInfo_getWidth(pyLimitedDirLightInfo* self, void*) {
     return PyFloat_FromDouble(self->fThis->getWidth());
 }
@@ -83,8 +70,6 @@ static int pyLimitedDirLightInfo_setDepth(pyLimitedDirLightInfo* self, PyObject*
 }
 
 static PyMethodDef pyLimitedDirLightInfo_Methods[] = {
-    { "Convert", (PyCFunction)pyLimitedDirLightInfo_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLimitedDirLightInfo" },
     { NULL, NULL, 0, NULL }
 };
 

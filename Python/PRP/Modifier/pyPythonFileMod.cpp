@@ -32,19 +32,6 @@ static PyObject* pyPythonFileMod_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyPythonFileMod_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyPythonFileMod_FromPythonFileMod(plPythonFileMod::Convert(IConvert(cre)));
-}
-
 static PyObject* pyPythonFileMod_clearReceivers(pyPythonFileMod* self) {
     self->fThis->clearReceivers();
     Py_INCREF(Py_None);
@@ -129,8 +116,6 @@ static int pyPythonFileMod_setParameters(pyPythonFileMod* self, PyObject* value,
 }
 
 static PyMethodDef pyPythonFileMod_Methods[] = {
-    { "Convert", (PyCFunction)pyPythonFileMod_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plPythonFileMod" },
     { "clearReceivers", (PyCFunction)pyPythonFileMod_clearReceivers, METH_NOARGS,
       "Remove all receivers from the Python File Mod" },
     { "clearParameters", (PyCFunction)pyPythonFileMod_clearParameters, METH_NOARGS,

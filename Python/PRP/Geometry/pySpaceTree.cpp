@@ -37,19 +37,6 @@ static PyObject* pySpaceTree_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pySpaceTree_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(IConvert(cre)));
-}
-
 static PyObject* pySpaceTree_clear(pySpaceTree* self) {
     self->fThis->clear();
     Py_INCREF(Py_None);
@@ -97,8 +84,6 @@ static PyObject* pySpaceTree_addParent(pySpaceTree* self, PyObject* args) {
 }
 
 static PyMethodDef pySpaceTree_Methods[] = {
-    { "Convert", (PyCFunction)pySpaceTree_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSpaceTree" },
     { "clear", (PyCFunction)pySpaceTree_clear, METH_NOARGS,
       "Clears the contents of this space tree" },
     { "getNode", (PyCFunction)pySpaceTree_getNode, METH_VARARGS,

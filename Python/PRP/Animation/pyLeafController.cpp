@@ -38,19 +38,6 @@ static PyObject* pyLeafController_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyLeafController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLeafController_FromLeafController(plLeafController::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLeafController_hasKeys(pyLeafController* self) {
     return PyBool_FromLong(self->fThis->hasKeys() ? 1 : 0);
 }
@@ -149,8 +136,6 @@ static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject*
 }
 
 static PyMethodDef pyLeafController_Methods[] = {
-    { "Convert", (PyCFunction)pyLeafController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLeafController" },
     { "hasKeys", (PyCFunction)pyLeafController_hasKeys, METH_NOARGS, NULL },
     { "hasEaseControllers", (PyCFunction)pyLeafController_hasEaseControllers, METH_NOARGS, NULL },
     { "setKeys", (PyCFunction)pyLeafController_setKeys, METH_VARARGS,

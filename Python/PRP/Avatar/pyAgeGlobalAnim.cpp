@@ -30,19 +30,6 @@ static PyObject* pyAgeGlobalAnim_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyAgeGlobalAnim_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(IConvert(cre)));
-}
-
 static PyObject* pyAgeGlobalAnim_getGlobalVarName(pyAgeGlobalAnim* self, void*) {
     return PlStr_To_PyStr(self->fThis->getVarName());
 }
@@ -57,8 +44,6 @@ static int pyAgeGlobalAnim_setGlobalVarName(pyAgeGlobalAnim* self, PyObject* val
 }
 
 static PyMethodDef pyAgeGlobalAnim_Methods[] = {
-    { "Convert", (PyCFunction)pyAgeGlobalAnim_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plAgeGlobalAnim" },
     { NULL, NULL, 0, NULL }
 };
 

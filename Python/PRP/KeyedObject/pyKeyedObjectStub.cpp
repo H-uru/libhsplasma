@@ -54,22 +54,7 @@ static int pyKeyedObjectStub_setStub(pyKeyedObjectStub* self, PyObject* value, v
     return -1;
 }
 
-static PyObject* pyKeyedObjectStub_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyKeyedObjectStub_FromKeyedObjectStub(dynamic_cast<hsKeyedObjectStub*>(IConvert(cre)));
-}
-
 static PyMethodDef pyKeyedObjectStub_Methods[] = {
-    { "Convert", (PyCFunction)pyKeyedObjectStub_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to an hsKeyedObject" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -30,19 +30,6 @@ static PyObject* pyAGAnimBink_new(PyTypeObject* type, PyObject* args, PyObject* 
     return (PyObject*)self;
 }
 
-static PyObject* pyAGAnimBink_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyAGAnimBink_FromAGAnimBink(plAGAnimBink::Convert(IConvert(cre)));
-}
-
 static PyObject* pyAGAnimBink_getBinkFilename(pyAGAnimBink* self, void*) {
     return PlStr_To_PyStr(self->fThis->getBinkFilename());
 }
@@ -83,8 +70,6 @@ static int pyAGAnimBink_setSubtitleId(pyAGAnimBink* self, PyObject* value, void*
 }
 
 static PyMethodDef pyAGAnimBink_Methods[] = {
-    { "Convert", (PyCFunction)pyAGAnimBink_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plAGAnimBink" },
     { NULL, NULL, 0, NULL }
 };
 

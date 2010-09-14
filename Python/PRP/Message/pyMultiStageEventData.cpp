@@ -30,19 +30,6 @@ static PyObject* pyMultiStageEventData_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pyMultiStageEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyMultiStageEventData_FromMultiStageEventData(proMultiStageEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyMultiStageEventData_getStage(pyMultiStageEventData* self, void*) {
     return PyInt_FromLong(self->fThis->getStage());
 }
@@ -86,8 +73,6 @@ static int pyMultiStageEventData_setAvatar(pyMultiStageEventData* self, PyObject
     }
 }
 static PyMethodDef pyMultiStageEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyMultiStageEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proMultiStageEventData" },
     { NULL, NULL, 0, NULL }
 };
 

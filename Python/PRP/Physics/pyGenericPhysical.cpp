@@ -33,19 +33,6 @@ static PyObject* pyGenericPhysical_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyGenericPhysical_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyGenericPhysical_FromGenericPhysical(plGenericPhysical::Convert(IConvert(cre)));
-}
-
 static PyObject* pyGenericPhysical_getProp(pyGenericPhysical* self, PyObject* args) {
     int prop;
     if (!PyArg_ParseTuple(args, "i", &prop)) {
@@ -67,8 +54,6 @@ static PyObject* pyGenericPhysical_setProp(pyGenericPhysical* self, PyObject* ar
 }
 
 static PyMethodDef pyGenericPhysical_Methods[] = {
-    { "Convert", (PyCFunction)pyGenericPhysical_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plGenericPhysical" },
     { "getProperty", (PyCFunction)pyGenericPhysical_getProp, METH_VARARGS,
       "Params: flag\n"
       "Returns whether the specified property is set" },

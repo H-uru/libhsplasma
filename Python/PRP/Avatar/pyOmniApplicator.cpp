@@ -30,22 +30,7 @@ static PyObject* pyOmniApplicator_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyOmniApplicator_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyOmniApplicator_FromOmniApplicator(plOmniApplicator::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyOmniApplicator_Methods[] = {
-    { "Convert", (PyCFunction)pyOmniApplicator_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plOmniApplicator" },
     { NULL, NULL, 0, NULL }
 };
 

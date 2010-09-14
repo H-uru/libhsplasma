@@ -26,19 +26,6 @@ static PyObject* pySingleModifier_new(PyTypeObject* type, PyObject* args, PyObje
     return NULL;
 }
 
-static PyObject* pySingleModifier_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySingleModifier_FromSingleModifier(plSingleModifier::Convert(IConvert(cre)));
-}
-
 static PyObject* pySingleModifier_getFlag(pySingleModifier* self, PyObject* args) {
     int flag;
     if (!PyArg_ParseTuple(args, "i", &flag)) {
@@ -60,8 +47,6 @@ static PyObject* pySingleModifier_setFlag(pyMultiModifier* self, PyObject* args)
 }
 
 static PyMethodDef pySingleModifier_Methods[] = {
-    { "Convert", (PyCFunction)pySingleModifier_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSingleModifier" },
     { "getFlag", (PyCFunction)pySingleModifier_getFlag, METH_VARARGS,
       "Params: flag\n"
       "Returns whether the specified modifier flag is set" },

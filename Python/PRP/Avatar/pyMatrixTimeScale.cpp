@@ -30,22 +30,7 @@ static PyObject* pyMatrixTimeScale_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyMatrixTimeScale_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMatrixTimeScale_FromMatrixTimeScale(plMatrixTimeScale::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyMatrixTimeScale_Methods[] = {
-    { "Convert", (PyCFunction)pyMatrixTimeScale_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMatrixTimeScale" },
     { NULL, NULL, 0, NULL }
 };
 

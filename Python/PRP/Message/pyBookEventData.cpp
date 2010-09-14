@@ -29,19 +29,6 @@ static PyObject* pyBookEventData_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyBookEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyBookEventData_FromBookEventData(proBookEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyBookEventData_getEvent(pyBookEventData* self, void*) {
     return PyInt_FromLong(self->fThis->getEvent());
 }
@@ -69,8 +56,6 @@ static int pyBookEventData_setLinkID(pyBookEventData* self, PyObject* value, voi
 }
 
 static PyMethodDef pyBookEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyBookEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proBookEventData" },
     { NULL, NULL, 0, NULL }
 };
 

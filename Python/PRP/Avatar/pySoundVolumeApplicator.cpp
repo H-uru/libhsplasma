@@ -30,19 +30,6 @@ static PyObject* pySoundVolumeApplicator_new(PyTypeObject* type, PyObject* args,
     return (PyObject*)self;
 }
 
-static PyObject* pySoundVolumeApplicator_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySoundVolumeApplicator_FromSoundVolumeApplicator(plSoundVolumeApplicator::Convert(IConvert(cre)));
-}
-
 static PyObject* pySoundVolumeApplicator_getIndex(pySoundVolumeApplicator* self, void*) {
     return PyInt_FromLong(self->fThis->getIndex());
 }
@@ -57,8 +44,6 @@ static int pySoundVolumeApplicator_setIndex(pySoundVolumeApplicator* self, PyObj
 }
 
 static PyMethodDef pySoundVolumeApplicator_Methods[] = {
-    { "Convert", (PyCFunction)pySoundVolumeApplicator_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSoundVolumeApplicator" },
     { NULL, NULL, 0, NULL }
 };
 

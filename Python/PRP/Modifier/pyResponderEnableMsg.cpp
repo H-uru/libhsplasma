@@ -31,19 +31,6 @@ static PyObject* pyResponderEnableMsg_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyResponderEnableMsg_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyResponderEnableMsg_FromResponderEnableMsg(plResponderEnableMsg::Convert(IConvert(cre)));
-}
-
 static PyObject* pyResponderEnableMsg_getEnable(pyResponderEnableMsg* self, void*) {
     return PyBool_FromLong(self->fThis->getEnable() ? 1 : 0);
 }
@@ -58,8 +45,6 @@ static int pyResponderEnableMsg_setEnable(pyResponderEnableMsg* self, PyObject* 
 }
 
 static PyMethodDef pyResponderEnableMsg_Methods[] = {
-    { "Convert", (PyCFunction)pyResponderEnableMsg_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plResponderEnableMsg" },
     { NULL, NULL, 0, NULL }
 };
 

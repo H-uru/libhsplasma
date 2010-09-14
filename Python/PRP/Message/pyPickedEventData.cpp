@@ -31,19 +31,6 @@ static PyObject* pyPickedEventData_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyPickedEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyPickedEventData_FromPickedEventData(proPickedEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyPickedEventData_getPicker(pyPickedEventData* self, void*) {
     return pyKey_FromKey(self->fThis->getPicker());
 }
@@ -105,8 +92,6 @@ static int pyPickedEventData_setHitPoint(pyPickedEventData* self, PyObject* valu
 }
 
 static PyMethodDef pyPickedEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyPickedEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proPickedEventData" },
     { NULL, NULL, 0, NULL }
 };
 

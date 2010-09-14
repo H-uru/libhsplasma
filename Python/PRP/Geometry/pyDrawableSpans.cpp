@@ -36,19 +36,6 @@ static PyObject* pyDrawableSpans_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyDrawableSpans_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyDrawableSpans_FromDrawableSpans(plDrawableSpans::Convert(IConvert(cre)));
-}
-
 static PyObject* pyDrawableSpans_clearSpans(pyDrawableSpans* self) {
     self->fThis->clearSpans();
     Py_INCREF(Py_None);
@@ -474,8 +461,6 @@ static int pyDrawableSpans_setSceneNode(pyDrawableSpans* self, PyObject* value, 
 }
 
 static PyMethodDef pyDrawableSpans_Methods[] = {
-    { "Convert", (PyCFunction)pyDrawableSpans_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plDrawableSpans" },
     { "clearSpans", (PyCFunction)pyDrawableSpans_clearSpans, METH_NOARGS,
       "Remove all spans from this DrawableSpans object" },
     { "addIcicle", (PyCFunction)pyDrawableSpans_addIcicle, METH_VARARGS,

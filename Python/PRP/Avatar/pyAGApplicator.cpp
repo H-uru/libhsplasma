@@ -27,19 +27,6 @@ static PyObject* pyAGApplicator_new(PyTypeObject* type, PyObject* args, PyObject
     return NULL;
 }
 
-static PyObject* pyAGApplicator_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyAGApplicator_FromAGApplicator(plAGApplicator::Convert(IConvert(cre)));
-}
-
 static PyObject* pyAGApplicator_getChannel(pyAGApplicator* self, void*) {
     return pyAGChannel_FromAGChannel(self->fThis->getChannel());
 }
@@ -85,8 +72,6 @@ static int pyAGApplicator_setChannelName(pyAGApplicator* self, PyObject* value, 
 }
 
 static PyMethodDef pyAGApplicator_Methods[] = {
-    { "Convert", (PyCFunction)pyAGApplicator_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plAGApplicator" },
     { NULL, NULL, 0, NULL }
 };
 

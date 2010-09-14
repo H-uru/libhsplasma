@@ -32,19 +32,6 @@ static PyObject* pyNotifyMsg_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyNotifyMsg_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyNotifyMsg_FromNotifyMsg(plNotifyMsg::Convert(IConvert(cre)));
-}
-
 static PyObject* pyNotifyMsg_clearEvents(pyNotifyMsg* self) {
     self->fThis->clearEvents();
     Py_INCREF(Py_None);
@@ -130,8 +117,6 @@ static int pyNotifyMsg_setID(pyNotifyMsg* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyNotifyMsg_Methods[] = {
-    { "Convert", (PyCFunction)pyNotifyMsg_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plNotifyMsg" },
     { "clearEvents", (PyCFunction)pyNotifyMsg_clearEvents, METH_NOARGS,
       "Remove all event objects" },
     { "addEvent", (PyCFunction)pyNotifyMsg_addEvent, METH_VARARGS,

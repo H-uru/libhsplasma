@@ -30,22 +30,7 @@ static PyObject* pyPointShadowMaster_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyPointShadowMaster_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyPointShadowMaster_FromPointShadowMaster(plPointShadowMaster::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyPointShadowMaster_Methods[] = {
-    { "Convert", (PyCFunction)pyPointShadowMaster_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plPointShadowMaster" },
     { NULL, NULL, 0, NULL }
 };
 

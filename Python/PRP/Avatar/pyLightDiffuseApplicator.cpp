@@ -30,22 +30,7 @@ static PyObject* pyLightDiffuseApplicator_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyObject* pyLightDiffuseApplicator_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLightDiffuseApplicator_FromLightDiffuseApplicator(plLightDiffuseApplicator::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyLightDiffuseApplicator_Methods[] = {
-    { "Convert", (PyCFunction)pyLightDiffuseApplicator_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLightDiffuseApplicator" },
     { NULL, NULL, 0, NULL }
 };
 

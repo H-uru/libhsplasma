@@ -30,19 +30,6 @@ static PyObject* pyOmniLightInfo_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyOmniLightInfo_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyOmniLightInfo_FromOmniLightInfo(plOmniLightInfo::Convert(IConvert(cre)));
-}
-
 static PyObject* pyOmniLightInfo_getAttenConst(pyOmniLightInfo* self, void*) {
     return PyFloat_FromDouble(self->fThis->getAttenConst());
 }
@@ -96,8 +83,6 @@ static int pyOmniLightInfo_setAttenCutoff(pyOmniLightInfo* self, PyObject* value
 }
 
 static PyMethodDef pyOmniLightInfo_Methods[] = {
-    { "Convert", (PyCFunction)pyOmniLightInfo_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plOmniLightInfo" },
     { NULL, NULL, 0, NULL }
 };
 

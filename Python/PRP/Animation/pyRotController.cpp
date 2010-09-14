@@ -27,19 +27,6 @@ static PyObject* pyRotController_new(PyTypeObject* type, PyObject* args, PyObjec
     return NULL;
 }
 
-static PyObject* pyRotController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyRotController_FromRotController(plRotController::Convert(IConvert(cre)));
-}
-
 static PyObject* pyRotController_getType(pyRotController* self, void*) {
     return PyInt_FromLong(self->fThis->getType());
 }
@@ -50,8 +37,6 @@ static int pyRotController_setType(pyRotController* self, PyObject* value, void*
 }
 
 static PyMethodDef pyRotController_Methods[] = {
-    { "Convert", (PyCFunction)pyRotController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plRotController" },
     { NULL, NULL, 0, NULL }
 };
 

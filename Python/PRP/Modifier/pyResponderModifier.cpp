@@ -31,19 +31,6 @@ static PyObject* pyResponderModifier_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyResponderModifier_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(IConvert(cre)));
-}
-
 static PyObject* pyResponderModifier_addState(pyResponderModifier* self, PyObject* args) {
     pyResponderModifier_State* state;
     if (!PyArg_ParseTuple(args, "O", &state)) {
@@ -129,8 +116,6 @@ static int pyResponderModifier_setFlags(pyResponderModifier* self, PyObject* val
 }
 
 static PyMethodDef pyResponderModifier_Methods[] = {
-    { "Convert", (PyCFunction)pyResponderModifier_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plResponderModifier" },
     { "addState", (PyCFunction)pyResponderModifier_addState, METH_VARARGS,
       "Params: state\n"
       "Add a responder state to the Responder" },

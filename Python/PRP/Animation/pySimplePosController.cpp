@@ -37,19 +37,6 @@ static PyObject* pySimplePosController_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySimplePosController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySimplePosController_FromSimplePosController(plSimplePosController::Convert(IConvert(cre)));
-}
-
 static PyObject* pySimplePosController_getPosition(pySimplePosController* self, void*) {
     return pyPoint3Controller_FromPoint3Controller(self->fThis->getPosition());
 }
@@ -69,8 +56,6 @@ static int pySimplePosController_setPosition(pySimplePosController* self, PyObje
 }
 
 static PyMethodDef pySimplePosController_Methods[] = {
-    { "Convert", (PyCFunction)pySimplePosController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSimplePosController" },
     { NULL, NULL, 0, NULL }
 };
 

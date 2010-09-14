@@ -29,19 +29,6 @@ static PyObject* pyObjInterface_new(PyTypeObject* type, PyObject* args, PyObject
     return NULL;
 }
 
-static PyObject* pyObjInterface_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyObjInterface_FromObjInterface(plObjInterface::Convert(IConvert(cre)));
-}
-
 static PyObject* pyObjInterface_getProp(pyObjInterface* self, PyObject* args) {
     int prop;
     if (!PyArg_ParseTuple(args, "i", &prop)) {
@@ -80,8 +67,6 @@ static int pyObjInterface_setOwner(pyObjInterface* self, PyObject* value, void*)
 }
 
 PyMethodDef pyObjInterface_Methods[] = {
-    { "Convert", (PyCFunction)pyObjInterface_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plObjInterface" },
     { "getProperty", (PyCFunction)pyObjInterface_getProp, METH_VARARGS,
       "Params: flag\n"
       "Returns whether the specified property is set" },

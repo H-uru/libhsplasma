@@ -36,22 +36,7 @@ static PyObject* pyEaseController_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyEaseController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyEaseController_FromEaseController(plEaseController::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyEaseController_Methods[] = {
-    { "Convert", (PyCFunction)pyEaseController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plEaseController" },
     { NULL, NULL, 0, NULL }
 };
 

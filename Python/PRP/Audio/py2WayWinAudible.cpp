@@ -30,22 +30,7 @@ static PyObject* py2WayWinAudible_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* py2WayWinAudible_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible::Convert(IConvert(cre)));
-}
-
 static PyMethodDef py2WayWinAudible_Methods[] = {
-    { "Convert", (PyCFunction)py2WayWinAudible_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a pl2WayWinAudible" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -32,19 +32,6 @@ static PyObject* pySceneObject_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pySceneObject_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySceneObject_FromSceneObject(plSceneObject::Convert(IConvert(cre)));
-}
-
 static PyObject* pySceneObject_clearInterfaces(pySceneObject* self) {
     self->fThis->clearInterfaces();
     Py_INCREF(Py_None);
@@ -219,8 +206,6 @@ static int pySceneObject_setMods(pySceneObject* self, PyObject* value, void*) {
 }
 
 PyMethodDef pySceneObject_Methods[] = {
-    { "Convert", (PyCFunction)pySceneObject_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSceneObject" },
     { "clearInterfaces", (PyCFunction)pySceneObject_clearInterfaces, METH_NOARGS,
       "Remove all Interfaces from the Scene Object" },
     { "clearModifiers", (PyCFunction)pySceneObject_clearModifiers, METH_NOARGS,

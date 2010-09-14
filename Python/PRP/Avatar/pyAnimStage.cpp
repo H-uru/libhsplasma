@@ -36,19 +36,6 @@ static PyObject* pyAnimStage_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyAnimStage_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyAnimStage_FromAnimStage(plAnimStage::Convert(IConvert(cre)));
-}
-
 static PyObject* pyAnimStage_getForwardType(pyAnimStage* self, void*) {
     return PyInt_FromLong(self->fThis->getForwardType());
 }
@@ -185,8 +172,6 @@ static int pyAnimStage_setRegressTo(pyAnimStage* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyAnimStage_Methods[] = {
-    { "Convert", (PyCFunction)pyAnimStage_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plAnimStage" },
     { NULL, NULL, 0, NULL }
 };
 

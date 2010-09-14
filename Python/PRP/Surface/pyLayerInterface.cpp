@@ -31,19 +31,6 @@ static PyObject* pyLayerInterface_new(PyTypeObject* type, PyObject* args, PyObje
     return NULL;
 }
 
-static PyObject* pyLayerInterface_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLayerInterface_FromLayerInterface(plLayerInterface::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLayerInterface_getUnderLay(pyLayerInterface* self, void*) {
     return pyKey_FromKey(self->fThis->getUnderLay());
 }
@@ -261,8 +248,6 @@ static int pyLayerInterface_setState(pyLayerInterface* self, PyObject* value, vo
 }
 
 static PyMethodDef pyLayerInterface_Methods[] = {
-    { "Convert", (PyCFunction)pyLayerInterface_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLayerInterface" },
     { NULL, NULL, 0, NULL }
 };
 

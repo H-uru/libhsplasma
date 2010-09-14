@@ -29,19 +29,6 @@ static PyObject* pyActivateEventData_new(PyTypeObject* type, PyObject* args, PyO
     return (PyObject*)self;
 }
 
-static PyObject* pyActivateEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyActivateEventData_FromActivateEventData(proActivateEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyActivateEventData_getActive(pyActivateEventData* self, void*) {
     return PyBool_FromLong(self->fThis->isActive());
 }
@@ -69,8 +56,6 @@ static int pyActivateEventData_setActivate(pyActivateEventData* self, PyObject* 
 }
 
 static PyMethodDef pyActivateEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyActivateEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proActivateEventData" },
     { NULL, NULL, 0, NULL }
 };
 

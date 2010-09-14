@@ -30,19 +30,6 @@ static PyObject* pySpotLightInfo_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pySpotLightInfo_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySpotLightInfo_FromSpotLightInfo(plSpotLightInfo::Convert(IConvert(cre)));
-}
-
 static PyObject* pySpotLightInfo_getFalloff(pySpotLightInfo* self, void*) {
     return PyFloat_FromDouble(self->fThis->getFalloff());
 }
@@ -83,8 +70,6 @@ static int pySpotLightInfo_setSpotOuter(pySpotLightInfo* self, PyObject* value, 
 }
 
 static PyMethodDef pySpotLightInfo_Methods[] = {
-    { "Convert", (PyCFunction)pySpotLightInfo_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSpotLightInfo" },
     { NULL, NULL, 0, NULL }
 };
 

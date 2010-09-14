@@ -31,19 +31,6 @@ static PyObject* pyScalarControllerChannel_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyObject* pyScalarControllerChannel_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyScalarControllerChannel_FromScalarControllerChannel(plScalarControllerChannel::Convert(IConvert(cre)));
-}
-
 static PyObject* pyScalarControllerChannel_getController(pyScalarControllerChannel* self, void*) {
     return pyController_FromController(self->fThis->getController());
 }
@@ -63,8 +50,6 @@ static int pyScalarControllerChannel_setController(pyScalarControllerChannel* se
 }
 
 static PyMethodDef pyScalarControllerChannel_Methods[] = {
-    { "Convert", (PyCFunction)pyScalarControllerChannel_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plScalarControllerChannel" },
     { NULL, NULL, 0, NULL }
 };
 

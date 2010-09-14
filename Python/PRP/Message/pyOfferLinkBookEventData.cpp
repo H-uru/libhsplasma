@@ -30,19 +30,6 @@ static PyObject* pyOfferLinkBookEventData_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyObject* pyOfferLinkBookEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyOfferLinkBookEventData_FromOfferLinkBookEventData(proOfferLinkBookEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyOfferLinkBookEventData_getOfferer(pyOfferLinkBookEventData* self, void*) {
     return pyKey_FromKey(self->fThis->getOfferer());
 }
@@ -87,8 +74,6 @@ static int pyOfferLinkBookEventData_setOfferee(pyOfferLinkBookEventData* self, P
 }
 
 static PyMethodDef pyOfferLinkBookEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyOfferLinkBookEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proOfferLinkBookEventData" },
     { NULL, NULL, 0, NULL }
 };
 

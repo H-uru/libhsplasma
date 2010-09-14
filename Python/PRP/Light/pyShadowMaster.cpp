@@ -31,19 +31,6 @@ static PyObject* pyShadowMaster_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyShadowMaster_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyShadowMaster_FromShadowMaster(plShadowMaster::Convert(IConvert(cre)));
-}
-
 static PyObject* pyShadowMaster_getAttenDist(pyShadowMaster* self, void*) {
     return PyFloat_FromDouble(self->fThis->getAttenDist());
 }
@@ -123,8 +110,6 @@ static int pyShadowMaster_setMinSize(pyShadowMaster* self, PyObject* value, void
 }
 
 static PyMethodDef pyShadowMaster_Methods[] = {
-    { "Convert", (PyCFunction)pyShadowMaster_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plShadowMaster" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -34,19 +34,6 @@ static PyObject* pyClusterGroup_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyClusterGroup_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyClusterGroup_FromClusterGroup(plClusterGroup::Convert(IConvert(cre)));
-}
-
 static PyObject* pyClusterGroup_addCluster(pyClusterGroup* self, PyObject* args) {
     pyCluster* cluster;
     if (!PyArg_ParseTuple(args, "O", &cluster)) {
@@ -263,8 +250,6 @@ static int pyClusterGroup_setLights(pyClusterGroup* self, PyObject* value, void*
 }
 
 static PyMethodDef pyClusterGroup_Methods[] = {
-    { "Convert", (PyCFunction)pyClusterGroup_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plClusterGroup" },
     { "addCluster", (PyCFunction)pyClusterGroup_addCluster, METH_VARARGS,
       "Params: region\n"
       "Add a plCluster object to the group" },

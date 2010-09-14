@@ -26,19 +26,6 @@ static PyObject* pyAGChannel_new(PyTypeObject* type, PyObject* args, PyObject* k
     return NULL;
 }
 
-static PyObject* pyAGChannel_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyAGChannel_FromAGChannel(plAGChannel::Convert(IConvert(cre)));
-}
-
 static PyObject* pyAGChannel_getName(pyAGChannel* self, void*) {
     return PlStr_To_PyStr(self->fThis->getName());
 }
@@ -53,8 +40,6 @@ static int pyAGChannel_setName(pyAGChannel* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyAGChannel_Methods[] = {
-    { "Convert", (PyCFunction)pyAGChannel_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plAGChannel" },
     { NULL, NULL, 0, NULL }
 };
 

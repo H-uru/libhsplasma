@@ -32,19 +32,6 @@ static PyObject* pyAnimTimeConvert_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyAnimTimeConvert_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyAnimTimeConvert_FromAnimTimeConvert(plAnimTimeConvert::Convert(IConvert(cre)));
-}
-
 static PyObject* pyAnimTimeConvert_addCallback(pyAnimTimeConvert* self, PyObject* args) {
     pyEventCallbackMsg* msg;
     if (!PyArg_ParseTuple(args, "O", &msg)) {
@@ -283,8 +270,6 @@ static int pyAnimTimeConvert_setCallbacks(pyAnimTimeConvert* self, PyObject* val
 }
 
 static PyMethodDef pyAnimTimeConvert_Methods[] = {
-    { "Convert", (PyCFunction)pyAnimTimeConvert_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plAnimTimeConvert" },
     { "addCallback", (PyCFunction)pyAnimTimeConvert_addCallback, METH_VARARGS,
       "Params: callback\n"
       "Add a callback message to the object" },

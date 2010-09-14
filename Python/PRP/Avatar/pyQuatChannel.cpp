@@ -31,19 +31,6 @@ static PyObject* pyQuatChannel_new(PyTypeObject* type, PyObject* args, PyObject*
     return (PyObject*)self;
 }
 
-static PyObject* pyQuatChannel_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyQuatChannel_FromQuatChannel(plQuatChannel::Convert(IConvert(cre)));
-}
-
 static PyObject* pyQuatChannel_getResult(pyQuatChannel* self, void*) {
     return pyQuat_FromQuat(self->fThis->getResult());
 }
@@ -58,8 +45,6 @@ static int pyQuatChannel_setResult(pyQuatChannel* self, PyObject* value, void*) 
 }
 
 static PyMethodDef pyQuatChannel_Methods[] = {
-    { "Convert", (PyCFunction)pyQuatChannel_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plQuatChannel" },
     { NULL, NULL, 0, NULL }
 };
 

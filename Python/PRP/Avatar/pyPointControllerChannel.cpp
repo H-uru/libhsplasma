@@ -31,19 +31,6 @@ static PyObject* pyPointControllerChannel_new(PyTypeObject* type, PyObject* args
     return (PyObject*)self;
 }
 
-static PyObject* pyPointControllerChannel_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyPointControllerChannel_FromPointControllerChannel(plPointControllerChannel::Convert(IConvert(cre)));
-}
-
 static PyObject* pyPointControllerChannel_getController(pyPointControllerChannel* self, void*) {
     return pyController_FromController(self->fThis->getController());
 }
@@ -63,8 +50,6 @@ static int pyPointControllerChannel_setController(pyPointControllerChannel* self
 }
 
 static PyMethodDef pyPointControllerChannel_Methods[] = {
-    { "Convert", (PyCFunction)pyPointControllerChannel_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plPointControllerChannel" },
     { NULL, NULL, 0, NULL }
 };
 

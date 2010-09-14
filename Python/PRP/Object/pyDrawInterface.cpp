@@ -31,19 +31,6 @@ static PyObject* pyDrawInterface_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyDrawInterface_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyDrawInterface_FromDrawInterface(plDrawInterface::Convert(IConvert(cre)));
-}
-
 static PyObject* pyDrawInterface_clearDrawables(pyDrawInterface* self) {
     self->fThis->clearDrawables();
     Py_INCREF(Py_None);
@@ -140,8 +127,6 @@ static int pyDrawInterface_setRegions(pyDrawInterface* self, PyObject* value, vo
 }
 
 PyMethodDef pyDrawInterface_Methods[] = {
-    { "Convert", (PyCFunction)pyDrawInterface_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plDrawInterface" },
     { "clearDrawables", (PyCFunction)pyDrawInterface_clearDrawables, METH_NOARGS,
       "Removes all drawables from the Draw Interface" },
     { "addDrawable", (PyCFunction)pyDrawInterface_addDrawable, METH_VARARGS,

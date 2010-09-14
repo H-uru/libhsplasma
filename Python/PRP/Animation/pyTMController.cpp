@@ -39,19 +39,6 @@ static PyObject* pyTMController_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyTMController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyTMController_FromTMController(plTMController::Convert(IConvert(cre)));
-}
-
 static PyObject* pyTMController_getPos(pyTMController* self, void*) {
     return pyPosController_FromPosController(self->fThis->getPosController());
 }
@@ -107,8 +94,6 @@ static int pyTMController_setScale(pyTMController* self, PyObject* value, void*)
 }
 
 static PyMethodDef pyTMController_Methods[] = {
-    { "Convert", (PyCFunction)pyTMController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plTMController" },
     { NULL, NULL, 0, NULL }
 };
 

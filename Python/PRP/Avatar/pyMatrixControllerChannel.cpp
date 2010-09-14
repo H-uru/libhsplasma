@@ -31,19 +31,6 @@ static PyObject* pyMatrixControllerChannel_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyObject* pyMatrixControllerChannel_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMatrixControllerChannel_FromMatrixControllerChannel(plMatrixControllerChannel::Convert(IConvert(cre)));
-}
-
 static PyObject* pyMatrixControllerChannel_getController(pyMatrixControllerChannel* self, void*) {
     return pyController_FromController(self->fThis->getController());
 }
@@ -63,8 +50,6 @@ static int pyMatrixControllerChannel_setController(pyMatrixControllerChannel* se
 }
 
 static PyMethodDef pyMatrixControllerChannel_Methods[] = {
-    { "Convert", (PyCFunction)pyMatrixControllerChannel_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMatrixControllerChannel" },
     { NULL, NULL, 0, NULL }
 };
 

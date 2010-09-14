@@ -31,19 +31,6 @@ static PyObject* pyMatrixChannel_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyMatrixChannel_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMatrixChannel_FromMatrixChannel(plMatrixChannel::Convert(IConvert(cre)));
-}
-
 static PyObject* pyMatrixChannel_getAffine(pyMatrixChannel* self, void*) {
     return pyAffineParts_FromAffineParts(self->fThis->getAffine());
 }
@@ -58,8 +45,6 @@ static int pyMatrixChannel_setAffine(pyMatrixChannel* self, PyObject* value, voi
 }
 
 static PyMethodDef pyMatrixChannel_Methods[] = {
-    { "Convert", (PyCFunction)pyMatrixChannel_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMatrixChannel" },
     { NULL, NULL, 0, NULL }
 };
 

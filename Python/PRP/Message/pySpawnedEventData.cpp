@@ -30,19 +30,6 @@ static PyObject* pySpawnedEventData_new(PyTypeObject* type, PyObject* args, PyOb
     return (PyObject*)self;
 }
 
-static PyObject* pySpawnedEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pySpawnedEventData_FromSpawnedEventData(proSpawnedEventData::Convert(evt->fThis));
-}
-
 static PyObject* pySpawnedEventData_getSpawner(pySpawnedEventData* self, void*) {
     return pyKey_FromKey(self->fThis->getSpawner());
 }
@@ -78,8 +65,6 @@ static int pySpawnedEventData_setSpawnee(pySpawnedEventData* self, PyObject* val
 }
 
 static PyMethodDef pySpawnedEventData_Methods[] = {
-    { "Convert", (PyCFunction)pySpawnedEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proSpawnedEventData" },
     { NULL, NULL, 0, NULL }
 };
 

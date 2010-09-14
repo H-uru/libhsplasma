@@ -27,19 +27,6 @@ static PyObject* pyBitmap_new(PyTypeObject* type, PyObject* args, PyObject* kwds
     return NULL;
 }
 
-static PyObject* pyBitmap_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyBitmap_FromBitmap(plBitmap::Convert(IConvert(cre)));
-}
-
 static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
     int format;
     if (!PyArg_ParseTuple(args, "i", &format)) {
@@ -164,8 +151,6 @@ static int pyBitmap_setModTime(pyBitmap* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyBitmap_Methods[] = {
-    { "Convert", (PyCFunction)pyBitmap_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plBitmap" },
     { "setConfig", (PyCFunction)pyBitmap_setConfig, METH_VARARGS,
       "Params: format\n"
       "Set the config format of the image data" },

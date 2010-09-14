@@ -30,22 +30,7 @@ static PyObject* pyQuatBlend_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyQuatBlend_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyQuatBlend_FromQuatBlend(plQuatBlend::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyQuatBlend_Methods[] = {
-    { "Convert", (PyCFunction)pyQuatBlend_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plQuatBlend" },
     { NULL, NULL, 0, NULL }
 };
 

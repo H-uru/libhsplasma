@@ -29,19 +29,6 @@ static PyObject* pyResponderStateEventData_new(PyTypeObject* type, PyObject* arg
     return (PyObject*)self;
 }
 
-static PyObject* pyResponderStateEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyResponderStateEventData_FromResponderStateEventData(proResponderStateEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyResponderStateEventData_getState(pyResponderStateEventData* self, void*) {
     return PyInt_FromLong(self->fThis->getState());
 }
@@ -56,8 +43,6 @@ static int pyResponderStateEventData_setState(pyResponderStateEventData* self, P
 }
 
 static PyMethodDef pyResponderStateEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyResponderStateEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proResponderStateEventData" },
     { NULL, NULL, 0, NULL }
 };
 

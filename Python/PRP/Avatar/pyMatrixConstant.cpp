@@ -30,22 +30,7 @@ static PyObject* pyMatrixConstant_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyMatrixConstant_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMatrixConstant_FromMatrixConstant(plMatrixConstant::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyMatrixConstant_Methods[] = {
-    { "Convert", (PyCFunction)pyMatrixConstant_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMatrixConstant" },
     { NULL, NULL, 0, NULL }
 };
 

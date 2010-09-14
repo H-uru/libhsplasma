@@ -31,19 +31,6 @@ static PyObject* pyMessage_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     return (PyObject*)self;
 }
 
-static PyObject* pyMessage_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMessage_FromMessage(plMessage::Convert(IConvert(cre)));
-}
-
 static PyObject* pyMessage_addReceiver(pyMessage* self, PyObject* args) {
     pyKey* key;
     if (!PyArg_ParseTuple(args, "O", &key)) {
@@ -132,8 +119,6 @@ static int pyMessage_setReceivers(pyMessage* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyMessage_Methods[] = {
-    { "Convert", (PyCFunction)pyMessage_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMessage" },
     { "addReceiver", (PyCFunction)pyMessage_addReceiver, METH_VARARGS,
       "Params: callback\n"
       "Register a receiver key to the object" },

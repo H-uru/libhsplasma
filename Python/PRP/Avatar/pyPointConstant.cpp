@@ -30,22 +30,7 @@ static PyObject* pyPointConstant_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyPointConstant_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyPointConstant_FromPointConstant(plPointConstant::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyPointConstant_Methods[] = {
-    { "Convert", (PyCFunction)pyPointConstant_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plPointConstant" },
     { NULL, NULL, 0, NULL }
 };
 

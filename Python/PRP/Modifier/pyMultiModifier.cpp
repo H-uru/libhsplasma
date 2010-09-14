@@ -26,19 +26,6 @@ static PyObject* pyMultiModifier_new(PyTypeObject* type, PyObject* args, PyObjec
     return NULL;
 }
 
-static PyObject* pyMultiModifier_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMultiModifier_FromMultiModifier(plMultiModifier::Convert(IConvert(cre)));
-}
-
 static PyObject* pyMultiModifier_getFlag(pyMultiModifier* self, PyObject* args) {
     int flag;
     if (!PyArg_ParseTuple(args, "i", &flag)) {
@@ -60,8 +47,6 @@ static PyObject* pyMultiModifier_setFlag(pyMultiModifier* self, PyObject* args) 
 }
 
 static PyMethodDef pyMultiModifier_Methods[] = {
-    { "Convert", (PyCFunction)pyMultiModifier_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMultiModifier" },
     { "getFlag", (PyCFunction)pyMultiModifier_getFlag, METH_VARARGS,
       "Params: flag\n"
       "Returns whether the specified modifier flag is set" },

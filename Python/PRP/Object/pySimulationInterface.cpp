@@ -31,19 +31,6 @@ static PyObject* pySimulationInterface_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySimulationInterface_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySimulationInterface_FromSimulationInterface(plSimulationInterface::Convert(IConvert(cre)));
-}
-
 static PyObject* pySimulationInterface_getPhysical(pySimulationInterface* self, void*) {
     return pyKey_FromKey(self->fThis->getPhysical());
 }
@@ -62,8 +49,6 @@ static int pySimulationInterface_setPhysical(pySimulationInterface* self, PyObje
 }
 
 PyMethodDef pySimulationInterface_Methods[] = {
-    { "Convert", (PyCFunction)pySimulationInterface_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSimulationInterface" },
     { NULL, NULL, 0, NULL }
 };
 

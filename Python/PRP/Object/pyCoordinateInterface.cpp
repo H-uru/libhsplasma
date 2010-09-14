@@ -32,19 +32,6 @@ static PyObject* pyCoordinateInterface_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pyCoordinateInterface_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyCoordinateInterface_FromCoordinateInterface(plCoordinateInterface::Convert(IConvert(cre)));
-}
-
 static PyObject* pyCoordinateInterface_clearChildren(pyCoordinateInterface* self) {
     self->fThis->clearChildren();
     Py_INCREF(Py_None);
@@ -142,8 +129,6 @@ static int pyCoordinateInterface_setChildren(pyCoordinateInterface* self, PyObje
 }
 
 PyMethodDef pyCoordinateInterface_Methods[] = {
-    { "Convert", (PyCFunction)pyCoordinateInterface_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plCoordinateInterface" },
     { "clearChildren", (PyCFunction)pyCoordinateInterface_clearChildren, METH_NOARGS,
       "Removes all children from the Coordinate Interface" },
     { "addChild", (PyCFunction)pyCoordinateInterface_addChild, METH_VARARGS,

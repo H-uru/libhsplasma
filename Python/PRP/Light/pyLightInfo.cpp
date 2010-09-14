@@ -30,19 +30,6 @@ static PyObject* pyLightInfo_new(PyTypeObject* type, PyObject* args, PyObject* k
     return NULL;
 }
 
-static PyObject* pyLightInfo_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLightInfo_FromLightInfo(plLightInfo::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLightInfo_clearVisRegions(pyLightInfo* self) {
     self->fThis->clearVisRegions();
     Py_INCREF(Py_None);
@@ -211,8 +198,6 @@ static int pyLightInfo_setVisRegions(pyLightInfo* self, PyObject* value, void*) 
 }
 
 static PyMethodDef pyLightInfo_Methods[] = {
-    { "Convert", (PyCFunction)pyLightInfo_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLightInfo" },
     { "clearVisRegions", (PyCFunction)pyLightInfo_clearVisRegions, METH_NOARGS,
       "Remove all VisRegions from the light" },
     { "addVisRegion", (PyCFunction)pyLightInfo_addVisRegion, METH_VARARGS,

@@ -30,19 +30,6 @@ static PyObject* pyFacingEventData_new(PyTypeObject* type, PyObject* args, PyObj
     return (PyObject*)self;
 }
 
-static PyObject* pyFacingEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyFacingEventData_FromFacingEventData(proFacingEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyFacingEventData_getFacer(pyFacingEventData* self, void*) {
     return pyKey_FromKey(self->fThis->getFacer());
 }
@@ -104,8 +91,6 @@ static int pyFacingEventData_setEnabled(pyFacingEventData* self, PyObject* value
 }
 
 static PyMethodDef pyFacingEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyFacingEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proFacingEventData" },
     { NULL, NULL, 0, NULL }
 };
 

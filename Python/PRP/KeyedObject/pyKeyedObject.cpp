@@ -52,22 +52,7 @@ static int pyKeyedObject_setKey(pyKeyedObject* self, PyObject* value, void*) {
     return -1;
 }
 
-static PyObject* pyKeyedObject_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyKeyedObject_FromKeyedObject(hsKeyedObject::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyKeyedObject_Methods[] = {
-    { "Convert", (PyCFunction)pyKeyedObject_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to an hsKeyedObject" },
     { NULL, NULL, 0, NULL }
 };
 

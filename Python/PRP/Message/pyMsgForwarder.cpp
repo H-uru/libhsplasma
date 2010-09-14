@@ -32,19 +32,6 @@ static PyObject* pyMsgForwarder_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
-static PyObject* pyMsgForwarder_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMsgForwarder_FromMsgForwarder(plMsgForwarder::Convert(IConvert(cre)));
-}
-
 static PyObject* pyMsgForwarder_clearKeys(pyMsgForwarder* self) {
     self->fThis->clearForwardKeys();
     Py_INCREF(Py_None);
@@ -90,8 +77,6 @@ static int pyMsgForwarder_setForwardKeys(pyMsgForwarder* self, PyObject* value, 
 }
 
 static PyMethodDef pyMsgForwarder_Methods[] = {
-    { "Convert", (PyCFunction)pyMsgForwarder_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMsgForwarder" },
     { "clearForwardKeys", (PyCFunction)pyMsgForwarder_clearKeys, METH_NOARGS,
       "Remove all forward keys from the forwarder" },
     { "addForwardKey", (PyCFunction)pyMsgForwarder_addKey, METH_VARARGS,

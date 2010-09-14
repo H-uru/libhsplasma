@@ -37,19 +37,6 @@ static PyObject* pySimpleRotController_new(PyTypeObject* type, PyObject* args, P
     return (PyObject*)self;
 }
 
-static PyObject* pySimpleRotController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySimpleRotController_FromSimpleRotController(plSimpleRotController::Convert(IConvert(cre)));
-}
-
 static PyObject* pySimpleRotController_getRot(pySimpleRotController* self, void*) {
     return pyQuatController_FromQuatController(self->fThis->getRot());
 }
@@ -69,8 +56,6 @@ static int pySimpleRotController_setRot(pySimpleRotController* self, PyObject* v
 }
 
 static PyMethodDef pySimpleRotController_Methods[] = {
-    { "Convert", (PyCFunction)pySimpleRotController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSimpleRotController" },
     { NULL, NULL, 0, NULL }
 };
 

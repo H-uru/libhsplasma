@@ -31,19 +31,6 @@ static PyObject* pyLogicModifier_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyLogicModifier_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLogicModifier_FromLogicModifier(plLogicModifier::Convert(IConvert(cre)));
-}
-
 static PyObject* pyLogicModifier_clearConditions(pyLogicModifier* self) {
     self->fThis->clearConditions();
     Py_INCREF(Py_None);
@@ -119,8 +106,6 @@ static int pyLogicModifier_setParent(pyLogicModifier* self, PyObject* value, voi
 }
 
 static PyMethodDef pyLogicModifier_Methods[] = {
-    { "Convert", (PyCFunction)pyLogicModifier_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLogicModifier" },
     { "clearConditions", (PyCFunction)pyLogicModifier_clearConditions, METH_NOARGS,
       "Remove all condition keys" },
     { "addCondition", (PyCFunction)pyLogicModifier_addCondition, METH_VARARGS,

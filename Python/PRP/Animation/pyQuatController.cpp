@@ -36,22 +36,7 @@ static PyObject* pyQuatController_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyQuatController_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyQuatController_FromQuatController(plQuatController::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyQuatController_Methods[] = {
-    { "Convert", (PyCFunction)pyQuatController_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plQuatController" },
     { NULL, NULL, 0, NULL }
 };
 

@@ -30,19 +30,6 @@ static PyObject* pyContainedEventData_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyContainedEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyContainedEventData_FromContainedEventData(proContainedEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyContainedEventData_getContained(pyContainedEventData* self, void*) {
     return pyKey_FromKey(self->fThis->getContained());
 }
@@ -91,8 +78,6 @@ static int pyContainedEventData_setEntering(pyContainedEventData* self, PyObject
 }
 
 static PyMethodDef pyContainedEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyContainedEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proContainedEventData" },
     { NULL, NULL, 0, NULL }
 };
 

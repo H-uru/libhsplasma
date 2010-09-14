@@ -27,19 +27,6 @@ static PyObject* pySynchedObject_new(PyTypeObject* type, PyObject* args, PyObjec
     return NULL;
 }
 
-static PyObject* pySynchedObject_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySynchedObject_FromSynchedObject(plSynchedObject::Convert(IConvert(cre)));
-}
-
 static PyObject* pySynchedObject_setExclude(pySynchedObject* self, PyObject* args) {
     const char* str;
     if (!PyArg_ParseTuple(args, "s", &str)) {
@@ -135,8 +122,6 @@ static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, 
 }
 
 static PyMethodDef pySynchedObject_Methods[] = {
-    { "Convert", (PyCFunction)pySynchedObject_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSynchedObject" },
     { "setExclude", (PyCFunction)pySynchedObject_setExclude, METH_VARARGS,
       "Params: state\n"
       "Add an SDL state to the Exclude list" },

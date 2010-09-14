@@ -30,22 +30,7 @@ static PyObject* pyLayerBink_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyLayerBink_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyLayerBink_FromLayerBink(plLayerBink::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyLayerBink_Methods[] = {
-    { "Convert", (PyCFunction)pyLayerBink_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plLayerBink" },
     { NULL, NULL, 0, NULL }
 };
 

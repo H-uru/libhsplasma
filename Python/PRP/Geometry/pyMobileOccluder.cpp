@@ -32,19 +32,6 @@ static PyObject* pyMobileOccluder_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyMobileOccluder_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMobileOccluder_FromMobileOccluder(plMobileOccluder::Convert(IConvert(cre)));
-}
-
 static PyObject* pyMobileOccluder_getLocalToWorld(pyMobileOccluder* self, void*) {
     return pyMatrix44_FromMatrix44(self->fThis->getLocalToWorld());
 }
@@ -89,8 +76,6 @@ static int pyMobileOccluder_setLocalBounds(pyMobileOccluder* self, PyObject* val
 }
 
 static PyMethodDef pyMobileOccluder_Methods[] = {
-    { "Convert", (PyCFunction)pyMobileOccluder_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a plCreatable to a plMobileOccluder" },
     { NULL, NULL, 0, NULL }
 };
 

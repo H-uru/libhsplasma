@@ -36,22 +36,7 @@ static PyObject* pyMatrix33Controller_new(PyTypeObject* type, PyObject* args, Py
     return (PyObject*)self;
 }
 
-static PyObject* pyMatrix33Controller_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyMatrix33Controller_FromMatrix33Controller(plMatrix33Controller::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pyMatrix33Controller_Methods[] = {
-    { "Convert", (PyCFunction)pyMatrix33Controller_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plMatrix33Controller" },
     { NULL, NULL, 0, NULL }
 };
 

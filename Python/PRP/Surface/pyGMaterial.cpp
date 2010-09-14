@@ -32,19 +32,6 @@ static PyObject* pyGMaterial_new(PyTypeObject* type, PyObject* args, PyObject* k
     return (PyObject*)self;
 }
 
-static PyObject* pyGMaterial_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyGMaterial_FromGMaterial(hsGMaterial::Convert(IConvert(cre)));
-}
-
 static PyObject* pyGMaterial_clearLayers(pyGMaterial* self) {
     self->fThis->clearLayers();
     Py_INCREF(Py_None);
@@ -160,8 +147,6 @@ static int pyGMaterial_setLoadFlags(pyGMaterial* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyGMaterial_Methods[] = {
-    { "Convert", (PyCFunction)pyGMaterial_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a hsGMaterial" },
     { "clearLayers", (PyCFunction)pyGMaterial_clearLayers, METH_NOARGS,
       "Remove all layer keys from the material" },
     { "addLayer", (PyCFunction)pyGMaterial_addLayer, METH_VARARGS,

@@ -33,19 +33,6 @@ static PyObject* pyOccluder_new(PyTypeObject* type, PyObject* args, PyObject* kw
     return (PyObject*)self;
 }
 
-static PyObject* pyOccluder_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyOccluder_FromOccluder(plOccluder::Convert(IConvert(cre)));
-}
-
 static PyObject* pyOccluder_clearPolys(pyOccluder* self) {
     self->fThis->clearPolys();
     Py_INCREF(Py_None);
@@ -182,8 +169,6 @@ static int pyOccluder_setVisRegions(pyOccluder* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyOccluder_Methods[] = {
-    { "Convert", (PyCFunction)pyOccluder_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a plCreatable to a plOccluder" },
     { "clearPolys", (PyCFunction)pyOccluder_clearPolys, METH_NOARGS,
       "Remove all plCullPolys from the occluder" },
     { "addPoly", (PyCFunction)pyOccluder_addPoly, METH_VARARGS,

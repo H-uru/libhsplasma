@@ -31,19 +31,6 @@ static PyObject* pyATCAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwd
     return (PyObject*)self;
 }
 
-static PyObject* pyATCAnim_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyATCAnim_FromATCAnim(plATCAnim::Convert(IConvert(cre)));
-}
-
 static PyObject* pyATCAnim_clearMarkers(pyATCAnim* self) {
     self->fThis->getMarkers().clear();
     Py_INCREF(Py_None);
@@ -320,8 +307,6 @@ static int pyATCAnim_setStops(pyATCAnim* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyATCAnim_Methods[] = {
-    { "Convert", (PyCFunction)pyATCAnim_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plATCAnim" },
     { "clearMarkers", (PyCFunction)pyATCAnim_clearMarkers, METH_NOARGS,
       "Remove all named markers from the anim" },
     { "clearLoops", (PyCFunction)pyATCAnim_clearLoops, METH_NOARGS,

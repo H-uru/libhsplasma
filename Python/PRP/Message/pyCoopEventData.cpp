@@ -29,19 +29,6 @@ static PyObject* pyCoopEventData_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pyCoopEventData_Convert(PyObject*, PyObject* args) {
-    pyEventData* evt;
-    if (!PyArg_ParseTuple(args, "O", &evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    if (!pyEventData_Check((PyObject*)evt)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a proEventData");
-        return NULL;
-    }
-    return pyCoopEventData_FromCoopEventData(proCoopEventData::Convert(evt->fThis));
-}
-
 static PyObject* pyCoopEventData_getID(pyCoopEventData* self, void*) {
     return PyInt_FromLong(self->fThis->getID());
 }
@@ -69,8 +56,6 @@ static int pyCoopEventData_setSerial(pyCoopEventData* self, PyObject* value, voi
 }
 
 static PyMethodDef pyCoopEventData_Methods[] = {
-    { "Convert", (PyCFunction)pyCoopEventData_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a proEventData to a proCoopEventData" },
     { NULL, NULL, 0, NULL }
 };
 

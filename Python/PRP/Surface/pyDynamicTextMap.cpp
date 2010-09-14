@@ -31,19 +31,6 @@ static PyObject* pyDynamicTextMap_new(PyTypeObject* type, PyObject* args, PyObje
     return (PyObject*)self;
 }
 
-static PyObject* pyDynamicTextMap_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyDynamicTextMap_FromDynamicTextMap(plDynamicTextMap::Convert(IConvert(cre)));
-}
-
 static PyObject* pyDynamicTextMap_getWidth(pyDynamicTextMap* self, void*) {
     return PyInt_FromLong(self->fThis->getVisWidth());
 }
@@ -115,8 +102,6 @@ static int pyDynamicTextMap_setInitBuffer(pyDynamicTextMap* self, PyObject* valu
 }
 
 static PyMethodDef pyDynamicTextMap_Methods[] = {
-    { "Convert", (PyCFunction)pyDynamicTextMap_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plDynamicTextMap" },
     { NULL, NULL, 0, NULL }
 };
 

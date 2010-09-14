@@ -31,22 +31,7 @@ static PyObject* pySpawnModifier_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
-static PyObject* pySpawnModifier_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pySpawnModifier_FromSpawnModifier(plSpawnModifier::Convert(IConvert(cre)));
-}
-
 static PyMethodDef pySpawnModifier_Methods[] = {
-    { "Convert", (PyCFunction)pySpawnModifier_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plSpawnModifier" },
     { NULL, NULL, 0, NULL }
 };
 

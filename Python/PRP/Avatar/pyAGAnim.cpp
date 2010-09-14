@@ -32,19 +32,6 @@ static PyObject* pyAGAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds
     return (PyObject*)self;
 }
 
-static PyObject* pyAGAnim_Convert(PyObject*, PyObject* args) {
-    pyCreatable* cre;
-    if (!PyArg_ParseTuple(args, "O", &cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    if (!pyCreatable_Check((PyObject*)cre)) {
-        PyErr_SetString(PyExc_TypeError, "Convert expects a plCreatable");
-        return NULL;
-    }
-    return pyAGAnim_FromAGAnim(plAGAnim::Convert(IConvert(cre)));
-}
-
 static PyObject* pyAGAnim_clearApps(pyAGAnim* self) {
     self->fThis->clearApplicators();
     Py_INCREF(Py_None);
@@ -143,8 +130,6 @@ static int pyAGAnim_setApps(pyAGAnim* self, PyObject* value, void*) {
 }
 
 static PyMethodDef pyAGAnim_Methods[] = {
-    { "Convert", (PyCFunction)pyAGAnim_Convert, METH_VARARGS | METH_STATIC,
-      "Convert a Creatable to a plAGAnim" },
     { "clearApplicators", (PyCFunction)pyAGAnim_clearApps, METH_NOARGS,
       "Remove all plAGApplicators from the anim" },
     { "addApplicator", (PyCFunction)pyAGAnim_addApplicator, METH_VARARGS,
