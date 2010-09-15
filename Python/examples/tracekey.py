@@ -25,37 +25,28 @@ def proEventData_hasRef(evt, ref):
         return False
 
     if evt.EventType() == proEventData.kCollision:
-        obj = proCollisionEventData.Convert(evt)
-        if obj.hitter == ref: return True
-        if obj.hittee == ref: return True
+        if evt.hitter == ref: return True
+        if evt.hittee == ref: return True
     if evt.EventType() == proEventData.kPicked:
-        obj = proPickedEventData.Convert(evt)
-        if obj.picker == ref: return True
-        if obj.picked == ref: return True
+        if evt.picker == ref: return True
+        if evt.picked == ref: return True
     if evt.EventType() == proEventData.kVariable:
-        obj = proVariableEventData.Convert(evt)
-        if obj.key == ref: return True
+        if evt.key == ref: return True
     if evt.EventType() == proEventData.kFacing:
-        obj = proFacingEventData.Convert(evt)
-        if obj.facer == ref: return True
-        if obj.facee == ref: return True
+        if evt.facer == ref: return True
+        if evt.facee == ref: return True
     if evt.EventType() == proEventData.kContained:
-        obj = proContainedEventData.Convert(evt)
-        if obj.contained == ref: return True
-        if obj.container == ref: return True
+        if evt.contained == ref: return True
+        if evt.container == ref: return True
     if evt.EventType() == proEventData.kMultiStage:
-        obj = proMultiStageEventData.Convert(evt)
-        if obj.avatar == ref: return True
+        if evt.avatar == ref: return True
     if evt.EventType() == proEventData.kSpawned:
-        obj = proSpawnedEventData.Convert(evt)
-        if obj.spawner == ref: return True
-        if obj.spawnee == ref: return True
+        if evt.spawner == ref: return True
+        if evt.spawnee == ref: return True
     if evt.EventType() == proEventData.kOfferLinkBook:
-        obj = proOfferLinkBookEventData.Convert(evt)
-        if obj.offerer == ref: return True
+        if evt.offerer == ref: return True
     if evt.EventType() == proEventData.kClimbingBlockerHit:
-        obj = proClimbingBlockerHitEventData.Convert(evt)
-        if obj.blocker == ref: return True
+        if evt.blocker == ref: return True
 
 
 def hasRef(cre, ref):
@@ -64,111 +55,88 @@ def hasRef(cre, ref):
 
     # Keyed Objects
     if cre.ClassInstance(plFactory.kAudioInterface):
-        obj = plAudioInterface.Convert(cre)
-        if obj.audible == ref: return True
+        if cre.audible == ref: return True
     if cre.ClassInstance(plFactory.kClusterGroup):
-        obj = plClusterGroup.Convert(cre)
-        if obj.material == ref: return True
-        if obj.sceneNode == ref: return True
-        if obj.drawable == ref: return True
-        if ref in obj.regions: return True
-        if ref in obj.lights: return True
+        if cre.material == ref: return True
+        if cre.sceneNode == ref: return True
+        if cre.drawable == ref: return True
+        if ref in cre.regions: return True
+        if ref in cre.lights: return True
     if cre.ClassInstance(plFactory.kCoordinateInterface):
-        obj = plCoordinateInterface.Convert(cre)
-        if ref in obj.children: return True
+        if ref in cre.children: return True
     if cre.ClassInstance(plFactory.kDrawableSpans):
-        obj = plDrawableSpans.Convert(cre)
-        for span in obj.spans:
+        for span in cre.spans:
             if span.fog == ref: return True
             if ref in span.permaLights: return True
             if ref in span.permaProjs: return True
-        if ref in obj.materials: return True
-        if obj.sceneNode == ref: return True
+        if ref in cre.materials: return True
+        if cre.sceneNode == ref: return True
     if cre.ClassInstance(plFactory.kDrawInterface):
-        obj = plDrawInterface.Convert(cre)
-        for dk in obj.drawables:
+        for dk in cre.drawables:
             if dk[0] == ref: return True
-        if ref in obj.regions: return True
+        if ref in cre.regions: return True
     if cre.ClassInstance(plFactory.kGenericPhysical):
-        obj = plGenericPhysical.Convert(cre)
-        if obj.object == ref: return True
-        if obj.sceneNode == ref: return True
-        if obj.subWorld == ref: return True
-        if obj.soundGroup == ref: return True
+        if cre.cre.ct == ref: return True
+        if cre.sceneNode == ref: return True
+        if cre.subWorld == ref: return True
+        if cre.soundGroup == ref: return True
     if cre.ClassInstance(plFactory.kInterfaceInfoModifier):
-        obj = plInterfaceInfoModifier.Convert(cre)
-        if ref in obj.intfKeys: return True
+        if ref in cre.intfKeys: return True
     if cre.ClassInstance(plFactory.kLightInfo):
-        obj = plLightInfo.Convert(cre)
-        if obj.projection == ref: return True
-        if obj.softVolume == ref: return True
-        if obj.sceneNode == ref: return True
-        if ref in obj.visRegions: return True
+        if cre.projection == ref: return True
+        if cre.softVolume == ref: return True
+        if cre.sceneNode == ref: return True
+        if ref in cre.visRegions: return True
     if cre.ClassInstance(plFactory.kLogicModBase):
-        obj = plLogicModBase.Convert(cre)
-        for cmd in obj.commands:
+        for cmd in cre.commands:
             if hasRef(cmd, ref): return True
-        if hasRef(obj.notify, ref): return True
+        if hasRef(cre.notify, ref): return True
     if cre.ClassInstance(plFactory.kLogicModifier):
-        obj = plLogicModifier.Convert(cre)
-        if ref in obj.conditions: return True
+        if ref in cre.conditions: return True
     if cre.ClassInstance(plFactory.kMsgForwarder):
-        obj = plMsgForwarder.Convert(cre)
-        if ref in obj.forwardKeys: return True
+        if ref in cre.forwardKeys: return True
     if cre.ClassInstance(plFactory.kObjInterface):
-        obj = plObjInterface.Convert(cre)
-        if obj.owner == ref: return True
+        if cre.owner == ref: return True
     if cre.ClassInstance(plFactory.kOccluder):
-        obj = plOccluder.Convert(cre)
-        if obj.sceneNode == ref: return True
+        if cre.sceneNode == ref: return True
     if cre.ClassInstance(plFactory.kPythonFileMod):
-        obj = plPythonFileMod.Convert(cre)
-        if ref in obj.receivers: return True
-        for param in obj.parameters:
-            if param.objKey == ref: return True
+        if ref in cre.receivers: return True
+        for param in cre.parameters:
+            if param.cre.ey == ref: return True
     if cre.ClassInstance(plFactory.kResponderModifier):
-        obj = plResponderModifier.Convert(cre)
-        for state in obj.states:
+        for state in cre.states:
             for cmd in state.commands:
                 if hasRef(cmd.msg, ref): return True
     if cre.ClassInstance(plFactory.kSceneNode):
-        obj = plSceneNode.Convert(cre)
-        if ref in obj.sceneObjects: return True
-        if ref in obj.poolObjects: return True
+        if ref in cre.sceneObjects: return True
+        if ref in cre.poolObjects: return True
     if cre.ClassInstance(plFactory.kSceneObject):
-        obj = plSceneObject.Convert(cre)
-        if obj.audio == ref: return True
-        if obj.draw == ref: return True
-        if obj.sim == ref: return True
-        if obj.coord == ref: return True
-        if ref in obj.modifiers: return True
-        if ref in obj.interfaces: return True
-        if obj.sceneNode == ref: return True
+        if cre.audio == ref: return True
+        if cre.draw == ref: return True
+        if cre.sim == ref: return True
+        if cre.coord == ref: return True
+        if ref in cre.modifiers: return True
+        if ref in cre.interfaces: return True
+        if cre.sceneNode == ref: return True
     if cre.ClassInstance(plFactory.kSimulationInterface):
-        obj = plSimulationInterface.Convert(cre)
-        if obj.physical == ref: return True
+        if cre.physical == ref: return True
     if cre.ClassInstance(plFactory.kViewFaceModifier):
-        obj = plViewFaceModifier.Convert(cre)
-        if obj.faceObj == ref: return True
+        if cre.faceObj == ref: return True
     if cre.ClassInstance(plFactory.kWinAudible):
-        obj = plWinAudible.Convert(cre)
-        if obj.sceneNode == ref: return True
-        if ref in obj.sounds: return True
+        if cre.sceneNode == ref: return True
+        if ref in cre.sounds: return True
     if cre.ClassInstance(plFactory.kLayer):
-        obj = plLayer.Convert(cre)
-        if obj.underLay == ref: return True
-        if obj.texture == ref: return True
-        if obj.vertexShader == ref: return True
-        if obj.pixelShader == ref: return True
+        if cre.underLay == ref: return True
+        if cre.texture == ref: return True
+        if cre.vertexShader == ref: return True
+        if cre.pixelShader == ref: return True
 
-    # Non-Keyed objects
+    # Non-Keyed cre.cts
     if cre.ClassInstance(plFactory.kMessage):
-        obj = plMessage.Convert(cre)
-        if obj.sender == ref: return True
-        if ref in obj.receivers: return True
+        if cre.sender == ref: return True
+        if ref in cre.receivers: return True
     if cre.ClassInstance(plFactory.kNotifyMsg):
-        obj = plNotifyMsg.Convert(cre)
-        for evt in obj.events:
+        for evt in cre.events:
             if proEventData_hasRef(evt, ref): return True
 
     return False
