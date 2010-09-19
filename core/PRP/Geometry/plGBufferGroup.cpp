@@ -230,7 +230,11 @@ void plGBufferGroup::read(hsStream* S) {
             vData = new unsigned char[vtxSize];
             S->read(vtxSize, vData);
             fVertBuffStorage[i] = vData;
-            S->readInt();   // Color count
+            hsUint32 colourcount = S->readInt();
+            if (colourcount > 0) {
+                unsigned char* cData = new unsigned char[colourcount*8];
+                S->read(colourcount * 8, cData);
+            }
             fCompGBuffSizes[i] = 0;
             fCompGBuffStorage[i] = NULL;
         }
