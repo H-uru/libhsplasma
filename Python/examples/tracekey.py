@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from PyHSPlasma import *
 import sys
 
@@ -149,9 +150,9 @@ def dumpTree(key, indent):
     if key in refStack: return
     refStack.append(key)
 
-    for i in range(indent):
-        print "   ",
-    print fmtKey(key)
+    #for i in range(indent):
+    #    print("   ", end='')
+    print("%s%s" % ('   '*indent, fmtKey(key)))
 
     for type in rm.getTypes(page.location):
         for k in rm.getKeys(page.location, type):
@@ -161,7 +162,7 @@ def dumpTree(key, indent):
 
 ####
 if len(sys.argv) != 4:
-    print "Usage: tracekey.py filename typename keyname"
+    print("Usage: tracekey.py filename typename keyname")
     sys.exit(1)
 
 rm = plResManager()
@@ -170,7 +171,7 @@ type = plFactory.ClassIndex(sys.argv[2])
 skey = None
 
 if type < 0:
-    print "Type '%s' is invalid" % sys.argv[2]
+    print("Type '%s' is invalid" % sys.argv[2])
     sys.exit(1)
 
 for loc in rm.getLocations():
@@ -180,7 +181,7 @@ for loc in rm.getLocations():
             skey = k
 
 if skey is None:
-    print "The specified key is not referenced in the PRP"
+    print("The specified key is not referenced in the PRP")
     sys.exit(1)
 
 dumpTree(skey, 0)
