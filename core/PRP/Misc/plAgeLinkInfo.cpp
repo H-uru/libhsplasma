@@ -235,8 +235,21 @@ void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
             fAgeInfo.read(S, mgr);
         if (fFlags & kHasLinkingRules)
             fLinkingRules = S->readByte();
-        if (fFlags & (kHasSpawnPt_DEAD | kHasSpawnPt_DEAD2))
-            throw hsNotImplementedException(__FILE__, __LINE__, "Old Code");
+        if (fFlags & kHasSpawnPt_DEAD) {
+            size_t len = S->readShort();
+            plString str = S->readStr(len);
+            fSpawnPoint.setSpawnPt(str);
+            if (str == "LinkInPointDefault")
+                fSpawnPoint.setTitle("Default");
+            else
+                fSpawnPoint.setTitle(str);
+        }
+        if (fFlags & kHasSpawnPt_DEAD2) {
+            size_t len = S->readShort();
+            fSpawnPoint.setTitle(S->readStr(len));
+            len = S->readShort();
+            fSpawnPoint.setSpawnPt(S->readStr(len));
+        }
         if (fFlags & kHasSpawnPt)
             fSpawnPoint.read(S);
         if (fFlags & kHasAmCCR)
@@ -265,6 +278,11 @@ void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
             fFlags |= kHasSpawnPt;
             fSpawnPoint.read(S);
         }
+    }
+
+    if (fFlags & (kHasSpawnPt_DEAD | kHasSpawnPt_DEAD2)) {
+        fFlags &= ~(kHasSpawnPt_DEAD | kHasSpawnPt_DEAD2);
+        fFlags |= kHasSpawnPt;
     }
 }
 
