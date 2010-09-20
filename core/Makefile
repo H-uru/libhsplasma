@@ -34,6 +34,7 @@ PLSOBJ=\
 	$(OBJDIR)hsThread.o \
 	$(OBJDIR)plUnifiedTime.o \
 	$(OBJDIR)plUuid.o \
+	$(OBJDIR)hs3DDevice.o \
 	$(OBJDIR)hsBitVector.o \
 	$(OBJDIR)plDDSurface.o \
 	$(OBJDIR)plJPEG.o \
@@ -553,6 +554,7 @@ PLSHEADERS=\
 	Sys/Platform.h \
 	Sys/plUnifiedTime.h \
 	Sys/plUuid.h \
+	Util/hs3DDevice.h \
 	Util/hsBitVector.h \
 	Util/hsTArray.hpp \
 	Util/hsTList.hpp \
@@ -713,6 +715,9 @@ $(OBJDIR)plUnifiedTime.o: $(PLSHEADERS) Sys/plUnifiedTime.cpp
 
 $(OBJDIR)plUuid.o: $(PLSHEADERS) Sys/plUuid.cpp
 	$(CXX) $(CXXFLAGS) -c Sys/plUuid.cpp -o $@
+
+$(OBJDIR)hs3DDevice.o: $(PLSHEADERS) Util/hs3DDevice.cpp
+	$(CXX) $(CXXFLAGS) -c Util/hs3DDevice.cpp -o $@
 
 $(OBJDIR)hsBitVector.o: $(PLSHEADERS) Util/hsBitVector.cpp
 	$(CXX) $(CXXFLAGS) -c Util/hsBitVector.cpp -o $@

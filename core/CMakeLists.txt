@@ -674,6 +674,7 @@ set(SYS_HDRS
 
 set(UTIL_SRCS
     Util/PlasmaVersions.cpp
+    Util/hs3DDevice.cpp
     Util/hsBitVector.cpp
     Util/plDDSurface.cpp
     Util/plJPEG.cpp
@@ -683,6 +684,7 @@ set(UTIL_SRCS
 )
 set(UTIL_HDRS
     Util/PlasmaVersions.h
+    Util/hs3DDevice.h
     Util/hsBitVector.h
     Util/hsTArray.hpp
     Util/hsTList.hpp
