@@ -80,32 +80,31 @@ void hsG3DDeviceRecord::read(hsStream* S) {
     fFlags = S->readInt();
     fDeviceType = S->readInt();
 
-    if (fRecordVersion >= 0) {
-        size_t len = S->readInt();
-        fDriverDesc = S->readStr(len);
-        len = S->readInt();
-        fDriverName = S->readStr(len);
-        len = S->readInt();
-        fDriverVersion = S->readStr(len);
-        len = S->readInt();
-        fDeviceDesc = S->readStr(len);
+    size_t len = S->readInt();
+    fDriverDesc = S->readStr(len);
+    len = S->readInt();
+    fDriverName = S->readStr(len);
+    len = S->readInt();
+    fDriverVersion = S->readStr(len);
+    len = S->readInt();
+    fDeviceDesc = S->readStr(len);
 
-        fCaps.read(S);
+    fCaps.read(S);
 
-        fLayersAtOnce = S->readInt();
-        fMemoryBytes = S->readInt();
+    fLayersAtOnce = S->readInt();
+    fMemoryBytes = S->readInt();
 
-        size_t count = S->readInt();
-        for (size_t i = 0; i < count; i++) {
-            fModes[i].read(S, fRecordVersion);
-        }
-
-        fZBiasRating = S->readFloat();
-        fLODBiasRating = S->readFloat();
-        fFogExpApproxStart = S->readFloat();
-        fFogExp2ApproxStart = S->readFloat();
-        fFogEndBias = S->readFloat();
+    size_t count = S->readInt();
+    for (size_t i = 0; i < count; i++) {
+        fModes[i].read(S, fRecordVersion);
     }
+
+    fZBiasRating = S->readFloat();
+    fLODBiasRating = S->readFloat();
+    fFogExpApproxStart = S->readFloat();
+    fFogExp2ApproxStart = S->readFloat();
+    fFogEndBias = S->readFloat();
+
     if (fRecordVersion >= 7) {
         fFogKnees[0].fFogKnee = S->readFloat();
         fFogKnees[0].fFogKneeVal = S->readFloat();
@@ -118,4 +117,67 @@ void hsG3DDeviceRecord::read(hsStream* S) {
         fAASetting = S->readByte();
         fMaxAnisotropicSamples = S->readByte();
     }
+}
+
+void hsG3DDeviceRecord::write(hsStream* S) {
+    S->writeInt(fRecordVersion);
+    S->writeInt(fFlags);
+    S->writeInt(fDeviceType);
+
+    S->writeInt(fDriverDesc.len());
+    S->writeStr(fDriverDesc);
+    S->writeInt(fDriverName.len());
+    S->writeStr(fDriverName);
+    S->writeInt(fDriverVersion.len());
+    S->writeStr(fDriverVersion);
+    S->writeInt(fDeviceDesc.len());
+    S->writeStr(fDeviceDesc);
+
+    fCaps.write(S);
+
+    S->writeInt(fLayersAtOnce);
+    S->writeInt(fMemoryBytes);
+
+    S->writeInt(fModes.getSize());
+    for (size_t i = 0; i < fModes.getSize(); i++) {
+        fModes[i].write(S, fRecordVersion);
+    }
+
+    S->writeFloat(fZBiasRating);
+    S->writeFloat(fLODBiasRating);
+    S->writeFloat(fFogExpApproxStart);
+    S->writeFloat(fFogExp2ApproxStart);
+    S->writeFloat(fFogEndBias);
+
+    if (fRecordVersion >= 7) {
+        S->writeFloat(fFogKnees[0].fFogKnee);
+        S->writeFloat(fFogKnees[0].fFogKneeVal);
+
+        S->writeFloat(fFogKnees[1].fFogKnee);
+        S->writeFloat(fFogKnees[1].fFogKneeVal);
+    }
+
+    if (fRecordVersion >= 11) {
+        S->writeByte(fAASetting);
+        S->writeByte(fMaxAnisotropicSamples);
+    }
+}
+
+hsG3DDeviceModeRecord::hsG3DDeviceModeRecord()
+    : fTextureQuality(0) { }
+
+hsG3DDeviceModeRecord::~hsG3DDeviceModeRecord() { }
+
+void hsG3DDeviceModeRecord::read(hsStream* S) {
+    fRecord.read(S);
+    fMode.read(S, fRecord.getVersion());
+
+    fTextureQuality = S->readShort();
+}
+
+void hsG3DDeviceModeRecord::write(hsStream* S) {
+    fRecord.write(S);
+    fMode.write(S, fRecord.getVersion());
+
+    S->writeShort(fTextureQuality);
 }

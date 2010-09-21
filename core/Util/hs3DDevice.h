@@ -41,10 +41,12 @@ public:
     unsigned int getWidth() const { return fWidth; }
     unsigned int getHeight() const { return fHeight; }
     unsigned int getDepth() const { return fDepth; }
+    bool getCanRenderToCubics() const { return fCanRenderToCubics; }
 
     void setWidth(unsigned int width) { fWidth = width; }
     void setHeight(unsigned int height) { fHeight = height; }
     void setDepth(unsigned int depth) { fDepth = depth; }
+    void setCanRenderToCubics(bool b) { fCanRenderToCubics = b; }
 };
 
 DllClass hsG3DDeviceRecord {
@@ -70,7 +72,6 @@ private:
     unsigned int fRecordVersion;
     unsigned int fFlags;
     unsigned int fDeviceType;
-    unsigned int fHALorHEL;
     plString fDriverDesc;
     plString fDriverName;
     plString fDriverVersion;
@@ -93,10 +94,47 @@ public:
     virtual ~hsG3DDeviceRecord();
 
     void read(hsStream* S);
-    //void write(hsStream* S);
+    void write(hsStream* S);
 
     unsigned int getVersion() const { return fRecordVersion; }
     unsigned int getFlags() const { return fFlags; }
+    unsigned int getDeviceType() const { return fDeviceType; }
+    const plString& getDriverDesc() const { return fDriverDesc; }
+    const plString& getDriverName() const { return fDriverName; }
+    const plString& getDriverVersion() const { return fDriverVersion; }
+    const plString& getDeviceDesc() const { return fDeviceDesc; }
+    const hsBitVector getCaps() { return fCaps; }
+    unsigned int getLayersAtOnce() const { return fLayersAtOnce; }
+    unsigned int getMemoryBytes() const { return fMemoryBytes; }
+    size_t getNumModes() const { return fModes.getSize(); }
+    const hsG3DDeviceMode& getMode(size_t idx) { return fModes[idx]; }
+    float getZBiasRating() const { return fZBiasRating; }
+    float getLODBIasRating() const { return fLODBiasRating; }
+    float getFogExpApproxStart() const { return fFogExpApproxStart; }
+    float getFogExp2ApproxStart() const { return fFogExp2ApproxStart; }
+    float getFogEndBias() const { return fFogEndBias; }
+
+    void setVersion(unsigned int version) { fRecordVersion = version; }
+    void setFlags(unsigned int flags) { fFlags = flags; }
+    void setDeviceType(unsigned int type) { fDeviceType = type; }
+    void setDriverDesc(const plString& desc) { fDriverDesc = desc; }
+    void setDriverName(const plString& name) { fDriverName = name; }
+    void setDriverVersion(const plString& version) { fDriverVersion = version; }
+    void setDeviceDesc(const plString& desc) { fDeviceDesc = desc; }
+};
+
+DllClass hsG3DDeviceModeRecord {
+private:
+    hsG3DDeviceRecord fRecord;
+    hsG3DDeviceMode fMode;
+    unsigned short fTextureQuality;
+
+public:
+    hsG3DDeviceModeRecord();
+    virtual ~hsG3DDeviceModeRecord();
+
+    void read(hsStream* S);
+    void write(hsStream* S);
 };
 
 #endif
