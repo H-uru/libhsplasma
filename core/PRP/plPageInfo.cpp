@@ -217,6 +217,8 @@ void plPageInfo::prcParse(const pfPrcTag* tag) {
 plString plPageInfo::getFilename(PlasmaVer ver) const {
     if (ver.isNewPlasma())
         return plString::Format("%s_%s.prp", fAge.cstr(), fPage.cstr());
+    else if (ver < MAKE_VERSION(2, 0, 60, 00))
+        return plString::Format("%s_District_%s.prx", fAge.cstr(), fPage.cstr());
     else
         return plString::Format("%s_District_%s.prp", fAge.cstr(), fPage.cstr());
 }

@@ -266,19 +266,23 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
             path = path + PATHSEPSTR;
 
         PlasmaVer ageVer = PlasmaVer::pvUnknown;
+        bool packed = true;
         if (age->getNumPages() > 0) {
-            plString file = plString::Format("%s_District_%s.prp",
+            plString file = plString::Format("%s_District_%s",
                     age->getAgeName().cstr(),
                     age->getPage(0).fName.cstr());
-            if (hsFileStream::FileExists(path + file))
+            if (hsFileStream::FileExists(path + file + ".prp")) {
                 ageVer = MAKE_VERSION(2, 0, 63, 12);
-            else
+            } else if (hsFileStream::FileExists(path + file + ".prx")) {
+                ageVer = MAKE_VERSION(2, 0, 63, 12);
+                packed = false;
+            } else {
                 ageVer = MAKE_VERSION(2, 1, 6, 10);
+            }
         }
 
-        size_t numpages = age->getNumPages() + age->getNumCommonPages(ageVer);
-        plPageStream* pageStreams = new plPageStream[numpages];
         hsFileStream* S = NULL;
+        std::vector<plPageInfo*> agepages;
         totalKeys = 0;
         readKeys = 0;
 
@@ -291,22 +295,20 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
                 plPageInfo* page = new plPageInfo();
                 page->read(S);
 
-                pageStreams[i] = plPageStream();
-                pageStreams[i].stream = S;
-
                 for (size_t j=0; j<pages.size(); j++) {
                     if (pages[j]->getLocation() == page->getLocation()) {
                         delete page;
-                        pageStreams[i].page = pages[j];
                         continue;
                     }
                 }
-                pageStreams[i].page = page;
 
+                agepages.push_back(page);
                 pages.push_back(page);
                 setVer(S->getVer(), true);
                 S->seek(page->getIndexStart());
                 totalKeys += ReadKeyring(S, page->getLocation());
+                S->close();
+                delete S;
             }
         }
 
@@ -319,40 +321,41 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
                 plPageInfo* page = new plPageInfo();
                 page->read(S);
 
-                pageStreams[numpages - 1 - i] = plPageStream();
-                pageStreams[numpages - 1 - i].stream = S;
-
                 for (size_t j=0; j<pages.size(); j++) {
                     if (pages[j]->getLocation() == page->getLocation()) {
                         delete page;
-                        pageStreams[numpages - 1 - i].page = pages[j];
                         continue;
                     }
                 }
-                pageStreams[numpages - 1 - i].page = page;
 
+                agepages.push_back(page);
                 pages.push_back(page);
                 setVer(S->getVer(), true);
                 S->seek(page->getIndexStart());
                 totalKeys += ReadKeyring(S, page->getLocation());
-            } else {
-                pageStreams[numpages - 1 - i] = plPageStream();
-                pageStreams[numpages - 1 - i].stream = NULL;
-                pageStreams[numpages - 1 - i].page = NULL;
+                S->close();
+                delete S;
             }
         }
 
-        for (size_t i=0; i < numpages; i++) {
-            if (pageStreams[i].page == NULL)
-                continue;
+        for (size_t i=0; i < agepages.size(); i++) {
+            S = new hsFileStream();
+            S->setVer(getVer());
+            plString file = path + agepages[i]->getFilename(ageVer);
+            if (!packed) {
+                file = file.beforeLast('.') + ".prm";
+            }
 
-            pageStreams[i].page->setNumObjects(
-                    ReadObjects(pageStreams[i].stream,
-                        pageStreams[i].page->getLocation()));
-            pageStreams[i].stream->close();
-            delete pageStreams[i].stream;
+            if (!S->open(file, fmRead)) {
+                throw hsFileReadException(__FILE__, __LINE__, filename);
+            }
+
+            agepages[i]->setNumObjects(
+                    ReadObjects(S, agepages[i]->getLocation()));
+
+            S->close();
+            delete S;
         }
-        delete pageStreams;
 
 #ifdef DEBUG
         if (totalKeys != readKeys) {

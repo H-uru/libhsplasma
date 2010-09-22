@@ -191,6 +191,8 @@ plString plAgeInfo::getPageFilename(size_t idx, PlasmaVer pv) const {
         throw hsBadVersionException(__FILE__, __LINE__);
     if (pv.isNewPlasma() || pv.isUniversal())    // Includes pvUniversal
         return plString::Format("%s_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
+    else if (pv < MAKE_VERSION(2, 0, 60, 00))
+        return plString::Format("%s_District_%s.prx", fName.cstr(), fPages[idx].fName.cstr());
     else
         return plString::Format("%s_District_%s.prp", fName.cstr(), fPages[idx].fName.cstr());
 }
@@ -200,6 +202,8 @@ plString plAgeInfo::getCommonPageFilename(size_t idx, PlasmaVer pv) const {
         throw hsBadVersionException(__FILE__, __LINE__);
     if (pv.isNewPlasma() || pv.isUniversal())    // Includes pvUniversal
         return plString::Format("%s_%s.prp", fName.cstr(), kCommonPages[idx].cstr());
+    else if (pv < MAKE_VERSION(2, 0, 60, 00))
+        return plString::Format("%s_District_%s.prx", fName.cstr(), kCommonPages[idx].cstr());
     else
         return plString::Format("%s_District_%s.prp", fName.cstr(), kCommonPages[idx].cstr());
 }
