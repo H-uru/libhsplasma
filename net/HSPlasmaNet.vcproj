@@ -392,6 +392,10 @@
 				RelativePath=".\auth\pnVaultNode.h"
 				>
 			</File>
+			<File
+				RelativePath=".\auth\pnVaultNodeTypes.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="file"
