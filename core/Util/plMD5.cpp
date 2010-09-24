@@ -324,10 +324,10 @@ plMD5Hash plMD5::hashStream(hsStream* S) {
 }
 
 plMD5Hash plMD5::hashFile(const char* filename) {
-    hsFileStream FS;
-    FS.open(filename, fmRead);
-    plMD5Hash hash = hashStream(&FS);
-    FS.close();
+    hsFileStream S;
+    S.open(filename, fmRead);
+    plMD5Hash hash = hashStream(&S);
+    S.close();
     return hash;
 }
 

@@ -70,6 +70,10 @@ if(WIN32)
   add_definitions("-DWINVER=0x0501")
 endif(WIN32)
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
+  add_definitions("-DNEED_FILIO")
+endif()
+
 add_library(HSPlasmaNet SHARED
             ${PN_AUTH_SRCS}  ${PN_AUTH_HDRS}
             ${PN_CRYPT_SRCS} ${PN_CRYPT_HDRS}
@@ -78,7 +82,10 @@ add_library(HSPlasmaNet SHARED
             ${PN_GATE_SRCS}  ${PN_GATE_HDRS}
             ${PN_SRCS}       ${PN_HDRS}
 )
-target_link_libraries(HSPlasmaNet HSPlasma ${OPENSSL_LIBRARIES})
+target_link_libraries(HSPlasmaNet HSPlasma)
+if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
+  target_link_libraries(${OPENSSL_LIBRARIES})
+endif()
 
 if(WIN32)
   target_link_libraries(HSPlasmaNet ws2_32)

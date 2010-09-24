@@ -186,8 +186,8 @@ bool UpdateSums(const plString& filename) {
 
         std::vector<SumEntry>::iterator it = sum.fEntries.begin();
         while (it != sum.fEntries.end()) {
-            hsFileStream* FS = FindFilePath(it->fPath, cdUp(filename));
-            if (FS == NULL) {
+            hsFileStream* IS = FindFilePath(it->fPath, cdUp(filename));
+            if (IS == NULL) {
                 if (s_autoYes) {
                     PrintFile(*it, '-');
                     it = sum.fEntries.erase(it);
@@ -209,8 +209,8 @@ bool UpdateSums(const plString& filename) {
                 }
                 continue;
             }
-            plMD5Hash hash = plMD5::hashStream(FS);
-            it->fTimestamp = FS->getModTime();
+            plMD5Hash hash = plMD5::hashStream(IS);
+            it->fTimestamp = IS->getModTime();
             if (it->fHash != hash) {
                 it->fHash = hash;
                 PrintFile(*it, '*');
@@ -218,8 +218,8 @@ bool UpdateSums(const plString& filename) {
             } else {
                 PrintFile(*it, ' ');
             }
-            if (FS != NULL)
-                delete FS;
+            if (IS != NULL)
+                delete IS;
             ++it;
         }
 
@@ -391,16 +391,16 @@ int main(int argc, char* argv[]) {
             }
 
             for (pi = addPaths.begin(); pi != addPaths.end(); pi++) {
-                hsFileStream* FS = FindFilePath(*pi, "");
-                if (FS == NULL) {
+                hsFileStream* IS = FindFilePath(*pi, "");
+                if (IS == NULL) {
                     fprintf(stderr, "Warning: path '%s' not found\n", pi->cstr());
                     continue;
                 }
 
                 SumEntry ent;
                 ent.fPath = GetInternalName(*pi);
-                ent.fHash = plMD5::hashStream(FS);
-                ent.fTimestamp = FS->getModTime();
+                ent.fHash = plMD5::hashStream(IS);
+                ent.fTimestamp = IS->getModTime();
                 bool found = false;
                 it = sum.fEntries.begin();
                 while (it != sum.fEntries.end()) {
@@ -420,8 +420,8 @@ int main(int argc, char* argv[]) {
                 if (!found) {
                     PrintFile(ent, '+');
                     sum.fEntries.push_back(ent);
-                    if (FS != NULL)
-                        delete FS;
+                    if (IS != NULL)
+                        delete IS;
                     isUpdated = true;
                 }
             }

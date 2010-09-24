@@ -63,6 +63,11 @@ static int sockError();
 #   define INVALID_SOCKET (-1)
 #endif
 
+// For Solaris
+#ifdef NEED_FILIO
+#   include <sys/filio.h>
+#endif
+
 static const char* getSockErrorStr()
 {
 #ifdef WIN32

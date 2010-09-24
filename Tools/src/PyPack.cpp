@@ -144,15 +144,15 @@ int main(int argc, char** argv) {
             else
                 name = name.beforeLast('.');
             pakObjects[i].fFilename = name + ".py";
-            hsFileStream FS;
-            if (!FS.open(*it, fmRead)) {
+            hsFileStream S;
+            if (!S.open(*it, fmRead)) {
                 plDebug::Error("Cannot open file %s\n", (*it).cstr());
                 return 1;
             }
-            pakObjects[i].fSize = FS.size() - 8;
+            pakObjects[i].fSize = S.size() - 8;
             pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
-            FS.seek(8);
-            FS.read(pakObjects[i].fSize, pakObjects[i].fData);
+            S.seek(8);
+            S.read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset = offs;
             offs += pakObjects[i].fSize + 4;
             baseOffs += pakObjects[i].fFilename.len() + 6;
@@ -191,18 +191,18 @@ int main(int argc, char** argv) {
             eType = plEncryptedStream::kEncNone;
         } else {
             IS = new hsRAMStream();
-            plEncryptedStream ES;
-            if (!ES.open(pakfile, fmRead, eType)) {
+            plEncryptedStream XS;
+            if (!XS.open(pakfile, fmRead, eType)) {
                 plDebug::Error("Cannot open file %s", pakfile.cstr());
                 return 1;
             }
-            ES.setKey(uruKey);
-            size_t datLen = ES.size();
+            XS.setKey(uruKey);
+            size_t datLen = XS.size();
             hsUbyte* dat = new hsUbyte[datLen];
-            ES.read(datLen, dat);
+            XS.read(datLen, dat);
             ((hsRAMStream*)IS)->copyFrom(dat, datLen);
             delete[] dat;
-            eType = ES.getEncType();
+            eType = XS.getEncType();
         }
         size_t oldObjCount = IS->readInt();
         pakObjects.setSize(oldObjCount + infiles.size());
@@ -238,15 +238,15 @@ int main(int argc, char** argv) {
             else
                 name = name.beforeLast('.');
             pakObjects[i].fFilename = name + ".py";
-            hsFileStream FS;
-            if (!FS.open(*it, fmRead)) {
+            hsFileStream S;
+            if (!S.open(*it, fmRead)) {
                 plDebug::Error("Cannot open file %s\n", (*it).cstr());
                 return 1;
             }
-            pakObjects[i].fSize = FS.size() - 8;
+            pakObjects[i].fSize = S.size() - 8;
             pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
-            FS.seek(8);
-            FS.read(pakObjects[i].fSize, pakObjects[i].fData);
+            S.seek(8);
+            S.read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset = offs;
             offs += pakObjects[i].fSize + 4;
             baseOffs += pakObjects[i].fFilename.len() + 6;
@@ -282,18 +282,18 @@ int main(int argc, char** argv) {
             eType = plEncryptedStream::kEncNone;
         } else {
             IS = new hsRAMStream();
-            plEncryptedStream ES;
-            if (!ES.open(pakfile, fmRead, eType)) {
+            plEncryptedStream XS;
+            if (!XS.open(pakfile, fmRead, eType)) {
                 plDebug::Error("Cannot open file %s\n", pakfile.cstr());
                 return 1;
             }
-            ES.setKey(uruKey);
-            size_t datLen = ES.size();
+            XS.setKey(uruKey);
+            size_t datLen = XS.size();
             hsUbyte* dat = new hsUbyte[datLen];
-            ES.read(datLen, dat);
+            XS.read(datLen, dat);
             ((hsRAMStream*)IS)->copyFrom(dat, datLen);
             delete[] dat;
-            eType = ES.getEncType();
+            eType = XS.getEncType();
         }
         pakObjects.setSize(IS->readInt());
         for (size_t i=0; i<pakObjects.getSize(); i++) {
@@ -310,15 +310,15 @@ int main(int argc, char** argv) {
             pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
 
-            hsFileStream FS;
+            hsFileStream S;
             if (!outdir.empty())
                 outdir += PATHSEPSTR;
-            FS.open(outdir + pakObjects[i].fFilename + "c", fmCreate);
-            FS.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)
+            S.open(outdir + pakObjects[i].fFilename + "c", fmCreate);
+            S.writeInt((eType == plEncryptedStream::kEncXtea || eType == plEncryptedStream::kEncNone)
                         ? kPyc22 : kPyc23);
             time_t ts = time(NULL);
-            FS.writeInt(ts);
-            FS.write(pakObjects[i].fSize, pakObjects[i].fData);
+            S.writeInt(ts);
+            S.write(pakObjects[i].fSize, pakObjects[i].fData);
         }
         delete IS;
     } else {
