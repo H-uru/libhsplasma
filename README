@@ -3,15 +3,27 @@ libHSPlasma, the universal Plasma Game Engine library!
 Building
 --------
 
-On Linux, MacOSX, it should be as simple as a traditional
-$ ./configure && make && sudo make install
+libHSPlasma uses the CMake build system, which can generate project files
+for all major operating systems.
+
+A typical build looks something like this:
+$ mkdir build
+$ cd ./build
+$ cmake ..
+
+On Unix-like systems (Linux, MacOSX) you should then be able to
+$ make
+$ sudo make install
 
 On Windows, make sure you have the required libraries as well as
-Visual Studio 2008 (Express Edition works fine), and then use the provided
+Visual Studio 2008 (Express Edition works fine), and then use the generated
 .sln files to compile.  Note that building the prerequisites on Win64 can
 be a bit of a pain, so I've included some hints below for this...
 Of course, you can always just stick to Win32 compilation, which works
 on Win64 (x86_64) installations too ;)
+
+Mac users can also generate XCode project files for libHSPlasma as follows
+$ cmake -G XCode ..
 
 Note that IA64, PowerPC, etc. compilations *may* work, but are completely
 unsupported for now.
