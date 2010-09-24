@@ -1,9 +1,13 @@
-find_package(OpenSSL REQUIRED)
+find_package(OpenSSL)
 
 add_definitions(-DMAKEDLL)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../core)
 include_directories(${OPENSSL_INCLUDE_DIR})
+
+if(NOT OPENSSL_FOUND)
+  message(FATAL_ERROR "OpenSSL has not been found. You will need it to continue build with hsPlasmaNet enabled. Please either install OpenSSL or disable hsPlasmaNet.")
+endif(NOT OPENSSL_FOUND)
 
 set(PN_AUTH_SRCS
     auth/AuthMessages.cpp
