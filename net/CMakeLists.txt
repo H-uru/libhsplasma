@@ -84,7 +84,7 @@ add_library(HSPlasmaNet SHARED
 )
 target_link_libraries(HSPlasmaNet HSPlasma)
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
-  target_link_libraries(${OPENSSL_LIBRARIES})
+  target_link_libraries(HSPlasmaNet ${OPENSSL_LIBRARIES})
 endif()
 
 if(WIN32)
