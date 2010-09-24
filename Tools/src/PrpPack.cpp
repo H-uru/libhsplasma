@@ -84,11 +84,11 @@ const char* getOutputDir(char* filename, plPageInfo* page) {
 }
 
 #ifndef WIN32
-int selPO(dirent* de) {
+int selPO(const dirent* de) {
     return strcmp(strrchr(de->d_name, '.'), ".po") == 0;
 }
 
-int selAll(dirent* de) {
+int selAll(const dirent* de) {
     return 1;
 }
 #endif
