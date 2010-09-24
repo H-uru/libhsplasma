@@ -26,12 +26,6 @@
 #endif
 #include <sys/stat.h>
 
-#ifdef MACOSX
-  #define DIRENT dirent*
-#else
-  #define DIRENT const dirent*
-#endif
-
 void doHelp() {
     printf("Usage: PrpPack [-x|-r] filename.prp\n");
     printf("       PrpPack [-c] filename.prd\n\n");
@@ -90,11 +84,11 @@ const char* getOutputDir(char* filename, plPageInfo* page) {
 }
 
 #ifndef WIN32
-int selPO(DIRENT de) {
+int selPO(dirent* de) {
     return strcmp(strrchr(de->d_name, '.'), ".po") == 0;
 }
 
-int selAll(DIRENT de) {
+int selAll(dirent* de) {
     return 1;
 }
 #endif

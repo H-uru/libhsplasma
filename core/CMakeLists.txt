@@ -659,9 +659,9 @@ set(SYS_SRCS
     Sys/plUuid.cpp
 )
 if(CMAKE_USE_WIN32_THREADS_INIT)
-  set(SYS_SRCS ${SYS_SRCS} Sys/hsThread_win32.cpp)
+    set(SYS_SRCS ${SYS_SRCS} Sys/hsThread_win32.cpp)
 else(CMAKE_USE_WIN32_THREADS_INIT)
-  set(SYS_SRCS ${SYS_SRCS} Sys/hsThread_pthread.cpp)
+    set(SYS_SRCS ${SYS_SRCS} Sys/hsThread_pthread.cpp)
 endif(CMAKE_USE_WIN32_THREADS_INIT)
 set(SYS_HDRS
     Sys/Platform.h

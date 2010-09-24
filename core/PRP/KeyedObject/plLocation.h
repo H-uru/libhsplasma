@@ -47,7 +47,7 @@ public:
     plLocation(const plLocation& init);
 
     PlasmaVer getVer() const { return fVer; }
-    virtual void setVer(PlasmaVer pv) { fVer = pv; }
+    void setVer(PlasmaVer pv) { fVer = pv; }
 
     plLocation& operator=(const plLocation& other);
     bool operator==(const plLocation& other) const;
