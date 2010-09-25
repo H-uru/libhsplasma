@@ -80,6 +80,14 @@ public:
     void clearAgeDescription();
     void clearAgeSequenceNumber();
     void clearAgeLanguage();
+
+    bool hasAgeFilename() const { return fFlags & kHasAgeFilename; }
+    bool hasAgeInstanceName() const { return fFlags & kHasAgeInstanceName; }
+    bool hasAgeInstanceGuid() const { return fFlags & kHasAgeInstanceGuid; }
+    bool hasAgeUserDefiniedName() const { return fFlags & kHasAgeUserDefinedName; }
+    bool hasAgeDescription() const { return fFlags & kHasAgeDescription; }
+    bool hasAgeSequenceNumber() const { return fFlags & kHasAgeSequenceNumber; }
+    bool hasAgeLanguage() const { return fFlags & kHasAgeLanguage; }
 };
 
 
@@ -139,6 +147,12 @@ public:
     void clearLinkingRules();
     void clearAmCCR();
     void clearParentAgeFilename();
+
+    bool hasAgeInfo() const { return fFlags & kHasAgeInfo; }
+    bool hasLinkingRules() const { return fFlags & kHasLinkingRules; }
+    bool hasAmCCR() const { return fFlags & kHasAmCCR; }
+    bool hasSpawnPoint() const { return fFlags & kHasSpawnPt; }
+    bool hasParentAgeFilename() const { return fFlags & kHasParentAgeFilename; }
 };
 
 
