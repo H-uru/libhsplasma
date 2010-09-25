@@ -439,19 +439,32 @@ add_library(PyHSPlasma SHARED
 target_link_libraries(PyHSPlasma HSPlasma)
 
 set_target_properties(PyHSPlasma PROPERTIES
-                     PREFIX ""
+                      PREFIX ""
 )
+if(WIN32)
+    set_target_properties(PyHSPlasma PROPERTIES
+                          SUFFIX ".pyd"
+    )
+endif()
 
 EXECUTE_PROCESS(COMMAND python -c "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:2]]))"
-                 OUTPUT_VARIABLE _PYTHON_VERSION
+                OUTPUT_VARIABLE _PYTHON_VERSION
 )
 EXECUTE_PROCESS(COMMAND python -c "import sys; sys.stdout.write(sys.prefix)"
-                 OUTPUT_VARIABLE _PYTHON_PREFIX
+                OUTPUT_VARIABLE _PYTHON_PREFIX
 )
 
-install(TARGETS PyHSPlasma
-        DESTINATION ${_PYTHON_PREFIX}/lib/python${_PYTHON_VERSION}
-)
+if(!WIN32)
+    install(TARGETS PyHSPlasma
+            DESTINATION ${_PYTHON_PREFIX}/lib/python${_PYTHON_VERSION}
+    )
+else()
+    install(TARGETS PyHSPlasma
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION lib
+            ARCHIVE DESTINATION lib
+    )
+endif()
 
 #Visual studio source grouping
 source_group("Debug" FILES ${DEBUG_HDRS} ${DEBUG_SRCS})

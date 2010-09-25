@@ -68,7 +68,7 @@ void plNetMsgStreamHelper::write(hsStream* S, plResManager* mgr) {
 
 void plNetMsgStreamHelper::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Stream");
-    prc->writeParam("UncompressedSize", fUncompressedSize);
+    prc->writeParam("UncompressedSize", (unsigned long)fUncompressedSize);
     prc->writeParam("CompressionType", fCompressionType);
     prc->endTag();
     prc->writeHexStream(fStreamLength, fStream);
