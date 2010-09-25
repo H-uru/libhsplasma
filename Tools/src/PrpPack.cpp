@@ -25,12 +25,12 @@
   #include <dirent.h>
 #endif
 #include <sys/stat.h>
-#ifdef MACOSX
-  #define DIRENT dirent*
-#else
-  #define DIRENT const dirent*
-#endif
 
+#ifdef NEED_CONST_DIRENT
+  #define DIRENT const dirent*
+#else
+  #define DIRENT dirent*
+#endif
 
 void doHelp() {
     printf("Usage: PrpPack [-x|-r] filename.prp\n");
