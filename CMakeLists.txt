@@ -12,6 +12,12 @@ if(APPLE)
     add_definitions("-DMACOSX")
 endif()
 
+if(WIN32)
+    add_definitions("-D_CRT_SECURE_NO_WARNINGS")
+    set(CMAKE_CXX_FLAGS "/wd4996 /wd4244 ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_C_FLAGS "/wd4996 /wd4244 ${CMAKE_C_FLAGS}")
+endif()
+
 # Python is disabled by default because most projects don't need it
 # Tools are still enabled because they're fast and occasionally useful
 option(DISABLE_PYTHON "Don't build HSPlasma Python integration" ON)

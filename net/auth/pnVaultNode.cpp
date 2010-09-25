@@ -139,7 +139,7 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
     fCachedSize = size;
 
     for (size_t bit=0; bit<kNumFields; bit++) {
-        if ((fFieldMask & (1<<bit)) == 0)
+        if ((fFieldMask & (1ULL<<bit)) == 0)
             continue;
 
         switch (bit) {

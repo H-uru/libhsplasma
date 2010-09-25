@@ -149,7 +149,7 @@ public:
         FOURCC_DXT5 = 0x35545844,
     };
 
-    struct plDDColorKey {
+    DllStruct plDDColorKey {
         unsigned int fColorSpaceLow, fColorSpaceHigh;
 
         plDDColorKey() : fColorSpaceLow(0), fColorSpaceHigh(0) { }
@@ -158,7 +158,7 @@ public:
         void write(hsStream* S);
     };
 
-    struct plDDPixelFormat {
+    DllStruct plDDPixelFormat {
         unsigned int fFlags;
         unsigned int fFourCC;
         union {

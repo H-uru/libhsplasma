@@ -81,13 +81,13 @@ public:
     void clearAgeSequenceNumber();
     void clearAgeLanguage();
 
-    bool hasAgeFilename() const { return fFlags & kHasAgeFilename; }
-    bool hasAgeInstanceName() const { return fFlags & kHasAgeInstanceName; }
-    bool hasAgeInstanceGuid() const { return fFlags & kHasAgeInstanceGuid; }
-    bool hasAgeUserDefiniedName() const { return fFlags & kHasAgeUserDefinedName; }
-    bool hasAgeDescription() const { return fFlags & kHasAgeDescription; }
-    bool hasAgeSequenceNumber() const { return fFlags & kHasAgeSequenceNumber; }
-    bool hasAgeLanguage() const { return fFlags & kHasAgeLanguage; }
+    bool hasAgeFilename() const { return (fFlags & kHasAgeFilename) != 0; }
+    bool hasAgeInstanceName() const { return (fFlags & kHasAgeInstanceName) != 0; }
+    bool hasAgeInstanceGuid() const { return (fFlags & kHasAgeInstanceGuid) != 0; }
+    bool hasAgeUserDefiniedName() const { return (fFlags & kHasAgeUserDefinedName) != 0; }
+    bool hasAgeDescription() const { return (fFlags & kHasAgeDescription) != 0; }
+    bool hasAgeSequenceNumber() const { return (fFlags & kHasAgeSequenceNumber) != 0; }
+    bool hasAgeLanguage() const { return (fFlags & kHasAgeLanguage) != 0; }
 };
 
 
@@ -148,11 +148,11 @@ public:
     void clearAmCCR();
     void clearParentAgeFilename();
 
-    bool hasAgeInfo() const { return fFlags & kHasAgeInfo; }
-    bool hasLinkingRules() const { return fFlags & kHasLinkingRules; }
-    bool hasAmCCR() const { return fFlags & kHasAmCCR; }
-    bool hasSpawnPoint() const { return fFlags & kHasSpawnPt; }
-    bool hasParentAgeFilename() const { return fFlags & kHasParentAgeFilename; }
+    bool hasAgeInfo() const { return (fFlags & kHasAgeInfo) != 0; }
+    bool hasLinkingRules() const { return (fFlags & kHasLinkingRules) != 0; }
+    bool hasAmCCR() const { return (fFlags & kHasAmCCR) != 0; }
+    bool hasSpawnPoint() const { return (fFlags & kHasSpawnPt) != 0; }
+    bool hasParentAgeFilename() const { return (fFlags & kHasParentAgeFilename) != 0; }
 };
 
 
