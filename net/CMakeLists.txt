@@ -5,15 +5,16 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../core)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
 if(NOT OPENSSL_FOUND)
-  message(FATAL_ERROR "OpenSSL has not been found. You will need it to continue build with hsPlasmaNet enabled. Please either install OpenSSL or disable hsPlasmaNet.")
+    message(FATAL_ERROR "OpenSSL has not been found. You will need it to continue build with hsPlasmaNet enabled. Please either install OpenSSL or disable hsPlasmaNet.")
 endif(NOT OPENSSL_FOUND)
 
 if(WIN32)
-  add_definitions("-DWINVER=0x0501") # Windows XP. Seems a reasonable enough target.
+    # Windows XP. Seems a reasonable enough target.
+    add_definitions("-DWINVER=0x0501")
 endif(WIN32)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
-  add_definitions("-DNEED_FILIO")
+    add_definitions("-DNEED_FILIO")
 endif()
 
 add_definitions(-DMAKEDLL)
@@ -89,11 +90,11 @@ add_library(HSPlasmaNet SHARED
 )
 target_link_libraries(HSPlasmaNet HSPlasma)
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
-  target_link_libraries(HSPlasmaNet ${OPENSSL_LIBRARIES})
+    target_link_libraries(HSPlasmaNet ${OPENSSL_LIBRARIES})
 endif()
 
 if(WIN32)
-  target_link_libraries(HSPlasmaNet ws2_32)
+    target_link_libraries(HSPlasmaNet ws2_32)
 endif(WIN32)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libhsplasmanet.pc.in.cmake ${CMAKE_CURRENT_BINARY_DIR}/libhsplasmanet.pc @ONLY)
