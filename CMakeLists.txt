@@ -30,6 +30,7 @@ endif()
 
 install(EXPORT HSPlasma-targets DESTINATION share/cmake/HSPlasma)
 
+add_definitions(-DMAKEDLL)
 if(APPLE)
     add_definitions("-DMACOSX")
 endif()

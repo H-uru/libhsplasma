@@ -1,6 +1,5 @@
 find_package(OpenSSL)
 
-add_definitions(-DMAKEDLL)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../core)
 include_directories(${OPENSSL_INCLUDE_DIR})
