@@ -8,6 +8,10 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_C_FLAGS "-Wall ${CMAKE_C_FLAGS}")
 endif()
 
+if(APPLE)
+    add_definitions("-DMACOSX")
+endif()
+
 # Python is disabled by default because most projects don't need it
 # Tools are still enabled because they're fast and occasionally useful
 option(DISABLE_PYTHON "Don't build HSPlasma Python integration" ON)
@@ -29,8 +33,3 @@ if(NOT DISABLE_NET)
 endif()
 
 install(EXPORT HSPlasma-targets DESTINATION share/cmake/HSPlasma)
-
-add_definitions(-DMAKEDLL)
-if(APPLE)
-    add_definitions("-DMACOSX")
-endif()

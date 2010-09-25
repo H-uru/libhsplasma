@@ -8,6 +8,16 @@ if(NOT OPENSSL_FOUND)
   message(FATAL_ERROR "OpenSSL has not been found. You will need it to continue build with hsPlasmaNet enabled. Please either install OpenSSL or disable hsPlasmaNet.")
 endif(NOT OPENSSL_FOUND)
 
+if(WIN32)
+  add_definitions("-DWINVER=0x0501") # Windows XP. Seems a reasonable enough target.
+endif(WIN32)
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
+  add_definitions("-DNEED_FILIO")
+endif()
+
+add_definitions(-DMAKEDLL)
+
 set(PN_AUTH_SRCS
     auth/AuthMessages.cpp
     auth/pnAuthClient.cpp
@@ -68,14 +78,6 @@ set(PN_HDRS
     pnNetMsg.h
     pnSocket.h
 )
-
-if(WIN32)
-  add_definitions("-DWINVER=0x0501")
-endif(WIN32)
-
-if(${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
-  add_definitions("-DNEED_FILIO")
-endif()
 
 add_library(HSPlasmaNet SHARED
             ${PN_AUTH_SRCS}  ${PN_AUTH_HDRS}
