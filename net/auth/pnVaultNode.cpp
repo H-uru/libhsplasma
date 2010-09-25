@@ -258,7 +258,7 @@ void pnVaultNode::write(unsigned char* buffer, size_t size) const {
     writeU64(fDirtyMask, buffer, size);
 
     for (size_t bit=0; bit<kNumFields; bit++) {
-        if ((fDirtyMask & (1<<bit)) == 0)
+        if ((fDirtyMask & (1ULL<<bit)) == 0)
             continue;
 
         switch (bit) {
@@ -423,8 +423,8 @@ void pnVaultNode::ISetField(size_t which, size_t size)
         fCachedSize += size;
     if (!hasDirty(which))
         fDirtySize += size;
-    fFieldMask |= (1<<which);
-    fDirtyMask |= (1<<which);
+    fFieldMask |= (1ULL<<which);
+    fDirtyMask |= (1ULL<<which);
 }
 
 void pnVaultNode::IClearField(size_t which, size_t size)
