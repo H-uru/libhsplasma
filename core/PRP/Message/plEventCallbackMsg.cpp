@@ -63,3 +63,63 @@ void plEventCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
+
+plEventCallbackSetupMsg::plAnimCallbackSetup::plAnimCallbackSetup()
+    : fUser(0) { }
+
+plEventCallbackSetupMsg::plEventCallbackSetupMsg() { }
+
+void plEventCallbackSetupMsg::read(hsStream* S, plResManager* mgr) {
+    plMessage::read(S, mgr);
+
+    fCallbacks.setSize(S->readInt());
+    for (size_t i = 0; i < fCallbacks.getSize(); i++) {
+        fCallbacks[i].fMarker = S->readSafeStr();
+        fCallbacks[i].fReceiver = mgr->readKey(S);
+        fCallbacks[i].fUser = S->readShort();
+    }
+}
+
+void plEventCallbackSetupMsg::write(hsStream* S, plResManager* mgr) {
+    plMessage::write(S, mgr);
+
+    S->writeInt(fCallbacks.getSize());
+    for (size_t i=0; i<fCallbacks.getSize(); i++) {
+        S->writeSafeStr(fCallbacks[i].fMarker);
+        mgr->writeKey(S, fCallbacks[i].fReceiver);
+        S->writeShort(fCallbacks[i].fUser);
+    }
+}
+
+void plEventCallbackSetupMsg::IPrcWrite(pfPrcHelper* prc) {
+    plMessage::IPrcWrite(prc);
+
+    prc->writeSimpleTag("EventCallbackSetups");
+    for (size_t i=0; i<fCallbacks.getSize(); i++) {
+        prc->startTag("Callback");
+        prc->writeParam("Marker", fCallbacks[i].fMarker);
+        prc->writeParam("User", fCallbacks[i].fUser);
+        prc->endTag();
+        fCallbacks[i].fReceiver->prcWrite(prc);
+        prc->closeTag();
+    }
+    prc->closeTag();
+}
+
+void plEventCallbackSetupMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
+    if (tag->getName() == "EventCallbackSetups") {
+        fCallbacks.setSize(tag->countChildren());
+        const pfPrcTag* child = tag->getFirstChild();
+        for (size_t i=0; i<fCallbacks.getSize(); i++) {
+            if (child->getName() != "Callback")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fCallbacks[i].fMarker = child->getParam("Marker", "");
+            fCallbacks[i].fUser = child->getParam("User", "0").toInt();
+            if (child->hasChildren())
+                fCallbacks[i].fReceiver = mgr->prcParseKey(child->getFirstChild());
+            child = child->getNextSibling();
+        }
+    } else {
+        plMessage::IPrcParse(tag, mgr);
+    }
+}
