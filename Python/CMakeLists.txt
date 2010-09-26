@@ -436,7 +436,7 @@ add_library(PyHSPlasma SHARED
           ${PYTHON_SRCS}   ${PYTHON_HDRS}
 )
 
-target_link_libraries(PyHSPlasma HSPlasma)
+target_link_libraries(PyHSPlasma HSPlasma ${PYTHON_LIBRARIES})
 
 set_target_properties(PyHSPlasma PROPERTIES
                       PREFIX ""
