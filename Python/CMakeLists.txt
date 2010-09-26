@@ -445,6 +445,10 @@ if(WIN32)
     set_target_properties(PyHSPlasma PROPERTIES
                           SUFFIX ".pyd"
     )
+else()
+    set_target_properties(PyHSPlasma PROPERTIES
+                          SUFFIX ".so"
+    )
 endif()
 
 EXECUTE_PROCESS(COMMAND python -c "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:2]]))"
@@ -454,7 +458,7 @@ EXECUTE_PROCESS(COMMAND python -c "import sys; sys.stdout.write(sys.prefix)"
                 OUTPUT_VARIABLE _PYTHON_PREFIX
 )
 
-if(!WIN32)
+if(NOT WIN32)
     install(TARGETS PyHSPlasma
             DESTINATION ${_PYTHON_PREFIX}/lib/python${_PYTHON_VERSION}
     )
