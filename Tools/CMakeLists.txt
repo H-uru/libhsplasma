@@ -1,7 +1,7 @@
 include_directories(${PLASMA_SOURCE_DIR}/core)
 
 try_compile(HAVE_NON_CONST_DIRENT ${PLASMA_BINARY_DIR}
-            ${PLASMA_SOURCE_DIR}/Tools/src/PrpPack.cpp
+            ${PLASMA_SOURCE_DIR}/Misc/cmake_CheckDirent.c
             CMAKE_FLAGS)
 if(NOT HAVE_NON_CONST_DIRENT)
     add_definitions("-DNEED_CONST_DIRENT")
