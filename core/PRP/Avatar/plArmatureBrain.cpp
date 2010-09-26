@@ -19,20 +19,24 @@
 /* plArmatureBrain */
 void plArmatureBrain::read(hsStream* S, plResManager* mgr) {
     // Yay for uselessness
-    S->readInt();
-    if (S->readBool())
-        mgr->readKey(S);
-    S->readInt();
-    S->readFloat();
-    S->readDouble();
+    if (!S->getVer().isNewPlasma()) {
+        S->readInt();
+        if (S->readBool())
+            mgr->readKey(S);
+        S->readInt();
+        S->readFloat();
+        S->readDouble();
+    }
 }
 
 void plArmatureBrain::write(hsStream* S, plResManager* mgr) {
-    S->writeInt(0);
-    S->writeBool(false);
-    S->writeInt(0);
-    S->writeFloat(0.0f);
-    S->writeDouble(0.0);
+    if (!S->getVer().isNewPlasma()) {
+        S->writeInt(0);
+        S->writeBool(false);
+        S->writeInt(0);
+        S->writeFloat(0.0f);
+        S->writeDouble(0.0);
+    }
 }
 
 void plArmatureBrain::IPrcWrite(pfPrcHelper* prc) { }
