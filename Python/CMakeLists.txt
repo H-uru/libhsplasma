@@ -1,8 +1,8 @@
 find_package(PythonLibs REQUIRED)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-  set(CMAKE_CXX_FLAGS "-Wno-write-strings ${CMAKE_CXX_FLAGS}")
-  set(CMAKE_C_FLAGS "-Wno-write-strings ${CMAKE_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-Wno-write-strings ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_C_FLAGS "-Wno-write-strings ${CMAKE_C_FLAGS}")
 endif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 
 include_directories(${PLASMA_SOURCE_DIR}/core)
@@ -25,8 +25,8 @@ set(MATH_SRCS
     Math/pyVector3.cpp
 )
 set(MATH_HDRS
-  Math/pyGeometry3.h
-  Math/pyMatrix.h
+    Math/pyGeometry3.h
+    Math/pyMatrix.h
 )
 
 set(PRP_ANIM_SRCS
@@ -436,22 +436,39 @@ add_library(PyHSPlasma SHARED
           ${PYTHON_SRCS}   ${PYTHON_HDRS}
 )
 
-target_link_libraries(PyHSPlasma HSPlasma)
+target_link_libraries(PyHSPlasma HSPlasma ${PYTHON_LIBRARIES})
 
 set_target_properties(PyHSPlasma PROPERTIES
-                     PREFIX ""
+                      PREFIX ""
 )
+if(WIN32)
+    set_target_properties(PyHSPlasma PROPERTIES
+                          SUFFIX ".pyd"
+    )
+else()
+    set_target_properties(PyHSPlasma PROPERTIES
+                          SUFFIX ".so"
+    )
+endif()
 
 EXECUTE_PROCESS(COMMAND python -c "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:2]]))"
-                 OUTPUT_VARIABLE _PYTHON_VERSION
+                OUTPUT_VARIABLE _PYTHON_VERSION
 )
 EXECUTE_PROCESS(COMMAND python -c "import sys; sys.stdout.write(sys.prefix)"
-                 OUTPUT_VARIABLE _PYTHON_PREFIX
+                OUTPUT_VARIABLE _PYTHON_PREFIX
 )
 
-install(TARGETS PyHSPlasma
-        DESTINATION ${_PYTHON_PREFIX}/lib/python${_PYTHON_VERSION}
-)
+if(NOT WIN32)
+    install(TARGETS PyHSPlasma
+            DESTINATION ${_PYTHON_PREFIX}/lib/python${_PYTHON_VERSION}
+    )
+else()
+    install(TARGETS PyHSPlasma
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION lib
+            ARCHIVE DESTINATION lib
+    )
+endif()
 
 #Visual studio source grouping
 source_group("Debug" FILES ${DEBUG_HDRS} ${DEBUG_SRCS})

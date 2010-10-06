@@ -64,8 +64,8 @@ public:
 
     bool isValid() const;
     bool isDirty() const { return fDirtyMask != 0; }
-    bool hasField(size_t field) const { return (fFieldMask & (1<<field)) != 0; }
-    bool hasDirty(size_t field) const { return (fDirtyMask & (1<<field)) != 0; }
+    bool hasField(size_t field) const { return (fFieldMask & (1ULL<<field)) != 0; }
+    bool hasDirty(size_t field) const { return (fDirtyMask & (1ULL<<field)) != 0; }
     void allDirty();
     void allClean();
     void setTimeNow();

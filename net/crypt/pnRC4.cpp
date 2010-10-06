@@ -120,7 +120,7 @@ static void RecvBasic(pnRC4Socket* sock, msgparm_t& data,
         }
 
 #ifdef COMMDEBUG
-        plDebug::Debug("     <- Int%d: %lu", size * 8, data);
+        plDebug::Debug("     <- Int%d: %lu", size * 8, data.fUint);
 #endif
     } else {
         if (size == 1)
@@ -167,7 +167,7 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
         }
 
 #ifdef COMMDEBUG
-        plDebug::Debug("     -> Int%d: %lu", size * 8, data);
+        plDebug::Debug("     -> Int%d: %lu", size * 8, data.fUint);
 #endif
     } else {
         if (size == 1) {
@@ -182,7 +182,7 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
         }
 
 #ifdef COMMDEBUG
-        plString ln = plString::Format("     <- Int%d[%d]: ", size * 8, count);
+        plString ln = plString::Format("     -> Int%d[%d]: ", size * 8, count);
         size_t lnbufSize = count * ((size * 2) + 1);
         char* lnbuf = new char[lnbufSize + 1];
         for (size_t i=0; i<count; i++) {

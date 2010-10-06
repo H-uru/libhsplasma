@@ -131,21 +131,23 @@ plArmatureMod::plArmatureMod()
 void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru()) {
         plAGMasterMod::read(S, mgr);
+        fMeshKeys.append(mgr->readKey(S));
     } else {
         plArmatureModBase::read(S, mgr);
     }
 
-    fMeshKeys.append(mgr->readKey(S));
     fRootName = S->readSafeStr();
 
-    fBrains.setSizeNull(S->readInt());
-    for (size_t i=0; i<fBrains.getSize(); i++)
-        fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
+    if (S->getVer().isUru()) {
+        fBrains.setSizeNull(S->readInt());
+        for (size_t i=0; i<fBrains.getSize(); i++)
+            fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
 
-    if (S->readBool())
-        fClothingOutfit = mgr->readKey(S);
-    else
-        fClothingOutfit = plKey();
+        if (S->readBool())
+            fClothingOutfit = mgr->readKey(S);
+        else
+            fClothingOutfit = plKey();
+    }
 
     fBodyType = S->readInt();
     if (S->readBool())

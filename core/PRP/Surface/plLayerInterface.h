@@ -42,7 +42,7 @@ public:
         kVertexShader = 0x800,
         kPixelShader = 0x1000,
         kBumpEnvXfm = 0x2000,
-        kAllDirty = 0xFF
+        kAllDirty = 0xFFFFFFFF
     };
 
     enum plUVWSrcModifiers {

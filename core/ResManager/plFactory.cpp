@@ -1224,7 +1224,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kSDLDynArrayBufferVar: return new plSDLDynArrayBufferVar();
         //case kMatrixBorrowedChannel: return new plMatrixBorrowedChannel();
         //case kNodeRegionMsg: return new plNodeRegionMsg();
-        //case kEventCallbackSetupMsg: return new plEventCallbackSetupMsg();
+        case kEventCallbackSetupMsg: return new plEventCallbackSetupMsg();
         case kRelativeMatrixChannelApplicator: return new plRelativeMatrixChannelApplicator();
         //case kPiranhaRegionMsg: return new plPiranhaRegionMsg();
         //case kGameMgrMsg: return new pfGameMgrMsg();

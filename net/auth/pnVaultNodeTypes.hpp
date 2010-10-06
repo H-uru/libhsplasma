@@ -85,7 +85,7 @@ public: \
     void set##name(const plVaultBlob& value) \
     { setBlob(idx, value); }
 
-DllClass pnVaultAgeNode : public pnVaultNode {
+class pnVaultAgeNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultAgeNode, plVault::kNodeAge)
 
     ACCESS_UUID(k_1, AgeInstanceGuid)
@@ -93,7 +93,7 @@ DllClass pnVaultAgeNode : public pnVaultNode {
     ACCESS_STRING64(k_1, AgeName);
 };
 
-DllClass pnVaultAgeInfoNode : public pnVaultNode {
+class pnVaultAgeInfoNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultAgeInfoNode, plVault::kNodeAgeInfo)
 
     ACCESS_INT32(k_1, AgeSequenceNumber)
@@ -110,7 +110,7 @@ DllClass pnVaultAgeInfoNode : public pnVaultNode {
     ACCESS_TEXT(k_1, AgeDescription)
 };
 
-DllClass pnVaultAgeLinkNode : public pnVaultNode {
+class pnVaultAgeLinkNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultAgeLinkNode, plVault::kNodeAgeLink)
 
     ACCESS_INT32(k_1, Unlocked)
@@ -118,7 +118,7 @@ DllClass pnVaultAgeLinkNode : public pnVaultNode {
     ACCESS_BLOB(k_1, SpawnPoints)
 };
 
-DllClass pnVaultChronicleNode : public pnVaultNode {
+class pnVaultChronicleNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultChronicleNode, plVault::kNodeChronicle)
 
     ACCESS_INT32(k_1, EntryType)
@@ -126,7 +126,7 @@ DllClass pnVaultChronicleNode : public pnVaultNode {
     ACCESS_TEXT(k_1, EntryValue)
 };
 
-DllClass pnVaultFolderNode : public pnVaultNode {
+class pnVaultFolderNode : public pnVaultNode {
     DECLARE_NODE_3(pnVaultFolderNode, plVault::kNodeFolder,
                    plVault::kNodeAgeInfoList, plVault::kNodePlayerInfoList)
 
@@ -134,15 +134,15 @@ DllClass pnVaultFolderNode : public pnVaultNode {
     ACCESS_STRING64(k_1, FolderName)
 };
 
-DllClass pnVaultAgeInfoListNode : public pnVaultFolderNode {
+class pnVaultAgeInfoListNode : public pnVaultFolderNode {
     DECLARE_NODE_1(pnVaultAgeInfoListNode, plVault::kNodeAgeInfoList)
 };
 
-DllClass pnVaultPlayerInfoListNode : public pnVaultFolderNode {
+class pnVaultPlayerInfoListNode : public pnVaultFolderNode {
     DECLARE_NODE_1(pnVaultPlayerInfoListNode, plVault::kNodePlayerInfoList)
 };
 
-DllClass pnVaultImageNode : public pnVaultNode {
+class pnVaultImageNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultImageNode, plVault::kNodeImage)
 
     ACCESS_INT32(k_1, ImageType)
@@ -150,14 +150,14 @@ DllClass pnVaultImageNode : public pnVaultNode {
     ACCESS_BLOB(k_1, ImageData)
 };
 
-DllClass pnVaultMarkerGameNode : public pnVaultNode {
+class pnVaultMarkerGameNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultMarkerGameNode, plVault::kNodeMarkerList)
 
     ACCESS_UUID(k_1, GameGuid)
     ACCESS_STRING64(k_5, OwnerName)
 };
 
-DllClass pnVaultMarkerNode : public pnVaultNode {
+class pnVaultMarkerNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultMarkerNode, plVault::kNodeMarker)
 
     ACCESS_INT32(k_1, GPSTorans)
@@ -169,7 +169,7 @@ DllClass pnVaultMarkerNode : public pnVaultNode {
     ACCESS_TEXT(k_1, MarkerText)
 };
 
-DllClass pnVaultPlayerInfoNode : public pnVaultNode {
+class pnVaultPlayerInfoNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultPlayerInfoNode, plVault::kNodePlayerInfo)
 
     ACCESS_INT32(k_1, Online)
@@ -180,7 +180,7 @@ DllClass pnVaultPlayerInfoNode : public pnVaultNode {
     ACCESS_ISTRING64(k_1, PlayerName)
 };
 
-DllClass pnVaultPlayerNode : public pnVaultNode {
+class pnVaultPlayerNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultPlayerNode, plVault::kNodePlayer)
 
     ACCESS_INT32(k_1, Disabled)
@@ -192,7 +192,7 @@ DllClass pnVaultPlayerNode : public pnVaultNode {
     ACCESS_ISTRING64(k_1, PlayerName)
 };
 
-DllClass pnVaultSDLNode : public pnVaultNode {
+class pnVaultSDLNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultSDLNode, plVault::kNodeSDL)
 
     ACCESS_INT32(k_1, SDLIdent)
@@ -200,13 +200,13 @@ DllClass pnVaultSDLNode : public pnVaultNode {
     ACCESS_BLOB(k_1, SDLData)
 };
 
-DllClass pnVaultSystemNode : public pnVaultNode {
+class pnVaultSystemNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultSystemNode, plVault::kNodeSystem)
 
     ACCESS_INT32(k_1, CCRStatus)
 };
 
-DllClass pnVaultTextNoteNode : public pnVaultNode {
+class pnVaultTextNoteNode : public pnVaultNode {
     DECLARE_NODE_1(pnVaultTextNoteNode, plVault::kNodeTextNote)
 
     ACCESS_INT32(k_1, NoteType)

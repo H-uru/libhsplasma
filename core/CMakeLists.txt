@@ -2,11 +2,12 @@ find_package(ZLIB REQUIRED)
 find_package(JPEG REQUIRED)
 find_package(Threads REQUIRED)
 
-add_definitions(-DMAKEDLL)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdPartyLibs/squish)
 include_directories(${ZLIB_INCLUDE_DIR})
 include_directories(${JPEG_INCLUDE_DIR})
+
+add_definitions(-DMAKEDLL)
 
 set(DEBUG_SRCS
     Debug/hsExceptions.cpp
