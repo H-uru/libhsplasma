@@ -19,6 +19,7 @@
 
 #include "Sys/hsThread.h"
 #include "Util/plString.h"
+#include "pnNetMsg.h"
 #include <cstdlib>
 #include <list>
 
@@ -46,6 +47,10 @@ public:
     virtual long recv(void* buffer, size_t size);
     virtual long peek(void* buffer, size_t size);
     long rsize();
+
+    plString recvString(size_t maxlen);
+    bool sendMsg(const msgparm_t* data, const pnNetMsg* msg);
+    msgparm_t* recvMsg(const pnNetMsg* msg);
 
     bool isConnected() const { return fConnected; }
     bool waitForData(unsigned int utimeout = 500000);

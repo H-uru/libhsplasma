@@ -28,17 +28,16 @@ pnGameClient::Dispatch::Dispatch(pnGameClient* self, bool deleteMsgs)
 
 bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
 {
-    pnRC4Socket *fSock = static_cast<pnRC4Socket*>(sock);
     hsUint16 msgId;
 
-    fSock->recv(&msgId, sizeof(hsUint16));
+    sock->recv(&msgId, sizeof(hsUint16));
     const pnNetMsg* msgDesc = GET_Game2Cli(msgId);
     if (msgDesc == NULL) {
         plDebug::Error("Got invalid message ID (%u)", msgId);
         return false;
     }
 
-    msgparm_t* msgbuf = fSock->recvMsg(msgDesc);
+    msgparm_t* msgbuf = sock->recvMsg(msgDesc);
     switch (msgId) {
     case kGame2Cli_PingReply:
         fReceiver->onPingReply(msgbuf[0].fUint);
@@ -213,10 +212,10 @@ ENetError pnGameClient::performConnect()
         return kNetErrConnectFailed;
     }
     fDispatch = new Dispatch(this, fDeleteMsgs);
-    if(fThreaded)
-      fIface = new pnThreadedSocket(fDispatch, fSock);
+    if (fThreaded)
+        fIface = new pnThreadedSocket(fDispatch, fSock);
     else
-      fIface = new pnPolledSocket(fDispatch, fSock);
+        fIface = new pnPolledSocket(fDispatch, fSock);
     fIface->run();
     return kNetSuccess;
 }

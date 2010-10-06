@@ -25,18 +25,17 @@ pnGateKeeperClient::Dispatch::Dispatch(pnGateKeeperClient* self)
                   : fReceiver(self)
 { }
 
-bool pnGateKeeperClient::Dispatch::dispatch(pnSocket *sock)
+bool pnGateKeeperClient::Dispatch::dispatch(pnSocket* sock)
 {
-    pnRC4Socket *fSock = static_cast<pnRC4Socket*>(sock);
     hsUint16 msgId;
-    fSock->recv(&msgId, sizeof(hsUint16));
+    sock->recv(&msgId, sizeof(hsUint16));
     const pnNetMsg* msgDesc = GET_GateKeeper2Cli(msgId);
     if (msgDesc == NULL) {
         plDebug::Error("Got invalid message ID (%u)", msgId);
         return false;
     }
 
-    msgparm_t* msgbuf = fSock->recvMsg(msgDesc);
+    msgparm_t* msgbuf = sock->recvMsg(msgDesc);
     switch (msgId) {
     case kGateKeeper2Cli_PingReply:
         fReceiver->onPingReply(msgbuf[1].fUint, msgbuf[0].fUint);
@@ -180,10 +179,10 @@ ENetError pnGateKeeperClient::performConnect()
         return kNetErrConnectFailed;
     }
     fDispatch = new Dispatch(this);
-    if(fThreaded)
-      fIface = new pnThreadedSocket(fDispatch, fSock);
+    if (fThreaded)
+        fIface = new pnThreadedSocket(fDispatch, fSock);
     else
-      fIface = new pnPolledSocket(fDispatch, fSock);
+        fIface = new pnPolledSocket(fDispatch, fSock);
     fIface->run();
     return kNetSuccess;
 }

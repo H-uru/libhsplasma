@@ -68,7 +68,7 @@ private:
     public:
         Dispatch(pnGateKeeperClient* self);
 
-        virtual bool dispatch(pnSocket *sock);
+        virtual bool dispatch(pnSocket* sock);
 
         pnGateKeeperClient* fReceiver;
     } *fDispatch;

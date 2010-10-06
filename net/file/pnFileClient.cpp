@@ -105,14 +105,16 @@ pnFileClient::Dispatch::Dispatch(pnFileClient* self)
             : fReceiver(self)
 { }
 
-bool pnFileClient::Dispatch::dispatch(pnSocket *fSock)
+bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
 {
     FileMsg_Header header;
 
-    fSock->recv(&header.fMsgSize, sizeof(header.fMsgSize));
-    fSock->recv(&header.fMsgId, sizeof(header.fMsgId));
+    sock->recv(&header.fMsgSize, sizeof(header.fMsgSize));
+    sock->recv(&header.fMsgId, sizeof(header.fMsgId));
     hsUbyte* msgbuf = new hsUbyte[header.fMsgSize - 8];
-    fSock->recv(msgbuf, header.fMsgSize - 8);
+    long read_data = 0;
+    while(read_data < header.fMsgSize - 8)
+        read_data += sock->recv(msgbuf, header.fMsgSize - 8 - read_data);
 
     switch (header.fMsgId) {
     case kFile2Cli_PingReply:
@@ -249,10 +251,10 @@ ENetError pnFileClient::performConnect()
     }
 
     fDispatch = new Dispatch(this);
-    if(fThreaded)
-      fIface = new pnThreadedSocket(fDispatch, fSock);
+    if (fThreaded)
+        fIface = new pnThreadedSocket(fDispatch, fSock);
     else
-      fIface = new pnPolledSocket(fDispatch, fSock);
+        fIface = new pnPolledSocket(fDispatch, fSock);
     fIface->run();
     return kNetSuccess;
 }

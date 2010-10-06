@@ -19,7 +19,6 @@
 
 #include "Util/plString.h"
 #include "pnSocket.h"
-#include "pnNetMsg.h"
 #include <cstdlib>
 #include <openssl/rc4.h>
 
@@ -42,10 +41,6 @@ public:
     virtual long send(const void* buf, size_t size);
     virtual long recv(void* buf, size_t size);
     virtual long peek(void* buf, size_t size);
-
-    plString recvString(size_t maxlen);
-    bool sendMsg(const msgparm_t* data, const pnNetMsg* msg);
-    msgparm_t* recvMsg(const pnNetMsg* msg);
 };
 
 #endif
