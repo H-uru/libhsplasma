@@ -1,4 +1,4 @@
-find_package(PythonLibs REQUIRED)
+find_package(Python REQUIRED)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "-Wno-write-strings ${CMAKE_CXX_FLAGS}")
@@ -6,7 +6,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 
 include_directories(${PLASMA_SOURCE_DIR}/core)
-include_directories(${PYTHON_INCLUDE_PATH})
+include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(./)
 
 set(DEBUG_SRCS
@@ -451,10 +451,10 @@ else()
     )
 endif()
 
-EXECUTE_PROCESS(COMMAND python -c "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:2]]))"
+EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:2]]))"
                 OUTPUT_VARIABLE _PYTHON_VERSION
 )
-EXECUTE_PROCESS(COMMAND python -c "import sys; sys.stdout.write(sys.prefix)"
+EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write(sys.prefix)"
                 OUTPUT_VARIABLE _PYTHON_PREFIX
 )
 
