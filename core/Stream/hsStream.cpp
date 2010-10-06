@@ -305,8 +305,6 @@ void hsStream::writeSafeWStr(const plString& str) {
 }
 
 void hsStream::writeLine(const plString& ln, bool winEOL) {
-    if (ln.len() > 4096)
-        throw hsFileWriteException(__FILE__, __LINE__, "Line too long!");
     writeStr(ln);
     if (winEOL)
         writeByte('\r');
