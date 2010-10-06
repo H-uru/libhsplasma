@@ -17,6 +17,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "SunOS")
     add_definitions("-DNEED_FILIO")
 endif()
 
+if(PLASMANET_COMMDEBUG)
+    add_definitions("-DCOMMDEBUG")
+endif()
+
 add_definitions(-DMAKEDLL)
 
 set(PN_AUTH_SRCS
