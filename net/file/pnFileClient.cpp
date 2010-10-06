@@ -101,91 +101,85 @@ size_t pnFileManifest::calcSize() const
 
 
 /* Dispatch */
-pnFileClient::Dispatch::Dispatch(pnAsyncSocket* sock, pnFileClient* self)
-            : fReceiver(self), fSock(sock)
+pnFileClient::Dispatch::Dispatch(pnFileClient* self)
+            : fReceiver(self)
 { }
 
-void pnFileClient::Dispatch::run()
+bool pnFileClient::Dispatch::dispatch(pnSocket *fSock)
 {
     FileMsg_Header header;
-    while (fSock->isConnected()) {
-        if (!fSock->waitForData()) {
-            // Got an error
-            break;
-        }
 
-        fSock->recv(&header.fMsgSize, sizeof(header.fMsgSize));
-        fSock->recv(&header.fMsgId, sizeof(header.fMsgId));
-        hsUbyte* msgbuf = new hsUbyte[header.fMsgSize - 8];
-        fSock->recv(msgbuf, header.fMsgSize - 8);
+    fSock->recv(&header.fMsgSize, sizeof(header.fMsgSize));
+    fSock->recv(&header.fMsgId, sizeof(header.fMsgId));
+    hsUbyte* msgbuf = new hsUbyte[header.fMsgSize - 8];
+    fSock->recv(msgbuf, header.fMsgSize - 8);
 
-        switch (header.fMsgId) {
-        case kFile2Cli_PingReply:
-            fReceiver->onPingReply(*(hsUint32*)(msgbuf));
-            break;
-        case kFile2Cli_BuildIdReply:
-            fReceiver->onBuildIdReply(*(hsUint32*)(msgbuf    ),
-                          (ENetError)(*(hsUint32*)(msgbuf + 4)),
-                                      *(hsUint32*)(msgbuf + 8));
-            break;
-        case kFile2Cli_BuildIdUpdate:
-            fReceiver->onBuildIdUpdate(*(hsUint32*)(msgbuf));
-            break;
-        case kFile2Cli_ManifestReply:
-            {
-                pnFileManifest* files;
-                size_t i = 0;
-                hsUint32 transId  = *(hsUint32*)(msgbuf     );
-                hsUint32 readerId = *(hsUint32*)(msgbuf +  8);
-                size_t totalFiles = *(hsUint32*)(msgbuf + 12);
-                if (fMfsOffset.find(transId) != fMfsOffset.end()) {
-                    files = fMfsQueue[transId];
-                    i = fMfsOffset[transId];
-                } else {
-                    files = new pnFileManifest[totalFiles];
-                }
-                const pl_wchar_t* bufp = (pl_wchar_t*)(msgbuf + 20);
-                for (; i<totalFiles; i++) {
-                    if (*bufp == 0) {
-                        fMfsQueue[transId] = files;
-                        fMfsOffset[transId] = i;
-                        break;
-                    }
-                    bufp = files[i].read(bufp);
-                }
-                fReceiver->sendManifestEntryAck(transId, readerId);
-                if (i < totalFiles)
-                    break;
-                fReceiver->onManifestReply(*(hsUint32*)(msgbuf     ),
-                               (ENetError)(*(hsUint32*)(msgbuf +  4)),
-                                           *(hsUint32*)(msgbuf +  8),
-                                           totalFiles, files);
-                if (fMfsOffset.find(transId) != fMfsOffset.end()) {
-                    fMfsQueue.erase(fMfsQueue.find(transId));
-                    fMfsOffset.erase(fMfsOffset.find(transId));
-                }
-                delete[] files;
+    switch (header.fMsgId) {
+    case kFile2Cli_PingReply:
+        fReceiver->onPingReply(*(hsUint32*)(msgbuf));
+        break;
+    case kFile2Cli_BuildIdReply:
+        fReceiver->onBuildIdReply(*(hsUint32*)(msgbuf    ),
+                      (ENetError)(*(hsUint32*)(msgbuf + 4)),
+                                  *(hsUint32*)(msgbuf + 8));
+        break;
+    case kFile2Cli_BuildIdUpdate:
+        fReceiver->onBuildIdUpdate(*(hsUint32*)(msgbuf));
+        break;
+    case kFile2Cli_ManifestReply:
+        {
+            pnFileManifest* files;
+            size_t i = 0;
+            hsUint32 transId  = *(hsUint32*)(msgbuf     );
+            hsUint32 readerId = *(hsUint32*)(msgbuf +  8);
+            size_t totalFiles = *(hsUint32*)(msgbuf + 12);
+            if (fMfsOffset.find(transId) != fMfsOffset.end()) {
+                files = fMfsQueue[transId];
+                i = fMfsOffset[transId];
+            } else {
+                files = new pnFileManifest[totalFiles];
             }
-            break;
-        case kFile2Cli_FileDownloadReply:
-            fReceiver->onFileDownloadReply(*(hsUint32*)(msgbuf     ),
-                               (ENetError)(*(hsUint32*)(msgbuf +  4)),
-                                           *(hsUint32*)(msgbuf +  8),
-                                           *(hsUint32*)(msgbuf + 12),
-                                           *(hsUint32*)(msgbuf + 16),
-                                            (const hsUbyte*)(msgbuf + 20));
-            fReceiver->sendFileDownloadChunkAck(*(hsUint32*)(msgbuf     ),
-                                                *(hsUint32*)(msgbuf +  8));
-            break;
+            const pl_wchar_t* bufp = (pl_wchar_t*)(msgbuf + 20);
+            for (; i<totalFiles; i++) {
+                if (*bufp == 0) {
+                    fMfsQueue[transId] = files;
+                    fMfsOffset[transId] = i;
+                    break;
+                }
+                bufp = files[i].read(bufp);
+            }
+            fReceiver->sendManifestEntryAck(transId, readerId);
+            if (i < totalFiles)
+                break;
+            fReceiver->onManifestReply(*(hsUint32*)(msgbuf     ),
+                            (ENetError)(*(hsUint32*)(msgbuf +  4)),
+                                        *(hsUint32*)(msgbuf +  8),
+                                        totalFiles, files);
+            if (fMfsOffset.find(transId) != fMfsOffset.end()) {
+                fMfsQueue.erase(fMfsQueue.find(transId));
+                fMfsOffset.erase(fMfsOffset.find(transId));
+            }
+            delete[] files;
         }
-        delete[] msgbuf;
-        fSock->signalStatus();
-    } /* while connected */
+        break;
+    case kFile2Cli_FileDownloadReply:
+        fReceiver->onFileDownloadReply(*(hsUint32*)(msgbuf     ),
+                            (ENetError)(*(hsUint32*)(msgbuf +  4)),
+                                        *(hsUint32*)(msgbuf +  8),
+                                        *(hsUint32*)(msgbuf + 12),
+                                        *(hsUint32*)(msgbuf + 16),
+                                        (const hsUbyte*)(msgbuf + 20));
+        fReceiver->sendFileDownloadChunkAck(*(hsUint32*)(msgbuf     ),
+                                            *(hsUint32*)(msgbuf +  8));
+        break;
+    }
+    delete[] msgbuf;
+    return true;
 }
 
 
 /* pnFileClient */
-pnFileClient::pnFileClient() : fSock(NULL), fDispatch(NULL)
+pnFileClient::pnFileClient(bool threaded) : fSock(NULL), fThreaded(threaded), fDispatch(NULL)
 { }
 
 pnFileClient::~pnFileClient()
@@ -206,19 +200,19 @@ void pnFileClient::setClientInfo(hsUint32 buildType, hsUint32 branchId,
 
 ENetError pnFileClient::connect(const char* host, short port)
 {
-    pnSocket* sock = new pnSocket();
-    if (!sock->connect(host, port)) {
+    fSock = new pnSocket();
+    if (!fSock->connect(host, port)) {
         plDebug::Error("Error connecting to file server\n");
-        delete sock;
+        delete fSock;
         return kNetErrConnectFailed;
     }
-    return performConnect(sock);
+    return performConnect();
 }
 
 ENetError pnFileClient::connect(int sockFd)
 {
-    pnSocket* sock = new pnSocket(sockFd);
-    return performConnect(sock);
+    fSock = new pnSocket(sockFd);
+    return performConnect();
 }
 
 void pnFileClient::disconnect()
@@ -231,10 +225,8 @@ void pnFileClient::disconnect()
     fDispatch = NULL;
 }
 
-ENetError pnFileClient::performConnect(pnSocket* sock)
+ENetError pnFileClient::performConnect()
 {
-    fSock = new pnAsyncSocket(sock);
-
     hsUbyte connectHeader[43];  // ConnectHeader + FileConnectHeader
     /* Begin ConnectHeader */
     *(hsUbyte* )(connectHeader     ) = kConnTypeCliToFile;
@@ -256,8 +248,12 @@ ENetError pnFileClient::performConnect(pnSocket* sock)
         return kNetErrConnectFailed;
     }
 
-    fDispatch = new Dispatch(fSock, this);
-    fDispatch->start();
+    fDispatch = new Dispatch(this);
+    if(fThreaded)
+      fIface = new pnThreadedSocket(fDispatch, fSock);
+    else
+      fIface = new pnPolledSocket(fDispatch, fSock);
+    fIface->run();
     return kNetSuccess;
 }
 

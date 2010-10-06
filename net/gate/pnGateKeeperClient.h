@@ -21,10 +21,12 @@
 #include "Sys/plUuid.h"
 #include "pnNetMsg.h"
 #include "crypt/pnRC4.h"
+#include "pnSocketInterface.h"
+
 
 DllClass pnGateKeeperClient : public pnClient {
 public:
-    pnGateKeeperClient();
+    pnGateKeeperClient(bool threaeded = true);
     virtual ~pnGateKeeperClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN);
@@ -37,8 +39,8 @@ public:
     virtual bool isConnected() const
     { return (fSock != NULL) && fSock->isConnected(); }
 
-    virtual void signalStatus() { fSock->signalStatus(); }
-    virtual void waitForStatus() { fSock->waitForStatus(); }
+//     virtual void signalStatus() { fSock->signalStatus(); }
+//     virtual void waitForStatus() { fSock->waitForStatus(); }
 
     /* Outgoing Protocol */
     hsUint32 sendPingRequest(hsUint32 pingTimeMs);
@@ -52,6 +54,8 @@ public:
 
 protected:
     pnRC4Socket* fSock;
+    pnSocketInterface *fIface;
+    bool fThreaded;
 
     hsUint32 fBuildId, fBuildType, fBranchId;
     plUuid fProductId;
@@ -60,18 +64,16 @@ private:
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
 
-    class Dispatch : public hsThread {
+    class Dispatch : public pnDispatcher {
     public:
-        Dispatch(pnRC4Socket* sock, pnGateKeeperClient* self);
+        Dispatch(pnGateKeeperClient* self);
 
-    private:
-        virtual void run();
+        virtual bool dispatch(pnSocket *sock);
 
         pnGateKeeperClient* fReceiver;
-        pnRC4Socket* fSock;
     } *fDispatch;
 
-    ENetError performConnect(pnSocket* sock);
+    ENetError performConnect();
 };
 
 #endif

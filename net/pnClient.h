@@ -21,21 +21,29 @@
 #include "Protocol.h"
 #include "Sys/hsThread.h"
 
+class pnSocketInterface;
+
 DllClass pnClient {
 public:
-    pnClient() { }
-    virtual ~pnClient() { }
+    pnClient();
+    virtual ~pnClient();
 
     virtual ENetError connect(const char* host, short port = 14617) = 0;
     virtual ENetError connect(int sockFd) = 0;
     virtual void disconnect() = 0;
     virtual bool isConnected() const = 0;
 
-    virtual void signalStatus() = 0;
-    virtual void waitForStatus() = 0;
+    // The exact semantics of this depend on what the subclass has set
+    // as the SocketInterface - normally it does nothing, or loops until
+    // there's no more data available to read.
+    void run();
+
+//     virtual void signalStatus() = 0;
+//     virtual void waitForStatus() = 0;
 
 protected:
     hsUint32 nextTransId();
+    pnSocketInterface *fIface;
 };
 
 #endif

@@ -22,72 +22,67 @@
 #include "crypt/pnSha1.h"
 
 /* Dispatch */
-pnGameClient::Dispatch::Dispatch(pnRC4Socket* sock, pnGameClient* self, bool deleteMsgs)
-            : fReceiver(self), fSock(sock), fDeleteMsgs(deleteMsgs)
+pnGameClient::Dispatch::Dispatch(pnGameClient* self, bool deleteMsgs)
+            : fReceiver(self), fDeleteMsgs(deleteMsgs)
 { }
 
-void pnGameClient::Dispatch::run()
+bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
 {
+    pnRC4Socket *fSock = static_cast<pnRC4Socket*>(sock);
     hsUint16 msgId;
-    while (fSock->isConnected()) {
-        if (!fSock->waitForData()) {
-            // Got an error
-            break;
-        }
 
-        fSock->recv(&msgId, sizeof(hsUint16));
-        const pnNetMsg* msgDesc = GET_Game2Cli(msgId);
-        if (msgDesc == NULL) {
-            plDebug::Error("Got invalid message ID (%u)", msgId);
-            break;
-        }
+    fSock->recv(&msgId, sizeof(hsUint16));
+    const pnNetMsg* msgDesc = GET_Game2Cli(msgId);
+    if (msgDesc == NULL) {
+        plDebug::Error("Got invalid message ID (%u)", msgId);
+        return false;
+    }
 
-        msgparm_t* msgbuf = fSock->recvMsg(msgDesc);
-        switch (msgId) {
-        case kGame2Cli_PingReply:
-            fReceiver->onPingReply(msgbuf[0].fUint);
-            break;
-        case kGame2Cli_JoinAgeReply:
-            fReceiver->onJoinAgeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kGame2Cli_PropagateBuffer:
-            {
-                hsRAMStream rs(PlasmaVer::pvMoul);
-                rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
-                fReceiver->fResMgr->lock();
-                plCreatable* pCre = NULL;
-                try {
-                    pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
-                } catch (hsException& ex) {
-                    plDebug::Error("Error reading propagated message: %s\n", ex.what());
-                    delete pCre;
-                    pCre = NULL;
-                }
-                fReceiver->fResMgr->unlock();
-                if (pCre != NULL) {
-                    fReceiver->onPropagateMessage(pCre);
-                    if (fDeleteMsgs)
-                        delete pCre;
-                } else {
-                    plDebug::Error("Ignored propagated message [%04X]%s",
-                                   pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, PlasmaVer::pvMoul),
-                                   pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, PlasmaVer::pvMoul));
-                }
+    msgparm_t* msgbuf = fSock->recvMsg(msgDesc);
+    switch (msgId) {
+    case kGame2Cli_PingReply:
+        fReceiver->onPingReply(msgbuf[0].fUint);
+        break;
+    case kGame2Cli_JoinAgeReply:
+        fReceiver->onJoinAgeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kGame2Cli_PropagateBuffer:
+        {
+            hsRAMStream rs(PlasmaVer::pvMoul);
+            rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
+            fReceiver->fResMgr->lock();
+            plCreatable* pCre = NULL;
+            try {
+                pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
+            } catch (hsException& ex) {
+                plDebug::Error("Error reading propagated message: %s\n", ex.what());
+                delete pCre;
+                pCre = NULL;
             }
-            break;
-        case kGame2Cli_GameMgrMsg:
-            plDebug::Warning("Warning: Skipping GameMgrMsg");
-            break;
+            fReceiver->fResMgr->unlock();
+            if (pCre != NULL) {
+                fReceiver->onPropagateMessage(pCre);
+                if (fDeleteMsgs)
+                    delete pCre;
+            } else {
+                plDebug::Error("Ignored propagated message [%04X]%s",
+                                pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, PlasmaVer::pvMoul),
+                                pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, PlasmaVer::pvMoul));
+            }
         }
-        NCFreeMessage(msgbuf, msgDesc);
-        fSock->signalStatus();
-    } /* while connected */
+        break;
+    case kGame2Cli_GameMgrMsg:
+        plDebug::Warning("Warning: Skipping GameMgrMsg");
+        break;
+    }
+    NCFreeMessage(msgbuf, msgDesc);
+    return true;
 }
 
 
 /* pnGameClient */
-pnGameClient::pnGameClient(plResManager* mgr, bool deleteMsgs)
-            : fSock(NULL), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fDispatch(NULL)
+pnGameClient::pnGameClient(plResManager* mgr, bool deleteMsgs, bool threaded)
+            : fSock(NULL), fResMgr(mgr), fThreaded(threaded), fDeleteMsgs(deleteMsgs), fDispatch(NULL)
 { }
 
 pnGameClient::~pnGameClient()
@@ -121,19 +116,19 @@ void pnGameClient::setJoinInfo(const plUuid& accountId, const plUuid& ageId)
 
 ENetError pnGameClient::connect(const char* host, short port)
 {
-    pnSocket* sock = new pnSocket();
-    if (!sock->connect(host, port)) {
+    fSock = new pnRC4Socket();
+    if (!fSock->connect(host, port)) {
         plDebug::Error("Error connecting to game server\n");
-        delete sock;
+        delete fSock;
         return kNetErrConnectFailed;
     }
-    return performConnect(sock);
+    return performConnect();
 }
 
 ENetError pnGameClient::connect(int sockFd)
 {
-    pnSocket* sock = new pnSocket(sockFd);
-    return performConnect(sock);
+    fSock = new pnRC4Socket(sockFd);
+    return performConnect();
 }
 
 void pnGameClient::disconnect()
@@ -146,10 +141,8 @@ void pnGameClient::disconnect()
     fDispatch = NULL;
 }
 
-ENetError pnGameClient::performConnect(pnSocket* sock)
+ENetError pnGameClient::performConnect()
 {
-    fSock = new pnRC4Socket(sock);
-
     hsUbyte connectHeader[67];  // ConnectHeader + GameConnectHeader
     /* Begin ConnectHeader */
     *(hsUbyte* )(connectHeader     ) = kConnTypeCliToGame;
@@ -219,8 +212,12 @@ ENetError pnGameClient::performConnect(pnSocket* sock)
         plDebug::Error("Got junk response from server");
         return kNetErrConnectFailed;
     }
-    fDispatch = new Dispatch(fSock, this, fDeleteMsgs);
-    fDispatch->start();
+    fDispatch = new Dispatch(this, fDeleteMsgs);
+    if(fThreaded)
+      fIface = new pnThreadedSocket(fDispatch, fSock);
+    else
+      fIface = new pnPolledSocket(fDispatch, fSock);
+    fIface->run();
     return kNetSuccess;
 }
 

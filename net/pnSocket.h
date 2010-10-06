@@ -25,6 +25,7 @@
 DllClass pnSocket {
 protected:
     int fSockHandle;
+    bool fConnected;
 
 public:
     pnSocket();
@@ -41,53 +42,15 @@ public:
     void unlink();
     void link(int handle) { fSockHandle = handle; }
 
-    long send(const void* buffer, size_t size);
-    long recv(void* buffer, size_t size);
-    long peek(void* buffer, size_t size);
+    virtual long send(const void* buffer, size_t size);
+    virtual long recv(void* buffer, size_t size);
+    virtual long peek(void* buffer, size_t size);
     long rsize();
 
+    bool isConnected() const { return fConnected; }
+    bool waitForData(unsigned int utimeout = 500000);
+
     static unsigned long GetAddress(const char* addrName);
-};
-
-DllClass pnAsyncSocket {
-private:
-    class _async : public hsThread {
-    public:
-        struct _datum {
-            unsigned char* fData;
-            size_t fSize;
-        };
-
-        std::list<_datum> fRecvQueue;
-        hsMutex* fSockMutex;
-        hsThreadCondition* fStatusChange;
-        pnSocket* fSock;
-        size_t fReadPos;
-        bool fFinished;
-
-    public:
-        _async();
-        virtual void destroy();
-
-    protected:
-        virtual void run();
-    } *fAsyncIO;
-
-public:
-    pnAsyncSocket(pnSocket* sock);   // Steals the socket
-    ~pnAsyncSocket();
-
-    long send(const void* buffer, size_t size);
-    long recv(void* buffer, size_t size);
-    long peek(void* buffer, size_t size);
-    bool readAvailable() const;
-    bool waitForData();
-    size_t rsize() const;
-    bool isConnected() const;
-    void signalStatus() const { fAsyncIO->fStatusChange->signal(); }
-    void waitForStatus() const { fAsyncIO->fStatusChange->wait(); }
-
-    void close();
 };
 
 #endif

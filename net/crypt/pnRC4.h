@@ -28,19 +28,20 @@ enum ECryptAlgorithm {
     kNumCryptAlgorithms
 };
 
-DllClass pnRC4Socket : public pnAsyncSocket {
+DllClass pnRC4Socket : public pnSocket {
 protected:
     RC4_KEY fSend, fRecv;
     hsMutex fSendLock, fRecvLock;
     bool fEncrypted;
 
 public:
-    pnRC4Socket(pnSocket* sock);
+    pnRC4Socket();
+    pnRC4Socket(int handle);
     void init(size_t keySize, const unsigned char* keyData);
 
-    long send(const void* buf, size_t size);
-    long recv(void* buf, size_t size);
-    long peek(void* buf, size_t size);
+    virtual long send(const void* buf, size_t size);
+    virtual long recv(void* buf, size_t size);
+    virtual long peek(void* buf, size_t size);
 
     plString recvString(size_t maxlen);
     bool sendMsg(const msgparm_t* data, const pnNetMsg* msg);

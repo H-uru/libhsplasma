@@ -21,6 +21,7 @@
 #include "Sys/plUuid.h"
 #include "Util/plMD5.h"
 #include "pnSocket.h"
+#include "pnSocketInterface.h"
 
 DllStruct pnFileManifest {
     plString fFilename, fDownloadName;
@@ -34,7 +35,7 @@ DllStruct pnFileManifest {
 
 DllClass pnFileClient : public pnClient {
 public:
-    pnFileClient();
+    pnFileClient(bool threaded=true);
     virtual ~pnFileClient();
 
     void setClientInfo(hsUint32 buildType, hsUint32 branchId, const plUuid& productId);
@@ -45,8 +46,8 @@ public:
     virtual bool isConnected() const
     { return (fSock != NULL) && fSock->isConnected(); }
 
-    virtual void signalStatus() { fSock->signalStatus(); }
-    virtual void waitForStatus() { fSock->waitForStatus(); }
+//     virtual void signalStatus() { fSock->signalStatus(); }
+//     virtual void waitForStatus() { fSock->waitForStatus(); }
 
     /* Outgoing Protocol */
     void sendPingRequest(hsUint32 pingTimeMs);
@@ -65,27 +66,26 @@ public:
                     const hsUbyte* bufferData);
 
 protected:
-    pnAsyncSocket* fSock;
+    pnSocket* fSock;
     hsUint32 fBuildType, fBranchId;
     plUuid fProductId;
+    bool fThreaded;
 
 private:
-    class Dispatch : public hsThread {
+    class Dispatch : public pnDispatcher {
     public:
-        Dispatch(pnAsyncSocket* sock, pnFileClient* self);
+        Dispatch(pnFileClient* self);
+        virtual bool dispatch(pnSocket* sock);
 
     private:
-        virtual void run();
-
         pnFileClient* fReceiver;
-        pnAsyncSocket* fSock;
 
     private:
         std::map<hsUint32, pnFileManifest*> fMfsQueue;
         std::map<hsUint32, size_t> fMfsOffset;
     } *fDispatch;
 
-    ENetError performConnect(pnSocket* sock);
+    ENetError performConnect();
     void sendManifestEntryAck(hsUint32 transId, hsUint32 readerId);
     void sendFileDownloadChunkAck(hsUint32 transId, hsUint32 readerId);
 };

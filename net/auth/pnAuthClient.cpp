@@ -52,276 +52,271 @@ static void GetFileList(pnAuthFileItem* files, hsUint32 infoSize,
 
 
 /* Dispatch */
-pnAuthClient::Dispatch::Dispatch(pnRC4Socket* sock, pnAuthClient* self, bool deleteMsgs)
-            : fReceiver(self), fSock(sock), fDeleteMsgs(deleteMsgs)
+pnAuthClient::Dispatch::Dispatch(pnAuthClient* self, bool deleteMsgs)
+            : fReceiver(self), fDeleteMsgs(deleteMsgs)
 { }
 
-void pnAuthClient::Dispatch::run()
+bool pnAuthClient::Dispatch::dispatch(pnSocket *sock)
 {
+    pnRC4Socket *fSock = static_cast<pnRC4Socket*>(sock);
     hsUint16 msgId;
-    while (fSock->isConnected()) {
-        if (!fSock->waitForData()) {
-            // Got an error
-            break;
-        }
 
-        fSock->recv(&msgId, sizeof(hsUint16));
-        const pnNetMsg* msgDesc = GET_Auth2Cli(msgId);
-        if (msgDesc == NULL) {
-            plDebug::Error("Got invalid message ID (%u)", msgId);
-            break;
-        }
+    fSock->recv(&msgId, sizeof(hsUint16));
+    const pnNetMsg* msgDesc = GET_Auth2Cli(msgId);
+    if (msgDesc == NULL) {
+        plDebug::Error("Got invalid message ID (%u)", msgId);
+        return false;
+    }
 
-        msgparm_t* msgbuf = fSock->recvMsg(msgDesc);
-        switch (msgId) {
-        case kAuth2Cli_PingReply:
-            fReceiver->onPingReply(msgbuf[1].fUint, msgbuf[0].fUint);
-            if (msgbuf[2].fUint != 0)
-                plDebug::Debug("Got non-zero payload");
-            break;
-        case kAuth2Cli_ServerAddr:
-            fReceiver->onServerAddr(msgbuf[0].fUint, NCGetUuid(msgbuf[1]));
-            break;
-        case kAuth2Cli_NotifyNewBuild:
-            fReceiver->onNotifyNewBuild(msgbuf[0].fUint);
-            break;
-        case kAuth2Cli_ClientRegisterReply:
-            fReceiver->onClientRegisterReply(msgbuf[0].fUint);
-            break;
-        case kAuth2Cli_AcctExistsReply:
-            fReceiver->onAcctExistsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                                         msgbuf[2].fUint != 0);
-            break;
-        case kAuth2Cli_AcctLoginReply:
-            fReceiver->onAcctLoginReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            NCGetUuid(msgbuf[2]), msgbuf[3].fUint, msgbuf[4].fUint,
-                            (const hsUint32*)msgbuf[5].fData);
-            break;
-        // case kAuth2Cli_AcctData:
-        case kAuth2Cli_AcctPlayerInfo:
-            fReceiver->onAcctPlayerInfo(msgbuf[0].fUint, msgbuf[1].fUint,
-                            msgbuf[2].fString, msgbuf[3].fString, msgbuf[4].fUint);
-            break;
-        case kAuth2Cli_AcctSetPlayerReply:
-            fReceiver->onAcctSetPlayerReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_AcctCreateReply:
-            fReceiver->onAcctCreateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            NCGetUuid(msgbuf[2]));
-            break;
-        case kAuth2Cli_AcctChangePasswordReply:
-            fReceiver->onAcctChangePasswordReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_AcctSetRolesReply:
-            fReceiver->onAcctSetRolesReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_AcctSetBillingTypeReply:
-            fReceiver->onAcctSetBillingTypeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_AcctActivateReply:
-            fReceiver->onAcctActivateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_AcctCreateFromKeyReply:
-            fReceiver->onAcctCreateFromKeyReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            NCGetUuid(msgbuf[2]), NCGetUuid(msgbuf[3]));
-            break;
-        //case kAuth2Cli_PlayerList:
-        //case kAuth2Cli_PlayerChat:
-        case kAuth2Cli_PlayerCreateReply:
-            fReceiver->onPlayerCreateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            msgbuf[2].fUint, msgbuf[3].fUint,
-                            msgbuf[4].fString, msgbuf[5].fString);
-            break;
-        case kAuth2Cli_PlayerDeleteReply:
-            fReceiver->onPlayerDeleteReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_UpgradeVisitorReply:
-            fReceiver->onUpgradeVisitorReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_SetPlayerBanStatusReply:
-            fReceiver->onSetPlayerBanStatusReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_ChangePlayerNameReply:
-            fReceiver->onChangePlayerNameReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_SendFriendInviteReply:
-            fReceiver->onSendFriendInviteReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        //case kAuth2Cli_FriendNotify:
-        case kAuth2Cli_VaultNodeCreated:
-            fReceiver->onVaultNodeCreated(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            msgbuf[2].fUint);
-            break;
-        case kAuth2Cli_VaultNodeFetched:
-            {
-                pnVaultNode node;
-                node.read(msgbuf[3].fData, msgbuf[2].fUint);
-                fReceiver->onVaultNodeFetched(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint, node);
+    msgparm_t* msgbuf = fSock->recvMsg(msgDesc);
+    switch (msgId) {
+    case kAuth2Cli_PingReply:
+        fReceiver->onPingReply(msgbuf[1].fUint, msgbuf[0].fUint);
+        if (msgbuf[2].fUint != 0)
+            plDebug::Debug("Got non-zero payload");
+        break;
+    case kAuth2Cli_ServerAddr:
+        fReceiver->onServerAddr(msgbuf[0].fUint, NCGetUuid(msgbuf[1]));
+        break;
+    case kAuth2Cli_NotifyNewBuild:
+        fReceiver->onNotifyNewBuild(msgbuf[0].fUint);
+        break;
+    case kAuth2Cli_ClientRegisterReply:
+        fReceiver->onClientRegisterReply(msgbuf[0].fUint);
+        break;
+    case kAuth2Cli_AcctExistsReply:
+        fReceiver->onAcctExistsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                                      msgbuf[2].fUint != 0);
+        break;
+    case kAuth2Cli_AcctLoginReply:
+        fReceiver->onAcctLoginReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        NCGetUuid(msgbuf[2]), msgbuf[3].fUint, msgbuf[4].fUint,
+                        (const hsUint32*)msgbuf[5].fData);
+        break;
+    // case kAuth2Cli_AcctData:
+    case kAuth2Cli_AcctPlayerInfo:
+        fReceiver->onAcctPlayerInfo(msgbuf[0].fUint, msgbuf[1].fUint,
+                        msgbuf[2].fString, msgbuf[3].fString, msgbuf[4].fUint);
+        break;
+    case kAuth2Cli_AcctSetPlayerReply:
+        fReceiver->onAcctSetPlayerReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_AcctCreateReply:
+        fReceiver->onAcctCreateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        NCGetUuid(msgbuf[2]));
+        break;
+    case kAuth2Cli_AcctChangePasswordReply:
+        fReceiver->onAcctChangePasswordReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_AcctSetRolesReply:
+        fReceiver->onAcctSetRolesReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_AcctSetBillingTypeReply:
+        fReceiver->onAcctSetBillingTypeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_AcctActivateReply:
+        fReceiver->onAcctActivateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_AcctCreateFromKeyReply:
+        fReceiver->onAcctCreateFromKeyReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        NCGetUuid(msgbuf[2]), NCGetUuid(msgbuf[3]));
+        break;
+    //case kAuth2Cli_PlayerList:
+    //case kAuth2Cli_PlayerChat:
+    case kAuth2Cli_PlayerCreateReply:
+        fReceiver->onPlayerCreateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        msgbuf[2].fUint, msgbuf[3].fUint,
+                        msgbuf[4].fString, msgbuf[5].fString);
+        break;
+    case kAuth2Cli_PlayerDeleteReply:
+        fReceiver->onPlayerDeleteReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_UpgradeVisitorReply:
+        fReceiver->onUpgradeVisitorReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_SetPlayerBanStatusReply:
+        fReceiver->onSetPlayerBanStatusReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_ChangePlayerNameReply:
+        fReceiver->onChangePlayerNameReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_SendFriendInviteReply:
+        fReceiver->onSendFriendInviteReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    //case kAuth2Cli_FriendNotify:
+    case kAuth2Cli_VaultNodeCreated:
+        fReceiver->onVaultNodeCreated(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        msgbuf[2].fUint);
+        break;
+    case kAuth2Cli_VaultNodeFetched:
+        {
+            pnVaultNode node;
+            node.read(msgbuf[3].fData, msgbuf[2].fUint);
+            fReceiver->onVaultNodeFetched(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint, node);
+        }
+        break;
+    case kAuth2Cli_VaultNodeChanged:
+        fReceiver->onVaultNodeChanged(msgbuf[0].fUint, NCGetUuid(msgbuf[1]));
+        break;
+    case kAuth2Cli_VaultNodeDeleted:
+        fReceiver->onVaultNodeDeleted(msgbuf[0].fUint);
+        break;
+    case kAuth2Cli_VaultNodeAdded:
+        fReceiver->onVaultNodeAdded(msgbuf[0].fUint, msgbuf[1].fUint, msgbuf[2].fUint);
+        break;
+    case kAuth2Cli_VaultNodeRemoved:
+        fReceiver->onVaultNodeRemoved(msgbuf[0].fUint, msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_VaultNodeRefsFetched:
+        {
+            size_t numRefs = msgbuf[2].fUint;
+            pnVaultNodeRef* refs = new pnVaultNodeRef[numRefs];
+            for (size_t i=0; i<numRefs; i++)
+                refs[i].read(msgbuf[3].fData + (i * pnVaultNodeRef::Stride));
+            fReceiver->onVaultNodeRefsFetched(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                            numRefs, refs);
+            delete[] refs;
+        }
+        break;
+    case kAuth2Cli_VaultInitAgeReply:
+        fReceiver->onVaultInitAgeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        msgbuf[2].fUint, msgbuf[3].fUint);
+        break;
+    case kAuth2Cli_VaultNodeFindReply:
+        fReceiver->onVaultNodeFindReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        msgbuf[2].fUint, (const hsUint32*)msgbuf[3].fData);
+        break;
+    case kAuth2Cli_VaultSaveNodeReply:
+        fReceiver->onVaultSaveNodeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_VaultAddNodeReply:
+        fReceiver->onVaultAddNodeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_VaultRemoveNodeReply:
+        fReceiver->onVaultRemoveNodeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_AgeReply:
+        fReceiver->onAgeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        msgbuf[2].fUint, NCGetUuid(msgbuf[3]),
+                        msgbuf[4].fUint, msgbuf[5].fUint);
+        break;
+    case kAuth2Cli_FileListReply:
+        {
+            size_t count = CountFiles(msgbuf[2].fUint, msgbuf[3].fString);
+            pnAuthFileItem* files = new pnAuthFileItem[count];
+            GetFileList(files, msgbuf[2].fUint, msgbuf[3].fString);
+            fReceiver->onFileListReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                            count, files);
+            delete[] files;
+        }
+        break;
+    case kAuth2Cli_FileDownloadChunk:
+        fReceiver->onFileDownloadChunk(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        msgbuf[2].fUint, msgbuf[3].fUint, msgbuf[4].fUint,
+                        msgbuf[5].fData);
+        fReceiver->sendFileDownloadChunkAck(msgbuf[0].fUint);
+        break;
+    case kAuth2Cli_KickedOff:
+        fReceiver->onKickedOff(msgbuf[0].fUint);
+        break;
+    case kAuth2Cli_PublicAgeList:
+        {
+            size_t ageCount = msgbuf[2].fUint;
+            pnNetAgeInfo* ages = new pnNetAgeInfo[ageCount];
+            for (size_t i=0; i<ageCount; i++)
+                ages[i].read(msgbuf[3].fData + (i * pnNetAgeInfo::Stride));
+            fReceiver->onPublicAgeList(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                            ageCount, ages);
+            delete[] ages;
+        }
+        break;
+    case kAuth2Cli_ScoreCreateReply:
+        fReceiver->onScoreCreateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        msgbuf[2].fUint, msgbuf[3].fUint);
+        break;
+    case kAuth2Cli_ScoreDeleteReply:
+        fReceiver->onScoreDeleteReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_ScoreGetScoresReply:
+        {
+            size_t scoreCount = msgbuf[2].fUint;
+            pnNetGameScore* scores = new pnNetGameScore[scoreCount];
+            const hsUbyte* buf = msgbuf[3].fData;
+            for (size_t i=0; i<scoreCount; i++) {
+                scores[i].fScoreId     = *(hsUint32*)(buf     );
+                scores[i].fOwnerId     = *(hsUint32*)(buf +  4);
+                scores[i].fCreatedTime = *(hsUint32*)(buf +  8);
+                scores[i].fGameType    = *(hsUint32*)(buf + 12);
+                scores[i].fValue       = *(hsInt32* )(buf + 16);
+                size_t strDataSize     = *(hsUint32*)(buf + 20);
+                scores[i].fGameName    = (const pl_wchar_t*)(buf + 24);
+                buf += 24 + strDataSize;
             }
-            break;
-        case kAuth2Cli_VaultNodeChanged:
-            fReceiver->onVaultNodeChanged(msgbuf[0].fUint, NCGetUuid(msgbuf[1]));
-            break;
-        case kAuth2Cli_VaultNodeDeleted:
-            fReceiver->onVaultNodeDeleted(msgbuf[0].fUint);
-            break;
-        case kAuth2Cli_VaultNodeAdded:
-            fReceiver->onVaultNodeAdded(msgbuf[0].fUint, msgbuf[1].fUint, msgbuf[2].fUint);
-            break;
-        case kAuth2Cli_VaultNodeRemoved:
-            fReceiver->onVaultNodeRemoved(msgbuf[0].fUint, msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_VaultNodeRefsFetched:
-            {
-                size_t numRefs = msgbuf[2].fUint;
-                pnVaultNodeRef* refs = new pnVaultNodeRef[numRefs];
-                for (size_t i=0; i<numRefs; i++)
-                    refs[i].read(msgbuf[3].fData + (i * pnVaultNodeRef::Stride));
-                fReceiver->onVaultNodeRefsFetched(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                                numRefs, refs);
-                delete[] refs;
+            fReceiver->onScoreGetScoresReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                            scoreCount, scores);
+            delete[] scores;
+        }
+        break;
+    case kAuth2Cli_ScoreAddPointsReply:
+        fReceiver->onScoreAddPointsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_ScoreTransferPointsReply:
+        fReceiver->onScoreTransferPointsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_ScoreSetPointsReply:
+        fReceiver->onScoreSetPointsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
+        break;
+    case kAuth2Cli_ScoreGetRanksReply:
+        {
+            size_t rankCount = msgbuf[2].fUint;
+            pnNetGameRank* ranks = new pnNetGameRank[rankCount];
+            const hsUbyte* buf = msgbuf[3].fData;
+            for (size_t i=0; i<rankCount; i++) {
+                ranks[i].fRank     = *(hsUint32*)(buf    );
+                ranks[i].fScore    = *(hsUint32*)(buf + 4);
+                size_t strDataSize = *(hsUint32*)(buf + 8);
+                ranks[i].fName     = (const pl_wchar_t*)(buf + 12);
+                buf += 12 + strDataSize;
             }
-            break;
-        case kAuth2Cli_VaultInitAgeReply:
-            fReceiver->onVaultInitAgeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            msgbuf[2].fUint, msgbuf[3].fUint);
-            break;
-        case kAuth2Cli_VaultNodeFindReply:
-            fReceiver->onVaultNodeFindReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            msgbuf[2].fUint, (const hsUint32*)msgbuf[3].fData);
-            break;
-        case kAuth2Cli_VaultSaveNodeReply:
-            fReceiver->onVaultSaveNodeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_VaultAddNodeReply:
-            fReceiver->onVaultAddNodeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_VaultRemoveNodeReply:
-            fReceiver->onVaultRemoveNodeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_AgeReply:
-            fReceiver->onAgeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            msgbuf[2].fUint, NCGetUuid(msgbuf[3]),
-                            msgbuf[4].fUint, msgbuf[5].fUint);
-            break;
-        case kAuth2Cli_FileListReply:
-            {
-                size_t count = CountFiles(msgbuf[2].fUint, msgbuf[3].fString);
-                pnAuthFileItem* files = new pnAuthFileItem[count];
-                GetFileList(files, msgbuf[2].fUint, msgbuf[3].fString);
-                fReceiver->onFileListReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                                count, files);
-                delete[] files;
+            fReceiver->onScoreGetRanksReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                            rankCount, ranks);
+            delete[] ranks;
+        }
+        break;
+    case kAuth2Cli_PropagateBuffer:
+        {
+            hsRAMStream rs(PlasmaVer::pvMoul);
+            rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
+            fReceiver->fResMgr->lock();
+            plCreatable* pCre = NULL;
+            try {
+                pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
+            } catch (hsException& ex) {
+                plDebug::Error("Error reading propagated message: %s\n", ex.what());
+                delete pCre;
+                pCre = NULL;
             }
-            break;
-        case kAuth2Cli_FileDownloadChunk:
-            fReceiver->onFileDownloadChunk(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            msgbuf[2].fUint, msgbuf[3].fUint, msgbuf[4].fUint,
-                            msgbuf[5].fData);
-            fReceiver->sendFileDownloadChunkAck(msgbuf[0].fUint);
-            break;
-        case kAuth2Cli_KickedOff:
-            fReceiver->onKickedOff(msgbuf[0].fUint);
-            break;
-        case kAuth2Cli_PublicAgeList:
-            {
-                size_t ageCount = msgbuf[2].fUint;
-                pnNetAgeInfo* ages = new pnNetAgeInfo[ageCount];
-                for (size_t i=0; i<ageCount; i++)
-                    ages[i].read(msgbuf[3].fData + (i * pnNetAgeInfo::Stride));
-                fReceiver->onPublicAgeList(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                                ageCount, ages);
-                delete[] ages;
-            }
-            break;
-        case kAuth2Cli_ScoreCreateReply:
-            fReceiver->onScoreCreateReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                            msgbuf[2].fUint, msgbuf[3].fUint);
-            break;
-        case kAuth2Cli_ScoreDeleteReply:
-            fReceiver->onScoreDeleteReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_ScoreGetScoresReply:
-            {
-                size_t scoreCount = msgbuf[2].fUint;
-                pnNetGameScore* scores = new pnNetGameScore[scoreCount];
-                const hsUbyte* buf = msgbuf[3].fData;
-                for (size_t i=0; i<scoreCount; i++) {
-                    scores[i].fScoreId     = *(hsUint32*)(buf     );
-                    scores[i].fOwnerId     = *(hsUint32*)(buf +  4);
-                    scores[i].fCreatedTime = *(hsUint32*)(buf +  8);
-                    scores[i].fGameType    = *(hsUint32*)(buf + 12);
-                    scores[i].fValue       = *(hsInt32* )(buf + 16);
-                    size_t strDataSize     = *(hsUint32*)(buf + 20);
-                    scores[i].fGameName    = (const pl_wchar_t*)(buf + 24);
-                    buf += 24 + strDataSize;
-                }
-                fReceiver->onScoreGetScoresReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                                scoreCount, scores);
-                delete[] scores;
-            }
-            break;
-        case kAuth2Cli_ScoreAddPointsReply:
-            fReceiver->onScoreAddPointsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_ScoreTransferPointsReply:
-            fReceiver->onScoreTransferPointsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_ScoreSetPointsReply:
-            fReceiver->onScoreSetPointsReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
-            break;
-        case kAuth2Cli_ScoreGetRanksReply:
-            {
-                size_t rankCount = msgbuf[2].fUint;
-                pnNetGameRank* ranks = new pnNetGameRank[rankCount];
-                const hsUbyte* buf = msgbuf[3].fData;
-                for (size_t i=0; i<rankCount; i++) {
-                    ranks[i].fRank     = *(hsUint32*)(buf    );
-                    ranks[i].fScore    = *(hsUint32*)(buf + 4);
-                    size_t strDataSize = *(hsUint32*)(buf + 8);
-                    ranks[i].fName     = (const pl_wchar_t*)(buf + 12);
-                    buf += 12 + strDataSize;
-                }
-                fReceiver->onScoreGetRanksReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                                rankCount, ranks);
-                delete[] ranks;
-            }
-            break;
-        case kAuth2Cli_PropagateBuffer:
-            {
-                hsRAMStream rs(PlasmaVer::pvMoul);
-                rs.copyFrom(msgbuf[2].fData, msgbuf[1].fUint);
-                fReceiver->fResMgr->lock();
-                plCreatable* pCre = NULL;
-                try {
-                    pCre = fReceiver->fResMgr->ReadCreatable(&rs, true, msgbuf[1].fUint);
-                } catch (hsException& ex) {
-                    plDebug::Error("Error reading propagated message: %s\n", ex.what());
+            fReceiver->fResMgr->unlock();
+            if (pCre != NULL) {
+                fReceiver->onPropagateMessage(pCre);
+                if (fDeleteMsgs)
                     delete pCre;
-                    pCre = NULL;
-                }
-                fReceiver->fResMgr->unlock();
-                if (pCre != NULL) {
-                    fReceiver->onPropagateMessage(pCre);
-                    if (fDeleteMsgs)
-                        delete pCre;
-                } else {
-                    plDebug::Error("Ignored propagated message [%04X]%s",
-                                   pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, PlasmaVer::pvMoul),
-                                   pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, PlasmaVer::pvMoul));
-                }
+            } else {
+                plDebug::Error("Ignored propagated message [%04X]%s",
+                                pdUnifiedTypeMap::PlasmaToMapped(msgbuf[0].fUint, PlasmaVer::pvMoul),
+                                pdUnifiedTypeMap::ClassName(msgbuf[0].fUint, PlasmaVer::pvMoul));
             }
-            break;
         }
-        NCFreeMessage(msgbuf, msgDesc);
-        fSock->signalStatus();
-    } /* while connected */
+        break;
+    }
+    NCFreeMessage(msgbuf, msgDesc);
+    return true;
 }
 
 
 /* pnAuthClient */
-pnAuthClient::pnAuthClient(plResManager* mgr, bool deleteMsgs)
-            : fSock(NULL), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fDispatch(NULL)
+pnAuthClient::pnAuthClient(plResManager* mgr, bool deleteMsgs, bool threaded)
+            : fSock(NULL), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fThreaded(threaded), fDispatch(NULL)
 { }
 
 pnAuthClient::~pnAuthClient()
@@ -349,19 +344,19 @@ void pnAuthClient::setClientInfo(hsUint32 buildId, hsUint32 buildType,
 
 ENetError pnAuthClient::connect(const char* host, short port)
 {
-    pnSocket* sock = new pnSocket();
-    if (!sock->connect(host, port)) {
+    fSock = new pnRC4Socket();
+    if (!fSock->connect(host, port)) {
         plDebug::Error("Error connecting to auth server\n");
-        delete sock;
+        delete fSock;
         return kNetErrConnectFailed;
     }
-    return performConnect(sock);
+    return performConnect();
 }
 
 ENetError pnAuthClient::connect(int sockFd)
 {
-    pnSocket* sock = new pnSocket(sockFd);
-    return performConnect(sock);
+    fSock = new pnRC4Socket(sockFd);
+    return performConnect();
 }
 
 void pnAuthClient::disconnect()
@@ -374,10 +369,8 @@ void pnAuthClient::disconnect()
     fDispatch = NULL;
 }
 
-ENetError pnAuthClient::performConnect(pnSocket* sock)
+ENetError pnAuthClient::performConnect()
 {
-    fSock = new pnRC4Socket(sock);
-
     hsUbyte connectHeader[51];  // ConnectHeader + AuthConnectHeader
     /* Begin ConnectHeader */
     *(hsUbyte* )(connectHeader     ) = kConnTypeCliToAuth;
@@ -446,8 +439,12 @@ ENetError pnAuthClient::performConnect(pnSocket* sock)
         plDebug::Error("Got junk response from server");
         return kNetErrConnectFailed;
     }
-    fDispatch = new Dispatch(fSock, this, fDeleteMsgs);
-    fDispatch->start();
+    fDispatch = new Dispatch(this, fDeleteMsgs);
+    if(fThreaded)
+      fIface = new pnThreadedSocket(fDispatch, fSock);
+    else
+      fIface = new pnPolledSocket(fDispatch, fSock);
+    fIface->run();
     return kNetSuccess;
 }
 

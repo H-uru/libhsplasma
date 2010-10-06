@@ -15,6 +15,21 @@
  */
 
 #include "pnClient.h"
+#include "pnSocketInterface.h"
+
+pnClient::pnClient()
+        : fIface(NULL)
+{ }
+
+pnClient::~pnClient()
+{
+    delete fIface;
+}
+
+void pnClient::run()
+{
+  fIface->run();
+}
 
 hsUint32 pnClient::nextTransId() {
     static hsUint32 s_transId = 0;

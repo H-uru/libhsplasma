@@ -62,12 +62,14 @@ set(PN_SRCS
     pnClient.cpp
     pnNetMsg.cpp
     pnSocket.cpp
+    pnSocketInterface.cpp
 )
 set(PN_HDRS
     Protocol.h
     pnClient.h
     pnNetMsg.h
     pnSocket.h
+    pnSocketInterface.h
 )
 
 if(WIN32)

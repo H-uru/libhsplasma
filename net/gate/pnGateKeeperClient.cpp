@@ -21,48 +21,42 @@
 #include "crypt/pnSha1.h"
 
 /* Dispatch */
-pnGateKeeperClient::Dispatch::Dispatch(pnRC4Socket* sock, pnGateKeeperClient* self)
-                  : fReceiver(self), fSock(sock)
+pnGateKeeperClient::Dispatch::Dispatch(pnGateKeeperClient* self)
+                  : fReceiver(self)
 { }
 
-void pnGateKeeperClient::Dispatch::run()
+bool pnGateKeeperClient::Dispatch::dispatch(pnSocket *sock)
 {
+    pnRC4Socket *fSock = static_cast<pnRC4Socket*>(sock);
     hsUint16 msgId;
-    while (fSock->isConnected()) {
-        if (!fSock->waitForData()) {
-            // Got an error
-            break;
-        }
+    fSock->recv(&msgId, sizeof(hsUint16));
+    const pnNetMsg* msgDesc = GET_GateKeeper2Cli(msgId);
+    if (msgDesc == NULL) {
+        plDebug::Error("Got invalid message ID (%u)", msgId);
+        return false;
+    }
 
-        fSock->recv(&msgId, sizeof(hsUint16));
-        const pnNetMsg* msgDesc = GET_GateKeeper2Cli(msgId);
-        if (msgDesc == NULL) {
-            plDebug::Error("Got invalid message ID (%u)", msgId);
-            break;
-        }
-
-        msgparm_t* msgbuf = fSock->recvMsg(msgDesc);
-        switch (msgId) {
-        case kGateKeeper2Cli_PingReply:
-            fReceiver->onPingReply(msgbuf[1].fUint, msgbuf[0].fUint);
-            if (msgbuf[2].fUint != 0)
-                plDebug::Debug("Got non-zero payload");
-            break;
-        case kGateKeeper2Cli_FileSrvIpAddressReply:
-            fReceiver->onFileSrvIpAddressReply(msgbuf[0].fUint, msgbuf[1].fString);
-            break;
-        case kGateKeeper2Cli_AuthSrvIpAddressReply:
-            fReceiver->onAuthSrvIpAddressReply(msgbuf[0].fUint, msgbuf[1].fString);
-            break;
-        }
-        NCFreeMessage(msgbuf, msgDesc);
-        fSock->signalStatus();
-    } /* while connected */
+    msgparm_t* msgbuf = fSock->recvMsg(msgDesc);
+    switch (msgId) {
+    case kGateKeeper2Cli_PingReply:
+        fReceiver->onPingReply(msgbuf[1].fUint, msgbuf[0].fUint);
+        if (msgbuf[2].fUint != 0)
+            plDebug::Debug("Got non-zero payload");
+        break;
+    case kGateKeeper2Cli_FileSrvIpAddressReply:
+        fReceiver->onFileSrvIpAddressReply(msgbuf[0].fUint, msgbuf[1].fString);
+        break;
+    case kGateKeeper2Cli_AuthSrvIpAddressReply:
+        fReceiver->onAuthSrvIpAddressReply(msgbuf[0].fUint, msgbuf[1].fString);
+        break;
+    }
+    NCFreeMessage(msgbuf, msgDesc);
+    return true;
 }
 
 
 /* pnGateKeeperClient */
-pnGateKeeperClient::pnGateKeeperClient() : fSock(NULL), fDispatch(NULL)
+pnGateKeeperClient::pnGateKeeperClient(bool threaded) : fSock(NULL), fThreaded(threaded), fDispatch(NULL)
 { }
 
 pnGateKeeperClient::~pnGateKeeperClient()
@@ -90,19 +84,19 @@ void pnGateKeeperClient::setClientInfo(hsUint32 buildId, hsUint32 buildType,
 
 ENetError pnGateKeeperClient::connect(const char* host, short port)
 {
-    pnSocket* sock = new pnSocket();
-    if (!sock->connect(host, port)) {
+    fSock = new pnRC4Socket();
+    if (!fSock->connect(host, port)) {
         plDebug::Error("Error connecting to auth server\n");
-        delete sock;
+        delete fSock;
         return kNetErrConnectFailed;
     }
-    return performConnect(sock);
+    return performConnect();
 }
 
 ENetError pnGateKeeperClient::connect(int sockFd)
 {
-    pnSocket* sock = new pnSocket(sockFd);
-    return performConnect(sock);
+    fSock = new pnRC4Socket(sockFd);
+    return performConnect();
 }
 
 void pnGateKeeperClient::disconnect()
@@ -115,10 +109,8 @@ void pnGateKeeperClient::disconnect()
     fDispatch = NULL;
 }
 
-ENetError pnGateKeeperClient::performConnect(pnSocket* sock)
+ENetError pnGateKeeperClient::performConnect()
 {
-    fSock = new pnRC4Socket(sock);
-
     hsUbyte connectHeader[51];  // ConnectHeader + GateKeeperConnectHeader
     /* Begin ConnectHeader */
     *(hsUbyte* )(connectHeader     ) = kConnTypeCliToGateKeeper;
@@ -187,8 +179,12 @@ ENetError pnGateKeeperClient::performConnect(pnSocket* sock)
         plDebug::Error("Got junk response from server");
         return kNetErrConnectFailed;
     }
-    fDispatch = new Dispatch(fSock, this);
-    fDispatch->start();
+    fDispatch = new Dispatch(this);
+    if(fThreaded)
+      fIface = new pnThreadedSocket(fDispatch, fSock);
+    else
+      fIface = new pnPolledSocket(fDispatch, fSock);
+    fIface->run();
     return kNetSuccess;
 }
 

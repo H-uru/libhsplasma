@@ -23,6 +23,7 @@
 #include "pnNetMsg.h"
 #include "pnVaultNode.h"
 #include "crypt/pnRC4.h"
+#include "pnSocketInterface.h"
 
 DllStruct pnAuthFileItem {
     plString fFilename;
@@ -44,7 +45,7 @@ DllStruct pnNetGameRank {
 
 DllClass pnAuthClient : public pnClient {
 public:
-    pnAuthClient(plResManager* mgr, bool deleteMsgs = true);
+    pnAuthClient(plResManager* mgr, bool deleteMsgs = true, bool threaded=true);
     virtual ~pnAuthClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN);
@@ -57,8 +58,8 @@ public:
     virtual bool isConnected() const
     { return (fSock != NULL) && fSock->isConnected(); }
 
-    virtual void signalStatus() { fSock->signalStatus(); }
-    virtual void waitForStatus() { fSock->waitForStatus(); }
+//     virtual void signalStatus() { fSock->signalStatus(); }
+//     virtual void waitForStatus() { fSock->waitForStatus(); }
 
     /* Outgoing Protocol */
     hsUint32 sendPingRequest(hsUint32 pingTimeMs);
@@ -195,6 +196,7 @@ protected:
     pnRC4Socket* fSock;
     plResManager* fResMgr;
     bool fDeleteMsgs;
+    bool fThreaded;
 
     hsUint32 fBuildId, fBuildType, fBranchId;
     plUuid fProductId;
@@ -203,19 +205,17 @@ private:
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
 
-    class Dispatch : public hsThread {
+    class Dispatch : public pnDispatcher {
     public:
-        Dispatch(pnRC4Socket* sock, pnAuthClient* self, bool deleteMsgs);
+        Dispatch(pnAuthClient* self, bool deleteMsgs);
+        bool dispatch(pnSocket* sock);
 
     private:
-        virtual void run();
-
         pnAuthClient* fReceiver;
-        pnRC4Socket* fSock;
         bool fDeleteMsgs;
     } *fDispatch;
 
-    ENetError performConnect(pnSocket* sock);
+    ENetError performConnect();
     void sendFileDownloadChunkAck(hsUint32 transId);
 };
 

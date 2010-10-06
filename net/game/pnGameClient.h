@@ -22,10 +22,11 @@
 #include "PRP/plCreatable.h"
 #include "pnNetMsg.h"
 #include "crypt/pnRC4.h"
+#include "pnSocketInterface.h"
 
 DllClass pnGameClient : public pnClient {
 public:
-    pnGameClient(plResManager* mgr, bool deleteMsgs = true);
+    pnGameClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true);
     virtual ~pnGameClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN);
@@ -39,8 +40,8 @@ public:
     virtual bool isConnected() const
     { return (fSock != NULL) && fSock->isConnected(); }
 
-    virtual void signalStatus() { fSock->signalStatus(); }
-    virtual void waitForStatus() { fSock->waitForStatus(); }
+//     virtual void signalStatus() { fSock->signalStatus(); }
+//     virtual void waitForStatus() { fSock->waitForStatus(); }
 
     /* Outgoing Protocol */
     void sendPingRequest(hsUint32 pingTimeMs);
@@ -58,6 +59,7 @@ public:
 protected:
     pnRC4Socket* fSock;
     plResManager* fResMgr;
+    bool fThreaded;
 
     hsUint32 fBuildId, fBuildType, fBranchId;
     plUuid fProductId;
@@ -68,19 +70,17 @@ private:
     unsigned char fKeyN[64];
     bool fDeleteMsgs;
 
-    class Dispatch : public hsThread {
+    class Dispatch : public pnDispatcher {
     public:
-        Dispatch(pnRC4Socket* sock, pnGameClient* self, bool deleteMsgs);
+        Dispatch(pnGameClient* self, bool deleteMsgs);
+        bool dispatch(pnSocket *sock);
 
     private:
-        virtual void run();
-
         pnGameClient* fReceiver;
-        pnRC4Socket* fSock;
         bool fDeleteMsgs;
     } *fDispatch;
 
-    ENetError performConnect(pnSocket* sock);
+    ENetError performConnect();
 };
 
 #endif
