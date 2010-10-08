@@ -23,7 +23,8 @@ pnClient::pnClient()
 
 pnClient::~pnClient()
 {
-    delete fIface;
+    // we leave deleting fIface up to the subclass, since that's
+    // where it was created in the first place.
 }
 
 void pnClient::run()

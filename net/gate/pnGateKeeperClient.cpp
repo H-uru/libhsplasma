@@ -66,6 +66,7 @@ pnGateKeeperClient::~pnGateKeeperClient()
 {
     if (fSock != NULL)
         fSock->close();
+    delete fIface;
     delete fDispatch;
     delete fSock;
 }
@@ -106,8 +107,10 @@ void pnGateKeeperClient::disconnect()
 {
     if (fSock != NULL)
         fSock->close();
+    delete fIface;
     delete fDispatch;
     delete fSock;
+    fIface = NULL;
     fSock = NULL;
     fDispatch = NULL;
 }

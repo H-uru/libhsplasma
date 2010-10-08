@@ -325,6 +325,7 @@ pnAuthClient::~pnAuthClient()
 {
     if (fSock != NULL)
         fSock->close();
+    delete fIface;
     delete fDispatch;
     delete fSock;
 }
@@ -365,8 +366,10 @@ void pnAuthClient::disconnect()
 {
     if (fSock != NULL)
         fSock->close();
+    delete fIface;
     delete fDispatch;
     delete fSock;
+    fIface = NULL;
     fSock = NULL;
     fDispatch = NULL;
 }

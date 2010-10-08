@@ -92,6 +92,7 @@ pnGameClient::~pnGameClient()
 {
     if (fSock != NULL)
         fSock->close();
+    delete fIface;
     delete fDispatch;
     delete fSock;
 }
@@ -138,8 +139,10 @@ void pnGameClient::disconnect()
 {
     if (fSock != NULL)
         fSock->close();
+    delete fIface;
     delete fDispatch;
     delete fSock;
+    fIface = NULL;
     fSock = NULL;
     fDispatch = NULL;
 }

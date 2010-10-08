@@ -41,6 +41,7 @@ pnSocketInterface::~pnSocketInterface()
 class pnThreadHelper : public hsThread {
 public:
     pnThreadHelper(pnSocket* sock, pnDispatcher* dispatch);
+    virtual ~pnThreadHelper();
     void stop() { fRunning = false; }
 
 private:
@@ -53,6 +54,9 @@ private:
 
 pnThreadHelper::pnThreadHelper(pnSocket* sock, pnDispatcher* dispatch)
               : fReceiver(dispatch), fSock(sock)
+{ }
+
+pnThreadHelper::~pnThreadHelper()
 { }
 
 void pnThreadHelper::run()
