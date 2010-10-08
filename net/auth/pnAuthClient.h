@@ -208,7 +208,8 @@ private:
     class Dispatch : public pnDispatcher {
     public:
         Dispatch(pnAuthClient* self, bool deleteMsgs);
-        bool dispatch(pnSocket* sock);
+        virtual ~Dispatch();
+        virtual bool dispatch(pnSocket* sock);
 
     private:
         pnAuthClient* fReceiver;

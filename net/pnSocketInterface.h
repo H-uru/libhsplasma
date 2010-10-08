@@ -21,7 +21,9 @@ class pnSocket;
 
 class pnDispatcher {
 public:
-    virtual bool dispatch(pnSocket* sock) = 0;
+    pnDispatcher();
+    virtual ~pnDispatcher();
+    virtual bool dispatch(pnSocket* sock);
 };
 
 class pnSocketInterface {

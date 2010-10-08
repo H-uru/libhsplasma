@@ -67,9 +67,10 @@ private:
     class Dispatch : public pnDispatcher {
     public:
         Dispatch(pnGateKeeperClient* self);
-
+        virtual ~Dispatch();
         virtual bool dispatch(pnSocket* sock);
 
+    private:
         pnGateKeeperClient* fReceiver;
     } *fDispatch;
 

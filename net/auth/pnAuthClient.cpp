@@ -56,6 +56,9 @@ pnAuthClient::Dispatch::Dispatch(pnAuthClient* self, bool deleteMsgs)
             : fReceiver(self), fDeleteMsgs(deleteMsgs)
 { }
 
+pnAuthClient::Dispatch::~Dispatch()
+{ }
+
 bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
 {
     hsUint16 msgId;

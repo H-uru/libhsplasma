@@ -25,6 +25,10 @@ pnGateKeeperClient::Dispatch::Dispatch(pnGateKeeperClient* self)
                   : fReceiver(self)
 { }
 
+pnGateKeeperClient::Dispatch::~Dispatch()
+{ }
+
+
 bool pnGateKeeperClient::Dispatch::dispatch(pnSocket* sock)
 {
     hsUint16 msgId;

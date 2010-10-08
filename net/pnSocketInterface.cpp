@@ -19,6 +19,18 @@
 #include <Sys/hsThread.h>
 #include "pnSocket.h"
 
+pnDispatcher::pnDispatcher()
+{ }
+
+pnDispatcher::~pnDispatcher()
+{ }
+
+bool pnDispatcher::dispatch(pnSocket* /*sock*/)
+{
+  return false;
+}
+
+
 pnSocketInterface::pnSocketInterface(pnDispatcher* dispatch, pnSocket* sock)
                  : fDispatch(dispatch), fSock(sock)
 { }

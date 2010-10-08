@@ -73,7 +73,8 @@ private:
     class Dispatch : public pnDispatcher {
     public:
         Dispatch(pnGameClient* self, bool deleteMsgs);
-        bool dispatch(pnSocket* sock);
+        virtual ~Dispatch();
+        virtual bool dispatch(pnSocket* sock);
 
     private:
         pnGameClient* fReceiver;

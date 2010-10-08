@@ -105,6 +105,10 @@ pnFileClient::Dispatch::Dispatch(pnFileClient* self)
             : fReceiver(self)
 { }
 
+pnFileClient::Dispatch::~Dispatch()
+{ }
+
+
 bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
 {
     FileMsg_Header header;

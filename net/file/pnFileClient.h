@@ -75,6 +75,7 @@ private:
     class Dispatch : public pnDispatcher {
     public:
         Dispatch(pnFileClient* self);
+        virtual ~Dispatch();
         virtual bool dispatch(pnSocket* sock);
 
     private:

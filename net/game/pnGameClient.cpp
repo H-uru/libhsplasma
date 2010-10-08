@@ -26,6 +26,10 @@ pnGameClient::Dispatch::Dispatch(pnGameClient* self, bool deleteMsgs)
             : fReceiver(self), fDeleteMsgs(deleteMsgs)
 { }
 
+pnGameClient::Dispatch::~Dispatch()
+{ }
+
+
 bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
 {
     hsUint16 msgId;
