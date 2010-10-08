@@ -734,13 +734,14 @@ plString plString::Format(const char* fmt, ...) {
 
 plString plString::FormatV(const char* fmt, va_list aptr) {
     char buf[256];
-    va_list aptr_save = aptr;
+    va_list aptr_save;
+    va_copy(aptr_save, aptr);
     int chars = vsnprintf(buf, 256, fmt, aptr);
     if (chars < 0) {
         // Old glibc and Micro$oft make this harder than it needs to be
         int size = 4096;
         for ( ;; ) {
-            aptr = aptr_save;
+            va_copy(aptr, aptr_save);
             char* bigbuf = new char[size];
             chars = vsnprintf(bigbuf, size, fmt, aptr);
             if (chars >= 0) {
@@ -751,7 +752,7 @@ plString plString::FormatV(const char* fmt, va_list aptr) {
             size *= 2;
         }
     } else if (chars >= 256) {
-        aptr = aptr_save;
+        va_copy(aptr, aptr_save);
         char* bigbuf = new char[chars+1];
         vsnprintf(bigbuf, chars+1, fmt, aptr);
         plString strfmt(bigbuf);
