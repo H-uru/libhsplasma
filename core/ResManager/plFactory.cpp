@@ -1018,7 +1018,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kCompoundController: return new plCompoundController();
         //case kNetClientMgrMsg: return new plNetClientMgrMsg();
         //case kAgeLoaderMsg: return new plAgeLoaderMsg();
-        //case kAvBrainAvatar: return new plAvBrainAvatar();
+        case kAvBrainAvatar: return new plAvBrainAvatar();
         //case kPythonNotifyMsg: return new pfPythonNotifyMsg();
         //case kNCAgeJoinerMsg: return new plNCAgeJoinerMsg();
         //case kAvTaskDumbSeek: return new plAvTaskDumbSeek();
