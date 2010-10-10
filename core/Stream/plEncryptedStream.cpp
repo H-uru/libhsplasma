@@ -285,7 +285,7 @@ void plEncryptedStream::seek(hsUint32 pos) {
 
 void plEncryptedStream::skip(hsInt32 count) {
     if (count < 0) {
-        if ((fDataPos + count) < 0)
+        if (((hsInt32)fDataPos + count) < 0)
             throw hsFileReadException(__FILE__, __LINE__, "Seek out of range");
         seek(fDataPos + count);
     } else {

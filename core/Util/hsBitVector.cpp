@@ -126,7 +126,7 @@ unsigned int hsBitVector::getValue(const char* name) {
 
 void hsBitVector::setName(unsigned int idx, const char* name) {
     if (fBitNames.find(idx) != fBitNames.end())
-      delete[] fBitNames[idx];
+        delete[] fBitNames[idx];
     fBitNames[idx] = new char[strlen(name)+1];
     strcpy(fBitNames[idx], name);
 }
