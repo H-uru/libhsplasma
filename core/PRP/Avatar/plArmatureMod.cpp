@@ -38,6 +38,8 @@ void plArmatureModBase::read(hsStream* S, plResManager* mgr) {
     fBrains.setSizeNull(S->readInt());
     for (size_t i=0; i<fBrains.getSize(); i++)
         fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
+
+    fDetector = mgr->readKey(S);
 }
 
 void plArmatureModBase::write(hsStream* S, plResManager* mgr) {
@@ -54,6 +56,8 @@ void plArmatureModBase::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fBrains.getSize());
     for (size_t i=0; i<fBrains.getSize(); i++)
         mgr->WriteCreatable(S, fBrains[i]);
+
+    mgr->writeKey(S, fDetector);
 }
 
 void plArmatureModBase::IPrcWrite(pfPrcHelper* prc) {
@@ -74,6 +78,10 @@ void plArmatureModBase::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Brains");
     for (size_t i=0; i<fBrains.getSize(); i++)
         fBrains[i]->prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("Detector");
+    fDetector->prcWrite(prc);
     prc->closeTag();
 }
 
@@ -112,6 +120,8 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fBrains[i] = plArmatureBrain::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
+    } else if (tag->getName() == "Detector") {
+        fDetector = mgr->prcParseKey(tag->getFirstChild());
     } else {
         plAGMasterMod::IPrcParse(tag, mgr);
     }
@@ -160,8 +170,10 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
         fMaxs.read(S);
     }
 
-    fPhysHeight = S->readFloat();
-    fPhysWidth = S->readFloat();
+    if (!S->getVer().isNewPlasma()) {
+        fPhysHeight = S->readFloat();
+        fPhysWidth = S->readFloat();
+    }
 
     if (S->getVer().isMoul() || S->getVer().isUniversal()) {
         fFootstepType = S->readSafeStr();
@@ -209,8 +221,10 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
         fMaxs.write(S);
     }
 
-    S->writeFloat(fPhysHeight);
-    S->writeFloat(fPhysWidth);
+    if (!S->getVer().isNewPlasma()) {
+        S->writeFloat(fPhysHeight);
+        S->writeFloat(fPhysWidth);
+    }
 
     if (S->getVer().isMoul() || S->getVer().isUniversal()) {
         S->writeSafeStr(fFootstepType);
@@ -220,11 +234,11 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
 }
 
 void plArmatureMod::IPrcWrite(pfPrcHelper* prc) {
-    plAGMasterMod::IPrcWrite(prc);
+    plArmatureModBase::IPrcWrite(prc);
 
-    prc->writeSimpleTag("DefaultMesh");
+    /*prc->writeSimpleTag("DefaultMesh");
     fMeshKeys[0]->prcWrite(prc);
-    prc->closeTag();
+    prc->closeTag();*/
 
     prc->startTag("ArmatureParams");
     prc->writeParam("Root", fRootName);
@@ -246,10 +260,10 @@ void plArmatureMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Type", fFootstepType);
     prc->endTag(true);
 
-    prc->writeSimpleTag("Brains");
+    /*prc->writeSimpleTag("Brains");
     for (size_t i=0; i<fBrains.getSize(); i++)
         fBrains[i]->prcWrite(prc);
-    prc->closeTag();
+    prc->closeTag();*/
 
     prc->writeSimpleTag("ClothingOutfit");
     fClothingOutfit->prcWrite(prc);
