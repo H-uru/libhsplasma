@@ -499,6 +499,7 @@ set(PRP_PHYS_SRCS
     PRP/Physics/plObjectInVolumeDetector.cpp
     PRP/Physics/plPhysical.cpp
     PRP/Physics/plPhysicalSndGroup.cpp
+    PRP/Physics/plPXPhysical.cpp
     PRP/Physics/plVehicleModifier.cpp
 )
 set(PRP_PHYS_HDRS

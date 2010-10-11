@@ -19,7 +19,7 @@
  */
 #include "plPhysical.h"
 
-DllClass plODESimDefs {
+class plODESimDefs {
 public:
     enum Bounds {
         kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,

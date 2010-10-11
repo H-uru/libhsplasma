@@ -19,7 +19,7 @@
  */
 #include "plPhysical.h"
 
-DllClass plPXSimDefs {
+class plPXSimDefs {
 public:
     enum Bounds {
         kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,
@@ -111,4 +111,17 @@ public:
 
         return retGroup;
     }
+};
+
+class PXCookedData {
+private:
+    class plGenericPhysical* fPhysical;
+
+public:
+    PXCookedData(class plGenericPhysical* phys);
+
+    unsigned int readOPC(hsStream* S);
+    void readHBM(hsStream* S);
+    void readTriangleMesh(hsStream* S);
+    void readConvexMesh(hsStream* S);
 };
