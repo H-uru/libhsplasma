@@ -567,22 +567,26 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
         if (memcmp(tag, "MESH", 4) != 0)
             throw hsBadParamException(__FILE__, __LINE__, "Invalid Mesh header");
         S->readInt();
-        S->readInt();
+
+        unsigned int nxFlags = S->readInt();
         S->readFloat();
         S->readInt();
-        S->readInt();
-        fVerts.setSize(S->readInt());
-        fIndices.setSize(S->readInt() * 3);
+        S->readFloat();
+        unsigned int nxNumVerts = S->readInt();
+        unsigned int nxNumTris = S->readInt();
+
+        fVerts.setSize(nxNumVerts);
+        fIndices.setSize(nxNumTris * 3);
 
         for (size_t i=0; i<fVerts.getSize(); i++)
             fVerts[i].read(S);
 
         for (size_t i=0; i<fIndices.getSize(); i += 3) {
-            if (fVerts.getSize() < 256) {
+            if (nxFlags & 0x8) {
                 fIndices[i+0] = S->readByte();
                 fIndices[i+1] = S->readByte();
                 fIndices[i+2] = S->readByte();
-            } else if (fVerts.getSize() < 65536) {
+            } else if (nxFlags & 0x10) {
                 fIndices[i+0] = S->readShort();
                 fIndices[i+1] = S->readShort();
                 fIndices[i+2] = S->readShort();
@@ -592,19 +596,76 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
                 fIndices[i+2] = S->readInt();
             }
         }
-        S->readInt();
 
-        /*
-        fTMDBuffer = new unsigned int[fNumTris];
-        for (size_t i=0; i<fNumTris; i++) {
-            if (fNumVerts < 256)
-                fTMDBuffer[i] = S->readByte();
-            else if (fNumVerts < 65536)
-                fTMDBuffer[i] = S->readShort();
-            else
-                fTMDBuffer[i] = S->readInt();
+        if (nxFlags & 1) {
+            for (unsigned int i = 0; i < nxNumTris; i++) {
+                S->readShort();
+            }
         }
-        */
+
+        if (nxFlags & 2) {
+            unsigned int max = S->readInt();
+            for (unsigned int i = 0; i < nxNumVerts; i++) {
+                if (max > 0xFFFF) {
+                    S->readInt();
+                } else if (max > 0xFF) {
+                    S->readShort();
+                } else {
+                    S->readByte();
+                }
+            }
+        }
+
+        unsigned int nxNumConvexParts = S->readInt();
+        unsigned int nxNumFlatParts = S->readInt();
+
+        if (nxNumConvexParts) {
+            for (unsigned int i = 0; i < nxNumVerts; i++) {
+                S->readShort();
+            }
+        }
+
+        if (nxNumFlatParts) {
+            unsigned char* nxFlatParts = new unsigned char[(nxNumFlatParts >= 0x100) ? 2*nxNumTris : nxNumTris];
+            S->read((nxNumFlatParts >= 0x100) ? 2*nxNumTris : nxNumTris, nxFlatParts);
+        }
+
+        unsigned int nxExtraDataCount = S->readInt();
+        //unsigned char* nxExtraData = new unsigned char[nxExtraDataCount];
+        //S->read(nxExtraDataCount, nxExtraData);
+
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+
+        float nxVolume = S->readFloat();
+        if (nxVolume > -1.0) {
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+            S->readFloat();
+        }
+
+        if (S->readInt()) {
+            unsigned char* nxConvexParts = new unsigned char[nxNumVerts];
+            S->read(nxNumVerts, nxConvexParts);
+        }
     }
 }
 
