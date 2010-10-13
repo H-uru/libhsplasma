@@ -559,7 +559,6 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
             }
         }
     } else {    // Proxy or Explicit
-        //TODO: This is messy and incomplete
         cooked.readTriangleMesh(S);
     }
 }
