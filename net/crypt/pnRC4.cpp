@@ -55,14 +55,14 @@ long pnRC4Socket::send(const void* buf, size_t size)
 
 long pnRC4Socket::recv(void* buf, size_t size)
 {
-    long rSize = 0;
+    size_t rSize = 0;
     if (!fEncrypted) {
         while(rSize < size)
-            rSize += pnSocket::recv(buf+rSize, size-rSize);
+            rSize += pnSocket::recv((hsByte*)buf+rSize, size-rSize);
     } else {
         fRecvLock.lock();
         while(rSize < size)
-          rSize += pnSocket::recv(buf+rSize, size-rSize);
+          rSize += pnSocket::recv((hsByte*)buf+rSize, size-rSize);
         if (rSize > 0) {
             unsigned char* cBuf = new unsigned char[rSize];
             RC4(&fRecv, rSize, (const unsigned char*)buf, cBuf);
