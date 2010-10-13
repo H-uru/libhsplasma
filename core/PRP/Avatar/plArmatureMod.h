@@ -28,6 +28,7 @@ protected:
     hsTArray<plKey> fMeshKeys;
     hsTArray<hsTArray<plKey> > fUnusedBones;
     hsTArray<plArmatureBrain*> fBrains;
+    plKey fDetector;
 
 public:
     plArmatureModBase() { }

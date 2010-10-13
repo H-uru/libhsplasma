@@ -22,6 +22,13 @@ void plLayerMovie::read(hsStream* S, plResManager* mgr) {
 
     int len = S->readInt();
     fMovieName = S->readStr(len);
+
+    if (S->getVer().isNewPlasma()) {
+        fEoaKey1 = mgr->readKey(S);
+        fEoaKey2 = mgr->readKey(S);
+
+        fEoaInt = S->readInt();
+    }
 }
 
 void plLayerMovie::write(hsStream* S, plResManager* mgr) {
@@ -29,6 +36,13 @@ void plLayerMovie::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fMovieName.len());
     S->writeStr(fMovieName);
+
+    if (S->getVer().isNewPlasma()) {
+        mgr->writeKey(S, fEoaKey1);
+        mgr->writeKey(S, fEoaKey2);
+
+        S->writeInt(fEoaInt);
+    }
 }
 
 void plLayerMovie::IPrcWrite(pfPrcHelper* prc) {
@@ -37,11 +51,31 @@ void plLayerMovie::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Movie");
     prc->writeParam("Name", fMovieName);
     prc->endTag(true);
+
+    prc->writeSimpleTag("EoaKey1");
+    fEoaKey1->prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("EoaKey2");
+    fEoaKey2->prcWrite(prc);
+    prc->closeTag();
+
+    prc->startTag("EoaInt");
+    prc->writeParam("Value", fEoaInt);
+    prc->endTag(true);
 }
 
 void plLayerMovie::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Movie") {
         fMovieName = tag->getParam("Name", "");
+    } else if (tag->getName() == "EoaKey1") {
+        if (tag->hasChildren())
+            fEoaKey1 = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "EoaKey2") {
+        if (tag->hasChildren())
+            fEoaKey2 = mgr->prcParseKey(tag->getFirstChild());
+    } else if (tag->getName() == "EoaInt") {
+        fEoaInt = tag->getParam("Value", "0").toUint();
     } else {
         plLayerAnimation::IPrcParse(tag, mgr);
     }

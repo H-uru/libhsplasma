@@ -497,6 +497,7 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     delete[] fTMDBuffer;
     fTMDBuffer = NULL;
 
+    PXCookedData cooked(this);
     if (fBounds == plSimDefs::kSphereBounds) {
         fRadius = S->readFloat();
         fOffset.read(S);
@@ -558,53 +559,7 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
             }
         }
     } else {    // Proxy or Explicit
-        //TODO: This is messy and incomplete
-        char tag[4];
-        S->read(4, tag);
-        if (memcmp(tag, "NXS\x01", 4) != 0)
-            throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX header");
-        S->read(4, tag);
-        if (memcmp(tag, "MESH", 4) != 0)
-            throw hsBadParamException(__FILE__, __LINE__, "Invalid Mesh header");
-        S->readInt();
-        S->readInt();
-        S->readFloat();
-        S->readInt();
-        S->readInt();
-        fVerts.setSize(S->readInt());
-        fIndices.setSize(S->readInt() * 3);
-
-        for (size_t i=0; i<fVerts.getSize(); i++)
-            fVerts[i].read(S);
-
-        for (size_t i=0; i<fIndices.getSize(); i += 3) {
-            if (fVerts.getSize() < 256) {
-                fIndices[i+0] = S->readByte();
-                fIndices[i+1] = S->readByte();
-                fIndices[i+2] = S->readByte();
-            } else if (fVerts.getSize() < 65536) {
-                fIndices[i+0] = S->readShort();
-                fIndices[i+1] = S->readShort();
-                fIndices[i+2] = S->readShort();
-            } else {
-                fIndices[i+0] = S->readInt();
-                fIndices[i+1] = S->readInt();
-                fIndices[i+2] = S->readInt();
-            }
-        }
-        S->readInt();
-
-        /*
-        fTMDBuffer = new unsigned int[fNumTris];
-        for (size_t i=0; i<fNumTris; i++) {
-            if (fNumVerts < 256)
-                fTMDBuffer[i] = S->readByte();
-            else if (fNumVerts < 65536)
-                fTMDBuffer[i] = S->readShort();
-            else
-                fTMDBuffer[i] = S->readInt();
-        }
-        */
+        cooked.readTriangleMesh(S);
     }
 }
 

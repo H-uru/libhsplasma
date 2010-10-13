@@ -346,13 +346,7 @@ bool hsFileStream::open(const char* file, FileMode mode) {
         throw hsBadParamException(__FILE__, __LINE__, "Invalid mode");
     }
 
-#ifdef _WIN32
-    plString fname(file);
-    plString fmode(fms);
-    F = _wfopen(fname.wstr().data(), fmode.wstr().data());
-#else
     F = fopen(file, fms);
-#endif
     if (F != NULL) {
         fm = mode;
         return true;

@@ -542,7 +542,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
             } catch (const hsException& e) {
                 plDebug::Error("Failed reading %s: %s",
                                kList[j]->toString().cstr(), e.what());
-                plDebug::Debug("Failure on line %s:%d", e.File(), e.Line());
+                plDebug::Error("Failure on line %s:%d", e.File(), e.Line());
                 delete kList[j]->getObj();
                 kList[j]->setObj(NULL);
             } catch (const std::exception& e) {
@@ -585,9 +585,13 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
 #endif
                     WriteCreatable(S, kList[j]->getObj());
                     nWritten++;
-                } catch (const char* e) {
+                } catch (const hsException &e) {
                     plDebug::Error("Failed writing %s: %s",
-                                   kList[j]->toString().cstr(), e);
+                                   kList[j]->toString().cstr(), e.what());
+                    plDebug::Error("Failure on line %s:%d", e.File(), e.Line());
+                } catch (const std::exception &e) {
+                    plDebug::Error("Failed writing %s: %s",
+                                   kList[j]->toString().cstr(), e.what());
                 } catch (...) {
                     plDebug::Error("Undefined error writing %s",
                                    kList[j]->toString().cstr());

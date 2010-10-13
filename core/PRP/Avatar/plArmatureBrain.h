@@ -59,6 +59,10 @@ DllClass plAvBrainClimb : public plArmatureBrain {
 };
 
 
+DllClass plAvBrainAvatar : public plArmatureBrain {
+    CREATABLE(plAvBrainAvatar, kAvBrainAvatar, plArmatureBrain)
+};
+
 DllClass plAvBrainCritter : public plArmatureBrain {
     CREATABLE(plAvBrainCritter, kAvBrainCritter, plArmatureBrain)
 };

@@ -5,12 +5,8 @@ syntax: glob
 *.pc
 *.log
 *.dSYM
-*.kdev4
-.*.swp
 log
 config.mf
-CMakeCache.txt
-cmake_install.cmake
 bin/PageConvert
 bin/PageList
 bin/PlasmaCrypt
@@ -31,5 +27,3 @@ Misc/TypeMap
 syntax: regexp
 ^dat/
 ^doc/
-CMakeFiles/
-build/

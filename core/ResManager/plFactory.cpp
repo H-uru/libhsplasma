@@ -525,7 +525,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kLadderModifier: return new plLadderModifier();
         case kCameraBrainUru_FirstPerson: return new plCameraBrain1_FirstPerson();
         case kCameraBrainUru_Circle: return new plCameraBrain1_Circle();
-        //case kEAXReverbEffect: return new plEAXReverbEffect();
+        case kEAXReverbEffect: return new plEAXReverbEffect();
         case kSpawnMod: return new plSpawnMod();
         case kCameraBrain_Novice: return new plCameraBrain_Novice();
         //case kAvatarPhysicalSDLModifier: return new plAvatarPhysicalSDLModifier();
@@ -538,7 +538,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kPagingRegionModifier: return new plPagingRegionModifier();
         //case kGuidepathModifier: return new plGuidepathModifier();
         //case kNodeMgr: return new pfNodeMgr();
-        //case kEAXEffect: return new plEAXEffect();
+        case kEAXEffect: return new plEAXEffect();
         //case kEAXPitchShifter: return new plEAXPitchShifter();
         //case kIKModifier: return new plIKModifier();
         case kCameraBrain_M5: return new plCameraBrain_M5();
@@ -1018,7 +1018,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kCompoundController: return new plCompoundController();
         //case kNetClientMgrMsg: return new plNetClientMgrMsg();
         //case kAgeLoaderMsg: return new plAgeLoaderMsg();
-        //case kAvBrainAvatar: return new plAvBrainAvatar();
+        case kAvBrainAvatar: return new plAvBrainAvatar();
         //case kPythonNotifyMsg: return new pfPythonNotifyMsg();
         //case kNCAgeJoinerMsg: return new plNCAgeJoinerMsg();
         //case kAvTaskDumbSeek: return new plAvTaskDumbSeek();

@@ -18,6 +18,7 @@
 #define _PLEAXLISTENERMOD_H
 
 #include "PRP/Modifier/plModifier.h"
+#include "Math/hsGeometry3.h"
 #include "3rdPartyLibs/AL/EFX-Util.h"
 
 DllClass plEAXListenerMod : public virtual plSingleModifier {
@@ -26,6 +27,43 @@ DllClass plEAXListenerMod : public virtual plSingleModifier {
 protected:
     plKey fSoftRegion;
     EAXREVERBPROPERTIES fListenerProps;
+
+public:
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+};
+
+DllClass plEAXEffect : public virtual plSingleModifier {
+    CREATABLE(plEAXEffect, kEAXEffect, plSingleModifier)
+
+public:
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
+
+protected:
+    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+};
+
+DllClass plEAXReverbEffect : public virtual plEAXEffect {
+    CREATABLE(plEAXReverbEffect, kEAXReverbEffect, plEAXEffect)
+
+public:
+    class Aperture {
+    public:
+        hsVector3 fX;
+        hsVector3 fY;
+        hsVector3 fZ;
+    };
+ 
+protected:
+    plKey fSoftRegion;
+    EAXREVERBPROPERTIES fListenerProps;
+    hsTArray<Aperture> fApertures;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
