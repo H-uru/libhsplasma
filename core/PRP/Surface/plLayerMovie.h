@@ -24,6 +24,8 @@ DllClass plLayerMovie : public virtual plLayerAnimation {
 
 protected:
     plString fMovieName;
+    plKey fEoaKey1, fEoaKey2;
+    unsigned int fEoaInt;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
