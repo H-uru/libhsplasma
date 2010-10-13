@@ -116,7 +116,7 @@ bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
     sock->recv(&header.fMsgSize, sizeof(header.fMsgSize));
     sock->recv(&header.fMsgId, sizeof(header.fMsgId));
     hsUbyte* msgbuf = new hsUbyte[header.fMsgSize - 8];
-    long read_data = 0;
+    hsUint32 read_data = 0;
     while(read_data < header.fMsgSize - 8)
         read_data += sock->recv(msgbuf, header.fMsgSize - 8 - read_data);
 
