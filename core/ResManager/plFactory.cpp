@@ -180,12 +180,14 @@
 plCreatable*(*plFactory::fOverrideFunc)(short);
 
 plCreatable* plFactory::Create(short typeIdx) {
-    if (typeIdx < 0) return NULL;
+    if (typeIdx < 0)
+        return NULL;
 
-    if(fOverrideFunc) {
-      plCreatable* override;
-      override = fOverrideFunc(typeIdx);
-      if(override) return override;
+    if (fOverrideFunc) {
+        plCreatable* override;
+        override = fOverrideFunc(typeIdx);
+        if (override != NULL)
+            return override;
     }
 
     switch (typeIdx) {

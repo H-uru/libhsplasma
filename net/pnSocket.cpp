@@ -277,8 +277,8 @@ long pnSocket::rsize()
 
 bool pnSocket::waitForData(unsigned int utimeout)
 {
-    if(!fConnected)
-      return false;
+    if (!fConnected)
+        return false;
     struct timeval stimeout;
     fd_set sread;
     FD_ZERO(&sread);
@@ -286,8 +286,8 @@ bool pnSocket::waitForData(unsigned int utimeout)
     stimeout.tv_sec = 0;
     stimeout.tv_usec = utimeout;
     int si = select(fSockHandle+1, &sread, NULL, NULL, &stimeout);
-    if(si < 0)
-      close();
+    if (si < 0)
+        close();
     return si > 0;
 }
 

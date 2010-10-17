@@ -57,22 +57,23 @@ long pnRC4Socket::recv(void* buf, size_t size)
 {
     size_t rSize = 0;
     if (!fEncrypted) {
-      while(rSize < size) {
-        long srSize = pnSocket::recv((hsByte*)buf+rSize, size-rSize);
-        if (srSize < 0)
-          return (srSize);
-        else
-          rSize += srSize;
-      }
+        while (rSize < size) {
+            long srSize = pnSocket::recv((hsByte*)buf+rSize, size-rSize);
+            if (srSize < 0)
+                return (srSize);
+            else
+                rSize += srSize;
+        }
     } else {
         fRecvLock.lock();
-        while(rSize < size) {
-          long srSize = pnSocket::recv((hsByte*)buf+rSize, size-rSize);
-          if (srSize < 0) {
-            fRecvLock.unlock();
-            return (srSize);
-          } else
-            rSize += srSize;
+        while (rSize < size) {
+            long srSize = pnSocket::recv((hsByte*)buf+rSize, size-rSize);
+            if (srSize < 0) {
+                fRecvLock.unlock();
+                return (srSize);
+            } else {
+                rSize += srSize;
+            }
         }
         if (rSize > 0) {
             unsigned char* cBuf = new unsigned char[rSize];

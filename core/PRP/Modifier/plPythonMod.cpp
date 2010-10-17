@@ -143,7 +143,7 @@ void plPythonMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("MaterialAnims");
-    for(size_t i=0; i<fMaterialAnim.getSize(); i++) {
+    for (size_t i=0; i<fMaterialAnim.getSize(); i++) {
         prc->startTag("MaterialAnim");
         prc->writeParam("MaterialName", fMaterialAnim[i].material_name);
         prc->writeParam("NoteName", fMaterialAnim[i].note_name);

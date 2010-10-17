@@ -67,12 +67,12 @@ int main(int argc, char** argv) {
 
         printf("%s :: %s\n", page->getAge().cstr(), page->getPage().cstr());
 
-        for(unsigned int f = 0; f < types.size(); f++) {
+        for (unsigned int f = 0; f < types.size(); f++) {
             printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f]));
 
             std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
 
-            for(unsigned int ks = 0; ks < mykeys.size(); ks++) {
+            for (unsigned int ks = 0; ks < mykeys.size(); ks++) {
                 printf("|    |--- %s\n", mykeys[ks]->getName().cstr());
             }
         }

@@ -33,9 +33,9 @@ public: \
             return NULL; \
         if (requireValid) { \
             classname* result = dynamic_cast<classname*>(pCre); \
-            if(result) \
+            if (result) { \
                 return result; \
-            else { \
+            } else { \
                 short otherClassId = pCre->ClassIndex(); \
                 throw hsBadParamException(__FILE__, __LINE__, \
                     plString::Format("Required conversion failed for %s -> %s", \
