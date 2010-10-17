@@ -84,6 +84,7 @@
 #include "PRP/Light/plOmniLightInfo.h"
 #include "PRP/Light/plShadowMaster.h"
 #include "PRP/Light/plShadowCaster.h"
+#include "PRP/Message/plAccountUpdateMsg.h"
 #include "PRP/Message/plAnimCmdMsg.h"
 #include "PRP/Message/plArmatureEffectMsg.h"
 #include "PRP/Message/plAvatarInputStateMsg.h"
@@ -1236,7 +1237,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kGmHeek: return new pfGmHeek();
         //case kGmMarker: return new pfGmMarker();
         //case kGmBlueSpiral: return new pfGmBlueSpiral();
-        //case kAccountUpdateMsg: return new plAccountUpdateMsg();
+        case kAccountUpdateMsg: return new plAccountUpdateMsg();
         //case kAIMsg: return new plAIMsg();
         //case kAIBrainCreatedMsg: return new plAIBrainCreatedMsg();
         //case kGmClimbingWall: return new pfGmClimbingWall();
