@@ -54,7 +54,6 @@ public:
 
 protected:
     pnRC4Socket* fSock;
-    pnSocketInterface *fIface;
     bool fThreaded;
 
     hsUint32 fBuildId, fBuildType, fBranchId;
