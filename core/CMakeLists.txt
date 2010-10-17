@@ -295,6 +295,7 @@ set(PRP_LIT_HDRS
 
 set(PRP_MSG_SRCS
     PRP/Message/pfKIMsg.cpp
+    PRP/Message/plAccountUpdateMsg.cpp
     PRP/Message/plAnimCmdMsg.cpp
     PRP/Message/plArmatureEffectMsg.cpp
     PRP/Message/plAvSeekMsg.cpp
@@ -329,6 +330,7 @@ set(PRP_MSG_SRCS
 )
 set(PRP_MSG_HDRS
     PRP/Message/pfKIMsg.h
+    PRP/Message/plAccountUpdateMsg.h
     PRP/Message/plAnimCmdMsg.h
     PRP/Message/plArmatureEffectMsg.h
     PRP/Message/plAvSeekMsg.h
