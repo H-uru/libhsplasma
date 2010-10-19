@@ -510,10 +510,12 @@ hsUint32 pnAuthClient::sendAcctLoginRequest(hsUint32 serverChallenge,
     msg[2].fString = plwcsdup(acctName.wstr());
     pnSha1Hash hash;
     if (acctName.find('@') != -1 && acctName.find("@gametap") == -1
-        && acctName.find("@magiquest") == -1)
+        && acctName.find("@magiquest") == -1) {
         hash = NCHashLoginInfo(acctName, password, serverChallenge, clientChallenge);
-    else
+    } else {
         hash = pnSha1Hash::Sha1(acctName.cstr(), acctName.len());
+        hash.swapBytes();   // Cyan uses a different byte order for this case
+    }
     memcpy(msg[3].fData, &hash, sizeof(hash));
     msg[4].fString = plwcsdup(authToken.wstr());
     msg[5].fString = plwcsdup(os.wstr());

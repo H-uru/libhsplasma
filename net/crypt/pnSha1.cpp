@@ -29,12 +29,25 @@ void pnSha1Hash::fromString(const plString& src)
     fData[2] = src.mid(16, 8).toUint(16);
     fData[3] = src.mid(24, 8).toUint(16);
     fData[4] = src.mid(32, 8).toUint(16);
+    for (size_t i=0; i<5; i++)
+        fData[i] = BESWAP32(fData[i]);
 }
 
 plString pnSha1Hash::toString() const
 {
     return plString::Format("%08x%08x%08x%08x%08x",
-                            fData[0], fData[1], fData[2], fData[3], fData[4]);
+                            BESWAP32(fData[0]), BESWAP32(fData[1]),
+                            BESWAP32(fData[2]), BESWAP32(fData[3]),
+                            BESWAP32(fData[4]));
+}
+
+void pnSha1Hash::swapBytes()
+{
+    fData[0] = BYTESWAP32(fData[0]);
+    fData[1] = BYTESWAP32(fData[1]);
+    fData[2] = BYTESWAP32(fData[2]);
+    fData[3] = BYTESWAP32(fData[3]);
+    fData[4] = BYTESWAP32(fData[4]);
 }
 
 pnSha1Hash pnSha1Hash::Sha0(const void* src, size_t len)

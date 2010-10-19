@@ -25,6 +25,8 @@ DllStruct pnSha1Hash {
     void fromString(const plString& src);
     plString toString() const;
 
+    void swapBytes();
+
     static pnSha1Hash Sha0(const void* src, size_t len);
     static pnSha1Hash Sha1(const void* src, size_t len);
 };
