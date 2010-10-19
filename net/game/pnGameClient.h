@@ -29,7 +29,8 @@ public:
     pnGameClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true);
     virtual ~pnGameClient();
 
-    void setKeys(const unsigned char* keyX, const unsigned char* keyN);
+    void setKeys(const unsigned char* keyX, const unsigned char* keyN,
+                 bool littleEndian = true);
     void setClientInfo(hsUint32 buildId, hsUint32 buildType, hsUint32 branchId,
                        const plUuid& productId);
     void setJoinInfo(const plUuid& accountId, const plUuid& ageId);
@@ -68,6 +69,7 @@ protected:
 private:
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
+    bool fLittleEndianKeys;
     bool fDeleteMsgs;
 
     class Dispatch : public pnDispatcher {

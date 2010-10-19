@@ -330,8 +330,9 @@ pnAuthClient::~pnAuthClient()
     delete fSock;
 }
 
-void pnAuthClient::setKeys(const unsigned char* keyX, const unsigned char* keyN)
+void pnAuthClient::setKeys(const unsigned char* keyX, const unsigned char* keyN, bool littleEndian)
 {
+    fLittleEndianKeys = littleEndian;
     memcpy(fKeyX, keyX, 64);
     memcpy(fKeyN, keyN, 64);
 }
@@ -400,8 +401,8 @@ ENetError pnAuthClient::performConnect()
     hsUbyte y_data[64];
     pnBigInteger clientSeed;
     {
-        pnBigInteger X(fKeyX, 64);
-        pnBigInteger N(fKeyN, 64);
+        pnBigInteger X(fKeyX, 64, fLittleEndianKeys);
+        pnBigInteger N(fKeyN, 64, fLittleEndianKeys);
         pnBigInteger b = pnBigInteger::Random(512);
         clientSeed = X.PowMod(b, N);
         pnBigInteger serverSeed = pnBigInteger(41).PowMod(b, N);

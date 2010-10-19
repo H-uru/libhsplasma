@@ -29,7 +29,8 @@ public:
     pnGateKeeperClient(bool threaeded = true);
     virtual ~pnGateKeeperClient();
 
-    void setKeys(const unsigned char* keyX, const unsigned char* keyN);
+    void setKeys(const unsigned char* keyX, const unsigned char* keyN,
+                 bool littleEndian = true);
     void setClientInfo(hsUint32 buildId, hsUint32 buildType, hsUint32 branchId,
                        const plUuid& productId);
     virtual ENetError connect(const char* host, short port = 14617);
@@ -62,6 +63,7 @@ protected:
 private:
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
+    bool fLittleEndianKeys;
 
     class Dispatch : public pnDispatcher {
     public:

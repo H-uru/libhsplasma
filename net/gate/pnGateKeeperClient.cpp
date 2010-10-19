@@ -71,8 +71,9 @@ pnGateKeeperClient::~pnGateKeeperClient()
     delete fSock;
 }
 
-void pnGateKeeperClient::setKeys(const unsigned char* keyX, const unsigned char* keyN)
+void pnGateKeeperClient::setKeys(const unsigned char* keyX, const unsigned char* keyN, bool littleEndian)
 {
+    fLittleEndianKeys = littleEndian;
     memcpy(fKeyX, keyX, 64);
     memcpy(fKeyN, keyN, 64);
 }
@@ -141,8 +142,8 @@ ENetError pnGateKeeperClient::performConnect()
     hsUbyte y_data[64];
     pnBigInteger clientSeed;
     {
-        pnBigInteger X(fKeyX, 64);
-        pnBigInteger N(fKeyN, 64);
+        pnBigInteger X(fKeyX, 64, fLittleEndianKeys);
+        pnBigInteger N(fKeyN, 64, fLittleEndianKeys);
         pnBigInteger b = pnBigInteger::Random(512);
         clientSeed = X.PowMod(b, N);
         pnBigInteger serverSeed = pnBigInteger(4).PowMod(b, N);
