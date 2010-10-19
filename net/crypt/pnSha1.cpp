@@ -43,11 +43,11 @@ plString pnSha1Hash::toString() const
 
 void pnSha1Hash::swapBytes()
 {
-    fData[0] = BYTESWAP32(fData[0]);
-    fData[1] = BYTESWAP32(fData[1]);
-    fData[2] = BYTESWAP32(fData[2]);
-    fData[3] = BYTESWAP32(fData[3]);
-    fData[4] = BYTESWAP32(fData[4]);
+    fData[0] = ENDSWAP32(fData[0]);
+    fData[1] = ENDSWAP32(fData[1]);
+    fData[2] = ENDSWAP32(fData[2]);
+    fData[3] = ENDSWAP32(fData[3]);
+    fData[4] = ENDSWAP32(fData[4]);
 }
 
 pnSha1Hash pnSha1Hash::Sha0(const void* src, size_t len)
