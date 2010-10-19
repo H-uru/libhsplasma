@@ -37,13 +37,14 @@ pnBigInteger::pnBigInteger(unsigned int init)
     BN_set_word(fValue, init);
 }
 
-pnBigInteger::pnBigInteger(const unsigned char* data, size_t count)
+pnBigInteger::pnBigInteger(const unsigned char* data, size_t count, bool le)
 {
     fValue = BN_new();
     fContext = BN_CTX_new();
     unsigned char* buf = new unsigned char[count];
     memcpy(buf, data, count);
-    BYTESWAP_BUFFER(buf, count)
+    if (le)
+        BYTESWAP_BUFFER(buf, count)
     BN_bin2bn(buf, count, fValue);
     delete[] buf;
 }
@@ -66,11 +67,12 @@ pnBigInteger& pnBigInteger::operator=(unsigned int init)
     return *this;
 }
 
-void pnBigInteger::set(const unsigned char* data, size_t count)
+void pnBigInteger::set(const unsigned char* data, size_t count, bool le)
 {
     unsigned char* buf = new unsigned char[count];
     memcpy(buf, data, count);
-    BYTESWAP_BUFFER(buf, count)
+    if (le)
+        BYTESWAP_BUFFER(buf, count)
     BN_bin2bn(buf, count, fValue);
     delete[] buf;
 }
@@ -83,11 +85,12 @@ void pnBigInteger::setBit(size_t bit, bool on)
         BN_clear_bit(fValue, bit);
 }
 
-void pnBigInteger::getData(unsigned char* data, size_t bytes) const
+void pnBigInteger::getData(unsigned char* data, size_t bytes, bool le) const
 {
     if (bytes != 0 && data != NULL) {
         BN_bn2bin(fValue, data);
-        BYTESWAP_BUFFER(data, bytes)
+        if (le)
+            BYTESWAP_BUFFER(data, bytes)
     }
 }
 

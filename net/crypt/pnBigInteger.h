@@ -29,7 +29,7 @@ public:
     pnBigInteger();
     pnBigInteger(const pnBigInteger& init);
     pnBigInteger(unsigned int init);
-    pnBigInteger(const unsigned char* data, size_t count);
+    pnBigInteger(const unsigned char* data, size_t count, bool littleEndian=true);
     ~pnBigInteger();
 
     pnBigInteger& operator=(const pnBigInteger& init);
@@ -37,12 +37,12 @@ public:
 
     void set(const pnBigInteger& init) { BN_copy(fValue, init.fValue); }
     void set(unsigned int init) { BN_set_word(fValue, init); }
-    void set(const unsigned char* data, size_t count);
+    void set(const unsigned char* data, size_t count, bool littleEndian=true);
     void setBit(size_t bit, bool on);
 
     size_t getByteSize() const { return BN_num_bytes(fValue); }
     size_t getBitSize() const { return BN_num_bits(fValue); }
-    void getData(unsigned char* data, size_t bytes) const;
+    void getData(unsigned char* data, size_t bytes, bool littleEndian=true) const;
     bool getBit(size_t bit) const { return BN_is_bit_set(fValue, bit) != 0; }
 
     // Comparison
