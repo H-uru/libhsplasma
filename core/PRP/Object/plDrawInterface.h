@@ -51,7 +51,7 @@ public:
 };
 
 
-DllClass plInstanceDrawInterface : public plDrawInterface {
+DllClass plInstanceDrawInterface : public virtual plDrawInterface {
     CREATABLE(plInstanceDrawInterface, kInstanceDrawInterface, plDrawInterface)
 
 protected:
