@@ -33,6 +33,8 @@ protected:
     hsTArray<plKey> fAnimationKeys;
     plString fAnimName;
     hsVector3 fAnimStartPos, fAnimEndPos;
+    unsigned int fEoaInt1, fEoaInt2, fEoaInt3, fEoaInt4;
+    float fEoaFl1, fEoaFl2, fEoaFl3, fEoaFl4;
 
 public:
     pfGUIKnobCtrl();
