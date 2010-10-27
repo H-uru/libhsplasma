@@ -514,7 +514,7 @@ hsUint32 pnAuthClient::sendAcctLoginRequest(hsUint32 serverChallenge,
         && acctName.find("@magiquest") == -1) {
         hash = NCHashLoginInfo(acctName, password, serverChallenge, clientChallenge);
     } else {
-        hash = pnSha1Hash::Sha1(acctName.cstr(), acctName.len());
+        hash = pnSha1Hash::Sha1(password.cstr(), password.len());
         hash.swapBytes();   // Cyan uses a different byte order for this case
     }
     memcpy(msg[3].fData, &hash, sizeof(hash));
