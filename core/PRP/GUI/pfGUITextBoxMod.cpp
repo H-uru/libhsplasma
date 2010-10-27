@@ -27,7 +27,8 @@ void pfGUITextBoxMod::read(hsStream* S, plResManager* mgr) {
     int len = S->readInt();
     fText = S->readStr(len);
 
-    if ((S->getVer().isLive() || S->getVer().isUniversal()) && S->readBool())
+    if ((!S->getVer().isUruSP() || S->getVer().isUniversal())
+            && S->readBool())
         fLocalizationPath = S->readSafeWStr();
     else
         fLocalizationPath = plString();
@@ -39,7 +40,7 @@ void pfGUITextBoxMod::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fText.len());
     S->writeStr(fText);
 
-    if (S->getVer().isLive() || S->getVer().isUniversal()) {
+    if (!S->getVer().isUruSP() || S->getVer().isUniversal()) {
         S->writeBool(!fLocalizationPath.empty());
         if (!fLocalizationPath.empty())
             S->writeSafeWStr(fLocalizationPath);

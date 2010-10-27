@@ -83,14 +83,14 @@ static const char* getSockErrorStr()
 
 static void initSockets()
 {
+#ifdef WIN32
     static bool s_firstInit = true;
     if (s_firstInit) {
-#ifdef WIN32
         WSAStartup(MAKEWORD(2, 0), &s_wsadata);
         atexit(closeWinsock);
-#endif
         s_firstInit = false;
     }
+#endif
 }
 
 /* pnSocket */

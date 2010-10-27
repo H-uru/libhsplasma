@@ -16,7 +16,9 @@
 
 #include "pfGUIKnobCtrl.h"
 
-pfGUIKnobCtrl::pfGUIKnobCtrl() {
+pfGUIKnobCtrl::pfGUIKnobCtrl() : fEoaInt1(0), fEoaInt2(0), fEoaInt3(0),
+        fEoaInt4(0), fEoaFl1(0.0F), fEoaFl2(0.0F), fEoaFl3(0.0F),
+        fEoaFl4(0.0) {
     fFlags.setName(kReverseValues, "kReverseValues");
     fFlags.setName(kLeftRightOrientation, "kLeftRightOrientation");
     fFlags.setName(kMapToScreenRange, "kMapToScreenRange");
@@ -34,6 +36,17 @@ void pfGUIKnobCtrl::read(hsStream* S, plResManager* mgr) {
     fAnimName = S->readSafeStr();
     fAnimStartPos.read(S);
     fAnimEndPos.read(S);
+
+    if (S->getVer().isNewPlasma()) {
+        fEoaInt1 = S->readInt();
+        fEoaInt2 = S->readInt();
+        fEoaInt3 = S->readInt();
+        fEoaInt4 = S->readInt();
+        fEoaFl1 = S->readFloat();
+        fEoaFl2 = S->readFloat();
+        fEoaFl3 = S->readFloat();
+        fEoaFl4 = S->readFloat();
+    }
 }
 
 void pfGUIKnobCtrl::write(hsStream* S, plResManager* mgr) {
@@ -46,6 +59,17 @@ void pfGUIKnobCtrl::write(hsStream* S, plResManager* mgr) {
     S->writeSafeStr(fAnimName);
     fAnimStartPos.write(S);
     fAnimEndPos.write(S);
+
+    if (S->getVer().isNewPlasma()) {
+        S->writeInt(fEoaInt1);
+        S->writeInt(fEoaInt2);
+        S->writeInt(fEoaInt3);
+        S->writeInt(fEoaInt4);
+        S->writeFloat(fEoaFl1);
+        S->writeFloat(fEoaFl2);
+        S->writeFloat(fEoaFl3);
+        S->writeFloat(fEoaFl4);
+    }
 }
 
 void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
@@ -64,6 +88,20 @@ void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("AnimEndPos");
     fAnimEndPos.prcWrite(prc);
     prc->closeTag();
+
+    prc->startTag("EoaInts");
+    prc->writeParam("Int1", fEoaInt1);
+    prc->writeParam("Int2", fEoaInt2);
+    prc->writeParam("Int3", fEoaInt3);
+    prc->writeParam("Int4", fEoaInt4);
+    prc->endTag();
+
+    prc->startTag("EoaFloats");
+    prc->writeParam("Float1", fEoaFl1);
+    prc->writeParam("Float2", fEoaFl2);
+    prc->writeParam("Float3", fEoaFl3);
+    prc->writeParam("Float4", fEoaFl4);
+    prc->endTag();
 }
 
 void pfGUIKnobCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
@@ -81,6 +119,16 @@ void pfGUIKnobCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "AnimEndPos") {
         if (tag->hasChildren())
             fAnimEndPos.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "EoaInts") {
+        fEoaInt1 = tag->getParam("Int1", "0").toUint();
+        fEoaInt2 = tag->getParam("Int2", "0").toUint();
+        fEoaInt3 = tag->getParam("Int3", "0").toUint();
+        fEoaInt4 = tag->getParam("Int4", "0").toUint();
+    } else if (tag->getName() == "EoaFloats") {
+        fEoaFl1 = tag->getParam("Float1", "0").toFloat();
+        fEoaFl2 = tag->getParam("Float2", "0").toFloat();
+        fEoaFl3 = tag->getParam("Float3", "0").toFloat();
+        fEoaFl4 = tag->getParam("Float4", "0").toFloat();
     } else {
         pfGUIValueCtrl::IPrcParse(tag, mgr);
     }

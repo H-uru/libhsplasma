@@ -29,7 +29,7 @@ pnClient::~pnClient()
 
 void pnClient::run()
 {
-  fIface->run();
+    fIface->run();
 }
 
 hsUint32 pnClient::nextTransId() {

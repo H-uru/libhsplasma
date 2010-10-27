@@ -36,7 +36,7 @@ void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fVisRegions.getSize(); i++)
         fVisRegions[i] = mgr->readKey(S);
 
-    if (S->getVer().isLive() || S->getVer().isUniversal()) {
+    if (!S->getVer().isUruSP() || S->getVer().isUniversal()) {
         fVisRegionNames.setSize(S->readInt());
         for (size_t i=0; i<fVisRegionNames.getSize(); i++)
             fVisRegionNames[i] = S->readSafeStr();
@@ -63,7 +63,7 @@ void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fVisRegions.getSize(); i++)
         mgr->writeKey(S, fVisRegions[i]);
 
-    if (S->getVer().isLive() || S->getVer().isUniversal()) {
+    if (!S->getVer().isUruSP() || S->getVer().isUniversal()) {
         S->writeInt(fVisRegionNames.getSize());
         for (size_t i=0; i<fVisRegionNames.getSize(); i++)
             S->writeSafeStr(fVisRegionNames[i]);

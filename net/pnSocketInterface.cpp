@@ -27,7 +27,7 @@ pnDispatcher::~pnDispatcher()
 
 bool pnDispatcher::dispatch(pnSocket* /*sock*/)
 {
-  return false;
+    return false;
 }
 
 
