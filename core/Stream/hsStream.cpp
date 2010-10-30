@@ -421,8 +421,8 @@ size_t hsFileStream::read(size_t size, void* buf) {
         throw hsFileReadException(__FILE__, __LINE__);
     size_t nread = fread(buf, 1, size, F);
     if (nread != size) {
-        plDebug::Warning("Read past end of stream. %d bytes requested, %d available",
-                         size, nread);
+        throw hsFileReadException(__FILE__, __LINE__, plString::Format("Read past end of file: %d bytes requested, %d available",
+                         size, nread));
     }
     return nread;
 }

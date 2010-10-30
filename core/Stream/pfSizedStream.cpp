@@ -35,9 +35,6 @@ pfSizedStream::pfSizedStream(hsStream* S, hsUint32 len)
 pfSizedStream::~pfSizedStream() { } // Do NOT free fBase!!!
 
 void pfSizedStream::seek(hsUint32 pos) {
-    if (fBase == NULL)
-        return;
-
     if (pos > fLength) {
         plDebug::Warning("Seek past end of stream. %d requested, %d maximum",
                          pos, fLength);
@@ -47,57 +44,39 @@ void pfSizedStream::seek(hsUint32 pos) {
 }
 
 void pfSizedStream::skip(hsInt32 count) {
-    if (fBase == NULL)
-        return;
-
-    if (pos() + count > fLength) {
-        plDebug::Warning("Skip past end of stream. %d bytes requested, %d available",
-                         count, (fLength - pos()));
+    if (pos() + count > fLength) { // pos() is the index in the sub-stream
+        throw hsFileReadException(__FILE__, __LINE__, plString::Format("Seek out of range: %d bytes requested, %d available",
+                         count, (fLength - pos())));
     }
 
     fBase->skip(count);
 }
 
 void pfSizedStream::fastForward() {
-    if (fBase == NULL)
-        return;
-
     fBase->seek(fBegin + fLength);
 }
 
 void pfSizedStream::rewind() {
-    if (fBase == NULL)
-        return;
-
     fBase->seek(fBegin);
 }
 
 void pfSizedStream::flush() {
-    if (fBase == NULL)
-        return;
-
     fBase->flush();
 }
 
 size_t pfSizedStream::read(size_t size, void* buf) {
-    if (fBase == NULL)
-        throw hsFileReadException(__FILE__, __LINE__);
-
-    if (pos() + size > fLength) {
-        plDebug::Warning("Read past end of stream. %d bytes requested, %d available",
-                         size, (fLength - pos()));
+    if (pos() + size > fLength) { // pos() is the index in the sub-stream
+        throw hsFileReadException(__FILE__, __LINE__, plString::Format("Read past end of sized stream: %d bytes requested, %d available",
+                         size, (fLength - pos())));
     }
 
     return fBase->read(size, buf);
 }
 
 size_t pfSizedStream::write(size_t size, const void* buf) {
-    if (fBase == NULL)
-        throw hsFileWriteException(__FILE__, __LINE__);
-
-    if (pos() + size > fLength) {
-        plDebug::Warning("Write past end of stream. %d bytes requested, %d available",
-                         size, (fLength - pos()));
+    if (pos() + size > fLength) { // pos() is the index in the sub-stream
+        throw hsFileReadException(__FILE__, __LINE__, plString::Format("Write past end of sized stream: %d bytes requested, %d available",
+                         size, (fLength - pos())));
     }
 
     return fBase->write(size, buf);
