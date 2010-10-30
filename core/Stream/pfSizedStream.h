@@ -22,7 +22,7 @@
 DllClass pfSizedStream : public hsStream {
 private:
     hsStream* fBase;
-    hsUint32 fLength;
+    hsUint32 fLength; //!< the length of the substream - not the end position of it!
     hsUint32 fBegin;
 
 public:
@@ -31,7 +31,7 @@ public:
 
     virtual hsUint32 size() const { return fLength; }
     virtual hsUint32 pos() const { return fBase->pos() - fBegin; }
-    virtual bool eof() const { return fBase->eof(); }
+    virtual bool eof() const { return fBase->eof() || pos() == fLength; }
 
     virtual void seek(hsUint32 pos);
     virtual void skip(hsInt32 count);

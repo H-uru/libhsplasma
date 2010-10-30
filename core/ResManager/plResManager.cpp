@@ -19,6 +19,9 @@
 #include "PRP/plSceneNode.h"
 #include "Debug/plDebug.h"
 #include "Stream/hsRAMStream.h"
+#include "Stream/pfSizedStream.h"
+#include "Stream/pfPrcParser.h"
+#include "Stream/plEncryptedStream.h"
 
 plResManager::plResManager(PlasmaVer pv) :
     fPlasmaVer(PlasmaVer::pvUnknown), totalKeys(0), readKeys(0),
@@ -514,13 +517,13 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
 #endif
             S->seek(kList[j]->getFileOff());
             hsUint32 len = kList[j]->getObjSize();
+            pfSizedStream *subStream = new pfSizedStream(S, len);
             try {
-                plCreatable* pCre = ReadCreatable(new pfSizedStream(S, len),
-                                            true, kList[j]->getObjSize());
+                plCreatable* pCre = ReadCreatable(subStream, true, len);
                 if (pCre != NULL && pCre->isStub()) {
                     plCreatableStub* stub = (plCreatableStub*)pCre;
                     hsKeyedObjectStub* ko = new hsKeyedObjectStub();
-                    hsRAMStream RS(S->getVer());
+                    hsRAMStream RS(subStream->getVer());
                     RS.copyFrom(stub->getData(), stub->getLength());
                     ko->read(&RS, this);
                     ko->setStub(stub);
@@ -531,11 +534,10 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
                     readKeys++;
-                    if (kList[j]->getObjSize() != S->pos() - kList[j]->getFileOff()) {
-                        plDebug::Warning("[%04hX:%s] Size-Read difference: %d bytes",
+                    if (!subStream->eof()) {
+                        plDebug::Warning("[%04hX:%s] Size-Read difference: %d bytes left after reading",
                             kList[j]->getType(), kList[j]->getName().cstr(),
-                            (int)(kList[j]->getObjSize() -
-                                  (S->pos() - kList[j]->getFileOff())));
+                            (int)(subStream->size() - (subStream->pos())));
                         plDebug::Debug("At: 0x%08X (%d bytes)",
                             kList[j]->getFileOff(),
                             kList[j]->getObjSize());
@@ -558,6 +560,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 delete kList[j]->getObj();
                 kList[j]->setObj(NULL);
             }
+            delete subStream;
         }
 
         if (progressFunc != NULL)
