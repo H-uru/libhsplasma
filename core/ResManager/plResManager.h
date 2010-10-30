@@ -22,6 +22,7 @@
 #include "PRP/KeyedObject/plLocation.h"
 #include "pdUnifiedTypeMap.h"
 #include "Stream/plEncryptedStream.h"
+#include "Stream/pfSizedStream.h"
 #include "Util/hsTArray.hpp"
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"

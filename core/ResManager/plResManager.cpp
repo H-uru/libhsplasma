@@ -513,8 +513,10 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                            kList[j]->getFileOff());
 #endif
             S->seek(kList[j]->getFileOff());
+            hsUint32 len = kList[j]->getObjSize();
             try {
-                plCreatable* pCre = ReadCreatable(S, true, kList[j]->getObjSize());
+                plCreatable* pCre = ReadCreatable(new pfSizedStream(S, len),
+                                            true, kList[j]->getObjSize());
                 if (pCre != NULL && pCre->isStub()) {
                     plCreatableStub* stub = (plCreatableStub*)pCre;
                     hsKeyedObjectStub* ko = new hsKeyedObjectStub();

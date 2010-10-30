@@ -643,6 +643,7 @@ set(STREAM_SRCS
     Stream/hsTokenStream.cpp
     Stream/pfPrcHelper.cpp
     Stream/pfPrcParser.cpp
+    Stream/pfSizedStream.cpp
     Stream/plEncryptedStream.cpp
 )
 set(STREAM_HDRS
@@ -653,6 +654,7 @@ set(STREAM_HDRS
     Stream/hsTokenStream.h
     Stream/pfPrcHelper.h
     Stream/pfPrcParser.h
+    Stream/pfSizedStream.h
     Stream/plEncryptedStream.h
 )
 
