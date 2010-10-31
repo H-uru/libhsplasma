@@ -286,7 +286,7 @@ void proFacingEventData::IWrite(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fFacer);
     mgr->writeKey(S, fFacee);
     S->writeFloat(fDot);
-    S->writeFloat(fEnabled);
+    S->writeBool(fEnabled);
 }
 
 void proFacingEventData::IPrcWrite(pfPrcHelper* prc) {

@@ -17,10 +17,6 @@
 #include "plAvTask.h"
 
 /* plAvTask */
-void plAvTask::read(hsStream* S, plResManager* mgr) { }
-void plAvTask::write(hsStream* S, plResManager* mgr) { }
-void plAvTask::IPrcWrite(pfPrcHelper* prc) { }
-
 void plAvTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     plCreatable::IPrcParse(tag, mgr);
 }

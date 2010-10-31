@@ -452,6 +452,7 @@ void plSimpleStateVariable::IWriteData(hsStream* S, plResManager* mgr, size_t id
         {
             char buf[32];
             strncpy(buf, fString[idx].cstr(), 32);
+            buf[31] = 0;
             S->write(32, buf);
         }
         break;
