@@ -134,8 +134,7 @@ void hsBitVector::setName(unsigned int idx, const char* name) {
 void hsBitVector::read(hsStream* S) {
     fNumVectors = S->readInt();
     delete[] fBits;
-    if (fNumVectors > 0)
-        fBits = new hsUint32[fNumVectors];
+    fBits = (fNumVectors > 0) ? new hsUint32[fNumVectors] : NULL;
     for (size_t i=0; i<fNumVectors; i++)
         fBits[i] = S->readInt();
 }
