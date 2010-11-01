@@ -202,6 +202,11 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
                         msgbuf[2].fUint, NCGetUuid(msgbuf[3]),
                         msgbuf[4].fUint, msgbuf[5].fUint);
         break;
+    case kAuth2Cli_AgeReplyEx:
+        fReceiver->onAgeReplyEx(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+                        msgbuf[2].fUint, NCGetUuid(msgbuf[3]),
+                        msgbuf[4].fUint, msgbuf[5].fString);
+        break;
     case kAuth2Cli_FileListReply:
         {
             size_t count = CountFiles(msgbuf[2].fUint, msgbuf[3].fString);
@@ -866,6 +871,19 @@ hsUint32 pnAuthClient::sendAgeRequest(const plString& ageName, const plUuid& age
     return transId;
 }
 
+hsUint32 pnAuthClient::sendAgeRequestEx(const plString& ageName, const plUuid& ageUuid)
+{
+    const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AgeRequestEx);
+    msgparm_t* msg = NCAllocMessage(desc);
+    hsUint32 transId = nextTransId();
+    msg[0].fUint = transId;
+    msg[1].fString = plwcsdup(ageName.wstr());
+    ageUuid.write(msg[2].fData);
+    fSock->sendMsg(msg, desc);
+    NCFreeMessage(msg, desc);
+    return transId;
+}
+
 hsUint32 pnAuthClient::sendFileListRequest(const plString& directory, const plString& ext)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_FileListRequest);
@@ -1245,6 +1263,13 @@ void pnAuthClient::onAgeReply(hsUint32 transId, ENetError result, hsUint32 mcpId
                         hsUint32 gameServerAddress)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AgeReply");
+}
+
+void pnAuthClient::onAgeReplyEx(hsUint32 transId, ENetError result, hsUint32 mcpId,
+                        const plUuid& ageInstanceId, hsUint32 ageVaultId,
+                        const plString& gameServerAddress)
+{
+    plDebug::Warning("Warning: Ignoring Auth2Cli_AgeReplyEx");
 }
 
 void pnAuthClient::onFileListReply(hsUint32 transId, ENetError result,

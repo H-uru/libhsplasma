@@ -44,6 +44,8 @@ enum {  /* Client -> Server */
     kCli2Auth_ScoreTransferPoints, kCli2Auth_ScoreSetPoints,
     kCli2Auth_ScoreGetRanks, kCli2Auth_AcctExistsRequest,
     kCli2Auth_LastMessage,
+    kCli2Auth_AgeRequestEx = 0x1000,
+    kCli2Auth_LastExMessage,
 };
 
 enum {  /* Server -> Client */
@@ -70,6 +72,8 @@ enum {  /* Server -> Client */
     kAuth2Cli_ScoreTransferPointsReply, kAuth2Cli_ScoreSetPointsReply,
     kAuth2Cli_ScoreGetRanksReply, kAuth2Cli_AcctExistsReply,
     kAuth2Cli_LastMessage,
+    kAuth2Cli_AgeReplyEx = 0x1000,
+    kAuth2Cli_LastExMessage,
 };
 
 DllExport const pnNetMsg* GET_Cli2Auth(hsUint32 msgId);

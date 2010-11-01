@@ -342,6 +342,13 @@ static pnNetMsgField Cli2Auth_AcctExistsRequest_Fields[] = {
 };
 MAKE_NETMSG(Cli2Auth_AcctExistsRequest)
 
+static pnNetMsgField Cli2Auth_AgeRequestEx_Fields[] = {
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldString,    64, sizeof(pl_wchar_t) },  // Age Name
+    { kFieldData,      16, sizeof(hsUbyte)    },  // Age UUID
+};
+MAKE_NETMSG(Cli2Auth_AgeRequestEx)
+
 
 /* Server -> Client */
 static pnNetMsgField Auth2Cli_PingReply_Fields[] = {
@@ -658,6 +665,16 @@ static pnNetMsgField Auth2Cli_AcctExistsReply_Fields[] = {
 };
 MAKE_NETMSG(Auth2Cli_AcctExistsReply)
 
+static pnNetMsgField Auth2Cli_AgeReplyEx_Fields[] = {
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age MCP ID
+    { kFieldData,      16, sizeof(hsUbyte)    },  // Age Instance Uuid
+    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age Vault ID
+    { kFieldString,   256, sizeof(pl_wchar_t) },  // Game Server Address
+};
+MAKE_NETMSG(Auth2Cli_AgeReplyEx)
+
 
 const pnNetMsg* GET_Cli2Auth(hsUint32 msgId)
 {
@@ -717,7 +734,13 @@ const pnNetMsg* GET_Cli2Auth(hsUint32 msgId)
         &Cli2Auth_ScoreGetRanks,
         &Cli2Auth_AcctExistsRequest,
     };
-    return (msgId < kCli2Auth_LastMessage ? s_messages[msgId] : NULL);
+    static const pnNetMsg* s_messagesEx[] = {
+        &Cli2Auth_AgeRequestEx,
+    };
+    if (msgId >= 0x1000)
+        return (msgId < kCli2Auth_LastExMessage ? s_messagesEx[msgId] : NULL);
+    else
+        return (msgId < kCli2Auth_LastMessage ? s_messages[msgId] : NULL);
 }
 
 const pnNetMsg* GET_Auth2Cli(hsUint32 msgId)
@@ -773,5 +796,11 @@ const pnNetMsg* GET_Auth2Cli(hsUint32 msgId)
         &Auth2Cli_ScoreGetRanksReply,
         &Auth2Cli_AcctExistsReply,
     };
-    return (msgId < kAuth2Cli_LastMessage ? s_messages[msgId] : NULL);
+    static const pnNetMsg* s_messagesEx[] = {
+        &Auth2Cli_AgeReplyEx,
+    };
+    if (msgId >= 0x1000)
+        return (msgId < kAuth2Cli_LastExMessage ? s_messagesEx[msgId] : NULL);
+    else
+        return (msgId < kAuth2Cli_LastMessage ? s_messages[msgId] : NULL);
 }

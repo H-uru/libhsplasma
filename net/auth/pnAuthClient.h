@@ -105,6 +105,7 @@ public:
     void sendVaultSetSeen(hsUint32 parent, hsUint32 child, hsUbyte seen);
     void sendVaultSendNode(hsUint32 nodeId, hsUint32 playerId);
     hsUint32 sendAgeRequest(const plString& ageName, const plUuid& ageUuid);
+    hsUint32 sendAgeRequestEx(const plString& ageName, const plUuid& ageUuid);
     hsUint32 sendFileListRequest(const plString& directory, const plString& ext);
     hsUint32 sendFileDownloadRequest(const plString& filename);
     hsUint32 sendGetPublicAgeList(const plString& filename);
@@ -173,6 +174,9 @@ public:
     virtual void onAgeReply(hsUint32 transId, ENetError result, hsUint32 mcpId,
                     const plUuid& ageInstanceId, hsUint32 ageVaultId,
                     hsUint32 gameServerAddress);
+    virtual void onAgeReplyEx(hsUint32 transId, ENetError result, hsUint32 mcpId,
+                    const plUuid& ageInstanceId, hsUint32 ageVaultId,
+                    const plString& gameServerAddress);
     virtual void onFileListReply(hsUint32 transId, ENetError result,
                     size_t count, const pnAuthFileItem* files);
     virtual void onFileDownloadChunk(hsUint32 transId, ENetError result,
