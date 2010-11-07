@@ -59,7 +59,7 @@ void plPointControllerChannel::read(hsStream* S, plResManager* mgr) {
 
 void plPointControllerChannel::write(hsStream* S, plResManager* mgr) {
     plAGChannel::write(S, mgr);
-    mgr->WriteCreatable(S, fController);
+    plController::WriteController(S, mgr, fController);
 }
 
 void plPointControllerChannel::IPrcWrite(pfPrcHelper* prc) {

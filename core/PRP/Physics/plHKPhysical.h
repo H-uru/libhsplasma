@@ -53,10 +53,6 @@ public:
             return plSimDefs::kGroupDetector;
         } else if (group & kGroupAvatar) {
             return plSimDefs::kGroupAvatar;
-        } else if (group & kGroupClickable) {
-            return plSimDefs::kGroupClickable;
-        } else if (group & kGroupAnimated) {
-            return plSimDefs::kGroupAnimated;
         }
 
         return plSimDefs::kGroupStatic;
@@ -73,10 +69,6 @@ public:
             return kGroupDetector;
         } else if (group == plSimDefs::kGroupLOSOnly) {
             return kGroupLOSOnly;
-        } else if (group == plSimDefs::kGroupClickable) {
-            return kGroupClickable;
-        } else if (group == plSimDefs::kGroupAnimated) {
-            return kGroupAnimated;
         }
 
         return kGroupStatic;
@@ -96,12 +88,6 @@ public:
         }
         if (group & kGroupAvatar) {
             retGroup |= (1 << plSimDefs::kGroupAvatar);
-        }
-        if (group & kGroupClickable) {
-            retGroup |= (1 << plSimDefs::kGroupClickable);
-        }
-        if (group & kGroupAnimated) {
-            retGroup |= (1 << plSimDefs::kGroupAnimated);
         }
 
         return retGroup;

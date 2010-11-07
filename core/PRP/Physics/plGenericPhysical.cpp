@@ -16,6 +16,7 @@
 
 #include "plGenericPhysical.h"
 #include "Debug/plDebug.h"
+#include "PRP/Object/plSceneObject.h"
 #include "PRP/Object/plSimulationInterface.h"
 /* Engine specific headers */
 #include "plHKPhysical.h"
@@ -409,8 +410,17 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
     bool showLOSDB = false;
     // these should be the same hacks as in the write function!
-    if (hCollideGroup & plHKSimDefs::kGroupStatic) {
-        colGroup |= plHKSimDefs::kGroupAnimated;
+    plSceneObject* so = plSceneObject::Convert(fObjectKey->getObj());
+    if (so != NULL) {
+        hsTArray<plKey> mods = so->getModifiers();
+
+        for (size_t i = 0; i < mods.getSize(); i++) {
+            if (mods[i]->getType() == kPickingDetector) {
+                colGroup |= plHKSimDefs::kGroupClickable;
+            } else if (mods[i]->getType() == kATCAnim) {
+                memGroup |= plHKSimDefs::kGroupAnimated;
+            }
+        }
     }
     // now compare
     if (memGroup != hMemberGroup) {
@@ -484,10 +494,6 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     fObjectKey = mgr->readKey(S);
     fSceneNode = mgr->readKey(S);
     fSubWorld = mgr->readKey(S);
-
-    if (fLOSDBs & plSimDefs::kLOSDBUIItems) {
-        fCollideGroup |= (1 << plSimDefs::kGroupClickable);
-    }
 
     fSoundGroup = mgr->readKey(S);
     fPos.read(S);
@@ -564,6 +570,25 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
 }
 
 void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
+
+    unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
+    unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
+    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
+
+    plSceneObject* so = plSceneObject::Convert(fObjectKey->getObj());
+    if (so != NULL) {
+        hsTArray<plKey> mods = so->getModifiers();
+
+        for (size_t i = 0; i < mods.getSize(); i++) {
+            if (mods[i]->getType() == kPickingDetector) {
+                colGroup |= plHKSimDefs::kGroupClickable;
+            } else if (mods[i]->getType() == kATCAnim) {
+                memGroup |= plHKSimDefs::kGroupAnimated;
+            }
+        }
+    }
+
+
     fPos.write(S);
     S->writeFloat(fRot.W);
     S->writeFloat(fRot.X);
@@ -580,9 +605,9 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
     } 
     S->writeInt(fBounds);
 
-    S->writeInt(plHKSimDefs::toGroup(fMemberGroup));
-    S->writeInt(plHKSimDefs::setBitshiftGroup(fReportGroup));
-    S->writeInt(plHKSimDefs::setBitshiftGroup(fCollideGroup));
+    S->writeInt(memGroup);
+    S->writeInt(repGroup);
+    S->writeInt(colGroup);
 
     S->writeBool(fDisableReport);
     S->writeBool(fDisableCollide);

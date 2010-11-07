@@ -66,7 +66,7 @@ void plMatrixControllerChannel::read(hsStream* S, plResManager* mgr) {
 
 void plMatrixControllerChannel::write(hsStream* S, plResManager* mgr) {
     plAGChannel::write(S, mgr);
-    mgr->WriteCreatable(S, fController);
+    plController::WriteController(S, mgr, fController);
     fAP.write(S);
 }
 

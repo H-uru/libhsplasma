@@ -58,7 +58,7 @@ void plScalarControllerChannel::read(hsStream* S, plResManager* mgr) {
 
 void plScalarControllerChannel::write(hsStream* S, plResManager* mgr) {
     plAGChannel::write(S, mgr);
-    mgr->WriteCreatable(S, fController);
+    plController::WriteController(S, mgr, fController);
 }
 
 void plScalarControllerChannel::IPrcWrite(pfPrcHelper* prc) {

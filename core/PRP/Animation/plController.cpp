@@ -49,6 +49,24 @@ void plController::WriteController(hsStream* S, plResManager* mgr, plController*
             delete toWrite;
         }
         break;
+    case kCompoundController:
+        if (S->getVer().isUruSP()) {
+            plTMController* toWrite = ((plCompoundController*)controller)->convertToTMController();
+            mgr->WriteCreatable(S, toWrite);
+            delete toWrite;
+        } else {
+            mgr->WriteCreatable(S, controller);
+        }
+        break;
+    case kTMController:
+        if (S->getVer().isUruSP() || S->getVer().isUniversal()) {
+            mgr->WriteCreatable(S, controller);
+        } else {
+            plCompoundController* toWrite = ((plTMController*)controller)->convertToCompoundController();
+            mgr->WriteCreatable(S, toWrite);
+            delete toWrite;
+        }
+        break;
     default:
         mgr->WriteCreatable(S, controller);
     }
@@ -123,7 +141,8 @@ void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 plTMController* plCompoundController::convertToTMController() {
-    return NULL;
+    return new plTMController();
+    //return NULL;
 }
 
 void plCompoundController::setXController(plController* controller) {
