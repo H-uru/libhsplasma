@@ -56,6 +56,9 @@ void plCameraBrain1::read(hsStream* S, plResManager* mgr) {
     fPOAOffset.read(S);
     fSubject = mgr->readKey(S);
     fRail = mgr->readKey(S);
+    if (S->getVer().isNewPlasma()) {
+        fEoaFlags.read(S);
+    }
     fFlags.read(S);
 
     fAccel = S->readFloat();
@@ -77,6 +80,9 @@ void plCameraBrain1::write(hsStream* S, plResManager* mgr) {
     fPOAOffset.write(S);
     mgr->writeKey(S, fSubject);
     mgr->writeKey(S, fRail);
+    if (S->getVer().isNewPlasma()) {
+        fEoaFlags.write(S);
+    }
     fFlags.write(S);
 
     S->writeFloat(fAccel);
@@ -105,6 +111,10 @@ void plCameraBrain1::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Flags");
     fFlags.prcWrite(prc);
+    prc->closeTag();
+
+    prc->writeSimpleTag("EoaFlags");
+    fEoaFlags.prcWrite(prc);
     prc->closeTag();
 
     prc->startTag("CameraParams");
@@ -136,6 +146,9 @@ void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "Flags") {
         if (tag->hasChildren())
             fFlags.prcParse(tag->getFirstChild());
+    } else if (tag->getName() == "EoaFlags") {
+        if (tag->hasChildren())
+            fEoaFlags.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "CameraParams") {
         fAccel = tag->getParam("Accel", "0").toFloat();
         fDecel = tag->getParam("Decel", "0").toFloat();

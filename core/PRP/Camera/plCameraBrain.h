@@ -71,7 +71,7 @@ protected:
     hsVector3 fPOAOffset;
     float fXPanLimit, fZPanLimit, fPanSpeed;
     float fZoomRate, fZoomMax, fZoomMin;
-    hsBitVector fFlags;
+    hsBitVector fFlags, fEoaFlags;
 
 public:
     plCameraBrain1();
