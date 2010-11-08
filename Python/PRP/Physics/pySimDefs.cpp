@@ -108,10 +108,6 @@ PyObject* Init_pySimDefs_Type() {
                          PyInt_FromLong(plSimDefs::kGroupDetector));
     PyDict_SetItemString(pySimDefs_Type.tp_dict, "kGroupLOSOnly",
                          PyInt_FromLong(plSimDefs::kGroupLOSOnly));
-    PyDict_SetItemString(pySimDefs_Type.tp_dict, "kGroupClickable",
-                         PyInt_FromLong(plSimDefs::kGroupClickable));
-    PyDict_SetItemString(pySimDefs_Type.tp_dict, "kGroupAnimated",
-                         PyInt_FromLong(plSimDefs::kGroupAnimated));
 
     /* LOSDBs */
     PyDict_SetItemString(pySimDefs_Type.tp_dict, "kLOSDBNone",
