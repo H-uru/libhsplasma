@@ -409,19 +409,7 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
     unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
     bool showLOSDB = false;
-    // these should be the same hacks as in the write function!
-    plSceneObject* so = plSceneObject::Convert(fObjectKey->getObj());
-    if (so != NULL) {
-        hsTArray<plKey> mods = so->getModifiers();
-
-        for (size_t i = 0; i < mods.getSize(); i++) {
-            if (mods[i]->getType() == kPickingDetector) {
-                colGroup |= plHKSimDefs::kGroupClickable;
-            } else if (mods[i]->getType() == kATCAnim) {
-                memGroup |= plHKSimDefs::kGroupAnimated;
-            }
-        }
-    }
+    plHKSimDefs::fixGroups(this, &memGroup, &repGroup, &colGroup);
     // now compare
     if (memGroup != hMemberGroup) {
         showLOSDB = true;
@@ -574,19 +562,7 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
     unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
     unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
     unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
-
-    plSceneObject* so = plSceneObject::Convert(fObjectKey->getObj());
-    if (so != NULL) {
-        hsTArray<plKey> mods = so->getModifiers();
-
-        for (size_t i = 0; i < mods.getSize(); i++) {
-            if (mods[i]->getType() == kPickingDetector) {
-                colGroup |= plHKSimDefs::kGroupClickable;
-            } else if (mods[i]->getType() == kATCAnim) {
-                memGroup |= plHKSimDefs::kGroupAnimated;
-            }
-        }
-    }
+    plHKSimDefs::fixGroups(this, &memGroup, &repGroup, &colGroup);
 
 
     fPos.write(S);

@@ -104,4 +104,19 @@ public:
 
         return retGroup;
     }
+    
+    static void fixGroups(plGenericPhysical *physical, unsigned int *memGroup, unsigned int *repGroup, unsigned int *colGroup)
+    {
+        plSceneObject* so = plSceneObject::Convert(physical->getObject()->getObj());
+        if (so == NULL) return;
+        hsTArray<plKey> mods = so->getModifiers();
+
+        for (size_t i = 0; i < mods.getSize(); i++) {
+            if (mods[i]->getType() == kPickingDetector) {
+                *colGroup |= plHKSimDefs::kGroupClickable;
+            } else if (mods[i]->getType() == kATCAnim) {
+                *memGroup |= plHKSimDefs::kGroupAnimated;
+            }
+        }
+    }
 };
