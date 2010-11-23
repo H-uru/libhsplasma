@@ -1112,7 +1112,7 @@ int Rijndael::blockEncrypt(const UINT8 *input,int inputLen,UINT8 *outBuffer)
 					iv[3][0] = (iv[3][0] << 1) | (iv[3][1] >> 7);
 					iv[3][1] = (iv[3][1] << 1) | (iv[3][2] >> 7);
 					iv[3][2] = (iv[3][2] << 1) | (iv[3][3] >> 7);
-					iv[3][3] = (iv[3][3] << 1) | (outBuffer[k/8] >> (7-(k&7))) & 1;
+					iv[3][3] = (iv[3][3] << 1) | ((outBuffer[k/8] >> (7-(k&7))) & 1);
 				}
 			}
 		break;
@@ -1266,7 +1266,7 @@ int Rijndael::blockDecrypt(const UINT8 *input, int inputLen, UINT8 *outBuffer)
 					iv[3][0] = (iv[3][0] << 1) | (iv[3][1] >> 7);
 					iv[3][1] = (iv[3][1] << 1) | (iv[3][2] >> 7);
 					iv[3][2] = (iv[3][2] << 1) | (iv[3][3] >> 7);
-					iv[3][3] = (iv[3][3] << 1) | (input[k/8] >> (7-(k&7))) & 1;
+					iv[3][3] = (iv[3][3] << 1) | ((input[k/8] >> (7-(k&7))) & 1);
 					outBuffer[k/8] ^= (block[0] & 0x80) >> (k & 7);
 				}
 			}
@@ -1372,7 +1372,7 @@ void Rijndael::keySched(UINT8 key[_MAX_KEY_COLUMNS][4])
 		*((UINT32*)(tempKey[j])) = *((UINT32*)(key[j]));
 	}
 
-	int r = 0;
+	UINT32 r = 0;
 	int t = 0;
 
 	// copy values into round key array
@@ -1436,7 +1436,7 @@ void Rijndael::keySched(UINT8 key[_MAX_KEY_COLUMNS][4])
 
 void Rijndael::keyEncToDec()
 {
-	int r;
+	UINT32 r;
 	UINT8 *w;
 
 	for(r = 1; r < m_uRounds; r++)
@@ -1454,7 +1454,7 @@ void Rijndael::keyEncToDec()
 
 void Rijndael::encrypt(const UINT8 a[16], UINT8 b[16])
 {
-	int r;
+	UINT32 r;
 	UINT8 temp[4][4];
 
     *((UINT32*)temp[0]) = *((UINT32*)(a   )) ^ *((UINT32*)m_expandedKey[0][0]);
