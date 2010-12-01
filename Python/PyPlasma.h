@@ -63,5 +63,11 @@ plString PyString_To_PlasmaString(PyObject* str);
     #define PyVarObject_HEAD_INIT(name, size) PyObject_HEAD_INIT(name) 0,
 #endif
 
+#if (PY_MAJOR_VERSION >= 3) || ((PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6))
+    #define TP_VERSION_TAG_INIT 0,
+#else
+    #define TP_VERSION_TAG_INIT
+#endif
+
 // This should work the same for all versions
 #define PyStr_To_PlStr PyString_To_PlasmaString

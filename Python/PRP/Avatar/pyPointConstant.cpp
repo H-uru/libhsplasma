@@ -86,6 +86,9 @@ PyTypeObject pyPointConstant_Type = {
     NULL,                               /* tp_cache */
     NULL,                               /* tp_subclasses */
     NULL,                               /* tp_weaklist */
+
+    NULL,                               /* tp_del */
+    TP_VERSION_TAG_INIT                 /* tp_version_tag */
 };
 
 PyObject* Init_pyPointConstant_Type() {

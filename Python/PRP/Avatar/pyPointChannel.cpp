@@ -57,7 +57,7 @@ PyTypeObject pyPointChannel_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plPointChannel wrapper",             /* tp_doc */
+    "plPointChannel wrapper",           /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -66,7 +66,7 @@ PyTypeObject pyPointChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyPointChannel_Methods,               /* tp_methods */
+    pyPointChannel_Methods,             /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -77,7 +77,7 @@ PyTypeObject pyPointChannel_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyPointChannel_new,                   /* tp_new */
+    pyPointChannel_new,                 /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -86,6 +86,9 @@ PyTypeObject pyPointChannel_Type = {
     NULL,                               /* tp_cache */
     NULL,                               /* tp_subclasses */
     NULL,                               /* tp_weaklist */
+
+    NULL,                               /* tp_del */
+    TP_VERSION_TAG_INIT                 /* tp_version_tag */
 };
 
 PyObject* Init_pyPointChannel_Type() {

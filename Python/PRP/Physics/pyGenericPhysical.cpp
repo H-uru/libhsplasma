@@ -419,7 +419,7 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
     { "verts", (getter)pyGenericPhysical_getVerts, (setter)pyGenericPhysical_setVerts, NULL, NULL },
     { "indices", (getter)pyGenericPhysical_getIndices, (setter)pyGenericPhysical_setIndices, NULL, NULL },
     { "TMDBuffer", (getter)pyGenericPhysical_getTMDBuffer, (setter)pyGenericPhysical_setTMDBuffer, NULL, NULL },
-    { NULL, NULL, 0, NULL }
+    { NULL, NULL, NULL, NULL, NULL }
 };
 
 PyTypeObject pyGenericPhysical_Type = {
@@ -474,6 +474,9 @@ PyTypeObject pyGenericPhysical_Type = {
     NULL,                               /* tp_cache */
     NULL,                               /* tp_subclasses */
     NULL,                               /* tp_weaklist */
+
+    NULL,                               /* tp_del */
+    TP_VERSION_TAG_INIT                 /* tp_version_tag */
 };
 
 PyObject* Init_pyGenericPhysical_Type() {
