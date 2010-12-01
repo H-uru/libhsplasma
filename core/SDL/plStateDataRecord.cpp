@@ -242,7 +242,7 @@ void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
     fSDVarsList.clear();
     fAllVars.clear();
 
-    if(desc == 0)
+    if (desc == NULL)
         return; // allow setting a NULL descriptor and moving on with life
 
     for (size_t i=0; i<fDescriptor->getNumVars(); i++) {

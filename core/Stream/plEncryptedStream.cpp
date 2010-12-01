@@ -310,7 +310,7 @@ size_t plEncryptedStream::read(size_t size, void* buf) {
         if (lp == 0) {
             // Advance the buffer
             if (fEType == kEncAES) {
-            	fBase->readInts(4, (unsigned int*)&fLBuffer[0]);
+                fBase->readInts(4, (unsigned int*)&fLBuffer[0]);
                 AesDecipher(fLBuffer, 16);
             } else if (fEType == kEncDroid) {
                 fBase->readInts(2, (unsigned int*)&fLBuffer[0]);

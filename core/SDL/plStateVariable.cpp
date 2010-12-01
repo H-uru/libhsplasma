@@ -147,10 +147,8 @@ bool plSDStateVariable::isDefault() const {
 
 
 /* plSimpleStateVariable */
-plSimpleStateVariable::plSimpleStateVariable() {
-    fGenPtr = NULL;
-    fSimpleVarContents = 0;
-}
+plSimpleStateVariable::plSimpleStateVariable()
+                     : fGenPtr(NULL), fSimpleVarContents(0) { }
 
 plSimpleStateVariable::~plSimpleStateVariable() {
     IDeAlloc();

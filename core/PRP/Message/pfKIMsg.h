@@ -29,7 +29,7 @@ public:
         kRemovePlayerDevice, kUpgradeKILevel, kDowngradeKILevel, kRateIt,
         kSetPrivateChatChannel, kUnsetPrivateChatChannel, kStartBookAlert,
         kMiniBigKIToggle, kKIPutAway, kChatAreaPageUp, kChatAreaPageDown,
-        kChatAreaGoToBegin, kChatAreaGoToEnd, KITakePicture,
+        kChatAreaGoToBegin, kChatAreaGoToEnd, kKITakePicture,
         kKICreateJournalNote, kKIToggleFade, kKIToggleFadeEnable,
         kKIChatStatusMsg, kKILocalChatStatusMsg, kKIUpSizeFont,
         kKIDownSizeFont, kKIOpenYeehsaBook, kKIOpenKI, kKIShowCCRHelp,

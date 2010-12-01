@@ -43,33 +43,31 @@ public:
     };
 
     static unsigned int fromGroup(unsigned int group) {
-        if (group == kGroupLOSOnly) {
+        if (group == kGroupLOSOnly)
             return plSimDefs::kGroupLOSOnly;
-        } else if (group & kGroupDynamic) {
+        else if ((group & kGroupDynamic) != 0)
             return plSimDefs::kGroupDynamic;
-        } else if (group & kGroupStatic) {
+        else if ((group & kGroupStatic) != 0)
             return plSimDefs::kGroupStatic;
-        } else if (group & kGroupDetector) {
+        else if ((group & kGroupDetector) != 0)
             return plSimDefs::kGroupDetector;
-        } else if (group & kGroupAvatar) {
+        else if ((group & kGroupAvatar) != 0)
             return plSimDefs::kGroupAvatar;
-        }
 
         return plSimDefs::kGroupStatic;
     }
 
     static unsigned int toGroup(unsigned int group) {
-        if (group == plSimDefs::kGroupStatic) {
+        if (group == plSimDefs::kGroupStatic)
             return kGroupStatic;
-        } else if (group == plSimDefs::kGroupAvatar) {
+        else if (group == plSimDefs::kGroupAvatar)
             return kGroupAvatar;
-        } else if (group == plSimDefs::kGroupDynamic) {
+        else if (group == plSimDefs::kGroupDynamic)
             return kGroupDynamic;
-        } else if (group == plSimDefs::kGroupDetector) {
+        else if (group == plSimDefs::kGroupDetector)
             return kGroupDetector;
-        } else if (group == plSimDefs::kGroupLOSOnly) {
+        else if (group == plSimDefs::kGroupLOSOnly)
             return kGroupLOSOnly;
-        }
 
         return kGroupStatic;
     }
@@ -77,18 +75,14 @@ public:
     static unsigned int getBitshiftGroup(unsigned int group) {
         unsigned int retGroup = 0;
 
-        if (group & kGroupDynamic) {
+        if ((group & kGroupDynamic) != 0)
             retGroup |= (1 << plSimDefs::kGroupDynamic);
-        }
-        if (group & kGroupStatic) {
+        if ((group & kGroupStatic) != 0)
             retGroup |= (1 << plSimDefs::kGroupStatic);
-        }
-        if (group & kGroupDetector) {
+        if ((group & kGroupDetector) != 0)
             retGroup |= (1 << plSimDefs::kGroupDetector);
-        }
-        if (group & kGroupAvatar) {
+        if ((group & kGroupAvatar) != 0)
             retGroup |= (1 << plSimDefs::kGroupAvatar);
-        }
 
         return retGroup;
     }
@@ -104,11 +98,12 @@ public:
 
         return retGroup;
     }
-    
-    static void fixGroups(plGenericPhysical *physical, unsigned int *memGroup, unsigned int *repGroup, unsigned int *colGroup)
-    {
+
+    static void fixGroups(plGenericPhysical* physical, unsigned int* memGroup,
+                          unsigned int* repGroup, unsigned int* colGroup) {
         plSceneObject* so = plSceneObject::Convert(physical->getObject()->getObj());
-        if (so == NULL) return;
+        if (so == NULL)
+            return;
         hsTArray<plKey> mods = so->getModifiers();
 
         for (size_t i = 0; i < mods.getSize(); i++) {
