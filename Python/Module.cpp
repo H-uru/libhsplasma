@@ -269,7 +269,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plResponderModifier_Cmd", Init_pyResponderModifier_Cmd_Type());
     PyModule_AddObject(module, "plResponderModifier_State", Init_pyResponderModifier_State_Type());
     PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
-    PyModule_AddObject(module, "plAgeInfiStruct", Init_pyAgeInfoStruct_Type());
+    PyModule_AddObject(module, "plAgeInfoStruct", Init_pyAgeInfoStruct_Type());
     PyModule_AddObject(module, "plAgeLinkStruct", Init_pyAgeLinkStruct_Type());
 
     /* Creatables */
