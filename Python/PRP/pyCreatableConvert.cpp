@@ -194,6 +194,7 @@
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
+#include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
@@ -731,6 +732,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kAnimStage: return pyAnimStage_FromAnimStage(plAnimStage::Convert(pCre));
         case kLinkToAgeMsg: return pyLinkToAgeMsg_FromLinkToAgeMsg(plLinkToAgeMsg::Convert(pCre));
         case kNotifyMsg: return pyNotifyMsg_FromNotifyMsg(plNotifyMsg::Convert(pCre));
+        case kAgeLinkStruct: return pyAgeLinkStruct_FromAgeLinkStruct(plAgeLinkStruct::Convert(pCre));
+        case kAgeInfoStruct: return pyAgeInfoStruct_FromAgeInfoStruct(plAgeInfoStruct::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));

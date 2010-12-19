@@ -21,6 +21,16 @@ extern "C" {
 
 typedef struct {
     PyObject_HEAD
+    class plAgeInfoStruct* fThis;
+    bool fPyOwned;
+} pyAgeInfoStruct;
+
+PyObject* Init_pyAgeInfoStruct_Type();
+int pyAgeInfoStruct_Check(PyObject* obj);
+PyObject* pyAgeInfoStruct_FromAgeInfoStruct(plAgeInfoStruct* als);
+
+typedef struct {
+    PyObject_HEAD
     class plAgeLinkStruct* fThis;
     bool fPyOwned;
 } pyAgeLinkStruct;
