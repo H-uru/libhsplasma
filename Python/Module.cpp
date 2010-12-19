@@ -66,6 +66,7 @@
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
+#include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
@@ -268,6 +269,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plResponderModifier_Cmd", Init_pyResponderModifier_Cmd_Type());
     PyModule_AddObject(module, "plResponderModifier_State", Init_pyResponderModifier_State_Type());
     PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
+    PyModule_AddObject(module, "plAgeLinkStruct", Init_pyAgeLinkStruct_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());

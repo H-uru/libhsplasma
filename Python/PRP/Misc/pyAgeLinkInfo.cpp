@@ -15,42 +15,25 @@
  */
 
 #include <PyPlasma.h>
-#include <PRP/Message/plLinkToAgeMsg.h>
-#include "pyLinkToAgeMsg.h"
-#include "pyMessage.h"
-#include "PRP/pyCreatable.h"
-#include "PRP/Misc/pyAgeLinkInfo.h"
-#include <PRP/Modifier/pyPythonFileMod.h>
+#include "PRP/Misc/plAgeLinkInfo.h"
+#include "pyAgeLinkInfo.h"
+#include <PRP/pyCreatable.h>
 
 extern "C" {
 
-static PyObject* pyLinkToAgeMsg_new(PyTypeObject* type, PyObject* , PyObject* ) {
-    pyLinkToAgeMsg* self = (pyLinkToAgeMsg*)type->tp_alloc(type, 0);
+static PyObject* pyAgeLinkStruct_new(PyTypeObject* type, PyObject* , PyObject* ) {
+    pyAgeLinkStruct* self = (pyAgeLinkStruct*)type->tp_alloc(type, 0);
     if (self != NULL) {
-        self->fThis = new plLinkToAgeMsg();
+        self->fThis = new plAgeLinkStruct();
         self->fPyOwned = true;
     }
     return (PyObject*)self;
 }
 
-static PyObject* pyLinkToAgeMsg_getAgeLink(pyLinkToAgeMsg* self, void*) {
-    return pyAgeLinkStruct_FromAgeLinkStruct(&self->fThis->getAgeLink());
-}
-
-static int pyLinkToAgeMsg_setAgeLink(pyLinkToAgeMsg* , PyObject* , void*) {
-    PyErr_SetString(PyExc_RuntimeError, "ageLink is read-only");
-    return -1;
-}
-
-static PyGetSetDef pyLinkToAgeMsg_GetSet[] = {
-    { "ageLink", (getter)pyLinkToAgeMsg_getAgeLink, (setter)pyLinkToAgeMsg_setAgeLink, NULL, NULL },
-    { NULL, NULL, NULL, NULL, NULL }
-};
-
-PyTypeObject pyLinkToAgeMsg_Type = {
+PyTypeObject pyAgeLinkStruct_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLinkToAgeMsg",          /* tp_name */
-    sizeof(pyLinkToAgeMsg),             /* tp_basicsize */
+    "PyPlasma.plAgeLinkStruct",         /* tp_name */
+    sizeof(pyAgeLinkStruct),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
@@ -70,7 +53,7 @@ PyTypeObject pyLinkToAgeMsg_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plLinkToAgeMsg wrapper",           /* tp_doc */
+    "plAgeLinkStruct wrapper",                 /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -81,7 +64,7 @@ PyTypeObject pyLinkToAgeMsg_Type = {
 
     NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
-    pyLinkToAgeMsg_GetSet,              /* tp_getset */
+    NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
@@ -90,7 +73,7 @@ PyTypeObject pyLinkToAgeMsg_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyLinkToAgeMsg_new,                 /* tp_new */
+    pyAgeLinkStruct_new,                /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -104,29 +87,29 @@ PyTypeObject pyLinkToAgeMsg_Type = {
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
 };
 
-PyObject* Init_pyLinkToAgeMsg_Type() {
-    pyLinkToAgeMsg_Type.tp_base = &pyMessage_Type;
-    if (PyType_Ready(&pyLinkToAgeMsg_Type) < 0)
+PyObject* Init_pyAgeLinkStruct_Type() {
+    pyAgeLinkStruct_Type.tp_base = &pyCreatable_Type;
+    if (PyType_Ready(&pyAgeLinkStruct_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyLinkToAgeMsg_Type);
-    return (PyObject*)&pyLinkToAgeMsg_Type;
+    Py_INCREF(&pyAgeLinkStruct_Type);
+    return (PyObject*)&pyAgeLinkStruct_Type;
 }
 
-int pyLinkToAgeMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLinkToAgeMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLinkToAgeMsg_Type))
+int pyAgeLinkStruct_Check(PyObject* obj) {
+    if (obj->ob_type == &pyAgeLinkStruct_Type
+        || PyType_IsSubtype(obj->ob_type, &pyAgeLinkStruct_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyLinkToAgeMsg_FromLinkToAgeMsg(plLinkToAgeMsg* msg) {
-    if (msg == NULL) {
+PyObject* pyAgeLinkStruct_FromAgeLinkStruct(plAgeLinkStruct* als) {
+    if (als == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    pyLinkToAgeMsg* pyobj = PyObject_New(pyLinkToAgeMsg, &pyLinkToAgeMsg_Type);
-    pyobj->fThis = msg;
+    pyAgeLinkStruct* pyobj = PyObject_New(pyAgeLinkStruct, &pyAgeLinkStruct_Type);
+    pyobj->fThis = als;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;
 }

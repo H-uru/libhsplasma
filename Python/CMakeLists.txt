@@ -259,9 +259,11 @@ set(PRP_MSG_HDRS
 )
 
 set(PRP_MISC_SRCS
+    PRP/Misc/pyAgeLinkInfo.cpp
     PRP/Misc/pyRenderLevel.cpp
 )
 set(PRP_MISC_HDRS
+    PRP/Misc/pyAgeLinkInfo.h
     PRP/Misc/pyRenderLevel.h
 )
 
