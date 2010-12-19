@@ -42,8 +42,21 @@ static PyObject *pyAgeInfoStruct_getAgeFilename(pyAgeInfoStruct* self, void*) {
     return PyString_FromString(self->fThis->getAgeFilename());
 }
 
+static int pyAgeInfoStruct_setAgeInstanceName(pyAgeInfoStruct* self, PyObject* value, void*) {
+    if (value == NULL || !PyAnyStr_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "ageInstanceName should be a string");
+        return -1;
+    }
+    self->fThis->setAgeInstanceName(PyStr_To_PlStr(value));
+    return -1;
+}
+static PyObject *pyAgeInfoStruct_getAgeInstanceName(pyAgeInfoStruct* self, void*) {
+    return PyString_FromString(self->fThis->getAgeInstanceName());
+}
+
 PyGetSetDef pyAgeInfoStruct_GetSet[] = {
     { "ageFilename", (getter)pyAgeInfoStruct_getAgeFilename, (setter)pyAgeInfoStruct_setAgeFilename, NULL, NULL },
+    { "ageInstanceName", (getter)pyAgeInfoStruct_getAgeInstanceName, (setter)pyAgeInfoStruct_setAgeInstanceName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

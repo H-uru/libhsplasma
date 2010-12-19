@@ -156,14 +156,14 @@ void plMorphSpan::prcParse(const pfPrcTag* tag) {
 /* plMorphDelta */
 plMorphDelta::plMorphDelta() : fWeight(0.0f) { }
 
-void plMorphDelta::read(hsStream* S, plResManager* mgr) {
+void plMorphDelta::read(hsStream* S, plResManager* ) {
     fWeight = S->readFloat();
     fSpans.setSize(S->readInt());
     for (size_t i=0; i<fSpans.getSize(); i++)
         fSpans[i].read(S);
 }
 
-void plMorphDelta::write(hsStream* S, plResManager* mgr) {
+void plMorphDelta::write(hsStream* S, plResManager* ) {
     S->writeFloat(fWeight);
     S->writeInt(fSpans.getSize());
     for (size_t i=0; i<fSpans.getSize(); i++)

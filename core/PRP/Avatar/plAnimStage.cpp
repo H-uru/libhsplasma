@@ -23,7 +23,7 @@ plAnimStage::plAnimStage()
              fAdvanceTo(0), fRegressTo(0), fLocalTime(0.0f), fLength(0.0f),
              fCurLoop(0), fAttached(false) { }
 
-void plAnimStage::read(hsStream* S, plResManager* mgr) {
+void plAnimStage::read(hsStream* S, plResManager* ) {
     fAnimName = S->readSafeStr();
     fNotify = S->readByte();
     fForwardType = (PlayType)S->readInt();
@@ -37,7 +37,7 @@ void plAnimStage::read(hsStream* S, plResManager* mgr) {
     fRegressTo = S->readInt();
 }
 
-void plAnimStage::write(hsStream* S, plResManager* mgr) {
+void plAnimStage::write(hsStream* S, plResManager* ) {
     S->writeSafeStr(fAnimName);
     S->writeByte(fNotify);
     S->writeInt((hsUint32)fForwardType);

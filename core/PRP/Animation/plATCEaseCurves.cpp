@@ -21,7 +21,7 @@ plATCEaseCurve::plATCEaseCurve()
               : fStartSpeed(0.0f), fMinLength(0.0f), fMaxLength(0.0f),
                 fBeginWorldTime(0.0), fLength(0.0f), fSpeed(0.0f) { }
 
-void plATCEaseCurve::read(hsStream* S, plResManager* mgr) {
+void plATCEaseCurve::read(hsStream* S, plResManager* ) {
     fMinLength = S->readFloat();
     fMaxLength = S->readFloat();
     fLength = S->readFloat();
@@ -30,7 +30,7 @@ void plATCEaseCurve::read(hsStream* S, plResManager* mgr) {
     fBeginWorldTime = S->readDouble();
 }
 
-void plATCEaseCurve::write(hsStream* S, plResManager* mgr) {
+void plATCEaseCurve::write(hsStream* S, plResManager* ) {
     S->writeFloat(fMinLength);
     S->writeFloat(fMaxLength);
     S->writeFloat(fLength);

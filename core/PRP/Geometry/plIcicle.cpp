@@ -116,9 +116,9 @@ void plIcicle::setSortData(const plGBufferTriangle* data) {
 
 
 /* plParticleSpan */
-void plParticleSpan::read(hsStream* S) { }
-void plParticleSpan::write(hsStream* S) { }
-void plParticleSpan::IPrcWrite(pfPrcHelper* prc) { }
+void plParticleSpan::read(hsStream* ) { }
+void plParticleSpan::write(hsStream* ) { }
+void plParticleSpan::IPrcWrite(pfPrcHelper* ) { }
 
 void plParticleSpan::IPrcParse(const pfPrcTag* tag) {
     throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
