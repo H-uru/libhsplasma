@@ -27,7 +27,7 @@ plAvAnimTask::plAvAnimTask()
             : fInitialBlend(0.0f), fTargetBlend(0.0f), fFadeSpeed(0.0f),
               fSetTime(0.0f), fStart(false), fLoop(false), fAttach(false) { }
 
-void plAvAnimTask::read(hsStream* S, plResManager* mgr) {
+void plAvAnimTask::read(hsStream* S, plResManager* /*mgr*/) {
     fAnimName = S->readSafeStr();
     fInitialBlend = S->readFloat();
     fTargetBlend = S->readFloat();
@@ -38,7 +38,7 @@ void plAvAnimTask::read(hsStream* S, plResManager* mgr) {
     fAttach = S->readBool();
 }
 
-void plAvAnimTask::write(hsStream* S, plResManager* mgr) {
+void plAvAnimTask::write(hsStream* S, plResManager* /*mgr*/) {
     S->writeSafeStr(fAnimName);
     S->writeFloat(fInitialBlend);
     S->writeFloat(fTargetBlend);
@@ -79,12 +79,12 @@ void plAvAnimTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plAvOneShotLinkTask */
-void plAvOneShotLinkTask::read(hsStream* S, plResManager* mgr) {
+void plAvOneShotLinkTask::read(hsStream* S, plResManager* /*mgr*/) {
     fAnimName = S->readSafeStr();
     fMarkerName = S->readSafeStr();
 }
 
-void plAvOneShotLinkTask::write(hsStream* S, plResManager* mgr) {
+void plAvOneShotLinkTask::write(hsStream* S, plResManager* /*mgr*/) {
     S->writeSafeStr(fAnimName);
     S->writeSafeStr(fMarkerName);
 }

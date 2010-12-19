@@ -61,6 +61,7 @@
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyEventData.h"
+#include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Message/pyNotifyMsg.h"
@@ -415,6 +416,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plATCChannel", Init_pyATCChannel_Type());
     PyModule_AddObject(module, "plScalarChannelApplicator", Init_pyScalarChannelApplicator_Type());
     PyModule_AddObject(module, "plAnimStage", Init_pyAnimStage_Type());
+    PyModule_AddObject(module, "plLinkToAgeMsg", Init_pyLinkToAgeMsg_Type());
     PyModule_AddObject(module, "plNotifyMsg", Init_pyNotifyMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3

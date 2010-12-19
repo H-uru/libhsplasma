@@ -192,6 +192,7 @@
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Message/pyNotifyMsg.h"
+#include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
@@ -728,7 +729,11 @@ PyObject* ICreate(plCreatable* pCre)
         case kATCChannel: return pyATCChannel_FromATCChannel(plATCChannel::Convert(pCre));
         case kScalarChannelApplicator: return pyScalarChannelApplicator_FromScalarChannelApplicator(plScalarChannelApplicator::Convert(pCre));
         case kAnimStage: return pyAnimStage_FromAnimStage(plAnimStage::Convert(pCre));
+        case kLinkToAgeMsg: return pyLinkToAgeMsg_FromLinkToAgeMsg(plLinkToAgeMsg::Convert(pCre));
         case kNotifyMsg: return pyNotifyMsg_FromNotifyMsg(plNotifyMsg::Convert(pCre));
-        default: return pyCreatable_FromCreatable(pCre);
+        default:
+            // many messages are not implemented, make sure they are at least a plMessage
+            if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));
+            return pyCreatable_FromCreatable(pCre);
     }
 }

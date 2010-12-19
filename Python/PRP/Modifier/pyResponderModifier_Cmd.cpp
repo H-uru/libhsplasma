@@ -16,6 +16,7 @@
 
 #include <PyPlasma.h>
 #include <PRP/Modifier/plResponderModifier.h>
+#include "../pyCreatable.h"
 #include "pyResponderModifier.h"
 #include "PRP/Message/pyMessage.h"
 
@@ -27,7 +28,7 @@ static void pyResponderModifier_Cmd_dealloc(pyResponderModifier_Cmd* self) {
     Py_TYPE(self)->tp_free((PyObject*)self);
 }
 
-static int pyResponderModifier_Cmd___init__(pyResponderModifier_Cmd* self, PyObject* args, PyObject* kwds) {
+static int pyResponderModifier_Cmd___init__(pyResponderModifier_Cmd* self, PyObject* args, PyObject* /*kwds*/) {
     pyMessage* msg = NULL;
     int waitOn = -1;
     if (!PyArg_ParseTuple(args, "|Oi", &msg, &waitOn)) {
@@ -48,7 +49,7 @@ static int pyResponderModifier_Cmd___init__(pyResponderModifier_Cmd* self, PyObj
     return 0;
 }
 
-static PyObject* pyResponderModifier_Cmd_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+static PyObject* pyResponderModifier_Cmd_new(PyTypeObject* type, PyObject* /*args*/, PyObject* /*kwds*/) {
     pyResponderModifier_Cmd* self = (pyResponderModifier_Cmd*)type->tp_alloc(type, 0);
     if (self != NULL) {
         self->fThis = new plResponderModifier::plResponderCmd();
@@ -58,7 +59,7 @@ static PyObject* pyResponderModifier_Cmd_new(PyTypeObject* type, PyObject* args,
 }
 
 static PyObject* pyResponderModifier_Cmd_getMsg(pyResponderModifier_Cmd* self, void*) {
-    return pyMessage_FromMessage(self->fThis->fMsg);
+    return ICreate(self->fThis->fMsg);
 }
 
 static PyObject* pyResponderModifier_Cmd_getWaitOn(pyResponderModifier_Cmd* self, void*) {
