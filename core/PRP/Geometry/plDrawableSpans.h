@@ -127,7 +127,7 @@ public:
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
-    void CalcBounds();
+    void calcBounds();
     void BuildSpaceTree();
 
 protected:

@@ -527,20 +527,33 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plDrawableSpans::CalcBounds() {
+void plDrawableSpans::calcBounds() {
     for (size_t i=0; i<fIcicles.getSize(); i++) {
+        hsTArray<plGBufferVertex> verts = getVerts(fIcicles[i]);
+        hsBounds3Ext loc;
+        hsBounds3Ext world;
+
+        world.setFlags(hsBounds3Ext::kAxisAligned);
+        for (size_t j = 0; j < verts.getSize(); j++) {
+            loc += verts[j].fPos;
+            world += fIcicles[i]->getLocalToWorld().multPoint(verts[j].fPos);
+        }
+        loc.unalign();
+
+        fIcicles[i]->setLocalBounds(loc);
+        fIcicles[i]->setWorldBounds(world);
+
         if (i == 0)
-            fWorldBounds = fIcicles[i]->getWorldBounds();
+            fWorldBounds = world;
         else
-            fWorldBounds += fIcicles[i]->getWorldBounds();
+            fWorldBounds += world;
     }
+
     fWorldBounds.setFlags(hsBounds3Ext::kAxisAligned);
+
     fLocalBounds.setMins(fWorldBounds.getMins());
     fLocalBounds.setMaxs(fWorldBounds.getMaxs());
-    fLocalBounds.setCorner(fWorldBounds.getCorner());
-    fLocalBounds.setAxis(0, hsVector3(0.0f, fLocalBounds.getMaxs().Y - fLocalBounds.getMins().Y, 0.0f));
-    fLocalBounds.setAxis(1, hsVector3(0.0f, 0.0f, fLocalBounds.getMaxs().Z - fLocalBounds.getMins().Z));
-    fLocalBounds.setAxis(2, hsVector3(fLocalBounds.getMaxs().X - fLocalBounds.getMins().X, 0.0f, 0.0f));
+    fLocalBounds.unalign();
 }
 
 void plDrawableSpans::BuildSpaceTree() {

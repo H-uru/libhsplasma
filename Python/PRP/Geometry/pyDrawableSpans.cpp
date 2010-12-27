@@ -267,6 +267,12 @@ static PyObject* pyDrawableSpans_addMaterial(pyDrawableSpans* self, PyObject* ar
     return Py_None;
 }
 
+static PyObject* pyDrawableSpans_calcBounds(pyDrawableSpans* self) {
+    self->fThis->calcBounds();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyDrawableSpans_BuildSpaceTree(pyDrawableSpans* self) {
     self->fThis->BuildSpaceTree();
     Py_INCREF(Py_None);
@@ -506,6 +512,8 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
     { "addMaterial", (PyCFunction)pyDrawableSpans_addMaterial, METH_VARARGS,
       "Params: key\n"
       "Add a material ref to the DrawableSpans" },
+    { "calcBounds", (PyCFunction)pyDrawableSpans_calcBounds, METH_NOARGS,
+      "(Re-)Calculate the bounds for all icicles and the DrawableSpans"},
     { "BuildSpaceTree", (PyCFunction)pyDrawableSpans_BuildSpaceTree, METH_NOARGS,
       "Build a plSpaceTree for this draw spans object" },
     { NULL, NULL, 0, NULL }
