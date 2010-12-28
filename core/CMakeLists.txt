@@ -682,6 +682,7 @@ set(UTIL_SRCS
     Util/PlasmaVersions.cpp
     Util/hs3DDevice.cpp
     Util/hsBitVector.cpp
+    Util/hsRadixSort.cpp
     Util/plDDSurface.cpp
     Util/plJPEG.cpp
     Util/plMD5.cpp
@@ -692,6 +693,7 @@ set(UTIL_HDRS
     Util/PlasmaVersions.h
     Util/hs3DDevice.h
     Util/hsBitVector.h
+    Util/hsRadixSort.h
     Util/hsTArray.hpp
     Util/hsTList.hpp
     Util/plDDSurface.h
