@@ -372,6 +372,7 @@ int pyLocation_Check(PyObject* obj) {
 
 PyObject* pyLocation_FromLocation(const plLocation& loc) {
     pyLocation* obj = PyObject_New(pyLocation, &pyLocation_Type);
+    delete obj->fThis;
     obj->fThis = new plLocation(loc);
     return (PyObject*)obj;
 }

@@ -23,8 +23,11 @@
 extern "C" {
 
 static void pyCreatable_dealloc(pyCreatable* self) {
-    if (self->fPyOwned)
-        delete self->fThis;
+    if (self->fPyOwned) {
+        plCreatable* obj = IConvert(self);
+        delete obj;
+        self->fThis = NULL;
+    }
     Py_TYPE(self)->tp_free((PyObject*)self);
 }
 

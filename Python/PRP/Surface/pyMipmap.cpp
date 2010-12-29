@@ -407,6 +407,7 @@ PyObject* pyMipmap_FromMipmap(class plMipmap* img) {
         return Py_None;
     }
     pyMipmap* pybmp = PyObject_New(pyMipmap, &pyMipmap_Type);
+    delete pybmp->fThis;
     pybmp->fThis = img;
     pybmp->fPyOwned = false;
     return (PyObject*)pybmp;

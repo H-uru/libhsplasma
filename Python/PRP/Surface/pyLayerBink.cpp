@@ -113,6 +113,7 @@ PyObject* pyLayerBink_FromLayerBink(class plLayerBink* layer) {
         return Py_None;
     }
     pyLayerBink* pyobj = PyObject_New(pyLayerBink, &pyLayerBink_Type);
+    delete pyobj->fThis;
     pyobj->fThis = layer;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

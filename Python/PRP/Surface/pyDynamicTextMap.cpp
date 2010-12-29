@@ -192,6 +192,7 @@ PyObject* pyDynamicTextMap_FromDynamicTextMap(class plDynamicTextMap* img) {
         return Py_None;
     }
     pyDynamicTextMap* pybmp = PyObject_New(pyDynamicTextMap, &pyDynamicTextMap_Type);
+    delete pybmp->fThis;
     pybmp->fThis = img;
     pybmp->fPyOwned = false;
     return (PyObject*)pybmp;

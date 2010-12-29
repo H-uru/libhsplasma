@@ -113,6 +113,7 @@ PyObject* pyLayer_FromLayer(class plLayer* layer) {
         return Py_None;
     }
     pyLayer* pylay = PyObject_New(pyLayer, &pyLayer_Type);
+    delete pylay->fThis;
     pylay->fThis = layer;
     pylay->fPyOwned = false;
     return (PyObject*)pylay;

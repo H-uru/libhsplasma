@@ -165,6 +165,7 @@ int pyBoundsOriented_Check(PyObject* obj) {
 
 PyObject* pyBoundsOriented_FromBoundsOriented(const hsBoundsOriented& bounds) {
     pyBoundsOriented* obj = PyObject_New(pyBoundsOriented, &pyBoundsOriented_Type);
+    delete obj->fThis;
     obj->fThis = new hsBoundsOriented(bounds);
     return (PyObject*)obj;
 }

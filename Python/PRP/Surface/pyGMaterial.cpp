@@ -282,6 +282,7 @@ PyObject* pyGMaterial_FromGMaterial(class hsGMaterial* matl) {
         return Py_None;
     }
     pyGMaterial* pymat = PyObject_New(pyGMaterial, &pyGMaterial_Type);
+    delete pymat->fThis;
     pymat->fThis = matl;
     pymat->fPyOwned = false;
     return (PyObject*)pymat;

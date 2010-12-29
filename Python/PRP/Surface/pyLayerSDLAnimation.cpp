@@ -131,6 +131,7 @@ PyObject* pyLayerSDLAnimation_FromLayerSDLAnimation(class plLayerSDLAnimation* l
         return Py_None;
     }
     pyLayerSDLAnimation* pyobj = PyObject_New(pyLayerSDLAnimation, &pyLayerSDLAnimation_Type);
+    delete pyobj->fThis;
     pyobj->fThis = layer;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

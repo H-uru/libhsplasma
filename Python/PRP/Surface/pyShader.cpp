@@ -274,6 +274,7 @@ PyObject* pyShader_FromShader(class plShader* shader) {
         return Py_None;
     }
     pyShader* ps = PyObject_New(pyShader, &pyShader_Type);
+    delete ps->fThis;
     ps->fThis = shader;
     ps->fPyOwned = false;
     return (PyObject*)ps;

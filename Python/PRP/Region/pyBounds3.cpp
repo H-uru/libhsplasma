@@ -154,6 +154,7 @@ int pyBounds3_Check(PyObject* obj) {
 
 PyObject* pyBounds3_FromBounds3(const hsBounds3& bounds) {
     pyBounds3* obj = PyObject_New(pyBounds3, &pyBounds3_Type);
+    delete obj->fThis;
     obj->fThis = new hsBounds3(bounds);
     return (PyObject*)obj;
 }

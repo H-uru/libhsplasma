@@ -144,6 +144,7 @@ PyObject* pyKeyedObjectStub_FromKeyedObjectStub(class hsKeyedObjectStub* obj) {
         return Py_None;
     }
     pyKeyedObjectStub* ko = PyObject_New(pyKeyedObjectStub, &pyKeyedObjectStub_Type);
+    delete ko->fThis;
     ko->fThis = obj;
     ko->fPyOwned = false;
     return (PyObject*)ko;

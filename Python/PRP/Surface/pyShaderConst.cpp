@@ -232,6 +232,7 @@ int pyShaderConst_Check(PyObject* obj) {
 
 PyObject* pyShaderConst_FromShaderConst(const plShaderConst& sc) {
     pyShaderConst* psc = PyObject_New(pyShaderConst, &pyShaderConst_Type);
+    delete psc->fThis;
     psc->fThis = new plShaderConst(sc);
     return (PyObject*)psc;
 }
