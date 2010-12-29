@@ -16,6 +16,7 @@
 
 #include "plDrawableSpans.h"
 #include "Debug/plDebug.h"
+#include "Util/hsRadixSort.h"
 
 /* plDISpanIndex */
 plDISpanIndex::plDISpanIndex() : fFlags(0) { }
@@ -618,40 +619,35 @@ void plDrawableSpans::ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int ax
         // Already sorted
         return;
 
-    // Merge sort, using the bounds center along an axis for sorting >.>
-    std::list<plSpaceBuilderNode*> left, right;
-    plSpaceBuilderNode* pivot = nodes[0];
-    for (size_t i=1; i<nodes.size(); i++) {
+    hsRadixSort rad;
+    hsRadixSortElem* list = new hsRadixSortElem[nodes.size()];
+    hsRadixSortElem* it = list;
+    for (int i = nodes.size() - 1; i >= 0; i--) {
         switch (axis) {
         case 0:
-            if (nodes[i]->fBounds.getCenter().X < pivot->fBounds.getCenter().X)
-                left.push_back(nodes[i]);
-            else
-                right.push_back(nodes[i]);
+            it->fKey.fFloat = nodes[i]->fBounds.getCenter().X;
             break;
         case 1:
-            if (nodes[i]->fBounds.getCenter().Y < pivot->fBounds.getCenter().Y)
-                left.push_back(nodes[i]);
-            else
-                right.push_back(nodes[i]);
+            it->fKey.fFloat = nodes[i]->fBounds.getCenter().Y;
             break;
         case 2:
-            if (nodes[i]->fBounds.getCenter().Z < pivot->fBounds.getCenter().Z)
-                left.push_back(nodes[i]);
-            else
-                right.push_back(nodes[i]);
+            it->fKey.fFloat = nodes[i]->fBounds.getCenter().Z;
             break;
         }
+
+        it->fData = nodes[i];
+        hsRadixSortElem** next = &(it->fNext);
+        *next = (i == 0) ? NULL : ++it;
     }
-    // Don't shoot me!
-    std::vector<plSpaceBuilderNode*> lvec(left.begin(), left.end());
-    std::vector<plSpaceBuilderNode*> rvec(right.begin(), right.end());
-    ISortSpace(lvec, axis);
-    ISortSpace(rvec, axis);
-    std::vector<plSpaceBuilderNode*>::iterator cit = nodes.begin();
-    cit = std::copy(lvec.begin(), lvec.end(), cit);
-    *cit++ = pivot;
-    std::copy(rvec.begin(), rvec.end(), cit);
+
+    it = rad.sort(list, hsRadixSort::kFloat);
+
+    for (size_t i = 0; i < nodes.size(); i++) {
+        nodes[i] = (plSpaceBuilderNode*)it->fData;
+        it = it->fNext;
+    }
+
+    delete[] list;
 }
 
 void plDrawableSpans::clearSpans() {
