@@ -163,6 +163,7 @@ PyObject* pyOfferLinkBookEventData_FromOfferLinkBookEventData(proOfferLinkBookEv
         return Py_None;
     }
     pyOfferLinkBookEventData* pyobj = PyObject_New(pyOfferLinkBookEventData, &pyOfferLinkBookEventData_Type);
+    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

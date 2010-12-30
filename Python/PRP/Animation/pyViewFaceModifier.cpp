@@ -231,6 +231,7 @@ PyObject* pyViewFaceModifier_FromViewFaceModifier(class plViewFaceModifier* mod)
         return Py_None;
     }
     pyViewFaceModifier* pymod = PyObject_New(pyViewFaceModifier, &pyViewFaceModifier_Type);
+    delete pymod->fThis;
     pymod->fThis = mod;
     pymod->fPyOwned = false;
     return (PyObject*)pymod;

@@ -202,6 +202,7 @@ PyObject* pyVertexSpan_FromVertexSpan(plVertexSpan* span) {
         return Py_None;
     }
     pyVertexSpan* obj = PyObject_New(pyVertexSpan, &pyVertexSpan_Type);
+    delete obj->fThis;
     obj->fThis = span;
     obj->fPyOwned = false;
     return (PyObject*)obj;

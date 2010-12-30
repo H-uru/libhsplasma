@@ -119,6 +119,7 @@ PyObject* pyPoint3Controller_FromPoint3Controller(class plPoint3Controller* cont
         return Py_None;
     }
     pyPoint3Controller* pyobj = PyObject_New(pyPoint3Controller, &pyPoint3Controller_Type);
+    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

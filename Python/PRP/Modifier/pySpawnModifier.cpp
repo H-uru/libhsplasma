@@ -114,6 +114,7 @@ PyObject* pySpawnModifier_FromSpawnModifier(class plSpawnModifier* mod) {
         return Py_None;
     }
     pySpawnModifier* pymod = PyObject_New(pySpawnModifier, &pySpawnModifier_Type);
+    delete pymod->fThis;
     pymod->fThis = mod;
     pymod->fPyOwned = false;
     return (PyObject*)pymod;

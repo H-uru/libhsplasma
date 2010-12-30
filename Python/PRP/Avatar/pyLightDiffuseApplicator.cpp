@@ -113,6 +113,7 @@ PyObject* pyLightDiffuseApplicator_FromLightDiffuseApplicator(class plLightDiffu
         return Py_None;
     }
     pyLightDiffuseApplicator* pyobj = PyObject_New(pyLightDiffuseApplicator, &pyLightDiffuseApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

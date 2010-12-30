@@ -322,6 +322,7 @@ PyObject* pySceneObject_FromSceneObject(class plSceneObject* obj) {
         return Py_None;
     }
     pySceneObject* so = PyObject_New(pySceneObject, &pySceneObject_Type);
+    delete so->fThis;
     so->fThis = obj;
     so->fPyOwned = false;
     return (PyObject*)so;

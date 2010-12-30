@@ -113,6 +113,7 @@ PyObject* pySpotInnerApplicator_FromSpotInnerApplicator(class plSpotInnerApplica
         return Py_None;
     }
     pySpotInnerApplicator* pyobj = PyObject_New(pySpotInnerApplicator, &pySpotInnerApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

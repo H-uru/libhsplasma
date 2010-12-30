@@ -180,6 +180,7 @@ PyObject* pyCompoundController_FromCompoundController(class plCompoundController
         return Py_None;
     }
     pyCompoundController* pyobj = PyObject_New(pyCompoundController, &pyCompoundController_Type);
+    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

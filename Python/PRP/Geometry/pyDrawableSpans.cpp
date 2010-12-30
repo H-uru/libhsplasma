@@ -618,6 +618,7 @@ PyObject* pyDrawableSpans_FromDrawableSpans(class plDrawableSpans* draw) {
         return Py_None;
     }
     pyDrawableSpans* pdraw = PyObject_New(pyDrawableSpans, &pyDrawableSpans_Type);
+    delete pdraw->fThis;
     pdraw->fThis = draw;
     pdraw->fPyOwned = false;
     return (PyObject*)pdraw;

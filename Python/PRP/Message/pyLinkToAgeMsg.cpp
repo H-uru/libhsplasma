@@ -126,6 +126,7 @@ PyObject* pyLinkToAgeMsg_FromLinkToAgeMsg(plLinkToAgeMsg* msg) {
         return Py_None;
     }
     pyLinkToAgeMsg* pyobj = PyObject_New(pyLinkToAgeMsg, &pyLinkToAgeMsg_Type);
+    delete pyobj->fThis;
     pyobj->fThis = msg;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

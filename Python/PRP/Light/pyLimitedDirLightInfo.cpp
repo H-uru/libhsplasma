@@ -159,6 +159,7 @@ PyObject* pyLimitedDirLightInfo_FromLimitedDirLightInfo(class plLimitedDirLightI
         return Py_None;
     }
     pyLimitedDirLightInfo* pyLight = PyObject_New(pyLimitedDirLightInfo, &pyLimitedDirLightInfo_Type);
+    delete pyLight->fThis;
     pyLight->fThis = light;
     pyLight->fPyOwned = false;
     return (PyObject*)pyLight;

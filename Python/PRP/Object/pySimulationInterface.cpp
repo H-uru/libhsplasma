@@ -164,6 +164,7 @@ PyObject* pySimulationInterface_FromSimulationInterface(class plSimulationInterf
         return Py_None;
     }
     pySimulationInterface* intf = PyObject_New(pySimulationInterface, &pySimulationInterface_Type);
+    delete intf->fThis;
     intf->fThis = obj;
     intf->fPyOwned = false;
     return (PyObject*)intf;

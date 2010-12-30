@@ -113,6 +113,7 @@ PyObject* pyMatrixChannelApplicator_FromMatrixChannelApplicator(class plMatrixCh
         return Py_None;
     }
     pyMatrixChannelApplicator* pyobj = PyObject_New(pyMatrixChannelApplicator, &pyMatrixChannelApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

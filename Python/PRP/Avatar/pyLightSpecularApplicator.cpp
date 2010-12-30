@@ -113,6 +113,7 @@ PyObject* pyLightSpecularApplicator_FromLightSpecularApplicator(class plLightSpe
         return Py_None;
     }
     pyLightSpecularApplicator* pyobj = PyObject_New(pyLightSpecularApplicator, &pyLightSpecularApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

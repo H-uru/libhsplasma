@@ -113,6 +113,7 @@ PyObject* pyPointChannel_FromPointChannel(class plPointChannel* chan) {
         return Py_None;
     }
     pyPointChannel* pyobj = PyObject_New(pyPointChannel, &pyPointChannel_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

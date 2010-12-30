@@ -209,6 +209,7 @@ PyObject* pyShadowMaster_FromShadowMaster(plShadowMaster* obj) {
         return Py_None;
     }
     pyShadowMaster* pyobj = PyObject_New(pyShadowMaster, &pyShadowMaster_Type);
+    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

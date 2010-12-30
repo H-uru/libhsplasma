@@ -143,6 +143,7 @@ PyObject* pySimplePosController_FromSimplePosController(class plSimplePosControl
         return Py_None;
     }
     pySimplePosController* pyobj = PyObject_New(pySimplePosController, &pySimplePosController_Type);
+    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

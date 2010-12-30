@@ -113,6 +113,7 @@ PyObject* pyScalarChannelApplicator_FromScalarChannelApplicator(class plScalarCh
         return Py_None;
     }
     pyScalarChannelApplicator* pyobj = PyObject_New(pyScalarChannelApplicator, &pyScalarChannelApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

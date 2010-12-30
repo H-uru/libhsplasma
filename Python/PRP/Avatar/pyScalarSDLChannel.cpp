@@ -113,6 +113,7 @@ PyObject* pyScalarSDLChannel_FromScalarSDLChannel(class plScalarSDLChannel* chan
         return Py_None;
     }
     pyScalarSDLChannel* pyobj = PyObject_New(pyScalarSDLChannel, &pyScalarSDLChannel_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

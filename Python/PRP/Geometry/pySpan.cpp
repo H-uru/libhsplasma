@@ -535,6 +535,7 @@ PyObject* pySpan_FromSpan(plSpan* span) {
         return Py_None;
     }
     pySpan* obj = PyObject_New(pySpan, &pySpan_Type);
+    delete obj->fThis;
     obj->fThis = span;
     obj->fPyOwned = false;
     return (PyObject*)obj;

@@ -419,6 +419,7 @@ PyObject* pyATCAnim_FromATCAnim(class plATCAnim* anim) {
         return Py_None;
     }
     pyATCAnim* pyobj = PyObject_New(pyATCAnim, &pyATCAnim_Type);
+    delete pyobj->fThis;
     pyobj->fThis = anim;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

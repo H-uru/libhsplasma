@@ -131,6 +131,7 @@ PyObject* pySoundVolumeApplicator_FromSoundVolumeApplicator(class plSoundVolumeA
         return Py_None;
     }
     pySoundVolumeApplicator* pyobj = PyObject_New(pySoundVolumeApplicator, &pySoundVolumeApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -203,6 +203,7 @@ PyObject* pyLogicModifier_FromLogicModifier(plLogicModifier* obj) {
         return Py_None;
     }
     pyLogicModifier* pyobj = PyObject_New(pyLogicModifier, &pyLogicModifier_Type);
+    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

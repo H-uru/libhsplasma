@@ -119,6 +119,7 @@ PyObject* pyMatrix33Controller_FromMatrix33Controller(class plMatrix33Controller
         return Py_None;
     }
     pyMatrix33Controller* pyobj = PyObject_New(pyMatrix33Controller, &pyMatrix33Controller_Type);
+    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

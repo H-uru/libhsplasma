@@ -129,6 +129,7 @@ PyObject* pyRotController_FromRotController(class plRotController* controller) {
         return Py_None;
     }
     pyRotController* pyobj = PyObject_New(pyRotController, &pyRotController_Type);
+    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

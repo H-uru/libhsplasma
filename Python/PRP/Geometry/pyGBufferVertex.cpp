@@ -234,6 +234,7 @@ int pyGBufferVertex_Check(PyObject* obj) {
 
 PyObject* pyGBufferVertex_FromGBufferVertex(const plGBufferVertex& vert) {
     pyGBufferVertex* pyvert = PyObject_New(pyGBufferVertex, &pyGBufferVertex_Type);
+    delete pyvert->fThis;
     pyvert->fThis = new plGBufferVertex(vert);
     return (PyObject*)pyvert;
 }

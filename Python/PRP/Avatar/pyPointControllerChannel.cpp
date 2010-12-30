@@ -137,6 +137,7 @@ PyObject* pyPointControllerChannel_FromPointControllerChannel(class plPointContr
         return Py_None;
     }
     pyPointControllerChannel* pyobj = PyObject_New(pyPointControllerChannel, &pyPointControllerChannel_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

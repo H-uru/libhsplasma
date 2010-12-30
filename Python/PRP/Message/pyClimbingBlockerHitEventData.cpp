@@ -135,6 +135,7 @@ PyObject* pyClimbingBlockerHitEventData_FromClimbingBlockerHitEventData(proClimb
         return Py_None;
     }
     pyClimbingBlockerHitEventData* pyobj = PyObject_New(pyClimbingBlockerHitEventData, &pyClimbingBlockerHitEventData_Type);
+    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -258,6 +258,7 @@ int pySpanTemplateVertex_Check(PyObject* obj) {
 
 PyObject* pySpanTemplateVertex_FromVertex(plSpanTemplate::Vertex& vert) {
     pySpanTemplateVertex* obj = PyObject_New(pySpanTemplateVertex, &pySpanTemplateVertex_Type);
+    delete obj->fThis;
     obj->fThis = &vert;
     obj->fPyOwned = false;
     return (PyObject*)obj;

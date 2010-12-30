@@ -113,6 +113,7 @@ PyObject* pyOmniCutoffApplicator_FromOmniCutoffApplicator(class plOmniCutoffAppl
         return Py_None;
     }
     pyOmniCutoffApplicator* pyobj = PyObject_New(pyOmniCutoffApplicator, &pyOmniCutoffApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -179,6 +179,7 @@ PyObject* pySpaceTree_FromSpaceTree(class plSpaceTree* obj) {
         return Py_None;
     }
     pySpaceTree* pobj = PyObject_New(pySpaceTree, &pySpaceTree_Type);
+    delete pobj->fThis;
     pobj->fThis = obj;
     pobj->fPyOwned = false;
     return (PyObject*)pobj;

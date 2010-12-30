@@ -133,6 +133,7 @@ PyObject* pyQuatKey_FromQuatKey(hsQuatKey* frame) {
         return Py_None;
     }
     pyQuatKey* pyobj = PyObject_New(pyQuatKey, &pyQuatKey_Type);
+    delete pyobj->fThis;
     pyobj->fThis = frame;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -169,6 +169,7 @@ PyObject* pyResponderModifier_Cmd_FromResponderCmd(plResponderModifier::plRespon
         return Py_None;
     }
     pyResponderModifier_Cmd* pyobj = PyObject_New(pyResponderModifier_Cmd, &pyResponderModifier_Cmd_Type);
+    delete pyobj->fThis;
     pyobj->fThis = cmd;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

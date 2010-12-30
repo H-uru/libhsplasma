@@ -226,6 +226,7 @@ PyObject* pyNotifyMsg_FromNotifyMsg(plNotifyMsg* msg) {
         return Py_None;
     }
     pyNotifyMsg* pyobj = PyObject_New(pyNotifyMsg, &pyNotifyMsg_Type);
+    delete pyobj->fThis;
     pyobj->fThis = msg;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

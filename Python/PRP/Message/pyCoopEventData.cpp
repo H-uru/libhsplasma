@@ -144,6 +144,7 @@ PyObject* pyCoopEventData_FromCoopEventData(proCoopEventData* evt) {
         return Py_None;
     }
     pyCoopEventData* pyobj = PyObject_New(pyCoopEventData, &pyCoopEventData_Type);
+    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

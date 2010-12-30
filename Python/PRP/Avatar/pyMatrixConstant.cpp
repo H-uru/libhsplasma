@@ -113,6 +113,7 @@ PyObject* pyMatrixConstant_FromMatrixConstant(class plMatrixConstant* chan) {
         return Py_None;
     }
     pyMatrixConstant* pyobj = PyObject_New(pyMatrixConstant, &pyMatrixConstant_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

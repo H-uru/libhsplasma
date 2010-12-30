@@ -131,6 +131,7 @@ PyObject* pyAgeGlobalAnim_FromAgeGlobalAnim(class plAgeGlobalAnim* anim) {
         return Py_None;
     }
     pyAgeGlobalAnim* pyobj = PyObject_New(pyAgeGlobalAnim, &pyAgeGlobalAnim_Type);
+    delete pyobj->fThis;
     pyobj->fThis = anim;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

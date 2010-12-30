@@ -113,6 +113,7 @@ PyObject* pyDirectionalLightInfo_FromDirectionalLightInfo(class plDirectionalLig
         return Py_None;
     }
     pyDirectionalLightInfo* pyLight = PyObject_New(pyDirectionalLightInfo, &pyDirectionalLightInfo_Type);
+    delete pyLight->fThis;
     pyLight->fThis = light;
     pyLight->fPyOwned = false;
     return (PyObject*)pyLight;

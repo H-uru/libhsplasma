@@ -143,6 +143,7 @@ PyObject* pySimpleRotController_FromSimpleRotController(class plSimpleRotControl
         return Py_None;
     }
     pySimpleRotController* pyobj = PyObject_New(pySimpleRotController, &pySimpleRotController_Type);
+    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

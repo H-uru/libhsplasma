@@ -369,6 +369,7 @@ PyObject* pyClusterGroup_FromClusterGroup(class plClusterGroup* group) {
         return Py_None;
     }
     pyClusterGroup* obj = PyObject_New(pyClusterGroup, &pyClusterGroup_Type);
+    delete obj->fThis;
     obj->fThis = group;
     obj->fPyOwned = false;
     return (PyObject*)obj;

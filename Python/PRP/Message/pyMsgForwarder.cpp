@@ -172,6 +172,7 @@ PyObject* pyMsgForwarder_FromMsgForwarder(class plMsgForwarder* obj) {
         return Py_None;
     }
     pyMsgForwarder* pyobj = PyObject_New(pyMsgForwarder, &pyMsgForwarder_Type);
+    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

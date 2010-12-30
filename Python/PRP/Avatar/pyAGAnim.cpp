@@ -240,6 +240,7 @@ PyObject* pyAGAnim_FromAGAnim(class plAGAnim* anim) {
         return Py_None;
     }
     pyAGAnim* pyobj = PyObject_New(pyAGAnim, &pyAGAnim_Type);
+    delete pyobj->fThis;
     pyobj->fThis = anim;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

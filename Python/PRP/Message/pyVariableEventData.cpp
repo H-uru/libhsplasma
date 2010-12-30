@@ -176,6 +176,7 @@ PyObject* pyVariableEventData_FromVariableEventData(proVariableEventData* evt) {
         return Py_None;
     }
     pyVariableEventData* pyobj = PyObject_New(pyVariableEventData, &pyVariableEventData_Type);
+    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

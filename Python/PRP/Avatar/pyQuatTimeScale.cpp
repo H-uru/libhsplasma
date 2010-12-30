@@ -113,6 +113,7 @@ PyObject* pyQuatTimeScale_FromQuatTimeScale(class plQuatTimeScale* chan) {
         return Py_None;
     }
     pyQuatTimeScale* pyobj = PyObject_New(pyQuatTimeScale, &pyQuatTimeScale_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

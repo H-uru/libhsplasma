@@ -113,6 +113,7 @@ PyObject* pyLightAmbientApplicator_FromLightAmbientApplicator(class plLightAmbie
         return Py_None;
     }
     pyLightAmbientApplicator* pyobj = PyObject_New(pyLightAmbientApplicator, &pyLightAmbientApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

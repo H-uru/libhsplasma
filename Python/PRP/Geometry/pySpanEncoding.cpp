@@ -220,6 +220,7 @@ PyObject* pySpanEncoding_FromSpanEncoding(plSpanEncoding* encoding) {
         return Py_None;
     }
     pySpanEncoding* obj = PyObject_New(pySpanEncoding, &pySpanEncoding_Type);
+    delete obj->fThis;
     obj->fThis = encoding;
     obj->fPyOwned = false;
     return (PyObject*)obj;

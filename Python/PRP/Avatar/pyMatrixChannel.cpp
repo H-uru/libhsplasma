@@ -132,6 +132,7 @@ PyObject* pyMatrixChannel_FromMatrixChannel(class plMatrixChannel* chan) {
         return Py_None;
     }
     pyMatrixChannel* pyobj = PyObject_New(pyMatrixChannel, &pyMatrixChannel_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

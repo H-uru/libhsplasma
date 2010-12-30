@@ -228,6 +228,7 @@ int pyGBufferTriangle_Check(PyObject* obj) {
 
 PyObject* pyGBufferTriangle_FromGBufferTriangle(const plGBufferTriangle& tri) {
     pyGBufferTriangle* pytri = PyObject_New(pyGBufferTriangle, &pyGBufferTriangle_Type);
+    delete pytri->fThis;
     pytri->fThis = new plGBufferTriangle(tri);
     return (PyObject*)pytri;
 }

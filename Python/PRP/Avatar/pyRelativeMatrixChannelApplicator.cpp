@@ -113,6 +113,7 @@ PyObject* pyRelativeMatrixChannelApplicator_FromRelativeMatrixChannelApplicator(
         return Py_None;
     }
     pyRelativeMatrixChannelApplicator* pyobj = PyObject_New(pyRelativeMatrixChannelApplicator, &pyRelativeMatrixChannelApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

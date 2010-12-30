@@ -112,6 +112,7 @@ PyObject* pyClickDragEventData_FromClickDragEventData(proClickDragEventData* evt
         return Py_None;
     }
     pyClickDragEventData* pyobj = PyObject_New(pyClickDragEventData, &pyClickDragEventData_Type);
+    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

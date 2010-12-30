@@ -296,6 +296,7 @@ PyObject* pyAnimStage_FromAnimStage(plAnimStage* obj) {
         return Py_None;
     }
     pyAnimStage* pyobj = PyObject_New(pyAnimStage, &pyAnimStage_Type);
+    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

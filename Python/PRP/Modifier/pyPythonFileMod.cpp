@@ -215,6 +215,7 @@ PyObject* pyPythonFileMod_FromPythonFileMod(class plPythonFileMod* mod) {
         return Py_None;
     }
     pyPythonFileMod* pymod = PyObject_New(pyPythonFileMod, &pyPythonFileMod_Type);
+    delete pymod->fThis;
     pymod->fThis = mod;
     pymod->fPyOwned = false;
     return (PyObject*)pymod;

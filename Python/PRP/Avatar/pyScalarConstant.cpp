@@ -113,6 +113,7 @@ PyObject* pyScalarConstant_FromScalarConstant(class plScalarConstant* chan) {
         return Py_None;
     }
     pyScalarConstant* pyobj = PyObject_New(pyScalarConstant, &pyScalarConstant_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

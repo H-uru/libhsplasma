@@ -197,6 +197,7 @@ PyObject* pyIcicle_FromIcicle(plIcicle* span) {
         return Py_None;
     }
     pyIcicle* obj = PyObject_New(pyIcicle, &pyIcicle_Type);
+    delete obj->fThis;
     obj->fThis = span;
     obj->fPyOwned = false;
     return (PyObject*)obj;

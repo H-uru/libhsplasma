@@ -114,6 +114,7 @@ PyObject* pyAudible_FromAudible(plAudible* obj) {
         return Py_None;
     }
     pyAudible* pyobj = PyObject_New(pyAudible, &pyAudible_Type);
+    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

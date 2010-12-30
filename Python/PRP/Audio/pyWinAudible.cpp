@@ -189,6 +189,7 @@ PyObject* pyWinAudible_FromWinAudible(plWinAudible* obj) {
         return Py_None;
     }
     pyWinAudible* pyobj = PyObject_New(pyWinAudible, &pyWinAudible_Type);
+    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

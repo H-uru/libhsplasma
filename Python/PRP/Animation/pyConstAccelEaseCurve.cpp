@@ -113,6 +113,7 @@ PyObject* pyConstAccelEaseCurve_FromConstAccelEaseCurve(class plConstAccelEaseCu
         return Py_None;
     }
     pyConstAccelEaseCurve* pyobj = PyObject_New(pyConstAccelEaseCurve, &pyConstAccelEaseCurve_Type);
+    delete pyobj->fThis;
     pyobj->fThis = curve;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -137,6 +137,7 @@ PyObject* pyScalarControllerChannel_FromScalarControllerChannel(class plScalarCo
         return Py_None;
     }
     pyScalarControllerChannel* pyobj = PyObject_New(pyScalarControllerChannel, &pyScalarControllerChannel_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

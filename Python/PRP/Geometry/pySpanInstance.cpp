@@ -246,6 +246,7 @@ PyObject* pySpanInstance_FromSpanInstance(plSpanInstance* span) {
         return Py_None;
     }
     pySpanInstance* obj = PyObject_New(pySpanInstance, &pySpanInstance_Type);
+    delete obj->fThis;
     obj->fThis = span;
     obj->fPyOwned = false;
     return (PyObject*)obj;

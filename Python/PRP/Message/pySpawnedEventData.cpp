@@ -153,6 +153,7 @@ PyObject* pySpawnedEventData_FromSpawnedEventData(proSpawnedEventData* evt) {
         return Py_None;
     }
     pySpawnedEventData* pyobj = PyObject_New(pySpawnedEventData, &pySpawnedEventData_Type);
+    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

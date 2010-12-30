@@ -108,6 +108,7 @@ PyObject* pyParticleSpan_FromParticleSpan(plParticleSpan* span) {
         return Py_None;
     }
     pyParticleSpan* obj = PyObject_New(pyParticleSpan, &pyParticleSpan_Type);
+    delete obj->fThis;
     obj->fThis = span;
     obj->fPyOwned = false;
     return (PyObject*)obj;

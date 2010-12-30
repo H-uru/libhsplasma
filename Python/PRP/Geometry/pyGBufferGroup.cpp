@@ -525,6 +525,7 @@ PyObject* pyGBufferGroup_FromGBufferGroup(plGBufferGroup* bg) {
         return Py_None;
     }
     pyGBufferGroup* pybg = PyObject_New(pyGBufferGroup, &pyGBufferGroup_Type);
+    delete pybg->fThis;
     pybg->fThis = bg;
     pybg->fPyOwned = false;
     return (PyObject*)pybg;

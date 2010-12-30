@@ -108,6 +108,7 @@ PyObject* pyGUIPythonScriptProc_FromGUIPythonScriptProc(pfGUIPythonScriptProc* p
         return Py_None;
     }
     pyGUIPythonScriptProc* pyobj = PyObject_New(pyGUIPythonScriptProc, &pyGUIPythonScriptProc_Type);
+    delete pyobj->fThis;
     pyobj->fThis = proc;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

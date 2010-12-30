@@ -268,6 +268,7 @@ PyObject* pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod* mod) {
         return Py_None;
     }
     pyMultistageBehMod* pyobj = PyObject_New(pyMultistageBehMod, &pyMultistageBehMod_Type);
+    delete pyobj->fThis;
     pyobj->fThis = mod;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

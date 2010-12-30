@@ -145,6 +145,7 @@ PyObject* pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(class plMain
         return Py_None;
     }
     pyMaintainersMarkerModifier* pymod = PyObject_New(pyMaintainersMarkerModifier, &pyMaintainersMarkerModifier_Type);
+    delete pymod->fThis;
     pymod->fThis = mod;
     pymod->fPyOwned = false;
     return (PyObject*)pymod;

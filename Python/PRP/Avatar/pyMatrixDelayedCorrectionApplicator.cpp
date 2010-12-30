@@ -113,6 +113,7 @@ PyObject* pyMatrixDelayedCorrectionApplicator_FromMatrixDelayedCorrectionApplica
         return Py_None;
     }
     pyMatrixDelayedCorrectionApplicator* pyobj = PyObject_New(pyMatrixDelayedCorrectionApplicator, &pyMatrixDelayedCorrectionApplicator_Type);
+    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

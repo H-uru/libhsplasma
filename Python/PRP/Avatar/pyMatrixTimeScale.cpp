@@ -113,6 +113,7 @@ PyObject* pyMatrixTimeScale_FromMatrixTimeScale(class plMatrixTimeScale* chan) {
         return Py_None;
     }
     pyMatrixTimeScale* pyobj = PyObject_New(pyMatrixTimeScale, &pyMatrixTimeScale_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

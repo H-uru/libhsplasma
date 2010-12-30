@@ -130,6 +130,7 @@ PyObject* pyGUIConsoleCmdProc_FromGUIConsoleCmdProc(pfGUIConsoleCmdProc* proc) {
         return Py_None;
     }
     pyGUIConsoleCmdProc* pyobj = PyObject_New(pyGUIConsoleCmdProc, &pyGUIConsoleCmdProc_Type);
+    delete pyobj->fThis;
     pyobj->fThis = proc;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

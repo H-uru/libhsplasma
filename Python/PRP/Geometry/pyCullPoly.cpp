@@ -227,6 +227,7 @@ int pyCullPoly_Check(PyObject* obj) {
 
 PyObject* pyCullPoly_FromCullPoly(const plCullPoly& pCre) {
     pyCullPoly* obj = PyObject_New(pyCullPoly, &pyCullPoly_Type);
+    delete obj->fThis;
     obj->fThis = new plCullPoly(pCre);
     return (PyObject*)obj;
 }

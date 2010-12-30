@@ -181,6 +181,7 @@ PyObject* pyCompoundRotController_FromCompoundRotController(class plCompoundRotC
         return Py_None;
     }
     pyCompoundRotController* pyobj = PyObject_New(pyCompoundRotController, &pyCompoundRotController_Type);
+    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

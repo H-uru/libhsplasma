@@ -238,6 +238,7 @@ PyObject* pyCoordinateInterface_FromCoordinateInterface(class plCoordinateInterf
         return Py_None;
     }
     pyCoordinateInterface* intf = PyObject_New(pyCoordinateInterface, &pyCoordinateInterface_Type);
+    delete intf->fThis;
     intf->fThis = obj;
     intf->fPyOwned = false;
     return (PyObject*)intf;

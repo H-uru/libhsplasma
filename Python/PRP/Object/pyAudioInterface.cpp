@@ -137,6 +137,7 @@ PyObject* pyAudioInterface_FromAudioInterface(class plAudioInterface* obj) {
         return Py_None;
     }
     pyAudioInterface* intf = PyObject_New(pyAudioInterface, &pyAudioInterface_Type);
+    delete intf->fThis;
     intf->fThis = obj;
     intf->fPyOwned = false;
     return (PyObject*)intf;

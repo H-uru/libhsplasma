@@ -133,6 +133,7 @@ PyObject* pyMatrix33Key_FromMatrix33Key(hsMatrix33Key* frame) {
         return Py_None;
     }
     pyMatrix33Key* pyobj = PyObject_New(pyMatrix33Key, &pyMatrix33Key_Type);
+    delete pyobj->fThis;
     pyobj->fThis = frame;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

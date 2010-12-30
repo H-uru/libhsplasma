@@ -158,6 +158,7 @@ int pyGBufferCell_Check(PyObject* obj) {
 
 PyObject* pyGBufferCell_FromGBufferCell(const plGBufferCell& cell) {
     pyGBufferCell* pycell = PyObject_New(pyGBufferCell, &pyGBufferCell_Type);
+    delete pycell->fThis;
     pycell->fThis = new plGBufferCell(cell);
     return (PyObject*)pycell;
 }

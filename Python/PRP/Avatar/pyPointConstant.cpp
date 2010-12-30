@@ -113,6 +113,7 @@ PyObject* pyPointConstant_FromPointConstant(class plPointConstant* chan) {
         return Py_None;
     }
     pyPointConstant* pyobj = PyObject_New(pyPointConstant, &pyPointConstant_Type);
+    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;
