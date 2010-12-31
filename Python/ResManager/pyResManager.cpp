@@ -335,7 +335,7 @@ static PyObject* pyResManager_WriteCreatable(pyResManager* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "WriteCreatable expects hsStream, plCreatable");
         return NULL;
     }
-    self->fThis->WriteCreatable(stream->fThis, cre->fThis);
+    self->fThis->WriteCreatable(stream->fThis, IConvert((pyCreatable*)cre));
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -412,7 +412,7 @@ static PyObject* pyResManager_AddObject(pyResManager* self, PyObject* args) {
         return NULL;
     }
 
-    self->fThis->AddObject(*loc->fThis, obj->fThis);
+    self->fThis->AddObject(*loc->fThis, hsKeyedObject::Convert(IConvert((pyCreatable*)obj)));
     obj->fPyOwned = false;
     Py_INCREF(Py_None);
     return Py_None;
