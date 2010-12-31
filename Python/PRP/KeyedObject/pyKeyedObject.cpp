@@ -39,8 +39,8 @@ static PyObject* pyKeyedObject_new(PyTypeObject* type, PyObject* args, PyObject*
 }
 
 static PyObject* pyKeyedObject_getKey(pyKeyedObject* self, void*) {
-    if (self->fThis->getKey().Exists()) {
-        return pyKey_FromKey(self->fThis->getKey());
+    if (hsKeyedObject::Convert(IConvert((pyCreatable*)self))->getKey().Exists()) {
+        return pyKey_FromKey(hsKeyedObject::Convert(IConvert((pyCreatable*)self))->getKey());
     } else {
         Py_INCREF(Py_None);
         return Py_None;
