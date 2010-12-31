@@ -33,7 +33,7 @@ static PyObject* pySynchedObject_setExclude(pySynchedObject* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "setExclude expects a string");
         return NULL;
     }
-    self->fThis->setExclude(str);
+    plSynchedObject::Convert(IConvert((pyCreatable*)self))->setExclude(str);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -44,26 +44,28 @@ static PyObject* pySynchedObject_setVolatile(pySynchedObject* self, PyObject* ar
         PyErr_SetString(PyExc_TypeError, "setVolatile expects a string");
         return NULL;
     }
-    self->fThis->setVolatile(str);
+    plSynchedObject::Convert(IConvert((pyCreatable*)self))->setVolatile(str);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pySynchedObject_getFlags(pySynchedObject* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
+    return PyInt_FromLong(plSynchedObject::Convert(IConvert((pyCreatable*)self))->getFlags());
 }
 
 static PyObject* pySynchedObject_getExcludes(pySynchedObject* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getExcludes().getSize());
-    for (size_t i=0; i<self->fThis->getExcludes().getSize(); i++)
-        PyList_SET_ITEM(list, i, PlStr_To_PyStr(self->fThis->getExcludes()[i]));
+	plSynchedObject* so = plSynchedObject::Convert(IConvert((pyCreatable*)self));
+    PyObject* list = PyList_New(so->getExcludes().getSize());
+    for (size_t i=0; i<so->getExcludes().getSize(); i++)
+        PyList_SET_ITEM(list, i, PlStr_To_PyStr(so->getExcludes()[i]));
     return list;
 }
 
 static PyObject* pySynchedObject_getVolatiles(pySynchedObject* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getVolatiles().getSize());
-    for (size_t i=0; i<self->fThis->getVolatiles().getSize(); i++)
-        PyList_SET_ITEM(list, i, PlStr_To_PyStr(self->fThis->getVolatiles()[i]));
+	plSynchedObject* so = plSynchedObject::Convert(IConvert((pyCreatable*)self));
+    PyObject* list = PyList_New(so->getVolatiles().getSize());
+    for (size_t i=0; i<so->getVolatiles().getSize(); i++)
+        PyList_SET_ITEM(list, i, PlStr_To_PyStr(so->getVolatiles()[i]));
     return list;
 }
 
@@ -77,13 +79,13 @@ static int pySynchedObject_setFlags(pySynchedObject* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "synchFlags must be an int");
         return -1;
     }
-    self->fThis->setFlags(flags);
+    plSynchedObject::Convert(IConvert((pyCreatable*)self))->setFlags(flags);
     return 0;
 }
 
 static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->clearExcludes();
+        plSynchedObject::Convert(IConvert((pyCreatable*)self))->clearExcludes();
         return 0;
     } else if (PyList_Check(value)) {
         size_t count = PyList_Size(value);
@@ -92,7 +94,7 @@ static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, v
                 PyErr_SetString(PyExc_TypeError, "excludes should be a list of strings");
                 return -1;
             }
-            self->fThis->setExclude(PyStr_To_PlStr(PyList_GetItem(value, i)));
+            plSynchedObject::Convert(IConvert((pyCreatable*)self))->setExclude(PyStr_To_PlStr(PyList_GetItem(value, i)));
         }
         return 0;
     } else {
@@ -103,7 +105,7 @@ static int pySynchedObject_setExcludes(pySynchedObject* self, PyObject* value, v
 
 static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->clearVolatiles();
+        plSynchedObject::Convert(IConvert((pyCreatable*)self))->clearVolatiles();
         return 0;
     } else if (PyList_Check(value)) {
         size_t count = PyList_Size(value);
@@ -112,7 +114,7 @@ static int pySynchedObject_setVolatiles(pySynchedObject* self, PyObject* value, 
                 PyErr_SetString(PyExc_TypeError, "volatiles should be a list of strings");
                 return -1;
             }
-            self->fThis->setVolatile(PyStr_To_PlStr(PyList_GetItem(value, i)));
+			plSynchedObject::Convert(IConvert((pyCreatable*)self))->setVolatile(PyStr_To_PlStr(PyList_GetItem(value, i)));
         }
         return 0;
     } else {

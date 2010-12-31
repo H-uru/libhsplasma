@@ -29,7 +29,7 @@ static int pyKeyedObject___init__(pyKeyedObject* self, PyObject* args, PyObject*
         return -1;
     }
 
-    self->fThis->init(name);
+	hsKeyedObject::Convert(IConvert((pyCreatable*)self))->init(name);
     return 0;
 }
 
