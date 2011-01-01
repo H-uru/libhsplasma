@@ -252,7 +252,7 @@ PyObject* pySceneNode_FromSceneNode(class plSceneNode* obj) {
         return Py_None;
     }
     pySceneNode* node = PyObject_New(pySceneNode, &pySceneNode_Type);
-    delete node->fThis;
+    //delete node->fThis;
     node->fThis = obj;
     node->fPyOwned = false;
     return (PyObject*)node;

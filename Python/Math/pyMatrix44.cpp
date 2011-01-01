@@ -293,8 +293,7 @@ static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->multPoint(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    return (PyObject*)vec;
 }
 
 static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
@@ -308,8 +307,7 @@ static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
         return NULL;
     }
     self->fThis->multVector(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    return (PyObject*)vec;
 }
 
 static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {
