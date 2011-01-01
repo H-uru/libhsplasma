@@ -113,7 +113,6 @@ PyObject* pyOmniApplicator_FromOmniApplicator(class plOmniApplicator* app) {
         return Py_None;
     }
     pyOmniApplicator* pyobj = PyObject_New(pyOmniApplicator, &pyOmniApplicator_Type);
-    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

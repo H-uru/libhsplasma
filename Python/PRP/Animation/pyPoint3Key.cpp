@@ -161,7 +161,6 @@ PyObject* pyPoint3Key_FromPoint3Key(hsPoint3Key* frame) {
         return Py_None;
     }
     pyPoint3Key* pyobj = PyObject_New(pyPoint3Key, &pyPoint3Key_Type);
-    delete pyobj->fThis;
     pyobj->fThis = frame;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

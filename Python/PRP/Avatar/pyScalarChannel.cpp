@@ -131,7 +131,6 @@ PyObject* pyScalarChannel_FromScalarChannel(class plScalarChannel* chan) {
         return Py_None;
     }
     pyScalarChannel* pyobj = PyObject_New(pyScalarChannel, &pyScalarChannel_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

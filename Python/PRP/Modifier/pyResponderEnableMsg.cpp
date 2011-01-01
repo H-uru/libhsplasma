@@ -132,7 +132,6 @@ PyObject* pyResponderEnableMsg_FromResponderEnableMsg(class plResponderEnableMsg
         return Py_None;
     }
     pyResponderEnableMsg* pyobj = PyObject_New(pyResponderEnableMsg, &pyResponderEnableMsg_Type);
-    delete pyobj->fThis;
     pyobj->fThis = msg;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

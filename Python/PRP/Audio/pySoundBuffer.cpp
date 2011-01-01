@@ -208,7 +208,6 @@ PyObject* pySoundBuffer_FromSoundBuffer(class plSoundBuffer* buf) {
         return Py_None;
     }
     pySoundBuffer* pysb = PyObject_New(pySoundBuffer, &pySoundBuffer_Type);
-    delete pysb->fThis;
     pysb->fThis = buf;
     pysb->fPyOwned = false;
     return (PyObject*)pysb;

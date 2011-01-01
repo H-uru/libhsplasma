@@ -232,7 +232,6 @@ PyObject* pyLeafController_FromLeafController(class plLeafController* controller
         return Py_None;
     }
     pyLeafController* pyobj = PyObject_New(pyLeafController, &pyLeafController_Type);
-    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

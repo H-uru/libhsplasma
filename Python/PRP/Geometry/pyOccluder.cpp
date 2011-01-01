@@ -276,7 +276,6 @@ PyObject* pyOccluder_FromOccluder(class plOccluder* obj) {
         return Py_None;
     }
     pyOccluder* pobj = PyObject_New(pyOccluder, &pyOccluder_Type);
-    delete pobj->fThis;
     pobj->fThis = obj;
     pobj->fPyOwned = false;
     return (PyObject*)pobj;

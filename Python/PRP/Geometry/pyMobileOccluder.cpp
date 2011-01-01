@@ -165,7 +165,6 @@ PyObject* pyMobileOccluder_FromMobileOccluder(class plMobileOccluder* obj) {
         return Py_None;
     }
     pyMobileOccluder* pobj = PyObject_New(pyMobileOccluder, &pyMobileOccluder_Type);
-    delete pobj->fThis;
     pobj->fThis = obj;
     pobj->fPyOwned = false;
     return (PyObject*)pobj;

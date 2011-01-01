@@ -113,7 +113,6 @@ PyObject* pyScalarBlend_FromScalarBlend(class plScalarBlend* chan) {
         return Py_None;
     }
     pyScalarBlend* pyobj = PyObject_New(pyScalarBlend, &pyScalarBlend_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

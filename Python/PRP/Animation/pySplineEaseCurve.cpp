@@ -141,7 +141,6 @@ PyObject* pySplineEaseCurve_FromSplineEaseCurve(class plSplineEaseCurve* curve) 
         return Py_None;
     }
     pySplineEaseCurve* pyobj = PyObject_New(pySplineEaseCurve, &pySplineEaseCurve_Type);
-    delete pyobj->fThis;
     pyobj->fThis = curve;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

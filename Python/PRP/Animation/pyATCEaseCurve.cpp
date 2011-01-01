@@ -201,7 +201,6 @@ PyObject* pyATCEaseCurve_FromATCEaseCurve(class plATCEaseCurve* curve) {
         return Py_None;
     }
     pyATCEaseCurve* pyobj = PyObject_New(pyATCEaseCurve, &pyATCEaseCurve_Type);
-    delete pyobj->fThis;
     pyobj->fThis = curve;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

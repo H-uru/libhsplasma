@@ -113,7 +113,6 @@ PyObject* pyScalarControllerCacheChannel_FromScalarControllerCacheChannel(class 
         return Py_None;
     }
     pyScalarControllerCacheChannel* pyobj = PyObject_New(pyScalarControllerCacheChannel, &pyScalarControllerCacheChannel_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -160,7 +160,6 @@ PyObject* pyScalarKey_FromScalarKey(hsScalarKey* frame) {
         return Py_None;
     }
     pyScalarKey* pyobj = PyObject_New(pyScalarKey, &pyScalarKey_Type);
-    delete pyobj->fThis;
     pyobj->fThis = frame;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

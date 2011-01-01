@@ -173,7 +173,6 @@ PyObject* pyOmniLightInfo_FromOmniLightInfo(class plOmniLightInfo* light) {
         return Py_None;
     }
     pyOmniLightInfo* pyLight = PyObject_New(pyOmniLightInfo, &pyOmniLightInfo_Type);
-    delete pyLight->fThis;
     pyLight->fThis = light;
     pyLight->fPyOwned = false;
     return (PyObject*)pyLight;

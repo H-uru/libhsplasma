@@ -244,7 +244,6 @@ PyObject* pyResponderModifier_State_FromResponderState(plResponderModifier::plRe
         return Py_None;
     }
     pyResponderModifier_State* pyobj = PyObject_New(pyResponderModifier_State, &pyResponderModifier_State_Type);
-    delete pyobj->fThis;
     pyobj->fThis = state;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

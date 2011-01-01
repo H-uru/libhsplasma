@@ -256,7 +256,6 @@ PyObject* pyMessage_FromMessage(class plMessage* atc) {
         return Py_None;
     }
     pyMessage* pyobj = PyObject_New(pyMessage, &pyMessage_Type);
-    delete pyobj->fThis;
     pyobj->fThis = atc;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

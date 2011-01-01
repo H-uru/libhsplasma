@@ -161,7 +161,6 @@ PyObject* pyCompressedQuatKey64_FromCompressedQuatKey64(hsCompressedQuatKey64* f
         return Py_None;
     }
     pyCompressedQuatKey64* pyobj = PyObject_New(pyCompressedQuatKey64, &pyCompressedQuatKey64_Type);
-    delete pyobj->fThis;
     pyobj->fThis = frame;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

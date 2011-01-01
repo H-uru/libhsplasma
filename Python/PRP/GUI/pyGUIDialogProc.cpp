@@ -108,7 +108,6 @@ PyObject* pyGUIDialogProc_FromGUIDialogProc(pfGUIDialogProc* proc) {
         return Py_None;
     }
     pyGUIDialogProc* pyobj = PyObject_New(pyGUIDialogProc, &pyGUIDialogProc_Type);
-    delete pyobj->fThis;
     pyobj->fThis = proc;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

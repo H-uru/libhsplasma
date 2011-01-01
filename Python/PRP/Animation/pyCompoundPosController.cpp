@@ -181,7 +181,6 @@ PyObject* pyCompoundPosController_FromCompoundPosController(class plCompoundPosC
         return Py_None;
     }
     pyCompoundPosController* pyobj = PyObject_New(pyCompoundPosController, &pyCompoundPosController_Type);
-    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

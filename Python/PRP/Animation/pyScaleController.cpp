@@ -127,7 +127,6 @@ PyObject* pyScaleController_FromScaleController(class plScaleController* control
         return Py_None;
     }
     pyScaleController* pyobj = PyObject_New(pyScaleController, &pyScaleController_Type);
-    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

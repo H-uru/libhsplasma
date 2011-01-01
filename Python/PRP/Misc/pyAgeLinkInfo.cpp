@@ -254,7 +254,6 @@ PyObject* pyAgeLinkStruct_FromAgeLinkStruct(plAgeLinkStruct* als) {
         return Py_None;
     }
     pyAgeLinkStruct* pyobj = PyObject_New(pyAgeLinkStruct, &pyAgeLinkStruct_Type);
-    delete pyobj->fThis;
     pyobj->fThis = als;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

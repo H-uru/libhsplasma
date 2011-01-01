@@ -113,7 +113,6 @@ PyObject* pyDirectShadowMaster_FromDirectShadowMaster(plDirectShadowMaster* obj)
         return Py_None;
     }
     pyDirectShadowMaster* pyobj = PyObject_New(pyDirectShadowMaster, &pyDirectShadowMaster_Type);
-    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

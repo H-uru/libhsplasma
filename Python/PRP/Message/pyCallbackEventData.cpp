@@ -130,7 +130,6 @@ PyObject* pyCallbackEventData_FromCallbackEventData(proCallbackEventData* evt) {
         return Py_None;
     }
     pyCallbackEventData* pyobj = PyObject_New(pyCallbackEventData, &pyCallbackEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

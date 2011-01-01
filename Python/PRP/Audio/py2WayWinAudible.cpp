@@ -113,7 +113,6 @@ PyObject* py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible* obj) {
         return Py_None;
     }
     py2WayWinAudible* pyobj = PyObject_New(py2WayWinAudible, &py2WayWinAudible_Type);
-    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

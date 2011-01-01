@@ -167,7 +167,6 @@ PyObject* pyCollisionEventData_FromCollisionEventData(proCollisionEventData* evt
         return Py_None;
     }
     pyCollisionEventData* pyobj = PyObject_New(pyCollisionEventData, &pyCollisionEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

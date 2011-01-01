@@ -129,7 +129,6 @@ PyObject* pyPosController_FromPosController(class plPosController* controller) {
         return Py_None;
     }
     pyPosController* pyobj = PyObject_New(pyPosController, &pyPosController_Type);
-    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

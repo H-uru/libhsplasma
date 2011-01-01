@@ -113,7 +113,6 @@ PyObject* pyPointChannelApplicator_FromPointChannelApplicator(class plPointChann
         return Py_None;
     }
     pyPointChannelApplicator* pyobj = PyObject_New(pyPointChannelApplicator, &pyPointChannelApplicator_Type);
-    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

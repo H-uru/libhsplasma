@@ -113,7 +113,6 @@ PyObject* pyAudibleNull_FromAudibleNull(plAudibleNull* obj) {
         return Py_None;
     }
     pyAudibleNull* pyobj = PyObject_New(pyAudibleNull, &pyAudibleNull_Type);
-    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -113,7 +113,6 @@ PyObject* pyMatrixBlend_FromMatrixBlend(class plMatrixBlend* chan) {
         return Py_None;
     }
     pyMatrixBlend* pyobj = PyObject_New(pyMatrixBlend, &pyMatrixBlend_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -377,7 +377,6 @@ PyObject* pyAnimTimeConvert_FromAnimTimeConvert(class plAnimTimeConvert* atc) {
         return Py_None;
     }
     pyAnimTimeConvert* pyobj = PyObject_New(pyAnimTimeConvert, &pyAnimTimeConvert_Type);
-    delete pyobj->fThis;
     pyobj->fThis = atc;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

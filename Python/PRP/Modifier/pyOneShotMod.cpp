@@ -206,7 +206,6 @@ PyObject* pyOneShotMod_FromOneShotMod(class plOneShotMod* mod) {
         return Py_None;
     }
     pyOneShotMod* pymod = PyObject_New(pyOneShotMod, &pyOneShotMod_Type);
-    delete pymod->fThis;
     pymod->fThis = mod;
     pymod->fPyOwned = false;
     return (PyObject*)pymod;

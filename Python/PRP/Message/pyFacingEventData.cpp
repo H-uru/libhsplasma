@@ -181,7 +181,6 @@ PyObject* pyFacingEventData_FromFacingEventData(proFacingEventData* evt) {
         return Py_None;
     }
     pyFacingEventData* pyobj = PyObject_New(pyFacingEventData, &pyFacingEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

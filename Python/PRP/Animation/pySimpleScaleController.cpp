@@ -143,7 +143,6 @@ PyObject* pySimpleScaleController_FromSimpleScaleController(class plSimpleScaleC
         return Py_None;
     }
     pySimpleScaleController* pyobj = PyObject_New(pySimpleScaleController, &pySimpleScaleController_Type);
-    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

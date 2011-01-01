@@ -119,7 +119,6 @@ PyObject* pyQuatController_FromQuatController(class plQuatController* controller
         return Py_None;
     }
     pyQuatController* pyobj = PyObject_New(pyQuatController, &pyQuatController_Type);
-    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

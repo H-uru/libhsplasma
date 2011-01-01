@@ -113,7 +113,6 @@ PyObject* pyQuatConstant_FromQuatConstant(class plQuatConstant* chan) {
         return Py_None;
     }
     pyQuatConstant* pyobj = PyObject_New(pyQuatConstant, &pyQuatConstant_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

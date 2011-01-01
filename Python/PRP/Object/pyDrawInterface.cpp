@@ -233,7 +233,6 @@ PyObject* pyDrawInterface_FromDrawInterface(class plDrawInterface* obj) {
         return Py_None;
     }
     pyDrawInterface* intf = PyObject_New(pyDrawInterface, &pyDrawInterface_Type);
-    delete intf->fThis;
     intf->fThis = obj;
     intf->fPyOwned = false;
     return (PyObject*)intf;

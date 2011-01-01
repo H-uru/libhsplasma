@@ -145,7 +145,6 @@ PyObject* pyControlKeyEventData_FromControlKeyEventData(proControlKeyEventData* 
         return Py_None;
     }
     pyControlKeyEventData* pyobj = PyObject_New(pyControlKeyEventData, &pyControlKeyEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

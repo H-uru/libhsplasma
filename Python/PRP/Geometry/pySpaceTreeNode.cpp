@@ -219,7 +219,6 @@ int pySpaceTreeNode_Check(PyObject* obj) {
 
 PyObject* pySpaceTreeNode_FromSpaceTreeNode(const plSpaceTreeNode& node) {
     pySpaceTreeNode* pnode = PyObject_New(pySpaceTreeNode, &pySpaceTreeNode_Type);
-    delete pnode->fThis;
     pnode->fThis = new plSpaceTreeNode(node);
     return (PyObject*)pnode;
 }

@@ -501,7 +501,6 @@ PyObject* pyGenericPhysical_FromGenericPhysical(class plGenericPhysical* phys) {
         return Py_None;
     }
     pyGenericPhysical* pyphys = PyObject_New(pyGenericPhysical, &pyGenericPhysical_Type);
-    delete pyphys->fThis;
     pyphys->fThis = phys;
     pyphys->fPyOwned = false;
     return (PyObject*)pyphys;

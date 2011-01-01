@@ -119,7 +119,6 @@ PyObject* pyEaseController_FromEaseController(class plEaseController* controller
         return Py_None;
     }
     pyEaseController* pyobj = PyObject_New(pyEaseController, &pyEaseController_Type);
-    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

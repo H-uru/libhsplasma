@@ -113,7 +113,6 @@ PyObject* pyPointControllerCacheChannel_FromPointControllerCacheChannel(class pl
         return Py_None;
     }
     pyPointControllerCacheChannel* pyobj = PyObject_New(pyPointControllerCacheChannel, &pyPointControllerCacheChannel_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

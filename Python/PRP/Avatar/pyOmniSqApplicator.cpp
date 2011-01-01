@@ -113,7 +113,6 @@ PyObject* pyOmniSqApplicator_FromOmniSqApplicator(class plOmniSqApplicator* app)
         return Py_None;
     }
     pyOmniSqApplicator* pyobj = PyObject_New(pyOmniSqApplicator, &pyOmniSqApplicator_Type);
-    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

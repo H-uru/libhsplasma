@@ -130,7 +130,6 @@ PyObject* pyResponderStateEventData_FromResponderStateEventData(proResponderStat
         return Py_None;
     }
     pyResponderStateEventData* pyobj = PyObject_New(pyResponderStateEventData, &pyResponderStateEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

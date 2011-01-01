@@ -249,7 +249,6 @@ PyObject* pyCluster_FromCluster(plCluster* cluster) {
         return Py_None;
     }
     pyCluster* obj = PyObject_New(pyCluster, &pyCluster_Type);
-    delete obj->fThis;
     obj->fThis = cluster;
     obj->fPyOwned = false;
     return (PyObject*)obj;

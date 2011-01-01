@@ -159,7 +159,6 @@ PyObject* pySpotLightInfo_FromSpotLightInfo(class plSpotLightInfo* light) {
         return Py_None;
     }
     pySpotLightInfo* pyLight = PyObject_New(pySpotLightInfo, &pySpotLightInfo_Type);
-    delete pyLight->fThis;
     pyLight->fThis = light;
     pyLight->fPyOwned = false;
     return (PyObject*)pyLight;

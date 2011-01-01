@@ -113,7 +113,6 @@ PyObject* pyQuatBlend_FromQuatBlend(class plQuatBlend* chan) {
         return Py_None;
     }
     pyQuatBlend* pyobj = PyObject_New(pyQuatBlend, &pyQuatBlend_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -113,7 +113,6 @@ PyObject* pyScalarTimeScale_FromScalarTimeScale(class plScalarTimeScale* chan) {
         return Py_None;
     }
     pyScalarTimeScale* pyobj = PyObject_New(pyScalarTimeScale, &pyScalarTimeScale_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

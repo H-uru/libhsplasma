@@ -182,7 +182,6 @@ PyObject* pyPickedEventData_FromPickedEventData(proPickedEventData* evt) {
         return Py_None;
     }
     pyPickedEventData* pyobj = PyObject_New(pyPickedEventData, &pyPickedEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

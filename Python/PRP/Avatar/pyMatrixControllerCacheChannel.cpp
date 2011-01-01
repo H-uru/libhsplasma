@@ -113,7 +113,6 @@ PyObject* pyMatrixControllerCacheChannel_FromMatrixControllerCacheChannel(class 
         return Py_None;
     }
     pyMatrixControllerCacheChannel* pyobj = PyObject_New(pyMatrixControllerCacheChannel, &pyMatrixControllerCacheChannel_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

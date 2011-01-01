@@ -113,7 +113,6 @@ PyObject* pyQuatChannelApplicator_FromQuatChannelApplicator(class plQuatChannelA
         return Py_None;
     }
     pyQuatChannelApplicator* pyobj = PyObject_New(pyQuatChannelApplicator, &pyQuatChannelApplicator_Type);
-    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

@@ -133,7 +133,6 @@ PyObject* pyG3DSMaxKeyFrame_FromG3DSMaxKeyFrame(hsG3DSMaxKeyFrame* frame) {
         return Py_None;
     }
     pyG3DSMaxKeyFrame* pyobj = PyObject_New(pyG3DSMaxKeyFrame, &pyG3DSMaxKeyFrame_Type);
-    delete pyobj->fThis;
     pyobj->fThis = frame;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

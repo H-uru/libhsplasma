@@ -113,7 +113,6 @@ PyObject* pyPointShadowMaster_FromPointShadowMaster(plPointShadowMaster* obj) {
         return Py_None;
     }
     pyPointShadowMaster* pyobj = PyObject_New(pyPointShadowMaster, &pyPointShadowMaster_Type);
-    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

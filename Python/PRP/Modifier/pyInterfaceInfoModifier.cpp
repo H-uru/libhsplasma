@@ -172,7 +172,6 @@ PyObject* pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModif
         return Py_None;
     }
     pyInterfaceInfoModifier* pyobj = PyObject_New(pyInterfaceInfoModifier, &pyInterfaceInfoModifier_Type);
-    delete pyobj->fThis;
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

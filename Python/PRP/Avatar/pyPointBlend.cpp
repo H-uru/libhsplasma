@@ -113,7 +113,6 @@ PyObject* pyPointBlend_FromPointBlend(class plPointBlend* chan) {
         return Py_None;
     }
     pyPointBlend* pyobj = PyObject_New(pyPointBlend, &pyPointBlend_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

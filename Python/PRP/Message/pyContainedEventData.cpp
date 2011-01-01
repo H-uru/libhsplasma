@@ -167,7 +167,6 @@ PyObject* pyContainedEventData_FromContainedEventData(proContainedEventData* evt
         return Py_None;
     }
     pyContainedEventData* pyobj = PyObject_New(pyContainedEventData, &pyContainedEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

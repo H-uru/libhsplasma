@@ -108,7 +108,6 @@ PyObject* pyGUICloseDlgProc_FromGUICloseDlgProc(pfGUICloseDlgProc* proc) {
         return Py_None;
     }
     pyGUICloseDlgProc* pyobj = PyObject_New(pyGUICloseDlgProc, &pyGUICloseDlgProc_Type);
-    delete pyobj->fThis;
     pyobj->fThis = proc;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

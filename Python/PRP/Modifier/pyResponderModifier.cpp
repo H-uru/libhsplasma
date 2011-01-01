@@ -221,7 +221,6 @@ PyObject* pyResponderModifier_FromResponderModifier(class plResponderModifier* m
         return Py_None;
     }
     pyResponderModifier* pymod = PyObject_New(pyResponderModifier, &pyResponderModifier_Type);
-    delete pymod->fThis;
     pymod->fThis = mod;
     pymod->fPyOwned = false;
     return (PyObject*)pymod;

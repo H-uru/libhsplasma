@@ -113,7 +113,6 @@ PyObject* pyMatrixDifferenceApp_FromMatrixDifferenceApp(class plMatrixDifference
         return Py_None;
     }
     pyMatrixDifferenceApp* pyobj = PyObject_New(pyMatrixDifferenceApp, &pyMatrixDifferenceApp_Type);
-    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

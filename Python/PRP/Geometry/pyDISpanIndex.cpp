@@ -166,7 +166,6 @@ int pyDISpanIndex_Check(PyObject* obj) {
 
 PyObject* pyDISpanIndex_FromDISpanIndex(const plDISpanIndex& idx) {
     pyDISpanIndex* pidx = PyObject_New(pyDISpanIndex, &pyDISpanIndex_Type);
-    delete pidx->fThis;
     pidx->fThis = new plDISpanIndex(idx);
     return (PyObject*)pidx;
 }

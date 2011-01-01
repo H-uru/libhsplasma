@@ -162,7 +162,6 @@ PyObject* pyMultiStageEventData_FromMultiStageEventData(proMultiStageEventData* 
         return Py_None;
     }
     pyMultiStageEventData* pyobj = PyObject_New(pyMultiStageEventData, &pyMultiStageEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

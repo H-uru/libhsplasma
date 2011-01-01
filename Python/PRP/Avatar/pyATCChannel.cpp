@@ -113,7 +113,6 @@ PyObject* pyATCChannel_FromATCChannel(class plATCChannel* chan) {
         return Py_None;
     }
     pyATCChannel* pyobj = PyObject_New(pyATCChannel, &pyATCChannel_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

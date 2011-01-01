@@ -113,7 +113,6 @@ PyObject* pySpotOuterApplicator_FromSpotOuterApplicator(class plSpotOuterApplica
         return Py_None;
     }
     pySpotOuterApplicator* pyobj = PyObject_New(pySpotOuterApplicator, &pySpotOuterApplicator_Type);
-    delete pyobj->fThis;
     pyobj->fThis = app;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

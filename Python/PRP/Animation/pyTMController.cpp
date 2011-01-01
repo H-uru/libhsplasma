@@ -183,7 +183,6 @@ PyObject* pyTMController_FromTMController(class plTMController* controller) {
         return Py_None;
     }
     pyTMController* pyobj = PyObject_New(pyTMController, &pyTMController_Type);
-    delete pyobj->fThis;
     pyobj->fThis = controller;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

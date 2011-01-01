@@ -113,7 +113,6 @@ PyObject* pyPointTimeScale_FromPointTimeScale(class plPointTimeScale* chan) {
         return Py_None;
     }
     pyPointTimeScale* pyobj = PyObject_New(pyPointTimeScale, &pyPointTimeScale_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

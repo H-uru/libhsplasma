@@ -188,7 +188,6 @@ PyObject* pyEventCallbackMsg_FromEventCallbackMsg(class plEventCallbackMsg* msg)
         return Py_None;
     }
     pyEventCallbackMsg* pyobj = PyObject_New(pyEventCallbackMsg, &pyEventCallbackMsg_Type);
-    delete pyobj->fThis;
     pyobj->fThis = msg;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

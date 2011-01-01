@@ -132,7 +132,6 @@ PyObject* pyQuatChannel_FromQuatChannel(class plQuatChannel* chan) {
         return Py_None;
     }
     pyQuatChannel* pyobj = PyObject_New(pyQuatChannel, &pyQuatChannel_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

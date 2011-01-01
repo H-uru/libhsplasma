@@ -159,7 +159,6 @@ PyObject* pyAGAnimBink_FromAGAnimBink(class plAGAnimBink* anim) {
         return Py_None;
     }
     pyAGAnimBink* pyobj = PyObject_New(pyAGAnimBink, &pyAGAnimBink_Type);
-    delete pyobj->fThis;
     pyobj->fThis = anim;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

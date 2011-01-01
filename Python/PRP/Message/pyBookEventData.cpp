@@ -144,7 +144,6 @@ PyObject* pyBookEventData_FromBookEventData(proBookEventData* evt) {
         return Py_None;
     }
     pyBookEventData* pyobj = PyObject_New(pyBookEventData, &pyBookEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

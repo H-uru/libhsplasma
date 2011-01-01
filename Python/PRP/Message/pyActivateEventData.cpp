@@ -144,7 +144,6 @@ PyObject* pyActivateEventData_FromActivateEventData(proActivateEventData* evt) {
         return Py_None;
     }
     pyActivateEventData* pyobj = PyObject_New(pyActivateEventData, &pyActivateEventData_Type);
-    delete pyobj->fThis;
     pyobj->fThis = evt;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

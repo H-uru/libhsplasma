@@ -113,7 +113,6 @@ PyObject* pyQuatPointCombine_FromQuatPointCombine(class plQuatPointCombine* chan
         return Py_None;
     }
     pyQuatPointCombine* pyobj = PyObject_New(pyQuatPointCombine, &pyQuatPointCombine_Type);
-    delete pyobj->fThis;
     pyobj->fThis = chan;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

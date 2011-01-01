@@ -159,7 +159,6 @@ PyObject* pyEmoteAnim_FromEmoteAnim(class plEmoteAnim* anim) {
         return Py_None;
     }
     pyEmoteAnim* pyobj = PyObject_New(pyEmoteAnim, &pyEmoteAnim_Type);
-    delete pyobj->fThis;
     pyobj->fThis = anim;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;
