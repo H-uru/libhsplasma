@@ -128,7 +128,6 @@ PyObject* pyLayerAnimation_FromLayerAnimation(class plLayerAnimation* layer) {
         return Py_None;
     }
     pyLayerAnimation* pylay = PyObject_New(pyLayerAnimation, &pyLayerAnimation_Type);
-    delete pylay->fThis;
     pylay->fThis = layer;
     pylay->fPyOwned = false;
     return (PyObject*)pylay;

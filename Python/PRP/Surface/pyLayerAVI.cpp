@@ -113,7 +113,6 @@ PyObject* pyLayerAVI_FromLayerAVI(class plLayerAVI* layer) {
         return Py_None;
     }
     pyLayerAVI* pyobj = PyObject_New(pyLayerAVI, &pyLayerAVI_Type);
-    delete pyobj->fThis;
     pyobj->fThis = layer;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

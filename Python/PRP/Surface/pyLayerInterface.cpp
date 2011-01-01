@@ -393,7 +393,6 @@ PyObject* pyLayerInterface_FromLayerInterface(class plLayerInterface* layer) {
         return Py_None;
     }
     pyLayerInterface* pylay = PyObject_New(pyLayerInterface, &pyLayerInterface_Type);
-    delete pylay->fThis;
     pylay->fThis = layer;
     pylay->fPyOwned = false;
     return (PyObject*)pylay;

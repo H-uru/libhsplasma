@@ -132,7 +132,6 @@ PyObject* pyLayerMovie_FromLayerMovie(class plLayerMovie* layer) {
         return Py_None;
     }
     pyLayerMovie* pyobj = PyObject_New(pyLayerMovie, &pyLayerMovie_Type);
-    delete pyobj->fThis;
     pyobj->fThis = layer;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

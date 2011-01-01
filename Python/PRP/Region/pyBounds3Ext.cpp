@@ -204,7 +204,6 @@ int pyBounds3Ext_Check(PyObject* obj) {
 
 PyObject* pyBounds3Ext_FromBounds3Ext(const hsBounds3Ext& bounds) {
     pyBounds3Ext* obj = PyObject_New(pyBounds3Ext, &pyBounds3Ext_Type);
-    delete obj->fThis;
     obj->fThis = new hsBounds3Ext(bounds);
     return (PyObject*)obj;
 }

@@ -113,7 +113,6 @@ PyObject* pyLayerDepth_FromLayerDepth(class plLayerDepth* layer) {
         return Py_None;
     }
     pyLayerDepth* pylay = PyObject_New(pyLayerDepth, &pyLayerDepth_Type);
-    delete pylay->fThis;
     pylay->fThis = layer;
     pylay->fPyOwned = false;
     return (PyObject*)pylay;

@@ -177,7 +177,6 @@ int pyBounds_Check(PyObject* obj) {
 
 PyObject* pyBounds_FromBounds(const hsBounds& bounds) {
     pyBounds* obj = PyObject_New(pyBounds, &pyBounds_Type);
-    delete obj->fThis;
     obj->fThis = new hsBounds(bounds);
     return (PyObject*)obj;
 }

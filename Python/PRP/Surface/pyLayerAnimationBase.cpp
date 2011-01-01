@@ -229,7 +229,6 @@ PyObject* pyLayerAnimationBase_FromLayerAnimationBase(class plLayerAnimationBase
         return Py_None;
     }
     pyLayerAnimationBase* pylay = PyObject_New(pyLayerAnimationBase, &pyLayerAnimationBase_Type);
-    delete pylay->fThis;
     pylay->fThis = layer;
     pylay->fPyOwned = false;
     return (PyObject*)pylay;
