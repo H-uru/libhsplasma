@@ -292,9 +292,8 @@ static PyObject* pyMatrix44_multPoint(pyMatrix44* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "multPoint expects an hsVector3");
         return NULL;
     }
-    self->fThis->multPoint(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    hsVector3 result = self->fThis->multPoint(*vec->fThis);
+    return pyVector3_FromVector3(result);
 }
 
 static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
@@ -307,9 +306,8 @@ static PyObject* pyMatrix44_multVector(pyMatrix44* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "multVector expects an hsVector3");
         return NULL;
     }
-    self->fThis->multVector(*vec->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    hsVector3 result = self->fThis->multVector(*vec->fThis);
+    return pyVector3_FromVector3(result);
 }
 
 static PyObject* pyMatrix44_read(pyMatrix44* self, PyObject* args) {

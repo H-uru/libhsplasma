@@ -27,3 +27,4 @@ Misc/TypeMap
 syntax: regexp
 ^dat/
 ^doc/
+^build/
