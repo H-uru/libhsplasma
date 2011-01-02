@@ -32,7 +32,7 @@ static PyObject* pyMultiModifier_getFlag(pyMultiModifier* self, PyObject* args) 
         PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
         return NULL;
     }
-    return PyBool_FromLong(self->fThis->getFlag(flag) ? 1 : 0);
+    return PyBool_FromLong(plMultiModifier::Convert(IConvert((pyCreatable*)self))->getFlag(flag) ? 1 : 0);
 }
 
 static PyObject* pyMultiModifier_setFlag(pyMultiModifier* self, PyObject* args) {
@@ -41,7 +41,7 @@ static PyObject* pyMultiModifier_setFlag(pyMultiModifier* self, PyObject* args) 
         PyErr_SetString(PyExc_TypeError, "setFlag expects int, bool");
         return NULL;
     }
-    self->fThis->setFlag(flag, value != 0);
+    plMultiModifier::Convert(IConvert((pyCreatable*)self))->setFlag(flag, value != 0);
     Py_INCREF(Py_None);
     return Py_None;
 }
