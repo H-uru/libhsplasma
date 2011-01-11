@@ -45,7 +45,7 @@ hsBitVector::~hsBitVector() {
 
     std::map<unsigned int, char*>::iterator it;
     for (it = fBitNames.begin(); it != fBitNames.end(); it++)
-        free(it->second);
+        delete[] (it->second);
 }
 
 bool hsBitVector::get(unsigned int idx) const {
