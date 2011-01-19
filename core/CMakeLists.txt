@@ -304,6 +304,7 @@ set(PRP_MSG_SRCS
     PRP/Message/plAvatarMsg.cpp
     PRP/Message/plCameraMsg.cpp
     PRP/Message/plClimbMsg.cpp
+    PRP/Message/plConsoleMsg.cpp
     PRP/Message/plEnableMsg.cpp
     PRP/Message/plEventCallbackMsg.cpp
     PRP/Message/plExcludeRegionMsg.cpp
@@ -339,6 +340,7 @@ set(PRP_MSG_HDRS
     PRP/Message/plAvatarMsg.h
     PRP/Message/plCameraMsg.h
     PRP/Message/plClimbMsg.h
+    PRP/Message/plConsoleMsg.h
     PRP/Message/plEnableMsg.h
     PRP/Message/plEventCallbackMsg.h
     PRP/Message/plExcludeRegionMsg.h
