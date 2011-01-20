@@ -557,6 +557,7 @@ void plSimpleStateVariable::SetFromDefault() {
             fString[i] = def;
             break;
         case plVarDescriptor::kKey:
+            fUoid[i] = plUoid();
             break;
         case plVarDescriptor::kCreatable:
             fCreatable[i] = NULL;
@@ -717,7 +718,8 @@ bool plSimpleStateVariable::isDefault() const {
                 return false;
             break;
         case plVarDescriptor::kKey:
-            return false;
+            if (fUoid[i] != plUoid())
+                return false;
             break;
         case plVarDescriptor::kCreatable:
             if (fCreatable[i] != NULL)
