@@ -241,8 +241,10 @@ void pnSocket::unlink()
 long pnSocket::send(const void* buffer, size_t size)
 {
     long count = ::send(fSockHandle, (const sockbuf_t)buffer, size, 0);
-    if (count == -1)
+    if (count == -1) {
         plDebug::Error("Send failed: %s", getSockErrorStr());
+        close();
+    }
     else if ((size_t)count < size)
         plDebug::Warning("Send truncated");
     return count;
@@ -251,8 +253,10 @@ long pnSocket::send(const void* buffer, size_t size)
 long pnSocket::recv(void* buffer, size_t size)
 {
     long count = ::recv(fSockHandle, (sockbuf_t)buffer, size, 0);
-    if (count == -1 && sockError() != ECONNRESET)
+    if (count == -1 && sockError() != ECONNRESET) {
         plDebug::Error("Recv failed: %s", getSockErrorStr());
+        close();
+    }
     return count;
 }
 
