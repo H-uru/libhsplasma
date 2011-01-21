@@ -57,7 +57,7 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
 
     virtual void SetFromDefault() = 0;
-    virtual bool isDefault() const = 0;
+    virtual bool isDefault(bool secondChance=false) const = 0;
 
     void setDirty(bool dirty = true) { fIsDirty = dirty; }
     bool isDirty() const { return fIsDirty; }
@@ -81,7 +81,7 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
 
     virtual void SetFromDefault();
-    virtual bool isDefault() const;
+    virtual bool isDefault(bool secondChance=false) const;
 
     plStateDataRecord* Record(size_t idx) const { return fDataRecList[idx]; }
 };
@@ -124,7 +124,7 @@ public:
     virtual void write(hsStream* S, plResManager* mgr);
 
     virtual void SetFromDefault();
-    virtual bool isDefault() const;
+    virtual bool isDefault(bool secondChance=false) const;
 
     const plUnifiedTime& getTimeStamp() const { return fTimeStamp; }
     void setTimeStamp(const plUnifiedTime& time) { fTimeStamp = time; }

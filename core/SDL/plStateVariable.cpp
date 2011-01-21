@@ -133,12 +133,12 @@ void plSDStateVariable::SetFromDefault() {
     setDirty(false);
 }
 
-bool plSDStateVariable::isDefault() const {
+bool plSDStateVariable::isDefault(bool secondChance) const {
     if (fCount != fDataRecList.getSize())
         return false;
     for (size_t i=0; i<fCount; i++) {
         for (size_t j=0; j<fDataRecList[i]->getNumVars(); j++) {
-            if (!fDataRecList[i]->get(j)->isDefault())
+            if (!fDataRecList[i]->get(j)->isDefault(secondChance))
                 return false;
         }
     }
@@ -332,10 +332,15 @@ void plSimpleStateVariable::read(hsStream* S, plResManager* mgr) {
 void plSimpleStateVariable::write(hsStream* S, plResManager* mgr) {
     plStateVariable::write(S, mgr);
 
-    if (isDefault())
+    if (isDefault(true))
         fSimpleVarContents |= plSDL::kSameAsDefault;
-    else
+    else {
         fSimpleVarContents &= ~plSDL::kSameAsDefault;
+        setDirty(true);
+    }
+
+    if (fIsDirty)
+      fSimpleVarContents |= plSDL::kHasDirtyFlag;
 
     S->writeByte(fSimpleVarContents);
     if (fSimpleVarContents & plSDL::kHasTimeStamp)
@@ -664,7 +669,7 @@ void plSimpleStateVariable::SetFromDefault() {
     setDirty(false);
 }
 
-bool plSimpleStateVariable::isDefault() const {
+bool plSimpleStateVariable::isDefault(bool secondChance) const {
     if (fDescriptor == NULL)
         throw hsBadParamException(__FILE__, __LINE__);
     plString def = fDescriptor->getDefault().toLower();
@@ -718,7 +723,7 @@ bool plSimpleStateVariable::isDefault() const {
                 return false;
             break;
         case plVarDescriptor::kKey:
-            if (fUoid[i] != plUoid())
+            if (secondChance && fUoid[i] != plUoid())
                 return false;
             break;
         case plVarDescriptor::kCreatable:
