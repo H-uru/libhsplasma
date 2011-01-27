@@ -101,6 +101,7 @@ public:
     void buildTree(plSpaceBuilderNode* root);
 
     const plSpaceTreeNode& getNode(short idx) const { return fTree[idx]; }
+    short getNodeCount() const { return fTree.getSize(); }
     const plSpaceTreeNode& getRoot() const { return fTree[fRoot]; }
     short addLeaf(const hsBounds3Ext& bounds);
     short addParent(const hsBounds3Ext& bounds, short left, short right);
