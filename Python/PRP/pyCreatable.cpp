@@ -20,6 +20,8 @@
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"
 
+#define ConvertPcre(pCre) dynamic_cast<plCreatable*>(IConvert((pyCreatable*)pCre))
+
 extern "C" {
 
 static void pyCreatable_dealloc(pyCreatable* self) {
@@ -43,7 +45,7 @@ static PyObject* pyCreatable_new(PyTypeObject* type, PyObject* args, PyObject* k
 }
 
 static PyObject* pyCreatable_ClassIndex(pyCreatable* self) {
-    return PyInt_FromLong(self->fThis->ClassIndex());
+    return PyInt_FromLong(ConvertPcre(self)->ClassIndex());
 }
 
 static PyObject* pyCreatable_ClassIndexVer(pyCreatable* self, PyObject* args) {
@@ -52,11 +54,11 @@ static PyObject* pyCreatable_ClassIndexVer(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ClassIndexVer expects an int");
         return NULL;
     }
-    return PyInt_FromLong(self->fThis->ClassIndex((PlasmaVer)ver));
+    return PyInt_FromLong(ConvertPcre(self)->ClassIndex((PlasmaVer)ver));
 }
 
 static PyObject* pyCreatable_ClassName(pyCreatable* self) {
-    return PyString_FromString(self->fThis->ClassName());
+    return PyString_FromString(ConvertPcre(self)->ClassName());
 }
 
 static PyObject* pyCreatable_ClassInstance(pyCreatable* self, PyObject* args) {
@@ -65,12 +67,12 @@ static PyObject* pyCreatable_ClassInstance(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "ClassInstance expects an int");
         return NULL;
     }
-    bool yes = self->fThis->ClassInstance(classId);
+    bool yes = ConvertPcre(self)->ClassInstance(classId);
     return PyBool_FromLong(yes ? 1 : 0);
 }
 
 static PyObject* pyCreatable_isStub(pyCreatable* self) {
-    bool yes = self->fThis->isStub();
+    bool yes = ConvertPcre(self)->isStub();
     return PyBool_FromLong(yes ? 1 : 0);
 }
 
@@ -85,7 +87,7 @@ static PyObject* pyCreatable_read(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "read expects hsStream, plResManager");
         return NULL;
     }
-    self->fThis->read(stream->fThis, mgr->fThis);
+    ConvertPcre(self)->read(stream->fThis, mgr->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -101,7 +103,7 @@ static PyObject* pyCreatable_write(pyCreatable* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "write expects hsStream, plResManager");
         return NULL;
     }
-    self->fThis->write(stream->fThis, mgr->fThis);
+    ConvertPcre(self)->write(stream->fThis, mgr->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }

@@ -60,7 +60,7 @@ public:
      * clone IDs are ignored in the comparison
      */
     bool operator==(const plUoid& other) const;
-    bool operator!=(const plUoid& other) const { return !(*this == other); }
+    bool operator!=(const plUoid& other) const { return !operator==(other); }
 
     /** Compares two Uoids by contents, for use in STL containers */
     bool operator<(const plUoid& other) const;
