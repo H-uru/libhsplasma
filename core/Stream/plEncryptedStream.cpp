@@ -278,14 +278,14 @@ void plEncryptedStream::setKey(unsigned int* keys) {
     fEKey[3] = keys[3];
 }
 
-void plEncryptedStream::seek(hsUint32 pos) {
+void plEncryptedStream::seek(uint32_t pos) {
     rewind();
     skip(pos);
 }
 
-void plEncryptedStream::skip(hsInt32 count) {
+void plEncryptedStream::skip(int32_t count) {
     if (count < 0) {
-        if (((hsInt32)fDataPos + count) < 0)
+        if (((int32_t)fDataPos + count) < 0)
             throw hsFileReadException(__FILE__, __LINE__, "Seek out of range");
         seek(fDataPos + count);
     } else {

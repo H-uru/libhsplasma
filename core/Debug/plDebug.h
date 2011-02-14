@@ -19,7 +19,7 @@
 
 #include "Stream/hsStdioStream.h"
 
-DllClass plDebug {
+class PLASMA_DLL plDebug {
 public:
     enum DebugLevel { kDLNone, kDLError, kDLWarning, kDLDebug, kDLAll };
 

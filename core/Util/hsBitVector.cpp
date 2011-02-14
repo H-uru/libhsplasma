@@ -36,8 +36,8 @@ hsBitVector::hsBitVector() : fBits(NULL), fNumVectors(0) { }
 
 hsBitVector::hsBitVector(const hsBitVector& init)
            : fNumVectors(init.fNumVectors) {
-    fBits = new hsUint32[fNumVectors];
-    memcpy(fBits, init.fBits, fNumVectors * sizeof(hsUint32));
+    fBits = new uint32_t[fNumVectors];
+    memcpy(fBits, init.fBits, fNumVectors * sizeof(uint32_t));
 }
 
 hsBitVector::~hsBitVector() {
@@ -58,7 +58,7 @@ void hsBitVector::set(unsigned int idx, bool b) {
     if ((idx / BVMULT) >= fNumVectors) {
         size_t oldNumVectors = fNumVectors;
         fNumVectors = (idx / BVMULT) + 1;
-        hsUint32* newBits = new hsUint32[fNumVectors];
+        uint32_t* newBits = new uint32_t[fNumVectors];
         if (fBits != NULL) {
             for (size_t i=0; i<oldNumVectors; i++)
                 newBits[i] = fBits[i];
@@ -66,7 +66,7 @@ void hsBitVector::set(unsigned int idx, bool b) {
                 newBits[i] = 0;
             delete[] fBits;
         } else {
-            memset(newBits, 0, sizeof(hsUint32)*fNumVectors);
+            memset(newBits, 0, sizeof(uint32_t)*fNumVectors);
         }
         fBits = newBits;
     }
@@ -77,8 +77,8 @@ void hsBitVector::set(unsigned int idx, bool b) {
 hsBitVector& hsBitVector::operator=(const hsBitVector& cpy) {
     delete[] fBits;
     fNumVectors = cpy.fNumVectors;
-    fBits = new hsUint32[fNumVectors];
-    memcpy(fBits, cpy.fBits, fNumVectors * sizeof(hsUint32));
+    fBits = new uint32_t[fNumVectors];
+    memcpy(fBits, cpy.fBits, fNumVectors * sizeof(uint32_t));
     return *this;
 }
 
@@ -96,8 +96,8 @@ void hsBitVector::compact() {
         if (newNumVectors == 0) {
             clear();
         } else {
-            hsUint32* newBits = new hsUint32[newNumVectors];
-            memcpy(newBits, fBits, sizeof(hsUint32)*newNumVectors);
+            uint32_t* newBits = new uint32_t[newNumVectors];
+            memcpy(newBits, fBits, sizeof(uint32_t)*newNumVectors);
             delete[] fBits;
             fBits = newBits;
             fNumVectors = newNumVectors;
@@ -134,7 +134,7 @@ void hsBitVector::setName(unsigned int idx, const char* name) {
 void hsBitVector::read(hsStream* S) {
     fNumVectors = S->readInt();
     delete[] fBits;
-    fBits = (fNumVectors > 0) ? new hsUint32[fNumVectors] : NULL;
+    fBits = (fNumVectors > 0) ? new uint32_t[fNumVectors] : NULL;
     for (size_t i=0; i<fNumVectors; i++)
         fBits[i] = S->readInt();
 }

@@ -19,7 +19,7 @@
 
 #include "plKeyControllers.hpp"
 
-DllClass plScaleController : public plController {
+class PLASMA_DLL plScaleController : public plController {
     CREATABLE(plScaleController, kScaleController, plController)
 
 public:
@@ -30,7 +30,7 @@ public:
 };
 
 
-DllClass plSimpleScaleController : public plScaleController {
+class PLASMA_DLL plSimpleScaleController : public plScaleController {
     CREATABLE(plSimpleScaleController, kSimpleScaleController, plScaleController)
 
 protected:

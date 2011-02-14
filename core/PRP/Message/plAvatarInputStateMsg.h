@@ -19,11 +19,11 @@
 
 #include "plMessage.h"
 
-DllClass plAvatarInputStateMsg : public plMessage {
+class PLASMA_DLL plAvatarInputStateMsg : public plMessage {
     CREATABLE(plAvatarInputStateMsg, kAvatarInputStateMsg, plMessage)
 
 protected:
-    hsUint16 fState;
+    uint16_t fState;
 
 public:
     plAvatarInputStateMsg();
@@ -36,8 +36,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    hsUint16 getState() const { return fState; }
-    void setState(hsUint16 state) { fState = state; }
+    uint16_t getState() const { return fState; }
+    void setState(uint16_t state) { fState = state; }
 };
 
 #endif

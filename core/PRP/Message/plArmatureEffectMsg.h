@@ -19,11 +19,11 @@
 
 #include "plMessage.h"
 
-DllClass plArmatureEffectStateMsg : public plMessage {
+class PLASMA_DLL plArmatureEffectStateMsg : public plMessage {
     CREATABLE(plArmatureEffectStateMsg, kArmatureEffectStateMsg, plMessage)
 
 protected:
-    hsByte fSurface;
+    int8_t fSurface;
     bool fAddSurface;
 
 public:

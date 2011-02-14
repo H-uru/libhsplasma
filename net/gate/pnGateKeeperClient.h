@@ -24,14 +24,14 @@
 #include "pnSocketInterface.h"
 
 
-DllClass pnGateKeeperClient : public pnClient {
+class PLASMANET_DLL pnGateKeeperClient : public pnClient {
 public:
     pnGateKeeperClient(bool threaeded = true);
     virtual ~pnGateKeeperClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
                  bool littleEndian = true);
-    void setClientInfo(hsUint32 buildId, hsUint32 buildType, hsUint32 branchId,
+    void setClientInfo(uint32_t buildId, uint32_t buildType, uint32_t branchId,
                        const plUuid& productId);
     virtual ENetError connect(const char* host, short port = 14617);
     virtual ENetError connect(int sockFd);
@@ -44,20 +44,20 @@ public:
 //     virtual void waitForStatus() { fSock->waitForStatus(); }
 
     /* Outgoing Protocol */
-    hsUint32 sendPingRequest(hsUint32 pingTimeMs);
-    hsUint32 sendFileSrvIpAddressRequest(hsUbyte which);
-    hsUint32 sendAuthSrvIpAddressRequest();
+    uint32_t sendPingRequest(uint32_t pingTimeMs);
+    uint32_t sendFileSrvIpAddressRequest(uint8_t which);
+    uint32_t sendAuthSrvIpAddressRequest();
 
     /* Incoming Protocol - To be implemented by subclasses */
-    virtual void onPingReply(hsUint32 transId, hsUint32 pingTimeMs);
-    virtual void onFileSrvIpAddressReply(hsUint32 transId, const plString& addr);
-    virtual void onAuthSrvIpAddressReply(hsUint32 transId, const plString& addr);
+    virtual void onPingReply(uint32_t transId, uint32_t pingTimeMs);
+    virtual void onFileSrvIpAddressReply(uint32_t transId, const plString& addr);
+    virtual void onAuthSrvIpAddressReply(uint32_t transId, const plString& addr);
 
 protected:
     pnRC4Socket* fSock;
     bool fThreaded;
 
-    hsUint32 fBuildId, fBuildType, fBranchId;
+    uint32_t fBuildId, fBuildType, fBranchId;
     plUuid fProductId;
 
 private:

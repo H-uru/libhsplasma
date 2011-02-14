@@ -474,7 +474,7 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     fRestitution = S->readFloat();
     fBounds = (plSimDefs::Bounds)S->readByte();
 
-    hsUbyte group = S->readByte();
+    uint8_t group = S->readByte();
     fMemberGroup = plPXSimDefs::fromGroup(group); //fGroup
     fCollideGroup = plPXSimDefs::getCollideGroup(group);
     fReportGroup = plPXSimDefs::getReportsOn(S->readInt()); //fReportsOn

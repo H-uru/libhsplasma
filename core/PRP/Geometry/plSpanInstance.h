@@ -22,7 +22,7 @@
 #include "Math/hsGeometry3.h"
 #include "Math/hsMatrix44.h"
 
-DllClass plSpanEncoding {
+class PLASMA_DLL plSpanEncoding {
 public:
     enum {
         kPosNone = 0,
@@ -65,7 +65,7 @@ public:
 };
 
 
-DllClass plSpanInstance {
+class PLASMA_DLL plSpanInstance {
 protected:
     unsigned char* fPosDelta;
     unsigned char* fCol;

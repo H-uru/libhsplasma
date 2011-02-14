@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-DllStruct hsMatrix33 {
+struct PLASMA_DLL hsMatrix33 {
 private:
     float data[3][3];
 

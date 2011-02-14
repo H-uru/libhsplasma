@@ -19,7 +19,7 @@
 
 #include "../Modifier/plModifier.h"
 
-DllClass plDistOpacityMod : public virtual plSingleModifier {
+class PLASMA_DLL plDistOpacityMod : public virtual plSingleModifier {
     CREATABLE(plDistOpacityMod, kDistOpacityMod, plSingleModifier)
 
 protected:

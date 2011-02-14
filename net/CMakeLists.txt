@@ -21,7 +21,7 @@ if(PLASMANET_COMMDEBUG)
     add_definitions("-DCOMMDEBUG")
 endif()
 
-add_definitions(-DMAKEDLL)
+add_definitions(-DBUILD_PLASMANET_DLL)
 
 set(PN_AUTH_SRCS
     auth/AuthMessages.cpp

@@ -21,36 +21,36 @@
 #include "Math/hsGeometry3.h"
 #include "Util/hsBitVector.h"
 
-DllClass plCameraBrain : public virtual hsKeyedObject {
+class PLASMA_DLL plCameraBrain : public virtual hsKeyedObject {
     CREATABLE(plCameraBrain, kCameraBrain, hsKeyedObject)
 };
 
-DllClass plCameraBrain_M5 : public virtual plCameraBrain {
+class PLASMA_DLL plCameraBrain_M5 : public virtual plCameraBrain {
     CREATABLE(plCameraBrain_M5, kCameraBrain_M5, plCameraBrain)
 };
 
-DllClass plCameraBrain_Novice : public virtual plCameraBrain_M5 {
+class PLASMA_DLL plCameraBrain_Novice : public virtual plCameraBrain_M5 {
     CREATABLE(plCameraBrain_Novice, kCameraBrain_Novice, plCameraBrain_M5)
 };
 
-DllClass plCameraBrain_NovicePlus : public virtual plCameraBrain_M5 {
+class PLASMA_DLL plCameraBrain_NovicePlus : public virtual plCameraBrain_M5 {
     CREATABLE(plCameraBrain_NovicePlus, kCameraBrain_NovicePlus, plCameraBrain_M5)
 };
 
-DllClass plCameraBrain_Expert : public virtual plCameraBrain_M5 {
+class PLASMA_DLL plCameraBrain_Expert : public virtual plCameraBrain_M5 {
     CREATABLE(plCameraBrain_Expert, kCameraBrain_Expert, plCameraBrain_M5)
 };
 
-DllClass plCameraBrain_Flight : public virtual plCameraBrain_M5 {
+class PLASMA_DLL plCameraBrain_Flight : public virtual plCameraBrain_M5 {
     CREATABLE(plCameraBrain_Flight, kCameraBrain_Flight, plCameraBrain_M5)
 };
 
-DllClass plCameraBrain_Ground : public virtual plCameraBrain_M5 {
+class PLASMA_DLL plCameraBrain_Ground : public virtual plCameraBrain_M5 {
     CREATABLE(plCameraBrain_Ground, kCameraBrain_Ground, plCameraBrain_M5)
 };
 
 
-DllClass plCameraBrain1 : public virtual plCameraBrain {
+class PLASMA_DLL plCameraBrain1 : public virtual plCameraBrain {
     CREATABLE(plCameraBrain1, kCameraBrain1, plCameraBrain)
 
 public:
@@ -85,12 +85,12 @@ protected:
 };
 
 
-DllClass plCameraBrain1_Drive : public virtual plCameraBrain1 {
+class PLASMA_DLL plCameraBrain1_Drive : public virtual plCameraBrain1 {
     CREATABLE(plCameraBrain1_Drive, kCameraBrain1_Drive, plCameraBrain1)
 };
 
 
-DllClass plCameraBrain1_Avatar : public virtual plCameraBrain1 {
+class PLASMA_DLL plCameraBrain1_Avatar : public virtual plCameraBrain1 {
     CREATABLE(plCameraBrain1_Avatar, kCameraBrain1_Avatar, plCameraBrain1)
 
 protected:
@@ -106,13 +106,13 @@ protected:
 };
 
 
-DllClass plCameraBrain1_FirstPerson : public virtual plCameraBrain1_Avatar {
+class PLASMA_DLL plCameraBrain1_FirstPerson : public virtual plCameraBrain1_Avatar {
     CREATABLE(plCameraBrain1_FirstPerson, kCameraBrain1_FirstPerson,
               plCameraBrain1_Avatar)
 };
 
 
-DllClass plCameraBrain1_Fixed : public virtual plCameraBrain1 {
+class PLASMA_DLL plCameraBrain1_Fixed : public virtual plCameraBrain1 {
     CREATABLE(plCameraBrain1_Fixed, kCameraBrain1_Fixed, plCameraBrain1)
 
 protected:
@@ -128,7 +128,7 @@ protected:
 };
 
 
-DllClass plCameraBrain1_Circle : public virtual plCameraBrain1_Fixed {
+class PLASMA_DLL plCameraBrain1_Circle : public virtual plCameraBrain1_Fixed {
     CREATABLE(plCameraBrain1_Circle, kCameraBrain1_Circle, plCameraBrain1_Fixed)
 
 public:

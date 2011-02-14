@@ -19,7 +19,7 @@
  */
 #include "plPhysical.h"
 
-class plPXSimDefs {
+class PLASMA_DLL plPXSimDefs {
 public:
     enum Bounds {
         kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,
@@ -38,7 +38,7 @@ public:
         kGroupMax
     };
 
-    static unsigned int fromGroup(hsUbyte group) {
+    static unsigned int fromGroup(uint8_t group) {
         if (group == kGroupStatic) {
             return plSimDefs::kGroupStatic;
         } else if (group == kGroupAvatarBlocker) {
@@ -58,7 +58,7 @@ public:
         return plSimDefs::kGroupStatic;
     }
 
-    static hsUbyte toGroup(unsigned int group, unsigned int collide) {
+    static uint8_t toGroup(unsigned int group, unsigned int collide) {
         if (collide == plSimDefs::kGroupAvatar) {
             return kGroupAvatarBlocker;
         } else if (collide == plSimDefs::kGroupDynamic) {
@@ -78,7 +78,7 @@ public:
         return kGroupStatic;
     }
 
-    static unsigned int getCollideGroup(hsUbyte group) {
+    static unsigned int getCollideGroup(uint8_t group) {
         if (group == kGroupAvatarBlocker) {
             return (1 << plSimDefs::kGroupAvatar);
         } else if (group == kGroupDynamicBlocker) {
@@ -113,7 +113,7 @@ public:
     }
 };
 
-class PXCookedData {
+class PLASMA_DLL PXCookedData {
 private:
     class plGenericPhysical* fPhysical;
 

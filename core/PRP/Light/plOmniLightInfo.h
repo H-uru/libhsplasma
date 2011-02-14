@@ -19,7 +19,7 @@
 
 #include "plLightInfo.h"
 
-DllClass plOmniLightInfo : public virtual plLightInfo {
+class PLASMA_DLL plOmniLightInfo : public virtual plLightInfo {
     CREATABLE(plOmniLightInfo, kOmniLightInfo, plLightInfo)
 
 protected:
@@ -48,7 +48,7 @@ public:
 };
 
 
-DllClass plSpotLightInfo : public virtual plOmniLightInfo {
+class PLASMA_DLL plSpotLightInfo : public virtual plOmniLightInfo {
     CREATABLE(plSpotLightInfo, kSpotLightInfo, plOmniLightInfo)
 
 protected:

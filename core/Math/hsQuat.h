@@ -19,7 +19,7 @@
 
 #include "hsGeometry3.h"
 
-DllStruct hsQuat {
+struct PLASMA_DLL hsQuat {
     float X, Y, Z, W;
 
     hsQuat();

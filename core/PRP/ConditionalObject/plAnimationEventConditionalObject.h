@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-DllClass plAnimationEventConditionalObject : public virtual plConditionalObject {
+class PLASMA_DLL plAnimationEventConditionalObject : public virtual plConditionalObject {
     CREATABLE(plAnimationEventConditionalObject,
               kAnimationEventConditionalObject,
               plConditionalObject)

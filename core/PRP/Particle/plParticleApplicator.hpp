@@ -19,54 +19,54 @@
 
 #include "PRP/Avatar/plAGApplicator.h"
 
-DllClass plParticleApplicator : public plAGApplicator {
+class PLASMA_DLL plParticleApplicator : public plAGApplicator {
     CREATABLE(plParticleApplicator, kParticleApplicator, plAGApplicator)
 };
 
 
-DllClass plParticleAngleApplicator : public plParticleApplicator {
+class PLASMA_DLL plParticleAngleApplicator : public plParticleApplicator {
     CREATABLE(plParticleAngleApplicator, kParticleAngleApplicator,
               plParticleApplicator)
 };
 
 
-DllClass plParticleLifeMinApplicator : public plParticleApplicator {
+class PLASMA_DLL plParticleLifeMinApplicator : public plParticleApplicator {
     CREATABLE(plParticleLifeMinApplicator, kParticleLifeMinApplicator,
               plParticleApplicator)
 };
 
 
-DllClass plParticleLifeMaxApplicator : public plParticleApplicator {
+class PLASMA_DLL plParticleLifeMaxApplicator : public plParticleApplicator {
     CREATABLE(plParticleLifeMaxApplicator, kParticleLifeMaxApplicator,
               plParticleApplicator)
 };
 
 
-DllClass plParticlePPSApplicator : public plParticleApplicator {
+class PLASMA_DLL plParticlePPSApplicator : public plParticleApplicator {
     CREATABLE(plParticlePPSApplicator, kParticlePPSApplicator,
               plParticleApplicator)
 };
 
 
-DllClass plParticleScaleMinApplicator : public plParticleApplicator {
+class PLASMA_DLL plParticleScaleMinApplicator : public plParticleApplicator {
     CREATABLE(plParticleScaleMinApplicator, kParticleScaleMinApplicator,
               plParticleApplicator)
 };
 
 
-DllClass plParticleScaleMaxApplicator : public plParticleApplicator {
+class PLASMA_DLL plParticleScaleMaxApplicator : public plParticleApplicator {
     CREATABLE(plParticleScaleMaxApplicator, kParticleScaleMaxApplicator,
               plParticleApplicator)
 };
 
 
-DllClass plParticleVelMinApplicator : public plParticleApplicator {
+class PLASMA_DLL plParticleVelMinApplicator : public plParticleApplicator {
     CREATABLE(plParticleVelMinApplicator, kParticleVelMinApplicator,
               plParticleApplicator)
 };
 
 
-DllClass plParticleVelMaxApplicator : public plParticleApplicator {
+class PLASMA_DLL plParticleVelMaxApplicator : public plParticleApplicator {
     CREATABLE(plParticleVelMaxApplicator, kParticleVelMaxApplicator,
               plParticleApplicator)
 };

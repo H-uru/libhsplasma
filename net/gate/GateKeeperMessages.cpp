@@ -18,48 +18,48 @@
 
 /* Client -> Server */
 static pnNetMsgField Cli2GateKeeper_PingRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Ping time
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Payload
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Ping time
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Payload
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Cli2GateKeeper_PingRequest)
 
 static pnNetMsgField Cli2GateKeeper_FileSrvIpAddressRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID?
-    { kFieldInteger,    0, sizeof(hsUbyte)    },  // ???
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID?
+    { kFieldInteger,    0, sizeof(uint8_t)    },  // ???
 };
 MAKE_NETMSG(Cli2GateKeeper_FileSrvIpAddressRequest)
 
 static pnNetMsgField Cli2GateKeeper_AuthSrvIpAddressRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID?
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID?
 };
 MAKE_NETMSG(Cli2GateKeeper_AuthSrvIpAddressRequest)
 
 
 /* Server -> Client */
 static pnNetMsgField GateKeeper2Cli_PingReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Ping time
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Payload
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Ping time
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Payload
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(GateKeeper2Cli_PingReply)
 
 static pnNetMsgField GateKeeper2Cli_FileSrvIpAddressReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID?
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID?
     { kFieldString,    24, sizeof(pl_wchar_t) },  // Address
 };
 MAKE_NETMSG(GateKeeper2Cli_FileSrvIpAddressReply)
 
 static pnNetMsgField GateKeeper2Cli_AuthSrvIpAddressReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID?
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID?
     { kFieldString,    24, sizeof(pl_wchar_t) },  // Address
 };
 MAKE_NETMSG(GateKeeper2Cli_AuthSrvIpAddressReply)
 
 
-const pnNetMsg* GET_Cli2GateKeeper(hsUint32 msgId)
+const pnNetMsg* GET_Cli2GateKeeper(uint32_t msgId)
 {
     static const pnNetMsg* s_messages[] = {
         &Cli2GateKeeper_PingRequest,
@@ -69,7 +69,7 @@ const pnNetMsg* GET_Cli2GateKeeper(hsUint32 msgId)
     return (msgId < kCli2GateKeeper_LastMessage ? s_messages[msgId] : NULL);
 }
 
-const pnNetMsg* GET_GateKeeper2Cli(hsUint32 msgId)
+const pnNetMsg* GET_GateKeeper2Cli(uint32_t msgId)
 {
     static const pnNetMsg* s_messages[] = {
         &GateKeeper2Cli_PingReply,

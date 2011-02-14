@@ -20,7 +20,7 @@
 #include "PRP/Object/plSynchedObject.h"
 #include "plAGApplicator.h"
 
-DllClass plAGAnim : public virtual plSynchedObject {
+class PLASMA_DLL plAGAnim : public virtual plSynchedObject {
     CREATABLE(plAGAnim, kAGAnim, plSynchedObject)
 
 public:
@@ -63,7 +63,7 @@ public:
     void setName(const plString& name) { fName = name; }
 };
 
-DllClass plAgeGlobalAnim : public virtual plAGAnim {
+class PLASMA_DLL plAgeGlobalAnim : public virtual plAGAnim {
     CREATABLE(plAgeGlobalAnim, kAgeGlobalAnim, plAGAnim)
 
 protected:

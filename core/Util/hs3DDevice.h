@@ -21,7 +21,7 @@
 #include "Util/hsBitVector.h"
 #include "Stream/hsStream.h"
 
-DllClass hsG3DDeviceMode {
+class PLASMA_DLL hsG3DDeviceMode {
 private:
     unsigned int fFlags;
     unsigned int fWidth;
@@ -49,7 +49,7 @@ public:
     void setCanRenderToCubics(bool b) { fCanRenderToCubics = b; }
 };
 
-DllClass hsG3DDeviceRecord {
+class PLASMA_DLL hsG3DDeviceRecord {
 public:
     struct FogKnee {
         float fFogKnee;
@@ -123,7 +123,7 @@ public:
     void setDeviceDesc(const plString& desc) { fDeviceDesc = desc; }
 };
 
-DllClass hsG3DDeviceModeRecord {
+class PLASMA_DLL hsG3DDeviceModeRecord {
 private:
     hsG3DDeviceRecord fRecord;
     hsG3DDeviceMode fMode;

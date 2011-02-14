@@ -19,92 +19,92 @@
 
 /* Client -> Server */
 static pnNetMsgField Cli2Auth_PingRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Ping time
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Payload
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Ping time
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Payload
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Cli2Auth_PingRequest)
 
 static pnNetMsgField Cli2Auth_ClientRegisterRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Build ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Build ID
 };
 MAKE_NETMSG(Cli2Auth_ClientRegisterRequest)
 
 static pnNetMsgField Cli2Auth_ClientSetCCRLevel_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // CCR Level
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // CCR Level
 };
 MAKE_NETMSG(Cli2Auth_ClientSetCCRLevel)
 
 static pnNetMsgField Cli2Auth_AcctLoginRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Client Challenge
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Client Challenge
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Account Name
-    { kFieldRawData,   20, sizeof(hsUbyte)    },  // Password Hash
+    { kFieldRawData,   20, sizeof(uint8_t)    },  // Password Hash
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Auth Token
     { kFieldString,     8, sizeof(pl_wchar_t) },  // OS
 };
 MAKE_NETMSG(Cli2Auth_AcctLoginRequest)
 
 static pnNetMsgField Cli2Auth_AcctSetPlayerRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
 };
 MAKE_NETMSG(Cli2Auth_AcctSetPlayerRequest)
 
 static pnNetMsgField Cli2Auth_AcctCreateRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Account Name
-    { kFieldRawData,   20, sizeof(hsUbyte)    },  // Password Hash
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Account Flags
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Billing Type
+    { kFieldRawData,   20, sizeof(uint8_t)    },  // Password Hash
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Account Flags
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Billing Type
 };
 MAKE_NETMSG(Cli2Auth_AcctCreateRequest)
 
 static pnNetMsgField Cli2Auth_AcctChangePasswordRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Account Name
-    { kFieldRawData,   20, sizeof(hsUbyte)    },  // Password Hash
+    { kFieldRawData,   20, sizeof(uint8_t)    },  // Password Hash
 };
 MAKE_NETMSG(Cli2Auth_AcctChangePasswordRequest)
 
 static pnNetMsgField Cli2Auth_AcctSetRolesRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Account Name
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Account Flags
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Account Flags
 };
 MAKE_NETMSG(Cli2Auth_AcctSetRolesRequest)
 
 static pnNetMsgField Cli2Auth_AcctSetBillingTypeRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Account Name
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Billing Type
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Billing Type
 };
 MAKE_NETMSG(Cli2Auth_AcctSetBillingTypeRequest)
 
 static pnNetMsgField Cli2Auth_AcctActivateRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Activation Key (UUID)
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Activation Key (UUID)
 };
 MAKE_NETMSG(Cli2Auth_AcctActivateRequest)
 
 static pnNetMsgField Cli2Auth_AcctCreateFromKeyRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Account Name
-    { kFieldRawData,   20, sizeof(hsUbyte)    },  // Password Hash
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Key (UUID)
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Billing Type
+    { kFieldRawData,   20, sizeof(uint8_t)    },  // Password Hash
+    { kFieldData,      16, sizeof(uint8_t)    },  // Key (UUID)
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Billing Type
 };
 MAKE_NETMSG(Cli2Auth_AcctCreateFromKeyRequest)
 
 static pnNetMsgField Cli2Auth_PlayerDeleteRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
 };
 MAKE_NETMSG(Cli2Auth_PlayerDeleteRequest)
 
 static pnNetMsgField Cli2Auth_PlayerCreateRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    40, sizeof(pl_wchar_t) },  // Player Name
     { kFieldString,   260, sizeof(pl_wchar_t) },  // Avatar Shape
     { kFieldString,   260, sizeof(pl_wchar_t) },  // Friend Invite
@@ -112,155 +112,155 @@ static pnNetMsgField Cli2Auth_PlayerCreateRequest_Fields[] = {
 MAKE_NETMSG(Cli2Auth_PlayerCreateRequest)
 
 static pnNetMsgField Cli2Auth_UpgradeVisitorRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
 };
 MAKE_NETMSG(Cli2Auth_UpgradeVisitorRequest)
 
 static pnNetMsgField Cli2Auth_SetPlayerBanStatusRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Banned
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Banned
 };
 MAKE_NETMSG(Cli2Auth_SetPlayerBanStatusRequest)
 
 static pnNetMsgField Cli2Auth_KickPlayer_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
 };
 MAKE_NETMSG(Cli2Auth_KickPlayer)
 
 static pnNetMsgField Cli2Auth_ChangePlayerNameRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
     { kFieldString,    40, sizeof(pl_wchar_t) },  // Player Name
 };
 MAKE_NETMSG(Cli2Auth_ChangePlayerNameRequest)
 
 static pnNetMsgField Cli2Auth_SendFriendInviteRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Invite UUID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Invite UUID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Email address
     { kFieldString,    40, sizeof(pl_wchar_t) },  // To Name
 };
 MAKE_NETMSG(Cli2Auth_SendFriendInviteRequest)
 
 static pnNetMsgField Cli2Auth_VaultNodeCreate_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Node Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Node Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Cli2Auth_VaultNodeCreate)
 
 static pnNetMsgField Cli2Auth_VaultNodeFetch_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Node ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Node ID
 };
 MAKE_NETMSG(Cli2Auth_VaultNodeFetch)
 
 static pnNetMsgField Cli2Auth_VaultNodeSave_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Node ID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Revision ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Node Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Node ID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Revision ID
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Node Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Cli2Auth_VaultNodeSave)
 
 static pnNetMsgField Cli2Auth_VaultNodeAdd_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Parent ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Child ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Owner ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Parent ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Child ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Owner ID
 };
 MAKE_NETMSG(Cli2Auth_VaultNodeAdd)
 
 static pnNetMsgField Cli2Auth_VaultNodeRemove_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Parent ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Child ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Parent ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Child ID
 };
 MAKE_NETMSG(Cli2Auth_VaultNodeRemove)
 
 static pnNetMsgField Cli2Auth_VaultFetchNodeRefs_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Node ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Node ID
 };
 MAKE_NETMSG(Cli2Auth_VaultFetchNodeRefs)
 
 static pnNetMsgField Cli2Auth_VaultInitAgeRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Age Instance UUID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Parent Age UUID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Age Instance UUID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Parent Age UUID
     { kFieldString,   260, sizeof(pl_wchar_t) },  // Age Filename
     { kFieldString,   260, sizeof(pl_wchar_t) },  // Age Instance Name
     { kFieldString,   260, sizeof(pl_wchar_t) },  // Age User Name
     { kFieldString,  1024, sizeof(pl_wchar_t) },  // Age Description
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age Sequence Number
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age Language
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age Sequence Number
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age Language
 };
 MAKE_NETMSG(Cli2Auth_VaultInitAgeRequest)
 
 static pnNetMsgField Cli2Auth_VaultNodeFind_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Node Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Node Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Cli2Auth_VaultNodeFind)
 
 static pnNetMsgField Cli2Auth_VaultSetSeen_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Parent ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Child ID
-    { kFieldInteger,    0, sizeof(hsUbyte)    },  // Seen
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Parent ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Child ID
+    { kFieldInteger,    0, sizeof(uint8_t)    },  // Seen
 };
 MAKE_NETMSG(Cli2Auth_VaultSetSeen)
 
 static pnNetMsgField Cli2Auth_VaultSendNode_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Node ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Node ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
 };
 MAKE_NETMSG(Cli2Auth_VaultSendNode)
 
 static pnNetMsgField Cli2Auth_AgeRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Age Name
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Age UUID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Age UUID
 };
 MAKE_NETMSG(Cli2Auth_AgeRequest)
 
 static pnNetMsgField Cli2Auth_FileListRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,   260, sizeof(pl_wchar_t) },  // Directory
     { kFieldString,   256, sizeof(pl_wchar_t) },  // Extension
 };
 MAKE_NETMSG(Cli2Auth_FileListRequest)
 
 static pnNetMsgField Cli2Auth_FileDownloadRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,   260, sizeof(pl_wchar_t) },  // File Name
 };
 MAKE_NETMSG(Cli2Auth_FileDownloadRequest)
 
 static pnNetMsgField Cli2Auth_FileDownloadChunkAck_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
 };
 MAKE_NETMSG(Cli2Auth_FileDownloadChunkAck)
 
 static pnNetMsgField Cli2Auth_PropagateBuffer_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Type
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Buffer Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Type
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Buffer Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Cli2Auth_PropagateBuffer)
 
 static pnNetMsgField Cli2Auth_GetPublicAgeList_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Age Filename
 };
 MAKE_NETMSG(Cli2Auth_GetPublicAgeList)
 
 static pnNetMsgField Cli2Auth_SetAgePublic_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age Info ID
-    { kFieldInteger,    0, sizeof(hsUbyte)    },  // Public
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age Info ID
+    { kFieldInteger,    0, sizeof(uint8_t)    },  // Public
 };
 MAKE_NETMSG(Cli2Auth_SetAgePublic)
 
@@ -275,408 +275,408 @@ static pnNetMsgField Cli2Auth_LogStackDump_Fields[] = {
 MAKE_NETMSG(Cli2Auth_LogStackDump)
 
 static pnNetMsgField Cli2Auth_LogClientDebuggerConnect_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Unused
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Unused
 };
 MAKE_NETMSG(Cli2Auth_LogClientDebuggerConnect)
 
 static pnNetMsgField Cli2Auth_ScoreCreate_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Owner ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Owner ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Game Name
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Game Type
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Score Value
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Game Type
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Score Value
 };
 MAKE_NETMSG(Cli2Auth_ScoreCreate)
 
 static pnNetMsgField Cli2Auth_ScoreDelete_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)    }, // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)    }, // Score ID
+    { kFieldInteger,    0, sizeof(uint32_t)    }, // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)    }, // Score ID
 };
 MAKE_NETMSG(Cli2Auth_ScoreDelete)
 
 static pnNetMsgField Cli2Auth_ScoreGetScores_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Owner ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Owner ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Game Name
 };
 MAKE_NETMSG(Cli2Auth_ScoreGetScores)
 
 static pnNetMsgField Cli2Auth_ScoreAddPoints_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Score ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Num Points
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Score ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Num Points
 };
 MAKE_NETMSG(Cli2Auth_ScoreAddPoints)
 
 static pnNetMsgField Cli2Auth_ScoreTransferPoints_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Source Score ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Dest Score ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Num Points
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Source Score ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Dest Score ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Num Points
 };
 MAKE_NETMSG(Cli2Auth_ScoreTransferPoints)
 
 static pnNetMsgField Cli2Auth_ScoreSetPoints_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Score ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Num Points
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Score ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Num Points
 };
 MAKE_NETMSG(Cli2Auth_ScoreSetPoints)
 
 static pnNetMsgField Cli2Auth_ScoreGetRanks_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Owner ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Score Group
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Parent Folder ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Owner ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Score Group
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Parent Folder ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Game Name
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Time Period
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Num Results
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Page Number
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Sort Desc
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Time Period
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Num Results
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Page Number
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Sort Desc
 };
 MAKE_NETMSG(Cli2Auth_ScoreGetRanks)
 
 static pnNetMsgField Cli2Auth_AcctExistsRequest_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Account Name
 };
 MAKE_NETMSG(Cli2Auth_AcctExistsRequest)
 
 static pnNetMsgField Cli2Auth_AgeRequestEx_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Age Name
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Age UUID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Age UUID
 };
 MAKE_NETMSG(Cli2Auth_AgeRequestEx)
 
 
 /* Server -> Client */
 static pnNetMsgField Auth2Cli_PingReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Ping time
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Payload
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Ping time
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Payload
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Auth2Cli_PingReply)
 
 static pnNetMsgField Auth2Cli_ServerAddr_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Server Address
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Token (UUID)
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Server Address
+    { kFieldData,      16, sizeof(uint8_t)    },  // Token (UUID)
 };
 MAKE_NETMSG(Auth2Cli_ServerAddr)
 
 static pnNetMsgField Auth2Cli_NotifyNewBuild_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // "foo"
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // "foo"
 };
 MAKE_NETMSG(Auth2Cli_NotifyNewBuild)
 
 static pnNetMsgField Auth2Cli_ClientRegisterReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Server Challenge
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Server Challenge
 };
 MAKE_NETMSG(Auth2Cli_ClientRegisterReply)
 
 static pnNetMsgField Auth2Cli_AcctLoginReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Account UUID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Account Flags
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Billing Type
-    { kFieldInteger,    4, sizeof(hsUint32)   },  // NTD Encryption Key
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldData,      16, sizeof(uint8_t)    },  // Account UUID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Account Flags
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Billing Type
+    { kFieldInteger,    4, sizeof(uint32_t)   },  // NTD Encryption Key
 };
 MAKE_NETMSG(Auth2Cli_AcctLoginReply)
 
 static pnNetMsgField Auth2Cli_AcctPlayerInfo_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
     { kFieldString,    40, sizeof(pl_wchar_t) },  // Player Name
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Avatar Model
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Explorer
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Explorer
 };
 MAKE_NETMSG(Auth2Cli_AcctPlayerInfo)
 
 static pnNetMsgField Auth2Cli_AcctSetPlayerReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_AcctSetPlayerReply)
 
 static pnNetMsgField Auth2Cli_AcctCreateReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Account UUID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldData,      16, sizeof(uint8_t)    },  // Account UUID
 };
 MAKE_NETMSG(Auth2Cli_AcctCreateReply)
 
 static pnNetMsgField Auth2Cli_AcctChangePasswordReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_AcctChangePasswordReply)
 
 static pnNetMsgField Auth2Cli_AcctSetRolesReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_AcctSetRolesReply)
 
 static pnNetMsgField Auth2Cli_AcctSetBillingTypeReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_AcctSetBillingTypeReply)
 
 static pnNetMsgField Auth2Cli_AcctActivateReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_AcctActivateReply)
 
 static pnNetMsgField Auth2Cli_AcctCreateFromKeyReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Account UUID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Activation Key
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldData,      16, sizeof(uint8_t)    },  // Account UUID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Activation Key
 };
 MAKE_NETMSG(Auth2Cli_AcctCreateFromKeyReply)
 
 static pnNetMsgField Auth2Cli_PlayerCreateReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Player ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Explorer
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Player ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Explorer
     { kFieldString,    40, sizeof(pl_wchar_t) },  // Player Name
     { kFieldString,    64, sizeof(pl_wchar_t) },  // Avatar Model
 };
 MAKE_NETMSG(Auth2Cli_PlayerCreateReply)
 
 static pnNetMsgField Auth2Cli_PlayerDeleteReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_PlayerDeleteReply)
 
 static pnNetMsgField Auth2Cli_UpgradeVisitorReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_UpgradeVisitorReply)
 
 static pnNetMsgField Auth2Cli_SetPlayerBanStatusReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_SetPlayerBanStatusReply)
 
 static pnNetMsgField Auth2Cli_ChangePlayerNameReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_ChangePlayerNameReply)
 
 static pnNetMsgField Auth2Cli_SendFriendInviteReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_SendFriendInviteReply)
 
 static pnNetMsgField Auth2Cli_VaultNodeCreated_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Node ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Node ID
 };
 MAKE_NETMSG(Auth2Cli_VaultNodeCreated)
 
 static pnNetMsgField Auth2Cli_VaultNodeFetched_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Node Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Node Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Auth2Cli_VaultNodeFetched)
 
 static pnNetMsgField Auth2Cli_VaultNodeChanged_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Node ID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Revision Uuid
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Node ID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Revision Uuid
 };
 MAKE_NETMSG(Auth2Cli_VaultNodeChanged)
 
 static pnNetMsgField Auth2Cli_VaultNodeDeleted_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Node ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Node ID
 };
 MAKE_NETMSG(Auth2Cli_VaultNodeDeleted)
 
 static pnNetMsgField Auth2Cli_VaultNodeAdded_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Parent ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Child ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Owner ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Parent ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Child ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Owner ID
 };
 MAKE_NETMSG(Auth2Cli_VaultNodeAdded)
 
 static pnNetMsgField Auth2Cli_VaultNodeRemoved_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Parent ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Child ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Parent ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Child ID
 };
 MAKE_NETMSG(Auth2Cli_VaultNodeRemoved)
 
 static pnNetMsgField Auth2Cli_VaultNodeRefsFetched_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)         },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)         },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)         },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)         },  // Result
     { kFieldVarCount,   0, pnVaultNodeRef::Stride   },  // Node Refs
     { kFieldVarPtr,     0, 0                        },
 };
 MAKE_NETMSG(Auth2Cli_VaultNodeRefsFetched)
 
 static pnNetMsgField Auth2Cli_VaultInitAgeReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age Vault ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age Info Vault ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age Vault ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age Info Vault ID
 };
 MAKE_NETMSG(Auth2Cli_VaultInitAgeReply)
 
 static pnNetMsgField Auth2Cli_VaultNodeFindReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldVarCount,   0, sizeof(hsUint32)   },  // Node ID List
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldVarCount,   0, sizeof(uint32_t)   },  // Node ID List
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Auth2Cli_VaultNodeFindReply)
 
 static pnNetMsgField Auth2Cli_VaultSaveNodeReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_VaultSaveNodeReply)
 
 static pnNetMsgField Auth2Cli_VaultAddNodeReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_VaultAddNodeReply)
 
 static pnNetMsgField Auth2Cli_VaultRemoveNodeReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_VaultRemoveNodeReply)
 
 static pnNetMsgField Auth2Cli_AgeReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age MCP ID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Age Instance Uuid
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age Vault ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Game Server Address
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age MCP ID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Age Instance Uuid
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age Vault ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Game Server Address
 };
 MAKE_NETMSG(Auth2Cli_AgeReply)
 
 static pnNetMsgField Auth2Cli_FileListReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
     { kFieldVarCount,   0, sizeof(pl_wchar_t) },  // List Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Auth2Cli_FileListReply)
 
 static pnNetMsgField Auth2Cli_FileDownloadChunk_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Total Size
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Chunk Offset
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Chunk Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Total Size
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Chunk Offset
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Chunk Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Auth2Cli_FileDownloadChunk)
 
 static pnNetMsgField Auth2Cli_PropagateBuffer_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Message Type
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Buffer Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Message Type
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Buffer Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Auth2Cli_PropagateBuffer)
 
 static pnNetMsgField Auth2Cli_KickedOff_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Reason
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Reason
 };
 MAKE_NETMSG(Auth2Cli_KickedOff)
 
 static pnNetMsgField Auth2Cli_PublicAgeList_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)     },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)     },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)     },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)     },  // Result
     { kFieldVarCount,   0, pnNetAgeInfo::Stride },  // Ages (NetAgeInfo)
     { kFieldVarPtr,     0, 0                    },
 };
 MAKE_NETMSG(Auth2Cli_PublicAgeList)
 
 static pnNetMsgField Auth2Cli_ScoreCreateReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Score ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Created Time
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Score ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Created Time
 };
 MAKE_NETMSG(Auth2Cli_ScoreCreateReply)
 
 static pnNetMsgField Auth2Cli_ScoreDeleteReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_ScoreDeleteReply)
 
 static pnNetMsgField Auth2Cli_ScoreGetScoresReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Score Count
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Score Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Score Count
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Score Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Auth2Cli_ScoreGetScoresReply)
 
 static pnNetMsgField Auth2Cli_ScoreAddPointsReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_ScoreAddPointsReply)
 
 static pnNetMsgField Auth2Cli_ScoreTransferPointsReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_ScoreTransferPointsReply)
 
 static pnNetMsgField Auth2Cli_ScoreSetPointsReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
 };
 MAKE_NETMSG(Auth2Cli_ScoreSetPointsReply)
 
 static pnNetMsgField Auth2Cli_ScoreGetRanksReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Rank Count
-    { kFieldVarCount,   0, sizeof(hsUbyte)    },  // Rank Data
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Rank Count
+    { kFieldVarCount,   0, sizeof(uint8_t)    },  // Rank Data
     { kFieldVarPtr,     0, 0                  },
 };
 MAKE_NETMSG(Auth2Cli_ScoreGetRanksReply)
 
 static pnNetMsgField Auth2Cli_AcctExistsReply_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result?
-    { kFieldInteger,    0, sizeof(hsUbyte)    },  // Exists?
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result?
+    { kFieldInteger,    0, sizeof(uint8_t)    },  // Exists?
 };
 MAKE_NETMSG(Auth2Cli_AcctExistsReply)
 
 static pnNetMsgField Auth2Cli_AgeReplyEx_Fields[] = {
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Trans ID
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Result
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age MCP ID
-    { kFieldData,      16, sizeof(hsUbyte)    },  // Age Instance Uuid
-    { kFieldInteger,    0, sizeof(hsUint32)   },  // Age Vault ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Result
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age MCP ID
+    { kFieldData,      16, sizeof(uint8_t)    },  // Age Instance Uuid
+    { kFieldInteger,    0, sizeof(uint32_t)   },  // Age Vault ID
     { kFieldString,   256, sizeof(pl_wchar_t) },  // Game Server Address
 };
 MAKE_NETMSG(Auth2Cli_AgeReplyEx)
 
 
-const pnNetMsg* GET_Cli2Auth(hsUint32 msgId)
+const pnNetMsg* GET_Cli2Auth(uint32_t msgId)
 {
     static const pnNetMsg* s_messages[] = {
         &Cli2Auth_PingRequest,
@@ -743,7 +743,7 @@ const pnNetMsg* GET_Cli2Auth(hsUint32 msgId)
         return (msgId < kCli2Auth_LastMessage ? s_messages[msgId] : NULL);
 }
 
-const pnNetMsg* GET_Auth2Cli(hsUint32 msgId)
+const pnNetMsg* GET_Auth2Cli(uint32_t msgId)
 {
     static const pnNetMsg* s_messages[] = {
         &Auth2Cli_PingReply,

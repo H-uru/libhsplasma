@@ -20,7 +20,7 @@
 #include "plDynaDecalMgr.h"
 #include "PRP/Animation/plAnimPath.h"
 
-DllClass plDynaRippleMgr : public virtual plDynaDecalMgr {
+class PLASMA_DLL plDynaRippleMgr : public virtual plDynaDecalMgr {
     CREATABLE(plDynaRippleMgr, kDynaRippleMgr, plDynaDecalMgr)
 
 protected:
@@ -36,7 +36,7 @@ protected:
 };
 
 
-DllClass plDynaRippleVSMgr : public virtual plDynaRippleMgr {
+class PLASMA_DLL plDynaRippleVSMgr : public virtual plDynaRippleMgr {
     CREATABLE(plDynaRippleVSMgr, kDynaRippleVSMgr, plDynaRippleMgr)
 
 protected:
@@ -52,12 +52,12 @@ protected:
 };
 
 
-DllClass plDynaTorpedoMgr : public virtual plDynaRippleMgr {
+class PLASMA_DLL plDynaTorpedoMgr : public virtual plDynaRippleMgr {
     CREATABLE(plDynaTorpedoMgr, kDynaTorpedoMgr, plDynaRippleMgr)
 };
 
 
-DllClass plDynaTorpedoVSMgr : public virtual plDynaTorpedoMgr {
+class PLASMA_DLL plDynaTorpedoVSMgr : public virtual plDynaTorpedoMgr {
     CREATABLE(plDynaTorpedoVSMgr, kDynaTorpedoVSMgr, plDynaTorpedoMgr)
 
 protected:
@@ -73,11 +73,11 @@ protected:
 };
 
 
-DllClass plDynaPuddleMgr : public virtual plDynaRippleMgr {
+class PLASMA_DLL plDynaPuddleMgr : public virtual plDynaRippleMgr {
     CREATABLE(plDynaPuddleMgr, kDynaPuddleMgr, plDynaRippleMgr)
 };
 
-DllClass plDynaWakeMgr : public virtual plDynaRippleMgr {
+class PLASMA_DLL plDynaWakeMgr : public virtual plDynaRippleMgr {
     CREATABLE(plDynaWakeMgr, kDynaWakeMgr, plDynaRippleMgr)
 
 protected:

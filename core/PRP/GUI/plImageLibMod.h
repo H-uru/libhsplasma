@@ -18,7 +18,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass plImageLibMod : public virtual plSingleModifier {
+class PLASMA_DLL plImageLibMod : public virtual plSingleModifier {
     CREATABLE(plImageLibMod, kImageLibMod, plSingleModifier)
 
 protected:

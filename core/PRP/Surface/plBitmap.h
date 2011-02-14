@@ -26,7 +26,7 @@
  * static mipmap and environmaps, dynamic text maps, and render targets for
  * animated layers.
  */
-DllClass plBitmap : public virtual hsKeyedObject {
+class PLASMA_DLL plBitmap : public virtual hsKeyedObject {
     CREATABLE(plBitmap, kBitmap, hsKeyedObject)
 
 public:
@@ -156,13 +156,13 @@ public:
 
 protected:
     /** Stores information about a DXT compressed image */
-    DllStruct DirectXInfo {
+    struct PLASMA_DLL DirectXInfo {
         unsigned char fCompressionType; /** DXT compression type */
         unsigned char fBlockSize;       /** DirectX block size */
     };
 
     /** Stores information about non-DXT compressed images */
-    DllStruct UncompressedInfo {
+    struct PLASMA_DLL UncompressedInfo {
         unsigned char fType;            /** Uncompressed image type */
     };
 

@@ -28,12 +28,12 @@ enum ENetMsgFieldType {
     kFieldVarPtr, kFieldRawData, kFieldRawPtr, kFieldRawVarPtr, kFieldVarCount
 };
 
-DllStruct pnNetMsgField {
+struct PLASMANET_DLL pnNetMsgField {
     ENetMsgFieldType fType;
     unsigned int fCount, fSize;
 };
 
-DllStruct pnNetMsg {
+struct PLASMANET_DLL pnNetMsg {
     unsigned int fMsgId;
     const char* const fMsgName;
     size_t fFieldCount;
@@ -41,9 +41,9 @@ DllStruct pnNetMsg {
 };
 
 typedef union {
-    hsUint32 fUint;
+    uint32_t fUint;
     pl_wchar_t* fString;
-    hsUbyte* fData;
+    uint8_t* fData;
 } msgparm_t;
 
 #define MAKE_NETMSG(name) \
@@ -53,23 +53,23 @@ typedef union {
         name##_Fields \
     };
 
-DllExport msgparm_t* NCAllocMessage(const pnNetMsg* msg);
-DllExport void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg);
-DllExport size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
+PLASMANET_DLL msgparm_t* NCAllocMessage(const pnNetMsg* msg);
+PLASMANET_DLL void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg);
+PLASMANET_DLL size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
 
 
 /* Other stuff that doesn't really belong anywhere else */
-DllStruct pnNetAgeInfo {
+struct PLASMANET_DLL pnNetAgeInfo {
     enum { Stride = 0x9A0 };
 
     plUuid fAgeInstanceId;
     plString fAgeFilename, fAgeInstanceName, fAgeUserName, fDescription;
-    hsUint32 fSequenceNumber, fLanguage, fPopulation, fCurrPopulation;
+    uint32_t fSequenceNumber, fLanguage, fPopulation, fCurrPopulation;
 
     void read(const unsigned char* buffer);
     void write(unsigned char* buffer);
 };
 
-DllExport plUuid NCGetUuid(const msgparm_t& field);
+PLASMANET_DLL plUuid NCGetUuid(const msgparm_t& field);
 
 #endif

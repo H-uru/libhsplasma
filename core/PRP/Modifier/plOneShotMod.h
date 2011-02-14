@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-DllClass plOneShotMod : public virtual plMultiModifier {
+class PLASMA_DLL plOneShotMod : public virtual plMultiModifier {
     CREATABLE(plOneShotMod, kOneShotMod, plMultiModifier)
 
 protected:

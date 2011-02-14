@@ -19,7 +19,7 @@
 
 #include "plSound.h"
 
-DllClass plWin32Sound : public virtual plSound {
+class PLASMA_DLL plWin32Sound : public virtual plSound {
     CREATABLE(plWin32Sound, kWin32Sound, plSound)
 
 public:
@@ -39,7 +39,7 @@ public:
     void setChannel(unsigned char channel) { fChannelSelect = channel; }
 };
 
-DllClass plWin32StreamingSound : public plWin32Sound {
+class PLASMA_DLL plWin32StreamingSound : public plWin32Sound {
     CREATABLE(plWin32StreamingSound, kWin32StreamingSound, plWin32Sound)
 };
 

@@ -21,7 +21,7 @@
 #include "Math/hsMatrix44.h"
 #include "Math/hsAffineParts.h"
 
-DllStruct hsKeyFrame {
+struct PLASMA_DLL hsKeyFrame {
     enum {
         kUruUnknown    = 0x1,
         kBezController = 0x2
@@ -57,7 +57,7 @@ public:
     void setFrame(float frame);
 };
 
-DllStruct hsPoint3Key : public hsKeyFrame {
+struct PLASMA_DLL hsPoint3Key : public hsKeyFrame {
     hsVector3 fInTan, fOutTan;
     hsVector3 fValue;
 
@@ -67,7 +67,7 @@ DllStruct hsPoint3Key : public hsKeyFrame {
     virtual void prcParse(const pfPrcTag* tag);
 };
 
-DllStruct hsScalarKey : public hsKeyFrame {
+struct PLASMA_DLL hsScalarKey : public hsKeyFrame {
     float fInTan, fOutTan;
     float fValue;
 
@@ -77,7 +77,7 @@ DllStruct hsScalarKey : public hsKeyFrame {
     virtual void prcParse(const pfPrcTag* tag);
 };
 
-DllStruct hsScaleKey : public hsKeyFrame {
+struct PLASMA_DLL hsScaleKey : public hsKeyFrame {
     hsVector3 fInTan, fOutTan;
 
     // Folding hsScaleKey and hsScaleValue together:
@@ -90,7 +90,7 @@ DllStruct hsScaleKey : public hsKeyFrame {
     virtual void prcParse(const pfPrcTag* tag);
 };
 
-DllStruct hsQuatKey : public hsKeyFrame {
+struct PLASMA_DLL hsQuatKey : public hsKeyFrame {
     hsQuat fValue;
 
     virtual void read(hsStream* S, unsigned int type);
@@ -99,7 +99,7 @@ DllStruct hsQuatKey : public hsKeyFrame {
     virtual void prcParse(const pfPrcTag* tag);
 };
 
-DllStruct hsCompressedQuatKey32 : public hsKeyFrame {
+struct PLASMA_DLL hsCompressedQuatKey32 : public hsKeyFrame {
 public:
     enum { kCompQuatNukeX, kCompQuatNukeY, kCompQuatNukeZ, kCompQuatNukeW };
 
@@ -118,7 +118,7 @@ public:
     virtual void prcParse(const pfPrcTag* tag);
 };
 
-DllStruct hsCompressedQuatKey64 : public hsKeyFrame {
+struct PLASMA_DLL hsCompressedQuatKey64 : public hsKeyFrame {
 public:
     enum { kCompQuatNukeX, kCompQuatNukeY, kCompQuatNukeZ, kCompQuatNukeW };
 
@@ -138,7 +138,7 @@ public:
     virtual void prcParse(const pfPrcTag* tag);
 };
 
-DllStruct hsG3DSMaxKeyFrame : public hsKeyFrame {
+struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame {
     hsAffineParts fValue;
 
     virtual void read(hsStream* S, unsigned int type);
@@ -147,7 +147,7 @@ DllStruct hsG3DSMaxKeyFrame : public hsKeyFrame {
     virtual void prcParse(const pfPrcTag* tag);
 };
 
-DllStruct hsMatrix33Key : public hsKeyFrame {
+struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame {
     hsMatrix33 fValue;
 
     virtual void read(hsStream* S, unsigned int type);
@@ -156,7 +156,7 @@ DllStruct hsMatrix33Key : public hsKeyFrame {
     virtual void prcParse(const pfPrcTag* tag);
 };
 
-DllStruct hsMatrix44Key : public hsKeyFrame {
+struct PLASMA_DLL hsMatrix44Key : public hsKeyFrame {
     hsMatrix44 fValue;
 
     virtual void read(hsStream* S, unsigned int type);

@@ -19,7 +19,7 @@
 
 #include "PRP/plCreatable.h"
 
-DllClass plAnimStage : public plCreatable {
+class PLASMA_DLL plAnimStage : public plCreatable {
     CREATABLE(plAnimStage, kAnimStage, plCreatable)
 
 public:

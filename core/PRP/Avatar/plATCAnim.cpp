@@ -230,7 +230,7 @@ void plEmoteAnim::write(hsStream* S, plResManager* mgr) {
 
     S->writeFloat(fFadeIn);
     S->writeFloat(fFadeOut);
-    S->writeByte((hsUbyte)fBodyUsage);
+    S->writeByte((uint8_t)fBodyUsage);
 }
 
 void plEmoteAnim::IPrcWrite(pfPrcHelper* prc) {
@@ -239,7 +239,7 @@ void plEmoteAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("EmoteAnimParams");
     prc->writeParam("FadeIn", fFadeIn);
     prc->writeParam("FadeOut", fFadeOut);
-    prc->writeParam("BodyUsage", (hsUbyte)fBodyUsage);
+    prc->writeParam("BodyUsage", (uint8_t)fBodyUsage);
     prc->endTag(true);
 }
 

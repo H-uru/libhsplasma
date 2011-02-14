@@ -21,7 +21,7 @@
 #include "Math/hsGeometry3.h"
 #include "3rdPartyLibs/AL/EFX-Util.h"
 
-DllClass plEAXListenerMod : public virtual plSingleModifier {
+class PLASMA_DLL plEAXListenerMod : public virtual plSingleModifier {
     CREATABLE(plEAXListenerMod, kEAXListenerMod, plSingleModifier)
 
 protected:
@@ -37,7 +37,7 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plEAXEffect : public virtual plSingleModifier {
+class PLASMA_DLL plEAXEffect : public virtual plSingleModifier {
     CREATABLE(plEAXEffect, kEAXEffect, plSingleModifier)
 
 public:
@@ -49,7 +49,7 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
-DllClass plEAXReverbEffect : public virtual plEAXEffect {
+class PLASMA_DLL plEAXReverbEffect : public virtual plEAXEffect {
     CREATABLE(plEAXReverbEffect, kEAXReverbEffect, plEAXEffect)
 
 public:

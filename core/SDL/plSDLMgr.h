@@ -21,7 +21,7 @@
 #include "Debug/hsExceptions.h"
 #include "Stream/hsStream.h"
 
-DllClass plSDLMgr {
+class PLASMA_DLL plSDLMgr {
 protected:
     hsTArray<plStateDescriptor*> fDescriptors;
 
@@ -43,7 +43,7 @@ public:
     void write(hsStream* S);
 };
 
-DllClass plSDLParseException : public hsException {
+class PLASMA_DLL plSDLParseException : public hsException {
 public:
     plSDLParseException(const char* file, unsigned long line,
                         const char* msg, ...) throw();

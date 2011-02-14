@@ -21,9 +21,9 @@
 #include "Util/hsTList.hpp"
 #include "Util/hsTArray.hpp"
 
-DllClass hsTokenStream {
+class PLASMA_DLL hsTokenStream {
 public:
-    DllStruct Region {
+    struct PLASMA_DLL Region {
         plString fStart;
         plString fEnd;
 

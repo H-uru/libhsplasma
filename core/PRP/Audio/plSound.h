@@ -21,7 +21,7 @@
 #include "Math/hsGeometry3.h"
 #include "plEAXEffects.h"
 
-DllClass plSound : public virtual plSynchedObject {
+class PLASMA_DLL plSound : public virtual plSynchedObject {
     CREATABLE(plSound, kSound, plSynchedObject)
 
 public:
@@ -48,7 +48,7 @@ public:
     };
 
 public:
-    DllClass plFadeParams {
+    class PLASMA_DLL plFadeParams {
     public:
         enum Type { kLinear, kLogarithmic, kExponential };
 

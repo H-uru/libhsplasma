@@ -28,5 +28,5 @@ enum {
     kGame2Cli_GameMgrMsg, kGame2Cli_LastMessage,
 };
 
-DllExport const pnNetMsg* GET_Cli2Game(hsUint32 msgId);
-DllExport const pnNetMsg* GET_Game2Cli(hsUint32 msgId);
+PLASMANET_DLL const pnNetMsg* GET_Cli2Game(uint32_t msgId);
+PLASMANET_DLL const pnNetMsg* GET_Game2Cli(uint32_t msgId);

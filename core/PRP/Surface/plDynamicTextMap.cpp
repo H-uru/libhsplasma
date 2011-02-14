@@ -63,7 +63,7 @@ void plDynamicTextMap::read(hsStream* S, plResManager* mgr) {
         if (fInitBufferLen != (size_t)(fVisWidth * fVisHeight))
             plDebug::Warning("Got incorrect init buffer size");
         fInitBuffer = new unsigned int[fInitBufferLen];
-        S->readInts(fInitBufferLen, (hsUint32*)fInitBuffer);
+        S->readInts(fInitBufferLen, (uint32_t*)fInitBuffer);
     }
     Create(fVisWidth, fVisHeight, fHasAlpha, 0, 0);
 }
@@ -77,7 +77,7 @@ void plDynamicTextMap::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fInitBufferLen);
     if (fInitBuffer != NULL)
-        S->writeInts(fInitBufferLen, (hsUint32*)fInitBuffer);
+        S->writeInts(fInitBufferLen, (uint32_t*)fInitBuffer);
 }
 
 void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc) {

@@ -19,7 +19,7 @@
 
 #include "plSpan.h"
 
-DllClass plVertexSpan : public plSpan {
+class PLASMA_DLL plVertexSpan : public plSpan {
 public:
     unsigned int fGroupIdx, fVBufferIdx, fCellIdx,
                  fCellOffset, fVStartIdx, fVLength;

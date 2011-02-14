@@ -25,7 +25,7 @@
 #include "Sys/plUnifiedTime.h"
 #include "PRP/plCreatable.h"
 
-DllClass plStateVarNotificationInfo {
+class PLASMA_DLL plStateVarNotificationInfo {
 protected:
     plString fHintString;
 
@@ -35,7 +35,7 @@ public:
 };
 
 
-DllClass plStateVariable {
+class PLASMA_DLL plStateVariable {
 protected:
     unsigned char fContents;
     plStateVarNotificationInfo fNotificationInfo;
@@ -64,7 +64,7 @@ public:
 };
 
 
-DllClass plSDStateVariable : public plStateVariable {
+class PLASMA_DLL plSDStateVariable : public plStateVariable {
 protected:
     hsTArray<class plStateDataRecord*> fDataRecList;
     plStateDescriptor* fSDVarDescriptor;
@@ -87,7 +87,7 @@ public:
 };
 
 
-DllClass plSimpleStateVariable : public plStateVariable {
+class PLASMA_DLL plSimpleStateVariable : public plStateVariable {
 protected:
     union {
         void* fGenPtr;

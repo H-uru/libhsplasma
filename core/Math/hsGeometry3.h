@@ -24,7 +24,7 @@
 /**
  * \brief Stores a vector in 3D space.
  */
-DllStruct hsVector3 {
+struct PLASMA_DLL hsVector3 {
     float X, Y, Z;
 
     /** Construct a vector at the origin [0,0,0] */
@@ -98,7 +98,7 @@ DllStruct hsVector3 {
 /**
  * \brief Describes an infinite plane in 3D space.
  */
-DllStruct hsPlane3 {
+struct PLASMA_DLL hsPlane3 {
     /** The Normal direction of the plane (should be a unit vector). */
     hsVector3 N;
 
@@ -134,7 +134,7 @@ DllStruct hsPlane3 {
 /**
  * \brief Stores a point in 2D space.
  */
-DllStruct hsFloatPoint2 {
+struct PLASMA_DLL hsFloatPoint2 {
     float X, Y;
 
     /** Constructs a point at the origin [0,0] */

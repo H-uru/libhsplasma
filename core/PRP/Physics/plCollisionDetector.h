@@ -19,7 +19,7 @@
 
 #include "plDetectorModifier.h"
 
-DllClass plCollisionDetector : public virtual plDetectorModifier {
+class PLASMA_DLL plCollisionDetector : public virtual plDetectorModifier {
     CREATABLE(plCollisionDetector, kCollisionDetector, plDetectorModifier)
 
 public:
@@ -51,7 +51,7 @@ public:
 };
 
 
-DllClass plSubworldRegionDetector : public virtual plCollisionDetector {
+class PLASMA_DLL plSubworldRegionDetector : public virtual plCollisionDetector {
     CREATABLE(plSubworldRegionDetector, kSubworldRegionDetector,
               plCollisionDetector)
 
@@ -78,7 +78,7 @@ public:
 };
 
 
-DllClass plPanicLinkRegion : public virtual plCollisionDetector {
+class PLASMA_DLL plPanicLinkRegion : public virtual plCollisionDetector {
     CREATABLE(plPanicLinkRegion, kPanicLinkRegion, plCollisionDetector)
 
 protected:

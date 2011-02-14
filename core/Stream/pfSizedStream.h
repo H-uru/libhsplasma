@@ -19,22 +19,22 @@
 
 #include "hsStream.h"
 
-DllClass pfSizedStream : public hsStream {
+class PLASMA_DLL pfSizedStream : public hsStream {
 private:
     hsStream* fBase;
-    hsUint32 fLength; //!< the length of the substream - not the end position of it!
-    hsUint32 fBegin;
+    uint32_t fLength; //!< the length of the substream - not the end position of it!
+    uint32_t fBegin;
 
 public:
-    pfSizedStream(hsStream* S, hsUint32 len);
+    pfSizedStream(hsStream* S, uint32_t len);
     virtual ~pfSizedStream();
 
-    virtual hsUint32 size() const { return fLength; }
-    virtual hsUint32 pos() const { return fBase->pos() - fBegin; }
+    virtual uint32_t size() const { return fLength; }
+    virtual uint32_t pos() const { return fBase->pos() - fBegin; }
     virtual bool eof() const { return fBase->eof() || pos() == fLength; }
 
-    virtual void seek(hsUint32 pos);
-    virtual void skip(hsInt32 count);
+    virtual void seek(uint32_t pos);
+    virtual void skip(int32_t count);
     virtual void fastForward();
     virtual void rewind();
     virtual void flush();

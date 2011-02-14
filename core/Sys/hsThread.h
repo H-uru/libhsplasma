@@ -27,7 +27,7 @@
 #  define S_THREADSTART void* s_threadstart(void*)
 #endif
 
-DllClass hsThreadCondition {
+class PLASMA_DLL hsThreadCondition {
 protected:
     void* fConditionData;
 
@@ -39,7 +39,7 @@ public:
     void signal();
 };
 
-DllClass hsMutex {
+class PLASMA_DLL hsMutex {
 protected:
     void* fMutexData;
 
@@ -54,7 +54,7 @@ private:
     friend class hsThread;
 };
 
-DllClass hsThread {
+class PLASMA_DLL hsThread {
 private:
     void* fThreadData;
     hsThreadCondition fFinishCondition;

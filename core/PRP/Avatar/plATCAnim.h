@@ -20,7 +20,7 @@
 #include "plAGAnim.h"
 #include <map>
 
-DllClass plATCAnim : public virtual plAGAnim {
+class PLASMA_DLL plATCAnim : public virtual plAGAnim {
     CREATABLE(plATCAnim, kATCAnim, plAGAnim)
 
 public:
@@ -94,7 +94,7 @@ public:
 };
 
 
-DllClass plEmoteAnim : public virtual plATCAnim {
+class PLASMA_DLL plEmoteAnim : public virtual plATCAnim {
     CREATABLE(plEmoteAnim, kEmoteAnim, plATCAnim)
 
 protected:
@@ -121,7 +121,7 @@ public:
     void setFadeOut(float fade) { fFadeOut = fade; }
 };
 
-DllClass plAGAnimBink : public plATCAnim {
+class PLASMA_DLL plAGAnimBink : public plATCAnim {
     CREATABLE(plAGAnimBink, kAGAnimBink, plATCAnim)
 
 protected:

@@ -19,11 +19,11 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass pfObjectFlocker : public virtual plSingleModifier {
+class PLASMA_DLL pfObjectFlocker : public virtual plSingleModifier {
     CREATABLE(pfObjectFlocker, kObjectFlocker, plSingleModifier)
 
 public:
-    DllStruct pfFlock {
+    struct PLASMA_DLL pfFlock {
         float fGoalWeight, fRandomWeight;
         float fSeparationWeight, fSeparationRadius;
         float fCohesionWeight, fCohesionRadius;

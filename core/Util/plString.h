@@ -25,9 +25,9 @@
 
 typedef unsigned short pl_wchar_t;
 
-DllClass plString {
+class PLASMA_DLL plString {
 public:
-    DllClass StrBuffer {
+    class PLASMA_DLL StrBuffer {
     private:
         char* fStr;
         size_t fLen;
@@ -43,7 +43,7 @@ public:
         size_t len() const { return fLen; }
     };
 
-    DllClass WideBuffer {
+    class PLASMA_DLL WideBuffer {
     private:
         pl_wchar_t* fStr;
         size_t fLen;
@@ -59,7 +59,7 @@ public:
         size_t len() const { return fLen; }
     };
 
-    DllClass Wide {
+    class PLASMA_DLL Wide {
     private:
         WideBuffer* fString;
         static const pl_wchar_t* getNullStringBecauseVisualStudioIsStupid();
@@ -152,8 +152,8 @@ public:
     static plString FormatV(const char* fmt, va_list aptr);
 };
 
-plString DllExport CleanFileName(const char* fname, bool allowPathChars = false);
-size_t DllExport plwcslen(const pl_wchar_t* str);
-pl_wchar_t DllExport* plwcsdup(const pl_wchar_t* str);
+plString PLASMA_DLL CleanFileName(const char* fname, bool allowPathChars = false);
+size_t PLASMA_DLL plwcslen(const pl_wchar_t* str);
+pl_wchar_t PLASMA_DLL* plwcsdup(const pl_wchar_t* str);
 
 #endif

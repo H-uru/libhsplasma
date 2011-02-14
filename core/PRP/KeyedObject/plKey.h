@@ -35,13 +35,13 @@
  * but rather keep it contained in a plKey object, and use plKeyData's members
  * through the plKey's overloaded pointer operators.
  */
-DllClass plKeyData {
+class PLASMA_DLL plKeyData {
 private:
     plUoid fUoid;
     class hsKeyedObject* fObjPtr;
 
-    hsUint32 fFileOff, fObjSize;
-    hsUint32 fRefCnt;
+    uint32_t fFileOff, fObjSize;
+    uint32_t fRefCnt;
 
 public:
     /**
@@ -59,7 +59,7 @@ public:
     ~plKeyData() { }
 
 private:
-    hsUint32 Ref() { return ++fRefCnt; }
+    uint32_t Ref() { return ++fRefCnt; }
     void UnRef();
     friend class plKey;
 
@@ -151,27 +151,27 @@ public:
     const plLoadMask& getLoadMask() const { return fUoid.getLoadMask(); }
 
     /** Returns the numeric ID of the key; only meaningful for EoA, Hex Isle and MOUL */
-    hsUint32 getID() const { return fUoid.getID(); }
+    uint32_t getID() const { return fUoid.getID(); }
 
     /** Returns the Clone ID of this key (usually 0) */
-    hsUint32 getCloneID() const { return fUoid.getCloneID(); }
+    uint32_t getCloneID() const { return fUoid.getCloneID(); }
 
     /** Returns the Clone Player ID of this key (usually 0) */
-    hsUint32 getClonePlayerID() const { return fUoid.getClonePlayerID(); }
+    uint32_t getClonePlayerID() const { return fUoid.getClonePlayerID(); }
 
     /**
      * Returns the location in the PRP file where this key's data starts.
      * This is not updated until the PRP file's key index is either read
      * or written.
      */
-    hsUint32 getFileOff() const { return fFileOff; }
+    uint32_t getFileOff() const { return fFileOff; }
 
     /**
      * Returns the total size of the object referenced by this key.
      * This is not updated until the PRP file's key index is either read
      * or written.
      */
-    hsUint32 getObjSize() const { return fObjSize; }
+    uint32_t getObjSize() const { return fObjSize; }
 
     /**
      * Sets the Class Index of the object referenced by this key.
@@ -206,22 +206,22 @@ public:
      * by the plResManager while managing keys, so you should never
      * call this directly unless you are not using a ResManager.
      */
-    void setID(hsUint32 id) { fUoid.setID(id); }
+    void setID(uint32_t id) { fUoid.setID(id); }
 
-    /** Sets the Clone IDs of the key.  Basically useless. */
-    void setCloneIDs(hsUint32 clone, hsUint32 player) { fUoid.setCloneIDs(clone, player); }
+    /** Sets the Clone IDs of the key. */
+    void setCloneIDs(uint32_t clone, uint32_t player) { fUoid.setCloneIDs(clone, player); }
 
     /**
      * Set the file offset for the object pointed to by the key.  This
      * is done automatically by the plResManager when writing pages.
      */
-    void setFileOff(hsUint32 off) { fFileOff = off; }
+    void setFileOff(uint32_t off) { fFileOff = off; }
 
     /**
      * Set the object size for the object pointed to by the key.  This
      * is done automatically by the plResManager when writing pages.
      */
-    void setObjSize(hsUint32 size) { fObjSize = size; }
+    void setObjSize(uint32_t size) { fObjSize = size; }
 };
 
 /**
@@ -235,7 +235,7 @@ public:
  * plKey's members, with the addition of Exists() and isLoaded(), which
  * are direct members of the plKey container.
  */
-DllClass plKey {
+class PLASMA_DLL plKey {
 private:
     plKeyData* fKeyData;
 

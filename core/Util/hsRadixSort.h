@@ -20,7 +20,7 @@
 #include "PlasmaDefs.h"
 #include <stdlib.h>
 
-DllStruct hsRadixSortElem {
+struct PLASMA_DLL hsRadixSortElem {
     union {
         int fSigned;
         unsigned int fUnsigned;
@@ -31,7 +31,7 @@ DllStruct hsRadixSortElem {
     hsRadixSortElem* fNext;
 };
 
-DllClass hsRadixSort {
+class PLASMA_DLL hsRadixSort {
 public:
     enum {
         kFloat = 0,

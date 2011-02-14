@@ -19,7 +19,7 @@
 
 #include "plMorphDelta.h"
 
-DllClass plMorphArray {
+class PLASMA_DLL plMorphArray {
 protected:
     hsTArray<plMorphDelta> fDeltas;
 

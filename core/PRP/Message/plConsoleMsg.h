@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-DllClass plConsoleMsg : public plMessage {
+class PLASMA_DLL plConsoleMsg : public plMessage {
     CREATABLE(plConsoleMsg, kConsoleMsg, plMessage)
 
 public:

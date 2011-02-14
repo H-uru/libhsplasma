@@ -23,22 +23,22 @@
 #include "pnSocket.h"
 #include "pnSocketInterface.h"
 
-DllStruct pnFileManifest {
+struct PLASMANET_DLL pnFileManifest {
     plString fFilename, fDownloadName;
     plMD5Hash fHash, fCompressedHash;
-    hsUint32 fFileSize, fCompressedSize, fFlags;
+    uint32_t fFileSize, fCompressedSize, fFlags;
 
     const pl_wchar_t* read(const pl_wchar_t* src);
     pl_wchar_t* write(pl_wchar_t* dest);
     size_t calcSize() const;
 };
 
-DllClass pnFileClient : public pnClient {
+class PLASMANET_DLL pnFileClient : public pnClient {
 public:
     pnFileClient(bool threaded=true);
     virtual ~pnFileClient();
 
-    void setClientInfo(hsUint32 buildType, hsUint32 branchId, const plUuid& productId);
+    void setClientInfo(uint32_t buildType, uint32_t branchId, const plUuid& productId);
     virtual ENetError connect(const char* host, short port = 14617);
     virtual ENetError connect(int sockFd);
     virtual void disconnect();
@@ -50,24 +50,24 @@ public:
 //     virtual void waitForStatus() { fSock->waitForStatus(); }
 
     /* Outgoing Protocol */
-    void sendPingRequest(hsUint32 pingTimeMs);
-    hsUint32 sendBuildIdRequest();
-    hsUint32 sendManifestRequest(const plString& group, hsUint32 buildId);
-    hsUint32 sendFileDownloadRequest(const plString& filename, hsUint32 buildId);
+    void sendPingRequest(uint32_t pingTimeMs);
+    uint32_t sendBuildIdRequest();
+    uint32_t sendManifestRequest(const plString& group, uint32_t buildId);
+    uint32_t sendFileDownloadRequest(const plString& filename, uint32_t buildId);
 
     /* Incoming Protocol - To be implemented by subclasses */
-    virtual void onPingReply(hsUint32 pingTimeMs);
-    virtual void onBuildIdReply(hsUint32 transId, ENetError result, hsUint32 buildId);
-    virtual void onBuildIdUpdate(hsUint32 buildId);
-    virtual void onManifestReply(hsUint32 transId, ENetError result,
-                    hsUint32 readerId, size_t numFiles, const pnFileManifest* files);
-    virtual void onFileDownloadReply(hsUint32 transId, ENetError result,
-                    hsUint32 readerId, hsUint32 totalSize, size_t bufferSize,
-                    const hsUbyte* bufferData);
+    virtual void onPingReply(uint32_t pingTimeMs);
+    virtual void onBuildIdReply(uint32_t transId, ENetError result, uint32_t buildId);
+    virtual void onBuildIdUpdate(uint32_t buildId);
+    virtual void onManifestReply(uint32_t transId, ENetError result,
+                    uint32_t readerId, size_t numFiles, const pnFileManifest* files);
+    virtual void onFileDownloadReply(uint32_t transId, ENetError result,
+                    uint32_t readerId, uint32_t totalSize, size_t bufferSize,
+                    const uint8_t* bufferData);
 
 protected:
     pnSocket* fSock;
-    hsUint32 fBuildType, fBranchId;
+    uint32_t fBuildType, fBranchId;
     plUuid fProductId;
     bool fThreaded;
 
@@ -82,13 +82,13 @@ private:
         pnFileClient* fReceiver;
 
     private:
-        std::map<hsUint32, pnFileManifest*> fMfsQueue;
-        std::map<hsUint32, size_t> fMfsOffset;
+        std::map<uint32_t, pnFileManifest*> fMfsQueue;
+        std::map<uint32_t, size_t> fMfsOffset;
     } *fDispatch;
 
     ENetError performConnect();
-    void sendManifestEntryAck(hsUint32 transId, hsUint32 readerId);
-    void sendFileDownloadChunkAck(hsUint32 transId, hsUint32 readerId);
+    void sendManifestEntryAck(uint32_t transId, uint32_t readerId);
+    void sendFileDownloadChunkAck(uint32_t transId, uint32_t readerId);
 };
 
 #endif

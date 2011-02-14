@@ -34,7 +34,7 @@ extern "C" {
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-DllClass plUnifiedTime {
+class PLASMA_DLL plUnifiedTime {
 public:
     enum Mode { kGMT, kLocal };
 
@@ -118,7 +118,7 @@ protected:
     tm* IGetTime(const time_t* secs) const;
 };
 
-plUnifiedTime operator+(const plUnifiedTime& left, const plUnifiedTime& right);
-plUnifiedTime operator-(const plUnifiedTime& left, const plUnifiedTime& right);
+plUnifiedTime PLASMA_DLL operator+(const plUnifiedTime& left, const plUnifiedTime& right);
+plUnifiedTime PLASMA_DLL operator-(const plUnifiedTime& left, const plUnifiedTime& right);
 
 #endif

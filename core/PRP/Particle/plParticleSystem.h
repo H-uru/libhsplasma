@@ -21,7 +21,7 @@
 #include "PRP/Animation/plController.h"
 #include "plParticleEmitter.h"
 
-DllClass plParticleSystem : public virtual plSynchedObject {
+class PLASMA_DLL plParticleSystem : public virtual plSynchedObject {
     CREATABLE(plParticleSystem, kParticleSystem, plSynchedObject)
 
 public:

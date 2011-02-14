@@ -21,7 +21,7 @@
 #include "PRP/Message/plEventCallbackMsg.h"
 #include "plATCEaseCurves.h"
 
-DllClass plAnimTimeConvert : public plCreatable {
+class PLASMA_DLL plAnimTimeConvert : public plCreatable {
     CREATABLE(plAnimTimeConvert, kAnimTimeConvert, plCreatable)
 
 public:

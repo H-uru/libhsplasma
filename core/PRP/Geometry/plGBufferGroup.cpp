@@ -214,7 +214,7 @@ void plGBufferGroup::read(hsStream* S) {
             fVertBuffSizes[i] = vtxSize;
             vData = new unsigned char[vtxSize];
             fVertBuffStorage[i] = vData;
-            hsUint32 compStart = S->pos();
+            uint32_t compStart = S->pos();
             coder.read(S, vData, fFormat, vtxCount);
 
             // Store the compressed buffer too, so we don't have to
@@ -230,7 +230,7 @@ void plGBufferGroup::read(hsStream* S) {
             vData = new unsigned char[vtxSize];
             S->read(vtxSize, vData);
             fVertBuffStorage[i] = vData;
-            hsUint32 colourcount = S->readInt();
+            uint32_t colourcount = S->readInt();
             if (colourcount > 0) {
                 unsigned char* cData = new unsigned char[colourcount*8];
                 S->read(colourcount * 8, cData);

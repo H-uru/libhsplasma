@@ -65,9 +65,9 @@ namespace plVault {
     };
 }
 
-DllClass plVaultBlob {
+class PLASMA_DLL plVaultBlob {
 private:
-    struct BlobData {
+    struct PLASMA_DLL BlobData {
         unsigned int fRefs;
         size_t fSize;
         unsigned char* fData;
@@ -94,7 +94,7 @@ public:
     void setData(size_t size, const unsigned char* data);
 };
 
-DllClass plVaultNode {
+class PLASMA_DLL plVaultNode {
 public:
     enum {
         kFieldNodeID, kFieldNodeType, kFieldPermissions, kFieldOwner,

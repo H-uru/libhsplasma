@@ -19,7 +19,7 @@
 
 #include "PRP/plCreatable.h"
 
-DllClass plArmatureBrain : public plCreatable {
+class PLASMA_DLL plArmatureBrain : public plCreatable {
     CREATABLE(plArmatureBrain, kArmatureBrain, plCreatable)
 
 public:
@@ -32,7 +32,7 @@ protected:
 };
 
 
-DllClass plAvBrainHuman : public plArmatureBrain {
+class PLASMA_DLL plAvBrainHuman : public plArmatureBrain {
     CREATABLE(plAvBrainHuman, kAvBrainHuman, plArmatureBrain)
 
 protected:
@@ -54,42 +54,42 @@ public:
 };
 
 
-DllClass plAvBrainClimb : public plArmatureBrain {
+class PLASMA_DLL plAvBrainClimb : public plArmatureBrain {
     CREATABLE(plAvBrainClimb, kAvBrainClimb, plArmatureBrain)
 };
 
 
-DllClass plAvBrainAvatar : public plArmatureBrain {
+class PLASMA_DLL plAvBrainAvatar : public plArmatureBrain {
     CREATABLE(plAvBrainAvatar, kAvBrainAvatar, plArmatureBrain)
 };
 
-DllClass plAvBrainCritter : public plArmatureBrain {
+class PLASMA_DLL plAvBrainCritter : public plArmatureBrain {
     CREATABLE(plAvBrainCritter, kAvBrainCritter, plArmatureBrain)
 };
 
 
-DllClass plAvBrainDrive : public plArmatureBrain {
+class PLASMA_DLL plAvBrainDrive : public plArmatureBrain {
     CREATABLE(plAvBrainDrive, kAvBrainDrive, plArmatureBrain)
 };
 
 
-DllClass plAvBrainPirahna : public plArmatureBrain {
+class PLASMA_DLL plAvBrainPirahna : public plArmatureBrain {
     CREATABLE(plAvBrainPirahna, kAvBrainPirahna, plArmatureBrain)
 };
 
 
-DllClass plAvBrainQuab : public plArmatureBrain {
+class PLASMA_DLL plAvBrainQuab : public plArmatureBrain {
     CREATABLE(plAvBrainQuab, kAvBrainQuab, plArmatureBrain)
 };
 
 
-DllClass plAvBrainRideAnimatedPhysical : public plArmatureBrain {
+class PLASMA_DLL plAvBrainRideAnimatedPhysical : public plArmatureBrain {
     CREATABLE(plAvBrainRideAnimatedPhysical, kAvBrainRideAnimatedPhysical,
               plArmatureBrain)
 };
 
 
-DllClass plAvBrainSwim : public plArmatureBrain {
+class PLASMA_DLL plAvBrainSwim : public plArmatureBrain {
     CREATABLE(plAvBrainSwim, kAvBrainSwim, plArmatureBrain)
 };
 

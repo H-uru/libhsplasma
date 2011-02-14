@@ -19,7 +19,7 @@
 
 #include "../Sys/plUnifiedTime.h"
 
-DllClass plVaultNodeRef {
+class PLASMA_DLL plVaultNodeRef {
 protected:
     unsigned int fSaver, fParent, fChild;
     plUnifiedTime fAutoTime;

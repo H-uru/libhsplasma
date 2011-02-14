@@ -40,10 +40,10 @@ void plAnimStage::read(hsStream* S, plResManager* ) {
 void plAnimStage::write(hsStream* S, plResManager* ) {
     S->writeSafeStr(fAnimName);
     S->writeByte(fNotify);
-    S->writeInt((hsUint32)fForwardType);
-    S->writeInt((hsUint32)fBackType);
-    S->writeInt((hsUint32)fAdvanceType);
-    S->writeInt((hsUint32)fRegressType);
+    S->writeInt((uint32_t)fForwardType);
+    S->writeInt((uint32_t)fBackType);
+    S->writeInt((uint32_t)fAdvanceType);
+    S->writeInt((uint32_t)fRegressType);
     S->writeInt(fLoops);
     S->writeBool(fDoAdvanceTo);
     S->writeInt(fAdvanceTo);

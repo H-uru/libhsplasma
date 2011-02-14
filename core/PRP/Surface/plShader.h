@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-DllClass plShaderConst {
+class PLASMA_DLL plShaderConst {
 public:
     union {
         struct { float fR, fG, fB, fA; };
@@ -43,7 +43,7 @@ public:
 };
 
 
-DllClass plShader : public virtual hsKeyedObject {
+class PLASMA_DLL plShader : public virtual hsKeyedObject {
     CREATABLE(plShader, kShader, hsKeyedObject)
 
 public:

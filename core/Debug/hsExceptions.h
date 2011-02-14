@@ -20,7 +20,7 @@
 #include "Util/plString.h"
 #include <exception>
 
-DllClass hsException : public std::exception {
+class PLASMA_DLL hsException : public std::exception {
 protected:
     plString fWhat;
     const char* fFile;
@@ -42,29 +42,29 @@ protected:
                 unsigned long line) throw();
 };
 
-DllClass hsNotImplementedException : public hsException {
+class PLASMA_DLL hsNotImplementedException : public hsException {
 public:
     hsNotImplementedException(const char* file, unsigned long line,
                               const char* feature = NULL) throw();
 };
 
-DllClass hsBadParamException : public hsException {
+class PLASMA_DLL hsBadParamException : public hsException {
 public:
     hsBadParamException(const char* file, unsigned long line,
                         const char* details = NULL) throw();
 };
 
-DllClass hsOutOfBoundsException : public hsException {
+class PLASMA_DLL hsOutOfBoundsException : public hsException {
 public:
     hsOutOfBoundsException(const char* file, unsigned long line) throw();
 };
 
-DllClass hsBadVersionException : public hsException {
+class PLASMA_DLL hsBadVersionException : public hsException {
 public:
     hsBadVersionException(const char* file, unsigned long line) throw();
 };
 
-DllClass hsVersionMismatchException : public hsException {
+class PLASMA_DLL hsVersionMismatchException : public hsException {
 public:
     hsVersionMismatchException(const char* file, unsigned long line) throw();
 };

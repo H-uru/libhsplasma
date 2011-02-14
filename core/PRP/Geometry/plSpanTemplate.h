@@ -20,7 +20,7 @@
 #include "Math/hsGeometry3.h"
 #include "Util/hsTArray.hpp"
 
-DllClass plSpanTemplate {
+class PLASMA_DLL plSpanTemplate {
 public:
     enum {
         kPosMask = 0x1,
@@ -32,7 +32,7 @@ public:
         kColor2Mask = 0x400
     };
 
-    DllStruct Vertex {
+    struct PLASMA_DLL Vertex {
         hsVector3 fPosition, fNormal;
         unsigned int fColor1, fColor2;
         int fWeightIdx;

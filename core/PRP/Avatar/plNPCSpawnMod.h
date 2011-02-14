@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plNotifyMsg.h"
 
-DllClass plNPCSpawnMod : public virtual plSingleModifier {
+class PLASMA_DLL plNPCSpawnMod : public virtual plSingleModifier {
     CREATABLE(plNPCSpawnMod, kNPCSpawnMod, plSingleModifier)
 
 protected:

@@ -20,7 +20,7 @@
 #include "plNetMsgGameMessage.h"
 #include "plNetMsgObject.h"
 
-DllClass plNetMsgLoadClone : public plNetMsgGameMessage {
+class PLASMA_DLL plNetMsgLoadClone : public plNetMsgGameMessage {
     CREATABLE(plNetMsgLoadClone, kNetMsgLoadClone, plNetMsgGameMessage)
 
 private:

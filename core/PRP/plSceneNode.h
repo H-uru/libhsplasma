@@ -21,7 +21,7 @@
 #include "PRP/Object/plSceneObject.h"
 #include "Util/hsTArray.hpp"
 
-DllClass plSceneNode : public virtual hsKeyedObject {
+class PLASMA_DLL plSceneNode : public virtual hsKeyedObject {
     CREATABLE(plSceneNode, kSceneNode, hsKeyedObject)
 
 protected:

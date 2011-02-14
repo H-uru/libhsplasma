@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-DllClass plActivatorConditionalObject : public virtual plConditionalObject {
+class PLASMA_DLL plActivatorConditionalObject : public virtual plConditionalObject {
     CREATABLE(plActivatorConditionalObject, kActivatorConditionalObject,
               plConditionalObject)
 
@@ -36,14 +36,14 @@ protected:
 };
 
 
-DllClass plActivatorActivatorConditionalObject : public virtual plActivatorConditionalObject {
+class PLASMA_DLL plActivatorActivatorConditionalObject : public virtual plActivatorConditionalObject {
     CREATABLE(plActivatorActivatorConditionalObject,
               kActivatorActivatorConditionalObject,
               plActivatorConditionalObject)
 };
 
 
-DllClass plVolActivatorConditionalObject : public virtual plActivatorConditionalObject {
+class PLASMA_DLL plVolActivatorConditionalObject : public virtual plActivatorConditionalObject {
     CREATABLE(plVolActivatorConditionalObject,
               kVolActivatorConditionalObject,
               plActivatorConditionalObject)

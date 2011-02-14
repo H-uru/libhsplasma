@@ -23,14 +23,14 @@ extern "C" {
 #include <jpeglib.h>
 }
 
-DllClass hsJPEGException : public hsException {
+class PLASMA_DLL hsJPEGException : public hsException {
 public:
     hsJPEGException(const char* file, unsigned long line,
                     const char* message = NULL) throw();
 };
 
 
-DllClass plJPEG {
+class PLASMA_DLL plJPEG {
 private:
     static bool fJPEGInited;
     static jpeg_compress_struct cinfo;

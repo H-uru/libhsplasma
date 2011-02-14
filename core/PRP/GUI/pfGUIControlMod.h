@@ -24,7 +24,7 @@
 #include "Math/hsMatrix44.h"
 #include "pfGUIControlHandlers.h"
 
-DllClass pfGUIColorScheme {
+class PLASMA_DLL pfGUIColorScheme {
 public:
     enum FontFlags {
         kFontBold = 0x01,
@@ -70,7 +70,7 @@ public:
 };
 
 
-DllClass pfGUIControlMod : public virtual plSingleModifier {
+class PLASMA_DLL pfGUIControlMod : public virtual plSingleModifier {
     CREATABLE(pfGUIControlMod, kGUIControlMod, plSingleModifier)
 
 public:

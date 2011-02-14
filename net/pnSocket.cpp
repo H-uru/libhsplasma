@@ -309,8 +309,8 @@ unsigned long pnSocket::GetAddress(const char* addrName)
 
 plString pnSocket::recvString(size_t maxlen)
 {
-    hsUint16 size;
-    if (recv(&size, sizeof(hsUint16)) <= 0)
+    uint16_t size;
+    if (recv(&size, sizeof(uint16_t)) <= 0)
         size = 0;
     if (size >= maxlen)
         size = maxlen-1;
@@ -332,16 +332,16 @@ static void RecvBasic(pnSocket* sock, msgparm_t& data,
     // Also works for floats
     if (count == 0) {
         if (size == 1) {
-            hsUbyte v;
-            sock->recv(&v, sizeof(hsUbyte));
+            uint8_t v;
+            sock->recv(&v, sizeof(uint8_t));
             data.fUint = v;
         } else if (size == 2) {
-            hsUint16 v;
-            sock->recv(&v, sizeof(hsUint16));
+            uint16_t v;
+            sock->recv(&v, sizeof(uint16_t));
             data.fUint = v;
         } else if (size == 4) {
-            hsUint32 v;
-            sock->recv(&v, sizeof(hsUint32));
+            uint32_t v;
+            sock->recv(&v, sizeof(uint32_t));
             data.fUint = v;
         }
 
@@ -350,11 +350,11 @@ static void RecvBasic(pnSocket* sock, msgparm_t& data,
 #endif
     } else {
         if (size == 1)
-            sock->recv(data.fData, count * sizeof(hsUbyte));
+            sock->recv(data.fData, count * sizeof(uint8_t));
         else if (size == 2)
-            sock->recv(data.fData, count * sizeof(hsUint16));
+            sock->recv(data.fData, count * sizeof(uint16_t));
         else if (size == 4)
-            sock->recv(data.fData, count * sizeof(hsUint32));
+            sock->recv(data.fData, count * sizeof(uint32_t));
 
 #ifdef COMMDEBUG
         plString ln = plString::Format("     <- Int%d[%d]: ", size * 8, count);
@@ -362,11 +362,11 @@ static void RecvBasic(pnSocket* sock, msgparm_t& data,
         char* lnbuf = new char[lnbufSize + 1];
         for (size_t i=0; i<count; i++) {
             if (size == 1)
-                sprintf(lnbuf + (i * 3), "%02X ", ((hsUbyte*)data.fData)[i]);
+                sprintf(lnbuf + (i * 3), "%02X ", ((uint8_t*)data.fData)[i]);
             else if (size == 2)
-                sprintf(lnbuf + (i * 5), "%04X ", ((hsUint16*)data.fData)[i]);
+                sprintf(lnbuf + (i * 5), "%04X ", ((uint16_t*)data.fData)[i]);
             else if (size == 4)
-                sprintf(lnbuf + (i * 9), "%08X ", ((hsUint32*)data.fData)[i]);
+                sprintf(lnbuf + (i * 9), "%08X ", ((uint32_t*)data.fData)[i]);
         }
         lnbuf[lnbufSize] = 0;
         ln += lnbuf;
@@ -382,14 +382,14 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
     // Also works for floats and doubles
     if (count == 0) {
         if (size == 1) {
-            *(hsUbyte*)buf = (hsUbyte)data.fUint;
-            buf += sizeof(hsUbyte);
+            *(uint8_t*)buf = (uint8_t)data.fUint;
+            buf += sizeof(uint8_t);
         } else if (size == 2) {
-            *(hsUint16*)buf = (hsUint16)data.fUint;
-            buf += sizeof(hsUint16);
+            *(uint16_t*)buf = (uint16_t)data.fUint;
+            buf += sizeof(uint16_t);
         } else if (size == 4) {
-            *(hsUint32*)buf = data.fUint;
-            buf += sizeof(hsUint32);
+            *(uint32_t*)buf = data.fUint;
+            buf += sizeof(uint32_t);
         }
 
 #ifdef COMMDEBUG
@@ -397,14 +397,14 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
 #endif
     } else {
         if (size == 1) {
-            memcpy(buf, data.fData, count * sizeof(hsUbyte));
-            buf += count * sizeof(hsUbyte);
+            memcpy(buf, data.fData, count * sizeof(uint8_t));
+            buf += count * sizeof(uint8_t);
         } else if (size == 2) {
-            memcpy(buf, data.fData, count * sizeof(hsUint16));
-            buf += count * sizeof(hsUint16);
+            memcpy(buf, data.fData, count * sizeof(uint16_t));
+            buf += count * sizeof(uint16_t);
         } else if (size == 4) {
-            memcpy(buf, data.fData, count * sizeof(hsUint32));
-            buf += count * sizeof(hsUint32);
+            memcpy(buf, data.fData, count * sizeof(uint32_t));
+            buf += count * sizeof(uint32_t);
         }
 
 #ifdef COMMDEBUG
@@ -413,11 +413,11 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
         char* lnbuf = new char[lnbufSize + 1];
         for (size_t i=0; i<count; i++) {
             if (size == 1)
-                sprintf(lnbuf + (i * 3), "%02X ", ((hsUbyte*)data.fData)[i]);
+                sprintf(lnbuf + (i * 3), "%02X ", ((uint8_t*)data.fData)[i]);
             else if (size == 2)
-                sprintf(lnbuf + (i * 5), "%04X ", ((hsUint16*)data.fData)[i]);
+                sprintf(lnbuf + (i * 5), "%04X ", ((uint16_t*)data.fData)[i]);
             else if (size == 4)
-                sprintf(lnbuf + (i * 9), "%08X ", ((hsUint32*)data.fData)[i]);
+                sprintf(lnbuf + (i * 9), "%08X ", ((uint32_t*)data.fData)[i]);
         }
         lnbuf[lnbufSize] = 0;
         ln += lnbuf;
@@ -436,11 +436,11 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
     plDebug::Debug("<SEND> %s", msg->fMsgName);
 #endif
 
-    size_t bufSize = sizeof(hsUint16) + NCMessageSize(data, msg);
+    size_t bufSize = sizeof(uint16_t) + NCMessageSize(data, msg);
     unsigned char* buffer = new unsigned char[bufSize];
     unsigned char* bp = buffer;
-    *(hsUint16*)bp = msg->fMsgId;
-    bp += sizeof(hsUint16);
+    *(uint16_t*)bp = msg->fMsgId;
+    bp += sizeof(uint16_t);
 
     unsigned int size = 0;
     unsigned int count = 0;
@@ -453,9 +453,9 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
             break;
         case kFieldString:
             {
-                hsUint16 len = plwcslen(data[i].fString);
-                *(hsUint16*)bp = len;
-                bp += sizeof(hsUint16);
+                uint16_t len = plwcslen(data[i].fString);
+                *(uint16_t*)bp = len;
+                bp += sizeof(uint16_t);
                 memcpy(bp, data[i].fString, len * sizeof(pl_wchar_t));
                 bp += len * sizeof(pl_wchar_t);
 #ifdef COMMDEBUG
@@ -466,8 +466,8 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
         case kFieldVarCount:
             size = field->fSize;
             count = data[i].fUint;
-            *(hsUint32*)bp = count;
-            bp += sizeof(hsUint32);
+            *(uint32_t*)bp = count;
+            bp += sizeof(uint32_t);
 #ifdef COMMDEBUG
             plDebug::Debug("     -> Count: %d", count);
 #endif
@@ -538,8 +538,8 @@ msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
             break;
         case kFieldString:
             {
-                hsUint16 len;
-                recv(&len, sizeof(hsUint16));
+                uint16_t len;
+                recv(&len, sizeof(uint16_t));
                 pl_wchar_t* str = new pl_wchar_t[len + 1];
                 recv(str, len * sizeof(pl_wchar_t));
                 str[len] = 0;
@@ -551,7 +551,7 @@ msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
             break;
         case kFieldVarCount:
             size = field->fSize;
-            recv(&count, sizeof(hsUint32));
+            recv(&count, sizeof(uint32_t));
             data[i].fUint = count;
 #ifdef COMMDEBUG
             plDebug::Debug("     <- Count: %d", count);
@@ -560,7 +560,7 @@ msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
         case kFieldVarPtr:
         case kFieldRawVarPtr:
             delete[] data[i].fData;
-            data[i].fData = new hsUbyte[size * count];
+            data[i].fData = new uint8_t[size * count];
             recv(data[i].fData, size * count);
 #ifdef COMMDEBUG
             {

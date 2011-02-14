@@ -93,7 +93,7 @@ static PyObject* pyResponderModifier_State_getSwitch(pyResponderModifier_State* 
 
 static PyObject* pyResponderModifier_State_getWaits(pyResponderModifier_State* self, void*) {
     PyObject* dict = PyDict_New();
-    std::map<hsByte, hsByte>::iterator wp = self->fThis->fWaitToCmd.begin();
+    std::map<int8_t, int8_t>::iterator wp = self->fThis->fWaitToCmd.begin();
     for ( ; wp != self->fThis->fWaitToCmd.end(); wp++)
         PyDict_SetItem(dict, PyInt_FromLong(wp->first), PyInt_FromLong(wp->second));
     return dict;

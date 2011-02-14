@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "plAnimPath.h"
 
-DllClass plLineFollowMod : public virtual plMultiModifier {
+class PLASMA_DLL plLineFollowMod : public virtual plMultiModifier {
     CREATABLE(plLineFollowMod, kLineFollowMod, plMultiModifier)
 
 public:
@@ -85,7 +85,7 @@ public:
     void clearStereizers() { fStereizers.clear(); }
 };
 
-DllClass plRailCameraMod : public plLineFollowMod {
+class PLASMA_DLL plRailCameraMod : public plLineFollowMod {
     CREATABLE(plRailCameraMod, kRailCameraMod, plLineFollowMod)
 };
 

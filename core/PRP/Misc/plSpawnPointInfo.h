@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-DllClass plSpawnPointInfo {
+class PLASMA_DLL plSpawnPointInfo {
 protected:
     enum { kHasTitle, kHasSpawnPt, kHasCameraStack };
 

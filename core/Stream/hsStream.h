@@ -27,7 +27,7 @@
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 
-DllClass hsStream {
+class PLASMA_DLL hsStream {
 protected:
     PlasmaVer ver;
 
@@ -38,12 +38,12 @@ public:
     PlasmaVer getVer() const { return ver; }
     virtual void setVer(PlasmaVer pv) { ver = pv; }
 
-    virtual hsUint32 size() const = 0;
-    virtual hsUint32 pos() const = 0;
+    virtual uint32_t size() const = 0;
+    virtual uint32_t pos() const = 0;
     virtual bool eof() const = 0;
 
-    virtual void seek(hsUint32 pos) = 0;
-    virtual void skip(hsInt32 count) = 0;
+    virtual void seek(uint32_t pos) = 0;
+    virtual void skip(int32_t count) = 0;
     virtual void fastForward() = 0;
     virtual void rewind() = 0;
     virtual void flush() { }
@@ -52,12 +52,12 @@ public:
     virtual size_t write(size_t size, const void* buf) = 0;
     void writeFrom(hsStream* src);
 
-    hsUbyte readByte();
-    hsUint16 readShort();
-    void readShorts(size_t count, hsUint16* buf);
-    hsUint32 readInt();
-    void readInts(size_t count, hsUint32* buf);
-    hsUint32 readIntSwap();
+    uint8_t readByte();
+    uint16_t readShort();
+    void readShorts(size_t count, uint16_t* buf);
+    uint32_t readInt();
+    void readInts(size_t count, uint32_t* buf);
+    uint32_t readIntSwap();
     float readFloat();
     double readDouble();
     bool readBool();
@@ -66,12 +66,12 @@ public:
     plString readSafeWStr();
     virtual plString readLine();
 
-    void writeByte(hsUbyte v);
-    void writeShort(hsUint16 v);
-    void writeShorts(size_t count, const hsUint16* buf);
-    void writeInt(hsUint32 v);
-    void writeInts(size_t count, const hsUint32* buf);
-    void writeIntSwap(hsUint32 v);
+    void writeByte(uint8_t v);
+    void writeShort(uint16_t v);
+    void writeShorts(size_t count, const uint16_t* buf);
+    void writeInt(uint32_t v);
+    void writeInts(size_t count, const uint32_t* buf);
+    void writeIntSwap(uint32_t v);
     void writeFloat(float v);
     void writeDouble(double v);
     void writeBool(bool v);
@@ -81,7 +81,7 @@ public:
     virtual void writeLine(const plString& ln, bool winEOL = false);
 };
 
-DllClass hsFileStream : public hsStream {
+class PLASMA_DLL hsFileStream : public hsStream {
 protected:
     FILE* F;
     FileMode fm;
@@ -95,12 +95,12 @@ public:
     virtual bool open(const char* file, FileMode mode);
     virtual void close();
 
-    virtual hsUint32 size() const;
-    virtual hsUint32 pos() const;
+    virtual uint32_t size() const;
+    virtual uint32_t pos() const;
     virtual bool eof() const;
 
-    virtual void seek(hsUint32 pos);
-    virtual void skip(hsInt32 count);
+    virtual void seek(uint32_t pos);
+    virtual void skip(int32_t count);
     virtual void fastForward();
     virtual void rewind();
     virtual void flush();
@@ -111,13 +111,13 @@ public:
     time_t getModTime() const;
 };
 
-DllClass hsFileReadException : public hsException {
+class PLASMA_DLL hsFileReadException : public hsException {
 public:
     hsFileReadException(const char* file, unsigned long line,
                         const char* filename = NULL) throw();
 };
 
-DllClass hsFileWriteException : public hsException {
+class PLASMA_DLL hsFileWriteException : public hsException {
 public:
     hsFileWriteException(const char* file, unsigned long line,
                          const char* filename = NULL) throw();

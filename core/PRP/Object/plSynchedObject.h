@@ -20,7 +20,7 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Util/hsTArray.hpp"
 
-DllClass plSynchedObject : public virtual hsKeyedObject {
+class PLASMA_DLL plSynchedObject : public virtual hsKeyedObject {
     CREATABLE(plSynchedObject, kSynchedObject, hsKeyedObject)
 
 public:

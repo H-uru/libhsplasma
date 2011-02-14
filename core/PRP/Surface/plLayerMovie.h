@@ -19,7 +19,7 @@
 
 #include "plLayerAnimation.h"
 
-DllClass plLayerMovie : public virtual plLayerAnimation {
+class PLASMA_DLL plLayerMovie : public virtual plLayerAnimation {
     CREATABLE(plLayerMovie, kLayerMovie, plLayerAnimation)
 
 protected:
@@ -41,12 +41,12 @@ public:
 };
 
 
-DllClass plLayerAVI : public virtual plLayerMovie {
+class PLASMA_DLL plLayerAVI : public virtual plLayerMovie {
     CREATABLE(plLayerAVI, kLayerAVI, plLayerMovie)
 };
 
 
-DllClass plLayerBink : public virtual plLayerMovie {
+class PLASMA_DLL plLayerBink : public virtual plLayerMovie {
     CREATABLE(plLayerBink, kLayerBink, plLayerMovie)
 };
 

@@ -20,7 +20,7 @@
 #include "PRP/plCreatable.h"
 #include "hsKeys.h"
 
-DllClass plController : public plCreatable {
+class PLASMA_DLL plController : public plCreatable {
     CREATABLE(plController, kController, plCreatable)
 
 public:
@@ -28,7 +28,7 @@ public:
 };
 
 
-DllClass plCompoundController : public plController {
+class PLASMA_DLL plCompoundController : public plController {
     CREATABLE(plCompoundController, kCompoundController, plController)
 
 protected:

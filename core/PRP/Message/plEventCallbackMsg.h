@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-DllClass plEventCallbackMsg : public plMessage {
+class PLASMA_DLL plEventCallbackMsg : public plMessage {
     CREATABLE(plEventCallbackMsg, kEventCallbackMsg, plMessage)
 
 protected:
@@ -52,11 +52,11 @@ public:
 };
 
 
-DllClass plEventCallbackSetupMsg : public plMessage {
+class PLASMA_DLL plEventCallbackSetupMsg : public plMessage {
     CREATABLE(plEventCallbackSetupMsg, kEventCallbackSetupMsg, plMessage)
 
 public:
-    DllClass plAnimCallbackSetup {
+    class PLASMA_DLL plAnimCallbackSetup {
     public:
         plString fMarker;
         plKey fReceiver;

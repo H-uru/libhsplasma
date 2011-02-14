@@ -19,7 +19,7 @@
 
 #include "plKeyControllers.hpp"
 
-DllClass plRotController : public plController {
+class PLASMA_DLL plRotController : public plController {
     CREATABLE(plRotController, kRotController, plController)
 
 public:
@@ -30,7 +30,7 @@ public:
 };
 
 
-DllClass plSimpleRotController : public plRotController {
+class PLASMA_DLL plSimpleRotController : public plRotController {
     CREATABLE(plSimpleRotController, kSimpleRotController, plRotController)
 
 protected:
@@ -54,7 +54,7 @@ public:
 };
 
 
-DllClass plCompoundRotController : public plRotController {
+class PLASMA_DLL plCompoundRotController : public plRotController {
     CREATABLE(plCompoundRotController, kCompoundRotController, plRotController)
 
 protected:

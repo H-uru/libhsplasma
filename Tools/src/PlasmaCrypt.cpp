@@ -179,7 +179,7 @@ int main(int argc, char** argv) {
                 continue;
             }
             unsigned int dataSize = SF.size();
-            hsUbyte* buf = new hsUbyte[dataSize];
+            uint8_t* buf = new uint8_t[dataSize];
             SF.read(dataSize, buf);
             SF.close();
 
@@ -212,7 +212,7 @@ int main(int argc, char** argv) {
                 continue;
             }
             unsigned int dataSize = SF.size();
-            hsUbyte* buf = new hsUbyte[dataSize];
+            uint8_t* buf = new uint8_t[dataSize];
             SF.read(dataSize, buf);
             SF.close();
 

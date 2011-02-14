@@ -20,7 +20,7 @@
 #include "plMessage.h"
 #include "proEventData.h"
 
-DllClass plNotifyMsg : public plMessage {
+class PLASMA_DLL plNotifyMsg : public plMessage {
     CREATABLE(plNotifyMsg, kNotifyMsg, plMessage)
 
 public:

@@ -20,7 +20,7 @@
 #include "PlasmaDefs.h"
 #include <openssl/bn.h>
 
-DllClass pnBigInteger {
+class PLASMANET_DLL pnBigInteger {
 protected:
     BIGNUM* fValue;
     BN_CTX* fContext;
@@ -96,7 +96,7 @@ public:
 /* OpenSSL uses big-endian for their binary buffers... */
 #define BYTESWAP_BUFFER(x, size) \
     { \
-        hsUbyte temp; \
+        uint8_t temp; \
         for (size_t i = 0; i < (size / 2); i++) { \
             temp = x[i]; \
             x[i] = x[size-1-i]; \

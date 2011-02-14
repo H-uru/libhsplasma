@@ -27,7 +27,7 @@
 #include <vector>
 #include <list>
 
-DllClass plDISpanIndex {
+class PLASMA_DLL plDISpanIndex {
 public:
     enum {
         kNone = 0x0,
@@ -45,7 +45,7 @@ public:
 };
 
 
-DllClass plDrawable : public virtual hsKeyedObject {
+class PLASMA_DLL plDrawable : public virtual hsKeyedObject {
     CREATABLE(plDrawable, kDrawable, hsKeyedObject)
 
 public:
@@ -100,7 +100,7 @@ public:
 };
 
 
-DllClass plDrawableSpans : public virtual plDrawable {
+class PLASMA_DLL plDrawableSpans : public virtual plDrawable {
     CREATABLE(plDrawableSpans, kDrawableSpans, plDrawable)
 
 protected:

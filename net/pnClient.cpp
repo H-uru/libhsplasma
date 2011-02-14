@@ -32,12 +32,12 @@ void pnClient::run()
     fIface->run();
 }
 
-hsUint32 pnClient::nextTransId() {
-    static hsUint32 s_transId = 0;
+uint32_t pnClient::nextTransId() {
+    static uint32_t s_transId = 0;
     static hsMutex s_tidMutex;
 
     s_tidMutex.lock();
-    hsUint32 tid = ++s_transId;
+    uint32_t tid = ++s_transId;
     s_tidMutex.unlock();
     return tid;
 }

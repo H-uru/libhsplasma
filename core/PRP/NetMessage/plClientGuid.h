@@ -20,7 +20,7 @@
 #include "PRP/plCreatable.h"
 #include "Sys/plUuid.h"
 
-DllClass plClientGuid : public plCreatable {
+class PLASMA_DLL plClientGuid : public plCreatable {
     CREATABLE(plClientGuid, kClientGuid, plCreatable)
 
 public:

@@ -19,7 +19,7 @@
 
 #include "plAGChannel.h"
 
-DllClass plAGApplicator : public plCreatable {
+class PLASMA_DLL plAGApplicator : public plCreatable {
     CREATABLE(plAGApplicator, kAGApplicator, plCreatable)
 
 protected:
@@ -50,7 +50,7 @@ public:
 };
 
 
-DllClass plSoundVolumeApplicator : public plAGApplicator {
+class PLASMA_DLL plSoundVolumeApplicator : public plAGApplicator {
     CREATABLE(plSoundVolumeApplicator, kSoundVolumeApplicator, plAGApplicator)
 
 protected:
@@ -72,35 +72,35 @@ public:
 };
 
 
-DllClass plLightAmbientApplicator : public plAGApplicator {
+class PLASMA_DLL plLightAmbientApplicator : public plAGApplicator {
     CREATABLE(plLightAmbientApplicator, kLightAmbientApplicator, plAGApplicator)
 };
 
-DllClass plLightDiffuseApplicator : public plAGApplicator {
+class PLASMA_DLL plLightDiffuseApplicator : public plAGApplicator {
     CREATABLE(plLightDiffuseApplicator, kLightDiffuseApplicator, plAGApplicator)
 };
 
-DllClass plLightSpecularApplicator : public plAGApplicator {
+class PLASMA_DLL plLightSpecularApplicator : public plAGApplicator {
     CREATABLE(plLightSpecularApplicator, kLightSpecularApplicator, plAGApplicator)
 };
 
-DllClass plOmniApplicator : public plAGApplicator {
+class PLASMA_DLL plOmniApplicator : public plAGApplicator {
     CREATABLE(plOmniApplicator, kOmniApplicator, plAGApplicator)
 };
 
-DllClass plOmniCutoffApplicator : public plAGApplicator {
+class PLASMA_DLL plOmniCutoffApplicator : public plAGApplicator {
     CREATABLE(plOmniCutoffApplicator, kOmniCutoffApplicator, plAGApplicator)
 };
 
-DllClass plOmniSqApplicator : public plAGApplicator {
+class PLASMA_DLL plOmniSqApplicator : public plAGApplicator {
     CREATABLE(plOmniSqApplicator, kOmniSqApplicator, plAGApplicator)
 };
 
-DllClass plSpotInnerApplicator : public plAGApplicator {
+class PLASMA_DLL plSpotInnerApplicator : public plAGApplicator {
     CREATABLE(plSpotInnerApplicator, kSpotInnerApplicator, plAGApplicator)
 };
 
-DllClass plSpotOuterApplicator : public plAGApplicator {
+class PLASMA_DLL plSpotOuterApplicator : public plAGApplicator {
     CREATABLE(plSpotOuterApplicator, kSpotOuterApplicator, plAGApplicator)
 };
 

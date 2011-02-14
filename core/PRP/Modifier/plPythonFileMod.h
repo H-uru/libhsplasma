@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-DllStruct plPythonParameter {
+struct PLASMA_DLL plPythonParameter {
 public:
     enum {
         kInt = 1, kFloat, kBoolean, kString, kSceneObject, kSceneObjectList,
@@ -57,7 +57,7 @@ public:
 };
 
 
-DllClass plPythonFileMod : public virtual plMultiModifier {
+class PLASMA_DLL plPythonFileMod : public virtual plMultiModifier {
     CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
 public:

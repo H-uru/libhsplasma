@@ -19,11 +19,11 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-DllClass plFont : public virtual hsKeyedObject {
+class PLASMA_DLL plFont : public virtual hsKeyedObject {
     CREATABLE(plFont, kFont, hsKeyedObject)
 
 public:
-    DllClass plCharacter {
+    class PLASMA_DLL plCharacter {
     protected:
         unsigned int fBitmapOffset, fHeight;
         int fBaseline;

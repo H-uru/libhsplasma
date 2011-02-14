@@ -21,7 +21,7 @@
 #include "plArmatureBrain.h"
 #include "Math/hsGeometry3.h"
 
-DllClass plArmatureModBase : public virtual plAGMasterMod {
+class PLASMA_DLL plArmatureModBase : public virtual plAGMasterMod {
     CREATABLE(plArmatureModBase, kArmatureModBase, plAGMasterMod)
 
 protected:
@@ -46,7 +46,7 @@ public:
 };
 
 
-DllClass plArmatureMod : public virtual plArmatureModBase {
+class PLASMA_DLL plArmatureMod : public virtual plArmatureModBase {
     CREATABLE(plArmatureMod, kArmatureMod, plArmatureModBase)
 
 public:
@@ -78,7 +78,7 @@ protected:
 };
 
 
-DllClass plArmatureLODMod : public virtual plArmatureMod {
+class PLASMA_DLL plArmatureLODMod : public virtual plArmatureMod {
     CREATABLE(plArmatureLODMod, kArmatureLODMod, plArmatureMod)
 
 public:

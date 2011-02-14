@@ -16,8 +16,8 @@
 
 #include "plSpan.h"
 
-hsUint32 plSpan::deswizzleGeoFlags(hsUint32 flags) {
-    hsUint32 props = (flags & plGeometrySpan::kPropRunTimeLight) << 5;
+uint32_t plSpan::deswizzleGeoFlags(uint32_t flags) {
+    uint32_t props = (flags & plGeometrySpan::kPropRunTimeLight) << 5;
 
     if (flags & plGeometrySpan::kPropNoShadowCast)
         props |= kPropNoShadowCast;

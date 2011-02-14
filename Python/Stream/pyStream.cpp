@@ -53,18 +53,18 @@ static PyObject* pyStream_eof(pyStream* self) {
 }
 
 static PyObject* pyStream_seek(pyStream* self, PyObject* args) {
-    hsInt32 pos;
+    int32_t pos;
     if (!PyArg_ParseTuple(args, "i", &pos)) {
         PyErr_SetString(PyExc_TypeError, "seek expects an int");
         return NULL;
     }
-    self->fThis->seek((hsUint32)pos);
+    self->fThis->seek((uint32_t)pos);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyStream_skip(pyStream* self, PyObject* args) {
-    hsUint32 count;
+    uint32_t count;
     if (!PyArg_ParseTuple(args, "i", &count)) {
         PyErr_SetString(PyExc_TypeError, "skip expects an int");
         return NULL;
@@ -235,7 +235,7 @@ static PyObject* pyStream_readLine(pyStream* self) {
 }
 
 static PyObject* pyStream_writeByte(pyStream* self, PyObject* args) {
-    hsByte b;
+    int8_t b;
     if (!PyArg_ParseTuple(args, "b", &b)) {
         PyErr_SetString(PyExc_TypeError, "writeByte expects a byte");
         return NULL;
@@ -251,7 +251,7 @@ static PyObject* pyStream_writeByte(pyStream* self, PyObject* args) {
 }
 
 static PyObject* pyStream_writeShort(pyStream* self, PyObject* args) {
-    hsInt16 h;
+    int16_t h;
     if (!PyArg_ParseTuple(args, "h", &h)) {
         PyErr_SetString(PyExc_TypeError, "writeShort expects a short");
         return NULL;
@@ -267,7 +267,7 @@ static PyObject* pyStream_writeShort(pyStream* self, PyObject* args) {
 }
 
 static PyObject* pyStream_writeInt(pyStream* self, PyObject* args) {
-    hsInt32 i;
+    int32_t i;
     if (!PyArg_ParseTuple(args, "i", &i)) {
         PyErr_SetString(PyExc_TypeError, "writeInt expects an int");
         return NULL;

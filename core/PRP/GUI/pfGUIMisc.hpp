@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfGUIClickMapCtrl : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUIClickMapCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUIClickMapCtrl, kGUIClickMapCtrl, pfGUIControlMod)
 
 public:
@@ -30,12 +30,12 @@ public:
 };
 
 
-DllClass pfGUIDragBarCtrl : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUIDragBarCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUIDragBarCtrl, kGUIDragBarCtrl, pfGUIControlMod)
 };
 
 
-DllClass pfGUIDraggableMod : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUIDraggableMod : public virtual pfGUIControlMod {
     CREATABLE(pfGUIDraggableMod, kGUIDraggableMod, pfGUIControlMod)
 
 public:
@@ -49,7 +49,7 @@ public:
 };
 
 
-DllClass pfGUIEditBoxMod : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUIEditBoxMod : public virtual pfGUIControlMod {
     CREATABLE(pfGUIEditBoxMod, kGUIEditBoxMod, pfGUIControlMod)
 };
 

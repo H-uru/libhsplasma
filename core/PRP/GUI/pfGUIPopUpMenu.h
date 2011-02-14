@@ -19,7 +19,7 @@
 
 #include "pfGUIDialogMod.h"
 
-DllClass pfGUIPopUpMenu : public virtual pfGUIDialogMod {
+class PLASMA_DLL pfGUIPopUpMenu : public virtual pfGUIDialogMod {
     CREATABLE(pfGUIPopUpMenu, kGUIPopUpMenu, pfGUIDialogMod)
 
 public:
@@ -32,7 +32,7 @@ public:
         kOpenSubMenusOnHover, kScaleWithResolution
     };
 
-    DllStruct pfMenuItem {
+    struct PLASMA_DLL pfMenuItem {
         plString fName;
         pfGUICtrlProcWriteableObject* fHandler;
         plKey fSubMenu;

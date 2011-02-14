@@ -41,7 +41,7 @@ enum ENetError {
     kNetErrInviteNoMatchingPlayer, kNetErrInviteTooManyHoods, kNetErrNeedToPay,
     kNetErrServerBusy, kNumNetErrors,
 };
-DllExport const char* GetNetErrorString(int errcode);
+PLASMANET_DLL const char* GetNetErrorString(int errcode);
 
 enum ENetProtocol {
     kNetProtocolNil, kNetProtocolDebug, kNetProtocolCli2Unused_00,

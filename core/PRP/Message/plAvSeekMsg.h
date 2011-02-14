@@ -20,7 +20,7 @@
 #include "plAvTaskMsg.h"
 #include "Math/hsGeometry3.h"
 
-DllClass plAvSeekMsg : public plAvTaskMsg {
+class PLASMA_DLL plAvSeekMsg : public plAvTaskMsg {
     CREATABLE(plAvSeekMsg, kAvSeekMsg, plAvTaskMsg)
 
 public:
@@ -58,7 +58,7 @@ protected:
 };
 
 
-DllClass plAvOneShotMsg : public plAvSeekMsg {
+class PLASMA_DLL plAvOneShotMsg : public plAvSeekMsg {
     CREATABLE(plAvOneShotMsg, kAvOneShotMsg, plAvSeekMsg)
 
 private:

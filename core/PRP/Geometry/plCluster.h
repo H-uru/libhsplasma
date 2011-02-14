@@ -20,7 +20,7 @@
 #include "plSpanInstance.h"
 #include "Util/hsTArray.hpp"
 
-DllClass plCluster {
+class PLASMA_DLL plCluster {
 protected:
     hsTArray<plSpanInstance*> fInstances;
     plSpanEncoding fEncoding;

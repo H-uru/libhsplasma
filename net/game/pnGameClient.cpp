@@ -32,9 +32,9 @@ pnGameClient::Dispatch::~Dispatch()
 
 bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
 {
-    hsUint16 msgId;
+    uint16_t msgId;
 
-    sock->recv(&msgId, sizeof(hsUint16));
+    sock->recv(&msgId, sizeof(uint16_t));
     const pnNetMsg* msgDesc = GET_Game2Cli(msgId);
     if (msgDesc == NULL) {
         plDebug::Error("Got invalid message ID (%u)", msgId);
@@ -104,8 +104,8 @@ void pnGameClient::setKeys(const unsigned char* keyX, const unsigned char* keyN,
     memcpy(fKeyN, keyN, 64);
 }
 
-void pnGameClient::setClientInfo(hsUint32 buildId, hsUint32 buildType,
-                                 hsUint32 branchId, const plUuid& productId)
+void pnGameClient::setClientInfo(uint32_t buildId, uint32_t buildType,
+                                 uint32_t branchId, const plUuid& productId)
 {
     fBuildId = buildId;
     fBuildType = buildType;
@@ -150,16 +150,16 @@ void pnGameClient::disconnect()
 
 ENetError pnGameClient::performConnect()
 {
-    hsUbyte connectHeader[67];  // ConnectHeader + GameConnectHeader
+    uint8_t connectHeader[67];  // ConnectHeader + GameConnectHeader
     /* Begin ConnectHeader */
-    *(hsUbyte* )(connectHeader     ) = kConnTypeCliToGame;
-    *(hsUint16*)(connectHeader +  1) = 31;
-    *(hsUint32*)(connectHeader +  3) = fBuildId;
-    *(hsUint32*)(connectHeader +  7) = fBuildType;
-    *(hsUint32*)(connectHeader + 11) = fBranchId;
+    *(uint8_t* )(connectHeader     ) = kConnTypeCliToGame;
+    *(uint16_t*)(connectHeader +  1) = 31;
+    *(uint32_t*)(connectHeader +  3) = fBuildId;
+    *(uint32_t*)(connectHeader +  7) = fBuildType;
+    *(uint32_t*)(connectHeader + 11) = fBranchId;
     fProductId.write(connectHeader + 15);
     /* Begin GameConnectHeader */
-    *(hsUint32*)(connectHeader + 31) = 36;
+    *(uint32_t*)(connectHeader + 31) = 36;
     fAccountId.write(connectHeader + 35);
     fAgeId.write(connectHeader + 51);
     fSock->send(connectHeader, 67);
@@ -172,7 +172,7 @@ ENetError pnGameClient::performConnect()
     }
 
     /* Set up encryption */
-    hsUbyte y_data[64];
+    uint8_t y_data[64];
     pnBigInteger clientSeed;
     {
         pnBigInteger X(fKeyX, 64, fLittleEndianKeys);
@@ -183,13 +183,13 @@ ENetError pnGameClient::performConnect()
         serverSeed.getData(y_data, 64);
     }
 
-    hsUbyte cryptHeader[66];
-    *(hsUbyte*)(cryptHeader    ) = kNetCliCli2SrvConnect;
-    *(hsUbyte*)(cryptHeader + 1) = 66;
+    uint8_t cryptHeader[66];
+    *(uint8_t*)(cryptHeader    ) = kNetCliCli2SrvConnect;
+    *(uint8_t*)(cryptHeader + 1) = 66;
     memcpy(cryptHeader + 2, y_data, 64);
     fSock->send(cryptHeader, 66);
 
-    hsUbyte msg, len;
+    uint8_t msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {
         delete fSock;
         fSock = NULL;
@@ -198,16 +198,16 @@ ENetError pnGameClient::performConnect()
     }
 
     if (msg == kNetCliSrv2CliEncrypt) {
-        hsUbyte serverSeed[7];
+        uint8_t serverSeed[7];
         fSock->recv(serverSeed, 7);
-        hsUbyte seedData[64];
+        uint8_t seedData[64];
         clientSeed.getData(seedData, 64);
         for (size_t i=0; i<7; i++)
             serverSeed[i] ^= seedData[i];
         fSock->init(7, serverSeed);
     } else if (msg == kNetCliSrv2CliError) {
-        hsUint32 errorCode;
-        fSock->recv(&errorCode, sizeof(hsUint32));
+        uint32_t errorCode;
+        fSock->recv(&errorCode, sizeof(uint32_t));
         delete fSock;
         fSock = NULL;
         plDebug::Error("Error connecting to Game server: %s",
@@ -228,7 +228,7 @@ ENetError pnGameClient::performConnect()
     return kNetSuccess;
 }
 
-void pnGameClient::sendPingRequest(hsUint32 pingTimeMs)
+void pnGameClient::sendPingRequest(uint32_t pingTimeMs)
 {
     const pnNetMsg* desc = GET_Cli2Game(kCli2Game_PingRequest);
     msgparm_t* msg = NCAllocMessage(desc);
@@ -237,12 +237,12 @@ void pnGameClient::sendPingRequest(hsUint32 pingTimeMs)
     NCFreeMessage(msg, desc);
 }
 
-hsUint32 pnGameClient::sendJoinAgeRequest(hsUint32 ageMcpId,
-                const plUuid& accountUuid, hsUint32 playerId)
+uint32_t pnGameClient::sendJoinAgeRequest(uint32_t ageMcpId,
+                const plUuid& accountUuid, uint32_t playerId)
 {
     const pnNetMsg* desc = GET_Cli2Game(kCli2Game_JoinAgeRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = ageMcpId;
     accountUuid.write(msg[2].fData);
@@ -262,18 +262,18 @@ void pnGameClient::propagateMessage(plCreatable* pCre)
     fResMgr->WriteCreatable(&rs, pCre);
     fResMgr->unlock();
     msg[1].fUint = rs.size();
-    msg[2].fData = new hsUbyte[msg[1].fUint];
+    msg[2].fData = new uint8_t[msg[1].fUint];
     rs.copyTo(msg[2].fData, msg[1].fUint);
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
 }
 
-void pnGameClient::onPingReply(hsUint32 pingTimeMs)
+void pnGameClient::onPingReply(uint32_t pingTimeMs)
 {
     plDebug::Warning("Warning: Ignoring Game2Cli_PingReply");
 }
 
-void pnGameClient::onJoinAgeReply(hsUint32 transId, ENetError result)
+void pnGameClient::onJoinAgeReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Game2Cli_JoinAgeReply");
 }

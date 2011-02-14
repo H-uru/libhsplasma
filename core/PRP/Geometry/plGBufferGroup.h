@@ -23,7 +23,7 @@
 #include "hsGDeviceRef.h"
 #include "plVertCoder.h"
 
-DllClass plGBufferCell {
+class PLASMA_DLL plGBufferCell {
 public:
     unsigned int fVtxStart, fColorStart, fLength;
 
@@ -38,7 +38,7 @@ public:
 };
 
 
-DllClass plGBufferTriangle {
+class PLASMA_DLL plGBufferTriangle {
 public:
     unsigned short fIndex1, fIndex2, fIndex3, fSpanIndex;
     hsVector3 fCenter;
@@ -54,7 +54,7 @@ public:
 };
 
 
-DllClass plGBufferVertex {
+class PLASMA_DLL plGBufferVertex {
 public:
     hsVector3 fPos, fNormal;
     int fSkinIdx;
@@ -68,7 +68,7 @@ public:
 };
 
 
-DllClass plGBufferGroup {
+class PLASMA_DLL plGBufferGroup {
 public:
     enum Formats {
         kUVCountMask = 0xF,

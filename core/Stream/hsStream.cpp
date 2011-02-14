@@ -39,42 +39,42 @@ void hsStream::writeFrom(hsStream* src) {
     write(endsize, buf);
 }
 
-hsUbyte hsStream::readByte() {
-    hsUbyte v;
+uint8_t hsStream::readByte() {
+    uint8_t v;
     read(sizeof(v), &v);
     return v;
 }
 
-hsUint16 hsStream::readShort() {
-    hsUint16 v;
+uint16_t hsStream::readShort() {
+    uint16_t v;
     read(sizeof(v), &v);
     return LESWAP16(v);
 }
 
-void hsStream::readShorts(size_t count, hsUint16* buf) {
-    read(sizeof(hsUint16) * count, buf);
+void hsStream::readShorts(size_t count, uint16_t* buf) {
+    read(sizeof(uint16_t) * count, buf);
 #ifdef WORDS_BIGENDIAN
     for (size_t i=0; i<count; i++)
         buf[i] = LESWAP16(buf[i]);
 #endif
 }
 
-hsUint32 hsStream::readInt() {
-    hsUint32 v;
+uint32_t hsStream::readInt() {
+    uint32_t v;
     read(sizeof(v), &v);
     return LESWAP32(v);
 }
 
-void hsStream::readInts(size_t count, hsUint32* buf) {
-    read(sizeof(hsUint32) * count, buf);
+void hsStream::readInts(size_t count, uint32_t* buf) {
+    read(sizeof(uint32_t) * count, buf);
 #ifdef WORDS_BIGENDIAN
     for (size_t i=0; i<count; i++)
         buf[i] = LESWAP32(buf[i]);
 #endif
 }
 
-hsUint32 hsStream::readIntSwap() {
-    hsUint32 v;
+uint32_t hsStream::readIntSwap() {
+    uint32_t v;
     read(sizeof(v), &v);
     return BESWAP32(v);
 }
@@ -106,7 +106,7 @@ plString hsStream::readStr(size_t len) {
 
 plString hsStream::readSafeStr() {
     char* buf;
-    hsUint16 ssInfo = readShort();
+    uint16_t ssInfo = readShort();
     if (ssInfo == 0) {
         if (ver < MAKE_VERSION(2, 0, 63, 5) && readShort() != 0) {
             skip(-2);
@@ -126,7 +126,7 @@ plString hsStream::readSafeStr() {
         buf[ssInfo] = 0;
     } else {
         if (!(ssInfo & 0xF000)) readShort(); // Discarded
-        hsUint16 size = (ssInfo & 0x0FFF);
+        uint16_t size = (ssInfo & 0x0FFF);
         buf = new char[size+1];
         read(size, buf);
         if ((size > 0) && (buf[0] & 0x80)) {
@@ -141,7 +141,7 @@ plString hsStream::readSafeStr() {
 }
 
 plString hsStream::readSafeWStr() {
-    hsUint16 ssInfo = readShort();
+    uint16_t ssInfo = readShort();
     pl_wchar_t* buf;
     if (ver.isUniversal()) {
         buf = new pl_wchar_t[ssInfo+1];
@@ -156,7 +156,7 @@ plString hsStream::readSafeWStr() {
         readShort();    // Terminator
         buf[ssInfo] = 0;
     } else {
-        hsUint16 size = (ssInfo & 0x0FFF);
+        uint16_t size = (ssInfo & 0x0FFF);
         buf = new pl_wchar_t[size+1];
         for (size_t i=0; i<size; i++)
             buf[i] = (~readShort()) & 0xFFFF;
@@ -188,45 +188,45 @@ plString hsStream::readLine() {
     return str;
 }
 
-void hsStream::writeByte(hsUbyte v) {
+void hsStream::writeByte(uint8_t v) {
     write(sizeof(v), &v);
 }
 
-void hsStream::writeShort(hsUint16 v) {
+void hsStream::writeShort(uint16_t v) {
     v = LESWAP16(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeShorts(size_t count, const hsUint16* buf) {
+void hsStream::writeShorts(size_t count, const uint16_t* buf) {
 #ifdef WORDS_BIGENDIAN
-    hsUint16* swbuf = new hsUint16[count];
+    uint16_t* swbuf = new uint16_t[count];
     for (size_t i=0; i<count; i++)
         swbuf[i] = LESWAP16(buf[i]);
-    write(sizeof(hsUint16) * count, swbuf);
+    write(sizeof(uint16_t) * count, swbuf);
     delete[] swbuf;
 #else
-    write(sizeof(hsUint16) * count, buf);
+    write(sizeof(uint16_t) * count, buf);
 #endif
 }
 
-void hsStream::writeInt(hsUint32 v) {
+void hsStream::writeInt(uint32_t v) {
     v = LESWAP32(v);
     write(sizeof(v), &v);
 }
 
-void hsStream::writeInts(size_t count, const hsUint32* buf) {
+void hsStream::writeInts(size_t count, const uint32_t* buf) {
 #ifdef WORDS_BIGENDIAN
-    hsUint32* swbuf = new hsUint32[count];
+    uint32_t* swbuf = new uint32_t[count];
     for (size_t i=0; i<count; i++)
         swbuf[i] = LESWAP32(buf[i]);
-    write(sizeof(hsUint32) * count, swbuf);
+    write(sizeof(uint32_t) * count, swbuf);
     delete[] swbuf;
 #else
-    write(sizeof(hsUint32) * count, buf);
+    write(sizeof(uint32_t) * count, buf);
 #endif
 }
 
-void hsStream::writeIntSwap(hsUint32 v) {
+void hsStream::writeIntSwap(uint32_t v) {
     v = BESWAP32(v);
     write(sizeof(v), &v);
 }
@@ -257,7 +257,7 @@ void hsStream::writeSafeStr(const plString& str) {
     if (!ver.isSafeVer())
         ver = PlasmaVer::GetSafestVersion(ver);
 
-    hsUint16 ssInfo = (hsUint16)str.len();
+    uint16_t ssInfo = (uint16_t)str.len();
     char* wbuf;
     if (ver.isUniversal()) {
         writeShort(ssInfo);
@@ -283,7 +283,7 @@ void hsStream::writeSafeWStr(const plString& str) {
     if (str.len() > 0xFFF)
         plDebug::Warning("SafeWString length is excessively long");
 
-    hsUint16 ssInfo = (hsUint16)str.len();
+    uint16_t ssInfo = (uint16_t)str.len();
     plString::Wide buf = str.wstr();
     if (ver.isUniversal()) {
         writeShort(ssInfo);
@@ -362,7 +362,7 @@ void hsFileStream::close() {
     F = NULL;
 }
 
-hsUint32 hsFileStream::size() const {
+uint32_t hsFileStream::size() const {
     if (F == NULL)
         return 0;
     unsigned int p = ftell(F);
@@ -372,7 +372,7 @@ hsUint32 hsFileStream::size() const {
     return sz;
 }
 
-hsUint32 hsFileStream::pos() const {
+uint32_t hsFileStream::pos() const {
     if (F == NULL)
         return 0;
     return ftell(F);
@@ -386,13 +386,13 @@ bool hsFileStream::eof() const {
     return (c == EOF);
 }
 
-void hsFileStream::seek(hsUint32 pos) {
+void hsFileStream::seek(uint32_t pos) {
     if (F == NULL)
         return;
     fseek(F, pos, SEEK_SET);
 }
 
-void hsFileStream::skip(hsInt32 count) {
+void hsFileStream::skip(int32_t count) {
     if (F == NULL)
         return;
     fseek(F, count, SEEK_CUR);

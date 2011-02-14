@@ -48,7 +48,7 @@ public: \
     }
 
 
-DllClass plCreatable {
+class PLASMA_DLL plCreatable {
 public:
     plCreatable() { }
     virtual ~plCreatable() { }
@@ -141,7 +141,7 @@ protected:
  * a good idea to use a real Creatable class whenever possible.
  * \sa hsKeyedObjectStub
  */
-DllClass plCreatableStub : public plCreatable {
+class PLASMA_DLL plCreatableStub : public plCreatable {
 private:
     short fClassIdx;
     unsigned char* fData;

@@ -21,7 +21,7 @@
 #include "plRotController.h"
 #include "plScaleController.h"
 
-DllClass plTMController : public plController {
+class PLASMA_DLL plTMController : public plController {
     CREATABLE(plTMController, kTMController, plController)
 
 protected:

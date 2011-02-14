@@ -27,7 +27,7 @@
  * mostly for use in animations and other movement.
  */
 
-DllClass hsAffineParts {
+class PLASMA_DLL hsAffineParts {
 public:
     /**
      * The meaning of this field is currently unknown...  It might be an

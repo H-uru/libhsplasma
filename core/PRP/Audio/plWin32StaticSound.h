@@ -19,12 +19,12 @@
 
 #include "plWin32Sound.h"
 
-DllClass plWin32StaticSound : public virtual plWin32Sound {
+class PLASMA_DLL plWin32StaticSound : public virtual plWin32Sound {
     CREATABLE(plWin32StaticSound, kWin32StaticSound, plWin32Sound)
 };
 
 
-DllClass plWin32GroupedSound : public virtual plWin32StaticSound {
+class PLASMA_DLL plWin32GroupedSound : public virtual plWin32StaticSound {
     CREATABLE(plWin32GroupedSound, kWin32GroupedSound, plWin32StaticSound)
 
 protected:
@@ -45,7 +45,7 @@ public:
 };
 
 
-DllClass plWin32LinkSound : public virtual plWin32StaticSound {
+class PLASMA_DLL plWin32LinkSound : public virtual plWin32StaticSound {
     CREATABLE(plWin32LinkSound, kWin32LinkSound, plWin32StaticSound)
 
 public:

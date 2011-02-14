@@ -19,7 +19,7 @@
 
 #include "Util/plString.h"
 
-DllStruct pnSha1Hash {
+struct PLASMANET_DLL pnSha1Hash {
     unsigned int fData[5];
 
     void fromString(const plString& src);
@@ -31,12 +31,12 @@ DllStruct pnSha1Hash {
     static pnSha1Hash Sha1(const void* src, size_t len);
 };
 
-DllExport pnSha1Hash NCHashPassword(const plString& userName,
-                                    const plString& password);
+PLASMANET_DLL pnSha1Hash NCHashPassword(const plString& userName,
+                                        const plString& password);
 
-DllExport pnSha1Hash NCHashLoginInfo(const plString& userName,
-                                     const plString& password,
-                                     hsUint32 serverChallenge,
-                                     hsUint32 clientChallenge);
+PLASMANET_DLL pnSha1Hash NCHashLoginInfo(const plString& userName,
+                                         const plString& password,
+                                         uint32_t serverChallenge,
+                                         uint32_t clientChallenge);
 
 #endif

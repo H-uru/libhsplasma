@@ -27,7 +27,7 @@
 inline float ENDSWAPF(float val) {
     union {
         float fv;
-        hsUint32 fb;
+        uint32_t fb;
     } conv;
     conv.fv = val;
     conv.fb = ENDSWAP32(conv.fb);
@@ -37,10 +37,10 @@ inline float ENDSWAPF(float val) {
 inline double ENDSWAPD(double val) {
     union {
         double fv;
-        hsUint32 fb[2];
+        uint32_t fb[2];
     } conv;
     conv.fv = val;
-    hsUint32 temp = conv.fb[0];
+    uint32_t temp = conv.fb[0];
     conv.fb[0] = ENDSWAP32(conv.fb[1]);
     conv.fb[1] = ENDSWAP32(temp);
     return conv.fv;

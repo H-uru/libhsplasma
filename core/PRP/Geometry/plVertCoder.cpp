@@ -111,7 +111,7 @@ void plVertCoder::IDecodeFloat(hsStream* S, int field, int chan,
     }
     *(float*)dest = fFloats[chan][field].fOffset;
     if (!fFloats[chan][field].fAllSame)
-        *(float*)dest += ((hsUint16)S->readShort() / FieldScales[field]);
+        *(float*)dest += ((uint16_t)S->readShort() / FieldScales[field]);
     dest += sizeof(float);
     fFloats[chan][field].fCount--;
 }
@@ -122,9 +122,9 @@ void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
         ((float*)dest)[1] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
         ((float*)dest)[2] = ((S->readByte() / 256.0f) - 0.5f) * 2.0f;
     } else {
-        ((float*)dest)[0] = (hsInt16)S->readShort() / 32767.0f;
-        ((float*)dest)[1] = (hsInt16)S->readShort() / 32767.0f;
-        ((float*)dest)[2] = (hsInt16)S->readShort() / 32767.0f;
+        ((float*)dest)[0] = (int16_t)S->readShort() / 32767.0f;
+        ((float*)dest)[1] = (int16_t)S->readShort() / 32767.0f;
+        ((float*)dest)[2] = (int16_t)S->readShort() / 32767.0f;
     }
     dest += sizeof(float) * 3;
 }
@@ -192,9 +192,9 @@ void plVertCoder::IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
     fColors[chan].fCount--;
 }
 
-#define FloatToShort(x) (hsInt16)(signed short)(x)
-#define FloatToUShort(x) (hsUint16)(unsigned short)(x)
-#define FloatToByte(x) (hsUbyte)(unsigned char)(x)
+#define FloatToShort(x) (int16_t)(x)
+#define FloatToUShort(x) (uint16_t)(x)
+#define FloatToByte(x) (uint8_t)(x)
 
 void plVertCoder::IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field,
                                int chan, const unsigned char*& src,

@@ -76,5 +76,5 @@ enum {  /* Server -> Client */
     kAuth2Cli_LastExMessage,
 };
 
-DllExport const pnNetMsg* GET_Cli2Auth(hsUint32 msgId);
-DllExport const pnNetMsg* GET_Auth2Cli(hsUint32 msgId);
+PLASMANET_DLL const pnNetMsg* GET_Cli2Auth(uint32_t msgId);
+PLASMANET_DLL const pnNetMsg* GET_Auth2Cli(uint32_t msgId);

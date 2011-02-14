@@ -22,7 +22,7 @@
 #include "Util/hsTArray.hpp"
 #include "plGeometrySpan.h"
 
-DllClass plSharedMesh : public virtual hsKeyedObject {
+class PLASMA_DLL plSharedMesh : public virtual hsKeyedObject {
     CREATABLE(plSharedMesh, kSharedMesh, hsKeyedObject)
 
 public:

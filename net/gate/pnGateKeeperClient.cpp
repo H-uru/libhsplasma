@@ -31,8 +31,8 @@ pnGateKeeperClient::Dispatch::~Dispatch()
 
 bool pnGateKeeperClient::Dispatch::dispatch(pnSocket* sock)
 {
-    hsUint16 msgId;
-    sock->recv(&msgId, sizeof(hsUint16));
+    uint16_t msgId;
+    sock->recv(&msgId, sizeof(uint16_t));
     const pnNetMsg* msgDesc = GET_GateKeeper2Cli(msgId);
     if (msgDesc == NULL) {
         plDebug::Error("Got invalid message ID (%u)", msgId);
@@ -78,8 +78,8 @@ void pnGateKeeperClient::setKeys(const unsigned char* keyX, const unsigned char*
     memcpy(fKeyN, keyN, 64);
 }
 
-void pnGateKeeperClient::setClientInfo(hsUint32 buildId, hsUint32 buildType,
-                                 hsUint32 branchId, const plUuid& productId)
+void pnGateKeeperClient::setClientInfo(uint32_t buildId, uint32_t buildType,
+                                 uint32_t branchId, const plUuid& productId)
 {
     fBuildId = buildId;
     fBuildType = buildType;
@@ -118,16 +118,16 @@ void pnGateKeeperClient::disconnect()
 
 ENetError pnGateKeeperClient::performConnect()
 {
-    hsUbyte connectHeader[51];  // ConnectHeader + GateKeeperConnectHeader
+    uint8_t connectHeader[51];  // ConnectHeader + GateKeeperConnectHeader
     /* Begin ConnectHeader */
-    *(hsUbyte* )(connectHeader     ) = kConnTypeCliToGateKeeper;
-    *(hsUint16*)(connectHeader +  1) = 31;
-    *(hsUint32*)(connectHeader +  3) = fBuildId;
-    *(hsUint32*)(connectHeader +  7) = fBuildType;
-    *(hsUint32*)(connectHeader + 11) = fBranchId;
+    *(uint8_t* )(connectHeader     ) = kConnTypeCliToGateKeeper;
+    *(uint16_t*)(connectHeader +  1) = 31;
+    *(uint32_t*)(connectHeader +  3) = fBuildId;
+    *(uint32_t*)(connectHeader +  7) = fBuildType;
+    *(uint32_t*)(connectHeader + 11) = fBranchId;
     fProductId.write(connectHeader + 15);
     /* Begin GateKeeperConnectHeader */
-    *(hsUint32*)(connectHeader + 31) = 20;
+    *(uint32_t*)(connectHeader + 31) = 20;
     memset(connectHeader + 35, 0, 16);
     fSock->send(connectHeader, 51);
 
@@ -139,7 +139,7 @@ ENetError pnGateKeeperClient::performConnect()
     }
 
     /* Set up encryption */
-    hsUbyte y_data[64];
+    uint8_t y_data[64];
     pnBigInteger clientSeed;
     {
         pnBigInteger X(fKeyX, 64, fLittleEndianKeys);
@@ -150,13 +150,13 @@ ENetError pnGateKeeperClient::performConnect()
         serverSeed.getData(y_data, 64);
     }
 
-    hsUbyte cryptHeader[66];
-    *(hsUbyte*)(cryptHeader    ) = kNetCliCli2SrvConnect;
-    *(hsUbyte*)(cryptHeader + 1) = 66;
+    uint8_t cryptHeader[66];
+    *(uint8_t*)(cryptHeader    ) = kNetCliCli2SrvConnect;
+    *(uint8_t*)(cryptHeader + 1) = 66;
     memcpy(cryptHeader + 2, y_data, 64);
     fSock->send(cryptHeader, 66);
 
-    hsUbyte msg, len;
+    uint8_t msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {
         delete fSock;
         fSock = NULL;
@@ -165,16 +165,16 @@ ENetError pnGateKeeperClient::performConnect()
     }
 
     if (msg == kNetCliSrv2CliEncrypt) {
-        hsUbyte serverSeed[7];
+        uint8_t serverSeed[7];
         fSock->recv(serverSeed, 7);
-        hsUbyte seedData[64];
+        uint8_t seedData[64];
         clientSeed.getData(seedData, 64);
         for (size_t i=0; i<7; i++)
             serverSeed[i] ^= seedData[i];
         fSock->init(7, serverSeed);
     } else if (msg == kNetCliSrv2CliError) {
-        hsUint32 errorCode;
-        fSock->recv(&errorCode, sizeof(hsUint32));
+        uint32_t errorCode;
+        fSock->recv(&errorCode, sizeof(uint32_t));
         delete fSock;
         fSock = NULL;
         plDebug::Error("Error connecting to GateKeeper server: %s",
@@ -195,11 +195,11 @@ ENetError pnGateKeeperClient::performConnect()
     return kNetSuccess;
 }
 
-hsUint32 pnGateKeeperClient::sendPingRequest(hsUint32 pingTimeMs)
+uint32_t pnGateKeeperClient::sendPingRequest(uint32_t pingTimeMs)
 {
     const pnNetMsg* desc = GET_Cli2GateKeeper(kCli2GateKeeper_PingRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = pingTimeMs;
     msg[1].fUint = transId;
     msg[2].fUint = 0;
@@ -209,11 +209,11 @@ hsUint32 pnGateKeeperClient::sendPingRequest(hsUint32 pingTimeMs)
     return transId;
 }
 
-hsUint32 pnGateKeeperClient::sendFileSrvIpAddressRequest(hsUbyte which)
+uint32_t pnGateKeeperClient::sendFileSrvIpAddressRequest(uint8_t which)
 {
     const pnNetMsg* desc = GET_Cli2GateKeeper(kCli2GateKeeper_FileSrvIpAddressRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = which;
     fSock->sendMsg(msg, desc);
@@ -221,28 +221,28 @@ hsUint32 pnGateKeeperClient::sendFileSrvIpAddressRequest(hsUbyte which)
     return transId;
 }
 
-hsUint32 pnGateKeeperClient::sendAuthSrvIpAddressRequest()
+uint32_t pnGateKeeperClient::sendAuthSrvIpAddressRequest()
 {
     const pnNetMsg* desc = GET_Cli2GateKeeper(kCli2GateKeeper_AuthSrvIpAddressRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
 }
 
-void pnGateKeeperClient::onPingReply(hsUint32 transId, hsUint32 pingTimeMs)
+void pnGateKeeperClient::onPingReply(uint32_t transId, uint32_t pingTimeMs)
 {
     plDebug::Warning("Warning: Ignoring GateKeeper2Cli_PingReply");
 }
 
-void pnGateKeeperClient::onFileSrvIpAddressReply(hsUint32 transId, const plString& addr)
+void pnGateKeeperClient::onFileSrvIpAddressReply(uint32_t transId, const plString& addr)
 {
     plDebug::Warning("Warning: Ignoring GateKeeper2Cli_FileSrvIpAddressReply");
 }
 
-void pnGateKeeperClient::onAuthSrvIpAddressReply(hsUint32 transId, const plString& addr)
+void pnGateKeeperClient::onAuthSrvIpAddressReply(uint32_t transId, const plString& addr)
 {
     plDebug::Warning("Warning: Ignoring GateKeeper2Cli_AuthSrvIpAddressReply");
 }

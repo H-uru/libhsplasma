@@ -21,7 +21,7 @@
 #include "crypt/pnBigInteger.h"
 #include "crypt/pnSha1.h"
 
-static size_t CountFiles(hsUint32 infoSize, const pl_wchar_t* infoBuffer)
+static size_t CountFiles(uint32_t infoSize, const pl_wchar_t* infoBuffer)
 {
     size_t count = 0;
     while (((int)infoSize) > 0 && *infoBuffer != 0) {
@@ -33,7 +33,7 @@ static size_t CountFiles(hsUint32 infoSize, const pl_wchar_t* infoBuffer)
     return count;
 }
 
-static void GetFileList(pnAuthFileItem* files, hsUint32 infoSize,
+static void GetFileList(pnAuthFileItem* files, uint32_t infoSize,
                         const pl_wchar_t* infoBuffer)
 {
     pnAuthFileItem* cur = files;
@@ -61,9 +61,9 @@ pnAuthClient::Dispatch::~Dispatch()
 
 bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
 {
-    hsUint16 msgId;
+    uint16_t msgId;
 
-    sock->recv(&msgId, sizeof(hsUint16));
+    sock->recv(&msgId, sizeof(uint16_t));
     const pnNetMsg* msgDesc = GET_Auth2Cli(msgId);
     if (msgDesc == NULL) {
         plDebug::Error("Got invalid message ID (%u)", msgId);
@@ -93,7 +93,7 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
     case kAuth2Cli_AcctLoginReply:
         fReceiver->onAcctLoginReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
                         NCGetUuid(msgbuf[2]), msgbuf[3].fUint, msgbuf[4].fUint,
-                        (const hsUint32*)msgbuf[5].fData);
+                        (const uint32_t*)msgbuf[5].fData);
         break;
     // case kAuth2Cli_AcctData:
     case kAuth2Cli_AcctPlayerInfo:
@@ -186,7 +186,7 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
         break;
     case kAuth2Cli_VaultNodeFindReply:
         fReceiver->onVaultNodeFindReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                        msgbuf[2].fUint, (const hsUint32*)msgbuf[3].fData);
+                        msgbuf[2].fUint, (const uint32_t*)msgbuf[3].fData);
         break;
     case kAuth2Cli_VaultSaveNodeReply:
         fReceiver->onVaultSaveNodeReply(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint);
@@ -248,14 +248,14 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
         {
             size_t scoreCount = msgbuf[2].fUint;
             pnNetGameScore* scores = new pnNetGameScore[scoreCount];
-            const hsUbyte* buf = msgbuf[3].fData;
+            const uint8_t* buf = msgbuf[3].fData;
             for (size_t i=0; i<scoreCount; i++) {
-                scores[i].fScoreId     = *(hsUint32*)(buf     );
-                scores[i].fOwnerId     = *(hsUint32*)(buf +  4);
-                scores[i].fCreatedTime = *(hsUint32*)(buf +  8);
-                scores[i].fGameType    = *(hsUint32*)(buf + 12);
-                scores[i].fValue       = *(hsInt32* )(buf + 16);
-                size_t strDataSize     = *(hsUint32*)(buf + 20);
+                scores[i].fScoreId     = *(uint32_t*)(buf     );
+                scores[i].fOwnerId     = *(uint32_t*)(buf +  4);
+                scores[i].fCreatedTime = *(uint32_t*)(buf +  8);
+                scores[i].fGameType    = *(uint32_t*)(buf + 12);
+                scores[i].fValue       = *(int32_t* )(buf + 16);
+                size_t strDataSize     = *(uint32_t*)(buf + 20);
                 scores[i].fGameName    = (const pl_wchar_t*)(buf + 24);
                 buf += 24 + strDataSize;
             }
@@ -277,11 +277,11 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
         {
             size_t rankCount = msgbuf[2].fUint;
             pnNetGameRank* ranks = new pnNetGameRank[rankCount];
-            const hsUbyte* buf = msgbuf[3].fData;
+            const uint8_t* buf = msgbuf[3].fData;
             for (size_t i=0; i<rankCount; i++) {
-                ranks[i].fRank     = *(hsUint32*)(buf    );
-                ranks[i].fScore    = *(hsUint32*)(buf + 4);
-                size_t strDataSize = *(hsUint32*)(buf + 8);
+                ranks[i].fRank     = *(uint32_t*)(buf    );
+                ranks[i].fScore    = *(uint32_t*)(buf + 4);
+                size_t strDataSize = *(uint32_t*)(buf + 8);
                 ranks[i].fName     = (const pl_wchar_t*)(buf + 12);
                 buf += 12 + strDataSize;
             }
@@ -342,8 +342,8 @@ void pnAuthClient::setKeys(const unsigned char* keyX, const unsigned char* keyN,
     memcpy(fKeyN, keyN, 64);
 }
 
-void pnAuthClient::setClientInfo(hsUint32 buildId, hsUint32 buildType,
-                                 hsUint32 branchId, const plUuid& productId)
+void pnAuthClient::setClientInfo(uint32_t buildId, uint32_t buildType,
+                                 uint32_t branchId, const plUuid& productId)
 {
     fBuildId = buildId;
     fBuildType = buildType;
@@ -382,16 +382,16 @@ void pnAuthClient::disconnect()
 
 ENetError pnAuthClient::performConnect()
 {
-    hsUbyte connectHeader[51];  // ConnectHeader + AuthConnectHeader
+    uint8_t connectHeader[51];  // ConnectHeader + AuthConnectHeader
     /* Begin ConnectHeader */
-    *(hsUbyte* )(connectHeader     ) = kConnTypeCliToAuth;
-    *(hsUint16*)(connectHeader +  1) = 31;
-    *(hsUint32*)(connectHeader +  3) = fBuildId;
-    *(hsUint32*)(connectHeader +  7) = fBuildType;
-    *(hsUint32*)(connectHeader + 11) = fBranchId;
+    *(uint8_t* )(connectHeader     ) = kConnTypeCliToAuth;
+    *(uint16_t*)(connectHeader +  1) = 31;
+    *(uint32_t*)(connectHeader +  3) = fBuildId;
+    *(uint32_t*)(connectHeader +  7) = fBuildType;
+    *(uint32_t*)(connectHeader + 11) = fBranchId;
     fProductId.write(connectHeader + 15);
     /* Begin AuthConnectHeader */
-    *(hsUint32*)(connectHeader + 31) = 20;
+    *(uint32_t*)(connectHeader + 31) = 20;
     memset(connectHeader + 35, 0, 16);
     fSock->send(connectHeader, 51);
 
@@ -403,7 +403,7 @@ ENetError pnAuthClient::performConnect()
     }
 
     /* Set up encryption */
-    hsUbyte y_data[64];
+    uint8_t y_data[64];
     pnBigInteger clientSeed;
     {
         pnBigInteger X(fKeyX, 64, fLittleEndianKeys);
@@ -414,13 +414,13 @@ ENetError pnAuthClient::performConnect()
         serverSeed.getData(y_data, 64);
     }
 
-    hsUbyte cryptHeader[66];
-    *(hsUbyte*)(cryptHeader    ) = kNetCliCli2SrvConnect;
-    *(hsUbyte*)(cryptHeader + 1) = 66;
+    uint8_t cryptHeader[66];
+    *(uint8_t*)(cryptHeader    ) = kNetCliCli2SrvConnect;
+    *(uint8_t*)(cryptHeader + 1) = 66;
     memcpy(cryptHeader + 2, y_data, 64);
     fSock->send(cryptHeader, 66);
 
-    hsUbyte msg, len;
+    uint8_t msg, len;
     if (fSock->recv(&msg, 1) <= 0 || fSock->recv(&len, 1) <= 0) {
         delete fSock;
         fSock = NULL;
@@ -429,16 +429,16 @@ ENetError pnAuthClient::performConnect()
     }
 
     if (msg == kNetCliSrv2CliEncrypt) {
-        hsUbyte serverSeed[7];
+        uint8_t serverSeed[7];
         fSock->recv(serverSeed, 7);
-        hsUbyte seedData[64];
+        uint8_t seedData[64];
         clientSeed.getData(seedData, 64);
         for (size_t i=0; i<7; i++)
             serverSeed[i] ^= seedData[i];
         fSock->init(7, serverSeed);
     } else if (msg == kNetCliSrv2CliError) {
-        hsUint32 errorCode;
-        fSock->recv(&errorCode, sizeof(hsUint32));
+        uint32_t errorCode;
+        fSock->recv(&errorCode, sizeof(uint32_t));
         delete fSock;
         fSock = NULL;
         plDebug::Error("Error connecting to Auth server: %s",
@@ -459,11 +459,11 @@ ENetError pnAuthClient::performConnect()
     return kNetSuccess;
 }
 
-hsUint32 pnAuthClient::sendPingRequest(hsUint32 pingTimeMs)
+uint32_t pnAuthClient::sendPingRequest(uint32_t pingTimeMs)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_PingRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = pingTimeMs;
     msg[1].fUint = transId;
     msg[2].fUint = 0;
@@ -482,7 +482,7 @@ void pnAuthClient::sendClientRegisterRequest()
     NCFreeMessage(msg, desc);
 }
 
-void pnAuthClient::sendClientSetCCRLevel(hsUint32 level)
+void pnAuthClient::sendClientSetCCRLevel(uint32_t level)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ClientSetCCRLevel);
     msgparm_t* msg = NCAllocMessage(desc);
@@ -491,11 +491,11 @@ void pnAuthClient::sendClientSetCCRLevel(hsUint32 level)
     NCFreeMessage(msg, desc);
 }
 
-hsUint32 pnAuthClient::sendAcctExistsRequest(const plString& acctName)
+uint32_t pnAuthClient::sendAcctExistsRequest(const plString& acctName)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctExistsRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(acctName.wstr());
     fSock->sendMsg(msg, desc);
@@ -503,14 +503,14 @@ hsUint32 pnAuthClient::sendAcctExistsRequest(const plString& acctName)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAcctLoginRequest(hsUint32 serverChallenge,
-                hsUint32 clientChallenge, const plString& acctName,
+uint32_t pnAuthClient::sendAcctLoginRequest(uint32_t serverChallenge,
+                uint32_t clientChallenge, const plString& acctName,
                 const plString& password, const plString& authToken,
                 const plString& os)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctLoginRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = clientChallenge;
     msg[2].fString = plwcsdup(acctName.wstr());
@@ -530,11 +530,11 @@ hsUint32 pnAuthClient::sendAcctLoginRequest(hsUint32 serverChallenge,
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAcctSetPlayerRequest(hsUint32 playerId)
+uint32_t pnAuthClient::sendAcctSetPlayerRequest(uint32_t playerId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctSetPlayerRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = playerId;
     fSock->sendMsg(msg, desc);
@@ -542,13 +542,13 @@ hsUint32 pnAuthClient::sendAcctSetPlayerRequest(hsUint32 playerId)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAcctCreateRequest(const plString& acctName,
-                const plString& password, hsUint32 acctFlags,
-                hsUint32 billingType)
+uint32_t pnAuthClient::sendAcctCreateRequest(const plString& acctName,
+                const plString& password, uint32_t acctFlags,
+                uint32_t billingType)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctCreateRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(acctName.wstr());
     pnSha1Hash hash = NCHashPassword(acctName, password);
@@ -560,12 +560,12 @@ hsUint32 pnAuthClient::sendAcctCreateRequest(const plString& acctName,
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAcctChangePasswordRequest(const plString& acctName,
+uint32_t pnAuthClient::sendAcctChangePasswordRequest(const plString& acctName,
                 const plString& password)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctChangePasswordRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(acctName.wstr());
     pnSha1Hash hash = NCHashPassword(acctName, password);
@@ -575,11 +575,11 @@ hsUint32 pnAuthClient::sendAcctChangePasswordRequest(const plString& acctName,
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAcctSetRolesRequest(const plString& acctName, hsUint32 acctFlags)
+uint32_t pnAuthClient::sendAcctSetRolesRequest(const plString& acctName, uint32_t acctFlags)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctSetRolesRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(acctName.wstr());
     msg[2].fUint = acctFlags;
@@ -588,11 +588,11 @@ hsUint32 pnAuthClient::sendAcctSetRolesRequest(const plString& acctName, hsUint3
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAcctSetBillingTypeRequest(const plString& acctName, hsUint32 billingType)
+uint32_t pnAuthClient::sendAcctSetBillingTypeRequest(const plString& acctName, uint32_t billingType)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctSetBillingTypeRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(acctName.wstr());
     msg[2].fUint = billingType;
@@ -601,11 +601,11 @@ hsUint32 pnAuthClient::sendAcctSetBillingTypeRequest(const plString& acctName, h
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAcctActivateRequest(const plUuid& activationKey)
+uint32_t pnAuthClient::sendAcctActivateRequest(const plUuid& activationKey)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctActivateRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     activationKey.write(msg[1].fData);
     fSock->sendMsg(msg, desc);
@@ -613,12 +613,12 @@ hsUint32 pnAuthClient::sendAcctActivateRequest(const plUuid& activationKey)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAcctCreateFromKeyRequest(const plString& acctName,
-                const plString& password, const plUuid& key, hsUint32 billingType)
+uint32_t pnAuthClient::sendAcctCreateFromKeyRequest(const plString& acctName,
+                const plString& password, const plUuid& key, uint32_t billingType)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AcctCreateFromKeyRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(acctName.wstr());
     pnSha1Hash hash = NCHashPassword(acctName, password);
@@ -630,11 +630,11 @@ hsUint32 pnAuthClient::sendAcctCreateFromKeyRequest(const plString& acctName,
     return transId;
 }
 
-hsUint32 pnAuthClient::sendPlayerDeleteRequest(hsUint32 playerId)
+uint32_t pnAuthClient::sendPlayerDeleteRequest(uint32_t playerId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_PlayerDeleteRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = playerId;
     fSock->sendMsg(msg, desc);
@@ -642,12 +642,12 @@ hsUint32 pnAuthClient::sendPlayerDeleteRequest(hsUint32 playerId)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendPlayerCreateRequest(const plString& playerName,
+uint32_t pnAuthClient::sendPlayerCreateRequest(const plString& playerName,
                 const plString& playerShape, const plString& friendInvite)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_PlayerCreateRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(playerName.wstr());
     msg[2].fString = plwcsdup(playerShape.wstr());
@@ -657,11 +657,11 @@ hsUint32 pnAuthClient::sendPlayerCreateRequest(const plString& playerName,
     return transId;
 }
 
-hsUint32 pnAuthClient::sendUpgradeVisitorRequest(hsUint32 playerId)
+uint32_t pnAuthClient::sendUpgradeVisitorRequest(uint32_t playerId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_UpgradeVisitorRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = playerId;
     fSock->sendMsg(msg, desc);
@@ -669,11 +669,11 @@ hsUint32 pnAuthClient::sendUpgradeVisitorRequest(hsUint32 playerId)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendSetPlayerBanStatusRequest(hsUint32 playerId, hsUint32 banned)
+uint32_t pnAuthClient::sendSetPlayerBanStatusRequest(uint32_t playerId, uint32_t banned)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_SetPlayerBanStatusRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = playerId;
     msg[2].fUint = banned;
@@ -682,7 +682,7 @@ hsUint32 pnAuthClient::sendSetPlayerBanStatusRequest(hsUint32 playerId, hsUint32
     return transId;
 }
 
-void pnAuthClient::sendKickPlayer(hsUint32 playerId)
+void pnAuthClient::sendKickPlayer(uint32_t playerId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_KickPlayer);
     msgparm_t* msg = NCAllocMessage(desc);
@@ -691,11 +691,11 @@ void pnAuthClient::sendKickPlayer(hsUint32 playerId)
     NCFreeMessage(msg, desc);
 }
 
-hsUint32 pnAuthClient::sendChangePlayerNameRequest(hsUint32 playerId, const plString& name)
+uint32_t pnAuthClient::sendChangePlayerNameRequest(uint32_t playerId, const plString& name)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ChangePlayerNameRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = playerId;
     msg[2].fString = plwcsdup(name.wstr());
@@ -704,12 +704,12 @@ hsUint32 pnAuthClient::sendChangePlayerNameRequest(hsUint32 playerId, const plSt
     return transId;
 }
 
-hsUint32 pnAuthClient::sendFriendInviteRequest(const plUuid& invite, const plString& email,
+uint32_t pnAuthClient::sendFriendInviteRequest(const plUuid& invite, const plString& email,
                 const plString& sendTo)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_SendFriendInviteRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     invite.write(msg[1].fData);
     msg[2].fString = plwcsdup(email.wstr());
@@ -719,25 +719,25 @@ hsUint32 pnAuthClient::sendFriendInviteRequest(const plUuid& invite, const plStr
     return transId;
 }
 
-hsUint32 pnAuthClient::sendVaultNodeCreate(const pnVaultNode& node)
+uint32_t pnAuthClient::sendVaultNodeCreate(const pnVaultNode& node)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultNodeCreate);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = node.bufferSize();
-    msg[2].fData = new hsUbyte[msg[1].fUint];
+    msg[2].fData = new uint8_t[msg[1].fUint];
     node.write(msg[2].fData, msg[1].fUint);
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
 }
 
-hsUint32 pnAuthClient::sendVaultNodeFetch(hsUint32 nodeId)
+uint32_t pnAuthClient::sendVaultNodeFetch(uint32_t nodeId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultNodeFetch);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = nodeId;
     fSock->sendMsg(msg, desc);
@@ -745,28 +745,28 @@ hsUint32 pnAuthClient::sendVaultNodeFetch(hsUint32 nodeId)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendVaultNodeSave(hsUint32 nodeId, const plUuid& revisionId,
+uint32_t pnAuthClient::sendVaultNodeSave(uint32_t nodeId, const plUuid& revisionId,
                 const pnVaultNode& node)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultNodeSave);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = nodeId;
     revisionId.write(msg[2].fData);
     msg[3].fUint = node.bufferSize();
-    msg[4].fData = new hsUbyte[msg[3].fUint];
+    msg[4].fData = new uint8_t[msg[3].fUint];
     node.write(msg[4].fData, msg[3].fUint);
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
 }
 
-hsUint32 pnAuthClient::sendVaultNodeAdd(hsUint32 parent, hsUint32 child, hsUint32 owner)
+uint32_t pnAuthClient::sendVaultNodeAdd(uint32_t parent, uint32_t child, uint32_t owner)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultNodeAdd);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = parent;
     msg[2].fUint = child;
@@ -776,11 +776,11 @@ hsUint32 pnAuthClient::sendVaultNodeAdd(hsUint32 parent, hsUint32 child, hsUint3
     return transId;
 }
 
-hsUint32 pnAuthClient::sendVaultNodeRemove(hsUint32 parent, hsUint32 child)
+uint32_t pnAuthClient::sendVaultNodeRemove(uint32_t parent, uint32_t child)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultNodeRemove);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = parent;
     msg[2].fUint = child;
@@ -789,11 +789,11 @@ hsUint32 pnAuthClient::sendVaultNodeRemove(hsUint32 parent, hsUint32 child)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendVaultFetchNodeRefs(hsUint32 nodeId)
+uint32_t pnAuthClient::sendVaultFetchNodeRefs(uint32_t nodeId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultFetchNodeRefs);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = nodeId;
     fSock->sendMsg(msg, desc);
@@ -801,14 +801,14 @@ hsUint32 pnAuthClient::sendVaultFetchNodeRefs(hsUint32 nodeId)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendVaultInitAgeRequest(const plUuid& ageUuid, const plString& filename,
+uint32_t pnAuthClient::sendVaultInitAgeRequest(const plUuid& ageUuid, const plString& filename,
                 const plString& instanceName, const plString& userDefinedName,
-                const plString& description, hsUint32 sequence, hsUint32 language,
+                const plString& description, uint32_t sequence, uint32_t language,
                 const plUuid& parentUuid)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultInitAgeRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     ageUuid.write(msg[1].fData);
     parentUuid.write(msg[2].fData);
@@ -823,21 +823,21 @@ hsUint32 pnAuthClient::sendVaultInitAgeRequest(const plUuid& ageUuid, const plSt
     return transId;
 }
 
-hsUint32 pnAuthClient::sendVaultNodeFind(const pnVaultNode& templateNode)
+uint32_t pnAuthClient::sendVaultNodeFind(const pnVaultNode& templateNode)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultNodeFind);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = templateNode.bufferSize();
-    msg[2].fData = new hsUbyte[msg[1].fUint];
+    msg[2].fData = new uint8_t[msg[1].fUint];
     templateNode.write(msg[2].fData, msg[1].fUint);
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
     return transId;
 }
 
-void pnAuthClient::sendVaultSetSeen(hsUint32 parent, hsUint32 child, hsUbyte seen)
+void pnAuthClient::sendVaultSetSeen(uint32_t parent, uint32_t child, uint8_t seen)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultSetSeen);
     msgparm_t* msg = NCAllocMessage(desc);
@@ -848,7 +848,7 @@ void pnAuthClient::sendVaultSetSeen(hsUint32 parent, hsUint32 child, hsUbyte see
     NCFreeMessage(msg, desc);
 }
 
-void pnAuthClient::sendVaultSendNode(hsUint32 nodeId, hsUint32 playerId)
+void pnAuthClient::sendVaultSendNode(uint32_t nodeId, uint32_t playerId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_VaultSendNode);
     msgparm_t* msg = NCAllocMessage(desc);
@@ -858,11 +858,11 @@ void pnAuthClient::sendVaultSendNode(hsUint32 nodeId, hsUint32 playerId)
     NCFreeMessage(msg, desc);
 }
 
-hsUint32 pnAuthClient::sendAgeRequest(const plString& ageName, const plUuid& ageUuid)
+uint32_t pnAuthClient::sendAgeRequest(const plString& ageName, const plUuid& ageUuid)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AgeRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(ageName.wstr());
     ageUuid.write(msg[2].fData);
@@ -871,11 +871,11 @@ hsUint32 pnAuthClient::sendAgeRequest(const plString& ageName, const plUuid& age
     return transId;
 }
 
-hsUint32 pnAuthClient::sendAgeRequestEx(const plString& ageName, const plUuid& ageUuid)
+uint32_t pnAuthClient::sendAgeRequestEx(const plString& ageName, const plUuid& ageUuid)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_AgeRequestEx);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(ageName.wstr());
     ageUuid.write(msg[2].fData);
@@ -884,11 +884,11 @@ hsUint32 pnAuthClient::sendAgeRequestEx(const plString& ageName, const plUuid& a
     return transId;
 }
 
-hsUint32 pnAuthClient::sendFileListRequest(const plString& directory, const plString& ext)
+uint32_t pnAuthClient::sendFileListRequest(const plString& directory, const plString& ext)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_FileListRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(directory.wstr());
     msg[2].fString = plwcsdup(ext.wstr());
@@ -897,11 +897,11 @@ hsUint32 pnAuthClient::sendFileListRequest(const plString& directory, const plSt
     return transId;
 }
 
-hsUint32 pnAuthClient::sendFileDownloadRequest(const plString& filename)
+uint32_t pnAuthClient::sendFileDownloadRequest(const plString& filename)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_FileDownloadRequest);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(filename.wstr());
     fSock->sendMsg(msg, desc);
@@ -909,7 +909,7 @@ hsUint32 pnAuthClient::sendFileDownloadRequest(const plString& filename)
     return transId;
 }
 
-void pnAuthClient::sendFileDownloadChunkAck(hsUint32 transId)
+void pnAuthClient::sendFileDownloadChunkAck(uint32_t transId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_FileDownloadChunkAck);
     msgparm_t* msg = NCAllocMessage(desc);
@@ -918,11 +918,11 @@ void pnAuthClient::sendFileDownloadChunkAck(hsUint32 transId)
     NCFreeMessage(msg, desc);
 }
 
-hsUint32 pnAuthClient::sendGetPublicAgeList(const plString& filename)
+uint32_t pnAuthClient::sendGetPublicAgeList(const plString& filename)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_GetPublicAgeList);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fString = plwcsdup(filename.wstr());
     fSock->sendMsg(msg, desc);
@@ -930,7 +930,7 @@ hsUint32 pnAuthClient::sendGetPublicAgeList(const plString& filename)
     return transId;
 }
 
-void pnAuthClient::sendSetAgePublic(hsUint32 ageInfoId, hsUbyte isPublic)
+void pnAuthClient::sendSetAgePublic(uint32_t ageInfoId, uint8_t isPublic)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_SetAgePublic);
     msgparm_t* msg = NCAllocMessage(desc);
@@ -967,12 +967,12 @@ void pnAuthClient::sendLogClientDebuggerConnect()
     NCFreeMessage(msg, desc);
 }
 
-hsUint32 pnAuthClient::sendScoreCreate(hsUint32 owner, const plString& gameName,
-            hsUint32 gameType, hsUint32 scoreValue)
+uint32_t pnAuthClient::sendScoreCreate(uint32_t owner, const plString& gameName,
+            uint32_t gameType, uint32_t scoreValue)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ScoreCreate);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = owner;
     msg[2].fString = plwcsdup(gameName.wstr());
@@ -983,11 +983,11 @@ hsUint32 pnAuthClient::sendScoreCreate(hsUint32 owner, const plString& gameName,
     return transId;
 }
 
-hsUint32 pnAuthClient::sendScoreDelete(hsUint32 scoreId)
+uint32_t pnAuthClient::sendScoreDelete(uint32_t scoreId)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ScoreDelete);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = scoreId;
     fSock->sendMsg(msg, desc);
@@ -995,11 +995,11 @@ hsUint32 pnAuthClient::sendScoreDelete(hsUint32 scoreId)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendScoreGetScores(hsUint32 owner, const plString& gameName)
+uint32_t pnAuthClient::sendScoreGetScores(uint32_t owner, const plString& gameName)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ScoreGetScores);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = owner;
     msg[2].fString = plwcsdup(gameName.wstr());
@@ -1008,11 +1008,11 @@ hsUint32 pnAuthClient::sendScoreGetScores(hsUint32 owner, const plString& gameNa
     return transId;
 }
 
-hsUint32 pnAuthClient::sendScoreAddPoints(hsUint32 scoreId, hsUint32 points)
+uint32_t pnAuthClient::sendScoreAddPoints(uint32_t scoreId, uint32_t points)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ScoreAddPoints);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = scoreId;
     msg[2].fUint = points;
@@ -1021,11 +1021,11 @@ hsUint32 pnAuthClient::sendScoreAddPoints(hsUint32 scoreId, hsUint32 points)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendScoreTransferPoints(hsUint32 source, hsUint32 dest, hsUint32 points)
+uint32_t pnAuthClient::sendScoreTransferPoints(uint32_t source, uint32_t dest, uint32_t points)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ScoreTransferPoints);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = source;
     msg[2].fUint = dest;
@@ -1035,11 +1035,11 @@ hsUint32 pnAuthClient::sendScoreTransferPoints(hsUint32 source, hsUint32 dest, h
     return transId;
 }
 
-hsUint32 pnAuthClient::sendScoreSetPoints(hsUint32 scoreId, hsUint32 points)
+uint32_t pnAuthClient::sendScoreSetPoints(uint32_t scoreId, uint32_t points)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ScoreSetPoints);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = scoreId;
     msg[2].fUint = points;
@@ -1048,13 +1048,13 @@ hsUint32 pnAuthClient::sendScoreSetPoints(hsUint32 scoreId, hsUint32 points)
     return transId;
 }
 
-hsUint32 pnAuthClient::sendScoreGetRanks(hsUint32 ownerId, hsUint32 group, hsUint32 parent,
-                const plString& gameName, hsUint32 timePeriod, hsUint32 numResults,
-                hsUint32 pageNumber, hsUint32 sortDesc)
+uint32_t pnAuthClient::sendScoreGetRanks(uint32_t ownerId, uint32_t group, uint32_t parent,
+                const plString& gameName, uint32_t timePeriod, uint32_t numResults,
+                uint32_t pageNumber, uint32_t sortDesc)
 {
     const pnNetMsg* desc = GET_Cli2Auth(kCli2Auth_ScoreGetRanks);
     msgparm_t* msg = NCAllocMessage(desc);
-    hsUint32 transId = nextTransId();
+    uint32_t transId = nextTransId();
     msg[0].fUint = transId;
     msg[1].fUint = ownerId;
     msg[2].fUint = group;
@@ -1079,256 +1079,256 @@ void pnAuthClient::propagateMessage(plCreatable* pCre)
     fResMgr->WriteCreatable(&rs, pCre);
     fResMgr->unlock();
     msg[1].fUint = rs.size();
-    msg[2].fData = new hsUbyte[msg[1].fUint];
+    msg[2].fData = new uint8_t[msg[1].fUint];
     rs.copyTo(msg[2].fData, msg[1].fUint);
     fSock->sendMsg(msg, desc);
     NCFreeMessage(msg, desc);
 }
 
-void pnAuthClient::onPingReply(hsUint32 transId, hsUint32 pingTimeMs)
+void pnAuthClient::onPingReply(uint32_t transId, uint32_t pingTimeMs)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_PingReply");
 }
 
-void pnAuthClient::onServerAddr(hsUint32 address, const plUuid& token)
+void pnAuthClient::onServerAddr(uint32_t address, const plUuid& token)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ServerAddr");
 }
 
-void pnAuthClient::onNotifyNewBuild(hsUint32 buildId)
+void pnAuthClient::onNotifyNewBuild(uint32_t buildId)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_NotifyNewBuild");
 }
 
-void pnAuthClient::onClientRegisterReply(hsUint32 serverChallenge)
+void pnAuthClient::onClientRegisterReply(uint32_t serverChallenge)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ClientRegisterReply");
 }
 
-void pnAuthClient::onAcctExistsReply(hsUint32 transId, ENetError result, bool exists)
+void pnAuthClient::onAcctExistsReply(uint32_t transId, ENetError result, bool exists)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctExistsReply");
 }
 
-void pnAuthClient::onAcctLoginReply(hsUint32 transId, ENetError result,
-                        const plUuid& acctUuid, hsUint32 acctFlags,
-                        hsUint32 billingType, const hsUint32* encryptionKey)
+void pnAuthClient::onAcctLoginReply(uint32_t transId, ENetError result,
+                        const plUuid& acctUuid, uint32_t acctFlags,
+                        uint32_t billingType, const uint32_t* encryptionKey)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctLoginReply");
 }
 
-void pnAuthClient::onAcctPlayerInfo(hsUint32 transId, hsUint32 playerId,
+void pnAuthClient::onAcctPlayerInfo(uint32_t transId, uint32_t playerId,
                         const plString& playerName, const plString& avatarModel,
-                        hsUint32 explorer)
+                        uint32_t explorer)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctPlayerInfo");
 }
 
-void pnAuthClient::onAcctSetPlayerReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onAcctSetPlayerReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctSetPlayerReply");
 }
 
-void pnAuthClient::onAcctCreateReply(hsUint32 transId, ENetError result,
+void pnAuthClient::onAcctCreateReply(uint32_t transId, ENetError result,
                         const plUuid& accountUuid)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctCreateReply");
 }
 
-void pnAuthClient::onAcctChangePasswordReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onAcctChangePasswordReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctChangePasswordReply");
 }
 
-void pnAuthClient::onAcctSetRolesReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onAcctSetRolesReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctSetRolesReply");
 }
 
-void pnAuthClient::onAcctSetBillingTypeReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onAcctSetBillingTypeReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctSetBillingTypeReply");
 }
 
-void pnAuthClient::onAcctActivateReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onAcctActivateReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctActivateReply");
 }
 
-void pnAuthClient::onAcctCreateFromKeyReply(hsUint32 transId, ENetError result,
+void pnAuthClient::onAcctCreateFromKeyReply(uint32_t transId, ENetError result,
                         const plUuid& acctUuid, const plUuid& activationKey)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AcctCreateFromKeyReply");
 }
 
-void pnAuthClient::onPlayerCreateReply(hsUint32 transId, ENetError result,
-                        hsUint32 playerId, hsUint32 explorer,
+void pnAuthClient::onPlayerCreateReply(uint32_t transId, ENetError result,
+                        uint32_t playerId, uint32_t explorer,
                         const plString& playerName, const plString& avatarShape)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_PlayerCreateReply");
 }
 
-void pnAuthClient::onPlayerDeleteReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onPlayerDeleteReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_PlayerDeleteReply");
 }
 
-void pnAuthClient::onUpgradeVisitorReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onUpgradeVisitorReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_UpgradeVisitorReply");
 }
 
-void pnAuthClient::onSetPlayerBanStatusReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onSetPlayerBanStatusReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_SetPlayerBanStatusReply");
 }
 
-void pnAuthClient::onChangePlayerNameReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onChangePlayerNameReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ChangePlayerNameReply");
 }
 
-void pnAuthClient::onSendFriendInviteReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onSendFriendInviteReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_SendFriendInviteReply");
 }
 
-void pnAuthClient::onVaultNodeCreated(hsUint32 transId, ENetError result,
-                        hsUint32 nodeId)
+void pnAuthClient::onVaultNodeCreated(uint32_t transId, ENetError result,
+                        uint32_t nodeId)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultNodeCreated");
 }
 
-void pnAuthClient::onVaultNodeFetched(hsUint32 transId, ENetError result,
+void pnAuthClient::onVaultNodeFetched(uint32_t transId, ENetError result,
                         const pnVaultNode& node)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultNodeFetched");
 }
 
-void pnAuthClient::onVaultNodeChanged(hsUint32 nodeId, const plUuid& revisionId)
+void pnAuthClient::onVaultNodeChanged(uint32_t nodeId, const plUuid& revisionId)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultNodeChanged");
 }
 
-void pnAuthClient::onVaultNodeDeleted(hsUint32 nodeId)
+void pnAuthClient::onVaultNodeDeleted(uint32_t nodeId)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultNodeDeleted");
 }
 
-void pnAuthClient::onVaultNodeAdded(hsUint32 parent, hsUint32 child, hsUint32 owner)
+void pnAuthClient::onVaultNodeAdded(uint32_t parent, uint32_t child, uint32_t owner)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultNodeAdded");
 }
 
-void pnAuthClient::onVaultNodeRemoved(hsUint32 parent, hsUint32 child)
+void pnAuthClient::onVaultNodeRemoved(uint32_t parent, uint32_t child)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultNodeRemoved");
 }
 
-void pnAuthClient::onVaultNodeRefsFetched(hsUint32 transId, ENetError result,
+void pnAuthClient::onVaultNodeRefsFetched(uint32_t transId, ENetError result,
                         size_t count, const pnVaultNodeRef* refs)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultNodeRefsFetched");
 }
 
-void pnAuthClient::onVaultInitAgeReply(hsUint32 transId, ENetError result,
-                        hsUint32 ageId, hsUint32 ageInfoId)
+void pnAuthClient::onVaultInitAgeReply(uint32_t transId, ENetError result,
+                        uint32_t ageId, uint32_t ageInfoId)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultInitAgeReply");
 }
 
-void pnAuthClient::onVaultNodeFindReply(hsUint32 transId, ENetError result,
-                        size_t count, const hsUint32* nodes)
+void pnAuthClient::onVaultNodeFindReply(uint32_t transId, ENetError result,
+                        size_t count, const uint32_t* nodes)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultNodeFindReply");
 }
 
-void pnAuthClient::onVaultSaveNodeReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onVaultSaveNodeReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultSaveNodeReply");
 }
 
-void pnAuthClient::onVaultAddNodeReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onVaultAddNodeReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultAddNodeReply");
 }
 
-void pnAuthClient::onVaultRemoveNodeReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onVaultRemoveNodeReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_VaultRemoveNodeReply");
 }
 
-void pnAuthClient::onAgeReply(hsUint32 transId, ENetError result, hsUint32 mcpId,
-                        const plUuid& ageInstanceId, hsUint32 ageVaultId,
-                        hsUint32 gameServerAddress)
+void pnAuthClient::onAgeReply(uint32_t transId, ENetError result, uint32_t mcpId,
+                        const plUuid& ageInstanceId, uint32_t ageVaultId,
+                        uint32_t gameServerAddress)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AgeReply");
 }
 
-void pnAuthClient::onAgeReplyEx(hsUint32 transId, ENetError result, hsUint32 mcpId,
-                        const plUuid& ageInstanceId, hsUint32 ageVaultId,
+void pnAuthClient::onAgeReplyEx(uint32_t transId, ENetError result, uint32_t mcpId,
+                        const plUuid& ageInstanceId, uint32_t ageVaultId,
                         const plString& gameServerAddress)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_AgeReplyEx");
 }
 
-void pnAuthClient::onFileListReply(hsUint32 transId, ENetError result,
+void pnAuthClient::onFileListReply(uint32_t transId, ENetError result,
                         size_t count, const pnAuthFileItem* files)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_FileListReply");
 }
 
-void pnAuthClient::onFileDownloadChunk(hsUint32 transId, ENetError result,
-                        hsUint32 totalSize, hsUint32 chunkOffset, size_t chunkSize,
+void pnAuthClient::onFileDownloadChunk(uint32_t transId, ENetError result,
+                        uint32_t totalSize, uint32_t chunkOffset, size_t chunkSize,
                         const unsigned char* chunkData)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_FileDownloadChunk");
 }
 
-void pnAuthClient::onKickedOff(hsUint32 reason)
+void pnAuthClient::onKickedOff(uint32_t reason)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_KickedOff");
 }
 
-void pnAuthClient::onPublicAgeList(hsUint32 transId, ENetError result,
+void pnAuthClient::onPublicAgeList(uint32_t transId, ENetError result,
                         size_t count, const pnNetAgeInfo* ages)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_PublicAgeList");
 }
 
-void pnAuthClient::onScoreCreateReply(hsUint32 transId, ENetError result,
-                        hsUint32 scoreId, hsUint32 createdTime)
+void pnAuthClient::onScoreCreateReply(uint32_t transId, ENetError result,
+                        uint32_t scoreId, uint32_t createdTime)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreCreateReply");
 }
 
-void pnAuthClient::onScoreDeleteReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onScoreDeleteReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreDeleteReply");
 }
 
-void pnAuthClient::onScoreGetScoresReply(hsUint32 transId, ENetError result,
+void pnAuthClient::onScoreGetScoresReply(uint32_t transId, ENetError result,
                         size_t count, const pnNetGameScore* scores)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreGetScoresReply");
 }
 
-void pnAuthClient::onScoreAddPointsReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onScoreAddPointsReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreAddPointsReply");
 }
 
-void pnAuthClient::onScoreTransferPointsReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onScoreTransferPointsReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreTransferPointsReply");
 }
 
-void pnAuthClient::onScoreSetPointsReply(hsUint32 transId, ENetError result)
+void pnAuthClient::onScoreSetPointsReply(uint32_t transId, ENetError result)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreSetPointsReply");
 }
 
-void pnAuthClient::onScoreGetRanksReply(hsUint32 transId, ENetError result,
+void pnAuthClient::onScoreGetRanksReply(uint32_t transId, ENetError result,
                         size_t count, const pnNetGameRank* ranks)
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_ScoreGetRanksReply");

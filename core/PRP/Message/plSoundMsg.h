@@ -20,7 +20,7 @@
 #include "plMessageWithCallbacks.h"
 #include "Util/hsBitVector.h"
 
-DllClass plSoundMsg : public plMessageWithCallbacks {
+class PLASMA_DLL plSoundMsg : public plMessageWithCallbacks {
     CREATABLE(plSoundMsg, kSoundMsg, plMessageWithCallbacks)
 
 public:

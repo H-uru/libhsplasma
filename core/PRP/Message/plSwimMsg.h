@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-DllClass plSwimMsg : public plMessage {
+class PLASMA_DLL plSwimMsg : public plMessage {
     CREATABLE(plSwimMsg, kSwimMsg, plMessage)
 
 protected:

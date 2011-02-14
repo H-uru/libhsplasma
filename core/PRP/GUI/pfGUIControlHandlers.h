@@ -20,17 +20,17 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-DllClass pfGUICtrlProcObject {
+class PLASMA_DLL pfGUICtrlProcObject {
 public:
     pfGUICtrlProcObject() { }
     virtual ~pfGUICtrlProcObject() { }
 };
 
 
-DllClass pfGUIDialogProc : public pfGUICtrlProcObject { };
+class PLASMA_DLL pfGUIDialogProc : public pfGUICtrlProcObject { };
 
 
-DllClass pfGUICtrlProcWriteableObject : public pfGUICtrlProcObject {
+class PLASMA_DLL pfGUICtrlProcWriteableObject : public pfGUICtrlProcObject {
 public:
     enum Types { kNull, kConsoleCmd, kPythonScript, kCloseDlg };
 
@@ -54,7 +54,7 @@ public:
 };
 
 
-DllClass pfGUICloseDlgProc : public pfGUICtrlProcWriteableObject {
+class PLASMA_DLL pfGUICloseDlgProc : public pfGUICtrlProcWriteableObject {
 public:
     pfGUICloseDlgProc();
 
@@ -66,7 +66,7 @@ protected:
 };
 
 
-DllClass pfGUIConsoleCmdProc : public pfGUICtrlProcWriteableObject {
+class PLASMA_DLL pfGUIConsoleCmdProc : public pfGUICtrlProcWriteableObject {
 protected:
     plString fCommand;
 
@@ -85,7 +85,7 @@ public:
 };
 
 
-DllClass pfGUIPythonScriptProc : public pfGUICtrlProcWriteableObject {
+class PLASMA_DLL pfGUIPythonScriptProc : public pfGUICtrlProcWriteableObject {
 public:
      pfGUIPythonScriptProc();
 

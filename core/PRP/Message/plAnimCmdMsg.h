@@ -20,7 +20,7 @@
 #include "plMessageWithCallbacks.h"
 #include "Util/hsBitVector.h"
 
-DllClass plAnimCmdMsg : public plMessageWithCallbacks {
+class PLASMA_DLL plAnimCmdMsg : public plMessageWithCallbacks {
     CREATABLE(plAnimCmdMsg, kAnimCmdMsg, plMessageWithCallbacks)
 
 public:

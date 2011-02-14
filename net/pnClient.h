@@ -23,7 +23,7 @@
 
 class pnSocketInterface;
 
-DllClass pnClient {
+class PLASMANET_DLL pnClient {
 public:
     pnClient();
     virtual ~pnClient();
@@ -42,7 +42,7 @@ public:
 //     virtual void waitForStatus() = 0;
 
 protected:
-    hsUint32 nextTransId();
+    uint32_t nextTransId();
     pnSocketInterface *fIface;
 };
 

@@ -21,7 +21,7 @@
 #include "PRP/Animation/plController.h"
 
 /* Matrix Channels */
-DllClass plMatrixChannel : public plAGChannel {
+class PLASMA_DLL plMatrixChannel : public plAGChannel {
     CREATABLE(plMatrixChannel, kMatrixChannel, plAGChannel)
 
 protected:
@@ -33,12 +33,12 @@ public:
 };
 
 
-DllClass plMatrixBlend : public plMatrixChannel {
+class PLASMA_DLL plMatrixBlend : public plMatrixChannel {
     CREATABLE(plMatrixBlend, kMatrixBlend, plMatrixChannel)
 };
 
 
-DllClass plMatrixConstant : public plMatrixChannel {
+class PLASMA_DLL plMatrixConstant : public plMatrixChannel {
     CREATABLE(plMatrixConstant, kMatrixConstant, plMatrixChannel)
 
 public:
@@ -51,13 +51,13 @@ protected:
 };
 
 
-DllClass plMatrixControllerCacheChannel : public plMatrixChannel {
+class PLASMA_DLL plMatrixControllerCacheChannel : public plMatrixChannel {
     CREATABLE(plMatrixControllerCacheChannel, kMatrixControllerCacheChannel,
               plMatrixChannel)
 };
 
 
-DllClass plMatrixControllerChannel : public plMatrixChannel {
+class PLASMA_DLL plMatrixControllerChannel : public plMatrixChannel {
     CREATABLE(plMatrixControllerChannel, kMatrixControllerChannel,
               plMatrixChannel)
 
@@ -81,33 +81,33 @@ public:
 };
 
 
-DllClass plMatrixTimeScale : public plMatrixChannel {
+class PLASMA_DLL plMatrixTimeScale : public plMatrixChannel {
     CREATABLE(plMatrixTimeScale, kMatrixTimeScale, plMatrixChannel)
 };
 
-DllClass plQuatPointCombine : public plMatrixChannel {
+class PLASMA_DLL plQuatPointCombine : public plMatrixChannel {
     CREATABLE(plQuatPointCombine, kQuatPointCombine, plMatrixChannel)
 };
 
 
 /* Matrix Channel Applicators */
-DllClass plMatrixChannelApplicator : public plAGApplicator {
+class PLASMA_DLL plMatrixChannelApplicator : public plAGApplicator {
     CREATABLE(plMatrixChannelApplicator, kMatrixChannelApplicator,
               plAGApplicator)
 };
 
-DllClass plMatrixDelayedCorrectionApplicator : public plMatrixChannelApplicator {
+class PLASMA_DLL plMatrixDelayedCorrectionApplicator : public plMatrixChannelApplicator {
     CREATABLE(plMatrixDelayedCorrectionApplicator,
               kMatrixDelayedCorrectionApplicator,
               plMatrixChannelApplicator)
 };
 
-DllClass plMatrixDifferenceApp : public plMatrixChannelApplicator {
+class PLASMA_DLL plMatrixDifferenceApp : public plMatrixChannelApplicator {
     CREATABLE(plMatrixDifferenceApp, kMatrixDifferenceApp,
               plMatrixChannelApplicator)
 };
 
-DllClass plRelativeMatrixChannelApplicator : public plAGApplicator {
+class PLASMA_DLL plRelativeMatrixChannelApplicator : public plAGApplicator {
     CREATABLE(plRelativeMatrixChannelApplicator,
               kRelativeMatrixChannelApplicator,
               plAGApplicator)

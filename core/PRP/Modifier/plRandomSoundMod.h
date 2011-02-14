@@ -19,7 +19,7 @@
 
 #include "plRandomCommandMod.h"
 
-DllClass plRandomSoundModGroup {
+class PLASMA_DLL plRandomSoundModGroup {
 protected:
     hsTArray<unsigned short> fIndices;
     short fGroupedIdx;
@@ -34,7 +34,7 @@ public:
 };
 
 
-DllClass plRandomSoundMod : public virtual plRandomCommandMod {
+class PLASMA_DLL plRandomSoundMod : public virtual plRandomCommandMod {
     CREATABLE(plRandomSoundMod, kRandomSoundMod, plRandomCommandMod)
 
 protected:

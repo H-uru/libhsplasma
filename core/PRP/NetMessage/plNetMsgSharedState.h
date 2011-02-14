@@ -20,7 +20,7 @@
 #include "plNetMsgStreamedObject.h"
 #include "plNetSharedState.h"
 
-DllClass plNetMsgSharedState : public plNetMsgStreamedObject {
+class PLASMA_DLL plNetMsgSharedState : public plNetMsgStreamedObject {
     CREATABLE(plNetMsgSharedState, kNetMsgSharedState, plNetMsgStreamedObject)
 
 private:
@@ -46,7 +46,7 @@ public:
 };
 
 
-DllClass plNetMsgTestAndSet : public plNetMsgSharedState {
+class PLASMA_DLL plNetMsgTestAndSet : public plNetMsgSharedState {
     CREATABLE(plNetMsgTestAndSet, kNetMsgTestAndSet, plNetMsgSharedState)
 };
 

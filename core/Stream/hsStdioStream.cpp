@@ -24,11 +24,11 @@ hsStdioStream::hsStdioStream(bool useStdErr) : hsFileStream(PlasmaVer::pvUnknown
     fm = fmReadWrite;
 }
 
-void hsStdioStream::seek(hsUint32 pos) {
+void hsStdioStream::seek(uint32_t pos) {
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 
-void hsStdioStream::skip(hsInt32 count) {
+void hsStdioStream::skip(int32_t count) {
     throw hsNotImplementedException(__FILE__, __LINE__);
 }
 

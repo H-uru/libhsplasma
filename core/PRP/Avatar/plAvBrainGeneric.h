@@ -22,7 +22,7 @@
 #include "plAGAnim.h"
 #include "PRP/Message/plMessage.h"
 
-DllClass plAvBrainGeneric : public plArmatureBrain {
+class PLASMA_DLL plAvBrainGeneric : public plArmatureBrain {
     CREATABLE(plAvBrainGeneric, kAvBrainGeneric, plArmatureBrain)
 
 public:

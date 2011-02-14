@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-DllClass hsGMatState {
+class PLASMA_DLL hsGMatState {
 public:
     enum hsGMatBlendFlags {
         kBlendTest = 0x1,

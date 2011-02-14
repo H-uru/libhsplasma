@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/plLocation.h"
 
-DllClass plNetGroupId {
+class PLASMA_DLL plNetGroupId {
 public:
     enum {
         kNetGroupConstant = 0x01,

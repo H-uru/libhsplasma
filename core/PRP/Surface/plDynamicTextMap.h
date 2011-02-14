@@ -21,7 +21,7 @@
 #include "plFont.h"
 #include "Sys/hsColor.h"
 
-DllClass plDynamicTextMap : public virtual plMipmap {
+class PLASMA_DLL plDynamicTextMap : public virtual plMipmap {
     CREATABLE(plDynamicTextMap, kDynamicTextMap, plMipmap)
 
 public:

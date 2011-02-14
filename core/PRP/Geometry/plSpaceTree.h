@@ -23,7 +23,7 @@
 #include "PRP/Region/hsBounds.h"
 #include "Util/hsBitVector.h"
 
-DllStruct plSpaceBuilderNode {
+struct PLASMA_DLL plSpaceBuilderNode {
     hsBounds3Ext fBounds;
     plSpaceBuilderNode* fChildren[2];
 
@@ -33,7 +33,7 @@ DllStruct plSpaceBuilderNode {
 };
 
 
-DllClass plSpaceTreeNode {
+class PLASMA_DLL plSpaceTreeNode {
 public:
     enum {
         kNone = 0,
@@ -77,7 +77,7 @@ public:
     void setLeafIndex(short idx);
 };
 
-DllClass plSpaceTree : public plCreatable {
+class PLASMA_DLL plSpaceTree : public plCreatable {
     CREATABLE(plSpaceTree, kSpaceTree, plCreatable)
 
 protected:

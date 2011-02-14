@@ -19,7 +19,7 @@
 
 #include "Math/hsGeometry3.h"
 
-DllClass hsBounds {
+class PLASMA_DLL hsBounds {
 protected:
     int fType;
 
@@ -44,7 +44,7 @@ public:
     void setType(int type) { fType = type; }
 };
 
-DllClass hsBounds3 : public hsBounds {
+class PLASMA_DLL hsBounds3 : public hsBounds {
 public:
     enum {
         kCenterValid = 0x1,
@@ -85,7 +85,7 @@ public:
 };
 
 
-DllClass hsBounds3Ext : public hsBounds3 {
+class PLASMA_DLL hsBounds3Ext : public hsBounds3 {
 public:
     enum {
         kAxisAligned = 0x1,
@@ -134,7 +134,7 @@ public:
 };
 
 
-DllClass hsBoundsOriented : public hsBounds {
+class PLASMA_DLL hsBoundsOriented : public hsBounds {
 protected:
     unsigned int fCenterValid;
     hsVector3 fCenter;

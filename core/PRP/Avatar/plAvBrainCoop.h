@@ -19,7 +19,7 @@
 
 #include "plAvBrainGeneric.h"
 
-DllClass plAvBrainCoop : public plAvBrainGeneric {
+class PLASMA_DLL plAvBrainCoop : public plAvBrainGeneric {
     CREATABLE(plAvBrainCoop, kAvBrainCoop, plAvBrainGeneric)
 
 private:

@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plSynchedObject.h"
 
-DllClass plSimDefs {
+class PLASMA_DLL plSimDefs {
 public:
     enum Bounds {
         kBoxBounds = 1, kSphereBounds, kHullBounds, kProxyBounds,
@@ -56,7 +56,7 @@ public:
     static const char* GroupNames[];
 };
 
-DllClass plPhysical : public virtual plSynchedObject {
+class PLASMA_DLL plPhysical : public virtual plSynchedObject {
     CREATABLE(plPhysical, kPhysical, plSynchedObject)
 };
 

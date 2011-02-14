@@ -20,7 +20,7 @@
 #include "plNetMsgStreamedObject.h"
 #include "SDL/plSDLMgr.h"
 
-DllClass plNetMsgSDLState : public plNetMsgStreamedObject {
+class PLASMA_DLL plNetMsgSDLState : public plNetMsgStreamedObject {
     CREATABLE(plNetMsgSDLState, kNetMsgSDLState, plNetMsgStreamedObject)
 
 private:
@@ -53,7 +53,7 @@ public:
 };
 
 
-DllClass plNetMsgSDLStateBCast : public plNetMsgSDLState {
+class PLASMA_DLL plNetMsgSDLStateBCast : public plNetMsgSDLState {
     CREATABLE(plNetMsgSDLStateBCast, kNetMsgSDLStateBCast, plNetMsgSDLState)
 };
 

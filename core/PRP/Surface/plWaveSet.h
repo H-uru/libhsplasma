@@ -21,12 +21,12 @@
 #include "plFixedWaterState6.h"
 #include "plFixedWaterState7.h"
 
-DllClass plWaveSetBase : public virtual plMultiModifier {
+class PLASMA_DLL plWaveSetBase : public virtual plMultiModifier {
     CREATABLE(plWaveSetBase, kWaveSetBase, plMultiModifier)
 };
 
 
-DllClass plWaveSet6 : public virtual plWaveSetBase {
+class PLASMA_DLL plWaveSet6 : public virtual plWaveSetBase {
     CREATABLE(plWaveSet6, kWaveSet6, plWaveSetBase)
 
 public:
@@ -39,7 +39,7 @@ protected:
 };
 
 
-DllClass plWaveSet7 : public virtual plWaveSetBase {
+class PLASMA_DLL plWaveSet7 : public virtual plWaveSetBase {
     CREATABLE(plWaveSet7, kWaveSet7, plWaveSetBase)
 
 public:

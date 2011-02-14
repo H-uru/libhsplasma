@@ -19,7 +19,7 @@
 
 #include "Stream/hsStream.h"
 
-DllClass plVertCoder {
+class PLASMA_DLL plVertCoder {
 public:
     enum { kPosition, kWeight, kUVW, kNumFloatFields = 10 };
 

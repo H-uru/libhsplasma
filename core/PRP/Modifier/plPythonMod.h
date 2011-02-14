@@ -19,25 +19,25 @@
 
 #include "plModifier.h"
 
-DllStruct PY_MATERIAL_ANIM {
+struct PLASMA_DLL PY_MATERIAL_ANIM {
     plString material_name;
     plString note_name;
     plKey modKey;
 };
 
-DllStruct PY_NOTETRACK {
+struct PLASMA_DLL PY_NOTETRACK {
     plKey objKey;
     plString note_name;
     plKey modKey;
 };
 
-DllStruct PY_SOUND_IDX {
+struct PLASMA_DLL PY_SOUND_IDX {
     plString sound_name;
     int sound_index;
 };
 
 
-DllClass plPythonMod : public virtual plMultiModifier {
+class PLASMA_DLL plPythonMod : public virtual plMultiModifier {
     CREATABLE(plPythonMod, kPythonMod, plMultiModifier)
 
 public:

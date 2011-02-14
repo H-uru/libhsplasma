@@ -67,7 +67,7 @@ void pfKIMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void pfKIMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Parameters") {
-        fCommand = (hsUbyte)tag->getParam("Command", "0").toUint();
+        fCommand = (uint8_t)tag->getParam("Command", "0").toUint();
         fFlags = tag->getParam("Flags", "0").toUint();
         fDelay = tag->getParam("Delay", "0").toFloat();
         fValue = tag->getParam("Value", "0").toInt();

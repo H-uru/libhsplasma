@@ -20,13 +20,13 @@
 #include "plMessage.h"
 #include "PRP/Misc/plAgeLinkInfo.h"
 
-DllClass plLinkToAgeMsg : public plMessage {
+class PLASMA_DLL plLinkToAgeMsg : public plMessage {
     CREATABLE(plLinkToAgeMsg, kLinkToAgeMsg, plMessage)
 
 protected:
     plAgeLinkStruct fAgeLink;
     plAgeLinkEffects fLinkEffects;
-    hsByte fStreamVersion, fEoaUnknown;
+    uint8_t fStreamVersion, fEoaUnknown;
 
 public:
     plLinkToAgeMsg();
@@ -45,15 +45,15 @@ public:
     const plAgeLinkEffects& getLinkEffects() const { return fLinkEffects; }
     plAgeLinkEffects& getLinkEffects() { return fLinkEffects; }
 
-    hsByte getStreamVersion() const { return fStreamVersion; }
-    hsByte getEoaUnknown() const { return fEoaUnknown; }
+    uint8_t getStreamVersion() const { return fStreamVersion; }
+    uint8_t getEoaUnknown() const { return fEoaUnknown; }
 
-    void setStreamVersion(hsByte ver) { fStreamVersion = ver; }
-    void setEoaUnknown(hsByte value) { fEoaUnknown = value; }
+    void setStreamVersion(uint8_t ver) { fStreamVersion = ver; }
+    void setEoaUnknown(uint8_t value) { fEoaUnknown = value; }
 };
 
 
-DllClass plLinkInDoneMsg : public plMessage {
+class PLASMA_DLL plLinkInDoneMsg : public plMessage {
     CREATABLE(plLinkInDoneMsg, kLinkInDoneMsg, plMessage)
 };
 

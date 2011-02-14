@@ -19,7 +19,7 @@
 
 #include "plNetMessage.h"
 
-DllClass plNetMsgInitialAgeStateSent : public plNetMsgServerToClient {
+class PLASMA_DLL plNetMsgInitialAgeStateSent : public plNetMsgServerToClient {
     CREATABLE(plNetMsgInitialAgeStateSent, kNetMsgInitialAgeStateSent,
               plNetMsgServerToClient)
 

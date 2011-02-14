@@ -20,7 +20,7 @@
 #include "hsStream.h"
 #include "Util/hsTList.hpp"
 
-DllClass pfPrcHelper {
+class PLASMA_DLL pfPrcHelper {
 public:
     enum PrcExclude {
         kExcludeTextureData = 0x1,
@@ -32,7 +32,7 @@ private:
     bool inTag;
     hsTList<const char*> openTags;
     hsStream* file;
-    hsUint32 excludes;
+    uint32_t excludes;
 
     void startPrc();
     void finalize();

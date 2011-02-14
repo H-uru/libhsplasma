@@ -24,7 +24,7 @@
 #include "PRP/Light/plLightInfo.h"
 #include "plGeometrySpan.h"
 
-DllClass plSpan {
+class PLASMA_DLL plSpan {
 public:
     enum {
         kLiteMaterial = 0x0,
@@ -63,7 +63,7 @@ public:
     };
 
 public:
-    static hsUint32 deswizzleGeoFlags(hsUint32 flags);
+    static uint32_t deswizzleGeoFlags(uint32_t flags);
 
 protected:
     unsigned short fSubType;

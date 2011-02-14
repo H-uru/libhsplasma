@@ -19,7 +19,7 @@
 
 #include "plMessageWithCallbacks.h"
 
-DllClass plTransitionMsg : public plMessageWithCallbacks {
+class PLASMA_DLL plTransitionMsg : public plMessageWithCallbacks {
     CREATABLE(plTransitionMsg, kTransitionMsg, plMessageWithCallbacks)
 
 public:

@@ -20,7 +20,7 @@
 #include "PRP/Object/plSynchedObject.h"
 #include "Util/hsTArray.hpp"
 
-DllClass hsGMaterial : public virtual plSynchedObject {
+class PLASMA_DLL hsGMaterial : public virtual plSynchedObject {
     CREATABLE(hsGMaterial, kGMaterial, plSynchedObject)
 
 public:

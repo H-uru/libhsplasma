@@ -44,8 +44,8 @@ enum PycHeader {
 
 struct PycObject {
     plString fFilename;
-    hsUint32 fOffset, fSize;
-    hsUbyte* fData;
+    uint32_t fOffset, fSize;
+    uint8_t* fData;
 };
 
 bool parseKey(const char* buf, unsigned int& val) {
@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
 
     hsTArray<PycObject> pakObjects;
     if (action == kCreate) {
-        hsUint32 offs = 0, baseOffs = 4;
+        uint32_t offs = 0, baseOffs = 4;
         pakObjects.setSize(infiles.size());
         std::list<plString>::iterator it = infiles.begin();;
         for (size_t i=0; it!=infiles.end(); i++, it++) {
@@ -150,7 +150,7 @@ int main(int argc, char** argv) {
                 return 1;
             }
             pakObjects[i].fSize = S.size() - 8;
-            pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
+            pakObjects[i].fData = new uint8_t[pakObjects[i].fSize];
             S.seek(8);
             S.read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset = offs;
@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
         delete OS;
     } else if (action == kAdd) {
         hsStream* IS;
-        hsUint32 offs = 0, baseOffs = 4;
+        uint32_t offs = 0, baseOffs = 4;
         if (eType == plEncryptedStream::kEncNone || !plEncryptedStream::IsFileEncrypted(pakfile)) {
             IS = new hsFileStream();
             if (!((hsFileStream*)IS)->open(pakfile, fmRead)) {
@@ -198,7 +198,7 @@ int main(int argc, char** argv) {
             }
             XS.setKey(uruKey);
             size_t datLen = XS.size();
-            hsUbyte* dat = new hsUbyte[datLen];
+            uint8_t* dat = new uint8_t[datLen];
             XS.read(datLen, dat);
             ((hsRAMStream*)IS)->copyFrom(dat, datLen);
             delete[] dat;
@@ -211,7 +211,7 @@ int main(int argc, char** argv) {
             pakObjects[i].fOffset = IS->readInt();
             baseOffs += pakObjects[i].fFilename.len() + 6;
         }
-        hsUint32 oldBase = IS->pos();
+        uint32_t oldBase = IS->pos();
         for (size_t i=0; i<oldObjCount; i++) {
             IS->seek(pakObjects[i].fOffset);
             pakObjects[i].fSize = IS->readInt();
@@ -219,7 +219,7 @@ int main(int argc, char** argv) {
                 plDebug::Warning("Warning: Truncating last entry");
                 pakObjects[i].fSize = IS->size() - IS->pos();
             }
-            pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
+            pakObjects[i].fData = new uint8_t[pakObjects[i].fSize];
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset -= oldBase;
             offs += pakObjects[i].fSize + 4;
@@ -244,7 +244,7 @@ int main(int argc, char** argv) {
                 return 1;
             }
             pakObjects[i].fSize = S.size() - 8;
-            pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
+            pakObjects[i].fData = new uint8_t[pakObjects[i].fSize];
             S.seek(8);
             S.read(pakObjects[i].fSize, pakObjects[i].fData);
             pakObjects[i].fOffset = offs;
@@ -289,7 +289,7 @@ int main(int argc, char** argv) {
             }
             XS.setKey(uruKey);
             size_t datLen = XS.size();
-            hsUbyte* dat = new hsUbyte[datLen];
+            uint8_t* dat = new uint8_t[datLen];
             XS.read(datLen, dat);
             ((hsRAMStream*)IS)->copyFrom(dat, datLen);
             delete[] dat;
@@ -307,7 +307,7 @@ int main(int argc, char** argv) {
                 plDebug::Warning("Warning: Truncating last entry");
                 pakObjects[i].fSize = IS->size() - IS->pos();
             }
-            pakObjects[i].fData = new hsUbyte[pakObjects[i].fSize];
+            pakObjects[i].fData = new uint8_t[pakObjects[i].fSize];
             IS->read(pakObjects[i].fSize, pakObjects[i].fData);
 
             hsFileStream S;

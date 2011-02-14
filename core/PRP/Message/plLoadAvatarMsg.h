@@ -20,7 +20,7 @@
 #include "plLoadCloneMsg.h"
 #include "PRP/Avatar/plAvTask.h"
 
-DllClass plLoadAvatarMsg : public plLoadCloneMsg {
+class PLASMA_DLL plLoadAvatarMsg : public plLoadCloneMsg {
     CREATABLE(plLoadAvatarMsg, kLoadAvatarMsg, plLoadCloneMsg)
 
 protected:

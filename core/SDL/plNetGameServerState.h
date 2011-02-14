@@ -21,7 +21,7 @@
 #include "plStateDataRecord.h"
 #include "Sys/plUuid.h"
 
-DllClass plNetServerSessionInfo {
+class PLASMA_DLL plNetServerSessionInfo {
 public:
     enum {
         kHasServerName = 0x01,
@@ -66,7 +66,7 @@ public:
 };
 
 
-DllClass plNetGameServerState {
+class PLASMA_DLL plNetGameServerState {
 public:
     enum Flags {
         kCompressed = 0x1,

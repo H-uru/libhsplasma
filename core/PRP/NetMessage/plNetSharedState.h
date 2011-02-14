@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-DllStruct plGenericType {
+struct PLASMA_DLL plGenericType {
 public:
     enum Type {
         kInt, kFloat, kBool, kString, kByte, kAny, kUint, kDouble, kNone = 0xFF
@@ -47,7 +47,7 @@ public:
 };
 
 
-DllClass plGenericVar {
+class PLASMA_DLL plGenericVar {
 private:
     plString fName;
     plGenericType fValue;
@@ -76,7 +76,7 @@ public:
 };
 
 
-DllClass plNetSharedState {
+class PLASMA_DLL plNetSharedState {
 private:
     plString fName;
     hsTArray<plGenericVar> fVars;

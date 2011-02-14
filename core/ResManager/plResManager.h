@@ -45,7 +45,7 @@ struct plPageStream {
  * handle PRC data and store Age or PRP information.  Most of the
  * top-level file-based operations you'll do will start from here.
  */
-DllClass plResManager {
+class PLASMA_DLL plResManager {
 private:
     hsMutex fResMgrMutex;
 

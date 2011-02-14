@@ -20,7 +20,7 @@
 #include "plModifier.h"
 #include "Math/hsMatrix44.h"
 
-DllClass plPostEffectMod : public virtual plSingleModifier {
+class PLASMA_DLL plPostEffectMod : public virtual plSingleModifier {
     CREATABLE(plPostEffectMod, kPostEffectMod, plSingleModifier)
 
 public:

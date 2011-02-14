@@ -19,8 +19,8 @@
 #include "Debug/plDebug.h"
 
 struct FileMsg_Header {
-    hsUint32 fMsgSize;
-    hsUint32 fMsgId;
+    uint32_t fMsgSize;
+    uint32_t fMsgId;
 };
 
 
@@ -115,30 +115,30 @@ bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
 
     sock->recv(&header.fMsgSize, sizeof(header.fMsgSize));
     sock->recv(&header.fMsgId, sizeof(header.fMsgId));
-    hsUbyte* msgbuf = new hsUbyte[header.fMsgSize - 8];
-    hsUint32 read_data = 0;
+    uint8_t* msgbuf = new uint8_t[header.fMsgSize - 8];
+    uint32_t read_data = 0;
     while (read_data < header.fMsgSize - 8)
         read_data += sock->recv(msgbuf, header.fMsgSize - 8 - read_data);
 
     switch (header.fMsgId) {
     case kFile2Cli_PingReply:
-        fReceiver->onPingReply(*(hsUint32*)(msgbuf));
+        fReceiver->onPingReply(*(uint32_t*)(msgbuf));
         break;
     case kFile2Cli_BuildIdReply:
-        fReceiver->onBuildIdReply(*(hsUint32*)(msgbuf    ),
-                      (ENetError)(*(hsUint32*)(msgbuf + 4)),
-                                  *(hsUint32*)(msgbuf + 8));
+        fReceiver->onBuildIdReply(*(uint32_t*)(msgbuf    ),
+                      (ENetError)(*(uint32_t*)(msgbuf + 4)),
+                                  *(uint32_t*)(msgbuf + 8));
         break;
     case kFile2Cli_BuildIdUpdate:
-        fReceiver->onBuildIdUpdate(*(hsUint32*)(msgbuf));
+        fReceiver->onBuildIdUpdate(*(uint32_t*)(msgbuf));
         break;
     case kFile2Cli_ManifestReply:
         {
             pnFileManifest* files;
             size_t i = 0;
-            hsUint32 transId  = *(hsUint32*)(msgbuf     );
-            hsUint32 readerId = *(hsUint32*)(msgbuf +  8);
-            size_t totalFiles = *(hsUint32*)(msgbuf + 12);
+            uint32_t transId  = *(uint32_t*)(msgbuf     );
+            uint32_t readerId = *(uint32_t*)(msgbuf +  8);
+            size_t totalFiles = *(uint32_t*)(msgbuf + 12);
             if (fMfsOffset.find(transId) != fMfsOffset.end()) {
                 files = fMfsQueue[transId];
                 i = fMfsOffset[transId];
@@ -157,9 +157,9 @@ bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
             fReceiver->sendManifestEntryAck(transId, readerId);
             if (i < totalFiles)
                 break;
-            fReceiver->onManifestReply(*(hsUint32*)(msgbuf     ),
-                            (ENetError)(*(hsUint32*)(msgbuf +  4)),
-                                        *(hsUint32*)(msgbuf +  8),
+            fReceiver->onManifestReply(*(uint32_t*)(msgbuf     ),
+                            (ENetError)(*(uint32_t*)(msgbuf +  4)),
+                                        *(uint32_t*)(msgbuf +  8),
                                         totalFiles, files);
             if (fMfsOffset.find(transId) != fMfsOffset.end()) {
                 fMfsQueue.erase(fMfsQueue.find(transId));
@@ -169,14 +169,14 @@ bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
         }
         break;
     case kFile2Cli_FileDownloadReply:
-        fReceiver->onFileDownloadReply(*(hsUint32*)(msgbuf     ),
-                            (ENetError)(*(hsUint32*)(msgbuf +  4)),
-                                        *(hsUint32*)(msgbuf +  8),
-                                        *(hsUint32*)(msgbuf + 12),
-                                        *(hsUint32*)(msgbuf + 16),
-                                        (const hsUbyte*)(msgbuf + 20));
-        fReceiver->sendFileDownloadChunkAck(*(hsUint32*)(msgbuf     ),
-                                            *(hsUint32*)(msgbuf +  8));
+        fReceiver->onFileDownloadReply(*(uint32_t*)(msgbuf     ),
+                            (ENetError)(*(uint32_t*)(msgbuf +  4)),
+                                        *(uint32_t*)(msgbuf +  8),
+                                        *(uint32_t*)(msgbuf + 12),
+                                        *(uint32_t*)(msgbuf + 16),
+                                        (const uint8_t*)(msgbuf + 20));
+        fReceiver->sendFileDownloadChunkAck(*(uint32_t*)(msgbuf     ),
+                                            *(uint32_t*)(msgbuf +  8));
         break;
     }
     delete[] msgbuf;
@@ -197,7 +197,7 @@ pnFileClient::~pnFileClient()
     delete fSock;
 }
 
-void pnFileClient::setClientInfo(hsUint32 buildType, hsUint32 branchId,
+void pnFileClient::setClientInfo(uint32_t buildType, uint32_t branchId,
                                  const plUuid& productId)
 {
     fBuildType = buildType;
@@ -236,18 +236,18 @@ void pnFileClient::disconnect()
 
 ENetError pnFileClient::performConnect()
 {
-    hsUbyte connectHeader[43];  // ConnectHeader + FileConnectHeader
+    uint8_t connectHeader[43];  // ConnectHeader + FileConnectHeader
     /* Begin ConnectHeader */
-    *(hsUbyte* )(connectHeader     ) = kConnTypeCliToFile;
-    *(hsUint16*)(connectHeader +  1) = 31;
-    *(hsUint32*)(connectHeader +  3) = 0;
-    *(hsUint32*)(connectHeader +  7) = fBuildType;
-    *(hsUint32*)(connectHeader + 11) = fBranchId;
+    *(uint8_t* )(connectHeader     ) = kConnTypeCliToFile;
+    *(uint16_t*)(connectHeader +  1) = 31;
+    *(uint32_t*)(connectHeader +  3) = 0;
+    *(uint32_t*)(connectHeader +  7) = fBuildType;
+    *(uint32_t*)(connectHeader + 11) = fBranchId;
     fProductId.write(connectHeader + 15);
     /* Begin FileConnectHeader */
-    *(hsUint32*)(connectHeader + 31) = 12;
-    *(hsUint32*)(connectHeader + 35) = 0;
-    *(hsUint32*)(connectHeader + 39) = 0;
+    *(uint32_t*)(connectHeader + 31) = 12;
+    *(uint32_t*)(connectHeader + 35) = 0;
+    *(uint32_t*)(connectHeader + 39) = 0;
     fSock->send(connectHeader, 43);
 
     if (!fSock->isConnected()) {
@@ -266,104 +266,104 @@ ENetError pnFileClient::performConnect()
     return kNetSuccess;
 }
 
-void pnFileClient::sendPingRequest(hsUint32 pingTimeMs)
+void pnFileClient::sendPingRequest(uint32_t pingTimeMs)
 {
-    hsUbyte msgbuf[12];
-    *(hsUint32*)(msgbuf    ) = 12;                      // Msg size
-    *(hsUint32*)(msgbuf + 4) = kCli2File_PingRequest;   // Msg ID
-    *(hsUint32*)(msgbuf + 8) = pingTimeMs;              // Ping time
+    uint8_t msgbuf[12];
+    *(uint32_t*)(msgbuf    ) = 12;                      // Msg size
+    *(uint32_t*)(msgbuf + 4) = kCli2File_PingRequest;   // Msg ID
+    *(uint32_t*)(msgbuf + 8) = pingTimeMs;              // Ping time
     fSock->send(msgbuf, 12);
 }
 
-hsUint32 pnFileClient::sendBuildIdRequest()
+uint32_t pnFileClient::sendBuildIdRequest()
 {
-    hsUint32 transId = nextTransId();
-    hsUbyte msgbuf[12];
-    *(hsUint32*)(msgbuf    ) = 12;                          // Msg size
-    *(hsUint32*)(msgbuf + 4) = kCli2File_BuildIdRequest;    // Msg ID
-    *(hsUint32*)(msgbuf + 8) = transId;                     // Trans ID
+    uint32_t transId = nextTransId();
+    uint8_t msgbuf[12];
+    *(uint32_t*)(msgbuf    ) = 12;                          // Msg size
+    *(uint32_t*)(msgbuf + 4) = kCli2File_BuildIdRequest;    // Msg ID
+    *(uint32_t*)(msgbuf + 8) = transId;                     // Trans ID
     fSock->send(msgbuf, 12);
     return transId;
 }
 
-hsUint32 pnFileClient::sendManifestRequest(const plString& group, hsUint32 buildId)
+uint32_t pnFileClient::sendManifestRequest(const plString& group, uint32_t buildId)
 {
     plString::Wide wgroup = group.wstr();
     size_t len = wgroup.len() + 1;
 
-    hsUint32 transId = nextTransId();
-    hsUbyte msgbuf[536];
-    *(hsUint32*)(msgbuf    ) = 536;                         // Msg size
-    *(hsUint32*)(msgbuf + 4) = kCli2File_ManifestRequest;   // Msg ID
-    *(hsUint32*)(msgbuf + 8) = transId;                     // Trans ID
+    uint32_t transId = nextTransId();
+    uint8_t msgbuf[536];
+    *(uint32_t*)(msgbuf    ) = 536;                         // Msg size
+    *(uint32_t*)(msgbuf + 4) = kCli2File_ManifestRequest;   // Msg ID
+    *(uint32_t*)(msgbuf + 8) = transId;                     // Trans ID
     memcpy(msgbuf + 12, wgroup.data(), (len >= 260 ? 259 : len) * sizeof(pl_wchar_t));
     *(pl_wchar_t*)(msgbuf + 530) = 0;                       // Nul terminator
-    *(hsUint32*)(msgbuf + 532) = buildId;                   // Build ID
+    *(uint32_t*)(msgbuf + 532) = buildId;                   // Build ID
     fSock->send(msgbuf, 536);
     return transId;
 }
 
-hsUint32 pnFileClient::sendFileDownloadRequest(const plString& filename, hsUint32 buildId)
+uint32_t pnFileClient::sendFileDownloadRequest(const plString& filename, uint32_t buildId)
 {
     plString::Wide wfilename = filename.wstr();
     size_t len = wfilename.len() + 1;
 
-    hsUint32 transId = nextTransId();
-    hsUbyte msgbuf[536];
-    *(hsUint32*)(msgbuf    ) = 536;                             // Msg size
-    *(hsUint32*)(msgbuf + 4) = kCli2File_FileDownloadRequest;   // Msg ID
-    *(hsUint32*)(msgbuf + 8) = transId;                         // Trans ID
+    uint32_t transId = nextTransId();
+    uint8_t msgbuf[536];
+    *(uint32_t*)(msgbuf    ) = 536;                             // Msg size
+    *(uint32_t*)(msgbuf + 4) = kCli2File_FileDownloadRequest;   // Msg ID
+    *(uint32_t*)(msgbuf + 8) = transId;                         // Trans ID
     memcpy(msgbuf + 12, wfilename.data(), (len >= 260 ? 259 : len) * sizeof(pl_wchar_t));
     *(pl_wchar_t*)(msgbuf + 530) = 0;                           // Nul terminator
-    *(hsUint32*)(msgbuf + 532) = buildId;                       // Build ID
+    *(uint32_t*)(msgbuf + 532) = buildId;                       // Build ID
     fSock->send(msgbuf, 536);
     return transId;
 }
 
-void pnFileClient::sendManifestEntryAck(hsUint32 transId, hsUint32 readerId)
+void pnFileClient::sendManifestEntryAck(uint32_t transId, uint32_t readerId)
 {
-    hsUbyte msgbuf[16];
-    *(hsUint32*)(msgbuf     ) = 16;                         // Msg size
-    *(hsUint32*)(msgbuf +  4) = kCli2File_ManifestEntryAck; // Msg ID
-    *(hsUint32*)(msgbuf +  8) = transId;                    // Trans ID
-    *(hsUint32*)(msgbuf + 12) = readerId;                   // Reader ID
+    uint8_t msgbuf[16];
+    *(uint32_t*)(msgbuf     ) = 16;                         // Msg size
+    *(uint32_t*)(msgbuf +  4) = kCli2File_ManifestEntryAck; // Msg ID
+    *(uint32_t*)(msgbuf +  8) = transId;                    // Trans ID
+    *(uint32_t*)(msgbuf + 12) = readerId;                   // Reader ID
     fSock->send(msgbuf, 16);
 }
 
-void pnFileClient::sendFileDownloadChunkAck(hsUint32 transId, hsUint32 readerId)
+void pnFileClient::sendFileDownloadChunkAck(uint32_t transId, uint32_t readerId)
 {
-    hsUbyte msgbuf[16];
-    *(hsUint32*)(msgbuf     ) = 16;                             // Msg size
-    *(hsUint32*)(msgbuf +  4) = kCli2File_FileDownloadChunkAck; // Msg ID
-    *(hsUint32*)(msgbuf +  8) = transId;                        // Trans ID
-    *(hsUint32*)(msgbuf + 12) = readerId;                       // Reader ID
+    uint8_t msgbuf[16];
+    *(uint32_t*)(msgbuf     ) = 16;                             // Msg size
+    *(uint32_t*)(msgbuf +  4) = kCli2File_FileDownloadChunkAck; // Msg ID
+    *(uint32_t*)(msgbuf +  8) = transId;                        // Trans ID
+    *(uint32_t*)(msgbuf + 12) = readerId;                       // Reader ID
     fSock->send(msgbuf, 16);
 }
 
-void pnFileClient::onPingReply(hsUint32 pingTimeMs)
+void pnFileClient::onPingReply(uint32_t pingTimeMs)
 {
     plDebug::Warning("Warning: Ignoring File2Cli_PingReply");
 }
 
-void pnFileClient::onBuildIdReply(hsUint32 transId, ENetError result, hsUint32 buildId)
+void pnFileClient::onBuildIdReply(uint32_t transId, ENetError result, uint32_t buildId)
 {
     plDebug::Warning("Warning: Ignoring File2Cli_BuildIdReply");
 }
 
-void pnFileClient::onBuildIdUpdate(hsUint32 buildId)
+void pnFileClient::onBuildIdUpdate(uint32_t buildId)
 {
     plDebug::Warning("Warning: Ignoring File2Cli_BuildIdUpdate");
 }
 
-void pnFileClient::onManifestReply(hsUint32 transId, ENetError result,
-            hsUint32 readerId, size_t numFiles, const pnFileManifest* files)
+void pnFileClient::onManifestReply(uint32_t transId, ENetError result,
+            uint32_t readerId, size_t numFiles, const pnFileManifest* files)
 {
     plDebug::Warning("Warning: Ignoring File2Cli_ManifestReply");
 }
 
-void pnFileClient::onFileDownloadReply(hsUint32 transId, ENetError result,
-            hsUint32 readerId, hsUint32 totalSize, size_t bufferSize,
-            const hsUbyte* bufferData)
+void pnFileClient::onFileDownloadReply(uint32_t transId, ENetError result,
+            uint32_t readerId, uint32_t totalSize, size_t bufferSize,
+            const uint8_t* bufferData)
 {
     plDebug::Warning("Warning: Ignoring File2Cli_FileDownloadReply");
 }

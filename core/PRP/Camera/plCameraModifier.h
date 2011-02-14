@@ -20,11 +20,11 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plCameraMsg.h"
 
-DllClass plCameraModifier : public virtual plSingleModifier {
+class PLASMA_DLL plCameraModifier : public virtual plSingleModifier {
     CREATABLE(plCameraModifier, kCameraModifier, plSingleModifier)
 
 public:
-    DllClass CamTrans {
+    class PLASMA_DLL CamTrans {
     protected:
         plKey fTransTo;
         bool fCutPos, fCutPOA, fIgnore;

@@ -21,7 +21,7 @@
 #include "PRP/Animation/plController.h"
 
 /* Scalar Channels */
-DllClass plScalarChannel : public plAGChannel {
+class PLASMA_DLL plScalarChannel : public plAGChannel {
     CREATABLE(plScalarChannel, kScalarChannel, plAGChannel)
 
 protected:
@@ -33,12 +33,12 @@ public:
 };
 
 
-DllClass plScalarBlend : public plScalarChannel {
+class PLASMA_DLL plScalarBlend : public plScalarChannel {
     CREATABLE(plScalarBlend, kScalarBlend, plScalarChannel)
 };
 
 
-DllClass plScalarConstant : public plScalarChannel {
+class PLASMA_DLL plScalarConstant : public plScalarChannel {
     CREATABLE(plScalarConstant, kScalarConstant, plScalarChannel)
 
 public:
@@ -51,13 +51,13 @@ protected:
 };
 
 
-DllClass plScalarControllerCacheChannel : public plScalarChannel {
+class PLASMA_DLL plScalarControllerCacheChannel : public plScalarChannel {
     CREATABLE(plScalarControllerCacheChannel, kScalarControllerCacheChannel,
               plScalarChannel)
 };
 
 
-DllClass plScalarControllerChannel : public plScalarChannel {
+class PLASMA_DLL plScalarControllerChannel : public plScalarChannel {
     CREATABLE(plScalarControllerChannel, kScalarControllerChannel,
               plScalarChannel)
 
@@ -81,21 +81,21 @@ public:
 };
 
 
-DllClass plScalarTimeScale : public plScalarChannel {
+class PLASMA_DLL plScalarTimeScale : public plScalarChannel {
     CREATABLE(plScalarTimeScale, kScalarTimeScale, plScalarChannel)
 };
 
-DllClass plScalarSDLChannel : public plScalarChannel {
+class PLASMA_DLL plScalarSDLChannel : public plScalarChannel {
     CREATABLE(plScalarSDLChannel, kScalarSDLChannel, plScalarChannel)
 };
 
-DllClass plATCChannel : public plScalarChannel {
+class PLASMA_DLL plATCChannel : public plScalarChannel {
     CREATABLE(plATCChannel, kATCChannel, plScalarChannel)
 };
 
 
 /* Scalar Channel Applicators */
-DllClass plScalarChannelApplicator : public plAGApplicator {
+class PLASMA_DLL plScalarChannelApplicator : public plAGApplicator {
     CREATABLE(plScalarChannelApplicator, kScalarChannelApplicator,
               plAGApplicator)
 };

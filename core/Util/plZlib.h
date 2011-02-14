@@ -21,7 +21,7 @@
 
 #include <cstddef> // for size_t
 
-DllClass plZlib {
+class PLASMA_DLL plZlib {
 public:
     static bool Uncompress(unsigned char* bufOut, size_t& bufLenOut, const unsigned char* bufIn, size_t bufLenIn);
     static bool Compress(unsigned char*& bufOut, size_t& bufLenOut, const unsigned char* bufIn, size_t bufLenIn);

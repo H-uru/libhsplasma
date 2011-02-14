@@ -19,17 +19,17 @@
 
 #include "plMessage.h"
 
-DllClass plSimulationMsg : public plMessage {
+class PLASMA_DLL plSimulationMsg : public plMessage {
     CREATABLE(plSimulationMsg, kSimulationMsg, plMessage)
 };
 
 
-DllClass plSimStateMsg : public plSimulationMsg {
+class PLASMA_DLL plSimStateMsg : public plSimulationMsg {
     CREATABLE(plSimStateMsg, kSimStateMsg, plSimulationMsg)
 };
 
 
-DllClass plSimSuppressMsg : public plSimStateMsg {
+class PLASMA_DLL plSimSuppressMsg : public plSimStateMsg {
     CREATABLE(plSimSuppressMsg, kSimSuppressMsg, plSimStateMsg)
 
 protected:
@@ -47,7 +47,7 @@ protected:
 };
 
 
-DllClass plSubWorldMsg : public plSimulationMsg {
+class PLASMA_DLL plSubWorldMsg : public plSimulationMsg {
     CREATABLE(plSubWorldMsg, kSubWorldMsg, plSimulationMsg)
 
 protected:

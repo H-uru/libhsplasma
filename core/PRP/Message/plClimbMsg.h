@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-DllClass plClimbMsg : public plMessage {
+class PLASMA_DLL plClimbMsg : public plMessage {
     CREATABLE(plClimbMsg, kClimbMsg, plMessage)
 
 public:

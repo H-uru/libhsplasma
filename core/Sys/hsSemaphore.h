@@ -27,7 +27,7 @@
   #include <sys/sem.h>
 #endif
 
-DllClass hsSemaphore {
+class PLASMA_DLL hsSemaphore {
 private:
     #ifdef WIN32
     HANDLE fSemaH;
@@ -43,7 +43,7 @@ public:
     bool signal();
 };
 
-DllClass hsSemaphoreException : public hsException {
+class PLASMA_DLL hsSemaphoreException : public hsException {
 public:
     hsSemaphoreException(const char* file, unsigned long line) throw();
 };

@@ -516,7 +516,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                            kList[j]->getFileOff());
 #endif
             S->seek(kList[j]->getFileOff());
-            hsUint32 len = kList[j]->getObjSize();
+            uint32_t len = kList[j]->getObjSize();
             pfSizedStream *subStream = new pfSizedStream(S, len);
             try {
                 plCreatable* pCre = ReadCreatable(subStream, true, len);

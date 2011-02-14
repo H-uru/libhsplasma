@@ -40,7 +40,7 @@
  * \endcode
  */
 
-DllClass hsBitVector {
+class PLASMA_DLL hsBitVector {
 public:
     /**
      * \brief References an individual bit within an hsBitVector.
@@ -50,7 +50,7 @@ public:
      * of the Bit Vector directly, instead of needing the set() method.
      */
 
-    DllClass Bit {
+    class PLASMA_DLL Bit {
     private:
         hsBitVector* fVector;
         unsigned int fOffset;
@@ -73,7 +73,7 @@ public:
     };
 
 private:
-    hsUint32* fBits;
+    uint32_t* fBits;
     size_t fNumVectors;
     std::map<unsigned int, char*> fBitNames;
 

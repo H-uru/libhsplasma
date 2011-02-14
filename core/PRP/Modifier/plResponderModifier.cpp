@@ -18,7 +18,7 @@
 #include "Debug/plDebug.h"
 
 /* plResponderModifier::plResponderCmd */
-plResponderModifier::plResponderCmd::plResponderCmd(plMessage* msg, hsByte waitOn)
+plResponderModifier::plResponderCmd::plResponderCmd(plMessage* msg, int8_t waitOn)
                    : fMsg(msg), fWaitOn(waitOn) { }
 
 plResponderModifier::plResponderCmd::~plResponderCmd() {
@@ -35,7 +35,7 @@ plResponderModifier::plResponderState::~plResponderState() {
         delete fCmds[i];
 }
 
-void plResponderModifier::plResponderState::addCommand(plMessage* msg, hsByte waitOn) {
+void plResponderModifier::plResponderState::addCommand(plMessage* msg, int8_t waitOn) {
     fCmds.append(new plResponderCmd(msg, waitOn));
 }
 
@@ -72,19 +72,19 @@ void plResponderModifier::read(hsStream* S, plResManager* mgr) {
         fStates[i]->fCmds.setSizeNull(S->readByte());
         for (size_t j=0; j<fStates[i]->fCmds.getSize(); j++) {
             plMessage* msg = plMessage::Convert(mgr->ReadCreatable(S));
-            hsByte waitOn = S->readByte();
+            int8_t waitOn = S->readByte();
             fStates[i]->fCmds[j] = new plResponderCmd(msg, waitOn);
             if (msg == NULL)
                 throw hsNotImplementedException(__FILE__, __LINE__, "Responder Message");
         }
         size_t count = S->readByte();
         for (size_t j=0; j<count; j++) {
-            hsByte wait = S->readByte();
+            int8_t wait = S->readByte();
             fStates[i]->fWaitToCmd[wait] = S->readByte();
         }
     }
 
-    hsByte state = S->readByte();
+    int8_t state = S->readByte();
     if (state >= 0 && (size_t)state < fStates.getSize()) {
         fCurState = state;
     } else {
@@ -108,7 +108,7 @@ void plResponderModifier::write(hsStream* S, plResManager* mgr) {
             S->writeByte(fStates[i]->fCmds[j]->fWaitOn);
         }
         S->writeByte(fStates[i]->fWaitToCmd.size());
-        std::map<hsByte, hsByte>::iterator wp = fStates[i]->fWaitToCmd.begin();
+        std::map<int8_t, int8_t>::iterator wp = fStates[i]->fWaitToCmd.begin();
         for ( ; wp != fStates[i]->fWaitToCmd.end(); wp++) {
             S->writeByte(wp->first);    // key
             S->writeByte(wp->second);   // value
@@ -148,7 +148,7 @@ void plResponderModifier::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();    // Commands
 
         prc->writeSimpleTag("WaitToCmdTable");
-        std::map<hsByte, hsByte>::iterator wp = fStates[i]->fWaitToCmd.begin();
+        std::map<int8_t, int8_t>::iterator wp = fStates[i]->fWaitToCmd.begin();
         for ( ; wp != fStates[i]->fWaitToCmd.end(); wp++) {
             prc->startTag("Item");
             prc->writeParam("Wait", wp->first);
@@ -187,7 +187,7 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                         if (cmdChild->getName() != "Command")
                             throw pfPrcTagException(__FILE__, __LINE__, cmdChild->getName());
                         plMessage* msg = NULL;
-                        hsByte waitOn = -1;
+                        int8_t waitOn = -1;
                         const pfPrcTag* subChild = cmdChild->getFirstChild();
                         while (subChild != NULL) {
                             if (subChild->getName() == "WaitOn") {
@@ -206,7 +206,7 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                     for (size_t j=0; j<nWaits; j++) {
                         if (waitChild->getName() != "Item")
                             throw pfPrcTagException(__FILE__, __LINE__, waitChild->getName());
-                        hsByte wait = waitChild->getParam("Wait", "0").toInt();
+                        int8_t wait = waitChild->getParam("Wait", "0").toInt();
                         fStates[i]->fWaitToCmd[wait] = waitChild->getParam("Cmd", "0").toInt();
                         waitChild = waitChild->getNextSibling();
                     }

@@ -18,33 +18,31 @@
 #define _PLASMA_DEFS_H
 
 #ifdef WIN32
-  #ifdef MAKEDLL
-    #define DllExport __declspec(dllexport)
+  #ifdef BUILD_PLASMA_DLL
+    #define PLASMA_DLL __declspec(dllexport)
+  #elifdef BUILD_PLASMANET_DLL
+    #define PLASMA_DLL __declspec(dllimport)
+    #define PLASMANET_DLL __declspec(dllexport)
   #else
-    #ifdef NODLL
-      #define DllExport
-    #else
-      #define DllExport __declspec(dllimport)
-    #endif
+    #define PLASMA_DLL __declspec(dllimport)
+    #define PLASMANET_DLL __declspec(dllimport)
   #endif
 #else
-  #define DllExport
+  #define PLASMA_DLL
+  #define PLASMANET_DLL
 #endif
-#define DllClass class DllExport
-#define DllStruct struct DllExport
 
-typedef signed char hsByte;
-typedef unsigned char hsUbyte;
-typedef signed short hsInt16;
-typedef unsigned short hsUint16;
-typedef signed int hsInt32;
-typedef unsigned int hsUint32;
 #ifdef _MSC_VER
-  typedef signed __int64 hsInt64;
-  typedef unsigned __int64 hsUint64;
+  typedef signed __int8     int8_t;
+  typedef unsigned __int8   uint8_t;
+  typedef signed __int16    int16_t;
+  typedef unsigned __int16  uint16_t;
+  typedef signed __int32    int32_t;
+  typedef unsigned __int32  uint32_t;
+  typedef signed __int64    int64_t;
+  typedef unsigned __int64  uint64_t;
 #else
-  typedef signed long long hsInt64;
-  typedef unsigned long long hsUint64;
+  #include <stdint.h>
 #endif
 
 enum CallbackEvent {

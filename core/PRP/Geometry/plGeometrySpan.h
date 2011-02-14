@@ -25,7 +25,7 @@
 #include "Sys/hsColor.h"
 #include "Math/hsGeometry3.h"
 
-DllClass plGeometrySpan {
+class PLASMA_DLL plGeometrySpan {
 public:
     enum {
         kMaxNumUVChannels = 8
@@ -66,7 +66,7 @@ public:
         kNoGroupID = 0
     };
 
-    DllStruct TempVertex {
+    struct PLASMA_DLL TempVertex {
         hsVector3 fPosition, fNormal;
         unsigned int fColor, fSpecularColor;
         hsColorRGBA fMultColor, fAddColor;

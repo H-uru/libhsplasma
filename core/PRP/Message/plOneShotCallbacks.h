@@ -21,9 +21,9 @@
 #include "PRP/KeyedObject/plKey.h"
 #include "ResManager/plResManager.h"
 
-DllClass plOneShotCallbacks {
+class PLASMA_DLL plOneShotCallbacks {
 public:
-    DllClass plOneShotCallback {
+    class PLASMA_DLL plOneShotCallback {
     public:
         plString fMarker;
         plKey fReceiver;

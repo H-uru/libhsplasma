@@ -74,7 +74,7 @@ void plSoundMsg::write(hsStream* S, plResManager* mgr) {
     S->writeInt(fRepeats);
     S->writeInt(fNameStr);
     S->writeFloat(fVolume);
-    S->writeByte((hsUbyte)fFadeType);
+    S->writeByte((uint8_t)fFadeType);
 }
 
 void plSoundMsg::IPrcWrite(pfPrcHelper* prc) {
@@ -91,7 +91,7 @@ void plSoundMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Repeats", fRepeats);
     prc->writeParam("NameStr", fNameStr);
     prc->writeParam("Volume", fVolume);
-    prc->writeParam("FadeType", (hsUbyte)fFadeType);
+    prc->writeParam("FadeType", (uint8_t)fFadeType);
     prc->endTag(true);
 
     prc->writeSimpleTag("Command");

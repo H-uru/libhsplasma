@@ -24,14 +24,14 @@
 #include "crypt/pnRC4.h"
 #include "pnSocketInterface.h"
 
-DllClass pnGameClient : public pnClient {
+class PLASMANET_DLL pnGameClient : public pnClient {
 public:
     pnGameClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true);
     virtual ~pnGameClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
                  bool littleEndian = true);
-    void setClientInfo(hsUint32 buildId, hsUint32 buildType, hsUint32 branchId,
+    void setClientInfo(uint32_t buildId, uint32_t buildType, uint32_t branchId,
                        const plUuid& productId);
     void setJoinInfo(const plUuid& accountId, const plUuid& ageId);
     virtual ENetError connect(const char* host, short port = 14617);
@@ -45,15 +45,15 @@ public:
 //     virtual void waitForStatus() { fSock->waitForStatus(); }
 
     /* Outgoing Protocol */
-    void sendPingRequest(hsUint32 pingTimeMs);
-    hsUint32 sendJoinAgeRequest(hsUint32 ageMcpId, const plUuid& accountUuid,
-                hsUint32 playerId);
+    void sendPingRequest(uint32_t pingTimeMs);
+    uint32_t sendJoinAgeRequest(uint32_t ageMcpId, const plUuid& accountUuid,
+                uint32_t playerId);
     virtual void propagateMessage(plCreatable* msg);
     // TODO: GameMgrMsg
 
     /* Incoming Protocol - To be implemented by subclasses */
-    virtual void onPingReply(hsUint32 pingTimeMs);
-    virtual void onJoinAgeReply(hsUint32 transId, ENetError result);
+    virtual void onPingReply(uint32_t pingTimeMs);
+    virtual void onJoinAgeReply(uint32_t transId, ENetError result);
     virtual void onPropagateMessage(plCreatable* msg);
     // TODO: GameMgrMsg
 
@@ -62,7 +62,7 @@ protected:
     plResManager* fResMgr;
     bool fThreaded;
 
-    hsUint32 fBuildId, fBuildType, fBranchId;
+    uint32_t fBuildId, fBuildType, fBranchId;
     plUuid fProductId;
     plUuid fAccountId, fAgeId;
 

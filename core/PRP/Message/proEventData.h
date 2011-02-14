@@ -31,7 +31,7 @@ public:\
     }
 
 
-DllClass proEventData {
+class PLASMA_DLL proEventData {
 public:
     enum eventType {
         kCollision = 1, kPicked, kControlKey, kVariable, kFacing, kContained,
@@ -74,7 +74,7 @@ protected:
 };
 
 
-DllClass proCollisionEventData : public proEventData {
+class PLASMA_DLL proCollisionEventData : public proEventData {
     EVTDATA(proCollisionEventData, kCollision)
 
 protected:
@@ -102,7 +102,7 @@ public:
 };
 
 
-DllClass proPickedEventData : public proEventData {
+class PLASMA_DLL proPickedEventData : public proEventData {
     EVTDATA(proPickedEventData, kPicked)
 
 protected:
@@ -133,7 +133,7 @@ public:
 };
 
 
-DllClass proControlKeyEventData : public proEventData {
+class PLASMA_DLL proControlKeyEventData : public proEventData {
     EVTDATA(proControlKeyEventData, kControlKey)
 
 protected:
@@ -158,7 +158,7 @@ public:
 };
 
 
-DllClass proVariableEventData : public proEventData {
+class PLASMA_DLL proVariableEventData : public proEventData {
     EVTDATA(proVariableEventData, kVariable)
 
 protected:
@@ -189,7 +189,7 @@ public:
 };
 
 
-DllClass proFacingEventData : public proEventData {
+class PLASMA_DLL proFacingEventData : public proEventData {
     EVTDATA(proFacingEventData, kFacing)
 
 protected:
@@ -220,7 +220,7 @@ public:
 };
 
 
-DllClass proContainedEventData : public proEventData {
+class PLASMA_DLL proContainedEventData : public proEventData {
     EVTDATA(proContainedEventData, kContained)
 
 protected:
@@ -248,7 +248,7 @@ public:
 };
 
 
-DllClass proActivateEventData : public proEventData {
+class PLASMA_DLL proActivateEventData : public proEventData {
     EVTDATA(proActivateEventData, kActivate)
 
 protected:
@@ -272,7 +272,7 @@ public:
 };
 
 
-DllClass proCallbackEventData : public proEventData {
+class PLASMA_DLL proCallbackEventData : public proEventData {
     EVTDATA(proCallbackEventData, kCallback)
 
 protected:
@@ -293,7 +293,7 @@ public:
 };
 
 
-DllClass proResponderStateEventData : public proEventData {
+class PLASMA_DLL proResponderStateEventData : public proEventData {
     EVTDATA(proResponderStateEventData, kResponderState)
 
 protected:
@@ -314,7 +314,7 @@ public:
 };
 
 
-DllClass proMultiStageEventData : public proEventData {
+class PLASMA_DLL proMultiStageEventData : public proEventData {
     EVTDATA(proMultiStageEventData, kMultiStage)
 
 protected:
@@ -341,7 +341,7 @@ public:
 };
 
 
-DllClass proSpawnedEventData : public proEventData {
+class PLASMA_DLL proSpawnedEventData : public proEventData {
     EVTDATA(proSpawnedEventData, kSpawned)
 
 protected:
@@ -366,7 +366,7 @@ public:
 };
 
 
-DllClass proClickDragEventData : public proEventData {
+class PLASMA_DLL proClickDragEventData : public proEventData {
     EVTDATA(proClickDragEventData, kClickDrag)
 
 public:
@@ -379,7 +379,7 @@ protected:
 };
 
 
-DllClass proCoopEventData : public proEventData {
+class PLASMA_DLL proCoopEventData : public proEventData {
     EVTDATA(proCoopEventData, kCoop)
 
 protected:
@@ -404,7 +404,7 @@ public:
 };
 
 
-DllClass proOfferLinkBookEventData : public proEventData {
+class PLASMA_DLL proOfferLinkBookEventData : public proEventData {
     EVTDATA(proOfferLinkBookEventData, kOfferLinkBook)
 
 protected:
@@ -431,7 +431,7 @@ public:
 };
 
 
-DllClass proBookEventData : public proEventData {
+class PLASMA_DLL proBookEventData : public proEventData {
     EVTDATA(proBookEventData, kBook)
 
 protected:
@@ -455,7 +455,7 @@ public:
 };
 
 
-DllClass proClimbingBlockerHitEventData : public proEventData {
+class PLASMA_DLL proClimbingBlockerHitEventData : public proEventData {
     EVTDATA(proClimbingBlockerHitEventData, kClimbingBlockerHit)
 
 protected:

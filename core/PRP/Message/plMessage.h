@@ -21,7 +21,7 @@
 #include "Util/hsTArray.hpp"
 #include "PRP/KeyedObject/plKey.h"
 
-DllClass plMessage : public plCreatable {
+class PLASMA_DLL plMessage : public plCreatable {
     CREATABLE(plMessage, kMessage, plCreatable)
 
 public:

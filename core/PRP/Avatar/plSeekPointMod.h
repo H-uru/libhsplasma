@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-DllClass plSeekPointMod : public virtual plMultiModifier {
+class PLASMA_DLL plSeekPointMod : public virtual plMultiModifier {
     CREATABLE(plSeekPointMod, kSeekPointMod, plMultiModifier)
 
 protected:

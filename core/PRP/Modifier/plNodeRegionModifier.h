@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-DllClass plNodeRegionModifier : public virtual plSingleModifier {
+class PLASMA_DLL plNodeRegionModifier : public virtual plSingleModifier {
     CREATABLE(plNodeRegionModifier, kNodeRegionModifier, plSingleModifier)
 
 protected:

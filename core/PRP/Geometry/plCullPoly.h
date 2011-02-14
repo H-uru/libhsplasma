@@ -20,7 +20,7 @@
 #include "Util/hsBitVector.h"
 #include "Math/hsGeometry3.h"
 
-DllClass plCullPoly {
+class PLASMA_DLL plCullPoly {
 public:
     enum {
         kNone,

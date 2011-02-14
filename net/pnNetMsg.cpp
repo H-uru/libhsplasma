@@ -21,11 +21,11 @@ static msgparm_t AllocBasic(unsigned int size, unsigned int count)
 {
     msgparm_t msg;
     if (size == 1)
-        msg.fData = new hsUbyte[count];
+        msg.fData = new uint8_t[count];
     else if (size == 2)
-        msg.fData = (hsUbyte*)(new hsUint16[count]);
+        msg.fData = (uint8_t*)(new uint16_t[count]);
     else if (size == 4)
-        msg.fData = (hsUbyte*)(new hsUint32[count]);
+        msg.fData = (uint8_t*)(new uint32_t[count]);
     else
         throw hsBadParamException(__FILE__, __LINE__, "Bad variable size");
     return msg;
@@ -61,7 +61,7 @@ msgparm_t* NCAllocMessage(const pnNetMsg* msg)
         case kFieldRawData:
         case kFieldRawPtr:
             // Fixed-size array
-            data[i].fData = new hsUbyte[field->fSize * field->fCount];
+            data[i].fData = new uint8_t[field->fSize * field->fCount];
             break;
         }
     }
@@ -120,11 +120,11 @@ size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg)
                 bufSize += field->fSize * field->fCount;
             break;
         case kFieldString:
-            bufSize += sizeof(hsUint16);
+            bufSize += sizeof(uint16_t);
             bufSize += plwcslen(data[i].fString) * sizeof(pl_wchar_t);
             break;
         case kFieldVarCount:
-            bufSize += sizeof(hsUint32);
+            bufSize += sizeof(uint32_t);
             count = data[i].fUint;
             size = field->fSize;
             break;
@@ -169,17 +169,17 @@ void pnNetAgeInfo::read(const unsigned char* buffer)
     fDescription = plString((const pl_wchar_t*)buffer);
     buffer += 1024 * sizeof(pl_wchar_t);
 
-    fSequenceNumber = *(hsUint32*)buffer;
-    buffer += sizeof(hsUint32);
+    fSequenceNumber = *(uint32_t*)buffer;
+    buffer += sizeof(uint32_t);
 
-    fLanguage = *(hsUint32*)buffer;
-    buffer += sizeof(hsUint32);
+    fLanguage = *(uint32_t*)buffer;
+    buffer += sizeof(uint32_t);
 
-    fPopulation = *(hsUint32*)buffer;
-    buffer += sizeof(hsUint32);
+    fPopulation = *(uint32_t*)buffer;
+    buffer += sizeof(uint32_t);
 
-    fCurrPopulation = *(hsUint32*)buffer;
-    buffer += sizeof(hsUint32);
+    fCurrPopulation = *(uint32_t*)buffer;
+    buffer += sizeof(uint32_t);
 }
 
 void pnNetAgeInfo::write(unsigned char* buffer)
@@ -207,17 +207,17 @@ void pnNetAgeInfo::write(unsigned char* buffer)
     buffer[1023 * sizeof(pl_wchar_t)] = 0;
     buffer += 1024 * sizeof(pl_wchar_t);
 
-    *(hsUint32*)buffer = fSequenceNumber;
-    buffer += sizeof(hsUint32);
+    *(uint32_t*)buffer = fSequenceNumber;
+    buffer += sizeof(uint32_t);
 
-    *(hsUint32*)buffer = fLanguage;
-    buffer += sizeof(hsUint32);
+    *(uint32_t*)buffer = fLanguage;
+    buffer += sizeof(uint32_t);
 
-    *(hsUint32*)buffer = fPopulation;
-    buffer += sizeof(hsUint32);
+    *(uint32_t*)buffer = fPopulation;
+    buffer += sizeof(uint32_t);
 
-    *(hsUint32*)buffer = fCurrPopulation;
-    buffer += sizeof(hsUint32);
+    *(uint32_t*)buffer = fCurrPopulation;
+    buffer += sizeof(uint32_t);
 }
 
 

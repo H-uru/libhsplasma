@@ -26,7 +26,7 @@
  * isValid() function on returned plStateDescriptor objects.
  */
 
-DllClass plVarDescriptor {
+class PLASMA_DLL plVarDescriptor {
 public:
     enum Type {
         kNone = 0xFF,
@@ -89,7 +89,7 @@ public:
 };
 
 
-DllClass plStateDescriptor {
+class PLASMA_DLL plStateDescriptor {
 protected:
     plString fName;
     int fVersion;

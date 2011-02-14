@@ -19,7 +19,7 @@
 
 #include "hsStream.h"
 
-DllClass plEncryptedStream : public hsStream {
+class PLASMA_DLL plEncryptedStream : public hsStream {
 public:
     enum EncryptionType { kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto };
 
@@ -53,12 +53,12 @@ public:
     void setKey(unsigned int* keys);
     EncryptionType getEncType() const { return fEType; }
 
-    virtual hsUint32 size() const { return fDataSize; }
-    virtual hsUint32 pos() const { return fDataPos; }
+    virtual uint32_t size() const { return fDataSize; }
+    virtual uint32_t pos() const { return fDataPos; }
     virtual bool eof() const { return fDataPos >= fDataSize; }
 
-    virtual void seek(hsUint32 pos);
-    virtual void skip(hsInt32 count);
+    virtual void seek(uint32_t pos);
+    virtual void skip(int32_t count);
     virtual void fastForward() { seek(size()); }
     virtual void rewind();
     virtual void flush() { fBase->flush(); }

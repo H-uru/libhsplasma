@@ -19,7 +19,7 @@
 
 #include "plController.h"
 
-DllClass plLeafController : public plController {
+class PLASMA_DLL plLeafController : public plController {
     CREATABLE(plLeafController, kLeafController, plController)
 
 protected:

@@ -19,7 +19,7 @@
 
 #include "PlasmaDefs.h"
 
-DllClass hsGDeviceRef /*: public hsRefCnt*/ {
+class PLASMA_DLL hsGDeviceRef /*: public hsRefCnt*/ {
 public:
     enum { kNone, kDirty };
 

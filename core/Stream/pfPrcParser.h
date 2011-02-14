@@ -22,7 +22,7 @@
 #include "Util/hsTList.hpp"
 #include <map>
 
-DllClass pfPrcTag {
+class PLASMA_DLL pfPrcTag {
 protected:
     plString fName;
     std::map<plString, plString> fParams;
@@ -54,7 +54,7 @@ public:
 };
 
 
-DllClass pfPrcParser {
+class PLASMA_DLL pfPrcParser {
 private:
     pfPrcTag* fRootTag;
 
@@ -70,14 +70,14 @@ private:
 };
 
 
-DllClass pfPrcParseException : public hsException {
+class PLASMA_DLL pfPrcParseException : public hsException {
 public:
     pfPrcParseException(const char* file, unsigned long line,
                         const char* msg, ...) throw();
 };
 
 
-DllClass pfPrcTagException : public pfPrcParseException {
+class PLASMA_DLL pfPrcTagException : public pfPrcParseException {
 public:
     pfPrcTagException(const char* file, unsigned long line,
                       const char* tag) throw();

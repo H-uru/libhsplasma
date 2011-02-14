@@ -24,7 +24,7 @@
  * \brief Stores a UUID (Universally Unique Identifier).
  */
 
-DllStruct plUuid {
+struct PLASMA_DLL plUuid {
 private:
     unsigned int fData1;
     unsigned short fData2, fData3;

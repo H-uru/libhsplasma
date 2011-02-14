@@ -19,7 +19,7 @@
 
 #include "plMessage.h"
 
-DllClass pfKIMsg : public plMessage {
+class PLASMA_DLL pfKIMsg : public plMessage {
     CREATABLE(pfKIMsg, kKIMsg, plMessage)
 
 public:

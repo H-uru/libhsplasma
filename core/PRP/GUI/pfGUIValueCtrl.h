@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-DllClass pfGUIValueCtrl : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUIValueCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUIValueCtrl, kGUIValueCtrl, pfGUIControlMod)
 
 protected:

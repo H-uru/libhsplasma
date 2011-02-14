@@ -21,7 +21,7 @@
 #include "PRP/KeyedObject/plLocation.h"
 #include "Stream/pfPrcHelper.h"
 
-DllClass plPageInfo {
+class PLASMA_DLL plPageInfo {
 public:
     enum Flags {
         kPartialPatchFile = 0x1,

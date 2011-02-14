@@ -22,7 +22,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-DllClass plLocation {
+class PLASMA_DLL plLocation {
 public:
     enum LocFlags {
         kLocalOnly = 0x1,

@@ -20,7 +20,7 @@
 #include "plSDLMgr.h"
 #include "plStateVariable.h"
 
-DllClass plStateDataRecord {
+class PLASMA_DLL plStateDataRecord {
 public:
     enum Flags {
         kVolatile = 0x1

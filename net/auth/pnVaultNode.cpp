@@ -84,32 +84,32 @@ void pnVaultNode::allClean() {
 }
 
 void pnVaultNode::setTimeNow() {
-    setCreateTime((hsUint32)time(NULL));
+    setCreateTime((uint32_t)time(NULL));
     setModifyTime(fCreateTime);
 }
 
 void pnVaultNode::setModifyNow() {
-    setModifyTime((hsUint32)time(NULL));
+    setModifyTime((uint32_t)time(NULL));
 }
 
-static hsUint64 readU64(const unsigned char*& buffer, size_t& size) {
-    hsUint64 v = *(hsUint64*)buffer;
-    buffer += sizeof(hsUint64);
-    size -= sizeof(hsUint64);
+static uint64_t readU64(const unsigned char*& buffer, size_t& size) {
+    uint64_t v = *(uint64_t*)buffer;
+    buffer += sizeof(uint64_t);
+    size -= sizeof(uint64_t);
     return v;
 }
 
-static hsUint32 readU32(const unsigned char*& buffer, size_t& size) {
-    hsUint32 v = *(hsUint32*)buffer;
-    buffer += sizeof(hsUint32);
-    size -= sizeof(hsUint32);
+static uint32_t readU32(const unsigned char*& buffer, size_t& size) {
+    uint32_t v = *(uint32_t*)buffer;
+    buffer += sizeof(uint32_t);
+    size -= sizeof(uint32_t);
     return v;
 }
 
-static hsInt32 readS32(const unsigned char*& buffer, size_t& size) {
-    hsInt32 v = *(hsInt32*)buffer;
-    buffer += sizeof(hsInt32);
-    size -= sizeof(hsInt32);
+static int32_t readS32(const unsigned char*& buffer, size_t& size) {
+    int32_t v = *(int32_t*)buffer;
+    buffer += sizeof(int32_t);
+    size -= sizeof(int32_t);
     return v;
 }
 
@@ -129,7 +129,7 @@ static plString readString(const unsigned char*& buffer, size_t& size) {
 }
 
 void pnVaultNode::read(const unsigned char* buffer, size_t size) {
-    if (size < sizeof(hsUint64)) {
+    if (size < sizeof(uint64_t)) {
         plDebug::Error("Invalid node data");
         return;
     }
@@ -217,22 +217,22 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
         plDebug::Warning("Incomplete read of node %d", fNodeIdx);
 }
 
-static void writeU64(hsUint64 v, unsigned char*& buffer, size_t& size) {
-    *(hsUint64*)buffer = v;
-    buffer += sizeof(hsUint64);
-    size -= sizeof(hsUint64);
+static void writeU64(uint64_t v, unsigned char*& buffer, size_t& size) {
+    *(uint64_t*)buffer = v;
+    buffer += sizeof(uint64_t);
+    size -= sizeof(uint64_t);
 }
 
-static void writeU32(hsUint32 v, unsigned char*& buffer, size_t& size) {
-    *(hsUint32*)buffer = v;
-    buffer += sizeof(hsUint32);
-    size -= sizeof(hsUint32);
+static void writeU32(uint32_t v, unsigned char*& buffer, size_t& size) {
+    *(uint32_t*)buffer = v;
+    buffer += sizeof(uint32_t);
+    size -= sizeof(uint32_t);
 }
 
-static void writeS32(hsInt32 v, unsigned char*& buffer, size_t& size) {
-    *(hsInt32*)buffer = v;
-    buffer += sizeof(hsInt32);
-    size -= sizeof(hsInt32);
+static void writeS32(int32_t v, unsigned char*& buffer, size_t& size) {
+    *(int32_t*)buffer = v;
+    buffer += sizeof(int32_t);
+    size -= sizeof(int32_t);
 }
 
 static void writeUuid(const plUuid& v, unsigned char*& buffer, size_t& size) {
@@ -251,7 +251,7 @@ static void writeString(const plString& v, unsigned char*& buffer, size_t& size)
 }
 
 void pnVaultNode::write(unsigned char* buffer, size_t size) const {
-    if (size < sizeof(hsUint64)) {
+    if (size < sizeof(uint64_t)) {
         plDebug::Error("Invalid node buffer");
         return;
     }
@@ -334,17 +334,17 @@ void pnVaultNode::write(unsigned char* buffer, size_t size) const {
         plDebug::Warning("Node %d is truncated", fNodeIdx);
 }
 
-hsUint32 pnVaultNode::getNodeIdx() const
+uint32_t pnVaultNode::getNodeIdx() const
 {
     return (fFieldMask & (1<<kNodeIdx)) != 0 ? fNodeIdx : 0;
 }
 
-hsUint32 pnVaultNode::getCreateTime() const
+uint32_t pnVaultNode::getCreateTime() const
 {
     return (fFieldMask & (1<<kCreateTime)) != 0 ? fCreateTime : 0;
 }
 
-hsUint32 pnVaultNode::getModifyTime() const
+uint32_t pnVaultNode::getModifyTime() const
 {
     return (fFieldMask & (1<<kModifyTime)) != 0 ? fModifyTime : 0;
 }
@@ -365,55 +365,55 @@ plUuid pnVaultNode::getCreatorUuid() const
     return (fFieldMask & (1<<kCreatorUuid)) != 0 ? fCreatorUuid : plUuid();
 }
 
-hsUint32 pnVaultNode::getCreatorIdx() const
+uint32_t pnVaultNode::getCreatorIdx() const
 {
     return (fFieldMask & (1<<kCreatorIdx)) != 0 ? fCreatorIdx : 0;
 }
 
-hsUint32 pnVaultNode::getNodeType() const
+uint32_t pnVaultNode::getNodeType() const
 {
     return (fFieldMask & (1<<kNodeType)) != 0 ? fNodeType : 0;
 }
 
-hsInt32 pnVaultNode::getInt32(size_t which) const
+int32_t pnVaultNode::getInt32(size_t which) const
 {
-    return (fFieldMask & (hsUint64)((1<<kInt32_1) << which)) != 0
+    return (fFieldMask & (uint64_t)((1<<kInt32_1) << which)) != 0
            ? fInt32[which] : 0;
 }
 
-hsUint32 pnVaultNode::getUint32(size_t which) const
+uint32_t pnVaultNode::getUint32(size_t which) const
 {
-    return (fFieldMask & (hsUint64)((1<<kUint32_1) << which)) != 0
+    return (fFieldMask & (uint64_t)((1<<kUint32_1) << which)) != 0
            ? fUint32[which] : 0;
 }
 
 plUuid pnVaultNode::getUuid(size_t which) const
 {
-    return (fFieldMask & (hsUint64)((1<<kUuid_1) << which)) != 0
+    return (fFieldMask & (uint64_t)((1<<kUuid_1) << which)) != 0
            ? fUuid[which] : plUuid();
 }
 
 plString pnVaultNode::getString64(size_t which) const
 {
-    return (fFieldMask & (hsUint64)((1<<kString64_1) << which)) != 0
+    return (fFieldMask & (uint64_t)((1<<kString64_1) << which)) != 0
            ? fString64[which] : plString();
 }
 
 plString pnVaultNode::getIString64(size_t which) const
 {
-    return (fFieldMask & (hsUint64)((1<<kIString64_1) << which)) != 0
+    return (fFieldMask & (uint64_t)((1<<kIString64_1) << which)) != 0
            ? fIString64[which] : plString();
 }
 
 plString pnVaultNode::getText(size_t which) const
 {
-    return (fFieldMask & (hsUint64)((1<<kText_1) << which)) != 0
+    return (fFieldMask & (uint64_t)((1<<kText_1) << which)) != 0
            ? fText[which] : plString();
 }
 
 plVaultBlob pnVaultNode::getBlob(size_t which) const
 {
-    return (fFieldMask & (hsUint64)((1<<kBlob_1) << which)) != 0
+    return (fFieldMask & (uint64_t)((1<<kBlob_1) << which)) != 0
            ? fBlob[which] : plVaultBlob();
 }
 
@@ -438,34 +438,34 @@ void pnVaultNode::IClearField(size_t which, size_t size)
 }
 
 
-void pnVaultNode::setNodeIdx(hsUint32 idx)
+void pnVaultNode::setNodeIdx(uint32_t idx)
 {
     fNodeIdx = idx;
-    ISetField(kNodeIdx, sizeof(hsUint32));
+    ISetField(kNodeIdx, sizeof(uint32_t));
 }
 
-void pnVaultNode::setCreateTime(hsUint32 createTime)
+void pnVaultNode::setCreateTime(uint32_t createTime)
 {
     fCreateTime = createTime;
-    ISetField(kCreateTime, sizeof(hsUint32));
+    ISetField(kCreateTime, sizeof(uint32_t));
 }
 
-void pnVaultNode::setModifyTime(hsUint32 modTime)
+void pnVaultNode::setModifyTime(uint32_t modTime)
 {
     fModifyTime = modTime;
-    ISetField(kModifyTime, sizeof(hsUint32));
+    ISetField(kModifyTime, sizeof(uint32_t));
 }
 
 void pnVaultNode::setCreateAgeName(const plString& name)
 {
     if (fCreateAgeName != NULL) {
         size_t oldLen = (fCreateAgeName.wstr().len() + 1) * sizeof(pl_wchar_t);
-        IClearField(kCreateAgeName, oldLen + sizeof(hsUint32));
+        IClearField(kCreateAgeName, oldLen + sizeof(uint32_t));
     }
 
     fCreateAgeName = name;
     size_t len = (fCreateAgeName.wstr().len() + 1) * sizeof(pl_wchar_t);
-    ISetField(kCreateAgeName, len + sizeof(hsUint32));
+    ISetField(kCreateAgeName, len + sizeof(uint32_t));
 }
 
 void pnVaultNode::setCreateAgeUuid(const plUuid& uuid)
@@ -480,28 +480,28 @@ void pnVaultNode::setCreatorUuid(const plUuid& uuid)
     ISetField(kCreatorUuid, sizeof(plUuid));
 }
 
-void pnVaultNode::setCreatorIdx(hsUint32 idx)
+void pnVaultNode::setCreatorIdx(uint32_t idx)
 {
     fCreatorIdx = idx;
-    ISetField(kCreatorIdx, sizeof(hsUint32));
+    ISetField(kCreatorIdx, sizeof(uint32_t));
 }
 
-void pnVaultNode::setNodeType(hsUint32 type)
+void pnVaultNode::setNodeType(uint32_t type)
 {
     fNodeType = type;
-    ISetField(kNodeType, sizeof(hsUint32));
+    ISetField(kNodeType, sizeof(uint32_t));
 }
 
-void pnVaultNode::setInt32(size_t which, hsInt32 value)
+void pnVaultNode::setInt32(size_t which, int32_t value)
 {
     fInt32[which] = value;
-    ISetField(kInt32_1 + which, sizeof(hsInt32));
+    ISetField(kInt32_1 + which, sizeof(int32_t));
 }
 
-void pnVaultNode::setUint32(size_t which, hsUint32 value)
+void pnVaultNode::setUint32(size_t which, uint32_t value)
 {
     fUint32[which] = value;
-    ISetField(kUint32_1 + which, sizeof(hsUint32));
+    ISetField(kUint32_1 + which, sizeof(uint32_t));
 }
 
 void pnVaultNode::setUuid(size_t which, const plUuid& value)
@@ -514,61 +514,61 @@ void pnVaultNode::setString64(size_t which, const plString& value)
 {
     if (fString64[which] != NULL) {
         size_t oldLen = (fString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
-        IClearField(kString64_1 + which, oldLen + sizeof(hsUint32));
+        IClearField(kString64_1 + which, oldLen + sizeof(uint32_t));
     }
 
     fString64[which] = value;
     size_t len = (fString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
-    ISetField(kString64_1 + which, len + sizeof(hsUint32));
+    ISetField(kString64_1 + which, len + sizeof(uint32_t));
 }
 
 void pnVaultNode::setIString64(size_t which, const plString& value)
 {
     if (fIString64[which] != NULL) {
         size_t oldLen = (fIString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
-        IClearField(kIString64_1 + which, oldLen + sizeof(hsUint32));
+        IClearField(kIString64_1 + which, oldLen + sizeof(uint32_t));
     }
 
     fIString64[which] = value;
     size_t len = (fIString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
-    ISetField(kIString64_1 + which, len + sizeof(hsUint32));
+    ISetField(kIString64_1 + which, len + sizeof(uint32_t));
 }
 
 void pnVaultNode::setText(size_t which, const plString& value)
 {
     if (fText[which] != NULL) {
         size_t oldLen = (fText[which].wstr().len() + 1) * sizeof(pl_wchar_t);
-        IClearField(kText_1 + which, oldLen + sizeof(hsUint32));
+        IClearField(kText_1 + which, oldLen + sizeof(uint32_t));
     }
 
     fText[which] = value;
     size_t len = (fText[which].wstr().len() + 1) * sizeof(pl_wchar_t);
-    ISetField(kText_1 + which, len + sizeof(hsUint32));
+    ISetField(kText_1 + which, len + sizeof(uint32_t));
 }
 
 void pnVaultNode::setBlob(size_t which, const plVaultBlob& value)
 {
-    IClearField(kBlob_1 + which, fBlob[which].getSize() + sizeof(hsUint32));
+    IClearField(kBlob_1 + which, fBlob[which].getSize() + sizeof(uint32_t));
     fBlob[which] = value;
-    ISetField(kBlob_1 + which, fBlob[which].getSize() + sizeof(hsUint32));
+    ISetField(kBlob_1 + which, fBlob[which].getSize() + sizeof(uint32_t));
 }
 
 
 /* pnVaultNodeRef */
 void pnVaultNodeRef::read(const unsigned char* buffer)
 {
-    fParent = *(hsUint32*)(buffer     );
-    fChild  = *(hsUint32*)(buffer +  4);
-    fOwner  = *(hsUint32*)(buffer +  8);
-    fSeen   = *(hsUbyte* )(buffer + 12);
+    fParent = *(uint32_t*)(buffer     );
+    fChild  = *(uint32_t*)(buffer +  4);
+    fOwner  = *(uint32_t*)(buffer +  8);
+    fSeen   = *(uint8_t* )(buffer + 12);
 }
 
 void pnVaultNodeRef::write(const unsigned char* buffer)
 {
-    *(hsUint32*)(buffer     ) = fParent;
-    *(hsUint32*)(buffer +  4) = fChild;
-    *(hsUint32*)(buffer +  8) = fOwner;
-    *(hsUbyte* )(buffer + 12) = fSeen;
+    *(uint32_t*)(buffer     ) = fParent;
+    *(uint32_t*)(buffer +  4) = fChild;
+    *(uint32_t*)(buffer +  8) = fOwner;
+    *(uint8_t* )(buffer + 12) = fSeen;
 }
 
 bool pnVaultNodeRef::operator==(const pnVaultNodeRef& ref)

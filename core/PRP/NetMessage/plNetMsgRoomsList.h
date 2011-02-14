@@ -19,11 +19,11 @@
 
 #include "plNetMessage.h"
 
-DllClass plNetMsgRoomsList : public plNetMessage {
+class PLASMA_DLL plNetMsgRoomsList : public plNetMessage {
     CREATABLE(plNetMsgRoomsList, kNetMsgRoomsList, plNetMessage)
 
 public:
-    DllStruct Room {
+    struct PLASMA_DLL Room {
         plLocation fLocation;
         plString fName;
     };
@@ -48,7 +48,7 @@ public:
 };
 
 
-DllClass plNetMsgPagingRoom : public plNetMsgRoomsList {
+class PLASMA_DLL plNetMsgPagingRoom : public plNetMsgRoomsList {
     CREATABLE(plNetMsgPagingRoom, kNetMsgPagingRoom, plNetMsgRoomsList)
 
 public:
@@ -78,7 +78,7 @@ public:
 };
 
 
-DllClass plNetMsgGameStateRequest : public plNetMsgRoomsList {
+class PLASMA_DLL plNetMsgGameStateRequest : public plNetMsgRoomsList {
     CREATABLE(plNetMsgGameStateRequest, kNetMsgGameStateRequest, plNetMsgRoomsList)
 };
 

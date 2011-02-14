@@ -23,7 +23,7 @@
 
 /* Loosely based on plAgeDescription */
 
-DllClass plAgeInfo {
+class PLASMA_DLL plAgeInfo {
 public:
     enum CommonPages { kTextures, kGlobal, kNumCommonPages };
     static const plString kCommonPages[kNumCommonPages];
@@ -36,7 +36,7 @@ public:
         kIsVolatile = 0x8
     };
 
-    DllStruct PageEntry {
+    struct PLASMA_DLL PageEntry {
         plString fName;
         int fSeqSuffix;
         unsigned int fLoadFlags;

@@ -19,7 +19,7 @@
 
 #include "plConditionalObject.h"
 
-DllClass plANDConditionalObject : public virtual plConditionalObject {
+class PLASMA_DLL plANDConditionalObject : public virtual plConditionalObject {
     CREATABLE(plANDConditionalObject, kANDConditionalObject,
               plConditionalObject)
 
@@ -36,7 +36,7 @@ protected:
 };
 
 
-DllClass plORConditionalObject : public virtual plConditionalObject {
+class PLASMA_DLL plORConditionalObject : public virtual plConditionalObject {
     CREATABLE(plORConditionalObject, kORConditionalObject,
               plConditionalObject)
 

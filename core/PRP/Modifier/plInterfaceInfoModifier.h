@@ -19,7 +19,7 @@
 
 #include "plModifier.h"
 
-DllClass plInterfaceInfoModifier : public virtual plSingleModifier {
+class PLASMA_DLL plInterfaceInfoModifier : public virtual plSingleModifier {
     CREATABLE(plInterfaceInfoModifier, kInterfaceInfoModifier, plSingleModifier)
 
 protected:

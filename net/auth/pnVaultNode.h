@@ -22,7 +22,7 @@
 #include "Sys/plUuid.h"
 #include "Protocol.h"
 
-DllClass pnVaultNode {
+class PLASMANET_DLL pnVaultNode {
 public:
     enum {
         kNodeIdx, kCreateTime, kModifyTime, kCreateAgeName, kCreateAgeUuid,
@@ -39,17 +39,17 @@ public:
     };
 
 protected:
-    hsUint64 fFieldMask;
-    hsUint64 fDirtyMask;
+    uint64_t fFieldMask;
+    uint64_t fDirtyMask;
     size_t fCachedSize, fDirtySize;
 
-    hsInt32 fNodeIdx;
-    hsUint32 fCreateTime, fModifyTime;
+    int32_t fNodeIdx;
+    uint32_t fCreateTime, fModifyTime;
     plString fCreateAgeName;
     plUuid fCreateAgeUuid, fCreatorUuid;
-    hsInt32 fCreatorIdx, fNodeType;
-    hsInt32 fInt32[4];
-    hsUint32 fUint32[4];
+    int32_t fCreatorIdx, fNodeType;
+    int32_t fInt32[4];
+    uint32_t fUint32[4];
     plUuid fUuid[4];
     plString fString64[6];
     plString fIString64[2];
@@ -71,36 +71,36 @@ public:
     void setTimeNow();
     void setModifyNow();
 
-    size_t bufferSize() const { return fDirtySize + sizeof(hsUint64); }
+    size_t bufferSize() const { return fDirtySize + sizeof(uint64_t); }
     void read(const unsigned char* buffer, size_t size);
     void write(unsigned char* buffer, size_t size) const;
 
-    hsUint32 getNodeIdx() const;
-    hsUint32 getCreateTime() const;
-    hsUint32 getModifyTime() const;
+    uint32_t getNodeIdx() const;
+    uint32_t getCreateTime() const;
+    uint32_t getModifyTime() const;
     plString getCreateAgeName() const;
     plUuid getCreateAgeUuid() const;
     plUuid getCreatorUuid() const;
-    hsUint32 getCreatorIdx() const;
-    hsUint32 getNodeType() const;
-    hsInt32 getInt32(size_t which) const;
-    hsUint32 getUint32(size_t which) const;
+    uint32_t getCreatorIdx() const;
+    uint32_t getNodeType() const;
+    int32_t getInt32(size_t which) const;
+    uint32_t getUint32(size_t which) const;
     plUuid getUuid(size_t which) const;
     plString getString64(size_t which) const;
     plString getIString64(size_t which) const;
     plString getText(size_t which) const;
     plVaultBlob getBlob(size_t which) const;
 
-    void setNodeIdx(hsUint32 idx);
-    void setCreateTime(hsUint32 createTime);
-    void setModifyTime(hsUint32 modTime);
+    void setNodeIdx(uint32_t idx);
+    void setCreateTime(uint32_t createTime);
+    void setModifyTime(uint32_t modTime);
     void setCreateAgeName(const plString& name);
     void setCreateAgeUuid(const plUuid& uuid);
     void setCreatorUuid(const plUuid& uuid);
-    void setCreatorIdx(hsUint32 idx);
-    void setNodeType(hsUint32 type);
-    void setInt32(size_t which, hsInt32 value);
-    void setUint32(size_t which, hsUint32 value);
+    void setCreatorIdx(uint32_t idx);
+    void setNodeType(uint32_t type);
+    void setInt32(size_t which, int32_t value);
+    void setUint32(size_t which, uint32_t value);
     void setUuid(size_t which, const plUuid& value);
     void setString64(size_t which, const plString& value);
     void setIString64(size_t which, const plString& value);
@@ -112,11 +112,11 @@ private:
     void IClearField(size_t which, size_t size);
 };
 
-DllStruct pnVaultNodeRef {
+struct PLASMANET_DLL pnVaultNodeRef {
     enum { Stride = 13 };
 
-    hsUint32 fParent, fChild, fOwner;
-    hsUbyte fSeen;
+    uint32_t fParent, fChild, fOwner;
+    uint8_t fSeen;
 
     void read(const unsigned char* buffer);
     void write(const unsigned char* buffer);

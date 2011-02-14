@@ -21,7 +21,7 @@
 #include "Math/hsGeometry3.h"
 #include "Util/hsBitVector.h"
 
-DllClass plCameraConfig {
+class PLASMA_DLL plCameraConfig {
 public:
     enum {
         kOffset = 0x1,
@@ -46,7 +46,7 @@ public:
 };
 
 
-DllClass plCameraMsg : public plMessage {
+class PLASMA_DLL plCameraMsg : public plMessage {
     CREATABLE(plCameraMsg, kCameraMsg, plMessage)
 
 public:

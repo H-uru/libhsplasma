@@ -19,7 +19,7 @@
 
 #include "hsStream.h"
 
-DllClass hsStdioStream : public hsFileStream {
+class PLASMA_DLL hsStdioStream : public hsFileStream {
 protected:
     FILE* Fin;
     FILE* Fout;
@@ -30,12 +30,12 @@ public:
     virtual bool open(const char*, FileMode) { return false; }
     virtual void close() { }
 
-    virtual hsUint32 size() const { return 0; }
-    virtual hsUint32 pos() const { return 0; }
+    virtual uint32_t size() const { return 0; }
+    virtual uint32_t pos() const { return 0; }
     virtual bool eof() const { return false; }
 
-    virtual void seek(hsUint32 pos);
-    virtual void skip(hsInt32 count);
+    virtual void seek(uint32_t pos);
+    virtual void skip(int32_t count);
     virtual void fastForward() { }
     virtual void rewind() { }
     virtual void flush();

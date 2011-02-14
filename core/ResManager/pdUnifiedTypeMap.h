@@ -22,7 +22,7 @@
 
 #define TYPESPACE_MAX 0x500
 
-DllClass pdUnifiedTypeMap {
+class PLASMA_DLL pdUnifiedTypeMap {
 private:
     static short fUruM2PTable[TYPESPACE_MAX];
     static short fPotSM2PTable[TYPESPACE_MAX];

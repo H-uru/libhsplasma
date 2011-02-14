@@ -79,12 +79,12 @@ pnSha1Hash NCHashPassword(const plString& userName, const plString& password)
 }
 
 struct NCChallengeBuffer {
-    hsUint32 fClientChallenge, fServerChallenge;
+    uint32_t fClientChallenge, fServerChallenge;
     pnSha1Hash fNamePassHash;
 };
 
 pnSha1Hash NCHashLoginInfo(const plString& userName, const plString& password,
-                           hsUint32 serverChallenge, hsUint32 clientChallenge)
+                           uint32_t serverChallenge, uint32_t clientChallenge)
 {
     NCChallengeBuffer buffer;
     buffer.fClientChallenge = clientChallenge;

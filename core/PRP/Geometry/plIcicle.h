@@ -20,7 +20,7 @@
 #include "plGBufferGroup.h"
 #include "plVertexSpan.h"
 
-DllClass plIcicle : public plVertexSpan {
+class PLASMA_DLL plIcicle : public plVertexSpan {
 protected:
     unsigned int fIBufferIdx, fIStartIdx, fILength;
     plGBufferTriangle* fSortData;
@@ -51,7 +51,7 @@ public:
     void setSortData(const plGBufferTriangle* data);
 };
 
-DllClass plParticleSpan : public plIcicle {
+class PLASMA_DLL plParticleSpan : public plIcicle {
 public:
     virtual const char* ClassName() const { return "plParticleSpan"; }
 

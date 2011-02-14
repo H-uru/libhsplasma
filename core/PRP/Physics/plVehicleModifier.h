@@ -20,11 +20,11 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
 
-DllClass plVehicleModifier : public virtual plSingleModifier {
+class PLASMA_DLL plVehicleModifier : public virtual plSingleModifier {
     CREATABLE(plVehicleModifier, kVehicleModifier, plSingleModifier)
 
 public:
-    DllStruct Wheel {
+    struct PLASMA_DLL Wheel {
         plKey fWheelObj;
         hsVector3 fPosition, fDirection;
         float fRadius;

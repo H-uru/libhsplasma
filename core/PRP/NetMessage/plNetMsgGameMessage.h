@@ -21,7 +21,7 @@
 #include "Sys/plUnifiedTime.h"
 #include "PRP/Message/plMessage.h"
 
-DllClass plNetMsgGameMessage : public plNetMsgStream {
+class PLASMA_DLL plNetMsgGameMessage : public plNetMsgStream {
     CREATABLE(plNetMsgGameMessage, kNetMsgGameMessage, plNetMsgStream)
 
 private:
@@ -48,7 +48,7 @@ public:
 };
 
 
-DllClass plNetMsgGameMessageDirected : public plNetMsgGameMessage {
+class PLASMA_DLL plNetMsgGameMessageDirected : public plNetMsgGameMessage {
     CREATABLE(plNetMsgGameMessageDirected, kNetMsgGameMessageDirected,
               plNetMsgGameMessage)
 

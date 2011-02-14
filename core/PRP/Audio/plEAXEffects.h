@@ -20,7 +20,7 @@
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 
-DllClass plEAXSourceSoftSettings {
+class PLASMA_DLL plEAXSourceSoftSettings {
 protected:
     short fOcclusion;
     float fOcclusionLFRatio, fOcclusionRoomRatio, fOcclusionDirectRatio;
@@ -47,7 +47,7 @@ public:
 };
 
 
-DllClass plEAXSourceSettings {
+class PLASMA_DLL plEAXSourceSettings {
 protected:
     short fRoom, fRoomHF;
     bool fEnabled, fRoomAuto, fRoomHFAuto;

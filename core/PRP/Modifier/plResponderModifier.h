@@ -20,29 +20,29 @@
 #include "plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-DllClass plResponderModifier : public virtual plSingleModifier {
+class PLASMA_DLL plResponderModifier : public virtual plSingleModifier {
     CREATABLE(plResponderModifier, kResponderModifier, plSingleModifier)
 
 public:
-    DllClass plResponderCmd {
+    class PLASMA_DLL plResponderCmd {
     public:
         plMessage* fMsg;
-        hsByte fWaitOn;
+        int8_t fWaitOn;
 
-        plResponderCmd(plMessage* msg = NULL, hsByte waitOn = -1);
+        plResponderCmd(plMessage* msg = NULL, int8_t waitOn = -1);
         ~plResponderCmd();
     };
 
-    DllClass plResponderState {
+    class PLASMA_DLL plResponderState {
     public:
         hsTArray<plResponderCmd*> fCmds;
-        hsByte fNumCallbacks, fSwitchToState;
-        std::map<hsByte, hsByte> fWaitToCmd;
+        int8_t fNumCallbacks, fSwitchToState;
+        std::map<int8_t, int8_t> fWaitToCmd;
 
         plResponderState();
         ~plResponderState();
 
-        void addCommand(plMessage* msg, hsByte waitOn);
+        void addCommand(plMessage* msg, int8_t waitOn);
         void delCommand(size_t idx);
         void clearCommands();
     };
@@ -87,7 +87,7 @@ public:
 };
 
 
-DllClass plResponderEnableMsg : public plMessage {
+class PLASMA_DLL plResponderEnableMsg : public plMessage {
     CREATABLE(plResponderEnableMsg, kResponderEnableMsg, plMessage)
 
 protected:

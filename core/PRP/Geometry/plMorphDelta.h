@@ -21,7 +21,7 @@
 #include "Util/hsTArray.hpp"
 #include "Math/hsGeometry3.h"
 
-DllClass plVertDelta {
+class PLASMA_DLL plVertDelta {
 protected:
     unsigned short fIdx, fPadding;
     hsVector3 fPos, fNorm;
@@ -34,7 +34,7 @@ public:
 };
 
 
-DllClass plMorphSpan {
+class PLASMA_DLL plMorphSpan {
 protected:
     hsTArray<plVertDelta> fDeltas;
     unsigned short fNumUVWChans;
@@ -51,7 +51,7 @@ public:
 };
 
 
-DllClass plMorphDelta : public plCreatable {
+class PLASMA_DLL plMorphDelta : public plCreatable {
     CREATABLE(plMorphDelta, kMorphDelta, plCreatable)
 
 protected:

@@ -21,7 +21,7 @@
 #include "PRP/Animation/plController.h"
 #include "PRP/Animation/plAnimTimeConvert.h"
 
-DllClass plLayerAnimationBase : public virtual plLayerInterface {
+class PLASMA_DLL plLayerAnimationBase : public virtual plLayerInterface {
     CREATABLE(plLayerAnimationBase, kLayerAnimationBase, plLayerInterface)
 
 protected:
@@ -61,7 +61,7 @@ public:
 };
 
 
-DllClass plLayerAnimation : public virtual plLayerAnimationBase {
+class PLASMA_DLL plLayerAnimation : public virtual plLayerAnimationBase {
     CREATABLE(plLayerAnimation, kLayerAnimation, plLayerAnimationBase)
 
 protected:
@@ -81,7 +81,7 @@ public:
 };
 
 
-DllClass plLayerLinkAnimation : public virtual plLayerAnimation {
+class PLASMA_DLL plLayerLinkAnimation : public virtual plLayerAnimation {
     CREATABLE(plLayerLinkAnimation, kLayerLinkAnimation, plLayerAnimation)
 
 protected:
@@ -107,7 +107,7 @@ public:
 };
 
 
-DllClass plLayerSDLAnimation : public virtual plLayerAnimation {
+class PLASMA_DLL plLayerSDLAnimation : public virtual plLayerAnimation {
     CREATABLE(plLayerSDLAnimation, kLayerSDLAnimation, plLayerAnimationBase)
 
 protected:

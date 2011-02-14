@@ -75,7 +75,7 @@ public:\
 #define MAKE_VERSION(plsMaj, plsMin, revMaj, revMin) \
     ((plsMaj << 28) | (plsMin << 24) | (revMaj << 12) | revMin)
 
-DllClass PlasmaVer {
+class PLASMA_DLL PlasmaVer {
 public:
     /* These MUST remain in order for version matching to work */
     enum {

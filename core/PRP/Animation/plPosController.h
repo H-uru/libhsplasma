@@ -19,7 +19,7 @@
 
 #include "plKeyControllers.hpp"
 
-DllClass plPosController : public plController {
+class PLASMA_DLL plPosController : public plController {
     CREATABLE(plPosController, kPosController, plController)
 
 public:
@@ -30,7 +30,7 @@ public:
 };
 
 
-DllClass plSimplePosController : public plPosController {
+class PLASMA_DLL plSimplePosController : public plPosController {
     CREATABLE(plSimplePosController, kSimplePosController, plPosController)
 
 protected:
@@ -54,7 +54,7 @@ public:
 };
 
 
-DllClass plCompoundPosController : public plPosController {
+class PLASMA_DLL plCompoundPosController : public plPosController {
     CREATABLE(plCompoundPosController, kCompoundPosController, plPosController)
 
 protected:

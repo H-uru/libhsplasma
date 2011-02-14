@@ -27,7 +27,7 @@ enum ECryptAlgorithm {
     kNumCryptAlgorithms
 };
 
-DllClass pnRC4Socket : public pnSocket {
+class PLASMANET_DLL pnRC4Socket : public pnSocket {
 protected:
     RC4_KEY fSend, fRecv;
     hsMutex fSendLock, fRecvLock;
