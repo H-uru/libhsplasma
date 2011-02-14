@@ -20,12 +20,14 @@
 #ifdef WIN32
   #ifdef BUILD_PLASMA_DLL
     #define PLASMA_DLL __declspec(dllexport)
-  #elifdef BUILD_PLASMANET_DLL
-    #define PLASMA_DLL __declspec(dllimport)
-    #define PLASMANET_DLL __declspec(dllexport)
   #else
-    #define PLASMA_DLL __declspec(dllimport)
-    #define PLASMANET_DLL __declspec(dllimport)
+    #ifdef BUILD_PLASMANET_DLL
+      #define PLASMA_DLL __declspec(dllimport)
+      #define PLASMANET_DLL __declspec(dllexport)
+    #else
+      #define PLASMA_DLL __declspec(dllimport)
+      #define PLASMANET_DLL __declspec(dllimport)
+    #endif
   #endif
 #else
   #define PLASMA_DLL
