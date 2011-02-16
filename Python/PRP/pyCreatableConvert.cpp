@@ -593,6 +593,10 @@ plCreatable* IConvert(pyCreatable* pCre)
 
 PyObject* ICreate(plCreatable* pCre)
 {
+    if (pCre == NULL) {
+        Py_INCREF(Py_None);
+        return Py_None;
+    }
     if ((typeid(*pCre)) == typeid(hsKeyedObjectStub)) return pyKeyedObjectStub_FromKeyedObjectStub(dynamic_cast<hsKeyedObjectStub*>(pCre));
     if ((typeid(*pCre)) == typeid(plCreatableStub)) return pyCreatableStub_FromCreatableStub(dynamic_cast<plCreatableStub*>(pCre));
     switch (pCre->ClassIndex()) {
