@@ -71,7 +71,7 @@ static PyObject* pySpanTemplateVertex_getUVWs(pySpanTemplateVertex* self, void*)
 
 static PyObject* pySpanTemplateVertex_getWeights(pySpanTemplateVertex* self, void*) {
     PyObject* list = PyList_New(3);
-    for (size_t i=0; i<10; i++)
+    for (size_t i=0; i<3; i++)
         PyList_SET_ITEM(list, i, PyFloat_FromDouble(self->fThis->fWeights[i]));
     return list;
 }
