@@ -44,15 +44,15 @@ public: \
     }
 
 #define ACCESS_INT32(idx, name) \
-    hsInt32 get##name() const \
+    int32_t get##name() const \
     { return getInt32(idx); } \
-    void set##name(hsInt32 value) \
+    void set##name(int32_t value) \
     { setInt32(idx, value); }
 
 #define ACCESS_UINT32(idx, name) \
-    hsUint32 get##name() const \
+    uint32_t get##name() const \
     { return getUint32(idx); } \
-    void set##name(hsUint32 value) \
+    void set##name(uint32_t value) \
     { setUint32(idx, value); }
 
 #define ACCESS_UUID(idx, name) \
