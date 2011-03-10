@@ -99,6 +99,7 @@ set(PRP_AVTR_SRCS
     PRP/Avatar/pyATCChannel.cpp
     PRP/Avatar/pyAgeGlobalAnim.cpp
     PRP/Avatar/pyAnimStage.cpp
+    PRP/Avatar/pyClothingItem.cpp
     PRP/Avatar/pyEmoteAnim.cpp
     PRP/Avatar/pyLightAmbientApplicator.cpp
     PRP/Avatar/pyLightDiffuseApplicator.cpp
