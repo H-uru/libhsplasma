@@ -419,6 +419,7 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
 }
 
 void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
+    delete[] fVertexData;
     unsigned int stride = CalcVertexSize(fFormat);
     fNumVerts = verts.getSize();
     fVertexData = new unsigned char[fNumVerts * stride];
