@@ -513,8 +513,13 @@ const void* plMipmap::getLevelData(size_t idx) const {
 }
 
 void plMipmap::setImageData(const void* data, size_t size) {
-    if (size != fTotalSize)
-        throw hsBadParamException(__FILE__, __LINE__, "Image data size mismatch");
+    if (size != fTotalSize) {
+        //throw hsBadParamException(__FILE__, __LINE__, "Image data size mismatch");
+        delete[] fImageData;
+        fImageData = new unsigned char[size];
+        fTotalSize = size;
+    }
+
     memcpy(fImageData, data, fTotalSize);
 }
 

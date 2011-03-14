@@ -42,6 +42,7 @@
 #include "PRP/Avatar/pyAGApplicator.h"
 #include "PRP/Avatar/pyAGChannel.h"
 #include "PRP/Avatar/pyATCAnim.h"
+#include "PRP/Avatar/pyClothingItem.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
@@ -338,6 +339,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plAudibleNull", Init_pyAudibleNull_Type());
     PyModule_AddObject(module, "plWinAudible", Init_pyWinAudible_Type());
     PyModule_AddObject(module, "pl2WayWinAudible", Init_py2WayWinAudible_Type());
+    PyModule_AddObject(module, "plClothingItem", Init_pyClothingItem_Type());
     PyModule_AddObject(module, "plShadowMaster", Init_pyShadowMaster_Type());
     PyModule_AddObject(module, "plPointShadowMaster", Init_pyPointShadowMaster_Type());
     PyModule_AddObject(module, "plDirectShadowMaster", Init_pyDirectShadowMaster_Type());
