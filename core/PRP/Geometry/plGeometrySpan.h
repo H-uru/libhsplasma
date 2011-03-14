@@ -87,22 +87,19 @@ protected:
     float fWaterHeight;
     unsigned int fProps;
     unsigned int fNumVerts, fNumIndices;
-    unsigned char* fVertexData;
-    unsigned short* fIndexData;
+    hsTArray<unsigned char> fVertexData;
+    hsTArray<unsigned short> fIndexData;
     unsigned int fDecalLevel;
-    hsColorRGBA* fMultColor;
-    hsColorRGBA* fAddColor;
-    unsigned int* fDiffuseRGBA;
-    unsigned int* fSpecularRGBA;
+    hsTArray<hsColorRGBA> fMultColor;
+    hsTArray<hsColorRGBA> fAddColor;
+    hsTArray<unsigned int> fDiffuseRGBA;
+    hsTArray<unsigned int> fSpecularRGBA;
     unsigned int fInstanceGroup;
     hsMatrix44 fLocalToOBB, fOBBToLocal;
 
     unsigned int numInstanceRefs;
 
 public:
-    plGeometrySpan();
-    ~plGeometrySpan();
-
     static unsigned int CalcVertexSize(unsigned char format);
 
     void read(hsStream* S);
@@ -117,6 +114,23 @@ public:
     void setVertices(const hsTArray<TempVertex>& verts);
     hsTArray<unsigned short> getIndices() const;
     void setIndices(const hsTArray<unsigned short>& indices);
+
+    hsMatrix44 getLocalToWorld() const { return fLocalToWorld; }
+    hsMatrix44 getWorldToLocal() const { return fWorldToLocal; }
+    hsBounds3Ext getLocalBounds() const { return fLocalBounds; }
+    hsBounds3Ext getWorldBounds() const { return fWorldBounds; }
+    plKey getMaterial() const { return fMaterial; }
+    plKey getFogEnvironment() const { return fFogEnviron; }
+    float getMinDist() const { return fMinDist; }
+    float getMaxDist() const { return fMaxDist; }
+    unsigned int getFormat() const { return fFormat; }
+    unsigned int getNumMatrices() const { return fNumMatrices; }
+    unsigned int getProps() const { return fProps; }
+    unsigned int getBaseMatrix() const { return fBaseMatrix; }
+    unsigned int getLocalUVWChans() const { return fLocalUVWChans; }
+    unsigned int getMaxBoneIdx() const { return fMaxBoneIdx; }
+    unsigned int getWaterHeight() const { return fWaterHeight; }
+    unsigned int getPenBoneIdx() const { return fPenBoneIdx; }
 };
 
 #endif
