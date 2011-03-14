@@ -804,8 +804,7 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         addIcicle(icicle);
     }
 
-    // TODO: delete and rebuild space tree
-    // delete fSpaceTree;
+    BuildSpaceTree();
 
     if (clearspans) {
         for (size_t i=0; i<fSourceSpans.getSize(); ++i)
