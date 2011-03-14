@@ -112,8 +112,8 @@ public:
 
     hsTArray<TempVertex> getVertices() const;
     void setVertices(const hsTArray<TempVertex>& verts);
-    hsTArray<unsigned short> getIndices() const;
-    void setIndices(const hsTArray<unsigned short>& indices);
+    hsTArray<unsigned short> getIndices() const { return fIndexData; }
+    void setIndices(const hsTArray<unsigned short>& indices) { fIndexData = indices; }
 
     hsMatrix44 getLocalToWorld() const { return fLocalToWorld; }
     hsMatrix44 getWorldToLocal() const { return fWorldToLocal; }

@@ -725,17 +725,17 @@ void plDrawableSpans::setSpaceTree(plSpaceTree* tree) {
 }
 
 void plDrawableSpans::composeGeometry(bool clearspans) {
-    std::map<unsigned int, std::pair<plGBufferGroup*,size_t> > groups;
+    std::map<unsigned int, std::pair<plGBufferGroup*, size_t> > groups;
     for (size_t i=0; i<fGroups.getSize(); i++)
         delete fGroups[i];
     for (size_t i=0; i<fSpans.getSize(); i++)
         delete fSpans[i];
 
-    for(size_t i=0; i<fSourceSpans.getSize(); i++) {
-        plGeometrySpan *span = fSourceSpans[i];
+    for (size_t i=0; i<fSourceSpans.getSize(); i++) {
+        plGeometrySpan* span = fSourceSpans[i];
         unsigned int format = span->getFormat();
-        plGBufferGroup *group = groups[format].first;
-        if(!group) {
+        plGBufferGroup* group = groups[format].first;
+        if (!group) {
             group = new plGBufferGroup(format);
             groups[format] = std::make_pair(group, fGroups.getSize());
             fGroups.append(group);
@@ -752,15 +752,15 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         cell_tmp.append(cell);
 
         hsTArray<plGBufferVertex> new_verts;
-        for(size_t j=0; j<verts.getSize(); j++) {
+        for (size_t j=0; j<verts.getSize(); j++) {
             plGeometrySpan::TempVertex v1 = verts[j];
             plGBufferVertex v2;
             v2.fPos = v1.fPosition;
             v2.fNormal = v1.fNormal;
-            for(size_t k=0; k<8; k++) {
+            for (size_t k=0; k<8; k++) {
                 v2.fUVWs[k] = v1.fUVs[k];
             }
-            for(size_t k=0; k<3; k++) {
+            for (size_t k=0; k<3; k++) {
                 v2.fSkinWeights[k] = v1.fWeights[k];
             }
             v2.fSkinIdx = v1.fIndices;
@@ -772,7 +772,7 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         group->addCells(cell_tmp);
 
         size_t material_idx = fMaterials.find(span->getMaterial());
-        if(material_idx == (size_t)-1) {
+        if (material_idx == (size_t)-1) {
             material_idx = fMaterials.getSize();
             fMaterials.append(span->getMaterial());
         }
@@ -803,20 +803,20 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         icicle.setNumMatrices(span->getNumMatrices());
         addIcicle(icicle);
     }
-  
-  // TODO: delete and rebuild space tree
-  // delete fSpaceTree;
 
-    if(clearspans) {
-        for(size_t i=0; i<fSourceSpans.getSize(); ++i)
+    // TODO: delete and rebuild space tree
+    // delete fSpaceTree;
+
+    if (clearspans) {
+        for (size_t i=0; i<fSourceSpans.getSize(); ++i)
             delete fSourceSpans[i];
         fSourceSpans.clear();
     }
 }
 
-size_t plDrawableSpans::buildDIIndex(hsTArray< plGeometrySpan*> spans) {
+size_t plDrawableSpans::buildDIIndex(hsTArray<plGeometrySpan*> spans) {
     plDISpanIndex di_idx;
-    for(size_t i=0; i<spans.getSize(); ++i) {
+    for (size_t i=0; i<spans.getSize(); ++i) {
         di_idx.fIndices.append(fSourceSpans.find(spans[i]));
     }
     size_t result = fDIIndices.getSize();

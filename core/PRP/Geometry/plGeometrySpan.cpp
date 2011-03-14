@@ -63,7 +63,7 @@ void plGeometrySpan::read(hsStream* S) {
     if (fNumVerts > 0) {
         unsigned int stride = CalcVertexSize(fFormat);
         fVertexData.setSize(fNumVerts * stride);
-        S->read(fNumVerts * stride, &(fVertexData[0]));
+        S->read(fNumVerts * stride, fVertexData.getData());
 
         fMultColor.setSize(fNumVerts);
         fAddColor.setSize(fNumVerts);
@@ -73,8 +73,8 @@ void plGeometrySpan::read(hsStream* S) {
         }
         fDiffuseRGBA.setSize(fNumVerts);
         fSpecularRGBA.setSize(fNumVerts);
-        S->readInts(fNumVerts, (uint32_t*)&(fDiffuseRGBA[0]));
-        S->readInts(fNumVerts, (uint32_t*)&(fSpecularRGBA[0]));
+        S->readInts(fNumVerts, (uint32_t*)fDiffuseRGBA.getData());
+        S->readInts(fNumVerts, (uint32_t*)fSpecularRGBA.getData());
     } else {
         fVertexData.clear();
         fMultColor.clear();
@@ -85,7 +85,7 @@ void plGeometrySpan::read(hsStream* S) {
 
     if (fNumIndices > 0) {
         fIndexData.setSize(fNumIndices);
-        S->readShorts(fNumIndices, (uint16_t*)&(fIndexData[0]));
+        S->readShorts(fNumIndices, (uint16_t*)fIndexData.getData());
     } else {
         fIndexData.clear();
     }
@@ -123,17 +123,17 @@ void plGeometrySpan::write(hsStream* S) {
         S->writeFloat(fWaterHeight);
 
     if (fNumVerts > 0) {
-        S->write(fNumVerts * CalcVertexSize(fFormat), &(fVertexData[0]));
+        S->write(fNumVerts * CalcVertexSize(fFormat), fVertexData.getData());
         for (unsigned int i=0; i<fNumVerts; i++) {
             fMultColor[i].write(S);
             fAddColor[i].write(S);
         }
-        S->writeInts(fNumVerts, (uint32_t*)&(fDiffuseRGBA[0]));
-        S->writeInts(fNumVerts, (uint32_t*)&(fSpecularRGBA[0]));
+        S->writeInts(fNumVerts, (uint32_t*)fDiffuseRGBA.getData());
+        S->writeInts(fNumVerts, (uint32_t*)fSpecularRGBA.getData());
 
     }
     if (fNumIndices > 0)
-        S->writeShorts(fNumIndices, (uint16_t*)&(fIndexData[0]));
+        S->writeShorts(fNumIndices, (uint16_t*)fIndexData.getData());
 
     S->writeInt(fInstanceGroup);
     if (fInstanceGroup != 0) {
@@ -363,7 +363,7 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
     hsTArray<TempVertex> buf;
     buf.setSize(fNumVerts);
 
-    unsigned char* cp = const_cast<unsigned char*>(&(fVertexData[0]));
+    const unsigned char* cp = fVertexData.getData();
     for (size_t i=0; i<fNumVerts; i++) {
         buf[i].fPosition.X = *(float*)cp; cp += sizeof(float);
         buf[i].fPosition.Y = *(float*)cp; cp += sizeof(float);
@@ -393,12 +393,12 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
 }
 
 void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
-    fVertexData.clear();;
+    fVertexData.clear();
     unsigned int stride = CalcVertexSize(fFormat);
     fNumVerts = verts.getSize();
     fVertexData.setSize(fNumVerts * stride);
 
-    unsigned char* cp = const_cast<unsigned char*>(&(fVertexData[0]));
+    unsigned char* cp = fVertexData.getData();
     for (size_t i=0; i<fNumVerts; i++) {
         *(float*)cp = verts[i].fPosition.X; cp += sizeof(float);
         *(float*)cp = verts[i].fPosition.Y; cp += sizeof(float);
@@ -424,16 +424,4 @@ void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
             cp += sizeof(int);
         }
     }
-}
-
-hsTArray<unsigned short> plGeometrySpan::getIndices() const {
-    hsTArray<unsigned short> buf;
-    buf.setSize(fNumIndices);
-    for (size_t i=0; i<fNumIndices; i++)
-        buf[i] = fIndexData[i];
-    return buf;
-}
-
-void plGeometrySpan::setIndices(const hsTArray<unsigned short>& indices) {
-    fIndexData = indices;
 }
