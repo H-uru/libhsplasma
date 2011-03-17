@@ -202,6 +202,7 @@ public:
     void setSceneNode(plKey node) { fSceneNode = node; }
 
     void composeGeometry(bool clearspans=true);
+    void decomposeGeometry(bool clearcolors=false);
     size_t buildDIIndex(hsTArray<plGeometrySpan*>);
 
     const hsTArray<plGeometrySpan*> getSourceSpans() const { return fSourceSpans; }

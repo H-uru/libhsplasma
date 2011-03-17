@@ -813,6 +813,68 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
     }
 }
 
+void plDrawableSpans::decomposeGeometry(bool clearcolors) {
+    for (size_t i=0; i<fIcicles.getSize(); i++) {
+        plIcicle* icicle = fIcicles[i];
+        plGeometrySpan* span = new plGeometrySpan;
+        plGBufferGroup* group = fGroups[icicle->getGroupIdx()];
+
+        span->setLocalToWorld(icicle->getLocalToWorld());
+        span->setWorldToLocal(icicle->getWorldToLocal());
+        span->setLocalBounds(icicle->getLocalBounds());
+        span->setWorldBounds(icicle->getWorldBounds());
+        span->setMaterial(fMaterials[icicle->getMaterialIdx()]);
+        span->setFogEnvironment(icicle->getFogEnvironment());
+        span->setMinDist(icicle->getMinDist());
+        span->setMaxDist(icicle->getMaxDist());
+        span->setNumMatrices(icicle->getNumMatrices());
+        span->setProps(plSpan::swizzleGeoFlags(icicle->getProps()));
+        span->setBaseMatrix(icicle->getBaseMatrix());
+        span->setLocalUVWChans(icicle->getLocalUVWChans());
+        span->setMaxBoneIdx(icicle->getMaxBoneIdx());
+        span->setWaterHeight(icicle->getWaterHeight());
+        span->setPenBoneIdx(icicle->getPenBoneIdx());
+        
+        span->setFormat(group->getFormat());
+
+        hsTArray<unsigned short> indices;
+        indices = group->getIndices(icicle->getIBufferIdx(),
+                                    icicle->getIStartIdx(),
+                                    icicle->getILength());
+        for (size_t j=0; j<indices.getSize(); j++)
+            indices[j] -= icicle->getVStartIdx();
+
+        span->setIndices(indices);
+        
+        hsTArray<plGBufferVertex> vertices;
+        hsTArray<plGeometrySpan::TempVertex> new_vertices;
+        vertices = group->getVertices(icicle->getVBufferIdx(),
+                                      icicle->getVStartIdx(),
+                                      icicle->getVLength());
+        new_vertices.setSize(vertices.getSize());
+        for (size_t j=0; j<vertices.getSize(); j++) {
+            plGBufferVertex v1 = vertices[j];
+            plGeometrySpan::TempVertex v2;
+            v2.fPosition = v1.fPos;
+            v2.fNormal = v1.fNormal;
+            for (size_t k=0; k<8; k++) {
+                v2.fUVs[k] = v1.fUVWs[k];
+            }
+            for (size_t k=0; k<3; k++) {
+                v2.fWeights[k] = v1.fSkinWeights[k];
+            }
+            v2.fIndices = v1.fSkinIdx;
+            if (clearcolors)
+                v2.fColor = 0xFFFFFFFF;
+            else
+                v2.fColor = v1.fColor;
+            new_vertices[j] = v2;
+        }
+        span->setVertices(new_vertices);
+        fSourceSpans.append(span);
+    }
+}
+
 size_t plDrawableSpans::buildDIIndex(hsTArray<plGeometrySpan*> spans) {
     plDISpanIndex di_idx;
     for (size_t i=0; i<spans.getSize(); ++i) {

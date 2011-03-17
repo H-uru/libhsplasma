@@ -41,6 +41,32 @@ uint32_t plSpan::deswizzleGeoFlags(uint32_t flags) {
     return props;
 }
 
+uint32_t plSpan::swizzleGeoFlags(uint32_t flags) {
+    uint32_t props = (flags & kPropRunTimeLight) >> 5;
+
+    if (flags & kPropNoShadowCast)
+        props |= plGeometrySpan::kPropNoShadowCast;
+    if (flags & kPropNoShadow)
+        props |= plGeometrySpan::kPropNoShadow;
+    if (flags & kPropForceShadow)
+        props |= plGeometrySpan::kPropForceShadow;
+    if (flags & kPropReverseSort)
+        props |= plGeometrySpan::kPropReverseSort;
+    if (flags & kPartialSort)
+        props |= plGeometrySpan::kPartialSort;
+    if (flags & kLiteVtxPreshaded)
+        props |= plGeometrySpan::kLiteVtxPreshaded;
+    if (flags & kLiteVtxNonPreshaded)
+        props |= plGeometrySpan::kLiteVtxNonPreshaded;
+    if (flags & kWaterHeight)
+        props |= plGeometrySpan::kWaterHeight;
+    if (flags & kVisLOS)
+        props |= plGeometrySpan::kVisLOS;
+
+    return props;
+}
+
+
 plSpan::plSpan()
       : fSubType(kVertexSpan), fMaterialIdx(0), fBaseMatrix(0), fNumMatrices(0),
         fLocalUVWChans(0), fMaxBoneIdx(0), fPenBoneIdx(0), fProps(0),
