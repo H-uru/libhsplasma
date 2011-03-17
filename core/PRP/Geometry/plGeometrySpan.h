@@ -120,13 +120,13 @@ public:
     plKey getFogEnvironment() const { return fFogEnviron; }
     float getMinDist() const { return fMinDist; }
     float getMaxDist() const { return fMaxDist; }
+    float getWaterHeight() const { return fWaterHeight; }
     unsigned int getFormat() const { return fFormat; }
     unsigned int getNumMatrices() const { return fNumMatrices; }
     unsigned int getProps() const { return fProps; }
     unsigned int getBaseMatrix() const { return fBaseMatrix; }
     unsigned int getLocalUVWChans() const { return fLocalUVWChans; }
     unsigned int getMaxBoneIdx() const { return fMaxBoneIdx; }
-    unsigned int getWaterHeight() const { return fWaterHeight; }
     unsigned int getPenBoneIdx() const { return fPenBoneIdx; }
 
     void setLocalToWorld(hsMatrix44 l2w) { fLocalToWorld = l2w; }
@@ -137,13 +137,13 @@ public:
     void setFogEnvironment(plKey fog) { fFogEnviron = fog; }
     void setMinDist(float dist) { fMinDist = dist; }
     void setMaxDist(float dist) { fMaxDist = dist; }
+    void setWaterHeight(float height) { fWaterHeight = height; }
     void setFormat(unsigned int format) { fFormat = format; }
     void setNumMatrices(unsigned int num) { fNumMatrices = num; }
     void setProps(unsigned int props) { fProps = props; }
     void setBaseMatrix(unsigned int base) { fBaseMatrix = base; }
     void setLocalUVWChans(unsigned int chans) { fLocalUVWChans = chans; }
     void setMaxBoneIdx(unsigned int idx) { fMaxBoneIdx = idx; }
-    void setWaterHeight(unsigned int height) { fWaterHeight = height; }
     void setPenBoneIdx(unsigned int idx) { fPenBoneIdx = idx; }
 };
 
