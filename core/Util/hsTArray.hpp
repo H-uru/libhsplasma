@@ -158,6 +158,9 @@ public:
         }
         return (size_t)-1;
     }
+
+    const T* getData() const { return data; }
+    T* getData() { return data; }
 };
 
 #endif

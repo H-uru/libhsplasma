@@ -64,6 +64,7 @@ public:
 
 public:
     static uint32_t deswizzleGeoFlags(uint32_t flags);
+    static uint32_t swizzleGeoFlags(uint32_t flags);
 
 protected:
     unsigned short fSubType;

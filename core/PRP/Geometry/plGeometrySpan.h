@@ -87,22 +87,19 @@ protected:
     float fWaterHeight;
     unsigned int fProps;
     unsigned int fNumVerts, fNumIndices;
-    unsigned char* fVertexData;
-    unsigned short* fIndexData;
+    hsTArray<unsigned char> fVertexData;
+    hsTArray<unsigned short> fIndexData;
     unsigned int fDecalLevel;
-    hsColorRGBA* fMultColor;
-    hsColorRGBA* fAddColor;
-    unsigned int* fDiffuseRGBA;
-    unsigned int* fSpecularRGBA;
+    hsTArray<hsColorRGBA> fMultColor;
+    hsTArray<hsColorRGBA> fAddColor;
+    hsTArray<unsigned int> fDiffuseRGBA;
+    hsTArray<unsigned int> fSpecularRGBA;
     unsigned int fInstanceGroup;
     hsMatrix44 fLocalToOBB, fOBBToLocal;
 
     unsigned int numInstanceRefs;
 
 public:
-    plGeometrySpan();
-    ~plGeometrySpan();
-
     static unsigned int CalcVertexSize(unsigned char format);
 
     void read(hsStream* S);
@@ -110,13 +107,44 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    void setMaterial(plKey mat) { fMaterial = mat; }
-    void setFogEnvironment(plKey fog) { fFogEnviron = fog; }
-
     hsTArray<TempVertex> getVertices() const;
     void setVertices(const hsTArray<TempVertex>& verts);
-    hsTArray<unsigned short> getIndices() const;
-    void setIndices(const hsTArray<unsigned short>& indices);
+    hsTArray<unsigned short> getIndices() const { return fIndexData; }
+    void setIndices(const hsTArray<unsigned short>& indices) { fIndexData = indices; }
+
+    hsMatrix44 getLocalToWorld() const { return fLocalToWorld; }
+    hsMatrix44 getWorldToLocal() const { return fWorldToLocal; }
+    hsBounds3Ext getLocalBounds() const { return fLocalBounds; }
+    hsBounds3Ext getWorldBounds() const { return fWorldBounds; }
+    plKey getMaterial() const { return fMaterial; }
+    plKey getFogEnvironment() const { return fFogEnviron; }
+    float getMinDist() const { return fMinDist; }
+    float getMaxDist() const { return fMaxDist; }
+    float getWaterHeight() const { return fWaterHeight; }
+    unsigned int getFormat() const { return fFormat; }
+    unsigned int getNumMatrices() const { return fNumMatrices; }
+    unsigned int getProps() const { return fProps; }
+    unsigned int getBaseMatrix() const { return fBaseMatrix; }
+    unsigned int getLocalUVWChans() const { return fLocalUVWChans; }
+    unsigned int getMaxBoneIdx() const { return fMaxBoneIdx; }
+    unsigned int getPenBoneIdx() const { return fPenBoneIdx; }
+
+    void setLocalToWorld(hsMatrix44 l2w) { fLocalToWorld = l2w; }
+    void setWorldToLocal(hsMatrix44 w2l) { fWorldToLocal = w2l; }
+    void setLocalBounds(hsBounds3Ext bounds) { fLocalBounds = bounds; }
+    void setWorldBounds(hsBounds3Ext bounds) { fWorldBounds = bounds; }
+    void setMaterial(plKey mat) { fMaterial = mat; }
+    void setFogEnvironment(plKey fog) { fFogEnviron = fog; }
+    void setMinDist(float dist) { fMinDist = dist; }
+    void setMaxDist(float dist) { fMaxDist = dist; }
+    void setWaterHeight(float height) { fWaterHeight = height; }
+    void setFormat(unsigned int format) { fFormat = format; }
+    void setNumMatrices(unsigned int num) { fNumMatrices = num; }
+    void setProps(unsigned int props) { fProps = props; }
+    void setBaseMatrix(unsigned int base) { fBaseMatrix = base; }
+    void setLocalUVWChans(unsigned int chans) { fLocalUVWChans = chans; }
+    void setMaxBoneIdx(unsigned int idx) { fMaxBoneIdx = idx; }
+    void setPenBoneIdx(unsigned int idx) { fPenBoneIdx = idx; }
 };
 
 #endif

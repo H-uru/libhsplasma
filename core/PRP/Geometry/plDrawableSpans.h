@@ -21,6 +21,7 @@
 #include "PRP/Misc/plRenderLevel.h"
 #include "PRP/Surface/hsGMaterial.h"
 #include "plGBufferGroup.h"
+#include "plGeometrySpan.h"
 #include "plSpaceTree.h"
 #include "plIcicle.h"
 #include "plGeometrySpan.h"
@@ -199,6 +200,13 @@ public:
     void setCriteria(unsigned int crit) { fCriteria = crit; }
     void setRenderLevel(unsigned int level) { fRenderLevel = level; }
     void setSceneNode(plKey node) { fSceneNode = node; }
+
+    void composeGeometry(bool clearspans=true);
+    void decomposeGeometry(bool clearcolors=false);
+    size_t buildDIIndex(hsTArray<plGeometrySpan*>);
+
+    const hsTArray<plGeometrySpan*> getSourceSpans() const { return fSourceSpans; }
+    hsTArray<plGeometrySpan*> getSourceSpans() { return fSourceSpans; }
 };
 
 #endif
