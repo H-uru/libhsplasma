@@ -388,15 +388,28 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
             buf[i].fIndices = *(int*)cp;
             cp += sizeof(int);
         }
+        buf[i].fColor = fDiffuseRGBA[i];
+        buf[i].fSpecularColor = fSpecularRGBA[i];
+        buf[i].fMultColor = fMultColor[i];
+        buf[i].fAddColor = fAddColor[i];
     }
     return buf;
 }
 
 void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
     fVertexData.clear();
+    fDiffuseRGBA.clear();
+    fSpecularRGBA.clear();
+    fMultColor.clear();
+    fAddColor.clear();
+
     unsigned int stride = CalcVertexSize(fFormat);
     fNumVerts = verts.getSize();
     fVertexData.setSize(fNumVerts * stride);
+    fDiffuseRGBA.setSize(fNumVerts);
+    fSpecularRGBA.setSize(fNumVerts);
+    fMultColor.setSize(fNumVerts);
+    fAddColor.setSize(fNumVerts);
 
     unsigned char* cp = fVertexData.getData();
     for (size_t i=0; i<fNumVerts; i++) {
@@ -423,5 +436,10 @@ void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
             *(int*)cp = verts[i].fIndices;
             cp += sizeof(int);
         }
+
+        fDiffuseRGBA[i] = verts[i].fColor;
+        fSpecularRGBA[i] = verts[i].fSpecularColor;
+        fMultColor[i] = verts[i].fMultColor;
+        fAddColor[i] = verts[i].fAddColor;
     }
 }

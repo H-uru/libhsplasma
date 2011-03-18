@@ -868,6 +868,9 @@ void plDrawableSpans::decomposeGeometry(bool clearcolors) {
                 v2.fColor = 0xFFFFFFFF;
             else
                 v2.fColor = v1.fColor;
+            v2.fSpecularColor = 0;
+            v2.fAddColor = hsColorRGBA::kBlack;
+            v2.fMultColor = hsColorRGBA::kWhite;
             new_vertices[j] = v2;
         }
         span->setVertices(new_vertices);
