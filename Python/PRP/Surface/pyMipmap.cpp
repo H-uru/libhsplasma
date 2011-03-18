@@ -24,11 +24,12 @@ extern "C" {
 
 static int pyMipmap___init__(pyMipmap* self, PyObject* args, PyObject* kwds) {
     const char* name = "";
-    int width, height, numLevels, compType, format, dxtLevel;
+    int width, height, numLevels, compType, format;
+    int dxtLevel = plBitmap::kDXTError;
     static char* kwlist[] = { "name", "width", "height", "numLevels",
                               "compType", "format", "dxtLevel", NULL };
 
-    if (PyArg_ParseTupleAndKeywords(args, kwds, "siiiiii", kwlist,
+    if (PyArg_ParseTupleAndKeywords(args, kwds, "siiiii|i", kwlist,
                                     &name, &width, &height, &numLevels,
                                     &compType, &format, &dxtLevel)) {
         self->fThis->init(name);
