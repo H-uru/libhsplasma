@@ -23,6 +23,39 @@
 #include "plODEPhysical.h"
 #include "plPXPhysical.h"
 
+#ifdef HAVE_PX_SDK
+// for PhysX, these can't be defined
+#undef min
+#undef max
+#include <NxCooking.h>
+#include <NxConvexMeshDesc.h>
+#include <NxTriangleMeshDesc.h>
+#include <NxStream.h>
+
+class plPXStream : public NxStream
+{
+    hsStream* fStream;
+public:
+    plPXStream(hsStream* s) : fStream(s) {}
+
+    virtual NxU8        readByte() const { return fStream->readByte(); }
+    virtual NxU16       readWord() const { return fStream->readShort(); }
+    virtual NxU32       readDword() const { return fStream->readInt(); }
+    virtual float       readFloat() const { return fStream->readFloat(); }
+    virtual double      readDouble() const { return fStream->readDouble(); }
+    virtual void        readBuffer(void* buffer, NxU32 size) const { fStream->read(size, buffer); }
+
+    virtual NxStream&   storeByte(NxU8 b) { fStream->writeByte(b); return *this; }
+    virtual NxStream&   storeWord(NxU16 w) { fStream->writeShort(w); return *this; }
+    virtual NxStream&   storeDword(NxU32 d) { fStream->writeInt(d); return *this; }
+    virtual NxStream&   storeFloat(NxReal f) { fStream->writeFloat(f); return *this; }
+    virtual NxStream&   storeDouble(NxF64 f) { fStream->writeDouble(f); return *this; }
+    virtual NxStream&   storeBuffer(const void* buffer, NxU32 size) { fStream->write(size, buffer); return *this; }
+
+};
+
+#endif
+
 plGenericPhysical::plGenericPhysical()
                  : fInternalType(kPhysNone), fInternalBuffer(NULL), fInternalSize(0),
                    fMass(0.0f), fFriction(0.0f), fRestitution(0.0f),
@@ -667,9 +700,36 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
         fDimensions.write(S);
         fOffset.write(S);
     } else if (fBounds == plSimDefs::kHullBounds) {
+#ifdef HAVE_PX_SDK
+        NxConvexMeshDesc convexDesc;
+        convexDesc.numVertices = fVerts.getSize();
+        convexDesc.pointStrideBytes = sizeof(hsVector3);
+        convexDesc.points = fVerts.getData();
+        convexDesc.flags = NX_CF_COMPUTE_CONVEX;
+
+        plPXStream buf(S);
+        if (!NxCookConvexMesh(convexDesc, buf))
+            throw hsBadParamException(__FILE__, __LINE__, "Incorrect data for PhysX Hull Bake");
+#else
         throw hsNotImplementedException(__FILE__, __LINE__, "PhysX HullBounds");
+#endif
     } else {    // Proxy or Explicit
+#ifdef HAVE_PX_SDK
+        NxTriangleMeshDesc triDesc;
+        triDesc.numVertices = fVerts.getSize();
+        triDesc.pointStrideBytes = sizeof(hsVector3);
+        triDesc.points = fVerts.getData();
+        triDesc.numTriangles = fIndices.getSize() / 3;
+        triDesc.triangleStrideBytes = sizeof(unsigned int) * 3;
+        triDesc.triangles = fIndices.getData();
+        triDesc.flags = 0; // 32-bit appears to be the default for index size
+
+        plPXStream buf(S);
+        if (!NxCookTriangleMesh(triDesc, buf))
+            throw hsBadParamException(__FILE__, __LINE__, "Incorrect data for a PhysX Trimesh Bake");
+#else
         throw hsNotImplementedException(__FILE__, __LINE__, "PhysX TriangleMesh");
+#endif
     }
 }
 
