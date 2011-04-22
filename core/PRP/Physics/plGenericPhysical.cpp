@@ -54,6 +54,8 @@ public:
 
 };
 
+bool plGenericPhysical::sPhysxWasInit = false;
+
 #endif
 
 plGenericPhysical::plGenericPhysical()
@@ -701,6 +703,10 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
         fOffset.write(S);
     } else if (fBounds == plSimDefs::kHullBounds) {
 #ifdef HAVE_PX_SDK
+        if (!sPhysxWasInit) {
+            NxInitCooking();
+            sPhysxWasInit = true;
+        }
         NxConvexMeshDesc convexDesc;
         convexDesc.numVertices = fVerts.getSize();
         convexDesc.pointStrideBytes = sizeof(hsVector3);
@@ -715,6 +721,10 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
 #endif
     } else {    // Proxy or Explicit
 #ifdef HAVE_PX_SDK
+        if (!sPhysxWasInit) {
+            NxInitCooking();
+            sPhysxWasInit = true;
+        }
         NxTriangleMeshDesc triDesc;
         triDesc.numVertices = fVerts.getSize();
         triDesc.pointStrideBytes = sizeof(hsVector3);

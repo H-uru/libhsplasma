@@ -74,6 +74,10 @@ protected:
     void IWriteODEPhysical(hsStream* S, plResManager* mgr);
     void IWritePXPhysical(hsStream* S, plResManager* mgr);
 
+#ifdef HAVE_PX_SDK
+    static bool sPhysxWasInit;
+#endif
+
 public:
     plGenericPhysical();
     virtual ~plGenericPhysical();
