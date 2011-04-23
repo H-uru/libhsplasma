@@ -30,6 +30,7 @@ public:
     hsRAMStream(int pv = PlasmaVer::pvUnknown);
     virtual ~hsRAMStream();
 
+    void stealFrom(void* data, size_t size);
     void copyFrom(const void* data, size_t size);
     void copyTo(void* data, size_t size);
 

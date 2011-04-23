@@ -200,8 +200,7 @@ int main(int argc, char** argv) {
             size_t datLen = XS.size();
             uint8_t* dat = new uint8_t[datLen];
             XS.read(datLen, dat);
-            ((hsRAMStream*)IS)->copyFrom(dat, datLen);
-            delete[] dat;
+            ((hsRAMStream*)IS)->stealFrom(dat, datLen);
             eType = XS.getEncType();
         }
         size_t oldObjCount = IS->readInt();
@@ -291,8 +290,7 @@ int main(int argc, char** argv) {
             size_t datLen = XS.size();
             uint8_t* dat = new uint8_t[datLen];
             XS.read(datLen, dat);
-            ((hsRAMStream*)IS)->copyFrom(dat, datLen);
-            delete[] dat;
+            ((hsRAMStream*)IS)->stealFrom(dat, datLen);
             eType = XS.getEncType();
         }
         pakObjects.setSize(IS->readInt());

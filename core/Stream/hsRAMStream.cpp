@@ -23,16 +23,21 @@ hsRAMStream::~hsRAMStream() {
     delete[] fData;
 }
 
-void hsRAMStream::copyFrom(const void* data, size_t size) {
+void hsRAMStream::stealFrom(void* data, size_t size) {
     fSize = size;
     fMax = ((size / BLOCKSIZE) * BLOCKSIZE) + (size % BLOCKSIZE ? BLOCKSIZE : 0);
     fPos = 0;
     delete[] fData;
+    fData = data;
+}
+
+void hsRAMStream::copyFrom(const void* data, size_t size) {
     if (size == 0) {
-        fData = NULL;
+        stealFrom(NULL, 0);
     } else {
-        fData = new uint8_t[size];
-        memcpy(fData, data, size);
+        uint8_t* buffer = new uint8_t[size];
+        memcpy(buffer, data, size);
+        stealFrom(buffer, size);
     }
 }
 

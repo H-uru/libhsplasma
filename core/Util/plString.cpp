@@ -758,6 +758,7 @@ plString plString::FormatV(const char* fmt, va_list aptr) {
                 return strfmt;
             }
             size *= 2;
+            delete[] bigbuf;
         }
     } else if (chars >= 256) {
 #ifdef WIN32

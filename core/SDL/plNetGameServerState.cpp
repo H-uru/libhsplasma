@@ -125,11 +125,10 @@ void plNetGameServerState::read(hsStream* S) {
     S->read(compLen, cbuf);
     unsigned char* ubuf = new unsigned char[uncompLen];
     plZlib::Uncompress(ubuf, uncompLen, cbuf, compLen);
+    delete[] cbuf;
 
     hsRAMStream data(S->getVer());
-    data.copyFrom(ubuf, uncompLen);
-    delete[] cbuf;
-    delete[] ubuf;
+    data.stealFrom(ubuf, uncompLen);
 
     if (data.size() == 0)  // Check if there's actually any data
         return;
