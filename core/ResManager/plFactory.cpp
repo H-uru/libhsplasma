@@ -886,7 +886,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         case kAgeInfoStruct: return new plAgeInfoStruct();
         //case kSDLNotificationMsg: return new plSDLNotificationMsg();
         //case kNetClientConnectAgeVaultTask: return new plNetClientConnectAgeVaultTask();
-        //case kLinkingMgrMsg: return new plLinkingMgrMsg();
+        case kLinkingMgrMsg: return new plLinkingMgrMsg();
         //case kVaultNotifyMsg: return new plVaultNotifyMsg();
         //case kPlayerInfo: return new plPlayerInfo();
         //case kSwapSpansRefMsg: return new plSwapSpansRefMsg();

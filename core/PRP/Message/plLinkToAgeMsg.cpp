@@ -16,10 +16,9 @@
 
 #include "plLinkToAgeMsg.h"
 #include "Debug/plDebug.h"
+#include "Util/hsBitVector.h"
 
 /* plLinkToAgeMsg */
-plLinkToAgeMsg::plLinkToAgeMsg() : fStreamVersion(0), fEoaUnknown(0) { }
-
 void plLinkToAgeMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 
@@ -67,4 +66,30 @@ void plLinkToAgeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plMessage::IPrcParse(tag, mgr);
     }
+}
+
+
+/* plLinkingMgrMsg */
+void plLinkingMgrMsg::read(hsStream* S, plResManager* mgr) {
+    plMessage::read(S, mgr);
+
+    hsBitVector contents;
+    contents.read(S);
+
+    if (contents[0])
+        fLinkingMgrCmd = S->readByte();
+    if (contents[1])
+        fCreatables.read(S, mgr);
+}
+
+void plLinkingMgrMsg::write(hsStream* S, plResManager* mgr) {
+    plMessage::write(S, mgr);
+
+    hsBitVector contents;
+    contents.setBit(0);
+    contents.setBit(1);
+    contents.write(S);
+
+    S->writeByte(fLinkingMgrCmd);
+    fCreatables.write(S, mgr);
 }

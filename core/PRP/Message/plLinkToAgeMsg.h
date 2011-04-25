@@ -19,6 +19,7 @@
 
 #include "plMessage.h"
 #include "PRP/Misc/plAgeLinkInfo.h"
+#include "PRP/plCreatableListHelper.h"
 
 class PLASMA_DLL plLinkToAgeMsg : public plMessage {
     CREATABLE(plLinkToAgeMsg, kLinkToAgeMsg, plMessage)
@@ -29,7 +30,7 @@ protected:
     uint8_t fStreamVersion, fEoaUnknown;
 
 public:
-    plLinkToAgeMsg();
+    plLinkToAgeMsg() : fStreamVersion(0), fEoaUnknown(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -55,6 +56,21 @@ public:
 
 class PLASMA_DLL plLinkInDoneMsg : public plMessage {
     CREATABLE(plLinkInDoneMsg, kLinkInDoneMsg, plMessage)
+};
+
+
+class PLASMA_DLL plLinkingMgrMsg : public plMessage {
+    CREATABLE(plLinkingMgrMsg, kLinkingMgrMsg, plMessage)
+
+protected:
+    uint8_t fLinkingMgrCmd;
+    plCreatableListHelper fCreatables;
+
+public:
+    plLinkingMgrMsg() : fLinkingMgrCmd(0) { }
+
+    virtual void read(hsStream* S, plResManager* mgr);
+    virtual void write(hsStream* S, plResManager* mgr);
 };
 
 #endif

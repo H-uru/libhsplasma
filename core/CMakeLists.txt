@@ -596,11 +596,13 @@ set(PRP_SRFC_HDRS
 
 set(PRP_SRCS
     PRP/plCreatable.cpp
+    PRP/plCreatableListHelper.cpp
     PRP/plPageInfo.cpp
     PRP/plSceneNode.cpp
 )
 set(PRP_HDRS
     PRP/plCreatable.h
+    PRP/plCreatableListHelper.h
     PRP/plPageInfo.h
     PRP/plSceneNode.h
 )

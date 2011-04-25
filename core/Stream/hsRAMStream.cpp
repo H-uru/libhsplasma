@@ -28,7 +28,7 @@ void hsRAMStream::stealFrom(void* data, size_t size) {
     fMax = ((size / BLOCKSIZE) * BLOCKSIZE) + (size % BLOCKSIZE ? BLOCKSIZE : 0);
     fPos = 0;
     delete[] fData;
-    fData = data;
+    fData = (uint8_t*)data;
 }
 
 void hsRAMStream::copyFrom(const void* data, size_t size) {
