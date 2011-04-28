@@ -22,7 +22,7 @@ void plCreatableListHelper::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readByte();
     fFlags &= ~kWritten;
 
-    uint32_t size = S->readInt();
+    size_t size = S->readInt();
     uint8_t* buffer = new uint8_t[size];
 
     if ((fFlags & kCompressed) != 0) {
@@ -61,7 +61,7 @@ void plCreatableListHelper::write(hsStream* S, plResManager* mgr) {
 
     if ((fFlags & kWantCompression) != 0) {
         fFlags |= kCompressed;
-        uint32_t compressedSize;
+        size_t compressedSize;
         uint8_t* zbuffer;
         plZlib::Compress(zbuffer, compressedSize, buffer, size);
 
