@@ -102,6 +102,7 @@ public:
 
     size_t GetUncompressedSize(size_t level) const;
     void DecompressImage(size_t level, void* dest, size_t size);
+    void CompressImage(size_t level, void* src, size_t size);
 };
 
 
