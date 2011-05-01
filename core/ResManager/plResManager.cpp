@@ -711,7 +711,7 @@ void plResManager::MoveKey(plKey key, const plLocation& to) {
 
 void plResManager::AddObject(const plLocation& loc, hsKeyedObject* obj) {
     obj->getKey()->setLocation(loc);
-    keys.add(obj->getKey());
+    AddKey(obj->getKey());
 }
 
 void plResManager::AddPage(plPageInfo* page) {
