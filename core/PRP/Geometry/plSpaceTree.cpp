@@ -17,7 +17,7 @@
 #include "plSpaceTree.h"
 
 /* plSpaceBuilderNode */
-plSpaceBuilderNode::plSpaceBuilderNode() {
+plSpaceBuilderNode::plSpaceBuilderNode() : fDataIndex(-1), fIndex(-1) {
     fChildren[0] = NULL;
     fChildren[1] = NULL;
 }
@@ -30,6 +30,13 @@ plSpaceBuilderNode::~plSpaceBuilderNode() {
 size_t plSpaceBuilderNode::size() const {
     return 1 + ((fChildren[0] != NULL) ? fChildren[0]->size() : 0)
              + ((fChildren[1] != NULL) ? fChildren[1]->size() : 0);
+}
+
+size_t plSpaceBuilderNode::depth() const {
+    int dep0 = (fChildren[0] != NULL) ? fChildren[0]->depth() : 0;
+    int dep1 = (fChildren[1] != NULL) ? fChildren[1]->depth() : 0;
+
+    return 1 + (dep0 | dep1);
 }
 
 
@@ -154,27 +161,62 @@ void plSpaceTree::clear() {
     fNumLeaves = 0;
 }
 
-short plSpaceTree::IBuildTree(plSpaceBuilderNode* node, short idx) {
-    if (node->fChildren[0] != NULL) {
-        short left = IBuildTree(node->fChildren[0], idx);
-        idx = left + 1;
-        short right = IBuildTree(node->fChildren[1], idx);
-        idx = right + 1;
+void plSpaceTree::IGatherLeaves(plSpaceBuilderNode* node) {
+    if (node->fChildren[0] == NULL) {
+        plSpaceTreeNode& leaf = fTree[node->fDataIndex];
+        short nodeIdx = node->fDataIndex;
+        leaf.setBounds(node->fBounds);
+        node->fIndex = nodeIdx;
+        leaf.setLeafIndex(nodeIdx);
+
+        return;
+    }
+
+    IGatherLeaves(node->fChildren[0]);
+    IGatherLeaves(node->fChildren[1]);
+}
+
+void plSpaceTree::IMakeTree(plSpaceBuilderNode* node, int target, int curr) {
+    if (node->fChildren[0] == NULL) {
+        /* Don't include leaves */
+        return;
+    }
+
+    if (curr == target) {
+        short idx = fTree.getSize();
+        fTree.incSize();
+
+        fTree[idx].setBounds(node->fBounds);
+        node->fIndex = idx;
+
+        short left = node->fChildren[0]->fIndex;
+        short right = node->fChildren[1]->fIndex;
+
         fTree[idx].setChildren(left, right);
         fTree[left].setParent(idx);
         fTree[right].setParent(idx);
-    } else {
-        fTree[idx].setLeafIndex(idx);
-        fNumLeaves++;
+
+        return;
     }
-    fTree[idx].setBounds(node->fBounds);
-    return idx;
+
+    IMakeTree(node->fChildren[0], target, curr+1);
+    IMakeTree(node->fChildren[1], target, curr+1);
 }
 
-void plSpaceTree::buildTree(plSpaceBuilderNode* root) {
+void plSpaceTree::buildTree(plSpaceBuilderNode* root, int numLeaves) {
     clear();
-    fTree.setSize(root->size());
-    fRoot = IBuildTree(root, 0);
+    fTree.setSize(numLeaves);
+    fNumLeaves = numLeaves;
+
+    IGatherLeaves(root);
+
+    int depth = root->depth();
+    while (depth > 0) {
+        IMakeTree(root, --depth, 0);
+    }
+
+    fRoot = fTree.getSize() - 1;
+    fTree[fRoot].setParent(-1);
 }
 
 short plSpaceTree::addLeaf(const hsBounds3Ext& bounds) {

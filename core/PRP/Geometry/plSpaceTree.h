@@ -27,9 +27,13 @@ struct PLASMA_DLL plSpaceBuilderNode {
     hsBounds3Ext fBounds;
     plSpaceBuilderNode* fChildren[2];
 
+    short fIndex;
+    short fDataIndex;
+
     plSpaceBuilderNode();
     ~plSpaceBuilderNode();
     size_t size() const;
+    size_t depth() const;
 };
 
 
@@ -94,11 +98,12 @@ protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
-    short IBuildTree(plSpaceBuilderNode* node, short idx);
+    void IGatherLeaves(plSpaceBuilderNode* node);
+    void IMakeTree(plSpaceBuilderNode* node, int target, int curr);
 
 public:
     void clear();
-    void buildTree(plSpaceBuilderNode* root);
+    void buildTree(plSpaceBuilderNode* root, int numLeaves);
 
     const plSpaceTreeNode& getNode(short idx) const { return fTree[idx]; }
     short getNodeCount() const { return fTree.getSize(); }

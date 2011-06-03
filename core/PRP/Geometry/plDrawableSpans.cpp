@@ -565,9 +565,10 @@ void plDrawableSpans::BuildSpaceTree() {
         leaves[i] = new plSpaceBuilderNode();
         leaves[i]->fBounds = fIcicles[i]->getWorldBounds();
         leaves[i]->fBounds.updateCenter();
+        leaves[i]->fDataIndex = i;
     }
     plSpaceBuilderNode* root = IBuildTree(leaves);
-    tree->buildTree(root);
+    tree->buildTree(root, leaves.size());
     setSpaceTree(tree);
     delete root;
 }
@@ -577,9 +578,11 @@ plSpaceBuilderNode* plDrawableSpans::IBuildTree(std::vector<plSpaceBuilderNode*>
         return NULL;
     if (nodes.size() == 1)
         return nodes[0];
+
     plSpaceBuilderNode* node = new plSpaceBuilderNode();
     std::vector<plSpaceBuilderNode*> left, right;
     ISplitSpace(nodes, left, right);
+
     plSpaceBuilderNode* lNode = IBuildTree(left);
     plSpaceBuilderNode* rNode = IBuildTree(right);
     node->fBounds = lNode->fBounds + rNode->fBounds;
@@ -636,9 +639,10 @@ void plDrawableSpans::ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int ax
         }
 
         it->fData = nodes[i];
-        hsRadixSortElem** next = &(it->fNext);
-        *next = (i == 0) ? NULL : ++it;
+        it->fNext = it + 1;
+        it++;
     }
+    list[nodes.size() - 1].fNext = NULL;
 
     it = rad.sort(list, hsRadixSort::kFloat);
 
