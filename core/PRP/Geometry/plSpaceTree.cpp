@@ -17,7 +17,7 @@
 #include "plSpaceTree.h"
 
 /* plSpaceBuilderNode */
-plSpaceBuilderNode::plSpaceBuilderNode() : fDataIndex(-1), fIndex(-1) {
+plSpaceBuilderNode::plSpaceBuilderNode() :  fIndex(-1), fDataIndex(-1) {
     fChildren[0] = NULL;
     fChildren[1] = NULL;
 }
