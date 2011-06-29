@@ -26,7 +26,7 @@ void plCreatableListHelper::read(hsStream* S, plResManager* mgr) {
     uint8_t* buffer = new uint8_t[size];
 
     if ((fFlags & kCompressed) != 0) {
-        uint32_t compressedSize = S->readInt();
+        size_t compressedSize = S->readInt();
         uint8_t* zbuffer = new uint8_t[compressedSize];
         S->read(compressedSize, zbuffer);
         plZlib::Uncompress(buffer, size, zbuffer, compressedSize);
@@ -55,7 +55,7 @@ void plCreatableListHelper::write(hsStream* S, plResManager* mgr) {
         ram.writeShort(it->first);
         mgr->WriteCreatable(&ram, it->second);
     }
-    uint32_t size = ram.size();
+    size_t size = ram.size();
     uint8_t* buffer = new uint8_t[size];
     ram.copyTo(buffer, size);
 
