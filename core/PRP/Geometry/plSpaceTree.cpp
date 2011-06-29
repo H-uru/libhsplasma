@@ -15,9 +15,10 @@
  */
 
 #include "plSpaceTree.h"
+#include <algorithm>
 
 /* plSpaceBuilderNode */
-plSpaceBuilderNode::plSpaceBuilderNode() :  fIndex(-1), fDataIndex(-1) {
+plSpaceBuilderNode::plSpaceBuilderNode() : fIndex(-1), fDataIndex(-1) {
     fChildren[0] = NULL;
     fChildren[1] = NULL;
 }
@@ -36,7 +37,7 @@ size_t plSpaceBuilderNode::depth() const {
     int dep0 = (fChildren[0] != NULL) ? fChildren[0]->depth() : 0;
     int dep1 = (fChildren[1] != NULL) ? fChildren[1]->depth() : 0;
 
-    return 1 + (dep0 | dep1);
+    return 1 + std::max(dep0, dep1);
 }
 
 
