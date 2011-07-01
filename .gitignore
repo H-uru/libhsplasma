@@ -1,11 +1,9 @@
-syntax: glob
 *.o
 *.a
 *.so
 *.pc
 *.log
 *.dSYM
-log
 config.mf
 bin/PageConvert
 bin/PageList
@@ -24,10 +22,11 @@ bin/prpgrep
 bin/prpmod
 Misc/TypeMap
 
-syntax: regexp
-^dat/
-^doc/
-^build/
-^build64/
-^Dist/
-^Dist64/
+/log
+/dat
+/doc
+/build
+/build64
+/Dist
+/Dist64
+/.kdev4

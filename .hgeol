@@ -1,9 +1,0 @@
-[patterns]
-**.h = native
-**.hpp = native
-**.c = native
-**.cpp = native
-**.py = native
-CMakeLists.txt = native
-COPYING = native
-README = native
