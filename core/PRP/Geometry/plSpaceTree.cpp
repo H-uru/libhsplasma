@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// HACK: Windows headers do stupid things with #defines
+#define NOMINMAX
+
 #include "plSpaceTree.h"
 #include <algorithm>
 
