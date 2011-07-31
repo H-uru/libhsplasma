@@ -1,12 +1,16 @@
 #!/bin/sh
 
+if [ -z "$EDITOR" ]; then
+	EDITOR=editor
+fi
+
 FILE=$1
 TMPFILE=/tmp/$1.$$.tmp
 shift
 cp $FILE $TMPFILE
 PlasmaCrypt decrypt -quiet $TMPFILE
 
-$EDITOR $TMPFILE $@
+$EDITOR $TMPFILE $@ || echo "Error starting editor, please set EDITOR environment variable"
 
 PlasmaCrypt xtea -quiet $TMPFILE
 cp $TMPFILE $FILE
