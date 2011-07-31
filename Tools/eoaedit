@@ -10,4 +10,3 @@ $EDITOR $TMPFILE $@
 
 PlasmaCrypt aes -quiet $TMPFILE
 cp $TMPFILE $FILE
-
