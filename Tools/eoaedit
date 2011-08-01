@@ -1,16 +1,18 @@
 #!/bin/sh
+# Opens the file passed as first parameter with you favourite editor, decrypting it beforehand, encrypting it when you are done.
+# Any additional parameters are passed on to the editor.
 
 if [ -z "$EDITOR" ]; then
-        EDITOR=editor
+	EDITOR=editor
 fi
 
 FILE=$1
 TMPFILE=/tmp/$1.$$.tmp
 shift
-cp $FILE $TMPFILE
-PlasmaCrypt decrypt -quiet $TMPFILE
+cp "$FILE" "$TMPFILE"
+PlasmaCrypt decrypt -quiet "$TMPFILE"
 
-$EDITOR $TMPFILE $@ || echo "Error starting editor, please set EDITOR environment variable"
+"$EDITOR" "$TMPFILE" "$@" || echo "Error starting editor, please set EDITOR environment variable"
 
-PlasmaCrypt aes -quiet $TMPFILE
-cp $TMPFILE $FILE
+PlasmaCrypt aes -quiet "$TMPFILE"
+cp "$TMPFILE" "$FILE"
