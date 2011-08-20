@@ -20,7 +20,7 @@
 #include "Debug/hsExceptions.h"
 #include "Debug/plDebug.h"
 
-short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A,
@@ -168,7 +168,7 @@ short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fPotSM2PTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fPotSM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A,
@@ -316,7 +316,7 @@ short pdUnifiedTypeMap::fPotSM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A,
@@ -464,7 +464,7 @@ short pdUnifiedTypeMap::fLiveM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fEoaM2PTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fEoaM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017,     -1, 0x0019, 0x001A,
@@ -612,7 +612,7 @@ short pdUnifiedTypeMap::fEoaM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fHexM2PTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fHexM2PTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017,     -1,     -1, 0x001A,
@@ -760,7 +760,7 @@ short pdUnifiedTypeMap::fHexM2PTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fUruP2MTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fUruP2MTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A,
@@ -908,7 +908,7 @@ short pdUnifiedTypeMap::fUruP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fPotSP2MTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fPotSP2MTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A,
@@ -1056,7 +1056,7 @@ short pdUnifiedTypeMap::fPotSP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fLiveP2MTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fLiveP2MTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A,
@@ -1204,7 +1204,7 @@ short pdUnifiedTypeMap::fLiveP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fEoaP2MTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fEoaP2MTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x013D, 0x0019, 0x001A,
@@ -1352,7 +1352,7 @@ short pdUnifiedTypeMap::fEoaP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fHexP2MTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fHexP2MTable[TYPESPACE_MAX] = {
     0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008,
     0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F, 0x0010, 0x0011,
     0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x013D, 0x016A, 0x001A,
@@ -1500,7 +1500,92 @@ short pdUnifiedTypeMap::fHexP2MTable[TYPESPACE_MAX] = {
         -1,     -1,     -1,     -1
 };
 
-short pdUnifiedTypeMap::fEoaVerTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fLiveVerTable[TYPESPACE_MAX] = {
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
+};
+
+const short pdUnifiedTypeMap::fEoaVerTable[TYPESPACE_MAX] = {
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -1585,7 +1670,7 @@ short pdUnifiedTypeMap::fEoaVerTable[TYPESPACE_MAX] = {
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
 };
 
-short pdUnifiedTypeMap::fHexVerTable[TYPESPACE_MAX] = {
+const short pdUnifiedTypeMap::fHexVerTable[TYPESPACE_MAX] = {
 //TODO: Probably incorrect...
      0,  0,  0,  0,  0,  0,  0,  0,  3,  0,  0,  0,  0,  0,  0,  0,
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -1670,6 +1755,8 @@ short pdUnifiedTypeMap::fHexVerTable[TYPESPACE_MAX] = {
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
      0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
 };
+
+short pdUnifiedTypeMap::fCurrentVerTable[TYPESPACE_MAX] = {0};
 
 const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
     "plSceneNode", "plSceneObject", "hsKeyedObject", "plBitmap", "plMipmap",
@@ -2128,6 +2215,8 @@ short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver) {
         return -1;
 
     switch (ver) {
+    case PlasmaVer::pvMoul:
+        return fLiveVerTable[PlasmaToMapped(typeIdx, ver)];
     case PlasmaVer::pvEoa:
         return fEoaVerTable[PlasmaToMapped(typeIdx, ver)];
     case PlasmaVer::pvHex:
@@ -2135,4 +2224,39 @@ short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver) {
     default:
         throw hsBadVersionException(__FILE__, __LINE__);
     };
+}
+
+short pdUnifiedTypeMap::CurrentVersion(short typeIdx) {
+    if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
+        plDebug::Debug("pdUnifiedTypeMap::CurrentVersion ERR: Got type %04hX", typeIdx);
+        return -1;
+    }
+
+    return fCurrentVerTable[typeIdx];
+}
+
+void pdUnifiedTypeMap::SetCurrentVersionBase(PlasmaVer ver) {
+    const short* base;
+
+    switch (ver) {
+    case PlasmaVer::pvMoul:
+        base = fLiveVerTable;
+        break;
+    case PlasmaVer::pvEoa:
+        base = fEoaVerTable;
+        break;
+    case PlasmaVer::pvHex:
+        base = fHexVerTable;
+        break;
+    default:
+        throw hsBadVersionException(__FILE__, __LINE__);
+    };
+
+    for (size_t i = 0; i < TYPESPACE_MAX; i++) {
+        fCurrentVerTable[i] = *(base + i);
+    }
+}
+
+void pdUnifiedTypeMap::SetCurrentVersion(short typeIdx, PlasmaVer ver, short clsVer) {
+    fCurrentVerTable[PlasmaToMapped(typeIdx, ver)] = clsVer;
 }

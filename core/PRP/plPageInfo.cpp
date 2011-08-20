@@ -58,9 +58,12 @@ void plPageInfo::read(hsStream* S) {
                 S->setVer(PlasmaVer::pvEoa);
             if (numTypes == 0 && prpVer == 6)
                 S->setVer(PlasmaVer::pvMoul);
+            pdUnifiedTypeMap::SetCurrentVersionBase(S->getVer());
             for (unsigned short i = 0; i < numTypes; i++) {
                 short type = S->readShort();
                 short ver = S->readShort();
+                pdUnifiedTypeMap::SetCurrentVersion(type, S->getVer(), ver);
+
                 if (pdUnifiedTypeMap::ClassVersion(type, S->getVer()) != ver) {
                     plDebug::Warning("Warning: Class %s expected version %d, got %d",
                                      pdUnifiedTypeMap::ClassName(type, S->getVer()),
@@ -121,14 +124,15 @@ void plPageInfo::read(hsStream* S) {
     if (S->getVer().isMoul()) {
         unsigned short numTypes = S->readShort();
         for (unsigned short i = 0; i < numTypes; i++) {
-            /*short type = */S->readShort();
-            /*short ver = */S->readShort();
-            /* I don't think we have a types file for MOUL, so ignore this part for now */
-            /*if (pdUnifiedTypeMap::ClassVersion(type, S->getVer()) != ver) {
+            short type = S->readShort();
+            short ver = S->readShort();
+            pdUnifiedTypeMap::SetCurrentVersion(type, S->getVer(), ver);
+
+            if (pdUnifiedTypeMap::ClassVersion(type, S->getVer()) != ver) {
                 plDebug::Warning("Warning: Class %s expected version %d, got %d",
                                  pdUnifiedTypeMap::ClassName(type, S->getVer()),
                                  pdUnifiedTypeMap::ClassVersion(type, S->getVer()), ver);
-            }*/
+            }
         }
     }
 
@@ -187,11 +191,23 @@ void plPageInfo::write(hsStream* S) {
     S->writeInt(fChecksum);
     S->writeInt(fDataStart);
     S->writeInt(fIdxStart);
+
+    if (S->getVer().isMoul()) {
+        S->writeShort(fClassList.size());
+        for (size_t i=0; i<fClassList.size(); i++) {
+            S->writeShort(pdUnifiedTypeMap::MappedToPlasma(fClassList[i], S->getVer()));
+            S->writeShort(pdUnifiedTypeMap::ClassVersion(fClassList[i], S->getVer()));
+        }
+    }
 }
 
 void plPageInfo::writeSums(hsStream* S) {
     unsigned int pos = S->pos();
-    S->seek(fDataStart-12);
+    unsigned int offs = fDataStart - 12;
+    if (S->getVer().isMoul()) {
+        offs -= 2 + (4 * fClassList.size());
+    }
+    S->seek(offs);
     S->writeInt(fChecksum);
     S->writeInt(fDataStart);
     S->writeInt(fIdxStart);
