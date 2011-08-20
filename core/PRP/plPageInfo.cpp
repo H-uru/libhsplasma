@@ -203,7 +203,11 @@ void plPageInfo::write(hsStream* S) {
 
 void plPageInfo::writeSums(hsStream* S) {
     unsigned int pos = S->pos();
-    S->seek(fDataStart-12);
+    unsigned int offs = fDataStart - 12;
+    if (S->getVer().isMoul()) {
+        offs -= 2 + (4 * fClassList.size());
+    }
+    S->seek(offs);
     S->writeInt(fChecksum);
     S->writeInt(fDataStart);
     S->writeInt(fIdxStart);

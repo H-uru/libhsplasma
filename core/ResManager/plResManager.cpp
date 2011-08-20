@@ -200,10 +200,8 @@ void plResManager::WritePage(const char* filename, plPageInfo* page) {
     hsFileStream* S = new hsFileStream();
     S->open(filename, fmWrite);
     S->setVer(getVer());
-    if (getVer() >= MAKE_VERSION(2, 0, 70, 0) && !getVer().isUniversal()) {
-        std::vector<short> types = keys.getTypes(page->getLocation());
-        page->setClassList(types);
-    }
+    std::vector<short> types = keys.getTypes(page->getLocation());
+    page->setClassList(types);
     //keys.sortKeys(page->getLocation());
     page->write(S);
     page->setDataStart(S->pos());
