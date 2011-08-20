@@ -24,19 +24,24 @@
 
 class PLASMA_DLL pdUnifiedTypeMap {
 private:
-    static short fUruM2PTable[TYPESPACE_MAX];
-    static short fPotSM2PTable[TYPESPACE_MAX];
-    static short fLiveM2PTable[TYPESPACE_MAX];
-    static short fEoaM2PTable[TYPESPACE_MAX];
-    static short fHexM2PTable[TYPESPACE_MAX];
-    static short fUruP2MTable[TYPESPACE_MAX];
-    static short fPotSP2MTable[TYPESPACE_MAX];
-    static short fLiveP2MTable[TYPESPACE_MAX];
-    static short fEoaP2MTable[TYPESPACE_MAX];
-    static short fHexP2MTable[TYPESPACE_MAX];
+    static const short fUruM2PTable[TYPESPACE_MAX];
+    static const short fPotSM2PTable[TYPESPACE_MAX];
+    static const short fLiveM2PTable[TYPESPACE_MAX];
+    static const short fEoaM2PTable[TYPESPACE_MAX];
+    static const short fHexM2PTable[TYPESPACE_MAX];
 
-    static short fEoaVerTable[TYPESPACE_MAX];
-    static short fHexVerTable[TYPESPACE_MAX];   // TODO: Probably incorrect
+    static const short fUruP2MTable[TYPESPACE_MAX];
+    static const short fPotSP2MTable[TYPESPACE_MAX];
+    static const short fLiveP2MTable[TYPESPACE_MAX];
+    static const short fEoaP2MTable[TYPESPACE_MAX];
+    static const short fHexP2MTable[TYPESPACE_MAX];
+
+    static const short fLiveVerTable[TYPESPACE_MAX];
+    static const short fEoaVerTable[TYPESPACE_MAX];
+    static const short fHexVerTable[TYPESPACE_MAX];   // TODO: Probably incorrect
+
+    static short fCurrentVerTable[TYPESPACE_MAX];
+
     static const char* fClassNames[TYPESPACE_MAX];
 
 public:
@@ -48,6 +53,10 @@ public:
     static short MappedToPlasma(short typeIdx, PlasmaVer ver);
 
     static short ClassVersion(short typeIdx, PlasmaVer ver);
+
+    static short CurrentVersion(short typeIdx);
+    static void SetCurrentVersionBase(PlasmaVer ver);
+    static void SetCurrentVersion(short typeIdx, PlasmaVer ver, short clsVer);
 };
 
 // This is the internal mapped types list:
