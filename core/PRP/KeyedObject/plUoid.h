@@ -51,7 +51,7 @@ public:
     /** Copy constructor, makes an identical Uoid to the source */
     plUoid(const plUoid& other);
 
-    /** Copies a uoid's data into this Uoid */ 
+    /** Copies a uoid's data into this Uoid */
     plUoid& operator=(const plUoid& other);
 
     /**

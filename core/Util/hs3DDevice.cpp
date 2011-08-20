@@ -66,7 +66,7 @@ void hsG3DDeviceMode::write(hsStream* S, int version) {
     }
 }
 
-hsG3DDeviceRecord::hsG3DDeviceRecord() 
+hsG3DDeviceRecord::hsG3DDeviceRecord()
     : fRecordVersion(11), fFlags(kInvalid), fDeviceType(0),
       fLayersAtOnce(0), fMemoryBytes(0), fZBiasRating(0.0),
       fLODBiasRating(0.0), fFogExpApproxStart(0.0),

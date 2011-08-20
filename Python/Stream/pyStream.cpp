@@ -144,7 +144,7 @@ static PyObject* pyStream_writeFrom(pyStream* self, PyObject* args) {
         PyErr_SetString(PyExc_IOError, "Error copying stream");
         return NULL;
     }
-    
+
     Py_INCREF(Py_None);
     return Py_None;
 }

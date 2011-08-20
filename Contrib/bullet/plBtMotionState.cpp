@@ -23,7 +23,7 @@ namespace {
         plvec.Z = btvec.getZ();
         return plvec;
     }
-    
+
     inline btQuaternion toBullet(const hsQuat& plquat)
     {
         btQuaternion btquat;
@@ -43,7 +43,7 @@ namespace {
         plquat.W = btquat.getW();
         return plquat;
     }
-    
+
     void updateCiChildren(plCoordinateInterface* ci)
     {
         const hsTArray<plKey>& kids = ci->getChildren();

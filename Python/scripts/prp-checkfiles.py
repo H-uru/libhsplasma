@@ -112,7 +112,7 @@ for files in args:
         overprint("Reading "+file+"...")
         if file.lower().endswith(".prp"):
             page = rm.ReadPage(file)
-            if options.checkrepack: 
+            if options.checkrepack:
                 overprint("Writing "+file+"...")
                 rm.WritePage(kTmpFile, page)
             rm.UnloadPage(page.location)

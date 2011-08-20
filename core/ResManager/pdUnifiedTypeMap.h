@@ -154,7 +154,7 @@ typedef enum {
     kVolumeSensorConditionalObjectNoArbitration, kFXMaterial, kMovableMod,
     kMaterial, kEffect, kParticleBulletEffect, kCameraBrain_Ground,
     kCameraBrain_Flight,
-    
+
     kObjRefMsg = 0x200, kNodeRefMsg, kMessage, kRefMsg, kGenRefMsg, kTimeMsg,
     kAnimCmdMsg, kParticleUpdateMsg, kLayRefMsg, kMatRefMsg, kCameraMsg,
     kInputEventMsg, kKeyEventMsg, kMouseEventMsg, kEvalMsg, kTransformMsg,
@@ -298,7 +298,7 @@ typedef enum {
     kNetCommRegisterAgeMsg, kAnimEvalMsg, kAvBrainFlight, kAvBrainNPC,
     kAvBrainBlimp, kAvBrainFlightNPC, kParticleBulletHitMsg, kPanicLinkMsg,
     kAvTaskOneShot,
-    
+
     kVaultGameServerInitializationTask = 0x421, kNetClientFindDefaultAgeTask,
     kVaultAgeNode, kVaultAgeInitializationTask, kSetListenerMsg,
     kVaultSystemNode, kAvBrainSwim, kNetMsgVault, kNetServerMsgVault,

@@ -59,7 +59,7 @@ public:
         hsVector3 fY;
         hsVector3 fZ;
     };
- 
+
 protected:
     plKey fSoftRegion;
     EAXREVERBPROPERTIES fListenerProps;

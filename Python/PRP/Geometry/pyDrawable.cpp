@@ -167,7 +167,7 @@ PyObject* Init_pyDrawable_Type() {
                          PyInt_FromLong(plDrawable::kSpanTypeIcicle));
     PyDict_SetItemString(pyDrawable_Type.tp_dict, "kSpanTypeParticleSpan",
                          PyInt_FromLong(plDrawable::kSpanTypeParticleSpan));
-    
+
     Py_INCREF(&pyDrawable_Type);
     return (PyObject*)&pyDrawable_Type;
 }

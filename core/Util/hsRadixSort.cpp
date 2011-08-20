@@ -129,7 +129,7 @@ void hsRadixSort::unpackSigned() {
         fTails[i+128] = NULL;
         fHeads[i+128] = NULL;
     }
-    
+
     for (int i = 0; i < 128; i++) {
         if (fHeads[i]) {
             if (head) {
@@ -171,7 +171,7 @@ void hsRadixSort::unpackFloat() {
     reverse();
     tail = head;
     head = fList;
-    
+
     for (int i = 0; i < 128; i++) {
         if (fHeads[i]) {
             if (head) {

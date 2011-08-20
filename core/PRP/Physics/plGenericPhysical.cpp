@@ -611,9 +611,9 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
     S->writeFloat(fRestitution);
 
     if (fBounds == plSimDefs::kCylinderBounds) {
-        throw hsBadParamException(__FILE__, __LINE__, 
+        throw hsBadParamException(__FILE__, __LINE__,
                 "Invalid Bounds type");
-    } 
+    }
     S->writeInt(fBounds);
 
     S->writeInt(memGroup);

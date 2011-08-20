@@ -65,7 +65,7 @@ void PrintFile(const SumEntry& file, char op) {
     strftime(buf, 32, "%Y/%m/%d %H:%M:%S", tbuf);
     printf("%c %s  %s  %s\n", op,
            file.fHash.toHex().cstr(),
-           buf, file.fPath.cstr()); 
+           buf, file.fPath.cstr());
 }
 
 plString FixSlashes(const plString& src) {
@@ -197,7 +197,7 @@ bool UpdateSums(const plString& filename) {
                             it->fPath.cstr());
                     char buf[256];
                     fgets(buf, 256, stdin);
- 
+
                     if (strcmp(buf, "y\n") == 0 || strcmp(buf, "Y\n") == 0) {
                         PrintFile(*it, '-');
                         it = sum.fEntries.erase(it);

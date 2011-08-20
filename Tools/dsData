@@ -93,10 +93,10 @@ if ${doGZ} ; then
     if [ -z "$FILEFLAG" ] ; then
         FILEFLAG="8"
     fi
-    
+
     gzip -9 $FILENAME
     FILEGZSIZE=`du -b $FILENAME.gz | cut -f 1`
-    
+
     echo "$FILENAME,$FILESIZE,$FILEDATE $FILETIME,$FILESUM,$FILEFLAG,$FILEGZSIZE"
 else
     if [ -z "$FILEFLAG" ] ; then

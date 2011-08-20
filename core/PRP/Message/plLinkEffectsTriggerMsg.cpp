@@ -16,7 +16,7 @@
 
 #include "plLinkEffectsTriggerMsg.h"
 
-plLinkEffectsTriggerMsg::plLinkEffectsTriggerMsg() 
+plLinkEffectsTriggerMsg::plLinkEffectsTriggerMsg()
                        : fInvisLevel(0), fEffects(0), fLeavingAge(false) { }
 
 void plLinkEffectsTriggerMsg::read(hsStream* S, plResManager* mgr) {

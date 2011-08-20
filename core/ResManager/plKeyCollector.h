@@ -26,7 +26,7 @@ typedef std::map<plLocation, std::map<short, std::vector<plKey> > > keymap_t;
 /**
  * \brief This class is used internally by the plResManager as a storage
  *        backend for plKeys.
- * 
+ *
  * It also "owns" the hsKeyedObjects referenced by its stored keys, in
  * the manner that deleting keys from here will cause the associated
  * hsKeyedObject to also be deleted.

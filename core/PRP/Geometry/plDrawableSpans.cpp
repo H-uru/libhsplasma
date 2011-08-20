@@ -838,7 +838,7 @@ void plDrawableSpans::decomposeGeometry(bool clearcolors) {
         span->setMaxBoneIdx(icicle->getMaxBoneIdx());
         span->setWaterHeight(icicle->getWaterHeight());
         span->setPenBoneIdx(icicle->getPenBoneIdx());
-        
+
         span->setFormat(group->getFormat());
 
         hsTArray<unsigned short> indices;
@@ -849,7 +849,7 @@ void plDrawableSpans::decomposeGeometry(bool clearcolors) {
             indices[j] -= icicle->getVStartIdx();
 
         span->setIndices(indices);
-        
+
         hsTArray<plGBufferVertex> vertices;
         hsTArray<plGeometrySpan::TempVertex> new_vertices;
         vertices = group->getVertices(icicle->getVBufferIdx(),

@@ -3,7 +3,7 @@
 # Any additional parameters are passed on to the editor.
 
 if [ -z "$EDITOR" ]; then
-	EDITOR=editor
+    EDITOR=editor
 fi
 
 FILE=$1

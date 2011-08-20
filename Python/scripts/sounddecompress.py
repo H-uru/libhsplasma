@@ -22,7 +22,7 @@
 
   * Requires sox (http://sox.sourceforge.net/)
   * Requires libHSPlasma and PyHSPlasma (http://uru.zrax.net/svn/Plasma/)
-  
+
   Usage:
     ./sounddecompress.py -u /path/to/uru
         (Override base Uru using the default subdirectories)
@@ -81,14 +81,14 @@ def getDecompressQueue(datadir):
     if numAges == 0:
         print("No Age files found.  Quitting.")
         return False
- 
+
     print("{0} Ages found in {1}.\nScanning...".format(numAges, datadir))
 
     ## Flip through all ages
     progress(50, float(numAgesRead)/float(numAges) * 100)
     for ageFile in glob.iglob(os.path.join(datadir,"*.age")):
         fullpath = os.path.abspath(ageFile)
-        
+
         try:
             age = plResMgr.ReadAge(fullpath, True)
         except IOError as e:
@@ -98,14 +98,14 @@ def getDecompressQueue(datadir):
             return False
         else:
             try:
-                ## Get the plSoundBuffer in each page and queue sounds 
+                ## Get the plSoundBuffer in each page and queue sounds
                 ##  which are not set to StreamCompressed
                 for pageNum in range(0, age.getNumPages()):
                     page = plResMgr.FindPage(age.getPageLoc(pageNum, plResMgr.getVer()))
                     if (page == None):
                         raise Exception("Unable to completely load age "+age.name+": Can't find page "+str(age.getPageLoc(pageNum, plResMgr.getVer())))
                     if PyHSPlasma.plFactory.kSoundBuffer in plResMgr.getTypes(page.location):
-                        for key in plResMgr.getKeys(page.location, PyHSPlasma.plFactory.kSoundBuffer):	            
+                        for key in plResMgr.getKeys(page.location, PyHSPlasma.plFactory.kSoundBuffer):
                             soundBuffer = key.object
 
                             if soundBuffer.fileName in queue.keys():
@@ -127,7 +127,7 @@ def getDecompressQueue(datadir):
                 return False
 
             plResMgr.UnloadAge(age.name)
-            
+
         ## Onto the next
         numAgesRead = numAgesRead + 1
         progress(50, float(numAgesRead)/float(numAges) * 100)
@@ -141,19 +141,19 @@ def doDecompress(sfxdir, cachedir):
     if not os.path.exists(os.path.abspath(cachedir)):
         print("Creating streamingCache directory.")
         os.mkdir(cachedir)
- 
+
     ## Prepare progress
     print("Decompressing audio files...")
     numFilesProcessed = 0
     numFiles = len(queue)
-    
+
     ## Flip through all sound files
-    progress(50, float(numFilesProcessed)/float(numFiles) * 100) 
+    progress(50, float(numFilesProcessed)/float(numFiles) * 100)
     for oggFile in queue.keys():
         inpath = os.path.abspath(os.path.join(sfxdir, oggFile))
         if os.path.exists(inpath):
             for channel in queue[oggFile]:
-                if channel == "Both": 
+                if channel == "Both":
                     wavFile = oggFile.split('.')[0] + ".wav"
                     soxCommand = "sox \"{0}\" \"{1}\""
                 elif channel == "Left":
@@ -162,10 +162,10 @@ def doDecompress(sfxdir, cachedir):
                 elif channel == "Right":
                     wavFile = oggFile.split('.')[0] + "-Right.wav"
                     soxCommand = "sox \"{0}\" -c 1 \"{1}\" mixer -r"
-                
+
                 outpath = os.path.abspath(os.path.join(cachedir, wavFile))
                 soxCommand = soxCommand.format(inpath, outpath)
-                
+
                 ## Conversion from OGG to WAV
                 try:
                     retcode = subprocess.check_call(soxCommand, shell=True, stderr=open(os.devnull,"w"))
@@ -193,7 +193,7 @@ def writeQueueToXML(outfile):
         root.documentElement.setAttribute("version", str(version))
         root.documentElement.setAttribute("game", "Unknown")
         root.documentElement.setAttribute("gamebuild", "Unknown")
-        
+
         numFilesProcessed = 0
         numFiles = len(queue)
         progress(50, float(numFilesProcessed)/float(numFiles) * 100)
@@ -206,7 +206,7 @@ def writeQueueToXML(outfile):
             coNode.setAttribute("right", str(queue[soundfile].has_key("Right") and queue[soundfile]["Right"]))
             sfNode.appendChild(coNode)
             root.documentElement.appendChild(sfNode)
-            
+
             numFilesProcessed = numFilesProcessed + 1
             progress(50, float(numFilesProcessed)/float(numFiles) * 100)
         root.writexml(xmlfile, addindent="\t", newl="\n", encoding="utf-8")
@@ -216,11 +216,11 @@ def readQueueFromXML(infile):
     print("Reading queue from xml: {0}".format(infile))
     queueXML = minidom.parse(infile)
     soundfiles = queueXML.getElementsByTagName("soundfile")
-    
+
     numFilesProcessed = 0
     numFiles = len(soundfiles)
     progress(50, float(numFilesProcessed)/float(numFiles) * 100)
-        
+
     for soundfile in soundfiles:
         channelOptions = {}
         channelXML = soundfile.getElementsByTagName("channeloutputs")
@@ -232,10 +232,10 @@ def readQueueFromXML(infile):
             if "right" in channelNode.attributes.keys() and channelNode.attributes["right"].value == "True":
                 channelOptions["Right"] = True
         queue[soundfile.attributes["name"].value] = channelOptions
-        
+
         numFilesProcessed = numFilesProcessed + 1
         progress(50, float(numFilesProcessed)/float(numFiles) * 100)
-        
+
     print("{0} sound files added to queue.".format(len(queue)))
     return True
 
@@ -243,9 +243,9 @@ def readQueueFromXML(infile):
 def progress(width, percent):
     marks = math.floor(width * (percent / 100.0))
     spaces = math.floor(width - marks)
-    
+
     loader = '[ ' + ('=' * int(marks)) + (' ' * int(spaces)) + ' ]'
-      
+
     sys.stdout.write("%s %d%%\r" % (loader, percent))
     if percent >= 100:
         sys.stdout.write("\n")
@@ -254,14 +254,14 @@ def progress(width, percent):
 if __name__ == '__main__':
     parser = OptionParser(usage="usage: %prog [options]", version="%prog {0}".format(version))
     parser.add_option("-q", "--quiet", dest="verbose", default=True, action="store_false", help="Don't print status messages")
-    
+
     pathgroup = OptionGroup(parser, "Path Output Options")
     pathgroup.add_option("-u", "--uru", dest="urudir", default=DefaultUruDir, help="Sets base path for Uru.")
     pathgroup.add_option("-d", "--data", dest="datadir", help="Override path for input data files.")
     pathgroup.add_option("-s", "--sfx", dest="sfxdir", help="Override path for input sound files.")
     pathgroup.add_option("-c", "--cache", dest="cachedir", help="Override path for output sound files.")
     parser.add_option_group(pathgroup)
-    
+
     xmlgroup = OptionGroup(parser, "XML Output Options", "")
     xmlgroup.add_option("--xml", dest="xml", default=False, action="store_true", help="Dump queue to XML after Age processing and audio conversion.")
     xmlgroup.add_option("--xmlonly", dest="xmlonly", default=False, action="store_true", help="Don't convert audio after Age processing, only dump XML.")
@@ -275,7 +275,7 @@ if __name__ == '__main__':
     if not options.verbose:
         sys.stdout = open(os.devnull,"w")
         sys.stderr = open(os.devnull,"w")
-        
+
     ## Compute Paths
     basedir = os.path.expanduser(options.urudir)
     datadir = os.path.join(basedir, DefaultDataDir)
@@ -283,14 +283,14 @@ if __name__ == '__main__':
     cachedir = os.path.join(basedir, DefaultCacheDir)
     if options.datadir: datadir = os.path.expanduser(options.datadir)
     if options.sfxdir: sfxdir = os.path.expanduser(options.sfxdir)
-    if options.cachedir: cachedir = os.path.expanduser(options.cachedir) 
-    
+    if options.cachedir: cachedir = os.path.expanduser(options.cachedir)
+
     ## Do the work!
     if not options.xmlinfile:
         if getDecompressQueue(datadir):
             if not options.xmlonly:
                 doDecompress(sfxdir, cachedir)
-    
+
             if options.xml or options.xmlonly:
                 writeQueueToXML(os.path.expanduser(options.xmloutfile))
     elif readQueueFromXML(os.path.expanduser(options.xmlinfile)):

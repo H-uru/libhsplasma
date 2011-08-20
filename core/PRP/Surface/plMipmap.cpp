@@ -330,7 +330,6 @@ size_t plMipmap::IBuildLevelSizes() {
     unsigned int curHeight = fHeight;
     size_t curOffs = 0;
 
-    
     for (size_t i=0; i<fLevelData.getSize(); i++) {
         if (fCompressionType == kDirectXCompression) {
             if ((curHeight | curWidth) & 3)
