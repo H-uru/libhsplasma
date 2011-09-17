@@ -70,7 +70,10 @@ protected:
 
 public:
     plFont();
+    plFont(const plFont& copy);
     virtual ~plFont();
+
+    plFont& operator=(const plFont& copy);
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -92,6 +95,7 @@ public:
     const plCharacter& getCharacter(size_t idx) const { return fCharacters[idx]; }
     plCharacter& getCharacter(size_t idx) { return fCharacters[idx]; }
     const unsigned char* getGlyph(size_t idx) const { return fBmpData + fCharacters[idx].getOffset(); }
+    size_t getNumCharacters() const { return fCharacters.getSize(); }
     void setNumCharacters(size_t count) { fCharacters.setSize(count); }
 
     const plString& getName() const { return fFace; }

@@ -68,8 +68,45 @@ plFont::plFont() : fSize(0), fBPP(0), fFirstChar(0), fFlags(0), fWidth(0),
     fCharacters.setSize(256);
 }
 
+plFont::plFont(const plFont& copy)
+      : fFace(copy.fFace), fSize(copy.fSize), fBPP(copy.fBPP),
+        fFirstChar(copy.fFirstChar), fFlags(copy.fFlags),
+        fWidth(copy.fWidth), fHeight(copy.fHeight),
+        fBmpData(NULL), fMaxCharHeight(copy.fMaxCharHeight) {
+    fCharacters = copy.fCharacters;
+
+    size_t size = (fBPP * fWidth * fHeight) / 8;
+    if (size > 0) {
+        fBmpData = new unsigned char[size];
+        memcpy(fBmpData, copy.fBmpData, size);
+    }
+}
+
 plFont::~plFont() {
     delete[] fBmpData;
+}
+
+plFont& plFont::operator=(const plFont& copy) {
+    delete[] fBmpData;
+
+    fFace = copy.fFace;
+    fSize = copy.fSize;
+    fBPP = copy.fBPP;
+    fFirstChar = copy.fFirstChar;
+    fFlags = copy.fFlags;
+    fWidth = copy.fWidth;
+    fHeight = copy.fHeight;
+    fMaxCharHeight = copy.fMaxCharHeight;
+    fCharacters = copy.fCharacters;
+
+    size_t size = (fBPP * fWidth * fHeight) / 8;
+    if (size > 0) {
+        fBmpData = new unsigned char[size];
+        memcpy(fBmpData, copy.fBmpData, size);
+    } else {
+        fBmpData = NULL;
+    }
+    return *this;
 }
 
 void plFont::read(hsStream* S, plResManager* mgr) {
