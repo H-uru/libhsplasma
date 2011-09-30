@@ -152,9 +152,11 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
         break;
     case kAuth2Cli_VaultNodeFetched:
         {
+            ENetError result = (ENetError)msgbuf[1].fUint;
             pnVaultNode node;
-            node.read(msgbuf[3].fData, msgbuf[2].fUint);
-            fReceiver->onVaultNodeFetched(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint, node);
+            if (result == kNetSuccess)
+                node.read(msgbuf[3].fData, msgbuf[2].fUint);
+            fReceiver->onVaultNodeFetched(msgbuf[0].fUint, result, node);
         }
         break;
     case kAuth2Cli_VaultNodeChanged:
