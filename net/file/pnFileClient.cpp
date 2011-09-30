@@ -190,8 +190,6 @@ pnFileClient::pnFileClient(bool threaded) : fSock(NULL), fThreaded(threaded), fD
 
 pnFileClient::~pnFileClient()
 {
-    if (fSock != NULL)
-        fSock->close();
     delete fIface;
     delete fDispatch;
     delete fSock;
@@ -224,8 +222,6 @@ ENetError pnFileClient::connect(int sockFd)
 
 void pnFileClient::disconnect()
 {
-    if (fSock != NULL)
-        fSock->close();
     delete fIface;
     delete fDispatch;
     delete fSock;

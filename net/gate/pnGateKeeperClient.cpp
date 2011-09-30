@@ -64,8 +64,6 @@ pnGateKeeperClient::pnGateKeeperClient(bool threaded) : fSock(NULL), fThreaded(t
 
 pnGateKeeperClient::~pnGateKeeperClient()
 {
-    if (fSock != NULL)
-        fSock->close();
     delete fIface;
     delete fDispatch;
     delete fSock;
@@ -106,8 +104,6 @@ ENetError pnGateKeeperClient::connect(int sockFd)
 
 void pnGateKeeperClient::disconnect()
 {
-    if (fSock != NULL)
-        fSock->close();
     delete fIface;
     delete fDispatch;
     delete fSock;
