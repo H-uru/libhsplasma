@@ -328,8 +328,6 @@ pnAuthClient::pnAuthClient(plResManager* mgr, bool deleteMsgs, bool threaded)
 
 pnAuthClient::~pnAuthClient()
 {
-    if (fSock != NULL)
-        fSock->close();
     delete fIface;
     delete fDispatch;
     delete fSock;
@@ -370,8 +368,6 @@ ENetError pnAuthClient::connect(int sockFd)
 
 void pnAuthClient::disconnect()
 {
-    if (fSock != NULL)
-        fSock->close();
     delete fIface;
     delete fDispatch;
     delete fSock;

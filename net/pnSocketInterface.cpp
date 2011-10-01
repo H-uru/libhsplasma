@@ -42,7 +42,7 @@ class pnThreadHelper : public hsThread {
 public:
     pnThreadHelper(pnSocket* sock, pnDispatcher* dispatch);
     virtual ~pnThreadHelper();
-    void stop() { fRunning = false; }
+    void stop();
 
 private:
     virtual void run();
@@ -68,6 +68,14 @@ void pnThreadHelper::run()
         // close the socket if anything fails
         if (!fReceiver->dispatch(fSock))
             fSock->close();
+    }
+}
+
+void pnThreadHelper::stop()
+{ 
+    if (!isFinished()) {
+        fRunning = false; 
+        wait(); 
     }
 }
 

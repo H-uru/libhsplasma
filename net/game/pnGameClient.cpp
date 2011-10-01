@@ -90,8 +90,6 @@ pnGameClient::pnGameClient(plResManager* mgr, bool deleteMsgs, bool threaded)
 
 pnGameClient::~pnGameClient()
 {
-    if (fSock != NULL)
-        fSock->close();
     delete fIface;
     delete fDispatch;
     delete fSock;
@@ -138,8 +136,6 @@ ENetError pnGameClient::connect(int sockFd)
 
 void pnGameClient::disconnect()
 {
-    if (fSock != NULL)
-        fSock->close();
     delete fIface;
     delete fDispatch;
     delete fSock;
