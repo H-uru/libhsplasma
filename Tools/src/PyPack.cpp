@@ -158,14 +158,17 @@ int main(int argc, char** argv) {
             baseOffs += pakObjects[i].fFilename.len() + 6;
         }
 
+        PlasmaVer ver = PlasmaVer::pvPrime;
         if (eType == plEncryptedStream::kEncAuto)
             eType = plEncryptedStream::kEncXtea;
+        else if (eType == plEncryptedStream::kEncAES)
+            ver = PlasmaVer::pvEoa;
         hsStream* OS;
         if (eType == plEncryptedStream::kEncNone) {
-            OS = new hsFileStream();
+            OS = new hsFileStream(ver);
             ((hsFileStream*)OS)->open(pakfile, fmCreate);
         } else {
-            OS = new plEncryptedStream();
+            OS = new plEncryptedStream(ver);
             ((plEncryptedStream*)OS)->open(pakfile, fmCreate, eType);
             ((plEncryptedStream*)OS)->setKey(uruKey);
         }
@@ -183,26 +186,26 @@ int main(int argc, char** argv) {
         hsStream* IS;
         uint32_t offs = 0, baseOffs = 4;
         if (eType == plEncryptedStream::kEncNone || !plEncryptedStream::IsFileEncrypted(pakfile)) {
-            IS = new hsFileStream();
+            IS = new hsFileStream(PlasmaVer::pvPrime);
             if (!((hsFileStream*)IS)->open(pakfile, fmRead)) {
                 plDebug::Error("Cannot open file %s", pakfile.cstr());
                 return 1;
             }
             eType = plEncryptedStream::kEncNone;
         } else {
-            IS = new hsRAMStream();
-            plEncryptedStream XS;
-            if (!XS.open(pakfile, fmRead, eType)) {
-                plDebug::Error("Cannot open file %s", pakfile.cstr());
+            IS = new plEncryptedStream(PlasmaVer::pvPrime);
+            if (!((plEncryptedStream*)IS)->open(pakfile, fmRead, eType)) {
+                plDebug::Error("Cannot open file %s\n", pakfile.cstr());
                 return 1;
             }
-            XS.setKey(uruKey);
-            size_t datLen = XS.size();
-            uint8_t* dat = new uint8_t[datLen];
-            XS.read(datLen, dat);
-            ((hsRAMStream*)IS)->stealFrom(dat, datLen);
-            eType = XS.getEncType();
+            ((plEncryptedStream*)IS)->setKey(uruKey);
+            eType = ((plEncryptedStream*)IS)->getEncType();
+
+            if (eType == plEncryptedStream::kEncAES)
+                IS->setVer(PlasmaVer::pvEoa);
         }
+        PlasmaVer oldVer = IS->getVer();
+
         size_t oldObjCount = IS->readInt();
         pakObjects.setSize(oldObjCount + infiles.size());
         for (size_t i=0; i<oldObjCount; i++) {
@@ -253,10 +256,10 @@ int main(int argc, char** argv) {
 
         hsStream* OS;
         if (eType == plEncryptedStream::kEncNone) {
-            OS = new hsFileStream();
+            OS = new hsFileStream(oldVer);
             ((hsFileStream*)OS)->open(pakfile, fmCreate);
         } else {
-            OS = new plEncryptedStream();
+            OS = new plEncryptedStream(oldVer);
             ((plEncryptedStream*)OS)->open(pakfile, fmCreate, eType);
             ((plEncryptedStream*)OS)->setKey(uruKey);
         }
@@ -273,34 +276,35 @@ int main(int argc, char** argv) {
     } else if (action == kExtract) {
         hsStream* IS;
         if (eType == plEncryptedStream::kEncNone || !plEncryptedStream::IsFileEncrypted(pakfile)) {
-            IS = new hsFileStream();
+            IS = new hsFileStream(PlasmaVer::pvPrime);
             if (!((hsFileStream*)IS)->open(pakfile, fmRead)) {
                 plDebug::Error("Cannot open file %s\n", pakfile.cstr());
                 return 1;
             }
             eType = plEncryptedStream::kEncNone;
         } else {
-            IS = new hsRAMStream();
-            plEncryptedStream XS;
-            if (!XS.open(pakfile, fmRead, eType)) {
+            IS = new plEncryptedStream(PlasmaVer::pvPrime);
+            if (!((plEncryptedStream*)IS)->open(pakfile, fmRead, eType)) {
                 plDebug::Error("Cannot open file %s\n", pakfile.cstr());
                 return 1;
             }
-            XS.setKey(uruKey);
-            size_t datLen = XS.size();
-            uint8_t* dat = new uint8_t[datLen];
-            XS.read(datLen, dat);
-            ((hsRAMStream*)IS)->stealFrom(dat, datLen);
-            eType = XS.getEncType();
+            ((plEncryptedStream*)IS)->setKey(uruKey);
+            eType = ((plEncryptedStream*)IS)->getEncType();
+
+            if (eType == plEncryptedStream::kEncAES)
+                IS->setVer(PlasmaVer::pvEoa);
         }
+
         pakObjects.setSize(IS->readInt());
         for (size_t i=0; i<pakObjects.getSize(); i++) {
             pakObjects[i].fFilename = IS->readSafeStr();
             pakObjects[i].fOffset = IS->readInt();
         }
+
         for (size_t i=0; i<pakObjects.getSize(); i++) {
-            IS->seek(pakObjects[i].fOffset);
-            pakObjects[i].fSize = IS->readInt();
+            if (pakObjects[i].fOffset != IS->pos())
+                IS->seek(pakObjects[i].fOffset);
+            pakObjects[i].fSize = IS->readInt() - sizeof(uint32_t);
             if (IS->pos() + pakObjects[i].fSize > IS->size()) {
                 plDebug::Warning("Warning: Truncating last entry");
                 pakObjects[i].fSize = IS->size() - IS->pos();
