@@ -304,7 +304,7 @@ int main(int argc, char** argv) {
         for (size_t i=0; i<pakObjects.getSize(); i++) {
             if (pakObjects[i].fOffset != IS->pos())
                 IS->seek(pakObjects[i].fOffset);
-            pakObjects[i].fSize = IS->readInt() - sizeof(uint32_t);
+            pakObjects[i].fSize = IS->readInt();
             if (IS->pos() + pakObjects[i].fSize > IS->size()) {
                 plDebug::Warning("Warning: Truncating last entry");
                 pakObjects[i].fSize = IS->size() - IS->pos();
