@@ -443,27 +443,37 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
     unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
     unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
-    bool showLOSDB = false;
+    bool showAll = false;
     plHKSimDefs::fixGroups(this, &memGroup, &repGroup, &colGroup);
     // now compare
     if (memGroup != hMemberGroup) {
-        showLOSDB = true;
+        showAll = true;
         plDebug::Warning("%s memGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hMemberGroup, memGroup);
     }
     if (repGroup != hReportGroup) {
-        showLOSDB = true;
+        showAll = true;
         plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hReportGroup, repGroup);
     }
     if (colGroup != hCollideGroup) {
-        showLOSDB = true;
+        showAll = true;
         plDebug::Warning("%s colGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hCollideGroup, colGroup);
     }
-    if (showLOSDB) {
-        plDebug::Debug("%s LOSDBs = 0x%08X", getKey()->toString().cstr(),
-                fLOSDBs);
+    if (showAll) {
+        plDebug::Debug("%s original HK flags: memGroup = 0x%08X, repGroup = 0x%08X, colGroup = 0x%08X",
+                getKey()->toString().cstr(), hMemberGroup, hReportGroup, hCollideGroup);
+        plDebug::Debug("%s Generic data: memGroup = 0x%08X, repGroup = 0x%08X, colGroup = 0x%08X",
+                getKey()->toString().cstr(), fMemberGroup, fReportGroup, fCollideGroup);
+        plString info = plString::Format("%s LOSDBs = 0x%08X, properties: ", getKey()->toString().cstr(), fLOSDBs);
+        for (size_t i=0; i<fProps.size(); i++) {
+            if (fProps.get(i)) {
+                info += fProps.getName(i);
+                info += " ";
+            }
+        }
+        plDebug::Debug(info);
     }
 #endif
 }
