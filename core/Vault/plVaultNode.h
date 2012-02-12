@@ -51,7 +51,7 @@ namespace plVault {
     };
 
     enum ImageTypes {
-        kNone, kJPEG
+        kNone, kJPEG, kPNG
     };
 
     enum NodePermissions {
