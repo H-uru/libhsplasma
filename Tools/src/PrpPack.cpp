@@ -124,13 +124,11 @@ int main(int argc, char** argv) {
     }
 
     plResManager rm;
-    hsFileStream* S = new hsFileStream();
-    if (!S->open(filename, fmRead)) {
+    hsFileStream S, OS;
+    if (!S.open(filename, fmRead)) {
         fprintf(stderr, "Error opening %s for reading!", filename);
-        delete S;
         return 1;
     }
-    hsFileStream* OS = new hsFileStream();
     plPageInfo* page = new plPageInfo();
 
     //int len;
@@ -138,17 +136,15 @@ int main(int argc, char** argv) {
     unsigned int i, j;
     char strBuf[256];
     if (direction == kExtract || direction == kRepack) {
-        S->close();
-        delete S;
-        S = NULL;
+        S.close();
         delete page;
         page = rm.ReadPage(filename, true);
-        OS->open(filenameConvert(filename, kExtract), fmCreate);
-        OS->write(4, "PRD");
-        OS->writeShort(strlen(page->getAge()));
-        OS->writeStr(page->getAge());
-        OS->writeShort(strlen(page->getPage()));
-        OS->writeStr(page->getPage());
+        OS.open(filenameConvert(filename, kExtract), fmCreate);
+        OS.write(4, "PRD");
+        OS.writeShort(strlen(page->getAge()));
+        OS.writeStr(page->getAge());
+        OS.writeShort(strlen(page->getPage()));
+        OS.writeStr(page->getPage());
         if (rm.getVer().isUniversal()) {
             maj = 0x7FFF;
             min = 0x7FFF;
@@ -162,11 +158,11 @@ int main(int argc, char** argv) {
             maj = rm.getVer().revMajor();
             min = rm.getVer().revMinor();
         }
-        OS->writeShort(maj);
-        OS->writeShort(min);
+        OS.writeShort(maj);
+        OS.writeShort(min);
         plLocation loc = page->getLocation();
-        loc.write(OS);
-        OS->close();
+        loc.write(&OS);
+        OS.close();
 
         std::vector<short> types = rm.getTypes(loc);
       #ifdef WIN32
@@ -179,69 +175,65 @@ int main(int argc, char** argv) {
             for (j=0; j<objs.size(); j++) {
                 sprintf(strBuf, "%s[%04hX]%s.po", getOutputDir(filename, page),
                                 types[i], CleanFileName(objs[j]->getName()).cstr());
-                OS->open(strBuf, fmCreate);
-                rm.WriteCreatable(OS, objs[j]->getObj());
-                OS->close();
+                OS.open(strBuf, fmCreate);
+                OS.setVer(rm.getVer());
+                rm.WriteCreatable(&OS, objs[j]->getObj());
+                OS.close();
             }
         }
     }
     if (direction == kRepack) {
-        S->close();
         filename = strdup(filenameConvert(filename, kExtract));
-        S->open(filename, fmRead);
+        S.open(filename, fmRead);
     }
     if (direction == kCreate || direction == kRepack) {
-        OS->open(filenameConvert(filename, kCreate), fmCreate);
+        OS.open(filenameConvert(filename, kCreate), fmCreate);
         char sig[4];
-        S->read(4, sig);
+        S.read(4, sig);
         if (strcmp(sig, "PRD") != 0) {
             fprintf(stderr, "Error: Invalid input file!\n");
-            OS->close();
-            S->close();
-            delete S;
-            delete OS;
+            OS.close();
+            S.close();
             return 1;
         }
-        plString ageName = S->readStr(S->readShort());
-        plString pageName = S->readStr(S->readShort());
+        plString ageName = S.readStr(S.readShort());
+        plString pageName = S.readStr(S.readShort());
         page->setAge(ageName);
         page->setPage(pageName);
-        maj = S->readShort();
-        min = S->readShort();
+        maj = S.readShort();
+        min = S.readShort();
         if (maj == 0x7FFF) {
-            OS->setVer(PlasmaVer::pvUniversal);
+            OS.setVer(PlasmaVer::pvUniversal);
         } else if (maj == -1) {
             if (min == 1)
-                OS->setVer(PlasmaVer::pvEoa);
+                OS.setVer(PlasmaVer::pvEoa);
             else if (min == 2)
-                OS->setVer(PlasmaVer::pvHex);
+                OS.setVer(PlasmaVer::pvHex);
         } else if (maj == 70) {
-            OS->setVer(PlasmaVer::pvMoul);
+            OS.setVer(PlasmaVer::pvMoul);
         } else if (maj == 63) {
             if (min == 11)
-                OS->setVer(PlasmaVer::pvPrime);
+                OS.setVer(PlasmaVer::pvPrime);
             if (min == 12)
-                OS->setVer(PlasmaVer::pvPots);
+                OS.setVer(PlasmaVer::pvPots);
         } else {
             fprintf(stderr, "Error: Invalid Plasma version: %hd.%hd\n", maj, min);
-            OS->close();
-            S->close();
-            delete S;
-            delete OS;
+            OS.close();
+            S.close();
             return 1;
         }
-        S->setVer(OS->getVer());
+        S.setVer(OS.getVer());
         plLocation loc;
-        loc.read(S);
+        loc.read(&S);
         page->setLocation(loc);
         page->setReleaseVersion(0);
         page->setFlags(plPageInfo::kBasicChecksum);
-        S->close();
+        S.close();
 
         std::vector<char*> inFiles;
         std::vector<short> inClasses;
-        hsFileStream* PS = new hsFileStream();
-        PS->setVer(OS->getVer());
+        hsFileStream PS;
+        PS.setVer(OS.getVer());
       #ifdef WIN32
         sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
         WIN32_FIND_DATA fd;
@@ -250,9 +242,9 @@ int main(int argc, char** argv) {
             do {
                 sprintf(strBuf, "%s%s", getOutputDir(filename, page), fd.cFileName);
                 inFiles.push_back(strdup(strBuf));
-                PS->open(strBuf, fmRead);
-                short classType = PS->readShort();
-                PS->close();
+                PS.open(strBuf, fmRead);
+                short classType = PS.readShort();
+                PS.close();
                 bool haveClass = false;
                 for (j=0; j<inClasses.size(); j++)
                     if (inClasses[j] == classType) {
@@ -269,9 +261,9 @@ int main(int argc, char** argv) {
         for (i=0; i<nEntries; i++) {
             sprintf(strBuf, "%s%s", getOutputDir(filename, page), des[i]->d_name);
             inFiles.push_back(strdup(strBuf));
-            PS->open(strBuf, fmRead);
-            short classType = PS->readShort();
-            PS->close();
+            PS.open(strBuf, fmRead);
+            short classType = PS.readShort();
+            PS.close();
             bool haveClass = false;
             for (j=0; j<inClasses.size(); j++)
                 if (inClasses[j] == classType) {
@@ -282,59 +274,59 @@ int main(int argc, char** argv) {
         }
       #endif
         page->setClassList(inClasses);
-        page->write(OS);
-        page->setDataStart(OS->pos());
+        page->write(&OS);
+        page->setDataStart(OS.pos());
         plKeyCollector keys;
 
         for (i=0; i<inFiles.size(); i++) {
             plKey key = new plKeyData();
-            PS->open(inFiles[i], fmRead);
-            unsigned int poLen = PS->size();
-            void* objBuf = malloc(poLen);
-            key->setFileOff(OS->pos());
+            PS.open(inFiles[i], fmRead);
+            PS.setVer(S.getVer());
+            unsigned int poLen = PS.size();
+            unsigned char* objBuf = new unsigned char[poLen];
+            key->setFileOff(OS.pos());
             key->setObjSize(poLen);
-            PS->read(poLen, objBuf);
-            OS->write(poLen, objBuf);
-            free(objBuf);
-            PS->seek(2);
-            key->readUoid(PS);
-            PS->close();
+            PS.read(poLen, objBuf);
+            OS.write(poLen, objBuf);
+            delete[] objBuf;
+            PS.seek(2);
+            key->readUoid(&PS);
+            PS.close();
             keys.add(key);
             free(inFiles[i]);
             inFiles[i] = NULL;
         }
-        delete PS;
 
-        page->setIndexStart(OS->pos());
+        page->setIndexStart(OS.pos());
         keys.sortKeys(page->getLocation());
         std::vector<short> types = keys.getTypes(page->getLocation());
         //if (types != inClasses)
         //    throw "Wtf, mate?";
-        OS->writeInt(types.size());
+        OS.writeInt(types.size());
         for (i=0; i<types.size(); i++) {
             std::vector<plKey> kList = keys.getKeys(page->getLocation(), types[i]);
-            OS->writeShort(pdUnifiedTypeMap::MappedToPlasma(types[i], OS->getVer()));
-            unsigned int lenPos = OS->pos();
-            if (!OS->getVer().isUruSP() && !OS->getVer().isUniversal()) {
-                OS->writeInt(0);
-                OS->writeByte(0);
+            OS.writeShort(pdUnifiedTypeMap::MappedToPlasma(types[i], OS.getVer()));
+            unsigned int lenPos = OS.pos();
+            if (!OS.getVer().isUruSP() && !OS.getVer().isUniversal()) {
+                OS.writeInt(0);
+                OS.writeByte(0);
             }
-            OS->writeInt(kList.size());
+            OS.writeInt(kList.size());
             for (j=0; j<kList.size(); j++)
-                kList[j]->write(OS);
-            if (!OS->getVer().isUruSP() && !OS->getVer().isUniversal()) {
-                unsigned int nextPos = OS->pos();
-                OS->seek(lenPos);
-                OS->writeInt(nextPos - lenPos - 4);
-                OS->seek(nextPos);
+                kList[j]->write(&OS);
+            if (!OS.getVer().isUruSP() && !OS.getVer().isUniversal()) {
+                unsigned int nextPos = OS.pos();
+                OS.seek(lenPos);
+                OS.writeInt(nextPos - lenPos - 4);
+                OS.seek(nextPos);
             }
         }
-        if (OS->getVer().isNewPlasma())
-            page->setChecksum(OS->pos());
+        if (OS.getVer().isNewPlasma())
+            page->setChecksum(OS.pos());
         else
-            page->setChecksum(OS->pos() - page->getDataStart());
-        page->writeSums(OS);
-        OS->close();
+            page->setChecksum(OS.pos() - page->getDataStart());
+        page->writeSums(&OS);
+        OS.close();
     }
 
     // Delete temp files with the repack option
@@ -364,7 +356,5 @@ int main(int argc, char** argv) {
       #endif
     }
 
-    delete S;
-    delete OS;
     return 0;
 }
