@@ -350,7 +350,7 @@ bool hsFileStream::open(const char* file, FileMode mode) {
     if (F != NULL) {
         fm = mode;
         return true;
-    } else if (fm == fmRead || fm == fmReadWrite) {
+    } else if (mode == fmRead || mode == fmReadWrite) {
         throw hsFileReadException(__FILE__, __LINE__, "File does not exist");
     }
     return false;
