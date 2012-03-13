@@ -33,8 +33,8 @@ public:
         plCharacter();
 
         void read(hsStream* S);
-        void write(hsStream* S);
-        void prcWrite(pfPrcHelper* prc);
+        void write(hsStream* S) const;
+        void prcWrite(pfPrcHelper* prc) const;
         void prcParse(const pfPrcTag* tag);
 
     public:
@@ -84,10 +84,10 @@ protected:
 
 public:
     void readP2F(hsStream* S);
-    void writeP2F(hsStream* S);
+    void writeP2F(hsStream* S) const;
 
     void readBitmap(hsStream* S);
-    void writeBitmap(hsStream* S);
+    void writeBitmap(hsStream* S) const;
 
 public:
     const plCharacter& operator[](size_t idx) const { return fCharacters[idx]; }

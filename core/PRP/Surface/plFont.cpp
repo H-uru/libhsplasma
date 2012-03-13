@@ -32,7 +32,7 @@ void plFont::plCharacter::read(hsStream* S) {
     fRightKern = S->readFloat();
 }
 
-void plFont::plCharacter::write(hsStream* S) {
+void plFont::plCharacter::write(hsStream* S) const {
     S->writeInt(fBitmapOffset);
     S->writeInt(fHeight);
     S->writeInt(fBaseline);
@@ -40,7 +40,7 @@ void plFont::plCharacter::write(hsStream* S) {
     S->writeFloat(fRightKern);
 }
 
-void plFont::plCharacter::prcWrite(pfPrcHelper* prc) {
+void plFont::plCharacter::prcWrite(pfPrcHelper* prc) const {
     prc->startTag("plCharacter");
     prc->writeParam("BitmapOffset", fBitmapOffset);
     prc->writeParam("Height", fHeight);
@@ -201,7 +201,7 @@ void plFont::readP2F(hsStream* S) {
         fCharacters[i].read(S);
 }
 
-void plFont::writeP2F(hsStream* S) {
+void plFont::writeP2F(hsStream* S) const {
     char buf[256];
     strncpy(buf, fFace.cstr(), 256);
     S->write(256, buf);
@@ -271,7 +271,7 @@ void plFont::readBitmap(hsStream* S) {
     }
 }
 
-void plFont::writeBitmap(hsStream* S) {
+void plFont::writeBitmap(hsStream* S) const {
     unsigned int lineSize = ((fBPP * fWidth) / 8);
     unsigned int linePad = lineSize % 4 == 0 ? 0 : 4 - (lineSize % 4);
     unsigned int dataSize = lineSize * fHeight;
