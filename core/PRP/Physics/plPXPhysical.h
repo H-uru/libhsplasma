@@ -113,15 +113,12 @@ public:
     }
 };
 
+class plGenericPhysical;
 class PLASMA_DLL PXCookedData {
-private:
-    class plGenericPhysical* fPhysical;
-
 public:
-    PXCookedData(class plGenericPhysical* phys);
-
-    unsigned int readOPC(hsStream* S);
-    void readHBM(hsStream* S);
-    void readTriangleMesh(hsStream* S);
-    void readConvexMesh(hsStream* S);
+    static void readTriangleMesh(hsStream* S, plGenericPhysical* physical);
+    static void readConvexMesh(hsStream* S, plGenericPhysical* physical);
+private:
+    static unsigned int readOPC(hsStream* S);
+    static void readHBM(hsStream* S);
 };

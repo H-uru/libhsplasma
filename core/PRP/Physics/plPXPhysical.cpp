@@ -18,8 +18,6 @@
 #include "plGenericPhysical.h"
 #include "Debug/plDebug.h"
 
-PXCookedData::PXCookedData(plGenericPhysical* phys) : fPhysical(phys) { }
-
 unsigned int PXCookedData::readOPC(hsStream* S) {
     char tag[4];
     S->read(4, tag);
@@ -99,7 +97,71 @@ void PXCookedData::readHBM(hsStream* S) {
     delete[] buf;
 }
 
-void PXCookedData::readTriangleMesh(hsStream* S) {
+void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
+{
+    //TODO: This is messy and incomplete
+    char tag[4];
+    S->read(4, tag);
+    if (memcmp(tag, "NXS\x01", 4) != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX header");
+    S->read(4, tag);
+    if (memcmp(tag, "CVXM", 4) != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+    S->readInt();
+    S->readInt();
+
+    S->read(4, tag);
+    if (memcmp(tag, "ICE\x01", 4) != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+    S->read(4, tag);
+    if (memcmp(tag, "CLHL", 4) != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+    S->readInt();
+
+    S->read(4, tag);
+    if (memcmp(tag, "ICE\x01", 4) != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+    S->read(4, tag);
+    if (memcmp(tag, "CVHL", 4) != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid header");
+
+    S->readInt();
+    const unsigned int nxNumVerts = S->readInt();
+    const unsigned int nxNumTris = S->readInt();
+    S->readInt();
+    S->readInt();
+    S->readInt();
+    S->readInt();
+
+    hsVector3* nxVerts = new hsVector3[nxNumVerts];
+    for (size_t i=0; i<nxNumVerts; i++)
+        nxVerts[i].read(S);
+    physical->setVerts(nxNumVerts, nxVerts);
+    delete[] nxVerts;
+    
+    S->readInt();
+
+    unsigned int* nxTris = new unsigned int[nxNumTris * 3];
+    for (size_t i=0; i<nxNumTris; i += 3) {
+        if (nxNumVerts < 256) {
+            nxTris[i+0] = S->readByte();
+            nxTris[i+1] = S->readByte();
+            nxTris[i+2] = S->readByte();
+        } else if (nxNumVerts < 65536) {
+            nxTris[i+0] = S->readShort();
+            nxTris[i+1] = S->readShort();
+            nxTris[i+2] = S->readShort();
+        } else {
+            nxTris[i+0] = S->readInt();
+            nxTris[i+1] = S->readInt();
+            nxTris[i+2] = S->readInt();
+        }
+    }
+    physical->setIndices(nxNumTris * 3, nxTris);
+    delete[] nxTris;
+}
+
+void PXCookedData::readTriangleMesh(hsStream* S, plGenericPhysical* physical) {
     char tag[4];
     S->read(4, tag);
     if (memcmp(tag, "NXS\x01", 4) != 0)
@@ -109,18 +171,18 @@ void PXCookedData::readTriangleMesh(hsStream* S) {
         throw hsBadParamException(__FILE__, __LINE__, "Invalid Mesh header");
     S->readInt();
 
-    unsigned int nxFlags = S->readInt();
+    const unsigned int nxFlags = S->readInt();
     S->readFloat();
     S->readInt();
     S->readFloat();
-    unsigned int nxNumVerts = S->readInt();
-    unsigned int nxNumTris = S->readInt();
+    const unsigned int nxNumVerts = S->readInt();
+    const unsigned int nxNumTris = S->readInt();
 
     hsVector3* nxVerts = new hsVector3[nxNumVerts];
     for (size_t i = 0; i < nxNumVerts; i++) {
         nxVerts[i].read(S);
     }
-    fPhysical->setVerts(nxNumVerts, nxVerts);
+    physical->setVerts(nxNumVerts, nxVerts);
     delete[] nxVerts;
 
     unsigned int* nxTris = new unsigned int[nxNumTris * 3];
@@ -139,7 +201,7 @@ void PXCookedData::readTriangleMesh(hsStream* S) {
             nxTris[i+2] = S->readInt();
         }
     }
-    fPhysical->setIndices(nxNumTris * 3, nxTris);
+    physical->setIndices(nxNumTris * 3, nxTris);
     delete[] nxTris;
 
     if (nxFlags & 1) {
@@ -171,16 +233,12 @@ void PXCookedData::readTriangleMesh(hsStream* S) {
     }
 
     if (nxNumFlatParts) {
-        unsigned char* nxFlatParts = new unsigned char[(nxNumFlatParts >= 0x100) ? 2*nxNumTris : nxNumTris];
-        S->read((nxNumFlatParts >= 0x100) ? 2*nxNumTris : nxNumTris, nxFlatParts);
-        delete[] nxFlatParts;
+        S->skip((nxNumFlatParts >= 0x100) ? 2*nxNumTris : nxNumTris);
     }
 
     //readHBM(S);
     unsigned int size = S->readInt();
-    unsigned char* dat = new unsigned char[size];
-    S->read(size, dat);
-    delete[] dat;
+    S->skip(size);
 
     S->readFloat();
     S->readFloat();
@@ -211,8 +269,6 @@ void PXCookedData::readTriangleMesh(hsStream* S) {
     }
 
     if (S->readInt()) {
-        unsigned char* nxConvexParts = new unsigned char[nxNumTris];
-        S->read(nxNumTris, nxConvexParts);
-        delete[] nxConvexParts;
+        S->skip(nxNumTris);
     }
 }
