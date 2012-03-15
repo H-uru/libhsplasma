@@ -55,7 +55,7 @@ public:
             return plSimDefs::kGroupLOSOnly;
         }
 
-        throw hsNotImplementedException(__FILE__, __LINE__, "plPXSimDefs::fromGroup: Unknown PhysX group");
+        throw hsNotImplementedException(__FILE__, __LINE__, plString::Format("plPXSimDefs::fromGroup: PhysX group %d", group));
     }
 
     static uint8_t toGroup(unsigned int group, unsigned int collide) {
@@ -75,7 +75,7 @@ public:
             return kGroupLOSOnly;
         }
 
-        throw hsNotImplementedException(__FILE__, __LINE__, "plPXSimDefs::toGroup: Unsupported generic group");
+        throw hsNotImplementedException(__FILE__, __LINE__, plString::Format("plPXSimDefs::fromGroup: Generic group %d", group));
     }
 
     static unsigned int getCollideGroup(uint8_t group) {

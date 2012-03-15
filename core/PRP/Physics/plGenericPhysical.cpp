@@ -410,9 +410,9 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     fFriction = S->readFloat();
     fRestitution = S->readFloat();
     fBounds = (plSimDefs::Bounds)S->readInt();
-    fMemberGroup = plHKSimDefs::fromGroup(hMemberGroup = S->readInt());
-    fReportGroup = plHKSimDefs::getBitshiftGroup(hReportGroup = S->readInt());
-    fCollideGroup = plHKSimDefs::getBitshiftGroup(hCollideGroup = S->readInt());
+    fMemberGroup = plHKSimDefs::getMemGroup(hMemberGroup = S->readInt());
+    fReportGroup = plHKSimDefs::getRepGroup(hReportGroup = S->readInt(), hMemberGroup);
+    fCollideGroup = plHKSimDefs::getColGroup(hCollideGroup = S->readInt(), hMemberGroup);
     fDisableReport = S->readBool();
     fDisableCollide = S->readBool();
 
@@ -440,11 +440,10 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     fSoundGroup = mgr->readKey(S);
 
 #ifdef DEBUG
-    unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
-    unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
-    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
+    unsigned int memGroup = plHKSimDefs::setMemGroup(this);
+    unsigned int repGroup = plHKSimDefs::setRepGroup(this);
+    unsigned int colGroup = plHKSimDefs::setColGroup(this);
     bool showAll = false;
-    plHKSimDefs::fixGroups(this, &memGroup, &repGroup, &colGroup);
     // now compare
     if (memGroup != hMemberGroup) {
         showAll = true;
@@ -567,10 +566,9 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
 
 void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
 
-    unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
-    unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
-    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
-    plHKSimDefs::fixGroups(this, &memGroup, &repGroup, &colGroup);
+    unsigned int memGroup = plHKSimDefs::setMemGroup(this);
+    unsigned int repGroup = plHKSimDefs::setRepGroup(this);
+    unsigned int colGroup = plHKSimDefs::setColGroup(this);
 
 
     fPos.write(S);
