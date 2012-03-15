@@ -55,13 +55,13 @@ public:
             return plSimDefs::kGroupLOSOnly;
         }
 
-        return plSimDefs::kGroupStatic;
+        throw hsNotImplementedException(__FILE__, __LINE__, "plPXSimDefs::fromGroup: Unknown PhysX group");
     }
 
     static uint8_t toGroup(unsigned int group, unsigned int collide) {
-        if (collide == plSimDefs::kGroupAvatar) {
+        if (collide == (1 << plSimDefs::kGroupAvatar)) {
             return kGroupAvatarBlocker;
-        } else if (collide == plSimDefs::kGroupDynamic) {
+        } else if (collide == (1 << plSimDefs::kGroupDynamic)) {
             return kGroupDynamicBlocker;
         } else if (group == plSimDefs::kGroupStatic) {
             return kGroupStatic;
@@ -75,7 +75,7 @@ public:
             return kGroupLOSOnly;
         }
 
-        return kGroupStatic;
+        throw hsNotImplementedException(__FILE__, __LINE__, "plPXSimDefs::toGroup: Unsupported generic group");
     }
 
     static unsigned int getCollideGroup(uint8_t group) {

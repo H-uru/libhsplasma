@@ -509,10 +509,12 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     fRestitution = S->readFloat();
     fBounds = (plSimDefs::Bounds)S->readByte();
 
-    uint8_t group = S->readByte();
-    fMemberGroup = plPXSimDefs::fromGroup(group); //fGroup
-    fCollideGroup = plPXSimDefs::getCollideGroup(group);
-    fReportGroup = plPXSimDefs::getReportsOn(S->readInt()); //fReportsOn
+    uint8_t pxGroup = S->readByte();
+    fMemberGroup = plPXSimDefs::fromGroup(pxGroup); //fGroup
+    fCollideGroup = plPXSimDefs::getCollideGroup(pxGroup);
+    uint32_t pxReports = S->readInt();
+    fReportGroup = plPXSimDefs::getReportsOn(pxReports); //fReportsOn
+
     fLOSDBs = S->readShort();
     fObjectKey = mgr->readKey(S);
     fSceneNode = mgr->readKey(S);
@@ -537,6 +539,20 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     } else {    // Proxy or Explicit
         PXCookedData::readTriangleMesh(S, this);
     }
+    
+#ifdef DEBUG
+    // check if the conversion back to the original flags is losless
+    uint8_t group = plPXSimDefs::toGroup(fMemberGroup, fCollideGroup);
+    uint32_t reports = plPXSimDefs::setReportsOn(fReportGroup);
+    if (group != pxGroup) {
+        plDebug::Warning("%s mem/colGroup changed: 0x%08X => 0x%08X",
+                getKey()->toString().cstr(), pxGroup, group);
+    }
+    if (reports != pxReports) {
+        plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
+                getKey()->toString().cstr(), pxReports, reports);
+    }
+#endif
 }
 
 void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
