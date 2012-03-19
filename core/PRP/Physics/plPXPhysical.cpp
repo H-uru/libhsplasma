@@ -179,9 +179,11 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
     unk2 = S->readInt();
     unk3 = S->readInt();
     unk4 = S->readInt();
-    if (unk4 != 2*unk2) throw hsBadParamException(__FILE__, __LINE__, "Invalid u4");
+    if (unk4 != 2*unk2)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid u4");
     unk5 = S->readInt();
-    if (unk4 != unk5) throw hsBadParamException(__FILE__, __LINE__, "Invalid u5");
+    if (unk4 != unk5)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid u5");
 
     hsVector3* nxVerts = new hsVector3[nxNumVerts];
     for (size_t i=0; i<nxNumVerts; i++)
@@ -190,7 +192,8 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
     delete[] nxVerts;
 
     const unsigned int maxVertIndex = S->readInt();
-    if (maxVertIndex+1 != nxNumVerts) throw hsBadParamException(__FILE__, __LINE__, "Invalid maxVertIndex");
+    if (maxVertIndex+1 != nxNumVerts)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid maxVertIndex");
 
     unsigned int* nxTris = new unsigned int[nxNumTris * 3];
     for (size_t i=0; i<nxNumTris*3; i += 3) {
