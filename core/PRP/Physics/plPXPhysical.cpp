@@ -97,9 +97,55 @@ void PXCookedData::readHBM(hsStream* S) {
         throw hsBadParamException(__FILE__, __LINE__, plString::Format("Invalid HBM size: Expected pos %d, but reached pos %d", endpos, S->pos()));
 }
 
+void PXCookedData::skipMaxDependantList(hsStream*S, unsigned int size)
+{
+    const unsigned int max = S->readInt();
+    if (max > 0xFFFF)
+        S->skip(4*size);
+    else if (max > 0xFF)
+        S->skip(2*size);
+    else
+        S->skip(size);
+}
+
+void PXCookedData::readSuffix(hsStream* S)
+{
+    readHBM(S);
+
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+    S->readFloat();
+
+    float nxVolume = S->readFloat();
+    if (nxVolume > -1.0) {
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+        S->readFloat();
+    }
+}
+
+
 void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
 {
     char tag[4];
+    unsigned int unk1, unk2, unk3, unk4, unk5;
     S->read(4, tag);
     if (memcmp(tag, "NXS\x01", 4) != 0)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid PhysX header");
@@ -130,12 +176,12 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
 
     const unsigned int nxNumVerts = S->readInt();
     const unsigned int nxNumTris = S->readInt();
-    unsigned int u2 = S->readInt();
-    unsigned int u3 = S->readInt();
-    unsigned int u4 = S->readInt();
-    if (u4 != 2*u2) throw hsBadParamException(__FILE__, __LINE__, "Invalid u4");
-    unsigned int u5 = S->readInt();
-    if (u4 != u5) throw hsBadParamException(__FILE__, __LINE__, "Invalid u5");
+    unk2 = S->readInt();
+    unk3 = S->readInt();
+    unk4 = S->readInt();
+    if (unk4 != 2*unk2) throw hsBadParamException(__FILE__, __LINE__, "Invalid u4");
+    unk5 = S->readInt();
+    if (unk4 != unk5) throw hsBadParamException(__FILE__, __LINE__, "Invalid u5");
 
     hsVector3* nxVerts = new hsVector3[nxNumVerts];
     for (size_t i=0; i<nxNumVerts; i++)
@@ -143,7 +189,7 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
     physical->setVerts(nxNumVerts, nxVerts);
     delete[] nxVerts;
 
-    unsigned int maxVertIndex = S->readInt();
+    const unsigned int maxVertIndex = S->readInt();
     if (maxVertIndex+1 != nxNumVerts) throw hsBadParamException(__FILE__, __LINE__, "Invalid maxVertIndex");
 
     unsigned int* nxTris = new unsigned int[nxNumTris * 3];
@@ -165,8 +211,8 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
     physical->setIndices(nxNumTris * 3, nxTris);
     delete[] nxTris;
 
-    uint16_t u7 = S->readShort();
-    if (u7) throw hsBadParamException(__FILE__, __LINE__, "Invalid u7: only 0 supported");
+    if (S->readShort() != 0)
+        throw hsBadParamException(__FILE__, __LINE__, "Invalid u7: only 0 supported");
 
     S->skip(nxNumVerts*2); // nxNumVerts words
 
@@ -174,42 +220,23 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
     S->readFloat();
     S->readFloat();
 
-    S->skip(36*u3);
-    S->skip(u4);
+    S->skip(36*unk3);
+    S->skip(unk4);
 
-    // a list of size 2*u2, with the maximum first to determine the size of the elements
-    unsigned int max = S->readInt();
-    if (max < 256)
-        S->skip(u4);
-    else
-        S->skip(2*u4);
+    // a list of size unk4, with the maximum first to determine the size of the elements
+    skipMaxDependantList(S, unk4);
 
     S->readInt();
     S->readInt();
-    S->skip(2*u2);
-    S->skip(2*u2);
+    S->skip(2*unk2);
+    S->skip(2*unk2);
 
     // three lists of size u2 in the format: first the maximum, then the elements are only large enough to hold values <= max
-    max = S->readInt();
-    if (max < 256)
-        S->skip(u2);
-    else
-        S->skip(2*u2);
-    max = S->readInt();
-    if (max < 256)
-        S->skip(u2);
-    else
-        S->skip(2*u2);
-    max = S->readInt();
-    if (max > 0xFFFF)
-        S->skip(4*u2);
-    else if (max > 0xFF)
-        S->skip(2*u2);
-    else
-        S->skip(u2);
-
-    S->skip(2*u2);
-    plDebug::Debug("pos end CVHL: %d", S->pos());
+    skipMaxDependantList(S, unk2);
+    skipMaxDependantList(S, unk2);
+    skipMaxDependantList(S, unk2);
+    // and another fixed-size list
+    S->skip(2*unk2);
 
 
     S->read(4, tag);
@@ -220,6 +247,15 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid VALE header");
     if (S->readInt() != 2)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid VALE: Only version 2 supported");
+
+    unk1 = S->readInt();
+    unk2 = S->readInt();
+
+    skipMaxDependantList(S, unk1);
+    S->skip(unk2);
+
+
+    readSuffix(S);
 }
 
 void PXCookedData::readTriangleMesh(hsStream* S, plGenericPhysical* physical) {
@@ -298,37 +334,7 @@ void PXCookedData::readTriangleMesh(hsStream* S, plGenericPhysical* physical) {
         S->skip((nxNumFlatParts >= 0x100) ? 2*nxNumTris : nxNumTris);
     }
 
-    //readHBM(S);
-    unsigned int size = S->readInt();
-    S->skip(size);
-
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-    S->readFloat();
-
-    float nxVolume = S->readFloat();
-    if (nxVolume > -1.0) {
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-        S->readFloat();
-    }
+    readSuffix(S);
 
     if (S->readInt()) {
         S->skip(nxNumTris);

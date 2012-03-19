@@ -121,4 +121,6 @@ public:
 private:
     static unsigned int readOPC(hsStream* S);
     static void readHBM(hsStream* S);
+    static void readSuffix(hsStream* S);
+    static void skipMaxDependantList(hsStream*S, unsigned int size);
 };
