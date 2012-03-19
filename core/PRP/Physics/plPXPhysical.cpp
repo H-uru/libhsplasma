@@ -256,6 +256,30 @@ void PXCookedData::readConvexMesh(hsStream* S, plGenericPhysical* physical)
 
 
     readSuffix(S);
+
+    if (nxNumVerts > 0x20) {
+        S->read(4, tag);
+        if (memcmp(tag, "ICE\x01", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid ICE header");
+        S->read(4, tag);
+        if (memcmp(tag, "SUPM", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid SUPM header");
+        if (S->readInt() != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid SUPM: Only version 0 supported");
+
+        S->read(4, tag);
+        if (memcmp(tag, "ICE\x01", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid ICE header");
+        S->read(4, tag);
+        if (memcmp(tag, "GAUS", 4) != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid GAUS header");
+        if (S->readInt() != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "Invalid GAUS: Only version 0 supported");
+
+        S->readInt();
+        unk2 = S->readInt();
+        S->skip(2*unk2);
+    }
 }
 
 void PXCookedData::readTriangleMesh(hsStream* S, plGenericPhysical* physical) {
