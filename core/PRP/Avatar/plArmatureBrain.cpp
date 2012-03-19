@@ -20,22 +20,23 @@
 void plArmatureBrain::read(hsStream* S, plResManager* mgr) {
     // Yay for uselessness
     if (!S->getVer().isNewPlasma()) {
-        S->readInt();
+        if (S->readInt() != 0)
+            throw hsBadParamException(__FILE__, __LINE__, "plArmatureBrain must start with a 0 int");
         if (S->readBool())
-            mgr->readKey(S);
-        S->readInt();
-        S->readFloat();
-        S->readDouble();
+            throw hsBadParamException(__FILE__, __LINE__, "plArmatureBrain must contain a null plKey");
+        fAvBrainUserInt  = S->readInt(); // 0 in POTS, 927 in UU
+        fAvBrainUserFloat = S->readFloat(); // 0.0 in POTS, 1.0 in UU
+        fAvBrainUserDouble = S->readDouble(); // 0.0 in POTS, 1.0 in UU
     }
 }
 
 void plArmatureBrain::write(hsStream* S, plResManager* mgr) {
     if (!S->getVer().isNewPlasma()) {
         S->writeInt(0);
-        S->writeBool(false);
-        S->writeInt(0);
-        S->writeFloat(0.0f);
-        S->writeDouble(0.0);
+        S->writeBool(false); // actually a null plKey
+        S->writeInt(fAvBrainUserInt);
+        S->writeFloat(fAvBrainUserFloat);
+        S->writeDouble(fAvBrainUserDouble);
     }
 }
 

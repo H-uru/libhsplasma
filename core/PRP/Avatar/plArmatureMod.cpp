@@ -149,6 +149,7 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     fRootName = S->readSafeStr();
 
     if (S->getVer().isUru()) {
+        clearBrains();
         fBrains.setSizeNull(S->readInt());
         for (size_t i=0; i<fBrains.getSize(); i++)
             fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
