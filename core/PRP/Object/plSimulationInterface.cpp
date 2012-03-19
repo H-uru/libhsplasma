@@ -16,7 +16,7 @@
 
 #include "plSimulationInterface.h"
 
-plSimulationInterface::plSimulationInterface() {
+plSimulationInterface::plSimulationInterface() : fUruInt(0) {
     fProps.setName(kDisable, "kDisable");
     fProps.setName(kWeightless, "kWeightless");
     fProps.setName(kPinned, "kPinned");
@@ -39,7 +39,7 @@ void plSimulationInterface::read(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru()) {
         // Yes, really :(
         fProps.read(S);
-        S->readInt();
+        fUruInt = S->readInt(); // 0 for POTS, 0xFFFFFFFF for some marker simulation interfaces in UU
     }
     fPhysical = mgr->readKey(S);
 }
@@ -49,7 +49,7 @@ void plSimulationInterface::write(hsStream* S, plResManager* mgr) {
 
     if (S->getVer().isUru()) {
         fProps.write(S);
-        S->writeInt(0);
+        S->writeInt(fUruInt);
     }
     mgr->writeKey(S, fPhysical);
 }
