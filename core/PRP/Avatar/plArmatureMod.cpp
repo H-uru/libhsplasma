@@ -141,7 +141,7 @@ plArmatureMod::plArmatureMod()
 void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru()) {
         plAGMasterMod::read(S, mgr);
-        fMeshKeys.append(mgr->readKey(S));
+        fDefaultMesh = mgr->readKey(S);
     } else {
         plArmatureModBase::read(S, mgr);
     }
@@ -196,11 +196,11 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
 void plArmatureMod::write(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru()) {
         plAGMasterMod::write(S, mgr);
+        mgr->writeKey(S, fDefaultMesh);
     } else {
         plArmatureModBase::write(S, mgr);
     }
 
-    mgr->writeKey(S, fMeshKeys[0]);
     S->writeSafeStr(fRootName);
 
     S->writeInt(fBrains.getSize());
@@ -236,9 +236,9 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
 void plArmatureMod::IPrcWrite(pfPrcHelper* prc) {
     plArmatureModBase::IPrcWrite(prc);
 
-    /*prc->writeSimpleTag("DefaultMesh");
-    fMeshKeys[0]->prcWrite(prc);
-    prc->closeTag();*/
+    prc->writeSimpleTag("DefaultMesh");
+    fDefaultMesh->prcWrite(prc);
+    prc->closeTag();
 
     prc->startTag("ArmatureParams");
     prc->writeParam("Root", fRootName);
@@ -276,7 +276,7 @@ void plArmatureMod::IPrcWrite(pfPrcHelper* prc) {
 
 void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "DefaultMesh") {
-        fMeshKeys.append(mgr->prcParseKey(tag->getFirstChild()));
+        fDefaultMesh = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "ArmatureParams") {
         fRootName = tag->getParam("Root", "");
         fBodyType = tag->getParam("BodyType", "0").toInt();
