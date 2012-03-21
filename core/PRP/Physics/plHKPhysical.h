@@ -65,24 +65,24 @@ private:
 
         throw hsNotImplementedException(__FILE__, __LINE__, plString::Format("plHKSimDefs::fromGroup: Generic group %d", group));
     }
-    
+
     static unsigned int getBitshiftGroup(unsigned int group) {
         unsigned int retGroup = 0;
 
         for (size_t i=kGroupFirstProper; i<kGroupMax; i++) {
-            if ((group & (1u << i)) == (1u << i)) {
+            if ((group & (1u << i)) != 0) {
                 retGroup |= (1u << fromGroup(i));
             }
         }
 
         return retGroup;
     }
-    
+
     static unsigned int setBitshiftGroup(unsigned int group) {
         unsigned int retGroup = 0;
 
         for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
-            if ((group & (1u << i)) == (1u << i)) {
+            if ((group & (1u << i)) != 0) {
                 retGroup |= (1u << toGroup(i));
             }
         }
@@ -103,7 +103,7 @@ public:
         }
         throw hsNotImplementedException(__FILE__, __LINE__, plString::Format("plHKSimDefs::fromGroup: Havok member group 0x%08X", group));
     }
-    
+
     static unsigned int setMemGroup(plGenericPhysical* physical) {
         const unsigned int group = physical->getMemberGroup();
         if (group == plSimDefs::kGroupLOSOnly)
