@@ -410,9 +410,9 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     fFriction = S->readFloat();
     fRestitution = S->readFloat();
     fBounds = (plSimDefs::Bounds)S->readInt();
-    fMemberGroup = plHKSimDefs::fromGroup(hMemberGroup = S->readInt());
-    fReportGroup = plHKSimDefs::getBitshiftGroup(hReportGroup = S->readInt());
-    fCollideGroup = plHKSimDefs::getBitshiftGroup(hCollideGroup = S->readInt());
+    fMemberGroup = plHKSimDefs::getMemGroup(hMemberGroup = S->readInt());
+    fReportGroup = plHKSimDefs::getRepGroup(hReportGroup = S->readInt(), hMemberGroup);
+    fCollideGroup = plHKSimDefs::getColGroup(hCollideGroup = S->readInt(), hMemberGroup);
     fDisableReport = S->readBool();
     fDisableCollide = S->readBool();
 
@@ -440,30 +440,39 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     fSoundGroup = mgr->readKey(S);
 
 #ifdef DEBUG
-    unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
-    unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
-    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
-    bool showLOSDB = false;
-    plHKSimDefs::fixGroups(this, &memGroup, &repGroup, &colGroup);
+    unsigned int memGroup = plHKSimDefs::setMemGroup(this);
+    unsigned int repGroup = plHKSimDefs::setRepGroup(this);
+    unsigned int colGroup = plHKSimDefs::setColGroup(this);
+    bool showAll = false;
     // now compare
     if (memGroup != hMemberGroup) {
-        showLOSDB = true;
+        showAll = true;
         plDebug::Warning("%s memGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hMemberGroup, memGroup);
     }
     if (repGroup != hReportGroup) {
-        showLOSDB = true;
+        showAll = true;
         plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hReportGroup, repGroup);
     }
     if (colGroup != hCollideGroup) {
-        showLOSDB = true;
+        showAll = true;
         plDebug::Warning("%s colGroup changed: 0x%08X => 0x%08X",
                 getKey()->toString().cstr(), hCollideGroup, colGroup);
     }
-    if (showLOSDB) {
-        plDebug::Debug("%s LOSDBs = 0x%08X", getKey()->toString().cstr(),
-                fLOSDBs);
+    if (showAll) {
+        plDebug::Debug("%s original HK flags: memGroup = 0x%08X, repGroup = 0x%08X, colGroup = 0x%08X",
+                getKey()->toString().cstr(), hMemberGroup, hReportGroup, hCollideGroup);
+        plDebug::Debug("%s Generic data: memGroup = 0x%08X, repGroup = 0x%08X, colGroup = 0x%08X",
+                getKey()->toString().cstr(), fMemberGroup, fReportGroup, fCollideGroup);
+        plString info = plString::Format("%s LOSDBs = 0x%08X, properties: ", getKey()->toString().cstr(), fLOSDBs);
+        for (size_t i=0; i<fProps.size(); i++) {
+            if (fProps.get(i)) {
+                info += fProps.getName(i);
+                info += " ";
+            }
+        }
+        plDebug::Debug(info);
     }
 #endif
 }
@@ -509,10 +518,12 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     fRestitution = S->readFloat();
     fBounds = (plSimDefs::Bounds)S->readByte();
 
-    uint8_t group = S->readByte();
-    fMemberGroup = plPXSimDefs::fromGroup(group); //fGroup
-    fCollideGroup = plPXSimDefs::getCollideGroup(group);
-    fReportGroup = plPXSimDefs::getReportsOn(S->readInt()); //fReportsOn
+    uint8_t pxGroup = S->readByte();
+    fMemberGroup = plPXSimDefs::fromGroup(pxGroup); //fGroup
+    fCollideGroup = plPXSimDefs::getCollideGroup(pxGroup);
+    uint32_t pxReports = S->readInt();
+    fReportGroup = plPXSimDefs::getReportsOn(pxReports); //fReportsOn
+
     fLOSDBs = S->readShort();
     fObjectKey = mgr->readKey(S);
     fSceneNode = mgr->readKey(S);
@@ -537,14 +548,27 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     } else {    // Proxy or Explicit
         PXCookedData::readTriangleMesh(S, this);
     }
+    
+#ifdef DEBUG
+    // check if the conversion back to the original flags is losless
+    uint8_t group = plPXSimDefs::toGroup(fMemberGroup, fCollideGroup);
+    uint32_t reports = plPXSimDefs::setReportsOn(fReportGroup);
+    if (group != pxGroup) {
+        plDebug::Warning("%s mem/colGroup changed: 0x%08X => 0x%08X",
+                getKey()->toString().cstr(), pxGroup, group);
+    }
+    if (reports != pxReports) {
+        plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
+                getKey()->toString().cstr(), pxReports, reports);
+    }
+#endif
 }
 
 void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
 
-    unsigned int memGroup = plHKSimDefs::toGroup(fMemberGroup);
-    unsigned int repGroup = plHKSimDefs::setBitshiftGroup(fReportGroup);
-    unsigned int colGroup = plHKSimDefs::setBitshiftGroup(fCollideGroup);
-    plHKSimDefs::fixGroups(this, &memGroup, &repGroup, &colGroup);
+    unsigned int memGroup = plHKSimDefs::setMemGroup(this);
+    unsigned int repGroup = plHKSimDefs::setRepGroup(this);
+    unsigned int colGroup = plHKSimDefs::setColGroup(this);
 
 
     fPos.write(S);

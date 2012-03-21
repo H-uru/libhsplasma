@@ -92,6 +92,9 @@ public:
 
     /** Set the value of bit \a idx to \a b */
     void set(unsigned int idx, bool b);
+    
+    /** Return the number of available bits. */
+    size_t size() const { return fNumVectors*BVMULT; }
 
     /** Return the value of bit \a idx, for const hsBitVectors */
     bool operator[](unsigned int idx) const { return get(idx); }
