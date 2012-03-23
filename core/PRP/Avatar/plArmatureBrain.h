@@ -23,12 +23,18 @@ class PLASMA_DLL plArmatureBrain : public plCreatable {
     CREATABLE(plArmatureBrain, kArmatureBrain, plCreatable)
 
 public:
+    plArmatureBrain() : plCreatable(), fAvBrainUserInt(0), fAvBrainUserFloat(0.0f), fAvBrainUserDouble(0.0) {}
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+private:
+    uint32_t fAvBrainUserInt;
+    float fAvBrainUserFloat;
+    double fAvBrainUserDouble;
 };
 
 

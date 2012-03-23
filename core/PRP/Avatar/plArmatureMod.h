@@ -58,6 +58,7 @@ public:
     const char* kBoneNames[kMaxBoneBase];
 
 protected:
+    plKey fDefaultMesh;
     plString fRootName;
     plKey fClothingOutfit;
     int fBodyType;

@@ -32,6 +32,7 @@ public:
 
 protected:
     plKey fPhysical;
+    uint32_t fUruInt;
 
 public:
     plSimulationInterface();
