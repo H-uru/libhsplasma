@@ -61,9 +61,6 @@ void pfGUIListBoxMod::read(hsStream* S, plResManager* mgr) {
 
     if (S->readBool())
         fScrollCtrl = mgr->readKey(S);
-
-    if (fFlags[kAllowMultipleElementsPerRow])
-        fFlags[kWantsInterest] = false;
 }
 
 void pfGUIListBoxMod::write(hsStream* S, plResManager* mgr) {

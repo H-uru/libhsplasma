@@ -46,18 +46,18 @@ def checkObjectsEqual(objs1, objs2, ignorePhysics):
         # compare the objects of this type
         for name in objs1[type].keys():
             if not name in objs2[type].keys():
-                raise Exception('Type '+typeName+', object '+name+' missing')
+                print 'Type [%04X]%s, object %s missing' % (type, typeName, name)
             if ignorePhysics and type == PyHSPlasma.plFactory.kGenericPhysical: continue
             obj1 = objs1[type][name]
             obj2 = objs2[type][name]
             if len(obj1) != len(obj2):
-                raise Exception('Type '+typeName+', object '+name+' changed size ('+str(len(obj1))+' => '+str(len(obj2))+')')
+                print 'Type [%04X]%s, object %s changed changed size (%d => %d)' % (type, typeName, name, len(obj1), len(obj2))
             if obj1 != obj2:
-                raise Exception('Type '+typeName+', object '+name+' changed but stayed same size')
+                print 'Type [%04X]%s, object %s changed but stay same size' % (type, typeName, name)
         # check if something got added
         for name in objs2[type].keys():
             if not name in objs1[type].keys():
-                raise Exception('Type '+typeName+', object '+name+' added')
+                print 'Type [%04X]%s, object %s added' % (type, typeName, name)
 
 
 def compareFiles(file1, file2, ignorePhysics):
@@ -70,10 +70,7 @@ def compareFiles(file1, file2, ignorePhysics):
     newObjects = readObjects(location)
     rm.UnloadPage(location)
     # now compare the objects
-    try:
-        checkObjectsEqual(oldObjects, newObjects, ignorePhysics)
-    except Exception, msg:
-        print msg
+    checkObjectsEqual(oldObjects, newObjects, ignorePhysics)
 
 
 def overprint(text):
