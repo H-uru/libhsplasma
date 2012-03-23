@@ -55,13 +55,13 @@ public:
             return plSimDefs::kGroupLOSOnly;
         }
 
-        return plSimDefs::kGroupStatic;
+        throw hsNotImplementedException(__FILE__, __LINE__, plString::Format("plPXSimDefs::fromGroup: PhysX group %d", group));
     }
 
     static uint8_t toGroup(unsigned int group, unsigned int collide) {
-        if (collide == plSimDefs::kGroupAvatar) {
+        if (collide == (1 << plSimDefs::kGroupAvatar)) {
             return kGroupAvatarBlocker;
-        } else if (collide == plSimDefs::kGroupDynamic) {
+        } else if (collide == (1 << plSimDefs::kGroupDynamic)) {
             return kGroupDynamicBlocker;
         } else if (group == plSimDefs::kGroupStatic) {
             return kGroupStatic;
@@ -75,7 +75,7 @@ public:
             return kGroupLOSOnly;
         }
 
-        return kGroupStatic;
+        throw hsNotImplementedException(__FILE__, __LINE__, plString::Format("plPXSimDefs::fromGroup: Generic group %d", group));
     }
 
     static unsigned int getCollideGroup(uint8_t group) {
@@ -92,7 +92,7 @@ public:
         unsigned int retGroup = 0;
 
         for (size_t i=0; i<kGroupMax; i++) {
-            if ((group & (1u << i)) == (1u << i)) {
+            if ((group & (1u << i)) != 0) {
                 retGroup |= (1 << fromGroup(i));
             }
         }
@@ -104,7 +104,7 @@ public:
         unsigned int retGroup = 0;
 
         for (size_t i=0; i<plSimDefs::kGroupMax; i++) {
-            if ((group & (1u << i)) == (1u << i)) {
+            if ((group & (1u << i)) != 0) {
                 retGroup |= (1 << toGroup(i,0));
             }
         }

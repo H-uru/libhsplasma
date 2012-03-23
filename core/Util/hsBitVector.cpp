@@ -151,12 +151,10 @@ void hsBitVector::write(hsStream* S) {
 
 void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsBitVector");
-    for (size_t i=0; i<fNumVectors; i++) {
-        for (unsigned int j=0; j<BVMULT; j++) {
-            if (get((i*BVMULT) + j)) {
-                prc->getStream()->writeStr(getName((i*BVMULT) + j));
-                prc->getStream()->writeStr(" ");
-            }
+    for (size_t i=0; i<size(); i++) {
+        if (get(i)) {
+            prc->getStream()->writeStr(getName(i));
+            prc->getStream()->writeStr(" ");
         }
     }
     prc->closeTagNoBreak();
