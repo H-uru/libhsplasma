@@ -50,6 +50,7 @@
 #include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
 #include "PRP/Geometry/pyGBufferGroup.h"
+#include "PRP/Geometry/pyGeometrySpan.h"
 #include "PRP/Geometry/pyOccluder.h"
 #include "PRP/Geometry/pySpaceTree.h"
 #include "PRP/Geometry/pySpan.h"
@@ -260,6 +261,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plGBufferTriangle", Init_pyGBufferTriangle_Type());
     PyModule_AddObject(module, "plGBufferVertex", Init_pyGBufferVertex_Type());
     PyModule_AddObject(module, "plGBufferGroup", Init_pyGBufferGroup_Type());
+    PyModule_AddObject(module, "plGeometrySpan", Init_pyGeometrySpan_Type());
     PyModule_AddObject(module, "plRenderLevel", Init_pyRenderLevel_Type());
     PyModule_AddObject(module, "plSpaceTreeNode", Init_pySpaceTreeNode_Type());
     PyModule_AddObject(module, "hsGMatState", Init_pyGMatState_Type());

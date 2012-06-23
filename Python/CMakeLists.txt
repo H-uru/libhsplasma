@@ -162,6 +162,7 @@ set(PRP_GEOM_SRCS
     PRP/Geometry/pyGBufferGroup.cpp
     PRP/Geometry/pyGBufferTriangle.cpp
     PRP/Geometry/pyGBufferVertex.cpp
+    PRP/Geometry/pyGeometrySpan.cpp
     PRP/Geometry/pyIcicle.cpp
     PRP/Geometry/pyLODDist.cpp
     PRP/Geometry/pyMobileOccluder.cpp
@@ -174,6 +175,7 @@ set(PRP_GEOM_SRCS
     PRP/Geometry/pySpanInstance.cpp
     PRP/Geometry/pySpanTemplate.cpp
     PRP/Geometry/pySpanTemplateVertex.cpp
+    PRP/Geometry/pyTempVertex.cpp
     PRP/Geometry/pyVertexSpan.cpp
 )
 set(PRP_GEOM_HDRS
@@ -181,11 +183,13 @@ set(PRP_GEOM_HDRS
     PRP/Geometry/pyClusterGroup.h
     PRP/Geometry/pyDrawableSpans.h
     PRP/Geometry/pyGBufferGroup.h
+    PRP/Geometry/pyGeometrySpan.h
     PRP/Geometry/pyOccluder.h
     PRP/Geometry/pySpaceTree.h
     PRP/Geometry/pySpan.h
     PRP/Geometry/pySpanInstance.h
     PRP/Geometry/pySpanTemplate.h
+    PRP/Geometry/pyTempVertex.h
 )
 
 set(PRP_GUI_SRCS
