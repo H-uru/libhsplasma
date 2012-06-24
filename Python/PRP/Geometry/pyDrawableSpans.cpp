@@ -19,6 +19,7 @@
 #include "pyDrawableSpans.h"
 #include "pySpan.h"
 #include "pyGBufferGroup.h"
+#include "pyGeometrySpan.h"
 #include "pySpaceTree.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
@@ -279,6 +280,21 @@ static PyObject* pyDrawableSpans_BuildSpaceTree(pyDrawableSpans* self) {
     return Py_None;
 }
 
+static PyObject* pyDrawableSpans_addSourceSpan(pyDrawableSpans* self, PyObject* args) {
+    pyGeometrySpan* span;
+    if (!PyArg_ParseTuple(args, "O", &span)) {
+        PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
+        return NULL;
+    }
+    if (!pyGeometrySpan_Check((PyObject*)span)) {
+        PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
+        return NULL;
+    }
+    self->fThis->addSourceSpan(span->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyDrawableSpans_getSpans(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumSpans());
     for (size_t i=0; i<self->fThis->getNumSpans(); i++)
@@ -365,6 +381,13 @@ static PyObject* pyDrawableSpans_getRenderLevel(pyDrawableSpans* self, void*) {
 
 static PyObject* pyDrawableSpans_getSceneNode(pyDrawableSpans* self, void*) {
     return pyKey_FromKey(self->fThis->getSceneNode());
+}
+
+static PyObject* pyDrawableSpans_getSourceSpans(pyDrawableSpans* self, void*) {
+    PyObject* list = PyList_New(self->fThis->getSourceSpans().getSize());
+    for (size_t i = 0; i < self->fThis->getSourceSpans().getSize(); ++i)
+        PyList_SET_ITEM(list, i, pyGeometrySpan_FromGeometrySpan(self->fThis->getSourceSpans()[i]));
+    return list;
 }
 
 static int pyDrawableSpans_setSpans(pyDrawableSpans* self, PyObject* value, void*) {
@@ -466,6 +489,11 @@ static int pyDrawableSpans_setSceneNode(pyDrawableSpans* self, PyObject* value, 
     return 0;
 }
 
+static int pyDrawableSpans_setSourceSpans(pyDrawableSpans* self, PyObject* value, void*) {
+    PyErr_SetString(PyExc_RuntimeError, "To add sourceSpans, use addSourceSpan()");
+    return -1;
+}
+
 static PyMethodDef pyDrawableSpans_Methods[] = {
     { "clearSpans", (PyCFunction)pyDrawableSpans_clearSpans, METH_NOARGS,
       "Remove all spans from this DrawableSpans object" },
@@ -516,6 +544,9 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
       "(Re-)Calculate the bounds for all icicles and the DrawableSpans"},
     { "BuildSpaceTree", (PyCFunction)pyDrawableSpans_BuildSpaceTree, METH_NOARGS,
       "Build a plSpaceTree for this draw spans object" },
+    { "addSourceSpan", (PyCFunction)pyDrawableSpans_addSourceSpan, METH_VARARGS,
+      "Params: span\n"
+      "Add a GeometrySpan to this DrawableSpans' sources" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -536,6 +567,7 @@ static PyGetSetDef pyDrawableSpans_GetSet[] = {
     { "criteria", (getter)pyDrawableSpans_getCriteria, (setter)pyDrawableSpans_setCriteria, NULL, NULL },
     { "renderLevel", (getter)pyDrawableSpans_getRenderLevel, (setter)pyDrawableSpans_setRenderLevel, NULL, NULL },
     { "sceneNode", (getter)pyDrawableSpans_getSceneNode, (setter)pyDrawableSpans_setSceneNode, NULL, NULL },
+    { "sourceSpans", (getter)pyDrawableSpans_getSourceSpans, (setter)pyDrawableSpans_setSourceSpans, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

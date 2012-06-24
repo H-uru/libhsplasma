@@ -17,18 +17,19 @@
 #ifndef _PYGEOMETRYSPAN_H
 #define _PYGEOMETRYSPAN_H
 
+#include <memory>
+
 extern "C" {
 
 typedef struct {
     PyObject_HEAD
-    class plGeometrySpan* fThis;
-    bool fPyOwned;
+    std::shared_ptr<class plGeometrySpan> fThis;
 } pyGeometrySpan;
 
 extern PyTypeObject pyGeometrySpan_Type;
 PyObject* Init_pyGeometrySpan_Type();
 int pyGeometrySpan_Check(PyObject* obj);
-PyObject* pyGeometrySpan_FromGeometrySpan(class plGeometrySpan* span);
+PyObject* pyGeometrySpan_FromGeometrySpan(const std::shared_ptr<class plGeometrySpan>& span);
 
 };
 

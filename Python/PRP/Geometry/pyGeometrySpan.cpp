@@ -23,12 +23,14 @@
 
 extern "C" {
 
+static void pyGeometrySpan_dealloc(pyGeometrySpan* self) {
+    Py_TYPE(self)->tp_free((PyObject*)self);
+}
+
 static PyObject* pyGeometrySpan_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyGeometrySpan* self = (pyGeometrySpan*)type->tp_alloc(type, 0);
-    if (self != NULL) {
-        self->fThis = new plGeometrySpan();
-        self->fPyOwned = true;
-    }
+    if (self != NULL)
+        self->fThis.reset(new plGeometrySpan);
     return (PyObject*)self;
 }
 
@@ -323,7 +325,7 @@ PyTypeObject pyGeometrySpan_Type = {
     sizeof(pyGeometrySpan),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    NULL,                               /* tp_dealloc */
+    (destructor)pyGeometrySpan_dealloc, /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -447,14 +449,13 @@ int pyGeometrySpan_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyGeometrySpan_FromGeometrySpan(class plGeometrySpan* span) {
+PyObject* pyGeometrySpan_FromGeometrySpan(const std::shared_ptr<plGeometrySpan>& span) {
     if (span == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
     pyGeometrySpan* pspan = PyObject_New(pyGeometrySpan, &pyGeometrySpan_Type);
     pspan->fThis = span;
-    pspan->fPyOwned = false;
     return (PyObject*)pspan;
 }
 
