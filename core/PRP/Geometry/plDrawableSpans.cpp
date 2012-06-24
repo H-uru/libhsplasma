@@ -36,8 +36,6 @@ plDrawableSpans::plDrawableSpans()
                : fSpaceTree(NULL), fProps(0), fCriteria(0), fRenderLevel(0) { }
 
 plDrawableSpans::~plDrawableSpans() {
-    for (size_t i=0; i<fSourceSpans.getSize(); i++)
-        delete fSourceSpans[i];
     for (size_t i=0; i<fGroups.getSize(); i++)
         delete fGroups[i];
     for (size_t i=0; i<fSpans.getSize(); i++)
@@ -106,13 +104,11 @@ void plDrawableSpans::read(hsStream* S, plResManager* mgr) {
         }
     }
 
-    for (size_t i=0; i<fSourceSpans.getSize(); i++)
-        delete fSourceSpans[i];
     fSourceSpans.setSizeNull(S->readInt());
     if (fSourceSpans.getSize() > 0 && !S->getVer().isUniversal())
         plDebug::Debug("Reading deprecated SourceSpans");
     for (size_t i=0; i<fSourceSpans.getSize(); i++) {
-        fSourceSpans[i] = new plGeometrySpan();
+        fSourceSpans[i].reset(new plGeometrySpan());
         fSourceSpans[i]->read(S);
         if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
             fSourceSpans[i]->setMaterial(NULL);
@@ -445,12 +441,10 @@ void plDrawableSpans::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "SourceSpans") {
-        for (size_t i=0; i<fSourceSpans.getSize(); i++)
-            delete fSourceSpans[i];
         fSourceSpans.setSizeNull(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fSourceSpans.getSize(); i++) {
-            fSourceSpans[i] = new plGeometrySpan();
+            fSourceSpans[i].reset(new plGeometrySpan());
             fSourceSpans[i]->prcParse(tag);
             if (fSpans[i]->getMaterialIdx() == 0xFFFFFFFF)
                 fSourceSpans[i]->setMaterial(NULL);
@@ -736,7 +730,7 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         delete fSpans[i];
 
     for (size_t i=0; i<fSourceSpans.getSize(); i++) {
-        plGeometrySpan* span = fSourceSpans[i];
+        plGeometrySpan* span = fSourceSpans[i].get();
         unsigned int format = span->getFormat();
         plGBufferGroup* group = groups[format].first;
         if (!group) {
@@ -810,17 +804,14 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
 
     BuildSpaceTree();
 
-    if (clearspans) {
-        for (size_t i=0; i<fSourceSpans.getSize(); ++i)
-            delete fSourceSpans[i];
+    if (clearspans)
         fSourceSpans.clear();
-    }
 }
 
 void plDrawableSpans::decomposeGeometry(bool clearcolors) {
     for (size_t i=0; i<fIcicles.getSize(); i++) {
         plIcicle* icicle = fIcicles[i];
-        plGeometrySpan* span = new plGeometrySpan;
+        std::shared_ptr<plGeometrySpan> span(new plGeometrySpan());
         plGBufferGroup* group = fGroups[icicle->getGroupIdx()];
 
         span->setLocalToWorld(icicle->getLocalToWorld());
@@ -882,7 +873,7 @@ void plDrawableSpans::decomposeGeometry(bool clearcolors) {
     }
 }
 
-size_t plDrawableSpans::buildDIIndex(hsTArray<plGeometrySpan*> spans) {
+size_t plDrawableSpans::buildDIIndex(const hsTArray < std::shared_ptr<plGeometrySpan> >& spans) {
     plDISpanIndex di_idx;
     for (size_t i=0; i<spans.getSize(); ++i) {
         di_idx.fIndices.append(fSourceSpans.find(spans[i]));

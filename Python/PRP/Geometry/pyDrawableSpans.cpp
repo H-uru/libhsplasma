@@ -19,6 +19,7 @@
 #include "pyDrawableSpans.h"
 #include "pySpan.h"
 #include "pyGBufferGroup.h"
+#include "pyGeometrySpan.h"
 #include "pySpaceTree.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
@@ -279,6 +280,68 @@ static PyObject* pyDrawableSpans_BuildSpaceTree(pyDrawableSpans* self) {
     return Py_None;
 }
 
+static PyObject* pyDrawableSpans_composeGeometry(pyDrawableSpans* self, PyObject* args) {
+    bool clearSpans = true;
+    if (!PyArg_ParseTuple(args, "|b", &clearSpans)) {
+        PyErr_SetString(PyExc_TypeError, "composeGeometry expects an optional bool");
+        return NULL;
+    }
+    self->fThis->composeGeometry(clearSpans);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDrawableSpans_decomposeGeometry(pyDrawableSpans* self, PyObject* args) {
+    bool clearColors = true;
+    if (!PyArg_ParseTuple(args, "|b", &clearColors)) {
+        PyErr_SetString(PyExc_TypeError, "decomposeGeometry expects an optional bool");
+        return NULL;
+    }
+    self->fThis->decomposeGeometry(clearColors);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDrawableSpans_buildDIIndex(pyDrawableSpans* self, PyObject* args) {
+    PyObject* list;
+    if (!PyArg_ParseTuple(args, "O", &list)) {
+        PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
+        return NULL;
+    }
+    if (!PySequence_Check(list)) {
+        PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
+        return NULL;
+    }
+
+    hsTArray< std::shared_ptr<plGeometrySpan> > spans;
+    spans.setSize(PySequence_Size(list));
+    for (size_t i = 0; i < PySequence_Size(list); ++i) {
+        PyObject* o = PySequence_Fast_GET_ITEM(list, i);
+        if (pyGeometrySpan_Check(o))
+            spans[i] = ((pyGeometrySpan*)o)->fThis;
+        else {
+            PyErr_SetString(PyExc_TypeError, "buildDIIndex expects a sequence of plGeometrySpan");
+            return NULL;
+        }
+    }
+    return PyInt_FromLong(self->fThis->buildDIIndex(spans));
+}
+
+static PyObject* pyDrawableSpans_addSourceSpan(pyDrawableSpans* self, PyObject* args) {
+    pyGeometrySpan* span;
+    if (!PyArg_ParseTuple(args, "O", &span)) {
+        PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
+        return NULL;
+    }
+    if (!pyGeometrySpan_Check((PyObject*)span)) {
+        PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
+        return NULL;
+    }
+    self->fThis->addSourceSpan(span->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyDrawableSpans_getSpans(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumSpans());
     for (size_t i=0; i<self->fThis->getNumSpans(); i++)
@@ -365,6 +428,13 @@ static PyObject* pyDrawableSpans_getRenderLevel(pyDrawableSpans* self, void*) {
 
 static PyObject* pyDrawableSpans_getSceneNode(pyDrawableSpans* self, void*) {
     return pyKey_FromKey(self->fThis->getSceneNode());
+}
+
+static PyObject* pyDrawableSpans_getSourceSpans(pyDrawableSpans* self, void*) {
+    PyObject* list = PyList_New(self->fThis->getSourceSpans().getSize());
+    for (size_t i = 0; i < self->fThis->getSourceSpans().getSize(); ++i)
+        PyList_SET_ITEM(list, i, pyGeometrySpan_FromGeometrySpan(self->fThis->getSourceSpans()[i]));
+    return list;
 }
 
 static int pyDrawableSpans_setSpans(pyDrawableSpans* self, PyObject* value, void*) {
@@ -466,6 +536,11 @@ static int pyDrawableSpans_setSceneNode(pyDrawableSpans* self, PyObject* value, 
     return 0;
 }
 
+static int pyDrawableSpans_setSourceSpans(pyDrawableSpans* self, PyObject* value, void*) {
+    PyErr_SetString(PyExc_RuntimeError, "To add sourceSpans, use addSourceSpan()");
+    return -1;
+}
+
 static PyMethodDef pyDrawableSpans_Methods[] = {
     { "clearSpans", (PyCFunction)pyDrawableSpans_clearSpans, METH_NOARGS,
       "Remove all spans from this DrawableSpans object" },
@@ -516,6 +591,18 @@ static PyMethodDef pyDrawableSpans_Methods[] = {
       "(Re-)Calculate the bounds for all icicles and the DrawableSpans"},
     { "BuildSpaceTree", (PyCFunction)pyDrawableSpans_BuildSpaceTree, METH_NOARGS,
       "Build a plSpaceTree for this draw spans object" },
+    { "composeGeometry", (PyCFunction)pyDrawableSpans_composeGeometry, METH_VARARGS,
+      "Params: clearSpans\n"
+      "Populates the DrawableSpans from its source spans" },
+    { "decomposeGeometry", (PyCFunction)pyDrawableSpans_decomposeGeometry, METH_VARARGS,
+      "Params: clearColors\n"
+      "Decompose the DrawableSpans into source spans" },
+    { "buildDIIndex", (PyCFunction)pyDrawableSpans_buildDIIndex, METH_VARARGS,
+      "Params: spans"
+      "Builds and returns the offset of the DISpanIndex created for a mesh composed of a set of source spans" },
+    { "addSourceSpan", (PyCFunction)pyDrawableSpans_addSourceSpan, METH_VARARGS,
+      "Params: span\n"
+      "Add a GeometrySpan to this DrawableSpans' sources" },
     { NULL, NULL, 0, NULL }
 };
 
@@ -536,6 +623,7 @@ static PyGetSetDef pyDrawableSpans_GetSet[] = {
     { "criteria", (getter)pyDrawableSpans_getCriteria, (setter)pyDrawableSpans_setCriteria, NULL, NULL },
     { "renderLevel", (getter)pyDrawableSpans_getRenderLevel, (setter)pyDrawableSpans_setRenderLevel, NULL, NULL },
     { "sceneNode", (getter)pyDrawableSpans_getSceneNode, (setter)pyDrawableSpans_setSceneNode, NULL, NULL },
+    { "sourceSpans", (getter)pyDrawableSpans_getSourceSpans, (setter)pyDrawableSpans_setSourceSpans, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
