@@ -53,11 +53,12 @@ plString hsElfStream::readLine() {
     return line;
 }
 
-void hsElfStream::writeLine(const plString& ln) {
+void hsElfStream::writeLine(const plString& ln, bool winEOL) {
     // This may or may not work...
     unsigned int p = pos();
     unsigned short segSize = ln.len();
 
+    // Note: winEOL is ignored here
     char* lnWrite = new char[ln.len() + 1];
     memcpy(lnWrite, ln.cstr(), ln.len() + 1);
     encipher((unsigned char*)lnWrite, segSize, (p & 0xFF));

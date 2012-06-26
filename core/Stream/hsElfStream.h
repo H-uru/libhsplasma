@@ -31,7 +31,7 @@ public:
     hsElfStream();
 
     virtual plString readLine();
-    virtual void writeLine(const plString& ln);
+    virtual void writeLine(const plString& ln, bool winEOL = false);
 };
 
 #endif

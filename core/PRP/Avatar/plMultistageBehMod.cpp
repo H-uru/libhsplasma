@@ -95,7 +95,7 @@ void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Receivers") {
-        fReceivers.setSizeNull(tag->countChildren());
+        fReceivers.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fReceivers.getSize(); i++) {
             fReceivers[i] = mgr->prcParseKey(child);

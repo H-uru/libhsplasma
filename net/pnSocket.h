@@ -31,7 +31,7 @@ protected:
 public:
     pnSocket();
     pnSocket(int handle);
-    ~pnSocket();
+    virtual ~pnSocket();
 
     plString getRemoteIpStr() const;
     int getHandle() const { return fSockHandle; }
