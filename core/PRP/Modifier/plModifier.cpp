@@ -15,6 +15,7 @@
  */
 
 #include "plModifier.h"
+#include <algorithm>
 
 /* plSingleModifier */
 void plSingleModifier::read(hsStream* S, plResManager* mgr) {
@@ -71,4 +72,13 @@ void plMultiModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plSynchedObject::IPrcParse(tag, mgr);
     }
+}
+
+void plMultiModifier::removeTarget(plKey target) {
+    auto it = std::find(fTargets.begin(), fTargets.end(), target);
+
+    if (it == fTargets.end())
+        throw hsBadParamException(__FILE__, __LINE__, "Trying to remove invalid target");
+
+    fTargets.erase(it);
 }

@@ -84,6 +84,34 @@ void plKeyData::UnRef() {
     }
 }
 
+void plKeyData::setObj(class hsKeyedObject* obj) {
+    if (obj == fObjPtr)
+        return;
+
+    if (fObjPtr != NULL && !fObjPtr->isStub())
+        throw hsBadParamException(__FILE__, __LINE__, "Trying to change already loaded object");
+
+    fObjPtr = obj;
+
+    if (obj && !obj->isStub()) {
+        for (auto it = fCallbacks.begin(); it != fCallbacks.end(); it++)
+            (*it)(obj);
+
+        fCallbacks.clear();
+    }
+}
+
+void plKeyData::deleteObj() {
+    delete fObjPtr;
+    fObjPtr = 0;
+}
+
+void plKeyData::addCallback(const AfterLoadCallback& callback) {
+    if (fObjPtr != NULL)
+        callback(fObjPtr);
+    else
+        fCallbacks.push_back(callback);
+}
 
 /* plKey */
 plKey::plKey() : fKeyData(NULL) { }

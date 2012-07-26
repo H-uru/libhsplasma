@@ -23,6 +23,19 @@
 
 class PLASMA_DLL plModifier : public virtual plSynchedObject {
     CREATABLE(plModifier, kModifier, plSynchedObject)
+
+public:
+    /** Get number of targets (scene objects) referenced by this modifier */
+    virtual size_t getTargetsCount() const { return 0; }
+
+    /** Get key of n-th referenced target */
+    virtual plKey getTarget(size_t /*pos*/) const { return plKey(); }
+
+    /** Add referenced scene object */
+    virtual void addTarget(plKey /*target*/) {}
+
+    /** Remove scene object from target list */
+    virtual void removeTarget(plKey /*target*/) {}
 };
 
 
@@ -31,6 +44,7 @@ class PLASMA_DLL plSingleModifier : public virtual plModifier {
 
 protected:
     hsBitVector fFlags;
+    plKey fTarget;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -43,6 +57,11 @@ protected:
 public:
     bool getFlag(size_t flag) const { return fFlags.get(flag); }
     void setFlag(size_t flag, bool value) { fFlags.set(flag, value); }
+
+    virtual size_t getTargetsCount() const { return fTarget.Exists()?1:0; }
+    virtual plKey getTarget(size_t /*pos*/) const { return fTarget; }
+    virtual void addTarget(plKey target) { fTarget = target; };
+    virtual void removeTarget(plKey /*target*/) { fTarget = plKey(); }
 };
 
 
@@ -51,6 +70,7 @@ class PLASMA_DLL plMultiModifier : public virtual plModifier {
 
 protected:
     hsBitVector fFlags;
+    std::vector<plKey> fTargets;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -63,6 +83,11 @@ protected:
 public:
     bool getFlag(size_t flag) const { return fFlags.get(flag); }
     void setFlag(size_t flag, bool value) { fFlags.set(flag, value); }
+
+    virtual size_t getTargetsCount() const { return fTargets.size(); }
+    virtual plKey getTarget(size_t pos) const { return fTargets.at(pos); };
+    virtual void addTarget(plKey target) { fTargets.push_back(target); };
+    virtual void removeTarget(plKey target);
 };
 
 

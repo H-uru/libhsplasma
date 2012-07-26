@@ -17,12 +17,12 @@
 #ifndef _PLPARTICLESYSTEM_H
 #define _PLPARTICLESYSTEM_H
 
-#include "PRP/Object/plSynchedObject.h"
+#include "PRP/Modifier/plModifier.h"
 #include "PRP/Animation/plController.h"
 #include "plParticleEmitter.h"
 
-class PLASMA_DLL plParticleSystem : public virtual plSynchedObject {
-    CREATABLE(plParticleSystem, kParticleSystem, plSynchedObject)
+class PLASMA_DLL plParticleSystem : public virtual plModifier {
+    CREATABLE(plParticleSystem, kParticleSystem, plModifier)
 
 public:
     enum EffectType {

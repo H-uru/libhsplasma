@@ -69,8 +69,7 @@ void plKeyCollector::del(plKey key) {
     if (keys[key->getLocation()].empty())
         keys.erase(key->getLocation());
     if (key.Exists() && key.isLoaded()) {
-        delete key->getObj();
-        key->setObj(NULL);
+        key->deleteObj();
     }
 }
 
@@ -79,10 +78,8 @@ void plKeyCollector::delAll(const plLocation& loc) {
     std::map<short, std::vector<plKey> >::iterator it = locList.begin();
     while (it != locList.end()) {
         for (std::vector<plKey>::iterator i2 = it->second.begin(); i2 != it->second.end(); i2++) {
-            if ((*i2).Exists() && (*i2).isLoaded()) {
-                delete (*i2)->getObj();
-                (*i2)->setObj(0);
-            }
+            if (i2->Exists() && i2->isLoaded())
+                (*i2)->deleteObj();
         }
         it++;
     }

@@ -18,6 +18,8 @@
 #define _PLKEY_H
 
 #include "plUoid.h"
+#include <functional>
+#include <vector>
 
 #define GET_KEY_OBJECT(key, classname) \
     ((key.Exists() && key.isLoaded()) \
@@ -58,7 +60,10 @@ public:
      */
     ~plKeyData() { }
 
+    typedef std::function<void (hsKeyedObject*)> AfterLoadCallback;
 private:
+    std::vector<AfterLoadCallback> fCallbacks;
+
     uint32_t Ref() { return ++fRefCnt; }
     void UnRef();
     friend class plKey;
@@ -136,7 +141,10 @@ public:
     class hsKeyedObject* getObj() { return fObjPtr; }
 
     /** Sets the object referenced by this key. */
-    void setObj(class hsKeyedObject* obj) { fObjPtr = obj; }
+    void setObj(class hsKeyedObject* obj);
+
+    /** Delete object referenced by this key. */
+    void deleteObj();
 
     /** Returns the Class Index of the object referenced by this key */
     short getType() const { return fUoid.getType(); }
@@ -222,6 +230,15 @@ public:
      * is done automatically by the plResManager when writing pages.
      */
     void setObjSize(uint32_t size) { fObjSize = size; }
+
+    /**
+     * Add callback to be called after referenced object is loaded. 
+     * Callbacks added after object load will be executed immediately.
+     */
+    void addCallback(const AfterLoadCallback& callback);
+
+     /** Remove all callbacks, without executing */
+    void clearCallbacks() { fCallbacks.clear(); }
 };
 
 /**

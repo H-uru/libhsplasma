@@ -15,6 +15,13 @@
  */
 
 #include "plSceneObject.h"
+#include "PRP/Modifier/plModifier.h"
+
+void plSceneObject::addTarget (hsKeyedObject* obj) {
+    plModifier* mod = plModifier::Convert(obj);
+    if (mod != NULL)
+       mod->addTarget(getKey());
+}
 
 void plSceneObject::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
@@ -29,7 +36,9 @@ void plSceneObject::read(hsStream* S, plResManager* mgr) {
         fInterfaces[i] = mgr->readKey(S);
     fModifiers.setSize(S->readInt());
     for (size_t i=0; i<fModifiers.getSize(); i++)
-        fModifiers[i] = mgr->readKey(S);
+        fModifiers[i] = mgr->readKeyNotify(S, [this](hsKeyedObject* obj) {
+            addTarget(obj);
+        });
 
     fSceneNode = mgr->readKey(S);
 }
@@ -105,7 +114,9 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fModifiers.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fModifiers.getSize(); i++) {
-            fModifiers[i] = mgr->prcParseKey(child);
+            fModifiers[i] = mgr->prcParseKeyNotify(child, [this](hsKeyedObject* ko){
+                addTarget(ko);
+            });
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "SceneNode") {
@@ -114,4 +125,37 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         plSynchedObject::IPrcParse(tag, mgr);
     }
+}
+
+void plSceneObject::addModifier(plKey intf) {
+    fModifiers.append(intf);
+    intf->addCallback([this](hsKeyedObject* so) {
+        addTarget(so);
+    });
+}
+
+void plSceneObject::delModifier(size_t idx) {
+    plKey key = fModifiers[idx];
+    fModifiers.remove(idx);
+
+    if (key.isLoaded()) {
+        plModifier* mod = plModifier::Convert(key->getObj());
+        mod->removeTarget(getKey());
+    }
+}
+
+void plSceneObject::clearModifiers() {
+    for (size_t i = 0; i < fModifiers.getSize(); i++) {
+        plKey key = fModifiers[i];
+        if (key.isLoaded()) {
+                plModifier* mod = plModifier::Convert(key->getObj());
+                mod->removeTarget(getKey());
+            }
+    }
+
+    fModifiers.clear();
+}
+
+plSceneObject::~plSceneObject() {
+    clearModifiers();
 }
