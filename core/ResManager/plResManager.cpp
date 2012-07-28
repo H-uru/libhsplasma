@@ -60,6 +60,12 @@ plKey plResManager::readKey(hsStream* S) {
     }
 }
 
+plKey plResManager::readKeyNotify(hsStream* S,  const plKeyData::AfterLoadCallback& callback) {
+    plKey key = readKey(S);
+    key->addCallback(callback);
+    return key;
+}
+
 plKey plResManager::readUoid(hsStream* S) {
     if (getVer() != S->getVer())
         throw hsVersionMismatchException(__FILE__, __LINE__);
@@ -107,6 +113,12 @@ plKey plResManager::prcParseKey(const pfPrcTag* tag) {
     if (k.Exists())
         return AddKey(k);
     return k;
+}
+
+plKey plResManager::prcParseKeyNotify(const pfPrcTag* tag, const plKeyData::AfterLoadCallback& callback) {
+    plKey key = prcParseKey(tag);
+    key->addCallback(callback);
+    return key;
 }
 
 hsKeyedObject* plResManager::getObject(plKey key) {
@@ -545,18 +557,15 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 plDebug::Error("Failed reading %s: %s",
                                kList[j]->toString().cstr(), e.what());
                 plDebug::Error("Failure on line %s:%d", e.File(), e.Line());
-                delete kList[j]->getObj();
-                kList[j]->setObj(NULL);
+                kList[j]->deleteObj();
             } catch (const std::exception& e) {
                 plDebug::Error("Failed reading %s: %s",
                                kList[j]->toString().cstr(), e.what());
-                delete kList[j]->getObj();
-                kList[j]->setObj(NULL);
+                kList[j]->deleteObj();
             } catch (...) {
                 plDebug::Error("Undefined error reading %s",
                                kList[j]->toString().cstr());
-                delete kList[j]->getObj();
-                kList[j]->setObj(NULL);
+                kList[j]->deleteObj();
             }
             delete subStream;
         }

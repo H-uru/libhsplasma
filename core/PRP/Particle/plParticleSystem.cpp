@@ -34,7 +34,7 @@ plParticleSystem::~plParticleSystem() {
 }
 
 void plParticleSystem::read(hsStream* S, plResManager* mgr) {
-    plSynchedObject::read(S, mgr);
+    plModifier::read(S, mgr);
 
     fMaterial = mgr->readKey(S);
     setAmbientCtl(plController::Convert(mgr->ReadCreatable(S)));

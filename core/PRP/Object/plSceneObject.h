@@ -23,6 +23,7 @@
 class PLASMA_DLL plSceneObject : public virtual plSynchedObject {
     CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 
+    void addTarget (hsKeyedObject* obj);
 public:
     plKey fDrawIntf, fSimIntf, fCoordIntf, fAudioIntf;
     hsTArray<plKey> fInterfaces, fModifiers;
@@ -57,9 +58,11 @@ public:
 
     const hsTArray<plKey>& getModifiers() const { return fModifiers; }
     hsTArray<plKey>& getModifiers() { return fModifiers; }
-    void addModifier(plKey intf) { fModifiers.append(intf); }
-    void delModifier(size_t idx) { fModifiers.remove(idx); }
-    void clearModifiers() { fModifiers.clear(); }
+    void addModifier(plKey intf);
+    void delModifier(size_t idx);
+    void clearModifiers();
+
+    virtual ~plSceneObject();
 };
 
 #endif

@@ -24,17 +24,21 @@
 class PLASMA_DLL plCoordinateInterface : public virtual plObjInterface {
     CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
 
+
 public:
     enum plCoordinateProperties {
         kDisable, kCanEverDelayTransform, kDelayedTransformEval, kNumProps
     };
 
-public:
+private:
     hsMatrix44 fLocalToParent;
     hsMatrix44 fParentToLocal;
     hsMatrix44 fLocalToWorld;
     hsMatrix44 fWorldToLocal;
     hsTArray<plKey> fChildren;
+    plKey fParent;
+
+    void setParentCallback(hsKeyedObject* ko);
 
 public:
     plCoordinateInterface();
@@ -62,6 +66,12 @@ public:
     void addChild(plKey child) { fChildren.append(child); }
     void delChild(size_t idx) { fChildren.remove(idx); }
     void clearChildren() { fChildren.clear(); }
+
+    /** Set parent coordinate interface */
+    void setParent(plKey parent) { fParent = parent; }
+
+    /** Get parent coordinate interface */
+    plKey getParent() const { return fParent; }
 };
 
 #endif
