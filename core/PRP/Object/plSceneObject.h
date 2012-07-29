@@ -23,8 +23,9 @@
 class PLASMA_DLL plSceneObject : public virtual plSynchedObject {
     CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
 
-    void addTarget (hsKeyedObject* obj);
 public:
+    virtual ~plSceneObject() { clearModifiers(); }
+
     plKey fDrawIntf, fSimIntf, fCoordIntf, fAudioIntf;
     hsTArray<plKey> fInterfaces, fModifiers;
     plKey fSceneNode;
@@ -62,7 +63,8 @@ public:
     void delModifier(size_t idx);
     void clearModifiers();
 
-    virtual ~plSceneObject();
+private:
+    void addTarget (hsKeyedObject* obj);
 };
 
 #endif

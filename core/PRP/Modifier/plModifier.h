@@ -32,10 +32,10 @@ public:
     virtual plKey getTarget(size_t /*pos*/) const { return plKey(); }
 
     /** Add referenced scene object */
-    virtual void addTarget(plKey /*target*/) {}
+    virtual void addTarget(plKey /*target*/) { }
 
     /** Remove scene object from target list */
-    virtual void removeTarget(plKey /*target*/) {}
+    virtual void removeTarget(plKey /*target*/) { }
 };
 
 

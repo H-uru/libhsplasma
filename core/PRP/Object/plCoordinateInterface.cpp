@@ -31,11 +31,12 @@ plCoordinateInterface::plCoordinateInterface() {
 void plCoordinateInterface::setParentCallback(hsKeyedObject* ko) {
     plSceneObject* child = plSceneObject::Convert(ko);
     plKey childCIkey = child->getCoordInterface();
-    if (childCIkey.Exists())
-        childCIkey->addCallback([this](hsKeyedObject* childKo){
+    if (childCIkey.Exists()) {
+        childCIkey->addCallback([this](hsKeyedObject* childKo) {
             plCoordinateInterface* ci = plCoordinateInterface::Convert(childKo);
             ci->setParent(getKey());
         });
+    }
 }
 
 void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
@@ -47,10 +48,11 @@ void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
     fWorldToLocal.read(S);
 
     fChildren.setSize(S->readInt());
-    for (size_t i=0; i<fChildren.getSize(); i++)
+    for (size_t i=0; i<fChildren.getSize(); i++) {
         fChildren[i] = mgr->readKeyNotify(S, [this](hsKeyedObject* obj) {
             setParentCallback(obj);
         });
+    }
 }
 
 void plCoordinateInterface::write(hsStream* S, plResManager* mgr) {
@@ -105,7 +107,7 @@ void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fChildren.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fChildren.getSize(); i++) {
-            fChildren[i] = mgr->prcParseKeyNotify(child,  [this](hsKeyedObject* obj) {
+            fChildren[i] = mgr->prcParseKeyNotify(child, [this](hsKeyedObject* obj) {
                 setParentCallback(obj);
             });
             child = child->getNextSibling();

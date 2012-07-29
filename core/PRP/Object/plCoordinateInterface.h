@@ -24,7 +24,6 @@
 class PLASMA_DLL plCoordinateInterface : public virtual plObjInterface {
     CREATABLE(plCoordinateInterface, kCoordinateInterface, plObjInterface)
 
-
 public:
     enum plCoordinateProperties {
         kDisable, kCanEverDelayTransform, kDelayedTransformEval, kNumProps

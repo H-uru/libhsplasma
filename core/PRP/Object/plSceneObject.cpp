@@ -35,10 +35,11 @@ void plSceneObject::read(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fInterfaces.getSize(); i++)
         fInterfaces[i] = mgr->readKey(S);
     fModifiers.setSize(S->readInt());
-    for (size_t i=0; i<fModifiers.getSize(); i++)
+    for (size_t i=0; i<fModifiers.getSize(); i++) {
         fModifiers[i] = mgr->readKeyNotify(S, [this](hsKeyedObject* obj) {
             addTarget(obj);
         });
+    }
 
     fSceneNode = mgr->readKey(S);
 }
@@ -148,14 +149,10 @@ void plSceneObject::clearModifiers() {
     for (size_t i = 0; i < fModifiers.getSize(); i++) {
         plKey key = fModifiers[i];
         if (key.isLoaded()) {
-                plModifier* mod = plModifier::Convert(key->getObj());
-                mod->removeTarget(getKey());
-            }
+            plModifier* mod = plModifier::Convert(key->getObj());
+            mod->removeTarget(getKey());
+        }
     }
 
     fModifiers.clear();
-}
-
-plSceneObject::~plSceneObject() {
-    clearModifiers();
 }

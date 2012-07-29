@@ -61,6 +61,7 @@ public:
     ~plKeyData() { }
 
     typedef std::function<void (hsKeyedObject*)> AfterLoadCallback;
+
 private:
     std::vector<AfterLoadCallback> fCallbacks;
 
