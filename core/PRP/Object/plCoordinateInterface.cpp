@@ -34,7 +34,7 @@ void plCoordinateInterface::setParentCallback(hsKeyedObject* ko) {
     if (childCIkey.Exists()) {
         childCIkey->addCallback([this](hsKeyedObject* childKo) {
             plCoordinateInterface* ci = plCoordinateInterface::Convert(childKo);
-            ci->setParent(getKey());
+            ci->setParent(this->getKey());
         });
     }
 }
