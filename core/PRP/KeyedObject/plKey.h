@@ -19,7 +19,7 @@
 
 #include "plUoid.h"
 #include <functional>
-#include <vector>
+#include <list>
 
 #define GET_KEY_OBJECT(key, classname) \
     ((key.Exists() && key.isLoaded()) \
@@ -63,7 +63,7 @@ public:
     typedef std::function<void (hsKeyedObject*)> AfterLoadCallback;
 
 private:
-    std::vector<AfterLoadCallback> fCallbacks;
+    std::list<AfterLoadCallback> fCallbacks;
 
     uint32_t Ref() { return ++fRefCnt; }
     void UnRef();
