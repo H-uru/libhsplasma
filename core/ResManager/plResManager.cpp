@@ -156,17 +156,13 @@ plPageInfo* plResManager::ReadPage(const char* filename, bool stub) {
     plPageInfo* page = new plPageInfo();
     page->read(S);
 
-    for (size_t i=0; i<pages.size(); i++) {
-        if (pages[i]->getLocation() == page->getLocation()) {
-            delete page;
-            return pages[i];
-        }
-    }
+    const plLocation& loc = page->getLocation();
+    UnloadPage(loc);
 
     pages.push_back(page);
     setVer(S->getVer(), true);
     S->seek(page->getIndexStart());
-    totalKeys = ReadKeyring(S, page->getLocation());
+    totalKeys = ReadKeyring(S, loc);
     if (!packed) {
         S->close();
         delete S;
@@ -178,7 +174,7 @@ plPageInfo* plResManager::ReadPage(const char* filename, bool stub) {
     }
     readKeys = 0;
     mustStub = stub;
-    page->setNumObjects(ReadObjects(S, page->getLocation()));
+    page->setNumObjects(ReadObjects(S, loc));
     mustStub = false;
     S->close();
     delete S;
@@ -197,13 +193,7 @@ plPageInfo* plResManager::ReadPagePrc(const pfPrcTag* root) {
         tag = tag->getNextSibling();
     }
 
-    for (size_t i=0; i<pages.size(); i++) {
-        if (pages[i]->getLocation() == page->getLocation()) {
-            delete page;
-            return pages[i];
-        }
-    }
-
+    UnloadPage(page->getLocation());
     pages.push_back(page);
     return page;
 }
@@ -256,8 +246,28 @@ plPageInfo* plResManager::FindPage(const plLocation& loc) {
 }
 
 void plResManager::UnloadPage(const plLocation& loc) {
-    keys.delAll(loc);
-    DelPage(loc);
+    for (auto it = pages.begin(); it != pages.end(); it++) {
+        if ((*it)->getLocation() == loc) {
+            if (pageUnloadFunc !=  NULL)
+                pageUnloadFunc(loc);
+            delete *it;
+            pages.erase(it);
+            keys.delAll(loc);
+            break;
+        }
+    }
+}
+
+unsigned int plResManager::ReadPage(hsStream* S, std::vector<plPageInfo*>& agepages) {
+    plPageInfo* page = new plPageInfo();
+    page->read(S);
+    plLocation loc = page->getLocation();
+    UnloadPage(loc);
+    pages.push_back(page);
+    agepages.push_back(page);
+    setVer(S->getVer(), true);
+    S->seek(page->getIndexStart());
+    return ReadKeyring(S, loc);
 }
 
 plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
@@ -305,21 +315,7 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
                 if (!S->open(path + age->getPageFilename(i, ageVer), fmRead)) {
                     throw hsFileReadException(__FILE__, __LINE__, filename);
                 }
-                plPageInfo* page = new plPageInfo();
-                page->read(S);
-
-                for (size_t j=0; j<pages.size(); j++) {
-                    if (pages[j]->getLocation() == page->getLocation()) {
-                        delete page;
-                        continue;
-                    }
-                }
-
-                agepages.push_back(page);
-                pages.push_back(page);
-                setVer(S->getVer(), true);
-                S->seek(page->getIndexStart());
-                totalKeys += ReadKeyring(S, page->getLocation());
+                totalKeys += ReadPage(S, agepages);
                 S->close();
                 delete S;
             }
@@ -331,21 +327,7 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
                 if (!S->open(path + age->getCommonPageFilename(i, ageVer), fmRead)) {
                     throw hsFileReadException(__FILE__, __LINE__, filename);
                 }
-                plPageInfo* page = new plPageInfo();
-                page->read(S);
-
-                for (size_t j=0; j<pages.size(); j++) {
-                    if (pages[j]->getLocation() == page->getLocation()) {
-                        delete page;
-                        continue;
-                    }
-                }
-
-                agepages.push_back(page);
-                pages.push_back(page);
-                setVer(S->getVer(), true);
-                S->seek(page->getIndexStart());
-                totalKeys += ReadKeyring(S, page->getLocation());
+                totalKeys += ReadPage(S, agepages);
                 S->close();
                 delete S;
             }
@@ -426,7 +408,10 @@ void plResManager::UnloadAge(const plString& name) {
     std::vector<plPageInfo*>::iterator pi = pages.begin();
     while (pi != pages.end()) {
         if ((*pi)->getAge() == name) {
-            keys.delAll((*pi)->getLocation());
+            const plLocation& loc = (*pi)->getLocation();
+            if (pageUnloadFunc != NULL)
+                pageUnloadFunc(loc);
+            keys.delAll(loc);
             delete *pi;
             pi = pages.erase(pi);
         } else {
@@ -772,5 +757,11 @@ void plResManager::ChangeLocation(plLocation from, plLocation to) {
 ProgressCallback plResManager::SetProgressFunc(ProgressCallback newFunc) {
     ProgressCallback old = progressFunc;
     progressFunc = newFunc;
+    return old;
+}
+
+PageUnloadCallback plResManager::SetPageUnloadFunc(PageUnloadCallback newFunc) {
+    PageUnloadCallback old = pageUnloadFunc;
+    pageUnloadFunc = newFunc;
     return old;
 }
