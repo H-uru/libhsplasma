@@ -17,6 +17,8 @@
 #ifndef _PLRESMANAGER_H
 #define _PLRESMANAGER_H
 
+#include <functional>
+
 #include "PlasmaDefs.h"
 #include "Util/PlasmaVersions.h"
 #include "PRP/KeyedObject/plLocation.h"
@@ -29,7 +31,10 @@
 #include "Sys/hsThread.h"
 
 /** Callback to indicate the progress of the current operation, range [0,1] */
-typedef void (*ProgressCallback)(float progress);
+typedef std::function<void(float progress)> ProgressCallback;
+
+/** Callback to be called before page is unloaded */
+typedef std::function<void (const plLocation& loc)> PageUnloadCallback;
 
 struct plPageStream {
     hsFileStream* stream;
@@ -55,12 +60,14 @@ protected:
     std::vector<plPageInfo*> pages;
     std::vector<plAgeInfo*> ages;
     ProgressCallback progressFunc;
+    PageUnloadCallback pageUnloadFunc;
     unsigned int totalKeys, readKeys;
     bool mustStub;
 
 private:
     unsigned int ReadKeyring(hsStream* S, const plLocation& loc);
     unsigned int ReadObjects(hsStream* S, const plLocation& loc);
+    unsigned int ReadPage(hsStream* S, std::vector<plPageInfo*>& agepages);
     void WriteKeyring(hsStream* S, const plLocation& loc);
     unsigned int WriteObjects(hsStream* S, const plLocation& loc);
 
@@ -387,6 +394,8 @@ public:
      * This function is currently unsupported.
      */
     ProgressCallback SetProgressFunc(ProgressCallback newFunc);
+
+    PageUnloadCallback SetPageUnloadFunc(PageUnloadCallback newFunc);
 
     /** Lock access to the ResManager in multithreaded apps */
     void lock() { fResMgrMutex.lock(); }
