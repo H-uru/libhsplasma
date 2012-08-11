@@ -224,6 +224,11 @@ void plAgeInfoStruct::clearAgeLanguage() {
 
 
 /* plAgeLinkStruct */
+
+const char* plAgeLinkStruct::kLinkingRuleNames[] = {
+    "BasicLink", "OriginalBook", "SubAgeBook", "OwnedBook", "VisitBook", "ChildAgeBook"
+};
+
 plAgeLinkStruct::plAgeLinkStruct()
                : fFlags(kHasAgeInfo | kHasSpawnPt), fLinkingRules(0),
                  fAmCCR(0) { }
@@ -328,7 +333,7 @@ void plAgeLinkStruct::IPrcWrite(pfPrcHelper* prc) {
     }
     if (fFlags & kHasLinkingRules) {
         prc->startTag("LinkingRules");
-        prc->writeParam("value", fLinkingRules);
+        prc->writeParam("value", kLinkingRuleNames[fLinkingRules]);
         prc->endTag(true);
     }
     if (fFlags & kHasSpawnPt) {
@@ -357,7 +362,12 @@ void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fAgeInfo.clear();
     } else if (tag->getName() == "LinkingRules") {
         fFlags |= kHasLinkingRules;
-        fLinkingRules = tag->getParam("value", "0").toInt();
+        plString lRule = tag->getParam("value", "kBasicLink");
+        fLinkingRules = kBasicLink;
+        for (size_t i=0; i<=kChildAgeBook; i++) {
+            if (lRule == kLinkingRuleNames[i])
+                fLinkingRules = i;
+        }
     } else if (tag->getName() == "SpawnPoint") {
         fFlags |= kHasSpawnPt;
         if (tag->hasChildren())
