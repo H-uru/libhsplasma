@@ -226,7 +226,7 @@ void plAgeInfoStruct::clearAgeLanguage() {
 /* plAgeLinkStruct */
 
 const char* plAgeLinkStruct::kLinkingRuleNames[] = {
-    "BasicLink", "OriginalBook", "SubAgeBook", "OwnedBook", "VisitBook", "ChildAgeBook"
+    "kBasicLink", "kOriginalBook", "kSubAgeBook", "kOwnedBook", "kVisitBook", "kChildAgeBook"
 };
 
 plAgeLinkStruct::plAgeLinkStruct()
