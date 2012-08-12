@@ -105,6 +105,29 @@ public:
         kHasParentAgeFilename = 0x40
     };
 
+    enum LinkingRules {
+        /** Link to public age; Don't remember this link in KI/Vault */
+        kBasicLink,
+
+        /** Link and create a book in the AgesIOwn folder */
+        kOriginalBook,
+
+        /** Link to a sub age of current age */
+        kSubAgeBook,
+
+        /** Link using info from my AgesIOwn folder */
+        kOwnedBook,
+
+        /** Link using info from my AgesICanVisit folder */
+        kVisitBook,
+
+        /** Link to a child age of current age */
+        kChildAgeBook
+    };
+
+    /** Textual name lookup for linking rule types */
+    static const char* kLinkingRuleNames[];
+
 protected:
     unsigned short fFlags;
     signed char fLinkingRules;
