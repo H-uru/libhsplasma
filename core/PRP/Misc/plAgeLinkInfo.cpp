@@ -363,10 +363,13 @@ void plAgeLinkStruct::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "LinkingRules") {
         fFlags |= kHasLinkingRules;
         plString lRule = tag->getParam("value", "kBasicLink");
-        fLinkingRules = kBasicLink;
+        fLinkingRules = -1;
         for (size_t i=0; i<=kChildAgeBook; i++) {
             if (lRule == kLinkingRuleNames[i])
                 fLinkingRules = i;
+        }
+        if (fLinkingRules == -1) {
+            fLinkingRules = lRule.toInt();
         }
     } else if (tag->getName() == "SpawnPoint") {
         fFlags |= kHasSpawnPt;
