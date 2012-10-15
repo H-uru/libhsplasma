@@ -124,9 +124,6 @@ static void utf8decode(pl_wchar_t* dest, size_t length, const char* src, size_t 
 
 
 /* StrBuffer */
-plString::StrBuffer::StrBuffer(char* str, size_t len)
-        : fStr(str), fLen(len), fRefs(1) { }
-
 plString::StrBuffer::~StrBuffer() {
     delete[] fStr;
 }
@@ -138,9 +135,6 @@ void plString::StrBuffer::unref() {
 
 
 /* WideBuffer */
-plString::WideBuffer::WideBuffer(pl_wchar_t* str, size_t len)
-        : fStr(str), fLen(len), fRefs(1) { }
-
 plString::WideBuffer::~WideBuffer() {
     delete[] fStr;
 }
@@ -150,117 +144,121 @@ void plString::WideBuffer::unref() {
         delete this;
 }
 
-const pl_wchar_t* plString::Wide::getNullStringBecauseVisualStudioIsStupid() {
-    static pl_wchar_t _nullstr[] = { 0 };
-    return _nullstr;
-}
+plString::Wide::Wide() : fLen(0) { memset(fShort, 0, SSO_CHARS); }
 
-plString::Wide::Wide(WideBuffer* init) : fString(init) { }
-
-plString::Wide::Wide(const Wide& init) : fString(init.fString) {
-    if (fString != NULL)
+plString::Wide::Wide(const Wide& init) : fLen(init.fLen) {
+    memcpy(fShort, init.fShort, SSO_CHARS);
+    if (haveACow())
         fString->ref();
 }
 
 plString::Wide::~Wide() {
-    if (fString != NULL)
+    if (haveACow())
         fString->unref();
 }
 
 plString::Wide& plString::Wide::operator=(const Wide& other) {
-    if (other.fString != NULL)
+    if (other.haveACow())
         other.fString->ref();
-    if (fString != NULL)
+    if (haveACow())
         fString->unref();
-    fString = other.fString;
+    memcpy(fShort, other.fShort, SSO_CHARS);
     return *this;
 }
 
 
 /* plString */
-plString::plString() : fString(NULL) { }
+plString::plString() : fLen(0) { memset(fShort, 0, SSO_CHARS); }
 
-plString::plString(const plString& init) : fString(init.fString) {
-    if (fString != NULL)
+plString::plString(const plString& init) : fLen(init.fLen) {
+    memcpy(fShort, init.fShort, SSO_CHARS);
+    if (haveACow())
         fString->ref();
 }
 
-plString::plString(const char* init, size_t len) : fString(NULL) {
+plString::plString(const char* init, size_t len) : fLen(0) {
+    memset(fShort, 0, SSO_CHARS);
     if (init != NULL) {
         if (len == (size_t)-1)
             len = strlen(init);
         if (len != 0) {
-            char* buf = new char[len+1];
-            memcpy(buf, init, len);
-            buf[len] = 0;
-            fString = new StrBuffer(buf, len);
+            fLen = len;
+            char* buf = haveACow() ? new char[fLen+1] : fShort;
+            memcpy(buf, init, fLen);
+            buf[fLen] = 0;
+            if (haveACow())
+                fString = new StrBuffer(buf);
         }
     }
 }
 
-plString::plString(const pl_wchar_t* init, size_t len) : fString(NULL) {
+plString::plString(const pl_wchar_t* init, size_t len) : fLen(0) {
+    memset(fShort, 0, SSO_CHARS);
     if (init != NULL) {
         if (len == (size_t)-1)
             len = plwcslen(init);
         if (len > 0) {
-            size_t chlen = utf8len(init, len);
-            char* buf = new char[chlen+1];
-            utf8encode(buf, chlen, init, len);
-            buf[chlen] = 0;
-            fString = new StrBuffer(buf, chlen);
+            fLen = utf8len(init, len);
+            char* buf = haveACow() ? new char[fLen+1] : fShort;
+            utf8encode(buf, fLen, init, len);
+            buf[fLen] = 0;
+            if (haveACow())
+                fString = new StrBuffer(buf);
         }
     }
 }
 
 plString::~plString() {
-    if (fString != NULL)
+    if (haveACow())
         fString->unref();
 }
 
 plString& plString::operator=(const plString& other) {
-    if (other.fString != NULL)
+    if (other.haveACow())
         other.fString->ref();
-    if (fString != NULL)
+    if (haveACow())
         fString->unref();
-    fString = other.fString;
+
+    fLen = other.fLen;
+    memcpy(fShort, other.fShort, SSO_CHARS);
     return (*this);
 }
 
 plString& plString::operator=(const char* str) {
-    if (fString != NULL)
+    if (haveACow())
         fString->unref();
+    memset(fShort, 0, SSO_CHARS);
+    fLen = 0;
+
     if (str != NULL) {
-        size_t len = strlen(str);
-        if (len > 0) {
-            char* buf = new char[len+1];
-            strncpy(buf, str, len);
-            buf[len] = 0;
-            fString = new StrBuffer(buf, len);
-        } else {
-            fString = NULL;
+        fLen = strlen(str);
+        if (fLen > 0) {
+            char* buf = haveACow() ? new char[fLen+1] : fShort;
+            strncpy(buf, str, fLen);
+            buf[fLen] = 0;
+            if (haveACow())
+                fString = new StrBuffer(buf);
         }
-    } else {
-        fString = NULL;
     }
     return (*this);
 }
 
 plString& plString::operator=(const pl_wchar_t* str) {
-    if (fString != NULL)
+    if (haveACow())
         fString->unref();
+    memset(fShort, 0, SSO_CHARS);
+    fLen = 0;
+
     if (str != NULL) {
         size_t len = plwcslen(str);
         if (len > 0) {
-            size_t chlen = utf8len(str, len);
-            char* buf = new char[chlen+1];
-            utf8encode(buf, chlen, str, len);
-            buf[chlen] = 0;
-            fString = new StrBuffer(buf, chlen);
-        } else {
-            fString = NULL;
+            fLen = utf8len(str, len);
+            char* buf = haveACow() ? new char[fLen+1] : fShort;
+            utf8encode(buf, fLen, str, len);
+            buf[fLen] = 0;
+            if (haveACow())
+                fString = new StrBuffer(buf);
         }
-    } else {
-        fString = NULL;
     }
     return (*this);
 }
@@ -271,13 +269,22 @@ plString& plString::operator+=(const plString& other) {
     if (empty())
         return operator=(other);
 
-    size_t catlen = fString->len() + other.fString->len();
-    char* buf = new char[catlen + 1];
-    memcpy(buf, fString->data(), fString->len());
-    memcpy(buf + fString->len(), other.fString->data(), other.fString->len());
-    buf[catlen] = 0;
-    fString->unref();
-    fString = new StrBuffer(buf, catlen);
+    size_t catlen = fLen + other.fLen;
+    if (catlen < SSO_CHARS) {
+        // If catlen is less than SSO_CHARS, then both fLen and other.fLen
+        // are also guaranteed shorter than SSO_CHARS
+        memcpy(fShort + fLen, other.fShort, other.fLen);
+        fShort[catlen] = 0;
+    } else {
+        char* buf = new char[catlen + 1];
+        memcpy(buf, cstr(), fLen);
+        memcpy(buf + fLen, other.cstr(), other.fLen);
+        buf[catlen] = 0;
+        if (haveACow())
+            fString->unref();
+        fString = new StrBuffer(buf);
+    }
+    fLen = catlen;
     return (*this);
 }
 
@@ -288,13 +295,20 @@ plString& plString::operator+=(const char* str) {
         return operator=(str);
 
     size_t slen = strlen(str);
-    size_t catlen = fString->len() + slen;
-    char* buf = new char[catlen + 1];
-    memcpy(buf, fString->data(), fString->len());
-    memcpy(buf + fString->len(), str, slen);
-    buf[catlen] = 0;
-    fString->unref();
-    fString = new StrBuffer(buf, catlen);
+    size_t catlen = fLen + slen;
+    if (catlen < SSO_CHARS) {
+        memcpy(fShort + fLen, str, slen);
+        fShort[catlen] = 0;
+    } else {
+        char* buf = new char[catlen + 1];
+        memcpy(buf, cstr(), fLen);
+        memcpy(buf + fLen, str, slen);
+        buf[catlen] = 0;
+        if (haveACow())
+            fString->unref();
+        fString = new StrBuffer(buf);
+    }
+    fLen = catlen;
     return (*this);
 }
 
@@ -306,13 +320,20 @@ plString& plString::operator+=(const pl_wchar_t* str) {
 
     size_t wlen = plwcslen(str);
     size_t slen = utf8len(str, wlen);
-    size_t catlen = fString->len() + slen;
-    char* buf = new char[catlen + 1];
-    memcpy(buf, fString->data(), fString->len());
-    utf8encode(buf + fString->len(), slen, str, wlen);
-    buf[catlen] = 0;
-    fString->unref();
-    fString = new StrBuffer(buf, catlen);
+    size_t catlen = fLen + slen;
+    if (catlen < SSO_CHARS) {
+        utf8encode(fShort + fLen, slen, str, wlen);
+        fShort[catlen] = 0;
+    } else {
+        char* buf = new char[catlen + 1];
+        memcpy(buf, cstr(), fLen);
+        utf8encode(buf + fLen, slen, str, wlen);
+        buf[catlen] = 0;
+        if (haveACow())
+            fString->unref();
+        fString = new StrBuffer(buf);
+    }
+    fLen = catlen;
     return (*this);
 }
 
@@ -336,7 +357,7 @@ bool plString::operator==(const plString& other) const {
         return empty();
     if (empty())
         return false;
-    return (strcmp(fString->data(), other.fString->data()) == 0);
+    return (strcmp(cstr(), other.cstr()) == 0);
 }
 
 bool plString::operator==(const char* str) const {
@@ -344,7 +365,7 @@ bool plString::operator==(const char* str) const {
         return empty();
     if (empty())
         return false;
-    return (strcmp(fString->data(), str) == 0);
+    return (strcmp(cstr(), str) == 0);
 }
 
 bool plString::operator<(const plString& other) const {
@@ -352,22 +373,22 @@ bool plString::operator<(const plString& other) const {
         return false;
     if (empty())
         return true;
-    return (strcmp(fString->data(), other.fString->data()) < 0);
+    return (strcmp(cstr(), other.cstr()) < 0);
 }
 
 int plString::compareTo(const plString& other, bool ignoreCase) const {
     if (ignoreCase) {
-        return strcasecmp(fString->data(), other.fString->data());
+        return strcasecmp(cstr(), other.cstr());
     } else {
-        return strcmp(fString->data(), other.fString->data());
+        return strcmp(cstr(), other.cstr());
     }
 }
 
 int plString::compareTo(const char* other, bool ignoreCase) const {
     if (ignoreCase) {
-        return strcasecmp(fString->data(), other);
+        return strcasecmp(cstr(), other);
     } else {
-        return strcmp(fString->data(), other);
+        return strcmp(cstr(), other);
     }
 }
 
@@ -376,7 +397,7 @@ bool plString::startsWith(const plString& cmp, bool ignoreCase) const {
         return true;
     if (empty())
         return false;
-    if (fString->len() < cmp.fString->len())
+    if (fLen < cmp.fLen)
         return false;
     return (left(cmp.len()).compareTo(cmp, ignoreCase) == 0);
 }
@@ -386,7 +407,7 @@ bool plString::startsWith(const char* cmp, bool ignoreCase) const {
         return true;
     if (empty())
         return false;
-    if (fString->len() < strlen(cmp))
+    if (fLen < strlen(cmp))
         return false;
     return (left(strlen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
@@ -396,7 +417,7 @@ bool plString::endsWith(const plString& cmp, bool ignoreCase) const {
         return true;
     if (empty())
         return false;
-    if (fString->len() < cmp.fString->len())
+    if (fLen < cmp.fLen)
         return false;
     return (right(cmp.len()).compareTo(cmp, ignoreCase) == 0);
 }
@@ -406,25 +427,27 @@ bool plString::endsWith(const char* cmp, bool ignoreCase) const {
         return true;
     if (empty())
         return false;
-    if (fString->len() < strlen(cmp))
+    if (fLen < strlen(cmp))
         return false;
     return (right(strlen(cmp)).compareTo(cmp, ignoreCase) == 0);
 }
 
 plString::Wide plString::wstr() const {
     if (empty())
-        return Wide(NULL);
-    size_t wlen = ucs2len(fString->data(), fString->len());
-    pl_wchar_t* buf = new pl_wchar_t[wlen+1];
-    utf8decode(buf, wlen, fString->data(), fString->len());
-    buf[wlen] = 0;
-    return Wide(new WideBuffer(buf, wlen));
-}
+        return Wide();
 
-unsigned int plString::hash() const {
-    if (fString != NULL)
-        return hash(fString->data());
-    return hash(NULL);
+    Wide retn;
+    retn.fLen = ucs2len(cstr(), fLen);
+    if (retn.fLen < SSO_CHARS) {
+        utf8decode(retn.fShort, retn.fLen, cstr(), fLen);
+        retn.fShort[retn.fLen] = 0;
+    } else {
+        pl_wchar_t* buf = new pl_wchar_t[retn.fLen+1];
+        utf8decode(buf, retn.fLen, cstr(), fLen);
+        buf[retn.fLen] = 0;
+        retn.fString = new WideBuffer(buf);
+    }
+    return retn;
 }
 
 unsigned int plString::hash(const char* str) {
@@ -441,9 +464,9 @@ unsigned int plString::hash(const char* str) {
 long plString::find(char c) const {
     if (empty())
         return -1;
-    const char* pos = strchr(fString->data(), c);
+    const char* pos = strchr(cstr(), c);
     if (pos != NULL)
-        return (long)(pos - fString->data());
+        return (long)(pos - cstr());
     return -1;
 }
 
@@ -453,10 +476,10 @@ long plString::find(const char* sub) const {
     if (sub == NULL)
         return 0;
     size_t len = strlen(sub);
-    if (len > fString->len())
+    if (len > fLen)
         return -1;
-    for (size_t i=0; i<(fString->len() - len); i++) {
-        if (strncmp(fString->data() + i, sub, len) == 0)
+    for (size_t i=0; i<(fLen - len); i++) {
+        if (strncmp(cstr() + i, sub, len) == 0)
             return (long)i;
     }
     return -1;
@@ -467,10 +490,10 @@ long plString::find(const plString& sub) const {
         return -1;
     if (sub.empty())
         return 0;
-    if (sub.fString->len() > fString->len())
+    if (sub.fLen > fLen)
         return -1;
-    for (size_t i=0; i<(fString->len() - sub.fString->len()); i++) {
-        if (strncmp(fString->data() + i, sub.fString->data(), sub.fString->len()) == 0)
+    for (size_t i=0; i<(fLen - sub.fLen); i++) {
+        if (strncmp(cstr() + i, sub.cstr(), sub.fLen) == 0)
             return (long)i;
     }
     return -1;
@@ -479,9 +502,9 @@ long plString::find(const plString& sub) const {
 long plString::rfind(char c) const {
     if (empty())
         return -1;
-    const char* pos = strrchr(fString->data(), c);
+    const char* pos = strrchr(cstr(), c);
     if (pos != NULL)
-        return (long)(pos - fString->data());
+        return (long)(pos - cstr());
     return -1;
 }
 
@@ -491,10 +514,10 @@ long plString::rfind(const char* sub) const {
     if (sub == NULL)
         return 0;
     size_t len = strlen(sub);
-    if (len > fString->len())
+    if (len > fLen)
         return -1;
-    for (size_t i=(fString->len() - len); i>0; i--) {
-        if (strncmp(fString->data() + (i-1), sub, len) == 0)
+    for (size_t i=(fLen - len); i>0; i--) {
+        if (strncmp(cstr() + (i-1), sub, len) == 0)
             return (long)(i-1);
     }
     return -1;
@@ -505,93 +528,117 @@ long plString::rfind(const plString& sub) const {
         return -1;
     if (sub.empty())
         return 0;
-    if (sub.fString->len() > fString->len())
+    if (sub.fLen > fLen)
         return -1;
-    for (size_t i=(fString->len() - sub.fString->len()); i>0; i--) {
-        if (strncmp(fString->data() + (i-1), sub.fString->data(), sub.fString->len()) == 0)
+    for (size_t i=(fLen - sub.fLen); i>0; i--) {
+        if (strncmp(cstr() + (i-1), sub.cstr(), sub.fLen) == 0)
             return (long)(i-1);
     }
     return -1;
 }
 
 plString plString::toUpper() const {
-    if (!empty()) {
-        char* buf = new char[fString->len() + 1];
-        memcpy(buf, fString->data(), fString->len());
-        for (size_t i=0; i<fString->len(); i++)
-            buf[i] = toupper(buf[i]);
-        buf[fString->len()] = 0;
+    if (empty())
+        return *this;
 
-        plString result;
-        result.fString = new StrBuffer(buf, fString->len());
-        return result;
+    plString result;
+    if (fLen < SSO_CHARS) {
+        for (size_t i=0; i<fLen; i++)
+            result.fShort[i] = toupper(fShort[i]);
+        result.fShort[fLen] = 0;
+    } else {
+        char* buf = new char[fLen + 1];
+        const char* src = cstr();
+        for (size_t i=0; i<fLen; i++)
+            buf[i] = toupper(src[i]);
+        buf[fLen] = 0;
+        result.fString = new StrBuffer(buf);
     }
-    return *this;
+    result.fLen = fLen;
+    return result;
 }
 
 plString plString::toLower() const {
-    if (!empty()) {
-        char* buf = new char[fString->len() + 1];
-        memcpy(buf, fString->data(), fString->len());
-        for (size_t i=0; i<fString->len(); i++)
-            buf[i] = tolower(buf[i]);
-        buf[fString->len()] = 0;
+    if (empty())
+        return *this;
 
-        plString result;
-        result.fString = new StrBuffer(buf, fString->len());
-        return result;
+    plString result;
+    if (fLen < SSO_CHARS) {
+        for (size_t i=0; i<fLen; i++)
+            result.fShort[i] = tolower(fShort[i]);
+        result.fShort[fLen] = 0;
+    } else {
+        char* buf = new char[fLen + 1];
+        const char* src = cstr();
+        for (size_t i=0; i<fLen; i++)
+            buf[i] = tolower(src[i]);
+        buf[fLen] = 0;
+        result.fString = new StrBuffer(buf);
     }
-    return *this;
+    result.fLen = fLen;
+    return result;
 }
 
 plString plString::left(size_t num) const {
     if (empty())
         return plString();
-    if (num >= fString->len())
+    if (num >= fLen)
         return *this;
 
     plString retn;
-    char* buf = new char[num+1];
-    memcpy(buf, fString->data(), num);
-    buf[num] = 0;
-    retn.fString = new StrBuffer(buf, num);
+    if (num < SSO_CHARS) {
+        memcpy(retn.fShort, cstr(), num);
+        retn.fShort[num] = 0;
+    } else {
+        char* buf = new char[num+1];
+        memcpy(buf, cstr(), num);
+        buf[num] = 0;
+        retn.fString = new StrBuffer(buf);
+    }
+    retn.fLen = num;
     return retn;
 }
 
 plString plString::right(size_t num) const {
     if (empty())
         return plString();
-    if (num >= fString->len())
+    if (num >= fLen)
         return *this;
 
     plString retn;
-    char* buf = new char[num+1];
-    memcpy(buf, fString->data() + (fString->len() - num), num);
-    buf[num] = 0;
-    retn.fString = new StrBuffer(buf, num);
+    if (num < SSO_CHARS) {
+        memcpy(retn.fShort, cstr() + (fLen - num), num);
+        retn.fShort[num] = 0;
+    } else {
+        char* buf = new char[num+1];
+        memcpy(buf, cstr() + (fLen - num), num);
+        buf[num] = 0;
+        retn.fString = new StrBuffer(buf);
+    }
+    retn.fLen = num;
     return retn;
 }
 
 plString plString::mid(size_t idx, size_t num) const {
     if (empty())
         return plString();
-    if (idx > fString->len())
+    if (idx > fLen)
         return plString();
-    if (idx + num > fString->len())
-        num = fString->len() - idx;
+    if (idx + num > fLen)
+        num = fLen - idx;
 
     plString retn;
-    char* buf = new char[num+1];
-    memcpy(buf, fString->data() + idx, num);
-    buf[num] = 0;
-    retn.fString = new StrBuffer(buf, num);
+    if (num < SSO_CHARS) {
+        memcpy(retn.fShort, cstr() + idx, num);
+        retn.fShort[num] = 0;
+    } else {
+        char* buf = new char[num+1];
+        memcpy(buf, cstr() + idx, num);
+        buf[num] = 0;
+        retn.fString = new StrBuffer(buf);
+    }
+    retn.fLen = num;
     return retn;
-}
-
-plString plString::mid(size_t idx) const {
-    if (fString == NULL)
-        return plString();
-    return mid(idx, fString->len() - idx);
 }
 
 plString plString::beforeFirst(char sep) const {
@@ -630,15 +677,15 @@ plString plString::replace(const char* src, const char* dest) const {
     if (empty() || src == NULL || dest == NULL)
         return *this;
     size_t len = strlen(src);
-    if (len > fString->len())
+    if (len > fLen)
         return *this;
 
     plString result;
     size_t begin = 0;
     size_t i = 0;
-    while (i < (fString->len() - len)) {
-        if (strncmp(fString->data() + i, src, len) == 0) {
-            result += plString(fString->data() + begin, i - begin);
+    while (i < (fLen - len)) {
+        if (strncmp(cstr() + i, src, len) == 0) {
+            result += plString(cstr() + begin, i - begin);
             result += dest;
             i += len;
             begin = i;
@@ -646,7 +693,7 @@ plString plString::replace(const char* src, const char* dest) const {
             i++;
         }
     }
-    return result + plString(fString->data() + begin, (i + 1) - begin);
+    return result + plString(cstr() + begin, (i + 1) - begin);
 }
 
 std::vector<plString> plString::split(char sep, size_t max) const {
@@ -671,8 +718,8 @@ std::vector<plString> plString::split(char sep, size_t max) const {
 plString plString::trim() const {
     if (empty())
         return *this;
-    const char* cpL = fString->data();
-    const char* cpR = fString->data() + fString->len() - 1;
+    const char* cpL = cstr();
+    const char* cpR = cstr() + fLen - 1;
     while ((cpL <= cpR) && (*cpL == ' ' || *cpL == '\r' || *cpL == '\n' || *cpL == '\t'))
         cpL++;
     while ((cpR > cpL) && (*cpR == ' ' || *cpR == '\r' || *cpR == '\n' || *cpR == '\t'))
@@ -683,14 +730,14 @@ plString plString::trim() const {
 plString& plString::pack() {
     if (empty())
         return *this;
-    return operator=(plString(fString->data()));
+    return operator=(plString(cstr()));
 }
 
 long plString::toInt(int base) const {
     if (empty())
         return 0;
     errno = 0;
-    long value = strtol(fString->data(), NULL, base);
+    long value = strtol(cstr(), NULL, base);
     if (errno == ERANGE || errno == EINVAL)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid conversion to int");
     return value;
@@ -700,7 +747,7 @@ unsigned long plString::toUint(int base) const {
     if (empty())
         return 0;
     errno = 0;
-    unsigned long value = strtoul(fString->data(), NULL, base);
+    unsigned long value = strtoul(cstr(), NULL, base);
     if (errno == ERANGE || errno == EINVAL)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid conversion to uint");
     return value;
@@ -710,7 +757,7 @@ double plString::toFloat() const {
     if (empty())
         return 0.0;
     errno = 0;
-    double value = strtod(fString->data(), NULL);
+    double value = strtod(cstr(), NULL);
     if (errno == ERANGE || errno == EINVAL)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid conversion to float");
     return value;

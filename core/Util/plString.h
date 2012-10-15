@@ -23,6 +23,8 @@
 #include <cstdarg>
 #include <vector>
 
+#define SSO_CHARS (16)
+
 typedef unsigned short pl_wchar_t;
 
 class PLASMA_DLL plString {
@@ -30,56 +32,64 @@ public:
     class PLASMA_DLL StrBuffer {
     private:
         char* fStr;
-        size_t fLen;
         unsigned int fRefs;
 
     public:
-        StrBuffer(char* str, size_t len);
+        StrBuffer(char* str) : fStr(str), fRefs(1) { }
         ~StrBuffer();
         void ref() { fRefs++; }
         void unref();
 
         const char* data() const { return fStr; }
-        size_t len() const { return fLen; }
     };
 
     class PLASMA_DLL WideBuffer {
     private:
         pl_wchar_t* fStr;
-        size_t fLen;
         unsigned int fRefs;
 
     public:
-        WideBuffer(pl_wchar_t* str, size_t len);
+        WideBuffer(pl_wchar_t* str) : fStr(str), fRefs(1) { }
         ~WideBuffer();
         void ref() { fRefs++; }
         void unref();
 
         const pl_wchar_t* data() const { return fStr; }
-        size_t len() const { return fLen; }
     };
 
     class PLASMA_DLL Wide {
     private:
-        WideBuffer* fString;
-        static const pl_wchar_t* getNullStringBecauseVisualStudioIsStupid();
+        size_t fLen;
+        union {
+            WideBuffer* fString;
+            pl_wchar_t fShort[SSO_CHARS];
+        };
+
+        bool haveACow() const { return fLen >= SSO_CHARS; }
 
     public:
-        explicit Wide(WideBuffer* init);
         Wide(const Wide& init);
         ~Wide();
         Wide& operator=(const Wide& other);
 
-        bool empty() const { return (fString == NULL) || (fString->len() == 0); }
-        bool null() const { return (fString == NULL); }
-        size_t len() const { return (fString != NULL) ? fString->len() : 0; }
-        const pl_wchar_t* data() const { return (fString != NULL) ? fString->data()
-                                         : getNullStringBecauseVisualStudioIsStupid(); }
+        bool empty() const { return (fLen == 0); }
+        size_t len() const { return fLen; }
+        const pl_wchar_t* data() const { return (fLen < SSO_CHARS) ? fShort : fString->data(); }
         operator const pl_wchar_t*() const { return data(); }
+
+    private:
+        friend class plString;
+        explicit Wide();
     };
 
 private:
-    StrBuffer* fString;
+    size_t fLen;
+    union {
+        StrBuffer* fString;
+        char fShort[SSO_CHARS];
+    };
+
+    bool haveACow() const { return fLen >= SSO_CHARS; }
 
 public:
     plString();
@@ -88,9 +98,8 @@ public:
     plString(const pl_wchar_t* init, size_t len = (size_t)-1);
     ~plString();
 
-    bool empty() const { return (fString == NULL) || (fString->len() == 0); }
-    bool null() const { return (fString == NULL); }
-    size_t len() const { return (fString != NULL) ? fString->len() : 0; }
+    bool empty() const { return (fLen == 0); }
+    size_t len() const { return fLen; }
 
     plString& operator=(const plString& other);
     plString& operator=(const char* str);
@@ -114,11 +123,11 @@ public:
     bool endsWith(const plString& cmp, bool ignoreCase = false) const;
     bool endsWith(const char* cmp, bool ignoreCase = false) const;
 
-    const char* cstr() const { return (fString != NULL) ? fString->data() : ""; }
+    const char* cstr() const { return (fLen < SSO_CHARS) ? fShort : fString->data(); }
     operator const char*() const { return cstr(); }
     Wide wstr() const;
 
-    unsigned int hash() const;
+    unsigned int hash() const { return hash(cstr()); }
     static unsigned int hash(const char* str);
 
     long find(char c) const;
@@ -133,7 +142,7 @@ public:
     plString left(size_t num) const;
     plString right(size_t num) const;
     plString mid(size_t idx, size_t num) const;
-    plString mid(size_t idx) const;
+    plString mid(size_t idx) const { return mid(idx, fLen - idx); }
     plString beforeFirst(char sep) const;
     plString afterFirst(char sep) const;
     plString beforeLast(char sep) const;
