@@ -148,27 +148,23 @@ void plEncryptedStream::CryptFlush() {
 }
 
 bool plEncryptedStream::IsFileEncrypted(const char* file) {
-    FILE* tF = fopen(file, "rb");
-    if (tF == NULL)
+    hsFileStream sF;
+    if (sF.open(file, fmRead) == false)
         return false;
-    fseek(tF, 0, SEEK_END);
-    unsigned int sz = ftell(tF);
-    fseek(tF, 0, SEEK_SET);
-    if (sz < 8)
+    if (sF.size() < 8)
         return false;
     int magicN = 0;
-    fread(&magicN, sizeof(magicN), 1, tF);
+    magicN = sF.readInt();
     if (magicN == eoaMagic) {
-        fclose(tF);
+        sF.close();
         return true;
     } else {
-        fseek(tF, 0, SEEK_SET);
-        char magicS[12];
-        fread(magicS, 1, 12, tF);
-        fclose(tF);
-        if (strncmp(magicS, uruMagic, 12) == 0 ||
-            strncmp(magicS, uruMagic2, 12) == 0 ||
-            strncmp(magicS, liveMagic, 12) == 0)
+        sF.rewind();
+        plString magicS = sF.readStr(12);
+        sF.close();
+        if ((magicS == uruMagic)  ||
+            (magicS == uruMagic2) ||
+            (magicS == liveMagic))
             return true;
         return false;
     }
