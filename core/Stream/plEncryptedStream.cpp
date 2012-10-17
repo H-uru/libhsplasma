@@ -250,7 +250,7 @@ void plEncryptedStream::close() {
         // Write header info
         fBase->rewind();
         if (fEType == kEncAES)
-            fBase->write(sizeof(eoaMagic), &eoaMagic);
+            fBase->writeInt(eoaMagic);
         else if (fEType == kEncDroid)
             fBase->write(12, liveMagic);
         else
