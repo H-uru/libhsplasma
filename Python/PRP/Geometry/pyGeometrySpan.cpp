@@ -145,7 +145,8 @@ static int pyGeometrySpan_setIndices(pyGeometrySpan* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "indices should be a sequence of unsigned shorts");
         return -1;
     }
-    for (size_t i = 0; i < PySequence_Size(value); ++i) {
+    size_t count = PySequence_Size(value);
+    for (size_t i = 0; i < count; ++i) {
         if (!PyInt_Check(PySequence_Fast_GET_ITEM(value, i))) {
             PyErr_SetString(PyExc_TypeError, "indices should be a sequence of unsigned shorts");
             return -1;
@@ -154,7 +155,7 @@ static int pyGeometrySpan_setIndices(pyGeometrySpan* self, PyObject* value, void
 
     hsTArray<unsigned short> idx;
     idx.setSize(PySequence_Size(value));
-    for (size_t i = 0; i < PySequence_Size(value); ++i)
+    for (size_t i = 0; i < idx.getSize(); ++i)
         idx[i] = PyInt_AsLong(PySequence_Fast_GET_ITEM(value, i));
     self->fThis->setIndices(idx);
     return 0;
@@ -255,7 +256,8 @@ static int pyGeometrySpan_setVertices(pyGeometrySpan* self, PyObject* value, voi
         PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of TempVertex");
         return -1;
     }
-    for (size_t i = 0; i < PySequence_Size(value); ++i) {
+    size_t count = PySequence_Size(value);
+    for (size_t i = 0; i < count; ++i) {
         if (!pyTempVertex_Check(PySequence_Fast_GET_ITEM(value, i))) {
             PyErr_SetString(PyExc_TypeError, "vertices should be a sequence of TempVertex");
             return -1;
@@ -264,7 +266,7 @@ static int pyGeometrySpan_setVertices(pyGeometrySpan* self, PyObject* value, voi
 
     hsTArray<plGeometrySpan::TempVertex> verts;
     verts.setSize(PySequence_Size(value));
-    for (size_t i = 0; i < PySequence_Size(value); ++i)
+    for (size_t i = 0; i < verts.getSize(); ++i)
         verts[i] = *((pyTempVertex*)PySequence_Fast_GET_ITEM(value, i))->fThis;
     self->fThis->setVertices(verts);
     return 0;

@@ -315,7 +315,7 @@ static PyObject* pyDrawableSpans_buildDIIndex(pyDrawableSpans* self, PyObject* a
 
     hsTArray< std::shared_ptr<plGeometrySpan> > spans;
     spans.setSize(PySequence_Size(list));
-    for (size_t i = 0; i < PySequence_Size(list); ++i) {
+    for (size_t i = 0; i < spans.getSize(); ++i) {
         PyObject* o = PySequence_Fast_GET_ITEM(list, i);
         if (pyGeometrySpan_Check(o))
             spans[i] = ((pyGeometrySpan*)o)->fThis;

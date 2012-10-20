@@ -1,9 +1,9 @@
 find_package(Python REQUIRED)
 
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG)
     set(CMAKE_CXX_FLAGS "-Wno-write-strings -fno-strict-aliasing ${CMAKE_CXX_FLAGS}")
     set(CMAKE_C_FLAGS "-Wno-write-strings -fno-strict-aliasing ${CMAKE_C_FLAGS}")
-endif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+endif()
 
 include_directories(${PLASMA_SOURCE_DIR}/core)
 include_directories(${PYTHON_INCLUDE_DIRS})
