@@ -189,11 +189,16 @@ static PyMethodDef pyOccluder_Methods[] = {
 };
 
 static PyGetSetDef pyOccluder_GetSet[] = {
-    { "priority", (getter)pyOccluder_getPriority, (setter)pyOccluder_setPriority, NULL, NULL },
-    { "worldBounds", (getter)pyOccluder_getBounds, (setter)pyOccluder_setBounds, NULL, NULL },
-    { "sceneNode", (getter)pyOccluder_getNode, (setter)pyOccluder_setNode, NULL, NULL },
-    { "polys", (getter)pyOccluder_getPolys, (setter)pyOccluder_setPolys, NULL, NULL },
-    { "visRegions", (getter)pyOccluder_getVisRegions, (setter)pyOccluder_setVisRegions, NULL, NULL },
+    { _pycs("priority"), (getter)pyOccluder_getPriority,
+        (setter)pyOccluder_setPriority, NULL, NULL },
+    { _pycs("worldBounds"), (getter)pyOccluder_getBounds,
+        (setter)pyOccluder_setBounds, NULL, NULL },
+    { _pycs("sceneNode"), (getter)pyOccluder_getNode,
+        (setter)pyOccluder_setNode, NULL, NULL },
+    { _pycs("polys"), (getter)pyOccluder_getPolys,
+        (setter)pyOccluder_setPolys, NULL, NULL },
+    { _pycs("visRegions"), (getter)pyOccluder_getVisRegions,
+        (setter)pyOccluder_setVisRegions, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

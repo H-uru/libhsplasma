@@ -96,9 +96,12 @@ static PyMethodDef pyCompoundRotController_Methods[] = {
 };
 
 static PyGetSetDef pyCompoundRotController_GetSet[] = {
-    { "X", (getter)pyCompoundRotController_getX, (setter)pyCompoundRotController_setX, NULL, NULL },
-    { "Y", (getter)pyCompoundRotController_getY, (setter)pyCompoundRotController_setY, NULL, NULL },
-    { "Z", (getter)pyCompoundRotController_getZ, (setter)pyCompoundRotController_setZ, NULL, NULL },
+    { _pycs("X"), (getter)pyCompoundRotController_getX,
+        (setter)pyCompoundRotController_setX, NULL, NULL },
+    { _pycs("Y"), (getter)pyCompoundRotController_getY,
+        (setter)pyCompoundRotController_setY, NULL, NULL },
+    { _pycs("Z"), (getter)pyCompoundRotController_getZ,
+        (setter)pyCompoundRotController_setZ, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

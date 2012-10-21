@@ -80,9 +80,12 @@ static PyMethodDef pyMobileOccluder_Methods[] = {
 };
 
 static PyGetSetDef pyMobileOccluder_GetSet[] = {
-    { "localToWorld", (getter)pyMobileOccluder_getLocalToWorld, (setter)pyMobileOccluder_setLocalToWorld, NULL, NULL },
-    { "worldToLocal", (getter)pyMobileOccluder_getWorldToLocal, (setter)pyMobileOccluder_setWorldToLocal, NULL, NULL },
-    { "localBounds", (getter)pyMobileOccluder_getLocalBounds, (setter)pyMobileOccluder_setLocalBounds, NULL, NULL },
+    { _pycs("localToWorld"), (getter)pyMobileOccluder_getLocalToWorld,
+        (setter)pyMobileOccluder_setLocalToWorld, NULL, NULL },
+    { _pycs("worldToLocal"), (getter)pyMobileOccluder_getWorldToLocal,
+        (setter)pyMobileOccluder_setWorldToLocal, NULL, NULL },
+    { _pycs("localBounds"), (getter)pyMobileOccluder_getLocalBounds,
+        (setter)pyMobileOccluder_setLocalBounds, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

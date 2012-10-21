@@ -101,11 +101,16 @@ static PyMethodDef pyEventCallbackMsg_Methods[] = {
 };
 
 static PyGetSetDef pyEventCallbackMsg_GetSet[] = {
-    { "eventTime", (getter)pyEventCallbackMsg_getEventTime, (setter)pyEventCallbackMsg_setEventTime, NULL, NULL },
-    { "event", (getter)pyEventCallbackMsg_getEvent, (setter)pyEventCallbackMsg_setEvent, NULL, NULL },
-    { "index", (getter)pyEventCallbackMsg_getIndex, (setter)pyEventCallbackMsg_setIndex, NULL, NULL },
-    { "repeats", (getter)pyEventCallbackMsg_getRepeats, (setter)pyEventCallbackMsg_setRepeats, NULL, NULL },
-    { "user", (getter)pyEventCallbackMsg_getUser, (setter)pyEventCallbackMsg_setUser, NULL, NULL },
+    { _pycs("eventTime"), (getter)pyEventCallbackMsg_getEventTime,
+        (setter)pyEventCallbackMsg_setEventTime, NULL, NULL },
+    { _pycs("event"), (getter)pyEventCallbackMsg_getEvent,
+        (setter)pyEventCallbackMsg_setEvent, NULL, NULL },
+    { _pycs("index"), (getter)pyEventCallbackMsg_getIndex,
+        (setter)pyEventCallbackMsg_setIndex, NULL, NULL },
+    { _pycs("repeats"), (getter)pyEventCallbackMsg_getRepeats,
+        (setter)pyEventCallbackMsg_setRepeats, NULL, NULL },
+    { _pycs("user"), (getter)pyEventCallbackMsg_getUser,
+        (setter)pyEventCallbackMsg_setUser, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

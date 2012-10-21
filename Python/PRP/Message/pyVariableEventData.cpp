@@ -90,10 +90,14 @@ static PyMethodDef pyVariableEventData_Methods[] = {
 };
 
 static PyGetSetDef pyVariableEventData_GetSet[] = {
-    { "name", (getter)pyVariableEventData_getName, (setter)pyVariableEventData_setName, NULL, NULL },
-    { "dataType", (getter)pyVariableEventData_getDataType, (setter)pyVariableEventData_setDataType, NULL, NULL },
-    { "number", (getter)pyVariableEventData_getNumber, (setter)pyVariableEventData_setNumber, NULL, NULL },
-    { "key", (getter)pyVariableEventData_getKey, (setter)pyVariableEventData_setKey, NULL, NULL },
+    { _pycs("name"), (getter)pyVariableEventData_getName,
+        (setter)pyVariableEventData_setName, NULL, NULL },
+    { _pycs("dataType"), (getter)pyVariableEventData_getDataType,
+        (setter)pyVariableEventData_setDataType, NULL, NULL },
+    { _pycs("number"), (getter)pyVariableEventData_getNumber,
+        (setter)pyVariableEventData_setNumber, NULL, NULL },
+    { _pycs("key"), (getter)pyVariableEventData_getKey,
+        (setter)pyVariableEventData_setKey, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

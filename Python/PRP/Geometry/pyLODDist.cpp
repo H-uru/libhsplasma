@@ -93,8 +93,8 @@ static PyMethodDef pyLODDist_Methods[] = {
 };
 
 static PyGetSetDef pyLODDist_GetSet[] = {
-    { "min", (getter)pyLODDist_getMin, (setter)pyLODDist_setMin, NULL, NULL },
-    { "max", (getter)pyLODDist_getMax, (setter)pyLODDist_setMax, NULL, NULL },
+    { _pycs("min"), (getter)pyLODDist_getMin, (setter)pyLODDist_setMin, NULL, NULL },
+    { _pycs("max"), (getter)pyLODDist_getMax, (setter)pyLODDist_setMax, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

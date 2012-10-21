@@ -114,12 +114,18 @@ static PyMethodDef pyShadowMaster_Methods[] = {
 };
 
 static PyGetSetDef pyShadowMaster_GetSet[] = {
-    { "attenDist", (getter)pyShadowMaster_getAttenDist, (setter)pyShadowMaster_setAttenDist, NULL, NULL },
-    { "maxDist", (getter)pyShadowMaster_getMaxDist, (setter)pyShadowMaster_setMaxDist, NULL, NULL },
-    { "minDist", (getter)pyShadowMaster_getMinDist, (setter)pyShadowMaster_setMinDist, NULL, NULL },
-    { "power", (getter)pyShadowMaster_getPower, (setter)pyShadowMaster_setPower, NULL, NULL },
-    { "maxSize", (getter)pyShadowMaster_getMaxSize, (setter)pyShadowMaster_setMaxSize, NULL, NULL },
-    { "minSize", (getter)pyShadowMaster_getMinSize, (setter)pyShadowMaster_setMinSize, NULL, NULL },
+    { _pycs("attenDist"), (getter)pyShadowMaster_getAttenDist,
+        (setter)pyShadowMaster_setAttenDist, NULL, NULL },
+    { _pycs("maxDist"), (getter)pyShadowMaster_getMaxDist,
+        (setter)pyShadowMaster_setMaxDist, NULL, NULL },
+    { _pycs("minDist"), (getter)pyShadowMaster_getMinDist,
+        (setter)pyShadowMaster_setMinDist, NULL, NULL },
+    { _pycs("power"), (getter)pyShadowMaster_getPower,
+        (setter)pyShadowMaster_setPower, NULL, NULL },
+    { _pycs("maxSize"), (getter)pyShadowMaster_getMaxSize,
+        (setter)pyShadowMaster_setMaxSize, NULL, NULL },
+    { _pycs("minSize"), (getter)pyShadowMaster_getMinSize,
+        (setter)pyShadowMaster_setMinSize, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -29,8 +29,8 @@ static void pyPlane3_dealloc(pyPlane3* self) {
 static int pyPlane3___init__(pyPlane3* self, PyObject* args, PyObject* kwds) {
     float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
     PyObject* init = NULL;
-    static char* kwlist[] = { "X", "Y", "Z", "W", NULL };
-    static char* kwlist2[] = { "Plane", NULL };
+    static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), _pycs("W"), NULL };
+    static char* kwlist2[] = { _pycs("Plane"), NULL };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "ffff", kwlist, &x, &y, &z, &w)) {
         (*self->fThis) = hsPlane3(hsVector3(x, y, z), w);
@@ -158,10 +158,10 @@ PyMethodDef pyPlane3_Methods[] = {
 };
 
 PyGetSetDef pyPlane3_GetSet[] = {
-    { "X", (getter)pyPlane3_getX, (setter)pyPlane3_setX, NULL, NULL },
-    { "Y", (getter)pyPlane3_getY, (setter)pyPlane3_setY, NULL, NULL },
-    { "Z", (getter)pyPlane3_getZ, (setter)pyPlane3_setZ, NULL, NULL },
-    { "W", (getter)pyPlane3_getW, (setter)pyPlane3_setW, NULL, NULL },
+    { _pycs("X"), (getter)pyPlane3_getX, (setter)pyPlane3_setX, NULL, NULL },
+    { _pycs("Y"), (getter)pyPlane3_getY, (setter)pyPlane3_setY, NULL, NULL },
+    { _pycs("Z"), (getter)pyPlane3_getZ, (setter)pyPlane3_setZ, NULL, NULL },
+    { _pycs("W"), (getter)pyPlane3_getW, (setter)pyPlane3_setW, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

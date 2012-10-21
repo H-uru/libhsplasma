@@ -158,14 +158,14 @@ static PyMethodDef pyBitmap_Methods[] = {
 };
 
 static PyGetSetDef pyBitmap_GetSet[] = {
-    { "BPP", (getter)pyBitmap_getBPP, (setter)pyBitmap_setBPP, NULL, NULL },
-    { "space", (getter)pyBitmap_getSpace, (setter)pyBitmap_setSpace, NULL, NULL },
-    { "flags", (getter)pyBitmap_getFlags, (setter)pyBitmap_setFlags, NULL, NULL },
-    { "compressionType", (getter)pyBitmap_getCType, (setter)pyBitmap_setCType, NULL, NULL },
-    { "DXCompression", (getter)pyBitmap_getDXComp, (setter)pyBitmap_setDXComp, NULL, NULL },
-    { "DXBlockSize", (getter)pyBitmap_getDXBlock, (setter)pyBitmap_setDXBlock, NULL, NULL },
-    { "ARGBType", (getter)pyBitmap_getARGBType, (setter)pyBitmap_setARGBType, NULL, NULL },
-    { "modTime", (getter)pyBitmap_getModTime, (setter)pyBitmap_setModTime, NULL, NULL },
+    { _pycs("BPP"), (getter)pyBitmap_getBPP, (setter)pyBitmap_setBPP, NULL, NULL },
+    { _pycs("space"), (getter)pyBitmap_getSpace, (setter)pyBitmap_setSpace, NULL, NULL },
+    { _pycs("flags"), (getter)pyBitmap_getFlags, (setter)pyBitmap_setFlags, NULL, NULL },
+    { _pycs("compressionType"), (getter)pyBitmap_getCType, (setter)pyBitmap_setCType, NULL, NULL },
+    { _pycs("DXCompression"), (getter)pyBitmap_getDXComp, (setter)pyBitmap_setDXComp, NULL, NULL },
+    { _pycs("DXBlockSize"), (getter)pyBitmap_getDXBlock, (setter)pyBitmap_setDXBlock, NULL, NULL },
+    { _pycs("ARGBType"), (getter)pyBitmap_getARGBType, (setter)pyBitmap_setARGBType, NULL, NULL },
+    { _pycs("modTime"), (getter)pyBitmap_getModTime, (setter)pyBitmap_setModTime, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

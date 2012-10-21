@@ -21,6 +21,10 @@ PyObject* PlasmaString_To_PyString(const plString& str);
 PyObject* PlasmaString_To_PyUnicode(const plString& str);
 plString PyString_To_PlasmaString(PyObject* str);
 
+// The Python API insists that character constants are "char *" without the
+// const. Sane compilers complain about this (with good reason). Therefore:
+#define _pycs(x) const_cast<char*>(x)
+
 // Python 3.x does things differently...  This should help to keep things
 // under control with both 2.x and 3.0 somewhat seamlessly.
 #if (PY_MAJOR_VERSION >= 3)

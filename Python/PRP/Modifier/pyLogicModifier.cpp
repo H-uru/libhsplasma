@@ -118,9 +118,12 @@ static PyMethodDef pyLogicModifier_Methods[] = {
 };
 
 static PyGetSetDef pyLogicModifier_GetSet[] = {
-    { "conditions", (getter)pyLogicModifier_getConditions, (setter)pyLogicModifier_setConditions, NULL, NULL },
-    { "cursor", (getter)pyLogicModifier_getCursor, (setter)pyLogicModifier_setCursor, NULL, NULL },
-    { "parent", (getter)pyLogicModifier_getParent, (setter)pyLogicModifier_setParent, NULL, NULL },
+    { _pycs("conditions"), (getter)pyLogicModifier_getConditions,
+        (setter)pyLogicModifier_setConditions, NULL, NULL },
+    { _pycs("cursor"), (getter)pyLogicModifier_getCursor,
+        (setter)pyLogicModifier_setCursor, NULL, NULL },
+    { _pycs("parent"), (getter)pyLogicModifier_getParent,
+        (setter)pyLogicModifier_setParent, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

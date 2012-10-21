@@ -130,9 +130,12 @@ static PyMethodDef pyPythonFileMod_Methods[] = {
 };
 
 static PyGetSetDef pyPythonFileMod_GetSet[] = {
-    { "filename", (getter)pyPythonFileMod_getFilename, (setter)pyPythonFileMod_setFilename, NULL, NULL },
-    { "receivers", (getter)pyPythonFileMod_getReceivers, (setter)pyPythonFileMod_setReceivers, NULL, NULL },
-    { "parameters", (getter)pyPythonFileMod_getParameters, (setter)pyPythonFileMod_setParameters, NULL, NULL },
+    { _pycs("filename"), (getter)pyPythonFileMod_getFilename,
+        (setter)pyPythonFileMod_setFilename, NULL, NULL },
+    { _pycs("receivers"), (getter)pyPythonFileMod_getReceivers,
+        (setter)pyPythonFileMod_setReceivers, NULL, NULL },
+    { _pycs("parameters"), (getter)pyPythonFileMod_getParameters,
+        (setter)pyPythonFileMod_setParameters, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

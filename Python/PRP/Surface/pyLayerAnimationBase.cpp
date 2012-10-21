@@ -141,12 +141,18 @@ static PyMethodDef pyLayerAnimationBase_Methods[] = {
 };
 
 static PyGetSetDef pyLayerAnimationBase_GetSet[] = {
-    { "preshadeCtl", (getter)pyLayerAnimationBase_getPreshade, (setter)pyLayerAnimationBase_setPreshade, NULL, NULL },
-    { "runtimeCtl", (getter)pyLayerAnimationBase_getRuntime, (setter)pyLayerAnimationBase_setRuntime, NULL, NULL },
-    { "ambientCtl", (getter)pyLayerAnimationBase_getAmbient, (setter)pyLayerAnimationBase_setAmbient, NULL, NULL },
-    { "specularCtl", (getter)pyLayerAnimationBase_getSpecular, (setter)pyLayerAnimationBase_setSpecular, NULL, NULL },
-    { "opacityCtl", (getter)pyLayerAnimationBase_getOpacity, (setter)pyLayerAnimationBase_setOpacity, NULL, NULL },
-    { "transformCtl", (getter)pyLayerAnimationBase_getTransform, (setter)pyLayerAnimationBase_setTransform, NULL, NULL },
+    { _pycs("preshadeCtl"), (getter)pyLayerAnimationBase_getPreshade,
+        (setter)pyLayerAnimationBase_setPreshade, NULL, NULL },
+    { _pycs("runtimeCtl"), (getter)pyLayerAnimationBase_getRuntime,
+        (setter)pyLayerAnimationBase_setRuntime, NULL, NULL },
+    { _pycs("ambientCtl"), (getter)pyLayerAnimationBase_getAmbient,
+        (setter)pyLayerAnimationBase_setAmbient, NULL, NULL },
+    { _pycs("specularCtl"), (getter)pyLayerAnimationBase_getSpecular,
+        (setter)pyLayerAnimationBase_setSpecular, NULL, NULL },
+    { _pycs("opacityCtl"), (getter)pyLayerAnimationBase_getOpacity,
+        (setter)pyLayerAnimationBase_setOpacity, NULL, NULL },
+    { _pycs("transformCtl"), (getter)pyLayerAnimationBase_getTransform,
+        (setter)pyLayerAnimationBase_setTransform, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

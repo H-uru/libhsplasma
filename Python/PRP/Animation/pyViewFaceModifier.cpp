@@ -118,12 +118,18 @@ static PyMethodDef pyViewFaceModifier_Methods[] = {
 };
 
 static PyGetSetDef pyViewFaceModifier_GetSet[] = {
-    { "scale", (getter)pyViewFaceModifier_getScale, (setter)pyViewFaceModifier_setScale, NULL, NULL },
-    { "offset", (getter)pyViewFaceModifier_getOffset, (setter)pyViewFaceModifier_setOffset, NULL, NULL },
-    { "localToParent", (getter)pyViewFaceModifier_getL2P, (setter)pyViewFaceModifier_setL2P, NULL, NULL },
-    { "parentToLocal", (getter)pyViewFaceModifier_getP2L, (setter)pyViewFaceModifier_setP2L, NULL, NULL },
-    { "faceObj", (getter)pyViewFaceModifier_getFaceObj, (setter)pyViewFaceModifier_setFaceObj, NULL, NULL },
-    { "maxBounds", (getter)pyViewFaceModifier_getMaxBounds, (setter)pyViewFaceModifier_setMaxBounds, NULL, NULL },
+    { _pycs("scale"), (getter)pyViewFaceModifier_getScale,
+        (setter)pyViewFaceModifier_setScale, NULL, NULL },
+    { _pycs("offset"), (getter)pyViewFaceModifier_getOffset,
+        (setter)pyViewFaceModifier_setOffset, NULL, NULL },
+    { _pycs("localToParent"), (getter)pyViewFaceModifier_getL2P,
+        (setter)pyViewFaceModifier_setL2P, NULL, NULL },
+    { _pycs("parentToLocal"), (getter)pyViewFaceModifier_getP2L,
+        (setter)pyViewFaceModifier_setP2L, NULL, NULL },
+    { _pycs("faceObj"), (getter)pyViewFaceModifier_getFaceObj,
+        (setter)pyViewFaceModifier_setFaceObj, NULL, NULL },
+    { _pycs("maxBounds"), (getter)pyViewFaceModifier_getMaxBounds,
+        (setter)pyViewFaceModifier_setMaxBounds, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

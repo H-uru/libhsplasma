@@ -113,9 +113,10 @@ static PyMethodDef pyKeyFrame_Methods[] = {
 };
 
 static PyGetSetDef pyKeyFrame_GetSet[] = {
-    { "type", (getter)pyKeyFrame_getType, (setter)pyKeyFrame_setType, NULL, NULL },
-    { "frame", (getter)pyKeyFrame_getFrame, (setter)pyKeyFrame_setFrame, NULL, NULL },
-    { "frameTime", (getter)pyKeyFrame_getFrameTime, (setter)pyKeyFrame_setFrameTime, NULL, NULL },
+    { _pycs("type"), (getter)pyKeyFrame_getType, (setter)pyKeyFrame_setType, NULL, NULL },
+    { _pycs("frame"), (getter)pyKeyFrame_getFrame, (setter)pyKeyFrame_setFrame, NULL, NULL },
+    { _pycs("frameTime"), (getter)pyKeyFrame_getFrameTime,
+        (setter)pyKeyFrame_setFrameTime, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

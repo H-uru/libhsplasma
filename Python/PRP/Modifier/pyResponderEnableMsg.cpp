@@ -49,7 +49,8 @@ static PyMethodDef pyResponderEnableMsg_Methods[] = {
 };
 
 static PyGetSetDef pyResponderEnableMsg_GetSet[] = {
-    { "enable", (getter)pyResponderEnableMsg_getEnable, (setter)pyResponderEnableMsg_setEnable, NULL, NULL },
+    { _pycs("enable"), (getter)pyResponderEnableMsg_getEnable,
+        (setter)pyResponderEnableMsg_setEnable, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

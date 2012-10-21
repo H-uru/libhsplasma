@@ -106,10 +106,14 @@ static PyMethodDef pyDynamicTextMap_Methods[] = {
 };
 
 static PyGetSetDef pyDynamicTextMap_GetSet[] = {
-    { "visWidth", (getter)pyDynamicTextMap_getWidth, (setter)pyDynamicTextMap_setWidth, NULL, NULL },
-    { "visHeight", (getter)pyDynamicTextMap_getHeight, (setter)pyDynamicTextMap_setHeight, NULL, NULL },
-    { "hasAlpha", (getter)pyDynamicTextMap_getHasAlpha, (setter)pyDynamicTextMap_setHasAlpha, NULL, NULL },
-    { "initBuffer", (getter)pyDynamicTextMap_getInitBuffer, (setter)pyDynamicTextMap_setInitBuffer, NULL, NULL },
+    { _pycs("visWidth"), (getter)pyDynamicTextMap_getWidth,
+        (setter)pyDynamicTextMap_setWidth, NULL, NULL },
+    { _pycs("visHeight"), (getter)pyDynamicTextMap_getHeight,
+        (setter)pyDynamicTextMap_setHeight, NULL, NULL },
+    { _pycs("hasAlpha"), (getter)pyDynamicTextMap_getHasAlpha,
+        (setter)pyDynamicTextMap_setHasAlpha, NULL, NULL },
+    { _pycs("initBuffer"), (getter)pyDynamicTextMap_getInitBuffer,
+        (setter)pyDynamicTextMap_setInitBuffer, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -270,18 +270,18 @@ static PyMethodDef pyKey_Methods[] = {
 };
 
 static PyGetSetDef pyKey_GetSet[] = {
-    { "type", (getter)pyKey_getType, (setter)pyKey_setType,
-      "The Class Index of this plKey", NULL },
-    { "name", (getter)pyKey_getName, (setter)pyKey_setName,
-      "The name of this plKey", NULL },
-    { "location", (getter)pyKey_getLocation, (setter)pyKey_setLocation,
-      "The plLocation of this plKey", NULL },
-    { "mask", (getter)pyKey_getLoadMask, (setter)pyKey_setLoadMask,
-      "The Load Mask for this plKey", NULL },
-    { "id", (getter)pyKey_getID, (setter)pyKey_setID,
-      "The file index of this plKey (usually set automatically)", NULL },
-    { "object", (getter)pyKey_getObj, (setter)pyKey_setObj,
-      "The hsKeyedObject class this key points to", NULL },
+    { _pycs("type"), (getter)pyKey_getType, (setter)pyKey_setType,
+        _pycs("The Class Index of this plKey"), NULL },
+    { _pycs("name"), (getter)pyKey_getName, (setter)pyKey_setName,
+        _pycs("The name of this plKey"), NULL },
+    { _pycs("location"), (getter)pyKey_getLocation, (setter)pyKey_setLocation,
+        _pycs("The plLocation of this plKey"), NULL },
+    { _pycs("mask"), (getter)pyKey_getLoadMask, (setter)pyKey_setLoadMask,
+        _pycs("The Load Mask for this plKey"), NULL },
+    { _pycs("id"), (getter)pyKey_getID, (setter)pyKey_setID,
+        _pycs("The file index of this plKey (usually set automatically)"), NULL },
+    { _pycs("object"), (getter)pyKey_getObj, (setter)pyKey_setObj,
+        _pycs("The hsKeyedObject class this key points to"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -109,8 +109,10 @@ static PyMethodDef pySpanEncoding_Methods[] = {
 };
 
 static PyGetSetDef pySpanEncoding_GetSet[] = {
-    { "code", (getter)pySpanEncoding_getCode, (setter)pySpanEncoding_setCode, NULL, NULL },
-    { "posScale", (getter)pySpanEncoding_getPosScale, (setter)pySpanEncoding_setPosScale, NULL, NULL },
+    { _pycs("code"), (getter)pySpanEncoding_getCode,
+        (setter)pySpanEncoding_setCode, NULL, NULL },
+    { _pycs("posScale"), (getter)pySpanEncoding_getPosScale,
+        (setter)pySpanEncoding_setPosScale, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

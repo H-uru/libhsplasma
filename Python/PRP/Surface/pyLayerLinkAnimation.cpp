@@ -67,8 +67,10 @@ static PyMethodDef pyLayerLinkAnimation_Methods[] = {
 };
 
 static PyGetSetDef pyLayerLinkAnimation_GetSet[] = {
-    { "linkKey", (getter)pyLayerLinkAnimation_getLinkKey, (setter)pyLayerLinkAnimation_setLinkKey, NULL, NULL },
-    { "leavingAge", (getter)pyLayerLinkAnimation_getLeavingAge, (setter)pyLayerLinkAnimation_setLeavingAge, NULL, NULL },
+    { _pycs("linkKey"), (getter)pyLayerLinkAnimation_getLinkKey,
+        (setter)pyLayerLinkAnimation_setLinkKey, NULL, NULL },
+    { _pycs("leavingAge"), (getter)pyLayerLinkAnimation_getLeavingAge,
+        (setter)pyLayerLinkAnimation_setLeavingAge, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

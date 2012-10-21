@@ -50,7 +50,8 @@ static int pyMatrix44Key_setValue(pyMatrix44Key* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyMatrix44Key_GetSet[] = {
-    { "value", (getter)pyMatrix44Key_getValue, (setter)pyMatrix44Key_setValue, NULL, NULL },
+    { _pycs("value"), (getter)pyMatrix44Key_getValue,
+        (setter)pyMatrix44Key_setValue, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

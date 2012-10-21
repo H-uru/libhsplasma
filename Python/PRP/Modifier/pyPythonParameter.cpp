@@ -188,13 +188,20 @@ static PyMethodDef pyPythonParameter_Methods[] = {
 };
 
 static PyGetSetDef pyPythonParameter_GetSet[] = {
-    { "id", (getter)pyPythonParameter_getID, (setter)pyPythonParameter_setID, NULL, NULL },
-    { "valueType", (getter)pyPythonParameter_getType, (setter)pyPythonParameter_setType, NULL, NULL },
-    { "objKey", (getter)pyPythonParameter_getKey, (setter)pyPythonParameter_setKey, NULL, NULL },
-    { "strValue", (getter)pyPythonParameter_getString, (setter)pyPythonParameter_setString, NULL, NULL },
-    { "intValue", (getter)pyPythonParameter_getInt, (setter)pyPythonParameter_setInt, NULL, NULL },
-    { "floatValue", (getter)pyPythonParameter_getFloat, (setter)pyPythonParameter_setFloat, NULL, NULL },
-    { "boolValue", (getter)pyPythonParameter_getBool, (setter)pyPythonParameter_setBool, NULL, NULL },
+    { _pycs("id"), (getter)pyPythonParameter_getID,
+        (setter)pyPythonParameter_setID, NULL, NULL },
+    { _pycs("valueType"), (getter)pyPythonParameter_getType,
+        (setter)pyPythonParameter_setType, NULL, NULL },
+    { _pycs("objKey"), (getter)pyPythonParameter_getKey,
+        (setter)pyPythonParameter_setKey, NULL, NULL },
+    { _pycs("strValue"), (getter)pyPythonParameter_getString,
+        (setter)pyPythonParameter_setString, NULL, NULL },
+    { _pycs("intValue"), (getter)pyPythonParameter_getInt,
+        (setter)pyPythonParameter_setInt, NULL, NULL },
+    { _pycs("floatValue"), (getter)pyPythonParameter_getFloat,
+        (setter)pyPythonParameter_setFloat, NULL, NULL },
+    { _pycs("boolValue"), (getter)pyPythonParameter_getBool,
+        (setter)pyPythonParameter_setBool, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

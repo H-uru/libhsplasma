@@ -82,9 +82,12 @@ static PyMethodDef pyContainedEventData_Methods[] = {
 };
 
 static PyGetSetDef pyContainedEventData_GetSet[] = {
-    { "contained", (getter)pyContainedEventData_getContained, (setter)pyContainedEventData_setContained, NULL, NULL },
-    { "container", (getter)pyContainedEventData_getContainer, (setter)pyContainedEventData_setContainer, NULL, NULL },
-    { "entering", (getter)pyContainedEventData_getEntering, (setter)pyContainedEventData_setEntering, NULL, NULL },
+    { _pycs("contained"), (getter)pyContainedEventData_getContained,
+        (setter)pyContainedEventData_setContained, NULL, NULL },
+    { _pycs("container"), (getter)pyContainedEventData_getContainer,
+        (setter)pyContainedEventData_setContainer, NULL, NULL },
+    { _pycs("entering"), (getter)pyContainedEventData_getEntering,
+        (setter)pyContainedEventData_setEntering, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

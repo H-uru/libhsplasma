@@ -75,9 +75,9 @@ static int pyScalarKey_setValue(pyScalarKey* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyScalarKey_GetSet[] = {
-    { "inTan", (getter)pyScalarKey_getInTan, (setter)pyScalarKey_setInTan, NULL, NULL },
-    { "outTan", (getter)pyScalarKey_getOutTan, (setter)pyScalarKey_setOutTan, NULL, NULL },
-    { "value", (getter)pyScalarKey_getValue, (setter)pyScalarKey_setValue, NULL, NULL },
+    { _pycs("inTan"), (getter)pyScalarKey_getInTan, (setter)pyScalarKey_setInTan, NULL, NULL },
+    { _pycs("outTan"), (getter)pyScalarKey_getOutTan, (setter)pyScalarKey_setOutTan, NULL, NULL },
+    { _pycs("value"), (getter)pyScalarKey_getValue, (setter)pyScalarKey_setValue, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

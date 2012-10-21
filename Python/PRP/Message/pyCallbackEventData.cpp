@@ -47,7 +47,8 @@ static PyMethodDef pyCallbackEventData_Methods[] = {
 };
 
 static PyGetSetDef pyCallbackEventData_GetSet[] = {
-    { "callbackEventType", (getter)pyCallbackEventData_getType, (setter)pyCallbackEventData_setType, NULL, NULL },
+    { _pycs("callbackEventType"), (getter)pyCallbackEventData_getType,
+        (setter)pyCallbackEventData_setType, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

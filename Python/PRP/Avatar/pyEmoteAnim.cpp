@@ -74,9 +74,12 @@ static PyMethodDef pyEmoteAnim_Methods[] = {
 };
 
 static PyGetSetDef pyEmoteAnim_GetSet[] = {
-    { "bodyUsage", (getter)pyEmoteAnim_getBodyUsage, (setter)pyEmoteAnim_setBodyUsage, NULL, NULL },
-    { "fadeIn", (getter)pyEmoteAnim_getFadeIn, (setter)pyEmoteAnim_setFadeIn, NULL, NULL },
-    { "fadeOut", (getter)pyEmoteAnim_getFadeOut, (setter)pyEmoteAnim_setFadeOut, NULL, NULL },
+    { _pycs("bodyUsage"), (getter)pyEmoteAnim_getBodyUsage,
+        (setter)pyEmoteAnim_setBodyUsage, NULL, NULL },
+    { _pycs("fadeIn"), (getter)pyEmoteAnim_getFadeIn,
+        (setter)pyEmoteAnim_setFadeIn, NULL, NULL },
+    { _pycs("fadeOut"), (getter)pyEmoteAnim_getFadeOut,
+        (setter)pyEmoteAnim_setFadeOut, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

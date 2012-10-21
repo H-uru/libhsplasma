@@ -105,8 +105,8 @@ static PyMethodDef pyWinAudible_Methods[] = {
 };
 
 static PyGetSetDef pyWinAudible_GetSet[] = {
-    { "sounds", (getter)pyWinAudible_getSounds, (setter)pyWinAudible_setSounds, NULL, NULL },
-    { "sceneNode", (getter)pyWinAudible_getNode, (setter)pyWinAudible_setNode, NULL, NULL },
+    { _pycs("sounds"), (getter)pyWinAudible_getSounds, (setter)pyWinAudible_setSounds, NULL, NULL },
+    { _pycs("sceneNode"), (getter)pyWinAudible_getNode, (setter)pyWinAudible_setNode, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

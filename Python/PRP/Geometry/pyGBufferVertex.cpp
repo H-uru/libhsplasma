@@ -151,12 +151,18 @@ static int pyGBufferVertex_setUVWs(pyGBufferVertex* self, PyObject* value, void*
 }
 
 static PyGetSetDef pyGBufferVertex_GetSet[] = {
-    { "pos", (getter)pyGBufferVertex_getPos, (setter)pyGBufferVertex_setPos, NULL, NULL },
-    { "normal", (getter)pyGBufferVertex_getNormal, (setter)pyGBufferVertex_setNormal, NULL, NULL },
-    { "skinIdx", (getter)pyGBufferVertex_getSkin, (setter)pyGBufferVertex_setSkin, NULL, NULL },
-    { "color", (getter)pyGBufferVertex_getColor, (setter)pyGBufferVertex_setColor, NULL, NULL },
-    { "skinWeights", (getter)pyGBufferVertex_getWeights, (setter)pyGBufferVertex_setWeights, NULL, NULL },
-    { "UVWs", (getter)pyGBufferVertex_getUVWs, (setter)pyGBufferVertex_setUVWs, NULL, NULL },
+    { _pycs("pos"), (getter)pyGBufferVertex_getPos,
+        (setter)pyGBufferVertex_setPos, NULL, NULL },
+    { _pycs("normal"), (getter)pyGBufferVertex_getNormal,
+        (setter)pyGBufferVertex_setNormal, NULL, NULL },
+    { _pycs("skinIdx"), (getter)pyGBufferVertex_getSkin,
+        (setter)pyGBufferVertex_setSkin, NULL, NULL },
+    { _pycs("color"), (getter)pyGBufferVertex_getColor,
+        (setter)pyGBufferVertex_setColor, NULL, NULL },
+    { _pycs("skinWeights"), (getter)pyGBufferVertex_getWeights,
+        (setter)pyGBufferVertex_setWeights, NULL, NULL },
+    { _pycs("UVWs"), (getter)pyGBufferVertex_getUVWs,
+        (setter)pyGBufferVertex_setUVWs, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

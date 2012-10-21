@@ -165,9 +165,12 @@ static PyMethodDef pyCluster_Methods[] = {
 };
 
 static PyGetSetDef pyCluster_GetSet[] = {
-    { "encoding", (getter)pyCluster_getEncoding, (setter)pyCluster_setEncoding, NULL, NULL },
-    { "group", (getter)pyCluster_getGroup, (setter)pyCluster_setGroup, NULL, NULL },
-    { "instances", (getter)pyCluster_getInstances, (setter)pyCluster_setInstances, NULL, NULL },
+    { _pycs("encoding"), (getter)pyCluster_getEncoding,
+        (setter)pyCluster_setEncoding, NULL, NULL },
+    { _pycs("group"), (getter)pyCluster_getGroup,
+        (setter)pyCluster_setGroup, NULL, NULL },
+    { _pycs("instances"), (getter)pyCluster_getInstances,
+        (setter)pyCluster_setInstances, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -276,14 +276,14 @@ static PyMethodDef pyLocation_Methods[] = {
 };
 
 static PyGetSetDef pyLocation_GetSet[] = {
-    { "version", (getter)pyLocation_getVer, (setter)pyLocation_setVer,
-      "The Plasma Version (for file parsing)", NULL },
-    { "prefix", (getter)pyLocation_getPrefix, (setter)pyLocation_setPrefix,
-      "The Sequence Prefix of the age", NULL },
-    { "page", (getter)pyLocation_getPage, (setter)pyLocation_setPage,
-      "The Page Number of the page", NULL },
-    { "flags", (getter)pyLocation_getFlags, (setter)pyLocation_setFlags,
-      "The Location flags", NULL },
+    { _pycs("version"), (getter)pyLocation_getVer, (setter)pyLocation_setVer,
+        _pycs("The Plasma Version (for file parsing)"), NULL },
+    { _pycs("prefix"), (getter)pyLocation_getPrefix, (setter)pyLocation_setPrefix,
+        _pycs("The Sequence Prefix of the age"), NULL },
+    { _pycs("page"), (getter)pyLocation_getPage, (setter)pyLocation_setPage,
+        _pycs("The Page Number of the page"), NULL },
+    { _pycs("flags"), (getter)pyLocation_getFlags, (setter)pyLocation_setFlags,
+        _pycs("The Location flags"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -110,11 +110,16 @@ static PyMethodDef pySoundBuffer_Methods[] = {
 };
 
 static PyGetSetDef pySoundBuffer_GetSet[] = {
-    { "header", (getter)pySoundBuffer_getHeader, (setter)pySoundBuffer_setHeader, NULL, NULL },
-    { "fileName", (getter)pySoundBuffer_getFileName, (setter)pySoundBuffer_setFileName, NULL, NULL },
-    { "flags", (getter)pySoundBuffer_getFlags, (setter)pySoundBuffer_setFlags, NULL, NULL },
-    { "data", (getter)pySoundBuffer_getData, (setter)pySoundBuffer_setData, NULL, NULL },
-    { "dataLength", (getter)pySoundBuffer_getDataLength, (setter)pySoundBuffer_setDataLength, NULL, NULL },
+    { _pycs("header"), (getter)pySoundBuffer_getHeader,
+        (setter)pySoundBuffer_setHeader, NULL, NULL },
+    { _pycs("fileName"), (getter)pySoundBuffer_getFileName,
+        (setter)pySoundBuffer_setFileName, NULL, NULL },
+    { _pycs("flags"), (getter)pySoundBuffer_getFlags,
+        (setter)pySoundBuffer_setFlags, NULL, NULL },
+    { _pycs("data"), (getter)pySoundBuffer_getData,
+        (setter)pySoundBuffer_setData, NULL, NULL },
+    { _pycs("dataLength"), (getter)pySoundBuffer_getDataLength,
+        (setter)pySoundBuffer_setDataLength, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

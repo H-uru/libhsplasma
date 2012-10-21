@@ -86,8 +86,10 @@ static int pyResponderModifier_Cmd_setWaitOn(pyResponderModifier_Cmd* self, PyOb
 }
 
 static PyGetSetDef pyResponderModifier_Cmd_GetSet[] = {
-    { "msg", (getter)pyResponderModifier_Cmd_getMsg, (setter)pyResponderModifier_Cmd_setMsg, NULL, NULL },
-    { "waitOn", (getter)pyResponderModifier_Cmd_getWaitOn, (setter)pyResponderModifier_Cmd_setWaitOn, NULL, NULL },
+    { _pycs("msg"), (getter)pyResponderModifier_Cmd_getMsg,
+        (setter)pyResponderModifier_Cmd_setMsg, NULL, NULL },
+    { _pycs("waitOn"), (getter)pyResponderModifier_Cmd_getWaitOn,
+        (setter)pyResponderModifier_Cmd_setWaitOn, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

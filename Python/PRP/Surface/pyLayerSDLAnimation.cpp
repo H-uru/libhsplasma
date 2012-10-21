@@ -48,7 +48,8 @@ static PyMethodDef pyLayerSDLAnimation_Methods[] = {
 };
 
 static PyGetSetDef pyLayerSDLAnimation_GetSet[] = {
-    { "varName", (getter)pyLayerSDLAnimation_getVarName, (setter)pyLayerSDLAnimation_setVarName, NULL, NULL },
+    { _pycs("varName"), (getter)pyLayerSDLAnimation_getVarName,
+        (setter)pyLayerSDLAnimation_setVarName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

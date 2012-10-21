@@ -78,9 +78,12 @@ static PyMethodDef pyOfferLinkBookEventData_Methods[] = {
 };
 
 static PyGetSetDef pyOfferLinkBookEventData_GetSet[] = {
-    { "offerer", (getter)pyOfferLinkBookEventData_getOfferer, (setter)pyOfferLinkBookEventData_setOfferer, NULL, NULL },
-    { "targetAge", (getter)pyOfferLinkBookEventData_getTargetAge, (setter)pyOfferLinkBookEventData_setTargetAge, NULL, NULL },
-    { "offeree", (getter)pyOfferLinkBookEventData_getOfferee, (setter)pyOfferLinkBookEventData_setOfferee, NULL, NULL },
+    { _pycs("offerer"), (getter)pyOfferLinkBookEventData_getOfferer,
+        (setter)pyOfferLinkBookEventData_setOfferer, NULL, NULL },
+    { _pycs("targetAge"), (getter)pyOfferLinkBookEventData_getTargetAge,
+        (setter)pyOfferLinkBookEventData_setTargetAge, NULL, NULL },
+    { _pycs("offeree"), (getter)pyOfferLinkBookEventData_getOfferee,
+        (setter)pyOfferLinkBookEventData_setOfferee, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

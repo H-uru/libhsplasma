@@ -26,7 +26,7 @@ static void pyStream_dealloc(pyStream* self) {
 }
 
 static int pyStream___init__(pyStream* self, PyObject* args, PyObject* kwds) {
-    static char* kwlist[] = { "ver", NULL };
+    static char* kwlist[] = { _pycs("ver"), NULL };
 
     int ver = PlasmaVer::pvUnknown;
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|i", kwlist, &ver))
@@ -459,12 +459,12 @@ static PyMethodDef pyStream_Methods[] = {
 };
 
 static PyGetSetDef pyStream_GetSet[] = {
-    { "version", (getter)pyStream_getVer, (setter)pyStream_setVer,
-      "Stream version, to be used by other classes", NULL },
-    { "size", (getter)pyStream_getSize, (setter)pyStream_setSize,
-      "Total stream size", NULL },
-    { "pos", (getter)pyStream_getPos, (setter)pyStream_setPos,
-      "Current position within the stream", NULL },
+    { _pycs("version"), (getter)pyStream_getVer, (setter)pyStream_setVer,
+        _pycs("Stream version, to be used by other classes"), NULL },
+    { _pycs("size"), (getter)pyStream_getSize, (setter)pyStream_setSize,
+        _pycs("Total stream size"), NULL },
+    { _pycs("pos"), (getter)pyStream_getPos, (setter)pyStream_setPos,
+        _pycs("Current position within the stream"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

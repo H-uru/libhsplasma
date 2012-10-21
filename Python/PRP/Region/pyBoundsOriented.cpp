@@ -84,9 +84,12 @@ static int pyBoundsOriented_setPlanes(pyBoundsOriented* self, PyObject* value, v
 }
 
 static PyGetSetDef pyBoundsOriented_GetSet[] = {
-    { "center", (getter)pyBoundsOriented_getCenter, (setter)pyBoundsOriented_setCenter, NULL, NULL },
-    { "centerValid", (getter)pyBoundsOriented_getCenterValid, (setter)pyBoundsOriented_setCenterValid, NULL, NULL },
-    { "planes", (getter)pyBoundsOriented_getPlanes, (setter)pyBoundsOriented_setPlanes, NULL, NULL },
+    { _pycs("center"), (getter)pyBoundsOriented_getCenter,
+        (setter)pyBoundsOriented_setCenter, NULL, NULL },
+    { _pycs("centerValid"), (getter)pyBoundsOriented_getCenterValid,
+        (setter)pyBoundsOriented_setCenterValid, NULL, NULL },
+    { _pycs("planes"), (getter)pyBoundsOriented_getPlanes,
+        (setter)pyBoundsOriented_setPlanes, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

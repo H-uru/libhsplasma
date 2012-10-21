@@ -68,9 +68,9 @@ static int pyBounds3_setCenter(pyBounds3* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyBounds3_GetSet[] = {
-    { "mins", (getter)pyBounds3_getMins, (setter)pyBounds3_setMins, NULL, NULL },
-    { "maxs", (getter)pyBounds3_getMaxs, (setter)pyBounds3_setMaxs, NULL, NULL },
-    { "center", (getter)pyBounds3_getCenter, (setter)pyBounds3_setCenter, NULL, NULL },
+    { _pycs("mins"), (getter)pyBounds3_getMins, (setter)pyBounds3_setMins, NULL, NULL },
+    { _pycs("maxs"), (getter)pyBounds3_getMaxs, (setter)pyBounds3_setMaxs, NULL, NULL },
+    { _pycs("center"), (getter)pyBounds3_getCenter, (setter)pyBounds3_setCenter, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

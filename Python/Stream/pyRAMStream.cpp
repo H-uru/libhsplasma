@@ -74,8 +74,8 @@ static PyMethodDef pyRAMStream_Methods[] = {
 };
 
 static PyGetSetDef pyRAMStream_GetSet[] = {
-    { "buffer", (getter)pyRAMStream_getBuffer, (setter)pyRAMStream_setBuffer,
-      "The internal RAM buffer of this stream", NULL },
+    { _pycs("buffer"), (getter)pyRAMStream_getBuffer, (setter)pyRAMStream_setBuffer,
+        _pycs("The internal RAM buffer of this stream"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

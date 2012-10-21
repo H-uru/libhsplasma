@@ -147,10 +147,11 @@ PyMethodDef pyDrawInterface_Methods[] = {
 };
 
 PyGetSetDef pyDrawInterface_GetSet[] = {
-    { "drawables", (getter)pyDrawInterface_getDrawables, (setter)pyDrawInterface_setDrawables,
-      "Drawable references and keys", NULL },
-    { "regions", (getter)pyDrawInterface_getRegions, (setter)pyDrawInterface_setRegions,
-      "Drawable regions", NULL },
+    { _pycs("drawables"), (getter)pyDrawInterface_getDrawables,
+        (setter)pyDrawInterface_setDrawables,
+        _pycs("Drawable references and keys"), NULL },
+    { _pycs("regions"), (getter)pyDrawInterface_getRegions,
+        (setter)pyDrawInterface_setRegions, _pycs("Drawable regions"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -131,10 +131,14 @@ static PyMethodDef pyMessage_Methods[] = {
 };
 
 static PyGetSetDef pyMessage_GetSet[] = {
-    { "sender", (getter)pyMessage_getSender, (setter)pyMessage_setSender, NULL, NULL },
-    { "timeStamp", (getter)pyMessage_getTS, (setter)pyMessage_setTS, NULL, NULL },
-    { "BCastFlags", (getter)pyMessage_getFlags, (setter)pyMessage_setFlags, NULL, NULL },
-    { "receivers", (getter)pyMessage_getReceivers, (setter)pyMessage_setReceivers, NULL, NULL },
+    { _pycs("sender"), (getter)pyMessage_getSender,
+        (setter)pyMessage_setSender, NULL, NULL },
+    { _pycs("timeStamp"), (getter)pyMessage_getTS,
+        (setter)pyMessage_setTS, NULL, NULL },
+    { _pycs("BCastFlags"), (getter)pyMessage_getFlags,
+        (setter)pyMessage_setFlags, NULL, NULL },
+    { _pycs("receivers"), (getter)pyMessage_getReceivers,
+        (setter)pyMessage_setReceivers, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -91,11 +91,16 @@ static int pyGMatState_setMiscFlags(pyGMatState* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyGMatState_GetSet[] = {
-    { "blendFlags", (getter)pyGMatState_getBlendFlags, (setter)pyGMatState_setBlendFlags, NULL, NULL },
-    { "clampFlags", (getter)pyGMatState_getClampFlags, (setter)pyGMatState_setClampFlags, NULL, NULL },
-    { "shadeFlags", (getter)pyGMatState_getShadeFlags, (setter)pyGMatState_setShadeFlags, NULL, NULL },
-    { "ZFlags", (getter)pyGMatState_getZFlags, (setter)pyGMatState_setZFlags, NULL, NULL },
-    { "miscFlags", (getter)pyGMatState_getMiscFlags, (setter)pyGMatState_setMiscFlags, NULL, NULL },
+    { _pycs("blendFlags"), (getter)pyGMatState_getBlendFlags,
+        (setter)pyGMatState_setBlendFlags, NULL, NULL },
+    { _pycs("clampFlags"), (getter)pyGMatState_getClampFlags,
+        (setter)pyGMatState_setClampFlags, NULL, NULL },
+    { _pycs("shadeFlags"), (getter)pyGMatState_getShadeFlags,
+        (setter)pyGMatState_setShadeFlags, NULL, NULL },
+    { _pycs("ZFlags"), (getter)pyGMatState_getZFlags,
+        (setter)pyGMatState_setZFlags, NULL, NULL },
+    { _pycs("miscFlags"), (getter)pyGMatState_getMiscFlags,
+        (setter)pyGMatState_setMiscFlags, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

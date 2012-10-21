@@ -74,9 +74,12 @@ static PyMethodDef pyLimitedDirLightInfo_Methods[] = {
 };
 
 static PyGetSetDef pyLimitedDirLightInfo_GetSet[] = {
-    { "width", (getter)pyLimitedDirLightInfo_getWidth, (setter)pyLimitedDirLightInfo_setWidth, NULL, NULL },
-    { "height", (getter)pyLimitedDirLightInfo_getHeight, (setter)pyLimitedDirLightInfo_setHeight, NULL, NULL },
-    { "depth", (getter)pyLimitedDirLightInfo_getDepth, (setter)pyLimitedDirLightInfo_setDepth, NULL, NULL },
+    { _pycs("width"), (getter)pyLimitedDirLightInfo_getWidth,
+        (setter)pyLimitedDirLightInfo_setWidth, NULL, NULL },
+    { _pycs("height"), (getter)pyLimitedDirLightInfo_getHeight,
+        (setter)pyLimitedDirLightInfo_setHeight, NULL, NULL },
+    { _pycs("depth"), (getter)pyLimitedDirLightInfo_getDepth,
+        (setter)pyLimitedDirLightInfo_setDepth, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

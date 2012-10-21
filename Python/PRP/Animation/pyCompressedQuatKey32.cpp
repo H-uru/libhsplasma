@@ -69,7 +69,8 @@ static PyMethodDef pyCompressedQuatKey32_Methods[] = {
 };
 
 static PyGetSetDef pyCompressedQuatKey32_GetSet[] = {
-    { "value", (getter)pyCompressedQuatKey32_getValue, (setter)pyCompressedQuatKey32_setValueErr, NULL, NULL },
+    { _pycs("value"), (getter)pyCompressedQuatKey32_getValue,
+        (setter)pyCompressedQuatKey32_setValueErr, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

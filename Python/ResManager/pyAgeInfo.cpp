@@ -351,20 +351,20 @@ static PyMethodDef pyAgeInfo_Methods[] = {
 };
 
 static PyGetSetDef pyAgeInfo_GetSet[] = {
-    { "name", (getter)pyAgeInfo_getName, (setter)pyAgeInfo_setName,
-      "The Name of the age", NULL },
-    { "startDateTime", (getter)pyAgeInfo_getStartDateTime, (setter)pyAgeInfo_setStartDateTime,
-      "StartDateTime field", NULL },
-    { "dayLength", (getter)pyAgeInfo_getDayLength, (setter)pyAgeInfo_setDayLength,
-      "DayLength field", NULL },
-    { "maxCapacity", (getter)pyAgeInfo_getMaxCapacity, (setter)pyAgeInfo_setMaxCapacity,
-      "MaxCapacity field", NULL },
-    { "lingerTime", (getter)pyAgeInfo_getLingerTime, (setter)pyAgeInfo_setLingerTime,
-      "LingerTime field", NULL },
-    { "seqPrefix", (getter)pyAgeInfo_getSeqPrefix, (setter)pyAgeInfo_setSeqPrefix,
-      "SeqPrefix field", NULL },
-    { "releaseVersion", (getter)pyAgeInfo_getReleaseVersion, (setter)pyAgeInfo_setReleaseVersion,
-      "ReleaseVersion field", NULL },
+    { _pycs("name"), (getter)pyAgeInfo_getName, (setter)pyAgeInfo_setName,
+        _pycs("The Name of the age"), NULL },
+    { _pycs("startDateTime"), (getter)pyAgeInfo_getStartDateTime,
+        (setter)pyAgeInfo_setStartDateTime, NULL, NULL },
+    { _pycs("dayLength"), (getter)pyAgeInfo_getDayLength,
+        (setter)pyAgeInfo_setDayLength, NULL, NULL },
+    { _pycs("maxCapacity"), (getter)pyAgeInfo_getMaxCapacity,
+        (setter)pyAgeInfo_setMaxCapacity, NULL, NULL },
+    { _pycs("lingerTime"), (getter)pyAgeInfo_getLingerTime,
+        (setter)pyAgeInfo_setLingerTime, NULL, NULL },
+    { _pycs("seqPrefix"), (getter)pyAgeInfo_getSeqPrefix,
+        (setter)pyAgeInfo_setSeqPrefix, NULL, NULL },
+    { _pycs("releaseVersion"), (getter)pyAgeInfo_getReleaseVersion,
+        (setter)pyAgeInfo_setReleaseVersion, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

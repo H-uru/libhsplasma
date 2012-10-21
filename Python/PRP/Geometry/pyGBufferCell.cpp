@@ -78,9 +78,12 @@ static int pyGBufferCell_setLength(pyGBufferCell* self, PyObject* value, void*) 
 }
 
 static PyGetSetDef pyGBufferCell_GetSet[] = {
-    { "vtxStart", (getter)pyGBufferCell_getVtxStart, (setter)pyGBufferCell_setVtxStart, NULL, NULL },
-    { "colorStart", (getter)pyGBufferCell_getColorStart, (setter)pyGBufferCell_setColorStart, NULL, NULL },
-    { "length", (getter)pyGBufferCell_getLength, (setter)pyGBufferCell_setLength, NULL, NULL },
+    { _pycs("vtxStart"), (getter)pyGBufferCell_getVtxStart,
+        (setter)pyGBufferCell_setVtxStart, NULL, NULL },
+    { _pycs("colorStart"), (getter)pyGBufferCell_getColorStart,
+        (setter)pyGBufferCell_setColorStart, NULL, NULL },
+    { _pycs("length"), (getter)pyGBufferCell_getLength,
+        (setter)pyGBufferCell_setLength, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

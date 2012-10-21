@@ -50,7 +50,7 @@ static int pyQuatKey_setValue(pyQuatKey* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyQuatKey_GetSet[] = {
-    { "value", (getter)pyQuatKey_getValue, (setter)pyQuatKey_setValue, NULL, NULL },
+    { _pycs("value"), (getter)pyQuatKey_getValue, (setter)pyQuatKey_setValue, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

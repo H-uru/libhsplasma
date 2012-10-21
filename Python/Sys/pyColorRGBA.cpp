@@ -29,7 +29,8 @@ static void pyColorRGBA_dealloc(pyColorRGBA* self) {
 static int pyColorRGBA___init__(pyColorRGBA* self, PyObject* args, PyObject* kwds) {
     float red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f;
     PyObject* init = NULL;
-    static char* kwlist[] = { "red", "green", "blue", "alpha", NULL };
+    static char* kwlist[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
+                              _pycs("alpha"), NULL };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "fff|f", kwlist,
                                     &red, &green, &blue, &alpha)) {
@@ -64,7 +65,8 @@ static PyObject* pyColorRGBA_Repr(pyColorRGBA* self) {
 
 static PyObject* pyColorRGBA_set(pyColorRGBA* self, PyObject* args, PyObject* kwds) {
     float red = 0.0f, green = 0.0f, blue = 0.0f, alpha = 1.0f;
-    static char* kwlist[] = { "red", "green", "blue", "alpha", NULL };
+    static char* kwlist[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
+                              _pycs("alpha"), NULL };
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "|ffff", kwlist,
                                      &red, &green, &blue, &alpha)) {
@@ -227,10 +229,10 @@ static PyMethodDef pyColorRGBA_Methods[] = {
 };
 
 static PyGetSetDef pyColorRGBA_GetSet[] = {
-    { "red", (getter)pyColorRGBA_getRed, (setter)pyColorRGBA_setRed, NULL, NULL },
-    { "green", (getter)pyColorRGBA_getGreen, (setter)pyColorRGBA_setGreen, NULL, NULL },
-    { "blue", (getter)pyColorRGBA_getBlue, (setter)pyColorRGBA_setBlue, NULL, NULL },
-    { "alpha", (getter)pyColorRGBA_getAlpha, (setter)pyColorRGBA_setAlpha, NULL, NULL },
+    { _pycs("red"), (getter)pyColorRGBA_getRed, (setter)pyColorRGBA_setRed, NULL, NULL },
+    { _pycs("green"), (getter)pyColorRGBA_getGreen, (setter)pyColorRGBA_setGreen, NULL, NULL },
+    { _pycs("blue"), (getter)pyColorRGBA_getBlue, (setter)pyColorRGBA_setBlue, NULL, NULL },
+    { _pycs("alpha"), (getter)pyColorRGBA_getAlpha, (setter)pyColorRGBA_setAlpha, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -77,9 +77,12 @@ static PyMethodDef pyMultiStageEventData_Methods[] = {
 };
 
 static PyGetSetDef pyMultiStageEventData_GetSet[] = {
-    { "stage", (getter)pyMultiStageEventData_getStage, (setter)pyMultiStageEventData_setStage, NULL, NULL },
-    { "event", (getter)pyMultiStageEventData_getEvent, (setter)pyMultiStageEventData_setEvent, NULL, NULL },
-    { "avatar", (getter)pyMultiStageEventData_getAvatar, (setter)pyMultiStageEventData_setAvatar, NULL, NULL },
+    { _pycs("stage"), (getter)pyMultiStageEventData_getStage,
+        (setter)pyMultiStageEventData_setStage, NULL, NULL },
+    { _pycs("event"), (getter)pyMultiStageEventData_getEvent,
+        (setter)pyMultiStageEventData_setEvent, NULL, NULL },
+    { _pycs("avatar"), (getter)pyMultiStageEventData_getAvatar,
+        (setter)pyMultiStageEventData_setAvatar, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -60,7 +60,8 @@ static PyMethodDef pySimpleScaleController_Methods[] = {
 };
 
 static PyGetSetDef pySimpleScaleController_GetSet[] = {
-    { "value", (getter)pySimpleScaleController_getValue, (setter)pySimpleScaleController_setValue, NULL, NULL },
+    { _pycs("value"), (getter)pySimpleScaleController_getValue,
+        (setter)pySimpleScaleController_setValue, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

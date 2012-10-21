@@ -421,11 +421,16 @@ static PyMethodDef pyGBufferGroup_Methods[] = {
 };
 
 static PyGetSetDef pyGBufferGroup_GetSet[] = {
-    { "format", (getter)pyGBufferGroup_getFormat, (setter)pyGBufferGroup_setFormat, NULL, NULL },
-    { "skinWeights", (getter)pyGBufferGroup_getSkinWeights, (setter)pyGBufferGroup_setSkinWeights, NULL, NULL },
-    { "numUVs", (getter)pyGBufferGroup_getNumUVs, (setter)pyGBufferGroup_setNumUVs, NULL, NULL },
-    { "hasSkinIndices", (getter)pyGBufferGroup_getHasSIs, (setter)pyGBufferGroup_setHasSIs, NULL, NULL },
-    { "stride", (getter)pyGBufferGroup_getStride, (setter)pyGBufferGroup_setStride, NULL, NULL },
+    { _pycs("format"), (getter)pyGBufferGroup_getFormat,
+        (setter)pyGBufferGroup_setFormat, NULL, NULL },
+    { _pycs("skinWeights"), (getter)pyGBufferGroup_getSkinWeights,
+        (setter)pyGBufferGroup_setSkinWeights, NULL, NULL },
+    { _pycs("numUVs"), (getter)pyGBufferGroup_getNumUVs,
+        (setter)pyGBufferGroup_setNumUVs, NULL, NULL },
+    { _pycs("hasSkinIndices"), (getter)pyGBufferGroup_getHasSIs,
+        (setter)pyGBufferGroup_setHasSIs, NULL, NULL },
+    { _pycs("stride"), (getter)pyGBufferGroup_getStride,
+        (setter)pyGBufferGroup_setStride, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

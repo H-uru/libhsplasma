@@ -41,7 +41,8 @@ static PyMethodDef pyPosController_Methods[] = {
 };
 
 static PyGetSetDef pyPosController_GetSet[] = {
-    { "type", (getter)pyPosController_getType, (setter)pyPosController_setType, NULL, NULL },
+    { _pycs("type"), (getter)pyPosController_getType,
+        (setter)pyPosController_setType, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

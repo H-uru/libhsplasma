@@ -49,7 +49,8 @@ static PyMethodDef pyLayerMovie_Methods[] = {
 };
 
 static PyGetSetDef pyLayerMovie_GetSet[] = {
-    { "movieName", (getter)pyLayerMovie_getMovieName, (setter)pyLayerMovie_setMovieName, NULL, NULL },
+    { _pycs("movieName"), (getter)pyLayerMovie_getMovieName,
+        (setter)pyLayerMovie_setMovieName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

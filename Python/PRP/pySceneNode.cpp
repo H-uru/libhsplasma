@@ -166,10 +166,10 @@ PyMethodDef pySceneNode_Methods[] = {
 };
 
 PyGetSetDef pySceneNode_GetSet[] = {
-    { "sceneObjects", (getter)pySceneNode_getSceneObjects,
-      (setter)pySceneNode_setSceneObjects, NULL, NULL },
-    { "poolObjects", (getter)pySceneNode_getPoolObjects,
-      (setter)pySceneNode_setPoolObjects, NULL, NULL },
+    { _pycs("sceneObjects"), (getter)pySceneNode_getSceneObjects,
+        (setter)pySceneNode_setSceneObjects, NULL, NULL },
+    { _pycs("poolObjects"), (getter)pySceneNode_getPoolObjects,
+        (setter)pySceneNode_setPoolObjects, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

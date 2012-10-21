@@ -54,7 +54,8 @@ static PyMethodDef pyScalarControllerChannel_Methods[] = {
 };
 
 static PyGetSetDef pyScalarControllerChannel_GetSet[] = {
-    { "controller", (getter)pyScalarControllerChannel_getController, (setter)pyScalarControllerChannel_setController, NULL, NULL },
+    { _pycs("controller"), (getter)pyScalarControllerChannel_getController,
+        (setter)pyScalarControllerChannel_setController, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

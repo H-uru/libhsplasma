@@ -47,7 +47,8 @@ static PyMethodDef pyResponderStateEventData_Methods[] = {
 };
 
 static PyGetSetDef pyResponderStateEventData_GetSet[] = {
-    { "state", (getter)pyResponderStateEventData_getState, (setter)pyResponderStateEventData_setState, NULL, NULL },
+    { _pycs("state"), (getter)pyResponderStateEventData_getState,
+        (setter)pyResponderStateEventData_setState, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -166,12 +166,12 @@ PyMethodDef pyAffineParts_Methods[] = {
 };
 
 PyGetSetDef pyAffineParts_GetSet[] = {
-    { "I", (getter)pyAffineParts_getI, (setter)pyAffineParts_setI, NULL, NULL },
-    { "T", (getter)pyAffineParts_getT, (setter)pyAffineParts_setT, NULL, NULL },
-    { "Q", (getter)pyAffineParts_getQ, (setter)pyAffineParts_setQ, NULL, NULL },
-    { "U", (getter)pyAffineParts_getU, (setter)pyAffineParts_setU, NULL, NULL },
-    { "K", (getter)pyAffineParts_getK, (setter)pyAffineParts_setK, NULL, NULL },
-    { "F", (getter)pyAffineParts_getF, (setter)pyAffineParts_setF, NULL, NULL },
+    { _pycs("I"), (getter)pyAffineParts_getI, (setter)pyAffineParts_setI, NULL, NULL },
+    { _pycs("T"), (getter)pyAffineParts_getT, (setter)pyAffineParts_setT, NULL, NULL },
+    { _pycs("Q"), (getter)pyAffineParts_getQ, (setter)pyAffineParts_setQ, NULL, NULL },
+    { _pycs("U"), (getter)pyAffineParts_getU, (setter)pyAffineParts_setU, NULL, NULL },
+    { _pycs("K"), (getter)pyAffineParts_getK, (setter)pyAffineParts_setK, NULL, NULL },
+    { _pycs("F"), (getter)pyAffineParts_getF, (setter)pyAffineParts_setF, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

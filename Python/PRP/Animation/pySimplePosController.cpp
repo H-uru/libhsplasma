@@ -60,7 +60,8 @@ static PyMethodDef pySimplePosController_Methods[] = {
 };
 
 static PyGetSetDef pySimplePosController_GetSet[] = {
-    { "position", (getter)pySimplePosController_getPosition, (setter)pySimplePosController_setPosition, NULL, NULL },
+    { _pycs("position"), (getter)pySimplePosController_getPosition,
+        (setter)pySimplePosController_setPosition, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

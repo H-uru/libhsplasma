@@ -45,7 +45,8 @@ static PyMethodDef pyLayerAnimation_Methods[] = {
 };
 
 static PyGetSetDef pyLayerAnimation_GetSet[] = {
-    { "timeConvert", (getter)pyLayerAnimation_getTimeConvert, (setter)pyLayerAnimation_setTimeConvert, NULL, NULL },
+    { _pycs("timeConvert"), (getter)pyLayerAnimation_getTimeConvert,
+        (setter)pyLayerAnimation_setTimeConvert, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

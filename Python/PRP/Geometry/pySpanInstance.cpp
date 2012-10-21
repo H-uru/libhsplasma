@@ -162,9 +162,12 @@ static PyMethodDef pySpanInstance_Methods[] = {
 };
 
 static PyGetSetDef pySpanInstance_GetSet[] = {
-    { "posDeltas", (getter)pySpanInstance_getPosDeltas, (setter)pySpanInstance_setPosDeltas, NULL, NULL },
-    { "colors", (getter)pySpanInstance_getColors, (setter)pySpanInstance_setColors, NULL, NULL },
-    { "localToWorld", (getter)pySpanInstance_getL2W, (setter)pySpanInstance_setL2W, NULL, NULL },
+    { _pycs("posDeltas"), (getter)pySpanInstance_getPosDeltas,
+        (setter)pySpanInstance_setPosDeltas, NULL, NULL },
+    { _pycs("colors"), (getter)pySpanInstance_getColors,
+        (setter)pySpanInstance_setColors, NULL, NULL },
+    { _pycs("localToWorld"), (getter)pySpanInstance_getL2W,
+        (setter)pySpanInstance_setL2W, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -137,7 +137,7 @@ static PyMappingMethods pyMatrix33_As_Mapping = {
 };
 
 PyGetSetDef pyMatrix33_GetSet[] = {
-    { "mat", (getter)pyMatrix33_getMat, (setter)pyMatrix33_setMat, NULL, NULL },
+    { _pycs("mat"), (getter)pyMatrix33_getMat, (setter)pyMatrix33_setMat, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

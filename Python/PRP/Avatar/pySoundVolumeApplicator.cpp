@@ -48,7 +48,8 @@ static PyMethodDef pySoundVolumeApplicator_Methods[] = {
 };
 
 static PyGetSetDef pySoundVolumeApplicator_GetSet[] = {
-    { "index", (getter)pySoundVolumeApplicator_getIndex, (setter)pySoundVolumeApplicator_setIndex, NULL, NULL },
+    { _pycs("index"), (getter)pySoundVolumeApplicator_getIndex,
+        (setter)pySoundVolumeApplicator_setIndex, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -49,7 +49,8 @@ static PyMethodDef pyQuatChannel_Methods[] = {
 };
 
 static PyGetSetDef pyQuatChannel_GetSet[] = {
-    { "result", (getter)pyQuatChannel_getResult, (setter)pyQuatChannel_setResult, NULL, NULL },
+    { _pycs("result"), (getter)pyQuatChannel_getResult,
+        (setter)pyQuatChannel_setResult, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -89,7 +89,8 @@ static PyMethodDef pyMsgForwarder_Methods[] = {
 };
 
 static PyGetSetDef pyMsgForwarder_GetSet[] = {
-    { "forwardKeys", (getter)pyMsgForwarder_getForwardKeys, (setter)pyMsgForwarder_setForwardKeys, NULL, NULL },
+    { _pycs("forwardKeys"), (getter)pyMsgForwarder_getForwardKeys,
+        (setter)pyMsgForwarder_setForwardKeys, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

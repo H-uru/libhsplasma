@@ -95,9 +95,12 @@ static PyMethodDef pyCompoundController_Methods[] = {
 };
 
 static PyGetSetDef pyCompoundController_GetSet[] = {
-    { "X", (getter)pyCompoundController_getX, (setter)pyCompoundController_setX, NULL, NULL },
-    { "Y", (getter)pyCompoundController_getY, (setter)pyCompoundController_setY, NULL, NULL },
-    { "Z", (getter)pyCompoundController_getZ, (setter)pyCompoundController_setZ, NULL, NULL },
+    { _pycs("X"), (getter)pyCompoundController_getX,
+        (setter)pyCompoundController_setX, NULL, NULL },
+    { _pycs("Y"), (getter)pyCompoundController_getY,
+        (setter)pyCompoundController_setY, NULL, NULL },
+    { _pycs("Z"), (getter)pyCompoundController_getZ,
+        (setter)pyCompoundController_setZ, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

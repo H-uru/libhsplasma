@@ -132,12 +132,12 @@ static int pyTempVertex_setWeights(pyTempVertex* self, PyObject* value, void*) {
 }
 
 PyGetSetDef pyTempVertex_GetSet[] = {
-    { "color", (getter)pyTempVertex_getColor, (setter)pyTempVertex_setColor, NULL, NULL },
-    { "indices", (getter)pyTempVertex_getIndices, (setter)pyTempVertex_setIndices, NULL, NULL },
-    { "normal", (getter)pyTempVertex_getNormal, (setter)pyTempVertex_setNormal, NULL, NULL },
-    { "position", (getter)pyTempVertex_getPosition, (setter)pyTempVertex_setPosition, NULL, NULL },
-    { "uvs", (getter)pyTempVertex_getUVs, (setter)pyTempVertex_setUVs, NULL, NULL },
-    { "weights", (getter)pyTempVertex_getWeights, (setter)pyTempVertex_setWeights, NULL, NULL },
+    { _pycs("color"), (getter)pyTempVertex_getColor, (setter)pyTempVertex_setColor, NULL, NULL },
+    { _pycs("indices"), (getter)pyTempVertex_getIndices, (setter)pyTempVertex_setIndices, NULL, NULL },
+    { _pycs("normal"), (getter)pyTempVertex_getNormal, (setter)pyTempVertex_setNormal, NULL, NULL },
+    { _pycs("position"), (getter)pyTempVertex_getPosition, (setter)pyTempVertex_setPosition, NULL, NULL },
+    { _pycs("uvs"), (getter)pyTempVertex_getUVs, (setter)pyTempVertex_setUVs, NULL, NULL },
+    { _pycs("weights"), (getter)pyTempVertex_getWeights, (setter)pyTempVertex_setWeights, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

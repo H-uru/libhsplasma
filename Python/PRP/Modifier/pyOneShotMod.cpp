@@ -118,12 +118,18 @@ static PyMethodDef pyOneShotMod_Methods[] = {
 };
 
 static PyGetSetDef pyOneShotMod_GetSet[] = {
-    { "animName", (getter)pyOneShotMod_getAnimName, (setter)pyOneShotMod_setAnimName, NULL, NULL },
-    { "drivable", (getter)pyOneShotMod_getDrivable, (setter)pyOneShotMod_setDrivable, NULL, NULL },
-    { "reversable", (getter)pyOneShotMod_getReversable, (setter)pyOneShotMod_setReversable, NULL, NULL },
-    { "smartSeek", (getter)pyOneShotMod_getSmartSeek, (setter)pyOneShotMod_setSmartSeek, NULL, NULL },
-    { "noSeek", (getter)pyOneShotMod_getNoSeek, (setter)pyOneShotMod_setNoSeek, NULL, NULL },
-    { "seekDuration", (getter)pyOneShotMod_getSeekDuration, (setter)pyOneShotMod_setSeekDuration, NULL, NULL },
+    { _pycs("animName"), (getter)pyOneShotMod_getAnimName,
+        (setter)pyOneShotMod_setAnimName, NULL, NULL },
+    { _pycs("drivable"), (getter)pyOneShotMod_getDrivable,
+        (setter)pyOneShotMod_setDrivable, NULL, NULL },
+    { _pycs("reversable"), (getter)pyOneShotMod_getReversable,
+        (setter)pyOneShotMod_setReversable, NULL, NULL },
+    { _pycs("smartSeek"), (getter)pyOneShotMod_getSmartSeek,
+        (setter)pyOneShotMod_setSmartSeek, NULL, NULL },
+    { _pycs("noSeek"), (getter)pyOneShotMod_getNoSeek,
+        (setter)pyOneShotMod_setNoSeek, NULL, NULL },
+    { _pycs("seekDuration"), (getter)pyOneShotMod_getSeekDuration,
+        (setter)pyOneShotMod_setSeekDuration, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

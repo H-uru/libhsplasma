@@ -82,9 +82,12 @@ static PyMethodDef pyCollisionEventData_Methods[] = {
 };
 
 static PyGetSetDef pyCollisionEventData_GetSet[] = {
-    { "enter", (getter)pyCollisionEventData_getEnter, (setter)pyCollisionEventData_setEnter, NULL, NULL },
-    { "hitter", (getter)pyCollisionEventData_getHitter, (setter)pyCollisionEventData_setHitter, NULL, NULL },
-    { "hittee", (getter)pyCollisionEventData_getHittee, (setter)pyCollisionEventData_setHittee, NULL, NULL },
+    { _pycs("enter"), (getter)pyCollisionEventData_getEnter,
+        (setter)pyCollisionEventData_setEnter, NULL, NULL },
+    { _pycs("hitter"), (getter)pyCollisionEventData_getHitter,
+        (setter)pyCollisionEventData_setHitter, NULL, NULL },
+    { _pycs("hittee"), (getter)pyCollisionEventData_getHittee,
+        (setter)pyCollisionEventData_setHittee, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

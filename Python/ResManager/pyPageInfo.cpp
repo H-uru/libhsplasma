@@ -214,18 +214,18 @@ static PyMethodDef pyPageInfo_Methods[] = {
 };
 
 static PyGetSetDef pyPageInfo_GetSet[] = {
-    { "age", (getter)pyPageInfo_getAge, (setter)pyPageInfo_setAge,
-      "The Age name", NULL },
-    { "chapter", (getter)pyPageInfo_getChapter, (setter)pyPageInfo_setChapter,
-      "The Chapter name", NULL },
-    { "page", (getter)pyPageInfo_getPage, (setter)pyPageInfo_setPage,
-      "The Page name", NULL },
-    { "releaseVersion", (getter)pyPageInfo_getRelease, (setter)pyPageInfo_setRelease,
-      "The Release Version", NULL },
-    { "flags", (getter)pyPageInfo_getFlags, (setter)pyPageInfo_setFlags,
-      "Page Flags", NULL },
-    { "location", (getter)pyPageInfo_getLocation, (setter)pyPageInfo_setLocation,
-      "Page Location", NULL },
+    { _pycs("age"), (getter)pyPageInfo_getAge, (setter)pyPageInfo_setAge,
+        _pycs("The Age name"), NULL },
+    { _pycs("chapter"), (getter)pyPageInfo_getChapter, (setter)pyPageInfo_setChapter,
+        _pycs("The Chapter name (District)"), NULL },
+    { _pycs("page"), (getter)pyPageInfo_getPage, (setter)pyPageInfo_setPage,
+        _pycs("The Page name"), NULL },
+    { _pycs("releaseVersion"), (getter)pyPageInfo_getRelease,
+        (setter)pyPageInfo_setRelease, _pycs("The Release Version"), NULL },
+    { _pycs("flags"), (getter)pyPageInfo_getFlags, (setter)pyPageInfo_setFlags,
+        _pycs("Page Flags"), NULL },
+    { _pycs("location"), (getter)pyPageInfo_getLocation,
+        (setter)pyPageInfo_setLocation, _pycs("Page Location"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

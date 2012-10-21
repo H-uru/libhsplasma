@@ -105,10 +105,10 @@ PyMethodDef pyClothingItem_Methods[] = {
 };
 
 PyGetSetDef pyClothingItem_GetSet[] = {
-    { "description", (getter)pyClothingItem_getDescription,
-      (setter)pyClothingItem_setDescription, NULL, NULL },
-    { "itemName", (getter)pyClothingItem_getItemName,
-      (setter)pyClothingItem_setItemName, NULL, NULL },
+    { _pycs("description"), (getter)pyClothingItem_getDescription,
+        (setter)pyClothingItem_setDescription, NULL, NULL },
+    { _pycs("itemName"), (getter)pyClothingItem_getItemName,
+        (setter)pyClothingItem_setItemName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

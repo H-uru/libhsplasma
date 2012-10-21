@@ -60,7 +60,8 @@ static PyMethodDef pySimpleRotController_Methods[] = {
 };
 
 static PyGetSetDef pySimpleRotController_GetSet[] = {
-    { "rot", (getter)pySimpleRotController_getRot, (setter)pySimpleRotController_setRot, NULL, NULL },
+    { _pycs("rot"), (getter)pySimpleRotController_getRot,
+        (setter)pySimpleRotController_setRot, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

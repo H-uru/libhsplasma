@@ -53,8 +53,8 @@ PyMethodDef pyAudioInterface_Methods[] = {
 };
 
 PyGetSetDef pyAudioInterface_GetSet[] = {
-    { "audible", (getter)pyAudioInterface_getAudible, (setter)pyAudioInterface_setAudible,
-      "The Audible key", NULL },
+    { _pycs("audible"), (getter)pyAudioInterface_getAudible,
+        (setter)pyAudioInterface_setAudible, _pycs("The Audible key"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

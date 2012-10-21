@@ -29,8 +29,9 @@ static void pyColor32_dealloc(pyColor32* self) {
 static PyObject* pyColor32_set(pyColor32* self, PyObject* args, PyObject* kwds) {
     int red = 0, green = 0, blue = 0, alpha = 255, color = 0xFF000000;
 
-    static char* kwlist1[] = { "red", "green", "blue", "alpha", NULL };
-    static char* kwlist2[] = { "color", NULL };
+    static char* kwlist1[] = { _pycs("red"), _pycs("green"), _pycs("blue"),
+                               _pycs("alpha"), NULL };
+    static char* kwlist2[] = { _pycs("color"), NULL };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "I", kwlist2, &color)) {
         self->fThis->color = color;
@@ -253,11 +254,11 @@ static PyMethodDef pyColor32_Methods[] = {
 };
 
 static PyGetSetDef pyColor32_GetSet[] = {
-    { "red", (getter)pyColor32_getRed, (setter)pyColor32_setRed, NULL, NULL },
-    { "green", (getter)pyColor32_getGreen, (setter)pyColor32_setGreen, NULL, NULL },
-    { "blue", (getter)pyColor32_getBlue, (setter)pyColor32_setBlue, NULL, NULL },
-    { "alpha", (getter)pyColor32_getAlpha, (setter)pyColor32_setAlpha, NULL, NULL },
-    { "color", (getter)pyColor32_getColor, (setter)pyColor32_setColor, NULL, NULL },
+    { _pycs("red"), (getter)pyColor32_getRed, (setter)pyColor32_setRed, NULL, NULL },
+    { _pycs("green"), (getter)pyColor32_getGreen, (setter)pyColor32_setGreen, NULL, NULL },
+    { _pycs("blue"), (getter)pyColor32_getBlue, (setter)pyColor32_setBlue, NULL, NULL },
+    { _pycs("alpha"), (getter)pyColor32_getAlpha, (setter)pyColor32_setAlpha, NULL, NULL },
+    { _pycs("color"), (getter)pyColor32_getColor, (setter)pyColor32_setColor, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

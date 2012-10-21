@@ -137,12 +137,12 @@ static int pyCullPoly_setRadius(pyCullPoly* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyCullPoly_GetSet[] = {
-    { "flags", (getter)pyCullPoly_getFlags, (setter)pyCullPoly_setFlags, NULL, NULL },
-    { "verts", (getter)pyCullPoly_getVerts, (setter)pyCullPoly_setVerts, NULL, NULL },
-    { "norm", (getter)pyCullPoly_getNorm, (setter)pyCullPoly_setNorm, NULL, NULL },
-    { "center", (getter)pyCullPoly_getCenter, (setter)pyCullPoly_setCenter, NULL, NULL },
-    { "dist", (getter)pyCullPoly_getDist, (setter)pyCullPoly_setDist, NULL, NULL },
-    { "radius", (getter)pyCullPoly_getRadius, (setter)pyCullPoly_setRadius, NULL, NULL },
+    { _pycs("flags"), (getter)pyCullPoly_getFlags, (setter)pyCullPoly_setFlags, NULL, NULL },
+    { _pycs("verts"), (getter)pyCullPoly_getVerts, (setter)pyCullPoly_setVerts, NULL, NULL },
+    { _pycs("norm"), (getter)pyCullPoly_getNorm, (setter)pyCullPoly_setNorm, NULL, NULL },
+    { _pycs("center"), (getter)pyCullPoly_getCenter, (setter)pyCullPoly_setCenter, NULL, NULL },
+    { _pycs("dist"), (getter)pyCullPoly_getDist, (setter)pyCullPoly_setDist, NULL, NULL },
+    { _pycs("radius"), (getter)pyCullPoly_getRadius, (setter)pyCullPoly_setRadius, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

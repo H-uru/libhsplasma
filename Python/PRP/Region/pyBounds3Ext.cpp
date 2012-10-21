@@ -104,15 +104,24 @@ static int pyBounds3Ext_setRadius(pyBounds3Ext* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyBounds3Ext_GetSet[] = {
-    { "flags", (getter)pyBounds3Ext_getFlags, (setter)pyBounds3Ext_setFlags, NULL, NULL },
-    { "corner", (getter)pyBounds3Ext_getCorner, (setter)pyBounds3Ext_setCorner, NULL, NULL },
-    { "axis0", (getter)pyBounds3Ext_getAxis, (setter)pyBounds3Ext_setAxis, NULL, (void*)0 },
-    { "axis1", (getter)pyBounds3Ext_getAxis, (setter)pyBounds3Ext_setAxis, NULL, (void*)1 },
-    { "axis2", (getter)pyBounds3Ext_getAxis, (setter)pyBounds3Ext_setAxis, NULL, (void*)2 },
-    { "dist0", (getter)pyBounds3Ext_getDist, (setter)pyBounds3Ext_setDist, NULL, (void*)0 },
-    { "dist1", (getter)pyBounds3Ext_getDist, (setter)pyBounds3Ext_setDist, NULL, (void*)1 },
-    { "dist2", (getter)pyBounds3Ext_getDist, (setter)pyBounds3Ext_setDist, NULL, (void*)2 },
-    { "radius", (getter)pyBounds3Ext_getRadius, (setter)pyBounds3Ext_setRadius, NULL, NULL },
+    { _pycs("flags"), (getter)pyBounds3Ext_getFlags,
+        (setter)pyBounds3Ext_setFlags, NULL, NULL },
+    { _pycs("corner"), (getter)pyBounds3Ext_getCorner,
+        (setter)pyBounds3Ext_setCorner, NULL, NULL },
+    { _pycs("axis0"), (getter)pyBounds3Ext_getAxis,
+        (setter)pyBounds3Ext_setAxis, NULL, (void*)0 },
+    { _pycs("axis1"), (getter)pyBounds3Ext_getAxis,
+        (setter)pyBounds3Ext_setAxis, NULL, (void*)1 },
+    { _pycs("axis2"), (getter)pyBounds3Ext_getAxis,
+        (setter)pyBounds3Ext_setAxis, NULL, (void*)2 },
+    { _pycs("dist0"), (getter)pyBounds3Ext_getDist,
+        (setter)pyBounds3Ext_setDist, NULL, (void*)0 },
+    { _pycs("dist1"), (getter)pyBounds3Ext_getDist,
+        (setter)pyBounds3Ext_setDist, NULL, (void*)1 },
+    { _pycs("dist2"), (getter)pyBounds3Ext_getDist,
+        (setter)pyBounds3Ext_setDist, NULL, (void*)2 },
+    { _pycs("radius"), (getter)pyBounds3Ext_getRadius,
+        (setter)pyBounds3Ext_setRadius, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

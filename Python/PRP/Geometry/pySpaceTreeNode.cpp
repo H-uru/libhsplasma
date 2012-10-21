@@ -126,9 +126,12 @@ static PyMethodDef pySpaceTreeNode_Methods[] = {
 };
 
 static PyGetSetDef pySpaceTreeNode_GetSet[] = {
-    { "bounds", (getter)pySpaceTreeNode_getBounds, (setter)pySpaceTreeNode_setBounds, NULL, NULL },
-    { "flags", (getter)pySpaceTreeNode_getFlags, (setter)pySpaceTreeNode_setFlags, NULL, NULL },
-    { "parent", (getter)pySpaceTreeNode_getParent, (setter)pySpaceTreeNode_setParent, NULL, NULL },
+    { _pycs("bounds"), (getter)pySpaceTreeNode_getBounds,
+        (setter)pySpaceTreeNode_setBounds, NULL, NULL },
+    { _pycs("flags"), (getter)pySpaceTreeNode_getFlags,
+        (setter)pySpaceTreeNode_setFlags, NULL, NULL },
+    { _pycs("parent"), (getter)pySpaceTreeNode_getParent,
+        (setter)pySpaceTreeNode_setParent, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -147,9 +147,12 @@ static PyMethodDef pyLeafController_Methods[] = {
 };
 
 static PyGetSetDef pyLeafController_GetSet[] = {
-    { "type", (getter)pyLeafController_getType, (setter)pyLeafController_setType, NULL, NULL },
-    { "keys", (getter)pyLeafController_getKeys, (setter)pyLeafController_setKeysErr, NULL, NULL },
-    { "easeControllers", (getter)pyLeafController_getEaseControllers, (setter)pyLeafController_setEaseControllers, NULL, NULL },
+    { _pycs("type"), (getter)pyLeafController_getType,
+        (setter)pyLeafController_setType, NULL, NULL },
+    { _pycs("keys"), (getter)pyLeafController_getKeys,
+        (setter)pyLeafController_setKeysErr, NULL, NULL },
+    { _pycs("easeControllers"), (getter)pyLeafController_getEaseControllers,
+        (setter)pyLeafController_setEaseControllers, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

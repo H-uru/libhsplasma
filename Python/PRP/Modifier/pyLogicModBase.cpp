@@ -145,9 +145,12 @@ static PyMethodDef pyLogicModBase_Methods[] = {
 };
 
 static PyGetSetDef pyLogicModBase_GetSet[] = {
-    { "commands", (getter)pyLogicModBase_getCommands, (setter)pyLogicModBase_setCommands, NULL, NULL },
-    { "notify", (getter)pyLogicModBase_getNotify, (setter)pyLogicModBase_setNotify, NULL, NULL },
-    { "disabled", (getter)pyLogicModBase_getDisabled, (setter)pyLogicModBase_setDisabled, NULL, NULL },
+    { _pycs("commands"), (getter)pyLogicModBase_getCommands,
+        (setter)pyLogicModBase_setCommands, NULL, NULL },
+    { _pycs("notify"), (getter)pyLogicModBase_getNotify,
+        (setter)pyLogicModBase_setNotify, NULL, NULL },
+    { _pycs("disabled"), (getter)pyLogicModBase_getDisabled,
+        (setter)pyLogicModBase_setDisabled, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

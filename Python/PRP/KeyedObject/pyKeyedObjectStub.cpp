@@ -59,9 +59,9 @@ static PyMethodDef pyKeyedObjectStub_Methods[] = {
 };
 
 static PyGetSetDef pyKeyedObjectStub_GetSet[] = {
-    { "stub", (getter)pyKeyedObjectStub_getStub,
-              (setter)pyKeyedObjectStub_setStub,
-      "The plCreatableStub for this object", NULL },
+    { _pycs("stub"), (getter)pyKeyedObjectStub_getStub,
+        (setter)pyKeyedObjectStub_setStub,
+        _pycs("The plCreatableStub for this object"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

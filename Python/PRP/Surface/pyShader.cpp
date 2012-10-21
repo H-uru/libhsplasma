@@ -105,10 +105,10 @@ static PyMethodDef pyShader_Methods[] = {
 };
 
 static PyGetSetDef pyShader_GetSet[] = {
-    { "constants", (getter)pyShader_getConsts, (setter)pyShader_setConsts, NULL, NULL },
-    { "id", (getter)pyShader_getID, (setter)pyShader_setID, NULL, NULL },
-    { "input", (getter)pyShader_getInput, (setter)pyShader_setInput, NULL, NULL },
-    { "output", (getter)pyShader_getOutput, (setter)pyShader_setOutput, NULL, NULL },
+    { _pycs("constants"), (getter)pyShader_getConsts, (setter)pyShader_setConsts, NULL, NULL },
+    { _pycs("id"), (getter)pyShader_getID, (setter)pyShader_setID, NULL, NULL },
+    { _pycs("input"), (getter)pyShader_getInput, (setter)pyShader_setInput, NULL, NULL },
+    { _pycs("output"), (getter)pyShader_getOutput, (setter)pyShader_setOutput, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

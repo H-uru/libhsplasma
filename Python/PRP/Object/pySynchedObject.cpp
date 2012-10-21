@@ -134,12 +134,12 @@ static PyMethodDef pySynchedObject_Methods[] = {
 };
 
 static PyGetSetDef pySynchedObject_GetSet[] = {
-    { "synchFlags", (getter)pySynchedObject_getFlags, (setter)pySynchedObject_setFlags,
-      "Synched Object Flags", NULL },
-    { "excludes", (getter)pySynchedObject_getExcludes, (setter)pySynchedObject_setExcludes,
-      "SDL Exclude States", NULL },
-    { "volatiles", (getter)pySynchedObject_getVolatiles, (setter)pySynchedObject_setVolatiles,
-      "SDL Volatile States", NULL },
+    { _pycs("synchFlags"), (getter)pySynchedObject_getFlags,
+        (setter)pySynchedObject_setFlags, _pycs("Synched Object Flags"), NULL },
+    { _pycs("excludes"), (getter)pySynchedObject_getExcludes,
+        (setter)pySynchedObject_setExcludes, _pycs("SDL Exclude States"), NULL },
+    { _pycs("volatiles"), (getter)pySynchedObject_getVolatiles,
+        (setter)pySynchedObject_setVolatiles, _pycs("SDL Volatile States"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

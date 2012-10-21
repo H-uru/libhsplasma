@@ -98,9 +98,9 @@ static PyMethodDef pyTMController_Methods[] = {
 };
 
 static PyGetSetDef pyTMController_GetSet[] = {
-    { "pos", (getter)pyTMController_getPos, (setter)pyTMController_setPos, NULL, NULL },
-    { "rot", (getter)pyTMController_getRot, (setter)pyTMController_setRot, NULL, NULL },
-    { "scale", (getter)pyTMController_getScale, (setter)pyTMController_setScale, NULL, NULL },
+    { _pycs("pos"), (getter)pyTMController_getPos, (setter)pyTMController_setPos, NULL, NULL },
+    { _pycs("rot"), (getter)pyTMController_getRot, (setter)pyTMController_setRot, NULL, NULL },
+    { _pycs("scale"), (getter)pyTMController_getScale, (setter)pyTMController_setScale, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

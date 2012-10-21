@@ -52,7 +52,8 @@ static PyMethodDef pyClimbingBlockerHitEventData_Methods[] = {
 };
 
 static PyGetSetDef pyClimbingBlockerHitEventData_GetSet[] = {
-    { "blocker", (getter)pyClimbingBlockerHitEventData_getBlocker, (setter)pyClimbingBlockerHitEventData_setBlocker, NULL, NULL },
+    { _pycs("blocker"), (getter)pyClimbingBlockerHitEventData_getBlocker,
+        (setter)pyClimbingBlockerHitEventData_setBlocker, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -96,10 +96,14 @@ static PyMethodDef pyPickedEventData_Methods[] = {
 };
 
 static PyGetSetDef pyPickedEventData_GetSet[] = {
-    { "picker", (getter)pyPickedEventData_getPicker, (setter)pyPickedEventData_setPicker, NULL, NULL },
-    { "picked", (getter)pyPickedEventData_getPicked, (setter)pyPickedEventData_setPicked, NULL, NULL },
-    { "enabled", (getter)pyPickedEventData_getEnabled, (setter)pyPickedEventData_setEnabled, NULL, NULL },
-    { "hitPoint", (getter)pyPickedEventData_getHitPoint, (setter)pyPickedEventData_setHitPoint, NULL, NULL },
+    { _pycs("picker"), (getter)pyPickedEventData_getPicker,
+        (setter)pyPickedEventData_setPicker, NULL, NULL },
+    { _pycs("picked"), (getter)pyPickedEventData_getPicked,
+        (setter)pyPickedEventData_setPicked, NULL, NULL },
+    { _pycs("enabled"), (getter)pyPickedEventData_getEnabled,
+        (setter)pyPickedEventData_setEnabled, NULL, NULL },
+    { _pycs("hitPoint"), (getter)pyPickedEventData_getHitPoint,
+        (setter)pyPickedEventData_setHitPoint, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

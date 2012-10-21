@@ -60,8 +60,10 @@ static PyMethodDef pyActivateEventData_Methods[] = {
 };
 
 static PyGetSetDef pyActivateEventData_GetSet[] = {
-    { "active", (getter)pyActivateEventData_getActive, (setter)pyActivateEventData_setActive, NULL, NULL },
-    { "activate", (getter)pyActivateEventData_getActivate, (setter)pyActivateEventData_setActivate, NULL, NULL },
+    { _pycs("active"), (getter)pyActivateEventData_getActive,
+        (setter)pyActivateEventData_setActive, NULL, NULL },
+    { _pycs("activate"), (getter)pyActivateEventData_getActivate,
+        (setter)pyActivateEventData_setActivate, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

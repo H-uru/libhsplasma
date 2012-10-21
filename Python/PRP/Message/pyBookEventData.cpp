@@ -60,8 +60,10 @@ static PyMethodDef pyBookEventData_Methods[] = {
 };
 
 static PyGetSetDef pyBookEventData_GetSet[] = {
-    { "event", (getter)pyBookEventData_getEvent, (setter)pyBookEventData_setEvent, NULL, NULL },
-    { "linkID", (getter)pyBookEventData_getLinkID, (setter)pyBookEventData_setLinkID, NULL, NULL },
+    { _pycs("event"), (getter)pyBookEventData_getEvent,
+        (setter)pyBookEventData_setEvent, NULL, NULL },
+    { _pycs("linkID"), (getter)pyBookEventData_getLinkID,
+        (setter)pyBookEventData_setLinkID, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

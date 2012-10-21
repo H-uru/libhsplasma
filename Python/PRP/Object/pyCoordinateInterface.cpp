@@ -141,16 +141,21 @@ PyMethodDef pyCoordinateInterface_Methods[] = {
 };
 
 PyGetSetDef pyCoordinateInterface_GetSet[] = {
-    { "localToWorld", (getter)pyCoordinateInterface_getL2W, (setter)pyCoordinateInterface_setL2W,
-      "Local -> World transform matrix", NULL },
-    { "worldToLocal", (getter)pyCoordinateInterface_getW2L, (setter)pyCoordinateInterface_setW2L,
-      "World -> Local transform matrix", NULL },
-    { "localToParent", (getter)pyCoordinateInterface_getL2P, (setter)pyCoordinateInterface_setL2P,
-      "Local -> Parent transform matrix", NULL },
-    { "parentToLocal", (getter)pyCoordinateInterface_getP2L, (setter)pyCoordinateInterface_setP2L,
-      "Parent -> Local transform matrix", NULL },
-    { "children", (getter)pyCoordinateInterface_getChildren, (setter)pyCoordinateInterface_setChildren,
-      "Child Objects", NULL },
+    { _pycs("localToWorld"), (getter)pyCoordinateInterface_getL2W,
+        (setter)pyCoordinateInterface_setL2W,
+        _pycs("Local -> World transform matrix"), NULL },
+    { _pycs("worldToLocal"), (getter)pyCoordinateInterface_getW2L,
+        (setter)pyCoordinateInterface_setW2L,
+        _pycs("World -> Local transform matrix"), NULL },
+    { _pycs("localToParent"), (getter)pyCoordinateInterface_getL2P,
+        (setter)pyCoordinateInterface_setL2P,
+        _pycs("Local -> Parent transform matrix"), NULL },
+    { _pycs("parentToLocal"), (getter)pyCoordinateInterface_getP2L,
+        (setter)pyCoordinateInterface_setP2L,
+        _pycs("Parent -> Local transform matrix"), NULL },
+    { _pycs("children"), (getter)pyCoordinateInterface_getChildren,
+        (setter)pyCoordinateInterface_setChildren,
+        _pycs("Child Objects"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

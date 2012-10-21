@@ -226,20 +226,20 @@ PyMethodDef pySceneObject_Methods[] = {
 };
 
 PyGetSetDef pySceneObject_GetSet[] = {
-    { "draw", (getter)pySceneObject_getDraw, (setter)pySceneObject_setDraw,
-      "DrawInterface", NULL },
-    { "sim", (getter)pySceneObject_getSim, (setter)pySceneObject_setSim,
-      "SimulationInterface", NULL },
-    { "coord", (getter)pySceneObject_getCoord, (setter)pySceneObject_setCoord,
-      "CoordinateInterface", NULL },
-    { "audio", (getter)pySceneObject_getAudio, (setter)pySceneObject_setAudio,
-      "AudioInterface", NULL },
-    { "sceneNode", (getter)pySceneObject_getNode, (setter)pySceneObject_setNode,
-      "The SceneNode this object belongs to", NULL },
-    { "interfaces", (getter)pySceneObject_getIntfs, (setter)pySceneObject_setIntfs,
-      "Extra SceneObject Interfaces", NULL },
-    { "modifiers", (getter)pySceneObject_getMods, (setter)pySceneObject_setMods,
-      "SceneObject Modifiers", NULL },
+    { _pycs("draw"), (getter)pySceneObject_getDraw, (setter)pySceneObject_setDraw,
+        _pycs("DrawInterface"), NULL },
+    { _pycs("sim"), (getter)pySceneObject_getSim, (setter)pySceneObject_setSim,
+        _pycs("SimulationInterface"), NULL },
+    { _pycs("coord"), (getter)pySceneObject_getCoord, (setter)pySceneObject_setCoord,
+        _pycs("CoordinateInterface"), NULL },
+    { _pycs("audio"), (getter)pySceneObject_getAudio, (setter)pySceneObject_setAudio,
+        _pycs("AudioInterface"), NULL },
+    { _pycs("sceneNode"), (getter)pySceneObject_getNode, (setter)pySceneObject_setNode,
+        _pycs("The SceneNode this object belongs to"), NULL },
+    { _pycs("interfaces"), (getter)pySceneObject_getIntfs, (setter)pySceneObject_setIntfs,
+        _pycs("Extra SceneObject Interfaces"), NULL },
+    { _pycs("modifiers"), (getter)pySceneObject_getMods, (setter)pySceneObject_setMods,
+        _pycs("SceneObject Modifiers"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

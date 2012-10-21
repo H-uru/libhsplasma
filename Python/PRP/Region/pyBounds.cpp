@@ -99,7 +99,7 @@ static PyMethodDef pyBounds_Methods[] = {
 };
 
 static PyGetSetDef pyBounds_GetSet[] = {
-    { "type", (getter)pyBounds_getType, (setter)pyBounds_setType, NULL, NULL },
+    { _pycs("type"), (getter)pyBounds_getType, (setter)pyBounds_setType, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

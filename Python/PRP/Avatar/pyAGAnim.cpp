@@ -142,11 +142,11 @@ static PyMethodDef pyAGAnim_Methods[] = {
 };
 
 static PyGetSetDef pyAGAnim_GetSet[] = {
-    { "blend", (getter)pyAGAnim_getBlend, (setter)pyAGAnim_setBlend, NULL, NULL },
-    { "start", (getter)pyAGAnim_getStart, (setter)pyAGAnim_setStart, NULL, NULL },
-    { "end", (getter)pyAGAnim_getEnd, (setter)pyAGAnim_setEnd, NULL, NULL },
-    { "name", (getter)pyAGAnim_getName, (setter)pyAGAnim_setName, NULL, NULL },
-    { "applicators", (getter)pyAGAnim_getApps, (setter)pyAGAnim_setApps, NULL, NULL },
+    { _pycs("blend"), (getter)pyAGAnim_getBlend, (setter)pyAGAnim_setBlend, NULL, NULL },
+    { _pycs("start"), (getter)pyAGAnim_getStart, (setter)pyAGAnim_setStart, NULL, NULL },
+    { _pycs("end"), (getter)pyAGAnim_getEnd, (setter)pyAGAnim_setEnd, NULL, NULL },
+    { _pycs("name"), (getter)pyAGAnim_getName, (setter)pyAGAnim_setName, NULL, NULL },
+    { _pycs("applicators"), (getter)pyAGAnim_getApps, (setter)pyAGAnim_setApps, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

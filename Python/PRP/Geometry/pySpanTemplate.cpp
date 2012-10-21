@@ -145,9 +145,12 @@ static PyMethodDef pySpanTemplate_Methods[] = {
 };
 
 static PyGetSetDef pySpanTemplate_GetSet[] = {
-    { "vertices", (getter)pySpanTemplate_getVerts, (setter)pySpanTemplate_setVerts, NULL, NULL },
-    { "indices", (getter)pySpanTemplate_getIndices, (setter)pySpanTemplate_setIndices, NULL, NULL },
-    { "format", (getter)pySpanTemplate_getFormat, (setter)pySpanTemplate_setFormat, NULL, NULL },
+    { _pycs("vertices"), (getter)pySpanTemplate_getVerts,
+        (setter)pySpanTemplate_setVerts, NULL, NULL },
+    { _pycs("indices"), (getter)pySpanTemplate_getIndices,
+        (setter)pySpanTemplate_setIndices, NULL, NULL },
+    { _pycs("format"), (getter)pySpanTemplate_getFormat,
+        (setter)pySpanTemplate_setFormat, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -87,10 +87,14 @@ static PyMethodDef pyOmniLightInfo_Methods[] = {
 };
 
 static PyGetSetDef pyOmniLightInfo_GetSet[] = {
-    { "attenConst", (getter)pyOmniLightInfo_getAttenConst, (setter)pyOmniLightInfo_setAttenConst, NULL, NULL },
-    { "attenLinear", (getter)pyOmniLightInfo_getAttenLinear, (setter)pyOmniLightInfo_setAttenLinear, NULL, NULL },
-    { "attenQuadratic", (getter)pyOmniLightInfo_getAttenQuadratic, (setter)pyOmniLightInfo_setAttenQuadratic, NULL, NULL },
-    { "attenCutoff", (getter)pyOmniLightInfo_getAttenCutoff, (setter)pyOmniLightInfo_setAttenCutoff, NULL, NULL },
+    { _pycs("attenConst"), (getter)pyOmniLightInfo_getAttenConst,
+        (setter)pyOmniLightInfo_setAttenConst, NULL, NULL },
+    { _pycs("attenLinear"), (getter)pyOmniLightInfo_getAttenLinear,
+        (setter)pyOmniLightInfo_setAttenLinear, NULL, NULL },
+    { _pycs("attenQuadratic"), (getter)pyOmniLightInfo_getAttenQuadratic,
+        (setter)pyOmniLightInfo_setAttenQuadratic, NULL, NULL },
+    { _pycs("attenCutoff"), (getter)pyOmniLightInfo_getAttenCutoff,
+        (setter)pyOmniLightInfo_setAttenCutoff, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

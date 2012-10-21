@@ -108,18 +108,20 @@ static int pyVertexSpan_setVLength(pyVertexSpan* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyVertexSpan_GetSet[] = {
-    { "groupIdx", (getter)pyVertexSpan_getGroupIdx, (setter)pyVertexSpan_setGroupIdx,
-      "The Buffer Group index", NULL },
-    { "VBufferIdx", (getter)pyVertexSpan_getVBufferIdx, (setter)pyVertexSpan_setVBufferIdx,
-      "The Vertex Buffer index", NULL },
-    { "cellIdx", (getter)pyVertexSpan_getCellIdx, (setter)pyVertexSpan_setCellIdx,
-      "The Cell Buffer index", NULL },
-    { "cellOffset", (getter)pyVertexSpan_getCellOffset, (setter)pyVertexSpan_setCellOffset,
-      "The Cell offset", NULL },
-    { "VStartIdx", (getter)pyVertexSpan_getVStartIdx, (setter)pyVertexSpan_setVStartIdx,
-      "The first vertex in this Span", NULL },
-    { "VLength", (getter)pyVertexSpan_getVLength, (setter)pyVertexSpan_setVLength,
-      "The number of vertices in this Span", NULL },
+    { _pycs("groupIdx"), (getter)pyVertexSpan_getGroupIdx,
+        (setter)pyVertexSpan_setGroupIdx, _pycs("The Buffer Group index"), NULL },
+    { _pycs("VBufferIdx"), (getter)pyVertexSpan_getVBufferIdx,
+        (setter)pyVertexSpan_setVBufferIdx, _pycs("The Vertex Buffer index"), NULL },
+    { _pycs("cellIdx"), (getter)pyVertexSpan_getCellIdx,
+        (setter)pyVertexSpan_setCellIdx, _pycs("The Cell Buffer index"), NULL },
+    { _pycs("cellOffset"), (getter)pyVertexSpan_getCellOffset,
+        (setter)pyVertexSpan_setCellOffset, _pycs("The Cell offset"), NULL },
+    { _pycs("VStartIdx"), (getter)pyVertexSpan_getVStartIdx,
+        (setter)pyVertexSpan_setVStartIdx,
+        _pycs("The first vertex in this Span"), NULL },
+    { _pycs("VLength"), (getter)pyVertexSpan_getVLength,
+        (setter)pyVertexSpan_setVLength,
+        _pycs("The number of vertices in this Span"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

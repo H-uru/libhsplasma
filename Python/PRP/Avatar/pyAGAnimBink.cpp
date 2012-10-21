@@ -74,9 +74,12 @@ static PyMethodDef pyAGAnimBink_Methods[] = {
 };
 
 static PyGetSetDef pyAGAnimBink_GetSet[] = {
-    { "binkFilename", (getter)pyAGAnimBink_getBinkFilename, (setter)pyAGAnimBink_setBinkFilename, NULL, NULL },
-    { "sgtFilename", (getter)pyAGAnimBink_getSgtFilename, (setter)pyAGAnimBink_setSgtFilename, NULL, NULL },
-    { "subtitleId", (getter)pyAGAnimBink_getSubtitleId, (setter)pyAGAnimBink_setSubtitleId, NULL, NULL },
+    { _pycs("binkFilename"), (getter)pyAGAnimBink_getBinkFilename,
+        (setter)pyAGAnimBink_setBinkFilename, NULL, NULL },
+    { _pycs("sgtFilename"), (getter)pyAGAnimBink_getSgtFilename,
+        (setter)pyAGAnimBink_setSgtFilename, NULL, NULL },
+    { _pycs("subtitleId"), (getter)pyAGAnimBink_getSubtitleId,
+        (setter)pyAGAnimBink_setSubtitleId, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

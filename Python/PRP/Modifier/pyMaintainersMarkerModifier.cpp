@@ -51,7 +51,7 @@ static PyMethodDef pyMaintainersMarkerModifier_Methods[] = {
 };
 
 static PyGetSetDef pyMaintainersMarkerModifier_GetSet[] = {
-    { "calibration", (getter)pyMaintainersMarkerModifier_getCalibration,
+    { _pycs("calibration"), (getter)pyMaintainersMarkerModifier_getCalibration,
         (setter)pyMaintainersMarkerModifier_setCalibration, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };

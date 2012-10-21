@@ -50,7 +50,8 @@ static int pyG3DSMaxKeyFrame_setValue(pyG3DSMaxKeyFrame* self, PyObject* value, 
 }
 
 static PyGetSetDef pyG3DSMaxKeyFrame_GetSet[] = {
-    { "value", (getter)pyG3DSMaxKeyFrame_getValue, (setter)pyG3DSMaxKeyFrame_setValue, NULL, NULL },
+    { _pycs("value"), (getter)pyG3DSMaxKeyFrame_getValue,
+        (setter)pyG3DSMaxKeyFrame_setValue, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

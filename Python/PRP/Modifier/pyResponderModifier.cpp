@@ -128,10 +128,14 @@ static PyMethodDef pyResponderModifier_Methods[] = {
 };
 
 static PyGetSetDef pyResponderModifier_GetSet[] = {
-    { "states", (getter)pyResponderModifier_getStates, (setter)pyResponderModifier_setStates, NULL, NULL },
-    { "curState", (getter)pyResponderModifier_getCurState, (setter)pyResponderModifier_setCurState, NULL, NULL },
-    { "enabled", (getter)pyResponderModifier_getEnabled, (setter)pyResponderModifier_setEnabled, NULL, NULL },
-    { "flags", (getter)pyResponderModifier_getFlags, (setter)pyResponderModifier_setFlags, NULL, NULL },
+    { _pycs("states"), (getter)pyResponderModifier_getStates,
+        (setter)pyResponderModifier_setStates, NULL, NULL },
+    { _pycs("curState"), (getter)pyResponderModifier_getCurState,
+        (setter)pyResponderModifier_setCurState, NULL, NULL },
+    { _pycs("enabled"), (getter)pyResponderModifier_getEnabled,
+        (setter)pyResponderModifier_setEnabled, NULL, NULL },
+    { _pycs("flags"), (getter)pyResponderModifier_getFlags,
+        (setter)pyResponderModifier_setFlags, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

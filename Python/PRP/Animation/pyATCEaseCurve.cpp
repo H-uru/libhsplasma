@@ -113,12 +113,18 @@ static PyMethodDef pyATCEaseCurve_Methods[] = {
 };
 
 static PyGetSetDef pyATCEaseCurve_GetSet[] = {
-    { "startSpeed", (getter)pyATCEaseCurve_getStartSpeed, (setter)pyATCEaseCurve_setStartSpeed, NULL, NULL },
-    { "speed", (getter)pyATCEaseCurve_getSpeed, (setter)pyATCEaseCurve_setSpeed, NULL, NULL },
-    { "minLength", (getter)pyATCEaseCurve_getMinLength, (setter)pyATCEaseCurve_setMinLength, NULL, NULL },
-    { "maxLength", (getter)pyATCEaseCurve_getMaxLength, (setter)pyATCEaseCurve_setMaxLength, NULL, NULL },
-    { "length", (getter)pyATCEaseCurve_getLength, (setter)pyATCEaseCurve_setLength, NULL, NULL },
-    { "beginWorldTime", (getter)pyATCEaseCurve_getBegin, (setter)pyATCEaseCurve_setBegin, NULL, NULL },
+    { _pycs("startSpeed"), (getter)pyATCEaseCurve_getStartSpeed,
+        (setter)pyATCEaseCurve_setStartSpeed, NULL, NULL },
+    { _pycs("speed"), (getter)pyATCEaseCurve_getSpeed,
+        (setter)pyATCEaseCurve_setSpeed, NULL, NULL },
+    { _pycs("minLength"), (getter)pyATCEaseCurve_getMinLength,
+        (setter)pyATCEaseCurve_setMinLength, NULL, NULL },
+    { _pycs("maxLength"), (getter)pyATCEaseCurve_getMaxLength,
+        (setter)pyATCEaseCurve_setMaxLength, NULL, NULL },
+    { _pycs("length"), (getter)pyATCEaseCurve_getLength,
+        (setter)pyATCEaseCurve_setLength, NULL, NULL },
+    { _pycs("beginWorldTime"), (getter)pyATCEaseCurve_getBegin,
+        (setter)pyATCEaseCurve_setBegin, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

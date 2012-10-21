@@ -44,7 +44,7 @@ static PyMethodDef pyAGChannel_Methods[] = {
 };
 
 static PyGetSetDef pyAGChannel_GetSet[] = {
-    { "name", (getter)pyAGChannel_getName, (setter)pyAGChannel_setName, NULL, NULL },
+    { _pycs("name"), (getter)pyAGChannel_getName, (setter)pyAGChannel_setName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

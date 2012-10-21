@@ -96,9 +96,12 @@ static PyMethodDef pyCompoundPosController_Methods[] = {
 };
 
 static PyGetSetDef pyCompoundPosController_GetSet[] = {
-    { "X", (getter)pyCompoundPosController_getX, (setter)pyCompoundPosController_setX, NULL, NULL },
-    { "Y", (getter)pyCompoundPosController_getY, (setter)pyCompoundPosController_setY, NULL, NULL },
-    { "Z", (getter)pyCompoundPosController_getZ, (setter)pyCompoundPosController_setZ, NULL, NULL },
+    { _pycs("X"), (getter)pyCompoundPosController_getX,
+        (setter)pyCompoundPosController_setX, NULL, NULL },
+    { _pycs("Y"), (getter)pyCompoundPosController_getY,
+        (setter)pyCompoundPosController_setY, NULL, NULL },
+    { _pycs("Z"), (getter)pyCompoundPosController_getZ,
+        (setter)pyCompoundPosController_setZ, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

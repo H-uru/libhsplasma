@@ -41,7 +41,8 @@ static PyMethodDef pyScaleController_Methods[] = {
 };
 
 static PyGetSetDef pyScaleController_GetSet[] = {
-    { "type", (getter)pyScaleController_getType, (setter)pyScaleController_setType, NULL, NULL },
+    { _pycs("type"), (getter)pyScaleController_getType,
+        (setter)pyScaleController_setType, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -47,7 +47,8 @@ static int pyGUIConsoleCmdProc_setCmd(pyGUIConsoleCmdProc* self, PyObject* value
 }
 
 static PyGetSetDef pyGUIConsoleCmdProc_GetSet[] = {
-    { "command", (getter)pyGUIConsoleCmdProc_getCmd, (setter)pyGUIConsoleCmdProc_setCmd, NULL, NULL },
+    { _pycs("command"), (getter)pyGUIConsoleCmdProc_getCmd,
+        (setter)pyGUIConsoleCmdProc_setCmd, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

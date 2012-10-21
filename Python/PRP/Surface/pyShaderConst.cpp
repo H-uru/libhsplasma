@@ -147,14 +147,22 @@ static PyMethodDef pyShaderConst_Methods[] = {
 };
 
 static PyGetSetDef pyShaderConst_GetSet[] = {
-    { "X", (getter)pyShaderConst_getItem, (setter)pyShaderConst_setItem, NULL, (void*)0 },
-    { "Y", (getter)pyShaderConst_getItem, (setter)pyShaderConst_setItem, NULL, (void*)1 },
-    { "Z", (getter)pyShaderConst_getItem, (setter)pyShaderConst_setItem, NULL, (void*)2 },
-    { "W", (getter)pyShaderConst_getItem, (setter)pyShaderConst_setItem, NULL, (void*)3 },
-    { "red", (getter)pyShaderConst_getItem, (setter)pyShaderConst_setItem, NULL, (void*)0 },
-    { "green", (getter)pyShaderConst_getItem, (setter)pyShaderConst_setItem, NULL, (void*)1 },
-    { "blue", (getter)pyShaderConst_getItem, (setter)pyShaderConst_setItem, NULL, (void*)2 },
-    { "alpha", (getter)pyShaderConst_getItem, (setter)pyShaderConst_setItem, NULL, (void*)3 },
+    { _pycs("X"), (getter)pyShaderConst_getItem,
+        (setter)pyShaderConst_setItem, NULL, (void*)0 },
+    { _pycs("Y"), (getter)pyShaderConst_getItem,
+        (setter)pyShaderConst_setItem, NULL, (void*)1 },
+    { _pycs("Z"), (getter)pyShaderConst_getItem,
+        (setter)pyShaderConst_setItem, NULL, (void*)2 },
+    { _pycs("W"), (getter)pyShaderConst_getItem,
+        (setter)pyShaderConst_setItem, NULL, (void*)3 },
+    { _pycs("red"), (getter)pyShaderConst_getItem,
+        (setter)pyShaderConst_setItem, NULL, (void*)0 },
+    { _pycs("green"), (getter)pyShaderConst_getItem,
+        (setter)pyShaderConst_setItem, NULL, (void*)1 },
+    { _pycs("blue"), (getter)pyShaderConst_getItem,
+        (setter)pyShaderConst_setItem, NULL, (void*)2 },
+    { _pycs("alpha"), (getter)pyShaderConst_getItem,
+        (setter)pyShaderConst_setItem, NULL, (void*)3 },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

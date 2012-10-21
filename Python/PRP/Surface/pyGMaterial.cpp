@@ -167,10 +167,14 @@ static PyMethodDef pyGMaterial_Methods[] = {
 };
 
 static PyGetSetDef pyGMaterial_GetSet[] = {
-    { "layers", (getter)pyGMaterial_getLayers, (setter)pyGMaterial_setLayers, NULL, NULL },
-    { "piggyBacks", (getter)pyGMaterial_getPBs, (setter)pyGMaterial_setPBs, NULL, NULL },
-    { "compFlags", (getter)pyGMaterial_getCompFlags, (setter)pyGMaterial_setCompFlags, NULL, NULL },
-    { "loadFlags", (getter)pyGMaterial_getLoadFlags, (setter)pyGMaterial_setLoadFlags, NULL, NULL },
+    { _pycs("layers"), (getter)pyGMaterial_getLayers,
+        (setter)pyGMaterial_setLayers, NULL, NULL },
+    { _pycs("piggyBacks"), (getter)pyGMaterial_getPBs,
+        (setter)pyGMaterial_setPBs, NULL, NULL },
+    { _pycs("compFlags"), (getter)pyGMaterial_getCompFlags,
+        (setter)pyGMaterial_setCompFlags, NULL, NULL },
+    { _pycs("loadFlags"), (getter)pyGMaterial_getLoadFlags,
+        (setter)pyGMaterial_setLoadFlags, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

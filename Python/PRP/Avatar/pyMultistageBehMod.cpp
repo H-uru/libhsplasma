@@ -181,11 +181,16 @@ static PyMethodDef pyMultistageBehMod_Methods[] = {
 };
 
 static PyGetSetDef pyMultistageBehMod_GetSet[] = {
-    { "stages", (getter)pyMultistageBehMod_getStages, (setter)pyMultistageBehMod_setStages, NULL, NULL },
-    { "receivers", (getter)pyMultistageBehMod_getReceivers, (setter)pyMultistageBehMod_setReceivers, NULL, NULL },
-    { "freezePhys", (getter)pyMultistageBehMod_getFreeze, (setter)pyMultistageBehMod_setFreeze, NULL, NULL },
-    { "smartSeek", (getter)pyMultistageBehMod_getSSeek, (setter)pyMultistageBehMod_setSSeek, NULL, NULL },
-    { "reverseFBControlsOnRelease", (getter)pyMultistageBehMod_getReverse, (setter)pyMultistageBehMod_setReverse, NULL, NULL },
+    { _pycs("stages"), (getter)pyMultistageBehMod_getStages,
+        (setter)pyMultistageBehMod_setStages, NULL, NULL },
+    { _pycs("receivers"), (getter)pyMultistageBehMod_getReceivers,
+        (setter)pyMultistageBehMod_setReceivers, NULL, NULL },
+    { _pycs("freezePhys"), (getter)pyMultistageBehMod_getFreeze,
+        (setter)pyMultistageBehMod_setFreeze, NULL, NULL },
+    { _pycs("smartSeek"), (getter)pyMultistageBehMod_getSSeek,
+        (setter)pyMultistageBehMod_setSSeek, NULL, NULL },
+    { _pycs("reverseFBControlsOnRelease"), (getter)pyMultistageBehMod_getReverse,
+        (setter)pyMultistageBehMod_setReverse, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

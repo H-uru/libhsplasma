@@ -55,8 +55,10 @@ static PyObject *pyAgeInfoStruct_getAgeInstanceName(pyAgeInfoStruct* self, void*
 }
 
 PyGetSetDef pyAgeInfoStruct_GetSet[] = {
-    { "ageFilename", (getter)pyAgeInfoStruct_getAgeFilename, (setter)pyAgeInfoStruct_setAgeFilename, NULL, NULL },
-    { "ageInstanceName", (getter)pyAgeInfoStruct_getAgeInstanceName, (setter)pyAgeInfoStruct_setAgeInstanceName, NULL, NULL },
+    { _pycs("ageFilename"), (getter)pyAgeInfoStruct_getAgeFilename,
+        (setter)pyAgeInfoStruct_setAgeFilename, NULL, NULL },
+    { _pycs("ageInstanceName"), (getter)pyAgeInfoStruct_getAgeInstanceName,
+        (setter)pyAgeInfoStruct_setAgeInstanceName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
@@ -170,8 +172,10 @@ static PyObject *pyAgeLinkStruct_getAgeInfo(pyAgeLinkStruct*self , void*) {
 }
 
 PyGetSetDef pyAgeLinkStruct_GetSet[] = {
-    { "ageInfo", (getter)pyAgeLinkStruct_getAgeInfo, (setter)pyAgeLinkStruct_setAgeInfo, NULL, NULL },
-    { "linkingRules", (getter)pyAgeLinkStruct_getLinkingRules, (setter)pyAgeLinkStruct_setLinkingRules, NULL, NULL },
+    { _pycs("ageInfo"), (getter)pyAgeLinkStruct_getAgeInfo,
+        (setter)pyAgeLinkStruct_setAgeInfo, NULL, NULL },
+    { _pycs("linkingRules"), (getter)pyAgeLinkStruct_getLinkingRules,
+        (setter)pyAgeLinkStruct_setLinkingRules, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

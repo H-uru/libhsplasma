@@ -60,8 +60,10 @@ static PyMethodDef pyCoopEventData_Methods[] = {
 };
 
 static PyGetSetDef pyCoopEventData_GetSet[] = {
-    { "id", (getter)pyCoopEventData_getID, (setter)pyCoopEventData_setID, NULL, NULL },
-    { "serial", (getter)pyCoopEventData_getSerial, (setter)pyCoopEventData_setSerial, NULL, NULL },
+    { _pycs("id"), (getter)pyCoopEventData_getID,
+        (setter)pyCoopEventData_setID, NULL, NULL },
+    { _pycs("serial"), (getter)pyCoopEventData_getSerial,
+        (setter)pyCoopEventData_setSerial, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

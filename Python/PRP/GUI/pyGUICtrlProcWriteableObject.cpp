@@ -93,7 +93,8 @@ static PyMethodDef pyGUICtrlProcWriteableObject_Methods[] = {
 };
 
 static PyGetSetDef pyGUICtrlProcWriteableObject_GetSet[] = {
-    { "type", (getter)pyGUICtrlProcWriteableObject_getType, (setter)pyGUICtrlProcWriteableObject_setType, NULL, NULL },
+    { _pycs("type"), (getter)pyGUICtrlProcWriteableObject_getType,
+        (setter)pyGUICtrlProcWriteableObject_setType, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

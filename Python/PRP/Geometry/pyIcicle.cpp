@@ -107,14 +107,14 @@ static int pyIcicle_setSortData(pyIcicle* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyIcicle_GetSet[] = {
-    { "IBufferIdx", (getter)pyIcicle_getIBufferIdx, (setter)pyIcicle_setIBufferIdx,
-      "The Face Index Buffer index", NULL },
-    { "IStartIdx", (getter)pyIcicle_getIStartIdx, (setter)pyIcicle_setIStartIdx,
-      "The first face index in this Span", NULL },
-    { "ILength", (getter)pyIcicle_getILength, (setter)pyIcicle_setILength,
-      "The number of face indices in this Span (faces * 3)", NULL },
-    { "sortData", (getter)pyIcicle_getSortData, (setter)pyIcicle_setSortData,
-      "Optional face sort data", NULL },
+    { _pycs("IBufferIdx"), (getter)pyIcicle_getIBufferIdx, (setter)pyIcicle_setIBufferIdx,
+      _pycs("The Face Index Buffer index"), NULL },
+    { _pycs("IStartIdx"), (getter)pyIcicle_getIStartIdx, (setter)pyIcicle_setIStartIdx,
+      _pycs("The first face index in this Span"), NULL },
+    { _pycs("ILength"), (getter)pyIcicle_getILength, (setter)pyIcicle_setILength,
+      _pycs("The number of face indices in this Span (faces * 3)"), NULL },
+    { _pycs("sortData"), (getter)pyIcicle_getSortData, (setter)pyIcicle_setSortData,
+      _pycs("Optional face sort data"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

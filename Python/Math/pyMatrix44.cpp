@@ -399,8 +399,8 @@ static PyMappingMethods pyMatrix44_As_Mapping = {
 };
 
 PyGetSetDef pyMatrix44_GetSet[] = {
-    { "mat", (getter)pyMatrix44_getMat, (setter)pyMatrix44_setMat, NULL, NULL },
-    { "glMat", (getter)pyMatrix44_getGlMat, (setter)pyMatrix44_setGlMat, NULL, NULL },
+    { _pycs("mat"), (getter)pyMatrix44_getMat, (setter)pyMatrix44_setMat, NULL, NULL },
+    { _pycs("glMat"), (getter)pyMatrix44_getGlMat, (setter)pyMatrix44_setGlMat, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

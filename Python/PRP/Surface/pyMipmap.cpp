@@ -26,8 +26,9 @@ static int pyMipmap___init__(pyMipmap* self, PyObject* args, PyObject* kwds) {
     const char* name = "";
     int width, height, numLevels, compType, format;
     int dxtLevel = plBitmap::kDXTError;
-    static char* kwlist[] = { "name", "width", "height", "numLevels",
-                              "compType", "format", "dxtLevel", NULL };
+    static char* kwlist[] = { _pycs("name"), _pycs("width"), _pycs("height"),
+                              _pycs("numLevels"), _pycs("compType"),
+                              _pycs("format"), _pycs("dxtLevel"), NULL };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "siiiii|i", kwlist,
                                     &name, &width, &height, &numLevels,
@@ -322,10 +323,12 @@ static PyMethodDef pyMipmap_Methods[] = {
 };
 
 static PyGetSetDef pyMipmap_GetSet[] = {
-    { "width", (getter)pyMipmap_getWidth, (setter)pyMipmap_setWidth, NULL, NULL },
-    { "height", (getter)pyMipmap_getHeight, (setter)pyMipmap_setHeight, NULL, NULL },
-    { "imageData", (getter)pyMipmap_getImageData, (setter)pyMipmap_setImageData, NULL, NULL },
-    { "numLevels", (getter)pyMipmap_getNumLevels, (setter)pyMipmap_setNumLevels, NULL, NULL },
+    { _pycs("width"), (getter)pyMipmap_getWidth, (setter)pyMipmap_setWidth, NULL, NULL },
+    { _pycs("height"), (getter)pyMipmap_getHeight, (setter)pyMipmap_setHeight, NULL, NULL },
+    { _pycs("imageData"), (getter)pyMipmap_getImageData,
+        (setter)pyMipmap_setImageData, NULL, NULL },
+    { _pycs("numLevels"), (getter)pyMipmap_getNumLevels,
+        (setter)pyMipmap_setNumLevels, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

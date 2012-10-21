@@ -95,10 +95,14 @@ static PyMethodDef pyFacingEventData_Methods[] = {
 };
 
 static PyGetSetDef pyFacingEventData_GetSet[] = {
-    { "facer", (getter)pyFacingEventData_getFacer, (setter)pyFacingEventData_setFacer, NULL, NULL },
-    { "facee", (getter)pyFacingEventData_getFacee, (setter)pyFacingEventData_setFacee, NULL, NULL },
-    { "dot", (getter)pyFacingEventData_getDot, (setter)pyFacingEventData_setDot, NULL, NULL },
-    { "enabled", (getter)pyFacingEventData_getEnabled, (setter)pyFacingEventData_setEnabled, NULL, NULL },
+    { _pycs("facer"), (getter)pyFacingEventData_getFacer,
+        (setter)pyFacingEventData_setFacer, NULL, NULL },
+    { _pycs("facee"), (getter)pyFacingEventData_getFacee,
+        (setter)pyFacingEventData_setFacee, NULL, NULL },
+    { _pycs("dot"), (getter)pyFacingEventData_getDot,
+        (setter)pyFacingEventData_setDot, NULL, NULL },
+    { _pycs("enabled"), (getter)pyFacingEventData_getEnabled,
+        (setter)pyFacingEventData_setEnabled, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

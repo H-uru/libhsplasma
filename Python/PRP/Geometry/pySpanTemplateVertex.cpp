@@ -174,13 +174,20 @@ static int pySpanTemplateVertex_setWeights(pySpanTemplateVertex* self, PyObject*
 }
 
 static PyGetSetDef pySpanTemplateVertex_GetSet[] = {
-    { "position", (getter)pySpanTemplateVertex_getPosition, (setter)pySpanTemplateVertex_setPosition, NULL, NULL },
-    { "normal", (getter)pySpanTemplateVertex_getNormal, (setter)pySpanTemplateVertex_setNormal, NULL, NULL },
-    { "color1", (getter)pySpanTemplateVertex_getColor1, (setter)pySpanTemplateVertex_setColor1, NULL, NULL },
-    { "color2", (getter)pySpanTemplateVertex_getColor2, (setter)pySpanTemplateVertex_setColor2, NULL, NULL },
-    { "weightIdx", (getter)pySpanTemplateVertex_getWeight, (setter)pySpanTemplateVertex_setWeight, NULL, NULL },
-    { "UVWs", (getter)pySpanTemplateVertex_getUVWs, (setter)pySpanTemplateVertex_setUVWs, NULL, NULL },
-    { "weights", (getter)pySpanTemplateVertex_getWeights, (setter)pySpanTemplateVertex_setWeights, NULL, NULL },
+    { _pycs("position"), (getter)pySpanTemplateVertex_getPosition,
+        (setter)pySpanTemplateVertex_setPosition, NULL, NULL },
+    { _pycs("normal"), (getter)pySpanTemplateVertex_getNormal,
+        (setter)pySpanTemplateVertex_setNormal, NULL, NULL },
+    { _pycs("color1"), (getter)pySpanTemplateVertex_getColor1,
+        (setter)pySpanTemplateVertex_setColor1, NULL, NULL },
+    { _pycs("color2"), (getter)pySpanTemplateVertex_getColor2,
+        (setter)pySpanTemplateVertex_setColor2, NULL, NULL },
+    { _pycs("weightIdx"), (getter)pySpanTemplateVertex_getWeight,
+        (setter)pySpanTemplateVertex_setWeight, NULL, NULL },
+    { _pycs("UVWs"), (getter)pySpanTemplateVertex_getUVWs,
+        (setter)pySpanTemplateVertex_setUVWs, NULL, NULL },
+    { _pycs("weights"), (getter)pySpanTemplateVertex_getWeights,
+        (setter)pySpanTemplateVertex_setWeights, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

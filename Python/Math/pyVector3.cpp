@@ -29,8 +29,8 @@ static void pyVector3_dealloc(pyVector3* self) {
 static int pyVector3___init__(pyVector3* self, PyObject* args, PyObject* kwds) {
     float x = 0.0f, y = 0.0f, z = 0.0f;
     PyObject* init = NULL;
-    static char* kwlist[] = { "X", "Y", "Z", NULL };
-    static char* kwlist2[] = { "vector", NULL };
+    static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), NULL };
+    static char* kwlist2[] = { _pycs("vector"), NULL };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "fff", kwlist, &x, &y, &z)) {
         (*self->fThis) = hsVector3(x, y, z);
@@ -296,9 +296,9 @@ PyMethodDef pyVector3_Methods[] = {
 };
 
 PyGetSetDef pyVector3_GetSet[] = {
-    { "X", (getter)pyVector3_getX, (setter)pyVector3_setX, NULL, NULL },
-    { "Y", (getter)pyVector3_getY, (setter)pyVector3_setY, NULL, NULL },
-    { "Z", (getter)pyVector3_getZ, (setter)pyVector3_setZ, NULL, NULL },
+    { _pycs("X"), (getter)pyVector3_getX, (setter)pyVector3_setX, NULL, NULL },
+    { _pycs("Y"), (getter)pyVector3_getY, (setter)pyVector3_setY, NULL, NULL },
+    { _pycs("Z"), (getter)pyVector3_getZ, (setter)pyVector3_setZ, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

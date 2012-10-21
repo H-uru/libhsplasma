@@ -129,10 +129,13 @@ static PyMethodDef pyNotifyMsg_Methods[] = {
 };
 
 static PyGetSetDef pyNotifyMsg_GetSet[] = {
-    { "events", (getter)pyNotifyMsg_getEvents, (setter)pyNotifyMsg_setEvents, NULL, NULL },
-    { "type", (getter)pyNotifyMsg_getType, (setter)pyNotifyMsg_setType, NULL, NULL },
-    { "state", (getter)pyNotifyMsg_getState, (setter)pyNotifyMsg_setState, NULL, NULL },
-    { "id", (getter)pyNotifyMsg_getID, (setter)pyNotifyMsg_setID, NULL, NULL },
+    { _pycs("events"), (getter)pyNotifyMsg_getEvents,
+        (setter)pyNotifyMsg_setEvents, NULL, NULL },
+    { _pycs("type"), (getter)pyNotifyMsg_getType,
+        (setter)pyNotifyMsg_setType, NULL, NULL },
+    { _pycs("state"), (getter)pyNotifyMsg_getState,
+        (setter)pyNotifyMsg_setState, NULL, NULL },
+    { _pycs("id"), (getter)pyNotifyMsg_getID, (setter)pyNotifyMsg_setID, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

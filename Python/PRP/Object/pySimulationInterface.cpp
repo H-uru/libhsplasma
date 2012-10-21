@@ -53,8 +53,8 @@ PyMethodDef pySimulationInterface_Methods[] = {
 };
 
 PyGetSetDef pySimulationInterface_GetSet[] = {
-    { "physical", (getter)pySimulationInterface_getPhysical, (setter)pySimulationInterface_setPhysical,
-      "The Physical key", NULL },
+    { _pycs("physical"), (getter)pySimulationInterface_getPhysical,
+        (setter)pySimulationInterface_setPhysical, _pycs("The Physical key"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

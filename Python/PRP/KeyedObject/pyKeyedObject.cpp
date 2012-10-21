@@ -57,8 +57,8 @@ static PyMethodDef pyKeyedObject_Methods[] = {
 };
 
 static PyGetSetDef pyKeyedObject_GetSet[] = {
-    { "key", (getter)pyKeyedObject_getKey, (setter)pyKeyedObject_setKey,
-      "The plKey for this object", NULL },
+    { _pycs("key"), (getter)pyKeyedObject_getKey, (setter)pyKeyedObject_setKey,
+        _pycs("The plKey for this object"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

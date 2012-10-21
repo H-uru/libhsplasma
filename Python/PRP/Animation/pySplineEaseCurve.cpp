@@ -58,7 +58,8 @@ static PyMethodDef pySplineEaseCurve_Methods[] = {
 };
 
 static PyGetSetDef pySplineEaseCurve_GetSet[] = {
-    { "splineCoef", (getter)pySplineEaseCurve_getSplineCoef, (setter)pySplineEaseCurve_setSplineCoef, NULL, NULL },
+    { _pycs("splineCoef"), (getter)pySplineEaseCurve_getSplineCoef,
+        (setter)pySplineEaseCurve_setSplineCoef, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

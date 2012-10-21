@@ -48,7 +48,8 @@ static PyMethodDef pyAgeGlobalAnim_Methods[] = {
 };
 
 static PyGetSetDef pyAgeGlobalAnim_GetSet[] = {
-    { "globalVarName", (getter)pyAgeGlobalAnim_getGlobalVarName, (setter)pyAgeGlobalAnim_setGlobalVarName, NULL, NULL },
+    { _pycs("globalVarName"), (getter)pyAgeGlobalAnim_getGlobalVarName,
+        (setter)pyAgeGlobalAnim_setGlobalVarName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

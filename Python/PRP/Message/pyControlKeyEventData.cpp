@@ -61,8 +61,10 @@ static PyMethodDef pyControlKeyEventData_Methods[] = {
 };
 
 static PyGetSetDef pyControlKeyEventData_GetSet[] = {
-    { "controlKey", (getter)pyControlKeyEventData_getControlKey, (setter)pyControlKeyEventData_setControlKey, NULL, NULL },
-    { "down", (getter)pyControlKeyEventData_getDown, (setter)pyControlKeyEventData_setDown, NULL, NULL },
+    { _pycs("controlKey"), (getter)pyControlKeyEventData_getControlKey,
+        (setter)pyControlKeyEventData_setControlKey, NULL, NULL },
+    { _pycs("down"), (getter)pyControlKeyEventData_getDown,
+        (setter)pyControlKeyEventData_setDown, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

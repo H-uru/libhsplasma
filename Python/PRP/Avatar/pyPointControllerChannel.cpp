@@ -54,7 +54,8 @@ static PyMethodDef pyPointControllerChannel_Methods[] = {
 };
 
 static PyGetSetDef pyPointControllerChannel_GetSet[] = {
-    { "controller", (getter)pyPointControllerChannel_getController, (setter)pyPointControllerChannel_setController, NULL, NULL },
+    { _pycs("controller"), (getter)pyPointControllerChannel_getController,
+        (setter)pyPointControllerChannel_setController, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

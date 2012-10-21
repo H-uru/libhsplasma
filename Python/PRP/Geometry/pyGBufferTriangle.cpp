@@ -146,11 +146,16 @@ static PyMethodDef pyGBufferTriangle_Methods[] = {
 };
 
 static PyGetSetDef pyGBufferTriangle_GetSet[] = {
-    { "index1", (getter)pyGBufferTriangle_getIndex1, (setter)pyGBufferTriangle_setIndex1, NULL, NULL },
-    { "index2", (getter)pyGBufferTriangle_getIndex2, (setter)pyGBufferTriangle_setIndex2, NULL, NULL },
-    { "index3", (getter)pyGBufferTriangle_getIndex3, (setter)pyGBufferTriangle_setIndex3, NULL, NULL },
-    { "spanIndex", (getter)pyGBufferTriangle_getSpanIndex, (setter)pyGBufferTriangle_setSpanIndex, NULL, NULL },
-    { "center", (getter)pyGBufferTriangle_getCenter, (setter)pyGBufferTriangle_setCenter, NULL, NULL },
+    { _pycs("index1"), (getter)pyGBufferTriangle_getIndex1,
+        (setter)pyGBufferTriangle_setIndex1, NULL, NULL },
+    { _pycs("index2"), (getter)pyGBufferTriangle_getIndex2,
+        (setter)pyGBufferTriangle_setIndex2, NULL, NULL },
+    { _pycs("index3"), (getter)pyGBufferTriangle_getIndex3,
+        (setter)pyGBufferTriangle_setIndex3, NULL, NULL },
+    { _pycs("spanIndex"), (getter)pyGBufferTriangle_getSpanIndex,
+        (setter)pyGBufferTriangle_setSpanIndex, NULL, NULL },
+    { _pycs("center"), (getter)pyGBufferTriangle_getCenter,
+        (setter)pyGBufferTriangle_setCenter, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

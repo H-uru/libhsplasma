@@ -41,7 +41,7 @@ static PyMethodDef pyRotController_Methods[] = {
 };
 
 static PyGetSetDef pyRotController_GetSet[] = {
-    { "type", (getter)pyRotController_getType, (setter)pyRotController_setType, NULL, NULL },
+    { _pycs("type"), (getter)pyRotController_getType, (setter)pyRotController_setType, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

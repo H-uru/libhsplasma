@@ -76,9 +76,9 @@ static int pyPoint3Key_setValue(pyPoint3Key* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyPoint3Key_GetSet[] = {
-    { "inTan", (getter)pyPoint3Key_getInTan, (setter)pyPoint3Key_setInTan, NULL, NULL },
-    { "outTan", (getter)pyPoint3Key_getOutTan, (setter)pyPoint3Key_setOutTan, NULL, NULL },
-    { "value", (getter)pyPoint3Key_getValue, (setter)pyPoint3Key_setValue, NULL, NULL },
+    { _pycs("inTan"), (getter)pyPoint3Key_getInTan, (setter)pyPoint3Key_setInTan, NULL, NULL },
+    { _pycs("outTan"), (getter)pyPoint3Key_getOutTan, (setter)pyPoint3Key_setOutTan, NULL, NULL },
+    { _pycs("value"), (getter)pyPoint3Key_getValue, (setter)pyPoint3Key_setValue, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

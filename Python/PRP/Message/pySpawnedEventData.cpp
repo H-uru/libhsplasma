@@ -69,8 +69,10 @@ static PyMethodDef pySpawnedEventData_Methods[] = {
 };
 
 static PyGetSetDef pySpawnedEventData_GetSet[] = {
-    { "spawner", (getter)pySpawnedEventData_getSpawner, (setter)pySpawnedEventData_setSpawner, NULL, NULL },
-    { "spawnee", (getter)pySpawnedEventData_getSpawnee, (setter)pySpawnedEventData_setSpawnee, NULL, NULL },
+    { _pycs("spawner"), (getter)pySpawnedEventData_getSpawner,
+        (setter)pySpawnedEventData_setSpawner, NULL, NULL },
+    { _pycs("spawnee"), (getter)pySpawnedEventData_getSpawnee,
+        (setter)pySpawnedEventData_setSpawnee, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

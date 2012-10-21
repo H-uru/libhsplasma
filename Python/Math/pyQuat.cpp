@@ -30,9 +30,9 @@ static void pyQuat_dealloc(pyQuat* self) {
 static int pyQuat___init__(pyQuat* self, PyObject* args, PyObject* kwds) {
     float x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f;
     PyObject* init = NULL;
-    static char* kwlist[] = { "X", "Y", "Z", "W", NULL };
-    static char* kwlist2[] = { "quat", NULL };
-    static char* kwlist3[] = { "angle", "axis", NULL };
+    static char* kwlist[] = { _pycs("X"), _pycs("Y"), _pycs("Z"), _pycs("W"), NULL };
+    static char* kwlist2[] = { _pycs("quat"), NULL };
+    static char* kwlist3[] = { _pycs("angle"), _pycs("axis"), NULL };
 
     if (PyArg_ParseTupleAndKeywords(args, kwds, "ffff", kwlist, &x, &y, &z, &w)) {
         (*self->fThis) = hsQuat(x, y, z, w);
@@ -293,10 +293,10 @@ PyMethodDef pyQuat_Methods[] = {
 };
 
 PyGetSetDef pyQuat_GetSet[] = {
-    { "X", (getter)pyQuat_getX, (setter)pyQuat_setX, NULL, NULL },
-    { "Y", (getter)pyQuat_getY, (setter)pyQuat_setY, NULL, NULL },
-    { "Z", (getter)pyQuat_getZ, (setter)pyQuat_setZ, NULL, NULL },
-    { "W", (getter)pyQuat_getW, (setter)pyQuat_setW, NULL, NULL },
+    { _pycs("X"), (getter)pyQuat_getX, (setter)pyQuat_setX, NULL, NULL },
+    { _pycs("Y"), (getter)pyQuat_getY, (setter)pyQuat_setY, NULL, NULL },
+    { _pycs("Z"), (getter)pyQuat_getZ, (setter)pyQuat_setZ, NULL, NULL },
+    { _pycs("W"), (getter)pyQuat_getW, (setter)pyQuat_setW, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

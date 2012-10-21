@@ -89,7 +89,8 @@ static PyMethodDef pyInterfaceInfoModifier_Methods[] = {
 };
 
 static PyGetSetDef pyInterfaceInfoModifier_GetSet[] = {
-    { "intfKeys", (getter)pyInterfaceInfoModifier_getIntfKeys, (setter)pyInterfaceInfoModifier_setIntfKeys, NULL, NULL },
+    { _pycs("intfKeys"), (getter)pyInterfaceInfoModifier_getIntfKeys,
+        (setter)pyInterfaceInfoModifier_setIntfKeys, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

@@ -48,7 +48,8 @@ static PyMethodDef pyScalarChannel_Methods[] = {
 };
 
 static PyGetSetDef pyScalarChannel_GetSet[] = {
-    { "result", (getter)pyScalarChannel_getResult, (setter)pyScalarChannel_setResult, NULL, NULL },
+    { _pycs("result"), (getter)pyScalarChannel_getResult,
+        (setter)pyScalarChannel_setResult, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

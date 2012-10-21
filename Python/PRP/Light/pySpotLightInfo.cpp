@@ -74,9 +74,12 @@ static PyMethodDef pySpotLightInfo_Methods[] = {
 };
 
 static PyGetSetDef pySpotLightInfo_GetSet[] = {
-    { "falloff", (getter)pySpotLightInfo_getFalloff, (setter)pySpotLightInfo_setFalloff, NULL, NULL },
-    { "spotInner", (getter)pySpotLightInfo_getSpotInner, (setter)pySpotLightInfo_setSpotInner, NULL, NULL },
-    { "spotOuter", (getter)pySpotLightInfo_getSpotOuter, (setter)pySpotLightInfo_setSpotOuter, NULL, NULL },
+    { _pycs("falloff"), (getter)pySpotLightInfo_getFalloff,
+        (setter)pySpotLightInfo_setFalloff, NULL, NULL },
+    { _pycs("spotInner"), (getter)pySpotLightInfo_getSpotInner,
+        (setter)pySpotLightInfo_setSpotInner, NULL, NULL },
+    { _pycs("spotOuter"), (getter)pySpotLightInfo_getSpotOuter,
+        (setter)pySpotLightInfo_setSpotOuter, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

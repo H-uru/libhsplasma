@@ -145,12 +145,18 @@ static PyMethodDef pyWAVHeader_Methods[] = {
 };
 
 static PyGetSetDef pyWAVHeader_GetSet[] = {
-    { "formatTag", (getter)pyWAVHeader_getFormat, (setter)pyWAVHeader_setFormat, NULL, (void*)0 },
-    { "numChannels", (getter)pyWAVHeader_getNumChans, (setter)pyWAVHeader_setNumChans, NULL, (void*)1 },
-    { "samplesPerSec", (getter)pyWAVHeader_getSamples, (setter)pyWAVHeader_setSamples, NULL, (void*)2 },
-    { "avgBytesPerSec", (getter)pyWAVHeader_getBPS, (setter)pyWAVHeader_setBPS, NULL, (void*)3 },
-    { "blockAlign", (getter)pyWAVHeader_getAlign, (setter)pyWAVHeader_setAlign, NULL, (void*)0 },
-    { "bitsPerSample", (getter)pyWAVHeader_getBits, (setter)pyWAVHeader_setBits, NULL, (void*)1 },
+    { _pycs("formatTag"), (getter)pyWAVHeader_getFormat,
+        (setter)pyWAVHeader_setFormat, NULL, NULL },
+    { _pycs("numChannels"), (getter)pyWAVHeader_getNumChans,
+        (setter)pyWAVHeader_setNumChans, NULL, NULL },
+    { _pycs("samplesPerSec"), (getter)pyWAVHeader_getSamples,
+        (setter)pyWAVHeader_setSamples, NULL, NULL },
+    { _pycs("avgBytesPerSec"), (getter)pyWAVHeader_getBPS,
+        (setter)pyWAVHeader_setBPS, NULL, NULL },
+    { _pycs("blockAlign"), (getter)pyWAVHeader_getAlign,
+        (setter)pyWAVHeader_setAlign, NULL, NULL },
+    { _pycs("bitsPerSample"), (getter)pyWAVHeader_getBits,
+        (setter)pyWAVHeader_setBits, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

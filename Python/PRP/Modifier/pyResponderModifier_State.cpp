@@ -159,10 +159,14 @@ static PyMethodDef pyResponderModifier_State_Methods[] = {
 };
 
 static PyGetSetDef pyResponderModifier_State_GetSet[] = {
-    { "commands", (getter)pyResponderModifier_State_getCommands, (setter)pyResponderModifier_State_setCommands, NULL, NULL },
-    { "numCallbacks", (getter)pyResponderModifier_State_getNumCallbacks, (setter)pyResponderModifier_State_setNumCallbacks, NULL, NULL },
-    { "switchToState", (getter)pyResponderModifier_State_getSwitch, (setter)pyResponderModifier_State_setSwitch, NULL, NULL },
-    { "waitToCmd", (getter)pyResponderModifier_State_getWaits, (setter)pyResponderModifier_State_setWaits, NULL, NULL },
+    { _pycs("commands"), (getter)pyResponderModifier_State_getCommands,
+        (setter)pyResponderModifier_State_setCommands, NULL, NULL },
+    { _pycs("numCallbacks"), (getter)pyResponderModifier_State_getNumCallbacks,
+        (setter)pyResponderModifier_State_setNumCallbacks, NULL, NULL },
+    { _pycs("switchToState"), (getter)pyResponderModifier_State_getSwitch,
+        (setter)pyResponderModifier_State_setSwitch, NULL, NULL },
+    { _pycs("waitToCmd"), (getter)pyResponderModifier_State_getWaits,
+        (setter)pyResponderModifier_State_setWaits, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

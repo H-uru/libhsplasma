@@ -278,15 +278,24 @@ static PyMethodDef pyClusterGroup_Methods[] = {
 };
 
 static PyGetSetDef pyClusterGroup_GetSet[] = {
-    { "LOD", (getter)pyClusterGroup_getLOD, (setter)pyClusterGroup_setLOD, NULL, NULL },
-    { "template", (getter)pyClusterGroup_getTemplate, (setter)pyClusterGroup_setTemplate, NULL, NULL },
-    { "material", (getter)pyClusterGroup_getMaterial, (setter)pyClusterGroup_setMaterial, NULL, NULL },
-    { "sceneNode", (getter)pyClusterGroup_getSceneNode, (setter)pyClusterGroup_setSceneNode, NULL, NULL },
-    { "drawable", (getter)pyClusterGroup_getDrawable, (setter)pyClusterGroup_setDrawable, NULL, NULL },
-    { "renderLevel", (getter)pyClusterGroup_getRenderLevel, (setter)pyClusterGroup_setRenderLevel, NULL, NULL },
-    { "clusters", (getter)pyClusterGroup_getClusters, (setter)pyClusterGroup_setClusters, NULL, NULL },
-    { "regions", (getter)pyClusterGroup_getRegions, (setter)pyClusterGroup_setRegions, NULL, NULL },
-    { "lights", (getter)pyClusterGroup_getLights, (setter)pyClusterGroup_setLights, NULL, NULL },
+    { _pycs("LOD"), (getter)pyClusterGroup_getLOD,
+        (setter)pyClusterGroup_setLOD, NULL, NULL },
+    { _pycs("template"), (getter)pyClusterGroup_getTemplate,
+        (setter)pyClusterGroup_setTemplate, NULL, NULL },
+    { _pycs("material"), (getter)pyClusterGroup_getMaterial,
+        (setter)pyClusterGroup_setMaterial, NULL, NULL },
+    { _pycs("sceneNode"), (getter)pyClusterGroup_getSceneNode,
+        (setter)pyClusterGroup_setSceneNode, NULL, NULL },
+    { _pycs("drawable"), (getter)pyClusterGroup_getDrawable,
+        (setter)pyClusterGroup_setDrawable, NULL, NULL },
+    { _pycs("renderLevel"), (getter)pyClusterGroup_getRenderLevel,
+        (setter)pyClusterGroup_setRenderLevel, NULL, NULL },
+    { _pycs("clusters"), (getter)pyClusterGroup_getClusters,
+        (setter)pyClusterGroup_setClusters, NULL, NULL },
+    { _pycs("regions"), (getter)pyClusterGroup_getRegions,
+        (setter)pyClusterGroup_setRegions, NULL, NULL },
+    { _pycs("lights"), (getter)pyClusterGroup_getLights,
+        (setter)pyClusterGroup_setLights, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

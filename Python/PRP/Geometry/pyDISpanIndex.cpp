@@ -79,9 +79,11 @@ static int pyDISpanIndex_setIndices(pyDISpanIndex* self, PyObject* value, void*)
 }
 
 static PyGetSetDef pyDISpanIndex_GetSet[] = {
-    { "flags", (getter)pyDISpanIndex_getFlags, (setter)pyDISpanIndex_setFlags, NULL, NULL },
-    { "indices", (getter)pyDISpanIndex_getIndices, (setter)pyDISpanIndex_setIndices,
-      "Collection of span index groups for the spans", NULL },
+    { _pycs("flags"), (getter)pyDISpanIndex_getFlags,
+        (setter)pyDISpanIndex_setFlags, NULL, NULL },
+    { _pycs("indices"), (getter)pyDISpanIndex_getIndices,
+        (setter)pyDISpanIndex_setIndices,
+        _pycs("Collection of span index groups for the spans"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

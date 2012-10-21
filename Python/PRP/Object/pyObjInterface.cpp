@@ -77,8 +77,8 @@ PyMethodDef pyObjInterface_Methods[] = {
 };
 
 PyGetSetDef pyObjInterface_GetSet[] = {
-    { "owner", (getter)pyObjInterface_getOwner, (setter)pyObjInterface_setOwner,
-      "The SceneObject that owns this interface", NULL },
+    { _pycs("owner"), (getter)pyObjInterface_getOwner, (setter)pyObjInterface_setOwner,
+        _pycs("The SceneObject that owns this interface"), NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

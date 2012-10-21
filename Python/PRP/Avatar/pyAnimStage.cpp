@@ -176,15 +176,15 @@ static PyMethodDef pyAnimStage_Methods[] = {
 };
 
 static PyGetSetDef pyAnimStage_GetSet[] = {
-    { "forwardType", (getter)pyAnimStage_getForwardType, (setter)pyAnimStage_setForwardType, NULL, NULL },
-    { "backType", (getter)pyAnimStage_getBackType, (setter)pyAnimStage_setBackType, NULL, NULL },
-    { "advanceType", (getter)pyAnimStage_getAdvanceType, (setter)pyAnimStage_setAdvanceType, NULL, NULL },
-    { "regressType", (getter)pyAnimStage_getRegressType, (setter)pyAnimStage_setRegressType, NULL, NULL },
-    { "animName", (getter)pyAnimStage_getAnimName, (setter)pyAnimStage_setAnimName, NULL, NULL },
-    { "notify", (getter)pyAnimStage_getNotify, (setter)pyAnimStage_setNotify, NULL, NULL },
-    { "loops", (getter)pyAnimStage_getLoops, (setter)pyAnimStage_setLoops, NULL, NULL },
-    { "advanceTo", (getter)pyAnimStage_getAdvanceTo, (setter)pyAnimStage_setAdvanceTo, NULL, NULL },
-    { "regressTo", (getter)pyAnimStage_getRegressTo, (setter)pyAnimStage_setRegressTo, NULL, NULL },
+    { _pycs("forwardType"), (getter)pyAnimStage_getForwardType, (setter)pyAnimStage_setForwardType, NULL, NULL },
+    { _pycs("backType"), (getter)pyAnimStage_getBackType, (setter)pyAnimStage_setBackType, NULL, NULL },
+    { _pycs("advanceType"), (getter)pyAnimStage_getAdvanceType, (setter)pyAnimStage_setAdvanceType, NULL, NULL },
+    { _pycs("regressType"), (getter)pyAnimStage_getRegressType, (setter)pyAnimStage_setRegressType, NULL, NULL },
+    { _pycs("animName"), (getter)pyAnimStage_getAnimName, (setter)pyAnimStage_setAnimName, NULL, NULL },
+    { _pycs("notify"), (getter)pyAnimStage_getNotify, (setter)pyAnimStage_setNotify, NULL, NULL },
+    { _pycs("loops"), (getter)pyAnimStage_getLoops, (setter)pyAnimStage_setLoops, NULL, NULL },
+    { _pycs("advanceTo"), (getter)pyAnimStage_getAdvanceTo, (setter)pyAnimStage_setAdvanceTo, NULL, NULL },
+    { _pycs("regressTo"), (getter)pyAnimStage_getRegressTo, (setter)pyAnimStage_setRegressTo, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

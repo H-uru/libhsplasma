@@ -76,9 +76,12 @@ static PyMethodDef pyAGApplicator_Methods[] = {
 };
 
 static PyGetSetDef pyAGApplicator_GetSet[] = {
-    { "channel", (getter)pyAGApplicator_getChannel, (setter)pyAGApplicator_setChannel, NULL, NULL },
-    { "enabled", (getter)pyAGApplicator_getEnabled, (setter)pyAGApplicator_setEnabled, NULL, NULL },
-    { "channelName", (getter)pyAGApplicator_getChannelName, (setter)pyAGApplicator_setChannelName, NULL, NULL },
+    { _pycs("channel"), (getter)pyAGApplicator_getChannel,
+        (setter)pyAGApplicator_setChannel, NULL, NULL },
+    { _pycs("enabled"), (getter)pyAGApplicator_getEnabled,
+        (setter)pyAGApplicator_setEnabled, NULL, NULL },
+    { _pycs("channelName"), (getter)pyAGApplicator_getChannelName,
+        (setter)pyAGApplicator_setChannelName, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

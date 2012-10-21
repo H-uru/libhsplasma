@@ -43,7 +43,8 @@ static int pyLinkToAgeMsg_setAgeLink(pyLinkToAgeMsg* , PyObject* , void*) {
 }
 
 static PyGetSetDef pyLinkToAgeMsg_GetSet[] = {
-    { "ageLink", (getter)pyLinkToAgeMsg_getAgeLink, (setter)pyLinkToAgeMsg_setAgeLink, NULL, NULL },
+    { _pycs("ageLink"), (getter)pyLinkToAgeMsg_getAgeLink,
+        (setter)pyLinkToAgeMsg_setAgeLink, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
