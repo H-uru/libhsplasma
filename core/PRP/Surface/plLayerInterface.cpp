@@ -16,9 +16,6 @@
 
 #include "plLayerInterface.h"
 
-plLayerInterface::plLayerInterface()
-                : fOpacity(1.0f), fUVWSrc(0), fLODBias(0.0f), fSpecularPower(0.0f) { }
-
 void plLayerInterface::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
     fUnderLay = mgr->readKey(S);

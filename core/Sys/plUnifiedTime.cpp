@@ -43,14 +43,6 @@ int gettimeofday(struct timeval* tv, void* tz) {
 
 int plUnifiedTime::fLocalTimeZoneOffset = 0;
 
-plUnifiedTime::plUnifiedTime() : fMode(kLocal) {
-    toEpoch();
-}
-
-plUnifiedTime::plUnifiedTime(const plUnifiedTime& other) {
-    operator=(other);
-}
-
 plUnifiedTime::plUnifiedTime(const timeval& tv) {
     fMode = kLocal;
     fSecs = tv.tv_sec;
@@ -103,13 +95,6 @@ plUnifiedTime plUnifiedTime::FromString(const char* buf, const char* fmt) {
 #endif
 }
 
-plUnifiedTime& plUnifiedTime::operator=(const plUnifiedTime& other) {
-    fMode = other.fMode;
-    fSecs = other.fSecs;
-    fMicros = other.fMicros;
-    return *this;
-}
-
 plUnifiedTime& plUnifiedTime::operator=(const timeval& time) {
     fSecs = time.tv_sec;
     fMicros = time.tv_usec;
@@ -159,26 +144,32 @@ bool plUnifiedTime::operator!=(const plUnifiedTime& other) {
 }
 
 bool plUnifiedTime::operator<(const plUnifiedTime& other) {
-    if (fSecs < other.fSecs) return true;
-    if (fSecs > other.fSecs) return false;
+    if (fSecs < other.fSecs)
+        return true;
+    if (fSecs > other.fSecs)
+        return false;
     return (fMicros < other.fMicros);
 }
 
 bool plUnifiedTime::operator>(const plUnifiedTime& other) {
-    if (fSecs > other.fSecs) return true;
-    if (fSecs < other.fSecs) return false;
+    if (fSecs > other.fSecs)
+        return true;
+    if (fSecs < other.fSecs)
+        return false;
     return (fMicros > other.fMicros);
 }
 
 bool plUnifiedTime::operator<=(const plUnifiedTime& other) {
-    if (fSecs < other.fSecs) return true;
+    if (fSecs < other.fSecs)
+        return true;
     if (fSecs == other.fSecs)
         return (fMicros <= other.fMicros);
     return false;
 }
 
 bool plUnifiedTime::operator>=(const plUnifiedTime& other) {
-    if (fSecs > other.fSecs) return true;
+    if (fSecs > other.fSecs)
+        return true;
     if (fSecs == other.fSecs)
         return (fMicros >= other.fMicros);
     return false;
@@ -191,21 +182,9 @@ plUnifiedTime::operator timeval() {
     return tval;
 }
 
-plUnifiedTime::operator tm*() {
-    return IGetTime(&fSecs);
-}
-
 double plUnifiedTime::getSecsDouble() const {
     return (double)fSecs + ((double)fMicros / 1000000.0);
 }
-
-int plUnifiedTime::getYear() const { return IGetTime(&fSecs)->tm_year + 1900; }
-int plUnifiedTime::getMonth() const { return IGetTime(&fSecs)->tm_mon; }
-int plUnifiedTime::getDay() const { return IGetTime(&fSecs)->tm_mday; }
-int plUnifiedTime::getDayOfWeek() const { return IGetTime(&fSecs)->tm_wday; }
-int plUnifiedTime::getHour() const { return IGetTime(&fSecs)->tm_hour; }
-int plUnifiedTime::getMinute() const { return IGetTime(&fSecs)->tm_min; }
-int plUnifiedTime::getSecond() const { return IGetTime(&fSecs)->tm_sec; }
 
 void plUnifiedTime::getTime(int& year, int& month, int& day, int& hour,
                             int& minute, int& second) const {
@@ -216,10 +195,6 @@ void plUnifiedTime::getTime(int& year, int& month, int& day, int& hour,
     hour = time->tm_hour;
     minute = time->tm_min;
     second = time->tm_sec;
-}
-
-tm* plUnifiedTime::getTm() const {
-    return IGetTime(&fSecs);
 }
 
 void plUnifiedTime::setSecsDouble(double secs) {
@@ -312,10 +287,6 @@ plString plUnifiedTime::format(const char* fmt) {
     return buf;
 }
 
-void plUnifiedTime::fromString(const char* buf, const char* fmt) {
-    operator=(FromString(buf, fmt));
-}
-
 void plUnifiedTime::toGMT() {
     if (fMode != kGMT) {
         fSecs -= IGetLocalTimeZoneOffset();
@@ -328,10 +299,6 @@ void plUnifiedTime::toLocal() {
         fSecs += IGetLocalTimeZoneOffset();
         fMode = kLocal;
     }
-}
-
-void plUnifiedTime::toCurrentTime() {
-    operator=(GetCurrentTime());
 }
 
 int plUnifiedTime::IGetLocalTimeZoneOffset() {

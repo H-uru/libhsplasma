@@ -16,10 +16,6 @@
 
 #include "plPseudoLinkEffectMsg.h"
 
-plPseudoLinkEffectMsg::plPseudoLinkEffectMsg() {
-    fBCastFlags |= (kNetPropagate | kBCastByExactType);
-}
-
 void plPseudoLinkEffectMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fLinkObjKey = mgr->readKey(S);

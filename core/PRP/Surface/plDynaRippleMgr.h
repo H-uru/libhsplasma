@@ -86,7 +86,7 @@ protected:
     float fAnimWgt, fVelWgt;
 
 public:
-    plDynaWakeMgr();
+    plDynaWakeMgr() : fAnimPath(NULL), fAnimWgt(0.0f), fVelWgt(0.0f) { }
     virtual ~plDynaWakeMgr();
 
     virtual void read(hsStream* S, plResManager* mgr);

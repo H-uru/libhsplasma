@@ -28,7 +28,8 @@ private:
     float fLength, fSpeed;
 
 public:
-    plATCEaseCurve();
+    plATCEaseCurve() : fStartSpeed(0.0f), fMinLength(0.0f), fMaxLength(0.0f),
+                       fBeginWorldTime(0.0), fLength(0.0f), fSpeed(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -63,7 +64,12 @@ private:
     float fCoef[4];
 
 public:
-    plSplineEaseCurve();
+    plSplineEaseCurve() {
+        fCoef[0] = 0.0f;
+        fCoef[1] = 0.0f;
+        fCoef[2] = 0.0f;
+        fCoef[3] = 0.0f;
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -27,7 +27,7 @@ protected:
     float fMinDist, fMaxDist;
 
 public:
-    plLODDist();
+    plLODDist() : fMinDist(0.0f), fMaxDist(0.0f) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -54,7 +54,7 @@ protected:
     unsigned int fRenderLevel;
 
 public:
-    plClusterGroup();
+    plClusterGroup() : fRenderLevel(0) { }
     virtual ~plClusterGroup();
 
     virtual void read(hsStream* S, plResManager* mgr);

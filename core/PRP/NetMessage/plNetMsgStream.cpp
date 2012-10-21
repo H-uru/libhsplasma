@@ -17,10 +17,6 @@
 #include "plNetMsgStream.h"
 
 /* plNetMsgStreamHelper */
-plNetMsgStreamHelper::plNetMsgStreamHelper()
-                    : fUncompressedSize(0), fCompressionType(0),
-                      fStreamLength(0), fStream(NULL) { }
-
 plNetMsgStreamHelper::~plNetMsgStreamHelper() {
     delete[] fStream;
 }
@@ -120,8 +116,6 @@ void plNetMsgStreamHelper::decompress(int offset) {
 
 
 /* plNetMsgStream */
-plNetMsgStream::plNetMsgStream() : fCompressionType(0) { }
-
 void plNetMsgStream::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 

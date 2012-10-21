@@ -33,12 +33,12 @@ public:
     struct PLASMA_DLL pfSRect {
         unsigned short fX, fY, fWidth, fHeight;
 
-        pfSRect();
+        pfSRect() : fX(0), fY(0), fWidth(0), fHeight(0) { }
         void read(hsStream* S);
         void write(hsStream* S);
         void prcWrite(pfPrcHelper* prc);
         void prcParse(const pfPrcTag* tag);
-        void clear();
+        void clear() { fX = fY = fWidth = fHeight = 0; }
     };
 
 protected:
@@ -47,7 +47,7 @@ protected:
     unsigned short fItemMargin, fBorderMargin;
 
 public:
-    pfGUISkin();
+    pfGUISkin() : fItemMargin(0), fBorderMargin(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

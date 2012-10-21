@@ -28,7 +28,7 @@ public:
         plNetGroupId fGroupID;
         bool fOwnIt;
 
-        GroupInfo();
+        GroupInfo() : fOwnIt(false) { }
     };
 
 private:

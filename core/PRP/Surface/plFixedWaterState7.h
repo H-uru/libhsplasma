@@ -25,7 +25,8 @@ public:
     struct PLASMA_DLL WaveState {
         float fMaxLength, fMinLength, fAmpOverLen, fChop, fAngleDev;
 
-        WaveState();
+        WaveState() : fMaxLength(0.0f), fMinLength(0.0f), fAmpOverLen(0.0f),
+                      fChop(0.0f), fAngleDev(0.0f) { }
 
         void read(hsStream* S);
         void write(hsStream* S);
@@ -48,7 +49,10 @@ protected:
     float fEnvRefresh, fEnvRadius;
 
 public:
-    plFixedWaterState7();
+    plFixedWaterState7()
+        : fRippleScale(0.0f), fWaterHeight(0.0f), fWispiness(0.0f),
+          fEdgeOpac(0.0f), fEdgeRadius(0.0f), fPeriod(0.0f),
+          fFingerLength(0.0f), fEnvRefresh(0.0f), fEnvRadius(0.0f) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

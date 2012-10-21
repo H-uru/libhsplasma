@@ -49,7 +49,8 @@ protected:
     float fOffset, fOffsetClamp, fSpeedClamp;
 
 public:
-    plLineFollowMod();
+    plLineFollowMod() : fFollowMode(kFollowObject), fFollowFlags(0), fPath(NULL),
+                        fOffset(0.0f), fOffsetClamp(0.0f), fSpeedClamp(0.0f) { }
     virtual ~plLineFollowMod();
 
     virtual void read(hsStream* S, plResManager* mgr);

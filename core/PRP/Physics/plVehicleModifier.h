@@ -29,7 +29,7 @@ public:
         hsVector3 fPosition, fDirection;
         float fRadius;
 
-        Wheel();
+        Wheel() : fRadius(1.0f) { }
     };
 
 protected:

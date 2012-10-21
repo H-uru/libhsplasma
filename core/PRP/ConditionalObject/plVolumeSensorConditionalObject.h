@@ -33,7 +33,9 @@ protected:
     bool fFirst, fTriggered, fIgnoreExtraEnters;
 
 public:
-    plVolumeSensorConditionalObject();
+    plVolumeSensorConditionalObject() : fTrigNum(-1), fType(kTypeEnter),
+                                        fFirst(false), fTriggered(false),
+                                        fIgnoreExtraEnters(true) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

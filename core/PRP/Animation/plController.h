@@ -37,7 +37,8 @@ protected:
     plController* fZController;
 
 public:
-    plCompoundController();
+    plCompoundController()
+        : fXController(NULL), fYController(NULL), fZController(NULL) { }
     virtual ~plCompoundController();
 
     virtual void read(hsStream* S, plResManager* mgr);

@@ -28,7 +28,8 @@ protected:
     float fSeekDuration;
 
 public:
-    plOneShotMod();
+    plOneShotMod() : fDrivable(false), fReversable(false), fSmartSeek(false),
+                     fNoSeek(true), fSeekDuration(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

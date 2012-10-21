@@ -27,7 +27,7 @@ private:
     unsigned short fPlaceSoundIdx, fHitSoundIdx;
 
 public:
-    plGameMarkerModifier();
+    plGameMarkerModifier() : fPlaceSoundIdx(0), fHitSoundIdx(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

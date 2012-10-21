@@ -26,7 +26,9 @@
 
 class PLASMANET_DLL pnGameClient : public pnClient {
 public:
-    pnGameClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true);
+    pnGameClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true)
+        : fSock(NULL), fResMgr(mgr), fThreaded(threaded), fDeleteMsgs(deleteMsgs),
+          fDispatch(NULL) { }
     virtual ~pnGameClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
@@ -74,8 +76,9 @@ private:
 
     class Dispatch : public pnDispatcher {
     public:
-        Dispatch(pnGameClient* self, bool deleteMsgs);
-        virtual ~Dispatch();
+        Dispatch(pnGameClient* self, bool deleteMsgs)
+            : fReceiver(self), fDeleteMsgs(deleteMsgs) { }
+        virtual ~Dispatch() { }
         virtual bool dispatch(pnSocket* sock);
 
     private:

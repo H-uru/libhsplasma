@@ -16,8 +16,7 @@
 
 #include "pfGUIDialogMod.h"
 
-pfGUIDialogMod::pfGUIDialogMod()
-              : fTagID(0), fVersion(0) {
+pfGUIDialogMod::pfGUIDialogMod() : fTagID(0), fVersion(0) {
     memset(fName, 0, 128);
     fFlags.setName(kModal, "kModal");
 }

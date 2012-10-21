@@ -16,10 +16,6 @@
 
 #include "plParticleEmitter.h"
 
-plParticleEmitter::plParticleEmitter()
-                 : fMiscFlags(0), fSpanIndex(0), fMaxParticles(0),
-                   fGenerator(NULL) { }
-
 plParticleEmitter::~plParticleEmitter() {
     delete fGenerator;
 }

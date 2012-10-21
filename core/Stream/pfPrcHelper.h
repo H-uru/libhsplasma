@@ -39,12 +39,13 @@ private:
     void writeTabbed(const char* str);
 
 public:
-    pfPrcHelper(hsStream* S);
-    ~pfPrcHelper();
+    pfPrcHelper(hsStream* S)
+        : iLvl(0), inTag(false), file(S), excludes(0) { startPrc(); }
+    ~pfPrcHelper() { finalize(); }
 
     hsStream* getStream() { return file; }
-    void exclude(PrcExclude excl);
-    bool isExcluded(PrcExclude excl);
+    void exclude(PrcExclude excl) { excludes |= excl; }
+    bool isExcluded(PrcExclude excl) { return (excludes & excl) != 0; }
 
     void startTag(const char* name);
     void writeParam(const char* name, const char* value);

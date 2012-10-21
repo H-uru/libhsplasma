@@ -16,8 +16,6 @@
 
 #include "plNodeRegionModifier.h"
 
-plNodeRegionModifier::plNodeRegionModifier() : fEnabled(true) { }
-
 void plNodeRegionModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
     fEnabled = S->readBool();

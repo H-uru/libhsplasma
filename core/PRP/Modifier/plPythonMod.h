@@ -56,7 +56,7 @@ protected:
     hsTArray<PY_MATERIAL_ANIM> fMaterialAnim;
 
 public:
-    plPythonMod();
+    plPythonMod() : fPythonCode(NULL), fPythonSize(0) { }
     virtual ~plPythonMod();
 
     virtual void read(hsStream* S, plResManager* mgr);

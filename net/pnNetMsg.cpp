@@ -15,7 +15,7 @@
  */
 
 #include "pnNetMsg.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 
 static msgparm_t AllocBasic(unsigned int size, unsigned int count)
 {

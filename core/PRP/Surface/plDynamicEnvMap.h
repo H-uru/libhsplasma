@@ -33,7 +33,9 @@ protected:
     int fIncCharacters;
 
 public:
-    plDynamicEnvMap();
+    plDynamicEnvMap()
+        : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
+          fIncCharacters(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -64,7 +66,9 @@ protected:
     plKey fCamera, fRootNode, fDisableTexture;
 
 public:
-    plDynamicCamMap();
+    plDynamicCamMap()
+        : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
+          fIncCharacters(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

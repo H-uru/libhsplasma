@@ -21,9 +21,6 @@ plShaderConst::plShaderConst() {
     memset(fArray, 0, sizeof(fArray));
 }
 
-plShaderConst::plShaderConst(float f1, float f2, float f3, float f4)
-             : fX(f1), fY(f2), fZ(f3), fW(f4) { }
-
 plShaderConst::plShaderConst(const plShaderConst& init) {
     memcpy(fArray, init.fArray, sizeof(fArray));
 }
@@ -68,8 +65,6 @@ void plShaderConst::prcParse(const pfPrcTag* tag) {
 
 
 /* plShader */
-plShader::plShader() : fID(kUnregistered), fInput(0), fOutput(0) { }
-
 void plShader::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 

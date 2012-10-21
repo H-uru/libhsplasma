@@ -16,8 +16,6 @@
 
 #include "plTimerCallbackMsg.h"
 
-plTimerCallbackMsg::plTimerCallbackMsg() : fID(0), fTime(0.0f) { }
-
 void plTimerCallbackMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fID = S->readInt();

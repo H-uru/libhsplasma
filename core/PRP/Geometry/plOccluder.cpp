@@ -17,8 +17,6 @@
 #include "plOccluder.h"
 
 /* plOccluder */
-plOccluder::plOccluder() : fPriority(0.0f) { }
-
 void plOccluder::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 

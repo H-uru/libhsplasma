@@ -16,8 +16,6 @@
 
 #include "plClimbMsg.h"
 
-plClimbMsg::plClimbMsg() : fCommand(0), fDirection(0), fStatus(false) { }
-
 void plClimbMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

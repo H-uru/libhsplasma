@@ -29,7 +29,9 @@ private:
     plKey fAvKey;
 
 public:
-    plInputIfaceMgrMsg();
+    plInputIfaceMgrMsg() : fCommand(0), fPageID(0) {
+        fBCastFlags |= kBCastByExactType;
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -16,9 +16,6 @@
 
 #include "plAnimationEventConditionalObject.h"
 
-plAnimationEventConditionalObject::plAnimationEventConditionalObject()
-                                 : fAction(kStart) { }
-
 void plAnimationEventConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fTarget = mgr->readKey(S);

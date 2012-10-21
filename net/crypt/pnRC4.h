@@ -34,8 +34,8 @@ protected:
     bool fEncrypted;
 
 public:
-    pnRC4Socket();
-    pnRC4Socket(int handle);
+    pnRC4Socket() : fEncrypted(false) { }
+    pnRC4Socket(int handle) : pnSocket(handle), fEncrypted(false) { }
     void init(size_t keySize, const unsigned char* keyData);
 
     virtual long send(const void* buf, size_t size);

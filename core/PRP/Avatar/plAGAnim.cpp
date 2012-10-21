@@ -17,8 +17,6 @@
 #include "plAGAnim.h"
 
 /* plAGAnim */
-plAGAnim::plAGAnim() : fBlend(0.0f), fStart(0.0f), fEnd(0.0f), fEoaFlag(0) { }
-
 plAGAnim::~plAGAnim() {
     for (size_t i=0; i<fApps.getSize(); i++)
         delete fApps[i];

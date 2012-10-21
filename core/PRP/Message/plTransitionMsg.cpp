@@ -16,11 +16,6 @@
 
 #include "plTransitionMsg.h"
 
-plTransitionMsg::plTransitionMsg()
-               : fEffect(0), fLengthInSecs(0.0f), fHoldUntilNext(0) {
-    fBCastFlags |= kBCastByExactType;
-}
-
 void plTransitionMsg::read(hsStream* S, plResManager* mgr) {
     plMessageWithCallbacks::read(S, mgr);
 

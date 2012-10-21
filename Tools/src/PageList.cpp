@@ -15,7 +15,7 @@
  */
 
 #include "ResManager/plResManager.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 #include "Stream/hsStdioStream.h"
 #include <string.h>

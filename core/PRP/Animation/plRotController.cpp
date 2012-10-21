@@ -17,8 +17,6 @@
 #include "plRotController.h"
 
 /* plSimpleRotController */
-plSimpleRotController::plSimpleRotController() : fRot(NULL) { }
-
 plSimpleRotController::~plSimpleRotController() {
     delete fRot;
 }
@@ -71,9 +69,6 @@ void plSimpleRotController::setRot(plQuatController* rot) {
 
 
 /* plCompoundRotController */
-plCompoundRotController::plCompoundRotController()
-    : fXController(NULL), fYController(NULL), fZController(NULL) { }
-
 plCompoundRotController::~plCompoundRotController() {
     delete fXController;
     delete fYController;

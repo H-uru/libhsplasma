@@ -16,12 +16,6 @@
 
 #include "plCullPoly.h"
 
-plCullPoly::plCullPoly() : fFlags(kNone), fDist(0.0f), fRadius(0.0f) { }
-
-plCullPoly::plCullPoly(const plCullPoly& init)
-          : fFlags(init.fFlags), fVerts(init.fVerts), fNorm(init.fNorm),
-            fCenter(init.fCenter), fDist(init.fDist), fRadius(init.fRadius) { }
-
 void plCullPoly::read(hsStream* S) {
     fFlags = S->readInt();
     fNorm.read(S);

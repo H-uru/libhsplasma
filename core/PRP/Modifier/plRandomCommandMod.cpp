@@ -16,9 +16,6 @@
 
 #include "plRandomCommandMod.h"
 
-plRandomCommandMod::plRandomCommandMod()
-                  : fState(0), fMode(0), fMinDelay(0.0f), fMaxDelay(0.0f) { }
-
 void plRandomCommandMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

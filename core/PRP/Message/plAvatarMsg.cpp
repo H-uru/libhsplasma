@@ -16,23 +16,7 @@
 
 #include "plAvatarMsg.h"
 
-/* plArmatureUpdateMsg */
-plArmatureUpdateMsg::plArmatureUpdateMsg() {
-    fBCastFlags |= kBCastByExactType;
-}
-
-void plArmatureUpdateMsg::read(hsStream* S, plResManager* mgr) { }
-void plArmatureUpdateMsg::write(hsStream* S, plResManager* mgr) { }
-void plArmatureUpdateMsg::IPrcWrite(pfPrcHelper* prc) { }
-
-void plArmatureUpdateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    plCreatable::IPrcParse(tag, mgr);
-}
-
-
 /* plAvatarSetTypeMsg */
-plAvatarSetTypeMsg::plAvatarSetTypeMsg() : fIsPlayer(false) { }
-
 void plAvatarSetTypeMsg::read(hsStream* S, plResManager* mgr) {
     fIsPlayer = S->readBool();
 }
@@ -56,25 +40,7 @@ void plAvatarSetTypeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* plAvatarStealthModeMsg */
-plAvatarStealthModeMsg::plAvatarStealthModeMsg() {
-    fBCastFlags |= kBCastByExactType;
-}
-
-void plAvatarStealthModeMsg::read(hsStream* S, plResManager* mgr) { }
-void plAvatarStealthModeMsg::write(hsStream* S, plResManager* mgr) { }
-void plAvatarStealthModeMsg::IPrcWrite(pfPrcHelper* prc) { }
-
-void plAvatarStealthModeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    plCreatable::IPrcParse(tag, mgr);
-}
-
-
 /* plAvBrainGenericMsg */
-plAvBrainGenericMsg::plAvBrainGenericMsg()
-                   : fType(0), fWhichStage(0), fSetTime(false), fSetDirection(false),
-                     fNewDirection(false), fNewTime(0.0f), fTransitionTime(0.0f) { }
-
 void plAvBrainGenericMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 
@@ -129,8 +95,6 @@ void plAvBrainGenericMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plAvTaskSeekDoneMsg */
-plAvTaskSeekDoneMsg::plAvTaskSeekDoneMsg() : fAborted(false) { }
-
 void plAvTaskSeekDoneMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fAborted = S->readBool();

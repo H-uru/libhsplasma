@@ -54,7 +54,7 @@ protected:
     int fEventType;
 
 public:
-    proEventData();
+    proEventData() : fEventType(0) { }
     virtual ~proEventData() { }
 
     int EventType() const { return fEventType; }
@@ -83,7 +83,9 @@ protected:
     plKey fHittee;
 
 public:
-    proCollisionEventData();
+    proCollisionEventData() : fEnter(false) {
+        fEventType = kCollision;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -112,7 +114,9 @@ protected:
     hsVector3 fHitPoint;
 
 public:
-    proPickedEventData();
+    proPickedEventData() : fEnabled(false) {
+        fEventType = kPicked;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -141,7 +145,9 @@ protected:
     bool fDown;
 
 public:
-    proControlKeyEventData();
+    proControlKeyEventData(): fControlKey(0), fDown(false) {
+        fEventType = kControlKey;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -168,7 +174,10 @@ protected:
     plKey fKey;
 
 public:
-    proVariableEventData();
+    proVariableEventData() : fNumber(0.0f) {
+        fEventType = kVariable;
+        fDataType = kNotta;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -199,7 +208,9 @@ protected:
     bool fEnabled;
 
 public:
-    proFacingEventData();
+    proFacingEventData() : fDot(0.0f), fEnabled(false) {
+        fEventType = kFacing;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -229,7 +240,9 @@ protected:
     bool fEntering;
 
 public:
-    proContainedEventData();
+    proContainedEventData() : fEntering(false) {
+        fEventType = kContained;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -255,7 +268,9 @@ protected:
     bool fActive, fActivate;
 
 public:
-    proActivateEventData();
+    proActivateEventData() : fActive(false), fActivate(false) {
+        fEventType = kActivate;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -279,7 +294,9 @@ protected:
     int fCallbackEventType;
 
 public:
-    proCallbackEventData();
+    proCallbackEventData() : fCallbackEventType(0) {
+        fEventType = kCallback;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -300,7 +317,9 @@ protected:
     int fState;
 
 public:
-    proResponderStateEventData();
+    proResponderStateEventData() : fState(0) {
+        fEventType = kResponderState;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -322,7 +341,9 @@ protected:
     plKey fAvatar;
 
 public:
-    proMultiStageEventData();
+    proMultiStageEventData() : fStage(0), fEvent(kNothing) {
+        fEventType = kMultiStage;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -349,7 +370,7 @@ protected:
     plKey fSpawnee;
 
 public:
-    proSpawnedEventData();
+    proSpawnedEventData() { fEventType = kSpawned; }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -370,12 +391,12 @@ class PLASMA_DLL proClickDragEventData : public proEventData {
     EVTDATA(proClickDragEventData, kClickDrag)
 
 public:
-    proClickDragEventData();
+    proClickDragEventData() { fEventType = kClickDrag; }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IRead(hsStream*, plResManager*) { }
+    virtual void IWrite(hsStream*, plResManager*) { }
+    virtual void IPrcWrite(pfPrcHelper*) { }
 };
 
 
@@ -387,7 +408,9 @@ protected:
     unsigned short fSerial;
 
 public:
-    proCoopEventData();
+    proCoopEventData() : fID(0), fSerial(0) {
+        fEventType = kCoop;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -412,7 +435,9 @@ protected:
     int fTargetAge, fOfferee;
 
 public:
-    proOfferLinkBookEventData();
+    proOfferLinkBookEventData() : fTargetAge(0), fOfferee(0) {
+        fEventType = kOfferLinkBook;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -438,7 +463,9 @@ protected:
     unsigned int fEvent, fLinkID;
 
 public:
-    proBookEventData();
+    proBookEventData() : fEvent(0), fLinkID(0) {
+        fEventType = kBook;
+    }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);
@@ -462,7 +489,7 @@ protected:
     plKey fBlockerKey;
 
 public:
-    proClimbingBlockerHitEventData();
+    proClimbingBlockerHitEventData() { fEventType = kClimbingBlockerHit; }
 
 protected:
     virtual void IRead(hsStream* S, plResManager* mgr);

@@ -17,10 +17,6 @@
 #include "plDynamicEnvMap.h"
 
 /* plDynamicEnvMap */
-plDynamicEnvMap::plDynamicEnvMap()
-               : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
-                 fIncCharacters(false) { }
-
 void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
     plCubicRenderTarget::read(S, mgr);
 
@@ -152,10 +148,6 @@ void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plDynamicCamMap */
-plDynamicCamMap::plDynamicCamMap()
-               : fHither(0.0f), fYon(0.0f), fFogStart(0.0f), fRefreshRate(0.0f),
-                 fIncCharacters(false) { }
-
 void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
     plRenderTarget::read(S, mgr);
 

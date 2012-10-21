@@ -16,9 +16,6 @@
 
 #include "plKeyPressConditionalObject.h"
 
-plKeyPressConditionalObject::plKeyPressConditionalObject()
-                           : fKeyEvent((plKeyDef)0) { }
-
 void plKeyPressConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fKeyEvent = (plKeyDef)S->readInt();

@@ -29,7 +29,10 @@ public:
         float fCohesionWeight, fCohesionRadius;
         float fMaxForce, fMaxSpeed, fMinSpeed;
 
-        pfFlock();
+        pfFlock() : fGoalWeight(8.0f), fRandomWeight(12.0f),
+                    fSeparationWeight(12.0f), fSeparationRadius(5.0f),
+                    fCohesionWeight(8.0f), fCohesionRadius(9.0f),
+                    fMaxForce(10.0f), fMaxSpeed(5.0f), fMinSpeed(4.0f) { }
     };
 
 protected:
@@ -39,7 +42,8 @@ protected:
     pfFlock fFlock;
 
 public:
-    pfObjectFlocker();
+    pfObjectFlocker() : fNumBoids(0), fUseTargetRotation(false),
+                        fRandomizeAnimationStart(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

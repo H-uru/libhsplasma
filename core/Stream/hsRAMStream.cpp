@@ -16,9 +16,6 @@
 
 #include "hsRAMStream.h"
 
-hsRAMStream::hsRAMStream(int pv)
-           : hsStream(pv), fData(NULL), fSize(0), fMax(0), fPos(0) { }
-
 hsRAMStream::~hsRAMStream() {
     delete[] fData;
 }

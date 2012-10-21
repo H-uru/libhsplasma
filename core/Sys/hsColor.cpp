@@ -28,12 +28,6 @@ const hsColorRGBA hsColorRGBA::kCyan    = hsColorRGBA(0.0f, 1.0f, 1.0f, 1.0f);
 const hsColorRGBA hsColorRGBA::kGray    = hsColorRGBA(0.5f, 0.5f, 0.5f, 1.0f);
 const hsColorRGBA hsColorRGBA::kNone    = hsColorRGBA(0.0f, 0.0f, 0.0f, 0.0f);
 
-hsColorRGBA::hsColorRGBA(float red, float green, float blue, float alpha)
-           : r(red), g(green), b(blue), a(alpha) { }
-
-hsColorRGBA::hsColorRGBA(const hsColorRGBA& init)
-           : r(init.r), g(init.g), b(init.b), a(init.a) { }
-
 void hsColorRGBA::set(float red, float green, float blue, float alpha) {
     r = red;
     g = green;
@@ -104,14 +98,6 @@ void hsColorRGBA::prcParse(const pfPrcTag* tag) {
 
 
 /* hsColor32 */
-hsColor32::hsColor32(unsigned int color32) : color(color32) { }
-
-hsColor32::hsColor32(unsigned char red, unsigned char green,
-                     unsigned char blue, unsigned char alpha)
-         : b(blue), g(green), r(red), a(alpha) { }
-
-hsColor32::hsColor32(const hsColor32& init) : color(init.color) { }
-
 bool hsColor32::operator==(const hsColor32& other) const {
     return (color == other.color);
 }

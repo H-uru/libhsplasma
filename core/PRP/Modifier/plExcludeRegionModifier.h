@@ -31,7 +31,9 @@ protected:
     float fSeekTime;
 
 public:
-    plExcludeRegionModifier();
+    plExcludeRegionModifier() : fSeek(false), fSeekTime(0.0f) {
+        fFlags.setName(kBlockCameras, "kBlockCameras");
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

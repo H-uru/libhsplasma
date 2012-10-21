@@ -16,8 +16,6 @@
 
 #include "plLoadMask.h"
 
-plLoadMask::plLoadMask() : fMask(0xFFFF) { }
-
 void plLoadMask::read(hsStream* S) {
     unsigned char m = S->readByte();
     fQuality[0] = (m >> 4) | 0xF0;

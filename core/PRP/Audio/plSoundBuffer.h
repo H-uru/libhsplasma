@@ -29,7 +29,8 @@ protected:
     unsigned short fBlockAlign, fBitsPerSample;
 
 public:
-    plWAVHeader();
+    plWAVHeader() : fFormatTag(0), fNumChannels(0), fNumSamplesPerSec(0),
+                    fAvgBytesPerSec(0), fBlockAlign(0), fBitsPerSample(0) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -73,7 +74,7 @@ protected:
     unsigned int fFlags;
 
 public:
-    plSoundBuffer();
+    plSoundBuffer() : fDataLength(0), fData(NULL), fFlags(0) { }
     virtual ~plSoundBuffer();
 
     virtual void read(hsStream* S, plResManager* mgr);

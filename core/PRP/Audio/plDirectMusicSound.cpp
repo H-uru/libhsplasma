@@ -16,8 +16,6 @@
 
 #include "plDirectMusicSound.h"
 
-plDirectMusicSound::plDirectMusicSound() : fUnknown1(0) { }
-
 void plDirectMusicSound::read(hsStream* S, plResManager* mgr) {
     plSound::read(S, mgr);
 

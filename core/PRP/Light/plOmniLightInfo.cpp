@@ -17,10 +17,6 @@
 #include "plOmniLightInfo.h"
 
 /* plOmniLightInfo */
-plOmniLightInfo::plOmniLightInfo()
-               : fAttenConst(0.0f), fAttenLinear(0.0f), fAttenQuadratic(0.0f),
-                 fAttenCutoff(0.0f) { }
-
 void plOmniLightInfo::read(hsStream* S, plResManager* mgr) {
     plLightInfo::read(S, mgr);
     fAttenConst = S->readFloat();

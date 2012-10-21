@@ -17,9 +17,6 @@
 #include "plGrassShaderMod.h"
 
 /* plGrassWave */
-plGrassWave::plGrassWave() : fDistX(0.0f), fDistY(0.0f), fDistZ(0.0f),
-                             fDirX(0.0f), fDirY(0.0f), fSpeed(0.0f) { }
-
 void plGrassWave::read(hsStream* S) {
     fDistX = S->readFloat();
     fDistY = S->readFloat();

@@ -16,23 +16,6 @@
 
 #include "plLocation.h"
 
-plLocation::plLocation(int pv)
-          : fVer(pv), fState(kStateInvalid), fSeqPrefix(0), fPageNum(0),
-            fFlags(0) { }
-
-plLocation::plLocation(const plLocation& init)
-          : fVer(init.fVer), fState(init.fState), fSeqPrefix(init.fSeqPrefix),
-            fPageNum(init.fPageNum), fFlags(init.fFlags) { }
-
-plLocation& plLocation::operator=(const plLocation& other) {
-    fPageNum = other.fPageNum;
-    fSeqPrefix = other.fSeqPrefix;
-    fVer = other.fVer;
-    fFlags = other.fFlags;
-    fState = other.fState;
-    return *this;
-}
-
 bool plLocation::operator==(const plLocation& other) const {
     return (fState == other.fState && fPageNum == other.fPageNum
             && fSeqPrefix == other.fSeqPrefix);

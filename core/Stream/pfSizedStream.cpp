@@ -32,8 +32,6 @@ pfSizedStream::pfSizedStream(hsStream* S, uint32_t len)
     }
 }
 
-pfSizedStream::~pfSizedStream() { } // Do NOT free fBase!!!
-
 void pfSizedStream::seek(uint32_t pos) {
     if (pos > fLength) {
         plDebug::Warning("Seek past end of stream. %d requested, %d maximum",
@@ -50,18 +48,6 @@ void pfSizedStream::skip(int32_t count) {
     }
 
     fBase->skip(count);
-}
-
-void pfSizedStream::fastForward() {
-    fBase->seek(fBegin + fLength);
-}
-
-void pfSizedStream::rewind() {
-    fBase->seek(fBegin);
-}
-
-void pfSizedStream::flush() {
-    fBase->flush();
 }
 
 size_t pfSizedStream::read(size_t size, void* buf) {

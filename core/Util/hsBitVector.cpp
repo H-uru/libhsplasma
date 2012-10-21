@@ -18,9 +18,6 @@
 #include <cstring>
 
 /* hsBitVector::Bit */
-hsBitVector::Bit::Bit(hsBitVector* vec, unsigned int off)
-           : fVector(vec), fOffset(off) { }
-
 bool hsBitVector::Bit::operator==(bool value) const {
     return fVector->get(fOffset) == value;
 }
@@ -32,8 +29,6 @@ hsBitVector::Bit& hsBitVector::Bit::operator=(bool value) {
 
 
 /* hsBiVector */
-hsBitVector::hsBitVector() : fBits(NULL), fNumVectors(0) { }
-
 hsBitVector::hsBitVector(const hsBitVector& init)
            : fNumVectors(init.fNumVectors) {
     fBits = new uint32_t[fNumVectors];

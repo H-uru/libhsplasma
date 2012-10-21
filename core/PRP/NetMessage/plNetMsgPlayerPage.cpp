@@ -16,8 +16,6 @@
 
 #include "plNetMsgPlayerPage.h"
 
-plNetMsgPlayerPage::plNetMsgPlayerPage() : fUnload(0) { }
-
 void plNetMsgPlayerPage::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 

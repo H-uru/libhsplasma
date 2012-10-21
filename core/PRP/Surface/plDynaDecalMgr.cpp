@@ -17,12 +17,6 @@
 #include "plDynaDecalMgr.h"
 
 /* plDynaDecalMgr */
-plDynaDecalMgr::plDynaDecalMgr()
-              : fPartyTime(0.0f), fMaxNumVerts(0), fMaxNumIdx(0),
-                fWaitOnEnable(0), fWetLength(0.0f), fRampEnd(0.0f),
-                fDecayStart(0.0f), fLifeSpan(0.0f), fIntensity(0.0f),
-                fGridSizeU(0.0f), fGridSizeV(0.0f) { }
-
 void plDynaDecalMgr::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 

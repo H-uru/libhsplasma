@@ -16,8 +16,6 @@
 
 #include "plAGMasterMod.h"
 
-plAGMasterMod::plAGMasterMod() : fIsGrouped(false), fIsGroupMaster(false) { }
-
 void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 

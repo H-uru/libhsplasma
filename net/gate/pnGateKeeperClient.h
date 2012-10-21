@@ -26,7 +26,8 @@
 
 class PLASMANET_DLL pnGateKeeperClient : public pnClient {
 public:
-    pnGateKeeperClient(bool threaeded = true);
+    pnGateKeeperClient(bool threaded = true)
+         : fSock(NULL), fThreaded(threaded), fDispatch(NULL) { }
     virtual ~pnGateKeeperClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
@@ -67,8 +68,8 @@ private:
 
     class Dispatch : public pnDispatcher {
     public:
-        Dispatch(pnGateKeeperClient* self);
-        virtual ~Dispatch();
+        Dispatch(pnGateKeeperClient* self) : fReceiver(self) { }
+        virtual ~Dispatch() { }
         virtual bool dispatch(pnSocket* sock);
 
     private:

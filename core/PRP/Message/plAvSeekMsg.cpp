@@ -17,10 +17,6 @@
 #include "plAvSeekMsg.h"
 
 /* plAvSeekMsg */
-plAvSeekMsg::plAvSeekMsg()
-           : fDuration(0.0f), fSmartSeek(true), fNoSeek(false),
-             fAlignType(kAlignHandle), fFlags(kSeekFlagForce3rdPersonOnStart) { }
-
 void plAvSeekMsg::read(hsStream* S, plResManager* mgr) {
     plAvTaskMsg::read(S, mgr);
 
@@ -118,8 +114,6 @@ void plAvSeekMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plAvOneShotMsg */
-plAvOneShotMsg::plAvOneShotMsg() : fDrivable(false), fReversible(false) { }
-
 void plAvOneShotMsg::read(hsStream* S, plResManager* mgr) {
     plAvSeekMsg::read(S, mgr);
 

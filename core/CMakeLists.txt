@@ -16,11 +16,10 @@ endif(PHYSX_FOUND)
 add_definitions(-DBUILD_PLASMA_DLL)
 
 set(DEBUG_SRCS
-    Debug/hsExceptions.cpp
     Debug/plDebug.cpp
 )
 set(DEBUG_HDRS
-    Debug/hsExceptions.h
+    Debug/hsExceptions.hpp
     Debug/plDebug.h
 )
 
@@ -185,7 +184,6 @@ set(PRP_COND_HDRS
 )
 
 set(PRP_GEOM_SRCS
-    PRP/Geometry/hsGDeviceRef.cpp
     PRP/Geometry/plCluster.cpp
     PRP/Geometry/plClusterGroup.cpp
     PRP/Geometry/plCullPoly.cpp
@@ -207,7 +205,7 @@ set(PRP_GEOM_SRCS
     PRP/Geometry/plVertexSpan.cpp
 )
 set(PRP_GEOM_HDRS
-    PRP/Geometry/hsGDeviceRef.h
+    PRP/Geometry/hsGDeviceRef.hpp
     PRP/Geometry/plCluster.h
     PRP/Geometry/plClusterGroup.h
     PRP/Geometry/plCullPoly.h

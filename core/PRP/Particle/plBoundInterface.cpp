@@ -16,8 +16,6 @@
 
 #include "plBoundInterface.h"
 
-plBoundInterface::plBoundInterface() : fBounds(NULL) { }
-
 plBoundInterface::~plBoundInterface() {
     delete fBounds;
 }

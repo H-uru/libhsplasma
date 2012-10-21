@@ -17,9 +17,6 @@
 #include "pfGUIListBoxMod.h"
 
 /* pfGUIListElement */
-pfGUIListElement::pfGUIListElement()
-                : fSelected(false) { }
-
 void pfGUIListElement::read(hsStream* S) {
     fSelected = S->readBool();
 }

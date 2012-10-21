@@ -40,7 +40,8 @@ protected:
     unsigned char fZDepth, fStencilDepth;
 
 public:
-    plRenderTarget();
+    plRenderTarget() : fWidth(0), fHeight(0), fProportionalViewport(false),
+                       fZDepth(0), fStencilDepth(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

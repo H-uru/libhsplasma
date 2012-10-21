@@ -37,7 +37,7 @@ protected:
     plScaleValueController* fValue;
 
 public:
-    plSimpleScaleController();
+    plSimpleScaleController() : fValue(NULL) { }
     virtual ~plSimpleScaleController();
 
     virtual int getType() const { return kSimple; }

@@ -17,11 +17,6 @@
 #include "plLayerAnimation.h"
 
 /* plLayerAnimationBase */
-plLayerAnimationBase::plLayerAnimationBase()
-                    : fPreshadeColorCtl(NULL), fRuntimeColorCtl(NULL),
-                      fAmbientColorCtl(NULL), fSpecularColorCtl(NULL),
-                      fOpacityCtl(NULL), fTransformCtl(NULL) { }
-
 plLayerAnimationBase::~plLayerAnimationBase() {
     delete fPreshadeColorCtl;
     delete fRuntimeColorCtl;
@@ -173,9 +168,6 @@ void plLayerAnimation::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plLayerLinkAnimation */
-plLayerLinkAnimation::plLayerLinkAnimation()
-                    : fLeavingAge(true) { }
-
 void plLayerLinkAnimation::read(hsStream* S, plResManager* mgr) {
     plLayerAnimation::read(S, mgr);
 

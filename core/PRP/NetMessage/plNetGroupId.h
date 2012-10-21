@@ -31,7 +31,7 @@ private:
     unsigned char fFlags;
 
 public:
-    plNetGroupId();
+    plNetGroupId() : fFlags(0) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

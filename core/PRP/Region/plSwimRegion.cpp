@@ -17,9 +17,6 @@
 #include "plSwimRegion.h"
 
 /* plSwimRegionInterface */
-plSwimRegionInterface::plSwimRegionInterface()
-                     : fDownBuoyancy(0.0f), fUpBuoyancy(0.0f), fMaxUpwardVel(0.0f) { }
-
 void plSwimRegionInterface::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     fDownBuoyancy = S->readFloat();
@@ -56,11 +53,6 @@ void plSwimRegionInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSwimCircularCurrentRegion */
-plSwimCircularCurrentRegion::plSwimCircularCurrentRegion()
-                           : fRotation(0.0f), fPullNearDistSq(0.0f),
-                             fPullFarDistSq(0.0f), fPullNearVel(0.0f),
-                             fPullFarVel(0.0f) { }
-
 void plSwimCircularCurrentRegion::read(hsStream* S, plResManager* mgr) {
     plSwimRegionInterface::read(S, mgr);
 
@@ -116,10 +108,6 @@ void plSwimCircularCurrentRegion::IPrcParse(const pfPrcTag* tag, plResManager* m
 
 
 /* plSwimStraightCurrentRegion */
-plSwimStraightCurrentRegion::plSwimStraightCurrentRegion()
-                           : fNearDist(0.0f), fFarDist(0.0f), fNearVel(0.0f),
-                             fFarVel(0.0f) { }
-
 void plSwimStraightCurrentRegion::read(hsStream* S, plResManager* mgr) {
     plSwimRegionInterface::read(S, mgr);
 

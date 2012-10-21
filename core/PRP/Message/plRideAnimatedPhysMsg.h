@@ -27,7 +27,7 @@ private:
     plKey fRegion;
 
 public:
-    plRideAnimatedPhysMsg();
+    plRideAnimatedPhysMsg() : fEntering(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* s, plResManager* mgr);

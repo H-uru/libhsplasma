@@ -56,7 +56,7 @@ protected:
     float fBounce, fFriction;
 
 public:
-    plParticleCollisionEffectBounce();
+    plParticleCollisionEffectBounce() : fBounce(0.0f), fFriction(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -81,7 +81,7 @@ protected:
     float fLength, fIgnoreZ;
 
 public:
-    plParticleFadeOutEffect();
+    plParticleFadeOutEffect() : fLength(0.0f), fIgnoreZ(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -100,7 +100,7 @@ protected:
     float fLength, fIgnoreZ;
 
 public:
-    plParticleFadeVolumeEffect();
+    plParticleFadeVolumeEffect() : fLength(0.0f), fIgnoreZ(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -122,7 +122,11 @@ protected:
     float fMaxParticles;
 
 public:
-    plParticleFlockEffect();
+    plParticleFlockEffect()
+        : fInfAvgRadSq(0.0f), fInfRepRadSq(0.0f), fAvgVelStr(0.0f),
+          fRepDirStr(0.0f), fGoalOrbitStr(0.0f), fGoalChaseStr(0.0f),
+          fGoalDistSq(0.0f), fFullChaseDistSq(0.0f), fMaxOrbitSpeed(0.0f),
+          fMaxChaseSpeed(0.0f), fMaxParticles(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -148,7 +152,8 @@ protected:
     hsVector3 fRefDir, fDir;
 
 public:
-    plParticleWindEffect();
+    plParticleWindEffect()
+        : fStrength(0.0f), fConstancy(0.0f), fSwirl(0.0f), fHorizontal(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -167,7 +172,7 @@ protected:
     float fSpeed;
 
 public:
-    plParticleLocalWind();
+    plParticleLocalWind() : fSpeed(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -185,7 +190,7 @@ protected:
     float fFreqMin, fFreqMax, fFreqRate;
 
 public:
-    plParticleUniformWind();
+    plParticleUniformWind() : fFreqMin(0.0f), fFreqMax(0.0f), fFreqRate(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

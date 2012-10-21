@@ -23,7 +23,7 @@
 #include "Util/PlasmaVersions.h"
 #include "Sys/Platform.h"
 #include "PlasmaDefs.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 
 enum FileMode { fmRead, fmWrite, fmReadWrite, fmCreate };
 
@@ -32,7 +32,7 @@ protected:
     PlasmaVer ver;
 
 public:
-    explicit hsStream(int pv = PlasmaVer::pvUnknown);
+    explicit hsStream(int pv = PlasmaVer::pvUnknown) { setVer(PlasmaVer(pv)); }
     virtual ~hsStream() { }
 
     PlasmaVer getVer() const { return ver; }
@@ -87,8 +87,8 @@ protected:
     FileMode fm;
 
 public:
-    explicit hsFileStream(int pv = PlasmaVer::pvUnknown);
-    virtual ~hsFileStream();
+    explicit hsFileStream(int pv = PlasmaVer::pvUnknown) : hsStream(pv), F(NULL) { }
+    virtual ~hsFileStream() { close(); }
 
     static bool FileExists(const char* file);
 

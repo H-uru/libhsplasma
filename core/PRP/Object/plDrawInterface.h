@@ -59,7 +59,7 @@ protected:
     plKey fDrawable;
 
 public:
-    plInstanceDrawInterface();
+    plInstanceDrawInterface() : fTargetID(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -28,7 +28,7 @@ protected:
     };
 
 public:
-    plLoadMask();
+    plLoadMask() : fMask(0xFFFF) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

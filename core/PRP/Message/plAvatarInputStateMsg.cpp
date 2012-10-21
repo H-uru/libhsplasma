@@ -17,8 +17,6 @@
 #include "plAvatarInputStateMsg.h"
 #include "Debug/plDebug.h"
 
-plAvatarInputStateMsg::plAvatarInputStateMsg() : fState(0) { }
-
 void plAvatarInputStateMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

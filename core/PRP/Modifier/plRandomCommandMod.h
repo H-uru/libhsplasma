@@ -41,7 +41,7 @@ protected:
     float fMinDelay, fMaxDelay;
 
 public:
-    plRandomCommandMod();
+    plRandomCommandMod() : fState(0), fMode(0), fMinDelay(0.0f), fMaxDelay(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

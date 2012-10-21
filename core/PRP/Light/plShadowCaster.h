@@ -44,7 +44,8 @@ protected:
     hsTArray<DrawSpan> fSpans;
 
 public:
-    plShadowCaster();
+    plShadowCaster() : fCastFlags(0), fBoost(0.0f), fAttenScale(0.0f),
+                       fBlurScale(0.0f), fMaxOpacity(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

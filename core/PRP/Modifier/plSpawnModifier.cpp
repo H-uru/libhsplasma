@@ -17,8 +17,6 @@
 #include "plSpawnModifier.h"
 
 /* plSpawnMod */
-plSpawnMod::plSpawnMod() : fBool1(false), fDisableDraw(false) { }
-
 void plSpawnMod::read(hsStream* S, plResManager* mgr) {
     plModifier::read(S, mgr);
 

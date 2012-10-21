@@ -16,8 +16,6 @@
 
 #include "pfGUICheckBoxCtrl.h"
 
-pfGUICheckBoxCtrl::pfGUICheckBoxCtrl() : fChecked(false) { }
-
 void pfGUICheckBoxCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 

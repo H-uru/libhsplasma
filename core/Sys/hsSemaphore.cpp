@@ -73,11 +73,3 @@ bool hsSemaphore::signal() {
 }
 
 #endif
-
-
-// hsSemaphoreException //
-hsSemaphoreException::hsSemaphoreException(const char* file,
-                      unsigned long line) throw()
-                    : hsException(file, line) {
-    fWhat = "Semaphore operation failed";
-}

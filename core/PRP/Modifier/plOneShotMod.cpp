@@ -16,10 +16,6 @@
 
 #include "plOneShotMod.h"
 
-plOneShotMod::plOneShotMod()
-            : fDrivable(false), fReversable(false), fSmartSeek(false),
-              fNoSeek(true), fSeekDuration(0.0f) { }
-
 void plOneShotMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 

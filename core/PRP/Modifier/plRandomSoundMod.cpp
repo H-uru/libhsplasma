@@ -17,9 +17,6 @@
 #include "plRandomSoundMod.h"
 
 /* plRandomSoundModGroup */
-plRandomSoundModGroup::plRandomSoundModGroup()
-                     : fGroupedIdx(0) { }
-
 void plRandomSoundModGroup::read(hsStream* S) {
     fIndices.setSizeNull(S->readShort());
     fGroupedIdx = S->readShort();

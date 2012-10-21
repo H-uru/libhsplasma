@@ -16,9 +16,6 @@
 
 #include "plAccountUpdateMsg.h"
 
-plAccountUpdateMsg::plAccountUpdateMsg()
-                  :  fUpdateType(0), fResult(0), fPlayer(0) { }
-
 void plAccountUpdateMsg::read(hsStream* S, plResManager* mgr)
 {
     plMessage::read(S, mgr);

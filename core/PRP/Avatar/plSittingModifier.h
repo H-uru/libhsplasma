@@ -39,7 +39,7 @@ protected:
     plKey fTriggeredAvatarKey;
 
 public:
-    plSittingModifier();
+    plSittingModifier() : fMiscFlags(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

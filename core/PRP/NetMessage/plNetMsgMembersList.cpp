@@ -17,8 +17,6 @@
 #include "plNetMsgMembersList.h"
 
 /* plNetMsgMemberInfoHelper */
-plNetMsgMemberInfoHelper::plNetMsgMemberInfoHelper() : fFlags(0) { }
-
 void plNetMsgMemberInfoHelper::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readInt();
     fClientGuid.read(S, mgr);

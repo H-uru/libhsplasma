@@ -150,7 +150,7 @@ protected:
     float fCirPerSec;
 
 public:
-    plCameraBrain1_Circle();
+    plCameraBrain1_Circle() : fCircleFlags(0), fRadius(0), fCirPerSec(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

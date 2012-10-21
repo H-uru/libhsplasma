@@ -26,7 +26,7 @@ protected:
     float fWidth, fLength, fHeight;
 
 public:
-    plPrintShape();
+    plPrintShape() : fWidth(0.0f), fLength(0.0f), fHeight(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

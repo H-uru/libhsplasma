@@ -30,7 +30,8 @@ private:
     hsTArray<plKey> fRecipients;
 
 public:
-    plAvBrainCoop();
+    plAvBrainCoop() : fInitiatorID(0), fInitiatorSerial(0),
+                      fWaitingForClick(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

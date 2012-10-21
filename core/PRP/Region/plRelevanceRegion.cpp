@@ -16,8 +16,6 @@
 
 #include "plRelevanceRegion.h"
 
-plRelevanceRegion::plRelevanceRegion() : fMgrIdx((unsigned int)-1) { }
-
 void plRelevanceRegion::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     fRegion = mgr->readKey(S);

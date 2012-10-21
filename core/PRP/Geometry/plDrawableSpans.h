@@ -41,8 +41,9 @@ public:
     hsTArray<unsigned int> fIndices;
 
 public:
-    plDISpanIndex();
-    plDISpanIndex(const plDISpanIndex& init);
+    plDISpanIndex() : fFlags(0) { }
+    plDISpanIndex(const plDISpanIndex& init)
+        : fFlags(init.fFlags), fIndices(init.fIndices) { }
     plDISpanIndex& operator=(const plDISpanIndex& cpy);
 };
 
@@ -123,7 +124,7 @@ protected:
     hsTArray< std::shared_ptr<plGeometrySpan> > fSourceSpans;
 
 public:
-    plDrawableSpans();
+    plDrawableSpans() : fSpaceTree(NULL), fProps(0), fCriteria(0), fRenderLevel(0) { }
     virtual ~plDrawableSpans();
 
     virtual void read(hsStream* S, plResManager* mgr);

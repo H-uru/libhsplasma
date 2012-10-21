@@ -40,16 +40,8 @@ void plArmatureBrain::write(hsStream* S, plResManager* mgr) {
     }
 }
 
-void plArmatureBrain::IPrcWrite(pfPrcHelper* prc) { }
-
-void plArmatureBrain::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    plCreatable::IPrcParse(tag, mgr);
-}
-
 
 /* plAvBrainHuman */
-plAvBrainHuman::plAvBrainHuman() : fIsCustomAvatar(false) { }
-
 void plAvBrainHuman::read(hsStream* S, plResManager* mgr) {
     plArmatureBrain::read(S, mgr);
 

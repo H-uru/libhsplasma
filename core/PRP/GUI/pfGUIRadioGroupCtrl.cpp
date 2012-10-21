@@ -17,10 +17,6 @@
 #include "pfGUIRadioGroupCtrl.h"
 #include "pfGUICheckBoxCtrl.h"
 
-pfGUIRadioGroupCtrl::pfGUIRadioGroupCtrl() : fDefaultValue(0) {
-    fFlags.setName(kAllowNoSelection, "kAllowNoSelection");
-}
-
 void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 

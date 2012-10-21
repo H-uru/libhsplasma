@@ -17,15 +17,7 @@
 #include "hsTokenStream.h"
 #include <cstring>
 
-/* hsTokenStream::Region */
-hsTokenStream::Region::Region(const plString& start, const plString& end)
-                     : fStart(start), fEnd(end) { }
-
-
 /* hsTokenStream */
-hsTokenStream::hsTokenStream(hsStream* stream)
-             : fStream(stream), fIOwnStream(false), fInComment(-1) { }
-
 hsTokenStream::hsTokenStream(const plString& filename)
              : fIOwnStream(true), fInComment(-1) {
     fStream = new hsFileStream();

@@ -39,14 +39,6 @@ protected:
 
 class PLASMA_DLL plEAXEffect : public virtual plSingleModifier {
     CREATABLE(plEAXEffect, kEAXEffect, plSingleModifier)
-
-public:
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-
-protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 class PLASMA_DLL plEAXReverbEffect : public virtual plEAXEffect {

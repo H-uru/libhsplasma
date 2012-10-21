@@ -27,7 +27,7 @@ protected:
     bool fAutoApply, fEnabled;
 
 public:
-    plAGModifier();
+    plAGModifier() : fAutoApply(true), fEnabled(true) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

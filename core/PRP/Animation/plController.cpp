@@ -74,9 +74,6 @@ void plController::WriteController(hsStream* S, plResManager* mgr, plController*
 
 
 /* plCompoundController */
-plCompoundController::plCompoundController()
-    : fXController(NULL), fYController(NULL), fZController(NULL) { }
-
 plCompoundController::~plCompoundController() {
     delete fXController;
     delete fYController;

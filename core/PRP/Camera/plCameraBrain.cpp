@@ -231,9 +231,6 @@ void plCameraBrain1_Fixed::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCameraBrain1_Circle */
-plCameraBrain1_Circle::plCameraBrain1_Circle()
-                     : fCircleFlags(0), fRadius(0), fCirPerSec(0) { }
-
 void plCameraBrain1_Circle::read(hsStream* S, plResManager* mgr) {
     plCameraBrain1::read(S, mgr);
 

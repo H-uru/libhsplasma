@@ -19,9 +19,6 @@
 #include <cstdarg>
 
 /* pfPrcTag */
-pfPrcTag::pfPrcTag()
-        : fNextSibling(NULL), fFirstChild(NULL), fIsEndTag(false) { }
-
 pfPrcTag::~pfPrcTag() {
     /* This can cause a stack overflow if there are lots of tags
      * (e.g., hsGBufferGroup's verts.  For now, use Destroy() */
@@ -70,8 +67,6 @@ void pfPrcTag::readHexStream(size_t maxLen, unsigned char* buf) const {
 
 
 /* pfPrcParser */
-pfPrcParser::pfPrcParser() : fRootTag(NULL) { }
-
 pfPrcParser::~pfPrcParser() {
     if (fRootTag != NULL)
         fRootTag->Destroy();

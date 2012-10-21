@@ -111,8 +111,6 @@ void plSpaceTreeNode::setLeafIndex(short idx) {
 
 
 /* plSpaceTree */
-plSpaceTree::plSpaceTree() : fRoot(-1), fNumLeaves(0) { }
-
 void plSpaceTree::read(hsStream* S, plResManager* ) {
     fRoot = S->readShort();
     fNumLeaves = S->readInt();

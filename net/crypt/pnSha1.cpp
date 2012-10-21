@@ -16,7 +16,7 @@
 
 #include "pnSha1.h"
 #include "pnNetMsg.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include <openssl/sha.h>
 
 void pnSha1Hash::fromString(const plString& src)

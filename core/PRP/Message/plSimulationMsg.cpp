@@ -17,8 +17,6 @@
 #include "plSimulationMsg.h"
 
 /* plSimSuppressMsg */
-plSimSuppressMsg::plSimSuppressMsg() : fSuppress(false) { }
-
 void plSimSuppressMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fSuppress = S->readBool();

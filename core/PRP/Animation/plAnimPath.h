@@ -45,7 +45,7 @@ protected:
    hsAffineParts fParts;
 
 public:
-    plAnimPath();
+    plAnimPath() : fController(NULL), fTMController(NULL) { }
     virtual ~plAnimPath();
 
     virtual void read(hsStream* S, plResManager* mgr);

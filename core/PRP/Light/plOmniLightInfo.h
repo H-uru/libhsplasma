@@ -26,7 +26,8 @@ protected:
     float fAttenConst, fAttenLinear, fAttenQuadratic, fAttenCutoff;
 
 public:
-    plOmniLightInfo();
+    plOmniLightInfo() : fAttenConst(0.0f), fAttenLinear(0.0f),
+                        fAttenQuadratic(0.0f), fAttenCutoff(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

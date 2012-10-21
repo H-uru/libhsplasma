@@ -17,11 +17,6 @@
 #include "plParticleGenerator.h"
 
 /* plOneTimeParticleGenerator */
-plOneTimeParticleGenerator::plOneTimeParticleGenerator()
-                          : fCount(0), fPosition(NULL), fDirection(NULL),
-                            fXSize(0.0f), fYSize(0.0f), fScaleMin(0.0f),
-                            fScaleMax(0.0f), fPartRadsPerSecRange(0.0f) { }
-
 plOneTimeParticleGenerator::~plOneTimeParticleGenerator() {
     delete[] fPosition;
     delete[] fDirection;
@@ -130,15 +125,6 @@ void plOneTimeParticleGenerator::clearParticles() {
 
 
 /* plSimpleParticleGenerator */
-plSimpleParticleGenerator::plSimpleParticleGenerator()
-                         : fParticlesPerSecond(0.0f), fNumSources(0),
-                           fInitPos(NULL), fInitPitch(NULL), fInitYaw(NULL),
-                           fAngleRange(0.0f), fVelMin(0.0f), fVelMax(0.0f),
-                           fXSize(0.0f), fYSize(0.0f), fScaleMin(0.0f),
-                           fScaleMax(0.0f), fGenLife(0.0f), fPartLifeMin(0.0f),
-                           fPartLifeMax(0.0f),fPartMassRange(0.0f),
-                           fPartRadsPerSecRange(0.0f) { }
-
 plSimpleParticleGenerator::~plSimpleParticleGenerator() {
     delete[] fInitPos;
     delete[] fInitPitch;

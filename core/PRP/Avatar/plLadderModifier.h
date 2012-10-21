@@ -32,7 +32,8 @@ protected:
     hsVector3 fLadderView;
 
 public:
-    plAvLadderMod();
+    plAvLadderMod() : fGoingUp(false), fEnabled(true), fAvatarInBox(false),
+                      fAvatarMounting(false), fType(kBig), fLoops(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

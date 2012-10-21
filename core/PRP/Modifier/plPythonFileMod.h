@@ -47,8 +47,10 @@ protected:
     static unsigned int MappedToPlasma(unsigned int type, PlasmaVer ver);
 
 public:
-    plPythonParameter();
-    plPythonParameter(const plPythonParameter& init);
+    plPythonParameter() : fID(0), fValueType(kNone), fIntValue(0) { }
+    plPythonParameter(const plPythonParameter& init)
+        : fID(init.fID), fValueType(init.fValueType), fObjKey(init.fObjKey),
+          fStrValue(init.fStrValue), fIntValue(init.fIntValue) { }
 
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);

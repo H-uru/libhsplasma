@@ -16,12 +16,6 @@
 
 #include "plLoadCloneMsg.h"
 
-plLoadCloneMsg::plLoadCloneMsg()
-              : fValidMsg(0), fIsLoading(0), fUserData(0),
-                fOriginatingPlayerID(0), fTriggerMsg(NULL) {
-    fBCastFlags |= kNetPropagate;
-}
-
 plLoadCloneMsg::~plLoadCloneMsg() {
     delete fTriggerMsg;
 }

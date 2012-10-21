@@ -17,8 +17,6 @@
 #include "plNetMsgStreamedObject.h"
 
 /* plNetMsgStreamedObject */
-plNetMsgStreamedObject::plNetMsgStreamedObject() : fCompressionType(0) { }
-
 void plNetMsgStreamedObject::read(hsStream* S, plResManager* mgr) {
     plNetMsgObject::read(S, mgr);
 

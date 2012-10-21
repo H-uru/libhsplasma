@@ -17,8 +17,6 @@
 #include "plClusterGroup.h"
 
 /* plLODDist */
-plLODDist::plLODDist() : fMinDist(0.0f), fMaxDist(0.0f) { }
-
 void plLODDist::read(hsStream* S) {
     fMinDist = S->readFloat();
     fMaxDist = S->readFloat();
@@ -46,8 +44,6 @@ void plLODDist::prcParse(const pfPrcTag* tag) {
 
 
 /* plClusterGroup */
-plClusterGroup::plClusterGroup() : fRenderLevel(0) { }
-
 plClusterGroup::~plClusterGroup() {
     for (size_t i=0; i<fClusters.getSize(); i++)
         delete fClusters[i];

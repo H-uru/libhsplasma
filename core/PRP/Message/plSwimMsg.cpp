@@ -16,8 +16,6 @@
 
 #include "plSwimMsg.h"
 
-plSwimMsg::plSwimMsg() : fIsEntering(false) { }
-
 void plSwimMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fIsEntering = S->readBool();

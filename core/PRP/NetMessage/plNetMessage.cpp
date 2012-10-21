@@ -17,10 +17,6 @@
 #include "plNetMessage.h"
 
 /* plNetMessage */
-plNetMessage::plNetMessage()
-            : fFlags(0), fProtocolVerMaj(12), fProtocolVerMin(6), fContext(0),
-              fTransID(0), fPlayerID(0) { }
-
 void plNetMessage::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readInt();
 

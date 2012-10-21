@@ -17,10 +17,6 @@
 #include "pnClient.h"
 #include "pnSocketInterface.h"
 
-pnClient::pnClient()
-        : fIface(NULL)
-{ }
-
 pnClient::~pnClient()
 {
     // we leave deleting fIface up to the subclass, since that's

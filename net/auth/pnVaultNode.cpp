@@ -20,10 +20,6 @@
 #include <cstring>
 
 /* pnVaultNode */
-pnVaultNode::pnVaultNode()
-           : fFieldMask(0), fDirtyMask(0), fCachedSize(0), fDirtySize(0),
-             fNodeIdx(0), fNodeType(0) { }
-
 void pnVaultNode::copy(const pnVaultNode& init) {
     fFieldMask = init.fFieldMask;
     fDirtyMask = init.fDirtyMask;

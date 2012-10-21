@@ -17,10 +17,6 @@
 #include "plEAXEffects.h"
 
 /* plEAXSourceSoftSettings */
-plEAXSourceSoftSettings::plEAXSourceSoftSettings() {
-    reset();
-}
-
 void plEAXSourceSoftSettings::reset() {
     fOcclusion = 0;
     fOcclusionLFRatio = 0.25f;
@@ -63,10 +59,6 @@ void plEAXSourceSoftSettings::prcParse(const pfPrcTag* tag) {
 
 
 /* plEAXSourceSettings */
-plEAXSourceSettings::plEAXSourceSettings() {
-    enable(false);
-}
-
 void plEAXSourceSettings::enable(bool en) {
     fEnabled = en;
     if (!fEnabled) {

@@ -16,7 +16,7 @@
 
 #include <ResManager/plResManager.h>
 #include <Debug/plDebug.h>
-#include <Debug/hsExceptions.h>
+#include <Debug/hsExceptions.hpp>
 #include <PRP/plPageInfo.h>
 #include <PRP/plCreatable.h>
 

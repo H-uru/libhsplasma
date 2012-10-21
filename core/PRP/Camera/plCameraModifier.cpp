@@ -17,11 +17,6 @@
 #include "plCameraModifier.h"
 
 /* plCameraModifier::CamTrans */
-plCameraModifier::CamTrans::CamTrans()
-                : fCutPos(false), fCutPOA(false), fIgnore(false), fAccel(60.0f),
-                  fDecel(60.0f), fVelocity(60.0f), fPOAAccel(60.0f),
-                  fPOADecel(60.0f), fPOAVelocity(60.0f) { }
-
 void plCameraModifier::CamTrans::read(hsStream* S, plResManager* mgr) {
     fTransTo = mgr->readKey(S);
     fCutPos = S->readBool();
@@ -93,12 +88,6 @@ void plCameraModifier::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr
 
 
 /* plCameraModifier */
-plCameraModifier::plCameraModifier()
-                 : fFrom(0.0f, 0.0f, 0.0f), fAt(0.0f, 1.0f, 0.0f),
-                   fFOVw(45.0f), fFOVh(33.75f), fAnimated(false),
-                   fStartAnimOnPush(false), fStopAnimOnPop(false),
-                   fResetAnimOnPop(false) { }
-
 plCameraModifier::~plCameraModifier() {
     for (size_t i=0; i<fTrans.getSize(); i++)
         delete fTrans[i];

@@ -30,7 +30,8 @@ protected:
     plScaleController* fScaleController;
 
 public:
-    plTMController();
+    plTMController()
+        : fPosController(NULL), fRotController(NULL), fScaleController(NULL) { }
     virtual ~plTMController();
 
     virtual void read(hsStream* S, plResManager* mgr);

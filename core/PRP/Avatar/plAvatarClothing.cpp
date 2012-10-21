@@ -26,8 +26,6 @@ const char* const plClothingOutfit::TypeNames[] = {
     "LeftFoot", "RightFoot", "Accessory"
 };
 
-plClothingOutfit::plClothingOutfit() : fGroup(kClothingGroupNoOptions) { }
-
 void plClothingOutfit::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 

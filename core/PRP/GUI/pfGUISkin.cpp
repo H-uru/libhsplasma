@@ -17,8 +17,6 @@
 #include "pfGUISkin.h"
 
 /* pfGUISkin::pfSRect */
-pfGUISkin::pfSRect::pfSRect() : fX(0), fY(0), fWidth(0), fHeight(0) { }
-
 void pfGUISkin::pfSRect::read(hsStream* S) {
     fX = S->readShort();
     fY = S->readShort();
@@ -51,17 +49,8 @@ void pfGUISkin::pfSRect::prcParse(const pfPrcTag* tag) {
     fHeight = tag->getParam("height", "0").toUint();
 }
 
-void pfGUISkin::pfSRect::clear() {
-    fX = 0;
-    fY = 0;
-    fWidth = 0;
-    fHeight = 0;
-}
-
 
 /* pfGUISkin */
-pfGUISkin::pfGUISkin() : fItemMargin(0), fBorderMargin(0) { }
-
 void pfGUISkin::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 

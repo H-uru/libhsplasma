@@ -26,8 +26,7 @@ protected:
 public:
     virtual const char* ClassName() const { return "hsBounds"; }
 
-    hsBounds();
-    hsBounds(const hsBounds&);
+    hsBounds() : fType(0) { }
     virtual ~hsBounds() { }
 
     virtual void read(hsStream* S);
@@ -58,7 +57,6 @@ public:
     virtual const char* ClassName() const { return "hsBounds3"; }
 
     hsBounds3() { }
-    hsBounds3(const hsBounds3&);
 
     void init(const hsVector3& right);
     hsBounds3 operator+(const hsBounds3& right) const;
@@ -106,8 +104,7 @@ protected:
 public:
     virtual const char* ClassName() const { return "hsBounds3Ext"; }
 
-    hsBounds3Ext();
-    hsBounds3Ext(const hsBounds3Ext&);
+    hsBounds3Ext() : fExtFlags(0), fRadius(0.0f) { }
 
     hsBounds3Ext operator+(const hsBounds3Ext& right) const;
 
@@ -144,7 +141,7 @@ protected:
 public:
     virtual const char* ClassName() const { return "hsBoundsOriented"; }
 
-    hsBoundsOriented();
+    hsBoundsOriented() : fCenterValid(0), fPlanes(NULL), fNumPlanes(0) { }
     hsBoundsOriented(const hsBoundsOriented&);
     virtual ~hsBoundsOriented();
 

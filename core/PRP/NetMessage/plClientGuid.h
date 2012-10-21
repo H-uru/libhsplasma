@@ -50,7 +50,7 @@ private:
     plString fClientKey;
 
 public:
-    plClientGuid();
+    plClientGuid() : fFlags(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

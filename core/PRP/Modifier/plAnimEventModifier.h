@@ -29,7 +29,7 @@ protected:
     bool fDisabled;
 
 public:
-    plAnimEventModifier();
+    plAnimEventModifier() : fCallback(NULL), fDisabled(false) { }
     virtual ~plAnimEventModifier();
 
     virtual void read(hsStream* S, plResManager* mgr);

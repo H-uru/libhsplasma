@@ -31,7 +31,9 @@ public:
         float fAccel, fDecel, fVelocity, fPOAAccel, fPOADecel, fPOAVelocity;
 
     public:
-        CamTrans();
+        CamTrans() : fCutPos(false), fCutPOA(false), fIgnore(false), fAccel(60.0f),
+                     fDecel(60.0f), fVelocity(60.0f), fPOAAccel(60.0f),
+                     fPOADecel(60.0f), fPOAVelocity(60.0f) { }
 
         void read(hsStream* S, plResManager* mgr);
         void write(hsStream* S, plResManager* mgr);
@@ -52,7 +54,10 @@ protected:
     void DeleteTrans();
 
 public:
-    plCameraModifier();
+    plCameraModifier() : fFrom(0.0f, 0.0f, 0.0f), fAt(0.0f, 1.0f, 0.0f),
+                         fFOVw(45.0f), fFOVh(33.75f), fAnimated(false),
+                         fStartAnimOnPush(false), fStopAnimOnPop(false),
+                         fResetAnimOnPop(false) { }
     virtual ~plCameraModifier();
 
     virtual void read(hsStream* S, plResManager* mgr);

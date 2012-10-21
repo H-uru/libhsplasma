@@ -17,10 +17,6 @@
 #include "plVolumeSensorConditionalObject.h"
 
 /* plVolumeSensorConditionalObject */
-plVolumeSensorConditionalObject::plVolumeSensorConditionalObject()
-    : fTrigNum(-1), fType(kTypeEnter), fFirst(false), fTriggered(false),
-      fIgnoreExtraEnters(true) { }
-
 void plVolumeSensorConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fTrigNum = S->readInt();

@@ -53,7 +53,7 @@ protected:
     hsTArray<plString> fSDLVolatileList;
 
 public:
-    plSynchedObject();
+    plSynchedObject() : fSynchFlags(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

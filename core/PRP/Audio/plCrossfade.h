@@ -29,7 +29,8 @@ protected:
     bool fRegistered;
 
 public:
-    plCrossfade();
+    plCrossfade() : fFirstIdx(0), fSecondIdx(0), fStartType(0), fEndType(0),
+                    fFlags(0), fRegistered(false) { }
     virtual ~plCrossfade() { }
 
     virtual void read(hsStream* S, plResManager* mgr);

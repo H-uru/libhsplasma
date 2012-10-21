@@ -29,7 +29,8 @@ protected:
     hsTArray<plKey> fReceivers;
 
 public:
-    plMultistageBehMod();
+    plMultistageBehMod() : fFreezePhys(false), fSmartSeek(false),
+                           fReverseFBControlsOnRelease(false) { }
     virtual ~plMultistageBehMod();
 
     virtual void read(hsStream* S, plResManager* mgr);

@@ -19,69 +19,37 @@
 #include <Sys/hsThread.h>
 #include "pnSocket.h"
 
-pnDispatcher::pnDispatcher()
-{ }
-
-pnDispatcher::~pnDispatcher()
-{ }
-
-bool pnDispatcher::dispatch(pnSocket* /*sock*/)
-{
-    return false;
-}
-
-
-pnSocketInterface::pnSocketInterface(pnDispatcher* dispatch, pnSocket* sock)
-                 : fDispatch(dispatch), fSock(sock)
-{ }
-
-pnSocketInterface::~pnSocketInterface()
-{ }
-
 class pnThreadHelper : public hsThread {
 public:
-    pnThreadHelper(pnSocket* sock, pnDispatcher* dispatch);
-    virtual ~pnThreadHelper();
-    void stop();
+    pnThreadHelper(pnSocket* sock, pnDispatcher* dispatch)
+        : fReceiver(dispatch), fSock(sock) { }
+    virtual ~pnThreadHelper() { }
+
+    void stop()
+    {
+        if (!isFinished()) {
+            fRunning = false; 
+            wait(); 
+        }
+    }
 
 private:
-    virtual void run();
+    virtual void run()
+    {
+        fRunning = true;
+        while (fRunning && fSock->isConnected()) {
+            if (!fSock->waitForData())
+                continue;
+            // close the socket if anything fails
+            if (!fReceiver->dispatch(fSock))
+                fSock->close();
+        }
+    }
 
     pnDispatcher* fReceiver;
     pnSocket* fSock;
     volatile bool fRunning;
 };
-
-pnThreadHelper::pnThreadHelper(pnSocket* sock, pnDispatcher* dispatch)
-              : fReceiver(dispatch), fSock(sock)
-{ }
-
-pnThreadHelper::~pnThreadHelper()
-{ }
-
-void pnThreadHelper::run()
-{
-    fRunning = true;
-    while (fRunning && fSock->isConnected()) {
-        if (!fSock->waitForData())
-            continue;
-        // close the socket if anything fails
-        if (!fReceiver->dispatch(fSock))
-            fSock->close();
-    }
-}
-
-void pnThreadHelper::stop()
-{ 
-    if (!isFinished()) {
-        fRunning = false; 
-        wait(); 
-    }
-}
-
-pnThreadedSocket::pnThreadedSocket(pnDispatcher* dispatch, pnSocket* sock)
-                : pnSocketInterface(dispatch, sock), fHelper(NULL)
-{ }
 
 pnThreadedSocket::~pnThreadedSocket()
 {
@@ -97,13 +65,6 @@ void pnThreadedSocket::run()
         fHelper->start();
     }
 }
-
-pnPolledSocket::pnPolledSocket(pnDispatcher* dispatch, pnSocket* sock)
-              : pnSocketInterface(dispatch, sock)
-{ }
-
-pnPolledSocket::~pnPolledSocket()
-{ }
 
 void pnPolledSocket::run()
 {

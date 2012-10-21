@@ -56,13 +56,13 @@ public:
 
 class PLASMA_DLL pfGUICloseDlgProc : public pfGUICtrlProcWriteableObject {
 public:
-    pfGUICloseDlgProc();
+    pfGUICloseDlgProc() { fType = kCloseDlg; }
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream*) { }
+    virtual void IWrite(hsStream*) { }
     virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
+    virtual void IPrcParse(const pfPrcTag*) { }
 };
 
 
@@ -71,7 +71,7 @@ protected:
     plString fCommand;
 
 public:
-    pfGUIConsoleCmdProc();
+    pfGUIConsoleCmdProc() { fType = kConsoleCmd; }
 
 protected:
     virtual void IRead(hsStream* S);
@@ -87,13 +87,13 @@ public:
 
 class PLASMA_DLL pfGUIPythonScriptProc : public pfGUICtrlProcWriteableObject {
 public:
-     pfGUIPythonScriptProc();
+     pfGUIPythonScriptProc() { fType = kPythonScript; }
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
+    virtual void IRead(hsStream*) { }
+    virtual void IWrite(hsStream*) { }
     virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
+    virtual void IPrcParse(const pfPrcTag*) { }
 };
 
 #endif

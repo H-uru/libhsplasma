@@ -45,7 +45,7 @@ protected:
 
 public:
     plEncryptedStream(int pv = PlasmaVer::pvUnknown);
-    virtual ~plEncryptedStream();
+    virtual ~plEncryptedStream() { close(); }
 
     bool open(const char* file, FileMode mode, EncryptionType type);
     bool open(hsStream* S, FileMode mode, EncryptionType type);

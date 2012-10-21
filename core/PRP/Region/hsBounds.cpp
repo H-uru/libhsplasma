@@ -17,9 +17,6 @@
 #include "hsBounds.h"
 
 /* hsBounds */
-hsBounds::hsBounds() : fType(0) { }
-hsBounds::hsBounds(const hsBounds& src) : fType(src.fType) { }
-
 void hsBounds::read(hsStream* S) {
     fType = S->readInt();
 }
@@ -61,10 +58,6 @@ void hsBounds::IPrcParse(const pfPrcTag* tag) {
 
 
 /* hsBounds3 */
-hsBounds3::hsBounds3(const hsBounds3& src)
-         : hsBounds(src), fMins(src.fMins), fMaxs(src.fMaxs),
-           fCenter(src.fCenter) { }
-
 void hsBounds3::init(const hsVector3& right) {
     fMins = right;
     fMaxs = right;
@@ -140,18 +133,6 @@ const hsVector3& hsBounds3::updateCenter() {
 
 
 /* hsBounds3Ext */
-hsBounds3Ext::hsBounds3Ext() : fExtFlags(0), fRadius(0.0f) { }
-
-hsBounds3Ext::hsBounds3Ext(const hsBounds3Ext& src)
-            : hsBounds3(src), fExtFlags(src.fExtFlags), fCorner(src.fCorner),
-              fRadius(src.fRadius) {
-    for (int i=0; i<3; i++) {
-        fAxes[i] = src.fAxes[i];
-        fDists[i].X = src.fDists[i].X;
-        fDists[i].Y = src.fDists[i].Y;
-    }
-}
-
 hsBounds3Ext hsBounds3Ext::operator+(const hsBounds3Ext& right) const {
     hsBounds3Ext result = *this;
     result += right;
@@ -258,9 +239,6 @@ void hsBounds3Ext::unalign() {
 
 
 /* hsBoundsOriented */
-hsBoundsOriented::hsBoundsOriented() : fCenterValid(0), fPlanes(NULL),
-                                       fNumPlanes(0) { }
-
 hsBoundsOriented::hsBoundsOriented(const hsBoundsOriented& src)
                 : hsBounds(src), fCenterValid(src.fCenterValid),
                   fCenter(src.fCenter), fNumPlanes(src.fNumPlanes) {

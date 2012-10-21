@@ -66,7 +66,10 @@ protected:
     int fValue;
 
 public:
-    pfKIMsg();
+    pfKIMsg() : fCommand(kNoCommand), fFlags(0), fPlayerID(0),
+                fDelay(0.0f), fValue(0) {
+        fBCastFlags |= kBCastByExactType;
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

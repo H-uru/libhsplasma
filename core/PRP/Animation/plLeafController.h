@@ -28,7 +28,7 @@ protected:
     hsTArray<class plEaseController*> fEaseControllers;
 
 public:
-    plLeafController();
+    plLeafController() : fType(0), fUruUnknown(0) { }
     virtual ~plLeafController();
 
     virtual void read(hsStream* S, plResManager* mgr);

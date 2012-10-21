@@ -34,7 +34,7 @@ protected:
     unsigned int fPlayer;
 
 public:
-    plAccountUpdateMsg();
+    plAccountUpdateMsg() :  fUpdateType(0), fResult(0), fPlayer(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

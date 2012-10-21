@@ -86,7 +86,7 @@ private:
                 retGroup |= (1u << toGroup(i));
             }
         }
-        
+
         return retGroup;
     }
 public:

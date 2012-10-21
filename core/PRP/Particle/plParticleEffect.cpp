@@ -45,9 +45,6 @@ void plParticleCollisionEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 
 
 /* plParticleCollisionEffectBounce */
-plParticleCollisionEffectBounce::plParticleCollisionEffectBounce()
-                               : fBounce(0.0f), fFriction(0.0f) { }
-
 void plParticleCollisionEffectBounce::read(hsStream* S, plResManager* mgr) {
     plParticleCollisionEffect::read(S, mgr);
     fBounce = S->readFloat();
@@ -79,9 +76,6 @@ void plParticleCollisionEffectBounce::IPrcParse(const pfPrcTag* tag, plResManage
 
 
 /* plParticleFadeOutEffect */
-plParticleFadeOutEffect::plParticleFadeOutEffect()
-                       : fLength(0.0f), fIgnoreZ(0.0f) { }
-
 void plParticleFadeOutEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     fLength = S->readFloat();
@@ -113,9 +107,6 @@ void plParticleFadeOutEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
 
 
 /* plParticleFadeVolumeEffect */
-plParticleFadeVolumeEffect::plParticleFadeVolumeEffect()
-                       : fLength(0.0f), fIgnoreZ(0.0f) { }
-
 void plParticleFadeVolumeEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     fLength = S->readFloat();
@@ -147,13 +138,6 @@ void plParticleFadeVolumeEffect::IPrcParse(const pfPrcTag* tag, plResManager* mg
 
 
 /* plParticleFlockEffect */
-plParticleFlockEffect::plParticleFlockEffect()
-                     : fInfAvgRadSq(0.0f), fInfRepRadSq(0.0f), fAvgVelStr(0.0f),
-                       fRepDirStr(0.0f), fGoalOrbitStr(0.0f),
-                       fGoalChaseStr(0.0f), fGoalDistSq(0.0f),
-                       fFullChaseDistSq(0.0f), fMaxOrbitSpeed(0.0f),
-                       fMaxChaseSpeed(0.0f), fMaxParticles(0.0f) { }
-
 void plParticleFlockEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
@@ -241,10 +225,6 @@ void plParticleFlockEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParticleWindEffect */
-plParticleWindEffect::plParticleWindEffect()
-                    : fStrength(0.0f), fConstancy(0.0f), fSwirl(0.0f),
-                      fHorizontal(false) { }
-
 void plParticleWindEffect::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
@@ -306,8 +286,6 @@ void plParticleWindEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParticleLocalWind */
-plParticleLocalWind::plParticleLocalWind() : fSpeed(0.0f) { }
-
 void plParticleLocalWind::read(hsStream* S, plResManager* mgr) {
     plParticleWindEffect::read(S, mgr);
     fScale.read(S);
@@ -345,9 +323,6 @@ void plParticleLocalWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParticleUniformWind */
-plParticleUniformWind::plParticleUniformWind()
-                     : fFreqMin(0.0f), fFreqMax(0.0f), fFreqRate(0.0f) { }
-
 void plParticleUniformWind::read(hsStream* S, plResManager* mgr) {
     plParticleWindEffect::read(S, mgr);
 

@@ -28,14 +28,15 @@ class PLASMA_DLL plArmatureUpdateMsg : public plAvatarMsg {
     CREATABLE(plArmatureUpdateMsg, kArmatureUpdateMsg, plAvatarMsg)
 
 public:
-    plArmatureUpdateMsg();
+    plArmatureUpdateMsg() {
+        fBCastFlags |= kBCastByExactType;
+    }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void read(hsStream*, plResManager*) { }
+    virtual void write(hsStream*, plResManager*) { }
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    virtual void IPrcWrite(pfPrcHelper*) { }
 };
 
 
@@ -46,7 +47,7 @@ private:
     bool fIsPlayer;
 
 public:
-    plAvatarSetTypeMsg();
+    plAvatarSetTypeMsg() : fIsPlayer(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -61,14 +62,15 @@ class PLASMA_DLL plAvatarStealthModeMsg : public plAvatarMsg {
     CREATABLE(plAvatarStealthModeMsg, kAvatarStealthModeMsg, plAvatarMsg)
 
 public:
-    plAvatarStealthModeMsg();
+    plAvatarStealthModeMsg() {
+        fBCastFlags |= kBCastByExactType;
+    }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void read(hsStream*, plResManager*) { }
+    virtual void write(hsStream*, plResManager*) { }
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    virtual void IPrcWrite(pfPrcHelper*) { }
 };
 
 
@@ -86,7 +88,9 @@ private:
     float fNewTime, fTransitionTime;
 
 public:
-    plAvBrainGenericMsg();
+    plAvBrainGenericMsg()
+        : fType(0), fWhichStage(0), fSetTime(false), fSetDirection(false),
+          fNewDirection(false), fNewTime(0.0f), fTransitionTime(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -104,7 +108,7 @@ private:
     bool fAborted;
 
 public:
-    plAvTaskSeekDoneMsg();
+    plAvTaskSeekDoneMsg() : fAborted(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

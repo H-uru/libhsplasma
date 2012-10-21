@@ -17,8 +17,6 @@
 #include "plSimpleRegionSensor.h"
 
 /* plSimpleRegionSensor */
-plSimpleRegionSensor::plSimpleRegionSensor() : fEnterMsg(NULL), fExitMsg(NULL) { }
-
 plSimpleRegionSensor::~plSimpleRegionSensor() {
     delete fEnterMsg;
     delete fExitMsg;
@@ -115,8 +113,6 @@ void plSwimDetector::write(hsStream* S, plResManager* mgr) {
 
 
 /* plAutoWalkRegion */
-plAutoWalkRegion::plAutoWalkRegion() : fUnknown(0) { }
-
 void plAutoWalkRegion::read(hsStream* S, plResManager* mgr) {
     plSimpleRegionSensor::read(S, mgr);
     fUnknown = S->readInt();

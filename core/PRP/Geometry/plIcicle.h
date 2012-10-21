@@ -28,7 +28,7 @@ protected:
 public:
     virtual const char* ClassName() const { return "plIcicle"; }
 
-    plIcicle();
+    plIcicle() : fIBufferIdx(0), fIStartIdx(0), fILength(0), fSortData(NULL) { }
     plIcicle(const plIcicle& init);
     virtual ~plIcicle();
 
@@ -55,11 +55,11 @@ class PLASMA_DLL plParticleSpan : public plIcicle {
 public:
     virtual const char* ClassName() const { return "plParticleSpan"; }
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    virtual void read(hsStream*) { }
+    virtual void write(hsStream*) { }
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
+    virtual void IPrcWrite(pfPrcHelper*) { }
     virtual void IPrcParse(const pfPrcTag* tag);
 };
 

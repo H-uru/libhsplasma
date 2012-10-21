@@ -17,9 +17,6 @@
 #include "plStateDescriptor.h"
 
 /* plVarDescriptor */
-plVarDescriptor::plVarDescriptor()
-               : fCount(0), fType(kNone), fFlags(0), fStateDescVer(-1) { }
-
 void plVarDescriptor::read(hsStream* S) {
     if (S->readByte() != 3)
         throw hsBadParamException(__FILE__, __LINE__, "Bad plVarDescriptor IO Version");
@@ -177,8 +174,6 @@ plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, b
 
 
 /* plStateDescriptor */
-plStateDescriptor::plStateDescriptor() : fVersion(-1) { }
-
 plStateDescriptor::~plStateDescriptor() {
     for (size_t i=0; i<fVariables.getSize(); i++)
         delete fVariables[i];

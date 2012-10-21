@@ -35,7 +35,7 @@ protected:
     unsigned char fEoaFlag;
 
 public:
-    plAGAnim();
+    plAGAnim() : fBlend(0.0f), fStart(0.0f), fEnd(0.0f), fEoaFlag(0) { }
     virtual ~plAGAnim();
 
     virtual void read(hsStream* S, plResManager* mgr);

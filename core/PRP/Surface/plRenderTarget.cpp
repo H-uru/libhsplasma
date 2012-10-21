@@ -17,10 +17,6 @@
 #include "plRenderTarget.h"
 
 /* plRenderTarget */
-plRenderTarget::plRenderTarget()
-              : fWidth(0), fHeight(0), fProportionalViewport(false),
-                fZDepth(0), fStencilDepth(0) { }
-
 void plRenderTarget::read(hsStream* S, plResManager* mgr) {
     plBitmap::read(S, mgr);
     IRead(S);

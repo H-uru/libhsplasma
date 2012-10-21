@@ -44,7 +44,8 @@ protected:
     bool fIsDirty;
 
 public:
-    plStateVariable();
+    plStateVariable() : fContents(plSDL::kHasNotificationInfo),
+                        fDescriptor(NULL), fCount(1), fIsDirty(false) { }
     virtual ~plStateVariable() { }
 
     virtual void setDescriptor(plVarDescriptor* desc) = 0;
@@ -74,7 +75,7 @@ public:
     virtual ~plSDStateVariable();
 
     virtual void setDescriptor(plVarDescriptor* desc);
-    void setSDVarDescriptor(plStateDescriptor* desc);
+    void setSDVarDescriptor(plStateDescriptor* desc) { fSDVarDescriptor = desc; }
     virtual void resize(size_t size);
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -114,8 +115,8 @@ protected:
     unsigned char fSimpleVarContents;
 
 public:
-    plSimpleStateVariable();
-    virtual ~plSimpleStateVariable();
+    plSimpleStateVariable() : fGenPtr(NULL), fSimpleVarContents(0) { }
+    virtual ~plSimpleStateVariable() { IDeAlloc(); }
 
     virtual void setDescriptor(plVarDescriptor* desc);
     virtual void resize(size_t size);

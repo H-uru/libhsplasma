@@ -16,8 +16,6 @@
 
 #include "plAnimEventModifier.h"
 
-plAnimEventModifier::plAnimEventModifier() : fCallback(NULL), fDisabled(false) { }
-
 plAnimEventModifier::~plAnimEventModifier() {
     delete fCallback;
 }

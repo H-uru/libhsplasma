@@ -16,9 +16,6 @@
 
 #include "plGameMarkerModifier.h"
 
-plGameMarkerModifier::plGameMarkerModifier()
-                    : fPlaceSoundIdx(0), fHitSoundIdx(0) { }
-
 void plGameMarkerModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

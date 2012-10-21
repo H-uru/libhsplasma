@@ -17,8 +17,6 @@
 #include "plPrintShape.h"
 
 /* plPrintShape */
-plPrintShape::plPrintShape() : fWidth(0.0f), fLength(0.0f), fHeight(0.0f) { }
-
 void plPrintShape::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
     fWidth = S->readFloat();

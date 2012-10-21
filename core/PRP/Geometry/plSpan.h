@@ -83,8 +83,20 @@ protected:
 public:
     virtual const char* ClassName() const { return "plSpan"; }
 
-    plSpan();
-    plSpan(const plSpan& init);
+    plSpan() : fSubType(kVertexSpan), fMaterialIdx(0), fBaseMatrix(0),
+               fNumMatrices(0), fLocalUVWChans(0), fMaxBoneIdx(0),
+               fPenBoneIdx(0), fProps(0), fMinDist(0), fMaxDist(0),
+               fWaterHeight(0) { }
+    plSpan(const plSpan& init)
+        : fSubType(init.fSubType), fMaterialIdx(init.fMaterialIdx),
+          fLocalToWorld(init.fLocalToWorld), fWorldToLocal(init.fWorldToLocal),
+          fBaseMatrix(init.fBaseMatrix), fNumMatrices(init.fNumMatrices),
+          fLocalUVWChans(init.fLocalUVWChans), fMaxBoneIdx(init.fMaxBoneIdx),
+          fPenBoneIdx(init.fPenBoneIdx), fProps(init.fProps),
+          fLocalBounds(init.fLocalBounds), fWorldBounds(init.fWorldBounds),
+          fFogEnvironment(init.fFogEnvironment), fMinDist(init.fMinDist),
+          fMaxDist(init.fMaxDist), fWaterHeight(init.fWaterHeight),
+          fPermaLights(init.fPermaLights), fPermaProjs(init.fPermaProjs) { }
     virtual ~plSpan() { }
 
     virtual void read(hsStream* S);

@@ -29,7 +29,6 @@ public:
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* /*prc*/) { }
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 };
 
 
@@ -43,7 +42,8 @@ private:
     bool fStart, fLoop, fAttach;
 
 public:
-    plAvAnimTask();
+    plAvAnimTask() : fInitialBlend(0.0f), fTargetBlend(0.0f), fFadeSpeed(0.0f),
+                     fSetTime(0.0f), fStart(false), fLoop(false), fAttach(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -87,7 +87,7 @@ private:
     plArmatureBrain* fBrain;
 
 public:
-    plAvTaskBrain();
+    plAvTaskBrain() : fBrain(NULL) { }
     virtual ~plAvTaskBrain();
 
     virtual void read(hsStream* S, plResManager* mgr);

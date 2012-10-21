@@ -28,7 +28,7 @@ protected:
     unsigned char hint;
 
 public:
-    hsElfStream();
+    hsElfStream() : hsFileStream(PlasmaVer::pvUnknown) { }
 
     virtual plString readLine();
     virtual void writeLine(const plString& ln, bool winEOL = false);

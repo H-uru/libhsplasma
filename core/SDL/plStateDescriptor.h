@@ -54,7 +54,7 @@ protected:
     class plStateDescriptor* fStateDesc;
 
 public:
-    plVarDescriptor();
+    plVarDescriptor() : fCount(0), fType(kNone), fFlags(0), fStateDescVer(-1) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -96,7 +96,7 @@ protected:
     hsTArray<plVarDescriptor*> fVariables;
 
 public:
-    plStateDescriptor();
+    plStateDescriptor() : fVersion(-1) { }
     ~plStateDescriptor();
 
     void read(hsStream* S);

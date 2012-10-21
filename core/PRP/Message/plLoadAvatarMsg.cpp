@@ -16,8 +16,6 @@
 
 #include "plLoadAvatarMsg.h"
 
-plLoadAvatarMsg::plLoadAvatarMsg() : fInitialTask(NULL) { }
-
 plLoadAvatarMsg::~plLoadAvatarMsg() {
     delete fInitialTask;
 }

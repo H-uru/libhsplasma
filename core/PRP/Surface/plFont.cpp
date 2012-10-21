@@ -20,10 +20,6 @@
 const plFont::plCharacter plFont::kNullChar;
 
 /* plFont::plCharacter */
-plFont::plCharacter::plCharacter()
-                   : fBitmapOffset(0), fHeight(0), fBaseline(0),
-                     fLeftKern(0.0f), fRightKern(0.0f) { }
-
 void plFont::plCharacter::read(hsStream* S) {
     fBitmapOffset = S->readInt();
     fHeight = S->readInt();
@@ -63,11 +59,6 @@ void plFont::plCharacter::prcParse(const pfPrcTag* tag) {
 
 
 /* plFont */
-plFont::plFont() : fSize(0), fBPP(0), fFirstChar(0), fFlags(0), fWidth(0),
-                   fHeight(0), fBmpData(NULL), fMaxCharHeight(0) {
-    fCharacters.setSize(256);
-}
-
 plFont::plFont(const plFont& copy)
       : fFace(copy.fFace), fSize(copy.fSize), fBPP(copy.fBPP),
         fFirstChar(copy.fFirstChar), fFlags(copy.fFlags),

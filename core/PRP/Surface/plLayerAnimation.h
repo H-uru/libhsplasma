@@ -33,7 +33,9 @@ protected:
     plController* fTransformCtl;
 
 public:
-    plLayerAnimationBase();
+    plLayerAnimationBase() : fPreshadeColorCtl(NULL), fRuntimeColorCtl(NULL),
+                             fAmbientColorCtl(NULL), fSpecularColorCtl(NULL),
+                             fOpacityCtl(NULL), fTransformCtl(NULL) { }
     virtual ~plLayerAnimationBase();
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -89,7 +91,7 @@ protected:
     bool fLeavingAge;
 
 public:
-    plLayerLinkAnimation();
+    plLayerLinkAnimation() : fLeavingAge(true) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

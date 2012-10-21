@@ -23,9 +23,7 @@ public:
 
 public:
     plMD5Hash();
-    plMD5Hash(const plMD5Hash& cpy);
-    plMD5Hash(const char* hex);
-    plMD5Hash& operator=(const plMD5Hash& cpy);
+    plMD5Hash(const char* hex) { fromHex(hex); }
     bool operator==(const plMD5Hash& cmp);
     bool operator!=(const plMD5Hash& cmp);
 

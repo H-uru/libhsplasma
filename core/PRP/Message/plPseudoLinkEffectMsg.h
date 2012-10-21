@@ -26,7 +26,9 @@ protected:
     plKey fLinkObjKey, fAvatarKey;
 
 public:
-    plPseudoLinkEffectMsg();
+    plPseudoLinkEffectMsg() {
+        fBCastFlags |= (kNetPropagate | kBCastByExactType);
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -16,10 +16,6 @@
 
 #include "plShadowCaster.h"
 
-plShadowCaster::plShadowCaster()
-              : fCastFlags(0), fBoost(0.0f), fAttenScale(0.0f),
-                fBlurScale(0.0f), fMaxOpacity(0.0f) { }
-
 void plShadowCaster::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 

@@ -27,14 +27,6 @@ const char* plPythonParameter::ValueTypeNames[] = {
     "BlowerComponent", "None"
 };
 
-plPythonParameter::plPythonParameter()
-                 : fID(0), fValueType(kNone), fIntValue(0) { }
-
-plPythonParameter::plPythonParameter(const plPythonParameter& init)
-                 : fID(init.fID), fValueType(init.fValueType),
-                   fObjKey(init.fObjKey), fStrValue(init.fStrValue),
-                   fIntValue(init.fIntValue) { }
-
 void plPythonParameter::read(hsStream* S, plResManager* mgr) {
     fID = S->readInt();
     fValueType = PlasmaToMapped(S->readInt(), S->getVer());

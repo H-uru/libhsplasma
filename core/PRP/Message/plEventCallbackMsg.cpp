@@ -16,10 +16,6 @@
 
 #include "plEventCallbackMsg.h"
 
-plEventCallbackMsg::plEventCallbackMsg()
-                  : fEventTime(0.0f), fEvent((CallbackEvent)0), fIndex(0),
-                    fRepeats(0), fUser(0) { }
-
 void plEventCallbackMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 
@@ -63,11 +59,6 @@ void plEventCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         plMessage::IPrcParse(tag, mgr);
     }
 }
-
-plEventCallbackSetupMsg::plAnimCallbackSetup::plAnimCallbackSetup()
-    : fUser(0) { }
-
-plEventCallbackSetupMsg::plEventCallbackSetupMsg() { }
 
 void plEventCallbackSetupMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);

@@ -38,7 +38,7 @@ private:
     bool b60, b90, bb4, bb5;
 
 public:
-    plAxisAnimModifier();
+    plAxisAnimModifier() : fNotify(NULL), fAllOrNothing(false) { }
     virtual ~plAxisAnimModifier();
 
     virtual void read(hsStream* S, plResManager* mgr);

@@ -29,7 +29,7 @@ protected:
     int fType;
 
 public:
-    plServerReplyMsg();
+    plServerReplyMsg() : fType(kUnInit) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

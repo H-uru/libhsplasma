@@ -18,8 +18,6 @@
 
 const unsigned char plStateDataRecord::kIOVersion = 6;
 
-plStateDataRecord::plStateDataRecord() : fDescriptor(NULL), fFlags(0) { }
-
 plStateDataRecord::~plStateDataRecord() {
     for (size_t i=0; i<fAllVars.getSize(); i++)
         delete fAllVars[i];

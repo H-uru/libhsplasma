@@ -29,7 +29,8 @@ protected:
     unsigned int fFirstNodeID, fLastNodeID;
 
 public:
-    plVaultStore(unsigned int firstNode = 20001);
+    plVaultStore(unsigned int firstNode = 20001)
+        : fFirstNodeID(firstNode), fLastNodeID(firstNode - 1) { }
 
     void ImportFile(const char* filename);
     void ExportFile(const char* filename, bool encrypt = true);

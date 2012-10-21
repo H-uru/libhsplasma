@@ -149,7 +149,7 @@ private:
 
 public:
     /** Constructs an empty stub.  Only useful for NULL creatables. */
-    plCreatableStub();
+    plCreatableStub() : fClassIdx((short)0x8000), fData(NULL), fDataLen(0) { }
 
     /** Constructs a stub whose type is \a hClass, and size is \a length */
     plCreatableStub(short hClass, size_t length);
@@ -165,8 +165,8 @@ public:
     virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    virtual void IPrcWrite(pfPrcHelper*) { }
+    virtual void IPrcParse(const pfPrcTag*, plResManager*) { }
 
 public:
     /**

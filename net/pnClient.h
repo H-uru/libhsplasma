@@ -25,7 +25,7 @@ class pnSocketInterface;
 
 class PLASMANET_DLL pnClient {
 public:
-    pnClient();
+    pnClient() : fIface(NULL) { }
     virtual ~pnClient();
 
     virtual ENetError connect(const char* host, short port = 14617) = 0;
@@ -38,8 +38,8 @@ public:
     // there's no more data available to read.
     void run();
 
-//     virtual void signalStatus() = 0;
-//     virtual void waitForStatus() = 0;
+    //virtual void signalStatus() = 0;
+    //virtual void waitForStatus() = 0;
 
 protected:
     uint32_t nextTransId();

@@ -46,13 +46,7 @@ private:
 
 public:
     /** Constructs a new, empty Uoid */
-    plUoid();
-
-    /** Copy constructor, makes an identical Uoid to the source */
-    plUoid(const plUoid& other);
-
-    /** Copies a uoid's data into this Uoid */
-    plUoid& operator=(const plUoid& other);
+    plUoid() : classType((short)0x8000), objID(0), clonePlayerID(0), cloneID(0) { }
 
     /**
      * Compares two Uoids by contents.  Only the location, type and name

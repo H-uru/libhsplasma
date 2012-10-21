@@ -16,7 +16,7 @@
 
 #include "plString.h"
 #include "Sys/Platform.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include <ctype.h>
 #include <cstdlib>
 #include <cstdarg>

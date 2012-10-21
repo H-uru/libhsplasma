@@ -16,13 +16,6 @@
 
 #include "plStereizer.h"
 
-plStereizer::plStereizer()
-           : fAmbientDist(0.0f), fTransition(0.0f), fMaxSepDist(0.0f),
-             fMinSepDist(0.0f), fTanAng(0.0f) {
-    fFlags.setName(kLeftChannel, "kLeftChannel");
-    fFlags.setName(kHasMaster, "kHasMaster");
-}
-
 void plStereizer::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

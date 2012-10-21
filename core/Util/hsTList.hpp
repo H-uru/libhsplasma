@@ -21,7 +21,7 @@
 #pragma warning(disable: 4251)
 #endif
 
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 
 template<typename T>
 class hsTList {

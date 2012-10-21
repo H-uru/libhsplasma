@@ -28,7 +28,7 @@ private:
     bool fSelected;
 
 public:
-    pfGUIListElement();
+    pfGUIListElement() : fSelected(false) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

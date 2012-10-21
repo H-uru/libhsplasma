@@ -17,10 +17,6 @@
 #include "pfGUIControlMod.h"
 
 /* pfGUIColorScheme */
-pfGUIColorScheme::pfGUIColorScheme() {
-    IReset();
-}
-
 void pfGUIColorScheme::IReset() {
     fForeColor.set(1.0f, 1.0f, 1.0f, 1.0f);
     fBackColor.set(0.0f, 0.0f, 0.0f, 1.0f);

@@ -32,7 +32,7 @@ protected:
     float fWidth, fHeight, fDepth;
 
 public:
-    plLimitedDirLightInfo();
+    plLimitedDirLightInfo() : fWidth(0.0f), fHeight(0.0f), fDepth(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

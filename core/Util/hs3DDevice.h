@@ -32,8 +32,9 @@ private:
     bool fCanRenderToCubics;
 
 public:
-    hsG3DDeviceMode();
-    virtual ~hsG3DDeviceMode();
+    hsG3DDeviceMode() : fFlags(0), fWidth(0), fHeight(0), fDepth(0),
+                        fCanRenderToCubics(false) { }
+    virtual ~hsG3DDeviceMode() { }
 
     void read(hsStream* S, int version=11);
     void write(hsStream* S, int version=11);
@@ -90,8 +91,12 @@ private:
     unsigned char fMaxAnisotropicSamples;
 
 public:
-    hsG3DDeviceRecord();
-    virtual ~hsG3DDeviceRecord();
+    hsG3DDeviceRecord() : fRecordVersion(11), fFlags(kInvalid), fDeviceType(0),
+                          fLayersAtOnce(0), fMemoryBytes(0), fZBiasRating(0.0),
+                          fLODBiasRating(0.0), fFogExpApproxStart(0.0),
+                          fFogExp2ApproxStart(0.0), fFogEndBias(0.0),
+                          fAASetting(0), fMaxAnisotropicSamples(0) { }
+    virtual ~hsG3DDeviceRecord() { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -130,8 +135,8 @@ private:
     unsigned short fTextureQuality;
 
 public:
-    hsG3DDeviceModeRecord();
-    virtual ~hsG3DDeviceModeRecord();
+    hsG3DDeviceModeRecord() : fTextureQuality(0) { }
+    virtual ~hsG3DDeviceModeRecord() { }
 
     void read(hsStream* S);
     void write(hsStream* S);

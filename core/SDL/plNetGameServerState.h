@@ -39,7 +39,7 @@ private:
     plUuid fServerGuid;
 
 public:
-    plNetServerSessionInfo();
+    plNetServerSessionInfo() : fServerType(0), fServerPort(0) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -83,7 +83,7 @@ private:
     hsTArray<plUoid> fObjects;
 
 public:
-    plNetGameServerState();
+    plNetGameServerState() : fFlags(kCompressed), fMajorVer(1), fMinorVer(1) { }
     ~plNetGameServerState();
 
     void read(hsStream* S);

@@ -27,7 +27,8 @@ protected:
     uint32_t fSize, fMax, fPos;
 
 public:
-    hsRAMStream(int pv = PlasmaVer::pvUnknown);
+    hsRAMStream(int pv = PlasmaVer::pvUnknown)
+        : hsStream(pv), fData(NULL), fSize(0), fMax(0), fPos(0) { }
     virtual ~hsRAMStream();
 
     void stealFrom(void* data, size_t size);

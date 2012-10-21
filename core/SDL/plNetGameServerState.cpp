@@ -19,9 +19,6 @@
 #include "Stream/hsRAMStream.h"
 
 /* plNetServerSessionInfo */
-plNetServerSessionInfo::plNetServerSessionInfo()
-                      : fServerType(0), fServerPort(0) { }
-
 void plNetServerSessionInfo::read(hsStream* S) {
     fContents = S->readByte();
     if (fContents & kHasServerName) {
@@ -105,9 +102,6 @@ void plNetServerSessionInfo::clearServerGuid() {
 
 
 /* plNetGameServerState */
-plNetGameServerState::plNetGameServerState()
-                    : fFlags(kCompressed), fMajorVer(1), fMinorVer(1) { }
-
 plNetGameServerState::~plNetGameServerState() {
     for (size_t i=0; i<fRecords.getSize(); i++)
         delete fRecords[i];

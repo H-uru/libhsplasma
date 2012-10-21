@@ -16,9 +16,6 @@
 
 #include "plControlEventConditionalObject.h"
 
-plControlEventConditionalObject::plControlEventConditionalObject()
-                               : fControlEvent((ControlEventCode)0) { }
-
 void plControlEventConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fControlEvent = (ControlEventCode)S->readInt();

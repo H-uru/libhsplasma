@@ -101,14 +101,6 @@ size_t pnFileManifest::calcSize() const
 
 
 /* Dispatch */
-pnFileClient::Dispatch::Dispatch(pnFileClient* self)
-            : fReceiver(self)
-{ }
-
-pnFileClient::Dispatch::~Dispatch()
-{ }
-
-
 bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
 {
     FileMsg_Header header;
@@ -185,9 +177,6 @@ bool pnFileClient::Dispatch::dispatch(pnSocket* sock)
 
 
 /* pnFileClient */
-pnFileClient::pnFileClient(bool threaded) : fSock(NULL), fThreaded(threaded), fDispatch(NULL)
-{ }
-
 pnFileClient::~pnFileClient()
 {
     delete fIface;

@@ -17,10 +17,6 @@
 #include "plFixedWaterState6.h"
 
 /* plFixedWaterState6::WaveState */
-plFixedWaterState6::WaveState::WaveState()
-                             : fMaxLength(0.0f), fMinLength(0.0f),
-                               fAmpOverLen(0.0f), fChop(0.0f), fAngleDev(0.0f) { }
-
 void plFixedWaterState6::WaveState::read(hsStream* S) {
     fMaxLength = S->readFloat();
     fMinLength = S->readFloat();
@@ -60,11 +56,6 @@ void plFixedWaterState6::WaveState::prcParse(const pfPrcTag* tag) {
 
 
 /* plFixedWaterState6 */
-plFixedWaterState6::plFixedWaterState6()
-                  : fRippleScale(0.0f), fWaterHeight(0.0f), fWispiness(0.0f),
-                    fEdgeOpac(0.0f), fEdgeRadius(0.0f), fPeriod(0.0f),
-                    fFingerLength(0.0f), fEnvRefresh(0.0f), fEnvRadius(0.0f) { }
-
 void plFixedWaterState6::read(hsStream* S) {
     fWaterOffset.read(S);
     fGeoState.read(S);

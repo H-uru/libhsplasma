@@ -17,10 +17,6 @@
 #include "plSound.h"
 
 /* plSound::plFadeParams */
-plSound::plFadeParams::plFadeParams()
-       : fLengthInSecs(0), fVolStart(0.0f), fVolEnd(0.0f), fType(kLinear),
-         fStopWhenDone(false), fFadeSoftVol(false), fCurrTime(0.0f) { }
-
 void plSound::plFadeParams::read(hsStream* S) {
     fLengthInSecs = S->readFloat();
     fVolStart = S->readFloat();
@@ -68,12 +64,6 @@ void plSound::plFadeParams::prcParse(const pfPrcTag* tag) {
 
 
 /* plSound */
-plSound::plSound()
-       : fType(kStartType), fPriority(0), fPlaying(false), fTime(0.0f),
-         fMaxFalloff(0), fMinFalloff(0), fOuterVol(0), fInnerCone(360),
-         fOuterCone(360), fCurrVolume(0.0f), fDesiredVol(0.0f),
-         fFadedVolume(0.0f), fProperties(0) { }
-
 void plSound::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
     IRead(S, mgr);

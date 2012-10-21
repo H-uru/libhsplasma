@@ -17,8 +17,6 @@
 #include "plCollisionDetector.h"
 
 /* plCollisionDetector */
-plCollisionDetector::plCollisionDetector() : fType(0) { }
-
 void plCollisionDetector::read(hsStream* S, plResManager* mgr) {
     plDetectorModifier::read(S, mgr);
     fType = S->readByte();
@@ -47,8 +45,6 @@ void plCollisionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSubworldRegionDetector */
-plSubworldRegionDetector::plSubworldRegionDetector() : fOnExit(false) { }
-
 void plSubworldRegionDetector::read(hsStream* S, plResManager* mgr) {
     plDetectorModifier::read(S, mgr);   // <-- Not a bug
     fSub = mgr->readKey(S);
@@ -86,8 +82,6 @@ void plSubworldRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 
 
 /* plPanicLinkRegion */
-plPanicLinkRegion::plPanicLinkRegion() : fPlayLinkOutAnim(true) { }
-
 void plPanicLinkRegion::read(hsStream* S, plResManager* mgr) {
     plCollisionDetector::read(S, mgr);
     fPlayLinkOutAnim = S->readBool();

@@ -27,7 +27,7 @@ private:
 
 public:
     pfSizedStream(hsStream* S, uint32_t len);
-    virtual ~pfSizedStream();
+    virtual ~pfSizedStream() { } // Do NOT free fBase!!!
 
     virtual uint32_t size() const { return fLength; }
     virtual uint32_t pos() const { return fBase->pos() - fBegin; }
@@ -35,9 +35,9 @@ public:
 
     virtual void seek(uint32_t pos);
     virtual void skip(int32_t count);
-    virtual void fastForward();
-    virtual void rewind();
-    virtual void flush();
+    virtual void fastForward() { fBase->seek(fBegin + fLength); }
+    virtual void rewind() { fBase->seek(fBegin); }
+    virtual void flush() { fBase->flush(); }
 
     virtual size_t read(size_t size, void* buf);
     virtual size_t write(size_t size, const void* buf);

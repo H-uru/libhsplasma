@@ -20,7 +20,7 @@
 #include "Math/hsGeometry3.h"
 #include "Util/hsTArray.hpp"
 #include "Util/hsTList.hpp"
-#include "hsGDeviceRef.h"
+#include "hsGDeviceRef.hpp"
 #include "plVertCoder.h"
 
 class PLASMA_DLL plGBufferCell {
@@ -28,8 +28,10 @@ public:
     unsigned int fVtxStart, fColorStart, fLength;
 
 public:
-    plGBufferCell();
-    plGBufferCell(const plGBufferCell& init);
+    plGBufferCell() : fVtxStart(0), fColorStart(0), fLength(0) { }
+    plGBufferCell(const plGBufferCell& init)
+        : fVtxStart(init.fVtxStart), fColorStart(init.fColorStart),
+          fLength(init.fLength) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -44,8 +46,10 @@ public:
     hsVector3 fCenter;
 
 public:
-    plGBufferTriangle();
-    plGBufferTriangle(const plGBufferTriangle& init);
+    plGBufferTriangle() : fIndex1(0), fIndex2(0), fIndex3(0), fSpanIndex(0) { }
+    plGBufferTriangle(const plGBufferTriangle& init)
+        : fIndex1(init.fIndex1), fIndex2(init.fIndex2), fIndex3(init.fIndex3),
+          fSpanIndex(init.fSpanIndex), fCenter(init.fCenter) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -63,8 +67,11 @@ public:
     hsVector3 fUVWs[10];
 
 public:
-    plGBufferVertex();
-    plGBufferVertex(const plGBufferVertex& init);
+    plGBufferVertex() : fSkinIdx(0), fColor(0) {
+        fSkinWeights[0] = 0.0f;
+        fSkinWeights[1] = 0.0f;
+        fSkinWeights[2] = 0.0f;
+    }
 };
 
 
@@ -102,7 +109,9 @@ protected:
     bool INeedVertRecompression(PlasmaVer ver) const;
 
 public:
-    plGBufferGroup(unsigned char fmt);
+    plGBufferGroup(unsigned char fmt) : fGBuffStorageType(kStoreUncompressed) {
+        setFormat(fmt);
+    }
     ~plGBufferGroup();
 
     void read(hsStream* S);
@@ -112,7 +121,7 @@ public:
 
     hsTArray<plGBufferVertex> getVertices(size_t idx, size_t start = 0, size_t count = (size_t)-1) const;
     hsTArray<unsigned short> getIndices(size_t idx, size_t start = 0, size_t count = (size_t)-1, size_t offset = 0) const;
-    hsTArray<plGBufferCell> getCells(size_t idx) const;
+    hsTArray<plGBufferCell> getCells(size_t idx) const { return fCells[idx]; }
 
     unsigned char getFormat() const { return fFormat; }
     size_t getSkinWeights() const { return (fFormat & kSkinWeightMask) >> 4; }
@@ -121,7 +130,7 @@ public:
 
     void addVertices(const hsTArray<plGBufferVertex>& verts);
     void addIndices(const hsTArray<unsigned short>& indices);
-    void addCells(const hsTArray<plGBufferCell>& cells);
+    void addCells(const hsTArray<plGBufferCell>& cells) { fCells.append(cells); }
     void setFormat(unsigned char format);
     void setSkinWeights(size_t skinWeights);
     void setNumUVs(size_t numUVs);
@@ -129,10 +138,10 @@ public:
 
     void delVertices(size_t idx);
     void delIndices(size_t idx);
-    void delCells(size_t idx);
+    void delCells(size_t idx) { fCells.remove(idx); }
     void clearVertices();
     void clearIndices();
-    void clearCells();
+    void clearCells() { fCells.clear(); }
 
     size_t getNumVertBuffers() const { return fVertBuffStorage.getSize(); }
     size_t getNumIdxBuffers() const { return fIdxBuffStorage.getSize(); }

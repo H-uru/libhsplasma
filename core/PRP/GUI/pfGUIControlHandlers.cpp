@@ -86,26 +86,13 @@ pfGUICtrlProcWriteableObject* pfGUICtrlProcWriteableObject::PrcParse(const pfPrc
 
 
 /* pfGUICloseDlgProc */
-pfGUICloseDlgProc::pfGUICloseDlgProc() {
-    fType = kCloseDlg;
-}
-
-void pfGUICloseDlgProc::IRead(hsStream* ) { }
-void pfGUICloseDlgProc::IWrite(hsStream* ) { }
-
 void pfGUICloseDlgProc::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("pfGUICloseDlgProc");
     prc->endTag(true);
 }
 
-void pfGUICloseDlgProc::IPrcParse(const pfPrcTag* ) { }
-
 
 /* pfGUIConsoleCmdProc */
-pfGUIConsoleCmdProc::pfGUIConsoleCmdProc() {
-    fType = kConsoleCmd;
-}
-
 void pfGUIConsoleCmdProc::IRead(hsStream* S) {
     int len = S->readInt();
     fCommand = S->readStr(len);
@@ -128,16 +115,7 @@ void pfGUIConsoleCmdProc::IPrcParse(const pfPrcTag* tag) {
 
 
 /* pfGUIPythonScriptProc */
-pfGUIPythonScriptProc::pfGUIPythonScriptProc() {
-    fType = kPythonScript;
-}
-
-void pfGUIPythonScriptProc::IRead(hsStream* ) { }
-void pfGUIPythonScriptProc::IWrite(hsStream* ) { }
-
 void pfGUIPythonScriptProc::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("pfGUIPythonScriptProc");
     prc->endTag(true);
 }
-
-void pfGUIPythonScriptProc::IPrcParse(const pfPrcTag* ) { }

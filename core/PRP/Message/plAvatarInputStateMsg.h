@@ -26,7 +26,7 @@ protected:
     uint16_t fState;
 
 public:
-    plAvatarInputStateMsg();
+    plAvatarInputStateMsg() : fState(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -17,12 +17,6 @@
 #include "plGBufferGroup.h"
 
 /* plGBufferCell */
-plGBufferCell::plGBufferCell() : fVtxStart(0), fColorStart(0), fLength(0) { }
-
-plGBufferCell::plGBufferCell(const plGBufferCell& init)
-             : fVtxStart(init.fVtxStart), fColorStart(init.fColorStart),
-               fLength(init.fLength) { }
-
 void plGBufferCell::read(hsStream* S) {
     fVtxStart = S->readInt();
     fColorStart = S->readInt();
@@ -54,14 +48,6 @@ void plGBufferCell::prcParse(const pfPrcTag* tag) {
 
 
 /* plGBufferTriangle */
-plGBufferTriangle::plGBufferTriangle()
-                 : fIndex1(0), fIndex2(0), fIndex3(0), fSpanIndex(0) { }
-
-plGBufferTriangle::plGBufferTriangle(const plGBufferTriangle& init)
-                 : fIndex1(init.fIndex1), fIndex2(init.fIndex2),
-                   fIndex3(init.fIndex3), fSpanIndex(init.fSpanIndex),
-                   fCenter(init.fCenter) { }
-
 void plGBufferTriangle::read(hsStream* S) {
     fIndex1 = S->readShort();
     fIndex2 = S->readShort();
@@ -114,28 +100,7 @@ void plGBufferTriangle::prcParse(const pfPrcTag* tag) {
 }
 
 
-/* plGBufferVertex */
-plGBufferVertex::plGBufferVertex() : fSkinIdx(0), fColor(0) {
-    fSkinWeights[0] = 0.0f;
-    fSkinWeights[1] = 0.0f;
-    fSkinWeights[2] = 0.0f;
-}
-
-plGBufferVertex::plGBufferVertex(const plGBufferVertex& init)
-               : fPos(init.fPos), fNormal(init.fNormal), fSkinIdx(init.fSkinIdx),
-                 fColor(init.fColor) {
-    memcpy(fSkinWeights, init.fSkinWeights, 3 * sizeof(float));
-    for (size_t i=0; i<10; i++)
-        fUVWs[i] = init.fUVWs[i];
-}
-
-
 /* plGBufferGroup */
-plGBufferGroup::plGBufferGroup(unsigned char fmt)
-              : fGBuffStorageType(kStoreUncompressed) {
-    setFormat(fmt);
-}
-
 plGBufferGroup::~plGBufferGroup() {
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
         delete[] fVertBuffStorage[i];
@@ -505,10 +470,6 @@ hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start, si
     return buf;
 }
 
-hsTArray<plGBufferCell> plGBufferGroup::getCells(size_t idx) const {
-    return fCells[idx];
-}
-
 void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
     size_t vtxSize = verts.getSize() * fStride;
     fVertBuffSizes.append(vtxSize);
@@ -563,10 +524,6 @@ void plGBufferGroup::addIndices(const hsTArray<unsigned short>& indices) {
         fIdxBuffStorage[idx][i] = indices[i];
 }
 
-void plGBufferGroup::addCells(const hsTArray<plGBufferCell>& cells) {
-    fCells.append(cells);
-}
-
 void plGBufferGroup::setFormat(unsigned char format) {
     fFormat = format;
     fStride = ICalcVertexSize(fLiteStride);
@@ -608,10 +565,6 @@ void plGBufferGroup::delIndices(size_t idx) {
     fIdxBuffCounts.remove(idx);
 }
 
-void plGBufferGroup::delCells(size_t idx) {
-    fCells.remove(idx);
-}
-
 void plGBufferGroup::clearVertices() {
     for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
         delete[] fVertBuffStorage[i];
@@ -628,8 +581,4 @@ void plGBufferGroup::clearIndices() {
         delete[] fIdxBuffStorage[i];
     fIdxBuffStorage.clear();
     fIdxBuffCounts.clear();
-}
-
-void plGBufferGroup::clearCells() {
-    fCells.clear();
 }

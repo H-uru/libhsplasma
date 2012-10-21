@@ -16,9 +16,6 @@
 
 #include "plNetMsgLoadClone.h"
 
-plNetMsgLoadClone::plNetMsgLoadClone()
-                 : fIsPlayer(false), fIsLoading(false), fIsInitialState(false) { }
-
 void plNetMsgLoadClone::read(hsStream* S, plResManager* mgr) {
     plNetMsgGameMessage::read(S, mgr);
 

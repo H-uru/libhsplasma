@@ -56,7 +56,8 @@ private:
     plUuid fAcctUuid;
 
 public:
-    plNetMessage();
+    plNetMessage() : fFlags(0), fProtocolVerMaj(12), fProtocolVerMin(6),
+                     fContext(0), fTransID(0), fPlayerID(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

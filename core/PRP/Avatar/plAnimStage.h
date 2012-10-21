@@ -52,7 +52,11 @@ private:
     bool fAttached;
 
 public:
-    plAnimStage();
+    plAnimStage() : fForwardType(kPlayNone), fBackType(kPlayNone),
+                    fAdvanceType(kAdvanceNone), fRegressType(kAdvanceNone),
+                    fNotify(0), fLoops(0), fDoAdvanceTo(false), fDoRegressTo(false),
+                    fAdvanceTo(0), fRegressTo(0), fLocalTime(0.0f), fLength(0.0f),
+                    fCurLoop(0), fAttached(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

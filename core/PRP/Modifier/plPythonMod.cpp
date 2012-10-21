@@ -17,8 +17,6 @@
 #include "plPythonMod.h"
 
 /* plPythonMod */
-plPythonMod::plPythonMod() : fPythonCode(NULL), fPythonSize(0) { }
-
 plPythonMod::~plPythonMod() {
     delete[] fPythonCode;
 }

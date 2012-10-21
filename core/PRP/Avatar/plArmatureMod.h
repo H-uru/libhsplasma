@@ -68,7 +68,7 @@ protected:
     plString fFootstepAge, fFootstepPage, fFootstepType;
 
 public:
-    plArmatureMod();
+    plArmatureMod() : fBodyType(0), fPhysHeight(0.0f), fPhysWidth(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

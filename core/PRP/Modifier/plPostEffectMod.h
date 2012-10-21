@@ -33,7 +33,7 @@ protected:
     hsMatrix44 fDefaultW2C, fDefaultC2W;
 
 public:
-    plPostEffectMod();
+    plPostEffectMod() : fHither(1.0f), fYon(100.0f), fFovX(0.7854f), fFovY(0.589f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -16,6 +16,7 @@
 
 #include "plEAXListenerMod.h"
 
+/* plEAXListenerMod */
 void plEAXListenerMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
@@ -144,22 +145,8 @@ void plEAXListenerMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void plEAXEffect::read(hsStream* S, plResManager* mgr) {
-    plSingleModifier::read(S, mgr);
-}
 
-void plEAXEffect::write(hsStream* S, plResManager* mgr) {
-    plSingleModifier::write(S, mgr);
-}
-
-void plEAXEffect::IPrcWrite(pfPrcHelper* prc) {
-    plSingleModifier::IPrcWrite(prc);
-}
-
-void plEAXEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    plSingleModifier::IPrcParse(tag, mgr);
-}
-
+/* plEAXReverbEffect */
 void plEAXReverbEffect::read(hsStream* S, plResManager* mgr) {
     plEAXEffect::read(S, mgr);
 

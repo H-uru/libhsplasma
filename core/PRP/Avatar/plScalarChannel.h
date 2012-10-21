@@ -65,7 +65,7 @@ protected:
     plController* fController;
 
 public:
-    plScalarControllerChannel();
+    plScalarControllerChannel() : fController(NULL) { }
     virtual ~plScalarControllerChannel();
 
     virtual void read(hsStream* S, plResManager* mgr);

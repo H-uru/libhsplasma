@@ -27,8 +27,6 @@ const char* const proEventData::fEventNames[] = {
     "proClimbingBlockerHitEventData"
 };
 
-proEventData::proEventData() : fEventType(0) { }
-
 proEventData* proEventData::ICreateEventDataType(int type) {
     switch (type) {
     case kCollision:    return new proCollisionEventData();
@@ -98,10 +96,6 @@ void proEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proCollisionEventData */
-proCollisionEventData::proCollisionEventData() : fEnter(false) {
-    fEventType = kCollision;
-}
-
 void proCollisionEventData::IRead(hsStream* S, plResManager* mgr) {
     fEnter = S->readBool();
     fHitter = mgr->readKey(S);
@@ -143,10 +137,6 @@ void proCollisionEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proPickedEventData */
-proPickedEventData::proPickedEventData() : fEnabled(false) {
-    fEventType = kPicked;
-}
-
 void proPickedEventData::IRead(hsStream* S, plResManager* mgr) {
     fPicker = mgr->readKey(S);
     fPicked = mgr->readKey(S);
@@ -196,10 +186,6 @@ void proPickedEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proControlKeyEventData */
-proControlKeyEventData::proControlKeyEventData() : fControlKey(0), fDown(false) {
-    fEventType = kControlKey;
-}
-
 void proControlKeyEventData::IRead(hsStream* S, plResManager* mgr) {
     fControlKey = S->readInt();
     fDown = S->readBool();
@@ -228,11 +214,6 @@ void proControlKeyEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proVariableEventData */
-proVariableEventData::proVariableEventData() : fNumber(0.0f) {
-    fEventType = kVariable;
-    fDataType = kNotta;
-}
-
 void proVariableEventData::IRead(hsStream* S, plResManager* mgr) {
     fName = S->readSafeStr();
     fDataType = S->readInt();
@@ -271,10 +252,6 @@ void proVariableEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proFacingEventData */
-proFacingEventData::proFacingEventData() : fDot(0.0f), fEnabled(false) {
-    fEventType = kFacing;
-}
-
 void proFacingEventData::IRead(hsStream* S, plResManager* mgr) {
     fFacer = mgr->readKey(S);
     fFacee = mgr->readKey(S);
@@ -320,10 +297,6 @@ void proFacingEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proContainedEventData */
-proContainedEventData::proContainedEventData() : fEntering(false) {
-    fEventType = kContained;
-}
-
 void proContainedEventData::IRead(hsStream* S, plResManager* mgr) {
     fContained = mgr->readKey(S);
     fContainer = mgr->readKey(S);
@@ -365,10 +338,6 @@ void proContainedEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proActivateEventData */
-proActivateEventData::proActivateEventData() : fActive(false), fActivate(false) {
-    fEventType = kActivate;
-}
-
 void proActivateEventData::IRead(hsStream* S, plResManager* mgr) {
     fActive = S->readBool();
     fActivate = S->readBool();
@@ -397,10 +366,6 @@ void proActivateEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proCallbackEventData */
-proCallbackEventData::proCallbackEventData() : fCallbackEventType(0) {
-    fEventType = kCallback;
-}
-
 void proCallbackEventData::IRead(hsStream* S, plResManager* mgr) {
     fCallbackEventType = S->readInt();
 }
@@ -425,10 +390,6 @@ void proCallbackEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proResponderStateEventData */
-proResponderStateEventData::proResponderStateEventData() : fState(0) {
-    fEventType = kResponderState;
-}
-
 void proResponderStateEventData::IRead(hsStream* S, plResManager* mgr) {
     fState = S->readInt();
 }
@@ -453,10 +414,6 @@ void proResponderStateEventData::IPrcParse(const pfPrcTag* tag, plResManager* mg
 
 
 /* proMultiStageEventData */
-proMultiStageEventData::proMultiStageEventData() : fStage(0), fEvent(kNothing) {
-    fEventType = kMultiStage;
-}
-
 void proMultiStageEventData::IRead(hsStream* S, plResManager* mgr) {
     fStage = S->readInt();
     fEvent = S->readInt();
@@ -494,10 +451,6 @@ void proMultiStageEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proSpawnedEventData */
-proSpawnedEventData::proSpawnedEventData() {
-    fEventType = kSpawned;
-}
-
 void proSpawnedEventData::IRead(hsStream* S, plResManager* mgr) {
     fSpawner = mgr->readKey(S);
     fSpawnee = mgr->readKey(S);
@@ -530,21 +483,7 @@ void proSpawnedEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 
-/* proClickDragEventData */
-proClickDragEventData::proClickDragEventData() {
-    fEventType = kClickDrag;
-}
-
-void proClickDragEventData::IRead(hsStream* S, plResManager* mgr) { }
-void proClickDragEventData::IWrite(hsStream* S, plResManager* mgr) { }
-void proClickDragEventData::IPrcWrite(pfPrcHelper* prc) { }
-
-
 /* proCoopEventData */
-proCoopEventData::proCoopEventData() : fID(0), fSerial(0) {
-    fEventType = kCoop;
-}
-
 void proCoopEventData::IRead(hsStream* S, plResManager* mgr) {
     fID = S->readInt();
     fSerial = S->readShort();
@@ -573,10 +512,6 @@ void proCoopEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proOfferLinkBookEventData */
-proOfferLinkBookEventData::proOfferLinkBookEventData() : fTargetAge(0), fOfferee(0) {
-    fEventType = kOfferLinkBook;
-}
-
 void proOfferLinkBookEventData::IRead(hsStream* S, plResManager* mgr) {
     fOfferer = mgr->readKey(S);
     fTargetAge = S->readInt();
@@ -614,10 +549,6 @@ void proOfferLinkBookEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr
 
 
 /* proBookEventData */
-proBookEventData::proBookEventData() : fEvent(0), fLinkID(0) {
-    fEventType = kBook;
-}
-
 void proBookEventData::IRead(hsStream* S, plResManager* mgr) {
     fEvent = S->readInt();
     fLinkID = S->readInt();
@@ -646,10 +577,6 @@ void proBookEventData::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* proClimbingBlockerHitEventData */
-proClimbingBlockerHitEventData::proClimbingBlockerHitEventData() {
-    fEventType = kClimbingBlockerHit;
-}
-
 void proClimbingBlockerHitEventData::IRead(hsStream* S, plResManager* mgr) {
     fBlockerKey = mgr->readKey(S);
 }

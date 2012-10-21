@@ -19,10 +19,6 @@
 #include "ResManager/pdUnifiedTypeMap.h"
 #include "Debug/plDebug.h"
 
-plPageInfo::plPageInfo() {
-    IInit();
-}
-
 plPageInfo::plPageInfo(const plString& age, const plString& page) {
     IInit();
     setAge(age);

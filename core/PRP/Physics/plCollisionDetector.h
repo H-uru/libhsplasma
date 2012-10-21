@@ -36,7 +36,7 @@ protected:
     unsigned char fType;
 
 public:
-    plCollisionDetector();
+    plCollisionDetector() : fType(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -60,7 +60,7 @@ protected:
     bool fOnExit;
 
 public:
-    plSubworldRegionDetector();
+    plSubworldRegionDetector() : fOnExit(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -85,7 +85,7 @@ protected:
     bool fPlayLinkOutAnim;
 
 public:
-    plPanicLinkRegion();
+    plPanicLinkRegion() : fPlayLinkOutAnim(true) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

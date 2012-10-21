@@ -71,8 +71,6 @@ void plVertDelta::prcParse(const pfPrcTag* tag) {
 
 
 /* plMorphSpan */
-plMorphSpan::plMorphSpan() : fNumUVWChans(0), fUVWs(NULL) { }
-
 plMorphSpan::~plMorphSpan() {
     delete[] fUVWs;
 }
@@ -154,8 +152,6 @@ void plMorphSpan::prcParse(const pfPrcTag* tag) {
 
 
 /* plMorphDelta */
-plMorphDelta::plMorphDelta() : fWeight(0.0f) { }
-
 void plMorphDelta::read(hsStream* S, plResManager* ) {
     fWeight = S->readFloat();
     fSpans.setSize(S->readInt());

@@ -17,8 +17,6 @@
 #include "plNetMsgGameMessage.h"
 
 /* plNetMsgGameMessage */
-plNetMsgGameMessage::plNetMsgGameMessage() : fMessage(NULL) { }
-
 plNetMsgGameMessage::~plNetMsgGameMessage() {
     delete fMessage;
 }

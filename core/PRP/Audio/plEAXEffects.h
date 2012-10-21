@@ -26,7 +26,7 @@ protected:
     float fOcclusionLFRatio, fOcclusionRoomRatio, fOcclusionDirectRatio;
 
 public:
-    plEAXSourceSoftSettings();
+    plEAXSourceSoftSettings() { reset(); }
     void reset();
 
     void read(hsStream* S);
@@ -58,7 +58,7 @@ protected:
     float fOcclusionSoftValue;
 
 public:
-    plEAXSourceSettings();
+    plEAXSourceSettings() { enable(false); }
 
     void enable(bool en);
 

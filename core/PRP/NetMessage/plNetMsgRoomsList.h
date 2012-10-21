@@ -63,7 +63,7 @@ private:
     unsigned char fPageFlags;
 
 public:
-    plNetMsgPagingRoom();
+    plNetMsgPagingRoom() : fPageFlags(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

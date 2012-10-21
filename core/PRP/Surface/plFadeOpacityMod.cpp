@@ -16,10 +16,6 @@
 
 #include "plFadeOpacityMod.h"
 
-plFadeOpacityMod::plFadeOpacityMod() : fFadeUp(0.0f), fFadeDown(0.0f) {
-    fFlags.setName(kBoundsCenter, "kBoundsCenter");
-}
-
 void plFadeOpacityMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
     fFadeUp = S->readFloat();

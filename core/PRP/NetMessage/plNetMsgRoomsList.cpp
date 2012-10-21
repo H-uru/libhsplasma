@@ -79,8 +79,6 @@ void plNetMsgRoomsList::addRoom(const plLocation& loc, const plString& name) {
 
 
 /* plNetMsgPagingRoom */
-plNetMsgPagingRoom::plNetMsgPagingRoom() : fPageFlags(0) { }
-
 void plNetMsgPagingRoom::read(hsStream* S, plResManager* mgr) {
     plNetMsgRoomsList::read(S, mgr);
     fPageFlags = S->readByte();

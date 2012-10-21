@@ -16,8 +16,6 @@
 
 #include "hsGMaterial.h"
 
-hsGMaterial::hsGMaterial() : fCompFlags(0), fLoadFlags(0) { }
-
 void hsGMaterial::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
 

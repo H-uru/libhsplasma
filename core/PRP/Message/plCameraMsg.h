@@ -37,7 +37,10 @@ protected:
     bool fWorldspace;
 
 public:
-    plCameraConfig();
+    plCameraConfig()
+        : fAccel(0.0f), fDecel(0.0f), fVel(0.0f), fFPAccel(0.0f),
+          fFPDecel(0.0f), fFPVel(0.0f), fFOVw(0.0f), fFOVh(0.0f),
+          fWorldspace(false) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

@@ -30,7 +30,9 @@ protected:
     int fDefaultValue;
 
 public:
-    pfGUIRadioGroupCtrl();
+    pfGUIRadioGroupCtrl() : fDefaultValue(0) {
+        fFlags.setName(kAllowNoSelection, "kAllowNoSelection");
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

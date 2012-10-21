@@ -41,8 +41,9 @@ public:
         int fSeqSuffix;
         unsigned int fLoadFlags;
 
-        PageEntry(const plString& name, int seqSuffix, unsigned int loadFlags);
-        PageEntry();
+        PageEntry(const plString& name, int seqSuffix, unsigned int loadFlags)
+            : fName(name), fSeqSuffix(seqSuffix), fLoadFlags(loadFlags) { }
+        PageEntry() : fSeqSuffix(0), fLoadFlags(0) { }
     };
 
 protected:
@@ -55,7 +56,8 @@ protected:
     hsTArray<PageEntry> fPages;
 
 public:
-    plAgeInfo();
+    plAgeInfo() : fStartDateTime(0), fDayLength(24.0f), fMaxCapacity(-1),
+                  fLingerTime(180), fSeqPrefix(0), fReleaseVersion(0) { }
 
     void readFromFile(const plString& filename);
     void writeToFile(const plString& filename, PlasmaVer ver);

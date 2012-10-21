@@ -37,7 +37,8 @@ protected:
     float fInsideStrength, fOutsideStrength;
 
 public:
-    plSoftVolume();
+    plSoftVolume() : fListenState(kListenNone), fInsideStrength(0.0f),
+                     fOutsideStrength(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -56,7 +57,7 @@ protected:
     float fSoftDist;
 
 public:
-    plSoftVolumeSimple();
+    plSoftVolumeSimple() : fVolume(NULL), fSoftDist(0.0f) { }
     virtual ~plSoftVolumeSimple();
 
     virtual void read(hsStream* S, plResManager* mgr);

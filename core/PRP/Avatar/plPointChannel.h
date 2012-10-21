@@ -64,7 +64,7 @@ protected:
     plController* fController;
 
 public:
-    plPointControllerChannel();
+    plPointControllerChannel() : fController(NULL) { }
     virtual ~plPointControllerChannel();
 
     virtual void read(hsStream* S, plResManager* mgr);

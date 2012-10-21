@@ -39,7 +39,7 @@ private:
     unsigned char fFontSize, fFontFlags;
 
 public:
-    pfGUIColorScheme();
+    pfGUIColorScheme() { IReset(); }
 
     void read(hsStream* S);
     void write(hsStream* S);

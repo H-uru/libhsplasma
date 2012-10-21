@@ -59,7 +59,8 @@ protected:
     bool fNeedWalkingForward;
 
 public:
-    plObjectInVolumeAndFacingDetector();
+    plObjectInVolumeAndFacingDetector()
+        : fFacingTolerance(0.0f), fNeedWalkingForward(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

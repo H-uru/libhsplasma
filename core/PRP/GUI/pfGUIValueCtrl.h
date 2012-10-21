@@ -26,7 +26,7 @@ protected:
     float fMin, fMax, fStep;
 
 public:
-    pfGUIValueCtrl();
+    pfGUIValueCtrl() : fMin(0.0f), fMax(0.0f), fStep(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

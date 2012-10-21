@@ -53,19 +53,6 @@ plMD5Hash::plMD5Hash() {
     fHash[3] = 0x7e42f8ec;
 }
 
-plMD5Hash::plMD5Hash(const plMD5Hash& cpy) {
-    memcpy(fHash, cpy.fHash, sizeof(fHash));
-}
-
-plMD5Hash::plMD5Hash(const char* hex) {
-    fromHex(hex);
-}
-
-plMD5Hash& plMD5Hash::operator=(const plMD5Hash& cpy) {
-    memcpy(fHash, cpy.fHash, sizeof(fHash));
-    return *this;
-}
-
 bool plMD5Hash::operator==(const plMD5Hash& cmp) {
     return memcmp(fHash, cmp.fHash, sizeof(fHash)) == 0;
 }

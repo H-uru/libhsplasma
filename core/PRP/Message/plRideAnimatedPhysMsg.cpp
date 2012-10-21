@@ -16,8 +16,6 @@
 
 #include "plRideAnimatedPhysMsg.h"
 
-plRideAnimatedPhysMsg::plRideAnimatedPhysMsg() : fEntering(false) { }
-
 void plRideAnimatedPhysMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

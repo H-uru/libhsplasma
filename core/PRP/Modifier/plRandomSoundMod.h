@@ -25,7 +25,7 @@ protected:
     short fGroupedIdx;
 
 public:
-    plRandomSoundModGroup();
+    plRandomSoundModGroup() : fGroupedIdx(0) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

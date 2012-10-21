@@ -29,7 +29,8 @@ public:
 
 public:
     plShaderConst();
-    plShaderConst(float f1, float f2, float f3, float f4);
+    plShaderConst(float f1, float f2, float f3, float f4)
+        : fX(f1), fY(f2), fZ(f3), fW(f4) { }
     plShaderConst(const plShaderConst& init);
 
     plShaderConst& operator=(const plShaderConst& init);
@@ -67,7 +68,7 @@ protected:
     unsigned char fInput, fOutput;
 
 public:
-    plShader();
+    plShader() : fID(kUnregistered), fInput(0), fOutput(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

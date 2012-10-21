@@ -156,8 +156,6 @@ void plConeIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plConvexIsect */
-plConvexIsect::SinglePlane::SinglePlane() : fDist(0.0f), fWorldDist(0.0f) { }
-
 void plConvexIsect::read(hsStream* S, plResManager* mgr) {
     fPlanes.setSize(S->readShort());
     for (size_t i=0; i<fPlanes.getSize(); i++) {
@@ -236,9 +234,6 @@ void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCylinderIsect */
-plCylinderIsect::plCylinderIsect()
-               : fRadius(0.0f), fLength(0.0f), fMin(0.0f), fMax(0.0f) { }
-
 void plCylinderIsect::read(hsStream* S, plResManager* mgr) {
     fTop.read(S);
     fBot.read(S);
@@ -308,8 +303,6 @@ void plCylinderIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plParallelIsect */
-plParallelIsect::ParPlane::ParPlane() : fMin(0.0f), fMax(0.0f) { }
-
 void plParallelIsect::read(hsStream* S, plResManager* mgr) {
     fPlanes.setSize(S->readShort());
     for (size_t i=0; i<fPlanes.getSize(); i++) {
@@ -385,8 +378,6 @@ void plParallelIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSphereIsect */
-plSphereIsect::plSphereIsect() : fRadius(0.0f) { }
-
 void plSphereIsect::read(hsStream* S, plResManager* mgr) {
     fCenter.read(S);
     fWorldCenter.read(S);

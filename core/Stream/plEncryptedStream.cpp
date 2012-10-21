@@ -38,10 +38,6 @@ plEncryptedStream::plEncryptedStream(int pv)
     fEKey[3] = uruKey[3];
 }
 
-plEncryptedStream::~plEncryptedStream() {
-    close();
-}
-
 void plEncryptedStream::TeaDecipher(unsigned int* buf) {
     unsigned int second = buf[1], first = buf[0], key = 0xC6EF3720;
 

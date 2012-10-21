@@ -112,8 +112,6 @@ void plDynaTorpedoVSMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plDynaWakeMgr */
-plDynaWakeMgr::plDynaWakeMgr() : fAnimPath(NULL), fAnimWgt(0.0f), fVelWgt(0.0f) { }
-
 plDynaWakeMgr::~plDynaWakeMgr() {
     delete fAnimPath;
 }

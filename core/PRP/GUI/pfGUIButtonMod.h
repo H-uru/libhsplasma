@@ -32,7 +32,7 @@ protected:
     int fNotifyType, fEoaUnknown1, fEoaUnknown2;
 
 public:
-    pfGUIButtonMod();
+    pfGUIButtonMod() : fNotifyType(0), fEoaUnknown1(0), fEoaUnknown2(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -73,7 +73,10 @@ public:
     enum ItemFlags { kDrawSubMenuArrow = kDerivedFlagsStart, kReportHovers };
 
 public:
-    pfGUIMenuItem();
+    pfGUIMenuItem() {
+        fFlags.setName(kDrawSubMenuArrow, "kDrawSubMenuArrow");
+        fFlags.setName(kReportHovers, "kReportHovers");
+    }
 };
 
 #endif

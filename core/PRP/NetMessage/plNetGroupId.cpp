@@ -16,8 +16,6 @@
 
 #include "plNetGroupId.h"
 
-plNetGroupId::plNetGroupId() : fFlags(0) { }
-
 void plNetGroupId::read(hsStream* S) {
     fID.read(S);
     fFlags = S->readByte();

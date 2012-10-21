@@ -16,10 +16,6 @@
 
 #include "plObjInterface.h"
 
-plObjInterface::plObjInterface() {
-    fProps.setName(kDisable, "kDisable");
-}
-
 void plObjInterface::read(hsStream* S, plResManager* mgr) {
     plSynchedObject::read(S, mgr);
     fOwner = mgr->readKey(S);

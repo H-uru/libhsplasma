@@ -27,7 +27,7 @@ private:
     unsigned int fNumInitialStates;
 
 public:
-    plNetMsgInitialAgeStateSent();
+    plNetMsgInitialAgeStateSent() : fNumInitialStates(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

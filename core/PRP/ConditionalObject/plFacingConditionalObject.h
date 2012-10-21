@@ -28,7 +28,7 @@ protected:
     bool fDirectional;
 
 public:
-    plFacingConditionalObject();
+    plFacingConditionalObject() : fTolerance(0.0f), fDirectional(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

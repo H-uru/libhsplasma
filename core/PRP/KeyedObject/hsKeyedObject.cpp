@@ -66,8 +66,6 @@ void hsKeyedObject::setKey(plKey key) {
 
 
 /* hsKeyedObjectStub */
-hsKeyedObjectStub::hsKeyedObjectStub() : fStub(NULL) { }
-
 hsKeyedObjectStub::~hsKeyedObjectStub() {
     delete fStub;
 }

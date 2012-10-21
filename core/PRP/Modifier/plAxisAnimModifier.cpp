@@ -16,9 +16,6 @@
 
 #include "plAxisAnimModifier.h"
 
-plAxisAnimModifier::plAxisAnimModifier()
-                  : fNotify(NULL), fAllOrNothing(false) { }
-
 plAxisAnimModifier::~plAxisAnimModifier() {
     delete fNotify;
 }

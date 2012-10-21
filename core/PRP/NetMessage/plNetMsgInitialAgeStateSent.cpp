@@ -16,8 +16,6 @@
 
 #include "plNetMsgInitialAgeStateSent.h"
 
-plNetMsgInitialAgeStateSent::plNetMsgInitialAgeStateSent() : fNumInitialStates(0) { }
-
 void plNetMsgInitialAgeStateSent::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
     fNumInitialStates = S->readInt();

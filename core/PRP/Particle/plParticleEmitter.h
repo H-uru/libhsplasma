@@ -56,7 +56,8 @@ protected:
     hsColorRGBA fColor;
 
 public:
-    plParticleEmitter();
+    plParticleEmitter() : fMiscFlags(0), fSpanIndex(0), fMaxParticles(0),
+                          fGenerator(NULL) { }
     virtual ~plParticleEmitter();
 
     virtual void read(hsStream* S, plResManager* mgr);

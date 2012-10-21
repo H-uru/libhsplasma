@@ -27,7 +27,7 @@ protected:
     plKey fSwimRegion;
 
 public:
-    plSwimMsg();
+    plSwimMsg() : fIsEntering(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

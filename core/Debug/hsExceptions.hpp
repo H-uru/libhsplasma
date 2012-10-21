@@ -27,46 +27,65 @@ protected:
     unsigned long fLine;
 
 public:
-    hsException(const char* file, unsigned long line) throw();
-    hsException(const hsException& e) throw();
+    hsException(const char* file, unsigned long line) throw()
+        : fWhat("Undefined Plasma Exception"), fFile(file), fLine(line) { }
     virtual ~hsException() throw() { }
 
-    hsException& operator=(const hsException& other) throw();
+    hsException& operator=(const hsException& other) throw() {
+        fWhat = other.fWhat;
+        return *this;
+    }
 
     virtual const char* what() const throw() { return fWhat; }
     const char* File() const throw() { return fFile; }
     unsigned long Line() const throw() { return fLine; }
 
 protected:
-    hsException(const plString& w, const char* file,
-                unsigned long line) throw();
+    hsException(const plString& w, const char* file, unsigned long line) throw()
+        : fWhat(w), fFile(file), fLine(line) { }
 };
 
 class PLASMA_DLL hsNotImplementedException : public hsException {
 public:
     hsNotImplementedException(const char* file, unsigned long line,
-                              const char* feature = NULL) throw();
+                              const char* feature = NULL) throw()
+        : hsException(file, line)
+    {
+        if (feature == NULL)
+            fWhat = "Not implemented";
+        else
+            fWhat = plString("`") + feature + "' not implemented";
+    }
 };
 
 class PLASMA_DLL hsBadParamException : public hsException {
 public:
     hsBadParamException(const char* file, unsigned long line,
-                        const char* details = NULL) throw();
+                        const char* details = NULL) throw()
+        : hsException(file, line)
+    {
+        fWhat = "Bad parameter";
+        if (details != NULL)
+            fWhat += plString(": ") + details;
+    }
 };
 
 class PLASMA_DLL hsOutOfBoundsException : public hsException {
 public:
-    hsOutOfBoundsException(const char* file, unsigned long line) throw();
+    hsOutOfBoundsException(const char* file, unsigned long line) throw()
+        : hsException(file, line) { fWhat = "Out of bounds"; }
 };
 
 class PLASMA_DLL hsBadVersionException : public hsException {
 public:
-    hsBadVersionException(const char* file, unsigned long line) throw();
+    hsBadVersionException(const char* file, unsigned long line) throw()
+        : hsException(file, line) { fWhat = "Unknown Plasma version"; }
 };
 
 class PLASMA_DLL hsVersionMismatchException : public hsException {
 public:
-    hsVersionMismatchException(const char* file, unsigned long line) throw();
+    hsVersionMismatchException(const char* file, unsigned long line) throw()
+        : hsException(file, line) { fWhat = "Plasma Versions don't match"; }
 };
 
 #endif

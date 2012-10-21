@@ -194,7 +194,8 @@ public:
             unsigned int fColorZBitMask;
         };
 
-        plDDPixelFormat();
+        plDDPixelFormat() : fFlags(0), fFourCC(0), fBitDepth(0), fRBitMask(0),
+                            fGBitMask(0), fBBitMask(0), fAlphaBitMask(0) { }
 
         void read(hsStream* S);
         void write(hsStream* S);
@@ -230,7 +231,10 @@ private:
     size_t* fLevelSizes;
 
 public:
-    plDDSurface();
+    plDDSurface() : fFlags(0), fHeight(0), fWidth(0), fLinearSize(0),
+                    fBackBufferCount(0), fMipmapCount(0), fAlphaDepth(0),
+                    fCaps(0), fCaps2(0), fCaps3(0), fCaps4(0), fTextureStage(0),
+                    fDataSize(0), fDataBuffer(NULL), fLevelSizes(NULL) { }
     ~plDDSurface();
 
     void read(hsStream* S);

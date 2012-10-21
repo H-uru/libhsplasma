@@ -17,9 +17,6 @@
 #include "plIcicle.h"
 
 /* plIcicle */
-plIcicle::plIcicle()
-        : fIBufferIdx(0), fIStartIdx(0), fILength(0), fSortData(NULL) { }
-
 plIcicle::plIcicle(const plIcicle& init)
         : plVertexSpan(init), fIBufferIdx(init.fIBufferIdx),
           fIStartIdx(init.fIStartIdx), fILength(init.fILength) {
@@ -116,10 +113,6 @@ void plIcicle::setSortData(const plGBufferTriangle* data) {
 
 
 /* plParticleSpan */
-void plParticleSpan::read(hsStream* ) { }
-void plParticleSpan::write(hsStream* ) { }
-void plParticleSpan::IPrcWrite(pfPrcHelper* ) { }
-
 void plParticleSpan::IPrcParse(const pfPrcTag* tag) {
     throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 }

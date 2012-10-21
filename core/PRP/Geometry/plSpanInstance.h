@@ -46,10 +46,7 @@ protected:
     float fPosScale;
 
 public:
-    plSpanEncoding();
-    plSpanEncoding(const plSpanEncoding& init);
-
-    plSpanEncoding& operator=(const plSpanEncoding& init);
+    plSpanEncoding() : fCode(0), fPosScale(0.0f) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -75,7 +72,7 @@ protected:
     unsigned int fNumVerts;
 
 public:
-    plSpanInstance();
+    plSpanInstance() : fPosDelta(NULL), fCol(NULL) { }
     ~plSpanInstance();
 
     void read(hsStream* S, const plSpanEncoding& encoding, unsigned int numVerts);

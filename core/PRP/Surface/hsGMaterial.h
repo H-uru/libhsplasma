@@ -46,7 +46,7 @@ private:
     unsigned int fCompFlags, fLoadFlags;
 
 public:
-    hsGMaterial();
+    hsGMaterial() : fCompFlags(0), fLoadFlags(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

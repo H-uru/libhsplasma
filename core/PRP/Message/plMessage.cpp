@@ -16,8 +16,6 @@
 
 #include "plMessage.h"
 
-plMessage::plMessage() : fTimeStamp(0.0), fBCastFlags(kLocalPropagate) { }
-
 void plMessage::IMsgRead(hsStream* S, plResManager* mgr) {
     fSender = mgr->readKey(S);
     fReceivers.setSize(S->readInt());
@@ -38,14 +36,6 @@ void plMessage::IMsgWrite(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru() || S->getVer().isUniversal())
         S->writeDouble(fTimeStamp);
     S->writeInt(fBCastFlags);
-}
-
-void plMessage::read(hsStream* S, plResManager* mgr) {
-    IMsgRead(S, mgr);
-}
-
-void plMessage::write(hsStream* S, plResManager* mgr) {
-    IMsgWrite(S, mgr);
 }
 
 void plMessage::IPrcWrite(pfPrcHelper* prc) {

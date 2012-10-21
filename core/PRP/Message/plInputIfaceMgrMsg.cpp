@@ -16,10 +16,6 @@
 
 #include "plInputIfaceMgrMsg.h"
 
-plInputIfaceMgrMsg::plInputIfaceMgrMsg() : fCommand(0), fPageID(0) {
-    fBCastFlags |= kBCastByExactType;
-}
-
 void plInputIfaceMgrMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

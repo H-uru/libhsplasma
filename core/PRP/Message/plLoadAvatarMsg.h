@@ -30,7 +30,7 @@ protected:
     plString fUserStr;
 
 public:
-    plLoadAvatarMsg();
+    plLoadAvatarMsg() : fInitialTask(NULL) { }
     virtual ~plLoadAvatarMsg();
 
     virtual void read(hsStream* S, plResManager* mgr);

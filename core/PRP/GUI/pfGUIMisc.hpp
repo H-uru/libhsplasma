@@ -26,7 +26,10 @@ public:
     enum ClickMapFlags { kReportDragging = kDerivedFlagsStart, kReportHovering };
 
 public:
-    inline pfGUIClickMapCtrl();
+    pfGUIClickMapCtrl() {
+        fFlags.setName(kReportDragging, "kReportDragging");
+        fFlags.setName(kReportHovering, "kReportHovering");
+    }
 };
 
 
@@ -45,27 +48,16 @@ public:
     };
 
 public:
-    inline pfGUIDraggableMod();
+    pfGUIDraggableMod() {
+        fFlags.setName(kReportDragging, "kReportDragging");
+        fFlags.setName(kHideCursorWhileDragging, "kHideCursorWhileDragging");
+        fFlags.setName(kAlwaysSnapBackToStart, "kAlwaysSnapBackToStart");
+    }
 };
 
 
 class PLASMA_DLL pfGUIEditBoxMod : public virtual pfGUIControlMod {
     CREATABLE(pfGUIEditBoxMod, kGUIEditBoxMod, pfGUIControlMod)
 };
-
-
-/* pfGUIClickMapCtrl */
-pfGUIClickMapCtrl::pfGUIClickMapCtrl() {
-    fFlags.setName(kReportDragging, "kReportDragging");
-    fFlags.setName(kReportHovering, "kReportHovering");
-}
-
-
-/* pfGUIDraggableMod */
-pfGUIDraggableMod::pfGUIDraggableMod() {
-    fFlags.setName(kReportDragging, "kReportDragging");
-    fFlags.setName(kHideCursorWhileDragging, "kHideCursorWhileDragging");
-    fFlags.setName(kAlwaysSnapBackToStart, "kAlwaysSnapBackToStart");
-}
 
 #endif

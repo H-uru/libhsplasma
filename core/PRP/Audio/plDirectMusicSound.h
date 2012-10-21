@@ -27,7 +27,7 @@ protected:
     plString fFileName;
 
 public:
-    plDirectMusicSound();
+    plDirectMusicSound() : fUnknown1(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

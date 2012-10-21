@@ -17,10 +17,6 @@
 #include "plSoundBuffer.h"
 
 /* plWAVHeader */
-plWAVHeader::plWAVHeader()
-           : fFormatTag(0), fNumChannels(0), fNumSamplesPerSec(0),
-             fAvgBytesPerSec(0), fBlockAlign(0), fBitsPerSample(0) { }
-
 void plWAVHeader::read(hsStream* S) {
     fFormatTag = S->readShort();
     fNumChannels = S->readShort();
@@ -64,8 +60,6 @@ void plWAVHeader::prcParse(const pfPrcTag* tag) {
 
 
 /* plSoundBuffer */
-plSoundBuffer::plSoundBuffer() : fDataLength(0), fData(NULL), fFlags(0) { }
-
 plSoundBuffer::~plSoundBuffer() {
     delete[] fData;
 }

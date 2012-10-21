@@ -27,7 +27,8 @@ public:
         plString fStart;
         plString fEnd;
 
-        Region(const plString& start, const plString& end);
+        Region(const plString& start, const plString& end)
+            : fStart(start), fEnd(end) { }
         Region() { }
     };
 
@@ -43,7 +44,8 @@ protected:
     int fInComment;
 
 public:
-    hsTokenStream(hsStream* stream);
+    hsTokenStream(hsStream* stream)
+        : fStream(stream), fIOwnStream(false), fInComment(-1) { }
     hsTokenStream(const plString& filename);
     ~hsTokenStream();
 

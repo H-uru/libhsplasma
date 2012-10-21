@@ -41,7 +41,9 @@ protected:
     size_t fInitBufferLen;
 
 public:
-    plDynamicTextMap();
+    plDynamicTextMap()
+        : fVisWidth(0), fVisHeight(0), fHasAlpha(false), fHasBeenCreated(false),
+          fInitBuffer(NULL), fInitBufferLen(0) { }
     virtual ~plDynamicTextMap();
 
     void Create(unsigned int width, unsigned int height, bool hasAlpha,

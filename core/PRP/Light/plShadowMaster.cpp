@@ -17,13 +17,6 @@
 #include "plShadowMaster.h"
 
 /* plShadowMaster */
-plShadowMaster::plShadowMaster()
-              : fAttenDist(0.0f), fMaxDist(0.0f), fMinDist(0.0f), fPower(0.0f),
-                fMaxSize(0), fMinSize(0) {
-    fProps.setName(kDisable, "kDisable");
-    fProps.setName(kSelfShadow, "kSelfShadow");
-}
-
 void plShadowMaster::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 

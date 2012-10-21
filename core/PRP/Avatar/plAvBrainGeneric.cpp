@@ -16,13 +16,6 @@
 
 #include "plAvBrainGeneric.h"
 
-plAvBrainGeneric::plAvBrainGeneric()
-                : fCurStage(0), fType(kGeneric), fExitFlags(kExitNormal),
-                  fMode(kNormal), fForward(true), fStartMessage(NULL),
-                  fEndMessage(NULL), fFadeIn(6.0f), fFadeOut(0.0f),
-                  fMoveMode(kMoveAbsolute), fBodyUsage(plAGAnim::kBodyUnknown)
-                  { }
-
 plAvBrainGeneric::~plAvBrainGeneric() {
     for (size_t i=0; i<fStages.getSize(); i++)
         delete fStages[i];

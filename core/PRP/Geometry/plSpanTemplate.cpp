@@ -16,10 +16,6 @@
 
 #include "plSpanTemplate.h"
 
-plSpanTemplate::plSpanTemplate()
-              : fNumVerts(0), fNumTris(0), fFormat(0), fStride(0),
-                fData(NULL), fIndices(NULL) { }
-
 plSpanTemplate::~plSpanTemplate() {
     delete[] fData;
     delete[] fIndices;

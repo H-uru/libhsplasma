@@ -16,7 +16,7 @@
 
 #include <ResManager/plResManager.h>
 #include <ResManager/plFactory.h>
-#include <Debug/hsExceptions.h>
+#include <Debug/hsExceptions.hpp>
 #include <Debug/plDebug.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
 

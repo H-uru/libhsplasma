@@ -64,7 +64,10 @@ private:
     plKey fRecipient;
 
 public:
-    plAvBrainGeneric();
+    plAvBrainGeneric() : fCurStage(0), fType(kGeneric), fExitFlags(kExitNormal),
+                         fMode(kNormal), fForward(true), fStartMessage(NULL),
+                         fEndMessage(NULL), fFadeIn(6.0f), fFadeOut(0.0f),
+                         fMoveMode(kMoveAbsolute), fBodyUsage(plAGAnim::kBodyUnknown) { }
     virtual ~plAvBrainGeneric();
 
     virtual void read(hsStream* S, plResManager* mgr);

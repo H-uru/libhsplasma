@@ -41,7 +41,7 @@ protected:
     hsVector3* fUVWs;
 
 public:
-    plMorphSpan();
+    plMorphSpan() : fNumUVWChans(0), fUVWs(NULL) { }
     ~plMorphSpan();
 
     void read(hsStream* S);
@@ -59,7 +59,7 @@ protected:
     float fWeight;
 
 public:
-    plMorphDelta();
+    plMorphDelta() : fWeight(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

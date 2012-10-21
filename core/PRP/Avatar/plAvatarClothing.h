@@ -42,7 +42,7 @@ protected:
     plKey fBase, fTargetTexture, fMaterial;
 
 public:
-    plClothingOutfit();
+    plClothingOutfit() : fGroup(kClothingGroupNoOptions) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -28,7 +28,7 @@ private:
     unsigned char fCompressionType;
 
 public:
-    plNetMsgStreamedObject();
+    plNetMsgStreamedObject() : fCompressionType(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

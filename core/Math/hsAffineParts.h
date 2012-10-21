@@ -54,10 +54,7 @@ public:
 
 public:
     /** Constructs a default (identity) Affine Transformation */
-    hsAffineParts();
-
-    /** Copy constructor */
-    hsAffineParts(const hsAffineParts& init);
+    hsAffineParts() : fI(0), fK(1.0f, 1.0f, 1.0f), fF(1.0f) { }
 
     /** Read the affine parts from a versioned stream */
     void read(hsStream* S);

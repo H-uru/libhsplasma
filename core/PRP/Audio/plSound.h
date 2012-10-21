@@ -58,7 +58,9 @@ public:
         float fCurrTime;
 
     public:
-        plFadeParams();
+        plFadeParams()
+            : fLengthInSecs(0), fVolStart(0.0f), fVolEnd(0.0f), fType(kLinear),
+              fStopWhenDone(false), fFadeSoftVol(false), fCurrTime(0.0f) { }
 
         void read(hsStream* S);
         void write(hsStream* S);
@@ -80,7 +82,10 @@ protected:
     plString fSubtitleId;
 
 public:
-    plSound();
+    plSound() : fType(kStartType), fPriority(0), fPlaying(false), fTime(0.0f),
+                fMaxFalloff(0), fMinFalloff(0), fOuterVol(0), fInnerCone(360),
+                fOuterCone(360), fCurrVolume(0.0f), fDesiredVol(0.0f),
+                fFadedVolume(0.0f), fProperties(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -16,8 +16,6 @@
 
 #include "plSittingModifier.h"
 
-plSittingModifier::plSittingModifier() : fMiscFlags(0) { }
-
 void plSittingModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

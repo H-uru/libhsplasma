@@ -38,10 +38,6 @@ void plWaveSet6::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plWaveSet7 */
-plWaveSet7::plWaveSet7() : fMaxLen(0.0f) {
-    fFlags.setName(kHasRefObject, "kHasRefObject");
-}
-
 void plWaveSet7::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
 

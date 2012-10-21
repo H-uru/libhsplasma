@@ -18,9 +18,6 @@
 #include "Util/hsBitVector.h"
 
 /* plAgeInfoStruct */
-plAgeInfoStruct::plAgeInfoStruct()
-               : fFlags(0), fAgeSequenceNumber(0), fAgeLanguage(0) { }
-
 void plAgeInfoStruct::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readByte();
     if (fFlags & kHasAgeFilename) {
@@ -229,10 +226,6 @@ const char* plAgeLinkStruct::kLinkingRuleNames[] = {
     "kBasicLink", "kOriginalBook", "kSubAgeBook", "kOwnedBook", "kVisitBook", "kChildAgeBook"
 };
 
-plAgeLinkStruct::plAgeLinkStruct()
-               : fFlags(kHasAgeInfo | kHasSpawnPt), fLinkingRules(0),
-                 fAmCCR(0) { }
-
 void plAgeLinkStruct::read(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru() || S->getVer().isUniversal()) {
         fFlags = S->readShort();
@@ -434,10 +427,6 @@ void plAgeLinkStruct::clearParentAgeFilename() {
 
 
 /* plAgeLinkEffects */
-plAgeLinkEffects::plAgeLinkEffects()
-                : fLinkInAnimName("LinkOut"), fBool1(true), fBool2(true),
-                  fBool3(true), fBool4(true) { }
-
 void plAgeLinkEffects::read(hsStream* S) {
     if (S->getVer().isUniversal()) {
         fLinkInAnimName = S->readSafeStr();

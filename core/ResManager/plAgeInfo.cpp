@@ -18,19 +18,7 @@
 
 const plString plAgeInfo::kCommonPages[] = { "Textures", "BuiltIn" };
 
-/* PageEntry */
-plAgeInfo::PageEntry::PageEntry(const plString& name, int seqSuffix,
-                                unsigned int loadFlags)
-         : fName(name), fSeqSuffix(seqSuffix), fLoadFlags(loadFlags) { }
-
-plAgeInfo::PageEntry::PageEntry()
-         : fSeqSuffix(0), fLoadFlags(0) { }
-
-
 /* plAgeInfo */
-plAgeInfo::plAgeInfo() : fStartDateTime(0), fDayLength(24.0f), fMaxCapacity(-1),
-                         fLingerTime(180), fSeqPrefix(0), fReleaseVersion(0) { }
-
 void plAgeInfo::readFromFile(const plString& filename) {
     fName = filename.afterLast(PATHSEP);
     if (!fName.beforeLast('.').empty())

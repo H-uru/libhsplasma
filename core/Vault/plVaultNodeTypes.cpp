@@ -36,10 +36,6 @@ static unsigned int floatAsUint(float f) {
 
 
 /* plVaultPlayerNode */
-plVaultPlayerNode::plVaultPlayerNode() : plVaultNode() {
-    fNodeType = plVault::kNodePlayer;
-}
-
 plVaultPlayerNode::plVaultPlayerNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodePlayer;
     if (init.getNodeType() == plVault::kNodePlayer)
@@ -48,10 +44,6 @@ plVaultPlayerNode::plVaultPlayerNode(const plVaultNode& init) : plVaultNode() {
 
 
 /* plVaultAgeNode */
-plVaultAgeNode::plVaultAgeNode() : plVaultNode() {
-    fNodeType = plVault::kNodeAge;
-}
-
 plVaultAgeNode::plVaultAgeNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeAge;
     if (init.getNodeType() == plVault::kNodeAge)
@@ -60,10 +52,6 @@ plVaultAgeNode::plVaultAgeNode(const plVaultNode& init) : plVaultNode() {
 
 
 /* plVaultGameServerNode */
-plVaultGameServerNode::plVaultGameServerNode() : plVaultNode() {
-    fNodeType = plVault::kNodeGameServer;
-}
-
 plVaultGameServerNode::plVaultGameServerNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeGameServer;
     if (init.getNodeType() == plVault::kNodeGameServer)
@@ -72,10 +60,6 @@ plVaultGameServerNode::plVaultGameServerNode(const plVaultNode& init) : plVaultN
 
 
 /* plVaultAdminNode */
-plVaultAdminNode::plVaultAdminNode() : plVaultNode() {
-    fNodeType = plVault::kNodeAdmin;
-}
-
 plVaultAdminNode::plVaultAdminNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeAdmin;
     if (init.getNodeType() == plVault::kNodeAdmin)
@@ -84,10 +68,6 @@ plVaultAdminNode::plVaultAdminNode(const plVaultNode& init) : plVaultNode() {
 
 
 /* plVaultServerNode */
-plVaultServerNode::plVaultServerNode() : plVaultNode() {
-    fNodeType = plVault::kNodeVaultServer;
-}
-
 plVaultServerNode::plVaultServerNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeVaultServer;
     if (init.getNodeType() == plVault::kNodeVaultServer)
@@ -96,10 +76,6 @@ plVaultServerNode::plVaultServerNode(const plVaultNode& init) : plVaultNode() {
 
 
 /* plVaultFolderNode */
-plVaultFolderNode::plVaultFolderNode() : plVaultNode() {
-    fNodeType = plVault::kNodeFolder;
-}
-
 plVaultFolderNode::plVaultFolderNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeFolder;
     if (init.getNodeType() == plVault::kNodeFolder ||
@@ -111,10 +87,6 @@ plVaultFolderNode::plVaultFolderNode(const plVaultNode& init) : plVaultNode() {
 
 
 /* plVaultPlayerInfoNode */
-plVaultPlayerInfoNode::plVaultPlayerInfoNode() : plVaultNode() {
-    fNodeType = plVault::kNodePlayerInfo;
-}
-
 plVaultPlayerInfoNode::plVaultPlayerInfoNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodePlayerInfo;
     if (init.getNodeType() == plVault::kNodePlayerInfo)
@@ -123,10 +95,6 @@ plVaultPlayerInfoNode::plVaultPlayerInfoNode(const plVaultNode& init) : plVaultN
 
 
 /* plVaultSystemNode */
-plVaultSystemNode::plVaultSystemNode() : plVaultNode() {
-    fNodeType = plVault::kNodeSystem;
-}
-
 plVaultSystemNode::plVaultSystemNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeSystem;
     if (init.getNodeType() == plVault::kNodeSystem)
@@ -135,10 +103,6 @@ plVaultSystemNode::plVaultSystemNode(const plVaultNode& init) : plVaultNode() {
 
 
 /* plVaultImageNode */
-plVaultImageNode::plVaultImageNode() : plVaultNode() {
-    fNodeType = plVault::kNodeImage;
-}
-
 plVaultImageNode::plVaultImageNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeImage;
     if (init.getNodeType() == plVault::kNodeImage)
@@ -147,10 +111,6 @@ plVaultImageNode::plVaultImageNode(const plVaultNode& init) : plVaultNode() {
 
 
 /* plVaultTextNoteNode */
-plVaultTextNoteNode::plVaultTextNoteNode() : plVaultNode() {
-    fNodeType = plVault::kNodeTextNote;
-}
-
 plVaultTextNoteNode::plVaultTextNoteNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeTextNote;
     if (init.getNodeType() == plVault::kNodeTextNote)
@@ -159,10 +119,6 @@ plVaultTextNoteNode::plVaultTextNoteNode(const plVaultNode& init) : plVaultNode(
 
 
 /* plVaultSDLNode */
-plVaultSDLNode::plVaultSDLNode() : plVaultNode() {
-    fNodeType = plVault::kNodeSDL;
-}
-
 plVaultSDLNode::plVaultSDLNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeSDL;
     if (init.getNodeType() == plVault::kNodeSDL)
@@ -171,10 +127,6 @@ plVaultSDLNode::plVaultSDLNode(const plVaultNode& init) : plVaultNode() {
 
 
 /* plVaultAgeLinkNode */
-plVaultAgeLinkNode::plVaultAgeLinkNode() : plVaultNode() {
-    fNodeType = plVault::kNodeAgeLink;
-}
-
 plVaultAgeLinkNode::plVaultAgeLinkNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeAgeLink;
     if (init.getNodeType() == plVault::kNodeAgeLink)
@@ -183,10 +135,6 @@ plVaultAgeLinkNode::plVaultAgeLinkNode(const plVaultNode& init) : plVaultNode() 
 
 
 /* plVaultChronicleNode */
-plVaultChronicleNode::plVaultChronicleNode() : plVaultNode() {
-    fNodeType = plVault::kNodeChronicle;
-}
-
 plVaultChronicleNode::plVaultChronicleNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeChronicle;
     if (init.getNodeType() == plVault::kNodeChronicle)
@@ -195,10 +143,6 @@ plVaultChronicleNode::plVaultChronicleNode(const plVaultNode& init) : plVaultNod
 
 
 /* plVaultPlayerInfoListNode */
-plVaultPlayerInfoListNode::plVaultPlayerInfoListNode() : plVaultFolderNode() {
-    fNodeType = plVault::kNodePlayerInfoList;
-}
-
 plVaultPlayerInfoListNode::plVaultPlayerInfoListNode(const plVaultNode& init) : plVaultFolderNode() {
     fNodeType = plVault::kNodePlayerInfoList;
     if (init.getNodeType() == plVault::kNodePlayerInfoList)
@@ -207,10 +151,6 @@ plVaultPlayerInfoListNode::plVaultPlayerInfoListNode(const plVaultNode& init) : 
 
 
 /* plVaultMarkerNode */
-plVaultMarkerNode::plVaultMarkerNode(): plVaultNode() {
-    fNodeType = plVault::kNodeMarker;
-}
-
 plVaultMarkerNode::plVaultMarkerNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeMarker;
     if (init.getNodeType() == plVault::kNodeMarker)
@@ -227,10 +167,6 @@ void plVaultMarkerNode::setMarkerPosZ(float z) { setUInt32_3(floatAsUint(z)); }
 
 
 /* plVaultAgeInfoNode */
-plVaultAgeInfoNode::plVaultAgeInfoNode(): plVaultNode() {
-    fNodeType = plVault::kNodeAgeInfo;
-}
-
 plVaultAgeInfoNode::plVaultAgeInfoNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeAgeInfo;
     if (init.getNodeType() == plVault::kNodeAgeInfo)
@@ -239,10 +175,6 @@ plVaultAgeInfoNode::plVaultAgeInfoNode(const plVaultNode& init) : plVaultNode() 
 
 
 /* plVaultAgeInfoListNode */
-plVaultAgeInfoListNode::plVaultAgeInfoListNode() : plVaultFolderNode() {
-    fNodeType = plVault::kNodeAgeInfoList;
-}
-
 plVaultAgeInfoListNode::plVaultAgeInfoListNode(const plVaultNode& init) : plVaultFolderNode() {
     fNodeType = plVault::kNodeAgeInfoList;
     if (init.getNodeType() == plVault::kNodeAgeInfoList)
@@ -251,10 +183,6 @@ plVaultAgeInfoListNode::plVaultAgeInfoListNode(const plVaultNode& init) : plVaul
 
 
 /* plVaultMarkerListNode */
-plVaultMarkerListNode::plVaultMarkerListNode(): plVaultNode() {
-    fNodeType = plVault::kNodeMarkerList;
-}
-
 plVaultMarkerListNode::plVaultMarkerListNode(const plVaultNode& init) : plVaultNode() {
     fNodeType = plVault::kNodeMarkerList;
     if (init.getNodeType() == plVault::kNodeMarkerList)

@@ -45,7 +45,9 @@ struct PLASMANET_DLL pnNetGameRank {
 
 class PLASMANET_DLL pnAuthClient : public pnClient {
 public:
-    pnAuthClient(plResManager* mgr, bool deleteMsgs = true, bool threaded=true);
+    pnAuthClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true)
+        : fSock(NULL), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fThreaded(threaded),
+          fDispatch(NULL) { }
     virtual ~pnAuthClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
@@ -213,8 +215,9 @@ private:
 
     class Dispatch : public pnDispatcher {
     public:
-        Dispatch(pnAuthClient* self, bool deleteMsgs);
-        virtual ~Dispatch();
+        Dispatch(pnAuthClient* self, bool deleteMsgs)
+            : fReceiver(self), fDeleteMsgs(deleteMsgs) { }
+        virtual ~Dispatch() { }
         virtual bool dispatch(pnSocket* sock);
 
     private:

@@ -16,10 +16,6 @@
 
 #include "plMultistageBehMod.h"
 
-plMultistageBehMod::plMultistageBehMod()
-                  : fFreezePhys(false), fSmartSeek(false),
-                    fReverseFBControlsOnRelease(false) { }
-
 plMultistageBehMod::~plMultistageBehMod() {
     for (size_t i=0; i<fStages.getSize(); i++)
         delete fStages[i];

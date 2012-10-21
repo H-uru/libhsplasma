@@ -26,7 +26,7 @@ protected:
     bool fEnabled;
 
 public:
-    plNodeRegionModifier();
+    plNodeRegionModifier() : fEnabled(true) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -74,7 +74,7 @@ public:
         hsVector3 fNorm, fPos, fWorldNorm;
         float fDist, fWorldDist;
 
-        SinglePlane();
+        SinglePlane() : fDist(0.0f), fWorldDist(0.0f) { }
     };
 
 protected:
@@ -100,7 +100,7 @@ protected:
     float fLength, fMin, fMax;
 
 public:
-    plCylinderIsect();
+    plCylinderIsect() : fRadius(0.0f), fLength(0.0f), fMin(0.0f), fMax(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -120,7 +120,7 @@ public:
         float fMin, fMax;
         hsVector3 fPosOne, fPosTwo;
 
-        ParPlane();
+        ParPlane() : fMin(0.0f), fMax(0.0f) { }
     };
 
 protected:
@@ -145,7 +145,7 @@ protected:
     hsVector3 fMins, fMaxs;
 
 public:
-    plSphereIsect();
+    plSphereIsect() : fRadius(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -35,9 +35,6 @@ const char* plBitmap::kCompressedTypeNames[] = {
 };
 
 
-plBitmap::plBitmap() : fPixelSize(0), fSpace(0), fFlags(0), fCompressionType(0),
-                       fLowModTime(0), fHighModTime(0) { }
-
 void plBitmap::setConfig(ColorFormat format) {
     switch (format) {
     case kRGB8888:

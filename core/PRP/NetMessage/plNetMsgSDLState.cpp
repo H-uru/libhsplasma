@@ -18,10 +18,6 @@
 #include "SDL/plStateDataRecord.h"
 
 /* plNetMsgSDLState */
-plNetMsgSDLState::plNetMsgSDLState()
-                : fIsInitialState(false), fPersistOnServer(false),
-                  fIsAvatarState(false), fDescriptor(NULL) { }
-
 void plNetMsgSDLState::read(hsStream* S, plResManager* mgr) {
     plNetMsgStreamedObject::read(S, mgr);
 

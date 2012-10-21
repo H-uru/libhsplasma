@@ -16,10 +16,6 @@
 
 #include "plBlower.h"
 
-plBlower::plBlower()
-        : fMasterPower(0.0f), fDirectRate(0.0f), fImpulseRate(0.0f),
-          fSpringKonst(0.0f) { }
-
 void plBlower::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

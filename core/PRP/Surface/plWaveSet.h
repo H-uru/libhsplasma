@@ -52,7 +52,9 @@ protected:
     plKey fEnvMap, fRefObj;
 
 public:
-    plWaveSet7();
+    plWaveSet7() : fMaxLen(0.0f) {
+        fFlags.setName(kHasRefObject, "kHasRefObject");
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

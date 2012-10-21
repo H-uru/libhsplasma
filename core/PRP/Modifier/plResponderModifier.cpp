@@ -17,19 +17,7 @@
 #include "plResponderModifier.h"
 #include "Debug/plDebug.h"
 
-/* plResponderModifier::plResponderCmd */
-plResponderModifier::plResponderCmd::plResponderCmd(plMessage* msg, int8_t waitOn)
-                   : fMsg(msg), fWaitOn(waitOn) { }
-
-plResponderModifier::plResponderCmd::~plResponderCmd() {
-    delete fMsg;
-}
-
-
 /* plResponderModifier::plResponderState */
-plResponderModifier::plResponderState::plResponderState()
-                   : fNumCallbacks(0), fSwitchToState(0) { }
-
 plResponderModifier::plResponderState::~plResponderState() {
     for (size_t i=0; i<fCmds.getSize(); i++)
         delete fCmds[i];
@@ -52,9 +40,6 @@ void plResponderModifier::plResponderState::clearCommands() {
 
 
 /* plResponderModifier */
-plResponderModifier::plResponderModifier()
-                   : fCurState(0), fEnabled(true), fFlags(0) { }
-
 plResponderModifier::~plResponderModifier() {
     for (size_t i=0; i<fStates.getSize(); i++)
         delete fStates[i];
@@ -235,8 +220,6 @@ void plResponderModifier::clearStates() {
 
 
 /* plResponderEnableMsg */
-plResponderEnableMsg::plResponderEnableMsg() : fEnable(true) { }
-
 void plResponderEnableMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fEnable = S->readBool();

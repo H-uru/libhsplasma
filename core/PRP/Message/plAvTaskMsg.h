@@ -27,7 +27,7 @@ private:
     plAvTask* fTask;
 
 public:
-    plAvTaskMsg();
+    plAvTaskMsg() : fTask(NULL) { }
     virtual ~plAvTaskMsg();
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -50,7 +50,7 @@ private:
     plArmatureBrain* fBrain;
 
 public:
-    plAvPushBrainMsg();
+    plAvPushBrainMsg() : fBrain(NULL) { }
     virtual ~plAvPushBrainMsg();
 
     virtual void read(hsStream* S, plResManager* mgr);

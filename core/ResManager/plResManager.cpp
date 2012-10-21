@@ -23,14 +23,6 @@
 #include "Stream/pfPrcParser.h"
 #include "Stream/plEncryptedStream.h"
 
-plResManager::plResManager(PlasmaVer pv) :
-    fPlasmaVer(PlasmaVer::pvUnknown), totalKeys(0), readKeys(0),
-    mustStub(false)
-{
-    setVer(pv);
-    progressFunc = NULL;
-}
-
 plResManager::~plResManager() {
     if (ages.size() > 0 || pages.size() > 0)
         plDebug::Debug("~plResManager: cleaning up %d ages and %d pages",
@@ -697,25 +689,9 @@ plKey plResManager::AddKey(plKey key) {
     }
 }
 
-void plResManager::MoveKey(plKey key, const plLocation& to) {
-    keys.MoveKey(key, to);
-}
-
 void plResManager::AddObject(const plLocation& loc, hsKeyedObject* obj) {
     obj->getKey()->setLocation(loc);
     AddKey(obj->getKey());
-}
-
-void plResManager::AddPage(plPageInfo* page) {
-    pages.push_back(page);
-}
-
-void plResManager::AddAge(plAgeInfo* age) {
-    ages.push_back(age);
-}
-
-void plResManager::DelObject(plKey obj) {
-    keys.del(obj);
 }
 
 void plResManager::DelPage(const plLocation& loc) {

@@ -16,9 +16,6 @@
 
 #include "plArmatureEffectMsg.h"
 
-plArmatureEffectStateMsg::plArmatureEffectStateMsg()
-                        : fSurface(0), fAddSurface(false) { }
-
 void plArmatureEffectStateMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fSurface = S->readByte();

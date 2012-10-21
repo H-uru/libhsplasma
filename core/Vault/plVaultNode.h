@@ -72,7 +72,7 @@ private:
         size_t fSize;
         unsigned char* fData;
 
-        BlobData();
+        BlobData() : fRefs(1), fSize(0), fData(NULL) { }
         ~BlobData();
         void ref() { ++fRefs; }
         void unRef();
@@ -80,7 +80,7 @@ private:
     BlobData* fBlob;
 
 public:
-    plVaultBlob();
+    plVaultBlob() : fBlob(NULL) { }
     plVaultBlob(const plVaultBlob& init);
     ~plVaultBlob();
 
@@ -126,7 +126,6 @@ protected:
 
 public:
     plVaultNode();
-    plVaultNode(const plVaultNode& init);
 
     bool isValid() const { return fNodeID != 0; }
     bool hasField(unsigned int field) const { return fFields[field]; }

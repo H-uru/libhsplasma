@@ -52,13 +52,6 @@ static void GetFileList(pnAuthFileItem* files, uint32_t infoSize,
 
 
 /* Dispatch */
-pnAuthClient::Dispatch::Dispatch(pnAuthClient* self, bool deleteMsgs)
-            : fReceiver(self), fDeleteMsgs(deleteMsgs)
-{ }
-
-pnAuthClient::Dispatch::~Dispatch()
-{ }
-
 bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
 {
     uint16_t msgId;
@@ -324,10 +317,6 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
 
 
 /* pnAuthClient */
-pnAuthClient::pnAuthClient(plResManager* mgr, bool deleteMsgs, bool threaded)
-            : fSock(NULL), fResMgr(mgr), fDeleteMsgs(deleteMsgs), fThreaded(threaded), fDispatch(NULL)
-{ }
-
 pnAuthClient::~pnAuthClient()
 {
     delete fIface;

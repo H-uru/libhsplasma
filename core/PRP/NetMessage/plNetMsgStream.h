@@ -37,7 +37,8 @@ private:
     unsigned char* fStream;
 
 public:
-    plNetMsgStreamHelper();
+    plNetMsgStreamHelper() : fUncompressedSize(0), fCompressionType(0),
+                             fStreamLength(0), fStream(NULL) { }
     ~plNetMsgStreamHelper();
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -70,7 +71,7 @@ private:
     unsigned char fCompressionType;
 
 public:
-    plNetMsgStream();
+    plNetMsgStream() : fCompressionType(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

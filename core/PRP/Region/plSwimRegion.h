@@ -26,7 +26,8 @@ protected:
     float fDownBuoyancy, fUpBuoyancy, fMaxUpwardVel;
 
 public:
-    plSwimRegionInterface();
+    plSwimRegionInterface()
+        : fDownBuoyancy(0.0f), fUpBuoyancy(0.0f), fMaxUpwardVel(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -48,7 +49,9 @@ protected:
     plKey fCurrentObj;
 
 public:
-    plSwimCircularCurrentRegion();
+    plSwimCircularCurrentRegion()
+        : fRotation(0.0f), fPullNearDistSq(0.0f), fPullFarDistSq(0.0f),
+          fPullNearVel(0.0f), fPullFarVel(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -69,7 +72,8 @@ protected:
     plKey fCurrentObj;
 
 public:
-    plSwimStraightCurrentRegion();
+    plSwimStraightCurrentRegion()
+        : fNearDist(0.0f), fFarDist(0.0f), fNearVel(0.0f), fFarVel(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

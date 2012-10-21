@@ -19,8 +19,6 @@
 #include <cstring>
 
 /* plVaultBlob */
-plVaultBlob::BlobData::BlobData() : fRefs(1), fSize(0), fData(NULL) { }
-
 plVaultBlob::BlobData::~BlobData() {
     delete[] fData;
 }
@@ -29,8 +27,6 @@ void plVaultBlob::BlobData::unRef() {
     if (--fRefs == 0)
         delete this;
 }
-
-plVaultBlob::plVaultBlob() : fBlob(NULL) { }
 
 plVaultBlob::plVaultBlob(const plVaultBlob& init) : fBlob(init.fBlob) {
     if (fBlob != NULL)
@@ -89,10 +85,6 @@ plVaultNode::plVaultNode()
     fUInt32[1] = 0;
     fUInt32[2] = 0;
     fUInt32[3] = 0;
-}
-
-plVaultNode::plVaultNode(const plVaultNode& init) {
-    copy(init);
 }
 
 void plVaultNode::copy(const plVaultNode& init) {

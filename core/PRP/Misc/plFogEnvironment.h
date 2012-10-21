@@ -34,7 +34,7 @@ protected:
     hsColorRGBA fColor;
 
 public:
-    plFogEnvironment();
+    plFogEnvironment() : fType(kLinearFog), fStart(1.0f), fEnd(1000.0f), fDensity(0.5f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

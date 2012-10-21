@@ -27,10 +27,15 @@ protected:
     unsigned int flags, useTime;
 
 public:
-    hsGDeviceRef();
+    hsGDeviceRef() : flags(kNone), useTime(0) { }
 
-    bool IsDirty();
-    void SetDirty(bool dirty);
+    bool isDirty() { return (flags & kDirty); }
+    void setDirty(bool dirty) {
+        if (dirty)
+            flags |= kDirty;
+        else
+            flags &= ~kDirty;
+    }
 };
 
 #endif

@@ -79,7 +79,7 @@ private:
     plCreatableStub* fStub;
 
 public:
-    hsKeyedObjectStub();
+    hsKeyedObjectStub() : fStub(NULL) { }
     virtual ~hsKeyedObjectStub();
 
     virtual short ClassIndex() const { return fStub->ClassIndex(); }

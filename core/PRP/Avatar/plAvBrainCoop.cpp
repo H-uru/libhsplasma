@@ -16,9 +16,6 @@
 
 #include "plAvBrainCoop.h"
 
-plAvBrainCoop::plAvBrainCoop()
-             : fInitiatorID(0), fInitiatorSerial(0), fWaitingForClick(false) { }
-
 void plAvBrainCoop::read(hsStream* S, plResManager* mgr) {
     plAvBrainGeneric::read(S, mgr);
 

@@ -27,7 +27,7 @@ protected:
     bool fSatisfied, fToggle;
 
 public:
-    plConditionalObject();
+    plConditionalObject() : fSatisfied(false), fToggle(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

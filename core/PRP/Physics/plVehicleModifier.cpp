@@ -16,8 +16,6 @@
 
 #include "plVehicleModifier.h"
 
-plVehicleModifier::Wheel::Wheel() : fRadius(1.0f) { }
-
 void plVehicleModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

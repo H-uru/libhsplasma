@@ -43,13 +43,13 @@ protected:
     unsigned short fFlags;
 
 public:
-    plLocation(int pv = PlasmaVer::pvUnknown);
-    plLocation(const plLocation& init);
+    plLocation(int pv = PlasmaVer::pvUnknown)
+        : fVer(pv), fState(kStateInvalid), fSeqPrefix(0), fPageNum(0),
+          fFlags(0) { }
 
     PlasmaVer getVer() const { return fVer; }
     void setVer(PlasmaVer pv) { fVer = pv; }
 
-    plLocation& operator=(const plLocation& other);
     bool operator==(const plLocation& other) const;
     bool operator!=(const plLocation& other) const;
     bool operator<(const plLocation& other) const;

@@ -16,11 +16,6 @@
 
 #include "pfKIMsg.h"
 
-pfKIMsg::pfKIMsg()
-       : fCommand(kNoCommand), fFlags(0), fPlayerID(0), fDelay(0.0f), fValue(0) {
-    fBCastFlags |= kBCastByExactType;
-}
-
 void pfKIMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

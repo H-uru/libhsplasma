@@ -104,8 +104,6 @@ void plDrawInterface::delDrawable(size_t idx) {
 
 
 /* plInstanceDrawInterface */
-plInstanceDrawInterface::plInstanceDrawInterface() : fTargetID(0) { }
-
 void plInstanceDrawInterface::read(hsStream* S, plResManager* mgr) {
     plDrawInterface::read(S, mgr);
 

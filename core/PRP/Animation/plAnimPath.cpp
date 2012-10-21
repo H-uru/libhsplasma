@@ -17,8 +17,6 @@
 #include "plAnimPath.h"
 
 /* plAnimPath */
-plAnimPath::plAnimPath() : fController(NULL), fTMController(NULL) { }
-
 plAnimPath::~plAnimPath() {
     delete fController;
     delete fTMController;

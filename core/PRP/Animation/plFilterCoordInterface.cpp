@@ -16,8 +16,6 @@
 
 #include "plFilterCoordInterface.h"
 
-plFilterCoordInterface::plFilterCoordInterface() : fFilterMask(0) { }
-
 void plFilterCoordInterface::read(hsStream* S, plResManager* mgr) {
     plCoordinateInterface::read(S, mgr);
     fFilterMask = S->readInt();

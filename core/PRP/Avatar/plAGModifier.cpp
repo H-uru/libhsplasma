@@ -16,8 +16,6 @@
 
 #include "plAGModifier.h"
 
-plAGModifier::plAGModifier() : fAutoApply(true), fEnabled(true) { }
-
 void plAGModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
     fChannelName = S->readSafeStr();

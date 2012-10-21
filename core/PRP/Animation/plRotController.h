@@ -37,7 +37,7 @@ protected:
     plQuatController* fRot;
 
 public:
-    plSimpleRotController();
+    plSimpleRotController() : fRot(NULL) { }
     virtual ~plSimpleRotController();
 
     virtual int getType() const { return kSimple; }
@@ -63,7 +63,8 @@ protected:
     plScalarController* fZController;
 
 public:
-    plCompoundRotController();
+    plCompoundRotController()
+        : fXController(NULL), fYController(NULL), fZController(NULL) { }
     virtual ~plCompoundRotController();
 
     virtual int getType() const { return kCompound; }

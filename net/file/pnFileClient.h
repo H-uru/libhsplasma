@@ -35,7 +35,8 @@ struct PLASMANET_DLL pnFileManifest {
 
 class PLASMANET_DLL pnFileClient : public pnClient {
 public:
-    pnFileClient(bool threaded=true);
+    pnFileClient(bool threaded=true)
+        : fSock(NULL), fThreaded(threaded), fDispatch(NULL) { }
     virtual ~pnFileClient();
 
     void setClientInfo(uint32_t buildType, uint32_t branchId, const plUuid& productId);
@@ -74,8 +75,8 @@ protected:
 private:
     class Dispatch : public pnDispatcher {
     public:
-        Dispatch(pnFileClient* self);
-        virtual ~Dispatch();
+        Dispatch(pnFileClient* self) : fReceiver(self) { }
+        virtual ~Dispatch() { }
         virtual bool dispatch(pnSocket* sock);
 
     private:

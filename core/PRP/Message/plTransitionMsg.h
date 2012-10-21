@@ -31,7 +31,9 @@ protected:
     int fHoldUntilNext;
 
 public:
-    plTransitionMsg();
+    plTransitionMsg() : fEffect(0), fLengthInSecs(0.0f), fHoldUntilNext(0) {
+        fBCastFlags |= kBCastByExactType;
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

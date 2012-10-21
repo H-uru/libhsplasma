@@ -17,8 +17,6 @@
 #include "plSynchedObject.h"
 #include "Debug/plDebug.h"
 
-plSynchedObject::plSynchedObject() : fSynchFlags(0) { }
-
 void plSynchedObject::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     fSDLExcludeList.clear();

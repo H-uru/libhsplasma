@@ -31,8 +31,7 @@ private:
     float data[4][4];
 
 public:
-    hsMatrix44();
-    hsMatrix44(const hsMatrix44& init);
+    hsMatrix44() { Reset(); }
 
     static hsMatrix44 Identity();
     static hsMatrix44 TranslateMat(const hsVector3& translate);

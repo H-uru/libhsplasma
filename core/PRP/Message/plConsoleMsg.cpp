@@ -16,8 +16,6 @@
 
 #include "plConsoleMsg.h"
 
-plConsoleMsg::plConsoleMsg() : fCmd(kExecuteLine) { }
-
 void plConsoleMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 

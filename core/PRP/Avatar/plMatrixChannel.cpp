@@ -52,8 +52,6 @@ void plMatrixConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plMatrixControllerChannel */
-plMatrixControllerChannel::plMatrixControllerChannel() : fController(NULL) { }
-
 plMatrixControllerChannel::~plMatrixControllerChannel() {
     delete fController;
 }

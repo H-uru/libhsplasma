@@ -17,8 +17,6 @@
 #include "plNetSharedState.h"
 
 /* plGenericType */
-plGenericType::plGenericType() : fType(kNone) { }
-
 void plGenericType::read(hsStream* S) {
     fType = S->readByte();
     switch (fType) {
@@ -168,8 +166,6 @@ void plGenericVar::prcParse(const pfPrcTag* tag) {
 
 
 /* plNetSharedState */
-plNetSharedState::plNetSharedState() : fServerMayDelete(false) { }
-
 void plNetSharedState::read(hsStream* S) {
     unsigned short sz = S->readShort();
     fName = S->readStr(sz);

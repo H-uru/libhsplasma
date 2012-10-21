@@ -28,7 +28,7 @@ protected:
     plKeyDef fKeyEvent;
 
 public:
-    plKeyPressConditionalObject();
+    plKeyPressConditionalObject() : fKeyEvent((plKeyDef)0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

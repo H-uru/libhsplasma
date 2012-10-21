@@ -16,8 +16,6 @@
 
 #include "plClientGuid.h"
 
-plClientGuid::plClientGuid() : fFlags(0) { }
-
 void plClientGuid::read(hsStream* S, plResManager* mgr) {
     fFlags = S->readShort();
     if ((fFlags & kAcctUuid) != 0)

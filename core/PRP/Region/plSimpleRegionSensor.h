@@ -28,7 +28,7 @@ protected:
     plMessage* fExitMsg;
 
 public:
-    plSimpleRegionSensor();
+    plSimpleRegionSensor() : fEnterMsg(NULL), fExitMsg(NULL) { }
     virtual ~plSimpleRegionSensor();
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -60,7 +60,7 @@ protected:
     unsigned int fUnknown;
 
 public:
-    plAutoWalkRegion();
+    plAutoWalkRegion() : fUnknown(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

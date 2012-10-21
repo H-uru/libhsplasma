@@ -57,7 +57,8 @@ protected:
     plVaultBlob fBlob[2];
 
 public:
-    pnVaultNode();
+    pnVaultNode() : fFieldMask(0), fDirtyMask(0), fCachedSize(0), fDirtySize(0),
+                    fNodeIdx(0), fNodeType(0) { }
     pnVaultNode(const pnVaultNode& init) { copy(init); }
     void copy(const pnVaultNode& init);
     void clear();

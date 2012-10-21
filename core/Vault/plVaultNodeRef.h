@@ -26,9 +26,7 @@ protected:
     bool fSeen;
 
 public:
-    plVaultNodeRef();
-    plVaultNodeRef(const plVaultNodeRef& init);
-    plVaultNodeRef& operator=(const plVaultNodeRef& init);
+    plVaultNodeRef() : fSaver(0), fParent(0), fChild(0), fSeen(false) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

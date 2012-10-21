@@ -16,17 +16,7 @@
 
 #include "plAvTask.h"
 
-/* plAvTask */
-void plAvTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
-    plCreatable::IPrcParse(tag, mgr);
-}
-
-
 /* plAvAnimTask */
-plAvAnimTask::plAvAnimTask()
-            : fInitialBlend(0.0f), fTargetBlend(0.0f), fFadeSpeed(0.0f),
-              fSetTime(0.0f), fStart(false), fLoop(false), fAttach(false) { }
-
 void plAvAnimTask::read(hsStream* S, plResManager* /*mgr*/) {
     fAnimName = S->readSafeStr();
     fInitialBlend = S->readFloat();
@@ -107,8 +97,6 @@ void plAvOneShotLinkTask::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plAvTaskBrain */
-plAvTaskBrain::plAvTaskBrain() : fBrain(NULL) { }
-
 plAvTaskBrain::~plAvTaskBrain() {
     delete fBrain;
 }

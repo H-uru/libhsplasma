@@ -44,7 +44,7 @@ private:
     std::vector<short> fClassList;
 
 public:
-    plPageInfo();
+    plPageInfo() { IInit(); }
     plPageInfo(const plString& age, const plString& page);
 
     bool isValid() const { return fLocation.isValid(); }

@@ -21,13 +21,6 @@
 #include "Debug/plDebug.h"
 
 /* plKeyData */
-plKeyData::plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
-                         fRefCnt(0) { }
-
-bool plKeyData::operator==(plKeyData& other) const {
-    return (fUoid == other.fUoid);
-}
-
 plString plKeyData::toString() const {
     if (this == NULL)
         return "NULL";
@@ -44,14 +37,6 @@ void plKeyData::write(hsStream* S) {
     fUoid.write(S);
     S->writeInt(fFileOff);
     S->writeInt(fObjSize);
-}
-
-void plKeyData::readUoid(hsStream* S) {
-    fUoid.read(S);
-}
-
-void plKeyData::writeUoid(hsStream* S) {
-    fUoid.write(S);
 }
 
 void plKeyData::prcWrite(pfPrcHelper* prc) {
@@ -114,8 +99,6 @@ void plKeyData::addCallback(const AfterLoadCallback& callback) {
 }
 
 /* plKey */
-plKey::plKey() : fKeyData(NULL) { }
-
 plKey::plKey(const plKey& init) : fKeyData(init.fKeyData) {
     if (fKeyData != NULL)
         fKeyData->Ref();
@@ -151,30 +134,6 @@ plKey& plKey::operator=(plKeyData* other) {
         fKeyData = other;
     }
     return *this;
-}
-
-bool plKey::operator==(const plKey& other) const {
-    return fKeyData == other.fKeyData;
-}
-
-bool plKey::operator==(const plKeyData* other) const {
-    return fKeyData == other;
-}
-
-bool plKey::operator!=(const plKey& other) const {
-    return fKeyData != other.fKeyData;
-}
-
-bool plKey::operator!=(const plKeyData* other) const {
-    return fKeyData != other;
-}
-
-bool plKey::operator<(const plKey& other) const {
-    return fKeyData->getUoid() < other->getUoid();
-}
-
-bool plKey::Exists() const {
-    return (fKeyData != NULL);
 }
 
 bool plKey::isLoaded() const {

@@ -16,9 +16,9 @@
 
 #include "pfGUIKnobCtrl.h"
 
-pfGUIKnobCtrl::pfGUIKnobCtrl() : fEoaInt1(0), fEoaInt2(0), fEoaInt3(0),
-        fEoaInt4(0), fEoaFl1(0.0F), fEoaFl2(0.0F), fEoaFl3(0.0F),
-        fEoaFl4(0.0) {
+pfGUIKnobCtrl::pfGUIKnobCtrl()
+             : fEoaInt1(0), fEoaInt2(0), fEoaInt3(0), fEoaInt4(0),
+               fEoaFl1(0.0F), fEoaFl2(0.0F), fEoaFl3(0.0F), fEoaFl4(0.0) {
     fFlags.setName(kReverseValues, "kReverseValues");
     fFlags.setName(kLeftRightOrientation, "kLeftRightOrientation");
     fFlags.setName(kMapToScreenRange, "kMapToScreenRange");

@@ -18,7 +18,7 @@
 #define _HSSEMAPHORE_H
 
 #include "PlasmaDefs.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 
 #ifdef WIN32
   #include <windows.h>
@@ -45,7 +45,9 @@ public:
 
 class PLASMA_DLL hsSemaphoreException : public hsException {
 public:
-    hsSemaphoreException(const char* file, unsigned long line) throw();
+    hsSemaphoreException(const char* file, unsigned long line) throw()
+        : hsException(file, line)
+    { fWhat = "Semaphore operation failed"; }
 };
 
 #endif

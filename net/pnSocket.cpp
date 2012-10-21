@@ -106,11 +106,6 @@ pnSocket::pnSocket(int handle)
     initSockets();
 }
 
-pnSocket::~pnSocket()
-{
-    close();
-}
-
 plString pnSocket::getRemoteIpStr() const
 {
     static hsMutex ipStrMutex;

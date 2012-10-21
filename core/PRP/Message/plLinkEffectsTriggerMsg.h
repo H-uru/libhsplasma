@@ -28,7 +28,7 @@ private:
     plKey fLinkKey, fLinkInAnimKey;
 
 public:
-    plLinkEffectsTriggerMsg();
+    plLinkEffectsTriggerMsg() : fInvisLevel(0), fEffects(0), fLeavingAge(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

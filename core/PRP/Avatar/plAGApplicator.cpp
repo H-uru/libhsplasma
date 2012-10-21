@@ -17,8 +17,6 @@
 #include "plAGApplicator.h"
 
 /* plAGApplicator */
-plAGApplicator::plAGApplicator() : fChannel(NULL), fEnabled(true) { }
-
 plAGApplicator::~plAGApplicator() {
     delete fChannel;
 }
@@ -56,8 +54,6 @@ void plAGApplicator::setChannel(plAGChannel* chan) {
 
 
 /* plSoundVolumeApplicator */
-plSoundVolumeApplicator::plSoundVolumeApplicator() : fIndex(0) { }
-
 void plSoundVolumeApplicator::read(hsStream* S, plResManager* mgr) {
     plAGApplicator::read(S, mgr);
     fIndex = S->readInt();

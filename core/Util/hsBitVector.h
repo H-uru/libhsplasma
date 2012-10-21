@@ -57,7 +57,7 @@ public:
 
     public:
         /** Constructs the Bit class */
-        Bit(hsBitVector* vec, unsigned int off);
+        Bit(hsBitVector* vec, unsigned int off) : fVector(vec), fOffset(off) { }
 
         /** Behave like a bool rvalue */
         operator bool() const { return fVector->get(fOffset); }
@@ -79,7 +79,7 @@ private:
 
 public:
     /** Constructs an empty bit vector */
-    hsBitVector();
+    hsBitVector() : fBits(NULL), fNumVectors(0) { }
 
     /** Copy constructor */
     hsBitVector(const hsBitVector& init);
@@ -92,7 +92,7 @@ public:
 
     /** Set the value of bit \a idx to \a b */
     void set(unsigned int idx, bool b);
-    
+
     /** Return the number of available bits. */
     size_t size() const { return fNumVectors*BVMULT; }
 

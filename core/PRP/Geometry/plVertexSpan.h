@@ -27,8 +27,8 @@ public:
 public:
     virtual const char* ClassName() const { return "plVertexSpan"; }
 
-    plVertexSpan();
-    plVertexSpan(const plVertexSpan& init);
+    plVertexSpan() : fGroupIdx(0), fVBufferIdx(0), fCellIdx(0), fCellOffset(0),
+                     fVStartIdx(0), fVLength(0) { }
 
     virtual void read(hsStream* S);
     virtual void write(hsStream* S);

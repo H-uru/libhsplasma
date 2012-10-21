@@ -17,16 +17,6 @@
 #include "plSpanInstance.h"
 
 /* plSpanEncoding */
-plSpanEncoding::plSpanEncoding() : fCode(0), fPosScale(0.0f) { }
-plSpanEncoding::plSpanEncoding(const plSpanEncoding& init)
-              : fCode(init.fCode), fPosScale(init.fPosScale) { }
-
-plSpanEncoding& plSpanEncoding::operator=(const plSpanEncoding& init) {
-    fCode = init.fCode;
-    fPosScale = init.fPosScale;
-    return *this;
-}
-
 void plSpanEncoding::read(hsStream* S) {
     fCode = S->readByte();
     fPosScale = S->readFloat();
@@ -54,8 +44,6 @@ void plSpanEncoding::prcParse(const pfPrcTag* tag) {
 
 
 /* plSpanInstance */
-plSpanInstance::plSpanInstance() : fPosDelta(NULL), fCol(NULL) { }
-
 plSpanInstance::~plSpanInstance() {
     delete[] fPosDelta;
     delete[] fCol;

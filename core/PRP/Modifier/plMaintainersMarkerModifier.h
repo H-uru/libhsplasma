@@ -30,7 +30,7 @@ private:
     unsigned int fCalibrated;
 
 public:
-    plMaintainersMarkerModifier();
+    plMaintainersMarkerModifier() : fCalibrated(kBroken) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

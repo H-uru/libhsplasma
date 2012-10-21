@@ -17,7 +17,7 @@
 #include "pdUnifiedTypeMap.h"
 #include <cstdlib>
 #include <cstdio>
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 
 const short pdUnifiedTypeMap::fUruM2PTable[TYPESPACE_MAX] = {

@@ -17,8 +17,6 @@
 #include "plNetMsgSharedState.h"
 
 /* plNetMsgSharedState */
-plNetMsgSharedState::plNetMsgSharedState() : fLockRequest(0) { }
-
 void plNetMsgSharedState::read(hsStream* S, plResManager* mgr) {
     plNetMsgStreamedObject::read(S, mgr);
 

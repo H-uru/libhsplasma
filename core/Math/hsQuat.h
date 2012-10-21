@@ -22,27 +22,42 @@
 struct PLASMA_DLL hsQuat {
     float X, Y, Z, W;
 
-    hsQuat();
-    hsQuat(const hsQuat& init);
-    hsQuat(float x, float y, float z, float w);
+    hsQuat() : X(0.0f), Y(0.0f), Z(0.0f), W(1.0f) { }
+    hsQuat(float _x, float _y, float _z, float _w) : X(_x), Y(_y), Z(_z), W(_w) { }
     hsQuat(float rad, const hsVector3& axis);
 
-    static hsQuat Identity();
+    static hsQuat Identity() { return hsQuat(0.0f, 0.0f, 0.0f, 1.0f); }
 
     hsQuat& operator=(const hsQuat& cpy);
-    bool operator==(const hsQuat& other) const;
-    bool operator!=(const hsQuat& other) const;
-    hsQuat operator+(const hsQuat& rt) const;
-    hsQuat operator-(const hsQuat& rt) const;
-    hsQuat operator*(const hsQuat& rt) const;
-    hsQuat operator*(float scale) const;
+
+    bool operator==(const hsQuat& other) const
+    { return (X == other.X) && (Y == other.Y) && (Z == other.Z) && (W == other.W); }
+
+    bool operator!=(const hsQuat& other) const
+    { return (X != other.X) || (Y != other.Y) || (Z != other.Z) || (W != other.W); }
+
+    hsQuat operator+(const hsQuat& rt) const
+    { return hsQuat(X + rt.X, Y + rt.Y, Z + rt.Z, W + rt.W); }
+
+    hsQuat operator-(const hsQuat& rt) const
+    { return hsQuat(X - rt.X, Y - rt.Y, Z - rt.Z, W - rt.W); }
+
+    hsQuat operator*(const hsQuat& rt) const {
+        return hsQuat((Y * rt.Z) - (Z * rt.Y) + (Z * rt.X) + (X * rt.Z),
+                      (Z * rt.X) - (X * rt.Z) + (Z * rt.Y) + (Y * rt.Z),
+                      (X * rt.Y) - (Y * rt.X) + (Z * rt.Y) + (Y * rt.Z),
+                      (W * rt.W) - (X * rt.X) - (Y * rt.Y) - (Z * rt.Z));
+    }
+
+    hsQuat operator*(float scale) const
+    { return hsQuat(X * scale, Y * scale, Z * scale, W * scale); }
 
     void read(hsStream* S);
     void write(hsStream* S);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    hsQuat conjugate() const;
+    hsQuat conjugate() const { return hsQuat(-X, -Y, -Z, W); }
 };
 
 #endif

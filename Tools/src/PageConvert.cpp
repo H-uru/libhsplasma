@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "ResManager/plResManager.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 
 const char* getSuffix(PlasmaVer pv) {

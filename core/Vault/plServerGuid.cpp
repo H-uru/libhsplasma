@@ -15,7 +15,7 @@
  */
 
 #include "plServerGuid.h"
-#include "../Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include <cstring>
 
 plServerGuid::plServerGuid() {
@@ -27,29 +27,6 @@ plServerGuid::plServerGuid() {
     fGuid[5] = 0;
     fGuid[6] = 0;
     fGuid[7] = 0;
-}
-
-plServerGuid::plServerGuid(const plServerGuid& init) {
-    fGuid[0] = init.fGuid[0];
-    fGuid[1] = init.fGuid[1];
-    fGuid[2] = init.fGuid[2];
-    fGuid[3] = init.fGuid[3];
-    fGuid[4] = init.fGuid[4];
-    fGuid[5] = init.fGuid[5];
-    fGuid[6] = init.fGuid[6];
-    fGuid[7] = init.fGuid[7];
-}
-
-plServerGuid& plServerGuid::operator=(const plServerGuid& other) {
-    fGuid[0] = other.fGuid[0];
-    fGuid[1] = other.fGuid[1];
-    fGuid[2] = other.fGuid[2];
-    fGuid[3] = other.fGuid[3];
-    fGuid[4] = other.fGuid[4];
-    fGuid[5] = other.fGuid[5];
-    fGuid[6] = other.fGuid[6];
-    fGuid[7] = other.fGuid[7];
-    return *this;
 }
 
 bool plServerGuid::operator==(const plServerGuid& other) {

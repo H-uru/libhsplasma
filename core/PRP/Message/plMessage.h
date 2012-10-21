@@ -55,10 +55,10 @@ protected:
     unsigned int fBCastFlags;
 
 public:
-    plMessage();
+    plMessage() : fTimeStamp(0.0), fBCastFlags(kLocalPropagate) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    virtual void read(hsStream* S, plResManager* mgr) { IMsgRead(S, mgr); }
+    virtual void write(hsStream* S, plResManager* mgr) { IMsgWrite(S, mgr); }
 
 protected:
     void IMsgRead(hsStream* S, plResManager* mgr);

@@ -28,7 +28,7 @@ protected:
     plString fChannelName;
 
 public:
-    plAGApplicator();
+    plAGApplicator() : fChannel(NULL), fEnabled(true) { }
     virtual ~plAGApplicator();
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -57,7 +57,7 @@ protected:
     unsigned int fIndex;
 
 public:
-    plSoundVolumeApplicator();
+    plSoundVolumeApplicator() : fIndex(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

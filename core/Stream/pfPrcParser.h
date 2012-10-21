@@ -31,7 +31,7 @@ protected:
     hsTList<plString> fContents;
     bool fIsEndTag;
 
-    pfPrcTag();
+    pfPrcTag() : fNextSibling(NULL), fFirstChild(NULL), fIsEndTag(false) { }
     ~pfPrcTag();
 
     pfPrcTag* Destroy();
@@ -59,7 +59,7 @@ private:
     pfPrcTag* fRootTag;
 
 public:
-    pfPrcParser();
+    pfPrcParser() : fRootTag(NULL) { }
     ~pfPrcParser();
 
     void read(hsStream* S);

@@ -65,7 +65,7 @@ protected:
     plController* fController;
 
 public:
-    plMatrixControllerChannel();
+    plMatrixControllerChannel() : fController(NULL) { }
     virtual ~plMatrixControllerChannel();
 
     virtual void read(hsStream* S, plResManager* mgr);

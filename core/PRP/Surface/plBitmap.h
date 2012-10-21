@@ -177,7 +177,8 @@ protected:
     unsigned int fLowModTime, fHighModTime;
 
 public:
-    plBitmap();
+    plBitmap() : fPixelSize(0), fSpace(0), fFlags(0), fCompressionType(0),
+                 fLowModTime(0), fHighModTime(0) { }
 
     /** Set pixel configuration based on color type */
     void setConfig(ColorFormat format);

@@ -47,7 +47,7 @@ protected:
     plKey fTarget;
 
 public:
-    plClimbMsg();
+    plClimbMsg() : fCommand(0), fDirection(0), fStatus(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

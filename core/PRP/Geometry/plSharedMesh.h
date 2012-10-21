@@ -37,7 +37,7 @@ public:
     unsigned char fFlags;
 
 public:
-    plSharedMesh();
+    plSharedMesh() : fMorphSet(NULL), fFlags(kDontSaveMorphState) { }
     virtual ~plSharedMesh();
 
     virtual void read(hsStream* S, plResManager* mgr);

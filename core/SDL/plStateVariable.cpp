@@ -32,10 +32,6 @@ void plStateVarNotificationInfo::write(hsStream* S) {
 
 
 /* plStateVariable */
-plStateVariable::plStateVariable()
-               : fContents(plSDL::kHasNotificationInfo), fDescriptor(NULL),
-                 fCount(1), fIsDirty(false) { }
-
 void plStateVariable::read(hsStream* S, plResManager* mgr) {
     fContents = S->readByte();
     if (fContents & plSDL::kHasNotificationInfo)
@@ -58,10 +54,6 @@ plSDStateVariable::~plSDStateVariable() {
 void plSDStateVariable::setDescriptor(plVarDescriptor* desc) {
     fDescriptor = desc;
     resize(fDescriptor->getCount());
-}
-
-void plSDStateVariable::setSDVarDescriptor(plStateDescriptor* desc) {
-    fSDVarDescriptor = desc;
 }
 
 void plSDStateVariable::resize(size_t size) {
@@ -147,13 +139,6 @@ bool plSDStateVariable::isDefault(bool secondChance) const {
 
 
 /* plSimpleStateVariable */
-plSimpleStateVariable::plSimpleStateVariable()
-                     : fGenPtr(NULL), fSimpleVarContents(0) { }
-
-plSimpleStateVariable::~plSimpleStateVariable() {
-    IDeAlloc();
-}
-
 void plSimpleStateVariable::IDeAlloc() {
     if (fGenPtr == NULL)
         return;

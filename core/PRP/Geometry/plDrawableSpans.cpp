@@ -19,11 +19,6 @@
 #include "Util/hsRadixSort.h"
 
 /* plDISpanIndex */
-plDISpanIndex::plDISpanIndex() : fFlags(0) { }
-
-plDISpanIndex::plDISpanIndex(const plDISpanIndex& init)
-             : fFlags(init.fFlags), fIndices(init.fIndices) { }
-
 plDISpanIndex& plDISpanIndex::operator=(const plDISpanIndex& cpy) {
     fFlags = cpy.fFlags;
     fIndices = cpy.fIndices;
@@ -32,9 +27,6 @@ plDISpanIndex& plDISpanIndex::operator=(const plDISpanIndex& cpy) {
 
 
 /* plDrawableSpans */
-plDrawableSpans::plDrawableSpans()
-               : fSpaceTree(NULL), fProps(0), fCriteria(0), fRenderLevel(0) { }
-
 plDrawableSpans::~plDrawableSpans() {
     for (size_t i=0; i<fGroups.getSize(); i++)
         delete fGroups[i];

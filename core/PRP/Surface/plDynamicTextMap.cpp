@@ -17,10 +17,6 @@
 #include "plDynamicTextMap.h"
 #include "Debug/plDebug.h"
 
-plDynamicTextMap::plDynamicTextMap()
-                : fVisWidth(0), fVisHeight(0), fHasAlpha(false),
-                  fHasBeenCreated(false), fInitBuffer(NULL), fInitBufferLen(0) { }
-
 plDynamicTextMap::~plDynamicTextMap() {
     delete[] fInitBuffer;
 }

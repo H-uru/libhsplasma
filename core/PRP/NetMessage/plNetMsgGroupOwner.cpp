@@ -16,8 +16,6 @@
 
 #include "plNetMsgGroupOwner.h"
 
-plNetMsgGroupOwner::GroupInfo::GroupInfo() : fOwnIt(false) { }
-
 void plNetMsgGroupOwner::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 

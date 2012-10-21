@@ -16,8 +16,6 @@
 
 #include "plPhysicalSndGroup.h"
 
-plPhysicalSndGroup::plPhysicalSndGroup() : fGroup(kNone) { }
-
 void plPhysicalSndGroup::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 

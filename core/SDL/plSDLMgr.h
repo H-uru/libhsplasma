@@ -18,7 +18,7 @@
 #define _PLSDLMGR_H
 
 #include "plStateDescriptor.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include "Stream/hsStream.h"
 
 class PLASMA_DLL plSDLMgr {

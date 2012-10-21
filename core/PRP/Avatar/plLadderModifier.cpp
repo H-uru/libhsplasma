@@ -17,10 +17,6 @@
 #include "plLadderModifier.h"
 
 /* plAvLadderMod */
-plAvLadderMod::plAvLadderMod()
-             : fGoingUp(false), fEnabled(true), fAvatarInBox(false),
-               fAvatarMounting(false), fType(kBig), fLoops(0) { }
-
 void plAvLadderMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

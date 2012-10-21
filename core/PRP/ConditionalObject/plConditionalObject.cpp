@@ -17,8 +17,6 @@
 #include "plConditionalObject.h"
 
 /* plConditionalObject */
-plConditionalObject::plConditionalObject() : fSatisfied(false), fToggle(false) { }
-
 void plConditionalObject::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     fSatisfied = S->readBool();

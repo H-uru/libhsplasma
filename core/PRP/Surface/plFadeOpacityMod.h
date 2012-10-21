@@ -31,7 +31,9 @@ protected:
     float fFadeUp, fFadeDown;
 
 public:
-    plFadeOpacityMod();
+    plFadeOpacityMod() : fFadeUp(0.0f), fFadeDown(0.0f) {
+        fFlags.setName(kBoundsCenter, "kBoundsCenter");
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

@@ -15,7 +15,7 @@
  */
 
 #include "hsThread.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include <pthread.h>
 #include <cstdlib>
 #include <list>

@@ -15,7 +15,7 @@
  */
 
 #include "hsThread.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 
 enum {
     kStatePending = 0,

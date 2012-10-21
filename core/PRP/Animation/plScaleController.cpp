@@ -17,8 +17,6 @@
 #include "plScaleController.h"
 
 /* plSimpleScaleController */
-plSimpleScaleController::plSimpleScaleController() : fValue(NULL) { }
-
 plSimpleScaleController::~plSimpleScaleController() {
     delete fValue;
 }

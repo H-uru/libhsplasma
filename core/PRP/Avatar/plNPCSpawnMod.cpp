@@ -16,8 +16,6 @@
 
 #include "plNPCSpawnMod.h"
 
-plNPCSpawnMod::plNPCSpawnMod() : fAutoSpawn(false), fNotify(NULL) { }
-
 plNPCSpawnMod::~plNPCSpawnMod() {
     delete fNotify;
 }

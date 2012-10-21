@@ -27,7 +27,7 @@ protected:
     float fTime;
 
 public:
-    plTimerCallbackMsg();
+    plTimerCallbackMsg() : fID(0), fTime(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

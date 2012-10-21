@@ -22,14 +22,6 @@
 #include "crypt/pnSha1.h"
 
 /* Dispatch */
-pnGameClient::Dispatch::Dispatch(pnGameClient* self, bool deleteMsgs)
-            : fReceiver(self), fDeleteMsgs(deleteMsgs)
-{ }
-
-pnGameClient::Dispatch::~Dispatch()
-{ }
-
-
 bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
 {
     uint16_t msgId;
@@ -84,10 +76,6 @@ bool pnGameClient::Dispatch::dispatch(pnSocket* sock)
 
 
 /* pnGameClient */
-pnGameClient::pnGameClient(plResManager* mgr, bool deleteMsgs, bool threaded)
-            : fSock(NULL), fResMgr(mgr), fThreaded(threaded), fDeleteMsgs(deleteMsgs), fDispatch(NULL)
-{ }
-
 pnGameClient::~pnGameClient()
 {
     delete fIface;

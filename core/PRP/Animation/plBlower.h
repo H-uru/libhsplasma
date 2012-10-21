@@ -26,7 +26,8 @@ protected:
     float fMasterPower, fDirectRate, fImpulseRate, fSpringKonst;
 
 public:
-    plBlower();
+    plBlower() : fMasterPower(0.0f), fDirectRate(0.0f), fImpulseRate(0.0f),
+                 fSpringKonst(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

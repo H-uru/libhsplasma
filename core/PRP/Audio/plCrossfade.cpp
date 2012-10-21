@@ -17,10 +17,6 @@
 #include "plCrossfade.h"
 
 /* plCrossfade */
-plCrossfade::plCrossfade()
-           : fFirstIdx(0), fSecondIdx(0), fStartType(0), fEndType(0),
-             fFlags(0), fRegistered(false) { }
-
 void plCrossfade::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

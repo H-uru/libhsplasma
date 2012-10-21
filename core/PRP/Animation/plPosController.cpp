@@ -17,9 +17,6 @@
 #include "plPosController.h"
 
 /* plSimplePosController */
-plSimplePosController::plSimplePosController()
-                     : fPosition(NULL) { }
-
 plSimplePosController::~plSimplePosController() {
     delete fPosition;
 }
@@ -72,9 +69,6 @@ void plSimplePosController::setPosition(plPoint3Controller* pos) {
 
 
 /* plCompoundPosController */
-plCompoundPosController::plCompoundPosController()
-    : fXController(NULL), fYController(NULL), fZController(NULL) { }
-
 plCompoundPosController::~plCompoundPosController() {
     delete fXController;
     delete fYController;

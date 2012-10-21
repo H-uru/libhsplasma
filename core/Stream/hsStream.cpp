@@ -23,10 +23,6 @@
 static const int eoaStrKey[8] = {'m','y','s','t','n','e','r','d'};
 
 /* hsStream */
-hsStream::hsStream(int pv) {
-    setVer(PlasmaVer(pv));
-}
-
 #define BLOCKSIZE 4096
 void hsStream::writeFrom(hsStream* src) {
     unsigned char buf[BLOCKSIZE];
@@ -313,12 +309,6 @@ void hsStream::writeLine(const plString& ln, bool winEOL) {
 
 
 /* hsFileStream */
-hsFileStream::hsFileStream(int pv) : hsStream(pv), F(NULL) { }
-
-hsFileStream::~hsFileStream() {
-    close();
-}
-
 bool hsFileStream::FileExists(const char* file) {
     FILE* eFile = fopen(file, "rb");
     bool exist = (eFile != NULL);

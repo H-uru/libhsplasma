@@ -16,16 +16,6 @@
 
 #include "plVertexSpan.h"
 
-plVertexSpan::plVertexSpan()
-            : fGroupIdx(0), fVBufferIdx(0), fCellIdx(0), fCellOffset(0),
-              fVStartIdx(0), fVLength(0) { }
-
-plVertexSpan::plVertexSpan(const plVertexSpan& init)
-            : plSpan(init), fGroupIdx(init.fGroupIdx),
-              fVBufferIdx(init.fVBufferIdx), fCellIdx(init.fCellIdx),
-              fCellOffset(init.fCellOffset), fVStartIdx(init.fVStartIdx),
-              fVLength(init.fVLength) { }
-
 void plVertexSpan::read(hsStream* S) {
     plSpan::read(S);
     fGroupIdx = S->readInt();

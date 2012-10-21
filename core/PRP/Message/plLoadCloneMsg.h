@@ -29,7 +29,10 @@ protected:
     plMessage* fTriggerMsg;
 
 public:
-    plLoadCloneMsg();
+    plLoadCloneMsg() : fValidMsg(0), fIsLoading(0), fUserData(0),
+                       fOriginatingPlayerID(0), fTriggerMsg(NULL) {
+        fBCastFlags |= kNetPropagate;
+    }
     virtual ~plLoadCloneMsg();
 
     virtual void read(hsStream* S, plResManager* mgr);

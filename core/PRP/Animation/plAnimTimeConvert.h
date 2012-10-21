@@ -50,7 +50,10 @@ protected:
     plATCEaseCurve* fSpeedEaseCurve;
 
 public:
-    plAnimTimeConvert();
+    plAnimTimeConvert() : fFlags(0), fBegin(0.0f), fEnd(0.0f), fLoopBegin(0.0f),
+                          fLoopEnd(0.0f), fSpeed(1.0f), fCurrentAnimTime(0.0f),
+                          fLastEvalWorldTime(0.0), fEaseInCurve(NULL),
+                          fEaseOutCurve(NULL), fSpeedEaseCurve(NULL) { }
     virtual ~plAnimTimeConvert();
 
     virtual void read(hsStream* S, plResManager* mgr);

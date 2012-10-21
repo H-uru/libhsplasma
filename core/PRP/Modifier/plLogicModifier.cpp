@@ -16,8 +16,6 @@
 
 #include "plLogicModifier.h"
 
-plLogicModifier::plLogicModifier() : fMyCursor(0) { }
-
 void plLogicModifier::read(hsStream* S, plResManager* mgr) {
     plLogicModBase::read(S, mgr);
 

@@ -38,7 +38,9 @@ protected:
     hsTArray<float> fStopPoints;
 
 public:
-    plATCAnim();
+    plATCAnim() : fInitial(0.0f), fLoopStart(0.0f), fLoopEnd(0.0f),
+                  fAutoStart(false), fLoop(false), fEaseInType(0),
+                  fEaseOutType(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -102,7 +104,7 @@ protected:
     float fFadeIn, fFadeOut;
 
 public:
-    plEmoteAnim();
+    plEmoteAnim() : fBodyUsage(plAGAnim::kBodyUnknown) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

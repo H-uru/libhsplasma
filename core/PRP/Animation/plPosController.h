@@ -37,7 +37,7 @@ protected:
     plPoint3Controller* fPosition;
 
 public:
-    plSimplePosController();
+    plSimplePosController() : fPosition(NULL) { }
     virtual ~plSimplePosController();
 
     virtual int getType() const { return kSimple; }
@@ -63,7 +63,8 @@ protected:
     plScalarController* fZController;
 
 public:
-    plCompoundPosController();
+    plCompoundPosController()
+        : fXController(NULL), fYController(NULL), fZController(NULL) { }
     virtual ~plCompoundPosController();
 
     virtual int getType() const { return kCompound; }

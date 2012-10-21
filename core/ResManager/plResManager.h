@@ -31,7 +31,7 @@
 #include "Sys/hsThread.h"
 
 /** Callback to indicate the progress of the current operation, range [0,1] */
-typedef std::function<void(float progress)> ProgressCallback;
+typedef std::function<void (float progress)> ProgressCallback;
 
 /** Callback to be called before page is unloaded */
 typedef std::function<void (const plLocation& loc)> PageUnloadCallback;
@@ -80,7 +80,12 @@ public:
      * ReadPage() or ReadAge()
      * \sa setVer(), getVer()
      */
-    plResManager(PlasmaVer pv = PlasmaVer::pvUnknown);
+    plResManager(PlasmaVer pv = PlasmaVer::pvUnknown)
+        : fPlasmaVer(PlasmaVer::pvUnknown), totalKeys(0), readKeys(0), mustStub(false)
+    {
+        setVer(pv);
+        progressFunc = 0;
+    }
 
     /**
      * Destroy the ResManager.
@@ -326,7 +331,7 @@ public:
      * updated location.
      * \sa AddKey(), AddObject()
      */
-    void MoveKey(plKey key, const plLocation& to);
+    void MoveKey(plKey key, const plLocation& to) { keys.MoveKey(key, to); }
 
     /**
      * Manually register an hsKeyedObject with the ResManager.
@@ -347,7 +352,7 @@ public:
      * Note: You should only use this for NEW pages created by the
      * application, never for pages read from files or PRC tags.
      */
-    void AddPage(plPageInfo* page);
+    void AddPage(plPageInfo* page) { pages.push_back(page); }
 
     /**
      * Manually register a plAgeInfo with the ResManager.
@@ -355,14 +360,14 @@ public:
      * Note: You should only use this for NEW ages created by the
      * application, never for ages read from files or PRC tags.
      */
-    void AddAge(plAgeInfo* age);
+    void AddAge(plAgeInfo* age) { ages.push_back(age); }
 
     /**
      * Removes the plKey and its associated hsKeyedObject from the
      * ResManager, and frees the memory associated with both.
      * This will allow you to delete an object from a page.
      */
-    void DelObject(plKey obj);
+    void DelObject(plKey obj) { keys.del(obj); }
 
     /**
      * Removes the page specified by loc from the ResManager, and

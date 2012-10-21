@@ -31,7 +31,9 @@ protected:
     hsBitVector fProps;
 
 public:
-    plObjInterface();
+    plObjInterface() {
+        fProps.setName(kDisable, "kDisable");
+    }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

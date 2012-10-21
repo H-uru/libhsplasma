@@ -35,8 +35,10 @@ protected:
     float fDist, fRadius;
 
 public:
-    plCullPoly();
-    plCullPoly(const plCullPoly& init);
+    plCullPoly() : fFlags(kNone), fDist(0.0f), fRadius(0.0f) { }
+    plCullPoly(const plCullPoly& init)
+        : fFlags(init.fFlags), fVerts(init.fVerts), fNorm(init.fNorm),
+          fCenter(init.fCenter), fDist(init.fDist), fRadius(init.fRadius) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

@@ -16,9 +16,6 @@
 
 #include "pfGUIValueCtrl.h"
 
-pfGUIValueCtrl::pfGUIValueCtrl()
-              : fMin(0.0f), fMax(0.0f), fStep(0.0f) { }
-
 void pfGUIValueCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 

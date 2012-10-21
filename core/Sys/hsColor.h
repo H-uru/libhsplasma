@@ -37,8 +37,9 @@ public:
     float r, g, b, a;
 
     hsColorRGBA(float red = 0.0f, float green = 0.0f, float blue = 0.0f,
-                float alpha = 1.0f);
-    hsColorRGBA(const hsColorRGBA& init);
+                float alpha = 1.0f)
+        : r(red), g(green), b(blue), a(alpha) { }
+
     void set(float red, float green, float blue, float alpha = 1.0f);
     void set(const hsColorRGBA& init);
 
@@ -63,10 +64,10 @@ public:
         unsigned int color;
     };
 
-    hsColor32(unsigned int color32 = 0xFF000000);
+    hsColor32(unsigned int color32 = 0xFF000000) : color(color32) { }
     hsColor32(unsigned char red, unsigned char green, unsigned char blue,
-              unsigned char alpha = 255);
-    hsColor32(const hsColor32& init);
+              unsigned char alpha = 255)
+        : b(blue), g(green), r(red), a(alpha) { }
 
     bool operator==(const hsColor32& other) const;
     bool operator!=(const hsColor32& other) const;

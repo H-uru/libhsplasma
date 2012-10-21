@@ -135,9 +135,6 @@ void plArmatureModBase::clearBrains() {
 
 
 /* plArmatureMod */
-plArmatureMod::plArmatureMod()
-             : fBodyType(0), fPhysHeight(0.0f), fPhysWidth(0.0f) { }
-
 void plArmatureMod::read(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru()) {
         plAGMasterMod::read(S, mgr);

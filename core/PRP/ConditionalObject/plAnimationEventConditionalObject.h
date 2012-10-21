@@ -29,7 +29,7 @@ protected:
     plKey fTarget;
 
 public:
-    plAnimationEventConditionalObject();
+    plAnimationEventConditionalObject() : fAction(kStart) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

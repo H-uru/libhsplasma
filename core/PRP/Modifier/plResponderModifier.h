@@ -29,8 +29,9 @@ public:
         plMessage* fMsg;
         int8_t fWaitOn;
 
-        plResponderCmd(plMessage* msg = NULL, int8_t waitOn = -1);
-        ~plResponderCmd();
+        plResponderCmd(plMessage* msg = NULL, int8_t waitOn = -1)
+            : fMsg(msg), fWaitOn(waitOn) { }
+        ~plResponderCmd() { delete fMsg; }
     };
 
     class PLASMA_DLL plResponderState {
@@ -39,7 +40,7 @@ public:
         int8_t fNumCallbacks, fSwitchToState;
         std::map<int8_t, int8_t> fWaitToCmd;
 
-        plResponderState();
+        plResponderState() : fNumCallbacks(0), fSwitchToState(0) { }
         ~plResponderState();
 
         void addCommand(plMessage* msg, int8_t waitOn);
@@ -60,7 +61,7 @@ protected:
     unsigned char fFlags;
 
 public:
-    plResponderModifier();
+    plResponderModifier() : fCurState(0), fEnabled(true), fFlags(0) { }
     virtual ~plResponderModifier();
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -94,7 +95,7 @@ protected:
     bool fEnable;
 
 public:
-    plResponderEnableMsg();
+    plResponderEnableMsg() : fEnable(true) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

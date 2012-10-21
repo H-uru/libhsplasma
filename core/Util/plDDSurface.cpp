@@ -15,7 +15,7 @@
  */
 
 #include "plDDSurface.h"
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 #include "PRP/Surface/plMipmap.h"
 
@@ -36,10 +36,6 @@ void plDDSurface::plDDColorKey::write(hsStream* S) {
 
 
 /* plDDPixelFormat */
-plDDSurface::plDDPixelFormat::plDDPixelFormat()
-           : fFlags(0), fFourCC(0), fBitDepth(0), fRBitMask(0), fGBitMask(0),
-             fBBitMask(0), fAlphaBitMask(0) { }
-
 void plDDSurface::plDDPixelFormat::read(hsStream* S) {
     if (S->readInt() != DDPF_SIZE)
         throw hsBadParamException(__FILE__, __LINE__, "Invalid DDPIXELFORMAT size");
@@ -74,12 +70,6 @@ void plDDSurface::plDDPixelFormat::write(hsStream* S) {
 
 
 /* plDDSurface */
-plDDSurface::plDDSurface()
-           : fFlags(0), fHeight(0), fWidth(0), fLinearSize(0),
-             fBackBufferCount(0), fMipmapCount(0), fAlphaDepth(0), fCaps(0),
-             fCaps2(0), fCaps3(0), fCaps4(0), fTextureStage(0), fDataSize(0),
-             fDataBuffer(NULL), fLevelSizes(NULL) { }
-
 plDDSurface::~plDDSurface() {
     delete[] fDataBuffer;
     delete[] fLevelSizes;

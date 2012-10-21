@@ -46,8 +46,6 @@ void plPointConstant::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plPointControllerChannel */
-plPointControllerChannel::plPointControllerChannel() : fController(NULL) { }
-
 plPointControllerChannel::~plPointControllerChannel() {
     delete fController;
 }

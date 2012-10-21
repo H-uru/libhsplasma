@@ -29,15 +29,6 @@ plUuid::plUuid(unsigned int data1, unsigned short data2, unsigned short data3,
     memcpy(fData4, data4, sizeof(fData4));
 }
 
-plUuid::plUuid(const plUuid& init)
-      : fData1(init.fData1), fData2(init.fData2), fData3(init.fData3) {
-    memcpy(fData4, init.fData4, sizeof(fData4));
-}
-
-plUuid::plUuid(const char* str) {
-    fromString(str);
-}
-
 plUuid& plUuid::operator=(const plUuid& init) {
     fData1 = init.fData1;
     fData2 = init.fData2;

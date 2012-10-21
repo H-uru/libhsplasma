@@ -51,7 +51,11 @@ protected:
     plController* fHeightCtl;
 
 public:
-    plParticleSystem();
+    plParticleSystem()
+        : fXTiles(0), fYTiles(0), fPreSim(0.0f), fDrag(0.0f), fWindMult(0.0f),
+          fMaxTotalParticles(0), fNumValidEmitters(0), fMaxEmitters(0),
+          fAmbientCtl(NULL), fDiffuseCtl(NULL), fOpacityCtl(NULL),
+          fWidthCtl(NULL), fHeightCtl(NULL) { }
     virtual ~plParticleSystem();
 
     virtual void read(hsStream* S, plResManager* mgr);

@@ -43,7 +43,7 @@ protected:
     int fAgeSequenceNumber, fAgeLanguage;
 
 public:
-    plAgeInfoStruct();
+    plAgeInfoStruct() : fFlags(0), fAgeSequenceNumber(0), fAgeLanguage(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -137,7 +137,8 @@ protected:
     plString fParentAgeFilename;
 
 public:
-    plAgeLinkStruct();
+    plAgeLinkStruct()
+        : fFlags(kHasAgeInfo | kHasSpawnPt), fLinkingRules(0), fAmCCR(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -185,7 +186,8 @@ protected:
     bool fBool1, fBool2, fBool3, fBool4;
 
 public:
-    plAgeLinkEffects();
+    plAgeLinkEffects() : fLinkInAnimName("LinkOut"), fBool1(true), fBool2(true),
+                         fBool3(true), fBool4(true) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

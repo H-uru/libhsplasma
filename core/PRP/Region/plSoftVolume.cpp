@@ -17,10 +17,6 @@
 #include "plSoftVolume.h"
 
 /* plSoftVolume */
-plSoftVolume::plSoftVolume()
-            : fListenState(kListenNone), fInsideStrength(0.0f),
-              fOutsideStrength(0.0f) { }
-
 void plSoftVolume::read(hsStream* S, plResManager* mgr) {
     plObjInterface::read(S, mgr);
 
@@ -59,8 +55,6 @@ void plSoftVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSoftVolumeSimple */
-plSoftVolumeSimple::plSoftVolumeSimple() : fVolume(NULL), fSoftDist(0.0f) { }
-
 plSoftVolumeSimple::~plSoftVolumeSimple() {
     delete fVolume;
 }

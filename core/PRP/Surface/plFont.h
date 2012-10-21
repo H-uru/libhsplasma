@@ -30,7 +30,8 @@ public:
         float fLeftKern, fRightKern;
 
     public:
-        plCharacter();
+        plCharacter() : fBitmapOffset(0), fHeight(0), fBaseline(0),
+                        fLeftKern(0.0f), fRightKern(0.0f) { }
 
         void read(hsStream* S);
         void write(hsStream* S) const;
@@ -69,7 +70,10 @@ protected:
     int fMaxCharHeight;
 
 public:
-    plFont();
+    plFont() : fSize(0), fBPP(0), fFirstChar(0), fFlags(0), fWidth(0),
+               fHeight(0), fBmpData(NULL), fMaxCharHeight(0) {
+        fCharacters.setSize(256);
+    }
     plFont(const plFont& copy);
     virtual ~plFont();
 

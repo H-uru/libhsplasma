@@ -29,7 +29,7 @@ private:
     plMessage* fMessage;
 
 public:
-    plNetMsgGameMessage();
+    plNetMsgGameMessage() : fMessage(NULL) { }
     ~plNetMsgGameMessage();
 
     virtual void read(hsStream* S, plResManager* mgr);

@@ -28,28 +28,24 @@ struct PLASMA_DLL hsVector3 {
     float X, Y, Z;
 
     /** Construct a vector at the origin [0,0,0] */
-    hsVector3();
+    hsVector3() : X(0.0f), Y(0.0f), Z(0.0f) { }
 
     /** Construct a vector at [x,y,z] */
-    hsVector3(float x, float y, float z);
-
-    /** Copy constructor, copies the value of vector \a src */
-    hsVector3(const hsVector3& src);
-
-    /** Copies the value of vector \a other to this vector */
-    hsVector3& operator=(const hsVector3& other);
+    hsVector3(float _x, float _y, float _z) : X(_x), Y(_y), Z(_z) { }
 
     /** Zeros the vector; that is, put it at the origin [0,0,0] */
-    void Zero();
+    void Zero() { X = Y = Z = 0.0f; }
 
     /** Returns the magnitude of the vector: \f$\sqrt{x^2+y^2+z^2}\f$ */
     float magnitude() const;
 
     /** Returns true if the values of the vectors are identical */
-    bool operator==(const hsVector3& other) const;
+    bool operator==(const hsVector3& other) const
+    { return (X == other.X) && (Y == other.Y) && (Z == other.Z); }
 
     /** Returns true if the values of the vectors are non-identical */
-    bool operator!=(const hsVector3& other) const;
+    bool operator!=(const hsVector3& other) const
+    { return (X != other.X) || (Y != other.Y) || (Z != other.Z); }
 
     /** Reads the vector from a stream */
     void read(hsStream* S);
@@ -67,31 +63,39 @@ struct PLASMA_DLL hsVector3 {
      * Adds the vectors using vector addition:
      * \f$[x_1,y_1,z_1] + [x_2,y_2,z_2] = [x_1+x_2,y_1+y_2,z_1+z_2]\f$
      */
-    hsVector3 operator+(const hsVector3& other) const;
+    hsVector3 operator+(const hsVector3& other) const
+    { return hsVector3(X + other.X, Y + other.Y, Z + other.Z); }
 
     /**
      * Subtracts the vectors using vector addition:
      * \f$[x_1,y_1,z_1] - [x_2,y_2,z_2] = [x_1-x_2,y_1-y_2,z_1-z_2]\f$
      */
-    hsVector3 operator-(const hsVector3& other) const;
+    hsVector3 operator-(const hsVector3& other) const
+    { return hsVector3(X - other.X, Y - other.Y, Z - other.Z); }
 
     /**
      * Multiplies the vector by the scalar factor \a mult:
      * \f$[x,y,z] * mult = [x*mult,y*mult,z*mult]\f$
      */
-    hsVector3 operator*(const float mult) const;
+    hsVector3 operator*(const float mult) const
+    { return hsVector3(X * mult, Y * mult, Z * mult); }
 
     /**
      * Multiplies two vectors using the Dot Product:
      * \f$dot = x_1*x_2 + y_1*y_2 + z_1*z_2\f$
      */
-    float dotP(const hsVector3& other) const;
+    float dotP(const hsVector3& other) const
+    { return (X * other.X) + (Y * other.Y) + (Z * other.Z); }
 
     /**
      * Multiplies two vectors using the Cross Product:
      * \f$[x,y,z] = [(y_1*z_2) - (z_1*y_2),(z_1*x_2) - (x_1*z_2),(x_1*y_2) - (y_1*x_2)]\f$
      */
-    hsVector3 crossP(const hsVector3& other) const;
+    hsVector3 crossP(const hsVector3& other) const {
+        return hsVector3((Y * other.Z) - (Z * other.Y),
+                         (Z * other.X) - (X * other.Z),
+                         (X * other.Y) - (Y * other.X));
+    }
 };
 
 
@@ -106,16 +110,10 @@ struct PLASMA_DLL hsPlane3 {
     float W;
 
     /** Constructs a plane at the origin aligned to the X-Y axis plane. */
-    hsPlane3();
+    hsPlane3() : N(0.0f, 0.0f, 1.0f), W(0.0f) { }
 
     /** Constructs a plane at \a w with a normal of \a n. */
-    hsPlane3(const hsVector3& n, float w);
-
-    /** Copy constructor; copies the value of \a src to this plane. */
-    hsPlane3(const hsPlane3& src);
-
-    /** Copy the value of \a other to this plane. */
-    hsPlane3& operator=(const hsPlane3& other);
+    hsPlane3(const hsVector3& n, float w) : N(n), W(w) { }
 
     /** Read this plane from a stream */
     void read(hsStream* S);
@@ -138,7 +136,7 @@ struct PLASMA_DLL hsFloatPoint2 {
     float X, Y;
 
     /** Constructs a point at the origin [0,0] */
-    hsFloatPoint2();
+    hsFloatPoint2() : X(0.0f), Y(0.0f) { }
 };
 
 #endif

@@ -17,10 +17,6 @@
 #include "plATCAnim.h"
 
 /* plATCAnim */
-plATCAnim::plATCAnim()
-         : fInitial(0.0f), fLoopStart(0.0f), fLoopEnd(0.0f), fAutoStart(false),
-           fLoop(false), fEaseInType(0), fEaseOutType(0) { }
-
 void plATCAnim::read(hsStream* S, plResManager* mgr) {
     plAGAnim::read(S, mgr);
 
@@ -215,8 +211,6 @@ std::pair<float, float> plATCAnim::getLoop(const plString& key) const {
 
 
 /* plEmoteAnim */
-plEmoteAnim::plEmoteAnim() : fBodyUsage(plAGAnim::kBodyUnknown) { }
-
 void plEmoteAnim::read(hsStream* S, plResManager* mgr) {
     plATCAnim::read(S, mgr);
 

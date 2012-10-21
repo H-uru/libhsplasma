@@ -18,8 +18,6 @@
 #include <cstdlib>
 #include "hsElfStream.h"
 
-hsElfStream::hsElfStream() : hsFileStream(PlasmaVer::pvUnknown) { }
-
 void hsElfStream::decipher(unsigned char* v, int size, unsigned char hint) {
     unsigned char key = (v[0] ^ hint) >> 5;
     for (int i=size-1; i>=0; i--) {

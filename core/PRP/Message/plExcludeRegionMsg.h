@@ -30,7 +30,7 @@ protected:
     unsigned int fSynchFlags;
 
 public:
-    plExcludeRegionMsg();
+    plExcludeRegionMsg() : fCmd(0), fSynchFlags(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

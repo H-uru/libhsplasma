@@ -28,7 +28,7 @@ private:
     plUoid fUoid;
 
 public:
-    plNetMsgPlayerPage();
+    plNetMsgPlayerPage() : fUnload(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

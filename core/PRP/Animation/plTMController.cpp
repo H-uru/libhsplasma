@@ -16,10 +16,6 @@
 
 #include "plTMController.h"
 
-plTMController::plTMController()
-              : fPosController(NULL), fRotController(NULL),
-                fScaleController(NULL) { }
-
 plTMController::~plTMController() {
     delete fPosController;
     delete fRotController;

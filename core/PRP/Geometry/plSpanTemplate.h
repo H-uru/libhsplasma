@@ -46,7 +46,8 @@ protected:
     unsigned short* fIndices;
 
 public:
-    plSpanTemplate();
+    plSpanTemplate() : fNumVerts(0), fNumTris(0), fFormat(0), fStride(0),
+                       fData(NULL), fIndices(NULL) { }
     ~plSpanTemplate();
 
     void read(hsStream* S);

@@ -41,14 +41,11 @@ public:
     plUuid(unsigned int data1, unsigned short data2, unsigned short data3,
            const unsigned char* data4);
 
-    /** Copy constructor, copies the UUID of \a init. */
-    plUuid(const plUuid& init);
-
     /**
      * Constructs a UUID from a string in the form of
      * "00000000-0000-0000-0000-000000000000".
      */
-    plUuid(const char* str);
+    plUuid(const char* str) { fromString(str); }
 
     /** Copies the UUID data from \a init to this UUID object. */
     plUuid& operator=(const plUuid& init);

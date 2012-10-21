@@ -16,21 +16,6 @@
 
 #include "plViewFaceModifier.h"
 
-plViewFaceModifier::plViewFaceModifier() {
-    fFlags.setName(kPivotFace, "kPivotFace");
-    fFlags.setName(kPivotFavorY, "kPivotFavorY");
-    fFlags.setName(kPivotY, "kPivotY");
-    fFlags.setName(kPivotTumple, "kPivotTumple");
-    fFlags.setName(kScale, "kScale");
-    fFlags.setName(kFaceCam, "kFaceCam");
-    fFlags.setName(kFaceList, "kFaceList");
-    fFlags.setName(kFacePlay, "kFacePlay");
-    fFlags.setName(kFaceObj, "kFaceObj");
-    fFlags.setName(kOffset, "kOffset");
-    fFlags.setName(kOffsetLocal, "kOffsetLocal");
-    fFlags.setName(kMaxBounds, "kMaxBounds");
-}
-
 void plViewFaceModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 

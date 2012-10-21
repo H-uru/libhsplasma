@@ -46,8 +46,7 @@ protected:
     Mode fMode;
 
 public:
-    plUnifiedTime();
-    plUnifiedTime(const plUnifiedTime& other);
+    plUnifiedTime() : fMode(kLocal) { toEpoch(); }
     plUnifiedTime(const timeval& tv);
     plUnifiedTime(double time);
     plUnifiedTime(time_t time);
@@ -59,7 +58,6 @@ public:
     static plUnifiedTime GetCurrentTime();
     static plUnifiedTime FromString(const char* buf, const char* fmt);
 
-    plUnifiedTime& operator=(const plUnifiedTime& other);
     plUnifiedTime& operator=(const timeval& time);
     plUnifiedTime& operator=(tm* time);
     plUnifiedTime& operator=(time_t secs);
@@ -73,21 +71,21 @@ public:
     bool operator>=(const plUnifiedTime& other);
 
     operator timeval();
-    operator tm*();
+    operator tm*() { return IGetTime(&fSecs); }
 
     unsigned int getSecs() const { return fSecs; }
     unsigned int getMicros() const { return fMicros; }
     double getSecsDouble() const;
 
-    int getYear() const;
-    int getMonth() const;
-    int getDay() const;
-    int getDayOfWeek() const;
-    int getHour() const;
-    int getMinute() const;
-    int getSecond() const;
+    int getYear() const { return IGetTime(&fSecs)->tm_year + 1900; }
+    int getMonth() const { return IGetTime(&fSecs)->tm_mon; }
+    int getDay() const { return IGetTime(&fSecs)->tm_mday; }
+    int getDayOfWeek() const { return IGetTime(&fSecs)->tm_wday; }
+    int getHour() const { return IGetTime(&fSecs)->tm_hour; }
+    int getMinute() const { return IGetTime(&fSecs)->tm_min; }
+    int getSecond() const { return IGetTime(&fSecs)->tm_sec; }
     void getTime(int& year, int& month, int& day, int& hour, int& minute, int& second) const;
-    tm* getTm() const;
+    tm* getTm() const { return IGetTime(&fSecs); }
 
     void setSecs(unsigned int secs) { fSecs = secs; }
     void setMicros(unsigned int micros) { fMicros = micros; }
@@ -105,13 +103,13 @@ public:
     void prcParse(const pfPrcTag* tag);
 
     plString format(const char* fmt);
-    void fromString(const char* buf, const char* fmt);
+    void fromString(const char* buf, const char* fmt) { operator=(FromString(buf, fmt)); }
 
     bool atEpoch() const { return (fSecs == 0 && fMicros == 0); }
     void toEpoch() { fSecs = 0; fMicros = 0; }
     void toGMT();
     void toLocal();
-    void toCurrentTime();
+    void toCurrentTime() { operator=(GetCurrentTime()); }
 
 protected:
     static int IGetLocalTimeZoneOffset();

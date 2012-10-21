@@ -38,7 +38,7 @@ public:
     unsigned char fType;
 
 public:
-    plGenericType();
+    plGenericType() : fType(kNone) { }
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -83,7 +83,7 @@ private:
     bool fServerMayDelete;
 
 public:
-    plNetSharedState();
+    plNetSharedState() : fServerMayDelete(false) { }
 
     void read(hsStream* S);
     void write(hsStream* S);

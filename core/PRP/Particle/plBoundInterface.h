@@ -30,7 +30,7 @@ protected:
     plConvexVolume* fBounds;
 
 public:
-    plBoundInterface();
+    plBoundInterface() : fBounds(NULL) { }
     virtual ~plBoundInterface();
 
     virtual void read(hsStream* S, plResManager* mgr);

@@ -15,11 +15,8 @@
  */
 
 #include "plVaultStore.h"
-#include "../Stream/plEncryptedStream.h"
-#include "../Util/hsBitVector.h"
-
-plVaultStore::plVaultStore(unsigned int firstNode)
-            : fFirstNodeID(firstNode), fLastNodeID(firstNode - 1) { }
+#include "Stream/plEncryptedStream.h"
+#include "Util/hsBitVector.h"
 
 void plVaultStore::ImportFile(const char* filename) {
     hsStream* S;

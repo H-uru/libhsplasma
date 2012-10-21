@@ -30,7 +30,7 @@ protected:
     plString fString;
 
 public:
-    plConsoleMsg();
+    plConsoleMsg() : fCmd(kExecuteLine) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

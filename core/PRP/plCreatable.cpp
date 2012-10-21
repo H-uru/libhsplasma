@@ -48,9 +48,6 @@ void plCreatable::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plCreatableStub */
-plCreatableStub::plCreatableStub()
-              : fClassIdx((short)0x8000), fData(NULL), fDataLen(0) { }
-
 plCreatableStub::plCreatableStub(short hClass, size_t length)
               : fClassIdx(hClass), fDataLen(length) {
     fData = new unsigned char[fDataLen];
@@ -86,6 +83,3 @@ void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
     fData = new unsigned char[fDataLen];
     tag->readHexStream(fDataLen, fData);
 }
-
-void plCreatableStub::IPrcWrite(pfPrcHelper* prc) { }
-void plCreatableStub::IPrcParse(const pfPrcTag* tag, plResManager* mgr) { }

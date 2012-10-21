@@ -20,9 +20,6 @@ static const char* CalibratedLevelNames[] = {
     "Broken", "Repaired", "Calibrated"
 };
 
-plMaintainersMarkerModifier::plMaintainersMarkerModifier()
-                           : fCalibrated(kBroken) { }
-
 void plMaintainersMarkerModifier::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
     fCalibrated = S->readInt();

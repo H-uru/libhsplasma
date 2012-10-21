@@ -35,7 +35,9 @@ protected:
     hsTArray<proEventData*> fEvents;
 
 public:
-    plNotifyMsg();
+    plNotifyMsg() : fType(0), fID(0), fState(0.0f) {
+        fBCastFlags |= kNetPropagate;
+    }
     virtual ~plNotifyMsg();
 
     virtual void read(hsStream* S, plResManager* mgr);

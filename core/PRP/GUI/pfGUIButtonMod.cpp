@@ -17,9 +17,6 @@
 #include "pfGUIButtonMod.h"
 
 /* pfGUIButtonMod */
-pfGUIButtonMod::pfGUIButtonMod()
-              : fNotifyType(0), fEoaUnknown1(0), fEoaUnknown2(0) { }
-
 void pfGUIButtonMod::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
@@ -113,11 +110,4 @@ void pfGUIButtonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }
-}
-
-
-/* pfGUIMenuItem */
-pfGUIMenuItem::pfGUIMenuItem() {
-    fFlags.setName(kDrawSubMenuArrow, "kDrawSubMenuArrow");
-    fFlags.setName(kReportHovers, "kReportHovers");
 }

@@ -30,7 +30,7 @@ protected:
     hsTArray<plKey> fImpactSounds, fSlideSounds;
 
 public:
-    plPhysicalSndGroup();
+    plPhysicalSndGroup() : fGroup(kNone) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

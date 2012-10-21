@@ -34,7 +34,7 @@ protected:
     plString fAge, fPage, fObjName;
 
 public:
-    plSpawnMod();
+    plSpawnMod() : fBool1(false), fDisableDraw(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

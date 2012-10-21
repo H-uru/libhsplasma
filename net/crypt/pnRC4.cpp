@@ -17,15 +17,6 @@
 #include "pnRC4.h"
 #include "Debug/plDebug.h"
 
-pnRC4Socket::pnRC4Socket()
-           : fEncrypted(false)
-{ }
-
-pnRC4Socket::pnRC4Socket(int handle)
-           : pnSocket(handle), fEncrypted(false)
-{ }
-
-
 void pnRC4Socket::init(size_t keySize, const unsigned char* keyData)
 {
     if (keyData != NULL) {

@@ -28,7 +28,9 @@ protected:
     short fIndex, fRepeats, fUser;
 
 public:
-    plEventCallbackMsg();
+    plEventCallbackMsg()
+        : fEventTime(0.0f), fEvent((CallbackEvent)0), fIndex(0),
+          fRepeats(0), fUser(0) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -62,14 +64,14 @@ public:
         plKey fReceiver;
         short fUser;
 
-        plAnimCallbackSetup();
+        plAnimCallbackSetup() : fUser(0) { }
     };
 
 protected:
     hsTArray<plAnimCallbackSetup> fCallbacks;
 
 public:
-    plEventCallbackSetupMsg();
+    plEventCallbackSetupMsg() { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

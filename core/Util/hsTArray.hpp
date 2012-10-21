@@ -23,7 +23,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "Debug/hsExceptions.h"
+#include "Debug/hsExceptions.hpp"
 
 template <class T>
 class hsTArray {

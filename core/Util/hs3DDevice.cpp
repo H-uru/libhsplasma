@@ -16,12 +16,6 @@
 
 #include "hs3DDevice.h"
 
-hsG3DDeviceMode::hsG3DDeviceMode()
-    : fFlags(0), fWidth(0), fHeight(0), fDepth(0),
-      fCanRenderToCubics(false) { }
-
-hsG3DDeviceMode::~hsG3DDeviceMode() { }
-
 void hsG3DDeviceMode::read(hsStream* S, int version) {
     fFlags = S->readInt();
     fWidth = S->readInt();
@@ -65,15 +59,6 @@ void hsG3DDeviceMode::write(hsStream* S, int version) {
         S->writeBool(fCanRenderToCubics);
     }
 }
-
-hsG3DDeviceRecord::hsG3DDeviceRecord()
-    : fRecordVersion(11), fFlags(kInvalid), fDeviceType(0),
-      fLayersAtOnce(0), fMemoryBytes(0), fZBiasRating(0.0),
-      fLODBiasRating(0.0), fFogExpApproxStart(0.0),
-      fFogExp2ApproxStart(0.0), fFogEndBias(0.0),
-      fAASetting(0), fMaxAnisotropicSamples(0) { }
-
-hsG3DDeviceRecord::~hsG3DDeviceRecord() { }
 
 void hsG3DDeviceRecord::read(hsStream* S) {
     fRecordVersion = S->readInt();
@@ -162,11 +147,6 @@ void hsG3DDeviceRecord::write(hsStream* S) {
         S->writeByte(fMaxAnisotropicSamples);
     }
 }
-
-hsG3DDeviceModeRecord::hsG3DDeviceModeRecord()
-    : fTextureQuality(0) { }
-
-hsG3DDeviceModeRecord::~hsG3DDeviceModeRecord() { }
 
 void hsG3DDeviceModeRecord::read(hsStream* S) {
     fRecord.read(S);

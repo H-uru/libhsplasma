@@ -19,8 +19,6 @@
 #include "Debug/plDebug.h"
 
 /* plLeafController */
-plLeafController::plLeafController() : fType(0), fUruUnknown(0) { }
-
 plLeafController::~plLeafController() {
     DeallocKeys();
     DeallocControllers();

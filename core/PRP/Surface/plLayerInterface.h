@@ -66,7 +66,8 @@ protected:
     hsGMatState fState;
 
 public:
-    plLayerInterface();
+    plLayerInterface()
+        : fOpacity(1.0f), fUVWSrc(0), fLODBias(0.0f), fSpecularPower(0.0f) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

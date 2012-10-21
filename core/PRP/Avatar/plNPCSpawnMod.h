@@ -29,7 +29,7 @@ protected:
     plNotifyMsg* fNotify;
 
 public:
-    plNPCSpawnMod();
+    plNPCSpawnMod() : fAutoSpawn(false), fNotify(NULL) { }
     virtual ~plNPCSpawnMod();
 
     virtual void read(hsStream* S, plResManager* mgr);

@@ -70,9 +70,6 @@ void plCameraRegionDetector::clearMessages() {
 
 
 /* plObjectInVolumeAndFacingDetector */
-plObjectInVolumeAndFacingDetector::plObjectInVolumeAndFacingDetector()
-    : fFacingTolerance(0.0f), fNeedWalkingForward(false) { }
-
 void plObjectInVolumeAndFacingDetector::read(hsStream* S, plResManager* mgr) {
     plObjectInVolumeDetector::read(S, mgr);
     fFacingTolerance = S->readFloat();

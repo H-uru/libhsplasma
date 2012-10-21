@@ -17,9 +17,6 @@
 #include "plDirectionalLightInfo.h"
 
 /* plLimitedDirLightInfo */
-plLimitedDirLightInfo::plLimitedDirLightInfo()
-                     : fWidth(0.0f), fHeight(0.0f), fDepth(0.0f) { }
-
 void plLimitedDirLightInfo::read(hsStream* S, plResManager* mgr) {
     plLightInfo::read(S, mgr);
     fWidth = S->readFloat();

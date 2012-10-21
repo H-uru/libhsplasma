@@ -20,9 +20,6 @@ const char* const plFogEnvironment::FogTypeNames[] = {
     "Linear", "Exp", "Exp2", "None"
 };
 
-plFogEnvironment::plFogEnvironment()
-                : fType(kLinearFog), fStart(1.0f), fEnd(1000.0f), fDensity(0.5f) { }
-
 void plFogEnvironment::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
     fType = S->readByte();

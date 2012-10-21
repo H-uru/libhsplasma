@@ -17,8 +17,6 @@
 #include "plAvTaskMsg.h"
 
 /* plAvTaskMsg */
-plAvTaskMsg::plAvTaskMsg() : fTask(NULL) { }
-
 plAvTaskMsg::~plAvTaskMsg() {
     delete fTask;
 }
@@ -75,8 +73,6 @@ void plAvTaskMsg::setTask(plAvTask* task) {
 
 
 /* plAvPushBrainMsg */
-plAvPushBrainMsg::plAvPushBrainMsg() : fBrain(NULL) { }
-
 plAvPushBrainMsg::~plAvPushBrainMsg() {
     delete fBrain;
 }

@@ -50,7 +50,8 @@ public:
      * Construct key data for an empty object.  The key will need to be
      * filled in with meaningful data before it is useful.
      */
-    plKeyData();
+    plKeyData() : fUoid(), fObjPtr(NULL), fFileOff(0), fObjSize(0),
+                  fRefCnt(0) { }
 
     /**
      * Don't ever use this directly (i.e., don't ever allocate plKeyData
@@ -75,7 +76,7 @@ public:
      * equivalent.  This basically just calls the == operator on the
      * plUoid (so storage information is not compared).
      */
-    bool operator==(plKeyData& other) const;
+    bool operator==(plKeyData& other) const { return (fUoid == other.fUoid); }
 
     /**
      * Converts the key to a string.  If the key is empty, returns "NULL",
@@ -108,7 +109,7 @@ public:
      * rather use the plResManager to read keys.
      * \sa writeUoid(), read(), plResManager::ReadUoid()
      */
-    void readUoid(hsStream* S);
+    void readUoid(hsStream* S) { fUoid.read(S); }
 
     /**
      * Write a key without the index information or exists bool directly
@@ -116,7 +117,7 @@ public:
      * rather use the plResManager to write keys.
      * \sa readUoid(), write(), plResManager::WriteUoid()
      */
-    void writeUoid(hsStream* S);
+    void writeUoid(hsStream* S) { fUoid.write(S); }
 
     /**
      * Write a plKey tag describing this key into the PRC document.
@@ -259,7 +260,7 @@ private:
 
 public:
     /** Constructs a NULL plKey.  This will return false for Exists() */
-    plKey();
+    plKey() : fKeyData(NULL) { }
 
     /** Copy constructor */
     plKey(const plKey& init);
@@ -297,26 +298,27 @@ public:
     virtual plKey& operator=(plKeyData* other);
 
     /** Returns true if the keys point to the same plKeyData */
-    bool operator==(const plKey& other) const;
+    bool operator==(const plKey& other) const { return fKeyData == other.fKeyData; }
 
     /** Returns true if this key's plKeyData is 'other' */
-    bool operator==(const plKeyData* other) const;
+    bool operator==(const plKeyData* other) const { return fKeyData == other; }
 
     /** Returns true if the keys point to different plKeyData structures */
-    bool operator!=(const plKey& other) const;
+    bool operator!=(const plKey& other) const { return fKeyData != other.fKeyData; }
 
     /** Returns true if this key's plKeyData is NOT 'other' */
-    bool operator!=(const plKeyData* other) const;
+    bool operator!=(const plKeyData* other) const { return fKeyData != other; }
 
     /** Provides sorting functionality for STL containers */
-    bool operator<(const plKey& other) const;
+    bool operator<(const plKey& other) const
+    { return fKeyData->getUoid() < other->getUoid(); }
 
     /**
      * Tests to see if the key refers to an object (not NULL key).
      * This will return false for empty keys, so it should be checked
      * any place where an empty key can be specified.
      */
-    bool Exists() const;
+    bool Exists() const { return (fKeyData != NULL); }
 
     /**
      * Returns whether the object referenced by the key is currently

@@ -26,8 +26,6 @@ protected:
 
 public:
     plServerGuid();
-    plServerGuid(const plServerGuid& init);
-    plServerGuid& operator=(const plServerGuid& other);
     bool operator==(const plServerGuid& other);
     bool operator!=(const plServerGuid& other) { return !operator==(other); }
 

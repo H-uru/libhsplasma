@@ -17,7 +17,7 @@
 #include "plSceneObject.h"
 #include "PRP/Modifier/plModifier.h"
 
-void plSceneObject::addTarget (hsKeyedObject* obj) {
+void plSceneObject::addTarget(hsKeyedObject* obj) {
     plModifier* mod = plModifier::Convert(obj);
     if (mod != NULL)
        mod->addTarget(getKey());

@@ -28,7 +28,8 @@ private:
     bool fIsPlayer, fIsLoading, fIsInitialState;
 
 public:
-    plNetMsgLoadClone();
+    plNetMsgLoadClone()
+        : fIsPlayer(false), fIsLoading(false), fIsInitialState(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

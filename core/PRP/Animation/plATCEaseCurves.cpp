@@ -17,10 +17,6 @@
 #include "plATCEaseCurves.h"
 
 /* plATCEaseCurve */
-plATCEaseCurve::plATCEaseCurve()
-              : fStartSpeed(0.0f), fMinLength(0.0f), fMaxLength(0.0f),
-                fBeginWorldTime(0.0), fLength(0.0f), fSpeed(0.0f) { }
-
 void plATCEaseCurve::read(hsStream* S, plResManager* ) {
     fMinLength = S->readFloat();
     fMaxLength = S->readFloat();
@@ -69,13 +65,6 @@ void plATCEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 
 /* plSplineEaseCurve */
-plSplineEaseCurve::plSplineEaseCurve() {
-    fCoef[0] = 0.0f;
-    fCoef[1] = 0.0f;
-    fCoef[2] = 0.0f;
-    fCoef[3] = 0.0f;
-}
-
 void plSplineEaseCurve::read(hsStream* S, plResManager* mgr) {
     plATCEaseCurve::read(S, mgr);
 

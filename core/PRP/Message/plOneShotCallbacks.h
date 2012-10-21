@@ -29,7 +29,7 @@ public:
         plKey fReceiver;
         short fUser;
 
-        plOneShotCallback();
+        plOneShotCallback() : fUser(0) { }
     };
 
 protected:

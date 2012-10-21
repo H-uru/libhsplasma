@@ -17,8 +17,6 @@
 #include "plServerReplyMsg.h"
 #include "Debug/plDebug.h"
 
-plServerReplyMsg::plServerReplyMsg() : fType(kUnInit) { }
-
 void plServerReplyMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
     fType = S->readInt();

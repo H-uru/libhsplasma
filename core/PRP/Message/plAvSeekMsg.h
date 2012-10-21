@@ -47,7 +47,8 @@ private:
     plKey fFinishKey;
 
 public:
-    plAvSeekMsg();
+    plAvSeekMsg() : fDuration(0.0f), fSmartSeek(true), fNoSeek(false),
+                    fAlignType(kAlignHandle), fFlags(kSeekFlagForce3rdPersonOnStart) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
@@ -66,7 +67,7 @@ private:
     bool fDrivable, fReversible;
 
 public:
-    plAvOneShotMsg();
+    plAvOneShotMsg() : fDrivable(false), fReversible(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

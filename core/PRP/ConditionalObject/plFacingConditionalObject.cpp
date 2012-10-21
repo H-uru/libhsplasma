@@ -16,9 +16,6 @@
 
 #include "plFacingConditionalObject.h"
 
-plFacingConditionalObject::plFacingConditionalObject()
-                         : fTolerance(0.0f), fDirectional(false) { }
-
 void plFacingConditionalObject::read(hsStream* S, plResManager* mgr) {
     plConditionalObject::read(S, mgr);
     fTolerance = S->readFloat();

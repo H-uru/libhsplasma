@@ -30,7 +30,8 @@ private:
     plStateDescriptor* fDescriptor;
 
 public:
-    plNetMsgSDLState();
+    plNetMsgSDLState() : fIsInitialState(false), fPersistOnServer(false),
+                         fIsAvatarState(false), fDescriptor(NULL) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

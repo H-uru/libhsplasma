@@ -18,14 +18,6 @@
 #include <cmath>
 #include "hsMatrix44.h"
 
-hsMatrix44::hsMatrix44() {
-    Reset();
-}
-
-hsMatrix44::hsMatrix44(const hsMatrix44& init) {
-    memcpy(data, init.data, sizeof(data));
-}
-
 hsMatrix44 hsMatrix44::Identity() {
     static hsMatrix44 idMat;
     static bool idMatInitialized = false;

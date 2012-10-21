@@ -27,7 +27,7 @@ protected:
     bool fAddSurface;
 
 public:
-    plArmatureEffectStateMsg();
+    plArmatureEffectStateMsg() : fSurface(0), fAddSurface(false) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);

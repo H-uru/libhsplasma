@@ -36,7 +36,7 @@ protected:
     unsigned int fFlags;
 
 public:
-    plStateDataRecord();
+    plStateDataRecord() : fDescriptor(NULL), fFlags(0) { }
     ~plStateDataRecord();
 
     static void ReadStreamHeader(hsStream* S, plString& name, int& version,

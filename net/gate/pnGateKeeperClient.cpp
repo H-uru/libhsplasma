@@ -21,14 +21,6 @@
 #include "crypt/pnSha1.h"
 
 /* Dispatch */
-pnGateKeeperClient::Dispatch::Dispatch(pnGateKeeperClient* self)
-                  : fReceiver(self)
-{ }
-
-pnGateKeeperClient::Dispatch::~Dispatch()
-{ }
-
-
 bool pnGateKeeperClient::Dispatch::dispatch(pnSocket* sock)
 {
     uint16_t msgId;
@@ -59,9 +51,6 @@ bool pnGateKeeperClient::Dispatch::dispatch(pnSocket* sock)
 
 
 /* pnGateKeeperClient */
-pnGateKeeperClient::pnGateKeeperClient(bool threaded) : fSock(NULL), fThreaded(threaded), fDispatch(NULL)
-{ }
-
 pnGateKeeperClient::~pnGateKeeperClient()
 {
     delete fIface;
