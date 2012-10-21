@@ -32,7 +32,7 @@ public:
 
     typedef std::function<plCreatable* (short)> OverrideFunc;
     static void SetOverride(OverrideFunc over) { fOverride = over; }
-    static void ClearOverride() { fOverride = 0; }
+    static void ClearOverride() { fOverride = OverrideFunc(); }
 
 private:
     static OverrideFunc fOverride;

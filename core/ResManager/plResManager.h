@@ -84,7 +84,7 @@ public:
         : fPlasmaVer(PlasmaVer::pvUnknown), totalKeys(0), readKeys(0), mustStub(false)
     {
         setVer(pv);
-        progressFunc = 0;
+        progressFunc = ProgressCallback();
     }
 
     /**

@@ -36,9 +36,8 @@ void plSceneObject::read(hsStream* S, plResManager* mgr) {
         fInterfaces[i] = mgr->readKey(S);
     fModifiers.setSize(S->readInt());
     for (size_t i=0; i<fModifiers.getSize(); i++) {
-        fModifiers[i] = mgr->readKeyNotify(S, [this](hsKeyedObject* obj) {
-            addTarget(obj);
-        });
+        fModifiers[i] = mgr->readKeyNotify(S,
+            std::bind(&plSceneObject::addTarget, this, std::placeholders::_1));
     }
 
     fSceneNode = mgr->readKey(S);
@@ -115,9 +114,8 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fModifiers.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fModifiers.getSize(); i++) {
-            fModifiers[i] = mgr->prcParseKeyNotify(child, [this](hsKeyedObject* ko){
-                addTarget(ko);
-            });
+            fModifiers[i] = mgr->prcParseKeyNotify(child,
+                std::bind(&plSceneObject::addTarget, this, std::placeholders::_1));
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "SceneNode") {
@@ -130,9 +128,7 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plSceneObject::addModifier(plKey intf) {
     fModifiers.append(intf);
-    intf->addCallback([this](hsKeyedObject* so) {
-        addTarget(so);
-    });
+    intf->addCallback(std::bind(&plSceneObject::addTarget, this, std::placeholders::_1));
 }
 
 void plSceneObject::delModifier(size_t idx) {

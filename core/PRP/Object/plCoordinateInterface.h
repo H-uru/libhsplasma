@@ -37,8 +37,6 @@ private:
     hsTArray<plKey> fChildren;
     plKey fParent;
 
-    void setParentCallback(hsKeyedObject* ko);
-
 public:
     plCoordinateInterface();
 

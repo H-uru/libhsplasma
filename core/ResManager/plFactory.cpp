@@ -178,7 +178,7 @@
     plDebug::Warning("Warning: class %s is not implemented", ClassName(x)); \
     return NULL
 
-plFactory::OverrideFunc plFactory::fOverride = 0;
+plFactory::OverrideFunc plFactory::fOverride;
 
 plCreatable* plFactory::Create(short typeIdx) {
     if (typeIdx < 0)

@@ -28,15 +28,16 @@ plCoordinateInterface::plCoordinateInterface() {
     fProps.setName(kDelayedTransformEval, "kDelayedTransformEval");
 }
 
-void plCoordinateInterface::setParentCallback(hsKeyedObject* ko) {
+static void _childCallback(plCoordinateInterface* self, hsKeyedObject* ko) {
+    plCoordinateInterface* ci = plCoordinateInterface::Convert(ko);
+    ci->setParent(self->getKey());
+}
+
+static void _setParentCallback(plCoordinateInterface* self, hsKeyedObject* ko) {
     plSceneObject* child = plSceneObject::Convert(ko);
     plKey childCIkey = child->getCoordInterface();
-    if (childCIkey.Exists()) {
-        childCIkey->addCallback([this](hsKeyedObject* childKo) {
-            plCoordinateInterface* ci = plCoordinateInterface::Convert(childKo);
-            ci->setParent(this->getKey());
-        });
-    }
+    if (childCIkey.Exists())
+        childCIkey->addCallback(std::bind(&_childCallback, self, std::placeholders::_1));
 }
 
 void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
@@ -49,9 +50,8 @@ void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
 
     fChildren.setSize(S->readInt());
     for (size_t i=0; i<fChildren.getSize(); i++) {
-        fChildren[i] = mgr->readKeyNotify(S, [this](hsKeyedObject* obj) {
-            setParentCallback(obj);
-        });
+        fChildren[i] = mgr->readKeyNotify(S,
+            std::bind(&_setParentCallback, this, std::placeholders::_1));
     }
 }
 
@@ -107,9 +107,8 @@ void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fChildren.setSize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fChildren.getSize(); i++) {
-            fChildren[i] = mgr->prcParseKeyNotify(child, [this](hsKeyedObject* obj) {
-                setParentCallback(obj);
-            });
+            fChildren[i] = mgr->prcParseKeyNotify(child,
+                std::bind(&_setParentCallback, this, std::placeholders::_1));
             child = child->getNextSibling();
         }
     } else {
