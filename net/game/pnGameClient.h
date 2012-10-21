@@ -27,12 +27,13 @@
 class PLASMANET_DLL pnGameClient : public pnClient {
 public:
     pnGameClient(plResManager* mgr, bool deleteMsgs = true, bool threaded = true)
-        : fSock(NULL), fResMgr(mgr), fThreaded(threaded), fDeleteMsgs(deleteMsgs),
-          fDispatch(NULL) { }
+        : fSock(NULL), fResMgr(mgr), fThreaded(threaded), fKeyG(73),
+          fDeleteMsgs(deleteMsgs), fDispatch(NULL) { }
     virtual ~pnGameClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
                  bool littleEndian = true);
+    void setKeyG(int g) { fKeyG = g; }
     void setClientInfo(uint32_t buildId, uint32_t buildType, uint32_t branchId,
                        const plUuid& productId);
     void setJoinInfo(const plUuid& accountId, const plUuid& ageId);
@@ -72,6 +73,7 @@ private:
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
     bool fLittleEndianKeys;
+    int fKeyG;
     bool fDeleteMsgs;
 
     class Dispatch : public pnDispatcher {

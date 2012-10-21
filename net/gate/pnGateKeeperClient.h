@@ -27,11 +27,12 @@
 class PLASMANET_DLL pnGateKeeperClient : public pnClient {
 public:
     pnGateKeeperClient(bool threaded = true)
-         : fSock(NULL), fThreaded(threaded), fDispatch(NULL) { }
+         : fSock(NULL), fThreaded(threaded), fKeyG(4), fDispatch(NULL) { }
     virtual ~pnGateKeeperClient();
 
     void setKeys(const unsigned char* keyX, const unsigned char* keyN,
                  bool littleEndian = true);
+    void setKeyG(int g) { fKeyG = g; }
     void setClientInfo(uint32_t buildId, uint32_t buildType, uint32_t branchId,
                        const plUuid& productId);
     virtual ENetError connect(const char* host, short port = 14617);
@@ -65,6 +66,7 @@ private:
     unsigned char fKeyX[64];
     unsigned char fKeyN[64];
     bool fLittleEndianKeys;
+    int fKeyG;
 
     class Dispatch : public pnDispatcher {
     public:
