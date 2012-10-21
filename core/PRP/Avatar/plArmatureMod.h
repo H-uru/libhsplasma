@@ -25,9 +25,9 @@ class PLASMA_DLL plArmatureModBase : public virtual plAGMasterMod {
     CREATABLE(plArmatureModBase, kArmatureModBase, plAGMasterMod)
 
 protected:
-    hsTArray<plKey> fMeshKeys;
-    hsTArray<hsTArray<plKey> > fUnusedBones;
-    hsTArray<plArmatureBrain*> fBrains;
+    std::vector<plKey> fMeshKeys;
+    std::vector<std::vector<plKey> > fUnusedBones;
+    std::vector<plArmatureBrain*> fBrains;
     plKey fDetector;
 
 public:

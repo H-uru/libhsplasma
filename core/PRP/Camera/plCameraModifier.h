@@ -44,11 +44,11 @@ public:
 protected:
     hsVector3 fFrom, fAt;
     plKey fBrain;
-    hsTArray<CamTrans*> fTrans;
+    std::vector<CamTrans*> fTrans;
     float fFOVw, fFOVh;
-    hsTArray<plMessage*> fMessageQueue;
-    hsTArray<plKey> fSenderQueue;
-    hsTArray<plCameraMsg*> fFOVInstructions;
+    std::vector<plMessage*> fMessageQueue;
+    std::vector<plKey> fSenderQueue;
+    std::vector<plCameraMsg*> fFOVInstructions;
     bool fAnimated, fStartAnimOnPush, fStopAnimOnPop, fResetAnimOnPop;
 
     void DeleteTrans();

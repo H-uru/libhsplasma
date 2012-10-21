@@ -38,7 +38,7 @@ public:
     };
 
 protected:
-    hsTArray<HardPlane> fPlanes;
+    std::vector<HardPlane> fPlanes;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

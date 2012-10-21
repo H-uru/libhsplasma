@@ -17,7 +17,6 @@
 #ifndef _HS3DDEVICE_H
 #define _HS3DDEVICE_H
 
-#include "Util/hsTArray.hpp"
 #include "Util/hsBitVector.h"
 #include "Stream/hsStream.h"
 
@@ -27,8 +26,8 @@ private:
     unsigned int fWidth;
     unsigned int fHeight;
     unsigned int fDepth;
-    hsTArray<unsigned short> fZStencilDepths;
-    hsTArray<unsigned char> fFSAATypes;
+    std::vector<unsigned short> fZStencilDepths;
+    std::vector<unsigned char> fFSAATypes;
     bool fCanRenderToCubics;
 
 public:
@@ -80,7 +79,7 @@ private:
     hsBitVector fCaps;
     unsigned int fLayersAtOnce;
     unsigned int fMemoryBytes;
-    hsTArray<hsG3DDeviceMode> fModes;
+    std::vector<hsG3DDeviceMode> fModes;
     float fZBiasRating;
     float fLODBiasRating;
     float fFogExpApproxStart;
@@ -111,7 +110,7 @@ public:
     const hsBitVector getCaps() { return fCaps; }
     unsigned int getLayersAtOnce() const { return fLayersAtOnce; }
     unsigned int getMemoryBytes() const { return fMemoryBytes; }
-    size_t getNumModes() const { return fModes.getSize(); }
+    size_t getNumModes() const { return fModes.size(); }
     const hsG3DDeviceMode& getMode(size_t idx) { return fModes[idx]; }
     float getZBiasRating() const { return fZBiasRating; }
     float getLODBIasRating() const { return fLODBiasRating; }

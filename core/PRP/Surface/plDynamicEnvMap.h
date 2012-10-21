@@ -28,8 +28,8 @@ protected:
     float fHither, fYon, fFogStart;
     hsColorRGBA fColor;
     float fRefreshRate;
-    hsTArray<plKey> fVisRegions;
-    hsTArray<plString> fVisRegionNames;
+    std::vector<plKey> fVisRegions;
+    std::vector<plString> fVisRegionNames;
     int fIncCharacters;
 
 public:
@@ -60,8 +60,8 @@ protected:
     float fHither, fYon, fFogStart;
     hsColorRGBA fColor;
     float fRefreshRate;
-    hsTArray<plKey> fVisRegions, fTargetNodes, fMatLayers;
-    hsTArray<plString> fVisRegionNames;
+    std::vector<plKey> fVisRegions, fTargetNodes, fMatLayers;
+    std::vector<plString> fVisRegionNames;
     unsigned char fIncCharacters;
     plKey fCamera, fRootNode, fDisableTexture;
 

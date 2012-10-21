@@ -46,8 +46,8 @@ namespace {
 
     void updateCiChildren(plCoordinateInterface* ci)
     {
-        const hsTArray<plKey>& kids = ci->getChildren();
-        for (size_t i = 0; i < kids.getSize(); i++) {
+        const std::vector<plKey>& kids = ci->getChildren();
+        for (size_t i = 0; i < kids.size(); i++) {
             plSceneObject *obj = plSceneObject::Convert(kids[i]->getObj());
             plCoordinateInterface *child = plCoordinateInterface::Convert(obj->getCoordInterface()->getObj());
             child->setLocalToWorld(child->getLocalToParent() * ci->getLocalToWorld());

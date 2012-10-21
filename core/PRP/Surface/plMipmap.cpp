@@ -75,7 +75,7 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned char num
     fStride = (fPixelSize * fWidth) / 8;
 
     if (fWidth == 0 || fHeight == 0) {
-        fLevelData.setSize(0);
+        fLevelData.clear();
         fTotalSize = 0;
         fImageData = NULL;
         fJPEGData = NULL;
@@ -92,7 +92,7 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned char num
         }
     }
 
-    fLevelData.setSize(numLevels);
+    fLevelData.resize(numLevels);
     fTotalSize = IBuildLevelSizes();
     fImageData = new unsigned char[fTotalSize];
     memset(fImageData, 0, fTotalSize);
@@ -164,7 +164,7 @@ void plMipmap::IRead(hsStream* S) {
     fHeight = S->readInt();
     fStride = S->readInt();
     fTotalSize = S->readInt();
-    fLevelData.setSize(S->readByte());
+    fLevelData.resize(S->readByte());
 
     delete[] fImageData;
     delete[] fJPEGData;
@@ -200,7 +200,7 @@ void plMipmap::IWrite(hsStream* S) {
     S->writeInt(fHeight);
     S->writeInt(fStride);
     S->writeInt(fTotalSize);
-    S->writeByte(fLevelData.getSize());
+    S->writeByte(fLevelData.size());
 
     if (fTotalSize == 0)
         return;
@@ -226,7 +226,7 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Height", fHeight);
     prc->writeParam("Stride", fStride);
     prc->writeParam("TotalSize", (unsigned int)fTotalSize);
-    prc->writeParam("MipLevels", (unsigned int)fLevelData.getSize());
+    prc->writeParam("MipLevels", (unsigned int)fLevelData.size());
     prc->endTag(true);
 
     if (fCompressionType == kJPEGCompression) {
@@ -275,7 +275,7 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fHeight = tag->getParam("Height", "0").toUint();
         fStride = tag->getParam("Stride", "0").toUint();
         fTotalSize = tag->getParam("TotalSize", "0").toUint();
-        fLevelData.setSize(tag->getParam("MipLevels", "0").toUint());
+        fLevelData.resize(tag->getParam("MipLevels", "0").toUint());
         IBuildLevelSizes();
     } else if (tag->getName() == "JPEG") {
         IBuildLevelSizes();
@@ -330,7 +330,7 @@ size_t plMipmap::IBuildLevelSizes() {
     unsigned int curHeight = fHeight;
     size_t curOffs = 0;
 
-    for (size_t i=0; i<fLevelData.getSize(); i++) {
+    for (size_t i=0; i<fLevelData.size(); i++) {
         if (fCompressionType == kDirectXCompression) {
             if ((curHeight | curWidth) & 3)
                 fLevelData[i].fSize = curStride * curHeight;
@@ -466,17 +466,17 @@ void plMipmap::IWriteJPEGImage(hsStream* S) {
 void plMipmap::IReadRawImage(hsStream* S) {
     unsigned char* dataPtr = fImageData;
     if (fPixelSize == 32) {
-        for (size_t i=0; i<fLevelData.getSize(); i++) {
+        for (size_t i=0; i<fLevelData.size(); i++) {
             S->readInts(fLevelData[i].fSize / 4, (uint32_t*)dataPtr);
             dataPtr += fLevelData[i].fSize;
         }
     } else if (fPixelSize == 16) {
-        for (size_t i=0; i<fLevelData.getSize(); i++) {
+        for (size_t i=0; i<fLevelData.size(); i++) {
             S->readShorts(fLevelData[i].fSize / 2, (uint16_t*)dataPtr);
             dataPtr += fLevelData[i].fSize;
         }
     } else if (fPixelSize == 8) {
-        for (size_t i=0; i<fLevelData.getSize(); i++) {
+        for (size_t i=0; i<fLevelData.size(); i++) {
             S->read(fLevelData[i].fSize, (uint8_t*)dataPtr);
             dataPtr += fLevelData[i].fSize;
         }
@@ -488,17 +488,17 @@ void plMipmap::IReadRawImage(hsStream* S) {
 void plMipmap::IWriteRawImage(hsStream* S) {
     unsigned char* dataPtr = fImageData;
     if (fPixelSize == 32) {
-        for (size_t i=0; i<fLevelData.getSize(); i++) {
+        for (size_t i=0; i<fLevelData.size(); i++) {
             S->writeInts(fLevelData[i].fSize / 4, (uint32_t*)dataPtr);
             dataPtr += fLevelData[i].fSize;
         }
     } else if (fPixelSize == 16) {
-        for (size_t i=0; i<fLevelData.getSize(); i++) {
+        for (size_t i=0; i<fLevelData.size(); i++) {
             S->writeShorts(fLevelData[i].fSize / 2, (uint16_t*)dataPtr);
             dataPtr += fLevelData[i].fSize;
         }
     } else if (fPixelSize == 8) {
-        for (size_t i=0; i<fLevelData.getSize(); i++) {
+        for (size_t i=0; i<fLevelData.size(); i++) {
             S->write(fLevelData[i].fSize, (uint8_t*)dataPtr);
             dataPtr += fLevelData[i].fSize;
         }

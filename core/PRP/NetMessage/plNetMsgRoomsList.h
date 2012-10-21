@@ -29,7 +29,7 @@ public:
     };
 
 private:
-    hsTArray<Room> fRooms;
+    std::vector<Room> fRooms;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -40,10 +40,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<Room>& getRooms() const { return fRooms; }
-    hsTArray<Room>& getRooms() { return fRooms; }
+    const std::vector<Room>& getRooms() const { return fRooms; }
+    std::vector<Room>& getRooms() { return fRooms; }
     void addRoom(const plLocation& loc, const plString& name);
-    void delRoom(size_t idx) { fRooms.remove(idx); }
+    void delRoom(size_t idx) { fRooms.erase(fRooms.begin() + idx); }
     void clearRooms() { fRooms.clear(); }
 };
 

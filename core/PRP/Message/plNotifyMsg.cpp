@@ -17,8 +17,8 @@
 #include "plNotifyMsg.h"
 
 plNotifyMsg::~plNotifyMsg() {
-    for (size_t i=0; i<fEvents.getSize(); i++)
-        delete fEvents[i];
+    for (auto event = fEvents.begin(); event != fEvents.end(); ++event)
+        delete *event;
 }
 
 void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
@@ -31,8 +31,8 @@ void plNotifyMsg::read(hsStream* S, plResManager* mgr) {
         fID = S->readInt();
 
     clearEvents();
-    fEvents.setSizeNull(S->readInt());
-    for (size_t i=0; i<fEvents.getSize(); i++)
+    fEvents.resize(S->readInt());
+    for (size_t i=0; i<fEvents.size(); i++)
         fEvents[i] = proEventData::Read(S, mgr);
 }
 
@@ -45,8 +45,8 @@ void plNotifyMsg::write(hsStream* S, plResManager* mgr) {
     else
         S->writeInt(fID);
 
-    S->writeInt(fEvents.getSize());
-    for (size_t i=0; i<fEvents.getSize(); i++)
+    S->writeInt(fEvents.size());
+    for (size_t i=0; i<fEvents.size(); i++)
         fEvents[i]->write(S, mgr);
 }
 
@@ -60,7 +60,7 @@ void plNotifyMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Events");
-    for (size_t i=0; i<fEvents.getSize(); i++)
+    for (size_t i=0; i<fEvents.size(); i++)
         fEvents[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -72,9 +72,9 @@ void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fID = tag->getParam("ID", "0").toInt();
     } else if (tag->getName() == "Events") {
         clearEvents();
-        fEvents.setSizeNull(tag->countChildren());
+        fEvents.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fEvents.getSize(); i++) {
+        for (size_t i=0; i<fEvents.size(); i++) {
             fEvents[i] = proEventData::PrcParse(child, mgr);
             child = child->getNextSibling();
         }
@@ -85,11 +85,11 @@ void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plNotifyMsg::delEvent(size_t idx) {
     delete fEvents[idx];
-    fEvents.remove(idx);
+    fEvents.erase(fEvents.begin() + idx);
 }
 
 void plNotifyMsg::clearEvents() {
-    for (size_t i=0; i<fEvents.getSize(); i++)
-        delete fEvents[i];
+    for (auto event = fEvents.begin(); event != fEvents.end(); ++event)
+        delete *event;
     fEvents.clear();
 }

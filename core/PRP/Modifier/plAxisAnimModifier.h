@@ -31,8 +31,8 @@ private:
 
     // Lots of unknown EOA parameters:
     bool b65, b66, b70;
-    hsTArray<float> af38;
-    hsTArray<float> af40;
+    std::vector<float> af38;
+    std::vector<float> af40;
     float f48, f58, f5c;
     float fb0, fac, fa0, f98, fa4;
     bool b60, b90, bb4, bb5;

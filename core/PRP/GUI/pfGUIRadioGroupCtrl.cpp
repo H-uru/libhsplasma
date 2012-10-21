@@ -20,8 +20,8 @@
 void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
-    fControls.setSize(S->readInt());
-    for (size_t i=0; i<fControls.getSize(); i++)
+    fControls.resize(S->readInt());
+    for (size_t i=0; i<fControls.size(); i++)
         fControls[i] = mgr->readKey(S);
 
     fDefaultValue = S->readShort();
@@ -30,8 +30,8 @@ void pfGUIRadioGroupCtrl::read(hsStream* S, plResManager* mgr) {
 void pfGUIRadioGroupCtrl::write(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::write(S, mgr);
 
-    S->writeInt(fControls.getSize());
-    for (size_t i=0; i<fControls.getSize(); i++)
+    S->writeInt(fControls.size());
+    for (size_t i=0; i<fControls.size(); i++)
         mgr->writeKey(S, fControls[i]);
 
     S->writeShort(fDefaultValue);
@@ -43,7 +43,7 @@ void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Items");
     prc->writeParam("Default", fDefaultValue);
     prc->endTag();
-    for (size_t i=0; i<fControls.getSize(); i++)
+    for (size_t i=0; i<fControls.size(); i++)
         fControls[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -51,9 +51,9 @@ void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc) {
 void pfGUIRadioGroupCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Items") {
         fDefaultValue = tag->getParam("Default", "0").toInt();
-        fControls.setSize(tag->countChildren());
+        fControls.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fControls.getSize(); i++) {
+        for (size_t i=0; i<fControls.size(); i++) {
             fControls[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

@@ -29,7 +29,7 @@ public:
     };
 
 protected:
-    hsTArray<plKey> fAnimationKeys;
+    std::vector<plKey> fAnimationKeys;
     plString fAnimName;
 
 public:
@@ -43,10 +43,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getAnimKeys() const { return fAnimationKeys; }
-    hsTArray<plKey>& getAnimKeys() { return fAnimationKeys; }
-    void addAnimKey(plKey key) { fAnimationKeys.append(key); }
-    void delAnimKey(size_t idx) { fAnimationKeys.remove(idx); }
+    const std::vector<plKey>& getAnimKeys() const { return fAnimationKeys; }
+    std::vector<plKey>& getAnimKeys() { return fAnimationKeys; }
+    void addAnimKey(plKey key) { fAnimationKeys.push_back(key); }
+    void delAnimKey(size_t idx) { fAnimationKeys.erase(fAnimationKeys.begin() + idx); }
     void clearAnimKeys() { fAnimationKeys.clear(); }
 
     const plString& getAnimName() const { return fAnimName; }

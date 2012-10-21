@@ -44,11 +44,11 @@ void plWaveSet7::read(hsStream* S, plResManager* mgr) {
     fMaxLen = S->readFloat();
     fState.read(S);
 
-    fShores.setSize(S->readInt());
-    for (size_t i=0; i<fShores.getSize(); i++)
+    fShores.resize(S->readInt());
+    for (size_t i=0; i<fShores.size(); i++)
         fShores[i] = mgr->readKey(S);
-    fDecals.setSize(S->readInt());
-    for (size_t i=0; i<fDecals.getSize(); i++)
+    fDecals.resize(S->readInt());
+    for (size_t i=0; i<fDecals.size(); i++)
         fDecals[i] = mgr->readKey(S);
     fEnvMap = mgr->readKey(S);
     if (fFlags[kHasRefObject])
@@ -61,11 +61,11 @@ void plWaveSet7::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMaxLen);
     fState.write(S);
 
-    S->writeInt(fShores.getSize());
-    for (size_t i=0; i<fShores.getSize(); i++)
+    S->writeInt(fShores.size());
+    for (size_t i=0; i<fShores.size(); i++)
         mgr->writeKey(S, fShores[i]);
-    S->writeInt(fDecals.getSize());
-    for (size_t i=0; i<fDecals.getSize(); i++)
+    S->writeInt(fDecals.size());
+    for (size_t i=0; i<fDecals.size(); i++)
         mgr->writeKey(S, fDecals[i]);
     mgr->writeKey(S, fEnvMap);
     if (fFlags[kHasRefObject])
@@ -82,11 +82,11 @@ void plWaveSet7::IPrcWrite(pfPrcHelper* prc) {
     fState.prcWrite(prc);
 
     prc->writeSimpleTag("Shores");
-    for (size_t i=0; i<fShores.getSize(); i++)
+    for (size_t i=0; i<fShores.size(); i++)
         fShores[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Decals");
-    for (size_t i=0; i<fDecals.getSize(); i++)
+    for (size_t i=0; i<fDecals.size(); i++)
         fDecals[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -107,16 +107,16 @@ void plWaveSet7::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "plFixedWaterState7") {
         fState.prcParse(tag);
     } else if (tag->getName() == "Shores") {
-        fShores.setSize(tag->countChildren());
+        fShores.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fShores.getSize(); i++) {
+        for (size_t i=0; i<fShores.size(); i++) {
             fShores[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Decals") {
-        fDecals.setSize(tag->countChildren());
+        fDecals.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fDecals.getSize(); i++) {
+        for (size_t i=0; i<fDecals.size(); i++) {
             fDecals[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

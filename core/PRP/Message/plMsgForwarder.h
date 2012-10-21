@@ -23,7 +23,7 @@ class PLASMA_DLL plMsgForwarder : public hsKeyedObject {
     CREATABLE(plMsgForwarder, kMsgForwarder, hsKeyedObject)
 
 protected:
-    hsTArray<plKey> fForwardKeys;
+    std::vector<plKey> fForwardKeys;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -34,10 +34,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getForwardKeys() const { return fForwardKeys; }
-    hsTArray<plKey>& getForwardKeys() { return fForwardKeys; }
-    void addForwardKey(plKey fwd) { fForwardKeys.append(fwd); }
-    void delForwardKey(size_t idx) { fForwardKeys.remove(idx); }
+    const std::vector<plKey>& getForwardKeys() const { return fForwardKeys; }
+    std::vector<plKey>& getForwardKeys() { return fForwardKeys; }
+    void addForwardKey(plKey fwd) { fForwardKeys.push_back(fwd); }
+    void delForwardKey(size_t idx) { fForwardKeys.erase(fForwardKeys.begin() + idx); }
     void clearForwardKeys() { fForwardKeys.clear(); }
 };
 

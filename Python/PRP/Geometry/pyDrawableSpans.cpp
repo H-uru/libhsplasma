@@ -86,9 +86,9 @@ static PyObject* pyDrawableSpans_getVerts(pyDrawableSpans* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "getVerts expects a plIcicle");
         return NULL;
     }
-    hsTArray<plGBufferVertex> verts = self->fThis->getVerts(ice->fThis);
-    PyObject* list = PyList_New(verts.getSize());
-    for (size_t i=0; i<verts.getSize(); i++)
+    std::vector<plGBufferVertex> verts = self->fThis->getVerts(ice->fThis);
+    PyObject* list = PyList_New(verts.size());
+    for (size_t i=0; i<verts.size(); i++)
         PyList_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
     return list;
 }
@@ -103,9 +103,9 @@ static PyObject* pyDrawableSpans_getIndices(pyDrawableSpans* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "getIndices expects a plIcicle");
         return NULL;
     }
-    hsTArray<unsigned short> indices = self->fThis->getIndices(ice->fThis);
-    PyObject* list = PyList_New(indices.getSize());
-    for (size_t i=0; i<indices.getSize(); i++)
+    std::vector<unsigned short> indices = self->fThis->getIndices(ice->fThis);
+    PyObject* list = PyList_New(indices.size());
+    for (size_t i=0; i<indices.size(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));
     return list;
 }
@@ -116,9 +116,9 @@ static PyObject* pyDrawableSpans_getCells(pyDrawableSpans* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "getCells expects int, int");
         return NULL;
     }
-    hsTArray<plGBufferCell> cells = self->fThis->getCells(buf, idx);
-    PyObject* list = PyList_New(cells.getSize());
-    for (size_t i=0; i<cells.getSize(); i++)
+    std::vector<plGBufferCell> cells = self->fThis->getCells(buf, idx);
+    PyObject* list = PyList_New(cells.size());
+    for (size_t i=0; i<cells.size(); i++)
         PyList_SET_ITEM(list, i, pyGBufferCell_FromGBufferCell(cells[i]));
     return list;
 }
@@ -134,9 +134,8 @@ static PyObject* pyDrawableSpans_addVerts(pyDrawableSpans* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "addVerts expects int, list");
         return NULL;
     }
-    hsTArray<plGBufferVertex> verts;
-    verts.setSize(PyList_Size(vlist));
-    for (size_t i=0; i<verts.getSize(); i++) {
+    std::vector<plGBufferVertex> verts(PyList_Size(vlist));
+    for (size_t i=0; i<verts.size(); i++) {
         PyObject* vert = PyList_GetItem(vlist, i);
         if (!pyGBufferVertex_Check(vert)) {
             PyErr_SetString(PyExc_TypeError, "addVerts expects a list of plGBufferVertexes");
@@ -160,9 +159,8 @@ static PyObject* pyDrawableSpans_addIndices(pyDrawableSpans* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "addIndices expects int, list");
         return NULL;
     }
-    hsTArray<unsigned short> indices;
-    indices.setSize(PyList_Size(ilist));
-    for (size_t i=0; i<indices.getSize(); i++) {
+    std::vector<unsigned short> indices(PyList_Size(ilist));
+    for (size_t i=0; i<indices.size(); i++) {
         PyObject* index = PyList_GetItem(ilist, i);
         if (!PyInt_Check(index)) {
             PyErr_SetString(PyExc_TypeError, "addIndices expects a list of ints");
@@ -186,9 +184,8 @@ static PyObject* pyDrawableSpans_addCells(pyDrawableSpans* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "addCells expects int, list");
         return NULL;
     }
-    hsTArray<plGBufferCell> cells;
-    cells.setSize(PyList_Size(clist));
-    for (size_t i=0; i<cells.getSize(); i++) {
+    std::vector<plGBufferCell> cells(PyList_Size(clist));
+    for (size_t i=0; i<cells.size(); i++) {
         PyObject* cell = PyList_GetItem(clist, i);
         if (!pyGBufferCell_Check(cell)) {
             PyErr_SetString(PyExc_TypeError, "addCells expects a list of plGBufferCells");
@@ -313,9 +310,8 @@ static PyObject* pyDrawableSpans_buildDIIndex(pyDrawableSpans* self, PyObject* a
         return NULL;
     }
 
-    hsTArray< std::shared_ptr<plGeometrySpan> > spans;
-    spans.setSize(PySequence_Size(list));
-    for (size_t i = 0; i < spans.getSize(); ++i) {
+    std::vector<std::shared_ptr<plGeometrySpan> > spans(PySequence_Size(list));
+    for (size_t i = 0; i < spans.size(); ++i) {
         PyObject* o = PySequence_Fast_GET_ITEM(list, i);
         if (pyGeometrySpan_Check(o))
             spans[i] = ((pyGeometrySpan*)o)->fThis;
@@ -404,8 +400,8 @@ static PyObject* pyDrawableSpans_getMaxBounds(pyDrawableSpans* self, void*) {
 }
 
 static PyObject* pyDrawableSpans_getMaterials(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getMaterials().getSize());
-    for (size_t i=0; i<self->fThis->getMaterials().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getMaterials().size());
+    for (size_t i=0; i<self->fThis->getMaterials().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getMaterials()[i]));
     return list;
 }
@@ -431,8 +427,8 @@ static PyObject* pyDrawableSpans_getSceneNode(pyDrawableSpans* self, void*) {
 }
 
 static PyObject* pyDrawableSpans_getSourceSpans(pyDrawableSpans* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getSourceSpans().getSize());
-    for (size_t i = 0; i < self->fThis->getSourceSpans().getSize(); ++i)
+    PyObject* list = PyList_New(self->fThis->getSourceSpans().size());
+    for (size_t i = 0; i < self->fThis->getSourceSpans().size(); ++i)
         PyList_SET_ITEM(list, i, pyGeometrySpan_FromGeometrySpan(self->fThis->getSourceSpans()[i]));
     return list;
 }

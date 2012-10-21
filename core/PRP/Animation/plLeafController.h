@@ -24,8 +24,8 @@ class PLASMA_DLL plLeafController : public plController {
 
 protected:
     unsigned int fType, fUruUnknown;
-    hsTArray<hsKeyFrame*> fKeys;
-    hsTArray<class plEaseController*> fEaseControllers;
+    std::vector<hsKeyFrame*> fKeys;
+    std::vector<class plEaseController*> fEaseControllers;
 
 public:
     plLeafController() : fType(0), fUruUnknown(0) { }
@@ -50,15 +50,15 @@ public:
     plLeafController* ExpandToKeyController() const;
     plLeafController* CompactToLeafController() const;
 
-    bool hasKeys() const { return fKeys.getSize() != 0; }
-    bool hasEaseControllers() const { return fEaseControllers.getSize() != 0; }
+    bool hasKeys() const { return !fKeys.empty(); }
+    bool hasEaseControllers() const { return !fEaseControllers.empty(); }
 
     unsigned int getType() const { return fType; }
-    const hsTArray<hsKeyFrame*>& getKeys() const { return fKeys; }
-    const hsTArray<class plEaseController*>& getEaseControllers() const { return fEaseControllers; }
+    const std::vector<hsKeyFrame*>& getKeys() const { return fKeys; }
+    const std::vector<class plEaseController*>& getEaseControllers() const { return fEaseControllers; }
 
-    void setKeys(const hsTArray<hsKeyFrame*>& keys, unsigned int type);
-    void setEaseControllers(const hsTArray<class plEaseController*>& controllers);
+    void setKeys(const std::vector<hsKeyFrame*>& keys, unsigned int type);
+    void setEaseControllers(const std::vector<class plEaseController*>& controllers);
 };
 
 #endif

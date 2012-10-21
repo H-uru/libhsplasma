@@ -23,7 +23,7 @@ class PLASMA_DLL pfGUICheckBoxCtrl : public virtual pfGUIControlMod {
     CREATABLE(pfGUICheckBoxCtrl, kGUICheckBoxCtrl, pfGUIControlMod)
 
 protected:
-    hsTArray<plKey> fAnimKeys;
+    std::vector<plKey> fAnimKeys;
     plString fAnimName;
     bool fChecked;
 
@@ -38,10 +38,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getAnimKeys() const { return fAnimKeys; }
-    hsTArray<plKey>& getAnimKeys() { return fAnimKeys; }
-    void addAnimKey(plKey key) { fAnimKeys.append(key); }
-    void delAnimKey(size_t idx) { fAnimKeys.remove(idx); }
+    const std::vector<plKey>& getAnimKeys() const { return fAnimKeys; }
+    std::vector<plKey>& getAnimKeys() { return fAnimKeys; }
+    void addAnimKey(plKey key) { fAnimKeys.push_back(key); }
+    void delAnimKey(size_t idx) { fAnimKeys.erase(fAnimKeys.begin() + idx); }
     void clearAnimKeys() { fAnimKeys.clear(); }
 
     const plString& getAnimName() const { return fAnimName; }

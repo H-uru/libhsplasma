@@ -93,7 +93,7 @@ class PLASMA_DLL plStateDescriptor {
 protected:
     plString fName;
     int fVersion;
-    hsTArray<plVarDescriptor*> fVariables;
+    std::vector<plVarDescriptor*> fVariables;
 
 public:
     plStateDescriptor() : fVersion(-1) { }
@@ -116,8 +116,8 @@ public:
     void set(size_t idx, plVarDescriptor* var) { fVariables[idx] = var; }
     void set(const plString& name, plVarDescriptor* var);
 
-    size_t getNumVars() const { return fVariables.getSize(); }
-    void addVariable(plVarDescriptor* var) { fVariables.append(var); }
+    size_t getNumVars() const { return fVariables.size(); }
+    void addVariable(plVarDescriptor* var) { fVariables.push_back(var); }
     void delVariable(size_t idx);
     void delVariable(const plString& name);
     void clearVariables();

@@ -26,8 +26,8 @@ class PLASMA_DLL plOccluder : public virtual plObjInterface {
     CREATABLE(plOccluder, kOccluder, plObjInterface)
 
 protected:
-    hsTArray<plCullPoly> fPolys;
-    hsTArray<plKey> fVisRegions;
+    std::vector<plCullPoly> fPolys;
+    std::vector<plKey> fVisRegions;
     float fPriority;
     hsBounds3Ext fWorldBounds;
     plKey fSceneNode;
@@ -51,16 +51,16 @@ public:
     void setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
     void setSceneNode(plKey node) { fSceneNode = node; }
 
-    const hsTArray<plCullPoly>& getPolys() const { return fPolys; }
-    hsTArray<plCullPoly>& getPolys() { return fPolys; }
-    void addPoly(const plCullPoly& poly) { fPolys.append(poly); }
-    void delPoly(size_t idx) { fPolys.remove(idx); }
+    const std::vector<plCullPoly>& getPolys() const { return fPolys; }
+    std::vector<plCullPoly>& getPolys() { return fPolys; }
+    void addPoly(const plCullPoly& poly) { fPolys.push_back(poly); }
+    void delPoly(size_t idx) { fPolys.erase(fPolys.begin() + idx); }
     void clearPolys() { fPolys.clear(); }
 
-    const hsTArray<plKey>& getVisRegions() const { return fVisRegions; }
-    hsTArray<plKey>& getVisRegions() { return fVisRegions; }
-    void addVisRegion(plKey region) { fVisRegions.append(region); }
-    void delVisRegion(size_t idx) { fVisRegions.remove(idx); }
+    const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
+    std::vector<plKey>& getVisRegions() { return fVisRegions; }
+    void addVisRegion(plKey region) { fVisRegions.push_back(region); }
+    void delVisRegion(size_t idx) { fVisRegions.erase(fVisRegions.begin() + idx); }
     void clearVisRegions() { fVisRegions.clear(); }
 };
 

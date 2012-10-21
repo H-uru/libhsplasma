@@ -18,8 +18,8 @@
 
 void plMessage::IMsgRead(hsStream* S, plResManager* mgr) {
     fSender = mgr->readKey(S);
-    fReceivers.setSize(S->readInt());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    fReceivers.resize(S->readInt());
+    for (size_t i=0; i<fReceivers.size(); i++)
         fReceivers[i] = mgr->readKey(S);
     if (S->getVer().isUru() || S->getVer().isUniversal())
         fTimeStamp = S->readDouble();
@@ -30,8 +30,8 @@ void plMessage::IMsgRead(hsStream* S, plResManager* mgr) {
 
 void plMessage::IMsgWrite(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSender);
-    S->writeInt(fReceivers.getSize());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    S->writeInt(fReceivers.size());
+    for (size_t i=0; i<fReceivers.size(); i++)
         mgr->writeKey(S, fReceivers[i]);
     if (S->getVer().isUru() || S->getVer().isUniversal())
         S->writeDouble(fTimeStamp);
@@ -44,7 +44,7 @@ void plMessage::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Receivers");
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    for (size_t i=0; i<fReceivers.size(); i++)
         fReceivers[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -59,9 +59,9 @@ void plMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fSender = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Receivers") {
-        fReceivers.setSize(tag->countChildren());
+        fReceivers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fReceivers.getSize(); i++) {
+        for (size_t i=0; i<fReceivers.size(); i++) {
             fReceivers[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

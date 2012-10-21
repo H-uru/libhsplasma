@@ -79,7 +79,7 @@ public:
 class PLASMA_DLL plNetSharedState {
 private:
     plString fName;
-    hsTArray<plGenericVar> fVars;
+    std::vector<plGenericVar> fVars;
     bool fServerMayDelete;
 
 public:
@@ -97,10 +97,10 @@ public:
     void setName(const plString& name) { fName = name; }
     void setServerMayDelete(bool may) { fServerMayDelete = may; }
 
-    const hsTArray<plGenericVar>& getVars() const { return fVars; }
-    hsTArray<plGenericVar>& getVars() { return fVars; }
-    void addVar(const plGenericVar& var) { fVars.append(var); }
-    void delVar(size_t idx) { fVars.remove(idx); }
+    const std::vector<plGenericVar>& getVars() const { return fVars; }
+    std::vector<plGenericVar>& getVars() { return fVars; }
+    void addVar(const plGenericVar& var) { fVars.push_back(var); }
+    void delVar(size_t idx) { fVars.erase(fVars.begin() + idx); }
     void clearVars() { fVars.clear(); }
 };
 

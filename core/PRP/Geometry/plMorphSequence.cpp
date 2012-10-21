@@ -19,24 +19,24 @@
 void plMorphSequence::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
-    fMorphs.setSize(S->readInt());
-    for (size_t i=0; i<fMorphs.getSize(); i++)
+    fMorphs.resize(S->readInt());
+    for (size_t i=0; i<fMorphs.size(); i++)
         fMorphs[i].read(S, mgr);
 
-    fSharedMeshes.setSize(S->readInt());
-    for (size_t i=0; i<fSharedMeshes.getSize(); i++)
+    fSharedMeshes.resize(S->readInt());
+    for (size_t i=0; i<fSharedMeshes.size(); i++)
         fSharedMeshes[i] = mgr->readKey(S);
 }
 
 void plMorphSequence::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
-    S->writeInt(fMorphs.getSize());
-    for (size_t i=0; i<fMorphs.getSize(); i++)
+    S->writeInt(fMorphs.size());
+    for (size_t i=0; i<fMorphs.size(); i++)
         fMorphs[i].write(S, mgr);
 
-    S->writeInt(fSharedMeshes.getSize());
-    for (size_t i=0; i<fSharedMeshes.getSize(); i++)
+    S->writeInt(fSharedMeshes.size());
+    for (size_t i=0; i<fSharedMeshes.size(); i++)
         mgr->writeKey(S, fSharedMeshes[i]);
 }
 
@@ -44,12 +44,12 @@ void plMorphSequence::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Morphs");
-    for (size_t i=0; i<fMorphs.getSize(); i++)
+    for (size_t i=0; i<fMorphs.size(); i++)
         fMorphs[i].prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("SharedMeshes");
-    for (size_t i=0; i<fSharedMeshes.getSize(); i++)
+    for (size_t i=0; i<fSharedMeshes.size(); i++)
         fSharedMeshes[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -57,7 +57,7 @@ void plMorphSequence::IPrcWrite(pfPrcHelper* prc) {
 void plMorphSequence::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Morphs") {
         size_t count = tag->countChildren();
-        fMorphs.setSize(count);
+        fMorphs.resize(count);
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<count; i++) {
             fMorphs[i].prcParse(child, mgr);
@@ -65,7 +65,7 @@ void plMorphSequence::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "SharedMeshes") {
         size_t count = tag->countChildren();
-        fSharedMeshes.setSize(count);
+        fSharedMeshes.resize(count);
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<count; i++) {
             fSharedMeshes[i] = mgr->prcParseKey(child);

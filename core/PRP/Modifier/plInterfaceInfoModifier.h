@@ -23,7 +23,7 @@ class PLASMA_DLL plInterfaceInfoModifier : public virtual plSingleModifier {
     CREATABLE(plInterfaceInfoModifier, kInterfaceInfoModifier, plSingleModifier)
 
 protected:
-    hsTArray<plKey> fKeyList;
+    std::vector<plKey> fKeyList;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -34,10 +34,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getIntfKeys() const { return fKeyList; }
-    hsTArray<plKey>& getIntfKeys() { return fKeyList; }
-    void addIntfKey(plKey key) { fKeyList.append(key); }
-    void delIntfKey(size_t idx) { fKeyList.remove(idx); }
+    const std::vector<plKey>& getIntfKeys() const { return fKeyList; }
+    std::vector<plKey>& getIntfKeys() { return fKeyList; }
+    void addIntfKey(plKey key) { fKeyList.push_back(key); }
+    void delIntfKey(size_t idx) { fKeyList.erase(fKeyList.begin() + idx); }
     void clearIntfKeys() { fKeyList.clear(); }
 };
 

@@ -24,7 +24,7 @@ class PLASMA_DLL plActivatorConditionalObject : public virtual plConditionalObje
               plConditionalObject)
 
 protected:
-    hsTArray<plKey> fActivators;
+    std::vector<plKey> fActivators;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

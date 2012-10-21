@@ -20,7 +20,7 @@ void plLogicModifier::read(hsStream* S, plResManager* mgr) {
     plLogicModBase::read(S, mgr);
 
     size_t count = S->readInt();
-    fConditionList.setSize(count);
+    fConditionList.resize(count);
     for (size_t i=0; i<count; i++)
         fConditionList[i] = mgr->readKey(S);
     fMyCursor = S->readInt();
@@ -32,8 +32,8 @@ void plLogicModifier::read(hsStream* S, plResManager* mgr) {
 void plLogicModifier::write(hsStream* S, plResManager* mgr) {
     plLogicModBase::write(S, mgr);
 
-    S->writeInt(fConditionList.getSize());
-    for (size_t i=0; i<fConditionList.getSize(); i++)
+    S->writeInt(fConditionList.size());
+    for (size_t i=0; i<fConditionList.size(); i++)
         mgr->writeKey(S, fConditionList[i]);
     S->writeInt(fMyCursor);
 
@@ -45,7 +45,7 @@ void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
     plLogicModBase::IPrcWrite(prc);
 
     prc->writeSimpleTag("Conditions");
-    for (size_t i=0; i<fConditionList.getSize(); i++)
+    for (size_t i=0; i<fConditionList.size(); i++)
         fConditionList[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -60,9 +60,9 @@ void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plLogicModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Conditions") {
-        fConditionList.setSize(tag->countChildren());
+        fConditionList.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fConditionList.getSize(); i++) {
+        for (size_t i=0; i<fConditionList.size(); i++) {
             fConditionList[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

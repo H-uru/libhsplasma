@@ -18,8 +18,8 @@
 #define _HSTOKENSTREAM_H
 
 #include "hsStream.h"
-#include "Util/hsTList.hpp"
-#include "Util/hsTArray.hpp"
+#include <vector>
+#include <queue>
 
 class PLASMA_DLL hsTokenStream {
 public:
@@ -37,10 +37,10 @@ protected:
 
     hsStream* fStream;
     bool fIOwnStream;
-    hsTList<plString> fLineTokens;
-    hsTArray<char> fDelims;
-    hsTArray<Region> fCommentMarkers;
-    hsTArray<Region> fStringMarkers;
+    std::queue<plString> fLineTokens;
+    std::vector<char> fDelims;
+    std::vector<Region> fCommentMarkers;
+    std::vector<Region> fStringMarkers;
     int fInComment;
 
 public:
@@ -54,8 +54,8 @@ public:
     plString peekNext();
 
     void setDelimiters(const char* delims);
-    void setCommentMarkers(const hsTArray<Region>& comments);
-    void setStringMarkers(const hsTArray<Region>& strMarkers);
+    void setCommentMarkers(const std::vector<Region>& comments);
+    void setStringMarkers(const std::vector<Region>& strMarkers);
 
 protected:
     void getLine();

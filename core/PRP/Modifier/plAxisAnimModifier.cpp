@@ -38,11 +38,11 @@ void plAxisAnimModifier::read(hsStream* S, plResManager* mgr) {
     fAnimLabel = S->readStr(len);
 
     if (S->getVer().isNewPlasma()) {
-        af38.setSizeNull(S->readInt());
-        for (size_t i=0; i<af38.getSize(); i++)
+        af38.resize(S->readInt());
+        for (size_t i=0; i<af38.size(); i++)
             af38[i] = S->readFloat();
-        af40.setSizeNull(S->readInt());
-        for (size_t i=0; i<af40.getSize(); i++)
+        af40.resize(S->readInt());
+        for (size_t i=0; i<af40.size(); i++)
             af40[i] = S->readFloat();
 
         b70 = S->readBool();
@@ -81,11 +81,11 @@ void plAxisAnimModifier::write(hsStream* S, plResManager* mgr) {
     S->writeStr(fAnimLabel);
 
     if (S->getVer().isNewPlasma()) {
-        S->writeInt(af38.getSize());
-        for (size_t i=0; i<af38.getSize(); i++)
+        S->writeInt(af38.size());
+        for (size_t i=0; i<af38.size(); i++)
             S->writeFloat(af38[i]);
-        S->writeInt(af40.getSize());
-        for (size_t i=0; i<af40.getSize(); i++)
+        S->writeInt(af40.size());
+        for (size_t i=0; i<af40.size(); i++)
             S->writeFloat(af40[i]);
 
         S->writeBool(b70);
@@ -134,7 +134,7 @@ void plAxisAnimModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag();
 
     prc->writeSimpleTag("Array38");
-    for (size_t i=0; i<af38.getSize(); i++) {
+    for (size_t i=0; i<af38.size(); i++) {
         prc->startTag("Entry");
         prc->writeParam("value", af38[i]);
         prc->endTag(true);
@@ -142,7 +142,7 @@ void plAxisAnimModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Array40");
-    for (size_t i=0; i<af40.getSize(); i++) {
+    for (size_t i=0; i<af40.size(); i++) {
         prc->startTag("Entry");
         prc->writeParam("value", af40[i]);
         prc->endTag(true);

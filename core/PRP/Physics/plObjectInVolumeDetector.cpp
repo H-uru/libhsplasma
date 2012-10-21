@@ -18,24 +18,24 @@
 
 /* plCameraRegionDetector */
 plCameraRegionDetector::~plCameraRegionDetector() {
-    for (size_t i=0; i<fMessages.getSize(); i++)
-        delete fMessages[i];
+    for (auto msg = fMessages.begin(); msg != fMessages.end(); ++msg)
+        delete *msg;
 }
 
 void plCameraRegionDetector::read(hsStream* S, plResManager* mgr) {
     plDetectorModifier::read(S, mgr);
 
     clearMessages();
-    fMessages.setSizeNull(S->readInt());
-    for (size_t i=0; i<fMessages.getSize(); i++)
+    fMessages.resize(S->readInt());
+    for (size_t i=0; i<fMessages.size(); i++)
         fMessages[i] = plCameraMsg::Convert(mgr->ReadCreatable(S));
 }
 
 void plCameraRegionDetector::write(hsStream* S, plResManager* mgr) {
     plDetectorModifier::write(S, mgr);
 
-    S->writeInt(fMessages.getSize());
-    for (size_t i=0; i<fMessages.getSize(); i++)
+    S->writeInt(fMessages.size());
+    for (size_t i=0; i<fMessages.size(); i++)
         mgr->WriteCreatable(S, fMessages[i]);
 }
 
@@ -43,7 +43,7 @@ void plCameraRegionDetector::IPrcWrite(pfPrcHelper* prc) {
     plDetectorModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Messages");
-    for (size_t i=0; i<fMessages.getSize(); i++)
+    for (size_t i=0; i<fMessages.size(); i++)
         fMessages[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -51,9 +51,9 @@ void plCameraRegionDetector::IPrcWrite(pfPrcHelper* prc) {
 void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Messages") {
         clearMessages();
-        fMessages.setSizeNull(tag->countChildren());
+        fMessages.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMessages.getSize(); i++) {
+        for (size_t i=0; i<fMessages.size(); i++) {
             fMessages[i] = plCameraMsg::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
@@ -63,8 +63,8 @@ void plCameraRegionDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plCameraRegionDetector::clearMessages() {
-    for (size_t i=0; i<fMessages.getSize(); i++)
-        delete fMessages[i];
+    for (auto msg = fMessages.begin(); msg != fMessages.end(); ++msg)
+        delete *msg;
     fMessages.clear();
 }
 

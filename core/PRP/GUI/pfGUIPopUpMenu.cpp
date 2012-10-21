@@ -26,16 +26,16 @@ pfGUIPopUpMenu::pfGUIPopUpMenu()
 }
 
 pfGUIPopUpMenu::~pfGUIPopUpMenu() {
-    for (size_t i=0; i<fMenuItems.getSize(); i++)
-        delete fMenuItems[i].fHandler;
+    for (auto item = fMenuItems.begin(); item != fMenuItems.end(); ++item)
+        delete item->fHandler;
 }
 
 void pfGUIPopUpMenu::read(hsStream* S, plResManager* mgr) {
     pfGUIDialogMod::read(S, mgr);
 
     fMargin = S->readShort();
-    fMenuItems.setSize(S->readInt());
-    for (size_t i=0; i<fMenuItems.getSize(); i++) {
+    fMenuItems.resize(S->readInt());
+    for (size_t i=0; i<fMenuItems.size(); i++) {
         char buf[257];
         S->read(256, buf);
         buf[256] = 0;
@@ -54,8 +54,8 @@ void pfGUIPopUpMenu::write(hsStream* S, plResManager* mgr) {
     pfGUIDialogMod::write(S, mgr);
 
     S->writeShort(fMargin);
-    S->writeInt(fMenuItems.getSize());
-    for (size_t i=0; i<fMenuItems.getSize(); i++) {
+    S->writeInt(fMenuItems.size());
+    for (size_t i=0; i<fMenuItems.size(); i++) {
         char buf[256];
         memset(buf, 0, 256);
         strncpy(buf, fMenuItems[i].fName, 256);
@@ -79,7 +79,7 @@ void pfGUIPopUpMenu::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("MenuItems");
-    for (size_t i=0; i<fMenuItems.getSize(); i++) {
+    for (size_t i=0; i<fMenuItems.size(); i++) {
         prc->startTag("pfMenuItem");
         prc->writeParam("Name", fMenuItems[i].fName);
         prc->endTag();
@@ -112,9 +112,9 @@ void pfGUIPopUpMenu::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fMargin = tag->getParam("Margin", "0").toUint();
         fAlignment = (Alignment)tag->getParam("Alignment", "0").toInt();
     } else if (tag->getName() == "MenuItems") {
-        fMenuItems.setSize(tag->countChildren());
+        fMenuItems.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMenuItems.getSize(); i++) {
+        for (size_t i=0; i<fMenuItems.size(); i++) {
             if (child->getName() != "pfMenuItem")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fMenuItems[i].fName = tag->getParam("Name", "");
@@ -155,12 +155,12 @@ void pfGUIPopUpMenu::addItem(const plString& name, pfGUICtrlProcWriteableObject*
     item.fHandler = handler;
     item.fSubMenu = subMenu;
     item.fYOffsetToNext = yoffs;
-    fMenuItems.append(item);
+    fMenuItems.push_back(item);
 }
 
 void pfGUIPopUpMenu::delItem(size_t idx) {
     delete fMenuItems[idx].fHandler;
-    fMenuItems.remove(idx);
+    fMenuItems.erase(fMenuItems.begin() + idx);
 }
 
 void pfGUIPopUpMenu::moveItem(size_t from, size_t to) {
@@ -179,7 +179,7 @@ void pfGUIPopUpMenu::moveItem(size_t from, size_t to) {
 }
 
 void pfGUIPopUpMenu::clearItems() {
-    for (size_t i=0; i<fMenuItems.getSize(); i++)
-        delete fMenuItems[i].fHandler;
+    for (auto item = fMenuItems.begin(); item != fMenuItems.end(); ++item)
+        delete item->fHandler;
     fMenuItems.clear();
 }

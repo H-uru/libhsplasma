@@ -41,7 +41,7 @@ class PLASMA_DLL plActivePrintShape : public virtual plPrintShape {
     CREATABLE(plActivePrintShape, kActivePrintShape, plPrintShape)
 
 protected:
-    hsTArray<plKey> fDecalMgrs;
+    std::vector<plKey> fDecalMgrs;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

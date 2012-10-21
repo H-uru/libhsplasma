@@ -27,8 +27,8 @@ void pfGUIDialogMod::read(hsStream* S, plResManager* mgr) {
     fRenderMod = mgr->readKey(S);
     S->read(128, fName);
 
-    fControls.setSize(S->readInt());
-    for (size_t i=0; i<fControls.getSize(); i++)
+    fControls.resize(S->readInt());
+    for (size_t i=0; i<fControls.size(); i++)
         fControls[i] = mgr->readKey(S);
 
     fTagID = S->readInt();
@@ -45,8 +45,8 @@ void pfGUIDialogMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fRenderMod);
     S->write(128, fName);
 
-    S->writeInt(fControls.getSize());
-    for (size_t i=0; i<fControls.getSize(); i++)
+    S->writeInt(fControls.size());
+    for (size_t i=0; i<fControls.size(); i++)
         mgr->writeKey(S, fControls[i]);
 
     S->writeInt(fTagID);
@@ -70,7 +70,7 @@ void pfGUIDialogMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Controls");
-    for (size_t i=0; i<fControls.getSize(); i++)
+    for (size_t i=0; i<fControls.size(); i++)
         fControls[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -93,9 +93,9 @@ void pfGUIDialogMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fRenderMod = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Controls") {
-        fControls.setSize(tag->countChildren());
+        fControls.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fControls.getSize(); i++) {
+        for (size_t i=0; i<fControls.size(); i++) {
             fControls[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

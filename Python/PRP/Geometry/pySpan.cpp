@@ -126,15 +126,15 @@ static PyObject* pySpan_getFog(pySpan* self, void*) {
 }
 
 static PyObject* pySpan_getLights(pySpan* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPermaLights().getSize());
-    for (size_t i=0; i<self->fThis->getPermaLights().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getPermaLights().size());
+    for (size_t i=0; i<self->fThis->getPermaLights().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaLights()[i]));
     return list;
 }
 
 static PyObject* pySpan_getProjs(pySpan* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPermaProjs().getSize());
-    for (size_t i=0; i<self->fThis->getPermaProjs().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getPermaProjs().size());
+    for (size_t i=0; i<self->fThis->getPermaProjs().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPermaProjs()[i]));
     return list;
 }

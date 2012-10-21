@@ -32,7 +32,7 @@ public:
 protected:
     int fType, fID;
     float fState;
-    hsTArray<proEventData*> fEvents;
+    std::vector<proEventData*> fEvents;
 
 public:
     plNotifyMsg() : fType(0), fID(0), fState(0.0f) {
@@ -56,9 +56,9 @@ public:
     void setState(float state) { fState = state; }
     void setID(int id) { fID = id; }
 
-    const hsTArray<proEventData*>& getEvents() const { return fEvents; }
-    hsTArray<proEventData*>& getEvents() { return fEvents; }
-    void addEvent(proEventData* evt) { fEvents.append(evt); }
+    const std::vector<proEventData*>& getEvents() const { return fEvents; }
+    std::vector<proEventData*>& getEvents() { return fEvents; }
+    void addEvent(proEventData* evt) { fEvents.push_back(evt); }
     void delEvent(size_t idx);
     void clearEvents();
 };

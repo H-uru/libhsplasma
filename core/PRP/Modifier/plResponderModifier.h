@@ -36,7 +36,7 @@ public:
 
     class PLASMA_DLL plResponderState {
     public:
-        hsTArray<plResponderCmd*> fCmds;
+        std::vector<plResponderCmd*> fCmds;
         int8_t fNumCallbacks, fSwitchToState;
         std::map<int8_t, int8_t> fWaitToCmd;
 
@@ -55,7 +55,7 @@ public:
     };
 
 protected:
-    hsTArray<plResponderState*> fStates;
+    std::vector<plResponderState*> fStates;
     signed char fCurState;
     bool fEnabled;
     unsigned char fFlags;
@@ -72,9 +72,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plResponderState*>& getStates() const { return fStates; }
-    hsTArray<plResponderState*>& getStates() { return fStates; }
-    void addState(plResponderState* state) { fStates.append(state); }
+    const std::vector<plResponderState*>& getStates() const { return fStates; }
+    std::vector<plResponderState*>& getStates() { return fStates; }
+    void addState(plResponderState* state) { fStates.push_back(state); }
     void delState(size_t idx);
     void clearStates();
 

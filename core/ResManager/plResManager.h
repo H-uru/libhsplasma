@@ -23,7 +23,6 @@
 #include "Util/PlasmaVersions.h"
 #include "PRP/KeyedObject/plLocation.h"
 #include "pdUnifiedTypeMap.h"
-#include "Util/hsTArray.hpp"
 #include "Stream/pfPrcHelper.h"
 #include "plKeyCollector.h"
 #include "PRP/plPageInfo.h"

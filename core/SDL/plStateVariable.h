@@ -67,7 +67,7 @@ public:
 
 class PLASMA_DLL plSDStateVariable : public plStateVariable {
 protected:
-    hsTArray<class plStateDataRecord*> fDataRecList;
+    std::vector<class plStateDataRecord*> fDataRecList;
     plStateDescriptor* fSDVarDescriptor;
 
 public:

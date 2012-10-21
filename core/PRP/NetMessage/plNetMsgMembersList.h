@@ -54,7 +54,7 @@ class PLASMA_DLL plNetMsgMembersList : public plNetMsgServerToClient {
     CREATABLE(plNetMsgMembersList, kNetMsgMembersList, plNetMsgServerToClient)
 
 private:
-    hsTArray<plNetMsgMemberInfoHelper> fMembers;
+    std::vector<plNetMsgMemberInfoHelper> fMembers;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -65,10 +65,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plNetMsgMemberInfoHelper>& getMembers() const { return fMembers; }
-    hsTArray<plNetMsgMemberInfoHelper>& getMembers() { return fMembers; }
-    void addMember(const plNetMsgMemberInfoHelper& memb) { fMembers.append(memb); }
-    void delMember(size_t idx) { fMembers.remove(idx); }
+    const std::vector<plNetMsgMemberInfoHelper>& getMembers() const { return fMembers; }
+    std::vector<plNetMsgMemberInfoHelper>& getMembers() { return fMembers; }
+    void addMember(const plNetMsgMemberInfoHelper& memb) { fMembers.push_back(memb); }
+    void delMember(size_t idx) { fMembers.erase(fMembers.begin() + idx); }
     void clearMembers() { fMembers.clear(); }
 };
 

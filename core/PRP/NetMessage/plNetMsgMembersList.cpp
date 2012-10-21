@@ -71,16 +71,16 @@ void plNetMsgMemberInfoHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 void plNetMsgMembersList::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 
-    fMembers.setSize(S->readShort());
-    for (size_t i=0; i<fMembers.getSize(); i++)
+    fMembers.resize(S->readShort());
+    for (size_t i=0; i<fMembers.size(); i++)
         fMembers[i].read(S, mgr);
 }
 
 void plNetMsgMembersList::write(hsStream* S, plResManager* mgr) {
     plNetMessage::write(S, mgr);
 
-    S->writeShort(fMembers.getSize());
-    for (size_t i=0; i<fMembers.getSize(); i++)
+    S->writeShort(fMembers.size());
+    for (size_t i=0; i<fMembers.size(); i++)
         fMembers[i].write(S, mgr);
 }
 
@@ -88,16 +88,16 @@ void plNetMsgMembersList::IPrcWrite(pfPrcHelper* prc) {
     plNetMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Members");
-    for (size_t i=0; i<fMembers.getSize(); i++)
+    for (size_t i=0; i<fMembers.size(); i++)
         fMembers[i].prcWrite(prc);
     prc->closeTag();
 }
 
 void plNetMsgMembersList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Members") {
-        fMembers.setSize(tag->countChildren());
+        fMembers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMembers.getSize(); i++) {
+        for (size_t i=0; i<fMembers.size(); i++) {
             fMembers[i].prcParse(child, mgr);
             child = child->getNextSibling();
         }

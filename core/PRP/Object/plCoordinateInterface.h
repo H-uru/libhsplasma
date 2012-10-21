@@ -18,7 +18,6 @@
 #define _PLCOORDINATEINTERFACE_H
 
 #include "plObjInterface.h"
-#include "Util/hsTArray.hpp"
 #include "Math/hsMatrix44.h"
 
 class PLASMA_DLL plCoordinateInterface : public virtual plObjInterface {
@@ -34,7 +33,7 @@ private:
     hsMatrix44 fParentToLocal;
     hsMatrix44 fLocalToWorld;
     hsMatrix44 fWorldToLocal;
-    hsTArray<plKey> fChildren;
+    std::vector<plKey> fChildren;
     plKey fParent;
 
 public:
@@ -58,10 +57,10 @@ public:
     void setLocalToWorld(const hsMatrix44& xform) { fLocalToWorld = xform; }
     void setWorldToLocal(const hsMatrix44& xform) { fWorldToLocal = xform; }
 
-    const hsTArray<plKey>& getChildren() const { return fChildren; }
-    hsTArray<plKey>& getChildren() { return fChildren; }
-    void addChild(plKey child) { fChildren.append(child); }
-    void delChild(size_t idx) { fChildren.remove(idx); }
+    const std::vector<plKey>& getChildren() const { return fChildren; }
+    std::vector<plKey>& getChildren() { return fChildren; }
+    void addChild(plKey child) { fChildren.push_back(child); }
+    void delChild(size_t idx) { fChildren.erase(fChildren.begin() + idx); }
     void clearChildren() { fChildren.clear(); }
 
     /** Set parent coordinate interface */

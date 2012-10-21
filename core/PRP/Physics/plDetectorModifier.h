@@ -23,7 +23,7 @@ class PLASMA_DLL plDetectorModifier : public virtual plSingleModifier {
     CREATABLE(plDetectorModifier, kDetectorModifier, plSingleModifier)
 
 protected:
-    hsTArray<plKey> fReceivers;
+    std::vector<plKey> fReceivers;
     plKey fRemoteMod, fProxyKey;
 
 public:
@@ -35,10 +35,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getReceivers() const { return fReceivers; }
-    hsTArray<plKey>& getReceivers() { return fReceivers; }
-    void addReceiver(plKey rcvr) { fReceivers.append(rcvr); }
-    void delReceiver(size_t idx) { fReceivers.remove(idx); }
+    const std::vector<plKey>& getReceivers() const { return fReceivers; }
+    std::vector<plKey>& getReceivers() { return fReceivers; }
+    void addReceiver(plKey rcvr) { fReceivers.push_back(rcvr); }
+    void delReceiver(size_t idx) { fReceivers.erase(fReceivers.begin() + idx); }
     void clearReceivers() { fReceivers.clear(); }
 
     plKey getRemoteMod() const { return fRemoteMod; }

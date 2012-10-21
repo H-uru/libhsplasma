@@ -48,8 +48,8 @@ void plCoordinateInterface::read(hsStream* S, plResManager* mgr) {
     fLocalToWorld.read(S);
     fWorldToLocal.read(S);
 
-    fChildren.setSize(S->readInt());
-    for (size_t i=0; i<fChildren.getSize(); i++) {
+    fChildren.resize(S->readInt());
+    for (size_t i=0; i<fChildren.size(); i++) {
         fChildren[i] = mgr->readKeyNotify(S,
             std::bind(&_setParentCallback, this, std::placeholders::_1));
     }
@@ -63,8 +63,8 @@ void plCoordinateInterface::write(hsStream* S, plResManager* mgr) {
     fLocalToWorld.write(S);
     fWorldToLocal.write(S);
 
-    S->writeInt(fChildren.getSize());
-    for (size_t i=0; i<fChildren.getSize(); i++)
+    S->writeInt(fChildren.size());
+    for (size_t i=0; i<fChildren.size(); i++)
         mgr->writeKey(S, fChildren[i]);
 }
 
@@ -85,7 +85,7 @@ void plCoordinateInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Children");
-    for (size_t i=0; i<fChildren.getSize(); i++)
+    for (size_t i=0; i<fChildren.size(); i++)
         fChildren[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -104,9 +104,9 @@ void plCoordinateInterface::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fWorldToLocal.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Children") {
-        fChildren.setSize(tag->countChildren());
+        fChildren.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fChildren.getSize(); i++) {
+        for (size_t i=0; i<fChildren.size(); i++) {
             fChildren[i] = mgr->prcParseKeyNotify(child,
                 std::bind(&_setParentCallback, this, std::placeholders::_1));
             child = child->getNextSibling();

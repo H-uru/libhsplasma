@@ -81,13 +81,13 @@ static PyObject* pyGBufferGroup_getVerts(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
 
-    hsTArray<plGBufferVertex> verts;
+    std::vector<plGBufferVertex> verts;
     if (start == 0 && len == -1)
         verts = self->fThis->getVertices(idx);
     else
         verts = self->fThis->getVertices(start, len);
-    PyObject* list = PyList_New(verts.getSize());
-    for (size_t i=0; i<verts.getSize(); i++)
+    PyObject* list = PyList_New(verts.size());
+    for (size_t i=0; i<verts.size(); i++)
         PyList_SET_ITEM(list, i, pyGBufferVertex_FromGBufferVertex(verts[i]));
     return list;
 }
@@ -99,13 +99,13 @@ static PyObject* pyGBufferGroup_getIndices(pyGBufferGroup* self, PyObject* args)
         return NULL;
     }
 
-    hsTArray<unsigned short> indices;
+    std::vector<unsigned short> indices;
     if (start == 0 && len == -1)
         indices = self->fThis->getIndices(idx);
     else
         indices = self->fThis->getIndices(idx, start, len);
-    PyObject* list = PyList_New(indices.getSize());
-    for (size_t i=0; i<indices.getSize(); i++)
+    PyObject* list = PyList_New(indices.size());
+    for (size_t i=0; i<indices.size(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(indices[i]));
     return list;
 }
@@ -117,9 +117,9 @@ static PyObject* pyGBufferGroup_getCells(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
 
-    hsTArray<plGBufferCell> cells = self->fThis->getCells(idx);
-    PyObject* list = PyList_New(cells.getSize());
-    for (size_t i=0; i<cells.getSize(); i++)
+    std::vector<plGBufferCell> cells = self->fThis->getCells(idx);
+    PyObject* list = PyList_New(cells.size());
+    for (size_t i=0; i<cells.size(); i++)
         PyList_SET_ITEM(list, i, pyGBufferCell_FromGBufferCell(cells[i]));
     return list;
 }
@@ -135,9 +135,8 @@ static PyObject* pyGBufferGroup_addVerts(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
 
-    hsTArray<plGBufferVertex> verts;
-    verts.setSize(PyList_Size(list));
-    for (size_t i=0; i<verts.getSize(); i++) {
+    std::vector<plGBufferVertex> verts(PyList_Size(list));
+    for (size_t i=0; i<verts.size(); i++) {
         if (!pyGBufferVertex_Check(PyList_GetItem(list, i))) {
             PyErr_SetString(PyExc_TypeError, "addVertices expects a list of plGBufferVertex objects");
             return NULL;
@@ -160,9 +159,8 @@ static PyObject* pyGBufferGroup_addIndices(pyGBufferGroup* self, PyObject* args)
         return NULL;
     }
 
-    hsTArray<unsigned short> indices;
-    indices.setSize(PyList_Size(list));
-    for (size_t i=0; i<indices.getSize(); i++) {
+    std::vector<unsigned short> indices(PyList_Size(list));
+    for (size_t i=0; i<indices.size(); i++) {
         if (!PyInt_Check(PyList_GetItem(list, i))) {
             PyErr_SetString(PyExc_TypeError, "addVertices expects a list of ints");
             return NULL;
@@ -185,9 +183,8 @@ static PyObject* pyGBufferGroup_addCells(pyGBufferGroup* self, PyObject* args) {
         return NULL;
     }
 
-    hsTArray<plGBufferCell> cells;
-    cells.setSize(PyList_Size(list));
-    for (size_t i=0; i<cells.getSize(); i++) {
+    std::vector<plGBufferCell> cells(PyList_Size(list));
+    for (size_t i=0; i<cells.size(); i++) {
         if (!pyGBufferCell_Check(PyList_GetItem(list, i))) {
             PyErr_SetString(PyExc_TypeError, "addCells expects a list of plGBufferCell objects");
             return NULL;

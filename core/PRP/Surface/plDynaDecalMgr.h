@@ -25,14 +25,14 @@ class PLASMA_DLL plDynaDecalMgr : public virtual plSynchedObject {
 
 protected:
     plKey fMatPreShade, fMatRTShade;
-    hsTArray<plKey> fTargets, fPartyObjects;
+    std::vector<plKey> fTargets, fPartyObjects;
     float fPartyTime;
     unsigned short fMaxNumVerts, fMaxNumIdx;
     unsigned int fWaitOnEnable;
     float fWetLength, fRampEnd, fDecayStart, fLifeSpan, fIntensity;
     float fGridSizeU, fGridSizeV;
     hsVector3 fScale;
-    hsTArray<plKey> fNotifies;
+    std::vector<plKey> fNotifies;
 
 public:
     plDynaDecalMgr()

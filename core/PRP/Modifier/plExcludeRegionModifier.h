@@ -26,7 +26,7 @@ public:
     enum { kBlockCameras };
 
 protected:
-    hsTArray<plKey> fSafePoints;
+    std::vector<plKey> fSafePoints;
     bool fSeek;
     float fSeekTime;
 

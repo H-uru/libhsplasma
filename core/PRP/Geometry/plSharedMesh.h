@@ -19,7 +19,6 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "PRP/Object/plSceneObject.h"
-#include "Util/hsTArray.hpp"
 #include "plGeometrySpan.h"
 
 class PLASMA_DLL plSharedMesh : public virtual hsKeyedObject {
@@ -32,9 +31,9 @@ public:
     };
 
 public:
-    hsTArray<plGeometrySpan*> fSpans;
+    std::vector<plGeometrySpan*> fSpans;
     plKey fMorphSet;
-    unsigned char fFlags;
+    uint8_t fFlags;
 
 public:
     plSharedMesh() : fMorphSet(NULL), fFlags(kDontSaveMorphState) { }
@@ -49,14 +48,14 @@ protected:
 
 public:
     plKey getMorphSet() const { return fMorphSet; }
-    unsigned char getFlags() const { return fFlags; }
+    uint8_t getFlags() const { return fFlags; }
 
     void setMorphSet(plKey set) { fMorphSet = set; }
-    void setFlags(unsigned char flags) { fFlags = flags; }
+    void setFlags(uint8_t flags) { fFlags = flags; }
 
-    const hsTArray<plGeometrySpan*>& getSpans() const { return fSpans; }
-    hsTArray<plGeometrySpan*>& getSpans() { return fSpans; }
-    void addSpan(plGeometrySpan* span) { fSpans.append(span); }
+    const std::vector<plGeometrySpan*>& getSpans() const { return fSpans; }
+    std::vector<plGeometrySpan*>& getSpans() { return fSpans; }
+    void addSpan(plGeometrySpan* span) { fSpans.push_back(span); }
     void delSpan(size_t idx);
     void clearSpans();
 };

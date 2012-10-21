@@ -21,7 +21,7 @@
 
 class PLASMA_DLL plRandomSoundModGroup {
 protected:
-    hsTArray<unsigned short> fIndices;
+    std::vector<unsigned short> fIndices;
     short fGroupedIdx;
 
 public:
@@ -38,7 +38,7 @@ class PLASMA_DLL plRandomSoundMod : public virtual plRandomCommandMod {
     CREATABLE(plRandomSoundMod, kRandomSoundMod, plRandomCommandMod)
 
 protected:
-    hsTArray<plRandomSoundModGroup> fGroups;
+    std::vector<plRandomSoundModGroup> fGroups;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

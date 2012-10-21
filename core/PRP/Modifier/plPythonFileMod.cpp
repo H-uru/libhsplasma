@@ -229,12 +229,12 @@ void plPythonFileMod::read(hsStream* S, plResManager* mgr) {
     plMultiModifier::read(S, mgr);
     fPythonFile = S->readSafeStr();
 
-    fReceivers.setSize(S->readInt());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    fReceivers.resize(S->readInt());
+    for (size_t i=0; i<fReceivers.size(); i++)
         fReceivers[i] = mgr->readKey(S);
 
-    fParameters.setSize(S->readInt());
-    for (size_t i=0; i<fParameters.getSize(); i++)
+    fParameters.resize(S->readInt());
+    for (size_t i=0; i<fParameters.size(); i++)
         fParameters[i].read(S, mgr);
 }
 
@@ -242,12 +242,12 @@ void plPythonFileMod::write(hsStream* S, plResManager* mgr) {
     plMultiModifier::write(S, mgr);
     S->writeSafeStr(fPythonFile);
 
-    S->writeInt(fReceivers.getSize());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    S->writeInt(fReceivers.size());
+    for (size_t i=0; i<fReceivers.size(); i++)
         mgr->writeKey(S, fReceivers[i]);
 
-    S->writeInt(fParameters.getSize());
-    for (size_t i=0; i<fParameters.getSize(); i++)
+    S->writeInt(fParameters.size());
+    for (size_t i=0; i<fParameters.size(); i++)
         fParameters[i].write(S, mgr);
 }
 
@@ -260,12 +260,12 @@ void plPythonFileMod::IPrcWrite(pfPrcHelper* prc) {
 
     size_t i;
     prc->writeSimpleTag("Receivers");
-    for (i=0; i<fReceivers.getSize(); i++)
+    for (i=0; i<fReceivers.size(); i++)
         fReceivers[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Parameters");
-    for (i=0; i<fParameters.getSize(); i++)
+    for (i=0; i<fParameters.size(); i++)
         fParameters[i].prcWrite(prc);
     prc->closeTag();
 }
@@ -274,16 +274,16 @@ void plPythonFileMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if  (tag->getName() == "PythonFile") {
         fPythonFile = tag->getParam("name", "");
     } else if (tag->getName() == "Receivers") {
-        fReceivers.setSize(tag->countChildren());
+        fReceivers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fReceivers.getSize(); i++) {
+        for (size_t i=0; i<fReceivers.size(); i++) {
             fReceivers[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Parameters") {
-        fParameters.setSize(tag->countChildren());
+        fParameters.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fParameters.getSize(); i++) {
+        for (size_t i=0; i<fParameters.size(); i++) {
             fParameters[i].prcParse(child, mgr);
             child = child->getNextSibling();
         }

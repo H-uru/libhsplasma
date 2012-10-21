@@ -18,7 +18,6 @@
 #define _PLSCENEOBJECT_H
 
 #include "plSynchedObject.h"
-#include "Util/hsTArray.hpp"
 
 class PLASMA_DLL plSceneObject : public virtual plSynchedObject {
     CREATABLE(plSceneObject, kSceneObject, plSynchedObject)
@@ -27,7 +26,7 @@ public:
     virtual ~plSceneObject() { clearModifiers(); }
 
     plKey fDrawIntf, fSimIntf, fCoordIntf, fAudioIntf;
-    hsTArray<plKey> fInterfaces, fModifiers;
+    std::vector<plKey> fInterfaces, fModifiers;
     plKey fSceneNode;
 
 public:
@@ -51,14 +50,14 @@ public:
     void setAudioInterface(plKey intf) { fAudioIntf = intf; }
     void setSceneNode(plKey node) { fSceneNode = node; }
 
-    const hsTArray<plKey>& getInterfaces() const { return fInterfaces; }
-    hsTArray<plKey>& getInterfaces() { return fInterfaces; }
-    void addInterface(plKey intf) { fInterfaces.append(intf); }
-    void delInterface(size_t idx) { fInterfaces.remove(idx); }
+    const std::vector<plKey>& getInterfaces() const { return fInterfaces; }
+    std::vector<plKey>& getInterfaces() { return fInterfaces; }
+    void addInterface(plKey intf) { fInterfaces.push_back(intf); }
+    void delInterface(size_t idx) { fInterfaces.erase(fInterfaces.begin() + idx); }
     void clearInterfaces() { fInterfaces.clear(); }
 
-    const hsTArray<plKey>& getModifiers() const { return fModifiers; }
-    hsTArray<plKey>& getModifiers() { return fModifiers; }
+    const std::vector<plKey>& getModifiers() const { return fModifiers; }
+    std::vector<plKey>& getModifiers() { return fModifiers; }
     void addModifier(plKey intf);
     void delModifier(size_t idx);
     void clearModifiers();

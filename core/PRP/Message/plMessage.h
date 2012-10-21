@@ -18,7 +18,6 @@
 #define _PLMESSAGE_H
 
 #include "PRP/plCreatable.h"
-#include "Util/hsTArray.hpp"
 #include "PRP/KeyedObject/plKey.h"
 
 class PLASMA_DLL plMessage : public plCreatable {
@@ -50,7 +49,7 @@ public:
 
 protected:
     plKey fSender;
-    hsTArray<plKey> fReceivers;
+    std::vector<plKey> fReceivers;
     double fTimeStamp;
     unsigned int fBCastFlags;
 
@@ -75,10 +74,10 @@ public:
     void setTimeStamp(double timestamp) { fTimeStamp = timestamp; }
     void setBCastFlags(unsigned int flags) { fBCastFlags = flags; }
 
-    const hsTArray<plKey>& getReceivers() const { return fReceivers; }
-    hsTArray<plKey>& getReceivers() { return fReceivers; }
-    void addReceiver(plKey receiver) { fReceivers.append(receiver); }
-    void delReceiver(size_t idx) { fReceivers.remove(idx); }
+    const std::vector<plKey>& getReceivers() const { return fReceivers; }
+    std::vector<plKey>& getReceivers() { return fReceivers; }
+    void addReceiver(plKey receiver) { fReceivers.push_back(receiver); }
+    void delReceiver(size_t idx) { fReceivers.erase(fReceivers.begin() + idx); }
     void clearReceivers() { fReceivers.clear(); }
 };
 

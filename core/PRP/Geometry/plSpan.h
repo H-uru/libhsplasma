@@ -78,7 +78,7 @@ protected:
     hsBounds3Ext fLocalBounds, fWorldBounds;
     plKey fFogEnvironment;
     float fMinDist, fMaxDist, fWaterHeight;
-    hsTArray<plKey> fPermaLights, fPermaProjs;
+    std::vector<plKey> fPermaLights, fPermaProjs;
 
 public:
     virtual const char* ClassName() const { return "plSpan"; }
@@ -143,16 +143,16 @@ public:
     void setLocalBounds(const hsBounds3Ext& bounds) { fLocalBounds = bounds; }
     void setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
 
-    const hsTArray<plKey>& getPermaLights() const { return fPermaLights; }
-    hsTArray<plKey>& getPermaLights() { return fPermaLights; }
-    void addPermaLight(plKey light) { fPermaLights.append(light); }
-    void delPermaLight(size_t idx) { fPermaLights.remove(idx); }
+    const std::vector<plKey>& getPermaLights() const { return fPermaLights; }
+    std::vector<plKey>& getPermaLights() { return fPermaLights; }
+    void addPermaLight(plKey light) { fPermaLights.push_back(light); }
+    void delPermaLight(size_t idx) { fPermaLights.erase(fPermaLights.begin() + idx); }
     void clearPermaLights() { fPermaLights.clear(); }
 
-    const hsTArray<plKey>& getPermaProjs() const { return fPermaProjs; }
-    hsTArray<plKey>& getPermaProjs() { return fPermaProjs; }
-    void addPermaProj(plKey proj) { fPermaProjs.append(proj); }
-    void delPermaProj(size_t idx) { fPermaProjs.remove(idx); }
+    const std::vector<plKey>& getPermaProjs() const { return fPermaProjs; }
+    std::vector<plKey>& getPermaProjs() { return fPermaProjs; }
+    void addPermaProj(plKey proj) { fPermaProjs.push_back(proj); }
+    void delPermaProj(size_t idx) { fPermaProjs.erase(fPermaProjs.begin() + idx); }
     void clearPermaProjs() { fPermaProjs.clear(); }
 };
 

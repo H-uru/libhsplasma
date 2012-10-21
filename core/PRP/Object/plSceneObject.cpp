@@ -31,11 +31,11 @@ void plSceneObject::read(hsStream* S, plResManager* mgr) {
     fCoordIntf = mgr->readKey(S);
     fAudioIntf = mgr->readKey(S);
 
-    fInterfaces.setSize(S->readInt());
-    for (size_t i=0; i<fInterfaces.getSize(); i++)
+    fInterfaces.resize(S->readInt());
+    for (size_t i=0; i<fInterfaces.size(); i++)
         fInterfaces[i] = mgr->readKey(S);
-    fModifiers.setSize(S->readInt());
-    for (size_t i=0; i<fModifiers.getSize(); i++) {
+    fModifiers.resize(S->readInt());
+    for (size_t i=0; i<fModifiers.size(); i++) {
         fModifiers[i] = mgr->readKeyNotify(S,
             std::bind(&plSceneObject::addTarget, this, std::placeholders::_1));
     }
@@ -51,11 +51,11 @@ void plSceneObject::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fCoordIntf);
     mgr->writeKey(S, fAudioIntf);
 
-    S->writeInt(fInterfaces.getSize());
-    for (size_t i=0; i<fInterfaces.getSize(); i++)
+    S->writeInt(fInterfaces.size());
+    for (size_t i=0; i<fInterfaces.size(); i++)
         mgr->writeKey(S, fInterfaces[i]);
-    S->writeInt(fModifiers.getSize());
-    for (size_t i=0; i<fModifiers.getSize(); i++)
+    S->writeInt(fModifiers.size());
+    for (size_t i=0; i<fModifiers.size(); i++)
         mgr->writeKey(S, fModifiers[i]);
     mgr->writeKey(S, fSceneNode);
 }
@@ -77,11 +77,11 @@ void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Interfaces");
-    for (size_t i=0; i<fInterfaces.getSize(); i++)
+    for (size_t i=0; i<fInterfaces.size(); i++)
         fInterfaces[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Modifiers");
-    for (size_t i=0; i<fModifiers.getSize(); i++)
+    for (size_t i=0; i<fModifiers.size(); i++)
         fModifiers[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -104,16 +104,16 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fAudioIntf = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Interfaces") {
-        fInterfaces.setSize(tag->countChildren());
+        fInterfaces.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fInterfaces.getSize(); i++) {
+        for (size_t i=0; i<fInterfaces.size(); i++) {
             fInterfaces[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Modifiers") {
-        fModifiers.setSize(tag->countChildren());
+        fModifiers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fModifiers.getSize(); i++) {
+        for (size_t i=0; i<fModifiers.size(); i++) {
             fModifiers[i] = mgr->prcParseKeyNotify(child,
                 std::bind(&plSceneObject::addTarget, this, std::placeholders::_1));
             child = child->getNextSibling();
@@ -127,13 +127,13 @@ void plSceneObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plSceneObject::addModifier(plKey intf) {
-    fModifiers.append(intf);
+    fModifiers.push_back(intf);
     intf->addCallback(std::bind(&plSceneObject::addTarget, this, std::placeholders::_1));
 }
 
 void plSceneObject::delModifier(size_t idx) {
     plKey key = fModifiers[idx];
-    fModifiers.remove(idx);
+    fModifiers.erase(fModifiers.begin() + idx);
 
     if (key.isLoaded()) {
         plModifier* mod = plModifier::Convert(key->getObj());
@@ -142,7 +142,7 @@ void plSceneObject::delModifier(size_t idx) {
 }
 
 void plSceneObject::clearModifiers() {
-    for (size_t i = 0; i < fModifiers.getSize(); i++) {
+    for (size_t i = 0; i < fModifiers.size(); i++) {
         plKey key = fModifiers[i];
         if (key.isLoaded()) {
             plModifier* mod = plModifier::Convert(key->getObj());

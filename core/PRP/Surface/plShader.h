@@ -63,7 +63,7 @@ public:
     };
 
 protected:
-    hsTArray<plShaderConst> fConsts;
+    std::vector<plShaderConst> fConsts;
     plShaderID fID;
     unsigned char fInput, fOutput;
 
@@ -78,12 +78,12 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plShaderConst>& getConsts() const { return fConsts; }
+    const std::vector<plShaderConst>& getConsts() const { return fConsts; }
     plShaderID getID() const { return fID; }
     unsigned char getInput() const { return fInput; }
     unsigned char getOutput() const { return fOutput; }
 
-    void setConsts(const hsTArray<plShaderConst>& consts) { fConsts = consts; }
+    void setConsts(const std::vector<plShaderConst>& consts) { fConsts = consts; }
     void setID(plShaderID id) { fID = id; }
     void setInput(unsigned char input) { fInput = input; }
     void setOutput(unsigned char output) { fOutput = output; }

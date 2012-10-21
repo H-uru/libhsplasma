@@ -30,7 +30,7 @@ public:
 
 protected:
     unsigned int fFlags;
-    hsTArray<hsVector3> fVerts;
+    std::vector<hsVector3> fVerts;
     hsVector3 fNorm, fCenter;
     float fDist, fRadius;
 
@@ -47,14 +47,14 @@ public:
 
 public:
     unsigned int getFlags() const { return fFlags; }
-    const hsTArray<hsVector3>& getVerts() const { return fVerts; }
+    const std::vector<hsVector3>& getVerts() const { return fVerts; }
     hsVector3 getNorm() const { return fNorm; }
     hsVector3 getCenter() const { return fCenter; }
     float getDist() const { return fDist; }
     float getRadius() const { return fRadius; }
 
     void setFlags(unsigned int flags) { fFlags = flags; }
-    void setVerts(const hsTArray<hsVector3>& verts) { fVerts = verts; }
+    void setVerts(const std::vector<hsVector3>& verts) { fVerts = verts; }
     void setNorm(const hsVector3& norm) { fNorm = norm; }
     void setCenter(const hsVector3& center) { fCenter = center; }
     void setDist(float dist) { fDist = dist; }

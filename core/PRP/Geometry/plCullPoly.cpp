@@ -23,8 +23,8 @@ void plCullPoly::read(hsStream* S) {
     fCenter.read(S);
     fRadius = S->readFloat();
 
-    fVerts.setSize(S->readInt());
-    for (size_t i=0; i<fVerts.getSize(); i++)
+    fVerts.resize(S->readInt());
+    for (size_t i=0; i<fVerts.size(); i++)
         fVerts[i].read(S);
 }
 
@@ -35,8 +35,8 @@ void plCullPoly::write(hsStream* S) {
     fCenter.write(S);
     S->writeFloat(fRadius);
 
-    S->writeInt(fVerts.getSize());
-    for (size_t i=0; i<fVerts.getSize(); i++)
+    S->writeInt(fVerts.size());
+    for (size_t i=0; i<fVerts.size(); i++)
         fVerts[i].write(S);
 }
 
@@ -58,7 +58,7 @@ void plCullPoly::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Verts");
-    for (size_t i=0; i<fVerts.getSize(); i++)
+    for (size_t i=0; i<fVerts.size(); i++)
         fVerts[i].prcWrite(prc);
     prc->closeTag();
 
@@ -81,9 +81,9 @@ void plCullPoly::prcParse(const pfPrcTag* tag) {
             if (child->hasChildren())
                 fCenter.prcParse(child->getFirstChild());
         } else if (child->getName() == "Verts") {
-            fVerts.setSize(child->countChildren());
+            fVerts.resize(child->countChildren());
             const pfPrcTag* vertChild = child->getFirstChild();
-            for (size_t i=0; i<fVerts.getSize(); i++) {
+            for (size_t i=0; i<fVerts.size(); i++) {
                 fVerts[i].prcParse(vertChild);
                 vertChild = vertChild->getNextSibling();
             }

@@ -29,7 +29,7 @@ protected:
     unsigned int fTagID, fVersion;
     plKey fRenderMod;
     char fName[128];
-    hsTArray<plKey> fControls;
+    std::vector<plKey> fControls;
     pfGUIColorScheme fColorScheme;
     plKey fProcReceiver, fSceneNode;
 
@@ -44,10 +44,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getControls() const { return fControls; }
-    hsTArray<plKey>& getControls() { return fControls; }
-    void addControl(plKey ctrl) { fControls.append(ctrl); }
-    void delControl(size_t idx) { fControls.remove(idx); }
+    const std::vector<plKey>& getControls() const { return fControls; }
+    std::vector<plKey>& getControls() { return fControls; }
+    void addControl(plKey ctrl) { fControls.push_back(ctrl); }
+    void delControl(size_t idx) { fControls.erase(fControls.begin() + idx); }
     void clearControls() { fControls.clear(); }
 
     unsigned int getTagID() const { return fTagID; }

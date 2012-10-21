@@ -18,7 +18,6 @@
 #define _PLAGEINFO_H
 
 #include "Stream/plEncryptedStream.h"
-#include "Util/hsTArray.hpp"
 #include "PRP/plPageInfo.h"
 
 /* Loosely based on plAgeDescription */
@@ -53,7 +52,7 @@ protected:
     short fMaxCapacity, fLingerTime;
     int fSeqPrefix;
     unsigned int fReleaseVersion;
-    hsTArray<PageEntry> fPages;
+    std::vector<PageEntry> fPages;
 
 public:
     plAgeInfo() : fStartDateTime(0), fDayLength(24.0f), fMaxCapacity(-1),
@@ -81,10 +80,10 @@ public:
     void setSeqPrefix(int prefix) { fSeqPrefix = prefix; }
     void setReleaseVersion(unsigned int ver) { fReleaseVersion = ver; }
 
-    size_t getNumPages() const { return fPages.getSize(); }
+    size_t getNumPages() const { return fPages.size(); }
     PageEntry getPage(size_t idx) const { return fPages[idx]; }
     void setPage(size_t idx, const PageEntry& page) { fPages[idx] = page; }
-    void addPage(const PageEntry& page) { fPages.append(page); }
+    void addPage(const PageEntry& page) { fPages.push_back(page); }
     void clearPages() { fPages.clear(); }
 
     size_t getNumCommonPages(PlasmaVer pv) const;

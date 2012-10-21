@@ -94,7 +94,7 @@ void plNetMsgGameMessageDirected::read(hsStream* S, plResManager* mgr) {
     plNetMsgGameMessage::read(S, mgr);
 
     unsigned char count = S->readByte();
-    fReceivers.setSize(count);
+    fReceivers.resize(count);
     for (size_t i=0; i<count; i++)
         fReceivers[i] = S->readInt();
 }
@@ -102,8 +102,8 @@ void plNetMsgGameMessageDirected::read(hsStream* S, plResManager* mgr) {
 void plNetMsgGameMessageDirected::write(hsStream* S, plResManager* mgr) {
     plNetMsgGameMessage::write(S, mgr);
 
-    S->writeByte(fReceivers.getSize());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    S->writeByte(fReceivers.size());
+    for (size_t i=0; i<fReceivers.size(); i++)
         S->writeInt(fReceivers[i]);
 }
 
@@ -111,7 +111,7 @@ void plNetMsgGameMessageDirected::IPrcWrite(pfPrcHelper* prc) {
     plNetMsgGameMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Receivers");
-    for (size_t i=0; i<fReceivers.getSize(); i++) {
+    for (size_t i=0; i<fReceivers.size(); i++) {
         prc->startTag("Receiver");
         prc->writeParam("ID", fReceivers[i]);
         prc->endTag(true);
@@ -121,9 +121,9 @@ void plNetMsgGameMessageDirected::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgGameMessageDirected::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Receivers") {
-        fReceivers.setSize(tag->countChildren());
+        fReceivers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fReceivers.getSize(); i++) {
+        for (size_t i=0; i<fReceivers.size(); i++) {
             if (child->getName() != "Receiver")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fReceivers[i] = child->getParam("ID", "0").toUint();

@@ -23,8 +23,8 @@
 
 class PLASMA_DLL plZlib {
 public:
-    static bool Uncompress(unsigned char* bufOut, size_t& bufLenOut, const unsigned char* bufIn, size_t bufLenIn);
-    static bool Compress(unsigned char*& bufOut, size_t& bufLenOut, const unsigned char* bufIn, size_t bufLenIn);
+    static bool Uncompress(uint8_t* bufOut, size_t& bufLenOut, const uint8_t* bufIn, size_t bufLenIn);
+    static bool Compress(uint8_t*& bufOut, size_t& bufLenOut, const uint8_t* bufIn, size_t bufLenIn);
 };
 
 #endif

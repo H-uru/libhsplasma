@@ -17,7 +17,6 @@
 #ifndef _PLCLOTHINGITEM_H
 #define _PLCLOTHINGITEM_H
 
-#include "Util/hsTArray.hpp"
 #include "Sys/hsColor.h"
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
@@ -62,8 +61,8 @@ private:
     plString fItemName, fDescription, fCustomText;
     unsigned char fGroup, fType, fTileset, fSortOrder;
 
-    hsTArray<plString> fElementNames;
-    hsTArray<plKey*> fTextures;
+    std::vector<plString> fElementNames;
+    std::vector<plKey*> fTextures;
     plKey fIcon, fAccessory;
     plKey fMeshes[kNumLODLevels];
 

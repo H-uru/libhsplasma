@@ -65,8 +65,8 @@ static PyObject* pyResponderModifier_clearStates(pyResponderModifier* self) {
 }
 
 static PyObject* pyResponderModifier_getStates(pyResponderModifier* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getStates().getSize());
-    for (size_t i=0; i<self->fThis->getStates().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getStates().size());
+    for (size_t i=0; i<self->fThis->getStates().size(); i++)
         PyList_SET_ITEM(list, i, pyResponderModifier_State_FromResponderState(self->fThis->getStates()[i]));
     return list;
 }

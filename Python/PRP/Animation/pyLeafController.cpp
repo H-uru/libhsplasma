@@ -57,9 +57,8 @@ static PyObject* pyLeafController_setKeys(pyLeafController* self, PyObject* args
         PyErr_SetString(PyExc_TypeError, "setKeys expects a list of hsKeyFrames and an int");
         return NULL;
     }
-    hsTArray<hsKeyFrame*> keys;
-    keys.setSizeNull(PyList_Size(list));
-    for (size_t i=0; i<keys.getSize(); i++) {
+    std::vector<hsKeyFrame*> keys(PyList_Size(list));
+    for (size_t i=0; i<keys.size(); i++) {
         PyObject* itm = PyList_GetItem(list, i);
         if (!pyKeyFrame_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "setKeys expects a list of hsKeyFrames and an int");
@@ -86,17 +85,17 @@ static PyObject* pyLeafController_getType(pyLeafController* self, void*) {
 }
 
 static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
-    const hsTArray<hsKeyFrame*>& keys = self->fThis->getKeys();
-    PyObject* list = PyList_New(keys.getSize());
-    for (size_t i=0; i<keys.getSize(); i++)
+    const std::vector<hsKeyFrame*>& keys = self->fThis->getKeys();
+    PyObject* list = PyList_New(keys.size());
+    for (size_t i=0; i<keys.size(); i++)
         PyList_SET_ITEM(list, i, pyKeyFrame_FromKeyFrame(keys[i]));
     return list;
 }
 
 static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, void*) {
-    const hsTArray<plEaseController*>& controllers = self->fThis->getEaseControllers();
-    PyObject* list = PyList_New(controllers.getSize());
-    for (size_t i=0; i<controllers.getSize(); i++)
+    const std::vector<plEaseController*>& controllers = self->fThis->getEaseControllers();
+    PyObject* list = PyList_New(controllers.size());
+    for (size_t i=0; i<controllers.size(); i++)
         PyList_SET_ITEM(list, i, pyEaseController_FromEaseController(controllers[i]));
     return list;
 }
@@ -113,16 +112,15 @@ static int pyLeafController_setKeysErr(pyLeafController* self, PyObject* value, 
 
 static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->setEaseControllers(hsTArray<plEaseController*>());
+        self->fThis->setEaseControllers(std::vector<plEaseController*>());
         return 0;
     }
     if (!PyList_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "easeControllers should be a list of plEaseControllers");
         return -1;
     }
-    hsTArray<plEaseController*> controllers;
-    controllers.setSizeNull(PyList_Size(value));
-    for (size_t i=0; i<controllers.getSize(); i++) {
+    std::vector<plEaseController*> controllers(PyList_Size(value));
+    for (size_t i=0; i<controllers.size(); i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!pyEaseController_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "easeControllers should be a list of plEaseControllers");

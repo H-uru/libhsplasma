@@ -18,7 +18,6 @@
 #define _PLSPANTEMPLATE_H
 
 #include "Math/hsGeometry3.h"
-#include "Util/hsTArray.hpp"
 
 class PLASMA_DLL plSpanTemplate {
 public:
@@ -60,8 +59,8 @@ private:
 
 public:
     unsigned short getNumVerts() const { return fNumVerts; }
-    hsTArray<Vertex> getVertices() const;
-    void setVertices(const hsTArray<Vertex>& verts);
+    std::vector<Vertex> getVertices() const;
+    void setVertices(const std::vector<Vertex>& verts);
 
     unsigned short getNumTris() const { return fNumTris; }
     const unsigned short* getIndices() const { return fIndices; }

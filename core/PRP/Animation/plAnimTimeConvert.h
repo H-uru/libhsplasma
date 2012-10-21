@@ -43,8 +43,8 @@ protected:
     float fBegin, fEnd, fLoopBegin, fLoopEnd;
     float fSpeed, fCurrentAnimTime;
     double fLastEvalWorldTime;
-    hsTArray<float> fStopPoints;
-    hsTArray<plEventCallbackMsg*> fCallbackMsgs;
+    std::vector<float> fStopPoints;
+    std::vector<plEventCallbackMsg*> fCallbackMsgs;
     plATCEaseCurve* fEaseInCurve;
     plATCEaseCurve* fEaseOutCurve;
     plATCEaseCurve* fSpeedEaseCurve;
@@ -75,7 +75,7 @@ public:
     plATCEaseCurve* getEaseInCurve() const { return fEaseInCurve; }
     plATCEaseCurve* getEaseOutCurve() const { return fEaseOutCurve; }
     plATCEaseCurve* getSpeedEaseCurve() const { return fSpeedEaseCurve; }
-    const hsTArray<float>& getStopPoints() const { return fStopPoints; }
+    const std::vector<float>& getStopPoints() const { return fStopPoints; }
 
     void setFlags(unsigned int flags) { fFlags = flags; }
     void setRange(float begin, float end) { fBegin = begin; fEnd = end; }
@@ -86,11 +86,11 @@ public:
     void setEaseInCurve(plATCEaseCurve* curve);
     void setEaseOutCurve(plATCEaseCurve* curve);
     void setSpeedEaseCurve(plATCEaseCurve* curve);
-    void setStopPoints(const hsTArray<float>& stops) { fStopPoints = stops; }
+    void setStopPoints(const std::vector<float>& stops) { fStopPoints = stops; }
 
-    const hsTArray<plEventCallbackMsg*>& getCallbacks() const { return fCallbackMsgs; }
-    hsTArray<plEventCallbackMsg*>& getCallbacks() { return fCallbackMsgs; }
-    void addCallback(plEventCallbackMsg* callback) { fCallbackMsgs.append(callback); }
+    const std::vector<plEventCallbackMsg*>& getCallbacks() const { return fCallbackMsgs; }
+    std::vector<plEventCallbackMsg*>& getCallbacks() { return fCallbackMsgs; }
+    void addCallback(plEventCallbackMsg* callback) { fCallbackMsgs.push_back(callback); }
     void delCallback(size_t idx);
     void clearCallbacks();
 };

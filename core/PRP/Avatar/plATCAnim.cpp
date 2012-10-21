@@ -50,8 +50,8 @@ void plATCAnim::read(hsStream* S, plResManager* mgr) {
         fLoops[key] = std::pair<float, float>(start, end);
     }
 
-    fStopPoints.setSizeNull(S->readInt());
-    for (size_t i=0; i<fStopPoints.getSize(); i++)
+    fStopPoints.resize(S->readInt());
+    for (size_t i=0; i<fStopPoints.size(); i++)
         fStopPoints[i] = S->readFloat();
 }
 
@@ -87,8 +87,8 @@ void plATCAnim::write(hsStream* S, plResManager* mgr) {
         S->writeFloat(i->second.second);
     }
 
-    S->writeInt(fStopPoints.getSize());
-    for (size_t i=0; i<fStopPoints.getSize(); i++)
+    S->writeInt(fStopPoints.size());
+    for (size_t i=0; i<fStopPoints.size(); i++)
         S->writeFloat(fStopPoints[i]);
 }
 
@@ -137,7 +137,7 @@ void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("StopPoints");
-    for (size_t i=0; i<fStopPoints.getSize(); i++) {
+    for (size_t i=0; i<fStopPoints.size(); i++) {
         prc->startTag("StopPoint");
         prc->writeParam("Pos", fStopPoints[i]);
         prc->endTag(true);
@@ -182,9 +182,9 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "StopPoints") {
-        fStopPoints.setSizeNull(tag->countChildren());
+        fStopPoints.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fStopPoints.getSize(); i++) {
+        for (size_t i=0; i<fStopPoints.size(); i++) {
             if (child->getName() != "StopPoint")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fStopPoints[i] = child->getParam("Pos", "0").toFloat();

@@ -26,8 +26,8 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
         fGroupName = S->readStr(len);
     }
 
-    fPrivateAnims.setSize(S->readInt());
-    for (size_t i=0; i<fPrivateAnims.getSize(); i++)
+    fPrivateAnims.resize(S->readInt());
+    for (size_t i=0; i<fPrivateAnims.size(); i++)
         fPrivateAnims[i] = mgr->readKey(S);
 
     if (S->getVer().isMoul() || S->getVer().isUniversal()) {
@@ -38,8 +38,8 @@ void plAGMasterMod::read(hsStream* S, plResManager* mgr) {
     }
 
     if (S->getVer().isNewPlasma()) {
-        fEoaKeys2.setSize(S->readInt());
-        for (size_t i=0; i<fEoaKeys2.getSize(); i++)
+        fEoaKeys2.resize(S->readInt());
+        for (size_t i=0; i<fEoaKeys2.size(); i++)
             fEoaKeys2[i] = mgr->readKey(S);
     }
 }
@@ -56,8 +56,8 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
         S->writeStr(fGroupName);
     }
 
-    S->writeInt(fPrivateAnims.getSize());
-    for (size_t i=0; i<fPrivateAnims.getSize(); i++)
+    S->writeInt(fPrivateAnims.size());
+    for (size_t i=0; i<fPrivateAnims.size(); i++)
         mgr->writeKey(S, fPrivateAnims[i]);
 
     if (S->getVer().isMoul() || S->getVer().isUniversal()) {
@@ -68,8 +68,8 @@ void plAGMasterMod::write(hsStream* S, plResManager* mgr) {
     }
 
     if (S->getVer().isNewPlasma()) {
-        S->writeInt(fEoaKeys2.getSize());
-        for (size_t i=0; i<fEoaKeys2.getSize(); i++)
+        S->writeInt(fEoaKeys2.size());
+        for (size_t i=0; i<fEoaKeys2.size(); i++)
             mgr->writeKey(S, fEoaKeys2[i]);
     }
 }
@@ -88,13 +88,13 @@ void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("PrivateAnims");
-    for (size_t i=0; i<fPrivateAnims.getSize(); i++)
+    for (size_t i=0; i<fPrivateAnims.size(); i++)
         fPrivateAnims[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeComment("Unknown EoA/HexIsle Keys");
     prc->writeSimpleTag("EoaKeys");
-    for (size_t i=0; i<fEoaKeys2.getSize(); i++)
+    for (size_t i=0; i<fEoaKeys2.size(); i++)
         fEoaKeys2[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -112,16 +112,16 @@ void plAGMasterMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 fMsgForwarder = mgr->prcParseKey(child->getFirstChild());;;;;;;
         }
     } else if (tag->getName() == "PrivateAnims") {
-        fPrivateAnims.setSize(tag->countChildren());
+        fPrivateAnims.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fPrivateAnims.getSize(); i++) {
+        for (size_t i=0; i<fPrivateAnims.size(); i++) {
             fPrivateAnims[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "EoaKeys") {
-        fEoaKeys2.setSize(tag->countChildren());
+        fEoaKeys2.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fEoaKeys2.getSize(); i++) {
+        for (size_t i=0; i<fEoaKeys2.size(); i++) {
             fEoaKeys2[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

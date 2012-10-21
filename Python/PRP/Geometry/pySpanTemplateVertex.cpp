@@ -122,17 +122,17 @@ static int pySpanTemplateVertex_setWeight(pySpanTemplateVertex* self, PyObject* 
 }
 
 static int pySpanTemplateVertex_setUVWs(pySpanTemplateVertex* self, PyObject* value, void*) {
-    hsTArray<hsVector3> uvws;
+    std::vector<hsVector3> uvws;
     if (value == NULL || !PyList_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "UVWs should be a list of up to 10 hsVector3 objects");
         return -1;
     }
-    uvws.setSize(PyList_Size(value));
-    if (uvws.getSize() > 10) {
+    uvws.resize(PyList_Size(value));
+    if (uvws.size() > 10) {
         PyErr_SetString(PyExc_RuntimeError, "UVWs should be a list of up to 10 hsVector3 objects");
         return -1;
     }
-    for (size_t i=0; i<uvws.getSize(); i++) {
+    for (size_t i=0; i<uvws.size(); i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!pyVector3_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "UVWs should be a list of up to 10 hsVector3 objects");
@@ -140,25 +140,25 @@ static int pySpanTemplateVertex_setUVWs(pySpanTemplateVertex* self, PyObject* va
         }
         uvws[i] = *((pyVector3*)itm)->fThis;
     }
-    for (size_t i=0; i<uvws.getSize(); i++)
+    for (size_t i=0; i<uvws.size(); i++)
         self->fThis->fUVWs[i] = uvws[i];
-    for (size_t i=uvws.getSize(); i<10; i++)
+    for (size_t i=uvws.size(); i<10; i++)
         self->fThis->fUVWs[i] = hsVector3(0.0f, 0.0f, 0.0f);
     return 0;
 }
 
 static int pySpanTemplateVertex_setWeights(pySpanTemplateVertex* self, PyObject* value, void*) {
-    hsTArray<float> weights;
+    std::vector<float> weights;
     if (value == NULL || !PyList_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "weights should be a list of up to 3 floats");
         return -1;
     }
-    weights.setSize(PyList_Size(value));
-    if (weights.getSize() > 3) {
+    weights.resize(PyList_Size(value));
+    if (weights.size() > 3) {
         PyErr_SetString(PyExc_RuntimeError, "weights should be a list of up to 3 floats");
         return -1;
     }
-    for (size_t i=0; i<weights.getSize(); i++) {
+    for (size_t i=0; i<weights.size(); i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!PyFloat_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "weights should be a list of up to 3 floats");
@@ -166,9 +166,9 @@ static int pySpanTemplateVertex_setWeights(pySpanTemplateVertex* self, PyObject*
         }
         weights[i] = PyFloat_AsDouble(itm);
     }
-    for (size_t i=0; i<weights.getSize(); i++)
+    for (size_t i=0; i<weights.size(); i++)
         self->fThis->fWeights[i] = weights[i];
-    for (size_t i=weights.getSize(); i<3; i++)
+    for (size_t i=weights.size(); i<3; i++)
         self->fThis->fWeights[i] = 0.0f;
     return 0;
 }

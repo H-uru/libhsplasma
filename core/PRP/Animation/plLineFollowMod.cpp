@@ -28,8 +28,8 @@ void plLineFollowMod::read(hsStream* S, plResManager* mgr) {
     fPathParent = mgr->readKey(S);
     fRefObj = mgr->readKey(S);
 
-    fStereizers.setSize(S->readInt());
-    for (size_t i=0; i<fStereizers.getSize(); i++)
+    fStereizers.resize(S->readInt());
+    for (size_t i=0; i<fStereizers.size(); i++)
         fStereizers[i] = mgr->readKey(S);
 
     unsigned int modeFlags = S->readInt();
@@ -50,8 +50,8 @@ void plLineFollowMod::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fPathParent);
     mgr->writeKey(S, fRefObj);
 
-    S->writeInt(fStereizers.getSize());
-    for (size_t i=0; i<fStereizers.getSize(); i++)
+    S->writeInt(fStereizers.size());
+    for (size_t i=0; i<fStereizers.size(); i++)
         mgr->writeKey(S, fStereizers[i]);
 
     S->writeInt((fFollowFlags << 16) | fFollowMode);
@@ -77,7 +77,7 @@ void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Stereizers");
-    for (size_t i=0; i<fStereizers.getSize(); i++)
+    for (size_t i=0; i<fStereizers.size(); i++)
         fStereizers[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -104,9 +104,9 @@ void plLineFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fRefObj = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Stereizers") {
-        fStereizers.setSize(tag->countChildren());
+        fStereizers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fStereizers.getSize(); i++) {
+        for (size_t i=0; i<fStereizers.size(); i++) {
             fStereizers[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

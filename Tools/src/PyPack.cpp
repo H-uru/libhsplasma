@@ -16,7 +16,6 @@
 
 #include "Stream/plEncryptedStream.h"
 #include "Stream/hsRAMStream.h"
-#include "Util/hsTArray.hpp"
 #include "Debug/plDebug.h"
 #include <list>
 #include <ctime>
@@ -128,10 +127,10 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    hsTArray<PycObject> pakObjects;
+    std::vector<PycObject> pakObjects;
     if (action == kCreate) {
         uint32_t offs = 0, baseOffs = 4;
-        pakObjects.setSize(infiles.size());
+        pakObjects.resize(infiles.size());
         std::list<plString>::iterator it = infiles.begin();;
         for (size_t i=0; it!=infiles.end(); i++, it++) {
             plString name = *it;
@@ -172,12 +171,12 @@ int main(int argc, char** argv) {
             ((plEncryptedStream*)OS)->open(pakfile, fmCreate, eType);
             ((plEncryptedStream*)OS)->setKey(uruKey);
         }
-        OS->writeInt(pakObjects.getSize());
-        for (size_t i=0; i<pakObjects.getSize(); i++) {
+        OS->writeInt(pakObjects.size());
+        for (size_t i=0; i<pakObjects.size(); i++) {
             OS->writeSafeStr(pakObjects[i].fFilename);
             OS->writeInt(baseOffs + pakObjects[i].fOffset);
         }
-        for (size_t i=0; i<pakObjects.getSize(); i++) {
+        for (size_t i=0; i<pakObjects.size(); i++) {
             OS->writeInt(pakObjects[i].fSize);
             OS->write(pakObjects[i].fSize, pakObjects[i].fData);
         }
@@ -207,7 +206,7 @@ int main(int argc, char** argv) {
         PlasmaVer oldVer = IS->getVer();
 
         size_t oldObjCount = IS->readInt();
-        pakObjects.setSize(oldObjCount + infiles.size());
+        pakObjects.resize(oldObjCount + infiles.size());
         for (size_t i=0; i<oldObjCount; i++) {
             pakObjects[i].fFilename = IS->readSafeStr();
             pakObjects[i].fOffset = IS->readInt();
@@ -263,12 +262,12 @@ int main(int argc, char** argv) {
             ((plEncryptedStream*)OS)->open(pakfile, fmCreate, eType);
             ((plEncryptedStream*)OS)->setKey(uruKey);
         }
-        OS->writeInt(pakObjects.getSize());
-        for (size_t i=0; i<pakObjects.getSize(); i++) {
+        OS->writeInt(pakObjects.size());
+        for (size_t i=0; i<pakObjects.size(); i++) {
             OS->writeSafeStr(pakObjects[i].fFilename);
             OS->writeInt(baseOffs + pakObjects[i].fOffset);
         }
-        for (size_t i=0; i<pakObjects.getSize(); i++) {
+        for (size_t i=0; i<pakObjects.size(); i++) {
             OS->writeInt(pakObjects[i].fSize);
             OS->write(pakObjects[i].fSize, pakObjects[i].fData);
         }
@@ -295,13 +294,13 @@ int main(int argc, char** argv) {
                 IS->setVer(PlasmaVer::pvEoa);
         }
 
-        pakObjects.setSize(IS->readInt());
-        for (size_t i=0; i<pakObjects.getSize(); i++) {
+        pakObjects.resize(IS->readInt());
+        for (size_t i=0; i<pakObjects.size(); i++) {
             pakObjects[i].fFilename = IS->readSafeStr();
             pakObjects[i].fOffset = IS->readInt();
         }
 
-        for (size_t i=0; i<pakObjects.getSize(); i++) {
+        for (size_t i=0; i<pakObjects.size(); i++) {
             if (pakObjects[i].fOffset != IS->pos())
                 IS->seek(pakObjects[i].fOffset);
             pakObjects[i].fSize = IS->readInt();
@@ -328,7 +327,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    for (size_t i=0; i<pakObjects.getSize(); i++)
+    for (size_t i=0; i<pakObjects.size(); i++)
         delete[] pakObjects[i].fData;
 
     return 0;

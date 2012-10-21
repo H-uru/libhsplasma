@@ -47,8 +47,8 @@ class PLASMA_DLL plClusterGroup : public virtual hsKeyedObject {
 protected:
     plSpanTemplate fTemplate;
     plKey fMaterial;
-    hsTArray<plCluster*> fClusters;
-    hsTArray<plKey> fRegions, fLights;
+    std::vector<plCluster*> fClusters;
+    std::vector<plKey> fRegions, fLights;
     plLODDist fLOD;
     plKey fSceneNode, fDrawable;
     unsigned int fRenderLevel;
@@ -80,22 +80,22 @@ public:
     void setDrawable(plKey draw) { fDrawable = draw; }
     void setRenderLevel(unsigned int level) { fRenderLevel = level; }
 
-    const hsTArray<plCluster*>& getClusters() const { return fClusters; }
-    hsTArray<plCluster*>& getClusters() { return fClusters; }
-    void addCluster(plCluster* cluster) { fClusters.append(cluster); }
+    const std::vector<plCluster*>& getClusters() const { return fClusters; }
+    std::vector<plCluster*>& getClusters() { return fClusters; }
+    void addCluster(plCluster* cluster) { fClusters.push_back(cluster); }
     void delCluster(size_t idx);
     void clearClusters();
 
-    const hsTArray<plKey>& getRegions() const { return fRegions; }
-    hsTArray<plKey>& getRegions() { return fRegions; }
-    void addRegion(plKey region) { fRegions.append(region); }
-    void delRegion(size_t idx) { fRegions.remove(idx); }
+    const std::vector<plKey>& getRegions() const { return fRegions; }
+    std::vector<plKey>& getRegions() { return fRegions; }
+    void addRegion(plKey region) { fRegions.push_back(region); }
+    void delRegion(size_t idx) { fRegions.erase(fRegions.begin() + idx); }
     void clearRegions() { fRegions.clear(); }
 
-    const hsTArray<plKey>& getLights() const { return fLights; }
-    hsTArray<plKey>& getLights() { return fLights; }
-    void addLight(plKey light) { fLights.append(light); }
-    void delLight(size_t idx) { fLights.remove(idx); }
+    const std::vector<plKey>& getLights() const { return fLights; }
+    std::vector<plKey>& getLights() { return fLights; }
+    void addLight(plKey light) { fLights.push_back(light); }
+    void delLight(size_t idx) { fLights.erase(fLights.begin() + idx); }
     void clearLights() { fLights.clear(); }
 };
 

@@ -50,8 +50,7 @@ void plCreatableListHelper::write(hsStream* S, plResManager* mgr) {
     hsRAMStream ram;
 
     ram.writeShort(fCreatables.size());
-    std::map<uint16_t, plCreatable*>::iterator it;
-    for (it = fCreatables.begin(); it != fCreatables.end(); ++it) {
+    for (auto it = fCreatables.begin(); it != fCreatables.end(); ++it) {
         ram.writeShort(it->first);
         mgr->WriteCreatable(&ram, it->second);
     }
@@ -84,8 +83,7 @@ void plCreatableListHelper::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParamHex("Flags", fFlags);
     prc->endTag(false);
 
-    std::map<uint16_t, plCreatable*>::iterator it;
-    for (it = fCreatables.begin(); it != fCreatables.end(); ++it) {
+    for (auto it = fCreatables.begin(); it != fCreatables.end(); ++it) {
         prc->startTag("Creatable");
         prc->writeParam("id", it->first);
         prc->endTag(false);
@@ -115,7 +113,6 @@ void plCreatableListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plCreatableListHelper::clearCreatables() {
-    std::map<uint16_t, plCreatable*>::iterator it;
-    for (it = fCreatables.begin(); it != fCreatables.end(); ++it)
+    for (auto it = fCreatables.begin(); it != fCreatables.end(); ++it)
         delete it->second;
 }

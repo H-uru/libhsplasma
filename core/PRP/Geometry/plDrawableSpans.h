@@ -37,8 +37,8 @@ public:
         kDontTransformSpans = 0x2
     };
 
-    unsigned char fFlags;
-    hsTArray<unsigned int> fIndices;
+    uint8_t fFlags;
+    std::vector<unsigned int> fIndices;
 
 public:
     plDISpanIndex() : fFlags(0) { }
@@ -108,20 +108,20 @@ class PLASMA_DLL plDrawableSpans : public virtual plDrawable {
 
 protected:
     hsBounds3Ext fLocalBounds, fWorldBounds, fMaxWorldBounds;
-    hsTArray<hsMatrix44> fLocalToWorlds, fWorldToLocals;
-    hsTArray<hsMatrix44> fLocalToBones, fBoneToLocals;
-    hsTArray<plKey> fMaterials;
+    std::vector<hsMatrix44> fLocalToWorlds, fWorldToLocals;
+    std::vector<hsMatrix44> fLocalToBones, fBoneToLocals;
+    std::vector<plKey> fMaterials;
     plSpaceTree* fSpaceTree;
-    hsTArray<plIcicle*> fIcicles;
-    hsTArray<plParticleSpan*> fParticleSpans;
-    hsTArray<plSpan*> fSpans;
-    hsTArray<unsigned int> fSpanSourceIndices;
-    hsTArray<plGBufferGroup*> fGroups;
-    hsTArray<plDISpanIndex> fDIIndices;
+    std::vector<plIcicle*> fIcicles;
+    std::vector<plParticleSpan*> fParticleSpans;
+    std::vector<plSpan*> fSpans;
+    std::vector<unsigned int> fSpanSourceIndices;
+    std::vector<plGBufferGroup*> fGroups;
+    std::vector<plDISpanIndex> fDIIndices;
     unsigned int fProps, fCriteria;
     unsigned int fRenderLevel;
     plKey fSceneNode;
-    hsTArray< std::shared_ptr<plGeometrySpan> > fSourceSpans;
+    std::vector< std::shared_ptr<plGeometrySpan> > fSourceSpans;
 
 public:
     plDrawableSpans() : fSpaceTree(NULL), fProps(0), fCriteria(0), fRenderLevel(0) { }
@@ -144,33 +144,33 @@ protected:
     void ISortSpace(std::vector<plSpaceBuilderNode*>& nodes, int axis);
 
 public:
-    size_t getNumSpans() const { return fSpans.getSize(); }
+    size_t getNumSpans() const { return fSpans.size(); }
     plSpan* getSpan(size_t idx) const { return fSpans[idx]; }
     plIcicle* getIcicle(size_t idx) const { return (plIcicle*)fSpans[idx]; }
     size_t addIcicle(const plIcicle& span);
     void clearSpans();
 
-    size_t getNumBufferGroups() const { return fGroups.getSize(); }
+    size_t getNumBufferGroups() const { return fGroups.size(); }
     plGBufferGroup* getBuffer(size_t group) const { return fGroups[group]; }
     size_t createBufferGroup(unsigned char format);
     void deleteBufferGroup(size_t group);
-    hsTArray<plGBufferVertex> getVerts(const plIcicle* span) const;
-    hsTArray<unsigned short> getIndices(const plIcicle* span) const;
-    hsTArray<plGBufferCell> getCells(size_t group, size_t buffer) const;
-    void addVerts(size_t group, const hsTArray<plGBufferVertex>& verts);
-    void addIndices(size_t group, const hsTArray<unsigned short>& indices);
-    void addCells(size_t group, const hsTArray<plGBufferCell>& cells);
+    std::vector<plGBufferVertex> getVerts(const plIcicle* span) const;
+    std::vector<unsigned short> getIndices(const plIcicle* span) const;
+    std::vector<plGBufferCell> getCells(size_t group, size_t buffer) const;
+    void addVerts(size_t group, const std::vector<plGBufferVertex>& verts);
+    void addIndices(size_t group, const std::vector<unsigned short>& indices);
+    void addCells(size_t group, const std::vector<plGBufferCell>& cells);
 
-    size_t getNumDIIndices() const { return fDIIndices.getSize(); }
+    size_t getNumDIIndices() const { return fDIIndices.size(); }
     const plDISpanIndex& getDIIndex(size_t idx) const { return fDIIndices[idx]; }
     plDISpanIndex& getDIIndex(size_t idx) { return fDIIndices[idx]; }
-    const hsTArray<plDISpanIndex>& getDIIndices() const { return fDIIndices; }
-    hsTArray<plDISpanIndex>& getDIIndices() { return fDIIndices; }
-    void addDIIndex(const plDISpanIndex& idx) { fDIIndices.append(idx); }
-    void delDIIndex(size_t idx) { fDIIndices.remove(idx); }
+    const std::vector<plDISpanIndex>& getDIIndices() const { return fDIIndices; }
+    std::vector<plDISpanIndex>& getDIIndices() { return fDIIndices; }
+    void addDIIndex(const plDISpanIndex& idx) { fDIIndices.push_back(idx); }
+    void delDIIndex(size_t idx) { fDIIndices.erase(fDIIndices.begin() + idx); }
     void clearDIIndices() { fDIIndices.clear(); }
 
-    size_t getNumTransforms() const { return fLocalToWorlds.getSize(); }
+    size_t getNumTransforms() const { return fLocalToWorlds.size(); }
     hsMatrix44 getLocalToWorld(size_t idx) const { return fLocalToWorlds[idx]; }
     hsMatrix44 getWorldToLocal(size_t idx) const { return fWorldToLocals[idx]; }
     hsMatrix44 getLocalToBone(size_t idx) const { return fLocalToBones[idx]; }
@@ -186,9 +186,9 @@ public:
     void setWorldBounds(const hsBounds3Ext& bounds) { fWorldBounds = bounds; }
     void setMaxWorldBounds(const hsBounds3Ext& bounds) { fMaxWorldBounds = bounds; }
 
-    const hsTArray<plKey>& getMaterials() const { return fMaterials; }
-    hsTArray<plKey>& getMaterials() { return fMaterials; }
-    void addMaterial(plKey mat) { fMaterials.append(mat); }
+    const std::vector<plKey>& getMaterials() const { return fMaterials; }
+    std::vector<plKey>& getMaterials() { return fMaterials; }
+    void addMaterial(plKey mat) { fMaterials.push_back(mat); }
     void clearMaterials() { fMaterials.clear(); }
 
     plSpaceTree* getSpaceTree() const { return fSpaceTree; }
@@ -205,11 +205,11 @@ public:
 
     void composeGeometry(bool clearspans=true);
     void decomposeGeometry(bool clearcolors=false);
-    size_t buildDIIndex(const hsTArray< std::shared_ptr<plGeometrySpan> >& spans);
+    size_t buildDIIndex(const std::vector<std::shared_ptr<plGeometrySpan> >& spans);
 
-    const hsTArray< std::shared_ptr<plGeometrySpan> > getSourceSpans() const { return fSourceSpans; }
-    hsTArray< std::shared_ptr<plGeometrySpan> > getSourceSpans() { return fSourceSpans; }
-    void addSourceSpan(const std::shared_ptr<plGeometrySpan>& span) { fSourceSpans.append(span); }
+    const std::vector<std::shared_ptr<plGeometrySpan> > getSourceSpans() const { return fSourceSpans; }
+    std::vector<std::shared_ptr<plGeometrySpan> > getSourceSpans() { return fSourceSpans; }
+    void addSourceSpan(const std::shared_ptr<plGeometrySpan>& span) { fSourceSpans.push_back(span); }
 };
 
 #endif

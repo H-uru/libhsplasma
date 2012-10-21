@@ -228,12 +228,12 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
 
         // Havok format
         prc->writeSimpleTag("Verts");
-        for (size_t i=0; i<fVerts.getSize(); i++)
+        for (size_t i=0; i<fVerts.size(); i++)
             fVerts[i].prcWrite(prc);
         prc->closeTag();
 
         prc->writeSimpleTag("Faces");
-        for (size_t i=0; i<fIndices.getSize(); i += 3) {
+        for (size_t i=0; i<fIndices.size(); i += 3) {
             prc->writeTagNoBreak("Triangle");
             prc->getStream()->writeStr(plString::Format("%d %d %d",
                                     fIndices[i+0],
@@ -249,12 +249,12 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
         prc->endTag(true);
     } else {
         prc->writeSimpleTag("Verts");
-        for (size_t i=0; i<fVerts.getSize(); i++)
+        for (size_t i=0; i<fVerts.size(); i++)
             fVerts[i].prcWrite(prc);
         prc->closeTag();
 
         prc->writeSimpleTag("Faces");
-        for (size_t i=0; i<fIndices.getSize(); i += 3) {
+        for (size_t i=0; i<fIndices.size(); i += 3) {
             prc->writeTagNoBreak("Triangle");
             prc->getStream()->writeStr(plString::Format("%d %d %d",
                                        fIndices[i+0],
@@ -358,16 +358,16 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 fRadius = child->getParam("Radius", "0").toFloat();
                 fLength = child->getParam("Length", "0").toFloat();
             } else if (child->getName() == "Verts") {
-                fVerts.setSize(child->countChildren());
+                fVerts.resize(child->countChildren());
                 const pfPrcTag* vert = child->getFirstChild();
-                for (size_t i=0; i<fVerts.getSize(); i++) {
+                for (size_t i=0; i<fVerts.size(); i++) {
                     fVerts[i].prcParse(vert);
                     vert = vert->getNextSibling();
                 }
             } else if (child->getName() == "Faces") {
-                fIndices.setSize(child->countChildren() * 3);
+                fIndices.resize(child->countChildren() * 3);
                 const pfPrcTag* tri = child->getFirstChild();
-                for (size_t i=0; i<fIndices.getSize(); i += 3) {
+                for (size_t i=0; i<fIndices.size(); i += 3) {
                     if (tri->getName() != "Triangle")
                         throw pfPrcTagException(__FILE__, __LINE__, tri->getName());
                     hsTList<plString> idxList = tri->getContents();
@@ -417,18 +417,18 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     fDisableCollide = S->readBool();
 
     if (fBounds == plSimDefs::kHullBounds) {
-        fVerts.setSize(S->readInt());
-        for (size_t i=0; i<fVerts.getSize(); i++)
+        fVerts.resize(S->readInt());
+        for (size_t i=0; i<fVerts.size(); i++)
             fVerts[i].read(S);
     } else if (fBounds == plSimDefs::kSphereBounds) {
         fOffset.read(S);
         fRadius = S->readFloat();
     } else {    // Box, Proxy, Explicit
-        fVerts.setSize(S->readInt());
-        for (size_t i=0; i<fVerts.getSize(); i++)
+        fVerts.resize(S->readInt());
+        for (size_t i=0; i<fVerts.size(); i++)
             fVerts[i].read(S);
-        fIndices.setSize(S->readInt() * 3);
-        for (size_t i=0; i<fIndices.getSize(); i++)
+        fIndices.resize(S->readInt() * 3);
+        for (size_t i=0; i<fIndices.size(); i++)
             fIndices[i] = S->readShort();
     }
 
@@ -484,11 +484,11 @@ void plGenericPhysical::IReadODEPhysical(hsStream* S, plResManager* mgr) {
     fTMDBuffer = NULL;
 
     if (fBounds == plSimDefs::kExplicitBounds) {
-        fVerts.setSize(S->readInt());
-        for (size_t i=0; i<fVerts.getSize(); i++)
+        fVerts.resize(S->readInt());
+        for (size_t i=0; i<fVerts.size(); i++)
             fVerts[i].read(S);
-        fIndices.setSize(S->readInt() * 3);
-        for (size_t i=0; i<fIndices.getSize(); i++)
+        fIndices.resize(S->readInt() * 3);
+        for (size_t i=0; i<fIndices.size(); i++)
             fIndices[i] = S->readInt();
         fTMDSize = S->readInt();
         fTMDBuffer = new unsigned char[fTMDSize];
@@ -548,7 +548,7 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     } else {    // Proxy or Explicit
         PXCookedData::readTriangleMesh(S, this);
     }
-    
+
 #ifdef DEBUG
     // check if the conversion back to the original flags is losless
     uint8_t group = plPXSimDefs::toGroup(fMemberGroup, fCollideGroup);
@@ -595,18 +595,18 @@ void plGenericPhysical::IWriteHKPhysical(hsStream* S, plResManager* mgr) {
     S->writeBool(fDisableCollide);
 
     if (fBounds == plSimDefs::kHullBounds) {
-        S->writeInt(fVerts.getSize());
-        for (size_t i=0; i<fVerts.getSize(); i++)
+        S->writeInt(fVerts.size());
+        for (size_t i=0; i<fVerts.size(); i++)
             fVerts[i].write(S);
     } else if (fBounds == plSimDefs::kSphereBounds) {
         fOffset.write(S);
         S->writeFloat(fRadius);
     } else {    // Box, Proxy, Explicit
-        S->writeInt(fVerts.getSize());
-        for (size_t i=0; i<fVerts.getSize(); i++)
+        S->writeInt(fVerts.size());
+        for (size_t i=0; i<fVerts.size(); i++)
             fVerts[i].write(S);
-        S->writeInt(fIndices.getSize() / 3);
-        for (size_t i=0; i<fIndices.getSize(); i++)
+        S->writeInt(fIndices.size() / 3);
+        for (size_t i=0; i<fIndices.size(); i++)
             S->writeShort(fIndices[i]);
     }
 
@@ -622,11 +622,11 @@ void plGenericPhysical::IWriteODEPhysical(hsStream* S, plResManager* mgr) {
     S->writeInt(fBounds);
 
     if (fBounds == plSimDefs::kExplicitBounds) {
-        S->writeInt(fVerts.getSize());
-        for (size_t i=0; i<fVerts.getSize(); i++)
+        S->writeInt(fVerts.size());
+        for (size_t i=0; i<fVerts.size(); i++)
             fVerts[i].write(S);
-        S->writeInt(fIndices.getSize() / 3);
-        for (size_t i=0; i<fIndices.getSize(); i++)
+        S->writeInt(fIndices.size() / 3);
+        for (size_t i=0; i<fIndices.size(); i++)
             S->writeInt(fIndices[i]);
         S->writeInt(fTMDSize);
         S->write(fTMDSize, fTMDBuffer);
@@ -679,9 +679,9 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
             sPhysxWasInit = true;
         }
         NxConvexMeshDesc convexDesc;
-        convexDesc.numVertices = fVerts.getSize();
+        convexDesc.numVertices = fVerts.size();
         convexDesc.pointStrideBytes = sizeof(hsVector3);
-        convexDesc.points = fVerts.getData();
+        convexDesc.points = &fVerts[0];
         convexDesc.flags = NX_CF_COMPUTE_CONVEX;
 
         plPXStream buf(S);
@@ -697,12 +697,12 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
             sPhysxWasInit = true;
         }
         NxTriangleMeshDesc triDesc;
-        triDesc.numVertices = fVerts.getSize();
+        triDesc.numVertices = fVerts.size();
         triDesc.pointStrideBytes = sizeof(hsVector3);
-        triDesc.points = fVerts.getData();
-        triDesc.numTriangles = fIndices.getSize() / 3;
+        triDesc.points = &fVerts[0];
+        triDesc.numTriangles = fIndices.size() / 3;
         triDesc.triangleStrideBytes = sizeof(unsigned int) * 3;
-        triDesc.triangles = fIndices.getData();
+        triDesc.triangles = &fIndices[0];
         triDesc.flags = 0; // 32-bit appears to be the default for index size
 
         plPXStream buf(S);
@@ -715,15 +715,11 @@ void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
 }
 
 void plGenericPhysical::setVerts(size_t numVerts, const hsVector3* verts) {
-    fVerts.setSize(numVerts);
-    for (size_t i=0; i<numVerts; i++)
-        fVerts[i] = verts[i];
+    fVerts = std::vector<hsVector3>(verts, verts + numVerts);
 }
 
 void plGenericPhysical::setIndices(size_t numIndices, const unsigned int* indices) {
-    fIndices.setSize(numIndices);
-    for (size_t i=0; i<numIndices; i++)
-        fIndices[i] = indices[i];
+    fIndices = std::vector<unsigned int>(indices, indices + numIndices);
 }
 
 void plGenericPhysical::setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuffer) {

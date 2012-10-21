@@ -86,7 +86,7 @@ protected:
     pfGUICtrlProcWriteableObject* fHandler;
     plKey fDynTextMap, fDynTextLayer;
     pfGUIColorScheme* fColorScheme;
-    hsTArray<int> fSoundIndices;
+    std::vector<int> fSoundIndices;
     plKey fProxy, fSkin;
 
 public:
@@ -101,9 +101,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<int>& getSoundIndices() const { return fSoundIndices; }
-    hsTArray<int>& getSoundIndices() { return fSoundIndices; }
-    void setSoundIndices(const hsTArray<int>& indices) { fSoundIndices = indices; }
+    const std::vector<int>& getSoundIndices() const { return fSoundIndices; }
+    std::vector<int>& getSoundIndices() { return fSoundIndices; }
+    void setSoundIndices(const std::vector<int>& indices) { fSoundIndices = indices; }
     void clearSoundIndices() { fSoundIndices.clear(); }
 
     unsigned int getTagID() const { return fTagID; }

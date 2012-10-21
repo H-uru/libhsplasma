@@ -50,10 +50,10 @@ public:
 protected:
     unsigned char* fPythonCode;
     unsigned int fPythonSize;
-    hsTArray<plKey> fReceivers;
-    hsTArray<PY_NOTETRACK> fAnimNotetracks;
-    hsTArray<PY_SOUND_IDX> fSoundName2Idx;
-    hsTArray<PY_MATERIAL_ANIM> fMaterialAnim;
+    std::vector<plKey> fReceivers;
+    std::vector<PY_NOTETRACK> fAnimNotetracks;
+    std::vector<PY_SOUND_IDX> fSoundName2Idx;
+    std::vector<PY_MATERIAL_ANIM> fMaterialAnim;
 
 public:
     plPythonMod() : fPythonCode(NULL), fPythonSize(0) { }

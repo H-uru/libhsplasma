@@ -19,13 +19,12 @@
 
 #include "PRP/plCreatable.h"
 #include "Math/hsGeometry3.h"
-#include "Util/hsTArray.hpp"
 
 class PLASMA_DLL plConvexVolume : public virtual plCreatable {
     CREATABLE(plConvexVolume, kConvexVolume, plCreatable)
 
 protected:
-    hsTArray<hsPlane3> fLocalPlanes;
+    std::vector<hsPlane3> fLocalPlanes;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

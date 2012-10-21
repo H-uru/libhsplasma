@@ -23,7 +23,7 @@ class PLASMA_DLL plMessageWithCallbacks : public plMessage {
     CREATABLE(plMessageWithCallbacks, kMessageWithCallbacks, plMessage)
 
 protected:
-    hsTArray<plMessage*> fCallbacks;
+    std::vector<plMessage*> fCallbacks;
 
 public:
     plMessageWithCallbacks() { }
@@ -37,9 +37,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plMessage*>& getCallbacks() const { return fCallbacks; }
-    hsTArray<plMessage*>& getCallbacks() { return fCallbacks; }
-    void addCallback(plMessage* callback) { fCallbacks.append(callback); }
+    const std::vector<plMessage*>& getCallbacks() const { return fCallbacks; }
+    std::vector<plMessage*>& getCallbacks() { return fCallbacks; }
+    void addCallback(plMessage* callback) { fCallbacks.push_back(callback); }
     void delCallback(size_t idx);
     void clearCallbacks();
 };

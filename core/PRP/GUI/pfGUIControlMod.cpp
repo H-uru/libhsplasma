@@ -142,8 +142,8 @@ void pfGUIControlMod::read(hsStream* S, plResManager* mgr) {
         setColorScheme(NULL);
     }
 
-    fSoundIndices.setSizeNull(S->readByte());
-    for (size_t i=0; i<fSoundIndices.getSize(); i++)
+    fSoundIndices.resize(S->readByte());
+    for (size_t i=0; i<fSoundIndices.size(); i++)
         fSoundIndices[i] = S->readInt();
 
     if (fFlags[kHasProxy])
@@ -175,8 +175,8 @@ void pfGUIControlMod::write(hsStream* S, plResManager* mgr) {
         S->writeBool(false);
     }
 
-    S->writeByte(fSoundIndices.getSize());
-    for (size_t i=0; i<fSoundIndices.getSize(); i++)
+    S->writeByte(fSoundIndices.size());
+    for (size_t i=0; i<fSoundIndices.size(); i++)
         S->writeInt(fSoundIndices[i]);
 
     if (fFlags[kHasProxy])
@@ -214,7 +214,7 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc) {
     }
 
     prc->writeSimpleTag("SoundIndices");
-    for (size_t i=0; i<fSoundIndices.getSize(); i++) {
+    for (size_t i=0; i<fSoundIndices.size(); i++) {
         prc->startTag("SoundIndex");
         prc->writeParam("value", fSoundIndices[i]);
         prc->endTag(true);
@@ -254,9 +254,9 @@ void pfGUIControlMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fColorScheme->prcParse(tag);
         }
     } else if (tag->getName() == "SoundIndices") {
-        fSoundIndices.setSizeNull(tag->countChildren());
+        fSoundIndices.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fSoundIndices.getSize(); i++) {
+        for (size_t i=0; i<fSoundIndices.size(); i++) {
             if (child->getName() != "SoundIndex")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fSoundIndices[i] = child->getParam("value", "0").toInt();

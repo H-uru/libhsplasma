@@ -28,8 +28,8 @@ plLogicModBase::plLogicModBase()
 }
 
 plLogicModBase::~plLogicModBase() {
-    for (size_t i=0; i<fCommandList.getSize(); i++)
-        delete fCommandList[i];
+    for (auto cmd = fCommandList.begin(); cmd != fCommandList.end(); ++cmd)
+        delete *cmd;
     delete fNotify;
 }
 
@@ -37,8 +37,8 @@ void plLogicModBase::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
     clearCommands();
-    fCommandList.setSizeNull(S->readInt());
-    for (size_t i=0; i<fCommandList.getSize(); i++)
+    fCommandList.resize(S->readInt());
+    for (size_t i=0; i<fCommandList.size(); i++)
         fCommandList[i] = plMessage::Convert(mgr->ReadCreatable(S));
 
     setNotify(plNotifyMsg::Convert(mgr->ReadCreatable(S)));
@@ -49,8 +49,8 @@ void plLogicModBase::read(hsStream* S, plResManager* mgr) {
 void plLogicModBase::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
-    S->writeInt(fCommandList.getSize());
-    for (size_t i=0; i<fCommandList.getSize(); i++)
+    S->writeInt(fCommandList.size());
+    for (size_t i=0; i<fCommandList.size(); i++)
         mgr->WriteCreatable(S, fCommandList[i]);
 
     mgr->WriteCreatable(S, fNotify);
@@ -66,7 +66,7 @@ void plLogicModBase::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Commands");
-    for (size_t i=0; i<fCommandList.getSize(); i++)
+    for (size_t i=0; i<fCommandList.size(); i++)
         fCommandList[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -84,9 +84,9 @@ void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fDisabled = tag->getParam("Disabled", "false").toBool();
     } else if (tag->getName() == "Commands") {
         clearCommands();
-        fCommandList.setSizeNull(tag->countChildren());
+        fCommandList.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fCommandList.getSize(); i++) {
+        for (size_t i=0; i<fCommandList.size(); i++) {
             fCommandList[i] = plMessage::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
@@ -103,12 +103,12 @@ void plLogicModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plLogicModBase::delCommand(size_t idx) {
     delete fCommandList[idx];
-    fCommandList.remove(idx);
+    fCommandList.erase(fCommandList.begin() + idx);
 }
 
 void plLogicModBase::clearCommands() {
-    for (size_t i=0; i<fCommandList.getSize(); i++)
-        delete fCommandList[i];
+    for (auto cmd = fCommandList.begin(); cmd != fCommandList.end(); ++cmd)
+        delete *cmd;
     fCommandList.clear();
 }
 

@@ -18,7 +18,6 @@
 #define _HSGMATERIAL_H
 
 #include "PRP/Object/plSynchedObject.h"
-#include "Util/hsTArray.hpp"
 
 class PLASMA_DLL hsGMaterial : public virtual plSynchedObject {
     CREATABLE(hsGMaterial, kGMaterial, plSynchedObject)
@@ -42,7 +41,7 @@ public:
     };
 
 private:
-    hsTArray<plKey> fLayers, fPiggyBacks;
+    std::vector<plKey> fLayers, fPiggyBacks;
     unsigned int fCompFlags, fLoadFlags;
 
 public:
@@ -56,16 +55,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getLayers() const { return fLayers; }
-    hsTArray<plKey>& getLayers() { return fLayers; }
-    void addLayer(plKey layer) { fLayers.append(layer); }
-    void delLayer(size_t idx) { fLayers.remove(idx); }
+    const std::vector<plKey>& getLayers() const { return fLayers; }
+    std::vector<plKey>& getLayers() { return fLayers; }
+    void addLayer(plKey layer) { fLayers.push_back(layer); }
+    void delLayer(size_t idx) { fLayers.erase(fLayers.begin() + idx); }
     void clearLayers() { fLayers.clear(); }
 
-    const hsTArray<plKey>& getPiggyBacks() const { return fPiggyBacks; }
-    hsTArray<plKey>& getPiggyBacks() { return fPiggyBacks; }
-    void addPiggyBack(plKey layer) { fPiggyBacks.append(layer); }
-    void delPiggyBack(size_t idx) { fPiggyBacks.remove(idx); }
+    const std::vector<plKey>& getPiggyBacks() const { return fPiggyBacks; }
+    std::vector<plKey>& getPiggyBacks() { return fPiggyBacks; }
+    void addPiggyBack(plKey layer) { fPiggyBacks.push_back(layer); }
+    void delPiggyBack(size_t idx) { fPiggyBacks.erase(fPiggyBacks.begin() + idx); }
     void clearPiggyBacks() { fPiggyBacks.clear(); }
 
     unsigned int getCompFlags() const { return fCompFlags; }

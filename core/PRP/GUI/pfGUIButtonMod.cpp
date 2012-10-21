@@ -20,13 +20,13 @@
 void pfGUIButtonMod::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
-    fAnimationKeys.setSize(S->readInt());
-    for (size_t i=0; i<fAnimationKeys.getSize(); i++)
+    fAnimationKeys.resize(S->readInt());
+    for (size_t i=0; i<fAnimationKeys.size(); i++)
         fAnimationKeys[i] = mgr->readKey(S);
     fAnimName = S->readSafeStr();
 
-    fMouseOverAnimKeys.setSize(S->readInt());
-    for (size_t i=0; i<fMouseOverAnimKeys.getSize(); i++)
+    fMouseOverAnimKeys.resize(S->readInt());
+    for (size_t i=0; i<fMouseOverAnimKeys.size(); i++)
         fMouseOverAnimKeys[i] = mgr->readKey(S);
     fMouseOverAnimName = S->readSafeStr();
 
@@ -41,13 +41,13 @@ void pfGUIButtonMod::read(hsStream* S, plResManager* mgr) {
 void pfGUIButtonMod::write(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::write(S, mgr);
 
-    S->writeInt(fAnimationKeys.getSize());
-    for (size_t i=0; i<fAnimationKeys.getSize(); i++)
+    S->writeInt(fAnimationKeys.size());
+    for (size_t i=0; i<fAnimationKeys.size(); i++)
         mgr->writeKey(S, fAnimationKeys[i]);
     S->writeSafeStr(fAnimName);
 
-    S->writeInt(fMouseOverAnimKeys.getSize());
-    for (size_t i=0; i<fMouseOverAnimKeys.getSize(); i++)
+    S->writeInt(fMouseOverAnimKeys.size());
+    for (size_t i=0; i<fMouseOverAnimKeys.size(); i++)
         mgr->writeKey(S, fMouseOverAnimKeys[i]);
     S->writeSafeStr(fMouseOverAnimName);
 
@@ -65,14 +65,14 @@ void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Animation");
     prc->writeParam("Name", fAnimName);
     prc->endTag();
-    for (size_t i=0; i<fAnimationKeys.getSize(); i++)
+    for (size_t i=0; i<fAnimationKeys.size(); i++)
         fAnimationKeys[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->startTag("MouseOverAnimation");
     prc->writeParam("Name", fMouseOverAnimName);
     prc->endTag();
-    for (size_t i=0; i<fMouseOverAnimKeys.getSize(); i++)
+    for (size_t i=0; i<fMouseOverAnimKeys.size(); i++)
         fMouseOverAnimKeys[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -88,17 +88,17 @@ void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc) {
 void pfGUIButtonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Animation") {
         fAnimName = tag->getParam("Name", "");
-        fAnimationKeys.setSize(tag->countChildren());
+        fAnimationKeys.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fAnimationKeys.getSize(); i++) {
+        for (size_t i=0; i<fAnimationKeys.size(); i++) {
             fAnimationKeys[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "MouseOverAnimation") {
         fMouseOverAnimName = tag->getParam("Name", "");
-        fMouseOverAnimKeys.setSize(tag->countChildren());
+        fMouseOverAnimKeys.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMouseOverAnimKeys.getSize(); i++) {
+        for (size_t i=0; i<fMouseOverAnimKeys.size(); i++) {
             fMouseOverAnimKeys[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

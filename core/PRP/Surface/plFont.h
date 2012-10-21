@@ -66,13 +66,13 @@ protected:
     unsigned short fFirstChar;
     unsigned int fFlags, fWidth, fHeight;
     unsigned char* fBmpData;
-    hsTArray<plCharacter> fCharacters;
+    std::vector<plCharacter> fCharacters;
     int fMaxCharHeight;
 
 public:
     plFont() : fSize(0), fBPP(0), fFirstChar(0), fFlags(0), fWidth(0),
                fHeight(0), fBmpData(NULL), fMaxCharHeight(0) {
-        fCharacters.setSize(256);
+        fCharacters.resize(256);
     }
     plFont(const plFont& copy);
     virtual ~plFont();
@@ -99,8 +99,8 @@ public:
     const plCharacter& getCharacter(size_t idx) const { return fCharacters[idx]; }
     plCharacter& getCharacter(size_t idx) { return fCharacters[idx]; }
     const unsigned char* getGlyph(size_t idx) const { return fBmpData + fCharacters[idx].getOffset(); }
-    size_t getNumCharacters() const { return fCharacters.getSize(); }
-    void setNumCharacters(size_t count) { fCharacters.setSize(count); }
+    size_t getNumCharacters() const { return fCharacters.size(); }
+    void setNumCharacters(size_t count) { fCharacters.resize(count); }
 
     const plString& getName() const { return fFace; }
     unsigned char getSize() const { return fSize; }

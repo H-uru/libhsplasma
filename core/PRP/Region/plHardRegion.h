@@ -28,7 +28,7 @@ class PLASMA_DLL plHardRegionComplex : public virtual plHardRegion {
     CREATABLE(plHardRegionComplex, kHardRegionComplex, plHardRegion)
 
 protected:
-    hsTArray<plKey> fSubRegions;
+    std::vector<plKey> fSubRegions;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

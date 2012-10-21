@@ -18,8 +18,8 @@
 #include "plClusterGroup.h"
 
 plCluster::~plCluster() {
-    for (size_t i=0; i<fInstances.getSize(); i++)
-        delete fInstances[i];
+    for (auto inst = fInstances.begin(); inst != fInstances.end(); ++inst)
+        delete *inst;
 }
 
 void plCluster::read(hsStream* S, plClusterGroup* group) {
@@ -27,8 +27,8 @@ void plCluster::read(hsStream* S, plClusterGroup* group) {
     fGroup = group;
     unsigned int numVerts = fGroup->getTemplate().getNumVerts();
     clearInstances();
-    fInstances.setSizeNull(S->readInt());
-    for (size_t i=0; i<fInstances.getSize(); i++) {
+    fInstances.resize(S->readInt());
+    for (size_t i=0; i<fInstances.size(); i++) {
         fInstances[i] = new plSpanInstance();
         fInstances[i]->read(S, fEncoding, numVerts);
     }
@@ -36,8 +36,8 @@ void plCluster::read(hsStream* S, plClusterGroup* group) {
 
 void plCluster::write(hsStream* S) {
     fEncoding.write(S);
-    S->writeInt(fInstances.getSize());
-    for (size_t i=0; i<fInstances.getSize(); i++)
+    S->writeInt(fInstances.size());
+    for (size_t i=0; i<fInstances.size(); i++)
         fInstances[i]->write(S);
 }
 
@@ -49,7 +49,7 @@ void plCluster::prcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Instances");
-    for (size_t i=0; i<fInstances.getSize(); i++)
+    for (size_t i=0; i<fInstances.size(); i++)
         fInstances[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -69,9 +69,9 @@ void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
                 fEncoding.prcParse(child->getFirstChild());
         } else if (child->getName() == "Instances") {
             clearInstances();
-            fInstances.setSizeNull(child->countChildren());
+            fInstances.resize(child->countChildren());
             const pfPrcTag* inst = child->getFirstChild();
-            for (size_t i=0; i<fInstances.getSize(); i++) {
+            for (size_t i=0; i<fInstances.size(); i++) {
                 fInstances[i] = new plSpanInstance();
                 fInstances[i]->prcParse(inst, fEncoding, numVerts);
                 inst = inst->getNextSibling();
@@ -85,11 +85,11 @@ void plCluster::prcParse(const pfPrcTag* tag, plClusterGroup* group) {
 
 void plCluster::delInstance(size_t idx) {
     delete fInstances[idx];
-    fInstances.remove(idx);
+    fInstances.erase(fInstances.begin() + idx);
 }
 
 void plCluster::clearInstances() {
-    for (size_t i=0; i<fInstances.getSize(); i++)
-        delete fInstances[i];
+    for (auto inst = fInstances.begin(); inst != fInstances.end(); ++inst)
+        delete *inst;
     fInstances.clear();
 }

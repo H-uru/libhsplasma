@@ -19,8 +19,8 @@
 void plExcludeRegionModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
-    fSafePoints.setSize(S->readInt());
-    for (size_t i=0; i<fSafePoints.getSize(); i++)
+    fSafePoints.resize(S->readInt());
+    for (size_t i=0; i<fSafePoints.size(); i++)
         fSafePoints[i] = mgr->readKey(S);
     fSeek = S->readBool();
     fSeekTime = S->readFloat();
@@ -29,8 +29,8 @@ void plExcludeRegionModifier::read(hsStream* S, plResManager* mgr) {
 void plExcludeRegionModifier::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
-    S->writeInt(fSafePoints.getSize());
-    for (size_t i=0; i<fSafePoints.getSize(); i++)
+    S->writeInt(fSafePoints.size());
+    for (size_t i=0; i<fSafePoints.size(); i++)
         mgr->writeKey(S, fSafePoints[i]);
     S->writeBool(fSeek);
     S->writeFloat(fSeekTime);
@@ -45,7 +45,7 @@ void plExcludeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("SafePoints");
-    for (size_t i=0; i<fSafePoints.getSize(); i++)
+    for (size_t i=0; i<fSafePoints.size(); i++)
         fSafePoints[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -55,9 +55,9 @@ void plExcludeRegionModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
         fSeek = tag->getParam("Seek", "false").toBool();
         fSeekTime = tag->getParam("SeekTime", "0").toFloat();
     } else if (tag->getName() == "SafePoints") {
-        fSafePoints.setSize(tag->countChildren());
+        fSafePoints.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fSafePoints.getSize(); i++) {
+        for (size_t i=0; i<fSafePoints.size(); i++) {
             fSafePoints[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

@@ -60,8 +60,8 @@ protected:
     float fRadius, fLength;
 
     hsBitVector fProps;
-    hsTArray<hsVector3> fVerts;
-    hsTArray<unsigned int> fIndices;
+    std::vector<hsVector3> fVerts;
+    std::vector<unsigned int> fIndices;
 
     // ODE Properties
     size_t fTMDSize;
@@ -116,10 +116,10 @@ public:
     float getRadius() const { return fRadius; }
     float getLength() const { return fLength; }
 
-    const hsTArray<hsVector3>& getVerts() const { return fVerts; }
-    hsTArray<hsVector3>& getVerts() { return fVerts; }
-    const hsTArray<unsigned int>& getIndices() const { return fIndices; }
-    hsTArray<unsigned int>& getIndices() { return fIndices; }
+    const std::vector<hsVector3>& getVerts() const { return fVerts; }
+    std::vector<hsVector3>& getVerts() { return fVerts; }
+    const std::vector<unsigned int>& getIndices() const { return fIndices; }
+    std::vector<unsigned int>& getIndices() { return fIndices; }
     size_t getTMDSize() const { return fTMDSize; }
     const unsigned char* getTMDBuffer() const { return fTMDBuffer; }
 

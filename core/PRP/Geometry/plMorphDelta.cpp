@@ -76,27 +76,27 @@ plMorphSpan::~plMorphSpan() {
 }
 
 void plMorphSpan::read(hsStream* S) {
-    fDeltas.setSize(S->readInt());
+    fDeltas.resize(S->readInt());
     fNumUVWChans = S->readInt();
     delete[] fUVWs;
     if (fNumUVWChans > 0)
-        fUVWs = new hsVector3[fNumUVWChans * fDeltas.getSize()];
+        fUVWs = new hsVector3[fNumUVWChans * fDeltas.size()];
     else
         fUVWs = NULL;
 
-    for (size_t i=0; i<fDeltas.getSize(); i++)
+    for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].read(S);
-    for (size_t i=0; i<(fDeltas.getSize() * fNumUVWChans); i++)
+    for (size_t i=0; i<(fDeltas.size() * fNumUVWChans); i++)
         fUVWs[i].read(S);
 }
 
 void plMorphSpan::write(hsStream* S) {
-    S->writeInt(fDeltas.getSize());
+    S->writeInt(fDeltas.size());
     S->writeInt(fNumUVWChans);
 
-    for (size_t i=0; i<fDeltas.getSize(); i++)
+    for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].write(S);
-    for (size_t i=0; i<(fDeltas.getSize() * fNumUVWChans); i++)
+    for (size_t i=0; i<(fDeltas.size() * fNumUVWChans); i++)
         fUVWs[i].write(S);
 }
 
@@ -104,14 +104,14 @@ void plMorphSpan::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("plMorphSpan");
 
     prc->writeSimpleTag("Deltas");
-    for (size_t i=0; i<fDeltas.getSize(); i++)
+    for (size_t i=0; i<fDeltas.size(); i++)
         fDeltas[i].prcWrite(prc);
     prc->closeTag();
 
     prc->startTag("UVWs");
     prc->writeParam("Channels", fNumUVWChans);
     prc->endTag();
-    for (size_t i=0; i<(fDeltas.getSize() * fNumUVWChans); i++)
+    for (size_t i=0; i<(fDeltas.size() * fNumUVWChans); i++)
         fUVWs[i].prcWrite(prc);
     prc->closeTag();
 
@@ -125,16 +125,16 @@ void plMorphSpan::prcParse(const pfPrcTag* tag) {
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Deltas") {
-            fDeltas.setSize(child->countChildren());
+            fDeltas.resize(child->countChildren());
             const pfPrcTag* subchild = child->getFirstChild();
-            for (size_t i=0; i<fDeltas.getSize(); i++) {
+            for (size_t i=0; i<fDeltas.size(); i++) {
                 fDeltas[i].prcParse(subchild);
                 subchild = subchild->getNextSibling();
             }
         } else if (child->getName() == "UVWs") {
             delete[] fUVWs;
             fNumUVWChans = child->getParam("Channels", "0").toUint();
-            size_t nUVWs = fDeltas.getSize() * fNumUVWChans;
+            size_t nUVWs = fDeltas.size() * fNumUVWChans;
             if (child->countChildren() != nUVWs)
                 throw pfPrcParseException(__FILE__, __LINE__, "UVW count mismatch");
             fUVWs = new hsVector3[nUVWs];
@@ -154,15 +154,15 @@ void plMorphSpan::prcParse(const pfPrcTag* tag) {
 /* plMorphDelta */
 void plMorphDelta::read(hsStream* S, plResManager* ) {
     fWeight = S->readFloat();
-    fSpans.setSize(S->readInt());
-    for (size_t i=0; i<fSpans.getSize(); i++)
+    fSpans.resize(S->readInt());
+    for (size_t i=0; i<fSpans.size(); i++)
         fSpans[i].read(S);
 }
 
 void plMorphDelta::write(hsStream* S, plResManager* ) {
     S->writeFloat(fWeight);
-    S->writeInt(fSpans.getSize());
-    for (size_t i=0; i<fSpans.getSize(); i++)
+    S->writeInt(fSpans.size());
+    for (size_t i=0; i<fSpans.size(); i++)
         fSpans[i].write(S);
 }
 
@@ -172,7 +172,7 @@ void plMorphDelta::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Spans");
-    for (size_t i=0; i<fSpans.getSize(); i++)
+    for (size_t i=0; i<fSpans.size(); i++)
         fSpans[i].prcWrite(prc);
     prc->closeTag();
 }
@@ -181,9 +181,9 @@ void plMorphDelta::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Weight") {
         fWeight = tag->getParam("value", "0").toFloat();
     } else if (tag->getName() == "Spans") {
-        fSpans.setSize(tag->countChildren());
+        fSpans.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fSpans.getSize(); i++) {
+        for (size_t i=0; i<fSpans.size(); i++) {
             fSpans[i].prcParse(child);
             child = child->getNextSibling();
         }

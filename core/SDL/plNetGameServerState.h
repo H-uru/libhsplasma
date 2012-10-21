@@ -32,9 +32,9 @@ public:
     };
 
 private:
-    unsigned char fContents;
-    unsigned char fServerType;
-    unsigned short fServerPort;
+    uint8_t fContents;
+    uint8_t fServerType;
+    uint16_t fServerPort;
     plString fServerName, fServerAddr;
     plUuid fServerGuid;
 
@@ -45,17 +45,17 @@ public:
     void write(hsStream* S);
 
 public:
-    unsigned char getContents() const { return fContents; }
+    uint8_t getContents() const { return fContents; }
     plString getServerName() const { return fServerName; }
     plString getServerAddr() const { return fServerAddr; }
-    unsigned char getServerType() const { return fServerType; }
-    unsigned short getServerPort() const { return fServerPort; }
+    uint8_t getServerType() const { return fServerType; }
+    uint16_t getServerPort() const { return fServerPort; }
     plUuid getServerGuid() const { return fServerGuid; }
 
     void setServerName(const plString& name);
     void setServerAddr(const plString& addr);
-    void setServerType(unsigned char type);
-    void setServerPort(unsigned short port);
+    void setServerType(uint8_t type);
+    void setServerPort(uint16_t port);
     void setServerGuid(const plUuid& guid);
 
     void clearServerName();
@@ -75,12 +75,12 @@ public:
     };
 
 private:
-    unsigned int fFlags;
-    unsigned short fMajorVer, fMinorVer;
+    uint32_t fFlags;
+    uint16_t fMajorVer, fMinorVer;
     plNetServerSessionInfo fSession;
     plSDLMgr fSDLMgr;
-    hsTArray<plStateDataRecord*> fRecords;
-    hsTArray<plUoid> fObjects;
+    std::vector<plStateDataRecord*> fRecords;
+    std::vector<plUoid> fObjects;
 
 public:
     plNetGameServerState() : fFlags(kCompressed), fMajorVer(1), fMinorVer(1) { }
@@ -90,20 +90,20 @@ public:
     void write(hsStream* S);
 
 public:
-    unsigned int getFlags() const { return fFlags; }
-    unsigned short getMajorVer() const { return fMajorVer; }
-    unsigned short getMinorVer() const { return fMinorVer; }
+    uint32_t getFlags() const { return fFlags; }
+    uint16_t getMajorVer() const { return fMajorVer; }
+    uint16_t getMinorVer() const { return fMinorVer; }
     const plNetServerSessionInfo& getSession() const { return fSession; }
     plNetServerSessionInfo& getSession() { return fSession; }
     const plSDLMgr& getSDLMgr() const { return fSDLMgr; }
     plSDLMgr& getSDLMgr() { return fSDLMgr; }
 
-    void setFlags(unsigned int flags) { fFlags = flags; }
+    void setFlags(uint32_t flags) { fFlags = flags; }
 
-    void setVersion(unsigned short major, unsigned short minor)
+    void setVersion(uint16_t major, uint16_t minor)
     { fMajorVer = major; fMinorVer = minor; }
 
-    size_t numRecords() const { return fRecords.getSize(); }
+    size_t numRecords() const { return fRecords.size(); }
     plStateDataRecord* getRecord(size_t idx) const { return fRecords[idx]; }
     plUoid getObject(size_t idx) const { return fObjects[idx]; }
     void addRecord(plStateDataRecord* rec, const plUoid& obj);

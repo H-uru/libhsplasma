@@ -82,8 +82,8 @@ static PyObject* pyAGAnim_getName(pyAGAnim* self, void*) {
 }
 
 static PyObject* pyAGAnim_getApps(pyAGAnim* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getApplicators().getSize());
-    for (size_t i=0; i<self->fThis->getApplicators().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getApplicators().size());
+    for (size_t i=0; i<self->fThis->getApplicators().size(); i++)
         PyList_SET_ITEM(list, i, pyAGApplicator_FromAGApplicator(self->fThis->getApplicators()[i]));
     return list;
 }

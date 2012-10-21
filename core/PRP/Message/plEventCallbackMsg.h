@@ -68,7 +68,7 @@ public:
     };
 
 protected:
-    hsTArray<plAnimCallbackSetup> fCallbacks;
+    std::vector<plAnimCallbackSetup> fCallbacks;
 
 public:
     plEventCallbackSetupMsg() { }

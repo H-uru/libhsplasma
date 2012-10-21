@@ -136,15 +136,15 @@ static PyObject* pyGenericPhysical_getLength(pyGenericPhysical* self, void*) {
 }
 
 static PyObject* pyGenericPhysical_getVerts(pyGenericPhysical* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getVerts().getSize());
-    for (size_t i=0; i<self->fThis->getVerts().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getVerts().size());
+    for (size_t i=0; i<self->fThis->getVerts().size(); i++)
         PyList_SET_ITEM(list, i, pyVector3_FromVector3(self->fThis->getVerts()[i]));
     return list;
 }
 
 static PyObject* pyGenericPhysical_getIndices(pyGenericPhysical* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getIndices().getSize());
-    for (size_t i=0; i<self->fThis->getIndices().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getIndices().size());
+    for (size_t i=0; i<self->fThis->getIndices().size(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->getIndices()[i]));
     return list;
 }

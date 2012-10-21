@@ -64,8 +64,8 @@ static PyObject* pyWinAudible_clearSounds(pyWinAudible* self) {
 }
 
 static PyObject* pyWinAudible_getSounds(pyWinAudible* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getSounds().getSize());
-    for (size_t i=0; i<self->fThis->getSounds().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getSounds().size());
+    for (size_t i=0; i<self->fThis->getSounds().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSounds()[i]));
     return list;
 }

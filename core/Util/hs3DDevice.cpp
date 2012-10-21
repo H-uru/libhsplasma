@@ -23,17 +23,13 @@ void hsG3DDeviceMode::read(hsStream* S, int version) {
     fDepth = S->readInt();
 
     if (version >= 11) {
-        fZStencilDepths.clear();
-        unsigned char count = S->readByte();
-        for (unsigned char i = 0; i < count; i++) {
-            fZStencilDepths.append(S->readShort());
-        }
+        fZStencilDepths.resize(S->readByte());
+        for (size_t i = 0; i < fZStencilDepths.size(); i++)
+            fZStencilDepths[i] = S->readShort();
 
-        fFSAATypes.clear();
-        count = S->readByte();
-        for (unsigned char i = 0; i < count; i++) {
-            fFSAATypes.append(S->readByte());
-        }
+        fFSAATypes.resize(S->readByte());
+        for (size_t i = 0; i < fFSAATypes.size(); i++)
+            fFSAATypes[i] = S->readByte();
 
         fCanRenderToCubics = S->readBool();
     }
@@ -46,15 +42,13 @@ void hsG3DDeviceMode::write(hsStream* S, int version) {
     S->writeInt(fDepth);
 
     if (version >= 11) {
-        S->writeByte(fZStencilDepths.getSize());
-        for (size_t i = 0; i < fZStencilDepths.getSize(); i++) {
+        S->writeByte(fZStencilDepths.size());
+        for (size_t i = 0; i < fZStencilDepths.size(); i++)
             S->writeShort(fZStencilDepths[i]);
-        }
 
-        S->writeByte(fFSAATypes.getSize());
-        for (size_t i = 0; i < fFSAATypes.getSize(); i++) {
+        S->writeByte(fFSAATypes.size());
+        for (size_t i = 0; i < fFSAATypes.size(); i++)
             S->writeByte(fFSAATypes[i]);
-        }
 
         S->writeBool(fCanRenderToCubics);
     }
@@ -123,10 +117,9 @@ void hsG3DDeviceRecord::write(hsStream* S) {
     S->writeInt(fLayersAtOnce);
     S->writeInt(fMemoryBytes);
 
-    S->writeInt(fModes.getSize());
-    for (size_t i = 0; i < fModes.getSize(); i++) {
+    S->writeInt(fModes.size());
+    for (size_t i = 0; i < fModes.size(); i++)
         fModes[i].write(S, fRecordVersion);
-    }
 
     S->writeFloat(fZBiasRating);
     S->writeFloat(fLODBiasRating);

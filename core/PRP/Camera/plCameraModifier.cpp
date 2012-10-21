@@ -89,12 +89,12 @@ void plCameraModifier::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr
 
 /* plCameraModifier */
 plCameraModifier::~plCameraModifier() {
-    for (size_t i=0; i<fTrans.getSize(); i++)
-        delete fTrans[i];
-    for (size_t i=0; i<fMessageQueue.getSize(); i++)
-        delete fMessageQueue[i];
-    for (size_t i=0; i<fFOVInstructions.getSize(); i++)
-        delete fFOVInstructions[i];
+    for (auto trans = fTrans.begin(); trans != fTrans.end(); ++trans)
+        delete *trans;
+    for (auto msg = fMessageQueue.begin(); msg != fMessageQueue.end(); ++msg)
+        delete *msg;
+    for (auto inst = fFOVInstructions.begin(); inst != fFOVInstructions.end(); ++inst)
+        delete *inst;
 }
 
 void plCameraModifier::read(hsStream* S, plResManager* mgr) {
@@ -102,8 +102,8 @@ void plCameraModifier::read(hsStream* S, plResManager* mgr) {
 
     clearTrans();
     fBrain = mgr->readKey(S);
-    fTrans.setSizeNull(S->readInt());
-    for (size_t i=0; i<fTrans.getSize(); i++) {
+    fTrans.resize(S->readInt());
+    for (size_t i=0; i<fTrans.size(); i++) {
         fTrans[i] = new CamTrans();
         fTrans[i]->read(S, mgr);
     }
@@ -111,16 +111,16 @@ void plCameraModifier::read(hsStream* S, plResManager* mgr) {
     fFOVh = S->readFloat();
 
     clearMessageQueue();
-    fMessageQueue.setSizeNull(S->readInt());
-    fSenderQueue.setSize(fMessageQueue.getSize());
-    for (size_t i=0; i<fMessageQueue.getSize(); i++)
+    fMessageQueue.resize(S->readInt());
+    fSenderQueue.resize(fMessageQueue.size());
+    for (size_t i=0; i<fMessageQueue.size(); i++)
         fMessageQueue[i] = plMessage::Convert(mgr->ReadCreatable(S));
-    for (size_t i=0; i<fSenderQueue.getSize(); i++)
+    for (size_t i=0; i<fSenderQueue.size(); i++)
         fSenderQueue[i] = mgr->readKey(S);
 
     clearFOVInstructions();
-    fFOVInstructions.setSizeNull(S->readInt());
-    for (size_t i=0; i<fFOVInstructions.getSize(); i++)
+    fFOVInstructions.resize(S->readInt());
+    for (size_t i=0; i<fFOVInstructions.size(); i++)
         fFOVInstructions[i] = plCameraMsg::Convert(mgr->ReadCreatable(S));
 
     fAnimated = S->readBool();
@@ -133,20 +133,20 @@ void plCameraModifier::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
 
     mgr->writeKey(S, fBrain);
-    S->writeInt(fTrans.getSize());
-    for (size_t i=0; i<fTrans.getSize(); i++)
+    S->writeInt(fTrans.size());
+    for (size_t i=0; i<fTrans.size(); i++)
         fTrans[i]->write(S, mgr);
     S->writeFloat(fFOVw);
     S->writeFloat(fFOVh);
 
-    S->writeInt(fMessageQueue.getSize());
-    for (size_t i=0; i<fMessageQueue.getSize(); i++)
+    S->writeInt(fMessageQueue.size());
+    for (size_t i=0; i<fMessageQueue.size(); i++)
         mgr->WriteCreatable(S, fMessageQueue[i]);
-    for (size_t i=0; i<fSenderQueue.getSize(); i++)
+    for (size_t i=0; i<fSenderQueue.size(); i++)
         mgr->writeKey(S, fSenderQueue[i]);
 
-    S->writeInt(fFOVInstructions.getSize());
-    for (size_t i=0; i<fFOVInstructions.getSize(); i++)
+    S->writeInt(fFOVInstructions.size());
+    for (size_t i=0; i<fFOVInstructions.size(); i++)
         mgr->WriteCreatable(S, fFOVInstructions[i]);
 
     S->writeBool(fAnimated);
@@ -172,12 +172,12 @@ void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Transforms");
-    for (size_t i=0; i<fTrans.getSize(); i++)
+    for (size_t i=0; i<fTrans.size(); i++)
         fTrans[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("MessageQueue");
-    for (size_t i=0; i<fMessageQueue.getSize(); i++) {
+    for (size_t i=0; i<fMessageQueue.size(); i++) {
         prc->writeSimpleTag("Message");
         fMessageQueue[i]->prcWrite(prc);
         prc->closeTag();
@@ -188,7 +188,7 @@ void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("FOVInstructions");
-    for (size_t i=0; i<fFOVInstructions.getSize(); i++)
+    for (size_t i=0; i<fFOVInstructions.size(); i++)
         fFOVInstructions[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -206,19 +206,19 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fBrain = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Transforms") {
         clearTrans();
-        fTrans.setSizeNull(tag->countChildren());
+        fTrans.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fTrans.getSize(); i++) {
+        for (size_t i=0; i<fTrans.size(); i++) {
             fTrans[i] = new CamTrans();
             fTrans[i]->prcParse(child, mgr);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "MessageQueue") {
         clearMessageQueue();
-        fMessageQueue.setSizeNull(tag->countChildren() / 2);
-        fSenderQueue.setSize(fMessageQueue.getSize());
+        fMessageQueue.resize(tag->countChildren() / 2);
+        fSenderQueue.resize(fMessageQueue.size());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMessageQueue.getSize(); i++) {
+        for (size_t i=0; i<fMessageQueue.size(); i++) {
             fMessageQueue[i] = plMessage::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
             fSenderQueue[i] = mgr->prcParseKey(child);
@@ -226,9 +226,9 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "FOVInstructions") {
         clearFOVInstructions();
-        fFOVInstructions.setSizeNull(tag->countChildren());
+        fFOVInstructions.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fFOVInstructions.getSize(); i++) {
+        for (size_t i=0; i<fFOVInstructions.size(); i++) {
             fFOVInstructions[i] = plCameraMsg::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
@@ -238,20 +238,20 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plCameraModifier::clearTrans() {
-    for (size_t i=0; i<fTrans.getSize(); i++)
-        delete fTrans[i];
+    for (auto trans = fTrans.begin(); trans != fTrans.end(); ++trans)
+        delete *trans;
     fTrans.clear();
 }
 
 void plCameraModifier::clearMessageQueue() {
-    for (size_t i=0; i<fMessageQueue.getSize(); i++)
-        delete fMessageQueue[i];
+    for (auto msg = fMessageQueue.begin(); msg != fMessageQueue.end(); ++msg)
+        delete *msg;
     fMessageQueue.clear();
     fSenderQueue.clear();
 }
 
 void plCameraModifier::clearFOVInstructions() {
-    for (size_t i=0; i<fFOVInstructions.getSize(); i++)
-        delete fFOVInstructions[i];
+    for (auto inst = fFOVInstructions.begin(); inst != fFOVInstructions.end(); ++inst)
+        delete *inst;
     fFOVInstructions.clear();
 }

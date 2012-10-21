@@ -20,16 +20,16 @@
 void plHardRegionComplex::read(hsStream* S, plResManager* mgr) {
     plHardRegion::read(S, mgr);
 
-    fSubRegions.setSize(S->readInt());
-    for (size_t i=0; i<fSubRegions.getSize(); i++)
+    fSubRegions.resize(S->readInt());
+    for (size_t i=0; i<fSubRegions.size(); i++)
         fSubRegions[i] = mgr->readKey(S);
 }
 
 void plHardRegionComplex::write(hsStream* S, plResManager* mgr) {
     plHardRegion::write(S, mgr);
 
-    S->writeInt(fSubRegions.getSize());
-    for (size_t i=0; i<fSubRegions.getSize(); i++)
+    S->writeInt(fSubRegions.size());
+    for (size_t i=0; i<fSubRegions.size(); i++)
         mgr->writeKey(S, fSubRegions[i]);
 }
 
@@ -37,16 +37,16 @@ void plHardRegionComplex::IPrcWrite(pfPrcHelper* prc) {
     plHardRegion::IPrcWrite(prc);
 
     prc->writeSimpleTag("SubRegions");
-    for (size_t i=0; i<fSubRegions.getSize(); i++)
+    for (size_t i=0; i<fSubRegions.size(); i++)
         fSubRegions[i]->prcWrite(prc);
     prc->closeTag();
 }
 
 void plHardRegionComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SubRegions") {
-        fSubRegions.setSize(tag->countChildren());
+        fSubRegions.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fSubRegions.getSize(); i++) {
+        for (size_t i=0; i<fSubRegions.size(); i++) {
             fSubRegions[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

@@ -77,17 +77,17 @@ static PyObject* pySpanInstance_write(pySpanInstance* self, PyObject* args) {
 }
 
 static PyObject* pySpanInstance_getPosDeltas(pySpanInstance* self, void*) {
-    hsTArray<hsVector3> deltas = self->fThis->getPosDeltas();
-    PyObject* list = PyList_New(deltas.getSize());
-    for (size_t i=0; i<deltas.getSize(); i++)
+    std::vector<hsVector3> deltas = self->fThis->getPosDeltas();
+    PyObject* list = PyList_New(deltas.size());
+    for (size_t i=0; i<deltas.size(); i++)
         PyList_SET_ITEM(list, i, pyVector3_FromVector3(deltas[i]));
     return list;
 }
 
 static PyObject* pySpanInstance_getColors(pySpanInstance* self, void*) {
-    hsTArray<unsigned int> colors = self->fThis->getColors();
-    PyObject* list = PyList_New(colors.getSize());
-    for (size_t i=0; i<colors.getSize(); i++)
+    std::vector<unsigned int> colors = self->fThis->getColors();
+    PyObject* list = PyList_New(colors.size());
+    for (size_t i=0; i<colors.size(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(colors[i]));
     return list;
 }
@@ -97,7 +97,7 @@ static PyObject* pySpanInstance_getL2W(pySpanInstance* self, void*) {
 }
 
 static int pySpanInstance_setPosDeltas(pySpanInstance* self, PyObject* value, void*) {
-    hsTArray<hsVector3> deltas;
+    std::vector<hsVector3> deltas;
     if (value == NULL) {
         self->fThis->setPosDeltas(deltas);
         return 0;
@@ -106,8 +106,8 @@ static int pySpanInstance_setPosDeltas(pySpanInstance* self, PyObject* value, vo
         PyErr_SetString(PyExc_TypeError, "posDeltas should be a list of hsVector3 objects");
         return -1;
     }
-    deltas.setSize(PyList_Size(value));
-    for (size_t i=0; i<deltas.getSize(); i++) {
+    deltas.resize(PyList_Size(value));
+    for (size_t i=0; i<deltas.size(); i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!pyVector3_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "posDeltas should be a list of hsVector3 objects");
@@ -120,7 +120,7 @@ static int pySpanInstance_setPosDeltas(pySpanInstance* self, PyObject* value, vo
 }
 
 static int pySpanInstance_setColors(pySpanInstance* self, PyObject* value, void*) {
-    hsTArray<unsigned int> colors;
+    std::vector<unsigned int> colors;
     if (value == NULL) {
         self->fThis->setColors(colors);
         return 0;
@@ -129,8 +129,8 @@ static int pySpanInstance_setColors(pySpanInstance* self, PyObject* value, void*
         PyErr_SetString(PyExc_TypeError, "colors should be a list of ints");
         return -1;
     }
-    colors.setSize(PyList_Size(value));
-    for (size_t i=0; i<colors.getSize(); i++) {
+    colors.resize(PyList_Size(value));
+    for (size_t i=0; i<colors.size(); i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!PyInt_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "colors should be a list of ints");

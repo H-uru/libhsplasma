@@ -74,12 +74,12 @@ pfPrcParser::~pfPrcParser() {
 
 void pfPrcParser::read(hsStream* S) {
     hsTokenStream* tok = new hsTokenStream(S);
-    hsTArray<hsTokenStream::Region> commentMarkers;
-    hsTArray<hsTokenStream::Region> stringMarkers;
-    commentMarkers.append(hsTokenStream::Region("<!--", "-->"));
-    commentMarkers.append(hsTokenStream::Region("<?", "?>"));  // we don't really care about the XML info :P
-    stringMarkers.append(hsTokenStream::Region("\"", "\""));
-    stringMarkers.append(hsTokenStream::Region("'", "'"));
+    std::vector<hsTokenStream::Region> commentMarkers;
+    std::vector<hsTokenStream::Region> stringMarkers;
+    commentMarkers.push_back(hsTokenStream::Region("<!--", "-->"));
+    commentMarkers.push_back(hsTokenStream::Region("<?", "?>"));  // we don't really care about the XML info :P
+    stringMarkers.push_back(hsTokenStream::Region("\"", "\""));
+    stringMarkers.push_back(hsTokenStream::Region("'", "'"));
     tok->setDelimiters("<>/=[](),;");
     tok->setCommentMarkers(commentMarkers);
     tok->setStringMarkers(stringMarkers);

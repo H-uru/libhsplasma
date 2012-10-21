@@ -25,8 +25,8 @@ class PLASMA_DLL plMorphSequence : public virtual plSingleModifier {
     CREATABLE(plMorphSequence, kMorphSequence, plSingleModifier)
 
 private:
-    hsTArray<plMorphArray> fMorphs;
-    hsTArray<plKey> fSharedMeshes;
+    std::vector<plMorphArray> fMorphs;
+    std::vector<plKey> fSharedMeshes;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

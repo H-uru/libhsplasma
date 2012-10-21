@@ -157,8 +157,8 @@ void plConeIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plConvexIsect */
 void plConvexIsect::read(hsStream* S, plResManager* mgr) {
-    fPlanes.setSize(S->readShort());
-    for (size_t i=0; i<fPlanes.getSize(); i++) {
+    fPlanes.resize(S->readShort());
+    for (size_t i=0; i<fPlanes.size(); i++) {
         fPlanes[i].fNorm.read(S);
         fPlanes[i].fPos.read(S);
         fPlanes[i].fDist = S->readFloat();
@@ -168,8 +168,8 @@ void plConvexIsect::read(hsStream* S, plResManager* mgr) {
 }
 
 void plConvexIsect::write(hsStream* S, plResManager* mgr) {
-    S->writeShort(fPlanes.getSize());
-    for (size_t i=0; i<fPlanes.getSize(); i++) {
+    S->writeShort(fPlanes.size());
+    for (size_t i=0; i<fPlanes.size(); i++) {
         fPlanes[i].fNorm.write(S);
         fPlanes[i].fPos.write(S);
         S->writeFloat(fPlanes[i].fDist);
@@ -180,7 +180,7 @@ void plConvexIsect::write(hsStream* S, plResManager* mgr) {
 
 void plConvexIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Planes");
-    for (size_t i=0; i<fPlanes.getSize(); i++) {
+    for (size_t i=0; i<fPlanes.size(); i++) {
         prc->startTag("SinglePlane");
         prc->writeParam("Dist", fPlanes[i].fDist);
         prc->writeParam("WorldDist", fPlanes[i].fWorldDist);
@@ -201,9 +201,9 @@ void plConvexIsect::IPrcWrite(pfPrcHelper* prc) {
 
 void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Planes") {
-        fPlanes.setSize(tag->countChildren());
+        fPlanes.resize(tag->countChildren());
         const pfPrcTag* planeChild = tag->getFirstChild();
-        for (size_t i=0; i<fPlanes.getSize(); i++) {
+        for (size_t i=0; i<fPlanes.size(); i++) {
             if (planeChild->getName() != "SinglePlane")
                 throw pfPrcTagException(__FILE__, __LINE__, planeChild->getName());
             fPlanes[i].fDist = planeChild->getParam("Dist", "0").toFloat();
@@ -304,8 +304,8 @@ void plCylinderIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plParallelIsect */
 void plParallelIsect::read(hsStream* S, plResManager* mgr) {
-    fPlanes.setSize(S->readShort());
-    for (size_t i=0; i<fPlanes.getSize(); i++) {
+    fPlanes.resize(S->readShort());
+    for (size_t i=0; i<fPlanes.size(); i++) {
         fPlanes[i].fNorm.read(S);
         fPlanes[i].fMin = S->readFloat();
         fPlanes[i].fMax = S->readFloat();
@@ -315,8 +315,8 @@ void plParallelIsect::read(hsStream* S, plResManager* mgr) {
 }
 
 void plParallelIsect::write(hsStream* S, plResManager* mgr) {
-    S->writeShort(fPlanes.getSize());
-    for (size_t i=0; i<fPlanes.getSize(); i++) {
+    S->writeShort(fPlanes.size());
+    for (size_t i=0; i<fPlanes.size(); i++) {
         fPlanes[i].fNorm.write(S);
         S->writeFloat(fPlanes[i].fMin);
         S->writeFloat(fPlanes[i].fMax);
@@ -327,7 +327,7 @@ void plParallelIsect::write(hsStream* S, plResManager* mgr) {
 
 void plParallelIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Planes");
-    for (size_t i=0; i<fPlanes.getSize(); i++) {
+    for (size_t i=0; i<fPlanes.size(); i++) {
         prc->startTag("ParallelPlane");
         prc->writeParam("Min", fPlanes[i].fMin);
         prc->writeParam("Max", fPlanes[i].fMax);
@@ -346,9 +346,9 @@ void plParallelIsect::IPrcWrite(pfPrcHelper* prc) {
 
 void plParallelIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Planes") {
-        fPlanes.setSize(tag->countChildren());
+        fPlanes.resize(tag->countChildren());
         const pfPrcTag* planeChild = tag->getFirstChild();
-        for (size_t i=0; i<fPlanes.getSize(); i++) {
+        for (size_t i=0; i<fPlanes.size(); i++) {
             if (planeChild->getName() != "ParallelPlane")
                 throw pfPrcTagException(__FILE__, __LINE__, planeChild->getName());
             fPlanes[i].fMin = planeChild->getParam("Min", "0").toFloat();
@@ -436,26 +436,26 @@ void plSphereIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 /* plComplexIsect */
 plComplexIsect::~plComplexIsect() {
-    for (size_t i=0; i<fVolumes.getSize(); i++)
-        delete fVolumes[i];
+    for (auto vol = fVolumes.begin(); vol != fVolumes.end(); ++vol)
+        delete *vol;
 }
 
 void plComplexIsect::read(hsStream* S, plResManager* mgr) {
     clearVolumes();
-    fVolumes.setSizeNull(S->readShort());
-    for (size_t i=0; i<fVolumes.getSize(); i++)
+    fVolumes.resize(S->readShort());
+    for (size_t i=0; i<fVolumes.size(); i++)
         fVolumes[i] = plVolumeIsect::Convert(mgr->ReadCreatable(S));
 }
 
 void plComplexIsect::write(hsStream* S, plResManager* mgr) {
-    S->writeShort(fVolumes.getSize());
-    for (size_t i=0; i<fVolumes.getSize(); i++)
+    S->writeShort(fVolumes.size());
+    for (size_t i=0; i<fVolumes.size(); i++)
         mgr->WriteCreatable(S, fVolumes[i]);
 }
 
 void plComplexIsect::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Volumes");
-    for (size_t i=0; i<fVolumes.getSize(); i++)
+    for (size_t i=0; i<fVolumes.size(); i++)
         fVolumes[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -463,9 +463,9 @@ void plComplexIsect::IPrcWrite(pfPrcHelper* prc) {
 void plComplexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Volumes") {
         clearVolumes();
-        fVolumes.setSizeNull(tag->countChildren());
+        fVolumes.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fVolumes.getSize(); i++) {
+        for (size_t i=0; i<fVolumes.size(); i++) {
             fVolumes[i] = plVolumeIsect::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
@@ -475,7 +475,7 @@ void plComplexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plComplexIsect::clearVolumes() {
-    for (size_t i=0; i<fVolumes.getSize(); i++)
-        delete fVolumes[i];
+    for (auto vol = fVolumes.begin(); vol != fVolumes.end(); ++vol)
+        delete *vol;
     fVolumes.clear();
 }

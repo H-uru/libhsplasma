@@ -22,7 +22,7 @@ class PLASMA_DLL plImageLibMod : public virtual plSingleModifier {
     CREATABLE(plImageLibMod, kImageLibMod, plSingleModifier)
 
 protected:
-    hsTArray<plKey> fImages;
+    std::vector<plKey> fImages;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -33,10 +33,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getImages() const { return fImages; }
-    hsTArray<plKey>& getImages() { return fImages; }
-    void addImage(plKey img) { fImages.append(img); }
-    void delImage(size_t idx) { fImages.remove(idx); }
+    const std::vector<plKey>& getImages() const { return fImages; }
+    std::vector<plKey>& getImages() { return fImages; }
+    void addImage(plKey img) { fImages.push_back(img); }
+    void delImage(size_t idx) { fImages.erase(fImages.begin() + idx); }
     void clearImages() { fImages.clear(); }
 };
 

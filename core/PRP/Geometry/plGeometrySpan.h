@@ -17,7 +17,6 @@
 #ifndef _PLGEOMETRYSPAN_H
 #define _PLGEOMETRYSPAN_H
 
-#include "Util/hsTArray.hpp"
 #include "PRP/Surface/hsGMaterial.h"
 #include "Math/hsMatrix44.h"
 #include "PRP/Misc/plFogEnvironment.h"
@@ -87,13 +86,13 @@ protected:
     float fWaterHeight;
     unsigned int fProps;
     unsigned int fNumVerts, fNumIndices;
-    hsTArray<unsigned char> fVertexData;
-    hsTArray<unsigned short> fIndexData;
+    std::vector<unsigned char> fVertexData;
+    std::vector<unsigned short> fIndexData;
     unsigned int fDecalLevel;
-    hsTArray<hsColorRGBA> fMultColor;
-    hsTArray<hsColorRGBA> fAddColor;
-    hsTArray<unsigned int> fDiffuseRGBA;
-    hsTArray<unsigned int> fSpecularRGBA;
+    std::vector<hsColorRGBA> fMultColor;
+    std::vector<hsColorRGBA> fAddColor;
+    std::vector<unsigned int> fDiffuseRGBA;
+    std::vector<unsigned int> fSpecularRGBA;
     unsigned int fInstanceGroup;
     hsMatrix44 fLocalToOBB, fOBBToLocal;
 
@@ -107,10 +106,10 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    hsTArray<TempVertex> getVertices() const;
-    void setVertices(const hsTArray<TempVertex>& verts);
-    hsTArray<unsigned short> getIndices() const { return fIndexData; }
-    void setIndices(const hsTArray<unsigned short>& indices) { fIndexData = indices; }
+    std::vector<TempVertex> getVertices() const;
+    void setVertices(const std::vector<TempVertex>& verts);
+    std::vector<unsigned short> getIndices() const { return fIndexData; }
+    void setIndices(const std::vector<unsigned short>& indices) { fIndexData = indices; }
 
     hsMatrix44 getLocalToWorld() const { return fLocalToWorld; }
     hsMatrix44 getWorldToLocal() const { return fWorldToLocal; }

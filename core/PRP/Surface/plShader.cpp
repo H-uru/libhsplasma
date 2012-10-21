@@ -68,8 +68,8 @@ void plShaderConst::prcParse(const pfPrcTag* tag) {
 void plShader::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
-    fConsts.setSize(S->readInt());
-    for (size_t i=0; i<fConsts.getSize(); i++)
+    fConsts.resize(S->readInt());
+    for (size_t i=0; i<fConsts.size(); i++)
         fConsts[i].read(S);
     fID = (plShaderID)S->readInt();
 
@@ -80,8 +80,8 @@ void plShader::read(hsStream* S, plResManager* mgr) {
 void plShader::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
 
-    S->writeInt(fConsts.getSize());
-    for (size_t i=0; i<fConsts.getSize(); i++)
+    S->writeInt(fConsts.size());
+    for (size_t i=0; i<fConsts.size(); i++)
         fConsts[i].write(S);
     S->writeInt(fID);
 
@@ -93,7 +93,7 @@ void plShader::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Constants");
-    for (size_t i=0; i<fConsts.getSize(); i++)
+    for (size_t i=0; i<fConsts.size(); i++)
         fConsts[i].prcWrite(prc);
     prc->closeTag();
 
@@ -107,8 +107,8 @@ void plShader::IPrcWrite(pfPrcHelper* prc) {
 void plShader::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Constants") {
         const pfPrcTag* child = tag->getFirstChild();
-        fConsts.setSize(tag->countChildren());
-        for (size_t i=0; i<fConsts.getSize(); i++) {
+        fConsts.resize(tag->countChildren());
+        for (size_t i=0; i<fConsts.size(); i++) {
             fConsts[i].prcParse(child);
             child = child->getNextSibling();
         }

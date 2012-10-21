@@ -17,16 +17,16 @@
 #include "plSharedMesh.h"
 
 plSharedMesh::~plSharedMesh() {
-    for (size_t i=0; i<fSpans.getSize(); i++)
-        delete fSpans[i];
+    for (auto span = fSpans.begin(); span != fSpans.end(); ++span)
+        delete *span;
 }
 
 void plSharedMesh::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
 
     clearSpans();
-    fSpans.setSizeNull(S->readInt());
-    for (size_t i=0; i<fSpans.getSize(); i++) {
+    fSpans.resize(S->readInt());
+    for (size_t i=0; i<fSpans.size(); i++) {
         fSpans[i] = new plGeometrySpan();
         fSpans[i]->read(S);
     }
@@ -37,8 +37,8 @@ void plSharedMesh::read(hsStream* S, plResManager* mgr) {
 void plSharedMesh::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
 
-    S->writeInt(fSpans.getSize());
-    for (size_t i=0; i<fSpans.getSize(); i++)
+    S->writeInt(fSpans.size());
+    for (size_t i=0; i<fSpans.size(); i++)
         fSpans[i]->write(S);
     mgr->writeKey(S, fMorphSet);
     S->writeByte(fFlags);
@@ -48,7 +48,7 @@ void plSharedMesh::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Spans");
-    for (size_t i=0; i<fSpans.getSize(); i++)
+    for (size_t i=0; i<fSpans.size(); i++)
         fSpans[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("MorphSet");
@@ -62,9 +62,9 @@ void plSharedMesh::IPrcWrite(pfPrcHelper* prc) {
 void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Spans") {
         clearSpans();
-        fSpans.setSizeNull(tag->countChildren());
+        fSpans.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fSpans.getSize(); i++) {
+        for (size_t i=0; i<fSpans.size(); i++) {
             fSpans[i] = new plGeometrySpan();
             fSpans[i]->prcParse(child);
             child = child->getNextSibling();
@@ -81,11 +81,11 @@ void plSharedMesh::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plSharedMesh::delSpan(size_t idx) {
     delete fSpans[idx];
-    fSpans.remove(idx);
+    fSpans.erase(fSpans.begin() + idx);
 }
 
 void plSharedMesh::clearSpans() {
-    for (size_t i=0; i<fSpans.getSize(); i++)
-        delete fSpans[i];
+    for (auto span = fSpans.begin(); span != fSpans.end(); ++span)
+        delete *span;
     fSpans.clear();
 }

@@ -102,11 +102,11 @@ void plGBufferTriangle::prcParse(const pfPrcTag* tag) {
 
 /* plGBufferGroup */
 plGBufferGroup::~plGBufferGroup() {
-    for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
+    for (size_t i=0; i<fVertBuffStorage.size(); i++)
         delete[] fVertBuffStorage[i];
-    for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
+    for (size_t i=0; i<fIdxBuffStorage.size(); i++)
         delete[] fIdxBuffStorage[i];
-    for (size_t i=0; i<fCompGBuffStorage.getSize(); i++)
+    for (size_t i=0; i<fCompGBuffStorage.size(); i++)
         delete[] fCompGBuffStorage[i];
 }
 
@@ -166,10 +166,10 @@ void plGBufferGroup::read(hsStream* S) {
 
     plVertCoder coder;
     size_t count = S->readInt();
-    fVertBuffSizes.setSize(count);
-    fVertBuffStorage.setSize(count);
-    fCompGBuffSizes.setSize(count);
-    fCompGBuffStorage.setSize(count);
+    fVertBuffSizes.resize(count);
+    fVertBuffStorage.resize(count);
+    fCompGBuffSizes.resize(count);
+    fCompGBuffStorage.resize(count);
     for (size_t i=0; i<count; i++) {
         unsigned char* vData;
         unsigned int vtxCount = 0, vtxSize = 0;
@@ -206,8 +206,8 @@ void plGBufferGroup::read(hsStream* S) {
     }
 
     count = S->readInt();
-    fIdxBuffCounts.setSize(count);
-    fIdxBuffStorage.setSize(count);
+    fIdxBuffCounts.resize(count);
+    fIdxBuffStorage.resize(count);
     for (size_t i=0; i<count; i++) {
         unsigned int idxCount = S->readInt();
         fIdxBuffCounts[i] = idxCount;
@@ -216,10 +216,10 @@ void plGBufferGroup::read(hsStream* S) {
         fIdxBuffStorage[i] = iData;
     }
 
-    fCells.setSize(fVertBuffStorage.getSize());
-    for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
+    fCells.resize(fVertBuffStorage.size());
+    for (size_t i=0; i<fVertBuffStorage.size(); i++) {
         size_t cellCount = S->readInt();
-        fCells[i].setSize(cellCount);
+        fCells[i].resize(cellCount);
         for (size_t j=0; j<cellCount; j++)
             fCells[i][j].read(S);
     }
@@ -228,16 +228,16 @@ void plGBufferGroup::read(hsStream* S) {
 void plGBufferGroup::write(hsStream* S) {
     fFormat |= kEncoded;
     unsigned int totalSize = 0;
-    for (size_t i=0; i<fVertBuffSizes.getSize(); i++)
+    for (size_t i=0; i<fVertBuffSizes.size(); i++)
         totalSize += fVertBuffSizes[i];
-    for (size_t i=0; i<fIdxBuffCounts.getSize(); i++)
+    for (size_t i=0; i<fIdxBuffCounts.size(); i++)
         totalSize += fIdxBuffCounts[i] * sizeof(short);
     S->writeByte(fFormat);
     S->writeInt(totalSize);
 
     plVertCoder coder;
-    S->writeInt(fVertBuffStorage.getSize());
-    for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
+    S->writeInt(fVertBuffStorage.size());
+    for (size_t i=0; i<fVertBuffStorage.size(); i++) {
         unsigned int count = fVertBuffSizes[i] / fStride;
         S->writeShort(count);
         if (S->getVer().isUniversal()) {
@@ -250,15 +250,15 @@ void plGBufferGroup::write(hsStream* S) {
         }
     }
 
-    S->writeInt(fIdxBuffStorage.getSize());
-    for (size_t i=0; i<fIdxBuffCounts.getSize(); i++) {
+    S->writeInt(fIdxBuffStorage.size());
+    for (size_t i=0; i<fIdxBuffCounts.size(); i++) {
         S->writeInt(fIdxBuffCounts[i]);
         S->writeShorts(fIdxBuffCounts[i], fIdxBuffStorage[i]);
     }
 
-    for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
-        S->writeInt(fCells[i].getSize());
-        for (size_t j=0; j<fCells[i].getSize(); j++)
+    for (size_t i=0; i<fVertBuffStorage.size(); i++) {
+        S->writeInt(fCells[i].size());
+        for (size_t j=0; j<fCells[i].size(); j++)
             fCells[i][j].write(S);
     }
 }
@@ -269,10 +269,10 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
     prc->endTag();
 
     if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
-        for (size_t grp=0; grp<fVertBuffStorage.getSize(); grp++) {
+        for (size_t grp=0; grp<fVertBuffStorage.size(); grp++) {
             prc->writeSimpleTag("VertexGroup");
-            hsTArray<plGBufferVertex> verts = getVertices(grp);
-            for (size_t i=0; i<verts.getSize(); i++) {
+            std::vector<plGBufferVertex> verts = getVertices(grp);
+            for (size_t i=0; i<verts.size(); i++) {
                 prc->writeSimpleTag("Vertex");
 
                 prc->writeSimpleTag("Position");
@@ -304,7 +304,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
             prc->closeTag();  // VertexGroup
         }
 
-        for (size_t i=0; i<fIdxBuffStorage.getSize(); i++) {
+        for (size_t i=0; i<fIdxBuffStorage.size(); i++) {
             prc->writeSimpleTag("IndexGroup");
             for (size_t j=0; j<fIdxBuffCounts[i]; j += 3) {
                 prc->writeTagNoBreak("Triangle");
@@ -316,9 +316,9 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
             }
             prc->closeTag();
         }
-        for (size_t i=0; i<fVertBuffStorage.getSize(); i++) {
+        for (size_t i=0; i<fVertBuffStorage.size(); i++) {
             prc->writeSimpleTag("CellGroup");
-            for (size_t j=0; j<fCells[i].getSize(); j++)
+            for (size_t j=0; j<fCells[i].size(); j++)
                 fCells[i][j].prcWrite(prc);
             prc->closeTag();
         }
@@ -343,10 +343,10 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "VertexGroup") {
-            hsTArray<plGBufferVertex> buf;
-            buf.setSize(child->countChildren());
+            std::vector<plGBufferVertex> buf;
+            buf.resize(child->countChildren());
             const pfPrcTag* vtxChild = child->getFirstChild();
-            for (size_t i=0; i<buf.getSize(); i++) {
+            for (size_t i=0; i<buf.size(); i++) {
                 if (vtxChild->getName() != "Vertex")
                     throw pfPrcTagException(__FILE__, __LINE__, vtxChild->getName());
 
@@ -385,9 +385,9 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
             addVertices(buf);
         } else if (child->getName() == "IndexGroup") {
             size_t idxCount = child->countChildren() * 3;
-            fIdxBuffCounts.append(idxCount);
+            fIdxBuffCounts.push_back(idxCount);
             unsigned short* idxBuff = new unsigned short[idxCount];
-            fIdxBuffStorage.append(idxBuff);
+            fIdxBuffStorage.push_back(idxBuff);
             const pfPrcTag* idxChild = child->getFirstChild();
             for (size_t i=0; i<idxCount; i += 3) {
                 if (idxChild->getName() != "Triangle")
@@ -401,11 +401,11 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
                 idxChild = idxChild->getNextSibling();
             }
         } else if (child->getName() == "CellGroup") {
-            fCells.append(hsTArray<plGBufferCell>());
-            size_t idx = fCells.getSize() - 1;
-            fCells[idx].setSize(child->countChildren());
+            fCells.push_back(std::vector<plGBufferCell>());
+            size_t idx = fCells.size() - 1;
+            fCells[idx].resize(child->countChildren());
             const pfPrcTag* cellChild = child->getFirstChild();
-            for (size_t i=0; i<fCells[idx].getSize(); i++) {
+            for (size_t i=0; i<fCells[idx].size(); i++) {
                 fCells[idx][i].prcParse(cellChild);
                 cellChild = cellChild->getNextSibling();
             }
@@ -416,13 +416,13 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t start, size_t count) const {
-    hsTArray<plGBufferVertex> buf;
+std::vector<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t start, size_t count) const {
+    std::vector<plGBufferVertex> buf;
 
     unsigned char* cp = fVertBuffStorage[idx] + (fStride * start);
     if (count == (size_t)-1)
         count = (fVertBuffSizes[idx] / fStride) - start;
-    buf.setSize(count);
+    buf.resize(count);
     for (size_t i=0; i<count; i++) {
         buf[i].fPos.X = *(float*)cp; cp += sizeof(float);
         buf[i].fPos.Y = *(float*)cp; cp += sizeof(float);
@@ -459,24 +459,24 @@ hsTArray<plGBufferVertex> plGBufferGroup::getVertices(size_t idx, size_t start, 
     return buf;
 }
 
-hsTArray<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start, size_t count, size_t offset) const {
-    hsTArray<unsigned short> buf;
+std::vector<unsigned short> plGBufferGroup::getIndices(size_t idx, size_t start, size_t count, size_t offset) const {
+    std::vector<unsigned short> buf;
 
     if (count == (size_t)-1)
         count = fIdxBuffCounts[idx] - start;
-    buf.setSizeNull(count);
+    buf.resize(count);
     for (size_t i=0; i<count; i++)
         buf[i] = fIdxBuffStorage[idx][i + start] - offset;
     return buf;
 }
 
-void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
-    size_t vtxSize = verts.getSize() * fStride;
-    fVertBuffSizes.append(vtxSize);
-    fVertBuffStorage.append(new unsigned char[vtxSize]);
-    fCompGBuffSizes.append(0);
-    fCompGBuffStorage.append(NULL);
-    size_t idx = fVertBuffStorage.getSize() - 1;
+void plGBufferGroup::addVertices(const std::vector<plGBufferVertex>& verts) {
+    size_t vtxSize = verts.size() * fStride;
+    fVertBuffSizes.push_back(vtxSize);
+    fVertBuffStorage.push_back(new unsigned char[vtxSize]);
+    fCompGBuffSizes.push_back(0);
+    fCompGBuffStorage.push_back(NULL);
+    size_t idx = fVertBuffStorage.size() - 1;
 
     unsigned char* cp = fVertBuffStorage[idx];
     for (size_t i=0; i<(fVertBuffSizes[idx] / fStride); i++) {
@@ -515,10 +515,10 @@ void plGBufferGroup::addVertices(const hsTArray<plGBufferVertex>& verts) {
     }
 }
 
-void plGBufferGroup::addIndices(const hsTArray<unsigned short>& indices) {
-    fIdxBuffCounts.append(indices.getSize());
-    fIdxBuffStorage.append(new unsigned short[indices.getSize()]);
-    size_t idx = fIdxBuffStorage.getSize() - 1;
+void plGBufferGroup::addIndices(const std::vector<unsigned short>& indices) {
+    fIdxBuffCounts.push_back(indices.size());
+    fIdxBuffStorage.push_back(new unsigned short[indices.size()]);
+    size_t idx = fIdxBuffStorage.size() - 1;
 
     for (size_t i=0; i<fIdxBuffCounts[idx]; i++)
         fIdxBuffStorage[idx][i] = indices[i];
@@ -553,22 +553,22 @@ void plGBufferGroup::setHasSkinIndices(bool hasSI) {
 void plGBufferGroup::delVertices(size_t idx) {
     delete[] fVertBuffStorage[idx];
     delete[] fCompGBuffStorage[idx];
-    fVertBuffStorage.remove(idx);
-    fCompGBuffStorage.remove(idx);
-    fVertBuffSizes.remove(idx);
-    fCompGBuffSizes.remove(idx);
+    fVertBuffStorage.erase(fVertBuffStorage.begin() + idx);
+    fCompGBuffStorage.erase(fCompGBuffStorage.begin() + idx);
+    fVertBuffSizes.erase(fVertBuffSizes.begin() + idx);
+    fCompGBuffSizes.erase(fCompGBuffSizes.begin() + idx);
 }
 
 void plGBufferGroup::delIndices(size_t idx) {
     delete[] fIdxBuffStorage[idx];
-    fIdxBuffStorage.remove(idx);
-    fIdxBuffCounts.remove(idx);
+    fIdxBuffStorage.erase(fIdxBuffStorage.begin() + idx);
+    fIdxBuffCounts.erase(fIdxBuffCounts.begin() + idx);
 }
 
 void plGBufferGroup::clearVertices() {
-    for (size_t i=0; i<fVertBuffStorage.getSize(); i++)
+    for (size_t i=0; i<fVertBuffStorage.size(); i++)
         delete[] fVertBuffStorage[i];
-    for (size_t i=0; i<fCompGBuffStorage.getSize(); i++)
+    for (size_t i=0; i<fCompGBuffStorage.size(); i++)
         delete[] fCompGBuffStorage[i];
     fVertBuffStorage.clear();
     fVertBuffSizes.clear();
@@ -577,7 +577,7 @@ void plGBufferGroup::clearVertices() {
 }
 
 void plGBufferGroup::clearIndices() {
-    for (size_t i=0; i<fIdxBuffStorage.getSize(); i++)
+    for (size_t i=0; i<fIdxBuffStorage.size(); i++)
         delete[] fIdxBuffStorage[i];
     fIdxBuffStorage.clear();
     fIdxBuffCounts.clear();

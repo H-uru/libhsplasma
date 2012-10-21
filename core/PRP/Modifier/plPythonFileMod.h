@@ -80,8 +80,8 @@ public:
 
 protected:
     plString fPythonFile;
-    hsTArray<plKey> fReceivers;
-    hsTArray<plPythonParameter> fParameters;
+    std::vector<plKey> fReceivers;
+    std::vector<plPythonParameter> fParameters;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -95,16 +95,16 @@ public:
     const plString& getFilename() const { return fPythonFile; }
     void setFilename(const plString& filename) { fPythonFile = filename; }
 
-    const hsTArray<plKey>& getReceivers() const { return fReceivers; }
-    hsTArray<plKey>& getReceivers() { return fReceivers; }
-    void addReceiver(plKey rcvr) { fReceivers.append(rcvr); }
-    void delReceiver(size_t idx) { fReceivers.remove(idx); }
+    const std::vector<plKey>& getReceivers() const { return fReceivers; }
+    std::vector<plKey>& getReceivers() { return fReceivers; }
+    void addReceiver(plKey rcvr) { fReceivers.push_back(rcvr); }
+    void delReceiver(size_t idx) { fReceivers.erase(fReceivers.begin() + idx); }
     void clearReceivers() { fReceivers.clear(); }
 
-    const hsTArray<plPythonParameter>& getParameters() const { return fParameters; }
-    hsTArray<plPythonParameter>& getParameters() { return fParameters; }
-    void addParameter(const plPythonParameter& param) { fParameters.append(param); }
-    void delParameter(size_t idx) { fParameters.remove(idx); }
+    const std::vector<plPythonParameter>& getParameters() const { return fParameters; }
+    std::vector<plPythonParameter>& getParameters() { return fParameters; }
+    void addParameter(const plPythonParameter& param) { fParameters.push_back(param); }
+    void delParameter(size_t idx) { fParameters.erase(fParameters.begin() + idx); }
     void clearParameters() { fParameters.clear(); }
 };
 

@@ -16,11 +16,11 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <algorithm>
 #include "ResManager/plResManager.h"
 #include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"
 #include "Util/plString.h"
-#include "Util/hsTArray.hpp"
 
 #include "PRP/Object/plSceneObject.h"
 #include "PRP/Object/plDrawInterface.h"
@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
     const char* filename = argv[1];
     plString outfile = filenameConvert(filename, ".obj");
     plString mtlfile = filenameConvert(filename, ".mtl");
-    hsTArray<plString> objects;
+    std::vector<plString> objects;
 
     for (int i=2; i<argc; i++) {
         if (argv[i][0] == '-') {
@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
                 printf("Unrecognized option: %s\n", argv[i]);
             }
         } else {
-            objects.append(argv[i]);
+            objects.push_back(argv[i]);
         }
     }
 
@@ -130,7 +130,8 @@ int main(int argc, char** argv) {
     try {
         std::vector<plKey> SObjs = rm.getKeys(page->getLocation(), kSceneObject);
         for (size_t i = 0; i < SObjs.size(); i++) {
-            if (objects.empty() || objects.find(SObjs[i]->getName()) != (size_t)-1) {
+            auto obj_f = std::find(objects.begin(), objects.end(), SObjs[i]->getName());
+            if (obj_f != objects.end()) {
                 plSceneObject* obj = plSceneObject::Convert(rm.getObject(SObjs[i]));
                 if (obj->getDrawInterface().Exists())
                     WriteObj(obj, &OS, objects.empty());
@@ -170,17 +171,17 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
         if ((di.fFlags & plDISpanIndex::kMatrixOnly) != 0)
             continue;
 
-        for (size_t idx=0; idx<di.fIndices.getSize(); idx++) {
+        for (size_t idx=0; idx<di.fIndices.size(); idx++) {
             plIcicle* ice = (plIcicle*)span->getSpan(di.fIndices[idx]);
-            hsTArray<plGBufferVertex> verts = span->getVerts(ice);
-            hsTArray<unsigned short> indices = span->getIndices(ice);
+            std::vector<plGBufferVertex> verts = span->getVerts(ice);
+            std::vector<unsigned short> indices = span->getIndices(ice);
 
             unsigned int uvwSrc = 0;
             hsMatrix44 uvwXform;
             plKey matKey = span->getMaterials()[ice->getMaterialIdx()];
             if (matKey.Exists()) {
                 hsGMaterial* mat = hsGMaterial::Convert(matKey->getObj(), false);
-                if (mat != NULL && mat->getLayers().getSize() > 0) {
+                if (mat != NULL && mat->getLayers().size() > 0) {
                     plLayerInterface* lay = plLayerInterface::Convert(mat->getLayers()[0]->getObj(), false);
                     while (lay != NULL && lay->getUnderLay().Exists())
                         lay = plLayerInterface::Convert(lay->getUnderLay()->getObj(), false);
@@ -189,7 +190,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
                 }
             }
 
-            for (size_t j = 0; j < verts.getSize(); j++) {
+            for (size_t j = 0; j < verts.size(); j++) {
                 hsVector3 pos;
                 if (doXform) {
                     if (coord != NULL)
@@ -203,14 +204,14 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
             }
 
             if (span->getBuffer(ice->getGroupIdx())->getNumUVs() > uvwSrc) {
-                for (size_t j = 0; j < verts.getSize(); j++) {
+                for (size_t j = 0; j < verts.size(); j++) {
                     hsVector3 txUvw = uvwXform.multPoint(verts[j].fUVWs[uvwSrc]);
                     S->writeStr(plString::Format("vt %f %f %f\n",
                                 txUvw.X, txUvw.Y, txUvw.Z));
                 }
             }
 
-            for (size_t j = 0; j < verts.getSize(); j++) {
+            for (size_t j = 0; j < verts.size(); j++) {
                 S->writeStr(plString::Format("vn %f %f %f\n",
                             verts[j].fNormal.X,
                             verts[j].fNormal.Z,
@@ -218,7 +219,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
             }
 
             if (span->getBuffer(ice->getGroupIdx())->getNumUVs() > uvwSrc) {
-                for (size_t j = 0; j < indices.getSize(); j += 3) {
+                for (size_t j = 0; j < indices.size(); j += 3) {
                     S->writeStr(plString::Format("f %u/%u/%u %u/%u/%u %u/%u/%u\n",
                                 indices[j+0] + s_BaseIndex,
                                 indices[j+0] + s_TexBaseIndex,
@@ -233,7 +234,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
                 s_BaseIndex += ice->getVLength();
                 s_TexBaseIndex += ice->getVLength();
             } else {
-                for (size_t j = 0; j < indices.getSize(); j += 3) {
+                for (size_t j = 0; j < indices.size(); j += 3) {
                     S->writeStr(plString::Format("f %u//%u %u//%u %u//%u\n",
                                 indices[j+0] + s_BaseIndex,
                                 indices[j+0] + s_BaseIndex,
@@ -249,7 +250,7 @@ void WriteObj(plSceneObject* obj, hsStream* S, bool doXform) {
 }
 
 void WriteMat(hsGMaterial* mat, hsStream* S) {
-    if (mat->getLayers().getSize() == 0)
+    if (mat->getLayers().empty())
         return;
 
     // Obj doesn't support multiple textures, so we just get the texture

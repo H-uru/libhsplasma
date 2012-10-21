@@ -110,15 +110,15 @@ static PyObject* pyAnimTimeConvert_getSpeedCurve(pyAnimTimeConvert* self, void*)
 }
 
 static PyObject* pyAnimTimeConvert_getStops(pyAnimTimeConvert* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getStopPoints().getSize());
-    for (size_t i=0; i<self->fThis->getStopPoints().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getStopPoints().size());
+    for (size_t i=0; i<self->fThis->getStopPoints().size(); i++)
         PyList_SET_ITEM(list, i, PyFloat_FromDouble(self->fThis->getStopPoints()[i]));
     return list;
 }
 
 static PyObject* pyAnimTimeConvert_getCallbacks(pyAnimTimeConvert* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getCallbacks().getSize());
-    for (size_t i=0; i<self->fThis->getCallbacks().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getCallbacks().size());
+    for (size_t i=0; i<self->fThis->getCallbacks().size(); i++)
         PyList_SET_ITEM(list, i, pyEventCallbackMsg_FromEventCallbackMsg(self->fThis->getCallbacks()[i]));
     return list;
 }
@@ -243,16 +243,15 @@ static int pyAnimTimeConvert_setSpeedCurve(pyAnimTimeConvert* self, PyObject* va
 static int pyAnimTimeConvert_setStops(pyAnimTimeConvert* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
         Py_XDECREF(value);
-        self->fThis->setStopPoints(hsTArray<float>());
+        self->fThis->setStopPoints(std::vector<float>());
         return 0;
     }
     if (!PyList_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "stopPoints should be a list of floats");
         return -1;
     }
-    hsTArray<float> stops;
-    stops.setSize(PyList_Size(value));
-    for (size_t i=0; i<stops.getSize(); i++) {
+    std::vector<float> stops(PyList_Size(value));
+    for (size_t i=0; i<stops.size(); i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!PyFloat_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "stopPoints should be a list of floats");

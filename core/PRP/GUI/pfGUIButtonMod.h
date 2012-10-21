@@ -26,7 +26,7 @@ public:
     enum NotifyType { kNotifyOnUp, kNotifyOnDown, kNotifyOnUpAndDown };
 
 protected:
-    hsTArray<plKey> fAnimationKeys, fMouseOverAnimKeys;
+    std::vector<plKey> fAnimationKeys, fMouseOverAnimKeys;
     plString fAnimName, fMouseOverAnimName;
     plKey fDraggable;
     int fNotifyType, fEoaUnknown1, fEoaUnknown2;
@@ -42,16 +42,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getAnimationKeys() const { return fAnimationKeys; }
-    hsTArray<plKey>& getAnimationKeys() { return fAnimationKeys; }
-    void addAnimationKey(plKey key) { fAnimationKeys.append(key); }
-    void delAnimationKey(size_t idx) { fAnimationKeys.remove(idx); }
+    const std::vector<plKey>& getAnimationKeys() const { return fAnimationKeys; }
+    std::vector<plKey>& getAnimationKeys() { return fAnimationKeys; }
+    void addAnimationKey(plKey key) { fAnimationKeys.push_back(key); }
+    void delAnimationKey(size_t idx) { fAnimationKeys.erase(fAnimationKeys.begin() + idx); }
     void clearAnimationKeys() { fAnimationKeys.clear(); }
 
-    const hsTArray<plKey>& getMouseOverKeys() const { return fMouseOverAnimKeys; }
-    hsTArray<plKey>& getMouseOverKeys() { return fMouseOverAnimKeys; }
-    void addMouseOverKey(plKey key) { fMouseOverAnimKeys.append(key); }
-    void delMouseOverKey(size_t idx) { fMouseOverAnimKeys.remove(idx); }
+    const std::vector<plKey>& getMouseOverKeys() const { return fMouseOverAnimKeys; }
+    std::vector<plKey>& getMouseOverKeys() { return fMouseOverAnimKeys; }
+    void addMouseOverKey(plKey key) { fMouseOverAnimKeys.push_back(key); }
+    void delMouseOverKey(size_t idx) { fMouseOverAnimKeys.erase(fMouseOverAnimKeys.begin() + idx); }
     void clearMouseOverKeys() { fMouseOverAnimKeys.clear(); }
 
     const plString& getAnimationName() const { return fAnimName; }

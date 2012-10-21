@@ -122,10 +122,9 @@ std::vector<plVaultNode> plVaultStore::getChildren(unsigned int parent) const {
         if ((*it).getParent() == parent)
             childIDs.push_back((*it).getChild());
     }
-    std::vector<plVaultNode> nodes;
-    nodes.resize(childIDs.size());
+    std::vector<plVaultNode> nodes(childIDs.size());
     size_t i=0;
-    for (std::list<unsigned int>::iterator it=childIDs.begin(); it!=childIDs.end(); it++)
+    for (auto it=childIDs.begin(); it!=childIDs.end(); it++)
         nodes[i++] = getNode(*it);
     return nodes;
 }

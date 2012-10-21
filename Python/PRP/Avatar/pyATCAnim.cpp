@@ -139,8 +139,8 @@ static PyObject* pyATCAnim_getLoops(pyATCAnim* self, void*) {
 }
 
 static PyObject* pyATCAnim_getStops(pyATCAnim* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getStops().getSize());
-    for (size_t i=0; i<self->fThis->getStops().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getStops().size());
+    for (size_t i=0; i<self->fThis->getStops().size(); i++)
         PyList_SET_ITEM(list, i, PyFloat_FromDouble(self->fThis->getStops()[i]));
     return list;
 }
@@ -286,12 +286,11 @@ static int pyATCAnim_setLoops(pyATCAnim* self, PyObject* value, void*) {
 
 static int pyATCAnim_setStops(pyATCAnim* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->setStops(hsTArray<float>());
+        self->fThis->setStops(std::vector<float>());
         return 0;
     } else if (PyList_Check(value)) {
-        hsTArray<float> stops;
-        stops.setSize(PyList_Size(value));
-        for (size_t i=0; i<stops.getSize(); i++) {
+        std::vector<float> stops(PyList_Size(value));
+        for (size_t i=0; i<stops.size(); i++) {
             if (!PyFloat_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "stops should be a list of floats");
                 return -1;

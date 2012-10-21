@@ -86,7 +86,7 @@ void plAgeInfo::writeToFile(const plString& filename, PlasmaVer ver) {
     S->writeLine(plString::Format("SequencePrefix=%d", fSeqPrefix), true);
     S->writeLine(plString::Format("ReleaseVersion=%u", fReleaseVersion), true);
 
-    for (size_t i=0; i<fPages.getSize(); i++) {
+    for (size_t i=0; i<fPages.size(); i++) {
         if (fPages[i].fLoadFlags != 0)
             S->writeLine(plString::Format("Page=%s,%d,%d",
                          fPages[i].fName.cstr(),
@@ -116,7 +116,7 @@ void plAgeInfo::prcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Pages");
-    for (size_t i=0; i<fPages.getSize(); i++) {
+    for (size_t i=0; i<fPages.size(); i++) {
         prc->startTag("Page");
         prc->writeParam("AgeName", fName);
         prc->writeParam("PageName", fPages[i].fName);
@@ -147,9 +147,9 @@ void plAgeInfo::prcParse(const pfPrcTag* tag) {
             fSeqPrefix = child->getParam("SeqPrefix", "0").toInt();
             fReleaseVersion = child->getParam("ReleaseVersion", "0").toUint();
         } else if (child->getName() == "Pages") {
-            fPages.setSize(child->countChildren());
+            fPages.resize(child->countChildren());
             const pfPrcTag* page = child->getFirstChild();
-            for (size_t i=0; i<fPages.getSize(); i++) {
+            for (size_t i=0; i<fPages.size(); i++) {
                 plLocation loc;
                 loc.prcParse(page);
                 fPages[i].fName = page->getParam("PageName", "");
@@ -215,7 +215,7 @@ plLocation plAgeInfo::getCommonPageLoc(size_t idx, PlasmaVer pv) const {
 std::vector<plLocation> plAgeInfo::getPageLocs(PlasmaVer pv, bool all) const {
     std::vector<plLocation> locs;
 
-    for (size_t i=0; i < fPages.getSize(); i++) {
+    for (size_t i=0; i < fPages.size(); i++) {
         if (all || !(fPages[i].fLoadFlags & kDontLoadMask))
             locs.push_back(getPageLoc(i, pv));
     }

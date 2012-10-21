@@ -46,8 +46,8 @@ void plLightInfo::read(hsStream* S, plResManager* mgr) {
     fSoftVolume = mgr->readKey(S);
     fSceneNode = mgr->readKey(S);
 
-    fVisRegions.setSize(S->readInt());
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    fVisRegions.resize(S->readInt());
+    for (size_t i=0; i<fVisRegions.size(); i++)
         fVisRegions[i] = mgr->readKey(S);
 }
 
@@ -66,8 +66,8 @@ void plLightInfo::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fSoftVolume);
     mgr->writeKey(S, fSceneNode);
 
-    S->writeInt(fVisRegions.getSize());
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    S->writeInt(fVisRegions.size());
+    for (size_t i=0; i<fVisRegions.size(); i++)
         mgr->writeKey(S, fVisRegions[i]);
 }
 
@@ -108,7 +108,7 @@ void plLightInfo::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegions");
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    for (size_t i=0; i<fVisRegions.size(); i++)
         fVisRegions[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -145,9 +145,9 @@ void plLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "VisRegions") {
-        fVisRegions.setSize(tag->countChildren());
+        fVisRegions.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fVisRegions.getSize(); i++) {
+        for (size_t i=0; i<fVisRegions.size(); i++) {
             fVisRegions[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

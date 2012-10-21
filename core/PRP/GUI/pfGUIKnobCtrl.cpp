@@ -29,8 +29,8 @@ pfGUIKnobCtrl::pfGUIKnobCtrl()
 void pfGUIKnobCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIValueCtrl::read(S, mgr);
 
-    fAnimationKeys.setSize(S->readInt());
-    for (size_t i=0; i<fAnimationKeys.getSize(); i++)
+    fAnimationKeys.resize(S->readInt());
+    for (size_t i=0; i<fAnimationKeys.size(); i++)
         fAnimationKeys[i] = mgr->readKey(S);
 
     fAnimName = S->readSafeStr();
@@ -52,8 +52,8 @@ void pfGUIKnobCtrl::read(hsStream* S, plResManager* mgr) {
 void pfGUIKnobCtrl::write(hsStream* S, plResManager* mgr) {
     pfGUIValueCtrl::write(S, mgr);
 
-    S->writeInt(fAnimationKeys.getSize());
-    for (size_t i=0; i<fAnimationKeys.getSize(); i++)
+    S->writeInt(fAnimationKeys.size());
+    for (size_t i=0; i<fAnimationKeys.size(); i++)
         mgr->writeKey(S, fAnimationKeys[i]);
 
     S->writeSafeStr(fAnimName);
@@ -78,7 +78,7 @@ void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Animation");
     prc->writeParam("Name", fAnimName);
     prc->endTag();
-    for (size_t i=0; i<fAnimationKeys.getSize(); i++)
+    for (size_t i=0; i<fAnimationKeys.size(); i++)
         fAnimationKeys[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -107,9 +107,9 @@ void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
 void pfGUIKnobCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Animation") {
         fAnimName = tag->getParam("Name", "");
-        fAnimationKeys.setSize(tag->countChildren());
+        fAnimationKeys.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fAnimationKeys.getSize(); i++) {
+        for (size_t i=0; i<fAnimationKeys.size(); i++) {
             fAnimationKeys[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

@@ -27,7 +27,7 @@ private:
     unsigned short fInitiatorSerial;
     bool fWaitingForClick;
     plKey fHostKey, fGuestKey;
-    hsTArray<plKey> fRecipients;
+    std::vector<plKey> fRecipients;
 
 public:
     plAvBrainCoop() : fInitiatorID(0), fInitiatorSerial(0),
@@ -41,10 +41,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getRecipients() const { return fRecipients; }
-    hsTArray<plKey>& getRecipients() { return fRecipients; }
-    void addRecipeient(plKey recp) { fRecipients.append(recp); }
-    void delRecipient(size_t idx) { fRecipients.remove(idx); }
+    const std::vector<plKey>& getRecipients() const { return fRecipients; }
+    std::vector<plKey>& getRecipients() { return fRecipients; }
+    void addRecipeient(plKey recp) { fRecipients.push_back(recp); }
+    void delRecipient(size_t idx) { fRecipients.erase(fRecipients.begin() + idx); }
     void clearRecipients() { fRecipients.clear(); }
 
     unsigned int getInitiatorID() const { return fInitiatorID; }

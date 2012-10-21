@@ -79,15 +79,15 @@ static PyObject* pyPythonFileMod_getFilename(pyPythonFileMod* self, void*) {
 }
 
 static PyObject* pyPythonFileMod_getReceivers(pyPythonFileMod* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getReceivers().getSize());
-    for (size_t i=0; i<self->fThis->getReceivers().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getReceivers().size());
+    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
     return list;
 }
 
 static PyObject* pyPythonFileMod_getParameters(pyPythonFileMod* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getParameters().getSize());
-    for (size_t i=0; i<self->fThis->getParameters().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getParameters().size());
+    for (size_t i=0; i<self->fThis->getParameters().size(); i++)
         PyList_SET_ITEM(list, i, pyPythonParameter_FromPythonParameter(self->fThis->getParameters()[i]));
     return list;
 }

@@ -22,13 +22,13 @@
 void plNetServerSessionInfo::read(hsStream* S) {
     fContents = S->readByte();
     if (fContents & kHasServerName) {
-        unsigned short len = S->readShort();
+        uint16_t len = S->readShort();
         fServerName = S->readStr(len);
     }
     if (fContents & kHasServerType)
         fServerType = S->readByte();
     if (fContents & kHasServerAddr) {
-        unsigned short len = S->readShort();
+        uint16_t len = S->readShort();
         fServerAddr = S->readStr(len);
     }
     if (fContents & kHasServerPort)
@@ -65,12 +65,12 @@ void plNetServerSessionInfo::setServerAddr(const plString& addr) {
     fServerAddr = addr;
 }
 
-void plNetServerSessionInfo::setServerType(unsigned char type) {
+void plNetServerSessionInfo::setServerType(uint8_t type) {
     fContents |= kHasServerType;
     fServerType = type;
 }
 
-void plNetServerSessionInfo::setServerPort(unsigned short port) {
+void plNetServerSessionInfo::setServerPort(uint16_t port) {
     fContents |= kHasServerPort;
     fServerPort = port;
 }
@@ -103,8 +103,8 @@ void plNetServerSessionInfo::clearServerGuid() {
 
 /* plNetGameServerState */
 plNetGameServerState::~plNetGameServerState() {
-    for (size_t i=0; i<fRecords.getSize(); i++)
-        delete fRecords[i];
+    for (auto rec = fRecords.begin(); rec != fRecords.end(); ++rec)
+        delete *rec;
 }
 
 void plNetGameServerState::read(hsStream* S) {
@@ -115,9 +115,9 @@ void plNetGameServerState::read(hsStream* S) {
 
     size_t uncompLen = S->readInt();
     size_t compLen = S->readInt();
-    unsigned char* cbuf = new unsigned char[compLen];
+    uint8_t* cbuf = new uint8_t[compLen];
     S->read(compLen, cbuf);
-    unsigned char* ubuf = new unsigned char[uncompLen];
+    uint8_t* ubuf = new uint8_t[uncompLen];
     plZlib::Uncompress(ubuf, uncompLen, cbuf, compLen);
     delete[] cbuf;
 
@@ -128,9 +128,9 @@ void plNetGameServerState::read(hsStream* S) {
         return;
 
     fSDLMgr.read(&data);
-    fRecords.setSize(data.readInt());
-    fObjects.setSize(fRecords.getSize());
-    for (size_t i=0; i<fRecords.getSize(); i++) {
+    fRecords.resize(data.readInt());
+    fObjects.resize(fRecords.size());
+    for (size_t i=0; i<fRecords.size(); i++) {
         fRecords[i] = new plStateDataRecord();
         plString descName;
         int descVer;
@@ -148,17 +148,17 @@ void plNetGameServerState::write(hsStream* S) {
 
     hsRAMStream data(S->getVer());
     fSDLMgr.write(&data);
-    data.writeInt(fRecords.getSize());
-    for (size_t i=0; i<fRecords.getSize(); i++) {
+    data.writeInt(fRecords.size());
+    for (size_t i=0; i<fRecords.size(); i++) {
         plStateDataRecord::WriteStreamHeader(&data, fRecords[i]->getDescriptor()->getName(),
                                              fRecords[i]->getDescriptor()->getVersion(), &fObjects[i]);
         fRecords[i]->write(&data, NULL);
     }
 
     size_t uncompLen = data.size();
-    unsigned char* ubuf = new unsigned char[uncompLen];
+    uint8_t* ubuf = new uint8_t[uncompLen];
     size_t compLen;
-    unsigned char* cbuf;
+    uint8_t* cbuf;
     data.copyTo(ubuf, uncompLen);
     plZlib::Compress(cbuf, compLen, ubuf, uncompLen);
 
@@ -170,18 +170,18 @@ void plNetGameServerState::write(hsStream* S) {
 }
 
 void plNetGameServerState::addRecord(plStateDataRecord* rec, const plUoid& obj) {
-    fRecords.append(rec);
-    fObjects.append(obj);
+    fRecords.push_back(rec);
+    fObjects.push_back(obj);
 }
 
 void plNetGameServerState::delRecord(size_t idx) {
     delete fRecords[idx];
-    fRecords.remove(idx);
-    fObjects.remove(idx);
+    fRecords.erase(fRecords.begin() + idx);
+    fObjects.erase(fObjects.begin() + idx);
 }
 
 void plNetGameServerState::clearRecords() {
-    for (size_t i=0; i<fRecords.getSize(); i++)
-        delete fRecords[i];
-    fRecords.setSize(0);
+    for (auto rec = fRecords.begin(); rec != fRecords.end(); ++rec)
+        delete *rec;
+    fRecords.resize(0);
 }

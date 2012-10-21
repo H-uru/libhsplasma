@@ -45,9 +45,9 @@ static PyObject* pyCullPoly_getFlags(pyCullPoly* self, void*) {
 }
 
 static PyObject* pyCullPoly_getVerts(pyCullPoly* self, void*) {
-    hsTArray<hsVector3> verts = self->fThis->getVerts();
-    PyObject* list = PyList_New(verts.getSize());
-    for (size_t i=0; i<verts.getSize(); i++)
+    std::vector<hsVector3> verts = self->fThis->getVerts();
+    PyObject* list = PyList_New(verts.size());
+    for (size_t i=0; i<verts.size(); i++)
         PyList_SET_ITEM(list, i, pyVector3_FromVector3(verts[i]));
     return list;
 }
@@ -79,16 +79,15 @@ static int pyCullPoly_setFlags(pyCullPoly* self, PyObject* value, void*) {
 
 static int pyCullPoly_setVerts(pyCullPoly* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->setVerts(hsTArray<hsVector3>());
+        self->fThis->setVerts(std::vector<hsVector3>());
         return 0;
     }
     if (!PyList_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "verts should be a list of hsVector3s");
         return -1;
     }
-    hsTArray<hsVector3> verts;
-    verts.setSize(PyList_Size(value));
-    for (size_t i=0; i<verts.getSize(); i++) {
+    std::vector<hsVector3> verts(PyList_Size(value));
+    for (size_t i=0; i<verts.size(); i++) {
         PyObject* item = PyList_GetItem(value, i);
         if (!pyVector3_Check(item)) {
             PyErr_SetString(PyExc_TypeError, "verts should be a list of hsVector3s");

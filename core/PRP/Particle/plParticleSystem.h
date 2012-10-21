@@ -41,9 +41,9 @@ protected:
     hsVector3 fAccel;
     float fPreSim, fDrag, fWindMult;
     unsigned int fMaxTotalParticles, fNumValidEmitters, fMaxEmitters;
-    hsTArray<plParticleEmitter*> fEmitters;
-    hsTArray<plKey> fForces, fEffects, fConstraints;
-    hsTArray<plKey> fPermaLights;
+    std::vector<plParticleEmitter*> fEmitters;
+    std::vector<plKey> fForces, fEffects, fConstraints;
+    std::vector<plKey> fPermaLights;
     plController* fAmbientCtl;
     plController* fDiffuseCtl;
     plController* fOpacityCtl;
@@ -102,28 +102,28 @@ public:
     void delEmitter(size_t idx);
     void clearEmitters();
 
-    const hsTArray<plKey>& getForces() const { return fForces; }
-    hsTArray<plKey>& getForces() { return fForces; }
-    void addForce(plKey force) { fForces.append(force); }
-    void delForce(size_t idx) { fForces.remove(idx); }
+    const std::vector<plKey>& getForces() const { return fForces; }
+    std::vector<plKey>& getForces() { return fForces; }
+    void addForce(plKey force) { fForces.push_back(force); }
+    void delForce(size_t idx) { fForces.erase(fForces.begin() + idx); }
     void clearForces() { fForces.clear(); }
 
-    const hsTArray<plKey>& getEffects() const { return fEffects; }
-    hsTArray<plKey>& getEffects() { return fEffects; }
-    void addEffect(plKey force) { fEffects.append(force); }
-    void delEffect(size_t idx) { fEffects.remove(idx); }
+    const std::vector<plKey>& getEffects() const { return fEffects; }
+    std::vector<plKey>& getEffects() { return fEffects; }
+    void addEffect(plKey force) { fEffects.push_back(force); }
+    void delEffect(size_t idx) { fEffects.erase(fEffects.begin() + idx); }
     void clearEffects() { fEffects.clear(); }
 
-    const hsTArray<plKey>& getConstraints() const { return fConstraints; }
-    hsTArray<plKey>& getConstraints() { return fConstraints; }
-    void addConstraint(plKey force) { fConstraints.append(force); }
-    void delConstraint(size_t idx) { fConstraints.remove(idx); }
+    const std::vector<plKey>& getConstraints() const { return fConstraints; }
+    std::vector<plKey>& getConstraints() { return fConstraints; }
+    void addConstraint(plKey force) { fConstraints.push_back(force); }
+    void delConstraint(size_t idx) { fConstraints.erase(fConstraints.begin() + idx); }
     void clearConstraints() { fConstraints.clear(); }
 
-    const hsTArray<plKey>& getPermaLights() const { return fPermaLights; }
-    hsTArray<plKey>& getPermaLights() { return fPermaLights; }
-    void addPermaLight(plKey force) { fPermaLights.append(force); }
-    void delPermaLight(size_t idx) { fPermaLights.remove(idx); }
+    const std::vector<plKey>& getPermaLights() const { return fPermaLights; }
+    std::vector<plKey>& getPermaLights() { return fPermaLights; }
+    void addPermaLight(plKey force) { fPermaLights.push_back(force); }
+    void delPermaLight(size_t idx) { fPermaLights.erase(fPermaLights.begin() + idx); }
     void clearPermaLights() { fPermaLights.clear(); }
 };
 

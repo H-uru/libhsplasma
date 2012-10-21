@@ -48,7 +48,7 @@ public:
 protected:
     plFixedWaterState7 fState;
     float fMaxLen;
-    hsTArray<plKey> fShores, fDecals;
+    std::vector<plKey> fShores, fDecals;
     plKey fEnvMap, fRefObj;
 
 public:

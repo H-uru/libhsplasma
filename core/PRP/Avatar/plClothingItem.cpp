@@ -25,8 +25,8 @@ plClothingItem::plClothingItem()
 }
 
 plClothingItem::~plClothingItem() {
-    for (size_t i=0; i<fTextures.getSize(); i++)
-        delete[] fTextures[i];
+    for (auto tex = fTextures.begin(); tex != fTextures.end(); ++tex)
+        delete[] *tex;
 }
 
 void plClothingItem::read(hsStream* S, plResManager* mgr) {
@@ -44,9 +44,9 @@ void plClothingItem::read(hsStream* S, plResManager* mgr) {
         fIcon = mgr->readKey(S);
 
     clearElements();
-    fElementNames.setSize(S->readInt());
-    fTextures.setSizeNull(fElementNames.getSize());
-    for (size_t i=0; i<fElementNames.getSize(); i++) {
+    fElementNames.resize(S->readInt());
+    fTextures.resize(fElementNames.size());
+    for (size_t i=0; i<fElementNames.size(); i++) {
         fElementNames[i] = S->readSafeStr();
         fTextures[i] = new plKey[kLayerMax];
         size_t count = S->readByte();
@@ -88,8 +88,8 @@ void plClothingItem::write(hsStream* S, plResManager* mgr) {
     if (fIcon.Exists())
         mgr->writeKey(S, fIcon);
 
-    S->writeInt(fTextures.getSize());
-    for (size_t i=0; i<fTextures.getSize(); i++) {
+    S->writeInt(fTextures.size());
+    for (size_t i=0; i<fTextures.size(); i++) {
         S->writeSafeStr(fElementNames[i]);
         int count = 0;
         for (size_t j=0; j<kLayerMax; j++) {
@@ -146,7 +146,7 @@ void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Elements");
-    for (size_t i=0; i<fTextures.getSize(); i++) {
+    for (size_t i=0; i<fTextures.size(); i++) {
         prc->startTag("Element");
         prc->writeParam("Name", fElementNames[i]);
         prc->endTag();
@@ -199,10 +199,10 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fIcon = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Elements") {
         clearElements();
-        fElementNames.setSize(tag->countChildren());
-        fTextures.setSizeNull(fElementNames.getSize());
+        fElementNames.resize(tag->countChildren());
+        fTextures.resize(fElementNames.size());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fElementNames.getSize(); i++) {
+        for (size_t i=0; i<fElementNames.size(); i++) {
             if (child->getName() != "Element")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fElementNames[i] = child->getParam("Name", "");
@@ -265,19 +265,19 @@ void plClothingItem::setDefaultTint2(const hsColorRGBA& tint) {
 }
 
 void plClothingItem::clearElements() {
-    for (size_t i=0; i<fTextures.getSize(); i++)
-        delete[] fTextures[i];
+    for (auto tex = fTextures.begin(); tex != fTextures.end(); ++tex)
+        delete[] *tex;
     fTextures.clear();
     fElementNames.clear();
 }
 
 void plClothingItem::addElement(const plString& elementName) {
-    fElementNames.append(elementName);
-    fTextures.append(new plKey[kLayerMax]);
+    fElementNames.push_back(elementName);
+    fTextures.push_back(new plKey[kLayerMax]);
 }
 
 void plClothingItem::delElement(int element) {
     delete[] fTextures[element];
-    fTextures.remove(element);
-    fElementNames.remove(element);
+    fTextures.erase(fTextures.begin() + element);
+    fElementNames.erase(fElementNames.begin() + element);
 }

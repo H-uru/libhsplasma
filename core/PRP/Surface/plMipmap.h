@@ -39,7 +39,7 @@ protected:
     size_t fJAlphaSize;
 
     unsigned int fWidth, fHeight, fStride;
-    hsTArray<LevelData> fLevelData;
+    std::vector<LevelData> fLevelData;
 
 public:
     plMipmap();
@@ -75,7 +75,7 @@ public:
     unsigned int getHeight() const { return fHeight; }
     const void* getImageData() const { return fImageData; }
     size_t getTotalSize() const { return fTotalSize; }
-    size_t getNumLevels() const { return fLevelData.getSize(); }
+    size_t getNumLevels() const { return fLevelData.size(); }
     unsigned int getLevelSize(size_t idx) const { return fLevelData[idx].fSize; }
     unsigned int getLevelWidth(size_t idx) const { return fLevelData[idx].fWidth; }
     unsigned int getLevelHeight(size_t idx) const { return fLevelData[idx].fHeight; }

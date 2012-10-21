@@ -121,7 +121,7 @@ void plFont::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Characters");
-    for (size_t i=0; i<fCharacters.getSize(); i++)
+    for (size_t i=0; i<fCharacters.size(); i++)
         fCharacters[i].prcWrite(prc);
     prc->closeTag();
 
@@ -145,9 +145,9 @@ void plFont::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fFlags = tag->getParam("Flags", "0").toUint();
         fFirstChar = tag->getParam("FirstChar", "0").toUint();
     } else if (tag->getName() == "Characters") {
-        fCharacters.setSize(tag->countChildren());
+        fCharacters.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fCharacters.getSize(); i++) {
+        for (size_t i=0; i<fCharacters.size(); i++) {
             fCharacters[i].prcParse(child);
             child = child->getNextSibling();
         }
@@ -187,8 +187,8 @@ void plFont::readP2F(hsStream* S) {
     }
 
     fFirstChar = S->readShort();
-    fCharacters.setSize(S->readInt());
-    for (size_t i=0; i<fCharacters.getSize(); i++)
+    fCharacters.resize(S->readInt());
+    for (size_t i=0; i<fCharacters.size(); i++)
         fCharacters[i].read(S);
 }
 
@@ -207,8 +207,8 @@ void plFont::writeP2F(hsStream* S) const {
     S->write((fBPP * fWidth * fHeight) / 8, fBmpData);
 
     S->writeShort(fFirstChar);
-    S->writeInt(fCharacters.getSize());
-    for (size_t i=0; i<fCharacters.getSize(); i++)
+    S->writeInt(fCharacters.size());
+    for (size_t i=0; i<fCharacters.size(); i++)
         fCharacters[i].write(S);
 }
 

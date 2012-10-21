@@ -47,8 +47,8 @@ static PyObject* pyGeometrySpan_getFormat(pyGeometrySpan* self, void*) {
 }
 
 static PyObject* pyGeometrySpan_getIndices(pyGeometrySpan* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getIndices().getSize());
-    for (size_t i = 0; i < self->fThis->getIndices().getSize(); ++i)
+    PyObject* list = PyList_New(self->fThis->getIndices().size());
+    for (size_t i = 0; i < self->fThis->getIndices().size(); ++i)
         PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->getIndices()[i]));
     return list;
 }
@@ -94,9 +94,9 @@ static PyObject* pyGeometrySpan_getProps(pyGeometrySpan* self, void*) {
 }
 
 static PyObject* pyGeometrySpan_getVertices(pyGeometrySpan* self, void*) {
-    hsTArray<plGeometrySpan::TempVertex> verts = self->fThis->getVertices();
-    PyObject* list = PyList_New(verts.getSize());
-    for (size_t i = 0; i < verts.getSize(); ++i)
+    std::vector<plGeometrySpan::TempVertex> verts = self->fThis->getVertices();
+    PyObject* list = PyList_New(verts.size());
+    for (size_t i = 0; i < verts.size(); ++i)
         PyList_SET_ITEM(list, i, pyTempVertex_FromTempVertex(verts[i]));
     return list;
 }
@@ -153,9 +153,8 @@ static int pyGeometrySpan_setIndices(pyGeometrySpan* self, PyObject* value, void
         }
     }
 
-    hsTArray<unsigned short> idx;
-    idx.setSize(PySequence_Size(value));
-    for (size_t i = 0; i < idx.getSize(); ++i)
+    std::vector<unsigned short> idx(PySequence_Size(value));
+    for (size_t i = 0; i < idx.size(); ++i)
         idx[i] = PyInt_AsLong(PySequence_Fast_GET_ITEM(value, i));
     self->fThis->setIndices(idx);
     return 0;
@@ -264,9 +263,8 @@ static int pyGeometrySpan_setVertices(pyGeometrySpan* self, PyObject* value, voi
         }
     }
 
-    hsTArray<plGeometrySpan::TempVertex> verts;
-    verts.setSize(PySequence_Size(value));
-    for (size_t i = 0; i < verts.getSize(); ++i)
+    std::vector<plGeometrySpan::TempVertex> verts(PySequence_Size(value));
+    for (size_t i = 0; i < verts.size(); ++i)
         verts[i] = *((pyTempVertex*)PySequence_Fast_GET_ITEM(value, i))->fThis;
     self->fThis->setVertices(verts);
     return 0;

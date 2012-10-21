@@ -30,8 +30,11 @@ hsTokenStream::~hsTokenStream() {
 }
 
 plString hsTokenStream::next() {
-    if (hasNext())
-        return fLineTokens.pop();
+    if (hasNext()) {
+        plString s = fLineTokens.front();
+        fLineTokens.pop();
+        return s;
+    }
     return "";
 }
 
@@ -43,31 +46,25 @@ bool hsTokenStream::hasNext() {
 
 plString hsTokenStream::peekNext() {
     if (hasNext())
-        return fLineTokens.top();
+        return fLineTokens.front();
     return "";
 }
 
 void hsTokenStream::setDelimiters(const char* delims) {
-    size_t nDelims = strlen(delims);
-    fDelims.setSize(nDelims);
-    for (size_t i=0; i<nDelims; i++)
-        fDelims[i] = delims[i];
+    fDelims = std::vector<char>(delims, delims + strlen(delims));
 }
 
-void hsTokenStream::setCommentMarkers(const hsTArray<Region>& comments) {
-    fCommentMarkers.setSize(comments.getSize());
-    for (size_t i=0; i<fCommentMarkers.getSize(); i++)
-        fCommentMarkers[i] = comments[i];
+void hsTokenStream::setCommentMarkers(const std::vector<Region>& comments) {
+    fCommentMarkers = comments;
 }
 
-void hsTokenStream::setStringMarkers(const hsTArray<Region>& strMarkers) {
-    fStringMarkers.setSize(strMarkers.getSize());
-    for (size_t i=0; i<fStringMarkers.getSize(); i++)
-        fStringMarkers[i] = strMarkers[i];
+void hsTokenStream::setStringMarkers(const std::vector<Region>& strMarkers) {
+    fStringMarkers = strMarkers;
 }
 
 void hsTokenStream::getLine() {
-    fLineTokens.clear();
+    while (!fLineTokens.empty())
+        fLineTokens.pop();
     if (fStream->eof())
         return;
 
@@ -80,17 +77,17 @@ void hsTokenStream::getLine() {
             while (beg < line.len() && getCharType(line[beg]) == kCharNone)
                 beg++;
         }
-        for (size_t i=0; i<fStringMarkers.getSize(); i++) {
-            if (line.mid(beg).startsWith(fStringMarkers[i].fStart)) {
-                long strEnd = line.mid(beg + fStringMarkers[i].fStart.len()).find(fStringMarkers[i].fEnd);
+        for (auto mark = fStringMarkers.begin(); mark != fStringMarkers.end(); ++mark) {
+            if (line.mid(beg).startsWith(mark->fStart)) {
+                long strEnd = line.mid(beg + mark->fStart.len()).find(mark->fEnd);
                 if (strEnd == -1)
                     throw hsBadParamException(__FILE__, __LINE__);
-                unsigned long markerLen = fStringMarkers[i].fStart.len() + fStringMarkers[i].fEnd.len();
-                fLineTokens.rpush(line.mid(beg, strEnd + markerLen));
+                unsigned long markerLen = mark->fStart.len() + mark->fEnd.len();
+                fLineTokens.push(line.mid(beg, strEnd + markerLen));
                 beg += strEnd + markerLen;
             }
         }
-        for (size_t i=0; i<fCommentMarkers.getSize(); i++) {
+        for (size_t i=0; i<fCommentMarkers.size(); i++) {
             if (fInComment == -1 && line.mid(beg).startsWith(fCommentMarkers[i].fStart)) {
                 fInComment = i;
                 beg += fCommentMarkers[i].fStart.len();
@@ -118,7 +115,7 @@ void hsTokenStream::getLine() {
                 if (tokType == kCharDelim) break; // Only return one Delimiter
             }
             if (end != beg)
-                fLineTokens.rpush(line.mid(beg, end-beg));
+                fLineTokens.push(line.mid(beg, end-beg));
         }
     }
 
@@ -130,7 +127,9 @@ void hsTokenStream::getLine() {
 int hsTokenStream::getCharType(const char ch) {
     if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n')
         return kCharNone;
-    for (size_t i=0; i<fDelims.getSize(); i++)
-        if (ch == fDelims[i]) return kCharDelim;
+    for (auto dch = fDelims.begin(); dch != fDelims.end(); ++dch) {
+        if (ch == *dch)
+            return kCharDelim;
+    }
     return kCharIdent;
 }

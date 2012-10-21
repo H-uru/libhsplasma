@@ -81,8 +81,8 @@ static PyObject* pyCoordinateInterface_getP2L(pyCoordinateInterface* self, void*
 }
 
 static PyObject* pyCoordinateInterface_getChildren(pyCoordinateInterface* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getChildren().getSize());
-    for (size_t i=0; i<self->fThis->getChildren().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getChildren().size());
+    for (size_t i=0; i<self->fThis->getChildren().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getChildren()[i]));
     return list;
 }

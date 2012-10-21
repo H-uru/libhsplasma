@@ -18,7 +18,6 @@
 #define _PLMORPHDELTA_H
 
 #include "PRP/plCreatable.h"
-#include "Util/hsTArray.hpp"
 #include "Math/hsGeometry3.h"
 
 class PLASMA_DLL plVertDelta {
@@ -36,7 +35,7 @@ public:
 
 class PLASMA_DLL plMorphSpan {
 protected:
-    hsTArray<plVertDelta> fDeltas;
+    std::vector<plVertDelta> fDeltas;
     unsigned short fNumUVWChans;
     hsVector3* fUVWs;
 
@@ -55,7 +54,7 @@ class PLASMA_DLL plMorphDelta : public plCreatable {
     CREATABLE(plMorphDelta, kMorphDelta, plCreatable)
 
 protected:
-    hsTArray<plMorphSpan> fSpans;
+    std::vector<plMorphSpan> fSpans;
     float fWeight;
 
 public:

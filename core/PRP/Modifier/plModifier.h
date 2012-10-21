@@ -85,7 +85,7 @@ public:
     void setFlag(size_t flag, bool value) { fFlags.set(flag, value); }
 
     virtual size_t getTargetsCount() const { return fTargets.size(); }
-    virtual plKey getTarget(size_t pos) const { return fTargets.at(pos); };
+    virtual plKey getTarget(size_t pos) const { return fTargets[pos]; };
     virtual void addTarget(plKey target) { fTargets.push_back(target); };
     virtual void removeTarget(plKey target);
 };

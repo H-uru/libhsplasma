@@ -86,16 +86,16 @@ float plHardRegionPlanes::HardPlane::getWorldDist() const {
 void plHardRegionPlanes::read(hsStream* S, plResManager* mgr) {
     plHardRegion::read(S, mgr);
 
-    fPlanes.setSize(S->readInt());
-    for (size_t i=0; i<fPlanes.getSize(); i++)
+    fPlanes.resize(S->readInt());
+    for (size_t i=0; i<fPlanes.size(); i++)
         fPlanes[i].read(S);
 }
 
 void plHardRegionPlanes::write(hsStream* S, plResManager* mgr) {
     plHardRegion::write(S, mgr);
 
-    S->writeInt(fPlanes.getSize());
-    for (size_t i=0; i<fPlanes.getSize(); i++)
+    S->writeInt(fPlanes.size());
+    for (size_t i=0; i<fPlanes.size(); i++)
         fPlanes[i].write(S);
 }
 
@@ -103,16 +103,16 @@ void plHardRegionPlanes::IPrcWrite(pfPrcHelper* prc) {
     plHardRegion::IPrcWrite(prc);
 
     prc->writeSimpleTag("Planes");
-    for (size_t i=0; i<fPlanes.getSize(); i++)
+    for (size_t i=0; i<fPlanes.size(); i++)
         fPlanes[i].prcWrite(prc);
     prc->closeTag();
 }
 
 void plHardRegionPlanes::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Planes") {
-        fPlanes.setSize(tag->countChildren());
+        fPlanes.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fPlanes.getSize(); i++) {
+        for (size_t i=0; i<fPlanes.size(); i++) {
             fPlanes[i].prcParse(child);
             child = child->getNextSibling();
         }

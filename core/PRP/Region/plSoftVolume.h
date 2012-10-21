@@ -76,7 +76,7 @@ class PLASMA_DLL plSoftVolumeComplex : public virtual plSoftVolume {
     CREATABLE(plSoftVolumeComplex, kSoftVolumeComplex, plSoftVolume)
 
 protected:
-    hsTArray<plKey> fSubVolumes;
+    std::vector<plKey> fSubVolumes;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

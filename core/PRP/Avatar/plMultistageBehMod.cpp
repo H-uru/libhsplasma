@@ -17,8 +17,8 @@
 #include "plMultistageBehMod.h"
 
 plMultistageBehMod::~plMultistageBehMod() {
-    for (size_t i=0; i<fStages.getSize(); i++)
-        delete fStages[i];
+    for (auto stage = fStages.begin(); stage != fStages.end(); ++stage)
+        delete *stage;
 }
 
 void plMultistageBehMod::read(hsStream* S, plResManager* mgr) {
@@ -29,14 +29,14 @@ void plMultistageBehMod::read(hsStream* S, plResManager* mgr) {
     fReverseFBControlsOnRelease = S->readBool();
 
     clearStages();
-    fStages.setSizeNull(S->readInt());
-    for (size_t i=0; i<fStages.getSize(); i++) {
+    fStages.resize(S->readInt());
+    for (size_t i=0; i<fStages.size(); i++) {
         fStages[i] = new plAnimStage();
         fStages[i]->read(S, mgr);
     }
 
-    fReceivers.setSize(S->readInt());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    fReceivers.resize(S->readInt());
+    for (size_t i=0; i<fReceivers.size(); i++)
         fReceivers[i] = mgr->readKey(S);
 }
 
@@ -47,12 +47,12 @@ void plMultistageBehMod::write(hsStream* S, plResManager* mgr) {
     S->writeBool(fSmartSeek);
     S->writeBool(fReverseFBControlsOnRelease);
 
-    S->writeInt(fStages.getSize());
-    for (size_t i=0; i<fStages.getSize(); i++)
+    S->writeInt(fStages.size());
+    for (size_t i=0; i<fStages.size(); i++)
         fStages[i]->write(S, mgr);
 
-    S->writeInt(fReceivers.getSize());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    S->writeInt(fReceivers.size());
+    for (size_t i=0; i<fReceivers.size(); i++)
         mgr->writeKey(S, fReceivers[i]);
 }
 
@@ -66,12 +66,12 @@ void plMultistageBehMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Stages");
-    for (size_t i=0; i<fStages.getSize(); i++)
+    for (size_t i=0; i<fStages.size(); i++)
         fStages[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Receivers");
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    for (size_t i=0; i<fReceivers.size(); i++)
         fReceivers[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -83,17 +83,17 @@ void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fReverseFBControlsOnRelease = tag->getParam("ReverseFBControlsOnRelease", "false").toBool();
     } else if (tag->getName() == "Stages") {
         clearStages();
-        fStages.setSizeNull(tag->countChildren());
+        fStages.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fStages.getSize(); i++) {
+        for (size_t i=0; i<fStages.size(); i++) {
             fStages[i] = new plAnimStage();
             fStages[i]->prcParse(child, mgr);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Receivers") {
-        fReceivers.setSize(tag->countChildren());
+        fReceivers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fReceivers.getSize(); i++) {
+        for (size_t i=0; i<fReceivers.size(); i++) {
             fReceivers[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
@@ -104,11 +104,11 @@ void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plMultistageBehMod::delStage(size_t idx) {
     delete fStages[idx];
-    fStages.remove(idx);
+    fStages.erase(fStages.begin() + idx);
 }
 
 void plMultistageBehMod::clearStages() {
-    for (size_t i=0; i<fStages.getSize(); i++)
-        delete fStages[i];
+    for (auto stage = fStages.begin(); stage != fStages.end(); ++stage)
+        delete *stage;
     fStages.clear();
 }

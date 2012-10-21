@@ -77,8 +77,8 @@ static PyObject* pyResponderModifier_State_clearCommands(pyResponderModifier_Sta
 }
 
 static PyObject* pyResponderModifier_State_getCommands(pyResponderModifier_State* self, void*) {
-    PyObject* list = PyList_New(self->fThis->fCmds.getSize());
-    for (size_t i=0; i<self->fThis->fCmds.getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->fCmds.size());
+    for (size_t i=0; i<self->fThis->fCmds.size(); i++)
         PyList_SET_ITEM(list, i, pyResponderModifier_Cmd_FromResponderCmd(self->fThis->fCmds[i]));
     return list;
 }

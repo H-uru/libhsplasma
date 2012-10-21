@@ -65,8 +65,8 @@ static PyObject* pyInterfaceInfoModifier_delKey(pyInterfaceInfoModifier* self, P
 }
 
 static PyObject* pyInterfaceInfoModifier_getIntfKeys(pyInterfaceInfoModifier* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getIntfKeys().getSize());
-    for (size_t i=0; i<self->fThis->getIntfKeys().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getIntfKeys().size());
+    for (size_t i=0; i<self->fThis->getIntfKeys().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getIntfKeys()[i]));
     return list;
 }

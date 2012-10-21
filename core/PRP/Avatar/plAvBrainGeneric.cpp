@@ -17,8 +17,8 @@
 #include "plAvBrainGeneric.h"
 
 plAvBrainGeneric::~plAvBrainGeneric() {
-    for (size_t i=0; i<fStages.getSize(); i++)
-        delete fStages[i];
+    for (auto stage = fStages.begin(); stage != fStages.end(); ++stage)
+        delete *stage;
     delete fStartMessage;
     delete fEndMessage;
 }
@@ -27,8 +27,8 @@ void plAvBrainGeneric::read(hsStream* S, plResManager* mgr) {
     plArmatureBrain::read(S, mgr);
 
     clearStages();
-    fStages.setSizeNull(S->readInt());
-    for (size_t i=0; i<fStages.getSize(); i++) {
+    fStages.resize(S->readInt());
+    for (size_t i=0; i<fStages.size(); i++) {
         fStages[i] = plAnimStage::Convert(mgr->ReadCreatable(S));
         fStages[i]->readAux(S);
     }
@@ -59,8 +59,8 @@ void plAvBrainGeneric::read(hsStream* S, plResManager* mgr) {
 void plAvBrainGeneric::write(hsStream* S, plResManager* mgr) {
     plArmatureBrain::write(S, mgr);
 
-    S->writeInt(fStages.getSize());
-    for (size_t i=0; i<fStages.getSize(); i++) {
+    S->writeInt(fStages.size());
+    for (size_t i=0; i<fStages.size(); i++) {
         mgr->WriteCreatable(S, fStages[i]);
         fStages[i]->writeAux(S);
     }
@@ -92,7 +92,7 @@ void plAvBrainGeneric::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Stages");
     prc->writeParam("Current", fCurStage);
     prc->endTag();
-    for (size_t i=0; i<fStages.getSize(); i++) {
+    for (size_t i=0; i<fStages.size(); i++) {
         prc->writeSimpleTag("Stage");
         fStages[i]->prcWrite(prc);
         fStages[i]->prcWriteAux(prc);
@@ -140,9 +140,9 @@ void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Stages") {
         fCurStage = tag->getParam("Current", "0").toInt();
         clearStages();
-        fStages.setSizeNull(tag->countChildren());
+        fStages.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fStages.getSize(); i++) {
+        for (size_t i=0; i<fStages.size(); i++) {
             if (child->getName() != "Stage")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             const pfPrcTag* stageChild = child->getFirstChild();
@@ -190,13 +190,13 @@ void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plAvBrainGeneric::delStage(size_t idx) {
     delete fStages[idx];
-    fStages.remove(idx);
+    fStages.erase(fStages.begin() + idx);
 }
 
 void plAvBrainGeneric::clearStages() {
-    for (size_t i=0; i<fStages.getSize(); i++)
-        delete fStages[i];
-    fStages.setSize(0);
+    for (auto stage = fStages.begin(); stage != fStages.end(); ++stage)
+        delete *stage;
+    fStages.clear();
 }
 
 void plAvBrainGeneric::setStartMessage(plMessage* msg) {

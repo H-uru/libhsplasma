@@ -45,7 +45,7 @@ protected:
     unsigned short fFollowFlags;
     plAnimPath* fPath;
     plKey fPathParent, fRefObj;
-    hsTArray<plKey> fStereizers;
+    std::vector<plKey> fStereizers;
     float fOffset, fOffsetClamp, fSpeedClamp;
 
 public:
@@ -79,10 +79,10 @@ public:
     void setSpeedClamp(float clamp) { fSpeedClamp = clamp; }
     void setPath(plAnimPath* path);
 
-    const hsTArray<plKey>& getStereizers() const { return fStereizers; }
-    hsTArray<plKey>& getStereizers() { return fStereizers; }
-    void addStereizer(plKey stereizer) { fStereizers.append(stereizer); }
-    void delStereizer(size_t idx) { fStereizers.remove(idx); }
+    const std::vector<plKey>& getStereizers() const { return fStereizers; }
+    std::vector<plKey>& getStereizers() { return fStereizers; }
+    void addStereizer(plKey stereizer) { fStereizers.push_back(stereizer); }
+    void delStereizer(size_t idx) { fStereizers.erase(fStereizers.begin() + idx); }
     void clearStereizers() { fStereizers.clear(); }
 };
 

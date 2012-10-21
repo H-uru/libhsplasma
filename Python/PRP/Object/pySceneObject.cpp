@@ -117,15 +117,15 @@ static PyObject* pySceneObject_getNode(pySceneObject* self, void*) {
 }
 
 static PyObject* pySceneObject_getIntfs(pySceneObject* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getInterfaces().getSize());
-    for (size_t i=0; i<self->fThis->getInterfaces().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getInterfaces().size());
+    for (size_t i=0; i<self->fThis->getInterfaces().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getInterfaces()[i]));
     return list;
 }
 
 static PyObject* pySceneObject_getMods(pySceneObject* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getModifiers().getSize());
-    for (size_t i=0; i<self->fThis->getModifiers().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getModifiers().size());
+    for (size_t i=0; i<self->fThis->getModifiers().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getModifiers()[i]));
     return list;
 }

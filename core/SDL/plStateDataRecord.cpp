@@ -19,8 +19,8 @@
 const unsigned char plStateDataRecord::kIOVersion = 6;
 
 plStateDataRecord::~plStateDataRecord() {
-    for (size_t i=0; i<fAllVars.getSize(); i++)
-        delete fAllVars[i];
+    for (auto var = fAllVars.begin(); var != fAllVars.end(); ++var)
+        delete *var;
 }
 
 void plStateDataRecord::ReadStreamHeader(hsStream* S, plString& name,
@@ -65,7 +65,7 @@ void plStateDataRecord::read(hsStream* S, plResManager* mgr) {
         fAllVars[i]->SetFromDefault();
 
     size_t num = plSDL::VariableLengthRead(S, fDescriptor->getNumVars());
-    bool all = (num == fVarsList.getSize());
+    bool all = (num == fVarsList.size());
     for (size_t i=0; i<num; i++) {
         size_t idx;
         if (!all)
@@ -77,7 +77,7 @@ void plStateDataRecord::read(hsStream* S, plResManager* mgr) {
     }
 
     num = plSDL::VariableLengthRead(S, fDescriptor->getNumVars());
-    all = (num == fSDVarsList.getSize());
+    all = (num == fSDVarsList.size());
     for (size_t i=0; i<num; i++) {
         size_t idx;
         if (!all)
@@ -94,15 +94,15 @@ void plStateDataRecord::write(hsStream* S, plResManager* mgr) {
     S->writeByte(kIOVersion);
 
     size_t numDirty = 0;
-    for (size_t i=0; i<fVarsList.getSize(); i++) {
+    for (size_t i=0; i<fVarsList.size(); i++) {
         if (!fVarsList[i]->isDefault())
             fVarsList[i]->setDirty();
         if (fVarsList[i]->isDirty())
             numDirty++;
     }
     plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), numDirty);
-    bool all = (numDirty == fVarsList.getSize());
-    for (size_t i=0; i<fVarsList.getSize(); i++) {
+    bool all = (numDirty == fVarsList.size());
+    for (size_t i=0; i<fVarsList.size(); i++) {
         if (fVarsList[i]->isDirty()) {
             if (!all)
                 plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), i);
@@ -111,15 +111,15 @@ void plStateDataRecord::write(hsStream* S, plResManager* mgr) {
     }
 
     numDirty = 0;
-    for (size_t i=0; i<fSDVarsList.getSize(); i++) {
+    for (size_t i=0; i<fSDVarsList.size(); i++) {
         if (!fSDVarsList[i]->isDefault())
             fSDVarsList[i]->setDirty();
         if (fSDVarsList[i]->isDirty())
             numDirty++;
     }
     plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), numDirty);
-    all = (numDirty == fSDVarsList.getSize());
-    for (size_t i=0; i<fSDVarsList.getSize(); i++) {
+    all = (numDirty == fSDVarsList.size());
+    for (size_t i=0; i<fSDVarsList.size(); i++) {
         if (fSDVarsList[i]->isDirty()) {
             if (!all)
                 plSDL::VariableLengthWrite(S, fDescriptor->getNumVars(), i);
@@ -129,7 +129,7 @@ void plStateDataRecord::write(hsStream* S, plResManager* mgr) {
 }
 
 void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
-    for (size_t i=0; i<fAllVars.getSize(); i++) {
+    for (size_t i=0; i<fAllVars.size(); i++) {
         prc->startTag("Variable");
         prc->writeParam("Name", fAllVars[i]->getDescriptor()->getName());
         prc->endTag();
@@ -234,8 +234,8 @@ void plStateDataRecord::prcWrite(pfPrcHelper* prc) {
 void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
     fDescriptor = desc;
 
-    for (size_t i=0; i<fAllVars.getSize(); i++)
-        delete fAllVars[i];
+    for (auto var = fAllVars.begin(); var != fAllVars.end(); ++var)
+        delete *var;
     fVarsList.clear();
     fSDVarsList.clear();
     fAllVars.clear();
@@ -249,19 +249,19 @@ void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
         if (varDesc->getType() == plVarDescriptor::kStateDescriptor) {
             var = new plSDStateVariable();
             ((plSDStateVariable*)var)->setSDVarDescriptor(varDesc->getStateDesc());
-            fSDVarsList.append(var);
+            fSDVarsList.push_back(var);
         } else {
             var = new plSimpleStateVariable();
-            fVarsList.append(var);
+            fVarsList.push_back(var);
         }
         var->setDescriptor(varDesc);
-        fAllVars.append(var);
+        fAllVars.push_back(var);
     }
 }
 
 plStateVariable* plStateDataRecord::get(plString& name) const {
-    for (size_t i=0; i<fAllVars.getSize(); i++)
-        if (fAllVars[i]->getDescriptor()->getName() == name)
-            return fAllVars[i];
+    for (auto var = fAllVars.begin(); var != fAllVars.end(); ++var)
+        if ((*var)->getDescriptor()->getName() == name)
+            return *var;
     return NULL;
 }

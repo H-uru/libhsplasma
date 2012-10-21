@@ -24,7 +24,7 @@ class PLASMA_DLL plAnimEventModifier : public virtual plSingleModifier {
     CREATABLE(plAnimEventModifier, kAnimEventModifier, plSingleModifier)
 
 protected:
-    hsTArray<plKey> fReceivers;
+    std::vector<plKey> fReceivers;
     plMessage* fCallback;
     bool fDisabled;
 

@@ -115,8 +115,8 @@ void plSpaceTree::read(hsStream* S, plResManager* ) {
     fRoot = S->readShort();
     fNumLeaves = S->readInt();
 
-    fTree.setSize(S->readInt());
-    for (size_t i=0; i<fTree.getSize(); i++)
+    fTree.resize(S->readInt());
+    for (size_t i=0; i<fTree.size(); i++)
         fTree[i].read(S);
 }
 
@@ -124,8 +124,8 @@ void plSpaceTree::write(hsStream* S, plResManager* ) {
     S->writeShort(fRoot);
     S->writeInt(fNumLeaves);
 
-    S->writeInt(fTree.getSize());
-    for (size_t i=0; i<fTree.getSize(); i++)
+    S->writeInt(fTree.size());
+    for (size_t i=0; i<fTree.size(); i++)
         fTree[i].write(S);
 }
 
@@ -136,7 +136,7 @@ void plSpaceTree::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Tree");
-    for (size_t i=0; i<fTree.getSize(); i++)
+    for (size_t i=0; i<fTree.size(); i++)
         fTree[i].prcWrite(prc);
     prc->closeTag();
 }
@@ -147,8 +147,8 @@ void plSpaceTree::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fNumLeaves = tag->getParam("NumLeaves", "0").toInt();
     } else if (tag->getName() == "Tree") {
         const pfPrcTag* child = tag->getFirstChild();
-        fTree.setSize(tag->countChildren());
-        for (size_t i=0; i<fTree.getSize(); i++) {
+        fTree.resize(tag->countChildren());
+        for (size_t i=0; i<fTree.size(); i++) {
             fTree[i].prcParse(child);
             child = child->getNextSibling();
         }
@@ -185,19 +185,19 @@ void plSpaceTree::IMakeTree(plSpaceBuilderNode* node, int target, int curr) {
     }
 
     if (curr == target) {
-        short idx = fTree.getSize();
-        fTree.incSize();
+        plSpaceTreeNode treenode;
 
-        fTree[idx].setBounds(node->fBounds);
-        node->fIndex = idx;
+        treenode.setBounds(node->fBounds);
+        node->fIndex = fTree.size();
 
         short left = node->fChildren[0]->fIndex;
         short right = node->fChildren[1]->fIndex;
 
-        fTree[idx].setChildren(left, right);
-        fTree[left].setParent(idx);
-        fTree[right].setParent(idx);
+        treenode.setChildren(left, right);
+        fTree[left].setParent(node->fIndex);
+        fTree[right].setParent(node->fIndex);
 
+        fTree.push_back(treenode);
         return;
     }
 
@@ -207,7 +207,7 @@ void plSpaceTree::IMakeTree(plSpaceBuilderNode* node, int target, int curr) {
 
 void plSpaceTree::buildTree(plSpaceBuilderNode* root, int numLeaves) {
     clear();
-    fTree.setSize(numLeaves);
+    fTree.resize(numLeaves);
     fNumLeaves = numLeaves;
 
     IGatherLeaves(root);
@@ -217,7 +217,7 @@ void plSpaceTree::buildTree(plSpaceBuilderNode* root, int numLeaves) {
         IMakeTree(root, --depth, 0);
     }
 
-    fRoot = fTree.getSize() - 1;
+    fRoot = fTree.size() - 1;
     fTree[fRoot].setParent(-1);
 }
 
@@ -225,17 +225,17 @@ short plSpaceTree::addLeaf(const hsBounds3Ext& bounds) {
     plSpaceTreeNode node;
     node.setLeafIndex(fNumLeaves);
     node.setBounds(bounds);
-    fTree.append(node);
+    fTree.push_back(node);
     fNumLeaves++;
-    return fTree.getSize() - 1;
+    return fTree.size() - 1;
 }
 
 short plSpaceTree::addParent(const hsBounds3Ext& bounds, short left, short right) {
     plSpaceTreeNode node;
     node.setChildren(left, right);
     node.setBounds(bounds);
-    fTree.append(node);
-    short id = fTree.getSize() - 1;
+    fTree.push_back(node);
+    short id = fTree.size() - 1;
     fTree[left].setParent(id);
     fTree[right].setParent(id);
     fRoot = id;

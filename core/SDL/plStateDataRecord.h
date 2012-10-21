@@ -31,8 +31,8 @@ protected:
 
     plStateDescriptor* fDescriptor;
     plUoid fAssocObject;
-    hsTArray<plStateVariable*> fVarsList, fSDVarsList;
-    hsTArray<plStateVariable*> fAllVars;
+    std::vector<plStateVariable*> fVarsList, fSDVarsList;
+    std::vector<plStateVariable*> fAllVars;
     unsigned int fFlags;
 
 public:
@@ -51,7 +51,7 @@ public:
     plStateDescriptor* getDescriptor() const { return fDescriptor; }
     void setDescriptor(plStateDescriptor* desc);
 
-    size_t getNumVars() const { return fAllVars.getSize(); }
+    size_t getNumVars() const { return fAllVars.size(); }
     plStateVariable* get(size_t idx) const { return fAllVars[idx]; }
     plStateVariable* get(plString& name) const;
 };

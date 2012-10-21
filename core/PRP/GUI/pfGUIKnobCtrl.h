@@ -30,7 +30,7 @@ public:
     };
 
 protected:
-    hsTArray<plKey> fAnimationKeys;
+    std::vector<plKey> fAnimationKeys;
     plString fAnimName;
     hsVector3 fAnimStartPos, fAnimEndPos;
     unsigned int fEoaInt1, fEoaInt2, fEoaInt3, fEoaInt4;
@@ -47,10 +47,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getAnimationKeys() const { return fAnimationKeys; }
-    hsTArray<plKey>& getAnimationKeys() { return fAnimationKeys; }
-    void addAnimationKey(plKey key) { fAnimationKeys.append(key); }
-    void delAnimationKey(size_t idx) { fAnimationKeys.remove(idx); }
+    const std::vector<plKey>& getAnimationKeys() const { return fAnimationKeys; }
+    std::vector<plKey>& getAnimationKeys() { return fAnimationKeys; }
+    void addAnimationKey(plKey key) { fAnimationKeys.push_back(key); }
+    void delAnimationKey(size_t idx) { fAnimationKeys.erase(fAnimationKeys.begin() + idx); }
     void clearAnimationKeys() { fAnimationKeys.clear(); }
 
     plString getAnimName() const { return fAnimName; }

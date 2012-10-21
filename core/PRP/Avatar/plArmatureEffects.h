@@ -28,7 +28,7 @@ class PLASMA_DLL plArmatureEffectFootSound : public virtual plArmatureEffect {
     CREATABLE(plArmatureEffectFootSound, kArmatureEffectFootSound, plArmatureEffect)
 
 protected:
-    hsTArray<plKey> fMods;
+    std::vector<plKey> fMods;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -54,7 +54,7 @@ public:
     static const char* const SurfaceStrings[];
 
 protected:
-    hsTArray<plKey> fEffects;
+    std::vector<plKey> fEffects;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

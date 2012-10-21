@@ -53,7 +53,7 @@ class PLASMA_DLL plNetMsgGameMessageDirected : public plNetMsgGameMessage {
               plNetMsgGameMessage)
 
 private:
-    hsTArray<unsigned int> fReceivers;
+    std::vector<unsigned int> fReceivers;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -64,8 +64,8 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<unsigned int>& getReceivers() const { return fReceivers; }
-    void setReceivers(const hsTArray<unsigned int>& receivers) { fReceivers = receivers; }
+    const std::vector<unsigned int>& getReceivers() const { return fReceivers; }
+    void setReceivers(const std::vector<unsigned int>& receivers) { fReceivers = receivers; }
 };
 
 #endif

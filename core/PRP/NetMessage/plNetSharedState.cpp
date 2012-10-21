@@ -172,7 +172,7 @@ void plNetSharedState::read(hsStream* S) {
     size_t count = S->readInt();
     fServerMayDelete = S->readBool();
 
-    fVars.setSize(count);
+    fVars.resize(count);
     for (size_t i=0; i<count; i++)
         fVars[i].read(S);
 }
@@ -180,10 +180,10 @@ void plNetSharedState::read(hsStream* S) {
 void plNetSharedState::write(hsStream* S) {
     S->writeShort(fName.len());
     S->writeStr(fName);
-    S->writeInt(fVars.getSize());
+    S->writeInt(fVars.size());
     S->writeBool(fServerMayDelete);
 
-    for (size_t i=0; i<fVars.getSize(); i++)
+    for (size_t i=0; i<fVars.size(); i++)
         fVars[i].write(S);
 }
 
@@ -193,7 +193,7 @@ void plNetSharedState::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("ServerMayDelete", fServerMayDelete);
     prc->endTag();
 
-    for (size_t i=0; i<fVars.getSize(); i++)
+    for (size_t i=0; i<fVars.size(); i++)
         fVars[i].prcWrite(prc);
 
     prc->closeTag();
@@ -206,9 +206,9 @@ void plNetSharedState::prcParse(const pfPrcTag* tag) {
     fName = tag->getParam("Name", "");
     fServerMayDelete = tag->getParam("ServerMayDelete", "false").toBool();
 
-    fVars.setSize(tag->countChildren());
+    fVars.resize(tag->countChildren());
     const pfPrcTag* child = tag->getFirstChild();
-    for (size_t i=0; i<fVars.getSize(); i++) {
+    for (size_t i=0; i<fVars.size(); i++) {
         fVars[i].prcParse(child);
         child = child->getNextSibling();
     }

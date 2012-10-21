@@ -41,7 +41,7 @@ public:
 
 protected:
     unsigned short fMargin;
-    hsTArray<pfMenuItem> fMenuItems;
+    std::vector<pfMenuItem> fMenuItems;
     plKey fSkin;
     plKey fOriginContext, fOriginAnchor;
     Alignment fAlignment;
@@ -58,7 +58,7 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumItems() const { return fMenuItems.getSize(); }
+    size_t getNumItems() const { return fMenuItems.size(); }
     pfMenuItem& getItem(size_t idx) { return fMenuItems[idx]; }
     void addItem(const plString& name, pfGUICtrlProcWriteableObject* handler,
                  plKey subMenu = plKey(), float yoffs = 0.0f);

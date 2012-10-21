@@ -23,7 +23,7 @@
 
 class PLASMA_DLL plSDLMgr {
 protected:
-    hsTArray<plStateDescriptor*> fDescriptors;
+    std::vector<plStateDescriptor*> fDescriptors;
 
 private:
     enum ParseState {

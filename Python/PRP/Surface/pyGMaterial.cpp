@@ -97,15 +97,15 @@ static PyObject* pyGMaterial_delPB(pyGMaterial* self, PyObject* args) {
 }
 
 static PyObject* pyGMaterial_getLayers(pyGMaterial* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getLayers().getSize());
-    for (size_t i=0; i<self->fThis->getLayers().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getLayers().size());
+    for (size_t i=0; i<self->fThis->getLayers().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getLayers()[i]));
     return list;
 }
 
 static PyObject* pyGMaterial_getPBs(pyGMaterial* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPiggyBacks().getSize());
-    for (size_t i=0; i<self->fThis->getPiggyBacks().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getPiggyBacks().size());
+    for (size_t i=0; i<self->fThis->getPiggyBacks().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPiggyBacks()[i]));
     return list;
 }

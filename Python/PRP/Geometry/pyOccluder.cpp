@@ -110,15 +110,15 @@ static PyObject* pyOccluder_getNode(pyOccluder* self, void*) {
 }
 
 static PyObject* pyOccluder_getPolys(pyOccluder* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPolys().getSize());
-    for (size_t i=0; i<self->fThis->getPolys().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getPolys().size());
+    for (size_t i=0; i<self->fThis->getPolys().size(); i++)
         PyList_SET_ITEM(list, i, pyCullPoly_FromCullPoly(self->fThis->getPolys()[i]));
     return list;
 }
 
 static PyObject* pyOccluder_getVisRegions(pyOccluder* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getVisRegions().getSize());
-    for (size_t i=0; i<self->fThis->getVisRegions().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getVisRegions().size());
+    for (size_t i=0; i<self->fThis->getVisRegions().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getVisRegions()[i]));
     return list;
 }

@@ -55,16 +55,16 @@ static PyObject* pySynchedObject_getFlags(pySynchedObject* self, void*) {
 
 static PyObject* pySynchedObject_getExcludes(pySynchedObject* self, void*) {
     plSynchedObject* so = plSynchedObject::Convert(IConvert((pyCreatable*)self));
-    PyObject* list = PyList_New(so->getExcludes().getSize());
-    for (size_t i=0; i<so->getExcludes().getSize(); i++)
+    PyObject* list = PyList_New(so->getExcludes().size());
+    for (size_t i=0; i<so->getExcludes().size(); i++)
         PyList_SET_ITEM(list, i, PlStr_To_PyStr(so->getExcludes()[i]));
     return list;
 }
 
 static PyObject* pySynchedObject_getVolatiles(pySynchedObject* self, void*) {
     plSynchedObject* so = plSynchedObject::Convert(IConvert((pyCreatable*)self));
-    PyObject* list = PyList_New(so->getVolatiles().getSize());
-    for (size_t i=0; i<so->getVolatiles().getSize(); i++)
+    PyObject* list = PyList_New(so->getVolatiles().size());
+    for (size_t i=0; i<so->getVolatiles().size(); i++)
         PyList_SET_ITEM(list, i, PlStr_To_PyStr(so->getVolatiles()[i]));
     return list;
 }

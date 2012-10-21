@@ -45,8 +45,8 @@ void plLODDist::prcParse(const pfPrcTag* tag) {
 
 /* plClusterGroup */
 plClusterGroup::~plClusterGroup() {
-    for (size_t i=0; i<fClusters.getSize(); i++)
-        delete fClusters[i];
+    for (auto cluster = fClusters.begin(); cluster != fClusters.end(); ++cluster)
+        delete *cluster;
 }
 
 void plClusterGroup::read(hsStream* S, plResManager* mgr) {
@@ -56,17 +56,17 @@ void plClusterGroup::read(hsStream* S, plResManager* mgr) {
     fMaterial = mgr->readKey(S);
 
     clearClusters();
-    fClusters.setSizeNull(S->readInt());
-    for (size_t i=0; i<fClusters.getSize(); i++) {
+    fClusters.resize(S->readInt());
+    for (size_t i=0; i<fClusters.size(); i++) {
         fClusters[i] = new plCluster();
         fClusters[i]->read(S, this);
     }
 
-    fRegions.setSize(S->readInt());
-    for (size_t i=0; i<fRegions.getSize(); i++)
+    fRegions.resize(S->readInt());
+    for (size_t i=0; i<fRegions.size(); i++)
         fRegions[i] = mgr->readKey(S);
-    fLights.setSize(S->readInt());
-    for (size_t i=0; i<fLights.getSize(); i++)
+    fLights.resize(S->readInt());
+    for (size_t i=0; i<fLights.size(); i++)
         fLights[i] = mgr->readKey(S);
 
     fLOD.read(S);
@@ -80,15 +80,15 @@ void plClusterGroup::write(hsStream* S, plResManager* mgr) {
     fTemplate.write(S);
     mgr->writeKey(S, fMaterial);
 
-    S->writeInt(fClusters.getSize());
-    for (size_t i=0; i<fClusters.getSize(); i++)
+    S->writeInt(fClusters.size());
+    for (size_t i=0; i<fClusters.size(); i++)
         fClusters[i]->write(S);
 
-    S->writeInt(fRegions.getSize());
-    for (size_t i=0; i<fRegions.getSize(); i++)
+    S->writeInt(fRegions.size());
+    for (size_t i=0; i<fRegions.size(); i++)
         mgr->writeKey(S, fRegions[i]);
-    S->writeInt(fLights.getSize());
-    for (size_t i=0; i<fLights.getSize(); i++)
+    S->writeInt(fLights.size());
+    for (size_t i=0; i<fLights.size(); i++)
         mgr->writeKey(S, fLights[i]);
 
     fLOD.write(S);
@@ -108,17 +108,17 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Clusters");
-    for (size_t i=0; i<fClusters.getSize(); i++)
+    for (size_t i=0; i<fClusters.size(); i++)
         fClusters[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Regions");
-    for (size_t i=0; i<fRegions.getSize(); i++)
+    for (size_t i=0; i<fRegions.size(); i++)
         fRegions[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Lights");
-    for (size_t i=0; i<fLights.getSize(); i++)
+    for (size_t i=0; i<fLights.size(); i++)
         fLights[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -144,24 +144,24 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fMaterial = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Clusters") {
         clearClusters();
-        fClusters.setSizeNull(tag->countChildren());
+        fClusters.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fClusters.getSize(); i++) {
+        for (size_t i=0; i<fClusters.size(); i++) {
             fClusters[i] = new plCluster();
             fClusters[i]->prcParse(child, this);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Regions") {
-        fRegions.setSize(tag->countChildren());
+        fRegions.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fRegions.getSize(); i++) {
+        for (size_t i=0; i<fRegions.size(); i++) {
             fRegions[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Lights") {
-        fLights.setSize(tag->countChildren());
+        fLights.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fLights.getSize(); i++) {
+        for (size_t i=0; i<fLights.size(); i++) {
             fLights[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
@@ -180,11 +180,11 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plClusterGroup::delCluster(size_t idx) {
     delete fClusters[idx];
-    fClusters.remove(idx);
+    fClusters.erase(fClusters.begin() + idx);
 }
 
 void plClusterGroup::clearClusters() {
-    for (size_t i=0; i<fClusters.getSize(); i++)
-        delete fClusters[i];
+    for (auto cluster = fClusters.begin(); cluster != fClusters.end(); ++cluster)
+        delete *cluster;
     fClusters.clear();
 }

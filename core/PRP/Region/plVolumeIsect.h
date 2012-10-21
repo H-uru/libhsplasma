@@ -78,7 +78,7 @@ public:
     };
 
 protected:
-    hsTArray<SinglePlane> fPlanes;
+    std::vector<SinglePlane> fPlanes;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -124,7 +124,7 @@ public:
     };
 
 protected:
-    hsTArray<ParPlane> fPlanes;
+    std::vector<ParPlane> fPlanes;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -160,7 +160,7 @@ class PLASMA_DLL plComplexIsect : public virtual plVolumeIsect {
     CREATABLE(plComplexIsect, kComplexIsect, plVolumeIsect)
 
 protected:
-    hsTArray<plVolumeIsect*> fVolumes;
+    std::vector<plVolumeIsect*> fVolumes;
 
 public:
     plComplexIsect() { }

@@ -31,7 +31,7 @@ class PLASMA_DLL plCameraRegionDetector : public virtual plObjectInVolumeDetecto
               plObjectInVolumeDetector)
 
 protected:
-    hsTArray<plCameraMsg*> fMessages;
+    std::vector<plCameraMsg*> fMessages;
 
 public:
     plCameraRegionDetector() { }

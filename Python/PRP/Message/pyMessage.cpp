@@ -76,8 +76,8 @@ static PyObject* pyMessage_getFlags(pyMessage* self, void*) {
 }
 
 static PyObject* pyMessage_getReceivers(pyMessage* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getReceivers().getSize());
-    for (size_t i=0; i<self->fThis->getReceivers().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getReceivers().size());
+    for (size_t i=0; i<self->fThis->getReceivers().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getReceivers()[i]));
     return list;
 }

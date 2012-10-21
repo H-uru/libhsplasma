@@ -23,8 +23,8 @@ plAnimEventModifier::~plAnimEventModifier() {
 void plAnimEventModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
-    fReceivers.setSize(S->readInt());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    fReceivers.resize(S->readInt());
+    for (size_t i=0; i<fReceivers.size(); i++)
         fReceivers[i] = mgr->readKey(S);
     setCallback(plMessage::Convert(mgr->ReadCreatable(S)));
 }
@@ -32,8 +32,8 @@ void plAnimEventModifier::read(hsStream* S, plResManager* mgr) {
 void plAnimEventModifier::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
-    S->writeInt(fReceivers.getSize());
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    S->writeInt(fReceivers.size());
+    for (size_t i=0; i<fReceivers.size(); i++)
         mgr->writeKey(S, fReceivers[i]);
     mgr->WriteCreatable(S, fCallback);
 }
@@ -42,7 +42,7 @@ void plAnimEventModifier::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Receivers");
-    for (size_t i=0; i<fReceivers.getSize(); i++)
+    for (size_t i=0; i<fReceivers.size(); i++)
         fReceivers[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -53,9 +53,9 @@ void plAnimEventModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plAnimEventModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Receivers") {
-        fReceivers.setSize(tag->countChildren());
+        fReceivers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fReceivers.getSize(); i++) {
+        for (size_t i=0; i<fReceivers.size(); i++) {
             fReceivers[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

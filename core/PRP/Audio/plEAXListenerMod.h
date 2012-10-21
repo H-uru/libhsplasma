@@ -55,7 +55,7 @@ public:
 protected:
     plKey fSoftRegion;
     EAXREVERBPROPERTIES fListenerProps;
-    hsTArray<Aperture> fApertures;
+    std::vector<Aperture> fApertures;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

@@ -18,25 +18,25 @@
 
 /* plArmatureModBase */
 plArmatureModBase::~plArmatureModBase() {
-    for (size_t i=0; i<fBrains.getSize(); i++)
-        delete fBrains[i];
+    for (auto brain = fBrains.begin(); brain != fBrains.end(); ++brain)
+        delete *brain;
 }
 
 void plArmatureModBase::read(hsStream* S, plResManager* mgr) {
     plAGMasterMod::read(S, mgr);
 
-    fMeshKeys.setSize(S->readInt());
-    fUnusedBones.setSize(fMeshKeys.getSize());
-    for (size_t i=0; i<fMeshKeys.getSize(); i++) {
+    fMeshKeys.resize(S->readInt());
+    fUnusedBones.resize(fMeshKeys.size());
+    for (size_t i=0; i<fMeshKeys.size(); i++) {
         fMeshKeys[i] = mgr->readKey(S);
-        fUnusedBones[i].setSize(S->readInt());
-        for (size_t j=0; j<fUnusedBones[i].getSize(); j++)
+        fUnusedBones[i].resize(S->readInt());
+        for (size_t j=0; j<fUnusedBones[i].size(); j++)
             fUnusedBones[i][j] = mgr->readKey(S);
     }
 
     clearBrains();
-    fBrains.setSizeNull(S->readInt());
-    for (size_t i=0; i<fBrains.getSize(); i++)
+    fBrains.resize(S->readInt());
+    for (size_t i=0; i<fBrains.size(); i++)
         fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
 
     fDetector = mgr->readKey(S);
@@ -45,16 +45,16 @@ void plArmatureModBase::read(hsStream* S, plResManager* mgr) {
 void plArmatureModBase::write(hsStream* S, plResManager* mgr) {
     plAGMasterMod::write(S, mgr);
 
-    S->writeInt(fMeshKeys.getSize());
-    for (size_t i=0; i<fMeshKeys.getSize(); i++) {
+    S->writeInt(fMeshKeys.size());
+    for (size_t i=0; i<fMeshKeys.size(); i++) {
         mgr->writeKey(S, fMeshKeys[i]);
-        S->writeInt(fUnusedBones[i].getSize());
-        for (size_t j=0; j<fUnusedBones[i].getSize(); j++)
+        S->writeInt(fUnusedBones[i].size());
+        for (size_t j=0; j<fUnusedBones[i].size(); j++)
             mgr->writeKey(S, fUnusedBones[i][j]);
     }
 
-    S->writeInt(fBrains.getSize());
-    for (size_t i=0; i<fBrains.getSize(); i++)
+    S->writeInt(fBrains.size());
+    for (size_t i=0; i<fBrains.size(); i++)
         mgr->WriteCreatable(S, fBrains[i]);
 
     mgr->writeKey(S, fDetector);
@@ -64,11 +64,11 @@ void plArmatureModBase::IPrcWrite(pfPrcHelper* prc) {
     plAGMasterMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("Meshes");
-    for (size_t i=0; i<fMeshKeys.getSize(); i++) {
+    for (size_t i=0; i<fMeshKeys.size(); i++) {
         prc->writeSimpleTag("Mesh");
         fMeshKeys[i]->prcWrite(prc);
         prc->writeSimpleTag("UnusedBones");
-        for (size_t j=0; j<fUnusedBones[i].getSize(); j++)
+        for (size_t j=0; j<fUnusedBones[i].size(); j++)
             fUnusedBones[i][j]->prcWrite(prc);
         prc->closeTag(); // UnusedBones
         prc->closeTag(); // Mesh
@@ -76,7 +76,7 @@ void plArmatureModBase::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Brains");
-    for (size_t i=0; i<fBrains.getSize(); i++)
+    for (size_t i=0; i<fBrains.size(); i++)
         fBrains[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -87,10 +87,10 @@ void plArmatureModBase::IPrcWrite(pfPrcHelper* prc) {
 
 void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Meshes") {
-        fMeshKeys.setSize(tag->countChildren());
-        fUnusedBones.setSize(fMeshKeys.getSize());
+        fMeshKeys.resize(tag->countChildren());
+        fUnusedBones.resize(fMeshKeys.size());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMeshKeys.getSize(); i++) {
+        for (size_t i=0; i<fMeshKeys.size(); i++) {
             if (child->getName() != "Mesh")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
@@ -99,9 +99,9 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 if (subchild->getName() == "plKey") {
                     fMeshKeys[i] = mgr->prcParseKey(subchild);
                 } else if (subchild->getName() == "UnusedBones") {
-                    fUnusedBones[i].setSize(subchild->countChildren());
+                    fUnusedBones[i].resize(subchild->countChildren());
                     const pfPrcTag* boneChild = subchild->getFirstChild();
-                    for (size_t j=0; j<fUnusedBones[i].getSize(); j++) {
+                    for (size_t j=0; j<fUnusedBones[i].size(); j++) {
                         fUnusedBones[i][j] = mgr->prcParseKey(boneChild);
                         boneChild = boneChild->getNextSibling();
                     }
@@ -114,9 +114,9 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "Brains") {
         clearBrains();
-        fBrains.setSizeNull(tag->countChildren());
+        fBrains.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fBrains.getSize(); i++) {
+        for (size_t i=0; i<fBrains.size(); i++) {
             fBrains[i] = plArmatureBrain::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
@@ -128,8 +128,8 @@ void plArmatureModBase::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plArmatureModBase::clearBrains() {
-    for (size_t i=0; i<fBrains.getSize(); i++)
-        delete fBrains[i];
+    for (auto brain = fBrains.begin(); brain != fBrains.end(); ++brain)
+        delete *brain;
     fBrains.clear();
 }
 
@@ -147,8 +147,8 @@ void plArmatureMod::read(hsStream* S, plResManager* mgr) {
 
     if (S->getVer().isUru()) {
         clearBrains();
-        fBrains.setSizeNull(S->readInt());
-        for (size_t i=0; i<fBrains.getSize(); i++)
+        fBrains.resize(S->readInt());
+        for (size_t i=0; i<fBrains.size(); i++)
             fBrains[i] = plArmatureBrain::Convert(mgr->ReadCreatable(S));
 
         if (S->readBool())
@@ -201,8 +201,8 @@ void plArmatureMod::write(hsStream* S, plResManager* mgr) {
 
     S->writeSafeStr(fRootName);
 
-    S->writeInt(fBrains.getSize());
-    for (size_t i=0; i<fBrains.getSize(); i++)
+    S->writeInt(fBrains.size());
+    for (size_t i=0; i<fBrains.size(); i++)
         mgr->WriteCreatable(S, fBrains[i]);
 
     S->writeBool(fClothingOutfit.Exists());
@@ -259,7 +259,7 @@ void plArmatureMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     /*prc->writeSimpleTag("Brains");
-    for (size_t i=0; i<fBrains.getSize(); i++)
+    for (size_t i=0; i<fBrains.size(); i++)
         fBrains[i]->prcWrite(prc);
     prc->closeTag();*/
 
@@ -295,9 +295,9 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fFootstepPage = tag->getParam("Page", "");
         fFootstepType = tag->getParam("Type", "");
     } else if (tag->getName() == "Brains") {
-        fBrains.setSizeNull(tag->countChildren());
+        fBrains.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fBrains.getSize(); i++) {
+        for (size_t i=0; i<fBrains.size(); i++) {
             fBrains[i] = plArmatureBrain::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
@@ -315,12 +315,12 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 void plArmatureLODMod::read(hsStream* S, plResManager* mgr) {
     plArmatureMod::read(S, mgr);
 
-    fMeshKeys.setSize(S->readInt());
-    fUnusedBones.setSize(fMeshKeys.getSize());
-    for (size_t i=0; i<fMeshKeys.getSize(); i++) {
+    fMeshKeys.resize(S->readInt());
+    fUnusedBones.resize(fMeshKeys.size());
+    for (size_t i=0; i<fMeshKeys.size(); i++) {
         fMeshKeys[i] = mgr->readKey(S);
-        fUnusedBones[i].setSize(S->readInt());
-        for (size_t j=0; j<fUnusedBones[i].getSize(); j++)
+        fUnusedBones[i].resize(S->readInt());
+        for (size_t j=0; j<fUnusedBones[i].size(); j++)
             fUnusedBones[i][j] = mgr->readKey(S);
     }
 }
@@ -328,11 +328,11 @@ void plArmatureLODMod::read(hsStream* S, plResManager* mgr) {
 void plArmatureLODMod::write(hsStream* S, plResManager* mgr) {
     plArmatureMod::write(S, mgr);
 
-    S->writeInt(fMeshKeys.getSize());
-    for (size_t i=0; i<fMeshKeys.getSize(); i++) {
+    S->writeInt(fMeshKeys.size());
+    for (size_t i=0; i<fMeshKeys.size(); i++) {
         mgr->writeKey(S, fMeshKeys[i]);
-        S->writeInt(fUnusedBones[i].getSize());
-        for (size_t j=0; j<fUnusedBones[i].getSize(); j++)
+        S->writeInt(fUnusedBones[i].size());
+        for (size_t j=0; j<fUnusedBones[i].size(); j++)
             mgr->writeKey(S, fUnusedBones[i][j]);
     }
 }
@@ -341,11 +341,11 @@ void plArmatureLODMod::IPrcWrite(pfPrcHelper* prc) {
     plArmatureMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("Meshes");
-    for (size_t i=0; i<fMeshKeys.getSize(); i++) {
+    for (size_t i=0; i<fMeshKeys.size(); i++) {
         prc->writeSimpleTag("Mesh");
         fMeshKeys[i]->prcWrite(prc);
         prc->writeSimpleTag("UnusedBones");
-        for (size_t j=0; j<fUnusedBones[i].getSize(); j++)
+        for (size_t j=0; j<fUnusedBones[i].size(); j++)
             fUnusedBones[i][j]->prcWrite(prc);
         prc->closeTag(); // UnusedBones
         prc->closeTag(); // Mesh
@@ -355,10 +355,10 @@ void plArmatureLODMod::IPrcWrite(pfPrcHelper* prc) {
 
 void plArmatureLODMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Meshes") {
-        fMeshKeys.setSize(tag->countChildren());
-        fUnusedBones.setSize(fMeshKeys.getSize());
+        fMeshKeys.resize(tag->countChildren());
+        fUnusedBones.resize(fMeshKeys.size());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMeshKeys.getSize(); i++) {
+        for (size_t i=0; i<fMeshKeys.size(); i++) {
             if (child->getName() != "Mesh")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
@@ -367,9 +367,9 @@ void plArmatureLODMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 if (subchild->getName() == "plKey") {
                     fMeshKeys[i] = mgr->prcParseKey(subchild);
                 } else if (subchild->getName() == "UnusedBones") {
-                    fUnusedBones[i].setSize(subchild->countChildren());
+                    fUnusedBones[i].resize(subchild->countChildren());
                     const pfPrcTag* boneChild = subchild->getFirstChild();
-                    for (size_t j=0; j<fUnusedBones[i].getSize(); j++) {
+                    for (size_t j=0; j<fUnusedBones[i].size(); j++) {
                         fUnusedBones[i][j] = mgr->prcParseKey(boneChild);
                         boneChild = boneChild->getNextSibling();
                     }

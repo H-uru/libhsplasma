@@ -34,8 +34,8 @@ void plAvBrainCoop::read(hsStream* S, plResManager* mgr) {
 
     fWaitingForClick = S->readBool();
 
-    fRecipients.setSize(S->readShort());
-    for (size_t i=0; i<fRecipients.getSize(); i++)
+    fRecipients.resize(S->readShort());
+    for (size_t i=0; i<fRecipients.size(); i++)
         fRecipients[i] = mgr->readKey(S);
 }
 
@@ -55,8 +55,8 @@ void plAvBrainCoop::write(hsStream* S, plResManager* mgr) {
 
     S->writeBool(fWaitingForClick);
 
-    S->writeShort(fRecipients.getSize());
-    for (size_t i=0; i<fRecipients.getSize(); i++)
+    S->writeShort(fRecipients.size());
+    for (size_t i=0; i<fRecipients.size(); i++)
         mgr->writeKey(S, fRecipients[i]);
 }
 
@@ -81,7 +81,7 @@ void plAvBrainCoop::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Recipients");
-    for (size_t i=0; i<fRecipients.getSize(); i++)
+    for (size_t i=0; i<fRecipients.size(); i++)
         fRecipients[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -99,9 +99,9 @@ void plAvBrainCoop::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fGuestKey = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Recipients") {
-        fRecipients.setSize(tag->countChildren());
+        fRecipients.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fRecipients.getSize(); i++) {
+        for (size_t i=0; i<fRecipients.size(); i++) {
             fRecipients[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

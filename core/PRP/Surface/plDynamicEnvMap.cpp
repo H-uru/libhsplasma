@@ -28,18 +28,18 @@ void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
     fRefreshRate = S->readFloat();
     fIncCharacters = S->readByte();
 
-    fVisRegions.setSize(S->readInt());
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    fVisRegions.resize(S->readInt());
+    for (size_t i=0; i<fVisRegions.size(); i++)
         fVisRegions[i] = mgr->readKey(S);
 
     if (!S->getVer().isUruSP() || S->getVer().isUniversal()) {
-        fVisRegionNames.setSize(S->readInt());
-        for (size_t i=0; i<fVisRegionNames.getSize(); i++)
+        fVisRegionNames.resize(S->readInt());
+        for (size_t i=0; i<fVisRegionNames.size(); i++)
             fVisRegionNames[i] = S->readSafeStr();
 
         fRootNode = mgr->readKey(S);
     } else {
-        fVisRegionNames.setSize(0);
+        fVisRegionNames.clear();
         fRootNode = plKey();
     }
 }
@@ -55,13 +55,13 @@ void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fRefreshRate);
     S->writeByte(fIncCharacters);
 
-    S->writeInt(fVisRegions.getSize());
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    S->writeInt(fVisRegions.size());
+    for (size_t i=0; i<fVisRegions.size(); i++)
         mgr->writeKey(S, fVisRegions[i]);
 
     if (!S->getVer().isUruSP() || S->getVer().isUniversal()) {
-        S->writeInt(fVisRegionNames.getSize());
-        for (size_t i=0; i<fVisRegionNames.getSize(); i++)
+        S->writeInt(fVisRegionNames.size());
+        for (size_t i=0; i<fVisRegionNames.size(); i++)
             S->writeSafeStr(fVisRegionNames[i]);
 
         mgr->writeKey(S, fRootNode);
@@ -85,12 +85,12 @@ void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegions");
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    for (size_t i=0; i<fVisRegions.size(); i++)
         fVisRegions[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegionNames");
-    for (size_t i=0; i<fVisRegionNames.getSize(); i++) {
+    for (size_t i=0; i<fVisRegionNames.size(); i++) {
         prc->startTag("Region");
         prc->writeParam("Name", fVisRegionNames[i]);
         prc->endTag(true);
@@ -123,16 +123,16 @@ void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "VisRegions") {
-        fVisRegions.setSize(tag->countChildren());
+        fVisRegions.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fVisRegions.getSize(); i++) {
+        for (size_t i=0; i<fVisRegions.size(); i++) {
             fVisRegions[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "VisRegionNames") {
-        fVisRegionNames.setSize(tag->countChildren());
+        fVisRegionNames.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fVisRegionNames.getSize(); i++) {
+        for (size_t i=0; i<fVisRegionNames.size(); i++) {
             if (child->getName() != "Region")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fVisRegionNames[i] = tag->getParam("Name", "");
@@ -161,22 +161,22 @@ void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
     fCamera = mgr->readKey(S);
     fRootNode = mgr->readKey(S);
 
-    fTargetNodes.setSize(S->readByte());
-    for (size_t i=0; i<fTargetNodes.getSize(); i++)
+    fTargetNodes.resize(S->readByte());
+    for (size_t i=0; i<fTargetNodes.size(); i++)
         fTargetNodes[i] = mgr->readKey(S);
 
-    fVisRegions.setSize(S->readInt());
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    fVisRegions.resize(S->readInt());
+    for (size_t i=0; i<fVisRegions.size(); i++)
         fVisRegions[i] = mgr->readKey(S);
 
-    fVisRegionNames.setSize(S->readInt());
-    for (size_t i=0; i<fVisRegionNames.getSize(); i++)
+    fVisRegionNames.resize(S->readInt());
+    for (size_t i=0; i<fVisRegionNames.size(); i++)
         fVisRegionNames[i] = S->readSafeStr();
 
     fDisableTexture = mgr->readKey(S);
 
-    fMatLayers.setSize(S->readByte());
-    for (size_t i=0; i<fMatLayers.getSize(); i++)
+    fMatLayers.resize(S->readByte());
+    for (size_t i=0; i<fMatLayers.size(); i++)
         fMatLayers[i] = mgr->readKey(S);
 }
 
@@ -193,22 +193,22 @@ void plDynamicCamMap::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fCamera);
     mgr->writeKey(S, fRootNode);
 
-    S->writeByte(fTargetNodes.getSize());
-    for (size_t i=0; i<fTargetNodes.getSize(); i++)
+    S->writeByte(fTargetNodes.size());
+    for (size_t i=0; i<fTargetNodes.size(); i++)
         mgr->writeKey(S, fTargetNodes[i]);
 
-    S->writeInt(fVisRegions.getSize());
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    S->writeInt(fVisRegions.size());
+    for (size_t i=0; i<fVisRegions.size(); i++)
         mgr->writeKey(S, fVisRegions[i]);
 
-    S->writeInt(fVisRegionNames.getSize());
-    for (size_t i=0; i<fVisRegionNames.getSize(); i++)
+    S->writeInt(fVisRegionNames.size());
+    for (size_t i=0; i<fVisRegionNames.size(); i++)
         S->writeSafeStr(fVisRegionNames[i]);
 
     mgr->writeKey(S, fDisableTexture);
 
-    S->writeByte(fMatLayers.getSize());
-    for (size_t i=0; i<fMatLayers.getSize(); i++)
+    S->writeByte(fMatLayers.size());
+    for (size_t i=0; i<fMatLayers.size(); i++)
         mgr->writeKey(S, fMatLayers[i]);
 }
 
@@ -234,17 +234,17 @@ void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("TargetNodes");
-    for (size_t i=0; i<fTargetNodes.getSize(); i++)
+    for (size_t i=0; i<fTargetNodes.size(); i++)
         fTargetNodes[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegions");
-    for (size_t i=0; i<fVisRegions.getSize(); i++)
+    for (size_t i=0; i<fVisRegions.size(); i++)
         fVisRegions[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegionNames");
-    for (size_t i=0; i<fVisRegionNames.getSize(); i++) {
+    for (size_t i=0; i<fVisRegionNames.size(); i++) {
         prc->startTag("Region");
         prc->writeParam("Name", fVisRegionNames[i]);
         prc->endTag(true);
@@ -256,7 +256,7 @@ void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("MatLayers");
-    for (size_t i=0; i<fMatLayers.getSize(); i++)
+    for (size_t i=0; i<fMatLayers.size(); i++)
         fMatLayers[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -285,23 +285,23 @@ void plDynamicCamMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fRootNode = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "TargetNodes") {
-        fTargetNodes.setSize(tag->countChildren());
+        fTargetNodes.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fTargetNodes.getSize(); i++) {
+        for (size_t i=0; i<fTargetNodes.size(); i++) {
             fTargetNodes[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "VisRegions") {
-        fVisRegions.setSize(tag->countChildren());
+        fVisRegions.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fVisRegions.getSize(); i++) {
+        for (size_t i=0; i<fVisRegions.size(); i++) {
             fVisRegions[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "VisRegionNames") {
-        fVisRegionNames.setSize(tag->countChildren());
+        fVisRegionNames.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fVisRegionNames.getSize(); i++) {
+        for (size_t i=0; i<fVisRegionNames.size(); i++) {
             if (child->getName() != "Region")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fVisRegionNames[i] = tag->getParam("Name", "");
@@ -311,9 +311,9 @@ void plDynamicCamMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fDisableTexture = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "MatLayers") {
-        fMatLayers.setSize(tag->countChildren());
+        fMatLayers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fMatLayers.getSize(); i++) {
+        for (size_t i=0; i<fMatLayers.size(); i++) {
             fMatLayers[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

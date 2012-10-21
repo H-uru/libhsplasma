@@ -97,14 +97,14 @@ void plSpanInstance::prcWrite(pfPrcHelper* prc) {
     prc->closeTagNoBreak();
 
     prc->writeSimpleTag("PosDeltas");
-    hsTArray<hsVector3> verts = getPosDeltas();
-    for (size_t i=0; i<verts.getSize(); i++)
+    std::vector<hsVector3> verts = getPosDeltas();
+    for (size_t i=0; i<verts.size(); i++)
         verts[i].prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Colors");
-    hsTArray<unsigned int> colors = getColors();
-    for (size_t i=0; i<colors.getSize(); i++) {
+    std::vector<unsigned int> colors = getColors();
+    for (size_t i=0; i<colors.size(); i++) {
         prc->startTag("Color");
         prc->writeParamHex("value", colors[i]);
         prc->endTag(true);
@@ -168,8 +168,7 @@ void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encodin
             if (child->countChildren() != fNumVerts)
                 throw pfPrcParseException(__FILE__, __LINE__, "Incorrect vertex count");
             const pfPrcTag* posChild = child->getFirstChild();
-            hsTArray<hsVector3> verts;
-            verts.setSize(fNumVerts);
+            std::vector<hsVector3> verts(fNumVerts);
             for (size_t i=0; i<fNumVerts; i++) {
                 verts[i].prcParse(posChild);
                 posChild = posChild->getNextSibling();
@@ -179,8 +178,7 @@ void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encodin
             if (child->countChildren() != fNumVerts)
                 throw pfPrcParseException(__FILE__, __LINE__, "Incorrect vertex count");
             const pfPrcTag* colorChild = child->getFirstChild();
-            hsTArray<unsigned int> colors;
-            colors.setSize(fNumVerts);
+            std::vector<unsigned int> colors(fNumVerts);
             for (size_t i=0; i<fNumVerts; i++) {
                 if (colorChild->getName() != "Color")
                     throw pfPrcTagException(__FILE__, __LINE__, colorChild->getName());
@@ -229,9 +227,8 @@ unsigned int plSpanInstance::CalcColStride(const plSpanEncoding& encoding) {
     }
 }
 
-hsTArray<hsVector3> plSpanInstance::getPosDeltas() const {
-    hsTArray<hsVector3> verts;
-    verts.setSize(fNumVerts);
+std::vector<hsVector3> plSpanInstance::getPosDeltas() const {
+    std::vector<hsVector3> verts(fNumVerts);
 
     switch (fEncoding.getCode() & plSpanEncoding::kPosMask) {
     case plSpanEncoding::kPos888:
@@ -286,9 +283,8 @@ hsTArray<hsVector3> plSpanInstance::getPosDeltas() const {
     return verts;
 }
 
-hsTArray<unsigned int> plSpanInstance::getColors() const {
-    hsTArray<unsigned int> colors;
-    colors.setSize(fNumVerts);
+std::vector<unsigned int> plSpanInstance::getColors() const {
+    std::vector<unsigned int> colors(fNumVerts);
 
     switch (fEncoding.getCode() & plSpanEncoding::kColMask) {
     case plSpanEncoding::kColA8:
@@ -362,9 +358,9 @@ hsMatrix44 plSpanInstance::getLocalToWorld() const {
     return l2w;
 }
 
-void plSpanInstance::setPosDeltas(const hsTArray<hsVector3>& verts) {
+void plSpanInstance::setPosDeltas(const std::vector<hsVector3>& verts) {
     delete[] fPosDelta;
-    fNumVerts = verts.getSize();
+    fNumVerts = verts.size();
     fPosDelta = new unsigned char[fNumVerts * CalcPosStride(fEncoding)];
 
     switch (fEncoding.getCode() & plSpanEncoding::kPosMask) {
@@ -413,7 +409,7 @@ void plSpanInstance::setPosDeltas(const hsTArray<hsVector3>& verts) {
     }
 }
 
-void plSpanInstance::setColors(const hsTArray<unsigned int>& colors) {
+void plSpanInstance::setColors(const std::vector<unsigned int>& colors) {
     delete[] fCol;
     // Because of bugs in Cyan's code:
     fCol = NULL;

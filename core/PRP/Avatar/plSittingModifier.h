@@ -34,8 +34,8 @@ public:
     };
 
 protected:
-    unsigned char fMiscFlags;
-    hsTArray<plKey> fNotifyKeys;
+    uint8_t fMiscFlags;
+    std::vector<plKey> fNotifyKeys;
     plKey fTriggeredAvatarKey;
 
 public:

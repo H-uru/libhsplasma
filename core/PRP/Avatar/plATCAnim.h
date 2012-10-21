@@ -35,7 +35,7 @@ protected:
     float fEaseOutLength, fEaseOutMin, fEaseOutMax;
     marker_t fMarkers;
     loop_t fLoops;
-    hsTArray<float> fStopPoints;
+    std::vector<float> fStopPoints;
 
 public:
     plATCAnim() : fInitial(0.0f), fLoopStart(0.0f), fLoopEnd(0.0f),
@@ -71,7 +71,7 @@ public:
 
     float getMarker(const plString& key) const;
     std::pair<float, float> getLoop(const plString& key) const;
-    const hsTArray<float>& getStops() const { return fStopPoints; }
+    const std::vector<float>& getStops() const { return fStopPoints; }
 
     void setInitial(float init) { fInitial = init; }
     void setLoopStart(float start) { fLoopStart = start; }
@@ -92,7 +92,7 @@ public:
     void setLoop(const plString& key, float start, float end)
     { fLoops[key] = std::pair<float, float>(start, end); }
 
-    void setStops(const hsTArray<float>& stops) { fStopPoints = stops; }
+    void setStops(const std::vector<float>& stops) { fStopPoints = stops; }
 };
 
 

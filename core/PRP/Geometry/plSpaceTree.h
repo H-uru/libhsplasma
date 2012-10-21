@@ -18,7 +18,6 @@
 #define _PLSPACETREE_H
 
 #include "PRP/plCreatable.h"
-#include "Util/hsTArray.hpp"
 #include "Math/hsGeometry3.h"
 #include "PRP/Region/hsBounds.h"
 #include "Util/hsBitVector.h"
@@ -85,7 +84,7 @@ class PLASMA_DLL plSpaceTree : public plCreatable {
     CREATABLE(plSpaceTree, kSpaceTree, plCreatable)
 
 protected:
-    hsTArray<plSpaceTreeNode> fTree;
+    std::vector<plSpaceTreeNode> fTree;
     short fRoot, fNumLeaves;
 
 public:
@@ -106,7 +105,7 @@ public:
     void buildTree(plSpaceBuilderNode* root, int numLeaves);
 
     const plSpaceTreeNode& getNode(short idx) const { return fTree[idx]; }
-    short getNodeCount() const { return fTree.getSize(); }
+    short getNodeCount() const { return fTree.size(); }
     const plSpaceTreeNode& getRoot() const { return fTree[fRoot]; }
     short addLeaf(const hsBounds3Ext& bounds);
     short addParent(const hsBounds3Ext& bounds, short left, short right);

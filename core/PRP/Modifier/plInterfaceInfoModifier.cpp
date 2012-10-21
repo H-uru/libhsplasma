@@ -19,16 +19,16 @@
 void plInterfaceInfoModifier::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
-    fKeyList.setSize(S->readInt());
-    for (size_t i=0; i<fKeyList.getSize(); i++)
+    fKeyList.resize(S->readInt());
+    for (size_t i=0; i<fKeyList.size(); i++)
         fKeyList[i] = mgr->readKey(S);
 }
 
 void plInterfaceInfoModifier::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
-    S->writeInt(fKeyList.getSize());
-    for (size_t i=0; i<fKeyList.getSize(); i++)
+    S->writeInt(fKeyList.size());
+    for (size_t i=0; i<fKeyList.size(); i++)
         mgr->writeKey(S, fKeyList[i]);
 }
 
@@ -36,16 +36,16 @@ void plInterfaceInfoModifier::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Keys");
-    for (size_t i=0; i<fKeyList.getSize(); i++)
+    for (size_t i=0; i<fKeyList.size(); i++)
         fKeyList[i]->prcWrite(prc);
     prc->closeTag();
 }
 
 void plInterfaceInfoModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Keys") {
-        fKeyList.setSize(tag->countChildren());
+        fKeyList.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fKeyList.getSize(); i++) {
+        for (size_t i=0; i<fKeyList.size(); i++) {
             fKeyList[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

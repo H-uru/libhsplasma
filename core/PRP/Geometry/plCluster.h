@@ -18,11 +18,10 @@
 #define _PLCLUSTER_H
 
 #include "plSpanInstance.h"
-#include "Util/hsTArray.hpp"
 
 class PLASMA_DLL plCluster {
 protected:
-    hsTArray<plSpanInstance*> fInstances;
+    std::vector<plSpanInstance*> fInstances;
     plSpanEncoding fEncoding;
     class plClusterGroup* fGroup;   // Not owned by the cluster
 
@@ -41,9 +40,9 @@ public:
     plClusterGroup* getGroup() const { return fGroup; }
     void setGroup(plClusterGroup* group) { fGroup = group; }
 
-    const hsTArray<plSpanInstance*>& getInstances() const { return fInstances; }
-    hsTArray<plSpanInstance*>& getInstances() { return fInstances; }
-    void addInstance(plSpanInstance* inst) { fInstances.append(inst); }
+    const std::vector<plSpanInstance*>& getInstances() const { return fInstances; }
+    std::vector<plSpanInstance*>& getInstances() { return fInstances; }
+    void addInstance(plSpanInstance* inst) { fInstances.push_back(inst); }
     void delInstance(size_t idx);
     void clearInstances();
 };

@@ -28,8 +28,8 @@ class PLASMA_DLL plWin32GroupedSound : public virtual plWin32StaticSound {
     CREATABLE(plWin32GroupedSound, kWin32GroupedSound, plWin32StaticSound)
 
 protected:
-    hsTArray<unsigned int> fStartPositions;
-    hsTArray<float> fVolumes;
+    std::vector<uint32_t> fStartPositions;
+    std::vector<float> fVolumes;
 
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
@@ -38,10 +38,10 @@ protected:
     virtual void IWrite(hsStream* S, plResManager* mgr);
 
 public:
-    size_t getNumVolumes() const { return fVolumes.getSize(); }
-    unsigned int getPosition(size_t idx) const { return fStartPositions[idx]; }
+    size_t getNumVolumes() const { return fVolumes.size(); }
+    uint32_t getPosition(size_t idx) const { return fStartPositions[idx]; }
     float getVolume(size_t idx) const { return fVolumes[idx]; }
-    void setVolumes(size_t count, unsigned int* positions, float* volumes);
+    void setVolumes(size_t count, uint32_t* positions, float* volumes);
 };
 
 

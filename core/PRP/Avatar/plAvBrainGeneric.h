@@ -50,7 +50,7 @@ public:
     };
 
 private:
-    hsTArray<plAnimStage*> fStages;
+    std::vector<plAnimStage*> fStages;
     int fCurStage;
     BrainType fType;
     unsigned int fExitFlags;
@@ -78,9 +78,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plAnimStage*>& getStages() const { return fStages; }
-    hsTArray<plAnimStage*>& getStages() { return fStages; }
-    void addStage(plAnimStage* stage) { fStages.append(stage); }
+    const std::vector<plAnimStage*>& getStages() const { return fStages; }
+    std::vector<plAnimStage*>& getStages() { return fStages; }
+    void addStage(plAnimStage* stage) { fStages.push_back(stage); }
     void delStage(size_t idx);
     void clearStages();
 

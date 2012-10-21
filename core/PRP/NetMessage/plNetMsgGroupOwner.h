@@ -32,7 +32,7 @@ public:
     };
 
 private:
-    hsTArray<GroupInfo> fGroups;
+    std::vector<GroupInfo> fGroups;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -43,10 +43,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<GroupInfo>& getGroups() const { return fGroups; }
-    hsTArray<GroupInfo>& getGroups() { return fGroups; }
-    void addGroup(const GroupInfo& grp) { fGroups.append(grp); }
-    void delGroup(size_t idx) { fGroups.remove(idx); }
+    const std::vector<GroupInfo>& getGroups() const { return fGroups; }
+    std::vector<GroupInfo>& getGroups() { return fGroups; }
+    void addGroup(const GroupInfo& grp) { fGroups.push_back(grp); }
+    void delGroup(size_t idx) { fGroups.erase(fGroups.begin() + idx); }
     void clearGroups() { fGroups.clear(); }
 };
 

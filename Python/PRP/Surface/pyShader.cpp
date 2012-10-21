@@ -32,8 +32,8 @@ static PyObject* pyShader_new(PyTypeObject* type, PyObject* args, PyObject* kwds
 }
 
 static PyObject* pyShader_getConsts(pyShader* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getConsts().getSize());
-    for (size_t i=0; self->fThis->getConsts().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getConsts().size());
+    for (size_t i=0; self->fThis->getConsts().size(); i++)
         PyList_SET_ITEM(list, i, pyShaderConst_FromShaderConst(self->fThis->getConsts()[i]));
     return list;
 }
@@ -52,12 +52,11 @@ static PyObject* pyShader_getOutput(pyShader* self, void*) {
 
 static int pyShader_setConsts(pyShader* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        self->fThis->setConsts(hsTArray<plShaderConst>());
+        self->fThis->setConsts(std::vector<plShaderConst>());
         return 0;
     } else if (PyList_Check(value)) {
         size_t count = PyList_Size(value);
-        hsTArray<plShaderConst> constList;
-        constList.setSize(count);
+        std::vector<plShaderConst> constList(count);
         for (size_t i=0; i<count; i++) {
             if (!pyShaderConst_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "consts should be a list of strings");

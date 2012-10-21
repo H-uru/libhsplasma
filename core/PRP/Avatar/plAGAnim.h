@@ -29,7 +29,7 @@ public:
     };
 
 protected:
-    hsTArray<plAGApplicator*> fApps;
+    std::vector<plAGApplicator*> fApps;
     float fBlend, fStart, fEnd;
     plString fName;
     unsigned char fEoaFlag;
@@ -46,9 +46,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plAGApplicator*>& getApplicators() const { return fApps; }
-    hsTArray<plAGApplicator*>& getApplicators() { return fApps; }
-    void addApplicator(plAGApplicator* app) { fApps.append(app); }
+    const std::vector<plAGApplicator*>& getApplicators() const { return fApps; }
+    std::vector<plAGApplicator*>& getApplicators() { return fApps; }
+    void addApplicator(plAGApplicator* app) { fApps.push_back(app); }
     void delApplicator(size_t idx);
     void clearApplicators();
 

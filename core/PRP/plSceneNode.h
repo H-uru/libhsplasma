@@ -19,14 +19,13 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "PRP/Object/plSceneObject.h"
-#include "Util/hsTArray.hpp"
 
 class PLASMA_DLL plSceneNode : public virtual hsKeyedObject {
     CREATABLE(plSceneNode, kSceneNode, hsKeyedObject)
 
 protected:
-    hsTArray<plKey> fSceneObjects;
-    hsTArray<plKey> fPoolObjects;
+    std::vector<plKey> fSceneObjects;
+    std::vector<plKey> fPoolObjects;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -37,16 +36,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getSceneObjects() const { return fSceneObjects; }
-    hsTArray<plKey>& getSceneObjects() { return fSceneObjects; }
-    void addSceneObject(plKey obj) { fSceneObjects.append(obj); }
-    void delSceneObject(size_t idx) { fSceneObjects.remove(idx); }
+    const std::vector<plKey>& getSceneObjects() const { return fSceneObjects; }
+    std::vector<plKey>& getSceneObjects() { return fSceneObjects; }
+    void addSceneObject(plKey obj) { fSceneObjects.push_back(obj); }
+    void delSceneObject(size_t idx) { fSceneObjects.erase(fSceneObjects.begin() + idx); }
     void clearSceneObjects() { fSceneObjects.clear(); }
 
-    const hsTArray<plKey>& getPoolObjects() const { return fPoolObjects; }
-    hsTArray<plKey>& getPoolObjects() { return fPoolObjects; }
-    void addPoolObject(plKey obj) { fPoolObjects.append(obj); }
-    void delPoolObject(size_t idx) { fPoolObjects.remove(idx); }
+    const std::vector<plKey>& getPoolObjects() const { return fPoolObjects; }
+    std::vector<plKey>& getPoolObjects() { return fPoolObjects; }
+    void addPoolObject(plKey obj) { fPoolObjects.push_back(obj); }
+    void delPoolObject(size_t idx) { fPoolObjects.erase(fPoolObjects.begin() + idx); }
     void clearPoolObjects() { fPoolObjects.clear(); }
 };
 

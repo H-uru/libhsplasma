@@ -23,11 +23,11 @@ void plDynaDecalMgr::read(hsStream* S, plResManager* mgr) {
     fMatPreShade = mgr->readKey(S);
     fMatRTShade = mgr->readKey(S);
 
-    fTargets.setSize(S->readInt());
-    for (size_t i=0; i<fTargets.getSize(); i++)
+    fTargets.resize(S->readInt());
+    for (size_t i=0; i<fTargets.size(); i++)
         fTargets[i] = mgr->readKey(S);
-    fPartyObjects.setSize(S->readInt());
-    for (size_t i=0; i<fPartyObjects.getSize(); i++)
+    fPartyObjects.resize(S->readInt());
+    for (size_t i=0; i<fPartyObjects.size(); i++)
         fPartyObjects[i] = mgr->readKey(S);
 
     fMaxNumVerts = S->readInt();
@@ -43,8 +43,8 @@ void plDynaDecalMgr::read(hsStream* S, plResManager* mgr) {
     fScale.read(S);
     fPartyTime = S->readFloat();
 
-    fNotifies.setSize(S->readInt());
-    for (size_t i=0; i<fNotifies.getSize(); i++)
+    fNotifies.resize(S->readInt());
+    for (size_t i=0; i<fNotifies.size(); i++)
         fNotifies[i] = mgr->readKey(S);
 }
 
@@ -54,11 +54,11 @@ void plDynaDecalMgr::write(hsStream* S, plResManager* mgr) {
     mgr->writeKey(S, fMatPreShade);
     mgr->writeKey(S, fMatRTShade);
 
-    S->writeInt(fTargets.getSize());
-    for (size_t i=0; i<fTargets.getSize(); i++)
+    S->writeInt(fTargets.size());
+    for (size_t i=0; i<fTargets.size(); i++)
         mgr->writeKey(S, fTargets[i]);
-    S->writeInt(fPartyObjects.getSize());
-    for (size_t i=0; i<fPartyObjects.getSize(); i++)
+    S->writeInt(fPartyObjects.size());
+    for (size_t i=0; i<fPartyObjects.size(); i++)
         mgr->writeKey(S, fPartyObjects[i]);
 
     S->writeInt(fMaxNumVerts);
@@ -74,8 +74,8 @@ void plDynaDecalMgr::write(hsStream* S, plResManager* mgr) {
     fScale.write(S);
     S->writeFloat(fPartyTime);
 
-    S->writeInt(fNotifies.getSize());
-    for (size_t i=0; i<fNotifies.getSize(); i++)
+    S->writeInt(fNotifies.size());
+    for (size_t i=0; i<fNotifies.size(); i++)
         mgr->writeKey(S, fNotifies[i]);
 }
 
@@ -90,12 +90,12 @@ void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Targets");
-    for (size_t i=0; i<fTargets.getSize(); i++)
+    for (size_t i=0; i<fTargets.size(); i++)
         fTargets[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("PartyObjects");
-    for (size_t i=0; i<fPartyObjects.getSize(); i++)
+    for (size_t i=0; i<fPartyObjects.size(); i++)
         fPartyObjects[i]->prcWrite(prc);
     prc->closeTag();
 
@@ -123,7 +123,7 @@ void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Notifies");
-    for (size_t i=0; i<fNotifies.getSize(); i++)
+    for (size_t i=0; i<fNotifies.size(); i++)
         fNotifies[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -136,16 +136,16 @@ void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fMatRTShade = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Targets") {
-        fTargets.setSize(tag->countChildren());
+        fTargets.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fTargets.getSize(); i++) {
+        for (size_t i=0; i<fTargets.size(); i++) {
             fTargets[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "PartyObjects") {
-        fPartyObjects.setSize(tag->countChildren());
+        fPartyObjects.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fPartyObjects.getSize(); i++) {
+        for (size_t i=0; i<fPartyObjects.size(); i++) {
             fPartyObjects[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
@@ -175,9 +175,9 @@ void plDynaDecalMgr::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Notifies") {
-        fNotifies.setSize(tag->countChildren());
+        fNotifies.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fNotifies.getSize(); i++) {
+        for (size_t i=0; i<fNotifies.size(); i++) {
             fNotifies[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

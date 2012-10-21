@@ -30,7 +30,7 @@ public:
     };
 
 protected:
-    hsTArray<plMessage*> fCommandList;
+    std::vector<plMessage*> fCommandList;
     hsBitVector fLogicFlags;
     plNotifyMsg* fNotify;
     bool fDisabled;
@@ -47,9 +47,9 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plMessage*> getCommands() const { return fCommandList; }
-    hsTArray<plMessage*> getCommands() { return fCommandList; }
-    void addCommand(plMessage* cmd) { fCommandList.append(cmd); }
+    const std::vector<plMessage*> getCommands() const { return fCommandList; }
+    std::vector<plMessage*> getCommands() { return fCommandList; }
+    void addCommand(plMessage* cmd) { fCommandList.push_back(cmd); }
     void delCommand(size_t idx);
     void clearCommands();
 

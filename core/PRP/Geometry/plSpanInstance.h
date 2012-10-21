@@ -85,12 +85,12 @@ private:
     static unsigned int CalcColStride(const plSpanEncoding& encoding);
 
 public:
-    hsTArray<hsVector3> getPosDeltas() const;
-    hsTArray<unsigned int> getColors() const;
+    std::vector<hsVector3> getPosDeltas() const;
+    std::vector<unsigned int> getColors() const;
     hsMatrix44 getLocalToWorld() const;
 
-    void setPosDeltas(const hsTArray<hsVector3>& verts);
-    void setColors(const hsTArray<unsigned int>& colors);
+    void setPosDeltas(const std::vector<hsVector3>& verts);
+    void setColors(const std::vector<unsigned int>& colors);
     void setLocalToWorld(const hsMatrix44& l2w);
 };
 

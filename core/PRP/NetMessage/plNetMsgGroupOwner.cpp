@@ -19,8 +19,8 @@
 void plNetMsgGroupOwner::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 
-    fGroups.setSize(S->readInt());
-    for (size_t i=0; i<fGroups.getSize(); i++) {
+    fGroups.resize(S->readInt());
+    for (size_t i=0; i<fGroups.size(); i++) {
         fGroups[i].fGroupID.read(S);
         fGroups[i].fOwnIt = S->readBool();
     }
@@ -29,8 +29,8 @@ void plNetMsgGroupOwner::read(hsStream* S, plResManager* mgr) {
 void plNetMsgGroupOwner::write(hsStream* S, plResManager* mgr) {
     plNetMessage::write(S, mgr);
 
-    S->writeInt(fGroups.getSize());
-    for (size_t i=0; i<fGroups.getSize(); i++) {
+    S->writeInt(fGroups.size());
+    for (size_t i=0; i<fGroups.size(); i++) {
         fGroups[i].fGroupID.write(S);
         S->writeBool(fGroups[i].fOwnIt);
     }
@@ -40,7 +40,7 @@ void plNetMsgGroupOwner::IPrcWrite(pfPrcHelper* prc) {
     plNetMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Groups");
-    for (size_t i=0; i<fGroups.getSize(); i++) {
+    for (size_t i=0; i<fGroups.size(); i++) {
         prc->startTag("Group");
         prc->writeParam("OwnIt", fGroups[i].fOwnIt);
         prc->endTag();
@@ -52,9 +52,9 @@ void plNetMsgGroupOwner::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgGroupOwner::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Groups") {
-        fGroups.setSize(tag->countChildren());
+        fGroups.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fGroups.getSize(); i++) {
+        for (size_t i=0; i<fGroups.size(); i++) {
             if (child->getName() != "Group")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fGroups[i].fOwnIt = child->getParam("OwnIt", "False").toBool();

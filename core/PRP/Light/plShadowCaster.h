@@ -41,7 +41,6 @@ public:
 protected:
     unsigned char fCastFlags;
     float fBoost, fAttenScale, fBlurScale, fMaxOpacity;
-    hsTArray<DrawSpan> fSpans;
 
 public:
     plShadowCaster() : fCastFlags(0), fBoost(0.0f), fAttenScale(0.0f),

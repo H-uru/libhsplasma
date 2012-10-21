@@ -23,7 +23,7 @@ class PLASMA_DLL plAGMasterMod : public virtual plModifier {
     CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
 
 protected:
-    hsTArray<plKey> fPrivateAnims, fEoaKeys2;
+    std::vector<plKey> fPrivateAnims, fEoaKeys2;
     plString fGroupName; // Only used in UU, auto-deleted in PotS and newer
     bool fIsGrouped, fIsGroupMaster;
     plKey fMsgForwarder;

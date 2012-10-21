@@ -50,7 +50,7 @@ void plCreatable::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 /* plCreatableStub */
 plCreatableStub::plCreatableStub(short hClass, size_t length)
               : fClassIdx(hClass), fDataLen(length) {
-    fData = new unsigned char[fDataLen];
+    fData = new uint8_t[fDataLen];
 }
 
 plCreatableStub::~plCreatableStub() {
@@ -80,6 +80,6 @@ void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 
     delete[] fData;
     fDataLen = tag->getContents().getSize();
-    fData = new unsigned char[fDataLen];
+    fData = new uint8_t[fDataLen];
     tag->readHexStream(fDataLen, fData);
 }

@@ -24,9 +24,9 @@ class PLASMA_DLL plMultistageBehMod : public virtual plSingleModifier {
     CREATABLE(plMultistageBehMod, kMultistageBehMod, plSingleModifier)
 
 protected:
-    hsTArray<plAnimStage*> fStages;
+    std::vector<plAnimStage*> fStages;
     bool fFreezePhys, fSmartSeek, fReverseFBControlsOnRelease;
-    hsTArray<plKey> fReceivers;
+    std::vector<plKey> fReceivers;
 
 public:
     plMultistageBehMod() : fFreezePhys(false), fSmartSeek(false),
@@ -41,16 +41,16 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plAnimStage*>& getStages() const { return fStages; }
-    hsTArray<plAnimStage*>& getStages() { return fStages; }
-    void addStage(plAnimStage* stage) { fStages.append(stage); }
+    const std::vector<plAnimStage*>& getStages() const { return fStages; }
+    std::vector<plAnimStage*>& getStages() { return fStages; }
+    void addStage(plAnimStage* stage) { fStages.push_back(stage); }
     void delStage(size_t idx);
     void clearStages();
 
-    const hsTArray<plKey>& getReceivers() const { return fReceivers; }
-    hsTArray<plKey>& getReceivers() { return fReceivers; }
-    void addReceiver(plKey receiver) { fReceivers.append(receiver); }
-    void delReceiver(size_t idx) { fReceivers.remove(idx); }
+    const std::vector<plKey>& getReceivers() const { return fReceivers; }
+    std::vector<plKey>& getReceivers() { return fReceivers; }
+    void addReceiver(plKey receiver) { fReceivers.push_back(receiver); }
+    void delReceiver(size_t idx) { fReceivers.erase(fReceivers.begin() + idx); }
     void clearReceivers() { fReceivers.clear(); }
 
     bool getFreezePhys() const { return fFreezePhys; }

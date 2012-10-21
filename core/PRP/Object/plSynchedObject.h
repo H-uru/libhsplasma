@@ -18,7 +18,6 @@
 #define _PLSYNCHEDOBJECT_H
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
-#include "Util/hsTArray.hpp"
 
 class PLASMA_DLL plSynchedObject : public virtual hsKeyedObject {
     CREATABLE(plSynchedObject, kSynchedObject, hsKeyedObject)
@@ -49,8 +48,8 @@ public:
 
 protected:
     unsigned int fSynchFlags;
-    hsTArray<plString> fSDLExcludeList;
-    hsTArray<plString> fSDLVolatileList;
+    std::vector<plString> fSDLExcludeList;
+    std::vector<plString> fSDLVolatileList;
 
 public:
     plSynchedObject() : fSynchFlags(0) { }
@@ -66,8 +65,8 @@ public:
     int getFlags() const { return fSynchFlags; }
     void setFlags(int flags) { fSynchFlags = flags; }
 
-    const hsTArray<plString>& getExcludes() const { return fSDLExcludeList; }
-    const hsTArray<plString>& getVolatiles() const { return fSDLVolatileList; }
+    const std::vector<plString>& getExcludes() const { return fSDLExcludeList; }
+    const std::vector<plString>& getVolatiles() const { return fSDLVolatileList; }
     void setExclude(const plString& sdl);
     void setVolatile(const plString& sdl);
     void clearExcludes();

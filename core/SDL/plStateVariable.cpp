@@ -47,8 +47,8 @@ void plStateVariable::write(hsStream* S, plResManager* mgr) {
 
 /* plSDStateVariable */
 plSDStateVariable::~plSDStateVariable() {
-    for (size_t i=0; i<fDataRecList.getSize(); i++)
-        delete fDataRecList[i];
+    for (auto rec = fDataRecList.begin(); rec != fDataRecList.end(); ++rec)
+        delete *rec;
 }
 
 void plSDStateVariable::setDescriptor(plVarDescriptor* desc) {
@@ -57,11 +57,11 @@ void plSDStateVariable::setDescriptor(plVarDescriptor* desc) {
 }
 
 void plSDStateVariable::resize(size_t size) {
-    for (size_t i=0; i<fDataRecList.getSize(); i++)
-        delete fDataRecList[i];
+    for (auto rec = fDataRecList.begin(); rec != fDataRecList.end(); ++rec)
+        delete *rec;
     fCount = size;
-    fDataRecList.setSize(size);
-    for (size_t i=0; i<fDataRecList.getSize(); i++) {
+    fDataRecList.resize(size);
+    for (size_t i=0; i<fDataRecList.size(); i++) {
         fDataRecList[i] = new plStateDataRecord();
         fDataRecList[i]->setDescriptor(fSDVarDescriptor);
     }
@@ -83,7 +83,7 @@ void plSDStateVariable::read(hsStream* S, plResManager* mgr) {
         else
             idx = i;
 
-        if (idx < fDataRecList.getSize())
+        if (idx < fDataRecList.size())
             fDataRecList[idx]->read(S, mgr);
     }
 }
@@ -126,7 +126,7 @@ void plSDStateVariable::SetFromDefault() {
 }
 
 bool plSDStateVariable::isDefault(bool secondChance) const {
-    if (fCount != fDataRecList.getSize())
+    if (fCount != fDataRecList.size())
         return false;
     for (size_t i=0; i<fCount; i++) {
         for (size_t j=0; j<fDataRecList[i]->getNumVars(); j++) {

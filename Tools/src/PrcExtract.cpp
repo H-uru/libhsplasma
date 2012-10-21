@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    hsTArray<plString> fFiles;
+    std::vector<plString> fFiles;
 
     plDebug::Init(plDebug::kDLAll);
     plResManager rm;
@@ -92,11 +92,11 @@ int main(int argc, char** argv) {
                 return 1;
             }
         } else {
-            fFiles.append(plString(argv[i]));
+            fFiles.push_back(plString(argv[i]));
         }
     }
 
-    for (size_t i=0; i<fFiles.getSize(); i++) {
+    for (size_t i=0; i<fFiles.size(); i++) {
         try {
             page = rm.ReadPage(fFiles[i]);
         } catch (hsException& e) {

@@ -17,8 +17,8 @@
 #include "plParticleSystem.h"
 
 plParticleSystem::~plParticleSystem() {
-    for (size_t i=0; i<fEmitters.getSize(); i++)
-        delete fEmitters[i];
+    for (auto emi = fEmitters.begin(); emi != fEmitters.end(); ++emi)
+        delete *emi;
     delete fAmbientCtl;
     delete fDiffuseCtl;
     delete fOpacityCtl;
@@ -46,26 +46,28 @@ void plParticleSystem::read(hsStream* S, plResManager* mgr) {
     fWindMult = S->readFloat();
     fNumValidEmitters = S->readInt();
 
-    for (size_t i=0; i<fEmitters.getSize(); i++)
-        delete fEmitters[i];
-    fEmitters.setSizeNull(fMaxEmitters);
+    for (auto emi = fEmitters.begin(); emi != fEmitters.end(); ++emi)
+        delete *emi;
+    fEmitters.resize(fMaxEmitters);
     if (fNumValidEmitters > fMaxEmitters)
         throw hsBadParamException(__FILE__, __LINE__);
     for (size_t i=0; i<fNumValidEmitters; i++)
         fEmitters[i] = plParticleEmitter::Convert(mgr->ReadCreatable(S));
+    for (size_t i=fNumValidEmitters; i<fMaxEmitters; i++)
+        fEmitters[i] = NULL;
 
-    fForces.setSize(S->readInt());
-    for (size_t i=0; i<fForces.getSize(); i++)
+    fForces.resize(S->readInt());
+    for (size_t i=0; i<fForces.size(); i++)
         fForces[i] = mgr->readKey(S);
-    fEffects.setSize(S->readInt());
-    for (size_t i=0; i<fEffects.getSize(); i++)
+    fEffects.resize(S->readInt());
+    for (size_t i=0; i<fEffects.size(); i++)
         fEffects[i] = mgr->readKey(S);
-    fConstraints.setSize(S->readInt());
-    for (size_t i=0; i<fConstraints.getSize(); i++)
+    fConstraints.resize(S->readInt());
+    for (size_t i=0; i<fConstraints.size(); i++)
         fConstraints[i] = mgr->readKey(S);
 
-    fPermaLights.setSize(S->readInt());
-    for (size_t i=0; i<fPermaLights.getSize(); i++)
+    fPermaLights.resize(S->readInt());
+    for (size_t i=0; i<fPermaLights.size(); i++)
         fPermaLights[i] = mgr->readKey(S);
 }
 
@@ -91,18 +93,18 @@ void plParticleSystem::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fNumValidEmitters; i++)
         mgr->WriteCreatable(S, fEmitters[i]);
 
-    S->writeInt(fForces.getSize());
-    for (size_t i=0; i<fForces.getSize(); i++)
+    S->writeInt(fForces.size());
+    for (size_t i=0; i<fForces.size(); i++)
         mgr->writeKey(S, fForces[i]);
-    S->writeInt(fEffects.getSize());
-    for (size_t i=0; i<fEffects.getSize(); i++)
+    S->writeInt(fEffects.size());
+    for (size_t i=0; i<fEffects.size(); i++)
         mgr->writeKey(S, fEffects[i]);
-    S->writeInt(fConstraints.getSize());
-    for (size_t i=0; i<fConstraints.getSize(); i++)
+    S->writeInt(fConstraints.size());
+    for (size_t i=0; i<fConstraints.size(); i++)
         mgr->writeKey(S, fConstraints[i]);
 
-    S->writeInt(fPermaLights.getSize());
-    for (size_t i=0; i<fPermaLights.getSize(); i++)
+    S->writeInt(fPermaLights.size());
+    for (size_t i=0; i<fPermaLights.size(); i++)
         mgr->writeKey(S, fPermaLights[i]);
 }
 
@@ -179,20 +181,20 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Forces");
-    for (size_t i=0; i<fForces.getSize(); i++)
+    for (size_t i=0; i<fForces.size(); i++)
         fForces[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Effects");
-    for (size_t i=0; i<fEffects.getSize(); i++)
+    for (size_t i=0; i<fEffects.size(); i++)
         fEffects[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Constraints");
-    for (size_t i=0; i<fConstraints.getSize(); i++)
+    for (size_t i=0; i<fConstraints.size(); i++)
         fConstraints[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("PermaLights");
-    for (size_t i=0; i<fPermaLights.getSize(); i++)
+    for (size_t i=0; i<fPermaLights.size(); i++)
         fPermaLights[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -228,9 +230,8 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fAccel.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Emitters") {
-        for (size_t i=0; i<fEmitters.getSize(); i++)
-            delete fEmitters[i];
-        fEmitters.setSizeNull(fMaxEmitters);
+        clearEmitters();
+        fEmitters.resize(fMaxEmitters);
         fNumValidEmitters = tag->countChildren();
         if (fNumValidEmitters > fMaxEmitters)
             throw pfPrcParseException(__FILE__, __LINE__, "Too many particle emitters");
@@ -240,30 +241,30 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Forces") {
-        fForces.setSize(tag->countChildren());
+        fForces.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fForces.getSize(); i++) {
+        for (size_t i=0; i<fForces.size(); i++) {
             fForces[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Effects") {
-        fEffects.setSize(tag->countChildren());
+        fEffects.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fEffects.getSize(); i++) {
+        for (size_t i=0; i<fEffects.size(); i++) {
             fEffects[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Constraints") {
-        fConstraints.setSize(tag->countChildren());
+        fConstraints.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fConstraints.getSize(); i++) {
+        for (size_t i=0; i<fConstraints.size(); i++) {
             fConstraints[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "PermaLights") {
-        fPermaLights.setSize(tag->countChildren());
+        fPermaLights.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fPermaLights.getSize(); i++) {
+        for (size_t i=0; i<fPermaLights.size(); i++) {
             fPermaLights[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
@@ -301,7 +302,7 @@ void plParticleSystem::allocEmitters(unsigned int max) {
     for (size_t i=max; i<fMaxEmitters; i++)
         // When max < fMaxEmitters
         delete fEmitters[i];
-    fEmitters.setSize(max);
+    fEmitters.resize(max);
     for (size_t i=fMaxEmitters; i<max; i++)
         // When fMaxEmitters < max
         fEmitters[i] = NULL;
@@ -319,7 +320,7 @@ void plParticleSystem::addEmitter(plParticleEmitter* emitter) {
     fNumValidEmitters++;
     if (fNumValidEmitters > fMaxEmitters) {
         fMaxEmitters = fNumValidEmitters;
-        fEmitters.setSize(fMaxEmitters);
+        fEmitters.resize(fMaxEmitters);
     }
     fEmitters[fNumValidEmitters-1] = emitter;
 }
@@ -333,8 +334,8 @@ void plParticleSystem::delEmitter(size_t idx) {
 }
 
 void plParticleSystem::clearEmitters() {
-    for (size_t i=0; i<fEmitters.getSize(); i++)
-        delete fEmitters[i];
+    for (auto emi = fEmitters.begin(); emi != fEmitters.end(); ++emi)
+        delete *emi;
     fEmitters.clear();
     fNumValidEmitters = 0;
     fMaxEmitters = 0;

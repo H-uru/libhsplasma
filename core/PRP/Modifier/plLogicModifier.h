@@ -23,7 +23,7 @@ class PLASMA_DLL plLogicModifier : public virtual plLogicModBase {
     CREATABLE(plLogicModifier, kLogicModifier, plLogicModBase)
 
 protected:
-    hsTArray<plKey> fConditionList;
+    std::vector<plKey> fConditionList;
     unsigned int fMyCursor;
     plKey fParent;
 
@@ -38,10 +38,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getConditions() const { return fConditionList; }
-    hsTArray<plKey>& getConditions() { return fConditionList; }
-    void addCondition(plKey cond) { fConditionList.append(cond); }
-    void delCondition(size_t idx) { fConditionList.remove(idx); }
+    const std::vector<plKey>& getConditions() const { return fConditionList; }
+    std::vector<plKey>& getConditions() { return fConditionList; }
+    void addCondition(plKey cond) { fConditionList.push_back(cond); }
+    void delCondition(size_t idx) { fConditionList.erase(fConditionList.begin() + idx); }
     void clearConditions() { fConditionList.clear(); }
 
     unsigned int getCursor() const { return fMyCursor; }

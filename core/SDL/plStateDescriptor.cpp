@@ -175,8 +175,8 @@ plVarDescriptor::Type plVarDescriptor::GetTypeFromString(const plString& type, b
 
 /* plStateDescriptor */
 plStateDescriptor::~plStateDescriptor() {
-    for (size_t i=0; i<fVariables.getSize(); i++)
-        delete fVariables[i];
+    for (auto var = fVariables.begin(); var != fVariables.end(); ++var)
+        delete *var;
 }
 
 void plStateDescriptor::read(hsStream* S) {
@@ -186,8 +186,8 @@ void plStateDescriptor::read(hsStream* S) {
     fVersion = S->readShort();
 
     clearVariables();
-    fVariables.setSize(S->readShort());
-    for (size_t i=0; i<fVariables.getSize(); i++) {
+    fVariables.resize(S->readShort());
+    for (size_t i=0; i<fVariables.size(); i++) {
         fVariables[i] = new plVarDescriptor();
         S->readBool();  // Redundant - tells us whether this is an SDVar or a SimpleVar
         fVariables[i]->read(S);
@@ -199,15 +199,15 @@ void plStateDescriptor::write(hsStream* S) {
     S->writeSafeStr(fName);
     S->writeShort(fVersion);
 
-    S->writeShort(fVariables.getSize());
-    for (size_t i=0; i<fVariables.getSize(); i++) {
+    S->writeShort(fVariables.size());
+    for (size_t i=0; i<fVariables.size(); i++) {
         S->writeBool(fVariables[i]->getType() == plVarDescriptor::kStateDescriptor);
         fVariables[i]->write(S);
     }
 }
 
 void plStateDescriptor::prcWrite(pfPrcHelper* prc) {
-    for (size_t i=0; i<fVariables.getSize(); i++) {
+    for (size_t i=0; i<fVariables.size(); i++) {
         prc->startTag("Variable");
         prc->writeParam("Name", fVariables[i]->getName());
         prc->endTag(true);
@@ -215,7 +215,7 @@ void plStateDescriptor::prcWrite(pfPrcHelper* prc) {
 }
 
 plVarDescriptor* plStateDescriptor::get(const plString& name) {
-    for (size_t i=0; i<fVariables.getSize(); i++)
+    for (size_t i=0; i<fVariables.size(); i++)
         if (fVariables[i]->getName() == name)
             return fVariables[i];
     return NULL;
@@ -223,33 +223,33 @@ plVarDescriptor* plStateDescriptor::get(const plString& name) {
 
 void plStateDescriptor::set(const plString& name, plVarDescriptor* var) {
     size_t idx = (size_t)-1;
-    for (size_t i=0; i<fVariables.getSize(); i++)
+    for (size_t i=0; i<fVariables.size(); i++)
         if (fVariables[i]->getName() == name)
             idx = i;
     if (idx == (size_t)-1) {
-        fVariables.append(new plVarDescriptor());
-        idx = fVariables.getSize() - 1;
+        fVariables.push_back(new plVarDescriptor());
+        idx = fVariables.size() - 1;
     }
     fVariables[idx] = var;
 }
 
 void plStateDescriptor::delVariable(size_t idx) {
     delete fVariables[idx];
-    fVariables.remove(idx);
+    fVariables.erase(fVariables.begin() + idx);
 }
 
 void plStateDescriptor::delVariable(const plString& name) {
-    for (size_t i=0; i<fVariables.getSize(); i++) {
-        if (fVariables[i]->getName() == name) {
-            delete fVariables[i];
-            fVariables.remove(i);
+    for (auto var = fVariables.begin(); var != fVariables.end(); ++var) {
+        if ((*var)->getName() == name) {
+            delete *var;
+            fVariables.erase(var);
             return;
         }
     }
 }
 
 void plStateDescriptor::clearVariables() {
-    for (size_t i=0; i<fVariables.getSize(); i++)
-        delete fVariables[i];
-    fVariables.setSize(0);
+    for (auto var = fVariables.begin(); var != fVariables.end(); ++var)
+        delete *var;
+    fVariables.clear();
 }

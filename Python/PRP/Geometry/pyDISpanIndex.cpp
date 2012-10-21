@@ -43,8 +43,8 @@ static PyObject* pyDISpanIndex_getFlags(pyDISpanIndex* self, void*) {
 }
 
 static PyObject* pyDISpanIndex_getIndices(pyDISpanIndex* self, void*) {
-    PyObject* list = PyList_New(self->fThis->fIndices.getSize());
-    for (size_t i=0; i<self->fThis->fIndices.getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->fIndices.size());
+    for (size_t i=0; i<self->fThis->fIndices.size(); i++)
         PyList_SET_ITEM(list, i, PyInt_FromLong(self->fThis->fIndices[i]));
     return list;
 }
@@ -63,8 +63,8 @@ static int pyDISpanIndex_setIndices(pyDISpanIndex* self, PyObject* value, void*)
         self->fThis->fIndices.clear();
         return 0;
     } else if (PyList_Check(value)) {
-        self->fThis->fIndices.setSize(PyList_Size(value));
-        for (size_t i=0; i<self->fThis->fIndices.getSize(); i++) {
+        self->fThis->fIndices.resize(PyList_Size(value));
+        for (size_t i=0; i<self->fThis->fIndices.size(); i++) {
             if (!PyInt_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
                 return -1;

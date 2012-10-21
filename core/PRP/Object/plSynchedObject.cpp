@@ -30,7 +30,7 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru() || S->getVer().isUniversal()) {
         if (fSynchFlags & kExcludePersistentState) {
             count = S->readShort();
-            fSDLExcludeList.setSize(count);
+            fSDLExcludeList.resize(count);
             for (i=0; i<count; i++) {
                 len = S->readShort();
                 fSDLExcludeList[i] = S->readStr(len);
@@ -38,7 +38,7 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
         }
         if (fSynchFlags & kHasVolatileState) {
             count = S->readShort();
-            fSDLVolatileList.setSize(count);
+            fSDLVolatileList.resize(count);
             for (i=0; i<count; i++) {
                 len = S->readShort();
                 fSDLVolatileList[i] = S->readStr(len);
@@ -48,7 +48,7 @@ void plSynchedObject::read(hsStream* S, plResManager* mgr) {
         fSynchFlags &= ~0x8;
         if ((fSynchFlags & 0x6) == 0) {
             count = S->readShort();
-            fSDLExcludeList.setSize(count);
+            fSDLExcludeList.resize(count);
             for (i=0; i<count; i++) {
                 len = S->readShort();
                 fSDLExcludeList[i] = S->readStr(len);
@@ -72,15 +72,15 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
     if (S->getVer().isUru() || S->getVer().isUniversal()) {
         S->writeInt(fSynchFlags);
         if (fSynchFlags & kExcludePersistentState) {
-            S->writeShort(fSDLExcludeList.getSize());
-            for (i=0; i<fSDLExcludeList.getSize(); i++) {
+            S->writeShort(fSDLExcludeList.size());
+            for (i=0; i<fSDLExcludeList.size(); i++) {
                 S->writeShort(fSDLExcludeList[i].len());
                 S->writeStr(fSDLExcludeList[i]);
             }
         }
         if (fSynchFlags & kHasVolatileState) {
-            S->writeShort(fSDLVolatileList.getSize());
-            for (i=0; i<fSDLVolatileList.getSize(); i++) {
+            S->writeShort(fSDLVolatileList.size());
+            for (i=0; i<fSDLVolatileList.size(); i++) {
                 S->writeShort(fSDLVolatileList[i].len());
                 S->writeStr(fSDLVolatileList[i]);
             }
@@ -93,8 +93,8 @@ void plSynchedObject::write(hsStream* S, plResManager* mgr) {
 
         S->writeInt(eoaFlags);
         if ((eoaFlags & 0x6) == 0) {
-            S->writeShort(fSDLExcludeList.getSize());
-            for (i=0; i<fSDLExcludeList.getSize(); i++) {
+            S->writeShort(fSDLExcludeList.size());
+            for (i=0; i<fSDLExcludeList.size(); i++) {
                 S->writeShort(fSDLExcludeList[i].len());
                 S->writeStr(fSDLExcludeList[i]);
             }
@@ -111,12 +111,12 @@ void plSynchedObject::IPrcWrite(pfPrcHelper* prc) {
 
     unsigned int i;
     prc->writeTagNoBreak("ExcludePersistentStates");
-    for (i=0; i<fSDLExcludeList.getSize(); i++)
+    for (i=0; i<fSDLExcludeList.size(); i++)
         prc->getStream()->writeStr(fSDLExcludeList[i] + " ");
     prc->closeTagNoBreak();
 
     prc->writeTagNoBreak("VolatileStates");
-    for (i=0; i<fSDLVolatileList.getSize(); i++)
+    for (i=0; i<fSDLVolatileList.size(); i++)
         prc->getStream()->writeStr(fSDLVolatileList[i] + " ");
     prc->closeTagNoBreak();
 
@@ -131,11 +131,11 @@ void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             if (child->getName() == "ExcludePersistentStates") {
                 hsTList<plString> states = child->getContents();
                 while (!states.empty())
-                    fSDLExcludeList.append(states.pop());
+                    fSDLExcludeList.push_back(states.pop());
             } else if (child->getName() == "VolatileStates") {
                 hsTList<plString> states = child->getContents();
                 while (!states.empty())
-                    fSDLVolatileList.append(states.pop());
+                    fSDLVolatileList.push_back(states.pop());
             } else {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             }
@@ -148,12 +148,12 @@ void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 
 void plSynchedObject::setExclude(const plString& sdl) {
     fSynchFlags |= kExcludePersistentState;
-    fSDLExcludeList.append(sdl);
+    fSDLExcludeList.push_back(sdl);
 }
 
 void plSynchedObject::setVolatile(const plString& sdl) {
     fSynchFlags |= kHasVolatileState;
-    fSDLVolatileList.append(sdl);
+    fSDLVolatileList.push_back(sdl);
 }
 
 void plSynchedObject::clearExcludes() {

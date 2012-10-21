@@ -79,9 +79,8 @@ static PyObject* pySceneNode_addSceneObjects(pySceneNode* self, PyObject* args) 
         PyErr_SetString(PyExc_TypeError, "addSceneObjects expects a list of plKeys");
         return NULL;
     }
-    hsTArray<plKey> addend;
-    addend.setSize(PyList_Size(list));
-    for (size_t i=0; i<addend.getSize(); i++) {
+    std::vector<plKey> addend(PyList_Size(list));
+    for (size_t i=0; i<addend.size(); i++) {
         pyKey* key = (pyKey*)PyList_GetItem(list, i);
         if (key == NULL)
             return NULL;
@@ -91,7 +90,8 @@ static PyObject* pySceneNode_addSceneObjects(pySceneNode* self, PyObject* args) 
         }
         addend[i] = *key->fThis;
     }
-    self->fThis->getSceneObjects().append(addend);
+    self->fThis->getSceneObjects().insert(self->fThis->getSceneObjects().end(),
+                                          addend.begin(), addend.end());
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -106,9 +106,8 @@ static PyObject* pySceneNode_addPoolObjects(pySceneNode* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addPoolObjects expects a list of plKeys");
         return NULL;
     }
-    hsTArray<plKey> addend;
-    addend.setSize(PyList_Size(list));
-    for (size_t i=0; i<addend.getSize(); i++) {
+    std::vector<plKey> addend(PyList_Size(list));
+    for (size_t i=0; i<addend.size(); i++) {
         pyKey* key = (pyKey*)PyList_GetItem(list, i);
         if (key == NULL)
             return NULL;
@@ -118,21 +117,22 @@ static PyObject* pySceneNode_addPoolObjects(pySceneNode* self, PyObject* args) {
         }
         addend[i] = *key->fThis;
     }
-    self->fThis->getPoolObjects().append(addend);
+    self->fThis->getPoolObjects().insert(self->fThis->getPoolObjects().end(),
+                                         addend.begin(), addend.end());
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pySceneNode_getSceneObjects(pySceneNode* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getSceneObjects().getSize());
-    for (size_t i=0; i<self->fThis->getSceneObjects().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getSceneObjects().size());
+    for (size_t i=0; i<self->fThis->getSceneObjects().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getSceneObjects()[i]));
     return list;
 }
 
 static PyObject* pySceneNode_getPoolObjects(pySceneNode* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getPoolObjects().getSize());
-    for (size_t i=0; i<self->fThis->getPoolObjects().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getPoolObjects().size());
+    for (size_t i=0; i<self->fThis->getPoolObjects().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getPoolObjects()[i]));
     return list;
 }

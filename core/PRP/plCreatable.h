@@ -144,7 +144,7 @@ protected:
 class PLASMA_DLL plCreatableStub : public plCreatable {
 private:
     short fClassIdx;
-    unsigned char* fData;
+    uint8_t* fData;
     size_t fDataLen;
 
 public:
@@ -174,7 +174,7 @@ public:
      * creatable's contents.
      * \sa getLength()
      */
-    const unsigned char* getData() const { return fData; }
+    const uint8_t* getData() const { return fData; }
 
     /**
      * Returns the size of the creatable's data buffer

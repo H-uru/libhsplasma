@@ -21,12 +21,12 @@ void hsGMaterial::read(hsStream* S, plResManager* mgr) {
 
     fLoadFlags = S->readInt();
     fCompFlags = S->readInt();
-    fLayers.setSize(S->readInt());
-    fPiggyBacks.setSize(S->readInt());
+    fLayers.resize(S->readInt());
+    fPiggyBacks.resize(S->readInt());
 
-    for (size_t i=0; i<fLayers.getSize(); i++)
+    for (size_t i=0; i<fLayers.size(); i++)
         fLayers[i] = mgr->readKey(S);
-    for (size_t i=0; i<fPiggyBacks.getSize(); i++)
+    for (size_t i=0; i<fPiggyBacks.size(); i++)
         fPiggyBacks[i] = mgr->readKey(S);
 }
 
@@ -35,12 +35,12 @@ void hsGMaterial::write(hsStream* S, plResManager* mgr) {
 
     S->writeInt(fLoadFlags);
     S->writeInt(fCompFlags);
-    S->writeInt(fLayers.getSize());
-    S->writeInt(fPiggyBacks.getSize());
+    S->writeInt(fLayers.size());
+    S->writeInt(fPiggyBacks.size());
 
-    for (size_t i=0; i<fLayers.getSize(); i++)
+    for (size_t i=0; i<fLayers.size(); i++)
         mgr->writeKey(S, fLayers[i]);
-    for (size_t i=0; i<fPiggyBacks.getSize(); i++)
+    for (size_t i=0; i<fPiggyBacks.size(); i++)
         mgr->writeKey(S, fPiggyBacks[i]);
 }
 
@@ -53,11 +53,11 @@ void hsGMaterial::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Layers");
-    for (size_t i=0; i<fLayers.getSize(); i++)
+    for (size_t i=0; i<fLayers.size(); i++)
         fLayers[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("PiggyBacks");
-    for (size_t i=0; i<fPiggyBacks.getSize(); i++)
+    for (size_t i=0; i<fPiggyBacks.size(); i++)
         fPiggyBacks[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -67,16 +67,16 @@ void hsGMaterial::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fLoadFlags = tag->getParam("LoadFlags", "0").toUint();
         fCompFlags = tag->getParam("CompFlags", "0").toUint();
     } else if (tag->getName() == "Layers") {
-        fLayers.setSize(tag->countChildren());
+        fLayers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fLayers.getSize(); i++) {
+        for (size_t i=0; i<fLayers.size(); i++) {
             fLayers[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "PiggyBacks") {
-        fPiggyBacks.setSize(tag->countChildren());
+        fPiggyBacks.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fPiggyBacks.getSize(); i++) {
+        for (size_t i=0; i<fPiggyBacks.size(); i++) {
             fPiggyBacks[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

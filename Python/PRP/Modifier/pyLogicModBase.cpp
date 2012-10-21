@@ -84,8 +84,8 @@ static PyObject* pyLogicModBase_setFlag(pyLogicModBase* self, PyObject* args) {
 }
 
 static PyObject* pyLogicModBase_getCommands(pyLogicModBase* self, void*) {
-    PyObject* list = PyList_New(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getCommands().getSize());
-    for (size_t i=0; i<plLogicModBase::Convert(IConvert((pyCreatable*)self))->getCommands().getSize(); i++)
+    PyObject* list = PyList_New(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getCommands().size());
+    for (size_t i=0; i<plLogicModBase::Convert(IConvert((pyCreatable*)self))->getCommands().size(); i++)
         PyList_SET_ITEM(list, i, pyMessage_FromMessage(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getCommands()[i]));
     return list;
 }

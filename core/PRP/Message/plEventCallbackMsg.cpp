@@ -63,8 +63,8 @@ void plEventCallbackMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 void plEventCallbackSetupMsg::read(hsStream* S, plResManager* mgr) {
     plMessage::read(S, mgr);
 
-    fCallbacks.setSize(S->readInt());
-    for (size_t i = 0; i < fCallbacks.getSize(); i++) {
+    fCallbacks.resize(S->readInt());
+    for (size_t i = 0; i < fCallbacks.size(); i++) {
         fCallbacks[i].fMarker = S->readSafeStr();
         fCallbacks[i].fReceiver = mgr->readKey(S);
         fCallbacks[i].fUser = S->readShort();
@@ -74,8 +74,8 @@ void plEventCallbackSetupMsg::read(hsStream* S, plResManager* mgr) {
 void plEventCallbackSetupMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
 
-    S->writeInt(fCallbacks.getSize());
-    for (size_t i=0; i<fCallbacks.getSize(); i++) {
+    S->writeInt(fCallbacks.size());
+    for (size_t i=0; i<fCallbacks.size(); i++) {
         S->writeSafeStr(fCallbacks[i].fMarker);
         mgr->writeKey(S, fCallbacks[i].fReceiver);
         S->writeShort(fCallbacks[i].fUser);
@@ -86,7 +86,7 @@ void plEventCallbackSetupMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("EventCallbackSetups");
-    for (size_t i=0; i<fCallbacks.getSize(); i++) {
+    for (size_t i=0; i<fCallbacks.size(); i++) {
         prc->startTag("Callback");
         prc->writeParam("Marker", fCallbacks[i].fMarker);
         prc->writeParam("User", fCallbacks[i].fUser);
@@ -99,9 +99,9 @@ void plEventCallbackSetupMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plEventCallbackSetupMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "EventCallbackSetups") {
-        fCallbacks.setSize(tag->countChildren());
+        fCallbacks.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fCallbacks.getSize(); i++) {
+        for (size_t i=0; i<fCallbacks.size(); i++) {
             if (child->getName() != "Callback")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fCallbacks[i].fMarker = child->getParam("Marker", "");

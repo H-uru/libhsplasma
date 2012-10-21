@@ -57,9 +57,9 @@ static PyObject* pySpanTemplate_write(pySpanTemplate* self, PyObject* args) {
 }
 
 static PyObject* pySpanTemplate_getVerts(pySpanTemplate* self, void*) {
-    hsTArray<plSpanTemplate::Vertex> verts = self->fThis->getVertices();
-    PyObject* list = PyList_New(verts.getSize());
-    for (size_t i=0; i<verts.getSize(); i++)
+    std::vector<plSpanTemplate::Vertex> verts = self->fThis->getVertices();
+    PyObject* list = PyList_New(verts.size());
+    for (size_t i=0; i<verts.size(); i++)
         PyList_SET_ITEM(list, i, pySpanTemplateVertex_FromVertex(verts[i]));
     return list;
 }
@@ -78,7 +78,7 @@ static PyObject* pySpanTemplate_getFormat(pySpanTemplate* self, void*) {
 }
 
 static int pySpanTemplate_setVerts(pySpanTemplate* self, PyObject* value, void*) {
-    hsTArray<plSpanTemplate::Vertex> verts;
+    std::vector<plSpanTemplate::Vertex> verts;
     if (value == NULL) {
         self->fThis->setVertices(verts);
         return 0;
@@ -87,8 +87,8 @@ static int pySpanTemplate_setVerts(pySpanTemplate* self, PyObject* value, void*)
         PyErr_SetString(PyExc_TypeError, "vertices should be a list of plSpanTemplateVertex objects");
         return -1;
     }
-    verts.setSize(PyList_Size(value));
-    for (size_t i=0; i<verts.getSize(); i++) {
+    verts.resize(PyList_Size(value));
+    for (size_t i=0; i<verts.size(); i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!pySpanTemplateVertex_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "vertices should be a list of plSpanTemplateVertex objects");

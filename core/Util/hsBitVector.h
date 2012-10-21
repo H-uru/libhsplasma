@@ -17,7 +17,6 @@
 #ifndef _HSBITVECTOR_H
 #define _HSBITVECTOR_H
 
-#include "Util/hsTArray.hpp"
 #include "Stream/pfPrcHelper.h"
 #include "Stream/pfPrcParser.h"
 #include <map>

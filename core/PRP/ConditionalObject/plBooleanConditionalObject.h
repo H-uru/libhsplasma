@@ -24,7 +24,7 @@ class PLASMA_DLL plANDConditionalObject : public virtual plConditionalObject {
               plConditionalObject)
 
 protected:
-    hsTArray<plKey> fChildren;
+    std::vector<plKey> fChildren;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -41,7 +41,7 @@ class PLASMA_DLL plORConditionalObject : public virtual plConditionalObject {
               plConditionalObject)
 
 protected:
-    hsTArray<plKey> fChildren;
+    std::vector<plKey> fChildren;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

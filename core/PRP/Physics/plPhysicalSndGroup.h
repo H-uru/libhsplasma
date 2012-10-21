@@ -27,7 +27,7 @@ public:
 
 protected:
     unsigned int fGroup;
-    hsTArray<plKey> fImpactSounds, fSlideSounds;
+    std::vector<plKey> fImpactSounds, fSlideSounds;
 
 public:
     plPhysicalSndGroup() : fGroup(kNone) { }

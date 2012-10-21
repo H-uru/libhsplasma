@@ -24,7 +24,7 @@ class PLASMA_DLL plMorphDataSet : public virtual hsKeyedObject {
     CREATABLE(plMorphDataSet, kMorphDataSet, hsKeyedObject)
 
 protected:
-    hsTArray<plMorphArray> fMorphs;
+    std::vector<plMorphArray> fMorphs;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);

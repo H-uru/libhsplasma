@@ -23,9 +23,9 @@ class PLASMA_DLL plDrawInterface : public virtual plObjInterface {
     CREATABLE(plDrawInterface, kDrawInterface, plObjInterface)
 
 protected:
-    hsTArray<plKey> fDrawables;
-    hsTArray<plKey> fRegions;
-    hsTArray<int> fDrawableKeys;
+    std::vector<plKey> fDrawables;
+    std::vector<plKey> fRegions;
+    std::vector<int> fDrawableKeys;
 
 public:
     virtual void read(hsStream* S, plResManager* mgr);
@@ -36,17 +36,17 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    size_t getNumDrawables() const { return fDrawables.getSize(); }
+    size_t getNumDrawables() const { return fDrawables.size(); }
     plKey getDrawable(size_t idx) const { return fDrawables[idx]; }
     int getDrawableKey(size_t idx) const { return fDrawableKeys[idx]; }
     void clearDrawables();
     void addDrawable(plKey draw, int key);
     void delDrawable(size_t idx);
 
-    const hsTArray<plKey>& getRegions() const { return fRegions; }
-    hsTArray<plKey>& getRegions() { return fRegions; }
-    void addRegion(plKey obj) { fRegions.append(obj); }
-    void delRegion(size_t idx) { fRegions.remove(idx); }
+    const std::vector<plKey>& getRegions() const { return fRegions; }
+    std::vector<plKey>& getRegions() { return fRegions; }
+    void addRegion(plKey obj) { fRegions.push_back(obj); }
+    void delRegion(size_t idx) { fRegions.erase(fRegions.begin() + idx); }
     void clearRegions() { fRegions.clear(); }
 };
 

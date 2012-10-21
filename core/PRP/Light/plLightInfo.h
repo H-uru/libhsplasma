@@ -34,7 +34,7 @@ public:
     };
 
 protected:
-    hsTArray<plKey> fVisRegions;
+    std::vector<plKey> fVisRegions;
     hsColorRGBA fAmbient, fDiffuse, fSpecular;
     hsMatrix44 fLightToLocal, fLocalToLight, fLightToWorld, fWorldToLight;
     plKey fProjection, fSoftVolume;
@@ -73,10 +73,10 @@ public:
     void setSoftVolume(plKey vol) { fSoftVolume = vol; }
     void setSceneNode(plKey node) { fSceneNode = node; }
 
-    const hsTArray<plKey>& getVisRegions() const { return fVisRegions; }
-    hsTArray<plKey>& getVisRegions() { return fVisRegions; }
-    void addVisRegion(plKey region) { fVisRegions.append(region); }
-    void delVisRegion(size_t idx) { fVisRegions.remove(idx); }
+    const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
+    std::vector<plKey>& getVisRegions() { return fVisRegions; }
+    void addVisRegion(plKey region) { fVisRegions.push_back(region); }
+    void delVisRegion(size_t idx) { fVisRegions.erase(fVisRegions.begin() + idx); }
     void clearVisRegions() { fVisRegions.clear(); }
 };
 

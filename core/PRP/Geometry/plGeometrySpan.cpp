@@ -62,19 +62,19 @@ void plGeometrySpan::read(hsStream* S) {
 
     if (fNumVerts > 0) {
         unsigned int stride = CalcVertexSize(fFormat);
-        fVertexData.setSize(fNumVerts * stride);
-        S->read(fNumVerts * stride, fVertexData.getData());
+        fVertexData.resize(fNumVerts * stride);
+        S->read(fNumVerts * stride, &fVertexData[0]);
 
-        fMultColor.setSize(fNumVerts);
-        fAddColor.setSize(fNumVerts);
+        fMultColor.resize(fNumVerts);
+        fAddColor.resize(fNumVerts);
         for (unsigned int i=0; i<fNumVerts; i++) {
             fMultColor[i].read(S);
             fAddColor[i].read(S);
         }
-        fDiffuseRGBA.setSize(fNumVerts);
-        fSpecularRGBA.setSize(fNumVerts);
-        S->readInts(fNumVerts, (uint32_t*)fDiffuseRGBA.getData());
-        S->readInts(fNumVerts, (uint32_t*)fSpecularRGBA.getData());
+        fDiffuseRGBA.resize(fNumVerts);
+        fSpecularRGBA.resize(fNumVerts);
+        S->readInts(fNumVerts, (uint32_t*)&fDiffuseRGBA[0]);
+        S->readInts(fNumVerts, (uint32_t*)&fSpecularRGBA[0]);
     } else {
         fVertexData.clear();
         fMultColor.clear();
@@ -84,8 +84,8 @@ void plGeometrySpan::read(hsStream* S) {
     }
 
     if (fNumIndices > 0) {
-        fIndexData.setSize(fNumIndices);
-        S->readShorts(fNumIndices, (uint16_t*)fIndexData.getData());
+        fIndexData.resize(fNumIndices);
+        S->readShorts(fNumIndices, (uint16_t*)&fIndexData[0]);
     } else {
         fIndexData.clear();
     }
@@ -123,17 +123,17 @@ void plGeometrySpan::write(hsStream* S) {
         S->writeFloat(fWaterHeight);
 
     if (fNumVerts > 0) {
-        S->write(fNumVerts * CalcVertexSize(fFormat), fVertexData.getData());
+        S->write(fNumVerts * CalcVertexSize(fFormat), &fVertexData[0]);
         for (unsigned int i=0; i<fNumVerts; i++) {
             fMultColor[i].write(S);
             fAddColor[i].write(S);
         }
-        S->writeInts(fNumVerts, (uint32_t*)fDiffuseRGBA.getData());
-        S->writeInts(fNumVerts, (uint32_t*)fSpecularRGBA.getData());
+        S->writeInts(fNumVerts, (uint32_t*)&fDiffuseRGBA[0]);
+        S->writeInts(fNumVerts, (uint32_t*)&fSpecularRGBA[0]);
 
     }
     if (fNumIndices > 0)
-        S->writeShorts(fNumIndices, (uint16_t*)fIndexData.getData());
+        S->writeShorts(fNumIndices, (uint16_t*)&fIndexData[0]);
 
     S->writeInt(fInstanceGroup);
     if (fInstanceGroup != 0) {
@@ -159,9 +159,9 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
     prc->endTag();
 
     if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
-        hsTArray<TempVertex> verts = getVertices();
+        std::vector<TempVertex> verts = getVertices();
         prc->writeSimpleTag("Vertices");
-        for (size_t i=0; i<verts.getSize(); i++) {
+        for (size_t i=0; i<verts.size(); i++) {
             prc->writeSimpleTag("Vertex");
 
             prc->writeSimpleTag("Position");
@@ -257,8 +257,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
     while (child != NULL) {
         if (child->getName() == "Vertices") {
             fNumVerts = child->countChildren();
-            hsTArray<TempVertex> verts;
-            verts.setSize(fNumVerts);
+            std::vector<TempVertex> verts(fNumVerts);
             const pfPrcTag* vertChild = child->getFirstChild();
             for (size_t i=0; i<fNumVerts; i++) {
                 if (vertChild->getName() != "Vertex")
@@ -297,7 +296,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
         } else if (child->getName() == "MultColors") {
             if (child->countChildren() != fNumVerts)
                 throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
-            fMultColor.setSize(fNumVerts);
+            fMultColor.resize(fNumVerts);
             const pfPrcTag* clrChild = child->getFirstChild();
             for (size_t i=0; i<fNumVerts; i++) {
                 fMultColor[i].prcParse(clrChild);
@@ -306,7 +305,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
         } else if (child->getName() == "AddColors") {
             if (child->countChildren() != fNumVerts)
                 throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
-            fAddColor.setSize(fNumVerts);
+            fAddColor.resize(fNumVerts);
             const pfPrcTag* clrChild = child->getFirstChild();
             for (size_t i=0; i<fNumVerts; i++) {
                 fAddColor[i].prcParse(clrChild);
@@ -315,7 +314,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
         } else if (child->getName() == "DiffuseColors") {
             if (child->countChildren() != fNumVerts)
                 throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
-            fDiffuseRGBA.setSize(fNumVerts);
+            fDiffuseRGBA.resize(fNumVerts);
             const pfPrcTag* clrChild = child->getFirstChild();
             for (size_t i=0; i<fNumVerts; i++) {
                 hsColor32 cl;
@@ -326,7 +325,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
         } else if (child->getName() == "SpecularColors") {
             if (child->countChildren() != fNumVerts)
                 throw pfPrcParseException(__FILE__, __LINE__, "Incorrect number of colors");
-            fSpecularRGBA.setSize(fNumVerts);
+            fSpecularRGBA.resize(fNumVerts);
             const pfPrcTag* clrChild = child->getFirstChild();
             for (size_t i=0; i<fNumVerts; i++) {
                 hsColor32 cl;
@@ -336,7 +335,7 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
             }
         } else if (child->getName() == "Triangles") {
             fNumIndices = child->countChildren() * 3;
-            fIndexData.setSize(fNumIndices);
+            fIndexData.resize(fNumIndices);
             const pfPrcTag* triChild = child->getFirstChild();
             for (size_t i=0; i<fNumIndices; i += 3) {
                 if (triChild->getName() != "Triangle")
@@ -359,11 +358,10 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
-    hsTArray<TempVertex> buf;
-    buf.setSize(fNumVerts);
+std::vector<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
+    std::vector<TempVertex> buf(fNumVerts);
 
-    const unsigned char* cp = fVertexData.getData();
+    const unsigned char* cp = &fVertexData[0];
     for (size_t i=0; i<fNumVerts; i++) {
         buf[i].fPosition.X = *(float*)cp; cp += sizeof(float);
         buf[i].fPosition.Y = *(float*)cp; cp += sizeof(float);
@@ -396,7 +394,7 @@ hsTArray<plGeometrySpan::TempVertex> plGeometrySpan::getVertices() const {
     return buf;
 }
 
-void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
+void plGeometrySpan::setVertices(const std::vector<TempVertex>& verts) {
     fVertexData.clear();
     fDiffuseRGBA.clear();
     fSpecularRGBA.clear();
@@ -404,14 +402,14 @@ void plGeometrySpan::setVertices(const hsTArray<TempVertex>& verts) {
     fAddColor.clear();
 
     unsigned int stride = CalcVertexSize(fFormat);
-    fNumVerts = verts.getSize();
-    fVertexData.setSize(fNumVerts * stride);
-    fDiffuseRGBA.setSize(fNumVerts);
-    fSpecularRGBA.setSize(fNumVerts);
-    fMultColor.setSize(fNumVerts);
-    fAddColor.setSize(fNumVerts);
+    fNumVerts = verts.size();
+    fVertexData.resize(fNumVerts * stride);
+    fDiffuseRGBA.resize(fNumVerts);
+    fSpecularRGBA.resize(fNumVerts);
+    fMultColor.resize(fNumVerts);
+    fAddColor.resize(fNumVerts);
 
-    unsigned char* cp = fVertexData.getData();
+    unsigned char* cp = &fVertexData[0];
     for (size_t i=0; i<fNumVerts; i++) {
         *(float*)cp = verts[i].fPosition.X; cp += sizeof(float);
         *(float*)cp = verts[i].fPosition.Y; cp += sizeof(float);

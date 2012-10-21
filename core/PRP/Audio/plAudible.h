@@ -33,7 +33,7 @@ class PLASMA_DLL plWinAudible : public virtual plAudible {
     CREATABLE(plWinAudible, kWinAudible, plAudible)
 
 private:
-    hsTArray<plKey> fSoundObjs;
+    std::vector<plKey> fSoundObjs;
     plKey fSceneNode;
 
 public:
@@ -45,10 +45,10 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
-    const hsTArray<plKey>& getSounds() const { return fSoundObjs; }
-    hsTArray<plKey>& getSounds() { return fSoundObjs; }
-    void addSound(plKey sound) { fSoundObjs.append(sound); }
-    void delSound(size_t idx) { fSoundObjs.remove(idx); }
+    const std::vector<plKey>& getSounds() const { return fSoundObjs; }
+    std::vector<plKey>& getSounds() { return fSoundObjs; }
+    void addSound(plKey sound) { fSoundObjs.push_back(sound); }
+    void delSound(size_t idx) { fSoundObjs.erase(fSoundObjs.begin() + idx); }
     void clearSounds() { fSoundObjs.clear(); }
 
     plKey getSceneNode() const { return fSceneNode; }

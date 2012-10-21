@@ -21,7 +21,7 @@ void plNetMsgRoomsList::read(hsStream* S, plResManager* mgr) {
     plNetMessage::read(S, mgr);
 
     size_t count = S->readInt();
-    fRooms.setSize(count);
+    fRooms.resize(count);
     for (size_t i=0; i<count; i++) {
         fRooms[i].fLocation.read(S);
         unsigned short slen = S->readShort();
@@ -32,8 +32,8 @@ void plNetMsgRoomsList::read(hsStream* S, plResManager* mgr) {
 void plNetMsgRoomsList::write(hsStream* S, plResManager* mgr) {
     plNetMessage::write(S, mgr);
 
-    S->writeInt(fRooms.getSize());
-    for (size_t i=0; i<fRooms.getSize(); i++) {
+    S->writeInt(fRooms.size());
+    for (size_t i=0; i<fRooms.size(); i++) {
         fRooms[i].fLocation.write(S);
         S->writeShort(fRooms[i].fName.len());
         S->writeStr(fRooms[i].fName);
@@ -44,7 +44,7 @@ void plNetMsgRoomsList::IPrcWrite(pfPrcHelper* prc) {
     plNetMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("Rooms");
-    for (size_t i=0; i<fRooms.getSize(); i++) {
+    for (size_t i=0; i<fRooms.size(); i++) {
         prc->startTag("Room");
         prc->writeParam("Name", fRooms[i].fName);
         fRooms[i].fLocation.prcWrite(prc);
@@ -55,9 +55,9 @@ void plNetMsgRoomsList::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgRoomsList::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Rooms") {
-        fRooms.setSize(tag->countChildren());
+        fRooms.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fRooms.getSize(); i++) {
+        for (size_t i=0; i<fRooms.size(); i++) {
             if (child->getName() != "Room")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fRooms[i].fName = child->getParam("Name", "");
@@ -74,7 +74,7 @@ void plNetMsgRoomsList::addRoom(const plLocation& loc, const plString& name) {
     Room rm;
     rm.fLocation = loc;
     rm.fName = name;
-    fRooms.append(rm);
+    fRooms.push_back(rm);
 }
 
 

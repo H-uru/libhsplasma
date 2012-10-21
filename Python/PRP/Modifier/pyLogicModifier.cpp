@@ -64,8 +64,8 @@ static PyObject* pyLogicModifier_delCondition(pyLogicModifier* self, PyObject* a
 }
 
 static PyObject* pyLogicModifier_getConditions(pyLogicModifier* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getConditions().getSize());
-    for (size_t i=0; i<self->fThis->getConditions().getSize(); i++)
+    PyObject* list = PyList_New(self->fThis->getConditions().size());
+    for (size_t i=0; i<self->fThis->getConditions().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getConditions()[i]));
     return list;
 }

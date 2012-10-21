@@ -49,8 +49,8 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Vertices");
     if (!prc->isExcluded(pfPrcHelper::kExcludeVertexData)) {
-        hsTArray<Vertex> verts = getVertices();
-        for (size_t i=0; i<verts.getSize(); i++) {
+        std::vector<Vertex> verts = getVertices();
+        for (size_t i=0; i<verts.size(); i++) {
             prc->startTag("Vertex");
             if (fFormat & kColorMask)
                 prc->writeParamHex("Color1", verts[i].fColor1);
@@ -111,8 +111,7 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
     while (child != NULL) {
         if (child->getName() == "Vertices") {
             fNumVerts = child->countChildren();
-            hsTArray<Vertex> verts;
-            verts.setSize(fNumVerts);
+            std::vector<Vertex> verts(fNumVerts);
             const pfPrcTag* vertChild = child->getFirstChild();
             for (size_t i=0; i<fNumVerts; i++) {
                 if (vertChild->getName() != "Vertex")
@@ -170,9 +169,8 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
     }
 }
 
-hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
-    hsTArray<Vertex> verts;
-    verts.setSize(fNumVerts);
+std::vector<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
+    std::vector<Vertex> verts(fNumVerts);
     unsigned char* dataPtr = fData;
     for (size_t i=0; i<fNumVerts; i++) {
         if (fFormat & kPosMask) {
@@ -223,15 +221,15 @@ hsTArray<plSpanTemplate::Vertex> plSpanTemplate::getVertices() const {
     return verts;
 }
 
-void plSpanTemplate::setVertices(const hsTArray<Vertex>& verts) {
+void plSpanTemplate::setVertices(const std::vector<Vertex>& verts) {
     delete[] fData;
-    if (verts.getSize() == 0) {
+    if (verts.empty()) {
         fData = NULL;
         return;
     }
 
     fStride = CalcStride(fFormat);
-    fNumVerts = verts.getSize();
+    fNumVerts = verts.size();
     fData = new unsigned char[fNumVerts * fStride];
 
     unsigned char* dataPtr = fData;

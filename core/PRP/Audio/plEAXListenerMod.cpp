@@ -175,13 +175,11 @@ void plEAXReverbEffect::read(hsStream* S, plResManager* mgr) {
     fListenerProps.flRoomRolloffFactor = S->readFloat();
     fListenerProps.ulFlags = S->readInt();
 
-    fApertures.setSize(S->readInt());
-    for (size_t i = 0; i < fApertures.getSize(); i++) {
-        Aperture a;
-        a.fX.read(S);
-        a.fY.read(S);
-        a.fZ.read(S);
-        fApertures[i] = a;
+    fApertures.resize(S->readInt());
+    for (auto ap = fApertures.begin(); ap != fApertures.end(); ++ap) {
+        ap->fX.read(S);
+        ap->fY.read(S);
+        ap->fZ.read(S);
     }
 }
 
@@ -212,11 +210,11 @@ void plEAXReverbEffect::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fListenerProps.flRoomRolloffFactor);
     S->writeInt(fListenerProps.ulFlags);
 
-    S->writeInt(fApertures.getSize());
-    for (size_t i = 0; i < fApertures.getSize(); i++) {
-        fApertures[i].fX.write(S);
-        fApertures[i].fY.write(S);
-        fApertures[i].fZ.write(S);
+    S->writeInt(fApertures.size());
+    for (auto ap = fApertures.begin(); ap != fApertures.end(); ++ap) {
+        ap->fX.write(S);
+        ap->fY.write(S);
+        ap->fZ.write(S);
     }
 }
 
@@ -255,11 +253,11 @@ void plEAXReverbEffect::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Apertures");
-    for (size_t i = 0; i < fApertures.getSize(); i++) {
+    for (auto ap = fApertures.begin(); ap != fApertures.end(); ++ap) {
         prc->writeSimpleTag("Aperture");
-        fApertures[i].fX.prcWrite(prc);
-        fApertures[i].fY.prcWrite(prc);
-        fApertures[i].fZ.prcWrite(prc);
+        ap->fX.prcWrite(prc);
+        ap->fY.prcWrite(prc);
+        ap->fZ.prcWrite(prc);
         prc->closeTag();
     }
     prc->closeTag();
@@ -299,17 +297,17 @@ void plEAXReverbEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         }
     } else if (tag->getName() == "Apertures") {
         if (tag->hasChildren()) {
-            fApertures.setSize(tag->countChildren());
+            fApertures.resize(tag->countChildren());
             const pfPrcTag* child = tag->getFirstChild();
-            for (size_t i = 0; i < fApertures.getSize(); i++) {
+            for (auto ap = fApertures.begin(); ap != fApertures.end(); ++ap) {
                 if (child->getName() != "Aperture")
                     throw pfPrcTagException(__FILE__, __LINE__, child->getName());
                 const pfPrcTag* vector = child->getFirstChild();
-                fApertures[i].fX.prcParse(vector);
+                ap->fX.prcParse(vector);
                 vector = vector->getNextSibling();
-                fApertures[i].fY.prcParse(vector);
+                ap->fY.prcParse(vector);
                 vector = vector->getNextSibling();
-                fApertures[i].fZ.prcParse(vector);
+                ap->fZ.prcParse(vector);
                 child = child->getNextSibling();
             }
         }

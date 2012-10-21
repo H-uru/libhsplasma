@@ -18,8 +18,8 @@
 
 /* plAGAnim */
 plAGAnim::~plAGAnim() {
-    for (size_t i=0; i<fApps.getSize(); i++)
-        delete fApps[i];
+    for (auto app = fApps.begin(); app != fApps.end(); ++app)
+        delete *app;
 }
 
 void plAGAnim::read(hsStream* S, plResManager* mgr) {
@@ -30,8 +30,8 @@ void plAGAnim::read(hsStream* S, plResManager* mgr) {
     fEnd = S->readFloat();
 
     clearApplicators();
-    fApps.setSizeNull(S->readInt());
-    for (size_t i=0; i<fApps.getSize(); i++) {
+    fApps.resize(S->readInt());
+    for (size_t i=0; i<fApps.size(); i++) {
         plAGApplicator* agApp = plAGApplicator::Convert(mgr->ReadCreatable(S));
         plAGChannel* agChan = plAGChannel::Convert(mgr->ReadCreatable(S));
         agApp->setChannel(agChan);
@@ -49,8 +49,8 @@ void plAGAnim::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fStart);
     S->writeFloat(fEnd);
 
-    S->writeInt(fApps.getSize());
-    for (size_t i=0; i<fApps.getSize(); i++) {
+    S->writeInt(fApps.size());
+    for (size_t i=0; i<fApps.size(); i++) {
         mgr->WriteCreatable(S, fApps[i]);
         mgr->WriteCreatable(S, fApps[i]->getChannel());
     }
@@ -70,7 +70,7 @@ void plAGAnim::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Applicators");
-    for (size_t i=0; i<fApps.getSize(); i++) {
+    for (size_t i=0; i<fApps.size(); i++) {
         prc->writeSimpleTag("AppSet");
           prc->writeSimpleTag("Applicator");
           fApps[i]->prcWrite(prc);
@@ -91,9 +91,9 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fEoaFlag = tag->getParam("EoaFlag", "0").toUint();
     } else if (tag->getName() == "Applicators") {
         clearApplicators();
-        fApps.setSizeNull(tag->countChildren());
+        fApps.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fApps.getSize(); i++) {
+        for (size_t i=0; i<fApps.size(); i++) {
             if (child->getName() != "AppSet")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
 
@@ -124,14 +124,14 @@ void plAGAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 void plAGAnim::clearApplicators() {
-    for (size_t i=0; i<fApps.getSize(); i++)
-        delete fApps[i];
+    for (auto app = fApps.begin(); app != fApps.end(); ++app)
+        delete *app;
     fApps.clear();
 }
 
 void plAGAnim::delApplicator(size_t idx) {
     delete fApps[idx];
-    fApps.remove(idx);
+    fApps.erase(fApps.begin() + idx);
 }
 
 

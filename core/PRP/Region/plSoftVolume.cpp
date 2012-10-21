@@ -103,16 +103,16 @@ void plSoftVolumeSimple::setVolume(plVolumeIsect* vol) {
 void plSoftVolumeComplex::read(hsStream* S, plResManager* mgr) {
     plSoftVolume::read(S, mgr);
 
-    fSubVolumes.setSize(S->readInt());
-    for (size_t i=0; i<fSubVolumes.getSize(); i++)
+    fSubVolumes.resize(S->readInt());
+    for (size_t i=0; i<fSubVolumes.size(); i++)
         fSubVolumes[i] = mgr->readKey(S);
 }
 
 void plSoftVolumeComplex::write(hsStream* S, plResManager* mgr) {
     plSoftVolume::write(S, mgr);
 
-    S->writeInt(fSubVolumes.getSize());
-    for (size_t i=0; i<fSubVolumes.getSize(); i++)
+    S->writeInt(fSubVolumes.size());
+    for (size_t i=0; i<fSubVolumes.size(); i++)
         mgr->writeKey(S, fSubVolumes[i]);
 }
 
@@ -120,16 +120,16 @@ void plSoftVolumeComplex::IPrcWrite(pfPrcHelper* prc) {
     plSoftVolume::IPrcWrite(prc);
 
     prc->writeSimpleTag("SubVolumes");
-    for (size_t i=0; i<fSubVolumes.getSize(); i++)
+    for (size_t i=0; i<fSubVolumes.size(); i++)
         fSubVolumes[i]->prcWrite(prc);
     prc->closeTag();
 }
 
 void plSoftVolumeComplex::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SubVolumes") {
-        fSubVolumes.setSize(tag->countChildren());
+        fSubVolumes.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fSubVolumes.getSize(); i++) {
+        for (size_t i=0; i<fSubVolumes.size(); i++) {
             fSubVolumes[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }

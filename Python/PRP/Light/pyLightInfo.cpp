@@ -88,8 +88,8 @@ static PyObject* pyLightInfo_getNode(pyLightInfo* self, void*) {
 }
 
 static PyObject* pyLightInfo_getVisRegions(pyLightInfo* self, void*) {
-    PyObject* list = PyList_New(plLightInfo::Convert(IConvert((pyCreatable*)self))->getVisRegions().getSize());
-    for (size_t i=0; i<plLightInfo::Convert(IConvert((pyCreatable*)self))->getVisRegions().getSize(); i++)
+    PyObject* list = PyList_New(plLightInfo::Convert(IConvert((pyCreatable*)self))->getVisRegions().size());
+    for (size_t i=0; i<plLightInfo::Convert(IConvert((pyCreatable*)self))->getVisRegions().size(); i++)
         PyList_SET_ITEM(list, i, pyKey_FromKey(plLightInfo::Convert(IConvert((pyCreatable*)self))->getVisRegions()[i]));
     return list;
 }

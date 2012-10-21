@@ -28,7 +28,6 @@ public:
     enum { kTypeEnter = 0x1, kTypeExit = 0x2 };
 
 protected:
-    hsTArray<plKey> fInside;
     int fTrigNum, fType;
     bool fFirst, fTriggered, fIgnoreExtraEnters;
 

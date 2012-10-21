@@ -17,7 +17,6 @@
 #ifndef _PLONESHOTCALLBACKS_H
 #define _PLONESHOTCALLBACKS_H
 
-#include "Util/hsTArray.hpp"
 #include "PRP/KeyedObject/plKey.h"
 #include "ResManager/plResManager.h"
 
@@ -33,7 +32,7 @@ public:
     };
 
 protected:
-    hsTArray<plOneShotCallback> fCallbacks;
+    std::vector<plOneShotCallback> fCallbacks;
 
 public:
     void read(hsStream* S, plResManager* mgr);

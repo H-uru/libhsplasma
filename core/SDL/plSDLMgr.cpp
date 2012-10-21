@@ -22,8 +22,8 @@
 
 /* plSDLMgr */
 plSDLMgr::~plSDLMgr() {
-    for (size_t i=0; i<fDescriptors.getSize(); i++)
-        delete fDescriptors[i];
+    for (auto desc = fDescriptors.begin(); desc != fDescriptors.end(); ++desc)
+        delete *desc;
 }
 
 void plSDLMgr::ReadDescriptors(const plString& filename) {
@@ -41,14 +41,14 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
 void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
     std::auto_ptr<hsTokenStream> tokStream(new hsTokenStream(fileStream));
     tokStream->setDelimiters("{}[]()=,;");
-    hsTArray<hsTokenStream::Region> commentMarkers;
-    commentMarkers.append(hsTokenStream::Region("#", "\n"));
-    commentMarkers.append(hsTokenStream::Region("//", "\n"));
-    commentMarkers.append(hsTokenStream::Region("/*", "*/"));
+    std::vector<hsTokenStream::Region> commentMarkers;
+    commentMarkers.push_back(hsTokenStream::Region("#", "\n"));
+    commentMarkers.push_back(hsTokenStream::Region("//", "\n"));
+    commentMarkers.push_back(hsTokenStream::Region("/*", "*/"));
     tokStream->setCommentMarkers(commentMarkers);
-    hsTArray<hsTokenStream::Region> stringMarkers;
-    stringMarkers.append(hsTokenStream::Region("\"", "\""));
-    stringMarkers.append(hsTokenStream::Region("'", "'"));
+    std::vector<hsTokenStream::Region> stringMarkers;
+    stringMarkers.push_back(hsTokenStream::Region("\"", "\""));
+    stringMarkers.push_back(hsTokenStream::Region("'", "'"));
     tokStream->setStringMarkers(stringMarkers);
 
     ParseState state = kFile;
@@ -117,7 +117,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
             } else if (tok == "VERSION") {
                 curDesc->setVersion(tokStream->next().toInt());
             } else if (tok == "}") {
-                fDescriptors.append(curDesc.release());
+                fDescriptors.push_back(curDesc.release());
                 state = kFile;
             } else {
                 throw plSDLParseException(__FILE__, __LINE__,
@@ -196,7 +196,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                             "Unexpected '%s', expected ';'", tok.cstr());
                 }
             } else if (tok == "}") {
-                fDescriptors.append(curDesc.release());
+                fDescriptors.push_back(curDesc.release());
                 state = kFile;
             } else {
                 curVar.reset(new plVarDescriptor());
@@ -260,7 +260,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
 }
 
 void plSDLMgr::ClearDescriptors() {
-    for (size_t i=0; i<fDescriptors.getSize(); i++)
+    for (size_t i=0; i<fDescriptors.size(); i++)
         delete fDescriptors[i];
     fDescriptors.clear();
 }
@@ -268,7 +268,7 @@ void plSDLMgr::ClearDescriptors() {
 plStateDescriptor* plSDLMgr::GetDescriptor(const plString& name, int version) {
     plStateDescriptor* desc = NULL;
     int hiVersion = 0;
-    for (size_t i=0; i<fDescriptors.getSize(); i++) {
+    for (size_t i=0; i<fDescriptors.size(); i++) {
         if (fDescriptors[i]->getName() == name) {
             if (version == -1 && hiVersion <= fDescriptors[i]->getVersion()) {
                 desc = fDescriptors[i];
@@ -290,14 +290,14 @@ plStateDescriptor* plSDLMgr::GetDescriptor(const plString& name, int version) {
 
 void plSDLMgr::read(hsStream* S) {
     ClearDescriptors();
-    fDescriptors.setSize(S->readShort());
-    for (size_t i=0; i<fDescriptors.getSize(); i++) {
+    fDescriptors.resize(S->readShort());
+    for (size_t i=0; i<fDescriptors.size(); i++) {
         fDescriptors[i] = new plStateDescriptor();
         fDescriptors[i]->read(S);
     }
 
     // Propagate types on SDVars
-    for (size_t i=0; i<fDescriptors.getSize(); i++) {
+    for (size_t i=0; i<fDescriptors.size(); i++) {
         plStateDescriptor* desc = fDescriptors[i];
         for (size_t j=0; j<desc->getNumVars(); j++) {
             plVarDescriptor* var = desc->get(j);
@@ -309,8 +309,8 @@ void plSDLMgr::read(hsStream* S) {
 }
 
 void plSDLMgr::write(hsStream* S) {
-    S->writeShort(fDescriptors.getSize());
-    for (size_t i=0; i<fDescriptors.getSize(); i++)
+    S->writeShort(fDescriptors.size());
+    for (size_t i=0; i<fDescriptors.size(); i++)
         fDescriptors[i]->write(S);
 }
 

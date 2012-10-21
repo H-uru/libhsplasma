@@ -22,8 +22,8 @@ plAnimTimeConvert::~plAnimTimeConvert() {
     delete fEaseOutCurve;
     delete fSpeedEaseCurve;
 
-    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
-        delete fCallbackMsgs[i];
+    for (auto msg = fCallbackMsgs.begin(); msg != fCallbackMsgs.end(); ++msg)
+        delete *msg;
 }
 
 void plAnimTimeConvert::read(hsStream* S, plResManager* mgr) {
@@ -40,14 +40,14 @@ void plAnimTimeConvert::read(hsStream* S, plResManager* mgr) {
     fCurrentAnimTime = S->readFloat();
     fLastEvalWorldTime = S->readDouble();
 
-    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
-        delete fCallbackMsgs[i];
-    fCallbackMsgs.setSizeNull(S->readInt());
-    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
+    for (auto msg = fCallbackMsgs.begin(); msg != fCallbackMsgs.end(); ++msg)
+        delete *msg;
+    fCallbackMsgs.resize(S->readInt());
+    for (size_t i=0; i<fCallbackMsgs.size(); i++)
         fCallbackMsgs[i] = plEventCallbackMsg::Convert(mgr->ReadCreatable(S));
 
-    fStopPoints.setSizeNull(S->readInt());
-    for (size_t i=0; i<fStopPoints.getSize(); i++)
+    fStopPoints.resize(S->readInt());
+    for (size_t i=0; i<fStopPoints.size(); i++)
         fStopPoints[i] = S->readFloat();
 }
 
@@ -65,12 +65,12 @@ void plAnimTimeConvert::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fCurrentAnimTime);
     S->writeDouble(fLastEvalWorldTime);
 
-    S->writeInt(fCallbackMsgs.getSize());
-    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
+    S->writeInt(fCallbackMsgs.size());
+    for (size_t i=0; i<fCallbackMsgs.size(); i++)
         mgr->WriteCreatable(S, fCallbackMsgs[i]);
 
-    S->writeInt(fStopPoints.getSize());
-    for (size_t i=0; i<fStopPoints.getSize(); i++)
+    S->writeInt(fStopPoints.size());
+    for (size_t i=0; i<fStopPoints.size(); i++)
         S->writeFloat(fStopPoints[i]);
 }
 
@@ -118,12 +118,12 @@ void plAnimTimeConvert::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Callbacks");
-    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
+    for (size_t i=0; i<fCallbackMsgs.size(); i++)
         fCallbackMsgs[i]->prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("StopPoints");
-    for (size_t i=0; i<fStopPoints.getSize(); i++) {
+    for (size_t i=0; i<fStopPoints.size(); i++) {
         prc->startTag("StopPoint");
         prc->writeParam("value", fStopPoints[i]);
         prc->endTag(true);
@@ -152,18 +152,18 @@ void plAnimTimeConvert::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fCurrentAnimTime = tag->getParam("CurrentAnimTime", "0").toFloat();
         fLastEvalWorldTime = tag->getParam("LastEvalWorldTime", "0").toFloat();
     } else if (tag->getName() == "Callbacks") {
-        for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
-            delete fCallbackMsgs[i];
-        fCallbackMsgs.setSizeNull(tag->countChildren());
+        for (auto msg = fCallbackMsgs.begin(); msg != fCallbackMsgs.end(); ++msg)
+            delete *msg;
+        fCallbackMsgs.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fCallbackMsgs.getSize(); i++) {
+        for (size_t i=0; i<fCallbackMsgs.size(); i++) {
             fCallbackMsgs[i] = plEventCallbackMsg::Convert(mgr->prcParseCreatable(child));
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "StopPoints") {
-        fStopPoints.setSizeNull(tag->countChildren());
+        fStopPoints.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fStopPoints.getSize(); i++) {
+        for (size_t i=0; i<fStopPoints.size(); i++) {
             if (child->getName() != "StopPoint")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             fStopPoints[i] = child->getParam("value", "0").toFloat();
@@ -191,11 +191,11 @@ void plAnimTimeConvert::setSpeedEaseCurve(plATCEaseCurve* curve) {
 
 void plAnimTimeConvert::delCallback(size_t idx) {
     delete fCallbackMsgs[idx];
-    fCallbackMsgs.remove(idx);
+    fCallbackMsgs.erase(fCallbackMsgs.begin() + idx);
 }
 
 void plAnimTimeConvert::clearCallbacks() {
-    for (size_t i=0; i<fCallbackMsgs.getSize(); i++)
-        delete fCallbackMsgs[i];
+    for (auto msg = fCallbackMsgs.begin(); msg != fCallbackMsgs.end(); ++msg)
+        delete *msg;
     fCallbackMsgs.clear();
 }

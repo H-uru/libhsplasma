@@ -21,7 +21,7 @@
 
 class PLASMA_DLL plMorphArray {
 protected:
-    hsTArray<plMorphDelta> fDeltas;
+    std::vector<plMorphDelta> fDeltas;
 
 public:
     void read(hsStream* S, plResManager* mgr);

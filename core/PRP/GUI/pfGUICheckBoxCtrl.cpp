@@ -19,8 +19,8 @@
 void pfGUICheckBoxCtrl::read(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::read(S, mgr);
 
-    fAnimKeys.setSize(S->readInt());
-    for (size_t i=0; i<fAnimKeys.getSize(); i++)
+    fAnimKeys.resize(S->readInt());
+    for (size_t i=0; i<fAnimKeys.size(); i++)
         fAnimKeys[i] = mgr->readKey(S);
     fAnimName = S->readSafeStr();
     fChecked = S->readBool();
@@ -29,8 +29,8 @@ void pfGUICheckBoxCtrl::read(hsStream* S, plResManager* mgr) {
 void pfGUICheckBoxCtrl::write(hsStream* S, plResManager* mgr) {
     pfGUIControlMod::write(S, mgr);
 
-    S->writeInt(fAnimKeys.getSize());
-    for (size_t i=0; i<fAnimKeys.getSize(); i++)
+    S->writeInt(fAnimKeys.size());
+    for (size_t i=0; i<fAnimKeys.size(); i++)
         mgr->writeKey(S, fAnimKeys[i]);
     S->writeSafeStr(fAnimName);
     S->writeBool(fChecked);
@@ -45,7 +45,7 @@ void pfGUICheckBoxCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("AnimKeys");
-    for (size_t i=0; i<fAnimKeys.getSize(); i++)
+    for (size_t i=0; i<fAnimKeys.size(); i++)
         fAnimKeys[i]->prcWrite(prc);
     prc->closeTag();
 }
@@ -55,9 +55,9 @@ void pfGUICheckBoxCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fAnimName = tag->getParam("AnimName", "");
         fChecked = tag->getParam("Checked", "false").toBool();
     } else if (tag->getName() == "AnimKeys") {
-        fAnimKeys.setSize(tag->countChildren());
+        fAnimKeys.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
-        for (size_t i=0; i<fAnimKeys.getSize(); i++) {
+        for (size_t i=0; i<fAnimKeys.size(); i++) {
             fAnimKeys[i] = mgr->prcParseKey(child);
             child = child->getNextSibling();
         }
