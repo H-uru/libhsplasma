@@ -136,11 +136,12 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
                             uvwChild = uvwChild->getNextSibling();
                         }
                     } else if (subChild->getName() == "Weights") {
-                        hsTList<plString> wgtList = subChild->getContents();
-                        if (wgtList.getSize() != (fFormat & kWeightMask) / 0x100)
+                        std::list<plString> wgtList = subChild->getContents();
+                        if (wgtList.size() != (fFormat & kWeightMask) / 0x100)
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of Weights");
+                        auto wgt = wgtList.begin();
                         for (size_t j=0; j<(size_t)((fFormat & kWeightMask) / 0x100); j++)
-                            verts[i].fWeights[j] = wgtList.pop().toFloat();
+                            verts[i].fWeights[j] = (*wgt++).toFloat();
                     } else {
                         throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
                     }
@@ -154,12 +155,13 @@ void plSpanTemplate::prcParse(const pfPrcTag* tag) {
             fIndices = new unsigned short[fNumTris * 3];
             const pfPrcTag* idxChild = child->getFirstChild();
             for (size_t i=0; i<(size_t)(fNumTris * 3); i += 3) {
-                hsTList<plString> idxList = idxChild->getContents();
-                if (idxList.getSize() != 3)
+                std::list<plString> idxList = idxChild->getContents();
+                if (idxList.size() != 3)
                     throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
-                fIndices[i] = idxList.pop().toUint();
-                fIndices[i+1] = idxList.pop().toUint();
-                fIndices[i+2] = idxList.pop().toUint();
+                auto idx_iter = idxList.begin();
+                fIndices[i] = (*idx_iter++).toUint();
+                fIndices[i+1] = (*idx_iter++).toUint();
+                fIndices[i+2] = (*idx_iter++).toUint();
                 idxChild = idxChild->getNextSibling();
             }
         } else {

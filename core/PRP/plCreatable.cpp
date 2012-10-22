@@ -79,7 +79,7 @@ void plCreatableStub::prcParse(const pfPrcTag* tag, plResManager* mgr) {
     fClassIdx = pdUnifiedTypeMap::ClassIndex(tag->getParam("Type", ""));
 
     delete[] fData;
-    fDataLen = tag->getContents().getSize();
+    fDataLen = tag->getContents().size();
     fData = new uint8_t[fDataLen];
     tag->readHexStream(fDataLen, fData);
 }

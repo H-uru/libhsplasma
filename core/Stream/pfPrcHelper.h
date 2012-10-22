@@ -18,7 +18,7 @@
 #define _PFPRCHELPER_H
 
 #include "hsStream.h"
-#include "Util/hsTList.hpp"
+#include <stack>
 
 class PLASMA_DLL pfPrcHelper {
 public:
@@ -30,7 +30,7 @@ public:
 private:
     int iLvl;
     bool inTag;
-    hsTList<const char*> openTags;
+    std::stack<const char*> openTags;
     hsStream* file;
     uint32_t excludes;
 

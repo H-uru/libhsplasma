@@ -94,11 +94,12 @@ void plSplineEaseCurve::IPrcWrite(pfPrcHelper* prc) {
 
 void plSplineEaseCurve::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SplineCoefficients") {
-        hsTList<plString> coefList = tag->getContents();
-        if (coefList.getSize() != 4)
+        std::list<plString> coefList = tag->getContents();
+        if (coefList.size() != 4)
             throw pfPrcParseException(__FILE__, __LINE__, "plSplineEaseCurve expects exactly 4 coefficients");
-        for (size_t i=0; i<4; i++)
-            fCoef[i] = coefList.pop().toFloat();
+        size_t i = 0;
+        for (auto coef = coefList.begin(); coef != coefList.end(); ++coef)
+            fCoef[i++] = coef->toFloat();
     } else {
         plATCEaseCurve::IPrcParse(tag, mgr);
     }

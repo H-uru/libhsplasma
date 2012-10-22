@@ -125,44 +125,45 @@ void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encodin
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Local2World") {
-            hsTList<plString> contents = child->getContents();
-            if (contents.pop() != "[")
+            std::list<plString> contents = child->getContents();
+            auto iter = contents.begin();
+            if (*iter++ != "[")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[0][0] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[0][0] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[0][1] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[0][1] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[0][2] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[0][2] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[0][3] = contents.pop().toFloat();
-            if (contents.pop() != ";")
+            fL2W[0][3] = (*iter++).toFloat();
+            if (*iter++ != ";")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[1][0] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[1][0] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[1][1] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[1][1] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[1][2] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[1][2] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[1][3] = contents.pop().toFloat();
-            if (contents.pop() != ";")
+            fL2W[1][3] = (*iter++).toFloat();
+            if (*iter++ != ";")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[2][0] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[2][0] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[2][1] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[2][1] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[2][2] = contents.pop().toFloat();
-            if (contents.pop() != ",")
+            fL2W[2][2] = (*iter++).toFloat();
+            if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[2][3] = contents.pop().toFloat();
-            if (contents.pop() != "]")
+            fL2W[2][3] = (*iter++).toFloat();
+            if (*iter++ != "]")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
         } else if (child->getName() == "PosDeltas") {
             if (child->countChildren() != fNumVerts)

@@ -230,7 +230,8 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fAccel.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "Emitters") {
-        clearEmitters();
+        for (auto emi = fEmitters.begin(); emi != fEmitters.end(); ++emi)
+            delete *emi;
         fEmitters.resize(fMaxEmitters);
         fNumValidEmitters = tag->countChildren();
         if (fNumValidEmitters > fMaxEmitters)

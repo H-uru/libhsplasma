@@ -280,11 +280,12 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
                         }
                     } else if (subChild->getName() == "Weights") {
                         verts[i].fIndices = subChild->getParam("Index", "0").toUint();
-                        hsTList<plString> wgtList = subChild->getContents();
-                        if (wgtList.getSize() != (size_t)((fFormat & kSkinWeightMask) >> 4))
+                        std::list<plString> wgtList = subChild->getContents();
+                        if (wgtList.size() != (size_t)((fFormat & kSkinWeightMask) >> 4))
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of Weights");
+                        auto wgt = wgtList.begin();
                         for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                            verts[i].fWeights[j] = wgtList.pop().toFloat();
+                            verts[i].fWeights[j] = (*wgt++).toFloat();
                     } else {
                         throw pfPrcTagException(__FILE__, __LINE__, subChild->getName());
                     }
@@ -340,12 +341,13 @@ void plGeometrySpan::prcParse(const pfPrcTag* tag) {
             for (size_t i=0; i<fNumIndices; i += 3) {
                 if (triChild->getName() != "Triangle")
                     throw pfPrcTagException(__FILE__, __LINE__, triChild->getName());
-                hsTList<plString> idxList = triChild->getContents();
-                if (idxList.getSize() != 3)
+                std::list<plString> idxList = triChild->getContents();
+                if (idxList.size() != 3)
                     throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
-                fIndexData[i] = idxList.pop().toUint();
-                fIndexData[i+1] = idxList.pop().toUint();
-                fIndexData[i+2] = idxList.pop().toUint();
+                auto idx_iter = idxList.begin();
+                fIndexData[i] = (*idx_iter++).toUint();
+                fIndexData[i+1] = (*idx_iter++).toUint();
+                fIndexData[i+2] = (*idx_iter++).toUint();
                 triChild = triChild->getNextSibling();
             }
         } else if (child->getName() == "InstanceGroup") {

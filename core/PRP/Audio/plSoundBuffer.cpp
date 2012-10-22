@@ -127,7 +127,7 @@ void plSoundBuffer::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fFlags = tag->getParam("Flags", "0").toUint();
         fDataLength = tag->getParam("Length", "0").toUint();
         fFileName = tag->getParam("Filename", "");
-        if (tag->getContents().getSize() != 0) {
+        if (!tag->getContents().empty()) {
             fData = new unsigned char[fDataLength];
             tag->readHexStream(fDataLength, fData);
         }

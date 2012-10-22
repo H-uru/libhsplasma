@@ -159,7 +159,7 @@ void plPythonMod::IPrcWrite(pfPrcHelper* prc) {
 void plPythonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PythonCode") {
         delete[] fPythonCode;
-        fPythonSize = tag->getContents().getSize();
+        fPythonSize = tag->getContents().size();
         fPythonCode = new unsigned char[fPythonSize];
         tag->readHexStream(fPythonSize, fPythonCode);
     } else if (tag->getName() == "Receivers") {

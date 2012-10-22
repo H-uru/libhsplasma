@@ -77,7 +77,7 @@ void plNetMsgStreamHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fCompressionType = tag->getParam("CompressionType", "0").toUint();
 
         delete[] fStream;
-        fStreamLength = tag->getContents().getSize();
+        fStreamLength = tag->getContents().size();
         fStream = new unsigned char[fStreamLength];
         tag->readHexStream(fStreamLength, fStream);
     } else {

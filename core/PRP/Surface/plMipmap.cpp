@@ -289,15 +289,15 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "ImageData") {
-                if (child->getContents().getSize() != fTotalSize)
+                if (child->getContents().size() != fTotalSize)
                     throw pfPrcParseException(__FILE__, __LINE__, "Image Data is not of the correct length");
                 child->readHexStream(fTotalSize, fImageData);
             } else if (child->getName() == "JpegData") {
-                fJPEGSize = tag->getContents().getSize();
+                fJPEGSize = tag->getContents().size();
                 fJPEGData = new unsigned char[fJPEGSize];
                 tag->readHexStream(fJPEGSize, fJPEGData);
             } else if (child->getName() == "AlphaData") {
-                fJAlphaSize = tag->getContents().getSize();
+                fJAlphaSize = tag->getContents().size();
                 fJAlphaData = new unsigned char[fJAlphaSize];
                 tag->readHexStream(fJAlphaSize, fJAlphaData);
             } else {
@@ -306,7 +306,7 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "DDS") {
-        if (tag->getContents().getSize() != fTotalSize)
+        if (tag->getContents().size() != fTotalSize)
             throw pfPrcParseException(__FILE__, __LINE__, "DDS Data is not of the correct length");
         IBuildLevelSizes();
         delete[] fImageData;

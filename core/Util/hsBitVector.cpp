@@ -159,7 +159,7 @@ void hsBitVector::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsBitVector")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    hsTList<plString> flags = tag->getContents();
-    while (!flags.empty())
-        setBit(getValue(flags.pop()));
+    std::list<plString> flags = tag->getContents();
+    for (auto flag = flags.begin(); flag != flags.end(); ++flag)
+        setBit(getValue(*flag));
 }

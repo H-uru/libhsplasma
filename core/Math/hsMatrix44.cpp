@@ -321,56 +321,57 @@ void hsMatrix44::prcParse(const pfPrcTag* tag) {
     if (tag->getParam("identity", "false").toBool()) {
         Reset();
     } else {
-        hsTList<plString> contents = tag->getContents();
-        if (contents.pop() != "[")
+        std::list<plString> contents = tag->getContents();
+        auto iter = contents.begin();
+        if (*iter++ != "[")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[0][0] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[0][0] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[0][1] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[0][1] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[0][2] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[0][2] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[0][3] = contents.pop().toFloat();
-        if (contents.pop() != ";")
+        data[0][3] = (*iter++).toFloat();
+        if (*iter++ != ";")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[1][0] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[1][0] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[1][1] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[1][1] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[1][2] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[1][2] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[1][3] = contents.pop().toFloat();
-        if (contents.pop() != ";")
+        data[1][3] = (*iter++).toFloat();
+        if (*iter++ != ";")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[2][0] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[2][0] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[2][1] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[2][1] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[2][2] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[2][2] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[2][3] = contents.pop().toFloat();
-        if (contents.pop() != ";")
+        data[2][3] = (*iter++).toFloat();
+        if (*iter++ != ";")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[3][0] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[3][0] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[3][1] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[3][1] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[3][2] = contents.pop().toFloat();
-        if (contents.pop() != ",")
+        data[3][2] = (*iter++).toFloat();
+        if (*iter++ != ",")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
-        data[3][3] = contents.pop().toFloat();
-        if (contents.pop() != "]")
+        data[3][3] = (*iter++).toFloat();
+        if (*iter++ != "]")
             throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix44 Format error");
     }
 }

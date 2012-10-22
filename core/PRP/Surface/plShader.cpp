@@ -54,13 +54,14 @@ void plShaderConst::prcWrite(pfPrcHelper* prc) {
 void plShaderConst::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plShaderConst")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    hsTList<plString> data = tag->getContents();
-    if (data.getSize() != 4)
+    std::list<plString> data = tag->getContents();
+    if (data.size() != 4)
         throw pfPrcParseException(__FILE__, __LINE__, "plShaderConst expects 4 floats");
-    fArray[0] = data.pop().toFloat();
-    fArray[1] = data.pop().toFloat();
-    fArray[2] = data.pop().toFloat();
-    fArray[3] = data.pop().toFloat();
+    auto iter = data.begin();
+    fArray[0] = (*iter++).toFloat();
+    fArray[1] = (*iter++).toFloat();
+    fArray[2] = (*iter++).toFloat();
+    fArray[3] = (*iter++).toFloat();
 }
 
 

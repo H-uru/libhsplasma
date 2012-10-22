@@ -189,9 +189,9 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fSortOrder = tag->getParam("SortOrder", "0").toUint();
     } else if (tag->getName() == "Description") {
         fDescription = "";
-        hsTList<plString> descTokens = tag->getContents();
-        while (!descTokens.empty())
-            fDescription += descTokens.pop() + " ";
+        std::list<plString> descTokens = tag->getContents();
+        for (auto tok = descTokens.begin(); tok != descTokens.end(); ++tok)
+            fDescription += *tok + " ";
     } else if (tag->getName() == "CustomText") {
         fCustomText = tag->getParam("value", "");
     } else if (tag->getName() == "Icon") {

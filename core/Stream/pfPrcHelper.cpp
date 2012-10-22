@@ -142,14 +142,16 @@ void pfPrcHelper::writeTagNoBreak(const char* name) {
 void pfPrcHelper::closeTag() {
     char buf[256];
     iLvl--;
-    snprintf(buf, 256, "</%s>\n", openTags.pop());
+    snprintf(buf, 256, "</%s>\n", openTags.top());
+    openTags.pop();
     writeTabbed(buf);
 }
 
 void pfPrcHelper::closeTagNoBreak() {
     char buf[256];
     iLvl--;
-    snprintf(buf, 256, "</%s>\n", openTags.pop());
+    snprintf(buf, 256, "</%s>\n", openTags.top());
+    openTags.pop();
     file->writeStr(buf);
 }
 
@@ -165,7 +167,8 @@ void pfPrcHelper::startPrc() {
 
 void pfPrcHelper::finalize() {
     if (inTag) endTag();
-    while (!openTags.empty()) closeTag();
+    while (!openTags.empty())
+        closeTag();
 }
 
 static bool goodChar(unsigned char ch) {

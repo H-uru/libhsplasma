@@ -59,10 +59,11 @@ size_t pfPrcTag::countChildren() const {
 }
 
 void pfPrcTag::readHexStream(size_t maxLen, unsigned char* buf) const {
-    hsTList<plString> bytes = getContents();
+    std::list<plString> bytes = getContents();
     size_t i=0;
-    while (!bytes.empty() && i<maxLen)
-        buf[i++] = bytes.pop().toUint(16);
+    auto iter = bytes.begin();
+    while (iter != bytes.end() && i<maxLen)
+        buf[i++] = (*iter++).toUint(16);
 }
 
 
@@ -143,7 +144,7 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     }
 
     while (tok->peekNext() != "<")
-        tag->fContents.rpush(tok->next());
+        tag->fContents.push_back(tok->next());
 
     pfPrcTag* childPtr = readTag(tok);
     if (!childPtr->fIsEndTag)

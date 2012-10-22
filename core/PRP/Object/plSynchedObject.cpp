@@ -129,13 +129,11 @@ void plSynchedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "ExcludePersistentStates") {
-                hsTList<plString> states = child->getContents();
-                while (!states.empty())
-                    fSDLExcludeList.push_back(states.pop());
+                std::list<plString> states = child->getContents();
+                fSDLExcludeList = std::vector<plString>(states.begin(), states.end());
             } else if (child->getName() == "VolatileStates") {
-                hsTList<plString> states = child->getContents();
-                while (!states.empty())
-                    fSDLVolatileList.push_back(states.pop());
+                std::list<plString> states = child->getContents();
+                fSDLVolatileList = std::vector<plString>(states.begin(), states.end());
             } else {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             }

@@ -18,7 +18,6 @@
 #define _PLGBUFFERGROUP_H
 
 #include "Math/hsGeometry3.h"
-#include "Util/hsTList.hpp"
 #include "hsGDeviceRef.hpp"
 #include "plVertCoder.h"
 

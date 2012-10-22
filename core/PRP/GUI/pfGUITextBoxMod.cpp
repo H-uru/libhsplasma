@@ -61,7 +61,7 @@ void pfGUITextBoxMod::IPrcWrite(pfPrcHelper* prc) {
 
 void pfGUITextBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Text") {
-        size_t bufLen = tag->getContents().getSize();
+        size_t bufLen = tag->getContents().size();
         char* buf = new char[bufLen + 1];
         tag->readHexStream(bufLen, (unsigned char*)buf);
         buf[bufLen] = 0;

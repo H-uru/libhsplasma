@@ -357,11 +357,12 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
                             buf[i].fPos.prcParse(subChild->getFirstChild());
                     } else if (subChild->getName() == "SkinWeights") {
                         buf[i].fSkinIdx = subChild->getParam("SkinIndex", "0").toInt();
-                        hsTList<plString> wgtList = subChild->getContents();
-                        if (wgtList.getSize() != (size_t)((fFormat & kSkinWeightMask) >> 4))
+                        std::list<plString> wgtList = subChild->getContents();
+                        if (wgtList.size() != (size_t)((fFormat & kSkinWeightMask) >> 4))
                             throw pfPrcParseException(__FILE__, __LINE__, "Incorrect Number of Skin Weights");
+                        auto wgt = wgtList.begin();
                         for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                            buf[i].fSkinWeights[j] = wgtList.pop().toFloat();
+                            buf[i].fSkinWeights[j] = (*wgt++).toFloat();
                     } else if (subChild->getName() == "Normal") {
                         if (subChild->hasChildren())
                             buf[i].fNormal.prcParse(subChild->getFirstChild());
@@ -392,12 +393,13 @@ void plGBufferGroup::prcParse(const pfPrcTag* tag) {
             for (size_t i=0; i<idxCount; i += 3) {
                 if (idxChild->getName() != "Triangle")
                     throw pfPrcTagException(__FILE__, __LINE__, idxChild->getName());
-                hsTList<plString> idxList = idxChild->getContents();
-                if (idxList.getSize() != 3)
+                std::list<plString> idxList = idxChild->getContents();
+                if (idxList.size() != 3)
                     throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
-                idxBuff[i] = idxList.pop().toUint();
-                idxBuff[i+1] = idxList.pop().toUint();
-                idxBuff[i+2] = idxList.pop().toUint();
+                auto idx_iter = idxList.begin();
+                idxBuff[i] = (*idx_iter++).toUint();
+                idxBuff[i+1] = (*idx_iter++).toUint();
+                idxBuff[i+2] = (*idx_iter++).toUint();
                 idxChild = idxChild->getNextSibling();
             }
         } else if (child->getName() == "CellGroup") {

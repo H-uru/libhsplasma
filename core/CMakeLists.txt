@@ -702,7 +702,6 @@ set(UTIL_HDRS
     Util/hs3DDevice.h
     Util/hsBitVector.h
     Util/hsRadixSort.h
-    Util/hsTList.hpp
     Util/plDDSurface.h
     Util/plJPEG.h
     Util/plMD5.h

@@ -105,7 +105,7 @@ void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->getParam("NULL", "false").toBool()) {
             fInitBuffer = NULL;
         } else {
-            fInitBufferLen = tag->getContents().getSize();
+            fInitBufferLen = tag->getContents().size();
             fInitBuffer = new unsigned int[fInitBufferLen];
             tag->readHexStream(fInitBufferLen, (unsigned char*)fInitBuffer);
         }

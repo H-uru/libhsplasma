@@ -19,8 +19,8 @@
 
 #include "hsStream.h"
 #include "hsTokenStream.h"
-#include "Util/hsTList.hpp"
 #include <map>
+#include <list>
 
 class PLASMA_DLL pfPrcTag {
 protected:
@@ -28,7 +28,7 @@ protected:
     std::map<plString, plString> fParams;
     pfPrcTag* fNextSibling;
     pfPrcTag* fFirstChild;
-    hsTList<plString> fContents;
+    std::list<plString> fContents;
     bool fIsEndTag;
 
     pfPrcTag() : fNextSibling(NULL), fFirstChild(NULL), fIsEndTag(false) { }
@@ -41,7 +41,7 @@ protected:
 public:
     plString getName() const { return fName; }
     plString getParam(const plString& key, const plString& def) const;
-    const hsTList<plString>& getContents() const { return fContents; }
+    const std::list<plString>& getContents() const { return fContents; }
     const pfPrcTag* getFirstChild() const { return fFirstChild; }
     const pfPrcTag* getNextSibling() const { return fNextSibling; }
     bool hasChildren() const { return (fFirstChild != NULL); }

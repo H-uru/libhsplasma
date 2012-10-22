@@ -370,12 +370,13 @@ void plGenericPhysical::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 for (size_t i=0; i<fIndices.size(); i += 3) {
                     if (tri->getName() != "Triangle")
                         throw pfPrcTagException(__FILE__, __LINE__, tri->getName());
-                    hsTList<plString> idxList = tri->getContents();
-                    if (idxList.getSize() != 3)
+                    std::list<plString> idxList = tri->getContents();
+                    if (idxList.size() != 3)
                         throw pfPrcParseException(__FILE__, __LINE__, "Triangles should have exactly 3 indices");
-                    fIndices[i+0] = idxList.pop().toUint();
-                    fIndices[i+1] = idxList.pop().toUint();
-                    fIndices[i+2] = idxList.pop().toUint();
+                    auto idx_iter = idxList.begin();
+                    fIndices[i+0] = (*idx_iter++).toUint();
+                    fIndices[i+1] = (*idx_iter++).toUint();
+                    fIndices[i+2] = (*idx_iter++).toUint();
                     tri = tri->getNextSibling();
                 }
             } else if (child->getName() == "TriMeshDataBuffer") {
