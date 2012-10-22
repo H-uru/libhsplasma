@@ -5,7 +5,7 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLAN
     set(CMAKE_C_FLAGS "-fno-strict-aliasing ${CMAKE_C_FLAGS}")
 endif()
 
-include_directories(${PLASMA_SOURCE_DIR}/core)
+include_directories(${PROJECT_SOURCE_DIR}/core)
 include_directories(${PYTHON_INCLUDE_DIRS})
 include_directories(./)
 
