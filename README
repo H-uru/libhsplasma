@@ -16,7 +16,7 @@ $ make
 $ sudo make install
 
 On Windows, make sure you have the required libraries as well as
-Visual Studio 2008 (Express Edition works fine), and then use the generated
+Visual Studio (Express Edition works fine), and then use the generated
 .sln files to compile.  Note that building the prerequisites on Win64 can
 be a bit of a pain, so I've included some hints below for this...
 Of course, you can always just stick to Win32 compilation, which works
@@ -40,24 +40,16 @@ packages installed in order for libHSPlasma to compile successfully:
 * OpenSSL                  http://www.openssl.org/
 * Python 2.4+ or 3.0+      http://www.python.org/
 
+You will also need a C++ compiler with at least some C++11 support.
+The following compilers are currently known to work:
+
+* GCC 4.4 or later
+* Clang 3.0 or later
+* Microsoft Visual C++ 2010 or later (2008 is no longer supported)
+
 
 Win32/64 Special Considerations
 ----------------------------
-
-A lot of libraries have trouble dealing with Win64 still, even though they
-work fine on Linux64.  In my builds, I've found ways to overcome some of
-these to build the packages I need for the libHSPlasma-x64 build.
-
-zlib:
-    You can create an x64 project in VS, but it will still put the binaries
-    into the same place as the Win32 build.  You can either edit the project
-    configs to fix this (it's hard-coded in several of the property sheets),
-    or make a second zlib folder and edit the default config to use X64
-    compilation flags.  After setting it up, it should compile pretty cleanly.
-
-libjpeg:
-    Pretty much same story as zlib.  Either copy the project dir or edit
-    the generated x64 project to place the output somewhere sane.
 
 OpenSSL:
     OpenSSL is a bit of a pain on Windows.  You'll need ActivePerl (either the
