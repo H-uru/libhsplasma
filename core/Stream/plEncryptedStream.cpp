@@ -149,12 +149,13 @@ void plEncryptedStream::CryptFlush() {
 
 bool plEncryptedStream::IsFileEncrypted(const char* file) {
     hsFileStream sF;
-    if (sF.open(file, fmRead) == false)
+    if (!sF.open(file, fmRead))
         return false;
-    if (sF.size() < 8)
+    if (sF.size() < 8) {
+        sF.close();
         return false;
-    int magicN = 0;
-    magicN = sF.readInt();
+    }
+    int magicN = sF.readInt();
     if (magicN == eoaMagic) {
         sF.close();
         return true;
