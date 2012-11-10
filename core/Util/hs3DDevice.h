@@ -38,11 +38,17 @@ public:
     void read(hsStream* S, int version=11);
     void write(hsStream* S, int version=11);
 
+    unsigned int getFlags() const { return fFlags; }
     unsigned int getWidth() const { return fWidth; }
     unsigned int getHeight() const { return fHeight; }
     unsigned int getDepth() const { return fDepth; }
+    std::vector<unsigned short>& getZStencilDepths() { return fZStencilDepths; }
+    const std::vector<unsigned short>& getZStencilDepths() const { return fZStencilDepths; }
+    std::vector<unsigned char>& getFSAATypes() { return fFSAATypes; }
+    const std::vector<unsigned char>& getFSAATypes() const { return fFSAATypes; }
     bool getCanRenderToCubics() const { return fCanRenderToCubics; }
 
+    void setFlags(unsigned int flags) { fFlags = flags; }
     void setWidth(unsigned int width) { fWidth = width; }
     void setHeight(unsigned int height) { fHeight = height; }
     void setDepth(unsigned int depth) { fDepth = depth; }
@@ -68,6 +74,8 @@ public:
         kDirect3D_TnL
     };
 
+    enum { kMaxFogKnees = 2 };
+
 private:
     unsigned int fRecordVersion;
     unsigned int fFlags;
@@ -85,7 +93,7 @@ private:
     float fFogExpApproxStart;
     float fFogExp2ApproxStart;
     float fFogEndBias;
-    FogKnee fFogKnees[2];
+    FogKnee fFogKnees[kMaxFogKnees];
     unsigned char fAASetting;
     unsigned char fMaxAnisotropicSamples;
 
@@ -107,16 +115,21 @@ public:
     const plString& getDriverName() const { return fDriverName; }
     const plString& getDriverVersion() const { return fDriverVersion; }
     const plString& getDeviceDesc() const { return fDeviceDesc; }
-    const hsBitVector getCaps() { return fCaps; }
+    hsBitVector& getCaps() { return fCaps; }
+    const hsBitVector& getCaps() const { return fCaps; }
     unsigned int getLayersAtOnce() const { return fLayersAtOnce; }
     unsigned int getMemoryBytes() const { return fMemoryBytes; }
-    size_t getNumModes() const { return fModes.size(); }
-    const hsG3DDeviceMode& getMode(size_t idx) { return fModes[idx]; }
+    std::vector<hsG3DDeviceMode>& getModes() { return fModes; }
+    const std::vector<hsG3DDeviceMode>& getModes() const { return fModes; }
     float getZBiasRating() const { return fZBiasRating; }
-    float getLODBIasRating() const { return fLODBiasRating; }
+    float getLODBiasRating() const { return fLODBiasRating; }
     float getFogExpApproxStart() const { return fFogExpApproxStart; }
     float getFogExp2ApproxStart() const { return fFogExp2ApproxStart; }
     float getFogEndBias() const { return fFogEndBias; }
+    const FogKnee* getFogKnees() const { return fFogKnees; }
+    FogKnee* getFogKnees() { return fFogKnees; }
+    unsigned char getAASetting() const { return fAASetting; }
+    unsigned char getMaxAnisotropicSamples() const { return fMaxAnisotropicSamples; }
 
     void setVersion(unsigned int version) { fRecordVersion = version; }
     void setFlags(unsigned int flags) { fFlags = flags; }
@@ -125,6 +138,15 @@ public:
     void setDriverName(const plString& name) { fDriverName = name; }
     void setDriverVersion(const plString& version) { fDriverVersion = version; }
     void setDeviceDesc(const plString& desc) { fDeviceDesc = desc; }
+    void setLayersAtOnce(unsigned int layers) { fLayersAtOnce = layers; }
+    void setMemoryBytes(unsigned int membytes) { fMemoryBytes = membytes; }
+    void setZBiasRating(float bias) { fZBiasRating = bias; }
+    void setLODBiasRating(float bias) { fLODBiasRating = bias; }
+    void setFogExpApproxStart(float start) { fFogExpApproxStart = start; }
+    void setFogExp2ApproxStart(float start) { fFogExp2ApproxStart = start; }
+    void setFogEndBias(float bias) { fFogEndBias = bias; }
+    void setAASetting(unsigned char aa) { fAASetting = aa; }
+    void setMaxAnisotropicSamples(unsigned char aniso) { fMaxAnisotropicSamples = aniso; }
 };
 
 class PLASMA_DLL hsG3DDeviceModeRecord {
@@ -139,6 +161,14 @@ public:
 
     void read(hsStream* S);
     void write(hsStream* S);
+
+    hsG3DDeviceRecord& getRecord() { return fRecord; }
+    const hsG3DDeviceRecord& getRecord() const { return fRecord; }
+    hsG3DDeviceMode& getMode() { return fMode; }
+    const hsG3DDeviceMode& getMode() const { return fMode; }
+    unsigned short getTextureQuality() const { return fTextureQuality; }
+
+    void setTextureQuality(unsigned short quality) { fTextureQuality = quality; }
 };
 
 #endif
