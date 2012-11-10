@@ -19,6 +19,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "Util/plString.h"
 #include "Util/PlasmaVersions.h"
 #include "Sys/Platform.h"
