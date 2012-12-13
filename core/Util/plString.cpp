@@ -681,19 +681,20 @@ plString plString::replace(const char* src, const char* dest) const {
         return *this;
 
     plString result;
-    size_t begin = 0;
-    size_t i = 0;
-    while (i < (fLen - len)) {
-        if (strncmp(cstr() + i, src, len) == 0) {
-            result += plString(cstr() + begin, i - begin);
-            result += dest;
-            i += len;
-            begin = i;
-        } else {
-            i++;
-        }
+    const char* start = cstr();
+    for ( ;; ) {
+        const char* match = strstr(start, src);
+        if (match == NULL)
+            break;
+
+        result += plString(start, match - start);
+        result += dest;
+        start = match + len;
     }
-    return result + plString(cstr() + begin, (i + 1) - begin);
+
+    if (*start != 0)
+        result += start;
+    return result;
 }
 
 std::vector<plString> plString::split(char sep, size_t max) const {
