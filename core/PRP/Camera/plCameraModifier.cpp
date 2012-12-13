@@ -219,9 +219,13 @@ void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fSenderQueue.resize(fMessageQueue.size());
         const pfPrcTag* child = tag->getFirstChild();
         for (size_t i=0; i<fMessageQueue.size(); i++) {
-            fMessageQueue[i] = plMessage::Convert(mgr->prcParseCreatable(child));
+            if (child->getName() != "Message")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fMessageQueue[i] = plMessage::Convert(mgr->prcParseCreatable(child->getFirstChild()));
             child = child->getNextSibling();
-            fSenderQueue[i] = mgr->prcParseKey(child);
+            if (child->getName() != "Sender")
+                throw pfPrcTagException(__FILE__, __LINE__, child->getName());
+            fSenderQueue[i] = mgr->prcParseKey(child->getFirstChild());
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "FOVInstructions") {
