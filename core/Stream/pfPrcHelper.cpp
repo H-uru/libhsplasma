@@ -16,6 +16,17 @@
 
 #include "pfPrcHelper.h"
 
+static plString xmlEscape(const plString& text) {
+    return text.replace("&", "&amp;").replace("\"", "&quot;")
+               .replace("<", "&lt;").replace(">", "&gt;")
+               .replace("'", "&apos;");
+}
+
+void pfPrcHelper::directWrite(const plString& text)
+{
+    file->writeStr(xmlEscape(text));
+}
+
 void pfPrcHelper::writeTabbed(const char* str) {
     for (int i=0; i<iLvl; i++)
         file->writeStr("\t");
@@ -33,17 +44,8 @@ void pfPrcHelper::startTag(const char* name) {
 }
 
 void pfPrcHelper::writeParam(const char* name, const char* value) {
-    char buf[256];
-    snprintf(buf, 256, " %s=\"%s\"", name, value);
-    file->writeStr(buf);
-}
-
-void pfPrcHelper::writeParam(const char* name, const wchar_t* value) {
-    char buf[256];
-    char buf2[256];
-    wcstombs(buf2, value, 255);
-    snprintf(buf, 256, " %s=\"%s\"", name, buf2);
-    file->writeStr(buf);
+    plString buf = plString::Format(" %s=\"%s\"", name, xmlEscape(value).cstr());
+    file->writeStr(buf.cstr());
 }
 
 void pfPrcHelper::writeParam(const char* name, int value) {
@@ -113,8 +115,7 @@ void pfPrcHelper::writeParamHex(const char* name, unsigned long value) {
 }
 
 void pfPrcHelper::endTag(bool isShort) {
-    char buf[6];
-    snprintf(buf, 6, "%s>\n", isShort ? " /" : "");
+    const char* buf = isShort ? " />\n" : ">\n";
     file->writeStr(buf);
     if (!isShort)
         iLvl++;

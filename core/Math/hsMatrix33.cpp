@@ -40,7 +40,7 @@ void hsMatrix33::prcWrite(pfPrcHelper* prc) {
         data[0][0], data[0][1], data[0][2],
         data[1][0], data[1][1], data[1][2],
         data[2][0], data[2][1], data[2][2]);
-    prc->getStream()->writeStr(buf);
+    prc->directWrite(buf);
     prc->closeTagNoBreak();
 }
 

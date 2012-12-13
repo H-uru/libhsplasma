@@ -87,7 +87,7 @@ void plSpanInstance::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("plSpanInstance");
 
     prc->writeTagNoBreak("Local2World");
-    prc->getStream()->writeStr(
+    prc->directWrite(
         plString::Format("[ %.04f, %.04f, %.04f, %.04f "
                          "; %.04f, %.04f, %.04f, %.04f "
                          "; %.04f, %.04f, %.04f, %.04f ]",

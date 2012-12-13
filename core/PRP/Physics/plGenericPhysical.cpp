@@ -235,10 +235,8 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Faces");
         for (size_t i=0; i<fIndices.size(); i += 3) {
             prc->writeTagNoBreak("Triangle");
-            prc->getStream()->writeStr(plString::Format("%d %d %d",
-                                    fIndices[i+0],
-                                    fIndices[i+1],
-                                    fIndices[i+2]));
+            prc->directWrite(plString::Format("%d %d %d",
+                             fIndices[i+0], fIndices[i+1], fIndices[i+2]));
             prc->closeTagNoBreak();
         }
         prc->closeTag();
@@ -256,10 +254,8 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Faces");
         for (size_t i=0; i<fIndices.size(); i += 3) {
             prc->writeTagNoBreak("Triangle");
-            prc->getStream()->writeStr(plString::Format("%d %d %d",
-                                       fIndices[i+0],
-                                       fIndices[i+1],
-                                       fIndices[i+2]));
+            prc->directWrite(plString::Format("%d %d %d",
+                             fIndices[i+0], fIndices[i+1], fIndices[i+2]));
             prc->closeTagNoBreak();
         }
         prc->closeTag();

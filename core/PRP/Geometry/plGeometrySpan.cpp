@@ -182,7 +182,7 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
                 prc->writeParam("Index", verts[i].fIndices);
             prc->endTagNoBreak();
             for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                prc->getStream()->writeStr(plString::Format("%f ", verts[i].fWeights[j]));
+                prc->directWrite(plString::Format("%f ", verts[i].fWeights[j]));
             prc->closeTagNoBreak();
 
             prc->closeTag();    // Vertex
@@ -213,8 +213,8 @@ void plGeometrySpan::prcWrite(pfPrcHelper* prc) {
         prc->writeSimpleTag("Triangles");
         for (size_t i=0; i<fNumIndices; i += 3) {
             prc->writeTagNoBreak("Triangle");
-            prc->getStream()->writeStr(plString::Format("%d %d %d",
-                                       fIndexData[i], fIndexData[i+1], fIndexData[i+2]));
+            prc->directWrite(plString::Format("%d %d %d",
+                             fIndexData[i], fIndexData[i+1], fIndexData[i+2]));
             prc->closeTagNoBreak();
         }
         prc->closeTag();

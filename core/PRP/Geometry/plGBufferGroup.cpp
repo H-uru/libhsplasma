@@ -284,7 +284,7 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
                     prc->writeParam("SkinIndex", verts[i].fSkinIdx);
                 prc->endTagNoBreak();
                 for (size_t j=0; j<(size_t)((fFormat & kSkinWeightMask) >> 4); j++)
-                    prc->getStream()->writeStr(plString::Format("%g ", verts[i].fSkinWeights[j]));
+                    prc->directWrite(plString::Format("%g ", verts[i].fSkinWeights[j]));
                 prc->closeTagNoBreak();
 
                 prc->writeSimpleTag("Normal");
@@ -308,10 +308,10 @@ void plGBufferGroup::prcWrite(pfPrcHelper* prc) {
             prc->writeSimpleTag("IndexGroup");
             for (size_t j=0; j<fIdxBuffCounts[i]; j += 3) {
                 prc->writeTagNoBreak("Triangle");
-                prc->getStream()->writeStr(plString::Format("%d %d %d",
-                                           fIdxBuffStorage[i][j],
-                                           fIdxBuffStorage[i][j+1],
-                                           fIdxBuffStorage[i][j+2]));
+                prc->directWrite(plString::Format("%d %d %d",
+                                 fIdxBuffStorage[i][j],
+                                 fIdxBuffStorage[i][j+1],
+                                 fIdxBuffStorage[i][j+2]));
                 prc->closeTagNoBreak();
             }
             prc->closeTag();

@@ -18,6 +18,12 @@
 #include "Debug/plDebug.h"
 #include <cstdarg>
 
+static plString xmlUnescape(const plString& text) {
+    return text.replace("&lt;", "<").replace("&gt;", ">")
+               .replace("&quot;", "\"").replace("&apos;", "'")
+               .replace("&amp;", "&");
+}
+
 /* pfPrcTag */
 pfPrcTag::~pfPrcTag() {
     /* This can cause a stack overflow if there are lots of tags
@@ -40,7 +46,7 @@ plString pfPrcTag::getParam(const plString& key, const plString& def) const {
     if (f == fParams.end())
         return def;
     else
-        return f->second;
+        return xmlUnescape(f->second);
 }
 
 bool pfPrcTag::hasParam(const plString& key) const {
@@ -144,7 +150,7 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     }
 
     while (tok->peekNext() != "<")
-        tag->fContents.push_back(tok->next());
+        tag->fContents.push_back(xmlUnescape(tok->next()));
 
     pfPrcTag* childPtr = readTag(tok);
     if (!childPtr->fIsEndTag)

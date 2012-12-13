@@ -87,8 +87,8 @@ void plSplineEaseCurve::IPrcWrite(pfPrcHelper* prc) {
     plATCEaseCurve::IPrcWrite(prc);
 
     prc->writeTagNoBreak("SplineCoefficients");
-    prc->getStream()->writeStr(plString::Format("%f %f %f %f",
-                               fCoef[0], fCoef[1], fCoef[2], fCoef[3]));
+    prc->directWrite(plString::Format("%f %f %f %f",
+                     fCoef[0], fCoef[1], fCoef[2], fCoef[3]));
     prc->closeTagNoBreak();
 }
 

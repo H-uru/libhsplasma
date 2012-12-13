@@ -112,12 +112,12 @@ void plSynchedObject::IPrcWrite(pfPrcHelper* prc) {
     unsigned int i;
     prc->writeTagNoBreak("ExcludePersistentStates");
     for (i=0; i<fSDLExcludeList.size(); i++)
-        prc->getStream()->writeStr(fSDLExcludeList[i] + " ");
+        prc->directWrite(fSDLExcludeList[i] + " ");
     prc->closeTagNoBreak();
 
     prc->writeTagNoBreak("VolatileStates");
     for (i=0; i<fSDLVolatileList.size(); i++)
-        prc->getStream()->writeStr(fSDLVolatileList[i] + " ");
+        prc->directWrite(fSDLVolatileList[i] + " ");
     prc->closeTagNoBreak();
 
     prc->closeTag();

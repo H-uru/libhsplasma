@@ -46,8 +46,8 @@ void plShaderConst::write(hsStream* S) {
 
 void plShaderConst::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("plShaderConst");
-    prc->getStream()->writeStr(plString::Format("%f %f %f %f",
-                               fArray[0], fArray[1], fArray[2], fArray[3]));
+    prc->directWrite(plString::Format("%f %f %f %f",
+                     fArray[0], fArray[1], fArray[2], fArray[3]));
     prc->closeTagNoBreak();
 }
 

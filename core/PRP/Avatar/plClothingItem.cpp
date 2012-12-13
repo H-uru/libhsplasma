@@ -134,7 +134,7 @@ void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeTagNoBreak("Description");
-    prc->getStream()->writeStr(fDescription);
+    prc->directWrite(fDescription);
     prc->closeTagNoBreak();
 
     prc->startTag("CustomText");

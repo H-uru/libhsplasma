@@ -148,8 +148,8 @@ void hsBitVector::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsBitVector");
     for (size_t i=0; i<size(); i++) {
         if (get(i)) {
-            prc->getStream()->writeStr(getName(i));
-            prc->getStream()->writeStr(" ");
+            prc->directWrite(getName(i));
+            prc->directWrite(" ");
         }
     }
     prc->closeTagNoBreak();

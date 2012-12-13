@@ -79,7 +79,7 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
             if (fFormat & kWeightMask) {
                 prc->writeTagNoBreak("Weights");
                 for (size_t j=0; j<(size_t)((fFormat & kWeightMask) / 0x100); j++)
-                    prc->getStream()->writeStr(plString::Format("%f ", verts[i].fWeights[j]));
+                    prc->directWrite(plString::Format("%f ", verts[i].fWeights[j]));
                 prc->closeTagNoBreak();
             }
 
@@ -93,8 +93,8 @@ void plSpanTemplate::prcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Indices");
     for (size_t i=0; i<(size_t)(fNumTris * 3); i += 3) {
         prc->writeTagNoBreak("Triangle");
-        prc->getStream()->writeStr(plString::Format("%d %d %d",
-                                   fIndices[i], fIndices[i+1], fIndices[i+2]));
+        prc->directWrite(plString::Format("%d %d %d",
+                         fIndices[i], fIndices[i+1], fIndices[i+2]));
         prc->closeTagNoBreak();
     }
     prc->closeTag();
