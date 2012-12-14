@@ -20,8 +20,8 @@ endif()
 
 if(MSVC)
     add_definitions("-D_CRT_SECURE_NO_WARNINGS")
-    set(CMAKE_CXX_FLAGS "/wd4996 /wd4244 ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_C_FLAGS "/wd4996 /wd4244 ${CMAKE_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "/wd4996 /wd4244 /wd4251 ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_C_FLAGS "/wd4996 /wd4244 /wd4251 ${CMAKE_C_FLAGS}")
 endif()
 
 # Python is disabled by default because most projects don't need it
