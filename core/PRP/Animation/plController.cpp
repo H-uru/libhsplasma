@@ -186,6 +186,23 @@ plTMController* plCompoundController::convertToTMController() {
     return tm;
 }
 
+void plCompoundController::setController(unsigned int index, plController* controller) {
+    switch (index) {
+    case kPosController:
+        delete fXController;
+        fXController = controller;
+        break;
+    case kRotController:
+        delete fYController;
+        fYController = controller;
+        break;
+    case kScaleController:
+        delete fZController;
+        fZController = controller;
+        break;
+    }
+}
+
 void plCompoundController::setXController(plController* controller) {
     delete fXController;
     fXController = controller;

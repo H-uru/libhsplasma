@@ -69,6 +69,7 @@ public:
         }
     }
 
+    void setController(unsigned int index, plController* controller);
     void setXController(plController* controller);
     void setYController(plController* controller);
     void setZController(plController* controller);
