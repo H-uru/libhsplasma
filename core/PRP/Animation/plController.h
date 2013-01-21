@@ -37,6 +37,8 @@ protected:
     plController* fZController;
 
 public:
+    enum { kPosController, kRotController, kScaleController, kNumControllers };
+
     plCompoundController()
         : fXController(NULL), fYController(NULL), fZController(NULL) { }
     virtual ~plCompoundController();
@@ -53,6 +55,19 @@ public:
     plController* getXController() const { return fXController; }
     plController* getYController() const { return fYController; }
     plController* getZController() const { return fZController; }
+    plController* getController(unsigned int index) const {
+        switch (index)
+        {
+        case kPosController:
+            return fXController;
+        case kRotController:
+            return fYController;
+        case kScaleController:
+            return fZController;
+        default:
+            return NULL;
+        }
+    }
 
     void setXController(plController* controller);
     void setYController(plController* controller);

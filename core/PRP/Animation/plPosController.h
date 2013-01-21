@@ -63,6 +63,8 @@ protected:
     plScalarController* fZController;
 
 public:
+    enum { kX, kY, kZ, kNumControllers };
+
     plCompoundPosController()
         : fXController(NULL), fYController(NULL), fZController(NULL) { }
     virtual ~plCompoundPosController();
@@ -80,6 +82,7 @@ public:
     plScalarController* getY() const { return fYController; }
     plScalarController* getZ() const { return fZController; }
 
+    void setController(unsigned int index, plScalarController* controller);
     void setX(plScalarController* controller);
     void setY(plScalarController* controller);
     void setZ(plScalarController* controller);

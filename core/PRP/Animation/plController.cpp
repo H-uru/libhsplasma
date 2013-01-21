@@ -138,8 +138,52 @@ void plCompoundController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 plTMController* plCompoundController::convertToTMController() {
-    return new plTMController();
-    //return NULL;
+    plTMController* tm = new plTMController();
+
+    // Position
+    if (plLeafController* leaf = plLeafController::Convert(fXController, false)) {
+        plLeafController* expanded = leaf->ExpandToKeyController();
+        plSimplePosController* pos = new plSimplePosController();
+        pos->setPosition(plPoint3Controller::Convert(expanded));
+        tm->setPosController(pos);
+    } else if (plCompoundController* subctrl = plCompoundController::Convert(fXController, false)) {
+        plCompoundPosController* tmPos = new plCompoundPosController();
+        for (unsigned int i = 0; i < kNumControllers; ++i) {
+            plLeafController* leaf = plLeafController::Convert(subctrl->getController(i));
+            if (leaf) {
+                plScalarController* tmPosScalar = plScalarController::Convert(leaf->ExpandToKeyController());
+                tmPos->setController(i, tmPosScalar);
+            }
+        }
+        tm->setPosController(tmPos);
+    }
+
+    // Rotation
+    if (plLeafController* leaf = plLeafController::Convert(fYController, false)) {
+        plLeafController* expanded = leaf->ExpandToKeyController();
+        plSimpleRotController* rot = new plSimpleRotController();
+        rot->setRot(plQuatController::Convert(expanded));
+        tm->setRotController(rot);
+    } else if (plCompoundController* subctrl =  plCompoundController::Convert(fYController, false)) {
+        plCompoundRotController* tmRot = new plCompoundRotController();
+        for (unsigned int i = 0; i < kNumControllers; ++i) {
+            plLeafController* leaf = plLeafController::Convert(subctrl->getController(i));
+            if (leaf) {
+                plScalarController* tmRotScalar = plScalarController::Convert(leaf->ExpandToKeyController());
+                tmRot->setController(i, tmRotScalar);
+            }
+        }
+        tm->setRotController(tmRot);
+    }
+
+    // Scale (only simple)
+    if (plLeafController* scale = plLeafController::Convert(fZController)) {
+        plScaleValueController* expanded = plScaleValueController::Convert(scale->ExpandToKeyController());
+        plSimpleScaleController* tmScale = new plSimpleScaleController();
+        tmScale->setValue(expanded);
+    }
+
+    return tm;
 }
 
 void plCompoundController::setXController(plController* controller) {
