@@ -75,7 +75,7 @@ public:
             return kGroupLOSOnly;
         }
 
-        throw hsNotImplementedException(__FILE__, __LINE__, plString::Format("plPXSimDefs::fromGroup: Generic group %d", group));
+        throw hsNotImplementedException(__FILE__, __LINE__, plString::Format("plPXSimDefs::toGroup: Generic group %d", group));
     }
 
     static unsigned int getCollideGroup(uint8_t group) {
