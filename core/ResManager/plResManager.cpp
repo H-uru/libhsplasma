@@ -52,7 +52,7 @@ plKey plResManager::readKey(hsStream* S) {
     }
 }
 
-plKey plResManager::readKeyNotify(hsStream* S,  const plKeyData::AfterLoadCallback& callback) {
+plKey plResManager::readKeyNotify(hsStream* S, plKeyData::AfterLoadCallback callback) {
     plKey key = readKey(S);
     key->addCallback(callback);
     return key;
@@ -107,7 +107,7 @@ plKey plResManager::prcParseKey(const pfPrcTag* tag) {
     return k;
 }
 
-plKey plResManager::prcParseKeyNotify(const pfPrcTag* tag, const plKeyData::AfterLoadCallback& callback) {
+plKey plResManager::prcParseKeyNotify(const pfPrcTag* tag, plKeyData::AfterLoadCallback callback) {
     plKey key = prcParseKey(tag);
     key->addCallback(callback);
     return key;

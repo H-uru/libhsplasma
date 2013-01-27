@@ -91,7 +91,7 @@ void plKeyData::deleteObj() {
     fObjPtr = 0;
 }
 
-void plKeyData::addCallback(const AfterLoadCallback& callback) {
+void plKeyData::addCallback(AfterLoadCallback callback) {
     if (fObjPtr != NULL)
         callback(fObjPtr);
     else

@@ -16,10 +16,11 @@
 
 #include "plSceneObject.h"
 #include "PRP/Modifier/plModifier.h"
+#include "Debug/plDebug.h"
 
 void plSceneObject::addTarget(hsKeyedObject* obj) {
     if (obj->isStub()) {
-        fputs("WARNING:  Adding STUB modifier to SceneObject\n", stderr);
+        plDebug::Warning("WARNING:  Adding STUB modifier to SceneObject");
         return;
     }
 
@@ -141,7 +142,7 @@ void plSceneObject::delModifier(size_t idx) {
 
     if (key.isLoaded()) {
         if (key->getObj()->isStub()) {
-            fputs("WARNING:  Removing STUB modifier from SceneObject\n", stderr);
+            plDebug::Warning("WARNING:  Removing STUB modifier from SceneObject");
         } else {
             plModifier* mod = plModifier::Convert(key->getObj());
             mod->removeTarget(getKey());
@@ -154,7 +155,7 @@ void plSceneObject::clearModifiers() {
         plKey key = fModifiers[i];
         if (key.isLoaded()) {
             if (key->getObj()->isStub()) {
-                fputs("WARNING:  Removing STUB modifier from SceneObject\n", stderr);
+                plDebug::Warning("WARNING:  Removing STUB modifier from SceneObject");
                 continue;
             }
             plModifier* mod = plModifier::Convert(key->getObj(), false);

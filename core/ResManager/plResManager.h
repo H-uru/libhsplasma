@@ -117,7 +117,7 @@ public:
      * Read a plKey, register it with the ResManager and add callback
      * \param callback Callback to be called after object referenced by this key is loaded
      */
-    plKey readKeyNotify(hsStream* S, const plKeyData::AfterLoadCallback& callback);
+    plKey readKeyNotify(hsStream* S, plKeyData::AfterLoadCallback callback);
 
     /** Read a raw plKey from a stream (no "exists" bool for Uru streams) */
     plKey readUoid(hsStream* S);
@@ -141,7 +141,7 @@ public:
      * Parse the PRC tag as a plKey, register it with the ResManager and add callback
      * \param callback Callback to be called after object referenced by this key is parsed
      */
-    plKey prcParseKeyNotify(const pfPrcTag* tag, const plKeyData::AfterLoadCallback& callback);
+    plKey prcParseKeyNotify(const pfPrcTag* tag, plKeyData::AfterLoadCallback callback);
 
     /**
      * Find and return the object referenced by key, or NULL if the key

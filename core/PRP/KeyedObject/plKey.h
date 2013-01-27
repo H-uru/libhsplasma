@@ -237,7 +237,7 @@ public:
      * Add callback to be called after referenced object is loaded. 
      * Callbacks added after object load will be executed immediately.
      */
-    void addCallback(const AfterLoadCallback& callback);
+    void addCallback(AfterLoadCallback callback);
 
      /** Remove all callbacks, without executing */
     void clearCallbacks() { fCallbacks.clear(); }
