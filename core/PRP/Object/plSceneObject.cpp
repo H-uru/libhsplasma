@@ -18,9 +18,13 @@
 #include "PRP/Modifier/plModifier.h"
 
 void plSceneObject::addTarget(hsKeyedObject* obj) {
+    if (obj->isStub()) {
+        fputs("WARNING:  Adding STUB modifier to SceneObject\n", stderr);
+        return;
+    }
+
     plModifier* mod = plModifier::Convert(obj);
-    if (mod != NULL)
-       mod->addTarget(getKey());
+    mod->addTarget(getKey());
 }
 
 void plSceneObject::read(hsStream* S, plResManager* mgr) {
@@ -136,8 +140,12 @@ void plSceneObject::delModifier(size_t idx) {
     fModifiers.erase(fModifiers.begin() + idx);
 
     if (key.isLoaded()) {
-        plModifier* mod = plModifier::Convert(key->getObj());
-        mod->removeTarget(getKey());
+        if (key->getObj()->isStub()) {
+            fputs("WARNING:  Removing STUB modifier from SceneObject\n", stderr);
+        } else {
+            plModifier* mod = plModifier::Convert(key->getObj());
+            mod->removeTarget(getKey());
+        }
     }
 }
 
@@ -145,7 +153,11 @@ void plSceneObject::clearModifiers() {
     for (size_t i = 0; i < fModifiers.size(); i++) {
         plKey key = fModifiers[i];
         if (key.isLoaded()) {
-            plModifier* mod = plModifier::Convert(key->getObj());
+            if (key->getObj()->isStub()) {
+                fputs("WARNING:  Removing STUB modifier from SceneObject\n", stderr);
+                continue;
+            }
+            plModifier* mod = plModifier::Convert(key->getObj(), false);
             mod->removeTarget(getKey());
         }
     }

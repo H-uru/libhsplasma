@@ -84,6 +84,7 @@ public:
 
     virtual short ClassIndex() const { return fStub->ClassIndex(); }
     virtual const char* ClassName() const { return "hsKeyedObjectStub"; }
+    virtual bool isStub() const { return true; }
 
     virtual void write(hsStream* S, plResManager* mgr);
 
