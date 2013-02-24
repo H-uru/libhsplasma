@@ -16,30 +16,33 @@
 
 #include "hsMatrix33.h"
 
+#define DATA(y, x) data[y+(x*3)]
+
 void hsMatrix33::Reset() {
-    for (int y=0; y<3; y++)
-        for (int x=0; x<3; x++)
-            data[y][x] = (x == y) ? 1.0f : 0.0f;
+    memset(data, 0, sizeof(data));
+    DATA(0, 0) = 1.0f;
+    DATA(1, 1) = 1.0f;
+    DATA(2, 2) = 1.0f;
 }
 
 void hsMatrix33::read(hsStream* S) {
     for (int y=0; y<3; y++)
         for (int x=0; x<3; x++)
-            data[y][x] = S->readFloat();
+            DATA(y, x) = S->readFloat();
 }
 
 void hsMatrix33::write(hsStream* S) {
     for (int y=0; y<3; y++)
         for (int x=0; x<3; x++)
-            S->writeFloat(data[y][x]);
+            S->writeFloat(DATA(y, x));
 }
 
 void hsMatrix33::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("hsMatrix33");
     plString buf = plString::Format("[%f,%f,%f ; %f,%f,%f ; %f,%f,%f]",
-        data[0][0], data[0][1], data[0][2],
-        data[1][0], data[1][1], data[1][2],
-        data[2][0], data[2][1], data[2][2]);
+        DATA(0, 0), DATA(0, 1), DATA(0, 2),
+        DATA(1, 0), DATA(1, 1), DATA(1, 2),
+        DATA(2, 0), DATA(2, 1), DATA(2, 2));
     prc->directWrite(buf);
     prc->closeTagNoBreak();
 }
@@ -52,31 +55,31 @@ void hsMatrix33::prcParse(const pfPrcTag* tag) {
     auto iter = contents.begin();
     if (*iter++ != "[")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[0][0] = (*iter++).toFloat();
+    DATA(0, 0) = (*iter++).toFloat();
     if (*iter++ != ",")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[0][1] = (*iter++).toFloat();
+    DATA(0, 1) = (*iter++).toFloat();
     if (*iter++ != ",")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[0][2] = (*iter++).toFloat();
+    DATA(0, 2) = (*iter++).toFloat();
     if (*iter++ != ";")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[1][0] = (*iter++).toFloat();
+    DATA(1, 0) = (*iter++).toFloat();
     if (*iter++ != ",")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[1][1] = (*iter++).toFloat();
+    DATA(1, 1) = (*iter++).toFloat();
     if (*iter++ != ",")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[1][2] = (*iter++).toFloat();
+    DATA(1, 2) = (*iter++).toFloat();
     if (*iter++ != ";")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[2][0] = (*iter++).toFloat();
+    DATA(2, 0) = (*iter++).toFloat();
     if (*iter++ != ",")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[2][1] = (*iter++).toFloat();
+    DATA(2, 1) = (*iter++).toFloat();
     if (*iter++ != ",")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
-    data[2][2] = (*iter++).toFloat();
+    DATA(2, 2) = (*iter++).toFloat();
     if (*iter++ != "]")
         throw pfPrcParseException(__FILE__, __LINE__, "hsMatrix33 Format error");
 }

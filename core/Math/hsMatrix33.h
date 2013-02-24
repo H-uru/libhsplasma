@@ -22,11 +22,12 @@
 
 struct PLASMA_DLL hsMatrix33 {
 private:
-    float data[3][3];
+    float data[3*3];
 
 public:
-    float operator()(int y, int x) const { return data[y][x]; }
-    float& operator()(int y, int x) { return data[y][x]; }
+    float operator()(int y, int x) const { return data[y+(x*3)]; }
+    float& operator()(int y, int x) { return data[y+(x*3)]; }
+    const float* glMatrix() const { return data; }
 
     void Reset();
 

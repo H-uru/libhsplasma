@@ -28,7 +28,7 @@ public:
     enum { kRight, kUp, kView };  // Axes
 
 private:
-    float data[4][4];
+    float data[4*4];
 
 public:
     hsMatrix44() { Reset(); }
@@ -41,10 +41,10 @@ public:
     void Reset();
     bool IsIdentity() const;
 
-    float operator()(int y, int x) const { return data[y][x]; }
-    float& operator()(int y, int x) { return data[y][x]; }
+    float operator()(int y, int x) const { return data[y+(x*4)]; }
+    float& operator()(int y, int x) { return data[y+(x*4)]; }
     bool operator==(const hsMatrix44& other) const;
-    const float* glMatrix() const;
+    const float* glMatrix() const { return data; }
 
     hsMatrix44 operator*(const hsMatrix44& right) const;
     hsVector3 multPoint(const hsVector3& point) const;
