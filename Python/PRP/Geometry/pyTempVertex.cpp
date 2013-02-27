@@ -17,6 +17,7 @@
 #include <PyPlasma.h>
 #include "pyTempVertex.h"
 #include "Math/pyGeometry3.h"
+#include "Sys/pyColor.h"
 
 extern "C" {
 
@@ -30,7 +31,7 @@ static PyObject* pyTempVertex_new(PyTypeObject* type, PyObject* args, PyObject* 
 }
 
 static PyObject* pyTempVertex_getColor(pyTempVertex* self, void*) {
-    return PyInt_FromLong(self->fThis->fColor);
+    return pyColor32_FromColor32(hsColor32(self->fThis->fColor));
 }
 
 static PyObject* pyTempVertex_getIndices(pyTempVertex* self, void*) {
@@ -60,12 +61,19 @@ static PyObject* pyTempVertex_getWeights(pyTempVertex* self, void*) {
 }
 
 static int pyTempVertex_setColor(pyTempVertex* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "weights must be an int");
+    if (value == NULL) {
+        PyErr_SetString(PyExc_TypeError, "color must be an int or an hsColor32");
+        return -1;
+    } else if (pyColor32_Check(value)) {
+        self->fThis->fColor = ((pyColor32*)value)->fThis->color;
+        return 0;
+    } else if (PyInt_Check(value)) {
+        self->fThis->fColor = PyInt_AsLong(value);
+        return 0;
+    } else {
+        PyErr_SetString(PyExc_TypeError, "color must be an int or an hsColor32");
         return -1;
     }
-    self->fThis->fColor = PyInt_AsLong(value);
-    return 0;
 }
 
 static int pyTempVertex_setIndices(pyTempVertex* self, PyObject* value, void*) {
