@@ -123,8 +123,7 @@ static PyObject* pyMatrix44_getMat(pyMatrix44* self, void*) {
 
 static PyObject* pyMatrix44_getGlMat(pyMatrix44* self, void*) {
     PyObject* list = PyList_New(16);
-    float glmat[16];
-    memcpy(glmat, self->fThis->glMatrix(), sizeof(float) * 16);
+    const float* glmat = self->fThis->glMatrix();
     PyList_SET_ITEM(list, 0, PyFloat_FromDouble(glmat[0]));
     PyList_SET_ITEM(list, 1, PyFloat_FromDouble(glmat[1]));
     PyList_SET_ITEM(list, 2, PyFloat_FromDouble(glmat[2]));
