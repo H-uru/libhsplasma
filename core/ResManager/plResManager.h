@@ -29,8 +29,8 @@
 #include "plAgeInfo.h"
 #include "Sys/hsThread.h"
 
-/** Callback to indicate the progress of the current operation, range [0,1] */
-typedef std::function<void (float progress)> ProgressCallback;
+/** Callback to indicate the progress of the current load operation */
+typedef std::function<void (plPageInfo *page, size_t curObj, size_t maxObjs)> LoadProgressCallback;
 
 /** Callback to be called before page is unloaded */
 typedef std::function<void (const plLocation& loc)> PageUnloadCallback;
@@ -58,9 +58,8 @@ protected:
     plKeyCollector keys;
     std::vector<plPageInfo*> pages;
     std::vector<plAgeInfo*> ages;
-    ProgressCallback progressFunc;
+    LoadProgressCallback progressFunc;
     PageUnloadCallback pageUnloadFunc;
-    unsigned int totalKeys, readKeys;
     bool mustStub;
 
 private:
@@ -80,10 +79,9 @@ public:
      * \sa setVer(), getVer()
      */
     plResManager(PlasmaVer pv = PlasmaVer::pvUnknown)
-        : fPlasmaVer(PlasmaVer::pvUnknown), totalKeys(0), readKeys(0), mustStub(false)
+        : fPlasmaVer(PlasmaVer::pvUnknown), mustStub(false)
     {
         setVer(pv);
-        progressFunc = ProgressCallback();
     }
 
     /**
@@ -397,7 +395,7 @@ public:
     /**
      * This function is currently unsupported.
      */
-    ProgressCallback SetProgressFunc(ProgressCallback newFunc);
+    LoadProgressCallback SetProgressFunc(LoadProgressCallback newFunc);
 
     PageUnloadCallback SetPageUnloadFunc(PageUnloadCallback newFunc);
 

@@ -154,7 +154,7 @@ plPageInfo* plResManager::ReadPage(const char* filename, bool stub) {
     pages.push_back(page);
     setVer(S->getVer(), true);
     S->seek(page->getIndexStart());
-    totalKeys = ReadKeyring(S, loc);
+    ReadKeyring(S, loc);
     if (!packed) {
         S->close();
         delete S;
@@ -164,7 +164,6 @@ plPageInfo* plResManager::ReadPage(const char* filename, bool stub) {
         if (!S->open(file, fmRead))
             throw hsFileReadException(__FILE__, __LINE__, file.cstr());
     }
-    readKeys = 0;
     mustStub = stub;
     page->setNumObjects(ReadObjects(S, loc));
     mustStub = false;
@@ -298,20 +297,6 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
 
         hsFileStream* S = NULL;
         std::vector<plPageInfo*> agepages;
-        totalKeys = 0;
-        readKeys = 0;
-
-        for (size_t i=0; i<age->getNumPages(); i++) {
-            if (hsFileStream::FileExists(path + age->getPageFilename(i, ageVer))) {
-                S = new hsFileStream();
-                if (!S->open(path + age->getPageFilename(i, ageVer), fmRead)) {
-                    throw hsFileReadException(__FILE__, __LINE__, filename);
-                }
-                totalKeys += ReadPage(S, agepages);
-                S->close();
-                delete S;
-            }
-        }
 
         for (size_t i=0; i<age->getNumCommonPages(ageVer); i++) {
             if (hsFileStream::FileExists(path + age->getCommonPageFilename(i, ageVer))) {
@@ -319,7 +304,19 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
                 if (!S->open(path + age->getCommonPageFilename(i, ageVer), fmRead)) {
                     throw hsFileReadException(__FILE__, __LINE__, filename);
                 }
-                totalKeys += ReadPage(S, agepages);
+                ReadPage(S, agepages);
+                S->close();
+                delete S;
+            }
+        }
+
+        for (size_t i=0; i<age->getNumPages(); i++) {
+            if (hsFileStream::FileExists(path + age->getPageFilename(i, ageVer))) {
+                S = new hsFileStream();
+                if (!S->open(path + age->getPageFilename(i, ageVer), fmRead)) {
+                    throw hsFileReadException(__FILE__, __LINE__, filename);
+                }
+                ReadPage(S, agepages);
                 S->close();
                 delete S;
             }
@@ -486,8 +483,21 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
     std::vector<short> types = keys.getTypes(loc);
     unsigned int nRead = 0;
 
-    if (progressFunc != NULL)
-        progressFunc(0.0f);
+    size_t totalKeys = 0, processedKeys = 0;
+
+    for (unsigned int i=0; i<types.size(); i++) {
+        std::vector<plKey> kList = keys.getKeys(loc, types[i]);
+        totalKeys += kList.size();
+    }
+
+    plPageInfo *page = 0;
+    if (progressFunc != NULL) {
+        for (size_t i = 0; i < pages.size(); ++i) {
+            if (pages[i]->getLocation() == loc)
+                page = pages[i];
+        }
+        progressFunc(page, 0, totalKeys);
+    }
 
     for (unsigned int i=0; i<types.size(); i++) {
         std::vector<plKey> kList = keys.getKeys(loc, types[i]);
@@ -496,6 +506,8 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                        types[i], pdUnifiedTypeMap::ClassName(types[i]));
 #endif
         for (unsigned int j=0; j<kList.size(); j++) {
+            ++processedKeys;
+
             if (kList[j]->getFileOff() <= 0)
                 continue;
 #ifdef RMTRACE
@@ -520,7 +532,6 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 }
                 if (kList[j]->getObj() != NULL) {
                     nRead++;
-                    readKeys++;
                     if (!subStream->eof()) {
                         plDebug::Warning("[%04hX:%s] Size-Read difference: %d bytes left after reading",
                             kList[j]->getType(), kList[j]->getName().cstr(),
@@ -548,7 +559,7 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
         }
 
         if (progressFunc != NULL)
-            progressFunc((float)(readKeys)/(totalKeys));
+            progressFunc(page, processedKeys, totalKeys);
     }
 
     return nRead;
@@ -730,8 +741,8 @@ void plResManager::ChangeLocation(plLocation from, plLocation to) {
     keys.ChangeLocation(from, to);
 }
 
-ProgressCallback plResManager::SetProgressFunc(ProgressCallback newFunc) {
-    ProgressCallback old = progressFunc;
+LoadProgressCallback plResManager::SetProgressFunc(LoadProgressCallback newFunc) {
+    LoadProgressCallback old = progressFunc;
     progressFunc = newFunc;
     return old;
 }
