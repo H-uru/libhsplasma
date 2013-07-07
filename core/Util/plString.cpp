@@ -144,10 +144,10 @@ void plString::WideBuffer::unref() {
         delete this;
 }
 
-plString::Wide::Wide() : fLen(0) { memset(fShort, 0, SSO_CHARS); }
+plString::Wide::Wide() : fLen(0) { memset(fShort, 0, sizeof(fShort)); }
 
 plString::Wide::Wide(const Wide& init) : fLen(init.fLen) {
-    memcpy(fShort, init.fShort, SSO_CHARS);
+    memcpy(fShort, init.fShort, sizeof(fShort));
     if (haveACow())
         fString->ref();
 }
@@ -162,7 +162,7 @@ plString::Wide& plString::Wide::operator=(const Wide& other) {
         other.fString->ref();
     if (haveACow())
         fString->unref();
-    memcpy(fShort, other.fShort, SSO_CHARS);
+    memcpy(fShort, other.fShort, sizeof(fShort));
     return *this;
 }
 
