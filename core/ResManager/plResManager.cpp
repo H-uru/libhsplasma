@@ -340,13 +340,6 @@ plAgeInfo* plResManager::ReadAge(const char* filename, bool readPages) {
             S->close();
             delete S;
         }
-
-#ifdef DEBUG
-        if (totalKeys != readKeys) {
-            plDebug::Error("* Keyring count %d but we could only read %d",
-                           totalKeys, readKeys);
-        }
-#endif
     }
 
     ages.push_back(age);
