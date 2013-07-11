@@ -400,7 +400,7 @@ ENetError pnAuthClient::performConnect()
         pnBigInteger N(fKeyN, 64, fLittleEndianKeys);
         pnBigInteger b = pnBigInteger::Random(512);
         clientSeed = X.PowMod(b, N);
-        pnBigInteger serverSeed = pnBigInteger(41).PowMod(b, N);
+        pnBigInteger serverSeed = pnBigInteger(fKeyG).PowMod(b, N);
         serverSeed.getData(y_data, 64);
     }
 

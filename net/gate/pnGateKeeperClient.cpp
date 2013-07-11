@@ -131,7 +131,7 @@ ENetError pnGateKeeperClient::performConnect()
         pnBigInteger N(fKeyN, 64, fLittleEndianKeys);
         pnBigInteger b = pnBigInteger::Random(512);
         clientSeed = X.PowMod(b, N);
-        pnBigInteger serverSeed = pnBigInteger(4).PowMod(b, N);
+        pnBigInteger serverSeed = pnBigInteger(fKeyG).PowMod(b, N);
         serverSeed.getData(y_data, 64);
     }
 
