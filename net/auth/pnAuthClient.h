@@ -185,9 +185,6 @@ public:
     virtual void onFileDownloadChunk(uint32_t transId, ENetError result,
                     uint32_t totalSize, uint32_t chunkOffset, size_t chunkSize,
                     const unsigned char* chunkData);
-    virtual void onFileDownloadChunkPostAck(uint32_t transId, ENetError result,
-                    uint32_t totalSize, uint32_t chunkOffset, size_t chunkSize,
-                    const unsigned char* chunkData);
     virtual void onKickedOff(uint32_t reason);
     virtual void onPublicAgeList(uint32_t transId, ENetError result,
                     size_t count, const pnNetAgeInfo* ages);

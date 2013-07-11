@@ -213,11 +213,8 @@ bool pnAuthClient::Dispatch::dispatch(pnSocket* sock)
         }
         break;
     case kAuth2Cli_FileDownloadChunk:
-        fReceiver->onFileDownloadChunk(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
-                        msgbuf[2].fUint, msgbuf[3].fUint, msgbuf[4].fUint,
-                        msgbuf[5].fData);
         fReceiver->sendFileDownloadChunkAck(msgbuf[0].fUint);
-        fReceiver->onFileDownloadChunkPostAck(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
+        fReceiver->onFileDownloadChunk(msgbuf[0].fUint, (ENetError)msgbuf[1].fUint,
                         msgbuf[2].fUint, msgbuf[3].fUint, msgbuf[4].fUint,
                         msgbuf[5].fData);
         break;
@@ -1274,11 +1271,6 @@ void pnAuthClient::onFileDownloadChunk(uint32_t transId, ENetError result,
 {
     plDebug::Warning("Warning: Ignoring Auth2Cli_FileDownloadChunk");
 }
-
-void pnAuthClient::onFileDownloadChunkPostAck(uint32_t transId, ENetError result,
-                        uint32_t totalSize, uint32_t chunkOffset, size_t chunkSize,
-                        const unsigned char* chunkData)
-{ }
 
 void pnAuthClient::onKickedOff(uint32_t reason)
 {
