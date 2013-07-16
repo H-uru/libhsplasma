@@ -78,9 +78,14 @@ void plSoftVolumeSimple::IPrcWrite(pfPrcHelper* prc) {
 
     prc->startTag("Volume");
     prc->writeParam("SoftDist", fSoftDist);
-    prc->endTag();
-    fVolume->prcWrite(prc);
-    prc->closeTag();
+    if (fVolume == NULL) {
+        prc->writeParam("Null", true);
+        prc->endTag(true);
+    } else {
+        prc->endTag();
+        fVolume->prcWrite(prc);
+        prc->closeTag();
+    }
 }
 
 void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
@@ -88,6 +93,8 @@ void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fSoftDist = tag->getParam("SoftDist", "0").toFloat();
         if (tag->hasChildren())
             setVolume(plVolumeIsect::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
+        else
+            setVolume(NULL);
     } else {
         plSoftVolume::IPrcParse(tag, mgr);
     }
