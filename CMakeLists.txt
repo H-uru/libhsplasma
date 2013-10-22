@@ -17,6 +17,8 @@ endif()
 if(APPLE)
     add_definitions("-DMACOSX")
     set(CMAKE_CXX_FLAGS "-stdlib=libc++ ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11")
+    set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
 endif()
 
 if(MSVC)
