@@ -649,6 +649,10 @@ void plGenericPhysical::IWriteODEPhysical(hsStream* S, plResManager* mgr) {
 void plGenericPhysical::IWritePXPhysical(hsStream* S, plResManager* mgr) {
     S->writeFloat(fMass);
     S->writeFloat(fFriction);
+    if (fRestitution < 0)
+        fRestitution = 0;
+    if (fRestitution > 1)
+        fRestitution = 1;
     S->writeFloat(fRestitution);
     S->writeByte(fBounds);
     S->writeByte(plPXSimDefs::toGroup(fMemberGroup, fCollideGroup));
