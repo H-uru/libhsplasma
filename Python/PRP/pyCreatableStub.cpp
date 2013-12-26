@@ -63,7 +63,7 @@ static PyMethodDef pyCreatableStub_Methods[] = {
 
 PyTypeObject pyCreatableStub_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plCreatableStub",         /* tp_name */
+    "PyHSPlasma.plCreatableStub",       /* tp_name */
     sizeof(pyCreatableStub),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

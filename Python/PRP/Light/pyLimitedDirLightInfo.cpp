@@ -85,7 +85,7 @@ static PyGetSetDef pyLimitedDirLightInfo_GetSet[] = {
 
 PyTypeObject pyLimitedDirLightInfo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLimitedDirLightInfo",   /* tp_name */
+    "PyHSPlasma.plLimitedDirLightInfo", /* tp_name */
     sizeof(pyLimitedDirLightInfo),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

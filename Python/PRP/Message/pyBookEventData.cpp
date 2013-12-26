@@ -69,7 +69,7 @@ static PyGetSetDef pyBookEventData_GetSet[] = {
 
 PyTypeObject pyBookEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proBookEventData",        /* tp_name */
+    "PyHSPlasma.proBookEventData",      /* tp_name */
     sizeof(pyBookEventData),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

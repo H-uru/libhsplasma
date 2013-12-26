@@ -93,7 +93,7 @@ static PyGetSetDef pyContainedEventData_GetSet[] = {
 
 PyTypeObject pyContainedEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proContainedEventData",   /* tp_name */
+    "PyHSPlasma.proContainedEventData", /* tp_name */
     sizeof(pyContainedEventData),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

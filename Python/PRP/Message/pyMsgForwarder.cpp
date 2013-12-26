@@ -96,7 +96,7 @@ static PyGetSetDef pyMsgForwarder_GetSet[] = {
 
 PyTypeObject pyMsgForwarder_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMsgForwarder",          /* tp_name */
+    "PyHSPlasma.plMsgForwarder",        /* tp_name */
     sizeof(pyMsgForwarder),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

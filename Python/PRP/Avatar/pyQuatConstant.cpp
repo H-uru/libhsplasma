@@ -36,7 +36,7 @@ static PyMethodDef pyQuatConstant_Methods[] = {
 
 PyTypeObject pyQuatConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plQuatConstant",          /* tp_name */
+    "PyHSPlasma.plQuatConstant",        /* tp_name */
     sizeof(pyQuatConstant),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

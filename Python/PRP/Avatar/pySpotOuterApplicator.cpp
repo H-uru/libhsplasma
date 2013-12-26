@@ -36,7 +36,7 @@ static PyMethodDef pySpotOuterApplicator_Methods[] = {
 
 PyTypeObject pySpotOuterApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSpotOuterApplicator",   /* tp_name */
+    "PyHSPlasma.plSpotOuterApplicator", /* tp_name */
     sizeof(pySpotOuterApplicator),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

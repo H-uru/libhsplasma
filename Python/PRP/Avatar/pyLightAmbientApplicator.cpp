@@ -36,7 +36,7 @@ static PyMethodDef pyLightAmbientApplicator_Methods[] = {
 
 PyTypeObject pyLightAmbientApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLightAmbientApplicator", /* tp_name */
+    "PyHSPlasma.plLightAmbientApplicator", /* tp_name */
     sizeof(pyLightAmbientApplicator),   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

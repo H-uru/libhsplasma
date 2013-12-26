@@ -89,7 +89,7 @@ static PyGetSetDef pyGBufferCell_GetSet[] = {
 
 PyTypeObject pyGBufferCell_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plGBufferCell",           /* tp_name */
+    "PyHSPlasma.plGBufferCell",         /* tp_name */
     sizeof(pyGBufferCell),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

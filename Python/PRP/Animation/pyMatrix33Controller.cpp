@@ -42,7 +42,7 @@ static PyMethodDef pyMatrix33Controller_Methods[] = {
 
 PyTypeObject pyMatrix33Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrix33Controller",    /* tp_name */
+    "PyHSPlasma.plMatrix33Controller",  /* tp_name */
     sizeof(pyMatrix33Controller),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

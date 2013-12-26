@@ -56,7 +56,7 @@ static PyGetSetDef pyQuatChannel_GetSet[] = {
 
 PyTypeObject pyQuatChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plQuatChannel",           /* tp_name */
+    "PyHSPlasma.plQuatChannel",         /* tp_name */
     sizeof(pyQuatChannel),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

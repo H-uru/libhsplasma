@@ -76,7 +76,7 @@ static PyGetSetDef pyBounds3_GetSet[] = {
 
 PyTypeObject pyBounds3_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsBounds3",               /* tp_name */
+    "PyHSPlasma.hsBounds3",             /* tp_name */
     sizeof(pyBounds3),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

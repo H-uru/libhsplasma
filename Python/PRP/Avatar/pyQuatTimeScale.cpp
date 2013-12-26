@@ -36,7 +36,7 @@ static PyMethodDef pyQuatTimeScale_Methods[] = {
 
 PyTypeObject pyQuatTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plQuatTimeScale",         /* tp_name */
+    "PyHSPlasma.plQuatTimeScale",       /* tp_name */
     sizeof(pyQuatTimeScale),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

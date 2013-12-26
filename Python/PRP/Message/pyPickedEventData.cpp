@@ -109,7 +109,7 @@ static PyGetSetDef pyPickedEventData_GetSet[] = {
 
 PyTypeObject pyPickedEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proPickedEventData",      /* tp_name */
+    "PyHSPlasma.proPickedEventData",    /* tp_name */
     sizeof(pyPickedEventData),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

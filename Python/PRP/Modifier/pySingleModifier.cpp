@@ -58,7 +58,7 @@ static PyMethodDef pySingleModifier_Methods[] = {
 
 PyTypeObject pySingleModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSingleModifier",        /* tp_name */
+    "PyHSPlasma.plSingleModifier",      /* tp_name */
     sizeof(pySingleModifier),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

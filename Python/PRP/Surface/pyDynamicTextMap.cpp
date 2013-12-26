@@ -119,7 +119,7 @@ static PyGetSetDef pyDynamicTextMap_GetSet[] = {
 
 PyTypeObject pyDynamicTextMap_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plDynamicTextMap",        /* tp_name */
+    "PyHSPlasma.plDynamicTextMap",      /* tp_name */
     sizeof(pyDynamicTextMap),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -129,7 +129,7 @@ static PyGetSetDef pyLogicModifier_GetSet[] = {
 
 PyTypeObject pyLogicModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLogicModifier",         /* tp_name */
+    "PyHSPlasma.plLogicModifier",       /* tp_name */
     sizeof(pyLogicModifier),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

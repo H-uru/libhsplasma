@@ -36,7 +36,7 @@ static PyMethodDef pyLayerBink_Methods[] = {
 
 PyTypeObject pyLayerBink_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayerBink",             /* tp_name */
+    "PyHSPlasma.plLayerBink",           /* tp_name */
     sizeof(pyLayerBink),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

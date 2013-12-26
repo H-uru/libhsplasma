@@ -152,7 +152,7 @@ static PyGetSetDef pyAGAnim_GetSet[] = {
 
 PyTypeObject pyAGAnim_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAGAnim",                /* tp_name */
+    "PyHSPlasma.plAGAnim",              /* tp_name */
     sizeof(pyAGAnim),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

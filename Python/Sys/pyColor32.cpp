@@ -264,7 +264,7 @@ static PyGetSetDef pyColor32_GetSet[] = {
 
 PyTypeObject pyColor32_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsColor32",               /* tp_name */
+    "PyHSPlasma.hsColor32",             /* tp_name */
     sizeof(pyColor32),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

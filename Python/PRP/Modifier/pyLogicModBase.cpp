@@ -156,7 +156,7 @@ static PyGetSetDef pyLogicModBase_GetSet[] = {
 
 PyTypeObject pyLogicModBase_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLogicModBase",          /* tp_name */
+    "PyHSPlasma.plLogicModBase",        /* tp_name */
     sizeof(pyLogicModBase),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

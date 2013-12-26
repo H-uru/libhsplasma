@@ -141,7 +141,7 @@ static PyGetSetDef pyPythonFileMod_GetSet[] = {
 
 PyTypeObject pyPythonFileMod_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPythonFileMod",         /* tp_name */
+    "PyHSPlasma.plPythonFileMod",       /* tp_name */
     sizeof(pyPythonFileMod),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

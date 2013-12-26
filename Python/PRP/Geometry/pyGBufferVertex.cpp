@@ -168,7 +168,7 @@ static PyGetSetDef pyGBufferVertex_GetSet[] = {
 
 PyTypeObject pyGBufferVertex_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plGBufferVertex",         /* tp_name */
+    "PyHSPlasma.plGBufferVertex",       /* tp_name */
     sizeof(pyGBufferVertex),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -36,7 +36,7 @@ static PyMethodDef pyLayerDepth_Methods[] = {
 
 PyTypeObject pyLayerDepth_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayerDepth",            /* tp_name */
+    "PyHSPlasma.plLayerDepth",          /* tp_name */
     sizeof(pyLayerDepth),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

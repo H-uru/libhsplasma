@@ -180,7 +180,7 @@ static PyGetSetDef pyGMaterial_GetSet[] = {
 
 PyTypeObject pyGMaterial_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsGMaterial",             /* tp_name */
+    "PyHSPlasma.hsGMaterial",           /* tp_name */
     sizeof(pyGMaterial),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

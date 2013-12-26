@@ -36,7 +36,7 @@ static PyMethodDef pyMatrixBlend_Methods[] = {
 
 PyTypeObject pyMatrixBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrixBlend",           /* tp_name */
+    "PyHSPlasma.plMatrixBlend",         /* tp_name */
     sizeof(pyMatrixBlend),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

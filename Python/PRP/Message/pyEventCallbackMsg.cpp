@@ -116,7 +116,7 @@ static PyGetSetDef pyEventCallbackMsg_GetSet[] = {
 
 PyTypeObject pyEventCallbackMsg_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plEventCallbackMsg",      /* tp_name */
+    "PyHSPlasma.plEventCallbackMsg",    /* tp_name */
     sizeof(pyEventCallbackMsg),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -135,7 +135,7 @@ static PyGetSetDef pyOneShotMod_GetSet[] = {
 
 PyTypeObject pyOneShotMod_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plOneShotMod",            /* tp_name */
+    "PyHSPlasma.plOneShotMod",          /* tp_name */
     sizeof(pyOneShotMod),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

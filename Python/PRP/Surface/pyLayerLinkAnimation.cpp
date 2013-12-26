@@ -76,7 +76,7 @@ static PyGetSetDef pyLayerLinkAnimation_GetSet[] = {
 
 PyTypeObject pyLayerLinkAnimation_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayerLinkAnimation",    /* tp_name */
+    "PyHSPlasma.plLayerLinkAnimation",  /* tp_name */
     sizeof(pyLayerLinkAnimation),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

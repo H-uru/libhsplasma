@@ -161,7 +161,7 @@ PyGetSetDef pyCoordinateInterface_GetSet[] = {
 
 PyTypeObject pyCoordinateInterface_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plCoordinateInterface",   /* tp_name */
+    "PyHSPlasma.plCoordinateInterface", /* tp_name */
     sizeof(pyCoordinateInterface),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

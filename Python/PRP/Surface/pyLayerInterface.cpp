@@ -287,7 +287,7 @@ static PyGetSetDef pyLayerInterface_GetSet[] = {
 
 PyTypeObject pyLayerInterface_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayerInterface",        /* tp_name */
+    "PyHSPlasma.plLayerInterface",      /* tp_name */
     sizeof(pyLayerInterface),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

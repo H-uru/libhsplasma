@@ -36,7 +36,7 @@ static PyMethodDef pyATCChannel_Methods[] = {
 
 PyTypeObject pyATCChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plATCChannel",            /* tp_name */
+    "PyHSPlasma.plATCChannel",          /* tp_name */
     sizeof(pyATCChannel),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

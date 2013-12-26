@@ -42,7 +42,7 @@ static PyMethodDef pyPoint3Controller_Methods[] = {
 
 PyTypeObject pyPoint3Controller_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPoint3Controller",      /* tp_name */
+    "PyHSPlasma.plPoint3Controller",    /* tp_name */
     sizeof(pyPoint3Controller),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

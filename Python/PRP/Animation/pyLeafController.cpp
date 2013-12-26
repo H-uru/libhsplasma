@@ -156,7 +156,7 @@ static PyGetSetDef pyLeafController_GetSet[] = {
 
 PyTypeObject pyLeafController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLeafController",        /* tp_name */
+    "PyHSPlasma.plLeafController",      /* tp_name */
     sizeof(pyLeafController),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

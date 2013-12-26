@@ -27,7 +27,7 @@ static PyObject* pyRenderLevel_new(PyTypeObject* type, PyObject* args, PyObject*
 
 PyTypeObject pyRenderLevel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plRenderLevel",           /* tp_name */
+    "PyHSPlasma.plRenderLevel",         /* tp_name */
     sizeof(PyObject),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

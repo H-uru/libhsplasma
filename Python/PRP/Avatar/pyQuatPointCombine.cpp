@@ -36,7 +36,7 @@ static PyMethodDef pyQuatPointCombine_Methods[] = {
 
 PyTypeObject pyQuatPointCombine_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plQuatPointCombine",      /* tp_name */
+    "PyHSPlasma.plQuatPointCombine",    /* tp_name */
     sizeof(pyQuatPointCombine),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

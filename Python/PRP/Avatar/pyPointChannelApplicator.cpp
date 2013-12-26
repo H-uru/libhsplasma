@@ -36,7 +36,7 @@ static PyMethodDef pyPointChannelApplicator_Methods[] = {
 
 PyTypeObject pyPointChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPointChannelApplicator", /* tp_name */
+    "PyHSPlasma.plPointChannelApplicator", /* tp_name */
     sizeof(pyPointChannelApplicator),   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

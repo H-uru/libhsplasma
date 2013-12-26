@@ -42,7 +42,7 @@ static PyMethodDef pyScalarController_Methods[] = {
 
 PyTypeObject pyScalarController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScalarController",      /* tp_name */
+    "PyHSPlasma.plScalarController",    /* tp_name */
     sizeof(pyScalarController),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

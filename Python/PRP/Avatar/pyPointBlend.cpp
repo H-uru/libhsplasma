@@ -36,7 +36,7 @@ static PyMethodDef pyPointBlend_Methods[] = {
 
 PyTypeObject pyPointBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPointBlend",            /* tp_name */
+    "PyHSPlasma.plPointBlend",          /* tp_name */
     sizeof(pyPointBlend),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

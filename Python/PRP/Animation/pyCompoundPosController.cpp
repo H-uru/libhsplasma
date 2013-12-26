@@ -107,7 +107,7 @@ static PyGetSetDef pyCompoundPosController_GetSet[] = {
 
 PyTypeObject pyCompoundPosController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plCompoundPosController", /* tp_name */
+    "PyHSPlasma.plCompoundPosController", /* tp_name */
     sizeof(pyCompoundPosController),    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

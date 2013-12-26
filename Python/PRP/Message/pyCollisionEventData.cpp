@@ -93,7 +93,7 @@ static PyGetSetDef pyCollisionEventData_GetSet[] = {
 
 PyTypeObject pyCollisionEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proCollisionEventData",   /* tp_name */
+    "PyHSPlasma.proCollisionEventData", /* tp_name */
     sizeof(pyCollisionEventData),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

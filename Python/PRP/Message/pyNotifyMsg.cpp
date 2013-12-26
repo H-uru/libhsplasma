@@ -141,7 +141,7 @@ static PyGetSetDef pyNotifyMsg_GetSet[] = {
 
 PyTypeObject pyNotifyMsg_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plNotifyMsg",             /* tp_name */
+    "PyHSPlasma.plNotifyMsg",           /* tp_name */
     sizeof(pyNotifyMsg),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

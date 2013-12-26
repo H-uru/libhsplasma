@@ -411,7 +411,7 @@ static PyGetSetDef pySpan_GetSet[] = {
 
 PyTypeObject pySpan_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSpan",                  /* tp_name */
+    "PyHSPlasma.plSpan",                /* tp_name */
     sizeof(pySpan),                     /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

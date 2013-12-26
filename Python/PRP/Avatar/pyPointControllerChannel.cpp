@@ -61,7 +61,7 @@ static PyGetSetDef pyPointControllerChannel_GetSet[] = {
 
 PyTypeObject pyPointControllerChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPointControllerChannel", /* tp_name */
+    "PyHSPlasma.plPointControllerChannel", /* tp_name */
     sizeof(pyPointControllerChannel),   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

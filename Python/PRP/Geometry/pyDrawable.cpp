@@ -28,7 +28,7 @@ static PyObject* pyDrawable_new(PyTypeObject* type, PyObject* args, PyObject* kw
 
 PyTypeObject pyDrawable_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plDrawable",              /* tp_name */
+    "PyHSPlasma.plDrawable",            /* tp_name */
     sizeof(pyDrawable),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

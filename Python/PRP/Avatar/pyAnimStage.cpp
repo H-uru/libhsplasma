@@ -190,7 +190,7 @@ static PyGetSetDef pyAnimStage_GetSet[] = {
 
 PyTypeObject pyAnimStage_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAnimStage",             /* tp_name */
+    "PyHSPlasma.plAnimStage",           /* tp_name */
     sizeof(pyAnimStage),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

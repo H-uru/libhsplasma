@@ -100,7 +100,7 @@ static PyGetSetDef pyGUICtrlProcWriteableObject_GetSet[] = {
 
 PyTypeObject pyGUICtrlProcWriteableObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.pfGUICtrlProcWriteableObject", /* tp_name */
+    "PyHSPlasma.pfGUICtrlProcWriteableObject", /* tp_name */
     sizeof(pyGUICtrlProcWriteableObject), /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

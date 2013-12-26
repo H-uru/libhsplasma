@@ -36,7 +36,7 @@ static PyMethodDef py2WayWinAudible_Methods[] = {
 
 PyTypeObject py2WayWinAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.pl2WayWinAudible",        /* tp_name */
+    "PyHSPlasma.pl2WayWinAudible",      /* tp_name */
     sizeof(py2WayWinAudible),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -36,7 +36,7 @@ static PyMethodDef pyLayerAVI_Methods[] = {
 
 PyTypeObject pyLayerAVI_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayerAVI",              /* tp_name */
+    "PyHSPlasma.plLayerAVI",            /* tp_name */
     sizeof(pyLayerAVI),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

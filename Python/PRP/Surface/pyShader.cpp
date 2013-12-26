@@ -113,7 +113,7 @@ static PyGetSetDef pyShader_GetSet[] = {
 
 PyTypeObject pyShader_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plShader",                /* tp_name */
+    "PyHSPlasma.plShader",              /* tp_name */
     sizeof(pyShader),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

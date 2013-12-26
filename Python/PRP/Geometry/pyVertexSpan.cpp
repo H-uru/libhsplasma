@@ -127,7 +127,7 @@ static PyGetSetDef pyVertexSpan_GetSet[] = {
 
 PyTypeObject pyVertexSpan_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plVertexSpan",            /* tp_name */
+    "PyHSPlasma.plVertexSpan",          /* tp_name */
     sizeof(pyVertexSpan),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -120,7 +120,7 @@ static PyGetSetDef pyIcicle_GetSet[] = {
 
 PyTypeObject pyIcicle_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plIcicle",                /* tp_name */
+    "PyHSPlasma.plIcicle",              /* tp_name */
     sizeof(pyIcicle),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

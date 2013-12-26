@@ -36,7 +36,7 @@ static PyMethodDef pyPointTimeScale_Methods[] = {
 
 PyTypeObject pyPointTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPointTimeScale",        /* tp_name */
+    "PyHSPlasma.plPointTimeScale",      /* tp_name */
     sizeof(pyPointTimeScale),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

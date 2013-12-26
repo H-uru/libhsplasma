@@ -87,7 +87,7 @@ static PyGetSetDef pyAGApplicator_GetSet[] = {
 
 PyTypeObject pyAGApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAGApplicator",          /* tp_name */
+    "PyHSPlasma.plAGApplicator",        /* tp_name */
     sizeof(pyAGApplicator),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

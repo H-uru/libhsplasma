@@ -231,7 +231,7 @@ static PyGetSetDef pyPageInfo_GetSet[] = {
 
 PyTypeObject pyPageInfo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPageInfo",              /* tp_name */
+    "PyHSPlasma.plPageInfo",            /* tp_name */
     sizeof(pyPageInfo),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

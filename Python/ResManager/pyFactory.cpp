@@ -83,7 +83,7 @@ static PyMethodDef pyFactory_Methods[] = {
 
 PyTypeObject pyFactory_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plFactory",               /* tp_name */
+    "PyHSPlasma.plFactory",             /* tp_name */
     0,                                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

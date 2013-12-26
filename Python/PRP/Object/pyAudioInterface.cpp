@@ -60,7 +60,7 @@ PyGetSetDef pyAudioInterface_GetSet[] = {
 
 PyTypeObject pyAudioInterface_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAudioInterface",        /* tp_name */
+    "PyHSPlasma.plAudioInterface",      /* tp_name */
     sizeof(pyAudioInterface),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

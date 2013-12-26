@@ -470,7 +470,7 @@ static PyGetSetDef pyStream_GetSet[] = {
 
 PyTypeObject pyStream_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsStream",                /* tp_name */
+    "PyHSPlasma.hsStream",              /* tp_name */
     sizeof(pyStream),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

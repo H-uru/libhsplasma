@@ -55,7 +55,7 @@ static PyGetSetDef pyLayerSDLAnimation_GetSet[] = {
 
 PyTypeObject pyLayerSDLAnimation_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayerSDLAnimation",     /* tp_name */
+    "PyHSPlasma.plLayerSDLAnimation",   /* tp_name */
     sizeof(pyLayerSDLAnimation),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

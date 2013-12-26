@@ -33,7 +33,7 @@ static PyMethodDef pyPhysical_Methods[] = {
 
 PyTypeObject pyPhysical_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPhysical",              /* tp_name */
+    "PyHSPlasma.plPhysical",            /* tp_name */
     sizeof(pyPhysical),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

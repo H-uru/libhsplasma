@@ -36,7 +36,7 @@ static PyMethodDef pyScalarChannelApplicator_Methods[] = {
 
 PyTypeObject pyScalarChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScalarChannelApplicator", /* tp_name */
+    "PyHSPlasma.plScalarChannelApplicator", /* tp_name */
     sizeof(pyScalarChannelApplicator),  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

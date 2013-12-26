@@ -36,7 +36,7 @@ static PyMethodDef pyDirectionalLightInfo_Methods[] = {
 
 PyTypeObject pyDirectionalLightInfo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plDirectionalLightInfo",  /* tp_name */
+    "PyHSPlasma.plDirectionalLightInfo",/* tp_name */
     sizeof(pyDirectionalLightInfo),     /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

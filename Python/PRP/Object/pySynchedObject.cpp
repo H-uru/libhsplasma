@@ -145,7 +145,7 @@ static PyGetSetDef pySynchedObject_GetSet[] = {
 
 PyTypeObject pySynchedObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSynchedObject",         /* tp_name */
+    "PyHSPlasma.plSynchedObject",       /* tp_name */
     sizeof(pySynchedObject),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -96,7 +96,7 @@ static PyGetSetDef pyInterfaceInfoModifier_GetSet[] = {
 
 PyTypeObject pyInterfaceInfoModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plInterfaceInfoModifier", /* tp_name */
+    "PyHSPlasma.plInterfaceInfoModifier", /* tp_name */
     sizeof(pyInterfaceInfoModifier),    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

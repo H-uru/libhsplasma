@@ -106,7 +106,7 @@ static PyGetSetDef pyGMatState_GetSet[] = {
 
 PyTypeObject pyGMatState_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsGMatState",             /* tp_name */
+    "PyHSPlasma.hsGMatState",           /* tp_name */
     sizeof(pyGMatState),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

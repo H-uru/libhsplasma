@@ -36,7 +36,7 @@ static PyMethodDef pyOmniApplicator_Methods[] = {
 
 PyTypeObject pyOmniApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plOmniApplicator",        /* tp_name */
+    "PyHSPlasma.plOmniApplicator",      /* tp_name */
     sizeof(pyOmniApplicator),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

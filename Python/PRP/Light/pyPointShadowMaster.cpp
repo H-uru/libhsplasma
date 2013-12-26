@@ -36,7 +36,7 @@ static PyMethodDef pyPointShadowMaster_Methods[] = {
 
 PyTypeObject pyPointShadowMaster_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPointShadowMaster",     /* tp_name */
+    "PyHSPlasma.plPointShadowMaster",   /* tp_name */
     sizeof(pyPointShadowMaster),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -144,7 +144,7 @@ static PyGetSetDef pyMessage_GetSet[] = {
 
 PyTypeObject pyMessage_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMessage",               /* tp_name */
+    "PyHSPlasma.plMessage",             /* tp_name */
     sizeof(pyMessage),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

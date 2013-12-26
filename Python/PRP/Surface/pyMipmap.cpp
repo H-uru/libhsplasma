@@ -334,7 +334,7 @@ static PyGetSetDef pyMipmap_GetSet[] = {
 
 PyTypeObject pyMipmap_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMipmap",                /* tp_name */
+    "PyHSPlasma.plMipmap",              /* tp_name */
     sizeof(pyMipmap),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

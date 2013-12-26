@@ -31,7 +31,7 @@ static PyObject* pyParticleSpan_new(PyTypeObject* type, PyObject* args, PyObject
 
 PyTypeObject pyParticleSpan_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plParticleSpan",          /* tp_name */
+    "PyHSPlasma.plParticleSpan",        /* tp_name */
     sizeof(pyParticleSpan),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

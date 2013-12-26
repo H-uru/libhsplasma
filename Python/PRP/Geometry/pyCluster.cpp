@@ -176,7 +176,7 @@ static PyGetSetDef pyCluster_GetSet[] = {
 
 PyTypeObject pyCluster_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plCluster",               /* tp_name */
+    "PyHSPlasma.plCluster",             /* tp_name */
     sizeof(pyCluster),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

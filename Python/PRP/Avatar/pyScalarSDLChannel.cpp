@@ -36,7 +36,7 @@ static PyMethodDef pyScalarSDLChannel_Methods[] = {
 
 PyTypeObject pyScalarSDLChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScalarSDLChannel",      /* tp_name */
+    "PyHSPlasma.plScalarSDLChannel",    /* tp_name */
     sizeof(pyScalarSDLChannel),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

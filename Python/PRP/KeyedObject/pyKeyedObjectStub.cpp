@@ -67,7 +67,7 @@ static PyGetSetDef pyKeyedObjectStub_GetSet[] = {
 
 PyTypeObject pyKeyedObjectStub_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsKeyedObjectStub",       /* tp_name */
+    "PyHSPlasma.hsKeyedObjectStub",     /* tp_name */
     sizeof(pyKeyedObjectStub),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

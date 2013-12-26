@@ -135,7 +135,7 @@ static PyGetSetDef pyViewFaceModifier_GetSet[] = {
 
 PyTypeObject pyViewFaceModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plViewFaceModifier",      /* tp_name */
+    "PyHSPlasma.plViewFaceModifier",    /* tp_name */
     sizeof(pyViewFaceModifier),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

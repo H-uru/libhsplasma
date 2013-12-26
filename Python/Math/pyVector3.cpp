@@ -304,7 +304,7 @@ PyGetSetDef pyVector3_GetSet[] = {
 
 PyTypeObject pyVector3_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsVector3",               /* tp_name */
+    "PyHSPlasma.hsVector3",             /* tp_name */
     sizeof(pyVector3),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

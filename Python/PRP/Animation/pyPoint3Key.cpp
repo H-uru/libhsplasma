@@ -84,7 +84,7 @@ static PyGetSetDef pyPoint3Key_GetSet[] = {
 
 PyTypeObject pyPoint3Key_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsPoint3Key",             /* tp_name */
+    "PyHSPlasma.hsPoint3Key",           /* tp_name */
     sizeof(pyPoint3Key),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

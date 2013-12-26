@@ -100,7 +100,7 @@ static PyGetSetDef pyLODDist_GetSet[] = {
 
 PyTypeObject pyLODDist_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLODDist",               /* tp_name */
+    "PyHSPlasma.plLODDist",             /* tp_name */
     sizeof(pyLODDist),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

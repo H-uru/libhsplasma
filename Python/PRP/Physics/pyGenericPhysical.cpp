@@ -445,7 +445,7 @@ static PyGetSetDef pyGenericPhysical_GetSet[] = {
 
 PyTypeObject pyGenericPhysical_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plGenericPhysical",       /* tp_name */
+    "PyHSPlasma.plGenericPhysical",     /* tp_name */
     sizeof(pyPhysical),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

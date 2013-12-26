@@ -172,7 +172,7 @@ static PyGetSetDef pyResponderModifier_State_GetSet[] = {
 
 PyTypeObject pyResponderModifier_State_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plResponderModifier_State", /* tp_name */
+    "PyHSPlasma.plResponderModifier_State", /* tp_name */
     sizeof(pyResponderModifier_State),  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

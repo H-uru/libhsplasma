@@ -69,7 +69,7 @@ static PyGetSetDef pyActivateEventData_GetSet[] = {
 
 PyTypeObject pyActivateEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proActivateEventData",    /* tp_name */
+    "PyHSPlasma.proActivateEventData",  /* tp_name */
     sizeof(pyActivateEventData),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

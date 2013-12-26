@@ -158,7 +158,7 @@ static PyGetSetDef pyLayerAnimationBase_GetSet[] = {
 
 PyTypeObject pyLayerAnimationBase_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayerAnimationBase",    /* tp_name */
+    "PyHSPlasma.plLayerAnimationBase",  /* tp_name */
     sizeof(pyLayerAnimationBase),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

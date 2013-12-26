@@ -452,7 +452,7 @@ PyMethodDef pyMatrix44_Methods[] = {
 
 PyTypeObject pyMatrix44_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsMatrix44",              /* tp_name */
+    "PyHSPlasma.hsMatrix44",            /* tp_name */
     sizeof(pyMatrix44),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

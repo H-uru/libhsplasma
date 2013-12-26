@@ -36,7 +36,7 @@ static PyMethodDef pyPointChannel_Methods[] = {
 
 PyTypeObject pyPointChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPointChannel",          /* tp_name */
+    "PyHSPlasma.plPointChannel",        /* tp_name */
     sizeof(pyPointChannel),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

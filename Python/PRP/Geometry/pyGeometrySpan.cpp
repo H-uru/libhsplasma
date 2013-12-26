@@ -339,7 +339,7 @@ static PyGetSetDef pyGeometrySpan_GetSet[] = {
 
 PyTypeObject pyGeometrySpan_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plGeometrySpan",          /* tp_name */
+    "PyHSPlasma.plGeometrySpan",        /* tp_name */
     sizeof(pyGeometrySpan),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

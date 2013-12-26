@@ -83,7 +83,7 @@ static PyGetSetDef pyScalarKey_GetSet[] = {
 
 PyTypeObject pyScalarKey_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsScalarKey",             /* tp_name */
+    "PyHSPlasma.hsScalarKey",           /* tp_name */
     sizeof(pyScalarKey),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

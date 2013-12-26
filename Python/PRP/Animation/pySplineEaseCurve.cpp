@@ -65,7 +65,7 @@ static PyGetSetDef pySplineEaseCurve_GetSet[] = {
 
 PyTypeObject pySplineEaseCurve_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSplineEaseCurve",       /* tp_name */
+    "PyHSPlasma.plSplineEaseCurve",     /* tp_name */
     sizeof(pySplineEaseCurve),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

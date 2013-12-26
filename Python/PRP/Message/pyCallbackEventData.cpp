@@ -54,7 +54,7 @@ static PyGetSetDef pyCallbackEventData_GetSet[] = {
 
 PyTypeObject pyCallbackEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proCallbackEventData",    /* tp_name */
+    "PyHSPlasma.proCallbackEventData",  /* tp_name */
     sizeof(pyCallbackEventData),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

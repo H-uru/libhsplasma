@@ -55,7 +55,7 @@ static PyGetSetDef pyAgeGlobalAnim_GetSet[] = {
 
 PyTypeObject pyAgeGlobalAnim_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAgeGlobalAnim",         /* tp_name */
+    "PyHSPlasma.plAgeGlobalAnim",       /* tp_name */
     sizeof(pyAgeGlobalAnim),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

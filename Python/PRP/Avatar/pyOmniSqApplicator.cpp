@@ -36,7 +36,7 @@ static PyMethodDef pyOmniSqApplicator_Methods[] = {
 
 PyTypeObject pyOmniSqApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plOmniSqApplicator",      /* tp_name */
+    "PyHSPlasma.plOmniSqApplicator",    /* tp_name */
     sizeof(pyOmniSqApplicator),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -84,7 +84,7 @@ PyGetSetDef pyObjInterface_GetSet[] = {
 
 PyTypeObject pyObjInterface_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plObjInterface",          /* tp_name */
+    "PyHSPlasma.plObjInterface",        /* tp_name */
     sizeof(pyObjInterface),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

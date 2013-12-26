@@ -130,7 +130,7 @@ static PyMethodDef pyEncryptedStream_Methods[] = {
 
 PyTypeObject pyEncryptedStream_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plEncryptedStream",       /* tp_name */
+    "PyHSPlasma.plEncryptedStream",     /* tp_name */
     sizeof(pyEncryptedStream),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

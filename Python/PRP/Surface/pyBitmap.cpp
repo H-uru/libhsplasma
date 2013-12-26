@@ -171,7 +171,7 @@ static PyGetSetDef pyBitmap_GetSet[] = {
 
 PyTypeObject pyBitmap_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plBitmap",                /* tp_name */
+    "PyHSPlasma.plBitmap",              /* tp_name */
     sizeof(pyBitmap),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

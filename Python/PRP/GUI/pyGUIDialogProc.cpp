@@ -31,7 +31,7 @@ static PyObject* pyGUIDialogProc_new(PyTypeObject* type, PyObject* args, PyObjec
 
 PyTypeObject pyGUIDialogProc_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.pfGUIDialogProc",         /* tp_name */
+    "PyHSPlasma.pfGUIDialogProc",       /* tp_name */
     sizeof(pyGUIDialogProc),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

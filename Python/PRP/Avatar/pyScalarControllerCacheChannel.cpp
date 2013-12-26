@@ -36,7 +36,7 @@ static PyMethodDef pyScalarControllerCacheChannel_Methods[] = {
 
 PyTypeObject pyScalarControllerCacheChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScalarControllerCacheChannel", /* tp_name */
+    "PyHSPlasma.plScalarControllerCacheChannel", /* tp_name */
     sizeof(pyScalarControllerCacheChannel), /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

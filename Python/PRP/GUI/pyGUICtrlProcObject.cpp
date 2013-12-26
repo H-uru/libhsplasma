@@ -39,7 +39,7 @@ static PyObject* pyGUICtrlProcObject_new(PyTypeObject* type, PyObject* args, PyO
 
 PyTypeObject pyGUICtrlProcObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.pfGUICtrlProcObject",     /* tp_name */
+    "PyHSPlasma.pfGUICtrlProcObject",   /* tp_name */
     sizeof(pyGUICtrlProcObject),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

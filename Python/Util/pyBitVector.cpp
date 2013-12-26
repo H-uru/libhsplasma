@@ -195,7 +195,7 @@ static PyMethodDef pyBitVector_Methods[] = {
 
 PyTypeObject pyBitVector_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsBitVector",             /* tp_name */
+    "PyHSPlasma.hsBitVector",           /* tp_name */
     sizeof(pyBitVector),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

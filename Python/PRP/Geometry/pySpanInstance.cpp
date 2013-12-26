@@ -173,7 +173,7 @@ static PyGetSetDef pySpanInstance_GetSet[] = {
 
 PyTypeObject pySpanInstance_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSpanInstance",          /* tp_name */
+    "PyHSPlasma.plSpanInstance",        /* tp_name */
     sizeof(pySpanInstance),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

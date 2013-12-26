@@ -134,7 +134,7 @@ static PyMethodDef pyCreatable_Methods[] = {
 
 PyTypeObject pyCreatable_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plCreatable",             /* tp_name */
+    "PyHSPlasma.plCreatable",           /* tp_name */
     sizeof(pyCreatable),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

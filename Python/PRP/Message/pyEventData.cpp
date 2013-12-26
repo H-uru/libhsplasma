@@ -90,7 +90,7 @@ static PyMethodDef pyEventData_Methods[] = {
 
 PyTypeObject pyEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proEventData",            /* tp_name */
+    "PyHSPlasma.proEventData",          /* tp_name */
     sizeof(pyEventData),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

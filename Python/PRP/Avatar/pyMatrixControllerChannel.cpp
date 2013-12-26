@@ -61,7 +61,7 @@ static PyGetSetDef pyMatrixControllerChannel_GetSet[] = {
 
 PyTypeObject pyMatrixControllerChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrixControllerChannel", /* tp_name */
+    "PyHSPlasma.plMatrixControllerChannel", /* tp_name */
     sizeof(pyMatrixControllerChannel),  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

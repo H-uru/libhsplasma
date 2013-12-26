@@ -36,7 +36,7 @@ static PyMethodDef pyMatrixDifferenceApp_Methods[] = {
 
 PyTypeObject pyMatrixDifferenceApp_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrixDifferenceApp",   /* tp_name */
+    "PyHSPlasma.plMatrixDifferenceApp", /* tp_name */
     sizeof(pyMatrixDifferenceApp),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

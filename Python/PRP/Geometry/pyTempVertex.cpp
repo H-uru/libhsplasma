@@ -151,7 +151,7 @@ PyGetSetDef pyTempVertex_GetSet[] = {
 
 PyTypeObject pyTempVertex_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plGeometrySpan.TempVertex",/* tp_name */
+    "PyHSPlasma.plGeometrySpan.TempVertex",/* tp_name */
     sizeof(pyTempVertex),                /* tp_basicsize */
     0,                                   /* tp_itemsize */
 

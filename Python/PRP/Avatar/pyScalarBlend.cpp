@@ -36,7 +36,7 @@ static PyMethodDef pyScalarBlend_Methods[] = {
 
 PyTypeObject pyScalarBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScalarBlend",           /* tp_name */
+    "PyHSPlasma.plScalarBlend",         /* tp_name */
     sizeof(pyScalarBlend),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

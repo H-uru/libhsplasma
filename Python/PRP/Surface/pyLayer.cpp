@@ -36,7 +36,7 @@ static PyMethodDef pyLayer_Methods[] = {
 
 PyTypeObject pyLayer_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayer",                 /* tp_name */
+    "PyHSPlasma.plLayer",               /* tp_name */
     sizeof(pyLayer),                    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -36,7 +36,7 @@ static PyMethodDef pyPointControllerCacheChannel_Methods[] = {
 
 PyTypeObject pyPointControllerCacheChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPointControllerCacheChannel", /* tp_name */
+    "PyHSPlasma.plPointControllerCacheChannel", /* tp_name */
     sizeof(pyPointControllerCacheChannel), /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

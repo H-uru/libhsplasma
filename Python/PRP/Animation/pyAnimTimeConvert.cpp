@@ -312,7 +312,7 @@ static PyGetSetDef pyAnimTimeConvert_GetSet[] = {
 
 PyTypeObject pyAnimTimeConvert_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAnimTimeConvert",       /* tp_name */
+    "PyHSPlasma.plAnimTimeConvert",     /* tp_name */
     sizeof(pyAnimTimeConvert),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

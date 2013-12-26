@@ -89,7 +89,7 @@ static PyGetSetDef pyDISpanIndex_GetSet[] = {
 
 PyTypeObject pyDISpanIndex_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plDISpanIndex",           /* tp_name */
+    "PyHSPlasma.plDISpanIndex",         /* tp_name */
     sizeof(pyDISpanIndex),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

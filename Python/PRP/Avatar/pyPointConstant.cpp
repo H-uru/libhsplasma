@@ -36,7 +36,7 @@ static PyMethodDef pyPointConstant_Methods[] = {
 
 PyTypeObject pyPointConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPointConstant",         /* tp_name */
+    "PyHSPlasma.plPointConstant",       /* tp_name */
     sizeof(pyPointConstant),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

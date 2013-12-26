@@ -95,7 +95,7 @@ static PyGetSetDef pyBoundsOriented_GetSet[] = {
 
 PyTypeObject pyBoundsOriented_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsBoundsOriented",        /* tp_name */
+    "PyHSPlasma.hsBoundsOriented",      /* tp_name */
     sizeof(pyBoundsOriented),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -125,7 +125,7 @@ static PyGetSetDef pySoundBuffer_GetSet[] = {
 
 PyTypeObject pySoundBuffer_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSoundBuffer",           /* tp_name */
+    "PyHSPlasma.plSoundBuffer",         /* tp_name */
     sizeof(pySoundBuffer),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

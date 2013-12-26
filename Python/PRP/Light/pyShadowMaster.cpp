@@ -131,7 +131,7 @@ static PyGetSetDef pyShadowMaster_GetSet[] = {
 
 PyTypeObject pyShadowMaster_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plShadowMaster",          /* tp_name */
+    "PyHSPlasma.plShadowMaster",        /* tp_name */
     sizeof(pyShadowMaster),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -122,7 +122,7 @@ static PyGetSetDef pyKeyFrame_GetSet[] = {
 
 PyTypeObject pyKeyFrame_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsKeyFrame",              /* tp_name */
+    "PyHSPlasma.hsKeyFrame",            /* tp_name */
     sizeof(pyKeyFrame),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

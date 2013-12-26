@@ -613,7 +613,7 @@ static PyMethodDef pyResManager_Methods[] = {
 
 PyTypeObject pyResManager_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plResManager",            /* tp_name */
+    "PyHSPlasma.plResManager",          /* tp_name */
     sizeof(pyResManager),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

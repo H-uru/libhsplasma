@@ -114,7 +114,7 @@ PyGetSetDef pyClothingItem_GetSet[] = {
 
 PyTypeObject pyClothingItem_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plClothingItem",          /* tp_name */
+    "PyHSPlasma.plClothingItem",        /* tp_name */
     sizeof(pyClothingItem),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

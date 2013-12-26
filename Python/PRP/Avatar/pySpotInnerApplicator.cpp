@@ -36,7 +36,7 @@ static PyMethodDef pySpotInnerApplicator_Methods[] = {
 
 PyTypeObject pySpotInnerApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSpotInnerApplicator",   /* tp_name */
+    "PyHSPlasma.plSpotInnerApplicator", /* tp_name */
     sizeof(pySpotInnerApplicator),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

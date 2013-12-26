@@ -58,7 +58,7 @@ static PyMethodDef pyMultiModifier_Methods[] = {
 
 PyTypeObject pyMultiModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMultiModifier",         /* tp_name */
+    "PyHSPlasma.plMultiModifier",       /* tp_name */
     sizeof(pyMultiModifier),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

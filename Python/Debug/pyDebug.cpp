@@ -108,7 +108,7 @@ static PyMethodDef pyDebug_Methods[] = {
 
 PyTypeObject pyDebug_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plDebug",                 /* tp_name */
+    "PyHSPlasma.plDebug",               /* tp_name */
     sizeof(PyObject),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

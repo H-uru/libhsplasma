@@ -78,7 +78,7 @@ static PyGetSetDef pySpawnedEventData_GetSet[] = {
 
 PyTypeObject pySpawnedEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proSpawnedEventData",     /* tp_name */
+    "PyHSPlasma.proSpawnedEventData",   /* tp_name */
     sizeof(pySpawnedEventData),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

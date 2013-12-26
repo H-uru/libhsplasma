@@ -76,7 +76,7 @@ static PyGetSetDef pyCompressedQuatKey32_GetSet[] = {
 
 PyTypeObject pyCompressedQuatKey32_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsCompressedQuatKey32",   /* tp_name */
+    "PyHSPlasma.hsCompressedQuatKey32", /* tp_name */
     sizeof(pyCompressedQuatKey32),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

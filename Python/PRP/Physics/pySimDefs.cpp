@@ -27,7 +27,7 @@ static PyObject* pySimDefs_new(PyTypeObject* type, PyObject* args, PyObject* kwd
 
 PyTypeObject pySimDefs_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSimDefs",               /* tp_name */
+    "PyHSPlasma.plSimDefs",             /* tp_name */
     sizeof(PyObject),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

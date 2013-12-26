@@ -302,7 +302,7 @@ PyGetSetDef pyQuat_GetSet[] = {
 
 PyTypeObject pyQuat_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsQuat",                  /* tp_name */
+    "PyHSPlasma.hsQuat",                /* tp_name */
     sizeof(pyQuat),                     /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

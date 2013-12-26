@@ -56,7 +56,7 @@ static PyGetSetDef pyMatrixChannel_GetSet[] = {
 
 PyTypeObject pyMatrixChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrixChannel",         /* tp_name */
+    "PyHSPlasma.plMatrixChannel",       /* tp_name */
     sizeof(pyMatrixChannel),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

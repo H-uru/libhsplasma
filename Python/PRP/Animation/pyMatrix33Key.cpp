@@ -57,7 +57,7 @@ static PyGetSetDef pyMatrix33Key_GetSet[] = {
 
 PyTypeObject pyMatrix33Key_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsMatrix33Key",           /* tp_name */
+    "PyHSPlasma.hsMatrix33Key",         /* tp_name */
     sizeof(pyMatrix33Key),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

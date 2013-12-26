@@ -177,7 +177,7 @@ PyGetSetDef pyAffineParts_GetSet[] = {
 
 PyTypeObject pyAffineParts_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsAffineParts",           /* tp_name */
+    "PyHSPlasma.hsAffineParts",         /* tp_name */
     sizeof(pyAffineParts),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

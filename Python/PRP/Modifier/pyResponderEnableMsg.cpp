@@ -56,7 +56,7 @@ static PyGetSetDef pyResponderEnableMsg_GetSet[] = {
 
 PyTypeObject pyResponderEnableMsg_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plResponderEnableMsg",    /* tp_name */
+    "PyHSPlasma.plResponderEnableMsg",  /* tp_name */
     sizeof(pyResponderEnableMsg),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

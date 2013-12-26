@@ -207,7 +207,7 @@ static PyGetSetDef pyPythonParameter_GetSet[] = {
 
 PyTypeObject pyPythonParameter_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPythonParameter",       /* tp_name */
+    "PyHSPlasma.plPythonParameter",     /* tp_name */
     sizeof(pyPythonParameter),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

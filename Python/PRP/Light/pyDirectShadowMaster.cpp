@@ -36,7 +36,7 @@ static PyMethodDef pyDirectShadowMaster_Methods[] = {
 
 PyTypeObject pyDirectShadowMaster_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plDirectShadowMaster",    /* tp_name */
+    "PyHSPlasma.plDirectShadowMaster",  /* tp_name */
     sizeof(pyDirectShadowMaster),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

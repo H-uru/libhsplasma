@@ -642,7 +642,7 @@ static PyGetSetDef pyDrawableSpans_GetSet[] = {
 
 PyTypeObject pyDrawableSpans_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plDrawableSpans",         /* tp_name */
+    "PyHSPlasma.plDrawableSpans",       /* tp_name */
     sizeof(pyDrawableSpans),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

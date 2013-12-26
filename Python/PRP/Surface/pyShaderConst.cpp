@@ -168,7 +168,7 @@ static PyGetSetDef pyShaderConst_GetSet[] = {
 
 PyTypeObject pyShaderConst_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plShaderConst",           /* tp_name */
+    "PyHSPlasma.plShaderConst",         /* tp_name */
     sizeof(pyShaderConst),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

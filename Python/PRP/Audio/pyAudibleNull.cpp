@@ -36,7 +36,7 @@ static PyMethodDef pyAudibleNull_Methods[] = {
 
 PyTypeObject pyAudibleNull_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAudibleNull",           /* tp_name */
+    "PyHSPlasma.plAudibleNull",         /* tp_name */
     sizeof(pyAudibleNull),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

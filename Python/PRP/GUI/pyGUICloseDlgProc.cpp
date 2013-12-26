@@ -31,7 +31,7 @@ static PyObject* pyGUICloseDlgProc_new(PyTypeObject* type, PyObject* args, PyObj
 
 PyTypeObject pyGUICloseDlgProc_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.pfGUICloseDlgProc",       /* tp_name */
+    "PyHSPlasma.pfGUICloseDlgProc",     /* tp_name */
     sizeof(pyGUICloseDlgProc),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

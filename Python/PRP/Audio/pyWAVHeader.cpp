@@ -162,7 +162,7 @@ static PyGetSetDef pyWAVHeader_GetSet[] = {
 
 PyTypeObject pyWAVHeader_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plWAVHeader",             /* tp_name */
+    "PyHSPlasma.plWAVHeader",           /* tp_name */
     sizeof(pyWAVHeader),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

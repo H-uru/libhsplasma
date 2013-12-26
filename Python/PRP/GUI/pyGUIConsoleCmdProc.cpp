@@ -54,7 +54,7 @@ static PyGetSetDef pyGUIConsoleCmdProc_GetSet[] = {
 
 PyTypeObject pyGUIConsoleCmdProc_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.pfGUIConsoleCmdProc",     /* tp_name */
+    "PyHSPlasma.pfGUIConsoleCmdProc",   /* tp_name */
     sizeof(pyGUIConsoleCmdProc),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

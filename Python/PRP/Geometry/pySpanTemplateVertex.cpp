@@ -193,7 +193,7 @@ static PyGetSetDef pySpanTemplateVertex_GetSet[] = {
 
 PyTypeObject pySpanTemplateVertex_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSpanTemplateVertex",    /* tp_name */
+    "PyHSPlasma.plSpanTemplateVertex",  /* tp_name */
     sizeof(pySpanTemplateVertex),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -36,7 +36,7 @@ static PyMethodDef pyMatrixConstant_Methods[] = {
 
 PyTypeObject pyMatrixConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrixConstant",        /* tp_name */
+    "PyHSPlasma.plMatrixConstant",      /* tp_name */
     sizeof(pyMatrixConstant),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

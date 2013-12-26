@@ -48,7 +48,7 @@ static PyGetSetDef pyPosController_GetSet[] = {
 
 PyTypeObject pyPosController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plPosController",         /* tp_name */
+    "PyHSPlasma.plPosController",       /* tp_name */
     sizeof(pyPosController),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

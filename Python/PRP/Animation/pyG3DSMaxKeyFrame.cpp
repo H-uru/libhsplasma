@@ -57,7 +57,7 @@ static PyGetSetDef pyG3DSMaxKeyFrame_GetSet[] = {
 
 PyTypeObject pyG3DSMaxKeyFrame_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsG3DSMaxKeyFrame",       /* tp_name */
+    "PyHSPlasma.hsG3DSMaxKeyFrame",     /* tp_name */
     sizeof(pyG3DSMaxKeyFrame),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -85,7 +85,7 @@ static PyGetSetDef pySpotLightInfo_GetSet[] = {
 
 PyTypeObject pySpotLightInfo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSpotLightInfo",         /* tp_name */
+    "PyHSPlasma.plSpotLightInfo",       /* tp_name */
     sizeof(pySpotLightInfo),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

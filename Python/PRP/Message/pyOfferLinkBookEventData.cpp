@@ -89,7 +89,7 @@ static PyGetSetDef pyOfferLinkBookEventData_GetSet[] = {
 
 PyTypeObject pyOfferLinkBookEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proOfferLinkBookEventData", /* tp_name */
+    "PyHSPlasma.proOfferLinkBookEventData", /* tp_name */
     sizeof(pyOfferLinkBookEventData),   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

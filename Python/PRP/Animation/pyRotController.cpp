@@ -47,7 +47,7 @@ static PyGetSetDef pyRotController_GetSet[] = {
 
 PyTypeObject pyRotController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plRotController",         /* tp_name */
+    "PyHSPlasma.plRotController",       /* tp_name */
     sizeof(pyRotController),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

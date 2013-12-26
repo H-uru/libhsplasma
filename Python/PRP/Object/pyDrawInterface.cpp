@@ -157,7 +157,7 @@ PyGetSetDef pyDrawInterface_GetSet[] = {
 
 PyTypeObject pyDrawInterface_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plDrawInterface",         /* tp_name */
+    "PyHSPlasma.plDrawInterface",       /* tp_name */
     sizeof(pyDrawInterface),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -108,7 +108,7 @@ static PyGetSetDef pyFacingEventData_GetSet[] = {
 
 PyTypeObject pyFacingEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proFacingEventData",      /* tp_name */
+    "PyHSPlasma.proFacingEventData",    /* tp_name */
     sizeof(pyFacingEventData),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

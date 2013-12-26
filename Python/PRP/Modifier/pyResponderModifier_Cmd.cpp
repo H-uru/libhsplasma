@@ -95,7 +95,7 @@ static PyGetSetDef pyResponderModifier_Cmd_GetSet[] = {
 
 PyTypeObject pyResponderModifier_Cmd_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plResponderModifier_Cmd", /* tp_name */
+    "PyHSPlasma.plResponderModifier_Cmd", /* tp_name */
     sizeof(pyResponderModifier_Cmd),    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

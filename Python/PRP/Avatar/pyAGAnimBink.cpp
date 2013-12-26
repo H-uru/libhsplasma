@@ -85,7 +85,7 @@ static PyGetSetDef pyAGAnimBink_GetSet[] = {
 
 PyTypeObject pyAGAnimBink_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAGAnimBink",            /* tp_name */
+    "PyHSPlasma.plAGAnimBink",          /* tp_name */
     sizeof(pyAGAnimBink),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -64,7 +64,7 @@ PyGetSetDef pyAgeInfoStruct_GetSet[] = {
 
 PyTypeObject pyAgeInfoStruct_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAgeInfoStruct",         /* tp_name */
+    "PyHSPlasma.plAgeInfoStruct",       /* tp_name */
     sizeof(pyAgeInfoStruct),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
@@ -181,7 +181,7 @@ PyGetSetDef pyAgeLinkStruct_GetSet[] = {
 
 PyTypeObject pyAgeLinkStruct_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAgeLinkStruct",         /* tp_name */
+    "PyHSPlasma.plAgeLinkStruct",       /* tp_name */
     sizeof(pyAgeLinkStruct),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

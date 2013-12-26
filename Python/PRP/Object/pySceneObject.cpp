@@ -245,7 +245,7 @@ PyGetSetDef pySceneObject_GetSet[] = {
 
 PyTypeObject pySceneObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSceneObject",           /* tp_name */
+    "PyHSPlasma.plSceneObject",         /* tp_name */
     sizeof(pySceneObject),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -91,7 +91,7 @@ static PyGetSetDef pyMobileOccluder_GetSet[] = {
 
 PyTypeObject pyMobileOccluder_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMobileOccluder",        /* tp_name */
+    "PyHSPlasma.plMobileOccluder",      /* tp_name */
     sizeof(pyMobileOccluder),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

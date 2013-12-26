@@ -36,7 +36,7 @@ static PyMethodDef pyScalarTimeScale_Methods[] = {
 
 PyTypeObject pyScalarTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScalarTimeScale",       /* tp_name */
+    "PyHSPlasma.plScalarTimeScale",     /* tp_name */
     sizeof(pyScalarTimeScale),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

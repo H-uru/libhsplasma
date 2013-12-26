@@ -88,7 +88,7 @@ static PyGetSetDef pyMultiStageEventData_GetSet[] = {
 
 PyTypeObject pyMultiStageEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proMultiStageEventData",  /* tp_name */
+    "PyHSPlasma.proMultiStageEventData",/* tp_name */
     sizeof(pyMultiStageEventData),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

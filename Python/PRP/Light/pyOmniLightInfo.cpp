@@ -100,7 +100,7 @@ static PyGetSetDef pyOmniLightInfo_GetSet[] = {
 
 PyTypeObject pyOmniLightInfo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plOmniLightInfo",         /* tp_name */
+    "PyHSPlasma.plOmniLightInfo",       /* tp_name */
     sizeof(pyOmniLightInfo),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

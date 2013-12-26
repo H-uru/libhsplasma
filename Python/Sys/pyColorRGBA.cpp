@@ -238,7 +238,7 @@ static PyGetSetDef pyColorRGBA_GetSet[] = {
 
 PyTypeObject pyColorRGBA_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsColorRGBA",             /* tp_name */
+    "PyHSPlasma.hsColorRGBA",           /* tp_name */
     sizeof(pyColorRGBA),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

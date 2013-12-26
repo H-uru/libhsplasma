@@ -70,7 +70,7 @@ static PyGetSetDef pyControlKeyEventData_GetSet[] = {
 
 PyTypeObject pyControlKeyEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proControlKeyEventData",  /* tp_name */
+    "PyHSPlasma.proControlKeyEventData",/* tp_name */
     sizeof(pyControlKeyEventData),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

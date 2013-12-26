@@ -54,7 +54,7 @@ static PyGetSetDef pyResponderStateEventData_GetSet[] = {
 
 PyTypeObject pyResponderStateEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proResponderStateEventData", /* tp_name */
+    "PyHSPlasma.proResponderStateEventData", /* tp_name */
     sizeof(pyResponderStateEventData),  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

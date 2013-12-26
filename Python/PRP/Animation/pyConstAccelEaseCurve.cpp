@@ -36,7 +36,7 @@ static PyMethodDef pyConstAccelEaseCurve_Methods[] = {
 
 PyTypeObject pyConstAccelEaseCurve_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plConstAccelEaseCurve",   /* tp_name */
+    "PyHSPlasma.plConstAccelEaseCurve", /* tp_name */
     sizeof(pyConstAccelEaseCurve),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

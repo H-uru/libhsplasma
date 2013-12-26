@@ -36,7 +36,7 @@ static PyMethodDef pyQuatBlend_Methods[] = {
 
 PyTypeObject pyQuatBlend_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plQuatBlend",             /* tp_name */
+    "PyHSPlasma.plQuatBlend",           /* tp_name */
     sizeof(pyQuatBlend),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

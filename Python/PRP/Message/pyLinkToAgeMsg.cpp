@@ -50,7 +50,7 @@ static PyGetSetDef pyLinkToAgeMsg_GetSet[] = {
 
 PyTypeObject pyLinkToAgeMsg_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLinkToAgeMsg",          /* tp_name */
+    "PyHSPlasma.plLinkToAgeMsg",        /* tp_name */
     sizeof(pyLinkToAgeMsg),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

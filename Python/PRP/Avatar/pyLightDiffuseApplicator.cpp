@@ -36,7 +36,7 @@ static PyMethodDef pyLightDiffuseApplicator_Methods[] = {
 
 PyTypeObject pyLightDiffuseApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLightDiffuseApplicator", /* tp_name */
+    "PyHSPlasma.plLightDiffuseApplicator", /* tp_name */
     sizeof(pyLightDiffuseApplicator),   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

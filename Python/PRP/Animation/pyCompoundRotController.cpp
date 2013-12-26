@@ -107,7 +107,7 @@ static PyGetSetDef pyCompoundRotController_GetSet[] = {
 
 PyTypeObject pyCompoundRotController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plCompoundRotController", /* tp_name */
+    "PyHSPlasma.plCompoundRotController", /* tp_name */
     sizeof(pyCompoundRotController),    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

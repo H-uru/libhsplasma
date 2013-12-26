@@ -37,7 +37,7 @@ static PyMethodDef pyAudible_Methods[] = {
 
 PyTypeObject pyAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAudible",               /* tp_name */
+    "PyHSPlasma.plAudible",             /* tp_name */
     sizeof(pyAudible),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

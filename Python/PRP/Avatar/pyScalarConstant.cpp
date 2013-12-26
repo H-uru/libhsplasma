@@ -36,7 +36,7 @@ static PyMethodDef pyScalarConstant_Methods[] = {
 
 PyTypeObject pyScalarConstant_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScalarConstant",        /* tp_name */
+    "PyHSPlasma.plScalarConstant",      /* tp_name */
     sizeof(pyScalarConstant),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

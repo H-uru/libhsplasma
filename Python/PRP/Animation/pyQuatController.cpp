@@ -42,7 +42,7 @@ static PyMethodDef pyQuatController_Methods[] = {
 
 PyTypeObject pyQuatController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plQuatController",        /* tp_name */
+    "PyHSPlasma.plQuatController",      /* tp_name */
     sizeof(pyQuatController),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

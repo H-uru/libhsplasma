@@ -112,7 +112,7 @@ static PyGetSetDef pyWinAudible_GetSet[] = {
 
 PyTypeObject pyWinAudible_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plWinAudible",            /* tp_name */
+    "PyHSPlasma.plWinAudible",          /* tp_name */
     sizeof(pyWinAudible),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

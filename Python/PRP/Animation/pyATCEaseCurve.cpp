@@ -130,7 +130,7 @@ static PyGetSetDef pyATCEaseCurve_GetSet[] = {
 
 PyTypeObject pyATCEaseCurve_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plATCEaseCurve",          /* tp_name */
+    "PyHSPlasma.plATCEaseCurve",        /* tp_name */
     sizeof(pyATCEaseCurve),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

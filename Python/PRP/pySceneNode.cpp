@@ -175,7 +175,7 @@ PyGetSetDef pySceneNode_GetSet[] = {
 
 PyTypeObject pySceneNode_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSceneNode",             /* tp_name */
+    "PyHSPlasma.plSceneNode",           /* tp_name */
     sizeof(pySceneNode),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

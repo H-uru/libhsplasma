@@ -106,7 +106,7 @@ static PyGetSetDef pyTMController_GetSet[] = {
 
 PyTypeObject pyTMController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plTMController",          /* tp_name */
+    "PyHSPlasma.plTMController",        /* tp_name */
     sizeof(pyTMController),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

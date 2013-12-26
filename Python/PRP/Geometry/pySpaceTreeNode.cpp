@@ -137,7 +137,7 @@ static PyGetSetDef pySpaceTreeNode_GetSet[] = {
 
 PyTypeObject pySpaceTreeNode_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSpaceTreeNode",         /* tp_name */
+    "PyHSPlasma.plSpaceTreeNode",       /* tp_name */
     sizeof(pySpaceTreeNode),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

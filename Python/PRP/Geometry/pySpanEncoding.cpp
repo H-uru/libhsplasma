@@ -118,7 +118,7 @@ static PyGetSetDef pySpanEncoding_GetSet[] = {
 
 PyTypeObject pySpanEncoding_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSpanEncoding",          /* tp_name */
+    "PyHSPlasma.plSpanEncoding",        /* tp_name */
     sizeof(pySpanEncoding),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

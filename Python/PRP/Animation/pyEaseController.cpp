@@ -42,7 +42,7 @@ static PyMethodDef pyEaseController_Methods[] = {
 
 PyTypeObject pyEaseController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plEaseController",        /* tp_name */
+    "PyHSPlasma.plEaseController",      /* tp_name */
     sizeof(pyEaseController),           /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

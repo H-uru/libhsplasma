@@ -48,7 +48,7 @@ static PyGetSetDef pyScaleController_GetSet[] = {
 
 PyTypeObject pyScaleController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScaleController",       /* tp_name */
+    "PyHSPlasma.plScaleController",     /* tp_name */
     sizeof(pyScaleController),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

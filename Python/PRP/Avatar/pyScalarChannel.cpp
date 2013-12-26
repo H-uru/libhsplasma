@@ -55,7 +55,7 @@ static PyGetSetDef pyScalarChannel_GetSet[] = {
 
 PyTypeObject pyScalarChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plScalarChannel",         /* tp_name */
+    "PyHSPlasma.plScalarChannel",       /* tp_name */
     sizeof(pyScalarChannel),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

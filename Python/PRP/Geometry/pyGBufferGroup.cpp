@@ -433,7 +433,7 @@ static PyGetSetDef pyGBufferGroup_GetSet[] = {
 
 PyTypeObject pyGBufferGroup_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plGBufferGroup",          /* tp_name */
+    "PyHSPlasma.plGBufferGroup",        /* tp_name */
     sizeof(pyGBufferGroup),             /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

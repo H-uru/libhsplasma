@@ -36,7 +36,7 @@ static PyMethodDef pyOmniCutoffApplicator_Methods[] = {
 
 PyTypeObject pyOmniCutoffApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plOmniCutoffApplicator",  /* tp_name */
+    "PyHSPlasma.plOmniCutoffApplicator",/* tp_name */
     sizeof(pyOmniCutoffApplicator),     /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

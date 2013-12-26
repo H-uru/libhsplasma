@@ -36,7 +36,7 @@ static PyMethodDef pyMatrixTimeScale_Methods[] = {
 
 PyTypeObject pyMatrixTimeScale_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrixTimeScale",       /* tp_name */
+    "PyHSPlasma.plMatrixTimeScale",     /* tp_name */
     sizeof(pyMatrixTimeScale),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

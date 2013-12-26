@@ -55,7 +55,7 @@ static PyGetSetDef pySoundVolumeApplicator_GetSet[] = {
 
 PyTypeObject pySoundVolumeApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSoundVolumeApplicator", /* tp_name */
+    "PyHSPlasma.plSoundVolumeApplicator", /* tp_name */
     sizeof(pySoundVolumeApplicator),    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

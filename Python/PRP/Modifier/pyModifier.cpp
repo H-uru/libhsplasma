@@ -33,7 +33,7 @@ static PyMethodDef pyModifier_Methods[] = {
 
 PyTypeObject pyModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plModifier",              /* tp_name */
+    "PyHSPlasma.plModifier",            /* tp_name */
     sizeof(pyModifier),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

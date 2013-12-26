@@ -59,7 +59,7 @@ static PyGetSetDef pyClimbingBlockerHitEventData_GetSet[] = {
 
 PyTypeObject pyClimbingBlockerHitEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proClimbingBlockerHitEventData", /* tp_name */
+    "PyHSPlasma.proClimbingBlockerHitEventData", /* tp_name */
     sizeof(pyClimbingBlockerHitEventData), /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

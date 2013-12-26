@@ -204,7 +204,7 @@ static PyGetSetDef pyOccluder_GetSet[] = {
 
 PyTypeObject pyOccluder_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plOccluder",              /* tp_name */
+    "PyHSPlasma.plOccluder",            /* tp_name */
     sizeof(pyOccluder),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

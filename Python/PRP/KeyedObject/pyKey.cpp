@@ -287,7 +287,7 @@ static PyGetSetDef pyKey_GetSet[] = {
 
 PyTypeObject pyKey_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plKey",                   /* tp_name */
+    "PyHSPlasma.plKey",                 /* tp_name */
     sizeof(pyKey),                      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

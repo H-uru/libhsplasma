@@ -85,7 +85,7 @@ static PyGetSetDef pyEmoteAnim_GetSet[] = {
 
 PyTypeObject pyEmoteAnim_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plEmoteAnim",             /* tp_name */
+    "PyHSPlasma.plEmoteAnim",           /* tp_name */
     sizeof(pyEmoteAnim),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

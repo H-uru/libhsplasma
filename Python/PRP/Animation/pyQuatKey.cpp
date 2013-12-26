@@ -56,7 +56,7 @@ static PyGetSetDef pyQuatKey_GetSet[] = {
 
 PyTypeObject pyQuatKey_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsQuatKey",               /* tp_name */
+    "PyHSPlasma.hsQuatKey",             /* tp_name */
     sizeof(pyQuatKey),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

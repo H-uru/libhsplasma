@@ -370,7 +370,7 @@ static PyGetSetDef pyAgeInfo_GetSet[] = {
 
 PyTypeObject pyAgeInfo_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAgeInfo",               /* tp_name */
+    "PyHSPlasma.plAgeInfo",             /* tp_name */
     sizeof(pyAgeInfo),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

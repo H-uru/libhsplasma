@@ -105,7 +105,7 @@ static PyGetSetDef pyBounds_GetSet[] = {
 
 PyTypeObject pyBounds_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsBounds",                /* tp_name */
+    "PyHSPlasma.hsBounds",              /* tp_name */
     sizeof(pyBounds),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

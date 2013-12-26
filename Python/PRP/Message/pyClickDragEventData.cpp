@@ -35,7 +35,7 @@ static PyMethodDef pyClickDragEventData_Methods[] = {
 
 PyTypeObject pyClickDragEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proClickDragEventData",   /* tp_name */
+    "PyHSPlasma.proClickDragEventData", /* tp_name */
     sizeof(pyClickDragEventData),       /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

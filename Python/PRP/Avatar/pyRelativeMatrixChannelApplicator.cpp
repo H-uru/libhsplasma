@@ -36,7 +36,7 @@ static PyMethodDef pyRelativeMatrixChannelApplicator_Methods[] = {
 
 PyTypeObject pyRelativeMatrixChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plRelativeMatrixChannelApplicator", /* tp_name */
+    "PyHSPlasma.plRelativeMatrixChannelApplicator", /* tp_name */
     sizeof(pyRelativeMatrixChannelApplicator), /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

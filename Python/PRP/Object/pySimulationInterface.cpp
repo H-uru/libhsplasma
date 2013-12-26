@@ -60,7 +60,7 @@ PyGetSetDef pySimulationInterface_GetSet[] = {
 
 PyTypeObject pySimulationInterface_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSimulationInterface",   /* tp_name */
+    "PyHSPlasma.plSimulationInterface", /* tp_name */
     sizeof(pySimulationInterface),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

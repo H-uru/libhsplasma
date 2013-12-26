@@ -36,7 +36,7 @@ static PyMethodDef pyMatrixChannelApplicator_Methods[] = {
 
 PyTypeObject pyMatrixChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrixChannelApplicator", /* tp_name */
+    "PyHSPlasma.plMatrixChannelApplicator", /* tp_name */
     sizeof(pyMatrixChannelApplicator),   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

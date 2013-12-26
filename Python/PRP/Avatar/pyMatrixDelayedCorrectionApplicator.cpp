@@ -36,7 +36,7 @@ static PyMethodDef pyMatrixDelayedCorrectionApplicator_Methods[] = {
 
 PyTypeObject pyMatrixDelayedCorrectionApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMatrixDelayedCorrectionApplicator", /* tp_name */
+    "PyHSPlasma.plMatrixDelayedCorrectionApplicator", /* tp_name */
     sizeof(pyMatrixDelayedCorrectionApplicator), /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

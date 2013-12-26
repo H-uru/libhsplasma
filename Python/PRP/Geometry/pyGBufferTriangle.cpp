@@ -161,7 +161,7 @@ static PyGetSetDef pyGBufferTriangle_GetSet[] = {
 
 PyTypeObject pyGBufferTriangle_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plGBufferTriangle",       /* tp_name */
+    "PyHSPlasma.plGBufferTriangle",     /* tp_name */
     sizeof(pyGBufferTriangle),          /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

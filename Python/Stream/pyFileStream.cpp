@@ -71,7 +71,7 @@ static PyMethodDef pyFileStream_Methods[] = {
 
 PyTypeObject pyFileStream_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsFileStream",            /* tp_name */
+    "PyHSPlasma.hsFileStream",          /* tp_name */
     sizeof(pyFileStream),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

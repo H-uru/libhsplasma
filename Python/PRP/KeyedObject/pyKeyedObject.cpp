@@ -64,7 +64,7 @@ static PyGetSetDef pyKeyedObject_GetSet[] = {
 
 PyTypeObject pyKeyedObject_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsKeyedObject",           /* tp_name */
+    "PyHSPlasma.hsKeyedObject",         /* tp_name */
     sizeof(pyKeyedObject),              /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

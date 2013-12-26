@@ -36,7 +36,7 @@ static PyMethodDef pyQuatChannelApplicator_Methods[] = {
 
 PyTypeObject pyQuatChannelApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plQuatChannelApplicator", /* tp_name */
+    "PyHSPlasma.plQuatChannelApplicator", /* tp_name */
     sizeof(pyQuatChannelApplicator),    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

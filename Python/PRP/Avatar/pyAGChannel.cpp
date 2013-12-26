@@ -50,7 +50,7 @@ static PyGetSetDef pyAGChannel_GetSet[] = {
 
 PyTypeObject pyAGChannel_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plAGChannel",             /* tp_name */
+    "PyHSPlasma.plAGChannel",           /* tp_name */
     sizeof(pyAGChannel),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

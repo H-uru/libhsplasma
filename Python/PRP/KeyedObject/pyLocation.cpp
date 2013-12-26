@@ -289,7 +289,7 @@ static PyGetSetDef pyLocation_GetSet[] = {
 
 PyTypeObject pyLocation_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLocation",              /* tp_name */
+    "PyHSPlasma.plLocation",            /* tp_name */
     sizeof(pyLocation),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

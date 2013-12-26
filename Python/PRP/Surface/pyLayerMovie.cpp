@@ -56,7 +56,7 @@ static PyGetSetDef pyLayerMovie_GetSet[] = {
 
 PyTypeObject pyLayerMovie_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plLayerMovie",            /* tp_name */
+    "PyHSPlasma.plLayerMovie",          /* tp_name */
     sizeof(pyLayerMovie),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

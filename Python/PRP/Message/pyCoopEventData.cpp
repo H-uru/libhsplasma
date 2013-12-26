@@ -69,7 +69,7 @@ static PyGetSetDef pyCoopEventData_GetSet[] = {
 
 PyTypeObject pyCoopEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proCoopEventData",        /* tp_name */
+    "PyHSPlasma.proCoopEventData",      /* tp_name */
     sizeof(pyCoopEventData),            /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

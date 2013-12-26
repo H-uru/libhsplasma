@@ -167,7 +167,7 @@ PyGetSetDef pyPlane3_GetSet[] = {
 
 PyTypeObject pyPlane3_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.hsPlane3",                /* tp_name */
+    "PyHSPlasma.hsPlane3",              /* tp_name */
     sizeof(pyPlane3),                   /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

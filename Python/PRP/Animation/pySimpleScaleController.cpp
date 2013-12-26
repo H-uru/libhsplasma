@@ -67,7 +67,7 @@ static PyGetSetDef pySimpleScaleController_GetSet[] = {
 
 PyTypeObject pySimpleScaleController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plSimpleScaleController", /* tp_name */
+    "PyHSPlasma.plSimpleScaleController", /* tp_name */
     sizeof(pySimpleScaleController),    /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

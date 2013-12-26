@@ -196,7 +196,7 @@ static PyGetSetDef pyMultistageBehMod_GetSet[] = {
 
 PyTypeObject pyMultistageBehMod_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plMultistageBehMod",      /* tp_name */
+    "PyHSPlasma.plMultistageBehMod",    /* tp_name */
     sizeof(pyMultistageBehMod),         /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

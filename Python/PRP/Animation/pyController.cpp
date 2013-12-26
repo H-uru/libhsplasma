@@ -32,7 +32,7 @@ static PyMethodDef pyController_Methods[] = {
 
 PyTypeObject pyController_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plController",            /* tp_name */
+    "PyHSPlasma.plController",          /* tp_name */
     sizeof(pyController),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

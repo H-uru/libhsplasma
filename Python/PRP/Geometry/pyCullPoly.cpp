@@ -147,7 +147,7 @@ static PyGetSetDef pyCullPoly_GetSet[] = {
 
 PyTypeObject pyCullPoly_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plCullPoly",              /* tp_name */
+    "PyHSPlasma.plCullPoly",            /* tp_name */
     sizeof(pyCullPoly),                 /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

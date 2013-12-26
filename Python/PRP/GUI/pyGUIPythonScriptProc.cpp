@@ -31,7 +31,7 @@ static PyObject* pyGUIPythonScriptProc_new(PyTypeObject* type, PyObject* args, P
 
 PyTypeObject pyGUIPythonScriptProc_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.pfGUIPythonScriptProc",   /* tp_name */
+    "PyHSPlasma.pfGUIPythonScriptProc", /* tp_name */
     sizeof(pyGUIPythonScriptProc),      /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

@@ -357,7 +357,7 @@ static PyGetSetDef pyATCAnim_GetSet[] = {
 
 PyTypeObject pyATCAnim_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.plATCAnim",               /* tp_name */
+    "PyHSPlasma.plATCAnim",             /* tp_name */
     sizeof(pyATCAnim),                  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 

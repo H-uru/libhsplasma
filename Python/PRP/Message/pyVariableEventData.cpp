@@ -103,7 +103,7 @@ static PyGetSetDef pyVariableEventData_GetSet[] = {
 
 PyTypeObject pyVariableEventData_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyPlasma.proVariableEventData",    /* tp_name */
+    "PyHSPlasma.proVariableEventData",  /* tp_name */
     sizeof(pyVariableEventData),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
