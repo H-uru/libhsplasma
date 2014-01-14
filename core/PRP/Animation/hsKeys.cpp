@@ -62,6 +62,15 @@ void hsKeyFrame::write(hsStream* S) {
     }
 }
 
+hsKeyFrame& hsKeyFrame::operator=(const hsKeyFrame& rhs) {
+    fType = rhs.fType;
+    fFrame = rhs.fFrame;
+    fFrameTime = rhs.fFrameTime;
+    fFlags = rhs.fFlags;
+
+    return *this;
+}
+
 void hsKeyFrame::setFrame(unsigned int frame) {
     fFrame = frame;
     fFrameTime = fFrame / 30.0f;
@@ -146,6 +155,20 @@ void hsPoint3Key::prcParse(const pfPrcTag* tag) {
     }
 }
 
+hsPoint3Key& hsPoint3Key::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if ((rhs.getType() == kPoint3KeyFrame) || (rhs.getType() == kBezPoint3KeyFrame)) {
+        const hsPoint3Key* convert = static_cast<const hsPoint3Key*>(&rhs);
+        fInTan = convert->fInTan;
+        fOutTan = convert->fOutTan;
+        fValue = convert->fValue;
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
+}
+
 
 /* hsScalarKey */
 void hsScalarKey::read(hsStream* S, unsigned int type) {
@@ -195,6 +218,20 @@ void hsScalarKey::prcParse(const pfPrcTag* tag) {
     fValue = tag->getParam("Value", "0").toFloat();
     fInTan = tag->getParam("InTan", "0").toFloat();
     fOutTan = tag->getParam("OutTan", "0").toFloat();
+}
+
+hsScalarKey& hsScalarKey::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if ((rhs.getType() == kScalarKeyFrame) || (rhs.getType() == kBezScalarKeyFrame)) {
+        const hsScalarKey* convert = static_cast<const hsScalarKey*>(&rhs);
+        fInTan = convert->fInTan;
+        fOutTan = convert->fOutTan;
+        fValue = convert->fValue;
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
 }
 
 
@@ -283,6 +320,21 @@ void hsScaleKey::prcParse(const pfPrcTag* tag) {
     }
 }
 
+hsScaleKey& hsScaleKey::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if ((rhs.getType() == kScaleKeyFrame) || (rhs.getType() == kBezScaleKeyFrame)) {
+        const hsScaleKey* convert = static_cast<const hsScaleKey*>(&rhs);
+        fInTan = convert->fInTan;
+        fOutTan = convert->fOutTan;
+        fS = convert->fS;
+        fQ = convert->fQ;
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
+}
+
 
 /* hsQuatKey */
 void hsQuatKey::read(hsStream* S, unsigned int type) {
@@ -313,6 +365,18 @@ void hsQuatKey::prcParse(const pfPrcTag* tag) {
     fFrameTime = tag->getParam("FrameTime", "0").toFloat();
     if (tag->hasChildren())
         fValue.prcParse(tag->getFirstChild());
+}
+
+hsQuatKey& hsQuatKey::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if (rhs.getType() == kQuatKeyFrame) {
+        const hsQuatKey* convert = static_cast<const hsQuatKey*>(&rhs);
+        fValue = convert->fValue;
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
 }
 
 
@@ -411,6 +475,18 @@ void hsCompressedQuatKey32::prcParse(const pfPrcTag* tag) {
         q.prcParse(tag->getFirstChild());
         setQuat(q, fmt);
     }
+}
+
+hsCompressedQuatKey32& hsCompressedQuatKey32::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if (rhs.getType() == kCompressedQuatKeyFrame32) {
+        const hsCompressedQuatKey32* convert = static_cast<const hsCompressedQuatKey32*>(&rhs);
+        fData = convert->fData;
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
 }
 
 
@@ -519,6 +595,19 @@ void hsCompressedQuatKey64::prcParse(const pfPrcTag* tag) {
     }
 }
 
+hsCompressedQuatKey64& hsCompressedQuatKey64::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if (rhs.getType() == kCompressedQuatKeyFrame64) {
+        const hsCompressedQuatKey64* convert = static_cast<const hsCompressedQuatKey64*>(&rhs);
+        fData[0] = convert->fData[0];
+        fData[1] = convert->fData[1];
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
+}
+
 
 /* hsG3DSMaxKeyFrame */
 void hsG3DSMaxKeyFrame::read(hsStream* S, unsigned int type) {
@@ -549,6 +638,18 @@ void hsG3DSMaxKeyFrame::prcParse(const pfPrcTag* tag) {
     fFrameTime = tag->getParam("FrameTime", "0").toFloat();
     if (tag->hasChildren())
         fValue.prcParse(tag->getFirstChild());
+}
+
+hsG3DSMaxKeyFrame& hsG3DSMaxKeyFrame::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if (rhs.getType() == k3dsMaxKeyFrame) {
+        const hsG3DSMaxKeyFrame* convert = static_cast<const hsG3DSMaxKeyFrame*>(&rhs);
+        fValue = convert->fValue;
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
 }
 
 
@@ -583,6 +684,18 @@ void hsMatrix33Key::prcParse(const pfPrcTag* tag) {
         fValue.prcParse(tag->getFirstChild());
 }
 
+hsMatrix33Key& hsMatrix33Key::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if (rhs.getType() == kMatrix33KeyFrame) {
+        const hsMatrix33Key* convert = static_cast<const hsMatrix33Key*>(&rhs);
+        fValue = convert->fValue;
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
+}
+
 
 /* hsMatrix44Key */
 void hsMatrix44Key::read(hsStream* S, unsigned int type) {
@@ -614,4 +727,16 @@ void hsMatrix44Key::prcParse(const pfPrcTag* tag) {
 
     if (tag->hasChildren())
         fValue.prcParse(tag->getFirstChild());
+}
+
+hsMatrix44Key& hsMatrix44Key::operator=(const hsKeyFrame& rhs) {
+    hsKeyFrame::operator=(rhs);
+    if (rhs.getType() == kMatrix44KeyFrame) {
+        const hsMatrix44Key* convert = static_cast<const hsMatrix44Key*>(&rhs);
+        fValue = convert->fValue;
+    } else {
+        throw std::logic_error("Cannot assign incompatible hsKeyFrame type.");
+    }
+
+    return *this;
 }
