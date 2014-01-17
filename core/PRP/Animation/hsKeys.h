@@ -48,6 +48,8 @@ public:
     virtual void prcWrite(pfPrcHelper* prc) = 0;
     virtual void prcParse(const pfPrcTag* tag) = 0;
 
+    virtual hsKeyFrame& operator=(const hsKeyFrame& rhs);
+
     unsigned int getType() const { return fType; }
     unsigned int getFrame() const { return fFrame; }
     float getFrameTime() const { return fFrameTime; }
@@ -65,6 +67,8 @@ struct PLASMA_DLL hsPoint3Key : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsPoint3Key& operator=(const hsKeyFrame& rhs);
 };
 
 struct PLASMA_DLL hsScalarKey : public hsKeyFrame {
@@ -75,6 +79,8 @@ struct PLASMA_DLL hsScalarKey : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsScalarKey& operator=(const hsKeyFrame& rhs);
 };
 
 struct PLASMA_DLL hsScaleKey : public hsKeyFrame {
@@ -88,6 +94,8 @@ struct PLASMA_DLL hsScaleKey : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsScaleKey& operator=(const hsKeyFrame& rhs);
 };
 
 struct PLASMA_DLL hsQuatKey : public hsKeyFrame {
@@ -97,6 +105,8 @@ struct PLASMA_DLL hsQuatKey : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsQuatKey& operator=(const hsKeyFrame& rhs);
 };
 
 struct PLASMA_DLL hsCompressedQuatKey32 : public hsKeyFrame {
@@ -116,6 +126,8 @@ public:
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsCompressedQuatKey32& operator=(const hsKeyFrame& rhs);
 };
 
 struct PLASMA_DLL hsCompressedQuatKey64 : public hsKeyFrame {
@@ -136,6 +148,8 @@ public:
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsCompressedQuatKey64& operator=(const hsKeyFrame& rhs);
 };
 
 struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame {
@@ -145,6 +159,8 @@ struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsG3DSMaxKeyFrame& operator=(const hsKeyFrame& rhs);
 };
 
 struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame {
@@ -154,6 +170,8 @@ struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsMatrix33Key& operator=(const hsKeyFrame& rhs);
 };
 
 struct PLASMA_DLL hsMatrix44Key : public hsKeyFrame {
@@ -163,6 +181,8 @@ struct PLASMA_DLL hsMatrix44Key : public hsKeyFrame {
     virtual void write(hsStream* S);
     virtual void prcWrite(pfPrcHelper* prc);
     virtual void prcParse(const pfPrcTag* tag);
+
+    virtual hsMatrix44Key& operator=(const hsKeyFrame& rhs);
 };
 
 #endif

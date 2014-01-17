@@ -174,6 +174,23 @@ void plCompoundRotController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) 
     }
 }
 
+void plCompoundRotController::setController(unsigned int index, plScalarController* controller) {
+    switch (index) {
+    case kX:
+        delete fXController;
+        fXController = controller;
+        break;
+    case kY:
+        delete fYController;
+        fYController = controller;
+        break;
+    case kZ:
+        delete fZController;
+        fZController = controller;
+        break;
+    }
+}
+
 void plCompoundRotController::setX(plScalarController* controller) {
     delete fXController;
     fXController = controller;

@@ -136,7 +136,43 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
 }
 
 plCompoundController* plTMController::convertToCompoundController() {
-    return NULL;
+    plCompoundController* compound = new plCompoundController();
+
+    // Position
+    if (plSimplePosController* pos = plSimplePosController::Convert(fPosController, false)) {
+        plPoint3Controller* point = pos->getPosition();
+        compound->setXController(point->CompactToLeafController());
+    } else if (plCompoundPosController* pos = plCompoundPosController::Convert(fPosController, false)) {
+        plCompoundController* subctrl = new plCompoundController();
+        for (unsigned int i = 0; i < plCompoundController::kNumControllers; ++i) {
+            plScalarController* convert = pos->getController(i);
+            if (convert)
+                subctrl->setController(i, convert->CompactToLeafController());
+        }
+        compound->setXController(subctrl);
+    }
+
+    // Rotation
+    if (plSimpleRotController* rot = plSimpleRotController::Convert(fRotController, false)) {
+        plQuatController* quat = rot->getRot();
+        compound->setYController(quat->CompactToLeafController());
+    } else if (plCompoundRotController* rot = plCompoundRotController::Convert(fRotController, false)) {
+        plCompoundController* subctrl = new plCompoundController();
+        for (unsigned int i = 0; i < plCompoundController::kNumControllers; ++i) {
+            plScalarController* convert = rot->getController(i);
+            if (convert)
+                subctrl->setController(i, convert->CompactToLeafController());
+        }
+        compound->setYController(subctrl);
+    }
+
+    // Scale (always simple)
+    if (plSimpleScaleController* scale = plSimpleScaleController::Convert(fScaleController)) {
+        if (scale->getValue())
+            compound->setZController(scale->getValue()->CompactToLeafController());
+    }
+
+    return compound;
 }
 
 void plTMController::setPosController(plPosController* controller) {
