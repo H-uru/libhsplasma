@@ -16,6 +16,7 @@
 
 #include "hsKeys.h"
 #include "Debug/plDebug.h"
+#include <stdexcept>
 #include <cmath>
 
 /* hsKeyFrame */
