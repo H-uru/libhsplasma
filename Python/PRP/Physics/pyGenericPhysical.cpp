@@ -346,6 +346,7 @@ static int pyGenericPhysical_setVerts(pyGenericPhysical* self, PyObject* value, 
         PyObject* vert = PyList_GetItem(value, i);
         if (vert == NULL || !pyVector3_Check(vert)) {
             PyErr_SetString(PyExc_TypeError, "verts should be list of hsVector3s");
+            delete[] verts;
             return -1;
         }
         verts[i] = *((pyVector3*)vert)->fThis;
@@ -373,6 +374,7 @@ static int pyGenericPhysical_setIndices(pyGenericPhysical* self, PyObject* value
         PyObject* idx = PyList_GetItem(value, i);
         if (idx == NULL || !PyInt_Check(idx)) {
             PyErr_SetString(PyExc_TypeError, "indices should be list of ints");
+            delete[] indices;
             return -1;
         }
         indices[i] = PyInt_AsLong(idx);

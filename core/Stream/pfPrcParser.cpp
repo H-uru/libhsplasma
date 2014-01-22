@@ -163,9 +163,10 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     }
 
     if (childPtr->fName != tag->fName) {
+        plString name = childPtr->fName;
         delete childPtr;
         throw pfPrcParseException(__FILE__, __LINE__,
-                "Closing <%s> tag, which isn't open", childPtr->fName.cstr());
+                "Closing <%s> tag, which isn't open", name.cstr());
     }
     delete childPtr;
     return tag;

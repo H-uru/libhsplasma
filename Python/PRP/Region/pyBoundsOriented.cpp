@@ -71,11 +71,13 @@ static int pyBoundsOriented_setPlanes(pyBoundsOriented* self, PyObject* value, v
         for (size_t i=0; i<numPlanes; i++) {
             if (!pyPlane3_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "planes should be a list of hsPlane3 objects");
+                delete[] planes;
                 return -1;
             }
             planes[i] = *((pyPlane3*)PyList_GetItem(value, i))->fThis;
         }
         self->fThis->setPlanes(numPlanes, planes);
+        delete[] planes;
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "planes should be a list of hsPlane3 objects");

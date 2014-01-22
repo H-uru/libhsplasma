@@ -738,7 +738,7 @@ const pnNetMsg* GET_Cli2Auth(uint32_t msgId)
         &Cli2Auth_AgeRequestEx,
     };
     if (msgId >= 0x1000)
-        return (msgId < kCli2Auth_LastExMessage ? s_messagesEx[msgId] : NULL);
+        return (msgId < kCli2Auth_LastExMessage ? s_messagesEx[msgId & 0x0FFF] : NULL);
     else
         return (msgId < kCli2Auth_LastMessage ? s_messages[msgId] : NULL);
 }
@@ -800,7 +800,7 @@ const pnNetMsg* GET_Auth2Cli(uint32_t msgId)
         &Auth2Cli_AgeReplyEx,
     };
     if (msgId >= 0x1000)
-        return (msgId < kAuth2Cli_LastExMessage ? s_messagesEx[msgId] : NULL);
+        return (msgId < kAuth2Cli_LastExMessage ? s_messagesEx[msgId & 0x0FFF] : NULL);
     else
         return (msgId < kAuth2Cli_LastMessage ? s_messages[msgId] : NULL);
 }

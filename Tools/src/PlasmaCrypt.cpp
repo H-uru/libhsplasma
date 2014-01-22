@@ -48,8 +48,11 @@ void doHelp() {
 plString getNextOutFile(const char* filename) {
     plString fn = plString::Format("%s.out", filename);
     int i = 0;
-    while (fopen(fn.cstr(), "r") != NULL)
+    FILE* outFile;
+    while ((outFile = fopen(fn.cstr(), "r")) != NULL) {
+        fclose(outFile);
         fn = plString::Format("%s.out%d", filename, ++i);
+    }
     return fn;
 }
 

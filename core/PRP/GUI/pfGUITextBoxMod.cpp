@@ -66,6 +66,7 @@ void pfGUITextBoxMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         tag->readHexStream(bufLen, (unsigned char*)buf);
         buf[bufLen] = 0;
         fText = buf;
+        delete[] buf;
     } else if (tag->getName() == "LocalizationPath") {
         fLocalizationPath = tag->getParam("value", "");
     } else {

@@ -2135,7 +2135,7 @@ const char* pdUnifiedTypeMap::fClassNames[TYPESPACE_MAX] = {
 };
 
 const char* pdUnifiedTypeMap::ClassName(short typeIdx) {
-    if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
+    if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::ClassName ERR: Got type %04hX", typeIdx);
         return NULL;
     }
@@ -2159,7 +2159,7 @@ short pdUnifiedTypeMap::ClassIndex(const char* typeName) {
 }
 
 short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
-    if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
+    if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::PlasmaToMapped ERR: Got type %04hX", typeIdx);
         return -1;
     }
@@ -2185,7 +2185,7 @@ short pdUnifiedTypeMap::PlasmaToMapped(short typeIdx, PlasmaVer ver) {
 }
 
 short pdUnifiedTypeMap::MappedToPlasma(short typeIdx, PlasmaVer ver) {
-    if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
+    if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::MappedToPlasma ERR: Got type %04hX", typeIdx);
         return -1;
     }
@@ -2227,7 +2227,7 @@ short pdUnifiedTypeMap::ClassVersion(short typeIdx, PlasmaVer ver) {
 }
 
 short pdUnifiedTypeMap::CurrentVersion(short typeIdx) {
-    if (typeIdx < 0 || typeIdx > TYPESPACE_MAX) {
+    if (typeIdx < 0 || typeIdx >= TYPESPACE_MAX) {
         plDebug::Debug("pdUnifiedTypeMap::CurrentVersion ERR: Got type %04hX", typeIdx);
         return -1;
     }

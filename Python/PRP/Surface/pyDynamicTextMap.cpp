@@ -98,6 +98,7 @@ static int pyDynamicTextMap_setInitBuffer(pyDynamicTextMap* self, PyObject* valu
         buf[i] = PyInt_AsLong(itm);
     }
     self->fThis->setInitBuffer(buf, (size_t)len);
+    delete[] buf;
     return 0;
 }
 

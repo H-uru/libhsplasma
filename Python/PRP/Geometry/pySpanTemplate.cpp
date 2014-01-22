@@ -116,6 +116,7 @@ static int pySpanTemplate_setIndices(pySpanTemplate* self, PyObject* value, void
         PyObject* itm = PyList_GetItem(value, i);
         if (!PyInt_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
+            delete[] indices;
             return -1;
         }
         indices[i] = PyInt_AsLong(itm);

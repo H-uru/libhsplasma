@@ -181,6 +181,7 @@ plTMController* plCompoundController::convertToTMController() {
         plScaleValueController* expanded = plScaleValueController::Convert(scale->ExpandToKeyController());
         plSimpleScaleController* tmScale = new plSimpleScaleController();
         tmScale->setValue(expanded);
+        tm->setScaleController(tmScale);
     }
 
     return tm;

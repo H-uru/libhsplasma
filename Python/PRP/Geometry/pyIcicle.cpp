@@ -93,6 +93,7 @@ static int pyIcicle_setSortData(pyIcicle* self, PyObject* value, void*) {
         for (int i=0; i<size; i++) {
             if (!pyGBufferTriangle_Check(PyList_GetItem(value, i))) {
                 PyErr_SetString(PyExc_TypeError, "sortData should be a list of plGBufferTriangles");
+                delete[] sortData;
                 return -1;
             }
             sortData[i] = *((pyGBufferTriangle*)PyList_GetItem(value, i))->fThis;
