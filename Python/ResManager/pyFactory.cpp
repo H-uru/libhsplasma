@@ -59,14 +59,6 @@ static PyObject* pyFactory_ClassVersion(PyObject*, PyObject* args) {
 }
 
 static PyMethodDef pyFactory_Methods[] = {
-    /*
-    { "Create", (PyCFunction)pyFactory_Create, METH_STATIC | METH_VARARGS,
-      "Params: classIdx, [version]\n"
-      "Params: className\n"
-      "Create a new instance of the specified class\n"
-      "If `version` is specified, the classIdx is looked up for\n"
-      "that version (otherwise the global mapping is used)" },
-    */
     { "ClassName", (PyCFunction)pyFactory_ClassName, METH_STATIC | METH_VARARGS,
       "Params: classIdx, [version]\n"
       "Get the name of the specified class\n"
