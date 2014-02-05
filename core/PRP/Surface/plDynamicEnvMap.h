@@ -30,7 +30,7 @@ protected:
     float fRefreshRate;
     std::vector<plKey> fVisRegions;
     std::vector<plString> fVisRegionNames;
-    int fIncCharacters;
+    bool fIncCharacters;
 
 public:
     plDynamicEnvMap()
@@ -43,6 +43,67 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    /** Returns the root node */
+    plKey getRootNode() const { return fRootNode; }
+
+    /** Returns the position */
+    hsVector3 getPosition() const { return fPos; }
+
+    /** Returns the hither distance */
+    float getHither() const { return fHither; }
+
+    /** Returns the yon distance */
+    float getYon() const { return fYon; }
+
+    /** Returns the fog start distance */
+    float getFogStart() const { return fFogStart; }
+
+    /** Returns the fog color */
+    hsColorRGBA getColor() const { return fColor; }
+
+    /** Returns the refresh rate */
+    float getRefreshRate() const { return fRefreshRate; }
+
+    /** Returns a list of visregions */
+    const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
+
+    /** Returns a list of visregions by name (from other pages) */
+    const std::vector<plString>& getVisRegionNames() const { return fVisRegionNames; }
+
+    /** Returns whether to include avatars in the render */
+    bool getIncludeCharacters() const { return fIncCharacters; }
+
+    /** Set the root node */
+    void setRootNode(plKey rootNode) { fRootNode = rootNode; }
+
+    /** Set the position  */
+    void setPosition(hsVector3 pos) { fPos = pos; }
+
+    /** Set the hither distance */
+    void setHither(float hither) { fHither = hither; }
+
+    /** Set the yon distance */
+    void setYon(float yon) { fYon = yon; }
+
+    /** Set the fog start distance */
+    void setFogStart(float fogstart) { fFogStart = fogstart; }
+
+    /** Set the fog color */
+    void setColor(hsColorRGBA color) { fColor = color; }
+
+    /** Set the refresh rate */
+    void setRefreshRate(float refreshRate) { fRefreshRate = refreshRate; }
+
+    /** Set the list of visregions */
+    void setVisRegions(const std::vector<plKey>& visRegions) { fVisRegions = visRegions; }
+
+    /** Set the list of visregion names (for other pages) */
+    void setVisRegionNames(const std::vector<plString>& visRegionNames) { fVisRegionNames = visRegionNames; }
+
+    /** Set whether to include avatars in the render */
+    void setIncludeCharacters(bool incCharacters) { fIncCharacters = incCharacters; }
 };
 
 
@@ -62,7 +123,7 @@ protected:
     float fRefreshRate;
     std::vector<plKey> fVisRegions, fTargetNodes, fMatLayers;
     std::vector<plString> fVisRegionNames;
-    unsigned char fIncCharacters;
+    bool fIncCharacters;
     plKey fCamera, fRootNode, fDisableTexture;
 
 public:
@@ -76,6 +137,85 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    /** Returns the hither distance */
+    float getHither() const { return fHither; }
+
+    /** Returns the yon distance */
+    float getYon() const { return fYon; }
+
+    /** Returns the fog start distance */
+    float getFogStart() const { return fFogStart; }
+
+    /** Returns the fog color */
+    hsColorRGBA getColor() const { return fColor; }
+
+    /** Returns the refresh rate */
+    float getRefreshRate() const { return fRefreshRate; }
+
+    /** Returns the list of visregions */
+    const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
+
+    /** Returns the list of target nodes */
+    const std::vector<plKey>& getTargetNodes() const { return fTargetNodes; }
+
+    /** Returns the list of material layers */
+    const std::vector<plKey>& getMatLayers() const { return fMatLayers; }
+
+    /** Returns a list of visregions by name (from other pages)  */
+    const std::vector<plString>& getVisRegionNames() const { return fVisRegionNames; }
+
+    /** Returns whether to include avatars in the render  */
+    bool getIncludeCharacters() const { return fIncCharacters; }
+
+    /** Returns the camera */
+    plKey getCamera() const { return fCamera; }
+
+    /** Returns the root node */
+    plKey getRootNode() const { return fRootNode; }
+
+    /** Returns the texture to display when disabled */
+    plKey getDisableTexture() const { return fDisableTexture; }
+
+    /** Set the hither distance */
+    void setHither(float hither) { fHither = hither; }
+
+    /** Set the yon distance */
+    void setYon(float yon) { fYon = yon; }
+
+    /** Set the fog start distance */
+    void setFogStart(float fogstart) { fFogStart = fogstart; }
+
+    /** Set the fog color */
+    void setColor(hsColorRGBA color) { fColor = color; }
+
+    /** Set the refresh rate */
+    void setRefreshRate(float refreshRate) { fRefreshRate = refreshRate; }
+
+    /** Set the list of visregions */
+    void setVisRegions(const std::vector<plKey>& visRegions) { fVisRegions = visRegions; }
+
+    /** Set the list of target nodes */
+    void setTargetNodes(const std::vector<plKey>& targetNodes) { fTargetNodes = targetNodes; }
+
+    /** Set the list of material layers */
+    void setMatLayers(const std::vector<plKey>& matLayers) { fMatLayers = matLayers; }
+
+    /** Set the list of visregion names (for other pages) */
+    void setVisRegionNames(const std::vector<plString>& visRegionNames) { fVisRegionNames = visRegionNames; }
+
+    /** Set whether to include avatars in the render */
+    void setIncludeCharacters(bool incCharacters) { fIncCharacters = incCharacters; }
+
+    /** Set the camera */
+    void setCamera(plKey camera) { fCamera = camera; }
+
+    /** Set the root node */
+    void setRootNode(plKey rootNode) { fRootNode = rootNode; }
+
+    /** Set the texture to display when disabled */
+    void setDisableTexture(plKey texture) { fDisableTexture = texture; }
 };
 
 #endif

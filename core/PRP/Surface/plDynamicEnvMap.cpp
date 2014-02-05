@@ -26,7 +26,7 @@ void plDynamicEnvMap::read(hsStream* S, plResManager* mgr) {
     fFogStart = S->readFloat();
     fColor.read(S);
     fRefreshRate = S->readFloat();
-    fIncCharacters = S->readByte();
+    fIncCharacters = S->readBool();
 
     fVisRegions.resize(S->readInt());
     for (size_t i=0; i<fVisRegions.size(); i++)
@@ -53,7 +53,7 @@ void plDynamicEnvMap::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fFogStart);
     fColor.write(S);
     S->writeFloat(fRefreshRate);
-    S->writeByte(fIncCharacters);
+    S->writeBool(fIncCharacters);
 
     S->writeInt(fVisRegions.size());
     for (size_t i=0; i<fVisRegions.size(); i++)
@@ -108,7 +108,7 @@ void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fYon = tag->getParam("Yon", "0").toFloat();
         fFogStart = tag->getParam("FogStart", "0").toFloat();
         fRefreshRate = tag->getParam("RefreshRate", "0").toFloat();
-        fIncCharacters = tag->getParam("IncCharacters", "0").toUint();
+        fIncCharacters = tag->getParam("IncCharacters", "false").toBool();
 
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
@@ -156,7 +156,7 @@ void plDynamicCamMap::read(hsStream* S, plResManager* mgr) {
     fFogStart = S->readFloat();
     fColor.read(S);
     fRefreshRate = S->readFloat();
-    fIncCharacters = S->readByte();
+    fIncCharacters = S->readBool();
 
     fCamera = mgr->readKey(S);
     fRootNode = mgr->readKey(S);
@@ -188,7 +188,7 @@ void plDynamicCamMap::write(hsStream* S, plResManager* mgr) {
     S->writeFloat(fFogStart);
     fColor.write(S);
     S->writeFloat(fRefreshRate);
-    S->writeByte(fIncCharacters);
+    S->writeBool(fIncCharacters);
 
     mgr->writeKey(S, fCamera);
     mgr->writeKey(S, fRootNode);
@@ -222,7 +222,7 @@ void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("RefreshRate", fRefreshRate);
     prc->writeParam("IncCharacters", fIncCharacters);
     prc->endTag();
-      fColor.prcWrite(prc);
+    fColor.prcWrite(prc);
     prc->closeTag();
 
     prc->writeSimpleTag("Camera");
@@ -267,7 +267,7 @@ void plDynamicCamMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fYon = tag->getParam("Yon", "0").toFloat();
         fFogStart = tag->getParam("FogStart", "0").toFloat();
         fRefreshRate = tag->getParam("RefreshRate", "0").toFloat();
-        fIncCharacters = tag->getParam("IncCharacters", "0").toUint();
+        fIncCharacters = tag->getParam("IncCharacters", "false").toBool();
 
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
