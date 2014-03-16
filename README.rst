@@ -1,4 +1,5 @@
 libHSPlasma, the universal Plasma Game Engine library!
+======================================================
 
 Building
 --------
@@ -6,23 +7,24 @@ Building
 libHSPlasma uses the CMake build system, which can generate project files
 for all major operating systems.
 
-A typical build looks something like this:
+A typical build looks something like this::
+
 $ mkdir build
 $ cd ./build
 $ cmake ..
 
-On Unix-like systems (Linux, MacOSX) you should then be able to
+On Unix-like systems (Linux, MacOSX) you should then be able to::
+
 $ make
 $ sudo make install
 
-On Windows, make sure you have the required libraries as well as
-Visual Studio (Express Edition works fine), and then use the generated
-.sln files to compile.  Note that building the prerequisites on Win64 can
-be a bit of a pain, so I've included some hints below for this...
-Of course, you can always just stick to Win32 compilation, which works
-on Win64 (x86_64) installations too ;)
+On Windows, make sure you have the required libraries as well as Visual
+Studio (Express Edition works fine), and then use the generated .sln files
+to compile.
 
-Mac users can also generate XCode project files for libHSPlasma as follows
+Mac users can also generate XCode project files for libHSPlasma by
+specifying the XCode generator::
+
 $ cmake -G XCode ..
 
 Note that ARM, PowerPC, etc. compilations *may* work, but are completely
@@ -35,22 +37,22 @@ Prerequisites
 libHSPlasma depends on the following libraries; you'll need to have the dev
 packages installed in order for libHSPlasma to compile successfully:
 
-* zlib                     http://www.zlib.net/
-* libjpeg-turbo            http://libjpeg-turbo.virtualgl.org/
-* OpenSSL 1.0+             http://www.openssl.org/
-* Python 2.4+ or 3.0+      http://www.python.org/
+- `zlib <http://www.zlib.net/>`_
+- `libjpeg-turbo <http://libjpeg-turbo.virtualgl.org/>`_
+- `OpenSSL 1.0+ <http://www.openssl.org/>`_
+- `Python 2.4+ or 3.0+ <http://www.python.org/>`_
 
 You will also need a C++ compiler with at least some C++11 support.
 The following compiler versions are currently supported (others may work,
 but are currently untested):
 
-* GCC 4.6 or later
-* Clang 3.0 or later
-* Microsoft Visual C++ 2010 or later
+- GCC 4.6 or later
+- Clang 3.0 or later
+- Microsoft Visual C++ 2010 or later
 
 
 Win32/64 Special Considerations
-----------------------------
+-------------------------------
 
 Python:
     Python is pretty straightforward if you only create release builds.  The
