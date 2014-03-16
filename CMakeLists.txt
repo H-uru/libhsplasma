@@ -1,5 +1,5 @@
 project(libhsplasma)
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.9)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
