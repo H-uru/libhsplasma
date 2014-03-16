@@ -6,12 +6,13 @@ Building
 libHSPlasma uses the CMake build system, which can generate project files
 for all major operating systems.
 
-A typical build looks something like this:
+A typical build looks something like this::
+
 $ mkdir build
 $ cd ./build
 $ cmake ..
 
-To build with Python support run this cmake command:
+To build with Python support run this cmake command::
 
 $ cmake -DDISABLE_PYTHON=OFF ..
 
