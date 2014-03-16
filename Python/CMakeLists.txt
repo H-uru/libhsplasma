@@ -1,6 +1,4 @@
-find_package(PythonInterp REQUIRED)
-message($PYTHON_VERSION_STRING})
-find_package(PythonLibs ${PYTHON_VERSION_STRING} EXACT)
+find_package(PythonLibs)
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG)
     set(CMAKE_CXX_FLAGS "-fno-strict-aliasing ${CMAKE_CXX_FLAGS}")
