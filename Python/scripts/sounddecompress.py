@@ -21,7 +21,8 @@
     by Joseph Davies (deledrius@gmail.com)
 
   * Requires sox (http://sox.sourceforge.net/)
-  * Requires libHSPlasma and PyHSPlasma (http://uru.zrax.net/svn/Plasma/)
+  * Requires libHSPlasma and PyHSPlasma (https://github.com/H-uru/libhsplasma
+    with Python support.)
 
   Usage:
     ./sounddecompress.py -u /path/to/uru

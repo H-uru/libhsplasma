@@ -11,6 +11,10 @@ $ mkdir build
 $ cd ./build
 $ cmake ..
 
+To build with Python support run this cmake command:
+
+$ cmake -DDISABLE_PYTHON=OFF ..
+
 On Unix-like systems (Linux, MacOSX) you should then be able to
 $ make
 $ sudo make install
