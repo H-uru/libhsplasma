@@ -61,15 +61,17 @@ public:
      */
     ~plKeyData() { }
 
+    /** Return the number of active "owners" of this key. */
+    uint32_t CountRefs() const { return fRefCnt; }
+
     typedef std::function<void (hsKeyedObject*)> AfterLoadCallback;
 
 private:
     std::list<AfterLoadCallback> fCallbacks;
 
-    uint32_t Ref() { return ++fRefCnt; }
+    void Ref() { ++fRefCnt; }
     void UnRef();
     friend class plKey;
-    friend class plKeyCollector;
 
 public:
     /**

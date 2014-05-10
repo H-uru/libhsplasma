@@ -37,7 +37,7 @@ plKeyCollector::~plKeyCollector() {
     }
 
     if (keysLeft)
-        fprintf(stderr, "Warning: %u keys were still loaded when the ResManager was destroyed.\n", keysLeft);
+        plDebug::Warning("Warning: %u keys were still loaded when the ResManager was destroyed.\n", keysLeft);
 }
 
 plKey plKeyCollector::findKey(plKey match) {
@@ -107,13 +107,13 @@ void plKeyCollector::cleanupKeys() {
             while (key_iter != tp_iter->second.end()) {
                 const plKey &key = *key_iter;
                 if (!key.Exists()) {
-                    fputs("WARNING: Got NULL key in the ResManager!\n", stderr);
+                    plDebug::Warning("WARNING: Got NULL key in the ResManager!\n");
                     key_iter = tp_iter->second.erase(key_iter);
                     continue;
                 }
 
-                if ((key.isLoaded() && key->fRefCnt == 2)
-                        || (!key.isLoaded() && key->fRefCnt == 1)) {
+                if ((key.isLoaded() && key->CountRefs() == 2)
+                        || (!key.isLoaded() && key->CountRefs() == 1)) {
                     // We are the only remaining owner of this key.  Nuke it.
                     key->deleteObj();
                     key_iter = tp_iter->second.erase(key_iter);

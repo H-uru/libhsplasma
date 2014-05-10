@@ -25,8 +25,4 @@ Misc/TypeMap
 /log
 /dat
 /doc
-/build
-/build64
-/Dist
-/Dist64
 /*.kdev4
