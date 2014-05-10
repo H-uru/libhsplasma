@@ -43,6 +43,7 @@ public:
     void add(plKey key);
     void del(plKey key);
     void delAll(const plLocation& loc);
+    void cleanupKeys();
     void reserveKeySpace(const plLocation& loc, short type, int num);
     void sortKeys(const plLocation& loc);
 

@@ -69,6 +69,7 @@ private:
     uint32_t Ref() { return ++fRefCnt; }
     void UnRef();
     friend class plKey;
+    friend class plKeyCollector;
 
 public:
     /**

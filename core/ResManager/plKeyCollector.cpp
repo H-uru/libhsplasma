@@ -21,16 +21,23 @@
 #include <list>
 
 plKeyCollector::~plKeyCollector() {
+    unsigned keysLeft = 0;
+
     // This is now the "ultimate owner" of KeyedObjects, so we must delete
     // all the KOs that we own...
     for (keymap_t::iterator it = keys.begin(); it != keys.end(); it++) {
         for (std::map<short, std::vector<plKey> >::iterator i2 = it->second.begin(); i2 != it->second.end(); i2++) {
             for (std::vector<plKey>::iterator i3 = i2->second.begin(); i3 != i2->second.end(); i3++) {
-                if ((*i3).Exists() && (*i3).isLoaded())
+                if ((*i3).Exists() && (*i3).isLoaded()) {
+                    ++keysLeft;
                     delete (*i3)->getObj();
+                }
             }
         }
     }
+
+    if (keysLeft)
+        fprintf(stderr, "Warning: %u keys were still loaded when the ResManager was destroyed.\n", keysLeft);
 }
 
 plKey plKeyCollector::findKey(plKey match) {
@@ -75,15 +82,55 @@ void plKeyCollector::del(plKey key) {
 
 void plKeyCollector::delAll(const plLocation& loc) {
     std::map<short, std::vector<plKey> >& locList = keys[loc];
-    std::map<short, std::vector<plKey> >::iterator it = locList.begin();
-    while (it != locList.end()) {
-        for (std::vector<plKey>::iterator i2 = it->second.begin(); i2 != it->second.end(); i2++) {
-            if (i2->Exists() && i2->isLoaded())
-                (*i2)->deleteObj();
+    auto loc_iter = locList.begin();
+    while (loc_iter != locList.end()) {
+        auto key_iter = loc_iter->second.begin();
+        while (key_iter != loc_iter->second.end()) {
+            if (key_iter->Exists() && key_iter->isLoaded()) {
+                (*key_iter)->deleteObj();
+                key_iter = loc_iter->second.erase(key_iter);
+            } else {
+                ++key_iter;
+            }
         }
-        it++;
+        ++loc_iter;
     }
-    keys.erase(loc);
+    cleanupKeys();
+}
+
+void plKeyCollector::cleanupKeys() {
+    auto loc_iter = keys.begin();
+    while (loc_iter != keys.end()) {
+        auto tp_iter = loc_iter->second.begin();
+        while (tp_iter != loc_iter->second.end()) {
+            auto key_iter = tp_iter->second.begin();
+            while (key_iter != tp_iter->second.end()) {
+                const plKey &key = *key_iter;
+                if (!key.Exists()) {
+                    fputs("WARNING: Got NULL key in the ResManager!\n", stderr);
+                    key_iter = tp_iter->second.erase(key_iter);
+                    continue;
+                }
+
+                if ((key.isLoaded() && key->fRefCnt == 2)
+                        || (!key.isLoaded() && key->fRefCnt == 1)) {
+                    // We are the only remaining owner of this key.  Nuke it.
+                    key->deleteObj();
+                    key_iter = tp_iter->second.erase(key_iter);
+                } else {
+                    ++key_iter;
+                }
+            }
+            if (tp_iter->second.empty())
+                tp_iter = loc_iter->second.erase(tp_iter);
+            else
+                ++tp_iter;
+        }
+        if (keys.empty())
+            loc_iter = keys.erase(loc_iter);
+        else
+            ++loc_iter;
+    }
 }
 
 void plKeyCollector::reserveKeySpace(const plLocation& loc, short type, int num) {
