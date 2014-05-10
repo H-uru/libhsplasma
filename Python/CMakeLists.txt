@@ -447,32 +447,24 @@ add_library(PyHSPlasma SHARED
 )
 
 target_link_libraries(PyHSPlasma HSPlasma ${PYTHON_LIBRARIES})
+set_target_properties(PyHSPlasma PROPERTIES PREFIX "")
 
-set_target_properties(PyHSPlasma PROPERTIES
-                      PREFIX ""
-)
-if(WIN32)
-    set_target_properties(PyHSPlasma PROPERTIES
-                          SUFFIX ".pyd"
-    )
-else()
+if(NOT WIN32)
     set_target_properties(PyHSPlasma PROPERTIES
                           SUFFIX ".so"
     )
-endif()
 
-EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write('.'.join([str(x) for x in sys.version_info[:2]]))"
-                OUTPUT_VARIABLE _PYTHON_VERSION
-)
-EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write(sys.prefix)"
-                OUTPUT_VARIABLE _PYTHON_PREFIX
-)
-
-if(NOT WIN32)
+    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write(sys.prefix)"
+                    OUTPUT_VARIABLE _PYTHON_PREFIX
+    )
     install(TARGETS PyHSPlasma
-            DESTINATION ${_PYTHON_PREFIX}/lib/python${_PYTHON_VERSION}
+            DESTINATION ${_PYTHON_PREFIX}/lib/python${PYTHON_VERSION_STRING}/site-packages
     )
 else()
+    set_target_properties(PyHSPlasma PROPERTIES
+                          SUFFIX ".pyd"
+    )
+
     install(TARGETS PyHSPlasma
             RUNTIME DESTINATION bin
             LIBRARY DESTINATION lib
