@@ -454,11 +454,11 @@ if(NOT WIN32)
                           SUFFIX ".so"
     )
 
-    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import sys; sys.stdout.write(sys.prefix)"
-                    OUTPUT_VARIABLE _PYTHON_PREFIX
+    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import sys, distutils.sysconfig; sys.stdout.write(distutils.sysconfig.get_python_lib())"
+                    OUTPUT_VARIABLE _PYTHON_LIB_DIR
     )
     install(TARGETS PyHSPlasma
-            DESTINATION ${_PYTHON_PREFIX}/lib/python${PYTHON_VERSION_STRING}/site-packages
+            DESTINATION ${_PYTHON_LIB_DIR}
     )
 else()
     set_target_properties(PyHSPlasma PROPERTIES
