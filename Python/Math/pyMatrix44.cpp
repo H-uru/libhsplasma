@@ -193,6 +193,10 @@ static PyObject* pyMatrix44_ScaleMat(PyObject*, PyObject* args) {
     return pyMatrix44_FromMatrix44(hsMatrix44::ScaleMat(*vec->fThis));
 }
 
+static PyObject* pyMatrix44_inverse(pyMatrix44* self) {
+    return pyMatrix44_FromMatrix44(self->fThis->inverse());
+}
+
 static PyObject* pyMatrix44_isIdentity(pyMatrix44* self) {
     return PyBool_FromLong(self->fThis->IsIdentity() ? 1 : 0);
 }
@@ -415,6 +419,8 @@ PyMethodDef pyMatrix44_Methods[] = {
     { "ScaleMat", (PyCFunction)pyMatrix44_ScaleMat, METH_VARARGS | METH_STATIC,
       "Params: vector\n"
       "Creates a scaling matrix" },
+    { "inverse", (PyCFunction)pyMatrix44_inverse, METH_NOARGS,
+      "Returns the inverse of the matrix" },
     { "isIdentity", (PyCFunction)pyMatrix44_isIdentity, METH_NOARGS,
       "Returns True if the matrix is the identity matrix" },
     { "translate", (PyCFunction)pyMatrix44_translate, METH_VARARGS,
