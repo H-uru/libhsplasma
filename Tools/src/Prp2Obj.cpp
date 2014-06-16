@@ -131,7 +131,7 @@ int main(int argc, char** argv) {
         std::vector<plKey> SObjs = rm.getKeys(page->getLocation(), kSceneObject);
         for (size_t i = 0; i < SObjs.size(); i++) {
             auto obj_f = std::find(objects.begin(), objects.end(), SObjs[i]->getName());
-            if (obj_f != objects.end()) {
+            if (obj_f != objects.end() || objects.size() == 0) {
                 plSceneObject* obj = plSceneObject::Convert(rm.getObject(SObjs[i]));
                 if (obj->getDrawInterface().Exists())
                     WriteObj(obj, &OS, objects.empty());
