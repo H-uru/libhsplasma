@@ -769,8 +769,13 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
         group->addCells(cell_tmp);
 
         auto mat_f = std::find(fMaterials.begin(), fMaterials.end(), span->getMaterial());
-        if (mat_f == fMaterials.end())
+        size_t mat_idx = -1;
+        if (mat_f == fMaterials.end()) {
             fMaterials.push_back(span->getMaterial());
+            mat_idx = fMaterials.size() - 1;
+        } else {
+            mat_idx = mat_f - fMaterials.begin();
+        }
 
         plIcicle icicle;
         icicle.setIBufferIdx(buf_idx);
@@ -783,6 +788,7 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
         icicle.setCellOffset(0);
         icicle.setLocalToWorld(span->getLocalToWorld());
         icicle.setWorldToLocal(span->getWorldToLocal());
+        icicle.setMaterialIdx(mat_idx);
         icicle.setGroupIdx(groups[format].second);
         icicle.setProps(plSpan::deswizzleGeoFlags(span->getProps()));
         icicle.setBaseMatrix(span->getBaseMatrix());
