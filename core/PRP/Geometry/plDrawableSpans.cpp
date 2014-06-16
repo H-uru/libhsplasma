@@ -695,6 +695,11 @@ void plDrawableSpans::addCells(size_t group, const std::vector<plGBufferCell>& c
     fGroups[group]->addCells(cells);
 }
 
+size_t plDrawableSpans::addDIIndex(const plDISpanIndex& idx) {
+    fDIIndices.push_back(idx);
+    return fDIIndices.size() - 1;
+}
+
 void plDrawableSpans::clearTransforms() {
     fLocalToWorlds.clear();
     fWorldToLocals.clear();
@@ -879,4 +884,10 @@ size_t plDrawableSpans::buildDIIndex(const std::vector<std::shared_ptr<plGeometr
     size_t result = fDIIndices.size();
     fDIIndices.push_back(di_idx);
     return result;
+}
+
+size_t plDrawableSpans::addSourceSpan(const std::shared_ptr<plGeometrySpan>& span)
+{
+    fSourceSpans.push_back(span);
+    return fSourceSpans.size() - 1;
 }

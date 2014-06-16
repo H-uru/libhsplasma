@@ -214,9 +214,7 @@ static PyObject* pyDrawableSpans_addDIIndex(pyDrawableSpans* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "addDIIndex expects a plDISpanIndex");
         return NULL;
     }
-    self->fThis->addDIIndex(*idx->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    return PyInt_FromLong(self->fThis->addDIIndex(*idx->fThis));
 }
 
 static PyObject* pyDrawableSpans_clearTransforms(pyDrawableSpans* self) {
@@ -334,9 +332,7 @@ static PyObject* pyDrawableSpans_addSourceSpan(pyDrawableSpans* self, PyObject* 
         PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
         return NULL;
     }
-    self->fThis->addSourceSpan(span->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    return PyInt_FromLong(self->fThis->addSourceSpan(span->fThis));
 }
 
 static PyObject* pyDrawableSpans_getSpans(pyDrawableSpans* self, void*) {
