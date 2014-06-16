@@ -90,7 +90,7 @@ static int pyTempVertex_setNormal(pyTempVertex* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "normal must be an hsVector3");
         return -1;
     }
-    self->fThis->fNormal = *((pyVector3*)self)->fThis;
+    self->fThis->fNormal = *((pyVector3*)value)->fThis;
     return 0;
 }
 
@@ -99,7 +99,7 @@ static int pyTempVertex_setPosition(pyTempVertex* self, PyObject* value, void*) 
         PyErr_SetString(PyExc_TypeError, "position must be an hsVector3");
         return -1;
     }
-    self->fThis->fPosition = *((pyVector3*)self)->fThis;
+    self->fThis->fPosition = *((pyVector3*)value)->fThis;
     return 0;
 }
 
