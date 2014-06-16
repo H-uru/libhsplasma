@@ -279,11 +279,12 @@ static PyObject* pyDrawableSpans_BuildSpaceTree(pyDrawableSpans* self) {
 
 static PyObject* pyDrawableSpans_composeGeometry(pyDrawableSpans* self, PyObject* args) {
     bool clearSpans = true;
-    if (!PyArg_ParseTuple(args, "|b", &clearSpans)) {
-        PyErr_SetString(PyExc_TypeError, "composeGeometry expects an optional bool");
+    bool calcBounds = false;
+    if (!PyArg_ParseTuple(args, "|bb", &clearSpans, &calcBounds)) {
+        PyErr_SetString(PyExc_TypeError, "composeGeometry expects two optional bools");
         return NULL;
     }
-    self->fThis->composeGeometry(clearSpans);
+    self->fThis->composeGeometry(clearSpans, calcBounds);
     Py_INCREF(Py_None);
     return Py_None;
 }

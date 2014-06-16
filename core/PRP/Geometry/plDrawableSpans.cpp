@@ -715,7 +715,7 @@ void plDrawableSpans::setSpaceTree(plSpaceTree* tree) {
     fSpaceTree = tree;
 }
 
-void plDrawableSpans::composeGeometry(bool clearspans) {
+void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
     std::map<unsigned int, std::pair<plGBufferGroup*, size_t> > groups;
     for (auto group = fGroups.begin(); group != fGroups.end(); ++group)
         delete *group;
@@ -794,6 +794,8 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         addIcicle(icicle);
     }
 
+    if (calcbounds)
+        calcBounds();
     BuildSpaceTree();
 
     if (clearspans)

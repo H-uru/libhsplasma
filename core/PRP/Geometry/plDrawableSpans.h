@@ -203,7 +203,7 @@ public:
     void setRenderLevel(unsigned int level) { fRenderLevel = level; }
     void setSceneNode(plKey node) { fSceneNode = node; }
 
-    void composeGeometry(bool clearspans=true);
+    void composeGeometry(bool clearspans=true, bool calcbounds=false);
     void decomposeGeometry(bool clearcolors=false);
     size_t buildDIIndex(const std::vector<std::shared_ptr<plGeometrySpan> >& spans);
 
