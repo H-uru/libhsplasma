@@ -695,6 +695,11 @@ void plDrawableSpans::addCells(size_t group, const std::vector<plGBufferCell>& c
     fGroups[group]->addCells(cells);
 }
 
+size_t plDrawableSpans::addDIIndex(const plDISpanIndex& idx) {
+    fDIIndices.push_back(idx);
+    return fDIIndices.size() - 1;
+}
+
 void plDrawableSpans::clearTransforms() {
     fLocalToWorlds.clear();
     fWorldToLocals.clear();
@@ -715,7 +720,7 @@ void plDrawableSpans::setSpaceTree(plSpaceTree* tree) {
     fSpaceTree = tree;
 }
 
-void plDrawableSpans::composeGeometry(bool clearspans) {
+void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
     std::map<unsigned int, std::pair<plGBufferGroup*, size_t> > groups;
     for (auto group = fGroups.begin(); group != fGroups.end(); ++group)
         delete *group;
@@ -764,8 +769,13 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         group->addCells(cell_tmp);
 
         auto mat_f = std::find(fMaterials.begin(), fMaterials.end(), span->getMaterial());
-        if (mat_f == fMaterials.end())
+        size_t mat_idx = -1;
+        if (mat_f == fMaterials.end()) {
             fMaterials.push_back(span->getMaterial());
+            mat_idx = fMaterials.size() - 1;
+        } else {
+            mat_idx = mat_f - fMaterials.begin();
+        }
 
         plIcicle icicle;
         icicle.setIBufferIdx(buf_idx);
@@ -778,6 +788,7 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         icicle.setCellOffset(0);
         icicle.setLocalToWorld(span->getLocalToWorld());
         icicle.setWorldToLocal(span->getWorldToLocal());
+        icicle.setMaterialIdx(mat_idx);
         icicle.setGroupIdx(groups[format].second);
         icicle.setProps(plSpan::deswizzleGeoFlags(span->getProps()));
         icicle.setBaseMatrix(span->getBaseMatrix());
@@ -794,6 +805,8 @@ void plDrawableSpans::composeGeometry(bool clearspans) {
         addIcicle(icicle);
     }
 
+    if (calcbounds)
+        calcBounds();
     BuildSpaceTree();
 
     if (clearspans)
@@ -877,4 +890,10 @@ size_t plDrawableSpans::buildDIIndex(const std::vector<std::shared_ptr<plGeometr
     size_t result = fDIIndices.size();
     fDIIndices.push_back(di_idx);
     return result;
+}
+
+size_t plDrawableSpans::addSourceSpan(const std::shared_ptr<plGeometrySpan>& span)
+{
+    fSourceSpans.push_back(span);
+    return fSourceSpans.size() - 1;
 }

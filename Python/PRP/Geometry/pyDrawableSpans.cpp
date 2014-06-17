@@ -214,9 +214,7 @@ static PyObject* pyDrawableSpans_addDIIndex(pyDrawableSpans* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "addDIIndex expects a plDISpanIndex");
         return NULL;
     }
-    self->fThis->addDIIndex(*idx->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    return PyInt_FromLong(self->fThis->addDIIndex(*idx->fThis));
 }
 
 static PyObject* pyDrawableSpans_clearTransforms(pyDrawableSpans* self) {
@@ -279,11 +277,12 @@ static PyObject* pyDrawableSpans_BuildSpaceTree(pyDrawableSpans* self) {
 
 static PyObject* pyDrawableSpans_composeGeometry(pyDrawableSpans* self, PyObject* args) {
     bool clearSpans = true;
-    if (!PyArg_ParseTuple(args, "|b", &clearSpans)) {
-        PyErr_SetString(PyExc_TypeError, "composeGeometry expects an optional bool");
+    bool calcBounds = false;
+    if (!PyArg_ParseTuple(args, "|bb", &clearSpans, &calcBounds)) {
+        PyErr_SetString(PyExc_TypeError, "composeGeometry expects two optional bools");
         return NULL;
     }
-    self->fThis->composeGeometry(clearSpans);
+    self->fThis->composeGeometry(clearSpans, calcBounds);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -333,9 +332,7 @@ static PyObject* pyDrawableSpans_addSourceSpan(pyDrawableSpans* self, PyObject* 
         PyErr_SetString(PyExc_TypeError, "addSourceSpan expects a plGeometrySpan");
         return NULL;
     }
-    self->fThis->addSourceSpan(span->fThis);
-    Py_INCREF(Py_None);
-    return Py_None;
+    return PyInt_FromLong(self->fThis->addSourceSpan(span->fThis));
 }
 
 static PyObject* pyDrawableSpans_getSpans(pyDrawableSpans* self, void*) {

@@ -166,7 +166,7 @@ public:
     plDISpanIndex& getDIIndex(size_t idx) { return fDIIndices[idx]; }
     const std::vector<plDISpanIndex>& getDIIndices() const { return fDIIndices; }
     std::vector<plDISpanIndex>& getDIIndices() { return fDIIndices; }
-    void addDIIndex(const plDISpanIndex& idx) { fDIIndices.push_back(idx); }
+    size_t addDIIndex(const plDISpanIndex& idx);
     void delDIIndex(size_t idx) { fDIIndices.erase(fDIIndices.begin() + idx); }
     void clearDIIndices() { fDIIndices.clear(); }
 
@@ -203,13 +203,13 @@ public:
     void setRenderLevel(unsigned int level) { fRenderLevel = level; }
     void setSceneNode(plKey node) { fSceneNode = node; }
 
-    void composeGeometry(bool clearspans=true);
+    void composeGeometry(bool clearspans=true, bool calcbounds=false);
     void decomposeGeometry(bool clearcolors=false);
     size_t buildDIIndex(const std::vector<std::shared_ptr<plGeometrySpan> >& spans);
 
     const std::vector<std::shared_ptr<plGeometrySpan> > getSourceSpans() const { return fSourceSpans; }
     std::vector<std::shared_ptr<plGeometrySpan> > getSourceSpans() { return fSourceSpans; }
-    void addSourceSpan(const std::shared_ptr<plGeometrySpan>& span) { fSourceSpans.push_back(span); }
+    size_t addSourceSpan(const std::shared_ptr<plGeometrySpan>& span);
 };
 
 #endif

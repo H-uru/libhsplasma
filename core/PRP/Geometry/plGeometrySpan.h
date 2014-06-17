@@ -99,6 +99,10 @@ protected:
     unsigned int numInstanceRefs;
 
 public:
+    plGeometrySpan() :fFormat(0), fNumMatrices(0), fBaseMatrix(0), fLocalUVWChans(0),
+        fMaxBoneIdx(0), fPenBoneIdx(0), fMinDist(0.f), fMaxDist(0.f), fWaterHeight(0.f),
+        fProps(0), fNumVerts(0), fNumIndices(0), fDecalLevel(0), fInstanceGroup(0) { }
+
     static unsigned int CalcVertexSize(unsigned char format);
 
     void read(hsStream* S);
