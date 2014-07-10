@@ -154,6 +154,9 @@ public:
     size_t getBufferSize() const;
     const unsigned char* getBufferData() const;
     void setBuffer(PhysType type, size_t size, const unsigned char* data);
+
+    /** Calculates SphereBounds from a given point cloud */
+    void calcSphereBounds(size_t numPoints, const hsVector3* points);
 };
 
 #endif
