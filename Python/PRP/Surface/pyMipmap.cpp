@@ -236,6 +236,26 @@ static PyObject* pyMipmap_DecompressImage(pyMipmap* self, PyObject* args) {
     return img;
 }
 
+static PyObject* pyMipmap_CompressImage(pyMipmap* self, PyObject* args) {
+    int level, dataSize;
+    char* data;
+    if (!PyArg_ParseTuple(args, "is#", &level, &data, &dataSize)) {
+        PyErr_SetString(PyExc_TypeError, "CompressImage expects an int and a binary string");
+        return NULL;
+    }
+    try {
+        self->fThis->CompressImage(level, data, dataSize);
+    } catch (hsBadParamException& ex) {
+        PyErr_SetString(PyExc_RuntimeError, ex.what());
+        return NULL;
+    } catch (hsNotImplementedException& ex) {
+        PyErr_SetString(PyExc_NotImplementedError, ex.what());
+        return NULL;
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyMipmap_getWidth(pyMipmap* self, void*) {
     return PyInt_FromLong(self->fThis->getWidth());
 }
@@ -319,6 +339,9 @@ static PyMethodDef pyMipmap_Methods[] = {
     { "DecompressImage", (PyCFunction)pyMipmap_DecompressImage, METH_VARARGS,
       "Params: level\n"
       "Deompresses the specified mip level and returns the uncompressed RGBA buffer" },
+    { "CompressImage", (PyCFunction)pyMipmap_CompressImage, METH_VARARGS,
+      "Params: level, data\n"
+      "Compresses the specified mip level" },
     { NULL, NULL, 0, NULL }
 };
 
