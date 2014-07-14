@@ -157,6 +157,9 @@ public:
 
     /** Calculates SphereBounds from a given point cloud */
     void calcSphereBounds(size_t numPoints, const hsVector3* points);
+
+    /** Calculates BoxBounds from a given point cloud */
+    void calcBoxBounds(size_t numPoints, const hsVector3* points);
 };
 
 #endif

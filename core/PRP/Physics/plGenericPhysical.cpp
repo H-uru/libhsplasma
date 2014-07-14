@@ -745,3 +745,22 @@ void plGenericPhysical::calcSphereBounds(size_t numPoints, const hsVector3* poin
     fRadius = std::max(distance.X, std::max(distance.Y, distance.Z));
     fOffset = bounds.updateCenter();
 }
+
+void plGenericPhysical::calcBoxBounds(size_t numPoints, const hsVector3* points) {
+    fIndices.clear();
+    fVerts.clear();
+
+    hsBounds3Ext bounds;
+    for (size_t i = 0; i < numPoints; ++i)
+        bounds += points[i];
+    bounds.unalign();
+
+    // PhysX and ODE can do true boxes
+    fDimensions = (bounds.getMaxs() - bounds.getMins()) * .5f;
+    fOffset = bounds.updateCenter();
+
+    // Havok wants actual geometry
+    hsBounds3Corners corners = bounds.getCorners();
+    fVerts.reserve(corners.size());
+    std::copy(corners.begin(), corners.end(), std::back_inserter(fVerts));
+}
