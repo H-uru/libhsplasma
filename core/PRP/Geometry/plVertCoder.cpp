@@ -79,7 +79,7 @@ void plVertCoder::IDecode(hsStream* S, unsigned char*& dest, unsigned char forma
     }
 }
 
-void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char*& dest) {
+void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char* dest) {
     if (fColors[chan].fCount == 0) {
         unsigned short count = S->readShort();
         if (count & 0x8000) {
@@ -92,10 +92,9 @@ void plVertCoder::IDecodeByte(hsStream* S, int chan, unsigned char*& dest) {
         fColors[chan].fCount = count;
     }
     if (fColors[chan].fSame)
-        *dest = fColors[chan].fVal;
+        dest[chan] = fColors[chan].fVal;
     else
-        *dest = S->readByte();
-    dest += sizeof(unsigned char);
+        dest[chan] = S->readByte();
     fColors[chan].fCount--;
 }
 
@@ -130,13 +129,11 @@ void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
 }
 
 void plVertCoder::IDecodeColor(hsStream* S, unsigned char*& dest) {
-    unsigned int* col = (unsigned int*)dest;
     IDecodeByte(S, 0, dest);
-    IDecodeByte(S, 1, dest);
-    IDecodeByte(S, 2, dest);
     IDecodeByte(S, 3, dest);
-
-    *col = ((*col & 0x000000FF) << 16 | (*col & 0x00FF0000) >> 16 | (*col & 0xFF00FF00));
+    IDecodeByte(S, 2, dest);
+    IDecodeByte(S, 1, dest);
+    dest += sizeof(unsigned int);
 }
 
 void plVertCoder::IEncode(hsStream* S, unsigned int vertsLeft,
@@ -175,20 +172,19 @@ void plVertCoder::IEncode(hsStream* S, unsigned int vertsLeft,
 }
 
 void plVertCoder::IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
-                              const unsigned char*& src, unsigned int stride) {
+                              const unsigned char* src, unsigned int stride) {
     if (fColors[chan].fCount == 0) {
-        ICountBytes(vertsLeft, src, stride, fColors[chan].fCount, fColors[chan].fSame);
+        ICountBytes(vertsLeft, src + chan, stride, fColors[chan].fCount, fColors[chan].fSame);
         unsigned short count = fColors[chan].fCount;
         if (fColors[chan].fSame)
             count |= 0x8000;
         S->writeShort(count);
         count &= 0x7FFF;
         if (fColors[chan].fSame)
-            S->writeByte(*src);
+            S->writeByte(src[chan]);
     }
     if (!fColors[chan].fSame)
-        S->writeByte(*src);
-    src += sizeof(unsigned char);
+        S->writeByte(src[chan]);
     fColors[chan].fCount--;
 }
 
@@ -234,12 +230,11 @@ void plVertCoder::IEncodeNormal(hsStream* S, const unsigned char*& src) {
 
 void plVertCoder::IEncodeColor(hsStream* S, unsigned int vertsLeft,
                                const unsigned char*& src, unsigned int stride) {
-    unsigned int* col = (unsigned int*)src;
-    *col = ((*col & 0x000000FF) << 16 | (*col & 0x00FF0000) >> 16 | (*col & 0xFF00FF00));
     IEncodeByte(S, vertsLeft, 0, src, stride);
-    IEncodeByte(S, vertsLeft, 1, src, stride);
-    IEncodeByte(S, vertsLeft, 2, src, stride);
     IEncodeByte(S, vertsLeft, 3, src, stride);
+    IEncodeByte(S, vertsLeft, 2, src, stride);
+    IEncodeByte(S, vertsLeft, 1, src, stride);
+    src += sizeof(unsigned int);
 }
 
 void plVertCoder::ICountBytes(unsigned int vertsLeft, const unsigned char* src,

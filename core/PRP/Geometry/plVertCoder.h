@@ -50,7 +50,7 @@ private:
     } fColors[4];
 
     void IDecode(hsStream* S, unsigned char*& dest,unsigned char format);
-    void IDecodeByte(hsStream* S, int chan, unsigned char*& dest);
+    void IDecodeByte(hsStream* S, int chan, unsigned char* dest);
     void IDecodeFloat(hsStream* S, int field, int chan, unsigned char*& dest);
     void IDecodeNormal(hsStream* S, unsigned char*& dest);
     void IDecodeColor(hsStream* S, unsigned char*& dest);
@@ -58,7 +58,7 @@ private:
     void IEncode(hsStream* S, unsigned int vertsLeft, const unsigned char*& src,
                  unsigned int stride, unsigned char format);
     void IEncodeByte(hsStream* S, unsigned int vertsLeft, int chan,
-                     const unsigned char*& src, unsigned int stride);
+                     const unsigned char* src, unsigned int stride);
     void IEncodeFloat(hsStream* S, unsigned int vertsLeft, int field, int chan,
                       const unsigned char*& src, unsigned int stride);
     void IEncodeNormal(hsStream* S, const unsigned char*& src);
