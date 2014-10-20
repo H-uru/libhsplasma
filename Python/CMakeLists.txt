@@ -1,5 +1,10 @@
 find_package(PythonLibs REQUIRED)
-find_package(PythonInterp REQUIRED)
+find_package(PythonInterp "${PYTHONLIBS_VERSION_STRING}" REQUIRED)
+# make sure the versions match
+if (NOT "${PYTHONLIBS_VERSION_STRING}" STREQUAL "${PYTHON_VERSION_STRING}")
+    message(FATAL_ERROR "Versions of Python libraries (${PYTHONLIBS_VERSION_STRING}) and Python interpreter (${PYTHON_VERSION_STRING}) do not match. Please configure the paths manually.")
+endif()
+
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANG)
     set(CMAKE_CXX_FLAGS "-fno-strict-aliasing ${CMAKE_CXX_FLAGS}")
