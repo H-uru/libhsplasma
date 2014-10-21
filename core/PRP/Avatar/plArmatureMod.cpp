@@ -306,7 +306,7 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "Effects") {
         fEffects = mgr->prcParseKey(tag->getFirstChild());
     } else {
-        plAGMasterMod::IPrcParse(tag, mgr);
+        plArmatureModBase::IPrcParse(tag, mgr);
     }
 }
 
