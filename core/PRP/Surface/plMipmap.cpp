@@ -24,31 +24,43 @@
 #include "Stream/hsRAMStream.h"
 #include "3rdPartyLibs/squish/squish.h"
 
+static uint8_t* alloc_aligned(size_t bytes) {
+    // Ensure the block is aligned to the processor's likely max access size
+    size_t blocks = bytes / sizeof(size_t);
+    if (bytes % sizeof(size_t) != 0)
+        ++blocks;
+
+    return reinterpret_cast<uint8_t*>(new size_t[blocks]);
+}
+
+static void free_aligned(uint8_t*& ptr) {
+    delete[] reinterpret_cast<size_t*>(ptr);
+    ptr = NULL;
+}
+
 /* plMipmap */
 plMipmap::plMipmap()
-        : fImageData(NULL), fTotalSize(0),  fJPEGData(NULL), fJPEGSize(0),
-          fJAlphaData(NULL), fJAlphaSize(0) {
+        : fImageData(NULL), fTotalSize(0) {
     Create(0, 0, 0, kUncompressed, kRGB8888);
 }
 
-plMipmap::plMipmap(unsigned int width, unsigned int height, unsigned char numLevels,
-                   unsigned char compType, ColorFormat format, unsigned char dxtLevel)
-        : fImageData(NULL), fTotalSize(0), fJPEGData(NULL), fJPEGSize(0),
-          fJAlphaData(NULL), fJAlphaSize(0) {
+plMipmap::plMipmap(uint32_t width, uint32_t height, uint8_t numLevels,
+                   uint8_t compType, ColorFormat format, uint8_t dxtLevel)
+        : fImageData(NULL), fTotalSize(0) {
     Create(width, height, numLevels, compType, format, dxtLevel);
 }
 
 plMipmap::~plMipmap() {
-    delete[] fImageData;
-    delete[] fJPEGData;
-    delete[] fJAlphaData;
+    free_aligned(fImageData);
 }
 
 void plMipmap::Create(unsigned int width, unsigned int height, unsigned char numLevels,
                       unsigned char compType, ColorFormat format, unsigned char dxtLevel) {
-    delete[] fImageData;
-    delete[] fJPEGData;
-    delete[] fJAlphaData;
+    free_aligned(fImageData);
+    fJPEGCache.clear();
+    fJAlphaCache.clear();
+    fLevelData.clear();
+    fTotalSize = 0;
 
     if (compType == kDirectXCompression && dxtLevel == kDXTError)
         throw hsBadParamException(__FILE__, __LINE__, "DXT Type must be set for DirectX textures");
@@ -74,14 +86,8 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned char num
     fHeight = height;
     fStride = (fPixelSize * fWidth) / 8;
 
-    if (fWidth == 0 || fHeight == 0) {
-        fLevelData.clear();
-        fTotalSize = 0;
-        fImageData = NULL;
-        fJPEGData = NULL;
-        fJAlphaData = NULL;
+    if (fWidth == 0 || fHeight == 0)
         return;
-    }
 
     if (numLevels == 0) {
         numLevels = 1;
@@ -94,17 +100,14 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned char num
 
     fLevelData.resize(numLevels);
     fTotalSize = IBuildLevelSizes();
-    fImageData = new unsigned char[fTotalSize];
+    fImageData = alloc_aligned(fTotalSize);
     memset(fImageData, 0, fTotalSize);
 }
 
 void plMipmap::CopyFrom(plMipmap* src) {
-    delete[] fImageData;
-    delete[] fJPEGData;
-    delete[] fJAlphaData;
-    fImageData = NULL;
-    fJPEGData = NULL;
-    fJAlphaData = NULL;
+    free_aligned(fImageData);
+    fJPEGCache.clear();
+    fJAlphaCache.clear();
 
     fPixelSize = src->fPixelSize;
     fSpace = src->fSpace;
@@ -123,20 +126,12 @@ void plMipmap::CopyFrom(plMipmap* src) {
     fHeight = src->fHeight;
     fStride = src->fStride;
     fTotalSize = src->fTotalSize;
-    fImageData = new unsigned char[fTotalSize];
+    fImageData = alloc_aligned(fTotalSize);
     memcpy(fImageData, src->fImageData, fTotalSize);
     fLevelData = src->fLevelData;
 
-    fJPEGSize = src->fJPEGSize;
-    fJAlphaSize = src->fJAlphaSize;
-    if (src->fJPEGData != NULL) {
-        fJPEGData = new unsigned char[fJPEGSize];
-        memcpy(fJPEGData, src->fJPEGData, fJPEGSize);
-    }
-    if (src->fJAlphaData != NULL) {
-        fJAlphaData = new unsigned char[fJAlphaSize];
-        memcpy(fJAlphaData, src->fJAlphaData, fJAlphaSize);
-    }
+    fJPEGCache = src->fJPEGCache;
+    fJAlphaCache = src->fJAlphaCache;
 }
 
 void plMipmap::read(hsStream* S, plResManager* mgr) {
@@ -166,12 +161,9 @@ void plMipmap::IReadMipmap(hsStream* S) {
     fTotalSize = S->readInt();
     fLevelData.resize(S->readByte());
 
-    delete[] fImageData;
-    delete[] fJPEGData;
-    delete[] fJAlphaData;
-    fImageData = NULL;
-    fJPEGData = NULL;
-    fJAlphaData = NULL;
+    free_aligned(fImageData);
+    fJPEGCache.clear();
+    fJAlphaCache.clear();
 
     if (fTotalSize == 0)
         return;
@@ -179,7 +171,7 @@ void plMipmap::IReadMipmap(hsStream* S) {
     size_t realSize = IBuildLevelSizes();
     if (realSize != fTotalSize)
         plDebug::Warning("{}: Incorrect image buffer storage size", getKey().toString());
-    fImageData = new unsigned char[realSize];
+    fImageData = alloc_aligned(realSize);
 
     switch (fCompressionType) {
     case kJPEGCompression:
@@ -246,7 +238,7 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
         if (isImageJPEG()) {
             prc->writeSimpleTag("JpegData");
             if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData))
-                prc->writeHexStream(fJPEGSize, fJPEGData);
+                prc->writeHexStream(fJPEGCache.size(), fJPEGCache.data());
             else
                 prc->writeComment("Texture data excluded");
             prc->closeTag();    // JpegData
@@ -255,7 +247,7 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
         if (isAlphaJPEG()) {
             prc->writeSimpleTag("AlphaData");
             if (!prc->isExcluded(pfPrcHelper::kExcludeTextureData))
-                prc->writeHexStream(fJAlphaSize, fJAlphaData);
+                prc->writeHexStream(fJAlphaCache.size(), fJAlphaCache.data());
             else
                 prc->writeComment("Texture data excluded");
             prc->closeTag();    // AlphaData
@@ -279,12 +271,10 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         IBuildLevelSizes();
     } else if (tag->getName() == "JPEG") {
         IBuildLevelSizes();
-        delete[] fImageData;
-        delete[] fJPEGData;
-        delete[] fJAlphaData;
-        fImageData = new unsigned char[fTotalSize];
-        fJPEGData = NULL;
-        fJAlphaData = NULL;
+        free_aligned(fImageData);
+        fJPEGCache.clear();
+        fJAlphaCache.clear();
+        fImageData = alloc_aligned(fTotalSize);
 
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
@@ -293,13 +283,11 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                     throw pfPrcParseException(__FILE__, __LINE__, "Image Data is not of the correct length");
                 child->readHexStream(fTotalSize, fImageData);
             } else if (child->getName() == "JpegData") {
-                fJPEGSize = tag->getContents().size();
-                fJPEGData = new unsigned char[fJPEGSize];
-                tag->readHexStream(fJPEGSize, fJPEGData);
+                fJPEGCache.resize(tag->getContents().size());
+                tag->readHexStream(fJPEGCache.size(), fJPEGCache.data());
             } else if (child->getName() == "AlphaData") {
-                fJAlphaSize = tag->getContents().size();
-                fJAlphaData = new unsigned char[fJAlphaSize];
-                tag->readHexStream(fJAlphaSize, fJAlphaData);
+                fJAlphaCache.resize(tag->getContents().size());
+                tag->readHexStream(fJAlphaCache.size(), fJAlphaCache.data());
             } else {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             }
@@ -309,14 +297,11 @@ void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->getContents().size() != fTotalSize)
             throw pfPrcParseException(__FILE__, __LINE__, "DDS Data is not of the correct length");
         IBuildLevelSizes();
-        delete[] fImageData;
-        delete[] fJPEGData;
-        delete[] fJAlphaData;
-        fImageData = NULL;
-        fJPEGData = NULL;
-        fJAlphaData = NULL;
+        free_aligned(fImageData);
+        fJPEGCache.clear();
+        fJAlphaCache.clear();
         if (fTotalSize > 0) {
-            fImageData = new unsigned char[fTotalSize];
+            fImageData = alloc_aligned(fTotalSize);
             tag->readHexStream(fTotalSize, fImageData);
         }
     } else {
@@ -426,17 +411,15 @@ void plMipmap::IReadJPEGImage(hsStream* S) {
     if (rleFlag & kColorDataRLE) {
         IReadRLEImage(S, false);
     } else {
-        fJPEGSize = S->readInt();
-        fJPEGData = new unsigned char[fJPEGSize];
-        S->read(fJPEGSize, fJPEGData);
+        fJPEGCache.resize(S->readInt());
+        S->read(fJPEGCache.size(), fJPEGCache.data());
     }
 
     if (rleFlag & kAlphaDataRLE) {
         IReadRLEImage(S, true);
     } else {
-        fJAlphaSize = S->readInt();
-        fJAlphaData = new unsigned char[fJAlphaSize];
-        S->read(fJAlphaSize, fJAlphaData);
+        fJAlphaCache.resize(S->readInt());
+        S->read(fJAlphaCache.size(), fJAlphaCache.data());
     }
 }
 
@@ -451,15 +434,15 @@ void plMipmap::IWriteJPEGImage(hsStream* S) {
     if (rleFlag & kColorDataRLE) {
         IWriteRLEImage(S, false);
     } else {
-        S->writeInt(fJPEGSize);
-        S->write(fJPEGSize, fJPEGData);
+        S->writeInt(fJPEGCache.size());
+        S->write(fJPEGCache.size(), fJPEGCache.data());
     }
 
     if (rleFlag & kAlphaDataRLE) {
         IWriteRLEImage(S, true);
     } else {
-        S->writeInt(fJAlphaSize);
-        S->write(fJAlphaSize, fJAlphaData);
+        S->writeInt(fJAlphaCache.size());
+        S->write(fJAlphaCache.size(), fJAlphaCache.data());
     }
 }
 
@@ -513,9 +496,8 @@ const void* plMipmap::getLevelData(size_t idx) const {
 
 void plMipmap::setImageData(const void* data, size_t size) {
     if (size != fTotalSize) {
-        //throw hsBadParamException(__FILE__, __LINE__, "Image data size mismatch");
-        delete[] fImageData;
-        fImageData = new unsigned char[size];
+        free_aligned(fImageData);
+        fImageData = alloc_aligned(size);
         fTotalSize = size;
     }
 
@@ -529,26 +511,16 @@ void plMipmap::setLevelData(size_t idx, const void* data, size_t size) {
 }
 
 void plMipmap::setImageJPEG(const void* data, size_t size) {
-    delete[] fJPEGData;
-    fJPEGSize = size;
-    if (data != NULL) {
-        fJPEGData = new unsigned char[size];
-        memcpy(fJPEGData, data, size);
-    } else {
-        fJPEGData = NULL;
-    }
+    fJPEGCache.resize(size);
+    if (data != NULL)
+        memcpy(fJPEGCache.data(), data, size);
     DecompressImage(0, fImageData, fLevelData[0].fSize);
 }
 
 void plMipmap::setAlphaJPEG(const void* data, size_t size) {
-    delete[] fJAlphaData;
-    fJAlphaSize = size;
-    if (data != NULL) {
-        fJAlphaData = new unsigned char[size];
-        memcpy(fJAlphaData, data, size);
-    } else {
-        fJAlphaData = NULL;
-    }
+    fJAlphaCache.resize(size);
+    if (data != NULL)
+        memcpy(fJAlphaCache.data(), data, size);
     DecompressImage(0, fImageData, fLevelData[0].fSize);
 }
 
@@ -626,10 +598,10 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size) {
         if (dest != fImageData)
             memcpy(dest, fImageData, size);
 
-        unsigned char* jbuffer = new unsigned char[size];
+        uint8_t* jbuffer = alloc_aligned(size);
         if (isImageJPEG()) {
             hsRAMStream S;
-            S.copyFrom(fJPEGData, fJPEGSize);
+            S.copyFrom(fJPEGCache.data(), fJPEGCache.size());
             plJPEG::DecompressJPEG(&S, jbuffer, size);
 
             unsigned int* dp = (unsigned int*)dest;
@@ -640,7 +612,7 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size) {
 
         if (isAlphaJPEG()) {
             hsRAMStream S;
-            S.copyFrom(fJAlphaData, fJAlphaSize);
+            S.copyFrom(fJAlphaCache.data(), fJAlphaCache.size());
             plJPEG::DecompressJPEG(&S, jbuffer, size);
 
             unsigned int* dp = (unsigned int*)dest;
@@ -649,7 +621,7 @@ void plMipmap::DecompressImage(size_t level, void* dest, size_t size) {
                 dp[i] = (dp[i] & 0x00FFFFFF) | ((sp[i] << 24) & 0xFF000000);
         }
 
-        delete[] jbuffer;
+        free_aligned(jbuffer);
     } else if (fCompressionType == kDirectXCompression) {
         unsigned char* imgPtr = fImageData + fLevelData[level].fOffset;
         if (fDXInfo.fCompressionType == kDXT1) {
