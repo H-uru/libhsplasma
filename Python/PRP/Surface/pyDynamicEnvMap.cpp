@@ -154,18 +154,18 @@ static int pyDynamicEnvMap_setRefreshRate(pyDynamicEnvMap* self, PyObject* value
 }
 
 static int pyDynamicEnvMap_setVisRegions(pyDynamicEnvMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "visRegions should be a list of plKeys");
+    if (value == NULL || !PySequence_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
         return -1;
     }
     std::vector<plKey> regions;
-    regions.resize(PyList_Size(value));
-    for (Py_ssize_t i=0; i<PyList_Size(value); i++) {
-        PyObject* region = PyList_GetItem(value, i);
+    regions.resize(PySequence_Size(value));
+    for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
+        PyObject* region = PySequence_GetItem(value, i);
         if (pyKey_Check(region)){
             regions[i] = *(reinterpret_cast<pyKey *>(region)->fThis);
         } else {
-            PyErr_SetString(PyExc_TypeError, "visRegions should be a list of plKeys");
+            PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
             return -1;
         }
     }
@@ -174,18 +174,18 @@ static int pyDynamicEnvMap_setVisRegions(pyDynamicEnvMap* self, PyObject* value,
 }
 
 static int pyDynamicEnvMap_setVisRegionNames(pyDynamicEnvMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "visRegionNames should be a list of strings");
+    if (value == NULL || !PySequence_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
         return -1;
     }
     std::vector<plString> names;
-    names.resize(PyList_Size(value));
-    for (Py_ssize_t i=0; i<PyList_Size(value); i++) {
-        PyObject* name = PyList_GET_ITEM(value, i);
+    names.resize(PySequence_Size(value));
+    for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
+        PyObject* name = PySequence_GetItem(value, i);
         if (PyAnyStr_Check(name)) {
             names[i] = PyString_To_PlasmaString(name);
         } else {
-            PyErr_SetString(PyExc_TypeError, "visRegionNames should be a list of strings");
+            PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
             return -1;
         }
     }
@@ -426,18 +426,18 @@ static int pyDynamicCamMap_setRefreshRate(pyDynamicCamMap* self, PyObject* value
 }
 
 static int pyDynamicCamMap_setVisRegions(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "visRegions should be a list of plKeys");
+    if (value == NULL || !PySequence_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
         return -1;
     }
     std::vector<plKey> regions;
-    regions.resize(PyList_Size(value));
-    for (Py_ssize_t i=0; i<PyList_Size(value); i++) {
-        PyObject* region = PyList_GetItem(value, i);
+    regions.resize(PySequence_Size(value));
+    for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
+        PyObject* region = PySequence_GetItem(value, i);
         if (pyKey_Check(region)){
             regions[i] = *(reinterpret_cast<pyKey *>(region)->fThis);
         } else {
-            PyErr_SetString(PyExc_TypeError, "visRegions should be a list of plKeys");
+            PyErr_SetString(PyExc_TypeError, "visRegions should be a sequence of plKeys");
             return -1;
         }
     }
@@ -446,18 +446,18 @@ static int pyDynamicCamMap_setVisRegions(pyDynamicCamMap* self, PyObject* value,
 }
 
 static int pyDynamicCamMap_setTargetNodes(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "targetNodes should be a list of plKeys");
+    if (value == NULL || !PySequence_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "targetNodes should be a sequence of plKeys");
         return -1;
     }
     std::vector<plKey> nodes;
-    nodes.resize(PyList_Size(value));
-    for (Py_ssize_t i=0; i<PyList_Size(value); i++) {
-        PyObject* node = PyList_GetItem(value, i);
+    nodes.resize(PySequence_Size(value));
+    for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
+        PyObject* node = PySequence_GetItem(value, i);
         if (pyKey_Check(node)){
             nodes[i] = *(reinterpret_cast<pyKey *>(node)->fThis);
         } else {
-            PyErr_SetString(PyExc_TypeError, "targetNodes should be a list of plKeys");
+            PyErr_SetString(PyExc_TypeError, "targetNodes should be a sequence of plKeys");
             return -1;
         }
     }
@@ -466,18 +466,18 @@ static int pyDynamicCamMap_setTargetNodes(pyDynamicCamMap* self, PyObject* value
 }
 
 static int pyDynamicCamMap_setMatLayers(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "matLayers should be a list of plKeys");
+    if (value == NULL || !PySequence_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "matLayers should be a sequence of plKeys");
         return -1;
     }
     std::vector<plKey> layers;
-    layers.resize(PyList_Size(value));
-    for (Py_ssize_t i=0; i<PyList_Size(value); i++) {
-        PyObject* layer = PyList_GetItem(value, i);
+    layers.resize(PySequence_Size(value));
+    for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
+        PyObject* layer = PySequence_GetItem(value, i);
         if (pyKey_Check(layer)){
             layers[i] = *(reinterpret_cast<pyKey *>(layer)->fThis);
         } else {
-            PyErr_SetString(PyExc_TypeError, "matLayers should be a list of plKeys");
+            PyErr_SetString(PyExc_TypeError, "matLayers should be a sequence of plKeys");
             return -1;
         }
     }
@@ -486,18 +486,18 @@ static int pyDynamicCamMap_setMatLayers(pyDynamicCamMap* self, PyObject* value, 
 }
 
 static int pyDynamicCamMap_setVisRegionNames(pyDynamicCamMap* self, PyObject* value, void*) {
-    if (value == NULL || !PyList_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "visRegionNames should be a list of strings");
+    if (value == NULL || !PySequence_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
         return -1;
     }
     std::vector<plString> names;
-    names.resize(PyList_Size(value));
-    for (Py_ssize_t i=0; i<PyList_Size(value); i++) {
-        PyObject* name = PyList_GET_ITEM(value, i);
+    names.resize(PySequence_Size(value));
+    for (Py_ssize_t i=0; i<PySequence_Size(value); i++) {
+        PyObject* name = PySequence_GetItem(value, i);
         if (PyAnyStr_Check(name)) {
             names[i] = PyString_To_PlasmaString(name);
         } else {
-            PyErr_SetString(PyExc_TypeError, "visRegionNames should be a list of strings");
+            PyErr_SetString(PyExc_TypeError, "visRegionNames should be a sequence of strings");
             return -1;
         }
     }
