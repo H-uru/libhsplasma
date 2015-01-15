@@ -54,13 +54,67 @@ static PyObject* pyCubicEnvironmap_getBottomFace(pyCubicEnvironmap* self, void*)
     return pyMipmap_FromMipmap(self->fThis->getFace(plCubicEnvironmap::Faces::kBottomFace));
 }
 
+static int pyCubicEnvironmap_setLeftFace(pyCubicEnvironmap* self, PyObject* value, void*) {
+    if (value == NULL || !pyMipmap_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "leftFace should be a plMipmap");
+        return -1;
+    }
+    self->fThis->setFace(plCubicEnvironmap::Faces::kLeftFace, reinterpret_cast<pyMipmap *>(value)->fThis);
+    return 0;
+}
+
+static int pyCubicEnvironmap_setRightFace(pyCubicEnvironmap* self, PyObject* value, void*) {
+    if (value == NULL || !pyMipmap_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "rightFace should be a plMipmap");
+        return -1;
+    }
+    self->fThis->setFace(plCubicEnvironmap::Faces::kRightFace, reinterpret_cast<pyMipmap *>(value)->fThis);
+    return 0;
+}
+
+static int pyCubicEnvironmap_setFrontFace(pyCubicEnvironmap* self, PyObject* value, void*) {
+    if (value == NULL || !pyMipmap_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "frontFace should be a plMipmap");
+        return -1;
+    }
+    self->fThis->setFace(plCubicEnvironmap::Faces::kFrontFace, reinterpret_cast<pyMipmap *>(value)->fThis);
+    return 0;
+}
+
+static int pyCubicEnvironmap_setBackFace(pyCubicEnvironmap* self, PyObject* value, void*) {
+    if (value == NULL || !pyMipmap_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "backFace should be a plMipmap");
+        return -1;
+    }
+    self->fThis->setFace(plCubicEnvironmap::Faces::kBackFace, reinterpret_cast<pyMipmap *>(value)->fThis);
+    return 0;
+}
+
+static int pyCubicEnvironmap_setTopFace(pyCubicEnvironmap* self, PyObject* value, void*) {
+    if (value == NULL || !pyMipmap_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "topFace should be a plMipmap");
+        return -1;
+    }
+    self->fThis->setFace(plCubicEnvironmap::Faces::kTopFace, reinterpret_cast<pyMipmap *>(value)->fThis);
+    return 0;
+}
+
+static int pyCubicEnvironmap_setBottomFace(pyCubicEnvironmap* self, PyObject* value, void*) {
+    if (value == NULL || !pyMipmap_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "bottomFace should be a plMipmap");
+        return -1;
+    }
+    self->fThis->setFace(plCubicEnvironmap::Faces::kBottomFace, reinterpret_cast<pyMipmap *>(value)->fThis);
+    return 0;
+}
+
 static PyGetSetDef pyCubicEnvironmap_GetSet[] = {
-    { _pycs("leftFace"), (getter)pyCubicEnvironmap_getLeftFace, NULL, NULL, NULL },
-    { _pycs("rightFace"), (getter)pyCubicEnvironmap_getRightFace, NULL, NULL, NULL },
-    { _pycs("frontFace"), (getter)pyCubicEnvironmap_getFrontFace, NULL, NULL, NULL },
-    { _pycs("backFace"), (getter)pyCubicEnvironmap_getBackFace, NULL, NULL, NULL },
-    { _pycs("topFace"), (getter)pyCubicEnvironmap_getTopFace, NULL, NULL, NULL },
-    { _pycs("bottomFace"), (getter)pyCubicEnvironmap_getBottomFace, NULL, NULL, NULL },
+    { _pycs("leftFace"), (getter)pyCubicEnvironmap_getLeftFace, (setter)pyCubicEnvironmap_setLeftFace, NULL, NULL },
+    { _pycs("rightFace"), (getter)pyCubicEnvironmap_getRightFace, (setter)pyCubicEnvironmap_setRightFace, NULL, NULL },
+    { _pycs("frontFace"), (getter)pyCubicEnvironmap_getFrontFace, (setter)pyCubicEnvironmap_setFrontFace, NULL, NULL },
+    { _pycs("backFace"), (getter)pyCubicEnvironmap_getBackFace, (setter)pyCubicEnvironmap_setBackFace, NULL, NULL },
+    { _pycs("topFace"), (getter)pyCubicEnvironmap_getTopFace, (setter)pyCubicEnvironmap_setTopFace, NULL, NULL },
+    { _pycs("bottomFace"), (getter)pyCubicEnvironmap_getBottomFace, (setter)pyCubicEnvironmap_setBottomFace, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 

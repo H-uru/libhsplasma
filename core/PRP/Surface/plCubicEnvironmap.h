@@ -41,6 +41,7 @@ protected:
 
 public:
     plMipmap* getFace(size_t idx) { return &fFaces[idx]; }
+    void setFace(size_t idx, plMipmap* newMap) { fFaces[idx].CopyFrom(newMap); }
 };
 
 #endif
