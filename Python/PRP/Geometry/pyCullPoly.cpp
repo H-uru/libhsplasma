@@ -186,9 +186,9 @@ PyTypeObject pyCullPoly_Type = {
     NULL,                               /* tp_descr_set */
     0,                                  /* tp_dictoffset */
 
-    (initproc)pyCullPoly___init__,     /* tp_init */
+    (initproc)pyCullPoly___init__,      /* tp_init */
     NULL,                               /* tp_alloc */
-    pyCullPoly_new,                    /* tp_new */
+    pyCullPoly_new,                     /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -200,6 +200,7 @@ PyTypeObject pyCullPoly_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pyCullPoly_Type() {

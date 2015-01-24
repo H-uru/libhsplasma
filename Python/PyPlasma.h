@@ -73,5 +73,11 @@ plString PyString_To_PlasmaString(PyObject* str);
     #define TP_VERSION_TAG_INIT
 #endif
 
+#if (PY_MAJOR_VERSION >= 4) || ((PY_MAJOR_VERSION == 3) && (PY_MINOR_VERSION >= 4))
+    #define TP_FINALIZE_INIT NULL,
+#else
+    #define TP_FINALIZE_INIT
+#endif
+
 // This should work the same for all versions
 #define PyStr_To_PlStr PyString_To_PlasmaString

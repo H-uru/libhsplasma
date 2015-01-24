@@ -78,7 +78,7 @@ PyTypeObject pySpawnModifier_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pySpawnModifier_new,                   /* tp_new */
+    pySpawnModifier_new,                /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -90,6 +90,7 @@ PyTypeObject pySpawnModifier_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pySpawnModifier_Type() {

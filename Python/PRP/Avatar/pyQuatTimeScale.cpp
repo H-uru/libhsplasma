@@ -57,7 +57,7 @@ PyTypeObject pyQuatTimeScale_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plQuatTimeScale wrapper",              /* tp_doc */
+    "plQuatTimeScale wrapper",          /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -66,7 +66,7 @@ PyTypeObject pyQuatTimeScale_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatTimeScale_Methods,                /* tp_methods */
+    pyQuatTimeScale_Methods,            /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -77,7 +77,7 @@ PyTypeObject pyQuatTimeScale_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyQuatTimeScale_new,                    /* tp_new */
+    pyQuatTimeScale_new,                /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -89,6 +89,7 @@ PyTypeObject pyQuatTimeScale_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pyQuatTimeScale_Type() {

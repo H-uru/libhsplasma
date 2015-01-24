@@ -77,7 +77,7 @@ PyTypeObject pyQuatChannel_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plQuatChannel wrapper",          /* tp_doc */
+    "plQuatChannel wrapper",            /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -86,9 +86,9 @@ PyTypeObject pyQuatChannel_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyQuatChannel_Methods,            /* tp_methods */
+    pyQuatChannel_Methods,              /* tp_methods */
     NULL,                               /* tp_members */
-    pyQuatChannel_GetSet,             /* tp_getset */
+    pyQuatChannel_GetSet,               /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
@@ -97,7 +97,7 @@ PyTypeObject pyQuatChannel_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyQuatChannel_new,                /* tp_new */
+    pyQuatChannel_new,                  /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -109,6 +109,7 @@ PyTypeObject pyQuatChannel_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pyQuatChannel_Type() {

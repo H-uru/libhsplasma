@@ -66,7 +66,7 @@ PyTypeObject pyScalarChannelApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyScalarChannelApplicator_Methods,   /* tp_methods */
+    pyScalarChannelApplicator_Methods,  /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -77,7 +77,7 @@ PyTypeObject pyScalarChannelApplicator_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyScalarChannelApplicator_new,       /* tp_new */
+    pyScalarChannelApplicator_new,      /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -89,6 +89,7 @@ PyTypeObject pyScalarChannelApplicator_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pyScalarChannelApplicator_Type() {

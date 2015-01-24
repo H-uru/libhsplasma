@@ -57,7 +57,7 @@ PyTypeObject pySpotOuterApplicator_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plSpotOuterApplicator wrapper", /* tp_doc */
+    "plSpotOuterApplicator wrapper",    /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -66,7 +66,7 @@ PyTypeObject pySpotOuterApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pySpotOuterApplicator_Methods,   /* tp_methods */
+    pySpotOuterApplicator_Methods,      /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -77,7 +77,7 @@ PyTypeObject pySpotOuterApplicator_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pySpotOuterApplicator_new,       /* tp_new */
+    pySpotOuterApplicator_new,          /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -89,6 +89,7 @@ PyTypeObject pySpotOuterApplicator_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pySpotOuterApplicator_Type() {

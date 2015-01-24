@@ -423,6 +423,7 @@ PyTypeObject pyAgeInfo_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pyAgeInfo_Type() {

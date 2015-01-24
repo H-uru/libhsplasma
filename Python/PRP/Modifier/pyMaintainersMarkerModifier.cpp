@@ -79,7 +79,7 @@ PyTypeObject pyMaintainersMarkerModifier_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plMaintainersMarkerModifier wrapper",          /* tp_doc */
+    "plMaintainersMarkerModifier wrapper",    /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -88,9 +88,9 @@ PyTypeObject pyMaintainersMarkerModifier_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMaintainersMarkerModifier_Methods,            /* tp_methods */
+    pyMaintainersMarkerModifier_Methods, /* tp_methods */
     NULL,                               /* tp_members */
-    pyMaintainersMarkerModifier_GetSet,            /* tp_getset */
+    pyMaintainersMarkerModifier_GetSet, /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
@@ -99,7 +99,7 @@ PyTypeObject pyMaintainersMarkerModifier_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyMaintainersMarkerModifier_new,                   /* tp_new */
+    pyMaintainersMarkerModifier_new,    /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -111,6 +111,7 @@ PyTypeObject pyMaintainersMarkerModifier_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pyMaintainersMarkerModifier_Type() {

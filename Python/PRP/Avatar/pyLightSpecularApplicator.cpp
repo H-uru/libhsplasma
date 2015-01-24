@@ -37,7 +37,7 @@ static PyMethodDef pyLightSpecularApplicator_Methods[] = {
 PyTypeObject pyLightSpecularApplicator_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
     "PyHSPlasma.plLightSpecularApplicator", /* tp_name */
-    sizeof(pyLightSpecularApplicator),   /* tp_basicsize */
+    sizeof(pyLightSpecularApplicator),  /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
@@ -66,7 +66,7 @@ PyTypeObject pyLightSpecularApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyLightSpecularApplicator_Methods,   /* tp_methods */
+    pyLightSpecularApplicator_Methods,  /* tp_methods */
     NULL,                               /* tp_members */
     NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
@@ -77,7 +77,7 @@ PyTypeObject pyLightSpecularApplicator_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyLightSpecularApplicator_new,       /* tp_new */
+    pyLightSpecularApplicator_new,      /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -89,6 +89,7 @@ PyTypeObject pyLightSpecularApplicator_Type = {
 
     NULL,                               /* tp_del */
     TP_VERSION_TAG_INIT                 /* tp_version_tag */
+    TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
 PyObject* Init_pyLightSpecularApplicator_Type() {
