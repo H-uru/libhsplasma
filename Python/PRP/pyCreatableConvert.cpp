@@ -156,6 +156,7 @@
 #include "PRP/Surface/plLayer.h"
 #include "PRP/Surface/plLayerMovie.h"
 #include "PRP/Surface/plPrintShape.h"
+#include "PRP/Surface/plRenderTarget.h"
 #include "PRP/Surface/plShader.h"
 #include "PRP/Surface/plWaveSet.h"
 // End type includes
@@ -209,12 +210,15 @@
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
+#include "PRP/Surface/pyCubicEnvironmap.h"
+#include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
 #include "PRP/Surface/pyLayerAnimation.h"
 #include "PRP/Surface/pyLayerMovie.h"
+#include "PRP/Surface/pyRenderTarget.h"
 #include "PRP/Surface/pyShader.h"
 // End python includes
 
@@ -225,7 +229,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyKeyedObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<hsKeyedObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyBitmap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plBitmap*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyMipmap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMipmap*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyCubicEnvironmap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCubicEnvironmap*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyCubicEnvironmap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCubicEnvironmap*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLayer_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayer*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyGMaterial_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<hsGMaterial*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyParticleSystem_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plParticleSystem*>(pCre->fThis));
@@ -233,8 +237,8 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyParticleCollisionEffectBeat_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plParticleCollisionEffectBeat*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyParticleFadeVolumeEffect_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plParticleFadeVolumeEffect*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyBoundInterface_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plBoundInterface*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyRenderTarget_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRenderTarget*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyCubicRenderTarget_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCubicRenderTarget*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyRenderTarget_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRenderTarget*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyCubicRenderTarget_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCubicRenderTarget*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCubicRenderTargetModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCubicRenderTargetModifier*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyObjInterface_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjInterface*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyAudioInterface_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAudioInterface*>(pCre->fThis));
@@ -481,7 +485,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyCCRShiftSupervisor_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCCRShiftSupervisor*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCCRGameOperator_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCCRGameOperator*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyShader_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plShader*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyDynamicEnvMap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynamicEnvMap*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyDynamicEnvMap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynamicEnvMap*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySimpleRegionSensor_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSimpleRegionSensor*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyMorphSequence_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMorphSequence*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyEmoteAnim_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plEmoteAnim*>(pCre->fThis));
@@ -532,7 +536,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pySwimStraightCurrentRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSwimStraightCurrentRegion*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyObjectFlocker_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfObjectFlocker*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGrassShaderMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plGrassShaderMod*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyDynamicCamMap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynamicCamMap*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyDynamicCamMap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynamicCamMap*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAutoWalkRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAutoWalkRegion*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCrossfade_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCrossfade*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyParticleFadeOutEffect_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plParticleFadeOutEffect*>(pCre->fThis));
@@ -616,8 +620,11 @@ PyObject* ICreate(plCreatable* pCre)
         case kLayer: return pyLayer_FromLayer(plLayer::Convert(pCre));
         case kLayerDepth: return pyLayerDepth_FromLayerDepth(plLayerDepth::Convert(pCre));
         case kShader: return pyShader_FromShader(plShader::Convert(pCre));
+        case kRenderTarget: return pyRenderTarget_FromRenderTarget(plRenderTarget::Convert(pCre));
+        case kCubicRenderTarget: return pyCubicRenderTarget_FromCubicRenderTarget(plCubicRenderTarget::Convert(pCre));
         case kBitmap: return pyBitmap_FromBitmap(plBitmap::Convert(pCre));
         case kMipmap: return pyMipmap_FromMipmap(plMipmap::Convert(pCre));
+        case kCubicEnvironmap: return pyCubicEnvironmap_FromCubicEnvironmap(plCubicEnvironmap::Convert(pCre));
         case kLightInfo: return pyLightInfo_FromLightInfo(plLightInfo::Convert(pCre));
         case kDirectionalLightInfo: return pyDirectionalLightInfo_FromDirectionalLightInfo(plDirectionalLightInfo::Convert(pCre));
         case kLimitedDirLightInfo: return pyLimitedDirLightInfo_FromLimitedDirLightInfo(plLimitedDirLightInfo::Convert(pCre));
@@ -643,6 +650,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kLayerBink: return pyLayerBink_FromLayerBink(plLayerBink::Convert(pCre));
         case kOneShotMod: return pyOneShotMod_FromOneShotMod(plOneShotMod::Convert(pCre));
         case kResponderModifier: return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(pCre));
+        case kDynamicEnvMap: return pyDynamicEnvMap_FromDynamicEnvMap(plDynamicEnvMap::Convert(pCre));
+        case kDynamicCamMap: return pyDynamicCamMap_FromDynamicCamMap(plDynamicCamMap::Convert(pCre));
         case kDynamicTextMap: return pyDynamicTextMap_FromDynamicTextMap(plDynamicTextMap::Convert(pCre));
         case kAGAnim: return pyAGAnim_FromAGAnim(plAGAnim::Convert(pCre));
         case kAgeGlobalAnim: return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(pCre));

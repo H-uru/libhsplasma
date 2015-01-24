@@ -342,6 +342,8 @@ set(PRP_RGN_HDRS
 
 set(PRP_SRFC_SRCS
     PRP/Surface/pyBitmap.cpp
+    PRP/Surface/pyCubicEnvironmap.cpp
+    PRP/Surface/pyDynamicEnvMap.cpp
     PRP/Surface/pyDynamicTextMap.cpp
     PRP/Surface/pyGMatState.cpp
     PRP/Surface/pyGMaterial.cpp
@@ -356,17 +358,21 @@ set(PRP_SRFC_SRCS
     PRP/Surface/pyLayerMovie.cpp
     PRP/Surface/pyLayerSDLAnimation.cpp
     PRP/Surface/pyMipmap.cpp
+    PRP/Surface/pyRenderTarget.cpp
     PRP/Surface/pyShader.cpp
     PRP/Surface/pyShaderConst.cpp
 )
 set(PRP_SRFC_HDRS
     PRP/Surface/pyBitmap.h
+    PRP/Surface/pyCubicEnvironmap.h
+    PRP/Surface/pyDynamicEnvMap.h
     PRP/Surface/pyDynamicTextMap.h
     PRP/Surface/pyGMatState.h
     PRP/Surface/pyGMaterial.h
     PRP/Surface/pyLayer.h
     PRP/Surface/pyLayerAnimation.h
     PRP/Surface/pyLayerMovie.h
+    PRP/Surface/pyRenderTarget.h
     PRP/Surface/pyShader.h
 )
 

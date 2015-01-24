@@ -84,12 +84,15 @@
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
+#include "PRP/Surface/pyCubicEnvironmap.h"
+#include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
 #include "PRP/Surface/pyLayerAnimation.h"
 #include "PRP/Surface/pyLayerMovie.h"
+#include "PRP/Surface/pyRenderTarget.h"
 #include "PRP/Surface/pyShader.h"
 
 extern "C" {
@@ -298,6 +301,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plShader", Init_pyShader_Type());
     PyModule_AddObject(module, "plBitmap", Init_pyBitmap_Type());
     PyModule_AddObject(module, "plMipmap", Init_pyMipmap_Type());
+    PyModule_AddObject(module, "plRenderTarget", Init_pyRenderTarget_Type());
+    PyModule_AddObject(module, "plCubicRenderTarget", Init_pyCubicRenderTarget_Type());
     PyModule_AddObject(module, "plLightInfo", Init_pyLightInfo_Type());
     PyModule_AddObject(module, "plDirectionalLightInfo", Init_pyDirectionalLightInfo_Type());
     PyModule_AddObject(module, "plLimitedDirLightInfo", Init_pyLimitedDirLightInfo_Type());
@@ -324,6 +329,9 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plLayerBink", Init_pyLayerBink_Type());
     PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
     PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
+    PyModule_AddObject(module, "plCubicEnvironmap", Init_pyCubicEnvironmap_Type());
+    PyModule_AddObject(module, "plDynamicEnvMap", Init_pyDynamicEnvMap_Type());
+    PyModule_AddObject(module, "plDynamicCamMap", Init_pyDynamicCamMap_Type());
     PyModule_AddObject(module, "plDynamicTextMap", Init_pyDynamicTextMap_Type());
     PyModule_AddObject(module, "plAGAnim", Init_pyAGAnim_Type());
     PyModule_AddObject(module, "plAgeGlobalAnim", Init_pyAgeGlobalAnim_Type());
