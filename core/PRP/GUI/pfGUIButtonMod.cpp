@@ -66,14 +66,14 @@ void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Name", fAnimName);
     prc->endTag();
     for (size_t i=0; i<fAnimationKeys.size(); i++)
-        fAnimationKeys[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fAnimationKeys[i]);
     prc->closeTag();
 
     prc->startTag("MouseOverAnimation");
     prc->writeParam("Name", fMouseOverAnimName);
     prc->endTag();
     for (size_t i=0; i<fMouseOverAnimKeys.size(); i++)
-        fMouseOverAnimKeys[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMouseOverAnimKeys[i]);
     prc->closeTag();
 
     prc->startTag("NotifyType");
@@ -81,7 +81,7 @@ void pfGUIButtonMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Draggable");
-    fDraggable->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fDraggable);
     prc->closeTag();
 }
 

@@ -86,7 +86,7 @@ void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("VisRegions");
     for (size_t i=0; i<fVisRegions.size(); i++)
-        fVisRegions[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fVisRegions[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegionNames");
@@ -98,7 +98,7 @@ void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("RootNode");
-    fRootNode->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRootNode);
     prc->closeTag();
 }
 
@@ -226,21 +226,21 @@ void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Camera");
-    fCamera->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fCamera);
     prc->closeTag();
 
     prc->writeSimpleTag("RootNode");
-    fRootNode->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRootNode);
     prc->closeTag();
 
     prc->writeSimpleTag("TargetNodes");
     for (size_t i=0; i<fTargetNodes.size(); i++)
-        fTargetNodes[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fTargetNodes[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegions");
     for (size_t i=0; i<fVisRegions.size(); i++)
-        fVisRegions[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fVisRegions[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegionNames");
@@ -252,12 +252,12 @@ void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("DisableTexture");
-    fDisableTexture->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fDisableTexture);
     prc->closeTag();
 
     prc->writeSimpleTag("MatLayers");
     for (size_t i=0; i<fMatLayers.size(); i++)
-        fMatLayers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMatLayers[i]);
     prc->closeTag();
 }
 

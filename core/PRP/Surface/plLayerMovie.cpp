@@ -53,11 +53,11 @@ void plLayerMovie::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("EoaKey1");
-    fEoaKey1->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fEoaKey1);
     prc->closeTag();
 
     prc->writeSimpleTag("EoaKey2");
-    fEoaKey2->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fEoaKey2);
     prc->closeTag();
 
     prc->startTag("EoaInt");

@@ -112,7 +112,7 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Material");
-    fMaterial->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fMaterial);
     prc->closeTag();
 
     if (fAmbientCtl != NULL) {
@@ -182,20 +182,20 @@ void plParticleSystem::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Forces");
     for (size_t i=0; i<fForces.size(); i++)
-        fForces[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fForces[i]);
     prc->closeTag();
     prc->writeSimpleTag("Effects");
     for (size_t i=0; i<fEffects.size(); i++)
-        fEffects[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fEffects[i]);
     prc->closeTag();
     prc->writeSimpleTag("Constraints");
     for (size_t i=0; i<fConstraints.size(); i++)
-        fConstraints[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fConstraints[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("PermaLights");
     for (size_t i=0; i<fPermaLights.size(); i++)
-        fPermaLights[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fPermaLights[i]);
     prc->closeTag();
 }
 

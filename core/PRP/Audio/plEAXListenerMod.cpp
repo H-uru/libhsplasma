@@ -77,7 +77,7 @@ void plEAXListenerMod::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("SoftRegion");
-    fSoftRegion->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSoftRegion);
     prc->closeTag();
 
     prc->writeSimpleTag("ListenerProperties");
@@ -222,7 +222,7 @@ void plEAXReverbEffect::IPrcWrite(pfPrcHelper* prc) {
     plEAXEffect::IPrcWrite(prc);
 
     prc->writeSimpleTag("SoftRegion");
-    fSoftRegion->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSoftRegion);
     prc->closeTag();
 
     prc->writeSimpleTag("ReverbProperties");

@@ -44,7 +44,7 @@ void plClimbMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Target");
-    fTarget->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fTarget);
     prc->closeTag();
 }
 

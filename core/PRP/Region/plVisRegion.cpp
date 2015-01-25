@@ -39,10 +39,10 @@ void plVisRegion::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Region");
-    fRegion->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRegion);
     prc->closeTag();
     prc->writeSimpleTag("VisMgr");
-    fVisMgr->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fVisMgr);
     prc->closeTag();
 }
 

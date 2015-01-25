@@ -38,7 +38,7 @@ void plHardRegionComplex::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("SubRegions");
     for (size_t i=0; i<fSubRegions.size(); i++)
-        fSubRegions[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSubRegions[i]);
     prc->closeTag();
 }
 

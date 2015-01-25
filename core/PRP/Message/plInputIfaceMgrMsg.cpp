@@ -50,7 +50,7 @@ void plInputIfaceMgrMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("AvatarKey");
-    fAvKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fAvKey);
     prc->closeTag();
 }
 

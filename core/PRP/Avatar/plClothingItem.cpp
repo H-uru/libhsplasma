@@ -56,7 +56,7 @@ void plClothingItem::read(hsStream* S, plResManager* mgr) {
             if (idx < kLayerMax)
                 fTextures[i][idx] = k;
             else
-                plDebug::Warning("Throwing away key %s", k->toString().cstr());
+                plDebug::Warning("Throwing away key %s", k.toString().cstr());
         }
     }
 
@@ -142,7 +142,7 @@ void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Icon");
-    fIcon->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fIcon);
     prc->closeTag();
 
     prc->writeSimpleTag("Elements");
@@ -151,18 +151,18 @@ void plClothingItem::IPrcWrite(pfPrcHelper* prc) {
         prc->writeParam("Name", fElementNames[i]);
         prc->endTag();
         for (size_t j=0; j<kLayerMax; j++)
-            fTextures[i][j]->prcWrite(prc);
+            plResManager::PrcWriteKey(prc, fTextures[i][j]);
         prc->closeTag();
     }
     prc->closeTag();
 
     prc->writeSimpleTag("Meshes");
     for (size_t i=0; i<kNumLODLevels; i++)
-        fMeshes[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMeshes[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("Accessory");
-    fAccessory->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fAccessory);
     prc->closeTag();
 
     prc->writeSimpleTag("DefaultTints");
@@ -214,7 +214,7 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 if (j < kLayerMax)
                     fTextures[i][j] = k;
                 else
-                    plDebug::Warning("Throwing away key %s", k->toString().cstr());
+                    plDebug::Warning("Throwing away key %s", k.toString().cstr());
                 subChild = subChild->getNextSibling();
             }
             child = child->getNextSibling();

@@ -42,19 +42,19 @@ void plGameMarkerModifier::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("GreenAnim");
-    fGreenAnimKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fGreenAnimKey);
     prc->closeTag();
 
     prc->writeSimpleTag("RedAnim");
-    fRedAnimKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRedAnimKey);
     prc->closeTag();
 
     prc->writeSimpleTag("OpenAnim");
-    fOpenAnimKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fOpenAnimKey);
     prc->closeTag();
 
     prc->writeSimpleTag("BounceAnim");
-    fBounceAnimKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBounceAnimKey);
     prc->closeTag();
 
     prc->startTag("SoundIndices");

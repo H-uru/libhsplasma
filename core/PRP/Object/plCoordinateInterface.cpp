@@ -86,7 +86,7 @@ void plCoordinateInterface::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Children");
     for (size_t i=0; i<fChildren.size(); i++)
-        fChildren[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fChildren[i]);
     prc->closeTag();
 }
 

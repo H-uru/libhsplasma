@@ -74,7 +74,7 @@ void plActivePrintShape::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("DecalMgrs");
     for (size_t i=0; i<fDecalMgrs.size(); i++)
-        fDecalMgrs[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fDecalMgrs[i]);
     prc->closeTag();
 }
 

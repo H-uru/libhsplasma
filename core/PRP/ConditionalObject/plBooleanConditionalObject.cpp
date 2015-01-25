@@ -35,7 +35,7 @@ void plANDConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Children");
     for (size_t i=0; i<fChildren.size(); i++)
-        fChildren[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fChildren[i]);
     prc->closeTag();
 }
 
@@ -72,7 +72,7 @@ void plORConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Children");
     for (size_t i=0; i<fChildren.size(); i++)
-        fChildren[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fChildren[i]);
     prc->closeTag();
 }
 

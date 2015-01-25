@@ -36,7 +36,7 @@ void plSwimMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("SwimRegion");
-    fSwimRegion->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSwimRegion);
     prc->closeTag();
 }
 

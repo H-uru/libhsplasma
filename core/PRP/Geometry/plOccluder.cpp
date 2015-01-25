@@ -66,12 +66,12 @@ void plOccluder::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("SceneNode");
-    fSceneNode->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSceneNode);
     prc->closeTag();
 
     prc->writeSimpleTag("VisRegions");
     for (size_t i=0; i<fVisRegions.size(); i++)
-        fVisRegions[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fVisRegions[i]);
     prc->closeTag();
 }
 

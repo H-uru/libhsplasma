@@ -38,7 +38,7 @@ void pfGUIMultiLineEditCtrl::IPrcWrite(pfPrcHelper* prc) {
     pfGUIControlMod::IPrcWrite(prc);
 
     prc->writeSimpleTag("ScrollControl");
-    fScrollCtrl->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fScrollCtrl);
     prc->closeTag();
 }
 

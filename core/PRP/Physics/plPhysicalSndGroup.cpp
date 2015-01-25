@@ -49,12 +49,12 @@ void plPhysicalSndGroup::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("ImpactSounds");
     for (size_t i=0; i<fImpactSounds.size(); i++)
-        fImpactSounds[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fImpactSounds[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("SlideSounds");
     for (size_t i=0; i<fSlideSounds.size(); i++)
-        fSlideSounds[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSlideSounds[i]);
     prc->closeTag();
 }
 

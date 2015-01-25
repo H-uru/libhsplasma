@@ -30,7 +30,7 @@ void plAudioInterface::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Audible");
-    fAudible->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fAudible);
     prc->closeTag();
 }
 

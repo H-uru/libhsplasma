@@ -40,10 +40,10 @@ void plWinAudible::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("SoundObjects");
     for (size_t i=0; i<fSoundObjs.size(); i++)
-        fSoundObjs[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSoundObjs[i]);
     prc->closeTag();
     prc->writeSimpleTag("SceneNode");
-    fSceneNode->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSceneNode);
     prc->closeTag();
 }
 

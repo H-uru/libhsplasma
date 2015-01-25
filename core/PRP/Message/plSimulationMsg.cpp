@@ -59,7 +59,7 @@ void plSubWorldMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("WorldKey");
-    fWorldKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fWorldKey);
     prc->closeTag();
 }
 

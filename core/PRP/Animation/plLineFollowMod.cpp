@@ -70,15 +70,15 @@ void plLineFollowMod::IPrcWrite(pfPrcHelper* prc) {
       fPath->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("Parent");
-      fPathParent->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fPathParent);
     prc->closeTag();
     prc->writeSimpleTag("RefObj");
-      fRefObj->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fRefObj);
     prc->closeTag();
 
     prc->writeSimpleTag("Stereizers");
     for (size_t i=0; i<fStereizers.size(); i++)
-        fStereizers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fStereizers[i]);
     prc->closeTag();
 
     prc->startTag("LineFollowParams");

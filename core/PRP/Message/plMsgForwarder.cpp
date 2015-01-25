@@ -37,7 +37,7 @@ void plMsgForwarder::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("ForwardKeys");
     for (size_t i=0; i<fForwardKeys.size(); i++)
-        fForwardKeys[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fForwardKeys[i]);
     prc->closeTag();
 }
 

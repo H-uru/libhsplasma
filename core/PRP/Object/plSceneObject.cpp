@@ -69,29 +69,29 @@ void plSceneObject::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("DrawInterface");
-      fDrawIntf->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fDrawIntf);
     prc->closeTag();
     prc->writeSimpleTag("SimulationInterface");
-      fSimIntf->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fSimIntf);
     prc->closeTag();
     prc->writeSimpleTag("CoordinateInterface");
-      fCoordIntf->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fCoordIntf);
     prc->closeTag();
     prc->writeSimpleTag("AudioInterface");
-      fAudioIntf->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fAudioIntf);
     prc->closeTag();
 
     prc->writeSimpleTag("Interfaces");
     for (size_t i=0; i<fInterfaces.size(); i++)
-        fInterfaces[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fInterfaces[i]);
     prc->closeTag();
     prc->writeSimpleTag("Modifiers");
     for (size_t i=0; i<fModifiers.size(); i++)
-        fModifiers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fModifiers[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("SceneNode");
-      fSceneNode->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fSceneNode);
     prc->closeTag();
 }
 

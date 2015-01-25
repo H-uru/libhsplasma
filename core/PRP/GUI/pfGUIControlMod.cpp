@@ -199,10 +199,10 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("DynTextLayer");
-    fDynTextLayer->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fDynTextLayer);
     prc->closeTag();
     prc->writeSimpleTag("DynTextMap");
-    fDynTextMap->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fDynTextMap);
     prc->closeTag();
 
     if (fColorScheme != NULL) {
@@ -223,11 +223,11 @@ void pfGUIControlMod::IPrcWrite(pfPrcHelper* prc) {
 
     if (fFlags[kHasProxy]) {
         prc->writeSimpleTag("Proxy");
-        fProxy->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fProxy);
         prc->closeTag();
     }
     prc->writeSimpleTag("Skin");
-    fSkin->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSkin);
     prc->closeTag();
 }
 

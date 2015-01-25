@@ -46,7 +46,7 @@ void pfGUICheckBoxCtrl::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("AnimKeys");
     for (size_t i=0; i<fAnimKeys.size(); i++)
-        fAnimKeys[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fAnimKeys[i]);
     prc->closeTag();
 }
 

@@ -104,7 +104,7 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Material");
-    fMaterial->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fMaterial);
     prc->closeTag();
 
     prc->writeSimpleTag("Clusters");
@@ -114,12 +114,12 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Regions");
     for (size_t i=0; i<fRegions.size(); i++)
-        fRegions[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fRegions[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("Lights");
     for (size_t i=0; i<fLights.size(); i++)
-        fLights[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fLights[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("LOD");
@@ -131,7 +131,7 @@ void plClusterGroup::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("SceneNode");
-    fSceneNode->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSceneNode);
     prc->closeTag();
 }
 

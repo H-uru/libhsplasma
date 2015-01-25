@@ -43,7 +43,7 @@ void plAnimEventModifier::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Receivers");
     for (size_t i=0; i<fReceivers.size(); i++)
-        fReceivers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fReceivers[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("Callback");

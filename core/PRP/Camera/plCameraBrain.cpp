@@ -102,11 +102,11 @@ void plCameraBrain1::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Subject");
-    fSubject->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSubject);
     prc->closeTag();
 
     prc->writeSimpleTag("Rail");
-    fRail->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRail);
     prc->closeTag();
 
     prc->writeSimpleTag("Flags");
@@ -216,7 +216,7 @@ void plCameraBrain1_Fixed::IPrcWrite(pfPrcHelper* prc) {
     plCameraBrain1::IPrcWrite(prc);
 
     prc->writeSimpleTag("TargetPoint");
-    fTargetPoint->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fTargetPoint);
     prc->closeTag();
 }
 
@@ -268,11 +268,11 @@ void plCameraBrain1_Circle::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("CenterObject");
-    fCenterObject->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fCenterObject);
     prc->closeTag();
 
     prc->writeSimpleTag("POAObject");
-    fPOAObject->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fPOAObject);
     prc->closeTag();
 }
 

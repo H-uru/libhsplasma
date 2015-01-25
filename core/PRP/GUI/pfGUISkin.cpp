@@ -91,7 +91,7 @@ void pfGUISkin::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Texture");
-    fTexture->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fTexture);
     prc->closeTag();
 }
 

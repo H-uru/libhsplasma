@@ -178,7 +178,7 @@ void plMipmap::IRead(hsStream* S) {
 
     size_t realSize = IBuildLevelSizes();
     if (realSize != fTotalSize)
-        plDebug::Warning("%s: Incorrect image buffer storage size", getKey()->toString().cstr());
+        plDebug::Warning("%s: Incorrect image buffer storage size", getKey().toString().cstr());
     fImageData = new unsigned char[realSize];
 
     switch (fCompressionType) {
@@ -707,7 +707,7 @@ void plLODMipmap::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Base");
-    fBase->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBase);
     prc->closeTag();
 }
 

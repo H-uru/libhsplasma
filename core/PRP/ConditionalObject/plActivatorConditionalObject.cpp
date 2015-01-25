@@ -35,7 +35,7 @@ void plActivatorConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Activators");
     for (size_t i=0; i<fActivators.size(); i++)
-        fActivators[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fActivators[i]);
     prc->closeTag();
 }
 

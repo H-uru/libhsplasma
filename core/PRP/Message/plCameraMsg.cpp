@@ -174,10 +174,10 @@ void plCameraMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("NewCam");
-    fNewCam->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fNewCam);
     prc->closeTag();
     prc->writeSimpleTag("Triggerer");
-    fTriggerer->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fTriggerer);
     prc->closeTag();
 
     fConfig.prcWrite(prc);

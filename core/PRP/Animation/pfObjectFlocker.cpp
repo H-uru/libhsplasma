@@ -69,7 +69,7 @@ void pfObjectFlocker::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Boid");
-    fBoidKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBoidKey);
     prc->closeTag();
 
     prc->startTag("Flock");

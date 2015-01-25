@@ -61,7 +61,7 @@ void plLoadAvatarMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("SpawnPoint");
-    fSpawnPoint->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSpawnPoint);
     prc->closeTag();
 
     if (getInitialTask() != NULL) {

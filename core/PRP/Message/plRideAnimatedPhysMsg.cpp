@@ -36,7 +36,7 @@ void plRideAnimatedPhysMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Region");
     prc->writeParam("Entering", fEntering);
     prc->endTag();
-    fRegion->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRegion);
     prc->closeTag();
 }
 

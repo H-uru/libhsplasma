@@ -110,7 +110,7 @@ void plPythonMod::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Receivers");
     for (size_t i=0; i<fReceivers.size(); i++)
-        fReceivers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fReceivers[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("NotetrackRecs");
@@ -120,11 +120,11 @@ void plPythonMod::IPrcWrite(pfPrcHelper* prc) {
         prc->endTag();
 
         prc->writeSimpleTag("ObjKey");
-        fAnimNotetracks[i].objKey->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fAnimNotetracks[i].objKey);
         prc->closeTag();
 
         prc->writeSimpleTag("ModKey");
-        fAnimNotetracks[i].modKey->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fAnimNotetracks[i].modKey);
         prc->closeTag();
 
         prc->closeTag();
@@ -148,7 +148,7 @@ void plPythonMod::IPrcWrite(pfPrcHelper* prc) {
         prc->endTag();
 
         prc->writeSimpleTag("ModKey");
-        fMaterialAnim[i].modKey->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMaterialAnim[i].modKey);
         prc->closeTag();
 
         prc->closeTag();

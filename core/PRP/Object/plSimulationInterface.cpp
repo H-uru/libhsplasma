@@ -58,7 +58,7 @@ void plSimulationInterface::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Physical");
-    fPhysical->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fPhysical);
     prc->closeTag();
 }
 

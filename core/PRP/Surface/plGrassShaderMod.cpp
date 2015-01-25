@@ -80,7 +80,7 @@ void plGrassShaderMod::IPrcWrite(pfPrcHelper* prc) {
     plModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Material");
-    fMaterial->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fMaterial);
     prc->closeTag();
 
     prc->writeSimpleTag("Waves");

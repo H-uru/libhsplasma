@@ -113,6 +113,20 @@ plKey plResManager::prcParseKeyNotify(const pfPrcTag* tag, plKeyData::AfterLoadC
     return key;
 }
 
+void plResManager::PrcWriteKey(pfPrcHelper* prc, plKey key) {
+    if (!key.Exists() || !key->getLocation().isValid()) {
+        prc->startTag("plKey");
+        prc->writeParam("NULL", true);
+        prc->endTag(true);
+    } else {
+        key->prcWriteUoid(prc);
+    }
+}
+
+void plResManager::PrcWriteKey(pfPrcHelper* prc, hsKeyedObject* ko) {
+    PrcWriteKey(prc, ko->getKey());
+}
+
 hsKeyedObject* plResManager::getObject(plKey key) {
     plKey fk = keys.findKey(key);
     if (!fk.Exists())
@@ -539,16 +553,16 @@ unsigned int plResManager::ReadObjects(hsStream* S, const plLocation& loc) {
                 }
             } catch (const hsException& e) {
                 plDebug::Error("Failed reading %s: %s",
-                               kList[j]->toString().cstr(), e.what());
+                               kList[j].toString().cstr(), e.what());
                 plDebug::Error("Failure on line %s:%d", e.File(), e.Line());
                 kList[j]->deleteObj();
             } catch (const std::exception& e) {
                 plDebug::Error("Failed reading %s: %s",
-                               kList[j]->toString().cstr(), e.what());
+                               kList[j].toString().cstr(), e.what());
                 kList[j]->deleteObj();
             } catch (...) {
                 plDebug::Error("Undefined error reading %s",
-                               kList[j]->toString().cstr());
+                               kList[j].toString().cstr());
                 kList[j]->deleteObj();
             }
             delete subStream;
@@ -576,25 +590,25 @@ unsigned int plResManager::WriteObjects(hsStream* S, const plLocation& loc) {
             if (kList[j]->getObj() != NULL) {
                 try {
 #ifdef RMTRACE
-                    plDebug::Debug("  * (%d) Writing %s @ 0x%08X", j, kList[j]->getName().cstr(),
+                    plDebug::Debug("  * (%d) Writing %s @ 0x%08X", j, kList[j].getName().cstr(),
                                    kList[j]->getFileOff());
 #endif
                     WriteCreatable(S, kList[j]->getObj());
                     nWritten++;
                 } catch (const hsException &e) {
                     plDebug::Error("Failed writing %s: %s",
-                                   kList[j]->toString().cstr(), e.what());
+                                   kList[j].toString().cstr(), e.what());
                     plDebug::Error("Failure on line %s:%d", e.File(), e.Line());
                 } catch (const std::exception &e) {
                     plDebug::Error("Failed writing %s: %s",
-                                   kList[j]->toString().cstr(), e.what());
+                                   kList[j].toString().cstr(), e.what());
                 } catch (...) {
                     plDebug::Error("Undefined error writing %s",
-                                   kList[j]->toString().cstr());
+                                   kList[j].toString().cstr());
                 }
             } else {
                 WriteCreatable(S, NULL);
-                plDebug::Warning("Object for %s does not exist", kList[j]->toString().cstr());
+                plDebug::Warning("Object for %s does not exist", kList[j].toString().cstr());
             }
             kList[j]->setObjSize(S->pos() - kList[j]->getFileOff());
         }

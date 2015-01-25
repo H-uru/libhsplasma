@@ -44,7 +44,7 @@ void plVehicleModifier::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("Root");
-    fRoot->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRoot);
     prc->closeTag();
 
     prc->writeSimpleTag("Wheels");
@@ -52,7 +52,7 @@ void plVehicleModifier::IPrcWrite(pfPrcHelper* prc) {
         prc->startTag("Wheel");
         prc->writeParam("Radius", fWheels[i].fRadius);
         prc->endTag();
-          fWheels[i].fWheelObj->prcWrite(prc);
+          plResManager::PrcWriteKey(prc, fWheels[i].fWheelObj);
           prc->writeSimpleTag("Position");
           fWheels[i].fPosition.prcWrite(prc);
           prc->closeTag();

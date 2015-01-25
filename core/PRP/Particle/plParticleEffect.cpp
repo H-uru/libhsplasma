@@ -30,7 +30,7 @@ void plParticleCollisionEffect::write(hsStream* S, plResManager* mgr) {
 void plParticleCollisionEffect::IPrcWrite(pfPrcHelper* prc) {
     hsKeyedObject::IPrcWrite(prc);
     prc->writeSimpleTag("SceneObject");
-    fSceneObj->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSceneObj);
     prc->closeTag();
 }
 

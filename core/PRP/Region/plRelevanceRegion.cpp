@@ -30,7 +30,7 @@ void plRelevanceRegion::IPrcWrite(pfPrcHelper* prc) {
     plObjInterface::IPrcWrite(prc);
 
     prc->writeSimpleTag("Region");
-    fRegion->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRegion);
     prc->closeTag();
 }
 

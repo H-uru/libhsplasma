@@ -41,10 +41,10 @@ void pfGUIUpDownPairMod::IPrcWrite(pfPrcHelper* prc) {
     pfGUIValueCtrl::IPrcWrite(prc);
 
     prc->writeSimpleTag("UpControl");
-    fUpControl->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fUpControl);
     prc->closeTag();
     prc->writeSimpleTag("DownControl");
-    fDownControl->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fDownControl);
     prc->closeTag();
 }
 

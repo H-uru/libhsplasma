@@ -43,7 +43,7 @@ void plArmatureEffectFootSound::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("SoundMods");
     for (size_t i=0; i<fMods.size(); i++)
-        fMods[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMods[i]);
     prc->closeTag();
 }
 
@@ -90,7 +90,7 @@ void plArmatureEffectsMgr::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Effects");
     for (size_t i=0; i<fEffects.size(); i++)
-        fEffects[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fEffects[i]);
     prc->closeTag();
 }
 

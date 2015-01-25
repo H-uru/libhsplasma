@@ -30,7 +30,7 @@ void plLayerInterface::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("BaseLayer");
-    fUnderLay->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fUnderLay);
     prc->closeTag();
 }
 

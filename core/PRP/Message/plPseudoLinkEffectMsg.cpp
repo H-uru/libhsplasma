@@ -32,11 +32,11 @@ void plPseudoLinkEffectMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("LinkObject");
-    fLinkObjKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fLinkObjKey);
     prc->closeTag();
 
     prc->writeSimpleTag("Avatar");
-    fAvatarKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fAvatarKey);
     prc->closeTag();
 }
 

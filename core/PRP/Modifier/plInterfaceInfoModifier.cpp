@@ -37,7 +37,7 @@ void plInterfaceInfoModifier::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Keys");
     for (size_t i=0; i<fKeyList.size(); i++)
-        fKeyList[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fKeyList[i]);
     prc->closeTag();
 }
 

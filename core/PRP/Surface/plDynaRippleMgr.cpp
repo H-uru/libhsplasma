@@ -68,7 +68,7 @@ void plDynaRippleVSMgr::IPrcWrite(pfPrcHelper* prc) {
     plDynaRippleMgr::IPrcWrite(prc);
 
     prc->writeSimpleTag("WaveSet");
-    fWaveSetBase->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fWaveSetBase);
     prc->closeTag();
 }
 
@@ -97,7 +97,7 @@ void plDynaTorpedoVSMgr::IPrcWrite(pfPrcHelper* prc) {
     plDynaTorpedoMgr::IPrcWrite(prc);
 
     prc->writeSimpleTag("WaveSet");
-    fWaveSetBase->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fWaveSetBase);
     prc->closeTag();
 }
 

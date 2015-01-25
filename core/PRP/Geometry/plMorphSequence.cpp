@@ -50,7 +50,7 @@ void plMorphSequence::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("SharedMeshes");
     for (size_t i=0; i<fSharedMeshes.size(); i++)
-        fSharedMeshes[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSharedMeshes[i]);
     prc->closeTag();
 }
 

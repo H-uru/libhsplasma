@@ -52,13 +52,13 @@ void plDrawInterface::IPrcWrite(pfPrcHelper* prc) {
         prc->startTag("Drawable");
         prc->writeParam("key", fDrawableKeys[i]);
         prc->endTag();
-        fDrawables[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fDrawables[i]);
         prc->closeTag();
     }
     prc->closeTag();
     prc->writeSimpleTag("Regions");
     for (size_t i=0; i<fRegions.size(); i++)
-        fRegions[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fRegions[i]);
     prc->closeTag();
 }
 
@@ -124,7 +124,7 @@ void plInstanceDrawInterface::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("Target");
     prc->writeParam("ID", fTargetID);
     prc->endTag();
-    fDrawable->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fDrawable);
     prc->closeTag();
 }
 

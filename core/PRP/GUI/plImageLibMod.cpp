@@ -37,7 +37,7 @@ void plImageLibMod::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Images");
     for (size_t i=0; i<fImages.size(); i++)
-        fImages[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fImages[i]);
     prc->closeTag();
 }
 

@@ -98,31 +98,31 @@ void plLadderModifier::IPrcWrite(pfPrcHelper* prc) {
     plSingleModifier::IPrcWrite(prc);
 
     prc->writeSimpleTag("TopLogic");
-    fTopLogic->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fTopLogic);
     prc->closeTag();
 
     prc->writeSimpleTag("BottomLogic");
-    fBottomLogic->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBottomLogic);
     prc->closeTag();
 
     prc->writeSimpleTag("MainLogic");
-    fMainLogic->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fMainLogic);
     prc->closeTag();
 
     prc->writeSimpleTag("ExitTop");
-    fExitTop->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fExitTop);
     prc->closeTag();
 
     prc->writeSimpleTag("ExitBottom");
-    fExitBottom->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fExitBottom);
     prc->closeTag();
 
     prc->writeSimpleTag("TopPos");
-    fTopPos->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fTopPos);
     prc->closeTag();
 
     prc->writeSimpleTag("BottomPos");
-    fBottomPos->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBottomPos);
     prc->closeTag();
 }
 

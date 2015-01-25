@@ -65,7 +65,7 @@ void plSubworldRegionDetector::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Subworld");
-    fSub->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSub);
     prc->closeTag();
 }
 

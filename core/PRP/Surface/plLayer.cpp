@@ -88,13 +88,13 @@ void plLayer::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Texture");
-      fTexture->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fTexture);
     prc->closeTag();
     prc->writeSimpleTag("VertexShader");
-      fVertexShader->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fVertexShader);
     prc->closeTag();
     prc->writeSimpleTag("PixelShader");
-      fPixelShader->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fPixelShader);
     prc->closeTag();
 
     prc->writeSimpleTag("BumpEnvXfm");

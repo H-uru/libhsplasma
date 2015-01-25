@@ -59,7 +59,7 @@ void plPostEffectMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("SceneNode");
-    fNodeKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fNodeKey);
     prc->closeTag();
 
     prc->writeSimpleTag("DefaultW2C");

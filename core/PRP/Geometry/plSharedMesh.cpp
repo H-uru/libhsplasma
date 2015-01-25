@@ -52,7 +52,7 @@ void plSharedMesh::IPrcWrite(pfPrcHelper* prc) {
         fSpans[i]->prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("MorphSet");
-    fMorphSet->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fMorphSet);
     prc->closeTag();
     prc->startTag("Flags");
     prc->writeParamHex("value", fFlags);

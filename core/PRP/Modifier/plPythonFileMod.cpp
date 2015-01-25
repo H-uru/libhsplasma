@@ -124,7 +124,7 @@ void plPythonParameter::prcWrite(pfPrcHelper* prc) {
         return;
     default:
         prc->endTag(false);
-        fObjKey->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fObjKey);
         prc->closeTag();
         return;
     }
@@ -261,7 +261,7 @@ void plPythonFileMod::IPrcWrite(pfPrcHelper* prc) {
     size_t i;
     prc->writeSimpleTag("Receivers");
     for (i=0; i<fReceivers.size(); i++)
-        fReceivers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fReceivers[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("Parameters");

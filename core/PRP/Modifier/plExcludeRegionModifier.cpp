@@ -46,7 +46,7 @@ void plExcludeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("SafePoints");
     for (size_t i=0; i<fSafePoints.size(); i++)
-        fSafePoints[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSafePoints[i]);
     prc->closeTag();
 }
 

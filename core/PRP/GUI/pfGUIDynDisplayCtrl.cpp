@@ -57,17 +57,17 @@ void pfGUIDynDisplayCtrl::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("TextMaps");
     for (size_t i=0; i<fTextMaps.size(); i++)
-        fTextMaps[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fTextMaps[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("Layers");
     for (size_t i=0; i<fLayers.size(); i++)
-        fLayers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fLayers[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("Materials");
     for (size_t i=0; i<fMaterials.size(); i++)
-        fMaterials[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMaterials[i]);
     prc->closeTag();
 }
 

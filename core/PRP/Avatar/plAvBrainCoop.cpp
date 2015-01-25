@@ -73,16 +73,16 @@ void plAvBrainCoop::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Host");
-    fHostKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fHostKey);
     prc->closeTag();
 
     prc->writeSimpleTag("Guest");
-    fGuestKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fGuestKey);
     prc->closeTag();
 
     prc->writeSimpleTag("Recipients");
     for (size_t i=0; i<fRecipients.size(); i++)
-        fRecipients[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fRecipients[i]);
     prc->closeTag();
 }
 

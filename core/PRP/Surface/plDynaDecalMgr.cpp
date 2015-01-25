@@ -83,20 +83,20 @@ void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("PreShade");
-    fMatPreShade->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fMatPreShade);
     prc->closeTag();
     prc->writeSimpleTag("RTShade");
-    fMatRTShade->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fMatRTShade);
     prc->closeTag();
 
     prc->writeSimpleTag("Targets");
     for (size_t i=0; i<fTargets.size(); i++)
-        fTargets[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fTargets[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("PartyObjects");
     for (size_t i=0; i<fPartyObjects.size(); i++)
-        fPartyObjects[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fPartyObjects[i]);
     prc->closeTag();
 
     prc->startTag("DynaDecalParams");
@@ -124,7 +124,7 @@ void plDynaDecalMgr::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Notifies");
     for (size_t i=0; i<fNotifies.size(); i++)
-        fNotifies[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fNotifies[i]);
     prc->closeTag();
 }
 

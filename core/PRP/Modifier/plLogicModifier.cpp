@@ -46,7 +46,7 @@ void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Conditions");
     for (size_t i=0; i<fConditionList.size(); i++)
-        fConditionList[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fConditionList[i]);
     prc->closeTag();
 
     prc->startTag("LogicModifierParams");
@@ -54,7 +54,7 @@ void plLogicModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Parent");
-    fParent->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fParent);
     prc->closeTag();
 }
 

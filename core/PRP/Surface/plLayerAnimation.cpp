@@ -188,7 +188,7 @@ void plLayerLinkAnimation::IPrcWrite(pfPrcHelper* prc) {
     prc->startTag("LinkTo");
     prc->writeParam("LeavingAge", fLeavingAge);
     prc->endTag();
-    fLinkKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fLinkKey);
     prc->closeTag();
 }
 

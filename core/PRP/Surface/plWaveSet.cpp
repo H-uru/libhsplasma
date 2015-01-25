@@ -83,20 +83,20 @@ void plWaveSet7::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Shores");
     for (size_t i=0; i<fShores.size(); i++)
-        fShores[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fShores[i]);
     prc->closeTag();
     prc->writeSimpleTag("Decals");
     for (size_t i=0; i<fDecals.size(); i++)
-        fDecals[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fDecals[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("EnvMap");
-    fEnvMap->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fEnvMap);
     prc->closeTag();
 
     if (fFlags[kHasRefObject]) {
         prc->writeSimpleTag("RefObject");
-        fRefObj->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fRefObj);
         prc->closeTag();
     }
 }

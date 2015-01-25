@@ -62,7 +62,7 @@ void plViewFaceModifier::IPrcWrite(pfPrcHelper* prc) {
 
     if (fFlags[kFaceObj]) {
         prc->writeSimpleTag("FaceObj");
-        fFaceObj->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fFaceObj);
         prc->closeTag();
     }
 

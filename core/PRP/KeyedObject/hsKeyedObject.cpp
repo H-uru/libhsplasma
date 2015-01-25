@@ -45,7 +45,7 @@ void hsKeyedObject::write(hsStream* S, plResManager* mgr) {
 }
 
 void hsKeyedObject::IPrcWrite(pfPrcHelper* prc) {
-    myKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, myKey);
 }
 
 void hsKeyedObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {

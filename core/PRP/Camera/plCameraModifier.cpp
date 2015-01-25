@@ -56,7 +56,7 @@ void plCameraModifier::CamTrans::prcWrite(pfPrcHelper* prc) {
     prc->writeParam("POADecel", fPOADecel);
     prc->endTag();
       prc->writeSimpleTag("TransTo");
-      fTransTo->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fTransTo);
       prc->closeTag();
     prc->closeTag();
 }
@@ -168,7 +168,7 @@ void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Brain");
-    fBrain->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBrain);
     prc->closeTag();
 
     prc->writeSimpleTag("Transforms");
@@ -182,7 +182,7 @@ void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
         fMessageQueue[i]->prcWrite(prc);
         prc->closeTag();
         prc->writeSimpleTag("Sender");
-        fSenderQueue[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSenderQueue[i]);
         prc->closeTag();
     }
     prc->closeTag();

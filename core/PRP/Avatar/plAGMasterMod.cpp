@@ -83,19 +83,19 @@ void plAGMasterMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("IsGroupMaster", fIsGroupMaster);
     prc->endTag();
     prc->writeSimpleTag("MsgForwarder");
-    fMsgForwarder->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fMsgForwarder);
     prc->closeTag();
     prc->closeTag();
 
     prc->writeSimpleTag("PrivateAnims");
     for (size_t i=0; i<fPrivateAnims.size(); i++)
-        fPrivateAnims[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fPrivateAnims[i]);
     prc->closeTag();
 
     prc->writeComment("Unknown EoA/HexIsle Keys");
     prc->writeSimpleTag("EoaKeys");
     for (size_t i=0; i<fEoaKeys2.size(); i++)
-        fEoaKeys2[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fEoaKeys2[i]);
     prc->closeTag();
 }
 

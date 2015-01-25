@@ -89,7 +89,7 @@ void pfGUIPopUpMenu::IPrcWrite(pfPrcHelper* prc) {
         prc->closeTag();
 
         prc->writeSimpleTag("SubMenu");
-        fMenuItems[i].fSubMenu->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMenuItems[i].fSubMenu);
         prc->closeTag();
 
         prc->closeTag();
@@ -97,13 +97,13 @@ void pfGUIPopUpMenu::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Skin");
-    fSkin->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSkin);
     prc->closeTag();
     prc->writeSimpleTag("OriginAnchor");
-    fOriginAnchor->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fOriginAnchor);
     prc->closeTag();
     prc->writeSimpleTag("OriginContext");
-    fOriginContext->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fOriginContext);
     prc->closeTag();
 }
 

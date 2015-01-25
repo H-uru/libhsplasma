@@ -56,16 +56,16 @@ void plClothingOutfit::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Base");
-    fBase->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBase);
     prc->closeTag();
 
     if (fGroup != kClothingGroupNoOptions) {
         prc->writeSimpleTag("TargetTexture");
-        fTargetTexture->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fTargetTexture);
         prc->closeTag();
 
         prc->writeSimpleTag("Material");
-        fMaterial->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMaterial);
         prc->closeTag();
     }
 }
@@ -125,7 +125,7 @@ void plClothingBase::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("BaseTexture");
-    fBaseTexture->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBaseTexture);
     prc->closeTag();
 }
 

@@ -82,13 +82,6 @@ public:
     bool operator==(plKeyData& other) const { return (fUoid == other.fUoid); }
 
     /**
-     * Converts the key to a string.  If the key is empty, returns "NULL",
-     * otherwise, returns the plUoid's string representation.
-     * \sa plUoid::toString()
-     */
-    plString toString() const;
-
-    /**
      * Read a key directly from the key index of a PRP file.  This will
      * include the file offset and size where the hsKeyedObject is stored.
      * You generally shouldn't use this directly, but rather use the
@@ -124,11 +117,9 @@ public:
 
     /**
      * Write a plKey tag describing this key into the PRC document.
-     * Unlike the other reading and writing functions, you can use
-     * this directly to write keys to PRC output.
      * \sa PrcParse()
      */
-    void prcWrite(pfPrcHelper* prc);
+    void prcWriteUoid(pfPrcHelper* prc);
 
     /**
      * Parse a plKey tag from the PRC document into this structure.
@@ -141,6 +132,9 @@ public:
 public:
     /** Returns the plUoid that describes the object */
     plUoid& getUoid() { return fUoid; }
+
+    /** Returns the plUoid that describes the object */
+    const plUoid& getUoid() const { return fUoid; }
 
     /** Returns a pointer to the object referenced by this key */
     class hsKeyedObject* getObj() { return fObjPtr; }
@@ -331,6 +325,13 @@ public:
      * return true!
      */
     bool isLoaded() const;
+
+    /**
+     * Converts the key to a string.  If the key is empty, returns "NULL",
+     * otherwise, returns the plUoid's string representation.
+     * \sa plUoid::toString()
+     */
+    plString toString() const;
 };
 
 #endif

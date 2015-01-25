@@ -141,6 +141,12 @@ public:
      */
     plKey prcParseKeyNotify(const pfPrcTag* tag, plKeyData::AfterLoadCallback callback);
 
+    /** Write a plKey to a PRC document. */
+    static void PrcWriteKey(pfPrcHelper* prc, plKey key);
+
+    /** Write the plKey that describes the specified hsKeyedObject to a PRC document. */
+    static void PrcWriteKey(pfPrcHelper* prc, hsKeyedObject* ko);
+
     /**
      * Find and return the object referenced by key, or NULL if the key
      * either doesn't exist or isn't loaded.  This uses the ResManager's

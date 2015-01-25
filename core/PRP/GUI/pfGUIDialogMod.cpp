@@ -66,20 +66,20 @@ void pfGUIDialogMod::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("RenderMod");
-    fRenderMod->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRenderMod);
     prc->closeTag();
 
     prc->writeSimpleTag("Controls");
     for (size_t i=0; i<fControls.size(); i++)
-        fControls[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fControls[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("ProcReceiver");
-    fProcReceiver->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fProcReceiver);
     prc->closeTag();
     fColorScheme.prcWrite(prc);
     prc->writeSimpleTag("SceneNode");
-    fSceneNode->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSceneNode);
     prc->closeTag();
 }
 

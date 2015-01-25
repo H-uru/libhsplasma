@@ -64,7 +64,7 @@ void plAvSeekMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("SeekPoint");
-    fSeekPoint->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSeekPoint);
     if (fSeekPoint.Exists()) {
         prc->writeSimpleTag("TargetPos");
         fTargetPos.prcWrite(prc);
@@ -76,7 +76,7 @@ void plAvSeekMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("FinishKey");
-    fFinishKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fFinishKey);
     prc->closeTag();
 }
 

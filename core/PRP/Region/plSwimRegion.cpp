@@ -87,7 +87,7 @@ void plSwimCircularCurrentRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Current");
-    fCurrentObj->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fCurrentObj);
     prc->closeTag();
 }
 
@@ -139,7 +139,7 @@ void plSwimStraightCurrentRegion::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Current");
-    fCurrentObj->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fCurrentObj);
     prc->closeTag();
 }
 

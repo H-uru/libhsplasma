@@ -46,11 +46,11 @@ void plLinkEffectsTriggerMsg::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("LinkKey");
-    fLinkKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fLinkKey);
     prc->closeTag();
 
     prc->writeSimpleTag("LinkInAnimKey");
-    fLinkInAnimKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fLinkInAnimKey);
     prc->closeTag();
 }
 

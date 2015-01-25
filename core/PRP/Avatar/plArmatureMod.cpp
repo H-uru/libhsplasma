@@ -66,10 +66,10 @@ void plArmatureModBase::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Meshes");
     for (size_t i=0; i<fMeshKeys.size(); i++) {
         prc->writeSimpleTag("Mesh");
-        fMeshKeys[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMeshKeys[i]);
         prc->writeSimpleTag("UnusedBones");
         for (size_t j=0; j<fUnusedBones[i].size(); j++)
-            fUnusedBones[i][j]->prcWrite(prc);
+            plResManager::PrcWriteKey(prc, fUnusedBones[i][j]);
         prc->closeTag(); // UnusedBones
         prc->closeTag(); // Mesh
     }
@@ -81,7 +81,7 @@ void plArmatureModBase::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("Detector");
-    fDetector->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fDetector);
     prc->closeTag();
 }
 
@@ -235,7 +235,7 @@ void plArmatureMod::IPrcWrite(pfPrcHelper* prc) {
     plArmatureModBase::IPrcWrite(prc);
 
     prc->writeSimpleTag("DefaultMesh");
-    fDefaultMesh->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fDefaultMesh);
     prc->closeTag();
 
     prc->startTag("ArmatureParams");
@@ -264,11 +264,11 @@ void plArmatureMod::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();*/
 
     prc->writeSimpleTag("ClothingOutfit");
-    fClothingOutfit->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fClothingOutfit);
     prc->closeTag();
 
     prc->writeSimpleTag("Effects");
-    fEffects->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fEffects);
     prc->closeTag();
 }
 
@@ -343,10 +343,10 @@ void plArmatureLODMod::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Meshes");
     for (size_t i=0; i<fMeshKeys.size(); i++) {
         prc->writeSimpleTag("Mesh");
-        fMeshKeys[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMeshKeys[i]);
         prc->writeSimpleTag("UnusedBones");
         for (size_t j=0; j<fUnusedBones[i].size(); j++)
-            fUnusedBones[i][j]->prcWrite(prc);
+            plResManager::PrcWriteKey(prc, fUnusedBones[i][j]);
         prc->closeTag(); // UnusedBones
         prc->closeTag(); // Mesh
     }

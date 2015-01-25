@@ -41,7 +41,7 @@ void plOneShotCallbacks::prcWrite(pfPrcHelper* prc) {
         prc->writeParam("Marker", fCallbacks[i].fMarker);
         prc->writeParam("User", fCallbacks[i].fUser);
         prc->endTag();
-        fCallbacks[i].fReceiver->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fCallbacks[i].fReceiver);
         prc->closeTag();
     }
     prc->closeTag();

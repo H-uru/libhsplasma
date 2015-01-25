@@ -43,7 +43,7 @@ void plSittingModifier::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("NotifyKeys");
     for (size_t i=0; i<fNotifyKeys.size(); i++)
-        fNotifyKeys[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fNotifyKeys[i]);
     prc->closeTag();
 }
 

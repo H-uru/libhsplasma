@@ -40,12 +40,12 @@ void plMessage::IMsgWrite(hsStream* S, plResManager* mgr) {
 
 void plMessage::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Sender");
-    fSender->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSender);
     prc->closeTag();
 
     prc->writeSimpleTag("Receivers");
     for (size_t i=0; i<fReceivers.size(); i++)
-        fReceivers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fReceivers[i]);
     prc->closeTag();
 
     prc->startTag("MessageParams");

@@ -128,7 +128,7 @@ void plSoftVolumeComplex::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("SubVolumes");
     for (size_t i=0; i<fSubVolumes.size(); i++)
-        fSubVolumes[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSubVolumes[i]);
     prc->closeTag();
 }
 

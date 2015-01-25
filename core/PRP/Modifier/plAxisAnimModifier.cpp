@@ -115,13 +115,13 @@ void plAxisAnimModifier::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("XAnim");
-    fXAnim->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fXAnim);
     prc->closeTag();
     prc->writeSimpleTag("YAnim");
-    fYAnim->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fYAnim);
     prc->closeTag();
     prc->writeSimpleTag("NotificationKey");
-    fNotificationKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fNotificationKey);
     prc->closeTag();
 
     prc->writeSimpleTag("Notify");

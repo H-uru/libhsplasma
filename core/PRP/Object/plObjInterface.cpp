@@ -32,7 +32,7 @@ void plObjInterface::IPrcWrite(pfPrcHelper* prc) {
     plSynchedObject::IPrcWrite(prc);
 
     prc->writeSimpleTag("Owner");
-    fOwner->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fOwner);
     prc->closeTag();
 
     prc->writeSimpleTag("Properties");

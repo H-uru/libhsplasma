@@ -21,12 +21,6 @@
 #include "Debug/plDebug.h"
 
 /* plKeyData */
-plString plKeyData::toString() const {
-    if (this == NULL)
-        return "NULL";
-    return fUoid.toString();
-}
-
 void plKeyData::read(hsStream* S) {
     fUoid.read(S);
     fFileOff = S->readInt();
@@ -39,14 +33,8 @@ void plKeyData::write(hsStream* S) {
     S->writeInt(fObjSize);
 }
 
-void plKeyData::prcWrite(pfPrcHelper* prc) {
-    if (this == NULL || !getLocation().isValid()) {
-        prc->startTag("plKey");
-        prc->writeParam("NULL", true);
-        prc->endTag(true);
-    } else {
-        fUoid.prcWrite(prc);
-    }
+void plKeyData::prcWriteUoid(pfPrcHelper* prc) {
+    fUoid.prcWrite(prc);
 }
 
 plKeyData* plKeyData::PrcParse(const pfPrcTag* tag) {
@@ -140,4 +128,10 @@ bool plKey::isLoaded() const {
     if (!Exists())
         return true;
     return fKeyData->getObj() != NULL;
+}
+
+plString plKey::toString() const {
+    if (!Exists())
+        return "NULL";
+    return fKeyData->getUoid().toString();
 }

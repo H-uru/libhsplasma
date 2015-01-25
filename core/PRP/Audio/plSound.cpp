@@ -168,13 +168,13 @@ void plSound::IPrcWrite(pfPrcHelper* prc) {
       fFadeOutParams.prcWrite(prc);
     prc->closeTag();
     prc->writeSimpleTag("SoftRegion");
-      fSoftRegion->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fSoftRegion);
     prc->closeTag();
     prc->writeSimpleTag("DataBuffer");
-      fDataBuffer->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fDataBuffer);
     prc->closeTag();
     prc->writeSimpleTag("SoftOcclusionRegion");
-      fSoftOcclusionRegion->prcWrite(prc);
+      plResManager::PrcWriteKey(prc, fSoftOcclusionRegion);
     prc->closeTag();
 
     fEAXSettings.prcWrite(prc);

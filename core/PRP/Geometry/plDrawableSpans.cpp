@@ -224,7 +224,7 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Materials");
     for (size_t i=0; i<fMaterials.size(); i++)
-        fMaterials[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fMaterials[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("Icicles");
@@ -248,7 +248,7 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("FogEnvironments");
     for (size_t i=0; i<fSpans.size(); i++)
-        fSpans[i]->getFogEnvironment()->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSpans[i]->getFogEnvironment());
     prc->closeTag();
 
     if (fSpans.size() > 0) {
@@ -269,13 +269,13 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
         if (fSpans[i]->getProps() & plSpan::kPropHasPermaLights) {
             prc->writeSimpleTag("PermaLights");
             for (size_t j=0; j<fSpans[i]->getPermaLights().size(); j++)
-                fSpans[i]->getPermaLights()[j]->prcWrite(prc);
+                plResManager::PrcWriteKey(prc, fSpans[i]->getPermaLights()[j]);
             prc->closeTag();
         }
         if (fSpans[i]->getProps() & plSpan::kPropHasPermaProjs) {
             prc->writeSimpleTag("PermaProjs");
             for (size_t j=0; j<fSpans[i]->getPermaProjs().size(); j++)
-                fSpans[i]->getPermaProjs()[j]->prcWrite(prc);
+                plResManager::PrcWriteKey(prc, fSpans[i]->getPermaProjs()[j]);
             prc->closeTag();
         }
         prc->closeTag();
@@ -331,7 +331,7 @@ void plDrawableSpans::IPrcWrite(pfPrcHelper* prc) {
     prc->closeTag();
 
     prc->writeSimpleTag("SceneNode");
-    fSceneNode->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSceneNode);
     prc->closeTag();
 }
 

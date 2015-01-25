@@ -54,11 +54,11 @@ void hsGMaterial::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("Layers");
     for (size_t i=0; i<fLayers.size(); i++)
-        fLayers[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fLayers[i]);
     prc->closeTag();
     prc->writeSimpleTag("PiggyBacks");
     for (size_t i=0; i<fPiggyBacks.size(); i++)
-        fPiggyBacks[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fPiggyBacks[i]);
     prc->closeTag();
 }
 

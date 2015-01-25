@@ -44,7 +44,7 @@ void pfGUIRadioGroupCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Default", fDefaultValue);
     prc->endTag();
     for (size_t i=0; i<fControls.size(); i++)
-        fControls[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fControls[i]);
     prc->closeTag();
 }
 

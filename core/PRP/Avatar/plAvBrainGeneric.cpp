@@ -132,7 +132,7 @@ void plAvBrainGeneric::IPrcWrite(pfPrcHelper* prc) {
     }
 
     prc->writeSimpleTag("Recipient");
-    fRecipient->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRecipient);
     prc->closeTag();
 }
 

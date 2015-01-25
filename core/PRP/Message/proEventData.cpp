@@ -114,10 +114,10 @@ void proCollisionEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Hitter");
-    fHitter->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fHitter);
     prc->closeTag();
     prc->writeSimpleTag("Hittee");
-    fHittee->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fHittee);
     prc->closeTag();
 }
 
@@ -157,10 +157,10 @@ void proPickedEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Picker");
-    fPicker->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fPicker);
     prc->closeTag();
     prc->writeSimpleTag("Picked");
-    fPicked->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fPicked);
     prc->closeTag();
     prc->writeSimpleTag("HitPoint");
     fHitPoint.prcWrite(prc);
@@ -234,7 +234,7 @@ void proVariableEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("DataType", fDataType);
     prc->writeParam("Number", fNumber);
     prc->endTag();
-    fKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fKey);
     prc->closeTag();
 }
 
@@ -273,10 +273,10 @@ void proFacingEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Facer");
-    fFacer->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fFacer);
     prc->closeTag();
     prc->writeSimpleTag("Facee");
-    fFacee->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fFacee);
     prc->closeTag();
 }
 
@@ -315,10 +315,10 @@ void proContainedEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Contained");
-    fContained->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fContained);
     prc->closeTag();
     prc->writeSimpleTag("Container");
-    fContainer->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fContainer);
     prc->closeTag();
 }
 
@@ -433,7 +433,7 @@ void proMultiStageEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Avatar");
-    fAvatar->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fAvatar);
     prc->closeTag();
 }
 
@@ -463,10 +463,10 @@ void proSpawnedEventData::IWrite(hsStream* S, plResManager* mgr) {
 
 void proSpawnedEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Spawner");
-    fSpawner->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSpawner);
     prc->closeTag();
     prc->writeSimpleTag("Spawnee");
-    fSpawnee->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSpawnee);
     prc->closeTag();
 }
 
@@ -531,7 +531,7 @@ void proOfferLinkBookEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Offerer");
-    fOfferer->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fOfferer);
     prc->closeTag();
 }
 
@@ -587,7 +587,7 @@ void proClimbingBlockerHitEventData::IWrite(hsStream* S, plResManager* mgr) {
 
 void proClimbingBlockerHitEventData::IPrcWrite(pfPrcHelper* prc) {
     prc->writeSimpleTag("Blocker");
-    fBlockerKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fBlockerKey);
     prc->closeTag();
 }
 

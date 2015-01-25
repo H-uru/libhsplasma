@@ -48,11 +48,11 @@ void plLoadCloneMsg::IPrcWrite(pfPrcHelper* prc) {
     plMessage::IPrcWrite(prc);
 
     prc->writeSimpleTag("CloneKey");
-    fCloneKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fCloneKey);
     prc->closeTag();
 
     prc->writeSimpleTag("RequestorKey");
-    fRequestorKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fRequestorKey);
     prc->closeTag();
 
     prc->startTag("LoadCloneParams");

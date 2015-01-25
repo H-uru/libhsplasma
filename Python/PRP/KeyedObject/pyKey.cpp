@@ -35,7 +35,7 @@ static PyObject* pyKey_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
 }
 
 static PyObject* pyKey_Repr(pyKey* self) {
-    plString repr = plString::Format("<plKey \"%s\">", (*self->fThis)->toString().cstr());
+    plString repr = plString::Format("<plKey \"%s\">", self->fThis->toString().cstr());
     return PlStr_To_PyStr(repr);
 }
 

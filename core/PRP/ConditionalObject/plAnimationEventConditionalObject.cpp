@@ -31,7 +31,7 @@ void plAnimationEventConditionalObject::write(hsStream* S, plResManager* mgr) {
 void plAnimationEventConditionalObject::IPrcWrite(pfPrcHelper* prc) {
     plConditionalObject::IPrcWrite(prc);
     prc->writeSimpleTag("Target");
-    fTarget->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fTarget);
     prc->closeTag();
     prc->startTag("Action");
     prc->writeParam("value", fAction);

@@ -43,11 +43,11 @@ void plSceneNode::IPrcWrite(pfPrcHelper* prc) {
 
     prc->writeSimpleTag("SceneObjects");
     for (size_t i=0; i<fSceneObjects.size(); i++)
-        fSceneObjects[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fSceneObjects[i]);
     prc->closeTag();
     prc->writeSimpleTag("PoolObjects");
     for (size_t i=0; i<fPoolObjects.size(); i++)
-        fPoolObjects[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fPoolObjects[i]);
     prc->closeTag();
 }
 

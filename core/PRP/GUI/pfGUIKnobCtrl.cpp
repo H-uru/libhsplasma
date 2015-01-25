@@ -79,7 +79,7 @@ void pfGUIKnobCtrl::IPrcWrite(pfPrcHelper* prc) {
     prc->writeParam("Name", fAnimName);
     prc->endTag();
     for (size_t i=0; i<fAnimationKeys.size(); i++)
-        fAnimationKeys[i]->prcWrite(prc);
+        plResManager::PrcWriteKey(prc, fAnimationKeys[i]);
     prc->closeTag();
 
     prc->writeSimpleTag("AnimStartPos");

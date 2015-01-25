@@ -181,19 +181,19 @@ void plGenericPhysical::IPrcWrite(pfPrcHelper* prc) {
     prc->endTag(true);
 
     prc->writeSimpleTag("Object");
-    fObjectKey->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fObjectKey);
     prc->closeTag();
 
     prc->writeSimpleTag("SceneNode");
-    fSceneNode->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSceneNode);
     prc->closeTag();
 
     prc->writeSimpleTag("SubWorld");
-    fSubWorld->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSubWorld);
     prc->closeTag();
 
     prc->writeSimpleTag("SoundGroup");
-    fSoundGroup->prcWrite(prc);
+    plResManager::PrcWriteKey(prc, fSoundGroup);
     prc->closeTag();
 
     prc->writeSimpleTag("Transform");
@@ -445,24 +445,24 @@ void plGenericPhysical::IReadHKPhysical(hsStream* S, plResManager* mgr) {
     if (memGroup != hMemberGroup) {
         showAll = true;
         plDebug::Warning("%s memGroup changed: 0x%08X => 0x%08X",
-                getKey()->toString().cstr(), hMemberGroup, memGroup);
+                getKey().toString().cstr(), hMemberGroup, memGroup);
     }
     if (repGroup != hReportGroup) {
         showAll = true;
         plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
-                getKey()->toString().cstr(), hReportGroup, repGroup);
+                getKey().toString().cstr(), hReportGroup, repGroup);
     }
     if (colGroup != hCollideGroup) {
         showAll = true;
         plDebug::Warning("%s colGroup changed: 0x%08X => 0x%08X",
-                getKey()->toString().cstr(), hCollideGroup, colGroup);
+                getKey().toString().cstr(), hCollideGroup, colGroup);
     }
     if (showAll) {
         plDebug::Debug("%s original HK flags: memGroup = 0x%08X, repGroup = 0x%08X, colGroup = 0x%08X",
-                getKey()->toString().cstr(), hMemberGroup, hReportGroup, hCollideGroup);
+                getKey().toString().cstr(), hMemberGroup, hReportGroup, hCollideGroup);
         plDebug::Debug("%s Generic data: memGroup = 0x%08X, repGroup = 0x%08X, colGroup = 0x%08X",
-                getKey()->toString().cstr(), fMemberGroup, fReportGroup, fCollideGroup);
-        plString info = plString::Format("%s LOSDBs = 0x%08X, properties: ", getKey()->toString().cstr(), fLOSDBs);
+                getKey().toString().cstr(), fMemberGroup, fReportGroup, fCollideGroup);
+        plString info = plString::Format("%s LOSDBs = 0x%08X, properties: ", getKey().toString().cstr(), fLOSDBs);
         for (size_t i=0; i<fProps.size(); i++) {
             if (fProps.get(i)) {
                 info += fProps.getName(i);
@@ -552,11 +552,11 @@ void plGenericPhysical::IReadPXPhysical(hsStream* S, plResManager* mgr) {
     uint32_t reports = plPXSimDefs::setReportsOn(fReportGroup);
     if (group != pxGroup) {
         plDebug::Warning("%s mem/colGroup changed: 0x%08X => 0x%08X",
-                getKey()->toString().cstr(), pxGroup, group);
+                getKey().toString().cstr(), pxGroup, group);
     }
     if (reports != pxReports) {
         plDebug::Warning("%s repGroup changed: 0x%08X => 0x%08X",
-                getKey()->toString().cstr(), pxReports, reports);
+                getKey().toString().cstr(), pxReports, reports);
     }
 #endif
 }
