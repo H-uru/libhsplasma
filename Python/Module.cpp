@@ -81,6 +81,7 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Physics/pyDetectorModifier.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -313,6 +314,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plGenericPhysical", Init_pyGenericPhysical_Type());
     PyModule_AddObject(module, "plModifier", Init_pyModifier_Type());
     PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
+    PyModule_AddObject(module, "plDetectorModifier", Init_pyDetectorModifier_Type());
+    PyModule_AddObject(module, "plPickingDetector", Init_pyPickingDetector_Type());
     PyModule_AddObject(module, "plMultiModifier", Init_pyMultiModifier_Type());
     PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
     PyModule_AddObject(module, "plSpawnModifier", Init_pySpawnModifier_Type());

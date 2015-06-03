@@ -322,11 +322,14 @@ set(PRP_OBJ_HDRS
 )
 
 set(PRP_PHYS_SRCS
+    PRP/Physics/pyDetectorModifier.cpp
     PRP/Physics/pyGenericPhysical.cpp
     PRP/Physics/pyPhysical.cpp
+    PRP/Physics/pyPickingDetector.cpp
     PRP/Physics/pySimDefs.cpp
 )
 set(PRP_PHYS_HDRS
+    PRP/Physics/pyDetectorModifier.h
     PRP/Physics/pyPhysical.h
 )
 

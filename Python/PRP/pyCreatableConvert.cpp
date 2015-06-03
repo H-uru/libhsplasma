@@ -207,6 +207,7 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Physics/pyDetectorModifier.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -260,14 +261,14 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pySimpleTMModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSimpleTMModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyRandomTMModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRandomTMModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyInterestingModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plInterestingModifier*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyDetectorModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDetectorModifier*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyDetectorModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDetectorModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySimplePhysicalMesh_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSimplePhysicalMesh*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCompoundPhysicalMesh_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCompoundPhysicalMesh*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyMultiModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMultiModifier*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySynchedObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSynchedObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySoundBuffer_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoundBuffer*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAliasModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAliasModifier*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyPickingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickingDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyPickingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickingDetector*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCollisionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCollisionDetector*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLogicModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLogicModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plConditionalObject*>(pCre->fThis));
