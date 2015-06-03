@@ -207,6 +207,7 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Physics/pyCollisionDetector.h"
 #include "PRP/Physics/pyDetectorModifier.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
@@ -269,7 +270,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pySoundBuffer_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoundBuffer*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAliasModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAliasModifier*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyPickingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickingDetector*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyCollisionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCollisionDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyCollisionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCollisionDetector*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLogicModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLogicModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyANDConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plANDConditionalObject*>(pCre->fThis));
@@ -467,7 +468,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyLayerSDLAnimation_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerSDLAnimation*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyATCAnim_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plATCAnim*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyAgeGlobalAnim_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAgeGlobalAnim*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySubworldRegionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSubworldRegionDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySubworldRegionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSubworldRegionDetector*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAvatarMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAvatarMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyNPCSpawnMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plNPCSpawnMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyActivePrintShape_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plActivePrintShape*>(pCre->fThis));
@@ -476,7 +477,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyDynaWakeMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaWakeMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySimulationMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSimulationMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyWaveSet7_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWaveSet7*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyPanicLinkRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPanicLinkRegion*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyPanicLinkRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPanicLinkRegion*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyWin32GroupedSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32GroupedSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyFilterCoordInterface_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFilterCoordInterface*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyStereizer_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plStereizer*>(pCre->fThis));
