@@ -46,6 +46,7 @@
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
+#include "PRP/ConditionalObject/pyConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
@@ -314,6 +315,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSoundBuffer", Init_pySoundBuffer_Type());
     PyModule_AddObject(module, "plPhysical", Init_pyPhysical_Type());
     PyModule_AddObject(module, "plGenericPhysical", Init_pyGenericPhysical_Type());
+    PyModule_AddObject(module, "plConditionalObject", Init_pyConditionalObject_Type());
     PyModule_AddObject(module, "plModifier", Init_pyModifier_Type());
     PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
     PyModule_AddObject(module, "plDetectorModifier", Init_pyDetectorModifier_Type());

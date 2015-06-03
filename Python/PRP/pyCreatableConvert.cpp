@@ -179,6 +179,7 @@
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
+#include "PRP/ConditionalObject/pyConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
@@ -273,7 +274,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyPickingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickingDetector*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyCollisionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCollisionDetector*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLogicModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLogicModifier*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyANDConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plANDConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyORConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plORConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPickedConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickedConditionalObject*>(pCre->fThis));

@@ -157,6 +157,13 @@ set(PRP_AVTR_HDRS
     PRP/Avatar/pyMultistageBehMod.h
 )
 
+set(PRP_COND_SRCS
+    PRP/ConditionalObject/pyConditionalObject.cpp
+)
+set(PRP_COND_HDRS
+    PRP/ConditionalObject/pyConditionalObject.h
+)
+
 set(PRP_GEOM_SRCS
     PRP/Geometry/pyCluster.cpp
     PRP/Geometry/pyClusterGroup.cpp
@@ -448,6 +455,7 @@ add_library(PyHSPlasma SHARED
           ${PRP_ANIM_SRCS} ${PRP_ANIM_HDRS}
           ${PRP_AUD_SRCS}  ${PRP_AUD_HDRS}
           ${PRP_AVTR_SRCS} ${PRP_AVTR_HDRS}
+          ${PRP_COND_SRCS} ${PRP_COND_HDRS}
           ${PRP_GEOM_SRCS} ${PRP_GEOM_HDRS}
           ${PRP_GUI_SRCS}  ${PRP_GUI_HDRS}
           ${PRP_KEY_SRCS}  ${PRP_KEY_HDRS}
@@ -499,6 +507,7 @@ source_group("Math" FILES ${MATH_HDRS} ${MATH_SRCS})
 source_group("PRP\\Animation" FILES ${PRP_ANIM_HDRS} ${PRP_ANIM_SRCS})
 source_group("PRP\\Audio" FILES ${PRP_AUD_HDRS} ${PRP_AUD_SRCS})
 source_group("PRP\\Avatar" FILES ${PRP_AVTR_HDRS} ${PRP_AVTR_SRCS})
+source_group("PRP\\ConditionalObject" FILES ${PRP_COND_SRCS} ${PRP_COND_HDRS})
 source_group("PRP\\Geometry" FILES ${PRP_GEOM_HDRS} ${PRP_GEOM_SRCS})
 source_group("PRP\\GUI" FILES ${PRP_GUI_HDRS} ${PRP_GUI_SRCS})
 source_group("PRP\\KeyedObject" FILES ${PRP_KEY_HDRS} ${PRP_KEY_SRCS})
