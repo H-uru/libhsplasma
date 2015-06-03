@@ -325,6 +325,8 @@ set(PRP_PHYS_SRCS
     PRP/Physics/pyCollisionDetector.cpp
     PRP/Physics/pyDetectorModifier.cpp
     PRP/Physics/pyGenericPhysical.cpp
+    PRP/Physics/pyObjectInVolumeDetector.cpp
+    PRP/Physics/pyObjectInVolumeAndFacingDetector.cpp
     PRP/Physics/pyPanicLinkRegion.cpp
     PRP/Physics/pyPhysical.cpp
     PRP/Physics/pyPickingDetector.cpp
@@ -334,6 +336,7 @@ set(PRP_PHYS_SRCS
 set(PRP_PHYS_HDRS
     PRP/Physics/pyCollisionDetector.h
     PRP/Physics/pyDetectorModifier.h
+    PRP/Physics/pyObjectInVolumeDetector.h
     PRP/Physics/pyPhysical.h
 )
 

@@ -209,6 +209,7 @@
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/Physics/pyCollisionDetector.h"
 #include "PRP/Physics/pyDetectorModifier.h"
+#include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -349,7 +350,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyRandomCommandMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRandomCommandMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyRandomSoundMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRandomSoundMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPostEffectMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPostEffectMod*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyObjectInVolumeDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInVolumeDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyObjectInVolumeDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInVolumeDetector*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyResponderModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plResponderModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAxisAnimModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAxisAnimModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyLayerLightBase_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerLightBase*>(pCre->fThis));
@@ -456,7 +457,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyArmatureEffectFootSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plArmatureEffectFootSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyEAXListenerMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plEAXListenerMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaDecalMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaDecalMgr*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyObjectInVolumeAndFacingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInVolumeAndFacingDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyObjectInVolumeAndFacingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInVolumeAndFacingDetector*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaFootMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaFootMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaRippleMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaRippleMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaBulletMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaBulletMgr*>(pCre->fThis));

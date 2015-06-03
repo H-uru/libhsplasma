@@ -68,6 +68,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getFacingTolerance() const { return fFacingTolerance; }
+    bool getNeedWalkingForward() const { return fNeedWalkingForward; }
+
+    void setFacingTolerance(float value) { fFacingTolerance = value; }
+    void setNeedWalkingForward(bool value) { fNeedWalkingForward = value; }
 };
 
 #endif

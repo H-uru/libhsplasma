@@ -83,6 +83,7 @@
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/Physics/pyCollisionDetector.h"
 #include "PRP/Physics/pyDetectorModifier.h"
+#include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -320,6 +321,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCollisionDetector", Init_pyCollisionDetector_Type());
     PyModule_AddObject(module, "plSubworldRegionDetector", Init_pySubworldRegionDetector_Type());
     PyModule_AddObject(module, "plPanicLinkRegion", Init_pyPanicLinkRegion_Type());
+    PyModule_AddObject(module, "plObjectInVolumeDetector", Init_pyObjectInVolumeDetector_Type());
+    PyModule_AddObject(module, "plObjectInVolumeAndFacingDetector", Init_pyObjectInVolumeAndFacingDetector_Type());
     PyModule_AddObject(module, "plMultiModifier", Init_pyMultiModifier_Type());
     PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
     PyModule_AddObject(module, "plSpawnModifier", Init_pySpawnModifier_Type());
