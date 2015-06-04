@@ -63,6 +63,7 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
+#include "PRP/Message/pyArmatureEffectMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyEventData.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
@@ -448,6 +449,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plAnimStage", Init_pyAnimStage_Type());
     PyModule_AddObject(module, "plLinkToAgeMsg", Init_pyLinkToAgeMsg_Type());
     PyModule_AddObject(module, "plNotifyMsg", Init_pyNotifyMsg_Type());
+    PyModule_AddObject(module, "plArmatureEffectStateMsg", Init_pyArmatureEffectStateMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

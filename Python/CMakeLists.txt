@@ -248,6 +248,7 @@ set(PRP_LIT_HDRS
 
 set(PRP_MSG_SRCS
     PRP/Message/pyActivateEventData.cpp
+    PRP/Message/pyArmatureEffectMsg.cpp
     PRP/Message/pyBookEventData.cpp
     PRP/Message/pyCallbackEventData.cpp
     PRP/Message/pyClickDragEventData.cpp
@@ -271,6 +272,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyVariableEventData.cpp
 )
 set(PRP_MSG_HDRS
+    PRP/Message/pyArmatureEffectMsg.h
     PRP/Message/pyEventCallbackMsg.h
     PRP/Message/pyEventData.h
     PRP/Message/pyLinkToAgeMsg.h

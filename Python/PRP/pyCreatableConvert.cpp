@@ -191,6 +191,7 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
+#include "PRP/Message/pyArmatureEffectMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
@@ -752,6 +753,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kNotifyMsg: return pyNotifyMsg_FromNotifyMsg(plNotifyMsg::Convert(pCre));
         case kAgeLinkStruct: return pyAgeLinkStruct_FromAgeLinkStruct(plAgeLinkStruct::Convert(pCre));
         case kAgeInfoStruct: return pyAgeInfoStruct_FromAgeInfoStruct(plAgeInfoStruct::Convert(pCre));
+        case kArmatureEffectStateMsg: return pyArmatureEffectStateMsg_FromArmatureEffectStateMsg(plArmatureEffectStateMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));

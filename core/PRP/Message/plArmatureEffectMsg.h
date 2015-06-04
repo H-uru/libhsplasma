@@ -35,6 +35,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    int8_t getSurface() const { return fSurface; }
+    bool getAddSurface() const { return fAddSurface; }
+
+    void setSurface(int8_t value) { fSurface = value; }
+    void setAddSurface(bool value) { fAddSurface = value; }
 };
 
 #endif
