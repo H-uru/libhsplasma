@@ -159,9 +159,12 @@ set(PRP_AVTR_HDRS
 
 set(PRP_COND_SRCS
     PRP/ConditionalObject/pyConditionalObject.cpp
+    PRP/ConditionalObject/pyVolumeSensorConditionalObject.cpp
+    PRP/ConditionalObject/pyVolumeSensorConditionalObjectNoArbitration.cpp
 )
 set(PRP_COND_HDRS
     PRP/ConditionalObject/pyConditionalObject.h
+    PRP/ConditionalObject/pyVolumeSensorConditionalObject.h
 )
 
 set(PRP_GEOM_SRCS

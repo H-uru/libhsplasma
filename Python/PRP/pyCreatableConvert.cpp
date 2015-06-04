@@ -180,6 +180,7 @@
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/ConditionalObject/pyConditionalObject.h"
+#include "PRP/ConditionalObject/pyVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
@@ -393,7 +394,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyGUIControlMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIControlMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyExcludeRegionModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plExcludeRegionModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIDraggableMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIDraggableMod*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyVolActivatorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolActivatorConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyMsgForwarder_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMsgForwarder*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyBlower_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plBlower*>(pCre->fThis));
@@ -585,7 +586,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyNodeRegionModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plNodeRegionModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPiranhaRegionModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPiranhaRegionModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyRidingAnimatedPhysicalDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRidingAnimatedPhysicalDetector*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObjectNoArbitration_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObjectNoArbitration*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObjectNoArbitration_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObjectNoArbitration*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyFXMaterial_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFXMaterial*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyMovableMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMovableMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyMaterial_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMaterial*>(pCre->fThis));

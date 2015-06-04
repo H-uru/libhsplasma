@@ -42,6 +42,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    int getTrigNum() const { return fTrigNum; }
+    int getType() const { return fType; }
+    bool getFirst() const { return fFirst; }
+
+    void setTrigNum(int value) { fTrigNum = value; }
+    void setType(int value) { fType = value; }
+    void setFirst(bool value) { fFirst = value; }
 };
 
 
