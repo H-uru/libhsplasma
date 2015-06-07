@@ -34,6 +34,66 @@ static PyObject* pyGeometrySpan_new(PyTypeObject* type, PyObject* args, PyObject
     return (PyObject*)self;
 }
 
+static PyObject* pyGeometrySpan_addPermaLight(pyGeometrySpan* self, PyObject* args) {
+    PyObject* light;
+    if (!(PyArg_ParseTuple(args, "O", &light) && pyKey_Check(light))) {
+        PyErr_SetString(PyExc_TypeError, "addPermaLight expects a plKey");
+        return NULL;
+    }
+
+    self->fThis->addPermaLight(*((pyKey*)light)->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyGeometrySpan_delPermaLight(pyGeometrySpan* self, PyObject* args) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delPermaLight expects an int");
+        return NULL;
+    }
+
+    self->fThis->delPermaLight((size_t)idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyGeometrySpan_clearPermaLights(pyGeometrySpan* self) {
+    self->fThis->clearPermaLights();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyGeometrySpan_addPermaProj(pyGeometrySpan* self, PyObject* args) {
+    PyObject* light;
+    if (!(PyArg_ParseTuple(args, "O", &light) && pyKey_Check(light))) {
+        PyErr_SetString(PyExc_TypeError, "addPermaProj expects a plKey");
+        return NULL;
+    }
+
+    self->fThis->addPermaProj(*((pyKey*)light)->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyGeometrySpan_delPermaProj(pyGeometrySpan* self, PyObject* args) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delPermaProj expects an int");
+        return NULL;
+    }
+
+    self->fThis->delPermaProj((size_t)idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyGeometrySpan_clearPermaProjs(pyGeometrySpan* self) {
+    self->fThis->clearPermaProjs();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyGeometrySpan_getBaseMatrix(pyGeometrySpan* self, void*) {
     return PyInt_FromLong(self->fThis->getBaseMatrix());
 }
@@ -111,6 +171,22 @@ static PyObject* pyGeometrySpan_getWorldBounds(pyGeometrySpan* self, void*) {
 
 static PyObject* pyGeometrySpan_getWorldToLocal(pyGeometrySpan* self, void*) {
     return pyMatrix44_FromMatrix44(self->fThis->getWorldToLocal());
+}
+
+static PyObject* pyGeometrySpan_getPermaLights(pyGeometrySpan* self, void*) {
+    const std::vector<plKey>& lights = self->fThis->getPermaLights();
+    PyObject* tup = PyTuple_New(lights.size());
+    for (size_t i = 0; i < lights.size(); ++i)
+        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(lights[i]));
+    return tup;
+}
+
+static PyObject* pyGeometrySpan_getPermaProjs(pyGeometrySpan* self, void*) {
+    const std::vector<plKey>& lights = self->fThis->getPermaProjs();
+    PyObject* tup = PyTuple_New(lights.size());
+    for (size_t i = 0; i < lights.size(); ++i)
+        PyTuple_SET_ITEM(tup, i, pyKey_FromKey(lights[i]));
+    return tup;
 }
 
 static int pyGeometrySpan_setBaseMatrix(pyGeometrySpan* self, PyObject* value, void*) {
@@ -297,6 +373,36 @@ static int pyGeometrySpan_setWorldToLocal(pyGeometrySpan* self, PyObject* value,
     return 0;
 }
 
+static int pyGeometrySpan_setPermaLights(pyGeometrySpan* self, PyObject* value, void*) {
+    PyErr_SetString(PyExc_RuntimeError, "To add PermaLights, use addPermaLight");
+    return -1;
+}
+
+static int pyGeometrySpan_setPermaProjs(pyGeometrySpan* self, PyObject* value, void*) {
+    PyErr_SetString(PyExc_RuntimeError, "To add PermaProjs, use addPermaLight");
+    return -1;
+}
+
+static PyMethodDef pyGeometrySpan_Methods[] = {
+    { "addPermaLight", (PyCFunction)pyGeometrySpan_addPermaLight, METH_VARARGS,
+      "Params: light\n"
+      "Adds a permalight" },
+    { "delPermaLight", (PyCFunction)pyGeometrySpan_delPermaLight, METH_VARARGS,
+      "Params: idx\n"
+      "Removes a permalight" },
+    { "clearPermaLight", (PyCFunction)pyGeometrySpan_clearPermaLights, METH_NOARGS,
+      "Clears all permalights" },
+    { "addPermaProj", (PyCFunction)pyGeometrySpan_addPermaProj, METH_VARARGS,
+      "Params: light\n"
+      "Adds a permaproj" },
+    { "delPermaProj", (PyCFunction)pyGeometrySpan_delPermaProj, METH_VARARGS,
+      "Params: idx\n"
+      "Removes a permaproj" },
+    { "clearPermaProj", (PyCFunction)pyGeometrySpan_clearPermaProjs, METH_NOARGS,
+      "Clears all permaprojs" },
+    { NULL, NULL, 0, NULL }
+};
+
 static PyGetSetDef pyGeometrySpan_GetSet[] = {
     { _pycs("baseMatrix"), (getter)pyGeometrySpan_getBaseMatrix,
         (setter)pyGeometrySpan_setBaseMatrix, NULL, NULL },
@@ -334,6 +440,10 @@ static PyGetSetDef pyGeometrySpan_GetSet[] = {
         (setter)pyGeometrySpan_setWorldBounds, NULL, NULL },
     { _pycs("worldToLocal"), (getter)pyGeometrySpan_getWorldToLocal,
         (setter)pyGeometrySpan_setWorldToLocal, NULL, NULL },
+    { _pycs("permaLights"), (getter)pyGeometrySpan_getPermaLights,
+        (setter)pyGeometrySpan_setPermaLights, NULL, NULL },
+    { _pycs("permaProjs"), (getter)pyGeometrySpan_getPermaProjs,
+        (setter)pyGeometrySpan_setPermaProjs, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
@@ -369,7 +479,7 @@ PyTypeObject pyGeometrySpan_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    NULL,                               /* tp_methods */
+    pyGeometrySpan_Methods,             /* tp_methods */
     NULL,                               /* tp_members */
     pyGeometrySpan_GetSet,              /* tp_getset */
     NULL,                               /* tp_base */
