@@ -643,6 +643,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSingleModifier: return pySingleModifier_FromSingleModifier(plSingleModifier::Convert(pCre));
         case kMultiModifier: return pyMultiModifier_FromMultiModifier(plMultiModifier::Convert(pCre));
         case kPythonFileMod: return pyPythonFileMod_FromPythonFileMod(plPythonFileMod::Convert(pCre));
+        case kVolumeSensorConditionalObject: return pyVolumeSensorConditionalObject_FromVolumeSensorConditionalObject(plVolumeSensorConditionalObject::Convert(pCre));
         case kSpawnModifier: return pySpawnModifier_FromSpawnModifier(plSpawnModifier::Convert(pCre));
         case kViewFaceModifier: return pyViewFaceModifier_FromViewFaceModifier(plViewFaceModifier::Convert(pCre));
         case kMaintainersMarkerModifier: return pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(plMaintainersMarkerModifier::Convert(pCre));
@@ -655,6 +656,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kLayerAVI: return pyLayerAVI_FromLayerAVI(plLayerAVI::Convert(pCre));
         case kLayerBink: return pyLayerBink_FromLayerBink(plLayerBink::Convert(pCre));
         case kOneShotMod: return pyOneShotMod_FromOneShotMod(plOneShotMod::Convert(pCre));
+        case kObjectInVolumeDetector: return pyObjectInVolumeDetector_FromObjectInVolumeDetector(plObjectInVolumeDetector::Convert(pCre));
+        case kObjectInVolumeAndFacingDetector: return pyObjectInVolumeAndFacingDetector_FromObjectInVolumeAndFacingDetector(plObjectInVolumeAndFacingDetector::Convert(pCre));
         case kResponderModifier: return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(pCre));
         case kDynamicEnvMap: return pyDynamicEnvMap_FromDynamicEnvMap(plDynamicEnvMap::Convert(pCre));
         case kDynamicCamMap: return pyDynamicCamMap_FromDynamicCamMap(plDynamicCamMap::Convert(pCre));
@@ -662,13 +665,17 @@ PyObject* ICreate(plCreatable* pCre)
         case kAGAnim: return pyAGAnim_FromAGAnim(plAGAnim::Convert(pCre));
         case kAgeGlobalAnim: return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(pCre));
         case kATCAnim: return pyATCAnim_FromATCAnim(plATCAnim::Convert(pCre));
+        case kSubworldRegionDetector: return pySubworldRegionDetector_FromSubworldRegionDetector(plSubworldRegionDetector::Convert(pCre));
+        case kPanicLinkRegion: return pyPanicLinkRegion_FromPanicLinkRegion(plPanicLinkRegion::Convert(pCre));
         case kEmoteAnim: return pyEmoteAnim_FromEmoteAnim(plEmoteAnim::Convert(pCre));
         case kAGAnimBink: return pyAGAnimBink_FromAGAnimBink(plAGAnimBink::Convert(pCre));
+        case kVolumeSensorConditionalObjectNoArbitration: return pyVolumeSensorConditionalObjectNoArbitration_FromVolumeSensorConditionalObjectNoArbitration(plVolumeSensorConditionalObjectNoArbitration::Convert(pCre));
         case kMsgForwarder: return pyMsgForwarder_FromMsgForwarder(plMsgForwarder::Convert(pCre));
         case kOccluder: return pyOccluder_FromOccluder(plOccluder::Convert(pCre));
         case kMobileOccluder: return pyMobileOccluder_FromMobileOccluder(plMobileOccluder::Convert(pCre));
         case kMultistageBehMod: return pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod::Convert(pCre));
         case kInterfaceInfoModifier: return pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModifier::Convert(pCre));
+        case kPickingDetector: return pyPickingDetector_FromPickingDetector(plPickingDetector::Convert(pCre));
         case kLogicModBase: return pyLogicModBase_FromLogicModBase(plLogicModBase::Convert(pCre));
         case kLogicModifier: return pyLogicModifier_FromLogicModifier(plLogicModifier::Convert(pCre));
         case kAudible: return pyAudible_FromAudible(plAudible::Convert(pCre));
