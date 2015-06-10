@@ -63,22 +63,22 @@ static PyObject* pyLogicModBase_delCommand(pyLogicModBase* self, PyObject* args)
     return Py_None;
 }
 
-static PyObject* pyLogicModBase_getFlag(pyLogicModBase* self, PyObject* args) {
+static PyObject* pyLogicModBase_getLogicFlag(pyLogicModBase* self, PyObject* args) {
     int idx;
     if (!PyArg_ParseTuple(args, "i", &idx)) {
         PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
         return NULL;
     }
-    return PyBool_FromLong(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getFlag(idx) ? 1 : 0);
+    return PyBool_FromLong(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getLogicFlag(idx) ? 1 : 0);
 }
 
-static PyObject* pyLogicModBase_setFlag(pyLogicModBase* self, PyObject* args) {
+static PyObject* pyLogicModBase_setLogicFlag(pyLogicModBase* self, PyObject* args) {
     int idx, value;
     if (!PyArg_ParseTuple(args, "ii", &idx, &value)) {
         PyErr_SetString(PyExc_TypeError, "setFlag expects int, bool");
         return NULL;
     }
-    plLogicModBase::Convert(IConvert((pyCreatable*)self))->setFlag(idx, value != 0);
+    plLogicModBase::Convert(IConvert((pyCreatable*)self))->setLogicFlag(idx, value != 0);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -135,10 +135,10 @@ static PyMethodDef pyLogicModBase_Methods[] = {
     { "delCommand", (PyCFunction)pyLogicModBase_delCommand, METH_NOARGS,
       "Params: idx\n"
       "Remove a command" },
-    { "getLogicFlag", (PyCFunction)pyLogicModBase_getFlag, METH_VARARGS,
+    { "getLogicFlag", (PyCFunction)pyLogicModBase_getLogicFlag, METH_VARARGS,
       "Params: flag\n"
       "Returns True if the LogicMod flag is set" },
-    { "setLogicFlag", (PyCFunction)pyLogicModBase_setFlag, METH_VARARGS,
+    { "setLogicFlag", (PyCFunction)pyLogicModBase_setLogicFlag, METH_VARARGS,
       "Params: flag, value\n"
       "Sets the specified LogicMod flag" },
     { NULL, NULL, 0, NULL }
