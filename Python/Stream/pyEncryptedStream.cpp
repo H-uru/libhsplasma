@@ -48,8 +48,8 @@ static PyObject* pyEncryptedStream_open(pyEncryptedStream* self, PyObject* args)
             PyErr_SetString(PyExc_IOError, "Error opening file");
             return NULL;
         }
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_INCREF(self);
+        return (PyObject*)self;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error opening file");
         return NULL;
@@ -107,6 +107,17 @@ static PyObject* pyEncryptedStream_IsFileEncrypted(PyObject*, PyObject* args) {
     return PyBool_FromLong(result ? 1 : 0);
 }
 
+static PyObject* pyEncryptedStream__enter__(PyObject* self) {
+    Py_INCREF(self);
+    return self;
+}
+
+static PyObject* pyEncryptedStream__exit__(pyEncryptedStream* self, PyObject* args) {
+    self->fThis->close();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyMethodDef pyEncryptedStream_Methods[] = {
     { "open", (PyCFunction)pyEncryptedStream_open, METH_VARARGS,
       "Params: filename, mode, encryption\n"
@@ -125,6 +136,8 @@ static PyMethodDef pyEncryptedStream_Methods[] = {
       "(static)\n"
       "Params: filename\n"
       "Tests whether the specified file is encrypted" },
+    { "__enter__", (PyCFunction)pyEncryptedStream__enter__, METH_NOARGS, NULL },
+    { "__exit__", (PyCFunction)pyEncryptedStream__exit__, METH_VARARGS, NULL },
     { NULL, NULL, 0, NULL }
 };
 
