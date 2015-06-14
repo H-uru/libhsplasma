@@ -45,8 +45,8 @@ static PyObject* pyFileStream_open(pyFileStream* self, PyObject* args) {
             PyErr_SetString(PyExc_IOError, "Error opening file");
             return NULL;
         }
-        Py_INCREF(Py_None);
-        return Py_None;
+        Py_INCREF(self);
+        return (PyObject*)self;
     } catch (...) {
         PyErr_SetString(PyExc_IOError, "Error opening file");
         return NULL;
@@ -59,6 +59,17 @@ static PyObject* pyFileStream_close(pyFileStream* self) {
     return Py_None;
 }
 
+static PyObject* pyFileStream__enter__(PyObject* self) {
+    Py_INCREF(self);
+    return self;
+}
+
+static PyObject* pyFileStream__exit__(pyFileStream* self, PyObject* args) {
+    self->fThis->close();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyMethodDef pyFileStream_Methods[] = {
     { "open", (PyCFunction)pyFileStream_open, METH_VARARGS,
       "Params: filename, mode\n"
@@ -66,6 +77,8 @@ static PyMethodDef pyFileStream_Methods[] = {
       "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate" },
     { "close", (PyCFunction)pyFileStream_close, METH_NOARGS,
       "Closes the active file, if it is open" },
+    { "__enter__", (PyCFunction)pyFileStream__enter__, METH_NOARGS, NULL },
+    { "__exit__", (PyCFunction)pyFileStream__exit__, METH_VARARGS, NULL },
     { NULL, NULL, 0, NULL }
 };
 
