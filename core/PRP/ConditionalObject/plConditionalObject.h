@@ -35,6 +35,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    bool getSatisfied() const { return fSatisfied; }
+    bool getToggle() const { return fToggle; }
+
+    void setSatisfied(bool value) { fSatisfied = value; }
+    void setToggle(bool value) { fToggle = value; }
 };
 
 

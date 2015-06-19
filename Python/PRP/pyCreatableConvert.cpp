@@ -179,6 +179,8 @@
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
+#include "PRP/ConditionalObject/pyConditionalObject.h"
+#include "PRP/ConditionalObject/pyVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
@@ -189,6 +191,7 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
+#include "PRP/Message/pyArmatureEffectMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
@@ -207,6 +210,9 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Physics/pyCollisionDetector.h"
+#include "PRP/Physics/pyDetectorModifier.h"
+#include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -260,17 +266,17 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pySimpleTMModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSimpleTMModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyRandomTMModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRandomTMModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyInterestingModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plInterestingModifier*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyDetectorModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDetectorModifier*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyDetectorModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDetectorModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySimplePhysicalMesh_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSimplePhysicalMesh*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCompoundPhysicalMesh_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCompoundPhysicalMesh*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyMultiModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMultiModifier*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySynchedObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSynchedObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySoundBuffer_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoundBuffer*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAliasModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAliasModifier*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyPickingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickingDetector*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyCollisionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCollisionDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyPickingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickingDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyCollisionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCollisionDetector*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLogicModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLogicModifier*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyANDConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plANDConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyORConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plORConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPickedConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickedConditionalObject*>(pCre->fThis));
@@ -347,7 +353,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyRandomCommandMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRandomCommandMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyRandomSoundMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRandomSoundMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPostEffectMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPostEffectMod*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyObjectInVolumeDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInVolumeDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyObjectInVolumeDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInVolumeDetector*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyResponderModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plResponderModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAxisAnimModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAxisAnimModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyLayerLightBase_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerLightBase*>(pCre->fThis));
@@ -389,7 +395,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyGUIControlMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIControlMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyExcludeRegionModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plExcludeRegionModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIDraggableMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIDraggableMod*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyVolActivatorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolActivatorConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyMsgForwarder_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMsgForwarder*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyBlower_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plBlower*>(pCre->fThis));
@@ -454,7 +460,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyArmatureEffectFootSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plArmatureEffectFootSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyEAXListenerMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plEAXListenerMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaDecalMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaDecalMgr*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyObjectInVolumeAndFacingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInVolumeAndFacingDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyObjectInVolumeAndFacingDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInVolumeAndFacingDetector*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaFootMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaFootMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaRippleMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaRippleMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaBulletMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaBulletMgr*>(pCre->fThis));
@@ -466,7 +472,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyLayerSDLAnimation_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerSDLAnimation*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyATCAnim_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plATCAnim*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyAgeGlobalAnim_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAgeGlobalAnim*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySubworldRegionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSubworldRegionDetector*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySubworldRegionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSubworldRegionDetector*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAvatarMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAvatarMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyNPCSpawnMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plNPCSpawnMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyActivePrintShape_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plActivePrintShape*>(pCre->fThis));
@@ -475,7 +481,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyDynaWakeMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaWakeMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySimulationMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSimulationMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyWaveSet7_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWaveSet7*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyPanicLinkRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPanicLinkRegion*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyPanicLinkRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPanicLinkRegion*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyWin32GroupedSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32GroupedSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyFilterCoordInterface_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFilterCoordInterface*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyStereizer_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plStereizer*>(pCre->fThis));
@@ -581,7 +587,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyNodeRegionModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plNodeRegionModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPiranhaRegionModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPiranhaRegionModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyRidingAnimatedPhysicalDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRidingAnimatedPhysicalDetector*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObjectNoArbitration_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObjectNoArbitration*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObjectNoArbitration_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObjectNoArbitration*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyFXMaterial_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFXMaterial*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyMovableMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMovableMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyMaterial_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plMaterial*>(pCre->fThis));
@@ -637,6 +643,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSingleModifier: return pySingleModifier_FromSingleModifier(plSingleModifier::Convert(pCre));
         case kMultiModifier: return pyMultiModifier_FromMultiModifier(plMultiModifier::Convert(pCre));
         case kPythonFileMod: return pyPythonFileMod_FromPythonFileMod(plPythonFileMod::Convert(pCre));
+        case kVolumeSensorConditionalObject: return pyVolumeSensorConditionalObject_FromVolumeSensorConditionalObject(plVolumeSensorConditionalObject::Convert(pCre));
         case kSpawnModifier: return pySpawnModifier_FromSpawnModifier(plSpawnModifier::Convert(pCre));
         case kViewFaceModifier: return pyViewFaceModifier_FromViewFaceModifier(plViewFaceModifier::Convert(pCre));
         case kMaintainersMarkerModifier: return pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(plMaintainersMarkerModifier::Convert(pCre));
@@ -649,6 +656,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kLayerAVI: return pyLayerAVI_FromLayerAVI(plLayerAVI::Convert(pCre));
         case kLayerBink: return pyLayerBink_FromLayerBink(plLayerBink::Convert(pCre));
         case kOneShotMod: return pyOneShotMod_FromOneShotMod(plOneShotMod::Convert(pCre));
+        case kObjectInVolumeDetector: return pyObjectInVolumeDetector_FromObjectInVolumeDetector(plObjectInVolumeDetector::Convert(pCre));
+        case kObjectInVolumeAndFacingDetector: return pyObjectInVolumeAndFacingDetector_FromObjectInVolumeAndFacingDetector(plObjectInVolumeAndFacingDetector::Convert(pCre));
         case kResponderModifier: return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(pCre));
         case kDynamicEnvMap: return pyDynamicEnvMap_FromDynamicEnvMap(plDynamicEnvMap::Convert(pCre));
         case kDynamicCamMap: return pyDynamicCamMap_FromDynamicCamMap(plDynamicCamMap::Convert(pCre));
@@ -656,13 +665,17 @@ PyObject* ICreate(plCreatable* pCre)
         case kAGAnim: return pyAGAnim_FromAGAnim(plAGAnim::Convert(pCre));
         case kAgeGlobalAnim: return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(pCre));
         case kATCAnim: return pyATCAnim_FromATCAnim(plATCAnim::Convert(pCre));
+        case kSubworldRegionDetector: return pySubworldRegionDetector_FromSubworldRegionDetector(plSubworldRegionDetector::Convert(pCre));
+        case kPanicLinkRegion: return pyPanicLinkRegion_FromPanicLinkRegion(plPanicLinkRegion::Convert(pCre));
         case kEmoteAnim: return pyEmoteAnim_FromEmoteAnim(plEmoteAnim::Convert(pCre));
         case kAGAnimBink: return pyAGAnimBink_FromAGAnimBink(plAGAnimBink::Convert(pCre));
+        case kVolumeSensorConditionalObjectNoArbitration: return pyVolumeSensorConditionalObjectNoArbitration_FromVolumeSensorConditionalObjectNoArbitration(plVolumeSensorConditionalObjectNoArbitration::Convert(pCre));
         case kMsgForwarder: return pyMsgForwarder_FromMsgForwarder(plMsgForwarder::Convert(pCre));
         case kOccluder: return pyOccluder_FromOccluder(plOccluder::Convert(pCre));
         case kMobileOccluder: return pyMobileOccluder_FromMobileOccluder(plMobileOccluder::Convert(pCre));
         case kMultistageBehMod: return pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod::Convert(pCre));
         case kInterfaceInfoModifier: return pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModifier::Convert(pCre));
+        case kPickingDetector: return pyPickingDetector_FromPickingDetector(plPickingDetector::Convert(pCre));
         case kLogicModBase: return pyLogicModBase_FromLogicModBase(plLogicModBase::Convert(pCre));
         case kLogicModifier: return pyLogicModifier_FromLogicModifier(plLogicModifier::Convert(pCre));
         case kAudible: return pyAudible_FromAudible(plAudible::Convert(pCre));
@@ -747,6 +760,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kNotifyMsg: return pyNotifyMsg_FromNotifyMsg(plNotifyMsg::Convert(pCre));
         case kAgeLinkStruct: return pyAgeLinkStruct_FromAgeLinkStruct(plAgeLinkStruct::Convert(pCre));
         case kAgeInfoStruct: return pyAgeInfoStruct_FromAgeInfoStruct(plAgeInfoStruct::Convert(pCre));
+        case kArmatureEffectStateMsg: return pyArmatureEffectStateMsg_FromArmatureEffectStateMsg(plArmatureEffectStateMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));

@@ -46,6 +46,8 @@
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
+#include "PRP/ConditionalObject/pyConditionalObject.h"
+#include "PRP/ConditionalObject/pyVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
 #include "PRP/Geometry/pyDrawableSpans.h"
@@ -61,6 +63,7 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
+#include "PRP/Message/pyArmatureEffectMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyEventData.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
@@ -81,6 +84,9 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/Object/pySceneObject.h"
 #include "PRP/Object/pySynchedObject.h"
+#include "PRP/Physics/pyCollisionDetector.h"
+#include "PRP/Physics/pyDetectorModifier.h"
+#include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Surface/pyBitmap.h"
@@ -311,8 +317,18 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSoundBuffer", Init_pySoundBuffer_Type());
     PyModule_AddObject(module, "plPhysical", Init_pyPhysical_Type());
     PyModule_AddObject(module, "plGenericPhysical", Init_pyGenericPhysical_Type());
+    PyModule_AddObject(module, "plConditionalObject", Init_pyConditionalObject_Type());
+    PyModule_AddObject(module, "plVolumeSensorConditionalObject", Init_pyVolumeSensorConditionalObject_Type());
+    PyModule_AddObject(module, "plVolumeSensorConditionalObjectNoArbitration", Init_pyVolumeSensorConditionalObjectNoArbitration_Type());
     PyModule_AddObject(module, "plModifier", Init_pyModifier_Type());
     PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
+    PyModule_AddObject(module, "plDetectorModifier", Init_pyDetectorModifier_Type());
+    PyModule_AddObject(module, "plPickingDetector", Init_pyPickingDetector_Type());
+    PyModule_AddObject(module, "plCollisionDetector", Init_pyCollisionDetector_Type());
+    PyModule_AddObject(module, "plSubworldRegionDetector", Init_pySubworldRegionDetector_Type());
+    PyModule_AddObject(module, "plPanicLinkRegion", Init_pyPanicLinkRegion_Type());
+    PyModule_AddObject(module, "plObjectInVolumeDetector", Init_pyObjectInVolumeDetector_Type());
+    PyModule_AddObject(module, "plObjectInVolumeAndFacingDetector", Init_pyObjectInVolumeAndFacingDetector_Type());
     PyModule_AddObject(module, "plMultiModifier", Init_pyMultiModifier_Type());
     PyModule_AddObject(module, "plPythonFileMod", Init_pyPythonFileMod_Type());
     PyModule_AddObject(module, "plSpawnModifier", Init_pySpawnModifier_Type());
@@ -433,6 +449,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plAnimStage", Init_pyAnimStage_Type());
     PyModule_AddObject(module, "plLinkToAgeMsg", Init_pyLinkToAgeMsg_Type());
     PyModule_AddObject(module, "plNotifyMsg", Init_pyNotifyMsg_Type());
+    PyModule_AddObject(module, "plArmatureEffectStateMsg", Init_pyArmatureEffectStateMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;
