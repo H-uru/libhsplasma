@@ -17,25 +17,56 @@
 #include <PyPlasma.h>
 #include <PRP/Surface/plRenderTarget.h>
 #include "pyRenderTarget.h"
-#include "pyBitmap.h"
 
 extern "C" {
 
-// RenderTarget
-
-static PyObject* pyRenderTarget_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyRenderTarget* self = (pyRenderTarget*)type->tp_alloc(type, 0);
+static PyObject* pyCubicRenderTarget_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyCubicRenderTarget* self = (pyCubicRenderTarget*)type->tp_alloc(type, 0);
     if (self != NULL) {
-        self->fThis = new plRenderTarget();
+        self->fThis = new plCubicRenderTarget();
         self->fPyOwned = true;
     }
     return (PyObject*)self;
 }
 
-PyTypeObject pyRenderTarget_Type = {
+static PyObject* pyCubicRenderTarget_getLeftFace(pyCubicRenderTarget* self, void*) {
+    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kLeftFace));
+}
+
+static PyObject* pyCubicRenderTarget_getRightFace(pyCubicRenderTarget* self, void*) {
+    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kRightFace));
+}
+
+static PyObject* pyCubicRenderTarget_getFrontFace(pyCubicRenderTarget* self, void*) {
+    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kFrontFace));
+}
+
+static PyObject* pyCubicRenderTarget_getBackFace(pyCubicRenderTarget* self, void*) {
+    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kBackFace));
+}
+
+static PyObject* pyCubicRenderTarget_getTopFace(pyCubicRenderTarget* self, void*) {
+    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kTopFace));
+}
+
+static PyObject* pyCubicRenderTarget_getBottomFace(pyCubicRenderTarget* self, void*) {
+    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kBottomFace));
+}
+
+static PyGetSetDef pyCubicRenderTarget_GetSet[] = {
+    { _pycs("leftFace"), (getter)pyCubicRenderTarget_getLeftFace, NULL, NULL, NULL },
+    { _pycs("rightFace"), (getter)pyCubicRenderTarget_getRightFace, NULL, NULL, NULL },
+    { _pycs("frontFace"), (getter)pyCubicRenderTarget_getFrontFace, NULL, NULL, NULL },
+    { _pycs("backFace"), (getter)pyCubicRenderTarget_getBackFace, NULL, NULL, NULL },
+    { _pycs("topFace"), (getter)pyCubicRenderTarget_getTopFace, NULL, NULL, NULL },
+    { _pycs("bottomFace"), (getter)pyCubicRenderTarget_getBottomFace, NULL, NULL, NULL },
+    { NULL, NULL, NULL, NULL, NULL }
+};
+
+PyTypeObject pyCubicRenderTarget_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plRenderTarget",        /* tp_name */
-    sizeof(pyRenderTarget),             /* tp_basicsize */
+    "PyHSPlasma.plCubicRenderTarget",   /* tp_name */
+    sizeof(pyCubicRenderTarget),        /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
@@ -55,7 +86,7 @@ PyTypeObject pyRenderTarget_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plRenderTarget wrapper",           /* tp_doc */
+    "plCubicRenderTarget wrapper",      /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -66,7 +97,7 @@ PyTypeObject pyRenderTarget_Type = {
 
     NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
+    pyCubicRenderTarget_GetSet,         /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
@@ -75,7 +106,7 @@ PyTypeObject pyRenderTarget_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyRenderTarget_new,                 /* tp_new */
+    pyCubicRenderTarget_new,            /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -90,31 +121,31 @@ PyTypeObject pyRenderTarget_Type = {
     TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
-PyObject* Init_pyRenderTarget_Type() {
-    pyRenderTarget_Type.tp_base = &pyBitmap_Type;
-    if (PyType_Ready(&pyRenderTarget_Type) < 0)
+PyObject* Init_pyCubicRenderTarget_Type() {
+    pyCubicRenderTarget_Type.tp_base = &pyRenderTarget_Type;
+    if (PyType_Ready(&pyCubicRenderTarget_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyRenderTarget_Type);
-    return (PyObject*)&pyRenderTarget_Type;
+    Py_INCREF(&pyCubicRenderTarget_Type);
+    return (PyObject*)&pyCubicRenderTarget_Type;
 }
 
-int pyRenderTarget_Check(PyObject* obj) {
-    if (obj->ob_type == &pyRenderTarget_Type
-        || PyType_IsSubtype(obj->ob_type, &pyRenderTarget_Type))
+int pyCubicRenderTarget_Check(PyObject* obj) {
+    if (obj->ob_type == &pyCubicRenderTarget_Type
+        || PyType_IsSubtype(obj->ob_type, &pyCubicRenderTarget_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyRenderTarget_FromRenderTarget(class plRenderTarget* rt) {
-    if (rt == NULL) {
+PyObject* pyCubicRenderTarget_FromCubicRenderTarget(class plCubicRenderTarget* crt) {
+    if (crt == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    pyRenderTarget* pyrt = PyObject_New(pyRenderTarget, &pyRenderTarget_Type);
-    pyrt->fThis = rt;
-    pyrt->fPyOwned = false;
-    return (PyObject*)pyrt;
+    pyCubicRenderTarget* pycrt = PyObject_New(pyCubicRenderTarget, &pyCubicRenderTarget_Type);
+    pycrt->fThis = crt;
+    pycrt->fPyOwned = false;
+    return (PyObject*)pycrt;
 }
 
 }
