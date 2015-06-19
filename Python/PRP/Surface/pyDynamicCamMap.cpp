@@ -33,6 +33,118 @@ static PyObject* pyDynamicCamMap_new(PyTypeObject* type, PyObject* args, PyObjec
     return (PyObject*)self;
 }
 
+static PyObject* pyDynamicCamMap_addMatLayer(pyDynamicCamMap* self, PyObject* args) {
+    PyObject* key;
+    if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
+        PyErr_SetString(PyExc_TypeError, "addMatLayer expects a plKey");
+        return NULL;
+    }
+    self->fThis->addMatLayer(*((pyKey*)key)->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_clearMatLayers(pyDynamicCamMap* self) {
+    self->fThis->clearMatLayers();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_delMatLayer(pyDynamicCamMap* self, PyObject* args) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delMatLayer expects an int");
+        return NULL;
+    }
+    self->fThis->delMatLayer((size_t)idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_addTargetNode(pyDynamicCamMap* self, PyObject* args) {
+    PyObject* key;
+    if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
+        PyErr_SetString(PyExc_TypeError, "addTargetNode expects a plKey");
+        return NULL;
+    }
+    self->fThis->addTargetNode(*((pyKey*)key)->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_clearTargetNodes(pyDynamicCamMap* self) {
+    self->fThis->clearTargetNodes();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_delTargetNode(pyDynamicCamMap* self, PyObject* args) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delTargetNode expects an int");
+        return NULL;
+    }
+    self->fThis->delTargetNode((size_t)idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_addVisRegion(pyDynamicCamMap* self, PyObject* args) {
+    PyObject* key;
+    if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
+        PyErr_SetString(PyExc_TypeError, "addVisRegions expects a plKey");
+        return NULL;
+    }
+    self->fThis->addVisRegion(*((pyKey*)key)->fThis);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_clearVisRegions(pyDynamicCamMap* self) {
+    self->fThis->clearVisRegions();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_delVisRegion(pyDynamicCamMap* self, PyObject* args) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delVisRegions expects an int");
+        return NULL;
+    }
+    self->fThis->delVisRegion((size_t)idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_addVisRegionName(pyDynamicCamMap* self, PyObject* args) {
+    PyObject* name;
+    if (!(PyArg_ParseTuple(args, "O", &name) && PyAnyStr_Check(name))) {
+        PyErr_SetString(PyExc_TypeError, "addVisRegionName expects a string");
+        return NULL;
+    }
+    self->fThis->addVisRegionName(PyStr_To_PlStr(name));
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_clearVisRegionNames(pyDynamicCamMap* self) {
+    self->fThis->clearVisRegionNames();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyDynamicCamMap_delVisRegionName(pyDynamicCamMap* self, PyObject* args) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delVisRegionName expects an int");
+        return NULL;
+    }
+    self->fThis->delVisRegionName((size_t)idx);
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyDynamicCamMap_getHither(pyDynamicCamMap* self, void*) {
     return PyFloat_FromDouble(self->fThis->getHither());
 }
@@ -274,6 +386,42 @@ static int pyDynamicCamMap_setDisableTexture(pyDynamicCamMap* self, PyObject* va
     }
 }
 
+static PyMethodDef pyDynamicCamMap_Methods[] = {
+    { "addMatLayer", (PyCFunction)pyDynamicCamMap_addMatLayer, METH_VARARGS,
+      "Params: key\n"
+      "Adds a layer key" },
+    { "clearMatLayers", (PyCFunction)pyDynamicCamMap_clearMatLayers, METH_NOARGS,
+      "Clears the list of layerkeys" },
+    { "delMatLayer", (PyCFunction)pyDynamicCamMap_delMatLayer, METH_VARARGS,
+      "Params: idx\n"
+      "Removes a layer key" },
+    { "addTargetNode", (PyCFunction)pyDynamicCamMap_addTargetNode, METH_VARARGS,
+      "Params: key\n"
+      "Adds a target SceneObject key" },
+    { "clearTargetNodes", (PyCFunction)pyDynamicCamMap_clearTargetNodes, METH_NOARGS,
+      "Clears the list of target SceneObject keys" },
+    { "delTargetNode", (PyCFunction)pyDynamicCamMap_delTargetNode, METH_VARARGS,
+      "Params: idx\n"
+      "Removes a target SceneObject key" },
+    { "addVisRegion", (PyCFunction)pyDynamicCamMap_addVisRegion, METH_VARARGS,
+      "Params: key\n"
+      "Adds a VisRegion key" },
+    { "clearVisRegions", (PyCFunction)pyDynamicCamMap_clearVisRegions, METH_NOARGS,
+      "Clears the list of VisRegion keys" },
+    { "delVisRegion", (PyCFunction)pyDynamicCamMap_delVisRegion, METH_VARARGS,
+      "Params: idx\n"
+      "Removes a VisRegion key" },
+    { "addVisRegionName", (PyCFunction)pyDynamicCamMap_addVisRegionName, METH_VARARGS,
+      "Params: name\n"
+      "Adds a VisRegion name" },
+    { "clearVisRegionNames", (PyCFunction)pyDynamicCamMap_clearVisRegionNames, METH_NOARGS,
+      "Clears the list of VisRegion names" },
+    { "delVisRegionName", (PyCFunction)pyDynamicCamMap_delVisRegionName, METH_VARARGS,
+      "Params: idx\n"
+      "Removes a VisRegion name" },
+    { NULL, NULL, 0, NULL }
+};
+
 static PyGetSetDef pyDynamicCamMap_GetSet[] = {
     { _pycs("hither"), (getter)pyDynamicCamMap_getHither, (setter)pyDynamicCamMap_setHither, NULL, NULL },
     { _pycs("yon"), (getter)pyDynamicCamMap_getYon, (setter)pyDynamicCamMap_setYon, NULL, NULL },
@@ -323,7 +471,7 @@ PyTypeObject pyDynamicCamMap_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    NULL,                               /* tp_methods */
+    pyDynamicCamMap_Methods,            /* tp_methods */
     NULL,                               /* tp_members */
     pyDynamicCamMap_GetSet,             /* tp_getset */
     NULL,                               /* tp_base */

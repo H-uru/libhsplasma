@@ -157,14 +157,62 @@ public:
     /** Returns the list of visregions */
     const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
 
-    /** Returns the list of target nodes */
+    /** Returns the list of visregions */
+    std::vector<plKey>& getVisRegions() { return fVisRegions; }
+
+    /** Adds a visregion to the list */
+    void addVisRegion(plKey key) { fVisRegions.push_back(key); }
+
+    /** Removes a visregion from the list */
+    void delVisRegion(size_t idx) { fVisRegions.erase(fVisRegions.begin() + idx); }
+
+    /** Clears the visregion list */
+    void clearVisRegions() { fVisRegions.clear(); }
+
+    /** Returns the list of target node SceneObject keys */
     const std::vector<plKey>& getTargetNodes() const { return fTargetNodes; }
+
+    /** Returns the list of target node SceneObject keys */
+    std::vector<plKey>& getTargetNodes() { return fTargetNodes; }
+
+    /** Adds a target node to the list */
+    void addTargetNode(plKey key) { fTargetNodes.push_back(key); }
+
+    /** Removes a target node from the list */
+    void delTargetNode(size_t idx) { fTargetNodes.erase(fTargetNodes.begin() + idx); }
+
+    /** Clears the target node list */
+    void clearTargetNodes() { fTargetNodes.clear(); }
 
     /** Returns the list of material layers */
     const std::vector<plKey>& getMatLayers() const { return fMatLayers; }
 
+    /** Returns the list of material layers */
+    std::vector<plKey>& getMatLayers() { return fMatLayers; }
+
+    /** Adds a material layer to the list */
+    void addMatLayer(plKey key) { fMatLayers.push_back(key); }
+
+    /** Removes a material layer from the list */
+    void delMatLayer(size_t idx) { fMatLayers.erase(fMatLayers.begin() + idx); }
+
+    /** Clears the material layer list */
+    void clearMatLayers() { fMatLayers.clear(); }
+
     /** Returns a list of visregions by name (from other pages)  */
     const std::vector<plString>& getVisRegionNames() const { return fVisRegionNames; }
+
+    /** Returns the list of material layers */
+    std::vector<plString>& getVisRegionNames() { return fVisRegionNames; }
+
+    /** Adds a material layer to the list */
+    void addVisRegionName(const plString& name) { fVisRegionNames.push_back(name); }
+
+    /** Removes a material layer from the list */
+    void delVisRegionName(size_t idx) { fVisRegionNames.erase(fVisRegionNames.begin() + idx); }
+
+    /** Clears the material layer list */
+    void clearVisRegionNames() { fVisRegionNames.clear(); }
 
     /** Returns whether to include avatars in the render  */
     bool getIncludeCharacters() const { return fIncCharacters; }
