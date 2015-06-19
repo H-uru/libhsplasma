@@ -790,7 +790,12 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
         icicle.setWorldToLocal(span->getWorldToLocal());
         icicle.setMaterialIdx(mat_idx);
         icicle.setGroupIdx(groups[format].second);
-        icicle.setProps(plSpan::deswizzleGeoFlags(span->getProps()));
+        uint32_t props = plSpan::deswizzleGeoFlags(span->getProps());
+        if (span->getPermaLights().size() > 0)
+            props |= plSpan::kPropHasPermaLights;
+        if (span->getPermaProjs().size() > 0)
+            props |= plSpan::kPropHasPermaProjs;
+        icicle.setProps(props);
         icicle.setBaseMatrix(span->getBaseMatrix());
         icicle.setFogEnvironment(span->getFogEnvironment());
         icicle.setLocalBounds(span->getLocalBounds());
@@ -802,6 +807,8 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
         icicle.setWaterHeight(span->getWaterHeight());
         icicle.setPenBoneIdx(span->getPenBoneIdx());
         icicle.setNumMatrices(span->getNumMatrices());
+        icicle.setPermaLights(span->getPermaLights());
+        icicle.setPermaProjs(span->getPermaProjs());
         addIcicle(icicle);
     }
 
@@ -834,6 +841,8 @@ void plDrawableSpans::decomposeGeometry(bool clearcolors) {
         span->setMaxBoneIdx(icicle->getMaxBoneIdx());
         span->setWaterHeight(icicle->getWaterHeight());
         span->setPenBoneIdx(icicle->getPenBoneIdx());
+        span->setPermaLights(icicle->getPermaLights());
+        span->setPermaProjs(icicle->getPermaProjs());
 
         span->setFormat(group->getFormat());
 
