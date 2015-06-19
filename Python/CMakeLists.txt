@@ -365,6 +365,7 @@ set(PRP_RGN_HDRS
 set(PRP_SRFC_SRCS
     PRP/Surface/pyBitmap.cpp
     PRP/Surface/pyCubicEnvironmap.cpp
+    PRP/Surface/pyDynamicCamMap.cpp
     PRP/Surface/pyDynamicEnvMap.cpp
     PRP/Surface/pyDynamicTextMap.cpp
     PRP/Surface/pyGMatState.cpp
