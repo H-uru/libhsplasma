@@ -18,6 +18,8 @@
 #include "Debug/plDebug.h"
 #include "PRP/Object/plSceneObject.h"
 #include "PRP/Object/plSimulationInterface.h"
+#include "PRP/Region/hsBounds.h"
+
 /* Engine specific headers */
 #include "plHKPhysical.h"
 #include "plODEPhysical.h"
@@ -732,4 +734,33 @@ void plGenericPhysical::setTMDBuffer(size_t tmdSize, const unsigned char* tmdBuf
     fTMDSize = tmdSize;
     fTMDBuffer = new unsigned char[fTMDSize];
     memcpy(fTMDBuffer, tmdBuffer, fTMDSize);
+}
+
+void plGenericPhysical::calcSphereBounds(size_t numPoints, const hsVector3* points) {
+    hsBounds3 bounds;
+    for (size_t i = 0; i < numPoints; ++i)
+        bounds += points[i];
+
+    hsVector3 distance = (bounds.getMaxs() - bounds.getMins()) * .5f;
+    fRadius = std::max(distance.X, std::max(distance.Y, distance.Z));
+    fOffset = bounds.updateCenter();
+}
+
+void plGenericPhysical::calcBoxBounds(size_t numPoints, const hsVector3* points) {
+    fIndices.clear();
+    fVerts.clear();
+
+    hsBounds3Ext bounds;
+    for (size_t i = 0; i < numPoints; ++i)
+        bounds += points[i];
+    bounds.unalign();
+
+    // PhysX and ODE can do true boxes
+    fDimensions = (bounds.getMaxs() - bounds.getMins()) * .5f;
+    fOffset = bounds.updateCenter();
+
+    // Havok wants actual geometry
+    hsBounds3Corners corners = bounds.getCorners();
+    fVerts.reserve(corners.size());
+    std::copy(corners.begin(), corners.end(), std::back_inserter(fVerts));
 }

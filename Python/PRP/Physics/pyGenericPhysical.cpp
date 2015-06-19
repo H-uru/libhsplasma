@@ -53,6 +53,62 @@ static PyObject* pyGenericPhysical_setProp(pyGenericPhysical* self, PyObject* ar
     return Py_None;
 }
 
+static PyObject* pyGenericPhysical_calcSphereBounds(pyGenericPhysical* self, PyObject* args) {
+    PyObject* points;
+    if (!(PyArg_ParseTuple(args, "O", &points) && PySequence_Check(points))) {
+        PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
+        return NULL;
+    }
+
+    hsVector3* myPoints = new hsVector3[PySequence_Length(points)];
+    for (size_t i = 0; i < PySequence_Length(points); ++i) {
+        PyObject* item = PySequence_GetItem(points, i);
+        if (!pyVector3_Check(item)) {
+            PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
+            Py_XDECREF(item);
+            delete[] myPoints;
+            return NULL;
+        }
+
+        myPoints[i] = *((pyVector3*)item)->fThis;
+        Py_DECREF(item);
+    }
+
+    self->fThis->calcSphereBounds(PySequence_Length(points), myPoints);
+    delete[] myPoints;
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject* pyGenericPhysical_calcBoxBounds(pyGenericPhysical* self, PyObject* args) {
+    PyObject* points;
+    if (!(PyArg_ParseTuple(args, "O", &points) && PySequence_Check(points))) {
+        PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
+        return NULL;
+    }
+
+    hsVector3* myPoints = new hsVector3[PySequence_Length(points)];
+    for (size_t i = 0; i < PySequence_Length(points); ++i) {
+        PyObject* item = PySequence_GetItem(points, i);
+        if (!pyVector3_Check(item)) {
+            PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");
+            Py_XDECREF(item);
+            delete[] myPoints;
+            return NULL;
+        }
+
+        myPoints[i] = *((pyVector3*)item)->fThis;
+        Py_DECREF(item);
+    }
+
+    self->fThis->calcBoxBounds(PySequence_Length(points), myPoints);
+    delete[] myPoints;
+
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyMethodDef pyGenericPhysical_Methods[] = {
     { "getProperty", (PyCFunction)pyGenericPhysical_getProp, METH_VARARGS,
       "Params: flag\n"
@@ -60,6 +116,12 @@ static PyMethodDef pyGenericPhysical_Methods[] = {
     { "setProperty", (PyCFunction)pyGenericPhysical_setProp, METH_VARARGS,
       "Params: flag, value\n"
       "Sets the specified property" },
+    { "calcSphereBounds", (PyCFunction)pyGenericPhysical_calcSphereBounds, METH_VARARGS,
+      "Params: points\n"
+      "Calculates sphere bounds from a given point cloud" },
+    { "calcBoxBounds", (PyCFunction)pyGenericPhysical_calcBoxBounds, METH_VARARGS,
+      "Params: points\n"
+      "Calculates box bounds from a given point cloud" },
     { NULL, NULL, 0, NULL }
 };
 

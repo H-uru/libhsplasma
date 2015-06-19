@@ -17,7 +17,10 @@
 #ifndef _HSBOUNDS_H
 #define _HSBOUNDS_H
 
+#include <array>
 #include "Math/hsGeometry3.h"
+
+typedef std::array<hsVector3, 8> hsBounds3Corners;
 
 class PLASMA_DLL hsBounds {
 protected:
@@ -74,6 +77,7 @@ public:
     hsVector3 getMins() const { return fMins; }
     hsVector3 getMaxs() const { return fMaxs; }
     hsVector3 getCenter() const { return fCenter; }
+    virtual hsBounds3Corners getCorners() const;
 
     void setMins(const hsVector3& mins) { fMins = mins; }
     void setMaxs(const hsVector3& maxs) { fMaxs = maxs; }
@@ -118,6 +122,7 @@ protected:
 public:
     unsigned int getFlags() const { return fExtFlags; }
     hsVector3 getCorner() const { return fCorner; }
+    virtual hsBounds3Corners getCorners() const;
     hsVector3 getAxis(size_t idx) const { return fAxes[idx]; }
     hsFloatPoint2 getDist(size_t idx) const { return fDists[idx]; }
     float getRadius() const { return fRadius; }

@@ -124,6 +124,16 @@ void hsBounds3::IPrcParse(const pfPrcTag* tag) {
     }
 }
 
+hsBounds3Corners hsBounds3::getCorners() const {
+    hsBounds3Corners corners;
+    for (size_t i = 0; i < corners.max_size(); ++i) {
+        corners[i].X = (i & 0x01) ? fMins.X : fMaxs.X;
+        corners[i].Y = (i & 0x02) ? fMins.Y : fMaxs.Y;
+        corners[i].Z = (i & 0x04) ? fMins.Z : fMaxs.Z;
+    }
+    return corners;
+}
+
 const hsVector3& hsBounds3::updateCenter() {
     fCenter.X = (fMins.X + fMaxs.X) / 2.0f;
     fCenter.Y = (fMins.Y + fMaxs.Y) / 2.0f;
@@ -208,6 +218,24 @@ void hsBounds3Ext::IPrcParse(const pfPrcTag* tag) {
         }
     } else {
         hsBounds3::IPrcParse(tag);
+    }
+}
+
+hsBounds3Corners hsBounds3Ext::getCorners() const {
+    if (fExtFlags & kAxisAligned) {
+        return hsBounds3::getCorners();
+    } else {
+        hsBounds3Corners corners;
+        for (size_t i = 0; i < corners.max_size(); ++i) {
+            corners[i] = fCorner;
+            if (!(i & 0x01) && !(fExtFlags & kAxisZeroZero))
+                corners[i] += fAxes[0];
+            if (!(i & 0x02) && !(fExtFlags & kAxisOneZero))
+                corners[i] += fAxes[1];
+            if (!(i & 0x04) && !(fExtFlags & kAxisTwoZero))
+                corners[i] += fAxes[2];
+        }
+        return corners;
     }
 }
 

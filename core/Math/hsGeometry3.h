@@ -67,6 +67,17 @@ struct PLASMA_DLL hsVector3 {
     { return hsVector3(X + other.X, Y + other.Y, Z + other.Z); }
 
     /**
+     * Adds the vectors in place using vector addition:
+     * \f$[x_1,y_1,z_1] + [x_2,y_2,z_2] = [x_1+x_2,y_1+y_2,z_1+z_2]\f$
+     */
+    hsVector3& operator+=(const hsVector3& other) {
+        X += other.X;
+        Y += other.Y;
+        Z += other.Z;
+        return *this;
+    }
+
+    /**
      * Subtracts the vectors using vector addition:
      * \f$[x_1,y_1,z_1] - [x_2,y_2,z_2] = [x_1-x_2,y_1-y_2,z_1-z_2]\f$
      */
