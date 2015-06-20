@@ -17,6 +17,11 @@
 #include <PyPlasma.h>
 #include <PRP/Surface/plRenderTarget.h>
 #include "pyRenderTarget.h"
+#include "PRP/pyCreatable.h"
+
+static inline plCubicRenderTarget* IConvertRT(pyCubicRenderTarget* self) {
+    return plCubicRenderTarget::Convert(IConvert((pyCreatable*)self));
+}
 
 extern "C" {
 
@@ -30,27 +35,27 @@ static PyObject* pyCubicRenderTarget_new(PyTypeObject* type, PyObject* args, PyO
 }
 
 static PyObject* pyCubicRenderTarget_getLeftFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kLeftFace));
+    return pyRenderTarget_FromRenderTarget(IConvertRT(self)->getFace(plCubicRenderTarget::Faces::kLeftFace));
 }
 
 static PyObject* pyCubicRenderTarget_getRightFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kRightFace));
+    return pyRenderTarget_FromRenderTarget(IConvertRT(self)->getFace(plCubicRenderTarget::Faces::kRightFace));
 }
 
 static PyObject* pyCubicRenderTarget_getFrontFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kFrontFace));
+    return pyRenderTarget_FromRenderTarget(IConvertRT(self)->getFace(plCubicRenderTarget::Faces::kFrontFace));
 }
 
 static PyObject* pyCubicRenderTarget_getBackFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kBackFace));
+    return pyRenderTarget_FromRenderTarget(IConvertRT(self)->getFace(plCubicRenderTarget::Faces::kBackFace));
 }
 
 static PyObject* pyCubicRenderTarget_getTopFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kTopFace));
+    return pyRenderTarget_FromRenderTarget(IConvertRT(self)->getFace(plCubicRenderTarget::Faces::kTopFace));
 }
 
 static PyObject* pyCubicRenderTarget_getBottomFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::Faces::kBottomFace));
+    return pyRenderTarget_FromRenderTarget(IConvertRT(self)->getFace(plCubicRenderTarget::Faces::kBottomFace));
 }
 
 static PyGetSetDef pyCubicRenderTarget_GetSet[] = {
