@@ -130,9 +130,9 @@ void plVertCoder::IDecodeNormal(hsStream* S, unsigned char*& dest) {
 
 void plVertCoder::IDecodeColor(hsStream* S, unsigned char*& dest) {
     IDecodeByte(S, 0, dest);
-    IDecodeByte(S, 3, dest);
-    IDecodeByte(S, 2, dest);
     IDecodeByte(S, 1, dest);
+    IDecodeByte(S, 2, dest);
+    IDecodeByte(S, 3, dest);
     dest += sizeof(unsigned int);
 }
 
@@ -231,9 +231,9 @@ void plVertCoder::IEncodeNormal(hsStream* S, const unsigned char*& src) {
 void plVertCoder::IEncodeColor(hsStream* S, unsigned int vertsLeft,
                                const unsigned char*& src, unsigned int stride) {
     IEncodeByte(S, vertsLeft, 0, src, stride);
-    IEncodeByte(S, vertsLeft, 3, src, stride);
-    IEncodeByte(S, vertsLeft, 2, src, stride);
     IEncodeByte(S, vertsLeft, 1, src, stride);
+    IEncodeByte(S, vertsLeft, 2, src, stride);
+    IEncodeByte(S, vertsLeft, 3, src, stride);
     src += sizeof(unsigned int);
 }
 
