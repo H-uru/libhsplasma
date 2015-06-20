@@ -18,10 +18,13 @@
 #include <PRP/Surface/plRenderTarget.h>
 #include "pyRenderTarget.h"
 #include "pyBitmap.h"
+#include "PRP/pyCreatable.h"
+
+static inline plRenderTarget* IConvertRT(pyRenderTarget* self) {
+    return plRenderTarget::Convert(IConvert((pyCreatable*)self));
+}
 
 extern "C" {
-
-// RenderTarget
 
 static PyObject* pyRenderTarget_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyRenderTarget* self = (pyRenderTarget*)type->tp_alloc(type, 0);
@@ -31,6 +34,197 @@ static PyObject* pyRenderTarget_new(PyTypeObject* type, PyObject* args, PyObject
     }
     return (PyObject*)self;
 }
+
+static PyObject* pyRenderTarget_getWidth(pyRenderTarget* self, void*) {
+    return PyInt_FromLong(IConvertRT(self)->getWidth());
+}
+
+static PyObject* pyRenderTarget_getHeight(pyRenderTarget* self, void*) {
+    return PyInt_FromLong(IConvertRT(self)->getHeight());
+}
+
+static PyObject* pyRenderTarget_getProportionalViewport(pyRenderTarget* self, void*) {
+    return PyBool_FromLong(IConvertRT(self)->getProportionalViewport() ? 1 : 0);
+}
+
+static PyObject* pyRenderTarget_getViewportLeft(pyRenderTarget* self, void*) {
+    plRenderTarget* rt = IConvertRT(self);
+    if (rt->getProportionalViewport())
+        return PyFloat_FromDouble(rt->getProportionalViewportLeft());
+    else
+        return PyInt_FromLong(rt->getAbsoluteViewportLeft());
+}
+
+static PyObject* pyRenderTarget_getViewportTop(pyRenderTarget* self, void*) {
+    plRenderTarget* rt = IConvertRT(self);
+    if (rt->getProportionalViewport())
+        return PyFloat_FromDouble(rt->getProportionalViewportTop());
+    else
+        return PyInt_FromLong(rt->getAbsoluteViewportTop());
+}
+
+static PyObject* pyRenderTarget_getViewportRight(pyRenderTarget* self, void*) {
+    plRenderTarget* rt = IConvertRT(self);
+    if (rt->getProportionalViewport())
+        return PyFloat_FromDouble(rt->getProportionalViewportRight());
+    else
+        return PyInt_FromLong(rt->getAbsoluteViewportRight());
+}
+
+static PyObject* pyRenderTarget_getViewportBottom(pyRenderTarget* self, void*) {
+    plRenderTarget* rt = IConvertRT(self);
+    if (rt->getProportionalViewport())
+        return PyFloat_FromDouble(rt->getProportionalViewportBottom());
+    else
+        return PyInt_FromLong(rt->getAbsoluteViewportBottom());
+}
+
+static PyObject* pyRenderTarget_getZDepth(pyRenderTarget* self, void*) {
+    return PyInt_FromLong(IConvertRT(self)->getZDepth());
+}
+
+static PyObject* pyRenderTarget_getStencilDepth(pyRenderTarget* self, void*) {
+    return PyInt_FromLong(IConvertRT(self)->getStencilDepth());
+}
+
+static int pyRenderTarget_setWidth(pyRenderTarget* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "width should be an int");
+        return -1;
+    }
+    IConvertRT(self)->setWidth(PyInt_AsLong(value));
+    return 0;
+}
+
+static int pyRenderTarget_setHeight(pyRenderTarget* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "height should be an int");
+        return -1;
+    }
+    IConvertRT(self)->setHeight(PyInt_AsLong(value));
+    return 0;
+}
+
+static int pyRenderTarget_setProportionalViewport(pyRenderTarget* self, PyObject* value, void*) {
+    if (value == NULL || !PyBool_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "proportionalViewport should be a boolean");
+        return -1;
+    }
+    IConvertRT(self)->setProportionalViewport(PyInt_AsLong(value) != 0);
+    return 0;
+}
+
+static int pyRenderTarget_setViewportLeft(pyRenderTarget* self, PyObject* value, void*) {
+    plRenderTarget* rt = IConvertRT(self);
+    if (rt->getProportionalViewport()) {
+        if (value == NULL || !PyFloat_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "viewportLeft should be a float");
+            return -1;
+        }
+        rt->setProportionalViewportLeft((float)PyFloat_AsDouble(value));
+    } else {
+        if (value == NULL || !PyInt_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "viewportLeft should be an int");
+            return -1;
+        }
+        rt->setAbsoluteViewportLeft(PyInt_AsLong(value));
+    }
+    return 0;
+}
+
+static int pyRenderTarget_setViewportTop(pyRenderTarget* self, PyObject* value, void*) {
+    plRenderTarget* rt = IConvertRT(self);
+    if (rt->getProportionalViewport()) {
+        if (value == NULL || !PyFloat_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "viewportTop should be a float");
+            return -1;
+        }
+        rt->setProportionalViewportTop((float)PyFloat_AsDouble(value));
+    } else {
+        if (value == NULL || !PyInt_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "viewportTop should be an int");
+            return -1;
+        }
+        rt->setAbsoluteViewportTop(PyInt_AsLong(value));
+    }
+    return 0;
+}
+
+static int pyRenderTarget_setViewportRight(pyRenderTarget* self, PyObject* value, void*) {
+    plRenderTarget* rt = IConvertRT(self);
+    if (rt->getProportionalViewport()) {
+        if (value == NULL || !PyFloat_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "viewportRight should be a float");
+            return -1;
+        }
+        rt->setProportionalViewportRight((float)PyFloat_AsDouble(value));
+    } else {
+        if (value == NULL || !PyInt_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "viewportRight should be an int");
+            return -1;
+        }
+        rt->setAbsoluteViewportRight(PyInt_AsLong(value));
+    }
+    return 0;
+}
+
+static int pyRenderTarget_setViewportBottom(pyRenderTarget* self, PyObject* value, void*) {
+    plRenderTarget* rt = IConvertRT(self);
+    if (rt->getProportionalViewport()) {
+        if (value == NULL || !PyFloat_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "viewportBottom should be a float");
+            return -1;
+        }
+        rt->setProportionalViewportBottom((float)PyFloat_AsDouble(value));
+    } else {
+        if (value == NULL || !PyInt_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "viewportBottom should be an int");
+            return -1;
+        }
+        rt->setAbsoluteViewportBottom(PyInt_AsLong(value));
+    }
+    return 0;
+}
+
+static int pyRenderTarget_setZDepth(pyRenderTarget* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "ZDepth should be an int");
+        return -1;
+    }
+    IConvertRT(self)->setZDepth(PyInt_AsLong(value));
+    return 0;
+}
+
+static int pyRenderTarget_setStencilDepth(pyRenderTarget* self, PyObject* value, void*) {
+    if (value == NULL || !PyInt_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "stencilDepth should be an int");
+        return -1;
+    }
+    IConvertRT(self)->setStencilDepth(PyInt_AsLong(value));
+    return 0;
+}
+
+static PyGetSetDef pyRenderTarget_GetSet[] = {
+    { _pycs("width"), (getter)pyRenderTarget_getWidth,
+        (setter)pyRenderTarget_setWidth, NULL, NULL },
+    { _pycs("height"), (getter)pyRenderTarget_getHeight,
+        (setter)pyRenderTarget_setHeight, NULL, NULL },
+    { _pycs("proportionalViewport"), (getter)pyRenderTarget_getProportionalViewport,
+        (setter)pyRenderTarget_setProportionalViewport, NULL, NULL },
+    { _pycs("viewportLeft"), (getter)pyRenderTarget_getViewportLeft,
+        (setter)pyRenderTarget_setViewportLeft, NULL, NULL },
+    { _pycs("viewportTop"), (getter)pyRenderTarget_getViewportTop,
+        (setter)pyRenderTarget_setViewportTop, NULL, NULL },
+    { _pycs("viewportRight"), (getter)pyRenderTarget_getViewportRight,
+        (setter)pyRenderTarget_setViewportRight, NULL, NULL },
+    { _pycs("viewportBottom"), (getter)pyRenderTarget_getViewportBottom,
+        (setter)pyRenderTarget_setViewportBottom, NULL, NULL },
+    { _pycs("ZDepth"), (getter)pyRenderTarget_getZDepth,
+        (setter)pyRenderTarget_setZDepth, NULL, NULL },
+    { _pycs("stencilDepth"), (getter)pyRenderTarget_getStencilDepth,
+        (setter)pyRenderTarget_setStencilDepth, NULL, NULL },
+    { NULL, NULL, NULL, NULL, NULL }
+};
 
 PyTypeObject pyRenderTarget_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
@@ -66,7 +260,7 @@ PyTypeObject pyRenderTarget_Type = {
 
     NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
+    pyRenderTarget_GetSet,              /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
