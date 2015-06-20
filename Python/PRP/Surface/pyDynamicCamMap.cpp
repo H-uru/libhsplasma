@@ -245,7 +245,7 @@ static int pyDynamicCamMap_setColor(pyDynamicCamMap* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "color should be an hsColorRGBA");
         return -1;
     }
-    self->fThis->setColor(*reinterpret_cast<hsColorRGBA *>(value));
+    self->fThis->setColor(*((pyColorRGBA*)value)->fThis);
     return 0;
 }
 
