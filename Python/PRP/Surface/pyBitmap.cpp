@@ -20,6 +20,10 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
+static inline plBitmap* IConvertBM(pyBitmap* self) {
+    return plBitmap::Convert(IConvert((pyCreatable*)self));
+}
+
 extern "C" {
 
 static PyObject* pyBitmap_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -33,42 +37,42 @@ static PyObject* pyBitmap_setConfig(pyBitmap* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "setConfig expects an int");
         return NULL;
     }
-    self->fThis->setConfig((plBitmap::ColorFormat)format);
+    IConvertBM(self)->setConfig((plBitmap::ColorFormat)format);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyBitmap_getBPP(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getBPP());
+    return PyInt_FromLong(IConvertBM(self)->getBPP());
 }
 
 static PyObject* pyBitmap_getSpace(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getSpace());
+    return PyInt_FromLong(IConvertBM(self)->getSpace());
 }
 
 static PyObject* pyBitmap_getFlags(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getFlags());
+    return PyInt_FromLong(IConvertBM(self)->getFlags());
 }
 
 static PyObject* pyBitmap_getCType(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getCompressionType());
+    return PyInt_FromLong(IConvertBM(self)->getCompressionType());
 }
 
 static PyObject* pyBitmap_getDXComp(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getDXCompression());
+    return PyInt_FromLong(IConvertBM(self)->getDXCompression());
 }
 
 static PyObject* pyBitmap_getDXBlock(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getDXBlockSize());
+    return PyInt_FromLong(IConvertBM(self)->getDXBlockSize());
 }
 
 static PyObject* pyBitmap_getARGBType(pyBitmap* self, void*) {
-    return PyInt_FromLong(self->fThis->getARGBType());
+    return PyInt_FromLong(IConvertBM(self)->getARGBType());
 }
 
 static PyObject* pyBitmap_getModTime(pyBitmap* self, void*) {
-    return Py_BuildValue("ii", PyInt_FromLong(self->fThis->getLowModTime()),
-                               PyInt_FromLong(self->fThis->getHighModTime()));
+    return Py_BuildValue("ii", PyInt_FromLong(IConvertBM(self)->getLowModTime()),
+                               PyInt_FromLong(IConvertBM(self)->getHighModTime()));
 }
 
 static int pyBitmap_setBPP(pyBitmap* self, PyObject* value, void*) {
@@ -76,7 +80,7 @@ static int pyBitmap_setBPP(pyBitmap* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "BPP should be an int");
         return -1;
     }
-    self->fThis->setBPP(PyInt_AsLong(value));
+    IConvertBM(self)->setBPP(PyInt_AsLong(value));
     return 0;
 }
 
@@ -85,7 +89,7 @@ static int pyBitmap_setSpace(pyBitmap* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "space should be an int");
         return -1;
     }
-    self->fThis->setSpace(PyInt_AsLong(value));
+    IConvertBM(self)->setSpace(PyInt_AsLong(value));
     return 0;
 }
 
@@ -94,7 +98,7 @@ static int pyBitmap_setFlags(pyBitmap* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "flags should be an int");
         return -1;
     }
-    self->fThis->setFlags(PyInt_AsLong(value));
+    IConvertBM(self)->setFlags(PyInt_AsLong(value));
     return 0;
 }
 
@@ -103,7 +107,7 @@ static int pyBitmap_setCType(pyBitmap* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "compressionType should be an int");
         return -1;
     }
-    self->fThis->setCompressionType(PyInt_AsLong(value));
+    IConvertBM(self)->setCompressionType(PyInt_AsLong(value));
     return 0;
 }
 
@@ -112,7 +116,7 @@ static int pyBitmap_setDXComp(pyBitmap* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "DXCompression should be an int");
         return -1;
     }
-    self->fThis->setDXCompression(PyInt_AsLong(value));
+    IConvertBM(self)->setDXCompression(PyInt_AsLong(value));
     return 0;
 }
 
@@ -121,7 +125,7 @@ static int pyBitmap_setDXBlock(pyBitmap* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "DXBlockSize should be an int");
         return -1;
     }
-    self->fThis->setDXBlockSize(PyInt_AsLong(value));
+    IConvertBM(self)->setDXBlockSize(PyInt_AsLong(value));
     return 0;
 }
 
@@ -130,7 +134,7 @@ static int pyBitmap_setARGBType(pyBitmap* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "ARGBType should be an int");
         return -1;
     }
-    self->fThis->setARGBType(PyInt_AsLong(value));
+    IConvertBM(self)->setARGBType(PyInt_AsLong(value));
     return 0;
 }
 
@@ -146,7 +150,7 @@ static int pyBitmap_setModTime(pyBitmap* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "modTime should be a tuple (int, int)");
         return -1;
     }
-    self->fThis->setModTime(PyInt_AsLong(time[0]), PyInt_AsLong(time[1]));
+    IConvertBM(self)->setModTime(PyInt_AsLong(time[0]), PyInt_AsLong(time[1]));
     return 0;
 }
 
