@@ -58,6 +58,15 @@ static PyObject* pyCubicRenderTarget_getBottomFace(pyCubicRenderTarget* self, vo
     return pyRenderTarget_FromRenderTarget(IConvertRT(self)->getFace(plCubicRenderTarget::kBottomFace));
 }
 
+static PyObject* pyCubicRenderTarget_getFaces(pyCubicRenderTarget* self, void*) {
+    PyObject* facesTuple = PyTuple_New(plCubicRenderTarget::kNumFaces);
+    for (size_t i = 0; i < plCubicRenderTarget::kNumFaces; ++i) {
+        plRenderTarget* rt = IConvertRT(self)->getFace(i);
+        PyTuple_SET_ITEM(facesTuple, i, ICreate(rt));
+    }
+    return facesTuple;
+}
+
 static PyGetSetDef pyCubicRenderTarget_GetSet[] = {
     { _pycs("leftFace"), (getter)pyCubicRenderTarget_getLeftFace, NULL, NULL, NULL },
     { _pycs("rightFace"), (getter)pyCubicRenderTarget_getRightFace, NULL, NULL, NULL },
@@ -65,6 +74,7 @@ static PyGetSetDef pyCubicRenderTarget_GetSet[] = {
     { _pycs("backFace"), (getter)pyCubicRenderTarget_getBackFace, NULL, NULL, NULL },
     { _pycs("topFace"), (getter)pyCubicRenderTarget_getTopFace, NULL, NULL, NULL },
     { _pycs("bottomFace"), (getter)pyCubicRenderTarget_getBottomFace, NULL, NULL, NULL },
+    { _pycs("faces"), (getter)pyCubicRenderTarget_getFaces, NULL, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
@@ -130,6 +140,19 @@ PyObject* Init_pyCubicRenderTarget_Type() {
     pyCubicRenderTarget_Type.tp_base = &pyRenderTarget_Type;
     if (PyType_Ready(&pyCubicRenderTarget_Type) < 0)
         return NULL;
+
+    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kLeftFace",
+                         PyInt_FromLong(plCubicRenderTarget::kLeftFace));
+    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kRightFace",
+                         PyInt_FromLong(plCubicRenderTarget::kRightFace));
+    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kFrontFace",
+                         PyInt_FromLong(plCubicRenderTarget::kFrontFace));
+    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kBackFace",
+                         PyInt_FromLong(plCubicRenderTarget::kBackFace));
+    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kTopFace",
+                         PyInt_FromLong(plCubicRenderTarget::kTopFace));
+    PyDict_SetItemString(pyCubicRenderTarget_Type.tp_dict, "kBottomFace",
+                         PyInt_FromLong(plCubicRenderTarget::kBottomFace));
 
     Py_INCREF(&pyCubicRenderTarget_Type);
     return (PyObject*)&pyCubicRenderTarget_Type;
