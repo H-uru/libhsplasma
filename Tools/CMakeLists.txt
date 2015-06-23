@@ -1,10 +1,10 @@
 include_directories(${PROJECT_SOURCE_DIR}/core)
 
-try_compile(HAVE_NON_CONST_DIRENT ${PROJECT_BINARY_DIR}
+try_compile(DIRENT_IS_CONST ${PROJECT_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}/Misc/cmake_CheckDirent.cpp
             OUTPUT_VARIABLE OUTPUT)
-if(NOT HAVE_NON_CONST_DIRENT)
-    add_definitions("-DNEED_CONST_DIRENT")
+if(DIRENT_IS_CONST)
+    add_definitions("-DDIRENT_IS_CONST")
 endif()
 
 macro(plasma_tool NAME)

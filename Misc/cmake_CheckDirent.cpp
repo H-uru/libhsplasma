@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 
 #ifndef WIN32
-int majick(struct dirent* de)
+int majick(const struct dirent* de)
 {
     return 1;
 }

@@ -26,7 +26,7 @@
 #endif
 #include <sys/stat.h>
 
-#ifdef NEED_CONST_DIRENT
+#ifdef DIRENT_IS_CONST
   #define DIRENT const dirent*
 #else
   #define DIRENT dirent*
