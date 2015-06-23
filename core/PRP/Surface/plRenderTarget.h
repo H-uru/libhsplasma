@@ -53,6 +53,39 @@ protected:
     void IWrite(hsStream* S);
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned short getWidth() const { return fWidth; }
+    unsigned short getHeight() const { return fHeight; }
+    bool getProportionalViewport() const { return fProportionalViewport; }
+    unsigned char getZDepth() const { return fZDepth; }
+    unsigned char getStencilDepth() const { return fStencilDepth; }
+
+    float getProportionalViewportLeft() const { return fViewport.fProportional.fLeft; }
+    float getProportionalViewportTop() const { return fViewport.fProportional.fTop; }
+    float getProportionalViewportRight() const { return fViewport.fProportional.fRight; }
+    float getProportionalViewportBottom() const { return fViewport.fProportional.fBottom; }
+
+    unsigned short getAbsoluteViewportLeft() const { return fViewport.fAbsolute.fLeft; }
+    unsigned short getAbsoluteViewportTop() const { return fViewport.fAbsolute.fTop; }
+    unsigned short getAbsoluteViewportRight() const { return fViewport.fAbsolute.fRight; }
+    unsigned short getAbsoluteViewportBottom() const { return fViewport.fAbsolute.fBottom; }
+
+    void setWidth(unsigned short value) { fWidth = value; }
+    void setHeight(unsigned short value) { fHeight = value; }
+    void setProportionalViewport(bool value) { fProportionalViewport = value; }
+    void setZDepth(unsigned char value) { fZDepth = value; }
+    void setStencilDepth(unsigned char value) { fStencilDepth = value; }
+
+    void setProportionalViewportLeft(float value) { fViewport.fProportional.fLeft = value; }
+    void setProportionalViewportTop(float value) { fViewport.fProportional.fTop = value; }
+    void setProportionalViewportRight(float value) { fViewport.fProportional.fRight = value; }
+    void setProportionalViewportBottom(float value) { fViewport.fProportional.fBottom = value; }
+
+    void setAbsoluteViewportLeft(float value) { fViewport.fAbsolute.fLeft = value; }
+    void setAbsoluteViewportTop(float value) { fViewport.fAbsolute.fTop = value; }
+    void setAbsoluteViewportRight(float value) { fViewport.fAbsolute.fRight = value; }
+    void setAbsoluteViewportBottom(float value) { fViewport.fAbsolute.fBottom = value; }
 };
 
 
