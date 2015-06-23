@@ -92,7 +92,7 @@ static PyObject* pyDynamicCamMap_delTargetNode(pyDynamicCamMap* self, PyObject* 
 static PyObject* pyDynamicCamMap_addVisRegion(pyDynamicCamMap* self, PyObject* args) {
     PyObject* key;
     if (!(PyArg_ParseTuple(args, "O", &key) && pyKey_Check(key))) {
-        PyErr_SetString(PyExc_TypeError, "addVisRegions expects a plKey");
+        PyErr_SetString(PyExc_TypeError, "addVisRegion expects a plKey");
         return NULL;
     }
     self->fThis->addVisRegion(*((pyKey*)key)->fThis);
@@ -109,7 +109,7 @@ static PyObject* pyDynamicCamMap_clearVisRegions(pyDynamicCamMap* self) {
 static PyObject* pyDynamicCamMap_delVisRegion(pyDynamicCamMap* self, PyObject* args) {
     Py_ssize_t idx;
     if (!PyArg_ParseTuple(args, "n", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "delVisRegions expects an int");
+        PyErr_SetString(PyExc_TypeError, "delVisRegion expects an int");
         return NULL;
     }
     self->fThis->delVisRegion((size_t)idx);
@@ -175,10 +175,10 @@ static PyObject* pyDynamicCamMap_getVisRegions(pyDynamicCamMap* self, void*) {
 
 static PyObject* pyDynamicCamMap_getTargetNodes(pyDynamicCamMap* self, void*) {
     const std::vector<plKey>& keys = self->fThis->getTargetNodes();
-    PyObject* regionList = PyList_New(keys.size());
+    PyObject* nodeList = PyList_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
-        PyList_SET_ITEM(regionList, i, pyKey_FromKey(keys[i]));
-    return regionList;
+        PyList_SET_ITEM(nodeList, i, pyKey_FromKey(keys[i]));
+    return nodeList;
 }
 
 static PyObject* pyDynamicCamMap_getMatLayers(pyDynamicCamMap* self, void*) {
@@ -391,7 +391,7 @@ static PyMethodDef pyDynamicCamMap_Methods[] = {
       "Params: key\n"
       "Adds a layer key" },
     { "clearMatLayers", (PyCFunction)pyDynamicCamMap_clearMatLayers, METH_NOARGS,
-      "Clears the list of layerkeys" },
+      "Clears the list of layer keys" },
     { "delMatLayer", (PyCFunction)pyDynamicCamMap_delMatLayer, METH_VARARGS,
       "Params: idx\n"
       "Removes a layer key" },
