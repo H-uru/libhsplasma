@@ -94,7 +94,7 @@ class PLASMA_DLL plCubicRenderTarget : public virtual plRenderTarget {
 
 public:
     enum Faces {
-        kLeftFace, kRightFace, kFrontFace, kBackFace, kTopFace, kBottomFace
+        kLeftFace, kRightFace, kFrontFace, kBackFace, kTopFace, kBottomFace, kNumFaces
     };
 
 protected:
