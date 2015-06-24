@@ -186,6 +186,7 @@
 #include "PRP/ConditionalObject/pyControlEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyDetectConditionalObjects.h"
 #include "PRP/ConditionalObject/pyFacingConditionalObject.h"
+#include "PRP/ConditionalObject/pyKeyPressConditionalObject.h"
 #include "PRP/ConditionalObject/pyVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
@@ -288,7 +289,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyPickedConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPickedConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyActivatorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plActivatorConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyTimerCallbackManager_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plTimerCallbackManager*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyKeyPressConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plKeyPressConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyKeyPressConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plKeyPressConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyAnimationEventConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAnimationEventConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyControlEventConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plControlEventConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyObjectInBoxConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInBoxConditionalObject*>(pCre->fThis));
@@ -655,6 +656,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kAnimationEventConditionalObject: return pyAnimationEventConditionalObject_FromAnimationEventConditionalObject(plAnimationEventConditionalObject::Convert(pCre));
         case kControlEventConditionalObject: return pyControlEventConditionalObject_FromControlEventConditionalObject(plControlEventConditionalObject::Convert(pCre));
         case kFacingConditionalObject: return pyFacingConditionalObject_FromFacingConditionalObject(plFacingConditionalObject::Convert(pCre));
+        case kKeyPressConditionalObject: return pyKeyPressConditionalObject_FromKeyPressConditionalObject(plKeyPressConditionalObject::Convert(pCre));
         case kLocalPlayerInBoxConditionalObject: return pyLocalPlayerInBoxConditionalObject_FromLocalPlayerInBoxConditionalObject(plLocalPlayerInBoxConditionalObject::Convert(pCre));
         case kLocalPlayerIntersectPlaneConditionalObject: return pyLocalPlayerIntersectPlaneConditionalObject_FromLocalPlayerIntersectPlaneConditionalObject(plLocalPlayerIntersectPlaneConditionalObject::Convert(pCre));
         case kObjectInBoxConditionalObject: return pyObjectInBoxConditionalObject_FromObjectInBoxConditionalObject(plObjectInBoxConditionalObject::Convert(pCre));

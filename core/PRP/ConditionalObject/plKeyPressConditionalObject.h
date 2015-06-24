@@ -36,6 +36,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plKeyDef getKeyEvent() const { return fKeyEvent; }
+    void setKeyEvent(plKeyDef value) { fKeyEvent = value; }
 };
 
 #endif
