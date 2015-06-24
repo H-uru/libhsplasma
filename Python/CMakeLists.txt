@@ -164,6 +164,7 @@ set(PRP_COND_SRCS
     PRP/ConditionalObject/pyAnimationEventConditionalObject.cpp
     PRP/ConditionalObject/pyVolActivatorConditionalObject.cpp
     PRP/ConditionalObject/pyConditionalObject.cpp
+    PRP/ConditionalObject/pyControlEventConditionalObject.cpp
     PRP/ConditionalObject/pyORConditionalObject.cpp
     PRP/ConditionalObject/pyVolumeSensorConditionalObject.cpp
     PRP/ConditionalObject/pyVolumeSensorConditionalObjectNoArbitration.cpp
@@ -173,6 +174,7 @@ set(PRP_COND_HDRS
     PRP/ConditionalObject/pyAnimationEventConditionalObject.h
     PRP/ConditionalObject/pyBooleanConditionalObject.h
     PRP/ConditionalObject/pyConditionalObject.h
+    PRP/ConditionalObject/pyControlEventConditionalObject.h
     PRP/ConditionalObject/pyVolumeSensorConditionalObject.h
 )
 
