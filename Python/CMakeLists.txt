@@ -165,6 +165,7 @@ set(PRP_COND_SRCS
     PRP/ConditionalObject/pyVolActivatorConditionalObject.cpp
     PRP/ConditionalObject/pyConditionalObject.cpp
     PRP/ConditionalObject/pyControlEventConditionalObject.cpp
+    PRP/ConditionalObject/pyFacingConditionalObject.cpp
     PRP/ConditionalObject/pyLocalPlayerInBoxConditionalObject.cpp
     PRP/ConditionalObject/pyLocalPlayerIntersectPlaneConditionalObject.cpp
     PRP/ConditionalObject/pyObjectInBoxConditionalObject.cpp
@@ -180,6 +181,7 @@ set(PRP_COND_HDRS
     PRP/ConditionalObject/pyConditionalObject.h
     PRP/ConditionalObject/pyControlEventConditionalObject.h
     PRP/ConditionalObject/pyDetectConditionalObjects.h
+    PRP/ConditionalObject/pyFacingConditionalObject.h
     PRP/ConditionalObject/pyVolumeSensorConditionalObject.h
 )
 

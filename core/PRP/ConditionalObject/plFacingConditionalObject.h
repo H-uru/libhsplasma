@@ -36,6 +36,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getTolerance() const { return fTolerance; }
+    bool getDirectional() const { return fDirectional; }
+
+    void setTolerance(float value) { fTolerance = value; }
+    void setDirectional(bool value) { fDirectional = value; }
 };
 
 #endif
