@@ -184,6 +184,7 @@
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
 #include "PRP/ConditionalObject/pyConditionalObject.h"
 #include "PRP/ConditionalObject/pyControlEventConditionalObject.h"
+#include "PRP/ConditionalObject/pyDetectConditionalObjects.h"
 #include "PRP/ConditionalObject/pyVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
@@ -289,10 +290,10 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyKeyPressConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plKeyPressConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyAnimationEventConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAnimationEventConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyControlEventConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plControlEventConditionalObject*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyObjectInBoxConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInBoxConditionalObject*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyLocalPlayerInBoxConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLocalPlayerInBoxConditionalObject*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyObjectIntersectPlaneConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectIntersectPlaneConditionalObject*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyLocalPlayerIntersectPlaneConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLocalPlayerIntersectPlaneConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyObjectInBoxConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInBoxConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyLocalPlayerInBoxConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLocalPlayerInBoxConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyObjectIntersectPlaneConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectIntersectPlaneConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyLocalPlayerIntersectPlaneConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLocalPlayerIntersectPlaneConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPortalDrawable_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPortalDrawable*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPortalPhysical_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPortalPhysical*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySpawnModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSpawnModifier*>(pCre->fThis));
@@ -652,6 +653,10 @@ PyObject* ICreate(plCreatable* pCre)
         case kANDConditionalObject: return pyANDConditionalObject_FromANDConditionalObject(plANDConditionalObject::Convert(pCre));
         case kAnimationEventConditionalObject: return pyAnimationEventConditionalObject_FromAnimationEventConditionalObject(plAnimationEventConditionalObject::Convert(pCre));
         case kControlEventConditionalObject: return pyControlEventConditionalObject_FromControlEventConditionalObject(plControlEventConditionalObject::Convert(pCre));
+        case kLocalPlayerInBoxConditionalObject: return pyLocalPlayerInBoxConditionalObject_FromLocalPlayerInBoxConditionalObject(plLocalPlayerInBoxConditionalObject::Convert(pCre));
+        case kLocalPlayerIntersectPlaneConditionalObject: return pyLocalPlayerIntersectPlaneConditionalObject_FromLocalPlayerIntersectPlaneConditionalObject(plLocalPlayerIntersectPlaneConditionalObject::Convert(pCre));
+        case kObjectInBoxConditionalObject: return pyObjectInBoxConditionalObject_FromObjectInBoxConditionalObject(plObjectInBoxConditionalObject::Convert(pCre));
+        case kObjectIntersectPlaneConditionalObject: return pyObjectIntersectPlaneConditionalObject_FromObjectIntersectPlaneConditionalObject(plObjectIntersectPlaneConditionalObject::Convert(pCre));
         case kORConditionalObject: return pyORConditionalObject_FromORConditionalObject(plORConditionalObject::Convert(pCre));
         case kVolActivatorConditionalObject: return pyVolActivatorConditionalObject_FromVolActivatorConditionalObject(plVolActivatorConditionalObject::Convert(pCre));
         case kVolumeSensorConditionalObject: return pyVolumeSensorConditionalObject_FromVolumeSensorConditionalObject(plVolumeSensorConditionalObject::Convert(pCre));

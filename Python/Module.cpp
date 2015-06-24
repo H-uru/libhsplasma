@@ -51,6 +51,7 @@
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
 #include "PRP/ConditionalObject/pyConditionalObject.h"
 #include "PRP/ConditionalObject/pyControlEventConditionalObject.h"
+#include "PRP/ConditionalObject/pyDetectConditionalObjects.h"
 #include "PRP/ConditionalObject/pyVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
@@ -328,6 +329,10 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plAnimationEventConditionalObject", Init_pyAnimationEventConditionalObject_Type());
     PyModule_AddObject(module, "plORConditionalObject", Init_pyORConditionalObject_Type());
     PyModule_AddObject(module, "plControlEventConditionalObject", Init_pyControlEventConditionalObject_Type());
+    PyModule_AddObject(module, "plLocalPlayerInBoxConditionalObject", Init_pyLocalPlayerInBoxConditionalObject_Type());
+    PyModule_AddObject(module, "plLocalPlayerIntersectPlaneConditionalObject", Init_pyLocalPlayerIntersectPlaneConditionalObject_Type());
+    PyModule_AddObject(module, "plObjectInBoxConditionalObject", Init_pyObjectInBoxConditionalObject_Type());
+    PyModule_AddObject(module, "plObjectIntersectPlaneConditionalObject", Init_pyObjectIntersectPlaneConditionalObject_Type());
     PyModule_AddObject(module, "plVolActivatorConditionalObject", Init_pyVolActivatorConditionalObject_Type());
     PyModule_AddObject(module, "plVolumeSensorConditionalObject", Init_pyVolumeSensorConditionalObject_Type());
     PyModule_AddObject(module, "plVolumeSensorConditionalObjectNoArbitration", Init_pyVolumeSensorConditionalObjectNoArbitration_Type());
