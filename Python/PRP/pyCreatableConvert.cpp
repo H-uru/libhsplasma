@@ -180,6 +180,7 @@
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
+#include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyConditionalObject.h"
 #include "PRP/ConditionalObject/pyVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
@@ -284,7 +285,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyActivatorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plActivatorConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyTimerCallbackManager_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plTimerCallbackManager*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyKeyPressConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plKeyPressConditionalObject*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyAnimationEventConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAnimationEventConditionalObject*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyAnimationEventConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAnimationEventConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyControlEventConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plControlEventConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyObjectInBoxConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plObjectInBoxConditionalObject*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyLocalPlayerInBoxConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLocalPlayerInBoxConditionalObject*>(pCre->fThis));
@@ -646,6 +647,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kPythonFileMod: return pyPythonFileMod_FromPythonFileMod(plPythonFileMod::Convert(pCre));
         case kActivatorActivatorConditionalObject: return pyActivatorActivatorConditionalObject_FromActivatorActivatorConditionalObject(plActivatorActivatorConditionalObject::Convert(pCre));
         case kActivatorConditionalObject: return pyActivatorConditionalObject_FromActivatorConditionalObject(plActivatorConditionalObject::Convert(pCre));
+        case kAnimationEventConditionalObject: return pyAnimationEventConditionalObject_FromAnimationEventConditionalObject(plAnimationEventConditionalObject::Convert(pCre));
         case kVolActivatorConditionalObject: return pyVolActivatorConditionalObject_FromVolActivatorConditionalObject(plVolActivatorConditionalObject::Convert(pCre));
         case kVolumeSensorConditionalObject: return pyVolumeSensorConditionalObject_FromVolumeSensorConditionalObject(plVolumeSensorConditionalObject::Convert(pCre));
         case kSpawnModifier: return pySpawnModifier_FromSpawnModifier(plSpawnModifier::Convert(pCre));
