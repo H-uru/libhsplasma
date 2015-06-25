@@ -65,7 +65,7 @@ static PyMethodDef pyANDConditionalObject_Methods[] = {
       "Adds a child condition key" },
     { "clearChildren", (PyCFunction)pyANDConditionalObject_clearChildren, METH_NOARGS,
       "Removes all children condition keys" },
-    { "delChild", (PyCFunction)pyANDConditionalObject_clearChildren, METH_VARARGS,
+    { "delChild", (PyCFunction)pyANDConditionalObject_delChild, METH_VARARGS,
       "Params: idx\n"
       "Removes a child condition key" },
     { NULL, NULL, 0, NULL }

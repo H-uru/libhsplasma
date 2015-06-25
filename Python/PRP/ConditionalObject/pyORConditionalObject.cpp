@@ -65,7 +65,7 @@ static PyMethodDef pyORConditionalObject_Methods[] = {
       "Adds a child condition key" },
     { "clearChildren", (PyCFunction)pyORConditionalObject_clearChildren, METH_NOARGS,
       "Removes all children condition keys" },
-    { "delChild", (PyCFunction)pyORConditionalObject_clearChildren, METH_VARARGS,
+    { "delChild", (PyCFunction)pyORConditionalObject_delChild, METH_VARARGS,
       "Params: idx\n"
       "Removes a child condition key" },
     { NULL, NULL, 0, NULL }

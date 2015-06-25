@@ -70,7 +70,7 @@ static PyMethodDef pyActivatorConditionalObject_Methods[] = {
       "Adds an activator key" },
     { "clearActivators", (PyCFunction)pyActivatorConditionalObject_clearActivators, METH_NOARGS,
       "Removes all activator keys" },
-    { "delActivator", (PyCFunction)pyActivatorConditionalObject_clearActivators, METH_VARARGS,
+    { "delActivator", (PyCFunction)pyActivatorConditionalObject_delActivator, METH_VARARGS,
       "Params: idx\n"
       "Removes an activator key" },
     { NULL, NULL, 0, NULL }
