@@ -46,7 +46,14 @@
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
+#include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
+#include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
+#include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
 #include "PRP/ConditionalObject/pyConditionalObject.h"
+#include "PRP/ConditionalObject/pyControlEventConditionalObject.h"
+#include "PRP/ConditionalObject/pyDetectConditionalObjects.h"
+#include "PRP/ConditionalObject/pyFacingConditionalObject.h"
+#include "PRP/ConditionalObject/pyKeyPressConditionalObject.h"
 #include "PRP/ConditionalObject/pyVolumeSensorConditionalObject.h"
 #include "PRP/Geometry/pyCluster.h"
 #include "PRP/Geometry/pyClusterGroup.h"
@@ -164,6 +171,196 @@ void initPyPlasma_Constants(PyObject* module) {
     PyModule_AddIntConstant(module, "kEventEnd", kEventEnd);
     PyModule_AddIntConstant(module, "kSingleFrameAdjust", kSingleFrameAdjust);
     PyModule_AddIntConstant(module, "kSingleFrameEval", kSingleFrameEval);
+
+    /* Enum ControlEventCode */
+    PyModule_AddIntConstant(module, "B_CONTROL_ACTION", B_CONTROL_ACTION);
+    PyModule_AddIntConstant(module, "B_CONTROL_ACTION_MOUSE", B_CONTROL_ACTION_MOUSE);
+    PyModule_AddIntConstant(module, "B_CONTROL_JUMP", B_CONTROL_JUMP);
+    PyModule_AddIntConstant(module, "B_CONTROL_MOVE_FORWARD", B_CONTROL_MOVE_FORWARD);
+    PyModule_AddIntConstant(module, "B_CONTROL_MOVE_BACKWARD", B_CONTROL_MOVE_BACKWARD);
+    PyModule_AddIntConstant(module, "B_CONTROL_STRAFE_LEFT", B_CONTROL_STRAFE_LEFT);
+    PyModule_AddIntConstant(module, "B_CONTROL_STRAFE_RIGHT", B_CONTROL_STRAFE_RIGHT);
+    PyModule_AddIntConstant(module, "B_CONTROL_MOVE_UP", B_CONTROL_MOVE_UP);
+    PyModule_AddIntConstant(module, "B_CONTROL_MOVE_DOWN", B_CONTROL_MOVE_DOWN);
+    PyModule_AddIntConstant(module, "B_CONTROL_ROTATE_LEFT", B_CONTROL_ROTATE_LEFT);
+    PyModule_AddIntConstant(module, "B_CONTROL_ROTATE_RIGHT", B_CONTROL_ROTATE_RIGHT);
+    PyModule_AddIntConstant(module, "B_CONTROL_ROTATE_UP", B_CONTROL_ROTATE_UP);
+    PyModule_AddIntConstant(module, "B_CONTROL_ROTATE_DOWN", B_CONTROL_ROTATE_DOWN);
+    PyModule_AddIntConstant(module, "B_CONTROL_MODIFIER_FAST", B_CONTROL_MODIFIER_FAST);
+    PyModule_AddIntConstant(module, "B_CONTROL_ALWAYS_RUN", B_CONTROL_ALWAYS_RUN);
+    PyModule_AddIntConstant(module, "B_CONTROL_EQUIP", B_CONTROL_EQUIP);
+    PyModule_AddIntConstant(module, "B_CONTROL_DROP", B_CONTROL_DROP);
+    PyModule_AddIntConstant(module, "B_CONTROL_TURN_TO", B_CONTROL_TURN_TO);
+    PyModule_AddIntConstant(module, "B_TOGGLE_DRIVE_MODE", B_TOGGLE_DRIVE_MODE);
+    PyModule_AddIntConstant(module, "B_CAMERA_MOVE_FORWARD", B_CAMERA_MOVE_FORWARD);
+    PyModule_AddIntConstant(module, "B_CAMERA_MOVE_BACKWARD", B_CAMERA_MOVE_BACKWARD);
+    PyModule_AddIntConstant(module, "B_CAMERA_MOVE_UP", B_CAMERA_MOVE_UP);
+    PyModule_AddIntConstant(module, "B_CAMERA_MOVE_DOWN", B_CAMERA_MOVE_DOWN);
+    PyModule_AddIntConstant(module, "B_CAMERA_MOVE_LEFT", B_CAMERA_MOVE_LEFT);
+    PyModule_AddIntConstant(module, "B_CAMERA_MOVE_RIGHT", B_CAMERA_MOVE_RIGHT);
+    PyModule_AddIntConstant(module, "B_CAMERA_PAN_UP", B_CAMERA_PAN_UP);
+    PyModule_AddIntConstant(module, "B_CAMERA_PAN_DOWN", B_CAMERA_PAN_DOWN);
+    PyModule_AddIntConstant(module, "B_CAMERA_PAN_LEFT", B_CAMERA_PAN_LEFT);
+    PyModule_AddIntConstant(module, "B_CAMERA_PAN_RIGHT", B_CAMERA_PAN_RIGHT);
+    PyModule_AddIntConstant(module, "B_CAMERA_MOVE_FAST", B_CAMERA_MOVE_FAST);
+    PyModule_AddIntConstant(module, "B_CAMERA_ROTATE_RIGHT", B_CAMERA_ROTATE_RIGHT);
+    PyModule_AddIntConstant(module, "B_CAMERA_ROTATE_LEFT", B_CAMERA_ROTATE_LEFT);
+    PyModule_AddIntConstant(module, "B_CAMERA_ROTATE_UP", B_CAMERA_ROTATE_UP);
+    PyModule_AddIntConstant(module, "B_CAMERA_ROTATE_DOWN", B_CAMERA_ROTATE_DOWN);
+    PyModule_AddIntConstant(module, "B_CAMERA_RECENTER", B_CAMERA_RECENTER);
+    PyModule_AddIntConstant(module, "B_CAMERA_DRIVE_SPEED_UP", B_CAMERA_DRIVE_SPEED_UP);
+    PyModule_AddIntConstant(module, "B_CAMERA_DRIVE_SPEED_DOWN", B_CAMERA_DRIVE_SPEED_DOWN);
+    PyModule_AddIntConstant(module, "B_CAMERA_ZOOM_IN", B_CAMERA_ZOOM_IN);
+    PyModule_AddIntConstant(module, "B_CAMERA_ZOOM_OUT", B_CAMERA_ZOOM_OUT);
+    PyModule_AddIntConstant(module, "B_SET_CONSOLE_MODE", B_SET_CONSOLE_MODE);
+    PyModule_AddIntConstant(module, "B_CONTROL_CONSOLE_COMMAND", B_CONTROL_CONSOLE_COMMAND);
+    PyModule_AddIntConstant(module, "B_CONTROL_TOGGLE_PHYSICAL", B_CONTROL_TOGGLE_PHYSICAL);
+    PyModule_AddIntConstant(module, "B_CONTROL_PICK", B_CONTROL_PICK);
+    PyModule_AddIntConstant(module, "A_CONTROL_MOVE", A_CONTROL_MOVE);
+    PyModule_AddIntConstant(module, "A_CONTROL_TURN", A_CONTROL_TURN);
+    PyModule_AddIntConstant(module, "A_CONTROL_MOUSE_X", A_CONTROL_MOUSE_X);
+    PyModule_AddIntConstant(module, "A_CONTROL_MOUSE_Y", A_CONTROL_MOUSE_Y);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_UP", S_SET_CURSOR_UP);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_DOWN", S_SET_CURSOR_DOWN);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_RIGHT", S_SET_CURSOR_RIGHT);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_LEFT", S_SET_CURSOR_LEFT);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_POISED", S_SET_CURSOR_POISED);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_HIDDEN", S_SET_CURSOR_HIDDEN);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_UNHIDDEN", S_SET_CURSOR_UNHIDDEN);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_ARROW", S_SET_CURSOR_ARROW);
+    PyModule_AddIntConstant(module, "S_SEARCH_FOR_PICKABLE", S_SEARCH_FOR_PICKABLE);
+    PyModule_AddIntConstant(module, "S_INCREASE_MIC_VOL", S_INCREASE_MIC_VOL);
+    PyModule_AddIntConstant(module, "S_DECREASE_MIC_VOL", S_DECREASE_MIC_VOL);
+    PyModule_AddIntConstant(module, "S_PUSH_TO_TALK", S_PUSH_TO_TALK);
+    PyModule_AddIntConstant(module, "S_SET_THIRD_PERSON_MODE", S_SET_THIRD_PERSON_MODE);
+    PyModule_AddIntConstant(module, "S_SET_FIRST_PERSON_MODE", S_SET_FIRST_PERSON_MODE);
+    PyModule_AddIntConstant(module, "S_SET_WALK_MODE", S_SET_WALK_MODE);
+    PyModule_AddIntConstant(module, "S_SET_FREELOOK", S_SET_FREELOOK);
+    PyModule_AddIntConstant(module, "S_SET_CONSOLE_SINGLE", S_SET_CONSOLE_SINGLE);
+    PyModule_AddIntConstant(module, "S_SET_CONSOLE_HIDDEN", S_SET_CONSOLE_HIDDEN);
+    PyModule_AddIntConstant(module, "B_CONTROL_SET_EQUIPED_STATE", B_CONTROL_SET_EQUIPED_STATE);
+    PyModule_AddIntConstant(module, "B_CONTROL_SCROLL_UP_LIST", B_CONTROL_SCROLL_UP_LIST);
+    PyModule_AddIntConstant(module, "B_CONTROL_SCROLL_DOWN_LIST", B_CONTROL_SCROLL_DOWN_LIST);
+    PyModule_AddIntConstant(module, "B_CONTROL_SET_INVENTORY_ACTIVE", B_CONTROL_SET_INVENTORY_ACTIVE);
+    PyModule_AddIntConstant(module, "B_CONTROL_SET_INVENTORY_DISACTIVE", B_CONTROL_SET_INVENTORY_DISACTIVE);
+    PyModule_AddIntConstant(module, "B_CONTROL_REMOVE_INV_OBJECT", B_CONTROL_REMOVE_INV_OBJECT);
+    PyModule_AddIntConstant(module, "B_CONTROL_ENABLE_OBJECT", B_CONTROL_ENABLE_OBJECT);
+    PyModule_AddIntConstant(module, "B_CONTROL_EMOTE", B_CONTROL_EMOTE);
+    PyModule_AddIntConstant(module, "B_CONTROL_EXIT_MODE", B_CONTROL_EXIT_MODE);
+    PyModule_AddIntConstant(module, "B_CONTROL_DIVE", B_CONTROL_DIVE);
+    PyModule_AddIntConstant(module, "B_CAMERA_PAN_TO_CURSOR", B_CAMERA_PAN_TO_CURSOR);
+    PyModule_AddIntConstant(module, "B_CONTROL_OPEN_KI", B_CONTROL_OPEN_KI);
+    PyModule_AddIntConstant(module, "B_CONTROL_OPEN_BOOK", B_CONTROL_OPEN_BOOK);
+    PyModule_AddIntConstant(module, "B_CONTROL_EXIT_GUI_MODE", B_CONTROL_EXIT_GUI_MODE);
+    PyModule_AddIntConstant(module, "B_CONTROL_MODIFIER_STRAFE", B_CONTROL_MODIFIER_STRAFE);
+    PyModule_AddIntConstant(module, "B_CONTROL_CAMERA_WALK_PAN", B_CONTROL_CAMERA_WALK_PAN);
+    PyModule_AddIntConstant(module, "S_SET_BASIC_MODE", S_SET_BASIC_MODE);
+    PyModule_AddIntConstant(module, "B_CONTROL_IGNORE_AVATARS", B_CONTROL_IGNORE_AVATARS);
+    PyModule_AddIntConstant(module, "B_CONTROL_LADDER_INVERTED", B_CONTROL_LADDER_INVERTED);
+    PyModule_AddIntConstant(module, "B_CONTROL_CONSUMABLE_JUMP", B_CONTROL_CONSUMABLE_JUMP);
+    PyModule_AddIntConstant(module, "S_SET_WALK_BACK_MODE", S_SET_WALK_BACK_MODE);
+    PyModule_AddIntConstant(module, "S_SET_WALK_BACK_LB_MODE", S_SET_WALK_BACK_LB_MODE);
+    PyModule_AddIntConstant(module, "S_SET_CURSOR_UPWARD", S_SET_CURSOR_UPWARD);
+    PyModule_AddIntConstant(module, "S_SET_LADDER_CONTROL", S_SET_LADDER_CONTROL);
+    PyModule_AddIntConstant(module, "S_CLEAR_LADDER_CONTROL", S_CLEAR_LADDER_CONTROL);
+
+    /* Enum plKeyDef */
+    PyModule_AddIntConstant(module, "KEY_A", KEY_A);
+    PyModule_AddIntConstant(module, "KEY_B", KEY_B);
+    PyModule_AddIntConstant(module, "KEY_C", KEY_C);
+    PyModule_AddIntConstant(module, "KEY_D", KEY_D);
+    PyModule_AddIntConstant(module, "KEY_E", KEY_E);
+    PyModule_AddIntConstant(module, "KEY_F", KEY_F);
+    PyModule_AddIntConstant(module, "KEY_G", KEY_G);
+    PyModule_AddIntConstant(module, "KEY_H", KEY_H);
+    PyModule_AddIntConstant(module, "KEY_I", KEY_I);
+    PyModule_AddIntConstant(module, "KEY_J", KEY_J);
+    PyModule_AddIntConstant(module, "KEY_K", KEY_K);
+    PyModule_AddIntConstant(module, "KEY_L", KEY_L);
+    PyModule_AddIntConstant(module, "KEY_M", KEY_M);
+    PyModule_AddIntConstant(module, "KEY_N", KEY_N);
+    PyModule_AddIntConstant(module, "KEY_O", KEY_O);
+    PyModule_AddIntConstant(module, "KEY_P", KEY_P);
+    PyModule_AddIntConstant(module, "KEY_Q", KEY_Q);
+    PyModule_AddIntConstant(module, "KEY_R", KEY_R);
+    PyModule_AddIntConstant(module, "KEY_S", KEY_S);
+    PyModule_AddIntConstant(module, "KEY_T", KEY_T);
+    PyModule_AddIntConstant(module, "KEY_U", KEY_U);
+    PyModule_AddIntConstant(module, "KEY_V", KEY_V);
+    PyModule_AddIntConstant(module, "KEY_W", KEY_W);
+    PyModule_AddIntConstant(module, "KEY_X", KEY_X);
+    PyModule_AddIntConstant(module, "KEY_Y", KEY_Y);
+    PyModule_AddIntConstant(module, "KEY_Z", KEY_Z);
+    PyModule_AddIntConstant(module, "KEY_0", KEY_0);
+    PyModule_AddIntConstant(module, "KEY_1", KEY_1);
+    PyModule_AddIntConstant(module, "KEY_2", KEY_2);
+    PyModule_AddIntConstant(module, "KEY_3", KEY_3);
+    PyModule_AddIntConstant(module, "KEY_4", KEY_4);
+    PyModule_AddIntConstant(module, "KEY_5", KEY_5);
+    PyModule_AddIntConstant(module, "KEY_6", KEY_6);
+    PyModule_AddIntConstant(module, "KEY_7", KEY_7);
+    PyModule_AddIntConstant(module, "KEY_8", KEY_8);
+    PyModule_AddIntConstant(module, "KEY_9", KEY_9);
+    PyModule_AddIntConstant(module, "KEY_F1", KEY_F1);
+    PyModule_AddIntConstant(module, "KEY_F2", KEY_F2);
+    PyModule_AddIntConstant(module, "KEY_F3", KEY_F3);
+    PyModule_AddIntConstant(module, "KEY_F4", KEY_F4);
+    PyModule_AddIntConstant(module, "KEY_F5", KEY_F5);
+    PyModule_AddIntConstant(module, "KEY_F6", KEY_F6);
+    PyModule_AddIntConstant(module, "KEY_F7", KEY_F7);
+    PyModule_AddIntConstant(module, "KEY_F8", KEY_F8);
+    PyModule_AddIntConstant(module, "KEY_F9", KEY_F9);
+    PyModule_AddIntConstant(module, "KEY_F10", KEY_F10);
+    PyModule_AddIntConstant(module, "KEY_F11", KEY_F11);
+    PyModule_AddIntConstant(module, "KEY_F12", KEY_F12);
+    PyModule_AddIntConstant(module, "KEY_ESCAPE", KEY_ESCAPE);
+    PyModule_AddIntConstant(module, "KEY_TAB", KEY_TAB);
+    PyModule_AddIntConstant(module, "KEY_SHIFT", KEY_SHIFT);
+    PyModule_AddIntConstant(module, "KEY_CTRL", KEY_CTRL);
+    PyModule_AddIntConstant(module, "KEY_ALT", KEY_ALT);
+    PyModule_AddIntConstant(module, "KEY_UP", KEY_UP);
+    PyModule_AddIntConstant(module, "KEY_DOWN", KEY_DOWN);
+    PyModule_AddIntConstant(module, "KEY_LEFT", KEY_LEFT);
+    PyModule_AddIntConstant(module, "KEY_RIGHT", KEY_RIGHT);
+    PyModule_AddIntConstant(module, "KEY_BACKSPACE", KEY_BACKSPACE);
+    PyModule_AddIntConstant(module, "KEY_ENTER", KEY_ENTER);
+    PyModule_AddIntConstant(module, "KEY_PAUSE", KEY_PAUSE);
+    PyModule_AddIntConstant(module, "KEY_CAPSLOCK", KEY_CAPSLOCK);
+    PyModule_AddIntConstant(module, "KEY_PAGEUP", KEY_PAGEUP);
+    PyModule_AddIntConstant(module, "KEY_PAGEDOWN", KEY_PAGEDOWN);
+    PyModule_AddIntConstant(module, "KEY_END", KEY_END);
+    PyModule_AddIntConstant(module, "KEY_HOME", KEY_HOME);
+    PyModule_AddIntConstant(module, "KEY_PRINTSCREEN", KEY_PRINTSCREEN);
+    PyModule_AddIntConstant(module, "KEY_INSERT", KEY_INSERT);
+    PyModule_AddIntConstant(module, "KEY_DELETE", KEY_DELETE);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD0", KEY_NUMPAD0);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD1", KEY_NUMPAD1);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD2", KEY_NUMPAD2);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD3", KEY_NUMPAD3);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD4", KEY_NUMPAD4);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD5", KEY_NUMPAD5);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD6", KEY_NUMPAD6);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD7", KEY_NUMPAD7);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD8", KEY_NUMPAD8);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD9", KEY_NUMPAD9);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD_MULTIPLY", KEY_NUMPAD_MULTIPLY);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD_ADD", KEY_NUMPAD_ADD);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD_SUBTRACT", KEY_NUMPAD_SUBTRACT);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD_PERIOD", KEY_NUMPAD_PERIOD);
+    PyModule_AddIntConstant(module, "KEY_NUMPAD_DIVIDE", KEY_NUMPAD_DIVIDE);
+    PyModule_AddIntConstant(module, "KEY_SPACE", KEY_SPACE);
+    PyModule_AddIntConstant(module, "KEY_COMMA", KEY_COMMA);
+    PyModule_AddIntConstant(module, "KEY_PERIOD", KEY_PERIOD);
+    PyModule_AddIntConstant(module, "KEY_DASH", KEY_DASH);
+    PyModule_AddIntConstant(module, "KEY_EQUAL", KEY_EQUAL);
+    PyModule_AddIntConstant(module, "KEY_SEMICOLON", KEY_SEMICOLON);
+    PyModule_AddIntConstant(module, "KEY_SLASH", KEY_SLASH);
+    PyModule_AddIntConstant(module, "KEY_TILDE", KEY_TILDE);
+    PyModule_AddIntConstant(module, "KEY_LBRACKET", KEY_LBRACKET);
+    PyModule_AddIntConstant(module, "KEY_BACKSLASH", KEY_BACKSLASH);
+    PyModule_AddIntConstant(module, "KEY_RBRACKET", KEY_RBRACKET);
+    PyModule_AddIntConstant(module, "KEY_QUOTE", KEY_QUOTE);
+    PyModule_AddIntConstant(module, "KEY_UNMAPPED", KEY_UNMAPPED);
 }
 
 #if PY_MAJOR_VERSION >= 3
@@ -318,6 +515,19 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plPhysical", Init_pyPhysical_Type());
     PyModule_AddObject(module, "plGenericPhysical", Init_pyGenericPhysical_Type());
     PyModule_AddObject(module, "plConditionalObject", Init_pyConditionalObject_Type());
+    PyModule_AddObject(module, "plActivatorConditionalObject", Init_pyActivatorConditionalObject_Type());
+    PyModule_AddObject(module, "plActivatorActivatorConditionalObject", Init_pyActivatorActivatorConditionalObject_Type());
+    PyModule_AddObject(module, "plANDConditionalObject", Init_pyANDConditionalObject_Type());
+    PyModule_AddObject(module, "plAnimationEventConditionalObject", Init_pyAnimationEventConditionalObject_Type());
+    PyModule_AddObject(module, "plORConditionalObject", Init_pyORConditionalObject_Type());
+    PyModule_AddObject(module, "plControlEventConditionalObject", Init_pyControlEventConditionalObject_Type());
+    PyModule_AddObject(module, "plFacingConditionalObject", Init_pyFacingConditionalObject_Type());
+    PyModule_AddObject(module, "plKeyPressConditionalObject", Init_pyKeyPressConditionalObject_Type());
+    PyModule_AddObject(module, "plLocalPlayerInBoxConditionalObject", Init_pyLocalPlayerInBoxConditionalObject_Type());
+    PyModule_AddObject(module, "plLocalPlayerIntersectPlaneConditionalObject", Init_pyLocalPlayerIntersectPlaneConditionalObject_Type());
+    PyModule_AddObject(module, "plObjectInBoxConditionalObject", Init_pyObjectInBoxConditionalObject_Type());
+    PyModule_AddObject(module, "plObjectIntersectPlaneConditionalObject", Init_pyObjectIntersectPlaneConditionalObject_Type());
+    PyModule_AddObject(module, "plVolActivatorConditionalObject", Init_pyVolActivatorConditionalObject_Type());
     PyModule_AddObject(module, "plVolumeSensorConditionalObject", Init_pyVolumeSensorConditionalObject_Type());
     PyModule_AddObject(module, "plVolumeSensorConditionalObjectNoArbitration", Init_pyVolumeSensorConditionalObjectNoArbitration_Type());
     PyModule_AddObject(module, "plModifier", Init_pyModifier_Type());

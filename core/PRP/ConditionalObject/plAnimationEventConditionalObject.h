@@ -37,6 +37,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    CallbackEvent getAction() const { return fAction; }
+    plKey getTarget() const { return fTarget; }
+
+    void setAction(CallbackEvent value) { fAction = value; }
+    void setTarget(plKey value) { fTarget = value; }
 };
 
 #endif

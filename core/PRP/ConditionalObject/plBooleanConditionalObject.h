@@ -33,6 +33,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const std::vector<plKey>& getChildren() const { return fChildren; }
+    std::vector<plKey>& getChildren() { return fChildren; }
+    void addChild(plKey child) { fChildren.push_back(child); }
+    void delChild(size_t idx) { fChildren.erase(fChildren.begin() + idx); }
+    void clearChildren() { fChildren.clear(); }
 };
 
 
@@ -50,6 +57,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const std::vector<plKey>& getChildren() const { return fChildren; }
+    std::vector<plKey>& getChildren() { return fChildren; }
+    void addChild(plKey child) { fChildren.push_back(child); }
+    void delChild(size_t idx) { fChildren.erase(fChildren.begin() + idx); }
+    void clearChildren() { fChildren.clear(); }
 };
 
 #endif

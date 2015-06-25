@@ -36,6 +36,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    ControlEventCode getControlEvent() const { return fControlEvent; }
+    void setControlEvent(ControlEventCode value) { fControlEvent = value; }
 };
 
 #endif

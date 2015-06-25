@@ -158,12 +158,32 @@ set(PRP_AVTR_HDRS
 )
 
 set(PRP_COND_SRCS
+    PRP/ConditionalObject/pyActivatorConditionalObject.cpp
+    PRP/ConditionalObject/pyActivatorActivatorConditionalObject.cpp
+    PRP/ConditionalObject/pyANDConditionalObject.cpp
+    PRP/ConditionalObject/pyAnimationEventConditionalObject.cpp
+    PRP/ConditionalObject/pyVolActivatorConditionalObject.cpp
     PRP/ConditionalObject/pyConditionalObject.cpp
+    PRP/ConditionalObject/pyControlEventConditionalObject.cpp
+    PRP/ConditionalObject/pyFacingConditionalObject.cpp
+    PRP/ConditionalObject/pyKeyPressConditionalObject.cpp
+    PRP/ConditionalObject/pyLocalPlayerInBoxConditionalObject.cpp
+    PRP/ConditionalObject/pyLocalPlayerIntersectPlaneConditionalObject.cpp
+    PRP/ConditionalObject/pyObjectInBoxConditionalObject.cpp
+    PRP/ConditionalObject/pyObjectIntersectPlaneConditionalObject.cpp
+    PRP/ConditionalObject/pyORConditionalObject.cpp
     PRP/ConditionalObject/pyVolumeSensorConditionalObject.cpp
     PRP/ConditionalObject/pyVolumeSensorConditionalObjectNoArbitration.cpp
 )
 set(PRP_COND_HDRS
+    PRP/ConditionalObject/pyActivatorConditionalObject.h
+    PRP/ConditionalObject/pyAnimationEventConditionalObject.h
+    PRP/ConditionalObject/pyBooleanConditionalObject.h
     PRP/ConditionalObject/pyConditionalObject.h
+    PRP/ConditionalObject/pyControlEventConditionalObject.h
+    PRP/ConditionalObject/pyDetectConditionalObjects.h
+    PRP/ConditionalObject/pyFacingConditionalObject.h
+    PRP/ConditionalObject/pyKeyPressConditionalObject.h
     PRP/ConditionalObject/pyVolumeSensorConditionalObject.h
 )
 
