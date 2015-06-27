@@ -145,6 +145,7 @@ set(PRP_AVTR_SRCS
     PRP/Avatar/pyScalarControllerChannel.cpp
     PRP/Avatar/pyScalarSDLChannel.cpp
     PRP/Avatar/pyScalarTimeScale.cpp
+    PRP/Avatar/pySittingModifier.cpp
     PRP/Avatar/pySoundVolumeApplicator.cpp
     PRP/Avatar/pySpotInnerApplicator.cpp
     PRP/Avatar/pySpotOuterApplicator.cpp
@@ -155,6 +156,7 @@ set(PRP_AVTR_HDRS
     PRP/Avatar/pyAGChannel.h
     PRP/Avatar/pyATCAnim.h
     PRP/Avatar/pyMultistageBehMod.h
+    PRP/Avatar/pySittingModifier.h
 )
 
 set(PRP_COND_SRCS
@@ -277,6 +279,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyContainedEventData.cpp
     PRP/Message/pyControlKeyEventData.cpp
     PRP/Message/pyCoopEventData.cpp
+    PRP/Message/pyCursorChangeMsg.cpp
     PRP/Message/pyEventCallbackMsg.cpp
     PRP/Message/pyEventData.cpp
     PRP/Message/pyFacingEventData.cpp
@@ -293,6 +296,7 @@ set(PRP_MSG_SRCS
 )
 set(PRP_MSG_HDRS
     PRP/Message/pyArmatureEffectMsg.h
+    PRP/Message/pyCursorChangeMsg.h
     PRP/Message/pyEventCallbackMsg.h
     PRP/Message/pyEventData.h
     PRP/Message/pyLinkToAgeMsg.h

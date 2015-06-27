@@ -44,6 +44,7 @@
 #include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Avatar/pyClothingItem.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
+#include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
@@ -71,6 +72,7 @@
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
+#include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyEventData.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
@@ -532,6 +534,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plVolumeSensorConditionalObjectNoArbitration", Init_pyVolumeSensorConditionalObjectNoArbitration_Type());
     PyModule_AddObject(module, "plModifier", Init_pyModifier_Type());
     PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
+    PyModule_AddObject(module, "plSittingModifier", Init_pySittingModifier_Type());
     PyModule_AddObject(module, "plDetectorModifier", Init_pyDetectorModifier_Type());
     PyModule_AddObject(module, "plPickingDetector", Init_pyPickingDetector_Type());
     PyModule_AddObject(module, "plCollisionDetector", Init_pyCollisionDetector_Type());
@@ -611,6 +614,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plConstAccelEaseCurve", Init_pyConstAccelEaseCurve_Type());
     PyModule_AddObject(module, "plAnimTimeConvert", Init_pyAnimTimeConvert_Type());
     PyModule_AddObject(module, "plMessage", Init_pyMessage_Type());
+    PyModule_AddObject(module, "plCursorChangeMsg", Init_pyCursorChangeMsg_Type());
     PyModule_AddObject(module, "plEventCallbackMsg", Init_pyEventCallbackMsg_Type());
     PyModule_AddObject(module, "plResponderEnableMsg", Init_pyResponderEnableMsg_Type());
     PyModule_AddObject(module, "plAGApplicator", Init_pyAGApplicator_Type());
