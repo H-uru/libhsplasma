@@ -92,6 +92,7 @@
 #include "PRP/Message/plAvSeekMsg.h"
 #include "PRP/Message/plAvTaskMsg.h"
 #include "PRP/Message/plClimbMsg.h"
+#include "PRP/Message/plCursorChangeMsg.h"
 #include "PRP/Message/plEnableMsg.h"
 #include "PRP/Message/plExcludeRegionMsg.h"
 #include "PRP/Message/plInputIfaceMgrMsg.h"
@@ -200,6 +201,7 @@
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
+#include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
@@ -783,6 +785,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kAgeLinkStruct: return pyAgeLinkStruct_FromAgeLinkStruct(plAgeLinkStruct::Convert(pCre));
         case kAgeInfoStruct: return pyAgeInfoStruct_FromAgeInfoStruct(plAgeInfoStruct::Convert(pCre));
         case kArmatureEffectStateMsg: return pyArmatureEffectStateMsg_FromArmatureEffectStateMsg(plArmatureEffectStateMsg::Convert(pCre));
+        case kCursorChangeMsg: return pyCursorChangeMsg_FromCursorChangeMsg(plCursorChangeMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));

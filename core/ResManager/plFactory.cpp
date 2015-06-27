@@ -92,6 +92,7 @@
 #include "PRP/Message/plAvSeekMsg.h"
 #include "PRP/Message/plAvTaskMsg.h"
 #include "PRP/Message/plClimbMsg.h"
+#include "PRP/Message/plCursorChangeMsg.h"
 #include "PRP/Message/plEnableMsg.h"
 #include "PRP/Message/plExcludeRegionMsg.h"
 #include "PRP/Message/plInputIfaceMgrMsg.h"
@@ -794,7 +795,7 @@ plCreatable* plFactory::Create(short typeIdx) {
         //case kClothingUpdateBCMsg: return new plClothingUpdateBCMsg();
         case kNotifyMsg: return new plNotifyMsg();
         //case kFakeOutMsg: return new plFakeOutMsg();
-        //case kCursorChangeMsg: return new plCursorChangeMsg();
+        case kCursorChangeMsg: return new plCursorChangeMsg();
         //case kNodeChangeMsg: return new plNodeChangeMsg();
         //case kAvEnableMsg: return new plAvEnableMsg();
         //case kLinkCallbackMsg: return new plLinkCallbackMsg();

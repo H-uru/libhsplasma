@@ -72,6 +72,7 @@
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
+#include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyEventData.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
@@ -613,6 +614,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plConstAccelEaseCurve", Init_pyConstAccelEaseCurve_Type());
     PyModule_AddObject(module, "plAnimTimeConvert", Init_pyAnimTimeConvert_Type());
     PyModule_AddObject(module, "plMessage", Init_pyMessage_Type());
+    PyModule_AddObject(module, "plCursorChangeMsg", Init_pyCursorChangeMsg_Type());
     PyModule_AddObject(module, "plEventCallbackMsg", Init_pyEventCallbackMsg_Type());
     PyModule_AddObject(module, "plResponderEnableMsg", Init_pyResponderEnableMsg_Type());
     PyModule_AddObject(module, "plAGApplicator", Init_pyAGApplicator_Type());
