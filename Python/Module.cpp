@@ -44,6 +44,7 @@
 #include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Avatar/pyClothingItem.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
+#include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
@@ -532,6 +533,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plVolumeSensorConditionalObjectNoArbitration", Init_pyVolumeSensorConditionalObjectNoArbitration_Type());
     PyModule_AddObject(module, "plModifier", Init_pyModifier_Type());
     PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
+    PyModule_AddObject(module, "plSittingModifier", Init_pySittingModifier_Type());
     PyModule_AddObject(module, "plDetectorModifier", Init_pyDetectorModifier_Type());
     PyModule_AddObject(module, "plPickingDetector", Init_pyPickingDetector_Type());
     PyModule_AddObject(module, "plCollisionDetector", Init_pyCollisionDetector_Type());

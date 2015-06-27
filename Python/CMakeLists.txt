@@ -145,6 +145,7 @@ set(PRP_AVTR_SRCS
     PRP/Avatar/pyScalarControllerChannel.cpp
     PRP/Avatar/pyScalarSDLChannel.cpp
     PRP/Avatar/pyScalarTimeScale.cpp
+    PRP/Avatar/pySittingModifier.cpp
     PRP/Avatar/pySoundVolumeApplicator.cpp
     PRP/Avatar/pySpotInnerApplicator.cpp
     PRP/Avatar/pySpotOuterApplicator.cpp
@@ -155,6 +156,7 @@ set(PRP_AVTR_HDRS
     PRP/Avatar/pyAGChannel.h
     PRP/Avatar/pyATCAnim.h
     PRP/Avatar/pyMultistageBehMod.h
+    PRP/Avatar/pySittingModifier.h
 )
 
 set(PRP_COND_SRCS

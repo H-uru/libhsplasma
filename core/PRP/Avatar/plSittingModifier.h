@@ -47,6 +47,16 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    uint8_t getMiscFlags() const { return fMiscFlags; }
+    void setMiscFlags(uint8_t value) { fMiscFlags = value; }
+
+    const std::vector<plKey>& getNotifyKeys() const { return fNotifyKeys; }
+    std::vector<plKey>& getNotifyKeys() { return fNotifyKeys; }
+    void addNotifyKey(plKey notify) { fNotifyKeys.push_back(notify); }
+    void delNotifyKey(size_t idx) { fNotifyKeys.erase(fNotifyKeys.begin() + idx); }
+    void clearNotifyKeys() { fNotifyKeys.clear(); }
 };
 
 #endif

@@ -177,6 +177,7 @@
 #include "PRP/Avatar/pyAGChannel.h"
 #include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
+#include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
@@ -410,7 +411,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyGUITextBoxMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUITextBoxMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIEditBoxMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIEditBoxMod*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyDynamicTextMap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynamicTextMap*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySittingModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSittingModifier*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySittingModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSittingModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIUpDownPairMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIUpDownPairMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIValueCtrl_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIValueCtrl*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIKnobCtrl_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIKnobCtrl*>(pCre->fThis));
@@ -682,6 +683,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kDynamicEnvMap: return pyDynamicEnvMap_FromDynamicEnvMap(plDynamicEnvMap::Convert(pCre));
         case kDynamicCamMap: return pyDynamicCamMap_FromDynamicCamMap(plDynamicCamMap::Convert(pCre));
         case kDynamicTextMap: return pyDynamicTextMap_FromDynamicTextMap(plDynamicTextMap::Convert(pCre));
+        case kSittingModifier: return pySittingModifier_FromSittingModifier(plSittingModifier::Convert(pCre));
         case kAGAnim: return pyAGAnim_FromAGAnim(plAGAnim::Convert(pCre));
         case kAgeGlobalAnim: return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(pCre));
         case kATCAnim: return pyATCAnim_FromATCAnim(plATCAnim::Convert(pCre));
