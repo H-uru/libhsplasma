@@ -37,15 +37,15 @@ static PyObject* pyCompoundController_new(PyTypeObject* type, PyObject* args, Py
 }
 
 static PyObject* pyCompoundController_getX(pyCompoundController* self, void*) {
-    return pyController_FromController(self->fThis->getXController());
+    return ICreate(self->fThis->getXController());
 }
 
 static PyObject* pyCompoundController_getY(pyCompoundController* self, void*) {
-    return pyController_FromController(self->fThis->getYController());
+    return ICreate(self->fThis->getYController());
 }
 
 static PyObject* pyCompoundController_getZ(pyCompoundController* self, void*) {
-    return pyController_FromController(self->fThis->getZController());
+    return ICreate(self->fThis->getZController());
 }
 
 static int pyCompoundController_setX(pyCompoundController* self, PyObject* value, void*) {

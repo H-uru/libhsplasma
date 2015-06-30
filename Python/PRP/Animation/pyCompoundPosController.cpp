@@ -38,15 +38,15 @@ static PyObject* pyCompoundPosController_new(PyTypeObject* type, PyObject* args,
 }
 
 static PyObject* pyCompoundPosController_getX(pyCompoundPosController* self, void*) {
-    return pyScalarController_FromScalarController(self->fThis->getX());
+    return ICreate(self->fThis->getX());
 }
 
 static PyObject* pyCompoundPosController_getY(pyCompoundPosController* self, void*) {
-    return pyScalarController_FromScalarController(self->fThis->getY());
+    return ICreate(self->fThis->getY());
 }
 
 static PyObject* pyCompoundPosController_getZ(pyCompoundPosController* self, void*) {
-    return pyScalarController_FromScalarController(self->fThis->getZ());
+    return ICreate(self->fThis->getZ());
 }
 
 static int pyCompoundPosController_setX(pyCompoundPosController* self, PyObject* value, void*) {
