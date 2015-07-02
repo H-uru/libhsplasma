@@ -90,7 +90,13 @@ static int pyCompoundController_setZ(pyCompoundController* self, PyObject* value
     return 0;
 }
 
+static PyObject* pyCompoundController_convertToTMController(pyCompoundController* self) {
+    return pyTMController_FromTMController(self->fThis->convertToTMController());
+}
+
 static PyMethodDef pyCompoundController_Methods[] = {
+    { "convertToTMController", (PyCFunction)pyCompoundController_convertToTMController, METH_NOARGS,
+      "Converts this controller to a plTMController" },
     { NULL, NULL, 0, NULL }
 };
 

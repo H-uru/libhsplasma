@@ -93,7 +93,13 @@ static int pyTMController_setScale(pyTMController* self, PyObject* value, void*)
     return 0;
 }
 
+static PyObject* pyTMController_convertToCompoundController(pyTMController* self) {
+    return pyCompoundController_FromCompoundController(self->fThis->convertToCompoundController());
+}
+
 static PyMethodDef pyTMController_Methods[] = {
+    { "convertToCompoundController", (PyCFunction)pyTMController_convertToCompoundController, METH_NOARGS,
+      "Converts this controller to a plCompoundController" },
     { NULL, NULL, 0, NULL }
 };
 
