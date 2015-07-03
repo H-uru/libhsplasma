@@ -21,6 +21,10 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/Object/pySynchedObject.h"
 
+static plAGAnim* IConvertAnim(pyAGAnim* self) {
+    return plAGAnim::Convert(IConvert((pyCreatable*)self));
+}
+
 extern "C" {
 
 static PyObject* pyAGAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -33,7 +37,7 @@ static PyObject* pyAGAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds
 }
 
 static PyObject* pyAGAnim_clearApps(pyAGAnim* self) {
-    self->fThis->clearApplicators();
+    IConvertAnim(self)->clearApplicators();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -48,7 +52,7 @@ static PyObject* pyAGAnim_addApplicator(pyAGAnim* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "addApplicator expects a plAGApplicator");
         return NULL;
     }
-    self->fThis->addApplicator(app->fThis);
+    IConvertAnim(self)->addApplicator(app->fThis);
     app->fPyOwned = false;
     Py_INCREF(Py_None);
     return Py_None;
@@ -60,31 +64,32 @@ static PyObject* pyAGAnim_delApplicator(pyAGAnim* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "delApplicator expects an int");
         return NULL;
     }
-    self->fThis->delApplicator(idx);
+    IConvertAnim(self)->delApplicator(idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyAGAnim_getBlend(pyAGAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getBlend());
+    return PyFloat_FromDouble(IConvertAnim(self)->getBlend());
 }
 
 static PyObject* pyAGAnim_getStart(pyAGAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getStart());
+    return PyFloat_FromDouble(IConvertAnim(self)->getStart());
 }
 
 static PyObject* pyAGAnim_getEnd(pyAGAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEnd());
+    return PyFloat_FromDouble(IConvertAnim(self)->getEnd());
 }
 
 static PyObject* pyAGAnim_getName(pyAGAnim* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getName());
+    return PlStr_To_PyStr(IConvertAnim(self)->getName());
 }
 
 static PyObject* pyAGAnim_getApps(pyAGAnim* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getApplicators().size());
-    for (size_t i=0; i<self->fThis->getApplicators().size(); i++)
-        PyList_SET_ITEM(list, i, pyAGApplicator_FromAGApplicator(self->fThis->getApplicators()[i]));
+    plAGAnim* anim = IConvertAnim(self);
+    PyObject* list = PyList_New(anim->getApplicators().size());
+    for (size_t i=0; i < anim->getApplicators().size(); i++)
+        PyList_SET_ITEM(list, i, pyAGApplicator_FromAGApplicator(anim->getApplicators()[i]));
     return list;
 }
 
@@ -93,7 +98,7 @@ static int pyAGAnim_setBlend(pyAGAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "blend should be a float");
         return -1;
     }
-    self->fThis->setBlend(PyFloat_AsDouble(value));
+    IConvertAnim(self)->setBlend(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -102,7 +107,7 @@ static int pyAGAnim_setStart(pyAGAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "start should be a float");
         return -1;
     }
-    self->fThis->setStart(PyFloat_AsDouble(value));
+    IConvertAnim(self)->setStart(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -111,7 +116,7 @@ static int pyAGAnim_setEnd(pyAGAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "end should be a float");
         return -1;
     }
-    self->fThis->setEnd(PyFloat_AsDouble(value));
+    IConvertAnim(self)->setEnd(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -120,7 +125,7 @@ static int pyAGAnim_setName(pyAGAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "name should be a string");
         return -1;
     }
-    self->fThis->setName(PyStr_To_PlStr(value));
+    IConvertAnim(self)->setName(PyStr_To_PlStr(value));
     return 0;
 }
 
