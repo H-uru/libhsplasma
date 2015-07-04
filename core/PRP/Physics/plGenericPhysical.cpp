@@ -25,10 +25,15 @@
 #include "plODEPhysical.h"
 #include "plPXPhysical.h"
 
+/* Damn Windows headers */
+#ifdef max
+    #undef max
+#endif
+#ifdef min
+    #undef min
+#endif
+
 #ifdef HAVE_PX_SDK
-// for PhysX, these can't be defined
-#undef min
-#undef max
 #include <NxCooking.h>
 #include <NxConvexMeshDesc.h>
 #include <NxTriangleMeshDesc.h>
