@@ -176,6 +176,7 @@
 #include "PRP/Avatar/pyAGAnim.h"
 #include "PRP/Avatar/pyAGApplicator.h"
 #include "PRP/Avatar/pyAGChannel.h"
+#include "PRP/Avatar/pyAGMasterMod.h"
 #include "PRP/Avatar/pyAGModifier.h"
 #include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
@@ -350,7 +351,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyLimitedDirLightInfo_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLimitedDirLightInfo*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyAGAnim_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAGAnim*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyAGModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAGModifier*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyAGMasterMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAGMasterMod*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyAGMasterMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAGMasterMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCameraBrain_Avatar_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain_Avatar*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCameraRegionDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraRegionDetector*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCameraBrain_FP_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain_FP*>(pCre->fThis));
@@ -689,6 +690,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSittingModifier: return pySittingModifier_FromSittingModifier(plSittingModifier::Convert(pCre));
         case kAGAnim: return pyAGAnim_FromAGAnim(plAGAnim::Convert(pCre));
         case kAGModifier: return pyAGModifier_FromAGModifier(plAGModifier::Convert(pCre));
+        case kAGMasterMod: return pyAGMasterMod_FromAGMasterMod(plAGMasterMod::Convert(pCre));
         case kAgeGlobalAnim: return pyAgeGlobalAnim_FromAgeGlobalAnim(plAgeGlobalAnim::Convert(pCre));
         case kATCAnim: return pyATCAnim_FromATCAnim(plATCAnim::Convert(pCre));
         case kSubworldRegionDetector: return pySubworldRegionDetector_FromSubworldRegionDetector(plSubworldRegionDetector::Convert(pCre));
