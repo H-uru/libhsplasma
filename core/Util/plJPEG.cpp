@@ -38,8 +38,6 @@ hsJPEGException::hsJPEGException(const char* file, unsigned long line,
 }
 
 
-extern "C" {
-
 #define INPUT_BUF_SIZE  4096
 
 /* hsStream JPEG source -- modelled after IJG's stdio src */
@@ -65,7 +63,7 @@ METHODDEF(JPEG_boolean) hsStream_fill_input_buffer(j_decompress_ptr dinfo) {
 
     if (nbytes <= 0) {
         if (src->start_of_stream)
-            ERREXIT(dinfo, JERR_INPUT_EMPTY);
+            throw hsJPEGException(__FILE__, __LINE__, "JPEG Decompress error: Input buffer is empty");
         WARNMS(dinfo, JWRN_JPEG_EOF);
 
         /* Insert a fake EOI marker */
@@ -121,18 +119,17 @@ GLOBAL(void) jpeg_hsStream_src(j_decompress_ptr dinfo, hsStream* S) {
 }
 
 // JPEG error handler for libPlasma
+static char jpeg_error_buf[JMSG_LENGTH_MAX] = { 0 };
+
 METHODDEF(void) plasma_output_message(j_common_ptr cinfo) {
-    char buffer[JMSG_LENGTH_MAX];
-    (*cinfo->err->format_message)(cinfo, buffer);
-    plDebug::Error(buffer);
+    (*cinfo->err->format_message)(cinfo, jpeg_error_buf);
+    plDebug::Error(jpeg_error_buf);
 }
 
 METHODDEF(void) plasma_error_exit(j_common_ptr cinfo) {
     (*cinfo->err->output_message)(cinfo);
     jpeg_destroy(cinfo);
-    throw hsJPEGException(__FILE__, __LINE__);
-}
-
+    throw hsJPEGException(__FILE__, __LINE__, jpeg_error_buf);
 }
 
 
@@ -157,34 +154,48 @@ plJPEG::~plJPEG() {
     jpeg_destroy_decompress(&dinfo);
 }
 
+template <size_t _Rows>
+struct RAII_JSAMPROW
+{
+    JSAMPROW data[_Rows];
+
+    RAII_JSAMPROW(int row_stride) {
+        for (size_t i = 0; i < _Rows; ++i)
+            data[i] = new JSAMPLE[row_stride];
+    }
+
+    ~RAII_JSAMPROW() {
+        for (size_t i = 0; i < _Rows; ++i)
+            delete[] data[_Rows];
+    }
+};
+
 void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size) {
     plJPEG& ji = Instance();
 
-    JSAMPROW jbuffer[1];
     jpeg_hsStream_src(&ji.dinfo, S);
     jpeg_read_header(&ji.dinfo, TRUE);
     jpeg_start_decompress(&ji.dinfo);
 
     int row_stride = ji.dinfo.output_width * ji.dinfo.output_components;
     int out_stride = ji.dinfo.output_width * 4;    // Always decompress to RGBA
-    jbuffer[0] = new JSAMPLE[row_stride];
+    RAII_JSAMPROW<1> jbuffer(row_stride);
 
     size_t offs = 0;
     while (ji.dinfo.output_scanline < ji.dinfo.output_height) {
         if (offs + out_stride > size)
             throw hsJPEGException(__FILE__, __LINE__, "buffer overflow");
-        jpeg_read_scanlines(&ji.dinfo, jbuffer, 1);
+        jpeg_read_scanlines(&ji.dinfo, jbuffer.data, 1);
         memset(((unsigned char*)buf) + offs, 0, out_stride);
         for (size_t x = 0; x<ji.dinfo.output_width; x++) {
             memcpy(((unsigned char*)buf) + offs + (x * 4),
-                   jbuffer[0] + (x * ji.dinfo.output_components),
+                   jbuffer.data[0] + (x * ji.dinfo.output_components),
                    ji.dinfo.out_color_components);
         }
         offs += out_stride;
     }
 
     jpeg_finish_decompress(&ji.dinfo);
-    delete[] jbuffer[0];
 }
 
 void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size) {
