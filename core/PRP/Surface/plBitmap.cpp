@@ -19,7 +19,7 @@
 #define BITMAPVER ((unsigned char)2)
 
 const char* plBitmap::kCompressionTypeNames[] = {
-    "Uncompressed", "DDS", "JPEG"
+    "Uncompressed", "DDS", "JPEG", "PNG"
 };
 
 const char* plBitmap::kSpaceNames[] = {
@@ -83,11 +83,11 @@ void plBitmap::IReadBitmap(hsStream* S) {
     fSpace = S->readByte();
     fFlags = S->readShort();
     fCompressionType = S->readByte();
-    if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression)
-        fUncompressedInfo.fType = S->readByte();
-    else {
+    if (fCompressionType == kDirectXCompression) {
         fDXInfo.fBlockSize = S->readByte();
         fDXInfo.fCompressionType = S->readByte();
+    } else {
+        fUncompressedInfo.fType = S->readByte();
     }
     fLowModTime = S->readInt();
     fHighModTime = S->readInt();
@@ -99,11 +99,11 @@ void plBitmap::IWriteBitmap(hsStream* S) {
     S->writeByte(fSpace);
     S->writeShort(fFlags);
     S->writeByte(fCompressionType);
-    if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression)
-        S->writeByte(fUncompressedInfo.fType);
-    else {
+    if (fCompressionType == kDirectXCompression) {
         S->writeByte(fDXInfo.fBlockSize);
         S->writeByte(fDXInfo.fCompressionType);
+    } else {
+        S->writeByte(fUncompressedInfo.fType);
     }
     S->writeInt(fLowModTime);
     S->writeInt(fHighModTime);
@@ -120,11 +120,11 @@ void plBitmap::IPrcWrite(pfPrcHelper* prc) {
 
     prc->startTag("Compression");
     prc->writeParam("Type", kCompressionTypeNames[fCompressionType]);
-    if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression)
-        prc->writeParam("SubType", kUncompressedTypeNames[fUncompressedInfo.fType]);
-    else {
+    if (fCompressionType == kDirectXCompression) {
         prc->writeParam("SubType", kCompressedTypeNames[fDXInfo.fCompressionType]);
         prc->writeParam("BlockSize", fDXInfo.fBlockSize);
+    } else {
+        prc->writeParam("SubType", kUncompressedTypeNames[fUncompressedInfo.fType]);
     }
     prc->endTag(true);
 
@@ -146,18 +146,11 @@ void plBitmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     } else if (tag->getName() == "Compression") {
         ST::string cType = tag->getParam("Type", "Uncompressed");
         fCompressionType = kUncompressed;
-        for (size_t i=0; i<=kJPEGCompression; i++) {
+        for (size_t i=0; i<=kPNGCompression; i++) {
             if (cType == kCompressionTypeNames[i])
                 fCompressionType = i;
         }
-        if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression) {
-            ST::string sType = tag->getParam("SubType", "RGB8888");
-            fUncompressedInfo.fType = kRGB8888;
-            for (size_t i=0; i<=kAInten88; i++) {
-                if (sType == kUncompressedTypeNames[i])
-                    fUncompressedInfo.fType = i;
-            }
-        } else {
+        if (fCompressionType == kDirectXCompression) {
             ST::string sType = tag->getParam("SubType", "Error");
             fDXInfo.fCompressionType = kDXTError;
             for (size_t i=0; i<=kDXT5; i++) {
@@ -165,6 +158,13 @@ void plBitmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                     fDXInfo.fCompressionType = i;
             }
             fDXInfo.fBlockSize = tag->getParam("BlockSize", "0").to_uint();
+        } else {
+            ST::string sType = tag->getParam("SubType", "RGB8888");
+            fUncompressedInfo.fType = kRGB8888;
+            for (size_t i = 0; i <= kAInten88; i++) {
+                if (sType == kUncompressedTypeNames[i])
+                    fUncompressedInfo.fType = i;
+            }
         }
     } else if (tag->getName() == "ModTime") {
         fLowModTime = tag->getParam("low", "0").to_uint();

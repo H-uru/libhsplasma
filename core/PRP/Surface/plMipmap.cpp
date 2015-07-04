@@ -183,7 +183,7 @@ void plMipmap::IReadMipmap(hsStream* S) {
         S->read(fTotalSize, fImageData);
         break;
     case kPNGCompression:
-        IReadPNGImage(S);
+        plPNG::DecompressPNG(S, fImageData, fLevelData[0].fSize);
         break;
     case kUncompressed:
         IReadRawImage(S);
@@ -211,7 +211,8 @@ void plMipmap::IWriteMipmap(hsStream* S) {
         S->write(fTotalSize, fImageData);
         break;
     case kPNGCompression:
-        IWritePNGImage(S);
+        plPNG::CompressPNG(S, fImageData, fLevelData[0].fSize,
+                           fWidth, fHeight, fPixelSize);
         break;
     case kUncompressed:
         IWriteRawImage(S);
@@ -454,21 +455,6 @@ void plMipmap::IWriteJPEGImage(hsStream* S) {
     } else {
         S->writeInt(fJAlphaCache.size());
         S->write(fJAlphaCache.size(), fJAlphaCache.data());
-    }
-}
-
-void plMipmap::IReadPNGImage(hsStream* S) {
-    uint8_t* dataPtr = fImageData;
-    for (size_t i = 0; i < fLevelData.size(); ++i)
-        plPNG::DecompressPNG(S, dataPtr, fLevelData[i].fSize);
-}
-
-void plMipmap::IWritePNGImage(hsStream* S) {
-    uint8_t* dataPtr = fImageData;
-    for (size_t i = 0; i < fLevelData.size(); ++i) {
-        plPNG::CompressPNG(S, dataPtr, fLevelData[i].fSize,
-                           fLevelData[i].fWidth, fLevelData[i].fHeight,
-                           fPixelSize);
     }
 }
 
