@@ -32,7 +32,7 @@ static PyObject* pyMatrixControllerChannel_new(PyTypeObject* type, PyObject* arg
 }
 
 static PyObject* pyMatrixControllerChannel_getController(pyMatrixControllerChannel* self, void*) {
-    return pyController_FromController(self->fThis->getController());
+    return ICreate(self->fThis->getController());
 }
 
 static int pyMatrixControllerChannel_setController(pyMatrixControllerChannel* self, PyObject* value, void*) {

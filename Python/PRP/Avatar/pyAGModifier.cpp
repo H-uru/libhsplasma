@@ -15,84 +15,71 @@
  */
 
 #include <PyPlasma.h>
-#include <PRP/Avatar/plAGApplicator.h>
-#include "pyAGApplicator.h"
-#include "pyAGChannel.h"
-#include "PRP/pyCreatable.h"
-
-static plAGApplicator* IConvertApplicator(pyAGApplicator* self) {
-    return plAGApplicator::Convert(IConvert((pyCreatable*)self));
-}
+#include <PRP/Avatar/plAGModifier.h>
+#include "pyAGModifier.h"
+#include "PRP/Modifier/pyModifier.h"
 
 extern "C" {
 
-static PyObject* pyAGApplicator_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "plAGApplicator is abstract");
-    return NULL;
-}
-
-static PyObject* pyAGApplicator_getChannel(pyAGApplicator* self, void*) {
-    return ICreate(IConvertApplicator(self)->getChannel());
-}
-
-static PyObject* pyAGApplicator_getEnabled(pyAGApplicator* self, void*) {
-    return PyBool_FromLong(IConvertApplicator(self)->isEnabled() ? 1 : 0);
-}
-
-static PyObject* pyAGApplicator_getChannelName(pyAGApplicator* self, void*) {
-    return PlStr_To_PyStr(IConvertApplicator(self)->getChannelName());
-}
-
-static int pyAGApplicator_setChannel(pyAGApplicator* self, PyObject* value, void*) {
-    if (value == NULL) {
-        IConvertApplicator(self)->setChannel(NULL);
-        return 0;
+static PyObject* pyAGModifier_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyAGModifier* self = (pyAGModifier*)type->tp_alloc(type, 0);
+    if (self != NULL) {
+        self->fThis = new plAGModifier();
+        self->fPyOwned = true;
     }
-    if (!pyAGChannel_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "channel should be a plAGChannel");
-        return -1;
-    }
-    IConvertApplicator(self)->setChannel(((pyAGChannel*)value)->fThis);
-    ((pyAGChannel*)value)->fPyOwned = false;
-    return 0;
+    return (PyObject*)self;
 }
 
-static int pyAGApplicator_setEnabled(pyAGApplicator* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "enabled should be a bool");
-        return -1;
-    }
-    IConvertApplicator(self)->setEnabled(PyInt_AsLong(value) != 0);
-    return 0;
+static PyObject* pyAGModifier_getChannelName(pyAGModifier* self, void*) {
+    return PlStr_To_PyStr(self->fThis->getChannelName());
 }
 
-static int pyAGApplicator_setChannelName(pyAGApplicator* self, PyObject* value, void*) {
+static PyObject* pyAGModifier_getAutoApply(pyAGModifier* self, void*) {
+    return PyBool_FromLong(self->fThis->getAutoApply() ? 1 : 0);
+}
+
+static PyObject* pyAGModifier_getEnabled(pyAGModifier* self, void*) {
+    return PyBool_FromLong(self->fThis->getEnabled() ? 1 : 0);
+}
+
+static int pyAGModifier_setChannelName(pyAGModifier* self, PyObject* value, void*) {
     if (value == NULL || !PyAnyStr_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "channelName should be a string");
         return -1;
     }
-    IConvertApplicator(self)->setChannelName(PyStr_To_PlStr(value));
+    self->fThis->setChannelName(PyStr_To_PlStr(value));
     return 0;
 }
 
-static PyMethodDef pyAGApplicator_Methods[] = {
-    { NULL, NULL, 0, NULL }
-};
+static int pyAGModifier_setAutoApply(pyAGModifier* self, PyObject* value, void*) {
+    if (value == NULL || !PyBool_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "autoApply should be a boolean");
+        return -1;
+    }
+    self->fThis->setAutoApply(PyInt_AsLong(value) != 0);
+    return 0;
+}
 
-static PyGetSetDef pyAGApplicator_GetSet[] = {
-    { _pycs("channel"), (getter)pyAGApplicator_getChannel,
-        (setter)pyAGApplicator_setChannel, NULL, NULL },
-    { _pycs("enabled"), (getter)pyAGApplicator_getEnabled,
-        (setter)pyAGApplicator_setEnabled, NULL, NULL },
-    { _pycs("channelName"), (getter)pyAGApplicator_getChannelName,
-        (setter)pyAGApplicator_setChannelName, NULL, NULL },
+static int pyAGModifier_setEnabled(pyAGModifier* self, PyObject* value, void*) {
+    if (value == NULL || !PyBool_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "enabled should be a boolean");
+        return -1;
+    }
+    self->fThis->setEnabled(PyInt_AsLong(value) != 0);
+    return 0;
+}
+
+static PyGetSetDef pyAGModifier_GetSet[] = {
+    { _pycs("channelName"), (getter)pyAGModifier_getChannelName, (setter)pyAGModifier_setChannelName, NULL, NULL },
+    { _pycs("autoApply"), (getter)pyAGModifier_getAutoApply, (setter)pyAGModifier_setAutoApply, NULL, NULL },
+    { _pycs("enabled"), (getter)pyAGModifier_getEnabled, (setter)pyAGModifier_setEnabled, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
-PyTypeObject pyAGApplicator_Type = {
+PyTypeObject pyAGModifier_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plAGApplicator",        /* tp_name */
-    sizeof(pyAGApplicator),             /* tp_basicsize */
+    "PyHSPlasma.plAGModifier",          /* tp_name */
+    sizeof(pyAGModifier),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
@@ -112,7 +99,7 @@ PyTypeObject pyAGApplicator_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plAGApplicator wrapper",           /* tp_doc */
+    "plAGModifier wrapper",                   /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -121,9 +108,9 @@ PyTypeObject pyAGApplicator_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyAGApplicator_Methods,             /* tp_methods */
+    NULL,                               /* tp_methods */
     NULL,                               /* tp_members */
-    pyAGApplicator_GetSet,              /* tp_getset */
+    pyAGModifier_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
@@ -132,7 +119,7 @@ PyTypeObject pyAGApplicator_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyAGApplicator_new,                 /* tp_new */
+    pyAGModifier_new,                   /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -147,31 +134,31 @@ PyTypeObject pyAGApplicator_Type = {
     TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
-PyObject* Init_pyAGApplicator_Type() {
-    pyAGApplicator_Type.tp_base = &pyCreatable_Type;
-    if (PyType_Ready(&pyAGApplicator_Type) < 0)
+PyObject* Init_pyAGModifier_Type() {
+    pyAGModifier_Type.tp_base = &pyModifier_Type;
+    if (PyType_Ready(&pyAGModifier_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyAGApplicator_Type);
-    return (PyObject*)&pyAGApplicator_Type;
+    Py_INCREF(&pyAGModifier_Type);
+    return (PyObject*)&pyAGModifier_Type;
 }
 
-int pyAGApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGApplicator_Type))
+int pyAGModifier_Check(PyObject* obj) {
+    if (obj->ob_type == &pyAGModifier_Type
+        || PyType_IsSubtype(obj->ob_type, &pyAGModifier_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyAGApplicator_FromAGApplicator(class plAGApplicator* app) {
-    if (app == NULL) {
+PyObject* pyAGModifier_FromAGModifier(class plAGModifier* obj) {
+    if (obj == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    pyAGApplicator* pyobj = PyObject_New(pyAGApplicator, &pyAGApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
+    pyAGModifier* py = PyObject_New(pyAGModifier, &pyAGModifier_Type);
+    py->fThis = obj;
+    py->fPyOwned = false;
+    return (PyObject*)py;
 }
 
-}
+};

@@ -101,6 +101,8 @@ set(PRP_AVTR_SRCS
     PRP/Avatar/pyAGAnimBink.cpp
     PRP/Avatar/pyAGApplicator.cpp
     PRP/Avatar/pyAGChannel.cpp
+    PRP/Avatar/pyAGMasterMod.cpp
+    PRP/Avatar/pyAGModifier.cpp
     PRP/Avatar/pyATCAnim.cpp
     PRP/Avatar/pyATCChannel.cpp
     PRP/Avatar/pyAgeGlobalAnim.cpp
@@ -154,6 +156,8 @@ set(PRP_AVTR_HDRS
     PRP/Avatar/pyAGAnim.h
     PRP/Avatar/pyAGApplicator.h
     PRP/Avatar/pyAGChannel.h
+    PRP/Avatar/pyAGMasterMod.h
+    PRP/Avatar/pyAGModifier.h
     PRP/Avatar/pyATCAnim.h
     PRP/Avatar/pyMultistageBehMod.h
     PRP/Avatar/pySittingModifier.h

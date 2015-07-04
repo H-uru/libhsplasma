@@ -37,15 +37,15 @@ static PyObject* pyCompoundController_new(PyTypeObject* type, PyObject* args, Py
 }
 
 static PyObject* pyCompoundController_getX(pyCompoundController* self, void*) {
-    return pyController_FromController(self->fThis->getXController());
+    return ICreate(self->fThis->getXController());
 }
 
 static PyObject* pyCompoundController_getY(pyCompoundController* self, void*) {
-    return pyController_FromController(self->fThis->getYController());
+    return ICreate(self->fThis->getYController());
 }
 
 static PyObject* pyCompoundController_getZ(pyCompoundController* self, void*) {
-    return pyController_FromController(self->fThis->getZController());
+    return ICreate(self->fThis->getZController());
 }
 
 static int pyCompoundController_setX(pyCompoundController* self, PyObject* value, void*) {
@@ -90,7 +90,13 @@ static int pyCompoundController_setZ(pyCompoundController* self, PyObject* value
     return 0;
 }
 
+static PyObject* pyCompoundController_convertToTMController(pyCompoundController* self) {
+    return pyTMController_FromTMController(self->fThis->convertToTMController());
+}
+
 static PyMethodDef pyCompoundController_Methods[] = {
+    { "convertToTMController", (PyCFunction)pyCompoundController_convertToTMController, METH_NOARGS,
+      "Converts this controller to a plTMController" },
     { NULL, NULL, 0, NULL }
 };
 

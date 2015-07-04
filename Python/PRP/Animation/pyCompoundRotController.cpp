@@ -38,15 +38,15 @@ static PyObject* pyCompoundRotController_new(PyTypeObject* type, PyObject* args,
 }
 
 static PyObject* pyCompoundRotController_getX(pyCompoundRotController* self, void*) {
-    return pyScalarController_FromScalarController(self->fThis->getX());
+    return ICreate(self->fThis->getX());
 }
 
 static PyObject* pyCompoundRotController_getY(pyCompoundRotController* self, void*) {
-    return pyScalarController_FromScalarController(self->fThis->getY());
+    return  ICreate(self->fThis->getY());
 }
 
 static PyObject* pyCompoundRotController_getZ(pyCompoundRotController* self, void*) {
-    return pyScalarController_FromScalarController(self->fThis->getZ());
+    return  ICreate(self->fThis->getZ());
 }
 
 static int pyCompoundRotController_setX(pyCompoundRotController* self, PyObject* value, void*) {

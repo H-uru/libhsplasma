@@ -441,12 +441,12 @@ void plLeafController::setKeys(const std::vector<hsKeyFrame*>& keys, unsigned in
     DeallocKeys();
     AllocKeys(keys.size(), type);
     for (size_t i=0; i<keys.size(); i++)
-        fKeys[i] = keys[i];
+        *fKeys[i] = *keys[i];
 }
 
 void plLeafController::setEaseControllers(const std::vector<class plEaseController*>& controllers) {
     DeallocControllers();
     AllocControllers(controllers.size());
     for (size_t i=0; i<controllers.size(); i++)
-        fEaseControllers[i] = controllers[i];
+        *fEaseControllers[i] = *controllers[i];
 }

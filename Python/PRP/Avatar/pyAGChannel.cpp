@@ -27,7 +27,7 @@ static PyObject* pyAGChannel_new(PyTypeObject* type, PyObject* args, PyObject* k
 }
 
 static PyObject* pyAGChannel_getName(pyAGChannel* self, void*) {
-    return PlStr_To_PyStr(self->fThis->getName());
+    return PlStr_To_PyStr(plAGChannel::Convert(IConvert((pyCreatable*)self))->getName());
 }
 
 static int pyAGChannel_setName(pyAGChannel* self, PyObject* value, void*) {
@@ -35,7 +35,7 @@ static int pyAGChannel_setName(pyAGChannel* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "name should be a string");
         return -1;
     }
-    self->fThis->setName(PyStr_To_PlStr(value));
+    plAGChannel::Convert(IConvert((pyCreatable*)self))->setName(PyStr_To_PlStr(value));
     return 0;
 }
 

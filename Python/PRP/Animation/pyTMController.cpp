@@ -40,15 +40,15 @@ static PyObject* pyTMController_new(PyTypeObject* type, PyObject* args, PyObject
 }
 
 static PyObject* pyTMController_getPos(pyTMController* self, void*) {
-    return pyPosController_FromPosController(self->fThis->getPosController());
+    return ICreate(self->fThis->getPosController());
 }
 
 static PyObject* pyTMController_getRot(pyTMController* self, void*) {
-    return pyRotController_FromRotController(self->fThis->getRotController());
+    return ICreate(self->fThis->getRotController());
 }
 
 static PyObject* pyTMController_getScale(pyTMController* self, void*) {
-    return pyScaleController_FromScaleController(self->fThis->getScaleController());
+    return ICreate(self->fThis->getScaleController());
 }
 
 static int pyTMController_setPos(pyTMController* self, PyObject* value, void*) {
@@ -93,7 +93,13 @@ static int pyTMController_setScale(pyTMController* self, PyObject* value, void*)
     return 0;
 }
 
+static PyObject* pyTMController_convertToCompoundController(pyTMController* self) {
+    return pyCompoundController_FromCompoundController(self->fThis->convertToCompoundController());
+}
+
 static PyMethodDef pyTMController_Methods[] = {
+    { "convertToCompoundController", (PyCFunction)pyTMController_convertToCompoundController, METH_NOARGS,
+      "Converts this controller to a plCompoundController" },
     { NULL, NULL, 0, NULL }
 };
 
