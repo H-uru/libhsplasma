@@ -21,6 +21,10 @@
 #include "pyKeys.h"
 #include "PRP/pyCreatable.h"
 
+static plLeafController* IConvertController(pyLeafController* self) {
+    return plLeafController::Convert(IConvert((pyCreatable*)self));
+}
+
 extern "C" {
 
 static int pyLeafController___init__(pyLeafController* self, PyObject* args, PyObject* kwds) {
@@ -39,11 +43,11 @@ static PyObject* pyLeafController_new(PyTypeObject* type, PyObject* args, PyObje
 }
 
 static PyObject* pyLeafController_hasKeys(pyLeafController* self) {
-    return PyBool_FromLong(self->fThis->hasKeys() ? 1 : 0);
+    return PyBool_FromLong(IConvertController(self)->hasKeys() ? 1 : 0);
 }
 
 static PyObject* pyLeafController_hasEaseControllers(pyLeafController* self) {
-    return PyBool_FromLong(self->fThis->hasEaseControllers() ? 1 : 0);
+    return PyBool_FromLong(IConvertController(self)->hasEaseControllers() ? 1 : 0);
 }
 
 static PyObject* pyLeafController_setKeys(pyLeafController* self, PyObject* args) {
@@ -67,25 +71,25 @@ static PyObject* pyLeafController_setKeys(pyLeafController* self, PyObject* args
         ((pyKeyFrame*)itm)->fPyOwned = false;
         keys[i] = ((pyKeyFrame*)itm)->fThis;
     }
-    self->fThis->setKeys(keys, type);
+    IConvertController(self)->setKeys(keys, type);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) {
-    return pyLeafController_FromLeafController(self->fThis->ExpandToKeyController());
+    return ICreate(IConvertController(self)->ExpandToKeyController());
 }
 
 static PyObject* pyLeafController_CompactToLeafController(pyLeafController* self) {
-    return pyLeafController_FromLeafController(self->fThis->CompactToLeafController());
+    return pyLeafController_FromLeafController(IConvertController(self)->CompactToLeafController());
 }
 
 static PyObject* pyLeafController_getType(pyLeafController* self, void*) {
-    return PyInt_FromLong(self->fThis->getType());
+    return PyInt_FromLong(IConvertController(self)->getType());
 }
 
 static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
-    const std::vector<hsKeyFrame*>& keys = self->fThis->getKeys();
+    const std::vector<hsKeyFrame*>& keys = IConvertController(self)->getKeys();
     PyObject* list = PyList_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
         PyList_SET_ITEM(list, i, pyKeyFrame_FromKeyFrame(keys[i]));
@@ -93,7 +97,7 @@ static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
 }
 
 static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, void*) {
-    const std::vector<plEaseController*>& controllers = self->fThis->getEaseControllers();
+    const std::vector<plEaseController*>& controllers = IConvertController(self)->getEaseControllers();
     PyObject* list = PyList_New(controllers.size());
     for (size_t i=0; i<controllers.size(); i++)
         PyList_SET_ITEM(list, i, pyEaseController_FromEaseController(controllers[i]));
@@ -129,7 +133,7 @@ static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject*
         ((pyEaseController*)itm)->fPyOwned = false;
         controllers[i] = ((pyEaseController*)itm)->fThis;
     }
-    self->fThis->setEaseControllers(controllers);
+    IConvertController(self)->setEaseControllers(controllers);
     return 0;
 }
 
