@@ -20,6 +20,7 @@
 
 #include "Debug/plDebug.h"
 #include "Util/plJPEG.h"
+#include "Util/plPNG.h"
 #include "Util/plDDSurface.h"
 #include "Stream/hsRAMStream.h"
 #include "3rdPartyLibs/squish/squish.h"
@@ -181,6 +182,9 @@ void plMipmap::IReadMipmap(hsStream* S) {
     case kDirectXCompression:
         S->read(fTotalSize, fImageData);
         break;
+    case kPNGCompression:
+        IReadPNGImage(S);
+        break;
     case kUncompressed:
         IReadRawImage(S);
         break;
@@ -205,6 +209,9 @@ void plMipmap::IWriteMipmap(hsStream* S) {
         break;
     case kDirectXCompression:
         S->write(fTotalSize, fImageData);
+        break;
+    case kPNGCompression:
+        IWritePNGImage(S);
         break;
     case kUncompressed:
         IWriteRawImage(S);
@@ -450,8 +457,23 @@ void plMipmap::IWriteJPEGImage(hsStream* S) {
     }
 }
 
+void plMipmap::IReadPNGImage(hsStream* S) {
+    uint8_t* dataPtr = fImageData;
+    for (size_t i = 0; i < fLevelData.size(); ++i)
+        plPNG::DecompressPNG(S, dataPtr, fLevelData[i].fSize);
+}
+
+void plMipmap::IWritePNGImage(hsStream* S) {
+    uint8_t* dataPtr = fImageData;
+    for (size_t i = 0; i < fLevelData.size(); ++i) {
+        plPNG::CompressPNG(S, dataPtr, fLevelData[i].fSize,
+                           fLevelData[i].fWidth, fLevelData[i].fHeight,
+                           fPixelSize);
+    }
+}
+
 void plMipmap::IReadRawImage(hsStream* S) {
-    unsigned char* dataPtr = fImageData;
+    uint8_t* dataPtr = fImageData;
     if (fPixelSize == 32) {
         for (size_t i=0; i<fLevelData.size(); i++) {
             S->readInts(fLevelData[i].fSize / 4, (uint32_t*)dataPtr);
@@ -464,7 +486,7 @@ void plMipmap::IReadRawImage(hsStream* S) {
         }
     } else if (fPixelSize == 8) {
         for (size_t i=0; i<fLevelData.size(); i++) {
-            S->read(fLevelData[i].fSize, (uint8_t*)dataPtr);
+            S->read(fLevelData[i].fSize, dataPtr);
             dataPtr += fLevelData[i].fSize;
         }
     } else {
@@ -473,7 +495,7 @@ void plMipmap::IReadRawImage(hsStream* S) {
 }
 
 void plMipmap::IWriteRawImage(hsStream* S) {
-    unsigned char* dataPtr = fImageData;
+    uint8_t* dataPtr = fImageData;
     if (fPixelSize == 32) {
         for (size_t i=0; i<fLevelData.size(); i++) {
             S->writeInts(fLevelData[i].fSize / 4, (uint32_t*)dataPtr);
@@ -486,7 +508,7 @@ void plMipmap::IWriteRawImage(hsStream* S) {
         }
     } else if (fPixelSize == 8) {
         for (size_t i=0; i<fLevelData.size(); i++) {
-            S->write(fLevelData[i].fSize, (uint8_t*)dataPtr);
+            S->write(fLevelData[i].fSize, dataPtr);
             dataPtr += fLevelData[i].fSize;
         }
     } else {

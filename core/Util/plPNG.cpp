@@ -17,6 +17,8 @@
 #include "plPNG.h"
 #include "Debug/plDebug.h"
 
+#include <memory>
+
 /* Don't know why this isn't provided by libpng itself... */
 #define PNG_SIG_LENGTH (8)
 
@@ -159,16 +161,17 @@ void plPNG::DecompressPNG(hsStream* S, void* buf, size_t size) {
     // Plasma uses BGR for DirectX (TODO: Does HSPlasma need this?)
     //png_set_bgr(pi.fPngReader);
 
-    png_bytep* rows = new png_bytep[pngHeight];
+    std::unique_ptr<png_bytep[]> rows(new png_bytep[pngHeight]);
     const unsigned int stride = pngHeight * depth * channels / 8;
     png_bytep dest = reinterpret_cast<png_bytep>(buf);
-    for (size_t i = 0; i < pngHeight; ++i)
+    for (size_t i = 0; i < pngHeight; ++i) {
         rows[i] = dest + (i * stride);
+        if (rows[i] + stride > dest + size)
+            throw hsPNGException(__FILE__, __LINE__, "PNG output buffer is too small");
+    }
 
-    png_read_image(pi.fPngReader, rows);
+    png_read_image(pi.fPngReader, rows.get());
     png_read_end(pi.fPngReader, pi.fEndInfo);
-
-    delete[] rows;
 }
 
 void plPNG::CompressPNG(hsStream* S, const void* buf, size_t size,
@@ -185,13 +188,14 @@ void plPNG::CompressPNG(hsStream* S, const void* buf, size_t size,
     png_write_info(pi.fPngWriter, pi.fPngInfo);
 
     png_bytep src = reinterpret_cast<png_bytep>(const_cast<void*>(buf));
-    png_bytep* rows = new png_bytep[height];
+    std::unique_ptr<png_bytep[]> rows(new png_bytep[height]);
     const unsigned int stride = width * pixelSize / 8;
-    for (size_t i = 0; i < height; ++i)
+    for (size_t i = 0; i < height; ++i) {
         rows[i] = src + (i * stride);
+        if (rows[i] + stride > src + size)
+            throw hsPNGException(__FILE__, __LINE__, "PNG input buffer is too small");
+    }
 
-    png_write_image(pi.fPngWriter, rows);
+    png_write_image(pi.fPngWriter, rows.get());
     png_write_end(pi.fPngWriter, pi.fPngInfo);
-
-    delete[] rows;
 }

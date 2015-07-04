@@ -63,9 +63,11 @@ protected:
 
     size_t IBuildLevelSizes();
     void IReadJPEGImage(hsStream* S);
+    void IReadPNGImage(hsStream* S);
     void IReadRawImage(hsStream* S);
     void IReadRLEImage(hsStream* S, bool alpha);
     void IWriteJPEGImage(hsStream* S);
+    void IWritePNGImage(hsStream* S);
     void IWriteRawImage(hsStream* S);
     void IWriteRLEImage(hsStream* S, bool alpha);
 
