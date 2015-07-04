@@ -68,7 +68,6 @@ static PyObject* pyLeafController_setKeys(pyLeafController* self, PyObject* args
             PyErr_SetString(PyExc_TypeError, "setKeys expects a list of hsKeyFrames and an int");
             return NULL;
         }
-        ((pyKeyFrame*)itm)->fPyOwned = false;
         keys[i] = ((pyKeyFrame*)itm)->fThis;
     }
     IConvertController(self)->setKeys(keys, type);
