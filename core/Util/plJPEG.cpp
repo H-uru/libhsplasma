@@ -137,15 +137,12 @@ METHODDEF(void) plasma_error_exit(j_common_ptr cinfo) {
 
 
 /* plJPEG */
-bool plJPEG::fJPEGInited = false;
-jpeg_compress_struct plJPEG::cinfo;
-jpeg_decompress_struct plJPEG::dinfo;
-jpeg_error_mgr plJPEG::jerr;
+plJPEG& plJPEG::Instance() {
+    static plJPEG s_instance;
+    return s_instance;
+}
 
-void plJPEG::Init() {
-    if (fJPEGInited)
-        DeInit();
-
+plJPEG::plJPEG() {
     cinfo.err = jpeg_std_error(&jerr);
     dinfo.err = cinfo.err;
     cinfo.err->error_exit = plasma_error_exit;
@@ -153,53 +150,43 @@ void plJPEG::Init() {
 
     jpeg_create_compress(&cinfo);
     jpeg_create_decompress(&dinfo);
-
-    atexit(&plJPEG::DeInit);
-    fJPEGInited = true;
 }
 
-void plJPEG::DeInit() {
-    if (!fJPEGInited)
-        return;
+plJPEG::~plJPEG() {
     jpeg_destroy_compress(&cinfo);
     jpeg_destroy_decompress(&dinfo);
-    fJPEGInited = false;
 }
 
 void plJPEG::DecompressJPEG(hsStream* S, void* buf, size_t size) {
-    if (!fJPEGInited)
-        Init();
+    plJPEG& ji = Instance();
 
     JSAMPROW jbuffer[1];
-    jpeg_hsStream_src(&dinfo, S);
-    jpeg_read_header(&dinfo, TRUE);
-    jpeg_start_decompress(&dinfo);
+    jpeg_hsStream_src(&ji.dinfo, S);
+    jpeg_read_header(&ji.dinfo, TRUE);
+    jpeg_start_decompress(&ji.dinfo);
 
-    int row_stride = dinfo.output_width * dinfo.output_components;
-    int out_stride = dinfo.output_width * 4;    // Always decompress to RGBA
+    int row_stride = ji.dinfo.output_width * ji.dinfo.output_components;
+    int out_stride = ji.dinfo.output_width * 4;    // Always decompress to RGBA
     jbuffer[0] = new JSAMPLE[row_stride];
 
     size_t offs = 0;
-    while (dinfo.output_scanline < dinfo.output_height) {
+    while (ji.dinfo.output_scanline < ji.dinfo.output_height) {
         if (offs + out_stride > size)
             throw hsJPEGException(__FILE__, __LINE__, "buffer overflow");
-        jpeg_read_scanlines(&dinfo, jbuffer, 1);
+        jpeg_read_scanlines(&ji.dinfo, jbuffer, 1);
         memset(((unsigned char*)buf) + offs, 0, out_stride);
-        for (size_t x=0; x<dinfo.output_width; x++) {
+        for (size_t x = 0; x<ji.dinfo.output_width; x++) {
             memcpy(((unsigned char*)buf) + offs + (x * 4),
-                   jbuffer[0] + (x * dinfo.output_components),
-                   dinfo.out_color_components);
+                   jbuffer[0] + (x * ji.dinfo.output_components),
+                   ji.dinfo.out_color_components);
         }
         offs += out_stride;
     }
 
-    jpeg_finish_decompress(&dinfo);
+    jpeg_finish_decompress(&ji.dinfo);
     delete[] jbuffer[0];
 }
 
 void plJPEG::CompressJPEG(hsStream* S, void* buf, size_t size) {
-    if (!fJPEGInited)
-        Init();
-
     throw hsNotImplementedException(__FILE__, __LINE__);
 }

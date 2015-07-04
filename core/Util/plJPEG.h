@@ -32,18 +32,19 @@ public:
 
 class PLASMA_DLL plJPEG {
 private:
-    static bool fJPEGInited;
-    static jpeg_compress_struct cinfo;
-    static jpeg_decompress_struct dinfo;
-    static jpeg_error_mgr jerr;
+    jpeg_compress_struct cinfo;
+    jpeg_decompress_struct dinfo;
+    jpeg_error_mgr jerr;
 
 public:
-    static void Init();
     static void DecompressJPEG(hsStream* S, void* buf, size_t size);
     static void CompressJPEG(hsStream* S, void* buf, size_t size);
 
 private:
-    static void DeInit();
+    plJPEG();
+    ~plJPEG();
+
+    static plJPEG& Instance();
 };
 
 #endif
