@@ -50,31 +50,6 @@ static PyObject* pyLeafController_hasEaseControllers(pyLeafController* self) {
     return PyBool_FromLong(IConvertController(self)->hasEaseControllers() ? 1 : 0);
 }
 
-static PyObject* pyLeafController_setKeys(pyLeafController* self, PyObject* args) {
-    PyObject* list;
-    int type;
-    if (!PyArg_ParseTuple(args, "Oi", &list, &type)) {
-        PyErr_SetString(PyExc_TypeError, "setKeys expects a list of hsKeyFrames and an int");
-        return NULL;
-    }
-    if (!PyList_Check(list)) {
-        PyErr_SetString(PyExc_TypeError, "setKeys expects a list of hsKeyFrames and an int");
-        return NULL;
-    }
-    std::vector<hsKeyFrame*> keys(PyList_Size(list));
-    for (size_t i=0; i<keys.size(); i++) {
-        PyObject* itm = PyList_GetItem(list, i);
-        if (!pyKeyFrame_Check(itm)) {
-            PyErr_SetString(PyExc_TypeError, "setKeys expects a list of hsKeyFrames and an int");
-            return NULL;
-        }
-        keys[i] = ((pyKeyFrame*)itm)->fThis;
-    }
-    IConvertController(self)->setKeys(keys, type);
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) {
     return ICreate(IConvertController(self)->ExpandToKeyController());
 }
@@ -89,10 +64,13 @@ static PyObject* pyLeafController_getType(pyLeafController* self, void*) {
 
 static PyObject* pyLeafController_getKeys(pyLeafController* self, void*) {
     const std::vector<hsKeyFrame*>& keys = IConvertController(self)->getKeys();
-    PyObject* list = PyList_New(keys.size());
+    PyObject* keyTup = PyTuple_New(keys.size());
     for (size_t i=0; i<keys.size(); i++)
-        PyList_SET_ITEM(list, i, pyKeyFrame_FromKeyFrame(keys[i]));
-    return list;
+        PyTuple_SET_ITEM(keyTup, i, pyKeyFrame_FromKeyFrame(keys[i]));
+    PyObject* tup = PyTuple_New(2);
+    PyTuple_SET_ITEM(tup, 0, keyTup);
+    PyTuple_SET_ITEM(tup, 1, PyInt_FromLong(IConvertController(self)->getType()));
+    return tup;
 }
 
 static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, void*) {
@@ -104,13 +82,44 @@ static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, voi
 }
 
 static int pyLeafController_setType(pyLeafController* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "To set the key type, use setKeys");
+    PyErr_SetString(PyExc_RuntimeError, "To set the key type, use the keys setter");
     return -1;
 }
 
-static int pyLeafController_setKeysErr(pyLeafController* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "Use setKeys to set the keys list");
-    return -1;
+static int pyLeafController_setKeys(pyLeafController* self, PyObject* value, void*) {
+    if (value == NULL || !PySequence_Check(value) || PySequence_Size(value) != 2) {
+        PyErr_SetString(PyExc_TypeError, "keys should be a sequence of: sequence (keyframes), int");
+        return -1;
+    }
+
+    PyObject* keySeq = PySequence_GetItem(value, 0);
+    PyObject* keyTypeObj = PySequence_GetItem(value, 1);
+    if (!PySequence_Check(keySeq) || !PyInt_Check(keyTypeObj)) {
+        PyErr_SetString(PyExc_TypeError, "keys should be a sequence of: sequence (keyframes), int");
+        return -1;
+    }
+
+    std::vector<hsKeyFrame*> keyframes;
+    keyframes.reserve(PySequence_Size(keySeq));
+    unsigned int keyType = PyInt_AsLong(keyTypeObj);
+    for (size_t i = 0; i < PySequence_Size(keySeq); ++i) {
+        PyObject* key = PySequence_GetItem(keySeq, i);
+        if (!pyKeyFrame_Check(key)) {
+            PyErr_SetString(PyExc_TypeError, "keys should be a sequence of: sequence (keyframes), int");
+            return -1;
+        }
+        hsKeyFrame* keyframe = ((pyKeyFrame*)key)->fThis;
+        if (keyframe->getType() != keyType) {
+            PyErr_SetString(PyExc_TypeError, plString::Format("keys should be of type %s, not %s",
+                                                              hsKeyFrame::TypeNames[keyType],
+                                                              hsKeyFrame::TypeNames[keyframe->getType()]
+                                                              ).cstr());
+            return -1;
+        }
+        keyframes.push_back(keyframe);
+    }
+    IConvertController(self)->setKeys(keyframes, keyType);
+    return 0;
 }
 
 static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject* value, void*) {
@@ -138,9 +147,6 @@ static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject*
 static PyMethodDef pyLeafController_Methods[] = {
     { "hasKeys", (PyCFunction)pyLeafController_hasKeys, METH_NOARGS, NULL },
     { "hasEaseControllers", (PyCFunction)pyLeafController_hasEaseControllers, METH_NOARGS, NULL },
-    { "setKeys", (PyCFunction)pyLeafController_setKeys, METH_VARARGS,
-      "Params: keys, type\n"
-      "Set a list of keys of type `type` for the controller\n" },
     { "ExpandToKeyController", (PyCFunction)pyLeafController_ExpandToKeyController, METH_NOARGS, NULL },
     { "CompactToLeafController", (PyCFunction)pyLeafController_CompactToLeafController, METH_NOARGS, NULL },
     { NULL, NULL, 0, NULL }
@@ -150,7 +156,7 @@ static PyGetSetDef pyLeafController_GetSet[] = {
     { _pycs("type"), (getter)pyLeafController_getType,
         (setter)pyLeafController_setType, NULL, NULL },
     { _pycs("keys"), (getter)pyLeafController_getKeys,
-        (setter)pyLeafController_setKeysErr, NULL, NULL },
+        (setter)pyLeafController_setKeys, NULL, NULL },
     { _pycs("easeControllers"), (getter)pyLeafController_getEaseControllers,
         (setter)pyLeafController_setEaseControllers, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
