@@ -129,7 +129,6 @@ static int pyLeafController_setEaseControllers(pyLeafController* self, PyObject*
             PyErr_SetString(PyExc_TypeError, "easeControllers should be a list of plEaseControllers");
             return -1;
         }
-        ((pyEaseController*)itm)->fPyOwned = false;
         controllers[i] = ((pyEaseController*)itm)->fThis;
     }
     IConvertController(self)->setEaseControllers(controllers);

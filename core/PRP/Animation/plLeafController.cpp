@@ -448,5 +448,5 @@ void plLeafController::setEaseControllers(const std::vector<class plEaseControll
     DeallocControllers();
     AllocControllers(controllers.size());
     for (size_t i=0; i<controllers.size(); i++)
-        fEaseControllers[i] = controllers[i];
+        *fEaseControllers[i] = *controllers[i];
 }
