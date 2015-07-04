@@ -20,6 +20,10 @@
 #include "pyAGAnim.h"
 #include "PRP/pyCreatable.h"
 
+static plATCAnim* IConvertAnim(pyATCAnim* self) {
+    return plATCAnim::Convert(IConvert((pyCreatable*)self));
+}
+
 extern "C" {
 
 static PyObject* pyATCAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -32,13 +36,13 @@ static PyObject* pyATCAnim_new(PyTypeObject* type, PyObject* args, PyObject* kwd
 }
 
 static PyObject* pyATCAnim_clearMarkers(pyATCAnim* self) {
-    self->fThis->getMarkers().clear();
+    IConvertAnim(self)->getMarkers().clear();
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyATCAnim_clearLoops(pyATCAnim* self) {
-    self->fThis->getLoops().clear();
+    IConvertAnim(self)->getLoops().clear();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -50,7 +54,7 @@ static PyObject* pyATCAnim_setMarker(pyATCAnim* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "setMarker expects string, float");
         return NULL;
     }
-    self->fThis->setMarker(key, pos);
+    IConvertAnim(self)->setMarker(key, pos);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -62,76 +66,78 @@ static PyObject* pyATCAnim_setLoop(pyATCAnim* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "setLoop expects string, float, float");
         return NULL;
     }
-    self->fThis->setLoop(key, begin, end);
+    IConvertAnim(self)->setLoop(key, begin, end);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyATCAnim_getInitial(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getInitial());
+    return PyFloat_FromDouble(IConvertAnim(self)->getInitial());
 }
 
 static PyObject* pyATCAnim_getLoopStart(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLoopStart());
+    return PyFloat_FromDouble(IConvertAnim(self)->getLoopStart());
 }
 
 static PyObject* pyATCAnim_getLoopEnd(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getLoopEnd());
+    return PyFloat_FromDouble(IConvertAnim(self)->getLoopEnd());
 }
 
 static PyObject* pyATCAnim_getAutoStart(pyATCAnim* self, void*) {
-    return PyBool_FromLong(self->fThis->getAutoStart() ? 1 : 0);
+    return PyBool_FromLong(IConvertAnim(self)->getAutoStart() ? 1 : 0);
 }
 
 static PyObject* pyATCAnim_getDoLoop(pyATCAnim* self, void*) {
-    return PyBool_FromLong(self->fThis->getDoLoop() ? 1 : 0);
+    return PyBool_FromLong(IConvertAnim(self)->getDoLoop() ? 1 : 0);
 }
 
 static PyObject* pyATCAnim_getEaseInType(pyATCAnim* self, void*) {
-    return PyInt_FromLong(self->fThis->getEaseInType());
+    return PyInt_FromLong(IConvertAnim(self)->getEaseInType());
 }
 
 static PyObject* pyATCAnim_getEaseOutType(pyATCAnim* self, void*) {
-    return PyInt_FromLong(self->fThis->getEaseOutType());
+    return PyInt_FromLong(IConvertAnim(self)->getEaseOutType());
 }
 
 static PyObject* pyATCAnim_getEaseInLength(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseInLength());
+    return PyFloat_FromDouble(IConvertAnim(self)->getEaseInLength());
 }
 
 static PyObject* pyATCAnim_getEaseInMin(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseInMin());
+    return PyFloat_FromDouble(IConvertAnim(self)->getEaseInMin());
 }
 
 static PyObject* pyATCAnim_getEaseInMax(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseInMax());
+    return PyFloat_FromDouble(IConvertAnim(self)->getEaseInMax());
 }
 
 static PyObject* pyATCAnim_getEaseOutLength(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseOutLength());
+    return PyFloat_FromDouble(IConvertAnim(self)->getEaseOutLength());
 }
 
 static PyObject* pyATCAnim_getEaseOutMin(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseOutMin());
+    return PyFloat_FromDouble(IConvertAnim(self)->getEaseOutMin());
 }
 
 static PyObject* pyATCAnim_getEaseOutMax(pyATCAnim* self, void*) {
-    return PyFloat_FromDouble(self->fThis->getEaseOutMax());
+    return PyFloat_FromDouble(IConvertAnim(self)->getEaseOutMax());
 }
 
 static PyObject* pyATCAnim_getMarkers(pyATCAnim* self, void*) {
+    plATCAnim* anim = IConvertAnim(self);
     PyObject* dict = PyDict_New();
-    for (plATCAnim::marker_t::iterator it = self->fThis->getMarkers().begin();
-         it != self->fThis->getMarkers().end(); it++) {
+    for (plATCAnim::marker_t::iterator it = anim->getMarkers().begin();
+         it != anim->getMarkers().end(); it++) {
         PyDict_SetItemString(dict, it->first, PyFloat_FromDouble(it->second));
     }
     return dict;
 }
 
 static PyObject* pyATCAnim_getLoops(pyATCAnim* self, void*) {
+    plATCAnim* anim = IConvertAnim(self);
     PyObject* dict = PyDict_New();
-    for (plATCAnim::loop_t::iterator it = self->fThis->getLoops().begin();
-         it != self->fThis->getLoops().end(); it++) {
+    for (plATCAnim::loop_t::iterator it = anim->getLoops().begin();
+         it != anim->getLoops().end(); it++) {
         PyDict_SetItemString(dict, it->first,
                   Py_BuildValue("ff", it->second.first, it->second.second));
     }
@@ -139,9 +145,10 @@ static PyObject* pyATCAnim_getLoops(pyATCAnim* self, void*) {
 }
 
 static PyObject* pyATCAnim_getStops(pyATCAnim* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getStops().size());
-    for (size_t i=0; i<self->fThis->getStops().size(); i++)
-        PyList_SET_ITEM(list, i, PyFloat_FromDouble(self->fThis->getStops()[i]));
+    plATCAnim* anim = IConvertAnim(self);
+    PyObject* list = PyList_New(anim->getStops().size());
+    for (size_t i = 0; i < anim->getStops().size(); i++)
+        PyList_SET_ITEM(list, i, PyFloat_FromDouble(anim->getStops()[i]));
     return list;
 }
 
@@ -150,7 +157,7 @@ static int pyATCAnim_setInitial(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "initial should be a float");
         return -1;
     }
-    self->fThis->setInitial(PyFloat_AsDouble(value));
+    IConvertAnim(self)->setInitial(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -159,7 +166,7 @@ static int pyATCAnim_setLoopStart(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "loopStart should be a float");
         return -1;
     }
-    self->fThis->setLoopStart(PyFloat_AsDouble(value));
+    IConvertAnim(self)->setLoopStart(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -168,7 +175,7 @@ static int pyATCAnim_setLoopEnd(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "loopEnd should be a float");
         return -1;
     }
-    self->fThis->setLoopEnd(PyFloat_AsDouble(value));
+    IConvertAnim(self)->setLoopEnd(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -177,7 +184,7 @@ static int pyATCAnim_setAutoStart(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "autoStart should be a bool");
         return -1;
     }
-    self->fThis->setAutoStart(PyInt_AsLong(value) != 0);
+    IConvertAnim(self)->setAutoStart(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -186,7 +193,7 @@ static int pyATCAnim_setDoLoop(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "loop should be a bool");
         return -1;
     }
-    self->fThis->setDoLoop(PyInt_AsLong(value) != 0);
+    IConvertAnim(self)->setDoLoop(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -195,7 +202,7 @@ static int pyATCAnim_setEaseInType(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "easeInType should be an int");
         return -1;
     }
-    self->fThis->setEaseInType(PyInt_AsLong(value));
+    IConvertAnim(self)->setEaseInType(PyInt_AsLong(value));
     return 0;
 }
 
@@ -204,7 +211,7 @@ static int pyATCAnim_setEaseOutType(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "easeOutType should be an int");
         return -1;
     }
-    self->fThis->setEaseOutType(PyInt_AsLong(value));
+    IConvertAnim(self)->setEaseOutType(PyInt_AsLong(value));
     return 0;
 }
 
@@ -213,9 +220,9 @@ static int pyATCAnim_setEaseInLength(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "easeInLength should be a float");
         return -1;
     }
-    self->fThis->setEaseInParams(PyFloat_AsDouble(value),
-                                 self->fThis->getEaseInMin(),
-                                 self->fThis->getEaseInMax());
+    IConvertAnim(self)->setEaseInParams(PyFloat_AsDouble(value),
+                                        self->fThis->getEaseInMin(),
+                                        self->fThis->getEaseInMax());
     return 0;
 }
 
@@ -224,9 +231,9 @@ static int pyATCAnim_setEaseInMin(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "easeInMin should be a float");
         return -1;
     }
-    self->fThis->setEaseInParams(self->fThis->getEaseInLength(),
-                                 PyFloat_AsDouble(value),
-                                 self->fThis->getEaseInMax());
+    IConvertAnim(self)->setEaseInParams(self->fThis->getEaseInLength(),
+                                        PyFloat_AsDouble(value),
+                                        self->fThis->getEaseInMax());
     return 0;
 }
 
@@ -235,9 +242,9 @@ static int pyATCAnim_setEaseInMax(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "easeInMax should be a float");
         return -1;
     }
-    self->fThis->setEaseInParams(self->fThis->getEaseInLength(),
-                                 self->fThis->getEaseInMin(),
-                                 PyFloat_AsDouble(value));
+    IConvertAnim(self)->setEaseInParams(self->fThis->getEaseInLength(),
+                                        self->fThis->getEaseInMin(),
+                                        PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -246,9 +253,9 @@ static int pyATCAnim_setEaseOutLength(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "easeOutLength should be a float");
         return -1;
     }
-    self->fThis->setEaseOutParams(PyFloat_AsDouble(value),
-                                  self->fThis->getEaseOutMin(),
-                                  self->fThis->getEaseOutMax());
+    IConvertAnim(self)->setEaseOutParams(PyFloat_AsDouble(value),
+                                         self->fThis->getEaseOutMin(),
+                                         self->fThis->getEaseOutMax());
     return 0;
 }
 
@@ -257,9 +264,9 @@ static int pyATCAnim_setEaseOutMin(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "easeOutMin should be a float");
         return -1;
     }
-    self->fThis->setEaseOutParams(self->fThis->getEaseOutLength(),
-                                  PyFloat_AsDouble(value),
-                                  self->fThis->getEaseOutMax());
+    IConvertAnim(self)->setEaseOutParams(self->fThis->getEaseOutLength(),
+                                         PyFloat_AsDouble(value),
+                                         self->fThis->getEaseOutMax());
     return 0;
 }
 
@@ -268,9 +275,9 @@ static int pyATCAnim_setEaseOutMax(pyATCAnim* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "easeOutMax should be a float");
         return -1;
     }
-    self->fThis->setEaseOutParams(self->fThis->getEaseOutLength(),
-                                  self->fThis->getEaseOutMin(),
-                                  PyFloat_AsDouble(value));
+    IConvertAnim(self)->setEaseOutParams(self->fThis->getEaseOutLength(),
+                                         self->fThis->getEaseOutMin(),
+                                         PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -286,7 +293,7 @@ static int pyATCAnim_setLoops(pyATCAnim* self, PyObject* value, void*) {
 
 static int pyATCAnim_setStops(pyATCAnim* self, PyObject* value, void*) {
     if (value == NULL) {
-        self->fThis->setStops(std::vector<float>());
+        IConvertAnim(self)->setStops(std::vector<float>());
         return 0;
     } else if (PyList_Check(value)) {
         std::vector<float> stops(PyList_Size(value));
@@ -297,7 +304,7 @@ static int pyATCAnim_setStops(pyATCAnim* self, PyObject* value, void*) {
             }
             stops[i] = PyFloat_AsDouble(PyList_GetItem(value, i));
         }
-        self->fThis->setStops(stops);
+        IConvertAnim(self)->setStops(stops);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "stops should be a list of floats");
