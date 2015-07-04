@@ -41,6 +41,7 @@
 #include "PRP/Avatar/pyAGAnim.h"
 #include "PRP/Avatar/pyAGApplicator.h"
 #include "PRP/Avatar/pyAGChannel.h"
+#include "PRP/Avatar/pyAGModifier.h"
 #include "PRP/Avatar/pyATCAnim.h"
 #include "PRP/Avatar/pyClothingItem.h"
 #include "PRP/Avatar/pyMultistageBehMod.h"
@@ -533,6 +534,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plVolumeSensorConditionalObject", Init_pyVolumeSensorConditionalObject_Type());
     PyModule_AddObject(module, "plVolumeSensorConditionalObjectNoArbitration", Init_pyVolumeSensorConditionalObjectNoArbitration_Type());
     PyModule_AddObject(module, "plModifier", Init_pyModifier_Type());
+    PyModule_AddObject(module, "plAGModifier", Init_pyAGModifier_Type());
     PyModule_AddObject(module, "plSingleModifier", Init_pySingleModifier_Type());
     PyModule_AddObject(module, "plSittingModifier", Init_pySittingModifier_Type());
     PyModule_AddObject(module, "plDetectorModifier", Init_pyDetectorModifier_Type());

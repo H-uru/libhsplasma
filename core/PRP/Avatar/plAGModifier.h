@@ -35,6 +35,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plString getChannelName() const { return fChannelName; }
+    bool getAutoApply() const { return fAutoApply; }
+    bool getEnabled() const { return fEnabled; }
+
+    void setChannelName(const plString& value) { fChannelName = value; }
+    void setAutoApply(bool value) { fAutoApply = value; }
+    void setEnabled(bool value) { fEnabled = value; }
 };
 
 #endif
