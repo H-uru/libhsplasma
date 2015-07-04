@@ -54,8 +54,8 @@ plMipmap::~plMipmap() {
     free_aligned(fImageData);
 }
 
-void plMipmap::Create(unsigned int width, unsigned int height, unsigned char numLevels,
-                      unsigned char compType, ColorFormat format, unsigned char dxtLevel) {
+void plMipmap::Create(uint32_t width, uint32_t height, uint8_t numLevels,
+                      uint8_t compType, ColorFormat format, uint8_t dxtLevel) {
     free_aligned(fImageData);
     fJPEGCache.clear();
     fJAlphaCache.clear();
@@ -66,10 +66,7 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned char num
         throw hsBadParamException(__FILE__, __LINE__, "DXT Type must be set for DirectX textures");
 
     fCompressionType = compType;
-    if (compType == kUncompressed || compType == kJPEGCompression) {
-        setConfig(format);
-        fUncompressedInfo.fType = format;
-    } else {
+    if (compType == kDirectXCompression) {
         fPixelSize = 32;
         fSpace = kDirectSpace;
         fDXInfo.fCompressionType = dxtLevel;
@@ -80,6 +77,9 @@ void plMipmap::Create(unsigned int width, unsigned int height, unsigned char num
             fDXInfo.fBlockSize = 16;
             fFlags = kAlphaChannelFlag;
         }
+    } else {
+        setConfig(format);
+        fUncompressedInfo.fType = format;
     }
 
     fWidth = width;
@@ -115,11 +115,11 @@ void plMipmap::CopyFrom(plMipmap* src) {
     fCompressionType = src->fCompressionType;
     fLowModTime = src->fLowModTime;
     fHighModTime = src->fHighModTime;
-    if (fCompressionType == kUncompressed || fCompressionType == kJPEGCompression) {
-        fUncompressedInfo.fType = src->fUncompressedInfo.fType;
-    } else if (fCompressionType == kDirectXCompression) {
+    if (fCompressionType == kDirectXCompression) {
         fDXInfo.fCompressionType = src->fDXInfo.fCompressionType;
         fDXInfo.fBlockSize = src->fDXInfo.fBlockSize;
+    } else {
+        fUncompressedInfo.fType = src->fUncompressedInfo.fType;
     }
 
     fWidth = src->fWidth;
@@ -184,6 +184,8 @@ void plMipmap::IReadMipmap(hsStream* S) {
     case kUncompressed:
         IReadRawImage(S);
         break;
+    default:
+        throw hsBadParamException(__FILE__, __LINE__, "Unsupported compression type");
     }
 }
 
@@ -207,6 +209,8 @@ void plMipmap::IWriteMipmap(hsStream* S) {
     case kUncompressed:
         IWriteRawImage(S);
         break;
+    default:
+        throw hsBadParamException(__FILE__, __LINE__, "Unsupported compression type");
     }
 }
 
@@ -649,13 +653,13 @@ void plMipmap::CompressImage(size_t level, void* src, size_t size) {
         unsigned char* imgPtr = fImageData + fLevelData[level].fOffset;
         if (fDXInfo.fCompressionType == kDXT1) {
             squish::CompressImage((squish::u8*)src, lvl.fWidth, lvl.fHeight,
-                                    imgPtr, squish::kDxt1 | squish::kColourRangeFit);
+                                  imgPtr, squish::kDxt1 | squish::kColourRangeFit);
         } else if (fDXInfo.fCompressionType == kDXT3) {
             squish::CompressImage((squish::u8*)src, lvl.fWidth, lvl.fHeight,
-                                    imgPtr, squish::kDxt3 | squish::kColourRangeFit);
+                                  imgPtr, squish::kDxt3 | squish::kColourRangeFit);
         } else if (fDXInfo.fCompressionType == kDXT5) {
             squish::CompressImage((squish::u8*)src, lvl.fWidth, lvl.fHeight,
-                                    imgPtr, squish::kDxt5 | squish::kColourRangeFit);
+                                  imgPtr, squish::kDxt5 | squish::kColourRangeFit);
         } else {
             throw hsBadParamException(__FILE__, __LINE__);
         }

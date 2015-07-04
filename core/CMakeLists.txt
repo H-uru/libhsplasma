@@ -1,5 +1,6 @@
 find_package(ZLIB REQUIRED)
 find_package(JPEG REQUIRED)
+find_package(PNG REQUIRED)
 find_package(Threads REQUIRED)
 
 if(ENABLE_PHYSX)
@@ -10,6 +11,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdPartyLibs/squish)
 include_directories(${ZLIB_INCLUDE_DIR})
 include_directories(${JPEG_INCLUDE_DIR})
+include_directories(${PNG_INCLUDE_DIR})
 
 if(PHYSX_FOUND AND ENABLE_PHYSX)
     add_definitions(-DHAVE_PX_SDK)
@@ -700,6 +702,7 @@ set(UTIL_SRCS
     Util/hsRadixSort.cpp
     Util/plDDSurface.cpp
     Util/plJPEG.cpp
+    Util/plPNG.cpp
     Util/plMD5.cpp
     Util/plZlib.cpp
 )
@@ -710,6 +713,7 @@ set(UTIL_HDRS
     Util/hsRadixSort.h
     Util/plDDSurface.h
     Util/plJPEG.h
+    Util/plPNG.h
     Util/plMD5.h
     Util/plZlib.h
 )
@@ -792,7 +796,7 @@ add_library(HSPlasma
             ${RIJNDAEL}
             ${SQUISH}
 )
-target_link_libraries(HSPlasma ${ZLIB_LIBRARIES} ${JPEG_LIBRARIES}
+target_link_libraries(HSPlasma ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${ZLIB_LIBRARIES}
                       ${CMAKE_THREAD_LIBS_INIT} ${STRING_THEORY_LIBRARIES})
 if(PHYSX_FOUND AND ENABLE_PHYSX)
     target_link_libraries(HSPlasma ${PHYSX_COOKING_LIBRARY})
