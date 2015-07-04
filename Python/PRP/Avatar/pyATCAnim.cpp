@@ -295,19 +295,19 @@ static int pyATCAnim_setStops(pyATCAnim* self, PyObject* value, void*) {
     if (value == NULL) {
         IConvertAnim(self)->setStops(std::vector<float>());
         return 0;
-    } else if (PyList_Check(value)) {
-        std::vector<float> stops(PyList_Size(value));
+    } else if (PySequence_Check(value)) {
+        std::vector<float> stops(PySequence_Size(value));
         for (size_t i=0; i<stops.size(); i++) {
-            if (!PyFloat_Check(PyList_GetItem(value, i))) {
-                PyErr_SetString(PyExc_TypeError, "stops should be a list of floats");
+            if (!PyFloat_Check(PySequence_GetItem(value, i))) {
+                PyErr_SetString(PyExc_TypeError, "stops should be a sequence of floats");
                 return -1;
             }
-            stops[i] = PyFloat_AsDouble(PyList_GetItem(value, i));
+            stops[i] = PyFloat_AsDouble(PySequence_GetItem(value, i));
         }
         IConvertAnim(self)->setStops(stops);
         return 0;
     } else {
-        PyErr_SetString(PyExc_TypeError, "stops should be a list of floats");
+        PyErr_SetString(PyExc_TypeError, "stops should be a sequence of floats");
         return -1;
     }
 }
