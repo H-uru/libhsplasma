@@ -21,6 +21,10 @@
 #include "PRP/Animation/pyController.h"
 #include "PRP/pyCreatable.h"
 
+static plLayerAnimationBase* IConvertLayer(pyLayerAnimationBase* self) {
+    return plLayerAnimationBase::Convert(IConvert((pyCreatable*)self));
+}
+
 extern "C" {
 
 static PyObject* pyLayerAnimationBase_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -29,67 +33,67 @@ static PyObject* pyLayerAnimationBase_new(PyTypeObject* type, PyObject* args, Py
 }
 
 static PyObject* pyLayerAnimationBase_getPreshade(pyLayerAnimationBase* self, void*) {
-    return pyController_FromController(self->fThis->getPreshadeCtl());
+    return ICreate(IConvertLayer(self)->getPreshadeCtl());
 }
 
 static PyObject* pyLayerAnimationBase_getRuntime(pyLayerAnimationBase* self, void*) {
-    return pyController_FromController(self->fThis->getRuntimeCtl());
+    return ICreate(IConvertLayer(self)->getRuntimeCtl());
 }
 
 static PyObject* pyLayerAnimationBase_getAmbient(pyLayerAnimationBase* self, void*) {
-    return pyController_FromController(self->fThis->getAmbientCtl());
+    return ICreate(IConvertLayer(self)->getAmbientCtl());
 }
 
 static PyObject* pyLayerAnimationBase_getSpecular(pyLayerAnimationBase* self, void*) {
-    return pyController_FromController(self->fThis->getSpecularCtl());
+    return ICreate(IConvertLayer(self)->getSpecularCtl());
 }
 
 static PyObject* pyLayerAnimationBase_getOpacity(pyLayerAnimationBase* self, void*) {
-    return pyController_FromController(self->fThis->getOpacityCtl());
+    return ICreate(IConvertLayer(self)->getOpacityCtl());
 }
 
 static PyObject* pyLayerAnimationBase_getTransform(pyLayerAnimationBase* self, void*) {
-    return pyController_FromController(self->fThis->getTransformCtl());
+    return ICreate(IConvertLayer(self)->getTransformCtl());
 }
 
 static int pyLayerAnimationBase_setPreshade(pyLayerAnimationBase* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        self->fThis->setPreshadeCtl(NULL);
+        IConvertLayer(self)->setPreshadeCtl(NULL);
         return 0;
     }
     if (!pyController_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "preshadeCtl should be a plController");
         return -1;
     }
-    self->fThis->setPreshadeCtl(((pyController*)value)->fThis);
+    IConvertLayer(self)->setPreshadeCtl(((pyController*)value)->fThis);
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
 
 static int pyLayerAnimationBase_setRuntime(pyLayerAnimationBase* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        self->fThis->setRuntimeCtl(NULL);
+        IConvertLayer(self)->setRuntimeCtl(NULL);
         return 0;
     }
     if (!pyController_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "runtimeCtl should be a plController");
         return -1;
     }
-    self->fThis->setRuntimeCtl(((pyController*)value)->fThis);
+    IConvertLayer(self)->setRuntimeCtl(((pyController*)value)->fThis);
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
 
 static int pyLayerAnimationBase_setAmbient(pyLayerAnimationBase* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        self->fThis->setAmbientCtl(NULL);
+        IConvertLayer(self)->setAmbientCtl(NULL);
         return 0;
     }
     if (!pyController_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "ambientCtl should be a plController");
         return -1;
     }
-    self->fThis->setAmbientCtl(((pyController*)value)->fThis);
+    IConvertLayer(self)->setAmbientCtl(((pyController*)value)->fThis);
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
@@ -103,35 +107,35 @@ static int pyLayerAnimationBase_setSpecular(pyLayerAnimationBase* self, PyObject
         PyErr_SetString(PyExc_TypeError, "specularCtl should be a plController");
         return -1;
     }
-    self->fThis->setSpecularCtl(((pyController*)value)->fThis);
+    IConvertLayer(self)->setSpecularCtl(((pyController*)value)->fThis);
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
 
 static int pyLayerAnimationBase_setOpacity(pyLayerAnimationBase* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        self->fThis->setOpacityCtl(NULL);
+        IConvertLayer(self)->setOpacityCtl(NULL);
         return 0;
     }
     if (!pyController_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "opacityCtl should be a plController");
         return -1;
     }
-    self->fThis->setOpacityCtl(((pyController*)value)->fThis);
+    IConvertLayer(self)->setOpacityCtl(((pyController*)value)->fThis);
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
 
 static int pyLayerAnimationBase_setTransform(pyLayerAnimationBase* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        self->fThis->setTransformCtl(NULL);
+        IConvertLayer(self)->setTransformCtl(NULL);
         return 0;
     }
     if (!pyController_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "transformCtl should be a plController");
         return -1;
     }
-    self->fThis->setTransformCtl(((pyController*)value)->fThis);
+    IConvertLayer(self)->setTransformCtl(((pyController*)value)->fThis);
     ((pyController*)value)->fPyOwned = false;
     return 0;
 }
