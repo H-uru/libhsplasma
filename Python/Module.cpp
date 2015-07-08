@@ -81,6 +81,7 @@
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Message/pyNotifyMsg.h"
+#include "PRP/Message/pyResponderMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
@@ -668,6 +669,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plLinkToAgeMsg", Init_pyLinkToAgeMsg_Type());
     PyModule_AddObject(module, "plNotifyMsg", Init_pyNotifyMsg_Type());
     PyModule_AddObject(module, "plArmatureEffectStateMsg", Init_pyArmatureEffectStateMsg_Type());
+    PyModule_AddObject(module, "plResponderMsg", Init_pyResponderMsg_Type());
+    PyModule_AddObject(module, "plOneShotMsg", Init_pyOneShotMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

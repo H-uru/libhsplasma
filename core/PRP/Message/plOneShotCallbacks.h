@@ -29,6 +29,9 @@ public:
         short fUser;
 
         plOneShotCallback() : fUser(0) { }
+        plOneShotCallback(const plString& marker, plKey receiver, short user)
+            : fMarker(marker), fReceiver(receiver), fUser(user)
+        { }
     };
 
 protected:
@@ -39,6 +42,14 @@ public:
     void write(hsStream* S, plResManager* mgr);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const std::vector<plOneShotCallback>& getCallbacks() const { return fCallbacks; }
+    std::vector<plOneShotCallback>& getCallbacks() { return fCallbacks; }
+    void addCallback(const plString& marker, plKey receiver, short user) { fCallbacks.emplace_back(marker, receiver, user); }
+    void clearCallbacks() { fCallbacks.clear(); }
+    void delCallback(size_t idx) { fCallbacks.erase(fCallbacks.begin() + idx); }
+    size_t getNumCallbacks() const { return fCallbacks.size(); }
 };
 
 #endif

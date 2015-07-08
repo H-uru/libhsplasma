@@ -293,7 +293,9 @@ set(PRP_MSG_SRCS
     PRP/Message/pyMultiStageEventData.cpp
     PRP/Message/pyNotifyMsg.cpp
     PRP/Message/pyOfferLinkBookEventData.cpp
+    PRP/Message/pyOneShotMsg.cpp
     PRP/Message/pyPickedEventData.cpp
+    PRP/Message/pyResponderMsg.cpp
     PRP/Message/pyResponderStateEventData.cpp
     PRP/Message/pySpawnedEventData.cpp
     PRP/Message/pyVariableEventData.cpp
@@ -307,6 +309,7 @@ set(PRP_MSG_HDRS
     PRP/Message/pyMessage.h
     PRP/Message/pyMsgForwarder.h
     PRP/Message/pyNotifyMsg.h
+    PRP/Message/pyResponderMsg.h
 )
 
 set(PRP_MISC_SRCS

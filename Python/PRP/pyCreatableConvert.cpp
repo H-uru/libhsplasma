@@ -209,6 +209,7 @@
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
+#include "PRP/Message/pyResponderMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
@@ -790,6 +791,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kAgeInfoStruct: return pyAgeInfoStruct_FromAgeInfoStruct(plAgeInfoStruct::Convert(pCre));
         case kArmatureEffectStateMsg: return pyArmatureEffectStateMsg_FromArmatureEffectStateMsg(plArmatureEffectStateMsg::Convert(pCre));
         case kCursorChangeMsg: return pyCursorChangeMsg_FromCursorChangeMsg(plCursorChangeMsg::Convert(pCre));
+        case kResponderMsg: return pyResponderMsg_FromResponderMsg(plResponderMsg::Convert(pCre));
+        case kOneShotMsg: return pyOneShotMsg_FromOneShotMsg(plOneShotMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));
