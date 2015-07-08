@@ -82,7 +82,7 @@ static PyMethodDef pyMsgForwarder_Methods[] = {
     { "addForwardKey", (PyCFunction)pyMsgForwarder_addKey, METH_VARARGS,
       "Params: key\n"
       "Add a forward key to the forwarder" },
-    { "delForwardKey", (PyCFunction)pyMsgForwarder_delKey, METH_NOARGS,
+    { "delForwardKey", (PyCFunction)pyMsgForwarder_delKey, METH_VARARGS,
       "Params: idx\n"
       "Remove a forward key from the forwarder" },
     { NULL, NULL, 0, NULL }
