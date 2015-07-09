@@ -274,6 +274,7 @@ set(PRP_LIT_HDRS
 
 set(PRP_MSG_SRCS
     PRP/Message/pyActivateEventData.cpp
+    PRP/Message/pyAnimCmdMsg.cpp
     PRP/Message/pyArmatureEffectMsg.cpp
     PRP/Message/pyBookEventData.cpp
     PRP/Message/pyCallbackEventData.cpp
@@ -289,6 +290,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyFacingEventData.cpp
     PRP/Message/pyLinkToAgeMsg.cpp
     PRP/Message/pyMessage.cpp
+    PRP/Message/pyMessageWithCallbacks.cpp
     PRP/Message/pyMsgForwarder.cpp
     PRP/Message/pyMultiStageEventData.cpp
     PRP/Message/pyNotifyMsg.cpp
@@ -301,12 +303,14 @@ set(PRP_MSG_SRCS
     PRP/Message/pyVariableEventData.cpp
 )
 set(PRP_MSG_HDRS
+    PRP/Message/pyAnimCmdMsg.h
     PRP/Message/pyArmatureEffectMsg.h
     PRP/Message/pyCursorChangeMsg.h
     PRP/Message/pyEventCallbackMsg.h
     PRP/Message/pyEventData.h
     PRP/Message/pyLinkToAgeMsg.h
     PRP/Message/pyMessage.h
+    PRP/Message/pyMessageWithCallbacks.h
     PRP/Message/pyMsgForwarder.h
     PRP/Message/pyNotifyMsg.h
     PRP/Message/pyResponderMsg.h

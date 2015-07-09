@@ -73,12 +73,14 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
 #include "PRP/Light/pyShadowMaster.h"
+#include "PRP/Message/pyAnimCmdMsg.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
 #include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyEventData.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyMessage.h"
+#include "PRP/Message/pyMessageWithCallbacks.h"
 #include "PRP/Message/pyMsgForwarder.h"
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
@@ -671,6 +673,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plArmatureEffectStateMsg", Init_pyArmatureEffectStateMsg_Type());
     PyModule_AddObject(module, "plResponderMsg", Init_pyResponderMsg_Type());
     PyModule_AddObject(module, "plOneShotMsg", Init_pyOneShotMsg_Type());
+    PyModule_AddObject(module, "plMessageWithCallbacks", Init_pyMessageWithCallbacks_Type());
+    PyModule_AddObject(module, "plAnimCmdMsg", Init_pyAnimCmdMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;
