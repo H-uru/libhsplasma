@@ -222,7 +222,7 @@ PyTypeObject pyAnimCmdMsg_Type = {
 
     pyAnimCmdMsg_Methods,               /* tp_methods */
     NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
+    pyAnimCmdMsg_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
