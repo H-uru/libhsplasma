@@ -15,90 +15,91 @@
  */
 
 #include <PyPlasma.h>
-#include <PRP/Message/plMsgForwarder.h>
-#include "pyMsgForwarder.h"
-#include "PRP/KeyedObject/pyKeyedObject.h"
-#include "PRP/KeyedObject/pyKey.h"
+#include <PRP/Message/plMessageWithCallbacks.h>
+#include "pyMessageWithCallbacks.h"
+#include "pyMessage.h"
 #include "PRP/pyCreatable.h"
 
 extern "C" {
 
-static PyObject* pyMsgForwarder_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMsgForwarder* self = (pyMsgForwarder*)type->tp_alloc(type, 0);
+static PyObject* pyMessageWithCallbacks_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyMessageWithCallbacks* self = (pyMessageWithCallbacks*)type->tp_alloc(type, 0);
     if (self != NULL) {
-        self->fThis = new plMsgForwarder();
+        self->fThis = new plMessageWithCallbacks();
         self->fPyOwned = true;
     }
     return (PyObject*)self;
 }
 
-static PyObject* pyMsgForwarder_clearKeys(pyMsgForwarder* self) {
-    self->fThis->clearForwardKeys();
+static PyObject* pyMessageWithCallbacks_addCallback(pyMessageWithCallbacks* self, PyObject* args) {
+    PyObject* msg;
+    if (!(PyArg_ParseTuple(args, "O", &msg) && pyMessage_Check(msg))) {
+        PyErr_SetString(PyExc_TypeError, "addCallback expects a plMessage");
+        return NULL;
+    }
+    self->fThis->addCallback(((pyMessage*)msg)->fThis);
+    ((pyMessage*)msg)->fPyOwned = false;
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-static PyObject* pyMsgForwarder_addKey(pyMsgForwarder* self, PyObject* args) {
-    pyKey* key;
-    if (!PyArg_ParseTuple(args, "O", &key)) {
-        PyErr_SetString(PyExc_TypeError, "addForwardKey expects a plKey");
-        return NULL;
-    }
-    if (!pyKey_Check((PyObject*)key)) {
-        PyErr_SetString(PyExc_TypeError, "addForwardKey expects a plKey");
-        return NULL;
-    }
-    self->fThis->addForwardKey(*key->fThis);
+static PyObject* pyMessageWithCallbacks_clearCallbacks(pyMessageWithCallbacks* self) {
+    self->fThis->clearCallbacks();
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-static PyObject* pyMsgForwarder_delKey(pyMsgForwarder* self, PyObject* args) {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "delForwardKey expects an int");
+static PyObject* pyMessageWithCallbacks_delCallback(pyMessageWithCallbacks* self, PyObject* args) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
         return NULL;
     }
-    self->fThis->delForwardKey(idx);
+    if (idx >= self->fThis->getCallbacks().size()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return NULL;
+    }
+    self->fThis->delCallback((size_t)idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-static PyObject* pyMsgForwarder_getForwardKeys(pyMsgForwarder* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getForwardKeys().size());
-    for (size_t i=0; i<self->fThis->getForwardKeys().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getForwardKeys()[i]));
-    return list;
-}
-
-static int pyMsgForwarder_setForwardKeys(pyMsgForwarder* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add forward keys, use addForwardKey");
-    return -1;
-}
-
-static PyMethodDef pyMsgForwarder_Methods[] = {
-    { "clearForwardKeys", (PyCFunction)pyMsgForwarder_clearKeys, METH_NOARGS,
-      "Remove all forward keys from the forwarder" },
-    { "addForwardKey", (PyCFunction)pyMsgForwarder_addKey, METH_VARARGS,
+static PyMethodDef pyMessageWithCallbacks_Methods[] = {
+    { "addCallback", (PyCFunction)pyMessageWithCallbacks_addCallback, METH_VARARGS,
       "Params: key\n"
-      "Add a forward key to the forwarder" },
-    { "delForwardKey", (PyCFunction)pyMsgForwarder_delKey, METH_VARARGS,
+      "Adds a callback message" },
+    { "clearCallbacks", (PyCFunction)pyMessageWithCallbacks_clearCallbacks, METH_NOARGS,
+      "Removes all callback messages" },
+    { "delCallback", (PyCFunction)pyMessageWithCallbacks_delCallback, METH_VARARGS,
       "Params: idx\n"
-      "Remove a forward key from the forwarder" },
+      "Removes a callback message" },
     { NULL, NULL, 0, NULL }
 };
 
-static PyGetSetDef pyMsgForwarder_GetSet[] = {
-    { _pycs("forwardKeys"), (getter)pyMsgForwarder_getForwardKeys,
-        (setter)pyMsgForwarder_setForwardKeys, NULL, NULL },
+static PyObject* pyMessageWithCallbacks_getCallbacks(pyMessageWithCallbacks* self, void*) {
+    const std::vector<plMessage*>& callbacks = self->fThis->getCallbacks();
+    PyObject* tup = PyTuple_New(callbacks.size());
+    for (size_t i = 0; i < callbacks.size(); ++i)
+        PyTuple_SET_ITEM(tup, i, ICreate(callbacks[i]));
+    return tup;
+}
+
+static int pyMessageWithCallbacks_setCallbacks(pyMessageWithCallbacks* self, PyObject* value, void*) {
+    PyErr_SetString(PyExc_RuntimeError, "To add callbacks, use addCallback");
+    return -1;
+}
+
+static PyGetSetDef pyMessageWithCallbacks_GetSet[] = {
+    { _pycs("callbacks"), (getter)pyMessageWithCallbacks_getCallbacks,
+       (setter)pyMessageWithCallbacks_setCallbacks, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
-PyTypeObject pyMsgForwarder_Type = {
+PyTypeObject pyMessageWithCallbacks_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plMsgForwarder",        /* tp_name */
-    sizeof(pyMsgForwarder),             /* tp_basicsize */
-    0,                                  /* tp_itemsize */
+    "PyHSPlasma.plMessageWithCallbacks", /* tp_name */
+    sizeof(pyMessageWithCallbacks),      /* tp_basicsize */
+    0,                                   /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
     NULL,                               /* tp_print */
@@ -117,7 +118,7 @@ PyTypeObject pyMsgForwarder_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plMsgForwarder wrapper",           /* tp_doc */
+    "plMessageWithCallbacks wrapper",         /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -126,9 +127,9 @@ PyTypeObject pyMsgForwarder_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMsgForwarder_Methods,             /* tp_methods */
+    pyMessageWithCallbacks_Methods,     /* tp_methods */
     NULL,                               /* tp_members */
-    pyMsgForwarder_GetSet,              /* tp_getset */
+    NULL,                               /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
@@ -137,7 +138,7 @@ PyTypeObject pyMsgForwarder_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyMsgForwarder_new,                 /* tp_new */
+    pyMessageWithCallbacks_new,         /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -152,31 +153,31 @@ PyTypeObject pyMsgForwarder_Type = {
     TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
-PyObject* Init_pyMsgForwarder_Type() {
-    pyMsgForwarder_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyMsgForwarder_Type) < 0)
+PyObject* Init_pyMessageWithCallbacks_Type() {
+    pyMessageWithCallbacks_Type.tp_base = &pyMessage_Type;
+    if (PyType_Ready(&pyMessageWithCallbacks_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyMsgForwarder_Type);
-    return (PyObject*)&pyMsgForwarder_Type;
+    Py_INCREF(&pyMessageWithCallbacks_Type);
+    return (PyObject*)&pyMessageWithCallbacks_Type;
 }
 
-int pyMsgForwarder_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMsgForwarder_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMsgForwarder_Type))
+int pyMessageWithCallbacks_Check(PyObject* obj) {
+    if (obj->ob_type == &pyMessageWithCallbacks_Type
+        || PyType_IsSubtype(obj->ob_type, &pyMessageWithCallbacks_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyMsgForwarder_FromMsgForwarder(class plMsgForwarder* obj) {
+PyObject* pyMessageWithCallbacks_FromMessageWithCallbacks(class plMessageWithCallbacks* obj) {
     if (obj == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    pyMsgForwarder* pyobj = PyObject_New(pyMsgForwarder, &pyMsgForwarder_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
+    pyMessageWithCallbacks* py = PyObject_New(pyMessageWithCallbacks, &pyMessageWithCallbacks_Type);
+    py->fThis = obj;
+    py->fPyOwned = false;
+    return (PyObject*)py;
 }
 
-}
+};

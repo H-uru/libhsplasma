@@ -48,6 +48,29 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plString getAnimName() const { return fAnimName; }
+    plString getLoopName() const { return fLoopName; }
+    bool getCmd(size_t cmd) const { return fCmd.get(cmd); }
+    float getBegin() const { return fBegin; }
+    float getEnd() const { return fEnd; }
+    float getLoopBegin() const { return fLoopBegin; }
+    float getLoopEnd() const { return fLoopEnd; }
+    float getSpeed() const { return fSpeed; }
+    float getSpeedChangeRate() const { return fSpeedChangeRate; }
+    float getTime() const { return fTime; }
+
+    void setAnimName(const plString& value) { fAnimName = value; }
+    void setLoopName(const plString& value) { fLoopName = value; }
+    void setCmd(size_t cmd, bool value) { fCmd.set(cmd, value); }
+    void setBegin(float value) { fBegin = value; }
+    void setEnd(float value) { fEnd = value; }
+    void setLoopBegin(float value) { fLoopBegin = value; }
+    void setLoopEnd(float value) { fLoopEnd = value; }
+    void setSpeed(float value) { fSpeed = value; }
+    void setSpeedChangeRate(float value) { fSpeedChangeRate = value; }
+    void setTime(float value) { fTime = value; }
 };
 
 #endif

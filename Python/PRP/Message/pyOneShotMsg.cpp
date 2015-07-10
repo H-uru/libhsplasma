@@ -15,89 +15,88 @@
  */
 
 #include <PyPlasma.h>
-#include <PRP/Message/plMsgForwarder.h>
-#include "pyMsgForwarder.h"
-#include "PRP/KeyedObject/pyKeyedObject.h"
+#include <PRP/Message/plResponderMsg.h>
+#include "pyResponderMsg.h"
 #include "PRP/KeyedObject/pyKey.h"
-#include "PRP/pyCreatable.h"
 
 extern "C" {
 
-static PyObject* pyMsgForwarder_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    pyMsgForwarder* self = (pyMsgForwarder*)type->tp_alloc(type, 0);
+static PyObject* pyOneShotMsg_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
+    pyOneShotMsg* self = (pyOneShotMsg*)type->tp_alloc(type, 0);
     if (self != NULL) {
-        self->fThis = new plMsgForwarder();
+        self->fThis = new plOneShotMsg();
         self->fPyOwned = true;
     }
     return (PyObject*)self;
 }
 
-static PyObject* pyMsgForwarder_clearKeys(pyMsgForwarder* self) {
-    self->fThis->clearForwardKeys();
+static PyObject* pyOneShotMsg_clearCallbacks(pyOneShotMsg* self) {
+    self->fThis->getCallbacks().clearCallbacks();
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-static PyObject* pyMsgForwarder_addKey(pyMsgForwarder* self, PyObject* args) {
-    pyKey* key;
-    if (!PyArg_ParseTuple(args, "O", &key)) {
-        PyErr_SetString(PyExc_TypeError, "addForwardKey expects a plKey");
+static PyObject* pyOneShotMsg_addCallback(pyOneShotMsg* self, PyObject* args) {
+    char* marker;
+    PyObject* key;
+    short user;
+    if (!PyArg_ParseTuple(args, "esOh", "utf8", &marker, &key, &user) || !pyKey_Check(key)) {
+        PyErr_SetString(PyExc_TypeError, "addCallback expects string, plKey, int");
         return NULL;
     }
-    if (!pyKey_Check((PyObject*)key)) {
-        PyErr_SetString(PyExc_TypeError, "addForwardKey expects a plKey");
-        return NULL;
-    }
-    self->fThis->addForwardKey(*key->fThis);
+    self->fThis->getCallbacks().addCallback(marker, *((pyKey*)key)->fThis, user);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-static PyObject* pyMsgForwarder_delKey(pyMsgForwarder* self, PyObject* args) {
-    int idx;
-    if (!PyArg_ParseTuple(args, "i", &idx)) {
-        PyErr_SetString(PyExc_TypeError, "delForwardKey expects an int");
+static PyObject* pyOneShotMsg_delCallback(pyOneShotMsg* self, PyObject* args) {
+    Py_ssize_t idx;
+    if (!PyArg_ParseTuple(args, "n", &idx)) {
+        PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
         return NULL;
     }
-    self->fThis->delForwardKey(idx);
+    plOneShotCallbacks& cbs = self->fThis->getCallbacks();
+    if (idx >= cbs.getNumCallbacks()) {
+        PyErr_SetNone(PyExc_IndexError);
+        return NULL;
+    }
+    cbs.delCallback(idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
-static PyObject* pyMsgForwarder_getForwardKeys(pyMsgForwarder* self, void*) {
-    PyObject* list = PyList_New(self->fThis->getForwardKeys().size());
-    for (size_t i=0; i<self->fThis->getForwardKeys().size(); i++)
-        PyList_SET_ITEM(list, i, pyKey_FromKey(self->fThis->getForwardKeys()[i]));
-    return list;
-}
-
-static int pyMsgForwarder_setForwardKeys(pyMsgForwarder* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "to add forward keys, use addForwardKey");
-    return -1;
-}
-
-static PyMethodDef pyMsgForwarder_Methods[] = {
-    { "clearForwardKeys", (PyCFunction)pyMsgForwarder_clearKeys, METH_NOARGS,
-      "Remove all forward keys from the forwarder" },
-    { "addForwardKey", (PyCFunction)pyMsgForwarder_addKey, METH_VARARGS,
-      "Params: key\n"
-      "Add a forward key to the forwarder" },
-    { "delForwardKey", (PyCFunction)pyMsgForwarder_delKey, METH_VARARGS,
+static PyMethodDef pyOneShotMsg_Methods[] = {
+    { "clearCallbacks", (PyCFunction)pyOneShotMsg_clearCallbacks, METH_NOARGS,
+      "Remove all callbacks" },
+    { "addCallback", (PyCFunction)pyOneShotMsg_addCallback, METH_VARARGS,
+      "Params: marker, receiver, user\n"
+      "Add a callback" },
+    { "delCallback", (PyCFunction)pyOneShotMsg_delCallback, METH_VARARGS,
       "Params: idx\n"
-      "Remove a forward key from the forwarder" },
+      "Remove a callback" },
     { NULL, NULL, 0, NULL }
 };
 
-static PyGetSetDef pyMsgForwarder_GetSet[] = {
-    { _pycs("forwardKeys"), (getter)pyMsgForwarder_getForwardKeys,
-        (setter)pyMsgForwarder_setForwardKeys, NULL, NULL },
+static PyObject* pyOneShotMsg_getCallbacks(pyOneShotMsg* self, void*) {
+    const plOneShotCallbacks& cbs = self->fThis->getCallbacks();
+    PyObject* tup = PyTuple_New(cbs.getNumCallbacks());
+    for (size_t i = 0; i < cbs.getNumCallbacks(); ++i) {
+        const auto& cb = cbs.getCallbacks()[i];
+        PyObject* value = Py_BuildValue("OOh", PlStr_To_PyStr(cb.fMarker), pyKey_FromKey(cb.fReceiver), cb.fUser);
+        PyTuple_SET_ITEM(tup, i, value);
+    }
+    return tup;
+}
+
+static PyGetSetDef pyOneShotMsg_GetSet[] = {
+    { _pycs("callbacks"), (getter)pyOneShotMsg_getCallbacks, NULL, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
-PyTypeObject pyMsgForwarder_Type = {
+PyTypeObject pyOneShotMsg_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plMsgForwarder",        /* tp_name */
-    sizeof(pyMsgForwarder),             /* tp_basicsize */
+    "PyHSPlasma.plOneShotMsg",          /* tp_name */
+    sizeof(pyOneShotMsg),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
     NULL,                               /* tp_dealloc */
@@ -117,7 +116,7 @@ PyTypeObject pyMsgForwarder_Type = {
     NULL,                               /* tp_as_buffer */
 
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "plMsgForwarder wrapper",           /* tp_doc */
+    "plOneShotMsg wrapper",                   /* tp_doc */
 
     NULL,                               /* tp_traverse */
     NULL,                               /* tp_clear */
@@ -126,9 +125,9 @@ PyTypeObject pyMsgForwarder_Type = {
     NULL,                               /* tp_iter */
     NULL,                               /* tp_iternext */
 
-    pyMsgForwarder_Methods,             /* tp_methods */
+    pyOneShotMsg_Methods,               /* tp_methods */
     NULL,                               /* tp_members */
-    pyMsgForwarder_GetSet,              /* tp_getset */
+    pyOneShotMsg_GetSet,                /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */
@@ -137,7 +136,7 @@ PyTypeObject pyMsgForwarder_Type = {
 
     NULL,                               /* tp_init */
     NULL,                               /* tp_alloc */
-    pyMsgForwarder_new,                 /* tp_new */
+    pyOneShotMsg_new,                   /* tp_new */
     NULL,                               /* tp_free */
     NULL,                               /* tp_is_gc */
 
@@ -152,28 +151,28 @@ PyTypeObject pyMsgForwarder_Type = {
     TP_FINALIZE_INIT                    /* tp_finalize */
 };
 
-PyObject* Init_pyMsgForwarder_Type() {
-    pyMsgForwarder_Type.tp_base = &pyKeyedObject_Type;
-    if (PyType_Ready(&pyMsgForwarder_Type) < 0)
+PyObject* Init_pyOneShotMsg_Type() {
+    pyOneShotMsg_Type.tp_base = &pyResponderMsg_Type;
+    if (PyType_Ready(&pyOneShotMsg_Type) < 0)
         return NULL;
 
-    Py_INCREF(&pyMsgForwarder_Type);
-    return (PyObject*)&pyMsgForwarder_Type;
+    Py_INCREF(&pyOneShotMsg_Type);
+    return (PyObject*)&pyOneShotMsg_Type;
 }
 
-int pyMsgForwarder_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMsgForwarder_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMsgForwarder_Type))
+int pyOneShotMsg_Check(PyObject* obj) {
+    if (obj->ob_type == &pyOneShotMsg_Type
+        || PyType_IsSubtype(obj->ob_type, &pyOneShotMsg_Type))
         return 1;
     return 0;
 }
 
-PyObject* pyMsgForwarder_FromMsgForwarder(class plMsgForwarder* obj) {
+PyObject* pyOneShotMsg_FromOneShotMsg(class plOneShotMsg* obj) {
     if (obj == NULL) {
         Py_INCREF(Py_None);
         return Py_None;
     }
-    pyMsgForwarder* pyobj = PyObject_New(pyMsgForwarder, &pyMsgForwarder_Type);
+    pyOneShotMsg* pyobj = PyObject_New(pyOneShotMsg, &pyOneShotMsg_Type);
     pyobj->fThis = obj;
     pyobj->fPyOwned = false;
     return (PyObject*)pyobj;

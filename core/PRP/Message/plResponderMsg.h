@@ -38,6 +38,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    const plOneShotCallbacks& getCallbacks() const { return fCallbacks; }
+    plOneShotCallbacks& getCallbacks() { return fCallbacks; }
 };
 
 #endif
