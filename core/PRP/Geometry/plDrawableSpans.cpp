@@ -784,7 +784,7 @@ void plDrawableSpans::composeGeometry(bool clearspans, bool calcbounds) {
         icicle.setVBufferIdx(buf_idx);
         icicle.setVStartIdx(0);
         icicle.setVLength(verts.size());
-        icicle.setCellIdx(buf_idx);
+        icicle.setCellIdx(0);
         icicle.setCellOffset(0);
         icicle.setLocalToWorld(span->getLocalToWorld());
         icicle.setWorldToLocal(span->getWorldToLocal());
