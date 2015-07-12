@@ -285,6 +285,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyControlKeyEventData.cpp
     PRP/Message/pyCoopEventData.cpp
     PRP/Message/pyCursorChangeMsg.cpp
+    PRP/Message/pyEnableMsg.cpp
     PRP/Message/pyEventCallbackMsg.cpp
     PRP/Message/pyEventData.cpp
     PRP/Message/pyFacingEventData.cpp
@@ -307,6 +308,7 @@ set(PRP_MSG_HDRS
     PRP/Message/pyAnimCmdMsg.h
     PRP/Message/pyArmatureEffectMsg.h
     PRP/Message/pyCursorChangeMsg.h
+    PRP/Message/pyEnableMsg.h
     PRP/Message/pyEventCallbackMsg.h
     PRP/Message/pyEventData.h
     PRP/Message/pyLinkToAgeMsg.h
