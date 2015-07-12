@@ -300,6 +300,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyResponderMsg.cpp
     PRP/Message/pyResponderStateEventData.cpp
     PRP/Message/pySpawnedEventData.cpp
+    PRP/Message/pyTimerCallbackMsg.cpp
     PRP/Message/pyVariableEventData.cpp
 )
 set(PRP_MSG_HDRS
@@ -314,6 +315,7 @@ set(PRP_MSG_HDRS
     PRP/Message/pyMsgForwarder.h
     PRP/Message/pyNotifyMsg.h
     PRP/Message/pyResponderMsg.h
+    PRP/Message/pyTimerCallbackMsg.h
 )
 
 set(PRP_MISC_SRCS
