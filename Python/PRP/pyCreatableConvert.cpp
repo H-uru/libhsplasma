@@ -205,6 +205,7 @@
 #include "PRP/Message/pyAnimCmdMsg.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
 #include "PRP/Message/pyCursorChangeMsg.h"
+#include "PRP/Message/pyEnableMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMessageWithCallbacks.h"
@@ -212,6 +213,7 @@
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
+#include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
@@ -797,6 +799,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kOneShotMsg: return pyOneShotMsg_FromOneShotMsg(plOneShotMsg::Convert(pCre));
         case kMessageWithCallbacks: return pyMessageWithCallbacks_FromMessageWithCallbacks(plMessageWithCallbacks::Convert(pCre));
         case kAnimCmdMsg: return pyAnimCmdMsg_FromAnimCmdMsg(plAnimCmdMsg::Convert(pCre));
+        case kTimerCallbackMsg: pyTimerCallbackMsg_FromTimerCallbackMsg(plTimerCallbackMsg::Convert(pCre));
+        case kEnableMsg: pyEnableMsg_FromEnableMsg(plEnableMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));
