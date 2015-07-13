@@ -94,24 +94,25 @@ static PyObject* pyPythonParameter_getType(pyPythonParameter* self, void*) {
     return PyInt_FromLong(self->fThis->fValueType);
 }
 
-static PyObject* pyPythonParameter_getKey(pyPythonParameter* self, void*) {
-    return pyKey_FromKey(self->fThis->fObjKey);
-}
-
-static PyObject* pyPythonParameter_getString(pyPythonParameter* self, void*) {
-    return PlStr_To_PyStr(self->fThis->fStrValue);
-}
-
-static PyObject* pyPythonParameter_getInt(pyPythonParameter* self, void*) {
-    return PyInt_FromLong(self->fThis->fIntValue);
-}
-
-static PyObject* pyPythonParameter_getFloat(pyPythonParameter* self, void*) {
-    return PyFloat_FromDouble(self->fThis->fFloatValue);
-}
-
-static PyObject* pyPythonParameter_getBool(pyPythonParameter* self, void*) {
-    return PyBool_FromLong(self->fThis->fBoolValue ? 1 : 0);
+static PyObject* pyPythonParameter_getValue(pyPythonParameter* self, void*) {
+    switch (self->fThis->fValueType) {
+    case plPythonParameter::kInt:
+        return PyInt_FromLong(self->fThis->fIntValue);
+    case plPythonParameter::kFloat:
+        return PyFloat_FromDouble(self->fThis->fFloatValue);
+    case plPythonParameter::kBoolean:
+        return PyBool_FromLong(self->fThis->fBoolValue);
+    case plPythonParameter::kString:
+    case plPythonParameter::kAnimationName:
+    case plPythonParameter::kGlobalSDLVar:
+    case plPythonParameter::kSubtitle:
+        return PlStr_To_PyStr(self->fThis->fStrValue);
+    case plPythonParameter::kNone:
+        Py_INCREF(Py_None);
+        return Py_None;
+    default:
+        return pyKey_FromKey(self->fThis->fObjKey);
+    }
 }
 
 static int pyPythonParameter_setID(pyPythonParameter* self, PyObject* value, void*) {
@@ -132,49 +133,53 @@ static int pyPythonParameter_setType(pyPythonParameter* self, PyObject* value, v
     return 0;
 }
 
-static int pyPythonParameter_setKey(pyPythonParameter* self, PyObject* value, void*) {
-    if (value == NULL || !pyKey_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "objKey should be a plKey");
+static int pyPythonParameter_setValue(pyPythonParameter* self, PyObject* value, void*) {
+    switch (self->fThis->fValueType) {
+    case plPythonParameter::kInt:
+        if (value == NULL || !PyInt_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "value should be an int");
+            return -1;
+        }
+        self->fThis->fIntValue = PyInt_AsLong(value);
+        return 0;
+    case plPythonParameter::kFloat:
+        if (value == NULL || !PyFloat_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "value should be a float");
+            return -1;
+        }
+        self->fThis->fFloatValue = (float)PyFloat_AsDouble(value);
+        return 0;
+    case plPythonParameter::kBoolean:
+        if (value == NULL || !PyBool_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "value should be a boolean");
+            return -1;
+        }
+        self->fThis->fBoolValue = PyInt_AsLong(value) != 0;
+        return 0;
+    case plPythonParameter::kString:
+    case plPythonParameter::kAnimationName:
+    case plPythonParameter::kGlobalSDLVar:
+    case plPythonParameter::kSubtitle:
+        if (value == NULL || !PyAnyStr_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "value should be a string");
+            return -1;
+        }
+        self->fThis->fStrValue = PyStr_To_PlStr(value);
+        return 0;
+    case plPythonParameter::kNone:
+        PyErr_SetString(PyExc_RuntimeError, "cannot assign to a plPythonParameter whose type is kNone");
         return -1;
+    default:
+        if (value == NULL || value == Py_None) {
+            self->fThis->fObjKey = plKey();
+            return 0;
+        } else if (!pyKey_Check(value)) {
+            PyErr_SetString(PyExc_TypeError, "value should be a plKey");
+            return -1;
+        }
+        self->fThis->fObjKey = *((pyKey*)value)->fThis;
+        return 0;
     }
-    self->fThis->fObjKey = *((pyKey*)value)->fThis;
-    return 0;
-}
-
-static int pyPythonParameter_setString(pyPythonParameter* self, PyObject* value, void*) {
-    if (value == NULL || !PyAnyStr_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "strValue should be a string");
-        return -1;
-    }
-    self->fThis->fStrValue = PyStr_To_PlStr(value);
-    return 0;
-}
-
-static int pyPythonParameter_setInt(pyPythonParameter* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "intValue should be an int");
-        return -1;
-    }
-    self->fThis->fIntValue = PyInt_AsLong(value);
-    return 0;
-}
-
-static int pyPythonParameter_setFloat(pyPythonParameter* self, PyObject* value, void*) {
-    if (value == NULL || !PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "floatValue should be a float");
-        return -1;
-    }
-    self->fThis->fFloatValue = PyFloat_AsDouble(value);
-    return 0;
-}
-
-static int pyPythonParameter_setBool(pyPythonParameter* self, PyObject* value, void*) {
-    if (value == NULL || !PyInt_Check(value)) {
-        PyErr_SetString(PyExc_TypeError, "boolValue should be a bool");
-        return -1;
-    }
-    self->fThis->fBoolValue = (PyInt_AsLong(value) == 0) ? false : true;
-    return 0;
 }
 
 static PyMethodDef pyPythonParameter_Methods[] = {
@@ -192,16 +197,8 @@ static PyGetSetDef pyPythonParameter_GetSet[] = {
         (setter)pyPythonParameter_setID, NULL, NULL },
     { _pycs("valueType"), (getter)pyPythonParameter_getType,
         (setter)pyPythonParameter_setType, NULL, NULL },
-    { _pycs("objKey"), (getter)pyPythonParameter_getKey,
-        (setter)pyPythonParameter_setKey, NULL, NULL },
-    { _pycs("strValue"), (getter)pyPythonParameter_getString,
-        (setter)pyPythonParameter_setString, NULL, NULL },
-    { _pycs("intValue"), (getter)pyPythonParameter_getInt,
-        (setter)pyPythonParameter_setInt, NULL, NULL },
-    { _pycs("floatValue"), (getter)pyPythonParameter_getFloat,
-        (setter)pyPythonParameter_setFloat, NULL, NULL },
-    { _pycs("boolValue"), (getter)pyPythonParameter_getBool,
-        (setter)pyPythonParameter_setBool, NULL, NULL },
+    { _pycs("value"), (getter)pyPythonParameter_getValue,
+        (setter)pyPythonParameter_setValue, NULL, NULL },
     { NULL, NULL, NULL, NULL, NULL }
 };
 
