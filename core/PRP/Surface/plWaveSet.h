@@ -62,6 +62,27 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    std::vector<plKey>& getShores() { return fShores; }
+    const std::vector<plKey>& getShores() const { return fShores; }
+    void addShore(plKey key) { fShores.push_back(key); }
+    void delShore(size_t idx) { fShores.erase(fShores.begin() + idx); }
+    void clearShores() { fShores.clear(); }
+
+    std::vector<plKey>& getDecals() { return fDecals; }
+    const std::vector<plKey>& getDecals() const { return fDecals; }
+    void addDecal(plKey key) { fDecals.push_back(key); }
+    void delDecal(size_t idx) { fDecals.erase(fDecals.begin() + idx); }
+    void clearDecals() { fDecals.clear(); }
+
+    float getMaxLen() const { return fMaxLen; }
+    plKey getEnvMap() const { return fEnvMap; }
+    plKey getRefObj() const { return fRefObj; }
+
+    void setMaxLen(float value) { fMaxLen = value; }
+    void setEnvMap(plKey value) { fEnvMap = value; }
+    void setRefObj(plKey value) { fRefObj = value; }
 };
 
 #endif

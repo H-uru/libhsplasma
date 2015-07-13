@@ -243,6 +243,7 @@
 #include "PRP/Surface/pyLayerMovie.h"
 #include "PRP/Surface/pyRenderTarget.h"
 #include "PRP/Surface/pyShader.h"
+#include "PRP/Surface/pyWaveSet.h"
 // End python includes
 
 plCreatable* IConvert(pyCreatable* pCre)
@@ -497,7 +498,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyLOSDispatch_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLOSDispatch*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaWakeMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaWakeMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySimulationMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSimulationMgr*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyWaveSet7_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWaveSet7*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyWaveSet7_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWaveSet7*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyPanicLinkRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPanicLinkRegion*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyWin32GroupedSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32GroupedSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyFilterCoordInterface_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFilterCoordInterface*>(pCre->fThis));
@@ -540,7 +541,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyParticleFlockEffect_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plParticleFlockEffect*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyParticleSDLMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plParticleSDLMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAgeLoader_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAgeLoader*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyWaveSetBase_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWaveSetBase*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyWaveSetBase_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWaveSetBase*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPhysicalSndGroup_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPhysicalSndGroup*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyBookData_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfBookData*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyDynaTorpedoMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDynaTorpedoMgr*>(pCre->fThis));
@@ -718,6 +719,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kShadowMaster: return pyShadowMaster_FromShadowMaster(plShadowMaster::Convert(pCre));
         case kPointShadowMaster: return pyPointShadowMaster_FromPointShadowMaster(plPointShadowMaster::Convert(pCre));
         case kDirectShadowMaster: return pyDirectShadowMaster_FromDirectShadowMaster(plDirectShadowMaster::Convert(pCre));
+        case kWaveSetBase: return pyWaveSetBase_FromWaveSetBase(plWaveSetBase::Convert(pCre));
+        case kWaveSet7: return pyWaveSet7_FromWaveSet7(plWaveSet7::Convert(pCre));
         case kSpaceTree: return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(pCre));
         case kController: return pyController_FromController(plController::Convert(pCre));
         case kCompoundController: return pyCompoundController_FromCompoundController(plCompoundController::Convert(pCre));

@@ -424,6 +424,8 @@ set(PRP_SRFC_SRCS
     PRP/Surface/pyRenderTarget.cpp
     PRP/Surface/pyShader.cpp
     PRP/Surface/pyShaderConst.cpp
+    PRP/Surface/pyWaveSet7.cpp
+    PRP/Surface/pyWaveSetBase.cpp
 )
 set(PRP_SRFC_HDRS
     PRP/Surface/pyBitmap.h
@@ -437,6 +439,7 @@ set(PRP_SRFC_HDRS
     PRP/Surface/pyLayerMovie.h
     PRP/Surface/pyRenderTarget.h
     PRP/Surface/pyShader.h
+    PRP/Surface/pyWaveSet.h
 )
 
 set(PRP_SRCS

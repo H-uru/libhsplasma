@@ -116,6 +116,7 @@
 #include "PRP/Surface/pyLayerMovie.h"
 #include "PRP/Surface/pyRenderTarget.h"
 #include "PRP/Surface/pyShader.h"
+#include "PRP/Surface/pyWaveSet.h"
 
 extern "C" {
 
@@ -597,6 +598,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "pfGUICloseDlgProc", Init_pyGUICloseDlgProc_Type());
     PyModule_AddObject(module, "pfGUIConsoleCmdProc", Init_pyGUIConsoleCmdProc_Type());
     PyModule_AddObject(module, "pfGUIPythonScriptProc", Init_pyGUIPythonScriptProc_Type());
+    PyModule_AddObject(module, "plWaveSetBase", Init_pyWaveSetBase_Type());
+    PyModule_AddObject(module, "plWaveSet7", Init_pyWaveSet7_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
