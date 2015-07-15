@@ -17,6 +17,7 @@
 #include <PyPlasma.h>
 #include <PRP/Surface/plWaveSet.h>
 #include "pyWaveSet.h"
+#include "pyFixedWaterState7.h"
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {
@@ -114,6 +115,10 @@ static PyMethodDef pyWaveSet7_Methods[] = {
     { NULL, NULL, 0, NULL }
 };
 
+static PyObject* pyWaveSet7_getState(pyWaveSet7* self, void*) {
+    return pyFixedWaterState7_FromFixedWaterState7(&self->fThis->getState());
+}
+
 static PyObject* pyWaveSet7_getShores(pyWaveSet7* self, void*) {
     const std::vector<plKey>& shores = self->fThis->getShores();
     PyObject* tuple = PyTuple_New(shores.size());
@@ -140,6 +145,15 @@ static PyObject* pyWaveSet7_getEnvMap(pyWaveSet7* self, void*) {
 
 static PyObject* pyWaveSet7_getRefObj(pyWaveSet7* self, void*) {
     return pyKey_FromKey(self->fThis->getRefObj());
+}
+
+static int pyWaveSet7_setState(pyWaveSet7* self, PyObject* value, void*) {
+    if (value == NULL || !pyFixedWaterState7_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "state should be a plFixedWaterState7");
+        return -1;
+    }
+    self->fThis->setState(*((pyFixedWaterState7*)value)->fThis);
+    return 0;
 }
 
 static int pyWaveSet7_setShores(pyWaveSet7* self, PyObject* value, void*) {
@@ -188,6 +202,7 @@ static int pyWaveSet7_setRefObj(pyWaveSet7* self, PyObject* value, void*) {
 }
 
 static PyGetSetDef pyWaveSet7_GetSet[] = {
+    { _pycs("state"), (getter)pyWaveSet7_getState, (setter)pyWaveSet7_setState, NULL, NULL },
     { _pycs("shores"), (getter)pyWaveSet7_getShores, (setter)pyWaveSet7_setShores, NULL, NULL },
     { _pycs("decals"), (getter)pyWaveSet7_getDecals, (setter)pyWaveSet7_setDecals, NULL, NULL },
     { _pycs("maxLen"), (getter)pyWaveSet7_getMaxLen, (setter)pyWaveSet7_setMaxLen, NULL, NULL },

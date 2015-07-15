@@ -76,10 +76,13 @@ public:
     void delDecal(size_t idx) { fDecals.erase(fDecals.begin() + idx); }
     void clearDecals() { fDecals.clear(); }
 
+    plFixedWaterState7& getState() { return fState; }
+    const plFixedWaterState7& getState() const { return fState; }
     float getMaxLen() const { return fMaxLen; }
     plKey getEnvMap() const { return fEnvMap; }
     plKey getRefObj() const { return fRefObj; }
 
+    void setState(const plFixedWaterState7& value) { fState = value; }
     void setMaxLen(float value) { fMaxLen = value; }
     void setEnvMap(plKey value) { fEnvMap = value; }
     void setRefObj(plKey value) { fRefObj = value; }

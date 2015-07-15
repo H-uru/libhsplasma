@@ -109,6 +109,7 @@
 #include "PRP/Surface/pyCubicEnvironmap.h"
 #include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
+#include "PRP/Surface/pyFixedWaterState7.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
@@ -490,6 +491,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
     PyModule_AddObject(module, "plAgeInfoStruct", Init_pyAgeInfoStruct_Type());
     PyModule_AddObject(module, "plAgeLinkStruct", Init_pyAgeLinkStruct_Type());
+    PyModule_AddObject(module, "plFixedWaterState7", Init_pyFixedWaterState7_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());

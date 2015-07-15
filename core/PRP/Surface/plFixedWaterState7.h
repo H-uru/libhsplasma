@@ -86,6 +86,8 @@ public:
     float getEnvRefresh() const { return fEnvRefresh; }
     float getEnvRadius() const { return fEnvRadius; }
 
+    void setGeoState(const WaveState& geoState) { fGeoState = geoState; }
+    void setTexState(const WaveState& texState) { fTexState = texState; }
     void setRippleScale(float scale) { fRippleScale = scale; }
     void setWaterHeight(float height) { fWaterHeight = height; }
     void setWindDir(const hsVector3& dir) { fWindDir = dir; }
