@@ -27,6 +27,7 @@ typedef struct {
 
 extern PyTypeObject pyWaveSetBase_Type;
 PyObject* Init_pyWaveSetBase_Type();
+int pyWaveSetBase_Check(PyObject* obj);
 PyObject* pyWaveSetBase_FromWaveSetBase(class plWaveSetBase* state);
 
 typedef struct {
@@ -37,6 +38,7 @@ typedef struct {
 
 extern PyTypeObject pyWaveSet7_Type;
 PyObject* Init_pyWaveSet7_Type();
+int pyWaveSet7_Check(PyObject* obj);
 PyObject* pyWaveSet7_FromWaveSet7(class plWaveSet7* state);
 
 }

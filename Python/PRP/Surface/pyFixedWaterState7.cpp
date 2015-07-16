@@ -345,7 +345,7 @@ static PyGetSetDef pyFixedWaterState7_GetSet[] = {
     { _pycs("shoreTint"), (getter)pyFixedWaterState7_getShoreTint, (setter)pyFixedWaterState7_setShoreTint, NULL, NULL },
     { _pycs("maxColor"), (getter)pyFixedWaterState7_getMaxColor, (setter)pyFixedWaterState7_setMaxColor, NULL, NULL },
     { _pycs("minColor"), (getter)pyFixedWaterState7_getMinColor, (setter)pyFixedWaterState7_setMinColor, NULL, NULL },
-    { _pycs("edgeOpacacity"), (getter)pyFixedWaterState7_getEdgeOpac, (setter)pyFixedWaterState7_setEdgeOpac, NULL, NULL },
+    { _pycs("edgeOpacity"), (getter)pyFixedWaterState7_getEdgeOpac, (setter)pyFixedWaterState7_setEdgeOpac, NULL, NULL },
     { _pycs("edgeRadius"), (getter)pyFixedWaterState7_getEdgeRadius, (setter)pyFixedWaterState7_setEdgeRadius, NULL, NULL },
     { _pycs("period"), (getter)pyFixedWaterState7_getPeriod, (setter)pyFixedWaterState7_setPeriod, NULL, NULL },
     { _pycs("fingerLength"), (getter)pyFixedWaterState7_getFingerLength, (setter)pyFixedWaterState7_setFingerLength, NULL, NULL },
