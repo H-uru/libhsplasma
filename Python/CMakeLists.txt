@@ -330,6 +330,7 @@ set(PRP_MISC_HDRS
 )
 
 set(PRP_MOD_SRCS
+    PRP/Modifier/pyExcludeRegionModifier.cpp
     PRP/Modifier/pyInterfaceInfoModifier.cpp
     PRP/Modifier/pyLogicModBase.cpp
     PRP/Modifier/pyLogicModifier.cpp
@@ -347,6 +348,7 @@ set(PRP_MOD_SRCS
     PRP/Modifier/pySpawnModifier.cpp
 )
 set(PRP_MOD_HDRS
+    PRP/Modifier/pyExcludeRegionModifier.h
     PRP/Modifier/pyInterfaceInfoModifier.h
     PRP/Modifier/pyLogicModifier.h
     PRP/Modifier/pyMaintainersMarkerModifier.h

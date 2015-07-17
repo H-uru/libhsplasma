@@ -41,6 +41,19 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    std::vector<plKey>& getSafePoints() { return fSafePoints; }
+    const std::vector<plKey>& getSafePoints() const { return fSafePoints; }
+    void addSafePoint(plKey key) { fSafePoints.push_back(key); }
+    void clearSafePoints() { fSafePoints.clear(); }
+    void delSafePoint(size_t idx) { fSafePoints.erase(fSafePoints.begin() + idx); }
+
+    bool getSeek() const { return fSeek; }
+    float getSeekTime() const { return fSeekTime; }
+
+    void setSeek(bool value) { fSeek = value; }
+    void setSeekTime(float value) { fSeekTime = value; }
 };
 
 #endif

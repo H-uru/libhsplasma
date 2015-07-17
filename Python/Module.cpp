@@ -88,6 +88,7 @@
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
+#include "PRP/Modifier/pyExcludeRegionModifier.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
@@ -557,6 +558,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plViewFaceModifier", Init_pyViewFaceModifier_Type());
     PyModule_AddObject(module, "plMaintainersMarkerModifier",
             Init_pyMaintainersMarkerModifier_Type());
+    PyModule_AddObject(module, "plExcludeRegionModifier", Init_pyExcludeRegionModifier_Type());
     PyModule_AddObject(module, "plClusterGroup", Init_pyClusterGroup_Type());
     PyModule_AddObject(module, "plLayerAnimationBase", Init_pyLayerAnimationBase_Type());
     PyModule_AddObject(module, "plLayerAnimation", Init_pyLayerAnimation_Type());

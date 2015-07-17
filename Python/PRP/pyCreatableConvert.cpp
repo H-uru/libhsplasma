@@ -216,6 +216,7 @@
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
+#include "PRP/Modifier/pyExcludeRegionModifier.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
@@ -410,7 +411,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyGUIButtonMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIButtonMod*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyPythonFileMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPythonFileMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIControlMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIControlMod*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyExcludeRegionModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plExcludeRegionModifier*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyExcludeRegionModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plExcludeRegionModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIDraggableMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIDraggableMod*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyVolumeSensorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolumeSensorConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyVolActivatorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVolActivatorConditionalObject*>(pCre->fThis));
@@ -677,6 +678,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSpawnModifier: return pySpawnModifier_FromSpawnModifier(plSpawnModifier::Convert(pCre));
         case kViewFaceModifier: return pyViewFaceModifier_FromViewFaceModifier(plViewFaceModifier::Convert(pCre));
         case kMaintainersMarkerModifier: return pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(plMaintainersMarkerModifier::Convert(pCre));
+        case kExcludeRegionModifier: return pyExcludeRegionModifier_FromExcludeRegionModifier(plExcludeRegionModifier::Convert(pCre));
         case kClusterGroup: return pyClusterGroup_FromClusterGroup(plClusterGroup::Convert(pCre));
         case kLayerAnimationBase: return pyLayerAnimationBase_FromLayerAnimationBase(plLayerAnimationBase::Convert(pCre));
         case kLayerAnimation: return pyLayerAnimation_FromLayerAnimation(plLayerAnimation::Convert(pCre));
