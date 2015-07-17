@@ -207,6 +207,7 @@
 #include "PRP/Message/pyCursorChangeMsg.h"
 #include "PRP/Message/pyEnableMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
+#include "PRP/Message/pyExcludeRegionMsg.h"
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMessageWithCallbacks.h"
 #include "PRP/Message/pyMsgForwarder.h"
@@ -803,6 +804,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kAnimCmdMsg: return pyAnimCmdMsg_FromAnimCmdMsg(plAnimCmdMsg::Convert(pCre));
         case kTimerCallbackMsg: pyTimerCallbackMsg_FromTimerCallbackMsg(plTimerCallbackMsg::Convert(pCre));
         case kEnableMsg: pyEnableMsg_FromEnableMsg(plEnableMsg::Convert(pCre));
+        case kExcludeRegionMsg: pyExcludeRegionMsg_FromExcludeRegionMsg(plExcludeRegionMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));
