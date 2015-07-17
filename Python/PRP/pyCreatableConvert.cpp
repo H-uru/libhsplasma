@@ -115,6 +115,7 @@
 #include "PRP/Modifier/plAnimEventModifier.h"
 #include "PRP/Modifier/plAxisAnimModifier.h"
 #include "PRP/Modifier/plExcludeRegionModifier.h"
+#include "PRP/Modifier/plFollowMod.h"
 #include "PRP/Modifier/plGameMarkerModifier.h"
 #include "PRP/Modifier/plInterfaceInfoModifier.h"
 #include "PRP/Modifier/plLogicModifier.h"
@@ -218,6 +219,7 @@
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Modifier/pyExcludeRegionModifier.h"
+#include "PRP/Modifier/pyFollowMod.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
@@ -377,7 +379,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyResponderModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plResponderModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAxisAnimModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAxisAnimModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyLayerLightBase_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerLightBase*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyFollowMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFollowMod*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyFollowMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFollowMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyTransitionMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plTransitionMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyInventoryMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plInventoryMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyInventoryObjMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plInventoryObjMod*>(pCre->fThis));
@@ -693,6 +695,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kObjectInVolumeDetector: return pyObjectInVolumeDetector_FromObjectInVolumeDetector(plObjectInVolumeDetector::Convert(pCre));
         case kObjectInVolumeAndFacingDetector: return pyObjectInVolumeAndFacingDetector_FromObjectInVolumeAndFacingDetector(plObjectInVolumeAndFacingDetector::Convert(pCre));
         case kResponderModifier: return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(pCre));
+        case kFollowMod: return pyFollowMod_FromFollowMod(plFollowMod::Convert(pCre));
         case kDynamicEnvMap: return pyDynamicEnvMap_FromDynamicEnvMap(plDynamicEnvMap::Convert(pCre));
         case kDynamicCamMap: return pyDynamicCamMap_FromDynamicCamMap(plDynamicCamMap::Convert(pCre));
         case kDynamicTextMap: return pyDynamicTextMap_FromDynamicTextMap(plDynamicTextMap::Convert(pCre));

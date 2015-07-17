@@ -389,6 +389,7 @@ set(PRP_MOD_SRCS
     PRP/Modifier/plAnimEventModifier.cpp
     PRP/Modifier/plAxisAnimModifier.cpp
     PRP/Modifier/plExcludeRegionModifier.cpp
+    PRP/Modifier/plFollowMod.cpp
     PRP/Modifier/plGameMarkerModifier.cpp
     PRP/Modifier/plInterfaceInfoModifier.cpp
     PRP/Modifier/plLogicModBase.cpp
@@ -410,6 +411,7 @@ set(PRP_MOD_HDRS
     PRP/Modifier/plAnimEventModifier.h
     PRP/Modifier/plAxisAnimModifier.h
     PRP/Modifier/plExcludeRegionModifier.h
+    PRP/Modifier/plFollowMod.h
     PRP/Modifier/plGameMarkerModifier.h
     PRP/Modifier/plInterfaceInfoModifier.h
     PRP/Modifier/plLogicModBase.h
