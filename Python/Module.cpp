@@ -109,6 +109,7 @@
 #include "PRP/Surface/pyCubicEnvironmap.h"
 #include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
+#include "PRP/Surface/pyFixedWaterState7.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
@@ -116,6 +117,7 @@
 #include "PRP/Surface/pyLayerMovie.h"
 #include "PRP/Surface/pyRenderTarget.h"
 #include "PRP/Surface/pyShader.h"
+#include "PRP/Surface/pyWaveSet.h"
 
 extern "C" {
 
@@ -489,6 +491,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
     PyModule_AddObject(module, "plAgeInfoStruct", Init_pyAgeInfoStruct_Type());
     PyModule_AddObject(module, "plAgeLinkStruct", Init_pyAgeLinkStruct_Type());
+    PyModule_AddObject(module, "plFixedWaterState7", Init_pyFixedWaterState7_Type());
 
     /* Creatables */
     PyModule_AddObject(module, "plCreatable", Init_pyCreatable_Type());
@@ -597,6 +600,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "pfGUICloseDlgProc", Init_pyGUICloseDlgProc_Type());
     PyModule_AddObject(module, "pfGUIConsoleCmdProc", Init_pyGUIConsoleCmdProc_Type());
     PyModule_AddObject(module, "pfGUIPythonScriptProc", Init_pyGUIPythonScriptProc_Type());
+    PyModule_AddObject(module, "plWaveSetBase", Init_pyWaveSetBase_Type());
+    PyModule_AddObject(module, "plWaveSet7", Init_pyWaveSet7_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

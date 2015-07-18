@@ -408,6 +408,7 @@ set(PRP_SRFC_SRCS
     PRP/Surface/pyDynamicCamMap.cpp
     PRP/Surface/pyDynamicEnvMap.cpp
     PRP/Surface/pyDynamicTextMap.cpp
+    PRP/Surface/pyFixedWaterState7.cpp
     PRP/Surface/pyGMatState.cpp
     PRP/Surface/pyGMaterial.cpp
     PRP/Surface/pyLayer.cpp
@@ -424,12 +425,16 @@ set(PRP_SRFC_SRCS
     PRP/Surface/pyRenderTarget.cpp
     PRP/Surface/pyShader.cpp
     PRP/Surface/pyShaderConst.cpp
+    PRP/Surface/pyWaveSet7.cpp
+    PRP/Surface/pyWaveSetBase.cpp
+    PRP/Surface/pyWaveState7.cpp
 )
 set(PRP_SRFC_HDRS
     PRP/Surface/pyBitmap.h
     PRP/Surface/pyCubicEnvironmap.h
     PRP/Surface/pyDynamicEnvMap.h
     PRP/Surface/pyDynamicTextMap.h
+    PRP/Surface/pyFixedWaterState7.h
     PRP/Surface/pyGMatState.h
     PRP/Surface/pyGMaterial.h
     PRP/Surface/pyLayer.h
@@ -437,6 +442,7 @@ set(PRP_SRFC_HDRS
     PRP/Surface/pyLayerMovie.h
     PRP/Surface/pyRenderTarget.h
     PRP/Surface/pyShader.h
+    PRP/Surface/pyWaveSet.h
 )
 
 set(PRP_SRCS
