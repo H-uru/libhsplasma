@@ -79,6 +79,7 @@
 #include "PRP/Message/pyEnableMsg.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/Message/pyEventData.h"
+#include "PRP/Message/pyExcludeRegionMsg.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyMessage.h"
 #include "PRP/Message/pyMessageWithCallbacks.h"
@@ -88,6 +89,7 @@
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
+#include "PRP/Modifier/pyExcludeRegionModifier.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
@@ -560,6 +562,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plViewFaceModifier", Init_pyViewFaceModifier_Type());
     PyModule_AddObject(module, "plMaintainersMarkerModifier",
             Init_pyMaintainersMarkerModifier_Type());
+    PyModule_AddObject(module, "plExcludeRegionModifier", Init_pyExcludeRegionModifier_Type());
     PyModule_AddObject(module, "plClusterGroup", Init_pyClusterGroup_Type());
     PyModule_AddObject(module, "plLayerAnimationBase", Init_pyLayerAnimationBase_Type());
     PyModule_AddObject(module, "plLayerAnimation", Init_pyLayerAnimation_Type());
@@ -684,6 +687,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plAnimCmdMsg", Init_pyAnimCmdMsg_Type());
     PyModule_AddObject(module, "plTimerCallbackMsg", Init_pyTimerCallbackMsg_Type());
     PyModule_AddObject(module, "plEnableMsg", Init_pyEnableMsg_Type());
+    PyModule_AddObject(module, "plExcludeRegionMsg", Init_pyExcludeRegionMsg_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

@@ -38,6 +38,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned char getCmd() const { return fCmd; }
+    unsigned int getSynchFlags() const { return fSynchFlags; }
+
+    void setCmd(unsigned char value) { fCmd = value; }
+    void setSynchFlags(unsigned int value) { fSynchFlags = value; }
 };
 
 #endif

@@ -206,6 +206,7 @@ PyObject* Init_pySynchedObject_Type() {
     if (PyType_Ready(&pySynchedObject_Type) < 0)
         return NULL;
 
+    /* Flags */
     PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kDontDirty",
                          PyInt_FromLong(plSynchedObject::kDontDirty));
     PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kSendReliably",
@@ -224,6 +225,24 @@ PyObject* Init_pySynchedObject_Type() {
                          PyInt_FromLong(plSynchedObject::kHasVolatileState));
     PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kAllStateIsVolatile",
                          PyInt_FromLong(plSynchedObject::kAllStateIsVolatile));
+
+    /* SDLSendFlags -- stored in some messages */
+    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kBCastToClients",
+                         PyInt_FromLong(plSynchedObject::kBCastToClients));
+    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kForceFullSend",
+                         PyInt_FromLong(plSynchedObject::kForceFullSend));
+    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kSkipLocalOwnershipCheck",
+                         PyInt_FromLong(plSynchedObject::kSkipLocalOwnershipCheck));
+    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kSendImmediately",
+                         PyInt_FromLong(plSynchedObject::kSendImmediately));
+    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kDontPersistOnServer",
+                         PyInt_FromLong(plSynchedObject::kDontPersistOnServer));
+    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kUseRelevanceRegions",
+                         PyInt_FromLong(plSynchedObject::kUseRelevanceRegions));
+    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kNewState",
+                         PyInt_FromLong(plSynchedObject::kNewState));
+    PyDict_SetItemString(pySynchedObject_Type.tp_dict, "kIsAvatarState",
+                         PyInt_FromLong(plSynchedObject::kIsAvatarState));
 
     Py_INCREF(&pySynchedObject_Type);
     return (PyObject*)&pySynchedObject_Type;

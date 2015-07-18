@@ -288,6 +288,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyEnableMsg.cpp
     PRP/Message/pyEventCallbackMsg.cpp
     PRP/Message/pyEventData.cpp
+    PRP/Message/pyExcludeRegionMsg.cpp
     PRP/Message/pyFacingEventData.cpp
     PRP/Message/pyLinkToAgeMsg.cpp
     PRP/Message/pyMessage.cpp
@@ -311,6 +312,7 @@ set(PRP_MSG_HDRS
     PRP/Message/pyEnableMsg.h
     PRP/Message/pyEventCallbackMsg.h
     PRP/Message/pyEventData.h
+    PRP/Message/pyExcludeRegionMsg.h
     PRP/Message/pyLinkToAgeMsg.h
     PRP/Message/pyMessage.h
     PRP/Message/pyMessageWithCallbacks.h
@@ -330,6 +332,7 @@ set(PRP_MISC_HDRS
 )
 
 set(PRP_MOD_SRCS
+    PRP/Modifier/pyExcludeRegionModifier.cpp
     PRP/Modifier/pyInterfaceInfoModifier.cpp
     PRP/Modifier/pyLogicModBase.cpp
     PRP/Modifier/pyLogicModifier.cpp
@@ -347,6 +350,7 @@ set(PRP_MOD_SRCS
     PRP/Modifier/pySpawnModifier.cpp
 )
 set(PRP_MOD_HDRS
+    PRP/Modifier/pyExcludeRegionModifier.h
     PRP/Modifier/pyInterfaceInfoModifier.h
     PRP/Modifier/pyLogicModifier.h
     PRP/Modifier/pyMaintainersMarkerModifier.h
