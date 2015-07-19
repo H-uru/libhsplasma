@@ -402,9 +402,12 @@ set(PRP_RGN_SRCS
     PRP/Region/pyBounds3.cpp
     PRP/Region/pyBounds3Ext.cpp
     PRP/Region/pyBoundsOriented.cpp
+    PRP/Region/pyConvexIsect.cpp
+    PRP/Region/pyVolumeIsect.cpp
 )
 set(PRP_RGN_HDRS
     PRP/Region/pyBounds.h
+    PRP/Region/pyVolumeIsect.h
 )
 
 set(PRP_SRFC_SRCS

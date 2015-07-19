@@ -236,6 +236,7 @@
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
 #include "PRP/Surface/pyDynamicEnvMap.h"
@@ -811,6 +812,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kTimerCallbackMsg: pyTimerCallbackMsg_FromTimerCallbackMsg(plTimerCallbackMsg::Convert(pCre));
         case kEnableMsg: pyEnableMsg_FromEnableMsg(plEnableMsg::Convert(pCre));
         case kExcludeRegionMsg: pyExcludeRegionMsg_FromExcludeRegionMsg(plExcludeRegionMsg::Convert(pCre));
+        case kVolumeIsect: pyVolumeIsect_FromVolumeIsect(plVolumeIsect::Convert(pCre));
+        case kConvexIsect: pyConvexIsect_FromConvexIsect(plConvexIsect::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));
