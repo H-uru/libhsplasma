@@ -61,7 +61,7 @@ static PyObject* pyGenericPhysical_calcSphereBounds(pyGenericPhysical* self, PyO
     }
 
     hsVector3* myPoints = new hsVector3[PySequence_Length(points)];
-    for (size_t i = 0; i < PySequence_Length(points); ++i) {
+    for (Py_ssize_t i = 0; i < PySequence_Length(points); ++i) {
         PyObject* item = PySequence_GetItem(points, i);
         if (!pyVector3_Check(item)) {
             PyErr_SetString(PyExc_TypeError, "calcSphereBounds expects a sequence of hsVector3");
@@ -89,7 +89,7 @@ static PyObject* pyGenericPhysical_calcBoxBounds(pyGenericPhysical* self, PyObje
     }
 
     hsVector3* myPoints = new hsVector3[PySequence_Length(points)];
-    for (size_t i = 0; i < PySequence_Length(points); ++i) {
+    for (Py_ssize_t i = 0; i < PySequence_Length(points); ++i) {
         PyObject* item = PySequence_GetItem(points, i);
         if (!pyVector3_Check(item)) {
             PyErr_SetString(PyExc_TypeError, "calcBoxBounds expects a sequence of hsVector3");

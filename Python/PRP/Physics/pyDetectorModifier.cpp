@@ -64,7 +64,7 @@ static PyMethodDef pyDetectorModifier_Methods[] = {
       "Adds a notification receiver to this detector" },
     { "clearReceivers", (PyCFunction)pyDetectorModifier_clearReceivers, METH_NOARGS,
       "Removes all receivers from this detector" },
-    { "delReceiver", (PyCFunction)pyDetectorModifier_clearReceivers, METH_VARARGS,
+    { "delReceiver", (PyCFunction)pyDetectorModifier_delReceiver, METH_VARARGS,
       "Params: idx\n"
       "Removes a receiver from this detector" },
     { NULL, NULL, 0, NULL }
@@ -161,7 +161,7 @@ PyTypeObject pyDetectorModifier_Type = {
 
     pyDetectorModifier_Methods,         /* tp_methods */
     NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
+    pyDetectorModifier_GetSet,          /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */

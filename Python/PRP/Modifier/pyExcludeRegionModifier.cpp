@@ -54,7 +54,7 @@ static PyObject* pyExcludeRegionModifier_delSafePoint(pyExcludeRegionModifier* s
         PyErr_SetString(PyExc_TypeError, "delSafePoint expects an int");
         return NULL;
     }
-    if (idx >= self->fThis->getSafePoints().size()) {
+    if (size_t(idx) >= self->fThis->getSafePoints().size()) {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }

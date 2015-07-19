@@ -39,7 +39,7 @@ void plSDLMgr::ReadDescriptors(const plString& filename) {
 }
 
 void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
-    std::auto_ptr<hsTokenStream> tokStream(new hsTokenStream(fileStream));
+    std::unique_ptr<hsTokenStream> tokStream(new hsTokenStream(fileStream));
     tokStream->setDelimiters("{}[]()=,;");
     std::vector<hsTokenStream::Region> commentMarkers;
     commentMarkers.push_back(hsTokenStream::Region("#", "\n"));
@@ -52,8 +52,8 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
     tokStream->setStringMarkers(stringMarkers);
 
     ParseState state = kFile;
-    std::auto_ptr<plStateDescriptor> curDesc;
-    std::auto_ptr<plVarDescriptor> curVar;
+    std::unique_ptr<plStateDescriptor> curDesc;
+    std::unique_ptr<plVarDescriptor> curVar;
     bool reexamine = false;
     plString tok;
     while (reexamine || tokStream->hasNext()) {

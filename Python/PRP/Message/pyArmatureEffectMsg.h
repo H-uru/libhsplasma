@@ -15,7 +15,7 @@
  */
 
 #ifndef _PYARMATUREEFFECTMSG_H
-#define _PYARMATUREEFFECTMSG__H
+#define _PYARMATUREEFFECTMSG_H
 
 extern "C" {
 

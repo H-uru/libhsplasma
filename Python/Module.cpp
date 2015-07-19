@@ -95,7 +95,6 @@
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
 #include "PRP/Modifier/pyModifier.h"
-#include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyOneShotMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
 #include "PRP/Modifier/pyResponderModifier.h"

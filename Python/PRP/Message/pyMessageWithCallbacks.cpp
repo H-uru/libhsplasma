@@ -55,7 +55,7 @@ static PyObject* pyMessageWithCallbacks_delCallback(pyMessageWithCallbacks* self
         PyErr_SetString(PyExc_TypeError, "delCallback expects an int");
         return NULL;
     }
-    if (idx >= self->fThis->getCallbacks().size()) {
+    if (size_t(idx) >= self->fThis->getCallbacks().size()) {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
@@ -129,7 +129,7 @@ PyTypeObject pyMessageWithCallbacks_Type = {
 
     pyMessageWithCallbacks_Methods,     /* tp_methods */
     NULL,                               /* tp_members */
-    NULL,                               /* tp_getset */
+    pyMessageWithCallbacks_GetSet,      /* tp_getset */
     NULL,                               /* tp_base */
     NULL,                               /* tp_dict */
     NULL,                               /* tp_descr_get */

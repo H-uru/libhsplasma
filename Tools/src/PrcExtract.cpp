@@ -23,9 +23,11 @@
 #ifdef WIN32
   #include <windows.h>
   #define SLASH '\\'
+  #define SLASH_S "\\"
 #else
   #include <unistd.h>
   #define SLASH '/'
+  #define  SLASH_S "/"
 #endif
 #include <sys/stat.h>
 
@@ -56,7 +58,7 @@ plString getOutputDir(const char* filename, plPageInfo* page) {
         name = name.left(name.rfind(SLASH) + 1);
     else
         name = "";
-    return name + page->getAge() + "_PRC" + SLASH;
+    return name + page->getAge() + "_PRC" SLASH_S;
 }
 
 int main(int argc, char** argv) {

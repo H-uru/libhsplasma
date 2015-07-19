@@ -54,7 +54,7 @@ static PyObject* pyWaveSet7_delShore(pyWaveSet7* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "delShore expects an int");
         return NULL;
     }
-    if (idx >= self->fThis->getShores().size()) {
+    if (size_t(idx) >= self->fThis->getShores().size()) {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
@@ -86,7 +86,7 @@ static PyObject* pyWaveSet7_delDecal(pyWaveSet7* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "delDecal expects an int");
         return NULL;
     }
-    if (idx >= self->fThis->getDecals().size()) {
+    if (size_t(idx) >= self->fThis->getDecals().size()) {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }

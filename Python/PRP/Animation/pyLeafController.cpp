@@ -102,7 +102,7 @@ static int pyLeafController_setKeys(pyLeafController* self, PyObject* value, voi
     std::vector<hsKeyFrame*> keyframes;
     keyframes.reserve(PySequence_Size(keySeq));
     unsigned int keyType = PyInt_AsLong(keyTypeObj);
-    for (size_t i = 0; i < PySequence_Size(keySeq); ++i) {
+    for (Py_ssize_t i = 0; i < PySequence_Size(keySeq); ++i) {
         PyObject* key = PySequence_GetItem(keySeq, i);
         if (!pyKeyFrame_Check(key)) {
             PyErr_SetString(PyExc_TypeError, "keys should be a sequence of: sequence (keyframes), int");

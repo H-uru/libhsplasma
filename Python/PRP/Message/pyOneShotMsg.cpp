@@ -56,7 +56,7 @@ static PyObject* pyOneShotMsg_delCallback(pyOneShotMsg* self, PyObject* args) {
         return NULL;
     }
     plOneShotCallbacks& cbs = self->fThis->getCallbacks();
-    if (idx >= cbs.getNumCallbacks()) {
+    if (size_t(idx) >= cbs.getNumCallbacks()) {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }

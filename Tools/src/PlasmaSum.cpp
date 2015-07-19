@@ -102,10 +102,10 @@ plString cdUp(plString path) {
     plString up = path.beforeLast(PATHSEP);
     if (path[0] == PATHSEP) {
         // Absolute path specified -- make sure we keep it that way
-        return up + PATHSEP;
+        return up + PATHSEPSTR;
     } else {
         // Relative path specified
-        return up.empty() ? "" : up + PATHSEP;
+        return up.empty() ? "" : up + PATHSEPSTR;
     }
 }
 
