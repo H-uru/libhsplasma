@@ -90,6 +90,7 @@
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
 #include "PRP/Modifier/pyExcludeRegionModifier.h"
+#include "PRP/Modifier/pyFollowMod.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
 #include "PRP/Modifier/pyLogicModifier.h"
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
@@ -586,6 +587,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plOccluder", Init_pyOccluder_Type());
     PyModule_AddObject(module, "plMobileOccluder", Init_pyMobileOccluder_Type());
     PyModule_AddObject(module, "plMultistageBehMod", Init_pyMultistageBehMod_Type());
+    PyModule_AddObject(module, "plFollowMod", Init_pyFollowMod_Type());
     PyModule_AddObject(module, "plInterfaceInfoModifier", Init_pyInterfaceInfoModifier_Type());
     PyModule_AddObject(module, "plLogicModBase", Init_pyLogicModBase_Type());
     PyModule_AddObject(module, "plLogicModifier", Init_pyLogicModifier_Type());
