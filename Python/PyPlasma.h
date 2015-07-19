@@ -43,7 +43,7 @@ plString PyString_To_PlasmaString(PyObject* str);
 
     // tp_compare is no longer used in Py3k
     #define cmpfunc void*
-#elif (PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION > 5)
+#elif (PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6)
     #undef PyBytes_Check
     #undef PyBytes_FromStringAndSize
     #undef PyBytes_AsStringAndSize
@@ -56,15 +56,7 @@ plString PyString_To_PlasmaString(PyObject* str);
     #define PyBytes_AsString PyString_AsString
     #define PyAnyStr_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
 #else
-    #define PlStr_To_PyStr PlasmaString_To_PyString
-    #define PyBytes_Check(ob) PyString_Check(ob)
-    #define PyBytes_FromStringAndSize(v, len) PyString_FromStringAndSize(v, len)
-    #define PyBytes_AsStringAndSize(obj, buf, len) PyString_AsStringAndSize(obj, buf, len)
-    #define PyBytes_AsString PyString_AsString
-    #define PyAnyStr_Check(ob) (PyUnicode_Check(ob) || PyBytes_Check(ob))
-
-    #define Py_TYPE(ob) ob->ob_type
-    #define PyVarObject_HEAD_INIT(name, size) PyObject_HEAD_INIT(name) 0,
+    #error Your Python version is too old.  Only 2.6 and later are supported
 #endif
 
 #if (PY_MAJOR_VERSION >= 3) || ((PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6))
