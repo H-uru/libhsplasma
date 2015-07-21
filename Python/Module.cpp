@@ -610,6 +610,10 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plWaveSet7", Init_pyWaveSet7_Type());
     PyModule_AddObject(module, "plSoftVolume", Init_pySoftVolume_Type());
     PyModule_AddObject(module, "plSoftVolumeSimple", Init_pySoftVolumeSimple_Type());
+    PyModule_AddObject(module, "plSoftVolumeComplex", Init_pySoftVolumeComplex_Type());
+    PyModule_AddObject(module, "plSoftVolumeIntersect", Init_pySoftVolumeIntersect_Type());
+    PyModule_AddObject(module, "plSoftVolumeInvert", Init_pySoftVolumeInvert_Type());
+    PyModule_AddObject(module, "plSoftVolumeUnion", Init_pySoftVolumeUnion_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

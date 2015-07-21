@@ -31,6 +31,30 @@ typedef struct {
     bool fPyOwned;
 } pySoftVolumeSimple;
 
+typedef struct {
+    PyObject_HEAD
+    class plSoftVolumeComplex* fThis;
+    bool fPyOwned;
+} pySoftVolumeComplex;
+
+typedef struct {
+    PyObject_HEAD
+    class plSoftVolumeIntersect* fThis;
+    bool fPyOwned;
+} pySoftVolumeIntersect;
+
+typedef struct {
+    PyObject_HEAD
+    class plSoftVolumeInvert* fThis;
+    bool fPyOwned;
+} pySoftVolumeInvert;
+
+typedef struct {
+    PyObject_HEAD
+    class plSoftVolumeUnion* fThis;
+    bool fPyOwned;
+} pySoftVolumeUnion;
+
 extern PyTypeObject pySoftVolume_Type;
 PyObject* Init_pySoftVolume_Type();
 int pySoftVolume_Check(PyObject*);
@@ -40,6 +64,26 @@ extern PyTypeObject pySoftVolumeSimple_Type;
 PyObject* Init_pySoftVolumeSimple_Type();
 int pySoftVolumeSimple_Check(PyObject*);
 PyObject* pySoftVolumeSimple_FromSoftVolumeSimple(class plSoftVolumeSimple*);
+
+extern PyTypeObject pySoftVolumeComplex_Type;
+PyObject* Init_pySoftVolumeComplex_Type();
+int pySoftVolumeComplex_Check(PyObject*);
+PyObject* pySoftVolumeComplex_FromSoftVolumeComplex(class plSoftVolumeComplex*);
+
+extern PyTypeObject pySoftVolumeIntersect_Type;
+PyObject* Init_pySoftVolumeIntersect_Type();
+int pySoftVolumeIntersect_Check(PyObject*);
+PyObject* pySoftVolumeIntersect_FromSoftVolumeIntersect(class plSoftVolumeIntersect*);
+
+extern PyTypeObject pySoftVolumeInvert_Type;
+PyObject* Init_pySoftVolumeInvert_Type();
+int pySoftVolumeInvert_Check(PyObject*);
+PyObject* pySoftVolumeInvert_FromSoftVolumeInvert(class plSoftVolumeInvert*);
+
+extern PyTypeObject pySoftVolumeUnion_Type;
+PyObject* Init_pySoftVolumeUnion_Type();
+int pySoftVolumeUnion_Check(PyObject*);
+PyObject* pySoftVolumeUnion_FromSoftVolumeUnion(class plSoftVolumeUnion*);
 
 }
 

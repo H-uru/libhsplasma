@@ -391,10 +391,10 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyActivatorActivatorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plActivatorActivatorConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySoftVolume_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolume*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySoftVolumeSimple_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeSimple*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySoftVolumeComplex_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeComplex*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySoftVolumeUnion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeUnion*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySoftVolumeIntersect_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeIntersect*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySoftVolumeInvert_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeInvert*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySoftVolumeComplex_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeComplex*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySoftVolumeUnion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeUnion*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySoftVolumeIntersect_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeIntersect*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySoftVolumeInvert_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeInvert*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyWin32LinkSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32LinkSound*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLayerLinkAnimation_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerLinkAnimation*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyArmatureMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plArmatureMod*>(pCre->fThis));
@@ -731,6 +731,10 @@ PyObject* ICreate(plCreatable* pCre)
         case kWaveSet7: return pyWaveSet7_FromWaveSet7(plWaveSet7::Convert(pCre));
         case kSoftVolume: return pySoftVolume_FromSoftVolume(plSoftVolume::Convert(pCre));
         case kSoftVolumeSimple: return pySoftVolumeSimple_FromSoftVolumeSimple(plSoftVolumeSimple::Convert(pCre));
+        case kSoftVolumeComplex: return pySoftVolumeComplex_FromSoftVolumeComplex(plSoftVolumeComplex::Convert(pCre));
+        case kSoftVolumeUnion: return pySoftVolumeUnion_FromSoftVolumeUnion(plSoftVolumeUnion::Convert(pCre));
+        case kSoftVolumeIntersect: return pySoftVolumeIntersect_FromSoftVolumeIntersect(plSoftVolumeIntersect::Convert(pCre));
+        case kSoftVolumeInvert: return pySoftVolumeInvert_FromSoftVolumeInvert(plSoftVolumeInvert::Convert(pCre));
         case kSpaceTree: return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(pCre));
         case kController: return pyController_FromController(plController::Convert(pCre));
         case kCompoundController: return pyCompoundController_FromCompoundController(plCompoundController::Convert(pCre));
