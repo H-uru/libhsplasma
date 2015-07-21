@@ -46,6 +46,15 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned int getListenState() const { return fListenState; }
+    float getInsideStrength() const { return fInsideStrength; }
+    float getOutsideStrength() const { return fOutsideStrength; }
+
+    void setListenState(unsigned int value) { fListenState = value; }
+    void setInsideStrength(float value) { fInsideStrength = value; }
+    void setOutsideStrength(float value) { fOutsideStrength = value; }
 };
 
 
@@ -68,7 +77,11 @@ protected:
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
 
 public:
+    plVolumeIsect* getVolume() const { return fVolume; }
+    float getSoftDist() const { return fSoftDist; }
+
     void setVolume(plVolumeIsect* vol);
+    void setSoftDist(float dist) { fSoftDist = dist; }
 };
 
 

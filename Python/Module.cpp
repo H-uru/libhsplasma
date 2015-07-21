@@ -107,6 +107,7 @@
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Region/pySoftVolume.h"
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
@@ -607,6 +608,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "pfGUIPythonScriptProc", Init_pyGUIPythonScriptProc_Type());
     PyModule_AddObject(module, "plWaveSetBase", Init_pyWaveSetBase_Type());
     PyModule_AddObject(module, "plWaveSet7", Init_pyWaveSet7_Type());
+    PyModule_AddObject(module, "plSoftVolume", Init_pySoftVolume_Type());
+    PyModule_AddObject(module, "plSoftVolumeSimple", Init_pySoftVolumeSimple_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

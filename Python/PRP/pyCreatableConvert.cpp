@@ -236,6 +236,7 @@
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Region/pySoftVolume.h"
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
@@ -388,8 +389,8 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyWin32StreamingSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32StreamingSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPythonMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPythonMod*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyActivatorActivatorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plActivatorActivatorConditionalObject*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySoftVolume_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolume*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySoftVolumeSimple_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeSimple*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySoftVolume_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolume*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySoftVolumeSimple_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeSimple*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySoftVolumeComplex_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeComplex*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySoftVolumeUnion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeUnion*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySoftVolumeIntersect_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolumeIntersect*>(pCre->fThis));
@@ -728,6 +729,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kDirectShadowMaster: return pyDirectShadowMaster_FromDirectShadowMaster(plDirectShadowMaster::Convert(pCre));
         case kWaveSetBase: return pyWaveSetBase_FromWaveSetBase(plWaveSetBase::Convert(pCre));
         case kWaveSet7: return pyWaveSet7_FromWaveSet7(plWaveSet7::Convert(pCre));
+        case kSoftVolume: return pySoftVolume_FromSoftVolume(plSoftVolume::Convert(pCre));
+        case kSoftVolumeSimple: return pySoftVolumeSimple_FromSoftVolumeSimple(plSoftVolumeSimple::Convert(pCre));
         case kSpaceTree: return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(pCre));
         case kController: return pyController_FromController(plController::Convert(pCre));
         case kCompoundController: return pyCompoundController_FromCompoundController(plCompoundController::Convert(pCre));
