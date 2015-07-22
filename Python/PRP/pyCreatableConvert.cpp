@@ -237,6 +237,7 @@
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Region/pySoftVolume.h"
+#include "PRP/Region/pyVisRegion.h"
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
@@ -531,7 +532,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyHardRegionUnion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plHardRegionUnion*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyHardRegionIntersect_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plHardRegionIntersect*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyHardRegionInvert_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plHardRegionInvert*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyVisRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVisRegion*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyVisRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVisRegion*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyVisMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVisMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyRegionBase_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plRegionBase*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIPopUpMenu_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIPopUpMenu*>(pCre->fThis));
@@ -735,6 +736,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSoftVolumeUnion: return pySoftVolumeUnion_FromSoftVolumeUnion(plSoftVolumeUnion::Convert(pCre));
         case kSoftVolumeIntersect: return pySoftVolumeIntersect_FromSoftVolumeIntersect(plSoftVolumeIntersect::Convert(pCre));
         case kSoftVolumeInvert: return pySoftVolumeInvert_FromSoftVolumeInvert(plSoftVolumeInvert::Convert(pCre));
+        case kVisRegion: return pyVisRegion_FromVisRegion(plVisRegion::Convert(pCre));
         case kSpaceTree: return pySpaceTree_FromSpaceTree(plSpaceTree::Convert(pCre));
         case kController: return pyController_FromController(plController::Convert(pCre));
         case kCompoundController: return pyCompoundController_FromCompoundController(plCompoundController::Convert(pCre));

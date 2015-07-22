@@ -108,6 +108,7 @@
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/Region/pySoftVolume.h"
+#include "PRP/Region/pyVisRegion.h"
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
@@ -614,6 +615,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSoftVolumeIntersect", Init_pySoftVolumeIntersect_Type());
     PyModule_AddObject(module, "plSoftVolumeInvert", Init_pySoftVolumeInvert_Type());
     PyModule_AddObject(module, "plSoftVolumeUnion", Init_pySoftVolumeUnion_Type());
+    PyModule_AddObject(module, "plVisRegion", Init_pyVisRegion_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

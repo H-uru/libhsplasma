@@ -409,11 +409,13 @@ set(PRP_RGN_SRCS
     PRP/Region/pySoftVolumeSimple.cpp
     PRP/Region/pySoftVolumeUnion.cpp
     PRP/Region/pySoftVolume.cpp
+    PRP/Region/pyVisRegion.cpp
     PRP/Region/pyVolumeIsect.cpp
 )
 set(PRP_RGN_HDRS
     PRP/Region/pyBounds.h
     PRP/Region/pySoftVolume.h
+    PRP/Region/pyVisRegion.h
     PRP/Region/pyVolumeIsect.h
 )
 

@@ -37,6 +37,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    plKey getRegion() const { return fRegion; }
+    plKey getVisMgr() const { return fVisMgr; }
+
+    void setRegion(plKey region) { fRegion = region; }
+    void setVisMgr(plKey vismgr) { fVisMgr = vismgr; }
 };
 
 #endif
