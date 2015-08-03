@@ -109,14 +109,7 @@ struct PLASMA_DLL hsVector3 {
     }
 
     /** Converts this vector a unit vector such that its magnitude is 1 */
-    void normalize() {
-        float length = magnitude();
-        if (length == 0.f || length == 1.f)
-            return;
-        X /= length;
-        Y /= length;
-        Z /= length;
-    }
+    void normalize();
 };
 
 

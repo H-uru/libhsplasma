@@ -15,7 +15,7 @@
  */
 
 #include "hsGeometry3.h"
-#include <math.h>
+#include <cmath>
 
 /* hsVector3 */
 float hsVector3::magnitude() const {
@@ -49,6 +49,15 @@ void hsVector3::prcParse(const pfPrcTag* tag) {
     X = tag->getParam("X", "0").toFloat();
     Y = tag->getParam("Y", "0").toFloat();
     Z = tag->getParam("Z", "0").toFloat();
+}
+
+void hsVector3::normalize() {
+    float length = magnitude();
+    if (length == 0.f || std::fabs(length - 1.f) < .0001f)
+        return;
+    X /= length;
+    Y /= length;
+    Z /= length;
 }
 
 
