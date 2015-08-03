@@ -51,6 +51,15 @@ void hsVector3::prcParse(const pfPrcTag* tag) {
     Z = tag->getParam("Z", "0").toFloat();
 }
 
+void hsVector3::normalize() {
+    float length = magnitude();
+    if (length == 0.f || std::fabs(length - 1.f) < .0001f)
+        return;
+    X /= length;
+    Y /= length;
+    Z /= length;
+}
+
 
 /* hsPlane3 */
 void hsPlane3::read(hsStream* S) {
