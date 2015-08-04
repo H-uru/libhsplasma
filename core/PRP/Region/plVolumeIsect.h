@@ -87,6 +87,13 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    /** Adds or updates a given plane */
+    void addPlane(hsVector3 normal, const hsVector3& pos);
+
+    /** Calculates worldspace transformation for this volume  */
+    void transform(const hsMatrix44& localToWorld, const hsMatrix44& worldToLocal);
 };
 
 

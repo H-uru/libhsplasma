@@ -107,6 +107,9 @@
 #include "PRP/Physics/pyObjectInVolumeDetector.h"
 #include "PRP/Physics/pyPhysical.h"
 #include "PRP/Region/pyBounds.h"
+#include "PRP/Region/pySoftVolume.h"
+#include "PRP/Region/pyVisRegion.h"
+#include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
 #include "PRP/Surface/pyDynamicEnvMap.h"
@@ -606,6 +609,13 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "pfGUIPythonScriptProc", Init_pyGUIPythonScriptProc_Type());
     PyModule_AddObject(module, "plWaveSetBase", Init_pyWaveSetBase_Type());
     PyModule_AddObject(module, "plWaveSet7", Init_pyWaveSet7_Type());
+    PyModule_AddObject(module, "plSoftVolume", Init_pySoftVolume_Type());
+    PyModule_AddObject(module, "plSoftVolumeSimple", Init_pySoftVolumeSimple_Type());
+    PyModule_AddObject(module, "plSoftVolumeComplex", Init_pySoftVolumeComplex_Type());
+    PyModule_AddObject(module, "plSoftVolumeIntersect", Init_pySoftVolumeIntersect_Type());
+    PyModule_AddObject(module, "plSoftVolumeInvert", Init_pySoftVolumeInvert_Type());
+    PyModule_AddObject(module, "plSoftVolumeUnion", Init_pySoftVolumeUnion_Type());
+    PyModule_AddObject(module, "plVisRegion", Init_pyVisRegion_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());
@@ -689,6 +699,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plTimerCallbackMsg", Init_pyTimerCallbackMsg_Type());
     PyModule_AddObject(module, "plEnableMsg", Init_pyEnableMsg_Type());
     PyModule_AddObject(module, "plExcludeRegionMsg", Init_pyExcludeRegionMsg_Type());
+    PyModule_AddObject(module, "plVolumeIsect", Init_pyVolumeIsect_Type());
+    PyModule_AddObject(module, "plConvexIsect", Init_pyConvexIsect_Type());
 
 #if PY_MAJOR_VERSION >= 3
     return module;

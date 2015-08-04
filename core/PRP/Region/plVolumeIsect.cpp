@@ -232,6 +232,38 @@ void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
+void plConvexIsect::addPlane(hsVector3 normal, const hsVector3& pos) {
+    normal.normalize();
+
+    // Check to see if we already have this plane -- if so, make sure that we have the outermost
+    // point associated with it
+    for (SinglePlane& i : fPlanes) {
+        if (i.fNorm.dotP(normal) >= 0.9998f) {
+            float dist = normal.dotP(pos);
+            if (dist > i.fDist) {
+                i.fDist = dist;
+                i.fPos = pos;
+            }
+            return;
+        }
+    }
+
+    SinglePlane plane;
+    plane.fNorm = normal;
+    plane.fPos = pos;
+    plane.fDist = normal.dotP(pos);
+    fPlanes.push_back(plane);
+}
+
+void plConvexIsect::transform(const hsMatrix44& localToWorld, const hsMatrix44& worldToLocal) {
+    for (SinglePlane& i : fPlanes) {
+        i.fWorldNorm = worldToLocal.multVector(i.fNorm);
+        i.fWorldNorm.normalize();
+
+        hsVector3 pos = localToWorld.multPoint(i.fPos);
+        i.fWorldDist = i.fWorldNorm.dotP(pos);
+    }
+}
 
 /* plCylinderIsect */
 void plCylinderIsect::read(hsStream* S, plResManager* mgr) {
