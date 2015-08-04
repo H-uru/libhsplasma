@@ -43,7 +43,7 @@ protected:
 
 public:
     plFollowMod() :
-        fLeader(nullptr), fMode(kPosition), fLeaderType(kFollowPlayer) { }
+        fLeaderType(kFollowPlayer), fMode(kPosition) { }
 
     virtual void read(hsStream* S, plResManager* mgr);
     virtual void write(hsStream* S, plResManager* mgr);
