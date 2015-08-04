@@ -15,7 +15,7 @@
  */
 
 #include "hsGeometry3.h"
-#include <math.h>
+#include <cmath>
 
 /* hsVector3 */
 float hsVector3::magnitude() const {
