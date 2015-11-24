@@ -88,7 +88,7 @@ PyTypeObject pySoftVolumeUnion_Type = {
 };
 
 PyObject* Init_pySoftVolumeUnion_Type() {
-    pySoftVolumeUnion_Type.tp_base = &pySoftVolume_Type;
+    pySoftVolumeUnion_Type.tp_base = &pySoftVolumeComplex_Type;
     if (PyType_Ready(&pySoftVolumeUnion_Type) < 0)
         return NULL;
 

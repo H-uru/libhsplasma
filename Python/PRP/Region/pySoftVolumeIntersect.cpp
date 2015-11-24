@@ -88,7 +88,7 @@ PyTypeObject pySoftVolumeIntersect_Type = {
 };
 
 PyObject* Init_pySoftVolumeIntersect_Type() {
-    pySoftVolumeIntersect_Type.tp_base = &pySoftVolume_Type;
+    pySoftVolumeIntersect_Type.tp_base = &pySoftVolumeComplex_Type;
     if (PyType_Ready(&pySoftVolumeIntersect_Type) < 0)
         return NULL;
 

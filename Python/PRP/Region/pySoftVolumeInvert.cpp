@@ -88,7 +88,7 @@ PyTypeObject pySoftVolumeInvert_Type = {
 };
 
 PyObject* Init_pySoftVolumeInvert_Type() {
-    pySoftVolumeInvert_Type.tp_base = &pySoftVolume_Type;
+    pySoftVolumeInvert_Type.tp_base = &pySoftVolumeComplex_Type;
     if (PyType_Ready(&pySoftVolumeInvert_Type) < 0)
         return NULL;
 
