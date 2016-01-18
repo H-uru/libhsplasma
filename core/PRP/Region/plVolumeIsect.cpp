@@ -252,6 +252,8 @@ void plConvexIsect::addPlane(hsVector3 normal, const hsVector3& pos) {
     plane.fNorm = normal;
     plane.fPos = pos;
     plane.fDist = normal.dotP(pos);
+    plane.fWorldNorm = normal;
+    plane.fWorldDist = plane.fDist;
     fPlanes.push_back(plane);
 }
 
