@@ -37,9 +37,18 @@ static PyObject* pyLinkToAgeMsg_getAgeLink(pyLinkToAgeMsg* self, void*) {
     return pyAgeLinkStruct_FromAgeLinkStruct(&self->fThis->getAgeLink());
 }
 
-static int pyLinkToAgeMsg_setAgeLink(pyLinkToAgeMsg* , PyObject* , void*) {
-    PyErr_SetString(PyExc_RuntimeError, "ageLink is read-only");
-    return -1;
+static int pyLinkToAgeMsg_setAgeLink(pyLinkToAgeMsg* self, PyObject* value, void*) {
+    plAgeLinkStruct& als = self->fThis->getAgeLink();
+    if (value == Py_None || value == NULL) {
+        als = plAgeLinkStruct();
+        return 0;
+    } else if (pyAgeLinkStruct_Check(value)) {
+        als = *((pyAgeLinkStruct*)value)->fThis;
+        return 0;
+    } else {
+        PyErr_SetString(PyExc_TypeError, "ageLink must be a plAgeLinkStruct");
+        return -1;
+    }
 }
 
 static PyGetSetDef pyLinkToAgeMsg_GetSet[] = {

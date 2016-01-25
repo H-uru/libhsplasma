@@ -89,6 +89,7 @@
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
+#include "PRP/Misc/pySpawnPointInfo.h"
 #include "PRP/Modifier/pyExcludeRegionModifier.h"
 #include "PRP/Modifier/pyFollowMod.h"
 #include "PRP/Modifier/pyInterfaceInfoModifier.h"
@@ -496,6 +497,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plCullPoly", Init_pyCullPoly_Type());
     PyModule_AddObject(module, "plAgeInfoStruct", Init_pyAgeInfoStruct_Type());
     PyModule_AddObject(module, "plAgeLinkStruct", Init_pyAgeLinkStruct_Type());
+    PyModule_AddObject(module, "plSpawnPointInfo", Init_pySpawnPointInfo_Type());
     PyModule_AddObject(module, "plFixedWaterState7", Init_pyFixedWaterState7_Type());
 
     /* Creatables */
