@@ -70,7 +70,7 @@ static int pyAgeInfoStruct_setAgeInstanceGuid(pyAgeInfoStruct* self, PyObject* v
     try {
         plUuid uuid(PyStr_To_PlStr(value));
         self->fThis->setAgeInstanceGuid(uuid);
-    } catch (hsBadParamException&) {
+    } catch (const hsBadParamException&) {
         PyErr_SetString(PyExc_ValueError, "ageInstanceGuid must be a valid UUID string");
         return -1;
     }
