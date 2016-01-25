@@ -18,6 +18,7 @@
 #include <PRP/Misc/plAgeLinkInfo.h>
 
 #include "pyAgeLinkInfo.h"
+#include "pySpawnPointInfo.h"
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -63,6 +64,22 @@ static int pyAgeLinkStruct_setAgeInfo(pyAgeLinkStruct* self, PyObject* value, vo
     }
 }
 
+static int pyAgeLinkStruct_setSpawnPoint(pyAgeLinkStruct* self, PyObject* value, void*) {
+    plSpawnPointInfo& spi = self->fThis->getSpawnPoint();
+    if (value == NULL || value == Py_None) {
+        self->fThis->setHasSpawnPoint(false);
+        spi = plSpawnPointInfo();
+        return 0;
+    } else if (pySpawnPointInfo_Check(value)) {
+        self->fThis->setHasSpawnPoint(true);
+        spi = *((pySpawnPointInfo*)value)->fThis;
+        return 0;
+    } else {
+        PyErr_SetString(PyExc_TypeError, "spawnPoint must be a plSpawnPointInfo");
+        return -1;
+    }
+}
+
 static int pyAgeLinkStruct_setLinkingRules(pyAgeLinkStruct* self, PyObject* value, void*) {
     if (!PyInt_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "linkingRules must be an int");
@@ -88,6 +105,8 @@ static int pyAgeLinkStruct_setParentAgeFilename(pyAgeLinkStruct* self, PyObject*
 PyGetSetDef pyAgeLinkStruct_GetSet[] = {
     { _pycs("ageInfo"), (getter)pyAgeLinkStruct_getAgeInfo,
       (setter)pyAgeLinkStruct_setAgeInfo, NULL, NULL },
+    { _pycs("spawnPoint"), (getter)pyAgeLinkStruct_getSpawnPoint,
+     (setter)pyAgeLinkStruct_setSpawnPoint, NULL, NULL },
     { _pycs("linkingRules"), (getter)pyAgeLinkStruct_getLinkingRules,
       (setter)pyAgeLinkStruct_setLinkingRules, NULL, NULL },
     { _pycs("parentAgeFilename"), (getter)pyAgeLinkStruct_getParentAgeFilename,

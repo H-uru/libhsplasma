@@ -326,10 +326,12 @@ set(PRP_MISC_SRCS
     PRP/Misc/pyAgeInfoStruct.cpp
     PRP/Misc/pyAgeLinkStruct.cpp
     PRP/Misc/pyRenderLevel.cpp
+    PRP/Misc/pySpawnPointInfo.cpp
 )
 set(PRP_MISC_HDRS
     PRP/Misc/pyAgeLinkInfo.h
     PRP/Misc/pyRenderLevel.h
+    PRP/Misc/pySpawnPointInfo.h
 )
 
 set(PRP_MOD_SRCS
