@@ -40,9 +40,6 @@ plString PyString_To_PlasmaString(PyObject* str);
 
     // Py_TPFLAGS_CHECKTYPES is no longer used in Py3k
     #define Py_TPFLAGS_CHECKTYPES 0
-
-    // tp_compare is no longer used in Py3k
-    #define cmpfunc void*
 #elif (PY_MAJOR_VERSION == 2) && (PY_MINOR_VERSION >= 6)
     #undef PyBytes_Check
     #undef PyBytes_FromStringAndSize

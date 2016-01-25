@@ -53,15 +53,6 @@ static long pyLocation_Hash(pyLocation* self) {
     return (long)self->fThis->unparse();
 }
 
-static int pyLocation_Compare(pyLocation* left, pyLocation* right) {
-    if ((*left->fThis) == (*right->fThis))
-        return 0;
-    else if ((*left->fThis) < (*right->fThis))
-        return -1;
-    else
-        return 1;
-}
-
 static PyObject* pyLocation_RichCompare(pyLocation* left, pyLocation* right, int op) {
     bool result = false;
 
@@ -297,7 +288,7 @@ PyTypeObject pyLocation_Type = {
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
-    (cmpfunc)pyLocation_Compare,        /* tp_compare */
+    NULL,                               /* tp_compare */
     (reprfunc)pyLocation_Repr,          /* tp_repr */
     NULL,                               /* tp_as_number */
     NULL,                               /* tp_as_sequence */
