@@ -87,12 +87,15 @@ set(PRP_AUD_SRCS
     PRP/Audio/py2WayWinAudible.cpp
     PRP/Audio/pyAudible.cpp
     PRP/Audio/pyAudibleNull.cpp
+    PRP/Audio/pyFadeParams.cpp
+    PRP/Audio/pySound.cpp
     PRP/Audio/pySoundBuffer.cpp
     PRP/Audio/pyWAVHeader.cpp
     PRP/Audio/pyWinAudible.cpp
 )
 set(PRP_AUD_HDRS
     PRP/Audio/pyAudible.h
+    PRP/Audio/pySound.h
     PRP/Audio/pySoundBuffer.h
 )
 

@@ -48,6 +48,7 @@
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
+#include "PRP/Audio/pySound.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
@@ -618,6 +619,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSoftVolumeInvert", Init_pySoftVolumeInvert_Type());
     PyModule_AddObject(module, "plSoftVolumeUnion", Init_pySoftVolumeUnion_Type());
     PyModule_AddObject(module, "plVisRegion", Init_pyVisRegion_Type());
+    PyModule_AddObject(module, "plSound", Init_pySound_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

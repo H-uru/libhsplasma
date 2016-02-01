@@ -31,6 +31,7 @@
 #include "PRP/Audio/plCrossfade.h"
 #include "PRP/Audio/plDirectMusicSound.h"
 #include "PRP/Audio/plEAXListenerMod.h"
+#include "PRP/Audio/plSound.h"
 #include "PRP/Audio/plSoundBuffer.h"
 #include "PRP/Audio/plWin32StaticSound.h"
 #include "PRP/Avatar/plAGMasterMod.h"
@@ -183,6 +184,7 @@
 #include "PRP/Avatar/pyMultistageBehMod.h"
 #include "PRP/Avatar/pySittingModifier.h"
 #include "PRP/Audio/pyAudible.h"
+#include "PRP/Audio/pySound.h"
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
@@ -327,7 +329,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyLayerMovie_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerMovie*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLayerBink_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerBink*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLayerAVI_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerAVI*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pySound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSound*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pySound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyWin32Sound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32Sound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyLayerOr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerOr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAudioSystem_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAudioSystem*>(pCre->fThis));
@@ -662,6 +664,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kOmniLightInfo: return pyOmniLightInfo_FromOmniLightInfo(plOmniLightInfo::Convert(pCre));
         case kSpotLightInfo: return pySpotLightInfo_FromSpotLightInfo(plSpotLightInfo::Convert(pCre));
         case kSoundBuffer: return pySoundBuffer_FromSoundBuffer(plSoundBuffer::Convert(pCre));
+        case kSound: return pySound_FromSound(plSound::Convert(pCre));
         case kPhysical: return pyPhysical_FromPhysical(plPhysical::Convert(pCre));
         case kGenericPhysical: return pyGenericPhysical_FromGenericPhysical(plGenericPhysical::Convert(pCre));
         case kModifier: return pyModifier_FromModifier(plModifier::Convert(pCre));
