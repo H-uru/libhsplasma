@@ -50,6 +50,8 @@
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySound.h"
 #include "PRP/Audio/pySoundBuffer.h"
+#include "PRP/Audio/pyWin32Sound.h"
+#include "PRP/Audio/pyWin32StaticSound.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -620,6 +622,9 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSoftVolumeUnion", Init_pySoftVolumeUnion_Type());
     PyModule_AddObject(module, "plVisRegion", Init_pyVisRegion_Type());
     PyModule_AddObject(module, "plSound", Init_pySound_Type());
+    PyModule_AddObject(module, "plWin32Sound", Init_pyWin32Sound_Type());
+    PyModule_AddObject(module, "plWin32StreamingSound", Init_pyWin32StreamingSound_Type());
+    PyModule_AddObject(module, "plWin32StaticSound", Init_pyWin32StaticSound_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

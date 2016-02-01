@@ -33,6 +33,7 @@
 #include "PRP/Audio/plEAXListenerMod.h"
 #include "PRP/Audio/plSound.h"
 #include "PRP/Audio/plSoundBuffer.h"
+#include "PRP/Audio/plWin32Sound.h"
 #include "PRP/Audio/plWin32StaticSound.h"
 #include "PRP/Avatar/plAGMasterMod.h"
 #include "PRP/Avatar/plAGModifier.h"
@@ -186,6 +187,8 @@
 #include "PRP/Audio/pyAudible.h"
 #include "PRP/Audio/pySound.h"
 #include "PRP/Audio/pySoundBuffer.h"
+#include "PRP/Audio/pyWin32Sound.h"
+#include "PRP/Audio/pyWin32StaticSound.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -330,7 +333,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyLayerBink_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerBink*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyLayerAVI_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerAVI*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSound*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyWin32Sound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32Sound*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyWin32Sound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32Sound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyLayerOr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLayerOr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyAudioSystem_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plAudioSystem*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyDrawableSpans_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDrawableSpans*>(pCre->fThis));
@@ -389,7 +392,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyInventoryMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plInventoryMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyInventoryObjMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plInventoryObjMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyLinkEffectsMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLinkEffectsMgr*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyWin32StreamingSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32StreamingSound*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyWin32StreamingSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32StreamingSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyPythonMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPythonMod*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyActivatorActivatorConditionalObject_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plActivatorActivatorConditionalObject*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pySoftVolume_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSoftVolume*>(pCre->fThis));
@@ -407,7 +410,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyWheelConstraintMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWheelConstraintMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyStrongSpringConstraintMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plStrongSpringConstraintMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyArmatureLODMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plArmatureLODMod*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyWin32StaticSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32StaticSound*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyWin32StaticSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32StaticSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGameGUIMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGameGUIMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIDialogMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIDialogMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCameraBrain1_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain1*>(pCre->fThis));
@@ -665,6 +668,9 @@ PyObject* ICreate(plCreatable* pCre)
         case kSpotLightInfo: return pySpotLightInfo_FromSpotLightInfo(plSpotLightInfo::Convert(pCre));
         case kSoundBuffer: return pySoundBuffer_FromSoundBuffer(plSoundBuffer::Convert(pCre));
         case kSound: return pySound_FromSound(plSound::Convert(pCre));
+        case kWin32Sound: return pyWin32Sound_FromWin32Sound(plWin32Sound::Convert(pCre));
+        case kWin32StreamingSound: return pyWin32StreamingSound_FromWin32StreamingSound(plWin32StreamingSound::Convert(pCre));
+        case kWin32StaticSound: return pyWin32StaticSound_FromWin32StaticSound(plWin32StaticSound::Convert(pCre));
         case kPhysical: return pyPhysical_FromPhysical(plPhysical::Convert(pCre));
         case kGenericPhysical: return pyGenericPhysical_FromGenericPhysical(plGenericPhysical::Convert(pCre));
         case kModifier: return pyModifier_FromModifier(plModifier::Convert(pCre));
