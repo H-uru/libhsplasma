@@ -35,6 +35,8 @@ protected:
     virtual void IWrite(hsStream* S, plResManager* mgr);
 
 public:
+    plWin32Sound() : fChannelSelect(kLeftChannel) { }
+
     unsigned char getChannel() const { return fChannelSelect; }
     void setChannel(unsigned char channel) { fChannelSelect = channel; }
 };
