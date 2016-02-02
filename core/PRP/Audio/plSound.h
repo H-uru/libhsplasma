@@ -119,8 +119,12 @@ public:
     void setPriority(unsigned char priority) { fPriority = priority; }
     void setPlaying(bool playing) { fPlaying = playing; }
     void setTime(double time) { fTime = time; }
+    void setMaxFalloff(int max) { fMaxFalloff = max; }
+    void setMinFalloff(int min) { fMinFalloff = min; }
     void setFalloff(int min, int max) { fMinFalloff = min; fMaxFalloff = max; }
     void setOuterVol(int vol) { fOuterVol = vol; }
+    void setInnerCone(int inner) { fInnerCone = inner; }
+    void setOuterCone(int outer) { fOuterCone = outer; }
     void setCone(int inner, int outer) { fInnerCone = inner; fOuterCone = outer; }
     void setCurrVolume(float vol) { fCurrVolume = vol; }
     void setDesiredVolume(float vol) { fDesiredVol = vol; }
