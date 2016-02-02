@@ -135,7 +135,7 @@ static PyGetSetDef pyFadeParams_GetSet[] = {
 
 PyTypeObject pyFadeParams_Type = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    "PyHSPlasma.plFadeParams",          /* tp_name */
+    "PyHSPlasma.plSound.plFadeParams",  /* tp_name */
     sizeof(pyFadeParams),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
