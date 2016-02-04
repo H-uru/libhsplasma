@@ -26,6 +26,13 @@ protected:
     float fDists[4];
 
 public:
+    enum {
+        kNearTrans,
+        kNearOpaq,
+        kFarOpaq,
+        kFarTrans
+    };
+
     plDistOpacityMod();
 
     virtual void read(hsStream* S, plResManager* mgr);
@@ -34,6 +41,10 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    float getDistance(int pos) const { return fDists[pos]; }
+    void  setDistance(int pos, float dist) { fDists[pos] = dist; }
 };
 
 #endif

@@ -113,8 +113,10 @@
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
+#include "PRP/Surface/pyDistOpacityMod.h"
 #include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
+#include "PRP/Surface/pyFadeOpacityMod.h"
 #include "PRP/Surface/pyFixedWaterState7.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
@@ -579,9 +581,11 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
     PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
     PyModule_AddObject(module, "plCubicEnvironmap", Init_pyCubicEnvironmap_Type());
+    PyModule_AddObject(module, "plDistOpacityMod", Init_pyDistOpacityMod_Type());
     PyModule_AddObject(module, "plDynamicEnvMap", Init_pyDynamicEnvMap_Type());
     PyModule_AddObject(module, "plDynamicCamMap", Init_pyDynamicCamMap_Type());
     PyModule_AddObject(module, "plDynamicTextMap", Init_pyDynamicTextMap_Type());
+    PyModule_AddObject(module, "plFadeOpacityMod", Init_pyFadeOpacityMod_Type());
     PyModule_AddObject(module, "plAGAnim", Init_pyAGAnim_Type());
     PyModule_AddObject(module, "plAgeGlobalAnim", Init_pyAgeGlobalAnim_Type());
     PyModule_AddObject(module, "plATCAnim", Init_pyATCAnim_Type());
