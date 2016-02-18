@@ -434,9 +434,11 @@ set(PRP_SRFC_SRCS
     PRP/Surface/pyBitmap.cpp
     PRP/Surface/pyCubicEnvironmap.cpp
     PRP/Surface/pyCubicRenderTarget.cpp
+    PRP/Surface/pyDistOpacityMod.cpp
     PRP/Surface/pyDynamicCamMap.cpp
     PRP/Surface/pyDynamicEnvMap.cpp
     PRP/Surface/pyDynamicTextMap.cpp
+    PRP/Surface/pyFadeOpacityMod.cpp
     PRP/Surface/pyFixedWaterState7.cpp
     PRP/Surface/pyGMatState.cpp
     PRP/Surface/pyGMaterial.cpp
@@ -461,8 +463,10 @@ set(PRP_SRFC_SRCS
 set(PRP_SRFC_HDRS
     PRP/Surface/pyBitmap.h
     PRP/Surface/pyCubicEnvironmap.h
+    PRP/Surface/pyDistOpacityMod.h
     PRP/Surface/pyDynamicEnvMap.h
     PRP/Surface/pyDynamicTextMap.h
+    PRP/Surface/pyFadeOpacityMod.h
     PRP/Surface/pyFixedWaterState7.h
     PRP/Surface/pyGMatState.h
     PRP/Surface/pyGMaterial.h

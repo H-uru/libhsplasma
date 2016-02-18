@@ -246,8 +246,10 @@
 #include "PRP/Region/pyVolumeIsect.h"
 #include "PRP/Surface/pyBitmap.h"
 #include "PRP/Surface/pyCubicEnvironmap.h"
+#include "PRP/Surface/pyDistOpacityMod.h"
 #include "PRP/Surface/pyDynamicEnvMap.h"
 #include "PRP/Surface/pyDynamicTextMap.h"
+#include "PRP/Surface/pyFadeOpacityMod.h"
 #include "PRP/Surface/pyGMaterial.h"
 #include "PRP/Surface/pyGMatState.h"
 #include "PRP/Surface/pyLayer.h"
@@ -562,9 +564,9 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyGameMarkerModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plGameMarkerModifier*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyLODMipmap_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plLODMipmap*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySwimDetector_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSwimDetector*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyFadeOpacityMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFadeOpacityMod*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyFadeOpacityMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFadeOpacityMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyFadeOpacityLay_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plFadeOpacityLay*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyDistOpacityMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDistOpacityMod*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyDistOpacityMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDistOpacityMod*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyArmatureModBase_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plArmatureModBase*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySwimRegionInterface_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSwimRegionInterface*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySwimCircularCurrentRegion_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSwimCircularCurrentRegion*>(pCre->fThis));
@@ -708,6 +710,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kObjectInVolumeAndFacingDetector: return pyObjectInVolumeAndFacingDetector_FromObjectInVolumeAndFacingDetector(plObjectInVolumeAndFacingDetector::Convert(pCre));
         case kResponderModifier: return pyResponderModifier_FromResponderModifier(plResponderModifier::Convert(pCre));
         case kFollowMod: return pyFollowMod_FromFollowMod(plFollowMod::Convert(pCre));
+        case kFadeOpacityMod: return pyFadeOpacityMod_FromFadeOpacityMod(plFadeOpacityMod::Convert(pCre));
+        case kDistOpacityMod: return pyDistOpacityMod_FromDistOpacityMod(plDistOpacityMod::Convert(pCre));
         case kDynamicEnvMap: return pyDynamicEnvMap_FromDynamicEnvMap(plDynamicEnvMap::Convert(pCre));
         case kDynamicCamMap: return pyDynamicCamMap_FromDynamicCamMap(plDynamicCamMap::Convert(pCre));
         case kDynamicTextMap: return pyDynamicTextMap_FromDynamicTextMap(plDynamicTextMap::Convert(pCre));
