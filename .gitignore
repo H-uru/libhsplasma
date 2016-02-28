@@ -26,3 +26,6 @@ Misc/TypeMap
 /dat
 /doc
 /*.kdev4
+
+/build/*
+/.idea/*
