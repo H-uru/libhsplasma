@@ -220,6 +220,7 @@
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyLinkToAgeMsg.h"
 #include "PRP/Message/pyResponderMsg.h"
+#include "PRP/Message/pySoundMsg.h"
 #include "PRP/Message/pyTimerCallbackMsg.h"
 #include "PRP/Misc/pyRenderLevel.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"
@@ -836,6 +837,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kExcludeRegionMsg: pyExcludeRegionMsg_FromExcludeRegionMsg(plExcludeRegionMsg::Convert(pCre));
         case kVolumeIsect: pyVolumeIsect_FromVolumeIsect(plVolumeIsect::Convert(pCre));
         case kConvexIsect: pyConvexIsect_FromConvexIsect(plConvexIsect::Convert(pCre));
+        case kSoundMsg: pySoundMsg_FromSoundMsg(plSoundMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (dynamic_cast<plMessage*>(pCre)) return pyMessage_FromMessage(plMessage::Convert(pCre));
