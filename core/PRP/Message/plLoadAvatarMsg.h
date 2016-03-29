@@ -27,7 +27,7 @@ protected:
     bool fIsPlayer;
     plKey fSpawnPoint;
     plAvTask* fInitialTask;
-    plString fUserStr;
+    ST::string fUserStr;
 
 public:
     plLoadAvatarMsg() : fInitialTask(NULL) { }
@@ -44,11 +44,11 @@ public:
     bool getIsPlayer() const { return fIsPlayer; }
     plKey getSpawnPoint() const { return fSpawnPoint; }
     plAvTask* getInitialTask() const { return fInitialTask; }
-    plString getUserStr() const { return fUserStr; }
+    ST::string getUserStr() const { return fUserStr; }
 
     void setIsPlayer(bool isPlayer) { fIsPlayer = isPlayer; }
     void setSpawnPoint(plKey spawnPoint) { fSpawnPoint = spawnPoint; }
-    void setUserStr(plString userStr) { fUserStr = userStr; }
+    void setUserStr(const ST::string& userStr) { fUserStr = userStr; }
 
     void setInitialTask(plAvTask* InitialTask);
 };

@@ -27,7 +27,7 @@ PY_PLASMA_VALUE_DEALLOC(Key)
 PY_PLASMA_NEW_MSG(Key, "Cannot construct Keys directly")
 
 PY_PLASMA_REPR_DECL(Key) {
-    plString repr = plString::Format("<plKey \"%s\">", self->fThis->toString().cstr());
+    ST::string repr = ST::format("<plKey \"{}\">", self->fThis->toString());
     return pyPlasma_convert(repr);
 }
 

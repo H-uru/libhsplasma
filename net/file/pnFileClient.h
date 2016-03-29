@@ -24,12 +24,12 @@
 #include "pnSocketInterface.h"
 
 struct PLASMANET_DLL pnFileManifest {
-    plString fFilename, fDownloadName;
+    ST::string fFilename, fDownloadName;
     plMD5Hash fHash, fCompressedHash;
     uint32_t fFileSize, fCompressedSize, fFlags;
 
-    const pl_wchar_t* read(const pl_wchar_t* src);
-    pl_wchar_t* write(pl_wchar_t* dest);
+    const char16_t* read(const char16_t* src);
+    char16_t* write(char16_t* dest);
     size_t calcSize() const;
 };
 
@@ -53,8 +53,8 @@ public:
     /* Outgoing Protocol */
     void sendPingRequest(uint32_t pingTimeMs);
     uint32_t sendBuildIdRequest();
-    uint32_t sendManifestRequest(const plString& group, uint32_t buildId);
-    uint32_t sendFileDownloadRequest(const plString& filename, uint32_t buildId);
+    uint32_t sendManifestRequest(const ST::string& group, uint32_t buildId);
+    uint32_t sendFileDownloadRequest(const ST::string& filename, uint32_t buildId);
 
     /* Incoming Protocol - To be implemented by subclasses */
     virtual void onPingReply(uint32_t pingTimeMs);

@@ -62,7 +62,7 @@ PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegions) {
 }
 
 PY_GETSET_GETTER_DECL(DynamicEnvMap, visRegionNames) {
-    const std::vector<plString>& names = self->fThis->getVisRegionNames();
+    const std::vector<ST::string>& names = self->fThis->getVisRegionNames();
     PyObject* regionNameList = PyTuple_New(names.size());
     for (size_t i=0; i<names.size(); i++)
         PyTuple_SET_ITEM(regionNameList, i, pyPlasma_convert(names[i]));
@@ -77,7 +77,7 @@ PY_GETSET_SETTER_DECL(DynamicEnvMap, visRegionNames) {
         return -1;
     }
     Py_ssize_t count = seq.size();
-    std::vector<plString> names(count);
+    std::vector<ST::string> names(count);
     for (Py_ssize_t i=0; i<count; i++) {
         PyObject* name = seq.get(i);
         if (pyPlasma_check<plString>(name)) {

@@ -67,9 +67,9 @@ void plNotifyMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plNotifyMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "NotifyParams") {
-        fType = tag->getParam("Type", "0").toInt();
-        fState = tag->getParam("State", "0").toFloat();
-        fID = tag->getParam("ID", "0").toInt();
+        fType = tag->getParam("Type", "0").to_int();
+        fState = tag->getParam("State", "0").to_float();
+        fID = tag->getParam("ID", "0").to_int();
     } else if (tag->getName() == "Events") {
         clearEvents();
         fEvents.resize(tag->countChildren());

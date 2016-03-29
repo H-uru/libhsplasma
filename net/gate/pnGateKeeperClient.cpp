@@ -19,6 +19,7 @@
 #include "Debug/plDebug.h"
 #include "crypt/pnBigInteger.h"
 #include "crypt/pnSha1.h"
+#include <cstring>
 
 /* Dispatch */
 bool pnGateKeeperClient::Dispatch::dispatch(pnSocket* sock)
@@ -27,7 +28,7 @@ bool pnGateKeeperClient::Dispatch::dispatch(pnSocket* sock)
     sock->recv(&msgId, sizeof(uint16_t));
     const pnNetMsg* msgDesc = GET_GateKeeper2Cli(msgId);
     if (msgDesc == NULL) {
-        plDebug::Error("Got invalid message ID (%u)", msgId);
+        plDebug::Error("Got invalid message ID ({})", msgId);
         return false;
     }
 
@@ -39,10 +40,12 @@ bool pnGateKeeperClient::Dispatch::dispatch(pnSocket* sock)
             plDebug::Debug("Got non-zero payload");
         break;
     case kGateKeeper2Cli_FileSrvIpAddressReply:
-        fReceiver->onFileSrvIpAddressReply(msgbuf[0].fUint, msgbuf[1].fString);
+        fReceiver->onFileSrvIpAddressReply(msgbuf[0].fUint,
+                ST::string::from_utf16(msgbuf[1].fString));
         break;
     case kGateKeeper2Cli_AuthSrvIpAddressReply:
-        fReceiver->onAuthSrvIpAddressReply(msgbuf[0].fUint, msgbuf[1].fString);
+        fReceiver->onAuthSrvIpAddressReply(msgbuf[0].fUint,
+                ST::string::from_utf16(msgbuf[1].fString));
         break;
     }
     NCFreeMessage(msgbuf, msgDesc);
@@ -162,7 +165,7 @@ ENetError pnGateKeeperClient::performConnect()
         fSock->recv(&errorCode, sizeof(uint32_t));
         delete fSock;
         fSock = NULL;
-        plDebug::Error("Error connecting to GateKeeper server: %s",
+        plDebug::Error("Error connecting to GateKeeper server: {}",
                        GetNetErrorString(errorCode));
         return (ENetError)errorCode;
     } else {
@@ -222,12 +225,12 @@ void pnGateKeeperClient::onPingReply(uint32_t transId, uint32_t pingTimeMs)
     plDebug::Warning("Warning: Ignoring GateKeeper2Cli_PingReply");
 }
 
-void pnGateKeeperClient::onFileSrvIpAddressReply(uint32_t transId, const plString& addr)
+void pnGateKeeperClient::onFileSrvIpAddressReply(uint32_t transId, const ST::string& addr)
 {
     plDebug::Warning("Warning: Ignoring GateKeeper2Cli_FileSrvIpAddressReply");
 }
 
-void pnGateKeeperClient::onAuthSrvIpAddressReply(uint32_t transId, const plString& addr)
+void pnGateKeeperClient::onAuthSrvIpAddressReply(uint32_t transId, const ST::string& addr)
 {
     plDebug::Warning("Warning: Ignoring GateKeeper2Cli_AuthSrvIpAddressReply");
 }

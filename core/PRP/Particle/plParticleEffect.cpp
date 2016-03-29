@@ -67,8 +67,8 @@ void plParticleCollisionEffectBounce::IPrcWrite(pfPrcHelper* prc) {
 
 void plParticleCollisionEffectBounce::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "BounceParams") {
-        fBounce = tag->getParam("Bounce", "0").toFloat();
-        fFriction = tag->getParam("Friction", "0").toFloat();
+        fBounce = tag->getParam("Bounce", "0").to_float();
+        fFriction = tag->getParam("Friction", "0").to_float();
     } else {
         plParticleCollisionEffect::IPrcParse(tag, mgr);
     }
@@ -98,8 +98,8 @@ void plParticleFadeOutEffect::IPrcWrite(pfPrcHelper* prc) {
 
 void plParticleFadeOutEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FadeParams") {
-        fLength = tag->getParam("Length", "0").toFloat();
-        fIgnoreZ = tag->getParam("IgnoreZ", "0").toFloat();
+        fLength = tag->getParam("Length", "0").to_float();
+        fIgnoreZ = tag->getParam("IgnoreZ", "0").to_float();
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
@@ -129,8 +129,8 @@ void plParticleFadeVolumeEffect::IPrcWrite(pfPrcHelper* prc) {
 
 void plParticleFadeVolumeEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FadeParams") {
-        fLength = tag->getParam("Length", "0").toFloat();
-        fIgnoreZ = tag->getParam("IgnoreZ", "0").toFloat();
+        fLength = tag->getParam("Length", "0").to_float();
+        fIgnoreZ = tag->getParam("IgnoreZ", "0").to_float();
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
@@ -207,17 +207,17 @@ void plParticleFlockEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fDissenterTarget.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "FlockParams") {
-        fInfAvgRadSq = tag->getParam("InfAvgRadSq", "0").toFloat();
-        fInfRepRadSq = tag->getParam("InfRepRadSq", "0").toFloat();
-        fGoalDistSq = tag->getParam("GoalDistSq", "0").toFloat();
-        fFullChaseDistSq = tag->getParam("FullChaseDistSq", "0").toFloat();
-        fAvgVelStr = tag->getParam("AvgVelStr", "0").toFloat();
-        fRepDirStr = tag->getParam("RepDirStr", "0").toFloat();
-        fGoalOrbitStr = tag->getParam("GoalOrbitStr", "0").toFloat();
-        fGoalChaseStr = tag->getParam("GoalChaseStr", "0").toFloat();
-        fMaxOrbitSpeed = tag->getParam("MaxOrbitSpeed", "0").toFloat();
-        fMaxChaseSpeed = tag->getParam("MaxChaseSpeed", "0").toFloat();
-        fMaxParticles = tag->getParam("MaxParticles", "0").toFloat();
+        fInfAvgRadSq = tag->getParam("InfAvgRadSq", "0").to_float();
+        fInfRepRadSq = tag->getParam("InfRepRadSq", "0").to_float();
+        fGoalDistSq = tag->getParam("GoalDistSq", "0").to_float();
+        fFullChaseDistSq = tag->getParam("FullChaseDistSq", "0").to_float();
+        fAvgVelStr = tag->getParam("AvgVelStr", "0").to_float();
+        fRepDirStr = tag->getParam("RepDirStr", "0").to_float();
+        fGoalOrbitStr = tag->getParam("GoalOrbitStr", "0").to_float();
+        fGoalChaseStr = tag->getParam("GoalChaseStr", "0").to_float();
+        fMaxOrbitSpeed = tag->getParam("MaxOrbitSpeed", "0").to_float();
+        fMaxChaseSpeed = tag->getParam("MaxChaseSpeed", "0").to_float();
+        fMaxParticles = tag->getParam("MaxParticles", "0").to_float();
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }
@@ -269,10 +269,10 @@ void plParticleWindEffect::IPrcWrite(pfPrcHelper* prc) {
 
 void plParticleWindEffect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "WindParams") {
-        fStrength = tag->getParam("Strength", "0").toFloat();
-        fConstancy = tag->getParam("Constancy", "0").toFloat();
-        fSwirl = tag->getParam("Swirl", "0").toFloat();
-        fHorizontal = tag->getParam("Horizontal", "false").toBool();
+        fStrength = tag->getParam("Strength", "0").to_float();
+        fConstancy = tag->getParam("Constancy", "0").to_float();
+        fSwirl = tag->getParam("Swirl", "0").to_float();
+        fHorizontal = tag->getParam("Horizontal", "false").to_bool();
     } else if (tag->getName() == "RefDir") {
         if (tag->hasChildren())
             fRefDir.prcParse(tag->getFirstChild());
@@ -312,7 +312,7 @@ void plParticleLocalWind::IPrcWrite(pfPrcHelper* prc) {
 
 void plParticleLocalWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "LocalWindParams") {
-        fSpeed = tag->getParam("Speed", "0").toFloat();
+        fSpeed = tag->getParam("Speed", "0").to_float();
     } else if (tag->getName() == "Scale") {
         if (tag->hasChildren())
             fScale.prcParse(tag->getFirstChild());
@@ -351,9 +351,9 @@ void plParticleUniformWind::IPrcWrite(pfPrcHelper* prc) {
 
 void plParticleUniformWind::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "UniformWindParams") {
-        fFreqMin = tag->getParam("FreqMin", "0").toFloat();
-        fFreqMax = tag->getParam("FreqMax", "0").toFloat();
-        fFreqRate = tag->getParam("FreqRate", "0").toFloat();
+        fFreqMin = tag->getParam("FreqMin", "0").to_float();
+        fFreqMax = tag->getParam("FreqMax", "0").to_float();
+        fFreqRate = tag->getParam("FreqRate", "0").to_float();
     } else {
         plParticleWindEffect::IPrcParse(tag, mgr);
     }

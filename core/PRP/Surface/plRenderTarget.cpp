@@ -103,22 +103,22 @@ void plRenderTarget::IPrcWrite(pfPrcHelper* prc) {
 
 void plRenderTarget::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "RenderTargetParams") {
-        fWidth = tag->getParam("Width", "0").toUint();
-        fHeight = tag->getParam("Height", "0").toUint();
-        fZDepth = tag->getParam("ZDepth", "0").toUint();
-        fStencilDepth = tag->getParam("StencilDepth", "0").toUint();
+        fWidth = tag->getParam("Width", "0").to_uint();
+        fHeight = tag->getParam("Height", "0").to_uint();
+        fZDepth = tag->getParam("ZDepth", "0").to_uint();
+        fStencilDepth = tag->getParam("StencilDepth", "0").to_uint();
     } else if (tag->getName() == "Viewport") {
-        fProportionalViewport = tag->getParam("Proportional", "false").toBool();
+        fProportionalViewport = tag->getParam("Proportional", "false").to_bool();
         if (fProportionalViewport) {
-            fViewport.fProportional.fLeft = tag->getParam("Left", "0").toFloat();
-            fViewport.fProportional.fTop = tag->getParam("Top", "0").toFloat();
-            fViewport.fProportional.fRight = tag->getParam("Right", "0").toFloat();
-            fViewport.fProportional.fBottom = tag->getParam("Bottom", "0").toFloat();
+            fViewport.fProportional.fLeft = tag->getParam("Left", "0").to_float();
+            fViewport.fProportional.fTop = tag->getParam("Top", "0").to_float();
+            fViewport.fProportional.fRight = tag->getParam("Right", "0").to_float();
+            fViewport.fProportional.fBottom = tag->getParam("Bottom", "0").to_float();
         } else {
-            fViewport.fAbsolute.fLeft = tag->getParam("Left", "0").toUint();
-            fViewport.fAbsolute.fTop = tag->getParam("Top", "0").toUint();
-            fViewport.fAbsolute.fRight = tag->getParam("Right", "0").toUint();
-            fViewport.fAbsolute.fBottom = tag->getParam("Bottom", "0").toUint();
+            fViewport.fAbsolute.fLeft = tag->getParam("Left", "0").to_uint();
+            fViewport.fAbsolute.fTop = tag->getParam("Top", "0").to_uint();
+            fViewport.fAbsolute.fRight = tag->getParam("Right", "0").to_uint();
+            fViewport.fAbsolute.fBottom = tag->getParam("Bottom", "0").to_uint();
         }
     } else {
         plBitmap::IPrcParse(tag, mgr);

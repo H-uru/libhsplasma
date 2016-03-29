@@ -147,7 +147,7 @@ void plEncryptedStream::CryptFlush() {
     memset(fLBuffer, 0, 16);
 }
 
-bool plEncryptedStream::IsFileEncrypted(const char* file) {
+bool plEncryptedStream::IsFileEncrypted(const ST::string& file) {
     hsFileStream sF;
     if (!sF.open(file, fmRead))
         return false;
@@ -161,7 +161,7 @@ bool plEncryptedStream::IsFileEncrypted(const char* file) {
         return true;
     } else {
         sF.rewind();
-        plString magicS = sF.readStr(12);
+        ST::string magicS = sF.readStr(12);
         sF.close();
         if ((magicS == uruMagic)  ||
             (magicS == uruMagic2) ||
@@ -173,7 +173,7 @@ bool plEncryptedStream::IsFileEncrypted(const char* file) {
 
 const char* EncrErr = "File is not encrypted";
 
-bool plEncryptedStream::open(const char* file, FileMode mode, EncryptionType type) {
+bool plEncryptedStream::open(const ST::string& file, FileMode mode, EncryptionType type) {
     hsFileStream* S = new hsFileStream(getVer());
     if (S->open(file, mode)) {
         bool result = open(S, mode, type);

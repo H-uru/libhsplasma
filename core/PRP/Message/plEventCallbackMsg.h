@@ -60,7 +60,7 @@ class PLASMA_DLL plEventCallbackSetupMsg : public plMessage {
 public:
     class PLASMA_DLL plAnimCallbackSetup {
     public:
-        plString fMarker;
+        ST::string fMarker;
         plKey fReceiver;
         short fUser;
 

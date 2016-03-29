@@ -16,6 +16,7 @@
 
 #include "plJPEG.h"
 #include "Debug/plDebug.h"
+#include <cstring>
 
 #if defined(HAVE_BOOLEAN)
 # define JPEG_boolean boolean
@@ -33,7 +34,7 @@ hsJPEGException::hsJPEGException(const char* file, unsigned long line,
                : hsException(file, line) {
     fWhat = "libJPEG error";
     if (message != NULL)
-        fWhat += plString(": ") + message;
+        fWhat += ST::string(": ") + message;
 }
 
 

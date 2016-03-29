@@ -114,12 +114,12 @@ protected:
     unsigned int fNodeType, fPermissions;
     plUnifiedTime fAutoTime, fModifyTime, fCreateAgeTime;
     plServerGuid fCreateAgeGuid, fGuid1, fGuid2;
-    plString fCreateAgeName;
+    ST::string fCreateAgeName;
     int fInt32[4];
     unsigned int fUInt32[4];
-    plString fString64[6];
-    plString fIString64[2];
-    plString fText[2];
+    ST::string fString64[6];
+    ST::string fIString64[2];
+    ST::string fText[2];
     plVaultBlob fBlob1, fBlob2;
 
     void copy(const plVaultNode& init);
@@ -147,7 +147,7 @@ public:
     plServerGuid getCreateAgeGuid() const;
     plServerGuid getGuid1() const;
     plServerGuid getGuid2() const;
-    plString getCreateAgeName() const;
+    ST::string getCreateAgeName() const;
     int getInt32_1() const;
     int getInt32_2() const;
     int getInt32_3() const;
@@ -156,16 +156,16 @@ public:
     unsigned int getUInt32_2() const;
     unsigned int getUInt32_3() const;
     unsigned int getUInt32_4() const;
-    plString getString64_1() const;
-    plString getString64_2() const;
-    plString getString64_3() const;
-    plString getString64_4() const;
-    plString getString64_5() const;
-    plString getString64_6() const;
-    plString getIString64_1() const;
-    plString getIString64_2() const;
-    plString getText_1() const;
-    plString getText_2() const;
+    ST::string getString64_1() const;
+    ST::string getString64_2() const;
+    ST::string getString64_3() const;
+    ST::string getString64_4() const;
+    ST::string getString64_5() const;
+    ST::string getString64_6() const;
+    ST::string getIString64_1() const;
+    ST::string getIString64_2() const;
+    ST::string getText_1() const;
+    ST::string getText_2() const;
     plVaultBlob getBlob_1() const;
     plVaultBlob getBlob_2() const;
 
@@ -181,7 +181,7 @@ public:
     void setCreateAgeGuid(const plServerGuid& guid);
     void setGuid1(const plServerGuid& guid);
     void setGuid2(const plServerGuid& guid);
-    void setCreateAgeName(const plString& name);
+    void setCreateAgeName(const ST::string& name);
     void setInt32_1(int value);
     void setInt32_2(int value);
     void setInt32_3(int value);
@@ -190,16 +190,16 @@ public:
     void setUInt32_2(unsigned int value);
     void setUInt32_3(unsigned int value);
     void setUInt32_4(unsigned int value);
-    void setString64_1(const plString& value);
-    void setString64_2(const plString& value);
-    void setString64_3(const plString& value);
-    void setString64_4(const plString& value);
-    void setString64_5(const plString& value);
-    void setString64_6(const plString& value);
-    void setIString64_1(const plString& value);
-    void setIString64_2(const plString& value);
-    void setText_1(const plString& value);
-    void setText_2(const plString& value);
+    void setString64_1(const ST::string& value);
+    void setString64_2(const ST::string& value);
+    void setString64_3(const ST::string& value);
+    void setString64_4(const ST::string& value);
+    void setString64_5(const ST::string& value);
+    void setString64_6(const ST::string& value);
+    void setIString64_1(const ST::string& value);
+    void setIString64_2(const ST::string& value);
+    void setText_1(const ST::string& value);
+    void setText_2(const ST::string& value);
     void setBlob_1(const plVaultBlob& value);
     void setBlob_2(const plVaultBlob& value);
 

@@ -51,7 +51,7 @@ void plClientGuid::write(hsStream* S, plResManager* mgr) {
     if ((fFlags & kPlayerID) != 0 || (fFlags & kTempPlayerID) != 0)
         S->writeInt(fPlayerID);
     if ((fFlags & kPlayerName) != 0) {
-        S->writeShort(fPlayerName.len());
+        S->writeShort(fPlayerName.size());
         S->writeStr(fPlayerName);
     }
     if ((fFlags & kCCRLevel) != 0)
@@ -67,7 +67,7 @@ void plClientGuid::write(hsStream* S, plResManager* mgr) {
     if ((fFlags & kReserved) != 0)
         S->writeShort(fReserved);
     if ((fFlags & kClientKey) != 0) {
-        S->writeShort(fClientKey.len());
+        S->writeShort(fClientKey.size());
         S->writeStr(fClientKey);
     }
 }
@@ -130,26 +130,26 @@ void plClientGuid::IPrcWrite(pfPrcHelper* prc) {
 
 void plClientGuid::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "NetMsgParams") {
-        fFlags = tag->getParam("Flags", "0").toUint();
+        fFlags = tag->getParam("Flags", "0").to_uint();
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "AccountUuid") {
                 if (child->hasChildren())
                     fAcctUuid.prcParse(child->getFirstChild());
             } else if (child->getName() == "Player") {
-                fPlayerID = child->getParam("ID", "0").toUint();
+                fPlayerID = child->getParam("ID", "0").to_uint();
                 fPlayerName = child->getParam("Name", "");
             } else if (child->getName() == "CCR") {
-                fCCRLevel = child->getParam("Level", "0").toUint();
+                fCCRLevel = child->getParam("Level", "0").to_uint();
             } else if (child->getName() == "ProtectedLogin") {
-                fProtectedLogin = child->getParam("value", "0").toUint();
+                fProtectedLogin = child->getParam("value", "0").to_uint();
             } else if (child->getName() == "BuildType") {
-                fBuildType = child->getParam("value", "0").toUint();
+                fBuildType = child->getParam("value", "0").to_uint();
             } else if (child->getName() == "SourceAddress") {
-                fSrcAddr = child->getParam("IP", "0").toUint();
-                fSrcPort = child->getParam("Port", "0").toUint();
+                fSrcAddr = child->getParam("IP", "0").to_uint();
+                fSrcPort = child->getParam("Port", "0").to_uint();
             } else if (child->getName() == "Reserved") {
-                fReserved = child->getParam("value", "0").toUint();
+                fReserved = child->getParam("value", "0").to_uint();
             } else if (child->getName() == "ClientKey") {
                 fClientKey = child->getParam("value", "");
             } else {

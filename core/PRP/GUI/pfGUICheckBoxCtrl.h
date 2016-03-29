@@ -24,7 +24,7 @@ class PLASMA_DLL pfGUICheckBoxCtrl : public pfGUIControlMod {
 
 protected:
     std::vector<plKey> fAnimKeys;
-    plString fAnimName;
+    ST::string fAnimName;
     bool fChecked;
 
 public:
@@ -44,10 +44,10 @@ public:
     void delAnimKey(size_t idx) { fAnimKeys.erase(fAnimKeys.begin() + idx); }
     void clearAnimKeys() { fAnimKeys.clear(); }
 
-    const plString& getAnimName() const { return fAnimName; }
+    const ST::string& getAnimName() const { return fAnimName; }
     bool isChecked() const { return fChecked; }
 
-    void setAnimName(const plString& name) { fAnimName = name; }
+    void setAnimName(const ST::string& name) { fAnimName = name; }
     void setChecked(bool checked) { fChecked = checked; }
 };
 

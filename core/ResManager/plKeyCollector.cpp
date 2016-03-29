@@ -37,7 +37,7 @@ plKeyCollector::~plKeyCollector() {
     }
 
     if (keysLeft)
-        plDebug::Warning("Warning: %u keys were still loaded when the ResManager was destroyed.\n", keysLeft);
+        plDebug::Warning("Warning: {} keys were still loaded when the ResManager was destroyed.\n", keysLeft);
 }
 
 plKey plKeyCollector::findKey(plKey match) {
@@ -176,7 +176,7 @@ std::vector<plKey> plKeyCollector::getKeys(const plLocation& loc, short type,
             if ((*it).Exists() && (*it).isLoaded())
                 kList.push_back(*it);
             else
-                plDebug::Debug("Got erroneous key: %s", it->toString().cstr());
+                plDebug::Debug("Got erroneous key: {}", it->toString());
         }
         return std::vector<plKey>(kList.begin(), kList.end());
     } else {
@@ -195,7 +195,7 @@ std::vector<short> plKeyCollector::getTypes(const plLocation& loc, bool checkKey
                     hasValidKeys = true;
                     break;
                 } else {
-                    plDebug::Debug("Got erroneous key: %s", it->toString().cstr());
+                    plDebug::Debug("Got erroneous key: {}", it->toString());
                 }
             }
             if (hasValidKeys)

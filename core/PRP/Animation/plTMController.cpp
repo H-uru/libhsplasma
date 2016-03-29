@@ -103,7 +103,7 @@ void plTMController::IPrcWrite(pfPrcHelper* prc) {
 
 void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Position") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             if (tag->getFirstChild()->getName() == "plSimplePosController")
                 setPosController(new plSimplePosController());
             else if (tag->getFirstChild()->getName() == "plCompoundPosController")
@@ -113,7 +113,7 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fPosController->prcParse(tag->getFirstChild(), mgr);
         }
     } else if (tag->getName() == "Rotation") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             if (tag->getFirstChild()->getName() == "plSimpleRotController")
                 setRotController(new plSimpleRotController());
             else if (tag->getFirstChild()->getName() == "plCompoundRotController")
@@ -123,7 +123,7 @@ void plTMController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             fRotController->prcParse(tag->getFirstChild(), mgr);
         }
     } else if (tag->getName() == "Scale") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             if (tag->getFirstChild()->getName() == "plSimpleScaleController")
                 setScaleController(new plSimpleScaleController());
             else

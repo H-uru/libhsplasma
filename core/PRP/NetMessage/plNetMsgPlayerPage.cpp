@@ -42,7 +42,7 @@ void plNetMsgPlayerPage::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgPlayerPage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PlayerPageParams") {
-        fUnload = tag->getParam("Unload", "0").toUint();
+        fUnload = tag->getParam("Unload", "0").to_uint();
         if (tag->hasChildren())
             fUoid.prcParse(tag->getFirstChild());
     } else {

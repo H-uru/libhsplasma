@@ -9,7 +9,7 @@ endif()
 
 macro(plasma_tool NAME)
     add_executable(${NAME} src/${NAME}.cpp)
-    target_link_libraries(${NAME} HSPlasma)
+    target_link_libraries(${NAME} HSPlasma ${STRING_THEORY_LIBRARIES})
     install(TARGETS ${NAME} RUNTIME DESTINATION bin)
 endmacro(plasma_tool)
 

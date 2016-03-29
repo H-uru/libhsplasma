@@ -15,9 +15,9 @@
  */
 
 #include "pfGUIDialogMod.h"
+#include <cstring>
 
 pfGUIDialogMod::pfGUIDialogMod() : fTagID(0), fVersion(0) {
-    memset(fName, 0, 128);
     fFlags.setName(kModal, "kModal");
 }
 
@@ -25,7 +25,10 @@ void pfGUIDialogMod::read(hsStream* S, plResManager* mgr) {
     plSingleModifier::read(S, mgr);
 
     fRenderMod = mgr->readKey(S);
-    S->read(128, fName);
+    char name_buf[128];
+    S->read(128, name_buf);
+    name_buf[127] = 0;
+    fName = name_buf;
 
     fControls.resize(S->readInt());
     for (size_t i=0; i<fControls.size(); i++)
@@ -43,7 +46,10 @@ void pfGUIDialogMod::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
     mgr->writeKey(S, fRenderMod);
-    S->write(128, fName);
+    char name_buf[128];
+    memset(name_buf, 0, sizeof(name_buf));
+    strncpy(name_buf, fName.c_str(), sizeof(name_buf));
+    S->write(128, name_buf);
 
     S->writeInt(fControls.size());
     for (size_t i=0; i<fControls.size(); i++)
@@ -85,10 +91,9 @@ void pfGUIDialogMod::IPrcWrite(pfPrcHelper* prc) {
 
 void pfGUIDialogMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "DialogParams") {
-        plString tmp = tag->getParam("Name", "");
-        strncpy(fName, tmp.cstr(), 128);
-        fTagID = tag->getParam("TagID", "0").toUint();
-        fVersion = tag->getParam("Version", "0").toUint();
+        fName = tag->getParam("Name", "");
+        fTagID = tag->getParam("TagID", "0").to_uint();
+        fVersion = tag->getParam("Version", "0").to_uint();
     } else if (tag->getName() == "RenderMod") {
         if (tag->hasChildren())
             fRenderMod = mgr->prcParseKey(tag->getFirstChild());

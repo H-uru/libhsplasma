@@ -70,7 +70,7 @@ PY_METHOD_VA(AgeInfo, getPage,
     }
     try {
         plAgeInfo::PageEntry pe = self->fThis->getPage(idx);
-        return Py_BuildValue("sii", pe.fName.cstr(), pe.fSeqSuffix, pe.fLoadFlags);
+        return Py_BuildValue("sii", pe.fName.c_str(), pe.fSeqSuffix, pe.fLoadFlags);
     } catch (hsOutOfBoundsException) {
         PyErr_SetString(PyExc_IndexError, "page index out of range");
         return NULL;
@@ -100,7 +100,7 @@ PY_METHOD_VA(AgeInfo, getCommonPage,
     }
     try {
         plAgeInfo::PageEntry pe = self->fThis->getCommonPage(idx, (PlasmaVer)version);
-        return Py_BuildValue("sii", pe.fName.cstr(), pe.fSeqSuffix, pe.fLoadFlags);
+        return Py_BuildValue("sii", pe.fName.c_str(), pe.fSeqSuffix, pe.fLoadFlags);
     } catch (hsOutOfBoundsException) {
         PyErr_SetString(PyExc_IndexError, "common page index out of range");
         return NULL;

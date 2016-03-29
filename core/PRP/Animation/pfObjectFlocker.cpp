@@ -87,22 +87,22 @@ void pfObjectFlocker::IPrcWrite(pfPrcHelper* prc) {
 
 void pfObjectFlocker::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FlockParams") {
-        fNumBoids = tag->getParam("NumBoids", "0").toUint();
-        fUseTargetRotation = tag->getParam("UseTargetRotation", "false").toBool();
-        fRandomizeAnimationStart = tag->getParam("RandomizeAnimationStart", "false").toBool();
+        fNumBoids = tag->getParam("NumBoids", "0").to_uint();
+        fUseTargetRotation = tag->getParam("UseTargetRotation", "false").to_bool();
+        fRandomizeAnimationStart = tag->getParam("RandomizeAnimationStart", "false").to_bool();
     } else if (tag->getName() == "Boid") {
         if (tag->hasChildren())
             fBoidKey = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Flock") {
-        fFlock.fGoalWeight = tag->getParam("GoalWeight", "0").toFloat();
-        fFlock.fRandomWeight = tag->getParam("RandomWeight", "0").toFloat();
-        fFlock.fSeparationWeight = tag->getParam("SeparationWeight", "0").toFloat();
-        fFlock.fSeparationRadius = tag->getParam("SeparationRadius", "0").toFloat();
-        fFlock.fCohesionWeight = tag->getParam("CohesionWeight", "0").toFloat();
-        fFlock.fCohesionRadius = tag->getParam("CohesionRadius", "0").toFloat();
-        fFlock.fMaxForce = tag->getParam("MaxForce", "0").toFloat();
-        fFlock.fMaxSpeed = tag->getParam("MaxSpeed", "0").toFloat();
-        fFlock.fMinSpeed = tag->getParam("MinSpeed", "0").toFloat();
+        fFlock.fGoalWeight = tag->getParam("GoalWeight", "0").to_float();
+        fFlock.fRandomWeight = tag->getParam("RandomWeight", "0").to_float();
+        fFlock.fSeparationWeight = tag->getParam("SeparationWeight", "0").to_float();
+        fFlock.fSeparationRadius = tag->getParam("SeparationRadius", "0").to_float();
+        fFlock.fCohesionWeight = tag->getParam("CohesionWeight", "0").to_float();
+        fFlock.fCohesionRadius = tag->getParam("CohesionRadius", "0").to_float();
+        fFlock.fMaxForce = tag->getParam("MaxForce", "0").to_float();
+        fFlock.fMaxSpeed = tag->getParam("MaxSpeed", "0").to_float();
+        fFlock.fMinSpeed = tag->getParam("MinSpeed", "0").to_float();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

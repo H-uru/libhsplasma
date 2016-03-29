@@ -18,10 +18,10 @@
 #define _PNSOCKET_H
 
 #include "Sys/hsThread.h"
-#include "Util/plString.h"
 #include "pnNetMsg.h"
 #include <cstdlib>
 #include <list>
+#include <string_theory/st_string.h>
 
 class PLASMANET_DLL pnSocket {
 protected:
@@ -33,7 +33,7 @@ public:
     pnSocket(int handle);
     virtual ~pnSocket() { close(); }
 
-    plString getRemoteIpStr() const;
+    ST::string getRemoteIpStr() const;
     int getHandle() const { return fSockHandle; }
 
     bool connect(const char* address, unsigned short port);
@@ -48,7 +48,7 @@ public:
     virtual long peek(void* buffer, size_t size);
     long rsize();
 
-    plString recvString(size_t maxlen);
+    ST::string recvString(size_t maxlen);
     bool sendMsg(const msgparm_t* data, const pnNetMsg* msg);
     msgparm_t* recvMsg(const pnNetMsg* msg);
 

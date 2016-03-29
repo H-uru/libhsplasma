@@ -61,7 +61,7 @@ public:
 protected:
     unsigned char fCommand;
     unsigned int fFlags, fPlayerID;
-    plString fUser, fString;
+    ST::string fUser, fString;
     float fDelay;
     int fValue;
 
@@ -82,16 +82,16 @@ public:
     unsigned char getCommand() const { return fCommand; }
     unsigned int getFlags() const { return fFlags; }
     unsigned int getPlayerID() const { return fPlayerID; }
-    plString getUser() const { return fUser; }
-    plString getString() const { return fString; }
+    ST::string getUser() const { return fUser; }
+    ST::string getString() const { return fString; }
     float getDelay() const { return fDelay; }
     int getValue() const { return fValue; }
 
     void setCommand(unsigned char command) { fCommand = command; }
     void setFlags(unsigned int flags) { fFlags = flags; }
     void setPlayerID(unsigned int playerID) { fPlayerID = playerID; }
-    void setUser(const plString& user) { fUser = user; }
-    void setString(const plString& str) { fString = str; }
+    void setUser(const ST::string& user) { fUser = user; }
+    void setString(const ST::string& str) { fString = str; }
     void setDelay(float delay) { fDelay = delay; }
     void setValue(int value) { fValue = value; }
 };

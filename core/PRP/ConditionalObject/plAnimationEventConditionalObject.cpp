@@ -43,7 +43,7 @@ void plAnimationEventConditionalObject::IPrcParse(const pfPrcTag* tag, plResMana
         if (tag->hasChildren())
             fTarget = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "Action") {
-        fAction = (CallbackEvent)tag->getParam("value", "0").toInt();
+        fAction = (CallbackEvent)tag->getParam("value", "0").to_int();
     } else {
         plConditionalObject::IPrcParse(tag, mgr);
     }

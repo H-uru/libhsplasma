@@ -56,9 +56,9 @@ void plLinkEffectsTriggerMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plLinkEffectsTriggerMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "LinkEffectsTriggerParams") {
-        fInvisLevel = tag->getParam("InvisLevel", "0").toUint();
-        fEffects = tag->getParam("Effects", "0").toUint();
-        fLeavingAge = tag->getParam("LeavingAge", "False").toBool();
+        fInvisLevel = tag->getParam("InvisLevel", "0").to_uint();
+        fEffects = tag->getParam("Effects", "0").to_uint();
+        fLeavingAge = tag->getParam("LeavingAge", "False").to_bool();
     } else if (tag->getName() == "LinkKey") {
         if (tag->hasChildren())
             fLinkKey = mgr->prcParseKey(tag->getFirstChild());

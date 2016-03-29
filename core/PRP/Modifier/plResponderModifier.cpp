@@ -73,7 +73,7 @@ void plResponderModifier::read(hsStream* S, plResManager* mgr) {
     if (state >= 0 && (size_t)state < fStates.size()) {
         fCurState = state;
     } else {
-        plDebug::Warning("Invalid state %d found, will default to 0", state);
+        plDebug::Warning("Invalid state {} found, will default to 0", state);
         fCurState = 0;
     }
     fEnabled = S->readBool();
@@ -149,9 +149,9 @@ void plResponderModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ResponderModParams") {
-        fCurState = tag->getParam("CurState", "0").toInt();
-        fEnabled = tag->getParam("Enabled", "false").toBool();
-        fFlags = tag->getParam("Flags", "0").toUint();
+        fCurState = tag->getParam("CurState", "0").to_int();
+        fEnabled = tag->getParam("Enabled", "false").to_bool();
+        fFlags = tag->getParam("Flags", "0").to_uint();
     } else if (tag->getName() == "States") {
         clearStates();
         fStates.resize(tag->countChildren());
@@ -160,8 +160,8 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             if (state->getName() != "plResponderState")
                 throw pfPrcTagException(__FILE__, __LINE__, state->getName());
             fStates[i] = new plResponderState();
-            fStates[i]->fNumCallbacks = state->getParam("NumCallbacks", "0").toInt();
-            fStates[i]->fSwitchToState = state->getParam("SwitchToState", "-1").toInt();
+            fStates[i]->fNumCallbacks = state->getParam("NumCallbacks", "0").to_int();
+            fStates[i]->fSwitchToState = state->getParam("SwitchToState", "-1").to_int();
 
             const pfPrcTag* child = state->getFirstChild();
             while (child != NULL) {
@@ -176,7 +176,7 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                         const pfPrcTag* subChild = cmdChild->getFirstChild();
                         while (subChild != NULL) {
                             if (subChild->getName() == "WaitOn") {
-                                waitOn = subChild->getParam("value", "-1").toInt();
+                                waitOn = subChild->getParam("value", "-1").to_int();
                             } else {
                                 msg = plMessage::Convert(mgr->prcParseCreatable(subChild));
                             }
@@ -191,8 +191,8 @@ void plResponderModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                     for (size_t j=0; j<nWaits; j++) {
                         if (waitChild->getName() != "Item")
                             throw pfPrcTagException(__FILE__, __LINE__, waitChild->getName());
-                        int8_t wait = waitChild->getParam("Wait", "0").toInt();
-                        fStates[i]->fWaitToCmd[wait] = waitChild->getParam("Cmd", "0").toInt();
+                        int8_t wait = waitChild->getParam("Wait", "0").to_int();
+                        fStates[i]->fWaitToCmd[wait] = waitChild->getParam("Cmd", "0").to_int();
                         waitChild = waitChild->getNextSibling();
                     }
                 } else {
@@ -240,7 +240,7 @@ void plResponderEnableMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plResponderEnableMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ResponderParams") {
-        fEnable = tag->getParam("Enable", "true").toBool();
+        fEnable = tag->getParam("Enable", "true").to_bool();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

@@ -19,8 +19,8 @@
 
 #include "PlasmaDefs.h"
 #include "Protocol.h"
-#include "Util/plString.h"
 #include "Sys/plUuid.h"
+#include <string_theory/st_string.h>
 #include <cstdlib>
 
 enum ENetMsgFieldType {
@@ -42,7 +42,7 @@ struct PLASMANET_DLL pnNetMsg {
 
 typedef union {
     uint32_t fUint;
-    pl_wchar_t* fString;
+    char16_t* fString;
     uint8_t* fData;
 } msgparm_t;
 
@@ -54,6 +54,7 @@ typedef union {
     };
 
 PLASMANET_DLL msgparm_t* NCAllocMessage(const pnNetMsg* msg);
+PLASMANET_DLL char16_t* NCCopyString(const ST::string& string);
 PLASMANET_DLL void NCFreeMessage(msgparm_t* data, const pnNetMsg* msg);
 PLASMANET_DLL size_t NCMessageSize(const msgparm_t* data, const pnNetMsg* msg);
 
@@ -63,7 +64,7 @@ struct PLASMANET_DLL pnNetAgeInfo {
     enum { Stride = 0x9A0 };
 
     plUuid fAgeInstanceId;
-    plString fAgeFilename, fAgeInstanceName, fAgeUserName, fDescription;
+    ST::string fAgeFilename, fAgeInstanceName, fAgeUserName, fDescription;
     uint32_t fSequenceNumber, fLanguage, fPopulation, fCurrPopulation;
 
     void read(const unsigned char* buffer);

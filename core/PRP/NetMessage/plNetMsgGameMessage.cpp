@@ -70,7 +70,7 @@ void plNetMsgGameMessage::IPrcWrite(pfPrcHelper* prc) {
 void plNetMsgGameMessage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "GameMessage") {
         delete fMessage;
-        if (tag->getParam("NULL", "false").toBool())
+        if (tag->getParam("NULL", "false").to_bool())
             fMessage = NULL;
         else
             fMessage = plMessage::Convert(mgr->prcParseCreatable(tag));
@@ -126,7 +126,7 @@ void plNetMsgGameMessageDirected::IPrcParse(const pfPrcTag* tag, plResManager* m
         for (size_t i=0; i<fReceivers.size(); i++) {
             if (child->getName() != "Receiver")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fReceivers[i] = child->getParam("ID", "0").toUint();
+            fReceivers[i] = child->getParam("ID", "0").to_uint();
             child = child->getNextSibling();
         }
     } else {

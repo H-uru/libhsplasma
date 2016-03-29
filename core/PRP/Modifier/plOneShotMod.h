@@ -23,7 +23,7 @@ class PLASMA_DLL plOneShotMod : public plMultiModifier {
     CREATABLE(plOneShotMod, kOneShotMod, plMultiModifier)
 
 protected:
-    plString fAnimName;
+    ST::string fAnimName;
     bool fDrivable, fReversable, fSmartSeek, fNoSeek;
     float fSeekDuration;
 
@@ -39,14 +39,14 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getAnimName() const { return fAnimName; }
+    ST::string getAnimName() const { return fAnimName; }
     bool isDrivable() const { return fDrivable; }
     bool isReversable() const { return fReversable; }
     bool getSmartSeek() const { return fSmartSeek; }
     bool getNoSeek() const { return fNoSeek; }
     float getSeekDuration() { return fSeekDuration; }
 
-    void setAnimName(const plString& name) { fAnimName = name; }
+    void setAnimName(const ST::string& name) { fAnimName = name; }
     void setDrivable(bool drivable) { fDrivable = drivable; }
     void setReversable(bool reversable) { fReversable = reversable; }
     void setSmartSeek(bool smartSeek) { fSmartSeek = smartSeek; }

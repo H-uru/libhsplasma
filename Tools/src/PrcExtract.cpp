@@ -40,22 +40,22 @@ void doHelp() {
     printf("    -help  display this help message\n\n");
 }
 
-plString filenameConvert(const char* filename) {
-    plString name = filename;
-    if (name.rfind('.') >= 0)
-        name = name.left(name.rfind('.')) + ".prc";
+ST::string filenameConvert(const ST::string& filename) {
+    ST::string name = filename;
+    if (name.find_last('.') >= 0)
+        name = name.left(name.find_last('.')) + ".prc";
     else
         name += ".prc";
-    if (name.rfind(SLASH) >= 0)
-        return name.mid(name.rfind(SLASH) + 1);
+    if (name.find_last(SLASH) >= 0)
+        return name.substr(name.find_last(SLASH) + 1);
     else
         return name;
 }
 
-plString getOutputDir(const char* filename, plPageInfo* page) {
-    plString name = filename;
-    if (name.rfind(SLASH) >= 0)
-        name = name.left(name.rfind(SLASH) + 1);
+ST::string getOutputDir(const ST::string& filename, plPageInfo* page) {
+    ST::string name = filename;
+    if (name.find_last(SLASH) >= 0)
+        name = name.left(name.find_last(SLASH) + 1);
     else
         name = "";
     return name + page->getAge() + "_PRC" SLASH_S;
@@ -67,12 +67,12 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    std::vector<plString> fFiles;
+    std::vector<ST::string> fFiles;
 
     plDebug::Init(plDebug::kDLAll);
     plResManager rm;
     plPageInfo* page;
-    plString outDir, outFile;
+    ST::string outDir, outFile;
     bool exVtx = true, exTex = true, noHdr = false;
     for (int i=1; i<argc; i++) {
         if (argv[i][0] == '-') {
@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
                 return 1;
             }
         } else {
-            fFiles.push_back(plString(argv[i]));
+            fFiles.push_back(argv[i]);
         }
     }
 
@@ -114,15 +114,15 @@ int main(int argc, char** argv) {
         outDir = getOutputDir(fFiles[i], page);
         outFile = outDir + filenameConvert(fFiles[i]);
       #ifdef _WIN32
-        CreateDirectory(outDir.cstr(), NULL);
+        CreateDirectory(outDir.c_str(), NULL);
       #else
-        mkdir(outDir.cstr(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
+        mkdir(outDir.c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
       #endif
 
-        printf("Writing %s\n", outFile.cstr());
+        printf("Writing %s\n", outFile.c_str());
         hsFileStream* S = new hsFileStream();
         if (!S->open(outFile, fmWrite)) {
-            fprintf(stderr, "Error opening %s for writing!\n", outFile.cstr());
+            fprintf(stderr, "Error opening %s for writing!\n", outFile.c_str());
             delete S;
             return 1;
         }
@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
         if (exTex) prc->exclude(pfPrcHelper::kExcludeTextureData);
         if (!noHdr) {
             prc->writeComment("Generator: PrcExtract");
-            prc->writeComment(plString("Source: ") + fFiles[i]);
+            prc->writeComment(("Source: " + fFiles[i]).c_str());
             time_t ts = time(NULL);
             char buf[256];
             strftime(buf, 256, "Created: %Y/%m/%d %H:%M:%S", localtime(&ts));

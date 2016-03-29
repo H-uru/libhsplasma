@@ -41,11 +41,11 @@ void plSpawnPointInfo::write(hsStream* S) {
     flags[kHasCameraStack] = true;
     flags.write(S);
 
-    S->writeShort(fTitle.len());
+    S->writeShort(fTitle.size());
     S->writeStr(fTitle);
-    S->writeShort(fSpawnPt.len());
+    S->writeShort(fSpawnPt.size());
     S->writeStr(fSpawnPt);
-    S->writeShort(fCameraStack.len());
+    S->writeShort(fCameraStack.size());
     S->writeStr(fCameraStack);
 }
 

@@ -104,11 +104,11 @@ void plDynamicEnvMap::IPrcWrite(pfPrcHelper* prc) {
 
 void plDynamicEnvMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "DynamicEnvMapParams") {
-        fHither = tag->getParam("Hither", "0").toFloat();
-        fYon = tag->getParam("Yon", "0").toFloat();
-        fFogStart = tag->getParam("FogStart", "0").toFloat();
-        fRefreshRate = tag->getParam("RefreshRate", "0").toFloat();
-        fIncCharacters = tag->getParam("IncCharacters", "false").toBool();
+        fHither = tag->getParam("Hither", "0").to_float();
+        fYon = tag->getParam("Yon", "0").to_float();
+        fFogStart = tag->getParam("FogStart", "0").to_float();
+        fRefreshRate = tag->getParam("RefreshRate", "0").to_float();
+        fIncCharacters = tag->getParam("IncCharacters", "false").to_bool();
 
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
@@ -263,11 +263,11 @@ void plDynamicCamMap::IPrcWrite(pfPrcHelper* prc) {
 
 void plDynamicCamMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "DynamicCamMapParams") {
-        fHither = tag->getParam("Hither", "0").toFloat();
-        fYon = tag->getParam("Yon", "0").toFloat();
-        fFogStart = tag->getParam("FogStart", "0").toFloat();
-        fRefreshRate = tag->getParam("RefreshRate", "0").toFloat();
-        fIncCharacters = tag->getParam("IncCharacters", "false").toBool();
+        fHither = tag->getParam("Hither", "0").to_float();
+        fYon = tag->getParam("Yon", "0").to_float();
+        fFogStart = tag->getParam("FogStart", "0").to_float();
+        fRefreshRate = tag->getParam("RefreshRate", "0").to_float();
+        fIncCharacters = tag->getParam("IncCharacters", "false").to_bool();
 
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {

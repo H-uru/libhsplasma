@@ -51,7 +51,7 @@ void plSimplePosController::IPrcWrite(pfPrcHelper* prc) {
 
 void plSimplePosController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "plPoint3Controller") {
-        if (!tag->getParam("NULL", "false").toBool()) {
+        if (!tag->getParam("NULL", "false").to_bool()) {
             setPosition(new plPoint3Controller());
             fPosition->prcParse(tag, mgr);
         } else {
@@ -149,21 +149,21 @@ void plCompoundPosController::IPrcWrite(pfPrcHelper* prc) {
 
 void plCompoundPosController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "X") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             setX(new plScalarController());
             fXController->prcParse(tag->getFirstChild(), mgr);
         } else {
             setX(NULL);
         }
     } else if (tag->getName() == "Y") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             setY(new plScalarController());
             fYController->prcParse(tag->getFirstChild(), mgr);
         } else {
             setY(NULL);
         }
     } else if (tag->getName() == "Z") {
-        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").toBool()) {
+        if (tag->hasChildren() && !tag->getFirstChild()->getParam("NULL", "false").to_bool()) {
             setZ(new plScalarController());
             fZController->prcParse(tag->getFirstChild(), mgr);
         } else {

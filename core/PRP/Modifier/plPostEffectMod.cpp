@@ -75,10 +75,10 @@ void plPostEffectMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fState.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "View") {
-        fHither = tag->getParam("Hither", "0").toFloat();
-        fYon = tag->getParam("Yon", "0").toFloat();
-        fFovX = tag->getParam("FovX", "0").toFloat();
-        fFovY = tag->getParam("FovY", "0").toFloat();
+        fHither = tag->getParam("Hither", "0").to_float();
+        fYon = tag->getParam("Yon", "0").to_float();
+        fFovX = tag->getParam("FovX", "0").to_float();
+        fFovY = tag->getParam("FovY", "0").to_float();
     } else if (tag->getName() == "SceneNode") {
         if (tag->hasChildren())
             fNodeKey = mgr->prcParseKey(tag->getFirstChild());

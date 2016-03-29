@@ -68,16 +68,16 @@ void plCullPoly::prcWrite(pfPrcHelper* prc) {
 void plCullPoly::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plCullPoly")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    fFlags = tag->getParam("Flags", "0").toUint();
+    fFlags = tag->getParam("Flags", "0").to_uint();
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Normal") {
-            fDist = child->getParam("Dist", "0").toFloat();
+            fDist = child->getParam("Dist", "0").to_float();
             if (child->hasChildren())
                 fNorm.prcParse(child->getFirstChild());
         } else if (child->getName() == "Center") {
-            fRadius = child->getParam("Radius", "0").toFloat();
+            fRadius = child->getParam("Radius", "0").to_float();
             if (child->hasChildren())
                 fCenter.prcParse(child->getFirstChild());
         } else if (child->getName() == "Verts") {

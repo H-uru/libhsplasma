@@ -54,12 +54,12 @@ void plShadowMaster::IPrcWrite(pfPrcHelper* prc) {
 
 void plShadowMaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ShadowParams") {
-        fAttenDist = tag->getParam("AttenDist", "0").toFloat();
-        fMaxDist = tag->getParam("MaxDist", "0").toFloat();
-        fMinDist = tag->getParam("MinDist", "0").toFloat();
-        fMaxSize = tag->getParam("MaxSize", "0").toUint();
-        fMinSize = tag->getParam("MinSize", "0").toUint();
-        fPower = tag->getParam("Power", "0").toFloat();
+        fAttenDist = tag->getParam("AttenDist", "0").to_float();
+        fMaxDist = tag->getParam("MaxDist", "0").to_float();
+        fMinDist = tag->getParam("MinDist", "0").to_float();
+        fMaxSize = tag->getParam("MaxSize", "0").to_uint();
+        fMinSize = tag->getParam("MinSize", "0").to_uint();
+        fPower = tag->getParam("Power", "0").to_float();
     } else {
         plObjInterface::IPrcParse(tag, mgr);
     }

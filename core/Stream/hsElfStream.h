@@ -30,8 +30,8 @@ protected:
 public:
     hsElfStream() : hsFileStream(PlasmaVer::pvUnknown) { }
 
-    plString readLine() HS_OVERRIDE;
-    void writeLine(const plString& ln, bool winEOL = false) HS_OVERRIDE;
+    ST::string readLine() HS_OVERRIDE;
+    void writeLine(const ST::string& ln, bool winEOL = false) HS_OVERRIDE;
 };
 
 #endif

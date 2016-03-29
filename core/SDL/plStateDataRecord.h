@@ -39,9 +39,9 @@ public:
     plStateDataRecord() : fDescriptor(NULL), fFlags(0) { }
     ~plStateDataRecord();
 
-    static void ReadStreamHeader(hsStream* S, plString& name, int& version,
+    static void ReadStreamHeader(hsStream* S, ST::string& name, int& version,
                                  plUoid* objUoid);
-    static void WriteStreamHeader(hsStream* S, plString name, int version,
+    static void WriteStreamHeader(hsStream* S, const ST::string& name, int version,
                                   plUoid* objUoid);
     void read(hsStream* S, plResManager* mgr);
     void write(hsStream* S, plResManager* mgr);
@@ -53,7 +53,7 @@ public:
 
     size_t getNumVars() const { return fAllVars.size(); }
     plStateVariable* get(size_t idx) const { return fAllVars[idx]; }
-    plStateVariable* get(plString& name) const;
+    plStateVariable* get(const ST::string& name) const;
 };
 
 #endif

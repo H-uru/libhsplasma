@@ -44,7 +44,7 @@ void plLeafController::read(hsStream* S, plResManager* mgr) {
     } else if (S->getVer().isUruSP()) {
         fUruUnknown = S->readInt();
         if (fUruUnknown != 0)
-            plDebug::Debug("Found an UruUnknown of %d", fUruUnknown);
+            plDebug::Debug("Found an UruUnknown of {}", fUruUnknown);
         unsigned int numControllers = S->readInt();
         AllocControllers(numControllers);
 
@@ -125,13 +125,13 @@ void plLeafController::IPrcWrite(pfPrcHelper* prc) {
 
 void plLeafController::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Parameters") {
-        plString typeStr = tag->getParam("Type", "");
+        ST::string typeStr = tag->getParam("Type", "");
         fType = hsKeyFrame::kUnknownKeyFrame;
         for (size_t i=0; i<=hsKeyFrame::kMatrix44KeyFrame; i++) {
             if (typeStr == hsKeyFrame::TypeNames[i])
                 fType = i;
         }
-        fUruUnknown = tag->getParam("UruUnknown", "0").toUint();
+        fUruUnknown = tag->getParam("UruUnknown", "0").to_uint();
     } else if (tag->getName() == "Keys") {
         AllocKeys(tag->countChildren(), fType);
         const pfPrcTag* child = tag->getFirstChild();
@@ -270,7 +270,7 @@ void plLeafController::IReadUruController(hsStream* S) {
             fKeys[i]->read(S, fType);
         break;
     default:
-        plString err = plString::Format("Unexpected class type [%04X]", ClassIndex());
+        ST::string err = ST::format("Unexpected class type [{_04X}]", ClassIndex());
         throw hsBadParamException(__FILE__, __LINE__, err);
     }
 
@@ -331,7 +331,7 @@ void plLeafController::IWriteUruController(hsStream* S) {
             fKeys[i]->write(S);
         break;
     default:
-        plString err = plString::Format("Unexpected class type [%04X]", ClassIndex());
+        ST::string err = ST::format("Unexpected class type [{_04X}]", ClassIndex());
         throw hsBadParamException(__FILE__, __LINE__, err);
     }
 }
@@ -433,7 +433,7 @@ plLeafController* plLeafController::CompactToLeafController() const {
             *ctrl->fKeys[i] = *fKeys[i];
     }
     if (hasEaseControllers())
-        plDebug::Warning("Warning: Throwing away %u Ease Controllers", fEaseControllers.size());
+        plDebug::Warning("Warning: Throwing away {} Ease Controllers", fEaseControllers.size());
     return ctrl;
 }
 

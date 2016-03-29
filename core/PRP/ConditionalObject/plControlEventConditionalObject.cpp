@@ -35,7 +35,7 @@ void plControlEventConditionalObject::IPrcWrite(pfPrcHelper* prc) {
 
 void plControlEventConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ControlEvent") {
-        fControlEvent = (ControlEventCode)tag->getParam("value", "0").toInt();
+        fControlEvent = (ControlEventCode)tag->getParam("value", "0").to_int();
     } else {
         plConditionalObject::IPrcParse(tag, mgr);
     }

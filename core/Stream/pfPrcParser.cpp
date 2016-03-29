@@ -18,7 +18,7 @@
 #include "Debug/plDebug.h"
 #include <cstdarg>
 
-static plString xmlUnescape(const plString& text) {
+static ST::string xmlUnescape(const ST::string& text) {
     return text.replace("&lt;", "<").replace("&gt;", ">")
                .replace("&quot;", "\"").replace("&apos;", "'")
                .replace("&amp;", "&");
@@ -41,16 +41,16 @@ pfPrcTag* pfPrcTag::Destroy() {
     return next;
 }
 
-plString pfPrcTag::getParam(const plString& key, const plString& def) const {
-    std::map<plString, plString>::const_iterator f = fParams.find(key);
+ST::string pfPrcTag::getParam(const ST::string& key, const ST::string& def) const {
+    std::map<ST::string, ST::string>::const_iterator f = fParams.find(key);
     if (f == fParams.end())
         return def;
     else
         return xmlUnescape(f->second);
 }
 
-bool pfPrcTag::hasParam(const plString& key) const {
-    std::map<plString, plString>::const_iterator f = fParams.find(key);
+bool pfPrcTag::hasParam(const ST::string& key) const {
+    std::map<ST::string, ST::string>::const_iterator f = fParams.find(key);
     return (f != fParams.end());
 }
 
@@ -65,11 +65,11 @@ size_t pfPrcTag::countChildren() const {
 }
 
 void pfPrcTag::readHexStream(size_t maxLen, unsigned char* buf) const {
-    std::list<plString> bytes = getContents();
+    std::list<ST::string> bytes = getContents();
     size_t i=0;
     auto iter = bytes.begin();
     while (iter != bytes.end() && i<maxLen)
-        buf[i++] = (*iter++).toUint(16);
+        buf[i++] = (*iter++).to_uint(16);
 }
 
 
@@ -99,9 +99,9 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     if (!tok->hasNext())
         return NULL;
 
-    plString str = tok->next();
+    ST::string str = tok->next();
     while ((str != "<") && tok->hasNext()) {
-        plDebug::Warning("WARN: Ignoring extraneous token %s", str.cstr());
+        plDebug::Warning("WARN: Ignoring extraneous token {}", str);
         str = tok->next();
     }
     if (!tok->hasNext())
@@ -117,7 +117,7 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     if (tag->fIsEndTag) {
         str = tok->next();
         while ((str != ">") && tok->hasNext()) {
-            plDebug::Warning("WARN: Ignoring extraneous token %s", str.cstr());
+            plDebug::Warning("WARN: Ignoring extraneous token {}", str);
             str = tok->next();
         }
         return tag;
@@ -125,16 +125,16 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
 
     str = tok->next();
     while (str != "/" && str != ">") {
-        plString tmp = tok->next();
+        ST::string tmp = tok->next();
         if (tmp != "=") {
             throw pfPrcParseException(__FILE__, __LINE__,
-                    "Unexpected '%s', expected '='", tmp.cstr());
+                    ST::format("Unexpected '{}', expected '='", tmp).c_str());
         }
         tmp = tok->next();
-        if (tmp.startsWith("\""))
-            tmp = tmp.mid(1, tmp.len() - 2);
-        else if (tmp.startsWith("'"))
-            tmp = tmp.mid(1, tmp.len() - 2);
+        if (tmp.starts_with("\""))
+            tmp = tmp.substr(1, tmp.size() - 2);
+        else if (tmp.starts_with("'"))
+            tmp = tmp.substr(1, tmp.size() - 2);
         tag->fParams[str] = tmp;
         str = tok->next();
     }
@@ -143,7 +143,7 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
         // Closed tag; no children
         str = tok->next();
         while ((str != ">") && tok->hasNext()) {
-            plDebug::Warning("WARN: Ignoring extraneous token %s", str.cstr());
+            plDebug::Warning("WARN: Ignoring extraneous token {}", str);
             str = tok->next();
         }
         return tag;
@@ -163,10 +163,10 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
     }
 
     if (childPtr->fName != tag->fName) {
-        plString name = childPtr->fName;
+        ST::string name = childPtr->fName;
         delete childPtr;
         throw pfPrcParseException(__FILE__, __LINE__,
-                "Closing <%s> tag, which isn't open", name.cstr());
+                ST::format("Closing <{}> tag, which isn't open", name).c_str());
     }
     delete childPtr;
     return tag;
@@ -175,25 +175,20 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
 
 /* pfPrcParseException */
 pfPrcParseException::pfPrcParseException(const char* file, unsigned long line,
-                                         const char* msg, ...) HS_NOEXCEPT
+                                         const char* msg) HS_NOEXCEPT
                    : hsException(file, line) {
     if (msg == NULL) {
         fWhat = "Unknown Parse Error";
     } else {
-        va_list argptr;
-        va_start(argptr, msg);
-        plString str = plString::FormatV(msg, argptr);
-        va_end(argptr);
-        fWhat = plString("Parse Error: ") + str;
+        fWhat = ST::string("Parse Error: ") + msg;
     }
 }
 
 /* pfPrcTagException */
 pfPrcTagException::pfPrcTagException(const char* file, unsigned long line,
-                                     const char* tag) HS_NOEXCEPT
+                                     const ST::string& tag) HS_NOEXCEPT
                  : pfPrcParseException(file, line, NULL) {
-    if (tag == NULL)
-        fWhat = "Unexpected tag";
-    else
-        fWhat = plString("Unexpected tag: ") + tag;
+    fWhat = "Unexpected tag";
+    if (!tag.is_empty())
+        fWhat += ": " + tag;
 }

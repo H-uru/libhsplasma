@@ -29,7 +29,7 @@ protected:
     hsColorRGBA fColor;
     float fRefreshRate;
     std::vector<plKey> fVisRegions;
-    std::vector<plString> fVisRegionNames;
+    std::vector<ST::string> fVisRegionNames;
     bool fIncCharacters;
 
 public:
@@ -70,7 +70,7 @@ public:
     const std::vector<plKey>& getVisRegions() const { return fVisRegions; }
 
     /** Returns a list of visregions by name (from other pages) */
-    const std::vector<plString>& getVisRegionNames() const { return fVisRegionNames; }
+    const std::vector<ST::string>& getVisRegionNames() const { return fVisRegionNames; }
 
     /** Returns whether to include avatars in the render */
     bool getIncludeCharacters() const { return fIncCharacters; }
@@ -100,7 +100,7 @@ public:
     void setVisRegions(const std::vector<plKey>& visRegions) { fVisRegions = visRegions; }
 
     /** Set the list of visregion names (for other pages) */
-    void setVisRegionNames(const std::vector<plString>& visRegionNames) { fVisRegionNames = visRegionNames; }
+    void setVisRegionNames(const std::vector<ST::string>& visRegionNames) { fVisRegionNames = visRegionNames; }
 
     /** Set whether to include avatars in the render */
     void setIncludeCharacters(bool incCharacters) { fIncCharacters = incCharacters; }
@@ -122,7 +122,7 @@ protected:
     hsColorRGBA fColor;
     float fRefreshRate;
     std::vector<plKey> fVisRegions, fTargetNodes, fMatLayers;
-    std::vector<plString> fVisRegionNames;
+    std::vector<ST::string> fVisRegionNames;
     bool fIncCharacters;
     plKey fCamera, fRootNode, fDisableTexture;
 
@@ -200,13 +200,13 @@ public:
     void clearMatLayers() { fMatLayers.clear(); }
 
     /** Returns a list of visregions by name (from other pages)  */
-    const std::vector<plString>& getVisRegionNames() const { return fVisRegionNames; }
+    const std::vector<ST::string>& getVisRegionNames() const { return fVisRegionNames; }
 
     /** Returns the list of material layers */
-    std::vector<plString>& getVisRegionNames() { return fVisRegionNames; }
+    std::vector<ST::string>& getVisRegionNames() { return fVisRegionNames; }
 
     /** Adds a material layer to the list */
-    void addVisRegionName(const plString& name) { fVisRegionNames.push_back(name); }
+    void addVisRegionName(const ST::string& name) { fVisRegionNames.push_back(name); }
 
     /** Removes a material layer from the list */
     void delVisRegionName(size_t idx) { fVisRegionNames.erase(fVisRegionNames.begin() + idx); }
@@ -251,7 +251,7 @@ public:
     void setMatLayers(const std::vector<plKey>& matLayers) { fMatLayers = matLayers; }
 
     /** Set the list of visregion names (for other pages) */
-    void setVisRegionNames(const std::vector<plString>& visRegionNames) { fVisRegionNames = visRegionNames; }
+    void setVisRegionNames(const std::vector<ST::string>& visRegionNames) { fVisRegionNames = visRegionNames; }
 
     /** Set whether to include avatars in the render */
     void setIncludeCharacters(bool incCharacters) { fIncCharacters = incCharacters; }

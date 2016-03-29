@@ -45,9 +45,9 @@ void plAccountUpdateMsg::IPrcWrite(pfPrcHelper* prc)
 void plAccountUpdateMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr)
 {
     if(tag->getName() == "AccountUpdate") {
-        fUpdateType = tag->getParam("UpdateType", "0").toUint();
-        fResult = tag->getParam("Result", "0").toUint();
-        fPlayer = tag->getParam("Player", "0").toUint();
+        fUpdateType = tag->getParam("UpdateType", "0").to_uint();
+        fResult = tag->getParam("Result", "0").to_uint();
+        fPlayer = tag->getParam("Player", "0").to_uint();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

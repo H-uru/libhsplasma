@@ -57,7 +57,7 @@ class PLASMA_DLL plClothingBase : public hsKeyedObject {
     CREATABLE(plClothingBase, kClothingBase, hsKeyedObject)
 
 protected:
-    plString fName, fLayoutName;
+    ST::string fName, fLayoutName;
     plKey fBaseTexture;
 
 public:

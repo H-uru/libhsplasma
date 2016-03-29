@@ -38,13 +38,13 @@ void plATCAnim::read(hsStream* S, plResManager* mgr) {
 
     size_t numMarkers = S->readInt();
     for (size_t i=0; i<numMarkers; i++) {
-        plString key = S->readSafeStr();
+        ST::string key = S->readSafeStr();
         fMarkers[key] = S->readFloat();
     }
 
     size_t numLoops = S->readInt();
     for (size_t i=0; i<numLoops; i++) {
-        plString key = S->readSafeStr();
+        ST::string key = S->readSafeStr();
         float start = S->readFloat();
         float end = S->readFloat();
         fLoops[key] = std::pair<float, float>(start, end);
@@ -147,27 +147,27 @@ void plATCAnim::IPrcWrite(pfPrcHelper* prc) {
 
 void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ATCAnimParams") {
-        fInitial = tag->getParam("Initial", "0").toFloat();
-        fAutoStart = tag->getParam("AutoStart", "false").toBool();
-        fLoopStart = tag->getParam("LoopStart", "0").toFloat();
-        fLoopEnd = tag->getParam("LoopEnd", "0").toFloat();
-        fLoop = tag->getParam("Loop", "false").toBool();
+        fInitial = tag->getParam("Initial", "0").to_float();
+        fAutoStart = tag->getParam("AutoStart", "false").to_bool();
+        fLoopStart = tag->getParam("LoopStart", "0").to_float();
+        fLoopEnd = tag->getParam("LoopEnd", "0").to_float();
+        fLoop = tag->getParam("Loop", "false").to_bool();
     } else if (tag->getName() == "EaseIn") {
-        fEaseInType = tag->getParam("Type", "0").toUint();
-        fEaseInMin = tag->getParam("Min", "0").toFloat();
-        fEaseInMax = tag->getParam("Max", "0").toFloat();
-        fEaseInLength = tag->getParam("Length", "0").toFloat();
+        fEaseInType = tag->getParam("Type", "0").to_uint();
+        fEaseInMin = tag->getParam("Min", "0").to_float();
+        fEaseInMax = tag->getParam("Max", "0").to_float();
+        fEaseInLength = tag->getParam("Length", "0").to_float();
     } else if (tag->getName() == "EaseOut") {
-        fEaseOutType = tag->getParam("Type", "0").toUint();
-        fEaseOutMin = tag->getParam("Min", "0").toFloat();
-        fEaseOutMax = tag->getParam("Max", "0").toFloat();
-        fEaseOutLength = tag->getParam("Length", "0").toFloat();
+        fEaseOutType = tag->getParam("Type", "0").to_uint();
+        fEaseOutMin = tag->getParam("Min", "0").to_float();
+        fEaseOutMax = tag->getParam("Max", "0").to_float();
+        fEaseOutLength = tag->getParam("Length", "0").to_float();
     } else if (tag->getName() == "Markers") {
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() != "Marker")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fMarkers[child->getParam("Name", "")] = child->getParam("Pos", "0").toFloat();
+            fMarkers[child->getParam("Name", "")] = child->getParam("Pos", "0").to_float();
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "Loops") {
@@ -175,9 +175,9 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         while (child != NULL) {
             if (child->getName() != "Loop")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            plString key = child->getParam("Name", "");
-            float start = child->getParam("Start", "0").toFloat();
-            float end = child->getParam("End", "0").toFloat();
+            ST::string key = child->getParam("Name", "");
+            float start = child->getParam("Start", "0").to_float();
+            float end = child->getParam("End", "0").to_float();
             fLoops[key] = std::pair<float, float>(start, end);
             child = child->getNextSibling();
         }
@@ -187,7 +187,7 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fStopPoints.size(); i++) {
             if (child->getName() != "StopPoint")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fStopPoints[i] = child->getParam("Pos", "0").toFloat();
+            fStopPoints[i] = child->getParam("Pos", "0").to_float();
             child = child->getNextSibling();
         }
     } else {
@@ -195,14 +195,14 @@ void plATCAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-float plATCAnim::getMarker(const plString& key) const {
+float plATCAnim::getMarker(const ST::string& key) const {
     marker_t::const_iterator f = fMarkers.find(key);
     if (f == fMarkers.end())
         throw hsOutOfBoundsException(__FILE__, __LINE__);
     return f->second;
 }
 
-std::pair<float, float> plATCAnim::getLoop(const plString& key) const {
+std::pair<float, float> plATCAnim::getLoop(const ST::string& key) const {
     loop_t::const_iterator f = fLoops.find(key);
     if (f == fLoops.end())
         throw hsOutOfBoundsException(__FILE__, __LINE__);
@@ -239,9 +239,9 @@ void plEmoteAnim::IPrcWrite(pfPrcHelper* prc) {
 
 void plEmoteAnim::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "EmoteAnimParams") {
-        fFadeIn = tag->getParam("FadeIn", "0").toFloat();
-        fFadeOut = tag->getParam("FadeOut", "0").toFloat();
-        fBodyUsage = (plAGAnim::BodyUsage)tag->getParam("BodyUsage", "0").toInt();
+        fFadeIn = tag->getParam("FadeIn", "0").to_float();
+        fFadeOut = tag->getParam("FadeOut", "0").to_float();
+        fBodyUsage = (plAGAnim::BodyUsage)tag->getParam("BodyUsage", "0").to_int();
     } else {
         plATCAnim::IPrcParse(tag, mgr);
     }

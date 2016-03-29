@@ -18,6 +18,7 @@
 
 #include <PRP/KeyedObject/plLocation.h>
 #include "Stream/pyStream.h"
+#include <string_theory/st_format.h>
 
 extern "C" {
 
@@ -35,9 +36,9 @@ PY_PLASMA_INIT_DECL(Location) {
 PY_PLASMA_VALUE_NEW(Location, plLocation)
 
 PY_PLASMA_REPR_DECL(Location) {
-    plString repr = plString::Format("<plLocation \"%d|%d\">",
-                                     self->fThis->getSeqPrefix(),
-                                     self->fThis->getPageNum());
+    ST::string repr = ST::format("<plLocation \"{}|{}\">",
+                                 self->fThis->getSeqPrefix(),
+                                 self->fThis->getPageNum());
     return pyPlasma_convert(repr);
 }
 

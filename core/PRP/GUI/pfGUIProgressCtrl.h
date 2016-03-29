@@ -30,7 +30,7 @@ public:
 
 protected:
     std::vector<plKey> fAnimationKeys;
-    plString fAnimName;
+    ST::string fAnimName;
 
 public:
     pfGUIProgressCtrl();
@@ -49,8 +49,8 @@ public:
     void delAnimKey(size_t idx) { fAnimationKeys.erase(fAnimationKeys.begin() + idx); }
     void clearAnimKeys() { fAnimationKeys.clear(); }
 
-    const plString& getAnimName() const { return fAnimName; }
-    void setAnimName(const plString& name) { fAnimName = name; }
+    const ST::string& getAnimName() const { return fAnimName; }
+    void setAnimName(const ST::string& name) { fAnimName = name; }
 };
 
 #endif

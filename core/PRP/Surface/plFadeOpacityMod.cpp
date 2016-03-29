@@ -39,8 +39,8 @@ void plFadeOpacityMod::IPrcWrite(pfPrcHelper* prc) {
 
 void plFadeOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FadeParams") {
-        fFadeUp = tag->getParam("Up", "0").toFloat();
-        fFadeDown = tag->getParam("Down", "0").toFloat();
+        fFadeUp = tag->getParam("Up", "0").to_float();
+        fFadeDown = tag->getParam("Down", "0").to_float();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

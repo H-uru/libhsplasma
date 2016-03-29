@@ -25,7 +25,7 @@
 class PLASMA_DLL plAgeInfo {
 public:
     enum CommonPages { kTextures, kGlobal, kNumCommonPages };
-    static const plString kCommonPages[kNumCommonPages];
+    static const ST::string kCommonPages[kNumCommonPages];
 
     enum LoadFlags {
         kPreventAutoLoad = 0x1,
@@ -36,17 +36,17 @@ public:
     };
 
     struct PLASMA_DLL PageEntry {
-        plString fName;
+        ST::string fName;
         int fSeqSuffix;
         unsigned int fLoadFlags;
 
-        PageEntry(const plString& name, int seqSuffix, unsigned int loadFlags)
+        PageEntry(const ST::string& name, int seqSuffix, unsigned int loadFlags)
             : fName(name), fSeqSuffix(seqSuffix), fLoadFlags(loadFlags) { }
         PageEntry() : fSeqSuffix(0), fLoadFlags(0) { }
     };
 
 protected:
-    plString fName;
+    ST::string fName;
     unsigned int fStartDateTime;
     float fDayLength;
     short fMaxCapacity, fLingerTime;
@@ -58,13 +58,13 @@ public:
     plAgeInfo() : fStartDateTime(0), fDayLength(24.0f), fMaxCapacity(-1),
                   fLingerTime(180), fSeqPrefix(0), fReleaseVersion(0) { }
 
-    void readFromFile(const plString& filename);
-    void writeToFile(const plString& filename, PlasmaVer ver);
+    void readFromFile(const ST::string& filename);
+    void writeToFile(const ST::string& filename, PlasmaVer ver);
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
 public:
-    plString getAgeName() const { return fName; }
+    ST::string getAgeName() const { return fName; }
     unsigned int getStartDateTime() const { return fStartDateTime; }
     float getDayLength() const { return fDayLength; }
     short getMaxCapacity() const { return fMaxCapacity; }
@@ -72,7 +72,7 @@ public:
     int getSeqPrefix() const { return fSeqPrefix; }
     unsigned int getReleaseVersion() const { return fReleaseVersion; }
 
-    void setAgeName(const plString& name) { fName = name; }
+    void setAgeName(const ST::string& name) { fName = name; }
     void setStartDateTime(unsigned int time) { fStartDateTime = time; }
     void setDayLength(float length) { fDayLength = length; }
     void setMaxCapacity(short maxCap) { fMaxCapacity = maxCap; }
@@ -89,8 +89,8 @@ public:
     size_t getNumCommonPages(PlasmaVer pv) const;
     PageEntry getCommonPage(size_t idx, PlasmaVer pv) const;
 
-    plString getPageFilename(size_t idx, PlasmaVer pv) const;
-    plString getCommonPageFilename(size_t idx, PlasmaVer pv) const;
+    ST::string getPageFilename(size_t idx, PlasmaVer pv) const;
+    ST::string getCommonPageFilename(size_t idx, PlasmaVer pv) const;
     plLocation getPageLoc(size_t idx, PlasmaVer pv) const;
     plLocation getCommonPageLoc(size_t idx, PlasmaVer pv) const;
     std::vector<plLocation> getPageLocs(PlasmaVer pv, bool all = false) const;

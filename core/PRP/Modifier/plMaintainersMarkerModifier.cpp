@@ -40,7 +40,7 @@ void plMaintainersMarkerModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plMaintainersMarkerModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Calibration") {
-        plString level = tag->getParam("Level", "Broken");
+        ST::string level = tag->getParam("Level", "Broken");
         fCalibrated = kBroken;
         for (size_t i=0; i<kNumCalibratedLevels; i++) {
             if (level == CalibratedLevelNames[i])

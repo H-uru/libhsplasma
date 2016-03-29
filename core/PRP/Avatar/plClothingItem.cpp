@@ -56,7 +56,7 @@ void plClothingItem::read(hsStream* S, plResManager* mgr) {
             if (idx < kLayerMax)
                 fTextures[i][idx] = k;
             else
-                plDebug::Warning("Throwing away key %s", k.toString().cstr());
+                plDebug::Warning("Throwing away key {}", k.toString());
         }
     }
 
@@ -183,13 +183,13 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ClothingName") {
         fItemName = tag->getParam("value", "");
     } else if (tag->getName() == "ClosetOptions") {
-        fGroup = tag->getParam("Group", "0").toUint();
-        fType = tag->getParam("Type", "0").toUint();
-        fTileset = tag->getParam("Tileset", "0").toUint();
-        fSortOrder = tag->getParam("SortOrder", "0").toUint();
+        fGroup = tag->getParam("Group", "0").to_uint();
+        fType = tag->getParam("Type", "0").to_uint();
+        fTileset = tag->getParam("Tileset", "0").to_uint();
+        fSortOrder = tag->getParam("SortOrder", "0").to_uint();
     } else if (tag->getName() == "Description") {
         fDescription = "";
-        std::list<plString> descTokens = tag->getContents();
+        std::list<ST::string> descTokens = tag->getContents();
         for (auto tok = descTokens.begin(); tok != descTokens.end(); ++tok)
             fDescription += *tok + " ";
     } else if (tag->getName() == "CustomText") {
@@ -214,7 +214,7 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
                 if (j < kLayerMax)
                     fTextures[i][j] = k;
                 else
-                    plDebug::Warning("Throwing away key %s", k.toString().cstr());
+                    plDebug::Warning("Throwing away key {}", k.toString());
                 subChild = subChild->getNextSibling();
             }
             child = child->getNextSibling();
@@ -235,13 +235,13 @@ void plClothingItem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "Tint1") {
-                fDefaultTint1[0] = child->getParam("red", "0").toUint();
-                fDefaultTint1[1] = child->getParam("green", "0").toUint();
-                fDefaultTint1[2] = child->getParam("blue", "0").toUint();
+                fDefaultTint1[0] = child->getParam("red", "0").to_uint();
+                fDefaultTint1[1] = child->getParam("green", "0").to_uint();
+                fDefaultTint1[2] = child->getParam("blue", "0").to_uint();
             } else if (child->getName() == "Tint2") {
-                fDefaultTint2[0] = child->getParam("red", "0").toUint();
-                fDefaultTint2[1] = child->getParam("green", "0").toUint();
-                fDefaultTint2[2] = child->getParam("blue", "0").toUint();
+                fDefaultTint2[0] = child->getParam("red", "0").to_uint();
+                fDefaultTint2[1] = child->getParam("green", "0").to_uint();
+                fDefaultTint2[2] = child->getParam("blue", "0").to_uint();
             } else {
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
             }
@@ -271,7 +271,7 @@ void plClothingItem::clearElements() {
     fElementNames.clear();
 }
 
-void plClothingItem::addElement(const plString& elementName) {
+void plClothingItem::addElement(const ST::string& elementName) {
     fElementNames.push_back(elementName);
     fTextures.push_back(new plKey[kLayerMax]);
 }

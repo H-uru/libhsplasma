@@ -24,7 +24,7 @@ class PLASMA_DLL plDirectMusicSound : public plSound {
 
 protected:
     unsigned int fUnknown1;
-    plString fFileName;
+    ST::string fFileName;
 
 public:
     plDirectMusicSound() : fUnknown1(0) { }

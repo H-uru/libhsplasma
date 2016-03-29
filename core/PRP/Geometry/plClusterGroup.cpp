@@ -38,8 +38,8 @@ void plLODDist::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plLODDist")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fMinDist = tag->getParam("Min", "0").toFloat();
-    fMaxDist = tag->getParam("Max", "0").toFloat();
+    fMinDist = tag->getParam("Min", "0").to_float();
+    fMaxDist = tag->getParam("Max", "0").to_float();
 }
 
 
@@ -169,7 +169,7 @@ void plClusterGroup::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fLOD.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "RenderLevel") {
-        fRenderLevel = tag->getParam("Level", "0").toUint();
+        fRenderLevel = tag->getParam("Level", "0").to_uint();
     } else if (tag->getName() == "SceneNode") {
         if (tag->hasChildren())
             fSceneNode = mgr->prcParseKey(tag->getFirstChild());

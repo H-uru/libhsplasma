@@ -33,7 +33,7 @@ void plAvatarSetTypeMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvatarSetTypeMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "AvatarType") {
-        fIsPlayer = tag->getParam("IsPlayer", "False").toBool();
+        fIsPlayer = tag->getParam("IsPlayer", "False").to_bool();
     } else {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     }
@@ -81,13 +81,13 @@ void plAvBrainGenericMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvBrainGenericMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "AvBrainGenericParams") {
-        fType = tag->getParam("Type", "0").toUint();
-        fWhichStage = tag->getParam("Stage", "0").toUint();
-        fSetTime = tag->getParam("SetTime", "False").toBool();
-        fNewTime = tag->getParam("NewTime", "0").toFloat();
-        fSetDirection = tag->getParam("SetDirection", "False").toBool();
-        fNewDirection = tag->getParam("NewDirection", "False").toBool();
-        fTransitionTime = tag->getParam("TransitionTime", "0").toFloat();
+        fType = tag->getParam("Type", "0").to_uint();
+        fWhichStage = tag->getParam("Stage", "0").to_uint();
+        fSetTime = tag->getParam("SetTime", "False").to_bool();
+        fNewTime = tag->getParam("NewTime", "0").to_float();
+        fSetDirection = tag->getParam("SetDirection", "False").to_bool();
+        fNewDirection = tag->getParam("NewDirection", "False").to_bool();
+        fTransitionTime = tag->getParam("TransitionTime", "0").to_float();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }
@@ -115,7 +115,7 @@ void plAvTaskSeekDoneMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvTaskSeekDoneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SeekDoneParams") {
-        fAborted = tag->getParam("Aborted", "False").toBool();
+        fAborted = tag->getParam("Aborted", "False").to_bool();
     } else {
         plMessage::IPrcParse(tag, mgr);
     }

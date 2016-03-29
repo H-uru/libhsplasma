@@ -18,13 +18,13 @@
 #define _PYPLASMA_H
 
 #include <Python.h>
-#include <Util/plString.h>
 #include <Sys/Platform.h>
+#include <string_theory/st_string.h>
 #include <type_traits>
 
-PyObject* PyString_FromPlasmaString(const plString& str);
-PyObject* PyUnicode_FromPlasmaString(const plString& str);
-plString PyAnyString_AsPlasmaString(PyObject* str);
+PyObject* PyString_FromPlasmaString(const ST::string& str);
+PyObject* PyUnicode_FromPlasmaString(const ST::string& str);
+ST::string PyAnyString_AsPlasmaString(PyObject* str);
 #define PyAnyString_Check(ob) (PyUnicode_Check(value) || PyBytes_Check(value))
 
 int PyType_CheckAndReady(PyTypeObject* type);

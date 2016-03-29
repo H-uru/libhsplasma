@@ -31,7 +31,7 @@ class PLASMA_DLL plSpawnMod : public plModifier {
 
 protected:
     bool fBool1, fDisableDraw;
-    plString fAge, fPage, fObjName;
+    ST::string fAge, fPage, fObjName;
 
 public:
     plSpawnMod() : fBool1(false), fDisableDraw(false) { }

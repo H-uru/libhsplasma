@@ -74,7 +74,7 @@ PY_PLASMA_ASS_SUBSCRIPT_DECL(ShaderConst) {
 }
 
 PY_PLASMA_REPR_DECL(ShaderConst) {
-    plString repr = plString::Format("plShaderConst(%f, %f, %f, %f)",
+    ST::string repr = ST::format("plShaderConst({f}, {f}, {f}, {f})",
         self->fThis->fX, self->fThis->fY, self->fThis->fZ, self->fThis->fW);
     return pyPlasma_convert(repr);
 }

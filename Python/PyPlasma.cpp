@@ -17,18 +17,18 @@
 #include "PyPlasma.h"
 #include <unordered_set>
 
-PyObject* PyString_FromPlasmaString(const plString& str) {
-    return PyString_FromString(str.cstr());
+PyObject* PyString_FromPlasmaString(const ST::string& str) {
+    return PyString_FromString(str.c_str());
 }
 
-PyObject* PyUnicode_FromPlasmaString(const plString& str) {
-    return PyUnicode_DecodeUTF8(str.cstr(), str.len(), NULL);
+PyObject* PyUnicode_FromPlasmaString(const ST::string& str) {
+    return PyUnicode_DecodeUTF8(str.c_str(), str.size(), NULL);
 }
 
-plString PyAnyString_AsPlasmaString(PyObject* str) {
+ST::String PyAnyString_AsPlasmaString(PyObject* str) {
     if (PyUnicode_Check(str)) {
         PyObject* utfStr = PyUnicode_AsUTF8String(str);
-        plString plstr = PyBytes_AsString(utfStr);
+        ST::string plstr = PyBytes_AsString(utfStr);
         Py_XDECREF(utfStr);
         return plstr;
     } else {

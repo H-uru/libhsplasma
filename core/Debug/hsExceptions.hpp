@@ -17,12 +17,12 @@
 #ifndef _HSEXCEPTIONS_H
 #define _HSEXCEPTIONS_H
 
-#include "Util/plString.h"
+#include <string_theory/st_string.h>
 #include <exception>
 
 class PLASMA_DLL hsException : public std::exception {
 protected:
-    plString fWhat;
+    ST::string fWhat;
     const char* fFile;
     unsigned long fLine;
 
@@ -36,37 +36,37 @@ public:
         return *this;
     }
 
-    const char* what() const HS_NOEXCEPT HS_OVERRIDE { return fWhat; }
+    const char* what() const HS_NOEXCEPT HS_OVERRIDE { return fWhat.c_str(); }
     const char* File() const HS_NOEXCEPT { return fFile; }
     unsigned long Line() const HS_NOEXCEPT { return fLine; }
 
 protected:
-    hsException(const plString& w, const char* file, unsigned long line) HS_NOEXCEPT
+    hsException(const ST::string& w, const char* file, unsigned long line) HS_NOEXCEPT
         : fWhat(w), fFile(file), fLine(line) { }
 };
 
 class PLASMA_DLL hsNotImplementedException : public hsException {
 public:
     hsNotImplementedException(const char* file, unsigned long line,
-                              const char* feature = NULL) HS_NOEXCEPT
+                              const ST::string& feature = ST::string::null) HS_NOEXCEPT
         : hsException(file, line)
     {
-        if (feature == NULL)
+        if (feature.is_empty())
             fWhat = "Not implemented";
         else
-            fWhat = plString("`") + feature + "' not implemented";
+            fWhat = ST::string("`") + feature + "' not implemented";
     }
 };
 
 class PLASMA_DLL hsBadParamException : public hsException {
 public:
     hsBadParamException(const char* file, unsigned long line,
-                        const char* details = NULL) HS_NOEXCEPT
+                        const ST::string& details = ST::string::null) HS_NOEXCEPT
         : hsException(file, line)
     {
         fWhat = "Bad parameter";
-        if (details != NULL)
-            fWhat += plString(": ") + details;
+        if (!details.is_empty())
+            fWhat += ST::string(": ") + details;
     }
 };
 

@@ -15,6 +15,7 @@
  */
 
 #include "plNetMsgStream.h"
+#include <cstring>
 
 /* plNetMsgStreamHelper */
 plNetMsgStreamHelper::~plNetMsgStreamHelper() {
@@ -73,8 +74,8 @@ void plNetMsgStreamHelper::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgStreamHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Stream") {
-        fUncompressedSize = tag->getParam("UncompressedSize", "0").toUint();
-        fCompressionType = tag->getParam("CompressionType", "0").toUint();
+        fUncompressedSize = tag->getParam("UncompressedSize", "0").to_uint();
+        fCompressionType = tag->getParam("CompressionType", "0").to_uint();
 
         delete[] fStream;
         fStreamLength = tag->getContents().size();

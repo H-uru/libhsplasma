@@ -24,7 +24,7 @@ class PLASMA_DLL plAGMasterMod : public plModifier {
 
 protected:
     std::vector<plKey> fPrivateAnims, fEoaKeys2;
-    plString fGroupName; // Only used in UU, auto-deleted in PotS and newer
+    ST::string fGroupName; // Only used in UU, auto-deleted in PotS and newer
     bool fIsGrouped, fIsGroupMaster;
     plKey fMsgForwarder;
 
@@ -51,12 +51,12 @@ public:
     void delEoaKey(size_t idx) { fEoaKeys2.erase(fEoaKeys2.begin() + idx); }
     void clearEoaKeys() { fEoaKeys2.clear(); }
 
-    plString getGroupName() const { return fGroupName; }
+    ST::string getGroupName() const { return fGroupName; }
     bool getIsGrouped() const { return fIsGrouped; }
     bool getIsGroupMaster() const { return fIsGroupMaster; }
     plKey getMsgForwarder() const { return fMsgForwarder; }
 
-    void setGroupName(const plString& value) { fGroupName = value; }
+    void setGroupName(const ST::string& value) { fGroupName = value; }
     void setIsGrouped(bool value) { fIsGrouped = value; }
     void setIsGroupMaster(bool value) { fIsGroupMaster = value; }
     void setMsgForwarder(plKey value) { fMsgForwarder = value; }

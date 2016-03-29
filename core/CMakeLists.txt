@@ -701,7 +701,6 @@ set(UTIL_SRCS
     Util/plDDSurface.cpp
     Util/plJPEG.cpp
     Util/plMD5.cpp
-    Util/plString.cpp
     Util/plZlib.cpp
 )
 set(UTIL_HDRS
@@ -712,7 +711,6 @@ set(UTIL_HDRS
     Util/plDDSurface.h
     Util/plJPEG.h
     Util/plMD5.h
-    Util/plString.h
     Util/plZlib.h
 )
 
@@ -794,7 +792,8 @@ add_library(HSPlasma
             ${RIJNDAEL}
             ${SQUISH}
 )
-target_link_libraries(HSPlasma ${ZLIB_LIBRARIES} ${JPEG_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(HSPlasma ${ZLIB_LIBRARIES} ${JPEG_LIBRARIES}
+                      ${CMAKE_THREAD_LIBS_INIT} ${STRING_THEORY_LIBRARIES})
 if(PHYSX_FOUND AND ENABLE_PHYSX)
     target_link_libraries(HSPlasma ${PHYSX_COOKING_LIBRARY})
 endif(PHYSX_FOUND AND ENABLE_PHYSX)

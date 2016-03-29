@@ -51,10 +51,10 @@ void plEAXSourceSoftSettings::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plEAXSourceSoftSettings")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fOcclusion = tag->getParam("Occlusion", "0").toInt();
-    fOcclusionLFRatio = tag->getParam("LFRatio", "0").toFloat();
-    fOcclusionRoomRatio = tag->getParam("RoomRatio", "0").toFloat();
-    fOcclusionDirectRatio = tag->getParam("DirectRatio", "0").toFloat();
+    fOcclusion = tag->getParam("Occlusion", "0").to_int();
+    fOcclusionLFRatio = tag->getParam("LFRatio", "0").to_float();
+    fOcclusionRoomRatio = tag->getParam("RoomRatio", "0").to_float();
+    fOcclusionDirectRatio = tag->getParam("DirectRatio", "0").to_float();
 }
 
 
@@ -158,22 +158,22 @@ void plEAXSourceSettings::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plEAXSourceSettings")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fEnabled = tag->getParam("enabled", "true").toBool();
+    fEnabled = tag->getParam("enabled", "true").to_bool();
     if (fEnabled) {
-        fRoom = tag->getParam("Room", "0").toInt();
-        fRoomHF = tag->getParam("RoomHF", "0").toInt();
-        fRoomAuto = tag->getParam("RoomAuto", "false").toBool();
-        fRoomHFAuto = tag->getParam("RoomHFAuto", "false").toBool();
-        fOutsideVolHF = tag->getParam("OutsideHF", "0").toInt();
+        fRoom = tag->getParam("Room", "0").to_int();
+        fRoomHF = tag->getParam("RoomHF", "0").to_int();
+        fRoomAuto = tag->getParam("RoomAuto", "false").to_bool();
+        fRoomHFAuto = tag->getParam("RoomHFAuto", "false").to_bool();
+        fOutsideVolHF = tag->getParam("OutsideHF", "0").to_int();
 
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "Effects") {
-                fAirAbsorptionFactor = child->getParam("AirAbsorption", "0").toFloat();
-                fRoomRolloffFactor = child->getParam("RoomRolloff", "0").toFloat();
-                fDopplerFactor = child->getParam("Doppler", "0").toFloat();
-                fRolloffFactor = child->getParam("Rolloff", "0").toFloat();
-                fOcclusionSoftValue = tag->getParam("SoftOcclusion", "0").toFloat();
+                fAirAbsorptionFactor = child->getParam("AirAbsorption", "0").to_float();
+                fRoomRolloffFactor = child->getParam("RoomRolloff", "0").to_float();
+                fDopplerFactor = child->getParam("Doppler", "0").to_float();
+                fRolloffFactor = child->getParam("Rolloff", "0").to_float();
+                fOcclusionSoftValue = tag->getParam("SoftOcclusion", "0").to_float();
             } else if (child->getName() == "Starts") {
                 if (tag->hasChildren())
                     fSoftStarts.prcParse(child->getFirstChild());

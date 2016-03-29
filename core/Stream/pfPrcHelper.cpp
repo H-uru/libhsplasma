@@ -15,14 +15,15 @@
  */
 
 #include "pfPrcHelper.h"
+#include <string_theory/st_format.h>
 
-static plString xmlEscape(const plString& text) {
+static ST::string xmlEscape(const ST::string& text) {
     return text.replace("&", "&amp;").replace("\"", "&quot;")
                .replace("<", "&lt;").replace(">", "&gt;")
                .replace("'", "&apos;");
 }
 
-void pfPrcHelper::directWrite(const plString& text)
+void pfPrcHelper::directWrite(const ST::string& text)
 {
     file->writeStr(xmlEscape(text));
 }
@@ -43,9 +44,9 @@ void pfPrcHelper::startTag(const char* name) {
     inTag = true;
 }
 
-void pfPrcHelper::writeParam(const char* name, const char* value) {
-    plString buf = plString::Format(" %s=\"%s\"", name, xmlEscape(value).cstr());
-    file->writeStr(buf.cstr());
+void pfPrcHelper::writeParam(const char* name, const ST::string& value) {
+    ST::string buf = ST::format(" {}=\"{}\"", name, xmlEscape(value));
+    file->writeStr(buf);
 }
 
 void pfPrcHelper::writeParam(const char* name, int value) {
@@ -185,42 +186,42 @@ void pfPrcHelper::writeHexStream(size_t length, const unsigned char* data) {
     for (i=0; i<(length / 16); i++) {
         const unsigned char* ln = &data[i * 16];
         file->writeStr(
-            plString::Format("%02X %02X %02X %02X %02X %02X %02X %02X "
-                             "%02X %02X %02X %02X %02X %02X %02X %02X ",
-                             ln[0x0], ln[0x1], ln[0x2], ln[0x3], ln[0x4], ln[0x5], ln[0x6], ln[0x7],
-                             ln[0x8], ln[0x9], ln[0xA], ln[0xB], ln[0xC], ln[0xD], ln[0xE], ln[0xF]
-                             ));
+            ST::format("{_02X} {_02X} {_02X} {_02X} {_02X} {_02X} {_02X} {_02X} "
+                       "{_02X} {_02X} {_02X} {_02X} {_02X} {_02X} {_02X} {_02X} ",
+                       ln[0x0], ln[0x1], ln[0x2], ln[0x3], ln[0x4], ln[0x5], ln[0x6], ln[0x7],
+                       ln[0x8], ln[0x9], ln[0xA], ln[0xB], ln[0xC], ln[0xD], ln[0xE], ln[0xF]
+                       ));
         file->writeStr(
-            plString::Format("    <!-- %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c -->\n",
-                             goodChar(ln[0x0]) ? ln[0x0] : '.',
-                             goodChar(ln[0x1]) ? ln[0x1] : '.',
-                             goodChar(ln[0x2]) ? ln[0x2] : '.',
-                             goodChar(ln[0x3]) ? ln[0x3] : '.',
-                             goodChar(ln[0x4]) ? ln[0x4] : '.',
-                             goodChar(ln[0x5]) ? ln[0x5] : '.',
-                             goodChar(ln[0x6]) ? ln[0x6] : '.',
-                             goodChar(ln[0x7]) ? ln[0x7] : '.',
-                             goodChar(ln[0x8]) ? ln[0x8] : '.',
-                             goodChar(ln[0x9]) ? ln[0x9] : '.',
-                             goodChar(ln[0xA]) ? ln[0xA] : '.',
-                             goodChar(ln[0xB]) ? ln[0xB] : '.',
-                             goodChar(ln[0xC]) ? ln[0xC] : '.',
-                             goodChar(ln[0xD]) ? ln[0xD] : '.',
-                             goodChar(ln[0xE]) ? ln[0xE] : '.',
-                             goodChar(ln[0xF]) ? ln[0xF] : '.'
-                             ));
+            ST::format("    <!-- {c}{c}{c}{c}{c}{c}{c}{c}{c}{c}{c}{c}{c}{c}{c}{c} -->\n",
+                       goodChar(ln[0x0]) ? ln[0x0] : '.',
+                       goodChar(ln[0x1]) ? ln[0x1] : '.',
+                       goodChar(ln[0x2]) ? ln[0x2] : '.',
+                       goodChar(ln[0x3]) ? ln[0x3] : '.',
+                       goodChar(ln[0x4]) ? ln[0x4] : '.',
+                       goodChar(ln[0x5]) ? ln[0x5] : '.',
+                       goodChar(ln[0x6]) ? ln[0x6] : '.',
+                       goodChar(ln[0x7]) ? ln[0x7] : '.',
+                       goodChar(ln[0x8]) ? ln[0x8] : '.',
+                       goodChar(ln[0x9]) ? ln[0x9] : '.',
+                       goodChar(ln[0xA]) ? ln[0xA] : '.',
+                       goodChar(ln[0xB]) ? ln[0xB] : '.',
+                       goodChar(ln[0xC]) ? ln[0xC] : '.',
+                       goodChar(ln[0xD]) ? ln[0xD] : '.',
+                       goodChar(ln[0xE]) ? ln[0xE] : '.',
+                       goodChar(ln[0xF]) ? ln[0xF] : '.'
+                       ));
     }
     if ((length % 16) != 0) {
         const unsigned char* ln = &data[(length / 16) * 16];
         for (i=0; i<(length % 16); i++)
-            file->writeStr(plString::Format("%02X ", ln[i]));
+            file->writeStr(ST::format("{_02X} ", ln[i]));
         for (; i<16; i++)
             file->writeStr("   ");
 
         file->writeStr("    <!-- ");
         for (i=0; i<(length % 16); i++)
             file->writeStr(
-                plString::Format("%c", goodChar(ln[i]) ? ln[i] : '.'));
+                ST::format("{c}", goodChar(ln[i]) ? ln[i] : '.'));
         for (; i<16; i++)
             file->writeStr(" ");
         file->writeStr(" -->\n");

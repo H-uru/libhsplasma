@@ -18,7 +18,7 @@
 #include "Stream/hsRAMStream.h"
 
 /* hsKeyedObject */
-void hsKeyedObject::init(const plString& name) {
+void hsKeyedObject::init(const ST::string& name) {
     myKey = new plKeyData();
     myKey->setType(ClassIndex());
     myKey->setName(name);

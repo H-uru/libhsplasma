@@ -42,7 +42,7 @@ public:
      * or add it to the ResManager for the key's location to be valid.
      * \sa plResManager::AddKey(), plResManager::AddObject()
      */
-    void init(const plString& name);
+    void init(const ST::string& name);
 
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
     void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;

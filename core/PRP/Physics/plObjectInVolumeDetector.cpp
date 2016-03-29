@@ -93,8 +93,8 @@ void plObjectInVolumeAndFacingDetector::IPrcWrite(pfPrcHelper* prc) {
 
 void plObjectInVolumeAndFacingDetector::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FacingParams") {
-        fFacingTolerance = tag->getParam("Tolerance", "0").toFloat();
-        fNeedWalkingForward = tag->getParam("NeedWalkingForward", "false").toBool();
+        fFacingTolerance = tag->getParam("Tolerance", "0").to_float();
+        fNeedWalkingForward = tag->getParam("NeedWalkingForward", "false").to_bool();
     } else {
         plObjectInVolumeDetector::IPrcParse(tag, mgr);
     }

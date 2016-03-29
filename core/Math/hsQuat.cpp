@@ -59,8 +59,8 @@ void hsQuat::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsQuat")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    X = tag->getParam("X", "0").toFloat();
-    Y = tag->getParam("Y", "0").toFloat();
-    Z = tag->getParam("Z", "0").toFloat();
-    W = tag->getParam("W", "1").toFloat();
+    X = tag->getParam("X", "0").to_float();
+    Y = tag->getParam("Y", "0").to_float();
+    Z = tag->getParam("Z", "0").to_float();
+    W = tag->getParam("W", "1").to_float();
 }

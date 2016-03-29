@@ -138,7 +138,7 @@ void plAvBrainGeneric::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Stages") {
-        fCurStage = tag->getParam("Current", "0").toInt();
+        fCurStage = tag->getParam("Current", "0").to_int();
         clearStages();
         fStages.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -160,22 +160,22 @@ void plAvBrainGeneric::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "AvBrainGenericParams") {
-        fType = (BrainType)tag->getParam("Type", "0").toUint();
-        fExitFlags = tag->getParam("ExitFlags", "0").toUint();
-        fMode = (Mode)tag->getParam("Mode", "0").toUint();
-        fForward = tag->getParam("Forward", "False").toBool();
-        fFadeIn = tag->getParam("FadeIn", "0").toFloat();
-        fFadeOut = tag->getParam("FadeOut", "0").toFloat();
-        fMoveMode = (MoveMode)tag->getParam("MoveMode", "0").toUint();
-        fBodyUsage = (plAGAnim::BodyUsage)tag->getParam("BodyUsage", "0").toUint();
+        fType = (BrainType)tag->getParam("Type", "0").to_uint();
+        fExitFlags = tag->getParam("ExitFlags", "0").to_uint();
+        fMode = (Mode)tag->getParam("Mode", "0").to_uint();
+        fForward = tag->getParam("Forward", "False").to_bool();
+        fFadeIn = tag->getParam("FadeIn", "0").to_float();
+        fFadeOut = tag->getParam("FadeOut", "0").to_float();
+        fMoveMode = (MoveMode)tag->getParam("MoveMode", "0").to_uint();
+        fBodyUsage = (plAGAnim::BodyUsage)tag->getParam("BodyUsage", "0").to_uint();
     } else if (tag->getName() == "StartMessage") {
-        if (tag->getParam("NULL", "False").toBool()) {
+        if (tag->getParam("NULL", "False").to_bool()) {
             setStartMessage(NULL);
         } else if (tag->hasChildren()) {
             setStartMessage(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         }
     } else if (tag->getName() == "EndMessage") {
-        if (tag->getParam("NULL", "False").toBool()) {
+        if (tag->getParam("NULL", "False").to_bool()) {
             setEndMessage(NULL);
         } else if (tag->hasChildren()) {
             setEndMessage(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));

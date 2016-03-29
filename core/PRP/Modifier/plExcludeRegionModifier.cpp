@@ -52,8 +52,8 @@ void plExcludeRegionModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plExcludeRegionModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ExcludeRegionParams") {
-        fSeek = tag->getParam("Seek", "false").toBool();
-        fSeekTime = tag->getParam("SeekTime", "0").toFloat();
+        fSeek = tag->getParam("Seek", "false").to_bool();
+        fSeekTime = tag->getParam("SeekTime", "0").to_float();
     } else if (tag->getName() == "SafePoints") {
         fSafePoints.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

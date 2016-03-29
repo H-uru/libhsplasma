@@ -161,9 +161,9 @@ void plSpan::IPrcWrite(pfPrcHelper* prc) {
 
 void plSpan::IPrcParse(const pfPrcTag* tag) {
     if (tag->getName() == "SpanInfo") {
-        fSubType = tag->getParam("SubType", "0").toUint();
-        fMaterialIdx = tag->getParam("Material", "0").toUint();
-        fProps = tag->getParam("Properties", "0").toUint();
+        fSubType = tag->getParam("SubType", "0").to_uint();
+        fMaterialIdx = tag->getParam("Material", "0").to_uint();
+        fProps = tag->getParam("Properties", "0").to_uint();
     } else if (tag->getName() == "LocalToWorld") {
         if (tag->hasChildren())
             fLocalToWorld.prcParse(tag->getFirstChild());
@@ -177,17 +177,17 @@ void plSpan::IPrcParse(const pfPrcTag* tag) {
         if (tag->hasChildren())
             fWorldBounds.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "MatrixInfo") {
-        fNumMatrices = tag->getParam("NumMatrices", "0").toUint();
-        fBaseMatrix = tag->getParam("BaseMatrix", "0").toUint();
-        fLocalUVWChans = tag->getParam("UVWChans", "0").toUint();
+        fNumMatrices = tag->getParam("NumMatrices", "0").to_uint();
+        fBaseMatrix = tag->getParam("BaseMatrix", "0").to_uint();
+        fLocalUVWChans = tag->getParam("UVWChans", "0").to_uint();
     } else if (tag->getName() == "BoneIndices") {
-        fMaxBoneIdx = tag->getParam("Max", "0").toUint();
-        fPenBoneIdx = tag->getParam("Pen", "0").toUint();
+        fMaxBoneIdx = tag->getParam("Max", "0").to_uint();
+        fPenBoneIdx = tag->getParam("Pen", "0").to_uint();
     } else if (tag->getName() == "Dists") {
-        fMinDist = tag->getParam("Min", "0").toFloat();
-        fMaxDist = tag->getParam("Max", "0").toFloat();
+        fMinDist = tag->getParam("Min", "0").to_float();
+        fMaxDist = tag->getParam("Max", "0").to_float();
     } else if (tag->getName() == "WaterHeight") {
-        fWaterHeight = tag->getParam("value", "0").toFloat();
+        fWaterHeight = tag->getParam("value", "0").to_float();
     } else {
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
     }

@@ -24,7 +24,7 @@ class PLASMA_DLL plSpawnPointInfo {
 protected:
     enum { kHasTitle, kHasSpawnPt, kHasCameraStack };
 
-    plString fTitle, fSpawnPt, fCameraStack;
+    ST::string fTitle, fSpawnPt, fCameraStack;
 
 public:
     void read(hsStream* S);
@@ -35,13 +35,13 @@ public:
 public:
     void clear();
 
-    plString getTitle() const { return fTitle; }
-    plString getSpawnPt() const { return fSpawnPt; }
-    plString getCameraStack() const { return fCameraStack; }
+    ST::string getTitle() const { return fTitle; }
+    ST::string getSpawnPt() const { return fSpawnPt; }
+    ST::string getCameraStack() const { return fCameraStack; }
 
-    void setTitle(plString title) { fTitle = title; }
-    void setSpawnPt(plString spawn) { fSpawnPt = spawn; }
-    void setCameraStack(plString stack) { fCameraStack = stack; }
+    void setTitle(const ST::string& title) { fTitle = title; }
+    void setSpawnPt(const ST::string& spawn) { fSpawnPt = spawn; }
+    void setCameraStack(const ST::string& stack) { fCameraStack = stack; }
 };
 
 #endif

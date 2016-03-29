@@ -18,11 +18,12 @@
 #include <Stream/plEncryptedStream.h>
 #include <list>
 #include <vector>
+#include <cstring>
 #include <time.h>
 
 /* Sum file structures and operations */
 struct SumEntry {
-    plString fPath;
+    ST::string fPath;
     plMD5Hash fHash;
     time_t fTimestamp;
     unsigned int fUnknown;
@@ -64,28 +65,28 @@ void PrintFile(const SumEntry& file, char op) {
     struct tm* tbuf = localtime(&file.fTimestamp);
     strftime(buf, 32, "%Y/%m/%d %H:%M:%S", tbuf);
     printf("%c %s  %s  %s\n", op,
-           file.fHash.toHex().cstr(),
-           buf, file.fPath.cstr());
+           file.fHash.toHex().c_str(),
+           buf, file.fPath.c_str());
 }
 
-plString FixSlashes(const plString& src) {
-    if (src.empty())
-        return plString();
+ST::string FixSlashes(const ST::string& src) {
+    if (src.is_empty())
+        return src;
 
-    char* pbuf = strdup(src);
+    ST::char_buffer dest;
+    char* pbuf = dest.create_writable_buffer(src.size());
+    memcpy(pbuf, src.c_str(), src.size() + 1);
     for (char* pc = pbuf; *pc != 0; pc++) {
         if (*pc == '/' || *pc == '\\')
             *pc = PATHSEP;
     }
-    plString dest(pbuf);
-    free(pbuf);
     return dest;
 }
 
-plString cdUp(plString path) {
+ST::string cdUp(ST::string path) {
     // Check for root paths, we can't go up from there!
 #ifdef _WIN32
-    if (path.mid(1) == ":\\")
+    if (path.substr(1) == ":\\")
         return path;
 #else
     if (path == "/")
@@ -93,24 +94,24 @@ plString cdUp(plString path) {
 #endif
 
     // Not very robust, but it works for one level of parent scanning
-    if (path.empty())
+    if (path.is_empty())
         return ".." PATHSEPSTR;
 
     // Strip the ending slash, if necessary, and then go up one dir
-    if (path[path.len()-1] == PATHSEP)
-        path = path.left(path.len() - 1);
-    plString up = path.beforeLast(PATHSEP);
-    if (path[0] == PATHSEP) {
+    if (path.char_at(path.size()-1) == PATHSEP)
+        path = path.left(path.size() - 1);
+    ST::string up = path.before_last(PATHSEP);
+    if (path.char_at(0) == PATHSEP) {
         // Absolute path specified -- make sure we keep it that way
         return up + PATHSEPSTR;
     } else {
         // Relative path specified
-        return up.empty() ? "" : up + PATHSEPSTR;
+        return up.is_empty() ? "" : up + PATHSEPSTR;
     }
 }
 
-hsFileStream* FindFilePath(plString path, plString base) {
-    if (path.empty())
+hsFileStream* FindFilePath(ST::string path, ST::string base) {
+    if (path.is_empty())
         return NULL;
 
     // Scan first from the provided path:
@@ -139,44 +140,44 @@ static bool s_autoYes = false;
 static bool s_createFile = false;
 static bool s_oldFormat = false;
 
-plString GetInternalName(const plString& filename) {
+ST::string GetInternalName(const ST::string& filename) {
     // Different files are stored in different locations; this function
     // will try to guess where to put things based on the file's extension.
     // This is all based on the contents of .sum files included with the
     // games that I examined for this.
 
-    plString split = s_oldFormat ? "/" : "\\";
-    plString name = FixSlashes(filename).afterLast(PATHSEP);
-    plString ext = name.afterLast('.');
+    ST::string split = s_oldFormat ? "/" : "\\";
+    ST::string name = FixSlashes(filename).after_last(PATHSEP);
+    ST::string ext = name.after_last('.');
     if (s_oldFormat && ext == "prp")
         return name;
     if (ext == "ogg" || ext == "wav")
-        return plString("sfx") + split + name;
+        return ST::string("sfx") + split + name;
     if (ext == "exe" || ext == "dll" || ext == "map" || ext == "pdb")
         return name;
     if (ext == "sdl")
-        return plString("SDL") + split + name;
+        return ST::string("SDL") + split + name;
     if (ext == "pak")
-        return plString("Python") + split + name;
+        return ST::string("Python") + split + name;
     if (ext == "fx")
-        return plString("fx") + split + name;
+        return ST::string("fx") + split + name;
 
     // dat is the default, since so many file types go there...
     // To name a few,
     // prp, age, fni, csv, sub, node, pfp, dat, tron, hex, tga, loc
-    return plString("dat") + split + name;
+    return ST::string("dat") + split + name;
 }
 
-bool UpdateSums(const plString& filename) {
+bool UpdateSums(const ST::string& filename) {
     bool isUpdated = false;
-    printf("%s:\n", filename.cstr());
+    printf("%s:\n", filename.c_str());
     try {
         SumFile sum;
         plEncryptedStream S;
         plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
         if (!s_createFile) {
             if (!S.open(filename, fmRead, plEncryptedStream::kEncAuto)) {
-                fprintf(stderr, "Could not open file %s\n", filename.cstr());
+                fprintf(stderr, "Could not open file %s\n", filename.c_str());
                 return false;
             }
             eType = S.getEncType();
@@ -194,7 +195,7 @@ bool UpdateSums(const plString& filename) {
                     isUpdated = true;
                 } else {
                     fprintf(stderr, "File %s not found.  Remove it? [y/N] ",
-                            it->fPath.cstr());
+                            it->fPath.c_str());
                     char buf[256];
                     fgets(buf, 256, stdin);
 
@@ -225,7 +226,7 @@ bool UpdateSums(const plString& filename) {
 
         if (isUpdated) {
             if (!S.open(filename, fmCreate, eType)) {
-                fprintf(stderr, "Error: Could not open %s for writing!\n", filename.cstr());
+                fprintf(stderr, "Error: Could not open %s for writing!\n", filename.c_str());
                 return false;
             }
             sum.write(&S);
@@ -266,9 +267,9 @@ int main(int argc, char* argv[]) {
     }
 
     OperationMode mode = kModeUpdate;
-    std::list<plString> addPaths;
-    std::list<plString> delPaths;
-    std::list<plString> sumFiles;
+    std::list<ST::string> addPaths;
+    std::list<ST::string> delPaths;
+    std::list<ST::string> sumFiles;
 
     for (int i = 1; i < argc; i++) {
         if (argv[i][0] == '-') {
@@ -317,18 +318,18 @@ int main(int argc, char* argv[]) {
 
     switch (mode) {
     case kModeUpdate:
-        for (std::list<plString>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++) {
+        for (std::list<ST::string>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++) {
             if (UpdateSums(*fn))
-                printf("Successfully updated %s\n", fn->cstr());
+                printf("Successfully updated %s\n", fn->c_str());
         }
         break;
     case kModeList:
-        for (std::list<plString>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++) {
-            printf("%s:\n", fn->cstr());
+        for (std::list<ST::string>::iterator fn = sumFiles.begin(); fn != sumFiles.end(); fn++) {
+            printf("%s:\n", fn->c_str());
             try {
                 plEncryptedStream S;
                 if (!S.open(*fn, fmRead, plEncryptedStream::kEncAuto)) {
-                    fprintf(stderr, "Could not open file %s\n", fn->cstr());
+                    fprintf(stderr, "Could not open file %s\n", fn->c_str());
                     continue;
                 }
                 SumFile sum;
@@ -361,7 +362,7 @@ int main(int argc, char* argv[]) {
             plEncryptedStream::EncryptionType eType = plEncryptedStream::kEncXtea;
             if (!s_createFile) {
                 if (!S.open(sumFiles.front(), fmRead, plEncryptedStream::kEncAuto)) {
-                    fprintf(stderr, "Could not open file %s\n", sumFiles.front().cstr());
+                    fprintf(stderr, "Could not open file %s\n", sumFiles.front().c_str());
                     return 1;
                 }
                 eType = S.getEncType();
@@ -371,7 +372,7 @@ int main(int argc, char* argv[]) {
                 isUpdated = true;
             }
 
-            std::list<plString>::iterator pi;
+            std::list<ST::string>::iterator pi;
             std::vector<SumEntry>::iterator it;
             for (pi = delPaths.begin(); pi != delPaths.end(); pi++) {
                 bool found = false;
@@ -387,13 +388,13 @@ int main(int argc, char* argv[]) {
                     }
                 }
                 if (!found)
-                    fprintf(stderr, "Warning: path '%s' not found\n", pi->cstr());
+                    fprintf(stderr, "Warning: path '%s' not found\n", pi->c_str());
             }
 
             for (pi = addPaths.begin(); pi != addPaths.end(); pi++) {
                 hsFileStream* IS = FindFilePath(*pi, "");
                 if (IS == NULL) {
-                    fprintf(stderr, "Warning: path '%s' not found\n", pi->cstr());
+                    fprintf(stderr, "Warning: path '%s' not found\n", pi->c_str());
                     continue;
                 }
 
@@ -429,14 +430,14 @@ int main(int argc, char* argv[]) {
             if (isUpdated) {
                 if (!S.open(sumFiles.front(), fmWrite, eType)) {
                     fprintf(stderr, "Error: Could not open %s for writing!\n",
-                            sumFiles.front().cstr());
+                            sumFiles.front().c_str());
                     return 1;
                 }
                 sum.write(&S);
                 S.close();
                 printf("Successfully %s %s\n",
                        s_createFile ? "created" : "updated",
-                       sumFiles.front().cstr());
+                       sumFiles.front().c_str());
             }
         } catch (hsException& e) {
             fprintf(stderr, "%s:%ld: %s\n", e.File(), e.Line(), e.what());

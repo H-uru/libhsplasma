@@ -58,10 +58,10 @@ public:
     };
 
 private:
-    plString fItemName, fDescription, fCustomText;
+    ST::string fItemName, fDescription, fCustomText;
     unsigned char fGroup, fType, fTileset, fSortOrder;
 
-    std::vector<plString> fElementNames;
+    std::vector<ST::string> fElementNames;
     std::vector<plKey*> fTextures;
     plKey fIcon, fAccessory;
     plKey fMeshes[kNumLODLevels];
@@ -82,13 +82,13 @@ protected:
 
 public:
     /** Returns the name of the clothing item. */
-    plString getItemName() const { return fItemName; }
+    ST::string getItemName() const { return fItemName; }
 
     /** Returns the properties description for the clothing item. */
-    plString getDescription() const { return fDescription; }
+    ST::string getDescription() const { return fDescription; }
 
     /** Returns the customization text for the clothing item. */
-    plString getCustomText() const { return  fCustomText; }
+    ST::string getCustomText() const { return  fCustomText; }
 
     /**
      * Returns the group this item belongs to.
@@ -137,13 +137,13 @@ public:
     }
 
     /** Set the name of the clothing item. */
-    void setItemName(const plString& name) { fItemName = name; }
+    void setItemName(const ST::string& name) { fItemName = name; }
 
     /** Set the property description string for this item. */
-    void setDescription(const plString& desc) { fDescription = desc; }
+    void setDescription(const ST::string& desc) { fDescription = desc; }
 
     /** Set the customization text for this clothing item. */
-    void setCustomText(const plString& text) { fCustomText = text; }
+    void setCustomText(const ST::string& text) { fCustomText = text; }
 
     /**
      * Set the group this item belongs to.
@@ -189,7 +189,7 @@ public:
     void clearElements();
 
     /** Add a named element to the clothing item. */
-    void addElement(const plString& elementName);
+    void addElement(const ST::string& elementName);
 
     /**
      * Sets the texture for element number \a element, at layer \a layer
@@ -202,7 +202,7 @@ public:
     /**
      * Sets the element name for element number \a element to \a elementName.
      */
-    void setElementName(int element, const plString& elementName)
+    void setElementName(int element, const ST::string& elementName)
     { fElementNames[element] = elementName; }
 
     /**
@@ -216,7 +216,7 @@ public:
     /**
      * Returns the element name for element number \a element.
      */
-    plString getElementName(int element) const
+    ST::string getElementName(int element) const
     { return fElementNames[element]; }
 
     /** Remove the specified element from the clothing item. */

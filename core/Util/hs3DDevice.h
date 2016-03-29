@@ -80,10 +80,10 @@ private:
     unsigned int fRecordVersion;
     unsigned int fFlags;
     unsigned int fDeviceType;
-    plString fDriverDesc;
-    plString fDriverName;
-    plString fDriverVersion;
-    plString fDeviceDesc;
+    ST::string fDriverDesc;
+    ST::string fDriverName;
+    ST::string fDriverVersion;
+    ST::string fDeviceDesc;
     hsBitVector fCaps;
     unsigned int fLayersAtOnce;
     unsigned int fMemoryBytes;
@@ -111,10 +111,10 @@ public:
     unsigned int getVersion() const { return fRecordVersion; }
     unsigned int getFlags() const { return fFlags; }
     unsigned int getDeviceType() const { return fDeviceType; }
-    const plString& getDriverDesc() const { return fDriverDesc; }
-    const plString& getDriverName() const { return fDriverName; }
-    const plString& getDriverVersion() const { return fDriverVersion; }
-    const plString& getDeviceDesc() const { return fDeviceDesc; }
+    const ST::string& getDriverDesc() const { return fDriverDesc; }
+    const ST::string& getDriverName() const { return fDriverName; }
+    const ST::string& getDriverVersion() const { return fDriverVersion; }
+    const ST::string& getDeviceDesc() const { return fDeviceDesc; }
     hsBitVector& getCaps() { return fCaps; }
     const hsBitVector& getCaps() const { return fCaps; }
     unsigned int getLayersAtOnce() const { return fLayersAtOnce; }
@@ -134,10 +134,10 @@ public:
     void setVersion(unsigned int version) { fRecordVersion = version; }
     void setFlags(unsigned int flags) { fFlags = flags; }
     void setDeviceType(unsigned int type) { fDeviceType = type; }
-    void setDriverDesc(const plString& desc) { fDriverDesc = desc; }
-    void setDriverName(const plString& name) { fDriverName = name; }
-    void setDriverVersion(const plString& version) { fDriverVersion = version; }
-    void setDeviceDesc(const plString& desc) { fDeviceDesc = desc; }
+    void setDriverDesc(const ST::string& desc) { fDriverDesc = desc; }
+    void setDriverName(const ST::string& name) { fDriverName = name; }
+    void setDriverVersion(const ST::string& version) { fDriverVersion = version; }
+    void setDeviceDesc(const ST::string& desc) { fDeviceDesc = desc; }
     void setLayersAtOnce(unsigned int layers) { fLayersAtOnce = layers; }
     void setMemoryBytes(unsigned int membytes) { fMemoryBytes = membytes; }
     void setZBiasRating(float bias) { fZBiasRating = bias; }

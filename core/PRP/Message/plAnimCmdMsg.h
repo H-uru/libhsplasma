@@ -34,7 +34,7 @@ public:
     };
 
 protected:
-    plString fAnimName, fLoopName;
+    ST::string fAnimName, fLoopName;
     hsBitVector fCmd;
     float fBegin, fEnd, fLoopBegin, fLoopEnd, fSpeed;
     float fSpeedChangeRate, fTime;
@@ -50,8 +50,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getAnimName() const { return fAnimName; }
-    plString getLoopName() const { return fLoopName; }
+    ST::string getAnimName() const { return fAnimName; }
+    ST::string getLoopName() const { return fLoopName; }
     bool getCmd(size_t cmd) const { return fCmd.get(cmd); }
     float getBegin() const { return fBegin; }
     float getEnd() const { return fEnd; }
@@ -61,8 +61,8 @@ public:
     float getSpeedChangeRate() const { return fSpeedChangeRate; }
     float getTime() const { return fTime; }
 
-    void setAnimName(const plString& value) { fAnimName = value; }
-    void setLoopName(const plString& value) { fLoopName = value; }
+    void setAnimName(const ST::string& value) { fAnimName = value; }
+    void setLoopName(const ST::string& value) { fLoopName = value; }
     void setCmd(size_t cmd, bool value) { fCmd.set(cmd, value); }
     void setBegin(float value) { fBegin = value; }
     void setEnd(float value) { fEnd = value; }

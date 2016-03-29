@@ -50,12 +50,12 @@ void plVertexSpan::IPrcWrite(pfPrcHelper* prc) {
 
 void plVertexSpan::IPrcParse(const pfPrcTag* tag) {
     if (tag->getName() == "VertexSpan") {
-        fGroupIdx = tag->getParam("GroupIdx", "0").toUint();
-        fVBufferIdx = tag->getParam("BufferIdx", "0").toUint();
-        fCellIdx = tag->getParam("CellIdx", "0").toUint();
-        fCellOffset = tag->getParam("CellOffset", "0").toUint();
-        fVStartIdx = tag->getParam("StartIdx", "0").toUint();
-        fVLength = tag->getParam("Length", "0").toUint();
+        fGroupIdx = tag->getParam("GroupIdx", "0").to_uint();
+        fVBufferIdx = tag->getParam("BufferIdx", "0").to_uint();
+        fCellIdx = tag->getParam("CellIdx", "0").to_uint();
+        fCellOffset = tag->getParam("CellOffset", "0").to_uint();
+        fVStartIdx = tag->getParam("StartIdx", "0").to_uint();
+        fVLength = tag->getParam("Length", "0").to_uint();
     } else {
         plSpan::IPrcParse(tag);
     }

@@ -43,10 +43,10 @@ void pfGUISkin::pfSRect::prcWrite(pfPrcHelper* prc) {
 void pfGUISkin::pfSRect::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "pfSRect")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    fX = tag->getParam("X", "0").toUint();
-    fY = tag->getParam("Y", "0").toUint();
-    fWidth = tag->getParam("width", "0").toUint();
-    fHeight = tag->getParam("height", "0").toUint();
+    fX = tag->getParam("X", "0").to_uint();
+    fY = tag->getParam("Y", "0").to_uint();
+    fWidth = tag->getParam("width", "0").to_uint();
+    fHeight = tag->getParam("height", "0").to_uint();
 }
 
 
@@ -97,8 +97,8 @@ void pfGUISkin::IPrcWrite(pfPrcHelper* prc) {
 
 void pfGUISkin::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SkinParams") {
-        fItemMargin = tag->getParam("ItemMargin", "0").toUint();
-        fBorderMargin = tag->getParam("BorderMargin", "0").toUint();
+        fItemMargin = tag->getParam("ItemMargin", "0").to_uint();
+        fBorderMargin = tag->getParam("BorderMargin", "0").to_uint();
     } else if (tag->getName() == "Elements") {
         size_t nElements = tag->countChildren();
         if (nElements > kNumElements)

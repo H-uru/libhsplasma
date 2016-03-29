@@ -59,13 +59,13 @@ public:
 
 protected:
     plKey fDefaultMesh;
-    plString fRootName;
+    ST::string fRootName;
     plKey fClothingOutfit;
     int fBodyType;
     plKey fEffects;
     hsVector3 fMins, fMaxs;
     float fPhysHeight, fPhysWidth;
-    plString fFootstepAge, fFootstepPage, fFootstepType;
+    ST::string fFootstepAge, fFootstepPage, fFootstepType;
 
 public:
     plArmatureMod() : fBodyType(0), fPhysHeight(0.0f), fPhysWidth(0.0f) { }

@@ -47,11 +47,11 @@ void plFixedWaterState6::WaveState::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "WaveState")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fMaxLength = tag->getParam("MaxLen", "0").toFloat();
-    fMinLength = tag->getParam("MinLen", "0").toFloat();
-    fAmpOverLen = tag->getParam("AmpOverLen", "0").toFloat();
-    fChop = tag->getParam("Chop", "0").toFloat();
-    fAngleDev = tag->getParam("AngleDev", "0").toFloat();
+    fMaxLength = tag->getParam("MaxLen", "0").to_float();
+    fMinLength = tag->getParam("MinLen", "0").to_float();
+    fAmpOverLen = tag->getParam("AmpOverLen", "0").to_float();
+    fChop = tag->getParam("Chop", "0").to_float();
+    fAngleDev = tag->getParam("AngleDev", "0").to_float();
 }
 
 
@@ -181,11 +181,11 @@ void plFixedWaterState6::prcParse(const pfPrcTag* tag) {
             if (child->hasChildren())
                 fTexState.prcParse(child->getFirstChild());
         } else if (child->getName() == "WaterStateParams") {
-            fRippleScale = child->getParam("RippleScale", "0").toFloat();
-            fWaterHeight = child->getParam("WaterHeight", "0").toFloat();
-            fWispiness = child->getParam("Wispiness", "0").toFloat();
-            fPeriod = child->getParam("Period", "0").toFloat();
-            fFingerLength = child->getParam("FingerLength", "0").toFloat();
+            fRippleScale = child->getParam("RippleScale", "0").to_float();
+            fWaterHeight = child->getParam("WaterHeight", "0").to_float();
+            fWispiness = child->getParam("Wispiness", "0").to_float();
+            fPeriod = child->getParam("Period", "0").to_float();
+            fFingerLength = child->getParam("FingerLength", "0").to_float();
         } else if (child->getName() == "WindDir") {
             if (child->hasChildren())
                 fWindDir.prcParse(child->getFirstChild());
@@ -208,11 +208,11 @@ void plFixedWaterState6::prcParse(const pfPrcTag* tag) {
             if (child->hasChildren())
                 fMinColor.prcParse(child->getFirstChild());
         } else if (child->getName() == "Edge") {
-            fEdgeOpac = child->getParam("Opacity", "0").toFloat();
-            fEdgeRadius = child->getParam("Radius", "0").toFloat();
+            fEdgeOpac = child->getParam("Opacity", "0").to_float();
+            fEdgeRadius = child->getParam("Radius", "0").to_float();
         } else if (child->getName() == "Env") {
-            fEnvRefresh = child->getParam("Refresh", "0").toFloat();
-            fEnvRadius = child->getParam("Radius", "0").toFloat();
+            fEnvRefresh = child->getParam("Refresh", "0").to_float();
+            fEnvRadius = child->getParam("Radius", "0").to_float();
         } else if (child->getName() == "EnvCenter") {
             if (child->hasChildren())
                 fEnvCenter.prcParse(child->getFirstChild());

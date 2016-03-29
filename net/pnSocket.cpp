@@ -16,6 +16,7 @@
 
 #include "pnSocket.h"
 #include "Debug/plDebug.h"
+#include <cstring>
 
 static const char* getSockErrorStr();
 static int sockError();
@@ -108,7 +109,7 @@ pnSocket::pnSocket(int handle)
     initSockets();
 }
 
-plString pnSocket::getRemoteIpStr() const
+ST::string pnSocket::getRemoteIpStr() const
 {
     static hsMutex ipStrMutex;
 
@@ -118,7 +119,7 @@ plString pnSocket::getRemoteIpStr() const
     const char* str = "???.???.???.???";
     if (getpeername(fSockHandle, (sockaddr*)&addr, &slen) >= 0)
         str = inet_ntoa(addr.sin_addr);
-    plString result(str);
+    ST::string result(str);
     ipStrMutex.unlock();
     return result;
 }
@@ -133,12 +134,12 @@ bool pnSocket::connect(const char* address, unsigned short port)
     conn.ai_protocol = 0;
 
     addrinfo* addr;
-    int res = getaddrinfo(address, plString::Format("%hu", port).cstr(),
+    int res = getaddrinfo(address, ST::format("{}", port).c_str(),
                           &conn, &addr);
     if (res != 0) {
-        plString msg = gai_strerror(res);
-        plDebug::Error("Failed to connect to %s:%hu", address, port);
-        plDebug::Error("    Error message was %s", msg.cstr());
+        ST::string msg = gai_strerror(res);
+        plDebug::Error("Failed to connect to {}:{}", address, port);
+        plDebug::Error("    Error message was {}", msg);
         return false;
     }
 
@@ -153,7 +154,7 @@ bool pnSocket::connect(const char* address, unsigned short port)
     }
 
     if (fSockHandle == -1) {
-        plDebug::Error("Failed to connect to %s:%hu", address, port);
+        plDebug::Error("Failed to connect to {}:{}", address, port);
         return false;
     }
 
@@ -172,12 +173,12 @@ bool pnSocket::bind(unsigned short port)
     conn.ai_protocol = 0;
 
     addrinfo* addr;
-    int res = getaddrinfo(NULL, plString::Format("%hu", port).cstr(),
+    int res = getaddrinfo(NULL, ST::format("{}", port).c_str(),
                           &conn, &addr);
     if (res != 0) {
-        plString msg = gai_strerror(res);
-        plDebug::Error("Failed to bind to port %hu", port);
-        plDebug::Error("    Error message was %s", msg.cstr());
+        ST::string msg = gai_strerror(res);
+        plDebug::Error("Failed to bind to port {}", port);
+        plDebug::Error("    Error message was {}", msg);
         return false;
     }
 
@@ -192,7 +193,7 @@ bool pnSocket::bind(unsigned short port)
     }
 
     if (fSockHandle == -1) {
-        plDebug::Error("Failed to bind to port %hu", port);
+        plDebug::Error("Failed to bind to port {}", port);
         return false;
     }
 
@@ -204,14 +205,14 @@ pnSocket* pnSocket::listen(int backlog)
 {
     if (::listen(fSockHandle, backlog) == -1) {
         if (fSockHandle != -1)
-            plDebug::Error("Listen failed: %s", getSockErrorStr());
+            plDebug::Error("Listen failed: {}", getSockErrorStr());
         return NULL;
     }
 
     int client = accept(fSockHandle, NULL, NULL);
     if (client == -1) {
         if (fSockHandle != -1)
-            plDebug::Error("Listen failed: %s", getSockErrorStr());
+            plDebug::Error("Listen failed: {}", getSockErrorStr());
         return NULL;
     }
     return new pnSocket(client);
@@ -239,7 +240,7 @@ long pnSocket::send(const void* buffer, size_t size)
 {
     long count = ::send(fSockHandle, (const sockbuf_t)buffer, size, 0);
     if (count == -1) {
-        plDebug::Error("Send failed: %s", getSockErrorStr());
+        plDebug::Error("Send failed: {}", getSockErrorStr());
         close();
     }
     else if ((size_t)count < size)
@@ -251,7 +252,7 @@ long pnSocket::recv(void* buffer, size_t size)
 {
     long count = ::recv(fSockHandle, (sockbuf_t)buffer, size, 0);
     if (count == -1 && sockError() != ECONNRESET) {
-        plDebug::Error("Recv failed: %s", getSockErrorStr());
+        plDebug::Error("Recv failed: {}", getSockErrorStr());
         close();
     }
     return count;
@@ -261,7 +262,7 @@ long pnSocket::peek(void* buffer, size_t size)
 {
     long count = ::recv(fSockHandle, (sockbuf_t)buffer, size, MSG_PEEK);
     if (count == -1 && sockError() != ECONNRESET)
-        plDebug::Error("Peek failed: %s", getSockErrorStr());
+        plDebug::Error("Peek failed: {}", getSockErrorStr());
     return count;
 }
 
@@ -304,7 +305,7 @@ unsigned long pnSocket::GetAddress(const char* addrName)
     return numAddr;
 }
 
-plString pnSocket::recvString(size_t maxlen)
+ST::string pnSocket::recvString(size_t maxlen)
 {
     uint16_t size;
     if (recv(&size, sizeof(uint16_t)) <= 0)
@@ -313,13 +314,12 @@ plString pnSocket::recvString(size_t maxlen)
         size = maxlen-1;
 
     if (size > 0) {
-        pl_wchar_t* buf = new pl_wchar_t[size];
-        recv(buf, size * sizeof(pl_wchar_t));
-        plString str(buf, size);
-        delete[] buf;
-        return str;
+        ST::utf16_buffer str;
+        char16_t* buf = str.create_writable_buffer(size);
+        recv(buf, size * sizeof(char16_t));
+        return ST::string::from_utf16(str);
     } else {
-        return plString();
+        return ST::string();
     }
 }
 
@@ -343,7 +343,7 @@ static void RecvBasic(pnSocket* sock, msgparm_t& data,
         }
 
 #ifdef COMMDEBUG
-        plDebug::Debug("     <- Int%d: %lu", size * 8, data.fUint);
+        plDebug::Debug("     <- Int{}: {}", size * 8, data.fUint);
 #endif
     } else {
         if (size == 1)
@@ -354,7 +354,7 @@ static void RecvBasic(pnSocket* sock, msgparm_t& data,
             sock->recv(data.fData, count * sizeof(uint32_t));
 
 #ifdef COMMDEBUG
-        plString ln = plString::Format("     <- Int%d[%d]: ", size * 8, count);
+        ST::string ln = ST::format("     <- Int{}[{}]: ", size * 8, count);
         size_t lnbufSize = count * ((size * 2) + 1);
         char* lnbuf = new char[lnbufSize + 1];
         for (size_t i=0; i<count; i++) {
@@ -368,7 +368,7 @@ static void RecvBasic(pnSocket* sock, msgparm_t& data,
         lnbuf[lnbufSize] = 0;
         ln += lnbuf;
         delete[] lnbuf;
-        plDebug::Debug(ln.cstr());
+        plDebug::Debug(ln.c_str());
 #endif
     }
 }
@@ -390,7 +390,7 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
         }
 
 #ifdef COMMDEBUG
-        plDebug::Debug("     -> Int%d: %lu", size * 8, data.fUint);
+        plDebug::Debug("     -> Int{}: {}", size * 8, data.fUint);
 #endif
     } else {
         if (size == 1) {
@@ -405,7 +405,7 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
         }
 
 #ifdef COMMDEBUG
-        plString ln = plString::Format("     -> Int%d[%d]: ", size * 8, count);
+        ST::string ln = ST::format("     -> Int{}[{}]: ", size * 8, count);
         size_t lnbufSize = count * ((size * 2) + 1);
         char* lnbuf = new char[lnbufSize + 1];
         for (size_t i=0; i<count; i++) {
@@ -419,7 +419,7 @@ static void SendBasic(unsigned char*& buf, const msgparm_t& data,
         lnbuf[lnbufSize] = 0;
         ln += lnbuf;
         delete[] lnbuf;
-        plDebug::Debug(ln.cstr());
+        plDebug::Debug(ln.c_str());
 #endif
     }
 }
@@ -430,7 +430,7 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
         return false;
 
 #ifdef COMMDEBUG
-    plDebug::Debug("<SEND> %s", msg->fMsgName);
+    plDebug::Debug("<SEND> {}", msg->fMsgName);
 #endif
 
     size_t bufSize = sizeof(uint16_t) + NCMessageSize(data, msg);
@@ -450,13 +450,14 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
             break;
         case kFieldString:
             {
-                uint16_t len = plwcslen(data[i].fString);
+                uint16_t len = ST::utf16_buffer::strlen(data[i].fString);
                 *(uint16_t*)bp = len;
                 bp += sizeof(uint16_t);
-                memcpy(bp, data[i].fString, len * sizeof(pl_wchar_t));
-                bp += len * sizeof(pl_wchar_t);
+                memcpy(bp, data[i].fString, len * sizeof(char16_t));
+                bp += len * sizeof(char16_t);
 #ifdef COMMDEBUG
-                plDebug::Debug("     -> Str: %s", plString(data[i].fString, len).cstr());
+                plDebug::Debug("     -> Str: {}",
+                               ST::string::from_utf16(data[i].fString, len));
 #endif
             }
             break;
@@ -466,7 +467,7 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
             *(uint32_t*)bp = count;
             bp += sizeof(uint32_t);
 #ifdef COMMDEBUG
-            plDebug::Debug("     -> Count: %d", count);
+            plDebug::Debug("     -> Count: {}", count);
 #endif
             break;
         case kFieldVarPtr:
@@ -475,14 +476,14 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
             bp += size * count;
 #ifdef COMMDEBUG
             {
-                plString ln = "     -> VarData: ";
+                ST::string ln = "     -> VarData: ";
                 char* sBuf = new char[(3 * (size * count)) + 1];
                 for (size_t j=0; j<(size * count); j++)
                     sprintf(sBuf + (3*j), "%02X ", data[i].fData[j]);
                 sBuf[3 * (size * count)] = 0;
                 ln += sBuf;
                 delete[] sBuf;
-                plDebug::Debug(ln.cstr());
+                plDebug::Debug(ln.c_str());
             }
 #endif
             size = 0;
@@ -496,14 +497,14 @@ bool pnSocket::sendMsg(const msgparm_t* data, const pnNetMsg* msg)
             bp += field->fSize * field->fCount;
 #ifdef COMMDEBUG
             {
-                plString ln = "     -> Data: ";
+                ST::string ln = "     -> Data: ";
                 char* sBuf = new char[(3 * (field->fSize * field->fCount)) + 1];
                 for (size_t j=0; j<(field->fSize * field->fCount); j++)
                     sprintf(sBuf + (3*j), "%02X ", data[i].fData[j]);
                 sBuf[3 * (field->fSize * field->fCount)] = 0;
                 ln += sBuf;
                 delete[] sBuf;
-                plDebug::Debug(ln.cstr());
+                plDebug::Debug(ln.c_str());
             }
 #endif
             break;
@@ -520,7 +521,7 @@ msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
         return NULL;
 
 #ifdef COMMDEBUG
-    plDebug::Debug("<RECV> %s", msg->fMsgName);
+    plDebug::Debug("<RECV> {}", msg->fMsgName);
 #endif
     msgparm_t* data = NCAllocMessage(msg);
 
@@ -537,12 +538,12 @@ msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
             {
                 uint16_t len;
                 recv(&len, sizeof(uint16_t));
-                pl_wchar_t* str = new pl_wchar_t[len + 1];
-                recv(str, len * sizeof(pl_wchar_t));
+                char16_t* str = new char16_t[len + 1];
+                recv(str, len * sizeof(char16_t));
                 str[len] = 0;
                 data[i].fString = str;
 #ifdef COMMDEBUG
-                plDebug::Debug("     <- Str: %s", plString(data[i].fString, len).cstr());
+                plDebug::Debug("     <- Str: {}", ST::string::from_utf16(data[i].fString, len));
 #endif
             }
             break;
@@ -551,7 +552,7 @@ msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
             recv(&count, sizeof(uint32_t));
             data[i].fUint = count;
 #ifdef COMMDEBUG
-            plDebug::Debug("     <- Count: %d", count);
+            plDebug::Debug("     <- Count: {}", count);
 #endif
             break;
         case kFieldVarPtr:
@@ -561,14 +562,14 @@ msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
             recv(data[i].fData, size * count);
 #ifdef COMMDEBUG
             {
-                plString ln = "     <- VarData: ";
+                ST::string ln = "     <- VarData: ";
                 char* sBuf = new char[(3 * (size * count)) + 1];
                 for (size_t j=0; j<(size * count); j++)
                     sprintf(sBuf + (3*j), "%02X ", data[i].fData[j]);
                 sBuf[3 * (size * count)] = 0;
                 ln += sBuf;
                 delete[] sBuf;
-                plDebug::Debug(ln.cstr());
+                plDebug::Debug(ln.c_str());
             }
 #endif
             size = 0;
@@ -581,14 +582,14 @@ msgparm_t* pnSocket::recvMsg(const pnNetMsg* msg)
             recv(data[i].fData, field->fSize * field->fCount);
 #ifdef COMMDEBUG
             {
-                plString ln = "     <- Data: ";
+                ST::string ln = "     <- Data: ";
                 char* sBuf = new char[(3 * (field->fSize * field->fCount)) + 1];
                 for (size_t j=0; j<(field->fSize * field->fCount); j++)
                     sprintf(sBuf + (3*j), "%02X ", data[i].fData[j]);
                 sBuf[3 * (field->fSize * field->fCount)] = 0;
                 ln += sBuf;
                 delete[] sBuf;
-                plDebug::Debug(ln.cstr());
+                plDebug::Debug(ln.c_str());
             }
 #endif
             break;

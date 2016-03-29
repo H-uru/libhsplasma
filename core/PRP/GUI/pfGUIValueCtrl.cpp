@@ -44,9 +44,9 @@ void pfGUIValueCtrl::IPrcWrite(pfPrcHelper* prc) {
 
 void pfGUIValueCtrl::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ValueRange") {
-        fMin = tag->getParam("Min", "0").toFloat();
-        fMax = tag->getParam("Max", "0").toFloat();
-        fStep = tag->getParam("Step", "0").toFloat();
+        fMin = tag->getParam("Min", "0").to_float();
+        fMax = tag->getParam("Max", "0").to_float();
+        fStep = tag->getParam("Step", "0").to_float();
     } else {
         pfGUIControlMod::IPrcParse(tag, mgr);
     }

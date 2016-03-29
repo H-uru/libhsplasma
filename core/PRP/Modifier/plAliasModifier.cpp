@@ -26,7 +26,7 @@ void plAliasModifier::read(hsStream* S, plResManager* mgr) {
 void plAliasModifier::write(hsStream* S, plResManager* mgr) {
     plSingleModifier::write(S, mgr);
 
-    S->writeInt(fAlias.len());
+    S->writeInt(fAlias.size());
     S->writeStr(fAlias);
 }
 

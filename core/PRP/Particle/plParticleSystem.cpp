@@ -204,28 +204,28 @@ void plParticleSystem::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fMaterial = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "AmbientCtl") {
-        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").to_bool())
             setAmbientCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "DiffuseCtl") {
-        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").to_bool())
             setDiffuseCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "OpacityCtl") {
-        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").to_bool())
             setOpacityCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "WidthCtl") {
-        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").to_bool())
             setWidthCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "HeightCtl") {
-        if (tag->hasChildren() && !tag->getParam("NULL", "false").toBool())
+        if (tag->hasChildren() && !tag->getParam("NULL", "false").to_bool())
             setHeightCtl(plController::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
     } else if (tag->getName() == "ParticleParams") {
-        fXTiles = tag->getParam("XTiles", "0").toUint();
-        fYTiles = tag->getParam("YTiles", "0").toUint();
-        fMaxTotalParticles = tag->getParam("MaxTotalParticles", "0").toUint();
-        fMaxEmitters = tag->getParam("MaxEmitters", "0").toUint();
-        fPreSim = tag->getParam("PreSim", "0").toFloat();
-        fDrag = tag->getParam("Drag", "0").toFloat();
-        fWindMult = tag->getParam("WindMult", "0").toFloat();
+        fXTiles = tag->getParam("XTiles", "0").to_uint();
+        fYTiles = tag->getParam("YTiles", "0").to_uint();
+        fMaxTotalParticles = tag->getParam("MaxTotalParticles", "0").to_uint();
+        fMaxEmitters = tag->getParam("MaxEmitters", "0").to_uint();
+        fPreSim = tag->getParam("PreSim", "0").to_float();
+        fDrag = tag->getParam("Drag", "0").to_float();
+        fWindMult = tag->getParam("WindMult", "0").to_float();
     } else if (tag->getName() == "Accel") {
         if (tag->hasChildren())
             fAccel.prcParse(tag->getFirstChild());

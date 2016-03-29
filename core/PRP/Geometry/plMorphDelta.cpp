@@ -51,8 +51,8 @@ void plVertDelta::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plVertDelta")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fIdx = tag->getParam("Idx", "0").toUint();
-    fPadding = tag->getParam("Padding", "0").toUint();
+    fIdx = tag->getParam("Idx", "0").to_uint();
+    fPadding = tag->getParam("Padding", "0").to_uint();
 
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
@@ -133,7 +133,7 @@ void plMorphSpan::prcParse(const pfPrcTag* tag) {
             }
         } else if (child->getName() == "UVWs") {
             delete[] fUVWs;
-            fNumUVWChans = child->getParam("Channels", "0").toUint();
+            fNumUVWChans = child->getParam("Channels", "0").to_uint();
             size_t nUVWs = fDeltas.size() * fNumUVWChans;
             if (child->countChildren() != nUVWs)
                 throw pfPrcParseException(__FILE__, __LINE__, "UVW count mismatch");
@@ -179,7 +179,7 @@ void plMorphDelta::IPrcWrite(pfPrcHelper* prc) {
 
 void plMorphDelta::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Weight") {
-        fWeight = tag->getParam("value", "0").toFloat();
+        fWeight = tag->getParam("value", "0").to_float();
     } else if (tag->getName() == "Spans") {
         fSpans.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

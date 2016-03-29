@@ -72,19 +72,19 @@ void plAnimStage::IPrcWrite(pfPrcHelper* prc) {
 void plAnimStage::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Animation") {
         fAnimName = tag->getParam("Name", "");
-        fLoops = tag->getParam("Loops", "0").toInt();
+        fLoops = tag->getParam("Loops", "0").to_int();
     } else if (tag->getName() == "StageTypes") {
-        fNotify = tag->getParam("Notify", "0").toUint();
-        fForwardType = (PlayType)tag->getParam("ForwardType", "0").toInt();
-        fBackType = (PlayType)tag->getParam("BackwardType", "0").toInt();
-        fAdvanceType = (AdvanceType)tag->getParam("AdvanceType", "0").toInt();
-        fRegressType = (AdvanceType)tag->getParam("RegressType", "0").toInt();
+        fNotify = tag->getParam("Notify", "0").to_uint();
+        fForwardType = (PlayType)tag->getParam("ForwardType", "0").to_int();
+        fBackType = (PlayType)tag->getParam("BackwardType", "0").to_int();
+        fAdvanceType = (AdvanceType)tag->getParam("AdvanceType", "0").to_int();
+        fRegressType = (AdvanceType)tag->getParam("RegressType", "0").to_int();
     } else if (tag->getName() == "AdvanceTo") {
-        fDoAdvanceTo = tag->getParam("enabled", "true").toBool();
-        fAdvanceTo = tag->getParam("value", "0").toUint();
+        fDoAdvanceTo = tag->getParam("enabled", "true").to_bool();
+        fAdvanceTo = tag->getParam("value", "0").to_uint();
     } else if (tag->getName() == "RegressTo") {
-        fDoRegressTo = tag->getParam("enabled", "true").toBool();
-        fRegressTo = tag->getParam("value", "0").toUint();
+        fDoRegressTo = tag->getParam("enabled", "true").to_bool();
+        fRegressTo = tag->getParam("value", "0").to_uint();
     } else {
         plCreatable::IPrcParse(tag, mgr);
     }
@@ -117,8 +117,8 @@ void plAnimStage::prcParseAux(const pfPrcTag* tag) {
     if (tag->getName() != "plAnimStage_Aux")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fLocalTime = tag->getParam("LocalTime", "0").toFloat();
-    fLength = tag->getParam("Length", "0").toFloat();
-    fCurLoop = tag->getParam("CurLoop", "0").toInt();
-    fAttached = tag->getParam("Attached", "False").toBool();
+    fLocalTime = tag->getParam("LocalTime", "0").to_float();
+    fLength = tag->getParam("Length", "0").to_float();
+    fCurLoop = tag->getParam("CurLoop", "0").to_int();
+    fAttached = tag->getParam("Attached", "False").to_bool();
 }

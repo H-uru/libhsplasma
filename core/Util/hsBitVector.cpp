@@ -116,7 +116,7 @@ unsigned int hsBitVector::getValue(const char* name) {
         if (strcmp(i->second, name) == 0)
             return i->first;
     }
-    return (unsigned int)plString(name).toUint();
+    return ST::string(name).to_uint();
 }
 
 void hsBitVector::setName(unsigned int idx, const char* name) {
@@ -159,7 +159,7 @@ void hsBitVector::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "hsBitVector")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    std::list<plString> flags = tag->getContents();
+    std::list<ST::string> flags = tag->getContents();
     for (auto flag = flags.begin(); flag != flags.end(); ++flag)
-        setBit(getValue(*flag));
+        setBit(getValue(flag->c_str()));
 }

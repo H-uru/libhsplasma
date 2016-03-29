@@ -61,7 +61,7 @@ bool plMD5Hash::operator!=(const plMD5Hash& cmp) {
     return memcmp(fHash, cmp.fHash, sizeof(fHash)) != 0;
 }
 
-plString plMD5Hash::toHex() const {
+ST::string plMD5Hash::toHex() const {
     // Little-endian byte order
     HashConvert hc;
     hc.hash32[0] = LESWAP32(fHash[0]);
@@ -69,13 +69,14 @@ plString plMD5Hash::toHex() const {
     hc.hash32[2] = LESWAP32(fHash[2]);
     hc.hash32[3] = LESWAP32(fHash[3]);
 
-    char buf[33];
+    ST::char_buffer result;
+    char *buf = result.create_writable_buffer(32);
     for (size_t i=0; i<16; i++) {
         buf[(2*i)    ] = kHexTable[(hc.hash8[i] & 0xF0) >> 4];
         buf[(2*i) + 1] = kHexTable[(hc.hash8[i] & 0x0F)     ];
     }
     buf[32] = 0;
-    return buf;
+    return result;
 }
 
 void plMD5Hash::fromHex(const char* hex) {
@@ -318,21 +319,21 @@ plMD5Hash plMD5::hashFile(const char* filename) {
     return hash;
 }
 
-plMD5Hash plMD5::hashString(const plString& str) {
+plMD5Hash plMD5::hashString(const ST::string& str) {
     plMD5 ctx;
-    size_t size = str.len();
+    size_t size = str.size();
     unsigned char buf[64];
 
     size_t pos = 0;
     while (pos + 64 <= size) {
-        memcpy(buf, str.cstr() + pos, 64);
+        memcpy(buf, str.c_str() + pos, 64);
         ctx.processBlock(buf);
         pos += 64;
     }
 
     // Final block
     size_t lastSize = size - pos;
-    memcpy(buf, str.cstr() + pos, lastSize);
+    memcpy(buf, str.c_str() + pos, lastSize);
 
     if (lastSize >= 56) {
         memcpy(buf + lastSize, kPadArray, 64 - lastSize);

@@ -27,7 +27,7 @@
 
 class PLASMA_DLL plStateVarNotificationInfo {
 protected:
-    plString fHintString;
+    ST::string fHintString;
 
 public:
     void read(hsStream* S);
@@ -103,7 +103,7 @@ protected:
         bool* fBool;
         plUoid* fUoid;
         plCreatable** fCreatable;
-        plString* fString;
+        ST::string* fString;
         plUnifiedTime* fTime;
         hsVector3* fVector;
         hsQuat* fQuat;
@@ -140,7 +140,7 @@ public:
     bool& Bool(size_t idx) { return fBool[idx]; }
     plUoid& Uoid(size_t idx) { return fUoid[idx]; }
     plCreatable*& Creatable(size_t idx) { return fCreatable[idx]; }
-    plString& String(size_t idx) { return fString[idx]; }
+    ST::string& String(size_t idx) { return fString[idx]; }
     plUnifiedTime& Time(size_t idx) { return fTime[idx]; }
     hsVector3& Vector(size_t idx) { return fVector[idx]; }
     hsQuat& Quat(size_t idx) { return fQuat[idx]; }

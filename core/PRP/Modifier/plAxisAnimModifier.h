@@ -26,7 +26,7 @@ class PLASMA_DLL plAxisAnimModifier : public plSingleModifier {
 private:
     plKey fXAnim, fYAnim, fNotificationKey;
     plNotifyMsg* fNotify;
-    plString fAnimLabel;
+    ST::string fAnimLabel;
     bool fAllOrNothing;
 
     // Lots of unknown EOA parameters:
@@ -53,13 +53,13 @@ public:
     plKey getYAnim() const { return fYAnim; }
     plKey getNotificationKey() const { return fNotificationKey; }
     plNotifyMsg* getNotify() const { return fNotify; }
-    plString getAnimLabel() const { return fAnimLabel; }
+    ST::string getAnimLabel() const { return fAnimLabel; }
     bool getAllOrNothing() const { return fAllOrNothing; }
 
     void setXAnim(plKey anim) { fXAnim = anim; }
     void setYAnim(plKey anim) { fYAnim = anim; }
     void setNotificationKey(plKey notify) { fNotificationKey = notify; }
-    void setAnimLabel(const plString& label) { fAnimLabel = label; }
+    void setAnimLabel(const ST::string& label) { fAnimLabel = label; }
     void setAllOrNothing(bool value) { fAllOrNothing = value; }
     void setNotify(plNotifyMsg* msg);
 };

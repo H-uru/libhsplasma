@@ -56,8 +56,8 @@ void plInputIfaceMgrMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plInputIfaceMgrMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "InputIfaceMgrParams") {
-        fCommand = tag->getParam("Command", "0").toUint();
-        fPageID = tag->getParam("PageID", "0").toUint();
+        fCommand = tag->getParam("Command", "0").to_uint();
+        fPageID = tag->getParam("PageID", "0").to_uint();
         fAgeName = tag->getParam("AgeName", "");
         fAgeFilename = tag->getParam("AgeFilename", "");
         fSpawnPoint = tag->getParam("SpawnPoint", "");

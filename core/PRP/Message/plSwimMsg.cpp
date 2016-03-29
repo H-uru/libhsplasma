@@ -42,7 +42,7 @@ void plSwimMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plSwimMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SwimMsgParams") {
-        fIsEntering = tag->getParam("IsEntering", "false").toBool();
+        fIsEntering = tag->getParam("IsEntering", "false").to_bool();
     } else if (tag->getName() == "SwimRegion") {
         if (tag->hasChildren())
             fSwimRegion = mgr->prcParseKey(tag->getFirstChild());

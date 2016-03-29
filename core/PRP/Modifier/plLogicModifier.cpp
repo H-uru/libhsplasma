@@ -67,7 +67,7 @@ void plLogicModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "LogicModifierParams") {
-        fMyCursor = tag->getParam("MyCursor", "0").toUint();
+        fMyCursor = tag->getParam("MyCursor", "0").to_uint();
     } else if (tag->getName() == "Parent") {
         if (tag->hasChildren())
             fParent = mgr->prcParseKey(tag->getFirstChild());

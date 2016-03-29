@@ -26,7 +26,7 @@ plSDLMgr::~plSDLMgr() {
         delete *desc;
 }
 
-void plSDLMgr::ReadDescriptors(const plString& filename) {
+void plSDLMgr::ReadDescriptors(const ST::string& filename) {
     if (plEncryptedStream::IsFileEncrypted(filename)) {
         plEncryptedStream stream;
         stream.open(filename, fmRead, plEncryptedStream::kEncAuto);
@@ -55,7 +55,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
     std::unique_ptr<plStateDescriptor> curDesc;
     std::unique_ptr<plVarDescriptor> curVar;
     bool reexamine = false;
-    plString tok;
+    ST::string tok;
     while (reexamine || tokStream->hasNext()) {
         if (reexamine)
             reexamine = false;
@@ -68,7 +68,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                 tok = tokStream->next();
                 if (tok != "{") {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Unexpected token '%s', expected '{'", tok.cstr());
+                            ST::format("Unexpected token '{}', expected '{'", tok).c_str());
                 }
                 state = kUruStateDesc;
             } else if (tok == "struct") {
@@ -77,52 +77,50 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                 tok = tokStream->next();
                 if (tok != "{") {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Unexpected token '%s', expected '{'", tok.cstr());
+                            ST::format("Unexpected token '{}', expected '{'", tok).c_str());
                 }
                 state = kEoaStateDesc;
             } else {
                 throw plSDLParseException(__FILE__, __LINE__,
-                        "Unexpected token '%s', expected 'STATEDESC', 'struct'",
-                        tok.cstr());
+                        ST::format("Unexpected token '{}', expected 'STATEDESC', 'struct'", tok).c_str());
             }
         } else if (state == kUruStateDesc) {
             if (tok == "VAR") {
                 curVar.reset(new plVarDescriptor());
-                plString typeStr = tokStream->next();
+                ST::string typeStr = tokStream->next();
                 plVarDescriptor::Type varType = plVarDescriptor::GetTypeFromString(typeStr, false);
                 curVar->setType(varType);
                 if (varType == plVarDescriptor::kStateDescriptor)
-                    curVar->setStateDescType(typeStr.mid(1));
+                    curVar->setStateDescType(typeStr.substr(1));
                 if (varType == plVarDescriptor::kNone ||
-                        (varType == plVarDescriptor::kStateDescriptor && typeStr.len() < 2)) {
+                        (varType == plVarDescriptor::kStateDescriptor && typeStr.size() < 2)) {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Invalid var type: %s", typeStr.cstr());
+                            ("Invalid var type: " + typeStr).c_str());
                 }
                 curVar->setName(tokStream->next());
                 if (tokStream->peekNext() == "[") {
                     tokStream->next();
                     tok = tokStream->next();
                     if (tok != "]") {
-                        curVar->setCount(tok.toUint());
+                        curVar->setCount(tok.to_uint());
                         tok = tokStream->next();
                     } else {
                         curVar->setVariableLength(true);
                     }
                     if (tok != "]") {
                         throw plSDLParseException(__FILE__, __LINE__,
-                                "Unexpected token '%s', expected ']'", tok.cstr());
+                                ST::format("Unexpected token '{}', expected ']'", tok).c_str());
                     }
                 }
                 state = kUruVarLine;
             } else if (tok == "VERSION") {
-                curDesc->setVersion(tokStream->next().toInt());
+                curDesc->setVersion(tokStream->next().to_int());
             } else if (tok == "}") {
                 fDescriptors.push_back(curDesc.release());
                 state = kFile;
             } else {
                 throw plSDLParseException(__FILE__, __LINE__,
-                        "Unexpected token '%s', expected 'VAR', 'VERSION', '}'",
-                        tok.cstr());
+                        ST::format("Unexpected token '{}', expected 'VAR', 'VERSION', '}'", tok).c_str());
             }
         } else if (state == kUruVarLine) {
             if (tok == ";") {
@@ -135,9 +133,9 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                 tok = tokStream->next();
                 if (tok != "=") {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Unexpected '%s', expected '='", tok.cstr());
+                            ST::format("Unexpected '{}', expected '='", tok).c_str());
                 }
-                plString defStr;
+                ST::string defStr;
                 bool isEnd = false;
                 do {
                     tok = tokStream->next();
@@ -156,28 +154,28 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                 tok = tokStream->next();
                 if (tok != "=") {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Unexpected '%s', expected '='", tok.cstr());
+                            ST::format("Unexpected '{}', expected '='", tok).c_str());
                 }
                 tok = tokStream->next();
-                if (tok.toLower() == "vault") {
+                if (tok.to_lower() == "vault") {
                     curVar->setAlwaysNew(true);
-                } else if (tok.toLower() == "hidden") {
+                } else if (tok.to_lower() == "hidden") {
                     curVar->setInternal(true);
-                } else if (tok.toLower() == "red") {
+                } else if (tok.to_lower() == "red") {
                     curVar->setDisplay(tok);
                 } else {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Unexpected DEFAULTOPTION '%s'", tok.cstr());
+                            ST::format("Unexpected DEFAULTOPTION '{}'", tok).c_str());
                 }
             } else if (tok == "DISPLAYOPTION") {
                 tok = tokStream->next();
                 if (tok != "=") {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Unexpected '%s', expected '='", tok.cstr());
+                            ST::format("Unexpected '{}', expected '='", tok).c_str());
                 }
                 tok = tokStream->next();
                 curVar->setDisplay(tok);
-                if (tok.toLower() == "hidden")
+                if (tok.to_lower() == "hidden")
                     curVar->setInternal(true);
             } else if (tok == "INTERNAL") {
                 curVar->setInternal(true);
@@ -185,15 +183,15 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                 curVar->setAlwaysNew(true);
             } else {
                 throw plSDLParseException(__FILE__, __LINE__,
-                        "Unexpected token '%s'", tok.cstr());
+                        ST::format("Unexpected token '{}'", tok).c_str());
             }
         } else if (state == kEoaStateDesc) {
             if (tok == "version") {
-                curDesc->setVersion(tokStream->next().toInt());
+                curDesc->setVersion(tokStream->next().to_int());
                 tok = tokStream->next();
                 if (tok != ";") {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Unexpected '%s', expected ';'", tok.cstr());
+                            ST::format("Unexpected '{}', expected ';'", tok).c_str());
                 }
             } else if (tok == "}") {
                 fDescriptors.push_back(curDesc.release());
@@ -209,14 +207,14 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                     tokStream->next();
                     tok = tokStream->next();
                     if (tok != "]") {
-                        curVar->setCount(tok.toUint());
+                        curVar->setCount(tok.to_uint());
                         tok = tokStream->next();
                     } else {
                         curVar->setVariableLength(true);
                     }
                     if (tok != "]") {
                         throw plSDLParseException(__FILE__, __LINE__,
-                                "Unexpected token '%s', expected ']'", tok.cstr());
+                                ST::format("Unexpected token '{}', expected ']'", tok).c_str());
                     }
                 }
                 state = kEoaVarLine;
@@ -231,10 +229,10 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                 tok = tokStream->next();
                 if (tok != "=") {
                     throw plSDLParseException(__FILE__, __LINE__,
-                            "Unexpected '%s', expected '='", tok.cstr());
+                            ST::format("Unexpected '{}', expected '='", tok).c_str());
                 }
                 int nParens = 0;
-                plString defStr;
+                ST::string defStr;
                 do {
                     tok = tokStream->next();
                     if (tok == "(")
@@ -250,7 +248,7 @@ void plSDLMgr::ReadDescriptors(hsStream* fileStream) {
                 curVar->setInternal(true);
             } else {
                 throw plSDLParseException(__FILE__, __LINE__,
-                        "Unexpected token '%s'", tok.cstr());
+                        ST::format("Unexpected token '{}'", tok).c_str());
             }
         }
     }
@@ -265,7 +263,7 @@ void plSDLMgr::ClearDescriptors() {
     fDescriptors.clear();
 }
 
-plStateDescriptor* plSDLMgr::GetDescriptor(const plString& name, int version) {
+plStateDescriptor* plSDLMgr::GetDescriptor(const ST::string& name, int version) {
     plStateDescriptor* desc = NULL;
     int hiVersion = 0;
     for (size_t i=0; i<fDescriptors.size(); i++) {
@@ -317,15 +315,10 @@ void plSDLMgr::write(hsStream* S) {
 
 /* plSDLParseException */
 plSDLParseException::plSDLParseException(const char* file, unsigned long line,
-                                         const char* msg, ...) HS_NOEXCEPT
+                                         const char* msg) HS_NOEXCEPT
                    : hsException(file, line) {
-    va_list argptr;
-    va_start(argptr, msg);
-    plString str = plString::FormatV(msg, argptr);
-    va_end(argptr);
-
     if (msg == NULL)
         fWhat = "Unknown SDL Parse Error";
     else
-        fWhat = plString("SDL Error: ") + str;
+        fWhat = ST::string("SDL Error: ") + msg;
 }

@@ -26,7 +26,7 @@
 #include "pnSocketInterface.h"
 
 struct PLASMANET_DLL pnAuthFileItem {
-    plString fFilename;
+    ST::string fFilename;
     uint32_t fFileSize;
 };
 
@@ -34,13 +34,13 @@ struct PLASMANET_DLL pnNetGameScore {
     uint32_t fScoreId, fOwnerId;
     uint32_t fCreatedTime, fGameType;
     int32_t fValue;
-    plString fGameName;
+    ST::string fGameName;
 };
 
 struct PLASMANET_DLL pnNetGameRank {
     uint32_t fRank;
     int32_t fScore;
-    plString fName;
+    ST::string fName;
 };
 
 class PLASMANET_DLL pnAuthClient : public pnClient {
@@ -69,30 +69,30 @@ public:
     uint32_t sendPingRequest(uint32_t pingTimeMs);
     void sendClientRegisterRequest();
     void sendClientSetCCRLevel(uint32_t level);
-    uint32_t sendAcctExistsRequest(const plString& acctName);
+    uint32_t sendAcctExistsRequest(const ST::string& acctName);
     uint32_t sendAcctLoginRequest(uint32_t serverChallenge, uint32_t clientChallenge,
-                const plString& acctName, const plString& password,
-                const plString& authToken = "", const plString& os = "win");
+                const ST::string& acctName, const ST::string& password,
+                const ST::string& authToken = "", const ST::string& os = "win");
     uint32_t sendAcctSetPlayerRequest(uint32_t playerId);
-    uint32_t sendAcctCreateRequest(const plString& acctName,
-                const plString& password, uint32_t acctFlags,
+    uint32_t sendAcctCreateRequest(const ST::string& acctName,
+                const ST::string& password, uint32_t acctFlags,
                 uint32_t billingType);
-    uint32_t sendAcctChangePasswordRequest(const plString& acctName,
-                const plString& password);
-    uint32_t sendAcctSetRolesRequest(const plString& acctName, uint32_t acctFlags);
-    uint32_t sendAcctSetBillingTypeRequest(const plString& acctName, uint32_t billingType);
+    uint32_t sendAcctChangePasswordRequest(const ST::string& acctName,
+                const ST::string& password);
+    uint32_t sendAcctSetRolesRequest(const ST::string& acctName, uint32_t acctFlags);
+    uint32_t sendAcctSetBillingTypeRequest(const ST::string& acctName, uint32_t billingType);
     uint32_t sendAcctActivateRequest(const plUuid& activationKey);
-    uint32_t sendAcctCreateFromKeyRequest(const plString& acctName,
-                const plString& password, const plUuid& key, uint32_t billingType);
+    uint32_t sendAcctCreateFromKeyRequest(const ST::string& acctName,
+                const ST::string& password, const plUuid& key, uint32_t billingType);
     uint32_t sendPlayerDeleteRequest(uint32_t playerId);
-    uint32_t sendPlayerCreateRequest(const plString& playerName,
-                const plString& playerShape, const plString& friendInvite);
+    uint32_t sendPlayerCreateRequest(const ST::string& playerName,
+                const ST::string& playerShape, const ST::string& friendInvite);
     uint32_t sendUpgradeVisitorRequest(uint32_t playerId);
     uint32_t sendSetPlayerBanStatusRequest(uint32_t playerId, uint32_t banned);
     void sendKickPlayer(uint32_t playerId);
-    uint32_t sendChangePlayerNameRequest(uint32_t playerId, const plString& name);
-    uint32_t sendFriendInviteRequest(const plUuid& invite, const plString& email,
-                const plString& sendTo);
+    uint32_t sendChangePlayerNameRequest(uint32_t playerId, const ST::string& name);
+    uint32_t sendFriendInviteRequest(const plUuid& invite, const ST::string& email,
+                const ST::string& sendTo);
     uint32_t sendVaultNodeCreate(const pnVaultNode& node);
     uint32_t sendVaultNodeFetch(uint32_t nodeId);
     uint32_t sendVaultNodeSave(uint32_t nodeId, const plUuid& revisionId,
@@ -100,31 +100,31 @@ public:
     uint32_t sendVaultNodeAdd(uint32_t parent, uint32_t child, uint32_t owner = 0);
     uint32_t sendVaultNodeRemove(uint32_t parent, uint32_t child);
     uint32_t sendVaultFetchNodeRefs(uint32_t nodeId);
-    uint32_t sendVaultInitAgeRequest(const plUuid& ageUuid, const plString& filename,
-                const plString& instanceName, const plString& userDefinedName,
-                const plString& description, uint32_t sequence, uint32_t language,
+    uint32_t sendVaultInitAgeRequest(const plUuid& ageUuid, const ST::string& filename,
+                const ST::string& instanceName, const ST::string& userDefinedName,
+                const ST::string& description, uint32_t sequence, uint32_t language,
                 const plUuid& parentUuid = plUuid());
     uint32_t sendVaultNodeFind(const pnVaultNode& templateNode);
     void sendVaultSetSeen(uint32_t parent, uint32_t child, uint8_t seen);
     void sendVaultSendNode(uint32_t nodeId, uint32_t playerId);
-    uint32_t sendAgeRequest(const plString& ageName, const plUuid& ageUuid);
-    uint32_t sendAgeRequestEx(const plString& ageName, const plUuid& ageUuid);
-    uint32_t sendFileListRequest(const plString& directory, const plString& ext);
-    uint32_t sendFileDownloadRequest(const plString& filename);
-    uint32_t sendGetPublicAgeList(const plString& filename);
+    uint32_t sendAgeRequest(const ST::string& ageName, const plUuid& ageUuid);
+    uint32_t sendAgeRequestEx(const ST::string& ageName, const plUuid& ageUuid);
+    uint32_t sendFileListRequest(const ST::string& directory, const ST::string& ext);
+    uint32_t sendFileDownloadRequest(const ST::string& filename);
+    uint32_t sendGetPublicAgeList(const ST::string& filename);
     void sendSetAgePublic(uint32_t ageInfoId, uint8_t isPublic);
-    void sendLogPythonTraceback(const plString& traceback);
-    void sendLogStackDump(const plString& stackdump);
+    void sendLogPythonTraceback(const ST::string& traceback);
+    void sendLogStackDump(const ST::string& stackdump);
     void sendLogClientDebuggerConnect();
-    uint32_t sendScoreCreate(uint32_t owner, const plString& gameName,
+    uint32_t sendScoreCreate(uint32_t owner, const ST::string& gameName,
                 uint32_t gameType, uint32_t scoreValue);
     uint32_t sendScoreDelete(uint32_t scoreId);
-    uint32_t sendScoreGetScores(uint32_t owner, const plString& gameName);
+    uint32_t sendScoreGetScores(uint32_t owner, const ST::string& gameName);
     uint32_t sendScoreAddPoints(uint32_t scoreId, uint32_t points);
     uint32_t sendScoreTransferPoints(uint32_t source, uint32_t dest, uint32_t points);
     uint32_t sendScoreSetPoints(uint32_t scoreId, uint32_t points);
     uint32_t sendScoreGetRanks(uint32_t ownerId, uint32_t group, uint32_t parent,
-                const plString& gameName, uint32_t timePeriod, uint32_t numResults,
+                const ST::string& gameName, uint32_t timePeriod, uint32_t numResults,
                 uint32_t pageNumber, uint32_t sortDesc);
     void propagateMessage(plCreatable* msg);
 
@@ -138,7 +138,7 @@ public:
                     const plUuid& acctUuid, uint32_t acctFlags,
                     uint32_t billingType, const uint32_t* encryptionKey);
     virtual void onAcctPlayerInfo(uint32_t transId, uint32_t playerId,
-                    const plString& playerName, const plString& avatarModel,
+                    const ST::string& playerName, const ST::string& avatarModel,
                     uint32_t explorer);
     virtual void onAcctSetPlayerReply(uint32_t transId, ENetError result);
     virtual void onAcctCreateReply(uint32_t transId, ENetError result,
@@ -151,7 +151,7 @@ public:
                     const plUuid& acctUuid, const plUuid& activationKey);
     virtual void onPlayerCreateReply(uint32_t transId, ENetError result,
                     uint32_t playerId, uint32_t explorer,
-                    const plString& playerName, const plString& avatarShape);
+                    const ST::string& playerName, const ST::string& avatarShape);
     virtual void onPlayerDeleteReply(uint32_t transId, ENetError result);
     virtual void onUpgradeVisitorReply(uint32_t transId, ENetError result);
     virtual void onSetPlayerBanStatusReply(uint32_t transId, ENetError result);
@@ -179,7 +179,7 @@ public:
                     uint32_t gameServerAddress);
     virtual void onAgeReplyEx(uint32_t transId, ENetError result, uint32_t mcpId,
                     const plUuid& ageInstanceId, uint32_t ageVaultId,
-                    const plString& gameServerAddress);
+                    const ST::string& gameServerAddress);
     virtual void onFileListReply(uint32_t transId, ENetError result,
                     size_t count, const pnAuthFileItem* files);
     virtual void onFileDownloadChunk(uint32_t transId, ENetError result,

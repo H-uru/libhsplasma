@@ -277,9 +277,9 @@ void plArmatureMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         fDefaultMesh = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "ArmatureParams") {
         fRootName = tag->getParam("Root", "");
-        fBodyType = tag->getParam("BodyType", "0").toInt();
-        fPhysHeight = tag->getParam("PhysHeight", "0").toFloat();
-        fPhysWidth = tag->getParam("PhysWidth", "0").toFloat();
+        fBodyType = tag->getParam("BodyType", "0").to_int();
+        fPhysHeight = tag->getParam("PhysHeight", "0").to_float();
+        fPhysWidth = tag->getParam("PhysWidth", "0").to_float();
         const pfPrcTag* child = tag->getFirstChild();
         while (child != NULL) {
             if (child->getName() == "Mins")

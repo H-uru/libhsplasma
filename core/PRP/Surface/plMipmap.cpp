@@ -178,7 +178,7 @@ void plMipmap::IReadMipmap(hsStream* S) {
 
     size_t realSize = IBuildLevelSizes();
     if (realSize != fTotalSize)
-        plDebug::Warning("%s: Incorrect image buffer storage size", getKey().toString().cstr());
+        plDebug::Warning("{}: Incorrect image buffer storage size", getKey().toString());
     fImageData = new unsigned char[realSize];
 
     switch (fCompressionType) {
@@ -271,11 +271,11 @@ void plMipmap::IPrcWrite(pfPrcHelper* prc) {
 
 void plMipmap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Metrics") {
-        fWidth = tag->getParam("Width", "0").toUint();
-        fHeight = tag->getParam("Height", "0").toUint();
-        fStride = tag->getParam("Stride", "0").toUint();
-        fTotalSize = tag->getParam("TotalSize", "0").toUint();
-        fLevelData.resize(tag->getParam("MipLevels", "0").toUint());
+        fWidth = tag->getParam("Width", "0").to_uint();
+        fHeight = tag->getParam("Height", "0").to_uint();
+        fStride = tag->getParam("Stride", "0").to_uint();
+        fTotalSize = tag->getParam("TotalSize", "0").to_uint();
+        fLevelData.resize(tag->getParam("MipLevels", "0").to_uint());
         IBuildLevelSizes();
     } else if (tag->getName() == "JPEG") {
         IBuildLevelSizes();

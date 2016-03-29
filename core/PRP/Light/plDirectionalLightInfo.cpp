@@ -42,9 +42,9 @@ void plLimitedDirLightInfo::IPrcWrite(pfPrcHelper* prc) {
 
 void plLimitedDirLightInfo::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Limits") {
-        fWidth = tag->getParam("Width", "0").toFloat();
-        fHeight = tag->getParam("Height", "0").toFloat();
-        fDepth = tag->getParam("Depth", "0").toFloat();
+        fWidth = tag->getParam("Width", "0").to_float();
+        fHeight = tag->getParam("Height", "0").to_float();
+        fDepth = tag->getParam("Depth", "0").to_float();
     } else {
         plLightInfo::IPrcParse(tag, mgr);
     }

@@ -57,7 +57,7 @@ void plOneShotCallbacks::prcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (child->getName() != "Callback")
             throw pfPrcTagException(__FILE__, __LINE__, child->getName());
         fCallbacks[i].fMarker = child->getParam("Marker", "");
-        fCallbacks[i].fUser = child->getParam("User", "0").toInt();
+        fCallbacks[i].fUser = child->getParam("User", "0").to_int();
         if (child->hasChildren())
             fCallbacks[i].fReceiver = mgr->prcParseKey(child->getFirstChild());
         child = child->getNextSibling();

@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    std::vector<plString> fFiles;
+    std::vector<ST::string> fFiles;
 
     plDebug::Init(plDebug::kDLAll);
     plResManager rm;
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 
         std::vector<short> types = rm.getTypes(page->getLocation());
 
-        printf("%s :: %s\n", page->getAge().cstr(), page->getPage().cstr());
+        printf("%s :: %s\n", page->getAge().c_str(), page->getPage().c_str());
 
         for (unsigned int f = 0; f < types.size(); f++) {
             printf("|---[%04X] %s\n", types[f], pdUnifiedTypeMap::ClassName(types[f]));
@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
             std::vector<plKey> mykeys = rm.getKeys(page->getLocation(), types[f]);
 
             for (unsigned int ks = 0; ks < mykeys.size(); ks++) {
-                printf("|    |--- %s\n", mykeys[ks]->getName().cstr());
+                printf("|    |--- %s\n", mykeys[ks]->getName().c_str());
             }
         }
     }

@@ -65,15 +65,15 @@ void plCameraModifier::CamTrans::prcParse(const pfPrcTag* tag, plResManager* mgr
     if (tag->getName() != "CamTrans")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fCutPos = tag->getParam("CutPos", "false").toBool();
-    fCutPOA = tag->getParam("CutPOA", "false").toBool();
-    fIgnore = tag->getParam("Ignore", "false").toBool();
-    fVelocity = tag->getParam("Velocity", "0").toFloat();
-    fAccel = tag->getParam("Accel", "0").toFloat();
-    fDecel = tag->getParam("Decel", "0").toFloat();
-    fPOAVelocity = tag->getParam("POAVelocity", "0").toFloat();
-    fPOAAccel = tag->getParam("POAAccel", "0").toFloat();
-    fPOADecel = tag->getParam("POADecel", "0").toFloat();
+    fCutPos = tag->getParam("CutPos", "false").to_bool();
+    fCutPOA = tag->getParam("CutPOA", "false").to_bool();
+    fIgnore = tag->getParam("Ignore", "false").to_bool();
+    fVelocity = tag->getParam("Velocity", "0").to_float();
+    fAccel = tag->getParam("Accel", "0").to_float();
+    fDecel = tag->getParam("Decel", "0").to_float();
+    fPOAVelocity = tag->getParam("POAVelocity", "0").to_float();
+    fPOAAccel = tag->getParam("POAAccel", "0").to_float();
+    fPOADecel = tag->getParam("POADecel", "0").to_float();
 
     const pfPrcTag* child = tag->getFirstChild();
     if (child != NULL) {
@@ -195,12 +195,12 @@ void plCameraModifier::IPrcWrite(pfPrcHelper* prc) {
 
 void plCameraModifier::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CameraModParams") {
-        fFOVw = tag->getParam("FOVw", "45").toFloat();
-        fFOVh = tag->getParam("FOVh", "33.75").toFloat();
-        fAnimated = tag->getParam("Animated", "false").toBool();
-        fStartAnimOnPush = tag->getParam("StartAnimOnPush", "false").toBool();
-        fStopAnimOnPop = tag->getParam("StopAnimOnPop", "false").toBool();
-        fResetAnimOnPop = tag->getParam("ResetAnimOnPop", "false").toBool();
+        fFOVw = tag->getParam("FOVw", "45").to_float();
+        fFOVh = tag->getParam("FOVh", "33.75").to_float();
+        fAnimated = tag->getParam("Animated", "false").to_bool();
+        fStartAnimOnPush = tag->getParam("StartAnimOnPush", "false").to_bool();
+        fStopAnimOnPop = tag->getParam("StopAnimOnPop", "false").to_bool();
+        fResetAnimOnPop = tag->getParam("ResetAnimOnPop", "false").to_bool();
     } else if (tag->getName() == "Brain") {
         if (tag->hasChildren())
             fBrain = mgr->prcParseKey(tag->getFirstChild());

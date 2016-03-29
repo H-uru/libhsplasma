@@ -15,6 +15,7 @@
  */
 
 #include "pfGUIPopUpMenu.h"
+#include <cstring>
 
 pfGUIPopUpMenu::pfGUIPopUpMenu()
               : fMargin(4), fAlignment(kAlignDownRight) {
@@ -58,7 +59,7 @@ void pfGUIPopUpMenu::write(hsStream* S, plResManager* mgr) {
     for (size_t i=0; i<fMenuItems.size(); i++) {
         char buf[256];
         memset(buf, 0, 256);
-        strncpy(buf, fMenuItems[i].fName, 256);
+        strncpy(buf, fMenuItems[i].fName.c_str(), 256);
         S->write(256, buf);
         pfGUICtrlProcWriteableObject::Write(S, fMenuItems[i].fHandler);
         mgr->writeKey(S, fMenuItems[i].fSubMenu);
@@ -109,8 +110,8 @@ void pfGUIPopUpMenu::IPrcWrite(pfPrcHelper* prc) {
 
 void pfGUIPopUpMenu::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "PopUpParams") {
-        fMargin = tag->getParam("Margin", "0").toUint();
-        fAlignment = (Alignment)tag->getParam("Alignment", "0").toInt();
+        fMargin = tag->getParam("Margin", "0").to_uint();
+        fAlignment = (Alignment)tag->getParam("Alignment", "0").to_int();
     } else if (tag->getName() == "MenuItems") {
         fMenuItems.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();
@@ -148,7 +149,7 @@ void pfGUIPopUpMenu::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-void pfGUIPopUpMenu::addItem(const plString& name, pfGUICtrlProcWriteableObject* handler,
+void pfGUIPopUpMenu::addItem(const ST::string& name, pfGUICtrlProcWriteableObject* handler,
                              plKey subMenu, float yoffs) {
     pfMenuItem item;
     item.fName = name;

@@ -64,8 +64,8 @@ void hsGMaterial::IPrcWrite(pfPrcHelper* prc) {
 
 void hsGMaterial::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "MaterialParams") {
-        fLoadFlags = tag->getParam("LoadFlags", "0").toUint();
-        fCompFlags = tag->getParam("CompFlags", "0").toUint();
+        fLoadFlags = tag->getParam("LoadFlags", "0").to_uint();
+        fCompFlags = tag->getParam("CompFlags", "0").to_uint();
     } else if (tag->getName() == "Layers") {
         fLayers.resize(tag->countChildren());
         const pfPrcTag* child = tag->getFirstChild();

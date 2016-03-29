@@ -46,10 +46,10 @@ void plDistOpacityMod::IPrcWrite(pfPrcHelper* prc) {
 
 void plDistOpacityMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "DistOpacity") {
-        fDists[0] = tag->getParam("NearTrans", "0").toFloat();
-        fDists[1] = tag->getParam("NearOpaq", "0").toFloat();
-        fDists[2] = tag->getParam("FarOpaq", "0").toFloat();
-        fDists[3] = tag->getParam("FarTrans", "0").toFloat();
+        fDists[0] = tag->getParam("NearTrans", "0").to_float();
+        fDists[1] = tag->getParam("NearOpaq", "0").to_float();
+        fDists[2] = tag->getParam("FarOpaq", "0").to_float();
+        fDists[3] = tag->getParam("FarTrans", "0").to_float();
     } else {
         plSingleModifier::IPrcParse(tag, mgr);
     }

@@ -64,7 +64,7 @@ public:
     void prcWrite(pfPrcHelper* prc);
     void prcParse(const pfPrcTag* tag);
 
-    plString toString() const;
+    ST::string toString() const;
 };
 
 #endif

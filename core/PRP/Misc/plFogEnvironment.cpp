@@ -55,15 +55,15 @@ void plFogEnvironment::IPrcWrite(pfPrcHelper* prc) {
 
 void plFogEnvironment::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "FogParams") {
-        plString fogTypeName = tag->getParam("Type", "");
+        ST::string fogTypeName = tag->getParam("Type", "");
         fType = kNoFog;
         for (size_t i=0; i<=kNoFog; i++) {
             if (fogTypeName == FogTypeNames[i])
                 fType = i;
         }
-        fStart = tag->getParam("Start", "0").toFloat();
-        fEnd = tag->getParam("End", "0").toFloat();
-        fDensity = tag->getParam("Density", "0").toFloat();
+        fStart = tag->getParam("Start", "0").to_float();
+        fEnd = tag->getParam("End", "0").to_float();
+        fDensity = tag->getParam("Density", "0").to_float();
     } else if (tag->getName() == "Color") {
         if (tag->hasChildren())
             fColor.prcParse(tag->getFirstChild());

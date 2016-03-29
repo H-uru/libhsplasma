@@ -28,7 +28,7 @@ void plConsoleMsg::write(hsStream* S, plResManager* mgr) {
     plMessage::write(S, mgr);
 
     S->writeInt(fCmd);
-    S->writeShort(fString.len());
+    S->writeShort(fString.size());
     S->writeStr(fString);
 }
 
@@ -43,7 +43,7 @@ void plConsoleMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plConsoleMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Command") {
-        fCmd = tag->getParam("Type", "0").toUint();
+        fCmd = tag->getParam("Type", "0").to_uint();
         fString = tag->getParam("String", "");
     } else {
         plMessage::IPrcParse(tag, mgr);

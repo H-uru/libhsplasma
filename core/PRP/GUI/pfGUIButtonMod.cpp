@@ -103,7 +103,7 @@ void pfGUIButtonMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "NotifyType") {
-        fNotifyType = tag->getParam("value", "0").toInt();
+        fNotifyType = tag->getParam("value", "0").to_int();
     } else if (tag->getName() == "Draggable") {
         if (tag->hasChildren())
             fDraggable = mgr->prcParseKey(tag->getFirstChild());

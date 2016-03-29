@@ -23,7 +23,7 @@ class PLASMA_DLL plAGModifier : public plSingleModifier {
     CREATABLE(plAGModifier, kAGModifier, plSingleModifier)
 
 protected:
-    plString fChannelName;
+    ST::string fChannelName;
     bool fAutoApply, fEnabled;
 
 public:
@@ -37,11 +37,11 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getChannelName() const { return fChannelName; }
+    ST::string getChannelName() const { return fChannelName; }
     bool getAutoApply() const { return fAutoApply; }
     bool getEnabled() const { return fEnabled; }
 
-    void setChannelName(const plString& value) { fChannelName = value; }
+    void setChannelName(const ST::string& value) { fChannelName = value; }
     void setAutoApply(bool value) { fAutoApply = value; }
     void setEnabled(bool value) { fEnabled = value; }
 };

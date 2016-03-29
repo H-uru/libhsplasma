@@ -42,7 +42,7 @@ void plRideAnimatedPhysMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plRideAnimatedPhysMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Region") {
-        fEntering = tag->getParam("Entering", "False").toBool();
+        fEntering = tag->getParam("Entering", "False").to_bool();
         if (tag->hasChildren())
             fRegion = mgr->prcParseKey(tag->getFirstChild());
     } else {

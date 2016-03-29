@@ -121,9 +121,9 @@ void plConeIsect::IPrcWrite(pfPrcHelper* prc) {
 
 void plConeIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ConeParams") {
-        fCapped = tag->getParam("Capped", "0").toInt();
-        fRadAngle = tag->getParam("RadAngle", "0").toFloat();
-        fLength = tag->getParam("Length", "0").toFloat();
+        fCapped = tag->getParam("Capped", "0").to_int();
+        fRadAngle = tag->getParam("RadAngle", "0").to_float();
+        fLength = tag->getParam("Length", "0").to_float();
     } else if (tag->getName() == "WorldTip") {
         if (tag->hasChildren())
             fWorldTip.prcParse(tag->getFirstChild());
@@ -144,7 +144,7 @@ void plConeIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<count; i++) {
             if (child->getName() != "Normal")
                 throw pfPrcTagException(__FILE__, __LINE__, child->getName());
-            fDists[i] = child->getParam("Distance", "0").toFloat();
+            fDists[i] = child->getParam("Distance", "0").to_float();
             if (child->hasChildren())
                 fNorms[i].prcParse(child->getFirstChild());
             child = child->getNextSibling();
@@ -206,8 +206,8 @@ void plConvexIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fPlanes.size(); i++) {
             if (planeChild->getName() != "SinglePlane")
                 throw pfPrcTagException(__FILE__, __LINE__, planeChild->getName());
-            fPlanes[i].fDist = planeChild->getParam("Dist", "0").toFloat();
-            fPlanes[i].fWorldDist = planeChild->getParam("WorldDist", "0").toFloat();
+            fPlanes[i].fDist = planeChild->getParam("Dist", "0").to_float();
+            fPlanes[i].fWorldDist = planeChild->getParam("WorldDist", "0").to_float();
 
             const pfPrcTag* child = planeChild->getFirstChild();
             while (child != NULL) {
@@ -314,10 +314,10 @@ void plCylinderIsect::IPrcWrite(pfPrcHelper* prc) {
 
 void plCylinderIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CylinderParams") {
-        fRadius = tag->getParam("Radius", "0").toFloat();
-        fLength = tag->getParam("Length", "0").toFloat();
-        fMin = tag->getParam("Min", "0").toFloat();
-        fMax = tag->getParam("Max", "0").toFloat();
+        fRadius = tag->getParam("Radius", "0").to_float();
+        fLength = tag->getParam("Length", "0").to_float();
+        fMin = tag->getParam("Min", "0").to_float();
+        fMax = tag->getParam("Max", "0").to_float();
     } else if (tag->getName() == "Top") {
         if (tag->hasChildren())
             fTop.prcParse(tag->getFirstChild());
@@ -385,8 +385,8 @@ void plParallelIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         for (size_t i=0; i<fPlanes.size(); i++) {
             if (planeChild->getName() != "ParallelPlane")
                 throw pfPrcTagException(__FILE__, __LINE__, planeChild->getName());
-            fPlanes[i].fMin = planeChild->getParam("Min", "0").toFloat();
-            fPlanes[i].fMax = planeChild->getParam("Max", "0").toFloat();
+            fPlanes[i].fMin = planeChild->getParam("Min", "0").to_float();
+            fPlanes[i].fMax = planeChild->getParam("Max", "0").to_float();
 
             const pfPrcTag* child = planeChild->getFirstChild();
             while (child != NULL) {
@@ -449,7 +449,7 @@ void plSphereIsect::IPrcWrite(pfPrcHelper* prc) {
 
 void plSphereIsect::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SphereParams") {
-        fRadius = tag->getParam("Radius", "0").toFloat();
+        fRadius = tag->getParam("Radius", "0").to_float();
     } else if (tag->getName() == "Center") {
         if (tag->hasChildren())
             fCenter.prcParse(tag->getFirstChild());

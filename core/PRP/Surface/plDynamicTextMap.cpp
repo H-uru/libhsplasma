@@ -16,6 +16,7 @@
 
 #include "plDynamicTextMap.h"
 #include "Debug/plDebug.h"
+#include <cstring>
 
 plDynamicTextMap::~plDynamicTextMap() {
     delete[] fInitBuffer;
@@ -98,11 +99,11 @@ void plDynamicTextMap::IPrcWrite(pfPrcHelper* prc) {
 
 void plDynamicTextMap::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "DynTextMapParams") {
-        fVisWidth = tag->getParam("VisWidth", "0").toUint();
-        fVisHeight = tag->getParam("VisHeight", "0").toUint();
-        fHasAlpha = tag->getParam("HasAlpha", "false").toBool();
+        fVisWidth = tag->getParam("VisWidth", "0").to_uint();
+        fVisHeight = tag->getParam("VisHeight", "0").to_uint();
+        fHasAlpha = tag->getParam("HasAlpha", "false").to_bool();
     } else if (tag->getName() == "InitBuffer") {
-        if (tag->getParam("NULL", "false").toBool()) {
+        if (tag->getParam("NULL", "false").to_bool()) {
             fInitBuffer = NULL;
         } else {
             fInitBufferLen = tag->getContents().size();

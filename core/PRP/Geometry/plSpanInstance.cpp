@@ -15,6 +15,7 @@
  */
 
 #include "plSpanInstance.h"
+#include <string_theory/st_format.h>
 
 /* plSpanEncoding */
 void plSpanEncoding::read(hsStream* S) {
@@ -38,8 +39,8 @@ void plSpanEncoding::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plSpanEncoding")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fCode = tag->getParam("Code", "0").toUint();
-    fPosScale = tag->getParam("PosScale", "0").toFloat();
+    fCode = tag->getParam("Code", "0").to_uint();
+    fPosScale = tag->getParam("PosScale", "0").to_float();
 }
 
 
@@ -88,12 +89,12 @@ void plSpanInstance::prcWrite(pfPrcHelper* prc) {
 
     prc->writeTagNoBreak("Local2World");
     prc->directWrite(
-        plString::Format("[ %.04f, %.04f, %.04f, %.04f "
-                         "; %.04f, %.04f, %.04f, %.04f "
-                         "; %.04f, %.04f, %.04f, %.04f ]",
-                         fL2W[0][0], fL2W[0][1], fL2W[0][2], fL2W[0][3],
-                         fL2W[1][0], fL2W[1][1], fL2W[1][2], fL2W[1][3],
-                         fL2W[2][0], fL2W[2][1], fL2W[2][2], fL2W[2][3]));
+        ST::format("[ {_0.4f}, {_0.4f}, {_0.4f}, {_0.4f} "
+                   "; {_0.4f}, {_0.4f}, {_0.4f}, {_0.4f} "
+                   "; {_0.4f}, {_0.4f}, {_0.4f}, {_0.4f} ]",
+                   fL2W[0][0], fL2W[0][1], fL2W[0][2], fL2W[0][3],
+                   fL2W[1][0], fL2W[1][1], fL2W[1][2], fL2W[1][3],
+                   fL2W[2][0], fL2W[2][1], fL2W[2][2], fL2W[2][3]));
     prc->closeTagNoBreak();
 
     prc->writeSimpleTag("PosDeltas");
@@ -125,44 +126,44 @@ void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encodin
     const pfPrcTag* child = tag->getFirstChild();
     while (child != NULL) {
         if (child->getName() == "Local2World") {
-            std::list<plString> contents = child->getContents();
+            std::list<ST::string> contents = child->getContents();
             auto iter = contents.begin();
             if (*iter++ != "[")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[0][0] = (*iter++).toFloat();
+            fL2W[0][0] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[0][1] = (*iter++).toFloat();
+            fL2W[0][1] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[0][2] = (*iter++).toFloat();
+            fL2W[0][2] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[0][3] = (*iter++).toFloat();
+            fL2W[0][3] = (*iter++).to_float();
             if (*iter++ != ";")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[1][0] = (*iter++).toFloat();
+            fL2W[1][0] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[1][1] = (*iter++).toFloat();
+            fL2W[1][1] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[1][2] = (*iter++).toFloat();
+            fL2W[1][2] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[1][3] = (*iter++).toFloat();
+            fL2W[1][3] = (*iter++).to_float();
             if (*iter++ != ";")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[2][0] = (*iter++).toFloat();
+            fL2W[2][0] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[2][1] = (*iter++).toFloat();
+            fL2W[2][1] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[2][2] = (*iter++).toFloat();
+            fL2W[2][2] = (*iter++).to_float();
             if (*iter++ != ",")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
-            fL2W[2][3] = (*iter++).toFloat();
+            fL2W[2][3] = (*iter++).to_float();
             if (*iter++ != "]")
                 throw pfPrcParseException(__FILE__, __LINE__, "L2WMatrix Format error");
         } else if (child->getName() == "PosDeltas") {
@@ -183,7 +184,7 @@ void plSpanInstance::prcParse(const pfPrcTag* tag, const plSpanEncoding& encodin
             for (size_t i=0; i<fNumVerts; i++) {
                 if (colorChild->getName() != "Color")
                     throw pfPrcTagException(__FILE__, __LINE__, colorChild->getName());
-                colors[i] = colorChild->getParam("value", "0").toUint();
+                colors[i] = colorChild->getParam("value", "0").to_uint();
                 colorChild = colorChild->getNextSibling();
             }
             setColors(colors);

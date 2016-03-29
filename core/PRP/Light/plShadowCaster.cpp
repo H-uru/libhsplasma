@@ -47,10 +47,10 @@ void plShadowCaster::IPrcWrite(pfPrcHelper* prc) {
 
 void plShadowCaster::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "CastParams") {
-        fCastFlags = tag->getParam("Flags", "0").toUint();
-        fBoost = tag->getParam("Boost", "0").toFloat();
-        fAttenScale = tag->getParam("AttenScale", "0").toFloat();
-        fBlurScale = tag->getParam("BlurScale", "0").toFloat();
+        fCastFlags = tag->getParam("Flags", "0").to_uint();
+        fBoost = tag->getParam("Boost", "0").to_float();
+        fAttenScale = tag->getParam("AttenScale", "0").to_float();
+        fBlurScale = tag->getParam("BlurScale", "0").to_float();
     } else {
         plMultiModifier::IPrcParse(tag, mgr);
     }

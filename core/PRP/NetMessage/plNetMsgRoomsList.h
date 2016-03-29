@@ -25,7 +25,7 @@ class PLASMA_DLL plNetMsgRoomsList : public plNetMessage {
 public:
     struct PLASMA_DLL Room {
         plLocation fLocation;
-        plString fName;
+        ST::string fName;
     };
 
 private:
@@ -42,7 +42,7 @@ protected:
 public:
     const std::vector<Room>& getRooms() const { return fRooms; }
     std::vector<Room>& getRooms() { return fRooms; }
-    void addRoom(const plLocation& loc, const plString& name);
+    void addRoom(const plLocation& loc, const ST::string& name);
     void delRoom(size_t idx) { fRooms.erase(fRooms.begin() + idx); }
     void clearRooms() { fRooms.clear(); }
 };

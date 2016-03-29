@@ -43,7 +43,7 @@ private:
     bool fSmartSeek, fNoSeek;
     unsigned short fAlignType;
     unsigned char fFlags;
-    plString fAnimName;
+    ST::string fAnimName;
     plKey fFinishKey;
 
 public:
@@ -63,7 +63,7 @@ class PLASMA_DLL plAvOneShotMsg : public plAvSeekMsg {
     CREATABLE(plAvOneShotMsg, kAvOneShotMsg, plAvSeekMsg)
 
 private:
-    plString fAnimName;
+    ST::string fAnimName;
     bool fDrivable, fReversible;
 
 public:

@@ -116,9 +116,9 @@ static plUuid readUuid(const unsigned char*& buffer, size_t& size) {
     return v;
 }
 
-static plString readString(const unsigned char*& buffer, size_t& size) {
+static ST::string readString(const unsigned char*& buffer, size_t& size) {
     size_t len = readU32(buffer, size);
-    plString v = plString((pl_wchar_t*)buffer, (len-1) / sizeof(pl_wchar_t));
+    ST::string v = ST::string::from_utf16((char16_t*)buffer, (len-1) / sizeof(char16_t));
     buffer += len;
     size -= len;
     return v;
@@ -210,7 +210,7 @@ void pnVaultNode::read(const unsigned char* buffer, size_t size) {
     }
 
     if (size != 0)
-        plDebug::Warning("Incomplete read of node %d", fNodeIdx);
+        plDebug::Warning("Incomplete read of node {}", fNodeIdx);
 }
 
 static void writeU64(uint64_t v, unsigned char*& buffer, size_t& size) {
@@ -237,9 +237,9 @@ static void writeUuid(const plUuid& v, unsigned char*& buffer, size_t& size) {
     size -= sizeof(plUuid);
 }
 
-static void writeString(const plString& v, unsigned char*& buffer, size_t& size) {
-    plString::Wide ws = v.wstr();
-    size_t len = (ws.len() + 1) * sizeof(pl_wchar_t);
+static void writeString(const ST::string& v, unsigned char*& buffer, size_t& size) {
+    ST::utf16_buffer ws = v.to_utf16();
+    size_t len = (ws.size() + 1) * sizeof(char16_t);
     writeU32(len, buffer, size);
     memcpy(buffer, ws.data(), len);  // Includes the '\0'
     buffer += len;
@@ -327,7 +327,7 @@ void pnVaultNode::write(unsigned char* buffer, size_t size) const {
     }
 
     if (size != 0)
-        plDebug::Warning("Node %d is truncated", fNodeIdx);
+        plDebug::Warning("Node {} is truncated", fNodeIdx);
 }
 
 uint32_t pnVaultNode::getNodeIdx() const
@@ -345,10 +345,10 @@ uint32_t pnVaultNode::getModifyTime() const
     return (fFieldMask & (1<<kModifyTime)) != 0 ? fModifyTime : 0;
 }
 
-plString pnVaultNode::getCreateAgeName() const
+ST::string pnVaultNode::getCreateAgeName() const
 {
     return (fFieldMask & (1<<kCreateAgeName)) != 0
-           ? fCreateAgeName : plString();
+           ? fCreateAgeName : ST::string::null;
 }
 
 plUuid pnVaultNode::getCreateAgeUuid() const
@@ -389,22 +389,22 @@ plUuid pnVaultNode::getUuid(size_t which) const
            ? fUuid[which] : plUuid();
 }
 
-plString pnVaultNode::getString64(size_t which) const
+ST::string pnVaultNode::getString64(size_t which) const
 {
     return (fFieldMask & (uint64_t)((1<<kString64_1) << which)) != 0
-           ? fString64[which] : plString();
+           ? fString64[which] : ST::string::null;
 }
 
-plString pnVaultNode::getIString64(size_t which) const
+ST::string pnVaultNode::getIString64(size_t which) const
 {
     return (fFieldMask & (uint64_t)((1<<kIString64_1) << which)) != 0
-           ? fIString64[which] : plString();
+           ? fIString64[which] : ST::string::null;
 }
 
-plString pnVaultNode::getText(size_t which) const
+ST::string pnVaultNode::getText(size_t which) const
 {
     return (fFieldMask & (uint64_t)((1<<kText_1) << which)) != 0
-           ? fText[which] : plString();
+           ? fText[which] : ST::string::null;
 }
 
 plVaultBlob pnVaultNode::getBlob(size_t which) const
@@ -452,15 +452,15 @@ void pnVaultNode::setModifyTime(uint32_t modTime)
     ISetField(kModifyTime, sizeof(uint32_t));
 }
 
-void pnVaultNode::setCreateAgeName(const plString& name)
+void pnVaultNode::setCreateAgeName(const ST::string& name)
 {
     if (fCreateAgeName != NULL) {
-        size_t oldLen = (fCreateAgeName.wstr().len() + 1) * sizeof(pl_wchar_t);
+        size_t oldLen = (fCreateAgeName.to_utf16().size() + 1) * sizeof(char16_t);
         IClearField(kCreateAgeName, oldLen + sizeof(uint32_t));
     }
 
     fCreateAgeName = name;
-    size_t len = (fCreateAgeName.wstr().len() + 1) * sizeof(pl_wchar_t);
+    size_t len = (fCreateAgeName.to_utf16().size() + 1) * sizeof(char16_t);
     ISetField(kCreateAgeName, len + sizeof(uint32_t));
 }
 
@@ -506,39 +506,39 @@ void pnVaultNode::setUuid(size_t which, const plUuid& value)
     ISetField(kUuid_1 + which, sizeof(plUuid));
 }
 
-void pnVaultNode::setString64(size_t which, const plString& value)
+void pnVaultNode::setString64(size_t which, const ST::string& value)
 {
     if (fString64[which] != NULL) {
-        size_t oldLen = (fString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
+        size_t oldLen = (fString64[which].to_utf16().size() + 1) * sizeof(char16_t);
         IClearField(kString64_1 + which, oldLen + sizeof(uint32_t));
     }
 
     fString64[which] = value;
-    size_t len = (fString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
+    size_t len = (fString64[which].to_utf16().size() + 1) * sizeof(char16_t);
     ISetField(kString64_1 + which, len + sizeof(uint32_t));
 }
 
-void pnVaultNode::setIString64(size_t which, const plString& value)
+void pnVaultNode::setIString64(size_t which, const ST::string& value)
 {
     if (fIString64[which] != NULL) {
-        size_t oldLen = (fIString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
+        size_t oldLen = (fIString64[which].to_utf16().size() + 1) * sizeof(char16_t);
         IClearField(kIString64_1 + which, oldLen + sizeof(uint32_t));
     }
 
     fIString64[which] = value;
-    size_t len = (fIString64[which].wstr().len() + 1) * sizeof(pl_wchar_t);
+    size_t len = (fIString64[which].to_utf16().size() + 1) * sizeof(char16_t);
     ISetField(kIString64_1 + which, len + sizeof(uint32_t));
 }
 
-void pnVaultNode::setText(size_t which, const plString& value)
+void pnVaultNode::setText(size_t which, const ST::string& value)
 {
     if (fText[which] != NULL) {
-        size_t oldLen = (fText[which].wstr().len() + 1) * sizeof(pl_wchar_t);
+        size_t oldLen = (fText[which].to_utf16().size() + 1) * sizeof(char16_t);
         IClearField(kText_1 + which, oldLen + sizeof(uint32_t));
     }
 
     fText[which] = value;
-    size_t len = (fText[which].wstr().len() + 1) * sizeof(pl_wchar_t);
+    size_t len = (fText[which].to_utf16().size() + 1) * sizeof(char16_t);
     ISetField(kText_1 + which, len + sizeof(uint32_t));
 }
 

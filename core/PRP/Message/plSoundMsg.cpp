@@ -101,17 +101,17 @@ void plSoundMsg::IPrcWrite(pfPrcHelper* prc) {
 
 void plSoundMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SoundParams") {
-        fBegin = tag->getParam("Begin", "0").toFloat();
-        fEnd = tag->getParam("End", "0").toFloat();
-        fLoop = tag->getParam("Loop", "false").toBool();
-        fPlaying = tag->getParam("Playing", "false").toBool();
-        fSpeed = tag->getParam("Speed", "0").toFloat();
-        fTime = tag->getParam("Time", "0").toFloat();
-        fIndex = tag->getParam("Index", "0").toInt();
-        fRepeats = tag->getParam("Repeats", "0").toInt();
-        fNameStr = tag->getParam("NameStr", "0").toUint();
-        fVolume = tag->getParam("Volume", "0").toFloat();
-        fFadeType = (FadeType)tag->getParam("FadeType", "0").toInt();
+        fBegin = tag->getParam("Begin", "0").to_float();
+        fEnd = tag->getParam("End", "0").to_float();
+        fLoop = tag->getParam("Loop", "false").to_bool();
+        fPlaying = tag->getParam("Playing", "false").to_bool();
+        fSpeed = tag->getParam("Speed", "0").to_float();
+        fTime = tag->getParam("Time", "0").to_float();
+        fIndex = tag->getParam("Index", "0").to_int();
+        fRepeats = tag->getParam("Repeats", "0").to_int();
+        fNameStr = tag->getParam("NameStr", "0").to_uint();
+        fVolume = tag->getParam("Volume", "0").to_float();
+        fFadeType = (FadeType)tag->getParam("FadeType", "0").to_int();
     } else if (tag->getName() == "Command") {
         if (tag->hasChildren())
             fCmd.prcParse(tag->getFirstChild());

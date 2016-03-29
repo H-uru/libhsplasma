@@ -36,7 +36,7 @@ class PLASMA_DLL plAvAnimTask : public plAvTask {
     CREATABLE(plAvAnimTask, kAvAnimTask, plAvTask)
 
 private:
-    plString fAnimName;
+    ST::string fAnimName;
     float fInitialBlend, fTargetBlend;
     float fFadeSpeed, fSetTime;
     bool fStart, fLoop, fAttach;
@@ -63,7 +63,7 @@ class PLASMA_DLL plAvOneShotLinkTask : public plAvOneShotTask {
     CREATABLE(plAvOneShotLinkTask, kAvOneShotLinkTask, plAvOneShotTask)
 
 private:
-    plString fAnimName, fMarkerName;
+    ST::string fAnimName, fMarkerName;
 
 public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;

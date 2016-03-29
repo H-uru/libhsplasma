@@ -24,7 +24,7 @@
 static char lnbuf[4096];
 static char* lnbuf_ptr = &lnbuf[4096];
 
-plString GetLine(hsStream* S) {
+ST::string GetLine(hsStream* S) {
     if (lnbuf_ptr >= &lnbuf[4096]) {
         size_t len = S->size() - S->pos();
         if (len > 4096)
@@ -38,11 +38,11 @@ plString GetLine(hsStream* S) {
     char* bp = lnbuf_ptr;
     while (true) {
         if (bp >= &lnbuf[4096]) {
-            plString prefix(lnbuf_ptr, bp - lnbuf_ptr);
+            ST::string prefix(lnbuf_ptr, bp - lnbuf_ptr);
             lnbuf_ptr = &lnbuf[4096];
             return prefix + GetLine(S);
         } else if (*bp == '\n' || *bp == 0) {
-            plString ln(lnbuf_ptr, bp - lnbuf_ptr);
+            ST::string ln(lnbuf_ptr, bp - lnbuf_ptr);
             lnbuf_ptr = bp + 1;
             return ln;
         }
@@ -50,22 +50,22 @@ plString GetLine(hsStream* S) {
     }
 
     // Should never get here...
-    return plString();
+    return ST::string::null;
 }
 
 void DoSearch(hsStream* S, const char* pattern, const char* filename, plKey key) {
     unsigned int ln = 1;
     lnbuf_ptr = &lnbuf[4096];
     while (!S->eof()) {
-        plString text = GetLine(S);
-        if (strstr(text.cstr(), pattern) != NULL) {
+        ST::string text = GetLine(S);
+        if (text.find(pattern) >= 0) {
             // Strip initial whitespace
-            const char* txtout = text.cstr();
+            const char* txtout = text.c_str();
             while (*txtout == ' ' || *txtout == '\t')
                 txtout++;
             printf("%s:[%s]%s:%u: %s\n", filename,
                    pdUnifiedTypeMap::ClassName(key->getType()),
-                   key->getName().cstr(), ln, txtout);
+                   key->getName().c_str(), ln, txtout);
         }
         ln++;
     }

@@ -137,6 +137,21 @@
 
 extern "C" {
 
+/* For compatibility with plString's CleanFileName utility */
+ST::string CleanFileName(const ST::string& fname, bool allowPathChars) {
+    ST::char_buffer result;
+    char* buf = result.create_writable_buffer(fname.size());
+    memcpy(buf, fname.c_str(), fname.size() + 1);
+    for (char* bp = buf; *bp; bp++) {
+        if (*bp == '?' || *bp == '*' || *bp == '<' || *bp == '>' ||
+            *bp == '"' || *bp == '|' || *bp < (char)0x20)
+            *bp = '_';
+        if (!allowPathChars && (*bp == '/' || *bp == '\\' || *bp == ':'))
+            *bp = '_';
+    }
+    return result;
+}
+
 PY_METHOD_GLOBAL_VA(PyHSPlasma, CleanFileName,
     "Params: string, allowPathChars=False\n"
     "Strips illegal characters from a filename. If allowPathChars is True,\n"

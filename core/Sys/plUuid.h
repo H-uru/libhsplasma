@@ -45,7 +45,7 @@ public:
      * Constructs a UUID from a string in the form of
      * "00000000-0000-0000-0000-000000000000".
      */
-    plUuid(const char* str) { fromString(str); }
+    plUuid(const ST::string& str) { fromString(str); }
 
     /** Copies the UUID data from \a init to this UUID object. */
     plUuid& operator=(const plUuid& init);
@@ -82,18 +82,18 @@ public:
 
     /**
      * Returns a string representation of this UUID in the form of
-     * "00000000-0000-0000-0000-000000000000" as a plString.
+     * "00000000-0000-0000-0000-000000000000" as a string.
      */
-    plString toString() const;
+    ST::string toString() const;
 
     /**
-     * Parses the UUID from a plString representation in the form of
+     * Parses the UUID from a string representation in the form of
      * "00000000-0000-0000-0000-000000000000".
      *
      * \exception hsBadParamException given string doesn't appear to be a
      *            valid UUID string representation
      */
-    void fromString(const plString& str);
+    void fromString(const ST::string& str);
 };
 
 extern const plUuid NullUuid;

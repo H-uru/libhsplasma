@@ -41,6 +41,9 @@ configure_file(${PROJECT_SOURCE_DIR}/cmake/PlasmaConfig.h.in
                ${PROJECT_BINARY_DIR}/PlasmaConfig.h)
 include_directories(${PROJECT_BINARY_DIR})
 
+find_package(string_theory REQUIRED)
+include_directories(${STRING_THEORY_INCLUDE_DIRS})
+
 add_subdirectory(core)
 
 if(ENABLE_PYTHON)

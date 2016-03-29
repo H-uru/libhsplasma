@@ -45,9 +45,9 @@ void plSoftVolume::IPrcWrite(pfPrcHelper* prc) {
 
 void plSoftVolume::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SoftVolumeParams") {
-        fListenState = tag->getParam("ListenState", "0").toUint();
-        fInsideStrength = tag->getParam("InsideStrength", "0").toFloat();
-        fOutsideStrength = tag->getParam("OutsideStrength", "0").toFloat();
+        fListenState = tag->getParam("ListenState", "0").to_uint();
+        fInsideStrength = tag->getParam("InsideStrength", "0").to_float();
+        fOutsideStrength = tag->getParam("OutsideStrength", "0").to_float();
     } else {
         plObjInterface::IPrcParse(tag, mgr);
     }
@@ -90,7 +90,7 @@ void plSoftVolumeSimple::IPrcWrite(pfPrcHelper* prc) {
 
 void plSoftVolumeSimple::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Volume") {
-        fSoftDist = tag->getParam("SoftDist", "0").toFloat();
+        fSoftDist = tag->getParam("SoftDist", "0").to_float();
         if (tag->hasChildren())
             setVolume(plVolumeIsect::Convert(mgr->prcParseCreatable(tag->getFirstChild())));
         else

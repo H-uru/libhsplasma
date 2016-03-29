@@ -111,11 +111,11 @@ void plLineFollowMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "LineFollowParams") {
-        fFollowFlags = tag->getParam("FollowFlags", "0").toUint();
-        fFollowMode = (FollowMode)tag->getParam("FollowMode", "0").toInt();
-        fOffset = tag->getParam("Offset", "0").toFloat();
-        fOffsetClamp = tag->getParam("OffsetClamp", "0").toFloat();
-        fSpeedClamp = tag->getParam("SpeedClamp", "0").toFloat();
+        fFollowFlags = tag->getParam("FollowFlags", "0").to_uint();
+        fFollowMode = (FollowMode)tag->getParam("FollowMode", "0").to_int();
+        fOffset = tag->getParam("Offset", "0").to_float();
+        fOffsetClamp = tag->getParam("OffsetClamp", "0").to_float();
+        fSpeedClamp = tag->getParam("SpeedClamp", "0").to_float();
     } else {
         plMultiModifier::IPrcParse(tag, mgr);
     }

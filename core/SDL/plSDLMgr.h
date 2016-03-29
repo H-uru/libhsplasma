@@ -34,10 +34,10 @@ public:
     plSDLMgr() { }
     ~plSDLMgr();
 
-    void ReadDescriptors(const plString& filename);
+    void ReadDescriptors(const ST::string& filename);
     void ReadDescriptors(hsStream* S);
     void ClearDescriptors();
-    plStateDescriptor* GetDescriptor(const plString& name, int version = -1);
+    plStateDescriptor* GetDescriptor(const ST::string& name, int version = -1);
 
     void read(hsStream* S);
     void write(hsStream* S);
@@ -46,7 +46,7 @@ public:
 class PLASMA_DLL plSDLParseException : public hsException {
 public:
     plSDLParseException(const char* file, unsigned long line,
-                        const char* msg, ...) HS_NOEXCEPT;
+                        const char* msg) HS_NOEXCEPT;
 };
 
 #endif

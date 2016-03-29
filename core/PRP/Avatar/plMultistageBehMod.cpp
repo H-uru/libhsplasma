@@ -78,9 +78,9 @@ void plMultistageBehMod::IPrcWrite(pfPrcHelper* prc) {
 
 void plMultistageBehMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "MultistageBehParams") {
-        fFreezePhys = tag->getParam("FreezePhys", "false").toBool();
-        fSmartSeek = tag->getParam("SmartSeek", "false").toBool();
-        fReverseFBControlsOnRelease = tag->getParam("ReverseFBControlsOnRelease", "false").toBool();
+        fFreezePhys = tag->getParam("FreezePhys", "false").to_bool();
+        fSmartSeek = tag->getParam("SmartSeek", "false").to_bool();
+        fReverseFBControlsOnRelease = tag->getParam("ReverseFBControlsOnRelease", "false").to_bool();
     } else if (tag->getName() == "Stages") {
         clearStages();
         fStages.resize(tag->countChildren());

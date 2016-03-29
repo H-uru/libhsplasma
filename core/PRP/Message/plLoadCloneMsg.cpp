@@ -81,12 +81,12 @@ void plLoadCloneMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fRequestorKey = mgr->prcParseKey(tag->getFirstChild());
     } else if (tag->getName() == "LoadCloneParams") {
-        fOriginatingPlayerID = tag->getParam("OriginatingPlayerID", "0").toInt();
-        fUserData = tag->getParam("UserData", "0").toInt();
-        fValidMsg = tag->getParam("Valid", "0").toBool();
-        fIsLoading = tag->getParam("Loading", "0").toBool();
+        fOriginatingPlayerID = tag->getParam("OriginatingPlayerID", "0").to_int();
+        fUserData = tag->getParam("UserData", "0").to_int();
+        fValidMsg = tag->getParam("Valid", "0").to_bool();
+        fIsLoading = tag->getParam("Loading", "0").to_bool();
     } else if (tag->getName() == "TriggerMsg") {
-        if (tag->getParam("NULL", "false").toBool())
+        if (tag->getParam("NULL", "false").to_bool())
             setTriggerMsg(NULL);
         else if (tag->hasChildren())
             setTriggerMsg(plMessage::Convert(mgr->prcParseCreatable(tag->getFirstChild())));

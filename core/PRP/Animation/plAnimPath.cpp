@@ -107,9 +107,9 @@ void plAnimPath::IPrcWrite(pfPrcHelper* prc) {
 
 void plAnimPath::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "AnimPathParams") {
-        fAnimPathFlags = tag->getParam("Flags", "0").toUint();
-        fLength = tag->getParam("Length", "0").toFloat();
-        fMinDistSq = tag->getParam("MinDistSq", "0").toFloat();
+        fAnimPathFlags = tag->getParam("Flags", "0").to_uint();
+        fLength = tag->getParam("Length", "0").to_float();
+        fMinDistSq = tag->getParam("MinDistSq", "0").to_float();
     } else if (tag->getName() == "Controller") {
         if (tag->hasChildren()) {
             delete fController;

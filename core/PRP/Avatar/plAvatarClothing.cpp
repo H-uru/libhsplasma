@@ -72,7 +72,7 @@ void plClothingOutfit::IPrcWrite(pfPrcHelper* prc) {
 
 void plClothingOutfit::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "Group") {
-        plString grpName = tag->getParam("Type", "");
+        ST::string grpName = tag->getParam("Type", "");
         fGroup = kClothingGroupNoOptions;
         for (size_t i=0; i<kMaxClothingGroup; i++) {
             if (grpName == GroupNames[i])

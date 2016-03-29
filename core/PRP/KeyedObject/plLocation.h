@@ -79,7 +79,7 @@ public:
     void setFlags(unsigned short flags) { fFlags = flags; }
     void set(int pid, unsigned short flags, PlasmaVer pv);
 
-    plString toString() const;
+    ST::string toString() const;
 };
 
 #endif

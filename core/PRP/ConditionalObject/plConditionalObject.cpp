@@ -39,8 +39,8 @@ void plConditionalObject::IPrcWrite(pfPrcHelper* prc) {
 
 void plConditionalObject::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "ConditionFlags") {
-        fSatisfied = tag->getParam("satisfied", "false").toBool();
-        fToggle = tag->getParam("toggle", "false").toBool();
+        fSatisfied = tag->getParam("satisfied", "false").to_bool();
+        fToggle = tag->getParam("toggle", "false").to_bool();
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }

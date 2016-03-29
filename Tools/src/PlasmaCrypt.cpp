@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <exception>
 #include <vector>
+#include <string_theory/st_format.h>
 #include "Stream/plEncryptedStream.h"
-#include "Util/plString.h"
 
 enum EncrMethod { emNone, emDecrypt, emTea, emAes, emDroid };
 
@@ -45,13 +45,13 @@ void doHelp() {
            "          -help       Displays this help screen\n\n");
 }
 
-plString getNextOutFile(const char* filename) {
-    plString fn = plString::Format("%s.out", filename);
+ST::string getNextOutFile(const ST::string& filename) {
+    ST::string fn = ST::format("{}.out", filename);
     int i = 0;
     FILE* outFile;
-    while ((outFile = fopen(fn.cstr(), "r")) != NULL) {
+    while ((outFile = fopen(fn.c_str(), "r")) != NULL) {
         fclose(outFile);
-        fn = plString::Format("%s.out%d", filename, ++i);
+        fn = ST::format("{}.out{}", filename, ++i);
     }
     return fn;
 }
@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
     unsigned int uruKey[4];
     bool haveKey = false;
     int verbosity = 0;
-    std::vector<plString> files;
+    std::vector<ST::string> files;
     for (int i=2; i<argc; i++) {
         if (argv[i][0] == '-') {
             if (argv[i][1] == '-') argv[i]++;
@@ -151,7 +151,7 @@ int main(int argc, char** argv) {
     }
 
     unsigned int nFiles = 0;
-    plString outFileName;
+    ST::string outFileName;
     for (size_t i=0; i<files.size(); i++) {
         if (method == emDecrypt) {
             plEncryptedStream SF;
@@ -160,7 +160,7 @@ int main(int argc, char** argv) {
             try {
                 if (!plEncryptedStream::IsFileEncrypted(files[i])) {
                     if (verbosity >= 0)
-                        printf("File %s not encrypted -- skipping!\n", files[i].cstr());
+                        printf("File %s not encrypted -- skipping!\n", files[i].c_str());
                     continue;
                 } else {
                     SF.open(files[i], fmRead, plEncryptedStream::kEncAuto);
@@ -174,11 +174,11 @@ int main(int argc, char** argv) {
                 }
             } catch (std::exception& e) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Error opening %s: %s\n", files[i].cstr(), e.what());
+                    fprintf(stderr, "Error opening %s: %s\n", files[i].c_str(), e.what());
                 continue;
             } catch (...) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Undefined error opening %s\n", files[i].cstr());
+                    fprintf(stderr, "Undefined error opening %s\n", files[i].c_str());
                 continue;
             }
             unsigned int dataSize = SF.size();
@@ -189,7 +189,7 @@ int main(int argc, char** argv) {
             hsFileStream DF;
             outFileName = doReplace ? files[i] : getNextOutFile(files[i]);
             if (verbosity >= 1)
-                printf("Decrypting %s...\n", outFileName.cstr());
+                printf("Decrypting %s...\n", outFileName.c_str());
             DF.open(outFileName, fmCreate);
             DF.write(dataSize, buf);
             DF.close();
@@ -200,18 +200,18 @@ int main(int argc, char** argv) {
             try {
                 if (plEncryptedStream::IsFileEncrypted(files[i])) {
                     if (verbosity >= 0)
-                        printf("File %s already encrypted -- skipping!\n", files[i].cstr());
+                        printf("File %s already encrypted -- skipping!\n", files[i].c_str());
                     continue;
                 } else {
                     SF.open(files[i], fmRead);
                 }
             } catch (std::exception& e) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Error opening %s: %s\n", files[i].cstr(), e.what());
+                    fprintf(stderr, "Error opening %s: %s\n", files[i].c_str(), e.what());
                 continue;
             } catch (...) {
                 if (verbosity >= 0)
-                    fprintf(stderr, "Undefined error opening %s\n", files[i].cstr());
+                    fprintf(stderr, "Undefined error opening %s\n", files[i].c_str());
                 continue;
             }
             unsigned int dataSize = SF.size();
@@ -237,7 +237,7 @@ int main(int argc, char** argv) {
                 DF.setKey(uruKey);
             outFileName = doReplace ? files[i] : getNextOutFile(files[i]);
             if (verbosity >= 1)
-                printf("Encrypting %s...\n", outFileName.cstr());
+                printf("Encrypting %s...\n", outFileName.c_str());
             DF.open(outFileName, fmCreate, eType);
             DF.write(dataSize, buf);
             DF.close();

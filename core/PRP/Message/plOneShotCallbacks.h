@@ -24,12 +24,12 @@ class PLASMA_DLL plOneShotCallbacks {
 public:
     class PLASMA_DLL plOneShotCallback {
     public:
-        plString fMarker;
+        ST::string fMarker;
         plKey fReceiver;
         short fUser;
 
         plOneShotCallback() : fUser(0) { }
-        plOneShotCallback(const plString& marker, plKey receiver, short user)
+        plOneShotCallback(const ST::string& marker, plKey receiver, short user)
             : fMarker(marker), fReceiver(receiver), fUser(user)
         { }
     };
@@ -46,7 +46,7 @@ public:
 public:
     const std::vector<plOneShotCallback>& getCallbacks() const { return fCallbacks; }
     std::vector<plOneShotCallback>& getCallbacks() { return fCallbacks; }
-    void addCallback(const plString& marker, plKey receiver, short user) { fCallbacks.emplace_back(marker, receiver, user); }
+    void addCallback(const ST::string& marker, plKey receiver, short user) { fCallbacks.emplace_back(marker, receiver, user); }
     void clearCallbacks() { fCallbacks.clear(); }
     void delCallback(size_t idx) { fCallbacks.erase(fCallbacks.begin() + idx); }
     size_t getNumCallbacks() const { return fCallbacks.size(); }

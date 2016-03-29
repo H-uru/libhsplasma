@@ -85,13 +85,13 @@ void plSpaceTreeNode::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plSpaceTreeNode")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fFlags = tag->getParam("Flags", "0").toUint();
-    fParent = tag->getParam("Parent", "-1").toInt();
+    fFlags = tag->getParam("Flags", "0").to_uint();
+    fParent = tag->getParam("Parent", "-1").to_int();
     if (tag->hasParam("LeafIndex")) {
-        fLeafIndex = tag->getParam("LeafIndex", "0").toInt();;
+        fLeafIndex = tag->getParam("LeafIndex", "0").to_int();;
     } else {
-        fChildren[0] = tag->getParam("LeftChild", "0").toInt();
-        fChildren[1] = tag->getParam("RightChild", "0").toInt();
+        fChildren[0] = tag->getParam("LeftChild", "0").to_int();
+        fChildren[1] = tag->getParam("RightChild", "0").to_int();
     }
 
     if (tag->hasChildren())
@@ -143,8 +143,8 @@ void plSpaceTree::IPrcWrite(pfPrcHelper* prc) {
 
 void plSpaceTree::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "SpaceTreeParams") {
-        fRoot = tag->getParam("Root", "0").toInt();
-        fNumLeaves = tag->getParam("NumLeaves", "0").toInt();
+        fRoot = tag->getParam("Root", "0").to_int();
+        fNumLeaves = tag->getParam("NumLeaves", "0").to_int();
     } else if (tag->getName() == "Tree") {
         const pfPrcTag* child = tag->getFirstChild();
         fTree.resize(tag->countChildren());

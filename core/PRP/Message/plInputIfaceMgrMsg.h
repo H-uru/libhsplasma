@@ -25,7 +25,7 @@ class PLASMA_DLL plInputIfaceMgrMsg : public plMessage {
 private:
     unsigned char fCommand;
     unsigned int fPageID;
-    plString fAgeName, fAgeFilename, fSpawnPoint;
+    ST::string fAgeName, fAgeFilename, fSpawnPoint;
     plKey fAvKey;
 
 public:

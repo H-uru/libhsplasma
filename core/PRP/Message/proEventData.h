@@ -168,7 +168,7 @@ class PLASMA_DLL proVariableEventData : public proEventData {
     EVTDATA(proVariableEventData, kVariable)
 
 protected:
-    plString fName;
+    ST::string fName;
     int fDataType;
     float fNumber;
     plKey fKey;
@@ -186,12 +186,12 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getName() const { return fName; }
+    ST::string getName() const { return fName; }
     int getDataType() const { return fDataType; }
     float getNumber() const { return fNumber; }
     plKey getKey() const { return fKey; }
 
-    void setName(const plString& name) { fName = name; }
+    void setName(const ST::string& name) { fName = name; }
     void setDataType(int type) { fDataType = type; }
     void setNumber(float number) { fNumber = number; }
     void setKey(plKey key) { fKey = key; }

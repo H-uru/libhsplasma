@@ -73,21 +73,21 @@ void plCameraConfig::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plCameraConfig")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fWorldspace = tag->getParam("Worldspace", "false").toBool();
-    fFOVw = tag->getParam("FOVw", "0").toFloat();
-    fFOVh = tag->getParam("FOVh", "0").toFloat();
+    fWorldspace = tag->getParam("Worldspace", "false").to_bool();
+    fFOVw = tag->getParam("FOVw", "0").to_float();
+    fFOVh = tag->getParam("FOVh", "0").to_float();
 
     const pfPrcTag* child = tag->getFirstChild();
     size_t nChildren = tag->countChildren();
     for (size_t i=0; i<nChildren; i++) {
         if (child->getName() == "Params") {
-            fAccel = child->getParam("Accel", "0").toFloat();
-            fDecel = child->getParam("Decel", "0").toFloat();
-            fVel = child->getParam("Vel", "0").toFloat();
+            fAccel = child->getParam("Accel", "0").to_float();
+            fDecel = child->getParam("Decel", "0").to_float();
+            fVel = child->getParam("Vel", "0").to_float();
         } else if (child->getName() == "FPParams") {
-            fFPAccel = child->getParam("Accel", "0").toFloat();
-            fFPDecel = child->getParam("Decel", "0").toFloat();
-            fFPVel = child->getParam("Vel", "0").toFloat();
+            fFPAccel = child->getParam("Accel", "0").to_float();
+            fFPDecel = child->getParam("Decel", "0").to_float();
+            fFPVel = child->getParam("Vel", "0").to_float();
         } else if (child->getName() == "Offset") {
             if (child->hasChildren())
                 fOffset.prcParse(child->getFirstChild());
@@ -188,8 +188,8 @@ void plCameraMsg::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
         if (tag->hasChildren())
             fCmd.prcParse(tag->getFirstChild());
     } else if (tag->getName() == "CameraParams") {
-        fTransTime = tag->getParam("TransTime", "0").toFloat();
-        fActivated = tag->getParam("Activated", "false").toBool();
+        fTransTime = tag->getParam("TransTime", "0").to_float();
+        fActivated = tag->getParam("Activated", "false").to_bool();
     } else if (tag->getName() == "NewCam") {
         if (tag->hasChildren())
             fNewCam = mgr->prcParseKey(tag->getFirstChild());

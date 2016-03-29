@@ -22,7 +22,7 @@ hsStream* plDebug::fDebugStream = NULL;
 int plDebug::fDebugLevel = kDLWarning;
 bool plDebug::fIOwnStream = false;
 bool plDebug::fIsExitRegistered = false;
-plString plDebug::fDebugFile;
+ST::string plDebug::fDebugFile;
 
 void plDebug::Init(int level, hsStream* stream) {
     DeInit();
@@ -57,7 +57,7 @@ void plDebug::InitFile(int level, const char* filename) {
 }
 
 void plDebug::DelayInit() {
-    if (fDebugFile.empty()) {
+    if (fDebugFile.is_empty()) {
         // Nobody ever called Init(), so use stderr
         Init(kDLWarning, NULL);
     } else {
@@ -74,40 +74,10 @@ void plDebug::DeInit() {
     fDebugStream = NULL;
 }
 
-void plDebug::Error(const char* fmt, ...) {
-    if (fDebugLevel < kDLError)
-        return;
+void plDebug::WriteLn(const ST::string& line) {
     if (fDebugStream == NULL)
         DelayInit();
-    va_list aptr;
-    va_start(aptr, fmt);
-    WriteLn(fmt, aptr);
-    va_end(aptr);
-}
 
-void plDebug::Warning(const char* fmt, ...) {
-    if (fDebugLevel < kDLWarning)
-        return;
-    if (fDebugStream == NULL)
-        DelayInit();
-    va_list aptr;
-    va_start(aptr, fmt);
-    WriteLn(fmt, aptr);
-    va_end(aptr);
-}
-
-void plDebug::Debug(const char* fmt, ...) {
-    if (fDebugLevel < kDLDebug)
-        return;
-    if (fDebugStream == NULL)
-        DelayInit();
-    va_list aptr;
-    va_start(aptr, fmt);
-    WriteLn(fmt, aptr);
-    va_end(aptr);
-}
-
-void plDebug::WriteLn(const char* fmt, va_list args) {
-    fDebugStream->writeLine(plString::FormatV(fmt, args));
+    fDebugStream->writeLine(line);
     fDebugStream->flush();
 }

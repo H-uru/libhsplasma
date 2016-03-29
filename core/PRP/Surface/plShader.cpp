@@ -15,6 +15,7 @@
  */
 
 #include "plShader.h"
+#include <cstring>
 
 /* plShaderConst */
 plShaderConst::plShaderConst() {
@@ -46,7 +47,7 @@ void plShaderConst::write(hsStream* S) {
 
 void plShaderConst::prcWrite(pfPrcHelper* prc) {
     prc->writeTagNoBreak("plShaderConst");
-    prc->directWrite(plString::Format("%f %f %f %f",
+    prc->directWrite(ST::format("{f} {f} {f} {f}",
                      fArray[0], fArray[1], fArray[2], fArray[3]));
     prc->closeTagNoBreak();
 }
@@ -54,14 +55,14 @@ void plShaderConst::prcWrite(pfPrcHelper* prc) {
 void plShaderConst::prcParse(const pfPrcTag* tag) {
     if (tag->getName() != "plShaderConst")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
-    std::list<plString> data = tag->getContents();
+    std::list<ST::string> data = tag->getContents();
     if (data.size() != 4)
         throw pfPrcParseException(__FILE__, __LINE__, "plShaderConst expects 4 floats");
     auto iter = data.begin();
-    fArray[0] = (*iter++).toFloat();
-    fArray[1] = (*iter++).toFloat();
-    fArray[2] = (*iter++).toFloat();
-    fArray[3] = (*iter++).toFloat();
+    fArray[0] = (*iter++).to_float();
+    fArray[1] = (*iter++).to_float();
+    fArray[2] = (*iter++).to_float();
+    fArray[3] = (*iter++).to_float();
 }
 
 
@@ -114,9 +115,9 @@ void plShader::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             child = child->getNextSibling();
         }
     } else if (tag->getName() == "ShaderParams") {
-        fID = (plShaderID)tag->getParam("ID", "0").toUint();
-        fInput = tag->getParam("Input", "0").toUint();
-        fOutput = tag->getParam("Output", "0").toUint();
+        fID = (plShaderID)tag->getParam("ID", "0").to_uint();
+        fInput = tag->getParam("Input", "0").to_uint();
+        fOutput = tag->getParam("Output", "0").to_uint();
     } else {
         hsKeyedObject::IPrcParse(tag, mgr);
     }

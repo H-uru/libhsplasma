@@ -78,15 +78,32 @@ const char* filenameConvert(char* filename, eDirection dir) {
     return newName;
 }
 
-const char* getOutputDir(char* filename, plPageInfo* page) {
-    char* odir = (char*)malloc(strlen(filename) +
-                        page->getAge().len() + page->getPage().len() + 7);
-    strcpy(odir, filename);
+ST::string getOutputDir(const ST::string& filename, plPageInfo* page) {
+    char* odir = new char[filename.size() + page->getAge().size() + page->getPage().size() + 7];
+    strcpy(odir, filename.c_str());
     char* sepLoc = strrchr(odir, PATHSEP);
-    if (sepLoc == NULL) odir[0] = 0;
-    else sepLoc[1] = 0;
-    sprintf(odir, "%s%s_%s_PRP%c", odir, page->getAge().cstr(), page->getPage().cstr(), PATHSEP);
-    return odir;
+    if (sepLoc == NULL)
+        odir[0] = 0;
+    else
+        sepLoc[1] = 0;
+    sprintf(odir, "%s%s_%s_PRP%c", odir, page->getAge().c_str(), page->getPage().c_str(), PATHSEP);
+    ST::string result(odir);
+    delete[] odir;
+    return result;
+}
+
+ST::string CleanFileName(const ST::string& fname) {
+    ST::char_buffer result;
+    char* buf = result.create_writable_buffer(fname.size());
+    memcpy(buf, fname.c_str(), fname.size() + 1);
+    for (char* bp = buf; *bp; bp++) {
+        if (*bp == '?' || *bp == '*' || *bp == '<' || *bp == '>' ||
+            *bp == '"' || *bp == '|' || *bp < (char)0x20)
+            *bp = '_';
+        if (*bp == '/' || *bp == '\\' || *bp == ':')
+            *bp = '_';
+    }
+    return result;
 }
 
 #ifndef _WIN32
@@ -141,9 +158,9 @@ int main(int argc, char** argv) {
         page = rm.ReadPage(filename, true);
         OS.open(filenameConvert(filename, kExtract), fmCreate);
         OS.write(4, "PRD");
-        OS.writeShort(strlen(page->getAge()));
+        OS.writeShort(page->getAge().size());
         OS.writeStr(page->getAge());
-        OS.writeShort(strlen(page->getPage()));
+        OS.writeShort(page->getPage().size());
         OS.writeStr(page->getPage());
         if (rm.getVer().isUniversal()) {
             maj = 0x7FFF;
@@ -166,15 +183,15 @@ int main(int argc, char** argv) {
 
         std::vector<short> types = rm.getTypes(loc);
       #ifdef _WIN32
-        CreateDirectory(getOutputDir(filename, page), NULL);
+        CreateDirectory(getOutputDir(filename, page).c_str(), NULL);
       #else
-        mkdir(getOutputDir(filename, page), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
+        mkdir(getOutputDir(filename, page).c_str(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
       #endif
         for (i=0; i<types.size(); i++) {
             std::vector<plKey> objs = rm.getKeys(loc, types[i]);
             for (j=0; j<objs.size(); j++) {
-                sprintf(strBuf, "%s[%04hX]%s.po", getOutputDir(filename, page),
-                                types[i], CleanFileName(objs[j]->getName()).cstr());
+                sprintf(strBuf, "%s[%04hX]%s.po", getOutputDir(filename, page).c_str(),
+                                types[i], CleanFileName(objs[j]->getName().c_str()).c_str());
                 OS.open(strBuf, fmCreate);
                 OS.setVer(rm.getVer());
                 rm.WriteCreatable(&OS, objs[j]->getObj());
@@ -196,8 +213,8 @@ int main(int argc, char** argv) {
             S.close();
             return 1;
         }
-        plString ageName = S.readStr(S.readShort());
-        plString pageName = S.readStr(S.readShort());
+        ST::string ageName = S.readStr(S.readShort());
+        ST::string pageName = S.readStr(S.readShort());
         page->setAge(ageName);
         page->setPage(pageName);
         maj = S.readShort();
@@ -230,18 +247,18 @@ int main(int argc, char** argv) {
         page->setFlags(plPageInfo::kBasicChecksum);
         S.close();
 
-        std::vector<char*> inFiles;
+        std::vector<ST::string> inFiles;
         std::vector<short> inClasses;
         hsFileStream PS;
         PS.setVer(OS.getVer());
       #ifdef _WIN32
-        sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
+        sprintf(strBuf, "%s*.po", getOutputDir(filename, page).c_str());
         WIN32_FIND_DATA fd;
         HANDLE fr = FindFirstFile(strBuf, &fd);
         if (fr != NULL) {
             do {
-                sprintf(strBuf, "%s%s", getOutputDir(filename, page), fd.cFileName);
-                inFiles.push_back(strdup(strBuf));
+                sprintf(strBuf, "%s%s", getOutputDir(filename, page).c_str(), fd.cFileName);
+                inFiles.push_back(strBuf);
                 PS.open(strBuf, fmRead);
                 short classType = PS.readShort();
                 PS.close();
@@ -257,10 +274,10 @@ int main(int argc, char** argv) {
         }
       #else
         dirent** des;
-        unsigned int nEntries = scandir(getOutputDir(filename, page), &des, &selPO, &alphasort);
+        unsigned int nEntries = scandir(getOutputDir(filename, page).c_str(), &des, &selPO, &alphasort);
         for (i=0; i<nEntries; i++) {
-            sprintf(strBuf, "%s%s", getOutputDir(filename, page), des[i]->d_name);
-            inFiles.push_back(strdup(strBuf));
+            sprintf(strBuf, "%s%s", getOutputDir(filename, page).c_str(), des[i]->d_name);
+            inFiles.push_back(strBuf);
             PS.open(strBuf, fmRead);
             short classType = PS.readShort();
             PS.close();
@@ -293,8 +310,6 @@ int main(int argc, char** argv) {
             key->readUoid(&PS);
             PS.close();
             keys.add(key);
-            free(inFiles[i]);
-            inFiles[i] = NULL;
         }
 
         page->setIndexStart(OS.pos());
@@ -332,12 +347,12 @@ int main(int argc, char** argv) {
     // Delete temp files with the repack option
     if (direction == kRepack) {
       #ifdef _WIN32
-        sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
+        sprintf(strBuf, "%s*.po", getOutputDir(filename, page).c_str());
         WIN32_FIND_DATA rfd;
         HANDLE rfr = FindFirstFile(strBuf, &rfd);
         if (rfr != NULL) {
             do {
-                sprintf(strBuf, "%s%s", getOutputDir(filename, page), rfd.cFileName);
+                sprintf(strBuf, "%s%s", getOutputDir(filename, page).c_str(), rfd.cFileName);
                 DeleteFile(strBuf);
             } while (FindNextFile(rfr, &rfd));
             FindClose(rfr);
@@ -346,12 +361,12 @@ int main(int argc, char** argv) {
         DeleteFile(filename);
       #else
         dirent** rdes;
-        unsigned int nEntries = scandir(getOutputDir(filename, page), &rdes, &selAll, &alphasort);
+        unsigned int nEntries = scandir(getOutputDir(filename, page).c_str(), &rdes, &selAll, &alphasort);
         for (i=0; i<nEntries; i++) {
-            sprintf(strBuf, "%s%s", getOutputDir(filename, page), rdes[i]->d_name);
+            sprintf(strBuf, "%s%s", getOutputDir(filename, page).c_str(), rdes[i]->d_name);
             unlink(strBuf);
         }
-        rmdir(getOutputDir(filename, page));
+        rmdir(getOutputDir(filename, page).c_str());
         unlink(filename);
       #endif
     }

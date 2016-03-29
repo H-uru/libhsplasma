@@ -23,7 +23,7 @@ plStateDataRecord::~plStateDataRecord() {
         delete *var;
 }
 
-void plStateDataRecord::ReadStreamHeader(hsStream* S, plString& name,
+void plStateDataRecord::ReadStreamHeader(hsStream* S, ST::string& name,
                                          int& version, plUoid* objUoid) {
     unsigned short flag = S->readShort();
     if (!(flag & 0x8000)) {
@@ -43,7 +43,7 @@ void plStateDataRecord::ReadStreamHeader(hsStream* S, plString& name,
     }
 }
 
-void plStateDataRecord::WriteStreamHeader(hsStream* S, plString name,
+void plStateDataRecord::WriteStreamHeader(hsStream* S, const ST::string& name,
                                           int version, plUoid* objUoid) {
     unsigned short flag = 0x8000;
     if (objUoid != NULL)
@@ -259,7 +259,7 @@ void plStateDataRecord::setDescriptor(plStateDescriptor* desc) {
     }
 }
 
-plStateVariable* plStateDataRecord::get(plString& name) const {
+plStateVariable* plStateDataRecord::get(const ST::string& name) const {
     for (auto var = fAllVars.begin(); var != fAllVars.end(); ++var)
         if ((*var)->getDescriptor()->getName() == name)
             return *var;

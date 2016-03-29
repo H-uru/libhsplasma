@@ -37,30 +37,29 @@ void hsElfStream::encipher(unsigned char* v, int size, unsigned char hint) {
     }
 }
 
-plString hsElfStream::readLine() {
+ST::string hsElfStream::readLine() {
     unsigned int p = pos();
     unsigned short segHead = readShort();
     unsigned short segSize = segHead ^ (p & 0xFFFF);
 
-    char* ln = new char[segSize+1];
+    ST::char_buffer line;
+    char* ln = line.create_writable_buffer(segSize);
     read(segSize, ln);
     ln[segSize] = 0;
     decipher((unsigned char*)ln, segSize, (p & 0xFF));
-    plString line(ln);
-    delete[] ln;
     return line;
 }
 
-void hsElfStream::writeLine(const plString& ln, bool winEOL) {
+void hsElfStream::writeLine(const ST::string& ln, bool winEOL) {
     // This may or may not work...
     unsigned int p = pos();
-    unsigned short segSize = ln.len();
+    unsigned short segSize = ln.size();
 
     // Note: winEOL is ignored here
-    char* lnWrite = new char[ln.len() + 1];
-    memcpy(lnWrite, ln.cstr(), ln.len() + 1);
+    ST::char_buffer buffer;
+    char* lnWrite = buffer.create_writable_buffer(ln.size());
+    memcpy(lnWrite, ln.c_str(), ln.size() + 1);
     encipher((unsigned char*)lnWrite, segSize, (p & 0xFF));
     writeShort(segSize ^ (p & 0xFFFF));
     write(segSize, lnWrite);
-    delete[] lnWrite;
 }

@@ -111,7 +111,7 @@ void plPythonParameter::write(hsStream* S, plResManager* mgr) {
     case kAnimationName:
     case kGlobalSDLVar:
     case kSubtitle:
-        S->writeInt(fStrValue.len() + 1);
+        S->writeInt(fStrValue.size() + 1);
         S->writeStr(fStrValue);
         S->writeByte(0);
         return;
@@ -164,8 +164,8 @@ void plPythonParameter::prcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() != "plPythonParameter")
         throw pfPrcTagException(__FILE__, __LINE__, tag->getName());
 
-    fID = tag->getParam("ID", "0").toUint();
-    plString valTypeName = tag->getParam("Type", "(Invalid)");
+    fID = tag->getParam("ID", "0").to_uint();
+    ST::string valTypeName = tag->getParam("Type", "(Invalid)");
     fValueType = 0;
     for (size_t i=0; i<=kNone; i++) {
         if (valTypeName == ValueTypeNames[i])
@@ -176,13 +176,13 @@ void plPythonParameter::prcParse(const pfPrcTag* tag, plResManager* mgr) {
 
     switch (fValueType) {
     case kInt:
-        fIntValue = tag->getParam("Value", "0").toInt();
+        fIntValue = tag->getParam("Value", "0").to_int();
         return;
     case kBoolean:
-        fBoolValue = tag->getParam("Value", "false").toBool();
+        fBoolValue = tag->getParam("Value", "false").to_bool();
         return;
     case kFloat:
-        fFloatValue = tag->getParam("Value", "0").toFloat();
+        fFloatValue = tag->getParam("Value", "0").to_float();
         return;
     case kString:
     case kAnimationName:

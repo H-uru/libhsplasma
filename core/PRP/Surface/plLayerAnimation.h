@@ -113,7 +113,7 @@ class PLASMA_DLL plLayerSDLAnimation : public plLayerAnimation {
     CREATABLE(plLayerSDLAnimation, kLayerSDLAnimation, plLayerAnimationBase)
 
 protected:
-    plString fVarName;
+    ST::string fVarName;
 
 public:
     void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
@@ -124,8 +124,8 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
-    plString getVarName() const { return fVarName; }
-    void setVarName(const plString& name) { fVarName = name; }
+    ST::string getVarName() const { return fVarName; }
+    void setVarName(const ST::string& name) { fVarName = name; }
 };
 
 #endif

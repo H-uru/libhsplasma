@@ -31,8 +31,8 @@ public:
 
     unsigned char operator[](size_t idx) const { return fGuid[idx]; }
     unsigned char& operator[](size_t idx) { return fGuid[idx]; }
-    plString toString() const;
-    static plServerGuid FromString(const plString& str);
+    ST::string toString() const;
+    static plServerGuid FromString(const ST::string& str);
 
     void read(hsStream* S);
     void write(hsStream* S);

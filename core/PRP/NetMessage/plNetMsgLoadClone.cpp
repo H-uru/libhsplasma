@@ -50,9 +50,9 @@ void plNetMsgLoadClone::IPrcWrite(pfPrcHelper* prc) {
 
 void plNetMsgLoadClone::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "LoadCloneParams") {
-        fIsPlayer = tag->getParam("IsPlayer", "false").toBool();
-        fIsLoading = tag->getParam("IsLoading", "false").toBool();
-        fIsInitialState = tag->getParam("IsInitialState", "false").toBool();
+        fIsPlayer = tag->getParam("IsPlayer", "false").to_bool();
+        fIsLoading = tag->getParam("IsLoading", "false").to_bool();
+        fIsInitialState = tag->getParam("IsInitialState", "false").to_bool();
     } else if (tag->getName() == "Object") {
         if (tag->hasChildren())
             fObject.prcParse(tag->getFirstChild());

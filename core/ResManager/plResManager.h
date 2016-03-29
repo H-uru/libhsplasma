@@ -164,7 +164,7 @@ public:
      * \return a pointer to the plPageInfo describing the page.
      * \sa ReadPageRaw(), ReadPagePrc(), ReadAge(), ReadAgePrc()
      */
-    plPageInfo* ReadPage(const char* filename, bool stub = false);
+    plPageInfo* ReadPage(const ST::string& filename, bool stub = false);
 
     /**
      * Parse a page from a PRC data source, and register it with the ResManager.
@@ -177,7 +177,7 @@ public:
      * Write the specified page to a PRP file
      * \sa WritePagePrc(), WriteAge(), WriteAgePrc()
      */
-    void WritePage(const char* filename, plPageInfo* page);
+    void WritePage(const ST::string& filename, plPageInfo* page);
 
     /**
      * Write the specified page to a PRC document
@@ -206,7 +206,7 @@ public:
      * \return a pointer to the plAgeInfo describing the AGE file.
      * \sa ReadAgePrc(), ReadPage(), ReadPagePrc()
      */
-    plAgeInfo* ReadAge(const char* filename, bool readPages);
+    plAgeInfo* ReadAge(const ST::string& filename, bool readPages);
 
     /**
      * Read age file data from a PRC block and register it with the ResManager.
@@ -219,7 +219,7 @@ public:
      * Create/overwrite an age file for the specified age info structure
      * \sa WriteAgePrc(), WritePage(), WritePagePrc()
      */
-    void WriteAge(const char* filename, plAgeInfo* age);
+    void WriteAge(const ST::string& filename, plAgeInfo* age);
 
     /**
      * Write a PRC chunk for the specified age info structure
@@ -233,7 +233,7 @@ public:
      * \return the age info structure, or NULL if it can't be found
      * \sa FindPage()
      */
-    plAgeInfo* FindAge(const plString& name);
+    plAgeInfo* FindAge(const ST::string& name);
 
     /**
      * Unload an age info structure by name.  Frees all memory associated
@@ -241,7 +241,7 @@ public:
      * age info.
      * \sa UnloadPage(), DelAge()
      */
-    void UnloadAge(const plString& name);
+    void UnloadAge(const ST::string& name);
 
     /**
      * Read a plCreatable from the stream.  This should be converted
@@ -387,7 +387,7 @@ public:
      * this function does NOT remove any pages referenced by the age,
      * nor any objects referenced by those pages.
      */
-    void DelAge(const plString& name);
+    void DelAge(const ST::string& name);
 
     /**
      * This function can completely change a location identifier for

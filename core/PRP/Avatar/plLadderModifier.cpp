@@ -54,10 +54,10 @@ void plAvLadderMod::IPrcWrite(pfPrcHelper* prc) {
 
 void plAvLadderMod::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     if (tag->getName() == "LadderParams") {
-        fType = tag->getParam("Type", "0").toInt();
-        fLoops = tag->getParam("Loops", "0").toInt();
-        fGoingUp = tag->getParam("GoingUp", "false").toBool();
-        fEnabled = tag->getParam("Enabled", "true").toBool();
+        fType = tag->getParam("Type", "0").to_int();
+        fLoops = tag->getParam("Loops", "0").to_int();
+        fGoingUp = tag->getParam("GoingUp", "false").to_bool();
+        fEnabled = tag->getParam("Enabled", "true").to_bool();
     } else if (tag->getName() == "LadderView") {
         if (tag->hasChildren())
             fLadderView.prcParse(tag->getFirstChild());

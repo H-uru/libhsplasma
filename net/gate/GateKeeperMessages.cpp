@@ -48,13 +48,13 @@ MAKE_NETMSG(GateKeeper2Cli_PingReply)
 
 static pnNetMsgField GateKeeper2Cli_FileSrvIpAddressReply_Fields[] = {
     { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID?
-    { kFieldString,    24, sizeof(pl_wchar_t) },  // Address
+    { kFieldString,    24, sizeof(char16_t)   },  // Address
 };
 MAKE_NETMSG(GateKeeper2Cli_FileSrvIpAddressReply)
 
 static pnNetMsgField GateKeeper2Cli_AuthSrvIpAddressReply_Fields[] = {
     { kFieldInteger,    0, sizeof(uint32_t)   },  // Trans ID?
-    { kFieldString,    24, sizeof(pl_wchar_t) },  // Address
+    { kFieldString,    24, sizeof(char16_t)   },  // Address
 };
 MAKE_NETMSG(GateKeeper2Cli_AuthSrvIpAddressReply)
 
