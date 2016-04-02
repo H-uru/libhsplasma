@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <string_theory/st_string.h>
+#include <string_theory/string>
 #include "Util/PlasmaVersions.h"
 #include "Sys/Platform.h"
 #include "PlasmaDefs.h"

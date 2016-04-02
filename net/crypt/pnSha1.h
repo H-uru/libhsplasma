@@ -18,7 +18,7 @@
 #define _PNSHA1_H
 
 #include "PlasmaDefs.h"
-#include <string_theory/st_string.h>
+#include <string_theory/string>
 
 struct PLASMANET_DLL pnSha1Hash {
     unsigned int fData[5];

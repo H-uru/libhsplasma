@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <algorithm>
-#include <string_theory/st_string.h>
+#include <string_theory/string>
 #include "ResManager/plResManager.h"
 #include "Debug/hsExceptions.hpp"
 #include "Debug/plDebug.h"

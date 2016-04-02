@@ -20,7 +20,7 @@
 #include "PlasmaDefs.h"
 #include "Protocol.h"
 #include "Sys/plUuid.h"
-#include <string_theory/st_string.h>
+#include <string_theory/string>
 #include <cstdlib>
 
 enum ENetMsgFieldType {

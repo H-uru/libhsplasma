@@ -17,7 +17,7 @@
 #ifndef _PLDEBUG_H
 #define _PLDEBUG_H
 
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 #include "Stream/hsStdioStream.h"
 
 class PLASMA_DLL plDebug {

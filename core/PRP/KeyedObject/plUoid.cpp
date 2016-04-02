@@ -19,7 +19,7 @@
 #include "ResManager/pdUnifiedTypeMap.h"
 #include <string.h>
 #include <stdlib.h>
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 
 bool plUoid::operator==(const plUoid& other) const {
     return (location == other.location) && (classType == other.classType) &&

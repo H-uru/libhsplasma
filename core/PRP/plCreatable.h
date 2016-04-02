@@ -19,7 +19,7 @@
 
 #include "ResManager/pdUnifiedTypeMap.h"
 #include "ResManager/plResManager.h"
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 
 #define CREATABLE(classname, classid, parentclass) \
 public: \

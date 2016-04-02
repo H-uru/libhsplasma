@@ -19,7 +19,7 @@
 
 #include <Python.h>
 #include <Sys/Platform.h>
-#include <string_theory/st_string.h>
+#include <string_theory/string>
 #include <type_traits>
 
 PyObject* PyString_FromPlasmaString(const ST::string& str);

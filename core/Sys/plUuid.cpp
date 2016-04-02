@@ -15,7 +15,7 @@
  */
 
 #include "plUuid.h"
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 #include <cstring>
 
 static const unsigned char nullDat4[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };

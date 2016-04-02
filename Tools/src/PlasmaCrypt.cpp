@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <exception>
 #include <vector>
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 #include "Stream/plEncryptedStream.h"
 
 enum EncrMethod { emNone, emDecrypt, emTea, emAes, emDroid };

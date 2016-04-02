@@ -15,7 +15,7 @@
  */
 
 #include "plLocation.h"
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 
 bool plLocation::operator==(const plLocation& other) const {
     return (fState == other.fState && fPageNum == other.fPageNum

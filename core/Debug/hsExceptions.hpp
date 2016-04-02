@@ -17,7 +17,7 @@
 #ifndef _HSEXCEPTIONS_H
 #define _HSEXCEPTIONS_H
 
-#include <string_theory/st_string.h>
+#include <string_theory/string>
 #include <exception>
 
 class PLASMA_DLL hsException : public std::exception {

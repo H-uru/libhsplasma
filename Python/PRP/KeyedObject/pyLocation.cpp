@@ -18,7 +18,7 @@
 
 #include <PRP/KeyedObject/plLocation.h>
 #include "Stream/pyStream.h"
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 
 extern "C" {
 

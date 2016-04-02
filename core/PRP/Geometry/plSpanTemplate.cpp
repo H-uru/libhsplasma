@@ -15,7 +15,7 @@
  */
 
 #include "plSpanTemplate.h"
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 #include <cstring>
 
 plSpanTemplate::~plSpanTemplate() {

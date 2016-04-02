@@ -21,7 +21,7 @@
 #include "pnNetMsg.h"
 #include <cstdlib>
 #include <list>
-#include <string_theory/st_string.h>
+#include <string_theory/string>
 
 class PLASMANET_DLL pnSocket {
 protected:

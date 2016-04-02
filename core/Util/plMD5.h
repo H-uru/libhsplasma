@@ -15,7 +15,7 @@
  */
 
 #include "Stream/hsStream.h"
-#include <string_theory/st_string.h>
+#include <string_theory/string>
 
 class PLASMA_DLL plMD5Hash {
 public:

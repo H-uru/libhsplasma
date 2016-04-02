@@ -15,7 +15,7 @@
  */
 
 #include "plAgeInfo.h"
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 
 const ST::string plAgeInfo::kCommonPages[] = { "Textures", "BuiltIn" };
 

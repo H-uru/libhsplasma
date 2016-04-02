@@ -15,7 +15,7 @@
  */
 
 #include "pfPrcHelper.h"
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 
 static ST::string xmlEscape(const ST::string& text) {
     return text.replace("&", "&amp;").replace("\"", "&quot;")

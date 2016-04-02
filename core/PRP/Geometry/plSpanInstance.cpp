@@ -15,7 +15,7 @@
  */
 
 #include "plSpanInstance.h"
-#include <string_theory/st_format.h>
+#include <string_theory/format>
 
 /* plSpanEncoding */
 void plSpanEncoding::read(hsStream* S) {
