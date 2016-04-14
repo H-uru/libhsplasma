@@ -48,7 +48,7 @@ protected:
 class PLASMA_DLL hsNotImplementedException : public hsException {
 public:
     hsNotImplementedException(const char* file, unsigned long line,
-                              const ST::string& feature = ST::string::null) HS_NOEXCEPT
+                              const ST::string& feature = ST::null) HS_NOEXCEPT
         : hsException(file, line)
     {
         if (feature.is_empty())
@@ -61,7 +61,7 @@ public:
 class PLASMA_DLL hsBadParamException : public hsException {
 public:
     hsBadParamException(const char* file, unsigned long line,
-                        const ST::string& details = ST::string::null) HS_NOEXCEPT
+                        const ST::string& details = ST::null) HS_NOEXCEPT
         : hsException(file, line)
     {
         fWhat = "Bad parameter";

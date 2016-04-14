@@ -50,7 +50,7 @@ ST::string GetLine(hsStream* S) {
     }
 
     // Should never get here...
-    return ST::string::null;
+    return ST::null;
 }
 
 void DoSearch(hsStream* S, const char* pattern, const char* filename, plKey key) {

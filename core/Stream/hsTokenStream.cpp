@@ -47,7 +47,7 @@ bool hsTokenStream::hasNext() {
 ST::string hsTokenStream::peekNext() {
     if (hasNext())
         return fLineTokens.front();
-    return ST::string::null;
+    return ST::null;
 }
 
 void hsTokenStream::setDelimiters(const char* delims) {
