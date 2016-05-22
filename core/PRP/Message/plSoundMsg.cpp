@@ -18,7 +18,7 @@
 
 plSoundMsg::plSoundMsg()
           : fBegin(0.0), fEnd(0.0), fLoop(false), fPlaying(false), fSpeed(0.0f),
-            fTime(0.0), fIndex(0), fRepeats(0), fNameStr(0), fVolume(0.0f),
+            fTime(0.0), fIndex(-1), fRepeats(0), fNameStr(0), fVolume(0.0f),
             fFadeType(kLinear) {
     fCmd.setName(kPlay, "kPlay");
     fCmd.setName(kStop, "kStop");

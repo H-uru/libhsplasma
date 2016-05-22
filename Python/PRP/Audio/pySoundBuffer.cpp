@@ -58,8 +58,12 @@ static PyObject* pySoundBuffer_getData(pySoundBuffer* self, void*) {
 }
 
 static int pySoundBuffer_setHeader(pySoundBuffer* self, PyObject* value, void*) {
-    PyErr_SetString(PyExc_RuntimeError, "header is not assignable");
-    return -1;
+    if (value == NULL || !pyWAVHeader_Check(value)) {
+        PyErr_SetString(PyExc_TypeError, "header should be a plWAVHeader");
+        return -1;
+    }
+    self->fThis->getHeader() = *((pyWAVHeader*)value)->fThis;
+    return 0;
 }
 
 static int pySoundBuffer_setFileName(pySoundBuffer* self, PyObject* value, void*) {

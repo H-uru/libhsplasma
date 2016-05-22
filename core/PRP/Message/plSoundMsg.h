@@ -54,6 +54,34 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    bool getCmd(size_t cmd) const { return fCmd.get(cmd); }
+    void setCmd(size_t cmd, bool value=true) { fCmd.set(cmd, value); }
+
+    double getBegin() const { return fBegin; }
+    double getEnd() const { return fEnd; }
+    bool getLoop() const { return fLoop; }
+    bool getPlaying() const { return fPlaying; }
+    float getSpeed() const { return fSpeed; }
+    double getTime() const { return fTime; }
+    int getIndex() const { return fIndex; }
+    int getRepeats() const { return fRepeats; }
+    unsigned int getNameStr() const { return fNameStr; }
+    float getVolume() const { return fVolume; }
+    unsigned char getFadeType() const { return fFadeType; }
+
+    void setBegin(double value) { fBegin = value; }
+    void setEnd(double value) { fEnd = value; }
+    void setLoop(bool value) { fLoop = value; }
+    void setPlaying(bool value) { fPlaying = value; }
+    void setSpeed(float value) { fSpeed = value; }
+    void setTime(double value) { fTime = value; }
+    void setIndex(int value) { fIndex = value; }
+    void setRepeats(int value) { fRepeats = value; }
+    void setNameStr(unsigned int value) { fNameStr = value; }
+    void setVolume(float value) { fVolume = value; }
+    void setFadeType(FadeType value) { fFadeType = value; }
 };
 
 #endif

@@ -14,32 +14,21 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PYSOUNDBUFFER_H
-#define _PYSOUNDBUFFER_H
+#ifndef _PY_SOUNDMSG_H
+#define _PY_SOUNDMSG_H
 
 extern "C" {
 
 typedef struct {
     PyObject_HEAD
-    class plWAVHeader* fThis;
+    class plSoundMsg* fThis;
     bool fPyOwned;
-} pyWAVHeader;
+} pySoundMsg;
 
-typedef struct {
-    PyObject_HEAD
-    class plSoundBuffer* fThis;
-    bool fPyOwned;
-} pySoundBuffer;
-
-extern PyTypeObject pyWAVHeader_Type;
-PyObject* Init_pyWAVHeader_Type();
-int pyWAVHeader_Check(PyObject* obj);
-PyObject* pyWAVHeader_FromWAVHeader(class plWAVHeader& header);
-
-extern PyTypeObject pySoundBuffer_Type;
-PyObject* Init_pySoundBuffer_Type();
-int pySoundBuffer_Check(PyObject* obj);
-PyObject* pySoundBuffer_FromSoundBuffer(class plSoundBuffer* buf);
+extern PyTypeObject pySoundMsg_Type;
+PyObject* Init_pySoundMsg_Type();
+int pySoundMsg_Check(PyObject* obj);
+PyObject* pySoundMsg_FromSoundMsg(class plSoundMsg* obj);
 
 }
 

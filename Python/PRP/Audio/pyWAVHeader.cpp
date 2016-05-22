@@ -21,9 +21,19 @@
 
 extern "C" {
 
+static void pyWAVHeader_dealloc(pyWAVHeader* self) {
+    if (self->fPyOwned)
+        delete self->fThis;
+    Py_TYPE(self)->tp_free((PyObject*)self);
+}
+
 static PyObject* pyWAVHeader_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-    PyErr_SetString(PyExc_RuntimeError, "Cannot construct plWAVHeader objects in Python");
-    return NULL;
+    pyWAVHeader* self = (pyWAVHeader*)type->tp_alloc(type, 0);
+    if (self != NULL) {
+        self->fThis = new plWAVHeader();
+        self->fPyOwned = true;
+    }
+    return (PyObject*)self;
 }
 
 static PyObject* pyWAVHeader_read(pyWAVHeader* self, PyObject* args) {
@@ -166,7 +176,7 @@ PyTypeObject pyWAVHeader_Type = {
     sizeof(pyWAVHeader),                /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    NULL,                               /* tp_dealloc */
+    (destructor)pyWAVHeader_dealloc,    /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -229,9 +239,17 @@ PyObject* Init_pyWAVHeader_Type() {
     return (PyObject*)&pyWAVHeader_Type;
 }
 
+int pyWAVHeader_Check(PyObject* obj) {
+    if (obj->ob_type == &pyWAVHeader_Type
+        || PyType_IsSubtype(obj->ob_type, &pyWAVHeader_Type))
+        return 1;
+    return 0;
+}
+
 PyObject* pyWAVHeader_FromWAVHeader(plWAVHeader& header) {
     pyWAVHeader* pyObj = PyObject_New(pyWAVHeader, &pyWAVHeader_Type);
     pyObj->fThis = &header;
+    pyObj->fPyOwned = false;
     return (PyObject*)pyObj;
 }
 
