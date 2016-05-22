@@ -57,7 +57,7 @@ protected:
 
 public:
     bool getCmd(size_t cmd) const { return fCmd.get(cmd); }
-    void setCmd(size_t cmd, bool value) { fCmd.set(cmd, value); }
+    void setCmd(size_t cmd, bool value=true) { fCmd.set(cmd, value); }
 
     double getBegin() const { return fBegin; }
     double getEnd() const { return fEnd; }
