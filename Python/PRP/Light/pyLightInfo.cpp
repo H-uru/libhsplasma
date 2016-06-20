@@ -171,7 +171,7 @@ static int pyLightInfo_setProj(pyLightInfo* self, PyObject* value, void*) {
 }
 
 static int pyLightInfo_setSVol(pyLightInfo* self, PyObject* value, void*) {
-    if (value == NULL) {
+    if (value == NULL || value == Py_None) {
         plLightInfo::Convert(IConvert((pyCreatable*)self))->setSoftVolume(plKey());
         return 0;
     }
