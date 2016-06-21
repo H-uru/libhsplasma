@@ -44,6 +44,11 @@ static PyObject* pyRAMStream_resize(pyRAMStream* self, PyObject* args) {
     return Py_None;
 }
 
+static PyObject* pyRAMStream_close(pyRAMStream* self, PyObject*) {
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyRAMStream_getBuffer(pyRAMStream* self, void* closure) {
     char* buf = new char[self->fThis->size()];
     self->fThis->copyTo(buf, self->fThis->size());
@@ -70,6 +75,9 @@ static PyMethodDef pyRAMStream_Methods[] = {
       "Allocates newsize bytes in the internal buffer.  This will truncate "
       "data if it's shorter than the current buffer, or zero-fill the extra "
       "space if it's larger than the current buffer." },
+    { "close", (PyCFunction)pyRAMStream_close, METH_NOARGS,
+      "Closes the stream. Note that this is a no-op on RAM streams and "
+      "exists to match the interface of other hsStream subclasses." },
     { NULL, NULL, 0, NULL }
 };
 
