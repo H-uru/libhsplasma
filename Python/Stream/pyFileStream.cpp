@@ -53,12 +53,6 @@ static PyObject* pyFileStream_open(pyFileStream* self, PyObject* args) {
     }
 }
 
-static PyObject* pyFileStream_close(pyFileStream* self) {
-    self->fThis->close();
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 static PyObject* pyFileStream__enter__(PyObject* self) {
     Py_INCREF(self);
     return self;
@@ -75,8 +69,6 @@ static PyMethodDef pyFileStream_Methods[] = {
       "Params: filename, mode\n"
       "Opens the specified file.\n"
       "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate" },
-    { "close", (PyCFunction)pyFileStream_close, METH_NOARGS,
-      "Closes the active file, if it is open" },
     { "__enter__", (PyCFunction)pyFileStream__enter__, METH_NOARGS, NULL },
     { "__exit__", (PyCFunction)pyFileStream__exit__, METH_VARARGS, NULL },
     { NULL, NULL, 0, NULL }
