@@ -56,12 +56,6 @@ static PyObject* pyEncryptedStream_open(pyEncryptedStream* self, PyObject* args)
     }
 }
 
-static PyObject* pyEncryptedStream_close(pyEncryptedStream* self) {
-    self->fThis->close();
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-
 static PyObject* pyEncryptedStream_setKey(pyEncryptedStream* self, PyObject* args) {
     PyObject* keyList;
     if (!PyArg_ParseTuple(args, "O", &keyList)) {
@@ -124,8 +118,6 @@ static PyMethodDef pyEncryptedStream_Methods[] = {
       "Opens the specified file.\n"
       "Mode is: fmRead, fmWrite, fmReadWrite, fmCreate\n"
       "Encryption is: kEncNone, kEncXtea, kEncAES, kEncDroid, kEncAuto" },
-    { "close", (PyCFunction)pyEncryptedStream_close, METH_NOARGS,
-      "Closes the active file, if it is open" },
     { "setKey", (PyCFunction)pyEncryptedStream_setKey, METH_VARARGS,
       "Params: key\n"
       "Sets the encryption key. `key` should be an array of 4 ints" },

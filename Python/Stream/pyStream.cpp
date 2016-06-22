@@ -41,6 +41,12 @@ static PyObject* pyStream_new(PyTypeObject* type, PyObject* args, PyObject* kwds
     return NULL;
 }
 
+static PyObject* pyStream_close(pyStream* self) {
+    self->fThis->close();
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject* pyStream_eof(pyStream* self) {
     bool eof = self->fThis->eof();
     if (eof) {
@@ -414,6 +420,8 @@ static int pyStream_setPos(pyStream* self, PyObject* value, void* closure) {
 }
 
 static PyMethodDef pyStream_Methods[] = {
+    { "close", (PyCFunction)pyStream_close, METH_NOARGS,
+      "Closes the stream, if it is open" },
     { "eof", (PyCFunction)pyStream_eof, METH_NOARGS,
       "Returns True if the position is at the end of the stream" },
     { "seek", (PyCFunction)pyStream_seek, METH_VARARGS,
