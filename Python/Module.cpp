@@ -75,6 +75,7 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
+#include "PRP/Light/pyShadowCaster.h"
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyAnimCmdMsg.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
@@ -630,6 +631,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plWin32Sound", Init_pyWin32Sound_Type());
     PyModule_AddObject(module, "plWin32StreamingSound", Init_pyWin32StreamingSound_Type());
     PyModule_AddObject(module, "plWin32StaticSound", Init_pyWin32StaticSound_Type());
+    PyModule_AddObject(module, "plShadowCaster", Init_pyShadowCaster_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

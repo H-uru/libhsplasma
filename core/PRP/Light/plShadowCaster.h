@@ -52,6 +52,19 @@ public:
 protected:
     virtual void IPrcWrite(pfPrcHelper* prc);
     virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+
+public:
+    unsigned char getCastFlags() const { return fCastFlags; }
+    float getBoost() const { return fBoost; }
+    float getAttenScale() const { return fAttenScale; }
+    float getBlurScale() const { return fBlurScale; }
+    float getMaxOpacity() const { return fMaxOpacity; }
+
+    void setCastFlags(unsigned char flags) { fCastFlags = flags; }
+    void setBoost(float boost) { fBoost = boost; }
+    void setAttenScale(float scale) { fAttenScale = scale; }
+    void setBlurScale(float scale) { fBlurScale = scale; }
+    void setMaxOpacity(float opacity) { fMaxOpacity = opacity; }
 };
 
 #endif

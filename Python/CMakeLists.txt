@@ -272,11 +272,13 @@ set(PRP_LIT_SRCS
     PRP/Light/pyLimitedDirLightInfo.cpp
     PRP/Light/pyOmniLightInfo.cpp
     PRP/Light/pyPointShadowMaster.cpp
+    PRP/Light/pyShadowCaster.cpp
     PRP/Light/pyShadowMaster.cpp
     PRP/Light/pySpotLightInfo.cpp
 )
 set(PRP_LIT_HDRS
     PRP/Light/pyLightInfo.h
+    PRP/Light/pyShadowCaster.h
     PRP/Light/pyShadowMaster.h
 )
 

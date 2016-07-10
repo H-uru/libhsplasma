@@ -207,6 +207,7 @@
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
+#include "PRP/Light/pyShadowCaster.h"
 #include "PRP/Light/pyShadowMaster.h"
 #include "PRP/Message/pyAnimCmdMsg.h"
 #include "PRP/Message/pyArmatureEffectMsg.h"
@@ -474,7 +475,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     //else if (Py_TYPE(pCre) == &pyParticleUniformWind_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plParticleUniformWind*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyInstanceDrawInterface_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plInstanceDrawInterface*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyShadowMaster_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plShadowMaster*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyShadowCaster_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plShadowCaster*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyShadowCaster_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plShadowCaster*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyPointShadowMaster_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plPointShadowMaster*>(pCre->fThis));
     else if (Py_TYPE(pCre) == &pyDirectShadowMaster_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plDirectShadowMaster*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pySDLModifier_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plSDLModifier*>(pCre->fThis));
@@ -739,6 +740,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kAudibleNull: return pyAudibleNull_FromAudibleNull(plAudibleNull::Convert(pCre));
         case kWinAudible: return pyWinAudible_FromWinAudible(plWinAudible::Convert(pCre));
         case k2WayWinAudible: return py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible::Convert(pCre));
+        case kShadowCaster: return pyShadowCaster_FromShadowCaster(plShadowCaster::Convert(pCre));
         case kShadowMaster: return pyShadowMaster_FromShadowMaster(plShadowMaster::Convert(pCre));
         case kPointShadowMaster: return pyPointShadowMaster_FromPointShadowMaster(plPointShadowMaster::Convert(pCre));
         case kDirectShadowMaster: return pyDirectShadowMaster_FromDirectShadowMaster(plDirectShadowMaster::Convert(pCre));
