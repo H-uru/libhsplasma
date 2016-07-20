@@ -32,7 +32,8 @@ static PyObject* pyLayerAnimation_new(PyTypeObject* type, PyObject* args, PyObje
 }
 
 static PyObject* pyLayerAnimation_getTimeConvert(pyLayerAnimation* self, void*) {
-    return pyAnimTimeConvert_FromAnimTimeConvert(&self->fThis->getTimeConvert());
+    plLayerAnimation* anim = plLayerAnimation::Convert(IConvert((pyCreatable*)self));
+    return pyAnimTimeConvert_FromAnimTimeConvert(&anim->getTimeConvert());
 }
 
 static int pyLayerAnimation_setTimeConvert(pyLayerAnimation* self, PyObject* value, void*) {
