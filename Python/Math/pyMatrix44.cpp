@@ -393,6 +393,10 @@ PyNumberMethods pyMatrix44_As_Number = {
 #if ((PY_MAJOR_VERSION > 2) || (PY_MAJOR_VERSION == 2 && PY_MINOR_VERSION >= 5))
     NULL,                               /* nb_index */
 #endif
+#if ((PY_MAJOR_VERSION > 3) || (PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION >= 5))
+    NULL,                               /* nb_matrix_multiply */
+    NULL,                               /* nb_inplace_matrix_multiply */
+#endif
 };
 
 static PyMappingMethods pyMatrix44_As_Mapping = {
