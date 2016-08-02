@@ -30,6 +30,15 @@ option(ENABLE_PYTHON "Build HSPlasma Python integration" OFF)
 option(ENABLE_TOOLS "Build the HSPlasma tools" ON)
 option(ENABLE_NET "Build HSPlasmaNet" ON)
 
+try_compile(HAVE_OVERRIDE ${PROJECT_BINARY_DIR}
+            ${PROJECT_SOURCE_DIR}/cmake/check_override.cpp)
+try_compile(HAVE_NOEXCEPT ${PROJECT_BINARY_DIR}
+            ${PROJECT_SOURCE_DIR}/cmake/check_noexcept.cpp)
+
+configure_file(${PROJECT_SOURCE_DIR}/cmake/PlasmaConfig.h.in
+               ${PROJECT_BINARY_DIR}/PlasmaConfig.h)
+include_directories(${PROJECT_BINARY_DIR})
+
 add_subdirectory(core)
 
 if(ENABLE_PYTHON)

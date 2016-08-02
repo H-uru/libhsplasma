@@ -729,7 +729,8 @@ set(VAULT_HDRS
 )
 
 set(PLASMA_HDRS
-        PlasmaDefs.h
+    PlasmaDefs.h
+    ${PROJECT_BINARY_DIR}/PlasmaConfig.h
 )
 
 set(RIJNDAEL

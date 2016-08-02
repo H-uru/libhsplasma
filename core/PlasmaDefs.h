@@ -17,6 +17,8 @@
 #ifndef _PLASMA_DEFS_H
 #define _PLASMA_DEFS_H
 
+#include "PlasmaConfig.h"
+
 #ifdef WIN32
   #ifdef BUILD_PLASMA_DLL
     #define PLASMA_DLL __declspec(dllexport)
@@ -45,6 +47,20 @@
   typedef unsigned __int64  uint64_t;
 #else
   #include <stdint.h>
+#endif
+
+#ifdef HAVE_OVERRIDE
+  #define HS_OVERRIDE override
+  #define HS_FINAL    final
+#else
+  #define HS_OVERRIDE
+  #define HS_FINAL
+#endif
+
+#ifdef HAVE_NOEXCEPT
+  #define HS_NOEXCEPT noexcept
+#else
+  #define HS_NOEXCEPT throw()
 #endif
 
 enum CallbackEvent {
