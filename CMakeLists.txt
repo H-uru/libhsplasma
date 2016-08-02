@@ -26,21 +26,21 @@ endif()
 
 # Python is disabled by default because most projects don't need it
 # Tools are still enabled because they're fast and occasionally useful
-option(DISABLE_PYTHON "Don't build HSPlasma Python integration" ON)
-option(DISABLE_TOOLS "Don't build the HSPlasma tools" OFF)
-option(DISABLE_NET "Don't build HSPlasmaNet" OFF)
+option(ENABLE_PYTHON "Build HSPlasma Python integration" OFF)
+option(ENABLE_TOOLS "Build the HSPlasma tools" ON)
+option(ENABLE_NET "Build HSPlasmaNet" ON)
 
 add_subdirectory(core)
 
-if(NOT DISABLE_PYTHON)
+if(ENABLE_PYTHON)
     add_subdirectory(Python)
 endif()
 
-if(NOT DISABLE_TOOLS)
+if(ENABLE_TOOLS)
     add_subdirectory(Tools)
 endif()
 
-if(NOT DISABLE_NET)
+if(ENABLE_NET)
     add_subdirectory(net)
 endif()
 

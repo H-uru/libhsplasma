@@ -15,7 +15,7 @@ $ cmake ..
 
 To build with Python support run this cmake command::
 
-$ cmake -DDISABLE_PYTHON=OFF ..
+$ cmake -DENABLE_PYTHON=ON ..
 
 On Unix-like systems (Linux, MacOSX) you should then be able to::
 
