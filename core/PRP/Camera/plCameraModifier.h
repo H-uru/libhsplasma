@@ -51,8 +51,6 @@ protected:
     std::vector<plCameraMsg*> fFOVInstructions;
     bool fAnimated, fStartAnimOnPush, fStopAnimOnPop, fResetAnimOnPop;
 
-    void DeleteTrans();
-
 public:
     plCameraModifier() : fFrom(0.0f, 0.0f, 0.0f), fAt(0.0f, 1.0f, 0.0f),
                          fFOVw(45.0f), fFOVh(33.75f), fAnimated(false),
