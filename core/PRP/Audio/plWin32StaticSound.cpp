@@ -77,6 +77,6 @@ void plWin32GroupedSound::setVolumes(size_t count, uint32_t* positions, float* v
 /* plWin32LinkSound */
 void plWin32LinkSound::read(hsStream* S, plResManager* mgr) {
     plSound::read(S, mgr);
-    fSynchFlags |= kLocalOnly;
+    fSyncFlags |= kLocalOnly;
     fProperties |= kPropDontFade;
 }
