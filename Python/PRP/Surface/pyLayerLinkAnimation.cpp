@@ -58,7 +58,7 @@ static int pyLayerLinkAnimation_setLeavingAge(pyLayerLinkAnimation* self, PyObje
         PyErr_SetString(PyExc_TypeError, "leavingAge should be a bool");
         return -1;
     }
-    self->fThis->setLeavingAge(PyInt_AsLong(value) == 0 ? false : true);
+    self->fThis->setLeavingAge(PyInt_AsLong(value) != 0);
     return 0;
 }
 

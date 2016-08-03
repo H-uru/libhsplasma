@@ -73,7 +73,7 @@ static int pyOneShotMod_setDrivable(pyOneShotMod* self, PyObject* value, void*) 
         PyErr_SetString(PyExc_TypeError, "drivable should be a bool");
         return -1;
     }
-    self->fThis->setDrivable(PyInt_AsLong(value) ? true : false);
+    self->fThis->setDrivable(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -82,7 +82,7 @@ static int pyOneShotMod_setReversable(pyOneShotMod* self, PyObject* value, void*
         PyErr_SetString(PyExc_TypeError, "reversable should be a bool");
         return -1;
     }
-    self->fThis->setReversable(PyInt_AsLong(value) ? true : false);
+    self->fThis->setReversable(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -91,7 +91,7 @@ static int pyOneShotMod_setSmartSeek(pyOneShotMod* self, PyObject* value, void*)
         PyErr_SetString(PyExc_TypeError, "smartSeek should be a bool");
         return -1;
     }
-    self->fThis->setSmartSeek(PyInt_AsLong(value) ? true : false);
+    self->fThis->setSmartSeek(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -100,7 +100,7 @@ static int pyOneShotMod_setNoSeek(pyOneShotMod* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "noSeek should be a bool");
         return -1;
     }
-    self->fThis->setNoSeek(PyInt_AsLong(value) ? true : false);
+    self->fThis->setNoSeek(PyInt_AsLong(value) != 0);
     return 0;
 }
 

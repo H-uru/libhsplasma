@@ -88,7 +88,7 @@ double hsStream::readDouble() {
 }
 
 bool hsStream::readBool() {
-    return readByte() == 0 ? false : true;
+    return readByte() != 0;
 }
 
 plString hsStream::readStr(size_t len) {

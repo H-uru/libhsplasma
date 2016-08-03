@@ -73,7 +73,7 @@ static int pyDynamicTextMap_setHasAlpha(pyDynamicTextMap* self, PyObject* value,
         PyErr_SetString(PyExc_TypeError, "hasAlpha should be a bool");
         return -1;
     }
-    self->fThis->setHasAlpha(PyInt_AsLong(value) ? true : false);
+    self->fThis->setHasAlpha(PyInt_AsLong(value) != 0);
     return 0;
 }
 

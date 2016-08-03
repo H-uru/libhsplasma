@@ -102,7 +102,7 @@ static int pyResponderModifier_setEnabled(pyResponderModifier* self, PyObject* v
         PyErr_SetString(PyExc_TypeError, "enabled should be a bool");
         return -1;
     }
-    self->fThis->setEnabled(PyInt_AsLong(value) ? true : false);
+    self->fThis->setEnabled(PyInt_AsLong(value) != 0);
     return 0;
 }
 

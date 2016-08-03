@@ -307,6 +307,6 @@ void plVertCoder::ICountFloats(unsigned int vertsLeft, const unsigned char* src,
         src += stride;
     }
 
-    allSame = (hi == lo) ? true : false;
+    allSame = (hi == lo);
     count = len;
 }

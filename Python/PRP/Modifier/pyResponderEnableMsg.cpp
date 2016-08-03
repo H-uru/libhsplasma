@@ -40,7 +40,7 @@ static int pyResponderEnableMsg_setEnable(pyResponderEnableMsg* self, PyObject* 
         PyErr_SetString(PyExc_TypeError, "enable should be a bool");
         return -1;
     }
-    self->fThis->setEnable(PyInt_AsLong(value) ? true : false);
+    self->fThis->setEnable(PyInt_AsLong(value) != 0);
     return 0;
 }
 
