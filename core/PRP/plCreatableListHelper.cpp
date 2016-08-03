@@ -106,6 +106,7 @@ void plCreatableListHelper::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
             uint16_t id = child->getParam("id", "0").toUint();
             if (child->hasChildren())
                 fCreatables[id] = mgr->prcParseCreatable(child->getFirstChild());
+            child = child->getNextSibling();
         }
     } else {
         plCreatable::IPrcParse(tag, mgr);
