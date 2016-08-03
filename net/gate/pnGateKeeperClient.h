@@ -35,11 +35,11 @@ public:
     void setKeyG(int g) { fKeyG = g; }
     void setClientInfo(uint32_t buildId, uint32_t buildType, uint32_t branchId,
                        const plUuid& productId);
-    virtual ENetError connect(const char* host, short port = 14617);
-    virtual ENetError connect(int sockFd);
-    virtual void disconnect();
+    ENetError connect(const char* host, short port = 14617) HS_OVERRIDE;
+    ENetError connect(int sockFd) HS_OVERRIDE;
+    void disconnect() HS_OVERRIDE;
 
-    virtual bool isConnected() const
+    bool isConnected() const HS_OVERRIDE
     { return (fSock != NULL) && fSock->isConnected(); }
 
 //     virtual void signalStatus() { fSock->signalStatus(); }
@@ -72,7 +72,7 @@ private:
     public:
         Dispatch(pnGateKeeperClient* self) : fReceiver(self) { }
         virtual ~Dispatch() { }
-        virtual bool dispatch(pnSocket* sock);
+        bool dispatch(pnSocket* sock) HS_OVERRIDE;
 
     private:
         pnGateKeeperClient* fReceiver;

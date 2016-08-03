@@ -22,8 +22,8 @@
 
 #define CREATABLE(classname, classid, parentclass) \
 public: \
-    virtual short ClassIndex() const { return classid; } \
-    virtual bool ClassInstance(short hClass) const { \
+    short ClassIndex() const HS_OVERRIDE { return classid; } \
+    bool ClassInstance(short hClass) const HS_OVERRIDE { \
         if (hClass == classid) \
             return true; \
         return parentclass::ClassInstance(hClass); \
@@ -156,17 +156,17 @@ public:
 
     virtual ~plCreatableStub();
 
-    virtual short ClassIndex() const { return fClassIdx; }
-    virtual bool isStub() const { return true; }
+    short ClassIndex() const HS_FINAL { return fClassIdx; }
+    bool isStub() const HS_FINAL { return true; }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper*) { }
-    virtual void IPrcParse(const pfPrcTag*, plResManager*) { }
+    void IPrcWrite(pfPrcHelper*) HS_OVERRIDE { }
+    void IPrcParse(const pfPrcTag*, plResManager*) HS_OVERRIDE { }
 
 public:
     /**

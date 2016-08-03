@@ -33,12 +33,12 @@ protected:
     plKey fSceneObj;
 
 public:
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -58,12 +58,12 @@ protected:
 public:
     plParticleCollisionEffectBounce() : fBounce(0.0f), fFriction(0.0f) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -83,12 +83,12 @@ protected:
 public:
     plParticleFadeOutEffect() : fLength(0.0f), fIgnoreZ(0.0f) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -102,12 +102,12 @@ protected:
 public:
     plParticleFadeVolumeEffect() : fLength(0.0f), fIgnoreZ(0.0f) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -128,12 +128,12 @@ public:
           fGoalDistSq(0.0f), fFullChaseDistSq(0.0f), fMaxOrbitSpeed(0.0f),
           fMaxChaseSpeed(0.0f), fMaxParticles(0.0f) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -155,12 +155,12 @@ public:
     plParticleWindEffect()
         : fStrength(0.0f), fConstancy(0.0f), fSwirl(0.0f), fHorizontal(false) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -174,12 +174,12 @@ protected:
 public:
     plParticleLocalWind() : fSpeed(0.0f) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -192,12 +192,12 @@ protected:
 public:
     plParticleUniformWind() : fFreqMin(0.0f), fFreqMax(0.0f), fFreqRate(0.0f) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 #endif

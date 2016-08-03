@@ -63,24 +63,24 @@ struct PLASMA_DLL hsPoint3Key : public hsKeyFrame {
     hsVector3 fInTan, fOutTan;
     hsVector3 fValue;
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsPoint3Key& operator=(const hsKeyFrame& rhs);
+    hsPoint3Key& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 struct PLASMA_DLL hsScalarKey : public hsKeyFrame {
     float fInTan, fOutTan;
     float fValue;
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsScalarKey& operator=(const hsKeyFrame& rhs);
+    hsScalarKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 struct PLASMA_DLL hsScaleKey : public hsKeyFrame {
@@ -90,23 +90,23 @@ struct PLASMA_DLL hsScaleKey : public hsKeyFrame {
     hsVector3 fS;
     hsQuat fQ;
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsScaleKey& operator=(const hsKeyFrame& rhs);
+    hsScaleKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 struct PLASMA_DLL hsQuatKey : public hsKeyFrame {
     hsQuat fValue;
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsQuatKey& operator=(const hsKeyFrame& rhs);
+    hsQuatKey& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 struct PLASMA_DLL hsCompressedQuatKey32 : public hsKeyFrame {
@@ -122,12 +122,12 @@ public:
     hsQuat getQuat() const;
     void setQuat(const hsQuat& quat, unsigned char format);
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsCompressedQuatKey32& operator=(const hsKeyFrame& rhs);
+    hsCompressedQuatKey32& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 struct PLASMA_DLL hsCompressedQuatKey64 : public hsKeyFrame {
@@ -144,45 +144,45 @@ public:
     hsQuat getQuat() const;
     void setQuat(const hsQuat& quat, unsigned char format);
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsCompressedQuatKey64& operator=(const hsKeyFrame& rhs);
+    hsCompressedQuatKey64& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 struct PLASMA_DLL hsG3DSMaxKeyFrame : public hsKeyFrame {
     hsAffineParts fValue;
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsG3DSMaxKeyFrame& operator=(const hsKeyFrame& rhs);
+    hsG3DSMaxKeyFrame& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 struct PLASMA_DLL hsMatrix33Key : public hsKeyFrame {
     hsMatrix33 fValue;
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsMatrix33Key& operator=(const hsKeyFrame& rhs);
+    hsMatrix33Key& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 struct PLASMA_DLL hsMatrix44Key : public hsKeyFrame {
     hsMatrix44 fValue;
 
-    virtual void read(hsStream* S, unsigned int type);
-    virtual void write(hsStream* S);
-    virtual void prcWrite(pfPrcHelper* prc);
-    virtual void prcParse(const pfPrcTag* tag);
+    void read(hsStream* S, unsigned int type) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
+    void prcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
-    virtual hsMatrix44Key& operator=(const hsKeyFrame& rhs);
+    hsMatrix44Key& operator=(const hsKeyFrame& rhs) HS_OVERRIDE;
 };
 
 #endif

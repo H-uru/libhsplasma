@@ -35,17 +35,17 @@ public:
     void copyFrom(const void* data, size_t size);
     void copyTo(void* data, size_t size);
 
-    virtual uint32_t size() const { return fSize; }
-    virtual uint32_t pos() const { return fPos; }
-    virtual bool eof() const { return (fPos >= fSize); }
+    uint32_t size() const HS_OVERRIDE { return fSize; }
+    uint32_t pos() const HS_OVERRIDE { return fPos; }
+    bool eof() const HS_OVERRIDE { return (fPos >= fSize); }
 
-    virtual void seek(uint32_t pos) { fPos = pos; }
-    virtual void skip(int32_t count) { fPos += count; }
-    virtual void fastForward() { fPos = fSize; }
-    virtual void rewind() { fPos = 0; }
+    void seek(uint32_t pos) HS_OVERRIDE { fPos = pos; }
+    void skip(int32_t count) HS_OVERRIDE { fPos += count; }
+    void fastForward() HS_OVERRIDE { fPos = fSize; }
+    void rewind() HS_OVERRIDE { fPos = 0; }
 
-    virtual size_t read(size_t size, void* buf);
-    virtual size_t write(size_t size, const void* buf);
+    size_t read(size_t size, void* buf) HS_OVERRIDE;
+    size_t write(size_t size, const void* buf) HS_OVERRIDE;
 
     virtual void resize(uint32_t newsize);
 };

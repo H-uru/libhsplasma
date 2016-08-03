@@ -87,12 +87,12 @@ public:
                 fOuterCone(360), fCurrVolume(0.0f), fDesiredVol(0.0f),
                 fFadedVolume(0.0f), fProperties(0) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
     virtual void IRead(hsStream* S, plResManager* mgr);
     virtual void IWrite(hsStream* S, plResManager* mgr);
 

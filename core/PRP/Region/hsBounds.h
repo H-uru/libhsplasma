@@ -57,7 +57,7 @@ protected:
     hsVector3 fMins, fMaxs, fCenter;
 
 public:
-    virtual const char* ClassName() const { return "hsBounds3"; }
+    const char* ClassName() const HS_OVERRIDE { return "hsBounds3"; }
 
     hsBounds3() { }
 
@@ -66,12 +66,12 @@ public:
     hsBounds3& operator+=(const hsBounds3& right);
     hsBounds3& operator+=(const hsVector3& point);
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    void read(hsStream* S) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
 public:
     hsVector3 getMins() const { return fMins; }
@@ -106,23 +106,23 @@ protected:
     float fRadius;
 
 public:
-    virtual const char* ClassName() const { return "hsBounds3Ext"; }
+    const char* ClassName() const HS_OVERRIDE { return "hsBounds3Ext"; }
 
     hsBounds3Ext() : fExtFlags(0), fRadius(0.0f) { }
 
     hsBounds3Ext operator+(const hsBounds3Ext& right) const;
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    void read(hsStream* S) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
 public:
     unsigned int getFlags() const { return fExtFlags; }
     hsVector3 getCorner() const { return fCorner; }
-    virtual hsBounds3Corners getCorners() const;
+    hsBounds3Corners getCorners() const HS_OVERRIDE;
     hsVector3 getAxis(size_t idx) const { return fAxes[idx]; }
     hsFloatPoint2 getDist(size_t idx) const { return fDists[idx]; }
     float getRadius() const { return fRadius; }
@@ -144,18 +144,18 @@ protected:
     unsigned int fNumPlanes;
 
 public:
-    virtual const char* ClassName() const { return "hsBoundsOriented"; }
+    const char* ClassName() const HS_OVERRIDE { return "hsBoundsOriented"; }
 
     hsBoundsOriented() : fCenterValid(0), fPlanes(NULL), fNumPlanes(0) { }
     hsBoundsOriented(const hsBoundsOriented&);
     virtual ~hsBoundsOriented();
 
-    void read(hsStream* S);
-    void write(hsStream* S);
+    void read(hsStream* S) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
 public:
     unsigned int getCenterValid() const { return fCenterValid; }

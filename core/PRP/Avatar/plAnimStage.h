@@ -58,8 +58,8 @@ public:
                     fAdvanceTo(0), fRegressTo(0), fLocalTime(0.0f), fLength(0.0f),
                     fCurLoop(0), fAttached(false) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
     void readAux(hsStream* S);
     void writeAux(hsStream* S);
@@ -67,8 +67,8 @@ public:
     void prcParseAux(const pfPrcTag* tag);
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     PlayType getForwardType() const { return fForwardType; }

@@ -32,10 +32,10 @@ protected:
     std::vector<float> fVolumes;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 public:
     size_t getNumVolumes() const { return fVolumes.size(); }
@@ -49,7 +49,7 @@ class PLASMA_DLL plWin32LinkSound : public virtual plWin32StaticSound {
     CREATABLE(plWin32LinkSound, kWin32LinkSound, plWin32StaticSound)
 
 public:
-    virtual void read(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 };
 
 #endif

@@ -39,14 +39,14 @@ private:
 public:
     plNetMsgStreamHelper() : fUncompressedSize(0), fCompressionType(0),
                              fStreamLength(0), fStream(NULL) { }
-    ~plNetMsgStreamHelper();
+    virtual ~plNetMsgStreamHelper();
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 private:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     const unsigned char* getStream() const { return fStream; }
@@ -73,12 +73,12 @@ private:
 public:
     plNetMsgStream() : fCompressionType(0) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 private:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     hsRAMStream* getStream() { return &fStream; }

@@ -34,7 +34,7 @@ public:
     }
 
 private:
-    virtual void run()
+    void run() HS_OVERRIDE
     {
         fRunning = true;
         while (fRunning && fSock->isConnected()) {

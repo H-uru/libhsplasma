@@ -38,9 +38,9 @@ public:
     pnRC4Socket(int handle) : pnSocket(handle), fEncrypted(false) { }
     void init(size_t keySize, const unsigned char* keyData);
 
-    virtual long send(const void* buf, size_t size);
-    virtual long recv(void* buf, size_t size);
-    virtual long peek(void* buf, size_t size);
+    long send(const void* buf, size_t size) HS_OVERRIDE;
+    long recv(void* buf, size_t size) HS_OVERRIDE;
+    long peek(void* buf, size_t size) HS_OVERRIDE;
 };
 
 #endif

@@ -24,11 +24,11 @@ class PLASMA_DLL plAvTask : public plCreatable {
     CREATABLE(plAvTask, kAvTask, plCreatable)
 
 public:
-    virtual void read(hsStream* /*S*/, plResManager* /*mgr*/) { }
-    virtual void write(hsStream* /*S*/, plResManager* /*mgr*/) { }
+    void read(hsStream* /*S*/, plResManager* /*mgr*/) HS_OVERRIDE { }
+    void write(hsStream* /*S*/, plResManager* /*mgr*/) HS_OVERRIDE { }
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* /*prc*/) { }
+    void IPrcWrite(pfPrcHelper* /*prc*/) HS_OVERRIDE { }
 };
 
 
@@ -45,12 +45,12 @@ public:
     plAvAnimTask() : fInitialBlend(0.0f), fTargetBlend(0.0f), fFadeSpeed(0.0f),
                      fSetTime(0.0f), fStart(false), fLoop(false), fAttach(false) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -66,12 +66,12 @@ private:
     plString fAnimName, fMarkerName;
 
 public:
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -90,12 +90,12 @@ public:
     plAvTaskBrain() : fBrain(NULL) { }
     virtual ~plAvTaskBrain();
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plArmatureBrain* getBrain() const { return fBrain; }

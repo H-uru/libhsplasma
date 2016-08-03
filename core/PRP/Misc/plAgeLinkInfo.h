@@ -45,13 +45,13 @@ protected:
 public:
     plAgeInfoStruct() : fFlags(0), fAgeSequenceNumber(0), fAgeLanguage(0) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     bool isEmpty() { return (fFlags == 0); }
@@ -140,13 +140,13 @@ public:
     plAgeLinkStruct()
         : fFlags(kHasAgeInfo | kHasSpawnPt), fLinkingRules(0), fAmCCR(0) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
-    virtual void prcParse(const pfPrcTag* tag, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void prcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     bool isEmpty() { return (fFlags == 0); }

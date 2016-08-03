@@ -96,20 +96,20 @@ public:
     static bool FileExists(const char* file);
 
     virtual bool open(const char* file, FileMode mode);
-    virtual void close();
+    void close() HS_OVERRIDE;
 
-    virtual uint32_t size() const;
-    virtual uint32_t pos() const;
-    virtual bool eof() const;
+    uint32_t size() const HS_OVERRIDE;
+    uint32_t pos() const HS_OVERRIDE;
+    bool eof() const HS_OVERRIDE;
 
-    virtual void seek(uint32_t pos);
-    virtual void skip(int32_t count);
-    virtual void fastForward();
-    virtual void rewind();
-    virtual void flush();
+    void seek(uint32_t pos) HS_OVERRIDE;
+    void skip(int32_t count) HS_OVERRIDE;
+    void fastForward() HS_OVERRIDE;
+    void rewind() HS_OVERRIDE;
+    void flush() HS_OVERRIDE;
 
-    virtual size_t read(size_t size, void* buf);
-    virtual size_t write(size_t size, const void* buf);
+    size_t read(size_t size, void* buf) HS_OVERRIDE;
+    size_t write(size_t size, const void* buf) HS_OVERRIDE;
 
     time_t getModTime() const;
 };

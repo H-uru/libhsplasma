@@ -27,21 +27,21 @@ protected:
 public:
     explicit hsStdioStream(bool useStdErr = false);
 
-    virtual bool open(const char*, FileMode) { return false; }
-    virtual void close() { }
+    bool open(const char*, FileMode) HS_OVERRIDE { return false; }
+    void close() HS_OVERRIDE { }
 
-    virtual uint32_t size() const { return 0; }
-    virtual uint32_t pos() const { return 0; }
-    virtual bool eof() const { return false; }
+    uint32_t size() const HS_OVERRIDE { return 0; }
+    uint32_t pos() const HS_OVERRIDE { return 0; }
+    bool eof() const HS_OVERRIDE { return false; }
 
-    virtual void seek(uint32_t pos);
-    virtual void skip(int32_t count);
-    virtual void fastForward() { }
-    virtual void rewind() { }
-    virtual void flush();
+    void seek(uint32_t pos) HS_OVERRIDE;
+    void skip(int32_t count) HS_OVERRIDE;
+    void fastForward() HS_OVERRIDE { }
+    void rewind() HS_OVERRIDE { }
+    void flush() HS_OVERRIDE;
 
-    virtual size_t read(size_t size, void* buf);
-    virtual size_t write(size_t size, const void* buf);
+    size_t read(size_t size, void* buf) HS_OVERRIDE;
+    size_t write(size_t size, const void* buf) HS_OVERRIDE;
 
     void setFiles(FILE* in, FILE* out) { Fin = in; Fout = out; }
     FILE* getInFile() { return Fin; }

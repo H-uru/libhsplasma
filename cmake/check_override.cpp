@@ -3,16 +3,13 @@ struct A {
 };
 struct B : public A {
     void fun() override { }
-};
-struct C : public A {
-    void fun() final { }
+    virtual void funner() final { }
 };
 
 int main(int, char **) {
     B b;
     b.fun();
-    C c;
-    c.fun();
+    b.funner();
 
     return 0;
 }

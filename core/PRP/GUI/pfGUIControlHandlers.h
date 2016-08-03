@@ -59,10 +59,10 @@ public:
     pfGUICloseDlgProc() { fType = kCloseDlg; }
 
 protected:
-    virtual void IRead(hsStream*) { }
-    virtual void IWrite(hsStream*) { }
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag*) { }
+    void IRead(hsStream*) HS_OVERRIDE { }
+    void IWrite(hsStream*) HS_OVERRIDE { }
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag*) HS_OVERRIDE { }
 };
 
 
@@ -74,10 +74,10 @@ public:
     pfGUIConsoleCmdProc() { fType = kConsoleCmd; }
 
 protected:
-    virtual void IRead(hsStream* S);
-    virtual void IWrite(hsStream* S);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
+    void IRead(hsStream* S) HS_OVERRIDE;
+    void IWrite(hsStream* S) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
 public:
     plString getCommand() const { return fCommand; }
@@ -90,10 +90,10 @@ public:
      pfGUIPythonScriptProc() { fType = kPythonScript; }
 
 protected:
-    virtual void IRead(hsStream*) { }
-    virtual void IWrite(hsStream*) { }
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag*) { }
+    void IRead(hsStream*) HS_OVERRIDE { }
+    void IWrite(hsStream*) HS_OVERRIDE { }
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag*) HS_OVERRIDE { }
 };
 
 #endif

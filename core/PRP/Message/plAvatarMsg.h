@@ -32,11 +32,11 @@ public:
         fBCastFlags |= kBCastByExactType;
     }
 
-    virtual void read(hsStream*, plResManager*) { }
-    virtual void write(hsStream*, plResManager*) { }
+    void read(hsStream*, plResManager*) HS_OVERRIDE { }
+    void write(hsStream*, plResManager*) HS_OVERRIDE { }
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper*) { }
+    void IPrcWrite(pfPrcHelper*) HS_OVERRIDE { }
 };
 
 
@@ -49,12 +49,12 @@ private:
 public:
     plAvatarSetTypeMsg() : fIsPlayer(false) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -66,11 +66,11 @@ public:
         fBCastFlags |= kBCastByExactType;
     }
 
-    virtual void read(hsStream*, plResManager*) { }
-    virtual void write(hsStream*, plResManager*) { }
+    void read(hsStream*, plResManager*) HS_OVERRIDE { }
+    void write(hsStream*, plResManager*) HS_OVERRIDE { }
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper*) { }
+    void IPrcWrite(pfPrcHelper*) HS_OVERRIDE { }
 };
 
 
@@ -92,12 +92,12 @@ public:
         : fType(0), fWhichStage(0), fSetTime(false), fSetDirection(false),
           fNewDirection(false), fNewTime(0.0f), fTransitionTime(0.0f) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 
@@ -110,12 +110,12 @@ private:
 public:
     plAvTaskSeekDoneMsg() : fAborted(false) { }
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 };
 
 #endif

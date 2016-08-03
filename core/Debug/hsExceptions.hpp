@@ -36,7 +36,7 @@ public:
         return *this;
     }
 
-    virtual const char* what() const throw() { return fWhat; }
+    const char* what() const throw() HS_OVERRIDE { return fWhat; }
     const char* File() const throw() { return fFile; }
     unsigned long Line() const throw() { return fLine; }
 

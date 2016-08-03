@@ -51,7 +51,7 @@
 
 #ifdef HAVE_OVERRIDE
   #define HS_OVERRIDE override
-  #define HS_FINAL    final
+  #define HS_FINAL    override final    // Add both to satisfy -Wsuggest-override
 #else
   #define HS_OVERRIDE
   #define HS_FINAL

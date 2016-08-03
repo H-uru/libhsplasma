@@ -88,10 +88,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     bool isEnter() const { return fEnter; }
@@ -119,10 +119,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plKey getPicker() const { return fPicker; }
@@ -150,10 +150,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     int getControlKey() const { return fControlKey; }
@@ -180,10 +180,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plString getName() const { return fName; }
@@ -213,10 +213,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plKey getFacer() const { return fFacer; }
@@ -245,10 +245,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plKey getContained() const { return fContained; }
@@ -273,10 +273,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     bool isActive() const { return fActive; }
@@ -299,10 +299,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     int getCallbackEventType() const { return fCallbackEventType; }
@@ -322,10 +322,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     int getState() const { return fState; }
@@ -346,10 +346,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     int getStage() const { return fStage; }
@@ -373,10 +373,10 @@ public:
     proSpawnedEventData() { fEventType = kSpawned; }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plKey getSpawner() const { return fSpawner; }
@@ -394,9 +394,9 @@ public:
     proClickDragEventData() { fEventType = kClickDrag; }
 
 protected:
-    virtual void IRead(hsStream*, plResManager*) { }
-    virtual void IWrite(hsStream*, plResManager*) { }
-    virtual void IPrcWrite(pfPrcHelper*) { }
+    void IRead(hsStream*, plResManager*) HS_OVERRIDE { }
+    void IWrite(hsStream*, plResManager*) HS_OVERRIDE { }
+    void IPrcWrite(pfPrcHelper*) HS_OVERRIDE { }
 };
 
 
@@ -413,10 +413,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     unsigned int getID() const { return fID; }
@@ -440,10 +440,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plKey getOfferer() const { return fOfferer; }
@@ -468,10 +468,10 @@ public:
     }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     unsigned int getEvent() const { return fEvent; }
@@ -492,10 +492,10 @@ public:
     proClimbingBlockerHitEventData() { fEventType = kClimbingBlockerHit; }
 
 protected:
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plKey getBlocker() const { return fBlockerKey; }

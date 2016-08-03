@@ -44,12 +44,12 @@ public:
      */
     void init(const plString& name);
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     /** Returns the key that describes this object */
@@ -82,15 +82,15 @@ public:
     hsKeyedObjectStub() : fStub(NULL) { }
     virtual ~hsKeyedObjectStub();
 
-    virtual short ClassIndex() const { return fStub->ClassIndex(); }
-    virtual const char* ClassName() const { return "hsKeyedObjectStub"; }
-    virtual bool isStub() const { return true; }
+    short ClassIndex() const HS_FINAL { return fStub->ClassIndex(); }
+    const char* ClassName() const HS_FINAL { return "hsKeyedObjectStub"; }
+    bool isStub() const HS_FINAL { return true; }
 
-    virtual void write(hsStream* S, plResManager* mgr);
+    void write(hsStream* S, plResManager* mgr) HS_FINAL;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_FINAL;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_FINAL;
 
 public:
     /** Returns the underlying plCreatableStub object of this stub */

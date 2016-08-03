@@ -26,18 +26,18 @@ protected:
     plGBufferTriangle* fSortData;
 
 public:
-    virtual const char* ClassName() const { return "plIcicle"; }
+    const char* ClassName() const HS_OVERRIDE { return "plIcicle"; }
 
     plIcicle() : fIBufferIdx(0), fIStartIdx(0), fILength(0), fSortData(NULL) { }
     plIcicle(const plIcicle& init);
     virtual ~plIcicle();
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    void read(hsStream* S) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
 public:
     unsigned int getIBufferIdx() const { return fIBufferIdx; }
@@ -53,14 +53,14 @@ public:
 
 class PLASMA_DLL plParticleSpan : public plIcicle {
 public:
-    virtual const char* ClassName() const { return "plParticleSpan"; }
+    const char* ClassName() const HS_OVERRIDE { return "plParticleSpan"; }
 
-    virtual void read(hsStream*) { }
-    virtual void write(hsStream*) { }
+    void read(hsStream*) HS_OVERRIDE { }
+    void write(hsStream*) HS_OVERRIDE { }
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper*) { }
-    virtual void IPrcParse(const pfPrcTag* tag);
+    void IPrcWrite(pfPrcHelper*) HS_OVERRIDE { }
+    void IPrcParse(const pfPrcTag* tag) HS_OVERRIDE;
 };
 
 #endif

@@ -74,15 +74,15 @@ public:
     plSDStateVariable() { }
     virtual ~plSDStateVariable();
 
-    virtual void setDescriptor(plVarDescriptor* desc);
+    void setDescriptor(plVarDescriptor* desc) HS_OVERRIDE;
     void setSDVarDescriptor(plStateDescriptor* desc) { fSDVarDescriptor = desc; }
-    virtual void resize(size_t size);
+    void resize(size_t size) HS_OVERRIDE;
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
-    virtual void SetFromDefault();
-    virtual bool isDefault(bool secondChance=false) const;
+    void SetFromDefault() HS_OVERRIDE;
+    bool isDefault(bool secondChance=false) const HS_OVERRIDE;
 
     plStateDataRecord* Record(size_t idx) const { return fDataRecList[idx]; }
 };
@@ -118,14 +118,14 @@ public:
     plSimpleStateVariable() : fGenPtr(NULL), fSimpleVarContents(0) { }
     virtual ~plSimpleStateVariable() { IDeAlloc(); }
 
-    virtual void setDescriptor(plVarDescriptor* desc);
-    virtual void resize(size_t size);
+    void setDescriptor(plVarDescriptor* desc) HS_OVERRIDE;
+    void resize(size_t size) HS_OVERRIDE;
 
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
-    virtual void SetFromDefault();
-    virtual bool isDefault(bool secondChance=false) const;
+    void SetFromDefault() HS_OVERRIDE;
+    bool isDefault(bool secondChance=false) const HS_OVERRIDE;
 
     const plUnifiedTime& getTimeStamp() const { return fTimeStamp; }
     void setTimeStamp(const plUnifiedTime& time) { fTimeStamp = time; }

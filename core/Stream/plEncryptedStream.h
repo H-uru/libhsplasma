@@ -49,22 +49,22 @@ public:
 
     bool open(const char* file, FileMode mode, EncryptionType type);
     bool open(hsStream* S, FileMode mode, EncryptionType type);
-    void close();
+    void close() HS_OVERRIDE;
     void setKey(unsigned int* keys);
     EncryptionType getEncType() const { return fEType; }
 
-    virtual uint32_t size() const { return fDataSize; }
-    virtual uint32_t pos() const { return fDataPos; }
-    virtual bool eof() const { return fDataPos >= fDataSize; }
+    uint32_t size() const HS_OVERRIDE { return fDataSize; }
+    uint32_t pos() const HS_OVERRIDE { return fDataPos; }
+    bool eof() const HS_OVERRIDE { return fDataPos >= fDataSize; }
 
-    virtual void seek(uint32_t pos);
-    virtual void skip(int32_t count);
-    virtual void fastForward() { seek(size()); }
-    virtual void rewind();
-    virtual void flush() { fBase->flush(); }
+    void seek(uint32_t pos) HS_OVERRIDE;
+    void skip(int32_t count) HS_OVERRIDE;
+    void fastForward() HS_OVERRIDE { seek(size()); }
+    void rewind() HS_OVERRIDE;
+    void flush() HS_OVERRIDE { fBase->flush(); }
 
-    virtual size_t read(size_t size, void* buf);
-    virtual size_t write(size_t size, const void* buf);
+    size_t read(size_t size, void* buf) HS_OVERRIDE;
+    size_t write(size_t size, const void* buf) HS_OVERRIDE;
 
     static bool IsFileEncrypted(const char* file);
 };

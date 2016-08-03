@@ -17,6 +17,8 @@
 #ifndef _PNSOCKETINTERFACE_H
 #define _PNSOCKETINTERFACE_H
 
+#include "PlasmaDefs.h"
+
 class pnSocket;
 
 class pnDispatcher {
@@ -45,7 +47,7 @@ public:
     pnThreadedSocket(pnDispatcher* dispatch, pnSocket* sock)
         : pnSocketInterface(dispatch, sock), fHelper(0) { }
     virtual ~pnThreadedSocket();
-    virtual void run();
+    void run() HS_OVERRIDE;
 
 protected:
     pnThreadHelper* fHelper;
@@ -56,7 +58,7 @@ public:
     pnPolledSocket(pnDispatcher* dispatch, pnSocket* sock)
         : pnSocketInterface(dispatch, sock) { }
     virtual ~pnPolledSocket() { }
-    virtual void run();
+    void run() HS_OVERRIDE;
 };
 
 #endif

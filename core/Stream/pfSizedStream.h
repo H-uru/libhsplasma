@@ -29,18 +29,18 @@ public:
     pfSizedStream(hsStream* S, uint32_t len);
     virtual ~pfSizedStream() { } // Do NOT free fBase!!!
 
-    virtual uint32_t size() const { return fLength; }
-    virtual uint32_t pos() const { return fBase->pos() - fBegin; }
-    virtual bool eof() const { return fBase->eof() || pos() == fLength; }
+    uint32_t size() const HS_OVERRIDE { return fLength; }
+    uint32_t pos() const HS_OVERRIDE { return fBase->pos() - fBegin; }
+    bool eof() const HS_OVERRIDE { return fBase->eof() || pos() == fLength; }
 
-    virtual void seek(uint32_t pos);
-    virtual void skip(int32_t count);
-    virtual void fastForward() { fBase->seek(fBegin + fLength); }
-    virtual void rewind() { fBase->seek(fBegin); }
-    virtual void flush() { fBase->flush(); }
+    void seek(uint32_t pos) HS_OVERRIDE;
+    void skip(int32_t count) HS_OVERRIDE;
+    void fastForward() HS_OVERRIDE { fBase->seek(fBegin + fLength); }
+    void rewind() HS_OVERRIDE { fBase->seek(fBegin); }
+    void flush() HS_OVERRIDE { fBase->flush(); }
 
-    virtual size_t read(size_t size, void* buf);
-    virtual size_t write(size_t size, const void* buf);
+    size_t read(size_t size, void* buf) HS_OVERRIDE;
+    size_t write(size_t size, const void* buf) HS_OVERRIDE;
 };
 
 #endif

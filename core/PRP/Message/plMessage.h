@@ -56,14 +56,14 @@ protected:
 public:
     plMessage() : fTimeStamp(0.0), fBCastFlags(kLocalPropagate) { }
 
-    virtual void read(hsStream* S, plResManager* mgr) { IMsgRead(S, mgr); }
-    virtual void write(hsStream* S, plResManager* mgr) { IMsgWrite(S, mgr); }
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE { IMsgRead(S, mgr); }
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE { IMsgWrite(S, mgr); }
 
 protected:
     void IMsgRead(hsStream* S, plResManager* mgr);
     void IMsgWrite(hsStream* S, plResManager* mgr);
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plKey getSender() const { return fSender; }

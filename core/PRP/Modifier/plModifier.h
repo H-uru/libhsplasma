@@ -47,21 +47,21 @@ protected:
     plKey fTarget;
 
 public:
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     bool getFlag(size_t flag) const { return fFlags.get(flag); }
     void setFlag(size_t flag, bool value) { fFlags.set(flag, value); }
 
-    virtual size_t getTargetsCount() const { return fTarget.Exists()?1:0; }
-    virtual plKey getTarget(size_t /*pos*/) const { return fTarget; }
-    virtual void addTarget(plKey target) { fTarget = target; };
-    virtual void removeTarget(plKey /*target*/) { fTarget = plKey(); }
+    size_t getTargetsCount() const HS_OVERRIDE { return fTarget.Exists() ? 1 : 0; }
+    plKey getTarget(size_t /*pos*/) const HS_OVERRIDE { return fTarget; }
+    void addTarget(plKey target) HS_OVERRIDE { fTarget = target; };
+    void removeTarget(plKey /*target*/) HS_OVERRIDE { fTarget = plKey(); }
 };
 
 
@@ -73,21 +73,21 @@ protected:
     std::vector<plKey> fTargets;
 
 public:
-    virtual void read(hsStream* S, plResManager* mgr);
-    virtual void write(hsStream* S, plResManager* mgr);
+    void read(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void write(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
 public:
     bool getFlag(size_t flag) const { return fFlags.get(flag); }
     void setFlag(size_t flag, bool value) { fFlags.set(flag, value); }
 
-    virtual size_t getTargetsCount() const { return fTargets.size(); }
-    virtual plKey getTarget(size_t pos) const { return fTargets[pos]; };
-    virtual void addTarget(plKey target) { fTargets.push_back(target); };
-    virtual void removeTarget(plKey target);
+    size_t getTargetsCount() const HS_OVERRIDE { return fTargets.size(); }
+    plKey getTarget(size_t pos) const HS_OVERRIDE { return fTargets[pos]; };
+    void addTarget(plKey target) HS_OVERRIDE { fTargets.push_back(target); };
+    void removeTarget(plKey target) HS_OVERRIDE;
 };
 
 

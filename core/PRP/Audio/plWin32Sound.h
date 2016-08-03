@@ -29,10 +29,10 @@ protected:
     unsigned char fChannelSelect;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag, plResManager* mgr);
-    virtual void IRead(hsStream* S, plResManager* mgr);
-    virtual void IWrite(hsStream* S, plResManager* mgr);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
+    void IRead(hsStream* S, plResManager* mgr) HS_OVERRIDE;
+    void IWrite(hsStream* S, plResManager* mgr) HS_OVERRIDE;
 
 public:
     plWin32Sound() : fChannelSelect(kLeftChannel) { }

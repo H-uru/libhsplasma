@@ -25,17 +25,17 @@ public:
                  fCellOffset, fVStartIdx, fVLength;
 
 public:
-    virtual const char* ClassName() const { return "plVertexSpan"; }
+    const char* ClassName() const HS_OVERRIDE { return "plVertexSpan"; }
 
     plVertexSpan() : fGroupIdx(0), fVBufferIdx(0), fCellIdx(0), fCellOffset(0),
                      fVStartIdx(0), fVLength(0) { }
 
-    virtual void read(hsStream* S);
-    virtual void write(hsStream* S);
+    void read(hsStream* S) HS_OVERRIDE;
+    void write(hsStream* S) HS_OVERRIDE;
 
 protected:
-    virtual void IPrcWrite(pfPrcHelper* prc);
-    virtual void IPrcParse(const pfPrcTag* tag);
+    void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
+    void IPrcParse(const pfPrcTag* tag) HS_OVERRIDE;
 
 public:
     unsigned int getGroupIdx() const { return fGroupIdx; }
