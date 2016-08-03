@@ -141,25 +141,25 @@ void plMipmap::CopyFrom(plMipmap* src) {
 
 void plMipmap::read(hsStream* S, plResManager* mgr) {
     plBitmap::read(S, mgr);
-    IRead(S);
+    IReadMipmap(S);
 }
 
 void plMipmap::write(hsStream* S, plResManager* mgr) {
     plBitmap::write(S, mgr);
-    IWrite(S);
+    IWriteMipmap(S);
 }
 
 void plMipmap::readData(hsStream* S) {
-    plBitmap::IRead(S);
-    IRead(S);
+    IReadBitmap(S);
+    IReadMipmap(S);
 }
 
 void plMipmap::writeData(hsStream* S) {
-    plBitmap::IWrite(S);
-    IWrite(S);
+    IWriteBitmap(S);
+    IWriteMipmap(S);
 }
 
-void plMipmap::IRead(hsStream* S) {
+void plMipmap::IReadMipmap(hsStream* S) {
     fWidth = S->readInt();
     fHeight = S->readInt();
     fStride = S->readInt();
@@ -195,7 +195,7 @@ void plMipmap::IRead(hsStream* S) {
     }
 }
 
-void plMipmap::IWrite(hsStream* S) {
+void plMipmap::IWriteMipmap(hsStream* S) {
     S->writeInt(fWidth);
     S->writeInt(fHeight);
     S->writeInt(fStride);

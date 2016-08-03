@@ -19,25 +19,25 @@
 /* plRenderTarget */
 void plRenderTarget::read(hsStream* S, plResManager* mgr) {
     plBitmap::read(S, mgr);
-    IRead(S);
+    IReadRenderTarget(S);
 }
 
 void plRenderTarget::write(hsStream* S, plResManager* mgr) {
     plBitmap::write(S, mgr);
-    IWrite(S);
+    IWriteRenderTarget(S);
 }
 
 void plRenderTarget::readData(hsStream* S) {
-    plBitmap::IRead(S);
-    IRead(S);
+    IReadBitmap(S);
+    IReadRenderTarget(S);
 }
 
 void plRenderTarget::writeData(hsStream* S) {
-    plBitmap::IWrite(S);
-    IWrite(S);
+    IWriteBitmap(S);
+    IWriteRenderTarget(S);
 }
 
-void plRenderTarget::IRead(hsStream* S) {
+void plRenderTarget::IReadRenderTarget(hsStream* S) {
     fWidth = S->readShort();
     fHeight = S->readShort();
     fProportionalViewport = S->readBool();
@@ -56,7 +56,7 @@ void plRenderTarget::IRead(hsStream* S) {
     fStencilDepth = S->readByte();
 }
 
-void plRenderTarget::IWrite(hsStream* S) {
+void plRenderTarget::IWriteRenderTarget(hsStream* S) {
     S->writeShort(fWidth);
     S->writeShort(fHeight);
     S->writeBool(fProportionalViewport);

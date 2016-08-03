@@ -191,10 +191,10 @@ protected:
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 
     /** Performs internal plBitmap header read */
-    void IRead(hsStream* S);
+    void IReadBitmap(hsStream* S);
 
     /** Performs internal plBitmap header write */
-    void IWrite(hsStream* S);
+    void IWriteBitmap(hsStream* S);
 
 public:
     /** Returns the texture's number of bits per pixel */

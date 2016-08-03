@@ -49,8 +49,8 @@ public:
     void writeData(hsStream* S);
 
 protected:
-    void IRead(hsStream* S);
-    void IWrite(hsStream* S);
+    void IReadRenderTarget(hsStream* S);
+    void IWriteRenderTarget(hsStream* S);
     void IPrcWrite(pfPrcHelper* prc) HS_OVERRIDE;
     void IPrcParse(const pfPrcTag* tag, plResManager* mgr) HS_OVERRIDE;
 

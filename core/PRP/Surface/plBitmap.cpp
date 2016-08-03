@@ -69,15 +69,15 @@ void plBitmap::setConfig(ColorFormat format) {
 
 void plBitmap::read(hsStream* S, plResManager* mgr) {
     hsKeyedObject::read(S, mgr);
-    IRead(S);
+    IReadBitmap(S);
 }
 
 void plBitmap::write(hsStream* S, plResManager* mgr) {
     hsKeyedObject::write(S, mgr);
-    IWrite(S);
+    IWriteBitmap(S);
 }
 
-void plBitmap::IRead(hsStream* S) {
+void plBitmap::IReadBitmap(hsStream* S) {
     S->readByte();  // Version == 2
     fPixelSize = S->readByte();
     fSpace = S->readByte();
@@ -93,7 +93,7 @@ void plBitmap::IRead(hsStream* S) {
     fHighModTime = S->readInt();
 }
 
-void plBitmap::IWrite(hsStream* S) {
+void plBitmap::IWriteBitmap(hsStream* S) {
     S->writeByte(BITMAPVER);
     S->writeByte(fPixelSize);
     S->writeByte(fSpace);
