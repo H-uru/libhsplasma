@@ -82,10 +82,10 @@ public:
     void setProportionalViewportRight(float value) { fViewport.fProportional.fRight = value; }
     void setProportionalViewportBottom(float value) { fViewport.fProportional.fBottom = value; }
 
-    void setAbsoluteViewportLeft(float value) { fViewport.fAbsolute.fLeft = value; }
-    void setAbsoluteViewportTop(float value) { fViewport.fAbsolute.fTop = value; }
-    void setAbsoluteViewportRight(float value) { fViewport.fAbsolute.fRight = value; }
-    void setAbsoluteViewportBottom(float value) { fViewport.fAbsolute.fBottom = value; }
+    void setAbsoluteViewportLeft(unsigned short value) { fViewport.fAbsolute.fLeft = value; }
+    void setAbsoluteViewportTop(unsigned short value) { fViewport.fAbsolute.fTop = value; }
+    void setAbsoluteViewportRight(unsigned short value) { fViewport.fAbsolute.fRight = value; }
+    void setAbsoluteViewportBottom(unsigned short value) { fViewport.fAbsolute.fBottom = value; }
 };
 
 
