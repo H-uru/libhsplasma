@@ -21,7 +21,7 @@
 #include "PRP/Object/plSceneObject.h"
 #include "plGeometrySpan.h"
 
-class PLASMA_DLL plSharedMesh : public virtual hsKeyedObject {
+class PLASMA_DLL plSharedMesh : public hsKeyedObject {
     CREATABLE(plSharedMesh, kSharedMesh, hsKeyedObject)
 
 public:

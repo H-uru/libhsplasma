@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plObjInterface.h"
 
-class PLASMA_DLL plPrintShape : public virtual plObjInterface {
+class PLASMA_DLL plPrintShape : public plObjInterface {
     CREATABLE(plPrintShape, kPrintShape, plObjInterface)
 
 protected:
@@ -37,7 +37,7 @@ protected:
 };
 
 
-class PLASMA_DLL plActivePrintShape : public virtual plPrintShape {
+class PLASMA_DLL plActivePrintShape : public plPrintShape {
     CREATABLE(plActivePrintShape, kActivePrintShape, plPrintShape)
 
 protected:

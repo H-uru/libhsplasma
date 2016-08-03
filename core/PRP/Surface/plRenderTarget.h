@@ -23,7 +23,7 @@
 #include "Math/hsMatrix44.h"
 #include "Util/hsBitVector.h"
 
-class PLASMA_DLL plRenderTarget : public virtual plBitmap {
+class PLASMA_DLL plRenderTarget : public plBitmap {
     CREATABLE(plRenderTarget, kRenderTarget, plBitmap)
 
 protected:
@@ -89,7 +89,7 @@ public:
 };
 
 
-class PLASMA_DLL plCubicRenderTarget : public virtual plRenderTarget {
+class PLASMA_DLL plCubicRenderTarget : public plRenderTarget {
     CREATABLE(plCubicRenderTarget, kCubicRenderTarget, plRenderTarget)
 
 public:

@@ -19,7 +19,7 @@
 
 #include "pfGUIControlMod.h"
 
-class PLASMA_DLL pfGUICheckBoxCtrl : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUICheckBoxCtrl : public pfGUIControlMod {
     CREATABLE(pfGUICheckBoxCtrl, kGUICheckBoxCtrl, pfGUIControlMod)
 
 protected:

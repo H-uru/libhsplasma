@@ -44,7 +44,7 @@ public:
 };
 
 
-class PLASMA_DLL plShader : public virtual hsKeyedObject {
+class PLASMA_DLL plShader : public hsKeyedObject {
     CREATABLE(plShader, kShader, hsKeyedObject)
 
 public:

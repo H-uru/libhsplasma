@@ -25,7 +25,7 @@ class PLASMA_DLL plParticleGenerator : public plCreatable {
 };
 
 
-class PLASMA_DLL plOneTimeParticleGenerator : public virtual plParticleGenerator {
+class PLASMA_DLL plOneTimeParticleGenerator : public plParticleGenerator {
     CREATABLE(plOneTimeParticleGenerator, kOneTimeParticleGenerator,
               plParticleGenerator)
 
@@ -54,7 +54,7 @@ public:
 };
 
 
-class PLASMA_DLL plSimpleParticleGenerator : public virtual plParticleGenerator {
+class PLASMA_DLL plSimpleParticleGenerator : public plParticleGenerator {
     CREATABLE(plSimpleParticleGenerator, kSimpleParticleGenerator,
               plParticleGenerator)
 

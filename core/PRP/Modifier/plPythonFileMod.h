@@ -59,7 +59,7 @@ public:
 };
 
 
-class PLASMA_DLL plPythonFileMod : public virtual plMultiModifier {
+class PLASMA_DLL plPythonFileMod : public plMultiModifier {
     CREATABLE(plPythonFileMod, kPythonFileMod, plMultiModifier)
 
 public:

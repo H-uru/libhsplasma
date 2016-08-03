@@ -56,7 +56,7 @@ public:
     static const char* GroupNames[];
 };
 
-class PLASMA_DLL plPhysical : public virtual plSynchedObject {
+class PLASMA_DLL plPhysical : public plSynchedObject {
     CREATABLE(plPhysical, kPhysical, plSynchedObject)
 };
 

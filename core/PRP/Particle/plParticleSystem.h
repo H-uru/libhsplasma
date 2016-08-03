@@ -21,7 +21,7 @@
 #include "PRP/Animation/plController.h"
 #include "plParticleEmitter.h"
 
-class PLASMA_DLL plParticleSystem : public virtual plModifier {
+class PLASMA_DLL plParticleSystem : public plModifier {
     CREATABLE(plParticleSystem, kParticleSystem, plModifier)
 
 public:

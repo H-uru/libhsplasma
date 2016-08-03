@@ -22,12 +22,12 @@
 #include "Math/hsMatrix44.h"
 #include "hsBounds.h"
 
-class PLASMA_DLL plVolumeIsect : public virtual plCreatable {
+class PLASMA_DLL plVolumeIsect : public plCreatable {
     CREATABLE(plVolumeIsect, kVolumeIsect, plCreatable)
 };
 
 
-class PLASMA_DLL plBoundsIsect : public virtual plVolumeIsect {
+class PLASMA_DLL plBoundsIsect : public plVolumeIsect {
     CREATABLE(plBoundsIsect, kBoundsIsect, plVolumeIsect)
 
 protected:
@@ -43,7 +43,7 @@ protected:
 };
 
 
-class PLASMA_DLL plConeIsect : public virtual plVolumeIsect {
+class PLASMA_DLL plConeIsect : public plVolumeIsect {
     CREATABLE(plConeIsect, kConeIsect, plVolumeIsect)
 
 protected:
@@ -66,7 +66,7 @@ protected:
 };
 
 
-class PLASMA_DLL plConvexIsect : public virtual plVolumeIsect {
+class PLASMA_DLL plConvexIsect : public plVolumeIsect {
     CREATABLE(plConvexIsect, kConvexIsect, plVolumeIsect)
 
 public:
@@ -97,7 +97,7 @@ public:
 };
 
 
-class PLASMA_DLL plCylinderIsect : public virtual plVolumeIsect {
+class PLASMA_DLL plCylinderIsect : public plVolumeIsect {
     CREATABLE(plCylinderIsect, kCylinderIsect, plVolumeIsect)
 
 protected:
@@ -118,7 +118,7 @@ protected:
 };
 
 
-class PLASMA_DLL plParallelIsect : public virtual plVolumeIsect {
+class PLASMA_DLL plParallelIsect : public plVolumeIsect {
     CREATABLE(plParallelIsect, kParallelIsect, plVolumeIsect)
 
 public:
@@ -143,7 +143,7 @@ protected:
 };
 
 
-class PLASMA_DLL plSphereIsect : public virtual plVolumeIsect {
+class PLASMA_DLL plSphereIsect : public plVolumeIsect {
     CREATABLE(plSphereIsect, kSphereIsect, plVolumeIsect)
 
 protected:
@@ -163,7 +163,7 @@ protected:
 };
 
 
-class PLASMA_DLL plComplexIsect : public virtual plVolumeIsect {
+class PLASMA_DLL plComplexIsect : public plVolumeIsect {
     CREATABLE(plComplexIsect, kComplexIsect, plVolumeIsect)
 
 protected:
@@ -185,12 +185,12 @@ public:
 };
 
 
-class PLASMA_DLL plIntersectionIsect : public virtual plComplexIsect {
+class PLASMA_DLL plIntersectionIsect : public plComplexIsect {
     CREATABLE(plIntersectionIsect, kIntersectionIsect, plComplexIsect)
 };
 
 
-class PLASMA_DLL plUnionIsect : public virtual plComplexIsect {
+class PLASMA_DLL plUnionIsect : public plComplexIsect {
     CREATABLE(plUnionIsect, kUnionIsect, plComplexIsect)
 };
 

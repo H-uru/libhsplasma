@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "Math/hsGeometry3.h"
 
-class PLASMA_DLL plAvLadderMod : public virtual plSingleModifier {
+class PLASMA_DLL plAvLadderMod : public plSingleModifier {
     CREATABLE(plAvLadderMod, kAvLadderMod, plSingleModifier)
 
 public:
@@ -44,7 +44,7 @@ protected:
 };
 
 
-class PLASMA_DLL plLadderModifier : public virtual plSingleModifier {
+class PLASMA_DLL plLadderModifier : public plSingleModifier {
     CREATABLE(plLadderModifier, kLadderModifier, plSingleModifier)
 
 protected:

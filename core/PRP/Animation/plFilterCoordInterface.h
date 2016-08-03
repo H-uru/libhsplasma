@@ -19,7 +19,7 @@
 
 #include "PRP/Object/plCoordinateInterface.h"
 
-class PLASMA_DLL plFilterCoordInterface : public virtual plCoordinateInterface {
+class PLASMA_DLL plFilterCoordInterface : public plCoordinateInterface {
     CREATABLE(plFilterCoordInterface, kFilterCoordInterface,
               plCoordinateInterface)
 

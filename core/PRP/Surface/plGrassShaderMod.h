@@ -35,7 +35,7 @@ public:
 };
 
 
-class PLASMA_DLL plGrassShaderMod : public virtual plModifier {
+class PLASMA_DLL plGrassShaderMod : public plModifier {
     CREATABLE(plGrassShaderMod, kGrassShaderMod, plModifier)
 
 public:

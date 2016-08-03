@@ -20,7 +20,7 @@
 #include "plAGAnim.h"
 #include <map>
 
-class PLASMA_DLL plATCAnim : public virtual plAGAnim {
+class PLASMA_DLL plATCAnim : public plAGAnim {
     CREATABLE(plATCAnim, kATCAnim, plAGAnim)
 
 public:
@@ -96,7 +96,7 @@ public:
 };
 
 
-class PLASMA_DLL plEmoteAnim : public virtual plATCAnim {
+class PLASMA_DLL plEmoteAnim : public plATCAnim {
     CREATABLE(plEmoteAnim, kEmoteAnim, plATCAnim)
 
 protected:

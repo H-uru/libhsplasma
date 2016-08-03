@@ -21,12 +21,12 @@
 
 // Yeah, I dunno either...
 
-class PLASMA_DLL plSpawnModifier : public virtual plMultiModifier {
+class PLASMA_DLL plSpawnModifier : public plMultiModifier {
     CREATABLE(plSpawnModifier, kSpawnModifier, plMultiModifier)
 };
 
 
-class PLASMA_DLL plSpawnMod : public virtual plModifier {
+class PLASMA_DLL plSpawnMod : public plModifier {
     CREATABLE(plSpawnMod, kSpawnMod, plModifier)
 
 protected:

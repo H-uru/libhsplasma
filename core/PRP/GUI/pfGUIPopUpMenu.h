@@ -19,7 +19,7 @@
 
 #include "pfGUIDialogMod.h"
 
-class PLASMA_DLL pfGUIPopUpMenu : public virtual pfGUIDialogMod {
+class PLASMA_DLL pfGUIPopUpMenu : public pfGUIDialogMod {
     CREATABLE(pfGUIPopUpMenu, kGUIPopUpMenu, pfGUIDialogMod)
 
 public:

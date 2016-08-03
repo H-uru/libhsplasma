@@ -19,7 +19,7 @@
 
 #include "PRP/KeyedObject/hsKeyedObject.h"
 
-class PLASMA_DLL plFont : public virtual hsKeyedObject {
+class PLASMA_DLL plFont : public hsKeyedObject {
     CREATABLE(plFont, kFont, hsKeyedObject)
 
 public:

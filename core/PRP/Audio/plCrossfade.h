@@ -20,7 +20,7 @@
 #include "PRP/Modifier/plModifier.h"
 #include "PRP/Message/plMessage.h"
 
-class PLASMA_DLL plCrossfade : public virtual plSingleModifier {
+class PLASMA_DLL plCrossfade : public plSingleModifier {
     CREATABLE(plCrossfade, kCrossfade, plSingleModifier)
 
 protected:

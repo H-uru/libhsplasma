@@ -41,7 +41,7 @@ public:
 };
 
 
-class PLASMA_DLL pfGUIListBoxMod : public virtual pfGUIControlMod {
+class PLASMA_DLL pfGUIListBoxMod : public pfGUIControlMod {
     CREATABLE(pfGUIListBoxMod, kGUIListBoxMod, pfGUIControlMod)
 
 public:

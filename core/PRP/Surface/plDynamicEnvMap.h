@@ -19,7 +19,7 @@
 
 #include "plRenderTarget.h"
 
-class PLASMA_DLL plDynamicEnvMap : public virtual plCubicRenderTarget {
+class PLASMA_DLL plDynamicEnvMap : public plCubicRenderTarget {
     CREATABLE(plDynamicEnvMap, kDynamicEnvMap, plCubicRenderTarget)
 
 protected:
@@ -107,7 +107,7 @@ public:
 };
 
 
-class PLASMA_DLL plDynamicCamMap : public virtual plRenderTarget {
+class PLASMA_DLL plDynamicCamMap : public plRenderTarget {
     CREATABLE(plDynamicCamMap, kDynamicCamMap, plRenderTarget)
 
 public:

@@ -20,7 +20,7 @@
 #include "plRegionBase.hpp"
 #include "plVolumeIsect.h"
 
-class PLASMA_DLL plSoftVolume : public virtual plRegionBase {
+class PLASMA_DLL plSoftVolume : public plRegionBase {
     CREATABLE(plSoftVolume, kSoftVolume, plRegionBase)
 
 public:
@@ -58,7 +58,7 @@ public:
 };
 
 
-class PLASMA_DLL plSoftVolumeSimple : public virtual plSoftVolume {
+class PLASMA_DLL plSoftVolumeSimple : public plSoftVolume {
     CREATABLE(plSoftVolumeSimple, kSoftVolumeSimple, plSoftVolume)
 
 protected:
@@ -85,7 +85,7 @@ public:
 };
 
 
-class PLASMA_DLL plSoftVolumeComplex : public virtual plSoftVolume {
+class PLASMA_DLL plSoftVolumeComplex : public plSoftVolume {
     CREATABLE(plSoftVolumeComplex, kSoftVolumeComplex, plSoftVolume)
 
 protected:
@@ -108,17 +108,17 @@ public:
 };
 
 
-class PLASMA_DLL plSoftVolumeIntersect : public virtual plSoftVolumeComplex {
+class PLASMA_DLL plSoftVolumeIntersect : public plSoftVolumeComplex {
     CREATABLE(plSoftVolumeIntersect, kSoftVolumeIntersect, plSoftVolumeComplex)
 };
 
 
-class PLASMA_DLL plSoftVolumeInvert : public virtual plSoftVolumeComplex {
+class PLASMA_DLL plSoftVolumeInvert : public plSoftVolumeComplex {
     CREATABLE(plSoftVolumeInvert, kSoftVolumeInvert, plSoftVolumeComplex)
 };
 
 
-class PLASMA_DLL plSoftVolumeUnion : public virtual plSoftVolumeComplex {
+class PLASMA_DLL plSoftVolumeUnion : public plSoftVolumeComplex {
     CREATABLE(plSoftVolumeUnion, kSoftVolumeUnion, plSoftVolumeComplex)
 };
 

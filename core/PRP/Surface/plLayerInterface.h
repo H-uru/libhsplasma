@@ -23,7 +23,7 @@
 #include "plBitmap.h"
 #include "hsGMatState.h"
 
-class PLASMA_DLL plLayerInterface : public virtual plSynchedObject {
+class PLASMA_DLL plLayerInterface : public plSynchedObject {
     CREATABLE(plLayerInterface, kLayerInterface, plSynchedObject)
 
 public:

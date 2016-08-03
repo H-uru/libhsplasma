@@ -19,7 +19,7 @@
 
 #include "PRP/Modifier/plModifier.h"
 
-class PLASMA_DLL plAGMasterMod : public virtual plModifier {
+class PLASMA_DLL plAGMasterMod : public plModifier {
     CREATABLE(plAGMasterMod, kAGMasterMod, plModifier)
 
 protected:

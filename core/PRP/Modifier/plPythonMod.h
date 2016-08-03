@@ -37,7 +37,7 @@ struct PLASMA_DLL PY_SOUND_IDX {
 };
 
 
-class PLASMA_DLL plPythonMod : public virtual plMultiModifier {
+class PLASMA_DLL plPythonMod : public plMultiModifier {
     CREATABLE(plPythonMod, kPythonMod, plMultiModifier)
 
 public:
