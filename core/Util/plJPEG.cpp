@@ -29,7 +29,7 @@ extern "C" {
 
 /* hsJPEGException */
 hsJPEGException::hsJPEGException(const char* file, unsigned long line,
-                                 const char* message) throw()
+                                 const char* message) HS_NOEXCEPT
                : hsException(file, line) {
     fWhat = "libJPEG error";
     if (message != NULL)

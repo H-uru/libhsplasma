@@ -73,14 +73,14 @@ private:
 class PLASMA_DLL pfPrcParseException : public hsException {
 public:
     pfPrcParseException(const char* file, unsigned long line,
-                        const char* msg, ...) throw();
+                        const char* msg, ...) HS_NOEXCEPT;
 };
 
 
 class PLASMA_DLL pfPrcTagException : public pfPrcParseException {
 public:
     pfPrcTagException(const char* file, unsigned long line,
-                      const char* tag) throw();
+                      const char* tag) HS_NOEXCEPT;
 };
 
 #endif

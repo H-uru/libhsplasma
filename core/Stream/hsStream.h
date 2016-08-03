@@ -117,13 +117,13 @@ public:
 class PLASMA_DLL hsFileReadException : public hsException {
 public:
     hsFileReadException(const char* file, unsigned long line,
-                        const char* filename = NULL) throw();
+                        const char* filename = NULL) HS_NOEXCEPT;
 };
 
 class PLASMA_DLL hsFileWriteException : public hsException {
 public:
     hsFileWriteException(const char* file, unsigned long line,
-                         const char* filename = NULL) throw();
+                         const char* filename = NULL) HS_NOEXCEPT;
 };
 
 #endif

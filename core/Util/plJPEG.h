@@ -26,7 +26,7 @@ extern "C" {
 class PLASMA_DLL hsJPEGException : public hsException {
 public:
     hsJPEGException(const char* file, unsigned long line,
-                    const char* message = NULL) throw();
+                    const char* message = NULL) HS_NOEXCEPT;
 };
 
 

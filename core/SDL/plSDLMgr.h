@@ -46,7 +46,7 @@ public:
 class PLASMA_DLL plSDLParseException : public hsException {
 public:
     plSDLParseException(const char* file, unsigned long line,
-                        const char* msg, ...) throw();
+                        const char* msg, ...) HS_NOEXCEPT;
 };
 
 #endif

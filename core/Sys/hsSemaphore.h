@@ -45,7 +45,7 @@ public:
 
 class PLASMA_DLL hsSemaphoreException : public hsException {
 public:
-    hsSemaphoreException(const char* file, unsigned long line) throw()
+    hsSemaphoreException(const char* file, unsigned long line) HS_NOEXCEPT
         : hsException(file, line)
     { fWhat = "Semaphore operation failed"; }
 };

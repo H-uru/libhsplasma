@@ -175,7 +175,7 @@ pfPrcTag* pfPrcParser::readTag(hsTokenStream* tok) {
 
 /* pfPrcParseException */
 pfPrcParseException::pfPrcParseException(const char* file, unsigned long line,
-                                         const char* msg, ...) throw()
+                                         const char* msg, ...) HS_NOEXCEPT
                    : hsException(file, line) {
     if (msg == NULL) {
         fWhat = "Unknown Parse Error";
@@ -190,7 +190,7 @@ pfPrcParseException::pfPrcParseException(const char* file, unsigned long line,
 
 /* pfPrcTagException */
 pfPrcTagException::pfPrcTagException(const char* file, unsigned long line,
-                                     const char* tag) throw()
+                                     const char* tag) HS_NOEXCEPT
                  : pfPrcParseException(file, line, NULL) {
     if (tag == NULL)
         fWhat = "Unexpected tag";

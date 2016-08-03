@@ -435,7 +435,7 @@ time_t hsFileStream::getModTime() const {
 
 /* hsFileReadException */
 hsFileReadException::hsFileReadException(const char* file,
-                     unsigned long line, const char* filename) throw()
+                     unsigned long line, const char* filename) HS_NOEXCEPT
                    : hsException(file, line) {
     fWhat = "Error reading file";
     if (filename != NULL)
@@ -445,7 +445,7 @@ hsFileReadException::hsFileReadException(const char* file,
 
 /* hsFileWriteException */
 hsFileWriteException::hsFileWriteException(const char* file,
-                      unsigned long line, const char* filename) throw()
+                      unsigned long line, const char* filename) HS_NOEXCEPT
                     : hsException(file, line) {
     fWhat = "Error writing to file";
     if (filename != NULL)

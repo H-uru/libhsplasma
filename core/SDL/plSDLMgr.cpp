@@ -317,7 +317,7 @@ void plSDLMgr::write(hsStream* S) {
 
 /* plSDLParseException */
 plSDLParseException::plSDLParseException(const char* file, unsigned long line,
-                                         const char* msg, ...) throw()
+                                         const char* msg, ...) HS_NOEXCEPT
                    : hsException(file, line) {
     va_list argptr;
     va_start(argptr, msg);
