@@ -152,22 +152,6 @@ PyObject* Init_pyAGApplicator_Type() {
     return (PyObject*)&pyAGApplicator_Type;
 }
 
-int pyAGApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAGApplicator_FromAGApplicator(class plAGApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAGApplicator* pyobj = PyObject_New(pyAGApplicator, &pyAGApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AGApplicator, plAGApplicator)
 
 }

@@ -119,22 +119,6 @@ PyObject* Init_pyCallbackEventData_Type() {
     return (PyObject*)&pyCallbackEventData_Type;
 }
 
-int pyCallbackEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCallbackEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCallbackEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCallbackEventData_FromCallbackEventData(proCallbackEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCallbackEventData* pyobj = PyObject_New(pyCallbackEventData, &pyCallbackEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CallbackEventData, proCallbackEventData)
 
 }

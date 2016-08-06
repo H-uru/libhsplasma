@@ -196,22 +196,6 @@ PyObject* Init_pyCreatable_Type() {
     return (PyObject*)&pyCreatable_Type;
 }
 
-int pyCreatable_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCreatable_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCreatable_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCreatable_FromCreatable(class plCreatable* pCre) {
-    if (pCre == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCreatable* obj = PyObject_New(pyCreatable, &pyCreatable_Type);
-    obj->fThis = pCre;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(Creatable, plCreatable)
 
 }

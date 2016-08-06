@@ -102,22 +102,6 @@ PyObject* Init_pySpawnModifier_Type() {
     return (PyObject*)&pySpawnModifier_Type;
 }
 
-int pySpawnModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpawnModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpawnModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpawnModifier_FromSpawnModifier(class plSpawnModifier* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpawnModifier* pymod = PyObject_New(pySpawnModifier, &pySpawnModifier_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(SpawnModifier, plSpawnModifier)
 
 }

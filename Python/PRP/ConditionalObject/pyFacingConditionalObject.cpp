@@ -131,22 +131,6 @@ PyObject* Init_pyFacingConditionalObject_Type() {
     return (PyObject*)&pyFacingConditionalObject_Type;
 }
 
-int pyFacingConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyFacingConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyFacingConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyFacingConditionalObject_FromFacingConditionalObject(class plFacingConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyFacingConditionalObject* py = PyObject_New(pyFacingConditionalObject, &pyFacingConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(FacingConditionalObject, plFacingConditionalObject)
 
 };

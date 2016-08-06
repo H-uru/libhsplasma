@@ -101,22 +101,6 @@ PyObject* Init_pyScalarTimeScale_Type() {
     return (PyObject*)&pyScalarTimeScale_Type;
 }
 
-int pyScalarTimeScale_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarTimeScale_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarTimeScale_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarTimeScale_FromScalarTimeScale(class plScalarTimeScale* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarTimeScale* pyobj = PyObject_New(pyScalarTimeScale, &pyScalarTimeScale_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarTimeScale, plScalarTimeScale)
 
 }

@@ -107,22 +107,6 @@ PyObject* Init_pyQuatController_Type() {
     return (PyObject*)&pyQuatController_Type;
 }
 
-int pyQuatController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatController_FromQuatController(class plQuatController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatController* pyobj = PyObject_New(pyQuatController, &pyQuatController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatController, plQuatController)
 
 }

@@ -120,22 +120,6 @@ PyObject* Init_pySoundVolumeApplicator_Type() {
     return (PyObject*)&pySoundVolumeApplicator_Type;
 }
 
-int pySoundVolumeApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pySoundVolumeApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pySoundVolumeApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySoundVolumeApplicator_FromSoundVolumeApplicator(class plSoundVolumeApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySoundVolumeApplicator* pyobj = PyObject_New(pySoundVolumeApplicator, &pySoundVolumeApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SoundVolumeApplicator, plSoundVolumeApplicator)
 
 }

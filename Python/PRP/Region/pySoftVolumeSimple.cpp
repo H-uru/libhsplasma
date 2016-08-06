@@ -135,22 +135,6 @@ PyObject* Init_pySoftVolumeSimple_Type() {
     return (PyObject*)&pySoftVolumeSimple_Type;
 }
 
-int pySoftVolumeSimple_Check(PyObject* obj) {
-    if (obj->ob_type == &pySoftVolumeSimple_Type
-        || PyType_IsSubtype(obj->ob_type, &pySoftVolumeSimple_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySoftVolumeSimple_FromSoftVolumeSimple(class plSoftVolumeSimple* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySoftVolumeSimple* pyobj = PyObject_New(pySoftVolumeSimple, &pySoftVolumeSimple_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SoftVolumeSimple, plSoftVolumeSimple)
 
 }

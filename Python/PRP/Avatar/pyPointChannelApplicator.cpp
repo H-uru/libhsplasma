@@ -101,22 +101,6 @@ PyObject* Init_pyPointChannelApplicator_Type() {
     return (PyObject*)&pyPointChannelApplicator_Type;
 }
 
-int pyPointChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointChannelApplicator_FromPointChannelApplicator(class plPointChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointChannelApplicator* pyobj = PyObject_New(pyPointChannelApplicator, &pyPointChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointChannelApplicator, plPointChannelApplicator)
 
 }

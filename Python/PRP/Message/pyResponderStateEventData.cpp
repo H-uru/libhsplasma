@@ -119,22 +119,6 @@ PyObject* Init_pyResponderStateEventData_Type() {
     return (PyObject*)&pyResponderStateEventData_Type;
 }
 
-int pyResponderStateEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResponderStateEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResponderStateEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyResponderStateEventData_FromResponderStateEventData(proResponderStateEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyResponderStateEventData* pyobj = PyObject_New(pyResponderStateEventData, &pyResponderStateEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ResponderStateEventData, proResponderStateEventData)
 
 }

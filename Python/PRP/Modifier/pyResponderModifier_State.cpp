@@ -236,22 +236,6 @@ PyObject* Init_pyResponderModifier_State_Type() {
     return (PyObject*)&pyResponderModifier_State_Type;
 }
 
-int pyResponderModifier_State_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResponderModifier_State_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResponderModifier_State_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyResponderModifier_State_FromResponderState(plResponderModifier::plResponderState* state) {
-    if (state == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyResponderModifier_State* pyobj = PyObject_New(pyResponderModifier_State, &pyResponderModifier_State_Type);
-    pyobj->fThis = state;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ResponderModifier_State, plResponderModifier::plResponderState)
 
 }

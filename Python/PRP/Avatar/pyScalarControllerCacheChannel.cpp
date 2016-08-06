@@ -101,22 +101,6 @@ PyObject* Init_pyScalarControllerCacheChannel_Type() {
     return (PyObject*)&pyScalarControllerCacheChannel_Type;
 }
 
-int pyScalarControllerCacheChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarControllerCacheChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarControllerCacheChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarControllerCacheChannel_FromScalarControllerCacheChannel(class plScalarControllerCacheChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarControllerCacheChannel* pyobj = PyObject_New(pyScalarControllerCacheChannel, &pyScalarControllerCacheChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarControllerCacheChannel, plScalarControllerCacheChannel)
 
 }

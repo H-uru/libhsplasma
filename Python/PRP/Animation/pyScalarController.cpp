@@ -107,22 +107,6 @@ PyObject* Init_pyScalarController_Type() {
     return (PyObject*)&pyScalarController_Type;
 }
 
-int pyScalarController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarController_FromScalarController(class plScalarController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarController* pyobj = PyObject_New(pyScalarController, &pyScalarController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarController, plScalarController)
 
 }

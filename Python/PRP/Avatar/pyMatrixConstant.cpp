@@ -101,22 +101,6 @@ PyObject* Init_pyMatrixConstant_Type() {
     return (PyObject*)&pyMatrixConstant_Type;
 }
 
-int pyMatrixConstant_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixConstant_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixConstant_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixConstant_FromMatrixConstant(class plMatrixConstant* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixConstant* pyobj = PyObject_New(pyMatrixConstant, &pyMatrixConstant_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixConstant, plMatrixConstant)
 
 }

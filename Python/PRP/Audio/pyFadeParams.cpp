@@ -205,11 +205,6 @@ PyObject* Init_pyFadeParams_Type() {
     return (PyObject*)&pyFadeParams_Type;
 }
 
-PyObject* pyFadeParams_FromFadeParams(plSound::plFadeParams* params) {
-    pyFadeParams* pyObj = PyObject_New(pyFadeParams, &pyFadeParams_Type);
-    pyObj->fThis = params;
-    pyObj->fPyOwned = false;
-    return (PyObject*)pyObj;
-}
+PY_PLASMA_IFC_METHODS(FadeParams, plSound::plFadeParams)
 
 }

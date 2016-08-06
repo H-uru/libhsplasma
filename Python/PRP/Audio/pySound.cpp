@@ -422,22 +422,6 @@ PyObject* Init_pySound_Type() {
     return (PyObject*)&pySound_Type;
 }
 
-int pySound_Check(PyObject* obj) {
-    if (obj->ob_type == &pySound_Type
-        || PyType_IsSubtype(obj->ob_type, &pySound_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySound_FromSound(class plSound* sound) {
-    if (sound == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySound* intf = PyObject_New(pySound, &pySound_Type);
-    intf->fThis = sound;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(Sound, plSound)
 
 }

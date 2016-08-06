@@ -97,22 +97,6 @@ PyObject* Init_pyVolActivatorConditionalObject_Type() {
     return (PyObject*)&pyVolActivatorConditionalObject_Type;
 }
 
-int pyVolActivatorConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyVolActivatorConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyVolActivatorConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyVolActivatorConditionalObject_FromVolActivatorConditionalObject(class plVolActivatorConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyVolActivatorConditionalObject* py = PyObject_New(pyVolActivatorConditionalObject, &pyVolActivatorConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(VolActivatorConditionalObject, plVolActivatorConditionalObject)
 
 };

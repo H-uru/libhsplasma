@@ -101,22 +101,6 @@ PyObject* Init_pyConstAccelEaseCurve_Type() {
     return (PyObject*)&pyConstAccelEaseCurve_Type;
 }
 
-int pyConstAccelEaseCurve_Check(PyObject* obj) {
-    if (obj->ob_type == &pyConstAccelEaseCurve_Type
-        || PyType_IsSubtype(obj->ob_type, &pyConstAccelEaseCurve_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyConstAccelEaseCurve_FromConstAccelEaseCurve(class plConstAccelEaseCurve* curve) {
-    if (curve == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyConstAccelEaseCurve* pyobj = PyObject_New(pyConstAccelEaseCurve, &pyConstAccelEaseCurve_Type);
-    pyobj->fThis = curve;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ConstAccelEaseCurve, plConstAccelEaseCurve)
 
 }

@@ -200,22 +200,6 @@ PyObject* Init_pyOneShotMod_Type() {
     return (PyObject*)&pyOneShotMod_Type;
 }
 
-int pyOneShotMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOneShotMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOneShotMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOneShotMod_FromOneShotMod(class plOneShotMod* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOneShotMod* pymod = PyObject_New(pyOneShotMod, &pyOneShotMod_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(OneShotMod, plOneShotMod)
 
 }

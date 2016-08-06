@@ -159,22 +159,6 @@ PyObject* Init_pyResponderModifier_Cmd_Type() {
     return (PyObject*)&pyResponderModifier_Cmd_Type;
 }
 
-int pyResponderModifier_Cmd_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResponderModifier_Cmd_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResponderModifier_Cmd_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyResponderModifier_Cmd_FromResponderCmd(plResponderModifier::plResponderCmd* cmd) {
-    if (cmd == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyResponderModifier_Cmd* pyobj = PyObject_New(pyResponderModifier_Cmd, &pyResponderModifier_Cmd_Type);
-    pyobj->fThis = cmd;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ResponderModifier_Cmd, plResponderModifier::plResponderCmd)
 
 }

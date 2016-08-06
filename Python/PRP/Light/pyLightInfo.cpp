@@ -320,22 +320,6 @@ PyObject* Init_pyLightInfo_Type() {
     return (PyObject*)&pyLightInfo_Type;
 }
 
-int pyLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLightInfo_FromLightInfo(class plLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLightInfo* pyLight = PyObject_New(pyLightInfo, &pyLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(LightInfo, plLightInfo)
 
 }

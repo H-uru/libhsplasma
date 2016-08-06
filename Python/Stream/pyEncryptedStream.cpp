@@ -211,4 +211,6 @@ PyObject* Init_pyEncryptedStream_Type() {
     return (PyObject*)&pyEncryptedStream_Type;
 }
 
+PY_PLASMA_IFC_METHODS(EncryptedStream, plEncryptedStream)
+
 }

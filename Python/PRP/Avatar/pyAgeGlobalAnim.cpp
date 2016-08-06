@@ -120,22 +120,6 @@ PyObject* Init_pyAgeGlobalAnim_Type() {
     return (PyObject*)&pyAgeGlobalAnim_Type;
 }
 
-int pyAgeGlobalAnim_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAgeGlobalAnim_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAgeGlobalAnim_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAgeGlobalAnim_FromAgeGlobalAnim(class plAgeGlobalAnim* anim) {
-    if (anim == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAgeGlobalAnim* pyobj = PyObject_New(pyAgeGlobalAnim, &pyAgeGlobalAnim_Type);
-    pyobj->fThis = anim;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AgeGlobalAnim, plAgeGlobalAnim)
 
 }

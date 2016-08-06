@@ -97,22 +97,6 @@ PyObject* Init_pyResponderMsg_Type() {
     return (PyObject*)&pyResponderMsg_Type;
 }
 
-int pyResponderMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResponderMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResponderMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyResponderMsg_FromResponderMsg(class plResponderMsg* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyResponderMsg* pyobj = PyObject_New(pyResponderMsg, &pyResponderMsg_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ResponderMsg, plResponderMsg)
 
 }

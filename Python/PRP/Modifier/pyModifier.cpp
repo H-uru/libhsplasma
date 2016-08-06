@@ -98,22 +98,6 @@ PyObject* Init_pyModifier_Type() {
     return (PyObject*)&pyModifier_Type;
 }
 
-int pyModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pyModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pyModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyModifier_FromModifier(class plModifier* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyModifier* pymod = PyObject_New(pyModifier, &pyModifier_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(Modifier, plModifier)
 
 }

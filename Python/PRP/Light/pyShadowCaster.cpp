@@ -185,22 +185,6 @@ PyObject* Init_pyShadowCaster_Type() {
     return (PyObject*)&pyShadowCaster_Type;
 }
 
-int pyShadowCaster_Check(PyObject* obj) {
-    if (obj->ob_type == &pyShadowCaster_Type
-        || PyType_IsSubtype(obj->ob_type, &pyShadowCaster_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyShadowCaster_FromShadowCaster(plShadowCaster* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyShadowCaster* pyobj = PyObject_New(pyShadowCaster, &pyShadowCaster_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ShadowCaster, plShadowCaster)
 
 }

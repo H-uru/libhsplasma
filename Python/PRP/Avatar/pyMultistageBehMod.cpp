@@ -261,22 +261,6 @@ PyObject* Init_pyMultistageBehMod_Type() {
     return (PyObject*)&pyMultistageBehMod_Type;
 }
 
-int pyMultistageBehMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMultistageBehMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMultistageBehMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMultistageBehMod_FromMultistageBehMod(plMultistageBehMod* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMultistageBehMod* pyobj = PyObject_New(pyMultistageBehMod, &pyMultistageBehMod_Type);
-    pyobj->fThis = mod;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MultistageBehMod, plMultistageBehMod)
 
 }

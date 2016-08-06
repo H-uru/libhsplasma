@@ -158,22 +158,6 @@ PyObject* Init_pyCollisionEventData_Type() {
     return (PyObject*)&pyCollisionEventData_Type;
 }
 
-int pyCollisionEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCollisionEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCollisionEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCollisionEventData_FromCollisionEventData(proCollisionEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCollisionEventData* pyobj = PyObject_New(pyCollisionEventData, &pyCollisionEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CollisionEventData, proCollisionEventData)
 
 }

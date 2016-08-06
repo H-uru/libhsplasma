@@ -101,22 +101,6 @@ PyObject* Init_pyAudibleNull_Type() {
     return (PyObject*)&pyAudibleNull_Type;
 }
 
-int pyAudibleNull_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAudibleNull_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAudibleNull_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAudibleNull_FromAudibleNull(plAudibleNull* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAudibleNull* pyobj = PyObject_New(pyAudibleNull, &pyAudibleNull_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AudibleNull, plAudibleNull)
 
 }

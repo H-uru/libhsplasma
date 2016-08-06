@@ -248,22 +248,6 @@ PyObject* Init_pyMessage_Type() {
     return (PyObject*)&pyMessage_Type;
 }
 
-int pyMessage_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMessage_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMessage_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMessage_FromMessage(class plMessage* atc) {
-    if (atc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMessage* pyobj = PyObject_New(pyMessage, &pyMessage_Type);
-    pyobj->fThis = atc;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Message, plMessage)
 
 }

@@ -470,7 +470,7 @@ PyObject* ICreate(plCreatable* pCre)
         case kSoundMsg: pySoundMsg_FromSoundMsg(plSoundMsg::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
-            if (dynamic_cast<plMessage*>(pCre))
+            if (pCre->ClassInstance(kMessage))
                 return pyMessage_FromMessage(plMessage::Convert(pCre));
             return pyCreatable_FromCreatable(pCre);
     }

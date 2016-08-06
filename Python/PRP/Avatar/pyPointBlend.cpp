@@ -101,22 +101,6 @@ PyObject* Init_pyPointBlend_Type() {
     return (PyObject*)&pyPointBlend_Type;
 }
 
-int pyPointBlend_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointBlend_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointBlend_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointBlend_FromPointBlend(class plPointBlend* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointBlend* pyobj = PyObject_New(pyPointBlend, &pyPointBlend_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointBlend, plPointBlend)
 
 }

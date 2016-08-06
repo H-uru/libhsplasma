@@ -116,22 +116,6 @@ PyObject* Init_pyScaleController_Type() {
     return (PyObject*)&pyScaleController_Type;
 }
 
-int pyScaleController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScaleController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScaleController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScaleController_FromScaleController(class plScaleController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScaleController* pyobj = PyObject_New(pyScaleController, &pyScaleController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScaleController, plScaleController)
 
 }

@@ -193,22 +193,6 @@ PyObject* Init_pyAgeLinkStruct_Type() {
     return (PyObject*)&pyAgeLinkStruct_Type;
 }
 
-int pyAgeLinkStruct_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAgeLinkStruct_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAgeLinkStruct_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAgeLinkStruct_FromAgeLinkStruct(plAgeLinkStruct* als) {
-    if (als == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAgeLinkStruct* pyobj = PyObject_New(pyAgeLinkStruct, &pyAgeLinkStruct_Type);
-    pyobj->fThis = als;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AgeLinkStruct, plAgeLinkStruct)
 
 }

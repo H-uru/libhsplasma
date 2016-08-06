@@ -123,22 +123,6 @@ PyObject* Init_pySingleModifier_Type() {
     return (PyObject*)&pySingleModifier_Type;
 }
 
-int pySingleModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pySingleModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pySingleModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySingleModifier_FromSingleModifier(class plSingleModifier* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySingleModifier* pymod = PyObject_New(pySingleModifier, &pySingleModifier_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(SingleModifier, plSingleModifier)
 
 }

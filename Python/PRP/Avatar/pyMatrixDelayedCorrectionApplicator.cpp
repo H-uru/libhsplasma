@@ -101,22 +101,6 @@ PyObject* Init_pyMatrixDelayedCorrectionApplicator_Type() {
     return (PyObject*)&pyMatrixDelayedCorrectionApplicator_Type;
 }
 
-int pyMatrixDelayedCorrectionApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixDelayedCorrectionApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixDelayedCorrectionApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixDelayedCorrectionApplicator_FromMatrixDelayedCorrectionApplicator(class plMatrixDelayedCorrectionApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixDelayedCorrectionApplicator* pyobj = PyObject_New(pyMatrixDelayedCorrectionApplicator, &pyMatrixDelayedCorrectionApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixDelayedCorrectionApplicator, plMatrixDelayedCorrectionApplicator)
 
 }

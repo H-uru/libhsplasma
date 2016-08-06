@@ -131,22 +131,6 @@ PyObject* Init_pyArmatureEffectStateMsg_Type() {
     return (PyObject*)&pyArmatureEffectStateMsg_Type;
 }
 
-int pyArmatureEffectStateMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyArmatureEffectStateMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyArmatureEffectStateMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyArmatureEffectStateMsg_FromArmatureEffectStateMsg(plArmatureEffectStateMsg* msg) {
-    if (msg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyArmatureEffectStateMsg* pyobj = PyObject_New(pyArmatureEffectStateMsg, &pyArmatureEffectStateMsg_Type);
-    pyobj->fThis = msg;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ArmatureEffectStateMsg, plArmatureEffectStateMsg)
 
 }

@@ -181,22 +181,6 @@ PyObject* Init_pyEventCallbackMsg_Type() {
     return (PyObject*)&pyEventCallbackMsg_Type;
 }
 
-int pyEventCallbackMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyEventCallbackMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyEventCallbackMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyEventCallbackMsg_FromEventCallbackMsg(class plEventCallbackMsg* msg) {
-    if (msg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyEventCallbackMsg* pyobj = PyObject_New(pyEventCallbackMsg, &pyEventCallbackMsg_Type);
-    pyobj->fThis = msg;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(EventCallbackMsg, plEventCallbackMsg)
 
 }

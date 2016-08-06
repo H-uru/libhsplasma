@@ -165,22 +165,6 @@ PyObject* Init_pyOmniLightInfo_Type() {
     return (PyObject*)&pyOmniLightInfo_Type;
 }
 
-int pyOmniLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOmniLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOmniLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOmniLightInfo_FromOmniLightInfo(class plOmniLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOmniLightInfo* pyLight = PyObject_New(pyOmniLightInfo, &pyOmniLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(OmniLightInfo, plOmniLightInfo)
 
 }

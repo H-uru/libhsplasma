@@ -132,22 +132,6 @@ PyObject* Init_pySimplePosController_Type() {
     return (PyObject*)&pySimplePosController_Type;
 }
 
-int pySimplePosController_Check(PyObject* obj) {
-    if (obj->ob_type == &pySimplePosController_Type
-        || PyType_IsSubtype(obj->ob_type, &pySimplePosController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySimplePosController_FromSimplePosController(class plSimplePosController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySimplePosController* pyobj = PyObject_New(pySimplePosController, &pySimplePosController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SimplePosController, plSimplePosController)
 
 }

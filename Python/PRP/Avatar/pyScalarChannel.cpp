@@ -120,22 +120,6 @@ PyObject* Init_pyScalarChannel_Type() {
     return (PyObject*)&pyScalarChannel_Type;
 }
 
-int pyScalarChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarChannel_FromScalarChannel(class plScalarChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarChannel* pyobj = PyObject_New(pyScalarChannel, &pyScalarChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarChannel, plScalarChannel)
 
 }

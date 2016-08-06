@@ -152,22 +152,6 @@ PyObject* Init_pySimulationInterface_Type() {
     return (PyObject*)&pySimulationInterface_Type;
 }
 
-int pySimulationInterface_Check(PyObject* obj) {
-    if (obj->ob_type == &pySimulationInterface_Type
-        || PyType_IsSubtype(obj->ob_type, &pySimulationInterface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySimulationInterface_FromSimulationInterface(class plSimulationInterface* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySimulationInterface* intf = PyObject_New(pySimulationInterface, &pySimulationInterface_Type);
-    intf->fThis = obj;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(SimulationInterface, plSimulationInterface)
 
 }

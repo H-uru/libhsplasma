@@ -118,22 +118,6 @@ PyObject* Init_pyWin32Sound_Type() {
     return (PyObject*)&pyWin32Sound_Type;
 }
 
-int pyWin32Sound_Check(PyObject* obj) {
-    if (obj->ob_type == &pyWin32Sound_Type
-        || PyType_IsSubtype(obj->ob_type, &pyWin32Sound_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyWin32Sound_FromWin32Sound(class plWin32Sound* sound) {
-    if (sound == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyWin32Sound* intf = PyObject_New(pyWin32Sound, &pyWin32Sound_Type);
-    intf->fThis = sound;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(Win32Sound, plWin32Sound)
 
 }

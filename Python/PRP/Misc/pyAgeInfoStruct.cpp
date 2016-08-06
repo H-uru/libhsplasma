@@ -153,22 +153,6 @@ PyObject* Init_pyAgeInfoStruct_Type() {
     return (PyObject*)&pyAgeInfoStruct_Type;
 }
 
-int pyAgeInfoStruct_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAgeInfoStruct_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAgeInfoStruct_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAgeInfoStruct_FromAgeInfoStruct(plAgeInfoStruct* als) {
-    if (als == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAgeInfoStruct* pyobj = PyObject_New(pyAgeInfoStruct, &pyAgeInfoStruct_Type);
-    pyobj->fThis = als;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AgeInfoStruct, plAgeInfoStruct)
 
 }

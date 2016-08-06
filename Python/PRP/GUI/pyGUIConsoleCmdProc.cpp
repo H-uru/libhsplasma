@@ -119,22 +119,6 @@ PyObject* Init_pyGUIConsoleCmdProc_Type() {
     return (PyObject*)&pyGUIConsoleCmdProc_Type;
 }
 
-int pyGUIConsoleCmdProc_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGUIConsoleCmdProc_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGUIConsoleCmdProc_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGUIConsoleCmdProc_FromGUIConsoleCmdProc(pfGUIConsoleCmdProc* proc) {
-    if (proc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyGUIConsoleCmdProc* pyobj = PyObject_New(pyGUIConsoleCmdProc, &pyGUIConsoleCmdProc_Type);
-    pyobj->fThis = proc;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(GUIConsoleCmdProc, pfGUIConsoleCmdProc)
 
 }

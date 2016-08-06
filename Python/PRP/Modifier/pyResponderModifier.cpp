@@ -213,22 +213,6 @@ PyObject* Init_pyResponderModifier_Type() {
     return (PyObject*)&pyResponderModifier_Type;
 }
 
-int pyResponderModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResponderModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResponderModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyResponderModifier_FromResponderModifier(class plResponderModifier* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyResponderModifier* pymod = PyObject_New(pyResponderModifier, &pyResponderModifier_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(ResponderModifier, plResponderModifier)
 
 }

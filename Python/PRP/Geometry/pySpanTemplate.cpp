@@ -221,11 +221,6 @@ PyObject* Init_pySpanTemplate_Type() {
     return (PyObject*)&pySpanTemplate_Type;
 }
 
-PyObject* pySpanTemplate_FromSpanTemplate(plSpanTemplate* dist) {
-    pySpanTemplate* obj = PyObject_New(pySpanTemplate, &pySpanTemplate_Type);
-    obj->fThis = dist;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(SpanTemplate, plSpanTemplate)
 
 }

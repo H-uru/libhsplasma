@@ -116,22 +116,6 @@ PyObject* Init_pyKeyPressConditionalObject_Type() {
     return (PyObject*)&pyKeyPressConditionalObject_Type;
 }
 
-int pyKeyPressConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyKeyPressConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyKeyPressConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyKeyPressConditionalObject_FromKeyPressConditionalObject(class plKeyPressConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyKeyPressConditionalObject* py = PyObject_New(pyKeyPressConditionalObject, &pyKeyPressConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(KeyPressConditionalObject, plKeyPressConditionalObject)
 
 };

@@ -284,22 +284,6 @@ PyObject* Init_pyAnimStage_Type() {
     return (PyObject*)&pyAnimStage_Type;
 }
 
-int pyAnimStage_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAnimStage_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAnimStage_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAnimStage_FromAnimStage(plAnimStage* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAnimStage* pyobj = PyObject_New(pyAnimStage, &pyAnimStage_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AnimStage, plAnimStage)
 
 }

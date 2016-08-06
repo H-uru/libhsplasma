@@ -194,22 +194,6 @@ PyObject* Init_pyDetectorModifier_Type() {
     return (PyObject*)&pyDetectorModifier_Type;
 }
 
-int pyDetectorModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDetectorModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDetectorModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDetectorModifier_FromDetectorModifier(class plDetectorModifier* phys) {
-    if (phys == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDetectorModifier* pyphys = PyObject_New(pyDetectorModifier, &pyDetectorModifier_Type);
-    pyphys->fThis = phys;
-    pyphys->fPyOwned = false;
-    return (PyObject*)pyphys;
-}
+PY_PLASMA_IFC_METHODS(DetectorModifier, plDetectorModifier)
 
 };

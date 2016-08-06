@@ -146,4 +146,6 @@ PyObject* Init_pyRAMStream_Type() {
     return (PyObject*)&pyRAMStream_Type;
 }
 
+PY_PLASMA_IFC_METHODS(RAMStream, hsRAMStream)
+
 }

@@ -107,22 +107,6 @@ PyObject* Init_pyMatrix33Controller_Type() {
     return (PyObject*)&pyMatrix33Controller_Type;
 }
 
-int pyMatrix33Controller_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrix33Controller_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrix33Controller_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrix33Controller_FromMatrix33Controller(class plMatrix33Controller* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrix33Controller* pyobj = PyObject_New(pyMatrix33Controller, &pyMatrix33Controller_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Matrix33Controller, plMatrix33Controller)
 
 }

@@ -150,22 +150,6 @@ PyObject* Init_pyEmoteAnim_Type() {
     return (PyObject*)&pyEmoteAnim_Type;
 }
 
-int pyEmoteAnim_Check(PyObject* obj) {
-    if (obj->ob_type == &pyEmoteAnim_Type
-        || PyType_IsSubtype(obj->ob_type, &pyEmoteAnim_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyEmoteAnim_FromEmoteAnim(class plEmoteAnim* anim) {
-    if (anim == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyEmoteAnim* pyobj = PyObject_New(pyEmoteAnim, &pyEmoteAnim_Type);
-    pyobj->fThis = anim;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(EmoteAnim, plEmoteAnim)
 
 }

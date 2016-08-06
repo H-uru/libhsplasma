@@ -185,22 +185,6 @@ PyObject* Init_pyDynamicTextMap_Type() {
     return (PyObject*)&pyDynamicTextMap_Type;
 }
 
-int pyDynamicTextMap_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDynamicTextMap_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDynamicTextMap_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDynamicTextMap_FromDynamicTextMap(class plDynamicTextMap* img) {
-    if (img == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDynamicTextMap* pybmp = PyObject_New(pyDynamicTextMap, &pyDynamicTextMap_Type);
-    pybmp->fThis = img;
-    pybmp->fPyOwned = false;
-    return (PyObject*)pybmp;
-}
+PY_PLASMA_IFC_METHODS(DynamicTextMap, plDynamicTextMap)
 
 }

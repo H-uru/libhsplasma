@@ -98,22 +98,6 @@ PyObject* Init_pyPhysical_Type() {
     return (PyObject*)&pyPhysical_Type;
 }
 
-int pyPhysical_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPhysical_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPhysical_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPhysical_FromPhysical(class plPhysical* phys) {
-    if (phys == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPhysical* pyphys = PyObject_New(pyPhysical, &pyPhysical_Type);
-    pyphys->fThis = phys;
-    pyphys->fPyOwned = false;
-    return (PyObject*)pyphys;
-}
+PY_PLASMA_IFC_METHODS(Physical, plPhysical)
 
 }

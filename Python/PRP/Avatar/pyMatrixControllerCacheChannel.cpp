@@ -101,22 +101,6 @@ PyObject* Init_pyMatrixControllerCacheChannel_Type() {
     return (PyObject*)&pyMatrixControllerCacheChannel_Type;
 }
 
-int pyMatrixControllerCacheChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixControllerCacheChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixControllerCacheChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixControllerCacheChannel_FromMatrixControllerCacheChannel(class plMatrixControllerCacheChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixControllerCacheChannel* pyobj = PyObject_New(pyMatrixControllerCacheChannel, &pyMatrixControllerCacheChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixControllerCacheChannel, plMatrixControllerCacheChannel)
 
 }

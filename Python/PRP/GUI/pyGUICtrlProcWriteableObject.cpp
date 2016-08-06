@@ -174,22 +174,6 @@ PyObject* Init_pyGUICtrlProcWriteableObject_Type() {
     return (PyObject*)&pyGUICtrlProcWriteableObject_Type;
 }
 
-int pyGUICtrlProcWriteableObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGUICtrlProcWriteableObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGUICtrlProcWriteableObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGUICtrlProcWriteableObject_FromGUICtrlProcWriteableObject(pfGUICtrlProcWriteableObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyGUICtrlProcWriteableObject* pyobj = PyObject_New(pyGUICtrlProcWriteableObject, &pyGUICtrlProcWriteableObject_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(GUICtrlProcWriteableObject, pfGUICtrlProcWriteableObject)
 
 }

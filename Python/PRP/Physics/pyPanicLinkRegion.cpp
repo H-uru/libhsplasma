@@ -116,22 +116,6 @@ PyObject* Init_pyPanicLinkRegion_Type() {
     return (PyObject*)&pyPanicLinkRegion_Type;
 }
 
-int pyPanicLinkRegion_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPanicLinkRegion_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPanicLinkRegion_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPanicLinkRegion_FromPanicLinkRegion(class plPanicLinkRegion* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPanicLinkRegion* py = PyObject_New(pyPanicLinkRegion, &pyPanicLinkRegion_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(PanicLinkRegion, plPanicLinkRegion)
 
 };

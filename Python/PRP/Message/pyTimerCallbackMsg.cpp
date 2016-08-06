@@ -129,22 +129,6 @@ PyObject* Init_pyTimerCallbackMsg_Type() {
     return (PyObject*)&pyTimerCallbackMsg_Type;
 }
 
-int pyTimerCallbackMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyTimerCallbackMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyTimerCallbackMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyTimerCallbackMsg_FromTimerCallbackMsg(class plTimerCallbackMsg* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyTimerCallbackMsg* pyobj = PyObject_New(pyTimerCallbackMsg, &pyTimerCallbackMsg_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(TimerCallbackMsg, plTimerCallbackMsg)
 
 }

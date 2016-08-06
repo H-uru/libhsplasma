@@ -143,22 +143,6 @@ PyObject* Init_pyFadeOpacityMod_Type() {
     return (PyObject*) &pyFadeOpacityMod_Type;
 }
 
-int pyFadeOpacityMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyFadeOpacityMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyFadeOpacityMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyFadeOpacityMod_FromFadeOpacityMod(class plFadeOpacityMod* fom) {
-    if (fom == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyFadeOpacityMod* pyfom = PyObject_New(pyFadeOpacityMod, &pyFadeOpacityMod_Type);
-    pyfom->fThis = fom;
-    pyfom->fPyOwned = false;
-    return (PyObject*) pyfom;
-}
+PY_PLASMA_IFC_METHODS(FadeOpacityMod, plFadeOpacityMod)
 
 }

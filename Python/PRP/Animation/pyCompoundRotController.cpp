@@ -172,22 +172,6 @@ PyObject* Init_pyCompoundRotController_Type() {
     return (PyObject*)&pyCompoundRotController_Type;
 }
 
-int pyCompoundRotController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCompoundRotController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCompoundRotController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCompoundRotController_FromCompoundRotController(class plCompoundRotController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCompoundRotController* pyobj = PyObject_New(pyCompoundRotController, &pyCompoundRotController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CompoundRotController, plCompoundRotController)
 
 }

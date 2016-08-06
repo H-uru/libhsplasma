@@ -101,22 +101,6 @@ PyObject* Init_pyMatrixChannelApplicator_Type() {
     return (PyObject*)&pyMatrixChannelApplicator_Type;
 }
 
-int pyMatrixChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixChannelApplicator_FromMatrixChannelApplicator(class plMatrixChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixChannelApplicator* pyobj = PyObject_New(pyMatrixChannelApplicator, &pyMatrixChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixChannelApplicator, plMatrixChannelApplicator)
 
 }

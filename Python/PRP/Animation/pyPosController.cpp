@@ -118,22 +118,6 @@ PyObject* Init_pyPosController_Type() {
     return (PyObject*)&pyPosController_Type;
 }
 
-int pyPosController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPosController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPosController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPosController_FromPosController(class plPosController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPosController* pyobj = PyObject_New(pyPosController, &pyPosController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PosController, plPosController)
 
 }

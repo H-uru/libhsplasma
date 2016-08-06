@@ -101,22 +101,6 @@ PyObject* Init_pyScalarBlend_Type() {
     return (PyObject*)&pyScalarBlend_Type;
 }
 
-int pyScalarBlend_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarBlend_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarBlend_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarBlend_FromScalarBlend(class plScalarBlend* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarBlend* pyobj = PyObject_New(pyScalarBlend, &pyScalarBlend_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarBlend, plScalarBlend)
 
 }

@@ -101,22 +101,6 @@ PyObject* Init_pyQuatPointCombine_Type() {
     return (PyObject*)&pyQuatPointCombine_Type;
 }
 
-int pyQuatPointCombine_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatPointCombine_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatPointCombine_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatPointCombine_FromQuatPointCombine(class plQuatPointCombine* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatPointCombine* pyobj = PyObject_New(pyQuatPointCombine, &pyQuatPointCombine_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatPointCombine, plQuatPointCombine)
 
 }

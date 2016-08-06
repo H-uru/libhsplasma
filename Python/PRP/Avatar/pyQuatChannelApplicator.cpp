@@ -101,22 +101,6 @@ PyObject* Init_pyQuatChannelApplicator_Type() {
     return (PyObject*)&pyQuatChannelApplicator_Type;
 }
 
-int pyQuatChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatChannelApplicator_FromQuatChannelApplicator(class plQuatChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatChannelApplicator* pyobj = PyObject_New(pyQuatChannelApplicator, &pyQuatChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatChannelApplicator, plQuatChannelApplicator)
 
 }

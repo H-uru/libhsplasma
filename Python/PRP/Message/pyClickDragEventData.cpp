@@ -100,22 +100,6 @@ PyObject* Init_pyClickDragEventData_Type() {
     return (PyObject*)&pyClickDragEventData_Type;
 }
 
-int pyClickDragEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyClickDragEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyClickDragEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyClickDragEventData_FromClickDragEventData(proClickDragEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyClickDragEventData* pyobj = PyObject_New(pyClickDragEventData, &pyClickDragEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ClickDragEventData, proClickDragEventData)
 
 }

@@ -225,22 +225,6 @@ PyObject* Init_pyViewFaceModifier_Type() {
     return (PyObject*)&pyViewFaceModifier_Type;
 }
 
-int pyViewFaceModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pyViewFaceModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pyViewFaceModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyViewFaceModifier_FromViewFaceModifier(class plViewFaceModifier* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyViewFaceModifier* pymod = PyObject_New(pyViewFaceModifier, &pyViewFaceModifier_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(ViewFaceModifier, plViewFaceModifier)
 
 }

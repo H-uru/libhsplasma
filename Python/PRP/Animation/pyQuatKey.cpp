@@ -121,22 +121,6 @@ PyObject* Init_pyQuatKey_Type() {
     return (PyObject*)&pyQuatKey_Type;
 }
 
-int pyQuatKey_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatKey_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatKey_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatKey_FromQuatKey(hsQuatKey* frame) {
-    if (frame == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatKey* pyobj = PyObject_New(pyQuatKey, &pyQuatKey_Type);
-    pyobj->fThis = frame;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatKey, hsQuatKey)
 
 }

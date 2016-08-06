@@ -162,22 +162,6 @@ PyObject* Init_pyMessageWithCallbacks_Type() {
     return (PyObject*)&pyMessageWithCallbacks_Type;
 }
 
-int pyMessageWithCallbacks_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMessageWithCallbacks_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMessageWithCallbacks_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMessageWithCallbacks_FromMessageWithCallbacks(class plMessageWithCallbacks* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMessageWithCallbacks* py = PyObject_New(pyMessageWithCallbacks, &pyMessageWithCallbacks_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(MessageWithCallbacks, plMessageWithCallbacks)
 
 };

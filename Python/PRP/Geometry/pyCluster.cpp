@@ -240,22 +240,6 @@ PyObject* Init_pyCluster_Type() {
     return (PyObject*)&pyCluster_Type;
 }
 
-int pyCluster_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCluster_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCluster_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCluster_FromCluster(plCluster* cluster) {
-    if (cluster == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCluster* obj = PyObject_New(pyCluster, &pyCluster_Type);
-    obj->fThis = cluster;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(Cluster, plCluster)
 
 }

@@ -214,17 +214,6 @@ PyObject* Init_pySpaceTreeNode_Type() {
     return (PyObject*)&pySpaceTreeNode_Type;
 }
 
-int pySpaceTreeNode_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpaceTreeNode_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpaceTreeNode_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpaceTreeNode_FromSpaceTreeNode(const plSpaceTreeNode& node) {
-    pySpaceTreeNode* pnode = PyObject_New(pySpaceTreeNode, &pySpaceTreeNode_Type);
-    pnode->fThis = new plSpaceTreeNode(node);
-    return (PyObject*)pnode;
-}
+PY_PLASMA_VALUE_IFC_METHODS(SpaceTreeNode, plSpaceTreeNode)
 
 }

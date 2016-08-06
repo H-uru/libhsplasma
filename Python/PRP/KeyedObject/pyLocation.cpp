@@ -355,17 +355,6 @@ PyObject* Init_pyLocation_Type() {
     return (PyObject*)&pyLocation_Type;
 }
 
-int pyLocation_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLocation_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLocation_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLocation_FromLocation(const plLocation& loc) {
-    pyLocation* obj = PyObject_New(pyLocation, &pyLocation_Type);
-    obj->fThis = new plLocation(loc);
-    return (PyObject*)obj;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Location, plLocation)
 
 }

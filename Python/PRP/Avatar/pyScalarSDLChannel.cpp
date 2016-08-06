@@ -101,22 +101,6 @@ PyObject* Init_pyScalarSDLChannel_Type() {
     return (PyObject*)&pyScalarSDLChannel_Type;
 }
 
-int pyScalarSDLChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarSDLChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarSDLChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarSDLChannel_FromScalarSDLChannel(class plScalarSDLChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarSDLChannel* pyobj = PyObject_New(pyScalarSDLChannel, &pyScalarSDLChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarSDLChannel, plScalarSDLChannel)
 
 }

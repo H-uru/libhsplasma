@@ -136,22 +136,6 @@ PyObject* Init_pyAnimationEventConditionalObject_Type() {
     return (PyObject*)&pyAnimationEventConditionalObject_Type;
 }
 
-int pyAnimationEventConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAnimationEventConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAnimationEventConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAnimationEventConditionalObject_FromAnimationEventConditionalObject(class plAnimationEventConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAnimationEventConditionalObject* py = PyObject_New(pyAnimationEventConditionalObject, &pyAnimationEventConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(AnimationEventConditionalObject, plAnimationEventConditionalObject)
 
 };

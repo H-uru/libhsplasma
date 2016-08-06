@@ -150,22 +150,6 @@ PyObject* Init_pySpotLightInfo_Type() {
     return (PyObject*)&pySpotLightInfo_Type;
 }
 
-int pySpotLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpotLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpotLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpotLightInfo_FromSpotLightInfo(class plSpotLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpotLightInfo* pyLight = PyObject_New(pySpotLightInfo, &pySpotLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(SpotLightInfo, plSpotLightInfo)
 
 }

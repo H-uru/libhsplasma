@@ -172,22 +172,6 @@ PyObject* Init_pyCompoundPosController_Type() {
     return (PyObject*)&pyCompoundPosController_Type;
 }
 
-int pyCompoundPosController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCompoundPosController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCompoundPosController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCompoundPosController_FromCompoundPosController(class plCompoundPosController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCompoundPosController* pyobj = PyObject_New(pyCompoundPosController, &pyCompoundPosController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CompoundPosController, plCompoundPosController)
 
 }

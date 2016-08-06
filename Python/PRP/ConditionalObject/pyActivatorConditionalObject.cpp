@@ -158,22 +158,6 @@ PyObject* Init_pyActivatorConditionalObject_Type() {
     return (PyObject*)&pyActivatorConditionalObject_Type;
 }
 
-int pyActivatorConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyActivatorConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyActivatorConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyActivatorConditionalObject_FromActivatorConditionalObject(class plActivatorConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyActivatorConditionalObject* py = PyObject_New(pyActivatorConditionalObject, &pyActivatorConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ActivatorConditionalObject, plActivatorConditionalObject)
 
 };

@@ -195,22 +195,6 @@ PyObject* Init_pyATCEaseCurve_Type() {
     return (PyObject*)&pyATCEaseCurve_Type;
 }
 
-int pyATCEaseCurve_Check(PyObject* obj) {
-    if (obj->ob_type == &pyATCEaseCurve_Type
-        || PyType_IsSubtype(obj->ob_type, &pyATCEaseCurve_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyATCEaseCurve_FromATCEaseCurve(class plATCEaseCurve* curve) {
-    if (curve == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyATCEaseCurve* pyobj = PyObject_New(pyATCEaseCurve, &pyATCEaseCurve_Type);
-    pyobj->fThis = curve;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ATCEaseCurve, plATCEaseCurve)
 
 }

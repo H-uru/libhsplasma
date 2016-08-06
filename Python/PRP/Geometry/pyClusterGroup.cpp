@@ -366,22 +366,6 @@ PyObject* Init_pyClusterGroup_Type() {
     return (PyObject*)&pyClusterGroup_Type;
 }
 
-int pyClusterGroup_Check(PyObject* obj) {
-    if (obj->ob_type == &pyClusterGroup_Type
-        || PyType_IsSubtype(obj->ob_type, &pyClusterGroup_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyClusterGroup_FromClusterGroup(class plClusterGroup* group) {
-    if (group == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyClusterGroup* obj = PyObject_New(pyClusterGroup, &pyClusterGroup_Type);
-    obj->fThis = group;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(ClusterGroup, plClusterGroup)
 
 }

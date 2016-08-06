@@ -218,17 +218,6 @@ PyObject* Init_pyCullPoly_Type() {
     return (PyObject*)&pyCullPoly_Type;
 }
 
-int pyCullPoly_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCullPoly_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCullPoly_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCullPoly_FromCullPoly(const plCullPoly& pCre) {
-    pyCullPoly* obj = PyObject_New(pyCullPoly, &pyCullPoly_Type);
-    obj->fThis = new plCullPoly(pCre);
-    return (PyObject*)obj;
-}
+PY_PLASMA_VALUE_IFC_METHODS(CullPoly, plCullPoly)
 
 }

@@ -281,22 +281,6 @@ PyObject* Init_pyWaveSet7_Type() {
     return (PyObject*)&pyWaveSet7_Type;
 }
 
-int pyWaveSet7_Check(PyObject* obj) {
-    if (obj->ob_type == &pyWaveSet7_Type
-        || PyType_IsSubtype(obj->ob_type, &pyWaveSet7_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyWaveSet7_FromWaveSet7(plWaveSet7* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyWaveSet7* pyobj = PyObject_New(pyWaveSet7, &pyWaveSet7_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(WaveSet7, plWaveSet7)
 
 }

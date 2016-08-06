@@ -217,22 +217,6 @@ PyObject* Init_pyNotifyMsg_Type() {
     return (PyObject*)&pyNotifyMsg_Type;
 }
 
-int pyNotifyMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyNotifyMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyNotifyMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyNotifyMsg_FromNotifyMsg(plNotifyMsg* msg) {
-    if (msg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyNotifyMsg* pyobj = PyObject_New(pyNotifyMsg, &pyNotifyMsg_Type);
-    pyobj->fThis = msg;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(NotifyMsg, plNotifyMsg)
 
 }

@@ -132,22 +132,6 @@ PyObject* Init_pySimpleRotController_Type() {
     return (PyObject*)&pySimpleRotController_Type;
 }
 
-int pySimpleRotController_Check(PyObject* obj) {
-    if (obj->ob_type == &pySimpleRotController_Type
-        || PyType_IsSubtype(obj->ob_type, &pySimpleRotController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySimpleRotController_FromSimpleRotController(class plSimpleRotController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySimpleRotController* pyobj = PyObject_New(pySimpleRotController, &pySimpleRotController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SimpleRotController, plSimpleRotController)
 
 }

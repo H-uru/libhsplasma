@@ -101,22 +101,6 @@ PyObject* Init_pyLayerAVI_Type() {
     return (PyObject*)&pyLayerAVI_Type;
 }
 
-int pyLayerAVI_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerAVI_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerAVI_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerAVI_FromLayerAVI(class plLayerAVI* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerAVI* pyobj = PyObject_New(pyLayerAVI, &pyLayerAVI_Type);
-    pyobj->fThis = layer;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LayerAVI, plLayerAVI)
 
 }

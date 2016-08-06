@@ -101,22 +101,6 @@ PyObject* Init_pyScalarConstant_Type() {
     return (PyObject*)&pyScalarConstant_Type;
 }
 
-int pyScalarConstant_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarConstant_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarConstant_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarConstant_FromScalarConstant(class plScalarConstant* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarConstant* pyobj = PyObject_New(pyScalarConstant, &pyScalarConstant_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarConstant, plScalarConstant)
 
 }

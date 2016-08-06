@@ -152,22 +152,6 @@ PyObject* Init_pyObjInterface_Type() {
     return (PyObject*)&pyObjInterface_Type;
 }
 
-int pyObjInterface_Check(PyObject* obj) {
-    if (obj->ob_type == &pyObjInterface_Type
-        || PyType_IsSubtype(obj->ob_type, &pyObjInterface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyObjInterface_FromObjInterface(class plObjInterface* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyObjInterface* intf = PyObject_New(pyObjInterface, &pyObjInterface_Type);
-    intf->fThis = obj;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(ObjInterface, plObjInterface)
 
 }

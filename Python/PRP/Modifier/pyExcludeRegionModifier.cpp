@@ -191,22 +191,6 @@ PyObject* Init_pyExcludeRegionModifier_Type() {
     return (PyObject*)&pyExcludeRegionModifier_Type;
 }
 
-int pyExcludeRegionModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pyExcludeRegionModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pyExcludeRegionModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyExcludeRegionModifier_FromExcludeRegionModifier(class plExcludeRegionModifier* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyExcludeRegionModifier* py = PyObject_New(pyExcludeRegionModifier, &pyExcludeRegionModifier_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ExcludeRegionModifier, plExcludeRegionModifier)
 
 };

@@ -250,22 +250,6 @@ PyObject* Init_pySynchedObject_Type() {
     return (PyObject*)&pySynchedObject_Type;
 }
 
-int pySynchedObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pySynchedObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pySynchedObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySynchedObject_FromSynchedObject(class plSynchedObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySynchedObject* so = PyObject_New(pySynchedObject, &pySynchedObject_Type);
-    so->fThis = obj;
-    so->fPyOwned = false;
-    return (PyObject*)so;
-}
+PY_PLASMA_IFC_METHODS(SynchedObject, plSynchedObject)
 
 }

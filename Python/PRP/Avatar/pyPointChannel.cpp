@@ -101,22 +101,6 @@ PyObject* Init_pyPointChannel_Type() {
     return (PyObject*)&pyPointChannel_Type;
 }
 
-int pyPointChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointChannel_FromPointChannel(class plPointChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointChannel* pyobj = PyObject_New(pyPointChannel, &pyPointChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointChannel, plPointChannel)
 
 }

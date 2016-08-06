@@ -205,22 +205,6 @@ PyObject* Init_pySoundBuffer_Type() {
     return (PyObject*)&pySoundBuffer_Type;
 }
 
-int pySoundBuffer_Check(PyObject* obj) {
-    if (obj->ob_type == &pySoundBuffer_Type
-        || PyType_IsSubtype(obj->ob_type, &pySoundBuffer_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySoundBuffer_FromSoundBuffer(class plSoundBuffer* buf) {
-    if (buf == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySoundBuffer* pysb = PyObject_New(pySoundBuffer, &pySoundBuffer_Type);
-    pysb->fThis = buf;
-    pysb->fPyOwned = false;
-    return (PyObject*)pysb;
-}
+PY_PLASMA_IFC_METHODS(SoundBuffer, plSoundBuffer)
 
 }

@@ -152,22 +152,6 @@ PyObject* Init_pyVolumeSensorConditionalObject_Type() {
     return (PyObject*)&pyVolumeSensorConditionalObject_Type;
 }
 
-int pyVolumeSensorConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyVolumeSensorConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyVolumeSensorConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyVolumeSensorConditionalObject_FromVolumeSensorConditionalObject(class plVolumeSensorConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyVolumeSensorConditionalObject* py = PyObject_New(pyVolumeSensorConditionalObject, &pyVolumeSensorConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(VolumeSensorConditionalObject, plVolumeSensorConditionalObject)
 
 };

@@ -101,22 +101,6 @@ PyObject* Init_pyOmniApplicator_Type() {
     return (PyObject*)&pyOmniApplicator_Type;
 }
 
-int pyOmniApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOmniApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOmniApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOmniApplicator_FromOmniApplicator(class plOmniApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOmniApplicator* pyobj = PyObject_New(pyOmniApplicator, &pyOmniApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(OmniApplicator, plOmniApplicator)
 
 }

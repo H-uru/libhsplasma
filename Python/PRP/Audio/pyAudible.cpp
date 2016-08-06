@@ -102,22 +102,6 @@ PyObject* Init_pyAudible_Type() {
     return (PyObject*)&pyAudible_Type;
 }
 
-int pyAudible_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAudible_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAudible_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAudible_FromAudible(plAudible* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAudible* pyobj = PyObject_New(pyAudible, &pyAudible_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Audible, plAudible)
 
 }

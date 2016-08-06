@@ -126,22 +126,6 @@ PyObject* Init_pyPointControllerChannel_Type() {
     return (PyObject*)&pyPointControllerChannel_Type;
 }
 
-int pyPointControllerChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointControllerChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointControllerChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointControllerChannel_FromPointControllerChannel(class plPointControllerChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointControllerChannel* pyobj = PyObject_New(pyPointControllerChannel, &pyPointControllerChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointControllerChannel, plPointControllerChannel)
 
 }

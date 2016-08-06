@@ -150,22 +150,6 @@ PyObject* Init_pyCompressedQuatKey32_Type() {
     return (PyObject*)&pyCompressedQuatKey32_Type;
 }
 
-int pyCompressedQuatKey32_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCompressedQuatKey32_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCompressedQuatKey32_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCompressedQuatKey32_FromCompressedQuatKey32(hsCompressedQuatKey32* frame) {
-    if (frame == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCompressedQuatKey32* pyobj = PyObject_New(pyCompressedQuatKey32, &pyCompressedQuatKey32_Type);
-    pyobj->fThis = frame;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CompressedQuatKey32, hsCompressedQuatKey32)
 
 }

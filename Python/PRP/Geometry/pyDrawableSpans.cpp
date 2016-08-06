@@ -704,22 +704,6 @@ PyObject* Init_pyDrawableSpans_Type() {
     return (PyObject*)&pyDrawableSpans_Type;
 }
 
-int pyDrawableSpans_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDrawableSpans_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDrawableSpans_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDrawableSpans_FromDrawableSpans(class plDrawableSpans* draw) {
-    if (draw == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDrawableSpans* pdraw = PyObject_New(pyDrawableSpans, &pyDrawableSpans_Type);
-    pdraw->fThis = draw;
-    pdraw->fPyOwned = false;
-    return (PyObject*)pdraw;
-}
+PY_PLASMA_IFC_METHODS(DrawableSpans, plDrawableSpans)
 
 }

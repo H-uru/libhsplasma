@@ -257,18 +257,6 @@ PyObject* Init_pySpanTemplateVertex_Type() {
     return (PyObject*)&pySpanTemplateVertex_Type;
 }
 
-int pySpanTemplateVertex_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpanTemplateVertex_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpanTemplateVertex_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpanTemplateVertex_FromSpanTemplateVertex(plSpanTemplate::Vertex* vert) {
-    pySpanTemplateVertex* obj = PyObject_New(pySpanTemplateVertex, &pySpanTemplateVertex_Type);
-    obj->fThis = vert;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(SpanTemplateVertex, plSpanTemplate::Vertex)
 
 }

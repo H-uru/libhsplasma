@@ -164,11 +164,6 @@ PyObject* Init_pyLODDist_Type() {
     return (PyObject*)&pyLODDist_Type;
 }
 
-PyObject* pyLODDist_FromLODDist(plLODDist* dist) {
-    pyLODDist* obj = PyObject_New(pyLODDist, &pyLODDist_Type);
-    obj->fThis = dist;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(LODDist, plLODDist)
 
 }

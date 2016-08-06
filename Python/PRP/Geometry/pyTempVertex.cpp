@@ -219,18 +219,6 @@ PyObject* Init_pyTempVertex_Type() {
     return (PyObject*)&pyTempVertex_Type;
 }
 
-
-int pyTempVertex_Check(PyObject* obj) {
-    if (obj->ob_type == &pyTempVertex_Type
-        || PyType_IsSubtype(obj->ob_type, &pyTempVertex_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyTempVertex_FromTempVertex(const plGeometrySpan::TempVertex& vertex) {
-    pyTempVertex* pspan = PyObject_New(pyTempVertex, &pyTempVertex_Type);
-    pspan->fThis = new plGeometrySpan::TempVertex(vertex);
-    return (PyObject*)pspan;
-}
+PY_PLASMA_VALUE_IFC_METHODS(TempVertex, plGeometrySpan::TempVertex)
 
 };

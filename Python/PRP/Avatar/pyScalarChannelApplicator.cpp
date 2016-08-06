@@ -101,22 +101,6 @@ PyObject* Init_pyScalarChannelApplicator_Type() {
     return (PyObject*)&pyScalarChannelApplicator_Type;
 }
 
-int pyScalarChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyScalarChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyScalarChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyScalarChannelApplicator_FromScalarChannelApplicator(class plScalarChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyScalarChannelApplicator* pyobj = PyObject_New(pyScalarChannelApplicator, &pyScalarChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ScalarChannelApplicator, plScalarChannelApplicator)
 
 }

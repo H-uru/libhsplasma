@@ -143,22 +143,6 @@ PyObject* Init_pySpawnedEventData_Type() {
     return (PyObject*)&pySpawnedEventData_Type;
 }
 
-int pySpawnedEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpawnedEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpawnedEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpawnedEventData_FromSpawnedEventData(proSpawnedEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpawnedEventData* pyobj = PyObject_New(pySpawnedEventData, &pySpawnedEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SpawnedEventData, proSpawnedEventData)
 
 }

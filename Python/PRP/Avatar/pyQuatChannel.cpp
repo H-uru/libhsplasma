@@ -121,22 +121,6 @@ PyObject* Init_pyQuatChannel_Type() {
     return (PyObject*)&pyQuatChannel_Type;
 }
 
-int pyQuatChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatChannel_FromQuatChannel(class plQuatChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatChannel* pyobj = PyObject_New(pyQuatChannel, &pyQuatChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatChannel, plQuatChannel)
 
 }

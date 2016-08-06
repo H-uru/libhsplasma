@@ -342,11 +342,6 @@ PyObject* Init_pyGMatState_Type() {
     return (PyObject*)&pyGMatState_Type;
 }
 
-PyObject* pyGMatState_FromGMatState(hsGMatState* state) {
-    pyGMatState* pystate = PyObject_New(pyGMatState, &pyGMatState_Type);
-    pystate->fThis = state;
-    pystate->fPyOwned = false;
-    return (PyObject*)pystate;
-}
+PY_PLASMA_IFC_METHODS(GMatState, hsGMatState)
 
 }

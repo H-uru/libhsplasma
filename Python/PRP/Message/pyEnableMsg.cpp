@@ -165,22 +165,6 @@ PyObject* Init_pyEnableMsg_Type() {
     return (PyObject*)&pyEnableMsg_Type;
 }
 
-int pyEnableMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyEnableMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyEnableMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyEnableMsg_FromEnableMsg(class plEnableMsg* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyEnableMsg* py = PyObject_New(pyEnableMsg, &pyEnableMsg_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(EnableMsg, plEnableMsg)
 
 };

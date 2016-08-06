@@ -174,22 +174,6 @@ PyObject* Init_pyPickedEventData_Type() {
     return (PyObject*)&pyPickedEventData_Type;
 }
 
-int pyPickedEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPickedEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPickedEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPickedEventData_FromPickedEventData(proPickedEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPickedEventData* pyobj = PyObject_New(pyPickedEventData, &pyPickedEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PickedEventData, proPickedEventData)
 
 }

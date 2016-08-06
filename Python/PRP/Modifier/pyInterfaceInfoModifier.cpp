@@ -161,22 +161,6 @@ PyObject* Init_pyInterfaceInfoModifier_Type() {
     return (PyObject*)&pyInterfaceInfoModifier_Type;
 }
 
-int pyInterfaceInfoModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pyInterfaceInfoModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pyInterfaceInfoModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyInterfaceInfoModifier_FromInterfaceInfoModifier(plInterfaceInfoModifier* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyInterfaceInfoModifier* pyobj = PyObject_New(pyInterfaceInfoModifier, &pyInterfaceInfoModifier_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(InterfaceInfoModifier, plInterfaceInfoModifier)
 
 }

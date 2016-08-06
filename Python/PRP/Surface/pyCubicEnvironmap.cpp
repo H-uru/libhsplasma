@@ -185,22 +185,6 @@ PyObject* Init_pyCubicEnvironmap_Type() {
     return (PyObject*)&pyCubicEnvironmap_Type;
 }
 
-int pyCubicEnvironmap_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCubicEnvironmap_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCubicEnvironmap_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCubicEnvironmap_FromCubicEnvironmap(class plCubicEnvironmap* cem) {
-    if (cem == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCubicEnvironmap* pycem = PyObject_New(pyCubicEnvironmap, &pyCubicEnvironmap_Type);
-    pycem->fThis = cem;
-    pycem->fPyOwned = false;
-    return (PyObject*)pycem;
-}
+PY_PLASMA_IFC_METHODS(CubicEnvironmap, plCubicEnvironmap)
 
 }

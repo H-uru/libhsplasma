@@ -121,22 +121,6 @@ PyObject* Init_pyMatrixChannel_Type() {
     return (PyObject*)&pyMatrixChannel_Type;
 }
 
-int pyMatrixChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixChannel_FromMatrixChannel(class plMatrixChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixChannel* pyobj = PyObject_New(pyMatrixChannel, &pyMatrixChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixChannel, plMatrixChannel)
 
 }

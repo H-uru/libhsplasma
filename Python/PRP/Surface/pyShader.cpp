@@ -261,22 +261,6 @@ PyObject* Init_pyShader_Type() {
     return (PyObject*)&pyShader_Type;
 }
 
-int pyShader_Check(PyObject* obj) {
-    if (obj->ob_type == &pyShader_Type
-        || PyType_IsSubtype(obj->ob_type, &pyShader_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyShader_FromShader(class plShader* shader) {
-    if (shader == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyShader* ps = PyObject_New(pyShader, &pyShader_Type);
-    ps->fThis = shader;
-    ps->fPyOwned = false;
-    return (PyObject*)ps;
-}
+PY_PLASMA_IFC_METHODS(Shader, plShader)
 
 }

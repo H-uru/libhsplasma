@@ -120,22 +120,6 @@ PyObject* Init_pyLayerSDLAnimation_Type() {
     return (PyObject*)&pyLayerSDLAnimation_Type;
 }
 
-int pyLayerSDLAnimation_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerSDLAnimation_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerSDLAnimation_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerSDLAnimation_FromLayerSDLAnimation(class plLayerSDLAnimation* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerSDLAnimation* pyobj = PyObject_New(pyLayerSDLAnimation, &pyLayerSDLAnimation_Type);
-    pyobj->fThis = layer;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LayerSDLAnimation, plLayerSDLAnimation)
 
 }

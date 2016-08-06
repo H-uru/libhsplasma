@@ -351,12 +351,7 @@ PyObject* Init_pyKey_Type() {
     return (PyObject*)&pyKey_Type;
 }
 
-int pyKey_Check(PyObject* obj) {
-    if (obj->ob_type == &pyKey_Type
-        || PyType_IsSubtype(obj->ob_type, &pyKey_Type))
-        return 1;
-    return 0;
-}
+PY_PLASMA_CHECK_TYPE(Key)
 
 PyObject* pyKey_FromKey(const plKey& key) {
     if (!key.Exists()) {

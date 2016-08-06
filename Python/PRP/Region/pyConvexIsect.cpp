@@ -133,22 +133,6 @@ PyObject* Init_pyConvexIsect_Type() {
     return (PyObject*)&pyConvexIsect_Type;
 }
 
-int pyConvexIsect_Check(PyObject* obj) {
-    if (obj->ob_type == &pyConvexIsect_Type
-        || PyType_IsSubtype(obj->ob_type, &pyConvexIsect_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyConvexIsect_FromConvexIsect(class plConvexIsect* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyConvexIsect* node = PyObject_New(pyConvexIsect, &pyConvexIsect_Type);
-    node->fThis = obj;
-    node->fPyOwned = false;
-    return (PyObject*)node;
-}
+PY_PLASMA_IFC_METHODS(ConvexIsect, plConvexIsect)
 
 }

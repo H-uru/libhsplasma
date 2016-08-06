@@ -192,22 +192,6 @@ PyObject* Init_pyVertexSpan_Type() {
     return (PyObject*)&pyVertexSpan_Type;
 }
 
-int pyVertexSpan_Check(PyObject* obj) {
-    if (obj->ob_type == &pyVertexSpan_Type
-        || PyType_IsSubtype(obj->ob_type, &pyVertexSpan_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyVertexSpan_FromVertexSpan(plVertexSpan* span) {
-    if (span == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyVertexSpan* obj = PyObject_New(pyVertexSpan, &pyVertexSpan_Type);
-    obj->fThis = span;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(VertexSpan, plVertexSpan)
 
 }

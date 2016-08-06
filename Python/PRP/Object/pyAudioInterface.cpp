@@ -125,22 +125,6 @@ PyObject* Init_pyAudioInterface_Type() {
     return (PyObject*)&pyAudioInterface_Type;
 }
 
-int pyAudioInterface_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAudioInterface_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAudioInterface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAudioInterface_FromAudioInterface(class plAudioInterface* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAudioInterface* intf = PyObject_New(pyAudioInterface, &pyAudioInterface_Type);
-    intf->fThis = obj;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(AudioInterface, plAudioInterface)
 
 }

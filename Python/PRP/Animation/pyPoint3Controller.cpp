@@ -107,22 +107,6 @@ PyObject* Init_pyPoint3Controller_Type() {
     return (PyObject*)&pyPoint3Controller_Type;
 }
 
-int pyPoint3Controller_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPoint3Controller_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPoint3Controller_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPoint3Controller_FromPoint3Controller(class plPoint3Controller* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPoint3Controller* pyobj = PyObject_New(pyPoint3Controller, &pyPoint3Controller_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Point3Controller, plPoint3Controller)
 
 }

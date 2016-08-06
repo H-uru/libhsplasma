@@ -101,22 +101,6 @@ PyObject* Init_pyLayer_Type() {
     return (PyObject*)&pyLayer_Type;
 }
 
-int pyLayer_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayer_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayer_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayer_FromLayer(class plLayer* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayer* pylay = PyObject_New(pyLayer, &pyLayer_Type);
-    pylay->fThis = layer;
-    pylay->fPyOwned = false;
-    return (PyObject*)pylay;
-}
+PY_PLASMA_IFC_METHODS(Layer, plLayer)
 
 }

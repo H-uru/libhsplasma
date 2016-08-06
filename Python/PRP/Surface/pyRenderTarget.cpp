@@ -289,22 +289,6 @@ PyObject* Init_pyRenderTarget_Type() {
     return (PyObject*)&pyRenderTarget_Type;
 }
 
-int pyRenderTarget_Check(PyObject* obj) {
-    if (obj->ob_type == &pyRenderTarget_Type
-        || PyType_IsSubtype(obj->ob_type, &pyRenderTarget_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyRenderTarget_FromRenderTarget(class plRenderTarget* rt) {
-    if (rt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyRenderTarget* pyrt = PyObject_New(pyRenderTarget, &pyRenderTarget_Type);
-    pyrt->fThis = rt;
-    pyrt->fPyOwned = false;
-    return (PyObject*)pyrt;
-}
+PY_PLASMA_IFC_METHODS(RenderTarget, plRenderTarget)
 
 }

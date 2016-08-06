@@ -229,22 +229,6 @@ PyObject* Init_pyAGAnim_Type() {
     return (PyObject*)&pyAGAnim_Type;
 }
 
-int pyAGAnim_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGAnim_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGAnim_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAGAnim_FromAGAnim(class plAGAnim* anim) {
-    if (anim == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAGAnim* pyobj = PyObject_New(pyAGAnim, &pyAGAnim_Type);
-    pyobj->fThis = anim;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AGAnim, plAGAnim)
 
 }

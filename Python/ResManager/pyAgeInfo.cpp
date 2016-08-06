@@ -455,22 +455,6 @@ PyObject* Init_pyAgeInfo_Type() {
     return (PyObject*)&pyAgeInfo_Type;
 }
 
-int pyAgeInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAgeInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAgeInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAgeInfo_FromAgeInfo(class plAgeInfo* age) {
-    if (age == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAgeInfo* obj = PyObject_New(pyAgeInfo, &pyAgeInfo_Type);
-    obj->fThis = age;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(AgeInfo, plAgeInfo)
 
 }

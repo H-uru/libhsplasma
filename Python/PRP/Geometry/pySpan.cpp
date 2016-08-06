@@ -538,22 +538,6 @@ PyObject* Init_pySpan_Type() {
     return (PyObject*)&pySpan_Type;
 }
 
-int pySpan_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpan_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpan_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpan_FromSpan(plSpan* span) {
-    if (span == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpan* obj = PyObject_New(pySpan, &pySpan_Type);
-    obj->fThis = span;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(Span, plSpan)
 
 }

@@ -150,22 +150,6 @@ PyObject* Init_pyAGAnimBink_Type() {
     return (PyObject*)&pyAGAnimBink_Type;
 }
 
-int pyAGAnimBink_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGAnimBink_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGAnimBink_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAGAnimBink_FromAGAnimBink(class plAGAnimBink* anim) {
-    if (anim == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAGAnimBink* pyobj = PyObject_New(pyAGAnimBink, &pyAGAnimBink_Type);
-    pyobj->fThis = anim;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AGAnimBink, plAGAnimBink)
 
 }

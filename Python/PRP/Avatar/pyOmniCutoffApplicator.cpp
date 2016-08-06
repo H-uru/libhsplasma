@@ -101,22 +101,6 @@ PyObject* Init_pyOmniCutoffApplicator_Type() {
     return (PyObject*)&pyOmniCutoffApplicator_Type;
 }
 
-int pyOmniCutoffApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOmniCutoffApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOmniCutoffApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOmniCutoffApplicator_FromOmniCutoffApplicator(class plOmniCutoffApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOmniCutoffApplicator* pyobj = PyObject_New(pyOmniCutoffApplicator, &pyOmniCutoffApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(OmniCutoffApplicator, plOmniCutoffApplicator)
 
 }

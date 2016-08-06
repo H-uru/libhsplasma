@@ -173,22 +173,6 @@ PyObject* Init_pyFacingEventData_Type() {
     return (PyObject*)&pyFacingEventData_Type;
 }
 
-int pyFacingEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyFacingEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyFacingEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyFacingEventData_FromFacingEventData(proFacingEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyFacingEventData* pyobj = PyObject_New(pyFacingEventData, &pyFacingEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(FacingEventData, proFacingEventData)
 
 }

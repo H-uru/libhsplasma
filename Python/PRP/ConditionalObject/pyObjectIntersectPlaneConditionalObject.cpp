@@ -97,22 +97,6 @@ PyObject* Init_pyObjectIntersectPlaneConditionalObject_Type() {
     return (PyObject*)&pyObjectIntersectPlaneConditionalObject_Type;
 }
 
-int pyObjectIntersectPlaneConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyObjectIntersectPlaneConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyObjectIntersectPlaneConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyObjectIntersectPlaneConditionalObject_FromObjectIntersectPlaneConditionalObject(class plObjectIntersectPlaneConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyObjectIntersectPlaneConditionalObject* py = PyObject_New(pyObjectIntersectPlaneConditionalObject, &pyObjectIntersectPlaneConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ObjectIntersectPlaneConditionalObject, plObjectIntersectPlaneConditionalObject)
 
 };

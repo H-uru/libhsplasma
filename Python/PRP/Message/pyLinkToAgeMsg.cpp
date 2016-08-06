@@ -124,22 +124,6 @@ PyObject* Init_pyLinkToAgeMsg_Type() {
     return (PyObject*)&pyLinkToAgeMsg_Type;
 }
 
-int pyLinkToAgeMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLinkToAgeMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLinkToAgeMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLinkToAgeMsg_FromLinkToAgeMsg(plLinkToAgeMsg* msg) {
-    if (msg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLinkToAgeMsg* pyobj = PyObject_New(pyLinkToAgeMsg, &pyLinkToAgeMsg_Type);
-    pyobj->fThis = msg;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LinkToAgeMsg, plLinkToAgeMsg)
 
 }

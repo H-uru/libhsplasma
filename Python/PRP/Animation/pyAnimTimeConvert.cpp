@@ -398,22 +398,6 @@ PyObject* Init_pyAnimTimeConvert_Type() {
     return (PyObject*)&pyAnimTimeConvert_Type;
 }
 
-int pyAnimTimeConvert_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAnimTimeConvert_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAnimTimeConvert_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAnimTimeConvert_FromAnimTimeConvert(class plAnimTimeConvert* atc) {
-    if (atc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAnimTimeConvert* pyobj = PyObject_New(pyAnimTimeConvert, &pyAnimTimeConvert_Type);
-    pyobj->fThis = atc;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AnimTimeConvert, plAnimTimeConvert)
 
 }

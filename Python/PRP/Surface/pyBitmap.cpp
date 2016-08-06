@@ -310,22 +310,6 @@ PyObject* Init_pyBitmap_Type() {
     return (PyObject*)&pyBitmap_Type;
 }
 
-int pyBitmap_Check(PyObject* obj) {
-    if (obj->ob_type == &pyBitmap_Type
-        || PyType_IsSubtype(obj->ob_type, &pyBitmap_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyBitmap_FromBitmap(class plBitmap* img) {
-    if (img == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyBitmap* pybmp = PyObject_New(pyBitmap, &pyBitmap_Type);
-    pybmp->fThis = img;
-    pybmp->fPyOwned = false;
-    return (PyObject*)pybmp;
-}
+PY_PLASMA_IFC_METHODS(Bitmap, plBitmap)
 
 }

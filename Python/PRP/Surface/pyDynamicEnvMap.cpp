@@ -283,22 +283,6 @@ PyObject* Init_pyDynamicEnvMap_Type() {
     return (PyObject*)&pyDynamicEnvMap_Type;
 }
 
-int pyDynamicEnvMap_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDynamicEnvMap_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDynamicEnvMap_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDynamicEnvMap_FromDynamicEnvMap(class plDynamicEnvMap* dem) {
-    if (dem == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDynamicEnvMap* pydem = PyObject_New(pyDynamicEnvMap, &pyDynamicEnvMap_Type);
-    pydem->fThis = dem;
-    pydem->fPyOwned = false;
-    return (PyObject*)pydem;
-}
+PY_PLASMA_IFC_METHODS(DynamicEnvMap, plDynamicEnvMap)
 
 }

@@ -101,22 +101,6 @@ PyObject* Init_pyDirectionalLightInfo_Type() {
     return (PyObject*)&pyDirectionalLightInfo_Type;
 }
 
-int pyDirectionalLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDirectionalLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDirectionalLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDirectionalLightInfo_FromDirectionalLightInfo(class plDirectionalLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDirectionalLightInfo* pyLight = PyObject_New(pyDirectionalLightInfo, &pyDirectionalLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(DirectionalLightInfo, plDirectionalLightInfo)
 
 }

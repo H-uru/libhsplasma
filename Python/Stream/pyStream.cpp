@@ -542,11 +542,6 @@ PyObject* Init_pyStream_Type() {
     return (PyObject*)&pyStream_Type;
 }
 
-int pyStream_Check(PyObject* obj) {
-    if (obj->ob_type == &pyStream_Type
-        || PyType_IsSubtype(obj->ob_type, &pyStream_Type))
-        return 1;
-    return 0;
-}
+PY_PLASMA_IFC_METHODS(Stream, hsStream)
 
 }

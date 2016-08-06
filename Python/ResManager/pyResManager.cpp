@@ -677,11 +677,6 @@ PyObject* Init_pyResManager_Type() {
     return (PyObject*)&pyResManager_Type;
 }
 
-int pyResManager_Check(PyObject* obj) {
-    if (obj->ob_type == &pyResManager_Type
-        || PyType_IsSubtype(obj->ob_type, &pyResManager_Type))
-        return 1;
-    return 0;
-}
+PY_PLASMA_IFC_METHODS(ResManager, plResManager)
 
 }

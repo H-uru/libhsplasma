@@ -321,17 +321,6 @@ PyObject* Init_pyPythonParameter_Type() {
     return (PyObject*)&pyPythonParameter_Type;
 }
 
-int pyPythonParameter_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPythonParameter_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPythonParameter_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPythonParameter_FromPythonParameter(const plPythonParameter& sc) {
-    pyPythonParameter* psc = PyObject_New(pyPythonParameter, &pyPythonParameter_Type);
-    psc->fThis = new plPythonParameter(sc);
-    return (PyObject*)psc;
-}
+PY_PLASMA_VALUE_IFC_METHODS(PythonParameter, plPythonParameter)
 
 }

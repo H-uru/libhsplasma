@@ -156,22 +156,6 @@ PyObject* Init_pyORConditionalObject_Type() {
     return (PyObject*)&pyORConditionalObject_Type;
 }
 
-int pyORConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyORConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyORConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyORConditionalObject_FromORConditionalObject(class plORConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyORConditionalObject* py = PyObject_New(pyORConditionalObject, &pyORConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ORConditionalObject, plORConditionalObject)
 
 };

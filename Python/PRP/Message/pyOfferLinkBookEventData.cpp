@@ -154,22 +154,6 @@ PyObject* Init_pyOfferLinkBookEventData_Type() {
     return (PyObject*)&pyOfferLinkBookEventData_Type;
 }
 
-int pyOfferLinkBookEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOfferLinkBookEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOfferLinkBookEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOfferLinkBookEventData_FromOfferLinkBookEventData(proOfferLinkBookEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOfferLinkBookEventData* pyobj = PyObject_New(pyOfferLinkBookEventData, &pyOfferLinkBookEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(OfferLinkBookEventData, proOfferLinkBookEventData)
 
 }

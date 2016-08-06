@@ -160,17 +160,6 @@ PyObject* Init_pyDISpanIndex_Type() {
     return (PyObject*)&pyDISpanIndex_Type;
 }
 
-int pyDISpanIndex_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDISpanIndex_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDISpanIndex_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDISpanIndex_FromDISpanIndex(const plDISpanIndex& idx) {
-    pyDISpanIndex* pidx = PyObject_New(pyDISpanIndex, &pyDISpanIndex_Type);
-    pidx->fThis = new plDISpanIndex(idx);
-    return (PyObject*)pidx;
-}
+PY_PLASMA_VALUE_IFC_METHODS(DISpanIndex, plDISpanIndex)
 
 }

@@ -101,22 +101,6 @@ PyObject* Init_pyQuatBlend_Type() {
     return (PyObject*)&pyQuatBlend_Type;
 }
 
-int pyQuatBlend_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatBlend_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatBlend_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatBlend_FromQuatBlend(class plQuatBlend* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatBlend* pyobj = PyObject_New(pyQuatBlend, &pyQuatBlend_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatBlend, plQuatBlend)
 
 }

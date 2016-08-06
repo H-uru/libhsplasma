@@ -97,22 +97,6 @@ PyObject* Init_pyLocalPlayerInBoxConditionalObject_Type() {
     return (PyObject*)&pyLocalPlayerInBoxConditionalObject_Type;
 }
 
-int pyLocalPlayerInBoxConditionalObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLocalPlayerInBoxConditionalObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLocalPlayerInBoxConditionalObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLocalPlayerInBoxConditionalObject_FromLocalPlayerInBoxConditionalObject(class plLocalPlayerInBoxConditionalObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLocalPlayerInBoxConditionalObject* py = PyObject_New(pyLocalPlayerInBoxConditionalObject, &pyLocalPlayerInBoxConditionalObject_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(LocalPlayerInBoxConditionalObject, plLocalPlayerInBoxConditionalObject)
 
 };

@@ -101,22 +101,6 @@ PyObject* Init_pyMatrixTimeScale_Type() {
     return (PyObject*)&pyMatrixTimeScale_Type;
 }
 
-int pyMatrixTimeScale_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixTimeScale_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixTimeScale_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixTimeScale_FromMatrixTimeScale(class plMatrixTimeScale* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixTimeScale* pyobj = PyObject_New(pyMatrixTimeScale, &pyMatrixTimeScale_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixTimeScale, plMatrixTimeScale)
 
 }

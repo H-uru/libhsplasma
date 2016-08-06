@@ -135,22 +135,6 @@ PyObject* Init_pyControlKeyEventData_Type() {
     return (PyObject*)&pyControlKeyEventData_Type;
 }
 
-int pyControlKeyEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyControlKeyEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyControlKeyEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyControlKeyEventData_FromControlKeyEventData(proControlKeyEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyControlKeyEventData* pyobj = PyObject_New(pyControlKeyEventData, &pyControlKeyEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ControlKeyEventData, proControlKeyEventData)
 
 }

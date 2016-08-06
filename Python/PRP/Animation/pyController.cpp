@@ -97,22 +97,6 @@ PyObject* Init_pyController_Type() {
     return (PyObject*)&pyController_Type;
 }
 
-int pyController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyController_FromController(class plController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyController* pyobj = PyObject_New(pyController, &pyController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(Controller, plController)
 
 }

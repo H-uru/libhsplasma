@@ -231,22 +231,6 @@ PyObject* Init_pyCoordinateInterface_Type() {
     return (PyObject*)&pyCoordinateInterface_Type;
 }
 
-int pyCoordinateInterface_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCoordinateInterface_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCoordinateInterface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCoordinateInterface_FromCoordinateInterface(class plCoordinateInterface* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCoordinateInterface* intf = PyObject_New(pyCoordinateInterface, &pyCoordinateInterface_Type);
-    intf->fThis = obj;
-    intf->fPyOwned = false;
-    return (PyObject*)intf;
-}
+PY_PLASMA_IFC_METHODS(CoordinateInterface, plCoordinateInterface)
 
 }

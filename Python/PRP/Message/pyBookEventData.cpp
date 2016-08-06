@@ -134,22 +134,6 @@ PyObject* Init_pyBookEventData_Type() {
     return (PyObject*)&pyBookEventData_Type;
 }
 
-int pyBookEventData_Check(PyObject* obj) {
-    if (obj->ob_type == &pyBookEventData_Type
-        || PyType_IsSubtype(obj->ob_type, &pyBookEventData_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyBookEventData_FromBookEventData(proBookEventData* evt) {
-    if (evt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyBookEventData* pyobj = PyObject_New(pyBookEventData, &pyBookEventData_Type);
-    pyobj->fThis = evt;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(BookEventData, proBookEventData)
 
 }

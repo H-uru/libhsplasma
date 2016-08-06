@@ -154,22 +154,6 @@ PyObject* Init_pyCubicRenderTarget_Type() {
     return (PyObject*)&pyCubicRenderTarget_Type;
 }
 
-int pyCubicRenderTarget_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCubicRenderTarget_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCubicRenderTarget_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCubicRenderTarget_FromCubicRenderTarget(class plCubicRenderTarget* crt) {
-    if (crt == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCubicRenderTarget* pycrt = PyObject_New(pyCubicRenderTarget, &pyCubicRenderTarget_Type);
-    pycrt->fThis = crt;
-    pycrt->fPyOwned = false;
-    return (PyObject*)pycrt;
-}
+PY_PLASMA_IFC_METHODS(CubicRenderTarget, plCubicRenderTarget)
 
 }

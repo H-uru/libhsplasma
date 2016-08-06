@@ -121,22 +121,6 @@ PyObject* Init_pyLayerMovie_Type() {
     return (PyObject*)&pyLayerMovie_Type;
 }
 
-int pyLayerMovie_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerMovie_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerMovie_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerMovie_FromLayerMovie(class plLayerMovie* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerMovie* pyobj = PyObject_New(pyLayerMovie, &pyLayerMovie_Type);
-    pyobj->fThis = layer;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LayerMovie, plLayerMovie)
 
 }

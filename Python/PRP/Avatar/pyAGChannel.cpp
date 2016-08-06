@@ -115,22 +115,6 @@ PyObject* Init_pyAGChannel_Type() {
     return (PyObject*)&pyAGChannel_Type;
 }
 
-int pyAGChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyAGChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyAGChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyAGChannel_FromAGChannel(class plAGChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyAGChannel* pyobj = PyObject_New(pyAGChannel, &pyAGChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(AGChannel, plAGChannel)
 
 }

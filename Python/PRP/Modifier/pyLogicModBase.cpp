@@ -236,22 +236,6 @@ PyObject* Init_pyLogicModBase_Type() {
     return (PyObject*)&pyLogicModBase_Type;
 }
 
-int pyLogicModBase_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLogicModBase_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLogicModBase_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLogicModBase_FromLogicModBase(plLogicModBase* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLogicModBase* pyobj = PyObject_New(pyLogicModBase, &pyLogicModBase_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LogicModBase, plLogicModBase)
 
 }

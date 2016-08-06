@@ -310,22 +310,6 @@ PyObject* Init_pyPageInfo_Type() {
     return (PyObject*)&pyPageInfo_Type;
 }
 
-int pyPageInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPageInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPageInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPageInfo_FromPageInfo(class plPageInfo* page) {
-    if (page == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPageInfo* obj = PyObject_New(pyPageInfo, &pyPageInfo_Type);
-    obj->fThis = page;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(PageInfo, plPageInfo)
 
 }

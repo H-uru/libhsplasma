@@ -122,22 +122,6 @@ PyObject* Init_pyG3DSMaxKeyFrame_Type() {
     return (PyObject*)&pyG3DSMaxKeyFrame_Type;
 }
 
-int pyG3DSMaxKeyFrame_Check(PyObject* obj) {
-    if (obj->ob_type == &pyG3DSMaxKeyFrame_Type
-        || PyType_IsSubtype(obj->ob_type, &pyG3DSMaxKeyFrame_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyG3DSMaxKeyFrame_FromG3DSMaxKeyFrame(hsG3DSMaxKeyFrame* frame) {
-    if (frame == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyG3DSMaxKeyFrame* pyobj = PyObject_New(pyG3DSMaxKeyFrame, &pyG3DSMaxKeyFrame_Type);
-    pyobj->fThis = frame;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(G3DSMaxKeyFrame, hsG3DSMaxKeyFrame)
 
 }

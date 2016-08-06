@@ -141,4 +141,6 @@ PyObject* Init_pyFileStream_Type() {
     return (PyObject*)&pyFileStream_Type;
 }
 
+PY_PLASMA_IFC_METHODS(FileStream, hsFileStream)
+
 }

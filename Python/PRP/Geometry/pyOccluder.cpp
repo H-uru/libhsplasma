@@ -269,22 +269,6 @@ PyObject* Init_pyOccluder_Type() {
     return (PyObject*)&pyOccluder_Type;
 }
 
-int pyOccluder_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOccluder_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOccluder_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOccluder_FromOccluder(class plOccluder* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOccluder* pobj = PyObject_New(pyOccluder, &pyOccluder_Type);
-    pobj->fThis = obj;
-    pobj->fPyOwned = false;
-    return (PyObject*)pobj;
-}
+PY_PLASMA_IFC_METHODS(Occluder, plOccluder)
 
 }

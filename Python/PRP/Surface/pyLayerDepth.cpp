@@ -101,22 +101,6 @@ PyObject* Init_pyLayerDepth_Type() {
     return (PyObject*)&pyLayerDepth_Type;
 }
 
-int pyLayerDepth_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLayerDepth_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLayerDepth_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLayerDepth_FromLayerDepth(class plLayerDepth* layer) {
-    if (layer == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLayerDepth* pylay = PyObject_New(pyLayerDepth, &pyLayerDepth_Type);
-    pylay->fThis = layer;
-    pylay->fPyOwned = false;
-    return (PyObject*)pylay;
-}
+PY_PLASMA_IFC_METHODS(LayerDepth, plLayerDepth)
 
 }

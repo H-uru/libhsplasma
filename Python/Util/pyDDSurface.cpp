@@ -915,22 +915,6 @@ PyObject* Init_pyDDSurface_Type() {
     return (PyObject*)&pyDDSurface_Type;
 }
 
-int pyDDSurface_Check(PyObject* obj) {
-    if (obj->ob_type == &pyDDSurface_Type
-        || PyType_IsSubtype(obj->ob_type, &pyDDSurface_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyDDSurface_FromDDSurface(class plDDSurface* dds) {
-    if (dds == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyDDSurface* obj = PyObject_New(pyDDSurface, &pyDDSurface_Type);
-    obj->fThis = dds;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(DDSurface, plDDSurface)
 
 }

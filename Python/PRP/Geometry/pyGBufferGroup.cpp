@@ -515,22 +515,6 @@ PyObject* Init_pyGBufferGroup_Type() {
     return (PyObject*)&pyGBufferGroup_Type;
 }
 
-int pyGBufferGroup_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGBufferGroup_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGBufferGroup_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGBufferGroup_FromGBufferGroup(plGBufferGroup* bg) {
-    if (bg == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyGBufferGroup* pybg = PyObject_New(pyGBufferGroup, &pyGBufferGroup_Type);
-    pybg->fThis = bg;
-    pybg->fPyOwned = false;
-    return (PyObject*)pybg;
-}
+PY_PLASMA_IFC_METHODS(GBufferGroup, plGBufferGroup)
 
 }

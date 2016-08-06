@@ -101,22 +101,6 @@ PyObject* Init_pyQuatConstant_Type() {
     return (PyObject*)&pyQuatConstant_Type;
 }
 
-int pyQuatConstant_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatConstant_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatConstant_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatConstant_FromQuatConstant(class plQuatConstant* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatConstant* pyobj = PyObject_New(pyQuatConstant, &pyQuatConstant_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatConstant, plQuatConstant)
 
 }

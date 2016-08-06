@@ -101,22 +101,6 @@ PyObject* Init_pyPointTimeScale_Type() {
     return (PyObject*)&pyPointTimeScale_Type;
 }
 
-int pyPointTimeScale_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointTimeScale_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointTimeScale_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointTimeScale_FromPointTimeScale(class plPointTimeScale* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointTimeScale* pyobj = PyObject_New(pyPointTimeScale, &pyPointTimeScale_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointTimeScale, plPointTimeScale)
 
 }

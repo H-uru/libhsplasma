@@ -101,22 +101,6 @@ PyObject* Init_pyRelativeMatrixChannelApplicator_Type() {
     return (PyObject*)&pyRelativeMatrixChannelApplicator_Type;
 }
 
-int pyRelativeMatrixChannelApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyRelativeMatrixChannelApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyRelativeMatrixChannelApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyRelativeMatrixChannelApplicator_FromRelativeMatrixChannelApplicator(class plRelativeMatrixChannelApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyRelativeMatrixChannelApplicator* pyobj = PyObject_New(pyRelativeMatrixChannelApplicator, &pyRelativeMatrixChannelApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(RelativeMatrixChannelApplicator, plRelativeMatrixChannelApplicator)
 
 }

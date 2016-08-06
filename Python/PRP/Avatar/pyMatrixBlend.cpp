@@ -101,22 +101,6 @@ PyObject* Init_pyMatrixBlend_Type() {
     return (PyObject*)&pyMatrixBlend_Type;
 }
 
-int pyMatrixBlend_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMatrixBlend_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMatrixBlend_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMatrixBlend_FromMatrixBlend(class plMatrixBlend* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMatrixBlend* pyobj = PyObject_New(pyMatrixBlend, &pyMatrixBlend_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(MatrixBlend, plMatrixBlend)
 
 }

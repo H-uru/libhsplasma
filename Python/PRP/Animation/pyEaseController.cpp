@@ -107,22 +107,6 @@ PyObject* Init_pyEaseController_Type() {
     return (PyObject*)&pyEaseController_Type;
 }
 
-int pyEaseController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyEaseController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyEaseController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyEaseController_FromEaseController(class plEaseController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyEaseController* pyobj = PyObject_New(pyEaseController, &pyEaseController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(EaseController, plEaseController)
 
 }

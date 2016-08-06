@@ -232,17 +232,6 @@ PyObject* Init_pyShaderConst_Type() {
     return (PyObject*)&pyShaderConst_Type;
 }
 
-int pyShaderConst_Check(PyObject* obj) {
-    if (obj->ob_type == &pyShaderConst_Type
-        || PyType_IsSubtype(obj->ob_type, &pyShaderConst_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyShaderConst_FromShaderConst(const plShaderConst& sc) {
-    pyShaderConst* psc = PyObject_New(pyShaderConst, &pyShaderConst_Type);
-    psc->fThis = new plShaderConst(sc);
-    return (PyObject*)psc;
-}
+PY_PLASMA_VALUE_IFC_METHODS(ShaderConst, plShaderConst)
 
 }

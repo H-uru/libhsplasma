@@ -101,22 +101,6 @@ PyObject* Init_pySpotOuterApplicator_Type() {
     return (PyObject*)&pySpotOuterApplicator_Type;
 }
 
-int pySpotOuterApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpotOuterApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpotOuterApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpotOuterApplicator_FromSpotOuterApplicator(class plSpotOuterApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpotOuterApplicator* pyobj = PyObject_New(pySpotOuterApplicator, &pySpotOuterApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SpotOuterApplicator, plSpotOuterApplicator)
 
 }

@@ -425,22 +425,6 @@ PyObject* Init_pyATCAnim_Type() {
     return (PyObject*)&pyATCAnim_Type;
 }
 
-int pyATCAnim_Check(PyObject* obj) {
-    if (obj->ob_type == &pyATCAnim_Type
-        || PyType_IsSubtype(obj->ob_type, &pyATCAnim_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyATCAnim_FromATCAnim(class plATCAnim* anim) {
-    if (anim == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyATCAnim* pyobj = PyObject_New(pyATCAnim, &pyATCAnim_Type);
-    pyobj->fThis = anim;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ATCAnim, plATCAnim)
 
 }

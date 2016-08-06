@@ -101,22 +101,6 @@ PyObject* Init_pyPointConstant_Type() {
     return (PyObject*)&pyPointConstant_Type;
 }
 
-int pyPointConstant_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPointConstant_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPointConstant_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPointConstant_FromPointConstant(class plPointConstant* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPointConstant* pyobj = PyObject_New(pyPointConstant, &pyPointConstant_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(PointConstant, plPointConstant)
 
 }

@@ -131,22 +131,6 @@ PyObject* Init_pySubworldRegionDetector_Type() {
     return (PyObject*)&pySubworldRegionDetector_Type;
 }
 
-int pySubworldRegionDetector_Check(PyObject* obj) {
-    if (obj->ob_type == &pySubworldRegionDetector_Type
-        || PyType_IsSubtype(obj->ob_type, &pySubworldRegionDetector_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySubworldRegionDetector_FromSubworldRegionDetector(class plSubworldRegionDetector* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySubworldRegionDetector* py = PyObject_New(pySubworldRegionDetector, &pySubworldRegionDetector_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(SubworldRegionDetector, plSubworldRegionDetector)
 
 };

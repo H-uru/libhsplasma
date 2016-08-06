@@ -574,22 +574,6 @@ PyObject* Init_pyGenericPhysical_Type() {
     return (PyObject*)&pyGenericPhysical_Type;
 }
 
-int pyGenericPhysical_Check(PyObject* obj) {
-    if (obj->ob_type == &pyGenericPhysical_Type
-        || PyType_IsSubtype(obj->ob_type, &pyGenericPhysical_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyGenericPhysical_FromGenericPhysical(class plGenericPhysical* phys) {
-    if (phys == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyGenericPhysical* pyphys = PyObject_New(pyGenericPhysical, &pyGenericPhysical_Type);
-    pyphys->fThis = phys;
-    pyphys->fPyOwned = false;
-    return (PyObject*)pyphys;
-}
+PY_PLASMA_IFC_METHODS(GenericPhysical, plGenericPhysical)
 
 }

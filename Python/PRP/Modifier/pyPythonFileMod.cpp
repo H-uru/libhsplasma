@@ -206,22 +206,6 @@ PyObject* Init_pyPythonFileMod_Type() {
     return (PyObject*)&pyPythonFileMod_Type;
 }
 
-int pyPythonFileMod_Check(PyObject* obj) {
-    if (obj->ob_type == &pyPythonFileMod_Type
-        || PyType_IsSubtype(obj->ob_type, &pyPythonFileMod_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyPythonFileMod_FromPythonFileMod(class plPythonFileMod* mod) {
-    if (mod == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyPythonFileMod* pymod = PyObject_New(pyPythonFileMod, &pyPythonFileMod_Type);
-    pymod->fThis = mod;
-    pymod->fPyOwned = false;
-    return (PyObject*)pymod;
-}
+PY_PLASMA_IFC_METHODS(PythonFileMod, plPythonFileMod)
 
 }

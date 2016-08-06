@@ -101,22 +101,6 @@ PyObject* Init_pyOmniSqApplicator_Type() {
     return (PyObject*)&pyOmniSqApplicator_Type;
 }
 
-int pyOmniSqApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyOmniSqApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyOmniSqApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyOmniSqApplicator_FromOmniSqApplicator(class plOmniSqApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyOmniSqApplicator* pyobj = PyObject_New(pyOmniSqApplicator, &pyOmniSqApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(OmniSqApplicator, plOmniSqApplicator)
 
 }

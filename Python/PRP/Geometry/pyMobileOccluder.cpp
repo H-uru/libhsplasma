@@ -156,22 +156,6 @@ PyObject* Init_pyMobileOccluder_Type() {
     return (PyObject*)&pyMobileOccluder_Type;
 }
 
-int pyMobileOccluder_Check(PyObject* obj) {
-    if (obj->ob_type == &pyMobileOccluder_Type
-        || PyType_IsSubtype(obj->ob_type, &pyMobileOccluder_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyMobileOccluder_FromMobileOccluder(class plMobileOccluder* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyMobileOccluder* pobj = PyObject_New(pyMobileOccluder, &pyMobileOccluder_Type);
-    pobj->fThis = obj;
-    pobj->fPyOwned = false;
-    return (PyObject*)pobj;
-}
+PY_PLASMA_IFC_METHODS(MobileOccluder, plMobileOccluder)
 
 }

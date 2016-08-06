@@ -150,22 +150,6 @@ PyObject* Init_pyLimitedDirLightInfo_Type() {
     return (PyObject*)&pyLimitedDirLightInfo_Type;
 }
 
-int pyLimitedDirLightInfo_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLimitedDirLightInfo_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLimitedDirLightInfo_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLimitedDirLightInfo_FromLimitedDirLightInfo(class plLimitedDirLightInfo* light) {
-    if (light == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLimitedDirLightInfo* pyLight = PyObject_New(pyLimitedDirLightInfo, &pyLimitedDirLightInfo_Type);
-    pyLight->fThis = light;
-    pyLight->fPyOwned = false;
-    return (PyObject*)pyLight;
-}
+PY_PLASMA_IFC_METHODS(LimitedDirLightInfo, plLimitedDirLightInfo)
 
 }

@@ -97,22 +97,6 @@ PyObject* Init_pyObjectInVolumeDetector_Type() {
     return (PyObject*)&pyObjectInVolumeDetector_Type;
 }
 
-int pyObjectInVolumeDetector_Check(PyObject* obj) {
-    if (obj->ob_type == &pyObjectInVolumeDetector_Type
-        || PyType_IsSubtype(obj->ob_type, &pyObjectInVolumeDetector_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyObjectInVolumeDetector_FromObjectInVolumeDetector(class plObjectInVolumeDetector* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyObjectInVolumeDetector* py = PyObject_New(pyObjectInVolumeDetector, &pyObjectInVolumeDetector_Type);
-    py->fThis = obj;
-    py->fPyOwned = false;
-    return (PyObject*)py;
-}
+PY_PLASMA_IFC_METHODS(ObjectInVolumeDetector, plObjectInVolumeDetector)
 
 };

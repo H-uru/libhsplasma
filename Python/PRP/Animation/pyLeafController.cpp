@@ -225,22 +225,6 @@ PyObject* Init_pyLeafController_Type() {
     return (PyObject*)&pyLeafController_Type;
 }
 
-int pyLeafController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLeafController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLeafController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLeafController_FromLeafController(class plLeafController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLeafController* pyobj = PyObject_New(pyLeafController, &pyLeafController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LeafController, plLeafController)
 
 }

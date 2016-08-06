@@ -101,22 +101,6 @@ PyObject* Init_pyQuatTimeScale_Type() {
     return (PyObject*)&pyQuatTimeScale_Type;
 }
 
-int pyQuatTimeScale_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuatTimeScale_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuatTimeScale_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuatTimeScale_FromQuatTimeScale(class plQuatTimeScale* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyQuatTimeScale* pyobj = PyObject_New(pyQuatTimeScale, &pyQuatTimeScale_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(QuatTimeScale, plQuatTimeScale)
 
 }

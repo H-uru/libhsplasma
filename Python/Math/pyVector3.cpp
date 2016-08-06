@@ -372,17 +372,6 @@ PyObject* Init_pyVector3_Type() {
     return (PyObject*)&pyVector3_Type;
 }
 
-int pyVector3_Check(PyObject* obj) {
-    if (obj->ob_type == &pyVector3_Type
-        || PyType_IsSubtype(obj->ob_type, &pyVector3_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyVector3_FromVector3(const hsVector3& vec) {
-    pyVector3* pv = PyObject_New(pyVector3, &pyVector3_Type);
-    pv->fThis = new hsVector3(vec);
-    return (PyObject*)pv;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Vector3, hsVector3)
 
 }

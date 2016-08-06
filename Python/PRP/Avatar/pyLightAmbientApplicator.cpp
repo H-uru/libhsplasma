@@ -101,22 +101,6 @@ PyObject* Init_pyLightAmbientApplicator_Type() {
     return (PyObject*)&pyLightAmbientApplicator_Type;
 }
 
-int pyLightAmbientApplicator_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLightAmbientApplicator_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLightAmbientApplicator_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLightAmbientApplicator_FromLightAmbientApplicator(class plLightAmbientApplicator* app) {
-    if (app == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLightAmbientApplicator* pyobj = PyObject_New(pyLightAmbientApplicator, &pyLightAmbientApplicator_Type);
-    pyobj->fThis = app;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LightAmbientApplicator, plLightAmbientApplicator)
 
 }

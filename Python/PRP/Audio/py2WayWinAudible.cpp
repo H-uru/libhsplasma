@@ -101,22 +101,6 @@ PyObject* Init_py2WayWinAudible_Type() {
     return (PyObject*)&py2WayWinAudible_Type;
 }
 
-int py2WayWinAudible_Check(PyObject* obj) {
-    if (obj->ob_type == &py2WayWinAudible_Type
-        || PyType_IsSubtype(obj->ob_type, &py2WayWinAudible_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* py2WayWinAudible_From2WayWinAudible(pl2WayWinAudible* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    py2WayWinAudible* pyobj = PyObject_New(py2WayWinAudible, &py2WayWinAudible_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(2WayWinAudible, pl2WayWinAudible)
 
 }

@@ -134,22 +134,6 @@ PyObject* Init_pyExcludeRegionMsg_Type() {
     return (PyObject*)&pyExcludeRegionMsg_Type;
 }
 
-int pyExcludeRegionMsg_Check(PyObject* obj) {
-    if (obj->ob_type == &pyExcludeRegionMsg_Type
-        || PyType_IsSubtype(obj->ob_type, &pyExcludeRegionMsg_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyExcludeRegionMsg_FromExcludeRegionMsg(class plExcludeRegionMsg* atc) {
-    if (atc == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyExcludeRegionMsg* pyobj = PyObject_New(pyExcludeRegionMsg, &pyExcludeRegionMsg_Type);
-    pyobj->fThis = atc;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ExcludeRegionMsg, plExcludeRegionMsg)
 
 }

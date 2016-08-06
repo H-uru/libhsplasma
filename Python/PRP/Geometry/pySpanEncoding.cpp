@@ -210,22 +210,6 @@ PyObject* Init_pySpanEncoding_Type() {
     return (PyObject*)&pySpanEncoding_Type;
 }
 
-int pySpanEncoding_Check(PyObject* obj) {
-    if (obj->ob_type == &pySpanEncoding_Type
-        || PyType_IsSubtype(obj->ob_type, &pySpanEncoding_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySpanEncoding_FromSpanEncoding(plSpanEncoding* encoding) {
-    if (encoding == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySpanEncoding* obj = PyObject_New(pySpanEncoding, &pySpanEncoding_Type);
-    obj->fThis = encoding;
-    obj->fPyOwned = false;
-    return (PyObject*)obj;
-}
+PY_PLASMA_IFC_METHODS(SpanEncoding, plSpanEncoding)
 
 }

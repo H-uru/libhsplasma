@@ -101,22 +101,6 @@ PyObject* Init_pyATCChannel_Type() {
     return (PyObject*)&pyATCChannel_Type;
 }
 
-int pyATCChannel_Check(PyObject* obj) {
-    if (obj->ob_type == &pyATCChannel_Type
-        || PyType_IsSubtype(obj->ob_type, &pyATCChannel_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyATCChannel_FromATCChannel(class plATCChannel* chan) {
-    if (chan == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyATCChannel* pyobj = PyObject_New(pyATCChannel, &pyATCChannel_Type);
-    pyobj->fThis = chan;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(ATCChannel, plATCChannel)
 
 }

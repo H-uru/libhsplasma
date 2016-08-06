@@ -194,22 +194,6 @@ PyObject* Init_pyLogicModifier_Type() {
     return (PyObject*)&pyLogicModifier_Type;
 }
 
-int pyLogicModifier_Check(PyObject* obj) {
-    if (obj->ob_type == &pyLogicModifier_Type
-        || PyType_IsSubtype(obj->ob_type, &pyLogicModifier_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyLogicModifier_FromLogicModifier(plLogicModifier* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyLogicModifier* pyobj = PyObject_New(pyLogicModifier, &pyLogicModifier_Type);
-    pyobj->fThis = obj;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(LogicModifier, plLogicModifier)
 
 }

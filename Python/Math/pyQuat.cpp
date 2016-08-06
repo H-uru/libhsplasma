@@ -370,17 +370,6 @@ PyObject* Init_pyQuat_Type() {
     return (PyObject*)&pyQuat_Type;
 }
 
-int pyQuat_Check(PyObject* obj) {
-    if (obj->ob_type == &pyQuat_Type
-        || PyType_IsSubtype(obj->ob_type, &pyQuat_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyQuat_FromQuat(const hsQuat& quat) {
-    pyQuat* pq = PyObject_New(pyQuat, &pyQuat_Type);
-    pq->fThis = new hsQuat(quat);
-    return (PyObject*)pq;
-}
+PY_PLASMA_VALUE_IFC_METHODS(Quat, hsQuat)
 
 }

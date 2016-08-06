@@ -177,22 +177,6 @@ PyObject* Init_pyCompoundController_Type() {
     return (PyObject*)&pyCompoundController_Type;
 }
 
-int pyCompoundController_Check(PyObject* obj) {
-    if (obj->ob_type == &pyCompoundController_Type
-        || PyType_IsSubtype(obj->ob_type, &pyCompoundController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pyCompoundController_FromCompoundController(class plCompoundController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pyCompoundController* pyobj = PyObject_New(pyCompoundController, &pyCompoundController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(CompoundController, plCompoundController)
 
 }

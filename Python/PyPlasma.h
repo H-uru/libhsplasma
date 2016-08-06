@@ -96,3 +96,32 @@ plString PyString_To_PlasmaString(PyObject* str);
     int py##pyType##_Check(PyObject* obj);                      \
     PyObject* py##pyType##_From##pyType(const plType&);         \
     }
+
+#define PY_PLASMA_CHECK_TYPE(pyType)                                    \
+    int py##pyType##_Check(PyObject* obj) {                             \
+        if (obj->ob_type == &py##pyType##_Type                          \
+            || PyType_IsSubtype(obj->ob_type, &py##pyType##_Type))      \
+            return 1;                                                   \
+        return 0;                                                       \
+    }
+
+#define PY_PLASMA_IFC_METHODS(pyType, plType)                           \
+    PY_PLASMA_CHECK_TYPE(pyType)                                        \
+    PyObject* py##pyType##_From##pyType(plType* obj) {                  \
+        if (!obj) {                                                     \
+            Py_INCREF(Py_None);                                         \
+            return Py_None;                                             \
+        }                                                               \
+        py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
+        pyobj->fThis = obj;                                             \
+        pyobj->fPyOwned = false;                                        \
+        return (PyObject*)pyobj;                                        \
+    }
+
+#define PY_PLASMA_VALUE_IFC_METHODS(pyType, plType)                     \
+    PY_PLASMA_CHECK_TYPE(pyType)                                        \
+    PyObject* py##pyType##_From##pyType(const plType& obj) {            \
+        py##pyType* pyobj = PyObject_New(py##pyType, &py##pyType##_Type); \
+        pyobj->fThis = new plType(obj);                                 \
+        return (PyObject*)pyobj;                                        \
+    }

@@ -132,22 +132,6 @@ PyObject* Init_pySimpleScaleController_Type() {
     return (PyObject*)&pySimpleScaleController_Type;
 }
 
-int pySimpleScaleController_Check(PyObject* obj) {
-    if (obj->ob_type == &pySimpleScaleController_Type
-        || PyType_IsSubtype(obj->ob_type, &pySimpleScaleController_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySimpleScaleController_FromSimpleScaleController(class plSimpleScaleController* controller) {
-    if (controller == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySimpleScaleController* pyobj = PyObject_New(pySimpleScaleController, &pySimpleScaleController_Type);
-    pyobj->fThis = controller;
-    pyobj->fPyOwned = false;
-    return (PyObject*)pyobj;
-}
+PY_PLASMA_IFC_METHODS(SimpleScaleController, plSimpleScaleController)
 
 }

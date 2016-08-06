@@ -310,22 +310,6 @@ PyObject* Init_pySceneObject_Type() {
     return (PyObject*)&pySceneObject_Type;
 }
 
-int pySceneObject_Check(PyObject* obj) {
-    if (obj->ob_type == &pySceneObject_Type
-        || PyType_IsSubtype(obj->ob_type, &pySceneObject_Type))
-        return 1;
-    return 0;
-}
-
-PyObject* pySceneObject_FromSceneObject(class plSceneObject* obj) {
-    if (obj == NULL) {
-        Py_INCREF(Py_None);
-        return Py_None;
-    }
-    pySceneObject* so = PyObject_New(pySceneObject, &pySceneObject_Type);
-    so->fThis = obj;
-    so->fPyOwned = false;
-    return (PyObject*)so;
-}
+PY_PLASMA_IFC_METHODS(SceneObject, plSceneObject)
 
 }
