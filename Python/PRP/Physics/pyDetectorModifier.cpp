@@ -35,13 +35,13 @@ static PyObject* pyDetectorModifier_addReceiver(pyDetectorModifier* self, PyObje
         return NULL;
     }
 
-    plDetectorModifier::Convert(IConvert((pyCreatable*)self))->addReceiver(*((pyKey*)receiver)->fThis);
+    self->fThis->addReceiver(*((pyKey*)receiver)->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyDetectorModifier_clearReceivers(pyDetectorModifier* self) {
-    plDetectorModifier::Convert(IConvert((pyCreatable*)self))->clearReceivers();
+    self->fThis->clearReceivers();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -53,7 +53,7 @@ static PyObject* pyDetectorModifier_delReceiver(pyDetectorModifier* self, PyObje
         return NULL;
     }
 
-    plDetectorModifier::Convert(IConvert((pyCreatable*)self))->delReceiver((size_t)idx);
+    self->fThis->delReceiver((size_t)idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -71,7 +71,7 @@ static PyMethodDef pyDetectorModifier_Methods[] = {
 };
 
 static PyObject* pyDetectorModifier_getReceivers(pyDetectorModifier* self, void*) {
-    plDetectorModifier* mod = plDetectorModifier::Convert(IConvert((pyCreatable*)self));
+    plDetectorModifier* mod = self->fThis;
     PyObject* sequence = PyTuple_New(mod->getReceivers().size());
     for (size_t i = 0; i < mod->getReceivers().size(); ++i)
         PyTuple_SET_ITEM(sequence, i, pyKey_FromKey(mod->getReceivers()[i]));
@@ -79,11 +79,11 @@ static PyObject* pyDetectorModifier_getReceivers(pyDetectorModifier* self, void*
 }
 
 static PyObject* pyDetectorModifier_getRemoteMod(pyDetectorModifier* self, void*) {
-    return pyKey_FromKey(plDetectorModifier::Convert(IConvert((pyCreatable*)self))->getRemoteMod());
+    return pyKey_FromKey(self->fThis->getRemoteMod());
 }
 
 static PyObject* pyDetectorModifier_getProxy(pyDetectorModifier* self, void*) {
-    return pyKey_FromKey(plDetectorModifier::Convert(IConvert((pyCreatable*)self))->getProxy());
+    return pyKey_FromKey(self->fThis->getProxy());
 }
 
 static int pyDetectorModifier_setReceivers(pyDetectorModifier* self, PyObject* value, void*) {
@@ -93,10 +93,10 @@ static int pyDetectorModifier_setReceivers(pyDetectorModifier* self, PyObject* v
 
 static int pyDetectorModifier_setRemoteMod(pyDetectorModifier* self, PyObject* value, void*) {
     if (value == NULL) {
-        plDetectorModifier::Convert(IConvert((pyCreatable*)self))->setRemoteMod(plKey());
+        self->fThis->setRemoteMod(plKey());
         return 0;
     } else if (pyKey_Check(value)) {
-        plDetectorModifier::Convert(IConvert((pyCreatable*)self))->setRemoteMod(*((pyKey*)value)->fThis);
+        self->fThis->setRemoteMod(*((pyKey*)value)->fThis);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "remoteMod should be a plKey");
@@ -106,10 +106,10 @@ static int pyDetectorModifier_setRemoteMod(pyDetectorModifier* self, PyObject* v
 
 static int pyDetectorModifier_setProxy(pyDetectorModifier* self, PyObject* value, void*) {
     if (value == NULL) {
-        plDetectorModifier::Convert(IConvert((pyCreatable*)self))->setProxy(plKey());
+        self->fThis->setProxy(plKey());
         return 0;
     } else if (pyKey_Check(value)) {
-        plDetectorModifier::Convert(IConvert((pyCreatable*)self))->setProxy(*((pyKey*)value)->fThis);
+        self->fThis->setProxy(*((pyKey*)value)->fThis);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "proxy should be a plKey");

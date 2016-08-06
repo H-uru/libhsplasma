@@ -31,19 +31,19 @@ static PyObject* pyOmniLightInfo_new(PyTypeObject* type, PyObject* args, PyObjec
 }
 
 static PyObject* pyOmniLightInfo_getAttenConst(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->getAttenConst());
+    return PyFloat_FromDouble(self->fThis->getAttenConst());
 }
 
 static PyObject* pyOmniLightInfo_getAttenLinear(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->getAttenLinear());
+    return PyFloat_FromDouble(self->fThis->getAttenLinear());
 }
 
 static PyObject* pyOmniLightInfo_getAttenQuadratic(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->getAttenQuadratic());
+    return PyFloat_FromDouble(self->fThis->getAttenQuadratic());
 }
 
 static PyObject* pyOmniLightInfo_getAttenCutoff(pyOmniLightInfo* self, void*) {
-    return PyFloat_FromDouble(plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->getAttenCutoff());
+    return PyFloat_FromDouble(self->fThis->getAttenCutoff());
 }
 
 static int pyOmniLightInfo_setAttenConst(pyOmniLightInfo* self, PyObject* value, void*) {
@@ -51,7 +51,7 @@ static int pyOmniLightInfo_setAttenConst(pyOmniLightInfo* self, PyObject* value,
         PyErr_SetString(PyExc_TypeError, "attenConst should be a float");
         return -1;
     }
-    plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->setAttenConst(PyFloat_AsDouble(value));
+    self->fThis->setAttenConst(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -60,7 +60,7 @@ static int pyOmniLightInfo_setAttenLinear(pyOmniLightInfo* self, PyObject* value
         PyErr_SetString(PyExc_TypeError, "attenLinear should be a float");
         return -1;
     }
-    plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->setAttenLinear(PyFloat_AsDouble(value));
+    self->fThis->setAttenLinear(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -69,7 +69,7 @@ static int pyOmniLightInfo_setAttenQuadratic(pyOmniLightInfo* self, PyObject* va
         PyErr_SetString(PyExc_TypeError, "attenQuadratic should be a float");
         return -1;
     }
-    plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->setAttenQuadratic(PyFloat_AsDouble(value));
+    self->fThis->setAttenQuadratic(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -78,7 +78,7 @@ static int pyOmniLightInfo_setAttenCutoff(pyOmniLightInfo* self, PyObject* value
         PyErr_SetString(PyExc_TypeError, "attenCutoff should be a float");
         return -1;
     }
-    plOmniLightInfo::Convert(IConvert((pyCreatable*)self))->setAttenCutoff(PyFloat_AsDouble(value));
+    self->fThis->setAttenCutoff(PyFloat_AsDouble(value));
     return 0;
 }
 

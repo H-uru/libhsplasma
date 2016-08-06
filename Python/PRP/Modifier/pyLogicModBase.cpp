@@ -31,7 +31,7 @@ static PyObject* pyLogicModBase_new(PyTypeObject* type, PyObject* args, PyObject
 }
 
 static PyObject* pyLogicModBase_clearCommands(pyLogicModBase* self) {
-    plLogicModBase::Convert(IConvert((pyCreatable*)self))->clearCommands();
+    self->fThis->clearCommands();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -46,7 +46,7 @@ static PyObject* pyLogicModBase_addCommand(pyLogicModBase* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "addCommand expects a plMessage");
         return NULL;
     }
-    plLogicModBase::Convert(IConvert((pyCreatable*)self))->addCommand(msg->fThis);
+    self->fThis->addCommand(msg->fThis);
     msg->fPyOwned = false;
     Py_INCREF(Py_None);
     return Py_None;
@@ -58,7 +58,7 @@ static PyObject* pyLogicModBase_delCommand(pyLogicModBase* self, PyObject* args)
         PyErr_SetString(PyExc_TypeError, "delCommand expects an int");
         return NULL;
     }
-    plLogicModBase::Convert(IConvert((pyCreatable*)self))->delCommand(idx);
+    self->fThis->delCommand(idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -69,7 +69,7 @@ static PyObject* pyLogicModBase_getLogicFlag(pyLogicModBase* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "getFlag expects an int");
         return NULL;
     }
-    return PyBool_FromLong(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getLogicFlag(idx) ? 1 : 0);
+    return PyBool_FromLong(self->fThis->getLogicFlag(idx) ? 1 : 0);
 }
 
 static PyObject* pyLogicModBase_setLogicFlag(pyLogicModBase* self, PyObject* args) {
@@ -78,24 +78,24 @@ static PyObject* pyLogicModBase_setLogicFlag(pyLogicModBase* self, PyObject* arg
         PyErr_SetString(PyExc_TypeError, "setFlag expects int, bool");
         return NULL;
     }
-    plLogicModBase::Convert(IConvert((pyCreatable*)self))->setLogicFlag(idx, value != 0);
+    self->fThis->setLogicFlag(idx, value != 0);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyLogicModBase_getCommands(pyLogicModBase* self, void*) {
-    PyObject* list = PyList_New(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getCommands().size());
-    for (size_t i=0; i<plLogicModBase::Convert(IConvert((pyCreatable*)self))->getCommands().size(); i++)
-        PyList_SET_ITEM(list, i, pyMessage_FromMessage(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getCommands()[i]));
+    PyObject* list = PyList_New(self->fThis->getCommands().size());
+    for (size_t i=0; i<self->fThis->getCommands().size(); i++)
+        PyList_SET_ITEM(list, i, pyMessage_FromMessage(self->fThis->getCommands()[i]));
     return list;
 }
 
 static PyObject* pyLogicModBase_getNotify(pyLogicModBase* self, void*) {
-    return pyNotifyMsg_FromNotifyMsg(plLogicModBase::Convert(IConvert((pyCreatable*)self))->getNotify());
+    return pyNotifyMsg_FromNotifyMsg(self->fThis->getNotify());
 }
 
 static PyObject* pyLogicModBase_getDisabled(pyLogicModBase* self, void*) {
-    return PyBool_FromLong(plLogicModBase::Convert(IConvert((pyCreatable*)self))->isDisabled() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->isDisabled() ? 1 : 0);
 }
 
 static int pyLogicModBase_setCommands(pyLogicModBase* self, PyObject* value, void*) {
@@ -105,10 +105,10 @@ static int pyLogicModBase_setCommands(pyLogicModBase* self, PyObject* value, voi
 
 static int pyLogicModBase_setNotify(pyLogicModBase* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        plLogicModBase::Convert(IConvert((pyCreatable*)self))->setNotify(NULL);
+        self->fThis->setNotify(NULL);
         return 0;
     } else if (pyNotifyMsg_Check(value)) {
-        plLogicModBase::Convert(IConvert((pyCreatable*)self))->setNotify(((pyNotifyMsg*)value)->fThis);
+        self->fThis->setNotify(((pyNotifyMsg*)value)->fThis);
         ((pyNotifyMsg*)value)->fPyOwned = false;
         return 0;
     } else {
@@ -122,7 +122,7 @@ static int pyLogicModBase_setDisabled(pyLogicModBase* self, PyObject* value, voi
         PyErr_SetString(PyExc_TypeError, "disabled should be a bool");
         return -1;
     }
-    plLogicModBase::Convert(IConvert((pyCreatable*)self))->setDisabled(PyInt_AsLong(value) != 0);
+    self->fThis->setDisabled(PyInt_AsLong(value) != 0);
     return 0;
 }
 

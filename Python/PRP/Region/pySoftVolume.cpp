@@ -20,10 +20,6 @@
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/pyCreatable.h"
 
-static plSoftVolume* IConvertSV(pySoftVolume* self) {
-    return plSoftVolume::Convert(IConvert((pyCreatable*)self));
-}
-
 extern "C" {
 
 static PyObject* pySoftVolume_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -32,15 +28,15 @@ static PyObject* pySoftVolume_new(PyTypeObject* type, PyObject* args, PyObject* 
 }
 
 static PyObject* pySoftVolume_getListenState(pySoftVolume* self, void*) {
-    return PyInt_FromLong(IConvertSV(self)->getListenState());
+    return PyInt_FromLong(self->fThis->getListenState());
 }
 
 static PyObject* pySoftVolume_getInsideStrength(pySoftVolume* self, void*) {
-    return PyFloat_FromDouble(IConvertSV(self)->getInsideStrength());
+    return PyFloat_FromDouble(self->fThis->getInsideStrength());
 }
 
 static PyObject* pySoftVolume_getOutsideStrength(pySoftVolume* self, void*) {
-    return PyFloat_FromDouble(IConvertSV(self)->getOutsideStrength());
+    return PyFloat_FromDouble(self->fThis->getOutsideStrength());
 }
 
 static int pySoftVolume_setListenState(pySoftVolume* self, PyObject* value, void*) {
@@ -48,7 +44,7 @@ static int pySoftVolume_setListenState(pySoftVolume* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "listenState should be an int");
         return -1;
     }
-    IConvertSV(self)->setListenState(PyInt_AsLong(value));
+    self->fThis->setListenState(PyInt_AsLong(value));
     return 0;
 }
 
@@ -57,7 +53,7 @@ static int pySoftVolume_setInsideStrength(pySoftVolume* self, PyObject* value, v
         PyErr_SetString(PyExc_TypeError, "insideStrength should be a float");
         return -1;
     }
-    IConvertSV(self)->setInsideStrength((float)PyFloat_AsDouble(value));
+    self->fThis->setInsideStrength((float)PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -66,7 +62,7 @@ static int pySoftVolume_setOutsideStrength(pySoftVolume* self, PyObject* value, 
         PyErr_SetString(PyExc_TypeError, "outsideStrength should be a float");
         return -1;
     }
-    IConvertSV(self)->setOutsideStrength((float)PyFloat_AsDouble(value));
+    self->fThis->setOutsideStrength((float)PyFloat_AsDouble(value));
     return 0;
 }
 

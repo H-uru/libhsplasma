@@ -20,10 +20,6 @@
 #include "pySound.h"
 #include "PRP/pyCreatable.h"
 
-static inline plWin32Sound* IConvertSound(pyWin32Sound* sound) {
-    return plWin32Sound::Convert(IConvert((pyCreatable*)sound));
-}
-
 extern "C" {
 
 static PyObject* pyWin32Sound_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -32,7 +28,7 @@ static PyObject* pyWin32Sound_new(PyTypeObject* type, PyObject* args, PyObject* 
 }
 
 static PyObject* pyWin32Sound_getChannel(pyWin32Sound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getChannel());
+    return PyInt_FromLong(self->fThis->getChannel());
 }
 
 static int pyWin32Sound_setChannel(pyWin32Sound* self, PyObject* value, void*) {
@@ -40,7 +36,7 @@ static int pyWin32Sound_setChannel(pyWin32Sound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "channel should be an int");
         return -1;
     }
-    IConvertSound(self)->setChannel((unsigned char)PyInt_AsLong(value));
+    self->fThis->setChannel((unsigned char)PyInt_AsLong(value));
     return 0;
 }
 

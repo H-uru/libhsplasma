@@ -29,7 +29,7 @@ static int pyKeyedObject___init__(pyKeyedObject* self, PyObject* args, PyObject*
         return -1;
     }
 
-    hsKeyedObject::Convert(IConvert((pyCreatable*)self))->init(name);
+    self->fThis->init(name);
     return 0;
 }
 
@@ -39,8 +39,8 @@ static PyObject* pyKeyedObject_new(PyTypeObject* type, PyObject* args, PyObject*
 }
 
 static PyObject* pyKeyedObject_getKey(pyKeyedObject* self, void*) {
-    if (hsKeyedObject::Convert(IConvert((pyCreatable*)self))->getKey().Exists()) {
-        return pyKey_FromKey(hsKeyedObject::Convert(IConvert((pyCreatable*)self))->getKey());
+    if (self->fThis->getKey().Exists()) {
+        return pyKey_FromKey(self->fThis->getKey());
     } else {
         Py_INCREF(Py_None);
         return Py_None;

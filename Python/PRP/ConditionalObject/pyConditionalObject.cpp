@@ -20,10 +20,6 @@
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
-static inline plConditionalObject* IConvertCond(pyConditionalObject* self) {
-    return plConditionalObject::Convert(IConvert((pyCreatable*)self));
-}
-
 extern "C" {
 
 static PyObject* pyConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -32,11 +28,11 @@ static PyObject* pyConditionalObject_new(PyTypeObject* type, PyObject* args, PyO
 }
 
 static PyObject* pyConditionalObject_getSatisfied(pyConditionalObject* self, void*) {
-    return PyBool_FromLong(IConvertCond(self)->getSatisfied() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->getSatisfied() ? 1 : 0);
 }
 
 static PyObject* pyConditionalObject_getToggle(pyConditionalObject* self, void*) {
-    return PyBool_FromLong(IConvertCond(self)->getToggle() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->getToggle() ? 1 : 0);
 }
 
 static int pyConditionalObject_setSatisfied(pyConditionalObject* self, PyObject* value, void*) {
@@ -44,7 +40,7 @@ static int pyConditionalObject_setSatisfied(pyConditionalObject* self, PyObject*
         PyErr_SetString(PyExc_TypeError, "satisfied should be a boolean");
         return -1;
     }
-    IConvertCond(self)->setSatisfied(PyInt_AsLong(value) != 0);
+    self->fThis->setSatisfied(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -53,7 +49,7 @@ static int pyConditionalObject_setToggle(pyConditionalObject* self, PyObject* va
         PyErr_SetString(PyExc_TypeError, "toggle should be a boolean");
         return -1;
     }
-    IConvertCond(self)->setToggle(PyInt_AsLong(value) != 0);
+    self->fThis->setToggle(PyInt_AsLong(value) != 0);
     return 0;
 }
 

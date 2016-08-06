@@ -28,7 +28,7 @@ static PyObject* pyCollisionDetector_new(PyTypeObject* type, PyObject* args, PyO
 }
 
 static PyObject* pyCollisionDetector_getType(pyCollisionDetector* self, void*) {
-    return PyInt_FromLong(plCollisionDetector::Convert(IConvert((pyCreatable*)self))->getType());
+    return PyInt_FromLong(self->fThis->getType());
 }
 
 static int pyCollisionDetector_setType(pyCollisionDetector* self, PyObject* value, void*) {
@@ -36,7 +36,7 @@ static int pyCollisionDetector_setType(pyCollisionDetector* self, PyObject* valu
         PyErr_SetString(PyExc_TypeError, "type should be an int");
         return -1;
     }
-    plCollisionDetector::Convert(IConvert((pyCreatable*)self))->setType(PyInt_AsLong(value));
+    self->fThis->setType(PyInt_AsLong(value));
     return 0;
 }
 

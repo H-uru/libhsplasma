@@ -20,10 +20,6 @@
 #include "pyBitmap.h"
 #include "PRP/pyCreatable.h"
 
-static inline plRenderTarget* IConvertRT(pyRenderTarget* self) {
-    return plRenderTarget::Convert(IConvert((pyCreatable*)self));
-}
-
 extern "C" {
 
 static PyObject* pyRenderTarget_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -36,19 +32,19 @@ static PyObject* pyRenderTarget_new(PyTypeObject* type, PyObject* args, PyObject
 }
 
 static PyObject* pyRenderTarget_getWidth(pyRenderTarget* self, void*) {
-    return PyInt_FromLong(IConvertRT(self)->getWidth());
+    return PyInt_FromLong(self->fThis->getWidth());
 }
 
 static PyObject* pyRenderTarget_getHeight(pyRenderTarget* self, void*) {
-    return PyInt_FromLong(IConvertRT(self)->getHeight());
+    return PyInt_FromLong(self->fThis->getHeight());
 }
 
 static PyObject* pyRenderTarget_getProportionalViewport(pyRenderTarget* self, void*) {
-    return PyBool_FromLong(IConvertRT(self)->getProportionalViewport() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->getProportionalViewport() ? 1 : 0);
 }
 
 static PyObject* pyRenderTarget_getViewportLeft(pyRenderTarget* self, void*) {
-    plRenderTarget* rt = IConvertRT(self);
+    plRenderTarget* rt = self->fThis;
     if (rt->getProportionalViewport())
         return PyFloat_FromDouble(rt->getProportionalViewportLeft());
     else
@@ -56,7 +52,7 @@ static PyObject* pyRenderTarget_getViewportLeft(pyRenderTarget* self, void*) {
 }
 
 static PyObject* pyRenderTarget_getViewportTop(pyRenderTarget* self, void*) {
-    plRenderTarget* rt = IConvertRT(self);
+    plRenderTarget* rt = self->fThis;
     if (rt->getProportionalViewport())
         return PyFloat_FromDouble(rt->getProportionalViewportTop());
     else
@@ -64,7 +60,7 @@ static PyObject* pyRenderTarget_getViewportTop(pyRenderTarget* self, void*) {
 }
 
 static PyObject* pyRenderTarget_getViewportRight(pyRenderTarget* self, void*) {
-    plRenderTarget* rt = IConvertRT(self);
+    plRenderTarget* rt = self->fThis;
     if (rt->getProportionalViewport())
         return PyFloat_FromDouble(rt->getProportionalViewportRight());
     else
@@ -72,7 +68,7 @@ static PyObject* pyRenderTarget_getViewportRight(pyRenderTarget* self, void*) {
 }
 
 static PyObject* pyRenderTarget_getViewportBottom(pyRenderTarget* self, void*) {
-    plRenderTarget* rt = IConvertRT(self);
+    plRenderTarget* rt = self->fThis;
     if (rt->getProportionalViewport())
         return PyFloat_FromDouble(rt->getProportionalViewportBottom());
     else
@@ -80,11 +76,11 @@ static PyObject* pyRenderTarget_getViewportBottom(pyRenderTarget* self, void*) {
 }
 
 static PyObject* pyRenderTarget_getZDepth(pyRenderTarget* self, void*) {
-    return PyInt_FromLong(IConvertRT(self)->getZDepth());
+    return PyInt_FromLong(self->fThis->getZDepth());
 }
 
 static PyObject* pyRenderTarget_getStencilDepth(pyRenderTarget* self, void*) {
-    return PyInt_FromLong(IConvertRT(self)->getStencilDepth());
+    return PyInt_FromLong(self->fThis->getStencilDepth());
 }
 
 static int pyRenderTarget_setWidth(pyRenderTarget* self, PyObject* value, void*) {
@@ -92,7 +88,7 @@ static int pyRenderTarget_setWidth(pyRenderTarget* self, PyObject* value, void*)
         PyErr_SetString(PyExc_TypeError, "width should be an int");
         return -1;
     }
-    IConvertRT(self)->setWidth(PyInt_AsLong(value));
+    self->fThis->setWidth(PyInt_AsLong(value));
     return 0;
 }
 
@@ -101,7 +97,7 @@ static int pyRenderTarget_setHeight(pyRenderTarget* self, PyObject* value, void*
         PyErr_SetString(PyExc_TypeError, "height should be an int");
         return -1;
     }
-    IConvertRT(self)->setHeight(PyInt_AsLong(value));
+    self->fThis->setHeight(PyInt_AsLong(value));
     return 0;
 }
 
@@ -110,12 +106,12 @@ static int pyRenderTarget_setProportionalViewport(pyRenderTarget* self, PyObject
         PyErr_SetString(PyExc_TypeError, "proportionalViewport should be a boolean");
         return -1;
     }
-    IConvertRT(self)->setProportionalViewport(PyInt_AsLong(value) != 0);
+    self->fThis->setProportionalViewport(PyInt_AsLong(value) != 0);
     return 0;
 }
 
 static int pyRenderTarget_setViewportLeft(pyRenderTarget* self, PyObject* value, void*) {
-    plRenderTarget* rt = IConvertRT(self);
+    plRenderTarget* rt = self->fThis;
     if (rt->getProportionalViewport()) {
         if (value == NULL || !PyFloat_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "viewportLeft should be a float");
@@ -133,7 +129,7 @@ static int pyRenderTarget_setViewportLeft(pyRenderTarget* self, PyObject* value,
 }
 
 static int pyRenderTarget_setViewportTop(pyRenderTarget* self, PyObject* value, void*) {
-    plRenderTarget* rt = IConvertRT(self);
+    plRenderTarget* rt = self->fThis;
     if (rt->getProportionalViewport()) {
         if (value == NULL || !PyFloat_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "viewportTop should be a float");
@@ -151,7 +147,7 @@ static int pyRenderTarget_setViewportTop(pyRenderTarget* self, PyObject* value, 
 }
 
 static int pyRenderTarget_setViewportRight(pyRenderTarget* self, PyObject* value, void*) {
-    plRenderTarget* rt = IConvertRT(self);
+    plRenderTarget* rt = self->fThis;
     if (rt->getProportionalViewport()) {
         if (value == NULL || !PyFloat_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "viewportRight should be a float");
@@ -169,7 +165,7 @@ static int pyRenderTarget_setViewportRight(pyRenderTarget* self, PyObject* value
 }
 
 static int pyRenderTarget_setViewportBottom(pyRenderTarget* self, PyObject* value, void*) {
-    plRenderTarget* rt = IConvertRT(self);
+    plRenderTarget* rt = self->fThis;
     if (rt->getProportionalViewport()) {
         if (value == NULL || !PyFloat_Check(value)) {
             PyErr_SetString(PyExc_TypeError, "viewportBottom should be a float");
@@ -191,7 +187,7 @@ static int pyRenderTarget_setZDepth(pyRenderTarget* self, PyObject* value, void*
         PyErr_SetString(PyExc_TypeError, "ZDepth should be an int");
         return -1;
     }
-    IConvertRT(self)->setZDepth(PyInt_AsLong(value));
+    self->fThis->setZDepth(PyInt_AsLong(value));
     return 0;
 }
 
@@ -200,7 +196,7 @@ static int pyRenderTarget_setStencilDepth(pyRenderTarget* self, PyObject* value,
         PyErr_SetString(PyExc_TypeError, "stencilDepth should be an int");
         return -1;
     }
-    IConvertRT(self)->setStencilDepth(PyInt_AsLong(value));
+    self->fThis->setStencilDepth(PyInt_AsLong(value));
     return 0;
 }
 

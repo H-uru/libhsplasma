@@ -21,10 +21,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-static inline plActivatorConditionalObject* IConvertCond(pyActivatorConditionalObject* self) {
-    return plActivatorConditionalObject::Convert(IConvert((pyCreatable*)self));
-}
-
 extern "C" {
 
 static PyObject* pyActivatorConditionalObject_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -42,13 +38,13 @@ static PyObject* pyActivatorConditionalObject_addActivator(pyActivatorConditiona
         PyErr_SetString(PyExc_TypeError, "addActivator expects a plKey");
         return NULL;
     }
-    IConvertCond(self)->addActivator(*((pyKey*)key)->fThis);
+    self->fThis->addActivator(*((pyKey*)key)->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pyActivatorConditionalObject_clearActivators(pyActivatorConditionalObject* self) {
-    IConvertCond(self)->clearActivators();
+    self->fThis->clearActivators();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -59,7 +55,7 @@ static PyObject* pyActivatorConditionalObject_delActivator(pyActivatorConditiona
         PyErr_SetString(PyExc_TypeError, "delActivator expects an int");
         return NULL;
     }
-    IConvertCond(self)->delActivator((size_t)idx);
+    self->fThis->delActivator((size_t)idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -77,7 +73,7 @@ static PyMethodDef pyActivatorConditionalObject_Methods[] = {
 };
 
 static PyObject* pyActivatorConditionalObject_getActivators(pyActivatorConditionalObject* self, void*) {
-    plActivatorConditionalObject* act = IConvertCond(self);
+    plActivatorConditionalObject* act = self->fThis;
     PyObject* activators = PyTuple_New(act->getActivators().size());
     for (size_t i = 0; i < act->getActivators().size(); ++i)
         PyTuple_SET_ITEM(activators, i, pyKey_FromKey(act->getActivators()[i]));

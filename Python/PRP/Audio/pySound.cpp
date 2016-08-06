@@ -20,10 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-static inline plSound* IConvertSound(pySound* sound) {
-    return plSound::Convert(IConvert((pyCreatable*)sound));
-}
-
 extern "C" {
 
 static PyObject* pySound_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -32,79 +28,79 @@ static PyObject* pySound_new(PyTypeObject* type, PyObject* args, PyObject* kwds)
 }
 
 static PyObject* pySound_getType(pySound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getType());
+    return PyInt_FromLong(self->fThis->getType());
 }
 
 static PyObject* pySound_getPriority(pySound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getPriority());
+    return PyInt_FromLong(self->fThis->getPriority());
 }
 
 static PyObject* pySound_getIsPlaying(pySound* self, void*) {
-    return PyBool_FromLong(IConvertSound(self)->isPlaying() ? 1 : 0);
+    return PyBool_FromLong(self->fThis->isPlaying() ? 1 : 0);
 }
 
 static PyObject* pySound_getTime(pySound* self, void*) {
-    return PyFloat_FromDouble(IConvertSound(self)->getTime());
+    return PyFloat_FromDouble(self->fThis->getTime());
 }
 
 static PyObject* pySound_getMaxFalloff(pySound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getMaxFalloff());
+    return PyInt_FromLong(self->fThis->getMaxFalloff());
 }
 
 static PyObject* pySound_getMinFalloff(pySound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getMinFalloff());
+    return PyInt_FromLong(self->fThis->getMinFalloff());
 }
 
 static PyObject* pySound_getOuterVol(pySound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getOuterVol());
+    return PyInt_FromLong(self->fThis->getOuterVol());
 }
 
 static PyObject* pySound_getInnerCone(pySound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getInnerCone());
+    return PyInt_FromLong(self->fThis->getInnerCone());
 }
 
 static PyObject* pySound_getOuterCone(pySound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getOuterCone());
+    return PyInt_FromLong(self->fThis->getOuterCone());
 }
 
 static PyObject* pySound_getCurrVolume(pySound* self, void*) {
-    return PyFloat_FromDouble(IConvertSound(self)->getCurrVolume());
+    return PyFloat_FromDouble(self->fThis->getCurrVolume());
 }
 
 static PyObject* pySound_getDesiredVolume(pySound* self, void*) {
-    return PyFloat_FromDouble(IConvertSound(self)->getDesiredVolume());
+    return PyFloat_FromDouble(self->fThis->getDesiredVolume());
 }
 
 static PyObject* pySound_getFadedVolume(pySound* self, void*) {
-    return PyFloat_FromDouble(IConvertSound(self)->getFadedVolume());
+    return PyFloat_FromDouble(self->fThis->getFadedVolume());
 }
 
 static PyObject* pySound_getProperties(pySound* self, void*) {
-    return PyInt_FromLong(IConvertSound(self)->getProperties());
+    return PyInt_FromLong(self->fThis->getProperties());
 }
 
 static PyObject* pySound_getFadeInParams(pySound* self, void*) {
-    return pyFadeParams_FromFadeParams(IConvertSound(self)->getFadeInParams());
+    return pyFadeParams_FromFadeParams(self->fThis->getFadeInParams());
 }
 
 static PyObject* pySound_getFadeOutParams(pySound* self, void*) {
-    return pyFadeParams_FromFadeParams(IConvertSound(self)->getFadeOutParams());
+    return pyFadeParams_FromFadeParams(self->fThis->getFadeOutParams());
 }
 
 static PyObject* pySound_getSoftRegion(pySound* self, void*) {
-    return pyKey_FromKey(IConvertSound(self)->getSoftRegion());
+    return pyKey_FromKey(self->fThis->getSoftRegion());
 }
 
 static PyObject* pySound_getSoftOcclusionRegion(pySound* self, void*) {
-    return pyKey_FromKey(IConvertSound(self)->getSoftOcclusionRegion());
+    return pyKey_FromKey(self->fThis->getSoftOcclusionRegion());
 }
 
 static PyObject* pySound_getDataBuffer(pySound* self, void*) {
-    return pyKey_FromKey(IConvertSound(self)->getDataBuffer());
+    return pyKey_FromKey(self->fThis->getDataBuffer());
 }
 
 static PyObject* pySound_getSubtitleId(pySound* self, void*) {
-    return PlStr_To_PyStr(IConvertSound(self)->getSubtitleId());
+    return PlStr_To_PyStr(self->fThis->getSubtitleId());
 }
 
 static int pySound_setType(pySound* self, PyObject* value, void*) {
@@ -112,7 +108,7 @@ static int pySound_setType(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "type should be an int");
         return -1;
     }
-    IConvertSound(self)->setType((unsigned char)PyInt_AsLong(value));
+    self->fThis->setType((unsigned char)PyInt_AsLong(value));
     return 0;
 }
 
@@ -121,7 +117,7 @@ static int pySound_setPriority(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "priority should be an int");
         return -1;
     }
-    IConvertSound(self)->setPriority((unsigned char)PyInt_AsLong(value));
+    self->fThis->setPriority((unsigned char)PyInt_AsLong(value));
     return 0;
 }
 
@@ -130,7 +126,7 @@ static int pySound_setIsPlaying(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "isPlaying should be a boolean");
         return -1;
     }
-    IConvertSound(self)->setPlaying(PyInt_AsLong(value) != 0);
+    self->fThis->setPlaying(PyInt_AsLong(value) != 0);
     return 0;
 }
 
@@ -139,7 +135,7 @@ static int pySound_setTime(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "time should be a float");
         return -1;
     }
-    IConvertSound(self)->setTime((float)PyFloat_AsDouble(value));
+    self->fThis->setTime((float)PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -148,7 +144,7 @@ static int pySound_setMaxFalloff(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "maxFalloff should be an int");
         return -1;
     }
-    IConvertSound(self)->setMaxFalloff(PyInt_AsLong(value));
+    self->fThis->setMaxFalloff(PyInt_AsLong(value));
     return 0;
 }
 
@@ -157,7 +153,7 @@ static int pySound_setMinFalloff(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "minFalloff should be an int");
         return -1;
     }
-    IConvertSound(self)->setMinFalloff(PyInt_AsLong(value));
+    self->fThis->setMinFalloff(PyInt_AsLong(value));
     return 0;
 }
 
@@ -166,7 +162,7 @@ static int pySound_setOuterVol(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "outerVol should be an int");
         return -1;
     }
-    IConvertSound(self)->setOuterVol(PyInt_AsLong(value));
+    self->fThis->setOuterVol(PyInt_AsLong(value));
     return 0;
 }
 
@@ -175,7 +171,7 @@ static int pySound_setInnerCone(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "innerCone should be an int");
         return -1;
     }
-    IConvertSound(self)->setInnerCone(PyInt_AsLong(value));
+    self->fThis->setInnerCone(PyInt_AsLong(value));
     return 0;
 }
 
@@ -184,7 +180,7 @@ static int pySound_setOuterCone(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "outerCone should be an int");
         return -1;
     }
-    IConvertSound(self)->setOuterCone(PyInt_AsLong(value));
+    self->fThis->setOuterCone(PyInt_AsLong(value));
     return 0;
 }
 
@@ -193,7 +189,7 @@ static int pySound_setCurrVolume(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "currVolume should be a float");
         return -1;
     }
-    IConvertSound(self)->setCurrVolume((float)PyFloat_AsDouble(value));
+    self->fThis->setCurrVolume((float)PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -202,7 +198,7 @@ static int pySound_setDesiredVolume(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "desiredVolume should be a float");
         return -1;
     }
-    IConvertSound(self)->setDesiredVolume((float)PyFloat_AsDouble(value));
+    self->fThis->setDesiredVolume((float)PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -211,7 +207,7 @@ static int pySound_setFadedVolume(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "fadedVolume should be a float");
         return -1;
     }
-    IConvertSound(self)->setFadedVolume((float)PyFloat_AsDouble(value));
+    self->fThis->setFadedVolume((float)PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -220,7 +216,7 @@ static int pySound_setProperties(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "properties should be an int");
         return -1;
     }
-    IConvertSound(self)->setProperties(PyInt_AsLong(value));
+    self->fThis->setProperties(PyInt_AsLong(value));
     return 0;
 }
 
@@ -236,10 +232,10 @@ static int pySound_setFadeOutParams(pySound* self, PyObject* value, void*) {
 
 static int pySound_setSoftRegion(pySound* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        IConvertSound(self)->setSoftRegion(plKey());
+        self->fThis->setSoftRegion(plKey());
         return 0;
     } else if (pyKey_Check(value)) {
-        IConvertSound(self)->setSoftRegion(*((pyKey*)value)->fThis);
+        self->fThis->setSoftRegion(*((pyKey*)value)->fThis);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "softRegion should be a plKey");
@@ -249,10 +245,10 @@ static int pySound_setSoftRegion(pySound* self, PyObject* value, void*) {
 
 static int pySound_setSoftOcclusionRegion(pySound* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        IConvertSound(self)->setSoftOcclusionRegion(plKey());
+        self->fThis->setSoftOcclusionRegion(plKey());
         return 0;
     } else if (pyKey_Check(value)) {
-        IConvertSound(self)->setSoftOcclusionRegion(*((pyKey*)value)->fThis);
+        self->fThis->setSoftOcclusionRegion(*((pyKey*)value)->fThis);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "softOcclusionRegion should be a plKey");
@@ -262,10 +258,10 @@ static int pySound_setSoftOcclusionRegion(pySound* self, PyObject* value, void*)
 
 static int pySound_setDataBuffer(pySound* self, PyObject* value, void*) {
     if (value == NULL || value == Py_None) {
-        IConvertSound(self)->setDataBuffer(plKey());
+        self->fThis->setDataBuffer(plKey());
         return 0;
     } else if (pyKey_Check(value)) {
-        IConvertSound(self)->setDataBuffer(*((pyKey*)value)->fThis);
+        self->fThis->setDataBuffer(*((pyKey*)value)->fThis);
         return 0;
     } else {
         PyErr_SetString(PyExc_TypeError, "dataBuffer should be a plKey");
@@ -278,7 +274,7 @@ static int pySound_setSubtitleId(pySound* self, PyObject* value, void*) {
         PyErr_SetString(PyExc_TypeError, "subtitleId should be a string");
         return -1;
     }
-    IConvertSound(self)->setSubtitleId(PyStr_To_PlStr(value));
+    self->fThis->setSubtitleId(PyStr_To_PlStr(value));
     return 0;
 }
 

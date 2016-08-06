@@ -32,7 +32,7 @@ static PyObject* pyMatrixChannel_new(PyTypeObject* type, PyObject* args, PyObjec
 }
 
 static PyObject* pyMatrixChannel_getAffine(pyMatrixChannel* self, void*) {
-    return pyAffineParts_FromAffineParts(plMatrixChannel::Convert(IConvert((pyCreatable*)self))->getAffine());
+    return pyAffineParts_FromAffineParts(self->fThis->getAffine());
 }
 
 static int pyMatrixChannel_setAffine(pyMatrixChannel* self, PyObject* value, void*) {
@@ -40,7 +40,7 @@ static int pyMatrixChannel_setAffine(pyMatrixChannel* self, PyObject* value, voi
         PyErr_SetString(PyExc_TypeError, "result should be an hsAffineParts");
         return -1;
     }
-    plMatrixChannel::Convert(IConvert((pyCreatable*)self))->setAffine(*((pyAffineParts*)value)->fThis);
+    self->fThis->setAffine(*((pyAffineParts*)value)->fThis);
     return 0;
 }
 

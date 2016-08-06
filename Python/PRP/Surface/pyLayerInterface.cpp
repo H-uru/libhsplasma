@@ -32,141 +32,141 @@ static PyObject* pyLayerInterface_new(PyTypeObject* type, PyObject* args, PyObje
 }
 
 static PyObject* pyLayerInterface_getUnderLay(pyLayerInterface* self, void*) {
-    return pyKey_FromKey(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getUnderLay());
+    return pyKey_FromKey(self->fThis->getUnderLay());
 }
 
 static PyObject* pyLayerInterface_getTexture(pyLayerInterface* self, void*) {
-    return pyKey_FromKey(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getTexture());
+    return pyKey_FromKey(self->fThis->getTexture());
 }
 
 static PyObject* pyLayerInterface_getVS(pyLayerInterface* self, void*) {
-    return pyKey_FromKey(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getVertexShader());
+    return pyKey_FromKey(self->fThis->getVertexShader());
 }
 
 static PyObject* pyLayerInterface_getPS(pyLayerInterface* self, void*) {
-    return pyKey_FromKey(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getPixelShader());
+    return pyKey_FromKey(self->fThis->getPixelShader());
 }
 
 static PyObject* pyLayerInterface_getXform(pyLayerInterface* self, void*) {
-    return pyMatrix44_FromMatrix44(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getTransform());
+    return pyMatrix44_FromMatrix44(self->fThis->getTransform());
 }
 
 static PyObject* pyLayerInterface_getBumpXform(pyLayerInterface* self, void*) {
-    return pyMatrix44_FromMatrix44(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getBumpEnvTransform());
+    return pyMatrix44_FromMatrix44(self->fThis->getBumpEnvTransform());
 }
 
 static PyObject* pyLayerInterface_getPreshade(pyLayerInterface* self, void*) {
-    return pyColorRGBA_FromColorRGBA(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getPreshade());
+    return pyColorRGBA_FromColorRGBA(self->fThis->getPreshade());
 }
 
 static PyObject* pyLayerInterface_getRuntime(pyLayerInterface* self, void*) {
-    return pyColorRGBA_FromColorRGBA(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getRuntime());
+    return pyColorRGBA_FromColorRGBA(self->fThis->getRuntime());
 }
 
 static PyObject* pyLayerInterface_getAmbient(pyLayerInterface* self, void*) {
-    return pyColorRGBA_FromColorRGBA(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getAmbient());
+    return pyColorRGBA_FromColorRGBA(self->fThis->getAmbient());
 }
 
 static PyObject* pyLayerInterface_getSpecular(pyLayerInterface* self, void*) {
-    return pyColorRGBA_FromColorRGBA(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getSpecular());
+    return pyColorRGBA_FromColorRGBA(self->fThis->getSpecular());
 }
 
 static PyObject* pyLayerInterface_getOpacity(pyLayerInterface* self, void*) {
-    return PyFloat_FromDouble(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getOpacity());
+    return PyFloat_FromDouble(self->fThis->getOpacity());
 }
 
 static PyObject* pyLayerInterface_getUVWSrc(pyLayerInterface* self, void*) {
-    return PyInt_FromLong(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getUVWSrc());
+    return PyInt_FromLong(self->fThis->getUVWSrc());
 }
 
 static PyObject* pyLayerInterface_getLODBias(pyLayerInterface* self, void*) {
-    return PyFloat_FromDouble(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getLODBias());
+    return PyFloat_FromDouble(self->fThis->getLODBias());
 }
 
 static PyObject* pyLayerInterface_getSpecPower(pyLayerInterface* self, void*) {
-    return PyFloat_FromDouble(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getSpecularPower());
+    return PyFloat_FromDouble(self->fThis->getSpecularPower());
 }
 
 static PyObject* pyLayerInterface_getState(pyLayerInterface* self, void*) {
-    return pyGMatState_FromGMatState(plLayerInterface::Convert(IConvert((pyCreatable*)self))->getState());
+    return pyGMatState_FromGMatState(self->fThis->getState());
 }
 
 static int pyLayerInterface_setUnderLay(pyLayerInterface* self, PyObject* value, void*) {
     if (value == NULL) {
-        plLayerInterface::Convert(IConvert((pyCreatable*)self))->setUnderLay(plKey());
+        self->fThis->setUnderLay(plKey());
         return 0;
     }
     if (!pyKey_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "underLay should be a plKey");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setUnderLay(*((pyKey*)value)->fThis);
+    self->fThis->setUnderLay(*((pyKey*)value)->fThis);
     return 0;
 }
 
 static int pyLayerInterface_setTexture(pyLayerInterface* self, PyObject* value, void*) {
     if (value == NULL) {
-        plLayerInterface::Convert(IConvert((pyCreatable*)self))->setTexture(plKey());
+        self->fThis->setTexture(plKey());
         return 0;
     }
     if (!pyKey_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "texture should be a plKey");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setTexture(*((pyKey*)value)->fThis);
+    self->fThis->setTexture(*((pyKey*)value)->fThis);
     return 0;
 }
 
 
 static int pyLayerInterface_setVS(pyLayerInterface* self, PyObject* value, void*) {
     if (value == NULL) {
-        plLayerInterface::Convert(IConvert((pyCreatable*)self))->setVertexShader(plKey());
+        self->fThis->setVertexShader(plKey());
         return 0;
     }
     if (!pyKey_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "vertexShader should be a plKey");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setVertexShader(*((pyKey*)value)->fThis);
+    self->fThis->setVertexShader(*((pyKey*)value)->fThis);
     return 0;
 }
 
 static int pyLayerInterface_setPS(pyLayerInterface* self, PyObject* value, void*) {
     if (value == NULL) {
-        plLayerInterface::Convert(IConvert((pyCreatable*)self))->setPixelShader(plKey());
+        self->fThis->setPixelShader(plKey());
         return 0;
     }
     if (!pyKey_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "pixelShader should be a plKey");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setPixelShader(*((pyKey*)value)->fThis);
+    self->fThis->setPixelShader(*((pyKey*)value)->fThis);
     return 0;
 }
 
 static int pyLayerInterface_setXform(pyLayerInterface* self, PyObject* value, void*) {
     if (value == NULL) {
-        plLayerInterface::Convert(IConvert((pyCreatable*)self))->setTransform(hsMatrix44::Identity());
+        self->fThis->setTransform(hsMatrix44::Identity());
         return 0;
     }
     if (!pyMatrix44_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "transform should be an hsMatrix44");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setTransform(*((pyMatrix44*)value)->fThis);
+    self->fThis->setTransform(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
 static int pyLayerInterface_setBumpXform(pyLayerInterface* self, PyObject* value, void*) {
     if (value == NULL) {
-        plLayerInterface::Convert(IConvert((pyCreatable*)self))->setBumpEnvTransform(hsMatrix44::Identity());
+        self->fThis->setBumpEnvTransform(hsMatrix44::Identity());
         return 0;
     }
     if (!pyMatrix44_Check(value)) {
         PyErr_SetString(PyExc_TypeError, "bumpEnvTransform should be an hsMatrix44");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setBumpEnvTransform(*((pyMatrix44*)value)->fThis);
+    self->fThis->setBumpEnvTransform(*((pyMatrix44*)value)->fThis);
     return 0;
 }
 
@@ -175,7 +175,7 @@ static int pyLayerInterface_setPreshade(pyLayerInterface* self, PyObject* value,
         PyErr_SetString(PyExc_TypeError, "preshade should be an hsColorRGBA");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setPreshade(*((pyColorRGBA*)value)->fThis);
+    self->fThis->setPreshade(*((pyColorRGBA*)value)->fThis);
     return 0;
 }
 
@@ -184,7 +184,7 @@ static int pyLayerInterface_setRuntime(pyLayerInterface* self, PyObject* value, 
         PyErr_SetString(PyExc_TypeError, "runtime should be an hsColorRGBA");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setRuntime(*((pyColorRGBA*)value)->fThis);
+    self->fThis->setRuntime(*((pyColorRGBA*)value)->fThis);
     return 0;
 }
 
@@ -193,7 +193,7 @@ static int pyLayerInterface_setAmbient(pyLayerInterface* self, PyObject* value, 
         PyErr_SetString(PyExc_TypeError, "ambient should be an hsColorRGBA");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setAmbient(*((pyColorRGBA*)value)->fThis);
+    self->fThis->setAmbient(*((pyColorRGBA*)value)->fThis);
     return 0;
 }
 
@@ -202,7 +202,7 @@ static int pyLayerInterface_setSpecular(pyLayerInterface* self, PyObject* value,
         PyErr_SetString(PyExc_TypeError, "specular should be an hsColorRGBA");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setSpecular(*((pyColorRGBA*)value)->fThis);
+    self->fThis->setSpecular(*((pyColorRGBA*)value)->fThis);
     return 0;
 }
 
@@ -211,7 +211,7 @@ static int pyLayerInterface_setOpacity(pyLayerInterface* self, PyObject* value, 
         PyErr_SetString(PyExc_TypeError, "opacity should be a float");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setOpacity(PyFloat_AsDouble(value));
+    self->fThis->setOpacity(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -220,7 +220,7 @@ static int pyLayerInterface_setUVWSrc(pyLayerInterface* self, PyObject* value, v
         PyErr_SetString(PyExc_TypeError, "UVWSrc should be an int");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setUVWSrc(PyInt_AsLong(value));
+    self->fThis->setUVWSrc(PyInt_AsLong(value));
     return 0;
 }
 
@@ -229,7 +229,7 @@ static int pyLayerInterface_setLODBias(pyLayerInterface* self, PyObject* value, 
         PyErr_SetString(PyExc_TypeError, "LODBias should be a float");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setLODBias(PyFloat_AsDouble(value));
+    self->fThis->setLODBias(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -238,7 +238,7 @@ static int pyLayerInterface_setSpecPower(pyLayerInterface* self, PyObject* value
         PyErr_SetString(PyExc_TypeError, "specularPower should be a float");
         return -1;
     }
-    plLayerInterface::Convert(IConvert((pyCreatable*)self))->setSpecularPower(PyFloat_AsDouble(value));
+    self->fThis->setSpecularPower(PyFloat_AsDouble(value));
     return 0;
 }
 

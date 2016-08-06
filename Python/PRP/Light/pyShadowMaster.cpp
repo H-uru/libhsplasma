@@ -32,27 +32,27 @@ static PyObject* pyShadowMaster_new(PyTypeObject* type, PyObject* args, PyObject
 }
 
 static PyObject* pyShadowMaster_getAttenDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getAttenDist());
+    return PyFloat_FromDouble(self->fThis->getAttenDist());
 }
 
 static PyObject* pyShadowMaster_getMaxDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMaxDist());
+    return PyFloat_FromDouble(self->fThis->getMaxDist());
 }
 
 static PyObject* pyShadowMaster_getMinDist(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMinDist());
+    return PyFloat_FromDouble(self->fThis->getMinDist());
 }
 
 static PyObject* pyShadowMaster_getPower(pyShadowMaster* self, void*) {
-    return PyFloat_FromDouble(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getPower());
+    return PyFloat_FromDouble(self->fThis->getPower());
 }
 
 static PyObject* pyShadowMaster_getMaxSize(pyShadowMaster* self, void*) {
-    return PyInt_FromLong(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMaxSize());
+    return PyInt_FromLong(self->fThis->getMaxSize());
 }
 
 static PyObject* pyShadowMaster_getMinSize(pyShadowMaster* self, void*) {
-    return PyInt_FromLong(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMinSize());
+    return PyInt_FromLong(self->fThis->getMinSize());
 }
 
 static int pyShadowMaster_setAttenDist(pyShadowMaster* self, PyObject* value, void*) {
@@ -60,7 +60,7 @@ static int pyShadowMaster_setAttenDist(pyShadowMaster* self, PyObject* value, vo
         PyErr_SetString(PyExc_TypeError, "attenDist should be a float");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setAttenDist(PyFloat_AsDouble(value));
+    self->fThis->setAttenDist(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -69,7 +69,7 @@ static int pyShadowMaster_setMaxDist(pyShadowMaster* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "maxDist should be a float");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setDist(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMinDist(), PyFloat_AsDouble(value));
+    self->fThis->setDist(self->fThis->getMinDist(), PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -78,7 +78,7 @@ static int pyShadowMaster_setMinDist(pyShadowMaster* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "minDist should be a float");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setDist(PyFloat_AsDouble(value), plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMaxDist());
+    self->fThis->setDist(PyFloat_AsDouble(value), self->fThis->getMaxDist());
     return 0;
 }
 
@@ -87,7 +87,7 @@ static int pyShadowMaster_setPower(pyShadowMaster* self, PyObject* value, void*)
         PyErr_SetString(PyExc_TypeError, "power should be a float");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setPower(PyFloat_AsDouble(value));
+    self->fThis->setPower(PyFloat_AsDouble(value));
     return 0;
 }
 
@@ -96,7 +96,7 @@ static int pyShadowMaster_setMaxSize(pyShadowMaster* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "maxSize should be an int");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setSize(plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMinSize(), PyInt_AsLong(value));
+    self->fThis->setSize(self->fThis->getMinSize(), PyInt_AsLong(value));
     return 0;
 }
 
@@ -105,7 +105,7 @@ static int pyShadowMaster_setMinSize(pyShadowMaster* self, PyObject* value, void
         PyErr_SetString(PyExc_TypeError, "minSize should be an int");
         return -1;
     }
-    plShadowMaster::Convert(IConvert((pyCreatable*)self))->setSize(PyInt_AsLong(value), plShadowMaster::Convert(IConvert((pyCreatable*)self))->getMaxSize());
+    self->fThis->setSize(PyInt_AsLong(value), self->fThis->getMaxSize());
     return 0;
 }
 

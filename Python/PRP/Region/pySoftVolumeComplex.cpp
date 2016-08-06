@@ -20,10 +20,6 @@
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 
-static plSoftVolumeComplex* IConvertSV(pySoftVolumeComplex* self) {
-    return plSoftVolumeComplex::Convert(IConvert((pyCreatable*)self));
-}
-
 extern "C" {
 
 static PyObject* pySoftVolumeComplex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
@@ -37,13 +33,13 @@ static PyObject* pySoftVolumeComplex_addSubVolume(pySoftVolumeComplex* self, PyO
         PyErr_SetString(PyExc_TypeError, "addSubVolume expects a plKey");
         return NULL;
     }
-    IConvertSV(self)->addSubVolume(*((pyKey*)key)->fThis);
+    self->fThis->addSubVolume(*((pyKey*)key)->fThis);
     Py_INCREF(Py_None);
     return Py_None;
 }
 
 static PyObject* pySoftVolumeComplex_clearSubVolumes(pySoftVolumeComplex* self) {
-    IConvertSV(self)->clearSubVolumes();
+    self->fThis->clearSubVolumes();
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -54,11 +50,11 @@ static PyObject* pySoftVolumeComplex_delSubVolume(pySoftVolumeComplex* self, PyO
         PyErr_SetString(PyExc_TypeError, "delSubVolume expects an int");
         return NULL;
     }
-    if (size_t(idx) >= IConvertSV(self)->getSubVolumes().size()) {
+    if (size_t(idx) >= self->fThis->getSubVolumes().size()) {
         PyErr_SetNone(PyExc_IndexError);
         return NULL;
     }
-    IConvertSV(self)->delSubVolume((size_t)idx);
+    self->fThis->delSubVolume((size_t)idx);
     Py_INCREF(Py_None);
     return Py_None;
 }
@@ -76,7 +72,7 @@ static PyMethodDef pySoftVolumeComplex_Methods[] = {
 };
 
 static PyObject* pySoftVolumeComplex_getSubVolumes(pySoftVolumeComplex* self, void*) {
-    const std::vector<plKey>& sv = IConvertSV(self)->getSubVolumes();
+    const std::vector<plKey>& sv = self->fThis->getSubVolumes();
     PyObject* tup = PyTuple_New(sv.size());
     for (size_t i = 0; i < sv.size(); ++i)
         PyTuple_SET_ITEM(tup, i, pyKey_FromKey(sv[i]));
