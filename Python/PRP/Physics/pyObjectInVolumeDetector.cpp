@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Physics/plObjectInVolumeDetector.h>
 #include "pyObjectInVolumeDetector.h"
+
+#include <PRP/Physics/plObjectInVolumeDetector.h>
 #include "pyCollisionDetector.h"
 
 extern "C" {

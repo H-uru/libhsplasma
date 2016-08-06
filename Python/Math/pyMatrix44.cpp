@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Math/hsMatrix44.h>
 #include "pyMatrix.h"
+
+#include <Math/hsMatrix44.h>
 #include "pyGeometry3.h"
 #include "Stream/pyStream.h"
 

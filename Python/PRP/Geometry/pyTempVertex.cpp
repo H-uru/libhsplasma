@@ -14,18 +14,22 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
 #include "pyTempVertex.h"
+
 #include "Math/pyGeometry3.h"
 #include "Sys/pyColor.h"
 
 extern "C" {
 
+static void pyTempVertex_dealloc(pyTempVertex* self) {
+    delete self->fThis;
+    Py_TYPE(self)->tp_free((PyObject*)self);
+}
+
 static PyObject* pyTempVertex_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
     pyTempVertex* self = (pyTempVertex*)type->tp_alloc(type, 0);
     if (self != NULL) {
         self->fThis = new plGeometrySpan::TempVertex();
-        self->fPyOwned = true;
     }
     return (PyObject*)self;
 }
@@ -155,7 +159,7 @@ PyTypeObject pyTempVertex_Type = {
     sizeof(pyTempVertex),               /* tp_basicsize */
     0,                                  /* tp_itemsize */
 
-    NULL,                               /* tp_dealloc */
+    (destructor)pyTempVertex_dealloc,   /* tp_dealloc */
     NULL,                               /* tp_print */
     NULL,                               /* tp_getattr */
     NULL,                               /* tp_setattr */
@@ -223,7 +227,7 @@ int pyTempVertex_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyTempVertex_FromTempVertex(const struct plGeometrySpan::TempVertex& vertex) {
+PyObject* pyTempVertex_FromTempVertex(const plGeometrySpan::TempVertex& vertex) {
     pyTempVertex* pspan = PyObject_New(pyTempVertex, &pyTempVertex_Type);
     pspan->fThis = new plGeometrySpan::TempVertex(vertex);
     return (PyObject*)pspan;

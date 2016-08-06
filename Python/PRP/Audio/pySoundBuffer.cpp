@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plSoundBuffer.h>
 #include "pySoundBuffer.h"
+
+#include <PRP/Audio/plSoundBuffer.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 
@@ -32,7 +32,7 @@ static PyObject* pySoundBuffer_new(PyTypeObject* type, PyObject* args, PyObject*
 }
 
 static PyObject* pySoundBuffer_getHeader(pySoundBuffer* self, void*) {
-    return pyWAVHeader_FromWAVHeader(self->fThis->getHeader());
+    return pyWAVHeader_FromWAVHeader(&self->fThis->getHeader());
 }
 
 static PyObject* pySoundBuffer_getFileName(pySoundBuffer* self, void*) {

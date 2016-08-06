@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plBitmap.h>
 #include "pyBitmap.h"
+
+#include <PRP/Surface/plBitmap.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plResponderModifier.h>
 #include "pyResponderModifier.h"
+
+#include <PRP/Modifier/plResponderModifier.h>
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 
@@ -67,7 +67,7 @@ static PyObject* pyResponderModifier_clearStates(pyResponderModifier* self) {
 static PyObject* pyResponderModifier_getStates(pyResponderModifier* self, void*) {
     PyObject* list = PyList_New(self->fThis->getStates().size());
     for (size_t i=0; i<self->fThis->getStates().size(); i++)
-        PyList_SET_ITEM(list, i, pyResponderModifier_State_FromResponderState(self->fThis->getStates()[i]));
+        PyList_SET_ITEM(list, i, pyResponderModifier_State_FromResponderModifier_State(self->fThis->getStates()[i]));
     return list;
 }
 

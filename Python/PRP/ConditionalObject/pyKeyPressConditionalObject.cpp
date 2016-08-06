@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plKeyPressConditionalObject.h>
 #include "pyKeyPressConditionalObject.h"
+
+#include <PRP/ConditionalObject/plKeyPressConditionalObject.h>
 #include "pyConditionalObject.h"
 
 extern "C" {

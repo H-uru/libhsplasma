@@ -14,12 +14,11 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
+#include "pyResManager.h"
+
 #include <ResManager/plResManager.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
 #include <PRP/plCreatable.h>
-#include <PRP/KeyedObject/pyKeyedObject.h>
-#include "pyResManager.h"
 #include "Stream/pyStream.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/pySceneNode.h"

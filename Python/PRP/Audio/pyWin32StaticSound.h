@@ -17,19 +17,8 @@
 #ifndef _PYWIN32STATICSOUND_H
 #define _PYWIN32STATICSOUND_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plWin32StaticSound* fThis;
-    bool fPyOwned;
-} pyWin32StaticSound;
-
-extern PyTypeObject pyWin32StaticSound_Type;
-PyObject* Init_pyWin32StaticSound_Type();
-int pyWin32StaticSound_Check(PyObject* obj);
-PyObject* pyWin32StaticSound_FromWin32StaticSound(class plWin32StaticSound* sound);
-
-}
+PY_WRAP_PLASMA(Win32StaticSound, class plWin32StaticSound);
 
 #endif

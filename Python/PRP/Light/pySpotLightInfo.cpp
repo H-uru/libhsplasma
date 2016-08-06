@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plOmniLightInfo.h>
 #include "pyLightInfo.h"
+
+#include <PRP/Light/plOmniLightInfo.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {

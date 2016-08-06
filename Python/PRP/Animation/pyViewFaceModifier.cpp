@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plViewFaceModifier.h>
 #include "pyViewFaceModifier.h"
+
+#include <PRP/Animation/plViewFaceModifier.h>
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Region/pyBounds.h"
 #include "PRP/KeyedObject/pyKey.h"

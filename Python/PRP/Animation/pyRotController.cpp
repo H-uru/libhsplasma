@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plRotController.h>
 #include "pyRotController.h"
+
+#include <PRP/Animation/plRotController.h>
 #include "pyController.h"
 #include "PRP/pyCreatable.h"
 

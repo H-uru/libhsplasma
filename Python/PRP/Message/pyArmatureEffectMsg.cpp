@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plArmatureEffectMsg.h>
 #include "pyArmatureEffectMsg.h"
+
+#include <PRP/Message/plArmatureEffectMsg.h>
 #include "pyMessage.h"
 
 extern "C" {

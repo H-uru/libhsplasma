@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plAudible.h>
 #include "pyAudible.h"
+
+#include <PRP/Audio/plAudible.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {

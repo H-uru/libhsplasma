@@ -17,41 +17,10 @@
 #ifndef _PY_ACTIVATORCONDITIONALOBJECT_H
 #define _PY_ACTIVATORCONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plActivatorConditionalObject* fThis;
-    bool fPyOwned;
-} pyActivatorConditionalObject;
-
-extern PyTypeObject pyActivatorConditionalObject_Type;
-PyObject* Init_pyActivatorConditionalObject_Type();
-int pyActivatorConditionalObject_Check(PyObject* obj);
-PyObject* pyActivatorConditionalObject_FromActivatorConditionalObject(class plActivatorConditionalObject* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plActivatorActivatorConditionalObject* fThis;
-    bool fPyOwned;
-} pyActivatorActivatorConditionalObject;
-
-extern PyTypeObject pyActivatorActivatorConditionalObject_Type;
-PyObject* Init_pyActivatorActivatorConditionalObject_Type();
-int pyActivatorActivatorConditionalObject_Check(PyObject* obj);
-PyObject* pyActivatorActivatorConditionalObject_FromActivatorActivatorConditionalObject(class plActivatorActivatorConditionalObject* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plVolActivatorConditionalObject* fThis;
-    bool fPyOwned;
-} pyVolActivatorConditionalObject;
-
-extern PyTypeObject pyVolActivatorConditionalObject_Type;
-PyObject* Init_pyVolActivatorConditionalObject_Type();
-int pyVolActivatorConditionalObject_Check(PyObject* obj);
-PyObject* pyVolActivatorConditionalObject_FromVolActivatorConditionalObject(class plVolActivatorConditionalObject* obj);
-
-}
+PY_WRAP_PLASMA(ActivatorConditionalObject, class plActivatorConditionalObject);
+PY_WRAP_PLASMA(ActivatorActivatorConditionalObject, class plActivatorActivatorConditionalObject);
+PY_WRAP_PLASMA(VolActivatorConditionalObject, class plVolActivatorConditionalObject);
 
 #endif

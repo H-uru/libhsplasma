@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plClusterGroup.h>
 #include "pyClusterGroup.h"
+
+#include <PRP/Geometry/plClusterGroup.h>
 #include "pyCluster.h"
 #include "pySpanTemplate.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
@@ -132,11 +132,11 @@ static PyObject* pyClusterGroup_clearLights(pyClusterGroup* self) {
 }
 
 static PyObject* pyClusterGroup_getLOD(pyClusterGroup* self, void*) {
-    return pyLODDist_FromLODDist(self->fThis->getLOD());
+    return pyLODDist_FromLODDist(&self->fThis->getLOD());
 }
 
 static PyObject* pyClusterGroup_getTemplate(pyClusterGroup* self, void*) {
-    return pySpanTemplate_FromSpanTemplate(self->fThis->getTemplate());
+    return pySpanTemplate_FromSpanTemplate(&self->fThis->getTemplate());
 }
 
 static PyObject* pyClusterGroup_getMaterial(pyClusterGroup* self, void*) {

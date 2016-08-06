@@ -17,19 +17,8 @@
 #ifndef _PY_ANIMATIONEVENTCONDITIONALOBJECT_H
 #define _PY_ANIMATIONEVENTCONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plAnimationEventConditionalObject* fThis;
-    bool fPyOwned;
-} pyAnimationEventConditionalObject;
-
-extern PyTypeObject pyAnimationEventConditionalObject_Type;
-PyObject* Init_pyAnimationEventConditionalObject_Type();
-int pyAnimationEventConditionalObject_Check(PyObject* obj);
-PyObject* pyAnimationEventConditionalObject_FromAnimationEventConditionalObject(class plAnimationEventConditionalObject* obj);
-
-}
+PY_WRAP_PLASMA(AnimationEventConditionalObject, class plAnimationEventConditionalObject);
 
 #endif

@@ -17,19 +17,8 @@
 #ifndef _PYSHADOWCASTER_H
 #define _PYSHADOWCASTER_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plShadowCaster* fThis;
-    bool fPyOwned;
-} pyShadowCaster;
-
-extern PyTypeObject pyShadowCaster_Type;
-PyObject* Init_pyShadowCaster_Type();
-int pyShadowCaster_Check(PyObject* obj);
-PyObject* pyShadowCaster_FromShadowCaster(class plShadowCaster* obj);
-
-}
+PY_WRAP_PLASMA(ShadowCaster, class plShadowCaster);
 
 #endif

@@ -14,7 +14,6 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
 #include "pyCreatable.h"
 #include <ResManager/plFactory.h>
 #include <typeinfo>

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plSpawnModifier.h>
 #include "pySpawnModifier.h"
+
+#include <PRP/Modifier/plSpawnModifier.h>
 #include "pyModifier.h"
 #include "PRP/pyCreatable.h"
 

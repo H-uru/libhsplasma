@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plControlEventConditionalObject.h>
 #include "pyControlEventConditionalObject.h"
+
+#include <PRP/ConditionalObject/plControlEventConditionalObject.h>
 #include "pyConditionalObject.h"
 
 extern "C" {

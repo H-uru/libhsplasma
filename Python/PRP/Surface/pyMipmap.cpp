@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plMipmap.h>
 #include "pyBitmap.h"
+
+#include <PRP/Surface/plMipmap.h>
 #include "PRP/pyCreatable.h"
 #include "Stream/pyStream.h"
 

@@ -14,11 +14,10 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
+#include "pyAgeLinkInfo.h"
+
 #include <PRP/Misc/plAgeLinkInfo.h>
 #include <Sys/plUuid.h>
-
-#include "pyAgeLinkInfo.h"
 #include "PRP/pyCreatable.h"
 
 extern "C" {

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plSittingModifier.h>
 #include "pySittingModifier.h"
+
+#include <PRP/Avatar/plSittingModifier.h>
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 

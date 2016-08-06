@@ -17,19 +17,8 @@
 #ifndef _PYEXCLUDEREGIONMSG_H
 #define _PYEXCLUDEREGIONMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plExcludeRegionMsg* fThis;
-    bool fPyOwned;
-} pyExcludeRegionMsg;
-
-extern PyTypeObject pyExcludeRegionMsg_Type;
-PyObject* Init_pyExcludeRegionMsg_Type();
-int pyExcludeRegionMsg_Check(PyObject* obj);
-PyObject* pyExcludeRegionMsg_FromExcludeRegionMsg(class plExcludeRegionMsg* msg);
-
-}
+PY_WRAP_PLASMA(ExcludeRegionMsg, class plExcludeRegionMsg);
 
 #endif

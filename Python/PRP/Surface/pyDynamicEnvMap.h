@@ -17,30 +17,9 @@
 #ifndef _PYDYNAMICENVMAP_H
 #define _PYDYNAMICENVMAP_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plDynamicEnvMap* fThis;
-    bool fPyOwned;
-} pyDynamicEnvMap;
-
-typedef struct {
-    PyObject_HEAD
-    class plDynamicCamMap* fThis;
-    bool fPyOwned;
-} pyDynamicCamMap;
-
-extern PyTypeObject pyDynamicEnvMap_Type;
-PyObject* Init_pyDynamicEnvMap_Type();
-int pyDynamicEnvMap_Check(PyObject* obj);
-PyObject* pyDynamicEnvMap_FromDynamicEnvMap(class plDynamicEnvMap* dem);
-
-extern PyTypeObject pyDynamicCamMap_Type;
-PyObject* Init_pyDynamicCamMap_Type();
-int pyDynamicCamMap_Check(PyObject* obj);
-PyObject* pyDynamicCamMap_FromDynamicCamMap(class plDynamicCamMap* dcm);
-
-}
+PY_WRAP_PLASMA(DynamicEnvMap, class plDynamicEnvMap);
+PY_WRAP_PLASMA(DynamicCamMap, class plDynamicCamMap);
 
 #endif

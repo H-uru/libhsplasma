@@ -17,19 +17,8 @@
 #ifndef _PYDISTOPACITYMOD_H
 #define _PYDISTOPACITYMOD_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plDistOpacityMod* fThis;
-    bool fPyOwned;
-} pyDistOpacityMod;
-
-extern PyTypeObject pyDistOpacityMod_Type;
-PyObject* Init_pyDistOpacityMod_Type();
-int pyDistOpacityMod_Check(PyObject* obj);
-PyObject* pyDistOpacityMod_FromDistOpacityMod(class plDistOpacityMod* img);
-
-}
+PY_WRAP_PLASMA(DistOpacityMod, class plDistOpacityMod);
 
 #endif

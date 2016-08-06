@@ -17,19 +17,8 @@
 #ifndef _PYFADEOPACITYMOD_H
 #define _PYFADEOPACITYMOD_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plFadeOpacityMod* fThis;
-    bool fPyOwned;
-} pyFadeOpacityMod;
-
-extern PyTypeObject pyFadeOpacityMod_Type;
-PyObject* Init_pyFadeOpacityMod_Type();
-int pyFadeOpacityMod_Check(PyObject* obj);
-PyObject* pyFadeOpacityMod_FromFadeOpacityMod(class plFadeOpacityMod* img);
-
-}
+PY_WRAP_PLASMA(FadeOpacityMod, class plFadeOpacityMod);
 
 #endif

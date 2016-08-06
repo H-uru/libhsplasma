@@ -17,6 +17,7 @@
 #ifndef _PYGEOMETRYSPAN_H
 #define _PYGEOMETRYSPAN_H
 
+#include "PyPlasma.h"
 #include <memory>
 
 extern "C" {

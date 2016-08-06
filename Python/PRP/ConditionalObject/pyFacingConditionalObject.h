@@ -17,19 +17,8 @@
 #ifndef _PY_FACINGCONDITIONALOBJECT_H
 #define _PY_FACINGCONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plFacingConditionalObject* fThis;
-    bool fPyOwned;
-} pyFacingConditionalObject;
-
-extern PyTypeObject pyFacingConditionalObject_Type;
-PyObject* Init_pyFacingConditionalObject_Type();
-int pyFacingConditionalObject_Check(PyObject* obj);
-PyObject* pyFacingConditionalObject_FromFacingConditionalObject(class plFacingConditionalObject* obj);
-
-}
+PY_WRAP_PLASMA(FacingConditionalObject, class plFacingConditionalObject);
 
 #endif

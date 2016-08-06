@@ -17,6 +17,8 @@
 #ifndef _PYRENDERLEVEL_H
 #define _PYRENDERLEVEL_H
 
+#include "PyPlasma.h"
+
 extern "C" {
 
 extern PyTypeObject pyRenderLevel_Type;

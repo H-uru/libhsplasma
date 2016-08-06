@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plExcludeRegionModifier.h>
 #include "pyExcludeRegionModifier.h"
+
+#include <PRP/Modifier/plExcludeRegionModifier.h>
 #include "pyModifier.h"
 #include "PRP/KeyedObject/pyKey.h"
 

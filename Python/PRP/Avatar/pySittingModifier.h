@@ -17,19 +17,8 @@
 #ifndef _PY_SITTINGMODIFIER_H
 #define _PY_SITTINGMODIFIER_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plSittingModifier* fThis;
-    bool fPyOwned;
-} pySittingModifier;
-
-extern PyTypeObject pySittingModifier_Type;
-PyObject* Init_pySittingModifier_Type();
-int pySittingModifier_Check(PyObject* obj);
-PyObject* pySittingModifier_FromSittingModifier(class plSittingModifier* obj);
-
-}
+PY_WRAP_PLASMA(SittingModifier, class plSittingModifier);
 
 #endif

@@ -17,19 +17,8 @@
 #ifndef _PYCLOTHINGITEM_H
 #define _PYCLOTHINGITEM_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plClothingItem* fThis;
-    bool fPyOwned;
-} pyClothingItem;
-
-extern PyTypeObject pyClothingItem_Type;
-PyObject* Init_pyClothingItem_Type();
-int pyClothingItem_Check(PyObject* obj);
-PyObject* pyClothingItem_FromClothingItem(class plClothingItem* obj);
-
-}
+PY_WRAP_PLASMA(ClothingItem, class plClothingItem);
 
 #endif

@@ -14,10 +14,10 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
+#include "pyFadeOpacityMod.h"
+
 #include <PRP/Surface/plFadeOpacityMod.h>
 #include "PRP/Modifier/pyModifier.h"
-#include "pyFadeOpacityMod.h"
 
 extern "C" {
 

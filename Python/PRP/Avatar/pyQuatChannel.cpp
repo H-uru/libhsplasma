@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plQuatChannel.h>
 #include "pyAGChannel.h"
+
+#include <PRP/Avatar/plQuatChannel.h>
 #include "PRP/pyCreatable.h"
 #include "Math/pyGeometry3.h"
 

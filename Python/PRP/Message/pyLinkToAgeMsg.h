@@ -17,19 +17,8 @@
 #ifndef _PYLINKTOAGEMSG_H
 #define _PYLINKTOAGEMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plLinkToAgeMsg* fThis;
-    bool fPyOwned;
-} pyLinkToAgeMsg;
-
-extern PyTypeObject pyLinkToAgeMsg_Type;
-PyObject* Init_pyLinkToAgeMsg_Type();
-int pyLinkToAgeMsg_Check(PyObject* obj);
-PyObject* pyLinkToAgeMsg_FromLinkToAgeMsg(class plLinkToAgeMsg* msg);
-
-}
+PY_WRAP_PLASMA(LinkToAgeMsg, class plLinkToAgeMsg);
 
 #endif

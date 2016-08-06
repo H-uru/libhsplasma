@@ -14,9 +14,9 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
-#include <PRP/Region/plVisRegion.h>
 #include "pyVisRegion.h"
+
+#include <PRP/Region/plVisRegion.h>
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/KeyedObject/pyKey.h"
 

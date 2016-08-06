@@ -17,30 +17,9 @@
 #ifndef _PY_VOLUMESENSORCONDITIONALOBJECT_H
 #define _PY_VOLUMESENSORCONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plVolumeSensorConditionalObject* fThis;
-    bool fPyOwned;
-} pyVolumeSensorConditionalObject;
-
-extern PyTypeObject pyVolumeSensorConditionalObject_Type;
-PyObject* Init_pyVolumeSensorConditionalObject_Type();
-int pyVolumeSensorConditionalObject_Check(PyObject* obj);
-PyObject* pyVolumeSensorConditionalObject_FromVolumeSensorConditionalObject(class plVolumeSensorConditionalObject* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plVolumeSensorConditionalObjectNoArbitration* fThis;
-    bool fPyOwned;
-} pyVolumeSensorConditionalObjectNoArbitration;
-
-extern PyTypeObject pyVolumeSensorConditionalObjectNoArbitration_Type;
-PyObject* Init_pyVolumeSensorConditionalObjectNoArbitration_Type();
-int pyVolumeSensorConditionalObjectNoArbitration_Check(PyObject* obj);
-PyObject* pyVolumeSensorConditionalObjectNoArbitration_FromVolumeSensorConditionalObjectNoArbitration(class plVolumeSensorConditionalObjectNoArbitration* obj);
-
-};
+PY_WRAP_PLASMA(VolumeSensorConditionalObject, class plVolumeSensorConditionalObject);
+PY_WRAP_PLASMA(VolumeSensorConditionalObjectNoArbitration, class plVolumeSensorConditionalObjectNoArbitration);
 
 #endif

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plLinkToAgeMsg.h>
 #include "pyLinkToAgeMsg.h"
+
+#include <PRP/Message/plLinkToAgeMsg.h>
 #include "pyMessage.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/Misc/pyAgeLinkInfo.h"

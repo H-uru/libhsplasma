@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/GUI/pfGUIControlHandlers.h>
 #include "pyGUIControlHandlers.h"
+
+#include <PRP/GUI/pfGUIControlHandlers.h>
 
 extern "C" {
 

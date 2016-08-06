@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plLeafController.h>
 #include "pyLeafController.h"
+
+#include <PRP/Animation/plLeafController.h>
 #include "pyController.h"
 #include "pyKeys.h"
 #include "PRP/pyCreatable.h"

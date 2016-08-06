@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plIcicle.h>
 #include "pySpan.h"
+
+#include <PRP/Geometry/plIcicle.h>
 #include "pyGBufferGroup.h"
 
 extern "C" {

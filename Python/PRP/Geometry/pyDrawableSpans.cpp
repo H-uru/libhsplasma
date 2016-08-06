@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plDrawableSpans.h>
 #include "pyDrawableSpans.h"
+
+#include <PRP/Geometry/plDrawableSpans.h>
 #include "pySpan.h"
 #include "pyGBufferGroup.h"
 #include "pyGeometrySpan.h"

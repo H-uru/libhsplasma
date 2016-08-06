@@ -17,19 +17,8 @@
 #ifndef _PYBITVECTOR_H
 #define _PYBITVECTOR_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class hsBitVector* fThis;
-    bool fPyOwned;
-} pyBitVector;
-
-extern PyTypeObject pyBitVector_Type;
-PyObject* Init_pyBitVector_Type();
-int pyBitVector_Check(PyObject* obj);
-PyObject* pyBitVector_FromBitVector(class hsBitVector& vec);
-
-}
+PY_WRAP_PLASMA(BitVector, class hsBitVector);
 
 #endif

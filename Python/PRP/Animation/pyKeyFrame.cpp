@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/hsKeys.h>
 #include "pyKeys.h"
+
+#include <PRP/Animation/hsKeys.h>
 #include "Stream/pyStream.h"
 
 extern "C" {

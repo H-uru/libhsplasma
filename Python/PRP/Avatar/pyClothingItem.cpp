@@ -14,12 +14,12 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Avatar/plClothingItem.h>
 #include "pyClothingItem.h"
-#include "../KeyedObject/pyKey.h"
-#include "../KeyedObject/pyKeyedObject.h"
-#include "../pyCreatable.h"
+
+#include <PRP/Avatar/plClothingItem.h>
+#include "PRP/KeyedObject/pyKey.h"
+#include "PRP/KeyedObject/pyKeyedObject.h"
+#include "PRP/pyCreatable.h"
 
 extern "C" {
 

@@ -17,19 +17,8 @@
 #ifndef _PY_AGMODIFIER_H
 #define _PY_AGMODIFIER_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plAGModifier* fThis;
-    bool fPyOwned;
-} pyAGModifier;
-
-extern PyTypeObject pyAGModifier_Type;
-PyObject* Init_pyAGModifier_Type();
-int pyAGModifier_Check(PyObject* obj);
-PyObject* pyAGModifier_FromAGModifier(class plAGModifier* obj);
-
-}
+PY_WRAP_PLASMA(AGModifier, class plAGModifier);
 
 #endif

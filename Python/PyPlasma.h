@@ -70,3 +70,29 @@ plString PyString_To_PlasmaString(PyObject* str);
 
 // This should work the same for all versions
 #define PyStr_To_PlStr PyString_To_PlasmaString
+
+/* Use this macro to ensure the layouts of subclass types are consistent */
+#define PY_WRAP_PLASMA(pyType, plType)                          \
+    extern "C" {                                                \
+    struct py##pyType {                                         \
+        PyObject_HEAD                                           \
+        plType* fThis;                                          \
+        bool fPyOwned;                                          \
+    };                                                          \
+    extern PyTypeObject py##pyType##_Type;                      \
+    PyObject* Init_py##pyType##_Type();                         \
+    int py##pyType##_Check(PyObject* obj);                      \
+    PyObject* py##pyType##_From##pyType(plType*);               \
+    }
+
+#define PY_WRAP_PLASMA_VALUE(pyType, plType)                    \
+    extern "C" {                                                \
+    struct py##pyType {                                         \
+        PyObject_HEAD                                           \
+        plType* fThis;                                          \
+    };                                                          \
+    extern PyTypeObject py##pyType##_Type;                      \
+    PyObject* Init_py##pyType##_Type();                         \
+    int py##pyType##_Check(PyObject* obj);                      \
+    PyObject* py##pyType##_From##pyType(const plType&);         \
+    }

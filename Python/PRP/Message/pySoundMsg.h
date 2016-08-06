@@ -17,19 +17,8 @@
 #ifndef _PY_SOUNDMSG_H
 #define _PY_SOUNDMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plSoundMsg* fThis;
-    bool fPyOwned;
-} pySoundMsg;
-
-extern PyTypeObject pySoundMsg_Type;
-PyObject* Init_pySoundMsg_Type();
-int pySoundMsg_Check(PyObject* obj);
-PyObject* pySoundMsg_FromSoundMsg(class plSoundMsg* obj);
-
-}
+PY_WRAP_PLASMA(SoundMsg, class plSoundMsg);
 
 #endif

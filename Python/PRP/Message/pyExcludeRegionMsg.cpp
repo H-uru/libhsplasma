@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plExcludeRegionMsg.h>
 #include "pyExcludeRegionMsg.h"
+
+#include <PRP/Message/plExcludeRegionMsg.h>
 #include "pyMessage.h"
 
 extern "C" {

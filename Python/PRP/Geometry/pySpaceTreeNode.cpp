@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plSpaceTree.h>
 #include "pySpaceTree.h"
+
+#include <PRP/Geometry/plSpaceTree.h>
 #include "PRP/Region/pyBounds.h"
 
 extern "C" {

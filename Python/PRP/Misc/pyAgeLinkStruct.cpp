@@ -14,10 +14,9 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
-#include <PRP/Misc/plAgeLinkInfo.h>
-
 #include "pyAgeLinkInfo.h"
+
+#include <PRP/Misc/plAgeLinkInfo.h>
 #include "pySpawnPointInfo.h"
 #include "PRP/pyCreatable.h"
 

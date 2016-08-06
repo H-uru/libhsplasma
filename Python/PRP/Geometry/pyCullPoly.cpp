@@ -14,10 +14,10 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
+#include "pyOccluder.h"
+
 #include <PRP/Geometry/plCullPoly.h>
 #include <Math/hsGeometry3.h>
-#include "pyOccluder.h"
 #include "Math/pyGeometry3.h"
 
 extern "C" {

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plEnableMsg.h>
 #include "pyEnableMsg.h"
+
+#include <PRP/Message/plEnableMsg.h>
 #include "pyMessage.h"
 
 extern "C" {

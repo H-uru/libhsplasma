@@ -17,19 +17,8 @@
 #ifndef _PY_AGMASTERMOD_H
 #define _PY_AGMASTERMOD_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plAGMasterMod* fThis;
-    bool fPyOwned;
-} pyAGMasterMod;
-
-extern PyTypeObject pyAGMasterMod_Type;
-PyObject* Init_pyAGMasterMod_Type();
-int pyAGMasterMod_Check(PyObject* obj);
-PyObject* pyAGMasterMod_FromAGMasterMod(class plAGMasterMod* obj);
-
-}
+PY_WRAP_PLASMA(AGMasterMod, class plAGMasterMod);
 
 #endif

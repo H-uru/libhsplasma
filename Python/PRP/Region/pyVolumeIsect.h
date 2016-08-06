@@ -17,30 +17,9 @@
 #ifndef _PYVOLUMEISECT_H
 #define _PYVOLUMEISECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plVolumeIsect* fThis;
-    bool fPyOwned;
-} pyVolumeIsect;
-
-typedef struct {
-    PyObject_HEAD
-    class plConvexIsect* fThis;
-    bool fPyOwned;
-} pyConvexIsect;
-
-extern PyTypeObject pyVolumeIsect_Type;
-PyObject* Init_pyVolumeIsect_Type();
-int pyVolumeIsect_Check(PyObject* obj);
-PyObject* pyVolumeIsect_FromVolumeIsect(class plVolumeIsect*);
-
-extern PyTypeObject pyConvexIsect_Type;
-PyObject* Init_pyConvexIsect_Type();
-int pyConvexIsect_Check(PyObject* obj);
-PyObject* pyConvexIsect_FromConvexIsect(class plConvexIsect*);
-
-}
+PY_WRAP_PLASMA(VolumeIsect, class plVolumeIsect);
+PY_WRAP_PLASMA(ConvexIsect, class plConvexIsect);
 
 #endif

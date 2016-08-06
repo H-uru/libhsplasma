@@ -17,52 +17,11 @@
 #ifndef _PY_DETECTCONDITIONALOBJECT_H
 #define _PY_DETECTCONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plLocalPlayerInBoxConditionalObject* fThis;
-    bool fPyOwned;
-} pyLocalPlayerInBoxConditionalObject;
-
-extern PyTypeObject pyLocalPlayerInBoxConditionalObject_Type;
-PyObject* Init_pyLocalPlayerInBoxConditionalObject_Type();
-int pyLocalPlayerInBoxConditionalObject_Check(PyObject* obj);
-PyObject* pyLocalPlayerInBoxConditionalObject_FromLocalPlayerInBoxConditionalObject(class plLocalPlayerInBoxConditionalObject* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plLocalPlayerIntersectPlaneConditionalObject* fThis;
-    bool fPyOwned;
-} pyLocalPlayerIntersectPlaneConditionalObject;
-
-extern PyTypeObject pyLocalPlayerIntersectPlaneConditionalObject_Type;
-PyObject* Init_pyLocalPlayerIntersectPlaneConditionalObject_Type();
-int pyLocalPlayerIntersectPlaneConditionalObject_Check(PyObject* obj);
-PyObject* pyLocalPlayerIntersectPlaneConditionalObject_FromLocalPlayerIntersectPlaneConditionalObject(class plLocalPlayerIntersectPlaneConditionalObject* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plObjectInBoxConditionalObject* fThis;
-    bool fPyOwned;
-} pyObjectInBoxConditionalObject;
-
-extern PyTypeObject pyObjectInBoxConditionalObject_Type;
-PyObject* Init_pyObjectInBoxConditionalObject_Type();
-int pyObjectInBoxConditionalObject_Check(PyObject* obj);
-PyObject* pyObjectInBoxConditionalObject_FromObjectInBoxConditionalObject(class plObjectInBoxConditionalObject* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plObjectIntersectPlaneConditionalObject* fThis;
-    bool fPyOwned;
-} pyObjectIntersectPlaneConditionalObject;
-
-extern PyTypeObject pyObjectIntersectPlaneConditionalObject_Type;
-PyObject* Init_pyObjectIntersectPlaneConditionalObject_Type();
-int pyObjectIntersectPlaneConditionalObject_Check(PyObject* obj);
-PyObject* pyObjectIntersectPlaneConditionalObject_FromObjectIntersectPlaneConditionalObject(class plObjectIntersectPlaneConditionalObject* obj);
-
-}
+PY_WRAP_PLASMA(LocalPlayerInBoxConditionalObject, class plLocalPlayerInBoxConditionalObject);
+PY_WRAP_PLASMA(LocalPlayerIntersectPlaneConditionalObject, class plLocalPlayerIntersectPlaneConditionalObject);
+PY_WRAP_PLASMA(ObjectInBoxConditionalObject, class plObjectInBoxConditionalObject);
+PY_WRAP_PLASMA(ObjectIntersectPlaneConditionalObject, class plObjectIntersectPlaneConditionalObject);
 
 #endif

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plVolumeSensorConditionalObject.h>
 #include "pyVolumeSensorConditionalObject.h"
+
+#include <PRP/ConditionalObject/plVolumeSensorConditionalObject.h>
 #include "pyConditionalObject.h"
 #include "PRP/pyCreatable.h"
 

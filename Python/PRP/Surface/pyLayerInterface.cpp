@@ -14,10 +14,10 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
+#include "pyLayer.h"
+
 #include <PRP/Surface/plLayer.h>
 #include "pyGMatState.h"
-#include "pyLayer.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/Object/pySynchedObject.h"
@@ -88,7 +88,7 @@ static PyObject* pyLayerInterface_getSpecPower(pyLayerInterface* self, void*) {
 }
 
 static PyObject* pyLayerInterface_getState(pyLayerInterface* self, void*) {
-    return pyGMatState_FromGMatState(self->fThis->getState());
+    return pyGMatState_FromGMatState(&self->fThis->getState());
 }
 
 static int pyLayerInterface_setUnderLay(pyLayerInterface* self, PyObject* value, void*) {

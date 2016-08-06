@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plShadowCaster.h>
 #include "pyShadowCaster.h"
+
+#include <PRP/Light/plShadowCaster.h>
 #include "PRP/Modifier/pyModifier.h"
 
 extern "C" {

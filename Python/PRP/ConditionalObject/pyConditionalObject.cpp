@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plConditionalObject.h>
 #include "pyConditionalObject.h"
+
+#include <PRP/ConditionalObject/plConditionalObject.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/pyCreatable.h"
 

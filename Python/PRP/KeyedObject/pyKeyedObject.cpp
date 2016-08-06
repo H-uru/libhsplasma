@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/KeyedObject/hsKeyedObject.h>
 #include "pyKeyedObject.h"
+
+#include <PRP/KeyedObject/hsKeyedObject.h>
 #include "pyKey.h"
 #include "PRP/pyCreatable.h"
 

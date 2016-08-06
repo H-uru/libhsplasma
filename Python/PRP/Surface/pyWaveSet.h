@@ -17,30 +17,9 @@
 #ifndef _PYWAVESET_H
 #define _PYWAVESET_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plWaveSetBase* fThis;
-    bool fPyOwned;
-} pyWaveSetBase;
-
-extern PyTypeObject pyWaveSetBase_Type;
-PyObject* Init_pyWaveSetBase_Type();
-int pyWaveSetBase_Check(PyObject* obj);
-PyObject* pyWaveSetBase_FromWaveSetBase(class plWaveSetBase* state);
-
-typedef struct {
-    PyObject_HEAD
-    class plWaveSet7* fThis;
-    bool fPyOwned;
-} pyWaveSet7;
-
-extern PyTypeObject pyWaveSet7_Type;
-PyObject* Init_pyWaveSet7_Type();
-int pyWaveSet7_Check(PyObject* obj);
-PyObject* pyWaveSet7_FromWaveSet7(class plWaveSet7* state);
-
-}
+PY_WRAP_PLASMA(WaveSetBase, class plWaveSetBase);
+PY_WRAP_PLASMA(WaveSet7, class plWaveSet7);
 
 #endif

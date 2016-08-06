@@ -14,9 +14,9 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plDistOpacityMod.h>
 #include "PRP/Modifier/pyModifier.h"
+
+#include <PRP/Surface/plDistOpacityMod.h>
 #include "pyDistOpacityMod.h"
 
 extern "C" {

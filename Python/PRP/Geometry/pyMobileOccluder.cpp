@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plOccluder.h>
 #include "pyOccluder.h"
+
+#include <PRP/Geometry/plOccluder.h>
 #include "PRP/Region/pyBounds.h"
 #include "PRP/pyCreatable.h"
 #include "Math/pyMatrix.h"

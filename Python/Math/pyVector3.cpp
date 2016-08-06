@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Math/hsGeometry3.h>
 #include "pyGeometry3.h"
+
+#include <Math/hsGeometry3.h>
 #include "Stream/pyStream.h"
 
 extern "C" {

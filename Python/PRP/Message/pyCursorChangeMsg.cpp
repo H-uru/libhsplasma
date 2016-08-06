@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plCursorChangeMsg.h>
 #include "pyCursorChangeMsg.h"
+
+#include <PRP/Message/plCursorChangeMsg.h>
 #include "pyMessage.h"
 
 extern "C" {

@@ -17,20 +17,8 @@
 #ifndef _PYMAINTAINERSMARKERMODIFIER_H
 #define _PYMAINTAINERSMARKERMODIFIER_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plMaintainersMarkerModifier* fThis;
-    bool fPyOwned;
-} pyMaintainersMarkerModifier;
-
-extern PyTypeObject pyMaintainersMarkerModifier_Type;
-PyObject* Init_pyMaintainersMarkerModifier_Type();
-int pyMaintainersMarkerModifier_Check(PyObject* obj);
-PyObject* pyMaintainersMarkerModifier_FromMaintainersMarkerModifier(
-        class plMaintainersMarkerModifier* mod);
-
-}
+PY_WRAP_PLASMA(MaintainersMarkerModifier, class plMaintainersMarkerModifier);
 
 #endif

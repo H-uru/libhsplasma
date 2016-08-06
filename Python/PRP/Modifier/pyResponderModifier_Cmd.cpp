@@ -14,10 +14,10 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plResponderModifier.h>
-#include "../pyCreatable.h"
 #include "pyResponderModifier.h"
+
+#include <PRP/Modifier/plResponderModifier.h>
+#include "PRP/pyCreatable.h"
 #include "PRP/Message/pyMessage.h"
 
 extern "C" {

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plEventCallbackMsg.h>
 #include "pyEventCallbackMsg.h"
+
+#include <PRP/Message/plEventCallbackMsg.h>
 #include "pyMessage.h"
 #include "PRP/pyCreatable.h"
 

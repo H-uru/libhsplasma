@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Object/plObjInterface.h>
 #include "pyObjInterface.h"
+
+#include <PRP/Object/plObjInterface.h>
 #include "pySynchedObject.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"

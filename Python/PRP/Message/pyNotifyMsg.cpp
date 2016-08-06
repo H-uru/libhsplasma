@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plNotifyMsg.h>
 #include "pyNotifyMsg.h"
+
+#include <PRP/Message/plNotifyMsg.h>
 #include "pyMessage.h"
 #include "pyEventData.h"
 #include "PRP/pyCreatable.h"

@@ -17,19 +17,8 @@
 #ifndef _PYTIMERCALLBACKMSG_H
 #define _PYTIMERCALLBACKMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plTimerCallbackMsg* fThis;
-    bool fPyOwned;
-} pyTimerCallbackMsg;
-
-extern PyTypeObject pyTimerCallbackMsg_Type;
-PyObject* Init_pyTimerCallbackMsg_Type();
-int pyTimerCallbackMsg_Check(PyObject* obj);
-PyObject* pyTimerCallbackMsg_FromTimerCallbackMsg(class plTimerCallbackMsg* msg);
-
-}
+PY_WRAP_PLASMA(TimerCallbackMsg, class plTimerCallbackMsg);
 
 #endif

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plDynamicEnvMap.h>
 #include "pyDynamicEnvMap.h"
+
+#include <PRP/Surface/plDynamicEnvMap.h>
 #include "pyRenderTarget.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/Surface/pyBitmap.h"

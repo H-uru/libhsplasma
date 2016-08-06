@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plAnimCmdMsg.h>
 #include "pyAnimCmdMsg.h"
+
+#include <PRP/Message/plAnimCmdMsg.h>
 #include "pyMessageWithCallbacks.h"
 
 extern "C" {

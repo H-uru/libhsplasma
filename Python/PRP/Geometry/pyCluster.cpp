@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plCluster.h>
 #include "pyCluster.h"
+
+#include <PRP/Geometry/plCluster.h>
 #include "pyClusterGroup.h"
 #include "pySpanInstance.h"
 #include "Stream/pyStream.h"

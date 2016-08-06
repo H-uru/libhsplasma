@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plSpanTemplate.h>
 #include "pySpanTemplate.h"
+
+#include <PRP/Geometry/plSpanTemplate.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -60,7 +60,7 @@ static PyObject* pySpanTemplate_getVerts(pySpanTemplate* self, void*) {
     std::vector<plSpanTemplate::Vertex> verts = self->fThis->getVertices();
     PyObject* list = PyList_New(verts.size());
     for (size_t i=0; i<verts.size(); i++)
-        PyList_SET_ITEM(list, i, pySpanTemplateVertex_FromVertex(verts[i]));
+        PyList_SET_ITEM(list, i, pySpanTemplateVertex_FromSpanTemplateVertex(&verts[i]));
     return list;
 }
 
@@ -221,9 +221,10 @@ PyObject* Init_pySpanTemplate_Type() {
     return (PyObject*)&pySpanTemplate_Type;
 }
 
-PyObject* pySpanTemplate_FromSpanTemplate(plSpanTemplate& dist) {
+PyObject* pySpanTemplate_FromSpanTemplate(plSpanTemplate* dist) {
     pySpanTemplate* obj = PyObject_New(pySpanTemplate, &pySpanTemplate_Type);
-    obj->fThis = &dist;
+    obj->fThis = dist;
+    obj->fPyOwned = false;
     return (PyObject*)obj;
 }
 

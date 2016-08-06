@@ -14,8 +14,8 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
 #include "pyGeometrySpan.h"
+
 #include "pyTempVertex.h"
 #include "Math/pyMatrix.h"
 #include "PRP/KeyedObject/pyKey.h"

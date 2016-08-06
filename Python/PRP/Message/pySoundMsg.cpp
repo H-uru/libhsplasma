@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plSoundMsg.h>
 #include "pySoundMsg.h"
+
+#include <PRP/Message/plSoundMsg.h>
 #include "pyMessageWithCallbacks.h"
 
 extern "C" {

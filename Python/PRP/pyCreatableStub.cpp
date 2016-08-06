@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/plCreatable.h>
 #include "pyCreatable.h"
+
+#include <PRP/plCreatable.h>
 
 extern "C" {
 

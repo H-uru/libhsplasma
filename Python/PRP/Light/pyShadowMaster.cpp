@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Light/plShadowMaster.h>
 #include "pyShadowMaster.h"
+
+#include <PRP/Light/plShadowMaster.h>
 #include "PRP/Object/pyObjInterface.h"
 #include "PRP/pyCreatable.h"
 

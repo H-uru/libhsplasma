@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plCubicEnvironmap.h>
 #include "pyCubicEnvironmap.h"
+
+#include <PRP/Surface/plCubicEnvironmap.h>
 #include "pyBitmap.h"
 
 extern "C" {

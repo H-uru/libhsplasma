@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plLogicModBase.h>
 #include "pyLogicModifier.h"
+
+#include <PRP/Modifier/plLogicModBase.h>
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Message/pyNotifyMsg.h"
 #include "PRP/Message/pyMessage.h"

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plGBufferGroup.h>
 #include "pyGBufferGroup.h"
+
+#include <PRP/Geometry/plGBufferGroup.h>
 #include "Math/pyGeometry3.h"
 
 extern "C" {

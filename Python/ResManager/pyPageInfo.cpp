@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/plPageInfo.h>
 #include "pyResManager.h"
+
+#include <PRP/plPageInfo.h>
 #include "Stream/pyStream.h"
 #include "PRP/KeyedObject/pyKey.h"
 

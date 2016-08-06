@@ -14,8 +14,8 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
 #include "pySound.h"
+
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/pyCreatable.h"
 #include "PRP/KeyedObject/pyKey.h"
@@ -80,11 +80,11 @@ static PyObject* pySound_getProperties(pySound* self, void*) {
 }
 
 static PyObject* pySound_getFadeInParams(pySound* self, void*) {
-    return pyFadeParams_FromFadeParams(self->fThis->getFadeInParams());
+    return pyFadeParams_FromFadeParams(&self->fThis->getFadeInParams());
 }
 
 static PyObject* pySound_getFadeOutParams(pySound* self, void*) {
-    return pyFadeParams_FromFadeParams(self->fThis->getFadeOutParams());
+    return pyFadeParams_FromFadeParams(&self->fThis->getFadeOutParams());
 }
 
 static PyObject* pySound_getSoftRegion(pySound* self, void*) {

@@ -17,30 +17,9 @@
 #ifndef _PYRENDERTARGET_H
 #define _PYRENDERTARGET_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plRenderTarget* fThis;
-    bool fPyOwned;
-} pyRenderTarget;
-
-typedef struct {
-    PyObject_HEAD
-    class plCubicRenderTarget* fThis;
-    bool fPyOwned;
-} pyCubicRenderTarget;
-
-extern PyTypeObject pyRenderTarget_Type;
-PyObject* Init_pyRenderTarget_Type();
-int pyRenderTarget_Check(PyObject* obj);
-PyObject* pyRenderTarget_FromRenderTarget(class plRenderTarget* rt);
-
-extern PyTypeObject pyCubicRenderTarget_Type;
-PyObject* Init_pyCubicRenderTarget_Type();
-int pyCubicRenderTarget_Check(PyObject* obj);
-PyObject* pyCubicRenderTarget_FromCubicRenderTarget(class plCubicRenderTarget* crt);
-
-}
+PY_WRAP_PLASMA(RenderTarget, class plRenderTarget);
+PY_WRAP_PLASMA(CubicRenderTarget, class plCubicRenderTarget);
 
 #endif

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/plRenderTarget.h>
 #include "pyRenderTarget.h"
+
+#include <PRP/Surface/plRenderTarget.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {

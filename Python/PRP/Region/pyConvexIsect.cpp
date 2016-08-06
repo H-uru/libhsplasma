@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Region/plVolumeIsect.h>
 #include "pyVolumeIsect.h"
+
+#include <PRP/Region/plVolumeIsect.h>
 #include "Math/pyGeometry3.h"
 #include "Math/pyMatrix.h"
 

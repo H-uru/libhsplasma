@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Surface/hsGMaterial.h>
 #include "pyGMaterial.h"
+
+#include <PRP/Surface/hsGMaterial.h>
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/Object/pySynchedObject.h"
 #include "PRP/pyCreatable.h"

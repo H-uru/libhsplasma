@@ -14,7 +14,6 @@
 * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <PyPlasma.h>
 #include "pySound.h"
 
 extern "C" {
@@ -206,9 +205,10 @@ PyObject* Init_pyFadeParams_Type() {
     return (PyObject*)&pyFadeParams_Type;
 }
 
-PyObject* pyFadeParams_FromFadeParams(plSound::plFadeParams& params) {
+PyObject* pyFadeParams_FromFadeParams(plSound::plFadeParams* params) {
     pyFadeParams* pyObj = PyObject_New(pyFadeParams, &pyFadeParams_Type);
-    pyObj->fThis = &params;
+    pyObj->fThis = params;
+    pyObj->fPyOwned = false;
     return (PyObject*)pyObj;
 }
 

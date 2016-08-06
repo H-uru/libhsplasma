@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Util/hsBitVector.h>
 #include "pyBitVector.h"
+
+#include <Util/hsBitVector.h>
 #include "Stream/pyStream.h"
 
 extern "C" {
@@ -266,9 +266,9 @@ int pyBitVector_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyBitVector_FromBitVector(class hsBitVector& vec) {
+PyObject* pyBitVector_FromBitVector(hsBitVector* vec) {
     pyBitVector* bv = PyObject_New(pyBitVector, &pyBitVector_Type);
-    bv->fThis = &vec;
+    bv->fThis = vec;
     bv->fPyOwned = false;
     return (PyObject*)bv;
 }

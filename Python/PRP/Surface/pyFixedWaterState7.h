@@ -17,32 +17,10 @@
 #ifndef _PYFIXEDWATERSTATE7_H
 #define _PYFIXEDWATERSTATE7_H
 
+#include "PyPlasma.h"
 #include <PRP/Surface/plFixedWaterState7.h>
 
-extern "C" {
-
-typedef struct {
-    PyObject_HEAD
-    class plFixedWaterState7* fThis;
-    bool fPyOwned;
-} pyFixedWaterState7;
-
-extern PyTypeObject pyFixedWaterState7_Type;
-PyObject* Init_pyFixedWaterState7_Type();
-int pyFixedWaterState7_Check(PyObject* obj);
-PyObject* pyFixedWaterState7_FromFixedWaterState7(class plFixedWaterState7* state);
-
-typedef struct {
-    PyObject_HEAD
-    struct plFixedWaterState7::WaveState* fThis;
-    bool fPyOwned;
-} pyWaveState7;
-
-extern PyTypeObject pyWaveState7_Type;
-PyObject* Init_pyWaveState7_Type();
-int pyWaveState7_Check(PyObject* obj);
-PyObject* pyWaveState7_FromWaveState7(struct plFixedWaterState7::WaveState* state);
-
-}
+PY_WRAP_PLASMA(FixedWaterState7, plFixedWaterState7);
+PY_WRAP_PLASMA(WaveState7, plFixedWaterState7::WaveState);
 
 #endif

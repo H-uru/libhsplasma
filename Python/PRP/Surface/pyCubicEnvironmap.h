@@ -17,19 +17,8 @@
 #ifndef _PYCUBICENVIRONMAP_H
 #define _PYCUBICENVIRONMAP_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plCubicEnvironmap* fThis;
-    bool fPyOwned;
-} pyCubicEnvironmap;
-
-extern PyTypeObject pyCubicEnvironmap_Type;
-PyObject* Init_pyCubicEnvironmap_Type();
-int pyCubicEnvironmap_Check(PyObject* obj);
-PyObject* pyCubicEnvironmap_FromCubicEnvironmap(class plCubicEnvironmap* img);
-
-}
+PY_WRAP_PLASMA(CubicEnvironmap, class plCubicEnvironmap);
 
 #endif

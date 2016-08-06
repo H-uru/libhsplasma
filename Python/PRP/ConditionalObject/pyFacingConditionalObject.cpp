@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/ConditionalObject/plFacingConditionalObject.h>
 #include "pyFacingConditionalObject.h"
+
+#include <PRP/ConditionalObject/plFacingConditionalObject.h>
 #include "pyConditionalObject.h"
 
 extern "C" {

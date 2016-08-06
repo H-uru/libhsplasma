@@ -17,6 +17,8 @@
 #ifndef _PYDEBUG_H
 #define _PYDEBUG_H
 
+#include "PyPlasma.h"
+
 extern "C" {
 
 extern PyTypeObject pyDebug_Type;

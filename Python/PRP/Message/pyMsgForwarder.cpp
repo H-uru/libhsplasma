@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plMsgForwarder.h>
 #include "pyMsgForwarder.h"
+
+#include <PRP/Message/plMsgForwarder.h>
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"

@@ -17,30 +17,9 @@
 #ifndef _PY_BOOLEANCONDITIONALOBJECT_H
 #define _PY_BOOLEANCONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plANDConditionalObject* fThis;
-    bool fPyOwned;
-} pyANDConditionalObject;
-
-extern PyTypeObject pyANDConditionalObject_Type;
-PyObject* Init_pyANDConditionalObject_Type();
-int pyANDConditionalObject_Check(PyObject* obj);
-PyObject* pyANDConditionalObject_FromANDConditionalObject(class plANDConditionalObject* obj);
-
-typedef struct {
-    PyObject_HEAD
-    class plORConditionalObject* fThis;
-    bool fPyOwned;
-} pyORConditionalObject;
-
-extern PyTypeObject pyORConditionalObject_Type;
-PyObject* Init_pyORConditionalObject_Type();
-int pyORConditionalObject_Check(PyObject* obj);
-PyObject* pyORConditionalObject_FromORConditionalObject(class plORConditionalObject* obj);
-
-}
+PY_WRAP_PLASMA(ANDConditionalObject, class plANDConditionalObject);
+PY_WRAP_PLASMA(ORConditionalObject, class plORConditionalObject);
 
 #endif

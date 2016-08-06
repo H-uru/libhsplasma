@@ -14,11 +14,11 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
+#include "pyKey.h"
+
 #include <PRP/KeyedObject/plKey.h>
 #include <PRP/KeyedObject/hsKeyedObject.h>
 #include "PRP/pyCreatable.h"
-#include "pyKey.h"
 #include "pyKeyedObject.h"
 #include "Stream/pyStream.h"
 
@@ -358,7 +358,7 @@ int pyKey_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pyKey_FromKey(plKey key) {
+PyObject* pyKey_FromKey(const plKey& key) {
     if (!key.Exists()) {
         Py_INCREF(Py_None);
         return Py_None;

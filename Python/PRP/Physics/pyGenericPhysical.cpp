@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Physics/plGenericPhysical.h>
 #include "pyPhysical.h"
+
+#include <PRP/Physics/plGenericPhysical.h>
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/pyCreatable.h"
 #include "Math/pyGeometry3.h"

@@ -17,19 +17,8 @@
 #ifndef _PY_CONTROLEVENTCONDITIONALOBJECT_H
 #define _PY_CONTROLEVENTCONDITIONALOBJECT_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plControlEventConditionalObject* fThis;
-    bool fPyOwned;
-} pyControlEventConditionalObject;
-
-extern PyTypeObject pyControlEventConditionalObject_Type;
-PyObject* Init_pyControlEventConditionalObject_Type();
-int pyControlEventConditionalObject_Check(PyObject* obj);
-PyObject* pyControlEventConditionalObject_FromControlEventConditionalObject(class plControlEventConditionalObject* obj);
-
-}
+PY_WRAP_PLASMA(ControlEventConditionalObject, class plControlEventConditionalObject);
 
 #endif

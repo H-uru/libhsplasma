@@ -17,31 +17,12 @@
 #ifndef _PYSOUND_H
 #define _PYSOUND_H
 
+#include "PyPlasma.h"
+
 // Nested struct :(
 #include <PRP/Audio/plSound.h>
 
-extern "C" {
-
-typedef struct {
-    PyObject_HEAD
-    class plSound::plFadeParams* fThis;
-} pyFadeParams;
-
-typedef struct {
-    PyObject_HEAD
-    class plSound* fThis;
-    bool fPyOwned;
-} pySound;
-
-extern PyTypeObject pyFadeParams_Type;
-PyObject* Init_pyFadeParams_Type();
-PyObject* pyFadeParams_FromFadeParams(class plSound::plFadeParams& params);
-
-extern PyTypeObject pySound_Type;
-PyObject* Init_pySound_Type();
-int pySound_Check(PyObject* obj);
-PyObject* pySound_FromSound(class plSound* sound);
-
-}
+PY_WRAP_PLASMA(FadeParams, plSound::plFadeParams);
+PY_WRAP_PLASMA(Sound, plSound);
 
 #endif

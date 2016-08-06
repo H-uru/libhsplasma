@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Audio/plWin32Sound.h>
 #include "pyWin32Sound.h"
+
+#include <PRP/Audio/plWin32Sound.h>
 
 extern "C" {
 

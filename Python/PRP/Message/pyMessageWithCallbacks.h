@@ -17,19 +17,8 @@
 #ifndef _PY_MESSAGEWITHCALLBACKS_H
 #define _PY_MESSAGEWITHCALLBACKS_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plMessageWithCallbacks* fThis;
-    bool fPyOwned;
-} pyMessageWithCallbacks;
-
-extern PyTypeObject pyMessageWithCallbacks_Type;
-PyObject* Init_pyMessageWithCallbacks_Type();
-int pyMessageWithCallbacks_Check(PyObject* obj);
-PyObject* pyMessageWithCallbacks_FromMessageWithCallbacks(class plMessageWithCallbacks* obj);
-
-}
+PY_WRAP_PLASMA(MessageWithCallbacks, class plMessageWithCallbacks);
 
 #endif

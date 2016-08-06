@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Animation/plAnimTimeConvert.h>
 #include "pyAnimTimeConvert.h"
+
+#include <PRP/Animation/plAnimTimeConvert.h>
 #include "pyATCEaseCurves.h"
 #include "PRP/Message/pyEventCallbackMsg.h"
 #include "PRP/pyCreatable.h"

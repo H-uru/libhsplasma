@@ -17,19 +17,8 @@
 #ifndef _PYARMATUREEFFECTMSG_H
 #define _PYARMATUREEFFECTMSG_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plArmatureEffectStateMsg* fThis;
-    bool fPyOwned;
-} pyArmatureEffectStateMsg;
-
-extern PyTypeObject pyArmatureEffectStateMsg_Type;
-PyObject* Init_pyArmatureEffectStateMsg_Type();
-int pyArmatureEffectStateMsg_Check(PyObject* obj);
-PyObject* pyArmatureEffectStateMsg_FromArmatureEffectStateMsg(class plArmatureEffectStateMsg* msg);
-
-}
+PY_WRAP_PLASMA(ArmatureEffectStateMsg, class plArmatureEffectStateMsg);
 
 #endif

@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <Sys/hsColor.h>
 #include "pyColor.h"
+
+#include <Sys/hsColor.h>
 #include "Stream/pyStream.h"
 
 extern "C" {

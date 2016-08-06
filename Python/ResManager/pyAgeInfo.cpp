@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <ResManager/plAgeInfo.h>
 #include "pyResManager.h"
+
+#include <ResManager/plAgeInfo.h>
 #include "Stream/pyStream.h"
 #include "PRP/KeyedObject/pyKey.h"
 

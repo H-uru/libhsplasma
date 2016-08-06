@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Modifier/plPythonFileMod.h>
 #include "pyPythonFileMod.h"
+
+#include <PRP/Modifier/plPythonFileMod.h>
 #include "PRP/KeyedObject/pyKey.h"
 #include "Stream/pyStream.h"
 #include "ResManager/pyResManager.h"

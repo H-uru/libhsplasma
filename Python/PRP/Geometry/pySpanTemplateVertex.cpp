@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Geometry/plSpanTemplate.h>
 #include "pySpanTemplate.h"
+
+#include <PRP/Geometry/plSpanTemplate.h>
 #include "Math/pyGeometry3.h"
 
 extern "C" {
@@ -264,9 +264,9 @@ int pySpanTemplateVertex_Check(PyObject* obj) {
     return 0;
 }
 
-PyObject* pySpanTemplateVertex_FromVertex(plSpanTemplate::Vertex& vert) {
+PyObject* pySpanTemplateVertex_FromSpanTemplateVertex(plSpanTemplate::Vertex* vert) {
     pySpanTemplateVertex* obj = PyObject_New(pySpanTemplateVertex, &pySpanTemplateVertex_Type);
-    obj->fThis = &vert;
+    obj->fThis = vert;
     obj->fPyOwned = false;
     return (PyObject*)obj;
 }

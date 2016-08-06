@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Region/plSoftVolume.h>
 #include "pySoftVolume.h"
+
+#include <PRP/Region/plSoftVolume.h>
 
 extern "C" {
 

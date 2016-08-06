@@ -14,9 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <PyPlasma.h>
-#include <PRP/Message/plResponderMsg.h>
 #include "pyResponderMsg.h"
+
+#include <PRP/Message/plResponderMsg.h>
 #include "PRP/KeyedObject/pyKey.h"
 
 extern "C" {

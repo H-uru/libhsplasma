@@ -17,19 +17,8 @@
 #ifndef _PYVISREGION_H
 #define _PYVISREGION_H
 
-extern "C" {
+#include "PyPlasma.h"
 
-typedef struct {
-    PyObject_HEAD
-    class plVisRegion* fThis;
-    bool fPyOwned;
-} pyVisRegion;
-
-extern PyTypeObject pyVisRegion_Type;
-PyObject* Init_pyVisRegion_Type();
-int pyVisRegion_Check(PyObject*);
-PyObject* pyVisRegion_FromVisRegion(class plVisRegion*);
-
-}
+PY_WRAP_PLASMA(VisRegion, class plVisRegion);
 
 #endif
