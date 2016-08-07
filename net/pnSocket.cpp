@@ -38,8 +38,6 @@ static int sockError();
 #   ifndef AI_ADDRCONFIG
 #       define AI_ADDRCONFIG 0x0020
 #   endif
-
-#   define ECONNRESET WSAECONNRESET
 #else
 #   include <sys/types.h>
 #   include <sys/socket.h>
@@ -61,6 +59,10 @@ static int sockError();
     { return errno; }
 
 #   define INVALID_SOCKET (-1)
+#endif
+
+#ifdef _MSC_VER
+#   define ECONNRESET WSAECONNRESET
 #endif
 
 // For Solaris
