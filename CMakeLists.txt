@@ -29,6 +29,7 @@ endif()
 option(ENABLE_PYTHON "Build HSPlasma Python integration" OFF)
 option(ENABLE_TOOLS "Build the HSPlasma tools" ON)
 option(ENABLE_NET "Build HSPlasmaNet" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
 
 try_compile(HAVE_OVERRIDE ${PROJECT_BINARY_DIR}
             ${PROJECT_SOURCE_DIR}/cmake/check_override.cpp)

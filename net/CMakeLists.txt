@@ -86,7 +86,7 @@ set(PN_HDRS
     pnSocketInterface.h
 )
 
-add_library(HSPlasmaNet SHARED
+add_library(HSPlasmaNet
             ${PN_AUTH_SRCS}  ${PN_AUTH_HDRS}
             ${PN_CRYPT_SRCS} ${PN_CRYPT_HDRS}
             ${PN_FILE_SRCS}  ${PN_FILE_HDRS}

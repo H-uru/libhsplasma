@@ -759,7 +759,7 @@ set(SQUISH
     3rdPartyLibs/squish/squish.h
 )
 
-add_library(HSPlasma SHARED
+add_library(HSPlasma
             ${DEBUG_SRCS}    ${DEBUG_HDRS}
             ${MATH_SRCS}     ${MATH_HDRS}
             ${PRP_ANIM_SRCS} ${PRP_ANIM_HDRS}
