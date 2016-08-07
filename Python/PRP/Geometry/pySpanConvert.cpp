@@ -14,16 +14,18 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PYBOUNDS_H
-#define _PYBOUNDS_H
+#include "pySpan.h"
 
-#include "PyPlasma.h"
+#include <PRP/Geometry/plVertexSpan.h>
+#include <PRP/Geometry/plIcicle.h>
+#include <typeinfo>
 
-PY_WRAP_PLASMA_VALUE(Bounds, class hsBounds);
-PY_WRAP_PLASMA_VALUE(Bounds3, class hsBounds3);
-PY_WRAP_PLASMA_VALUE(Bounds3Ext, class hsBounds3Ext);
-PY_WRAP_PLASMA_VALUE(BoundsOriented, class hsBoundsOriented);
-
-PyObject* ICreateBounds(const class hsBounds&);
-
-#endif
+PyObject* ICreateSpan(plSpan* span) {
+    if (typeid(*span) == typeid(plIcicle))
+        return pyIcicle_FromIcicle((plIcicle*)span);
+    else if (typeid(*span) == typeid(plVertexSpan))
+        return pyVertexSpan_FromVertexSpan((plVertexSpan*)span);
+    else if (typeid(*span) == typeid(plParticleSpan))
+        return pyParticleSpan_FromParticleSpan((plParticleSpan*)span);
+    return pySpan_FromSpan(span);
+}

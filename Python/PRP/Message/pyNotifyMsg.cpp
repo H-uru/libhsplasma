@@ -68,7 +68,7 @@ static PyObject* pyNotifyMsg_delEvent(pyNotifyMsg* self, PyObject* args) {
 static PyObject* pyNotifyMsg_getEvents(pyNotifyMsg* self, void*) {
     PyObject* list = PyList_New(self->fThis->getEvents().size());
     for (size_t i=0; i<self->fThis->getEvents().size(); i++)
-        PyList_SET_ITEM(list, i, pyEventData_FromEventData(self->fThis->getEvents()[i]));
+        PyList_SET_ITEM(list, i, ICreateEventData(self->fThis->getEvents()[i]));
     return list;
 }
 

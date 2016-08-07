@@ -16,7 +16,7 @@
 
 #include "pyController.h"
 
-#include <PRP/Animation/plController.h>
+#include <PRP/Animation/plTMController.h>
 #include "PRP/pyCreatable.h"
 
 extern "C" {
@@ -91,7 +91,7 @@ static int pyCompoundController_setZ(pyCompoundController* self, PyObject* value
 }
 
 static PyObject* pyCompoundController_convertToTMController(pyCompoundController* self) {
-    return pyTMController_FromTMController(self->fThis->convertToTMController());
+    return ICreate(self->fThis->convertToTMController());
 }
 
 static PyMethodDef pyCompoundController_Methods[] = {

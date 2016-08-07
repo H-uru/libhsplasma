@@ -38,7 +38,7 @@ static PyObject* pySimplePosController_new(PyTypeObject* type, PyObject* args, P
 }
 
 static PyObject* pySimplePosController_getPosition(pySimplePosController* self, void*) {
-    return pyPoint3Controller_FromPoint3Controller(self->fThis->getPosition());
+    return ICreate(self->fThis->getPosition());
 }
 
 static int pySimplePosController_setPosition(pySimplePosController* self, PyObject* value, void*) {

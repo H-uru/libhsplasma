@@ -31,27 +31,27 @@ static PyObject* pyCubicRenderTarget_new(PyTypeObject* type, PyObject* args, PyO
 }
 
 static PyObject* pyCubicRenderTarget_getLeftFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::kLeftFace));
+    return ICreate(self->fThis->getFace(plCubicRenderTarget::kLeftFace));
 }
 
 static PyObject* pyCubicRenderTarget_getRightFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::kRightFace));
+    return ICreate(self->fThis->getFace(plCubicRenderTarget::kRightFace));
 }
 
 static PyObject* pyCubicRenderTarget_getFrontFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::kFrontFace));
+    return ICreate(self->fThis->getFace(plCubicRenderTarget::kFrontFace));
 }
 
 static PyObject* pyCubicRenderTarget_getBackFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::kBackFace));
+    return ICreate(self->fThis->getFace(plCubicRenderTarget::kBackFace));
 }
 
 static PyObject* pyCubicRenderTarget_getTopFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::kTopFace));
+    return ICreate(self->fThis->getFace(plCubicRenderTarget::kTopFace));
 }
 
 static PyObject* pyCubicRenderTarget_getBottomFace(pyCubicRenderTarget* self, void*) {
-    return pyRenderTarget_FromRenderTarget(self->fThis->getFace(plCubicRenderTarget::kBottomFace));
+    return ICreate(self->fThis->getFace(plCubicRenderTarget::kBottomFace));
 }
 
 static PyObject* pyCubicRenderTarget_getFaces(pyCubicRenderTarget* self, void*) {

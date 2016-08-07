@@ -14,16 +14,17 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _PYBOUNDS_H
-#define _PYBOUNDS_H
+#include "pyBounds.h"
 
-#include "PyPlasma.h"
+#include <PRP/Region/hsBounds.h>
+#include <typeinfo>
 
-PY_WRAP_PLASMA_VALUE(Bounds, class hsBounds);
-PY_WRAP_PLASMA_VALUE(Bounds3, class hsBounds3);
-PY_WRAP_PLASMA_VALUE(Bounds3Ext, class hsBounds3Ext);
-PY_WRAP_PLASMA_VALUE(BoundsOriented, class hsBoundsOriented);
-
-PyObject* ICreateBounds(const class hsBounds&);
-
-#endif
+PyObject* ICreateBounds(const hsBounds& bounds) {
+    if (typeid(bounds) == typeid(hsBounds3))
+        return pyBounds3_FromBounds3((const hsBounds3&)bounds);
+    else if (typeid(bounds) == typeid(hsBounds3Ext))
+        return pyBounds3Ext_FromBounds3Ext((const hsBounds3Ext&)bounds);
+    else if (typeid(bounds) == typeid(hsBoundsOriented))
+        return pyBoundsOriented_FromBoundsOriented((const hsBoundsOriented&)bounds);
+    return pyBounds_FromBounds(bounds);
+}

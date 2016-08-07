@@ -192,11 +192,11 @@ static PyObject* pySpan_getWaterHeight(pySpan* self, void*) {
 }
 
 static PyObject* pySpan_getLocalBounds(pySpan* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getLocalBounds());
+    return ICreateBounds(self->fThis->getLocalBounds());
 }
 
 static PyObject* pySpan_getWorldBounds(pySpan* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getWorldBounds());
+    return ICreateBounds(self->fThis->getWorldBounds());
 }
 
 static int pySpan_setFog(pySpan* self, PyObject* value, void*) {

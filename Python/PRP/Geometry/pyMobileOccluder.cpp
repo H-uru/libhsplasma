@@ -41,7 +41,7 @@ static PyObject* pyMobileOccluder_getWorldToLocal(pyMobileOccluder* self, void*)
 }
 
 static PyObject* pyMobileOccluder_getLocalBounds(pyMobileOccluder* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getLocalBounds());
+    return ICreateBounds(self->fThis->getLocalBounds());
 }
 
 static int pyMobileOccluder_setLocalToWorld(pyMobileOccluder* self, PyObject* value, void*) {

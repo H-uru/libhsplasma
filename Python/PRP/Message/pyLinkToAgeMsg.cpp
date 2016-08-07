@@ -34,7 +34,7 @@ static PyObject* pyLinkToAgeMsg_new(PyTypeObject* type, PyObject* , PyObject* ) 
 }
 
 static PyObject* pyLinkToAgeMsg_getAgeLink(pyLinkToAgeMsg* self, void*) {
-    return pyAgeLinkStruct_FromAgeLinkStruct(&self->fThis->getAgeLink());
+    return ICreate(&self->fThis->getAgeLink());
 }
 
 static int pyLinkToAgeMsg_setAgeLink(pyLinkToAgeMsg* self, PyObject* value, void*) {

@@ -17,7 +17,9 @@
 #include "pyDDSurface.h"
 
 #include <Util/plDDSurface.h>
+#include <PRP/Surface/plMipmap.h>
 #include "Stream/pyStream.h"
+#include "PRP/pyCreatable.h"
 #include "PRP/Surface/pyBitmap.h"
 
 extern "C" {
@@ -91,7 +93,7 @@ static PyObject* pyDDSurface_setFromMipmap(pyDDSurface* self, PyObject* args) {
 
 static PyObject* pyDDSurface_createMipmap(pyDDSurface* self) {
     plMipmap* tex = self->fThis->createMipmap();
-    return pyMipmap_FromMipmap(tex);
+    return ICreate(tex);
 }
 
 static PyObject* pyDDSurface_calcBufferSize(pyDDSurface* self, PyObject* args) {

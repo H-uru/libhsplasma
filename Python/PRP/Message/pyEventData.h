@@ -37,4 +37,6 @@ PY_WRAP_PLASMA(OfferLinkBookEventData, class proOfferLinkBookEventData);
 PY_WRAP_PLASMA(BookEventData, class proBookEventData);
 PY_WRAP_PLASMA(ClimbingBlockerHitEventData, class proClimbingBlockerHitEventData);
 
+PyObject* ICreateEventData(class proEventData*);
+
 #endif

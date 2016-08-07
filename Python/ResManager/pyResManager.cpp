@@ -131,7 +131,7 @@ static PyObject* pyResManager_getObject(pyResManager* self, PyObject* args) {
         PyErr_SetString(PyExc_TypeError, "getObject expects a plKey");
         return NULL;
     }
-    return ICreate(dynamic_cast<plCreatable*>(self->fThis->getObject(*(key->fThis))));
+    return ICreate(self->fThis->getObject(*(key->fThis)));
 }
 
 static PyObject* pyResManager_countKeys(pyResManager* self, PyObject* args) {

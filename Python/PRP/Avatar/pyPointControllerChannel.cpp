@@ -32,7 +32,7 @@ static PyObject* pyPointControllerChannel_new(PyTypeObject* type, PyObject* args
 }
 
 static PyObject* pyPointControllerChannel_getController(pyPointControllerChannel* self, void*) {
-    return pyController_FromController(self->fThis->getController());
+    return ICreate(self->fThis->getController());
 }
 
 static int pyPointControllerChannel_setController(pyPointControllerChannel* self, PyObject* value, void*) {

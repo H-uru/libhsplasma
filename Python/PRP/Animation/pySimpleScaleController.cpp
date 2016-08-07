@@ -38,7 +38,7 @@ static PyObject* pySimpleScaleController_new(PyTypeObject* type, PyObject* args,
 }
 
 static PyObject* pySimpleScaleController_getValue(pySimpleScaleController* self, void*) {
-    return pyScaleValueController_FromScaleValueController(self->fThis->getValue());
+    return ICreate(self->fThis->getValue());
 }
 
 static int pySimpleScaleController_setValue(pySimpleScaleController* self, PyObject* value, void*) {

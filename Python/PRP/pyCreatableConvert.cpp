@@ -472,6 +472,8 @@ PyObject* ICreate(plCreatable* pCre)
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
                 return pyMessage_FromMessage(plMessage::Convert(pCre));
+            else if (pCre->ClassInstance(kKeyedObject))
+                return pyKeyedObject_FromKeyedObject(hsKeyedObject::Convert(pCre));
             return pyCreatable_FromCreatable(pCre);
     }
 }

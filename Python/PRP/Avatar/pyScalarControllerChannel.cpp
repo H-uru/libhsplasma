@@ -32,7 +32,7 @@ static PyObject* pyScalarControllerChannel_new(PyTypeObject* type, PyObject* arg
 }
 
 static PyObject* pyScalarControllerChannel_getController(pyScalarControllerChannel* self, void*) {
-    return pyController_FromController(self->fThis->getController());
+    return ICreate(self->fThis->getController());
 }
 
 static int pyScalarControllerChannel_setController(pyScalarControllerChannel* self, PyObject* value, void*) {

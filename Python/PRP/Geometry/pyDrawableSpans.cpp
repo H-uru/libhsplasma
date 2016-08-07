@@ -338,7 +338,7 @@ static PyObject* pyDrawableSpans_addSourceSpan(pyDrawableSpans* self, PyObject* 
 static PyObject* pyDrawableSpans_getSpans(pyDrawableSpans* self, void*) {
     PyObject* list = PyList_New(self->fThis->getNumSpans());
     for (size_t i=0; i<self->fThis->getNumSpans(); i++)
-        PyList_SET_ITEM(list, i, pyIcicle_FromIcicle((plIcicle*)self->fThis->getSpan(i)));
+        PyList_SET_ITEM(list, i, ICreateSpan(self->fThis->getSpan(i)));
     return list;
 }
 
@@ -385,15 +385,15 @@ static PyObject* pyDrawableSpans_getB2Ls(pyDrawableSpans* self, void*) {
 }
 
 static PyObject* pyDrawableSpans_getLocalBounds(pyDrawableSpans* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getLocalBounds());
+    return ICreateBounds(self->fThis->getLocalBounds());
 }
 
 static PyObject* pyDrawableSpans_getWorldBounds(pyDrawableSpans* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getWorldBounds());
+    return ICreateBounds(self->fThis->getWorldBounds());
 }
 
 static PyObject* pyDrawableSpans_getMaxBounds(pyDrawableSpans* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getMaxWorldBounds());
+    return ICreateBounds(self->fThis->getMaxWorldBounds());
 }
 
 static PyObject* pyDrawableSpans_getMaterials(pyDrawableSpans* self, void*) {
@@ -404,7 +404,7 @@ static PyObject* pyDrawableSpans_getMaterials(pyDrawableSpans* self, void*) {
 }
 
 static PyObject* pyDrawableSpans_getSpaceTree(pyDrawableSpans* self, void*) {
-    return pySpaceTree_FromSpaceTree(self->fThis->getSpaceTree());
+    return ICreate(self->fThis->getSpaceTree());
 }
 
 static PyObject* pyDrawableSpans_getProps(pyDrawableSpans* self, void*) {

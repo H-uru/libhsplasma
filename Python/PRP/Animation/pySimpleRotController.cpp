@@ -38,7 +38,7 @@ static PyObject* pySimpleRotController_new(PyTypeObject* type, PyObject* args, P
 }
 
 static PyObject* pySimpleRotController_getRot(pySimpleRotController* self, void*) {
-    return pyQuatController_FromQuatController(self->fThis->getRot());
+    return ICreate(self->fThis->getRot());
 }
 
 static int pySimpleRotController_setRot(pySimpleRotController* self, PyObject* value, void*) {

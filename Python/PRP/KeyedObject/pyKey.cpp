@@ -182,7 +182,7 @@ static PyObject* pyKey_getID(pyKey* self, void* closure) {
 }
 
 static PyObject* pyKey_getObj(pyKey* self, void* closure) {
-    return ICreate(dynamic_cast<plCreatable *>((*self->fThis)->getObj()));
+    return ICreate((*self->fThis)->getObj());
 }
 
 static int pyKey_setType(pyKey* self, PyObject* value, void* closure) {

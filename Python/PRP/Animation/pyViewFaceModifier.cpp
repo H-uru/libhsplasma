@@ -56,7 +56,7 @@ static PyObject* pyViewFaceModifier_getFaceObj(pyViewFaceModifier* self, void*) 
 }
 
 static PyObject* pyViewFaceModifier_getMaxBounds(pyViewFaceModifier* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getMaxBounds());
+    return ICreateBounds(self->fThis->getMaxBounds());
 }
 
 static int pyViewFaceModifier_setScale(pyViewFaceModifier* self, PyObject* value, void*) {

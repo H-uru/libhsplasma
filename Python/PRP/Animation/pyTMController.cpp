@@ -94,7 +94,7 @@ static int pyTMController_setScale(pyTMController* self, PyObject* value, void*)
 }
 
 static PyObject* pyTMController_convertToCompoundController(pyTMController* self) {
-    return pyCompoundController_FromCompoundController(self->fThis->convertToCompoundController());
+    return ICreate(self->fThis->convertToCompoundController());
 }
 
 static PyMethodDef pyTMController_Methods[] = {

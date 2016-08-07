@@ -114,7 +114,7 @@ static PyObject* pyGeometrySpan_getIndices(pyGeometrySpan* self, void*) {
 }
 
 static PyObject* pyGeometrySpan_getLocalBounds(pyGeometrySpan* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getLocalBounds());
+    return ICreateBounds(self->fThis->getLocalBounds());
 }
 
 static PyObject* pyGeometrySpan_getLocalToWorld(pyGeometrySpan* self, void*) {
@@ -166,7 +166,7 @@ static PyObject* pyGeometrySpan_getWaterHeight(pyGeometrySpan* self, void*) {
 }
 
 static PyObject* pyGeometrySpan_getWorldBounds(pyGeometrySpan* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getWorldBounds());
+    return ICreateBounds(self->fThis->getWorldBounds());
 }
 
 static PyObject* pyGeometrySpan_getWorldToLocal(pyGeometrySpan* self, void*) {

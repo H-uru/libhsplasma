@@ -24,4 +24,6 @@ PY_WRAP_PLASMA(VertexSpan, class plVertexSpan);
 PY_WRAP_PLASMA(Icicle, class plIcicle);
 PY_WRAP_PLASMA(ParticleSpan, class plParticleSpan);
 
+PyObject* ICreateSpan(class plSpan*);
+
 #endif

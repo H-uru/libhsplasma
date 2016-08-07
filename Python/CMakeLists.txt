@@ -239,6 +239,7 @@ set(PRP_GEOM_HDRS
     PRP/Geometry/pyOccluder.h
     PRP/Geometry/pySpaceTree.h
     PRP/Geometry/pySpan.h
+    PRP/Geometry/pySpanConvert.cpp
     PRP/Geometry/pySpanInstance.h
     PRP/Geometry/pySpanTemplate.h
     PRP/Geometry/pyTempVertex.h
@@ -300,6 +301,7 @@ set(PRP_MSG_SRCS
     PRP/Message/pyEnableMsg.cpp
     PRP/Message/pyEventCallbackMsg.cpp
     PRP/Message/pyEventData.cpp
+    PRP/Message/pyEventDataConvert.cpp
     PRP/Message/pyExcludeRegionMsg.cpp
     PRP/Message/pyFacingEventData.cpp
     PRP/Message/pyLinkToAgeMsg.cpp
@@ -419,6 +421,7 @@ set(PRP_RGN_SRCS
     PRP/Region/pyBounds3.cpp
     PRP/Region/pyBounds3Ext.cpp
     PRP/Region/pyBoundsOriented.cpp
+    PRP/Region/pyBoundsConvert.cpp
     PRP/Region/pyConvexIsect.cpp
     PRP/Region/pySoftVolumeComplex.cpp
     PRP/Region/pySoftVolumeIntersect.cpp

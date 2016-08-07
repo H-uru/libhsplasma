@@ -32,7 +32,7 @@ static PyObject* pyAgeLinkStruct_new(PyTypeObject* type, PyObject*, PyObject*) {
 }
 
 static PyObject* pyAgeLinkStruct_getAgeInfo(pyAgeLinkStruct* self, void*) {
-    return pyAgeInfoStruct_FromAgeInfoStruct(&self->fThis->getAgeInfo());
+    return ICreate(&self->fThis->getAgeInfo());
 }
 
 static PyObject* pyAgeLinkStruct_getSpawnPoint(pyAgeLinkStruct* self, void*) {

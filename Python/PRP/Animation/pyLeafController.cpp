@@ -17,6 +17,7 @@
 #include "pyLeafController.h"
 
 #include <PRP/Animation/plLeafController.h>
+#include <PRP/Animation/plKeyControllers.hpp>
 #include "pyController.h"
 #include "pyKeys.h"
 #include "PRP/pyCreatable.h"
@@ -51,7 +52,7 @@ static PyObject* pyLeafController_ExpandToKeyController(pyLeafController* self) 
 }
 
 static PyObject* pyLeafController_CompactToLeafController(pyLeafController* self) {
-    return pyLeafController_FromLeafController(self->fThis->CompactToLeafController());
+    return ICreate(self->fThis->CompactToLeafController());
 }
 
 static PyObject* pyLeafController_getType(pyLeafController* self, void*) {
@@ -73,7 +74,7 @@ static PyObject* pyLeafController_getEaseControllers(pyLeafController* self, voi
     const std::vector<plEaseController*>& controllers = self->fThis->getEaseControllers();
     PyObject* list = PyList_New(controllers.size());
     for (size_t i=0; i<controllers.size(); i++)
-        PyList_SET_ITEM(list, i, pyEaseController_FromEaseController(controllers[i]));
+        PyList_SET_ITEM(list, i, ICreate(controllers[i]));
     return list;
 }
 

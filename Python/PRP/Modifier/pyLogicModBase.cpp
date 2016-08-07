@@ -86,12 +86,12 @@ static PyObject* pyLogicModBase_setLogicFlag(pyLogicModBase* self, PyObject* arg
 static PyObject* pyLogicModBase_getCommands(pyLogicModBase* self, void*) {
     PyObject* list = PyList_New(self->fThis->getCommands().size());
     for (size_t i=0; i<self->fThis->getCommands().size(); i++)
-        PyList_SET_ITEM(list, i, pyMessage_FromMessage(self->fThis->getCommands()[i]));
+        PyList_SET_ITEM(list, i, ICreate(self->fThis->getCommands()[i]));
     return list;
 }
 
 static PyObject* pyLogicModBase_getNotify(pyLogicModBase* self, void*) {
-    return pyNotifyMsg_FromNotifyMsg(self->fThis->getNotify());
+    return ICreate(self->fThis->getNotify());
 }
 
 static PyObject* pyLogicModBase_getDisabled(pyLogicModBase* self, void*) {

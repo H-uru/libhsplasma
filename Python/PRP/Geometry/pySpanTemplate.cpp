@@ -101,7 +101,7 @@ static int pySpanTemplate_setVerts(pySpanTemplate* self, PyObject* value, void*)
 }
 
 static int pySpanTemplate_setIndices(pySpanTemplate* self, PyObject* value, void*) {
-    unsigned short* indices;
+    std::vector<unsigned short> indices;
     if (value == NULL) {
         self->fThis->setIndices(0, NULL);
         return 0;
@@ -111,18 +111,16 @@ static int pySpanTemplate_setIndices(pySpanTemplate* self, PyObject* value, void
         return -1;
     }
     size_t numIndices = PyList_Size(value);
-    indices = new unsigned short[numIndices];
+    indices.resize(numIndices);
     for (size_t i=0; i<numIndices; i++) {
         PyObject* itm = PyList_GetItem(value, i);
         if (!PyInt_Check(itm)) {
             PyErr_SetString(PyExc_TypeError, "indices should be a list of ints");
-            delete[] indices;
             return -1;
         }
         indices[i] = PyInt_AsLong(itm);
     }
-    self->fThis->setIndices(numIndices, indices);
-    delete[] indices;
+    self->fThis->setIndices(numIndices, indices.data());
     return 0;
 }
 

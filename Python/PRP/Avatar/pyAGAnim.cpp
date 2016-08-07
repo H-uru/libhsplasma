@@ -85,7 +85,7 @@ static PyObject* pyAGAnim_getApps(pyAGAnim* self, void*) {
     plAGAnim* anim = self->fThis;
     PyObject* list = PyList_New(anim->getApplicators().size());
     for (size_t i=0; i < anim->getApplicators().size(); i++)
-        PyList_SET_ITEM(list, i, pyAGApplicator_FromAGApplicator(anim->getApplicators()[i]));
+        PyList_SET_ITEM(list, i, ICreate(anim->getApplicators()[i]));
     return list;
 }
 

@@ -102,7 +102,7 @@ static PyObject* pyOccluder_getPriority(pyOccluder* self, void*) {
 }
 
 static PyObject* pyOccluder_getBounds(pyOccluder* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getWorldBounds());
+    return ICreateBounds(self->fThis->getWorldBounds());
 }
 
 static PyObject* pyOccluder_getNode(pyOccluder* self, void*) {

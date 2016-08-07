@@ -73,7 +73,7 @@ static PyObject* pySpaceTreeNode_setLeafIndex(pySpaceTreeNode* self, PyObject* a
 }
 
 static PyObject* pySpaceTreeNode_getBounds(pySpaceTreeNode* self, void*) {
-    return pyBounds3Ext_FromBounds3Ext(self->fThis->getBounds());
+    return ICreateBounds(self->fThis->getBounds());
 }
 
 static PyObject* pySpaceTreeNode_getFlags(pySpaceTreeNode* self, void*) {

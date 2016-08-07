@@ -17,6 +17,8 @@
 #include "pyCluster.h"
 
 #include <PRP/Geometry/plCluster.h>
+#include <PRP/Geometry/plClusterGroup.h>
+#include "PRP/pyCreatable.h"
 #include "pyClusterGroup.h"
 #include "pySpanInstance.h"
 #include "Stream/pyStream.h"
@@ -113,7 +115,7 @@ static PyObject* pyCluster_getEncoding(pyCluster* self, void*) {
 }
 
 static PyObject* pyCluster_getGroup(pyCluster* self, void*) {
-    return pyClusterGroup_FromClusterGroup(self->fThis->getGroup());
+    return ICreate(self->fThis->getGroup());
 }
 
 static PyObject* pyCluster_getInstances(pyCluster* self, void*) {
