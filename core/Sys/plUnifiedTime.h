@@ -55,7 +55,7 @@ public:
     plUnifiedTime(tm* time);
     plUnifiedTime(Mode mode, const char* buf, const char* fmt);
 
-    static plUnifiedTime GetCurrentTime();
+    static plUnifiedTime CurrentTime();
     static plUnifiedTime FromString(const char* buf, const char* fmt);
 
     plUnifiedTime& operator=(const timeval& time);
@@ -109,7 +109,7 @@ public:
     void toEpoch() { fSecs = 0; fMicros = 0; }
     void toGMT();
     void toLocal();
-    void toCurrentTime() { operator=(GetCurrentTime()); }
+    void toCurrentTime() { operator=(CurrentTime()); }
 
 protected:
     static int IGetLocalTimeZoneOffset();

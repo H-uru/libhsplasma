@@ -75,7 +75,7 @@ plUnifiedTime::plUnifiedTime(Mode mode, const char* buf, const char* fmt) {
     fromString(buf, fmt);
 }
 
-plUnifiedTime plUnifiedTime::GetCurrentTime() {
+plUnifiedTime plUnifiedTime::CurrentTime() {
     plUnifiedTime time;
     timeval tv;
     gettimeofday(&tv, NULL);
