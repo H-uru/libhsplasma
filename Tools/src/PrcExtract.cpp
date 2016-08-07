@@ -20,7 +20,7 @@
 #include <Debug/plDebug.h>
 #include <string.h>
 #include <time.h>
-#ifdef WIN32
+#ifdef _WIN32
   #include <windows.h>
   #define SLASH '\\'
   #define SLASH_S "\\"
@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
         }
         outDir = getOutputDir(fFiles[i], page);
         outFile = outDir + filenameConvert(fFiles[i]);
-      #ifdef WIN32
+      #ifdef _WIN32
         CreateDirectory(outDir.cstr(), NULL);
       #else
         mkdir(outDir.cstr(), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);

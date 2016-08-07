@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WIN32
     #include <windows.h>
 #else
     #include <unistd.h>
@@ -6,7 +6,7 @@
 #endif
 #include <sys/stat.h>
 
-#ifndef WIN32
+#ifndef _WIN32
 int majick(const struct dirent* de)
 {
     return 1;
@@ -15,7 +15,7 @@ int majick(const struct dirent* de)
 
 int main(int argc, char* argv[])
 {
-  #ifdef WIN32
+  #ifdef _WIN32
     /* Nothing to check */
   #else
     struct dirent** des;

@@ -16,7 +16,7 @@
 
 #include "hsSemaphore.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 
 hsSemaphore::hsSemaphore(int initialValue, const char* name) {
     fSemaH = CreateSemaphore(NULL, initialValue, 0x7FFFFFFF, name);

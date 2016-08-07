@@ -84,7 +84,7 @@ plString FixSlashes(const plString& src) {
 
 plString cdUp(plString path) {
     // Check for root paths, we can't go up from there!
-#ifdef WIN32
+#ifdef _WIN32
     if (path.mid(1) == ":\\")
         return path;
 #else

@@ -17,7 +17,7 @@
 #include <math.h>
 #include "plUnifiedTime.h"
 
-#ifdef WIN32
+#ifdef _MSC_VER
 extern "C" {
 
 int gettimeofday(struct timeval* tv, void* tz) {
@@ -86,7 +86,7 @@ plUnifiedTime plUnifiedTime::GetCurrentTime() {
 }
 
 plUnifiedTime plUnifiedTime::FromString(const char* buf, const char* fmt) {
-#ifdef WIN32
+#ifdef _WIN32
     throw hsNotImplementedException(__FILE__, __LINE__, "strptime");
 #else
     tm* result = NULL;

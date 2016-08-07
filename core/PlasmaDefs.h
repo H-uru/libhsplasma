@@ -19,7 +19,7 @@
 
 #include "PlasmaConfig.h"
 
-#ifdef WIN32
+#ifdef _WIN32
   #ifdef BUILD_PLASMA_DLL
     #define PLASMA_DLL __declspec(dllexport)
   #else

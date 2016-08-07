@@ -70,7 +70,7 @@ inline double ENDSWAPD(double val) {
     #define BESWAPD(val)  ENDSWAPD(val)
 #endif
 
-#ifdef WIN32
+#ifdef _MSC_VER
     #define snprintf _snprintf
     #define strcasecmp _stricmp
     #define wcscasecmp _wcsicmp

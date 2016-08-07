@@ -18,7 +18,7 @@
 #include "PRP/KeyedObject/hsKeyedObject.h"
 #include "Sys/Platform.h"
 #include <string.h>
-#ifdef WIN32
+#ifdef _WIN32
   #include <windows.h>
 #else
   #include <unistd.h>
@@ -89,7 +89,7 @@ const char* getOutputDir(char* filename, plPageInfo* page) {
     return odir;
 }
 
-#ifndef WIN32
+#ifndef _WIN32
 int selPO(DIRENT de) {
     return strcmp(strrchr(de->d_name, '.'), ".po") == 0;
 }
@@ -165,7 +165,7 @@ int main(int argc, char** argv) {
         OS.close();
 
         std::vector<short> types = rm.getTypes(loc);
-      #ifdef WIN32
+      #ifdef _WIN32
         CreateDirectory(getOutputDir(filename, page), NULL);
       #else
         mkdir(getOutputDir(filename, page), S_IRWXU|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH);
@@ -234,7 +234,7 @@ int main(int argc, char** argv) {
         std::vector<short> inClasses;
         hsFileStream PS;
         PS.setVer(OS.getVer());
-      #ifdef WIN32
+      #ifdef _WIN32
         sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
         WIN32_FIND_DATA fd;
         HANDLE fr = FindFirstFile(strBuf, &fd);
@@ -331,7 +331,7 @@ int main(int argc, char** argv) {
 
     // Delete temp files with the repack option
     if (direction == kRepack) {
-      #ifdef WIN32
+      #ifdef _WIN32
         sprintf(strBuf, "%s*.po", getOutputDir(filename, page));
         WIN32_FIND_DATA rfd;
         HANDLE rfr = FindFirstFile(strBuf, &rfd);

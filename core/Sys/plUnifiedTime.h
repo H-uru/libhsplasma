@@ -18,14 +18,14 @@
 #define _PLUNIFIEDTIME_H
 
 #include <time.h>
-#ifdef WIN32
+#ifdef _MSC_VER
     #include <windows.h>
 #else
     #include <sys/time.h>
 #endif
 
-// FIX: Windows doesn't have the <sys/time.h> stuff, so let's add it
-#ifdef WIN32
+// FIX: MSVC doesn't have the <sys/time.h> stuff, so let's add it
+#ifdef _MSC_VER
 extern "C" {
     int gettimeofday(struct timeval* tv, void* tz);
 }

@@ -20,7 +20,7 @@
 static const char* getSockErrorStr();
 static int sockError();
 
-#ifdef WIN32
+#ifdef _WIN32
 #   include <winsock2.h>
 #   include <ws2tcpip.h>
 #   include <wspiapi.h>
@@ -70,7 +70,7 @@ static int sockError();
 
 static const char* getSockErrorStr()
 {
-#ifdef WIN32
+#ifdef _WIN32
     static char msgbuf[4096];
 
     FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(),
@@ -83,7 +83,7 @@ static const char* getSockErrorStr()
 
 static void initSockets()
 {
-#ifdef WIN32
+#ifdef _WIN32
     static bool s_firstInit = true;
     if (s_firstInit) {
         WSAStartup(MAKEWORD(2, 0), &s_wsadata);
@@ -265,7 +265,7 @@ long pnSocket::peek(void* buffer, size_t size)
 
 long pnSocket::rsize()
 {
-#ifdef WIN32
+#ifdef _WIN32
     unsigned long size;
 #else
     int size;

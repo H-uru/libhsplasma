@@ -20,7 +20,7 @@
 #include "PlasmaDefs.h"
 #include "Debug/hsExceptions.hpp"
 
-#ifdef WIN32
+#ifdef _WIN32
   #include <windows.h>
 #else
   #include <sys/ipc.h>
@@ -29,7 +29,7 @@
 
 class PLASMA_DLL hsSemaphore {
 private:
-    #ifdef WIN32
+    #ifdef _WIN32
     HANDLE fSemaH;
     #else
     int fSemaID;
