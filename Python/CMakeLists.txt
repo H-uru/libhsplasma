@@ -538,7 +538,7 @@ set(PYTHON_HDRS
     PyPlasma.h
 )
 
-add_library(PyHSPlasma SHARED
+add_library(PyHSPlasma
           ${DEBUG_SRCS}    ${DEBUG_HDRS}
           ${MATH_SRCS}     ${MATH_HDRS}
           ${PRP_ANIM_SRCS} ${PRP_ANIM_HDRS}
