@@ -71,7 +71,9 @@
 #include "PRP/Geometry/pySpan.h"
 #include "PRP/Geometry/pySpanInstance.h"
 #include "PRP/Geometry/pySpanTemplate.h"
+#include "PRP/GUI/pyGUIButtonMod.h"
 #include "PRP/GUI/pyGUIControlHandlers.h"
+#include "PRP/GUI/pyGUIDialogMod.h"
 #include "PRP/KeyedObject/pyKey.h"
 #include "PRP/KeyedObject/pyKeyedObject.h"
 #include "PRP/Light/pyLightInfo.h"
@@ -103,6 +105,7 @@
 #include "PRP/Modifier/pyMaintainersMarkerModifier.h"
 #include "PRP/Modifier/pyModifier.h"
 #include "PRP/Modifier/pyOneShotMod.h"
+#include "PRP/Modifier/pyPostEffectMod.h"
 #include "PRP/Modifier/pyPythonFileMod.h"
 #include "PRP/Modifier/pyResponderModifier.h"
 #include "PRP/Modifier/pySpawnModifier.h"
@@ -603,6 +606,7 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plLayerAVI", Init_pyLayerAVI_Type());
     PyModule_AddObject(module, "plLayerBink", Init_pyLayerBink_Type());
     PyModule_AddObject(module, "plOneShotMod", Init_pyOneShotMod_Type());
+    PyModule_AddObject(module, "plPostEffectMod", Init_pyPostEffectMod_Type());
     PyModule_AddObject(module, "plResponderModifier", Init_pyResponderModifier_Type());
     PyModule_AddObject(module, "plCubicEnvironmap", Init_pyCubicEnvironmap_Type());
     PyModule_AddObject(module, "plDistOpacityMod", Init_pyDistOpacityMod_Type());
@@ -631,7 +635,9 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plShadowMaster", Init_pyShadowMaster_Type());
     PyModule_AddObject(module, "plPointShadowMaster", Init_pyPointShadowMaster_Type());
     PyModule_AddObject(module, "plDirectShadowMaster", Init_pyDirectShadowMaster_Type());
+    PyModule_AddObject(module, "pfGUIButtonMod", Init_pyGUIButtonMod_Type());
     PyModule_AddObject(module, "pfGUICtrlProcObject", Init_pyGUICtrlProcObject_Type());
+    PyModule_AddObject(module, "pfGUIDialogMod", Init_pyGUIDialogMod_Type());
     PyModule_AddObject(module, "pfGUIDialogProc", Init_pyGUIDialogProc_Type());
     PyModule_AddObject(module, "pfGUICtrlProcWriteableObject", Init_pyGUICtrlProcWriteableObject_Type());
     PyModule_AddObject(module, "pfGUICloseDlgProc", Init_pyGUICloseDlgProc_Type());

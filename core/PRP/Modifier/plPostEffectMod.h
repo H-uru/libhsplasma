@@ -56,6 +56,8 @@ public:
 
     void setHither(float hither) { fHither = hither; }
     void setYon(float yon) { fYon = yon; }
+    void setFovX(float x) { fFovX = x; }
+    void setFovY(float y) { fFovY = y; }
     void setFov(float x, float y) { fFovX = x; fFovY = y; }
     void setNodeKey(plKey node) { fNodeKey = node; }
     void setDefaultW2C(const hsMatrix44& w2c) { fDefaultW2C = w2c; }

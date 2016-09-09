@@ -247,15 +247,19 @@ set(PRP_GEOM_HDRS
 )
 
 set(PRP_GUI_SRCS
+    PRP/GUI/pyGUIButtonMod.cpp
     PRP/GUI/pyGUICloseDlgProc.cpp
     PRP/GUI/pyGUIConsoleCmdProc.cpp
     PRP/GUI/pyGUICtrlProcObject.cpp
     PRP/GUI/pyGUICtrlProcWriteableObject.cpp
+    PRP/GUI/pyGUIDialogMod.cpp
     PRP/GUI/pyGUIDialogProc.cpp
     PRP/GUI/pyGUIPythonScriptProc.cpp
 )
 set(PRP_GUI_HDRS
+    PRP/GUI/pyGUIButtonMod.h
     PRP/GUI/pyGUIControlHandlers.h
+    PRP/GUI/pyGUIDialogMod.h
 )
 
 set(PRP_KEY_SRCS
@@ -363,6 +367,7 @@ set(PRP_MOD_SRCS
     PRP/Modifier/pyModifier.cpp
     PRP/Modifier/pyMultiModifier.cpp
     PRP/Modifier/pyOneShotMod.cpp
+    PRP/Modifier/pyPostEffectMod.cpp
     PRP/Modifier/pyPythonFileMod.cpp
     PRP/Modifier/pyPythonParameter.cpp
     PRP/Modifier/pyResponderEnableMsg.cpp
@@ -380,6 +385,7 @@ set(PRP_MOD_HDRS
     PRP/Modifier/pyMaintainersMarkerModifier.h
     PRP/Modifier/pyModifier.h
     PRP/Modifier/pyOneShotMod.h
+    PRP/Modifier/pyPostEffectMod.h
     PRP/Modifier/pyPythonFileMod.h
     PRP/Modifier/pyResponderModifier.h
     PRP/Modifier/pySpawnModifier.h
