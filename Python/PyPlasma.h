@@ -14,6 +14,9 @@
  * along with HSPlasma.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _PYPLASMA_H
+#define _PYPLASMA_H
+
 #include <Python.h>
 #include <Util/plString.h>
 
@@ -23,7 +26,8 @@ plString PyString_To_PlasmaString(PyObject* str);
 
 // The Python API insists that character constants are "char *" without the
 // const. Sane compilers complain about this (with good reason). Therefore:
-#define _pycs(x) const_cast<char*>(x)
+template <size_t size>
+inline char* _pycs(const char (&str)[size]) { return const_cast<char*>(str); }
 
 // Python 3.x does things differently...  This should help to keep things
 // under control with both 2.x and 3.0 somewhat seamlessly.
@@ -125,3 +129,5 @@ plString PyString_To_PlasmaString(PyObject* str);
         pyobj->fThis = new plType(obj);                                 \
         return (PyObject*)pyobj;                                        \
     }
+
+#endif
