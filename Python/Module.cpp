@@ -53,6 +53,7 @@
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Audio/pyWin32Sound.h"
 #include "PRP/Audio/pyWin32StaticSound.h"
+#include "PRP/Camera/pyCameraBrain.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -694,6 +695,8 @@ PyMODINIT_FUNC initPyHSPlasma() {
     PyModule_AddObject(module, "plSwimStraightCurrentRegion", Init_pySwimStraightCurrentRegion_Type());
     PyModule_AddObject(module, "plSimpleRegionSensor", Init_pySimpleRegionSensor_Type());
     PyModule_AddObject(module, "plSwimDetector", Init_pySwimDetector_Type());
+    PyModule_AddObject(module, "plCameraBrain", Init_pyCameraBrain_Type());
+    PyModule_AddObject(module, "plCameraBrain1", Init_pyCameraBrain1_Type());
 
     PyModule_AddObject(module, "plSpaceTree", Init_pySpaceTree_Type());
     PyModule_AddObject(module, "plController", Init_pyController_Type());

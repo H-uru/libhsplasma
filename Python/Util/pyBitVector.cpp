@@ -179,3 +179,26 @@ PY_PLASMA_TYPE_INIT(BitVector) {
 }
 
 PY_PLASMA_IFC_METHODS(BitVector, hsBitVector)
+
+int pyBitVector_Check(PyObject* obj) {
+    if (obj->ob_type == &pyBitVector_Type
+        || PyType_IsSubtype(obj->ob_type, &pyBitVector_Type))
+        return 1;
+    return 0;
+}
+
+PyObject* pyBitVector_FromBitVector(class hsBitVector& vec) {
+    pyBitVector* bv = PyObject_New(pyBitVector, &pyBitVector_Type);
+    bv->fThis = &vec;
+    bv->fPyOwned = false;
+    return (PyObject*)bv;
+}
+
+hsBitVector* pyBitVector_AsBitVector(PyObject* value)
+{
+	if (pyBitVector_Check(value))
+	{
+		return ((pyBitVector*)value)->fThis;
+	}
+}
+}

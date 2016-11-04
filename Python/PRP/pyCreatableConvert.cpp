@@ -190,6 +190,7 @@
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Audio/pyWin32Sound.h"
 #include "PRP/Audio/pyWin32StaticSound.h"
+#include "PRP/Camera/pyCameraBrain.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -518,6 +519,8 @@ PyObject* ICreate(plCreatable* pCre)
         case kPostEffectMod: return pyPostEffectMod_FromPostEffectMod(plPostEffectMod::Convert(pCre));
         case kAvLadderMod: return pyAvLadderMod_FromAvLadderMod(plAvLadderMod::Convert(pCre));
         case kLadderModifier: return pyLadderModifier_FromLadderModifier(plLadderModifier::Convert(pCre));
+        case kCameraBrain: return pyCameraBrain_FromCameraBrain(plCameraBrain::Convert(pCre));
+        case kCameraBrain1: return pyCameraBrain1_FromCameraBrain1(plCameraBrain1::Convert(pCre));
         default:
             // many messages are not implemented, make sure they are at least a plMessage
             if (pCre->ClassInstance(kMessage))
