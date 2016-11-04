@@ -171,6 +171,14 @@ set(PRP_AVTR_HDRS
     PRP/Avatar/pySittingModifier.h
 )
 
+set(PRP_CAMERA_SRCS
+    PRP/Camera/pyCameraBrain.h
+)
+
+set(PRP_CAMERA_HDRS
+    PRP/Camera/pyCameraBrain1.cpp
+)
+
 set(PRP_COND_SRCS
     PRP/ConditionalObject/pyActivatorConditionalObject.cpp
     PRP/ConditionalObject/pyActivatorActivatorConditionalObject.cpp
@@ -540,6 +548,7 @@ add_library(PyHSPlasma SHARED
           ${PRP_ANIM_SRCS} ${PRP_ANIM_HDRS}
           ${PRP_AUD_SRCS}  ${PRP_AUD_HDRS}
           ${PRP_AVTR_SRCS} ${PRP_AVTR_HDRS}
+          ${PRP_CAMERA_SRCS} ${PRP_CAMERA_HDRS}
           ${PRP_COND_SRCS} ${PRP_COND_HDRS}
           ${PRP_GEOM_SRCS} ${PRP_GEOM_HDRS}
           ${PRP_GUI_SRCS}  ${PRP_GUI_HDRS}
@@ -592,6 +601,7 @@ source_group("Math" FILES ${MATH_HDRS} ${MATH_SRCS})
 source_group("PRP\\Animation" FILES ${PRP_ANIM_HDRS} ${PRP_ANIM_SRCS})
 source_group("PRP\\Audio" FILES ${PRP_AUD_HDRS} ${PRP_AUD_SRCS})
 source_group("PRP\\Avatar" FILES ${PRP_AVTR_HDRS} ${PRP_AVTR_SRCS})
+source_group("PRP\\Camera" FILES ${PRP_CAMERA_SRCS} ${PRP_CAMERA_HDRS})
 source_group("PRP\\ConditionalObject" FILES ${PRP_COND_SRCS} ${PRP_COND_HDRS})
 source_group("PRP\\Geometry" FILES ${PRP_GEOM_HDRS} ${PRP_GEOM_SRCS})
 source_group("PRP\\GUI" FILES ${PRP_GUI_HDRS} ${PRP_GUI_SRCS})

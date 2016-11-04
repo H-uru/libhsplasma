@@ -189,6 +189,7 @@
 #include "PRP/Audio/pySoundBuffer.h"
 #include "PRP/Audio/pyWin32Sound.h"
 #include "PRP/Audio/pyWin32StaticSound.h"
+#include "PRP/Camera/pyCameraBrain.h"
 #include "PRP/ConditionalObject/pyActivatorConditionalObject.h"
 #include "PRP/ConditionalObject/pyAnimationEventConditionalObject.h"
 #include "PRP/ConditionalObject/pyBooleanConditionalObject.h"
@@ -415,7 +416,7 @@ plCreatable* IConvert(pyCreatable* pCre)
     else if (Py_TYPE(pCre) == &pyWin32StaticSound_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plWin32StaticSound*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGameGUIMgr_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGameGUIMgr*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyGUIDialogMod_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<pfGUIDialogMod*>(pCre->fThis));
-    //else if (Py_TYPE(pCre) == &pyCameraBrain1_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain1*>(pCre->fThis));
+    else if (Py_TYPE(pCre) == &pyCameraBrain1_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain1*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyVirtualCam1_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plVirtualCam1*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCameraBrain1_Drive_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain1_Drive*>(pCre->fThis));
     //else if (Py_TYPE(pCre) == &pyCameraBrain1_POA_Type) return dynamic_cast<plCreatable*>(reinterpret_cast<plCameraBrain1_POA*>(pCre->fThis));
