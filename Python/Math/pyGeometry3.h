@@ -17,28 +17,49 @@
 #ifndef _PYGEOMETRY3_H
 #define _PYGEOMETRY3_H
 
-#include "PyPlasma.h"
-#include <Math/hsAffineParts.h>
+extern "C" {
 
-PY_WRAP_PLASMA_VALUE(Vector3, struct hsVector3);
-PY_WRAP_PLASMA_VALUE(Plane3, struct hsPlane3);
-PY_WRAP_PLASMA_VALUE(Quat, struct hsQuat);
-PY_WRAP_PLASMA_VALUE(AffineParts, class hsAffineParts);
+typedef struct {
+    PyObject_HEAD
+    struct hsVector3* fThis;
+} pyVector3;
 
-/* Helpers for Python properties */
-inline PyObject* pyPlasma_convert(const hsVector3& value) { return pyVector3_FromVector3(value); }
-inline PyObject* pyPlasma_convert(const hsPlane3& value) { return pyPlane3_FromPlane3(value); }
-inline PyObject* pyPlasma_convert(const hsQuat& value) { return pyQuat_FromQuat(value); }
-inline PyObject* pyPlasma_convert(const hsAffineParts& value) { return pyAffineParts_FromAffineParts(value); }
+typedef struct {
+    PyObject_HEAD
+    struct hsPlane3* fThis;
+} pyPlane3;
 
-template <> inline int pyPlasma_check<hsVector3>(PyObject *value) { return pyVector3_Check(value); }
-template <> inline int pyPlasma_check<hsPlane3>(PyObject *value) { return pyPlane3_Check(value); }
-template <> inline int pyPlasma_check<hsQuat>(PyObject *value) { return pyQuat_Check(value); }
-template <> inline int pyPlasma_check<hsAffineParts>(PyObject *value) { return pyAffineParts_Check(value); }
+typedef struct {
+    PyObject_HEAD
+    struct hsQuat* fThis;
+} pyQuat;
 
-template <> inline hsVector3 pyPlasma_get(PyObject* value) { return *((pyVector3*)value)->fThis; }
-template <> inline hsPlane3 pyPlasma_get(PyObject* value) { return *((pyPlane3*)value)->fThis; }
-template <> inline hsQuat pyPlasma_get(PyObject* value) { return *((pyQuat*)value)->fThis; }
-template <> inline hsAffineParts pyPlasma_get(PyObject* value) { return *((pyAffineParts*)value)->fThis; }
+typedef struct {
+    PyObject_HEAD
+    class hsAffineParts* fThis;
+} pyAffineParts;
+
+extern PyTypeObject pyVector3_Type;
+PyObject* Init_pyVector3_Type();
+int pyVector3_Check(PyObject* obj);
+PyObject* pyVector3_FromVector3(const struct hsVector3& vec);
+hsVector3* pyVector3_AsVector3(PyObject* value);
+
+extern PyTypeObject pyPlane3_Type;
+PyObject* Init_pyPlane3_Type();
+int pyPlane3_Check(PyObject* obj);
+PyObject* pyPlane3_FromPlane3(const struct hsPlane3& vec);
+
+extern PyTypeObject pyQuat_Type;
+PyObject* Init_pyQuat_Type();
+int pyQuat_Check(PyObject* obj);
+PyObject* pyQuat_FromQuat(const struct hsQuat& quat);
+
+extern PyTypeObject pyAffineParts_Type;
+PyObject* Init_pyAffineParts_Type();
+int pyAffineParts_Check(PyObject* obj);
+PyObject* pyAffineParts_FromAffineParts(const class hsAffineParts& ap);
+
+}
 
 #endif

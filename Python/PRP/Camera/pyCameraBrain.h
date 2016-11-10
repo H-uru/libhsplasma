@@ -21,7 +21,7 @@ extern "C" {
 
 typedef struct {
     PyObject_HEAD
-    class plCameraBrain* fThis;
+    class plCameraBrain1* fThis;
     bool fPyOwned;
 } pyCameraBrain1;
 
