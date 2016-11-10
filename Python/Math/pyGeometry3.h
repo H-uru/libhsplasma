@@ -43,6 +43,7 @@ extern PyTypeObject pyVector3_Type;
 PyObject* Init_pyVector3_Type();
 int pyVector3_Check(PyObject* obj);
 PyObject* pyVector3_FromVector3(const struct hsVector3& vec);
+hsVector3* pyVector3_AsVector3(PyObject* value);
 
 extern PyTypeObject pyPlane3_Type;
 PyObject* Init_pyPlane3_Type();

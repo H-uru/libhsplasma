@@ -169,18 +169,6 @@ void plCameraBrain1::IPrcParse(const pfPrcTag* tag, plResManager* mgr) {
     }
 }
 
-float plCameraBrain1::getVelocity()
-{
-    return fVelocity;
-}
-
-float plCameraBrain1::getAcceleration()
-{
-    return fAccel;
-}
-
-
-
 /* plCameraBrain1_Avatar */
 void plCameraBrain1_Avatar::read(hsStream* S, plResManager* mgr) {
     plCameraBrain1::read(S, mgr);
